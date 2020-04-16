@@ -8,6 +8,7 @@
         var formData = component.get('v.formData');
         var states = formData.statesByCountryMap['US'];
         component.set('v.statesLVList', states);
+        component.set('v.visitPlanRequired', formData.visitPlansLVList.length > 0);
     },
 
      doCheckFields: function (component, event, hepler) {

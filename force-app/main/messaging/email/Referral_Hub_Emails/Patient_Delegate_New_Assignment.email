@@ -1,0 +1,37 @@
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Login_RHPP}"
+                         recipientType="Contact"
+                         relatedToType="Participant__c"
+                         language="{!recipient.Language__c}">
+
+    <messaging:htmlEmailBody >
+        <c:EmailTemplate recipientId="{!recipient.Id}"
+                         sourceId="{!relatedTo.Id}"
+                         parametersProvider="PP_Participant"
+                         header="{!$Label.Email_Header_Initial_Patient_Delegate}"
+                         title="{!$Label.Email_Title_All}"
+                         greeting="{!$Label.Email_User_Greeting_FirstName}"
+                         body="{!$Label.Email_Body_Initial_Patient_Delegate}"
+                         signature="{!$Label.Email_Signature_New}"
+                         communityTemplate="Default">
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
+                              resourceId="{!relatedTo.Id}"
+                              communityTemplate="Default"/>
+        </c:EmailTemplate>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody >
+        <c:EmailTemplateText recipientId="{!recipient.Id}"
+                             sourceId="{!relatedTo.Id}"
+                             parametersProvider="PP_Participant"
+                             header="{!$Label.Email_Header_Initial_Patient_Delegate}"
+                             title="{!$Label.Email_Title_All}"
+                             greeting="{!$Label.Email_User_Greeting_FirstName}"
+                             body="{!$Label.Email_Body_Initial_Patient_Delegate}"
+                             signature="{!$Label.Email_Signature_New}"
+                             communityTemplate="Default">
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
+                                  resourceId="{!relatedTo.Id}"
+                                  communityTemplate="Default"/>
+        </c:EmailTemplateText>
+    </messaging:plainTextEmailBody>
+</messaging:emailTemplate>

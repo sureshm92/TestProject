@@ -302,9 +302,20 @@ public without sharing class ParticipantWorkflowService {
                     }
                     switch on fieldSetting.Type__c {
                         when 'visitplan'{
+                            List<LabelValueItem> visitPlansLVList = StudySiteService.getVisitPlansLVList(pe.Study_Site__c);
+                            if (visitPlansLVList.isEmpty()) {
+                                currentFieldWrapper.type = 'blank';
+                            }
+                            else{
                             currentFieldWrapper.type = 'picklist';
                             currentFieldWrapper.value = pe.Visit_Plan__c;
-                            currentFieldWrapper.values = StudySiteService.getVisitPlansLVList(pe.Study_Site__c);
+                                currentFieldWrapper.smartPicklist = true;
+                                currentFieldWrapper.values = visitPlansLVList;
+                                if (currentFieldWrapper.values.size() == 1 && currentFieldWrapper.value == null) {
+                                    currentFieldWrapper.value = currentFieldWrapper.values[0].value;
+                                }
+                            }
+
                         }
                         when 'time' {
                             currentFieldWrapper.type = 'time';
@@ -662,6 +673,7 @@ public without sharing class ParticipantWorkflowService {
         @AuraEnabled public Map<String, String> populateFields;
         @AuraEnabled public String  populateFromDependent;
         @AuraEnabled public String validationMessageIfFalse;
+        @AuraEnabled public Boolean smartPicklist = false;
     }
 
     public class PathStepWrapper{

@@ -15,15 +15,18 @@
             component.set('v.reminderEnabled', wrapper.reminderEnabled);
 
             if (wrapper.reminderEnabled) {
-                component.set('v.reminderDateEnabled', true);
-                component.set('v.reminderSetMode', 'Email');
+                if (wrapper.reminderDate) {
+                    component.set('v.reminderSetMode', 'Email');
+                    component.set('v.reminderDateEnabled', true);
+                    if (wrapper.activityDate) component.set('v.frequencyEnabled', true);
+                } else {
+                    component.set('v.reminderSetMode', 'Disabled');
+                }
             }
-
-            var task = wrapper.task;
-            if (wrapper.reminderEnabled && wrapper.activityDate) component.set('v.frequencyEnabled', true);
 
             component.set('v.taskTypeList', wrapper.taskTypeList);
 
+            var task = wrapper.task;
             if (paramTaskId) {
                 component.set('v.editMode', true);
 
@@ -48,8 +51,8 @@
                 task.Status = 'Open';
                 task.Task_Type__c = 'Not Selected';
             }
-
             component.set('v.task', task);
+
             var visitId = communityService.getUrlParameter('visitId');
             if (visitId) component.set('v.task.Patient_Visit__c', visitId);
 

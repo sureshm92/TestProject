@@ -41,6 +41,7 @@
     doExecute: function (component, event, hepler) {
         //init params:
         var params = event.getParam('arguments');
+        var a = component.get('c.doChangeStatus');
         component.set('v.hcpEnrollment', params.hcpEnrollment);
         component.set('v.actionId', params.actionId);
         component.set('v.refreshSource', params.refreshSource);
@@ -61,36 +62,36 @@
         var drName = params.hcpEnrollment.HCP_Contact__r.Name;
         switch (params.actionId){
             case 'hcpApprove':
-                component.set("v.changeStatusText", ($A.get("$Label.c.PG_ACPE_L_Please_confirm_that_you_want_to_approve") + '\n ' + drName));
-                component.set("v.primaryBtnLabel", $A.get("$Label.c.BTN_Approve"));
+                $A.enqueueAction(a);
                 break;
             case 'hcpActivate':
-                component.set("v.changeStatusText", ($A.get("$Label.c.PG_ACPE_L_Please_confirm_that_you_want_to_activate") + '\n ' + drName));
-                component.set("v.primaryBtnLabel", $A.get("$Label.c.BTN_Yes_Activate"));
+                $A.enqueueAction(a);
                 break;
             case 'hcpActivateForAll':
-                component.set("v.changeStatusText", ($A.get("$Label.c.PG_ACPE_L_Please_confirm_that_you_want_to_activate") + '\n ' + drName));
-                component.set("v.primaryBtnLabel", $A.get("$Label.c.BTN_Yes_Activate"));
+                $A.enqueueAction(a);
                 break;
             case 'hcpOrientationAttendedAndActivate':
                 component.set("v.showDatePicker", true);
                 component.set("v.changeStatusText", ($A.get("$Label.c.PG_ACPE_L_Please_confirm_your_Orientation_Attended_date_Activate") + '\n ' + drName));
                 component.set("v.primaryBtnLabel", $A.get("$Label.c.BTN_Yes_Activate"));
+                component.find('changeHCPStatusByPIDialog').show();
                 break;
             case 'hcpDecline':
                 component.set("v.changeStatusText", ($A.get("$Label.c.PG_ACPE_L_Please_provide_a_reason_for_declining") +  '\n ' + drName));
                 component.set("v.reasonOptions", changeStatusReasons.declineReasons);
+                component.find('changeHCPStatusByPIDialog').show();
                 break;
             case 'hcpOnHold':
                 component.set("v.changeStatusText", ($A.get("$Label.c.PG_ACPE_L_Please_provide_a_reason_for_putting") +  '\n ' + drName + ' ' + $A.get("$Label.c.PG_ACPE_L_on_hold")));
                 component.set("v.reasonOptions", changeStatusReasons.onHoldReasons);
+                component.find('changeHCPStatusByPIDialog').show();
                 break;
             case 'hcpDeactivate':
                 component.set("v.changeStatusText", ($A.get("$Label.c.PG_ACPE_L_Please_provide_a_reason_for_deactivating") + '\n ' + drName));
                 component.set("v.reasonOptions", changeStatusReasons.deactivateReasons);
+                component.find('changeHCPStatusByPIDialog').show();
                 break
         }
-        component.find('changeHCPStatusByPIDialog').show();
     }
 
 })

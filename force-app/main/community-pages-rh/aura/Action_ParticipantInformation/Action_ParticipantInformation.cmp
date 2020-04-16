@@ -76,8 +76,7 @@
                                                     isInvited="{!v.isInvited}"
                                                     formData="{!v.formData}"
                                                     updateMode="true"
-                                                    isValid="{!v.isValid}"
-                                                    visitPlanRequired="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c}"/>
+                                                    isValid="{!v.isValid}"/>
                         </div>
                     </lightning:tab>
                     <lightning:tab aura:id="Status" label="{!$Label.c.BTN_Status_Details}" onactive="{!c.checkTabs}">

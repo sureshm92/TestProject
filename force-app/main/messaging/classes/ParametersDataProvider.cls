@@ -72,13 +72,15 @@ public without sharing class ParametersDataProvider {
         parameters.put('ForgotPasswordURL', clinicalResearchCommunityForgotPasswordURL);
 
         if (isDelegate && userMode == CommunityService.USER_MODE_PARTICIPANT) {
+            parameters.put('UserName', getCommunityUserName(recipientContactId));
+
             List<Id> conIds = new List<Id>{recipientContactId};
             List<String> templates = new List<String>{communityTemplateName};
             if(communityTemplateName == CommunityTemplateService.TEMPLATE_DEFAULT) templates.add(null);
             Map<Id, List<Id>> delegatedParticipantIdsMap = PatientDelegateService.getDelegatedParticipantIdsMap(conIds);
-            List<Participant_Enrollment__c> listPe = new List<Participant_Enrollment__c>();
             List<Id> partIds = delegatedParticipantIdsMap.get(recipientContactId);
-            listPe = [
+
+            List<Participant_Enrollment__c> enrollments = [
                     SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
                             Participant__r.Full_Name__c,
                             Participant__r.First_Name__c,
@@ -87,11 +89,14 @@ public without sharing class ParametersDataProvider {
                     WHERE Participant__c IN: partIds
                     AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c IN: templates
             ];
-            Participant_Enrollment__c pe;
-            if(listPe.size() > 0) pe = listPe[0];
-            if (pe != null) {
-                parameters.put('ParticipantFirstName', pe.Participant__r.First_Name__c);
+            Participant__c participant;
+            if(!enrollments.isEmpty()) {
+                participant = enrollments.get(0).Participant__r;
+            } else {
+                participant = [SELECT First_Name__c FROM Participant__c WHERE Id =: partIds];
             }
+
+            if(participant != null) parameters.put('ParticipantFirstName', participant.First_Name__c);
         }
         System.debug('Parameters: ' + JSON.serializePretty(parameters));
     }

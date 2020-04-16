@@ -245,14 +245,6 @@ public without sharing class PatientDelegateService {
                 }
             }
         }
-
-        List<Patient_Delegate__c> patientDelegate = [SELECT Id FROM Patient_Delegate__c WHERE Contact__c = :contactId];
-        List<Participant__c> participants = [SELECT Id FROM Participant__c WHERE Contact__c = :contactId];
-        if (patientDelegate.isEmpty() && participants.isEmpty()) {
-            CommunityService.deactivateUsers(new List<Id>{
-                    contactId
-            });
-        }
     }
 
     public static Participant__c getParticipantByDelegateContactId(Id contactId) {
@@ -492,8 +484,7 @@ public without sharing class PatientDelegateService {
 
         for (Id contactId : contactIds) {
             Set<String> communityPermissionSets = CommunityTemplateService.getAllPermissionSets();
-            //reset permissions
-            actionAssignContactPermissions.deletePermissions(contactId, communityPermissionSets);
+
             //assign own permission sets:
             Id ownParticipantId = participantIdByContactIdMap.get(contactId);
             Set<String> ownPermissions;
