@@ -14,7 +14,6 @@ global without sharing class Batch_UpdatePatientDelegateStatuses implements Data
 
     global void execute(Database.BatchableContext bc, List<Patient_Delegate__c> scope) {
         TriggerHandlerExecutor.bypassHandler(PatientDelegateTriggerHandler.SetDefaultPatientDelegateStatusHandler.class);
-        TriggerHandlerExecutor.bypassHandler(PatientDelegateTriggerHandler.UpdateUserStatusHandler.class);
 
         for (Patient_Delegate__c del : scope) {
             del.Status__c = Active;
