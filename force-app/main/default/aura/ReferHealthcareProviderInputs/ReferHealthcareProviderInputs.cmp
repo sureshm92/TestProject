@@ -1,0 +1,77 @@
+<!--
+ - Created by Nikita Abrazhevitch on 09-Apr-20.
+ -->
+
+<aura:component description="ReferHealthcareProviderInputs" controller="ReferHealthcareProviderRemote">
+
+    <aura:attribute name="buttonTitle" type="String"/>
+    <aura:attribute name="buttonLabel" type="String"/>
+    <aura:attribute name="printMode" type="Boolean"/>
+    <aura:attribute name="pe" type="Object"/>
+    <aura:attribute name="mainComponent" type="Aura.Component"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="sharingObject" type="Object"/>
+    <aura:attribute name="showReferringProvider" type="Boolean" default="false"/>
+    <aura:attribute name="providerFound" type="Boolean" default="false"/>
+    <aura:attribute name="actionDisabled" type="Boolean" default="false"/>
+    <aura:attribute name="isValid" type="Boolean" default="false"/>
+    <aura:attribute name="isDuplicate" type="Boolean" default="false"/>
+
+
+    <div class="{!'slds-col ' + if(v.printMode, 'slds-size--4-of-12', 'slds-size--1-of-1 slds-large-size--4-of-12')}">
+        <lightning:input aura:id="hcpEmail"
+                         class="healthcare-input"
+                         type="text"
+                         required="{!!v.printMode}"
+                         label="{!v.sharingObject.sObjectType == 'Patient_Delegate__c' ? $Label.c.HealthCare_Delegates_Email : $Label.c.HealthCare_Providers_Email}"
+                         value="{!v.sharingObject.sObjectType == 'Patient_Delegate__c' ? v.sharingObject.Contact__r.Email :
+                                  v.sharingObject.sObjectType == 'Contact' ? v.sharingObject.Email :
+                                  v.sharingObject.Email__c}"
+                         onblur="{!c.checkContact}"
+                         onchange="{!c.checkFields}"
+                         disabled="{!v.sharingObject.Id}"/>
+    </div>
+    <div class="{!'slds-col ' + if(v.printMode, 'slds-size--3-of-12', 'slds-size--1-of-1 slds-large-size--3-of-12')}">
+        <lightning:input aura:id="firstNameInput"
+                         class="healthcare-input"
+                         type="text"
+                         required="{!!v.printMode}"
+                         label="{!v.sharingObject.sObjectType == 'Patient_Delegate__c' ?
+                         $Label.c.HealthCare_Delegates_First_Name : $Label.c.HealthCare_Providers_First_Name}"
+                         value="{!v.sharingObject.sObjectType == 'Patient_Delegate__c' ? v.sharingObject.Contact__r.FirstName :
+                                  v.sharingObject.sObjectType == 'Contact' ? v.sharingObject.FirstName :
+                                  v.sharingObject.First_Name__c}"
+                         onchange="{!c.checkFields}"
+                         disabled="{!v.providerFound || v.isDuplicate || v.sharingObject.Id}"/>
+    </div>
+    <div class="{!'slds-col ' + if(v.printMode, 'slds-size--3-of-12', 'slds-size--1-of-1 slds-large-size--3-of-12')}">
+        <lightning:input aura:id="lastNameInput"
+                         class="healthcare-input"
+                         type="text"
+                         required="{!!v.printMode}"
+                         label="{!v.sharingObject.sObjectType == 'Patient_Delegate__c' ?
+                          $Label.c.HealthCare_Delegates_Last_Name : $Label.c.HealthCare_Providers_Last_Name}"
+                         value="{!v.sharingObject.sObjectType == 'Patient_Delegate__c' ? v.sharingObject.Contact__r.LastName :
+                                  v.sharingObject.sObjectType == 'Contact' ? v.sharingObject.LastName :
+                                  v.sharingObject.Last_Name__c}"
+                         onchange="{!c.checkFields}"
+                         disabled="{!v.providerFound || v.isDuplicate || v.sharingObject.Id}"/>
+    </div>
+    <div class="{!'slds-col ' + if(v.printMode, 'slds-size--2-of-12', 'slds-size--3-of-12 slds-large-size--2-of-12')}"
+         style="margin-top: 23px;">
+        <button class="apollo-btn secondary slds-button"
+                onclick="{!c.doConnectDisconnect}"
+                disabled="{!v.sharingObject.Id ? v.actionDisabled : v.printMode || (!v.isValid || v.actionDisabled || v.isDuplicate)}"
+                title="{!v.buttonTitle}">{!v.buttonLabel}</button>
+    </div>
+    <aura:if isTrue="{!v.providerFound}">
+        <div class="slds-grid slds-wrap slds-size--7-of-12 slds-large-size--1-of-1 slds-grid_vertical-align-end healthcare-form-container provider-found-section">
+            <div class="slds-col slds-size--4-of-12 slds-large-size--4-of-12">
+                {!$Label.c.HealthCare_Provider_Found}
+            </div>
+            <div class="slds-col slds-size--8-of-12 slds-large-size--4-of-12">
+                <c:RRLink label="{!$Label.c.Different_HealthCare_Provider}" page="{!'help'}"/>
+            </div>
+        </div>
+    </aura:if>
+</aura:component>

@@ -9,13 +9,13 @@
     <aura:attribute name="printMode" type="Boolean" default="false"/>
     <aura:attribute name="fromActionParticipant" type="Boolean" default="false"/>
     <aura:attribute name="fromEmancipParticipant" type="Boolean" default="false"/>
-    <aura:attribute name="refProvider" type="Object"/>
+    <aura:attribute name="refProvider" type="Contact"/>
     <aura:attribute name="showReferringProvider" type="Boolean"/>
     <aura:attribute name="delegates" type="List"/>
-
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.pe}" action="{!c.doInit}"/>
 
+    <aura:method name="refresh" action="{!c.doInit}"/>
     <aura:method name="disconnectHCP" action="{!c.doDisconnect}">
         <aura:attribute name="index" type="Integer"/>
     </aura:method>
@@ -23,64 +23,73 @@
 
     <div class="slds-grid slds-wrap healthcare-container">
         <div class="slds-grid slds-wrap slds-size--1-of-1">
-                <aura:if isTrue="{!!v.fromActionParticipant &amp;&amp; v.refProvider &amp;&amp; !v.fromEmancipParticipant}">
+            <aura:if isTrue="{!!v.fromActionParticipant &amp;&amp; v.refProvider &amp;&amp; !v.fromEmancipParticipant}">
                 <div class="header">{!$Label.c.HealthCare_Provider}</div>
-                </aura:if>
+            </aura:if>
             <aura:if isTrue="{!v.fromEmancipParticipant}">
-            <div class="healthcare-info">{!$Label.c.BTN_Participant_Would_Like_Share_Info}</div>
+                <div class="healthcare-info">{!$Label.c.BTN_Participant_Would_Like_Share_Info}</div>
             </aura:if>
 
 
             <aura:if isTrue="{!!v.fromEmancipParticipant &amp;&amp; v.delegates != null}">
                 <div class="referring">{!$Label.c.Delegates}</div>
                 <div class="healthcare-info">{!!v.fromEmancipParticipant ? $Label.c.Message_For_Delegates : ''}</div>
-                <div class="slds-grid slds-wrap slds-size--1-of-1">
+                <div class="slds-grid slds-wrap slds-size&#45;&#45;1-of-1">
                     <aura:iteration items="{!v.delegates}" var="delegate" indexVar="index">
-                        <c:ReferHealthcareProviderForm forThisProvider="isDelegates" delegates = "{!delegate}" index = "{!index}" parent="{!this}"
-                                                       pe="{!v.pe}" actionDisabled="{!v.actionDisabled}" printMode="{!v.printMode}"/>
+                        <c:ReferHealthcareProviderForm forThisProvider="isDelegates"
+                                                       delegates="{!delegate}"
+                                                       index="{!index}"
+                                                       parent="{!this}"
+                                                       pe="{!v.pe}"
+                                                       actionDisabled="{!v.actionDisabled}"
+                                                       printMode="{!v.printMode}"/>
                     </aura:iteration>
                 </div>
-                <!--<aura:if isTrue="{!!v.actionDisabled}">
+                <aura:if isTrue="{!!v.actionDisabled}">
                     <div>
-                        <lightning:button class="apollo-btn secondary slds-box" disabled="true" onclick="{!c.doAddDelegate}">
-                            <c:RRIcon color="#297dfd"
-                                      iconName="icon-plus"/>
+                        <lightning:button class="apollo-btn secondary slds-box" onclick="{!c.doAddDelegate}">
+                            <c:RRIcon color="#297dfd" iconName="icon-plus"/>
                             <div>{!$Label.c.Add_Another_Delegate}</div>
                         </lightning:button>
                     </div>
-                </aura:if>-->
+                </aura:if>
             </aura:if>
 
-                <aura:if isTrue="{!v.fromActionParticipant &amp;&amp; v.refProvider}">
+            <aura:if isTrue="{!v.fromActionParticipant &amp;&amp; v.refProvider}">
                 <div class="referring">{!$Label.c.Referring_Provider}</div>
-                    <div class="slds-grid slds-wrap slds-size--1-of-1">
-                    <c:ReferHealthcareProviderForm forThisProvider="isRef" index = "{!index}" showReferringProvider="{!v.showReferringProvider}" isValid="true" refProvider="{!v.refProvider}" parent="{!this}"
-                                                   pe="{!v.pe}" actionDisabled="{!v.actionDisabled}" printMode="{!v.printMode}"/>
-                    </div>
-                </aura:if>
-            <!--<div class="slds-col slds-size&#45;&#45;1-of-4 referring-provider-header">
-                <aura:if isTrue="{!v.pe.HCP_Contact_HCPEnroll__r.Name}">
-                    <div class="rp-label">{!$Label.c.HealthCare_Provider_RP}</div>
-                    <div class="healthcare-info">{!v.pe.HCP_Contact_HCPEnroll__r.Name}</div>
-                </aura:if>
-            </div>-->
-        <div class="referring">{!!v.fromEmancipParticipant ? $Label.c.Other_Providers : ''}</div>
+                <div class="slds-grid slds-wrap slds-size&#45;&#45;1-of-1">
+                    <c:ReferHealthcareProviderForm forThisProvider="isRef"
+                                                   index="{!index}"
+                                                   showReferringProvider="{!v.showReferringProvider}"
+                                                   refProvider="{!v.refProvider}"
+                                                   parent="{!this}"
+                                                   pe="{!v.pe}"
+                                                   actionDisabled="{!v.actionDisabled}"
+                                                   printMode="{!v.printMode}"/>
+                </div>
+            </aura:if>
+            <div class="referring">{!!v.fromEmancipParticipant ? $Label.c.Other_Providers : ''}</div>
             <div class="healthcare-info">{!!v.fromEmancipParticipant ? $Label.c.Message_For_Providers : ''}</div>
-        <div class="slds-grid slds-wrap slds-size--1-of-1">
-            <aura:iteration items="{!v.healthCareProviders}" var="hcProvider" indexVar="index">
-                <c:ReferHealthcareProviderForm forThisProvider="isHealthCare" healthCareProvider = "{!hcProvider}" index = "{!index}" parent="{!this}"
-                                               pe="{!v.pe}" actionDisabled="{!v.actionDisabled}" printMode="{!v.printMode}"/>
-            </aura:iteration>
-        </div>
-        <aura:if isTrue="{!!v.actionDisabled}">
-            <div>
-                <button data-gtm="BTN_AddProvider_mngmt" class="apollo-btn secondary slds-box" onclick="{!c.doAddProvider}">
-                    <c:RRIcon color="#297dfd"
-                              iconName="icon-plus"/>
-                    <div>{!$Label.c.BTN_Add_Provider}</div>
-                </button>
+            <div class="slds-grid slds-wrap slds-size&#45;&#45;1-of-1">
+                <aura:iteration items="{!v.healthCareProviders}" var="hcProvider" indexVar="index">
+                    <c:ReferHealthcareProviderForm forThisProvider="isHealthCare"
+                                                   healthCareProvider="{!hcProvider}"
+                                                   index="{!index}"
+                                                   parent="{!this}"
+                                                   pe="{!v.pe}"
+                                                   actionDisabled="{!v.actionDisabled}"
+                                                   printMode="{!v.printMode}"/>
+                </aura:iteration>
             </div>
-        </aura:if>
+            <aura:if isTrue="{!!v.actionDisabled}">
+                <div>
+                    <button data-gtm="BTN_AddProvider_mngmt" class="apollo-btn secondary slds-box"
+                            onclick="{!c.doAddProvider}">
+                        <c:RRIcon color="#297dfd" iconName="icon-plus"/>
+                        <div>{!$Label.c.BTN_Add_Provider}</div>
+                    </button>
+                </div>
+            </aura:if>
         </div>
     </div>
 </aura:component>

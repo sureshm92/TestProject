@@ -4,8 +4,19 @@
 
 global without sharing class ReferHealthcareProviderRemote {
 
+    public class InitData {
+       @AuraEnabled public List<Healthcare_Provider__c> healthcareProviders;
+       @AuraEnabled public List<Patient_Delegate__c> listDelegates;
+
+        public initData(List<Healthcare_Provider__c> healthcareProviders, List<Patient_Delegate__c> listDelegates){
+            this.healthcareProviders = healthcareProviders;
+            this.listDelegates = listDelegates;
+        }
+
+    }
+
     @AuraEnabled
-    public static List<Healthcare_Provider__c> getInitData(String peId) {
+    public static InitData getInitData(String peId, String participantId) {
         List<Healthcare_Provider__c> healthcareProviders = [SELECT  Id,
                                                                     First_Name__c,
                                                                     Last_Name__c,
@@ -14,10 +25,13 @@ global without sharing class ReferHealthcareProviderRemote {
                                                                     Participant_Enrollment__c,
                                                                     HCP_Enrollment__c
                                                             FROM Healthcare_Provider__c
-                                                            WHERE Participant_Enrollment__c = :peId];
-
+                                                            WHERE Participant_Enrollment__c = :peId ];
         if(healthcareProviders.isEmpty()) healthcareProviders.add(new Healthcare_Provider__c());
-        return healthcareProviders;
+
+        List<Patient_Delegate__c> listDelegates = PatientDelegateService.getPDelegates(participantId);
+        if(listDelegates.isEmpty()) listDelegates.add(new Patient_Delegate__c());
+
+        return new InitData(healthcareProviders,listDelegates);
     }
 
     @AuraEnabled
@@ -88,7 +102,7 @@ global without sharing class ReferHealthcareProviderRemote {
     public static List<Healthcare_Provider__c> inviteHP(String peId, String hp) {
         Healthcare_Provider__c newHP = (Healthcare_Provider__c) JSON.deserialize(hp,Healthcare_Provider__c.class);
 
-        Participant_Enrollment__c pe = [SELECT Id, Study_Site__c FROM Participant_Enrollment__c WHERE Id = :peId];
+        Participant_Enrollment__c pe = [SELECT Id, Study_Site__c, Participant__c FROM Participant_Enrollment__c WHERE Id = :peId];
         List<HCP_Enrollment__c> hcpe = new List<HCP_Enrollment__c>();
         system.debug('1110');
 
@@ -142,19 +156,70 @@ global without sharing class ReferHealthcareProviderRemote {
             }
         }
 
-        return getInitData(peId);
+        return getInitData(peId, pe.Participant__c).healthcareProviders;
     }
 
     @AuraEnabled
-    public static String stopSharing(String hpId) {
-        Healthcare_Provider__c newHP = [SELECT Id,
-                                               Status__c
-                                        FROM   Healthcare_Provider__c
-                                        WHERE  Id = :hpId];
-        newHP.Status__c = HP_S_NOSHARING;
-        update newHP;
+    public static void invitePatientDelegate(String participant, String delegate){
+        Participant__c participantObj = (Participant__c) JSON.deserialize(participant, Participant__c.class);
+        Patient_Delegate__c delegateObj = (Patient_Delegate__c) JSON.deserialize(delegate, Patient_Delegate__c.class);
+        if(delegateObj.Id == null) {
+            Contact newContact = new Contact();
+            newContact.FirstName = delegateObj.Contact__r.FirstName;
+            newContact.LastName = delegateObj.Contact__r.LastName;
+            newContact.Email = delegateObj.Contact__r.Email;
+            newContact.AccountId = [
+                    SELECT Id
+                    FROM Account
+                    WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
+                    LIMIT 1
+                    FOR UPDATE
+            ].Id;
+            newContact.Language__c = UserInfo.getLanguage();
+            newContact.Second_Choice_Language__c = '';
+            newContact.Third_Choice_Language__c = '';
+            newContact.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
+            newContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
+            newContact.userCommunityIsDelegate__c = true;
+            newContact.MailingCountryCode = participantObj.Mailing_Country_Code__c;
+            newContact.MailingStateCode = participantObj.Mailing_State_Code__c;
+            newContact.MailingCountry = participantObj.Mailing_Country__c;
+            newContact.MailingState = participantObj.Mailing_State__c;
+            if ('Home' == participantObj.Phone_Type__c) {
+                newContact.HomePhone = participantObj.Phone__c;
+            } if ('Mobile' == participantObj.Phone_Type__c) {
+                newContact.MobilePhone = participantObj.Phone__c;
+            } else {
+                newContact.Phone = participantObj.Phone__c;
+            }
+            insert newContact;
 
-        return newHP.Id;
+            Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
+            ptDelegateRef.Participant__c = participantObj.Id;
+            ptDelegateRef.Contact__c = newContact.Id;
+            insert ptDelegateRef;
+
+            //((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id> { newContact.Id => null});
+
+        } else {
+            update new Patient_Delegate__c(Id = delegateObj.Id, Status__c = DEL_ACTIVE);
+        }
+    }
+
+    @AuraEnabled
+    public static void stopSharing(String hpId, String delegateId) {
+        if(hpId != null) {
+            Healthcare_Provider__c newHP = [
+                    SELECT Id,
+                            Status__c
+                    FROM Healthcare_Provider__c
+                    WHERE Id = :hpId
+            ];
+            newHP.Status__c = HP_S_NOSHARING;
+            update newHP;
+        } else {
+            update new Patient_Delegate__c(Id = delegateId, Status__c = DEL_ON_HOLD);
+        }
     }
 
     @AuraEnabled
@@ -169,42 +234,6 @@ global without sharing class ReferHealthcareProviderRemote {
         }
         update participant;
     }
-
-    @AuraEnabled
-    public static List<Patient_Delegate__c> getContactsDelegates(String participantId) {
-
-        List<Patient_Delegate__c> listDelegates = [
-                                                   SELECT Id,
-                                                          Contact__r.Email,
-                                                          Contact__r.FirstName,
-                                                          Contact__r.LastName,
-                                                          Status__c
-                                                   FROM   Patient_Delegate__c
-                                                   WHERE  Participant__c  =: participantId
-                                                  ];
-        /*if (listDelegates.isEmpty()) listDelegates.add(new Patient_Delegate__c());*/
-        if (listDelegates.isEmpty()) {
-            return null;
-        } else {
-            return listDelegates;
-        }
-    }
-
-
-    /*@AuraEnabled
-    public static List<Patient_Delegate__c> getStatusDelegates(String participantId) {
-
-        List<Patient_Delegate__c> listDelegatesStatuses = [
-                                                            SELECT Id,
-                                                                  Status__c,
-                                                                  Contact__c
-                                                            FROM Patient_Delegate__c
-                                                            WHERE Participant__c =: participantId
-                                                            AND Status__c =: 'Active'
-
-                                                          ];
-        return listDelegatesStatuses;
-    }*/
 
     private static List<Study_Site__c> getStudySitesForMatchedRP(Id hcpContactId, List<String> piIds) {
         try {
@@ -382,6 +411,8 @@ global without sharing class ReferHealthcareProviderRemote {
     public final static String HP_S_REGISTRED = 'Registered';
     public final static String HP_S_NOSHARING = 'No Sharing';
     public final static String HP_S_DUPLICATE = 'Duplicate';
+    public final static String DEL_ON_HOLD = 'On hold';
+    public final static String DEL_ACTIVE = 'Active';
 
     public class HealthcareProvider {
         @AuraEnabled public String email { get; set; }

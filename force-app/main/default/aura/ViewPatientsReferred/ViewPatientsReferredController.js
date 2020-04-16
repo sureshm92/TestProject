@@ -3,6 +3,7 @@
  */
 ({
     doInit: function (component, event, hepler) {
+        console.log('start>>>>>');
         if (!communityService.isInitialized()) return;
         component.set('v.userMode', communityService.getUserMode());
         var trialId = component.get('v.trialId');
