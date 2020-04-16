@@ -78,11 +78,9 @@ public without sharing class ParametersDataProvider {
             List<String> templates = new List<String>{communityTemplateName};
             if(communityTemplateName == CommunityTemplateService.TEMPLATE_DEFAULT) templates.add(null);
             Map<Id, List<Id>> delegatedParticipantIdsMap = PatientDelegateService.getDelegatedParticipantIdsMap(conIds);
-            List<Participant_Enrollment__c> listPe = new List<Participant_Enrollment__c>();
             List<Id> partIds = delegatedParticipantIdsMap.get(recipientContactId);
 
-            Participant__c participant;
-            listPe = [
+            List<Participant_Enrollment__c> enrollments = [
                     SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
                             Participant__r.Full_Name__c,
                             Participant__r.First_Name__c,
@@ -91,8 +89,9 @@ public without sharing class ParametersDataProvider {
                     WHERE Participant__c IN: partIds
                     AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c IN: templates
             ];
-            if(!listPe.isEmpty()) {
-                participant = listPe.get(0).Participant__r;
+            Participant__c participant;
+            if(!enrollments.isEmpty()) {
+                participant = enrollments.get(0).Participant__r;
             } else {
                 participant = [SELECT First_Name__c FROM Participant__c WHERE Id =: partIds];
             }
