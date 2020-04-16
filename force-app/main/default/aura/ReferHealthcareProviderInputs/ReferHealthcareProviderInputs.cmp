@@ -67,10 +67,10 @@
     <aura:if isTrue="{!v.providerFound}">
         <div class="slds-grid slds-wrap slds-size--7-of-12 slds-large-size--1-of-1 slds-grid_vertical-align-end healthcare-form-container provider-found-section">
             <div class="slds-col slds-size--4-of-12 slds-large-size--4-of-12">
-                {!$Label.c.HealthCare_Provider_Found}
+                {!v.sharingObject.sObjectType == 'Patient_Delegate__c' ? $Label.c.Delegate_Found : $Label.c.HealthCare_Provider_Found}
             </div>
             <div class="slds-col slds-size--8-of-12 slds-large-size--4-of-12">
-                <c:RRLink label="{!$Label.c.Different_HealthCare_Provider}" page="{!'help'}"/>
+                <c:RRLink label="{!v.sharingObject.sObjectType == 'Patient_Delegate__c' ? $Label.c.Different_Delegate : $Label.c.Different_HealthCare_Provider}" page="{!'help'}"/>
             </div>
         </div>
     </aura:if>

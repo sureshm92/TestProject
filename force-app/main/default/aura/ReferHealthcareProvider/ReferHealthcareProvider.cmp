@@ -34,7 +34,7 @@
             <aura:if isTrue="{!!v.fromEmancipParticipant &amp;&amp; v.delegates != null}">
                 <div class="referring">{!$Label.c.Delegates}</div>
                 <div class="healthcare-info">{!!v.fromEmancipParticipant ? $Label.c.Message_For_Delegates : ''}</div>
-                <div class="slds-grid slds-wrap slds-size&#45;&#45;1-of-1">
+                <div class="slds-grid slds-wrap slds-size--1-of-1">
                     <aura:iteration items="{!v.delegates}" var="delegate" indexVar="index">
                         <c:ReferHealthcareProviderForm forThisProvider="isDelegates"
                                                        delegates="{!delegate}"
@@ -57,7 +57,7 @@
 
             <aura:if isTrue="{!v.fromActionParticipant &amp;&amp; v.refProvider}">
                 <div class="referring">{!$Label.c.Referring_Provider}</div>
-                <div class="slds-grid slds-wrap slds-size&#45;&#45;1-of-1">
+                <div class="slds-grid slds-wrap slds-size--1-of-1">
                     <c:ReferHealthcareProviderForm forThisProvider="isRef"
                                                    index="{!index}"
                                                    showReferringProvider="{!v.showReferringProvider}"
@@ -70,7 +70,7 @@
             </aura:if>
             <div class="referring">{!!v.fromEmancipParticipant ? $Label.c.Other_Providers : ''}</div>
             <div class="healthcare-info">{!!v.fromEmancipParticipant ? $Label.c.Message_For_Providers : ''}</div>
-            <div class="slds-grid slds-wrap slds-size&#45;&#45;1-of-1">
+            <div class="slds-grid slds-wrap slds-size--1-of-1">
                 <aura:iteration items="{!v.healthCareProviders}" var="hcProvider" indexVar="index">
                     <c:ReferHealthcareProviderForm forThisProvider="isHealthCare"
                                                    healthCareProvider="{!hcProvider}"

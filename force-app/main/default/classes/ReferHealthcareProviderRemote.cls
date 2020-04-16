@@ -160,14 +160,14 @@ global without sharing class ReferHealthcareProviderRemote {
     }
 
     @AuraEnabled
-    public static void invitePatientDelegate(String participant, String delegate){
+    public static void invitePatientDelegate(String participant, String delegateContact, String delegateId){
         Participant__c participantObj = (Participant__c) JSON.deserialize(participant, Participant__c.class);
-        Patient_Delegate__c delegateObj = (Patient_Delegate__c) JSON.deserialize(delegate, Patient_Delegate__c.class);
-        if(delegateObj.Id == null) {
+        Contact delegateObj = (Contact) JSON.deserialize(delegateContact, Contact.class);
+        if(delegateId == null) {
             Contact newContact = new Contact();
-            newContact.FirstName = delegateObj.Contact__r.FirstName;
-            newContact.LastName = delegateObj.Contact__r.LastName;
-            newContact.Email = delegateObj.Contact__r.Email;
+            newContact.FirstName = delegateObj.FirstName;
+            newContact.LastName = delegateObj.LastName;
+            newContact.Email = delegateObj.Email;
             newContact.AccountId = [
                     SELECT Id
                     FROM Account
@@ -198,11 +198,10 @@ global without sharing class ReferHealthcareProviderRemote {
             ptDelegateRef.Participant__c = participantObj.Id;
             ptDelegateRef.Contact__c = newContact.Id;
             insert ptDelegateRef;
-
-            //((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id> { newContact.Id => null});
+            ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id> { newContact.Id => null});
 
         } else {
-            update new Patient_Delegate__c(Id = delegateObj.Id, Status__c = DEL_ACTIVE);
+            update new Patient_Delegate__c(Id = delegateId, Status__c = DEL_ACTIVE);
         }
     }
 
@@ -218,7 +217,7 @@ global without sharing class ReferHealthcareProviderRemote {
             newHP.Status__c = HP_S_NOSHARING;
             update newHP;
         } else {
-            update new Patient_Delegate__c(Id = delegateId, Status__c = DEL_ON_HOLD);
+            update new Patient_Delegate__c(Id = delegateId, Status__c = DEL_ON_DISCONNECTED);
         }
     }
 
@@ -411,7 +410,7 @@ global without sharing class ReferHealthcareProviderRemote {
     public final static String HP_S_REGISTRED = 'Registered';
     public final static String HP_S_NOSHARING = 'No Sharing';
     public final static String HP_S_DUPLICATE = 'Duplicate';
-    public final static String DEL_ON_HOLD = 'On hold';
+    public final static String DEL_ON_DISCONNECTED = 'Disconnected';
     public final static String DEL_ACTIVE = 'Active';
 
     public class HealthcareProvider {

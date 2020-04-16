@@ -27,7 +27,7 @@
                      buttonTitle="{!!v.healthCareProvider.Id &amp;&amp; v.actionDisabled ?
                                     $Label.c.RSN_Your_permissions_do_not_permit_this_action : v.isDuplicate ?
                                     $Label.c.HealCare_Provider_Already_Connected : ''}"
-                     buttonLabel="{!v.delegates.Id &amp;&amp; v.delegates.Status__c != 'On Hold' ? $Label.c.HealthCare_Provider_Stop_Sharing : $Label.c.HealthCare_Provider_Connect}"
+                     buttonLabel="{!v.delegates.Id &amp;&amp; v.delegates.Status__c != 'Disconnected' ? $Label.c.HealthCare_Provider_Stop_Sharing : $Label.c.HealthCare_Provider_Connect}"
                      pe="{!v.pe}"
                      mainComponent="{!v.parent}"
                      parent="{!this}"/>

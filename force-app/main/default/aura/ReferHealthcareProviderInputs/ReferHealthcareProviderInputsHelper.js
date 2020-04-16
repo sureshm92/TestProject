@@ -39,9 +39,9 @@
             })
         } else{
             communityService.executeAction(component, 'invitePatientDelegate', {
-                peId: pe.Id,
                 participant: JSON.stringify(pe.Participant__r),
-                delegate: JSON.stringify(sharingObject)
+                delegateContact: JSON.stringify(sharingObject.Contact__r),
+                delegateId: sharingObject.Id ? sharingObject.Id : null
             }, function (returnValue) {
                 var mainComponent = component.get('v.mainComponent');
                 mainComponent.refresh();
