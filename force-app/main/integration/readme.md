@@ -1,4 +1,4 @@
-## Integration
+## All Integrations of PP RH
 
 
 ### Participant Enrollment fields for integration:
@@ -6,7 +6,7 @@
 1. Field **Screening_ID__c** must be entered if status PE become "Enrollment Success"
 2. Field **IsSubjectIDverifiedInSDH__c** - checkbox, equal TRUE if participant on this study verified in SDH. External System one time per day request all PE's with IsSubjectIDverifiedInSDH__c = FALSE. Then process this PE's and update IsSubjectIDverifiedInSDH__c to TRUE (for this used staging table Integration_Patient__c) 
 3. Field **External_Key__c** - formula Study_ID__c + "~" + Study_Site__r.Study_Site_Number__c + "~" + Screening_ID__c. Used as ID of PE in SDH. 
-4. Field **Patient_ID__c** - participant ID. Updated only for PE's created by integration (Integration Patient Referral)
+4. Field **Patient_ID__c** - participant ID. Updated only for PE's created by integration (from Integration_Patient_Referral__c)
 
 
 
@@ -45,6 +45,9 @@ Insert, update or delete visit results.
 
 
 
+
+
+#Outbound Integrations:
 
 ## Outbound send PE to StudyHub
 
