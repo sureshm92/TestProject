@@ -11108,6 +11108,13 @@
         <value>Ready to Contact</value>
     </labels>
     <labels>
+        <fullName>PWS_Contact_Outcome_Screening</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Contact_Outcome_Placeholder</shortDescription>
+        <value>Ready to Screen</value>
+    </labels>
+    <labels>
         <fullName>PWS_Eligibility_Card_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
