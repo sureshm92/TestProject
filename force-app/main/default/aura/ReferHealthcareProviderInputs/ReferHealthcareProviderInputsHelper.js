@@ -29,7 +29,8 @@
                 hp: JSON.stringify(sharingObject)
             }, function (returnValue) {
                 var mainComponent = component.get('v.mainComponent');
-                mainComponent.set('v.healthCareProviders', returnValue);
+                mainComponent.refresh();
+                //mainComponent.set('v.healthCareProviders', returnValue);
                 parent.find('spinner').hide();
             })
         } else {

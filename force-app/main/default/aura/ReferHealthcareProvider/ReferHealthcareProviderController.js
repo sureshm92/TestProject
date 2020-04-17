@@ -5,7 +5,6 @@
 ({
     doInit: function (component, event, helper) {
         var pe = component.get('v.pe');
-        console.log('pe>>>>',JSON.parse(JSON.stringify(pe)));
         communityService.executeAction(component, 'getInitData', {peId: pe.Id, participantId: pe.Participant__r.Contact__c}, function (returnValue) {
             var hcp = returnValue.healthcareProviders;
             for (let i = 0; i < hcp.length; i++) {

@@ -116,11 +116,8 @@
     },
 
     doConnectDisconnect: function (component, event, helper) {
-        console.log('dodisconnect');
         component.get('v.parent').find('spinner').show();
-        console.log('spinner');
         var sharingObject = component.get('v.sharingObject');
-        console.log('status', sharingObject.Status__c);
         if (sharingObject.sObjectType == 'Contact') {
             helper.showHideProvider(component);
         } else if (sharingObject.Status__c == 'Active' || sharingObject.Status__c == 'Invited') {
