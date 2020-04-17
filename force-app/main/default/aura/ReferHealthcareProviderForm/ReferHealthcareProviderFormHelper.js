@@ -1,5 +1,5 @@
 ({
-    showHideProvider: function (component) {
+    /*showHideProvider: function (component) {
         var showProvider = component.get('v.showReferringProvider');
         var pe = component.get('v.pe');
         communityService.executeAction(component, 'showOrHideProvider', {peId: pe.Id}, function (returnValue) {
@@ -11,6 +11,6 @@
             component.find('spinner').hide();
 
         })
-    }
+    }*/
 
 });

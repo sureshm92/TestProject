@@ -18,6 +18,7 @@ private class Test_ReferHealthcareProviderRemote {
     static void testGetContactsDelegates() {
         TestData.loadTestData();
         Contact cont = [SELECT Id, FirstName, LastName, Email FROM Contact LIMIT 1];
+        Participant_Enrollment__c partEnroll = [SELECT Id, Show_Referring_Provider__c FROM Participant_Enrollment__c LIMIT 1];
         Participant__c par = new Participant__c();
         par.First_Name__c = 'Paul';
         par.Last_Name__c = 'Frekky';
@@ -31,7 +32,7 @@ private class Test_ReferHealthcareProviderRemote {
         deleg.Contact__r = cont;
         insert deleg;
         Test.startTest();
-        List<Patient_Delegate__c> result = ReferHealthcareProviderRemote.getContactsDelegates(par.Id);
+        List<Patient_Delegate__c> result = ReferHealthcareProviderRemote.getInitData(partEnroll.Id, par.Id).listDelegates;
         Test.stopTest();
         System.assertEquals(cont.Email, result[0].Contact__r.Email);
     }

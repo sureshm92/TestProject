@@ -28,6 +28,10 @@
                         levels: [true, false, false]
                     },
                     {
+                        text: $A.get("$Label.c.Add_Patient_Delegate"),
+                        levels: [true, false, false]
+                    },
+                    {
                         text: $A.get("$Label.c.DLIT_L_Add_a_participants_provider"),
                         levels: [true, false, false]
                     },

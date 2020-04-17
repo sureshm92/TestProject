@@ -41,12 +41,6 @@
                                              checked="{!v.ctp.Visit_Schedule_Is_Available__c}" onchange="{!c.saveCTP}"
                                              variant="label-hidden"/>
                             <div style="margin-left: 10px;  margin-right: 20px">Visit Schedule</div>
-                            <aura:if isTrue="{!and(v.ctp.Visit_Schedule_Is_Available__c, v.noVisitPlansMessage)}">
-                                <lightning:icon iconName="utility:warning" alternativeText="Warning!"
-                                                variant="warning"
-                                                size="small"/>
-                                <p style="font-size: 11px; padding: 5px;">{!$Label.c.PP_VPC_SS_Empty_VP}</p>
-                            </aura:if>
                         </div>
                     </div>
                     <div class="group-title">Study Documents Configuration</div>

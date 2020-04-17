@@ -81,6 +81,7 @@ public without sharing class EmailService {
 
     public static void sendEmail(String emailTemplate, Id recipientId, Id whatId) {
         Messaging.SingleEmailMessage sem = createEmail(getEmailTemplateId(emailTemplate), recipientId, whatId, null);
+        System.debug('>>'+JSON.serializePretty(sem));
         for (Messaging.SendEmailResult result : Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{
                 sem
         }, false)) {
