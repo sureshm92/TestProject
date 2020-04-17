@@ -515,6 +515,13 @@
         <value>Add Delegate</value>
     </labels>
     <labels>
+        <fullName>Add_Patient_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add Patient Delegate</shortDescription>
+        <value>Add Patient Delegate</value>
+    </labels>
+    <labels>
         <fullName>Admin</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1861,18 +1868,18 @@
         <value>Delegate</value>
     </labels>
     <labels>
-        <fullName>Delegates</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Delegates</shortDescription>
-        <value>Delegates</value>
-    </labels>
-    <labels>
         <fullName>Delegate_Found</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Delegate Found</shortDescription>
         <value>Participant Delegate Found!</value>
+    </labels>
+    <labels>
+        <fullName>Delegates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Delegates</shortDescription>
+        <value>Delegates</value>
     </labels>
     <labels>
         <fullName>Diastolic</fullName>
@@ -4311,7 +4318,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HT 03 B PI RP</shortDescription>
-        <value>Please go to My Team -> Add New Team Member -> Enter information -> Assign "Permissions by Level." If you want a study team member to handle referrals on your behalf, we recommend that you assign level 1 permissions to that team member.</value>
+        <value>Please go to My Team -&gt; Add New Team Member -&gt; Enter information -&gt; Assign &quot;Permissions by Level.&quot; If you want a study team member to handle referrals on your behalf, we recommend that you assign level 1 permissions to that team member.</value>
     </labels>
     <labels>
         <fullName>HT_03_B_Patient</fullName>

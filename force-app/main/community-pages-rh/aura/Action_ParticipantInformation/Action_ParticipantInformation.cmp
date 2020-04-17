@@ -87,8 +87,9 @@
                                    title="{!$Label.c.Tab_Sharing_Options}" onactive="{!c.checkTabs}">
                         <aura:if isTrue="{!v.pe}">
                             <div id="healthCareProvider">
-                                <c:ReferHealthcareProvider pe="{!v.pe}" refProvider="{!v.pe.HCP__r.HCP_Contact__r}"
-                                                           showReferringProvider="{!v.pe.Show_Referring_Provider__c}"
+                                <c:ReferHealthcareProvider pe="{!v.pe}"
+                                                           refProvider="{#v.pe.HCP__r.HCP_Contact__r}"
+                                                           showReferringProvider="{#v.pe.Show_Referring_Provider__c}"
                                                            fromActionParticipant="true"
                                                            actionDisabled="{!v.actions.screenerResponses.disabled}"/>
                             </div>
