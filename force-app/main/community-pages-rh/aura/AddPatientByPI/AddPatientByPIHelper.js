@@ -9,10 +9,15 @@
             Mailing_Country_Code__c: 'US',
             Mailing_State_Code__c: ss.Principal_Investigator__r.Account.BillingStateCode
         });
-        component.set('v.pe', {
+        let formData = component.get('v.formData');
+        let pe = {
             sobjectType: 'Participant_Enrollment__c',
             Study_Site__c: ss.Id
-        });
+        }
+        if(formData.visitPlansLVList && formData.visitPlansLVList.length === 1){
+            pe.Visit_Plan__c = formData.visitPlansLVList[0].value;
+        }
+        component.set('v.pe', pe);
     },
 
     createParticipant: function (component, callback) {

@@ -29,7 +29,6 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_PT_TASK_REMINDER_MED_DEL_TYPE = 'Message_To_PT_Task_Reminder_Med_Del_Type';
     public static final String MESSAGE_TO_PT_TASK_REMINDER_VIS_TYPE = 'Message_To_PT_Task_Reminder_Vis_Type';
     public static final String MESSAGE_TO_PT_TASK_REMINDER_VIS_DEL_TYPE = 'Message_To_PT_Task_Reminder_Vis_Del_Type';
-    public static final String MESSAGE_TO_PT_COMPLETE_BL_SURVEY_TYPE = 'Message_to_PT_Complete_BL_Survey_Type';
 
     // for patient statuses
     public static final String MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE = 'Message_to_PT_Ref_Status_Update_Type';
@@ -52,6 +51,7 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_PT_ACCESS_LEVEL_CHANGED_TYPE = 'Message_to_PT_Access_Level_Changed_Type';
     public static final String MESSAGE_TO_PT_NEW_MESSAGE_TYPE = 'Message_To_PT_New_Message_Type';
     public static final String MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_TYPE = 'Message_to_PT_Del_New_Assignment';
+    public static final String MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_GSK_TYPE = 'Message_to_PT_Del_New_Assignment_GSK';
 
 /**
  *  MESSAGE TO PI

@@ -185,7 +185,7 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
             context.changeConversationsBackground(conWr.conversation.Id);
         }, 50);
 
-        this.messageBoard.openExisting(conWr.conversation, conWr.messages, conWr.isPastStudy);
+        this.messageBoard.openExisting(conWr.conversation, conWr.messages, conWr.isPastStudy, conWr.patientDelegates);
     }
 
     handleRefreshEvent() {
