@@ -16,6 +16,7 @@
     <aura:attribute name="actionDisabled" type="Boolean" default="false"/>
     <aura:attribute name="isValid" type="Boolean" default="false"/>
     <aura:attribute name="isDuplicate" type="Boolean" default="false"/>
+    <aura:attribute name="isDuplicateDelegate" type="Boolean" default="false"/>
 
 
     <div class="{!'slds-col ' + if(v.printMode, 'slds-size--4-of-12', 'slds-size--1-of-1 slds-large-size--4-of-12')}">
@@ -61,7 +62,7 @@
          style="margin-top: 23px;">
         <button class="apollo-btn secondary slds-button"
                 onclick="{!c.doConnectDisconnect}"
-                disabled="{!v.sharingObject.Id ? v.actionDisabled : v.printMode || (!v.isValid || v.actionDisabled || v.isDuplicate)}"
+                disabled="{!v.sharingObject.Id ? v.actionDisabled : v.printMode || (!v.isValid || v.actionDisabled || v.isDuplicate || v.isDuplicateDelegate)}"
                 title="{!v.buttonTitle}">{!v.buttonLabel}</button>
     </div>
     <aura:if isTrue="{!v.providerFound}">
