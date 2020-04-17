@@ -65,7 +65,7 @@
                         <div class="slds-col slds-size_1-of-1">
                             <c:OpenTaskPreviewPanel isAlumni="{!v.participantState.value == 'ALUMNI'}"/>
                         </div>
-                        <aura:if isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c, and(v.participantState.isPremium, v.participantState.showVisits))}">
+                        <aura:if isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c, and(v.participantState.isPremium, v.participantState.value == 'PARTICIPANT'))}">
                             <div class="slds-col">
                                 <c:TravelSupportPanel/>
                             </div>
