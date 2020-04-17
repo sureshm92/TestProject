@@ -389,7 +389,7 @@ public without sharing class ParticipantWorkflowService {
         if(!stepWrapper.formFieldGroups.isEmpty()){
             for(ParticipantWorkflowService.ParticipantWorkflowFieldGroupWrapper fieldGroup: stepWrapper.formFieldGroups) {
                 for (ParticipantWorkflowService.ParticipantWorkflowFieldWrapper field: fieldGroup.fields){
-                    if( field.readonly && !field.dependent){
+                    if( field.type == 'blank' ||  field.readonly && !field.dependent){
                         continue;
                     }
                     if(String.isBlank(field.value) && field.fieldType != 'boolean'){
