@@ -10,14 +10,15 @@
     <apex:attribute name="delegateLevelsHCP" type="DelegateLevelWrapper[]" description=""/>
 
     <!-- component body -->
-    <c:EmailTemplateDelegateTable rendered="{!delegateLevelsPI.size > 0}"
-                                  title="{!$Label.Email_Delegate_PI_Levels_Title}"
-                                  delegateLevels="{!delegateLevelsPI}"
-                                  isPI="true"/>
-    <c:EmailTemplateDelegateTable rendered="{!delegateLevelsHCP.size > 0}"
-                                  title="{!$Label.Email_Delegate_HCP_Levels_Title}"
-                                  delegateLevels="{!delegateLevelsHCP}"
-                                  isPI="false"
-                                  />
+    <div style="margin-bottom: 20px">
+        <c:EmailTemplateDelegateTable rendered="{!delegateLevelsPI.size > 0}"
+                                      title="{!$Label.Email_Delegate_PI_Levels_Title}"
+                                      delegateLevels="{!delegateLevelsPI}"
+                                      isPI="true"/>
+        <c:EmailTemplateDelegateTable rendered="{!delegateLevelsHCP.size > 0}"
+                                      title="{!$Label.Email_Delegate_HCP_Levels_Title}"
+                                      delegateLevels="{!delegateLevelsHCP}"
+                                      isPI="false"/>
+    </div>
 
 </apex:component>

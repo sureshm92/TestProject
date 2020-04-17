@@ -48,17 +48,17 @@
 
                 <!-- for delegates: -->
                 <c:EmailTemplateDelegate
-                        rendered="{!((isDelegate && userType != 'Participant')||hasPIRPDelegationRecords)}"
+                        rendered="{!((isDelegate && resultUserMode != 'Participant')||hasPIRPDelegationRecords)}"
                         userMode="{!resultUserMode}" delegateLevelsPI="{!delegateLevelsPI}"
                         delegateLevelsHCP="{!delegateLevelsHCP}"/>
 
                 <c:EmailTemplateDelegateParticipant userId="{!emailRecipientId}"
-                                                    rendered="{!(isDelegate && resultUserMode == 'Participant')}"
+                                                    rendered="{!(isInitial && isDelegate && resultUserMode == 'Participant')}"
                                                     params="{!dataParametersValue}"
                                                     commTemplate="{!communityTemplateValue}"
                                                     sourceId="{!sourceRecordId}"/>
 
-                <div style="margin-top: 20px; margin-bottom: 30px;">
+                <div style="margin-bottom: 30px;">
                     <apex:componentBody/>
                 </div>
                 <apex:outputPanel style="display:block; margin: 25px 0" rendered="{!preSignatureValue != null}">

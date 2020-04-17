@@ -340,6 +340,14 @@ global without sharing class EmailTemplateController {
         return dataProvider;
     }
 
+    global Boolean getIsInitial() {
+        try {
+            return Id.valueOf(emailRecipientId).getSobjectType() == User.getSObjectType();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     global String getUserLanguageCode() {//+
         try {
             if (userLanguageCode == null) userLanguageCode = getDataProvider().getUserLanguage();
