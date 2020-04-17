@@ -13,6 +13,10 @@
                          body="{!$Label.Email_Body_Initial_Patient_Delegate}"
                          signature="{!$Label.Email_Signature_New}"
                          communityTemplate="Default">
+            <c:EmailTemplateDelegateParticipant userId="{!recipient.Id}"
+                                                commTemplate="Default"
+                                                sourceId="{!relatedTo.Id}"/>
+
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
                               buttonURL="/s/"/>
         </c:EmailTemplate>
@@ -28,6 +32,10 @@
                              body="{!$Label.Email_Body_Initial_Patient_Delegate}"
                              signature="{!$Label.Email_Signature_New}"
                              communityTemplate="Default">
+            <c:EmailTemplateDelegateParticipantText userId="{!recipient.Id}"
+                                                    commTemplate="Default"
+                                                    sourceId="{!relatedTo.Id}"/>
+
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
                                   buttonURL="/s/"/>
         </c:EmailTemplateText>

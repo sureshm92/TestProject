@@ -2,12 +2,12 @@
  - Created by Olga Skrynnikova on 1/30/2020.
  -->
 
-<apex:component id="EmailTemplateDelegateParticipant" controller="EmailTemplateDelegatePartController">
+<apex:component id="EmailTemplateDelegateParticipant" controller="EmailTemplateDelegatePartController" access="global">
     <!-- attributes: -->
-    <apex:attribute name="userId" type="Id" assignTo="{!delegateUserId}" description=""/>
-    <apex:attribute name="params" type="String" assignTo="{!dataParams}" description=""/>
-    <apex:attribute name="commTemplate" type="String" assignTo="{!commTemplateStr}" description=""/>
-    <apex:attribute name="sourceId" type="Id" assignTo="{!sourceIdValue}" description=""/>
+    <apex:attribute name="userId" type="Id" assignTo="{!delegateUserId}" description="" access="global"/>
+    <apex:attribute name="params" type="String" assignTo="{!dataParams}" description="" access="global"/>
+    <apex:attribute name="commTemplate" type="String" assignTo="{!commTemplateStr}" description="" access="global"/>
+    <apex:attribute name="sourceId" type="Id" assignTo="{!sourceIdValue}" description="" access="global"/>
 
     <apex:outputPanel rendered="{!delegateStudyNames.size > 0}">
         <br/><br/>
@@ -21,7 +21,7 @@
             </apex:repeat>
         </table>
         <br/>
-        <apex:outputText value="{!afterText}" escape="false"/>
+        <apex:outputText rendered="{!NOT(ISBLANK(afterText))}" value="{!afterText}" escape="false"/>
     </apex:outputPanel>
     <br/><br/>
 </apex:component>
