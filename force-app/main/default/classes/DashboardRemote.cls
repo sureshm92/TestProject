@@ -582,7 +582,7 @@ public without sharing class DashboardRemote {
                 } else if (pesh.Status__c == PEStatusState.PE_STATUS_ELIGIBILITY_PASSED && peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c == 'Virtual') {
                     eligibilityPassedSet.add(pesh.ParticipantEnrollment__c);
                 }
-                if (pesh.Status__c == PEStatusState.PE_STATUS_SCREENING_PASSED || pesh.Status__c == PEStatusState.PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD) {
+                if (pesh.Status__c == PEStatusState.PE_STATUS_SCREENING_PASSED) {
                     screeningPassedSet.add(pesh.ParticipantEnrollment__c);
                 }
                 if (pesh.Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS || pesh.Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS) {
