@@ -9,7 +9,7 @@
     <apex:attribute name="commTemplate" type="String" assignTo="{!commTemplateStr}" description=""/>
     <apex:attribute name="sourceId" type="Id" assignTo="{!sourceIdValue}" description=""/>
 
-    <apex:outputPanel>
+    <apex:outputPanel rendered="{!delegateStudyNames.size > 0}">
         <br/><br/>
         <table style="width: 100%;table-layout: fixed; border-collapse: collapse;">
             <apex:repeat value="{!delegateStudyNames}" var="studyName">
