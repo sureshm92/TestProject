@@ -36,11 +36,7 @@ public without sharing class PatientDelegateTriggerHandler {
 
     public class CreateNewAssignmentNotification extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
-            createDelegateAssignmentNotification(newList, null);
-        }
-
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            createDelegateAssignmentNotification(newList, (Map<Id, Patient_Delegate__c>) oldMap);
+            createDelegateAssignmentNotification(newList);
         }
     }
 
@@ -59,20 +55,13 @@ public without sharing class PatientDelegateTriggerHandler {
     }
 
     @TestVisible
-    private static void createDelegateAssignmentNotification(List<Patient_Delegate__c> patientDelegates, Map<Id, Patient_Delegate__c> oldMap) {
-        List<Id> pdIds = new List<Id>();
-        for(Patient_Delegate__c pd : patientDelegates) {
-            if(oldMap == null || (pd.Status__c == PATIENT_DELEGATE_ACTIVE_STATUS && oldMap.get(pd.Id).Status__c != pd.Status__c)) {
-                pdIds.add(pd.Id);
-            }
-        }
-
+    private static void createDelegateAssignmentNotification(List<Patient_Delegate__c> patientDelegates) {
         List<Patient_Delegate__c> newPatientDelegates = [
                 SELECT Contact__c,
                         Participant__c,
                         Participant__r.Contact__c
                 FROM Patient_Delegate__c
-                WHERE Id IN:pdIds
+                WHERE Id IN:patientDelegates
         ];
 
         Set<Id> participantContacts = new Set<Id>();
@@ -119,6 +108,13 @@ public without sharing class PatientDelegateTriggerHandler {
             }
         }
 
-        if(!notifications.isEmpty()) insert notifications;
+        if(!notifications.isEmpty()) insertNotifications(JSON.serialize(notifications));
+    }
+
+    @Future
+    private static void insertNotifications(String notificationsJSON) {
+        List<Notification__c> newNotifications =
+                (List<Notification__c>) JSON.deserialize(notificationsJSON, List<Notification__c>.class);
+        insert newNotifications;
     }
 }

@@ -4,7 +4,6 @@
 
 ({
     doInit: function (component, event, helper) {
-
         communityService.executeAction(component, 'getInitData', null, function (formData) {
             var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
             component.set('v.formData', formData);
