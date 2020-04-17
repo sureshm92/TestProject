@@ -5,9 +5,15 @@
 @IsTest
 private class Test_EmailTemplateDelegatePartController {
 
+    @TestSetup
+    static void setup() {
+        Test.startTest();
+        TestData.loadTestData();
+        Test.stopTest();
+    }
+
     @IsTest
     static void test_getDelegateStudyNames() {
-        TestData.loadTestData();
         TestData td = new TestData();
         User delegate = td.createPatientDelegate();
         insert delegate;
@@ -32,7 +38,6 @@ private class Test_EmailTemplateDelegatePartController {
 
     @IsTest
     static void test_getAfterText() {
-        TestData.loadTestData();
         TestData td = new TestData();
         User delegate = td.createPatientDelegate();
         insert delegate;
@@ -65,7 +70,6 @@ private class Test_EmailTemplateDelegatePartController {
 
     @IsTest
     static void test_getDelegateStudyNames_emptyList() {
-        TestData.loadTestData();
         TestData td = new TestData();
         User delegate = td.createPatientDelegate();
         insert delegate;
