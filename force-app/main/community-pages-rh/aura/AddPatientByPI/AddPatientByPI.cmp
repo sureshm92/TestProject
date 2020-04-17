@@ -27,7 +27,6 @@
                 smallTitle="{!v.ctp.Study_Code_Name__c}"
                 bigTitle="{!$Label.c.PG_Add_Patient_Header}">
     </c:RRTopBar>
-    <c:RRActionApprove aura:id="actionApprove" message="{!$Label.c.Poput_ICF}" approveBtnName="{!$Label.c.BTN_Confirm}"/>
 
     <aura:if isTrue="{!v.initialized}">
         <div class="rr-width-limiter side-padding">
