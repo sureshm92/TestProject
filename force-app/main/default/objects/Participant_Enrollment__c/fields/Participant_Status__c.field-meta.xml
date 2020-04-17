@@ -119,11 +119,6 @@
                 <label>Screening Passed</label>
             </value>
             <value>
-                <fullName>Screening Passed - Wash Out Period</fullName>
-                <default>false</default>
-                <label>Screening Passed - Wash Out Period</label>
-            </value>
-            <value>
                 <fullName>Unable to Screen</fullName>
                 <default>false</default>
                 <label>Unable to Screen</label>
@@ -137,6 +132,11 @@
                 <fullName>Randomization Failed</fullName>
                 <default>false</default>
                 <label>Randomization Failed</label>
+            </value>
+            <value>
+                <fullName>Screening In Progress - Wash Out Period</fullName>
+                <default>false</default>
+                <label>Screening In Progress - Wash Out Period</label>
             </value>
         </valueSetDefinition>
     </valueSet>

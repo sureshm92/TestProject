@@ -111,11 +111,6 @@
         <label>Screening Passed</label>
     </customValue>
     <customValue>
-        <fullName>Screening Passed - Wash Out Period</fullName>
-        <default>false</default>
-        <label>Screening Passed - Wash Out Period</label>
-    </customValue>
-    <customValue>
         <fullName>Unable to Screen</fullName>
         <default>false</default>
         <label>Unable to Screen</label>
@@ -131,28 +126,9 @@
         <label>Randomization Failed</label>
     </customValue>
     <customValue>
-        <fullName>Contact Failed</fullName>
+        <fullName>Screening In Progress - Wash Out Period</fullName>
         <default>false</default>
-        <isActive>false</isActive>
-        <label>Contact Failed</label>
-    </customValue>
-    <customValue>
-        <fullName>Contact Attempt In Progress</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>Contact Attempt In Progress</label>
-    </customValue>
-    <customValue>
-        <fullName>Contact Successful</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>Contact Successful</label>
-    </customValue>
-    <customValue>
-        <fullName>Referral Declined</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>Referral Declined</label>
+        <label>Screening In Progress - Wash Out Period</label>
     </customValue>
     <customValue>
         <fullName>Referral On Hold</fullName>
@@ -167,16 +143,46 @@
         <label>Referral Accepted</label>
     </customValue>
     <customValue>
-        <fullName>Referral Sent to PI</fullName>
+        <fullName>Contact Successful</fullName>
         <default>false</default>
         <isActive>false</isActive>
-        <label>Referral Sent to PI</label>
+        <label>Contact Successful</label>
+    </customValue>
+    <customValue>
+        <fullName>Contact Attempt In Progress</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Contact Attempt In Progress</label>
+    </customValue>
+    <customValue>
+        <fullName>Contact Failed</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Contact Failed</label>
+    </customValue>
+    <customValue>
+        <fullName>Screening Passed - Wash Out Period</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Screening Passed - Wash Out Period</label>
     </customValue>
     <customValue>
         <fullName>Screening Complete</fullName>
         <default>false</default>
         <isActive>false</isActive>
         <label>Screening Complete</label>
+    </customValue>
+    <customValue>
+        <fullName>Referral Sent to PI</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Referral Sent to PI</label>
+    </customValue>
+    <customValue>
+        <fullName>Referral Declined</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Referral Declined</label>
     </customValue>
     <masterLabel>Participant Statuses</masterLabel>
     <sorted>false</sorted>

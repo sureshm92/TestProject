@@ -62,7 +62,8 @@ public without sharing class PEStatusState {
     public static final String PE_STATUS_ELIGIBILITY_PASSED = 'Eligibility Passed';
     public static final String PE_STATUS_ELIGIBILITY_FAILED = 'Eligibility Failed';
     //Screening Step
-    public static final String PE_STATUS_SCREENING_IN_PROGRESS= 'Screening In Progress';
+    public static final String PE_STATUS_SCREENING_IN_PROGRESS = 'Screening In Progress';
+    public static final String PE_STATUS_SCREENING_IN_PROGRESS_WASH_OUT_PERIOD = 'Screening In Progress - Wash Out Period';//TODO:check
     public static final String PE_STATUS_SCREENING_PASSED = 'Screening Passed';
     public static final String PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD = 'Screening Passed - Wash Out Period';//TODO:check
     public static final String PE_STATUS_SCREENING_FAILED = 'Screening Failed';
@@ -131,8 +132,8 @@ public without sharing class PEStatusState {
             PE_STATUS_CONTACT_ATTEMPTED,
             PE_STATUS_ELIGIBILITY_PASSED,
             PE_STATUS_SCREENING_PASSED,
-            PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD,
-            PE_STATUS_SCREENING_IN_PROGRESS
+            PE_STATUS_SCREENING_IN_PROGRESS,
+            PE_STATUS_SCREENING_IN_PROGRESS_WASH_OUT_PERIOD
     };
     
     public static final List<String> PE_STATUS_GROUP_IN_PROGRESS_NOT_ON_HOLD = new List<String>{
@@ -143,8 +144,8 @@ public without sharing class PEStatusState {
             PE_STATUS_CONTACT_ATTEMPTED,
             PE_STATUS_ELIGIBILITY_PASSED,
             PE_STATUS_SCREENING_PASSED,
-            PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD,
-            PE_STATUS_SCREENING_IN_PROGRESS
+            PE_STATUS_SCREENING_IN_PROGRESS,
+            PE_STATUS_SCREENING_IN_PROGRESS_WASH_OUT_PERIOD
     };
     //TODO:check
     public static final List<String> PE_STATUS_GROUP_PARTICIPATION_FLOW_WITHOUT_INITIAL = new List<String>{
@@ -180,8 +181,8 @@ public without sharing class PEStatusState {
             PE_STATUS_CONTACT_ATTEMPTED,
             PE_STATUS_ELIGIBILITY_PASSED,
             PE_STATUS_SCREENING_PASSED,
-            PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD,
             PE_STATUS_SCREENING_IN_PROGRESS,
+            PE_STATUS_SCREENING_IN_PROGRESS_WASH_OUT_PERIOD,
             PE_STATUS_ENROLLMENT_SUCCESS,
             PE_STATUS_RANDOMIZATION_SUCCESS,
             PE_STATUS_TREATMENT_PERIOD_STARTED,
@@ -220,8 +221,8 @@ public without sharing class PEStatusState {
             PE_STATUS_ELIGIBILITY_PASSED,
             PE_STATUS_ELIGIBILITY_FAILED,
             PE_STATUS_SCREENING_PASSED,
-            PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD,
             PE_STATUS_SCREENING_IN_PROGRESS,
+            PE_STATUS_SCREENING_IN_PROGRESS_WASH_OUT_PERIOD,
             PE_STATUS_SCREENING_FAILED,
             PE_STATUS_UNABLE_TO_SCREEN
     };
@@ -267,8 +268,8 @@ public without sharing class PEStatusState {
                     }),
             new StatusStep(PE_ST_SCREENING,
                     new Map<String, List<String>>{
-                            STATUS_STATE_SUCCESS => new List<String>{PE_STATUS_SCREENING_PASSED, PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD},
-                            STATUS_STATE_IN_PROGRESS => new List<String>{PE_STATUS_SCREENING_IN_PROGRESS},
+                            STATUS_STATE_SUCCESS => new List<String>{PE_STATUS_SCREENING_PASSED},
+                            STATUS_STATE_IN_PROGRESS => new List<String>{PE_STATUS_SCREENING_IN_PROGRESS, PE_STATUS_SCREENING_IN_PROGRESS_WASH_OUT_PERIOD},
                             STATUS_STATE_FAILURE => new List<String>{PE_STATUS_SCREENING_FAILED, PE_STATUS_UNABLE_TO_SCREEN}
                     }),
             new StatusStep(PE_ST_ENROLLED_RANDOMIZED,
@@ -307,8 +308,8 @@ public without sharing class PEStatusState {
             PE_STATUS_ELIGIBILITY_PASSED => 3,
             PE_STATUS_ELIGIBILITY_FAILED => 3,
             PE_STATUS_SCREENING_PASSED => 4,
-            PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD => 4,
             PE_STATUS_SCREENING_IN_PROGRESS => 4,
+            PE_STATUS_SCREENING_IN_PROGRESS_WASH_OUT_PERIOD => 4,
             PE_STATUS_SCREENING_FAILED => 4,
             PE_STATUS_UNABLE_TO_SCREEN => 4,
             PE_STATUS_ENROLLMENT_OLD => 5,

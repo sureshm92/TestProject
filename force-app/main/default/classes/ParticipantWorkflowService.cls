@@ -60,7 +60,7 @@ public without sharing class ParticipantWorkflowService {
         }
         Map<String, Participant_Workflow_Outcome__mdt> result = new Map<String, Participant_Workflow_Outcome__mdt>();
         for(Participant_Workflow_Outcome__mdt outcome : [
-                SELECT Status_Name__c, Step__c, Reasons_List__c, State__c,Order__c
+                SELECT Status_Name__c, Step__c, Reasons_List__c, State__c,Order__c, Show_Only_If_Selected__c
                 FROM Participant_Workflow_Outcome__mdt WHERE Step__c IN :stepNames ORDER BY Order__c ASC]){
             result.put(outcome.Status_Name__c, outcome);
         }
@@ -146,7 +146,12 @@ public without sharing class ParticipantWorkflowService {
                         stepWrapper.currentOutcomeSuccess = true;
                     }
                 }
-                stepWrapper.outcomeList.add(new LabelValueItem(TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,outcome.Status_Name__c),outcome.Status_Name__c));
+                if(!outcome.Show_Only_If_Selected__c){
+                    stepWrapper.outcomeList.add(new LabelValueItem(TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,outcome.Status_Name__c),outcome.Status_Name__c));
+                }
+                else if(outcome.Status_Name__c == pe.Participant_Status__c){
+                    stepWrapper.outcomePlaceholder = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,outcome.Status_Name__c);
+                }
                 List<LabelValueItem> reasonsList = new List<LabelValueItem>();
                 if(outcome.Reasons_List__c == null){
                     //reasonsList.add(new LabelValueItem('', ''));
@@ -389,7 +394,7 @@ public without sharing class ParticipantWorkflowService {
         if(!stepWrapper.formFieldGroups.isEmpty()){
             for(ParticipantWorkflowService.ParticipantWorkflowFieldGroupWrapper fieldGroup: stepWrapper.formFieldGroups) {
                 for (ParticipantWorkflowService.ParticipantWorkflowFieldWrapper field: fieldGroup.fields){
-                    if( field.readonly && !field.dependent){
+                    if( field.type == 'blank' ||  field.readonly && !field.dependent){
                         continue;
                     }
                     if(String.isBlank(field.value) && field.fieldType != 'boolean'){
