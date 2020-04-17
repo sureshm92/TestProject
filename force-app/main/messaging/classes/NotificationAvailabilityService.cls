@@ -148,10 +148,34 @@ public without sharing class NotificationAvailabilityService {
                 }
             }
             if (objType == CONTACT) {
-                //TODO if Contact needs additional fields
+                List<Contact> contactByObject = [
+                        SELECT Id
+                        FROM Contact
+                        WHERE Id IN:objectsByStrings.get(objType)
+                ];
+                for (Contact con : contactByObject) {
+                    objectsByIds.put(con.Id, con);
+                }
             }
             if (objType == CASE_OBJ_NAME) {
-                //TODO if Contact needs additional fields
+                List<Case> cases = [
+                        SELECT Id
+                        FROM Case
+                        WHERE Id IN:objectsByStrings.get(objType)
+                ];
+                for (Case cs : cases) {
+                    objectsByIds.put(cs.Id, cs);
+                }
+            }
+            if (objType == STUDY_SITE_OBJ_NAME) {
+                List<Study_Site__c> studySites = [
+                        SELECT Id
+                        FROM Study_Site__c
+                        WHERE Id IN:objectsByStrings.get(objType)
+                ];
+                for (Study_Site__c ss : studySites) {
+                    objectsByIds.put(ss.Id, ss);
+                }
             }
 
             //TODO for other objects passing in WhatID
