@@ -230,137 +230,137 @@ public without sharing class ParticipantWorkflowService {
             String fieldsString, Map<String, Participant_Workflow_Form_Field__mdt> fieldsMap,
             Participant_Enrollment__c pe, Map<String, List<String>> fieldDependencyMap, Clinical_Trial_Profile__c ctp){
         List<ParticipantWorkflowFieldWrapper> fieldWrappers = new List<ParticipantWorkflowFieldWrapper>();
+        List<LabelValueItem> visitPlansLVList = StudySiteService.getVisitPlansLVList(pe.Study_Site__c);
         for(String lineString: fieldsString.split(';')){
             List<String> atomicFieldStrings = lineString.split(',');
             ParticipantWorkflowFieldWrapper currentFieldWrapper;
             for(String atomicFieldString : atomicFieldStrings){
-                if(atomicFieldString == 'blank'){
-                    currentFieldWrapper = new ParticipantWorkflowFieldWrapper();
-                    currentFieldWrapper.type = 'blank';
-                    currentFieldWrapper.style = 'slds-size--1-of-'+String.valueOf(atomicFieldStrings.size());
-                    currentFieldWrapper.numOccurences = 1;
-                }
                 Participant_Workflow_Form_Field__mdt fieldSetting = fieldsMap.get(atomicFieldString);
-                if(fieldSetting == null){
+                if(atomicFieldString != 'blank' && (fieldSetting == null || (fieldSetting.Type__c == 'visitplan' && visitPlansLVList.isEmpty()))){
                     currentFieldWrapper = null;
                     continue;
                 }
-                if(currentFieldWrapper != null && (currentFieldWrapper.field == fieldSetting.Field_Name__c
+                if(currentFieldWrapper != null && fieldSetting != null && (currentFieldWrapper.field == fieldSetting.Field_Name__c
                         && currentFieldWrapper.type == fieldSetting.Type__c )){
                     currentFieldWrapper.numOccurences++;
                     currentFieldWrapper.style = 'slds-size--'+String.valueOf(currentFieldWrapper.numOccurences)+'-of-'
                             + String.valueOf(atomicFieldStrings.size());
                 }
-                else{
-                    currentFieldWrapper = new ParticipantWorkflowFieldWrapper();
-                    currentFieldWrapper.title = TranslateHelper.getLabelValue(fieldSetting.Title_Label__c);
-                    currentFieldWrapper.style = 'slds-size--1-of-'+String.valueOf(atomicFieldStrings.size());
-                    currentFieldWrapper.field = fieldSetting.Field_Name__c;
-                    currentFieldWrapper.readonly = fieldSetting.Readonly_for_Steps__c != null && fieldSetting.Readonly_for_Steps__c.contains(step.DeveloperName);
-                    currentFieldWrapper.required = fieldSetting.Required_for_Steps__c != null && fieldSetting.Required_for_Steps__c.contains(step.DeveloperName)
-                            && (fieldSetting.Required_Condition__c == null || ConditionCheckerService.checkConditionForObject(fieldSetting.Required_Condition__c, ctp));
-                    currentFieldWrapper.onlyFutureDate = fieldSetting.Only_Future_Dates__c;
-                    currentFieldWrapper.onlyPastDate = fieldSetting.Only_Past_Dates__c;
-                    currentFieldWrapper.numOccurences = 1;
-                    currentFieldWrapper.fieldType = fieldSetting.Type__c;
-                    if(String.isNotBlank(fieldSetting.False_Value_Validation_Error_Label__c)){
-                        currentFieldWrapper.validationMessageIfFalse = TranslateHelper.getLabelValue(fieldSetting.False_Value_Validation_Error_Label__c);
-                    }
-                    if(String.isNotBlank(fieldSetting.Depends_On_Field__c)){
-                        currentFieldWrapper.dependent = true;
-                        if((Boolean)pe.get(fieldSetting.Depends_On_Field__c)){
-                            currentFieldWrapper.readonly = false;
-                        }
-                        else{
-                            currentFieldWrapper.readonly = true;
-                        }
-                        if(!fieldDependencyMap.containsKey(fieldSetting.Depends_On_Field__c)){
-                            fieldDependencyMap.put(fieldSetting.Depends_On_Field__c, new List<String>{fieldSetting.Field_Name__c});
-                        }
-                        else{
-                            fieldDependencyMap.get(fieldSetting.Depends_On_Field__c).add(fieldSetting.Field_Name__c);
-                        }
-                        if(String.isNotBlank(fieldSetting.Populate_from_Field__c)){
-                            currentFieldWrapper.populateFromDependent = fieldSetting.Populate_from_Field__c;
-                        }
-                    }
-                    if(String.isNotBlank(fieldSetting.Populate_Fields_Map__c)){
-                        currentFieldWrapper.populateFields = new Map<String, String>();
-                        for(String fieldValueString : fieldSetting.Populate_Fields_Map__c.split(';')){
-                            List<String> fieldValuePair = fieldValueString.split('=>');
-                            if(fieldValuePair.size() == 2){
-                                currentFieldWrapper.populateFields.put(fieldValuePair[0].trim(),fieldValuePair[1].trim());
-                            }
-                        }
-                    }
-                    Object fieldvalue;
-                    if(String.isNotBlank(fieldSetting.Field_Name__c) && pe.get(fieldSetting.Field_Name__c) != null){
-                        fieldvalue = pe.get(fieldSetting.Field_Name__c);
-                    }
-                    else if(String.isNotBlank(fieldSetting.Populate_from_Field__c)){
-                        fieldvalue = pe.get(fieldSetting.Populate_from_Field__c);
-                    }
-                    switch on fieldSetting.Type__c {
-                        when 'visitplan'{
-                            List<LabelValueItem> visitPlansLVList = StudySiteService.getVisitPlansLVList(pe.Study_Site__c);
-                            if (!visitPlansLVList.isEmpty()) {
-                            currentFieldWrapper.type = 'picklist';
-                            currentFieldWrapper.value = pe.Visit_Plan__c;
-                                currentFieldWrapper.smartPicklist = true;
-                                currentFieldWrapper.values = visitPlansLVList;
-                                if (currentFieldWrapper.values.size() == 1 && currentFieldWrapper.value == null) {
-                                    currentFieldWrapper.value = currentFieldWrapper.values[0].value;
-                                }
-                            }
-
-                        }
-                        when 'time' {
-                            currentFieldWrapper.type = 'time';
-                            if(pe.get(fieldSetting.Field_Name__c) instanceof Time) {
-                                currentFieldWrapper.value = String.valueOf((Time)pe.get(fieldSetting.Field_Name__c));
-                            }
-                            else {
-                                currentFieldWrapper.value = pe.get(fieldSetting.Field_Name__c)==null?'':((DateTime)pe.get(fieldSetting.Field_Name__c)).format('TT:MM');
-                            }
-                        }
-                        when 'date' {
-                            currentFieldWrapper.type = 'date';
-                            if(pe.get(fieldSetting.Field_Name__c) instanceof Date) {
-                                System.debug('fieldSetting.Field_Name__c');
-                                System.debug(pe.get(fieldSetting.Field_Name__c));
-                                currentFieldWrapper.value = pe.get(fieldSetting.Field_Name__c)==null?'':String.valueOf(pe.get(fieldSetting.Field_Name__c));
-                            }
-                            else {
-                                currentFieldWrapper.value = pe.get(fieldSetting.Field_Name__c)==null?'': ((DateTime)pe.get(fieldSetting.Field_Name__c)).format('yyyy-MM-dd');
-                            }
-                        }
-                        when 'text' {
-                            currentFieldWrapper.type = 'text';
-                            currentFieldWrapper.value =  (String)pe.get(fieldSetting.Field_Name__c);
-                        }
-                        when 'boolean' {
-                            if(String.isBlank(fieldSetting.True_Value_Label__c)) {
-                                currentFieldWrapper.type = 'checkbox';
-                                currentFieldWrapper.value = String.valueOf((Boolean)pe.get(fieldSetting.Field_Name__c));
-                            }
-                            else {
-                                currentFieldWrapper.type = 'picklist';
-                                currentFieldWrapper.value = String.valueOf((Boolean)pe.get(fieldSetting.Field_Name__c));
-                                currentFieldWrapper.values = new List<LabelValueItem>{
-                                        new LabelValueItem(TranslateHelper.getLabelValue(fieldSetting.True_Value_Label__c),'true'),
-                                        new LabelValueItem(TranslateHelper.getLabelValue(fieldSetting.False_Value_Label__c),'false')
-                                };
-                            }
-                        }
-                        when else {
-                            currentFieldWrapper.type = 'blank';
-                        }
-                    }
+                else {
+                    currentFieldWrapper = createFieldWrapper(fieldSetting, atomicFieldStrings.size(), step, pe, fieldDependencyMap, ctp, visitPlansLVList);
+                    fieldWrappers.add(currentFieldWrapper);
                 }
-                fieldWrappers.add(currentFieldWrapper);
             }
         }
         return fieldWrappers;
+    }
+
+    private static ParticipantWorkflowFieldWrapper createFieldWrapper(Participant_Workflow_Form_Field__mdt fieldSetting, Integer numberOfFieldsInRow, Participant_Workflow_Step__mdt step,
+            Participant_Enrollment__c pe, Map<String, List<String>> fieldDependencyMap, Clinical_Trial_Profile__c ctp, List<LabelValueItem> visitPlansLVList){
+        ParticipantWorkflowFieldWrapper newFieldWrapper = new ParticipantWorkflowFieldWrapper();
+        newFieldWrapper.numOccurences = 1;
+        newFieldWrapper.style = 'slds-size--1-of-'+String.valueOf(numberOfFieldsInRow);
+        if(fieldSetting == null){
+            newFieldWrapper.type = 'blank';
+        }
+        else {
+            populateWrapperWithTypeSettings(newFieldWrapper, fieldSetting, pe, visitPlansLVList);
+            newFieldWrapper.title = TranslateHelper.getLabelValue(fieldSetting.Title_Label__c);
+            newFieldWrapper.field = fieldSetting.Field_Name__c;
+            newFieldWrapper.readonly = fieldSetting.Readonly_for_Steps__c != null && fieldSetting.Readonly_for_Steps__c.contains(step.DeveloperName);
+            newFieldWrapper.required = fieldSetting.Required_for_Steps__c != null && fieldSetting.Required_for_Steps__c.contains(step.DeveloperName)
+                    && (fieldSetting.Required_Condition__c == null || ConditionCheckerService.checkConditionForObject(fieldSetting.Required_Condition__c, ctp));
+            newFieldWrapper.onlyFutureDate = fieldSetting.Only_Future_Dates__c;
+            newFieldWrapper.onlyPastDate = fieldSetting.Only_Past_Dates__c;
+            newFieldWrapper.fieldType = fieldSetting.Type__c;
+            if (String.isNotBlank(fieldSetting.False_Value_Validation_Error_Label__c)) {
+                newFieldWrapper.validationMessageIfFalse = TranslateHelper.getLabelValue(fieldSetting.False_Value_Validation_Error_Label__c);
+            }
+            if (String.isNotBlank(fieldSetting.Depends_On_Field__c)) {
+                newFieldWrapper.dependent = true;
+                if ((Boolean) pe.get(fieldSetting.Depends_On_Field__c)) {
+                    newFieldWrapper.readonly = false;
+                } else {
+                    newFieldWrapper.readonly = true;
+                }
+                if (!fieldDependencyMap.containsKey(fieldSetting.Depends_On_Field__c)) {
+                    fieldDependencyMap.put(fieldSetting.Depends_On_Field__c, new List<String>{
+                            fieldSetting.Field_Name__c
+                    });
+                } else {
+                    fieldDependencyMap.get(fieldSetting.Depends_On_Field__c).add(fieldSetting.Field_Name__c);
+                }
+                if (String.isNotBlank(fieldSetting.Populate_from_Field__c)) {
+                    newFieldWrapper.populateFromDependent = fieldSetting.Populate_from_Field__c;
+                }
+            }
+            if (String.isNotBlank(fieldSetting.Populate_Fields_Map__c)) {
+                newFieldWrapper.populateFields = new Map<String, String>();
+                for (String fieldValueString : fieldSetting.Populate_Fields_Map__c.split(';')) {
+                    List<String> fieldValuePair = fieldValueString.split('=>');
+                    if (fieldValuePair.size() == 2) {
+                        newFieldWrapper.populateFields.put(fieldValuePair[0].trim(), fieldValuePair[1].trim());
+                    }
+                }
+            }
+//            Object fieldvalue;
+////            if (String.isNotBlank(fieldSetting.Field_Name__c) && pe.get(fieldSetting.Field_Name__c) != null) {
+////                fieldvalue = pe.get(fieldSetting.Field_Name__c);
+////            } else if (String.isNotBlank(fieldSetting.Populate_from_Field__c)) {
+////                fieldvalue = pe.get(fieldSetting.Populate_from_Field__c);
+////            }
+        }
+        return newFieldWrapper;
+    }
+
+    private static void populateWrapperWithTypeSettings(ParticipantWorkflowFieldWrapper fieldWrapper,Participant_Workflow_Form_Field__mdt fieldSetting, Participant_Enrollment__c pe,List<LabelValueItem> visitPlansLVList ){
+        switch on fieldSetting.Type__c {
+            when 'visitplan' {
+                fieldWrapper.type = 'picklist';
+                fieldWrapper.value = pe.Visit_Plan__c;
+                fieldWrapper.smartPicklist = true;
+                fieldWrapper.values = visitPlansLVList;
+                if (fieldWrapper.values.size() == 1 && fieldWrapper.value == null) {
+                    fieldWrapper.value = fieldWrapper.values[0].value;
+                }
+            }
+            when 'time' {
+                fieldWrapper.type = 'time';
+                if (pe.get(fieldSetting.Field_Name__c) instanceof Time) {
+                    fieldWrapper.value = String.valueOf((Time) pe.get(fieldSetting.Field_Name__c));
+                } else {
+                    fieldWrapper.value = pe.get(fieldSetting.Field_Name__c) == null ? '' : ((DateTime) pe.get(fieldSetting.Field_Name__c)).format('TT:MM');
+                }
+            }
+            when 'date' {
+                fieldWrapper.type = 'date';
+                if (pe.get(fieldSetting.Field_Name__c) instanceof Date) {
+                    fieldWrapper.value = pe.get(fieldSetting.Field_Name__c) == null ? '' : String.valueOf(pe.get(fieldSetting.Field_Name__c));
+                } else {
+                    fieldWrapper.value = pe.get(fieldSetting.Field_Name__c) == null ? '' : ((DateTime) pe.get(fieldSetting.Field_Name__c)).format('yyyy-MM-dd');
+                }
+            }
+            when 'text' {
+                fieldWrapper.type = 'text';
+                fieldWrapper.value = (String) pe.get(fieldSetting.Field_Name__c);
+            }
+            when 'boolean' {
+                if (String.isBlank(fieldSetting.True_Value_Label__c)) {
+                    fieldWrapper.type = 'checkbox';
+                    fieldWrapper.value = String.valueOf((Boolean) pe.get(fieldSetting.Field_Name__c));
+                } else {
+                    fieldWrapper.type = 'picklist';
+                    fieldWrapper.value = String.valueOf((Boolean) pe.get(fieldSetting.Field_Name__c));
+                    fieldWrapper.values = new List<LabelValueItem>{
+                            new LabelValueItem(TranslateHelper.getLabelValue(fieldSetting.True_Value_Label__c), 'true'),
+                            new LabelValueItem(TranslateHelper.getLabelValue(fieldSetting.False_Value_Label__c), 'false')
+                    };
+                }
+            }
+            when else {
+                fieldWrapper.type = 'blank';
+            }
+        }
     }
 
     public static Participant_Enrollment_Status_History__c createPESHFromPathWrapper(ParticipantWorkflowWrapper pathWrapper, String peId){
