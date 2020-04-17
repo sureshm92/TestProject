@@ -40,7 +40,8 @@
             participantJSON: JSON.stringify(participant),
             peJSON: JSON.stringify(pe),
             userLanguage: userLanguage,
-            ssId: (ssId ? ssId : component.get('v.ss').Id)
+            ssId: (ssId ? ssId : component.get('v.ss').Id),
+            createUser: component.get('v.createUsers')
         }, function (createdPE) {
             communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
             callback();

@@ -1511,6 +1511,13 @@
         <value>Please allow several minutes for file processing. We recommend importing files of no more than fifty participant records at a time. Only records after headings and instructions will be processed.</value>
     </labels>
     <labels>
+        <fullName>Create_Users_Checkbox</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create Users Checkbox</shortDescription>
+        <value>Participant have consented to receiving an invitation to the Patient Portal.</value>
+    </labels>
+    <labels>
         <fullName>Create_Users_Checkbox_on_Import</fullName>
         <language>en_US</language>
         <protected>true</protected>

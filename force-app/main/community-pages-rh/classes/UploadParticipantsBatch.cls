@@ -154,6 +154,12 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 Language = headerIndexes.get('LANGUAGE') != null && csvRecordData[headerIndexes.get('LANGUAGE')] != null ? csvRecordData[headerIndexes.get('LANGUAGE')].trim() : null;
 
 
+                if (String.isEmpty(Nickname)) {
+                    hasErrors = true;
+                    system.debug('ERROR: ' + totalRecordCount + ', ' + 'Nickname, mandatory field is empty');
+
+                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'mandatory field is empty - Nickname');
+                }
                 if (String.isEmpty(FirstName)) {
                     hasErrors = true;
                     system.debug('ERROR: ' + totalRecordCount + ', ' + 'First Name, mandatory field is empty');
@@ -184,7 +190,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
                     listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'value is not correct - Gender');
                 }
-                if (String.isEmpty(State)) {
+
+                Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
+                if (statesByCountryMap.get(uploadUser.Contact.MailingCountryCode) != null && !statesByCountryMap.get(uploadUser.Contact.MailingCountryCode).isEmpty() && String.isEmpty(State)) {
                     hasErrors = true;
                     system.debug('ERROR: ' + totalRecordCount + ', ' + 'State, mandatory field is empty');
 
