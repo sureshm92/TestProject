@@ -4,16 +4,11 @@
 
 ({
     showHideProvider: function (component) {
-        console.log('1');
         var parent = component.get('v.parent');
         var showProvider = parent.get('v.showReferringProvider');
-        console.log('2');
         var pe = component.get('v.pe');
-        console.log('3');
-        console.log('4');
         communityService.executeAction(component, 'showOrHideProvider', {peId: pe.Id}, function (returnValue) {
-           console.log('after server');
-            if(showProvider){
+            if (showProvider) {
                 parent.set('v.showReferringProvider', false);
             } else {
                 parent.set('v.showReferringProvider', true);
@@ -28,7 +23,7 @@
         var parent = component.get('v.parent');
         if (sharingObject.sObjectType == 'Contact') {
             helper.showHideProvider(component);
-        } else if (sharingObject.sObjectType == 'Healthcare_Provider__c'){
+        } else if (sharingObject.sObjectType == 'Healthcare_Provider__c') {
             communityService.executeAction(component, 'inviteHP', {
                 peId: pe.Id,
                 hp: JSON.stringify(sharingObject)
@@ -37,7 +32,7 @@
                 mainComponent.set('v.healthCareProviders', returnValue);
                 parent.find('spinner').hide();
             })
-        } else{
+        } else {
             communityService.executeAction(component, 'invitePatientDelegate', {
                 participant: JSON.stringify(pe.Participant__r),
                 delegateContact: JSON.stringify(sharingObject.Contact__r),
@@ -60,8 +55,8 @@
         } else {
             params = {hpId: null, delegateId: sharingObject.Id};
         }
-            communityService.executeAction(component, 'stopSharing', params, function (returnValue) {
-                mainComponent.refresh();
-            });
+        communityService.executeAction(component, 'stopSharing', params, function (returnValue) {
+            mainComponent.refresh();
+        });
     },
 });
