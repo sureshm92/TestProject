@@ -10,13 +10,9 @@
     <apex:attribute name="delegateLevels" type="DelegateLevelWrapper[]" description=""/>
 
     <!-- component body: -->
-    <br/><br/>
     <apex:outputPanel>
         {!title}
     </apex:outputPanel>
-    <!--<apex:outputPanel rendered="{!!isPI}">
-        {!title}{!delegateLevels[0].level}
-    </apex:outputPanel>-->
     
     <apex:outputPanel>
     
