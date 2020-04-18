@@ -17,7 +17,7 @@
             component.set('v.pe', pe);
             component.set('v.rootComponent', params.rootComponent);
             if (params.callback) component.set('v.callback', params.callback);
-
+            if (params.actions) component.set('v.actions', JSON.parse(JSON.stringify(params.actions)));
             communityService.executeAction(component, 'getInitData', null, function (formData) {
                 component.set('v.formData', formData);
                 let states = formData.statesByCountryMap[pe.Participant__r.Mailing_Country_Code__c];

@@ -66,7 +66,7 @@
                 title="{!v.buttonTitle}">{!v.buttonLabel}</button>
     </div>
     <aura:if isTrue="{!v.providerFound}">
-        <div class="slds-grid slds-wrap slds-size--7-of-12 slds-large-size--1-of-1 slds-grid_vertical-align-end healthcare-form-container provider-found-section">
+        <div class="slds-grid slds-wrap slds-size--7-of-12 slds-large-size--1-of-1 slds-grid_vertical-align-start healthcare-form-container provider-found-section">
             <div class="slds-col slds-size--4-of-12 slds-large-size--4-of-12">
                 {!v.sharingObject.sObjectType == 'Patient_Delegate__c' ? $Label.c.Delegate_Found : $Label.c.HealthCare_Provider_Found}
             </div>
