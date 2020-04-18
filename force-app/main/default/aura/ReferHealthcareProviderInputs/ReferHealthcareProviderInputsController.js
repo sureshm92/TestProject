@@ -35,6 +35,7 @@
                     }
                     component.set('v.providerFound', true);
                     component.set('v.isDuplicate', returnValue.isDuplicate);
+                    component.set('v.isDuplicateDelegate', returnValue.isDuplicateDelegate);
                     if (returnValue.firstName && returnValue.lastName) {
                         component.set('v.isValid', true);
                     }
