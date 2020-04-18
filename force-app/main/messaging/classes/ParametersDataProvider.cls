@@ -96,14 +96,14 @@ public without sharing class ParametersDataProvider {
                             WHERE Participant__c IN:partIds
                             AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c IN:templates
                     ];
-                    Participant__c participant;
+                    List<Participant__c> participant = new List<Participant__c>();
                     if (!enrollments.isEmpty()) {
-                        participant = enrollments.get(0).Participant__r;
+                        participant.add(enrollments.get(0).Participant__r);
                     } else {
                         participant = [SELECT First_Name__c FROM Participant__c WHERE Id = :partIds];
                     }
 
-                    if (participant != null) parameters.put('ParticipantFirstName', participant.First_Name__c);
+                    if (!participant.isEmpty()) parameters.put('ParticipantFirstName', participant.get(0).First_Name__c);
                 }
             }
         } catch (Exception e) {

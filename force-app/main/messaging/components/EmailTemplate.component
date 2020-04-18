@@ -46,19 +46,17 @@
                 <apex:outputText value="{!userGreetingValue}" escape="false"/>
                 <apex:outputText value="{!bodyValue}" escape="false"/>
 
-                <!-- for delegates: -->
-                <c:EmailTemplateDelegate
-                        rendered="{!((isDelegate && userType != 'Participant')||hasPIRPDelegationRecords)}"
-                        userMode="{!resultUserMode}" delegateLevelsPI="{!delegateLevelsPI}"
-                        delegateLevelsHCP="{!delegateLevelsHCP}"/>
+                <div style="margin-top: 30px; margin-bottom: 30px;">
+                    <c:EmailTemplateDelegate
+                            rendered="{!((isDelegate && resultUserMode != 'Participant')||hasPIRPDelegationRecords)}"
+                            userMode="{!resultUserMode}" delegateLevelsPI="{!delegateLevelsPI}"
+                            delegateLevelsHCP="{!delegateLevelsHCP}"/>
 
-                <c:EmailTemplateDelegateParticipant userId="{!emailRecipientId}"
-                                                    rendered="{!(isDelegate && resultUserMode == 'Participant')}"
-                                                    params="{!dataParametersValue}"
-                                                    commTemplate="{!communityTemplateValue}"
-                                                    sourceId="{!sourceRecordId}"/>
-
-                <div style="margin-top: 20px; margin-bottom: 30px;">
+                    <c:EmailTemplateDelegateParticipant userId="{!emailRecipientId}"
+                                                        rendered="{!(isInitial && isDelegate && resultUserMode == 'Participant')}"
+                                                        params="{!dataParametersValue}"
+                                                        commTemplate="{!communityTemplateValue}"
+                                                        sourceId="{!sourceRecordId}"/>
                     <apex:componentBody/>
                 </div>
                 <apex:outputPanel style="display:block; margin: 25px 0" rendered="{!preSignatureValue != null}">

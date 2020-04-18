@@ -2,26 +2,29 @@
  - Created by Olga Skrynnikova on 1/30/2020.
  -->
 
-<apex:component id="EmailTemplateDelegateParticipant" controller="EmailTemplateDelegatePartController">
+<apex:component id="EmailTemplateDelegateParticipant" controller="EmailTemplateDelegatePartController" access="global">
     <!-- attributes: -->
-    <apex:attribute name="userId" type="Id" assignTo="{!delegateUserId}" description=""/>
-    <apex:attribute name="params" type="String" assignTo="{!dataParams}" description=""/>
-    <apex:attribute name="commTemplate" type="String" assignTo="{!commTemplateStr}" description=""/>
-    <apex:attribute name="sourceId" type="Id" assignTo="{!sourceIdValue}" description=""/>
+    <apex:attribute name="userId" type="Id" assignTo="{!delegateUserId}" description="" access="global"/>
+    <apex:attribute name="params" type="String" assignTo="{!dataParams}" description="" access="global"/>
+    <apex:attribute name="commTemplate" type="String" assignTo="{!commTemplateStr}" description="" access="global"/>
+    <apex:attribute name="sourceId" type="Id" assignTo="{!sourceIdValue}" description="" access="global"/>
 
     <apex:outputPanel rendered="{!delegateStudyNames.size > 0}">
-        <br/><br/>
-        <table style="width: 100%;table-layout: fixed; border-collapse: collapse;">
-            <apex:repeat value="{!delegateStudyNames}" var="studyName">
-                <tr style="font-size: 16px; color: #424242; ">
-                    <td style="font-weight: bold;border-bottom: 0.5px solid #979797;border-top: 0.5px solid #979797; width: 80%;padding: 10px 0 10px 0">
-                        {!studyName}
-                    </td>
-                </tr>
-            </apex:repeat>
-        </table>
-        <br/>
-        <apex:outputText value="{!afterText}" escape="false"/>
+        <div style="margin-bottom: 15px">
+            <table style="width: 100%;table-layout: fixed; border-collapse: collapse;">
+                <apex:repeat value="{!delegateStudyNames}" var="studyName">
+                    <tr style="font-size: 16px; color: #424242; ">
+                        <td style="font-weight: bold;border-bottom: 0.5px solid #979797;border-top: 0.5px solid #979797; width: 80%;padding: 10px 0 10px 0">
+                            {!studyName}
+                        </td>
+                    </tr>
+                </apex:repeat>
+            </table>
+            <br/>
+            <apex:outputPanel rendered="{!afterText != ''}">
+                <apex:outputText value="{!afterText}" escape="false"/>
+                <div style="margin-bottom: 40px"></div>
+            </apex:outputPanel>
+        </div>
     </apex:outputPanel>
-    <br/><br/>
 </apex:component>
