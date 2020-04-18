@@ -268,7 +268,7 @@
                         <!-- Healthcare Provider information: -->
                         <div class="ap-section">
                             <div class="ap-section-title">{!$Label.c.BTN_HealthCare_Provider_Information}</div>
-                            <c:ReferHealthcareProvider pe="{!v.pe}" refProvider="{!v.pe.HCP__r.HCP_Contact__r}" fromActionParticipant="false" fromEmancipParticipant="true"/>
+                            <c:ReferHealthcareProvider pe="{!v.pe}" refProvider="{#v.pe.HCP__r.HCP_Contact__r}" fromActionParticipant="false" fromEmancipParticipant="true"/>
                         </div>
                     </div>
                 </aura:if>
