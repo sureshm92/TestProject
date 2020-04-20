@@ -138,6 +138,11 @@
                 <default>false</default>
                 <label>Screening In Progress - Wash Out Period</label>
             </value>
+            <value>
+                <fullName>Ready to Screen</fullName>
+                <default>false</default>
+                <label>Ready to Screen</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
