@@ -213,6 +213,14 @@ public without sharing class PatientDelegateService {
         insert alertList;
     }
 
+    public static void changeStatus(Id contactId, String newStatus) {
+        List<Patient_Delegate__c> patientDelegate = [SELECT Id, Status__c FROM Patient_Delegate__c WHERE Contact__c = :contactId];
+        if(!patientDelegate.isEmpty()) {
+            patientDelegate.get(0).Status__c = newStatus;
+            update patientDelegate;
+        }
+    }
+
     public void resetDelegate(Id contactId, Boolean removeHimself) {
         Id ownerContactId = ParticipantContext.getCurrentParticipant().Contact__c;
         String filter = DatabaseService.fieldEqual('Contact__c', contactId) + 'AND'
