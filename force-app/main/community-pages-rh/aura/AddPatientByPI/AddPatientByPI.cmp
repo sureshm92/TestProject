@@ -39,7 +39,6 @@
                                         pe="{!v.pe}"
                                         formData="{!v.formData}"
                                         isValid="{!v.isValid}"
-                                        visitPlanRequired="{!v.ctp.Patient_Portal_Enabled__c}"
                                         createUsers="{!v.createUsers}"/>
             </div>
             <div class="ap-bottom-info">
