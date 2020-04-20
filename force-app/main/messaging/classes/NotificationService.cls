@@ -20,7 +20,9 @@ public without sharing class NotificationService {
             NotificationCatalog.MESSAGE_TO_PT_SOURCE_ERP_TYPE,
             NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE,
             NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_TYPE,
-            NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_GSK_TYPE
+            NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_GSK_TYPE,
+            NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_TYPE,
+            NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE
     };
 
     static public String NOTIFICATION_STATUS_PENDING = 'Pending';

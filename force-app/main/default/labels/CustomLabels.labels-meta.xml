@@ -2354,6 +2354,13 @@
             Please login to the ##ShortCommunityName to check your clinical research trial matches at any time.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Participant_Delegate_Reactivated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Participant Delegate Reactivated</shortDescription>
+        <value>Your access as a participant delegate has changed for one or more studies that are listed below</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Participant_Import_Completed</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3382,6 +3389,15 @@
             Sincerely,
 
             ##SignatureShortCommunityName</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_New_FullName</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature New FullName</shortDescription>
+        <value>Sincerely,
+
+##SignatureFullCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_New_Short</fullName>
@@ -11127,13 +11143,6 @@
         <protected>true</protected>
         <shortDescription>PWS_Contact_Outcome_Placeholder</shortDescription>
         <value>Ready to Contact</value>
-    </labels>
-    <labels>
-        <fullName>PWS_Contact_Outcome_Screening</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PWS_Contact_Outcome_Placeholder</shortDescription>
-        <value>Ready to Screen</value>
     </labels>
     <labels>
         <fullName>PWS_Eligibility_Card_Name</fullName>
