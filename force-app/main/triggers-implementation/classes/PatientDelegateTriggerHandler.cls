@@ -40,6 +40,12 @@ public without sharing class PatientDelegateTriggerHandler {
         }
     }
 
+    public class CreateReactivatedNotification extends TriggerHandler {
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            createDelegateReactivatedNotification(newList, (Map<Id, Patient_Delegate__c>) oldMap);
+        }
+    }
+
     // Logic: ----------------------------------------------------------------------------------------------------------
     @TestVisible
     private static void setDefaultPatientStatus(List<Patient_Delegate__c> newList) {
@@ -63,10 +69,37 @@ public without sharing class PatientDelegateTriggerHandler {
                 FROM Patient_Delegate__c
                 WHERE Id IN:patientDelegates
         ];
+        createNotifications(newPatientDelegates, 'DelNewAssignNotifType');
+    }
 
+    @TestVisible
+    private static void createDelegateReactivatedNotification(
+            List<Patient_Delegate__c> patientDelegates,
+            Map<Id, Patient_Delegate__c> oldMap
+    ) {
+        List<Patient_Delegate__c> updatedDelegates = [
+                SELECT Contact__c,
+                        Participant__c,
+                        Participant__r.Contact__c,
+                        Status__c
+                FROM Patient_Delegate__c
+                WHERE Id IN:patientDelegates
+        ];
+
+        List<Patient_Delegate__c> activatedDelegates = new List<Patient_Delegate__c>();
+        for (Patient_Delegate__c pd : updatedDelegates) {
+            if(pd.Status__c == PATIENT_DELEGATE_ACTIVE_STATUS && oldMap.get(pd.Id).Status__c != PATIENT_DELEGATE_ACTIVE_STATUS) {
+                activatedDelegates.add(pd);
+            }
+        }
+
+        createNotifications(activatedDelegates, 'DelReactivatedNotifType');
+    }
+
+    private static void createNotifications(List<Patient_Delegate__c> patientDelegates, String templateProperty) {
         Set<Id> participantContacts = new Set<Id>();
         Map<Id, List<Participant__c>> participantsByDelContId = new Map<Id, List<Participant__c>>();
-        for (Patient_Delegate__c delegate : newPatientDelegates) {
+        for (Patient_Delegate__c delegate : patientDelegates) {
             if(!participantsByDelContId.containsKey(delegate.Contact__c)) {
                 participantsByDelContId.put(delegate.Contact__c, new List<Participant__c>());
             }
@@ -99,7 +132,7 @@ public without sharing class PatientDelegateTriggerHandler {
                 for(String partPerm : permissionsByContact.get(participant.Contact__c)) {
                     if(delPermissions.contains(partPerm)) {
                         notifications.add(new Notification__c(
-                                Notification_Type__c = CommunityTemplateService.getTemplateByPermissionSetName(partPerm).properties.get('DelNewAssignNotifType'),
+                                Notification_Type__c = CommunityTemplateService.getTemplateByPermissionSetName(partPerm).properties.get(templateProperty),
                                 Recipient__c = delCont,
                                 WhatId__c = participant.Id
                         ));
