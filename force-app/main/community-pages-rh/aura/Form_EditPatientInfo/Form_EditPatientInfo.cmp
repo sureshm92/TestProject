@@ -22,6 +22,7 @@
     <aura:attribute name="isInvited" type="Boolean" access="public"/>
     <aura:attribute name="userInfo" type="Object"/>
     <aura:attribute name="userLanguage" type="String"/>
+    <aura:attribute name="createUsers" type="Boolean" default="false"/>
 
     <!-- private attributes: -->
     <aura:attribute name="screeningRequired" type="Boolean" default="false" access="private"/>
@@ -251,6 +252,13 @@
                         <c:rrSelect options="{!v.formData.visitPlansLVList}" disabled="{!v.visitPlanDisabled || v.formData.visitPlansLVList.length == 1}"
                                     value="{!v.pe.Visit_Plan__c}" placeholder="{!$Label.c.PG_AC_Select}" required="{!v.screeningRequired}"
                                     useSentenceFont="false" onchange="{!c.doCheckFields}" setValueAsSelected="true"/>
+                    </div>
+                </aura:if>
+
+                <aura:if isTrue="{!v.fromAddParticipantPage}">
+                    <div class="slds-col slds-size--7-of-12 slds-grid slds-grid--vertical-align-center" style="margin-top: 30px;">
+                        <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.createUsers}"/>
+                        <div class="slds-size--10-of-12">{!$Label.c.Create_Users_Checkbox}</div>
                     </div>
                 </aura:if>
             </div>
