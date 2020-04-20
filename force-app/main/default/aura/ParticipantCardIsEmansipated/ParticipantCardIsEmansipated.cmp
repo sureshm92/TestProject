@@ -8,6 +8,8 @@
     <aura:attribute name="pe" type="Object" access="public"/>
     <aura:attribute name="parent" type="Aura.Component" access="public"/>
     <aura:attribute name="userMode" type="String" access="public"/>
+    <aura:attribute name="actions" type="Object"/>
+
 
     <!-- component body:-->
     <aura:if isTrue="{!v.pe.Participant__r.Emancipation_in_progress__c &amp;&amp; v.userMode == 'PI'}">

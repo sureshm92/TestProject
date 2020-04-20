@@ -7,26 +7,28 @@ global without sharing class EmailTemplateDelegatePartController {
     global String delegateUserId { get; set; }
     global String dataParams { get; set; }
     global String commTemplateStr { get; set; }
+    global Id sourceIdValue { get; set; }
 
     public List<String> getDelegateStudyNames() {
-        Id delConId = [SELECT Id, Contact.Id FROM User WHERE Id = :delegateUserId].Contact.Id;
-        List<Id> partIds = PatientDelegateService.getDelegatedParticipantIds(delConId);
-        if (partIds == null || partIds.isEmpty()) {
-            return new List<String>();
+        List<Id> participantIds = new List<Id>();
+        if(sourceIdValue != null && sourceIdValue.getSobjectType() == Participant__c.getSObjectType()) {
+            participantIds.add(sourceIdValue);
+        } else {
+            Id delConId = delegateUserId;
+            if(Id.valueOf(delegateUserId).getSobjectType() == User.getSObjectType()) {
+                delConId = [SELECT ContactId FROM User WHERE Id = :delegateUserId].ContactId;
+            }
+            List<Id> delegatedParticipantIds = PatientDelegateService.getDelegatedParticipantIds(delConId);
+            if (delegatedParticipantIds != null) participantIds.addAll(delegatedParticipantIds);
         }
-        List<Participant__c> participants = [SELECT Id, Contact__c FROM Participant__c WHERE Id IN: partIds];
-
-        List<Id> partConIds = new List<Id>();
-        for (Participant__c p: participants) partConIds.add(p.Contact__c);
 
         List<String> delegateStudyNames = new List<String>();
+        if (participantIds.isEmpty()) return delegateStudyNames;
 
         List<Participant_Enrollment__c> delegatePE = [
-                SELECT Id, Clinical_Trial_Profile__r.Study_Code_Name__c,
-                        Clinical_Trial_Profile__r.CommunityTemplate__c,
-                        Participant_Contact__c
+                SELECT  Clinical_Trial_Profile__r.Study_Code_Name__c
                 FROM Participant_Enrollment__c
-                WHERE Participant_Contact__c =:partConIds
+                WHERE Participant__c IN:participantIds
                 AND Clinical_Trial_Profile__r.CommunityTemplate__c = :commTemplateStr
         ];
         for (Participant_Enrollment__c pe : delegatePE) delegateStudyNames.add(pe.Clinical_Trial_Profile__r.Study_Code_Name__c);
@@ -35,8 +37,8 @@ global without sharing class EmailTemplateDelegatePartController {
     }
 
     global String getAfterText() {
+        if(Id.valueOf(delegateUserId).getSobjectType() != User.getSObjectType()) return '';
         Map<String, String> paramsMap = (Map<String, String>) JSON.deserialize(dataParams, Map<String, String>.class);
         return TranslateHelper.replaceParams(Label.Email_Body_Initial_Patient_Delegate_AfterText, EmailTemplateController.PARAM_PREFIX, paramsMap);
     }
 }
-

@@ -34,64 +34,80 @@ public without sharing class ParametersDataProvider {
         this.parametersProviderName = parametersProviderName;
         this.communityTemplateName = communityTemplateName;
         parameters = new Map<String, String>();
-        updateRecipientName();
-        if (sourceId != null) {
-            if (parametersProviderName == null) {
-                if (sourceId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
-                    initParamsFromPE(sourceId);
-                } else if (sourceId.getSobjectType() == HCP_Enrollment__c.getSObjectType()) {
-                    initParamsFromHCPE(sourceId);
-                } else if (sourceId.getSobjectType() == Study_Site__c.getSObjectType()) {
-                    initParamsFromSS(sourceId);
-                } else if (sourceId.getSobjectType() == Contact.getSObjectType()) {
-                    initParamsFromContact(sourceId);
-                } else if (sourceId.getSobjectType() == User.getSObjectType()) {
-                    initParamsFromUser(sourceId);
-                } else if (sourceId.getSobjectType() == Task.getSObjectType()) {
-                    initParamsFromTask(sourceId);
+
+        try {
+            updateRecipientName();
+            if (sourceId != null) {
+                if (parametersProviderName == null) {
+                    if (sourceId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
+                        initParamsFromPE(sourceId);
+                    } else if (sourceId.getSobjectType() == HCP_Enrollment__c.getSObjectType()) {
+                        initParamsFromHCPE(sourceId);
+                    } else if (sourceId.getSobjectType() == Study_Site__c.getSObjectType()) {
+                        initParamsFromSS(sourceId);
+                    } else if (sourceId.getSobjectType() == Contact.getSObjectType()) {
+                        initParamsFromContact(sourceId);
+                    } else if (sourceId.getSobjectType() == User.getSObjectType()) {
+                        initParamsFromUser(sourceId);
+                    } else if (sourceId.getSobjectType() == Task.getSObjectType()) {
+                        initParamsFromTask(sourceId);
+                    }
+                } else {
+                    Parameters_Provider__mdt pp = CatalogParametersHelper.getParametersProviderMetadata(parametersProviderName);
+                    parameters = CatalogParametersHelper.getParamsValueMap(sourceId, pp, recipientLanguage);
                 }
             } else {
-                Parameters_Provider__mdt pp = CatalogParametersHelper.getParametersProviderMetadata(parametersProviderName);
-                parameters = CatalogParametersHelper.getParamsValueMap(sourceId, pp, recipientLanguage);
+                initDummyParams();
             }
-        } else {
-            initDummyParams();
-        }
 
-        String clinicalResearchCommunityURL = 'IQVIA Clinical Research Community at https://www.clinicalresearch.com';
-        Id networkId = Network.getNetworkId();
-        Auth.AuthConfiguration authConfig = new Auth.AuthConfiguration(networkId, '');
-        String clinicalResearchCommunityForgotPasswordURL = 'IQVIA Clinical Research Community Forgot password at' + authConfig.getForgotPasswordUrl();
-        if (outputMode == 'HTML') {
-            clinicalResearchCommunityURL = '<a href="https://www.clinicalresearch.com" target="_blank">IQVIA Clinical Research Community</a>';
-            clinicalResearchCommunityForgotPasswordURL = authConfig.getForgotPasswordUrl();
-        }
-        parameters.put('CRCommunityURL', clinicalResearchCommunityURL);
-        parameters.put('RecipientName', getUserName());
-        parameters.put('RecipientFirstName', recipientFirstName);
-        parameters.put('ForgotPasswordURL', clinicalResearchCommunityForgotPasswordURL);
-
-        if (isDelegate && userMode == CommunityService.USER_MODE_PARTICIPANT) {
-            List<Id> conIds = new List<Id>{recipientContactId};
-            List<String> templates = new List<String>{communityTemplateName};
-            if(communityTemplateName == CommunityTemplateService.TEMPLATE_DEFAULT) templates.add(null);
-            Map<Id, List<Id>> delegatedParticipantIdsMap = PatientDelegateService.getDelegatedParticipantIdsMap(conIds);
-            List<Participant_Enrollment__c> listPe = new List<Participant_Enrollment__c>();
-            List<Id> partIds = delegatedParticipantIdsMap.get(recipientContactId);
-            listPe = [
-                    SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
-                            Participant__r.Full_Name__c,
-                            Participant__r.First_Name__c,
-                            Participant__r.Contact__c
-                    FROM Participant_Enrollment__c
-                    WHERE Participant__c IN: partIds
-                    AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c IN: templates
-            ];
-            Participant_Enrollment__c pe;
-            if(listPe.size() > 0) pe = listPe[0];
-            if (pe != null) {
-                parameters.put('ParticipantFirstName', pe.Participant__r.First_Name__c);
+            String clinicalResearchCommunityURL = 'IQVIA Clinical Research Community at https://www.clinicalresearch.com';
+            Id networkId = Network.getNetworkId();
+            Auth.AuthConfiguration authConfig = new Auth.AuthConfiguration(networkId, '');
+            String clinicalResearchCommunityForgotPasswordURL = 'IQVIA Clinical Research Community Forgot password at' + authConfig.getForgotPasswordUrl();
+            if (outputMode == 'HTML') {
+                clinicalResearchCommunityURL = '<a href="https://www.clinicalresearch.com" target="_blank">IQVIA Clinical Research Community</a>';
+                clinicalResearchCommunityForgotPasswordURL = authConfig.getForgotPasswordUrl();
             }
+            parameters.put('CRCommunityURL', clinicalResearchCommunityURL);
+            parameters.put('RecipientName', getUserName());
+            parameters.put('RecipientFirstName', recipientFirstName);
+            parameters.put('ForgotPasswordURL', clinicalResearchCommunityForgotPasswordURL);
+
+            if (isDelegate && userMode == CommunityService.USER_MODE_PARTICIPANT) {
+                parameters.put('UserName', getCommunityUserName(recipientContactId));
+
+                if (!parameters.containsKey('ParticipantFirstName')) {
+                    List<Id> conIds = new List<Id>{
+                            recipientContactId
+                    };
+                    List<String> templates = new List<String>{
+                            communityTemplateName
+                    };
+                    if (communityTemplateName == CommunityTemplateService.TEMPLATE_DEFAULT) templates.add(null);
+                    Map<Id, List<Id>> delegatedParticipantIdsMap = PatientDelegateService.getDelegatedParticipantIdsMap(conIds);
+                    List<Id> partIds = delegatedParticipantIdsMap.get(recipientContactId);
+
+                    List<Participant_Enrollment__c> enrollments = [
+                            SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                                    Participant__r.Full_Name__c,
+                                    Participant__r.First_Name__c,
+                                    Participant__r.Contact__c
+                            FROM Participant_Enrollment__c
+                            WHERE Participant__c IN:partIds
+                            AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c IN:templates
+                    ];
+                    List<Participant__c> participant = new List<Participant__c>();
+                    if (!enrollments.isEmpty()) {
+                        participant.add(enrollments.get(0).Participant__r);
+                    } else {
+                        participant = [SELECT First_Name__c FROM Participant__c WHERE Id = :partIds];
+                    }
+
+                    if (!participant.isEmpty()) parameters.put('ParticipantFirstName', participant.get(0).First_Name__c);
+                }
+            }
+        } catch (Exception e) {
+            throw new CommunityServiceException(e.getMessage() + '\n' + e.getStackTraceString());
         }
         System.debug('Parameters: ' + JSON.serializePretty(parameters));
     }

@@ -4,7 +4,8 @@
     <protected>false</protected>
     <values>
         <field>Parameters__c</field>
-        <value xsi:type="xsd:string">PatientFirstName = First_Name__c</value>
+        <value xsi:type="xsd:string">PatientFirstName = First_Name__c
+ParticipantFirstName = First_Name__c</value>
     </values>
     <values>
         <field>Source_Object_Type__c</field>

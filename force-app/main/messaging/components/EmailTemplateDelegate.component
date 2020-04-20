@@ -17,7 +17,5 @@
     <c:EmailTemplateDelegateTable rendered="{!delegateLevelsHCP.size > 0}"
                                   title="{!$Label.Email_Delegate_HCP_Levels_Title}"
                                   delegateLevels="{!delegateLevelsHCP}"
-                                  isPI="false"
-                                  />
-
+                                  isPI="false"/>
 </apex:component>

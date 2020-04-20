@@ -28,8 +28,9 @@
     <aura:attribute name="screeningRequired" type="Boolean" default="false" access="private"/>
     <aura:attribute name="todayDate" type="Date" access="private"/>
     <aura:attribute name="statesLVList" type="LabelValueItem[]" access="private"/>
-    <aura:attribute name="dataStamp" type="String"/>
-    <aura:attribute name="visitPlanDisabled" type="Boolean"/>
+    <aura:attribute name="dataStamp" type="String" access="private"/>
+    <aura:attribute name="visitPlanDisabled" type="Boolean" access="private"/>
+
 
 
     <!-- methods: -->
@@ -248,9 +249,9 @@
                                 <abbr title="required" class="slds-required">*</abbr>
                             </aura:if>{!$Label.c.FD_PE_Field_Arm_Cohort}
                         </div>
-                        <c:rrSelect options="{!v.formData.visitPlansLVList}" disabled="{!v.visitPlanDisabled}"
+                        <c:rrSelect options="{!v.formData.visitPlansLVList}" disabled="{!v.visitPlanDisabled || v.formData.visitPlansLVList.length == 1}"
                                     value="{!v.pe.Visit_Plan__c}" placeholder="{!$Label.c.PG_AC_Select}" required="{!v.screeningRequired}"
-                                    useSentenceFont="false" onchange="{!c.doCheckFields}"/>
+                                    useSentenceFont="false" onchange="{!c.doCheckFields}" setValueAsSelected="true"/>
                     </div>
                 </aura:if>
 

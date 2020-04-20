@@ -8,7 +8,7 @@ public without sharing class EmailService {
 
     public static final String COMMUNITY_ORG_WIDE_ADDRESS_REFERRAL = 'IQVIA Referral Hub';
     public static final String COMMUNITY_ORG_WIDE_ADDRESS_PATIENT = 'IQVIA Patient Portal';
-    public static final String COMMUNITY_ORG_WIDE_ADDRESS_GSK_PATIENT = 'GatherSHAREKnow Participant Hub';
+    public static final String COMMUNITY_ORG_WIDE_ADDRESS_GSK_PATIENT = 'Gather Share Know Participant Hub';
     public static final String COMMUNITY_ORG_WIDE_ADDRESS_ST_SPECIFIC = 'Study Specific';
 
     private static final Map<String, Id> templateNameIdMap = new Map<String, Id>();
@@ -81,6 +81,7 @@ public without sharing class EmailService {
 
     public static void sendEmail(String emailTemplate, Id recipientId, Id whatId) {
         Messaging.SingleEmailMessage sem = createEmail(getEmailTemplateId(emailTemplate), recipientId, whatId, null);
+        System.debug('>>'+JSON.serializePretty(sem));
         for (Messaging.SendEmailResult result : Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{
                 sem
         }, false)) {

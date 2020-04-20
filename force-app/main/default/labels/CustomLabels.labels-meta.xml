@@ -515,6 +515,13 @@
         <value>Add Delegate</value>
     </labels>
     <labels>
+        <fullName>Add_Patient_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add Patient Delegate</shortDescription>
+        <value>Add Patient Delegate</value>
+    </labels>
+    <labels>
         <fullName>Admin</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1868,18 +1875,18 @@
         <value>Delegate</value>
     </labels>
     <labels>
-        <fullName>Delegates</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Delegates</shortDescription>
-        <value>Delegates</value>
-    </labels>
-    <labels>
         <fullName>Delegate_Found</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Delegate Found</shortDescription>
         <value>Participant Delegate Found!</value>
+    </labels>
+    <labels>
+        <fullName>Delegates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Delegates</shortDescription>
+        <value>Delegates</value>
     </labels>
     <labels>
         <fullName>Diastolic</fullName>
@@ -2281,7 +2288,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body PI1</shortDescription>
-        <value>A new clinical research study has been added to your account on the IQVIA Referral Hub:  ##StudyTitle
+        <value>A new clinical research study has been added to your account on the IQVIA Referral Hub:  ##StudyName
 
             Please take a moment to log into the IQVIA Referral Hub to review and accept the study.</value>
     </labels>
@@ -3583,6 +3590,20 @@
         <value>You have been referred to a clinical research study.</value>
     </labels>
     <labels>
+        <fullName>Email_Subject_Login_GSK</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject Login GSK</shortDescription>
+        <value>Please Log in in the Gather Share Know Participant Hub</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Login_RHPP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject Login RHPP</shortDescription>
+        <value>Please Log in in the IQVIA Referral Hub and Patient Portal</value>
+    </labels>
+    <labels>
         <fullName>Email_Subject_Medication_Task_Reminder</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4304,7 +4325,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HT 03 B PI RP</shortDescription>
-        <value>Please go to My Team -> Add New Team Member -> Enter information -> Assign "Permissions by Level." If you want a study team member to handle referrals on your behalf, we recommend that you assign level 1 permissions to that team member.</value>
+        <value>Please go to My Team -&gt; Add New Team Member -&gt; Enter information -&gt; Assign &quot;Permissions by Level.&quot; If you want a study team member to handle referrals on your behalf, we recommend that you assign level 1 permissions to that team member.</value>
     </labels>
     <labels>
         <fullName>HT_03_B_Patient</fullName>

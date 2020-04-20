@@ -100,7 +100,8 @@ public without sharing class PatientDelegateService {
                         'Contact__r.HCP_Opt_In_Referral_Status_Emails__c',
                         'Contact__r.Resource_Notifications__c',
                         'Contact__r.userCommunityMode__c',
-                        'Contact__r.Next_Notify_Date__c'
+                        'Contact__r.Next_Notify_Date__c',
+                        'Status__c'
                 },
                 Patient_Delegate__c.getSObjectType(),
                 DatabaseService.fieldEqual('Participant__r.Contact__c', participantContactId)
@@ -243,14 +244,6 @@ public without sharing class PatientDelegateService {
                     ConversationService.removeConversationSharesForUser(CollectionUtil.getObjectIds(patientConversations), delegateUserId);
                 }
             }
-        }
-
-        List<Patient_Delegate__c> patientDelegate = [SELECT Id FROM Patient_Delegate__c WHERE Contact__c = :contactId];
-        List<Participant__c> participants = [SELECT Id FROM Participant__c WHERE Contact__c = :contactId];
-        if (patientDelegate.isEmpty() && participants.isEmpty()) {
-            CommunityService.deactivateUsers(new List<Id>{
-                    contactId
-            });
         }
     }
 
@@ -491,8 +484,7 @@ public without sharing class PatientDelegateService {
 
         for (Id contactId : contactIds) {
             Set<String> communityPermissionSets = CommunityTemplateService.getAllPermissionSets();
-            //reset permissions
-            actionAssignContactPermissions.deletePermissions(contactId, communityPermissionSets);
+
             //assign own permission sets:
             Id ownParticipantId = participantIdByContactIdMap.get(contactId);
             Set<String> ownPermissions;

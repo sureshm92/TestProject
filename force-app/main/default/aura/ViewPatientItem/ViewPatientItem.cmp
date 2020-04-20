@@ -32,7 +32,7 @@
         </aura:if>
         <aura:if isTrue="{!!empty(v.pe)}">
             <c:ParticipantCardHeader userMode="{!v.userMode}" pe="{!v.pe}" isReferral="false" isInvited="{!v.isInvited}"/>
-            <c:ParticipantCardIsEmansipated pe="{!v.pe}" parent="{!v.parent}" userMode="{!v.userMode}"/>
+            <c:ParticipantCardIsEmansipated pe="{!v.pe}" parent="{!v.parent}" userMode="{!v.userMode}" actions="{!v.actions}"/>
             <c:ParticipantCardFields userMode="{!v.userMode}" isInvited="{!v.isInvited}" pe="{!v.pe}" showParticipationSteps="false"/>
             <aura:if isTrue="{!(v.userMode == 'Participant' || (v.showPath &amp;&amp; v.userMode == 'PI') || (v.userMode == 'HCP' &amp;&amp; v.pe.Show_Referring_Provider__c == true &amp;&amp; v.showPath &amp;&amp;
             (v.userContactId == v.pe.HCP__r.HCP_Contact__r.Id)) || (v.userMode == 'HCP') &amp;&amp; v.userContactId != v.pe.HCP__r.HCP_Contact__r.Id)}">
