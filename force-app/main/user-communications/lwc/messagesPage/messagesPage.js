@@ -97,7 +97,7 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
     }
 
     get disclaimerLessClass() {
-        return 'ms-disc-mob-label ' + (!this.showFullDisclaimer ? 'visible' : 'hide');
+        return 'ms-disc-mob-label ' + (this.showFullDisclaimer ? 'hide' : 'visible');
     }
 
     get leftPartClass() {
@@ -247,7 +247,9 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
         if (this.userMode === 'PI') {
             return !(this.conversationWrappers.length === 1 && this.enrollments.length === 1);
         }
-        return this.getFreeEnrollments().length !== 0;
+
+        let freeEnrollments = this.getFreeEnrollments();
+        return (freeEnrollments && freeEnrollments.length !== 0);
     }
 
     closeCreationMode() {
