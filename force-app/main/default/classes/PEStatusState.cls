@@ -231,19 +231,20 @@ public without sharing class PEStatusState {
     public static final List<String> PE_STATUS_GROUP_PARTICIPANT_IMPORT = new List<String>{
             PE_STATUS_RECEIVED,
             PE_STATUS_SUCCESSFULLY_CONTACTED,
+            PE_STATUS_ENROLLMENT_OLD,
             PE_STATUS_SCREENING_PASSED,
             PE_STATUS_RANDOMIZATION_SUCCESS,
-            PE_STATUS_ENROLLMENT_SUCCESS,
-            PE_STATUS_ENROLLMENT_OLD
+            PE_STATUS_ENROLLMENT_SUCCESS
+
     };
 
     public static final List<String> PE_STATUS_GROUP_ADD_PATIENT_BY_PI = new List<String>{
             PE_STATUS_RECEIVED,
             PE_STATUS_SUCCESSFULLY_CONTACTED,
+            PE_STATUS_ENROLLMENT_OLD,
             PE_STATUS_SCREENING_PASSED,
             PE_STATUS_RANDOMIZATION_SUCCESS,
-            PE_STATUS_ENROLLMENT_SUCCESS,
-            PE_STATUS_ENROLLMENT_OLD
+            PE_STATUS_ENROLLMENT_SUCCESS
     };
 
     public static final List<String> PE_STATUS_GROUP_PI_VISIBLE;
@@ -465,7 +466,7 @@ public without sharing class PEStatusState {
 
     public static List<String> getParticipantImportStatuses(Clinical_Trial_Profile__c ctp){
         List<String> statuses = ParticipantWorkflowService.filterStatusesForCTPSettings(PE_STATUS_GROUP_PARTICIPANT_IMPORT, ctp);
-        statuses.add(PE_STATUS_ENROLLMENT_OLD);
+        statuses.add(2, PE_STATUS_ENROLLMENT_OLD);
         return  statuses;
     }
 
@@ -478,7 +479,7 @@ public without sharing class PEStatusState {
 
     public static List<String> getAddPatientByPIStatuses(Clinical_Trial_Profile__c ctp){
         List<String> statuses = ParticipantWorkflowService.filterStatusesForCTPSettings(PE_STATUS_GROUP_ADD_PATIENT_BY_PI, ctp);
-        statuses.add(PE_STATUS_ENROLLMENT_OLD);
+        statuses.add(2, PE_STATUS_ENROLLMENT_OLD);
         return  statuses;
     }
 
