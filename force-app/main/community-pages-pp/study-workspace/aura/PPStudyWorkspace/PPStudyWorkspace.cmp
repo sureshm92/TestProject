@@ -148,9 +148,11 @@
                     </div>
 
                     <div class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-visits', '', ' collapsed')}">
-                        <button id="changeVisitMode" data-visit-mode="VisitDetails"
-                                class="{!'apollo-btn text ' + if(v.visitMode == 'VisitDetails', ' current', '')}"
-                                onclick="{!c.doAction}">{!$Label.c.Home_Page_StudyVisit_Tab_Study_Visits}</button>
+                        <aura:if isTrue="{!v.studyDetail.showVisits}">
+                            <button id="changeVisitMode" data-visit-mode="VisitDetails"
+                                    class="{!'apollo-btn text ' + if(v.visitMode == 'VisitDetails', ' current', '')}"
+                                    onclick="{!c.doAction}">{!$Label.c.Home_Page_StudyVisit_Tab_Study_Visits}</button>
+                        </aura:if>
                         <aura:if isTrue="{!v.studyDetail.trial.Travel_Vendor_Is_Available__c}">
                             <button id="changeVisitMode" data-visit-mode="TravelSupportDetails"
                                     class="{!'apollo-btn text ' + if(v.visitMode == 'TravelSupportDetails', ' current', '')}"
