@@ -1,0 +1,9 @@
+{
+  "appPageId" : "3c52dbfd-6fc5-447c-9869-3b0d58d04ec1",
+  "id" : "ee8ad290-1f14-42d7-a82a-59f4a23ed9c2",
+  "label" : "Referral Profile",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-referral-profile",
+  "type" : "route",
+  "urlPrefix" : "referral-profile"
+}

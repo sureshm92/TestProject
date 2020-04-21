@@ -1,0 +1,38 @@
+{
+  "appPageId" : "3c52dbfd-6fc5-447c-9869-3b0d58d04ec1",
+  "componentName" : "c:OneColumnLayout",
+  "id" : "834c6de2-d74a-4ae3-9c35-707d6d690b0b",
+  "label" : "My Patients",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ViewPatients",
+      "id" : "febd281b-cf81-47af-bc4a-8cb24459b9cc",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "fedd2d74-024e-4f33-a337-9cb117fbe33e",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "My Patients"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "2fa1424c-dc3c-4a8d-82a5-05089a25f024",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "0a5afd62-5632-4f46-90c8-026937c770a2",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-my-patients"
+}

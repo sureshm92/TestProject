@@ -1,0 +1,9 @@
+{
+  "appPageId" : "3c52dbfd-6fc5-447c-9869-3b0d58d04ec1",
+  "id" : "faee6da5-baf6-4619-b993-c0d8c66f68af",
+  "label" : "Terms And Conditions",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-terms-and-conditions",
+  "type" : "route",
+  "urlPrefix" : "terms-and-conditions"
+}

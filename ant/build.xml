@@ -288,13 +288,13 @@
             <remove path="/:Profile/:applicationVisibilities[:application[text()='Developer']]"/>
         </xmltask>
         <echo message="Profiles filtered" level="info"/>
-        <xmltask todir="${source.dir}/translations" encoding="UTF-8">
-            <fileset dir="${source.dir}/translations"/>
-            <remove path="/:Translations/:customApplications"/>
-            <remove path="/:Translations/:customTabs"/>
-            <remove path="/:Translations/:flowDefinitions"/>
-            <remove path="/:Translations/:quickActions"/>
-        </xmltask>
+<!--        <xmltask todir="${source.dir}/translations" encoding="UTF-8">-->
+<!--            <fileset dir="${source.dir}/translations"/>-->
+<!--            <remove path="/:Translations/:customApplications"/>-->
+<!--            <remove path="/:Translations/:customTabs"/>-->
+<!--            <remove path="/:Translations/:flowDefinitions"/>-->
+<!--            <remove path="/:Translations/:quickActions"/>-->
+<!--        </xmltask>-->
         <echo message="Translations filtered" level="info"/>
         <!-- temporary fix for deployment of Contact (remove Master record type from metadata): -->
         <xmltask source="${source.dir}/objects/Contact.object" dest="${source.dir}/objects/Contact.object" encoding="UTF-8">

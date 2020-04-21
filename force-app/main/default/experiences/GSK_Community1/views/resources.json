@@ -1,0 +1,38 @@
+{
+  "appPageId" : "3c52dbfd-6fc5-447c-9869-3b0d58d04ec1",
+  "componentName" : "c:EmptyLayout",
+  "id" : "d8e5c30b-5e4c-41cc-b4af-543b480d46e0",
+  "label" : "Resources",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ResourcesDetailContainer",
+      "id" : "fd3e6b5a-1f77-49ee-904b-7b952ee61724",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "d22a9565-0d9a-43d5-b43d-81b3fe53fea4",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Resources"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "e77a2663-36ab-4b7d-a31a-7eba336c084f",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "f81904c4-ad2f-4290-9190-225338428a92",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "AYNjT39ghjX3MDkQw3uWokg8baWVCf",
+  "type" : "view",
+  "viewType" : "custom-resources"
+}

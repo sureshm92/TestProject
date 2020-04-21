@@ -1,0 +1,53 @@
+{
+  "appPageId" : "3c52dbfd-6fc5-447c-9869-3b0d58d04ec1",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "46706514-ce35-44da-ba42-ce20a73f272a",
+  "label" : "Error",
+  "regions" : [ {
+    "id" : "c7fb5671-3486-4367-9134-b055cb11ae73",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "additionalReasonDescription" : "Please try using the navigation to find what you're looking for.",
+        "errorNumber" : 404,
+        "header" : "Oops! You have encountered the",
+        "reason" : "Why?",
+        "reasonDescription" : "Because we can’t seem to find the page you are looking for. It is either unavailable or may no longer exist.",
+        "secondHeader" : "error page!"
+      },
+      "componentName" : "c:errorPage",
+      "id" : "54a596fe-9119-40f7-b6c6-c5e73dee9e81",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "dfb8925d-0509-4fd2-a197-8d55184da29f",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "17bdfb00-d4a3-402c-840a-bccf71f7d403",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Error"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "31113db1-94c3-432f-94d2-8e324519fded",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "a5fd0225-34d0-4e4c-92d6-d9ca9b9492ec",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "error"
+}

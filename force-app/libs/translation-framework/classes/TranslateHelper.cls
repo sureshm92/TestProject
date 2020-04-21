@@ -142,6 +142,7 @@ public class TranslateHelper {
         System.debug('LABEL: ' + labelName);
         System.debug('LANGUAGE: ' + language);
         System.debug('RESULT: ' + translatedLabel);
+        if(translatedLabel != null && translatedLabel.contains('To access this page, you have to log in to Salesforce')) return labelName;
         return translatedLabel;
     }
 
