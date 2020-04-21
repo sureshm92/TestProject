@@ -30,7 +30,7 @@ global without sharing class ReferHealthcareProviderRemote {
         ];
         if (healthcareProviders.isEmpty()) healthcareProviders.add(new Healthcare_Provider__c());
 
-        List<Patient_Delegate__c> listDelegates = PatientDelegateService.getPDelegates(participantId);
+        List<Patient_Delegate__c> listDelegates = PatientDelegateService.getPatientDelegates(participantId);
         if (listDelegates.isEmpty()) listDelegates.add(new Patient_Delegate__c());
 
         return new InitData(healthcareProviders, listDelegates);
