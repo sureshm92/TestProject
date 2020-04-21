@@ -135,6 +135,33 @@ public without sharing class PatientDelegateService {
         );
     }
 
+    public static List<Patient_Delegate__c> getPatientDelegates(Id participantId) {
+        return DatabaseService.query(
+                new List<String>{
+                        'Id',
+                        'Participant__c',
+                        'Participant__r.Contact__c',
+                        'Participant__r.Contact__r.Name',
+                        'Contact__c',
+                        'Contact__r.Name',
+                        'Contact__r.FirstName',
+                        'Contact__r.LastName',
+                        'Contact__r.Language__c',
+                        'Contact__r.Email',
+                        'Contact__r.Participant_Opt_In_Status_Emails__c',
+                        'Contact__r.HCP_Opt_In_Patient_Status_Emails__c',
+                        'Contact__r.HCP_Opt_In_Study_Emails__c',
+                        'Contact__r.HCP_Opt_In_Referral_Status_Emails__c',
+                        'Contact__r.Resource_Notifications__c',
+                        'Contact__r.userCommunityMode__c',
+                        'Contact__r.Next_Notify_Date__c',
+                        'Status__c'
+                },
+                Patient_Delegate__c.getSObjectType(),
+                DatabaseService.fieldEqual('Participant__c', participantId)
+        );
+    }
+
     public static Map<Id, List<Id>> getDelegatedParticipantIdsMap(List<Id> contactIds) {
         List<Patient_Delegate__c> pdList = [
                 SELECT Id, Participant__c, Contact__c
