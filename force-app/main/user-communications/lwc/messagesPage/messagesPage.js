@@ -2,7 +2,7 @@
  * Created by Igor Malyuta on 21.12.2019.
  */
 
-import {LightningElement, api, track, wire} from 'lwc';
+import {LightningElement, track, wire} from 'lwc';
 import formFactor from '@salesforce/client/formFactor';
 import {CurrentPageReference, NavigationMixin} from 'lightning/navigation';
 import {registerListener, unregisterAllListeners} from 'c/pubSub';
@@ -237,7 +237,7 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
 
     changePlusStyle(enabled) {
         let newMessBTN = this.template.querySelector('.ms-btn-new');
-        newMessBTN.style.opacity = enabled ? 1 : 0.5;
+        newMessBTN.style.opacity = enabled ? '1' : '0.5';
         newMessBTN.style.cursor = enabled ? 'pointer' : 'default';
     }
 

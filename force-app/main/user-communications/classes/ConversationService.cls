@@ -51,9 +51,8 @@ public without sharing class ConversationService {
         Contact userContact = CommunityService.getUserContact();
         List<Id> contactsForSharing = new List<Id>();
 
-        List<Id> patientDelegateServiceDelegatedContactIds =
-                PatientDelegateService.getDelegatedContactIds(enrollment.Participant_Contact__c);
-        for(Id paDelConId : patientDelegateServiceDelegatedContactIds) {
+        List<Id> patientDelegateContactIds = PatientDelegateService.getDelegatedContactIds(enrollment.Participant_Contact__c);
+        for(Id paDelConId : patientDelegateContactIds) {
             if(paDelConId != userContact.Id) contactsForSharing.add(paDelConId);
         }
         List<Site_Staff__c> siteStaff = [
