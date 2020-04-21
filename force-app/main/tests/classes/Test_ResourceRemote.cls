@@ -223,7 +223,6 @@ public class Test_ResourceRemote {
     @IsTest
     public static void getNoTAMessage_AlumniPatient_Test() {
         TestData testData = new TestData();
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateParticipantForDelegateHandler.class);
         TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class);
         TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateWelcomeToStudyAlertHandler.class);
         TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
