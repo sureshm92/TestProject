@@ -24,7 +24,8 @@ public without sharing class MyTeamRemote {
                     }
                 }
             }
-            detail.delegates = getDelegates(userMode, userMode != CommunityService.USER_MODE_HCP && userMode != CommunityService.USER_MODE_PI, null, parentId);
+            Boolean excludeCurrentUser = userMode.equals(CommunityService.USER_MODE_PARTICIPANT);
+            detail.delegates = getDelegates(userMode, excludeCurrentUser, null, parentId);
             detail.delegateOptions = getDelegateOptions(userMode);
             if (userMode == CommunityService.USER_MODE_PI) {
                 detail.hasStudies = !StudySiteService.getStudySitesWithDelegateLevelFiltered(ACTIVE_STUDY_SITES_FILTER, new Set<String>{
@@ -32,10 +33,11 @@ public without sharing class MyTeamRemote {
                 }, parentId).isEmpty();
             }
             if (userMode == CommunityService.USER_MODE_HCP) {
-                detail.hasStudies = parentId == null || parentId == '' || DelegateService.getHCPDelegateLevelMap().get(parentId) == DelegateService.DELEGATE_LEVEL_1;
+                detail.hasStudies = String.isEmpty(parentId) || DelegateService.getHCPDelegateLevelMap().get(parentId) == DelegateService.DELEGATE_LEVEL_1;
             }
-            if (userMode == CommunityService.USER_MODE_PARTICIPANT)
+            if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
                 detail.hasStudies = ParticipantEnrollmentService.getPEnrolmentsCountCommon(userMode, '') != 0;
+            }
 
             return JSON.serialize(detail);
         } catch (Exception e) {
@@ -94,97 +96,142 @@ public without sharing class MyTeamRemote {
     }
 
     private static List<DelegateWrapper> getDelegates(String userMode, Boolean excludeCurrentUser, List<Contact> delegatesToProcess, String parentId) {
-        if (parentId == null || parentId == '') {
-            parentId = CommunityService.getInstance().getCurrentContactId();
-        }
+        if (String.isEmpty(parentId)) parentId = CommunityService.getInstance().getCurrentContactId();
+
         List<DelegateWrapper> delegates = new List<DelegateWrapper>();
         Boolean useProvidedContacts = delegatesToProcess != null && !delegatesToProcess.isEmpty();
-        if (userMode == CommunityService.USER_MODE_PI) {
-            List<Study_Site__c> studySites;
-            if (!useProvidedContacts) {
-                studySites = StudySiteService.getStudySitesWithDelegateLevelFiltered(ACTIVE_STUDY_SITES_FILTER, new Set<String>(DelegateService.DELEGATE_LEVEL_1_AND_LOW));
-            } else {
-                studySites = StudySiteService.getStudySitesWithDelegateLevelFiltered(ACTIVE_STUDY_SITES_FILTER, new Set<String>{
-                        DelegateService.DELEGATE_LEVEL_1
-                });
-            }
-            if (!studySites.isEmpty()) {
-                Map<Id, Map<Id, Site_Staff__c>> staffTrialMap = DelegateService.getPITeamStaffTrialMap();
-                List<Contact> delegateContacts;
-                if (useProvidedContacts) {
-                    delegateContacts = delegatesToProcess;
-                } else {
-                    delegateContacts = CommunityService.getContacts(staffTrialMap.keySet());
-                    Map<Id, Contact> delegateContactMap = new Map<Id, Contact>(delegateContacts);
-                    for (Participant__c participant : [
-                            SELECT Contact__c, First_Name__c, Last_Name__c
-                            FROM Participant__c
-                            WHERE Contact__c IN :delegateContactMap.keySet()
-                    ]) {
-                        delegateContactMap.get(participant.Contact__c).FirstName = participant.First_Name__c;
-                        delegateContactMap.get(participant.Contact__c).LastName = participant.Last_Name__c;
-                    }
-                }
 
-                for (Contact delegateContact : delegateContacts) {
-                    if (!excludeCurrentUser || delegateContact.Id != CommunityService.getUserContact().Id) {
-                        DelegateWrapper dw = new DelegateWrapper();
-                        dw.delegateContact = delegateContact;
-                        Boolean isDelegate = false;
-                        Map<Id, TrialDelegateWrapper> delegateTrialsMap = new Map<Id, TrialDelegateWrapper>();
-                        for (Study_Site__c site : studySites) {
-                            if (parentId != null && parentId != '' && site.Principal_Investigator__c != parentId) {
-                                continue;
-                            }
-                            TrialDelegateWrapper delegateTrial;
-                            if (!delegateTrialsMap.containsKey(site.Clinical_Trial_Profile__c)) {
-                                delegateTrial = new TrialDelegateWrapper();
-                                delegateTrial.trialName = site.Clinical_Trial_Profile__r.Study_Code_Name__c;
-                                delegateTrialsMap.put(site.Clinical_Trial_Profile__c, delegateTrial);
-                            } else {
-                                delegateTrial = delegateTrialsMap.get(site.Clinical_Trial_Profile__c);
-                            }
-                            DelegateLevelWrapper siteLevel = new DelegateLevelWrapper();
-                            siteLevel.entityName = site.Name;
-                            siteLevel.enrollmentOrStudySiteId = site.Id;
-                            siteLevel.delegateLevel = '';
-                            siteLevel.readOnly = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getPIStudySitesAccessLevelMap().get(site.Id))
-                                    || delegateContact.Id == CommunityService.getUserContact().Id;
-                            Site_Staff__c delegateRecord =
-                                    (staffTrialMap.get(delegateContact.Id) == null)
-                                            ? null : (staffTrialMap.get(delegateContact.Id).get(site.Id));
-                            if (delegateRecord != null) {
-                                isDelegate = true;
-                                siteLevel.delegateLevel = delegateRecord.Delegate_Level__c;
-                            }
-                            delegateTrial.siteLevels.add(siteLevel);
-                        }
-                        for (TrialDelegateWrapper tdw : delegateTrialsMap.values()) {
-                            tdw.siteLevels.sort();
-                            dw.delegateTrials.add(tdw);
-                        }
-                        dw.delegateTrials.sort();
-                        if (useProvidedContacts || isDelegate) {
-                            delegates.add(dw);
-                        }
-                    }
+        if (userMode == CommunityService.USER_MODE_PI) {
+            delegates.addAll(getPIDelegates(useProvidedContacts, delegatesToProcess, excludeCurrentUser, parentId));
+        }
+        if (userMode == CommunityService.USER_MODE_HCP) {
+            delegates.addAll(getHCPDelegates(useProvidedContacts, delegatesToProcess, excludeCurrentUser, parentId));
+        }
+        if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
+            delegates.addAll(getParticipantDelegates(useProvidedContacts, delegatesToProcess));
+        }
+
+        delegates.sort();
+        return delegates;
+    }
+
+    private static List<DelegateWrapper> getParticipantDelegates(Boolean useProvidedContacts, List<Contact> delegatesToProcess) {
+        List<Contact> delegateContacts;
+        if (useProvidedContacts) {
+            delegateContacts = delegatesToProcess;
+        } else {
+            delegateContacts = PatientDelegateService.getInstance().getDelegates();
+        }
+
+        //Set names
+        Map<Id, Contact> delegateContactsMap = new Map<Id, Contact>();
+        if (delegateContacts != null && !delegateContacts.isEmpty()) {
+            for (Contact delCont : delegateContacts) {
+                if (delCont.Id != null) delegateContactsMap.put(delCont.Id, delCont);
+            }
+            List<Participant__c> participants = [
+                    SELECT
+                            Id,
+                            Contact__c,
+                            First_Name__c,
+                            Last_Name__c
+                    FROM Participant__c
+                    WHERE Contact__c IN:delegateContacts
+            ];
+            for (Participant__c participant : participants) {
+                Contact dc = delegateContactsMap.get(participant.Contact__c);
+                if (dc != null) {
+                    dc.FirstName = participant.First_Name__c;
+                    dc.LastName = participant.Last_Name__c;
                 }
             }
         }
-        if (userMode == CommunityService.USER_MODE_HCP) {
-            List<RP_Delegate_Relationship__c> delegatesQR = [SELECT Id, Referring_Provider__c, Delegate__c, Delegate_Access_Level__c FROM RP_Delegate_Relationship__c WHERE Referring_Provider__c = :parentId];
 
-            List<Contact> delegateContacts;
-            Map<Id, String> delegateLevels = new Map<Id, String>();
-            Set<Id> delegateIds = new Set<Id>();
-            for (RP_Delegate_Relationship__c delegate : delegatesQR) {
-                delegateIds.add(delegate.Delegate__c);
-                delegateLevels.put(delegate.Delegate__c, delegate.Delegate_Access_Level__c);
+        List<Patient_Delegate__c> patientDelegates = [
+                SELECT Contact__c, Status__c
+                FROM Patient_Delegate__c
+                WHERE Contact__c IN:delegateContactsMap.keySet()
+        ];
+        List<DelegateWrapper> delegates = new List<DelegateWrapper>();
+        for (Patient_Delegate__c pd : patientDelegates) {
+            if (delegateContactsMap.containsKey(pd.Contact__c)) {
+                DelegateWrapper dw = new DelegateWrapper();
+                dw.delegateContact = delegateContactsMap.get(pd.Contact__c);
+                dw.isActive = pd.Status__c == PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS;
+                delegates.add(dw);
             }
+        }
+
+        if (useProvidedContacts) {
+            if (delegates.isEmpty() && delegatesToProcess != null) {
+                DelegateWrapper dw = new DelegateWrapper();
+                dw.delegateContact = delegateContacts.get(0);
+                delegates.add(dw);
+            }
+        }
+
+        return delegates;
+    }
+
+    private static List<DelegateWrapper> getHCPDelegates(Boolean useProvidedContacts, List<Contact> delegatesToProcess, Boolean excludeCurrentUser, String parentId) {
+        List<RP_Delegate_Relationship__c> delegatesQR = [SELECT Id, Referring_Provider__c, Delegate__c, Delegate_Access_Level__c FROM RP_Delegate_Relationship__c WHERE Referring_Provider__c = :parentId];
+
+        List<Contact> delegateContacts;
+        Map<Id, String> delegateLevels = new Map<Id, String>();
+        Set<Id> delegateIds = new Set<Id>();
+        for (RP_Delegate_Relationship__c delegate : delegatesQR) {
+            delegateIds.add(delegate.Delegate__c);
+            delegateLevels.put(delegate.Delegate__c, delegate.Delegate_Access_Level__c);
+        }
+        if (useProvidedContacts) {
+            delegateContacts = delegatesToProcess;
+        } else {
+            delegateContacts = CommunityService.getContacts(delegateIds);
+            Map<Id, Contact> delegateContactMap = new Map<Id, Contact>(delegateContacts);
+            for (Participant__c participant : [
+                    SELECT Contact__c, First_Name__c, Last_Name__c
+                    FROM Participant__c
+                    WHERE Contact__c IN :delegateContactMap.keySet()
+            ]) {
+                delegateContactMap.get(participant.Contact__c).FirstName = participant.First_Name__c;
+                delegateContactMap.get(participant.Contact__c).LastName = participant.Last_Name__c;
+            }
+        }
+
+        List<DelegateWrapper> delegates = new List<DelegateWrapper>();
+        for (Contact delegateContact : delegateContacts) {
+            if (!excludeCurrentUser || delegateContact.Id != CommunityService.getUserContact().Id) {
+                DelegateWrapper dw = new DelegateWrapper();
+                dw.delegateContact = delegateContact;
+                dw.trialLevel = new DelegateLevelWrapper();
+                dw.trialLevel.delegateLevel = delegateLevels.get(delegateContact.Id) != null ? delegateLevels.get(delegateContact.Id) : '';
+                dw.trialLevel.readOnly = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getHCPDelegateLevelMap().get(parentId))
+                        || delegateContact.Id == CommunityService.getUserContact().Id;
+                delegates.add(dw);
+            }
+        }
+
+        return delegates;
+    }
+
+    private static List<DelegateWrapper> getPIDelegates(Boolean useProvidedContacts, List<Contact> delegatesToProcess, Boolean excludeCurrentUser, String parentId) {
+        List<Study_Site__c> studySites;
+        if (!useProvidedContacts) {
+            studySites = StudySiteService.getStudySitesWithDelegateLevelFiltered(ACTIVE_STUDY_SITES_FILTER, new Set<String>(DelegateService.DELEGATE_LEVEL_1_AND_LOW));
+        } else {
+            studySites = StudySiteService.getStudySitesWithDelegateLevelFiltered(ACTIVE_STUDY_SITES_FILTER, new Set<String>{
+                    DelegateService.DELEGATE_LEVEL_1
+            });
+        }
+
+        List<DelegateWrapper> delegates = new List<DelegateWrapper>();
+        if (!studySites.isEmpty()) {
+            Map<Id, Map<Id, Site_Staff__c>> staffTrialMap = DelegateService.getPITeamStaffTrialMap();
+            List<Contact> delegateContacts;
             if (useProvidedContacts) {
                 delegateContacts = delegatesToProcess;
             } else {
-                delegateContacts = CommunityService.getContacts(delegateIds);
+                delegateContacts = CommunityService.getContacts(staffTrialMap.keySet());
                 Map<Id, Contact> delegateContactMap = new Map<Id, Contact>(delegateContacts);
                 for (Participant__c participant : [
                         SELECT Contact__c, First_Name__c, Last_Name__c
@@ -195,60 +242,54 @@ public without sharing class MyTeamRemote {
                     delegateContactMap.get(participant.Contact__c).LastName = participant.Last_Name__c;
                 }
             }
+
             for (Contact delegateContact : delegateContacts) {
                 if (!excludeCurrentUser || delegateContact.Id != CommunityService.getUserContact().Id) {
                     DelegateWrapper dw = new DelegateWrapper();
                     dw.delegateContact = delegateContact;
-                    dw.trialLevel = new DelegateLevelWrapper();
-                    dw.trialLevel.delegateLevel = delegateLevels.get(delegateContact.Id) != null ? delegateLevels.get(delegateContact.Id) : '';
-                    dw.trialLevel.readOnly = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getHCPDelegateLevelMap().get(parentId))
-                            || delegateContact.Id == CommunityService.getUserContact().Id;
-                    delegates.add(dw);
-                }
-            }
-
-        }
-        if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
-            List<Contact> delegateContacts;
-            if (useProvidedContacts) {
-                delegateContacts = delegatesToProcess;
-            } else {
-                delegateContacts = PatientDelegateService.getInstance().getDelegates();
-            }
-            if (delegateContacts != null && delegateContacts.size() > 0) {
-                Map<Id, Contact> delegateContactsMap = new Map<Id, Contact>();
-                for (Contact d : delegateContacts) if (d.Id != null) delegateContactsMap.put(d.Id, d);
-                Participant__c[] participants = [SELECT Id, Contact__c, First_Name__c, Last_Name__c FROM Participant__c WHERE Contact__c IN:delegateContacts];
-                for (Participant__c participant : participants) {
-                    Contact dc = delegateContactsMap.get(participant.Contact__c);
-                    if (dc != null) {
-                        dc.FirstName = participant.First_Name__c;
-                        dc.LastName = participant.Last_Name__c;
+                    Boolean isDelegate = false;
+                    Map<Id, TrialDelegateWrapper> delegateTrialsMap = new Map<Id, TrialDelegateWrapper>();
+                    for (Study_Site__c site : studySites) {
+                        if (parentId != null && parentId != '' && site.Principal_Investigator__c != parentId) {
+                            continue;
+                        }
+                        TrialDelegateWrapper delegateTrial;
+                        if (!delegateTrialsMap.containsKey(site.Clinical_Trial_Profile__c)) {
+                            delegateTrial = new TrialDelegateWrapper();
+                            delegateTrial.trialName = site.Clinical_Trial_Profile__r.Study_Code_Name__c;
+                            delegateTrialsMap.put(site.Clinical_Trial_Profile__c, delegateTrial);
+                        } else {
+                            delegateTrial = delegateTrialsMap.get(site.Clinical_Trial_Profile__c);
+                        }
+                        DelegateLevelWrapper siteLevel = new DelegateLevelWrapper();
+                        siteLevel.entityName = site.Name;
+                        siteLevel.enrollmentOrStudySiteId = site.Id;
+                        siteLevel.delegateLevel = '';
+                        siteLevel.readOnly = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getPIStudySitesAccessLevelMap().get(site.Id))
+                                || delegateContact.Id == CommunityService.getUserContact().Id;
+                        Site_Staff__c delegateRecord =
+                                (staffTrialMap.get(delegateContact.Id) == null)
+                                        ? null : (staffTrialMap.get(delegateContact.Id).get(site.Id));
+                        if (delegateRecord != null) {
+                            isDelegate = true;
+                            siteLevel.delegateLevel = delegateRecord.Delegate_Level__c;
+                        }
+                        delegateTrial.siteLevels.add(siteLevel);
+                    }
+                    for (TrialDelegateWrapper tdw : delegateTrialsMap.values()) {
+                        tdw.siteLevels.sort();
+                        dw.delegateTrials.add(tdw);
+                    }
+                    dw.delegateTrials.sort();
+                    if (useProvidedContacts || isDelegate) {
+                        delegates.add(dw);
                     }
                 }
             }
-
-            for (Contact patientDelegate : delegateContacts) {
-                DelegateWrapper dw = new DelegateWrapper();
-                dw.delegateContact = patientDelegate;
-                for (Participant_Enrollment__c partEnroll :
-                        ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant()
-                ) {
-                    DelegateLevelWrapper trialWrap = new DelegateLevelWrapper();
-                    trialWrap.entityName = partEnroll.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c;
-                    trialWrap.enrollmentOrStudySiteId = partEnroll.Id;
-                    trialWrap.delegateLevel = '';
-                    //dw.trialLevels.add(trialWrap);
-                }
-
-                delegates.add(dw);
-            }
         }
 
-        delegates.sort();
         return delegates;
     }
-
 
     private static List<LabelValueItem> getDelegateOptions(String userMode) {
         List<LabelValueItem> delegateOptions = new List<LabelValueItem>();
@@ -322,28 +363,26 @@ public without sharing class MyTeamRemote {
     private static void sendEmailNotification(Contact delegateContact, String userMode) {
 
         Notification__c notification;
-        if(userMode == CommunityService.USER_MODE_PARTICIPANT) {
+        if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
             notification = new Notification__c(
                     Recipient__c = delegateContact.Id,
                     WhatId__c = delegateContact.Id,
                     Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_ACCESS_LEVEL_CHANGED_TYPE
             );
-        }
-        else if(userMode == CommunityService.USER_MODE_PI){
+        } else if (userMode == CommunityService.USER_MODE_PI) {
             notification = new Notification__c(
                     Recipient__c = delegateContact.Id,
                     WhatId__c = delegateContact.Id,
                     Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_ACCESS_LEVEL_CHANGED_TYPE
             );
-        }
-        else if(userMode == CommunityService.USER_MODE_HCP){
+        } else if (userMode == CommunityService.USER_MODE_HCP) {
             notification = new Notification__c(
                     Recipient__c = delegateContact.Id,
                     WhatId__c = delegateContact.Id,
                     Notification_Type__c = NotificationCatalog.MESSAGE_TO_HCP_ACCESS_LEVEL_CHANGED_TYPE
             );
         }
-        if(notification != null){
+        if (notification != null) {
             insert notification;
         }
     }
@@ -491,7 +530,7 @@ public without sharing class MyTeamRemote {
         ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id>{
                 delegateContact.Id
         });
-        if(!piDelegates.isEmpty()){
+        if (!piDelegates.isEmpty()) {
             DelegateService.addConversationSharesForPITeam(piDelegates);
         }
     }
@@ -569,6 +608,7 @@ public without sharing class MyTeamRemote {
     }
     public class DelegateWrapper implements Comparable {
         public Contact delegateContact;
+        public Boolean isActive;
         public List<TrialDelegateWrapper> delegateTrials;
         public List<DelegateLevelWrapper> trialLevels;
         public DelegateLevelWrapper trialLevel;

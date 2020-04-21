@@ -46,6 +46,18 @@ public without sharing class PatientDelegateRemote {
     }
 
     @AuraEnabled
+    public static void changeDelegateStatus(String contactId, Boolean isActive) {
+        try{
+            String status = isActive ?
+                    PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS :
+                    PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS;
+            PatientDelegateService.changeStatus(contactId, status);
+        }catch (Exception e){
+            AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
     public static void withdrawDelegate(String contactId, Boolean removeHimself) {
         try{
             PatientDelegateService.getInstance().resetDelegate(contactId, removeHimself);
