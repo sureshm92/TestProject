@@ -52,6 +52,8 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_PT_NEW_MESSAGE_TYPE = 'Message_To_PT_New_Message_Type';
     public static final String MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_TYPE = 'Message_to_PT_Del_New_Assignment';
     public static final String MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_GSK_TYPE = 'Message_to_PT_Del_New_Assignment_GSK';
+    public static final String MESSAGE_TO_PT_DEL_REACTIVATED_TYPE = 'Message_to_PT_Del_Reactivated';
+    public static final String MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE = 'Message_to_PT_Del_Reactivated_GSK';
 
 /**
  *  MESSAGE TO PI

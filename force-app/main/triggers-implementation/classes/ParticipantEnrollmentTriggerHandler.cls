@@ -127,14 +127,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
     }
 
-    public class CreateParticipantForDelegateHandler extends TriggerHandler {
-
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            createParticipantForDelegate(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
-        }
-
-    }
-
     public class CheckReimbursableActivities extends TriggerHandler {
 
         public override void afterInsert(List<SObject> newList) {
@@ -628,49 +620,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         update tasksForExpire;
 
         SurveyService.getInstance().expireInvitation(new List<Id>(invitationMap.keySet()));
-    }
-
-    @TestVisible
-    private static void createParticipantForDelegate(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
-        List<Id> participantsToFindDelegates = new List<Id>();
-        for (Participant_Enrollment__c pe : newList) {
-            String oldStatus = oldMap.get(pe.Id).Participant_Status__c;
-            if (pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c &&
-                    !PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(oldStatus) &&
-                    PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)
-                    ) {
-                participantsToFindDelegates.add(pe.Participant__c);
-            }
-        }
-        Map<Id, List<Id>> delegatesByParticipantIdMap = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(participantsToFindDelegates);
-        List<Id> allDelegates = new List<Id>();
-        List<Id> delegatesWithParticipant = new List<Id>();
-        for (List<Id> participantDelegates : delegatesByParticipantIdMap.values()) allDelegates.addAll(participantDelegates);
-        if (allDelegates.size() == 0) return;
-        List<Participant__c> participants = [SELECT Id, Contact__c FROM Participant__c WHERE Contact__c IN:allDelegates];
-        for (Participant__c participant : participants) if (participant.Contact__c != null) delegatesWithParticipant.add(participant.Contact__c);
-        List<Participant__c> newParticipants = new List<Participant__c>();
-        List<Contact> contacts = [
-                SELECT Id, FirstName, LastName, Phone, Email, MailingCity, MailingCountryCode, MailingStateCode
-                FROM Contact
-                WHERE Id IN:allDelegates
-        ];
-        for (Contact contact : contacts) {
-            if (!delegatesWithParticipant.contains(contact.Id)) {
-                newParticipants.add(new Participant__c(
-                        Contact__c = contact.Id,
-                        First_Name__c = contact.FirstName,
-                        Last_Name__c = contact.LastName,
-                        Email__c = contact.Email,
-                        Phone__c = contact.Phone,
-                        Mailing_City__c = contact.MailingCity,
-                        Mailing_Country_Code__c = contact.MailingCountryCode,
-                        Mailing_State_Code__c = contact.MailingStateCode
-
-                ));
-            }
-        }
-        if (newParticipants.size() > 0) insert newParticipants;
     }
 
     @TestVisible

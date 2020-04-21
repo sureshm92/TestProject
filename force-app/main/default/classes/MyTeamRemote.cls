@@ -488,6 +488,20 @@ public without sharing class MyTeamRemote {
 
                 User delegateUser = CommunityService.createUser(contactDelegate, null, null, null);
                 insert delegateUser;
+
+                Participant__c participantDelegate = new Participant__c(
+                        Contact__c = contactDelegate.Id,
+                        First_Name__c = contactDelegate.FirstName,
+                        Last_Name__c = contactDelegate.LastName,
+                        Email__c = contactDelegate.Email,
+                        Phone__c = contactDelegate.Phone,
+                        Mailing_City__c = contactDelegate.MailingCity,
+                        Mailing_Country_Code__c = contactDelegate.MailingCountryCode,
+                        Mailing_State_Code__c = contactDelegate.MailingStateCode
+
+                );
+                insert participantDelegate;
+
             } else if (!CommunityService.isUserInCommunity(contactDelegate.Id)) {
                 CommunityService.setUserToCommunity(contactDelegate.Id);
                 sendEmailNotification(contactDelegate, CommunityService.USER_MODE_PARTICIPANT);
