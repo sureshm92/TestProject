@@ -15,12 +15,12 @@ public without sharing class Batch_CreateParticipantForDelegate implements Datab
     }
 
     public void execute(Database.BatchableContext param1, List<Patient_Delegate__c> patientDelegates) {
-        List<Id> delegateConList = new List<Id>();
-        for(Patient_Delegate__c pd: patientDelegates) if (!delegateConList.contains(pd.Contact__c)) delegateConList.add(pd.Contact__c);
+        Set<Id> delegateConList = new Set<Id>();
+        for(Patient_Delegate__c pd: patientDelegates) delegateConList.add(pd.Contact__c);
 
         List<Participant__c> delegateWithParticipant = [SELECT Id, Contact__c FROM Participant__c WHERE Contact__c IN: delegateConList];
-        List<Id> delegateConIdsWithParticipants = new List<Id>();
-        for(Participant__c p: delegateWithParticipant) if (p.Contact__c != null && !delegateConIdsWithParticipants.contains(p.Contact__c)) delegateConIdsWithParticipants.add(p.Contact__c);
+        Set<Id> delegateConIdsWithParticipants = new Set<Id>();
+        for(Participant__c p: delegateWithParticipant) if (p.Contact__c != null) delegateConIdsWithParticipants.add(p.Contact__c);
         List<Contact> contacts = [
                 SELECT Id, FirstName, LastName, Phone, Email, MailingCity, MailingCountryCode, MailingStateCode
                 FROM Contact
@@ -46,7 +46,12 @@ public without sharing class Batch_CreateParticipantForDelegate implements Datab
         }
         if (participantsForInsert.size() > 0) insert participantsForInsert;
     }
+
     public void finish(Database.BatchableContext param1) {
+    }
+
+    public static void run() {
+        Database.executeBatch(new Batch_CreateParticipantForDelegate(), 200);
     }
 
 }
