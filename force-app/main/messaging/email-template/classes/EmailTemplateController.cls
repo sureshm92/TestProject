@@ -69,7 +69,6 @@ global without sharing class EmailTemplateController {
         }
     }
 
-
     global String getParticipantDelegateAfterText() {
         return getProvider().getDelegateAfter();
     }

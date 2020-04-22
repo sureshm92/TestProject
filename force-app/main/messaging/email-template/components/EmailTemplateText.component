@@ -40,11 +40,11 @@
     {!templateMap['bodyValue']}
 
     <!-- for delegates: -->
-    <c:EmailTemplateDelegateText rendered="{!(isDelegate && userType != 'Participant')}"
+    <c:EmailTemplateDelegateText rendered="{!(isDelegate && resultUserMode != 'Participant')}"
                                  recipientId="{!recipientContactId}" recipientLanguage="{!recipientLanguage}"/>
 
     <c:EmailTemplateDelegateParticipantText userId="{!emailRecipientId}"
-                                            rendered="{!(isDelegate && userCommunityType == 'Participant')}"
+                                            rendered="{!(isDelegate && resultUserMode == 'Participant')}"
                                             afterText="{!participantDelegateAfterText}"
                                             commTemplate="{!communityTemplateValue}"/>
 

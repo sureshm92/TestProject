@@ -18,8 +18,10 @@ public virtual without sharing class EmailTemplateProvider {
     protected String userMode;
 
     private Boolean isHTML;
+    private EmailTemplateInitial templateInitial;
 
     public EmailTemplateProvider(EmailTemplateInitial templateInitial) {
+        this.templateInitial = templateInitial;
         updateRecipientName(templateInitial.recipientId, recipientName, recipientLanguage);
 
         templatePropertiesService = String.isNotEmpty(templateInitial.communityTemplateName) ?
@@ -86,6 +88,7 @@ public virtual without sharing class EmailTemplateProvider {
     }
 
     public String getDelegateAfter() {
+        if(templateInitial.recipientId.getSobjectType() == User.getSObjectType()) return '';
         return TranslateHelper.replaceParams(
                 TranslateHelper.getLabelValue(Label.Email_Body_Initial_Patient_Delegate_AfterText, recipientLanguage),
                 PARAM_PREFIX, parameters

@@ -5,9 +5,15 @@
 @IsTest
 private class Test_EmailTemplateDelegatePartController {
 
+    @TestSetup
+    static void setup() {
+        Test.startTest();
+        TestData.loadTestData();
+        Test.stopTest();
+    }
+
     @IsTest
     static void test_getDelegateStudyNames() {
-        TestData.loadTestData();
         TestData td = new TestData();
         User delegate = td.createPatientDelegate();
         insert delegate;
@@ -30,42 +36,8 @@ private class Test_EmailTemplateDelegatePartController {
         System.assertEquals(td.ctp.Study_Code_Name__c, controller.getDelegateStudyNames()[0]);
     }
 
-//    @IsTest
-//    static void test_getAfterText() {
-//        TestData.loadTestData();
-//        TestData td = new TestData();
-//        User delegate = td.createPatientDelegate();
-//        insert delegate;
-//
-//        Test.startTest();
-//        Id delegateContactId = [SELECT ContactId FROM User WHERE Id = :delegate.Id].ContactId;
-//        Contact delegateContact = [SELECT Id, FirstName FROM Contact WHERE Id = :delegateContactId];
-//
-//        Patient_Delegate__c patientDelegate = [
-//                SELECT Id, Participant__c, Contact__c
-//                FROM Patient_Delegate__c
-//                WHERE Contact__c = :delegateContactId
-//        ];
-//        patientDelegate.Status__c = 'Active';
-//        update patientDelegate;
-//
-//        EmailTemplateDelegatePartController controller = new EmailTemplateDelegatePartController();
-//        controller.delegateUserId = delegate.Id;
-//        controller.commTemplateStr = 'Default';
-//        controller.dataParams = JSON.serialize(new ParametersDataProvider(
-//                td.ctp.Id, delegateContact.FirstName, delegateContact.Id, 'EN',
-//                'Email_Template_Parameters_From_PE',
-//                'Participant','mode',false,
-//                'Default'
-//        ).parameters);
-//        Test.stopTest();
-//
-//        System.assert(controller.getAfterText().length() > 0);
-//    }
-
     @IsTest
     static void test_getDelegateStudyNames_emptyList() {
-        TestData.loadTestData();
         TestData td = new TestData();
         User delegate = td.createPatientDelegate();
         insert delegate;
