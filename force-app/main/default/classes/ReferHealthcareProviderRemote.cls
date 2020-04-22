@@ -127,67 +127,71 @@ global without sharing class ReferHealthcareProviderRemote {
 
     @AuraEnabled
     public static List<Healthcare_Provider__c> inviteHP(String peId, String hp) {
-        Healthcare_Provider__c newHP = (Healthcare_Provider__c) JSON.deserialize(hp, Healthcare_Provider__c.class);
+        try {
+            Healthcare_Provider__c newHP = (Healthcare_Provider__c) JSON.deserialize(hp, Healthcare_Provider__c.class);
 
-        Participant_Enrollment__c pe = [
-                SELECT Id,
-                        Study_Site__c,
-                        Participant__c
-                FROM Participant_Enrollment__c
-                WHERE Id = :peId
-        ];
-        List<HCP_Enrollment__c> hcpe = new List<HCP_Enrollment__c>();
-
-        if (!String.isBlank(peId) && newHP != null && String.isBlank(newHP.Id)) {
-            newHP.Participant_Enrollment__c = peId;
-            newHP.Status__c = HP_S_INVITED;
-            insert newHP;
-            try {
-                createHCPinPlatform(pe.Study_Site__c, newHP.First_Name__c, newHP.Last_Name__c, newHP.Email__c, null, CommunityService.getUserContact(), newHP, null, null);
-            } catch (Exception e) {
-                throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-            }
-        } else if (!String.isBlank(newHP.Id) && newHP.Status__c == HP_S_NOSHARING) {
-            hcpe = [
+            Participant_Enrollment__c pe = [
                     SELECT Id,
-                            HCP_Contact__c,
-                            Status__c
-                    FROM HCP_Enrollment__c
-                    WHERE Id = :newHP.HCP_Enrollment__c
+                            Study_Site__c,
+                            Participant__c
+                    FROM Participant_Enrollment__c
+                    WHERE Id = :peId
             ];
+            List<HCP_Enrollment__c> hcpe = new List<HCP_Enrollment__c>();
 
-            if (hcpe.isEmpty()) {
-                List<Contact> contacts = [
+            if (!String.isBlank(peId) && newHP != null && String.isBlank(newHP.Id)) {
+                newHP.Participant_Enrollment__c = peId;
+                newHP.Status__c = HP_S_INVITED;
+                insert newHP;
+                try {
+                    createHCPinPlatform(pe.Study_Site__c, newHP.First_Name__c, newHP.Last_Name__c, newHP.Email__c, null, CommunityService.getUserContact(), newHP, null, null);
+                } catch (Exception e) {
+                    throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+                }
+            } else if (!String.isBlank(newHP.Id) && newHP.Status__c == HP_S_NOSHARING) {
+                hcpe = [
                         SELECT Id,
-                                Email,
-                                AccountId
-                        FROM Contact
-                        WHERE Email = :newHP.Email__c OR Email = :newHP.Email__c.toLowerCase()
+                                HCP_Contact__c,
+                                Status__c
+                        FROM HCP_Enrollment__c
+                        WHERE Id = :newHP.HCP_Enrollment__c
                 ];
 
-                hcpe.add(new HCP_Enrollment__c(
-                        HCP_Contact__c = contacts[0].Id,
-                        HCP_Account__c = contacts[0].AccountId,
-                        Status__c = HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION
-                ));
-                insert hcpe;
+                if (hcpe.isEmpty()) {
+                    List<Contact> contacts = [
+                            SELECT Id,
+                                    Email,
+                                    AccountId
+                            FROM Contact
+                            WHERE Email = :newHP.Email__c OR Email = :newHP.Email__c.toLowerCase()
+                    ];
 
-                newHP.HCP_Enrollment__c = hcpe[0].Id;
+                    hcpe.add(new HCP_Enrollment__c(
+                            HCP_Contact__c = contacts[0].Id,
+                            HCP_Account__c = contacts[0].AccountId,
+                            Status__c = HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION
+                    ));
+                    insert hcpe;
 
-                newHP.Status__c = HP_S_INVITED;
-                update newHP;
+                    newHP.HCP_Enrollment__c = hcpe[0].Id;
 
-                hcpe[0].Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
-                update hcpe;
-                hcpe[0].Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
-                update hcpe;
-            } else {
-                newHP.Status__c = HP_S_INVITED;
-                update newHP;
+                    newHP.Status__c = HP_S_INVITED;
+                    update newHP;
+
+                    hcpe[0].Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
+                    update hcpe;
+                    hcpe[0].Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
+                    update hcpe;
+                } else {
+                    newHP.Status__c = HP_S_INVITED;
+                    update newHP;
+                }
             }
-        }
 
-        return getInitData(peId, pe.Participant__c).healthcareProviders;
+            return getInitData(peId, pe.Participant__c).healthcareProviders;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
     }
 
     @AuraEnabled
