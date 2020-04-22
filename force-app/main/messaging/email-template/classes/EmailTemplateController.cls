@@ -9,8 +9,6 @@ global without sharing class EmailTemplateController {
     global String bodyValue { get; set; }
     global String preSignatureValue { get; set; }
     global String signatureValue { get; set; }
-    global String buttonLabelValue { get; set; }
-    global String buttonUrlValue { get; set; }
 
     global Id sourceRecordId { get; set; }
     global String userCommunityType { get; set; }
@@ -37,6 +35,8 @@ global without sharing class EmailTemplateController {
     global String emailTemplateBrandLogo { get; set; }
     global String emailTemplateBottomLogo { get; set; }
     global String emailTemplateBrandLogoCSS { get; set; }
+    global String buttonLabelValue { get; set; }
+    global String buttonUrlValue { get; set; }
 
     private EmailTemplateProvider templateProvider;
     public EmailTemplateProvider getProvider() {
@@ -60,6 +60,15 @@ global without sharing class EmailTemplateController {
     global Map<String, String> getTemplateMap() {
         return getProvider().getParameters();
     }
+
+    global Boolean getIsInitial() {
+        try {
+            return Id.valueOf(emailRecipientId).getSobjectType() == User.getSObjectType();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 
     global String getParticipantDelegateAfterText() {
         return getProvider().getDelegateAfter();
