@@ -43,11 +43,6 @@
         <isRequired>false</isRequired>
     </displayedFields>
     <displayedFields>
-        <field>Non_Enrollment_Reason__c</field>
-        <isFieldManaged>false</isFieldManaged>
-        <isRequired>false</isRequired>
-    </displayedFields>
-    <displayedFields>
         <field>Participant_Status_Last_Changed_Date__c</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
@@ -69,6 +64,16 @@
     </displayedFields>
     <displayedFields>
         <field>Medical_Record_Review_Completed_Date__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <displayedFields>
+        <field>Pre_screening_Status__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <displayedFields>
+        <field>Pre_Eligibility_Date__c</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </displayedFields>
