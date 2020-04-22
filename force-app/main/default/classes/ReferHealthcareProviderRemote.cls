@@ -30,7 +30,7 @@ global without sharing class ReferHealthcareProviderRemote {
         ];
         if (healthcareProviders.isEmpty()) healthcareProviders.add(new Healthcare_Provider__c());
 
-        List<Patient_Delegate__c> listDelegates = PatientDelegateService.getPDelegates(participantId);
+        List<Patient_Delegate__c> listDelegates = PatientDelegateService.getPatientDelegates(participantId);
         if (listDelegates.isEmpty()) listDelegates.add(new Patient_Delegate__c());
 
         return new InitData(healthcareProviders, listDelegates);
@@ -127,114 +127,135 @@ global without sharing class ReferHealthcareProviderRemote {
 
     @AuraEnabled
     public static List<Healthcare_Provider__c> inviteHP(String peId, String hp) {
-        Healthcare_Provider__c newHP = (Healthcare_Provider__c) JSON.deserialize(hp, Healthcare_Provider__c.class);
+        try {
+            Healthcare_Provider__c newHP = (Healthcare_Provider__c) JSON.deserialize(hp, Healthcare_Provider__c.class);
 
-        Participant_Enrollment__c pe = [
-                SELECT Id,
-                        Study_Site__c,
-                        Participant__c
-                FROM Participant_Enrollment__c
-                WHERE Id = :peId
-        ];
-        List<HCP_Enrollment__c> hcpe = new List<HCP_Enrollment__c>();
-
-        if (!String.isBlank(peId) && newHP != null && String.isBlank(newHP.Id)) {
-            newHP.Participant_Enrollment__c = peId;
-            newHP.Status__c = HP_S_INVITED;
-            insert newHP;
-            try {
-                createHCPinPlatform(pe.Study_Site__c, newHP.First_Name__c, newHP.Last_Name__c, newHP.Email__c, null, CommunityService.getUserContact(), newHP, null, null);
-            } catch (Exception e) {
-                throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-            }
-        } else if (!String.isBlank(newHP.Id) && newHP.Status__c == HP_S_NOSHARING) {
-            hcpe = [
+            Participant_Enrollment__c pe = [
                     SELECT Id,
-                            HCP_Contact__c,
-                            Status__c
-                    FROM HCP_Enrollment__c
-                    WHERE Id = :newHP.HCP_Enrollment__c
+                            Study_Site__c,
+                            Participant__c
+                    FROM Participant_Enrollment__c
+                    WHERE Id = :peId
             ];
+            List<HCP_Enrollment__c> hcpe = new List<HCP_Enrollment__c>();
 
-            if (hcpe.isEmpty()) {
-                List<Contact> contacts = [
+            if (!String.isBlank(peId) && newHP != null && String.isBlank(newHP.Id)) {
+                newHP.Participant_Enrollment__c = peId;
+                newHP.Status__c = HP_S_INVITED;
+                insert newHP;
+                try {
+                    createHCPinPlatform(pe.Study_Site__c, newHP.First_Name__c, newHP.Last_Name__c, newHP.Email__c, null, CommunityService.getUserContact(), newHP, null, null);
+                } catch (Exception e) {
+                    throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+                }
+            } else if (!String.isBlank(newHP.Id) && newHP.Status__c == HP_S_NOSHARING) {
+                hcpe = [
                         SELECT Id,
-                                Email,
-                                AccountId
-                        FROM Contact
-                        WHERE Email = :newHP.Email__c OR Email = :newHP.Email__c.toLowerCase()
+                                HCP_Contact__c,
+                                Status__c
+                        FROM HCP_Enrollment__c
+                        WHERE Id = :newHP.HCP_Enrollment__c
                 ];
 
-                hcpe.add(new HCP_Enrollment__c(
-                        HCP_Contact__c = contacts[0].Id,
-                        HCP_Account__c = contacts[0].AccountId,
-                        Status__c = HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION
-                ));
-                insert hcpe;
+                if (hcpe.isEmpty()) {
+                    List<Contact> contacts = [
+                            SELECT Id,
+                                    Email,
+                                    AccountId
+                            FROM Contact
+                            WHERE Email = :newHP.Email__c OR Email = :newHP.Email__c.toLowerCase()
+                    ];
 
-                newHP.HCP_Enrollment__c = hcpe[0].Id;
+                    hcpe.add(new HCP_Enrollment__c(
+                            HCP_Contact__c = contacts[0].Id,
+                            HCP_Account__c = contacts[0].AccountId,
+                            Status__c = HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION
+                    ));
+                    insert hcpe;
 
-                newHP.Status__c = HP_S_INVITED;
-                update newHP;
+                    newHP.HCP_Enrollment__c = hcpe[0].Id;
 
-                hcpe[0].Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
-                update hcpe;
-                hcpe[0].Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
-                update hcpe;
-            } else {
-                newHP.Status__c = HP_S_INVITED;
-                update newHP;
+                    newHP.Status__c = HP_S_INVITED;
+                    update newHP;
+
+                    hcpe[0].Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
+                    update hcpe;
+                    hcpe[0].Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
+                    update hcpe;
+                } else {
+                    newHP.Status__c = HP_S_INVITED;
+                    update newHP;
+                }
             }
-        }
 
-        return getInitData(peId, pe.Participant__c).healthcareProviders;
+            return getInitData(peId, pe.Participant__c).healthcareProviders;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
     }
 
     @AuraEnabled
     public static void invitePatientDelegate(String participant, String delegateContact, String delegateId) {
-        Participant__c participantObj = (Participant__c) JSON.deserialize(participant, Participant__c.class);
-        Contact delegateObj = (Contact) JSON.deserialize(delegateContact, Contact.class);
-        if (delegateId == null) {
-            Contact newContact = new Contact();
-            newContact.FirstName = delegateObj.FirstName;
-            newContact.LastName = delegateObj.LastName;
-            newContact.Email = delegateObj.Email;
-            newContact.AccountId = [
-                    SELECT Id
-                    FROM Account
-                    WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
-                    LIMIT 1
-                    FOR UPDATE
-            ].Id;
-            newContact.Language__c = UserInfo.getLanguage();
-            newContact.Second_Choice_Language__c = '';
-            newContact.Third_Choice_Language__c = '';
-            newContact.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
-            newContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
-            newContact.userCommunityIsDelegate__c = true;
-            newContact.MailingCountryCode = participantObj.Mailing_Country_Code__c;
-            newContact.MailingStateCode = participantObj.Mailing_State_Code__c;
-            newContact.MailingCountry = participantObj.Mailing_Country__c;
-            newContact.MailingState = participantObj.Mailing_State__c;
-            if ('Home' == participantObj.Phone_Type__c) {
-                newContact.HomePhone = participantObj.Phone__c;
-            } if ('Mobile' == participantObj.Phone_Type__c) {
-                newContact.MobilePhone = participantObj.Phone__c;
+        try {
+            Participant__c participantObj = (Participant__c) JSON.deserialize(participant, Participant__c.class);
+            Contact delegateObj = (Contact) JSON.deserialize(delegateContact, Contact.class);
+            if (delegateId == null) {
+                Contact newContact = new Contact();
+                newContact.FirstName = delegateObj.FirstName;
+                newContact.LastName = delegateObj.LastName;
+                newContact.Email = delegateObj.Email;
+                newContact.AccountId = [
+                        SELECT Id
+                        FROM Account
+                        WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
+                        LIMIT 1
+                        FOR UPDATE
+                ].Id;
+                newContact.Language__c = UserInfo.getLanguage();
+                newContact.Second_Choice_Language__c = '';
+                newContact.Third_Choice_Language__c = '';
+                newContact.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
+                newContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
+                newContact.userCommunityIsDelegate__c = true;
+                newContact.MailingCountryCode = participantObj.Mailing_Country_Code__c;
+                newContact.MailingStateCode = participantObj.Mailing_State_Code__c;
+                newContact.MailingCountry = participantObj.Mailing_Country__c;
+                newContact.MailingState = participantObj.Mailing_State__c;
+                if ('Home' == participantObj.Phone_Type__c) {
+                    newContact.HomePhone = participantObj.Phone__c;
+                } if ('Mobile' == participantObj.Phone_Type__c) {
+                    newContact.MobilePhone = participantObj.Phone__c;
+                } else {
+                    newContact.Phone = participantObj.Phone__c;
+                }
+                insert newContact;
+
+                Participant__c participantDelegate = new Participant__c(
+                        Contact__c = newContact.Id,
+                        First_Name__c = newContact.FirstName,
+                        Last_Name__c = newContact.LastName,
+                        Email__c = newContact.Email,
+                        Phone__c = newContact.Phone,
+                        Mailing_City__c = newContact.MailingCity,
+                        Mailing_Country_Code__c = newContact.MailingCountryCode,
+                        Mailing_State_Code__c = newContact.MailingStateCode
+
+                );
+                insert participantDelegate;
+
+                Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
+                ptDelegateRef.Participant__c = participantObj.Id;
+                ptDelegateRef.Contact__c = newContact.Id;
+                insert ptDelegateRef;
+                ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id>{
+                        newContact.Id => null
+                });
+
             } else {
-                newContact.Phone = participantObj.Phone__c;
+                update new Patient_Delegate__c(Id = delegateId, Status__c = DEL_ACTIVE);
             }
-            insert newContact;
-
-            Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
-            ptDelegateRef.Participant__c = participantObj.Id;
-            ptDelegateRef.Contact__c = newContact.Id;
-            insert ptDelegateRef;
-            ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id>{
-                    newContact.Id => null
-            });
-
-        } else {
-            update new Patient_Delegate__c(Id = delegateId, Status__c = DEL_ACTIVE);
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
 
