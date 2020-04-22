@@ -4077,14 +4077,6 @@
         <value>Pre-screening Date</value>
     </labels>
     <labels>
-        <fullName>Export_Excel_Status_Change_Reason</fullName>
-        <categories>excel export</categories>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Export Excel Status Change Reason</shortDescription>
-        <value>Status Change Reason</value>
-    </labels>
-    <labels>
         <fullName>FD_PE_Field_Arm_Cohort</fullName>
         <language>en_US</language>
         <protected>true</protected>
