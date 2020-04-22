@@ -192,8 +192,6 @@ global without sharing class ReferHealthcareProviderRemote {
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
-
-        return new List<Healthcare_Provider__c>();
     }
 
     @AuraEnabled
