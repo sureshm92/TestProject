@@ -146,11 +146,16 @@ public without sharing class MyTeamRemote {
                 }
             }
         }
+        List<Participant__c> contextParticipant = [
+                SELECT Id
+                FROM Participant__c
+                WHERE Contact__c =:UserContext.getUserContact().Id];
 
         List<Patient_Delegate__c> patientDelegates = [
                 SELECT Contact__c, Status__c
                 FROM Patient_Delegate__c
                 WHERE Contact__c IN:delegateContactsMap.keySet()
+                AND Participant__c = :contextParticipant.get(0).Id
         ];
         List<DelegateWrapper> delegates = new List<DelegateWrapper>();
         for (Patient_Delegate__c pd : patientDelegates) {
