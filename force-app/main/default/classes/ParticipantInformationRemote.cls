@@ -333,7 +333,9 @@ public without sharing class ParticipantInformationRemote {
                     WHERE Id IN (SELECT Contact__c
                                          FROM Patient_Delegate__c
                                          WHERE Participant__c = :participantId AND
-                                               Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS)];
+                                               (Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS OR
+                                                Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ONHOLD_STATUS))];
+
             for (Contact cnt : contacts) {
                 Participant__c participantDelegate = new Participant__c(Contact__c = cnt.Id,
                     First_Name__c = cnt.FirstName,
