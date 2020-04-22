@@ -58,9 +58,5 @@
         </div>
     </aura:if>
 
-<<<<<<< HEAD
     <c:builderStub aura:id="builderStub"/>
 </aura:component>
-=======
-</aura:component>
->>>>>>> origin/INT4.0
