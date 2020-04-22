@@ -154,12 +154,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 Language = headerIndexes.get('LANGUAGE') != null && csvRecordData[headerIndexes.get('LANGUAGE')] != null ? csvRecordData[headerIndexes.get('LANGUAGE')].trim() : null;
 
 
-                if (String.isEmpty(Nickname)) {
-                    hasErrors = true;
-                    system.debug('ERROR: ' + totalRecordCount + ', ' + 'Nickname, mandatory field is empty');
-
-                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'mandatory field is empty - Nickname');
-                }
                 if (String.isEmpty(FirstName)) {
                     hasErrors = true;
                     system.debug('ERROR: ' + totalRecordCount + ', ' + 'First Name, mandatory field is empty');
