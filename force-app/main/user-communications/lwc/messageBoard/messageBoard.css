@@ -135,7 +135,7 @@
 
 @media all and (max-width: 480px) {
     .ms-board-body {
-        height: 300px;
+        height: 300px !important;
     }
 
     .ms-board-footer-part {
