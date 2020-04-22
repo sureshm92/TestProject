@@ -230,6 +230,19 @@ global without sharing class ReferHealthcareProviderRemote {
                 }
                 insert newContact;
 
+                Participant__c participantDelegate = new Participant__c(
+                        Contact__c = newContact.Id,
+                        First_Name__c = newContact.FirstName,
+                        Last_Name__c = newContact.LastName,
+                        Email__c = newContact.Email,
+                        Phone__c = newContact.Phone,
+                        Mailing_City__c = newContact.MailingCity,
+                        Mailing_Country_Code__c = newContact.MailingCountryCode,
+                        Mailing_State_Code__c = newContact.MailingStateCode
+
+                );
+                insert participantDelegate;
+
                 Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
                 ptDelegateRef.Participant__c = participantObj.Id;
                 ptDelegateRef.Contact__c = newContact.Id;
