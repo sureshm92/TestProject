@@ -30,6 +30,7 @@
                 userMode: communityService.getUserMode()
             }, function (returnValue) {
                 var trialDetail = JSON.parse(returnValue);
+                if(!trialDetail.showVisits) visitMode = 'TravelSupportDetails';
                 //find tab
                 var selectedTabId = trialDetail.tabs[0].id;
                 for(var i = 0; i < trialDetail.tabs.length; i++){
@@ -38,6 +39,7 @@
                         break;
                     }
                 }
+                component.set('v.visitMode', visitMode);
                 component.set('v.currentTab', selectedTabId);
                 if(trialDetail.isTCAccepted !== null) {
                     if(!trialDetail.isTCAccepted) {
