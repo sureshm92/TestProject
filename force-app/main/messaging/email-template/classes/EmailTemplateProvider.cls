@@ -112,8 +112,6 @@ public virtual without sharing class EmailTemplateProvider {
         setBodyValue(templateLabels.get('body'));
         setPreSignatureValue(templateLabels.get('preSignature'));
         setSignatureValue(templateLabels.get('signature'));
-        setButtonLabelValue(templateLabels.get('button'));
-        setButtonUrlValue(templateLabels.get('buttonUrl'));
     }
 
     protected virtual void setHeaderValue(String headerLabel) {
@@ -175,14 +173,6 @@ public virtual without sharing class EmailTemplateProvider {
         String signatureLabelValue = TranslateHelper.getLabelValue(signatureLabel, recipientLanguage);
         signatureLabelValue = TranslateHelper.replaceParams(signatureLabelValue, PARAM_PREFIX, parameters);
         parameters.put('signatureValue', prepareLineBreaks(signatureLabelValue));
-    }
-
-    protected void setButtonLabelValue(String buttonLabel) {
-        parameters.put('buttonValue', TranslateHelper.replaceParams(buttonLabel, PARAM_PREFIX, parameters));
-    }
-
-    protected void setButtonUrlValue(String buttonUrlLabel) {
-        parameters.put('buttonUrlValue', TranslateHelper.replaceParams(buttonUrlLabel, PARAM_PREFIX, parameters));
     }
 
     //Specific URLs:----------------------------------------------------------------------------------------------------

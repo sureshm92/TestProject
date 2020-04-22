@@ -47,9 +47,7 @@ global without sharing class EmailTemplateController {
                     'greeting' => userGreetingValue,
                     'body' => bodyValue,
                     'preSignature' => preSignatureValue,
-                    'signature' => signatureValue,
-                    'button' => buttonLabelValue,
-                    'buttonUrl' => buttonUrlValue
+                    'signature' => signatureValue
             };
             templateProvider = new EmailTemplateProvider(EmailTemplateInitialFactory.getTemplateInitial(
                     templateLabels, sourceRecordId, emailRecipientId, emailRecipientName,
