@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>PE Pre-screening 2 status</label>
+    <label>PE Status Change Reason</label>
     <protected>false</protected>
     <values>
         <field>Field_Name__c</field>
-        <value xsi:type="xsd:string">Pre_screening_Status__c</value>
+        <value xsi:type="xsd:string">Non_Enrollment_Reason__c</value>
     </values>
     <values>
         <field>Label_Name__c</field>
-        <value xsi:type="xsd:string">Export_Excel_Pre_screening_2_status</value>
+        <value xsi:type="xsd:string">Export_Excel_Status_Change_Reason</value>
     </values>
     <values>
         <field>SObject_Name__c</field>
