@@ -29,22 +29,4 @@ The page is divided into left and right parts. On the left are the “New Messag
 - messageBoardHeader - The title of the message board. It is divided into two templates: desktop and mobile. The template is displayed depending on the screen format.
 - messageItem - The essence of the message. It also includes an attachment.
 
-
-####Data Model
-![Model](./images/data-model.png)
-
-------------------------------------------------------------------------------------------------------------------------
-
-###Screen Shots
-
-_Empty page_
-![empty](./images/empty%20messages.png)
-
-_Participant conversation_
-![pa-conv](./images/participant%20existing%20conversation.png)
-
-_PI mass message_
-![pi-mass](./images/mass%20message.png)
-
-_Message with attachment_
-![pi-attach](./images/message%20with%20attachment.png)
+----------------------------------
