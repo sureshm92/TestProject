@@ -5,7 +5,7 @@
 ({
     doInit: function (component, event, helper) {
         var pe = component.get('v.pe');
-        communityService.executeAction(component, 'getInitData', {peId: pe.Id, participantId: pe.Participant__r.Contact__c}, function (returnValue) {
+        communityService.executeAction(component, 'getInitData', {peId: pe.Id, participantId: pe.Participant__c}, function (returnValue) {
             var hcp = returnValue.healthcareProviders;
             for (let i = 0; i < hcp.length; i++) {
                 hcp[i].sObjectType = 'Healthcare_Provider__c';
@@ -36,7 +36,7 @@
    doDisconnect: function(component, event, helper){
     	var hcProviders = component.get('v.healthCareProviders');
         var pe = component.get('v.pe');
-        communityService.executeAction(component, 'getInitData', {peId: pe.Id, participantId: pe.Participant__r.Contact__c}, function (returnValue) {
+        communityService.executeAction(component, 'getInitData', {peId: pe.Id, participantId: pe.Participant__c}, function (returnValue) {
             component.set('v.healthCareProviders', returnValue);
         })
     },
