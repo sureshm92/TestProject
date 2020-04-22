@@ -22,13 +22,15 @@
     <aura:attribute name="isInvited" type="Boolean" access="public"/>
     <aura:attribute name="userInfo" type="Object"/>
     <aura:attribute name="userLanguage" type="String"/>
+    <aura:attribute name="createUsers" type="Boolean" default="false"/>
 
     <!-- private attributes: -->
     <aura:attribute name="screeningRequired" type="Boolean" default="false" access="private"/>
     <aura:attribute name="todayDate" type="Date" access="private"/>
     <aura:attribute name="statesLVList" type="LabelValueItem[]" access="private"/>
-    <aura:attribute name="dataStamp" type="String"/>
-    <aura:attribute name="visitPlanDisabled" type="Boolean"/>
+    <aura:attribute name="dataStamp" type="String" access="private"/>
+    <aura:attribute name="visitPlanDisabled" type="Boolean" access="private"/>
+
 
 
     <!-- methods: -->
@@ -117,7 +119,7 @@
 
         <!-- contact information: -->
         <div class="ap-section">
-            <aura:if isTrue="{!v.participantDelegate}">
+            <aura:if isTrue="{!(v.participantDelegate &amp;&amp; !v.participant.Adult__c) || (v.participantDelegate &amp;&amp; v.participant.Adult__c &amp;&amp; v.participant.Emancipation_in_progress__c)}">
                 <div class="ap-section-title">{!$Label.c.PG_Ref_L_Delegate_Information}</div>
                 <div class="slds-grid slds-gutters slds-wrap">
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
@@ -144,23 +146,27 @@
             <div class="ap-section-title">{!$Label.c.PG_AP_H_Contact_Information}</div>
             <div class="slds-grid slds-gutters slds-wrap">
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                    <div class="label"><abbr title="required" style="{!v.participantDelegate ? 'display: none' : ''}"
+                    <div class="label"><abbr title="required" style="{!!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none'}"
                                              class="slds-required">*</abbr>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
                     </div>
-                    <lightning:input type="text" value="{!v.participant.Phone__c}" required="{!!v.participantDelegate}"
+                    <lightning:input type="text" value="{!v.participant.Phone__c}"
+                                     required="{!!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c)}"
                                      onblur="{!c.doCheckFields}"/>
                 </div>
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                    <div class="label"><abbr title="required" style="{!v.participantDelegate ? 'display: none' : ''}"
+                    <div class="label"><abbr title="required" style="{!!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none'}"
                                              class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Phone_Type}</div>
                     <c:rrSelect options="{!v.formData.phoneTypeLVList}" value="{!v.participant.Phone_Type__c}"
-                                placeholder="{!$Label.c.PG_AC_Select}" required="{!!v.participantDelegate}" onchange="{!c.doCheckFields}"/>
+                                placeholder="{!$Label.c.PG_AC_Select}"
+                                required="{!!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c)}"
+                                onchange="{!c.doCheckFields}"/>
                 </div>
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                    <div class="label"><abbr title="required" style="{!v.participantDelegate ? 'display: none' : ''}"
+                    <div class="label"><abbr title="required" style="{!!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none'}"
                                              class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Email_address}
                     </div>
-                    <lightning:input  aura:id="emailInput" type="email" value="{!v.participant.Email__c}" required="{!!v.participantDelegate}"
+                    <lightning:input  aura:id="emailInput" type="email" value="{!v.participant.Email__c}"
+                                      required="{!!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c)}"
                                       onblur="{!c.doCheckFields}"/>
                 </div>
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
@@ -247,9 +253,16 @@
                                 <abbr title="required" class="slds-required">*</abbr>
                             </aura:if>{!$Label.c.FD_PE_Field_Arm_Cohort}
                         </div>
-                        <c:rrSelect options="{!v.formData.visitPlansLVList}" disabled="{!v.visitPlanDisabled}"
+                        <c:rrSelect options="{!v.formData.visitPlansLVList}" disabled="{!v.visitPlanDisabled || v.formData.visitPlansLVList.length == 1}"
                                     value="{!v.pe.Visit_Plan__c}" placeholder="{!$Label.c.PG_AC_Select}" required="{!v.screeningRequired}"
-                                    useSentenceFont="false" onchange="{!c.doCheckFields}"/>
+                                    useSentenceFont="false" onchange="{!c.doCheckFields}" setValueAsSelected="true"/>
+                    </div>
+                </aura:if>
+
+                <aura:if isTrue="{!v.fromAddParticipantPage}">
+                    <div class="slds-col slds-size--7-of-12 slds-grid slds-grid--vertical-align-center" style="margin-top: 30px;">
+                        <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.createUsers}"/>
+                        <div class="slds-size--10-of-12">{!$Label.c.Create_Users_Checkbox}</div>
                     </div>
                 </aura:if>
             </div>

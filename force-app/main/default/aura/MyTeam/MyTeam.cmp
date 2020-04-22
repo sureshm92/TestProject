@@ -1,6 +1,6 @@
 <aura:component controller="MyTeamRemote" description="MyTeam">
 
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"/>
+    <ltng:require scripts="{!$Resource.rr_community_js}"/>
 
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String" description="HCP / PI / Participant"/>
@@ -34,7 +34,8 @@
             <div class="delegate-parent-tabs">
                 <c:rrButtonTubSet>
                     <aura:iteration items="{!v.piDelegateParents}" var="delegateParent">
-                        <c:rrButtonTubSetItem title="{!delegateParent.label}" tabId="{!delegateParent.value}" currentTab="{!v.piSelectedParent}"/>
+                        <c:rrButtonTubSetItem title="{!delegateParent.label}" tabId="{!delegateParent.value}"
+                                              currentTab="{!v.piSelectedParent}"/>
                     </aura:iteration>
                 </c:rrButtonTubSet>
             </div>
@@ -51,7 +52,7 @@
                 <div class="delegate-info-table-container">
                     <c:DelegateLevelInfoTable userMode="{!v.userMode}"/>
                 </div>
-<!--                <c:DelegatesDisclaimer/>-->
+                <!--                <c:DelegatesDisclaimer/>-->
             </div>
             <aura:if isTrue="{!and(v.userMode == 'Participant', v.delegates.length == 0)}">
                 <div class="slds-col slds-size_1-of-1 slds-order_1 slds-medium-order_2 empty-list">
@@ -68,7 +69,9 @@
                                               ignoreUpdates="{!v.ignoreUpdates}"
                                               isCurrentUser="{!v.currentUserContactId == delegate.delegateContact.Id}"/>
                                 <aura:set attribute="else">
-                                    <c:PatientDelegateItem contact="{!delegate.delegateContact}" parentComponent="{!this}"/>
+                                    <c:PatientDelegateItem contact="{!delegate.delegateContact}"
+                                                           isActive="{!delegate.isActive}"
+                                                           parentComponent="{!this}"/>
                                 </aura:set>
                             </aura:if>
                         </aura:iteration>

@@ -9,7 +9,6 @@
     <apex:attribute name="delegateLevels" type="DelegateLevelWrapper[]" description=""/>
 
     <!-- component body: -->
-    <br/><br/>
     <apex:outputPanel>
         {!title}
     </apex:outputPanel>

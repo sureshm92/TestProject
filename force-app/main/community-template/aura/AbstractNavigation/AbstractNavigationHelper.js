@@ -110,7 +110,8 @@
 
             'resources':{
                 page: 'study-workspace',
-                label: $A.get('$Label.c.Navigation_Resources')
+                label: $A.get('$Label.c.Navigation_Resources'),
+                icon: 'resources'
             },
 
             'past-studies':{
