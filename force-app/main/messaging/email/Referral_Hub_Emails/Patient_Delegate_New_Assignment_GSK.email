@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="{!$Label.Email_Subject_Login_GSK}"
+<messaging:emailTemplate subject="{!$Label.Email_Header_Initial_Patient_Delegate}"
                          recipientType="Contact"
                          relatedToType="Participant__c"
                          language="{!recipient.Language__c}">

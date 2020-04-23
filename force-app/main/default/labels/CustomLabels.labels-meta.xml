@@ -2254,6 +2254,13 @@
         <value>This is a quick email to remind you of ##PatientFirstName&#39;s upcoming medication dosage for the clinical research study: ##StudyName.  If you have any questions regarding this medication, please contact the Study Team. Please login for additional details.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Participant_Delegate_New_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Participant Delegate New Study</shortDescription>
+        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more studies that are listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Once_at_Trial_Completion_DGT</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3294,6 +3301,13 @@
         <value>Your patient has been enrolled to a clinical research study</value>
     </labels>
     <labels>
+        <fullName>Email_Header_You_Have_Been_Assigned_As_a_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header You Have Been Assigned As a Delegate</shortDescription>
+        <value>You have been assigned as a Delegate</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Your_Access_Level_Has_Been_Changed</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4075,6 +4089,13 @@
         <protected>true</protected>
         <shortDescription>Export Excel Pre-screening Date</shortDescription>
         <value>Pre-screening Date</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Status_Change_Reason</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Status Change Reason</shortDescription>
+        <value>Status Change Reason</value>
     </labels>
     <labels>
         <fullName>FD_PE_Field_Arm_Cohort</fullName>
@@ -11295,6 +11316,13 @@
         <protected>true</protected>
         <shortDescription>PWS_Contact_Outcome_Placeholder</shortDescription>
         <value>Ready to Contact</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Contact_Outcome_Screening</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS Contact Outcome Screening</shortDescription>
+        <value>Ready to Screen</value>
     </labels>
     <labels>
         <fullName>PWS_Eligibility_Card_Name</fullName>

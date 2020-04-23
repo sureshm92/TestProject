@@ -146,11 +146,11 @@ public without sharing class MyTeamRemote {
                 }
             }
         }
-
         List<Patient_Delegate__c> patientDelegates = [
                 SELECT Contact__c, Status__c
                 FROM Patient_Delegate__c
                 WHERE Contact__c IN:delegateContactsMap.keySet()
+                AND Participant__c =: ParticipantContext.getCurrentParticipant().Id
         ];
         List<DelegateWrapper> delegates = new List<DelegateWrapper>();
         for (Patient_Delegate__c pd : patientDelegates) {
