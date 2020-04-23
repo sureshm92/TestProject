@@ -8,6 +8,7 @@
         var formData = component.get('v.formData');
         var states = formData.statesByCountryMap['US'];
         component.set('v.statesLVList', states);
+        component.set('v.visitPlanRequired', formData.visitPlansLVList.length > 0);
     },
 
      doCheckFields: function (component, event, hepler) {
@@ -28,7 +29,7 @@
         var stateVaild = stateCmp && stateCmp.get('v.validity') && stateCmp.get('v.validity').valid;
         var dataStamp = component.get('v.dataStamp');
         var isValid = false;
-        const screeningIdRequiredStatuses = 'Enrollment Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete';
+        const screeningIdRequiredStatuses = 'Enrollment Success; Randomization Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete';
         let screeningIdRequired = false;
         var isEnrollmentSuccess = false;
         var today = new Date();

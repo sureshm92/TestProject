@@ -203,7 +203,7 @@ export default class MessageBoard extends LightningElement {
             context.attachment = {
                 fileContent: readResult.substring(dataStart),
                 fileName: file.name,
-                icon: attIconMap[fileExtension] ? attIconMap[fileExtension] : 'icon-blank'
+                icon: attIconMap[fileExtension]
             };
         };
         fileReader.readAsDataURL(file);

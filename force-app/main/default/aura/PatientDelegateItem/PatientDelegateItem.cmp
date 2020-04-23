@@ -3,10 +3,11 @@
  -->
 <aura:component controller="PatientDelegateRemote" description="PatientDelegateItem">
 
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"/>
+    <ltng:require scripts="{!$Resource.rr_community_js}"/>
 
     <!-- attributes: -->
     <aura:attribute name="contact" type="Object" required="true"/>
+    <aura:attribute name="isActive" type="Boolean"/>
     <aura:attribute name="parentComponent" type="Aura.Component"/>
 
     <!-- component body:-->
@@ -18,13 +19,9 @@
             {!v.contact.Email}
         </div>
         <div class="mti-button-container">
-            <!--button class="apollo-btn tertiary" onclick="{!c.doEdit}"
-                    title="{!$Label.c.Button_Edit_Details}">
-                {!$Label.c.Button_Edit_Details}
-            </button-->
-            <button class="apollo-btn tertiary" onclick="{!c.doRemove}"
-                    title="{!$Label.c.Button_Remove}">
-                {!$Label.c.Button_Remove}
+            <button class="apollo-btn tertiary" onclick="{!c.handleClick}"
+                    title="{!if(v.isActive, $Label.c.BTN_Deactivate, $Label.c.BTN_Main_Activate)}">
+                {!if(v.isActive, $Label.c.BTN_Deactivate, $Label.c.BTN_Main_Activate)}
             </button>
         </div>
     </div>

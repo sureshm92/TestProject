@@ -11,6 +11,10 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>Show_Only_If_Selected__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
         <field>State__c</field>
         <value xsi:type="xsd:string">success</value>
     </values>

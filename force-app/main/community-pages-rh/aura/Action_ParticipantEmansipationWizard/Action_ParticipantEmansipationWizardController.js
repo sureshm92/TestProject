@@ -17,7 +17,7 @@
             component.set('v.pe', pe);
             component.set('v.rootComponent', params.rootComponent);
             if (params.callback) component.set('v.callback', params.callback);
-
+            if (params.actions) component.set('v.actions', JSON.parse(JSON.stringify(params.actions)));
             communityService.executeAction(component, 'getInitData', null, function (formData) {
                 component.set('v.formData', formData);
                 let states = formData.statesByCountryMap[pe.Participant__r.Mailing_Country_Code__c];
@@ -34,6 +34,7 @@
                                 Consent_To_Inform_About_Study__c: false };
                 component.set('v.contact', contact);
 
+                helper.initPILevel(component);
                 helper.initDelegates(component, event, helper);
 
                 helper.checkFields(component, event, helper);
@@ -204,7 +205,9 @@
               Mailing_Country__c: component.get('v.participant.Mailing_Country__c'),
               statesDelegateLVList: states,
               Adult__c: true,
-              Phone_Type__c: 'Home'
+              Phone_Type__c: 'Home',
+              isConnected: false,
+              fromStart: false
             });
         component.set('v.delegateItems', delegateItems);
     }

@@ -2,7 +2,7 @@
  * Created by Igor Malyuta on 21.12.2019.
  */
 
-import {LightningElement, api, track, wire} from 'lwc';
+import {LightningElement, track, wire} from 'lwc';
 import formFactor from '@salesforce/client/formFactor';
 import {CurrentPageReference, NavigationMixin} from 'lightning/navigation';
 import {registerListener, unregisterAllListeners} from 'c/pubSub';
@@ -97,7 +97,7 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
     }
 
     get disclaimerLessClass() {
-        return 'ms-disc-mob-label ' + (!this.showFullDisclaimer ? 'visible' : 'hide');
+        return 'ms-disc-mob-label ' + (this.showFullDisclaimer ? 'hide' : 'visible');
     }
 
     get leftPartClass() {
@@ -185,7 +185,7 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
             context.changeConversationsBackground(conWr.conversation.Id);
         }, 50);
 
-        this.messageBoard.openExisting(conWr.conversation, conWr.messages, conWr.isPastStudy);
+        this.messageBoard.openExisting(conWr.conversation, conWr.messages, conWr.isPastStudy, conWr.patientDelegates);
     }
 
     handleRefreshEvent() {
@@ -237,7 +237,7 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
 
     changePlusStyle(enabled) {
         let newMessBTN = this.template.querySelector('.ms-btn-new');
-        newMessBTN.style.opacity = enabled ? 1 : 0.5;
+        newMessBTN.style.opacity = enabled ? '1' : '0.5';
         newMessBTN.style.cursor = enabled ? 'pointer' : 'default';
     }
 
@@ -247,7 +247,9 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
         if (this.userMode === 'PI') {
             return !(this.conversationWrappers.length === 1 && this.enrollments.length === 1);
         }
-        return this.getFreeEnrollments().length !== 0;
+
+        let freeEnrollments = this.getFreeEnrollments();
+        return (freeEnrollments && freeEnrollments.length !== 0);
     }
 
     closeCreationMode() {

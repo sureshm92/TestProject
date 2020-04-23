@@ -100,10 +100,65 @@ public without sharing class PatientDelegateService {
                         'Contact__r.HCP_Opt_In_Referral_Status_Emails__c',
                         'Contact__r.Resource_Notifications__c',
                         'Contact__r.userCommunityMode__c',
-                        'Contact__r.Next_Notify_Date__c'
+                        'Contact__r.Next_Notify_Date__c',
+                        'Status__c'
                 },
                 Patient_Delegate__c.getSObjectType(),
                 DatabaseService.fieldEqual('Participant__r.Contact__c', participantContactId)
+        );
+    }
+
+    public static List<Patient_Delegate__c> getPDelegates(List<Id> participantContactIds) {
+        return DatabaseService.query(
+                new List<String>{
+                        'Id',
+                        'Participant__c',
+                        'Participant__r.Contact__c',
+                        'Participant__r.Contact__r.Name',
+                        'Contact__c',
+                        'Contact__r.Name',
+                        'Contact__r.FirstName',
+                        'Contact__r.LastName',
+                        'Contact__r.Language__c',
+                        'Contact__r.Email',
+                        'Contact__r.Participant_Opt_In_Status_Emails__c',
+                        'Contact__r.HCP_Opt_In_Patient_Status_Emails__c',
+                        'Contact__r.HCP_Opt_In_Study_Emails__c',
+                        'Contact__r.HCP_Opt_In_Referral_Status_Emails__c',
+                        'Contact__r.Resource_Notifications__c',
+                        'Contact__r.userCommunityMode__c',
+                        'Contact__r.Next_Notify_Date__c',
+                        'Status__c'
+                },
+                Patient_Delegate__c.getSObjectType(),
+                DatabaseService.fieldInValues('Participant__r.Contact__c', participantContactIds)
+        );
+    }
+
+    public static List<Patient_Delegate__c> getPatientDelegates(Id participantId) {
+        return DatabaseService.query(
+                new List<String>{
+                        'Id',
+                        'Participant__c',
+                        'Participant__r.Contact__c',
+                        'Participant__r.Contact__r.Name',
+                        'Contact__c',
+                        'Contact__r.Name',
+                        'Contact__r.FirstName',
+                        'Contact__r.LastName',
+                        'Contact__r.Language__c',
+                        'Contact__r.Email',
+                        'Contact__r.Participant_Opt_In_Status_Emails__c',
+                        'Contact__r.HCP_Opt_In_Patient_Status_Emails__c',
+                        'Contact__r.HCP_Opt_In_Study_Emails__c',
+                        'Contact__r.HCP_Opt_In_Referral_Status_Emails__c',
+                        'Contact__r.Resource_Notifications__c',
+                        'Contact__r.userCommunityMode__c',
+                        'Contact__r.Next_Notify_Date__c',
+                        'Status__c'
+                },
+                Patient_Delegate__c.getSObjectType(),
+                DatabaseService.fieldEqual('Participant__c', participantId)
         );
     }
 
@@ -212,6 +267,14 @@ public without sharing class PatientDelegateService {
         insert alertList;
     }
 
+    public static void changeStatus(Id contactId, String newStatus) {
+        List<Patient_Delegate__c> patientDelegate = [SELECT Id, Status__c FROM Patient_Delegate__c WHERE Contact__c = :contactId];
+        if(!patientDelegate.isEmpty()) {
+            patientDelegate.get(0).Status__c = newStatus;
+            update patientDelegate;
+        }
+    }
+
     public void resetDelegate(Id contactId, Boolean removeHimself) {
         Id ownerContactId = ParticipantContext.getCurrentParticipant().Contact__c;
         String filter = DatabaseService.fieldEqual('Contact__c', contactId) + 'AND'
@@ -243,14 +306,6 @@ public without sharing class PatientDelegateService {
                     ConversationService.removeConversationSharesForUser(CollectionUtil.getObjectIds(patientConversations), delegateUserId);
                 }
             }
-        }
-
-        List<Patient_Delegate__c> patientDelegate = [SELECT Id FROM Patient_Delegate__c WHERE Contact__c = :contactId];
-        List<Participant__c> participants = [SELECT Id FROM Participant__c WHERE Contact__c = :contactId];
-        if (patientDelegate.isEmpty() && participants.isEmpty()) {
-            CommunityService.deactivateUsers(new List<Id>{
-                    contactId
-            });
         }
     }
 
@@ -491,8 +546,7 @@ public without sharing class PatientDelegateService {
 
         for (Id contactId : contactIds) {
             Set<String> communityPermissionSets = CommunityTemplateService.getAllPermissionSets();
-            //reset permissions
-            actionAssignContactPermissions.deletePermissions(contactId, communityPermissionSets);
+
             //assign own permission sets:
             Id ownParticipantId = participantIdByContactIdMap.get(contactId);
             Set<String> ownPermissions;

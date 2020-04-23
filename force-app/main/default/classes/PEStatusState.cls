@@ -62,11 +62,13 @@ public without sharing class PEStatusState {
     public static final String PE_STATUS_ELIGIBILITY_PASSED = 'Eligibility Passed';
     public static final String PE_STATUS_ELIGIBILITY_FAILED = 'Eligibility Failed';
     //Screening Step
-    public static final String PE_STATUS_SCREENING_IN_PROGRESS= 'Screening In Progress';
+    public static final String PE_STATUS_SCREENING_IN_PROGRESS = 'Screening In Progress';
+    public static final String PE_STATUS_SCREENING_IN_PROGRESS_WASH_OUT_PERIOD = 'Screening In Progress - Wash Out Period';//TODO:check
     public static final String PE_STATUS_SCREENING_PASSED = 'Screening Passed';
     public static final String PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD = 'Screening Passed - Wash Out Period';//TODO:check
     public static final String PE_STATUS_SCREENING_FAILED = 'Screening Failed';
     public static final String PE_STATUS_UNABLE_TO_SCREEN = 'Unable to Screen';
+    public static final String PE_STATUS_READY_TO_SCREEN= 'Ready to Screen';
     //Enrollment Step
     public static final String PE_STATUS_ENROLLMENT_OLD = 'Enrolled';
     public static final String PE_STATUS_ENROLLMENT_SUCCESS = 'Enrollment Success';
@@ -131,8 +133,8 @@ public without sharing class PEStatusState {
             PE_STATUS_CONTACT_ATTEMPTED,
             PE_STATUS_ELIGIBILITY_PASSED,
             PE_STATUS_SCREENING_PASSED,
-            PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD,
-            PE_STATUS_SCREENING_IN_PROGRESS
+            PE_STATUS_SCREENING_IN_PROGRESS,
+            PE_STATUS_SCREENING_IN_PROGRESS_WASH_OUT_PERIOD
     };
     
     public static final List<String> PE_STATUS_GROUP_IN_PROGRESS_NOT_ON_HOLD = new List<String>{
@@ -143,8 +145,8 @@ public without sharing class PEStatusState {
             PE_STATUS_CONTACT_ATTEMPTED,
             PE_STATUS_ELIGIBILITY_PASSED,
             PE_STATUS_SCREENING_PASSED,
-            PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD,
-            PE_STATUS_SCREENING_IN_PROGRESS
+            PE_STATUS_SCREENING_IN_PROGRESS,
+            PE_STATUS_SCREENING_IN_PROGRESS_WASH_OUT_PERIOD
     };
     //TODO:check
     public static final List<String> PE_STATUS_GROUP_PARTICIPATION_FLOW_WITHOUT_INITIAL = new List<String>{
@@ -180,8 +182,8 @@ public without sharing class PEStatusState {
             PE_STATUS_CONTACT_ATTEMPTED,
             PE_STATUS_ELIGIBILITY_PASSED,
             PE_STATUS_SCREENING_PASSED,
-            PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD,
             PE_STATUS_SCREENING_IN_PROGRESS,
+            PE_STATUS_SCREENING_IN_PROGRESS_WASH_OUT_PERIOD,
             PE_STATUS_ENROLLMENT_SUCCESS,
             PE_STATUS_RANDOMIZATION_SUCCESS,
             PE_STATUS_TREATMENT_PERIOD_STARTED,
@@ -220,8 +222,8 @@ public without sharing class PEStatusState {
             PE_STATUS_ELIGIBILITY_PASSED,
             PE_STATUS_ELIGIBILITY_FAILED,
             PE_STATUS_SCREENING_PASSED,
-            PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD,
             PE_STATUS_SCREENING_IN_PROGRESS,
+            PE_STATUS_SCREENING_IN_PROGRESS_WASH_OUT_PERIOD,
             PE_STATUS_SCREENING_FAILED,
             PE_STATUS_UNABLE_TO_SCREEN
     };
@@ -229,15 +231,18 @@ public without sharing class PEStatusState {
     public static final List<String> PE_STATUS_GROUP_PARTICIPANT_IMPORT = new List<String>{
             PE_STATUS_RECEIVED,
             PE_STATUS_SUCCESSFULLY_CONTACTED,
+            PE_STATUS_ENROLLMENT_OLD,
             PE_STATUS_SCREENING_PASSED,
             PE_STATUS_RANDOMIZATION_SUCCESS,
             PE_STATUS_ENROLLMENT_SUCCESS
+
     };
 
     public static final List<String> PE_STATUS_GROUP_ADD_PATIENT_BY_PI = new List<String>{
-            PE_STATUS_CONTACT_ATTEMPTED,
-            PE_STATUS_ELIGIBILITY_PASSED,
-            PE_STATUS_SCREENING_IN_PROGRESS,
+            PE_STATUS_RECEIVED,
+            PE_STATUS_SUCCESSFULLY_CONTACTED,
+            PE_STATUS_ENROLLMENT_OLD,
+            PE_STATUS_SCREENING_PASSED,
             PE_STATUS_RANDOMIZATION_SUCCESS,
             PE_STATUS_ENROLLMENT_SUCCESS
     };
@@ -267,8 +272,8 @@ public without sharing class PEStatusState {
                     }),
             new StatusStep(PE_ST_SCREENING,
                     new Map<String, List<String>>{
-                            STATUS_STATE_SUCCESS => new List<String>{PE_STATUS_SCREENING_PASSED, PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD},
-                            STATUS_STATE_IN_PROGRESS => new List<String>{PE_STATUS_SCREENING_IN_PROGRESS},
+                            STATUS_STATE_SUCCESS => new List<String>{PE_STATUS_SCREENING_PASSED},
+                            STATUS_STATE_IN_PROGRESS => new List<String>{PE_STATUS_SCREENING_IN_PROGRESS, PE_STATUS_SCREENING_IN_PROGRESS_WASH_OUT_PERIOD},
                             STATUS_STATE_FAILURE => new List<String>{PE_STATUS_SCREENING_FAILED, PE_STATUS_UNABLE_TO_SCREEN}
                     }),
             new StatusStep(PE_ST_ENROLLED_RANDOMIZED,
@@ -307,8 +312,8 @@ public without sharing class PEStatusState {
             PE_STATUS_ELIGIBILITY_PASSED => 3,
             PE_STATUS_ELIGIBILITY_FAILED => 3,
             PE_STATUS_SCREENING_PASSED => 4,
-            PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD => 4,
             PE_STATUS_SCREENING_IN_PROGRESS => 4,
+            PE_STATUS_SCREENING_IN_PROGRESS_WASH_OUT_PERIOD => 4,
             PE_STATUS_SCREENING_FAILED => 4,
             PE_STATUS_UNABLE_TO_SCREEN => 4,
             PE_STATUS_ENROLLMENT_OLD => 5,
@@ -460,21 +465,29 @@ public without sharing class PEStatusState {
     }
 
     public static List<String> getParticipantImportStatuses(Clinical_Trial_Profile__c ctp){
-        return  ParticipantWorkflowService.filterStatusesForCTPSettings(PE_STATUS_GROUP_PARTICIPANT_IMPORT, ctp);
+        List<String> statuses = ParticipantWorkflowService.filterStatusesForCTPSettings(PE_STATUS_GROUP_PARTICIPANT_IMPORT, ctp);
+        statuses.add(2, PE_STATUS_ENROLLMENT_OLD);
+        return  statuses;
     }
 
     public static List<LabelValueItem> getParticipantImportStatusesLV(Clinical_Trial_Profile__c ctp){
         return  getStatusesLV(getParticipantImportStatuses(ctp), new Map<String, String>{
-                PE_STATUS_RECEIVED => TranslateHelper.getLabelValue('PWS_Contact_Outcome_Placeholder')
+                PE_STATUS_RECEIVED => TranslateHelper.getLabelValue('PWS_Contact_Outcome_Placeholder'),
+                PE_STATUS_ENROLLMENT_OLD => TranslateHelper.getLabelValue('PWS_Contact_Outcome_Screening')
         });
     }
 
     public static List<String> getAddPatientByPIStatuses(Clinical_Trial_Profile__c ctp){
-        return  ParticipantWorkflowService.filterStatusesForCTPSettings(PE_STATUS_GROUP_ADD_PATIENT_BY_PI, ctp);
+        List<String> statuses = ParticipantWorkflowService.filterStatusesForCTPSettings(PE_STATUS_GROUP_ADD_PATIENT_BY_PI, ctp);
+        statuses.add(2, PE_STATUS_ENROLLMENT_OLD);
+        return  statuses;
     }
 
     public static List<LabelValueItem> getAddPatientByPIStatusesLV(Clinical_Trial_Profile__c ctp){
-        return  getStatusesLV(getAddPatientByPIStatuses(ctp), null);
+        return  getStatusesLV(getAddPatientByPIStatuses(ctp), new Map<String, String>{
+                PE_STATUS_RECEIVED => TranslateHelper.getLabelValue('PWS_Contact_Outcome_Placeholder'),
+                PE_STATUS_ENROLLMENT_OLD => TranslateHelper.getLabelValue('PWS_Contact_Outcome_Screening')
+        });
     }
 
     public static List<String> getParticipationFlowSteps(Participant_Enrollment__c pe){
