@@ -4077,6 +4077,13 @@
         <value>Pre-screening Date</value>
     </labels>
     <labels>
+        <fullName>Export_Excel_Status_Change_Reason</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Status Change Reason</shortDescription>
+        <value>Status Change Reason</value>
+    </labels>
+    <labels>
         <fullName>FD_PE_Field_Arm_Cohort</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -11143,6 +11150,13 @@
         <protected>true</protected>
         <shortDescription>PWS_Contact_Outcome_Placeholder</shortDescription>
         <value>Ready to Contact</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Contact_Outcome_Screening</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS Contact Outcome Screening</shortDescription>
+        <value>Ready to Screen</value>
     </labels>
     <labels>
         <fullName>PWS_Eligibility_Card_Name</fullName>
