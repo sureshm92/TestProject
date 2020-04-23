@@ -194,6 +194,8 @@ public without sharing class ReferringRemote {
                 }
                 insert newContact;
 
+                insert participantDelegate;
+
                 Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
                 ptDelegateRef.Participant__c = participant.Id;
                 ptDelegateRef.Contact__c = newContact.Id;

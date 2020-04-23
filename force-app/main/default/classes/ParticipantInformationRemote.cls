@@ -285,29 +285,20 @@ public without sharing class ParticipantInformationRemote {
                 }
             }
 
-            List<Contact> contactsToUpdate = new List<Contact>();
             for (Participant__c delegateParticipant : delegates) {
-                if (!String.isBlank(delegateParticipant.Contact__c)) {
-                    contactsToUpdate.add(new Contact(
-                            Id = delegateParticipant.Contact__c,
-                            MailingState = delegateParticipant.Mailing_State__c,
-                            MailingCountry = delegateParticipant.Mailing_Country__c,
-                            MailingStateCode = delegateParticipant.Mailing_State_Code__c,
-                            MailingCountryCode = delegateParticipant.Mailing_Country_Code__c,
-                            MailingPostalCode = delegateParticipant.Mailing_Zip_Postal_Code__c,
-                            Email = delegateParticipant.Email__c,
-                            Phone = delegateParticipant.Phone__c
-                    ));
-                    if (!idsToCheck.contains(delegateParticipant.Contact__c) && patientDelegateByDelegate.containsKey(delegateParticipant.Contact__c)) {
-                        delegatesToUpdate.add(new Patient_Delegate__c(
-                                Id = patientDelegateByDelegate.get(delegateParticipant.Contact__c).Id,
-                                Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS)
-                        );
-                    }
+                if (!String.isBlank(delegateParticipant.Contact__c) &&
+                        !idsToCheck.contains(delegateParticipant.Contact__c) &&
+                        patientDelegateByDelegate.containsKey(delegateParticipant.Contact__c)) {
+
+                    delegatesToUpdate.add(new Patient_Delegate__c(
+                            Id = patientDelegateByDelegate.get(delegateParticipant.Contact__c).Id,
+                            Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS)
+                    );
                 }
             }
-            if (!contactsToUpdate.isEmpty()) {
-                update contactsToUpdate;
+
+            if (!delegates.isEmpty()) {
+                update delegates;
             }
             if (!delegatesToUpdate.isEmpty()) {
                 update delegatesToUpdate;
@@ -326,57 +317,27 @@ public without sharing class ParticipantInformationRemote {
     @AuraEnabled
     public static List<Participant__c> getParticipantDelegates(String participantId) {
         try {
-            List<Participant__c> participantDelegates = new List<Participant__c>();
-
-            List<Contact> contacts =
+            List<Participant__c> participants =
                     [SELECT Id,
-                            FirstName,
-                            MiddleName,
-                            LastName,
-                            MailingPostalCode,
-                            MailingStateCode,
-                            MailingCountryCode,
-                            MailingState,
-                            MailingCountry,
-                            Email,
-                            HomePhone,
-                            MobilePhone,
-                            Phone
-                    FROM Contact
-                    WHERE Id IN (SELECT Contact__c
+                            Contact__c,
+                            First_Name__c,
+                            Middle_Name__c,
+                            Last_Name__c,
+                            Mailing_Zip_Postal_Code__c,
+                            Mailing_State_Code__c,
+                            Mailing_State__c,
+                            Mailing_Country_Code__c,
+                            Mailing_Country__c,
+                            Email__c,
+                            Phone__c,
+                            Phone_Type__c
+                    FROM Participant__c
+                    WHERE Contact__c IN (SELECT Contact__c
                                          FROM Patient_Delegate__c
                                          WHERE Participant__c = :participantId AND
                                                (Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS OR
                                                 Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ONHOLD_STATUS))];
-
-            for (Contact cnt : contacts) {
-                Participant__c participantDelegate = new Participant__c(Contact__c = cnt.Id,
-                    First_Name__c = cnt.FirstName,
-                    Middle_Name__c = cnt.MiddleName,
-                    Last_Name__c = cnt.LastName,
-                    Mailing_Zip_Postal_Code__c = cnt.MailingPostalCode,
-                    Mailing_State_Code__c = cnt.MailingStateCode,
-                    Mailing_State__c = cnt.MailingState,
-                    Mailing_Country_Code__c = cnt.MailingCountryCode,
-                    Mailing_Country__c = cnt.MailingCountry,
-                    Email__c = cnt.Email
-                );
-
-                if (cnt.HomePhone != null) {
-                    participantDelegate.Phone__c = cnt.HomePhone;
-                    participantDelegate.Phone_Type__c = 'Home';
-                } if (cnt.MobilePhone != null) {
-                    participantDelegate.Phone__c = cnt.MobilePhone;
-                    participantDelegate.Phone_Type__c = 'Mobile';
-                } else {
-                    participantDelegate.Phone__c = cnt.Phone;
-                    participantDelegate.Phone_Type__c = 'Work';
-                }
-
-                participantDelegates.add(participantDelegate);
-            }
-
-            return participantDelegates;
+            return participants;
         } catch (Exception exp) {
             throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
         }
