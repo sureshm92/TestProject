@@ -6,7 +6,6 @@
     <messaging:htmlEmailBody >
         <c:EmailTemplate recipientName="{!$Label.Email_Guest}"
                          recipientLanguage="{!recipient.Language__c}"
-                         parametersProvider="Email_Template_Parameters_From_Resource"
                          sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_Share_PH}"
                          title="{!$Label.Email_Title_PH}"
@@ -21,7 +20,6 @@
     <messaging:plainTextEmailBody >
         <c:EmailTemplateText recipientName="{!$Label.Email_Guest}"
                              recipientLanguage="{!recipient.Language__c}"
-                             parametersProvider="Email_Template_Parameters_From_Resource"
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Share_PH}"
                              title="{!$Label.Email_Title_PH}"

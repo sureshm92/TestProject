@@ -3,10 +3,9 @@
                          relatedToType="Participant_Enrollment__c"
                          language="{!relatedTo.Study_Site__r.Principal_Investigator__r.Language__c}">
 
-    <messaging:htmlEmailBody >
+    <messaging:htmlEmailBody>
         <c:EmailTemplate userType="PI"
                          sourceId="{!relatedTo.Id}"
-                         parametersProvider="Email_Template_Parameters_From_PE"
                          header="{!$Label.Email_Header_PI5}"
                          title="{!$Label.Email_Title}"
                          greeting="{!$Label.Email_User_Greeting}"
@@ -17,18 +16,17 @@
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody >
+    <messaging:plainTextEmailBody>
         <c:EmailTemplateText userType="PI"
                              sourceId="{!relatedTo.Id}"
-                             parametersProvider="Email_Template_Parameters_From_PE"
                              header="{!$Label.Email_Header_PI5}"
                              title="{!$Label.Email_Title}"
                              greeting="{!$Label.Email_User_Greeting}"
                              body="{!$Label.Email_Body_PI5}"
                              signature="{!$Label.Email_Signature_RH}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_My_Referrals}"
-                              buttonURL="/s/my-referrals"/>
+                                  buttonURL="/s/my-referrals"/>
         </c:EmailTemplateText>
-    </messaging:plainTextEmailBody>  
+    </messaging:plainTextEmailBody>
 
 </messaging:emailTemplate>

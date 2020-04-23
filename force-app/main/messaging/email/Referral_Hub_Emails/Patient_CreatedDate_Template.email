@@ -4,7 +4,6 @@
 
     <messaging:htmlEmailBody >
         <c:EmailTemplate recipientId="{!recipient.Id}"
-                         parametersProvider="Email_Template_Parameters_From_PE"
                          sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_Created_Date}"
                          title="{!$Label.Email_Title_PH}"
@@ -18,7 +17,6 @@
 
     <messaging:plainTextEmailBody >
         <c:EmailTemplateText recipientId="{!recipient.Id}"
-                             parametersProvider="Email_Template_Parameters_From_PE"
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Created_Date}"
                              title="{!$Label.Email_Title_PH}"

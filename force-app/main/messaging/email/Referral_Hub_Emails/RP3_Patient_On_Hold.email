@@ -6,7 +6,6 @@
     <messaging:htmlEmailBody >
         <c:EmailTemplate userType="HCP"
                          sourceId="{!relatedTo.Id}"
-                         parametersProvider="Email_Template_Parameters_From_PE"
                          header="{!$Label.Email_Header_RP3}"
                          title="{!$Label.Email_Title}"
                          greeting="{!$Label.Email_User_Greeting}"
@@ -19,7 +18,6 @@
     <messaging:plainTextEmailBody >
         <c:EmailTemplateText userType="HCP"
                              sourceId="{!relatedTo.Id}"
-                             parametersProvider="Email_Template_Parameters_From_PE"
                              header="{!$Label.Email_Header_RP3}"
                              title="{!$Label.Email_Title}"
                              greeting="{!$Label.Email_User_Greeting}"

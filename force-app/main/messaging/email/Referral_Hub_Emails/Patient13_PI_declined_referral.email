@@ -6,7 +6,6 @@
     <messaging:htmlEmailBody >
         <c:EmailTemplate recipientId="{!relatedTo.Participant__r.Contact__c}"
                          sourceId="{!relatedTo.Id}"
-                         parametersProvider="Email_Template_Parameters_From_PE"
                          header="{!$Label.Email_Header_Patient2}"
                          title="{!$Label.Email_Title}"
                          greeting="{!$Label.Email_User_Greeting_FirstName}"
@@ -17,7 +16,6 @@
     <messaging:plainTextEmailBody >
         <c:EmailTemplateText recipientId="{!relatedTo.Participant__r.Contact__c}"
                              sourceId="{!relatedTo.Id}"
-                             parametersProvider="Email_Template_Parameters_From_PE"
                              header="{!$Label.Email_Header_Patient2}"
                              title="{!$Label.Email_Title}"
                              greeting="{!$Label.Email_User_Greeting_FirstName}"

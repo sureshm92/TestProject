@@ -5,7 +5,6 @@
     <messaging:htmlEmailBody >
         <c:EmailTemplate recipientId="{!recipient.Id}"
                          sourceId="{!relatedTo.Id}"
-                         parametersProvider="Email_Template_Parameters_From_Case"
                          header="{!$Label.Email_Header_Case}"
                          greeting=""
                          title="{!$Label.Email_Title}"
@@ -18,7 +17,6 @@
     <messaging:plainTextEmailBody >
         <c:EmailTemplateText recipientId="{!recipient.Id}"
                              sourceId="{!relatedTo.Id}"
-                             parametersProvider="Email_Template_Parameters_From_Case"
                              header="{!$Label.Email_Header_Case}"
                              greeting=""
                              title="{!$Label.Email_Title}"

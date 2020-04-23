@@ -4,7 +4,6 @@
                          language="{!relatedTo.Language__c}">
     <messaging:htmlEmailBody >
         <c:EmailTemplate sourceId="{!relatedTo.Id}"
-                         parametersProvider="PP_Contact"
                          recipientId="{!recipient.Id}"
                          header="{!$Label.Email_Header_PI_Conv_Rem}"
                          title="{!$Label.Email_Title}"
@@ -17,7 +16,6 @@
 
     <messaging:plainTextEmailBody>
         <c:EmailTemplateText sourceId="{!relatedTo.Id}"
-                             parametersProvider="PP_Contact"
                              recipientId="{!recipient.Id}"
                              header="{!$Label.Email_Header_PI_New_Mess}"
                              title="{!$Label.Email_Title}"
