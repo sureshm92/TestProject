@@ -19,6 +19,7 @@ public without sharing class NotificationService {
             NotificationCatalog.MESSAGE_TO_PT_SOURCE_PI_TYPE,
             NotificationCatalog.MESSAGE_TO_PT_SOURCE_ERP_TYPE,
             NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE,
+            NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE,
             NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_TYPE,
             NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_GSK_TYPE,
             NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_TYPE,
