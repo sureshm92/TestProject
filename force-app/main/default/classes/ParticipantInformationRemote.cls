@@ -264,33 +264,28 @@ public without sharing class ParticipantInformationRemote {
                 actionAssignContactPermissions.addPermission(participant.Contact__c, permissionSetName);
             }
 
+            Set<String> idsToCheck = new Set<String>(doNotContinueIds);
             List<Patient_Delegate__c> patientDelegates = [SELECT Id,
                                                                  Participant__c,
                                                                  Contact__c,
                                                                  Status__c
                                                           FROM Patient_Delegate__c
                                                           WHERE Participant__c = :participant.Id AND
-                                                                Contact__c IN :doNotContinueIds];
+                                                                Status__c != :PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS];
             Map<Id, Patient_Delegate__c> patientDelegateByDelegate = new Map<Id, Patient_Delegate__c>();
+            List<Patient_Delegate__c> delegatesToUpdate = new List<Patient_Delegate__c>();
             if (!patientDelegates.isEmpty()) {
-                List<Patient_Delegate__c> delegatesToNotContinue = new List<Patient_Delegate__c>();
                 system.debug('patientDelegates: ' + patientDelegates);
                 for (Patient_Delegate__c patientDelegate : patientDelegates) {
-                    if (PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS != patientDelegate.Status__c) {
+                    if (idsToCheck.contains(patientDelegate.Contact__c) && PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS != patientDelegate.Status__c) {
                         patientDelegate.Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS;
-                        delegatesToNotContinue.add(patientDelegate);
+                        delegatesToUpdate.add(patientDelegate);
                     }
                     patientDelegateByDelegate.put(patientDelegate.Contact__c, patientDelegate);
                 }
-
-                if (!delegatesToNotContinue.isEmpty()) {
-                    update delegatesToNotContinue;
-                }
             }
 
-            Set<String> idsToCheck = new Set<String>(doNotContinueIds);
             List<Contact> contactsToUpdate = new List<Contact>();
-            List<Patient_Delegate__c> delegatesToUpdate = new List<Patient_Delegate__c>();
             for (Participant__c delegateParticipant : delegates) {
                 if (!String.isBlank(delegateParticipant.Contact__c)) {
                     contactsToUpdate.add(new Contact(
@@ -303,7 +298,7 @@ public without sharing class ParticipantInformationRemote {
                             Email = delegateParticipant.Email__c,
                             Phone = delegateParticipant.Phone__c
                     ));
-                    if (!idsToCheck.contains(delegateParticipant.Contact__c)) {
+                    if (!idsToCheck.contains(delegateParticipant.Contact__c) && patientDelegateByDelegate.containsKey(delegateParticipant.Contact__c)) {
                         delegatesToUpdate.add(new Patient_Delegate__c(
                                 Id = patientDelegateByDelegate.get(delegateParticipant.Contact__c).Id,
                                 Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS)
