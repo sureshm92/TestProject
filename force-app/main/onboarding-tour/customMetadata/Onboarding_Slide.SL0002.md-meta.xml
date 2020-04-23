@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Body__c</field>
-        <value xsi:type="xsd:string">OT_PI_S1_T</value>
+        <value xsi:type="xsd:string">OT_PI_S2_T</value>
     </values>
     <values>
         <field>Multimode_Only__c</field>
@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>Sub_Title__c</field>
-        <value xsi:type="xsd:string">OT_PI_S1_H</value>
+        <value xsi:type="xsd:string"></value>
     </values>
     <values>
         <field>Title__c</field>
