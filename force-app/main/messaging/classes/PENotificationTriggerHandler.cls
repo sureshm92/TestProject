@@ -144,21 +144,16 @@ public without sharing class PENotificationTriggerHandler {
         List<Notification__c> notifications = new List<Notification__c>();
         Map<String, Map<Id, List<Participant_Enrollment__c>>> pesByCommunityName = new Map<String, Map<Id, List<Participant_Enrollment__c>>>();
 
-        List<Participant_Enrollment__c> newPEs = [
-                SELECT Id,
-                        Participant__r.Contact__c,
-                        Clinical_Trial_Profile__r.CommunityTemplate__c
-                FROM Participant_Enrollment__c
-                WHERE Id IN :newList AND Participant__r.Contact__c != NULL
-        ];
+        for (Participant_Enrollment__c pe : newList) {
+            if(pe.Participant_Contact__c != null) participantConIds.add(pe.Participant_Contact__c);
+        }
 
-        for (Participant_Enrollment__c pe : newPEs) participantConIds.add(pe.Participant__r.Contact__c);
         List<Participant_Enrollment__c> allPEs = [
                 SELECT Id,
                         Clinical_Trial_Profile__r.CommunityTemplate__c,
-                        Participant__r.Contact__c
+                        Participant_Contact__c
                 FROM Participant_Enrollment__c
-                WHERE Participant__r.Contact__c IN:participantConIds
+                WHERE Participant_Contact__c IN:participantConIds
         ];
 
         for (Participant_Enrollment__c pe : allPEs) {
@@ -166,10 +161,10 @@ public without sharing class PENotificationTriggerHandler {
                 pesByCommunityName.put(pe.Clinical_Trial_Profile__r.CommunityTemplate__c, new Map<Id, List<Participant_Enrollment__c>>());
             }
             Map<Id, List<Participant_Enrollment__c>> pesByPartCont = pesByCommunityName.get(pe.Clinical_Trial_Profile__r.CommunityTemplate__c);
-            if (!pesByPartCont.keySet().contains(pe.Participant__r.Contact__c)) {
-                pesByPartCont.put(pe.Participant__r.Contact__c, new List<Participant_Enrollment__c>());
+            if (!pesByPartCont.keySet().contains(pe.Participant_Contact__c)) {
+                pesByPartCont.put(pe.Participant_Contact__c, new List<Participant_Enrollment__c>());
             }
-            pesByPartCont.get(pe.Participant__r.Contact__c).add(pe);
+            pesByPartCont.get(pe.Participant_Contact__c).add(pe);
 
         }
 
@@ -177,10 +172,11 @@ public without sharing class PENotificationTriggerHandler {
                 participantConIds, new List<String>{'Id'}
         );
 
-        for (Participant_Enrollment__c pe : newPEs) {
-            Map<Id, List<Participant_Enrollment__c>> pesByPartCont = pesByCommunityName.get(pe.Clinical_Trial_Profile__r.CommunityTemplate__c);
-            if (pesByPartCont.get(pe.Participant__r.Contact__c).size() > 1 && delegateContactsByPartCnt.keySet().contains(pe.Participant__r.Contact__c)) {
-                for (Contact delegate : delegateContactsByPartCnt.get(pe.Participant__r.Contact__c)) {
+        for (Participant_Enrollment__c pe : newList) {
+            String communityName = ((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).CommunityTemplate__c;
+            Map<Id, List<Participant_Enrollment__c>> pesByPartCont = pesByCommunityName.get(communityName);
+            if (pesByPartCont.get(pe.Participant_Contact__c).size() > 1 && delegateContactsByPartCnt.keySet().contains(pe.Participant_Contact__c)) {
+                for (Contact delegate : delegateContactsByPartCnt.get(pe.Participant_Contact__c)) {
                     notifications.add(new Notification__c(
                             Recipient__c = delegate.Id,
                             WhatId__c = pe.Id,
