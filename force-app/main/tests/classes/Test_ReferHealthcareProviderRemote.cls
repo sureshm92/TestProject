@@ -26,13 +26,19 @@ private class Test_ReferHealthcareProviderRemote {
                 Email = 'pa_delegate@emil.com'
         );
         insert parDelegateContact;
+        Participant__c part = new Participant__c(
+                Contact__c = parDelegateContact.Id,
+                Email__c = 'pa_delegate@emil.com'
+
+        );
+        insert part;
         Patient_Delegate__c deleg = new Patient_Delegate__c();
         deleg.Participant__c = partEnroll.Participant__c;
         deleg.Contact__c = parDelegateContact.Id;
         insert deleg;
-        List<Patient_Delegate__c> result = ReferHealthcareProviderRemote.getInitData(partEnroll.Id, partEnroll.Participant__c).listDelegates;
+        List<Participant__c> result = ReferHealthcareProviderRemote.getInitData(partEnroll.Id, partEnroll.Participant__c).listDelegates;
         Test.stopTest();
-        System.assertEquals(parDelegateContact.Email, result[0].Contact__r.Email);
+        System.assertEquals(part.Email__c, result[0].Email__c);
     }
 
 }
