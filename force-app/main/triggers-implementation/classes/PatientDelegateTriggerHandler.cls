@@ -107,6 +107,20 @@ public without sharing class PatientDelegateTriggerHandler {
             participantContacts.add(delegate.Participant__r.Contact__c);
         }
 
+        //For minor participants
+        List<Participant_Enrollment__c> enrollments = [
+                SELECT Clinical_Trial_Profile__r.CommunityTemplate__c, Participant__c
+                FROM Participant_Enrollment__c
+                WHERE Participant_Contact__c IN:participantContacts
+        ];
+        Map<Id,List<String>> communityTemplatesByParticipant = new Map<Id, List<String>>();
+        for(Participant_Enrollment__c pe : enrollments) {
+            if(!communityTemplatesByParticipant.containsKey(pe.Participant__c)) {
+                communityTemplatesByParticipant.put(pe.Participant__c, new List<String>());
+            }
+            communityTemplatesByParticipant.get(pe.Participant__c).add(pe.Clinical_Trial_Profile__r.CommunityTemplate__c);
+        }
+
         List<PermissionSetAssignment> permissionSetAssignments = [
                 SELECT
                         Assignee.ContactId,
@@ -129,10 +143,20 @@ public without sharing class PatientDelegateTriggerHandler {
 
             Set<String> delPermissions = permissionsByContact.get(delCont);
             for(Participant__c participant : participantsByDelContId.get(delCont)) {
-                for(String partPerm : permissionsByContact.get(participant.Contact__c)) {
-                    if(delPermissions.contains(partPerm)) {
+                List<CommunityTemplate> communityTemplates = new List<CommunityTemplate>();
+                if(permissionsByContact.containsKey(participant.Contact__c)) {
+                    for (String partPerm : permissionsByContact.get(participant.Contact__c)) {
+                        communityTemplates.add(CommunityTemplateService.getTemplateByPermissionSetName(partPerm));
+                    }
+                } else {
+                    for(String templateName : communityTemplatesByParticipant.get(participant.Id)) {
+                        communityTemplates.add(CommunityTemplateService.getTemplate(templateName));
+                    }
+                }
+                for (CommunityTemplate template : communityTemplates) {
+                    if(delPermissions.contains(template.permissionSet)) {
                         notifications.add(new Notification__c(
-                                Notification_Type__c = CommunityTemplateService.getTemplateByPermissionSetName(partPerm).properties.get(templateProperty),
+                                Notification_Type__c = template.properties.get(templateProperty),
                                 Recipient__c = delCont,
                                 WhatId__c = participant.Id
                         ));

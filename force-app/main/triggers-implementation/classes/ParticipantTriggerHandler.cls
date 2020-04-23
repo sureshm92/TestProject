@@ -246,7 +246,7 @@ public without sharing class ParticipantTriggerHandler {
                 } else {
                     participant.Emancipation_in_progress__c = true;
                 }
-                patientIsAdult.add(participant.Id);
+                patientIsAdult.add(participant.Contact__c);
             }
         }
 
@@ -267,7 +267,7 @@ public without sharing class ParticipantTriggerHandler {
         List<Patient_Delegate__c> patientDelegates = PatientDelegateService.getPDelegates(new List<Id>(patientIsAdult));
         for (Patient_Delegate__c patientDelegate : patientDelegates) {
             if (PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS == patientDelegate.Status__c &&
-                    patientIsAdult.contains(patientDelegate.Participant__c)) {
+                    patientIsAdult.contains(patientDelegate.Participant__r.Contact__c)) {
                 patientDelegate.Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_ONHOLD_STATUS;
                 patientDelegatesToUpdate.add(patientDelegate);
             }
