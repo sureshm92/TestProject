@@ -27,7 +27,7 @@
         <aura:if isTrue="{!v.field.type=='picklist'}">
             <div class="label"><aura:if isTrue="{!and(or(v.required,v.field.dependent), v.field.required)}"><abbr title="required" class="slds-required">*</abbr></aura:if>{!v.field.title}</div>
             <c:rrSelect aura:id="selectList" options="{!v.field.values}" value="{!v.field.value}"
-                        placeholder=""
+                        placeholder="{!$Label.c.PG_AC_Select}"
                         disabled="{!v.field.readonly || !v.editable || and(v.field.smartPicklist, v.field.values.length == 1)}"
                         required="{!and(!v.field.readonly,and(or(v.required,v.field.dependent), v.field.required))}"
                         setValueAsSelected="true" errorMessage="{!v.errorMessage}"/>
