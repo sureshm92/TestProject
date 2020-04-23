@@ -305,7 +305,7 @@ public without sharing class ParticipantInformationRemote {
                     ));
                     if (!idsToCheck.contains(delegateParticipant.Contact__c)) {
                         delegatesToUpdate.add(new Patient_Delegate__c(
-                                Id = patientDelegateByDelegate.get(delegateParticipant.Contact__c).Id;
+                                Id = patientDelegateByDelegate.get(delegateParticipant.Contact__c).Id,
                                 Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS)
                         );
                     }
