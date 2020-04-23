@@ -10,6 +10,7 @@ public without sharing class PENotificationTriggerHandler {
 
         public override void afterInsert(List<SObject> newList) {
             createNotificationByStatus(newList, null);
+            referredToNewStudyDelegateNotifications(newList);
         }
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
@@ -134,6 +135,61 @@ public without sharing class PENotificationTriggerHandler {
         }
         notifications.addAll(delegateNotifications);
         System.debug('delegateNotifications' + delegateNotifications);
+        insert notifications;
+    }
+
+    @TestVisible
+    private static void referredToNewStudyDelegateNotifications(List<Participant_Enrollment__c> newList) {
+        List<Id> participantConIds = new List<Id>();
+        List<Notification__c> notifications = new List<Notification__c>();
+        Map<String, Map<Id, List<Participant_Enrollment__c>>> pesByCommunityName = new Map<String, Map<Id, List<Participant_Enrollment__c>>>();
+
+        List<Participant_Enrollment__c> newPEs = [
+                SELECT Id,
+                        Participant__r.Contact__c,
+                        Clinical_Trial_Profile__r.CommunityTemplate__c
+                FROM Participant_Enrollment__c
+                WHERE Id IN :newList AND Participant__r.Contact__c != NULL
+        ];
+
+        for (Participant_Enrollment__c pe : newPEs) participantConIds.add(pe.Participant__r.Contact__c);
+        List<Participant_Enrollment__c> allPEs = [
+                SELECT Id,
+                        Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Participant__r.Contact__c
+                FROM Participant_Enrollment__c
+                WHERE Participant__r.Contact__c IN:participantConIds
+        ];
+
+        for (Participant_Enrollment__c pe : allPEs) {
+            if (!pesByCommunityName.keySet().contains(pe.Clinical_Trial_Profile__r.CommunityTemplate__c)) {
+                pesByCommunityName.put(pe.Clinical_Trial_Profile__r.CommunityTemplate__c, new Map<Id, List<Participant_Enrollment__c>>());
+            }
+            Map<Id, List<Participant_Enrollment__c>> pesByPartCont = pesByCommunityName.get(pe.Clinical_Trial_Profile__r.CommunityTemplate__c);
+            if (!pesByPartCont.keySet().contains(pe.Participant__r.Contact__c)) {
+                pesByPartCont.put(pe.Participant__r.Contact__c, new List<Participant_Enrollment__c>());
+            }
+            pesByPartCont.get(pe.Participant__r.Contact__c).add(pe);
+
+        }
+
+        Map<Id, List<Contact>> delegateContactsByPartCnt = PatientDelegateService.getDelegatedCntsByParticipantCnt(
+                participantConIds, new List<String>{'Id'}
+        );
+
+        for (Participant_Enrollment__c pe : newPEs) {
+            Map<Id, List<Participant_Enrollment__c>> pesByPartCont = pesByCommunityName.get(pe.Clinical_Trial_Profile__r.CommunityTemplate__c);
+            if (pesByPartCont.get(pe.Participant__r.Contact__c).size() > 1 && delegateContactsByPartCnt.keySet().contains(pe.Participant__r.Contact__c)) {
+                for (Contact delegate : delegateContactsByPartCnt.get(pe.Participant__r.Contact__c)) {
+                    notifications.add(new Notification__c(
+                            Recipient__c = delegate.Id,
+                            WhatId__c = pe.Id,
+                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE,
+                            IsDelegate__c = true
+                    ));
+                }
+            }
+        }
         insert notifications;
     }
 
