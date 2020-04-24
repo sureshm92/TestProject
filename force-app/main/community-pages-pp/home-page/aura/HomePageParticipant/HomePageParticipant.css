@@ -87,3 +87,9 @@
         flex-direction: column;
     }
 }
+
+@media all and (max-width:500px) {
+    .THIS .apollo-btn.primary.dark {
+    	width: 100%;
+    }
+}

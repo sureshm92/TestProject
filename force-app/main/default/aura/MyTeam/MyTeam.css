@@ -32,10 +32,6 @@
 }
 @media all and (max-width: 767px){
 
-    .THIS .delegate-info-table-container{
-        margin-left: -0.75rem;
-        margin-right: -0.75rem;
-    }
     .THIS .team-items-panel{
         margin-bottom: 0;
     }
@@ -52,4 +48,10 @@
 }
 .THIS .delegate-parent-tabs{
     margin-bottom: 20px;
+}
+
+@media all and (max-width: 500px){
+    .THIS .mt-button-container {
+        margin-top: 2rem;
+    }
 }

@@ -13,7 +13,7 @@
 }
 
 .THIS.h-container .h-header .h-header-info .h-header-info-bold-text {
-    font-weight: bold;
+    font-weight: 600;
 }
 
  .THIS .h-left-col {
@@ -28,13 +28,18 @@
 
 .THIS.h-container .h-title {
     color: #000000;
-    font-size: 36px;
-    line-height: 48px;
+    font-size: 1.5rem;
+    line-height: 3rem;
+    font-weight: 600;
 }
 
 @media (max-width: 850px) {
     .THIS.h-container {
         margin-top: -20px;
+    }
+    
+    .THIS.h-container .h-header{
+        margin-bottom: 0;
     }
 
     .THIS.h-container .h-title{
