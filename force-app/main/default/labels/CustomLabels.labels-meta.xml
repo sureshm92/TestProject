@@ -2254,13 +2254,6 @@
         <value>This is a quick email to remind you of ##PatientFirstName&#39;s upcoming medication dosage for the clinical research study: ##StudyName.  If you have any questions regarding this medication, please contact the Study Team. Please login for additional details.</value>
     </labels>
     <labels>
-        <fullName>Email_Body_Participant_Delegate_New_Study</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Body Participant Delegate New Study</shortDescription>
-        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more studies that are listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.</value>
-    </labels>
-    <labels>
         <fullName>Email_Body_Once_at_Trial_Completion_DGT</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2359,6 +2352,13 @@
         <value>Thank you for submitting a request for additional information about ##StudyCode. Someone from the study team will be in touch with you.
 
             Please login to the ##ShortCommunityName to check your clinical research trial matches at any time.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Participant_Delegate_New_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Participant Delegate New Study</shortDescription>
+        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more studies that are listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Participant_Delegate_Reactivated</fullName>
@@ -3313,6 +3313,13 @@
         <protected>false</protected>
         <shortDescription>Email Header Your Access Level Has Been Changed</shortDescription>
         <value>Your access level has been changed</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Your_Access_Level_Has_Changed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header Your Access Level Has Changed</shortDescription>
+        <value>Your access level has changed</value>
     </labels>
     <labels>
         <fullName>Email_Notification_Greeting</fullName>
@@ -5909,87 +5916,32 @@
         <value>Click Add Patient to enter details for your patients who may participate in the study so they can access our Patient Portal to track their progress and view information related to their participation, or if you simply want to manage and track your patient referrals in the platform along with those sent to you from other recruitment sources via Referral Hub. Click on Study Name to see more details, such as inclusion and exclusion criteria, and access other functions associated with the study.</value>
     </labels>
     <labels>
-        <fullName>OT_DPI_S10_T</fullName>
+        <fullName>OT_DPI_S2_H</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>OT DPI S10 T</shortDescription>
-        <value>Access platform help resources including this features tour, reference guides, and common questions and answers. You may also request additional technical support.</value>
+        <shortDescription>OT DPI S2 H</shortDescription>
+        <value>Referrals</value>
     </labels>
     <labels>
         <fullName>OT_DPI_S2_T</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT DPI S2 T</shortDescription>
-        <value>Click on your user profile icon to access My Team. Manage existing team members’ permission levels by clicking the drop-down arrow next to the study name on the member’s card. Add new members by clicking the Add New Team Member button and completing the brief form to grant access immediately.</value>
+        <value>Manage individual referral statuses. Click on the patient name to access fields for recording contacts, changing referral status, and making notes.</value>
+    </labels>
+    <labels>
+        <fullName>OT_DPI_S3_H</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT DPI S3 H</shortDescription>
+        <value>Invite and Manage Referring Providers</value>
     </labels>
     <labels>
         <fullName>OT_DPI_S3_T</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT DPI S3 T</shortDescription>
-        <value>Click on Study Name or Learn More link to see more details about the study, such as inclusion and exclusion criteria, and access other functions associated with the study.
-            Manage your study site name, study site primary contact, and location details, including driving directions and other guidance to share with participants in the Patient Portal.
-            Click Manage Participants to view and update existing participants or referrals. Click Manage Referring Providers to invite or update existing external providers from whom you would like to receive referrals.</value>
-    </labels>
-    <labels>
-        <fullName>OT_DPI_S4_H</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>OT DPI S4 H</shortDescription>
-        <value>Add Participant(s)</value>
-    </labels>
-    <labels>
-        <fullName>OT_DPI_S4_T</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>OT DPI S4 T</shortDescription>
-        <value>Click Add Participant(s) to enter details for a single participant or upload a batch of participants via an Excel or .csv file so that you can track and manage pre-screening and referral activity in the platform along with potential participants sent to you from other recruitment sources via Referral Hub. Added individuals may be invited to access our portal(s) to track their progress and view information related to their participation in clinical studies.</value>
-    </labels>
-    <labels>
-        <fullName>OT_DPI_S5_T</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>OT DPI S5 T</shortDescription>
-        <value>Click Invite Referring Provider to invite physicians from whom you would like to receive referrals.
-
-            Activate, place on hold, or decline Referring Provider requests to refer to your study site(s). You are able to activate a provider for a single study or for all current and future studies for which you are recruiting.</value>
-    </labels>
-    <labels>
-        <fullName>OT_DPI_S6_T</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>OT DPI S6 T</shortDescription>
-        <value>View a snapshot of key metrics for managing your participants and summaries of items pending your action. If you are a user supporting multiple study doctors, a picklist menu will be displayed at the top left of the dashboard from which you can select the study doctor for whom you would like to view data.</value>
-    </labels>
-    <labels>
-        <fullName>OT_DPI_S7_T</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>OT DPI S7 T</shortDescription>
-        <value>Click Export All to download an anonymized log of pre-screening and enrollment activities performed for your participants.
-
-            Click View Participant Details to view or manage a participant’s information and status details.
-
-            When available for a given study, click Pre-Screen Participant to complete a pre-screening questionnaire for a participant.
-
-            Where applicable, click Invite to Patient Portal to grant a participant access to track their study progress and view resources designed to enhance their study participation experience. </value>
-    </labels>
-    <labels>
-        <fullName>OT_DPI_S8_T</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>OT DPI S8 T</shortDescription>
-        <value>Tabs at the top of the modal allow you to view and manage personal demographic and contact details, manage participant’s study enrollment progress, control sharing options, and view pre-screening questions and responses when available.
-            Click the Print icon in the upper-right corner of the modal to download or print participant’s full profile of information, including all tabs. 
-
-            IMPORTANT NOTE: Study site team members are responsible for the appropriate handling and use of individual’s personal identifiable information (including performing redactions where appropriate) when exported or printed from our platform.</value>
-    </labels>
-    <labels>
-        <fullName>OT_DPI_S9_T</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>OT DPI S9 T</shortDescription>
-        <value>If your site has opted to use the messaging feature, then Messages will be accessible from the top navigation bar. This option allows you to communicate directly with your participants who are using the portal, including sending files and receiving requests for information from participants. If you would like this feature enabled for your site(s), please notify your assigned Clinical Research Associate (CRA) or study monitor.</value>
+        <value>Manage the status of Referring Providers who have requested to refer to your study site. Click Invite Referring Provider to enter contact information for colleagues from whom you would like to receive referrals through Referral Hub so that we can invite them to the platform.</value>
     </labels>
     <labels>
         <fullName>OT_DRP_S1_H</fullName>
@@ -6153,20 +6105,6 @@
         <value>Medical Record Review Log</value>
     </labels>
     <labels>
-        <fullName>OT_H_Messages</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>OT H Messages</shortDescription>
-        <value>Messages</value>
-    </labels>
-    <labels>
-        <fullName>OT_H_My_Participants</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>OT H My Participants</shortDescription>
-        <value>My Participants</value>
-    </labels>
-    <labels>
         <fullName>OT_H_My_Patients</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6178,7 +6116,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT H My Referring Clinics</shortDescription>
-        <value>Manage Referring Providers</value>
+        <value>My Referring Clinics</value>
     </labels>
     <labels>
         <fullName>OT_H_My_Studies</fullName>
@@ -6200,13 +6138,6 @@
         <protected>false</protected>
         <shortDescription>OT H Navigation Bar</shortDescription>
         <value>Navigation Bar</value>
-    </labels>
-    <labels>
-        <fullName>OT_H_Participants_Details_Modal</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>OT H Participants Details Modal</shortDescription>
-        <value>Participants Details Modal</value>
     </labels>
     <labels>
         <fullName>OT_H_Profile</fullName>
@@ -6248,97 +6179,21 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT PI S1 H</shortDescription>
-        <value>Add Patient and View Study Details</value>
+        <value>Modify Permission</value>
     </labels>
     <labels>
         <fullName>OT_PI_S1_T</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT PI S1 T</shortDescription>
-        <value>Click Add Patient to enter details for your patients who may participate in the study so they can access our Patient Portal to track their progress and view information related to their participation, or if you simply want to manage and track your patient referrals in the platform along with those sent to you from other recruitment sources via Referral Hub. Click on Study Name to see more details, such as inclusion and exclusion criteria, and access other functions associated with the study.</value>
-    </labels>
-    <labels>
-        <fullName>OT_PI_S10_T</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>OT PI S10 T</shortDescription>
-        <value>Access platform help resources including this features tour, reference guides, and common questions and answers. You may also request additional technical support.</value>
+        <value>Click on your user profile icon to access My Team. Add new members to your team by clicking on Add New Team Member. Manage existing team member&#39;s permissions for individual studies using the dropdowns.</value>
     </labels>
     <labels>
         <fullName>OT_PI_S2_T</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT PI S2 T</shortDescription>
-        <value>Click on your user profile icon to access My Team. Manage existing team members’ permission levels by clicking the drop-down arrow next to the study name on the member’s card. Add new members by clicking the Add New Team Member button and completing the brief form to grant access immediately.</value>
-    </labels>
-    <labels>
-        <fullName>OT_PI_S3_T</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>OT PI S3 T</shortDescription>
-        <value>Click on Study Name or Learn More link to see more details about the study, such as inclusion and exclusion criteria, and access other functions associated with the study.
-            Manage your study site name, study site primary contact, and location details, including driving directions and other guidance to share with participants in the Patient Portal.
-            Click Manage Participants to view and update existing participants or referrals. Click Manage Referring Providers to invite or update existing external providers from whom you would like to receive referrals.</value>
-    </labels>
-    <labels>
-        <fullName>OT_PI_S4_H</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>OT PI S4 H</shortDescription>
-        <value>Add Participant(s)</value>
-    </labels>
-    <labels>
-        <fullName>OT_PI_S4_T</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>OT PI S4 T</shortDescription>
-        <value>Click Add Participant(s) to enter details for a single participant or upload a batch of participants via an Excel or .csv file so that you can track and manage pre-screening and referral activity in the platform along with potential participants sent to you from other recruitment sources via Referral Hub. Added individuals may be invited to access our portal(s) to track their progress and view information related to their participation in clinical studies.</value>
-    </labels>
-    <labels>
-        <fullName>OT_PI_S5_T</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>OT PI S5 T</shortDescription>
-        <value>Click Invite Referring Provider to invite physicians from whom you would like to receive referrals.
-
-            Activate, place on hold, or decline Referring Provider requests to refer to your study site(s). You are able to activate a provider for a single study or for all current and future studies for which you are recruiting.</value>
-    </labels>
-    <labels>
-        <fullName>OT_PI_S6_T</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>OT PI S6 T</shortDescription>
-        <value>View a snapshot of key metrics for managing your participants and summaries of items pending your action. If you are a user supporting multiple study doctors, a picklist menu will be displayed at the top left of the dashboard from which you can select the study doctor for whom you would like to view data.</value>
-    </labels>
-    <labels>
-        <fullName>OT_PI_S7_T</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>OT PI S7 T</shortDescription>
-        <value>Click Export All to download an anonymized log of pre-screening and enrollment activities performed for your participants.
-
-            Click View Participant Details to view or manage a participant’s information and status details.
-
-            When available for a given study, click Pre-Screen Participant to complete a pre-screening questionnaire for a participant.
-
-            Where applicable, click Invite to Patient Portal to grant a participant access to track their study progress and view resources designed to enhance their study participation experience. </value>
-    </labels>
-    <labels>
-        <fullName>OT_PI_S8_T</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>OT PI S8 T</shortDescription>
-        <value>Tabs at the top of the modal allow you to view and manage personal demographic and contact details, manage participant’s study enrollment progress, control sharing options, and view pre-screening questions and responses when available.
-            Click the Print icon in the upper-right corner of the modal to download or print participant’s full profile of information, including all tabs. 
-
-            IMPORTANT NOTE: Study site team members are responsible for the appropriate handling and use of individual’s personal identifiable information (including performing redactions where appropriate) when exported or printed from our platform.</value>
-    </labels>
-    <labels>
-        <fullName>OT_PI_S9_T</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>OT PI S9 T</shortDescription>
-        <value>If your site has opted to use the messaging feature, then Messages will be accessible from the top navigation bar. This option allows you to communicate directly with your participants who are using the portal, including sending files and receiving requests for information from participants. If you would like this feature enabled for your site(s), please notify your assigned Clinical Research Associate (CRA) or study monitor.</value>
+        <value>Accept both Referrals and Referring Clinics directly on this page.</value>
     </labels>
     <labels>
         <fullName>OT_Participant_GSK_S1_H</fullName>
