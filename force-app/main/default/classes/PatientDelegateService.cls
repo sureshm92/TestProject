@@ -599,6 +599,7 @@ public without sharing class PatientDelegateService {
                 }
             }
         }
+        System.debug('XXX_ACTION: ' + JSON.serializePretty(actionAssignContactPermissions));
 
         //add action to queue
         if (!actionAssignContactPermissions.isEmpty()) {
