@@ -8,4 +8,5 @@
 5) Refactoring of classes connected with Resources
 6) Move integrations SendPEToStudyHub and SendPESHToEPR to using RemoteCall classes
 7) PE.Patient_ID__c now updated only for EPR PE!
+8) Refactoring MyTeamRemote + UI
   
