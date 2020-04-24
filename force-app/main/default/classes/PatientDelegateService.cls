@@ -135,8 +135,16 @@ public without sharing class PatientDelegateService {
         );
     }
 
-    public static List<Patient_Delegate__c> getPatientDelegates(Id participantId) {
-        return DatabaseService.query(
+    public static List<Participant__c> getPatientDelegates(Id participantId) {
+        List<Patient_Delegate__c> listContactDelegateIds = [SELECT Id, Contact__c FROM Patient_Delegate__c WHERE Participant__c =: participantId];
+        Set<Id> setContactDelegateIds = new Set<Id>();
+        for(Patient_Delegate__c del : listContactDelegateIds){
+            setContactDelegateIds.add(del.Contact__c);
+        }
+        List<Participant__c> listParticipants = [SELECT Id, First_Name__c, Last_Name__c, Email__c FROM Participant__c WHERE Contact__c IN : setContactDelegateIds];
+        return listParticipants;
+
+                /*DatabaseService.query(
                 new List<String>{
                         'Id',
                         'Participant__c',
@@ -157,9 +165,9 @@ public without sharing class PatientDelegateService {
                         'Contact__r.Next_Notify_Date__c',
                         'Status__c'
                 },
-                Patient_Delegate__c.getSObjectType(),
+                .getSObjectType(),
                 DatabaseService.fieldEqual('Participant__c', participantId)
-        );
+        );*/
     }
 
     public static Map<Id, List<Id>> getDelegatedParticipantIdsMap(List<Id> contactIds) {
