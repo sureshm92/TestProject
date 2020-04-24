@@ -14,11 +14,11 @@
                 email: email
             }, function (returnValue) {
                 if (returnValue.firstName) {
-                    if (sharingObject.sObjectType == 'Patient_Delegate__c') {
-                        component.set('v.sharingObject.Contact__r.Email', email);
-                        component.set('v.sharingObject.Contact__r.FirstName', returnValue.firstName);
+                    if (sharingObject.sObjectType == 'Object') {
+                        component.set('v.sharingObject.email', email);
+                        component.set('v.sharingObject.firstName', returnValue.firstName);
                         component.find('firstNameInput').focus();
-                        component.set('v.sharingObject.Contact__r.LastName', returnValue.lastName);
+                        component.set('v.sharingObject.lastName', returnValue.lastName);
                         component.find('lastNameInput').focus();
                     } else if (sharingObject.sObjectType == 'Contact') {
                         component.set('v.sharingObject.Email', email);
@@ -54,25 +54,25 @@
         var firstName;
         var lastName;
         var sharingObject = component.get('v.sharingObject');
-        if (sharingObject.sObjectType == 'Patient_Delegate__c') {
+        if (sharingObject.sObjectType == 'Object') {
             if (event.getSource().getLocalId() == 'hcpEmail') {
                 if (component.get('v.providerFound')) {
                     component.set('v.providerFound', false);
-                    component.set('v.sharingObject.Contact__r.FirstName', null);
-                    component.set('v.sharingObject.Contact__r.LastName', null);
+                    component.set('v.sharingObject.firstName', null);
+                    component.set('v.sharingObject.lastName', null);
                 }
-                component.set('v.sharingObject.Contact__r.Email', event.getSource().get('v.value'));
+                component.set('v.sharingObject.email', event.getSource().get('v.value'));
             }
             if (event.getSource().getLocalId() == 'firstNameInput') {
-                component.set('v.sharingObject.Contact__r.FirstName', event.getSource().get('v.value'));
+                component.set('v.sharingObject.firstName', event.getSource().get('v.value'));
             }
             if (event.getSource().getLocalId() == 'lastNameInput') {
-                component.set('v.sharingObject.Contact__r.LastName', event.getSource().get('v.value'));
+                component.set('v.sharingObject.lastName', event.getSource().get('v.value'));
             }
             sharingObject = component.get('v.sharingObject');
-            email = sharingObject.Contact__r.Email.trim();
-            firstName = sharingObject.Contact__r.FirstName.trim();
-            lastName = sharingObject.Contact__r.LastName.trim();
+            email = sharingObject.email.trim();
+            firstName = sharingObject.firstName.trim();
+            lastName = sharingObject.lastName.trim();
         } else if (sharingObject.sObjectType == 'Contact') {
             if (event.getSource().getLocalId() == 'hcpEmail') {
                 if (component.get('v.providerFound')) {
@@ -121,7 +121,7 @@
         var sharingObject = component.get('v.sharingObject');
         if (sharingObject.sObjectType == 'Contact') {
             helper.showHideProvider(component);
-        } else if (sharingObject.Status__c == 'Active' || sharingObject.Status__c == 'Invited') {
+        } else if (sharingObject.status == 'Active' || sharingObject.Status__c == 'Invited') {
             helper.doDisconnect(component, event, helper);
         } else {
             helper.doConnect(component, event, helper);

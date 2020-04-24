@@ -24,6 +24,7 @@
         if (sharingObject.sObjectType == 'Contact') {
             helper.showHideProvider(component);
         } else if (sharingObject.sObjectType == 'Healthcare_Provider__c') {
+            console.log('HCPERROR', JSON.stringify(sharingObject));
             communityService.executeAction(component, 'inviteHP', {
                 peId: pe.Id,
                 hp: JSON.stringify(sharingObject)
@@ -36,8 +37,8 @@
         } else {
             communityService.executeAction(component, 'invitePatientDelegate', {
                 participant: JSON.stringify(pe.Participant__r),
-                delegateContact: JSON.stringify(sharingObject.Contact__r),
-                delegateId: sharingObject.Id ? sharingObject.Id : null
+                delegateContact: JSON.stringify(sharingObject),
+                delegateId: sharingObject.idDelegate ? sharingObject.idDelegate : null
             }, function (returnValue) {
                 var mainComponent = component.get('v.mainComponent');
                 mainComponent.refresh();
@@ -54,7 +55,7 @@
         if (sharingObject.sObjectType == 'Healthcare_Provider__c') {
             params = {hpId: sharingObject.Id, delegateId: null};
         } else {
-            params = {hpId: null, delegateId: sharingObject.Id};
+            params = {hpId: null, delegateId: sharingObject.idDelegate};
         }
         communityService.executeAction(component, 'stopSharing', params, function (returnValue) {
             mainComponent.refresh();
