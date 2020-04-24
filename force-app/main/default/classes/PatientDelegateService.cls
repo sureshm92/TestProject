@@ -527,7 +527,7 @@ public without sharing class PatientDelegateService {
             delegatedParticipantsMap.put(pd.Contact__c, delegatedParticipants);
             allDelegatedParticipantIds.add(pd.Participant__c);
             delegatedContacts.add(pd.Participant__r.Contact__c);
-            if(!delegatedContactsMap.containsKey(pd.Contact__c)) delegatedContactsMap.put(pd.Contact__c, new Set<Id>);
+            if(!delegatedContactsMap.containsKey(pd.Contact__c)) delegatedContactsMap.put(pd.Contact__c, new Set<Id>());
             delegatedContactsMap.get(pd.Contact__c).add(pd.Participant__r.Contact__c);
         }
 
@@ -590,9 +590,8 @@ public without sharing class PatientDelegateService {
                 }
             }
             //assign permissions from delegated contacts
-            Set<Id> delegatedContacts = delegatedContactsMap.get(contactId);
-            if(delegatedContacts != null && delegatedContacts.size() > 0){
-                for(Id delegatedContact : delegatedContacts){
+            if(delegatedContactsMap.get(contactId) != null && delegatedContactsMap.get(contactId).size() > 0){
+                for(Id delegatedContact : delegatedContactsMap.get(contactId)){
                     Set<String> permissions = delegatedContactPermissionsMap.get(delegatedContact);
                     if(permissions != null && permissions.size() > 0){
                         actionAssignContactPermissions.addPermissions(contactId, permissions);
