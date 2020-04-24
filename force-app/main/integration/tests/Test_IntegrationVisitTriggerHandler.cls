@@ -5,7 +5,17 @@
 @IsTest(IsParallel=true)
 private class Test_IntegrationVisitTriggerHandler {
 
+    @TestSetup
     static void setup() {
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.SendDropOutEmailHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.SetCurrentEnrollmentHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateWelcomeToStudyAlertHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
+        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
+
+        Test.startTest();
         Account acc = new Account();
         acc.Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME;
         insert acc;
@@ -26,6 +36,7 @@ private class Test_IntegrationVisitTriggerHandler {
             visits.add(visit);
         }
         insert visits;
+        Test.stopTest();
     }
 
     @IsTest
@@ -38,13 +49,13 @@ private class Test_IntegrationVisitTriggerHandler {
                 .then(null)
                 .build()
         );
-        setup();
 
         List<Integration_Visit__c> externalVisits = new List<Integration_Visit__c>();
         externalVisits.add(createVisit(1,'N'));
         externalVisits.add(createVisit(3,'N'));
         externalVisits.add(createVisit(3.1,'N'));
         insert externalVisits;
+
         Test.startTest();
         IntegrationVisitTriggerHandler.updateVisits(externalVisits);
         List<Patient_Visit__c> patientVisits = getVisits();
@@ -53,10 +64,12 @@ private class Test_IntegrationVisitTriggerHandler {
         System.assertEquals('Missed', patientVisits[1].Status__c);
         System.assertEquals(false, patientVisits[2].Is_Adhoc__c);
         System.assertEquals(true, patientVisits[3].Is_Adhoc__c);
+
         externalVisits = new List<Integration_Visit__c>();
         externalVisits.add(createVisit(3.1,'Y'));
         externalVisits.add(createVisit(1,'Y'));
         insert externalVisits;
+
         IntegrationVisitTriggerHandler.updateVisits(externalVisits);
         patientVisits = getVisits();
         System.assertEquals(3, patientVisits.size());
