@@ -4,6 +4,7 @@
 .THIS.slvi-container {
     padding-top: 1rem;
     margin-bottom: 30px;
+    overflow: visible;
 }
 
 .THIS .study-name {
@@ -42,33 +43,21 @@
     font-size: 18px;
     font-weight: 600;
     line-height: 30px;
-    padding: 6px 8px 0;
+    padding: 0 8px;
     position: relative;
     max-height: 6rem;
     overflow: hidden;
     padding-right: 1rem;
     align-items: flex-start;
+    max-width: 100%;
+    text-overflow: ellipsis;
 }
 
 .THIS .study-name .study-title.rr-link span {
     white-space: normal!important;
 }
 
-.THIS .study-name .study-title.rr-link:before {
-    position: absolute;
-    content: "...";
-    bottom: 0;
-    right: 0;
-}
 
-.THIS .study-name .study-title.rr-link:after {
-    content: "";
-    position: absolute;
-    right: 0;
-    width: 1rem;
-    height: 4.5rem;
-    background: white;
-}
 
 .THIS .study-name .study-title:hover:after {
     background: #eef5ff;
@@ -119,20 +108,16 @@
     align-items: center;
 }
 
-.THIS .slvi-objective-section .cRRLink.rr-link svg {
-    margin-top: 2px;
-}
-
 .THIS .slvi-top-container {
     height: 100px;
-    padding-left: 17px;
-    padding-right: 17px;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 .THIS .slvi-top-container-hcp {
     min-height: 100px;
-    padding-left: 17px;
-    padding-right: 17px;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 .THIS .slvi-top-container .study-options {
@@ -317,61 +302,80 @@
 }
 
 
-@media all and (max-width: 767px) {
+@media screen and (max-width: 768px) {
     .THIS .slvi-buttons .slvi-btn + .slvi-btn {
         border-top: 1px solid #f9f9f9;
     }
+    
 
-    .THIS .slvi-buttons .slvi-btn + .slvi-btn {
-        border-top: 1px solid #f9f9f9;
+    .THIS .study-name .study-title.rr-link span:first-child {
+        width: 100%;
+        white-space: nowrap!important;
     }
 
+     .THIS .slvi-top-container-hcp .study-name .study-title.rr-link {
+        max-width: 100%;
+    }
+
+	.THIS .slvi-status-item {
+    	height: auto;    
+    }
+    
     .THIS .slvi-header-item + .slvi-header-item {
         margin-top: 16px;
     }
     
+     .THIS .slvi-top-container-hcp .slds-wrap div:last-child {
+        order: 2;
+    }
+    
+    .THIS .study-name {
+        order: 1;
+    }
+    
     .THIS .sponsor-name {
-     	margin-bottom: 20px;   
+     	margin-bottom: 20px; 
+        order: 3;
     }
     
     .THIS .slvi-name-section-hcp .rri-icon svg {
-        height: 30px;
-        width: 30px;
-    }
-
-    .THIS .slvi-name-section-hcp .rri-icon span {
-        margin: 1rem;
+        height: 20px;
+        width: 20px;
     }
 
     .THIS .rri-icon-pi svg {
-        height: 30px;
-        width: 30px;
+        height: 20px;
+        width: 20px;
     }
 
-    .THIS .rri-icon-pi span {
-        margin: 1rem;
+
+    .THIS .slvi-name-section-hcp .rri-icon .slds-m-around_x-small,
+    .THIS .rri-icon-pi .slds-m-around_x-small {
+        display: inline-block;
+         margin: 0 1rem 0 0;
+         padding: 0 .5rem
+    }
+    
+     .THIS .slvi-name-section-hcp .rri-icon a:last-child .slds-m-around_x-small,
+    .THIS .rri-icon-pi a:last-child .slds-m-around_x-small {
+         margin: 0;
     }
 
     .THIS .slvi-objective-section{
         margin-bottom: 15px;
-        margin-top: 25px;
     }
     
     .THIS .slds-grid.slvi-buttons {
         display: flex;
-        flex-direction: column;
         padding-right: 15px;
     }
-    
-     .THIS .slds-grid.slvi-buttons .apollo-btn {
-        width: 100%;
-        margin: 20px 0 0;
-    }
-}
 
-@media (min-width: 767px) {
     .THIS .site-distance {
         text-align: right;
+    }
+    
+    .THIS .ss-container-border {
+        border-right: none;
     }
 
     .THIS .slvi-padded-panel-left {
