@@ -512,18 +512,23 @@ public without sharing class PatientDelegateService {
     public static void updatePermissionSets(Set<Id> contactIds) {
         Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
         Patient_Delegate__c[] pdList = [
-                SELECT Id, Contact__c, Participant__c
+                SELECT Id, Contact__c, Participant__c, Participant__r.Contact__c
                 FROM Patient_Delegate__c
                 WHERE Contact__c IN:contactIds AND Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
         ];
         Map<Id, Set<Id>> delegatedParticipantsMap = new Map<Id, Set<Id>>();
         Set<Id> allDelegatedParticipantIds = new Set<Id>();
+        List<Id> delegatedContacts = new List<Id>();
+        Map<Id, Set<Id>> delegatedContactsMap = new Map<Id, Set<Id>>();
         for (Patient_Delegate__c pd : pdList) {
             Set<Id> delegatedParticipants = delegatedParticipantsMap.get(pd.Contact__c);
             if (delegatedParticipants == null) delegatedParticipants = new Set<Id>();
             delegatedParticipants.add(pd.Participant__c);
             delegatedParticipantsMap.put(pd.Contact__c, delegatedParticipants);
             allDelegatedParticipantIds.add(pd.Participant__c);
+            delegatedContacts.add(pd.Participant__r.Contact__c);
+            if(!delegatedContactsMap.containsKey(pd.Contact__c)) delegatedContactsMap.put(pd.Contact__c, new Set<Id>);
+            delegatedContactsMap.get(pd.Contact__c).add(pd.Participant__r.Contact__c);
         }
 
         List<Participant_Enrollment__c> peList = [
@@ -543,10 +548,29 @@ public without sharing class PatientDelegateService {
             permissions.add(CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet);
             participantPermissions.put(pe.Participant__c, permissions);
         }
+        
+        Set<String> communityPermissionSets = CommunityTemplateService.getAllPermissionSets();
+        
+        //get permission sets for delegated contacts
+        Map<Id, Set<String>> delegatedContactPermissionsMap = new Map<Id, Set<String>>();
+        List<User> delegatedUsers = [
+                SELECT Id, ContactId, (SELECT Id, PermissionSet.Name FROM PermissionSetAssignments)
+                FROM User
+                WHERE ContactId IN: delegatedContacts
+        ];
+        for(User usr : delegatedUsers){
+            Set<String> permSets = new Set<String>();
+            for(PermissionSetAssignment psa : usr.PermissionSetAssignments){
+                if (communityPermissionSets.contains(psa.PermissionSet.Name)){
+                    permSets.add(psa.PermissionSet.Name);
+                }
+            }
+            delegatedContactPermissionsMap.put(usr.ContactId, permSets);
+        }
 
+        
+        
         for (Id contactId : contactIds) {
-            Set<String> communityPermissionSets = CommunityTemplateService.getAllPermissionSets();
-
             //assign own permission sets:
             Id ownParticipantId = participantIdByContactIdMap.get(contactId);
             Set<String> ownPermissions;
@@ -562,6 +586,16 @@ public without sharing class PatientDelegateService {
                                 actionAssignContactPermissions.addPermission(contactId, participantPermissionSet);
                             }
                         }
+                    }
+                }
+            }
+            //assign permissions from delegated contacts
+            Set<Id> delegatedContacts = delegatedContactsMap.get(contactId);
+            if(delegatedContacts != null && delegatedContacts.size() > 0){
+                for(Id delegatedContact : delegatedContacts){
+                    Set<String> permissions = delegatedContactPermissionsMap.get(delegatedContact);
+                    if(permissions != null && permissions.size() > 0){
+                        actionAssignContactPermissions.addPermissions(contactId, permissions);
                     }
                 }
             }
