@@ -49,6 +49,12 @@
                              disabled="{!v.field.readonly || !v.editable}"
                              required="{!and(!v.field.readonly,and(or(v.required,v.field.dependent), v.field.required))}"/>
         </aura:if>
+        <aura:if isTrue="{!v.field.type=='checkbox'}">
+            <lightning:input aura:id="fieldInput" label="{!v.field.title}" type="checkbox" value="{!v.field.value}"
+                             disabled="{!v.field.readonly || !v.editable}"
+                             required="{!and(!v.field.readonly,and(or(v.required,v.field.dependent), v.field.required))}"
+                             onblur="{!c.onBlur}"/>
+        </aura:if>
     </div>
 
 </aura:component>

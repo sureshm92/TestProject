@@ -38,6 +38,14 @@
                 <behavior>Edit</behavior>
                 <field>Show_Only_If_Selected__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Readonly_if_Current__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Disclaimer_if_Current__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
