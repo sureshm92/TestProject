@@ -33,6 +33,7 @@ global without sharing class ReferHealthcareProviderRemote {
         if (listContDelegates.isEmpty()) listContDelegates.add(new Contact());*/
 
         List<ReferHealthcareProviderRemote.PDWrapper> wrap = getWrapPD(participantId);
+        if (wrap.isEmpty()) wrap.add(new PDWrapper());
         System.debug('MYDEBUG5' + wrap);
 
 
@@ -553,6 +554,9 @@ global without sharing class ReferHealthcareProviderRemote {
             this.lastName = lastName;
             this.email = email;
             this.status = status;
+        }
+        public PDWrapper() {
+
         }
     }
 
