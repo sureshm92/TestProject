@@ -143,6 +143,26 @@
                 <default>false</default>
                 <label>Ready to Screen</label>
             </value>
+            <value>
+                <fullName>Withdrew Consent</fullName>
+                <default>false</default>
+                <label>Withdrew Consent</label>
+            </value>
+            <value>
+                <fullName>Declined Consent</fullName>
+                <default>false</default>
+                <label>Declined Consent</label>
+            </value>
+            <value>
+                <fullName>Withdrew Consent After Screening</fullName>
+                <default>false</default>
+                <label>Withdrew Consent After Screening</label>
+            </value>
+            <value>
+                <fullName>Declined Final Consent</fullName>
+                <default>false</default>
+                <label>Declined Final Consent</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

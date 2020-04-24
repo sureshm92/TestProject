@@ -137,7 +137,7 @@
 }
 
 .THIS #p-modal .p-container.large {
-    z-index: 9001 !important;
+    z-index: 20001 !important;
 }
 
 .THIS .p-header h2 {
@@ -283,20 +283,12 @@
     z-index: 100;
 }
 
-.THIS .p-container .p-header + div {
-    height: 89%;
+.THIS .partinfo-footer-buttons > span {
+ 	padding-right: 15px;   
 }
 
-
-@media all and (max-width: 768px){
-    .THIS .personal-info-container .slds-float_left {
-        width: 100%;
-    }
-   
-    .THIS .personal-info-container .apollo-btn {
-        width: 100%;
-        margin-top: 15px;
-    }
+.THIS .p-container .p-header + div {
+    height: 89%;
 }
 
 .THIS .partinfo-footer-buttons{
@@ -317,9 +309,102 @@
     }
 }
 
+@media all and (max-width: 768px) {
+	.THIS #p-modal .p-container.large {
+        width: 90%;
+        min-height: 750px;
+    }
+    
+    .THIS #p-modal .p-container.large .p-content {
+        max-height: 100%;
+    }
+    
+    .THIS .personal-info-container .slds-float_left {
+        width: 100%;
+    }
+   
+    .THIS .personal-info-container .apollo-btn {
+        width: 100%;
+        margin-top: 15px;
+    }
+    
+    .THIS .invite-patient-container .slds-size--9-of-12 {
+        max-width: 65%;
+    }
+    .THIS .invite-patient-container .slds-size--3-of-12 {
+        min-width: 35%;
+    }
+}
+
 @media all and (max-width: 600px) {
 
     .THIS .rp-save-btn {
         margin-top: 2%;
     }
+}
+
+@media all and (max-width: 500px) {  
+    .THIS .p-content.with-scroll .slds-tabs_default__nav {
+        justify-content: space-between;
+    }
+    
+    .THIS .p-container .slds-tabs_default__content {
+        padding-bottom: 1rem;
+    }
+    
+    .THIS .invite-patient-container {
+        margin-top: 0;
+        box-shadow: none;
+    }
+    
+    .THIS .invite-patient-container .slds-size--9-of-12,
+    .THIS .invite-patient-container .slds-size--3-of-12 {
+        min-width: 100%;
+        margin: .5rem 0;
+    }
+    
+    .THIS .p-content.with-scroll .slds-tabs_default__overflow-button .slds-dropdown__item > a span {
+		font-size: 1rem;  
+    }
+    
+    .THIS .slds-tabs_default__overflow-button .slds-button:focus {
+		text-decoration: none;
+    }
+    
+    .THIS #p-modal .p-container.large {
+        top: 50%;
+        height: 95%!important;
+        min-height: auto;
+        z-index: 10100!important;
+    }
+    
+    .THIS .apollo-btn + .apollo-btn {
+        margin-left: 0;
+    }
+    
+    .THIS #p-modal .p-container.large .p-content {
+        max-height: 70%;
+        padding: 0 1rem;
+    }
+       
+    .THIS .partinfo-footer-buttons {
+    	margin-left: 0;
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    
+    .THIS .partinfo-footer-buttons > span {
+        padding-right: 0;
+        display: flex;
+        margin-top: 15px;
+        justify-content: space-between;
+    }
+    
+    .THIS .partinfo-footer-buttons > .slds-button_neutral {
+    	width: 100%;
+    }
+    .THIS .partinfo-footer-buttons > span .slds-button_neutral {
+    	width: 47%;
+    }
+    
 }

@@ -70,3 +70,13 @@
 .THIS .rr-table .ignored{
     opacity: .5;
 }
+
+@media all and (max-width: 500px) {
+ 	.THIS {
+        padding: 10px 10px 25px;
+    } 
+    
+    .THIS .rr-white-panel {
+        padding: 0!important;
+    }
+}
