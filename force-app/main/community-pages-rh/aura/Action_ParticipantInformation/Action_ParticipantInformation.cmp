@@ -8,7 +8,7 @@
     <!-- attributes: -->
     <aura:attribute name="pe" type="Participant_Enrollment__c"/>
     <aura:attribute name="participant" type="Participant__c" access="private"/>
-    <aura:attribute name="participantDelegate" type="Contact" access="private"/>
+    <aura:attribute name="participantDelegate" type="Participant__c" access="private"/>
     <aura:attribute name="callback" type="Object" access="private"/>
     <aura:attribute name="rootComponent" type="Aura.Component" access="public"/>
     <aura:attribute name="formData" type="AddPatientByPIRemote.FormData" access="private"/>
