@@ -22,3 +22,35 @@
     margin-top: 89px;
     margin-right: 63px;
 }
+
+@media all and (max-width: 550px) {
+    
+    .THIS {
+        padding: 1rem!important;
+    }
+    
+    .THIS > .slds-grid {
+    	display: flex;
+        flex-direction: column;
+        padding: 0 1rem;
+    }
+    
+    .THIS > .slds-grid > .slds-size--1-of-3,
+    .THIS > .slds-grid > .slds-size--2-of-3{
+        min-width: 100%;
+        padding: 1rem 0 0;
+    }
+    
+     .THIS > .slds-grid > .slds-grow-none {
+        display: none;
+    }
+    
+    .THIS  .mti-info-text {
+        margin: 0;
+    }
+    
+    .THIS .mti-button {
+        margin-top: 15px;
+        height: auto;
+    }
+}

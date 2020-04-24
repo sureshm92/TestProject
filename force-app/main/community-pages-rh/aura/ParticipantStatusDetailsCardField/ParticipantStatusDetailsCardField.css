@@ -13,3 +13,9 @@
 .THIS.checkbox-field{
      padding-top: 35px;
  }
+
+@media screen and (max-width: 500px) {
+     .THIS.form-field {
+        min-width: 100%;
+    }
+}

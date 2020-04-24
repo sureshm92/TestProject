@@ -39,6 +39,7 @@
     position: relative;
 }
 
+/* CHECK THIS */
 .THIS .slds-grid.slds-wrap:before {
     content: '';
     height: 98.5%;
@@ -208,9 +209,10 @@
 }
 
 .THIS .sdas-main-info .title {
-    color: #999;
-    font-size: 1rem;
-    line-height: 12px;
+    line-height: 21px;
+    color: #444;
+    font-weight: 400;
+    font-size: .875rem;
 }
 
 .THIS .sdas-main-info .text {
@@ -316,10 +318,10 @@
     font-size: .875rem;
 }
 
-@media all and (max-width: 768px){
-    .THIS .rr-bottom-bar .bar-content .apollo-btn{
-        width: 150px;
-    }
+@media all and (max-width: 1100px){
+ 	.THIS .socialnetworks-section > .slds-col {
+        min-width: 100%;
+    }   
 }
 
 .THIS .primary-contact-select{
@@ -396,9 +398,18 @@
     border-top: 1px solid #d9d9d9;
 }
 
-@media all and (max-width: 767px) {
+@media all and (max-width: 768px) {
+    
+    .THIS .rr-bottom-bar .bar-content .apollo-btn{
+        width: 150px;
+    }
+    
     .THIS .slvi-header-item + .slvi-header-item {
         margin-top: 16px;
+    }
+    
+    .cStudyDetailAboutStudy .sdas-main-info .title {
+        font-size: 1rem;
     }
     
     .THIS .slds-grid.slds-wrap:before {

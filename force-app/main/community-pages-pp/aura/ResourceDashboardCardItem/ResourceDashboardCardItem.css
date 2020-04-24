@@ -25,7 +25,6 @@
 .THIS .resource-image-container > img {
     display: block;
     position: relative;
-    height: 123px;
 }
 
 .THIS .resource-description {
@@ -93,11 +92,9 @@
 .THIS .resource-pointer {
     cursor: pointer;
 }
-@media (max-width: 1024px) {
+@media all and (max-width: 1024px) {
     .THIS.resource-container {
-        float: left;
         width: 100%;
-        margin-left: 4%;
     }
     .THIS .resource-image-container {
         width: 100%;

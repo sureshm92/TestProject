@@ -19,6 +19,18 @@
 .THIS .accept-btn .menu-popup-panel{
     left: -130px;
 }
+
+@media screen and (max-width: 550px){
+    .THIS .db-participant-card-title {
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;          
+    }
+    
+    .THIS .db-participant-card-title .accept-btn {
+        margin: 15px 0;
+    }
+}
 /*.THIS.db-participant-card + .THIS.db-participant-card{*/
 /*    background-color: #F8F9FB;*/
 /*    margin-top: 16px;*/

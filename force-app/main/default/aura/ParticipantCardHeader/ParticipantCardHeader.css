@@ -48,6 +48,7 @@
     white-space: nowrap;
     overflow: hidden;
     margin-top: 5px;
+    width: 100%;
 }
 
 .THIS .objective-link {
@@ -123,4 +124,17 @@
     top: -5px;
     right: 10px;
     border-radius: 2px;
+}
+
+@media screen and (max-width: 500px){
+    .THIS  {
+        padding: 0;
+    }
+    
+    .THIS .slds-has-block-links--space,
+    .THIS .slds-has-block-links--space2,
+    .THIS .slds-has-block-links--space3 {
+     	right: 0;   
+    }
+    
 }
