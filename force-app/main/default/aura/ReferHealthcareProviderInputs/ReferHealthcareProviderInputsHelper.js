@@ -38,7 +38,7 @@
             communityService.executeAction(component, 'invitePatientDelegate', {
                 participant: JSON.stringify(pe.Participant__r),
                 delegateContact: JSON.stringify(sharingObject),
-                delegateId: sharingObject.idDelegate ? sharingObject.idDelegate : null
+                delegateId: sharingObject.delegateId ? sharingObject.delegateId : null
             }, function (returnValue) {
                 var mainComponent = component.get('v.mainComponent');
                 mainComponent.refresh();
@@ -55,7 +55,7 @@
         if (sharingObject.sObjectType == 'Healthcare_Provider__c') {
             params = {hpId: sharingObject.Id, delegateId: null};
         } else {
-            params = {hpId: null, delegateId: sharingObject.idDelegate};
+            params = {hpId: null, delegateId: sharingObject.delegateId};
         }
         communityService.executeAction(component, 'stopSharing', params, function (returnValue) {
             mainComponent.refresh();

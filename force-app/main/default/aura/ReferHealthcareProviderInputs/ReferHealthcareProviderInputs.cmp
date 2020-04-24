@@ -62,7 +62,7 @@
          style="margin-top: 23px;">
         <button class="apollo-btn secondary slds-button"
                 onclick="{!c.doConnectDisconnect}"
-                disabled="{!(v.sharingObject.Id || v.sharingObject.idDelegate) ? v.actionDisabled : v.printMode || (!v.isValid || v.actionDisabled || v.isDuplicate || v.isDuplicateDelegate)}"
+                disabled="{!(v.sharingObject.Id || v.sharingObject.delegateId) ? v.actionDisabled : v.printMode || (!v.isValid || v.actionDisabled || v.isDuplicate || v.isDuplicateDelegate)}"
                 title="{!v.buttonTitle}">{!v.buttonLabel}</button>
     </div>
     <aura:if isTrue="{!v.providerFound}">

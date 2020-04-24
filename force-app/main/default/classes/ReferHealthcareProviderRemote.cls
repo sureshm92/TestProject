@@ -541,14 +541,14 @@ global without sharing class ReferHealthcareProviderRemote {
     }
 
     public class PDWrapper {
-        @AuraEnabled public String idDelegate;
+        @AuraEnabled public String delegateId;
         @AuraEnabled public String firstName;
         @AuraEnabled public String lastName;
         @AuraEnabled public String email;
         @AuraEnabled public String status;
 
-        public PDWrapper(String idDelegate, String firstName, String lastName, String email, String status) {
-            this.idDelegate = idDelegate;
+        public PDWrapper(String delegateId, String firstName, String lastName, String email, String status) {
+            this.delegateId = delegateId;
             this.firstName = firstName;
             this.lastName = lastName;
             this.email = email;
