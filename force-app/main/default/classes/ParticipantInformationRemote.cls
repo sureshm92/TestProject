@@ -53,8 +53,8 @@ public without sharing class ParticipantInformationRemote {
     public static void updatePatientInfoWithDelegate(String participantJSON, String peJSON, String delegateJSON, String userInfoJSON) {
         AddPatientByPIRemote.updatePatientInfo(participantJSON, peJSON);
         if (!String.isBlank(delegateJSON)) {
-            Contact delegateParticipant = (Contact) JSON.deserialize(delegateJSON, Contact.class);
-            if (delegateParticipant != null) {
+            Participant__c delegateParticipant = (Participant__c) JSON.deserialize(delegateJSON, Participant__c.class);
+            if (delegateParticipant != null && !String.isBlank(delegateParticipant.Id)) {
                 try {
                     update delegateParticipant;
                 } catch (Exception exp) {
@@ -387,8 +387,8 @@ public without sharing class ParticipantInformationRemote {
         Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
 
         if (!String.isBlank(delegateJSON)) {
-            Contact delegateParticipant = (Contact) JSON.deserialize(delegateJSON, Contact.class);
-            if (delegateParticipant != null) {
+            Participant__c delegateParticipant = (Participant__c) JSON.deserialize(delegateJSON, Participant__c.class);
+            if (delegateParticipant != null && !String.isBlank(delegateParticipant.Id)) {
                 try {
                     update delegateParticipant;
                 } catch (Exception exp) {
