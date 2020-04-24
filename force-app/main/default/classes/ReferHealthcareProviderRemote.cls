@@ -6,13 +6,12 @@ global without sharing class ReferHealthcareProviderRemote {
 
     public class InitData {
         @AuraEnabled public List<Healthcare_Provider__c> healthcareProviders;
-        @AuraEnabled public List<Participant__c> listDelegates;
+        @AuraEnabled public List<ReferHealthcareProviderRemote.PDWrapper> listWrapp;
 
-        public initData(List<Healthcare_Provider__c> healthcareProviders, List<Participant__c> listDelegates) {
+        public initData(List<Healthcare_Provider__c> healthcareProviders, List<ReferHealthcareProviderRemote.PDWrapper> wrap) {
             this.healthcareProviders = healthcareProviders;
-            this.listDelegates = listDelegates;
+            this.listWrapp = wrap;
         }
-
     }
 
     @AuraEnabled
@@ -30,10 +29,58 @@ global without sharing class ReferHealthcareProviderRemote {
         ];
         if (healthcareProviders.isEmpty()) healthcareProviders.add(new Healthcare_Provider__c());
 
-        List<Participant__c> listDelegates = PatientDelegateService.getPatientDelegates(participantId);
-        if (listDelegates.isEmpty()) listDelegates.add(new Participant__c());
+        /*List<Contact> listContDelegates = PatientDelegateService.getPatientDelegates(participantId);
+        if (listContDelegates.isEmpty()) listContDelegates.add(new Contact());*/
 
-        return new InitData(healthcareProviders, listDelegates);
+        List<ReferHealthcareProviderRemote.PDWrapper> wrap = getWrapPD(participantId);
+        System.debug('MYDEBUG5' + wrap);
+
+
+                return new InitData(healthcareProviders, wrap);
+    }
+    @AuraEnabled
+    public static List<ReferHealthcareProviderRemote.PDWrapper> getWrapPD(String participantId) {
+        List<Patient_Delegate__c> listdel = [SELECT Id, Contact__c, Status__c FROM Patient_Delegate__c WHERE Participant__c =: participantId];
+        Map<Id, Patient_Delegate__c> mapDel = new Map<Id, Patient_Delegate__c>();
+        Set<Id> setIdDel = new Set<Id>();
+
+        for(Patient_Delegate__c del : listdel){
+            mapDel.put(del.Contact__c, del);
+        }
+        System.debug('MYDEBUG' + mapDel);
+
+        for(Patient_Delegate__c del : listdel){
+            setIdDel.add(del.Contact__c);
+        }
+        List<ReferHealthcareProviderRemote.PDWrapper> wrapPD = new List<ReferHealthcareProviderRemote.PDWrapper>();
+
+        List<Participant__c> listPar = [SELECT Id, Contact__c, First_Name__c, Last_Name__c, Email__c FROM Participant__c WHERE Contact__c IN : setIdDel];
+        System.debug('MYDEBUG1' + listPar);
+        for(Participant__c par : listPar){
+            if(mapDel.keySet().contains(par.Contact__c)){
+                System.debug('MYDEBUG2' + mapDel.get(par.Contact__c));
+                System.debug('MYDEBUG3' + par.First_Name__c);
+                wrapPD.add(new PDWrapper(mapDel.get(par.Contact__c).Id, par.First_Name__c, par.Last_Name__c, par.Email__c, mapDel.get(par.Contact__c).Status__c));
+            }
+        }
+        System.debug('MYDEBUG4' + wrapPD);
+
+        return wrapPD;
+
+    }
+
+    @AuraEnabled
+    public static Participant__c getDelegateParticipant(String delegateContactId) {
+        List<Participant__c> participantDelegate = [
+                SELECT Id,
+                       First_Name__c,
+                       Last_Name__c,
+                       Email__c
+                FROM Participant__c
+                WHERE Contact__c =: delegateContactId
+        ];
+        if (participantDelegate.isEmpty()) participantDelegate.add(new Participant__c());
+        return participantDelegate[0];
     }
 
     @AuraEnabled
@@ -198,12 +245,12 @@ global without sharing class ReferHealthcareProviderRemote {
     public static void invitePatientDelegate(String participant, String delegateContact, String delegateId) {
         try {
             Participant__c participantObj = (Participant__c) JSON.deserialize(participant, Participant__c.class);
-            Contact delegateObj = (Contact) JSON.deserialize(delegateContact, Contact.class);
+            PDWrapper delegateObj = (PDWrapper) JSON.deserialize(delegateContact, PDWrapper.class);
             if (delegateId == null) {
                 Contact newContact = new Contact();
-                newContact.FirstName = delegateObj.FirstName;
-                newContact.LastName = delegateObj.LastName;
-                newContact.Email = delegateObj.Email;
+                newContact.FirstName = delegateObj.firstName;
+                newContact.LastName = delegateObj.lastName;
+                newContact.Email = delegateObj.email;
                 newContact.AccountId = [
                         SELECT Id
                         FROM Account
@@ -491,6 +538,22 @@ global without sharing class ReferHealthcareProviderRemote {
         @AuraEnabled public Boolean isDuplicate { get; set; }
         @AuraEnabled public Boolean isDuplicateDelegate { get; set; }
         @AuraEnabled public String hcpContactId { get; set; }
+    }
+
+    public class PDWrapper {
+        @AuraEnabled public String delegateId;
+        @AuraEnabled public String firstName;
+        @AuraEnabled public String lastName;
+        @AuraEnabled public String email;
+        @AuraEnabled public String status;
+
+        public PDWrapper(String delegateId, String firstName, String lastName, String email, String status) {
+            this.delegateId = delegateId;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.email = email;
+            this.status = status;
+        }
     }
 
 }
