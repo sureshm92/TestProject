@@ -21,10 +21,10 @@
                 </apex:repeat>
             </table>
             <br/>
-            <apex:outputPanel rendered="{!afterText != ''}">
-                <apex:outputText value="{!afterText}" escape="false"/>
-                <div style="margin-bottom: 40px"></div>
-            </apex:outputPanel>
         </div>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!afterText != ''}">
+        <apex:outputText value="{!afterText}" escape="false"/>
+        <div style="margin-bottom: 40px"></div>
     </apex:outputPanel>
 </apex:component>

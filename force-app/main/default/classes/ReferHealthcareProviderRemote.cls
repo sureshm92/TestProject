@@ -6,9 +6,9 @@ global without sharing class ReferHealthcareProviderRemote {
 
     public class InitData {
         @AuraEnabled public List<Healthcare_Provider__c> healthcareProviders;
-        @AuraEnabled public List<Patient_Delegate__c> listDelegates;
+        @AuraEnabled public List<Participant__c> listDelegates;
 
-        public initData(List<Healthcare_Provider__c> healthcareProviders, List<Patient_Delegate__c> listDelegates) {
+        public initData(List<Healthcare_Provider__c> healthcareProviders, List<Participant__c> listDelegates) {
             this.healthcareProviders = healthcareProviders;
             this.listDelegates = listDelegates;
         }
@@ -30,8 +30,8 @@ global without sharing class ReferHealthcareProviderRemote {
         ];
         if (healthcareProviders.isEmpty()) healthcareProviders.add(new Healthcare_Provider__c());
 
-        List<Patient_Delegate__c> listDelegates = PatientDelegateService.getPatientDelegates(participantId);
-        if (listDelegates.isEmpty()) listDelegates.add(new Patient_Delegate__c());
+        List<Participant__c> listDelegates = PatientDelegateService.getPatientDelegates(participantId);
+        if (listDelegates.isEmpty()) listDelegates.add(new Participant__c());
 
         return new InitData(healthcareProviders, listDelegates);
     }
