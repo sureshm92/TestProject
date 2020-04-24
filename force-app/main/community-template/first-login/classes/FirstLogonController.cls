@@ -64,11 +64,10 @@ public without sharing class FirstLogonController {
                 && contact.userCommunityMode__c == CommunityService.USER_MODE_HCP);
         isStateRequired = false;
 
-
         account.BillingCountry = TranslateHelper.getPickListLabel(User.CountryCode, account.BillingCountryCode);
         oldAccountName = account.Name;
 
-        isParticipant = contact.userCommunityMode__c == CommunityService.USER_MODE_PARTICIPANT && !contact.UserCommunityIsDelegate__c;
+        isParticipant = contact.userCommunityMode__c == CommunityService.USER_MODE_PARTICIPANT;
         if (isParticipant) {
             participant = [
                     SELECT Id, Name, First_Name__c, Last_Name__c, Phone__c,

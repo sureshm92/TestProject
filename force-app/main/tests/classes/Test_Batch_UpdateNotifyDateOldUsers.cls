@@ -4,6 +4,7 @@
 
 @IsTest
 private class Test_Batch_UpdateNotifyDateOldUsers {
+
     @TestSetup
     static void init() {
         List<Account> accounts = new List<Account>();
@@ -126,12 +127,13 @@ private class Test_Batch_UpdateNotifyDateOldUsers {
         );
         insert participant;
 
-        Test.startTest();
         insert new Participant_Enrollment__c(
                 Participant__c = participant.Id,
                 Screening_ID__c = 'PE1',
                 Study_Site__c = studySites[0].Id
         );
+
+        Test.startTest();
         insert new Participant_Enrollment__c(
                 Participant__c = participant.Id,
                 Screening_ID__c = 'PE2',

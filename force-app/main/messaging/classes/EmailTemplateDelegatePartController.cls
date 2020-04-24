@@ -13,6 +13,15 @@ global without sharing class EmailTemplateDelegatePartController {
         List<Id> participantIds = new List<Id>();
         if(sourceIdValue != null && sourceIdValue.getSobjectType() == Participant__c.getSObjectType()) {
             participantIds.add(sourceIdValue);
+        } else if(sourceIdValue != null && sourceIdValue.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
+            List<Participant_Enrollment__c> pes = [
+                    SELECT Id, Participant__c, Clinical_Trial_Profile__r.CommunityTemplate__c
+                    FROM Participant_Enrollment__c
+                    WHERE Id =: sourceIdValue];
+            for(Participant_Enrollment__c pe : pes) {
+                participantIds.add(pe.Participant__c);
+                commTemplateStr = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
+            }
         } else {
             Id delConId = delegateUserId;
             if(Id.valueOf(delegateUserId).getSobjectType() == User.getSObjectType()) {

@@ -57,6 +57,7 @@ public without sharing class PatientDelegateTriggerHandler {
     private static void updatePermissionSets(List<Patient_Delegate__c> changedPDList){
         Set<Id> contactIds = new Set<Id>();
         for(Patient_Delegate__c pd : changedPDList) contactIds.add(pd.Contact__c);
+        System.debug('CONTACTS FOR UPDATE PERMISSIONS:' + contactIds);
         PatientDelegateService.updatePermissionSets(contactIds);
     }
 

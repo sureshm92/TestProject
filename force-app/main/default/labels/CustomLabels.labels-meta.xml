@@ -2354,6 +2354,13 @@
             Please login to the ##ShortCommunityName to check your clinical research trial matches at any time.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Participant_Delegate_New_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Participant Delegate New Study</shortDescription>
+        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more studies that are listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Participant_Delegate_Reactivated</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3294,11 +3301,25 @@
         <value>Your patient has been enrolled to a clinical research study</value>
     </labels>
     <labels>
+        <fullName>Email_Header_You_Have_Been_Assigned_As_a_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header You Have Been Assigned As a Delegate</shortDescription>
+        <value>You have been assigned as a Delegate</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Your_Access_Level_Has_Been_Changed</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Header Your Access Level Has Been Changed</shortDescription>
         <value>Your access level has been changed</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Your_Access_Level_Has_Changed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header Your Access Level Has Changed</shortDescription>
+        <value>Your access level has changed</value>
     </labels>
     <labels>
         <fullName>Email_Notification_Greeting</fullName>
