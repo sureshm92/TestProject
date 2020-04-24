@@ -174,15 +174,17 @@ public without sharing class PENotificationTriggerHandler {
 
         for (Participant_Enrollment__c pe : newList) {
             String communityName = ((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).CommunityTemplate__c;
-            Map<Id, List<Participant_Enrollment__c>> pesByPartCont = pesByCommunityName.get(communityName);
-            if (pesByPartCont.get(pe.Participant_Contact__c).size() > 1 && delegateContactsByPartCnt.keySet().contains(pe.Participant_Contact__c)) {
-                for (Contact delegate : delegateContactsByPartCnt.get(pe.Participant_Contact__c)) {
-                    notifications.add(new Notification__c(
-                            Recipient__c = delegate.Id,
-                            WhatId__c = pe.Id,
-                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE,
-                            IsDelegate__c = true
-                    ));
+            if(pesByCommunityName.get(communityName) != null) {
+                Map<Id, List<Participant_Enrollment__c>> pesByPartCont = pesByCommunityName.get(communityName);
+                if (pesByPartCont.get(pe.Participant_Contact__c).size() > 1 && delegateContactsByPartCnt.keySet().contains(pe.Participant_Contact__c)) {
+                    for (Contact delegate : delegateContactsByPartCnt.get(pe.Participant_Contact__c)) {
+                        notifications.add(new Notification__c(
+                                Recipient__c = delegate.Id,
+                                WhatId__c = pe.Id,
+                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE,
+                                IsDelegate__c = true
+                        ));
+                    }
                 }
             }
         }

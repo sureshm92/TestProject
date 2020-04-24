@@ -145,7 +145,8 @@ public without sharing class RRChangePasswordController {
             tcText = portalTC.T_C_Text__c;
             tcId = portalTC.Id;
         }
-        isParticipant = contact.userCommunityMode__c == CommunityService.USER_MODE_PARTICIPANT && !contact.UserCommunityIsDelegate__c;
+
+        isParticipant = contact.userCommunityMode__c == CommunityService.USER_MODE_PARTICIPANT;
         if(isParticipant) {
             participant = [
                     SELECT Id, Name, First_Name__c, Last_Name__c, Phone__c,
