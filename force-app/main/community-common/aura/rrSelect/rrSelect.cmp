@@ -48,7 +48,7 @@
 
         <div class="rrs-relative">
 
-            <lightning:select aura:id="selectList"  class="{!if(v.errorMessage != '', ' rr-select-error','')}"
+            <lightning:select aura:id="selectList"  class="{!if(!empty(v.errorMessage), ' rr-select-error','')}"
                               name="rrs-select" value="{!v.value}" required="{!v.required}"
                               variant="label-hidden" label="" disabled="{!v.disabled}" onchange="{!c.doValueChange}">
 
