@@ -611,8 +611,8 @@ public without sharing class ParticipantWorkflowService {
     public static void updatePEWithPreviousStatusesSuccess(Participant_Enrollment__c participantEnrollment, Clinical_Trial_Profile__c ctp) {
         List<Participant_Workflow_Step__mdt> steps = getWorkflowSteps( ctp);
         Map<String, Map<String,  Participant_Workflow_Outcome__mdt>> outcomesMap = getOutcomesMap(steps);
-        Participant_Workflow_Outcome__mdt currentOutcome = outcomesMap.get(participantEnrollment.Participant_Status__c).values()[0];
-        if (currentOutcome != null) {
+        if (outcomesMap.get(participantEnrollment.Participant_Status__c) != null) {
+            Participant_Workflow_Outcome__mdt currentOutcome = outcomesMap.get(participantEnrollment.Participant_Status__c).values()[0];
             for (Participant_Workflow_Step__mdt step : steps) {
                 if (step.DeveloperName == currentOutcome.Step__c) {
                     break;
