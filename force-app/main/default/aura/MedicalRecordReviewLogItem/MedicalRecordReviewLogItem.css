@@ -76,6 +76,13 @@
     }
 }
 
+@media screen and (max-width: 768px) {
+    .THIS .mrrli-buttons.slds-col {
+        width: 100%;
+        margin-top: 1rem;
+    }
+}
+
 @media (min-width: 500px) {
     .THIS.mrrli-container .mrrli-buttons button.tertiary.red {
         min-width: 0;

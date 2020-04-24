@@ -12,7 +12,7 @@
 
 .THIS .ap-buttons{
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-end;
     margin-top: 10px;
     margin-bottom: 80px;
 }
@@ -28,11 +28,12 @@
 
 }
 
-@media all and (max-width: 768px){
+@media all and (max-width: 500px){
      .THIS .ap-buttons{
         flex-direction: column;
     } 
     .THIS .ap-buttons .apollo-btn {
      	margin-bottom: 20px;
+        margin-left: 0;
     }
 }

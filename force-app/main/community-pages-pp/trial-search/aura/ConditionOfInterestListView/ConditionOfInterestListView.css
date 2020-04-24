@@ -18,3 +18,24 @@
 .THIS .apollo-btn.primary {
     margin-top: 30px;
 }
+
+@media screen and (max-width: 500px) {
+    
+    .THIS .slds-pill {
+     	height: 40px;   
+    }
+    
+    .THIS .slds-pill .slds-pill__label {
+        width: 65%;
+        padding-left: .5rem;
+    }
+    
+    .THIS .slds-pill .slds-button {
+        margin-right: .5rem;
+    }
+    
+     .THIS .slds-pill .slds-button__icon_small {
+        width: 1.25rem;
+        height: 1.25rem
+    }
+}

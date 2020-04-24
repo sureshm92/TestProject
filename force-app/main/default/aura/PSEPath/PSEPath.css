@@ -37,8 +37,9 @@
 
 .THIS .vpi-status-btns button{
     margin-top: 15px;
-    margin-bottom: 25px;
     min-width: auto;
+    margin-bottom: 1rem;
+}
 
 }
 
@@ -52,8 +53,29 @@
         width: 100%;
     }
     .THIS .vpi-status-btns {
-        padding-right: 15px;
-        margin-top: 15px;
-        margin-bottom: 15px;
+        padding-right: .5rem;
     }
+}
+
+@media all and (max-width: 500px){
+    
+    .THIS .vpi-status-btns {
+        padding: 0;
+        margin: 0;
+    }
+    
+    .THIS .rr-collapse-panel {
+        margin: 0 -1rem;
+    }
+    
+    .THIS .slds-small-size_6-of-12 {
+ 		margin-left: 0;       
+    }
+    
+    .THIS .vpi-status-btns>.slds-small-size_6-of-12>button {
+        margin-right: 0;
+        width: 100%;
+        margin-bottom: .5rem;
+    }
+     
 }

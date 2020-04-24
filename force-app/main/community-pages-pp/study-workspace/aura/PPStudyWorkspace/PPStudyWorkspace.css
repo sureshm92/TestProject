@@ -259,10 +259,13 @@
 
 @media (max-width: 768px){
     .THIS .sdv-top-bar .links .apollo-btn.text{
-        font-size: 14px;
+        font-size: 1rem;
     }
     .THIS  .share-social-buttons {
         margin-right: 0;
+    }
+    .THIS .sdv-top-bar > .rr-all-content .rr-width-limiter {
+        margin: 0 1rem;
     }
     
     .THIS .sdv-top-bar .rr-all-content {
@@ -270,10 +273,6 @@
     }
 }
 
-@media all and (max-width: 480px){
-    .THIS .sdv-top-bar .links .apollo-btn.text{
-        font-size: 14px;
-    }
 }
 
 @media (max-width: 550px){
@@ -309,4 +308,35 @@
 .THIS .button-share-icon:hover {
     /*display: block !important;*/
     visibility: visible !important;
+}
+
+@media all and (max-width: 500px) {
+    .THIS .cRRTabSet.ts-tab-container {
+        width: 90%
+    }
+    
+    .THIS .cRRTabSet.ts-tab-container .ts-tab-left {
+        min-width: 500px;
+        overflow-x: auto;        
+    }
+    
+   .THIS  .cRRTabSet.ts-tab-container:after {
+        width: 500px;
+    }
+    
+    .THIS .navigation .cRRNavigationPath.navigation-path {
+        font-size: .875rem;
+        margin-bottom: .5rem;
+        margin-left: 1rem;
+    }
+    
+    .THIS .links .apollo-btn {
+        font-weight: 400;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+    
+    .THIS .links .apollo-btn:nth-child(n+2) {
+        border-left: 1px solid #d9d9d9;
+    }
 }

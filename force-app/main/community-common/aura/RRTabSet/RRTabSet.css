@@ -83,9 +83,10 @@
 .THIS .ts-tab.selected{
    opacity: 1;
    pointer-events: none;
-   text-shadow:
+    color: #000;
+/*   text-shadow:
         -.25px -.25px 0 #000,
-        .25px -.25px 0 #000;
+        .25px -.25px 0 #000; */
 }
 
 .THIS .ts-tab.selected label:after {
@@ -113,4 +114,18 @@
     -moz-user-select: none;
     -khtml-user-select: none;
     user-select: none;
+}
+
+
+@media all and (max-width: 768px) {
+    .THIS {
+        flex-direction: column;
+    }
+    .THIS .ts-tab-left {
+        order: 2
+    }
+    .THIS .ts-tab-right {
+        order: 1;
+        justify-content: flex-end;
+    }
 }

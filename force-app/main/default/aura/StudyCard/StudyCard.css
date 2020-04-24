@@ -384,3 +384,50 @@
         padding-right: 9rem;
     }
 }
+
+@media screen and (max-width: 500px) {
+    .THIS.slvi-container {
+        padding-top: 0;
+    }
+    
+    .THIS .slvi-top-container-hcp {
+        padding-top: .5rem;
+    }
+    
+    .THIS .slvi-top-container-hcp .slds-wrap div:last-child {
+        margin-bottom: .5rem;
+        margin-top: .5rem;
+    }
+    
+    .THIS .slvi-top-container-hcp + div .slds-order_4 .rr-link.expanded-icon {
+        padding-left: 15px;
+    }
+     
+ 	.THIS .rri-icon-pi span {
+          margin: 1rem;
+    }
+    
+    .THIS.rr-white-panel {
+        overflow: visible;
+    }
+    
+    .THIS .slds-grid.slvi-buttons {
+        flex-direction: column;
+    }
+    
+     .THIS .slds-grid.slvi-buttons .apollo-btn {
+     	width: 100%;  
+        text-align: center; 
+        margin: 20px 0 0 0; 
+    }
+    
+     .THIS .slvi-top-container-hcp .slds-wrap div:last-child .rri-icon-pi {
+        float: none!important;
+        text-align: center;
+    }
+    
+    .THIS .slvi-top-container-hcp .study-title span:nth-of-type(2) {
+        display: none;
+    }
+
+}

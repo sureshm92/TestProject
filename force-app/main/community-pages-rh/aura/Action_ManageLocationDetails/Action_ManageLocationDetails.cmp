@@ -58,25 +58,27 @@
                                                              checked="{!account.Id == v.studySite.Site__c}"
                                                              onchange="{!c.changeRadioMarker}"/>
                                         </div>
-                                        <div class="slds-col slds-size--3-of-12 manage-location-info">
-                                            <div class="ss-info-headers">{!$Label.c.SS_Address}</div>
-                                            <div class="ss-info-address">{!account.BillingStreet}</div>
-                                            <div class="ss-info-address">{!if(account.BillingCity!=null, account.BillingCity + ', ', '') + account.BillingStateCode + ' ' + account.BillingPostalCode}</div>
-                                        </div>
-                                        <div class="slds-col slds-size_4-of-12 manage-location-info">
-                                            <div class="ss-info-headers">{!$Label.c.SS_Driving_Instructions}</div>
-                                            <div class="driving-instructions">
-                                                <c:uiLimitTextByLines maxLines="3" background="#f8f9fb">
-                                                    {!account.Driving_Directions__c}
-                                                </c:uiLimitTextByLines>
+                                        <div class="account_details">
+                                            <div class="slds-col slds-size--3-of-12 manage-location-info">
+                                                <div class="ss-info-headers">{!$Label.c.SS_Address}</div>
+                                                <div class="ss-info-address">{!account.BillingStreet}</div>
+                                                <div class="ss-info-address">{!if(account.BillingCity!=null, account.BillingCity + ', ', '') + account.BillingStateCode + ' ' + account.BillingPostalCode}</div>
                                             </div>
-                                        </div>
-                                        <div class="slds-col slds-size_4-of-12 manage-location-info">
-                                            <div class="ss-info-headers">{!$Label.c.SS_Parking_Instructions}</div>
-                                            <div class="driving-instructions">
-                                                <c:uiLimitTextByLines maxLines="3" background="#f8f9fb">
-                                                    {!account.Parking_Instructions__c}
-                                                </c:uiLimitTextByLines>
+                                            <div class="slds-col slds-size_4-of-12 manage-location-info">
+                                                <div class="ss-info-headers">{!$Label.c.SS_Driving_Instructions}</div>
+                                                <div class="driving-instructions">
+                                                    <c:uiLimitTextByLines maxLines="3" background="#f8f9fb">
+                                                        {!account.Driving_Directions__c}
+                                                    </c:uiLimitTextByLines>
+                                                </div>
+                                            </div>
+                                            <div class="slds-col slds-size_4-of-12 manage-location-info">
+                                                <div class="ss-info-headers">{!$Label.c.SS_Parking_Instructions}</div>
+                                                <div class="driving-instructions">
+                                                    <c:uiLimitTextByLines maxLines="3" background="#f8f9fb">
+                                                        {!account.Parking_Instructions__c}
+                                                    </c:uiLimitTextByLines>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
