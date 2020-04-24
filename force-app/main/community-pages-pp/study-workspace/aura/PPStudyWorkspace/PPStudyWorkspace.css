@@ -39,7 +39,7 @@
     height: 40px;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
     padding: 0 16px;
-    font-weight: 600;
+    font-weight: 400;
 }
 
 .THIS .links .apollo-btn:nth-child(n+2) {border-left: none}
@@ -268,10 +268,13 @@
         margin: 0 1rem;
     }
     
-    .THIS .sdv-top-bar .rr-all-content {
-        margin: 0 10px;
+    .THIS .share-ico .rr-icon-default{
+        width: 20px;
+        height: 20px;
     }
-}
+     .THIS .share-ico {
+        margin: 0 1rem;
+    }
 
 }
 
