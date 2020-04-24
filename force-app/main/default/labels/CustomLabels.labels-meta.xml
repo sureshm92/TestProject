@@ -11325,6 +11325,13 @@
         <value>Ready to Screen</value>
     </labels>
     <labels>
+        <fullName>PWS_Declined_Conscent_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS Declined Conscent Disclaimer</shortDescription>
+        <value>Test Declined Consent Disclaimer</value>
+    </labels>
+    <labels>
         <fullName>PWS_Eligibility_Card_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -11484,6 +11491,13 @@
         <protected>true</protected>
         <shortDescription>PWS_Screening_No_Outcome</shortDescription>
         <value>Not Screened</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Withdrew_Conscent_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS Withdrew Conscent Disclaimer</shortDescription>
+        <value>Test Withdrew Consent Disclaimer</value>
     </labels>
     <labels>
         <fullName>Participant_Created_Date</fullName>
