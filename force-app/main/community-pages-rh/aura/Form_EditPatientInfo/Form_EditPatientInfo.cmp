@@ -8,7 +8,7 @@
     <!-- public attributes: -->
     <aura:attribute name="pe" type="Participant_Enrollment__c" access="public"/>
     <aura:attribute name="participant" type="Participant__c" access="public"/>
-    <aura:attribute name="participantDelegate" type="Contact" access="public"/>
+    <aura:attribute name="participantDelegate" type="Participant__c" access="public"/>
     <aura:attribute name="formData" type="AddPatientByPIRemote.FormData" access="public"/>
     <aura:attribute name="updateMode" type="Boolean" default="false" access="public"/>
     <aura:attribute name="isValid" type="Boolean" default="false" access="public"/>
@@ -125,20 +125,20 @@
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                         <div class="label"><abbr title="required"
                                                  class="slds-required">*</abbr>{!$Label.c.PG_AS_F_First_name}</div>
-                        <lightning:input type="text" value="{!v.participantDelegate.FirstName}" required="{!v.participantDelegate}"
+                        <lightning:input type="text" value="{!v.participantDelegate.First_Name__c}" required="{!v.participantDelegate}"
                                          onblur="{!c.doCheckFields}"/>
                     </div>
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                         <div class="label"><abbr title="required"
                                                  class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Last_name}</div>
-                        <lightning:input type="text" value="{!v.participantDelegate.LastName}" required="{!v.participantDelegate}"
+                        <lightning:input type="text" value="{!v.participantDelegate.Last_Name__c}" required="{!v.participantDelegate}"
                                          onblur="{!c.doCheckFields}"/>
                     </div>
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                         <div class="label"><abbr title="required"
                                                  class="slds-required">*</abbr>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
                         </div>
-                        <lightning:input type="text" value="{!v.participantDelegate.Phone}" required="{!v.participantDelegate}"
+                        <lightning:input type="text" value="{!v.participantDelegate.Phone__c}" required="{!v.participantDelegate}"
                                          onblur="{!c.doCheckFields}"/>
                     </div>
                 </div>

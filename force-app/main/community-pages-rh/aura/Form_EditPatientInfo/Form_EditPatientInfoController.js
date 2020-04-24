@@ -75,9 +75,9 @@
                     (participantDelegate || participant.Phone__c.trim()) &&
                     (participantDelegate || participant.Phone_Type__c.trim()) &&
                     (participantDelegate || participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
-                    (!participantDelegate || participantDelegate.Phone.trim()) &&
-                    (!participantDelegate || participantDelegate.FirstName.trim()) &&
-                    (!participantDelegate || participantDelegate.LastName.trim()) &&
+                    (!participantDelegate || participantDelegate.Phone__c.trim()) &&
+                    (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
+                    (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
                     participant.Mailing_Zip_Postal_Code__c.trim() !== ''){
                         isValid = true;
                 } else {
@@ -94,9 +94,9 @@
                 (participantDelegate || participant.Phone__c.trim()) &&
                 (participantDelegate || participant.Phone_Type__c.trim()) &&
                 (participantDelegate || participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
-                (!participantDelegate || participantDelegate.Phone.trim()) &&
-                (!participantDelegate || participantDelegate.FirstName.trim()) &&
-                (!participantDelegate || participantDelegate.LastName.trim()) &&
+                (!participantDelegate || participantDelegate.Phone__c.trim()) &&
+                (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
+                (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
                 participant.Email__c &&
                 participant.Mailing_Zip_Postal_Code__c !== '' &&
                 pe &&
@@ -114,9 +114,9 @@
                     (participantDelegate || participant.Phone__c.trim()) &&
                     (participantDelegate || participant.Phone_Type__c.trim()) &&
                     (participantDelegate || participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
-                    (!participantDelegate || participantDelegate.Phone.trim()) &&
-                    (!participantDelegate || participantDelegate.FirstName.trim()) &&
-                    (!participantDelegate || participantDelegate.LastName.trim()) &&
+                    (!participantDelegate || participantDelegate.Phone__c.trim()) &&
+                    (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
+                    (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
                     participant.Mailing_Zip_Postal_Code__c.trim() !== ''){
                         isValid = true;
                 } else {
@@ -137,9 +137,9 @@
                 (participantDelegate || participant.Phone__c.trim()) &&
                 (participantDelegate || participant.Phone_Type__c.trim()) &&
                 (participantDelegate || participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
-                (!participantDelegate || participantDelegate.Phone.trim()) &&
-                (!participantDelegate || participantDelegate.FirstName.trim()) &&
-                (!participantDelegate || participantDelegate.LastName.trim()) &&
+                (!participantDelegate || participantDelegate.Phone__c.trim()) &&
+                (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
+                (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
                 participant.Mailing_Zip_Postal_Code__c &&
                 pe &&
                 pe.Participant_Status__c &&
