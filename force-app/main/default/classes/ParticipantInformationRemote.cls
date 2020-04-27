@@ -219,12 +219,17 @@ public without sharing class ParticipantInformationRemote {
             if (!patientDelegatesToInsert.isEmpty()) {
                 upsert patientDelegatesToInsert;
             }
-            if (!toCreateUser.isEmpty() && userNotExists) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
+            createCommunityUser(toCreateUser, userNotExists);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
 
         return isConnectedRes;
+    }
+
+    @Future
+    private static void createCommunityUser(Map<Id, Id> toCreateUser, Boolean userNotExists) {
+        if (!toCreateUser.isEmpty() && userNotExists) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
     }
 
     @AuraEnabled

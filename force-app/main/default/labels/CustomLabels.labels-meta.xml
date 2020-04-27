@@ -9963,7 +9963,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L Delegate continue be delegate</shortDescription>
-        <value>Please ensure that delegate&#39;s contact information is up-to-date</value>
+        <value>Please ensure that the delegate’s information, especially email address, is correct before connecting to patient.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Delegate_update_info_uptodate</fullName>
