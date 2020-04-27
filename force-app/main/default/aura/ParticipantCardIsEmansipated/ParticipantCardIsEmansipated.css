@@ -36,3 +36,9 @@
     margin-bottom: 10px;
     padding: 12px 16px;
 }
+
+@media all and (max-width: 500px){
+	.THIS.alertBanner {
+        margin: 15px -1rem;
+    }
+}

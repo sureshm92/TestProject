@@ -6,13 +6,15 @@
     doInit: function (component, event, helper) {
         var pe = component.get('v.pe');
         communityService.executeAction(component, 'getInitData', {peId: pe.Id, participantId: pe.Participant__c}, function (returnValue) {
+            console.log('PES', JSON.stringify(returnValue));
             var hcp = returnValue.healthcareProviders;
             for (let i = 0; i < hcp.length; i++) {
                 hcp[i].sObjectType = 'Healthcare_Provider__c';
             }
-            var del = returnValue.listDelegates;
+            var del = returnValue.listWrapp;
+            console.log(JSON.stringify(returnValue.listWrapp));
             for (let i = 0; i <del.length; i++) {
-                del[i].sObjectType = 'Patient_Delegate__c'
+                del[i].sObjectType = 'Object'
             }
             var rp = component.get('v.refProvider');
             if(rp) rp.sObjectType = 'Contact';
@@ -29,7 +31,7 @@
     },
     doAddDelegate: function (component, event, helper) {
         var delegates = component.get('v.delegates');
-        delegates.push({sObjectType: 'Patient_Delegate__c'});
+        delegates.push({sObjectType: 'Object'});
         component.set('v.delegates', delegates);
     },
 

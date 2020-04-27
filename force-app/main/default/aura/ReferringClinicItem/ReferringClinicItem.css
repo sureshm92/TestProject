@@ -57,6 +57,26 @@
     color: #000;
 }
 
+.THIS .rci-header .rci-inline:first-child .info-labels:last-child {
+    padding-left: 25px;  
+}
+
 .THIS .rci-header .rci-inline:last-child {
-	margin-left: 10px;
+	margin-left: 25px;
+}
+
+@media all and (max-width: 768px) {
+	.THIS .rci-header .rci-inline,
+    .THIS .rci-header .rci-inline .info-labels {
+        display: block;
+        margin-top: 10px;
+    }
+    
+    .THIS .rci-header .rci-inline:first-child .info-labels:last-child {
+        padding-left: 0;  
+    }
+    
+    .THIS .rci-header .rci-inline:last-child {
+         margin-left: 0;
+    }
 }

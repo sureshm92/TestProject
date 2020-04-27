@@ -17,3 +17,9 @@
     font-size: 20px;
     text-align: center;
 }
+
+@media all and (max-width: 500px) {
+ 	.THIS .slds-map {
+        min-width: auto;
+    }   
+}

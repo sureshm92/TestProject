@@ -303,9 +303,11 @@
             </aura:if>
             <div data-gtm="BTNS_Popup_Navigate_emancip">
                 <button data-gtm="BTN_Next_emancip" class="apollo-btn primary slds-float_right slds-button--reset" disabled="{!!v.isValid || (!v.isDelegatesValid &amp;&amp; v.currentTab == '2')  || (!v.finalAgree &amp;&amp; v.currentTab == '4')}" onclick="{!c.doNext}">{!v.currentTab != '4' ? $Label.c.BTN_Next : $Label.c.BTN_Save}</button>
-                <button data-gtm="BTN_Back_emancip" class="apollo-btn secondary slds-float_right slds-button--reset" disabled="{!v.currentTab == '1'}" onclick="{!c.doBack}">{!$Label.c.BTN_Back}</button>
-                <button data-gtm="BTN_Cancel_emancip" class="apollo-btn tertiary slds-float_right slds-button--reset" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
-            </div>
+                <span>
+                	<button data-gtm="BTN_Back_emancip" class="apollo-btn secondary slds-float_right slds-button--reset" disabled="{!v.currentTab == '1'}" onclick="{!c.doBack}">{!$Label.c.BTN_Back}</button>
+                	<button data-gtm="BTN_Cancel_emancip" class="apollo-btn tertiary slds-float_right slds-button--reset" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
+            	</span>
+			</div>
         </aura:set>
 
     </c:Popup>

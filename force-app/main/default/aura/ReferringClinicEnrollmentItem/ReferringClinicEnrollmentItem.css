@@ -124,8 +124,15 @@ border-radius: 4px;
     min-width: 250px;
 }
 
-@media (max-width: 850px) {
+@media all and (max-width: 850px) {
     .THIS.rcei-body .apollo-btn {
         margin-top: 10px;
+    }
+}
+
+@media all and (max-width: 500px)  {
+    .THIS .rcei-right .slds-grid .slds-col{
+        margin-top: 15px;
+        width: 100%;
     }
 }

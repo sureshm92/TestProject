@@ -3,7 +3,7 @@
  */
 
 .THIS.rr-white-panel {
-    padding: 16px 0 0;
+    padding: 16px;
     border-bottom: none;
 }
 
@@ -44,5 +44,12 @@
     .THIS .state.missed .state-ico-wrapper .rr-icon-default{
         width: 24px;
         padding: 1px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+        
+    .THIS.rr-white-panel {
+        padding: 1rem;
     }
 }
