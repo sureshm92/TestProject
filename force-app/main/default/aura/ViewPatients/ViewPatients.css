@@ -6,15 +6,20 @@
 }
 .THIS .vp-navigation{
     margin-bottom: 15px;
+    padding-left: 1rem;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
-.THIS .navigation-breadcrumbs{
+.THIS .navigation-breadcrumbs .cRRNavigationPath.navigation-path {
+	margin-bottom: 0;
+    margin-top: 0;
+}
 
-}
 .THIS .vp-export-btn{
     padding: 5px;
 }
+
 
 .THIS .emancipation-notification {
     background: #FF9300;
@@ -52,6 +57,14 @@
 @media all and (max-width: 767px) {
     .THIS {
         padding-bottom: 0;
+    }
+    
+}
+
+@media all and (max-width: 500px) {
+    .THIS .vp-navigation {
+        margin-top: 15px!important;
+        padding-left: 0;
     }
     
 }

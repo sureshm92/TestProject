@@ -47,16 +47,17 @@
                                     value="statusDetailsAnchor">
                                 {!$Label.c.BTN_View_Participant_Details}
                             </button>
-                        </div>
+                       
                         <aura:if isTrue="{!empty(v.pe.MRR_Survey_Results_URL__c) &amp;&amp; !v.actions.screenerResponses.disabled &amp;&amp; v.pe.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c}">
-                            <div class="slds-col slds-size_1-of-1 slds-small-size_4-of-12" data-gtm="BTN_Screening">
+                            <span data-gtm="BTN_Screening">
                                 <lightning:button class="slds-button--neutral"
                                                   title="{!$Label.c.BTN_Pre_Screen_Participant}"
                                                   onclick="{!c.doPreScreening}">
                                     {!$Label.c.BTN_Pre_Screen_Participant}
                                 </lightning:button>
-                            </div>
+                            </span>
                         </aura:if>
+                        </div> 
                     </div>
                 </aura:if>
 

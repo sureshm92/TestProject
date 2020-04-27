@@ -18,7 +18,7 @@
 
 
     <div class="slds-grid slds-wrap">
-        <div class="slds-col slds-size--1-of-3 slds-p-horizontal--medium">
+        <div class="slds-col slds-max-small-size_1-of-1 slds-size--1-of-3  slds-p-horizontal--medium">
             <aura:iteration items="{!v.participantWorkflowWrapper.steps}" var="step" indexVar="stepInd">
                 <div>
                     <button class="apollo-btn secondary step-btn" data-step-ind="{!stepInd}" onclick="{!c.doChangeStep}" disabled="{!step.state=='neutral' || v.updateInProgress}">
@@ -38,7 +38,7 @@
                 </div>
             </aura:iteration>
         </div>
-        <div class="slds-col slds-size--2-of-3">
+        <div class="slds-col slds-max-small-size_1-of-1 slds-size--2-of-3">
             <aura:iteration items="{!v.participantWorkflowWrapper.steps}" var="step">
                 <div style="{!if(step.isCurrentStep ,'display: block','display: none')}">
                     <c:ParticipantStatusDetailsCard aura:id="stepCard"

@@ -69,7 +69,7 @@
 }
 
 .THIS .vpi-path{
-    margin: 30px 0 5px;
+    margin: 30px 0 2rem;
     padding: 0 15px;
 }
 
@@ -190,9 +190,9 @@
 
 .THIS .vpi-status-btns {
     display: flex;
-    justify-content: center;
-    padding-left: 63%;
-
+    justify-content: flex-end;
+    padding: 0;
+    margin: 0 .5rem 1rem 0;
 }
 
 .THIS .vpi-status-btns > div {
@@ -200,22 +200,14 @@
 }
 
 .THIS .vpi-status-btns button{
-    margin-top: 15px;
-    margin-bottom: 25px;
     min-width: auto;
 
 }
 
-@media all and (max-width: 768px){
-     .THIS .vpi-status-btns button{
-        margin: 5px 0 10px 0;
-        width: 100%;
-    } 
-    .THIS .vpi-status-btns {
-     	padding-right: 15px; 
-        margin-top: 15px;
-        margin-bottom: 15px;
-    }
+.THIS .vpi-status-btns > .slds-small-size_6-of-12 {
+    min-width: 100%;
+    display: inline-flex;
+    justify-content: flex-end;
 }
 
 @media all and (min-width: 1024px) {
@@ -261,7 +253,42 @@
         height: 18px;
         font-weight: 600;
     }
-    .THIS .slds-small-size_6-of-12 {
-        margin-left: 175px;
+}
+
+@media all and (max-width: 768px){
+    
+    .THIS .vpi-status-btns {
+        margin-top: 15px;
+        margin-bottom: 15px;
     }
+    
+     .THIS .vpi-title {
+        width: 70%;
+    }
+}
+
+@media all and (max-width: 500px){
+    
+    .THIS.rr-white-panel {
+    	padding: 1rem 1rem 0;    
+    }
+    
+    .THIS .vpi-status-btns>.slds-small-size_6-of-12 {
+        padding: 0;
+    }
+    
+    .THIS .vpi-status-btns {
+     	padding: 0; 
+        margin-right: 0;
+    }
+    
+    .THIS .vpi-status-btns button{
+        margin: 5px 0 10px 0;
+        width: 100%;
+    } 
+    
+ 	.THIS .vpi-path {
+        padding: 0;
+    }   
+
 }

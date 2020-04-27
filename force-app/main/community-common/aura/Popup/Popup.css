@@ -68,7 +68,7 @@
 
 .THIS .p-header h2 {
     font-size: 24px;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 30px;
     width: 90%;
 }
@@ -184,7 +184,7 @@
 
 .THIS.cAction_ParticipantInformation .p-container .p-footer {
     position: absolute;
-    right: 16px;
+    right: .5rem;
     bottom: 0;
     padding: 15px 15px 15px 24px;
     width: 98%;
@@ -195,9 +195,24 @@
     height: 89%;
 }
 
-@media all and (max-width: 767px){
+@media screen and (max-width: 768px){
      .THIS.cAction_ParticipantInformation .p-container .p-header {
 		max-height: 30vh;
+    }
+    
+	.THIS.cAction_ParticipantInformation .p-container .p-header .invite-patient-container > div:nth-of-type(1) {
+        max-width: 65%;
+    }
+    
+    .THIS.cAction_ParticipantInformation .p-container .p-header .invite-patient-container > div:nth-of-type(1) .slds-size--10-of-12 {
+        max-width: 85%;
+    }  
+     .THIS.cAction_ParticipantInformation .p-container .p-header .invite-patient-container > div:nth-of-type(2) {
+        max-width: 35%;
+    }
+    
+    .THIS .p-container .p-footer {
+        border-top: 1px solid #efefef;
     }
 }
 @media all and (min-width: 480px){
@@ -216,4 +231,21 @@
     .THIS #p-modal .p-container.large {
         width: 800px;
     }
+}
+
+@media all and (max-width: 500px) {
+    .THIS #p-modal .p-container {
+        max-height: 85%;
+        top: 45%;
+    }
+    
+     .THIS.cAction_ParticipantInformation .p-container .p-footer {
+        right: 0;
+        bottom: 15px;
+        padding: 15px;
+        max-height: 190px;
+        width: 100%;
+        border-top: 1px solid #efefef;
+    }
+
 }

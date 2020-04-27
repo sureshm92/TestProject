@@ -81,3 +81,13 @@
 .THIS .button-panel-mobile{
     margin-bottom: 30px;
 }
+
+@media screen and (max-width: 500px) {
+    .THIS .sdli-container {
+    	padding: 10px 0 10px 10px;
+    }
+    
+    .THIS .rr-form-element {
+        margin-bottom: .5rem;
+    }
+}

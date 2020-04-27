@@ -18,7 +18,7 @@
             <!-- Name: -->
             <div class="slvi-name-section-hcp">
                 <div class="slds-grid slds-wrap">
-                    <div class="slds-col slds-small-size_1-of-1 slds-x-small-size_1-of-1 slds-medium-size_3-of-4 slds-large-size_3-of-4 study-name">
+                    <div class="slds-col slds-small-size_1-of-1 slds-x-small-size_1-of-1 slds-medium-size_2-of-3 slds-large-size_3-of-4 study-name">
                   <!--   <c:uiLimitTextByLines maxLines="{!if($Browser.formFactor == 'DESKTOP', 1, 3)}" lineHeight="33" unitsType="px"> -->
                             <c:RRLink class="study-title" label="{!v.currentStudy.trial.Study_Code_Name__c}"
                                       page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"/>
@@ -29,7 +29,7 @@
                     </div>
 
                     <!--Social Widgets-->
-                    <div class="slds-col slds-small-size_1-of-1 slds-x-small-size--1-of-1 slds-medium-size_1-of-4 slds-large-size_1-of-4 slds-large-order_2 slds-medium-order_2">
+                    <div class="slds-col slds-small-size_1-of-1 slds-x-small-size--1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-4 slds-large-order_2 slds-medium-order_2">
                         <aura:if isTrue="{!!empty(v.currentStudy.trial.NCT_Number__c)}">
                             <div class="{!v.userMode == 'PI'? 'rri-icon-pi slds-float_right':'rri-icon slds-float_right'}">
                                 <a href="javascript:void(0);" data-id="email" onclick="{!c.onShareClick}">

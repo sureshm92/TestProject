@@ -71,3 +71,9 @@
         margin: 0 auto;
     }
 }
+
+@media screen and (max-width: 500px) {
+ 	.THIS.width-limiter {
+        padding: 1.5rem 1rem;
+    }   
+}

@@ -29,3 +29,9 @@
 
     }
 }
+
+@media all and (max-width: 500px){
+    .THIS .mti-name .slds-size--2-of-4 {
+            min-width: 100%;
+        }
+}
