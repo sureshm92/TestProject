@@ -43,14 +43,15 @@
                              disabled="{!v.delegateItem.Contact__c || v.delegateItem.isConnected}"/>
         </div>
         <div class="rr-form-element slds-col slds-size--3-of-12">
-            <button class="apollo-btn secondary slds-button" onclick="{!c.doConnect}"
+            <button class="apollo-btn secondary" onclick="{!c.doConnect}"
+                    style="margin-top: 23px; box-shadow: none; border: none;"
                     disabled="{!(!v.isValid || v.isDuplicate)}"
                     title="{!v.isDuplicate ? $Label.c.HealCare_Provider_Already_Connected : ''}">
                 {!v.delegateItem.isConnected ? $Label.c.HealthCare_Provider_Stop_Sharing : $Label.c.HealthCare_Provider_Connect}
             </button>
         </div>
 
-        <aura:if isTrue="{!v.delegateItem.Contact__c}">
+        <aura:if isTrue="{!v.isDuplicate}">
             <div class="slds-grid slds-wrap slds-size--7-of-12 slds-large-size--1-of-1 slds-grid_vertical-align-end healthcare-form-container provider-found-section">
                 <div class="slds-col slds-size--4-of-12">
                     {!$Label.c.Delegate_Found}
