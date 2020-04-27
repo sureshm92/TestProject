@@ -3,7 +3,7 @@
     <fullName>Visit_Results_Opt_In__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Visit Results Opt In</label>
+    <label>Visit Results Opt In Deprecated</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>
