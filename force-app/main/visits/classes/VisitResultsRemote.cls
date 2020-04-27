@@ -5,16 +5,10 @@ public inherited sharing class VisitResultsRemote {
 
     @AuraEnabled
     public static InitDataWrapper getInitData(String visitResultsMode) {
-
         try {
             InitDataWrapper wrapper = (InitDataWrapper) ClassFactory.newInstance(InitDataWrapper.class);
             wrapper.isVisitResultsAvailable = VisitResultSharingService.isVisitResultAvailable();
-            List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
-            if (peList.size() > 0 && peList[0].Participant__r != null && peList[0].Participant__r.Contact__c != null) {
-                wrapper.contact = peList[0].Participant__r.Contact__r;
-            } else {
-                throw new AuraHandledException('Contact is not defined.');
-            }
+            wrapper.contact = ParticipantContext.getCurrentContact();
             wrapper.isResultsExist = !VisitResultSharingService.processResults().isEmpty();
             wrapper.visitResultsGroupNames = ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class)).getVisitResultsGroupNames(visitResultsMode);
             wrapper.isDelegate = ParticipantContext.isCurrentDelegate();
