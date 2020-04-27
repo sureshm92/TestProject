@@ -584,8 +584,8 @@ public without sharing class ParticipantWorkflowService {
             }
         }
         List<Participant_Enrollment_Status_History__c> statusHistories = new List<Participant_Enrollment_Status_History__c>();
-        Participant_Workflow_Outcome__mdt currentOutcome = outcomesMap.get(participantEnrollment.Participant_Status__c).values()[0];
-        if (currentOutcome != null) {
+        if (outcomesMap.get(participantEnrollment.Participant_Status__c) != null) {
+            Participant_Workflow_Outcome__mdt currentOutcome = outcomesMap.get(participantEnrollment.Participant_Status__c).values()[0];
             for (Participant_Workflow_Step__mdt step : steps) {
                 if (step.DeveloperName == currentOutcome.Step__c) {
                     statusHistories.add(new Participant_Enrollment_Status_History__c(
