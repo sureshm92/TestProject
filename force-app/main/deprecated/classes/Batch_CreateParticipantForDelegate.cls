@@ -29,9 +29,9 @@ public without sharing class Batch_CreateParticipantForDelegate implements Datab
 
         List<Participant__c> participantsForInsert = new List<Participant__c>();
         for (Contact contact : contacts) {
-
             if (!delegateConIdsWithParticipants.contains(contact.Id)) {
                 participantsForInsert.add(new Participant__c(
+                        Adult__c = true,
                         Contact__c = contact.Id,
                         First_Name__c = contact.FirstName,
                         Last_Name__c = contact.LastName,
@@ -40,7 +40,6 @@ public without sharing class Batch_CreateParticipantForDelegate implements Datab
                         Mailing_City__c = contact.MailingCity,
                         Mailing_Country_Code__c = contact.MailingCountryCode,
                         Mailing_State_Code__c = contact.MailingStateCode
-
                 ));
             }
         }
