@@ -143,78 +143,86 @@ public without sharing class ParticipantInformationRemote {
     @AuraEnabled
     public static DelegateConnectedInfo connectDelegateToPatient(String participantS, String delegateS, String studySiteId, Boolean isConnected) {
         DelegateConnectedInfo isConnectedRes = new DelegateConnectedInfo();
-        isConnectedRes.isConnected = false;
+        isConnectedRes.isConnected = isConnected;
 
         try {
             Participant__c participant = (Participant__c) JSON.deserialize(participantS, Participant__c.class);
             Participant__c delegateParticipant = (Participant__c) JSON.deserialize(delegateS, Participant__c.class);
+            isConnectedRes.contactId = delegateParticipant.Contact__c;
             Map<Id, Id> toCreateUser = new Map<Id, Id>();
-
-            List<Contact> contactsToInsert = new List<Contact>();
             List<Patient_Delegate__c> patientDelegatesToInsert = new List<Patient_Delegate__c>();
-            ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(new List<Participant__c>{
-                    delegateParticipant
-            });
-            Contact contactToInsert = new Contact(
-                    AccountId = [SELECT Id FROM Account WHERE Name =: CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE ].Id,
-                    MailingState = delegateParticipant.Mailing_State__c,
-                    MailingCountry = delegateParticipant.Mailing_Country__c,
-                    MailingStateCode = delegateParticipant.Mailing_State_Code__c,
-                    MailingCountryCode = delegateParticipant.Mailing_Country_Code__c,
-                    MailingPostalCode = delegateParticipant.Mailing_Zip_Postal_Code__c,
-                    FirstName = delegateParticipant.First_Name__c,
-                    LastName = delegateParticipant.Last_Name__c,
-                    Email = delegateParticipant.Email__c,
-                    Language__c = UserInfo.getLanguage(),
-                    Second_Choice_Language__c = '',
-                    Third_Choice_Language__c = '',
-                    userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT,
-                    userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT,
-                    userCommunityIsDelegate__c = true
-            );
-            if (duplicateService.findDuplicateContact(delegateParticipant) != null) {
-                contactToInsert.Id = duplicateService.findDuplicateContact(delegateParticipant).Id;
-            } else if (!String.isBlank(delegateParticipant.Contact__c)) {
-                contactToInsert.Id = delegateParticipant.Contact__c;
-            }
-            contactsToInsert.add(contactToInsert);
-
+            Contact delegateContact;
             Boolean userNotExists = false;
-            if (!contactsToInsert.isEmpty()) {
-                upsert contactsToInsert;
 
-                List<Patient_Delegate__c> patientDelegatesEver = [
-                        SELECT Id,
-                                Participant__c,
-                                Contact__c,
-                                Status__c
-                        FROM Patient_Delegate__c
-                        WHERE Participant__c = :participant.Id AND
-                        Contact__c = :contactToInsert.Id];
-                userNotExists = patientDelegatesEver.isEmpty();
+            if (String.isBlank(delegateParticipant.Contact__c)) {
+                ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(new List<Participant__c>{
+                        delegateParticipant
+                });
 
-                if (patientDelegatesEver.isEmpty() && !isConnected) {
-                    for (Contact newDelegate : contactsToInsert) {
-                        patientDelegatesToInsert.add(
-                                new Patient_Delegate__c(
-                                        Participant__c = participant.Id,
-                                        Contact__c = newDelegate.Id,
-                                        Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
-                                )
-                        );
-                        toCreateUser.put(newDelegate.Id, null);
-                        isConnectedRes.isConnected = true;
-                    }
-                } else {
-                    for (Patient_Delegate__c ptDelegate : patientDelegatesEver) {
-                        if (!String.isBlank(ptDelegate.Id)) {
-                            ptDelegate.Status__c = isConnected ? PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS : PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS;
-                            patientDelegatesToInsert.add(ptDelegate);
-                            isConnectedRes.isConnected = !isConnected;
-                        }
+                delegateContact = new Contact(
+                        AccountId = [SELECT Id FROM Account WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE].Id,
+                        MailingState = delegateParticipant.Mailing_State__c,
+                        MailingCountry = delegateParticipant.Mailing_Country__c,
+                        MailingStateCode = delegateParticipant.Mailing_State_Code__c,
+                        MailingCountryCode = delegateParticipant.Mailing_Country_Code__c,
+                        MailingPostalCode = delegateParticipant.Mailing_Zip_Postal_Code__c,
+                        FirstName = delegateParticipant.First_Name__c,
+                        LastName = delegateParticipant.Last_Name__c,
+                        Email = delegateParticipant.Email__c,
+                        Language__c = UserInfo.getLanguage(),
+                        Second_Choice_Language__c = '',
+                        Third_Choice_Language__c = '',
+                        userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT,
+                        userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT,
+                        userCommunityIsDelegate__c = true
+                );
+                if (duplicateService.findDuplicateContact(delegateParticipant) != null) {
+                    delegateContact.Id = duplicateService.findDuplicateContact(delegateParticipant).Id;
+                } else if (!String.isBlank(delegateParticipant.Contact__c)) {
+                    delegateContact.Id = delegateParticipant.Contact__c;
+                }
+
+                insert delegateContact;
+            } else {
+                delegateContact = new Contact(Id = delegateParticipant.Contact__c);
+            }
+
+            List<Patient_Delegate__c> patientDelegatesEver = [
+                    SELECT Id,
+                            Participant__c,
+                            Contact__c,
+                            Status__c
+                    FROM Patient_Delegate__c
+                    WHERE Participant__c = :participant.Id AND
+                    Contact__c = :delegateContact.Id];
+            userNotExists = patientDelegatesEver.isEmpty();
+
+            if (patientDelegatesEver.isEmpty() && !isConnected) {
+                patientDelegatesToInsert.add(
+                        new Patient_Delegate__c(
+                                Participant__c = participant.Id,
+                                Contact__c = delegateContact.Id,
+                                Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
+                        )
+                );
+                toCreateUser.put(delegateContact.Id, null);
+                isConnectedRes.isConnected = true;
+            } else {
+                for (Patient_Delegate__c ptDelegate : patientDelegatesEver) {
+                    if (!String.isBlank(ptDelegate.Id)) {
+                        ptDelegate.Status__c = isConnected ? PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS : PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS;
+                        patientDelegatesToInsert.add(ptDelegate);
+                        isConnectedRes.isConnected = !isConnected;
                     }
                 }
             }
+
+            if (String.isBlank(delegateParticipant.Contact__c)) {
+                delegateParticipant.Contact__c = delegateContact.Id;
+                isConnectedRes.contactId = delegateContact.Id;
+            }
+            upsert delegateParticipant;
+            isConnectedRes.participantId = delegateParticipant.Id;
 
             if (!patientDelegatesToInsert.isEmpty()) {
                 upsert patientDelegatesToInsert;
@@ -441,6 +449,8 @@ public without sharing class ParticipantInformationRemote {
 
     public class DelegateConnectedInfo {
         @AuraEnabled public Boolean isConnected { get; set; }
+        @AuraEnabled public Id participantId { get; set; }
+        @AuraEnabled public Id contactId { get; set; }
     }
 
     public class PIDelegateLevelInfo {
