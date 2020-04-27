@@ -310,20 +310,9 @@
     margin-left: 3px;
 }
 
-.THIS .primary {
-    margin-left: 5px;
-}
-
-@media all and (max-width: 768px){
-     .THIS .vpi-status-btns button{
-        margin: 5px 0 10px 0;
-        width: 100%;
-    } 
-    .THIS .vpi-status-btns {
-     	padding-right: 15px; 
-        margin-top: 15px;
-        margin-bottom: 15px;
-    }
+.THIS .primary,
+.THIS .secondary {
+    margin-left: 1rem;
 }
 
 @media all and (min-width: 1024px) {
@@ -371,5 +360,105 @@
     }
     .THIS .slds-small-size_6-of-12 {
         margin-left: 175px;
+    }
+}
+
+@media all and (max-width: 768px){
+    
+    .THIS .p-buttons-container > .rr-form-element {
+        width: 45%;
+    }
+    
+     .THIS .vpi-status-btns button{
+        margin: 5px 0 10px 0;
+        width: 100%;
+    } 
+    .THIS .vpi-status-btns {
+     	padding-right: 15px; 
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .THIS .radioInvite .slds-form-element:first-child {
+        margin: 5px 0 1rem;
+    }
+    
+    .THIS .p-footer .rr-form-element {
+        margin-bottom: 10px;
+    }
+}
+@media screen and (max-width: 768px) {
+    .THIS .p-buttons-container {
+		display: flex;
+    }
+    
+    .THIS .p-buttons-container > div:nth-of-type(1) {
+        margin-left: 0!important;
+        margin-top: 0!important;
+        width: 35%;
+    }
+    
+    .THIS .p-buttons-container > div:nth-of-type(2) {
+        width: 65%;
+        padding: 0 0 0 1rem;
+    }
+    
+    .THIS .p-buttons-container > div:nth-of-type(2) .primary {
+     	width: 100%;
+        margin-bottom: 1rem;
+        margin-left: 0;
+    }
+    
+    .THIS .p-buttons-container > div:nth-of-type(2) > span {
+        display: flex;
+        width: 100%;
+    }
+    
+     .THIS .p-buttons-container > div:nth-of-type(2) > span .apollo-btn {
+        width: 100%;
+        margin: 0;
+    }
+}
+
+
+@media all and (max-width: 500px){
+    .THIS  #p-modal .p-container {
+        max-height: 85%;
+        top: 45%;
+    }
+    
+    .THIS .p-container .p-content {
+        max-height: 70%;
+    }
+    
+   .THIS .p-content .form-content {
+        padding-bottom: 50px;
+    }
+    
+    
+    .THIS .p-container .p-footer {
+        padding: .5rem 1rem 1rem;
+        max-height: 28vh;
+    }
+
+    .THIS .p-buttons-container {
+        flex-direction: column;
+    }
+    
+    .THIS .p-buttons-container>div:nth-of-type(1),
+    .THIS .p-buttons-container>div:nth-of-type(2) {
+        width: 100%;
+        padding: 0;
+    }
+    
+    .THIS .p-buttons-container span {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+    
+    .THIS .p-buttons-container>div:nth-of-type(2)>span .apollo-btn {
+        width: 47%;
+        margin-left: 0;
     }
 }

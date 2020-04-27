@@ -21,11 +21,6 @@
 @media all and (min-width: 768px) {
     .THIS .site-distance {
         text-align: right;
-    }
-}
-
-@media all and (max-width: 767px) {
-    .THIS .site-distance {
         margin-top: .5rem;
     }
 }

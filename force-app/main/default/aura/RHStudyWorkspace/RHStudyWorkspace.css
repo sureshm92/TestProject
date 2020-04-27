@@ -7,7 +7,7 @@
 .THIS .sd-study-name {
     margin-bottom: 10px;
     color: #000000;
-    font-size: 30px;
+    font-size: 1.5rem;
     font-weight: 500;
     line-height: 36px;
 }
@@ -154,10 +154,9 @@
 }
 
 .THIS .sdv-top-bar .title{
-    font-size: 30px;
+    font-size: 1.5rem;
     font-weight: 600;
     line-height: 36px;
-    padding-top: 10px;
     padding-bottom: 10px;
 }
 
@@ -281,6 +280,15 @@
 .THIS .contrast-logo {
     max-width: 136px;
     margin: 10px 0;
+}
+
+.THIS .navigation.rr-width-limiter.side-padding {
+    padding-left: 0;
+}
+.THIS .navigation .cRRNavigationPath.navigation-path {
+	font-size: .875rem;  
+    margin-bottom: .5rem;
+    margin-left: 1rem;
 }
 
 .THIS .actions-buttons{
