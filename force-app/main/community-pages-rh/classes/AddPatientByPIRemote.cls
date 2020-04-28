@@ -48,7 +48,8 @@ public without sharing class AddPatientByPIRemote {
             pe.Referral_Source__c = 'PI';
             ParticipantService.createParticipantAndUpdatePE(participant, pe, userLanguage);
 
-            Participant__c newParticipant = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participant.Id OR Id = :pe.Participant__c];
+            String participantId = !String.isBlank(participant.Id) ? participant.Id : pe.Participant__c;
+            Participant__c newParticipant = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participantId];
             if (createUser && newParticipant != null && !String.isBlank(newParticipant.Contact__c) && !String.isBlank(ssId)) {
                 Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
                 Study_Site__c ss = StudySiteService.getStudySiteForPIById(ssId);
@@ -57,13 +58,19 @@ public without sharing class AddPatientByPIRemote {
                 if (!actionAssignContactPermissions.isEmpty()) {
                     ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
                 }
+                createCommunityUser(new Map<Id, Id> { newParticipant.Contact__c => null });
             }
             //Moved history Creation to Trigger
         }catch (Exception e){
             AuraHelper.throwException(e);
         }
     }
-    
+
+    @Future
+    private static void createCommunityUser(Map<Id, Id> toCreateUser) {
+        if (!toCreateUser.isEmpty()) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
+    }
+
     @AuraEnabled
     public static void updatePatientInfo(String participantJSON, String peJSON){
         try{
