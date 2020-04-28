@@ -1522,7 +1522,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Create Users Checkbox</shortDescription>
-        <value>Participant have consented to receiving an invitation to the Patient Portal.</value>
+        <value>Participant has consented to receiving an invitation to the Patient Portal.</value>
     </labels>
     <labels>
         <fullName>Create_Users_Checkbox_on_Import</fullName>
