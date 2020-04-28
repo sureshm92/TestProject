@@ -221,6 +221,10 @@ public without sharing class ParticipantInformationRemote {
                 delegateParticipant.Contact__c = delegateContact.Id;
                 isConnectedRes.contactId = delegateContact.Id;
             }
+            if (String.isBlank(delegateParticipant.Phone__c)) {
+                delegateParticipant.Phone__c = participant.Phone__c;
+                delegateParticipant.Phone_Type__c = participant.Phone_Type__c;
+            }
             upsert delegateParticipant;
             isConnectedRes.participantId = delegateParticipant.Id;
 
