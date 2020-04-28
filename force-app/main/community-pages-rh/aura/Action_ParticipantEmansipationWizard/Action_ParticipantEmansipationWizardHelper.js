@@ -90,7 +90,7 @@
         let delegateItems = component.get('v.delegateItems');
         let delegateToProceedItems = [];
         for (let ind = 0; ind < delegateItems.length; ind++) {
-            if (delegateItems[ind].Contact__c != undefined && delegateItems[ind].selectedOption == '2') {
+            if (delegateItems[ind].Contact__c && delegateItems[ind].selectedOption == '2') {
                 doNotContinueIds.push(delegateItems[ind].Contact__c);
             }
             delete delegateItems[ind].selectedOption;
