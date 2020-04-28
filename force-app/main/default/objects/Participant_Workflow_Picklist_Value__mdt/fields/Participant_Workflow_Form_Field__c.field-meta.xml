@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Participant_Workflow_Form_Field__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Participant Workflow Form Field</label>
+    <referenceTo>Participant_Workflow_Form_Field__mdt</referenceTo>
+    <relationshipLabel>Participant Workflow Picklist Values</relationshipLabel>
+    <relationshipName>Participant_Workflow_Picklist_Values</relationshipName>
+    <required>true</required>
+    <type>MetadataRelationship</type>
+    <unique>false</unique>
+</CustomField>

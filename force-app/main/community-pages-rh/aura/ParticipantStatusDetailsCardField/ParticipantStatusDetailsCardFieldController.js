@@ -48,7 +48,7 @@
             }
         }
         if (field !== undefined && field.type === 'picklist' && field.validationMessageIfFalse !== undefined && field.validationMessageIfFalse !== null && field.validationMessageIfFalse !== '') {
-            component.set('v.errorMessage', field.value === 'false'?field.validationMessageIfFalse:'');
+            component.set('v.errorMessage', field.value !== field.validValue?field.validationMessageIfFalse:'');
         }
         component.set('v.previousValue', field.value);
     }

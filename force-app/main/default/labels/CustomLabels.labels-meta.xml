@@ -4123,14 +4123,14 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>FD PE Field Informed Consent Signed Date</shortDescription>
-        <value>Informed Consent Signed</value>
+        <value>Consent Signed</value>
     </labels>
     <labels>
         <fullName>FD_PE_Field_Informed_Consent_Signed_Date</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>FD PE Field Informed Consent Signed Date</shortDescription>
-        <value>Informed Consent Signed Date</value>
+        <value>Signed Date</value>
     </labels>
     <labels>
         <fullName>FD_PE_Field_Initial_Visit_Attended</fullName>
@@ -6659,6 +6659,20 @@
         <protected>false</protected>
         <shortDescription>PG ACPE L Notes</shortDescription>
         <value>Notes</value>
+    </labels>
+    <labels>
+        <fullName>PG_ACPE_L_Notes_Optional</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG ACPE L NotesOptional</shortDescription>
+        <value>Notes (optional)</value>
+    </labels>
+    <labels>
+        <fullName>PG_ACPE_L_Notes_Required</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG ACPE L Notes Required</shortDescription>
+        <value>Notes (required)</value>
     </labels>
     <labels>
         <fullName>PG_ACPE_L_Outcome</fullName>
@@ -11262,6 +11276,55 @@
         <protected>true</protected>
         <shortDescription>PWS_Initial_Visit_No_Outcome</shortDescription>
         <value>Not Completed</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Picklist_Value_Childcare_Issues</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Picklist_Value_Childcare_Issues</shortDescription>
+        <value>Childcare Issues</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Picklist_Value_Declined</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Picklist_Value_Declined</shortDescription>
+        <value>Declined</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Picklist_Value_Other</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Picklist_Value_Other</shortDescription>
+        <value>Other</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Picklist_Value_Participant_Not_Interested</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Picklist_Value_Participant_Not_Interested</shortDescription>
+        <value>Participant Not Interested</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Picklist_Value_Protocol_Concerns</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Picklist_Value_Protocol_Concerns</shortDescription>
+        <value>Protocol Concerns</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Picklist_Value_Transportation_Issues</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Picklist_Value_Transportation_Issues</shortDescription>
+        <value>Transportation Issues</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Picklist_Value_Withdrew</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Picklist_Value_Withdrew</shortDescription>
+        <value>Withdrew</value>
     </labels>
     <labels>
         <fullName>PWS_Randomization_Card_Name</fullName>

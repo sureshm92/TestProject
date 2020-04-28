@@ -3,8 +3,20 @@
     <label>Ready to Screen</label>
     <protected>false</protected>
     <values>
+        <field>Condition_for_Auto_Update__c</field>
+        <value xsi:type="xsd:string">(Initial_visit_occurred_flag__c == true &amp;&amp; Informed_Consent__c == true) &amp;&amp; (Participant_Status__c == Withdrew Consent || Participant_Status__c == Declined Consent || Participant_Status__c == Successfully Contacted)</value>
+    </values>
+    <values>
+        <field>Disclaimer_if_Current__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Order__c</field>
         <value xsi:type="xsd:double">0.0</value>
+    </values>
+    <values>
+        <field>Readonly_if_Current__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Reasons_List__c</field>
@@ -25,5 +37,9 @@
     <values>
         <field>Step__c</field>
         <value xsi:type="xsd:string">Screening</value>
+    </values>
+    <values>
+        <field>Suppress_Multiple__c</field>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
 </CustomMetadata>
