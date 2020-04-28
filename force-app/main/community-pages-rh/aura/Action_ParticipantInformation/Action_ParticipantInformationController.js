@@ -70,6 +70,9 @@
         var pe = component.get('v.pe');
         var userInfo = component.get('v.userInfo');
         pe.Participant__r = participant;
+        if (!pe.sObjectType) {
+            pe.sObjectType = 'Participant_Enrollment__c';
+        }
         component.find('spinner').show();
         // if(component.get('v.isInvited')){
         //     communityService.executeAction(component, 'updateUserLanguage', {userJSON: JSON.stringify(userInfo)})
@@ -120,6 +123,9 @@
         var pathWrapper = component.get('v.participantPath');
         var statusDetailValid = component.get('v.statusDetailValid');
         pe.Participant__r = participant;
+        if (!pe.sObjectType) {
+            pe.sObjectType = 'Participant_Enrollment__c';
+        }
         component.find('spinner').show();
         var actionName = 'updatePatientInfoWithDelegate';
         var actionParams = {
