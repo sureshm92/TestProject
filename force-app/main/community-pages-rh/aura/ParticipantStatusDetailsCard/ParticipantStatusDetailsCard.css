@@ -1,7 +1,8 @@
 /**
  * Created by Andrii Kryvolap.
  */
-.THIS .label{
+.THIS .label,
+.THIS .slds-form-element__label{
     color: #444444;
     font-family: "Proxima Nova";
     font-size: 14px;
@@ -53,5 +54,23 @@
 }
 .THIS .form-field{
     margin-bottom: 20px;
+}
 
+
+@media screen and (max-width: 500px) {
+     .THIS {
+        line-height: 1;
+    }
+    .THIS .history-item {
+        line-height: 1.5rem;
+    }
+    
+    .THIS.step-card-title {
+        margin-top: 15px;
+    }
+
+    .THIS.step-form,
+    .THIS .outcome-form-element{
+        min-width: 100%;
+    }
 }

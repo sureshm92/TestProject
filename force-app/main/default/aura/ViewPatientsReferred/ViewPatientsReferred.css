@@ -51,7 +51,11 @@
 
 .THIS .vpi-status-btns .slds-col.slds-small-size_4-of-12 {
     width: auto;
-    margin-top: 15px;
+    display: flex;
+}
+
+.THIS .vpi-status-btns .slds-col.slds-small-size_4-of-12 > span {
+    padding-left: 1rem;
 }
 
 @media (max-width: 768px){
@@ -65,9 +69,29 @@
     
     .THIS .vpi-status-btns .slds-col.slds-small-size_4-of-12 {
         width: 100%;
-        margin-top: 5px;
+        justify-content: flex-end;
     }
     
+}
+
+@media screen and (max-width: 500px) {
+    .THIS .cFilterPanel .fp-page-info>div {
+        margin-top: 0;
+        padding-left: 0;
+    }
+    
+    .THIS .vpi-status-btns .slds-col.slds-small-size_4-of-12 {
+        width: 100%;
+        margin-top: 5px;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+    }
+    
+    .THIS .vpi-status-btns .slds-col.slds-small-size_4-of-12 > span {
+        padding-left: 0;
+        
+    }
 }
 
 @media (max-width: 341px) {

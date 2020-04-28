@@ -490,6 +490,7 @@ public without sharing class MyTeamRemote {
                 insert delegateUser;
 
                 Participant__c participantDelegate = new Participant__c(
+                        Adult__c = true,
                         Contact__c = contactDelegate.Id,
                         First_Name__c = contactDelegate.FirstName,
                         Last_Name__c = contactDelegate.LastName,

@@ -16,36 +16,6 @@
 .THIS .mrc-invite-btn-container{
     text-align: right;
 }
-@media all and (max-width: 767px) {
-    .THIS.mrc-container {
-        padding-bottom: 0;
-    }
-    
-    .THIS .mrc-invite-btn-container{
-        width:100%;
-        margin: 15px 0;
-    }
-    
-    .THIS .mrc-invite-btn-container .mrc-invite-btn {
-     	width: 91%;
-        margin-right: 15px;   
-    }
-    
-    .THIS .slds-col {
-        flex-wrap: wrap;
-    }
-    
-    .THIS .slds-col.slds-p-around_medium {
-        flex-wrap: wrap;
-        padding: 0;
-        width: 100%;
-    }
-    
-    .THIS .rr-form-element .slds-form-element__control {
-        margin-bottom: 15px;
-    }
-
-}
 
 .THIS .rr-form-element{
     margin-bottom: 10px;
@@ -89,4 +59,66 @@
 
 .THIS.mrz-filter .fp-filter-block input {
     border: none;
+}
+
+@media all and (max-width: 768px) {
+    .THIS.mrc-container {
+        padding-bottom: 0;
+    }
+    
+    .THIS .mrc-invite-btn-container{
+        width: 100%;
+        margin: 15px 0;
+    }
+    
+    .THIS .mrc-invite-btn-container .mrc-invite-btn {
+        margin-right: 15px;   
+    }
+    
+    .THIS .slds-col {
+        flex-wrap: wrap;
+    }
+    
+    .THIS .slds-col.slds-p-around_medium {
+        flex-wrap: wrap;
+        padding: 0;
+        width: 100%;
+    }
+    
+    .THIS .rr-form-element .slds-form-element__control {
+        margin-bottom: 15px;
+    }
+
+}
+
+@media all and (max-width: 500px)  {
+    .THIS .slds-gutters_medium {
+		margin: 0!important;
+    }
+    
+    .THIS .rr-form-element {
+        min-width: 100%;
+    }
+    
+	.THIS .mrc-invite-btn-container .mrc-invite-btn {
+        width: 100%;
+        margin-bottom: 25px;
+    }
+    
+    .THIS .p-container.large .p-content {
+        padding: 1rem;
+    }
+    
+    .THIS .p-container .p-footer.p-variant-normal {
+        padding: 15px 15px 30px;
+    }
+    
+    .THIS .p-buttons-container .apollo-btn {
+        width: 100%;
+        margin: 0;
+    }
+    
+     .THIS .p-buttons-container .apollo-btn.primary {
+        margin-top: 1rem;
+    }
 }

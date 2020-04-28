@@ -34,3 +34,14 @@
         height: 100%;
     }
 }
+
+@media all and (max-width: 500px) {
+    
+    .THIS .apollo-btn {
+        margin-top: 1rem;
+    }
+    
+    .THIS .slds-map_container .slds-map {
+        min-width: auto;
+    }
+}

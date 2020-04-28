@@ -202,7 +202,7 @@ public without sharing class ReferringRemote {
                 ptDelegateRef.Contact__c = newContact.Id;
                 insert ptDelegateRef;
 
-                ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id> { newContact.Id => null});
+                createParticipantUsers(new Map<Id, Id> { newContact.Id => null});
             } else if (!String.isBlank(hcpEnrollment.Study_Site__c)) {
                 Participant__c newParticipant = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participant.Id];
                 if (newParticipant != null && !String.isBlank(newParticipant.Contact__c)) {
@@ -218,6 +218,11 @@ public without sharing class ReferringRemote {
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
+    }
+
+    @Future
+    private static void createParticipantUsers(Map<Id, Id> usersToCreate) {
+        if (usersToCreate != null && !usersToCreate.isEmpty()) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(usersToCreate);
     }
 
     @AuraEnabled

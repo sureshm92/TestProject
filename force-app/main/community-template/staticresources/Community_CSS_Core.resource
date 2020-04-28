@@ -266,7 +266,7 @@ input:focus {
 
 .rr-form-element label, .rr-form-element .label{
     color: #444;
-    font-size: 13px;
+    font-size: .875rem;
     font-weight: 400;
     line-height: 17px;
     display: block;
@@ -1146,7 +1146,7 @@ select.rr-select-error,
 }
 
 .rr-top-bar .title{
-    font-size: 30px;
+    font-size: 1.5rem;
     font-weight: 600;
     line-height: 36px;
     padding-top: 10px;
@@ -1422,17 +1422,63 @@ input[type=password]::-ms-clear
     }
 }
 
-@media all and (max-width: 767px){
+@media all and (max-width: 768px){
     .with-selector .rr-header-content, .with-selector .body-content{
         height: 80px;
     }
 
     .rr-top-bar.sticky.multi-mode .sticky-bar{
-        top: 80px
+        top: 50px
+    }
+    
+    .cCommunityNavigationMobile + .rr-width-limiter.side-padding {
+        padding-top: 1rem!important;
     }
 }
 
 /*----------------------------------------------------- Responsive Common -----------------------------------------------------*/
+@media all and (max-width: 500px){
+    .ci-bottom-aria {
+        bottom: 65px;
+        height: 115px;
+    }
+    
+    .rr-width-limiter.side-padding {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .slds-p-horizontal_medium, 
+    .slds-p-horizontal--medium {
+        padding-left: 0;
+        padding-right: 0;
+    }
+     .slds-p-horizontal_medium > .slds-col, 
+    .slds-p-horizontal--medium > .slds col {
+     	 padding: 0 10px;
+    }
+
+}
+
+@media all and (max-width: 768px){
+ 	.slds-radio .slds-radio_faux, 
+    .slds-radio .slds-radio--faux {
+		height: 1.25rem;
+        width: 1.25rem;
+    }
+    
+    .slds-radio [type=radio]:checked+.slds-radio_faux:after, 
+    .slds-radio [type=radio]:checked+.slds-radio--faux:after, 
+    .slds-radio [type=radio]:checked~.slds-radio_faux:after, 
+    .slds-radio [type=radio]:checked~.slds-radio--faux:after, 
+    .slds-radio [type=radio]:checked+.slds-radio__label .slds-radio_faux:after, 
+    .slds-radio [type=radio]:checked+.slds-radio__label .slds-radio--faux:after {
+        width: .9rem;
+        height: .9rem;
+    }
+}
+
+
 /* small 480 */
 @media all and (min-width: 480px){
     .rr-small-up-hide{

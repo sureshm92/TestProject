@@ -155,6 +155,11 @@
 }
 
 @media (max-width: 768px){ 
+   
+   .THIS .db-section > .slds-col > .rr-large-up-hide {
+        display: none;
+    }
+    
    .THIS .db-list-item .rr-small-down-hide {
         display: none;
     } 

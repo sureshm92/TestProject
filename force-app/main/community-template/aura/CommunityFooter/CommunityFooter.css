@@ -38,8 +38,11 @@
     padding: 10px;
 }
 
-@media all and (max-width:  480px){
-    .THIS .cf-link{
+@media all and (max-width:  500px){
+    .THIS .cf-links{
+        margin: 0;
         width: 100%;
+        display: flex;
+        justify-content: space-evenly;
     }
 }

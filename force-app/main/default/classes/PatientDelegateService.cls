@@ -276,7 +276,12 @@ public without sharing class PatientDelegateService {
     }
 
     public static void changeStatus(Id contactId, String newStatus) {
-        List<Patient_Delegate__c> patientDelegate = [SELECT Id, Status__c FROM Patient_Delegate__c WHERE Contact__c = :contactId];
+        List<Patient_Delegate__c> patientDelegate = [
+                SELECT Id, Status__c
+                FROM Patient_Delegate__c
+                WHERE Contact__c = :contactId
+                AND Participant__c =: ParticipantContext.getCurrentParticipantId()
+        ];
         if(!patientDelegate.isEmpty()) {
             patientDelegate.get(0).Status__c = newStatus;
             update patientDelegate;
