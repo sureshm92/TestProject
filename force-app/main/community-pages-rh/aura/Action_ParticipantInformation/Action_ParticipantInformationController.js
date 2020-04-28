@@ -63,6 +63,13 @@
         }
     },
 
+    checkParticipant: function (component, event, helper) {
+        let newPhone = component.get('v.pe.Participant__r.Phone__c');
+        let oldPhone = component.get('v.participant.Phone__c');
+        if (!component.get('v.participant.Adult__c') && !newPhone && newPhone != oldPhone) {
+            component.set('v.participant.Phone__c', newPhone);
+        }
+    },
 
 
     doUpdate: function (component, event, helper) {

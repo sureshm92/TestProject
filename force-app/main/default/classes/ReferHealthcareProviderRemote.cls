@@ -283,13 +283,17 @@ global without sharing class ReferHealthcareProviderRemote {
                         First_Name__c = newContact.FirstName,
                         Last_Name__c = newContact.LastName,
                         Email__c = newContact.Email,
-                        Phone__c = newContact.Phone,
+                        Phone__c = participantObj.Phone__c,
                         Mailing_City__c = newContact.MailingCity,
                         Mailing_Country_Code__c = newContact.MailingCountryCode,
                         Mailing_State_Code__c = newContact.MailingStateCode
 
                 );
                 insert participantDelegate;
+
+                if (!participantObj.Adult__c) {
+                    update new Participant__c(Id = participantObj.Id, Phone_Type__c = null, Phone__c = null);
+                }
 
                 Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
                 ptDelegateRef.Participant__c = participantObj.Id;
