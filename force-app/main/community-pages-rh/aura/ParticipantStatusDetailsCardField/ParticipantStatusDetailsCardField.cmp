@@ -30,7 +30,7 @@
                         placeholder="{!if(v.field.readonly || !v.editable || and(v.field.smartPicklist, v.field.values.length == 1) || and(and(v.field.dependent, !v.field.dependentActive),v.field.strictDependency),' ',$Label.c.PG_AC_Select)}"
                         disabled="{!v.field.readonly || !v.editable || and(v.field.smartPicklist, v.field.values.length == 1) || and(and(v.field.dependent, !v.field.dependentActive),v.field.strictDependency)}"
                         required="{!and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required)}"
-                        setValueAsSelected="true" errorMessage="{!v.errorMessage}"/>
+                        setValueAsSelected="true" errorMessage="{!v.errorMessage}" useSentenceFont="false"/>
         </aura:if>
         <aura:if isTrue="{!v.field.type=='date'}">
             <lightning:input aura:id="fieldInput"
