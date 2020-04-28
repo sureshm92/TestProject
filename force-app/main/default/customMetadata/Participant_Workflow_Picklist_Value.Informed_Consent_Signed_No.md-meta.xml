@@ -31,6 +31,10 @@
         <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
+        <field>Update_Fields_Mapping__c</field>
+        <value xsi:type="xsd:string">pe.Informed_Consent__c =&gt; false</value>
+    </values>
+    <values>
         <field>Value__c</field>
         <value xsi:type="xsd:string">no</value>
     </values>
