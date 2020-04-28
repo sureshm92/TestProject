@@ -5,7 +5,7 @@
     padding: 20px;
 }
 .THIS .dlit-table th{
-    font-size: 14px;
+    font-size: 1rem;
     font-weight: bold;
 }
 .THIS .dlit-table td, .THIS .dlit-table th{
@@ -15,6 +15,7 @@
 .THIS .dlit-table td{
     border-top: 0.5px solid #999999;
     color: #666666;
+    font-size: 1rem;
 }
 .THIS .dlit-table th:nth-child(n+2){
     text-align: center;
@@ -31,4 +32,14 @@
 }
 .THIS .greenIcon svg {
     fill: #00C221;
+}
+
+@media all and (max-width: 500px) {
+    .THIS.dlit-container {
+        padding: 0 1rem;
+    }
+    .THIS .dlit-table th,
+    .THIS .dlit-table td{
+        font-size: 1rem;
+    }
 }

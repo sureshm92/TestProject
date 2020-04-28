@@ -23,6 +23,9 @@
     <aura:attribute name="receiveOptionalEmail" type="Boolean" default="false"/>
     <aura:attribute name="selectedOption" type="String" default="2"/>
     <aura:attribute name="finalAgree" type="Boolean" default="false"/>
+    <aura:attribute name="delegateItemsDisabled" type="Boolean" default="false"/>
+    <aura:attribute name="actions" type="Object"/>
+
 
     <aura:attribute name="statesLVList" type="LabelValueItem[]" access="private"/>
     <aura:attribute name="participantMsgWithName" type="String" access="private"/>
@@ -32,6 +35,7 @@
     <aura:method name="execute" action="{!c.doExecute}" access="public">
         <aura:attribute name="pe" type="Participant_Enrollment__c"/>
         <aura:attribute name="rootComponent" type="Aura.Component" access="public"/>
+        <aura:attribute name="actions" type="Object"/>
         <aura:attribute name="callback" type="Function"/>
     </aura:method>
     <aura:method name="doCallback" action="{!c.doCallback}" access="public"/>
@@ -70,13 +74,7 @@
                         <div class="ap-section">
                             <div class="ap-section-title">{!$Label.c.BTN_Participant_Information}</div>
                             <div class="slds-grid slds-gutters slds-wrap">
-                                <div class="rr-form-element slds-no-label slds-size--1-of-1" style="margin-left: 12px; margin-top: 5px;">
-                                    <div class="rr-cb-container">
-                                        <lightning:input type="checkbox" label="" checked="{!v.needsGuardian}"/>
-                                    </div>
-                                    <div class="label rr-cb-label">{!$Label.c.PG_Ref_L_Participant_require_guardian}</div>
-                                </div>
-                                <div class="rr-form-element slds-col slds-size--1-of-1">
+                                <div class="rr-form-element slds-col slds-size--1-of-1" style="margin-top: 5px;">
                                     {!v.participantMsgWithName}
                                 </div>
                                 <div class="slds-col slds-size--1-of-1 radioInvite">
@@ -208,46 +206,61 @@
                             <aura:iteration items="{!v.delegateItems}" var="delegateItem" indexVar="ind">
                                 <div style="background: #F6F7FB; border: 0.1px solid; border-color: lightgrey; margin-top: 15px;">
                                     <div class="slds-grid slds-gutters slds-wrap rr-form-element" style="margin: 10px 10px;">
-                                        <aura:if isTrue="{!delegateItem.Contact__c}">
+                                        <aura:if isTrue="{!delegateItem.isConnected &amp;&amp; delegateItem.fromStart}">
                                             <div class="rr-form-element slds-col slds-size--1-of-1">
                                                 {!delegateItem.continueDelegateMsg}
                                             </div>
                                             <div class="slds-col slds-size--1-of-1">
-                                                <lightning:input id="{!ind}" style="float: left;" class="show-radiobutton-label" type="radio" label="{!$Label.c.Continue}" name="options" value="1" checked="{!delegateItem.selectedOption == '1'}" onchange="{!c.doHandleDelegateRadioClick}"/>
+                                                <lightning:input id="{!ind}" style="float: left;" class="show-radiobutton-label" type="radio" label="{!$Label.c.Continue}" name="{!'options' + ind}" value="1" checked="{!delegateItem.selectedOption == '1'}" onchange="{!c.doHandleDelegateRadioClick}"/>
                                             </div>
                                             <div class="slds-col slds-size--1-of-1">
-                                                <lightning:input id="{!ind}" style="float: left;" class="show-radiobutton-label" type="radio" label="{!$Label.c.Do_Not_Continue}" name="options" value="2" checked="{!delegateItem.selectedOption == '2'}" onchange="{!c.doHandleDelegateRadioClick}"/>
+                                                <lightning:input id="{!ind}" style="float: left;" class="show-radiobutton-label" type="radio" label="{!$Label.c.Do_Not_Continue}" name="{!'options' + ind}" value="2" checked="{!delegateItem.selectedOption == '2'}" onchange="{!c.doHandleDelegateRadioClick}"/>
                                             </div>
                                         </aura:if>
                                         <div class="rr-form-element slds-col slds-size--1-of-1" style="margin-top: 15px;">
                                             {!$Label.c.PG_Ref_L_Delegate_ensure_info_uptodate}
                                         </div>
 
-                                        <div class="rr-form-element slds-col slds-size--1-of-3">
-                                            <div class="label">
-                                                <span style="white-space: nowrap; width: 85%; overflow: hidden; text-overflow: ellipsis;">
-                                                    {!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
-                                                </span><abbr title="required" class="slds-required">*</abbr>
+                                        <aura:if isTrue="{!delegateItem.isConnected &amp;&amp; delegateItem.fromStart}">
+                                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                                                <div class="label">
+                                                    <span style="white-space: nowrap; width: 85%; overflow: hidden; text-overflow: ellipsis;">
+                                                        {!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
+                                                    </span><abbr title="required" class="slds-required">*</abbr>
+                                                </div>
+                                                <lightning:input aura:id="{!'phoneDInput' + ind}" type="text" value="{!delegateItem.Phone__c}"
+                                                                 required="{!v.currentTab == '2'}"  onblur="{!c.doCheckDelegateFields}"/>
                                             </div>
-                                            <lightning:input aura:id="{!'phoneDInput' + ind}" type="text" value="{!delegateItem.Phone__c}"
-                                                             required="{!v.currentTab == '2'}"  onblur="{!c.doCheckDelegateFields}"/>
-                                        </div>
-                                        <div class="rr-form-element slds-col slds-size--1-of-3">
-                                            <div class="label">
-                                                {!$Label.c.PG_AS_F_Phone_Type}<abbr title="required" class="slds-required">*</abbr>
+                                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                                                <div class="label">
+                                                    {!$Label.c.PG_AS_F_Phone_Type}<abbr title="required" class="slds-required">*</abbr>
+                                                </div>
+                                                <c:rrSelect options="{!v.formData.phoneTypeLVList}" value="{!delegateItem.Phone_Type__c}" useSentenceFont="false"/>
                                             </div>
-                                            <c:rrSelect options="{!v.formData.phoneTypeLVList}" value="{!delegateItem.Phone_Type__c}" useSentenceFont="false"/>
-                                        </div>
-                                        <div class="rr-form-element slds-col slds-size--1-of-3">
-                                            <div class="label">
-                                                {!$Label.c.PG_AS_F_Email_address}<abbr title="required" class="slds-required">*</abbr>
+                                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                                                <div class="label">
+                                                    {!$Label.c.PG_AS_F_Email_address}<abbr title="required" class="slds-required">*</abbr>
+                                                </div>
+                                                <lightning:input aura:id="{!'emailDInput' + ind}" type="email" value="{!delegateItem.Email__c}"
+                                                                 required="{!v.currentTab == '2'}" onblur="{!c.doCheckDelegateFields}"/>
                                             </div>
-                                            <lightning:input aura:id="{!'emailDInput' + ind}" type="email" value="{!delegateItem.Email__c}"
-                                                             required="{!v.currentTab == '2'}" onblur="{!c.doCheckDelegateFields}"/>
-                                        </div>
+                                        </aura:if>
+
+                                        <aura:if isTrue="{!!delegateItem.isConnected || !delegateItem.fromStart}">
+                                            <c:EmancipationWizardDelegate delegateItem="{!delegateItem}" index="{!ind}" parent="{!this}"/>
+                                        </aura:if>
                                     </div>
                                 </div>
                             </aura:iteration>
+                        </div>
+                        <div>
+                            <button class="apollo-btn secondary"
+                                    style="margin-top: 10px; box-shadow: none; border: none; font-weight: 600; background-color: rgb(255, 255, 255);"
+                                    disabled="{!v.delegateItemsDisabled}"
+                                    title="{!!v.delegateItemsDisabled ? $Label.c.RSN_Your_permissions_do_not_permit_this_action : ''}"
+                                    onclick="{!c.doAddDelegate}">{!$Label.c.Add_Delegate}
+                                <div style="margin-left: -125px;"><c:RRIcon color="#297dfd" iconName="icon-plus"/></div>
+                            </button>
                         </div>
                     </div>
                 </aura:if>
@@ -257,7 +270,7 @@
                         <!-- Healthcare Provider information: -->
                         <div class="ap-section">
                             <div class="ap-section-title">{!$Label.c.BTN_HealthCare_Provider_Information}</div>
-                            <c:ReferHealthcareProvider pe="{!v.pe}" refProvider="{!v.pe.HCP__r.HCP_Contact__r}" fromActionParticipant="false" fromEmancipParticipant="true" actionDisabled="false"/>
+                            <c:ReferHealthcareProvider pe="{!v.pe}" refProvider="{#v.pe.HCP__r.HCP_Contact__r}" fromActionParticipant="false" fromEmancipParticipant="true" actionDisabled="{!v.actions.screenerResponses.disabled}"/>
                         </div>
                     </div>
                 </aura:if>
@@ -290,9 +303,11 @@
             </aura:if>
             <div data-gtm="BTNS_Popup_Navigate_emancip">
                 <button data-gtm="BTN_Next_emancip" class="apollo-btn primary slds-float_right slds-button--reset" disabled="{!!v.isValid || (!v.isDelegatesValid &amp;&amp; v.currentTab == '2')  || (!v.finalAgree &amp;&amp; v.currentTab == '4')}" onclick="{!c.doNext}">{!v.currentTab != '4' ? $Label.c.BTN_Next : $Label.c.BTN_Save}</button>
-                <button data-gtm="BTN_Back_emancip" class="apollo-btn secondary slds-float_right slds-button--reset" disabled="{!v.currentTab == '1'}" onclick="{!c.doBack}">{!$Label.c.BTN_Back}</button>
-                <button data-gtm="BTN_Cancel_emancip" class="apollo-btn tertiary slds-float_right slds-button--reset" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
-            </div>
+                <span>
+                	<button data-gtm="BTN_Back_emancip" class="apollo-btn secondary slds-float_right slds-button--reset" disabled="{!v.currentTab == '1'}" onclick="{!c.doBack}">{!$Label.c.BTN_Back}</button>
+                	<button data-gtm="BTN_Cancel_emancip" class="apollo-btn tertiary slds-float_right slds-button--reset" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
+            	</span>
+			</div>
         </aura:set>
 
     </c:Popup>

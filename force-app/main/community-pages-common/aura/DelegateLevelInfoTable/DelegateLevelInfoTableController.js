@@ -28,6 +28,10 @@
                         levels: [true, false, false]
                     },
                     {
+                        text: $A.get("$Label.c.Add_Patient_Delegate"),
+                        levels: [true, false, false]
+                    },
+                    {
                         text: $A.get("$Label.c.DLIT_L_Add_a_participants_provider"),
                         levels: [true, false, false]
                     },
@@ -35,10 +39,10 @@
                         text: $A.get('$Label.c.DLIT_L_Reffer'),
                         levels: [true, false, false]
                     },
-                    {
+                    /*{
                         text : $A.get("$Label.c.DLIT_L_Accept_a_patient"),
                         levels : [true,true,false]
-                    },
+                    },*/
                     {
                         text : $A.get("$Label.c.DLIT_L_Pre_screen_a_participant"),
                         levels : [true,true,false]

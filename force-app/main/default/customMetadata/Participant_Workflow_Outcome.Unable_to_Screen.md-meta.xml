@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Reasons_List__c</field>
-        <value xsi:type="xsd:string">Did Not Attend Appointment;Declined or Withdrew Consent;Other*</value>
+        <value xsi:type="xsd:string">Did Not Attend Appointment;Other*</value>
     </values>
     <values>
         <field>State__c</field>

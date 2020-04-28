@@ -4,7 +4,6 @@
 
 ({
     doInit: function (component, event, helper) {
-
         communityService.executeAction(component, 'getInitData', null, function (formData) {
             var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
             component.set('v.formData', formData);
@@ -64,6 +63,13 @@
         }
     },
 
+    checkParticipant: function (component, event, helper) {
+        let newPhone = component.get('v.pe.Participant__r.Phone__c');
+        let oldPhone = component.get('v.participant.Phone__c');
+        if (!component.get('v.participant.Adult__c') && !newPhone && newPhone != oldPhone) {
+            component.set('v.participant.Phone__c', newPhone);
+        }
+    },
 
 
     doUpdate: function (component, event, helper) {
@@ -71,6 +77,9 @@
         var pe = component.get('v.pe');
         var userInfo = component.get('v.userInfo');
         pe.Participant__r = participant;
+        if (!pe.sObjectType) {
+            pe.sObjectType = 'Participant_Enrollment__c';
+        }
         component.find('spinner').show();
         // if(component.get('v.isInvited')){
         //     communityService.executeAction(component, 'updateUserLanguage', {userJSON: JSON.stringify(userInfo)})
@@ -121,6 +130,9 @@
         var pathWrapper = component.get('v.participantPath');
         var statusDetailValid = component.get('v.statusDetailValid');
         pe.Participant__r = participant;
+        if (!pe.sObjectType) {
+            pe.sObjectType = 'Participant_Enrollment__c';
+        }
         component.find('spinner').show();
         var actionName = 'updatePatientInfoWithDelegate';
         var actionParams = {

@@ -47,8 +47,8 @@
 }
 
 .THIS .title-logo{
-    max-height: 38px;
-    max-width: 165px;
+    /*height: 39px;*/
+    width: 165px;
     margin-right: 10px;
     cursor: pointer;
 }
@@ -64,7 +64,7 @@
 
 .THIS .slds-form-element__label {
 	color: #444;
-    font-size: 13px;
+    font-size: .875rem;
     font-weight: 400;
     line-height: 17px;
     margin-bottom: 8px;
@@ -75,7 +75,9 @@
     margin-bottom: 0;
 }
 
-
+.THIS .slds-dropdown__item > a {
+	color: #444;
+}
 .THIS .slds-select {
     background-color: #fff;
     border: 1px solid #d9d9d9;
@@ -180,13 +182,153 @@
     }
 }
 
+@media only screen and (max-width: 1024px) and (min-width: 765px) and (orientation: portrait) {
+    .THIS .slds-grid.vis-path {
+        padding-top: 25px;
+    }
+    
+    .THIS .slds-grid.vis-path .line-div .state-ico-wrapper-large {
+        top: -25px!important;
+        left: -22px!important;
+    }
+    
+    .THIS .slds-grid.vis-path .line-div .state-ico-wrapper-middle {
+        top: -21px!important;
+        left: -18px!important;
+        width: 40px!important;
+        height: 40px!important;
+    }
+}
+
+@media screen and (max-width: 600px) {
+
+     .THIS .vis-path.slds-grid {
+        padding-top: 25px;
+    }
+    
+    .THIS .vis-path.slds-grid .line-div .state-ico-wrapper {
+        width: 32px;
+        height: 32px;
+        top: -18px;
+        left: -14px;
+    }
+    
+    .THIS .vis-path.slds-grid .line-div .state-ico-wrapper-large {
+        top: -25px!important;
+        left: -22px!important;
+    }
+    
+    .THIS .vis-path.slds-grid .line-div .state-ico-wrapper-middle {
+        top: -21px!important;
+        left: -18px!important;
+        width: 40px!important;
+        height: 40px!important;
+    }
+    
+     .THIS .arrow-border span {
+		margin-top: 9px;
+    	margin-right: -2px;
+    }
+    
+    .THIS .arrow-border span.arrow-borders-right {
+		margin-top: 9px;
+    	margin-left: -2px;
+    }
+
+   
+}
+@media screen and (max-width: 768px){
+    .THIS {padding-bottom: 50px}
+    .THIS .menu-btn {display: none}
+    .THIS.bodyShift, 
+    .THIS .bodyShift {
+        left: 0;
+    }
+    
+    .THIS .cRRNavigationPath.navigation-path {
+        margin-bottom: 1rem;
+        margin-left: 15px;
+    }
+    
+    .THIS .apollo-btn,
+    .THIS .slds-input,
+    .THIS .slds-button_neutral,
+    .THIS .cRrInput.rri-container input,
+    .THIS .cRrSelect.rrs-container select,
+    .THIS input[type='text'], 
+    .THIS input[type='password'], 
+    .THIS input[type='email']{
+        height: 40px;
+    }
+    
+    .THIS .cFilterPanel .fp-search .rri-container .slds-input, 
+    .THIS .cFilterPanel .fp-search-input .rri-container .slds-input {
+        background-position: 7px 50%;
+    }
+    
+    .THIS .cRRPaginationRemote.rrp-container .buttons .previous-btn, 
+    .THIS .cRRPaginationRemote.rrp-container .buttons .next-btn {
+        height: 40px;
+        width: 40px;
+    }
+    
+    .THIS .cRRPaginationRemote.rrp-container .buttons .previous-btn svg, 
+    .THIS .cRRPaginationRemote.rrp-container .buttons .next-btn svg {
+        height: 15px;
+        width: 15px;
+    }
+    
+    .THIS .cRrSelect .slds-select_container:after {
+        top: 15px;
+    }
+    
+    .THIS cAccountSettings.as-container .as-password {
+        margin-bottom: 0;
+    }
+    
+    .THIS .cAccountSettings.as-container {
+        padding-bottom: 10px;
+    }
+    
+    .THIS .cAccountSettings.as-container .as-language-switcher + div {
+        max-height: 0;
+    }
+    
+    .THIS .cAccountSettings.as-container .as-info + div {
+        max-height: 25px;
+    }
+    
+    
+}
+
 @media screen and (max-width: 550px){
     .THIS .rr-header-content.multi-mode{
-        height: 80px;
+        height: 90px;
     }
 
     .THIS .rr-header-margin.multi-mode{
-        height: 80px;
+        height: 90px;
+    }
+    
+    .THIS .slvi-top-container-hcp .slds-wrap div:last-child {
+        display: flex;
+        justify-content: flex-end;
+    }
+    
+    .THIS .cRRNavigationPath.navigation-path {
+        margin-left: 0;
+        margin-top: 1rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .THIS .ms-container > .slds-small-size--1-of-1.ms-left.visible, 
+    .THIS .ms-left.slds-small-size--1-of-1.ms-left.visible {
+        height: auto;
+    }
+    
+    .THIS .ms-page.rr-width-limiter {
+        padding-bottom: 0;
     }
 }
 

@@ -1,0 +1,85 @@
+/**
+ * Created by alekseymoseev on 4/10/20.
+ */
+.THIS.healthcare-container {
+    text-align: start;
+}
+
+.THIS .healthcare-info {
+    margin: 1% 0 1% 0;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    color: black;
+}
+
+.THIS .referring-provider-header {
+    color: #444;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    margin-top: 5.5%;
+    padding-left: 9%;
+}
+
+.THIS .rp-label {
+    color: #999;
+}
+
+.THIS .healthcare-input {
+    padding-right: 4%;
+}
+
+.THIS .healthcare-form-container{
+    margin-bottom: 1%;
+}
+
+.THIS .healthcare-input input{
+    height: 32px;
+}
+
+.THIS .provider-found-section{
+    font-size: 13px;
+    font-weight: 500;
+}
+.THIS .referring{
+    margin-top: 10px;
+    font-weight: 600;
+    width: 1000px;
+}
+.THIS .slds-box{
+    box-shadow: none;
+    border: none;
+    font-weight: 600;
+    height: 40px;
+    min-width: 160px;
+    border-radius: 4px;
+}
+.THIS .slds-badge__icon{
+    box-shadow: none;
+    border: none;
+    font-weight: 600;
+}
+
+@media screen and (max-width: 768px){
+    .THIS .slds-grid > .slds-col,
+    .THIS .apollo-btn {
+        width: 100%;
+    }
+
+}
+
+.THIS .apollo-btn.secondary {
+    padding: 6px 6px;
+    margin-top: 4px;
+}
+.THIS .slds-button{
+    box-shadow: none;
+    border: none;
+    font-weight: 600;
+}
+
+@media all and (max-width: 768px){
+    .THIS .apollo-btn.secondary {
+        margin-bottom: 15px;
+    }
+
+}

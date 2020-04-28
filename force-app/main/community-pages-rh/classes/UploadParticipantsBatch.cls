@@ -147,8 +147,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 EmailAddress = headerIndexes.get('EMAIL ADDRESS') != null && csvRecordData[headerIndexes.get('EMAIL ADDRESS')] != null ? csvRecordData[headerIndexes.get('EMAIL ADDRESS')].trim() : null;
                 Phone = headerIndexes.get('PHONE') != null && csvRecordData[headerIndexes.get('PHONE')] != null ? csvRecordData[headerIndexes.get('PHONE')].trim() : null;
                 PhoneType = headerIndexes.get('PHONE TYPE') != null && csvRecordData[headerIndexes.get('PHONE TYPE')] != null ? csvRecordData[headerIndexes.get('PHONE TYPE')].trim() : null;
-                Phone2 = headerIndexes.get('PHONE2') != null && csvRecordData[headerIndexes.get('PHONE2')] != null ? csvRecordData[headerIndexes.get('PHONE2')].trim() : null;
-                PhoneType2 = headerIndexes.get('PHONE TYPE2') != null && csvRecordData[headerIndexes.get('PHONE TYPE2')] != null ? csvRecordData[headerIndexes.get('PHONE TYPE2')].trim() : null;
+                Phone2 = headerIndexes.get('ALTERNATIVE PHONE') != null && csvRecordData[headerIndexes.get('ALTERNATIVE PHONE')] != null ? csvRecordData[headerIndexes.get('ALTERNATIVE PHONE')].trim() : null;
+                PhoneType2 = headerIndexes.get('ALT. PHONE TYPE') != null && csvRecordData[headerIndexes.get('ALT. PHONE TYPE')] != null ? csvRecordData[headerIndexes.get('ALT. PHONE TYPE')].trim() : null;
                 State = headerIndexes.get('STATE') != null && csvRecordData[headerIndexes.get('STATE')] != null ? csvRecordData[headerIndexes.get('STATE')].trim() : null;
                 PostalCode = headerIndexes.get('POSTAL CODE') != null && csvRecordData[headerIndexes.get('POSTAL CODE')] != null ? csvRecordData[headerIndexes.get('POSTAL CODE')].trim() : null;
                 Language = headerIndexes.get('LANGUAGE') != null && csvRecordData[headerIndexes.get('LANGUAGE')] != null ? csvRecordData[headerIndexes.get('LANGUAGE')].trim() : null;
@@ -184,7 +184,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
                     listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'value is not correct - Gender');
                 }
-                if (String.isEmpty(State)) {
+
+                Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
+                if (statesByCountryMap.get(uploadUser.Contact.MailingCountryCode) != null && !statesByCountryMap.get(uploadUser.Contact.MailingCountryCode).isEmpty() && String.isEmpty(State)) {
                     hasErrors = true;
                     system.debug('ERROR: ' + totalRecordCount + ', ' + 'State, mandatory field is empty');
 
@@ -197,7 +199,24 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'mandatory field is empty - Postal Code');
                 }
                 try {
-                    if (String.isEmpty(DateOfBirth) || Date.valueOf(DateOfBirth) > System.today()) {
+                    Date resultDate = null;
+                    if (!String.isEmpty(DateOfBirth)) {
+                        try {
+                            if (DateOfBirth.contains('.')) {
+                                List<String> vals = DateOfBirth.split('.');
+                                DateOfBirth = vals[2] + '-' + vals[1] + '-' + vals[0];
+                            } else if (DateOfBirth.contains('/')) {
+                                List<String> vals = DateOfBirth.split('/');
+                                if (vals[1] > '12') {
+                                    DateOfBirth = vals[0] + '-' + vals[2] + '-' + vals[1];
+                                } else {
+                                    DateOfBirth = vals[0] + '-' + vals[1] + '-' + vals[2];
+                                }
+                            }
+                            resultDate = Date.valueOf(DateOfBirth);
+                        } catch (Exception exp) { System.debug('ERROR: ' + totalRecordCount + ', ' + 'Date of Birth, Incorrect value'); }
+                    }
+                    if (resultDate == null && (String.isEmpty(DateOfBirth) || resultDate > System.today())) {
                         hasErrors = true;
                         system.debug('ERROR: ' + totalRecordCount + ', ' + 'Date of Birth, can\'t be empty or in the future');
 

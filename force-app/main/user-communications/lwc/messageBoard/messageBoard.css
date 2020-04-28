@@ -134,6 +134,10 @@
 }
 
 @media all and (max-width: 480px) {
+    .ms-board-body {
+        height: 300px !important;
+    }
+
     .ms-board-footer-part {
         min-height: 74px;
         padding: 10px;

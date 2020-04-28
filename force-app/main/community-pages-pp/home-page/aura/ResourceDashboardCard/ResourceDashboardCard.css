@@ -9,7 +9,7 @@
     font-size: 1.125rem;
     font-weight: 600;
     line-height: 27px;
-	margin: 16px 0 16px 16px;
+    margin: 16px;
 }
 
 .THIS.rtl .resource-card-title{
@@ -24,7 +24,7 @@
     height: 35px;
     width: 35px;
     top: 50px;
-    right: 45%;
+    right: calc(50% - 20px);
     opacity: .3;
 }
 
@@ -36,7 +36,7 @@
     height: 35px;
     width: 35px;
     top: 50px;
-    right: 45%;
+    right: calc(50% - 20px);
     opacity: .3;
 }
 
@@ -84,12 +84,3 @@
         margin-left: 2%;
     }
 }
-
-@media (max-width: 768px){
-  .THIS .resource-content > .slds-wrap > .slds-col:nth-child(1) .resource-error-message:after,
-  .THIS .resource-content > .slds-wrap > .slds-col:nth-child(2) .resource-error-message:after {
-     	right: 47%;
-    }
-}
-
-

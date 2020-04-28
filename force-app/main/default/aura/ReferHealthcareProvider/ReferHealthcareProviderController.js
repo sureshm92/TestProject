@@ -5,39 +5,40 @@
 ({
     doInit: function (component, event, helper) {
         var pe = component.get('v.pe');
-        communityService.executeAction(component, 'getInitData', {peId: pe.Id}, function (returnValue) {
-            component.set('v.healthCareProviders', returnValue);
-        });
-        communityService.executeAction(component, 'getContactsDelegates', {participantId: pe.Participant__c}, function (returnValue) {
-            component.set('v.delegates', returnValue);
+        communityService.executeAction(component, 'getInitData', {peId: pe.Id, participantId: pe.Participant__c}, function (returnValue) {
+            console.log('PES', JSON.stringify(returnValue));
+            var hcp = returnValue.healthcareProviders;
+            for (let i = 0; i < hcp.length; i++) {
+                hcp[i].sObjectType = 'Healthcare_Provider__c';
+            }
+            var del = returnValue.listWrapp;
+            console.log(JSON.stringify(returnValue.listWrapp));
+            for (let i = 0; i <del.length; i++) {
+                del[i].sObjectType = 'Object'
+            }
+            var rp = component.get('v.refProvider');
+            if(rp) rp.sObjectType = 'Contact';
+            component.set('v.refProvider',rp);
+            component.set('v.healthCareProviders', hcp);
+            component.set('v.delegates', del);
         });
     },
 
     doAddProvider: function (component, event, helper) {
-        var pe = component.get('v.pe');
         var hcProvider = component.get('v.healthCareProviders');
-        console.log('hcP', hcProvider);
         hcProvider.push({sObjectType: 'Healthcare_Provider__c'});
         component.set('v.healthCareProviders', hcProvider);
-        console.log('hcP', component.get('v.healthCareProviders'));
     },
     doAddDelegate: function (component, event, helper) {
-        var pe = component.get('v.pe');
         var delegates = component.get('v.delegates');
-        delegates.push({sObjectType: 'Participant__c'});
+        delegates.push({sObjectType: 'Object'});
         component.set('v.delegates', delegates);
     },
 
-    doDisconnect: function(component, event, helper){
-    	/*var hcProviders = component.get('v.healthCareProviders');
-    	var params = event.getParam('arguments');
-    	hcProviders.splice(params.index,1);
-    	if(hcProviders.length == 0){
-            hcProviders.push({sObjectType: 'Healthcare_Provider__c'});
-        }
-    	component.set('v.healthCareProviders', hcProviders);*/
+   doDisconnect: function(component, event, helper){
+    	var hcProviders = component.get('v.healthCareProviders');
         var pe = component.get('v.pe');
-        communityService.executeAction(component, 'getInitData', {peId: pe.Id}, function (returnValue) {
+        communityService.executeAction(component, 'getInitData', {peId: pe.Id, participantId: pe.Participant__c}, function (returnValue) {
             component.set('v.healthCareProviders', returnValue);
         })
     },

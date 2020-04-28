@@ -37,3 +37,30 @@
         overflow-y: auto;
     }
 }
+
+@media all and (max-width: 500px) {
+    .THIS .slds-table_edit .slds-truncate {
+        font-size: 1rem;
+    }
+    
+    .THIS .table-scroll {
+        height: 250px;
+        margin-top: 1rem;
+    }
+    
+    .THIS .slds-table th, 
+    .THIS .slds-table td {
+     	padding: .75rem .5rem;   
+    }
+
+    
+    .THIS .p-footer.p-variant- {
+        width: 100%;
+        padding: 1rem; 
+    }
+   
+    .THIS .p-footer .apollo-btn.primary {
+        margin-top: 1rem;
+        margin-left: 0;
+    }
+}

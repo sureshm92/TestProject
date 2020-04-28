@@ -18,7 +18,8 @@
     <aura:if isTrue="{!v.participantItem.showParticipationSteps}">
         <c:PSECard pe="{!v.participantItem.pe}" steps="{!v.participantItem.participationFlowSteps}" parent="{!v.parent}"
                    userMode="{!v.userMode}" peStatusesPathList="{!v.participantItem.peStatusesPathList}"
-                   peStatusStateMap="{!v.participantItem.peStatusStateMap}" actions="{!v.actions}" isInvited="{!v.isInvited}"/>
+                   peStatusStateMap="{!v.participantItem.peStatusStateMap}" actions="{!v.actions}" isInvited="{!v.isInvited}"
+                   showVisits="{!v.participantItem.showVisits}"/>
         <aura:set attribute="else">
             <c:ViewPatientItem pe="{!v.participantItem.pe}"
                                actions="{!v.actions}"

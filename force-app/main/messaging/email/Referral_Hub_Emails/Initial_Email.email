@@ -6,7 +6,6 @@
         <c:EmailTemplate recipientId="{!recipient.Id}"
                          sourceId="{!recipient.Id}"
                          communityTemplate="Default">
-<!--                         showDelegateTable="true">-->
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Enroll_Now}"
                               buttonURL="{!$Network.NetworkUrlForUserEmails}"/>
         </c:EmailTemplate>

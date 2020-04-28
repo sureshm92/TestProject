@@ -237,6 +237,8 @@ public without sharing class ParticipantTriggerHandler {
     @TestVisible
     private static void checkBecomesAdult(List<Participant__c> newList, Map<Id, Participant__c> oldMap) {
         Map<Id, Participant__c> participantsByContactId = new Map<Id, Participant__c>();
+        Set<Id> patientIsAdult = new Set<Id>();
+
         for (Participant__c participant : newList) {
             if (participant.Adult__c && participant.Adult__c != oldMap.get(participant.Id).Adult__c) {
                 if (participant.Contact__c != null) {
@@ -244,6 +246,7 @@ public without sharing class ParticipantTriggerHandler {
                 } else {
                     participant.Emancipation_in_progress__c = true;
                 }
+                patientIsAdult.add(participant.Contact__c);
             }
         }
 
@@ -258,6 +261,19 @@ public without sharing class ParticipantTriggerHandler {
                     participantsByContactId.get(contactId).Emancipation_in_progress__c = true;
                 }
             }
+        }
+
+        List<Patient_Delegate__c> patientDelegatesToUpdate = new List<Patient_Delegate__c>();
+        List<Patient_Delegate__c> patientDelegates = PatientDelegateService.getPDelegates(new List<Id>(patientIsAdult));
+        for (Patient_Delegate__c patientDelegate : patientDelegates) {
+            if (PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS == patientDelegate.Status__c &&
+                    patientIsAdult.contains(patientDelegate.Participant__r.Contact__c)) {
+                patientDelegate.Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_ONHOLD_STATUS;
+                patientDelegatesToUpdate.add(patientDelegate);
+            }
+        }
+        if (!patientDelegatesToUpdate.isEmpty()) {
+            update patientDelegatesToUpdate;
         }
     }
 

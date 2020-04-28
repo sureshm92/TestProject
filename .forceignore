@@ -28,5 +28,9 @@ force-app/main/default/profiles/IQVIA RH Profile.profile-meta.xml
 force-app/main/default/flows/net_promoter_score.flow-meta.xml
 force-app/main/default/flows/customer_satisfaction.flow-meta.xml
 
+#images
+force-app/main/user-communications/images
 
+#ignore all onboarding slides, comment line for include
+*/staticresources/*os_*
 

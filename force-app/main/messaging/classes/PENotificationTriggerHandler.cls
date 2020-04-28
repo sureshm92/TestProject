@@ -10,6 +10,7 @@ public without sharing class PENotificationTriggerHandler {
 
         public override void afterInsert(List<SObject> newList) {
             createNotificationByStatus(newList, null);
+            referredToNewStudyDelegateNotifications(newList);
         }
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
@@ -30,6 +31,10 @@ public without sharing class PENotificationTriggerHandler {
         List<String> peStatusesSuccess = new List<String>{
                 PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS,
                 PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS
+        };
+        List<String> skipNotifyTypesDel = new List<String>{
+                NotificationCatalog.MESSAGE_TO_PT_DROP_OUT_TYPE,
+                NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE
         };
         List<Notification__c> notifications = new List<Notification__c>();
         List<Id> participantConIds = new List<Id>();
@@ -121,7 +126,7 @@ public without sharing class PENotificationTriggerHandler {
                 participantConIds, new List<String>{'Id'}
         );
         for (Notification__c n : notifications) {
-            if (n.Notification_Type__c != NotificationCatalog.MESSAGE_TO_PT_DROP_OUT_TYPE && delegateContactsByPartCnt.containsKey(n.Recipient__c)) {
+            if (!skipNotifyTypesDel.contains(n.Notification_Type__c) && delegateContactsByPartCnt.containsKey(n.Recipient__c)) {
                 for (Contact contact : delegateContactsByPartCnt.get(n.Recipient__c)) {
                     delegateNotifications.add(new Notification__c(
                             Recipient__c = contact.Id,
@@ -133,7 +138,60 @@ public without sharing class PENotificationTriggerHandler {
             }
         }
         notifications.addAll(delegateNotifications);
-        System.debug('delegateNotifications' + delegateNotifications);
+
+        insert notifications;
+    }
+
+    @TestVisible
+    private static void referredToNewStudyDelegateNotifications(List<Participant_Enrollment__c> newList) {
+        List<Id> participantConIds = new List<Id>();
+        List<Notification__c> notifications = new List<Notification__c>();
+        Map<String, Map<Id, List<Participant_Enrollment__c>>> pesByCommunityName = new Map<String, Map<Id, List<Participant_Enrollment__c>>>();
+
+        for (Participant_Enrollment__c pe : newList) {
+            if(pe.Participant_Contact__c != null) participantConIds.add(pe.Participant_Contact__c);
+        }
+
+        List<Participant_Enrollment__c> allPEs = [
+                SELECT Id,
+                        Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Participant_Contact__c
+                FROM Participant_Enrollment__c
+                WHERE Participant_Contact__c IN:participantConIds
+        ];
+
+        for (Participant_Enrollment__c pe : allPEs) {
+            if (!pesByCommunityName.keySet().contains(pe.Clinical_Trial_Profile__r.CommunityTemplate__c)) {
+                pesByCommunityName.put(pe.Clinical_Trial_Profile__r.CommunityTemplate__c, new Map<Id, List<Participant_Enrollment__c>>());
+            }
+            Map<Id, List<Participant_Enrollment__c>> pesByPartCont = pesByCommunityName.get(pe.Clinical_Trial_Profile__r.CommunityTemplate__c);
+            if (!pesByPartCont.keySet().contains(pe.Participant_Contact__c)) {
+                pesByPartCont.put(pe.Participant_Contact__c, new List<Participant_Enrollment__c>());
+            }
+            pesByPartCont.get(pe.Participant_Contact__c).add(pe);
+
+        }
+
+        Map<Id, List<Contact>> delegateContactsByPartCnt = PatientDelegateService.getDelegatedCntsByParticipantCnt(
+                participantConIds, new List<String>{'Id'}
+        );
+
+        for (Participant_Enrollment__c pe : newList) {
+            String communityName = ((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).CommunityTemplate__c;
+            if(pesByCommunityName.get(communityName) != null) {
+                Map<Id, List<Participant_Enrollment__c>> pesByPartCont = pesByCommunityName.get(communityName);
+                if (pesByPartCont.get(pe.Participant_Contact__c).size() > 1 && delegateContactsByPartCnt.keySet().contains(pe.Participant_Contact__c)) {
+                    for (Contact delegate : delegateContactsByPartCnt.get(pe.Participant_Contact__c)) {
+                        notifications.add(new Notification__c(
+                                Recipient__c = delegate.Id,
+                                WhatId__c = pe.Id,
+                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE,
+                                IsDelegate__c = true
+                        ));
+                    }
+                }
+            }
+        }
         insert notifications;
     }
 

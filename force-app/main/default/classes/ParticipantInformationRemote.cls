@@ -37,6 +37,14 @@ public without sharing class ParticipantInformationRemote {
     }
 
     @AuraEnabled
+    public static PIDelegateLevelInfo checkPILevelI(String studySiteId) {
+        PIDelegateLevelInfo levelInfo = new PIDelegateLevelInfo();
+        levelInfo.isDisabled = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getPIStudySitesAccessLevelMap().get(studySiteId));
+
+        return levelInfo;
+    }
+
+    @AuraEnabled
     public static void updatePatientInfo(String participantJSON, String peJSON) {
         AddPatientByPIRemote.updatePatientInfo(participantJSON, peJSON);
     }
@@ -45,8 +53,8 @@ public without sharing class ParticipantInformationRemote {
     public static void updatePatientInfoWithDelegate(String participantJSON, String peJSON, String delegateJSON, String userInfoJSON) {
         AddPatientByPIRemote.updatePatientInfo(participantJSON, peJSON);
         if (!String.isBlank(delegateJSON)) {
-            Contact delegateParticipant = (Contact) JSON.deserialize(delegateJSON, Contact.class);
-            if (delegateParticipant != null) {
+            Participant__c delegateParticipant = (Participant__c) JSON.deserialize(delegateJSON, Participant__c.class);
+            if (delegateParticipant != null && !String.isBlank(delegateParticipant.Id)) {
                 try {
                     update delegateParticipant;
                 } catch (Exception exp) {
@@ -88,6 +96,155 @@ public without sharing class ParticipantInformationRemote {
     }
 
     @AuraEnabled
+    public static DelegateInfo checkDelegateDuplicate(String email) {
+        DelegateInfo hp = new DelegateInfo();
+        hp.email = email;
+
+        if (!String.isBlank(email)) {
+            List<Contact> contacts = [
+                    SELECT Id, FirstName, LastName, Name, Email, userCommunytyType__c
+                    FROM Contact
+                    WHERE Email = :email OR Email = :email.toLowerCase()
+            ];
+
+            if (!contacts.isEmpty()) {
+                if (String.isBlank(contacts[0].FirstName) || String.isBlank(contacts[0].LastName)) {
+                    List<Participant__c> participants = [
+                            SELECT Id,
+                                    First_Name__c,
+                                    Last_Name__c
+                            FROM Participant__c
+                            WHERE Contact__c = :contacts[0].Id
+                    ];
+                    if (!participants.isEmpty()) {
+                        hp.firstName = participants[0].First_Name__c;
+                        hp.lastName = participants[0].Last_Name__c;
+                        contacts[0].FirstName = participants[0].First_Name__c;
+                        contacts[0].LastName = participants[0].Last_Name__c;
+                        update contacts[0];
+                    } else {
+                        hp.firstName = contacts[0].FirstName;
+                        hp.lastName = contacts[0].LastName;
+                    }
+                } else {
+                    hp.firstName = contacts[0].FirstName;
+                    hp.lastName = contacts[0].LastName;
+                }
+                hp.email = contacts[0].Email;
+                hp.contactId = contacts[0].Id;
+
+                hp.isDuplicate = true;
+            }
+        }
+
+        return hp;
+    }
+
+    @AuraEnabled
+    public static DelegateConnectedInfo connectDelegateToPatient(String participantS, String delegateS, String studySiteId, Boolean isConnected) {
+        DelegateConnectedInfo isConnectedRes = new DelegateConnectedInfo();
+        isConnectedRes.isConnected = isConnected;
+
+        try {
+            Participant__c participant = (Participant__c) JSON.deserialize(participantS, Participant__c.class);
+            Participant__c delegateParticipant = (Participant__c) JSON.deserialize(delegateS, Participant__c.class);
+            isConnectedRes.contactId = delegateParticipant.Contact__c;
+            Map<Id, Id> toCreateUser = new Map<Id, Id>();
+            List<Patient_Delegate__c> patientDelegatesToInsert = new List<Patient_Delegate__c>();
+            Contact delegateContact;
+            Boolean userNotExists = false;
+
+            if (String.isBlank(delegateParticipant.Contact__c)) {
+                ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(new List<Participant__c>{
+                        delegateParticipant
+                });
+
+                delegateContact = new Contact(
+                        AccountId = [SELECT Id FROM Account WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE].Id,
+                        MailingState = delegateParticipant.Mailing_State__c,
+                        MailingCountry = delegateParticipant.Mailing_Country__c,
+                        MailingStateCode = delegateParticipant.Mailing_State_Code__c,
+                        MailingCountryCode = delegateParticipant.Mailing_Country_Code__c,
+                        MailingPostalCode = delegateParticipant.Mailing_Zip_Postal_Code__c,
+                        FirstName = delegateParticipant.First_Name__c,
+                        LastName = delegateParticipant.Last_Name__c,
+                        Email = delegateParticipant.Email__c,
+                        Language__c = UserInfo.getLanguage(),
+                        Second_Choice_Language__c = '',
+                        Third_Choice_Language__c = '',
+                        userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT,
+                        userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT,
+                        userCommunityIsDelegate__c = true
+                );
+                if (duplicateService.findDuplicateContact(delegateParticipant) != null) {
+                    delegateContact.Id = duplicateService.findDuplicateContact(delegateParticipant).Id;
+                } else if (!String.isBlank(delegateParticipant.Contact__c)) {
+                    delegateContact.Id = delegateParticipant.Contact__c;
+                }
+
+                insert delegateContact;
+            } else {
+                delegateContact = new Contact(Id = delegateParticipant.Contact__c);
+            }
+
+            List<Patient_Delegate__c> patientDelegatesEver = [
+                    SELECT Id,
+                            Participant__c,
+                            Contact__c,
+                            Status__c
+                    FROM Patient_Delegate__c
+                    WHERE Participant__c = :participant.Id AND
+                    Contact__c = :delegateContact.Id];
+            userNotExists = patientDelegatesEver.isEmpty();
+
+            if (patientDelegatesEver.isEmpty() && !isConnected) {
+                patientDelegatesToInsert.add(
+                        new Patient_Delegate__c(
+                                Participant__c = participant.Id,
+                                Contact__c = delegateContact.Id,
+                                Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
+                        )
+                );
+                toCreateUser.put(delegateContact.Id, null);
+                isConnectedRes.isConnected = true;
+            } else {
+                for (Patient_Delegate__c ptDelegate : patientDelegatesEver) {
+                    if (!String.isBlank(ptDelegate.Id)) {
+                        ptDelegate.Status__c = isConnected ? PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS : PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS;
+                        patientDelegatesToInsert.add(ptDelegate);
+                        isConnectedRes.isConnected = !isConnected;
+                    }
+                }
+            }
+
+            if (String.isBlank(delegateParticipant.Contact__c)) {
+                delegateParticipant.Contact__c = delegateContact.Id;
+                isConnectedRes.contactId = delegateContact.Id;
+            }
+            if (String.isBlank(delegateParticipant.Phone__c)) {
+                delegateParticipant.Phone__c = participant.Phone__c;
+                delegateParticipant.Phone_Type__c = participant.Phone_Type__c;
+            }
+            upsert delegateParticipant;
+            isConnectedRes.participantId = delegateParticipant.Id;
+
+            if (!patientDelegatesToInsert.isEmpty()) {
+                upsert patientDelegatesToInsert;
+            }
+            createCommunityUser(toCreateUser, userNotExists);
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+
+        return isConnectedRes;
+    }
+
+    @Future
+    private static void createCommunityUser(Map<Id, Id> toCreateUser, Boolean userNotExists) {
+        if (!toCreateUser.isEmpty() && userNotExists) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
+    }
+
+    @AuraEnabled
     public static void updateParticipantAndDelegates(String participantS, String participantContactS, String delegatesS, List<String> doNotContinueIds, Boolean needsInvite, String studySiteId) {
         try {
             Participant__c participant = (Participant__c)JSON.deserialize(participantS, Participant__c.class);
@@ -124,38 +281,45 @@ public without sharing class ParticipantInformationRemote {
                 actionAssignContactPermissions.addPermission(participant.Contact__c, permissionSetName);
             }
 
-            List<Patient_Delegate__c> notPatientDelegatesEver = [SELECT Id,
+            Set<String> idsToCheck = new Set<String>(doNotContinueIds);
+            List<Patient_Delegate__c> patientDelegates = [SELECT Id,
                                                                  Participant__c,
                                                                  Contact__c,
                                                                  Status__c
                                                           FROM Patient_Delegate__c
                                                           WHERE Participant__c = :participant.Id AND
-                                                                Contact__c IN :doNotContinueIds AND
-                                                                Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS];
-            if (!notPatientDelegatesEver.isEmpty()) {
-                system.debug('patientDelegates: ' + notPatientDelegatesEver);
-                for (Patient_Delegate__c patientDelegate : notPatientDelegatesEver) {
-                    patientDelegate.Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS;
+                                                                Status__c != :PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS];
+            Map<Id, Patient_Delegate__c> patientDelegateByDelegate = new Map<Id, Patient_Delegate__c>();
+            List<Patient_Delegate__c> delegatesToUpdate = new List<Patient_Delegate__c>();
+            if (!patientDelegates.isEmpty()) {
+                system.debug('patientDelegates: ' + patientDelegates);
+                for (Patient_Delegate__c patientDelegate : patientDelegates) {
+                    if (idsToCheck.contains(patientDelegate.Contact__c) && PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS != patientDelegate.Status__c) {
+                        patientDelegate.Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS;
+                        delegatesToUpdate.add(patientDelegate);
+                    }
+                    patientDelegateByDelegate.put(patientDelegate.Contact__c, patientDelegate);
                 }
-
-                update notPatientDelegatesEver;
             }
 
-            List<Contact> contactsToUpdate = new List<Contact>();
             for (Participant__c delegateParticipant : delegates) {
-                contactsToUpdate.add(new Contact(
-                        Id = delegateParticipant.Contact__c,
-                        MailingState = delegateParticipant.Mailing_State__c,
-                        MailingCountry = delegateParticipant.Mailing_Country__c,
-                        MailingStateCode = delegateParticipant.Mailing_State_Code__c,
-                        MailingCountryCode = delegateParticipant.Mailing_Country_Code__c,
-                        MailingPostalCode = delegateParticipant.Mailing_Zip_Postal_Code__c,
-                        Email = delegateParticipant.Email__c,
-                        Phone = delegateParticipant.Phone__c
-                ));
+                if (!String.isBlank(delegateParticipant.Contact__c) &&
+                        !idsToCheck.contains(delegateParticipant.Contact__c) &&
+                        patientDelegateByDelegate.containsKey(delegateParticipant.Contact__c)) {
 
+                    delegatesToUpdate.add(new Patient_Delegate__c(
+                            Id = patientDelegateByDelegate.get(delegateParticipant.Contact__c).Id,
+                            Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS)
+                    );
+                }
             }
-            update contactsToUpdate;
+
+            if (!delegates.isEmpty()) {
+                update delegates;
+            }
+            if (!delegatesToUpdate.isEmpty()) {
+                update delegatesToUpdate;
+            }
 
             system.debug('toCreateUser: ' + toCreateUser);
             if (!toCreateUser.isEmpty()) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
@@ -170,55 +334,27 @@ public without sharing class ParticipantInformationRemote {
     @AuraEnabled
     public static List<Participant__c> getParticipantDelegates(String participantId) {
         try {
-            List<Participant__c> participantDelegates = new List<Participant__c>();
-
-            List<Contact> contacts =
+            List<Participant__c> participants =
                     [SELECT Id,
-                            FirstName,
-                            MiddleName,
-                            LastName,
-                            MailingPostalCode,
-                            MailingStateCode,
-                            MailingCountryCode,
-                            MailingState,
-                            MailingCountry,
-                            Email,
-                            HomePhone,
-                            MobilePhone,
-                            Phone
-                    FROM Contact
-                    WHERE Id IN (SELECT Contact__c
+                            Contact__c,
+                            First_Name__c,
+                            Middle_Name__c,
+                            Last_Name__c,
+                            Mailing_Zip_Postal_Code__c,
+                            Mailing_State_Code__c,
+                            Mailing_State__c,
+                            Mailing_Country_Code__c,
+                            Mailing_Country__c,
+                            Email__c,
+                            Phone__c,
+                            Phone_Type__c
+                    FROM Participant__c
+                    WHERE Contact__c IN (SELECT Contact__c
                                          FROM Patient_Delegate__c
                                          WHERE Participant__c = :participantId AND
-                                               Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS)];
-            for (Contact cnt : contacts) {
-                Participant__c participantDelegate = new Participant__c(Contact__c = cnt.Id,
-                    First_Name__c = cnt.FirstName,
-                    Middle_Name__c = cnt.MiddleName,
-                    Last_Name__c = cnt.LastName,
-                    Mailing_Zip_Postal_Code__c = cnt.MailingPostalCode,
-                    Mailing_State_Code__c = cnt.MailingStateCode,
-                    Mailing_State__c = cnt.MailingState,
-                    Mailing_Country_Code__c = cnt.MailingCountryCode,
-                    Mailing_Country__c = cnt.MailingCountry,
-                    Email__c = cnt.Email
-                );
-
-                if (cnt.HomePhone != null) {
-                    participantDelegate.Phone__c = cnt.HomePhone;
-                    participantDelegate.Phone_Type__c = 'Home';
-                } if (cnt.MobilePhone != null) {
-                    participantDelegate.Phone__c = cnt.MobilePhone;
-                    participantDelegate.Phone_Type__c = 'Mobile';
-                } else {
-                    participantDelegate.Phone__c = cnt.Phone;
-                    participantDelegate.Phone_Type__c = 'Work';
-                }
-
-                participantDelegates.add(participantDelegate);
-            }
-
-            return participantDelegates;
+                                               (Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS OR
+                                                Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ONHOLD_STATUS))];
+            return participants;
         } catch (Exception exp) {
             throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
         }
@@ -234,14 +370,16 @@ public without sharing class ParticipantInformationRemote {
         try {
             ParticipantWorkflowService.ParticipantWorkflowWrapper pathWrapper =
                     (ParticipantWorkflowService.ParticipantWorkflowWrapper)JSON.deserialize(pathWrapperJSON, ParticipantWorkflowService.ParticipantWorkflowWrapper.class);
-            ParticipantWorkflowService.populatePEFromWorkflowWrapper(pathWrapper, pe);
+            Participant_Enrollment__c oldParticipantEnrollment = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityModeService.USER_MODE_PI, null);
+            Clinical_Trial_Profile__c ctp = StudyTrialService.getFullTrial(oldParticipantEnrollment.Clinical_Trial_Profile__c);
+            ParticipantWorkflowService.populatePEFromWorkflowWrapper(pathWrapper, pe, ctp, oldParticipantEnrollment);
             update pe;
-            Participant_Enrollment_Status_History__c pesh = ParticipantWorkflowService.createPESHFromPathWrapper(pathWrapper, pe.Id);
+            pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_PI);
+            Participant_Enrollment_Status_History__c pesh = ParticipantWorkflowService.createPESHFromPathWrapper(pathWrapper, pe, ctp, oldParticipantEnrollment);
             if(pesh != null){
                 insert pesh;
             }
             pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_PI);
-            Clinical_Trial_Profile__c ctp = StudyTrialService.getFullTrial(pe.Clinical_Trial_Profile__c);
             if (pe == null) throw new CommunityServiceException('Participant enrollment not found');
             return JSON.serialize( new UpdateResponse(pe, ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe)));
         } catch (Exception e) {
@@ -268,8 +406,8 @@ public without sharing class ParticipantInformationRemote {
         Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
 
         if (!String.isBlank(delegateJSON)) {
-            Contact delegateParticipant = (Contact) JSON.deserialize(delegateJSON, Contact.class);
-            if (delegateParticipant != null) {
+            Participant__c delegateParticipant = (Participant__c) JSON.deserialize(delegateJSON, Participant__c.class);
+            if (delegateParticipant != null && !String.isBlank(delegateParticipant.Id)) {
                 try {
                     update delegateParticipant;
                 } catch (Exception exp) {
@@ -304,6 +442,25 @@ public without sharing class ParticipantInformationRemote {
             this.pe = pe;
             this.participantPath = participantPath;
         }
+    }
+
+
+    public class DelegateInfo {
+        @AuraEnabled public String email { get; set; }
+        @AuraEnabled public String firstName { get; set; }
+        @AuraEnabled public String lastName { get; set; }
+        @AuraEnabled public Boolean isDuplicate { get; set; }
+        @AuraEnabled public String contactId { get; set; }
+    }
+
+    public class DelegateConnectedInfo {
+        @AuraEnabled public Boolean isConnected { get; set; }
+        @AuraEnabled public Id participantId { get; set; }
+        @AuraEnabled public Id contactId { get; set; }
+    }
+
+    public class PIDelegateLevelInfo {
+        @AuraEnabled public Boolean isDisabled { get; set; }
     }
 
 }
