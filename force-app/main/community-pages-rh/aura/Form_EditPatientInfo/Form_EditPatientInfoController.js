@@ -201,7 +201,10 @@
 
     hideHelp: function (component) {
         component.set('hideHelp', false);
-    }
+    },
 
+    doCreateUserInv: function (component) {
+        component.set('v.createUsers', !component.get('v.createUsers'));
+    }
 
 })

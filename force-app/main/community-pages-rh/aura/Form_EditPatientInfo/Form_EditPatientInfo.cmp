@@ -260,9 +260,16 @@
                 </aura:if>
 
                 <aura:if isTrue="{!v.fromAddParticipantPage}">
-                    <div class="slds-col slds-size--7-of-12 slds-grid slds-grid--vertical-align-center" style="margin-top: 30px;">
-                        <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.createUsers}"/>
-                        <div class="slds-size--10-of-12">{!$Label.c.Create_Users_Checkbox}</div>
+                    <div class="slds-form-element" style="margin-top: 30px; margin-left: 10px;">
+                        <div class="slds-form-element__control">
+                            <div class="slds-checkbox">
+                                <input type="checkbox" name="options" id="checkbox-unique-id-73" value="checkbox-unique-id-73" onclick="{!c.doCreateUserInv}"/>
+                                <label class="slds-checkbox__label" for="checkbox-unique-id-73">
+                                    <span class="slds-checkbox_faux"></span>
+                                    <span class="slds-form-element__label">{!$Label.c.Create_Users_Checkbox}</span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </aura:if>
             </div>
