@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>Participant_Workflow_Form_Field__c</field>
-        <value xsi:type="xsd:string">Inf_Consent_Signed</value>
+        <value xsi:type="xsd:string">Inf_Cons_Signed</value>
     </values>
     <values>
         <field>Readonly_if_Current__c</field>
