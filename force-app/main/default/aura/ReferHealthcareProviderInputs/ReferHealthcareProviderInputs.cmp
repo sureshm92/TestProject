@@ -30,7 +30,7 @@
                                   v.sharingObject.Email__c}"
                          onblur="{!c.checkContact}"
                          onchange="{!c.checkFields}"
-                         disabled="{!v.sharingObject.Id}"/>
+                         disabled="{!v.sharingObject.Id || v.sharingObject.delegateId}"/>
     </div>
     <div class="{!'slds-col ' + if(v.printMode, 'slds-size--3-of-12', 'slds-size--1-of-1 slds-large-size--3-of-12')}">
         <lightning:input aura:id="firstNameInput"
@@ -43,7 +43,7 @@
                                   v.sharingObject.sObjectType == 'Contact' ? v.sharingObject.FirstName :
                                   v.sharingObject.First_Name__c}"
                          onchange="{!c.checkFields}"
-                         disabled="{!v.providerFound || v.isDuplicate || v.sharingObject.Id}"/>
+                         disabled="{!v.providerFound || v.isDuplicate || v.sharingObject.Id || v.sharingObject.delegateId}"/>
     </div>
     <div class="{!'slds-col ' + if(v.printMode, 'slds-size--3-of-12', 'slds-size--1-of-1 slds-large-size--3-of-12')}">
         <lightning:input aura:id="lastNameInput"
@@ -56,7 +56,7 @@
                                   v.sharingObject.sObjectType == 'Contact' ? v.sharingObject.LastName :
                                   v.sharingObject.Last_Name__c}"
                          onchange="{!c.checkFields}"
-                         disabled="{!v.providerFound || v.isDuplicate || v.sharingObject.Id}"/>
+                         disabled="{!v.providerFound || v.isDuplicate || v.sharingObject.Id || v.sharingObject.delegateId}"/>
     </div>
     <div class="{!'slds-col ' + if(v.printMode, 'slds-size--2-of-12', 'slds-size--3-of-12 slds-large-size--2-of-12')}"
          style="margin-top: 23px;">

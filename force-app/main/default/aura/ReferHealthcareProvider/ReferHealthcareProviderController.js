@@ -31,7 +31,7 @@
     },
     doAddDelegate: function (component, event, helper) {
         var delegates = component.get('v.delegates');
-        delegates.push({sObjectType: 'Patient_Delegate__c'});
+        delegates.push({sObjectType: 'Object'});
         component.set('v.delegates', delegates);
     },
 

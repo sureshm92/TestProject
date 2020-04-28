@@ -106,6 +106,7 @@ public without sharing class CommunityModeService {
             modes.add(splitter);
         }
 
+        Map<Id, String> firstCommunityPermSetMap = getFirstPermissionSetMap(delegatedParticipantIds);
         for(Id participantId : delegatedParticipantIds){
             Participant__c participant = participantsMap.get(participantId);
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(participantId);
@@ -116,7 +117,8 @@ public without sharing class CommunityModeService {
                     participant.First_Name__c + ' ' + participant.Last_Name__c,
                     participant.Contact__c,
                     null,
-                    hasPastStudies ? CommunityTemplateService.getTemplate(pastPEList[0].Clinical_Trial_Profile__r.CommunityTemplate__c) : CommunityTemplateService.getDefaultTemplate()
+                    hasPastStudies ? CommunityTemplateService.getTemplate(pastPEList[0].Clinical_Trial_Profile__r.CommunityTemplate__c) :
+                            CommunityTemplateService.getTemplateByPermissionSetName(firstCommunityPermSetMap.get(participantId))
             );
             mode.hasPastStudies = hasPastStudies;
             modes.add(mode);
@@ -197,6 +199,39 @@ public without sharing class CommunityModeService {
         Id currentWhatId;
         if(contact.userCommunityMode__c == USER_MODE_PARTICIPANT) currentWhatId = contact.Current_Participant_Enrollment__c;
         return generateModeKey(contact.userCommunityMode__c, contact.userCommunityDelegateId__c, currentWhatId);
+    }
+    
+    public static Map<Id, String> getFirstPermissionSetMap(List<Id> participantIds){
+        //return first permission set for every participant from participantId list
+        Participant__c[] participants = [
+                SELECT Id, Contact__c
+                FROM Participant__c
+                WHERE Id IN: participantIds
+        ];
+        Map<Id, Id> participantIdByContactId = new Map<Id, Id>();
+        for(Participant__c participant : participants) {
+            if(participant.Contact__c != null) {
+                participantIdByContactId.put(Participant.Contact__c, participant.Id);
+            }
+        }
+        List<User> users = [
+                SELECT Id, ContactId, (SELECT Id, PermissionSet.Name FROM PermissionSetAssignments)
+                FROM User
+                WHERE ContactId IN: participantIdByContactId.keySet()
+        ];
+        Map<Id, String> resMap = new Map<Id, String>();
+        for(User user : users){
+            for(PermissionSetAssignment psa : user.PermissionSetAssignments){
+                if(CommunityTemplateService.getAllPermissionSets().contains(psa.PermissionSet.Name)){
+                    Id participantId = participantIdByContactId.get(user.ContactId);
+                    if(participantId != null){
+                        resMap.put(participantId, psa.PermissionSet.Name);
+                        continue;
+                    }
+                }
+            }
+        }
+        return resMap;
     }
  
 
