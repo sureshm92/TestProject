@@ -6,6 +6,7 @@
         component.find('spinner').hide();
         var params = event.getParam('arguments');
         component.set('v.messageText', params.messageText);
+        component.set('v.titleText', params.titleText);
         component.set('v.callback', params.callback);
         component.find('deleteDelegateDialog').show();
     },
