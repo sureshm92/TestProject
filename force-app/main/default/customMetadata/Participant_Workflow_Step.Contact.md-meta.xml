@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>Form_Fields__c</field>
-        <value xsi:type="xsd:string">Initial_Visit_Scheduled_Date,Initial_Visit_Scheduled_Time</value>
+        <value xsi:type="xsd:string">Init_Visit_Sched_Date,Init_Visit_Sched_Time</value>
     </values>
     <values>
         <field>History_Item_Details_Template_Label__c</field>
@@ -29,6 +29,14 @@
     <values>
         <field>History_Label__c</field>
         <value xsi:type="xsd:string">PWS_Contact_History_Title</value>
+    </values>
+    <values>
+        <field>In_Progress_Condition__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>In_Progress_Date_Field__c</field>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Name_Label__c</field>
@@ -45,5 +53,17 @@
     <values>
         <field>Outcome_Placeholder_Label__c</field>
         <value xsi:type="xsd:string">PWS_Contact_Outcome_Placeholder</value>
+    </values>
+    <values>
+        <field>Success_Checkbox_Field__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Success_Condition__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Success_Date_Field__c</field>
+        <value xsi:nil="true"/>
     </values>
 </CustomMetadata>

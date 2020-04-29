@@ -11,31 +11,14 @@ public without sharing class ConditionCheckerService {
     private static final Integer FALSE_VALUE_CODE = 1;
     private static final Integer TRUE_VALUE_CODE = 2;
     private static  final Integer VALUE_STACK_BASE = 3;
+    private static final String defaultName = 'obj';
 
     private static Map<Id, Map<String, Boolean>> resultsCache = new Map<Id, Map<String, Boolean>>();
 
     public static Boolean checkConditionForObject(String condition, SObject obj){
         if(resultsCache.containsKey(obj.Id) && resultsCache.get(obj.Id).containsKey(condition))
             return resultsCache.get(obj.Id).get(condition);
-        enumStack operatorStack = new enumStack(OPERATOR_STACK_BASE);
-        enumStack valueStack = new enumStack(VALUE_STACK_BASE);
-        Pattern operatorPattern = Pattern.compile('\\(|\\)|&&|\\|\\||!');
-        Matcher operatorMatcher = operatorPattern.matcher(condition);
-        Integer pos = 0;
-        while(operatorMatcher.find()){
-            if(pos != operatorMatcher.start()){
-                processToken(condition.substring(pos, operatorMatcher.start()),operatorStack, valueStack, obj);
-            }
-            processToken(operatorMatcher.group(), operatorStack, valueStack, obj);
-            pos = operatorMatcher.end();
-        }
-        if(pos < condition.length()){
-            processToken(condition.substring(pos, condition.length()),operatorStack, valueStack, obj);
-        }
-        while(!operatorStack.isEmpty()){
-            executeTopOperator(operatorStack, valueStack);
-        }
-        Boolean result = valueStack.pop() == TRUE_VALUE_CODE;
+        Boolean result = checkConditionForMultipleObjects(condition, new Map<String, SObject>{defaultName=>obj},defaultName );
         if(!resultsCache.containsKey(obj.Id)){
             resultsCache.put(obj.Id, new Map<String, Boolean>());
         }
@@ -43,14 +26,38 @@ public without sharing class ConditionCheckerService {
         return result;
     }
 
-    private static void processToken(String token, enumStack operatorStack, enumStack valueStack, SObject obj){
+    public static Boolean checkConditionForMultipleObjects(String condition, Map<String, SObject> objectMap, String defaultObjectName){
+        enumStack operatorStack = new enumStack(OPERATOR_STACK_BASE);
+        enumStack valueStack = new enumStack(VALUE_STACK_BASE);
+        Pattern operatorPattern = Pattern.compile('\\(|\\)|&&|\\|\\||!');
+        Matcher operatorMatcher = operatorPattern.matcher(condition);
+        Integer pos = 0;
+        while(operatorMatcher.find()){
+            if(pos != operatorMatcher.start()){
+                processToken(condition.substring(pos, operatorMatcher.start()),operatorStack, valueStack, objectMap, defaultObjectName);
+            }
+            processToken(operatorMatcher.group(), operatorStack, valueStack, objectMap, defaultObjectName);
+            pos = operatorMatcher.end();
+        }
+        if(pos < condition.length()){
+            processToken(condition.substring(pos, condition.length()),operatorStack, valueStack, objectMap, defaultObjectName);
+        }
+        while(!operatorStack.isEmpty()){
+            executeTopOperator(operatorStack, valueStack);
+        }
+        return valueStack.pop() == TRUE_VALUE_CODE;
+    }
+
+    private static void processToken(String token, enumStack operatorStack, enumStack valueStack, Map<String, SObject> objectMap, String defaultObjectName){
         switch on token {
             when '!', '&&', '||', '(', ')' {
                 processOperator(token, operatorStack, valueStack);
             }
             when else {
-                Boolean value = parseAndCheckAtomicConditionForObject(token, obj);
-                processValue(value, operatorStack, valueStack);
+                if( String.isNotBlank(token)){
+                    Boolean value = parseAndCheckAtomicConditionForObject(token, objectMap, defaultObjectName);
+                    processValue(value, operatorStack, valueStack);
+                }
             }
         }
     }
@@ -110,7 +117,7 @@ public without sharing class ConditionCheckerService {
         }
     }
 
-    private static Boolean parseAndCheckAtomicConditionForObject(String condition, SObject obj){
+    private static Boolean parseAndCheckAtomicConditionForObject(String condition, Map<String, SObject> objectMap, String defaultObjectName){
 
         Pattern equalsPattern = Pattern.compile('==|<>');
         Matcher equalsMatcher = equalsPattern.matcher(condition);
@@ -119,7 +126,7 @@ public without sharing class ConditionCheckerService {
                     condition.substring(0,equalsMatcher.start()).trim(),
                     equalsMatcher.group() == '==',
                     condition.substring(equalsMatcher.end(), condition.length()).trim(),
-                    obj
+                    objectMap, defaultObjectName
             );
         }
         else{
@@ -128,8 +135,18 @@ public without sharing class ConditionCheckerService {
         }
     }
 
-    private static Boolean checkAtomicConditionForObject(String fieldName, Boolean equality, String valueString, SObject obj){
-        Object fieldValue = obj.get(fieldName);
+    private static Boolean checkAtomicConditionForObject(String fullFieldName, Boolean equality, String valueString, Map<String, SObject> objectMap, String defaultObjectName){
+        List<String> filedTokens = fullFieldName.split('\\.');
+        SObject obj;
+        Object fieldValue;
+        if (filedTokens.size() == 1) {
+            obj = objectMap.get(defaultObjectName);
+            fieldValue = obj.get(filedTokens[0]);
+        }
+        else{
+            obj = objectMap.get(filedTokens[0]);
+            fieldValue = obj.get(filedTokens[1]);
+        }
         String fieldValueString = String.valueOf(fieldValue);
         return fieldValue != null && (equality ? fieldValueString.toLowerCase() == valueString.toLowerCase() : fieldValueString.toLowerCase() != valueString.toLowerCase());
     }

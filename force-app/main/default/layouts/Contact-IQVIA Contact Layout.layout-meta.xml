@@ -103,10 +103,6 @@
                 <behavior>Edit</behavior>
                 <field>Consent_To_Inform_About_Study__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Visit_Results_OptIn__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
