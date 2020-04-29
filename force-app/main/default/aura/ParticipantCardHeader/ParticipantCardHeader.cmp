@@ -47,7 +47,7 @@
                 <div class="vpi-title">{!v.pe.Patient_ID__c + if(v.peAdditionalName, ' (' + v.peAdditionalName + ')', '')}</div>
             </aura:set>
             <aura:if isTrue="{!v.userMode == 'PI'}">
-                <aura:if isTrue="{!v.pe.Participant__r.Emancipation_in_progress__c &amp;&amp; v.userMode == 'PI'}">
+                <aura:if isTrue="{!v.pe.Participant__r.Emancipation_in_progress__c}">
                     <div class="slds-has-block-links--space3" data-gtm="Label_Action_Required">
                         {!$Label.c.Action_Required}
                     </div>
