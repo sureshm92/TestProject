@@ -207,7 +207,7 @@ public without sharing class ReferringRemote {
                 insert ptDelegateRef;
 
                 createParticipantUsers(new Map<Id, Id> { newContact.Id => null});
-            } else if (!String.isBlank(hcpEnrollment.Study_Site__c)) {
+            } else if (!String.isBlank(hcpEnrollment.Study_Site__c) && !String.isBlank(participant.Id)) {
                 Participant__c newParticipant = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participant.Id];
                 if (newParticipant != null && !String.isBlank(newParticipant.Contact__c)) {
                     Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
