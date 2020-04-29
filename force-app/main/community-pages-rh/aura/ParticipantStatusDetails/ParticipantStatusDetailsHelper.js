@@ -36,7 +36,7 @@
                         if (dependentFields[k].fieldName === stepWrapper.formFieldGroups[i].fields[j].field) {
                             if (dependentFields[k].controllingValue.indexOf(value) !== -1 && value !== '') {
                                 stepWrapper.formFieldGroups[i].fields[j].dependentActive = true;
-                                if (stepWrapper.formFieldGroups[i].fields[j].populateFromDependent !== null && (stepWrapper.formFieldGroups[i].fields[j].value === null && stepWrapper.formFieldGroups[i].fields[j].value === '')) {
+                                if (stepWrapper.formFieldGroups[i].fields[j].populateFromDependent !== null && (stepWrapper.formFieldGroups[i].fields[j].value === null || stepWrapper.formFieldGroups[i].fields[j].value === '')) {
                                     for (let k = 0; k < stepWrapper.formFieldGroups.length; k++) {
                                         for (let l = 0; l < stepWrapper.formFieldGroups[k].fields.length; l++) {
                                             if (stepWrapper.formFieldGroups[i].fields[j].populateFromDependent === stepWrapper.formFieldGroups[k].fields[l].field)
