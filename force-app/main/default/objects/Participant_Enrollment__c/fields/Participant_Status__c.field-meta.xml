@@ -158,11 +158,6 @@
                 <default>false</default>
                 <label>Withdrew Consent After Screening</label>
             </value>
-            <value>
-                <fullName>Declined Final Consent</fullName>
-                <default>false</default>
-                <label>Declined Final Consent</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

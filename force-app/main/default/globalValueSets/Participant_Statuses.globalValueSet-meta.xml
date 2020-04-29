@@ -151,11 +151,6 @@
         <label>Withdrew Consent After Screening</label>
     </customValue>
     <customValue>
-        <fullName>Declined Final Consent</fullName>
-        <default>false</default>
-        <label>Declined Final Consent</label>
-    </customValue>
-    <customValue>
         <fullName>Screening Passed - Wash Out Period</fullName>
         <default>false</default>
         <isActive>false</isActive>
@@ -192,6 +187,18 @@
         <label>Referral On Hold</label>
     </customValue>
     <customValue>
+        <fullName>Referral Accepted</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Referral Accepted</label>
+    </customValue>
+    <customValue>
+        <fullName>Declined Final Consent</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Declined Final Consent</label>
+    </customValue>
+    <customValue>
         <fullName>Screening Complete</fullName>
         <default>false</default>
         <isActive>false</isActive>
@@ -202,12 +209,6 @@
         <default>false</default>
         <isActive>false</isActive>
         <label>Referral Sent to PI</label>
-    </customValue>
-    <customValue>
-        <fullName>Referral Accepted</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>Referral Accepted</label>
     </customValue>
     <masterLabel>Participant Statuses</masterLabel>
     <sorted>false</sorted>

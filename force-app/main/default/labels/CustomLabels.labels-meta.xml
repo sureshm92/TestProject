@@ -11205,7 +11205,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PWS Declined Conscent Disclaimer</shortDescription>
-        <value>Test Declined Consent Disclaimer</value>
+        <value>On Initial Visit tab, update informed consent to "yes" and save to proceed with screening.</value>
     </labels>
     <labels>
         <fullName>PWS_Eligibility_Card_Name</fullName>
@@ -11422,7 +11422,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PWS Withdrew Conscent Disclaimer</shortDescription>
-        <value>Test Withdrew Consent Disclaimer</value>
+        <value>On Initial Visit tab, update informed consent date (add a note if date is same as initial date of consent) and save to proceed with screening.</value>
     </labels>
     <labels>
         <fullName>Participant_Created_Date</fullName>
