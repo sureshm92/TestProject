@@ -36,10 +36,14 @@ public without sharing class AddPatientByPIRemote {
             return (FormData) AuraHelper.throwException(e);
         }
     }
+
     //TODO:Review
     @AuraEnabled
     public static void saveParticipant(String participantJSON, String peJSON, String userLanguage, String ssId, Boolean createUser){
-        try{
+        try {
+            TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
+            TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class);
+
             Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
             trimParticipantFields(participant);
             Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
@@ -58,10 +62,11 @@ public without sharing class AddPatientByPIRemote {
                 if (!actionAssignContactPermissions.isEmpty()) {
                     ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
                 }
+
                 createCommunityUser(new Map<Id, Id> { newParticipant.Contact__c => null });
             }
             //Moved history Creation to Trigger
-        }catch (Exception e){
+        } catch (Exception e) {
             AuraHelper.throwException(e);
         }
     }
