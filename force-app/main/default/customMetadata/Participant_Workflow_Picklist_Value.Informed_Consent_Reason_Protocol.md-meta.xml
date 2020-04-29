@@ -24,7 +24,7 @@
     </values>
     <values>
         <field>Selected_Condition__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Non_Enrollment_Reason__c == Protocol Concerns &amp;&amp; (Participant_Status__c == Declined Consent || Participant_Status__c == Withdrew Consent)</value>
     </values>
     <values>
         <field>Show_Only_If_Selected__c</field>
