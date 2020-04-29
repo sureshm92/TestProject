@@ -3,8 +3,8 @@
  */
 public with sharing class EmailTemplateInitialPIDel extends EmailTemplateInitial {
 
-    public EmailTemplateInitialPIDel(Map<String, String> templateLabels, Id recipientContactId, String outputMode) {
-        super(templateLabels, recipientContactId, outputMode, null);
+    public EmailTemplateInitialPIDel(Id recipientContactId, String outputMode) {
+        super(recipientContactId, outputMode, null);
         headerLabel = LABEL_HEADER_INITIAL_DELEGATE;
         bodyLabel = LABEL_BODY_INITIAL_DELEGATE;
         updateTemplateLabels();

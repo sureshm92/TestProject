@@ -3,15 +3,15 @@
  -->
 
 <apex:page id="TestEmailTemplate">
-    <c:EmailTemplate recipientId="{!$CurrentPage.parameters.recipientId}"
+    <c:EmailWireframe recipientId="{!$CurrentPage.parameters.recipientId}"
                      sourceId="{!$CurrentPage.parameters.sourceId}"
                      header="{!$Label.Email_Header_Patient2}"
                      title="{!$Label.Email_Title_All}"
                      greeting="{!$Label.Email_User_Greeting_FirstName}"
-                     body="{!$Label.Email_Body_Patient1}"
                      signature="{!$Label.Email_Signature_Patient}"
                      communityTemplate="{!$CurrentPage.parameters.template}">
+        <c:Paragraph emailLabel="{!$Label.Email_Body_Patient1}"/>
         <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
                           resourceId="{!$CurrentPage.parameters.sourceId}"/>
-    </c:EmailTemplate>
+    </c:EmailWireframe>
 </apex:page>

@@ -5,7 +5,7 @@
 <apex:component id="EmailTemplateDelegateParticipantText" controller="EmailTemplateDelegatePartController" access="global">
     <!-- attributes: -->
     <apex:attribute name="userId" type="Id" assignTo="{!delegateUserId}" description="" access="global"/>
-    <apex:attribute name="afterText" type="String" description="" access="global"/>
+    <apex:attribute name="afterText" type="String" description="DEPRECATED" access="global"/>
     <apex:attribute name="commTemplate" type="String" assignTo="{!commTemplateStr}" description="" access="global"/>
     <apex:attribute name="sourceId" type="Id" assignTo="{!sourceIdValue}" description="" access="global"/>
     <!-- component body -->
@@ -14,5 +14,5 @@
         Study Name: {!studyName}
     </apex:repeat>
     --------------------------------------------------------------------------
-    {!afterText}
+    {!bottomText}
 </apex:component>

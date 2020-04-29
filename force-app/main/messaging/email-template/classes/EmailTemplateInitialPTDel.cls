@@ -3,9 +3,8 @@
  */
 public with sharing class EmailTemplateInitialPTDel extends EmailTemplateInitial {
 
-    public EmailTemplateInitialPTDel(Map<String, String> templateLabels, Id recipientContactId, String outputMode,
-            String communityTemplateName) {
-        super(templateLabels, recipientContactId, outputMode, communityTemplateName);
+    public EmailTemplateInitialPTDel(Id recipientContactId, String outputMode, String communityTemplateName) {
+        super(recipientContactId, outputMode, communityTemplateName);
         headerLabel = 'Email_Header_Initial_Patient_Delegate';
         bodyLabel = 'Email_Body_Initial_Patient_Delegate';
         signatureLabel = 'Email_Signature_New';

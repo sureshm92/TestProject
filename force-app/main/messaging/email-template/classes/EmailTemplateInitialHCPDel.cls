@@ -3,8 +3,8 @@
  */
 public with sharing class EmailTemplateInitialHCPDel extends EmailTemplateInitial {
 
-    public EmailTemplateInitialHCPDel(Map<String, String> templateLabels, Id recipientId, String outputMode) {
-        super(templateLabels, recipientId, outputMode, null);
+    public EmailTemplateInitialHCPDel(Id recipientId, String outputMode) {
+        super(recipientId, outputMode, null);
         headerLabel = LABEL_HEADER_INITIAL_DELEGATE;
         bodyLabel = LABEL_BODY_INITIAL_DELEGATE;
         updateTemplateLabels();

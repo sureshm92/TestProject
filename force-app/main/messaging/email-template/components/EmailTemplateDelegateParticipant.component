@@ -5,7 +5,7 @@
 <apex:component id="EmailTemplateDelegateParticipant" controller="EmailTemplateDelegatePartController" access="global">
     <!-- attributes: -->
     <apex:attribute name="userId" type="Id" assignTo="{!delegateUserId}" description="" access="global"/>
-    <apex:attribute name="afterText" type="String" description="" access="global"/>
+    <apex:attribute name="afterText" type="String" description="DEPRECATED" access="global"/>
     <apex:attribute name="commTemplate" type="String" assignTo="{!commTemplateStr}" description="" access="global"/>
     <apex:attribute name="sourceId" type="Id" assignTo="{!sourceIdValue}" description="" access="global"/>
 
@@ -23,8 +23,8 @@
             <br/>
         </div>
     </apex:outputPanel>
-    <apex:outputPanel rendered="{!afterText != ''}">
-        <apex:outputText value="{!afterText}" escape="false"/>
+    <apex:outputPanel rendered="{!bottomText != ''}">
+        <apex:outputText value="{!bottomText}" escape="false"/>
         <div style="margin-bottom: 40px"></div>
     </apex:outputPanel>
 </apex:component>

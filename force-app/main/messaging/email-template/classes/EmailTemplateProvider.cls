@@ -18,10 +18,24 @@ public virtual without sharing class EmailTemplateProvider {
     protected String userMode;
 
     private Boolean isHTML;
-    private EmailTemplateInitial templateInitial;
+    private static Boolean isReady = false;
 
-    public EmailTemplateProvider(EmailTemplateInitial templateInitial) {
-        this.templateInitial = templateInitial;
+    private static EmailTemplateInitial templateInitial;
+    public static void setTemplateInitial(EmailTemplateInitial initial) {
+        templateInitial = initial;
+    }
+
+    public static Boolean haveTemplateInitial() {
+        return templateInitial != null;
+    }
+
+    private static EmailTemplateProvider instance;
+    public static EmailTemplateProvider getInstance() {
+        if(instance == null) instance = new EmailTemplateProvider();
+        return instance;
+    }
+
+    private EmailTemplateProvider() {
         updateRecipientName(templateInitial.recipientId, recipientName, recipientLanguage);
 
         templatePropertiesService = String.isNotEmpty(templateInitial.communityTemplateName) ?
@@ -46,13 +60,25 @@ public virtual without sharing class EmailTemplateProvider {
             ));
         }
         if(!templateInitial.additionalParams.isEmpty()) parameters.putAll(templateInitial.additionalParams);
-        initLabels(templateInitial.templateLabels);
 
+        isReady = true;
         System.debug('PARAMS: ' + JSON.serializePretty(parameters));
+    }
+
+    public static Boolean isReady() {
+        return isReady;
     }
 
     public Map<String, String> getParameters() {
         return parameters;
+    }
+
+    public Boolean isHTML() {
+        return isHTML;
+    }
+
+    public String getCommunityTemplateName() {
+        return templatePropertiesService.getTemplateName();
     }
 
     public Id getRecipientId() {
@@ -87,8 +113,8 @@ public virtual without sharing class EmailTemplateProvider {
         return DEFAULT_LANGUAGE;
     }
 
-    public String getDelegateAfter() {
-        if(templateInitial.recipientId.getSobjectType() == User.getSObjectType()) return '';
+    public String getDelegateBottomTxt() {
+        if(templateInitial.recipientId.getSobjectType() != User.getSObjectType()) return '';
         return TranslateHelper.replaceParams(
                 TranslateHelper.getLabelValue(Label.Email_Body_Initial_Patient_Delegate_AfterText, recipientLanguage),
                 PARAM_PREFIX, parameters
@@ -105,77 +131,16 @@ public virtual without sharing class EmailTemplateProvider {
         parameters.put('emailTemplateBrandLogo', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_BRAND_LOGO));
         parameters.put('emailTemplateBrandLogoCSS', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_BRAND_LOGO_CSS));
         parameters.put('emailTemplateBottomLogo', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_BOTTOM_LOGO));
-    }
 
-    //Labels: ----------------------------------------------------------------------------------------------------------
-    private void initLabels(Map<String, String> templateLabels) {
-        setHeaderValue(templateLabels.get('header'));
-        setTitleValue(templateLabels.get('title'));
-        setGreetingValue(templateLabels.get('greeting'));
-        setBodyValue(templateLabels.get('body'));
-        setPreSignatureValue(templateLabels.get('preSignature'));
-        setSignatureValue(templateLabels.get('signature'));
-    }
+        parameters.put('HeaderShortName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_HEADER_SHORT_NAME));
+        parameters.put('CommunityName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_NAME_LABEL));
+        parameters.put('ShortCommunityName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_NAME_SHORT));
+        parameters.put('SignatureFullCommunityName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_SIGNATURE));
+        parameters.put('SignatureShortCommunityName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_SIGNATURE_SHORT));
+        parameters.put('CommunityName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_NAME));
 
-    protected virtual void setHeaderValue(String headerLabel) {
-        String headerLabelValue = TranslateHelper.getLabelValue(headerLabel, recipientLanguage);
-        if (headerLabelValue.contains(PARAM_PREFIX)) {
-            String commNameShort =
-                    templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_HEADER_SHORT_NAME);
-            parameters.put('HeaderShortName', commNameShort);
-            headerLabelValue = prepareLineBreaks(TranslateHelper.replaceParams(headerLabelValue, PARAM_PREFIX, parameters));
-        }
-        parameters.put('headerValue', headerLabelValue);
-    }
-
-    protected virtual void setTitleValue(String titleLabel) {
-        String titleLabelValue = TranslateHelper.getLabelValue(titleLabel, recipientLanguage);
-        if (titleLabelValue.contains(PARAM_PREFIX)) {
-            titleLabelValue = userMode == CommunityService.USER_MODE_PARTICIPANT ?
-                    templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_LABEL)
-                    : templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_NEW_TM);
-        }
-        parameters.put('titleValue', titleLabelValue);
-    }
-
-    protected virtual void setGreetingValue(String greetingLabel) {
-        String greetingLabelValue = TranslateHelper.getLabelValue(greetingLabel, recipientLanguage);
-        parameters.put(
-                'greetingValue',
-                prepareLineBreaks(TranslateHelper.replaceParams(greetingLabelValue, PARAM_PREFIX, parameters) + '\n\n')
-        );
-    }
-
-    protected virtual void setBodyValue(String bodyLabel) {
-        String commNameFull = templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_NAME_LABEL);
-        String commNameShort = templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_NAME_SHORT);
-        parameters.put('CommunityName', commNameFull);
-        parameters.put('ShortCommunityName', commNameShort);
-        String bodyLabelValue = TranslateHelper.getLabelValue(bodyLabel, recipientLanguage);
-        parameters.put(
-                'bodyValue',
-                prepareLineBreaks(TranslateHelper.replaceParams(bodyLabelValue, PARAM_PREFIX, parameters))
-        );
-    }
-
-    protected virtual void setPreSignatureValue(String preSignatureLabel) {
-        parameters.put(
-                'preSignatureValue',
-                prepareLineBreaks(TranslateHelper.getLabelValue(preSignatureLabel, recipientLanguage))
-        );
-    }
-
-    protected virtual void setSignatureValue(String signatureLabel) {
-        String commNameFull = templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_SIGNATURE);
-        String commNameShort = templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_SIGNATURE_SHORT);
-        String commName = templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_NAME);
-
-        parameters.put('SignatureFullCommunityName', commNameFull);
-        parameters.put('SignatureShortCommunityName', commNameShort);
-        parameters.put('CommunityName', commName);
-        String signatureLabelValue = TranslateHelper.getLabelValue(signatureLabel, recipientLanguage);
-        signatureLabelValue = TranslateHelper.replaceParams(signatureLabelValue, PARAM_PREFIX, parameters);
-        parameters.put('signatureValue', prepareLineBreaks(signatureLabelValue));
+        parameters.put(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_LABEL, templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_LABEL));
+        parameters.put(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_NEW_TM, templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_NEW_TM));
     }
 
     //Specific URLs:----------------------------------------------------------------------------------------------------
@@ -254,11 +219,5 @@ public virtual without sharing class EmailTemplateProvider {
     private void initYourParticipantFirstName() {
         Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(recipientContactId);
         if (participant != null) parameters.put('ParticipantFirstName', participant.First_Name__c);
-    }
-
-    private String prepareLineBreaks(String source) {
-        if (source == null) return null;
-        if (isHTML) return source.replaceAll('\n', '<br/>');
-        return source;
     }
 }

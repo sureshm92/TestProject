@@ -39,8 +39,8 @@ public abstract without sharing class EmailTemplateInitial {
     public String communityTemplateName;
     public String parametersProviderName;
 
-    public EmailTemplateInitial(Map<String, String> templateLabels, Id recipientId, String outputMode, String communityTemplateName) {
-        this.templateLabels = templateLabels;
+    public EmailTemplateInitial(Id recipientId, String outputMode, String communityTemplateName) {
+        this.templateLabels = new Map<String, String>();
         this.recipientId = recipientId;
         this.outputMode = outputMode;
         this.communityTemplateName = communityTemplateName;

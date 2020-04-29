@@ -49,10 +49,13 @@ global without sharing class EmailTemplateController {
                     'preSignature' => preSignatureValue,
                     'signature' => signatureValue
             };
-            templateProvider = new EmailTemplateProvider(EmailTemplateInitialFactory.getTemplateInitial(
+
+            EmailTemplateInitial templateInitial = EmailTemplateInitialFactory.getTemplateInitial(
                     templateLabels, sourceRecordId, emailRecipientId, emailRecipientName,
                     emailRecipientLanguage, outputMode, communityTemplateValue
-            ));
+            );
+            EmailTemplateProvider.setTemplateInitial(templateInitial);
+            templateProvider = EmailTemplateProvider.getInstance();
         }
         return templateProvider;
     }
@@ -70,7 +73,7 @@ global without sharing class EmailTemplateController {
     }
 
     global String getParticipantDelegateAfterText() {
-        return getProvider().getDelegateAfter();
+        return getProvider().getDelegateBottomTxt();
     }
 
     global Id getRecipientContactId() {

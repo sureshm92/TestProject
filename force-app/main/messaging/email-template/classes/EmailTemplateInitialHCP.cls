@@ -6,8 +6,8 @@ public with sharing class EmailTemplateInitialHCP extends EmailTemplateInitial {
     private List<Healthcare_Provider__c> healthcareProviders;
     private List<HCP_Enrollment__c> enrollments;
 
-    public EmailTemplateInitialHCP(Map<String, String> templateLabels, Id recipientId, String outputMode) {
-        super(templateLabels, recipientId, outputMode, null);
+    public EmailTemplateInitialHCP(Id recipientId, String outputMode) {
+        super(recipientId, outputMode, null);
         headerLabel = 'Email_Header_Initial_HCP';
         greetingLabel = LABEL_GREETING_VALUE_PI_HCP;
         bodyLabel = 'Email_Body_Initial_HCP';

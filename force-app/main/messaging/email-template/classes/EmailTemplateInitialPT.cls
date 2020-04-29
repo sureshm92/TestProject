@@ -3,9 +3,8 @@
  */
 public with sharing class EmailTemplateInitialPT extends EmailTemplateInitial {
 
-    public EmailTemplateInitialPT(Map<String, String> templateLabels, Id recipientContactId, String outputMode,
-            String communityTemplateName) {
-        super(templateLabels, recipientContactId, outputMode, communityTemplateName);
+    public EmailTemplateInitialPT(Id recipientContactId, String outputMode, String communityTemplateName) {
+        super(recipientContactId, outputMode, communityTemplateName);
         bodyLabel = 'Email_Body_Initial_Patient_Virtual';
         headerLabel = 'Email_Header_Initial_Patient';
         signatureLabel = 'Email_Signature_Patient';

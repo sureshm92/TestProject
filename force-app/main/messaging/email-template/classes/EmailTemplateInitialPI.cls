@@ -3,8 +3,8 @@
  */
 public without sharing class EmailTemplateInitialPI extends EmailTemplateInitial {
 
-    public EmailTemplateInitialPI(Map<String, String> templateLabels, Id recipientContactId, String outputMode) {
-        super(templateLabels, recipientContactId, outputMode, null);
+    public EmailTemplateInitialPI(Id recipientContactId, String outputMode) {
+        super(recipientContactId, outputMode, null);
         bodyLabel = 'Email_Body_Initial_PI';
         headerLabel = 'Email_Header_Initial_PI';
         greetingLabel = LABEL_GREETING_VALUE_PI_HCP;

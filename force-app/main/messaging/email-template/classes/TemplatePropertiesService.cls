@@ -5,27 +5,38 @@
 public with sharing class TemplatePropertiesService {
 
     private Map<String, String> properties;
+    private String templateName;
     
     public TemplatePropertiesService(String templateName){
+        this.templateName = templateName;
         properties = CommunityTemplateService.getTemplate(templateName).properties;
     }
 
     public TemplatePropertiesService() {
-        properties = CommunityTemplateService.getDefaultTemplate().properties;
+        CommunityTemplate communityTemplate = CommunityTemplateService.getDefaultTemplate();
+        templateName = communityTemplate.templateName;
+        properties = communityTemplate.properties;
     }
 
     public TemplatePropertiesService(Id resourceId, Id recipientId, String userMode, Boolean isDelegate) {
-        String templateName = getTemplateName(resourceId, recipientId, userMode, isDelegate);
-        properties = !String.isEmpty(templateName) ?
-                CommunityTemplateService.getTemplate(templateName).properties :
-                CommunityTemplateService.getDefaultTemplate().properties;
+        String templateName = defineTemplateName(resourceId, recipientId, userMode, isDelegate);
+        CommunityTemplate communityTemplate = !String.isEmpty(templateName) ?
+                CommunityTemplateService.getTemplate(templateName) :
+                CommunityTemplateService.getDefaultTemplate();
+
+        this.templateName = communityTemplate.templateName;
+        properties = communityTemplate.properties;
     }
 
     public String getPropertyValue(String key) {
         return properties.get(key);
     }
 
-    private String getTemplateName(Id resourceId, Id recipientId, String userMode, Boolean isDelegate) {
+    public String getTemplateName() {
+        return templateName;
+    }
+
+    private String defineTemplateName(Id resourceId, Id recipientId, String userMode, Boolean isDelegate) {
         if(userMode != CommunityModeService.USER_MODE_PARTICIPANT) return CommunityTemplateService.TEMPLATE_DEFAULT;
         String templateName;
         try {

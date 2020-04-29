@@ -4,7 +4,7 @@
 
 public without sharing class EmailTemplateInitialFactory {
 
-    public static EmailTemplateInitial getTemplateInitial(Map<String, String> templateLabels, Id whatId, Id recipientId,
+    public static EmailTemplateInitial getTemplateInitial(Id whatId, Id recipientId,
             String recipientName, String recipientLanguage, String outputMode, String communityTemplateName
     ) {
         EmailTemplateInitial emailTemplateInitial;
@@ -20,34 +20,32 @@ public without sharing class EmailTemplateInitialFactory {
             String userMode = user.Contact.userCommunityMode__c;
             Boolean isDelegate = user.Contact.UserCommunityIsDelegate__c;
 
-            switch on userMode {//In some reason, Ternary operator does not work in this switch. I tried
+            switch on userMode {
                 when 'PI' {
                     if(isDelegate) {
-                        emailTemplateInitial = new EmailTemplateInitialPIDel(templateLabels, user.ContactId, outputMode);
+                        emailTemplateInitial = new EmailTemplateInitialPIDel(user.ContactId, outputMode);
                     } else {
-                        emailTemplateInitial = new EmailTemplateInitialPI(templateLabels, user.ContactId, outputMode);
+                        emailTemplateInitial = new EmailTemplateInitialPI(user.ContactId, outputMode);
                     }
                 }
                 when 'HCP' {
                     if(isDelegate) {
-                        emailTemplateInitial = new EmailTemplateInitialHCPDel(templateLabels, user.ContactId, outputMode);
+                        emailTemplateInitial = new EmailTemplateInitialHCPDel(user.ContactId, outputMode);
                     } else {
-                        emailTemplateInitial = new EmailTemplateInitialHCP(templateLabels, user.ContactId, outputMode);
+                        emailTemplateInitial = new EmailTemplateInitialHCP(user.ContactId, outputMode);
                     }
                 }
                 when else {
                     if(isDelegate) {
-                        emailTemplateInitial =
-                                new EmailTemplateInitialPTDel(templateLabels, user.ContactId, outputMode, communityTemplateName);
+                        emailTemplateInitial = new EmailTemplateInitialPTDel(user.ContactId, outputMode, communityTemplateName);
                     } else {
-                        emailTemplateInitial =
-                                new EmailTemplateInitialPT(templateLabels, user.ContactId, outputMode, communityTemplateName);
+                        emailTemplateInitial = new EmailTemplateInitialPT(user.ContactId, outputMode, communityTemplateName);
                     }
                 }
             }
         } else {
             emailTemplateInitial = new EmailTemplateInitialDefault(
-                    templateLabels, whatId, recipientId, recipientName, recipientLanguage, outputMode, communityTemplateName
+                    whatId, recipientId, recipientName, recipientLanguage, outputMode, communityTemplateName
             );
         }
         return emailTemplateInitial;
