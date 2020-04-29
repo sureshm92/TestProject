@@ -9746,7 +9746,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Remove Delegate</shortDescription>
-        <value>Remove Delegate</value>
+        <value>Deactivate Delegate</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_Remove_Himself</fullName>
@@ -11458,6 +11458,13 @@
         <protected>true</protected>
         <shortDescription>Patient</shortDescription>
         <value>Patient</value>
+    </labels>
+    <labels>
+        <fullName>Patient_Delegate_Deactivate_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Patient Delegate Deactivate Mess</shortDescription>
+        <value>You are about to deactivate ##Name from your account. Do you want to proceed?</value>
     </labels>
     <labels>
         <fullName>Phone_Type_Home</fullName>

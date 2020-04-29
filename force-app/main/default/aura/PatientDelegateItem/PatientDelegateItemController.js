@@ -4,14 +4,26 @@
 ({
     handleClick: function (component, event, helper) {
         let parent = component.get('v.parentComponent');
-        parent.find('mainSpinner').show();
 
-        communityService.executeAction(component, 'changeDelegateStatus', {
-            contactId: component.get('v.contact').Id,
-            isActive: !component.get('v.isActive')
-        }, function () {
-            parent.find('mainSpinner').hide();
-            parent.refresh();
-        });
+        let isActive = !component.get('v.isActive');
+        let callback = function () {
+            communityService.executeAction(component, 'changeDelegateStatus', {
+                contactId: component.get('v.contact').Id,
+                isActive: isActive
+            }, function () {
+                parent.find('mainSpinner').hide();
+                parent.refresh();
+            });
+
+        };
+        if(!isActive) {
+            let contact = component.get('v.contact');
+            let messText = $A.get('$Label.c.Patient_Delegate_Deactivate_Mess').replace('##Name', contact.FirstName + ' ' + contact.LastName);
+            let actionRemoveDelegate = component.get('v.parentComponent').find('actionRemoveDelegate');
+            actionRemoveDelegate.execute(messText, callback);
+        } else {
+            parent.find('mainSpinner').show();
+            callback();
+        }
     }
 });
