@@ -11,18 +11,17 @@ global without sharing class EmailTemplateDelegatePartController {
 
     public List<String> getDelegateStudyNames() {
         List<Id> participantIds = new List<Id>();
-        if (sourceIdValue != null) {
-            if (sourceIdValue.getSobjectType() == Participant__c.getSObjectType()) participantIds.add(sourceIdValue);
-            if (sourceIdValue.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
-                List<Participant_Enrollment__c> pes = [
-                        SELECT Id, Participant__c, Clinical_Trial_Profile__r.CommunityTemplate__c
-                        FROM Participant_Enrollment__c
-                        WHERE Id = :sourceIdValue
-                ];
-                for (Participant_Enrollment__c pe : pes) {
-                    participantIds.add(pe.Participant__c);
-                    commTemplateStr = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
-                }
+        if (sourceIdValue != null && sourceIdValue.getSobjectType() == Participant__c.getSObjectType()) {
+            participantIds.add(sourceIdValue);
+        } else if (sourceIdValue != null && sourceIdValue.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
+            List<Participant_Enrollment__c> pes = [
+                    SELECT Id, Participant__c, Clinical_Trial_Profile__r.CommunityTemplate__c
+                    FROM Participant_Enrollment__c
+                    WHERE Id = :sourceIdValue
+            ];
+            for (Participant_Enrollment__c pe : pes) {
+                participantIds.add(pe.Participant__c);
+                commTemplateStr = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
             }
         } else {
             Id delConId = delegateUserId;
@@ -37,7 +36,7 @@ global without sharing class EmailTemplateDelegatePartController {
         if (participantIds.isEmpty()) return delegateStudyNames;
 
         List<Participant_Enrollment__c> delegatePE = [
-                SELECT Clinical_Trial_Profile__r.Study_Code_Name__c
+                SELECT Clinical_Trial_Profile__r.Study_Code_Name__c, CreatedDate
                 FROM Participant_Enrollment__c
                 WHERE Participant__c IN:participantIds
                 AND Clinical_Trial_Profile__r.CommunityTemplate__c = :commTemplateStr
