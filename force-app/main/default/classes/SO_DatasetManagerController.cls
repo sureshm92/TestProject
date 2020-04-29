@@ -274,6 +274,12 @@ public without sharing class SO_DatasetManagerController {
                 field.value = fieldMap.get(fieldName);
 
                 // ------ this block prepares value options for field types: REFERENCE, RECORDTYPE, PICKLIST ------
+                if (objectMap.get(fieldName) == null) {
+                    ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.WARNING,
+                            'Field [' + fieldName + '] is not available in Object [' + record.apiName + ']. It will be dropped if you apply changes.'));
+                    record.error = true;
+                    continue;
+                }
                 DescribeFieldResult fieldResult = objectMap.get(fieldName).getDescribe();
                 if (fieldResult.getType() == DisplayType.REFERENCE) {
                     for (SObjectType objectType : fieldResult.getReferenceTo()) {
@@ -605,6 +611,13 @@ public without sharing class SO_DatasetManagerController {
                 record.error = false;
                 if (record.values != null) {
                     for (Field field : record.values) {
+                        SObjectField soField = fieldMap.get(field.name);
+                        if (soField == null) {
+                            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
+                                    'INVALID CONFIG: Field [' + field.name + '] doesn\'t exist in Object [' + record.apiName + ']'));
+                            record.error = true;
+                            continue;
+                        }
                         if (fieldMap.get(field.name).getDescribe().getType() == DisplayType.REFERENCE && allObjectsShort.contains(field.value)) {
                             if (!advanceObjects.contains(field.value)) {      // if field.value is a Reference, but it's not found in advanceObjects then set ERROR
                                 record.error = true;
@@ -742,4 +755,3 @@ public without sharing class SO_DatasetManagerController {
         }
     }
 }
-
