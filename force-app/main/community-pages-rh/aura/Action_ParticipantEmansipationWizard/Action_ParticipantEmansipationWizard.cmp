@@ -256,8 +256,8 @@
                         <div>
                             <button class="apollo-btn secondary"
                                     style="margin-top: 10px; box-shadow: none; border: none; font-weight: 600; background-color: rgb(255, 255, 255);"
-                                    disabled="{!v.delegateItemsDisabled}"
-                                    title="{!!v.delegateItemsDisabled ? $Label.c.RSN_Your_permissions_do_not_permit_this_action : ''}"
+                                    disabled="{!v.actions.screenerResponses.disabled}"
+                                    title="{!v.actions.screenerResponses.disabled ? $Label.c.RSN_Your_permissions_do_not_permit_this_action : ''}"
                                     onclick="{!c.doAddDelegate}">{!$Label.c.Add_Delegate}
                                 <div style="margin-left: -125px;"><c:RRIcon color="#297dfd" iconName="icon-plus"/></div>
                             </button>
