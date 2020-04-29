@@ -9749,6 +9749,13 @@
         <value>Deactivate Delegate</value>
     </labels>
     <labels>
+        <fullName>PG_PST_L_Delegates_Remove_Himself_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Remove Himself Header</shortDescription>
+        <value>Remove Delegate</value>
+    </labels>
+    <labels>
         <fullName>PG_PST_L_Delegates_Remove_Himself</fullName>
         <language>en_US</language>
         <protected>false</protected>

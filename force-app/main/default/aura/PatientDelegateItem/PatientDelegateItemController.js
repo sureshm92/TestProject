@@ -19,8 +19,9 @@
         if(!isActive) {
             let contact = component.get('v.contact');
             let messText = $A.get('$Label.c.Patient_Delegate_Deactivate_Mess').replace('##Name', contact.FirstName + ' ' + contact.LastName);
+            let titText = $A.get('$Label.c.PG_PST_L_Delegates_Remove_Delegate');
             let actionRemoveDelegate = component.get('v.parentComponent').find('actionRemoveDelegate');
-            actionRemoveDelegate.execute(messText, callback);
+            actionRemoveDelegate.execute(messText, titText, callback);
         } else {
             parent.find('mainSpinner').show();
             callback();

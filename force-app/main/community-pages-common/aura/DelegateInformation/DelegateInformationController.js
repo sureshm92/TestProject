@@ -15,9 +15,10 @@
 
     onClickWithdraw : function (component, event, helper) {
         var messageText = $A.get('$Label.c.PG_PST_L_Delegates_Remove_Himself');
+        var titleText = $A.get('$Label.c.PG_PST_L_Delegates_Remove_Himself_Header');
         var contact = component.get('v.contact');
         var actionRemoveDelegate = component.get('v.parentComponent').find('actionRemoveDelegate');
-        actionRemoveDelegate.execute(messageText, function(){
+        actionRemoveDelegate.execute(messageText, titleText, function(){
             communityService.executeAction(component, 'withdrawDelegate', {
                 contactId : contact.Id,
                 removeHimself: true
