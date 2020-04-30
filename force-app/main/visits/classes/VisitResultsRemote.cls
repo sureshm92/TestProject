@@ -12,6 +12,7 @@ public inherited sharing class VisitResultsRemote {
             wrapper.isResultsExist = !VisitResultSharingService.processResults().isEmpty();
             wrapper.visitResultsGroupNames = ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class)).getVisitResultsGroupNames(visitResultsMode);
             wrapper.isDelegate = ParticipantContext.isCurrentDelegate();
+            wrapper.toggleState = togglesState(visitResultsMode);
             return wrapper;
         } catch (Exception e) {
             AuraHelper.throwException(e);
@@ -68,7 +69,33 @@ public inherited sharing class VisitResultsRemote {
         return null;
     }
 
-    public class InitDataWrapper {
+    public static Boolean togglesState(String visitResultsMode) {
+        return ParticipantContext.getCurrentContact().Visit_Results_OptIn__c.contains(visitResultsMode);
+    }
+    
+    @AuraEnabled
+    public static void switchToggleRemote(String visitResultsMode, Boolean isToggleOn) {
+        System.debug('>>>>>>visitResultsMode ' + visitResultsMode + ' >>>>>>>isToggleOn ' + isToggleOn);
+        Contact currentContact = ParticipantContext.getCurrentContact();
+        String currentVisitResults =currentContact.Visit_Results_OptIn__c;
+        String updatedVisitResults = '';
+        if (isToggleOn) {
+            updatedVisitResults = currentVisitResults+ ';' + visitResultsMode;
+        } else {
+            List<String> visitResults = currentVisitResults.split(';');
+            for (String str : visitResults) {
+                if (!str.equals(visitResultsMode)) updatedVisitResults = updatedVisitResults + str + ';';
+            }
+        }
+//        currentContact.Visit_Results_OptIn__c = updatedVisitResults;
+//        update (currentContact);
+        ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
+                .updateRecord(new Contact(Id = currentContact.Id, Visit_Results_OptIn__c = updatedVisitResults), true);
+    }
+
+
+
+        public class InitDataWrapper {
 
         @AuraEnabled
         public Contact contact;
@@ -80,5 +107,7 @@ public inherited sharing class VisitResultsRemote {
         public Boolean isResultsExist;
         @AuraEnabled
         public List<String> visitResultsGroupNames;
+        @AuraEnabled
+        public Boolean toggleState;
     }
 }

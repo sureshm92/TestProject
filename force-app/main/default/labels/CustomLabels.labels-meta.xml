@@ -14082,6 +14082,13 @@
         <value>My Results</value>
     </labels>
     <labels>
+        <fullName>Visit_Results_Tab_Biomarkers</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Biomarkers</shortDescription>
+        <value>Biomarkers</value>
+    </labels>
+    <labels>
         <fullName>Visit_Results_Tab_Disclaimer</fullName>
         <language>en_US</language>
         <protected>true</protected>
