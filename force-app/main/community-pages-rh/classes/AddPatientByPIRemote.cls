@@ -64,18 +64,11 @@ public without sharing class AddPatientByPIRemote {
                 if (!actionAssignContactPermissions.isEmpty()) {
                     ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
                 }
-
-                createCommunityUser(new Map<Id, Id> { newParticipant.Contact__c => null });
             }
             //Moved history Creation to Trigger
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
-    }
-
-    @Future
-    private static void createCommunityUser(Map<Id, Id> toCreateUser) {
-        if (!toCreateUser.isEmpty()) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
     }
 
     @AuraEnabled
