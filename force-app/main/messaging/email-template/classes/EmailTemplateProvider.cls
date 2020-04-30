@@ -18,7 +18,6 @@ public virtual without sharing class EmailTemplateProvider {
     protected String userMode;
 
     private Boolean isHTML;
-    private static Boolean isReady = false;
 
     private static EmailTemplateInitial templateInitial;
     public static void setTemplateInitial(EmailTemplateInitial initial) {
@@ -61,12 +60,7 @@ public virtual without sharing class EmailTemplateProvider {
         }
         if(!templateInitial.additionalParams.isEmpty()) parameters.putAll(templateInitial.additionalParams);
 
-        isReady = true;
         System.debug('PARAMS: ' + JSON.serializePretty(parameters));
-    }
-
-    public static Boolean isReady() {
-        return isReady;
     }
 
     public Map<String, String> getParameters() {
