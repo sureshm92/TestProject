@@ -693,11 +693,12 @@ lightning-datepicker lightning-button-icon .slds-button svg {
 
 /*--------------------------------------------------------- Error -------------------------------------------------------------*/
 .rr-error-message {
-    height: 21px;
-    color: #FF0031;
-    font-size: 13px;
-    font-weight: 500;
-    line-height: 21px;
+    min-height: 1.1rem;
+    color: rgb(194, 57, 52);
+    font-size: .75rem;
+    margin-top: .125rem;
+    font-weight: 400;
+    line-height: 1.1rem;
     -moz-transition: height 1s ease;
     -webkit-transition: height 1s ease;
     -o-transition: height 1s ease;
@@ -707,13 +708,13 @@ lightning-datepicker lightning-button-icon .slds-button svg {
 
 input.rr-input-error,
 .rr-input-error input {
-    border: 1px solid #FF0031 !important;
-    color: #FF0031 !important;
+    border: 1px solid rgb(194, 57, 52) !important;
+    color: rgb(194, 57, 52) !important;
 }
 
 select.rr-select-error,
 .rr-select-error select {
-    border: 1px solid #FF0031 !important;
+    border: 1px solid rgb(194, 57, 52) !important;
 }
 
 

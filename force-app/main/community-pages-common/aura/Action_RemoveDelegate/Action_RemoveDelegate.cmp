@@ -7,15 +7,17 @@
     <!-- attributes:-->
     <aura:attribute name="callback" type="Object"/>
     <aura:attribute name="messageText" type="String"/>
+    <aura:attribute name="titleText" type="String"/>
 
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
         <aura:attribute name="messageText" type="String"/>
+        <aura:attribute name="titleText" type="String"/>
         <aura:attribute name="callback" type="Function"/>
     </aura:method>
 
     <!-- component body:-->
-    <c:Popup aura:id="deleteDelegateDialog" title="{!$Label.c.PG_PST_L_Delegates_Remove_Delegate}" size="small">
+    <c:Popup aura:id="deleteDelegateDialog" title="{!v.titleText}" size="small">
         <c:RRSpinner aura:id="spinner"/>
         {!v.messageText}
         <aura:set attribute="footerButtons">

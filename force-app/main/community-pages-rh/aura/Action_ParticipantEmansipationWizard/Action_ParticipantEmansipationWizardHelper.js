@@ -73,16 +73,6 @@
         };
     },
 
-    prepareDelegates : function (component) {
-        let delegateParticipant = {
-            sObjectType: 'Participant__c',
-            selectedOption: '1'
-        };
-        let delegateItems = [];
-        delegateItems.push(delegateParticipant);
-        component.set('v.delegateItems', delegateItems);
-    },
-
     updateParticipantAndDelegate : function (component) {
         component.find('spinner').show();
 
@@ -90,7 +80,7 @@
         let delegateItems = component.get('v.delegateItems');
         let delegateToProceedItems = [];
         for (let ind = 0; ind < delegateItems.length; ind++) {
-            if (delegateItems[ind].Contact__c != undefined && delegateItems[ind].selectedOption == '2') {
+            if (delegateItems[ind].Contact__c && delegateItems[ind].selectedOption == '2') {
                 doNotContinueIds.push(delegateItems[ind].Contact__c);
             }
             delete delegateItems[ind].selectedOption;
@@ -98,6 +88,7 @@
             delete delegateItems[ind].continueDelegateMsg;
             delete delegateItems[ind].isConnected;
             delete delegateItems[ind].fromStart;
+            delete delegateItems[ind].isDuplicate;
             if (delegateItems[ind].fromStart) {
                 delegateToProceedItems.push(delegateItems[ind]);
             }
@@ -191,6 +182,7 @@
                 delegateItems[ind].selectedOption = '1';
                 delegateItems[ind].isConnected = true;
                 delegateItems[ind].fromStart = true;
+                delegateItems[ind].isDuplicate = false;
                 var statesByCountryMap = component.get('v.formData.statesByCountryMap');
                 let states = statesByCountryMap[delegateItems[ind].Mailing_Country_Code__c];
                 delegateItems[ind].statesDelegateLVList = states;

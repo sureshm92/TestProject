@@ -80,7 +80,6 @@ public without sharing class PEStatusState {
     public static final String PE_STATUS_RANDOMIZATION_FAILED = 'Randomization Failed';//TODO:check
 
     public static final String PE_STATUS_WITHDREW_CONSENT_AFTER_SCREENING = 'Withdrew Consent After Screening';
-    public static final String PE_STATUS_DECLINED_FINAL_CONSENT = 'Declined Final Consent';
 
 
     public static final String PE_STATUS_PENDING_REFERRAL = 'Pending Referral';
@@ -116,8 +115,7 @@ public without sharing class PEStatusState {
             PE_STATUS_FAILED_REVIEW,
             PE_STATUS_FAILED_REFERRAL,
             PE_STATUS_EXCLUDED_FROM_REFERRING,
-            PE_STATUS_WITHDREW_CONSENT_AFTER_SCREENING,
-            PE_STATUS_DECLINED_FINAL_CONSENT
+            PE_STATUS_WITHDREW_CONSENT_AFTER_SCREENING
     };
     
     public static final List<String> PE_STATUS_GROUP_ALUMNI = new List<String>{
@@ -218,7 +216,6 @@ public without sharing class PEStatusState {
             PE_STATUS_ENROLLMENT_FAILED,
             PE_STATUS_RANDOMIZATION_FAILED,
             PE_STATUS_WITHDREW_CONSENT_AFTER_SCREENING,
-            PE_STATUS_DECLINED_FINAL_CONSENT,
             PE_STATUS_TRIAL_COMPLETE,
             PE_STATUS_DROP_OUT,
             PE_STATUS_DECEASED
@@ -253,20 +250,11 @@ public without sharing class PEStatusState {
     public static final List<String> PE_STATUS_GROUP_PARTICIPANT_IMPORT = new List<String>{
             PE_STATUS_RECEIVED,
             PE_STATUS_SUCCESSFULLY_CONTACTED,
-            PE_STATUS_ENROLLMENT_OLD,
+            PE_STATUS_READY_TO_SCREEN,
             PE_STATUS_SCREENING_PASSED,
             PE_STATUS_RANDOMIZATION_SUCCESS,
             PE_STATUS_ENROLLMENT_SUCCESS
 
-    };
-
-    public static final List<String> PE_STATUS_GROUP_ADD_PATIENT_BY_PI = new List<String>{
-            PE_STATUS_RECEIVED,
-            PE_STATUS_SUCCESSFULLY_CONTACTED,
-            PE_STATUS_ENROLLMENT_OLD,
-            PE_STATUS_SCREENING_PASSED,
-            PE_STATUS_RANDOMIZATION_SUCCESS,
-            PE_STATUS_ENROLLMENT_SUCCESS
     };
 
     public static final List<String> PE_STATUS_GROUP_PI_VISIBLE;
@@ -301,7 +289,7 @@ public without sharing class PEStatusState {
             new StatusStep(PE_ST_ENROLLED_RANDOMIZED,
                     new Map<String, List<String>>{
                             STATUS_STATE_SUCCESS => new List<String>{PE_STATUS_ENROLLMENT_SUCCESS, PE_STATUS_RANDOMIZATION_SUCCESS},
-                            STATUS_STATE_FAILURE => new List<String>{PE_STATUS_ENROLLMENT_FAILED, PE_STATUS_RANDOMIZATION_FAILED, PE_STATUS_WITHDREW_CONSENT_AFTER_SCREENING, PE_STATUS_DECLINED_FINAL_CONSENT}
+                            STATUS_STATE_FAILURE => new List<String>{PE_STATUS_ENROLLMENT_FAILED, PE_STATUS_RANDOMIZATION_FAILED, PE_STATUS_WITHDREW_CONSENT_AFTER_SCREENING}
                     })
 
     };
@@ -347,7 +335,6 @@ public without sharing class PEStatusState {
             PE_STATUS_RANDOMIZATION_SUCCESS => 5,
             PE_STATUS_RANDOMIZATION_FAILED => 5,
             PE_STATUS_WITHDREW_CONSENT_AFTER_SCREENING => 5,
-            PE_STATUS_DECLINED_FINAL_CONSENT => 5,
             PE_STATUS_TREATMENT_PERIOD_STARTED => 6,
             PE_STATUS_FOLLOW_UP_PERIOD_STARTED => 7,
             PE_STATUS_PARTICIPATION_COMPLETE => 8,
@@ -493,27 +480,12 @@ public without sharing class PEStatusState {
 
     public static List<String> getParticipantImportStatuses(Clinical_Trial_Profile__c ctp){
         List<String> statuses = ParticipantWorkflowService.filterStatusesForCTPSettings(PE_STATUS_GROUP_PARTICIPANT_IMPORT, ctp);
-        statuses.add(2, PE_STATUS_ENROLLMENT_OLD);
         return  statuses;
     }
 
     public static List<LabelValueItem> getParticipantImportStatusesLV(Clinical_Trial_Profile__c ctp){
         return  getStatusesLV(getParticipantImportStatuses(ctp), new Map<String, String>{
-                PE_STATUS_RECEIVED => TranslateHelper.getLabelValue('PWS_Contact_Outcome_Placeholder'),
-                PE_STATUS_ENROLLMENT_OLD => TranslateHelper.getLabelValue('PWS_Contact_Outcome_Screening')
-        });
-    }
-
-    public static List<String> getAddPatientByPIStatuses(Clinical_Trial_Profile__c ctp){
-        List<String> statuses = ParticipantWorkflowService.filterStatusesForCTPSettings(PE_STATUS_GROUP_ADD_PATIENT_BY_PI, ctp);
-        statuses.add(2, PE_STATUS_ENROLLMENT_OLD);
-        return  statuses;
-    }
-
-    public static List<LabelValueItem> getAddPatientByPIStatusesLV(Clinical_Trial_Profile__c ctp){
-        return  getStatusesLV(getAddPatientByPIStatuses(ctp), new Map<String, String>{
-                PE_STATUS_RECEIVED => TranslateHelper.getLabelValue('PWS_Contact_Outcome_Placeholder'),
-                PE_STATUS_ENROLLMENT_OLD => TranslateHelper.getLabelValue('PWS_Contact_Outcome_Screening')
+                PE_STATUS_RECEIVED => TranslateHelper.getLabelValue('PWS_Contact_Outcome_Placeholder')
         });
     }
 

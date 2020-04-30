@@ -32,6 +32,10 @@ public without sharing class PENotificationTriggerHandler {
                 PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS,
                 PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS
         };
+        List<String> skipNotifyTypesDel = new List<String>{
+                NotificationCatalog.MESSAGE_TO_PT_DROP_OUT_TYPE,
+                NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE
+        };
         List<Notification__c> notifications = new List<Notification__c>();
         List<Id> participantConIds = new List<Id>();
         List<Participant_Enrollment__c> PEs = [
@@ -122,7 +126,7 @@ public without sharing class PENotificationTriggerHandler {
                 participantConIds, new List<String>{'Id'}
         );
         for (Notification__c n : notifications) {
-            if (n.Notification_Type__c != NotificationCatalog.MESSAGE_TO_PT_DROP_OUT_TYPE && delegateContactsByPartCnt.containsKey(n.Recipient__c)) {
+            if (!skipNotifyTypesDel.contains(n.Notification_Type__c) && delegateContactsByPartCnt.containsKey(n.Recipient__c)) {
                 for (Contact contact : delegateContactsByPartCnt.get(n.Recipient__c)) {
                     delegateNotifications.add(new Notification__c(
                             Recipient__c = contact.Id,
@@ -134,7 +138,7 @@ public without sharing class PENotificationTriggerHandler {
             }
         }
         notifications.addAll(delegateNotifications);
-        System.debug('delegateNotifications' + delegateNotifications);
+
         insert notifications;
     }
 
