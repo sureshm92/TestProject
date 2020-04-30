@@ -17,7 +17,8 @@ global without sharing class EmailTemplateDelegatePartController {
                 List<Participant_Enrollment__c> pes = [
                         SELECT Id, Participant__c
                         FROM Participant_Enrollment__c
-                        WHERE Id =: sourceIdValue];
+                        WHERE Id =: sourceIdValue
+                ];
                 for(Participant_Enrollment__c pe : pes) {
                     participantIds.add(pe.Participant__c);
                 }
@@ -36,6 +37,7 @@ global without sharing class EmailTemplateDelegatePartController {
                 FROM Participant_Enrollment__c
                 WHERE Participant__c IN:participantIds
                 AND Clinical_Trial_Profile__r.CommunityTemplate__c = :EmailTemplateProvider.getInstance().getCommunityTemplateName()
+                ORDER BY CreatedDate
         ];
         for (Participant_Enrollment__c pe : delegatePE) delegateStudyNames.add(pe.Clinical_Trial_Profile__r.Study_Code_Name__c);
 
