@@ -347,6 +347,7 @@ public without sharing class ParticipantEnrollmentService {
 
     public static final List<String> PE_COMMON_FIELDS = new List<String>{
             'Id',
+            'Clinical_Trial_Profile__c',
             'Clinical_Trial_Profile__r.Profile_Picture__c',
             'Clinical_Trial_Profile__r.Patient_Portal_Enabled__c',
             'Clinical_Trial_Profile__r.Detailed_Description__c',
@@ -503,7 +504,8 @@ public without sharing class ParticipantEnrollmentService {
             'Initial_visit_scheduled_flag__c',
             'Revisit_Date__c',
             'Final_consent__c',
-            'Non_Enrollment_Reason__c'
+            'Non_Enrollment_Reason__c',
+            'Last_Status_Changed_Notes__c'
     };
 
     public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter) {

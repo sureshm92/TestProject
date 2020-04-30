@@ -10,7 +10,7 @@
             group.fields.forEach(function (field) {
                 console.log(field.field + ' ' + field.value + ' required:' + field.required + ' valid:' + field.valid + ' dependent:' + field.dependent);
                 if (isCurrentStepValid &&
-                    (((field.required && !field.readonly) && (currentOutcomeSuccess || field.dependent)) && (!field.value || field.value.trim() === '')
+                    ((field.required && ((!field.dependent && currentOutcomeSuccess) || (field.dependent && field.dependentActive))) && (!field.value || field.value.trim() === '')
                         || field.valid === false)) {
                     isCurrentStepValid = false;
                 }

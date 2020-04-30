@@ -164,7 +164,7 @@
 .THIS .ss-info-buttons {
     margin-top: 4%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
 }
 
 @media all and (max-width: 1000px) {
