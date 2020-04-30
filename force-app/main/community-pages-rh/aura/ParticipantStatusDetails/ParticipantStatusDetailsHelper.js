@@ -34,7 +34,7 @@
                 for (let j = 0; j < stepWrapper.formFieldGroups[i].fields.length; j++) {
                     for (let k = 0; k < dependentFields.length; k++) {
                         if (dependentFields[k].fieldName === stepWrapper.formFieldGroups[i].fields[j].field) {
-                            if (dependentFields[k].controllingValue.indexOf(value) !== -1) {
+                            if (dependentFields[k].controllingValue.indexOf(value) !== -1 && value !== '') {
                                 stepWrapper.formFieldGroups[i].fields[j].dependentActive = true;
                                 if (stepWrapper.formFieldGroups[i].fields[j].populateFromDependent !== null && (stepWrapper.formFieldGroups[i].fields[j].value === null || stepWrapper.formFieldGroups[i].fields[j].value === '')) {
                                     for (let k = 0; k < stepWrapper.formFieldGroups.length; k++) {
@@ -49,6 +49,8 @@
                                 // stepWrapper.formFieldGroups[i].fields[j].required = false;
                                 if (stepWrapper.formFieldGroups[i].fields[j].strictDependency){
                                     stepWrapper.formFieldGroups[i].fields[j].value = '';
+                                    helper.updateDependentFields(component, event, helper, stepWrapper,stepWrapper.formFieldGroups[i].fields[j].field , '');
+                                //    TODO: rework in future for cascade updates
                                 }
                             }
                        }

@@ -9746,6 +9746,13 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Remove Delegate</shortDescription>
+        <value>Deactivate Delegate</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Remove_Himself_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Remove Himself Header</shortDescription>
         <value>Remove Delegate</value>
     </labels>
     <labels>
@@ -9753,7 +9760,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Remove Himself</shortDescription>
-        <value>You are about to remove yourself from the Delegate list. If you choose to continue your account will be deactivated. You cannot undo this action.  Do you want to proceed?</value>
+        <value>You are about to remove yourself from the Delegate list. You cannot undo this action.  Do you want to proceed?</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_Remove_Mess</fullName>
@@ -11198,7 +11205,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PWS Declined Conscent Disclaimer</shortDescription>
-        <value>Test Declined Consent Disclaimer</value>
+        <value>On Initial Visit tab, update informed consent to "yes" and save to proceed with screening.</value>
     </labels>
     <labels>
         <fullName>PWS_Eligibility_Card_Name</fullName>
@@ -11415,7 +11422,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PWS Withdrew Conscent Disclaimer</shortDescription>
-        <value>Test Withdrew Consent Disclaimer</value>
+        <value>On Initial Visit tab, update informed consent date (add a note if date is same as initial date of consent) and save to proceed with screening.</value>
     </labels>
     <labels>
         <fullName>Participant_Created_Date</fullName>
@@ -11458,6 +11465,13 @@
         <protected>true</protected>
         <shortDescription>Patient</shortDescription>
         <value>Patient</value>
+    </labels>
+    <labels>
+        <fullName>Patient_Delegate_Deactivate_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Patient Delegate Deactivate Mess</shortDescription>
+        <value>You are about to deactivate ##Name from your account. Do you want to proceed?</value>
     </labels>
     <labels>
         <fullName>Phone_Type_Home</fullName>

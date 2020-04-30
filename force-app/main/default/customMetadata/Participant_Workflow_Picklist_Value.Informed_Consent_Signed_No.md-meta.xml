@@ -24,7 +24,7 @@
     </values>
     <values>
         <field>Selected_Condition__c</field>
-        <value xsi:type="xsd:string">Informed_Consent__c == false &amp;&amp; Participant_Status__c &lt;&gt; Declined Consent &amp;&amp; Participant_Status__c &lt;&gt; Withdrew</value>
+        <value xsi:type="xsd:string">Informed_Consent__c == false &amp;&amp; Participant_Status__c &lt;&gt; Declined Consent &amp;&amp; Participant_Status__c &lt;&gt; Withdrew Consent</value>
     </values>
     <values>
         <field>Show_Only_If_Selected__c</field>
