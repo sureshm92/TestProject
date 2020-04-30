@@ -1,7 +1,7 @@
 /**
  * Created by Dmytro Pokutnii
  */
-public inherited sharing class VisitResultsRemote {
+public without sharing class VisitResultsRemote {
 
     @AuraEnabled
     public static InitDataWrapper getInitData(String visitResultsMode) {
@@ -45,9 +45,10 @@ public inherited sharing class VisitResultsRemote {
     @AuraEnabled
     public static Boolean changeOptInOnTrue(Id contactId) {
         try {
-            if(!ParticipantContext.isCurrentDelegate()) {
-                ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
-                        .updateRecord(new Contact(Id = contactId, Visit_Results_Opt_In__c = true), true);
+            if (!ParticipantContext.isCurrentDelegate()) {
+                List<Contact> currentContact = [SELECT Id,Visit_Results_Opt_In__c FROM Contact WHERE Id=:contactId];
+                currentContact.get(0).Visit_Results_Opt_In__c = true;
+                update currentContact;
                 return true;
             } else {
                 return false;
@@ -70,32 +71,30 @@ public inherited sharing class VisitResultsRemote {
     }
 
     public static Boolean togglesState(String visitResultsMode) {
-        return ParticipantContext.getCurrentContact().Visit_Results_OptIn__c.contains(visitResultsMode);
+        Contact currentContact = ParticipantContext.getCurrentContact();
+        String currentVisitResults = currentContact.Visit_Results_OptIn__c == null ? '' : currentContact.Visit_Results_OptIn__c;
+        return currentVisitResults.contains(visitResultsMode);
     }
-    
+
     @AuraEnabled
     public static void switchToggleRemote(String visitResultsMode, Boolean isToggleOn) {
-        System.debug('>>>>>>visitResultsMode ' + visitResultsMode + ' >>>>>>>isToggleOn ' + isToggleOn);
         Contact currentContact = ParticipantContext.getCurrentContact();
-        String currentVisitResults =currentContact.Visit_Results_OptIn__c;
+        String currentVisitResults = currentContact.Visit_Results_OptIn__c == null ? '' : currentContact.Visit_Results_OptIn__c;
         String updatedVisitResults = '';
         if (isToggleOn) {
-            updatedVisitResults = currentVisitResults+ ';' + visitResultsMode;
+            updatedVisitResults = currentVisitResults + ';' + visitResultsMode;
         } else {
             List<String> visitResults = currentVisitResults.split(';');
             for (String str : visitResults) {
-                if (!str.equals(visitResultsMode)) updatedVisitResults = updatedVisitResults + str + ';';
+                if (!str.equals(visitResultsMode)) updatedVisitResults += str + ';';
             }
         }
-//        currentContact.Visit_Results_OptIn__c = updatedVisitResults;
-//        update (currentContact);
-        ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
-                .updateRecord(new Contact(Id = currentContact.Id, Visit_Results_OptIn__c = updatedVisitResults), true);
+        currentContact.Visit_Results_OptIn__c = updatedVisitResults;
+        update currentContact;
     }
 
 
-
-        public class InitDataWrapper {
+    public class InitDataWrapper {
 
         @AuraEnabled
         public Contact contact;
