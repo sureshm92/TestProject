@@ -41,8 +41,10 @@ public without sharing class AddPatientByPIRemote {
     @AuraEnabled
     public static void saveParticipant(String participantJSON, String peJSON, String userLanguage, String ssId, Boolean createUser){
         try {
-            TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
-            TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class);
+            if (!createUser) {
+                TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
+                TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class);
+            }
 
             Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
             trimParticipantFields(participant);
