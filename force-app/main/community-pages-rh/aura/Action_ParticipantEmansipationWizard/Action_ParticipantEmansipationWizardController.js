@@ -47,7 +47,6 @@
             });
 
             component.set('v.participantMsgWithName', $A.get("$Label.c.PG_Ref_L_Participant_require_invitation").replace('##participantName', pe.Participant__r.First_Name__c + ' ' + pe.Participant__r.Last_Name__c));
-            helper.prepareDelegates(component);
 
             component.find('dialog').show();
         } catch (e) {
@@ -207,7 +206,8 @@
               Adult__c: true,
               Phone_Type__c: 'Home',
               isConnected: false,
-              fromStart: false
+              fromStart: false,
+              isDuplicate: false
             });
         component.set('v.delegateItems', delegateItems);
     }

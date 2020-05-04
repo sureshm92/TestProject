@@ -3,6 +3,10 @@
     <label>Withdrew Consent</label>
     <protected>false</protected>
     <values>
+        <field>Condition_for_Auto_Update__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Disclaimer_if_Current__c</field>
         <value xsi:type="xsd:string">PWS_Withdrew_Conscent_Disclaimer</value>
     </values>
@@ -33,5 +37,9 @@
     <values>
         <field>Step__c</field>
         <value xsi:type="xsd:string">Screening</value>
+    </values>
+    <values>
+        <field>Suppress_Multiple__c</field>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
 </CustomMetadata>

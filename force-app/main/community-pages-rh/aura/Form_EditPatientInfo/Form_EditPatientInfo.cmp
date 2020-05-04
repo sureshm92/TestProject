@@ -15,6 +15,7 @@
     <aura:attribute name="isFinalUpdate" type="Boolean" default="false"/>
     <aura:attribute name="isRefreshView" type="Boolean" default="false"/>
     <aura:attribute name="visitPlanRequired" type="Boolean" default="false"/>
+    <aura:attribute name="visitPlanAvailable" type="Boolean" default="false"/>
     <aura:attribute name="fromActionParticipant" type="Boolean" default="false"/>
     <aura:attribute name="disableSourceId" type="Boolean" default="true"/>
     <aura:attribute name="hideHelp" type="Boolean" default="true"/>
@@ -246,23 +247,30 @@
                     <div class="label">{!$Label.c.MRN_Internal_Id}</div>
                     <lightning:input aura:id="mrnId" type="text" value="{!v.pe.MRN_Id__c}" onblur="{!c.doCheckFields}"/>
                 </div>
-                <aura:if isTrue="{!v.visitPlanRequired}">
+                <aura:if isTrue="{!v.visitPlanAvailable}">
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                         <div class="label">
-                            <aura:if isTrue="{!v.screeningRequired}">
+                            <aura:if isTrue="{!v.visitPlanRequired}">
                                 <abbr title="required" class="slds-required">*</abbr>
                             </aura:if>{!$Label.c.FD_PE_Field_Arm_Cohort}
                         </div>
                         <c:rrSelect options="{!v.formData.visitPlansLVList}" disabled="{!v.visitPlanDisabled || v.formData.visitPlansLVList.length == 1}"
-                                    value="{!v.pe.Visit_Plan__c}" placeholder="{!$Label.c.PG_AC_Select}" required="{!v.screeningRequired}"
+                                    value="{!v.pe.Visit_Plan__c}" placeholder="{!$Label.c.PG_AC_Select}" required="{!v.visitPlanRequired}"
                                     useSentenceFont="false" onchange="{!c.doCheckFields}" setValueAsSelected="true"/>
                     </div>
                 </aura:if>
 
                 <aura:if isTrue="{!v.fromAddParticipantPage}">
-                    <div class="slds-col slds-size--7-of-12 slds-grid slds-grid--vertical-align-center" style="margin-top: 30px;">
-                        <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.createUsers}"/>
-                        <div class="slds-size--10-of-12">{!$Label.c.Create_Users_Checkbox}</div>
+                    <div class="slds-form-element" style="margin-top: 30px; margin-left: 10px;">
+                        <div class="slds-form-element__control">
+                            <div class="slds-checkbox">
+                                <input type="checkbox" name="options" id="checkbox-unique-id-73" value="checkbox-unique-id-73" onclick="{!c.doCreateUserInv}"/>
+                                <label class="slds-checkbox__label" for="checkbox-unique-id-73">
+                                    <span class="slds-checkbox_faux"></span>
+                                    <span class="slds-form-element__label">{!$Label.c.Create_Users_Checkbox}</span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </aura:if>
             </div>

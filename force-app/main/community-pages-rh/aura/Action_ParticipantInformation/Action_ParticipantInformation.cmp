@@ -30,6 +30,7 @@
     <aura:attribute name="participantPath" type="Object"/>
     <aura:attribute name="userInfo" type="Object"/>
 
+    <aura:handler name="change" value="{!v.pe}" action="{!c.checkParticipant}"/>
 
     <!-- methods -->
     <aura:method name="execute" action="{!c.doExecute}" access="public">

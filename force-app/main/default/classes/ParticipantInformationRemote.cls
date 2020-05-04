@@ -221,6 +221,10 @@ public without sharing class ParticipantInformationRemote {
                 delegateParticipant.Contact__c = delegateContact.Id;
                 isConnectedRes.contactId = delegateContact.Id;
             }
+            if (String.isBlank(delegateParticipant.Phone__c)) {
+                delegateParticipant.Phone__c = participant.Phone__c;
+                delegateParticipant.Phone_Type__c = participant.Phone_Type__c;
+            }
             upsert delegateParticipant;
             isConnectedRes.participantId = delegateParticipant.Id;
 
@@ -366,14 +370,16 @@ public without sharing class ParticipantInformationRemote {
         try {
             ParticipantWorkflowService.ParticipantWorkflowWrapper pathWrapper =
                     (ParticipantWorkflowService.ParticipantWorkflowWrapper)JSON.deserialize(pathWrapperJSON, ParticipantWorkflowService.ParticipantWorkflowWrapper.class);
-            ParticipantWorkflowService.populatePEFromWorkflowWrapper(pathWrapper, pe);
+            Participant_Enrollment__c oldParticipantEnrollment = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityModeService.USER_MODE_PI, null);
+            Clinical_Trial_Profile__c ctp = StudyTrialService.getFullTrial(oldParticipantEnrollment.Clinical_Trial_Profile__c);
+            ParticipantWorkflowService.populatePEFromWorkflowWrapper(pathWrapper, pe, ctp, oldParticipantEnrollment);
             update pe;
-            Participant_Enrollment_Status_History__c pesh = ParticipantWorkflowService.createPESHFromPathWrapper(pathWrapper, pe.Id);
+            pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_PI);
+            Participant_Enrollment_Status_History__c pesh = ParticipantWorkflowService.createPESHFromPathWrapper(pathWrapper, pe, ctp, oldParticipantEnrollment);
             if(pesh != null){
                 insert pesh;
             }
             pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_PI);
-            Clinical_Trial_Profile__c ctp = StudyTrialService.getFullTrial(pe.Clinical_Trial_Profile__c);
             if (pe == null) throw new CommunityServiceException('Participant enrollment not found');
             return JSON.serialize( new UpdateResponse(pe, ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe)));
         } catch (Exception e) {

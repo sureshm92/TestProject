@@ -28,6 +28,7 @@
                     component.find('delLastName').focus();
                     component.set('v.delegateItem.Contact__c', returnValue.contactId);
                     component.set('v.isDuplicate', returnValue.isDuplicate);
+                    component.set('v.delegateItem.isDuplicate', returnValue.isDuplicate);
                     if (returnValue.firstName && returnValue.lastName) {
                         component.set('v.isValid', true);
                     }
