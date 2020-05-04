@@ -6,7 +6,7 @@
     <!-- ATTRIBUTES -->
 
     <aura:attribute name="wrapper" type="VisitResultsService.VisitResultWrapper"/>
-    <aura:attribute name="isVitals" type="Boolean" default="false"/>
+    <aura:attribute name="visitResultType" type="String" default="Vitals"/>
 
     <aura:attribute name="expectedRange" type="String" default="-" access="private"/>
     <aura:attribute name="showExpectedRange" type="Boolean" default="true" access="private"/>

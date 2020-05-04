@@ -6,7 +6,6 @@
     <!-- ATTRIBUTES -->
 
     <aura:attribute name="visitResultGroupName" type="String"/>
-    <aura:attribute name="isVitals" type="Boolean" default="false"/>
 
     <aura:attribute name="visitResultsContainer" type="VisitResultsService.VisitResultsContainer" access="private"/>
     <aura:attribute name="displayPanel" type="Boolean" default="true" access="private"/>
@@ -31,7 +30,7 @@
                 <div class="visit-result-items-container">
                     <aura:iteration items="{!v.visitResultsContainer.wrappers}" var="wrapper">
                         <div class="visit-result-item-container">
-                            <c:VisitResultsItem wrapper="{!wrapper}" isVitals="{!v.isVitals}"/>
+                            <c:VisitResultsItem wrapper="{!wrapper}" visitResultType="{!v.visitResultGroupName}"/>
                         </div>
                     </aura:iteration>
                 </div>
