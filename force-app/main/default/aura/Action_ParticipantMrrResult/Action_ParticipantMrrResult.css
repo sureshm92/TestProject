@@ -172,9 +172,8 @@
 .THIS .sub-title{
     font-size: 18px!important;
 }
-/*
-.THIS .apollo-btn primary{
-    background: #297dfd;
-    color: white;
-
-}*/
+@media all and (max-width: 768px) {
+    .THIS .p-container .p-content {
+        max-height: 85vh;
+    }
+}
