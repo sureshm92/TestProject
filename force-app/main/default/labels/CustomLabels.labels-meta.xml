@@ -5755,6 +5755,20 @@
         <value>Home</value>
     </labels>
     <labels>
+        <fullName>Navigation_Library</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Navigation Library</shortDescription>
+        <value>Library</value>
+    </labels>
+    <labels>
+        <fullName>Navigation_Media_Outreach</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Navigation Media Outreach</shortDescription>
+        <value>Media Outreach</value>
+    </labels>
+    <labels>
         <fullName>Navigation_Medical_Record_Review_Log</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5879,6 +5893,13 @@
         <protected>false</protected>
         <shortDescription>No_permission_Visits_tab</shortDescription>
         <value>No permission for this feature</value>
+    </labels>
+    <labels>
+        <fullName>Non_Study_Specific</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Non Study Specific</shortDescription>
+        <value>Non-Study Specific</value>
     </labels>
     <labels>
         <fullName>None</fullName>
@@ -6659,6 +6680,20 @@
         <protected>false</protected>
         <shortDescription>PG ACPE L Notes</shortDescription>
         <value>Notes</value>
+    </labels>
+    <labels>
+        <fullName>PG_ACPE_L_Notes_Optional</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG ACPE L NotesOptional</shortDescription>
+        <value>Notes (optional)</value>
+    </labels>
+    <labels>
+        <fullName>PG_ACPE_L_Notes_Required</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG ACPE L Notes Required</shortDescription>
+        <value>Notes (required)</value>
     </labels>
     <labels>
         <fullName>PG_ACPE_L_Outcome</fullName>
@@ -9742,6 +9777,13 @@
         <value>You are about to remove yourself from the Delegate list. If you choose to continue your account will be deactivated. You cannot undo this action.  Do you want to proceed?</value>
     </labels>
     <labels>
+        <fullName>PG_PST_L_Delegates_Remove_Himself_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Remove Himself Header</shortDescription>
+        <value>Remove Delegate</value>
+    </labels>
+    <labels>
         <fullName>PG_PST_L_Delegates_Remove_Mess</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11264,6 +11306,55 @@
         <value>Not Completed</value>
     </labels>
     <labels>
+        <fullName>PWS_Picklist_Value_Childcare_Issues</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Picklist_Value_Childcare_Issues</shortDescription>
+        <value>Childcare Issues</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Picklist_Value_Declined</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Picklist_Value_Declined</shortDescription>
+        <value>Declined</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Picklist_Value_Other</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Picklist_Value_Other</shortDescription>
+        <value>Other</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Picklist_Value_Participant_Not_Interested</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Picklist_Value_Participant_Not_Interested</shortDescription>
+        <value>Participant Not Interested</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Picklist_Value_Protocol_Concerns</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Picklist_Value_Protocol_Concerns</shortDescription>
+        <value>Protocol Concerns</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Picklist_Value_Transportation_Issues</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Picklist_Value_Transportation_Issues</shortDescription>
+        <value>Transportation Issues</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Picklist_Value_Withdrew</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Picklist_Value_Withdrew</shortDescription>
+        <value>Withdrew</value>
+    </labels>
+    <labels>
         <fullName>PWS_Randomization_Card_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -11395,6 +11486,13 @@
         <protected>true</protected>
         <shortDescription>Patient</shortDescription>
         <value>Patient</value>
+    </labels>
+    <labels>
+        <fullName>Patient_Delegate_Deactivate_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Patient Delegate Deactivate Mess</shortDescription>
+        <value>You are about to deactivate ##Name from your account. Do you want to proceed?</value>
     </labels>
     <labels>
         <fullName>Phone_Type_Home</fullName>

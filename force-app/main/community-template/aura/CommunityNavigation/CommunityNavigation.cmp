@@ -6,13 +6,35 @@
 
     <!-- component body: -->
     <ul class="{!'nav-menu ' + if(v.isArabic, 'rtl ', ' ') + if(v.scrollRequired, v.scrollDirection, '')}" aura:id="navMenu">
-        <aura:iteration items="{!v.menuItems}" var="item" >
-            <li class="{!item.page == v.currentPage ? 'nav-item active' : 'nav-item'}" data-page-name="{!item.page}" onclick="{!c.onClick}">
+        <aura:iteration items="{!v.menuItems}" var="item">
+            <!--<li class="{!item.page == v.currentPage ? 'nav-item active' : 'nav-item'}" data-page-name="{!item.page}"
+                onclick="{!equals(item.page, 'resources') ? c.onClickResource : c.onClick}">
                 {!item.label}
                 <aura:if isTrue="{!equals(item.page, 'messages')}">
                     <c:navMessageCounter isOnPage="{!item.page == v.currentPage}"/>
                 </aura:if>
-            </li>
+            </li>-->
+            <aura:if isTrue="{!equals(item.page, 'resources')}">
+                <!--<li>-->
+                <c:uiHeaderMenu aura:id="menuId">
+                    <aura:set attribute="title">
+                        <div>{!item.label}</div>
+                        <c:RRIcon iconName="icon-chevron-down" class="icon-chevron-down-resources"/>
+                    </aura:set>
+                    <c:uiMenuItem label="{!$Label.c.Navigation_Library}" onclick="{!c.onClickResource}"/>
+                    <c:uiMenuItem label="{!$Label.c.Navigation_Media_Outreach}"/>
+                </c:uiHeaderMenu>
+                <!--</li>-->
+                <aura:set attribute="else">
+                    <li class="{!item.page == v.currentPage ? 'nav-item active' : 'nav-item'}" data-page-name="{!item.page}"
+                        onclick="{!c.onClick}">
+                        {!item.label}
+                        <aura:if isTrue="{!equals(item.page, 'messages')}">
+                            <c:navMessageCounter isOnPage="{!item.page == v.currentPage}"/>
+                        </aura:if>
+                    </li>
+                </aura:set>
+            </aura:if>
         </aura:iteration>
     </ul>
 
@@ -29,3 +51,4 @@
 
 
 </aura:component>
+
