@@ -256,6 +256,7 @@ public without sharing class ContactService {
                         Third_Choice_Language__c,
                         Participant_Opt_In_Status_Emails__c,
                         Visit_Results_OptIn__c,
+                        Visit_Results_Opt_In__c,
                         Account.OwnerId,
                         Account.Name,
                         Account.Phone,

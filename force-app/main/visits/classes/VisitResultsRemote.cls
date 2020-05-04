@@ -12,7 +12,7 @@ public without sharing class VisitResultsRemote {
             wrapper.isResultsExist = !VisitResultSharingService.processResults().isEmpty();
             wrapper.visitResultsGroupNames = ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class)).getVisitResultsGroupNames(visitResultsMode);
             wrapper.isDelegate = ParticipantContext.isCurrentDelegate();
-            wrapper.toggleState = togglesState(visitResultsMode);
+            wrapper.toggleState = toggleState(visitResultsMode);
             return wrapper;
         } catch (Exception e) {
             AuraHelper.throwException(e);
@@ -70,7 +70,8 @@ public without sharing class VisitResultsRemote {
         return null;
     }
 
-    public static Boolean togglesState(String visitResultsMode) {
+    @AuraEnabled
+    public static Boolean toggleState(String visitResultsMode) {
         Contact currentContact = ParticipantContext.getCurrentContact();
         String currentVisitResults = currentContact.Visit_Results_OptIn__c == null ? '' : currentContact.Visit_Results_OptIn__c;
         return currentVisitResults.contains(visitResultsMode);

@@ -26,32 +26,32 @@
         <c:RRSpinner aura:id="mainSpinner" showSpinner="true" size="medium" fixed="true"/>
 
         <aura:if isTrue="{!v.initialized}">
-
             <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
                 <lightning:input
-                                 type="toggle"
-                                 messageToggleActive="{!$Label.c.BTN_On}"
-                                 messageToggleInactive="{!$Label.c.BTN_Off}"
-                                 class="{!'slds-col ah-toggle slds-m-top--small slds-m-bottom--medium' + if(v.currentTab == 'tab-lab-results', '', ' collapsed')}"
-                                 onchange="{!c.switchToggle}"
-                                 checked="{!v.togglePosition}" label="toggle"/>
-                <p class="slds-m-top--small">{!$Label.c.PG_AS_L_Opt_In_Visit_Results}</p>
+                        type="toggle"
+                        messageToggleActive="{!$Label.c.BTN_On}"
+                        messageToggleInactive="{!$Label.c.BTN_Off}"
+                        class="{!'slds-col ah-toggle slds-m-top--small slds-m-bottom--medium' + if(v.currentTab == 'tab-lab-results', '', ' collapsed')}"
+                        onchange="{!c.switchToggle}"
+                        checked="{!v.togglePosition}" label="{!v.labResultsMode}"/>
+<!--                <p class="slds-m-top&#45;&#45;small">{!$Label.c.PG_AS_L_Opt_In_Visit_Results}</p>-->
             </div>
 
+
             <aura:if
-                    isTrue="{!and(v.initData.contact.Visit_Results_Opt_In__c, and(v.initData.isVisitResultsAvailable, v.initData.isResultsExist))}">
+                    isTrue="{!and(v.togglePosition, and(v.initData.isVisitResultsAvailable, v.initData.isResultsExist))}">
                 <div class="visit-results-disclaimer">
                     {!$Label.c.Visit_Results_Tab_Disclaimer}
                 </div>
+
                 <aura:iteration items="{!v.initData.visitResultsGroupNames}" var="visitResultsGroupName">
-                    <c:VisitResultsPanel visitResultGroupName="{!visitResultsGroupName}"
-                                         isVitals="{!v.labResultsMode == v.labResultModeVitals}"/>
+                    <c:VisitResultsPanel visitResultGroupName="{!visitResultsGroupName}"/>
                 </aura:iteration>
                 <aura:set attribute="else">
                     <c:VisitsCompliance contactId="{!v.initData.contact.Id}" isVisitResultsExist="{!v.initData.isResultsExist}"
                                         isDelegate="{!v.initData.isDelegate}"
                                         isVisitResultsAvailable="{!v.initData.isVisitResultsAvailable}"
-                                        isOptIn="{!v.initData.contact.Visit_Results_Opt_In__c}" optInChanged="{!v.optInChanged}"/>
+                                        isOptIn="{!v.togglePosition}" optInChanged="{!v.optInChanged}"/>
                 </aura:set>
             </aura:if>
         </aura:if>
