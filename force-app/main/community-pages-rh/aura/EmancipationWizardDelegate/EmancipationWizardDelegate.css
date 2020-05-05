@@ -81,5 +81,28 @@
     .THIS .apollo-btn.secondary {
         margin-bottom: 15px;
     }
+    
+    .THIS .healthcare-input input {
+        height: 40px;
+    }
+    
+     .THIS > .rr-form-element {
+        min-width: 50%;
+    }
+
+}
+
+@media all and (max-width: 500px){
+    .THIS > .rr-form-element {
+        min-width: 100%;
+    }
+    
+    .THIS .healthcare-input {
+        padding-right: 0;
+    }
+    
+    .THIS .apollo-btn.secondary {
+        margin-left: 0
+    }
 
 }
