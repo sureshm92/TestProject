@@ -5755,20 +5755,6 @@
         <value>Home</value>
     </labels>
     <labels>
-        <fullName>Navigation_Library</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Navigation Library</shortDescription>
-        <value>Library</value>
-    </labels>
-    <labels>
-        <fullName>Navigation_Media_Outreach</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Navigation Media Outreach</shortDescription>
-        <value>Media Outreach</value>
-    </labels>
-    <labels>
         <fullName>Navigation_Medical_Record_Review_Log</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5893,13 +5879,6 @@
         <protected>false</protected>
         <shortDescription>No_permission_Visits_tab</shortDescription>
         <value>No permission for this feature</value>
-    </labels>
-    <labels>
-        <fullName>Non_Study_Specific</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Non Study Specific</shortDescription>
-        <value>Non-Study Specific</value>
     </labels>
     <labels>
         <fullName>None</fullName>
@@ -9768,13 +9747,6 @@
         <protected>false</protected>
         <shortDescription>Remove Delegate</shortDescription>
         <value>Deactivate Delegate</value>
-    </labels>
-    <labels>
-        <fullName>PG_PST_L_Delegates_Remove_Himself_Header</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Remove Himself Header</shortDescription>
-        <value>Remove Delegate</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_Remove_Himself</fullName>
