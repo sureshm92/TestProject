@@ -315,13 +315,22 @@
     width: auto;
 }
 
-@media (max-width: 480px){
+@media all and (max-width: 500px){
     .THIS .mrr-item-btns, .THIS .mrr-item-btns button{
         width: 100%;
     }
+    
+    .THIS .rr-path-container {
+        padding-top: 8px;
+    }
+    
+    .THIS .rr-width-limiter.side-padding {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
 }
 
-@media (max-width: 768px){
+@media all and (max-width: 768px){
     .THIS .rr-big-title{
         font-size: 37px;
     }
@@ -330,6 +339,15 @@
         font-size: 20px;
         line-height: 30px;
         margin-top: 15px;
+    }
+    
+    .THIS.cRRTopBar .buttons-block {
+        padding: 5px 1rem 1.25rem;
+    }
+    
+    .THIS.cRRTopBar .buttons-block .apollo-btn.secondary {
+        padding: 6px 8px;
+        height: 40px;
     }
 }
 
@@ -386,4 +404,5 @@
     .THIS lightning-map{
         height: 100%;
     }
+
 }

@@ -56,6 +56,12 @@
     margin-bottom: 20px;
 }
 
+@media screen and (max-width: 768px) {
+    .THIS.step-form,
+        .THIS .outcome-form-element{
+            min-width: 100%;
+        }
+}
 
 @media screen and (max-width: 500px) {
      .THIS {
@@ -69,8 +75,5 @@
         margin-top: 15px;
     }
 
-    .THIS.step-form,
-    .THIS .outcome-form-element{
-        min-width: 100%;
-    }
+    
 }
