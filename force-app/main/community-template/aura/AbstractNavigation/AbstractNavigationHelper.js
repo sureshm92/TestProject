@@ -109,7 +109,7 @@
             },
 
             'resources':{
-                page: 'study-workspace',
+                page: 'resources',
                 label: $A.get('$Label.c.Navigation_Resources'),
                 icon: 'resources'
             },
@@ -149,6 +149,7 @@
                 this.allPagesMap[''],
                 this.allPagesMap['dashboard'],
                 this.allPagesMap['my-referrals'],
+                this.allPagesMap['resources'],
                 //this.allPagesMap['my-referring-clinics'],
                 //this.allPagesMap['reports'],
                 this.allPagesMap['messages'],
