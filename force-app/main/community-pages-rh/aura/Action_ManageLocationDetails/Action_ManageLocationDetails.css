@@ -59,10 +59,16 @@
     padding-right:5%;
 }
 
-.THIS account_details {
-    width: 90%;
+.THIS .account_details {
+    width: 80%;
     display: flex;
     flex-direction: row;    
+}
+
+.THIS .popup-account-name + .slds-grid--align-center {
+    min-height: 100%;
+    margin-top: -20px;
+    align-items: center;
 }
 
 .THIS .ss-info-headers {
@@ -109,13 +115,14 @@
     }
     
     .THIS .popup-account-name:first-child {
-        padding-left: 0;
+        padding-left: 30px;
     }
     
     .THIS .popup-account-name + .slds-col {
         min-height: 100%;
-        align-items: start;
-    	margin-top: 3px;
+        align-items: center;
+    	margin-top: -20px;
+        max-width: 32px;
     }
     
     .THIS .p-footer .p-buttons-container {
@@ -130,6 +137,7 @@
     .THIS .account_details {
         flex-direction: column;
         width: 90%;
+        padding-left: 0;
     }
     
     .THIS .account_details .manage-location-info {
@@ -141,5 +149,15 @@
 @media all and (max-width: 600px) {
     .THIS .ss-info-address{
         word-wrap: break-word;
+    }
+}
+
+@media all and (max-width: 500px) {
+     .THIS .popup-account-name + .slds-col {
+     	   min-width: 32px;
+    }
+    
+    .THIS .account_details {
+        width: 80%;
     }
 }
