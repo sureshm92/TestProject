@@ -49,6 +49,9 @@
                                 <c:CommunityModeSwitcher allModes="{!v.allModes}" currentMode="{!v.currentMode}" onModeChange="{!c.doRefresh}"/>
                             </aura:if>
                             <c:ProfileMenu aura:id="profileMenu" userMode="{!v.currentMode.userMode}"/>
+                            <aura:if isTrue="{!v.currentMode.userMode == 'PI'}">
+                                <c:navIncentiveCounter/>
+                            </aura:if>
                         </div>
                     </div>
                 </aura:if>
