@@ -4,7 +4,7 @@
 
 <apex:page id="TestEmailTemplateInitialEmail">
     <c:InitialWireframe userId="{!$CurrentPage.parameters.sourceId}"
-                        communityTemplate="Default"
+                        communityTemplate="{!$CurrentPage.parameters.communityTemplate}"
                         buttonLabel="{!$Label.Email_Action_Enroll_Now}"
                         buttonURL="{!$Network.NetworkUrlForUserEmails}">
     </c:InitialWireframe>

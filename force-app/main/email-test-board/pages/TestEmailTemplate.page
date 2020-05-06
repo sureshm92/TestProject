@@ -4,14 +4,19 @@
 
 <apex:page id="TestEmailTemplate">
     <c:EmailWireframe recipientId="{!$CurrentPage.parameters.recipientId}"
-                     sourceId="{!$CurrentPage.parameters.sourceId}"
-                     header="{!$Label.Email_Header_Patient2}"
-                     title="{!$Label.Email_Title_All}"
-                     greeting="{!$Label.Email_User_Greeting_FirstName}"
-                     signature="{!$Label.Email_Signature_Patient}"
-                     communityTemplate="{!$CurrentPage.parameters.template}">
-        <c:Paragraph emailLabel="{!$Label.Email_Body_Patient1}"/>
-        <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
-                          resourceId="{!$CurrentPage.parameters.sourceId}"/>
+                      sourceId="{!$CurrentPage.parameters.sourceId}"
+                      header="{!$CurrentPage.parameters.header}"
+                      title="{!$CurrentPage.parameters.title}"
+                      greeting="{!$CurrentPage.parameters.greeting}"
+                      signature="{!$CurrentPage.parameters.signature}"
+                      preSignature="{!$CurrentPage.parameters.preSignature}"
+                      useAllPINames="{!$CurrentPage.parameters.useAllPINames}"
+                      communityTemplate="{!$CurrentPage.parameters.communityTemplate}">
+        <c:Paragraph emailLabel="{!$CurrentPage.parameters.bodyLabel}"/>
+        <c:EmailTemplateDelegateParticipant rendered="{!$CurrentPage.parameters.delegateTable == 'true'}"
+                                            commTemplate="{!$CurrentPage.parameters.communityTemplate}"
+                                            sourceId="{!$CurrentPage.parameters.sourceId}"/>
+        <c:EmailActionBtn rendered="{!$CurrentPage.parameters.buttonLabel != null}"
+                          buttonLabel="{!$CurrentPage.parameters.buttonLabel}"/>
     </c:EmailWireframe>
 </apex:page>
