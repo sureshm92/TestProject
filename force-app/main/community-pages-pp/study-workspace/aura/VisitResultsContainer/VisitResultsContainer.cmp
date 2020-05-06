@@ -10,14 +10,12 @@
     <aura:attribute name="initData" type="VisitResultsRemote.InitDataWrapper" access="private"/>
     <aura:attribute name="initialized" type="Boolean" access="private" default="false"/>
     <aura:attribute name="labResultModeVitals" type="String" access="private" default="Vitals"/>
-    <aura:attribute name="optInChanged" type="Boolean" default="false" access="private"/>
     <aura:attribute name="togglePosition" type="Boolean" default="false" access="private"/>
 
     <!-- HANDLERS -->
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.labResultsMode}" action="{!c.doInit}"/>
-    <aura:handler name="change" value="{!v.optInChanged}" action="{!c.doInit}"/>
 
     <!-- COMPONENT BODY -->
 
@@ -26,24 +24,22 @@
         <c:RRSpinner aura:id="mainSpinner" showSpinner="true" size="medium" fixed="true"/>
 
         <aura:if isTrue="{!v.initialized}">
-            <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
-                <lightning:input
-                        type="toggle"
-                        messageToggleActive="{!$Label.c.BTN_On}"
-                        messageToggleInactive="{!$Label.c.BTN_Off}"
-                        class="{!'slds-col ah-toggle slds-m-top--small slds-m-bottom--medium' + if(v.currentTab == 'tab-lab-results', '', ' collapsed')}"
-                        onchange="{!c.switchToggle}"
-                        checked="{!v.togglePosition}" label="{!v.labResultsMode}"/>
-<!--                <p class="slds-m-top&#45;&#45;small">{!$Label.c.PG_AS_L_Opt_In_Visit_Results}</p>-->
+
+            <div class="visit-results-disclaimer">
+                {!$Label.c.Visit_Results_Tab_Disclaimer}
+            </div>
+            <div class="slds-grid slds-wrap slds-gutters">
+                <div class="slds-col slds-m-top--small slds-m-bottom--medium slds-size_1-of-8">
+                    <lightning:input type="toggle"
+                                     messageToggleActive="{!$Label.c.BTN_On}"
+                                     messageToggleInactive="{!$Label.c.BTN_Off}"
+                                     onchange="{!c.switchToggle}"
+                                     checked="{!v.togglePosition}" label="{!v.labResultsMode}"/>
+                </div>
+                <div class="slds-col slds-size_7-of-8"></div>
             </div>
 
-
-            <aura:if
-                    isTrue="{!and(v.togglePosition, and(v.initData.isVisitResultsAvailable, v.initData.isResultsExist))}">
-                <div class="visit-results-disclaimer">
-                    {!$Label.c.Visit_Results_Tab_Disclaimer}
-                </div>
-
+            <aura:if isTrue="{!and(v.togglePosition, and(v.initData.isVisitResultsAvailable, v.initData.isResultsExist))}">
                 <aura:iteration items="{!v.initData.visitResultsGroupNames}" var="visitResultsGroupName">
                     <c:VisitResultsPanel visitResultGroupName="{!visitResultsGroupName}"/>
                 </aura:iteration>
@@ -51,7 +47,7 @@
                     <c:VisitsCompliance contactId="{!v.initData.contact.Id}" isVisitResultsExist="{!v.initData.isResultsExist}"
                                         isDelegate="{!v.initData.isDelegate}"
                                         isVisitResultsAvailable="{!v.initData.isVisitResultsAvailable}"
-                                        isOptIn="{!v.togglePosition}" optInChanged="{!v.optInChanged}"/>
+                                        isOptIn="{!v.togglePosition}" labResultsMode="{!v.labResultsMode}"/>
                 </aura:set>
             </aura:if>
         </aura:if>
