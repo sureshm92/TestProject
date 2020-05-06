@@ -194,6 +194,9 @@
                         <button id="changeLabResultsMode" data-lab-results-mode="Labs"
                                 class="{!'apollo-btn text ' + if(v.labResultsMode == 'Labs', ' current', '')}"
                                 onclick="{!c.doAction}">{!$Label.c.Visit_Results_Tab_Labs}</button>
+                        <button id="changeLabResultsMode" data-lab-results-mode="Biomarkers"
+                                class="{!'apollo-btn text ' + if(v.labResultsMode == 'Biomarkers', ' current', '')}"
+                                onclick="{!c.doAction}">{!$Label.c.Visit_Results_Tab_Biomarkers}</button>
                     </div>
 
                 </div>
