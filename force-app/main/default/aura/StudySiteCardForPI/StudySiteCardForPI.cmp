@@ -17,7 +17,7 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     <!-- component body: -->
-    <div class="slds-p-horizontal_medium slds-p-bottom_small" style="height: 397px;">
+    <div class="slds-p-horizontal_medium slds-p-bottom_small">
         <aura:if isTrue="{!v.siteWrapper.studySite}">
             <div class="card-header">
                 <div class="pi-name">
@@ -55,7 +55,7 @@
                                         onchange="{!c.changeUpdatedStatus}"
                                         useSentenceFont="false"/>
                         </div>
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 ss-info-details">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 ss-info-details">
                             <div class="input-fields-labels"
                                  style="display: inline-block;">{!$Label.c.SS_Phone}</div>
                             <div class="rr-form-element">
@@ -73,7 +73,7 @@
                                                  onblur="{!c.checkValidEmail}"/>
                             </div>
                         </div>
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 ss-info-details">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 ss-info-details">
                             <button class="apollo-btn pi-save-btn secondary"
                                     onclick="{!c.saveChanges}"
                                     disabled="{!!v.siteWrapper.studySite.isEmailValid || !v.siteWrapper.studySite.isRecordUpdated || !v.siteWrapper.studySite.Name}"

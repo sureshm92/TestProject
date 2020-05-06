@@ -45,6 +45,10 @@ a:hover {
     display: flex;
 }
 
+.forceToastManager--default .forceVisualMessageQueue {
+	z-index: 25000;
+}
+
 .logo-container {
     height: 50px;
     display: flex;
