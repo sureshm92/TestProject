@@ -72,6 +72,10 @@
         justify-content: flex-end;
     }
     
+    .THIS .fp-container.cFilterPanel {
+        margin: 0;
+    }
+    
 }
 
 @media screen and (max-width: 500px) {
