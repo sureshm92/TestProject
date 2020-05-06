@@ -6,13 +6,19 @@
 
     <!-- component body: -->
     <ul class="{!'nav-menu ' + if(v.isArabic, 'rtl ', ' ') + if(v.scrollRequired, v.scrollDirection, '')}" aura:id="navMenu">
-        <aura:iteration items="{!v.menuItems}" var="item" >
-            <li class="{!item.page == v.currentPage ? 'nav-item active' : 'nav-item'}" data-page-name="{!item.page}" onclick="{!c.onClick}">
-            {!item.label}
-                <aura:if isTrue="{!equals(item.page, 'messages')}">
-                    <c:navMessageCounter isOnPage="{!item.page == v.currentPage}"/>
-                </aura:if>
-            </li>
+        <aura:iteration items="{!v.menuItems}" var="item">
+            <aura:if isTrue="{!equals(item.page, 'resources')}">
+                <c:CommunityResourcesNavigation itemResource="{!v.item}"/>
+                <aura:set attribute="else">
+                    <li class="{!item.page == v.currentPage ? 'nav-item active' : 'nav-item'}" data-page-name="{!item.page}"
+                        onclick="{!c.onClick}">
+                        {!item.label}
+                        <aura:if isTrue="{!equals(item.page, 'messages')}">
+                            <c:navMessageCounter isOnPage="{!item.page == v.currentPage}"/>
+                        </aura:if>
+                    </li>
+                </aura:set>
+            </aura:if>
         </aura:iteration>
     </ul>
 
@@ -29,4 +35,3 @@
 
 
 </aura:component>
-

@@ -38,6 +38,11 @@
         helper.updateDocumentTitle(component, pageName);
         communityService.navigateToPage(pageName);
     },
+    onClickResource: function (component, event, helper){
+        var pageName = 'resources';
+        helper.updateDocumentTitle(component, pageName);
+        communityService.navigateToPage('library');
+    },
 
     doScroll: function (component, event, helper) {
         var direction = component.get('v.scrollDirection');
