@@ -90,6 +90,44 @@ RunTestINT4.0:
     - sfdx force:apex:test:run -u INT --testlevel=RunLocalTests -w 60
 
 
+# 5.0 INT: ---------------------------------------------------------------------
+DeployINT5.0:
+  tags:
+    - shell
+  only:
+    - INT5.0
+  except:
+    - merge_requests
+
+  stage: DeployINT5.0
+  script:
+    - sfdx update
+    - echo "$INT" > sfdx-auth-url
+    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT5_0 -d
+    - sfdx --version
+    - cd Nodejs
+    - node convert.js
+    - cd ..
+    - rm -rf output
+    - sfdx force:source:convert -d output
+    - sfdx force:mdapi:deploy -d output -u INT5_0  -w 60
+    - echo "deploy INT success"
+
+RunTestINT5.0:
+  tags:
+    - shell
+  only:
+    - INT5.0
+  except:
+    - merge_requests
+
+  stage: RunTestINT5.0
+  script:
+    - echo "$INT" > sfdx-auth-url
+    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT5_0 -d
+    - sfdx force:apex:test:run -u INT --testlevel=RunLocalTests -w 60
+
+
 # 4.0 INF: ---------------------------------------------------------------------
 DeployINF4.0:
   tags:
