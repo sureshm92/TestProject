@@ -13,23 +13,6 @@
     font-weight: 500;
 }
 
-/*
-.THIS .path-item-detail-panel.success .title {
-    color: #63C900;
-}
-
-.THIS .path-item-detail-panel.failure .title {
-    color: #FF283F;
-}
-
-.THIS .path-item-detail-panel.in_progress .title {
-    color: #FF9300;
-}
-
-.THIS .path-item-detail-panel.neutral .title {
-    color: #999999;
-}
-*/
 .THIS .pe-state-row.current .path-item-detail-panel .title {
     font-weight: 600;
 }
@@ -41,11 +24,7 @@
 .THIS .label.changed {
     color: #297dfd;
 }
-/*
-.THIS .path-item-detail-panel > .slds-col {
-    width: auto;
-}
-*/
+
 .THIS .pe-history {
     margin-top: 10px;
 }
@@ -78,19 +57,6 @@
     line-height: 24px;
 }
 
-/*
-.THIS .info.green {
-    color: #00C221;
-}
-
-.THIS .info.orange {
-    color: #FF9300;
-}
-
-.THIS .info.red {
-    color: #FF283F;
-}
-*/
 .THIS .rr-white-panel {
     border: unset;
     border-radius: unset;
@@ -127,11 +93,7 @@
 .THIS .header#statusDetailsAnchor {
     margin-top: 6%;
 }
-/*
-.THIS #healthCareProvider {
-    margin-top: 3%;
-}
-*/
+
 .THIS .personal-info-container {
     text-align: left;
 }
@@ -372,8 +334,6 @@
     }
     
     .THIS #p-modal .p-container.large {
-        top: 50%;
-        height: 95%!important;
         min-height: auto;
         z-index: 10100!important;
     }

@@ -129,7 +129,7 @@ RunTestINT5.0:
   script:
     - echo "$INT" > sfdx-auth-url
     - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT5_0 -d
-    - sfdx force:apex:test:run -u INT --testlevel=RunLocalTests -w 60
+    - sfdx force:apex:test:run -u INT5_0 --testlevel=RunLocalTests -w 60
 
 
 # 4.0 INF: ---------------------------------------------------------------------

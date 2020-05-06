@@ -45,16 +45,17 @@
     line-height: 30px;
     padding: 0 8px;
     position: relative;
-    max-height: 6rem;
-    overflow: hidden;
+    max-height: 6rem;    
     padding-right: 1rem;
     align-items: flex-start;
-    max-width: 100%;
-    text-overflow: ellipsis;
+    display: block;
 }
 
 .THIS .study-name .study-title.rr-link span {
     white-space: normal!important;
+    display: block!important;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 
@@ -118,6 +119,7 @@
     min-height: 100px;
     padding-left: 1rem;
     padding-right: 1rem;
+    margin-bottom: 1rem;
 }
 
 .THIS .slvi-top-container .study-options {
