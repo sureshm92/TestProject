@@ -38,7 +38,7 @@
                                     setValueAsSelected="true"/>
                     </div>
                     <div class="slds-col slds-size--1-of-1 outcome-form-element">
-                        <lightning:input label="{!$Label.c.PG_ACPE_L_Notes+' ('+if(v.notesRequired,$Label.c.PG_ACPE_L_required,$Label.C.PG_ACPE_L_optional)+')'}" type="text" value="{!v.stepWrapper.notes}" disabled="{!!v.stepWrapper.outcomeEditable}"/>
+                        <lightning:input label="{!$Label.c.PG_ACPE_L_Notes+' ('+if(v.notesRequired,$Label.c.PG_ACPE_L_required,$Label.c.PG_ACPE_L_optional)+')'}" type="text" value="{!v.stepWrapper.notes}" disabled="{!!v.stepWrapper.outcomeEditable}"/>
                     </div>
                 </div>
             </aura:if>

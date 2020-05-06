@@ -58,6 +58,9 @@
         padding: 0 10px;
     }
     
+    .THIS .svg-funnel-js .svg-funnel-js__labels {
+        padding-top: 5px;
+    }
 }
 
 @media all and (max-width: 500px)  {

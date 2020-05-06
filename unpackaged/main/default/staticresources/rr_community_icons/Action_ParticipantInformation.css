@@ -13,6 +13,23 @@
     font-weight: 500;
 }
 
+/*
+.THIS .path-item-detail-panel.success .title {
+    color: #63C900;
+}
+
+.THIS .path-item-detail-panel.failure .title {
+    color: #FF283F;
+}
+
+.THIS .path-item-detail-panel.in_progress .title {
+    color: #FF9300;
+}
+
+.THIS .path-item-detail-panel.neutral .title {
+    color: #999999;
+}
+*/
 .THIS .pe-state-row.current .path-item-detail-panel .title {
     font-weight: 600;
 }
@@ -24,7 +41,11 @@
 .THIS .label.changed {
     color: #297dfd;
 }
-
+/*
+.THIS .path-item-detail-panel > .slds-col {
+    width: auto;
+}
+*/
 .THIS .pe-history {
     margin-top: 10px;
 }
@@ -57,6 +78,19 @@
     line-height: 24px;
 }
 
+/*
+.THIS .info.green {
+    color: #00C221;
+}
+
+.THIS .info.orange {
+    color: #FF9300;
+}
+
+.THIS .info.red {
+    color: #FF283F;
+}
+*/
 .THIS .rr-white-panel {
     border: unset;
     border-radius: unset;
@@ -93,13 +127,17 @@
 .THIS .header#statusDetailsAnchor {
     margin-top: 6%;
 }
-
+/*
+.THIS #healthCareProvider {
+    margin-top: 3%;
+}
+*/
 .THIS .personal-info-container {
     text-align: left;
 }
 
 .THIS #p-modal .p-container.large {
-    z-index: 20001 !important;
+    z-index: 9001 !important;
 }
 
 .THIS .p-header h2 {
@@ -245,12 +283,20 @@
     z-index: 100;
 }
 
-.THIS .partinfo-footer-buttons > span {
- 	padding-right: 15px;   
-}
-
 .THIS .p-container .p-header + div {
     height: 89%;
+}
+
+
+@media all and (max-width: 768px){
+    .THIS .personal-info-container .slds-float_left {
+        width: 100%;
+    }
+   
+    .THIS .personal-info-container .apollo-btn {
+        width: 100%;
+        margin-top: 15px;
+    }
 }
 
 .THIS .partinfo-footer-buttons{
@@ -271,6 +317,13 @@
     }
 }
 
+@media all and (max-width: 600px) {
+
+    .THIS .rp-save-btn {
+        margin-top: 2%;
+    }
+}
+
 @media all and (max-width: 768px) {
 	.THIS #p-modal .p-container.large {
         width: 90%;
@@ -280,49 +333,12 @@
     .THIS #p-modal .p-container.large .p-content {
         max-height: 100%;
     }
-    
-    .THIS .personal-info-container .slds-float_left {
-        width: 100%;
-    }
-   
-    .THIS .personal-info-container .apollo-btn {
-        width: 100%;
-        margin-top: 15px;
-    }
-    
-    .THIS .invite-patient-container .slds-size--9-of-12 {
-        max-width: 65%;
-    }
-    .THIS .invite-patient-container .slds-size--3-of-12 {
-        min-width: 35%;
-    }
+
 }
-
-@media all and (max-width: 600px) {
-
-    .THIS .rp-save-btn {
-        margin-top: 2%;
-    }
-}
-
-@media all and (max-width: 500px) {  
+@media all and (max-width: 500px) {
+    
     .THIS .p-content.with-scroll .slds-tabs_default__nav {
         justify-content: space-between;
-    }
-    
-    .THIS .p-container .slds-tabs_default__content {
-        padding-bottom: 1rem;
-    }
-    
-    .THIS .invite-patient-container {
-        margin-top: 0;
-        box-shadow: none;
-    }
-    
-    .THIS .invite-patient-container .slds-size--9-of-12,
-    .THIS .invite-patient-container .slds-size--3-of-12 {
-        min-width: 100%;
-        margin: .5rem 0;
     }
     
     .THIS .p-content.with-scroll .slds-tabs_default__overflow-button .slds-dropdown__item > a span {
@@ -334,8 +350,9 @@
     }
     
     .THIS #p-modal .p-container.large {
+        top: 45%;
+        height: 550px!important;
         min-height: auto;
-        z-index: 10100!important;
     }
     
     .THIS .apollo-btn + .apollo-btn {
@@ -343,28 +360,17 @@
     }
     
     .THIS #p-modal .p-container.large .p-content {
-        max-height: 70%;
-        padding: 0 1rem;
+        max-height: 55%;
     }
        
     .THIS .partinfo-footer-buttons {
     	margin-left: 0;
-        display: flex;
-        flex-direction: column-reverse;
+        flex-direction: column;
     }
     
-    .THIS .partinfo-footer-buttons > span {
-        padding-right: 0;
-        display: flex;
-        margin-top: 15px;
-        justify-content: space-between;
+    .THIS .apollo-btn,
+    .THIS .slds-button_neutral{
+       margin-bottom: 1rem;
+		width: 100%;     
     }
-    
-    .THIS .partinfo-footer-buttons > .slds-button_neutral {
-    	width: 100%;
-    }
-    .THIS .partinfo-footer-buttons > span .slds-button_neutral {
-    	width: 47%;
-    }
-    
 }
