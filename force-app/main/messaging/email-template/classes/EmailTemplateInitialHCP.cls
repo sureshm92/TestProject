@@ -8,24 +8,19 @@ public with sharing class EmailTemplateInitialHCP extends EmailTemplateInitial {
 
     public EmailTemplateInitialHCP(Id recipientId, String outputMode) {
         super(recipientId, outputMode, null);
-        headerLabel = 'Email_Header_Initial_HCP';
-        greetingLabel = LABEL_GREETING_VALUE_PI_HCP;
-        bodyLabel = 'Email_Body_Initial_HCP';
+        userMode = 'HCP';
 
         if (!getHealthCareProviders().isEmpty()) {
-            bodyLabel = 'Email_Body_Initial_PI_PT_HCP';
-
+            userMode = 'HCP Health Care Provider';
             whatId = getHealthCareProviders().get(0).Id;
             parametersProviderName = 'PP_Healthcare_Provider';
         } else if (hasEnrollments()) {
-            bodyLabel = 'Email_Body_Initial_PI_HCP';
-
+            userMode = 'HCP has enrollments';
             whatId = getEnrollments().get(0).Id;
             parametersProviderName = 'Email_Template_Parameters_From_HCPE';
         }
-        updateTemplateLabels();
 
-        if (isSameInvestigator()) additionalParams.put('PIName', getMultiplePINames(recipientId));
+        if (isSameInvestigator()) useAllPINames = true;
     }
 
     private List<Healthcare_Provider__c> getHealthCareProviders() {
@@ -75,19 +70,5 @@ public with sharing class EmailTemplateInitialHCP extends EmailTemplateInitial {
         if (hcpEnrollmentsByPI.keySet().size() > 1) return true;
 
         return false;
-    }
-
-    private String getMultiplePINames(Id hcpContId) {
-        List<HCP_Enrollment__c> hcpEnrollments = [
-                SELECT Study_Site__r.Principal_Investigator__r.Salutation_With_Name__c
-                FROM HCP_Enrollment__c
-                WHERE HCP_Contact__c = :hcpContId
-        ];
-
-        String piNames = '';
-        for (HCP_Enrollment__c hcpE : hcpEnrollments) {
-            piNames += hcpE.Study_Site__r.Principal_Investigator__r.Salutation_With_Name__c + ', ';
-        }
-        return piNames.removeEnd(', ');
     }
 }

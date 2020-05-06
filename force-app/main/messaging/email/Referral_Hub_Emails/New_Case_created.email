@@ -3,27 +3,29 @@
                          relatedToType="Case">
 
     <messaging:htmlEmailBody >
-        <c:EmailTemplate recipientId="{!recipient.Id}"
+        <c:EmailWireframe recipientId="{!recipient.Id}"
                          sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_Case}"
                          greeting=""
                          title="{!$Label.Email_Title}"
-                         body="{!$Label.Email_Body_Case}"
                          signature="">
-            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Review_Cases}" caseId="{!relatedTo.Id}"/>
-        </c:EmailTemplate>
+            <c:Paragraph emailLabel="{!$Label.Email_Body_Case}"/>
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Review_Cases}"
+                              caseId="{!relatedTo.Id}"/>
+        </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
-        <c:EmailTemplateText recipientId="{!recipient.Id}"
+        <c:EmailWireframeText recipientId="{!recipient.Id}"
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Case}"
                              greeting=""
                              title="{!$Label.Email_Title}"
-                             body="{!$Label.Email_Body_Case}"
                              signature="">
-            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Review_Cases}" caseId="{!relatedTo.Id}"/>
-        </c:EmailTemplateText>
+            <c:ParagraphText emailLabel="{!$Label.Email_Body_Case}"/>
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Review_Cases}"
+                                  caseId="{!relatedTo.Id}"/>
+        </c:EmailWireframeText>
     </messaging:plainTextEmailBody>
 
 </messaging:emailTemplate>

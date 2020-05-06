@@ -5,9 +5,7 @@ public with sharing class EmailTemplateInitialPT extends EmailTemplateInitial {
 
     public EmailTemplateInitialPT(Id recipientContactId, String outputMode, String communityTemplateName) {
         super(recipientContactId, outputMode, communityTemplateName);
-        bodyLabel = 'Email_Body_Initial_Patient_Virtual';
-        headerLabel = 'Email_Header_Initial_Patient';
-        signatureLabel = 'Email_Signature_Patient';
+        userMode = 'Participant Virtual';
 
         List<String> templates = new List<String>{communityTemplateName};
         if(communityTemplateName == CommunityTemplateService.TEMPLATE_DEFAULT) templates.add(null);
@@ -22,11 +20,10 @@ public with sharing class EmailTemplateInitialPT extends EmailTemplateInitial {
             whatId = enrollments.get(0).Id;
             parametersProviderName = 'Email_Template_Parameters_From_PE';
             if (enrollments.get(0).Referral_Source__c == 'PI') {
-                bodyLabel = 'Email_Body_Initial_Patient_Created_By_PI';
+                userMode = 'Participant referred by PI';
             } else if (enrollments.get(0).Referral_Source__c == 'HCP') {
-                bodyLabel = 'Email_Body_Initial_Patient';
+                userMode = 'Participant referred by HCP';
             }
         }
-        updateTemplateLabels();
     }
 }

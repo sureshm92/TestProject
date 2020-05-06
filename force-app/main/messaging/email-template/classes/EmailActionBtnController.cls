@@ -4,10 +4,17 @@
 
 global without sharing class EmailActionBtnController {
 
+    global String buttonLabelName { get; set; }
     global String buttonURLString { get; set; }
     global String caseIdString { get; set; }
-    global Id resourceIdString { get; set; }
     global Id surveyIdString { get; set; }
+
+    //DEPRECATED
+    global Id resourceIdString { get; set; }
+
+    public String getButtonLabelValue() {
+        return TranslateHelper.getLabelValue(buttonLabelName, EmailTemplateProviderService.getProvider().getUserLanguage());
+    }
 
     public String getResultURL() {
         String result = buttonURLString;
@@ -28,6 +35,6 @@ global without sharing class EmailActionBtnController {
     }
 
     private String getCurrentCommunityURL() {
-        return CommunityTemplateService.getCommunityURL(EmailTemplateProvider.getInstance().getCommunityTemplateName());
+        return CommunityTemplateService.getCommunityURL(EmailTemplateProviderService.getProvider().getCommunityTemplateName());
     }
 }

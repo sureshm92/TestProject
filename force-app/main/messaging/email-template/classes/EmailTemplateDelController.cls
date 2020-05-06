@@ -15,9 +15,9 @@ global without sharing class EmailTemplateDelController {
                         Study_Site__r.Principal_Investigator__r.Full_Name__c,
                         Study_Site__r.Name
                 FROM Site_Staff__c
-                WHERE Site_Contact__c = :EmailTemplateProvider.getInstance().getRecipientId()
+                WHERE Site_Contact__c = :EmailTemplateProviderService.getProvider().getRecipientId()
         ];
-        TranslateHelper.translate(siteStaffs, EmailTemplateProvider.getInstance().getUserLanguage());
+        TranslateHelper.translate(siteStaffs, EmailTemplateProviderService.getProvider().getUserLanguage());
 
         List<DelegateLevelWrapper> piDelegateLevels = new List<DelegateLevelWrapper>();
         for (Site_Staff__c siteStaff : siteStaffs) {
@@ -36,9 +36,9 @@ global without sharing class EmailTemplateDelController {
                 SELECT toLabel(Delegate_Access_Level__c),
                         Referring_Provider__r.Full_Name__c
                 FROM RP_Delegate_Relationship__c
-                WHERE Delegate__c = :EmailTemplateProvider.getInstance().getRecipientId()
+                WHERE Delegate__c = :EmailTemplateProviderService.getProvider().getRecipientId()
         ];
-        TranslateHelper.translate(rpDelegates, EmailTemplateProvider.getInstance().getUserLanguage());
+        TranslateHelper.translate(rpDelegates, EmailTemplateProviderService.getProvider().getUserLanguage());
 
         List<DelegateLevelWrapper> hcpDelegateLevels = new List<DelegateLevelWrapper>();
         for (RP_Delegate_Relationship__c delegate : rpDelegates) {

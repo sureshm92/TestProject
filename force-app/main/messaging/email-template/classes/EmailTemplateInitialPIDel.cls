@@ -5,9 +5,7 @@ public with sharing class EmailTemplateInitialPIDel extends EmailTemplateInitial
 
     public EmailTemplateInitialPIDel(Id recipientContactId, String outputMode) {
         super(recipientContactId, outputMode, null);
-        headerLabel = LABEL_HEADER_INITIAL_DELEGATE;
-        bodyLabel = LABEL_BODY_INITIAL_DELEGATE;
-        updateTemplateLabels();
+        userMode = 'PI Delegate';
 
         List<Site_Staff__c> siteStaffs = [
                 SELECT Study_Site__c

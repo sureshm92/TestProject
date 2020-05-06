@@ -14,8 +14,8 @@ global without sharing class EmailWireframeController {
     global String emailRecipientId { get; set; }
     global String emailRecipientLanguage { get; set; }
     global String communityTemplateValue { get; set; }
+    global String specificEmailProviderValue { get; set; }
     global String outputMode { get; set; }
-
 
     private EmailTemplateProvider templateProvider;
 
@@ -25,20 +25,6 @@ global without sharing class EmailWireframeController {
 
     public Map<String, String> getTemplateMap() {
         return getProvider().getParameters();
-    }
-
-    private EmailTemplateProvider getProvider() {
-        if (templateProvider == null) {
-            if(!EmailTemplateProvider.haveTemplateInitial()) {
-                EmailTemplateInitial templateInitial = new EmailTemplateInitialDefault(
-                        sourceRecordId, emailRecipientId, emailRecipientName, emailRecipientLanguage, outputMode, communityTemplateValue
-                );
-                EmailTemplateProvider.setTemplateInitial(templateInitial);
-            }
-
-            templateProvider = EmailTemplateProvider.getInstance();
-        }
-        return templateProvider;
     }
 
     //Labels: ----------------------------------------------------------------------------------------------------------
@@ -71,6 +57,17 @@ global without sharing class EmailWireframeController {
     public String getSignatureText() {
         String signatureLabelValue = replaceParams(getLabelValue(signatureValue));
         return prepareLineBreaks(signatureLabelValue);
+    }
+
+    private EmailTemplateProvider getProvider() {
+        if (templateProvider == null) {
+            EmailTemplateProviderService.setProviderType(
+                    specificEmailProviderValue, emailRecipientId, emailRecipientName, emailRecipientLanguage,
+                    communityTemplateValue, sourceRecordId, outputMode
+            );
+            templateProvider = EmailTemplateProviderService.getProvider();
+        }
+        return templateProvider;
     }
 
     //Service logic: ---------------------------------------------------------------------------------------------------

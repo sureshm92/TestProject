@@ -5,10 +5,7 @@ public without sharing class EmailTemplateInitialPI extends EmailTemplateInitial
 
     public EmailTemplateInitialPI(Id recipientContactId, String outputMode) {
         super(recipientContactId, outputMode, null);
-        bodyLabel = 'Email_Body_Initial_PI';
-        headerLabel = 'Email_Header_Initial_PI';
-        greetingLabel = LABEL_GREETING_VALUE_PI_HCP;
-        updateTemplateLabels();
+        userMode = 'PI';
 
         List<Study_Site__c> studySites = [
                 SELECT Id

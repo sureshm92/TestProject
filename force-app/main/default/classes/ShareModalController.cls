@@ -19,13 +19,13 @@ public without sharing class ShareModalController {
             } else if (sourceId.getSobjectType() == Resource__c.getSObjectType()) {
                 type = NotificationCatalog.MESSAGE_TO_EXUS_SHARE_RESOURCES_TYPE;
             }
-            Notification__c notification = new Notification__c(
+
+            insert new Notification__c(
                     WhatId__c = whatId,
                     Email__c = email,
                     From__c = fromId,
                     Notification_Type__c = type
             );
-            insert notification;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }

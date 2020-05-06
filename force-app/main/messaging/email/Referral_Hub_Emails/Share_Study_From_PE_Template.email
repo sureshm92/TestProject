@@ -3,33 +3,33 @@
                          relatedToType="Participant_Enrollment__c"
                          language="{!relatedTo.HCP__r.HCP_Contact__r.Language__c}">
 
-    <messaging:htmlEmailBody >
-        <c:EmailTemplate recipientId="{!relatedTo.Participant__r.Contact__c}"
-                         recipientLanguage="{!relatedTo.HCP__r.HCP_Contact__r.Language__c}"
-                         sourceId="{!relatedTo.Id}"
-                         header="{!$Label.Email_Header_Share}"
-                         title="{!$Label.Email_Title}"
-                         greeting="{!$Label.Email_Ext_User_Greeting}"
-                         body="{!$Label.Email_Body_Share}"
-                         signature="{!$Label.Email_Signature_PT}">
+    <messaging:htmlEmailBody>
+        <c:EmailWireframe recipientId="{!relatedTo.Participant__r.Contact__c}"
+                          recipientLanguage="{!relatedTo.HCP__r.HCP_Contact__r.Language__c}"
+                          sourceId="{!relatedTo.Id}"
+                          header="{!$Label.Email_Header_Share}"
+                          title="{!$Label.Email_Title}"
+                          greeting="{!$Label.Email_Ext_User_Greeting}"
+                          signature="{!$Label.Email_Signature_PT}">
+            <c:Paragraph emailLabel="{!$Label.Email_Body_Share}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_Trial_Details}"
                               buttonURL="{!relatedTo.Study_Site__r.Clinical_Trial_Profile__r.Share_URL__c}"/>
-        </c:EmailTemplate>
+        </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody >
-        <c:EmailTemplateText recipientName="{!$Label.Email_Guest}"
-                             recipientId="{!relatedTo.Participant__r.Contact__c}"
-                             recipientLanguage="{!relatedTo.HCP__r.HCP_Contact__r.Language__c}"
-                             sourceId="{!relatedTo.Id}"
-                             header="{!$Label.Email_Header_Share}"
-                             title="{!$Label.Email_Title}"
-                             greeting="{!$Label.Email_User_Greeting}"
-                             body="{!$Label.Email_Body_Share}"
-                             signature="{!$Label.Email_Signature_RH}">
+    <messaging:plainTextEmailBody>
+        <c:EmailWireframeText recipientId="{!relatedTo.Participant__r.Contact__c}"
+                              recipientName="{!$Label.Email_Guest}"
+                              recipientLanguage="{!relatedTo.HCP__r.HCP_Contact__r.Language__c}"
+                              sourceId="{!relatedTo.Id}"
+                              header="{!$Label.Email_Header_Share}"
+                              title="{!$Label.Email_Title}"
+                              greeting="{!$Label.Email_User_Greeting}"
+                              signature="{!$Label.Email_Signature_RH}">
+            <c:ParagraphText emailLabel="{!$Label.Email_Body_Share}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_Trial_Details}"
                                   buttonURL="{!relatedTo.Study_Site__r.Clinical_Trial_Profile__r.Share_URL__c}"/>
-        </c:EmailTemplateText>
+        </c:EmailWireframeText>
     </messaging:plainTextEmailBody>
 
 </messaging:emailTemplate>

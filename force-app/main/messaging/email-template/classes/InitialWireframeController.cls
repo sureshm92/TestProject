@@ -7,42 +7,23 @@ global without sharing class InitialWireframeController {
     global String commTemplate { get; set; }
     global String outputMode { get; set; }
 
-    private String userMode;
-    private Boolean isDelegate;
     private EmailTemplateInitial templateInitial;
 
-    public Map<String, String> getTemplateLabels() {
-        return getTemplateInitial().templateLabels;
-    }
-
     public String getUserMode() {
-        if(String.isEmpty(userMode)) initMode();
-        return userMode;
+        return getTemplateInitial().userMode;
     }
 
-    public Boolean getIsDelegate() {
-        if(isDelegate == null) initMode();
-        return isDelegate;
+    public Id getSourceId() {
+        return getTemplateInitial().whatId;
     }
 
-    private void initMode() {
-        User user = [
-                SELECT
-                        Contact.UserCommunityIsDelegate__c,
-                        Contact.userCommunityMode__c
-                FROM User
-                WHERE Id = :recordId
-        ];
-        userMode = user.Contact.userCommunityMode__c;
-        isDelegate = user.Contact.UserCommunityIsDelegate__c;
+    public String getSpecificProvider() {
+        return (getTemplateInitial().useAllPINames ? 'EmailTemplateProviderHCPMultiPI' : '');
     }
 
     private EmailTemplateInitial getTemplateInitial() {
         if (templateInitial == null) {
-            templateInitial = EmailTemplateInitialFactory.getTemplateInitial(
-                    recordId, recordId, null, null, outputMode, commTemplate
-            );
-            EmailTemplateProvider.setTemplateInitial(templateInitial);
+            templateInitial = EmailTemplateInitialFactory.getTemplateInitial(recordId, outputMode, commTemplate);
         }
         return templateInitial;
     }

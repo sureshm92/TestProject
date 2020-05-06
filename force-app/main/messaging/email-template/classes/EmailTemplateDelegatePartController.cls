@@ -4,9 +4,11 @@
 
 global without sharing class EmailTemplateDelegatePartController {
 
-    global String delegateUserId { get; set; }
     global String commTemplateStr { get; set; }
     global Id sourceIdValue { get; set; }
+
+    //DEPRECATED
+    global String delegateUserId { get; set; }
 
     public List<String> getDelegateStudyNames() {
         List<Id> participantIds = new List<Id>();
@@ -25,18 +27,20 @@ global without sharing class EmailTemplateDelegatePartController {
             }
         } else {
             List<Id> delegatedParticipantIds =
-                    PatientDelegateService.getDelegatedParticipantIds(EmailTemplateProvider.getInstance().getRecipientId());
+                    PatientDelegateService.getDelegatedParticipantIds(EmailTemplateProviderService.getProvider().getRecipientId());
             if (delegatedParticipantIds != null) participantIds.addAll(delegatedParticipantIds);
         }
 
         List<String> delegateStudyNames = new List<String>();
         if (participantIds.isEmpty()) return delegateStudyNames;
 
+        String communityTemplate = String.isNotEmpty(commTemplateStr) ?
+                commTemplateStr : EmailTemplateProviderService.getProvider().getCommunityTemplateName();
         List<Participant_Enrollment__c> delegatePE = [
                 SELECT  Clinical_Trial_Profile__r.Study_Code_Name__c
                 FROM Participant_Enrollment__c
                 WHERE Participant__c IN:participantIds
-                AND Clinical_Trial_Profile__r.CommunityTemplate__c = :EmailTemplateProvider.getInstance().getCommunityTemplateName()
+                AND Clinical_Trial_Profile__r.CommunityTemplate__c = :communityTemplate
                 ORDER BY CreatedDate
         ];
         for (Participant_Enrollment__c pe : delegatePE) delegateStudyNames.add(pe.Clinical_Trial_Profile__r.Study_Code_Name__c);
@@ -45,6 +49,6 @@ global without sharing class EmailTemplateDelegatePartController {
     }
 
     public String getBottomText() {
-        return EmailTemplateProvider.getInstance().getDelegateBottomTxt();
+        return EmailTemplateProviderService.getProvider().getDelegateBottomTxt();
     }
 }

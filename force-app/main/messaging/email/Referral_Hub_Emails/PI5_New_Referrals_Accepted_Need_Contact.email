@@ -4,29 +4,29 @@
                          language="{!relatedTo.Study_Site__r.Principal_Investigator__r.Language__c}">
 
     <messaging:htmlEmailBody>
-        <c:EmailTemplate userType="PI"
-                         sourceId="{!relatedTo.Id}"
-                         header="{!$Label.Email_Header_PI5}"
-                         title="{!$Label.Email_Title}"
-                         greeting="{!$Label.Email_User_Greeting}"
-                         body="{!$Label.Email_Body_PI5}"
-                         signature="{!$Label.Email_Signature_RH}">
+        <c:EmailWireframe recipientId="{!recipient.Id}"
+                          sourceId="{!relatedTo.Id}"
+                          header="{!$Label.Email_Header_PI5}"
+                          title="{!$Label.Email_Title}"
+                          greeting="{!$Label.Email_User_Greeting}"
+                          signature="{!$Label.Email_Signature_RH}">
+            <c:Paragraph emailLabel="{!$Label.Email_Body_PI5}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_My_Referrals}"
                               buttonURL="/s/my-referrals"/>
-        </c:EmailTemplate>
+        </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody>
-        <c:EmailTemplateText userType="PI"
-                             sourceId="{!relatedTo.Id}"
-                             header="{!$Label.Email_Header_PI5}"
-                             title="{!$Label.Email_Title}"
-                             greeting="{!$Label.Email_User_Greeting}"
-                             body="{!$Label.Email_Body_PI5}"
-                             signature="{!$Label.Email_Signature_RH}">
+        <c:EmailWireframeText recipientId="{!recipient.Id}"
+                              sourceId="{!relatedTo.Id}"
+                              header="{!$Label.Email_Header_PI5}"
+                              title="{!$Label.Email_Title}"
+                              greeting="{!$Label.Email_User_Greeting}"
+                              signature="{!$Label.Email_Signature_RH}">
+            <c:ParagraphText emailLabel="{!$Label.Email_Body_PI5}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_My_Referrals}"
                                   buttonURL="/s/my-referrals"/>
-        </c:EmailTemplateText>
+        </c:EmailWireframeText>
     </messaging:plainTextEmailBody>
 
 </messaging:emailTemplate>

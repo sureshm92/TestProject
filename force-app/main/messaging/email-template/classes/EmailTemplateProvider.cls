@@ -2,44 +2,48 @@
  * Created by Igor Malyuta on 23.03.2020.
  */
 
-public virtual without sharing class EmailTemplateProvider {
+public without sharing virtual class EmailTemplateProvider {
 
     public static final String PARAM_PREFIX = '##';
     public static final String DEFAULT_LANGUAGE = 'en_US';
+    public static final Map<String, String> PARAM_PROVIDER_BY_TYPE = new Map<String, String>{
+            'Case' => 'Email_Template_Parameters_From_Case',
+            'Contact' => 'PP_Contact',
+            'Clinical_Trial_Profile__c' => 'Email_Template_Parameters_From_CTP',
+            'HCP_Enrollment__c' => 'Email_Template_Parameters_From_HCPE',
+            'Participant__c' => 'PP_Participant',
+            'Participant_Enrollment__c' => 'Email_Template_Parameters_From_PE',
+            'Resource__c' => 'Email_Template_Parameters_From_Resource',
+            'Study_Site__c' => 'PP_Study_Site',
+            'SurveyInvitation' => 'Email_Template_Parameters_From_SI',
+            'Task' => 'Email_Template_Parameters_From_Task',
+            'Trial_Notification__c' => 'Email_Template_Parameters_From_TN'
+    };
+
+    protected Id recipientId;
+    protected String recipientName;
+    protected String recipientLanguage;
+    protected Boolean isHTML = true;
+    protected String recipientFirstName;
+    protected Id recipientContactId;
+    protected Boolean isDelegate;
+    protected String userMode;
 
     protected TemplatePropertiesService templatePropertiesService;
     protected Map<String, String> parameters = new Map<String, String>();
 
-    protected String recipientName;
-    protected String recipientFirstName;
-    protected Id recipientContactId;
-    protected String recipientLanguage;
-    protected Boolean isDelegate;
-    protected String userMode;
+    public virtual void initState(Id recipientId, String recipientName, String recipientLanguage,
+            String communityTemplateName, Id whatId, String outputMode) {
+        this.recipientId = recipientId;
+        this.recipientName = recipientName;
+        this.recipientLanguage = recipientLanguage;
+        if(!String.isNotEmpty(outputMode)) this.isHTML = outputMode.equals('HTML');
 
-    private Boolean isHTML;
+        updateRecipientName();
 
-    private static EmailTemplateInitial templateInitial;
-    public static void setTemplateInitial(EmailTemplateInitial initial) {
-        templateInitial = initial;
-    }
-
-    public static Boolean haveTemplateInitial() {
-        return templateInitial != null;
-    }
-
-    private static EmailTemplateProvider instance;
-    public static EmailTemplateProvider getInstance() {
-        if(instance == null) instance = new EmailTemplateProvider();
-        return instance;
-    }
-
-    private EmailTemplateProvider() {
-        updateRecipientName(templateInitial.recipientId, recipientName, recipientLanguage);
-
-        templatePropertiesService = String.isNotEmpty(templateInitial.communityTemplateName) ?
-                new TemplatePropertiesService(templateInitial.communityTemplateName) :
-                new TemplatePropertiesService(templateInitial.whatId, this.recipientContactId, userMode, isDelegate);
+        templatePropertiesService = String.isNotEmpty(communityTemplateName) ?
+                new TemplatePropertiesService(communityTemplateName) :
+                new TemplatePropertiesService(whatId, recipientContactId, userMode, isDelegate);
         fillTemplateParams();
 
         parameters.put('RecipientName', getUserName());
@@ -47,20 +51,19 @@ public virtual without sharing class EmailTemplateProvider {
         parameters.put('GuestName', TranslateHelper.getLabelValue(Label.Email_Guest_User_Name));
         if (isDelegate && userMode == 'Participant') initYourParticipantFirstName();
 
-        isHTML = templateInitial.outputMode == 'HTML';
-        initCRCommunityUrl(isHTML);
-//        initForgotPassURL(isHTML);
+        initCRCommunityUrl();
+//        initForgotPassURL();
 
-        if (!String.isEmpty(templateInitial.parametersProviderName) && templateInitial.whatId != null) {
-            parameters.putAll(CatalogParametersHelper.getParamsValueMap(
-                    templateInitial.whatId,
-                    CatalogParametersHelper.getParametersProviderMetadata(templateInitial.parametersProviderName),
-                    this.recipientLanguage
-            ));
+        if(whatId != null) {
+            String parametersProvider = PARAM_PROVIDER_BY_TYPE.get(whatId.getSobjectType().getDescribe().getName());
+            if (!String.isEmpty(parametersProvider)) {
+                parameters.putAll(CatalogParametersHelper.getParamsValueMap(
+                        whatId,
+                        CatalogParametersHelper.getParametersProviderMetadata(parametersProvider),
+                        this.recipientLanguage
+                ));
+            }
         }
-        if(!templateInitial.additionalParams.isEmpty()) parameters.putAll(templateInitial.additionalParams);
-
-        System.debug('PARAMS: ' + JSON.serializePretty(parameters));
     }
 
     public Map<String, String> getParameters() {
@@ -79,24 +82,8 @@ public virtual without sharing class EmailTemplateProvider {
         return recipientContactId;
     }
 
-    public String getRecipientLanguage() {
-        return recipientLanguage;
-    }
-
-    public Boolean isDelegate() {
-        return isDelegate;
-    }
-
     public String getUserMode() {
         return userMode;
-    }
-
-    public virtual String getUserName() {
-        if (recipientName != null) return recipientName;
-        String userNameParam = isDelegate ? 'FullName' : userMode + 'Name';
-        String name = parameters.get(userNameParam);
-        if (name == null) name = parameters.get('ParticipantContactFirstName');
-        return name;
     }
 
     public String getUserLanguage() {
@@ -108,7 +95,7 @@ public virtual without sharing class EmailTemplateProvider {
     }
 
     public String getDelegateBottomTxt() {
-        if(templateInitial.recipientId.getSobjectType() != User.getSObjectType()) return '';
+        if(recipientId.getSobjectType() != User.getSObjectType()) return '';
         return TranslateHelper.replaceParams(
                 TranslateHelper.getLabelValue(Label.Email_Body_Initial_Patient_Delegate_AfterText, recipientLanguage),
                 PARAM_PREFIX, parameters
@@ -138,21 +125,21 @@ public virtual without sharing class EmailTemplateProvider {
     }
 
     //Specific URLs:----------------------------------------------------------------------------------------------------
-    private void initCRCommunityUrl(Boolean isHTML) {
+    private void initCRCommunityUrl() {
         String clinicalResearchCommunityURL = isHTML ?
                 '<a href="https://www.clinicalresearch.com" target="_blank">IQVIA Clinical Research Community</a>'
                 : 'IQVIA Clinical Research Community at https://www.clinicalresearch.com';
         parameters.put('CRCommunityURL', clinicalResearchCommunityURL);
     }
 
-    private void initForgotPassURL(Boolean isHTML) {
+    private void initForgotPassURL() {
         Auth.AuthConfiguration authConfig = new Auth.AuthConfiguration(Network.getNetworkId(), '');
         String clinicalResearchCommunityForgotPasswordURL = isHTML ? '' : 'IQVIA Clinical Research Community Forgot password at';
         clinicalResearchCommunityForgotPasswordURL += authConfig.getForgotPasswordUrl();
         parameters.put('ForgotPasswordURL', clinicalResearchCommunityForgotPasswordURL);
     }
 
-    protected virtual void updateRecipientName(Id recipientId, String recipientName, String recipientLanguage) {
+    private void updateRecipientName() {
         if (recipientId == null) return;
 
         Contact recipientContact;
@@ -186,12 +173,11 @@ public virtual without sharing class EmailTemplateProvider {
 
         userMode = recipientContact.userCommunityMode__c;
         recipientFirstName = recipientContact.FirstName;
-        this.recipientName = recipientName;
-        if (String.isEmpty(this.recipientName)) this.recipientName = recipientContact.Salutation_With_Name__c;
-        parameters.put(userMode + 'Name', this.recipientName);
 
-        this.recipientLanguage = recipientLanguage;
-        if (String.isEmpty(this.recipientLanguage)) this.recipientLanguage = recipientContact.Language__c;
+        if (String.isEmpty(recipientName)) recipientName = recipientContact.Salutation_With_Name__c;
+        parameters.put(userMode + 'Name', recipientName);
+
+        if (String.isEmpty(recipientLanguage)) recipientLanguage = recipientContact.Language__c;
 
         isDelegate = recipientContact.UserCommunityIsDelegate__c;
         if (isDelegate) parameters.put('UserName', getCommunityUserName(recipientContactId));
@@ -208,6 +194,14 @@ public virtual without sharing class EmailTemplateProvider {
     private String getCommunityUserName(String contactId) {
         List<User> userList = [SELECT Username FROM User WHERE ContactId = :contactId];
         return !userList.isEmpty() ? userList.get(0).Username : '';
+    }
+
+    private String getUserName() {
+        if (recipientName != null) return recipientName;
+        String userNameParam = isDelegate ? 'FullName' : userMode + 'Name';
+        String name = parameters.get(userNameParam);
+        if (name == null) name = parameters.get('ParticipantContactFirstName');
+        return name;
     }
 
     private void initYourParticipantFirstName() {

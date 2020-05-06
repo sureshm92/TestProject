@@ -5,8 +5,6 @@ public with sharing class EmailTemplateInitialHCPDel extends EmailTemplateInitia
 
     public EmailTemplateInitialHCPDel(Id recipientId, String outputMode) {
         super(recipientId, outputMode, null);
-        headerLabel = LABEL_HEADER_INITIAL_DELEGATE;
-        bodyLabel = LABEL_BODY_INITIAL_DELEGATE;
-        updateTemplateLabels();
+        userMode = 'HCP Delegate';
     }
 }

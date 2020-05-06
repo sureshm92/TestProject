@@ -5,10 +5,7 @@ public with sharing class EmailTemplateInitialPTDel extends EmailTemplateInitial
 
     public EmailTemplateInitialPTDel(Id recipientContactId, String outputMode, String communityTemplateName) {
         super(recipientContactId, outputMode, communityTemplateName);
-        headerLabel = 'Email_Header_Initial_Patient_Delegate';
-        bodyLabel = 'Email_Body_Initial_Patient_Delegate';
-        signatureLabel = 'Email_Signature_New';
-        updateTemplateLabels();
+        userMode = 'Participant Delegate';
 
         List<Patient_Delegate__c> patientDelegate = [
                 SELECT

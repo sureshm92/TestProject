@@ -4,8 +4,9 @@
 
 <apex:component id="EmailWireframe" controller="EmailWireframeController" access="global" language="{!userLanguageCode}">
 
-    <!-- Records ids -->
+    <!-- Records info -->
     <apex:attribute name="recipientId" type="Id" assignTo="{!emailRecipientId}" description="" access="global"/>
+    <apex:attribute name="recipientName" type="String" assignTo="{!emailRecipientName}" description="" access="global"/>
     <apex:attribute name="recipientLanguage" type="String" assignTo="{!emailRecipientLanguage}" description=""
                     access="global"/>
     <apex:attribute name="sourceId" assignTo="{!sourceRecordId}" type="Id" description="" access="global"/>
@@ -16,10 +17,13 @@
     <apex:attribute name="greeting" assignTo="{!greetingValue}" type="String" description=""/>
     <apex:attribute name="signature" assignTo="{!signatureValue}" type="String" description=""/>
     <apex:attribute name="preSignature" assignTo="{!preSignatureValue}" type="String" description=""/>
-    <apex:attribute name="communityTemplate" type="String" assignTo="{!communityTemplateValue}"
-                    description="Community template name"/>
+
     <!-- Other -->
     <apex:attribute name="outputType" assignTo="{!outputMode}" type="String" description="" default="HTML"/>
+    <apex:attribute name="communityTemplate" type="String" assignTo="{!communityTemplateValue}"
+                    description="Community template name"/>
+    <apex:attribute name="specificEmailProvider" type="String" assignTo="{!specificEmailProviderValue}"
+                    description="If you need specific instance of EmailTemplateProvider set this here"/>
 
     <div style="{!templateMap['emailTemplateBackground']}">
         <div style="{!templateMap['emailTemplateTextBackground']}">
@@ -34,7 +38,7 @@
             <div style="padding: 20px; color: #333333; font-size: 16px; line-height: 20px;">
                 <apex:outputText value="{!greetingText}" escape="false"/>
 
-                <div style="margin-bottom: 30px;">
+                <div style="margin-top: -30px; margin-bottom: 30px;">
                     <apex:componentBody/>
                 </div>
 
