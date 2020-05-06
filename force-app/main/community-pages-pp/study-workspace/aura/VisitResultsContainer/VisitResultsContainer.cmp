@@ -29,14 +29,14 @@
                 {!$Label.c.Visit_Results_Tab_Disclaimer}
             </div>
             <div class="slds-grid slds-wrap slds-gutters">
-                <div class="slds-col slds-m-top--small slds-m-bottom--medium slds-size_1-of-8">
+                <div class="slds-col slds-m-top--small slds-m-bottom--medium slds-size_1-of-4">
                     <lightning:input type="toggle"
                                      messageToggleActive="{!$Label.c.BTN_On}"
                                      messageToggleInactive="{!$Label.c.BTN_Off}"
                                      onchange="{!c.switchToggle}"
-                                     checked="{!v.togglePosition}" label="{!v.labResultsMode}"/>
+                                     checked="{!v.togglePosition}" label="{!'Show ' + v.labResultsMode}"/>
                 </div>
-                <div class="slds-col slds-size_7-of-8"></div>
+                <div class="slds-col slds-size_3-of-4"></div>
             </div>
 
             <aura:if isTrue="{!and(v.togglePosition, and(v.initData.isVisitResultsAvailable, v.initData.isResultsExist))}">
