@@ -4,6 +4,11 @@
 ({
     doInit: function (component, event, helper) {
         let field = component.get('v.field');
+        if (field.type==='checkbox'){
+            component.set('v.updateInProgress', true);
+            component.set('v.booleanValue', field.value == 'true');
+            component.set('v.updateInProgress', false);
+        }
         component.set('v.previousValue', field.value)
     },
     onValueChange: function (component, event, helper) {
@@ -19,7 +24,15 @@
                 parent.fieldChanged(field.field, field.value, field.valid, populateFields ? field.populateFields : null);
             }
         }
-
+    },
+    onBooleanValueChange: function (component, event, helper) {
+        let booleanValue = component.get('v.booleanValue');
+        let updateInProgress = component.get('v.updateInProgress');
+        if (!updateInProgress) {
+            let field = component.get('v.field');
+            field.value = booleanValue?'true':'false';
+            component.set('v.field', field);
+        }
     },
     doCheckValidity: function (component, event, helper) {
         let field = component.get('v.field');
