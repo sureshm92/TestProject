@@ -1,0 +1,19 @@
+<!--
+ - Created by Alexey Moseev on 5/7/20.
+ -->
+
+<aura:component description="IncentivePlansLookup" controller="IncentivePlanSearchLookup" extends="c:RRSearchAbstract">
+
+    <aura:attribute name="isMultiEntry" type="Boolean" default="true"/>
+    <aura:attribute name="minTermLength" type="Integer" default="0"/>
+
+    <!-- methods: -->
+    <aura:method name="searchByTerm" action="{!c.doSearchByTerm}" access="public">
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="searchByValue" action="{!c.doSearchByValue}" access="public">
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+</aura:component>
