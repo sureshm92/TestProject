@@ -12,6 +12,7 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
                         Participant_Enrollment__r.Clinical_Trial_Profile__c,
                         Participant_Enrollment__r.Clinical_Trial_Profile__r.Shareback_Availability_Timing__c,
                         Participant_Enrollment__r.Participant_Contact__r.Visit_Results_Opt_In__c,
+                        Participant_Enrollment__r.Participant_Contact__r.Visit_Results_OptIn__c,
                         Visit_Number__c, (
                         SELECT
                                 Id,
