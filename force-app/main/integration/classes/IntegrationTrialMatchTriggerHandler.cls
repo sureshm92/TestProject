@@ -37,7 +37,7 @@ public with sharing class IntegrationTrialMatchTriggerHandler extends TriggerHan
         for (Participant_Enrollment__c pe : participantEnrollments) peByExtKey.put(pe.External_Key__c, pe);
 
         List<Trial_Match__c> trialMatches = [
-                SELECT Id, Matched_Date__c, Matching_Details__c, Matching_Score__c,
+                SELECT Id, Matched_Date__c, Matching_Details__c, Matching_Score__c, Is_Eligible__c,
                         Clinical_Trial_Profile__r.Protocol_ID__c, Participant_Enrollment__r.External_Key__c
                 FROM Trial_Match__c
                 WHERE Clinical_Trial_Profile__r.Protocol_ID__c IN:protocolIds
@@ -58,7 +58,7 @@ public with sharing class IntegrationTrialMatchTriggerHandler extends TriggerHan
                     if(itm.IsDeleted__c) {
                         tmsToDelete.add(tm);
                     } else {
-                        tm.Passed__c = itm.Passed__c;
+                        tm.Is_Eligible__c = itm.Is_Eligible__c;
                         tm.Matched_Date__c = itm.Matched_Date__c;
                         tm.Matching_Score__c = itm.Matching_Score__c;
                         tm.Matching_Details__c = itm.Matching_Details__c;
@@ -67,7 +67,7 @@ public with sharing class IntegrationTrialMatchTriggerHandler extends TriggerHan
                     }
                 } else {
                     tmsToUpsert.add(new Trial_Match__c(
-                            Passed__c = itm.Passed__c,
+                            Is_Eligible__c = itm.Is_Eligible__c,
                             Matched_Date__c = itm.Matched_Date__c,
                             Matching_Score__c = itm.Matching_Score__c,
                             Matching_Details__c = itm.Matching_Details__c,

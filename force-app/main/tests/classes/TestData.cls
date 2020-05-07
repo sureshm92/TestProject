@@ -51,6 +51,7 @@ public class TestData {
         ctp = [
                 SELECT Id, Therapeutic_Area__c,
                         Study_Code_Name__c,
+                        Protocol_ID__c,
                         Patient_Portal_Enabled__c,
                         Terms_and_Conditions__c,
                         Initial_Visit_Required__c,
@@ -74,7 +75,8 @@ public class TestData {
                         Initial_visit_scheduled_time__c,
                         Initial_visit_occurred_flag__c,
                         Initial_visit_scheduled_flag__c,
-                        Screening_ID__c, Medical_Record_Review_Completed_Date__c,
+                        External_Key__c, Screening_ID__c,
+                        Medical_Record_Review_Completed_Date__c,
                         Study_Site__r.Principal_Investigator__c,
                         Study_Site__r.Principal_Investigator__r.Name,
                         Study_Site__r.Principal_Investigator__r.Title
