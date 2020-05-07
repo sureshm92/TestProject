@@ -23,6 +23,11 @@
                 label: $A.get('$Label.c.Navigation_Dashboard'),
                 icon: 'dashboard'
             },
+            'resources-pi':{
+                page: 'resources-pi',
+                label: $A.get('$Label.c.Navigation_Resources'),
+                icon: 'resources'
+            },
 
             // 'medical-record-review-log': {
             //     page: 'medical-record-review-log',
@@ -109,7 +114,7 @@
             },
 
             'resources':{
-                page: 'resources',
+                page: 'study-workspace',
                 label: $A.get('$Label.c.Navigation_Resources'),
                 icon: 'resources'
             },
@@ -149,7 +154,7 @@
                 this.allPagesMap[''],
                 this.allPagesMap['dashboard'],
                 this.allPagesMap['my-referrals'],
-                this.allPagesMap['resources'],
+                this.allPagesMap['resources-pi'],
                 //this.allPagesMap['my-referring-clinics'],
                 //this.allPagesMap['reports'],
                 this.allPagesMap['messages'],
