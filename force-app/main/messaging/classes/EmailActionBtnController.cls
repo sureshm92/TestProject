@@ -18,7 +18,7 @@ global without sharing class EmailActionBtnController {
             if (!result.containsIgnoreCase('http')) {
                 if (!String.isBlank(result) && !result.startsWith('/')) result = '/' + result;
                 if (String.isNotBlank(invitationString) && !invitationString.startsWith('/')) result = '/s/survey?inv=' + invitationString;
-                result = getCurrentCommunityURL() + result;
+                result = getCurrentCommunityURL() + result.removeStart('/gsk');
             }
         } else {
             result = Url.getOrgDomainUrl().toExternalForm() + '/' + caseIdString;
