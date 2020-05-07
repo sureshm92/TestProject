@@ -209,14 +209,14 @@ public class TestDataFactory {
         insert study;
 
         List<PicklistEntry> pleList = Translation__c.Language__c.getDescribe().getPicklistValues();
-        String defaultLanguage = pleList[0].value;
-        for (PicklistEntry ple : pleList) {
-            if (ple.isDefaultValue()) defaultLanguage = ple.value;
-            break;
+        String langCode;
+        for(PicklistEntry ple : pleList) {
+            langCode = ple.getValue();
+            if(TranslateHelper.isLanguageSupported(ple.getValue())) break;
         }
-
+        
         Translation__c studyTranslation = new Translation__c(
-                Language__c = defaultLanguage,
+                Language__c = langCode,
                 Record_Id__c = study.Id,
                 Field_Name__c = 'Study_Title__c',
                 Value__c = 'Some translated value'

@@ -16,7 +16,7 @@ global without sharing class Batch_UpdatePEStatuses implements Database.Batchabl
     }
 
     global Database.QueryLocator start(Database.BatchableContext BC) {
-        String queryString = 'SELECT Id, Participant_Status__c, Non_Enrollment_Reason__c FROM Participant_Enrollment__c';
+        String queryString = 'SELECT Id, Participant_Status__c, Non_Enrollment_Reason__c, Last_Status_Changed_Notes__c FROM Participant_Enrollment__c';
         if(peIds != null && !peIds.isEmpty()) {
             queryString += ' WHERE Id IN :peIds';
         }
@@ -31,8 +31,10 @@ global without sharing class Batch_UpdatePEStatuses implements Database.Batchabl
             String reason = pe.Non_Enrollment_Reason__c==null?'':pe.Non_Enrollment_Reason__c.toLowerCase();
             String newStatus = StatusesUpdateBatchHelper.getUpdatedStatus(status, reason);
             String newReason = StatusesUpdateBatchHelper.getUpdatedReason(status, reason);
+            String newNotes = StatusesUpdateBatchHelper.getUpdatedNotes(status, reason);
             if(newStatus != null) pe.Participant_Status__c = newStatus;
             if(newReason != null) pe.Non_Enrollment_Reason__c = newReason;
+            if(newNotes != null) pe.Last_Status_Changed_Notes__c = newNotes;
             if(newStatus != null || newReason != null) {
                 peToUpdate.add(pe);
             }
