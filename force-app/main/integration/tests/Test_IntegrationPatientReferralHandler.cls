@@ -53,8 +53,14 @@ private class Test_IntegrationPatientReferralHandler {
         insert study;
     
         List<PicklistEntry> pleList = Translation__c.Language__c.getDescribe().getPicklistValues();
+        String langCode;
+        for(PicklistEntry ple : pleList) {
+            langCode = ple.getValue();
+            if(TranslateHelper.isLanguageSupported(ple.getValue())) break;
+        }
+    
         Translation__c studyTranslation = new Translation__c(
-                Language__c = pleList[0].value,
+                Language__c = langCode,
                 Record_Id__c = study.Id,
                 Field_Name__c = 'Study_Title__c',
                 Value__c = 'Some translated value'
