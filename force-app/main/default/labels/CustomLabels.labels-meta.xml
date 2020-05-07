@@ -5279,6 +5279,30 @@
         <value>In Progress</value>
     </labels>
     <labels>
+        <fullName>IncTask_01_D</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncTask_01_D</shortDescription>
+        <value>Complete pre-screener for participant</value>
+    </labels>
+    <labels>
+        <fullName>IncTask_01_HD</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncTask_01_HD</shortDescription>
+        <value>Completed pre-screener for:</value>
+    </labels>
+    <labels>
+        <fullName>IncTask_01_T</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncTask_01_T</shortDescription>
+        <value>Pre-screen participant</value>
+    </labels>
+    <labels>
         <fullName>Incorrect_data</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5755,6 +5779,20 @@
         <value>Home</value>
     </labels>
     <labels>
+        <fullName>Navigation_Library</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Navigation Library</shortDescription>
+        <value>Library</value>
+    </labels>
+    <labels>
+        <fullName>Navigation_Media_Outreach</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Navigation Media Outreach</shortDescription>
+        <value>Media Outreach</value>
+    </labels>
+    <labels>
         <fullName>Navigation_Medical_Record_Review_Log</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5879,6 +5917,13 @@
         <protected>false</protected>
         <shortDescription>No_permission_Visits_tab</shortDescription>
         <value>No permission for this feature</value>
+    </labels>
+    <labels>
+        <fullName>Non_Study_Specific</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Non Study Specific</shortDescription>
+        <value>Non-Study Specific</value>
     </labels>
     <labels>
         <fullName>None</fullName>
@@ -9749,18 +9794,18 @@
         <value>Deactivate Delegate</value>
     </labels>
     <labels>
-        <fullName>PG_PST_L_Delegates_Remove_Himself_Header</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Remove Himself Header</shortDescription>
-        <value>Remove Delegate</value>
-    </labels>
-    <labels>
         <fullName>PG_PST_L_Delegates_Remove_Himself</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Remove Himself</shortDescription>
         <value>You are about to remove yourself from the Delegate list. You cannot undo this action.  Do you want to proceed?</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Remove_Himself_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Remove Himself Header</shortDescription>
+        <value>Remove Delegate</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_Remove_Mess</fullName>
@@ -14159,11 +14204,18 @@
         <value>My Results</value>
     </labels>
     <labels>
+        <fullName>Visit_Results_Tab_Biomarkers</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Biomarkers</shortDescription>
+        <value>Biomarkers</value>
+    </labels>
+    <labels>
         <fullName>Visit_Results_Tab_Disclaimer</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit Results Tab Disclaimer</shortDescription>
-        <value>This data is being provided as part of your participation in a clinical research study.  It is for research purposes only. Values are only available for vitals recorded for the visit date displayed.  If you have questions or concerns about this data, please contact the study doctor at your study center.</value>
+        <value>This data is being provided as part of your participation in a clinical research study.  It is for research purposes only. Values are only available for vitals recorded for the visit date displayed.  If you have questions or concerns about this data, please contact the Principal Investigator at your study center.</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_Expected_Range</fullName>
@@ -14185,29 +14237,14 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In_1</shortDescription>
-        <value>This data is being provided as part of your participation in a clinical research study.
-            It is for research purposes only. If you would like to view your data</value>
+        <value>Your</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_If_Is_Not_Opt_In_2</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In_2</shortDescription>
-        <value>. You can opt-out at any time.</value>
-    </labels>
-    <labels>
-        <fullName>Visit_Results_Tab_If_Is_Not_Opt_In_3</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Visit Results Tab If Is Not Opt In 3</shortDescription>
-        <value>Once data becomes available it will begin to display. If you have questions or concerns about this data, please contact the study doctor at your study center.</value>
-    </labels>
-    <labels>
-        <fullName>Visit_Results_Tab_If_Is_Not_Opt_In_Delegate</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In_1</shortDescription>
-        <value>Visit assessment information is not available for this clinical study.</value>
+        <value>are currently turned off. Use the toggle above if you would like to turn your data back on.</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_Labs</fullName>

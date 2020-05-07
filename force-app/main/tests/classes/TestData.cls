@@ -51,6 +51,7 @@ public class TestData {
         ctp = [
                 SELECT Id, Therapeutic_Area__c,
                         Study_Code_Name__c,
+                        Protocol_ID__c,
                         Patient_Portal_Enabled__c,
                         Terms_and_Conditions__c,
                         Initial_Visit_Required__c,
@@ -69,12 +70,14 @@ public class TestData {
                 SELECT Id,
                         Participant_Contact__c,Participant_Status__c,
                         Participant_Contact__r.Visit_Results_Opt_In__c,
+                        Participant_Contact__r.Visit_Results_OptIn__c,
                         Initial_visit_scheduled_date__c,
                         Initial_visit_occurred_date__c,
                         Initial_visit_scheduled_time__c,
                         Initial_visit_occurred_flag__c,
                         Initial_visit_scheduled_flag__c,
-                        Screening_ID__c, Medical_Record_Review_Completed_Date__c,
+                        External_Key__c, Screening_ID__c,
+                        Medical_Record_Review_Completed_Date__c,
                         Study_Site__r.Principal_Investigator__c,
                         Study_Site__r.Principal_Investigator__r.Name,
                         Study_Site__r.Principal_Investigator__r.Title
@@ -222,6 +225,7 @@ public class TestData {
                 userCommunytyType__c = CommunityService.USER_MODE_HCP,
                 userCommunityMode__c = CommunityService.USER_MODE_HCP
         );
+        contacts.add(hcpContact);
 
         Contact hcpDelegateContact = new Contact(
                 FirstName = 'HCPDelTD',
@@ -231,8 +235,14 @@ public class TestData {
         );
         contacts.add(hcpDelegateContact);
 
-
-        contacts.add(hcpContact);
+        Contact participantContact = new Contact(
+                FirstName = 'ParticipantTD',
+                LastName = 'ParticipantTD',
+                Email = 'participant_contact@emil.com',
+                MailingCountry = 'United States',
+                AccountId = participantsAccount.Id
+        );
+        contacts.add(participantContact);
         insert contacts;
 
         Therapeutic_Area__c area = new Therapeutic_Area__c(Name = 'Test TA TD');
@@ -267,8 +277,14 @@ public class TestData {
         insert study;
 
         List<PicklistEntry> pleList = Translation__c.Language__c.getDescribe().getPicklistValues();
+        String defaultLanguage = pleList[0].value;
+        for (PicklistEntry ple : pleList) {
+            if (ple.isDefaultValue()) defaultLanguage = ple.value;
+            break;
+        }
+
         Translation__c studyTranslation = new Translation__c(
-                Language__c = pleList[0].value,
+                Language__c = defaultLanguage,
                 Record_Id__c = study.Id,
                 Field_Name__c = 'Study_Title__c',
                 Value__c = 'Some translated value'
@@ -318,6 +334,7 @@ public class TestData {
                 Last_Name__c = 'ParticipantTD',
                 Phone__c = '55313535',
                 Email__c = 'part1@email.com',
+                Contact__c = participantContact.Id,
                 Mailing_Country_Code__c = 'US',
                 Mailing_State_Code__c = 'AL',
                 Adult__c = true

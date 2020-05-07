@@ -1,0 +1,15 @@
+<!--
+ - Created by Andrii Kryvolap.
+ -->
+
+<!-- Nav Incentive Counter -->
+<template>
+    <div class="nic-container">
+        <div class="nic-button" onclick={doToggleDropDown}>
+            <c-web-icon icon-name="icon-star-solid" icon-color="#FFFFFF" icon-size="small"></c-web-icon> {totalPoints}
+        </div>
+        <template if:true={showDropDown}>
+            <c-nav-incentive-drop-down total-points={totalPoints} last-points={lastPoints}></c-nav-incentive-drop-down>
+        </template>
+    </div>
+</template>

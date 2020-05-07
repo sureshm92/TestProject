@@ -52,10 +52,14 @@
     .THIS .db-qal-items > .slds-col {
         max-width: 60%;
         display: inline-flex;
-    }  
+    } 
+    
+    .THIS .db-qal-items > .slds-col.slds-size--9-of-12 > div {
+       max-width: 60%; 
+    }
     
     .THIS .db-qal-items > .slds-col:nth-of-type(2n+1) {
-        min-width: 40%;
+        min-width: 30%;
         justify-content: flex-end;
     }
 }
