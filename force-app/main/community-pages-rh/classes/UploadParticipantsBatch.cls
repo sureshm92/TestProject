@@ -222,6 +222,11 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                     month = Integer.valueOf(vals[1]);
                                     day = Integer.valueOf(vals[2]);
                                 }
+                            } else if (DateOfBirth.contains('-')) {
+                                List<String> vals = DateOfBirth.split('/');
+                                year = Integer.valueOf(vals[0]);
+                                month = Integer.valueOf(vals[1]);
+                                day = Integer.valueOf(vals[2]);
                             }
                             Date daysInMonth = Date.newInstance(year, month + 1, 1);
                             daysInMonth = daysInMonth.addDays(-1);
