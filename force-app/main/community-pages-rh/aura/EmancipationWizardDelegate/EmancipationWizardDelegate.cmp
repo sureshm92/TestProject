@@ -31,7 +31,7 @@
             <lightning:input class="healthcare-input" type="text" required="true" aura:id="delFirstName"
                              value="{!v.delegateItem.First_Name__c}"
                              onchange="{!c.checkFields}"
-                             disabled="{!v.delegateItem.isConnected}"/>
+                             disabled="{!v.delegateItem.isConnected || v.isDuplicate}"/>
         </div>
         <div class="rr-form-element slds-col slds-size--3-of-12">
             <div class="label">
@@ -40,7 +40,7 @@
             <lightning:input class="healthcare-input" type="text" required="true" aura:id="delLastName"
                              value="{!v.delegateItem.Last_Name__c}"
                              onchange="{!c.checkFields}"
-                             disabled="{!v.delegateItem.isConnected}"/>
+                             disabled="{!v.delegateItem.isConnected || v.isDuplicate}"/>
         </div>
         <div class="rr-form-element slds-col slds-size--3-of-12">
             <button class="apollo-btn secondary" onclick="{!c.doConnect}"
