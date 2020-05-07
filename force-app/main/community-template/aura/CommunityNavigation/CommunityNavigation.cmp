@@ -8,7 +8,7 @@
     <ul class="{!'nav-menu ' + if(v.isArabic, 'rtl ', ' ') + if(v.scrollRequired, v.scrollDirection, '')}" aura:id="navMenu">
         <aura:iteration items="{!v.menuItems}" var="item" >
             <li class="{!item.page == v.currentPage ? 'nav-item active' : 'nav-item'}" data-page-name="{!item.page}" onclick="{!c.onClick}">
-                {!item.label}
+            {!item.label}
                 <aura:if isTrue="{!equals(item.page, 'messages')}">
                     <c:navMessageCounter isOnPage="{!item.page == v.currentPage}"/>
                 </aura:if>
@@ -29,3 +29,4 @@
 
 
 </aura:component>
+

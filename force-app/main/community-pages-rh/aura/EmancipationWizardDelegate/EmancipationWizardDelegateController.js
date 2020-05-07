@@ -6,6 +6,16 @@
     checkFields: function (component, event) {
         var delegateItem = component.get('v.delegateItem');
 
+        if (event.getSource().getLocalId() == 'delEmail') {
+            delegateItem.First_Name__c = null;
+            delegateItem.Last_Name__c = null;
+        }
+
+        delegateItem.isConnected = false;
+        delegateItem.isDuplicate = false;
+        component.set('v.delegateItem', delegateItem);
+        component.set('v.isDuplicate', false);
+
         var isValid = (delegateItem.Email__c && communityService.isValidEmail(delegateItem.Email__c)) &&
             delegateItem.First_Name__c && delegateItem.First_Name__c.trim() &&
             delegateItem.Last_Name__c && delegateItem.Last_Name__c.trim();

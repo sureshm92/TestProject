@@ -8,9 +8,9 @@
         console.log('currentOutcomeSuccess ' + currentOutcomeSuccess);
         stepWrapper.formFieldGroups.forEach(function (group) {
             group.fields.forEach(function (field) {
-                console.log(field.field + ' ' + field.value + ' required:' + field.required + ' valid:' + field.valid + ' dependent:' + field.dependent + ' dependentActive:' + field.dependentActive);
+                console.log(field.field + ' ' + field.value + ' required:' + field.required + ' valid:' + field.valid + ' dependent:' + field.dependent + ' dependentActive:' + field.dependentActive + ' type: ' + field.type);
                 if (isCurrentStepValid &&
-                    ((field.required && ((!field.dependent && currentOutcomeSuccess) || (field.dependent && field.dependentActive))) && (!field.value || field.value.trim() === '')
+                    ((field.required && ((!field.dependent && currentOutcomeSuccess) || (field.dependent && field.dependentActive))) && (!field.value || field.value.trim() === '' || (field.value == 'false' && field.type == 'checkbox'))
                         || field.valid === false)) {
                     isCurrentStepValid = false;
                     console.log('isCurrentStepValid ' + isCurrentStepValid );
@@ -27,7 +27,6 @@
         component.set('v.stepWrapper.isCurrentStepValid', isCurrentStepValid);
     },
     updateDependentFields : function (component, event, helper, stepWrapper, fieldName, value){
-        debugger;
         if (stepWrapper.fieldDependencyMap.hasOwnProperty(fieldName)) {
             let dependentFields = stepWrapper.fieldDependencyMap[fieldName];
             for (let i = 0; i < stepWrapper.formFieldGroups.length; i++) {

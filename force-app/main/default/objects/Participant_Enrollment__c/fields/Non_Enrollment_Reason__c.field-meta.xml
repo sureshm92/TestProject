@@ -171,6 +171,7 @@
             <controllingFieldValue>Withdrew Consent</controllingFieldValue>
             <controllingFieldValue>Declined Consent</controllingFieldValue>
             <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
+            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
@@ -203,6 +204,7 @@
             <controllingFieldValue>Withdrew Consent</controllingFieldValue>
             <controllingFieldValue>Declined Consent</controllingFieldValue>
             <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
+            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
@@ -235,6 +237,7 @@
             <controllingFieldValue>Withdrew Consent</controllingFieldValue>
             <controllingFieldValue>Declined Consent</controllingFieldValue>
             <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
+            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
@@ -267,6 +270,7 @@
             <controllingFieldValue>Withdrew Consent</controllingFieldValue>
             <controllingFieldValue>Declined Consent</controllingFieldValue>
             <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
+            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
@@ -299,6 +303,7 @@
             <controllingFieldValue>Withdrew Consent</controllingFieldValue>
             <controllingFieldValue>Declined Consent</controllingFieldValue>
             <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
+            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
@@ -331,6 +336,7 @@
             <controllingFieldValue>Withdrew Consent</controllingFieldValue>
             <controllingFieldValue>Declined Consent</controllingFieldValue>
             <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
+            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
@@ -363,6 +369,7 @@
             <controllingFieldValue>Withdrew Consent</controllingFieldValue>
             <controllingFieldValue>Declined Consent</controllingFieldValue>
             <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
+            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
@@ -395,6 +402,7 @@
             <controllingFieldValue>Withdrew Consent</controllingFieldValue>
             <controllingFieldValue>Declined Consent</controllingFieldValue>
             <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
+            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
@@ -427,6 +435,7 @@
             <controllingFieldValue>Withdrew Consent</controllingFieldValue>
             <controllingFieldValue>Declined Consent</controllingFieldValue>
             <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
+            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
@@ -459,6 +468,7 @@
             <controllingFieldValue>Withdrew Consent</controllingFieldValue>
             <controllingFieldValue>Declined Consent</controllingFieldValue>
             <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
+            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
@@ -491,6 +501,7 @@
             <controllingFieldValue>Withdrew Consent</controllingFieldValue>
             <controllingFieldValue>Declined Consent</controllingFieldValue>
             <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
+            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
@@ -523,6 +534,7 @@
             <controllingFieldValue>Withdrew Consent</controllingFieldValue>
             <controllingFieldValue>Declined Consent</controllingFieldValue>
             <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
+            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
@@ -555,6 +567,7 @@
             <controllingFieldValue>Withdrew Consent</controllingFieldValue>
             <controllingFieldValue>Declined Consent</controllingFieldValue>
             <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
+            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
@@ -587,6 +600,7 @@
             <controllingFieldValue>Withdrew Consent</controllingFieldValue>
             <controllingFieldValue>Declined Consent</controllingFieldValue>
             <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
+            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
@@ -619,6 +633,7 @@
             <controllingFieldValue>Withdrew Consent</controllingFieldValue>
             <controllingFieldValue>Declined Consent</controllingFieldValue>
             <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
+            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
@@ -651,6 +666,7 @@
             <controllingFieldValue>Withdrew Consent</controllingFieldValue>
             <controllingFieldValue>Declined Consent</controllingFieldValue>
             <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
+            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
@@ -683,6 +699,7 @@
             <controllingFieldValue>Withdrew Consent</controllingFieldValue>
             <controllingFieldValue>Declined Consent</controllingFieldValue>
             <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
+            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
@@ -715,6 +732,7 @@
             <controllingFieldValue>Withdrew Consent</controllingFieldValue>
             <controllingFieldValue>Declined Consent</controllingFieldValue>
             <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
+            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
@@ -747,6 +765,7 @@
             <controllingFieldValue>Withdrew Consent</controllingFieldValue>
             <controllingFieldValue>Declined Consent</controllingFieldValue>
             <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
+            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
@@ -779,6 +798,7 @@
             <controllingFieldValue>Withdrew Consent</controllingFieldValue>
             <controllingFieldValue>Declined Consent</controllingFieldValue>
             <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
+            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
