@@ -9,7 +9,9 @@
     <aura:attribute name="required" type="Boolean"/>
     <aura:attribute name="todayDate" type="Date"/>
     <aura:attribute name="previousValue" type="String" default=""/>
+    <aura:attribute name="booleanValue" type="Boolean" default="false"/>
     <aura:attribute name="updateInProgress" type="Boolean" default="false"/>
+    <aura:attribute name="booleanUpdateInProgress" type="Boolean" default="false"/>
     <aura:attribute name="errorMessage" type="String" default=""/>
 
     <aura:method name="checkValidity" action="{!c.doCheckValidity}" access="public"/>
@@ -17,6 +19,7 @@
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.field.value}" action="{!c.onValueChange}"/>
+    <aura:handler name="change" value="{!v.booleanValue}" action="{!c.onBooleanValueChange}"/>
     <div class="{!'slds-col form-field ' + v.field.style }">
         <aura:if isTrue="{!v.field.type=='text'}">
             <lightning:input aura:id="fieldInput" label="{!if(and(!empty(v.field.requiredTitle),and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required)),v.field.requiredTitle,v.field.title)}" type="text" value="{!v.field.value}"
@@ -50,10 +53,9 @@
                              required="{!and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required)}"/>
         </aura:if>
         <aura:if isTrue="{!v.field.type=='checkbox'}">
-            <lightning:input aura:id="fieldInput" label="{!v.field.title}" type="checkbox" value="{!v.field.value}"
+            <lightning:input aura:id="fieldInput" label="{!v.field.title}" type="checkbox" checked="{!v.booleanValue}"
                              disabled="{!v.field.readonly || !v.editable || and(and(v.field.dependent, !v.field.dependentActive),v.field.strictDependency)}"
-                             required="{!and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required)}"
-                             onblur="{!c.onBlur}"/>
+                             required="{!and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required)}"/>
         </aura:if>
     </div>
 

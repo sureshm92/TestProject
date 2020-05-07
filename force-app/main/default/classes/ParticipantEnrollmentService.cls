@@ -437,9 +437,11 @@ public without sharing class ParticipantEnrollmentService {
             'Participant__r.Contact__r.Language__c',
             'Participant__r.Contact__r.Second_Choice_Language__c',
             'Participant__r.Contact__r.Third_Choice_Language__c',
-            'Participant__r.Contact__r.Visit_Results_Opt_In__c',
+            'Participant__r.Contact__r.Visit_Results_Opt_In__c',  // TODO Depricated
+            'Participant__r.Contact__r.Visit_Results_OptIn__c',
             'Participant_Contact__c',
-            'Participant_Contact__r.Visit_Results_Opt_In__c',
+            'Participant_Contact__r.Visit_Results_Opt_In__c',  // TODO Depricated
+            'Participant_Contact__r.Visit_Results_OptIn__c',
             'PI_Contact__r.Name',
             'PI_Contact__r.Phone',
             'Pre_screening_Status__c',

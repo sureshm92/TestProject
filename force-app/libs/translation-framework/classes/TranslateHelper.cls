@@ -248,5 +248,20 @@ public class TranslateHelper {
         }
         return result;
     }
+    
+    private static Set<String> supportedLanguages;
+    
+    public static Set<String> getSupportedLanguageCodes(){
+        if(supportedLanguages == null){
+            supportedLanguages = new Set<String>();
+            List<PicklistEntry> picklistEntries = User.LanguageLocaleKey.getDescribe().getPicklistValues();
+            for (Schema.PicklistEntry picklistEntry : picklistEntries) if(picklistEntry.isActive()) supportedLanguages.add(picklistEntry.getValue());
+        }
+        return supportedLanguages;
+    }
+    
+    public static Boolean isLanguageSupported(String langCode){
+        return getSupportedLanguageCodes().contains(langCode);
+    }
 
 }
