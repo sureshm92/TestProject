@@ -2,7 +2,6 @@
  * Created by Alexey Moseev on 5/7/20.
  */
 
-
 public without sharing class SSIncentiveConfigSearchResponse {
 
     @AuraEnabled public PaginationData pagination;

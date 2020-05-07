@@ -30,66 +30,66 @@ public without sharing class IncentivePlanConfigurationRemote {
     }
 
     @AuraEnabled
-    public static SSVisitConfigSearchResponse getItems(String ssItemsJSON, String filterJSON, String paginationJSON) {
+    public static SSIncentiveConfigSearchResponse getItems(String ssItemsJSON, String filterJSON, String paginationJSON) {
         try {
             StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(filterJSON, StudySiteFilter.class);
             PaginationData pagination = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
             save(ssItemsJSON);
             saveFilter(filter);
-            return new SSVisitConfigSearchResponse(filter, pagination);
+            return new SSIncentiveConfigSearchResponse(filter, pagination);
         } catch (Exception e) {
-            return (SSVisitConfigSearchResponse) AuraHelper.throwException(e);
+            return (SSIncentiveConfigSearchResponse) AuraHelper.throwException(e);
         }
     }
 
     @AuraEnabled
-    public static SSVisitConfigSearchResponse setVisitPlanForAll(String visitPlanId, Boolean state, String filterJSON, String paginationJSON, String ssItemsJSON) {
+    public static SSIncentiveConfigSearchResponse setIncentivePlanForAll(String visitPlanId, Boolean state, String filterJSON, String paginationJSON, String ssItemsJSON) {
         try {
             save(ssItemsJSON);
             StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(filterJSON, StudySiteFilter.class);
             saveFilter(filter);
             PaginationData pagination = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
             List<StudySiteItem> allSSItems = SSVisitConfigSearchResponse.convertToSSItems(SearchService.search(filter), visitPlanId);
-            for(StudySiteItem ssItem : allSSItems){
+            for (StudySiteItem ssItem : allSSItems) {
                 for (ValueStateItem assigment : ssItem.assignments) assigment.state = state;
             }
             save(allSSItems);
-            return new SSVisitConfigSearchResponse(filter, pagination);
+            return new SSIncentiveConfigSearchResponse(filter, pagination);
         } catch (Exception e) {
-            return (SSVisitConfigSearchResponse) AuraHelper.throwException(e);
+            return (SSIncentiveConfigSearchResponse) AuraHelper.throwException(e);
         }
     }
 
     @AuraEnabled
-    public static SSVisitConfigSearchResponse deleteVisitPlan(String planId, String filterJSON, String paginationJSON) {
+    public static SSIncentiveConfigSearchResponse deleteIncentivePlan(String planId, String filterJSON, String paginationJSON) {
         try {
-            delete new Visit_Plan__c(Id = planId);
+            delete new Incentive_Plan__c(Id = planId);
             StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(filterJSON, StudySiteFilter.class);
             PaginationData pagination = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
             saveFilter(filter);
-            return new SSVisitConfigSearchResponse(filter, pagination);
+            return new SSIncentiveConfigSearchResponse(filter, pagination);
         } catch (Exception e) {
-            return (SSVisitConfigSearchResponse) AuraHelper.throwException(e);
+            return (SSIncentiveConfigSearchResponse) AuraHelper.throwException(e);
         }
     }
 
     private static void save(String ssItemsJSON) {
-        if(String.isEmpty(ssItemsJSON)) return;
+        if (String.isEmpty(ssItemsJSON)) return;
         List<StudySiteItem> studySiteItems = (List<StudySiteItem>) JSON.deserialize(ssItemsJSON, List<StudySiteItem>.class);
         save(studySiteItems);
     }
 
     private static void save(List<StudySiteItem> studySiteItems) {
-        List<StudySiteVisitPlan__c> toDelete = new List<StudySiteVisitPlan__c>();
-        List<StudySiteVisitPlan__c> toInsert = new List<StudySiteVisitPlan__c>();
+        List<Study_Incentive_Plan__c> toDelete = new List<Study_Incentive_Plan__c>();
+        List<Study_Incentive_Plan__c> toInsert = new List<Study_Incentive_Plan__c>();
         for (StudySiteItem ssItem : studySiteItems) {
             for (ValueStateItem assigment : ssItem.assignments) {
                 if (assigment.sourceId != null && !assigment.state) {
-                    toDelete.add(new StudySiteVisitPlan__c(Id = assigment.sourceId));
-                }else if(assigment.sourceId == null && assigment.state){
-                    toInsert.add(new StudySiteVisitPlan__c(
+                    toDelete.add(new Study_Incentive_Plan__c(Id = assigment.sourceId));
+                } else if (assigment.sourceId == null && assigment.state){
+                    toInsert.add(new Study_Incentive_Plan__c(
                             Study_Site__c = ssItem.ss.Id,
-                            Visit_Plan__c = assigment.value
+                            Incentive_Plan__c = assigment.value
                     ));
                 }
             }
