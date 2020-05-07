@@ -5,7 +5,7 @@
 .THIS .visit-assessment-inf {
     color: #999999;
     font-family: "Proxima Nova";
-    font-size: 16px;
+    font-size: 20px;
     line-height: 26px;
     text-align: center;
     padding: 0.5rem 0;
@@ -23,12 +23,12 @@
 
 .THIS .opt-out-info {
     margin: 0 auto;
-    width: 40%;
+    width: 50%;
     white-space: pre-line;
 }
 
 .THIS .opt-out-info .rr-icon-default {
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     height: 52px;
     width: 52px;
 }

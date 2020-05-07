@@ -1,0 +1,17 @@
+<!--
+ - Created by user on 06-May-20.
+ -->
+
+<aura:component description="CommunityResourcesNavigation" extends="c:AbstractNavigation">
+
+    <aura:attribute name="itemResource" type="Object" access="public"/>
+
+    <c:uiHeaderMenu aura:id="menuId">
+        <aura:set attribute="title">
+            <div>{!$Label.c.Navigation_Resources}</div>
+            <c:RRIcon iconName="icon-chevron-down" class="icon-chevron-down-resources"/>
+        </aura:set>
+        <c:uiMenuItem label="{!$Label.c.Navigation_Library}" onclick="{!c.onClickResource}"/>
+        <c:uiMenuItem label="{!$Label.c.Navigation_Media_Outreach}"/>
+    </c:uiHeaderMenu>
+</aura:component>
