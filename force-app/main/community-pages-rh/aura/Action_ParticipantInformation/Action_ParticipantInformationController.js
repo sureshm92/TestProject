@@ -200,14 +200,18 @@
                 pathWrapperJSON: JSON.stringify(pathWrapper),
                 peId: pe.Id
             }, function (returnValueJSON) {
+                debugger;
                 var returnValue = JSON.parse(returnValueJSON);
+                component.set('v.updateInProgress', true);
                 component.set('v.participantPath',returnValue.participantPath);
+
                 component.set('v.pe', returnValue.pe);
                 var callback = component.get('v.callback');
                 if(callback){
                     callback(pe);
                 }
             }, null, function () {
+                component.set('v.updateInProgress', false);
                 component.find('spinner').hide();
             });
         }
