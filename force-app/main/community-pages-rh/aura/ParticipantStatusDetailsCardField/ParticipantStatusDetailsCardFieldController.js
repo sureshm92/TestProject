@@ -5,9 +5,9 @@
     doInit: function (component, event, helper) {
         let field = component.get('v.field');
         if (field.type==='checkbox'){
-            component.set('v.updateInProgress', true);
+            component.set('v.booleanUpdateInProgress', true);
             component.set('v.booleanValue', field.value == 'true');
-            component.set('v.updateInProgress', false);
+            component.set('v.booleanUpdateInProgress', false);
         }
         component.set('v.previousValue', field.value)
     },
@@ -27,7 +27,7 @@
     },
     onBooleanValueChange: function (component, event, helper) {
         let booleanValue = component.get('v.booleanValue');
-        let updateInProgress = component.get('v.updateInProgress');
+        let updateInProgress = component.get('v.booleanUpdateInProgress');
         if (!updateInProgress) {
             let field = component.get('v.field');
             field.value = booleanValue?'true':'false';
