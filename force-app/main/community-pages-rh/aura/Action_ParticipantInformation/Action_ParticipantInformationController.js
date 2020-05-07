@@ -200,7 +200,6 @@
                 pathWrapperJSON: JSON.stringify(pathWrapper),
                 peId: pe.Id
             }, function (returnValueJSON) {
-                debugger;
                 var returnValue = JSON.parse(returnValueJSON);
                 component.set('v.updateInProgress', true);
                 component.set('v.participantPath',returnValue.participantPath);
