@@ -43,7 +43,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Passed__c</field>
+                <field>Is_Eligible__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
