@@ -11229,7 +11229,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PWS Declined Conscent Disclaimer</shortDescription>
-        <value>On Initial Visit tab, update informed consent to "yes" and save to proceed with screening.</value>
+        <value>On Initial Visit tab, update informed consent to &quot;yes&quot; and save to proceed with screening.</value>
     </labels>
     <labels>
         <fullName>PWS_Eligibility_Card_Name</fullName>
