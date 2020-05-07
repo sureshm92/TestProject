@@ -1,0 +1,13 @@
+1) Login to org ans set alias:
+sfdx force:auth:web:login -a sandBoxAlias -r https://test.salesforce.com
+
+2) Generate login URL for this org:
+sfdx force:org:display -u sandBoxAlias --verbose
+
+3) Go to Gitlab > Settings > CI/CG > Variables > Expand
+add new variable with new alias and put SFDX Auth URL to this this variable
+click save variables
+
+4) Open .gitlab-ci.yml and setup new CI logic with new connection
+
+
