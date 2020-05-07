@@ -249,15 +249,15 @@ public class TranslateHelper {
         return result;
     }
     
-    private Set<String> supportedlanguages;
+    private static Set<String> supportedLanguages;
     
     public static Set<String> getSupportedLanguageCodes(){
-        if(supportedlanguages == null){
-            supportedlanguages = new Set<String>();
+        if(supportedLanguages == null){
+            supportedLanguages = new Set<String>();
             List<PicklistEntry> picklistEntries = User.LanguageLocaleKey.getDescribe().getPicklistValues();
-            for (Schema.PicklistEntry picklistEntry : picklistEntries) if(picklistEntry.isActive()) supportedlanguages.add(picklistEntry.getValue());
+            for (Schema.PicklistEntry picklistEntry : picklistEntries) if(picklistEntry.isActive()) supportedLanguages.add(picklistEntry.getValue());
         }
-        return supportedlanguages;
+        return supportedLanguages;
     }
     
     public static Boolean isLanguageSupported(String langCode){
