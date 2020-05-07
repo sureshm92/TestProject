@@ -9,7 +9,7 @@
     <c:uiHeaderMenu aura:id="menuId">
         <aura:set attribute="title">
             <div>{!$Label.c.Navigation_Resources}</div>
-            <c:RRIcon iconName="icon-chevron-down" class="icon-chevron-down-resources"/>
+            <img class="arrow-down" src="{!$Resource.icon_triangleDownWhite}" width="14" height="14"/>
         </aura:set>
         <c:uiMenuItem label="{!$Label.c.Navigation_Library}" onclick="{!c.onClickResource}"/>
         <c:uiMenuItem label="{!$Label.c.Navigation_Media_Outreach}"/>
