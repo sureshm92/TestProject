@@ -90,10 +90,10 @@
                                                                            isVisible="{!equals(v.viewModePage, 'Edit')}"/>
                                                     <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
                                                         <div class="column-btn">
-                                                            <a data-state="Enabled" data-vp="{!vp.value}"
+                                                            <a data-state="Enabled" data-vp="{!ip.value}"
                                                                onclick="{!c.columnCheckboxStateChange}">Select All</a>
                                                             <span style="padding: 0 3px; color: #006DCC; ">|</span>
-                                                            <a data-state="Disabled" data-vp="{!vp.value}"
+                                                            <a data-state="Disabled" data-vp="{!ip.value}"
                                                                onclick="{!c.columnCheckboxStateChange}">Clear All</a>
                                                         </div>
                                                     </aura:if>
