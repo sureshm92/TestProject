@@ -199,7 +199,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 }
                 try {
                     Date resultDate = null;
-                    if (!String.isEmpty(DateOfBirth)) {
+                    if (!String.isBlank(DateOfBirth)) {
                         try {
                             Integer year;
                             Integer month;
@@ -223,7 +223,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                     day = Integer.valueOf(vals[2]);
                                 }
                             } else if (DateOfBirth.contains('-')) {
-                                List<String> vals = DateOfBirth.split('/');
+                                List<String> vals = DateOfBirth.split('-');
                                 year = Integer.valueOf(vals[0]);
                                 month = Integer.valueOf(vals[1]);
                                 day = Integer.valueOf(vals[2]);
@@ -236,9 +236,13 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             } else {
                                 resultDate = Date.valueOf(DateOfBirth);
                             }
-                        } catch (Exception exp) { System.debug('ERROR: ' + totalRecordCount + ', ' + 'Date of Birth, Incorrect value'); }
+                        } catch (Exception exp) {
+                            System.debug('ERROR: ' + totalRecordCount + ', ' + 'Date of Birth, Incorrect value');
+                            resultDate = null;
+                            DateOfBirth = null;
+                        }
                     }
-                    if (resultDate == null && (String.isEmpty(DateOfBirth) || resultDate > System.today())) {
+                    if (resultDate == null && (String.isBlank(DateOfBirth) || resultDate > System.today())) {
                         hasErrors = true;
                         system.debug('ERROR: ' + totalRecordCount + ', ' + 'Date of Birth, incorrect, can\'t be empty or in the future');
 

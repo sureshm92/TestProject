@@ -1,0 +1,51 @@
+/**
+ * Created by Alexey Moseev on 5/7/20.
+ */
+.THIS.panel {
+    box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.15);
+    border: 1px solid #e4e4e4;
+    border-radius: 5px;
+    padding: 14px;
+    min-height: 300px;
+}
+
+.THIS .ss-table {
+    min-height: 200px;
+    max-width: 100%;
+    max-height: 500px;
+}
+
+.THIS .sorted-column {
+    display: flex;
+}
+
+.THIS .cell-wrap {
+    white-space: normal;
+    text-align: center;
+}
+
+.THIS .save-btn {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.THIS .padding-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.THIS .column-btn {
+    text-align: center;
+}
+
+.THIS .column-btn a {
+    font-weight: normal;
+    font-size: 12px;
+}
+
+.THIS .ss-table {
+    margin-top: 20px;
+}
