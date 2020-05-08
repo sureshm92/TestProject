@@ -13,19 +13,19 @@ private class Test_IntegrationTrialMatchTriggerHandler {
     static void testBehavior() {
         TestData testData = new TestData();
         Integration_Trial_Match__c newItm = new Integration_Trial_Match__c(
-                Protocol_ID__c = testData.ctp.Protocol_ID__c,
+                Protocol_ID__c = testData.ctp.Protocol_ID__c, Protocol_Version__c = 2.0,
                 Participant_Enrollment_External_ID__c = testData.pe.External_Key__c,
                 Matching_Score__c = 5, Matching_Details__c = 'Details', Matched_Date__c = Date.today(),
                 Therapeutic_Area__c = 'Test TA', IsDeleted__c = false, Is_Eligible__c = true
         );
         Integration_Trial_Match__c changedItm = new Integration_Trial_Match__c(
-                Protocol_ID__c = testData.ctp.Protocol_ID__c,
+                Protocol_ID__c = testData.ctp.Protocol_ID__c, Protocol_Version__c = 2.0,
                 Participant_Enrollment_External_ID__c = testData.pe.External_Key__c,
                 Matching_Score__c = 5, Matching_Details__c = 'Details update', Matched_Date__c = Date.today(),
                 Therapeutic_Area__c = 'Test TA', IsDeleted__c = false, Is_Eligible__c = true
         );
         Integration_Trial_Match__c deletedItm = new Integration_Trial_Match__c(
-                Protocol_ID__c = testData.ctp.Protocol_ID__c,
+                Protocol_ID__c = testData.ctp.Protocol_ID__c, Protocol_Version__c = 2.0,
                 Participant_Enrollment_External_ID__c = testData.pe.External_Key__c,
                 Matching_Score__c = 5, Matching_Details__c = 'Details update', Matched_Date__c = Date.today(),
                 Therapeutic_Area__c = 'Test TA', IsDeleted__c = true, Is_Eligible__c = false
@@ -52,7 +52,7 @@ private class Test_IntegrationTrialMatchTriggerHandler {
         Boolean isExceptionThrown = false;
         TestData testData = new TestData();
         Integration_Trial_Match__c newItm = new Integration_Trial_Match__c(
-                Protocol_ID__c = testData.ctp.Protocol_ID__c,
+                Protocol_ID__c = testData.ctp.Protocol_ID__c, Protocol_Version__c = 2.0,
                 Participant_Enrollment_External_ID__c = 'smth',
                 Matching_Score__c = 5, Matching_Details__c = 'Details', Matched_Date__c = Date.today(),
                 Therapeutic_Area__c = 'Test TA', IsDeleted__c = false, Is_Eligible__c = true
@@ -73,7 +73,7 @@ private class Test_IntegrationTrialMatchTriggerHandler {
         Boolean isExceptionThrown = false;
         TestData testData = new TestData();
         Integration_Trial_Match__c newItm = new Integration_Trial_Match__c(
-                Protocol_ID__c = 'smth',
+                Protocol_ID__c = 'smth', Protocol_Version__c = 2.0,
                 Participant_Enrollment_External_ID__c = testData.pe.External_Key__c,
                 Matching_Score__c = 5, Matching_Details__c = 'Details', Matched_Date__c = Date.today(),
                 Therapeutic_Area__c = 'Test TA', IsDeleted__c = false, Is_Eligible__c = true
