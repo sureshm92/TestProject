@@ -1,0 +1,102 @@
+<!--
+ - Created by Sumit Surve.
+ -->
+
+<aura:component description="DB_LeaderboardSelectedPIDetails">
+
+    <!-- attributes:-->
+    <aura:attribute name="piData" type="Object"/>
+    <aura:attribute name="pIStudySiteRank" type="List"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doinit}"/>
+    <aura:handler name="change" value="{!v.piData}" action="{!c.doinit}"/>
+
+    <!-- component body -->
+    <div>   
+        <div class="slds-grid">     
+            <div class="slds-col slds-size_4-of-5">
+                <div class="pi_Name">
+                    {!v.pIStudySiteRank[0].piName}
+                </div>
+                <div class="study_Name">
+                    {!v.pIStudySiteRank[0].studyName}
+                </div> 
+            </div> 
+            <div class="slds-col slds-size_1-of-5 flagdiv">
+                <lightning:icon src="{! $Resource.Flags + '#'+v.pIStudySiteRank[0].location}" alternativeText="{!v.pIStudySiteRank[0].location}" />
+            </div>
+        </div> 
+        <div class="topsiteblock">
+                <div class="topsite">
+                    {!$Label.c.Dashboard_Top_Site}: {!v.pIStudySiteRank[0].site_Number}
+                </div>
+                <div class="study_Name">
+                    {!v.pIStudySiteRank[0].site_Name}
+                </div>
+            </div>
+        <div class="slds-grid innerdiv">
+            <div class="slds-col slds-size_1-of-2 txt_align">
+                <div class="digitformat1">
+                    {!v.pIStudySiteRank[0].rank}
+                </div>
+                <div class="txtformat1">
+                    {!$Label.c.Dashboard_Rank}
+                </div>   
+            </div>
+            <div class="slds-col slds-size_1-of-2 txt_align">
+                <div class="digitformat1">
+                    {!v.pIStudySiteRank[0].initial_Visits_Completed}
+                </div>
+                <div class="slds-wrap txtformat1">
+                    {!$Label.c.Dashnoard_Initial_Visits_Completed}
+                </div>
+            </div>
+        </div> 
+        <div class="borderdiv">
+        </div>
+        <div class="slds-grid middlediv">
+            <div class="slds-col slds-size_1-of-2">
+                <div class="textalign2">
+                    {!$Label.c.Dashboard_Contacted}: {!v.pIStudySiteRank[0].contacted}
+                </div>
+                <div class="textalign2">
+                    {!$Label.c.Dashboard_Screened}: {!v.pIStudySiteRank[0].screened}
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-2">
+                <div class="textalign2">
+                    {!$Label.c.Dashboard_Scheduled}: {!v.pIStudySiteRank[0].scheduled}
+                </div>
+                <div class="textalign2">
+                    <aura:if isTrue="{!v.pIStudySiteRank[0].is_enrolled_randomized == 'Enrolled'}">
+                        {!$Label.c.Dashboard_Enrolled}: <span class="digit-span">{!v.pIStudySiteRank[0].enrolled_randomized}</span>
+                        <aura:set attribute="else">
+                            {!$Label.c.Dashboard_Randomized}: <span class="digit-span">{!v.pIStudySiteRank[0].enrolled_randomized}</span>
+                        </aura:set> 
+                    </aura:if>
+                </div>
+            </div>  
+        </div>    
+        <aura:if isTrue="{!v.pIStudySiteRank[1]}">
+            <div class="bottomdiv">
+                <div class="slds-clearfix">
+                    <span class="slds-float_left othertopsite1">{!$Label.c.Dashboard_PI_Other_Sites}</span>
+                    <span class="slds-float_right othertopsite1">{!$Label.c.Dashboard_Rank}</span> 
+                </div>
+                <div class="slds-clearfix">
+                    <span class="slds-float_left othertopsite2">{!v.pIStudySiteRank[1].site_Name}</span>
+                    <span class="slds-float_right othertopsite2rank">{!v.pIStudySiteRank[1].rank}</span> 
+                </div>
+                <div class="slds-clearfix">
+                    <span class="slds-float_left othertopsite2">{!v.pIStudySiteRank[2].site_Name}</span>
+                    <span class="slds-float_right othertopsite2rank">{!v.pIStudySiteRank[2].rank}</span> 
+                </div>
+                <div class="slds-clearfix">
+                    <span class="slds-float_left othertopsite2">{!v.pIStudySiteRank[3].site_Name}</span>
+                    <span class="slds-float_right othertopsite2rank">{!v.pIStudySiteRank[3].rank}</span> 
+                </div>
+            </div>   
+        </aura:if>     
+    </div>
+</aura:component>
