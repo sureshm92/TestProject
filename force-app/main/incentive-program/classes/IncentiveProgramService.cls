@@ -39,6 +39,7 @@ public without sharing class IncentiveProgramService {
             completedIncentiveTask.Completed_Date__c = Datetime.now();
             completedIncentiveTask.Incentive_Task_Catalog__c = taskName;
             completedIncentiveTask.Points__c = incentivePlanTask.Points__c;
+            insert completedIncentiveTask;
         }
     }
 
