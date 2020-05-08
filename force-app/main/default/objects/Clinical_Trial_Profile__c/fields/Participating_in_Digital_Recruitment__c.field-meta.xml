@@ -5,7 +5,7 @@
     <label>Participating in Digital Recruitment</label>
     <required>false</required>
     <trackFeedHistory>true</trackFeedHistory>
-    <trackHistory>true</trackHistory>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

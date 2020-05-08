@@ -1518,6 +1518,13 @@
         <value>Please allow several minutes for file processing. We recommend importing files of no more than fifty participant records at a time. Only records after headings and instructions will be processed.</value>
     </labels>
     <labels>
+        <fullName>Create_Users_Checkbox</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create Users Checkbox</shortDescription>
+        <value>Participant has consented to receiving an invitation to the Patient Portal.</value>
+    </labels>
+    <labels>
         <fullName>Create_Users_Checkbox_on_Import</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2443,6 +2450,20 @@
         <value>Thank you for submitting a request for additional information about ##StudyCode. Someone from the study team will be in touch with you.
 
             Please login to the ##ShortCommunityName to check your clinical research trial matches at any time.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Participant_Delegate_New_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Participant Delegate New Study</shortDescription>
+        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more studies that are listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Participant_Delegate_Reactivated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Participant Delegate Reactivated</shortDescription>
+        <value>Your access as a participant delegate has changed for one or more studies that are listed below</value>
     </labels>
     <labels>
         <fullName>Email_Body_Participant_Import_Completed</fullName>
@@ -3378,11 +3399,25 @@
         <value>Your patient has been enrolled to a clinical research study</value>
     </labels>
     <labels>
+        <fullName>Email_Header_You_Have_Been_Assigned_As_a_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header You Have Been Assigned As a Delegate</shortDescription>
+        <value>You have been assigned as a Delegate</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Your_Access_Level_Has_Been_Changed</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Header Your Access Level Has Been Changed</shortDescription>
         <value>Your access level has been changed</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Your_Access_Level_Has_Changed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header Your Access Level Has Changed</shortDescription>
+        <value>Your access level has changed</value>
     </labels>
     <labels>
         <fullName>Email_Notification_Greeting</fullName>

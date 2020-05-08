@@ -7,7 +7,7 @@
     <label>Override Description</label>
     <length>32768</length>
     <trackFeedHistory>true</trackFeedHistory>
-    <trackHistory>true</trackHistory>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>

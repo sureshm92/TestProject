@@ -7,7 +7,7 @@
     <label>Link to Medical Record Review</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>true</trackHistory>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Url</type>
 </CustomField>
