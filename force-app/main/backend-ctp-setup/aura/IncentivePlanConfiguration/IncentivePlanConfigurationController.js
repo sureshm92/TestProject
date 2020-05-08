@@ -33,10 +33,10 @@
     },
 
     doAddIP: function (component, event, helper) {
-        component.find('actionIP').execute(null, function (vpId) {
-            let vpIds = component.get('v.filter.pageFeatureIds');
-            if(vpIds) vpIds += ';' + vpId;
-            component.set('v.filter.pageFeatureIds', vpIds);
+        component.find('actionIP').execute(null, function (ipId) {
+            let ipIds = component.get('v.filter.pageFeatureIds');
+            if (ipIds) ipIds += ';' + ipId;
+            component.set('v.filter.pageFeatureIds', ipIds);
             helper.updateItems(component);
         }, 'create');
     },
@@ -44,11 +44,11 @@
 
     //Incentive Plan column actions: ---------------------------------------------------------------------------------------
     columnCheckboxStateChange: function (component, event, helper) {
-        let vpId = event.target.dataset.vp;
+        let ipId = event.target.dataset.ip;
         let state = event.target.dataset.state === 'Enabled';
         component.find('spinner').show();
         communityService.executeAction(component, 'setIncentivePlanForAll', {
-            visitPlanId: vpId,
+            visitPlanId: ipId,
             state: state,
             filterJSON: JSON.stringify(component.get('v.filter')),
             paginationJSON: JSON.stringify(component.get('v.pagination')),
