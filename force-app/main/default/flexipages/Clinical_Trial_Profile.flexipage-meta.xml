@@ -49,6 +49,13 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
+            <componentName>IncentivePlanConfiguration</componentName>
+        </componentInstances>
+        <name>Facet-93522e4d-fbfc-4c44-af80-a911a4b1ea6b</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
             <componentInstanceProperties>
                 <name>parentFieldApiName</name>
                 <value>Clinical_Trial_Profile__c.Id</value>
@@ -192,6 +199,17 @@
             <componentInstanceProperties>
                 <name>title</name>
                 <value>Visits configuration</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>Facet-93522e4d-fbfc-4c44-af80-a911a4b1ea6b</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>Incentive Program</value>
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
         </componentInstances>

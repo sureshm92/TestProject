@@ -155,6 +155,7 @@ a:hover {
     width: 85%;
     max-width: 1424px;
     min-height: 40px;
+    min-width: 85%;
     font-size: 15px;
     font-weight: 500;
     line-height: 24px;

@@ -14,7 +14,7 @@ export default class NavIncentiveCounter extends LightningElement {
     connectedCallback() {
         this.showDropDown = false;
         this.lastDatastamp = new Date();
-        setInterval(() => {
+        let fetchPoints = () => {
             getPoints({
                 timeStamp : this.lastDatastamp.toISOString()
             })
@@ -25,14 +25,20 @@ export default class NavIncentiveCounter extends LightningElement {
                 .catch(error => {
                     console.error('Error in getPointsCounter():' + JSON.stringify(error));
                 });
-        }, 5000);
+        }
+        fetchPoints();
+        setInterval(fetchPoints, 5000);
     }
 
     doToggleDropDown() {
-        if (!this.showDropDown){
+        if (this.showDropDown){
             this.lastDatastamp = new Date();
         }
         this.showDropDown = !this.showDropDown;
+    }
+    doCloseDropDown() {
+        this.showDropDown = false;
+        this.lastDatastamp = new Date();
     }
 
 }

@@ -1,0 +1,51 @@
+.THIS .resource-container {
+    background-color: white !important;
+    margin-left: 50px;
+}
+
+.THIS .slds-accordion__summary-heading > button > span {
+    order: 1;
+}
+
+.THIS .slds-accordion__summary-heading > button > lightning-primitive-icon {
+    margin-left: 5px;
+    order: 2;
+}
+
+.THIS .hide-arrow  button{
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.THIS .hide-arrow  button > lightning-primitive-icon {
+    display: none;
+}
+
+.THIS lightning-primitive-icon > svg {
+    fill: black;
+}
+
+.THIS .slds-button{
+    color: black;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.THIS .slds-accordion__summary-heading .slds-button:focus{
+    text-decoration: none;
+}
+
+.THIS .slds-truncate {
+    font-weight: 600;
+}
+
+.THIS .resource-links {
+    color: black !important;
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+.THIS .resource-links:focus {
+    text-decoration: none;
+}
+

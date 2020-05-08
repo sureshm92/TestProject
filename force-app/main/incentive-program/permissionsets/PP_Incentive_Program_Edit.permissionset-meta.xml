@@ -6,7 +6,12 @@
     </customMetadataTypeAccesses>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Completed_Incentive_Task__c.Incentive_Plan_Task__c</field>
+        <field>Completed_Incentive_Task__c.Incentive_Task_Catalog__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Completed_Incentive_Task__c.Points__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
