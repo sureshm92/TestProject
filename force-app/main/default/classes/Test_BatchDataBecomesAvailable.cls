@@ -72,7 +72,10 @@ private class Test_BatchDataBecomesAvailable {
         ));
         insert visitResults;
 
-        Database.executeBatch(new Batch_DataBecomesAvailable());
+        Batch_DataBecomesAvailable batch = new Batch_DataBecomesAvailable();
+        System.assert(String.isNotBlank(batch.getBatchDescription()));
+
+        Database.executeBatch(batch);
         Test.stopTest();
     }
 }
