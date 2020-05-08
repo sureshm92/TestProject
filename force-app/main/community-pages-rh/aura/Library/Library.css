@@ -29,3 +29,7 @@
 .THIS .expanded-icon{
     text-decoration: none;
 }
+
+.THIS.resource-headers {
+    margin-left: 50px;
+}

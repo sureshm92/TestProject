@@ -1,0 +1,33 @@
+<!--
+ - Created by Nikita Abrazhevitch on 06-May-20.
+ -->
+<aura:component description="LibraryPI" controller="LibraryPIRemote">
+
+    <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="resourceStructureList" type="Object"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <lightning:accordion aura:id="accordion" allowMultipleSectionsOpen="true">
+        <aura:iteration items="{!v.resourceStructureList}" var="resourceStructure" indexVar="key">
+            <lightning:accordionSection label="{!resourceStructure.structureName + ' (' + resourceStructure.resources.length + ') '}" class="{!resourceStructure.resources.length &lt; 1 ? 'hide-arrow' : ''}">
+                <aura:set attribute="body">
+                    <aura:iteration items="{!resourceStructure.resources}" var="resource" indexVar="resourceIndex">
+                        <div class="slds-grid slds-wrap resource-container">
+                            <aura:if isTrue="{!!empty(resource.videoLink || resource.link)}">
+                                <c:RRLink href="{!resource.videoLink ? resource.videoLink : resource.link}" class="resource-links slds-col slds-size--4-of-12" label="{!resource.name}" target="blank"/>
+                                <aura:set attribute="else">
+                                    <a class="slds-coll slds-size--4-of-12 resource-links" onclick="{!c.doNavigate}" data-attributeVal="{!key + ',' + resourceIndex}">{!resource.name}</a>
+                                </aura:set>
+                            </aura:if>
+                            <div class="slds-coll slds-size--2-of-12">{!resource.language}</div>
+                            <div class="slds-coll slds-size--2-of-12">{!resource.type}</div>
+                            <div class="slds-coll slds-size--2-of-12">{!resource.format}</div>
+                            <div class="slds-coll slds-size--2-of-12">{!resource.versionDate}</div>
+                        </div>
+                    </aura:iteration>
+                </aura:set>
+            </lightning:accordionSection>
+        </aura:iteration>
+    </lightning:accordion>
+</aura:component>
