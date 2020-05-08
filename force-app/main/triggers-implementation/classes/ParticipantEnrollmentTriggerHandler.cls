@@ -36,13 +36,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
     }
     
-    /**initial Visit
-public class CheckInitialVisitActivities extends TriggerHandler{
-public override void afterInsert(List<SObject> newList) {
-//  updateInitialVisitFlag((List<Participant_Enrollment__c>) newList);
-}
-}**/
-    
     public class CreateStatusTrackingHistoryRecordsHandler extends TriggerHandler {
         
         public override void beforeInsert(List<SObject> newList) {
@@ -92,7 +85,6 @@ public override void afterInsert(List<SObject> newList) {
     
     public class UpdateParticipantState extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
-            // updateInitialVisitFlag(newList);
             updateParticipantStudyStatus(newList, null);
         }
         
@@ -122,27 +114,11 @@ public override void afterInsert(List<SObject> newList) {
         }
     }
     
-    /*public class CreateWelcomeToStudyAlertHandler extends TriggerHandler {
-        
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            createStudyAlerts((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
-        }
-        
-    }*/
-    
     public class HideSurveyTasks extends TriggerHandler {
         
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             hideSurveyTaskForCompletedStatuses((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
-    }
-    
-    public class CreateParticipantForDelegateHandler extends TriggerHandler {
-        
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            createParticipantForDelegate(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
-        }
-        
     }
     
     public class CheckReimbursableActivities extends TriggerHandler {
@@ -565,45 +541,6 @@ public override void afterInsert(List<SObject> newList) {
         }
         if (patientVisits.size() > 0) insert patientVisits;
     }
-    //This functionality has been moved to ParticipantEnrollmentSHTriggerHandler
-   /* @TestVisible
-    private static void createStudyAlerts(List<Participant_Enrollment__c> enrollments, Map<Id, Participant_Enrollment__c> oldMap) {
-        List<Participant_Enrollment__c> peEnrollSuccessWithParticipating = new List<Participant_Enrollment__c>();
-        for (Participant_Enrollment__c pe : enrollments) {
-            if (oldMap == null || pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c) {
-                if ((pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
-                     || pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS)
-                    && ((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).Patient_Portal_Enabled__c) {
-                        peEnrollSuccessWithParticipating.add(pe);
-                    }
-            }
-        }
-        List<Id> participantIds = new List<Id>();
-        for (Participant_Enrollment__c pe : peEnrollSuccessWithParticipating) participantIds.add(pe.Participant__c);
-        
-        Map<Id, List<Id>> delegateCntByParticipant = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(participantIds);
-        List<Alert__c> alerts = new List<Alert__c>();
-        for (Participant_Enrollment__c pe : peEnrollSuccessWithParticipating) {
-            if(pe.Participant_Contact__c != null){
-                alerts.add(new Alert__c(
-                    Contact__c = pe.Participant_Contact__c,
-                    Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY,
-                    Record_ID__c = pe.Id
-                ));
-            }
-            if (!delegateCntByParticipant.containsKey(pe.Participant__c)) continue;
-            
-            for (Id contactDelegateId : delegateCntByParticipant.get(pe.Participant__c)) {
-                alerts.add(new Alert__c(
-                    Contact__c = contactDelegateId,
-                    Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_DELEGATE,
-                    Record_ID__c = pe.Id)
-                          );
-            }
-        }
-        
-        insert alerts;
-    }*/
     
     @TestVisible
     private static void hideSurveyTaskForCompletedStatuses(
@@ -644,50 +581,7 @@ public override void afterInsert(List<SObject> newList) {
         
         SurveyService.getInstance().expireInvitation(new List<Id>(invitationMap.keySet()));
     }
-    
-    @TestVisible
-    private static void createParticipantForDelegate(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
-        List<Id> participantsToFindDelegates = new List<Id>();
-        for (Participant_Enrollment__c pe : newList) {
-            String oldStatus = oldMap.get(pe.Id).Participant_Status__c;
-            if (pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c &&
-                !PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(oldStatus) &&
-                PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)
-               ) {
-                   participantsToFindDelegates.add(pe.Participant__c);
-               }
-        }
-        Map<Id, List<Id>> delegatesByParticipantIdMap = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(participantsToFindDelegates);
-        List<Id> allDelegates = new List<Id>();
-        List<Id> delegatesWithParticipant = new List<Id>();
-        for (List<Id> participantDelegates : delegatesByParticipantIdMap.values()) allDelegates.addAll(participantDelegates);
-        if (allDelegates.size() == 0) return;
-        List<Participant__c> participants = [SELECT Id, Contact__c FROM Participant__c WHERE Contact__c IN:allDelegates];
-        for (Participant__c participant : participants) if (participant.Contact__c != null) delegatesWithParticipant.add(participant.Contact__c);
-        List<Participant__c> newParticipants = new List<Participant__c>();
-        List<Contact> contacts = [
-            SELECT Id, FirstName, LastName, Phone, Email, MailingCity, MailingCountryCode, MailingStateCode
-            FROM Contact
-            WHERE Id IN:allDelegates
-        ];
-        for (Contact contact : contacts) {
-            if (!delegatesWithParticipant.contains(contact.Id)) {
-                newParticipants.add(new Participant__c(
-                    Contact__c = contact.Id,
-                    First_Name__c = contact.FirstName,
-                    Last_Name__c = contact.LastName,
-                    Email__c = contact.Email,
-                    Phone__c = contact.Phone,
-                    Mailing_City__c = contact.MailingCity,
-                    Mailing_Country_Code__c = contact.MailingCountryCode,
-                    Mailing_State_Code__c = contact.MailingStateCode
-                    
-                ));
-            }
-        }
-        if (newParticipants.size() > 0) insert newParticipants;
-    }
-    
+
     @TestVisible
     private static void updateParticipantStudyStatus(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         List<Participant__c> participants = new List<Participant__c>();
@@ -700,7 +594,4 @@ public override void afterInsert(List<SObject> newList) {
         
         ParticipantEnrollmentService.updateParticipantState(participants);
     }
-    
-    
-    
 }

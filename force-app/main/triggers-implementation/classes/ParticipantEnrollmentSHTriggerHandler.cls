@@ -34,10 +34,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
     }
     
     public class CreateWelcomeToStudyAlertHandler extends TriggerHandler {
-        
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            createStudyAlerts((List<Participant_Enrollment_Status_History__c>) newList, (Map<Id, Participant_Enrollment_Status_History__c>) oldMap);
-        }
+
         public override void afterInsert(List<SObject> newList) {
             if(!Test.isRunningTest() ){
                 createStudyAlerts((List<Participant_Enrollment_Status_History__c>) newList, null);

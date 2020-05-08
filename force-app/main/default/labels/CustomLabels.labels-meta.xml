@@ -11541,6 +11541,13 @@
         <value>Patient</value>
     </labels>
     <labels>
+        <fullName>Patient_Delegate_Deactivate_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Patient Delegate Deactivate Mess</shortDescription>
+        <value>You are about to deactivate ##Name from your account. Do you want to proceed?</value>
+    </labels>
+    <labels>
         <fullName>Phone_Type_Home</fullName>
         <language>en_US</language>
         <protected>false</protected>
