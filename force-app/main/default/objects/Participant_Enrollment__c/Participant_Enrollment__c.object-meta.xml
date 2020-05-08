@@ -72,7 +72,7 @@
     <enableStreamingApi>true</enableStreamingApi>
     <label>Participant Enrollment</label>
     <nameField>
-        <displayFormat>REFERRALID{00000}</displayFormat>
+        <displayFormat>REF{00000}</displayFormat>
         <label>Participant Profile Name</label>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
