@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Override_Description__c</fullName>
+    <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <inlineHelpText>If populated, this will be the description seen within the community by PIs, HCPs, Participants, etc. describing the clinical study.  This will &quot;override&quot; display of the &quot;Detailed Description&quot; if &quot;Override Description&quot; is populated.</inlineHelpText>
     <label>Override Description</label>
     <length>32768</length>
     <trackFeedHistory>true</trackFeedHistory>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>

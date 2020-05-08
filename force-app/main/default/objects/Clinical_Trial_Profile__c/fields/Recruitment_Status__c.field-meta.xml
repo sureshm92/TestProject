@@ -6,7 +6,7 @@
     <label>CTMS Recruitment Status</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -57,6 +57,30 @@
                 <fullName>Planning</fullName>
                 <default>false</default>
                 <label>Planning</label>
+            </value>
+            <value>
+                <fullName>Closed Follow Up / In Analysis</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Closed Follow Up / In Analysis</label>
+            </value>
+            <value>
+                <fullName>Closed to Enrollment</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Closed to Enrollment</label>
+            </value>
+            <value>
+                <fullName>Proposed</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Proposed</label>
+            </value>
+            <value>
+                <fullName>Test</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Test</label>
             </value>
         </valueSetDefinition>
     </valueSet>

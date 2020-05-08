@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Formulary__c</fullName>
     <description>Formulary for the drug</description>
+    <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <inlineHelpText>Formulary for the drug</inlineHelpText>
     <label>Formulary</label>
