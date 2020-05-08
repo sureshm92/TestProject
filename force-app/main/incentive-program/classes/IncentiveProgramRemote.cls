@@ -4,20 +4,11 @@
 
 public without sharing class IncentiveProgramRemote {
     @AuraEnabled
-    public static PointsResultWrapper getCurrentPoints(Datetime timeStamp ){
+    public static IncentiveProgramService.PointsResultWrapper getCurrentPoints(Datetime timeStamp ){
         try {
-            PointsResultWrapper result = new PointsResultWrapper();
-            result.totalPoints = 50;
-            result.lastPoints = 33;
-            return  result;
+            return  IncentiveProgramService.getCurrentContactPoints(timeStamp);
         } catch (Exception e) {
-            return (PointsResultWrapper) AuraHelper.throwException(e);
+            return (IncentiveProgramService.PointsResultWrapper) AuraHelper.throwException(e);
         }
     }
-
-    public class PointsResultWrapper{
-        @AuraEnabled public Integer totalPoints;
-        @AuraEnabled public Integer lastPoints;
-    }
-
 }
