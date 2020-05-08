@@ -51,6 +51,7 @@ public class TestData {
         ctp = [
                 SELECT Id, Therapeutic_Area__c,
                         Study_Code_Name__c,
+                        Protocol_ID__c,
                         Patient_Portal_Enabled__c,
                         Terms_and_Conditions__c,
                         Initial_Visit_Required__c,
@@ -67,6 +68,7 @@ public class TestData {
         ];
         pe = [
                 SELECT Id,
+                        External_Key__c,
                         Participant_Contact__c,Participant_Status__c,
                         Participant_Contact__r.Visit_Results_Opt_In__c,
                         Initial_visit_scheduled_date__c,
