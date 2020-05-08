@@ -17,11 +17,6 @@
         component.set("v.showModal", true);
     },
 
-    scrolling: function (component) {
-        document.getElementsByClassName('with-scroll')[0].scrollTop = 0;
-        document.getElementsByClassName('with-scroll')[1].scrollTop = 0;
-    },
-
     hide: function(component, event, helper) {
         component.set("v.showModal", false);
         component.set('v.closeButtonClicked', !component.get('v.closeButtonClicked'));
@@ -39,18 +34,18 @@
 
     showChanged: function (component) {
         var isShow = component.get("v.showModal");
-            if(isShow){
-                if(component._closeModal) window.addEventListener('keyup', component._closeModal);
-            }else{
-                if(component._closeModal) window.removeEventListener('keyup', component._closeModal);
-            }
+        if(isShow){
+            if(component._closeModal) window.addEventListener('keyup', component._closeModal);
+        }else{
+            if(component._closeModal) window.removeEventListener('keyup', component._closeModal);
+        }
     },
 
     doPreventScrollEvent: function (component, event) {
         event.preventDefault();
     },
 
-    doCancel: function (component) {
+    doCancel : function (component) {
         component.hide();
         var closeCallback = component.get('v.closeCallback');
         if(closeCallback) closeCallback();
