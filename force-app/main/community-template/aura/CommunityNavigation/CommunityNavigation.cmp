@@ -7,7 +7,7 @@
     <!-- component body: -->
     <ul class="{!'nav-menu ' + if(v.isArabic, 'rtl ', ' ') + if(v.scrollRequired, v.scrollDirection, '')}" aura:id="navMenu">
         <aura:iteration items="{!v.menuItems}" var="item">
-            <aura:if isTrue="{!equals(item.page, 'resources')}">
+            <aura:if isTrue="{!equals(item.page, 'resources-pi')}">
                 <c:CommunityResourcesNavigation itemResource="{!v.item}"/>
                 <aura:set attribute="else">
                     <li class="{!item.page == v.currentPage ? 'nav-item active' : 'nav-item'}" data-page-name="{!item.page}"

@@ -7,7 +7,7 @@
             if(wrapper) {
                 if((visitResultType=== 'Vitals') || wrapper.value == null || (wrapper.minValue == null && wrapper.maxValue == null)) {
                     component.set('v.showExpectedRange', false);
-                } else if (visitResultType === 'Labs'){
+                } else if (visitResultType === 'FastingLipidProfile' || visitResultType === 'Hematology' ||  visitResultType === 'MetabolicPanel'){
                     if(wrapper.minValue != null) {
                         component.set('v.wrapper.minValue', helper.roundValue(wrapper.minValue));
                     }

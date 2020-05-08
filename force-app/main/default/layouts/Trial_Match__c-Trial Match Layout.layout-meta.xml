@@ -13,11 +13,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Participant_Enrollment__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Clinical_Trial_Profile__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Participant_Enrollment__c</field>
+                <field>Protocol_Version__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

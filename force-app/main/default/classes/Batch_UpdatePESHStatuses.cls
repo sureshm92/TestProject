@@ -16,7 +16,7 @@ global without sharing class Batch_UpdatePESHStatuses implements Database.Batcha
     }
 
     global Database.QueryLocator start(Database.BatchableContext BC) {
-        String queryString = 'SELECT Id, Status__c, Reason__c FROM Participant_Enrollment_Status_History__c';
+        String queryString = 'SELECT Id, Status__c, Reason__c, Notes__c FROM Participant_Enrollment_Status_History__c';
         if(peIds != null && !peIds.isEmpty()) {
             queryString += ' WHERE ParticipantEnrollment__c IN :peIds';
         }
@@ -31,8 +31,10 @@ global without sharing class Batch_UpdatePESHStatuses implements Database.Batcha
             String reason = pesh.Reason__c==null?'':pesh.Reason__c.toLowerCase();
             String newStatus = StatusesUpdateBatchHelper.getUpdatedStatus(status, reason);
             String newReason = StatusesUpdateBatchHelper.getUpdatedReason(status, reason);
+            String newNotes = StatusesUpdateBatchHelper.getUpdatedNotes(status, reason);
             if(newStatus != null) pesh.Status__c = newStatus;
             if(newReason != null) pesh.Reason__c = newReason;
+            if(newNotes != null) pesh.Notes__c = newNotes;
             if(newStatus != null || newReason != null) {
                 peshToUpdate.add(pesh);
             }
