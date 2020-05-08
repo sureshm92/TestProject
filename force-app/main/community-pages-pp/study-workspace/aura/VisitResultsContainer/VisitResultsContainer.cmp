@@ -31,6 +31,7 @@
             <div class="slds-grid slds-wrap slds-gutters">
                 <div class="slds-col slds-m-top--small slds-m-bottom--medium slds-size_1-of-4">
                     <lightning:input type="toggle"
+                                     data-gtm="TGL_Show_Visit_Results"
                                      messageToggleActive="{!$Label.c.BTN_On}"
                                      messageToggleInactive="{!$Label.c.BTN_Off}"
                                      onchange="{!c.switchToggle}"

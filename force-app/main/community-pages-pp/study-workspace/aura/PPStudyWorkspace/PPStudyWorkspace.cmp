@@ -188,13 +188,13 @@
                     </div>
 
                     <div class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-lab-results', '', ' collapsed')}">
-                        <button id="changeLabResultsMode" data-lab-results-mode="Vitals"
+                        <button id="changeLabResultsMode" data-gtm="BTN_Visit_Results_Vitals" data-lab-results-mode="Vitals"
                                 class="{!'apollo-btn text ' + if(v.labResultsMode == 'Vitals', ' current', '')}"
                                 onclick="{!c.doAction}">{!$Label.c.Visit_Results_Tab_Vitals}</button>
-                        <button id="changeLabResultsMode" data-lab-results-mode="Labs"
+                        <button id="changeLabResultsMode" data-gtm="BTN_Visit_Results_Labs" data-lab-results-mode="Labs"
                                 class="{!'apollo-btn text ' + if(v.labResultsMode == 'Labs', ' current', '')}"
                                 onclick="{!c.doAction}">{!$Label.c.Visit_Results_Tab_Labs}</button>
-                        <button id="changeLabResultsMode" data-lab-results-mode="Biomarkers"
+                        <button id="changeLabResultsMode" data-gtm="BTN_Visit_Results_Biomarkers" data-lab-results-mode="Biomarkers"
                                 class="{!'apollo-btn text ' + if(v.labResultsMode == 'Biomarkers', ' current', '')}"
                                 onclick="{!c.doAction}">{!$Label.c.Visit_Results_Tab_Biomarkers}</button>
                     </div>
