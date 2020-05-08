@@ -51,7 +51,6 @@ public class TestData {
         ctp = [
                 SELECT Id, Therapeutic_Area__c,
                         Study_Code_Name__c,
-                        Protocol_ID__c,
                         Patient_Portal_Enabled__c,
                         Terms_and_Conditions__c,
                         Initial_Visit_Required__c,
@@ -70,14 +69,12 @@ public class TestData {
                 SELECT Id,
                         Participant_Contact__c,Participant_Status__c,
                         Participant_Contact__r.Visit_Results_Opt_In__c,
-                        Participant_Contact__r.Visit_Results_OptIn__c,
                         Initial_visit_scheduled_date__c,
                         Initial_visit_occurred_date__c,
                         Initial_visit_scheduled_time__c,
                         Initial_visit_occurred_flag__c,
                         Initial_visit_scheduled_flag__c,
-                        External_Key__c, Screening_ID__c,
-                        Medical_Record_Review_Completed_Date__c,
+                        Screening_ID__c, Medical_Record_Review_Completed_Date__c,
                         Study_Site__r.Principal_Investigator__c,
                         Study_Site__r.Principal_Investigator__r.Name,
                         Study_Site__r.Principal_Investigator__r.Title
@@ -270,8 +267,13 @@ public class TestData {
         insert study;
 
         List<PicklistEntry> pleList = Translation__c.Language__c.getDescribe().getPicklistValues();
+        String langCode;
+        for(PicklistEntry ple : pleList) {
+            langCode = ple.getValue();
+            if(TranslateHelper.isLanguageSupported(ple.getValue())) break;
+        }
         Translation__c studyTranslation = new Translation__c(
-                Language__c = pleList[0].value,
+                Language__c = langCode,
                 Record_Id__c = study.Id,
                 Field_Name__c = 'Study_Title__c',
                 Value__c = 'Some translated value'

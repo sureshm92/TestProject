@@ -29,6 +29,7 @@
     <aura:attribute name="sendEmails" type="Boolean" default="false"/>
     <aura:attribute name="participantPath" type="Object"/>
     <aura:attribute name="userInfo" type="Object"/>
+    <aura:attribute name="updateInProgress" type="Boolean"  default="false"/>
 
     <aura:handler name="change" value="{!v.pe}" action="{!c.checkParticipant}"/>
 
@@ -81,7 +82,7 @@
                         </div>
                     </lightning:tab>
                     <lightning:tab aura:id="Status" label="{!$Label.c.BTN_Status_Details}" onactive="{!c.checkTabs}">
-                        <c:ParticipantStatusDetails participantWorkflowWrapper="{!v.participantPath}" parent="{!this}"/>
+                        <c:ParticipantStatusDetails participantWorkflowWrapper="{!v.participantPath}" parent="{!this}" updateInProgress="{!v.updateInProgress}"/>
                     </lightning:tab>
                     <lightning:tab class="slds-tabs_default__item" aura:id="Provider"
                                    label="{!$Label.c.Tab_Sharing_Options}"

@@ -38,7 +38,13 @@ global without sharing class StatusesUpdateBatchHelper {
 
     private static final Map<String, Map<String, String>> reasonsMap = new Map<String, Map<String, String>>{
             'unable to screen' => new Map<String, String>{
-                    'withdrew or declined consent' => ''
+                    'withdrew or declined consent' => 'Other'
+            }
+    };
+
+    private static final Map<String, Map<String, String>> notesMap = new Map<String, Map<String, String>>{
+            'unable to screen' => new Map<String, String>{
+                    'withdrew or declined consent' => 'Converted from Unable to screen with reason = “withdrew or declined consent”'
             }
     };
 
@@ -63,6 +69,10 @@ global without sharing class StatusesUpdateBatchHelper {
 
     global static String getUpdatedReason(String status, String reason){
         return getUpdateFromMap(reasonsMap, status, reason);
+    }
+
+    global static String getUpdatedNotes(String status, String reason){
+        return getUpdateFromMap(notesMap, status, reason);
     }
 
 }

@@ -106,7 +106,7 @@ DeployINT5.0:
   stage: DeployINT5.0
   script:
     - sfdx update
-    - echo "$INT" > sfdx-auth-url
+    - echo "$INT5_0" > sfdx-auth-url
     - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT5_0 -d
     - sfdx --version
     - cd Nodejs
@@ -127,7 +127,7 @@ RunTestINT5.0:
 
   stage: RunTestINT5.0
   script:
-    - echo "$INT" > sfdx-auth-url
+    - echo "$INT5_0" > sfdx-auth-url
     - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT5_0 -d
     - sfdx force:apex:test:run -u INT5_0 --testlevel=RunLocalTests -w 60
 
