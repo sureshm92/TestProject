@@ -152,9 +152,10 @@ public without sharing class BatchControlPanelRemote {
     }
 
     @AuraEnabled
-    public static PanelWrapper addBatch(Batch_Detail__c detail) {
+    public static PanelWrapper addBatch(Batch_Detail__c detail, Boolean launchNow) {
         try {
             insert detail;
+            if(launchNow) Database.executeBatch((Database.Batchable<SObject>) Type.forName(detail.Name).newInstance());
 
             return getData();
         } catch (Exception e) {

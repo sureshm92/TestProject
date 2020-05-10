@@ -193,6 +193,11 @@
                                          value={batchDetail.Scope_Size__c}
                                          onchange={handleScopeChange}
                                          step="1" min="1" max="200"></lightning-input>
+                        <lightning-input type="checkbox" label="Launch now"
+                                         class="slds-m-top_small"
+                                         value={launchNow}
+                                         checked={launchNow}
+                                         onchange={handleLaunchNow}></lightning-input>
                     </lightning-record-edit-form>
                 </div>
                 <div slot="footer">

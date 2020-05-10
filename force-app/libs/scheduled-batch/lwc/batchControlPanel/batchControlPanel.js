@@ -36,6 +36,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
     @track batchIntervalMode;
     @track batchInterval;
     @track batchScopeSize;
+    @track launchNow = false;
 
     connectedCallback() {
         this.resetInputFields();
@@ -299,6 +300,10 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
         this.batchDetail.Scope_Size__c = event.target.value;
     }
 
+    handleLaunchNow() {
+        this.launchNow = !this.launchNow;
+    }
+
     handleAddBatch(event) {
         if (!this.batchDetail.Name || !this.batchDetail.Panel_Label__c) {
             this.showToast('Failed', 'Please fill required fields');
@@ -314,8 +319,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
 
         this.inProcess = true;
         this.spinner.show();
-
-        addBatch({detail: this.batchDetail})
+        addBatch({detail: this.batchDetail, launchNow: this.launchNow})
             .then(data => {
                 this.initPageContent(data);
 
@@ -360,6 +364,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
             Relaunch_Interval__c: 10,
             Scope_Size__c: 200
         };
+        this.launchNow = false;
     }
 
     waitStateChange(jobName, waitedState, spinner, callback) {
