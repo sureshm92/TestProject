@@ -13,8 +13,8 @@
     <aura:attribute name="points" type="Integer"/>
     <aura:attribute name="detailsExpandedSystem" type="Boolean" default="true"/>
     <aura:attribute name="detailsExpandedStudy" type="Boolean" default="true"/>
-    <aura:attribute name="recordId" type="String"/>
     <aura:attribute name="planName" type="String"/>
+    <aura:attribute name="recordId" type="String"/>
 
 
     <aura:attribute name="callback" type="Object" access="private"/>
@@ -31,13 +31,12 @@
 
     <c:uiModal aura:id="createIncentiveTask" size="medium" headerText="Incentive Program">
         <c:RRSpinner aura:id="spinner"/>
-        <div class="slds-form-element">
-            <label class="slds-form-element__label" for="text-input-id-1">
-                <abbr class="slds-required" title="required">* </abbr>Incentive Program</label>
-            <div class="slds-form-element__control">
-                <input type="text" id="text-input-id-1" required="" value="{!v.planName}" class="slds-input"/>
+
+            <div class="label">
+                <abbr title="required" class="slds-required">*</abbr>Incentive Program
             </div>
-        </div>
+                <lightning:input type="text" value="{!v.planName}"/>
+
         <div class="slds-scrollable visits-table">
 
             <div class="slds-grid slds-wrap slds-p-horizontal_medium">
@@ -108,19 +107,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                <aura:iteration items="{!v.tasks}" var="task">
+                <aura:iteration items="{!v.tasks}" var="task" indexVar="index">
                     <tr>
                         <td>
-                            <lightning:formattedText value="{!task.Title_Label__c}" aura:id="taskName"/>
+                            <lightning:formattedText value="{!task.Title_Label__c}" aura:id="{!'taskName'+ index}"/>
                         </td>
                         <td>
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input_On" id="checkboxOn"/>
+                                <input type="checkbox" class="custom-control-input_On" id="{!'checkboxOn'+ index}"/>
                             </div>
                         </td>
                         <td>
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input_IQVIA" id="checkboxIQVIA"/>
+                                <input type="checkbox" class="custom-control-input_IQVIA" id="{!'checkboxIQVIA'+ index}"/>
                             </div>
                         </td>
                         <td>
@@ -145,7 +144,7 @@
                 </a>
                 <aura:if isTrue="{!!v.detailsExpandedSystem}">
                     <lightning:layout class="slds-form-element__static_second">
-                        <div class="slds-box_small">
+                        <div class="slds-box_small_first">
 
                             <div class="slds-form-element__row">
 
@@ -160,9 +159,7 @@
                                     <p class="slds-item">{!v.studyInfo.CreatedBy.Name}</p>
                                 </lightning:layoutItem>
                             </div>
-                        </div>
 
-                        <div class="slds-box_small">
 
                             <div class="slds-form-element__row">
                                 <lightning:layoutItem flexibility="auto">
