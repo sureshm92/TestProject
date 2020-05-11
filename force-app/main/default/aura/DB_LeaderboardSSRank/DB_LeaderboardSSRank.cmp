@@ -2,68 +2,70 @@
  - Created by Sumit Surve.
  -->
 
- <aura:component description="DB_LeaderboardSelectedPIDetails">
+<aura:component description="DB_LeaderboardSelectedPIDetails">
 
-        <!-- attributes:-->
-        <aura:attribute name="userMode" type="String"/>
-        <aura:attribute name="delegateId" type="String"/>
-        <aura:attribute name="dashboardTitle" type="String"/>
-        <aura:attribute name="peList" type="List"/>
-        <aura:attribute name="parent" type="Aura.Component"/>
-        <aura:attribute name="selectedPI" type="String" />
-        <aura:attribute name="piData" type="Object"/>
-        <aura:attribute name="siteRankData" type="Object"/>
+    <!-- attributes:-->
+    <aura:attribute name="userMode" type="String"/>
+    <aura:attribute name="delegateId" type="String"/>
+    <aura:attribute name="dashboardTitle" type="String"/>
+    <aura:attribute name="peList" type="List"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="selectedPI" type="String"/>
+    <aura:attribute name="piData" type="Object"/>
+    <aura:attribute name="siteRankData" type="Object"/>
 
-    
-    
-        <aura:handler name="init" value="{!this}" action="{!c.doinit}"/>
-        
-        <!-- component body -->
-        <div>   
-            <div class="slds-grid">     
-                <div class="slds-col column1">
-                    {!v.siteRankData.rank}.
-                </div>    
-                <div class="slds-col flag">
-                    <lightning:icon src="{! $Resource.Flags + '#'+v.siteRankData.location}" alternativeText="{!v.siteRankData.location}" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doinit}"/>
+
+    <!-- component body -->
+    <div>
+        <div class="slds-grid">
+            <div class="slds-col column1">
+                {!v.siteRankData.rank}.
+            </div>
+            <div class="slds-col flag">
+                <lightning:icon src="{!$Resource.Flags + '#'+v.siteRankData.location}"
+                                alternativeText="{!v.siteRankData.location}"/>
+            </div>
+            <div class="slds-col">
+                <div class=" slds-col column2">
+                    {!$Label.c.Dashboard_Site}&nbsp;{!v.siteRankData.site_Number}
+                </div>
+                <div class="slds-col column3">
+                    {!v.siteRankData.location}
+                </div>
+            </div>
+            <div class="slds-col column4">
+                <div class="slds-col ">
+                    {!$Label.c.Dashboard_Contacted}: <span class="digit-span">{!v.siteRankData.contacted}</span>
+                </div>
+                <div class="slds-col slds-p-top_x-small">
+                    {!$Label.c.Dashboard_Screened}: <span class="digit-span">{!v.siteRankData.screened}</span>
+                </div>
+            </div>
+            <div class="slds-col column4">
+                <div class="slds-col">
+                    {!$Label.c.Dashboard_Scheduled}: <span class="digit-span">{!v.siteRankData.scheduled}</span>
+                </div>
+                <div class="slds-col slds-p-top_x-small">
+                    <aura:if isTrue="{!v.siteRankData.is_enrolled_randomized == 'Enrolled'}">
+                        {!$Label.c.Dashboard_Enrolled}: <span
+                                class="digit-span">{!v.siteRankData.enrolled_randomized}</span>
+                        <aura:set attribute="else">
+                            {!$Label.c.Dashboard_Randomized}: <span
+                                    class="digit-span">{!v.siteRankData.enrolled_randomized}</span>
+                        </aura:set>
+                    </aura:if>
+                </div>
+            </div>
+            <div class="slds-col column5">
+                <div class="slds-col digit-span">
+                    {!v.siteRankData.initial_Visits_Completed}
                 </div>
                 <div class="slds-col">
-                    <div class=" slds-col column2">
-                        {!$Label.c.Dashboard_Site}&nbsp;{!v.siteRankData.site_Number} 
-                    </div>
-                    <div class="slds-col column3">
-                        {!v.siteRankData.location}
-                    </div>
-                </div>   
-                <div class="slds-col column4">
-                   <div class="slds-col " >
-                        {!$Label.c.Dashboard_Contacted}: <span class="digit-span">{!v.siteRankData.contacted}</span>
-                    </div>
-                    <div class="slds-col slds-p-top_x-small">
-                        {!$Label.c.Dashboard_Screened}: <span class="digit-span">{!v.siteRankData.screened}</span>
-                    </div>
-                </div>    
-                <div class="slds-col column4">
-                    <div class="slds-col">
-                        {!$Label.c.Dashboard_Scheduled}: <span class="digit-span">{!v.siteRankData.scheduled}</span>
-                    </div>
-                    <div class="slds-col slds-p-top_x-small">
-                        <aura:if isTrue="{!v.siteRankData.is_enrolled_randomized == 'Enrolled'}">
-                            {!$Label.c.Dashboard_Enrolled}: <span class="digit-span">{!v.siteRankData.enrolled_randomized}</span>
-                            <aura:set attribute="else">
-                                {!$Label.c.Dashboard_Randomized}: <span class="digit-span">{!v.siteRankData.enrolled_randomized}</span>
-                            </aura:set>  
-                        </aura:if>         
-                    </div>
-                </div>    
-                <div class="slds-col column5">
-                    <div class="slds-col digit-span">
-                        {!v.siteRankData.initial_Visits_Completed}
-                    </div>
-                    <div class="slds-col">
-                        {!$Label.c.Dashnoard_Initial_Visits_Completed}
-                    </div>
+                    {!$Label.c.Dashnoard_Initial_Visits_Completed}
                 </div>
-            </div> 
-        </div>    
-    </aura:component>
+            </div>
+        </div>
+    </div>
+</aura:component>

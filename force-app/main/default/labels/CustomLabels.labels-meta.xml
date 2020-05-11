@@ -515,6 +515,13 @@
         <value>Add Delegate</value>
     </labels>
     <labels>
+        <fullName>Add_Patient_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add Patient Delegate</shortDescription>
+        <value>Add Patient Delegate</value>
+    </labels>
+    <labels>
         <fullName>Admin</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1987,6 +1994,13 @@
         <value>Delegate</value>
     </labels>
     <labels>
+        <fullName>Delegate_Found</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Delegate Found</shortDescription>
+        <value>Participant Delegate Found!</value>
+    </labels>
+    <labels>
         <fullName>Delegates</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2013,6 +2027,13 @@
         <protected>false</protected>
         <shortDescription>Diastolic Blood Pr Description</shortDescription>
         <value>Diastolic blood pressure is a measure of how hard your blood is pushed against the walls of the arteries when your heart is resting in between beats.</value>
+    </labels>
+    <labels>
+        <fullName>Different_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Different HealthCare Provider</shortDescription>
+        <value>Did you expect a different Participant Delegate? Let us know.</value>
     </labels>
     <labels>
         <fullName>Different_HealthCare_Provider</fullName>
@@ -3526,6 +3547,15 @@
         <value>We are excited to be on this journey with you.
 
             Sincerely,
+
+            ##SignatureFullCommunityName</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_New_FullName</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature New FullName</shortDescription>
+        <value>Sincerely,
 
             ##SignatureFullCommunityName</value>
     </labels>
@@ -9898,6 +9928,13 @@
         <protected>false</protected>
         <shortDescription>Remove Himself</shortDescription>
         <value>You are about to remove yourself from the Delegate list. If you choose to continue your account will be deactivated. You cannot undo this action.  Do you want to proceed?</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Remove_Himself_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Remove Himself Header</shortDescription>
+        <value>Remove Delegate</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_Remove_Mess</fullName>

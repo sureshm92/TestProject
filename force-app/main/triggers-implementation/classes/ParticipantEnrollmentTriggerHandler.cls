@@ -4,136 +4,135 @@
 */
 
 public without sharing class ParticipantEnrollmentTriggerHandler {
-    
+
     // Handlers: -------------------------------------------------------------------------------------------------------
-    
+
     public class PrepareAdditionalFieldsHandler extends TriggerHandler {
-        
+
         public override void beforeInsert(List<SObject> newList) {
             prepareAdditionalFields(newList, null);
         }
-        
+
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             prepareAdditionalFields(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
-    
+
     public class CheckVisitPlanFromStudySiteHandler extends TriggerHandler {
-        
+
         public override void beforeInsert(List<SObject> newList) {
             checkVisitPlanFromStudySite(newList, null);
         }
-        
+
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             checkVisitPlanFromStudySite(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
-    
+
     public class StudySiteHistoryHandler extends TriggerHandler {
-        
+
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             studySiteHistory(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
-    
+
     public class CreateStatusTrackingHistoryRecordsHandler extends TriggerHandler {
-        
+
         public override void beforeInsert(List<SObject> newList) {
             setChangedDate(newList);
             updateWithStepSuccessFlags(newList);
         }
-        
+
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             resetNotesAndSetChangeDate(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             createPrimaryHistoryEntry((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
-        
+
         public override void afterInsert(List<SObject> newList) {
             createPrimaryHistoryEntry((List<Participant_Enrollment__c>) newList, null);
         }
     }
-    
+
     public class CreateStatusBasedInvitations extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
             createInvitations((List<Participant_Enrollment__c>) newList, null);
         }
-        
+
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             createInvitations((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
-    
+
     public class CompleteEnrollmentTasks extends TriggerHandler {
-        
+
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             completeTasks((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
-    
+
     public class SetSourceTypeHandler extends TriggerHandler {
-        
+
         public override void beforeInsert(List<SObject> newList) {
             setSourceTypeHandler(newList);
         }
-        
+
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             setSourceTypeHandler(newList);
         }
     }
-    
+
     public class UpdateParticipantState extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
             updateParticipantStudyStatus(newList, null);
         }
-        
+
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             updateParticipantStudyStatus(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
-        
+
     }
-    
+
     // Handlers: On study ----------------------------------------------------------------------------------------------
     public class DeactivateDeceasedUsersHandler extends TriggerHandler {
-        
+
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             deactivateDeceasedUsers((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
-    
+
     public class CreateVisitsScheduleHandler extends TriggerHandler {
-        
+
         public override void afterInsert(List<SObject> newList) {
             createVisitsSchedule((List<Participant_Enrollment__c>) newList, null);
         }
-        
+
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             createVisitsSchedule((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
-            // updateInitialVisitFlag(newList);
         }
     }
-    
+
     public class HideSurveyTasks extends TriggerHandler {
-        
+
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             hideSurveyTaskForCompletedStatuses((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
-    
+
     public class CheckReimbursableActivities extends TriggerHandler {
-        
+
         public override void afterInsert(List<SObject> newList) {
             ProviderPaymentsService.checkPEForReimbursableActivities((List<Participant_Enrollment__c>) newList, null);
         }
-        
+
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             ProviderPaymentsService.checkPEForReimbursableActivities((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
-    
+
     // Logic: ----------------------------------------------------------------------------------------------------------
-    
+
     @TestVisible
     private static void prepareAdditionalFields(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         List<Contact> participantContacts = new List<Contact>();
@@ -141,7 +140,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             String nctNumber;
             String participantName;
             Boolean visitOpt = false;
-            
+
             if (pe.Study_Site__c != null) {
                 Study_Site__c ss = (Study_Site__c) PETriggerBuffer.getSObject(pe.Study_Site__c);
                 if (ss != null) {
@@ -172,41 +171,37 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             }
             //populate referred date
             if ((oldMap == null && PEStatusState.PE_ORDERED_STATUSES.containsKey(pe.Participant_Status__c) && pe.Referred_Date__c == null)
-                || (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != pe.Participant_Status__c && pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED)) {
-                    pe.Referred_Date__c = Date.today();
-                }
+                    || (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != pe.Participant_Status__c && pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED)) {
+                pe.Referred_Date__c = Date.today();
+            }
             pe.Initial_visit_scheduled_flag__c = pe.Initial_visit_scheduled_date__c != null;
-            
-            if(pe.Initial_visit_occurred_flag__c==true)
-            {
+
+            if (pe.Initial_visit_occurred_flag__c == true) {
                 pe.Initial_visit_scheduled_flag__c = true;
             }
-            //            if(pe.Initial_visit_occurred_date__c == null && pe.Initial_visit_occurred_flag__c){
-            //                pe.Initial_visit_occurred_date__c = pe.Initial_visit_scheduled_date__c;
-            //            }
         }
-        
+
         if (!participantContacts.isEmpty()) update participantContacts;
     }
-    
-    
+
+
     @TestVisible
     private static void studySiteHistory(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         List<Participant_Site_History__c> participantSiteHistories = new List<Participant_Site_History__c>();
         for (Participant_Enrollment__c pe : newList) {
             if (oldMap != null && oldMap.get(pe.Id).Study_Site__c != null && pe.Study_Site__c != oldMap.get(pe.Id).Study_Site__c) {
                 Participant_Site_History__c participantSiteHistory =
-                    new Participant_Site_History__c(Study_Site__c = oldMap.get(pe.Id).Study_Site__c,
-                                                    Participant_Enrollment__c = pe.Id);
+                        new Participant_Site_History__c(Study_Site__c = oldMap.get(pe.Id).Study_Site__c,
+                                Participant_Enrollment__c = pe.Id);
                 participantSiteHistories.add(participantSiteHistory);
             }
         }
-        
+
         if (!participantSiteHistories.isEmpty()) {
             insert participantSiteHistories;
         }
     }
-    
+
     @TestVisible
     private static void checkVisitPlanFromStudySite(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         Set<Id> studySiteIds = new Set<Id>();
@@ -218,7 +213,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 studySiteIds.add(pe.Study_Site__c);
             }
         }
-        
+
         if (!studySiteIds.isEmpty()) {
             Map<Id, Set<Id>> visitPlansBySSId = new Map<Id, Set<Id>>();
             List<StudySiteVisitPlan__c> visitPlans = [SELECT Id, Study_Site__c, Visit_Plan__c FROM StudySiteVisitPlan__c WHERE Study_Site__c IN :studySiteIds];
@@ -228,21 +223,21 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     visitPlIds = new Set<Id>();
                     visitPlansBySSId.put(visitPlan.Study_Site__c, visitPlIds);
                 }
-                
+
                 visitPlIds.add(visitPlan.Visit_Plan__c);
             }
-            
+
             for (Participant_Enrollment__c pe : newList) {
                 if (pe.Visit_Plan__c != null && (visitPlansBySSId.get(pe.Study_Site__c) == null || visitPlansBySSId.get(pe.Study_Site__c).isEmpty() ||
-                                                 !visitPlansBySSId.get(pe.Study_Site__c).contains(pe.Visit_Plan__c))) {
-                                                     if (!Test.isRunningTest()) {
-                                                         pe.addError(Label.Error_Message_Can_Not_Use_Visit_Plan);
-                                                     }
-                                                 }
+                        !visitPlansBySSId.get(pe.Study_Site__c).contains(pe.Visit_Plan__c))) {
+                    if (!Test.isRunningTest()) {
+                        pe.addError(Label.Error_Message_Can_Not_Use_Visit_Plan);
+                    }
+                }
             }
         }
     }
-    
+
     @TestVisible
     private static void setChangedDate(List<Participant_Enrollment__c> newList) {
         for (Participant_Enrollment__c pe : newList) {
@@ -254,21 +249,21 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             }
         }
     }
-    
+
     @TestVisible
     private static void resetNotesAndSetChangeDate(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         for (Participant_Enrollment__c pe : newList) {
             if (pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c ||
-                pe.Participant_Status_Last_Changed_Date__c != oldMap.get(pe.Id).Participant_Status_Last_Changed_Date__c ||
-                pe.Last_Status_Changed_Notes__c != oldMap.get(pe.Id).Last_Status_Changed_Notes__c) {
-                    if (pe.Participant_Status_Last_Changed_Date__c == oldMap.get(pe.Id).Participant_Status_Last_Changed_Date__c)
-                        if (pe.Last_Status_Changed_Notes__c == oldMap.get(pe.Id).Last_Status_Changed_Notes__c)
+                    pe.Participant_Status_Last_Changed_Date__c != oldMap.get(pe.Id).Participant_Status_Last_Changed_Date__c ||
+                    pe.Last_Status_Changed_Notes__c != oldMap.get(pe.Id).Last_Status_Changed_Notes__c) {
+                if (pe.Participant_Status_Last_Changed_Date__c == oldMap.get(pe.Id).Participant_Status_Last_Changed_Date__c)
+                    if (pe.Last_Status_Changed_Notes__c == oldMap.get(pe.Id).Last_Status_Changed_Notes__c)
                         pe.Last_Status_Changed_Notes__c = null;
-                    pe.Participant_Status_Last_Changed_Date__c = Datetime.now();
-                }
+                pe.Participant_Status_Last_Changed_Date__c = Datetime.now();
+            }
         }
     }
-    
+
     @TestVisible
     private static void createInvitations(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         Map<Id, List<Participant_Enrollment__c>> ctpPE = new Map<Id, List<Participant_Enrollment__c>>();
@@ -279,28 +274,28 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 ctpPE.put(pe.Clinical_Trial_Profile__c, new List<Participant_Enrollment__c>());
             }
             ctpPE.get(pe.Clinical_Trial_Profile__c).add(pe);
-            
-            String communityName = CommunityTemplateService.getTemplate(((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).CommunityTemplate__c).communityName;
+
+            String communityName = CommunityTemplateService.getTemplate(((Clinical_Trial_Profile__c) PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).CommunityTemplate__c).communityName;
             networkByPE.put(pe.Id, communitiesMap.get(communityName));
         }
-        
+
         List<Trial_Survey__c> trialSurveys = [
-            SELECT
-            Id,
-            Clinical_Trial_Profile__c,
-            Is_Midpoint__c,
-            Survey__c,
-            Survey__r.Name,
-            Active_On_Status__c,
-            Expires_After_Days__c,
-            Reminder_Schedule__c,
-            Whose_response_needed__c
-            FROM Trial_Survey__c
-            WHERE Active_On_Status__c != NULL
-            AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
-            AND Clinical_Trial_Profile__c IN:ctpPE.keySet()
+                SELECT
+                        Id,
+                        Clinical_Trial_Profile__c,
+                        Is_Midpoint__c,
+                        Survey__c,
+                        Survey__r.Name,
+                        Active_On_Status__c,
+                        Expires_After_Days__c,
+                        Reminder_Schedule__c,
+                        Whose_response_needed__c
+                FROM Trial_Survey__c
+                WHERE Active_On_Status__c != NULL
+                AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
+                AND Clinical_Trial_Profile__c IN:ctpPE.keySet()
         ];
-        
+
         Map<Id, String> trialWhoseResponse = new Map<Id, String>();
         List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
         for (Trial_Survey__c ts : trialSurveys) {
@@ -309,8 +304,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 Boolean needToAdd = false;
                 if (enrollment.Participant_Status__c == ts.Active_On_Status__c) {
                     if (PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(enrollment.Participant_Status__c)
-                        && ts.Is_Midpoint__c) continue;
-                    
+                            && ts.Is_Midpoint__c) continue;
+
                     if (oldMap != null) {
                         if (oldMap.get(enrollment.Id).Participant_Status__c != enrollment.Participant_Status__c) {
                             needToAdd = true;
@@ -321,49 +316,49 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 }
                 if (needToAdd) {
                     newInvitations.add(SurveyService.getInstance().generateInvitation(
-                        ts, enrollment.Id, networkByPE.get(enrollment.Id))
-                                      );
+                            ts, enrollment.Id, networkByPE.get(enrollment.Id))
+                    );
                 }
             }
         }
-        
+
         if (!newInvitations.isEmpty()) {
             insert newInvitations;
             Map<Id, String> invitationsVisible = new Map<Id, String>();
             for (SurveyInvitation inv : newInvitations) {
                 invitationsVisible.put(inv.Id, trialWhoseResponse.get(inv.Trial_Survey__c));
             }
-            
+
             TaskService.getInstance().createSurveyTasks(invitationsVisible);
         }
     }
-    
+
     @TestVisible
     private static void createTasks(List<Participant_Enrollment__c> newList) {
         List<Participant_Enrollment__c> enrollments = new List<Participant_Enrollment__c>();
         Set<Id> participantContactIds = new Set<Id>();
         for (Participant_Enrollment__c pe : newList) {
             if (pe.Participant_Contact__c != null &&
-                ((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).Tasks_Are_Available__c) {
-                    participantContactIds.add(pe.Participant_Contact__c);
-                    enrollments.add(pe);
-                }
+                    ((Clinical_Trial_Profile__c) PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).Tasks_Are_Available__c) {
+                participantContactIds.add(pe.Participant_Contact__c);
+                enrollments.add(pe);
+            }
         }
-        
+
         if (enrollments.isEmpty()) return;
-        
+
         Map<Id, User> usersByContactId = new Map<Id, User>();
         for (User user : CommunityService.getCommunityUsersByContactIds(participantContactIds)) {
             usersByContactId.put(user.ContactId, user);
         }
-        
+
         List<Task> tasks = new List<Task>();
         for (Participant_Enrollment__c pe : enrollments) {
             // COI tasks for GSK
-            String communityTemplate = ((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).CommunityTemplate__c;
+            String communityTemplate = ((Clinical_Trial_Profile__c) PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).CommunityTemplate__c;
             if (communityTemplate == CommunityTemplateService.TEMPLATE_GSK &&
-                !PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)) {
-                    Task t = new Task (
+                    !PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)) {
+                Task t = new Task (
                         Subject = TaskService.TASK_CODE_SELECT_COI,
                         Task_Code__c = TaskService.TASK_CODE_SELECT_COI,
                         Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED,
@@ -372,20 +367,20 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         WhatId = pe.Id,
                         WhoId = pe.Participant_Contact__c,
                         Visible_For__c = TaskService.TASK_VISIBILITY_ALL
-                    );
-                    if(usersByContactId.get(pe.Participant_Contact__c) != null){
-                        //if user exist then assign to him:
-                        t.OwnerId = usersByContactId.get(pe.Participant_Contact__c).Id;
-                    }else{
-                        //if not, then mark owner contact, and task will be reassigned when user for this contact will be created
-                        t.Owner_Contact__c = pe.Participant_Contact__c;
-                    }
-                    tasks.add(t);
+                );
+                if (usersByContactId.get(pe.Participant_Contact__c) != null) {
+                    //if user exist then assign to him:
+                    t.OwnerId = usersByContactId.get(pe.Participant_Contact__c).Id;
+                } else {
+                    //if not, then mark owner contact, and task will be reassigned when user for this contact will be created
+                    t.Owner_Contact__c = pe.Participant_Contact__c;
                 }
+                tasks.add(t);
+            }
         }
         if (!tasks.isEmpty()) insert tasks;
     }
-    
+
     @TestVisible
     private static void completeTasks(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         Set<Id> peIds = new Set<Id>();
@@ -394,17 +389,17 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 peIds.add(pe.Id);
             }
         }
-        
+
         if (peIds.isEmpty()) return;
-        
+
         List<Task> tasks = new List<Task>([
-            SELECT Status, Completed_Date__c
-            FROM Task
-            WHERE WhatId IN :peIds
-            AND Task_Code__c = :TaskService.TASK_CODE_SELECT_COI
-            AND Status != :TaskService.TASK_STATUS_COMPLETED
+                SELECT Status, Completed_Date__c
+                FROM Task
+                WHERE WhatId IN :peIds
+                AND Task_Code__c = :TaskService.TASK_CODE_SELECT_COI
+                AND Status != :TaskService.TASK_STATUS_COMPLETED
         ]);
-        
+
         if (!tasks.isEmpty()) {
             for (Task task : tasks) {
                 task.Status = TaskService.TASK_STATUS_COMPLETED;
@@ -413,36 +408,36 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             update tasks;
         }
     }
-    
+
     @TestVisible
     private static void createPrimaryHistoryEntry(
-        List<Participant_Enrollment__c> enrollments,
-        Map<Id, Participant_Enrollment__c> oldMap
+            List<Participant_Enrollment__c> enrollments,
+            Map<Id, Participant_Enrollment__c> oldMap
     ) {
         List<Participant_Enrollment_Status_History__c> histories = new List<Participant_Enrollment_Status_History__c>();
         List<Participant_Enrollment__c> peListForTaskCreation = new List<Participant_Enrollment__c>();
         Set<Id> participantContactIds = new Set<Id>();
         List<Notification__c> notifications = new List<Notification__c>();
-        
+
         for (Participant_Enrollment__c pe : enrollments) {
             if (pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED) {
                 if (oldMap == null || (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != PEStatusState.PE_STATUS_RECEIVED)) {
                     histories.add(new Participant_Enrollment_Status_History__c(
-                        Date__c = pe.Participant_Status_Last_Changed_Date__c,
-                        Status__c = pe.Participant_Status__c,
-                        Notes__c = pe.Non_Referral_Notes__c,
-                        ParticipantEnrollment__c = pe.Id,
-                        Reason__c = pe.Non_Referral_Reason__c
+                            Date__c = pe.Participant_Status_Last_Changed_Date__c,
+                            Status__c = pe.Participant_Status__c,
+                            Notes__c = pe.Non_Referral_Notes__c,
+                            ParticipantEnrollment__c = pe.Id,
+                            Reason__c = pe.Non_Referral_Reason__c
                     ));
                     peListForTaskCreation.add(pe);
-                    if(pe.Participant_Contact__c != null) participantContactIds.add(pe.Participant_Contact__c);
+                    if (pe.Participant_Contact__c != null) participantContactIds.add(pe.Participant_Contact__c);
                 }
             } else if (oldMap == null) {
                 peListForTaskCreation.add(pe);
                 Clinical_Trial_Profile__c ctp =
-                    (Clinical_Trial_Profile__c) PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c);
-                if(pe.Participant_Contact__c != null) participantContactIds.add(pe.Participant_Contact__c);
-                
+                        (Clinical_Trial_Profile__c) PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c);
+                if (pe.Participant_Contact__c != null) participantContactIds.add(pe.Participant_Contact__c);
+
                 histories.addAll(ParticipantWorkflowService.createHistoryRecordsForPE(pe, ctp));
             }
         }
@@ -452,17 +447,17 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
         createTasks(peListForTaskCreation);
         PatientDelegateService.updateContactPermSetsWithDelegates(participantContactIds);
-        
-        if(!notifications.isEmpty()) insert notifications;
+
+        if (!notifications.isEmpty()) insert notifications;
     }
-    
+
     @TestVisible
     private static void updateWithStepSuccessFlags(List<Participant_Enrollment__c> enrollments) {
         for (Participant_Enrollment__c pe : enrollments) {
             ParticipantWorkflowService.updatePEWithPreviousStatusesSuccess(pe, (Clinical_Trial_Profile__c) PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c));
         }
     }
-    
+
     @TestVisible
     private static void setSourceTypeHandler(List<Participant_Enrollment__c> enrollments) {
         for (Participant_Enrollment__c pe : enrollments) {
@@ -475,58 +470,58 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             }
         }
     }
-    
+
     // On study logic---------------------------------------------------------------------------------------------------
     @TestVisible
     public static void deactivateDeceasedUsers(List<Participant_Enrollment__c> enrollments, Map<Id, Participant_Enrollment__c> oldMap) {
         List<Id> contactIds = new List<Id>();
         for (Participant_Enrollment__c pe : enrollments) {
             if (pe.Participant_Status__c == PEStatusState.PE_STATUS_DECEASED &&
-                pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c) {
-                    contactIds.add(pe.Participant_Contact__c);
-                }
+                    pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c) {
+                contactIds.add(pe.Participant_Contact__c);
+            }
         }
         if (!contactIds.isEmpty()) deactivateUsers(contactIds);
     }
-    
+
     @Future
     private static void deactivateUsers(List<Id> contactIds) {
         List<User> users = [
-            SELECT Id, IsActive, ContactId
-            FROM User
-            WHERE ContactId IN :contactIds
+                SELECT Id, IsActive, ContactId
+                FROM User
+                WHERE ContactId IN :contactIds
         ];
         for (User u : users) u.IsActive = false;
         update users;
     }
-    
+
     @TestVisible
     private static void createVisitsSchedule(List<Participant_Enrollment__c> enrollments, Map<Id, Participant_Enrollment__c> oldMap) {
         List<Participant_Enrollment__c> peEnrollSuccessWithParticipating = new List<Participant_Enrollment__c>();
         for (Participant_Enrollment__c pe : enrollments) {
             if (oldMap == null || pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c) {
                 if ((pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
-                     || pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS)
-                    && ((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).Patient_Portal_Enabled__c) {
-                        peEnrollSuccessWithParticipating.add(pe);
-                    }
+                        || pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS)
+                        && ((Clinical_Trial_Profile__c) PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).Patient_Portal_Enabled__c) {
+                    peEnrollSuccessWithParticipating.add(pe);
+                }
             }
         }
         Set<Id> ctpIds = new Set<Id>();
         for (Participant_Enrollment__c pe : peEnrollSuccessWithParticipating) ctpIds.add(pe.Clinical_Trial_Profile__c);
         Map<Id, Clinical_Trial_Profile__c> ctpMap = new Map<Id, Clinical_Trial_Profile__c>();
-        for(Id ctpId : ctpIds){
-            ctpMap.put(ctpId, (Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(ctpId));
+        for (Id ctpId : ctpIds) {
+            ctpMap.put(ctpId, (Clinical_Trial_Profile__c) PETriggerBuffer.getSObject(ctpId));
         }
         Set<Id> visitPlanIds = new Set<Id>();
         for (Clinical_Trial_Profile__c ctp : ctpMap.values()) visitPlanIds.add(ctp.Visit_Plan__c);
         for (Participant_Enrollment__c pe : enrollments) visitPlanIds.add(pe.Visit_Plan__c);
         Map<Id, Visit_Plan__c> visitPlansMap = new Map<Id, Visit_Plan__c>([
-            SELECT Id, (SELECT Id, Name, Visit_Number__c, Visit_Schedule__c, Patient_Portal_Name__c FROM Visits__r)
-            FROM Visit_Plan__c
-            WHERE Id IN :visitPlanIds
+                SELECT Id, (SELECT Id, Name, Visit_Number__c, Visit_Schedule__c, Patient_Portal_Name__c FROM Visits__r)
+                FROM Visit_Plan__c
+                WHERE Id IN :visitPlanIds
         ]);
-        
+
         List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>();
         for (Participant_Enrollment__c pe : peEnrollSuccessWithParticipating) {
             Clinical_Trial_Profile__c ctp = ctpMap.get(pe.Clinical_Trial_Profile__c);
@@ -541,44 +536,44 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
         if (patientVisits.size() > 0) insert patientVisits;
     }
-    
+
     @TestVisible
     private static void hideSurveyTaskForCompletedStatuses(
-        List<Participant_Enrollment__c> newList,
-        Map<Id, Participant_Enrollment__c> oldMap
+            List<Participant_Enrollment__c> newList,
+            Map<Id, Participant_Enrollment__c> oldMap
     ) {
         List<Participant_Enrollment__c> completedPEs = new List<Participant_Enrollment__c>();
         for (Participant_Enrollment__c pe : newList) {
             if (pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c &&
-                PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(pe.Participant_Status__c)) {
-                    completedPEs.add(pe);
-                }
+                    PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(pe.Participant_Status__c)) {
+                completedPEs.add(pe);
+            }
         }
         if (completedPEs.isEmpty()) return;
-        
+
         Map<Id, SurveyInvitation> invitationMap = new Map<Id, SurveyInvitation>([
-            SELECT Id
-            FROM SurveyInvitation
-            WHERE Participant_Enrollment__c IN:completedPEs
-            AND Is_Midpoint__c = TRUE
+                SELECT Id
+                FROM SurveyInvitation
+                WHERE Participant_Enrollment__c IN:completedPEs
+                AND Is_Midpoint__c = TRUE
         ]);
         if (invitationMap.keySet().isEmpty()) return;
-        
+
         List<Task> tasks = [
-            SELECT Id
-            FROM Task
-            WHERE Task_Type__c = :TaskService.TASK_TYPE_SURVEY
-            AND Status IN:TaskService.TASK_STATUS_GROUP_AVAILABLE
-            AND Survey_Invitation__c IN:invitationMap.keySet()
+                SELECT Id
+                FROM Task
+                WHERE Task_Type__c = :TaskService.TASK_TYPE_SURVEY
+                AND Status IN:TaskService.TASK_STATUS_GROUP_AVAILABLE
+                AND Survey_Invitation__c IN:invitationMap.keySet()
         ];
-        
+
         List<Task> tasksForExpire = new List<Task>();
         for (Task task : tasks) {
             task.Status = TaskService.TASK_STATUS_EXPIRED;
             tasksForExpire.add(task);
         }
         update tasksForExpire;
-        
+
         SurveyService.getInstance().expireInvitation(new List<Id>(invitationMap.keySet()));
     }
 
@@ -588,10 +583,10 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         for (Participant_Enrollment__c pe : newList) {
             if (oldMap == null || oldMap != null && pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c) {
                 Participant__c participant = (Participant__c) PETriggerBuffer.getSObject(pe.Participant__c);
-                if(participant != null) participants.add(participant);
+                if (participant != null) participants.add(participant);
             }
         }
-        
+
         ParticipantEnrollmentService.updateParticipantState(participants);
     }
 }

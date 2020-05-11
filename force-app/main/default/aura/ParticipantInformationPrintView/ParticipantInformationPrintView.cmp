@@ -160,7 +160,7 @@
             <aura:if isTrue="{!v.pe.Referral_Source__c == 'IQVIA registry' &amp;&amp; !v.actions.screenerResponses.disabled}">
                 <div>
                     <div class="header">{!$Label.c.BTN_Screener_Responses}</div>
-                    <c:SurveyResponseView pe="{!v.pe}"/>
+<!--                    <c:SurveyResponseView pe="{!v.pe}"/>-->
                 </div>
             </aura:if>
             
