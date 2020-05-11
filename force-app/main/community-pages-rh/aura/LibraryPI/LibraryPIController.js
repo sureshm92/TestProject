@@ -1,10 +1,9 @@
 ({
     doInit: function(component, event, helper){
-        communityService.executeAction(component,'getInitData', null, function (response){
+        var isDelegate = communityService.isDelegate() ? true : false;
+        communityService.executeAction(component,'getInitData', {isDelegate : isDelegate}, function (response){
             component.set('v.resourceStructureList', response);
             component.get('v.parent').find('mainSpinner').hide();
-            console.log('response>>>',response);
-            console.log('resourceStructureList>>>',component.get('v.resourceStructureList'));
         });
 
     },
