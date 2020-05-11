@@ -2,7 +2,7 @@
  * Created by Nikita Abrazhevitch on 06-May-20.
  */
 
-public with sharing class LibraryPIRemote {
+public without sharing class LibraryPIRemote {
 
     public static final String EXCLUDED_RESOURCE_TYPE = 'Article';
     public static final String NOT_STUDY_SPECIFIC_SECTION = 'Not Study-Specific';
@@ -20,7 +20,7 @@ public with sharing class LibraryPIRemote {
     public class PIResources {
         @AuraEnabled public Id resourceId;
         @AuraEnabled public String recordTypeDevName;
-       @AuraEnabled public String name;
+        @AuraEnabled public String name;
         @AuraEnabled public String language;
         @AuraEnabled public String type;
         @AuraEnabled public String format;
@@ -42,17 +42,29 @@ public with sharing class LibraryPIRemote {
     }
 
     @AuraEnabled
-    public static List<ResourceWrapper> getInitData() {
+    public static List<ResourceWrapper> getInitData(Boolean isDelegate) {
+        Set<Id> piIds = new Set<Id>();
+        Set<Id> ctpIds = new Set<Id>();
+        List<ResourceWrapper> initData = new List<ResourceWrapper>();
         Map<String, List<PIResources>> initDataMap = new Map<String, List<PIResources>>{
                 NOT_STUDY_SPECIFIC_SECTION => new List<PIResources>()
         };
-        List<ResourceWrapper> initData = new List<ResourceWrapper>();
-        Set<Id> ctpIds = new Set<Id>();
+        if(isDelegate){
+            for (Site_Staff__c siteStaff : [
+                    SELECT Study_Site__r.Principal_Investigator__c
+                    FROM Site_Staff__c
+                    WHERE Site_Contact__c = :CommunityService.getUserContact().Id
+            ]){
+                piIds.add(siteStaff.Study_Site__r.Principal_Investigator__c);
+            }
+        }
+
+        if(piIds.isEmpty()) piIds.add(CommunityService.getUserContact().Id);
         for (Study_Site__c ss : [
                 SELECT Clinical_Trial_Profile__c,
                         Clinical_Trial_Profile__r.Study_Code_Name__c
                 FROM Study_Site__c
-                WHERE Principal_Investigator__c = :CommunityService.getUserContact().Id
+                WHERE Principal_Investigator__c IN :piIds
         ]) {
             ctpIds.add(ss.Clinical_Trial_Profile__c);
             if (!initDataMap.containsKey(ss.Clinical_Trial_Profile__r.Study_Code_Name__c)) {
