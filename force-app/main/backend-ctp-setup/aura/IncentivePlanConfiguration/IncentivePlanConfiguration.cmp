@@ -31,6 +31,15 @@
                     <!--Filters-->
                     <div class="slds-m-bottom--small">
                         <div class="slds-grid slds-gutters">
+                            <!--Incentive Plan Filter-->
+                            <div class="slds-col slds-size--1-of-2">
+                                <c:IncentivePlansLookup aura:id="ipLookup"
+                                                        value="{!v.filter.pageFeatureIds}"
+                                                        isMultiEntry="true"
+                                                        onchange="{!c.doUpdate}"
+                                                        placeholder="Select Incentive Program"
+                                                        placeholderSelected="Select another Incentive Plan"/>
+                            </div>
                             <!--Country Filter-->
                             <div class="slds-col slds-size--1-of-2">
                                 <c:VisitResultSharingCountryLookup aura:id="countryLookup"
@@ -42,15 +51,7 @@
                                                                    ctpId="{!v.recordId}"
                                                                    isInclude="true"/>
                             </div>
-                            <!--Incentive Plan Filter-->
-                            <div class="slds-col slds-size--1-of-2">
-                                <c:IncentivePlansLookup aura:id="ipLookup"
-                                                    value="{!v.filter.pageFeatureIds}"
-                                                    isMultiEntry="true"
-                                                    onchange="{!c.doUpdate}"
-                                                    placeholder="Select Incentive Program"
-                                                    placeholderSelected="Select another Incentive Plan"/>
-                            </div>
+
                         </div>
                         <div class="slds-grid slds-gutters">
                             <!--Study Site Filter-->
