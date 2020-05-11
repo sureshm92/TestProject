@@ -8,5 +8,4 @@ trigger ParticipantEnrollmentStatusHistoryTrigger on Participant_Enrollment_Stat
     TriggerHandlerExecutor.execute(ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandler.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentSHTriggerHandler.CreateWelcomeToStudyAlertHandler.class);
-    
 }

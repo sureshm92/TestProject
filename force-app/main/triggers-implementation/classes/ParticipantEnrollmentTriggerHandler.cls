@@ -174,11 +174,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     || (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != pe.Participant_Status__c && pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED)) {
                 pe.Referred_Date__c = Date.today();
             }
-            pe.Initial_visit_scheduled_flag__c = pe.Initial_visit_scheduled_date__c != null;
 
-            if (pe.Initial_visit_occurred_flag__c == true) {
-                pe.Initial_visit_scheduled_flag__c = true;
-            }
+            pe.Initial_visit_scheduled_flag__c = pe.Initial_visit_scheduled_date__c != null || pe.Initial_visit_occurred_flag__c;
         }
 
         if (!participantContacts.isEmpty()) update participantContacts;
@@ -190,23 +187,25 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         List<Participant_Site_History__c> participantSiteHistories = new List<Participant_Site_History__c>();
         for (Participant_Enrollment__c pe : newList) {
             if (oldMap != null && oldMap.get(pe.Id).Study_Site__c != null && pe.Study_Site__c != oldMap.get(pe.Id).Study_Site__c) {
-                Participant_Site_History__c participantSiteHistory =
-                        new Participant_Site_History__c(Study_Site__c = oldMap.get(pe.Id).Study_Site__c,
-                                Participant_Enrollment__c = pe.Id);
-                participantSiteHistories.add(participantSiteHistory);
+                participantSiteHistories.add(
+                        new Participant_Site_History__c(
+                                Study_Site__c = oldMap.get(pe.Id).Study_Site__c,
+                                Participant_Enrollment__c = pe.Id
+                        )
+                );
             }
         }
 
-        if (!participantSiteHistories.isEmpty()) {
-            insert participantSiteHistories;
-        }
+        if (!participantSiteHistories.isEmpty()) insert participantSiteHistories;
     }
 
     @TestVisible
     private static void checkVisitPlanFromStudySite(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         Set<Id> studySiteIds = new Set<Id>();
         for (Participant_Enrollment__c pe : newList) {
-            Boolean needsVisitPlanCheck = oldMap != null && oldMap.get(pe.Id).Study_Site__c != null && oldMap.get(pe.Id).Study_Site__c != pe.Study_Site__c;
+            Boolean needsVisitPlanCheck = oldMap != null
+                            && oldMap.get(pe.Id).Study_Site__c != null
+                            && oldMap.get(pe.Id).Study_Site__c != pe.Study_Site__c;
             if (needsVisitPlanCheck && PEStatusState.PE_STATUS_GROUP_VISIT_PLAN_CHECK.contains(pe.Participant_Status__c)) {
                 pe.Visit_Plan__c = null;
             } else {
@@ -216,15 +215,16 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
         if (!studySiteIds.isEmpty()) {
             Map<Id, Set<Id>> visitPlansBySSId = new Map<Id, Set<Id>>();
-            List<StudySiteVisitPlan__c> visitPlans = [SELECT Id, Study_Site__c, Visit_Plan__c FROM StudySiteVisitPlan__c WHERE Study_Site__c IN :studySiteIds];
+            List<StudySiteVisitPlan__c> visitPlans = [
+                    SELECT Id, Study_Site__c, Visit_Plan__c
+                    FROM StudySiteVisitPlan__c
+                    WHERE Study_Site__c IN :studySiteIds
+            ];
             for (StudySiteVisitPlan__c visitPlan : visitPlans) {
-                Set<Id> visitPlIds = visitPlansBySSId.get(visitPlan.Study_Site__c);
-                if (visitPlIds == null) {
-                    visitPlIds = new Set<Id>();
-                    visitPlansBySSId.put(visitPlan.Study_Site__c, visitPlIds);
+                if (!visitPlansBySSId.containsKey(visitPlan.Study_Site__c)) {
+                    visitPlansBySSId.put(visitPlan.Study_Site__c, new Set<Id>());
                 }
-
-                visitPlIds.add(visitPlan.Visit_Plan__c);
+                visitPlansBySSId.get(visitPlan.Study_Site__c).add(visitPlan.Visit_Plan__c);
             }
 
             for (Participant_Enrollment__c pe : newList) {
@@ -256,9 +256,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             if (pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c ||
                     pe.Participant_Status_Last_Changed_Date__c != oldMap.get(pe.Id).Participant_Status_Last_Changed_Date__c ||
                     pe.Last_Status_Changed_Notes__c != oldMap.get(pe.Id).Last_Status_Changed_Notes__c) {
-                if (pe.Participant_Status_Last_Changed_Date__c == oldMap.get(pe.Id).Participant_Status_Last_Changed_Date__c)
-                    if (pe.Last_Status_Changed_Notes__c == oldMap.get(pe.Id).Last_Status_Changed_Notes__c)
+                if (pe.Participant_Status_Last_Changed_Date__c == oldMap.get(pe.Id).Participant_Status_Last_Changed_Date__c) {
+                    if (pe.Last_Status_Changed_Notes__c == oldMap.get(pe.Id).Last_Status_Changed_Notes__c) {
                         pe.Last_Status_Changed_Notes__c = null;
+                    }
+                }
                 pe.Participant_Status_Last_Changed_Date__c = Datetime.now();
             }
         }
