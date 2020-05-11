@@ -1,7 +1,10 @@
 ({
 	doExecute: function (component, event, helper) {
+		console.log('DOEXECUTE');
 		component.set('v.detailsExpandedStudy', true);
 		component.set('v.detailsExpandedSystem', true);
+		component.set('v.planName', '');
+		console.log('PLANNAME', component.get('v.planName'));
 		communityService.executeAction(component, 'getIncentiveTasks',  {}, function (returnValue) {
 			component.set("v.tasks", returnValue);
 			console.log('tasks', component.get('v.tasks'));
@@ -35,7 +38,7 @@
                 helper.callRemote(component, vpId, true);
             }
         }*/
-
+		console.log('PLANNAME2', component.get('v.planName'));
 		component.find('createIncentiveTask').show();
 	},
 	toggleViewStudy: function (cmp, event, helper) {
@@ -61,17 +64,15 @@
 	},
 	doSave: function (component, event, helper) {
 		component.find('spinner').show();
-		console.log('Save');
 		var plName = component.get('v.planName');
-		console.log('123');
 		var task = component.get('v.tasks');
-		console.log('1234');
-		var checkON = document.getElementById("checkboxOn").checked;
-		var checkIQVIA = document.getElementById("checkboxIQVIA").checked;
+		var checkON = document.getElementById("checkboxOn0").checked;
+		var checkIQVIA = document.getElementById("checkboxIQVIA0").checked;
+		console.log('checkON', checkON);
+		console.log('checkIQVIA', checkIQVIA);
 		communityService.executeAction(component, 'createIncentivePlan',  {task:task[0], checkON:checkON, checkIQVIA:checkIQVIA, planName:plName}, function(ipId) {
 			component.find('createIncentiveTask').hide();
 			component.find('spinner').hide();
-			component.set('v.planName', '');
 
 			let callback = component.get('v.callback');
 			if (callback) callback(ipId);
