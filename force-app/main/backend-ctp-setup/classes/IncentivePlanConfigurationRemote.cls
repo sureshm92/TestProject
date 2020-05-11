@@ -72,6 +72,28 @@ public without sharing class IncentivePlanConfigurationRemote {
             return (SSIncentiveConfigSearchResponse) AuraHelper.throwException(e);
         }
     }
+    @AuraEnabled
+    public static List<Incentive_Task_Catalog__mdt> getIncentiveTasks() {
+        return [SELECT Id, Title_Label__c, Description_Label__c, Default_Number_of_Points__c FROM Incentive_Task_Catalog__mdt];
+    }
+
+    @AuraEnabled
+    public static Clinical_Trial_Profile__c getStudyInfo(String id) {
+        return [SELECT Id, Name, Study_Code_Name__c, Protocol_ID__c, Study_Sponsor__c, OwnerId, Owner.Name, CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name FROM Clinical_Trial_Profile__c WHERE Id =: id];
+    }
+
+    @AuraEnabled
+    public static String createIncentivePlan(Incentive_Task_Catalog__mdt task, Boolean checkON, Boolean checkIQVIA, String planName) {
+        Incentive_Plan__c plan = new Incentive_Plan__c(Plan_Name__c = planName);
+        insert plan;
+        Incentive_Plan_Task__c newTask = new Incentive_Plan_Task__c(Incentive_Plan__c = plan.Id,
+                                                                 Incentive_Task_Catalog__c = task.Title_Label__c,
+                                                                 Points__c = task.Default_Number_of_Points__c,
+                                                                 Enabled__c = checkON, IQVIA_Supported__c = checkIQVIA);
+        insert newTask;
+        return plan.Id;
+
+    }
 
     private static void save(String ssItemsJSON) {
         if (String.isEmpty(ssItemsJSON)) return;
