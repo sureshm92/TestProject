@@ -1,0 +1,7 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<apex:component id="EmailTemplate" access="global">
+    <!-- deprecated!!! -->
+</apex:component>

@@ -11,7 +11,6 @@ public class HomePageParticipantRemote {
                     SELECT
                             ContactId,
                             Contact.Next_Notify_Date__c,
-                            Contact.UserCommunityIsDelegate__c,
                             LastLoginDate
                     FROM User
                     WHERE Id = :UserInfo.getUserId()
@@ -23,8 +22,7 @@ public class HomePageParticipantRemote {
                 if (user.Contact.Next_Notify_Date__c != Date.today()) {
                     ContactService.updateNextNotifyDate(
                             user.ContactId,
-                            user.LastLoginDate,
-                            user.Contact.UserCommunityIsDelegate__c);
+                            user.LastLoginDate);
                 }
             }
 

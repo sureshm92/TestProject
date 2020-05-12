@@ -2,23 +2,20 @@
                          recipientType="User"
                          language="{!recipient.LanguageLocaleKey}">
 
-    <messaging:htmlEmailBody >
-        <c:EmailTemplate recipientId="{!recipient.Id}"
-                         sourceId="{!recipient.Id}"
-                         communityTemplate="GSK">
-<!--                         showDelegateTable="true">-->
-            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Enroll_Now}"
-                              buttonURL="{!$Network.NetworkUrlForUserEmails}"/>
-        </c:EmailTemplate>
+    <messaging:htmlEmailBody>
+        <c:InitialWireframe userId="{!recipient.Id}"
+                            communityTemplate="GSK"
+                            buttonLabel="{!$Label.Email_Action_Enroll_Now}"
+                            buttonURL="{!$Network.NetworkUrlForUserEmails}">
+        </c:InitialWireframe>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody >
-        <c:EmailTemplateText recipientId="{!recipient.Id}"
-                             sourceId="{!recipient.Id}"
-                             communityTemplate="GSK">
-            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Enroll_Now}"
-                                  buttonURL="{!$Network.NetworkUrlForUserEmails}"/>
-        </c:EmailTemplateText>
+    <messaging:plainTextEmailBody>
+        <c:InitialWireframeText userId="{!recipient.Id}"
+                                communityTemplate="GSK"
+                                buttonLabel="{!$Label.Email_Action_Enroll_Now}"
+                                buttonURL="{!$Network.NetworkUrlForUserEmails}">
+        </c:InitialWireframeText>
     </messaging:plainTextEmailBody>
 
 </messaging:emailTemplate>
