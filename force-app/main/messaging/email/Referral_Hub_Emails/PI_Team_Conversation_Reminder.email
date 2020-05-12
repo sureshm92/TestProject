@@ -2,29 +2,29 @@
                          recipientType="Contact"
                          relatedToType="Contact"
                          language="{!relatedTo.Language__c}">
-    <messaging:htmlEmailBody >
-        <c:EmailTemplate sourceId="{!relatedTo.Id}"
-                         parametersProvider="PP_Contact"
-                         recipientId="{!recipient.Id}"
-                         header="{!$Label.Email_Header_PI_Conv_Rem}"
-                         title="{!$Label.Email_Title}"
-                         greeting="{!$Label.Email_User_Greeting}"
-                         body="{!$Label.Email_Body_PI_Conv_Rem}"
-                         signature="{!$Label.Email_Signature_RH}">
+
+    <messaging:htmlEmailBody>
+        <c:EmailWireframe sourceId="{!relatedTo.Id}"
+                          recipientId="{!recipient.Id}"
+                          header="{!$Label.Email_Header_PI_Conv_Rem}"
+                          title="{!$Label.Email_Title}"
+                          greeting="{!$Label.Email_User_Greeting}"
+                          signature="{!$Label.Email_Signature_RH}">
+            <c:Paragraph emailLabel="{!$Label.Email_Body_PI_Conv_Rem}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
-        </c:EmailTemplate>
+        </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody>
-        <c:EmailTemplateText sourceId="{!relatedTo.Id}"
-                             parametersProvider="PP_Contact"
-                             recipientId="{!recipient.Id}"
-                             header="{!$Label.Email_Header_PI_New_Mess}"
-                             title="{!$Label.Email_Title}"
-                             greeting="{!$Label.Email_User_Greeting}"
-                             body="{!$Label.Email_Body_PI_Conv_Rem}"
-                             signature="{!$Label.Email_Signature_RH}">
+        <c:EmailWireframeText sourceId="{!relatedTo.Id}"
+                              recipientId="{!recipient.Id}"
+                              header="{!$Label.Email_Header_PI_New_Mess}"
+                              title="{!$Label.Email_Title}"
+                              greeting="{!$Label.Email_User_Greeting}"
+                              signature="{!$Label.Email_Signature_RH}">
+            <c:ParagraphText emailLabel="{!$Label.Email_Body_PI_Conv_Rem}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
-        </c:EmailTemplateText>
+        </c:EmailWireframeText>
     </messaging:plainTextEmailBody>
+
 </messaging:emailTemplate>

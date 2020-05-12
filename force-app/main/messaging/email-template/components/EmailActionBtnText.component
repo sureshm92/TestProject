@@ -1,0 +1,16 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<apex:component id="EmailActionBtnText" access="global" controller="EmailActionBtnController">
+
+    <!-- attributes: -->
+    <apex:attribute name="buttonLabel" type="String" description="" access="global" assignTo="{!buttonLabelName}"/>
+    <apex:attribute name="buttonURL" type="String" description="" access="global" assignTo="{!buttonURLString}"/>
+    <apex:attribute name="caseId" type="String" description="" access="global" assignTo="{!caseIdString}"/>
+    <apex:attribute name="surveyId" type="Id" description="" access="global" assignTo="{!surveyIdString}"/>
+    <apex:attribute name="resourceId" type="Id" description="DEPRECATED" access="global" assignTo="{!resourceIdString}"/>
+
+    <!-- component body: -->
+    {!buttonLabelValue}: {!resultURL}
+</apex:component>

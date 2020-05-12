@@ -1,0 +1,18 @@
+<!--
+ - Created by Kryvolap on 18.09.2018.
+ -->
+
+<apex:component id="EmailTemplateDelegate" controller="EmailTemplateDelController" access="global">
+
+    <!-- attributes: -->
+    <apex:attribute name="recipientId" type="Id" assignTo="{!recipId}" description=""/>
+    <apex:attribute name="recipientLanguage" type="String" assignTo="{!contactLanguage}" description=""/>
+
+    <!-- component body -->
+    <c:EmailTemplateDelegateTable rendered="{!piDelegateLevels.size > 0}"
+                                  title="{!$Label.Email_Delegate_PI_Levels_Title}"
+                                  delegateLevels="{!piDelegateLevels}"/>
+    <c:EmailTemplateDelegateTable rendered="{!HCPDelegateLevels.size > 0}"
+                                  title="{!$Label.Email_Delegate_HCP_Levels_Title}"
+                                  delegateLevels="{!HCPDelegateLevels}"/>
+</apex:component>

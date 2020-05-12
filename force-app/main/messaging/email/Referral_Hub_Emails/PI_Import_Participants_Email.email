@@ -3,28 +3,26 @@
                          relatedToType="Study_Site__c"
                          language="{!relatedTo.Principal_Investigator__r.Language__c}">
 
-    <messaging:htmlEmailBody >
-        <c:EmailTemplate userType="PI"
-                         recipientId="{!recipient.Id}"
-                         sourceId="{!relatedTo.Id}"
-                         header="{!$Label.Email_Header_Import_Participants_Completed}"
-                         title="{!$Label.Email_Title}"
-                         greeting="{!$Label.Email_User_Greeting}"
-                         body="{!$Label.Email_Body_Participant_Import_Completed}"
-                         signature="{!$Label.Email_Signature_RH}">
-        </c:EmailTemplate>
+    <messaging:htmlEmailBody>
+        <c:EmailWireframe recipientId="{!recipient.Id}"
+                          sourceId="{!relatedTo.Id}"
+                          header="{!$Label.Email_Header_Import_Participants_Completed}"
+                          title="{!$Label.Email_Title}"
+                          greeting="{!$Label.Email_User_Greeting}"
+                          signature="{!$Label.Email_Signature_RH}">
+            <c:Paragraph emailLabel="{!$Label.Email_Body_Participant_Import_Completed}"/>
+        </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody >
-        <c:EmailTemplateText userType="PI"
-                             recipientId="{!recipient.Id}"
-                             sourceId="{!relatedTo.Id}"
-                             header="{!$Label.Email_Header_Import_Participants_Completed}"
-                             title="{!$Label.Email_Title}"
-                             greeting="{!$Label.Email_User_Greeting}"
-                             body="{!$Label.Email_Body_Participant_Import_Completed}"
-                             signature="{!$Label.Email_Signature_RH}">
-        </c:EmailTemplateText>
+    <messaging:plainTextEmailBody>
+        <c:EmailWireframeText recipientId="{!recipient.Id}"
+                              sourceId="{!relatedTo.Id}"
+                              header="{!$Label.Email_Header_Import_Participants_Completed}"
+                              title="{!$Label.Email_Title}"
+                              greeting="{!$Label.Email_User_Greeting}"
+                              signature="{!$Label.Email_Signature_RH}">
+            <c:ParagraphText emailLabel="{!$Label.Email_Body_Participant_Import_Completed}"/>
+        </c:EmailWireframeText>
     </messaging:plainTextEmailBody>
 
 </messaging:emailTemplate>

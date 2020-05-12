@@ -5,7 +5,7 @@
     <protected>false</protected>
     <values>
         <field>Parameters__c</field>
-        <value xsi:type="xsd:string">HCPName = HCP__r.HCP_Contact__r.Name
+        <value xsi:type="xsd:string">HCPName = HCP__r.HCP_Contact__r.Salutation_With_Name__c
             HCPTitle = HCP__r.HCP_Contact__r.Title
             HCPLanguage = HCP__r.HCP_Contact__r.Language__c
             StudyTitle = Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c
@@ -21,11 +21,13 @@
             ReferralSource = Referral_Source__c
             IsVirtual = Is_Virtual_Study_Site__c
             PatientFirstName = Participant__r.First_Name__c
+            ParticipantName = Participant_Contact__r.Full_Name__c
             ParticipantFirstName = Participant__r.First_Name__c
             ParticipantContactFirstName = Participant_Contact__r.FirstName
+            ParticipantLanguage = Participant_Contact__r.Language__c
             PEProfileName = Name
             PEName = Name
-            PIName = Study_Site__r.Principal_Investigator__r.Full_Name__c
+            PIName = Study_Site__r.Principal_Investigator__r.Salutation_With_Name__c
             PILanguage = Study_Site__r.Principal_Investigator__r.Language__c
             PITitle = Study_Site__r.Principal_Investigator__r.Title
         </value>

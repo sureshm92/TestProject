@@ -1,36 +1,36 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_Share_Resource}"
-                         relatedToType="Resource__c"
                          recipientType="Contact"
+                         relatedToType="Resource__c"
                          language="{!recipient.Language__c}">
 
-    <messaging:htmlEmailBody >
-        <c:EmailTemplate recipientName="{!$Label.Email_Guest}"
-                         recipientLanguage="{!recipient.Language__c}"
-                         parametersProvider="Email_Template_Parameters_From_Resource"
-                         sourceId="{!relatedTo.Id}"
-                         header="{!$Label.Email_Header_Share_PH}"
-                         title="{!$Label.Email_Title_PH}"
-                         greeting="{!$Label.Email_User_Greeting}"
-                         body="{!$Label.Email_Body_Share_Resource}"
-                         signature="{!$Label.Email_Signature_Resource}">
+    <messaging:htmlEmailBody>
+        <c:EmailWireframe recipientId="{!recipient.Id}"
+                          recipientName="{!$Label.Email_Guest}"
+                          recipientLanguage="{!recipient.Language__c}"
+                          sourceId="{!relatedTo.Id}"
+                          header="{!$Label.Email_Header_Share_PH}"
+                          title="{!$Label.Email_Title_PH}"
+                          greeting="{!$Label.Email_User_Greeting}"
+                          signature="{!$Label.Email_Signature_Resource}">
+            <c:Paragraph emailLabel="{!$Label.Email_Body_Share_Resource}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_Resource}"
                               buttonURL="{!relatedTo.article_external_link__c }"/>
-        </c:EmailTemplate>
+        </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody >
-        <c:EmailTemplateText recipientName="{!$Label.Email_Guest}"
-                             recipientLanguage="{!recipient.Language__c}"
-                             parametersProvider="Email_Template_Parameters_From_Resource"
-                             sourceId="{!relatedTo.Id}"
-                             header="{!$Label.Email_Header_Share_PH}"
-                             title="{!$Label.Email_Title_PH}"
-                             greeting="{!$Label.Email_User_Greeting}"
-                             body="{!$Label.Email_Body_Share_Resource}"
-                             signature="{!$Label.Email_Signature_Resource}">
+    <messaging:plainTextEmailBody>
+        <c:EmailWireframeText recipientId="{!recipient.Id}"
+                              recipientName="{!$Label.Email_Guest}"
+                              recipientLanguage="{!recipient.Language__c}"
+                              sourceId="{!relatedTo.Id}"
+                              header="{!$Label.Email_Header_Share_PH}"
+                              title="{!$Label.Email_Title_PH}"
+                              greeting="{!$Label.Email_User_Greeting}"
+                              signature="{!$Label.Email_Signature_Resource}">
+            <c:ParagraphText emailLabel="{!$Label.Email_Body_Share_Resource}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_Resource}"
                                   buttonURL="{!relatedTo.article_external_link__c }"/>
-        </c:EmailTemplateText>
+        </c:EmailWireframeText>
     </messaging:plainTextEmailBody>
 
 </messaging:emailTemplate>

@@ -3,29 +3,26 @@
                          relatedToType="Participant_Enrollment__c"
                          language="{!relatedTo.Study_Site__r.Principal_Investigator__r.Language__c}">
 
-    <messaging:htmlEmailBody >
-        <c:EmailTemplate userType="PI"
-                         recipientId="{!recipient.Id}"
-                         sourceId="{!relatedTo.Id}"
-                         parametersProvider="Email_Template_Parameters_From_PE"
-                         header="{!$Label.Email_Header_SS_on_PE_Was_Changed_To_PI}"
-                         title="{!$Label.Email_Title}"
-                         greeting="{!$Label.Email_User_Greeting}"
-                         body="{!$Label.Email_Body_SS_on_PE_Was_Changed_To_PI}"
-                         signature="{!$Label.Email_Signature_4}">
-        </c:EmailTemplate>
+    <messaging:htmlEmailBody>
+        <c:EmailWireframe recipientId="{!recipient.Id}"
+                          sourceId="{!relatedTo.Id}"
+                          header="{!$Label.Email_Header_SS_on_PE_Was_Changed_To_PI}"
+                          title="{!$Label.Email_Title}"
+                          greeting="{!$Label.Email_User_Greeting}"
+                          signature="{!$Label.Email_Signature_4}">
+            <c:Paragraph emailLabel="{!$Label.Email_Body_SS_on_PE_Was_Changed_To_PI}"/>
+        </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody >
-        <c:EmailTemplateText userType="PI"
-                             recipientId="{!recipient.Id}"
-                             sourceId="{!relatedTo.Id}"
-                             parametersProvider="Email_Template_Parameters_From_PE"
-                             header="{!$Label.Email_Header_SS_on_PE_Was_Changed_To_PI}"
-                             title="{!$Label.Email_Title}"
-                             greeting="{!$Label.Email_User_Greeting}"
-                             body="{!$Label.Email_Body_SS_on_PE_Was_Changed_To_PI}"
-                             signature="{!$Label.Email_Signature_4}">
-        </c:EmailTemplateText>
-    </messaging:plainTextEmailBody> 
+    <messaging:plainTextEmailBody>
+        <c:EmailWireframeText recipientId="{!recipient.Id}"
+                              sourceId="{!relatedTo.Id}"
+                              header="{!$Label.Email_Header_SS_on_PE_Was_Changed_To_PI}"
+                              title="{!$Label.Email_Title}"
+                              greeting="{!$Label.Email_User_Greeting}"
+                              signature="{!$Label.Email_Signature_4}">
+            <c:ParagraphText emailLabel="{!$Label.Email_Body_SS_on_PE_Was_Changed_To_PI}"/>
+        </c:EmailWireframeText>
+    </messaging:plainTextEmailBody>
+
 </messaging:emailTemplate>

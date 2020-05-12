@@ -11,12 +11,12 @@
     <aura:attribute name="searchResult" type="Object"/>
     <aura:attribute name="searchData" type="Object"/>
     <aura:attribute name="mrrResult" type="String"/>
-    <aura:attribute name="showSpinner" type="Boolean"/>
     <aura:attribute name="frameHeight" type="String" default="500px"/>
     <aura:attribute name="isEmptiId" type="Boolean" default="true"/>
     <aura:attribute name="hcpeId" type="String"/>
 
 
+    <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true"/>
     <!-- component body -->
     <div>
         <div class="rr-sub-title" style="padding-top: 50px; padding-bottom: 10px">{!$Label.c.PG_SPE_L_Patient_Information}</div>

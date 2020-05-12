@@ -189,18 +189,9 @@ public without sharing class ContactService {
                 ParticipantEnrollmentService.PE_COMMON_FIELDS, Participant_Enrollment__c.getSObjectType(), filter);
     }
 
-    public static void updateNextNotifyDate(Id cntId, Datetime lastLoginDateByContactId, Boolean isDelegate) {
-        Id participantCnt = cntId;
-        if (isDelegate) {
-            List<Patient_Delegate__c> delegate = [
-                    SELECT Id, Contact__c, Participant__r.Contact__c
-                    FROM Patient_Delegate__c
-                    WHERE Contact__c = :cntId
-            ];
-            if (delegate.isEmpty()) return;
+    public static void updateNextNotifyDate(Id cntId, Datetime lastLoginDateByContactId) {
+        Id participantCnt = ParticipantContext.getCurrentContactId();
 
-            participantCnt = delegate.get(0).Participant__r.Contact__c;
-        }
         Map<Id, Integer> notifyDayByPartCnt = ParticipantService.getNearestLogOutNotification(new List<Id>{
                 participantCnt
         });
@@ -242,6 +233,7 @@ public without sharing class ContactService {
                         PI_DelegateAccessLevel__c,
                         userCommunity_ShowTour__c,
                         Current_Participant_Enrollment__c,
+                        Next_Notify_Date__c,
                         Last_Session_Id__c,
                         Language__c,
                         Second_Choice_Language__c,
