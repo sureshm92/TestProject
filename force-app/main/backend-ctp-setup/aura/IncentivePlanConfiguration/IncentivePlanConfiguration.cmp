@@ -17,6 +17,7 @@
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="scrollLeft" type="Integer" default="0"/>
     <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="tasks" type="List"/>
 
     <!-- component body: -->
     <aura:if isTrue="{!notequals(v.viewModePage, 'Disabled')}">
@@ -85,10 +86,9 @@
                                         <aura:if isTrue="{!v.incentivePlans}">
                                             <aura:iteration items="{!v.incentivePlans}" var="ip">
                                                 <c:uiCol isHeader="true" scrollLeft="{!v.scrollLeft}">
-                                                    <c:VisitPlanColumnMenu plan="{!ip}"
+                                                    <c:IncentivePlanColumnMenu plan="{!ip}"
                                                                            onEdit="{!if(equals(v.viewModePage, 'Edit'), c.doColumnIPEdit, c.doColumnIPView)}"
                                                                            onClone="{!c.doColumnIPClone}"
-                                                                           onDelete="{!c.doColumnIPDelete}"
                                                                            isVisible="{!equals(v.viewModePage, 'Edit')}"/>
                                                     <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
                                                         <div class="column-btn">
@@ -133,7 +133,7 @@
                 </aura:if>
             </aura:if>
         </div>
-        <c:Action_AddIncentivePlan aura:id="actionIP" recordId="{!v.recordId}"/>
+        <c:Action_AddIncentivePlan aura:id="actionIP" tasks="{!v.tasks}" recordId="{!v.recordId}"/>
     </aura:if>
 
 </aura:component>
