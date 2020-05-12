@@ -4,31 +4,27 @@
                          language="{!recipient.Language__c}">
 
     <messaging:htmlEmailBody >
-        <c:EmailTemplate recipientId="{!recipient.Id}"
+        <c:EmailWireframe recipientId="{!recipient.Id}"
                          sourceId="{!relatedTo.Id}"
-                         parametersProvider="Email_Template_Parameters_From_PE"
                          header="{!$Label.Email_Header_Referral_Status_Updated}"
                          title="{!$Label.Email_Title_PH}"
                          greeting="{!$Label.Email_User_Greeting_FirstName}"
-                         body="{!$Label.Email_Body_Patient9}"
                          signature="{!$Label.Email_Signature_Patient_Short}">
-            <c:EmailActionBtn buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"
-                              resourceId="{!relatedTo.Id}"/>
-        </c:EmailTemplate>
+            <c:Paragraph emailLabel="{!$Label.Email_Body_Patient9}"/>
+            <c:EmailActionBtn buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"/>
+        </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
-        <c:EmailTemplateText recipientId="{!recipient.Id}"
+        <c:EmailWireframeText recipientId="{!recipient.Id}"
                              sourceId="{!relatedTo.Id}"
-                             parametersProvider="Email_Template_Parameters_From_PE"
                              header="{!$Label.Email_Header_Referral_Status_Updated}"
                              title="{!$Label.Email_Title_PH}"
                              greeting="{!$Label.Email_User_Greeting_FirstName}"
-                             body="{!$Label.Email_Body_Patient9}"
                              signature="{!$Label.Email_Signature_Patient_Short}">
-            <c:EmailActionBtnText buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"
-                                  resourceId="{!relatedTo.Id}"/>
-        </c:EmailTemplateText>
+            <c:ParagraphText emailLabel="{!$Label.Email_Body_Patient9}"/>
+            <c:EmailActionBtnText buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"/>
+        </c:EmailWireframeText>
     </messaging:plainTextEmailBody> 
 
 </messaging:emailTemplate>

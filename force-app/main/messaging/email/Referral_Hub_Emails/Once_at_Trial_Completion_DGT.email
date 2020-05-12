@@ -1,33 +1,30 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_Trial_Complete_for_Delegate}"
-        recipientType="Contact"
-        relatedToType="Participant_Enrollment__c"
-        language="{!recipient.Language__c}">
+                         recipientType="Contact"
+                         relatedToType="Participant_Enrollment__c"
+                         language="{!recipient.Language__c}">
 
-    <messaging:htmlEmailBody >
-        <c:EmailTemplate recipientId="{!recipient.Id}"
-                         parametersProvider="Email_Template_Parameters_From_PE"
+    <messaging:htmlEmailBody>
+        <c:EmailWireframe recipientId="{!recipient.Id}"
                          sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_Once_at_Trial_Completion}"
                          title="{!$Label.Email_Title_PH}"
                          greeting="{!$Label.Email_User_Greeting_FirstName}"
-                         body="{!$Label.Email_Body_Once_at_Trial_Completion_DGT}"
                          signature="{!$Label.Email_Signature_Trial_Completed}">
-            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
-                              resourceId="{!relatedTo.Id}"/>
-        </c:EmailTemplate>
+            <c:Paragraph emailLabel="{!$Label.Email_Body_Once_at_Trial_Completion_DGT}"/>
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
+        </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody >
-        <c:EmailTemplateText recipientId="{!recipient.Id}"
-                             parametersProvider="Email_Template_Parameters_From_PE"
+    <messaging:plainTextEmailBody>
+        <c:EmailWireframeText recipientId="{!recipient.Id}"
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Once_at_Trial_Completion}"
                              title="{!$Label.Email_Title_PH}"
                              greeting="{!$Label.Email_User_Greeting_FirstName}"
-                             body="{!$Label.Email_Body_Once_at_Trial_Completion_DGT}"
                              signature="{!$Label.Email_Signature_Trial_Completed}">
+            <c:ParagraphText emailLabel="{!$Label.Email_Body_Once_at_Trial_Completion_DGT}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
                                   resourceId="{!relatedTo.Id}"/>
-        </c:EmailTemplateText>
+        </c:EmailWireframeText>
     </messaging:plainTextEmailBody>
 </messaging:emailTemplate>

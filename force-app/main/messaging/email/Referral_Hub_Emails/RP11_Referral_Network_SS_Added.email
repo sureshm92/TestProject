@@ -3,36 +3,32 @@
                          relatedToType="Study_Site__c"
                          language="{!recipient.Language__c}">
 
-     <messaging:htmlEmailBody >
-        <c:EmailTemplate userType="HCP"
-                         recipientId="{!recipient.Id}"
-                         recipientName="{!recipient.Name}"
-                         sourceId="{!relatedTo.Id}"
-                         parametersProvider="PP_Study_Site"
-                         header="{!$Label.Email_Header_RP11}"
-                         title="{!$Label.Email_Title}"
-                         greeting="{!$Label.Email_User_Greeting}"
-                         body="{!$Label.Email_Body_RP11 + ': ' + relatedTo.Name + '.'}"
-                         signature="{!$Label.Email_Signature_RH}">
+    <messaging:htmlEmailBody>
+        <c:EmailWireframe recipientId="{!recipient.Id}"
+                          recipientName="{!recipient.Name}"
+                          sourceId="{!relatedTo.Id}"
+                          header="{!$Label.Email_Header_RP11}"
+                          title="{!$Label.Email_Title}"
+                          greeting="{!$Label.Email_User_Greeting}"
+                          signature="{!$Label.Email_Signature_RH}">
+            <c:Paragraph emailLabel="{!$Label.Email_Body_RP11}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Action_View_New_Study_Site}"
                               buttonURL="{!'/s/sites-search?id=' + relatedTo.Clinical_Trial_Profile__c}"/>
-        </c:EmailTemplate>
+        </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody >
-        <c:EmailTemplateText userType="HCP"
-                             recipientId="{!recipient.Id}"
-                             recipientName="{!recipient.Name}"
-                             sourceId="{!relatedTo.Id}"
-                             parametersProvider="PP_Study_Site"
-                             header="{!$Label.Email_Header_RP11}"
-                             title="{!$Label.Email_Title}"
-                             greeting="{!$Label.Email_User_Greeting}"
-                             body="{!$Label.Email_Body_RP11 + ': ' + relatedTo.Name + '.'}"
-                             signature="{!$Label.Email_Signature_RH}">
+    <messaging:plainTextEmailBody>
+        <c:EmailWireframeText recipientId="{!recipient.Id}"
+                              recipientName="{!recipient.Name}"
+                              sourceId="{!relatedTo.Id}"
+                              header="{!$Label.Email_Header_RP11}"
+                              title="{!$Label.Email_Title}"
+                              greeting="{!$Label.Email_User_Greeting}"
+                              signature="{!$Label.Email_Signature_RH}">
+            <c:ParagraphText emailLabel="{!$Label.Email_Body_RP11}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Action_View_New_Study_Site}"
                                   buttonURL="{!'/s/sites-search?id=' + relatedTo.Clinical_Trial_Profile__c}"/>
-        </c:EmailTemplateText>
+        </c:EmailWireframeText>
     </messaging:plainTextEmailBody>
 
 </messaging:emailTemplate>

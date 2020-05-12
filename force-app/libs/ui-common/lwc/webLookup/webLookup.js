@@ -49,8 +49,6 @@ export default class WebLookup extends LightningElement {
             }
             return result;
         });
-        if(this.resultLimit) {
-        }
     }
 
     @api

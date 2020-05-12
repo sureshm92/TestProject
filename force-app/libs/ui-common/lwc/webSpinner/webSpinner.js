@@ -24,6 +24,6 @@ export default class WebSpinner extends LightningElement {
 
     //Expressions for html attributes-----------------------------------------------------------------------------------
     get cssClass() {
-        return 'rr-spinner ' + (this.showSpinner ? '' : ' rr-hide ') + (this.fixed ? ' fixed ' : '');
+        return 'rr-spinner ' + (this.showSpinner ? '' : ' hide ') + (this.fixed ? ' fixed ' : '');
     }
 }
