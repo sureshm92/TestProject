@@ -74,7 +74,7 @@ public without sharing class IncentivePlanConfigurationRemote {
     }
     @AuraEnabled
     public static List<Incentive_Task_Catalog__mdt> getIncentiveTasks() {
-        return [SELECT Id, Title_Label__c, Description_Label__c, Default_Number_of_Points__c FROM Incentive_Task_Catalog__mdt];
+        return [SELECT Id, DeveloperName, Title_Label__c, Description_Label__c, Default_Number_of_Points__c FROM Incentive_Task_Catalog__mdt];
     }
 
     @AuraEnabled
@@ -87,7 +87,7 @@ public without sharing class IncentivePlanConfigurationRemote {
         Incentive_Plan__c plan = new Incentive_Plan__c(Plan_Name__c = planName);
         insert plan;
         Incentive_Plan_Task__c newTask = new Incentive_Plan_Task__c(Incentive_Plan__c = plan.Id,
-                                                                 Incentive_Task_Catalog__c = task.Title_Label__c,
+                                                                 Incentive_Task_Catalog__c = task.DeveloperName,
                                                                  Points__c = task.Default_Number_of_Points__c,
                                                                  Enabled__c = checkON, IQVIA_Supported__c = checkIQVIA);
         insert newTask;
