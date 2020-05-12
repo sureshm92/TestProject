@@ -16,6 +16,7 @@
     <aura:attribute name="haveEmptyAssigment" type="Boolean"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="scrollLeft" type="Integer" default="0"/>
+    <aura:attribute name="recordId" type="String"/>
 
     <!-- component body: -->
     <aura:if isTrue="{!notequals(v.viewModePage, 'Disabled')}">
@@ -30,6 +31,15 @@
                     <!--Filters-->
                     <div class="slds-m-bottom--small">
                         <div class="slds-grid slds-gutters">
+                            <!--Incentive Plan Filter-->
+                            <div class="slds-col slds-size--1-of-2">
+                                <c:IncentivePlansLookup aura:id="ipLookup"
+                                                        value="{!v.filter.pageFeatureIds}"
+                                                        isMultiEntry="true"
+                                                        onchange="{!c.doUpdate}"
+                                                        placeholder="Select Incentive Program"
+                                                        placeholderSelected="Select another Incentive Plan"/>
+                            </div>
                             <!--Country Filter-->
                             <div class="slds-col slds-size--1-of-2">
                                 <c:VisitResultSharingCountryLookup aura:id="countryLookup"
@@ -41,15 +51,7 @@
                                                                    ctpId="{!v.recordId}"
                                                                    isInclude="true"/>
                             </div>
-                            <!--Incentive Plan Filter-->
-                            <div class="slds-col slds-size--1-of-2">
-                                <c:IncentivePlansLookup aura:id="ipLookup"
-                                                    value="{!v.filter.pageFeatureIds}"
-                                                    isMultiEntry="true"
-                                                    onchange="{!c.doUpdate}"
-                                                    placeholder="Select Incentive Plan"
-                                                    placeholderSelected="Select another Incentive Plan"/>
-                            </div>
+
                         </div>
                         <div class="slds-grid slds-gutters">
                             <!--Study Site Filter-->
@@ -65,7 +67,7 @@
                             <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
                                 <div class="slds-col slds-size--1-of-2">
                                     <div class="save-btn">
-                                        <lightning:button variant="neutral" label="Add Incentive Plan"
+                                        <lightning:button variant="neutral" label="Add Incentive Program"
                                                           onclick="{!c.doAddIP}"/>
                                         <lightning:button variant="brand" label="Save" onclick="{!c.doSaveAndUpdate}"/>
                                     </div>
@@ -131,6 +133,7 @@
                 </aura:if>
             </aura:if>
         </div>
+        <c:Action_AddIncentivePlan aura:id="actionIP" recordId="{!v.recordId}"/>
     </aura:if>
 
 </aura:component>

@@ -9,7 +9,7 @@
             'My Referrals': 'referrals',
             'My Referring Clinics': 'referred-clinic',
             'Reports': 'reports',
-            'Library': 'resources',
+            'Library': 'resources-pi',
             'Help': 'help',
             'My Patients' : 'referred-patient',
             'Medical Record Review Log' : 'chart-review-sent',
