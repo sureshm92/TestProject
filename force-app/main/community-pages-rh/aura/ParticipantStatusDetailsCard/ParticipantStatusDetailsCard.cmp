@@ -28,17 +28,19 @@
                     <div class="slds-col slds-size--1-of-2 outcome-form-element">
                         <div class="label">{!$Label.c.PG_ACPE_L_Outcome}</div>
                         <c:rrSelect aura:id="outcome-select" options="{!v.stepWrapper.outcomeList}" value="{!v.stepWrapper.outcome}"
-                                    placeholder="{!v.stepWrapper.outcomePlaceholder}" setValueAsSelected="true" disabled="{!!v.stepWrapper.outcomeEditable}" errorMessage="{!v.stepWrapper.outcomeDisclaimer}"/>
+                                    placeholder="{!v.stepWrapper.outcomePlaceholder}" setValueAsSelected="true"
+                                    disabled="{!!v.stepWrapper.outcomeEditable}" errorMessage="{!v.stepWrapper.outcomeDisclaimer}"
+                                    useSentenceFont="false"/>
                     </div>
                     <div class="slds-col slds-size--1-of-2 outcome-form-element">
                         <div class="label">{!$Label.c.PG_ACPE_L_Reason}</div>
                         <c:rrSelect options="{!v.reasonList}" value="{!v.stepWrapper.reason}"
                                     placeholder="{!if(empty(v.reasonList),'',$Label.c.PG_RP_L_Not_selected)}"
                                     disabled="{!or(or(empty(v.stepWrapper.outcome),empty(v.reasonList)),!v.stepWrapper.outcomeEditable)}"
-                                    setValueAsSelected="true"/>
+                                    setValueAsSelected="true" useSentenceFont="false"/>
                     </div>
                     <div class="slds-col slds-size--1-of-1 outcome-form-element">
-                        <lightning:input label="{!$Label.c.PG_ACPE_L_Notes+' ('+if(v.notesRequired,$Label.c.PG_ACPE_L_required,$Label.C.PG_ACPE_L_optional)+')'}" type="text" value="{!v.stepWrapper.notes}" disabled="{!!v.stepWrapper.outcomeEditable}"/>
+                        <lightning:input label="{!$Label.c.PG_ACPE_L_Notes+' ('+if(v.notesRequired,$Label.c.PG_ACPE_L_required,$Label.c.PG_ACPE_L_optional)+')'}" type="text" value="{!v.stepWrapper.notes}" disabled="{!!v.stepWrapper.outcomeEditable}"/>
                     </div>
                 </div>
             </aura:if>

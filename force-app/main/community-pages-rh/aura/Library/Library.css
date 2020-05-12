@@ -1,0 +1,35 @@
+.THIS.rr-white-panel{
+    margin-top: 20px;
+}
+
+.THIS .slds-card__header-title {
+    font-weight: 700;
+    font-size: 25px;
+    margin: 25px;
+}
+.THIS .rr-link.expanded-icon .rr-icon-default {
+    transform-origin: center;
+    transition: 0.3s ease-in-out;
+    transform: rotate(90deg);
+    position: relative;
+    margin-right: 3px;
+}
+.THIS .rr-link.hidden-icon .rr-icon-default {
+    transform: rotate(0deg);
+}
+.THIS .slds-m-right--xx-small{
+    font-weight: 700;
+    font-size: 15px;
+    color: black;
+    text-decoration: none;
+}
+.THIS .slds-grid{
+    background: #f8f9fb;
+}
+.THIS .expanded-icon{
+    text-decoration: none;
+}
+
+.THIS.resource-headers {
+    margin-left: 50px;
+}

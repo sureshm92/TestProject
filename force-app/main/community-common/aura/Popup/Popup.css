@@ -196,6 +196,15 @@
 }
 
 @media screen and (max-width: 768px){
+    
+    .THIS .cPopup .p-container .p-content {
+        max-height: 90vh;
+    }
+    
+    .THIS.cAction_ParticipantInformation #p-modal .p-container.large {
+        height: 90vh;
+    }
+    
      .THIS.cAction_ParticipantInformation .p-container .p-header {
 		max-height: 30vh;
     }
@@ -235,8 +244,9 @@
 
 @media all and (max-width: 500px) {
     .THIS #p-modal .p-container {
-        max-height: 85%;
-        top: 45%;
+        height: 95%;
+        max-height: 95%;
+        top: 50%;
     }
     
      .THIS.cAction_ParticipantInformation .p-container .p-footer {

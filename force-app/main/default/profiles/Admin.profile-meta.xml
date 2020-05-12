@@ -625,6 +625,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>IncentiveProgramRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>InfoModalController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -682,6 +686,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>LeadConversionHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LibraryPIRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2698,6 +2706,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Completed_Incentive_Task__c.Incentive_Task_Catalog__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Completed_Incentive_Task__c.Points__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.Accepts_Reimbursement_for_Referral__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3514,6 +3532,56 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Icons_package__c.Visit_Plan__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Incentive_Plan_Task__c.Enabled__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Incentive_Plan_Task__c.IQVIA_Supported__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Incentive_Plan_Task__c.Points__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Incentive_Plan__c.Plan_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Incentive_Task_Catalog__mdt.Active__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Incentive_Task_Catalog__mdt.Default_Number_of_Points__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Incentive_Task_Catalog__mdt.Description_Label__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Incentive_Task_Catalog__mdt.History_Description_Label__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Incentive_Task_Catalog__mdt.Participant_ID_required__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Incentive_Task_Catalog__mdt.Title_Label__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5873,6 +5941,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Resource__c.Resource_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Resource__c.Resource_Visibility__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Resource__c.Source__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6095,6 +6173,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Study_ID__c.Primary_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Incentive_Plan__c.Clinical_Trial_Profile__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Incentive_Plan__c.Incentive_Plan__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6938,6 +7026,9 @@
         <layout>Community_Template__mdt-Community Template Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Completed_Incentive_Task__c-Completed Incentive Task Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Contact-Contact Layout</layout>
         <recordType>Contact.MASTER</recordType>
     </layoutAssignments>
@@ -6994,6 +7085,15 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Icons_package__c-Icons package Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Incentive_Plan_Task__c-Incentive Plan Task Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Incentive_Plan__c-Incentive Plan Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Incentive_Task_Catalog__mdt-Incentive Task Catalog Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Injector_Binding__mdt-Injector Binding Layout</layout>
@@ -7188,6 +7288,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Status_History__c-Status History Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Study_Incentive_Plan__c-Study Incentive Plan Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>StudySiteVisitPlan__c-StudySiteVisitPlan Layout</layout>
@@ -7402,6 +7505,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>Completed_Incentive_Task__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>Contact_Referral_Network__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -7493,6 +7605,24 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Icons_package__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Incentive_Plan_Task__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Incentive_Plan__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -7862,6 +7992,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Study_ID__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Study_Incentive_Plan__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>

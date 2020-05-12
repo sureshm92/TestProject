@@ -9,15 +9,13 @@
 .THIS .step-status-icon{
     width: 18px;
     height: 18px;
-    min-width: 18px;
-    min-height: 18px;
     border-radius: 50%;
     line-height: 1;
     margin-right: 20px;
 }
 .THIS .step-status-icon .rr-icon-default{
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     padding: 0;
     fill: white!important;
 }
@@ -43,7 +41,6 @@
     min-height: 60px;
     justify-content: flex-start;
     margin-bottom: 8px;
-    height: auto;
 }
 
 .THIS .step-info{
@@ -66,9 +63,17 @@
     line-height: 20px;
 }
 
-@media screen and (max-width: 500px){
-    .THIS > .slds-p-horizontal_medium, 
-    .THIS .slds-p-horizontal--medium {
-        padding: 0;
-    }
+@media screen and (max-width: 768px) {
+
+        .THIS .step-btn {
+            min-height: 80px;
+        	padding-right: 8px;
+        }
+}
+
+@media screen and (max-width: 500px) {
+
+        .THIS .step-btn {
+            min-height: 60px;
+        }
 }

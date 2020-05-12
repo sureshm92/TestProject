@@ -629,6 +629,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>IncentiveProgramRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>InfoModalController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -686,6 +690,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>LeadConversionHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LibraryPIRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -5885,6 +5893,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Resource__c.Remove_sharing__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Resource__c.Resource_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Resource__c.Resource_Visibility__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

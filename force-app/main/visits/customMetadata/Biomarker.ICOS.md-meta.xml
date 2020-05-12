@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ICOS</label>
+    <protected>false</protected>
+    <values>
+        <field>Code__c</field>
+        <value xsi:type="xsd:string">ICOS</value>
+    </values>
+    <values>
+        <field>Help_Text__c</field>
+        <value xsi:type="xsd:string">Inducible co-stimulator (ICOS) is a protein that is found on the surface of white blood cells and on cancer cells. White blood cells are part of the immune system (your body’s natural defense system). ICOS proteins play an important part in managing the immune system. This test measures the amount of ICOS in your blood. Some types of treatments may be more suitable for you if you have higher levels of ICOS present in your blood. This test may help doctors predict which cancer treatments may work for you.</value>
+    </values>
+    <values>
+        <field>Name__c</field>
+        <value xsi:type="xsd:string">Inducible co-stimulator</value>
+    </values>
+</CustomMetadata>

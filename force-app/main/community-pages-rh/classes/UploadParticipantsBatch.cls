@@ -199,27 +199,54 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 }
                 try {
                     Date resultDate = null;
-                    if (!String.isEmpty(DateOfBirth)) {
+                    if (!String.isBlank(DateOfBirth)) {
                         try {
+                            Integer year;
+                            Integer month;
+                            Integer day;
                             if (DateOfBirth.contains('.')) {
                                 List<String> vals = DateOfBirth.split('.');
                                 DateOfBirth = vals[2] + '-' + vals[1] + '-' + vals[0];
+                                year = Integer.valueOf(vals[2]);
+                                month = Integer.valueOf(vals[1]);
+                                day = Integer.valueOf(vals[0]);
                             } else if (DateOfBirth.contains('/')) {
                                 List<String> vals = DateOfBirth.split('/');
+                                year = Integer.valueOf(vals[0]);
                                 if (vals[1] > '12') {
                                     DateOfBirth = vals[0] + '-' + vals[2] + '-' + vals[1];
+                                    month = Integer.valueOf(vals[2]);
+                                    day = Integer.valueOf(vals[1]);
                                 } else {
                                     DateOfBirth = vals[0] + '-' + vals[1] + '-' + vals[2];
+                                    month = Integer.valueOf(vals[1]);
+                                    day = Integer.valueOf(vals[2]);
                                 }
+                            } else if (DateOfBirth.contains('-')) {
+                                List<String> vals = DateOfBirth.split('-');
+                                year = Integer.valueOf(vals[0]);
+                                month = Integer.valueOf(vals[1]);
+                                day = Integer.valueOf(vals[2]);
                             }
-                            resultDate = Date.valueOf(DateOfBirth);
-                        } catch (Exception exp) { System.debug('ERROR: ' + totalRecordCount + ', ' + 'Date of Birth, Incorrect value'); }
+                            Date daysInMonth = Date.newInstance(year, month + 1, 1);
+                            daysInMonth = daysInMonth.addDays(-1);
+                            if (daysInMonth.day() < day) {
+                                resultDate = null;
+                                DateOfBirth = null;
+                            } else {
+                                resultDate = Date.valueOf(DateOfBirth);
+                            }
+                        } catch (Exception exp) {
+                            System.debug('ERROR: ' + totalRecordCount + ', ' + 'Date of Birth, Incorrect value');
+                            resultDate = null;
+                            DateOfBirth = null;
+                        }
                     }
-                    if (resultDate == null && (String.isEmpty(DateOfBirth) || resultDate > System.today())) {
+                    if (resultDate == null && (String.isBlank(DateOfBirth) || resultDate > System.today())) {
                         hasErrors = true;
-                        system.debug('ERROR: ' + totalRecordCount + ', ' + 'Date of Birth, can\'t be empty or in the future');
+                        system.debug('ERROR: ' + totalRecordCount + ', ' + 'Date of Birth, incorrect, can\'t be empty or in the future');
 
-                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Date of Birth, can\'t be empty or in the future');
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Date of Birth, incorrect, can\'t be empty or in the future');
                     }
                 } catch (Exception exp) {
                     hasErrors = true;

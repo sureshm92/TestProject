@@ -12,6 +12,11 @@
                     var trialId = component.get('v.ctpId');
                     component.set('v.VisitResultPage', 'study-workspace?id=' + trialId + '&tab=tab-lab-results');
                 });
+                communityService.executeAction(component, 'toggleState', {
+                    visitResultsMode: "Vitals"
+                }, function(returnValue) {
+                    component.set('v.toggleVitalsIsOn', returnValue)
+                })
             }
         },
 
@@ -20,4 +25,4 @@
             communityService.navigateToPage('study-workspace?id=' + trialId + '&tab=tab-lab-results');
         },
     }
-)
+);

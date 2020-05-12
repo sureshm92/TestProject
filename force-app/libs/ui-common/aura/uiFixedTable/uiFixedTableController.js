@@ -6,16 +6,19 @@
         window.setTimeout(
             $A.getCallback(function() {
                 let container = component.find('tableContainer');
-                if(container !== undefined){
-                    let containerWidth = component.find('tableContainer').getElement().clientWidth;
+                if (container) {
+                    let containerWidth = container.getElement().clientWidth;
                     component.set('v.width', containerWidth);
                 }
                 component.set('v.initialized', true);
             }), 100
         );
         window.addEventListener('resize', $A.getCallback(function() {
-            let containerWidth = component.find('tableContainer').getElement().clientWidth;
-            component.set('v.width', containerWidth);
+            let container = component.find('tableContainer');
+            if (container) {
+                let containerWidth = container.getElement().clientWidth;
+                component.set('v.width', containerWidth);
+            }
         }));
     },
 

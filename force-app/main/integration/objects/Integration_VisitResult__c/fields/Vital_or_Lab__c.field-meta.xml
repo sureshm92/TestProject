@@ -20,6 +20,11 @@
                 <default>false</default>
                 <label>Lab</label>
             </value>
+            <value>
+                <fullName>Biomarker</fullName>
+                <default>false</default>
+                <label>Biomarker</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
