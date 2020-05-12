@@ -10,11 +10,6 @@
         <field>Participant_Enrollment__c.PI_Contact__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>User.isPasswordLocked__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Community Default</label>
     <license>Customer Community Plus Login</license>
