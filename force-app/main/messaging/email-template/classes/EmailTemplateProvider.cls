@@ -45,7 +45,7 @@ public without sharing virtual class EmailTemplateProvider {
 
         templatePropertiesService = String.isNotEmpty(communityTemplateName) ?
                 new TemplatePropertiesService(communityTemplateName) :
-                new TemplatePropertiesService(whatId, recipientContactId, userMode, isDelegate);
+                new TemplatePropertiesService(whatId, userMode);
         fillTemplateParams();
 
         parameters.put('RecipientName', getUserName());
