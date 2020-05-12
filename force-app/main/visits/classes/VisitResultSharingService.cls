@@ -59,7 +59,7 @@ public without sharing class VisitResultSharingService {
             String mailingCountryCode = '';
             Integer timeSharing = 0;
             if(!isBatch){
-                if (!isVisitResultAvailable() || !state.pe.Participant_Contact__r.Visit_Results_Opt_In__c) return filteredResults;
+                if (!isVisitResultAvailable()) return filteredResults;
 
                 Clinical_Trial_Profile__c ctp = getCTP(state.ctp.Id);
                 visitResultTypeSharingByType = getResultTypeSharingsByType(ctp.Visit_Result_Type_Sharings__r);
