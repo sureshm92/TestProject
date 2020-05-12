@@ -5345,6 +5345,34 @@
         <value>Invited</value>
     </labels>
     <labels>
+        <fullName>Library_Format</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Library Format</shortDescription>
+        <value>Format</value>
+    </labels>
+    <labels>
+        <fullName>Library_Language</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Library Language</shortDescription>
+        <value>Language</value>
+    </labels>
+    <labels>
+        <fullName>Library_Type</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Library Type</shortDescription>
+        <value>Type</value>
+    </labels>
+    <labels>
+        <fullName>Library_Version_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Library Version Date</shortDescription>
+        <value>Version Date</value>
+    </labels>
+    <labels>
         <fullName>Link_Back_To_Home</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14245,6 +14273,20 @@
         <protected>true</protected>
         <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In_2</shortDescription>
         <value>are currently turned off. Use the toggle above if you would like to turn your data back on.</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_If_Is_Not_Opt_In_3</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab If Is Not Opt In 3</shortDescription>
+        <value>Once data becomes available it will begin to display. If you have questions or concerns about this data, please contact the study doctor at your study center.</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_If_Is_Not_Opt_In_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In_1</shortDescription>
+        <value>Visit assessment information is not available for this clinical study.</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_Labs</fullName>

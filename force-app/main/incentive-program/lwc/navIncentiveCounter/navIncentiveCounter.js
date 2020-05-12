@@ -31,13 +31,14 @@ export default class NavIncentiveCounter extends LightningElement {
     }
 
     doToggleDropDown() {
-        if (!this.showDropDown){
+        if (this.showDropDown){
             this.lastDatastamp = new Date();
         }
         this.showDropDown = !this.showDropDown;
     }
     doCloseDropDown() {
         this.showDropDown = false;
+        this.lastDatastamp = new Date();
     }
 
 }

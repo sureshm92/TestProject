@@ -1,0 +1,191 @@
+<!--
+ - Created by user on 09-May-20.
+ -->
+
+<aura:component description="Action_AddIncentivePlan" implements="force:hasRecordId"
+                controller="IncentivePlanConfigurationRemote">
+    <!--attributes-->
+    <aura:attribute name="task" type="Object"/>
+    <aura:attribute name="tasks" type="List"/>
+    <aura:attribute name="icons" type="List"/>
+    <aura:attribute name="studyInfo" type="Object"/>
+    <aura:attribute name="iconDetails" type="List"/>
+    <aura:attribute name="points" type="Integer"/>
+    <aura:attribute name="detailsExpandedSystem" type="Boolean" default="true"/>
+    <aura:attribute name="detailsExpandedStudy" type="Boolean" default="true"/>
+    <aura:attribute name="planName" type="String"/>
+    <aura:attribute name="recordId" type="String"/>
+
+
+    <aura:attribute name="callback" type="Object" access="private"/>
+    <aura:attribute name="mode" type="String" access="private"/>
+
+    <!--methods: -->
+    <aura:method name="execute" action="{!c.doExecute}">
+        <aura:attribute name="vpId" type="String"/>
+        <aura:attribute name="callback" type="Function"/>
+        <aura:attribute name="mode" type="String"/>
+    </aura:method>
+
+    <!--<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
+
+    <c:uiModal aura:id="createIncentiveTask" size="medium" headerText="Incentive Program">
+        <c:RRSpinner aura:id="spinner"/>
+
+            <div class="label">
+                <abbr title="required" class="slds-required">*</abbr>Incentive Program
+            </div>
+                <lightning:input type="text" value="{!v.planName}"/>
+
+        <div class="slds-scrollable visits-table">
+
+            <div class="slds-grid slds-wrap slds-p-horizontal_medium">
+                <a href="javascript:void(0);"
+                   class="{!(v.detailsExpandedStudy == true ? 'expanded-icon hidden-icon ': 'expanded-icon ') + 'rr-link'}"
+                   onclick="{!c.toggleViewStudy}">
+                    <c:RRIcon iconName="icon-chevron-right" class="icon-chevron-right-library"/>
+                    <span class="slds-m-right--xx-small">Study Basics</span>
+                </a>
+                <aura:if isTrue="{!!v.detailsExpandedStudy}">
+                    <lightning:layout class="slds-form-element__static">
+                        <div class="slds-box_small">
+
+                            <div class="slds-form-element__row">
+
+                                <lightning:layoutItem flexibility="auto">
+                                    <p class="slds-item_label">Clinical Trial Profile Name</p>
+                                    <p class="slds-item">{!v.studyInfo.Name}</p>
+                                </lightning:layoutItem>
+
+
+                                <lightning:layoutItem flexibility="auto">
+                                    <p class="slds-item_label">Protocol ID</p>
+                                    <p class="slds-item">{!v.studyInfo.Protocol_ID__c}</p>
+                                </lightning:layoutItem>
+
+
+                            </div>
+                        </div>
+                        <div class="slds-box_small">
+                            <div class="slds-form-element__row">
+
+                                <lightning:layoutItem flexibility="auto">
+                                    <p class="slds-item_label">Study Code Name</p>
+                                    <p class="slds-item">{!v.studyInfo.Study_Code_Name__c}</p>
+                                </lightning:layoutItem>
+
+
+                                <lightning:layoutItem flexibility="auto">
+                                    <p class="slds-item_label">Study Sponsor</p>
+                                    <p class="slds-item">{!v.studyInfo.Study_Sponsor__c}</p>
+                                </lightning:layoutItem>
+                            </div>
+                        </div>
+                    </lightning:layout>
+                </aura:if>
+            </div>
+
+
+            <table class="slds-table slds-table_bordered">
+                <thead>
+                <tr class="slds-text-title_caps">
+                    <th scope="col">
+                        <div class="slds-truncate"></div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate">On</div>
+                    </th>
+                    <th scope="col" oninput="" type=" ">
+                        <div class="slds-truncate">IQVIA Supported</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate">Points</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate"></div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <aura:iteration items="{!v.tasks}" var="task" indexVar="index">
+                    <tr>
+                        <td>
+                            <lightning:formattedText value="{!task.Title_Label__c}" aura:id="{!'taskName'+ index}"/>
+                        </td>
+                        <td>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input_On" id="{!'checkboxOn'+ index}"/>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input_IQVIA" id="{!'checkboxIQVIA'+ index}"/>
+                            </div>
+                        </td>
+                        <td>
+                            <p class="slds-number_points">{!task.Default_Number_of_Points__c}</p>
+                        </td>
+                        <td>
+                            <lightning:formattedText value="{!task.Description_Label__c}"/>
+                        </td>
+                    </tr>
+                </aura:iteration>
+                </tbody>
+
+            </table>
+
+
+            <div class="slds-grid slds-wrap slds-p-horizontal_medium">
+                <a href="javascript:void(0);"
+                   class="{!(v.detailsExpandedSystem == true ? 'expanded-icon hidden-icon ': 'expanded-icon ') + 'rr-link'}"
+                   onclick="{!c.toggleViewSystem}">
+                    <c:RRIcon iconName="icon-chevron-right" class="icon-chevron-right-library"/>
+                    <span class="slds-m-right--xx-small">System Information</span>
+                </a>
+                <aura:if isTrue="{!!v.detailsExpandedSystem}">
+                    <lightning:layout class="slds-form-element__static_second">
+                        <div class="slds-box_small_first">
+
+                            <div class="slds-form-element__row">
+
+                                <lightning:layoutItem flexibility="auto">
+                                    <p class="slds-item_label">Owner</p>
+                                    <p class="slds-item">{!v.studyInfo.Owner.Name}</p>
+                                </lightning:layoutItem>
+
+
+                                <lightning:layoutItem flexibility="auto">
+                                    <p class="slds-item_label">Created By</p>
+                                    <p class="slds-item">{!v.studyInfo.CreatedBy.Name}</p>
+                                </lightning:layoutItem>
+                            </div>
+
+
+                            <div class="slds-form-element__row">
+                                <lightning:layoutItem flexibility="auto">
+                                    <p class="slds-item_label">Last Modified By</p>
+                                    <p class="slds-item">{!v.studyInfo.LastModifiedBy.Name}</p>
+                                </lightning:layoutItem>
+
+                            </div>
+                        </div>
+                    </lightning:layout>
+                </aura:if>
+            </div>
+        </div>
+
+        <!--Footer-->
+        <aura:set attribute="footer">
+            <div class="footer-buttons" data-gtm="BTNS_Popup_Save_Cancel">
+
+                <lightning:button variant="neutral" name="createIncentiveTask"
+                                  onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</lightning:button>
+
+                <lightning:button variant="brand"
+                                  onclick="{!c.doSave}">{!$Label.c.BTN_Save}</lightning:button>
+            </div>
+        </aura:set>
+
+
+    </c:uiModal>
+</aura:component>

@@ -3,6 +3,7 @@
  */
 @IsTest
 public with sharing class Test_VisitResultsRemote {
+
     @TestSetup
     static void setup() {
         TriggerHandlerExecutor.bypassHandler(ContactReferralNetworkTriggerHandler.SyncContactInterestedSites.class);
@@ -16,7 +17,6 @@ public with sharing class Test_VisitResultsRemote {
         Test.startTest();
         TestData.loadTestData();
         Test.stopTest();
-
     }
 
     @IsTest
@@ -250,5 +250,60 @@ public with sharing class Test_VisitResultsRemote {
             System.assert(true, isExceptionThrown);
         }
         Test.stopTest();
+    }
+
+    @IsTest
+    static void switchToggleRemoteToggleOn_test() {
+        TestData testData = new TestData();
+        testData.updatePEStatusEnrollmentSuccess();
+
+        Contact contact = [
+                SELECT Visit_Results_OptIn__c
+                FROM Contact
+                WHERE Id = :testData.participantUser.ContactId
+        ];
+        contact.Visit_Results_OptIn__c = 'Biomarkers';
+        update contact;
+
+        Test.startTest();
+        System.runAs(testData.participantUser) {
+            VisitResultsRemote.switchToggleRemote('Vitals', true);
+        }
+        Test.stopTest();
+
+        contact = [
+                SELECT Visit_Results_OptIn__c
+                FROM Contact
+                WHERE Id = :testData.participantUser.ContactId
+        ];
+        System.assertEquals('Vitals;Biomarkers', contact.Visit_Results_OptIn__c);
+    }
+
+    @IsTest
+    static void switchToggleRemoteToggleOff_test() {
+        TestData testData = new TestData();
+        testData.updatePEStatusEnrollmentSuccess();
+
+        Contact contact = [
+                SELECT Visit_Results_OptIn__c
+                FROM Contact
+                WHERE Id = :testData.participantUser.ContactId
+        ];
+        contact.Visit_Results_OptIn__c = 'Vitals;Labs;Biomarkers';
+        update contact;
+
+        Test.startTest();
+        System.runAs(testData.participantUser) {
+            VisitResultsRemote.switchToggleRemote('Vitals', false);
+            VisitResultsRemote.switchToggleRemote('Biomarkers', false);
+        }
+        Test.stopTest();
+
+        contact = [
+                SELECT Visit_Results_OptIn__c
+                FROM Contact
+                WHERE Id = :testData.participantUser.ContactId
+        ];
+        System.assertEquals('Labs', contact.Visit_Results_OptIn__c);
     }
 }

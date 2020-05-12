@@ -37,7 +37,8 @@ public with sharing class IntegrationTrialMatchTriggerHandler extends TriggerHan
         for (Participant_Enrollment__c pe : participantEnrollments) peByExtKey.put(pe.External_Key__c, pe);
 
         List<Trial_Match__c> trialMatches = [
-                SELECT Id, Matched_Date__c, Matching_Details__c, Matching_Score__c, Is_Eligible__c,
+                SELECT Id, Is_Eligible__c, Protocol_Version__c,
+                        Matched_Date__c, Matching_Details__c, Matching_Score__c,
                         Clinical_Trial_Profile__r.Protocol_ID__c, Participant_Enrollment__r.External_Key__c
                 FROM Trial_Match__c
                 WHERE Clinical_Trial_Profile__r.Protocol_ID__c IN:protocolIds
@@ -63,6 +64,7 @@ public with sharing class IntegrationTrialMatchTriggerHandler extends TriggerHan
                         tm.Matching_Score__c = itm.Matching_Score__c;
                         tm.Matching_Details__c = itm.Matching_Details__c;
                         tm.Therapeutic_Area__c = itm.Therapeutic_Area__c;
+                        tm.Protocol_Version__c = itm.Protocol_Version__c;
                         tmsToUpsert.add(tm);
                     }
                 } else {
@@ -72,6 +74,7 @@ public with sharing class IntegrationTrialMatchTriggerHandler extends TriggerHan
                             Matching_Score__c = itm.Matching_Score__c,
                             Matching_Details__c = itm.Matching_Details__c,
                             Therapeutic_Area__c = itm.Therapeutic_Area__c,
+                            Protocol_Version__c = itm.Protocol_Version__c,
                             Clinical_Trial_Profile__c = ctpByProtId.get(itm.Protocol_ID__c).Id,
                             Participant_Enrollment__c = peByExtKey.get(itm.Participant_Enrollment_External_ID__c).Id
                     ));
