@@ -4,28 +4,11 @@
                          language="{!recipient.Language__c}">
 
     <messaging:htmlEmailBody >
-         <c:EmailTemplate recipientId="{!recipient.Id}"
-                         sourceId="{!relatedTo.Id}"
-                         header="{!$Label.Trial_Search_Message_Header}"
-                         title="{!$Label.Email_Title_PH}"
-                         greeting="{!$Label.Email_Delegate_Greeting}"
-                         body="{!$Label.Email_Body_Trial_Message}"
-                         signature="{!$Label.Email_Signature_New_Continue}">
-            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
-        </c:EmailTemplate>
+        <!-- deprecated!!! -->
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
-
-        <c:EmailTemplateText recipientId="{!recipient.Id}"
-                             sourceId="{!relatedTo.Id}"
-                             header="{!$Label.Trial_Search_Message_Header}"
-                             title="{!$Label.Email_Title_PH}"
-                             greeting="{!$Label.Email_Delegate_Greeting}"
-                             body="{!$Label.Email_Body_Trial_Message}"
-                             signature="{!$Label.Email_Signature_New_Continue}">
-            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
-        </c:EmailTemplateText>
+        <!-- deprecated!!! -->
     </messaging:plainTextEmailBody>
 
 </messaging:emailTemplate>

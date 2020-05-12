@@ -15,7 +15,7 @@
             <c:EmailTemplateDelegateParticipant commTemplate="GSK"
                                                 sourceId="{!relatedTo.Id}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
-                              buttonURL="/gsk/s/"/>
+                              buttonURL="/s/"/>
         </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
@@ -31,7 +31,7 @@
             <c:EmailTemplateDelegateParticipantText commTemplate="GSK"
                                                     sourceId="{!relatedTo.Id}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
-                                  buttonURL="/gsk/s/"/>
+                                  buttonURL="/s/"/>
         </c:EmailWireframeText>
     </messaging:plainTextEmailBody>
 

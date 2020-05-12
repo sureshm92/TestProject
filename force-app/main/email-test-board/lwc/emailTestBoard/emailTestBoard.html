@@ -1,0 +1,105 @@
+<!--
+ - Created by Igor Malyuta on 03.05.2020.
+ -->
+
+<!-- Email Test Board -->
+<template>
+    <lightning-card title="">
+        <div class="board-body">
+            <div class="config-block">
+                <c-web-spinner class="main-spinner"></c-web-spinner>
+                <div class="config-line">
+                    <lightning-combobox label="Email template"
+                                        style="width: 100%"
+                                        value={selectedEmail}
+                                        placeholder="Select email template"
+                                        onchange={handleEmailChange}
+                                        options={emailTemplateOptions}>
+                    </lightning-combobox>
+                </div>
+                <div class="config-line">
+                    <lightning-radio-group label="Send method"
+                                           options={sendOptions}
+                                           value={sendMethod}
+                                           onchange={handleSendMethodChange}
+                                           disabled={onlyImmediately}
+                                           type="button">
+                    </lightning-radio-group>
+                </div>
+                <div class="config-line">
+                    <lightning-radio-group class="slds-m-right_small"
+                                           label="Search by"
+                                           options={searchOptions}
+                                           value={recipientSearchMethod}
+                                           onchange={handleRecipientSearchMethodChange}
+                                           type="button">
+                    </lightning-radio-group>
+                    <div class="search-input">
+                        <template if:true={isRecipientSearchByName}>
+                            <c-web-lookup label="Recipient"
+                                          class="recipient-look-up"
+                                          onsearch={handleRecipientSearch}
+                                          onselectionchange={handleRecipientSelectionChange}
+                                          placeholder="Type Contact Name here..."
+                                          result-limit="10">
+                            </c-web-lookup>
+                        </template>
+                        <template if:false={isRecipientSearchByName}>
+                            <lightning-input label="Recipient"
+                                             placeholder="Type Contact Id here..."
+                                             value={recipientId}
+                                             onchange={handleRecipientIdChange}>
+                            </lightning-input>
+                        </template>
+                    </div>
+                </div>
+                <div class="config-line">
+                    <lightning-radio-group class="slds-m-right_small"
+                                           label="Search by"
+                                           options={searchOptions}
+                                           value={relatedSearchMethod}
+                                           onchange={handleRelatedSearchMethodChange}
+                                           disabled={relatedDisabled}
+                                           type="button">
+                    </lightning-radio-group>
+                    <div class="search-input">
+                        <template if:true={isRelatedSearchByName}>
+                            <c-web-lookup label="Related"
+                                          class="related-look-up"
+                                          onsearch={handleRelatedSearch}
+                                          onselectionchange={handleRelatedSelectionChange}
+                                          placeholder={relatedInputPlaceholder}
+                                          result-limit="10">
+                            </c-web-lookup>
+                        </template>
+                        <template if:false={isRelatedSearchByName}>
+                            <lightning-input label="Related"
+                                             placeholder={relatedInputPlaceholder}
+                                             value={relatedId}
+                                             disabled={relatedDisabled}
+                                             onchange={handleRelatedIdChange}>
+                            </lightning-input>
+                        </template>
+                    </div>
+                </div>
+                <div class="buttons-line">
+                    <button class="slds-button slds-button_outline-brand"
+                            disabled={actionBtnDisabled}
+                            onclick={handleShowClick}>Show preview</button>
+                    <button class="slds-button slds-button_outline-brand"
+                            disabled={actionBtnDisabled}
+                            onclick={handleSendClick}>Send email</button>
+                </div>
+            </div>
+            <div class="preview-block">
+                <c-web-spinner class="preview-spinner"></c-web-spinner>
+                <template if:true={showPreview}>
+                    <lightning-formatted-rich-text value={previewHtml}></lightning-formatted-rich-text>
+                </template>
+                <template if:false={showPreview}>
+                    <div class="preview-stub"></div>
+                </template>
+            </div>
+        </div>
+    </lightning-card>
+</template>

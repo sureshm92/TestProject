@@ -23,6 +23,7 @@ public without sharing class EmailTemplateProviderService {
     }
 
     public static EmailTemplateProvider getProvider() {
+        while(!provider.isInitialized()) {}
         return provider;
     }
 }

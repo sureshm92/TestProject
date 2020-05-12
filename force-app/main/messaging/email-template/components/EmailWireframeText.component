@@ -4,7 +4,7 @@
 
 <apex:component id="EmailWireframeText" controller="EmailWireframeController" access="global" language="{!userLanguageCode}">
 
-    <!-- Records ids -->
+    <!-- Records info -->
     <apex:attribute name="recipientId" type="Id" assignTo="{!emailRecipientId}" description="" access="global"/>
     <apex:attribute name="recipientName" type="String" assignTo="{!emailRecipientName}" description="" access="global"/>
     <apex:attribute name="recipientLanguage" type="String" assignTo="{!emailRecipientLanguage}" description=""
@@ -19,6 +19,7 @@
     <apex:attribute name="preSignature" assignTo="{!preSignatureValue}" type="String" description=""/>
 
     <!-- Other -->
+    <apex:attribute name="outputType" assignTo="{!outputMode}" type="String" description="" default="Text"/>
     <apex:attribute name="communityTemplate" type="String" assignTo="{!communityTemplateValue}"
                     description="Community template name"/>
     <apex:attribute name="specificEmailProvider" type="String" assignTo="{!specificEmailProviderValue}"

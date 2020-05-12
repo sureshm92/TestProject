@@ -7559,6 +7559,10 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>Email_Test_Board</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>HCP_Enrollment__c</tab>
         <visibility>DefaultOff</visibility>
     </tabVisibilities>

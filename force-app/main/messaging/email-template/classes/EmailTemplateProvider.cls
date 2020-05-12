@@ -29,6 +29,8 @@ public without sharing virtual class EmailTemplateProvider {
     protected Boolean isDelegate;
     protected String userMode;
 
+    private Boolean initialized = false;
+
     protected TemplatePropertiesService templatePropertiesService;
     protected Map<String, String> parameters = new Map<String, String>();
 
@@ -52,7 +54,6 @@ public without sharing virtual class EmailTemplateProvider {
         if (isDelegate && userMode == 'Participant') initYourParticipantFirstName();
 
         initCRCommunityUrl();
-//        initForgotPassURL();
 
         if(whatId != null) {
             String parametersProvider = PARAM_PROVIDER_BY_TYPE.get(whatId.getSobjectType().getDescribe().getName());
@@ -64,6 +65,12 @@ public without sharing virtual class EmailTemplateProvider {
                 ));
             }
         }
+
+        initialized = true;
+    }
+
+    public Boolean isInitialized() {
+        return initialized;
     }
 
     public Map<String, String> getParameters() {
@@ -124,19 +131,11 @@ public without sharing virtual class EmailTemplateProvider {
         parameters.put(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_NEW_TM, templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_NEW_TM));
     }
 
-    //Specific URLs:----------------------------------------------------------------------------------------------------
     private void initCRCommunityUrl() {
         String clinicalResearchCommunityURL = isHTML ?
                 '<a href="https://www.clinicalresearch.com" target="_blank">IQVIA Clinical Research Community</a>'
                 : 'IQVIA Clinical Research Community at https://www.clinicalresearch.com';
         parameters.put('CRCommunityURL', clinicalResearchCommunityURL);
-    }
-
-    private void initForgotPassURL() {
-        Auth.AuthConfiguration authConfig = new Auth.AuthConfiguration(Network.getNetworkId(), '');
-        String clinicalResearchCommunityForgotPasswordURL = isHTML ? '' : 'IQVIA Clinical Research Community Forgot password at';
-        clinicalResearchCommunityForgotPasswordURL += authConfig.getForgotPasswordUrl();
-        parameters.put('ForgotPasswordURL', clinicalResearchCommunityForgotPasswordURL);
     }
 
     private void updateRecipientName() {

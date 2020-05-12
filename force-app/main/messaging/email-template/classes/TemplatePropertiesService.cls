@@ -12,12 +12,6 @@ public with sharing class TemplatePropertiesService {
         properties = CommunityTemplateService.getTemplate(templateName).properties;
     }
 
-    public TemplatePropertiesService() {
-        CommunityTemplate communityTemplate = CommunityTemplateService.getDefaultTemplate();
-        templateName = communityTemplate.templateName;
-        properties = communityTemplate.properties;
-    }
-
     public TemplatePropertiesService(Id resourceId, Id recipientId, String userMode, Boolean isDelegate) {
         String templateName = defineTemplateName(resourceId, recipientId, userMode, isDelegate);
         CommunityTemplate communityTemplate = !String.isEmpty(templateName) ?

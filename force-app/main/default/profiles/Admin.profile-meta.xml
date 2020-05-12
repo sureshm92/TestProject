@@ -513,6 +513,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>EmailTemplateProvider</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>EmailService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -530,6 +534,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>EmailTemplateParticipantController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>EmailWireframeController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -870,6 +878,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PaginationData</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParagraphController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -8117,6 +8129,10 @@
     <tabVisibilities>
         <tab>Clinical_Trial_Profile__c</tab>
         <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Email_Test_Board</tab>
+        <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>HCP_Enrollment__c</tab>
