@@ -67,7 +67,7 @@ public without sharing class IncentivePlanConfigurationRemote {
             StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(filterJSON, StudySiteFilter.class);
             saveFilter(filter);
             PaginationData pagination = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
-            List<StudySiteItem> allSSItems = SSVisitConfigSearchResponse.convertToSSItems(SearchService.search(filter), visitPlanId);
+            List<StudySiteItem> allSSItems = SSIncentiveConfigSearchResponse.convertToSSItems(SearchService.search(filter), visitPlanId);
             for (StudySiteItem ssItem : allSSItems) {
                 for (ValueStateItem assigment : ssItem.assignments) assigment.state = state;
             }

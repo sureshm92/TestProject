@@ -81,4 +81,6 @@
         <c:Action_InviteRP aura:id="inviteRPAction"/>
         <c:Action_ChangeHCPStatusByPI aura:id="changeHCPStatusByPIAction"/>
     </aura:if>
+
+    <c:builderStub aura:id="builderStub"/>
 </aura:component>

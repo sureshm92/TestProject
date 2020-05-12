@@ -25,24 +25,25 @@ window.communityService = (function () {
     let allUserModes;
     let showPastStudies;
     let subDomain;
-    var messagesVisible;
+    let messagesVisible;
     let currentCSSTheme = 'Community_CSS_Stub';
     let isDummy;
 
     //community service functions:
-    var service = {
-
+    let service = {
         initialize: function (component) {
             if(service.isInitialized()) return;
             service.executeAction(component, 'getCommunityData', null, function (returnValue) {
                 console.log('Mode data: ' + returnValue);
-                var communityData = JSON.parse(returnValue);
+                let communityData = JSON.parse(returnValue);
                 preventedCookies = communityData.preventedCookies;
-                service.deleteCookies(preventedCookies);
-                console.log('preventedCookies: ' + JSON.stringify(preventedCookies));
+                if(!isDummy) {
+                    service.deleteCookies(preventedCookies);
+                    console.log('preventedCookies: ' + JSON.stringify(preventedCookies));
+                }
                 subDomain = communityData.subDomain;
                 isDummy = communityData.isDummy;
-                communityMode = communityData.communityMode;
+                communityMode = isDummy ? 'PI' : communityData.communityMode;
                 communityDelegateId = communityData.communityDelegateId;
                 isDelegate = communityData.isDelegate;
                 communityURLPathPrefix = communityData.pathPrefix;
@@ -70,7 +71,7 @@ window.communityService = (function () {
 
         executeAction: function (component, actionName, params, successCallback, errorCallback, finalCallback) {
             service.logError(function () {
-                var action = component.get('c.' + actionName);
+                let action = component.get('c.' + actionName);
                 if (params) action.setParams(params);
                 action.setCallback(this, function (response) {
                     try {
@@ -78,22 +79,24 @@ window.communityService = (function () {
                             if (successCallback) successCallback(response.getReturnValue());
                         } else {
                             if (errorCallback) errorCallback(response);
-                            var errMessage = service.getErrorMessage(response);
+                            let errMessage = service.getErrorMessage(response);
                             if (debugMode) errMessage = 'Action: ' + actionName + ', Error: ' + errMessage;
                             throw new Error(errMessage);
                         }
                     } catch (e) {
-                        console.error(e);
-                        var message = e.message;
-                        if (!debugMode) message = e.message.split('\n')[0];
-                        console.log('ERROR', message);
-                        if(message.includes('INVALID_EMAIL_ADDRESS')) {
-                            service.showErrorToast('ERROR', 'Invalid Email')
-                        } else  {
-                            if(message.includes('[LanguageLocaleKey]')) {
-                                service.showWarningToast('Error', 'This language is not set up on Referral Hub');
-                            } else {
-                                service.showErrorToast('ERROR', message);
+                        if(!isDummy) {
+                            console.error(e);
+                            let message = e.message;
+                            if (!debugMode) message = e.message.split('\n')[0];
+                            console.log('ERROR', message);
+                            if(message.includes('INVALID_EMAIL_ADDRESS')) {
+                                service.showErrorToast('ERROR', 'Invalid Email')
+                            } else  {
+                                if(message.includes('[LanguageLocaleKey]')) {
+                                    service.showWarningToast('Error', 'This language is not set up on Referral Hub');
+                                } else {
+                                    service.showErrorToast('ERROR', message);
+                                }
                             }
                         }
                         //throw e;
@@ -147,9 +150,7 @@ window.communityService = (function () {
         setCurrentCommunityMode: function(mode){
             currentUserMode = mode;
             service.setThemeCSS();
-            if(mode.template.needRedirect && !isDummy){
-                document.location.href = mode.template.redirectURL;
-            }
+            if(!isDummy && mode.template.needRedirect) document.location.href = mode.template.redirectURL;
         },
 
         getMessagesVisible : function () {
@@ -161,6 +162,7 @@ window.communityService = (function () {
         },
 
         setThemeCSS: function(){
+            if(isDummy) return;
             let cssLink = document.querySelector('link[href*="' + currentCSSTheme + '"]');
             try{
                 currentCSSTheme = service.getTemplateProperty('ThemeCSS');
@@ -196,13 +198,16 @@ window.communityService = (function () {
         isDelegate: function(){
             return isDelegate;
         },
+        isDummy: function() {
+            return isDummy;
+        },
         getCommunityURLPathPrefix: function () {
             return communityURLPathPrefix
         },
 
         isInitialized: function () {
             if (isInitializedFlag) {
-                if (communityMode !== null) {
+                if (isDummy || communityMode !== null) {
                     return true;
                 } else {
                     service.navigateToPage('no-data-to-display');
@@ -213,12 +218,12 @@ window.communityService = (function () {
 
         getFullPageName: function () {
             if (document.location.href.slice(-1) === '/') return '';
-            var urlParts = document.location.href.split('/');
+            let urlParts = document.location.href.split('/');
             if (urlParts.length > 0) return urlParts[urlParts.length - 1];
         },
 
         getUrlParameter: function (sParam) {
-            var sPageURL = document.location.search.substring(1),
+            let sPageURL = document.location.search.substring(1),
                 sURLVariables = sPageURL.split('&'),
                 sParameterName,
                 i;
@@ -231,13 +236,13 @@ window.communityService = (function () {
         },
 
         replaceUrlParameter: function (sParam, value) {
-            var urlWithoutParams = document.location.href.split('?')[0];
-            var sPageURL = document.location.search.substring(1),
+            let urlWithoutParams = document.location.href.split('?')[0];
+            let sPageURL = document.location.search.substring(1),
                 sURLVariables = sPageURL.split('&'),
                 sParameterName,
                 i;
-            var resURL = urlWithoutParams + '?';
-            var params = [];
+            let resURL = urlWithoutParams + '?';
+            let params = [];
             for (i = 0; i < sURLVariables.length; i++) {
                 sParameterName = sURLVariables[i].split('=');
                 if (sParameterName[0] === sParam) {
@@ -250,14 +255,14 @@ window.communityService = (function () {
         },
 
         getPageName: function () {
-            var fullPageName = service.getFullPageName();
-            var nameParts = fullPageName.split('?');
+            let fullPageName = service.getFullPageName();
+            let nameParts = fullPageName.split('?');
             return nameParts[0];
         },
 
         navigateToPage: function (pageName) {
             if(isDummy) return;
-            var urlEvent = $A.get("e.force:navigateToURL");
+            let urlEvent = $A.get("e.force:navigateToURL");
             urlEvent.setParams({
                 url: '/' + pageName
             });
@@ -283,8 +288,8 @@ window.communityService = (function () {
         },
 
         getErrorMessage: function (response) {
-            var errorMsg = 'Unknown error';
-            var errors = response.getError();
+            let errorMsg = 'Unknown error';
+            let errors = response.getError();
             if (errors && errors[0] && errors[0].message) errorMsg = errors[0].message;
             return errorMsg;
         },
@@ -296,7 +301,7 @@ window.communityService = (function () {
         },
 
         showToast: function (title, type, message, duration) {
-            var toastEvent = $A.get("e.force:showToast");
+            let toastEvent = $A.get("e.force:showToast");
             toastEvent.setParams({
                 title: title,
                 message: message,
@@ -328,7 +333,7 @@ window.communityService = (function () {
         },
 
         showTour: function (tourName) {
-            var event = $A.get('e.c:OnboargingSlideTourShow');
+            let event = $A.get('e.c:OnboargingSlideTourShow');
             event.fire();
             alreadyShowedMap[communityMode] = true;
         },
@@ -364,10 +369,10 @@ window.communityService = (function () {
         setStickyBarPosition: function () {
             setTimeout(
                 function () {
-                    var mainBarHeight = 50;
+                    let mainBarHeight = 50;
                     if (allUserModes.length > 1 && window.innerWidth <= 550) mainBarHeight = 80;
                     document.getElementById('stickyBar').classList.remove('sticky');
-                    var stickyBar = document.getElementById('stickyPositionTarget');
+                    let stickyBar = document.getElementById('stickyPositionTarget');
                     stickyBarTop = stickyBar.offsetTop - mainBarHeight;
                 }, 100
             )
@@ -377,16 +382,16 @@ window.communityService = (function () {
             console.log('in getCookie function');
             console.log('cname: ' + cname);
 
-            if (preventedCookies.indexOf(cname) !== -1) {
+            if (!preventedCookies || preventedCookies.indexOf(cname) !== -1) {
                 console.log(cname + ' cookie ignored get');
                 return "";
             }
 
-            var name = cname + "=";
-            var decodedCookie = decodeURIComponent(document.cookie);
-            var ca = decodedCookie.split(';');
-            for (var i = 0; i < ca.length; i++) {
-                var c = ca[i];
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
                 while (c.charAt(0) === ' ') {
                     c = c.substring(1);
                 }
@@ -402,19 +407,19 @@ window.communityService = (function () {
             console.log('cname: ' + cname);
             console.log('cvalue: ' + cvalue);
 
-            if (preventedCookies.indexOf(cname) !== -1) {
+            if (preventedCookies && preventedCookies.indexOf(cname) !== -1) {
                 console.log(cname + ' cookie ignored set');
                 return;
             }
 
-            var d = new Date();
+            let d = new Date();
             d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-            var expires = "expires=" + d.toUTCString();
+            let expires = "expires=" + d.toUTCString();
             document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
         },
 
         isValidEmail: function (email) {
-            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(String(email).toLowerCase());
         },
 
@@ -426,7 +431,7 @@ window.communityService = (function () {
         },
 
         scrollToTop: function (noSmooth) {
-            var params = {
+            let params = {
                 top: 0
             };
             if (!noSmooth) params.behavior = 'smooth';
@@ -441,7 +446,7 @@ window.communityService = (function () {
         },
 
         stickyBarOnScrollHandler: function () {
-            var stickyBar = document.getElementById('stickyBar');
+            let stickyBar = document.getElementById('stickyBar');
             if (stickyBarTop) {
                 if (window.pageYOffset >= stickyBarTop) {
                     stickyBar.classList.add('sticky');

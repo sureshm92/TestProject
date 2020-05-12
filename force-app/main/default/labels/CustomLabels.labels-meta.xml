@@ -2603,7 +2603,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body RP11</shortDescription>
-        <value>A new study site has been added to a Referral Network in which you have expressed interest: ##ReferralNetworkName</value>
+        <value>A new study site has been added to a Referral Network in which you have expressed interest: ##ReferralNetworkName: ##StudySiteName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_RP111</fullName>

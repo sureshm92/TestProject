@@ -50,7 +50,6 @@ public without sharing class AddPatientByPIRemote {
             trimParticipantFields(participant);
             Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
             participant.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI;
-            PEStatusState currentState = PEStatusState.STATUSES_MAP.get(pe.Participant_Status__c);
             pe.Referral_Source__c = 'PI';
             ParticipantService.createParticipantAndUpdatePE(participant, pe, userLanguage);
 

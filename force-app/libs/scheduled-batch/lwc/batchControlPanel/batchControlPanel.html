@@ -133,6 +133,15 @@
                                                                variant="border-filled"
                                                                alternative-text="Stop Batch"
                                                                onclick={handleStop}></lightning-button-icon>
+                                        <lightning-button-icon title="Relaunch"
+                                                               value={job.detail.Name}
+                                                               icon-name="utility:refresh"
+                                                               icon-class="slds-text-color_success"
+                                                               class="slds-p-left--small"
+                                                               size="small"
+                                                               variant="border-filled"
+                                                               alternative-text="Relaunch Batch"
+                                                               onclick={handleRelaunch}></lightning-button-icon>
                                         <lightning-button-icon title={job.detail.Name}
                                                                icon-name="utility:delete"
                                                                class="slds-p-left--small"
@@ -184,6 +193,11 @@
                                          value={batchDetail.Scope_Size__c}
                                          onchange={handleScopeChange}
                                          step="1" min="1" max="200"></lightning-input>
+                        <lightning-input type="checkbox" label="Launch now"
+                                         class="slds-m-top_small"
+                                         value={launchNow}
+                                         checked={launchNow}
+                                         onchange={handleLaunchNow}></lightning-input>
                     </lightning-record-edit-form>
                 </div>
                 <div slot="footer">

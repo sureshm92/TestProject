@@ -13,7 +13,7 @@
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
 
-    <!-- components boddy: -->
+    <!-- components body: -->
 
     <aura:if isTrue="{!v.isInitialized}">
         <div class="ps-container">
@@ -22,4 +22,6 @@
             </div>
         </div>
     </aura:if>
+
+    <c:builderStub aura:id="builderStub"/>
 </aura:component>

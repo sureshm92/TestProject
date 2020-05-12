@@ -4,31 +4,27 @@
                          language="{!relatedTo.Participant__r.Contact__r.Language__c}">
 
     <messaging:htmlEmailBody>
-        <c:EmailTemplate recipientId="{!relatedTo.Participant__r.Contact__c}"
+        <c:EmailWireframe recipientId="{!relatedTo.Participant__r.Contact__c}"
                          sourceId="{!relatedTo.Id}"
-                         parametersProvider="Email_Template_Parameters_From_PE"
                          header="{!$Label.Email_Header_Patient2}"
                          title="{!$Label.Email_Title_All}"
                          greeting="{!$Label.Email_User_Greeting_FirstName}"
-                         body="{!$Label.Email_Body_Patient1}"
                          signature="{!$Label.Email_Signature_Patient}">
-            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
-                              resourceId="{!relatedTo.Id}"/>
-        </c:EmailTemplate>
+            <c:Paragraph emailLabel="{!$Label.Email_Body_Patient1}"/>
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
+        </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody>
-        <c:EmailTemplateText recipientId="{!relatedTo.Participant__r.Contact__c}"
+        <c:EmailWireframeText recipientId="{!relatedTo.Participant__r.Contact__c}"
                              sourceId="{!relatedTo.Id}"
-                             parametersProvider="Email_Template_Parameters_From_PE"
                              header="{!$Label.Email_Header_Patient2}"
                              title="{!$Label.Email_Title_All}"
                              greeting="{!$Label.Email_User_Greeting_FirstName}"
-                             body="{!$Label.Email_Body_Patient1}"
                              signature="{!$Label.Email_Signature_Patient}">
-            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
-                                  resourceId="{!relatedTo.Id}"/>
-        </c:EmailTemplateText>
+            <c:ParagraphText emailLabel="{!$Label.Email_Body_Patient1}"/>
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
+        </c:EmailWireframeText>
     </messaging:plainTextEmailBody>
 
 </messaging:emailTemplate>

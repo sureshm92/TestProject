@@ -86,10 +86,9 @@
                                         <aura:if isTrue="{!v.incentivePlans}">
                                             <aura:iteration items="{!v.incentivePlans}" var="ip">
                                                 <c:uiCol isHeader="true" scrollLeft="{!v.scrollLeft}">
-                                                    <c:VisitPlanColumnMenu plan="{!ip}"
+                                                    <c:IncentivePlanColumnMenu plan="{!ip}"
                                                                            onEdit="{!if(equals(v.viewModePage, 'Edit'), c.doColumnIPEdit, c.doColumnIPView)}"
                                                                            onClone="{!c.doColumnIPClone}"
-                                                                           onDelete="{!c.doColumnIPDelete}"
                                                                            isVisible="{!equals(v.viewModePage, 'Edit')}"/>
                                                     <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
                                                         <div class="column-btn">

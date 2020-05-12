@@ -4,23 +4,28 @@
 ({
     doInit: function (component, event, hepler) {
         if (!communityService.isInitialized()) return;
-        component.set('v.userMode', communityService.getUserMode());
-        var spinner = component.find('mainSpinner');
-        spinner.show();
 
-        communityService.executeAction(component, 'getInitData', {
-            trialId: component.get('v.trialId'),
-            userMode: communityService.getUserMode(),
-            delegateId: communityService.getDelegateId()
-        }, function (returnValue) {
-            var initData = JSON.parse(returnValue);
-            component.set('v.reportsFilterData', initData.filterData);
-            component.set('v.mrrPassedFailed', initData.analitics.mrrPassedFailed);
-            component.set('v.preScreeningPassedFailed',  initData.analitics.preScreeningPassedFailed);
-            component.set('v.studyOrientationAttVsNotAtt',  initData.analitics.studyOrientationAttVsNotAtt);
-            component.set('v.isInitialized', true);
-            spinner.hide();
-        });
+        if(!communityService.isDummy()) {
+            component.set('v.userMode', communityService.getUserMode());
+            var spinner = component.find('mainSpinner');
+            spinner.show();
+
+            communityService.executeAction(component, 'getInitData', {
+                trialId: component.get('v.trialId'),
+                userMode: communityService.getUserMode(),
+                delegateId: communityService.getDelegateId()
+            }, function (returnValue) {
+                var initData = JSON.parse(returnValue);
+                component.set('v.reportsFilterData', initData.filterData);
+                component.set('v.mrrPassedFailed', initData.analitics.mrrPassedFailed);
+                component.set('v.preScreeningPassedFailed', initData.analitics.preScreeningPassedFailed);
+                component.set('v.studyOrientationAttVsNotAtt', initData.analitics.studyOrientationAttVsNotAtt);
+                component.set('v.isInitialized', true);
+                spinner.hide();
+            });
+        } else {
+            component.find('builderStub').setPageName(component.getName());
+        }
     },
 
     doUpdateAnalytics: function (component) {

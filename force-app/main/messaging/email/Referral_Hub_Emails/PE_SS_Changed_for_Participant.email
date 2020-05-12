@@ -3,29 +3,26 @@
                          relatedToType="Participant_Enrollment__c"
                          language="{!relatedTo.Participant_Contact__r.Language__c}">
 
-    <messaging:htmlEmailBody >
-        <c:EmailTemplate userType="Participant"
-                         recipientId="{!recipient.Id}"
-                         sourceId="{!relatedTo.Id}"
-                         parametersProvider="Email_Template_Parameters_From_PE"
-                         header="{!$Label.Email_Header_SS_on_PE_Was_Changed_To_Participant}"
-                         title="{!$Label.Email_Title_PH}"
-                         greeting="{!$Label.Email_User_Greeting_FirstName}"
-                         body="{!$Label.Email_Body_SS_on_PE_Was_Changed_To_Participant}"
-                         signature="{!$Label.Email_Signature}">
-        </c:EmailTemplate>
+    <messaging:htmlEmailBody>
+        <c:EmailWireframe recipientId="{!recipient.Id}"
+                          sourceId="{!relatedTo.Id}"
+                          header="{!$Label.Email_Header_SS_on_PE_Was_Changed_To_Participant}"
+                          title="{!$Label.Email_Title_PH}"
+                          greeting="{!$Label.Email_User_Greeting_FirstName}"
+                          signature="{!$Label.Email_Signature}">
+            <c:Paragraph emailLabel="{!$Label.Email_Body_SS_on_PE_Was_Changed_To_Participant}"/>
+        </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody >
-        <c:EmailTemplateText userType="Participant"
-                             recipientId="{!recipient.Id}"
-                             sourceId="{!relatedTo.Id}"
-                             parametersProvider="Email_Template_Parameters_From_PE"
-                             header="{!$Label.Email_Header_SS_on_PE_Was_Changed_To_Participant}"
-                             title="{!$Label.Email_Title_PH}"
-                             greeting="{!$Label.Email_User_Greeting_FirstName}"
-                             body="{!$Label.Email_Body_SS_on_PE_Was_Changed_To_Participant}"
-                             signature="{!$Label.Email_Signature}">
-        </c:EmailTemplateText>
+    <messaging:plainTextEmailBody>
+        <c:EmailWireframeText recipientId="{!recipient.Id}"
+                              sourceId="{!relatedTo.Id}"
+                              header="{!$Label.Email_Header_SS_on_PE_Was_Changed_To_Participant}"
+                              title="{!$Label.Email_Title_PH}"
+                              greeting="{!$Label.Email_User_Greeting_FirstName}"
+                              signature="{!$Label.Email_Signature}">
+            <c:ParagraphText emailLabel="{!$Label.Email_Body_SS_on_PE_Was_Changed_To_Participant}"/>
+        </c:EmailWireframeText>
     </messaging:plainTextEmailBody>
+
 </messaging:emailTemplate>

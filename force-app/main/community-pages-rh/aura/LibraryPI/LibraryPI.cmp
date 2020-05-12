@@ -2,11 +2,12 @@
  - Created by Nikita Abrazhevitch on 06-May-20.
  -->
 <aura:component description="LibraryPI" controller="LibraryPIRemote">
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
 
     <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="resourceStructureList" type="Object"/>
 
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     <lightning:accordion aura:id="accordion" allowMultipleSectionsOpen="true">
         <aura:iteration items="{!v.resourceStructureList}" var="resourceStructure" indexVar="key">
