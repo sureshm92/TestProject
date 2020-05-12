@@ -14,18 +14,19 @@ public without sharing class IncentivePlanSearchLookup {
 
             String filter =
                     DatabaseService.fieldNotInValues('Id', selectedIds) +
-                            'AND Name LIKE \'' + term + '\' LIMIT 10';
+                            'AND Name LIKE \'' + term + '\' OR Plan_Name__c LIKE \'' + term + '\' LIMIT 10';
 
             List<Incentive_Plan__c> incentivePlans = (List<Incentive_Plan__c>) DatabaseService.getInstance().queryImpl(new List<String>{
                     'Id',
-                    'Name'
+                    'Name',
+                    'Plan_Name__c'
             }, Incentive_Plan__c.getSObjectType(), filter);
             List<LookupSearchResult> resList = new List<LookupSearchResult>();
             for (Incentive_Plan__c ip : incentivePlans) {
                 resList.add(new LookupSearchResult(
                         ip.Id,
                         'Incentive_Plan__c',
-                        'standard:notes',
+                        'standard:visits',
                         ip.Name,
                         null
                 ));
@@ -46,13 +47,14 @@ public without sharing class IncentivePlanSearchLookup {
 
             List<Incentive_Plan__c> incentivePlans = (List<Incentive_Plan__c>) DatabaseService.getInstance().queryImpl(new List<String>{
                     'Id',
-                    'Name'
+                    'Name',
+                    'Plan_Name__c'
             }, Incentive_Plan__c.getSObjectType(), filter);
             for (Incentive_Plan__c ip : incentivePlans) {
                 resList.add(new LookupSearchResult(
                         ip.Id,
                         'Incentive_Plan__c',
-                        'standard:notes',
+                        'standard:visits',
                         ip.Name,
                         null
                 ));
