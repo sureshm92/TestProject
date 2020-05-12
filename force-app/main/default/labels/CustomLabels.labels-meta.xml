@@ -41,7 +41,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AL Body PRT Become Adult Delegate</shortDescription>
-        <value>Hi ##UserName, your participant ##ParticipantFirstName has recently reached the age of legal maturity and has provided their privacy preferences. Please contact the patient to learn more about your updated status on this clinical research study.</value>
+        <value>Your participant ##ParticipantFirstName has recently reached the age of legal majority and has provided their privacy preferences. Please contact the participant to learn more about your updated status on this clinical research study.</value>
     </labels>
     <labels>
         <fullName>AL_Body_PRT_Week_Become_Adult_Delegate</fullName>
@@ -130,9 +130,9 @@
         <fullName>AL_Title_PRT_Become_Adult_Delegate</fullName>
         <categories>Alert</categories>
         <language>en_US</language>
-        <protected>true</protected>
+        <protected>false</protected>
         <shortDescription>AL Title PRT Become Adult Delegate</shortDescription>
-        <value>Your participant become adult!</value>
+        <value>HI ##UserName,</value>
     </labels>
     <labels>
         <fullName>AL_Title_PRT_Week_Become_Adult</fullName>
@@ -146,9 +146,9 @@
         <fullName>AL_Title_PRT_Week_Become_Adult_Delegates</fullName>
         <categories>Alert</categories>
         <language>en_US</language>
-        <protected>true</protected>
+        <protected>false</protected>
         <shortDescription>AL Title PRT Week Become Adult Delegates</shortDescription>
-        <value>Hi ##UserName, your participant ##ParticipantFirstName has recently reached the age of legal maturity and has provided their privacy preferences. Please contact the patient to learn more about your updated status on this clinical research study.</value>
+        <value>HI ##UserName, Your participant ##ParticipantFirstName has recently reached the age of legal majority and has provided their privacy preferences. Please contact the participant to learn more about your updated status on this clinical research study.</value>
     </labels>
     <labels>
         <fullName>AL_Title_Welcome_Study</fullName>
@@ -1419,25 +1419,32 @@
         <value>You can not edit this object. Delete and create a new one instead.</value>
     </labels>
     <labels>
+        <fullName>Case_Owner_Email_For_User_Lockout</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Case_Owner_Email_For_User_Lockout</shortDescription>
+        <value>rajesh.r@quintiles.com</value>
+    </labels>
+    <labels>
         <fullName>CommunityEmailLogo</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Community Email Logo</shortDescription>
-        <value>https://lh3.googleusercontent.com/EmuOHokKYGwyHoopMnBD54_g8Nw-hnyk7OahOiY7_koTc-V2v2QSkyF7rHoymubsZdQx1V5Krf3yNMipVhifs34bVD6jk0KZtnJal5jaSROMRoWDEKCZ4PBPmWswXtdD0cXO-JkmZ5_C1kUppz9M03uolxkkE_7R2gG9xFO5PYC4AZtobSrqr8sP0PQIK2rsu6YWsK25qgarqFm4aWGl-My3kfUyPGrejgjtMb-FwHfAt4KBr0kwYnOoEbue7YMlDqTlUUtYdT5X7y2DEwkL4BIyzPvYBcmB7m6b4LBBdh3UnxZwuUmJ7V0RcY2FKjmLfY_dGjAXlKVDKAAsLqr1TRbRDEE9CGGBmpe4gYOWT4Cp6Q0A7Y5O8VgI_3IxIVEyWinm0SfBwalH5WlSt78mEbfkJn78mpatq9UKBJXDIvVxfz9_3esXSddGbpOS6Gx5i_PbfpH9fAHvHLaQOQ1OMywK-KHP8hLCasUMmlyeQTBh91IrEPLPo7115kbdhHdPXy--f01NFF-Kv34beTnutGC2JSzYsgSn5UwpZ8RExKozt6I1SHtfX2ePAjC_wp9n-nJ7KkLmqVxLTyiqTxEgc8qd4jn3yj7Mx80erZWQU5HRb1nXKDZibefn6UzNhYmI5jWXHOGh6vIyivycKxDKSnUBl_rmpGbAjjwiCHKcPRN3MWbxGPIAPFp3NqGfCQ=w1920-h937-ft</value>
+        <value>https://infohotfix-iqviaconnect.CS84.force.com/servlet/servlet.ImageServer?id=0155E000000OnWQ&amp;oid=00D5E000000Den3</value>
     </labels>
     <labels>
         <fullName>CommunityPrivatePolicyLink</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Community Private Policy Link</shortDescription>
-        <value>https://infohotfix-iqviaconnect.cs89.force.com/s/privacy-policy</value>
+        <value>https://infohotfix-iqviaconnect.CS84.force.com/s/privacy-policy</value>
     </labels>
     <labels>
         <fullName>CommunityURL</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CommunityURL</shortDescription>
-        <value>https://infohotfix-iqviaconnect.cs89.force.com</value>
+        <value>https://infohotfix-iqviaconnect.CS84.force.com</value>
     </labels>
     <labels>
         <fullName>Community_GSK</fullName>
@@ -1868,6 +1875,118 @@
         <value>Yesterday</value>
     </labels>
     <labels>
+        <fullName>Dashboard_Contacted</fullName>
+        <categories>Dashboard</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Dashboard_Contacted</shortDescription>
+        <value>Contacted</value>
+    </labels>
+    <labels>
+        <fullName>Dashboard_Enrolled</fullName>
+        <categories>Dashboard</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Dashboard_Enrolled</shortDescription>
+        <value>Enrolled</value>
+    </labels>
+    <labels>
+        <fullName>Dashboard_Leaderboard</fullName>
+        <categories>Dashboard</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Dashboard_Leaderboard</shortDescription>
+        <value>Leaderboard</value>
+    </labels>
+    <labels>
+        <fullName>Dashboard_PI_Name</fullName>
+        <categories>Dashboard</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Dashboard_PI_Name</shortDescription>
+        <value>Principal Investigator:</value>
+    </labels>
+    <labels>
+        <fullName>Dashboard_PI_Other_Sites</fullName>
+        <categories>Dashboard</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Dashboard_PI_Other_Sites</shortDescription>
+        <value>Your other study site(s)</value>
+    </labels>
+    <labels>
+        <fullName>Dashboard_Randomized</fullName>
+        <categories>Dashboard</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Dashboard_Randomized</shortDescription>
+        <value>Randomized</value>
+    </labels>
+    <labels>
+        <fullName>Dashboard_Rank</fullName>
+        <categories>Dashboard</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Dashboard_Rank</shortDescription>
+        <value>Rank</value>
+    </labels>
+    <labels>
+        <fullName>Dashboard_Scheduled</fullName>
+        <categories>Dashboard</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Dashboard_Scheduled</shortDescription>
+        <value>Scheduled</value>
+    </labels>
+    <labels>
+        <fullName>Dashboard_Screened</fullName>
+        <categories>Dashboard</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Dashboard_Screened</shortDescription>
+        <value>Screened</value>
+    </labels>
+    <labels>
+        <fullName>Dashboard_Site</fullName>
+        <categories>Dashboard</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Dashboard_Site</shortDescription>
+        <value>Site</value>
+    </labels>
+    <labels>
+        <fullName>Dashboard_Study_Name</fullName>
+        <categories>Dashboard</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Dashboard_Study_Name</shortDescription>
+        <value>Study:</value>
+    </labels>
+    <labels>
+        <fullName>Dashboard_Top_Site</fullName>
+        <categories>Dashboard</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Dashboard_Top_Site</shortDescription>
+        <value>Your top site</value>
+    </labels>
+    <labels>
+        <fullName>Dashboard_Total_Sites</fullName>
+        <categories>Dashboard</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Dashboard_Total_Sites</shortDescription>
+        <value>Total Sites</value>
+    </labels>
+    <labels>
+        <fullName>Dashnoard_Initial_Visits_Completed</fullName>
+        <categories>Dashboard</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Dashnoard_Initial_Visits_Completed</shortDescription>
+        <value>Initial Visits Completed</value>
+    </labels>
+    <labels>
         <fullName>Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2288,7 +2407,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body PI1</shortDescription>
-        <value>A new clinical research study has been added to your account on the IQVIA Referral Hub:  ##StudyName
+        <value>A new clinical research study has been added to your account on the IQVIA Referral Hub:  ##StudyTitle
 
             Please take a moment to log into the IQVIA Referral Hub to review and accept the study.</value>
     </labels>
@@ -2451,7 +2570,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_Patient16</shortDescription>
-        <value>We are sorry to see you have decided to leave ##StudyName before the clinical trial was complete. Please feel free to contact us at any time, if we can be of assistance with any future clinical research study information.</value>
+        <value>We are sorry to see you have decided to leave ##StudyName before the clinical trial was complete. Thank you for your participation.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient17</fullName>
@@ -2825,7 +2944,7 @@
 
             Please wait 15 minutes and then you can either try again or &lt;a href=&quot;##ForgotPasswordURL&quot;&gt;reset your password&lt;/a&gt;.
 
-            If this is not you or you are unable to reset your password, you may email &lt;a href=&quot;mailto:support@cp.clinicalresearch.com?subject=Lockout - unable to login&quot;&gt;technical support&lt;/a&gt; and they will reset your password for you and investigate any potential security issues.</value>
+            If this is not you or you are unable to reset your password, you may email &lt;a href=&quot;mailto:support@mail.clinicalresearch.com?subject=Lockout - unable to login&quot;&gt;technical support&lt;/a&gt; and they will reset your password for you and investigate any potential security issues.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Visit_Task_Reminder</fullName>
@@ -3390,6 +3509,15 @@
             To keep your account secure, please don&#39;t forward this email to anyone.</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_GSK</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature</shortDescription>
+        <value>Sincerely,
+
+            The GSK Participant Hub team</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_New</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3412,13 +3540,24 @@
             ##SignatureShortCommunityName</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_New_Participant_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature New Participant Delegate</shortDescription>
+        <value>We are excited to be on this journey with you.
+
+            Sincerely,
+
+            ##SignatureFullCommunityName</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_New_FullName</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature New FullName</shortDescription>
         <value>Sincerely,
 
-##SignatureFullCommunityName</value>
+            ##SignatureFullCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_New_Short</fullName>
@@ -3625,20 +3764,6 @@
         <protected>false</protected>
         <shortDescription>Email Subject Initial Patient</shortDescription>
         <value>You have been referred to a clinical research study.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Subject_Login_GSK</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Subject Login GSK</shortDescription>
-        <value>Please Log in in the Gather Share Know Participant Hub</value>
-    </labels>
-    <labels>
-        <fullName>Email_Subject_Login_RHPP</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Subject Login RHPP</shortDescription>
-        <value>Please Log in in the IQVIA Referral Hub and Patient Portal</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Medication_Task_Reminder</fullName>
@@ -4046,9 +4171,9 @@
     <labels>
         <fullName>Error_Message_Participant_Duplicate</fullName>
         <language>en_US</language>
-        <protected>true</protected>
+        <protected>false</protected>
         <shortDescription>Error Message Participant Duplicate</shortDescription>
-        <value>This patient has already been referred to this study.</value>
+        <value>This participant has already been referred to this study.</value>
     </labels>
     <labels>
         <fullName>Export_Excel_Investigator_Name</fullName>
@@ -4098,13 +4223,6 @@
         <value>Pre-screening Date</value>
     </labels>
     <labels>
-        <fullName>Export_Excel_Status_Change_Reason</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Export Excel Status Change Reason</shortDescription>
-        <value>Status Change Reason</value>
-    </labels>
-    <labels>
         <fullName>FD_PE_Field_Arm_Cohort</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4123,14 +4241,14 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>FD PE Field Informed Consent Signed Date</shortDescription>
-        <value>Consent Signed</value>
+        <value>Informed Consent Signed</value>
     </labels>
     <labels>
         <fullName>FD_PE_Field_Informed_Consent_Signed_Date</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>FD PE Field Informed Consent Signed Date</shortDescription>
-        <value>Signed Date</value>
+        <value>Informed Consent Signed Date</value>
     </labels>
     <labels>
         <fullName>FD_PE_Field_Initial_Visit_Attended</fullName>
@@ -4292,7 +4410,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>GSK Login Sub Title</shortDescription>
-        <value>The participant hub for people taking part in the MDCI Oncology Study: A place to learn more about your study journey and clinical research.</value>
+        <value>A participant hub for people taking part in the Molecular Analysis Profiling (MAP) Cancer Study: A place to learn more about your study journey and clinical research.</value>
     </labels>
     <labels>
         <fullName>GSK_Text_Logo</fullName>
@@ -4367,9 +4485,9 @@
     <labels>
         <fullName>HT_03_B_PI_RP</fullName>
         <language>en_US</language>
-        <protected>true</protected>
+        <protected>false</protected>
         <shortDescription>HT 03 B PI RP</shortDescription>
-        <value>Please go to My Team -&gt; Add New Team Member -&gt; Enter information -&gt; Assign &quot;Permissions by Level.&quot; If you want a study team member to handle referrals on your behalf, we recommend that you assign level 1 permissions to that team member.</value>
+        <value>Access the My Team page from your avatar (profile) menu on the navigation bar -&gt; Add New Team Member -&gt; Enter information -&gt; Assign &quot;Permissions by Level.&quot; If you want a study team member to handle referrals on your behalf, we recommend that you assign level 1 permissions to that team member.</value>
     </labels>
     <labels>
         <fullName>HT_03_B_Patient</fullName>
@@ -4453,7 +4571,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 06 H PI</shortDescription>
-        <value>How do I check on my patients&#39; status?</value>
+        <value>How do I check on my Participant&#39;s status?</value>
     </labels>
     <labels>
         <fullName>HT_06_H_Participant</fullName>
@@ -4474,7 +4592,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 07 B PI</shortDescription>
-        <value>The IQVIA™ Referral Hub is a platform that allows a principal investigator and study team members to manage patients’ participation in clinical research studies.</value>
+        <value>The IQVIA™ Referral Hub is a personalized platform that allows a principal investigator to manage participant&#39;s participation in a clinical research study.</value>
     </labels>
     <labels>
         <fullName>HT_07_B_Participant</fullName>
@@ -6039,7 +6157,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT DRP S7 T</shortDescription>
-        <value>Click on the Help menu to view the application walkthrough again and access other application resources.</value>
+        <value>Click on the Help menu to view the application tour again and access other application resources.</value>
     </labels>
     <labels>
         <fullName>OT_DRP_S8_H</fullName>
@@ -6165,14 +6283,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT Header</shortDescription>
-        <value>Referral Hub Walkthrough</value>
+        <value>Referral Hub Tour</value>
     </labels>
     <labels>
         <fullName>OT_Header_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT Header PP</shortDescription>
-        <value>##CommunityWelcome Walkthrough</value>
+        <value>##CommunityWelcome Tour</value>
     </labels>
     <labels>
         <fullName>OT_PI_S1_H</fullName>
@@ -6437,6 +6555,13 @@
         <value>Country</value>
     </labels>
     <labels>
+        <fullName>PE_Delegate_Phone</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PE Delegate Phone</shortDescription>
+        <value>Delegate Phone</value>
+    </labels>
+    <labels>
         <fullName>PE_Details</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6477,6 +6602,13 @@
         <protected>false</protected>
         <shortDescription>PE MedicalRecordReview</shortDescription>
         <value>Medical Record Review</value>
+    </labels>
+    <labels>
+        <fullName>PE_Participant_Phone</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PE Participant Phone</shortDescription>
+        <value>Participant Phone</value>
     </labels>
     <labels>
         <fullName>PE_Patient_Id</fullName>
@@ -6661,20 +6793,6 @@
         <value>Notes</value>
     </labels>
     <labels>
-        <fullName>PG_ACPE_L_Notes_Optional</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG ACPE L NotesOptional</shortDescription>
-        <value>Notes (optional)</value>
-    </labels>
-    <labels>
-        <fullName>PG_ACPE_L_Notes_Required</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG ACPE L Notes Required</shortDescription>
-        <value>Notes (required)</value>
-    </labels>
-    <labels>
         <fullName>PG_ACPE_L_Outcome</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6805,14 +6923,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AH H Show Tour Now</shortDescription>
-        <value>Show me a walkthrough now</value>
+        <value>Show me a tour now</value>
     </labels>
     <labels>
         <fullName>PG_AH_H_Show_Tour_On_Login</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AH H Show Tour On Login</shortDescription>
-        <value>Show me a walkthrough of the application each time I log in</value>
+        <value>Show me a tour of the application each time that I log in</value>
     </labels>
     <labels>
         <fullName>PG_AH_H_User_Guide</fullName>
@@ -6833,7 +6951,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AH H Walkthrough Login</shortDescription>
-        <value>Walkthrough on Login</value>
+        <value>Tour on Login</value>
     </labels>
     <labels>
         <fullName>PG_AH_H_Watch_a_video_of_the_application_and_its_features</fullName>
@@ -6868,7 +6986,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AH T Show Tour Now</shortDescription>
-        <value>A one-time walkthrough of the application</value>
+        <value>A one-time tour of the application</value>
     </labels>
     <labels>
         <fullName>PG_AH_T_Show_Tour_On_Login</fullName>
@@ -6936,16 +7054,16 @@
     <labels>
         <fullName>PG_AP_F_Patient_Status</fullName>
         <language>en_US</language>
-        <protected>true</protected>
+        <protected>false</protected>
         <shortDescription>PG AP F Patient Status</shortDescription>
-        <value>Patient Status</value>
+        <value>Participant Status</value>
     </labels>
     <labels>
         <fullName>PG_AP_F_Patient_Status_Select</fullName>
         <language>en_US</language>
-        <protected>true</protected>
+        <protected>false</protected>
         <shortDescription>PG AP F Patient Status Select</shortDescription>
-        <value>Select Patient Status</value>
+        <value>Select Participant Status</value>
     </labels>
     <labels>
         <fullName>PG_AP_F_Phone_Type</fullName>
@@ -6999,9 +7117,9 @@
     <labels>
         <fullName>PG_AP_Success_Message</fullName>
         <language>en_US</language>
-        <protected>true</protected>
+        <protected>false</protected>
         <shortDescription>PG AP Success Message</shortDescription>
-        <value>You have successfully added a patient.</value>
+        <value>You have successfully added a participant.</value>
     </labels>
     <labels>
         <fullName>PG_AP_T_Additional_Info</fullName>
@@ -7698,11 +7816,67 @@
         <value>Dr.</value>
     </labels>
     <labels>
+        <fullName>PG_DBPI_L_11_to_21_Days</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>11 to 21 days</shortDescription>
+        <value>11-21 Days</value>
+    </labels>
+    <labels>
+        <fullName>PG_DBPI_L_1_to_3_Days</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>1 to 3 days</shortDescription>
+        <value>1-3 Days</value>
+    </labels>
+    <labels>
+        <fullName>PG_DBPI_L_4_to_7_Days</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>4 to 7 days</shortDescription>
+        <value>4-7 Days</value>
+    </labels>
+    <labels>
+        <fullName>PG_DBPI_L_8_to_10_Days</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>8 to 10 days</shortDescription>
+        <value>8-10 Days</value>
+    </labels>
+    <labels>
+        <fullName>PG_DBPI_L_Contacted_Participants_Without_Scheduled_Initial_Visit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Participants Contacted with Initial Visits Not Yet Scheduled</shortDescription>
+        <value>Participants Contacted with Initial Visits Not Yet Scheduled</value>
+    </labels>
+    <labels>
+        <fullName>PG_DBPI_L_Greater_Than_21_Days</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>&gt;21 days</shortDescription>
+        <value>&gt;21 Days</value>
+    </labels>
+    <labels>
         <fullName>PG_DBPI_L_My_Patients_Referring_Status</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DBPI L My Patients&#39; Referring Status</shortDescription>
         <value>My Patients&#39; Referring Status</value>
+    </labels>
+    <labels>
+        <fullName>PG_DBPI_L_No_Records</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No Participant Record</shortDescription>
+        <value>No Participant Record</value>
+    </labels>
+    <labels>
+        <fullName>PG_DBPI_L_Participants</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Participants</shortDescription>
+        <value>Participants</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_L_Patients_Waiting_to_Be_Referred</fullName>
@@ -7870,7 +8044,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DB L patients</shortDescription>
-        <value>patients</value>
+        <value>Participants</value>
     </labels>
     <labels>
         <fullName>PG_DB_L_patients_accepted</fullName>
@@ -9057,7 +9231,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRRL L Search for a patient</shortDescription>
-        <value>Search for a patient</value>
+        <value>Search for a participant</value>
     </labels>
     <labels>
         <fullName>PG_MRRL_L_Show_Excluded</fullName>
@@ -9555,7 +9729,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG OT Show on login checkbox text</shortDescription>
-        <value>Show me this walkthrough each time I log in</value>
+        <value>Show me this tour each time that I log in</value>
     </labels>
     <labels>
         <fullName>PG_Or_R_Attended</fullName>
@@ -9746,14 +9920,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Remove Delegate</shortDescription>
-        <value>Deactivate Delegate</value>
+        <value>Remove Delegate</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_Remove_Himself</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Remove Himself</shortDescription>
-        <value>You are about to remove yourself from the Delegate list. You cannot undo this action.  Do you want to proceed?</value>
+        <value>You are about to remove yourself from the Delegate list. If you choose to continue your account will be deactivated. You cannot undo this action.  Do you want to proceed?</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_Remove_Himself_Header</fullName>
@@ -9984,7 +10158,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L Delegate continue be delegate</shortDescription>
-        <value>Please ensure that the delegate&#39;s information, especially email address, is correct before connecting to patient.</value>
+        <value>Please ensure that delegate&#39;s contact information is up-to-date</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Delegate_update_info_uptodate</fullName>
@@ -10062,7 +10236,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L Participant require agree</shortDescription>
-        <value>I have confirmed this information with the emancipated participant.</value>
+        <value>I agree that I have confirmed information with emancipated participant.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Participant_require_guardian</fullName>
@@ -10202,14 +10376,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref ST1 Email sent</shortDescription>
-        <value>An email inviting your patient to join the IQVIA™ Referral Hub has been sent. A study site representative will contact your patient within the next several weeks.</value>
+        <value>An email inviting your patient to join the IQVIA™ Patient Portal has been sent. A study site representative will contact your patient within the next several days.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_ST2_Email_sent</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref ST2 Email sent</shortDescription>
-        <value>Note: Both you and your patient can see the patient&#39;s referral status within the IQVIA™ Referral Hub at any time.</value>
+        <value>Your patient can use IQVIA™ Patient Portal to view the status of this referral and learn more about the study. You can view the referral status on the My Patients page in the Referral Hub.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_Step_Contact_Info</fullName>
@@ -10520,7 +10694,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SPE L Patient Id tip</shortDescription>
-        <value>Example: Please enter an ID, such as MRN, that is used by your office to identify this patient, but is not allow the patient to be identified by those without access to your system</value>
+        <value>Example: Please enter an ID, such as an MRN, that is used by your office to uniquely identify this patient, but does not allow the patient to be identified by those without access to your system</value>
     </labels>
     <labels>
         <fullName>PG_SPE_L_Patient_Information</fullName>
@@ -10908,6 +11082,13 @@
         <value>Back to My Studies</value>
     </labels>
     <labels>
+        <fullName>PG_Task_Tab_Completed_Tasks</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Task Tab Completed Tasks</shortDescription>
+        <value>You currently do not have any completed tasks.</value>
+    </labels>
+    <labels>
         <fullName>PG_Task_Tab_No_Tasks</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11194,20 +11375,6 @@
         <value>Ready to Contact</value>
     </labels>
     <labels>
-        <fullName>PWS_Contact_Outcome_Screening</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PWS Contact Outcome Screening</shortDescription>
-        <value>Ready to Screen</value>
-    </labels>
-    <labels>
-        <fullName>PWS_Declined_Conscent_Disclaimer</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PWS Declined Conscent Disclaimer</shortDescription>
-        <value>On Initial Visit tab, update informed consent to "yes" and save to proceed with screening.</value>
-    </labels>
-    <labels>
         <fullName>PWS_Eligibility_Card_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -11283,55 +11450,6 @@
         <protected>true</protected>
         <shortDescription>PWS_Initial_Visit_No_Outcome</shortDescription>
         <value>Not Completed</value>
-    </labels>
-    <labels>
-        <fullName>PWS_Picklist_Value_Childcare_Issues</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PWS_Picklist_Value_Childcare_Issues</shortDescription>
-        <value>Childcare Issues</value>
-    </labels>
-    <labels>
-        <fullName>PWS_Picklist_Value_Declined</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PWS_Picklist_Value_Declined</shortDescription>
-        <value>Declined</value>
-    </labels>
-    <labels>
-        <fullName>PWS_Picklist_Value_Other</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PWS_Picklist_Value_Other</shortDescription>
-        <value>Other</value>
-    </labels>
-    <labels>
-        <fullName>PWS_Picklist_Value_Participant_Not_Interested</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PWS_Picklist_Value_Participant_Not_Interested</shortDescription>
-        <value>Participant Not Interested</value>
-    </labels>
-    <labels>
-        <fullName>PWS_Picklist_Value_Protocol_Concerns</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PWS_Picklist_Value_Protocol_Concerns</shortDescription>
-        <value>Protocol Concerns</value>
-    </labels>
-    <labels>
-        <fullName>PWS_Picklist_Value_Transportation_Issues</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PWS_Picklist_Value_Transportation_Issues</shortDescription>
-        <value>Transportation Issues</value>
-    </labels>
-    <labels>
-        <fullName>PWS_Picklist_Value_Withdrew</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PWS_Picklist_Value_Withdrew</shortDescription>
-        <value>Withdrew</value>
     </labels>
     <labels>
         <fullName>PWS_Randomization_Card_Name</fullName>
@@ -11416,13 +11534,6 @@
         <protected>true</protected>
         <shortDescription>PWS_Screening_No_Outcome</shortDescription>
         <value>Not Screened</value>
-    </labels>
-    <labels>
-        <fullName>PWS_Withdrew_Conscent_Disclaimer</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PWS Withdrew Conscent Disclaimer</shortDescription>
-        <value>On Initial Visit tab, update informed consent date (add a note if date is same as initial date of consent) and save to proceed with screening.</value>
     </labels>
     <labels>
         <fullName>Participant_Created_Date</fullName>
@@ -12591,7 +12702,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>STP ELSE PT1</shortDescription>
-        <value>Patients</value>
+        <value>Participants</value>
     </labels>
     <labels>
         <fullName>STP_ELSE_PT2</fullName>
@@ -13895,6 +14006,13 @@
         <protected>true</protected>
         <shortDescription>Update Participant</shortDescription>
         <value>Update Participant</value>
+    </labels>
+    <labels>
+        <fullName>User_Name_For_Email_Recipient_User_Lockout</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>User_Name_For_Email_Recipient_User_Lockout</shortDescription>
+        <value>Nazma Ansari</value>
     </labels>
     <labels>
         <fullName>VPN_AddDate</fullName>

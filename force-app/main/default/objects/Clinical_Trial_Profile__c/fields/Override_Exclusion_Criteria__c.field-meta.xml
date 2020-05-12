@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Override_Exclusion_Criteria__c</fullName>
     <description>Friendly description of exclusion criteria for use in internal portal</description>
+    <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <label>Override Exclusion Criteria</label>
     <length>32768</length>

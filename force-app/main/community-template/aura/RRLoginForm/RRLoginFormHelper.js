@@ -54,11 +54,26 @@
     },
 
     getCommunityForgotPasswordUrl : function (component, event, helpler) {
+        var username = component.find("username").get("v.value");
         var action = component.get("c.getForgotPasswordUrl");
+        action.setParams({username: username});
         action.setCallback(this, function(a){
             var rtnValue = a.getReturnValue();
             if (rtnValue !== null) {
-                component.set('v.communityForgotPasswordUrl',rtnValue);
+                try{
+                if(rtnValue.includes("**return")){
+                    rtnValue = rtnValue.replace("**return","");
+                    component.set("v.errorMessage",rtnValue);
+                    component.set("v.showError",true);
+                }else if(rtnValue.includes("**url")){
+                    rtnValue = rtnValue.replace("**url","");
+					window.open(rtnValue,'_top');
+                    // component.set('v.communityForgotPasswordUrl',rtnValue);
+                }
+                }catch(e){
+                    console.log(e);
+                }
+                // component.set('v.communityForgotPasswordUrl',rtnValue);
             }
         });
         $A.enqueueAction(action);

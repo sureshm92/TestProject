@@ -17,6 +17,8 @@ public class TestData {
     public Participant_Study_Enrollment__c pse; //ONLY FOR DEPLOY
     public Participant_Enrollment__c pe;
     public HCP_Enrollment__c hcpEnrollment;
+    public Contact piContact;
+    public Contact piDelegateContact;
     private static Contact hcpContact;
     private static Terms_And_Conditions__c studyTC;
     private static List<String> necessaryTriggersForLoadTestData = new List<String>(); // these triggers are necessary for correct work of loadTestData()
@@ -87,6 +89,9 @@ public class TestData {
                 WHERE HCP_Contact__r.LastName = 'HCPTD'
                 LIMIT 1
         ];
+        piContact = [SELECT Id,Name FROM Contact WHERE Email = 'pi@emil.com' LIMIT 1];
+        
+        piDelegateContact = [SELECT Id,Name FROM Contact WHERE Email = 'pi_delegate@emil.com' LIMIT 1];
     }
 
     public User createPatientDelegate() {
@@ -267,13 +272,8 @@ public class TestData {
         insert study;
 
         List<PicklistEntry> pleList = Translation__c.Language__c.getDescribe().getPicklistValues();
-        String langCode;
-        for(PicklistEntry ple : pleList) {
-            langCode = ple.getValue();
-            if(TranslateHelper.isLanguageSupported(ple.getValue())) break;
-        }
         Translation__c studyTranslation = new Translation__c(
-                Language__c = langCode,
+                Language__c = pleList[0].value,
                 Record_Id__c = study.Id,
                 Field_Name__c = 'Study_Title__c',
                 Value__c = 'Some translated value'
@@ -471,7 +471,3 @@ public class TestData {
 
     }
 }
-
-
-
-
