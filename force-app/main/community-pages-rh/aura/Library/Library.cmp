@@ -1,0 +1,32 @@
+<!--
+ - Created by user on 06-May-20.
+ -->
+
+<aura:component description="Library" implements="forceCommunity:availableForAllPageTypes" access="global">
+
+    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size--9-of-12">
+            <c:RRNavigationPath>
+                <c:RRNPathItem label="{!$Label.c.Navigation_Resources}"/>
+                <c:RRNPathItem label="{!$Label.c.Navigation_Library}"/>
+            </c:RRNavigationPath>
+        </div>
+        <!--<div class="slds-col slds-size&#45;&#45;3-of-12 fp-search-input rr-large-down-hide">
+            <c:rrInput valueString="" iconName="icon-search" placeholder="Search"/>
+        </div>-->
+    </div>
+    <div class="rr-white-panel">
+        <div class="slds-card__header-title">{!$Label.c.Navigation_Library}</div>
+    </div>
+    <div class="slds-grid slds-wrap resource-headers">
+        <div class="slds-coll slds-size--4-of-12"></div>
+        <div class="slds-coll slds-size--2-of-12">{!$Label.c.Library_Language}</div>
+        <div class="slds-coll slds-size--2-of-12">{!$Label.c.Library_Type}</div>
+        <div class="slds-coll slds-size--2-of-12">{!$Label.c.Library_Format}</div>
+        <div class="slds-coll slds-size--2-of-12">{!$Label.c.Library_Version_Date}</div>
+    </div>
+    <div class="rr-white-panel" style="margin-top: 0px">
+        <c:LibraryPI parent="{!this}"/>
+    </div>
+</aura:component>

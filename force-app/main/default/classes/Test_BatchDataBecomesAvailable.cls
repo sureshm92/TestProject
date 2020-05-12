@@ -24,7 +24,8 @@ private class Test_BatchDataBecomesAvailable {
         testData.ctp.Shareback_Availability_Timing__c = 0.0;
         update testData.ctp;
 
-        testData.pe.Participant_Contact__r.Visit_Results_Opt_In__c = true;
+        testData.pe.Participant_Contact__r.Visit_Results_Opt_In__c = true;  // TODO Depricated
+        testData.pe.Participant_Contact__r.Visit_Results_OptIn__c = 'Vitals;Labs;Biomarkers';
         testData.pe.Participant_Contact__r.Participant_Opt_In_Status_Emails__c = true;
         update testData.pe.Participant_Contact__r;
 
@@ -71,7 +72,10 @@ private class Test_BatchDataBecomesAvailable {
         ));
         insert visitResults;
 
-        Database.executeBatch(new Batch_DataBecomesAvailable());
+        Batch_DataBecomesAvailable batch = new Batch_DataBecomesAvailable();
+        System.assert(String.isNotBlank(batch.getBatchDescription()));
+
+        Database.executeBatch(batch);
         Test.stopTest();
     }
 }

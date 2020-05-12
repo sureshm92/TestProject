@@ -1,0 +1,36 @@
+.THIS .slds-m-right--xx-small{
+    font-weight: 700;
+    font-size: 15px;
+    color: black;
+    text-decoration: none;
+}
+.THIS .rr-link.expanded-icon .rr-icon-default {
+    transform-origin: center;
+    transition: 0.3s ease-in-out;
+    transform: rotate(90deg);
+    position: relative;
+    margin-right: 3px;
+}
+.THIS .rr-link.hidden-icon .rr-icon-default {
+    transform: rotate(0deg);
+}
+.THIS .slds-grid{
+    background: #f8f9fb;
+}
+.THIS .expanded-icon{
+    text-decoration: none;
+}
+.THIS .slds-p-horizontal_medium{
+    padding-left: 0px!important;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.THIS .slds-form-element__static_second{
+    margin-top: 40px;
+    margin-left: -15%;
+}
+.THIS .slds-item_label{
+    color: darkgray;
+    font-size: small;
+    font-family: auto;
+}

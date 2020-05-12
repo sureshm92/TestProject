@@ -149,7 +149,7 @@
     height: 100%;
     opacity: .8;
     vertical-align: middle;
-    overflow: hidden;
+    overflow: visible!important;
     text-overflow: ellipsis;
     flex-grow: 10;
     position: relative;
