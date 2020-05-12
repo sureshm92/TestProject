@@ -14,7 +14,7 @@ public without sharing class IncentivePlanSearchLookup {
 
             String filter =
                     DatabaseService.fieldNotInValues('Id', selectedIds) +
-                            'AND Name LIKE \'' + term + '\' OR Plan_Name__c LIKE \'' + term + '\' LIMIT 10';
+                            'AND (Name LIKE \'' + term + '\' OR Plan_Name__c LIKE \'' + term + '\') LIMIT 10';
 
             List<Incentive_Plan__c> incentivePlans = (List<Incentive_Plan__c>) DatabaseService.getInstance().queryImpl(new List<String>{
                     'Id',
@@ -27,7 +27,7 @@ public without sharing class IncentivePlanSearchLookup {
                         ip.Id,
                         'Incentive_Plan__c',
                         'standard:visits',
-                        ip.Name,
+                        ip.Plan_Name__c,
                         null
                 ));
             }
@@ -55,7 +55,7 @@ public without sharing class IncentivePlanSearchLookup {
                         ip.Id,
                         'Incentive_Plan__c',
                         'standard:visits',
-                        ip.Name,
+                        ip.Plan_Name__c,
                         null
                 ));
             }
