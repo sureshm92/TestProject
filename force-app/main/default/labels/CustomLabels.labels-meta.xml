@@ -2808,6 +2808,24 @@
             Please login to the ##ShortCommunityName to check your clinical research trial matches at any time.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Trial_Match</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Trial Match</shortDescription>
+        <value>You have been matched for new studies.
+ 
+Please login to the ##CommunityName to check your clinical research trial matches at any time.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Trial_Match_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Trial Match Delegate</shortDescription>
+        <value>We have found new trial matches for &lt;participant first name&gt;.
+ 
+Please log in to ##CommunityName to view this information.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Trial_Message</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3278,6 +3296,13 @@
         <protected>true</protected>
         <shortDescription>Thank you for submitting a request</shortDescription>
         <value>Thank you for submitting a request</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Trial_Match</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header Trial Match</shortDescription>
+        <value>New Trial Matches are available</value>
     </labels>
     <labels>
         <fullName>Email_Header_Visit_Task_Reminder</fullName>
@@ -3891,6 +3916,20 @@
         <protected>true</protected>
         <shortDescription>Trial_Complete_for_Participant</shortDescription>
         <value>Congratulations, you have completed your study</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Trial_Match</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject Trial Match</shortDescription>
+        <value>New Trial Matches are available for you</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Trial_Match_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject Trial Match Delegate</shortDescription>
+        <value>New Trial Matches are available</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Trial_Search_Match_Alert_Received</fullName>
