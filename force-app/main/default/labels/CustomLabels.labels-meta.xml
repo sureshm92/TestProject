@@ -520,7 +520,7 @@
         <protected>true</protected>
         <shortDescription>Add Patient Delegate</shortDescription>
         <value>Add Patient Delegate</value>
-    </labels>
+    </labels>    
     <labels>
         <fullName>Admin</fullName>
         <language>en_US</language>
@@ -1530,7 +1530,7 @@
         <protected>true</protected>
         <shortDescription>Create Users Checkbox</shortDescription>
         <value>Participant has consented to receiving an invitation to the Patient Portal.</value>
-    </labels>
+    </labels>    
     <labels>
         <fullName>Create_Users_Checkbox_on_Import</fullName>
         <language>en_US</language>
@@ -1999,7 +1999,7 @@
         <protected>true</protected>
         <shortDescription>Delegate Found</shortDescription>
         <value>Participant Delegate Found!</value>
-    </labels>
+    </labels>    
     <labels>
         <fullName>Delegates</fullName>
         <language>en_US</language>
@@ -2034,7 +2034,7 @@
         <protected>true</protected>
         <shortDescription>Different HealthCare Provider</shortDescription>
         <value>Did you expect a different Participant Delegate? Let us know.</value>
-    </labels>
+    </labels>    
     <labels>
         <fullName>Different_HealthCare_Provider</fullName>
         <language>en_US</language>
@@ -2485,7 +2485,7 @@
         <protected>false</protected>
         <shortDescription>Email Body Participant Delegate Reactivated</shortDescription>
         <value>Your access as a participant delegate has changed for one or more studies that are listed below</value>
-    </labels>
+    </labels>    
     <labels>
         <fullName>Email_Body_Participant_Import_Completed</fullName>
         <language>en_US</language>
@@ -3425,7 +3425,7 @@
         <protected>true</protected>
         <shortDescription>Email Header You Have Been Assigned As a Delegate</shortDescription>
         <value>You have been assigned as a Delegate</value>
-    </labels>
+    </labels>    
     <labels>
         <fullName>Email_Header_Your_Access_Level_Has_Been_Changed</fullName>
         <language>en_US</language>
@@ -3439,7 +3439,7 @@
         <protected>false</protected>
         <shortDescription>Email Header Your Access Level Has Changed</shortDescription>
         <value>Your access level has changed</value>
-    </labels>
+    </labels>    
     <labels>
         <fullName>Email_Notification_Greeting</fullName>
         <language>en_US</language>
@@ -4492,9 +4492,9 @@
     <labels>
         <fullName>HT_03_B_Patient</fullName>
         <language>en_US</language>
-        <protected>true</protected>
+        <protected>false</protected>
         <shortDescription>HT 03 B Patient</shortDescription>
-        <value>Please go to Account Settings -&gt; Delegates -&gt; Add New Delegate -&gt; Enter information -&gt; Assign &quot;Permissions by Level&quot;. If you want a delegate to complete tasks on your behalf, we recommend delegate level 1.</value>
+        <value>Please go to Account Settings -&gt; Delegates -&gt; Add New Delegate -&gt; Enter information</value>
     </labels>
     <labels>
         <fullName>HT_03_H_PI_RP</fullName>
@@ -4746,7 +4746,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 12 B Participant</shortDescription>
-        <value>Clinical research is how the pharmaceutical industry builds the evidence for potential new treatment approaches for humans to find the ones that are well tolerated and effective. A clinical trial is a research study involving human participants that tests and evaluates the investigational drug, device, or procedure to find out how safe it is and how well it works. Before any investigational drug, device, or procedure can be approved for use in humans, it must be evaluated in a series of clinical trials.</value>
+        <value>Clinical research is how the pharmaceutical industry builds the evidence for potential new treatment approaches for humans to find the ones that are well tolerated and effective. A clinical study or trial is a research study involving human participants that tests and evaluates the investigational drug, device, or procedure to find out how safe it is and how well it works. Before any investigational drug, device, or procedure can be approved for use in humans, it must be evaluated in a series of clinical studies.</value>
     </labels>
     <labels>
         <fullName>HT_12_B_RP</fullName>
@@ -4804,7 +4804,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 14 B Participant</shortDescription>
-        <value>The length of a clinical trial and how much of your time it will take up varies, depending on what is being studied. You will be told how long a trial will last before you decide whether to take part.</value>
+        <value>The length of a clinical study and how much of your time it will take up varies, depending on what is being studied. You will be told how long a study will last before you decide whether to take part.</value>
     </labels>
     <labels>
         <fullName>HT_14_B_RP</fullName>
@@ -4866,7 +4866,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 16 B Participant</shortDescription>
-        <value>Yes, clinical trials for children are called &quot;pediatric clinical trials.&quot; It is often specified in the title of the clinical trial if the patient population is children only. These trials are designed specifically to look at investigational drugs, devices, or procedures in children. There are also clinical trials that are for both adults and children; the age range of the patient population will be detailed in the trial information.</value>
+        <value>Yes, clinical studies for children are called &quot;pediatric clinical studies.&quot; It is often specified in the title of the clinical study if the patient population is children only. These trials are designed specifically to look at investigational drugs, devices, or procedures in children. There are also clinical studies that are for both adults and children; the age range of the patient population will be detailed in the trial information.</value>
     </labels>
     <labels>
         <fullName>HT_16_B_RP</fullName>
@@ -4894,7 +4894,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 17 B Participant</shortDescription>
-        <value>Some clinical trials may offer payment. Other clinical trials will not offer payment, but may provide compensation for any travel costs or other expenses incurred during participation. You can check this with the trial team before agreeing to take part.</value>
+        <value>Some clinical studies may offer payment. Other clinical trials will not offer payment, but may provide compensation for any travel costs or other expenses incurred during participation. You can check this with the study team before agreeing to take part.</value>
     </labels>
     <labels>
         <fullName>HT_17_B_RP</fullName>
@@ -4922,9 +4922,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 18 B Participant</shortDescription>
-        <value>You will not need to pay a fee to participate in a clinical trial, but you may need to pay for travel costs to attend visits at the clinical trial center nearest to you. You may also need to pay for babysitting or childcare, and factor in lost income if the visits take place during working hours. Clinical trials may provide compensation to cover these costs.
-
-            If the clinical trial is using an approved medication, then depending on your country of residence (e.g. the United States), your medical insurance may need to be billed. You can check this with the trial team before agreeing to take part.</value>
+        <value>You will not need to pay a fee to participate in a clinical study, but you may need to pay for travel costs to attend visits at the study location nearest to you. You may also need to pay for babysitting or childcare, and factor in lost income if the visits take place during working hours. Clinical studies may provide compensation to cover these costs. If the clinical trial is using an approved medication, then depending on your country of residence (e.g. the United States), your medical insurance may need to be billed. You can check this with the study team before agreeing to take part.</value>
     </labels>
     <labels>
         <fullName>HT_18_H_Participant</fullName>
@@ -9935,7 +9933,7 @@
         <protected>false</protected>
         <shortDescription>Remove Himself Header</shortDescription>
         <value>Remove Delegate</value>
-    </labels>
+    </labels>    
     <labels>
         <fullName>PG_PST_L_Delegates_Remove_Mess</fullName>
         <language>en_US</language>
@@ -11583,7 +11581,7 @@
         <protected>false</protected>
         <shortDescription>Patient Delegate Deactivate Mess</shortDescription>
         <value>You are about to deactivate ##Name from your account. Do you want to proceed?</value>
-    </labels>
+    </labels>    
     <labels>
         <fullName>Phone_Type_Home</fullName>
         <language>en_US</language>
