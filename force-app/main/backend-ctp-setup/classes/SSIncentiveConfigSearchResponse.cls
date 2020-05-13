@@ -18,13 +18,13 @@ public without sharing class SSIncentiveConfigSearchResponse {
     }
 
     private static List<LabelValueItem> getIncentivePlans(String selectedIPIdsStr) {
-        Map<Id, Incentive_Plan__c> ipMap = new Map<Id, Incentive_Plan__c>([SELECT Id, Name FROM Incentive_Plan__c]);
+        Map<Id, Incentive_Plan__c> ipMap = new Map<Id, Incentive_Plan__c>([SELECT Id, Name, Plan_Name__c FROM Incentive_Plan__c]);
         List<Id> selectedIPIds = new List<Id>(ipMap.keySet());
         if (!String.isEmpty(selectedIPIdsStr)) selectedIPIds = selectedIPIdsStr.split(';');
         List<LabelValueItem> visitPlans = new List<LabelValueItem>();
         for (Id ipId : selectedIPIds) {
             Incentive_Plan__c ip = ipMap.get(ipId);
-            if (ip != null) visitPlans.add(new LabelValueItem(ip.Name, ipId));
+            if (ip != null) visitPlans.add(new LabelValueItem(ip.Plan_Name__c, ipId));
         }
         return visitPlans;
     }

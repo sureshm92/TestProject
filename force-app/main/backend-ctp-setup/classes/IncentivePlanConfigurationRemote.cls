@@ -11,6 +11,8 @@ public without sharing class IncentivePlanConfigurationRemote {
         @AuraEnabled public String viewMode = GetPermissions.getViewMode(FEATURE_SS_INCENTIVE_CONFIG);
         @AuraEnabled public StudySiteFilter filter;
         @AuraEnabled public SSIncentiveConfigSearchResponse searchResponse;
+        @AuraEnabled public List<IncentivePlanConfigurationRemote.IPWrapper> listWrapper;
+        @AuraEnabled public Clinical_Trial_Profile__c infoStudy;
     }
 
     @AuraEnabled
@@ -23,10 +25,25 @@ public without sharing class IncentivePlanConfigurationRemote {
             }
             initData.filter = filter;
             initData.searchResponse = new SSIncentiveConfigSearchResponse(initData.filter, new PaginationData(15));
+            List<IncentivePlanConfigurationRemote.IPWrapper> wrap = getIPWrap();
+            initData.listWrapper = wrap;
+            Clinical_Trial_Profile__c study = getStudyInfo(ctpId);
+            initData.infoStudy = study;
             return initData;
         } catch (Exception e) {
             return (InitData) AuraHelper.throwException(e);
         }
+    }
+
+    @AuraEnabled
+    public static List<IncentivePlanConfigurationRemote.IPWrapper> getIPWrap() {
+        List<Incentive_Task_Catalog__mdt> listTasks = [SELECT Id, DeveloperName, Title_Label__c, Description_Label__c, Default_Number_of_Points__c FROM Incentive_Task_Catalog__mdt];
+
+        List<IncentivePlanConfigurationRemote.IPWrapper> wrapIP = new List<IncentivePlanConfigurationRemote.IPWrapper>();
+        for (Incentive_Task_Catalog__mdt task : listTasks) {
+            wrapIP.add(new IPWrapper(TranslateHelper.getLabelValue(task.Title_Label__c), task.DeveloperName, TranslateHelper.getLabelValue(task.Description_Label__c), false, false, task.Default_Number_of_Points__c));
+        }
+        return wrapIP;
     }
 
     @AuraEnabled
@@ -49,7 +66,7 @@ public without sharing class IncentivePlanConfigurationRemote {
             StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(filterJSON, StudySiteFilter.class);
             saveFilter(filter);
             PaginationData pagination = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
-            List<StudySiteItem> allSSItems = SSVisitConfigSearchResponse.convertToSSItems(SearchService.search(filter), visitPlanId);
+            List<StudySiteItem> allSSItems = SSIncentiveConfigSearchResponse.convertToSSItems(SearchService.search(filter), visitPlanId);
             for (StudySiteItem ssItem : allSSItems) {
                 for (ValueStateItem assigment : ssItem.assignments) assigment.state = state;
             }
@@ -72,27 +89,39 @@ public without sharing class IncentivePlanConfigurationRemote {
             return (SSIncentiveConfigSearchResponse) AuraHelper.throwException(e);
         }
     }
-    @AuraEnabled
+    /*@AuraEnabled
     public static List<Incentive_Task_Catalog__mdt> getIncentiveTasks() {
         return [SELECT Id, Title_Label__c, Description_Label__c, Default_Number_of_Points__c FROM Incentive_Task_Catalog__mdt];
-    }
+    }*/
 
     @AuraEnabled
     public static Clinical_Trial_Profile__c getStudyInfo(String id) {
-        return [SELECT Id, Name, Study_Code_Name__c, Protocol_ID__c, Study_Sponsor__c, OwnerId, Owner.Name, CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name FROM Clinical_Trial_Profile__c WHERE Id =: id];
+        return [SELECT Id, Name, Study_Code_Name__c, Protocol_ID__c, Study_Sponsor__c, OwnerId, Owner.Name, CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name FROM Clinical_Trial_Profile__c WHERE Id = :id];
     }
 
     @AuraEnabled
-    public static String createIncentivePlan(Incentive_Task_Catalog__mdt task, Boolean checkON, Boolean checkIQVIA, String planName) {
+    public static String createIncentivePlan(String tasksString, String planName) {
+        List<IncentivePlanConfigurationRemote.IPWrapper> tasks = (List<IncentivePlanConfigurationRemote.IPWrapper>) JSON.deserialize(tasksString, List<IncentivePlanConfigurationRemote.IPWrapper>.class);
         Incentive_Plan__c plan = new Incentive_Plan__c(Plan_Name__c = planName);
         insert plan;
-        Incentive_Plan_Task__c newTask = new Incentive_Plan_Task__c(Incentive_Plan__c = plan.Id,
-                                                                 Incentive_Task_Catalog__c = task.Title_Label__c,
-                                                                 Points__c = task.Default_Number_of_Points__c,
-                                                                 Enabled__c = checkON, IQVIA_Supported__c = checkIQVIA);
+        List<Incentive_Plan_Task__c> newTask = new List<Incentive_Plan_Task__c>();
+        for (IncentivePlanConfigurationRemote.IPWrapper task : tasks) {
+            newTask.add(new Incentive_Plan_Task__c(Incentive_Plan__c = plan.Id, Incentive_Task_Catalog__c = task.taskName, Points__c = task.points,
+                    Enabled__c = task.checkOn, IQVIA_Supported__c = task.checkIQVIA));
+        }
         insert newTask;
         return plan.Id;
 
+    }
+
+    @AuraEnabled
+    public static Boolean checkNamePlan(String namePlan) {
+        List<Incentive_Plan__c> result = [SELECT Id FROM Incentive_Plan__c WHERE Plan_Name__c = :namePlan];
+        if (result.size() >= 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private static void save(String ssItemsJSON) {
@@ -108,7 +137,7 @@ public without sharing class IncentivePlanConfigurationRemote {
             for (ValueStateItem assigment : ssItem.assignments) {
                 if (assigment.sourceId != null && !assigment.state) {
                     toDelete.add(new Study_Incentive_Plan__c(Id = assigment.sourceId));
-                } else if (assigment.sourceId == null && assigment.state){
+                } else if (assigment.sourceId == null && assigment.state) {
                     toInsert.add(new Study_Incentive_Plan__c(
                             Study_Site__c = ssItem.ss.Id,
                             Incentive_Plan__c = assigment.value
@@ -120,8 +149,29 @@ public without sharing class IncentivePlanConfigurationRemote {
         insert toInsert;
     }
 
-    private static void saveFilter(StudySiteFilter filter){
+    private static void saveFilter(StudySiteFilter filter) {
         SettingStoreService.saveOrgDefault(STUDY_SITES_INCENTIVE_PLANS_SETUP_FILTER + filter.ctpId, filter, StudySiteFilter.class);
+    }
+
+    public class IPWrapper {
+        @AuraEnabled public String taskTitle;
+        @AuraEnabled public String taskName;
+        @AuraEnabled public String taskDescription;
+        @AuraEnabled public Boolean checkOn;
+        @AuraEnabled public Boolean checkIQVIA;
+        @AuraEnabled public Decimal points;
+
+        public IPWrapper(String taskTitle, String taskName, String taskDescription, Boolean checkOn, Boolean checkIQVIA, Decimal points) {
+            this.taskTitle = taskTitle;
+            this.taskName = taskName;
+            this.taskDescription = taskDescription;
+            this.checkOn = checkOn;
+            this.checkIQVIA = checkIQVIA;
+            this.points = points;
+        }
+        public IPWrapper() {
+
+        }
     }
 
 }

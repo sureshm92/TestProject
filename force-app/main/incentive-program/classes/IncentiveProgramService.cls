@@ -27,12 +27,12 @@ public without sharing class IncentiveProgramService {
         completeIncentiveTask(UserContext.getUserContactId(), taskName, ctpId, null);
     }
 
-    public static void completeIncentiveTask(Id contactId, String taskName, Id ctpId){
-        completeIncentiveTask(contactId, taskName, ctpId, null);
+    public static void completeIncentiveTask(Id contactId, String taskName, Id ssId){
+        completeIncentiveTask(contactId, taskName, ssId, null);
     }
 
-    public static void completeIncentiveTask(Id contactId, String taskName, Id ctpId, Id peId){
-        Incentive_Plan_Task__c incentivePlanTask = getIncentivePlanTask(taskName, ctpId);
+    public static void completeIncentiveTask(Id contactId, String taskName, Id ssId, Id peId){
+        Incentive_Plan_Task__c incentivePlanTask = getIncentivePlanTask(taskName, ssId);
         if (incentivePlanTask != null && incentivePlanTask.Enabled__c) {
             Completed_Incentive_Task__c completedIncentiveTask = new Completed_Incentive_Task__c();
             completedIncentiveTask.Completed_By__c = contactId;
@@ -43,12 +43,12 @@ public without sharing class IncentiveProgramService {
         }
     }
 
-    public static Incentive_Plan_Task__c getIncentivePlanTask(String taskName, Id ctpId){
+    public static Incentive_Plan_Task__c getIncentivePlanTask(String taskName, Id ssId){
         Set<Id> planIds = new Set<Id>();
         for (Study_Incentive_Plan__c studyIncentivePlan : [
-                SELECT Id, Incentive_Plan__c, Clinical_Trial_Profile__c
+                SELECT Id, Incentive_Plan__c, Clinical_Trial_Profile__c, Study_Site__c
                 FROM Study_Incentive_Plan__c
-                WHERE Clinical_Trial_Profile__c = :ctpId
+                WHERE Study_Site__c = :ssId
         ]){
             planIds.add(studyIncentivePlan.Incentive_Plan__c);
         }
