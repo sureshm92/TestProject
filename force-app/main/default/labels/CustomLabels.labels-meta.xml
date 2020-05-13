@@ -2191,7 +2191,7 @@
 
             We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
 
-            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##CommunityName.
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##FullCommunityName.
 
             Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
@@ -2204,7 +2204,7 @@
 
             We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
 
-            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##CommunityName.
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##FullCommunityName.
 
             Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
@@ -2220,7 +2220,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial Patient Delegate After Text</shortDescription>
-        <value>To assist you in tracking ##ParticipantFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in ##CommunityName.
+        <value>To assist you in tracking ##ParticipantFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in ##FullCommunityName.
 
             Your username is ##UserName. Please click the Enroll Now button to create your password.
 
@@ -2235,7 +2235,7 @@
 
             We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
 
-            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##CommunityName.
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##FullCommunityName.
 
             Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
@@ -3961,6 +3961,20 @@
         <protected>false</protected>
         <shortDescription>Email Title All</shortDescription>
         <value>##TitleNewTM</value>
+    </labels>
+    <labels>
+        <fullName>Email_Title_Initial_All_GSK</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Title Initial All GSK</shortDescription>
+        <value>Gather &amp;lt;i&amp;gt;Share&amp;lt;/i&amp;gt; Know Participant Hub</value>
+    </labels>
+    <labels>
+        <fullName>Email_Title_Initial_All_IQVIA</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Title Initial All IQVIA</shortDescription>
+        <value>IQVIA™ Referral Hub and Patient Portal</value>
     </labels>
     <labels>
         <fullName>Email_Title_PH</fullName>
