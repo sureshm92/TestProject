@@ -37,12 +37,11 @@ public without sharing class IncentivePlanConfigurationRemote {
 
     @AuraEnabled
     public static List<IncentivePlanConfigurationRemote.IPWrapper> getIPWrap() {
-        List<Incentive_Task_Catalog__mdt> listTasks = [SELECT Id, Title_Label__c, Description_Label__c, Default_Number_of_Points__c FROM Incentive_Task_Catalog__mdt];
+        List<Incentive_Task_Catalog__mdt> listTasks = [SELECT Id, DeveloperName, Title_Label__c, Description_Label__c, Default_Number_of_Points__c FROM Incentive_Task_Catalog__mdt];
 
         List<IncentivePlanConfigurationRemote.IPWrapper> wrapIP = new List<IncentivePlanConfigurationRemote.IPWrapper>();
         for (Incentive_Task_Catalog__mdt task : listTasks) {
-            wrapIP.add(new IPWrapper(task.Title_Label__c, task.Description_Label__c, false, false, task.Default_Number_of_Points__c));
-
+            wrapIP.add(new IPWrapper(TranslateHelper.getLabelValue(task.Title_Label__c), task.DeveloperName, TranslateHelper.getLabelValue(task.Description_Label__c), false, false, task.Default_Number_of_Points__c));
         }
         return wrapIP;
     }
@@ -179,6 +178,7 @@ public without sharing class IncentivePlanConfigurationRemote {
     }
 
     public class IPWrapper {
+        @AuraEnabled public String taskTitle;
         @AuraEnabled public String taskName;
         @AuraEnabled public String taskDescription;
         @AuraEnabled public Boolean checkOn;
@@ -189,7 +189,8 @@ public without sharing class IncentivePlanConfigurationRemote {
         @AuraEnabled public String taskId;
 
 
-        public IPWrapper(String taskName, String taskDescription, Boolean checkOn, Boolean checkIQVIA, Decimal points) {
+        public IPWrapper(String taskTitle, String taskName, String taskDescription, Boolean checkOn, Boolean checkIQVIA, Decimal points) {
+            this.taskTitle = taskTitle;
             this.taskName = taskName;
             this.taskDescription = taskDescription;
             this.checkOn = checkOn;

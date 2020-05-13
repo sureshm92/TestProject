@@ -113,7 +113,7 @@
                 <aura:iteration items="{!v.tasks}" var="task" indexVar="index">
                     <tr>
                         <td>
-                            <lightning:formattedText value="{!task.taskName}" aura:id="taskName"/>
+                            <lightning:formattedText value="{!task.taskTitle}" aura:id="taskTitle"/>
                         </td>
                         <td>
                             <div class="custom-control custom-checkbox">
