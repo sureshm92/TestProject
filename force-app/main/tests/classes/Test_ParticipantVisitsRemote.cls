@@ -5,8 +5,8 @@
 @IsTest(IsParallel=false)
 private class Test_ParticipantVisitsRemote {
 
-    @IsTest
-    static void test() {
+    @TestSetup
+    static void setup() {
         TestData.loadTestData();
         TestData testData = new TestData();
 
@@ -15,7 +15,7 @@ private class Test_ParticipantVisitsRemote {
         vp = [SELECT Id FROM Visit_Plan__c];
 
         Visit__c visit = new Visit__c(
-                Name = 'TestVisit'+ 1,
+                Name = 'TestVisit' + 1,
                 Visit_Schedule__c = 'Week ' + 1,
                 Icons__c = 'Test_icon',
                 Order__c = 1,
@@ -33,24 +33,48 @@ private class Test_ParticipantVisitsRemote {
         Patient_Visit__c patientVisit = PatientVisitService.createPatientVisit(visit, testData.pe.Id);
         insert patientVisit;
 
-        Icon_Details__c icon = new Icon_Details__c(Name='ICON', Label__c='icon label', Description__c='This is icon!', Visit_Plan__c = vp.Id);
+        Icon_Details__c icon = new Icon_Details__c(Name = 'ICON', Label__c = 'icon label', Description__c = 'This is icon!', Visit_Plan__c = vp.Id);
         insert icon;
+    }
+
+    @IsTest
+    static void test() {
+        TestData testData = new TestData();
 
         Test.startTest();
-        String legend;
-
-        System.runAs(testData.participantUser){
-            patientVisit.Planned_Date__c = Date.newInstance(2020, 3, 17);
+        System.runAs(testData.participantUser) {
             ParticipantVisitsRemote.isStudySiteHasVisits();
             ParticipantVisitsRemote.getVisitsPreview();
             ParticipantVisitsRemote.getParticipantVisits('Current');
             ParticipantVisitsRemote.getCardPatientVisits();
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void updatePatientVisitTest() {
+        TestData testData = new TestData();
+
+        Test.startTest();
+        Patient_Visit__c patientVisit = [SELECT Id, Planned_Date__c FROM Patient_Visit__c LIMIT 1];
+        System.runAs(testData.participantUser) {
+            patientVisit.Planned_Date__c = Date.newInstance(2020, 3, 17);
             ParticipantVisitsRemote.updatePatientVisit(JSON.serialize(patientVisit));
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void getVisitsLegendTest() {
+        TestData testData = new TestData();
+
+        Test.startTest();
+        String legend;
+        System.runAs(testData.participantUser) {
             legend = ParticipantVisitsRemote.getVisitsLegend('ICON');
         }
         Test.stopTest();
-
-        System.assertEquals('[{"iconLegend":"'+icon.Description__c+'","iconLabel":"'+icon.Label__c+'","iconId":"'+icon.Name+'"}]', legend);
+        System.assertEquals('[{"iconLegend":"This is icon!","iconLabel":"icon label","iconId":"ICON"}]', legend);
     }
 
     @IsTest

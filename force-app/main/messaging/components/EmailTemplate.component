@@ -48,12 +48,12 @@
 
                 <div style="margin-top: 30px; margin-bottom: 30px;">
                     <c:EmailTemplateDelegate
-                            rendered="{!((isDelegate && resultUserMode != 'Participant')||hasPIRPDelegationRecords)}"
+                            rendered="{!(bodyValue !=$Label.Email_Body_User_Lockout) && !((isDelegate && resultUserMode != 'Participant')||hasPIRPDelegationRecords)}"
                             userMode="{!resultUserMode}" delegateLevelsPI="{!delegateLevelsPI}"
                             delegateLevelsHCP="{!delegateLevelsHCP}"/>
 
                     <c:EmailTemplateDelegateParticipant userId="{!emailRecipientId}"
-                                                        rendered="{!(isInitial && isDelegate && resultUserMode == 'Participant')}"
+                                                        rendered="{!(bodyValue !=$Label.Email_Body_User_Lockout) && !(isInitial && isDelegate && resultUserMode == 'Participant')}"
                                                         params="{!dataParametersValue}"
                                                         commTemplate="{!communityTemplateValue}"
                                                         sourceId="{!sourceRecordId}"/>
