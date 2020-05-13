@@ -5,6 +5,6 @@
     <externalId>false</externalId>
     <label>Participant Opt In Status Emails</label>
     <trackFeedHistory>false</trackFeedHistory>
-
+    <trackHistory>false</trackHistory>
     <type>Checkbox</type>
 </CustomField>

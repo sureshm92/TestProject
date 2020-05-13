@@ -11,12 +11,14 @@
     <aura:attribute name="title" type="String"/>
     <aura:attribute name="viewMoreLink" type="String"/>
     <aura:attribute name="viewMoreTag" type="String"/>
+    <aura:attribute name="isParticipantDisplay" type="boolean"/>  
+
     <div class="rr-white-panel db-qal-container">
-        <div class="db-qal-main">
+        <div class="{!v.isParticipantDisplay? 'db-qal-main-participant' : 'db-qal-main'}">
             <div class="db-qal-title">
                 {!v.title}
             </div>
-            <div class="db-qal-items">
+            <div class="{!v.isParticipantDisplay? 'db-qal-items-participant' : 'db-qal-items'}">
                 <aura:iteration items="{!v.itemsList}" var="item">
                     <aura:if isTrue="{!v.itemsType == 'participantsWaitingAcceptance'}">
                         <c:DashboardParticipantCard pe="{!item}" parent="{!v.parent}"/>

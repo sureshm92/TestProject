@@ -61,6 +61,11 @@ global without sharing class EmailTemplateController {
         }
     }
 
+    private Boolean isLockOut = false;
+    public Boolean getIsLockOut() {
+        return isLockOut;
+    }
+
     private String bodyParamValue;
     global String bodyValue {
         get {
@@ -82,6 +87,7 @@ global without sharing class EmailTemplateController {
         set {
             bodyValue = value;
             bodyParamValue = value;
+            if (String.isNotEmpty(value)) isLockOut = value == Label.Email_Body_User_Lockout;
         }
     }
 

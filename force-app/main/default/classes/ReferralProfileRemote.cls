@@ -1,5 +1,7 @@
 /**
  * Created by Leonid Bartenev
+ * Modified by Pijush Kar on 4/22/2020 
+ * to accomodate the changes related to REF-1200
  */
 
 public without sharing class ReferralProfileRemote {
@@ -7,7 +9,7 @@ public without sharing class ReferralProfileRemote {
     class InitData {
         ParticipantWorkflowService.ParticipantWorkflowWrapper steps;
         Participant_Enrollment__c enrollment;
-        Participant__c participantDelegate;
+        Contact participantDelegate;
         List<LabelValueItem> visitPlanLVList;
         Map<String, PEStatusState> peStatusStateMap = PEStatusState.STATUSES_MAP;
         List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
@@ -96,13 +98,10 @@ public without sharing class ReferralProfileRemote {
             if (pe == null) throw new CommunityServiceException('Participant enrollment not found');
             initData.enrollment = pe;
 
-            List<Participant__c> delegates = [SELECT Id, First_Name__c, Last_Name__c, Phone__c FROM Participant__c WHERE Contact__c IN (SELECT Contact__c FROM Patient_Delegate__c WHERE Participant__c = :pe.Participant__c AND Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS)];
+            List<Contact> delegates = [SELECT Id, FirstName, LastName, Phone FROM Contact WHERE Id IN (SELECT Contact__c FROM Patient_Delegate__c WHERE Participant__c = :pe.Participant__c AND Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS)];
             if (!delegates.isEmpty()) initData.participantDelegate = delegates[0];
 
             initData.visitPlanLVList = StudySiteService.getVisitPlansLVList(pe.Study_Site__c);
-            if (initData.visitPlanLVList.size() == 1) {
-                initData.enrollment.Visit_Plan__c = initData.visitPlanLVList[0].value;
-            }
             initData.steps = ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe);
             initData.isEnrolled = !PEStatusState.STATUSES_MAP.containsKey(pe.Participant_Status__c) || pe.Participant_Status__c.startsWith('Enrollment');
             return JSON.serialize(initData);
@@ -361,5 +360,33 @@ public without sharing class ReferralProfileRemote {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
+    /*
+    * This method returns the delegate contact for the participant 
+    * along with ContactId of the User.
+    * Written in accordance with REF-1200
+    * @param peId Participant_Enrollment__c.Id in String
+    * @param userMode in String
+    * @param delegateId in String
+    * @return Map<String, Object> with 'userContactId' 
+    *                             and 'participantDelegate' as key
+    * @exception AuraHandledException to community UI
+    * @see AuraHandledException
+    */
+    @AuraEnabled
+    public static Map<String, Object> getDelegateAndContactId(String peId, String userMode, String delegateId){
+        Map<String, Object> returnValue = new Map<String, Object>();
+        try{
+            returnValue.put('userContactId', getContactId());
+            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode, delegateId);
+            List<Contact> delegates = [SELECT Id, FirstName, LastName, Phone FROM Contact WHERE Id IN (SELECT Contact__c FROM Patient_Delegate__c WHERE Participant__c = :pe.Participant__c AND Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS)];
+            if (!delegates.isEmpty()){
+                returnValue.put('participantDelegate', delegates[0]);
+            } 
+            return returnValue; 
+        }catch(Exception e){
+            return (Map<String, Object>)AuraHelper.throwException(e);
+        }
+    }
+
 
 }

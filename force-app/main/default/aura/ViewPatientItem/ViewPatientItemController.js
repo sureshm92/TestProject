@@ -4,12 +4,7 @@
 ({
     doInit: function (component, event, helper) {
         if (component.get('v.pe')) {
-            helper.preparePathItems(component);
-            communityService.executeAction(component, 'getContactId', null,
-                function (returnValue) {
-                    component.set('v.userContactId', returnValue);
-                });
-            component.find('spinner').hide();
+            helper.preparePathItems(component, event);
         }
     },
 

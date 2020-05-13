@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Gender__c</fullName>
     <description>Sexes Eligible for Study.</description>
+    <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <inlineHelpText>Sexes Eligible for Study.</inlineHelpText>
     <label>Gender</label>

@@ -5,6 +5,6 @@
     <externalId>false</externalId>
     <label>HCP Opt In Study Emails</label>
     <trackFeedHistory>false</trackFeedHistory>
-
+    <trackHistory>true</trackHistory>
     <type>Checkbox</type>
 </CustomField>

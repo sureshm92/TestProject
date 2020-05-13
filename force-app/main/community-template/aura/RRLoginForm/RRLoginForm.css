@@ -1,9 +1,9 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS{
+ .THIS{
     max-width: 290px;
-    padding-bottom: 40px;
+    padding: 40px 0;
     margin: auto;
 }
 
@@ -18,8 +18,40 @@
 .THIS  a:hover {
     color:white;
     text-decoration: none;
+    background-color: none;
 }
 
 .THIS label.uiLabel-hidden {
     display:none;
+}
+
+.THIS  .slds-input:active {
+    background-color: inherit
+}
+
+.THIS  .slds-input:hover {
+    background-color: inherit
+}
+
+.THIS  .slds-input:focus {
+    background-color: inherit
+}
+
+/**
+ * Added by Sumit Surve
+ */
+
+.THIS .eyeIcon {
+    float: right;
+    margin-left: -25px;
+    margin-top: -31px;
+    position: relative;
+    z-index: 2;
+    border: none;
+    outline: none;
+}
+
+.THIS  .eyeIcon:focus,.THIS .eyeIcon:hover,.THIS .eyeIcon:link,.THIS .eyeIcon:visited {
+    outline: none;
+    box-shadow:none
 }

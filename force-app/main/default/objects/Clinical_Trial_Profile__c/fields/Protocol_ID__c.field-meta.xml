@@ -3,6 +3,7 @@
     <fullName>Protocol_ID__c</fullName>
     <caseSensitive>false</caseSensitive>
     <description>QI assigned unique ID for a study</description>
+    <encryptionScheme>None</encryptionScheme>
     <externalId>true</externalId>
     <inlineHelpText>Protocol ID = Protocol Number. This is a unique number assigned by the sponsor providing a standard way to identify the study.  Obtain the protocol number from the Project Lead, Clinical Lead, Patient Recruitment Lead, or Site and Patient Networks Lead.</inlineHelpText>
     <label>Protocol ID</label>
