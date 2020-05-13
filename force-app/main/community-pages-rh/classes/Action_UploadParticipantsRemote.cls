@@ -11,7 +11,7 @@ public without sharing class Action_UploadParticipantsRemote {
     @AuraEnabled
     public static List<LabelValueItem> getParticipantsStatuses(Id studySiteId) {
         List<LabelValueItem> participantStatuses = new List<LabelValueItem>();
-        List<Study_Site__c> sites = [SELECT Id, Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c, Clinical_Trial_Profile__r.Initial_Visit_Required__c FROM Study_Site__c WHERE Id = :studySiteId];
+        List<Study_Site__c> sites = [SELECT Id, Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c, Clinical_Trial_Profile__r.Initial_Visit_Required__c, Clinical_Trial_Profile__r.Final_Consent_Required__c FROM Study_Site__c WHERE Id = :studySiteId];
         if(sites.isEmpty())
             return participantStatuses;
         return PEStatusState.getParticipantImportStatusesLV(sites[0].Clinical_Trial_Profile__r);
