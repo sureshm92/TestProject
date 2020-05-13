@@ -247,6 +247,10 @@ public without sharing class PatientDelegateService {
             throw new PatientDelegateServiceException('Wrong contact: ' + CommunityService.getUserContact().Id);
         }
 
+        Contact newDelegateContact = [SELECT Id, UserCommunityIsDelegate__c FROM Contact WHERE Id = :newDelegate.Id];
+        newDelegateContact.UserCommunityIsDelegate__c = true;
+        update newDelegateContact;
+
         Patient_Delegate__c delegate = new Patient_Delegate__c(
                 Contact__c = newDelegate.Id,
                 Participant__c = participant.get(0).Id
