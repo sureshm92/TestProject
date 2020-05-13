@@ -43,7 +43,7 @@ VALIDATE:
 
   stage: VALIDATE
   script:
-    - sfdx update
+    - npm update --global sfdx-cli
     - echo "$INTTreeTwo" > sfdx-auth-url
     - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INTTreeTwo -d
     - sfdx --version
@@ -67,7 +67,7 @@ DeployINT4.0:
 
   stage: DeployINT4.0
   script:
-    - sfdx update
+    - npm update --global sfdx-cli
     - echo "$INT" > sfdx-auth-url
     - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT -d
     - sfdx --version
@@ -105,7 +105,7 @@ DeployINT5.0:
 
   stage: DeployINT5.0
   script:
-    - sfdx update
+    - npm update --global sfdx-cli
     - echo "$INT5_0" > sfdx-auth-url
     - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT5_0 -d
     - sfdx --version
@@ -143,7 +143,7 @@ DeployINF4.0:
 
   stage: DeployINF4.0
   script:
-    - sfdx update
+    - npm update --global sfdx-cli
     - echo "$INF" > sfdx-auth-url
     - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF -d
     - sfdx --version
@@ -181,7 +181,7 @@ DeployINT3.2:
 
   stage: DeployINT3.2
   script:
-    - sfdx update
+    - npm update --global sfdx-cli
     - echo "$INTTreeTwo" > sfdx-auth-url
     - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT3.2 -d
     - sfdx --version
