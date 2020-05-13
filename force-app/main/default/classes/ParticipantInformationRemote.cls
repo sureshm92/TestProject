@@ -36,6 +36,32 @@ public without sharing class ParticipantInformationRemote {
         }
     }
 
+    /**
+   * This method is created to accomodate the requirements of REF-1192
+   * It calls getSteps(String, String, String) and
+   * getPrintInformation(String, String, String) returns the combined
+   * return value of these methods
+   * @param peId Participant_Enrollment__c.Id
+   * @param userMode in String
+   * @param delegateId in String
+   * @return ParticipantItemWithSteps in JSON String format.
+   * @exception AuraHandledException to community UI
+   * @see AuraHandledException
+   */
+    @AuraEnabled
+    public static String getPrintInfoWithSteps(String peId, String userMode, String delegateId){
+        try{
+            ParticipantItemWithSteps itemSteps = new ParticipantItemWithSteps();
+
+            itemSteps.participantItem = getPrintInformation(peId, userMode, delegateId);
+            itemSteps.initData = getSteps(peId, userMode, delegateId);
+
+            return JSON.serialize(itemSteps);
+        }catch (Exception e) {
+            return (String) AuraHelper.throwException(e);
+        }
+    }
+
     @AuraEnabled
     public static PIDelegateLevelInfo checkPILevelI(String studySiteId) {
         PIDelegateLevelInfo levelInfo = new PIDelegateLevelInfo();
@@ -74,11 +100,11 @@ public without sharing class ParticipantInformationRemote {
         try {
             List<User> returnUsers = new List<User>();
             if (pe.HCP_Contact__c == null) {
-                 returnUsers = ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id>{
+                returnUsers = ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id>{
                         pe.Participant_Contact__c => pe.PI_Contact__c
                 });
             } else {
-                 returnUsers = ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id>{
+                returnUsers = ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id>{
                         pe.Participant_Contact__c => pe.HCP_Contact__c
                 });
             }
@@ -283,12 +309,12 @@ public without sharing class ParticipantInformationRemote {
 
             Set<String> idsToCheck = new Set<String>(doNotContinueIds);
             List<Patient_Delegate__c> patientDelegates = [SELECT Id,
-                                                                 Participant__c,
-                                                                 Contact__c,
-                                                                 Status__c
-                                                          FROM Patient_Delegate__c
-                                                          WHERE Participant__c = :participant.Id AND
-                                                                Status__c != :PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS];
+                    Participant__c,
+                    Contact__c,
+                    Status__c
+            FROM Patient_Delegate__c
+            WHERE Participant__c = :participant.Id AND
+            Status__c != :PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS];
             Map<Id, Patient_Delegate__c> patientDelegateByDelegate = new Map<Id, Patient_Delegate__c>();
             List<Patient_Delegate__c> delegatesToUpdate = new List<Patient_Delegate__c>();
             if (!patientDelegates.isEmpty()) {
@@ -335,25 +361,25 @@ public without sharing class ParticipantInformationRemote {
     public static List<Participant__c> getParticipantDelegates(String participantId) {
         try {
             List<Participant__c> participants =
-                    [SELECT Id,
-                            Contact__c,
-                            First_Name__c,
-                            Middle_Name__c,
-                            Last_Name__c,
-                            Mailing_Zip_Postal_Code__c,
-                            Mailing_State_Code__c,
-                            Mailing_State__c,
-                            Mailing_Country_Code__c,
-                            Mailing_Country__c,
-                            Email__c,
-                            Phone__c,
-                            Phone_Type__c
-                    FROM Participant__c
-                    WHERE Contact__c IN (SELECT Contact__c
-                                         FROM Patient_Delegate__c
-                                         WHERE Participant__c = :participantId AND
-                                               (Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS OR
-                                                Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ONHOLD_STATUS))];
+            [SELECT Id,
+                    Contact__c,
+                    First_Name__c,
+                    Middle_Name__c,
+                    Last_Name__c,
+                    Mailing_Zip_Postal_Code__c,
+                    Mailing_State_Code__c,
+                    Mailing_State__c,
+                    Mailing_Country_Code__c,
+                    Mailing_Country__c,
+                    Email__c,
+                    Phone__c,
+                    Phone_Type__c
+            FROM Participant__c
+            WHERE Contact__c IN (SELECT Contact__c
+            FROM Patient_Delegate__c
+            WHERE Participant__c = :participantId AND
+            (Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS OR
+            Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ONHOLD_STATUS))];
             return participants;
         } catch (Exception exp) {
             throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
@@ -376,9 +402,8 @@ public without sharing class ParticipantInformationRemote {
             update pe;
             pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_PI);
             Participant_Enrollment_Status_History__c pesh = ParticipantWorkflowService.createPESHFromPathWrapper(pathWrapper, pe, ctp, oldParticipantEnrollment);
-            if(pesh != null){
-                insert pesh;
-            }
+            if(pesh != null) insert pesh;
+
             pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_PI);
             if (pe == null) throw new CommunityServiceException('Participant enrollment not found');
             return JSON.serialize( new UpdateResponse(pe, ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe)));
@@ -444,7 +469,24 @@ public without sharing class ParticipantInformationRemote {
         }
     }
 
+    /**
+ * This wapper class is created to accomodate the requirements of REF-1192
+ * It intends to combine the return value of getSteps(String, String, String)
+ * and getPrintInformation(String, String, String)
+ * @param args Unused.
+ * @return Nothing.
+ * @exception IOException On input error.
+ * @see IOException
+ */
+    public class ParticipantItemWithSteps{
+        @AuraEnabled public String participantItem;
+        @AuraEnabled public String initData;
+        ParticipantItemWithSteps(){
+            this.participantItem = '';
+            this.initData = '';
+        }
 
+    }
     public class DelegateInfo {
         @AuraEnabled public String email { get; set; }
         @AuraEnabled public String firstName { get; set; }
@@ -462,5 +504,4 @@ public without sharing class ParticipantInformationRemote {
     public class PIDelegateLevelInfo {
         @AuraEnabled public Boolean isDisabled { get; set; }
     }
-
 }

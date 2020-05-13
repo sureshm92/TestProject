@@ -3,9 +3,4 @@
  -->
 
 <apex:page id="TestEmailTemplateInitialEmail">
-    <c:EmailTemplate recipientId="{!$CurrentPage.parameters.recipientId}"
-                     sourceId="{!$CurrentPage.parameters.sourceId}">
-        <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Enroll_Now}"
-                          buttonURL="{!$Network.NetworkUrlForUserEmails}"/>
-    </c:EmailTemplate>
 </apex:page>

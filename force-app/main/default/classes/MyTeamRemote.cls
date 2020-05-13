@@ -504,6 +504,8 @@ public without sharing class MyTeamRemote {
                 insert participantDelegate;
 
             } else if (!CommunityService.isUserInCommunity(contactDelegate.Id)) {
+                contactDelegate.UserCommunityIsDelegate__c = true;
+                update contactDelegate;
                 CommunityService.setUserToCommunity(contactDelegate.Id);
                 sendEmailNotification(contactDelegate, CommunityService.USER_MODE_PARTICIPANT);
             }

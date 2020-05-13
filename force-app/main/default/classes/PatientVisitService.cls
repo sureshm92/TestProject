@@ -72,8 +72,38 @@ public inherited sharing class PatientVisitService {
     private List<VisitWrapper> getVisitWrappers(List<Patient_Visit__c> visits) {
         List<VisitWrapper> visitWrappers = new List<VisitWrapper>();
         if (visits == null || visits.isEmpty()) return visitWrappers;
-
-        List<User> users = [SELECT Id, LocaleSidKey, TimeZoneSidKey FROM User WHERE Id = :UserInfo.getUserId()];
+    
+        List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();        
+        List<Icon_Details__c> visitPlans = [SELECT Visit_Plan__c FROM Icon_Details__c 
+                                            WHERE Visit_Plan__c !=NULL LIMIT 1];
+        if(visitPlans.size()>0){
+            iconDetails = [
+                SELECT Id, Name, Label__c
+                FROM Icon_Details__c
+                WHERE Visit_Plan__c = :visitPlans[0].Visit_Plan__c
+            ];
+        }else{
+            iconDetails = [
+                SELECT Id, Name, Label__c
+                FROM Icon_Details__c];
+        }
+        
+        /*
+ 		List<Icon_Details__c> iconDetails = [
+                SELECT Id, Name, Label__c
+                FROM Icon_Details__c
+                WHERE Visit_Plan__c = :visits[0].Visit__r.Visit_Plan__c
+        ];
+		*/
+        TranslateHelper.translate(iconDetails);
+        Map<String, Icon_Details__c> iconDetailsMap = new Map<String, Icon_Details__c>();
+        for(Icon_Details__c iconDetail : iconDetails) iconDetailsMap.put(iconDetail.Name, iconDetail);
+        
+        List<User> users = [
+                SELECT Id, LocaleSidKey, TimeZoneSidKey
+                FROM User WHERE Id = :UserInfo.getUserId()
+        ];
+        
         CURRENT_USER = users.get(0);
         TimeZone timeZone = TimeZone.getTimeZone(CURRENT_USER.TimeZoneSidKey);
         Map<Id, Task> tasksByVisitIds = getTasksByVisitIds(visits);
@@ -88,7 +118,7 @@ public inherited sharing class PatientVisitService {
             }
 
             if (uniqueId.add(singleVisit.Id)) {
-                visitWrappers.add(new VisitWrapper(singleVisit, tasksByVisitIds.get(singleVisit.Id)));
+                visitWrappers.add(new VisitWrapper(singleVisit, tasksByVisitIds.get(singleVisit.Id), iconDetailsMap));
             }
         }
         return visitWrappers;
@@ -131,20 +161,20 @@ public inherited sharing class PatientVisitService {
         @AuraEnabled public Date reminderDate;
         @AuraEnabled public Patient_Visit__c visit;
 
-        public VisitWrapper(Patient_Visit__c visit, Task task) {
+        public VisitWrapper(Patient_Visit__c visit, Task task, Map<String, Icon_Details__c> iconDetailsMap) {
             this.visit = visit;
+            iconDetails = new List<Icon_Details__c>();
             if (visit.Visit__c != null) {
-                this.icons = visit.Visit__r.Icons__c;
-
-                List<String> iconNames = visit.Visit__r.Icons__c.split(';');
+                icons = visit.Visit__r.Icons__c;
+                List<String> iconNames = new List<String>();
+                if(visit.Visit__r !=null && visit.Visit__r.Icons__c !=null)
+                    iconNames = visit.Visit__r.Icons__c.split(';');
                 if (!iconNames.isEmpty()) {
-                    List<Icon_Details__c> iconDetails = [
-                            SELECT Id, Name, Label__c
-                            FROM Icon_Details__c
-                            WHERE Visit_Plan__c = :visit.Visit__r.Visit_Plan__c AND Name IN: iconNames
-                    ];
-                    TranslateHelper.translate(iconDetails);
-                    this.iconDetails = iconDetails;
+                    for(String iconName : iconNames) {
+                        if(iconDetailsMap.containsKey(iconName)) {
+                            iconDetails.add(iconDetailsMap.get(iconName));
+                        }
+                    }
                 }
             }
 

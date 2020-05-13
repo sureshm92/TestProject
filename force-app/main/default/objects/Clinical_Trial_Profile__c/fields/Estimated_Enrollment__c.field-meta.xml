@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Estimated_Enrollment__c</fullName>
     <description>Estimated number of participants in a clinical study.</description>
+    <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <inlineHelpText>Estimated number of participants in a clinical study.</inlineHelpText>
     <label>Estimated Enrollment</label>

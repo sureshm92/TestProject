@@ -13,6 +13,10 @@
     font-weight: 500;
 }
 
+.THIS .slds-tabs_default__item .slds-dropdown-trigger [data-key="chevrondown"] {
+    padding-left: 5px;
+}
+
 .THIS .pe-state-row.current .path-item-detail-panel .title {
     font-weight: 600;
 }
@@ -246,7 +250,7 @@
 }
 
 .THIS .partinfo-footer-buttons > span {
- 	padding-right: 15px;   
+ 	padding-right: 15px;
 }
 
 .THIS .p-container .p-header + div {
@@ -280,16 +284,16 @@
     .THIS #p-modal .p-container.large .p-content {
         max-height: 100%;
     }
-    
+
     .THIS .personal-info-container .slds-float_left {
         width: 100%;
     }
-   
+
     .THIS .personal-info-container .apollo-btn {
         width: 100%;
         margin-top: 15px;
     }
-    
+
     .THIS .invite-patient-container .slds-size--9-of-12 {
         max-width: 65%;
     }
@@ -305,7 +309,8 @@
     }
 }
 
-@media all and (max-width: 500px) {  
+@media all and (max-width: 500px) {
+    
     .THIS .p-content.with-scroll .slds-tabs_default__nav {
         justify-content: space-between;
     }
@@ -313,18 +318,18 @@
     .THIS .p-container .slds-tabs_default__content {
         padding-bottom: 1rem;
     }
-    
+
     .THIS .invite-patient-container {
         margin-top: 0;
         box-shadow: none;
     }
-    
+
     .THIS .invite-patient-container .slds-size--9-of-12,
     .THIS .invite-patient-container .slds-size--3-of-12 {
         min-width: 100%;
         margin: .5rem 0;
     }
-    
+
     .THIS .p-content.with-scroll .slds-tabs_default__overflow-button .slds-dropdown__item > a span {
 		font-size: 1rem;  
     }
@@ -352,7 +357,7 @@
         display: flex;
         flex-direction: column-reverse;
     }
-    
+
     .THIS .partinfo-footer-buttons > span {
         padding-right: 0;
         display: flex;
@@ -361,10 +366,10 @@
     }
     
     .THIS .partinfo-footer-buttons > .slds-button_neutral {
-    	width: 100%;
+		width: 100%;     
     }
     .THIS .partinfo-footer-buttons > span .slds-button_neutral {
     	width: 47%;
     }
-    
+
 }

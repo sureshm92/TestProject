@@ -4,7 +4,7 @@
     <externalId>false</externalId>
     <label>Language Preference Code</label>
     <required>false</required>
-
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -1824,6 +1824,18 @@
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>ZW</label>
+            </value>
+            <value>
+                <fullName>en_DE</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>en_DE</label>
+            </value>
+            <value>
+                <fullName>es_US</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>es_US</label>
             </value>
             <value>
                 <fullName> ar</fullName>

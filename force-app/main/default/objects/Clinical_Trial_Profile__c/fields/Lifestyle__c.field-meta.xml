@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Lifestyle__c</fullName>
     <description>Smoking, alcohol, etc.</description>
+    <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <inlineHelpText>Smoking, alcohol, etc.</inlineHelpText>
     <label>Lifestyle</label>

@@ -288,13 +288,13 @@
             <remove path="/:Profile/:applicationVisibilities[:application[text()='Developer']]"/>
         </xmltask>
         <echo message="Profiles filtered" level="info"/>
-        <xmltask todir="${source.dir}/translations" encoding="UTF-8">
+        <!--xmltask todir="${source.dir}/translations" encoding="UTF-8">
             <fileset dir="${source.dir}/translations"/>
             <remove path="/:Translations/:customApplications"/>
             <remove path="/:Translations/:customTabs"/>
             <remove path="/:Translations/:flowDefinitions"/>
             <remove path="/:Translations/:quickActions"/>
-        </xmltask>
+        </xmltask-->
         <echo message="Translations filtered" level="info"/>
         <!-- temporary fix for deployment of Contact (remove Master record type from metadata): -->
         <xmltask source="${source.dir}/objects/Contact.object" dest="${source.dir}/objects/Contact.object" encoding="UTF-8">
@@ -376,6 +376,16 @@
 
     <target name="convert-project">
         <delete dir="${source.dir}"/>
+        <!-- prepare forceignore for deploy: -->
+        <copy file="../.forceignore" todir="."/>
+        <concat destfile="../.forceignore_res">
+            <fileset file="../.forceignore" />
+            <fileset file="../.forceignore_deploy_exclude" />
+        </concat>
+        <copy file="../.forceignore_res" tofile="../.forceignore"/>
+        <delete file="../.forceignore_res"/>
+
+        <!-- convertation: -->
         <exec dir=".." executable="cmd" osfamily="windows">
             <arg value="/c convert-project.bat"/>
         </exec>
@@ -383,5 +393,11 @@
         <exec dir=".." executable="pwsh" osfamily="mac">
             <arg path="../convert-project.bat"/>
         </exec>
+
+        <!-- restore forceignore: -->
+        <copy file=".forceignore" todir=".." overwrite="true"/>
+        <delete file=".forceignore"/>
     </target>
+
+
 </project>
