@@ -101,18 +101,31 @@ public without sharing class IncentivePlanConfigurationRemote {
     }
 
     @AuraEnabled
-    public static String createIncentivePlan(String tasksString, String planName) {
+    public static String createUpdateIncentivePlan(String tasksString, String planName) {
         List<IncentivePlanConfigurationRemote.IPWrapper> tasks = (List<IncentivePlanConfigurationRemote.IPWrapper>) JSON.deserialize(tasksString, List<IncentivePlanConfigurationRemote.IPWrapper>.class);
         Incentive_Plan__c plan = new Incentive_Plan__c(Plan_Name__c = planName);
-        insert plan;
-        List<Incentive_Plan_Task__c> newTask = new List<Incentive_Plan_Task__c>();
-        for (IncentivePlanConfigurationRemote.IPWrapper task : tasks) {
-            newTask.add(new Incentive_Plan_Task__c(Incentive_Plan__c = plan.Id, Incentive_Task_Catalog__c = task.taskName, Points__c = task.points,
-                    Enabled__c = task.checkOn, IQVIA_Supported__c = task.checkIQVIA));
-        }
-        insert newTask;
-        return plan.Id;
+        if (tasks[0].planId != null) {
+            plan.Id = tasks[0].planId;
+            upsert plan;
+            List<Incentive_Plan_Task__c> newTask = new List<Incentive_Plan_Task__c>();
+            for (IncentivePlanConfigurationRemote.IPWrapper task : tasks) {
+                newTask.add(new Incentive_Plan_Task__c(Id = task.taskId, Incentive_Plan__c = plan.Id, Incentive_Task_Catalog__c = task.taskName, Points__c = task.points,
+                        Description__c = task.taskDescription, Enabled__c = task.checkOn, IQVIA_Supported__c = task.checkIQVIA));
 
+            }
+            upsert newTask;
+            return plan.Id;
+        } else {
+            insert plan;
+            List<Incentive_Plan_Task__c> newTask = new List<Incentive_Plan_Task__c>();
+            for (IncentivePlanConfigurationRemote.IPWrapper task : tasks) {
+                newTask.add(new Incentive_Plan_Task__c(Incentive_Plan__c = plan.Id, Incentive_Task_Catalog__c = task.taskName, Points__c = task.points,
+                        Description__c = task.taskDescription, Enabled__c = task.checkOn, IQVIA_Supported__c = task.checkIQVIA));
+
+            }
+            insert newTask;
+            return plan.Id;
+        }
     }
 
     @AuraEnabled
@@ -123,6 +136,17 @@ public without sharing class IncentivePlanConfigurationRemote {
         } else {
             return false;
         }
+    }
+
+    @AuraEnabled
+    public static List<IPWrapper> getIncentiveProgramWrapper(String idPlan) {
+        Incentive_Plan__c plan = [SELECT Id, Plan_Name__c FROM Incentive_Plan__c WHERE Id =: idPlan];
+        List<Incentive_Plan_Task__c> tasks = [SELECT Id, Incentive_Task_Catalog__c, Description__c, Points__c, Enabled__c, IQVIA_Supported__c FROM Incentive_Plan_Task__c WHERE Incentive_Plan__c =: idPlan];
+        List<IncentivePlanConfigurationRemote.IPWrapper> wrapIP = new List<IncentivePlanConfigurationRemote.IPWrapper>();
+        for (Incentive_Plan_Task__c task : tasks) {
+            wrapIP.add(new IPWrapper(task.Incentive_Task_Catalog__c, task.Description__c, task.Enabled__c, task.IQVIA_Supported__c, task.Points__c, plan.Plan_Name__c, plan.Id, task.Id));
+        }
+        return wrapIP;
     }
 
     private static void save(String ssItemsJSON) {
@@ -160,6 +184,10 @@ public without sharing class IncentivePlanConfigurationRemote {
         @AuraEnabled public Boolean checkOn;
         @AuraEnabled public Boolean checkIQVIA;
         @AuraEnabled public Decimal points;
+        @AuraEnabled public String planName;
+        @AuraEnabled public String planId;
+        @AuraEnabled public String taskId;
+
 
         public IPWrapper(String taskName, String taskDescription, Boolean checkOn, Boolean checkIQVIA, Decimal points) {
             this.taskName = taskName;
@@ -167,6 +195,17 @@ public without sharing class IncentivePlanConfigurationRemote {
             this.checkOn = checkOn;
             this.checkIQVIA = checkIQVIA;
             this.points = points;
+        }
+        public IPWrapper(String taskName, String taskDescription, Boolean checkOn, Boolean checkIQVIA, Decimal points, String planName, String planId, String taskId) {
+            this.taskName = taskName;
+            this.taskDescription = taskDescription;
+            this.checkOn = checkOn;
+            this.checkIQVIA = checkIQVIA;
+            this.points = points;
+            this.planName = planName;
+            this.planId = planId;
+            this.taskId = taskId;
+
         }
         public IPWrapper() {
 

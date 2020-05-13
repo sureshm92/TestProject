@@ -18,6 +18,7 @@
     <aura:attribute name="scrollLeft" type="Integer" default="0"/>
     <aura:attribute name="recordId" type="String"/>
     <aura:attribute name="tasks" type="List"/>
+    <aura:attribute name="studyInfo" type="Object"/>
 
     <!-- component body: -->
     <aura:if isTrue="{!notequals(v.viewModePage, 'Disabled')}">
@@ -133,7 +134,7 @@
                 </aura:if>
             </aura:if>
         </div>
-        <c:Action_AddIncentivePlan aura:id="actionIP" tasks="{!v.tasks}" recordId="{!v.recordId}"/>
+        <c:Action_AddIncentivePlan aura:id="actionIP" studyInfo="{!v.studyInfo}" tasks="{!v.tasks}" recordId="{!v.recordId}"/>
     </aura:if>
 
 </aura:component>
