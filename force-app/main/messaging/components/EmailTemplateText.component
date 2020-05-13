@@ -40,11 +40,11 @@
     {!bodyValue}
 
     <!-- for delegates: -->
-    <c:EmailTemplateDelegateText rendered="{(bodyValue !=$Label.Email_Body_User_Lockout)}" userMode="{!resultUserMode}" delegateLevelsPI="{!delegateLevelsPI}"
+    <c:EmailTemplateDelegateText rendered="{!NOT(isLockOut)}" userMode="{!resultUserMode}" delegateLevelsPI="{!delegateLevelsPI}"
                                  delegateLevelsHCP="{!delegateLevelsHCP}"/>
 
     <c:EmailTemplateDelegateParticipantText userId="{!emailRecipientId}"
-                                            rendered="{(bodyValue !=$Label.Email_Body_User_Lockout) && !(isInitial && isDelegate && resultUserMode == 'Participant')}"
+                                            rendered="{!NOT(isLockOut) && !(isInitial && isDelegate && resultUserMode == 'Participant')}"
                                             params="{!dataParametersValue}"
                                             commTemplate="{!communityTemplateValue}"
                                             sourceId="{!sourceRecordId}"/>

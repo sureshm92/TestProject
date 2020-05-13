@@ -242,7 +242,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             DateOfBirth = null;
                         }
                     }
-                    if (resultDate == null && (String.isBlank(DateOfBirth) || resultDate > System.today())) {
+                    if (resultDate == null || String.isBlank(DateOfBirth) || resultDate > System.today()) {
                         hasErrors = true;
                         system.debug('ERROR: ' + totalRecordCount + ', ' + 'Date of Birth, incorrect, can\'t be empty or in the future');
 

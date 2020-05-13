@@ -23,7 +23,8 @@
     <apex:attribute name="preSignature" assignTo="{!preSignatureValue}" type="String" description=""/>
     <apex:attribute name="multiplePIMessage" assignTo="{!multiplePIMessageValue}" type="Boolean" default="false"
                     description="send message with all PI names to new RP"/>
-    <apex:attribute name="communityTemplate" type="String" assignTo="{!communityTemplateValue}" description="Community template name"/>
+    <apex:attribute name="communityTemplate" type="String" assignTo="{!communityTemplateValue}"
+                    description="Community template name"/>
 
     <apex:attribute name="addBreaks" assignTo="{!replaceLineBreaksOnHTMLBreaks}" type="Boolean" default="true"
                     description="" access="global"/>
@@ -39,8 +40,12 @@
     <div style="{!emailTemplateBackground}">
         <div style="{!emailTemplateTextBackground}">
             <div style="{!emailTemplateHeaderBackground}">
-                <div style="{!emailTemplateHeader}"><apex:outputText value="{!headerValue}" escape="false"/></div>
-                <div style="{!emailTemplateTitle}"><apex:outputText value="{!titleValue}" escape="false"/></div>
+                <div style="{!emailTemplateHeader}">
+                    <apex:outputText value="{!headerValue}" escape="false"/>
+                </div>
+                <div style="{!emailTemplateTitle}">
+                    <apex:outputText value="{!titleValue}" escape="false"/>
+                </div>
             </div>
             <div style="padding: 20px; color: #333333; font-size: 16px; line-height: 20px;">
                 <apex:outputText value="{!userGreetingValue}" escape="false"/>
@@ -48,12 +53,12 @@
 
                 <div style="margin-top: 30px; margin-bottom: 30px;">
                     <c:EmailTemplateDelegate
-                            rendered="{(bodyValue !=$Label.Email_Body_User_Lockout) && !((isDelegate && resultUserMode != 'Participant')||hasPIRPDelegationRecords)}"
+                            rendered="{!NOT(isLockOut) && !((isDelegate && resultUserMode != 'Participant')||hasPIRPDelegationRecords)}"
                             userMode="{!resultUserMode}" delegateLevelsPI="{!delegateLevelsPI}"
                             delegateLevelsHCP="{!delegateLevelsHCP}"/>
 
                     <c:EmailTemplateDelegateParticipant userId="{!emailRecipientId}"
-                                                        rendered="{(bodyValue !=$Label.Email_Body_User_Lockout) && !(isInitial && isDelegate && resultUserMode == 'Participant')}"
+                                                        rendered="{!NOT(isLockOut) && !(isInitial && isDelegate && resultUserMode == 'Participant')}"
                                                         params="{!dataParametersValue}"
                                                         commTemplate="{!communityTemplateValue}"
                                                         sourceId="{!sourceRecordId}"/>
@@ -65,8 +70,11 @@
 
                 <table>
                     <tr>
-                        <td style="width: 90%;"> <apex:outputText value="{!signatureValue}" escape="false"/></td>
-                        <td style="width: 10%;"><img style="{!emailTemplateBrandLogoCSS}" src="{!emailTemplateBrandLogo}"/></td>
+                        <td style="width: 90%;">
+                            <apex:outputText value="{!signatureValue}" escape="false"/>
+                        </td>
+                        <td style="width: 10%;"><img style="{!emailTemplateBrandLogoCSS}"
+                                                     src="{!emailTemplateBrandLogo}"/></td>
                     </tr>
                 </table>
             </div>
