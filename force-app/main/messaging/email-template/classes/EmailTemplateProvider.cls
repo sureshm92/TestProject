@@ -85,6 +85,10 @@ public without sharing virtual class EmailTemplateProvider {
         return templatePropertiesService.getTemplateName();
     }
 
+    public String getCommunityName() {
+        return templatePropertiesService.getCommunityName();
+    }
+
     public Id getRecipientId() {
         return recipientContactId;
     }

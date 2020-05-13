@@ -6,10 +6,13 @@ public with sharing class TemplatePropertiesService {
 
     private Map<String, String> properties;
     private String templateName;
+    private String communityName;
     
     public TemplatePropertiesService(String templateName){
         this.templateName = templateName;
-        properties = CommunityTemplateService.getTemplate(templateName).properties;
+        CommunityTemplate communityTemplate = CommunityTemplateService.getTemplate(templateName);
+        properties = communityTemplate.properties;
+        communityName = communityTemplate.communityName;
     }
 
     public TemplatePropertiesService(Id whatId, String userMode) {
@@ -20,6 +23,7 @@ public with sharing class TemplatePropertiesService {
 
         this.templateName = communityTemplate.templateName;
         properties = communityTemplate.properties;
+        communityName = communityTemplate.communityName;
     }
 
     public String getPropertyValue(String key) {
@@ -28,6 +32,10 @@ public with sharing class TemplatePropertiesService {
 
     public String getTemplateName() {
         return templateName;
+    }
+
+    public String getCommunityName() {
+        return communityName;
     }
 
     private String defineTemplateName(Id whatId, String userMode) {
