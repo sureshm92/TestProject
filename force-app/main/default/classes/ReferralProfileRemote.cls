@@ -333,7 +333,7 @@ public without sharing class ReferralProfileRemote {
             participantEnrollment.Pre_screening_Status__c = 'Fail';
         }
         IncentiveProgramService.completeIncentiveTaskCurrentContact(IncentiveTaskCatalog.INCENTIVE_TASK_PRE_SCREENING,
-                participantEnrollment.Clinical_Trial_Profile__c, participantEnrollment.Id);
+                participantEnrollment.Study_Site__c, participantEnrollment.Id);
 
         System.debug('PE: ' + JSON.serialize(participantEnrollment));
         if(participantEnrollment.Participant_Status__c == 'Received'){
