@@ -70,7 +70,6 @@
       },
       "componentName" : "forceCommunity:seoAssistant",
       "id" : "c12fb7fa-24de-4bc9-a5f7-3509dc3e1261",
-      "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
     } ],
