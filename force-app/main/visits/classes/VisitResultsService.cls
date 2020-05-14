@@ -17,7 +17,7 @@ public inherited sharing class VisitResultsService {
     public List<VisitResultWrapper> getVisitResultWrappersForDashboard() {
 
         List<Visit_Result_TypeM_Dashboard_Config__mdt> configs = metadataService.getVisitResultTypeDashboardConfigs();
-        List<Visit_Result__c> visitResults = VisitResultSharingService.processResults();
+        List<Visit_Result__c> visitResults = VisitResultSharingService.processResults('Vitals');
         if (visitResults.isEmpty() || configs.isEmpty()) {
             return new List<VisitResultWrapper>();
         }
@@ -58,7 +58,7 @@ public inherited sharing class VisitResultsService {
 
     public VisitResultsContainer getVisitResultsContainer(String visitResultsGroupName) {
         List<Visit_Result_TypeM__mdt> visitResultTypes = this.metadataService.getVisitResultTypes(visitResultsGroupName);
-        List<Visit_Result__c> visitResults = VisitResultSharingService.processResults();
+        List<Visit_Result__c> visitResults = VisitResultSharingService.processResults('Vitals');
 
         //String languageToTranslate = IRBParticipantService.getSuitableLanguageForIRBTranslation(ParticipantService.getParticipantState().pe.Id);
         return visitResults.isEmpty()
