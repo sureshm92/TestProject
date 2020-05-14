@@ -4,10 +4,14 @@
 
 <aura:component description="StudySiteItem">
 
+    <!-- attributes: -->
     <aura:attribute name="item" type="Object"/>
     <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="viewMode" type="String"/>
     <aura:attribute name="isSingleChoice" type="Boolean" default="false"/>
+
+    <aura:attribute name="fromComponent" type="String" default="Visit"/>
+    <aura:attribute name="selectedItem" type="String"/>
 
     <aura:attribute name="showHelp" type="Boolean"/>
     <aura:attribute name="helpText" type="String" default="Help text stub"/>
@@ -16,6 +20,11 @@
 
     <aura:attribute name="scrollLeft" type="Integer" default="0"/>
 
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+
+    <!-- component body: -->
     <tr class="{!if(v.item.emptyAssignments, 'empty-assignments', '')}">
         <c:uiCol isHeader="true" isFixed="true" class="cell" scrollLeft="{!v.scrollLeft}">
             <div class="slds-truncate" title="">{!v.item.country.label}</div>
