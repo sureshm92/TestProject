@@ -43,7 +43,7 @@
                 let selectedItem = component.get('v.selectedItem');
                 if (selectedItem && selectedItem !== assignments[j].value && assignments[j].state) {
                     assignments[j].state = false;
-                    communityService.showWarningToast('Warning!', 'Only one Incetive Program per Study Site could be selected!', 5000);
+                    communityService.showWarningToast('Warning!', $A.get('$Label.c.PG_Ref_L_One_Incentive_Plan'), 5000);
                 } else if (selectedItem && selectedItem === assignments[j].value && !assignments[j].state) {
                     component.set('v.selectedItem', '');
                 } else if (!selectedItem && assignments[j].state) {
