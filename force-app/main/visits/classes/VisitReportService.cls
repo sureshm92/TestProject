@@ -103,6 +103,10 @@ public inherited sharing class VisitReportService {
             Date myDate = Date.newInstance(dT.year(), dT.month(), dT.day());
             result.enrollmentDate = myDate.format();
         }
+        //PEH-1986: Show status if only a PARTICIPANT
+        if(ParticipantService.getInstance().getState().value == ParticipantService.ParticipantStates.PARTICIPANT){
+            result.participantStatus = pe.Participant_Status__c;
+        }
         result.studySiteName = pe.Study_Site__r.Name;
         return result;
     }

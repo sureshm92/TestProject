@@ -12027,6 +12027,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>My Study Data Report</value>
     </labels>
     <labels>
+        <fullName>Report_Participant_Status</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Participant Status</shortDescription>
+        <value>Enrollment Status</value>
+    </labels>
+    <labels>
         <fullName>Report_Study_Site</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -12046,6 +12053,13 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>false</protected>
         <shortDescription>Report Vitals header</shortDescription>
         <value>Vitals Summary Table</value>
+    </labels>
+    <labels>
+        <fullName>Resource_In_Trial_Summary_Report</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Resource In Trial Summary Report</shortDescription>
+        <value>In-trial Summary Report</value>
     </labels>
     <labels>
         <fullName>Resource_Name</fullName>
