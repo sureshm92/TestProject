@@ -10,6 +10,7 @@
     <!-- attributes: -->
     <aura:attribute name="peId" type="String" required="true"/>
     <aura:attribute name="reportData" type="Object"/>
+    <aura:attribute name="inTrialSummaryReport" type="Boolean" default="false"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
 
     <!-- component body -->
@@ -17,7 +18,9 @@
     <aura:if isTrue="{!v.initialized}">
         <div class="resource-link-container">
             <c:RRIcon iconName="icon-pdf" class="resource-icon"/>
-            <a class="resource-name" onclick="{!c.doGenerateReport}">{!$Label.c.Resource_Visit_Summary_Report}</a>
+            <a class="resource-name" onclick="{!c.doGenerateReport}">
+                {!if(v.inTrialSummaryReport, $Label.c.Resource_In_Trial_Summary_Report, $Label.c.Resource_Visit_Summary_Report)}
+            </a>
         </div>
     </aura:if>
 
