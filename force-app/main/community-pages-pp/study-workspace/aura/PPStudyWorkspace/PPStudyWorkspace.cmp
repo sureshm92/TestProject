@@ -14,6 +14,7 @@
     <aura:attribute name="shareButtons" type="List"/>
     <aura:attribute name="multiMode" type="Boolean"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
+    <aura:attribute name="isDelegateMode" type="Boolean" default="true"/>
 
     <aura:attribute name="isReportsTabInitialized" type="Boolean"/>
     <aura:attribute name="isReferralsTabInitialized" type="Boolean"/>
@@ -197,6 +198,12 @@
                         <button id="changeLabResultsMode" data-gtm="BTN_Visit_Results_Biomarkers" data-lab-results-mode="Biomarkers"
                                 class="{!'apollo-btn text ' + if(v.labResultsMode == 'Biomarkers', ' current', '')}"
                                 onclick="{!c.doAction}">{!$Label.c.Visit_Results_Tab_Biomarkers}</button>
+
+                        <aura:if isTrue="{!and(v.state != 'ALUMNI', not(v.isDelegateMode))}">
+                            <div class="resource-item">
+                                <c:VisitSummaryReportLink peId="{!v.studyDetail.pe.Id}" inTrialSummaryReport="true"/>
+                            </div>
+                        </aura:if>
                     </div>
 
                 </div>

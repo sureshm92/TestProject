@@ -4,14 +4,12 @@
 
 <aura:component implements="forceCommunity:availableForAllPageTypes" description="NewTeamMember"
                 controller="MyTeamRemote">
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
-                  afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String" description="HCP / PI / Participant" access="private"/>
     <aura:attribute name="isStaff" type="Boolean" access="private"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
-    <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
     <aura:attribute name="delegate" type="Object" access="private"/>
     <aura:attribute name="delegateOptions" type="List" access="private"/>
     <aura:attribute name="currentTab" type="String" default="all-same"/>
@@ -28,14 +26,13 @@
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
 
     <!-- handlers:-->
-<!--    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.delegate.delegateContact.Email}" action="{!c.doCheckEmail}"/>
     <aura:handler name="change" value="{!v.delegate.delegateContact.FirstName}" action="{!c.doCheckContactData}"/>
     <aura:handler name="change" value="{!v.delegate.delegateContact.LastName}" action="{!c.doCheckContactData}"/>
 
     <!-- component body-->
-    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}"/>
+    <c:RRSpinner aura:id="mainSpinner" size="medium"/>
     <c:Action_SaveDelegateLevelChanges aura:id="saveDelegateLevelChanges"
                                        userMode="{!v.userMode}"/>
     <aura:if isTrue="{!v.isInitialized}">
@@ -64,25 +61,7 @@
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-order_2 slds-medium-order_1 left-column">
                             <div class="delegate-info-panel">
                                 <c:DelegateLevelInfoTable userMode="{!v.userMode}"/>
-<!--                                <aura:if isTrue="{!v.userMode == 'Participant'}">-->
-<!--                                    <c:DelegatesDisclaimer/>-->
-<!--                                </aura:if>-->
                             </div>
-                          <!--   <div class="button-panel-mobile rr-medium-up-hide">
-                               <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-center">
-                                    <div class="slds-col slds-size_2-of-5 slds-medium-size_1-of-3">
-                                        <c:RRLink page="{!'my-team' + if(empty(v.parentId),'','?id='+v.parentId)}">
-                                            <c:RRIcon iconName="icon-arrow-left"/>
-                                            {!v.isStaff ? $Label.c.PG_NTM_BTN_Back_to_My_Team : $Label.c.PG_PST_L_Delegates_Back}
-                                        </c:RRLink>
-                                    </div>
-                                    <div class="slds-col slds-size_3-of-5 slds-medium-size_2-of-3 button-container">
-                                        <button class="apollo-btn primary ntm-button" onclick="{!c.doSaveChanges}">
-                                            {!v.isStaff ? $Label.c.PG_NTM_BTN_Save_Team_Member : $Label.c.PG_PST_L_Delegates_Save}
-                                        </button> 
-                                    </div>
-                                </div> 
-                            </div> -->
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-order_1 slds-medium-order_2 right-column">
                             <div class="personal-info-panel">
@@ -199,4 +178,6 @@
             </div>
         </div>
     </aura:if>
+
+    <c:builderStub aura:id="builderStub"/>
 </aura:component>

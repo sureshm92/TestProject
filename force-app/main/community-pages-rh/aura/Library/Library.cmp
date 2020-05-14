@@ -4,7 +4,7 @@
 
 <aura:component description="Library" implements="forceCommunity:availableForAllPageTypes" access="global">
 
-    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
+
     <div class="slds-grid slds-wrap">
         <div class="slds-col slds-size--9-of-12">
             <c:RRNavigationPath>
@@ -27,6 +27,6 @@
         <div class="slds-coll slds-size--2-of-12">{!$Label.c.Library_Version_Date}</div>
     </div>
     <div class="rr-white-panel" style="margin-top: 0px">
-        <c:LibraryPI parent="{!this}"/>
+        <c:LibraryPI/>
     </div>
 </aura:component>

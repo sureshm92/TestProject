@@ -3,41 +3,34 @@
                          relatedToType="Participant__c"
                          language="{!recipient.Language__c}">
 
-    <messaging:htmlEmailBody >
-        <c:EmailTemplate recipientId="{!recipient.Id}"
-                         sourceId="{!relatedTo.Id}"
-                         parametersProvider="PP_Participant"
-                         header="{!$Label.Email_Header_Your_Access_Level_Has_Changed}"
-                         title="{!$Label.Email_Title_All}"
-                         greeting="{!$Label.Email_User_Greeting_FirstName}"
-                         body="{!$Label.Email_Body_Participant_Delegate_Reactivated}"
-                         signature="{!$Label.Email_Signature_New_FullName}"
-                         communityTemplate="Default">
-            <c:EmailTemplateDelegateParticipant userId="{!recipient.Id}"
-                                                commTemplate="Default"
+    <messaging:htmlEmailBody>
+        <c:EmailWireframe recipientId="{!recipient.Id}"
+                          sourceId="{!relatedTo.Id}"
+                          header="{!$Label.Email_Header_Your_Access_Level_Has_Changed}"
+                          greeting="{!$Label.Email_User_Greeting_FirstName}"
+                          signature="{!$Label.Email_Signature_New_FullName}"
+                          communityTemplate="Default">
+            <c:Paragraph emailLabel="{!$Label.Email_Body_Participant_Delegate_Reactivated}"/>
+            <c:EmailTemplateDelegateParticipant commTemplate="Default"
                                                 sourceId="{!relatedTo.Id}"/>
-
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
                               buttonURL="/s/"/>
-        </c:EmailTemplate>
+        </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody >
-        <c:EmailTemplateText recipientId="{!recipient.Id}"
-                             sourceId="{!relatedTo.Id}"
-                             parametersProvider="PP_Participant"
-                             header="{!$Label.Email_Header_Your_Access_Level_Has_Changed}"
-                             title="{!$Label.Email_Title_All}"
-                             greeting="{!$Label.Email_User_Greeting_FirstName}"
-                             body="{!$Label.Email_Body_Participant_Delegate_Reactivated}"
-                             signature="{!$Label.Email_Signature_New_FullName}"
-                             communityTemplate="Default">
-            <c:EmailTemplateDelegateParticipantText userId="{!recipient.Id}"
-                                                    commTemplate="Default"
+    <messaging:plainTextEmailBody>
+        <c:EmailWireframeText recipientId="{!recipient.Id}"
+                              sourceId="{!relatedTo.Id}"
+                              header="{!$Label.Email_Header_Your_Access_Level_Has_Changed}"
+                              greeting="{!$Label.Email_User_Greeting_FirstName}"
+                              signature="{!$Label.Email_Signature_New_FullName}"
+                              communityTemplate="Default">
+            <c:ParagraphText emailLabel="{!$Label.Email_Body_Participant_Delegate_Reactivated}"/>
+            <c:EmailTemplateDelegateParticipantText commTemplate="Default"
                                                     sourceId="{!relatedTo.Id}"/>
-
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
                                   buttonURL="/s/"/>
-        </c:EmailTemplateText>
+        </c:EmailWireframeText>
     </messaging:plainTextEmailBody>
+
 </messaging:emailTemplate>

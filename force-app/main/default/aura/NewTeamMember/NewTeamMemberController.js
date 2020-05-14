@@ -1,61 +1,62 @@
 ({
     doInit: function (component, event, helper) {
-        // var spinner = component.find('mainSpinner');
-        // spinner.show();
-        component.set('v.showSpinner', true);
-
         if (!communityService.isInitialized()) return;
-        var userMode = communityService.getUserMode();
-        if(userMode === 'Participant' && communityService.getCurrentCommunityMode().isDelegate) communityService.navigateToHome();
 
-        component.set('v.userMode', userMode);
+        if(!communityService.isDummy()) {
+            component.find('mainSpinner').show();
+            let userMode = communityService.getUserMode();
+            if (userMode === 'Participant' && communityService.getCurrentCommunityMode().isDelegate) communityService.navigateToHome();
 
-        if (userMode === 'PI' || userMode === 'HCP') component.set('v.isStaff', true);
-        else component.set('v.isStaff', false);
+            component.set('v.userMode', userMode);
 
-        component.set('v.changedLevels', []);
-        component.set('v.changedLevelsAll', []);
-        if (userMode !== 'HCP'){
-            component.set('v.currentTab', 'by-study');
-        }
-        else{
-            component.set('v.currentTab', 'all-same');
-        }
-        var parentId = communityService.getUrlParameter('id');
-        if(parentId){
-            component.set('v.parentId',parentId);
-        }
-        communityService.executeAction(component, 'getContactData', {
-            userMode: component.get('v.userMode'),
-            contactEmail: '',
-            parentId: parentId?parentId:communityService.getDelegateId()
-        }, function (returnValue) {
-            var contactData = JSON.parse(returnValue);
-            component.set('v.delegate', contactData.delegates[0]);
-            component.set('v.delegateOptions', contactData.delegateOptions);
-            component.set('v.currentUserContactId', contactData.currentUserContactId);
-            component.set('v.parentFullName', contactData.parentFullName);
-            var allTrialLevel = {
-                delegateLevel: '',
-                trialName: $A.get('$Label.c.PG_NTM_L_Permission_level_will_apply_to_all_studies')
-            };
-            component.set('v.allTrialLevel', allTrialLevel);
-            var studyDelegateLavelItems = component.find('study-level');
-            if (studyDelegateLavelItems) {
-                for (var i = 0; i < studyDelegateLavelItems.length; i++) {
-                    studyDelegateLavelItems[i].refresh();
-                }
+            if (userMode === 'PI' || userMode === 'HCP') component.set('v.isStaff', true);
+            else component.set('v.isStaff', false);
+
+            component.set('v.changedLevels', []);
+            component.set('v.changedLevelsAll', []);
+            if (userMode !== 'HCP') {
+                component.set('v.currentTab', 'by-study');
+            } else {
+                component.set('v.currentTab', 'all-same');
             }
+            let parentId = communityService.getUrlParameter('id');
+            if (parentId) {
+                component.set('v.parentId', parentId);
+            }
+            communityService.executeAction(component, 'getContactData', {
+                userMode: component.get('v.userMode'),
+                contactEmail: '',
+                parentId: parentId ? parentId : communityService.getDelegateId()
+            }, function (returnValue) {
+                let contactData = JSON.parse(returnValue);
+                component.set('v.delegate', contactData.delegates[0]);
+                component.set('v.delegateOptions', contactData.delegateOptions);
+                component.set('v.currentUserContactId', contactData.currentUserContactId);
+                component.set('v.parentFullName', contactData.parentFullName);
+                let allTrialLevel = {
+                    delegateLevel: '',
+                    trialName: $A.get('$Label.c.PG_NTM_L_Permission_level_will_apply_to_all_studies')
+                };
+                component.set('v.allTrialLevel', allTrialLevel);
+                let studyDelegateLavelItems = component.find('study-level');
+                if (studyDelegateLavelItems) {
+                    for (let i = 0; i < studyDelegateLavelItems.length; i++) {
+                        studyDelegateLavelItems[i].refresh();
+                    }
+                }
 
-            if (!component.get('v.isInitialized')) communityService.setStickyBarPosition();
-            component.set('v.isInitialized', true);
+                if (!component.get('v.isInitialized')) communityService.setStickyBarPosition();
+                component.set('v.isInitialized', true);
 
-            component.set('v.showSpinner', false);
-        })
+                component.find('mainSpinner').hide();
+            });
+        } else {
+            component.find('builderStub').setPageName(component.getName());
+        }
     },
 
     doSearchContact: function (component, event, helper) {
-        var delegate = component.get('v.delegate');
+        let delegate = component.get('v.delegate');
         if (!communityService.isValidEmail(delegate.delegateContact.Email.trim())) {
             component.set('v.isCorrectEmail', false);
             delegate.delegateContact.Id = null;
@@ -64,9 +65,8 @@
         } else
             component.set('v.isCorrectEmail', true);
 
-        var spinner = component.find('mainSpinner');
+        let spinner = component.find('mainSpinner');
         spinner.show();
-        component.set('v.showSpinner', true);
 
         let oldFirstName = delegate.delegateContact.FirstName;
         let oldLastName = delegate.delegateContact.LastName;
@@ -76,9 +76,9 @@
             contactEmail: delegate.delegateContact.Email.toLowerCase().trim(),
             parentId: communityService.getUrlParameter('id')?communityService.getUrlParameter('id'):communityService.getDelegateId()
         }, function (returnValue) {
-            var contactData = JSON.parse(returnValue);
-            var userMode = component.get('v.userMode');
-            var parentId = component.get('v.parentId');
+            let contactData = JSON.parse(returnValue);
+            let userMode = component.get('v.userMode');
+            let parentId = component.get('v.parentId');
             component.set('v.delegate', contactData.delegates[0]);
             if (userMode !== 'HCP'){
                 component.set('v.currentTab', 'by-study');
@@ -99,7 +99,7 @@
                 component.find('lastNameInput').set('v.value', oldLastName);
             }
 
-            var allTrialLevel = {
+            let allTrialLevel = {
                 delegateLevel: '',
                 trialName: $A.get('$Label.c.PG_NTM_L_Permission_level_will_apply_to_all_studies'),
             };
@@ -107,30 +107,30 @@
                 allTrialLevel.delegateLevel = contactData.delegates[0].trialLevel.delegateLevel;
             }
             component.set('v.allTrialLevel', allTrialLevel);
-            var studyDelegateLavelItems = component.find('study-level');
+            let studyDelegateLavelItems = component.find('study-level');
             if (studyDelegateLavelItems) {
-                for (var i = 0; i < studyDelegateLavelItems.length; i++) {
+                for (let i = 0; i < studyDelegateLavelItems.length; i++) {
                     studyDelegateLavelItems[i].refresh();
                 }
             }
             component.set('v.changedLevels', []);
             component.set('v.changedLevelsAll', []);
 
-            component.set('v.showSpinner', false);
+            component.find('mainSpinner').hide();
         })
     },
 
     doSaveChanges: function (component, event, helper) {
-        var delegate = component.get('v.delegate');
-        var allTrialLevel = component.get('v.allTrialLevel');
-        var currentTab = component.get('v.currentTab');
+        let delegate = component.get('v.delegate');
+        let allTrialLevel = component.get('v.allTrialLevel');
+        let currentTab = component.get('v.currentTab');
 
         if (currentTab === 'all-same' && component.get('v.userMode') === 'HCP') {
             delegate.trialLevel.delegateLevel = allTrialLevel.delegateLevel;
         }
         else if(currentTab === 'all-same' && component.get('v.userMode') === 'PI'){
-            for (var i = 0; i < delegate.delegateTrials.length; i++) {
-                for (var j = 0; j < delegate.delegateTrials[i].siteLevels.length; j++)
+            for (let i = 0; i < delegate.delegateTrials.length; i++) {
+                for (let j = 0; j < delegate.delegateTrials[i].siteLevels.length; j++)
                 delegate.delegateTrials[i].siteLevels[j].delegateLevel = allTrialLevel.delegateLevel;
 
             }
@@ -159,12 +159,12 @@
     },
 
     doCheckEmail: function (component, event, helper) {
-        var delegate = component.get('v.delegate');
+        let delegate = component.get('v.delegate');
         component.set('v.isCorrectEmail', communityService.isValidEmail(delegate.delegateContact.Email));
     },
 
     doCheckContactData: function (component, event, helper) {
-        var delegate = component.get('v.delegate');
+        let delegate = component.get('v.delegate');
         component.set('v.isCorrectContactData', delegate.delegateContact.FirstName.trim() !== ''
             && delegate.delegateContact.LastName.trim() !== '');
     }

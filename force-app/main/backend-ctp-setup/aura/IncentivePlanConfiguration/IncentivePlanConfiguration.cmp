@@ -17,6 +17,8 @@
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="scrollLeft" type="Integer" default="0"/>
     <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="tasks" type="List"/>
+    <aura:attribute name="studyInfo" type="Object"/>
 
     <!-- component body: -->
     <aura:if isTrue="{!notequals(v.viewModePage, 'Disabled')}">
@@ -85,17 +87,16 @@
                                         <aura:if isTrue="{!v.incentivePlans}">
                                             <aura:iteration items="{!v.incentivePlans}" var="ip">
                                                 <c:uiCol isHeader="true" scrollLeft="{!v.scrollLeft}">
-                                                    <c:VisitPlanColumnMenu plan="{!ip}"
+                                                    <c:IncentivePlanColumnMenu plan="{!ip}"
                                                                            onEdit="{!if(equals(v.viewModePage, 'Edit'), c.doColumnIPEdit, c.doColumnIPView)}"
                                                                            onClone="{!c.doColumnIPClone}"
-                                                                           onDelete="{!c.doColumnIPDelete}"
                                                                            isVisible="{!equals(v.viewModePage, 'Edit')}"/>
                                                     <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
                                                         <div class="column-btn">
-                                                            <a data-state="Enabled" data-vp="{!ip.value}"
+                                                            <a data-state="Enabled" data-ip="{!ip.value}"
                                                                onclick="{!c.columnCheckboxStateChange}">Select All</a>
                                                             <span style="padding: 0 3px; color: #006DCC; ">|</span>
-                                                            <a data-state="Disabled" data-vp="{!ip.value}"
+                                                            <a data-state="Disabled" data-ip="{!ip.value}"
                                                                onclick="{!c.columnCheckboxStateChange}">Clear All</a>
                                                         </div>
                                                     </aura:if>
@@ -107,7 +108,7 @@
                                 <aura:if isTrue="{!v.ssItems}">
                                     <aura:iteration items="{!v.ssItems}" var="item">
                                         <c:StudySiteItem item="{!item}" parent="{!this}" viewMode="{!v.viewModePage}"
-                                                         scrollLeft="{!v.scrollLeft}"/>
+                                                         scrollLeft="{!v.scrollLeft}" fromComponent="Incentive"/>
                                     </aura:iteration>
                                 </aura:if>
                             </c:uiFixedTable>
@@ -133,7 +134,7 @@
                 </aura:if>
             </aura:if>
         </div>
-        <c:Action_AddIncentivePlan aura:id="actionIP" recordId="{!v.recordId}"/>
+        <c:Action_AddIncentivePlan aura:id="actionIP" studyInfo="{!v.studyInfo}" tasks="{!v.tasks}" recordId="{!v.recordId}"/>
     </aura:if>
 
 </aura:component>

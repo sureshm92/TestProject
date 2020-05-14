@@ -1,0 +1,11 @@
+<!--
+ - Created by Olga Skrynnikova on 2/20/2020.
+ -->
+
+<apex:page id="TestEmailTemplateInitialEmail">
+    <c:InitialWireframe userId="{!$CurrentPage.parameters.sourceId}"
+                        communityTemplate="{!$CurrentPage.parameters.communityTemplate}"
+                        buttonLabel="{!$Label.Email_Action_Enroll_Now}"
+                        buttonURL="{!$Network.NetworkUrlForUserEmails}">
+    </c:InitialWireframe>
+</apex:page>

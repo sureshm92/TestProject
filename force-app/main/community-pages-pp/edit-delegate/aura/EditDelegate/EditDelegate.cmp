@@ -5,7 +5,7 @@
 <aura:component controller="PatientDelegateRemote" implements="forceCommunity:availableForAllPageTypes"
                 description="EditDelegate">
 
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String" description="HCP / PI / Participant" access="private"/>
@@ -17,7 +17,6 @@
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
 
     <!-- handlers:-->
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.delegate.Email}" action="{!c.doCheckEmail}"/>
 
@@ -110,4 +109,6 @@
             </div>
         </div>
     </aura:if>
+
+    <c:builderStub aura:id="builderStub"/>
 </aura:component>

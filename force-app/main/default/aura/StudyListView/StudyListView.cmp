@@ -5,16 +5,12 @@
 <aura:component controller="StudyListViewController" description="StudyListView"
                 implements="forceCommunity:availableForAllPageTypes">
 
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
-                  afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
 
     <!-- Attributes: -->
     <aura:attribute name="userMode" type="String" access="private"/>
     <aura:attribute name="currentPITrials" type="List"/>
-<!--    <aura:attribute name="trialsNoLongerRecruiting" type="List"/>-->
-    <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
-<!--    <aura:attribute name="currentTab" type="String" default="recruiting"/>-->
     <aura:attribute name="currentTrialId" type="String"/>
     <aura:attribute name="currentSSId" type="String"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
@@ -32,12 +28,10 @@
     <aura:attribute name="checkedAccountWasCreated" type="Boolean" default="false"/>
     <aura:attribute name="showPopUpSpinner" type="Boolean" default="false"/>
 
-    <aura:handler name="change" value="{!v.paginationData.pageRecordsCount}"
-                  action="{!c.doUpdateRecordsWithFirstPage}"/>
+    <aura:handler name="change" value="{!v.paginationData.pageRecordsCount}" action="{!c.doUpdateRecordsWithFirstPage}"/>
     <aura:handler name="change" value="{!v.paginationData.currentPage}" action="{!c.doUpdateRecords}"/>
     <aura:handler name="change" value="{!v.filterData}" action="{!c.doUpdateRecordsWithFirstPage}"/>
     <aura:handler name="change" value="{!v.sortData}" action="{!c.doUpdateRecordsWithFirstPage}"/>
-<!--    <aura:handler name="change" value="{!v.currentTab}" action="{!c.clampTitle}"/>-->
 
     <!-- Handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
@@ -56,7 +50,7 @@
     </aura:method>
 
     <!-- component body: -->
-    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
+    <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true"/>
 
     <aura:if isTrue="{!v.isInitialized}">
         <div class="{!v.isSearchResume ? 'slds-hide' : ''}">
@@ -70,12 +64,6 @@
                 <c:RRNPathItem label="{!$Label.c.PG_MS_L_Search_for_Studies}"/>
             </c:RRNavigationPath>
         </div>
-<!--        <aura:if isTrue="{!v.userMode != 'HCP'}">-->
-<!--            <c:rrButtonTubSet >-->
-<!--                <c:rrButtonTubSetItem title="{!$Label.c.PG_MyStudies_Studies_Currently_Recruiting}" tabId="recruiting" currentTab="{!v.currentTab}"/>-->
-<!--                <c:rrButtonTubSetItem title="{!$Label.c.PG_MyStudies_Studies_No_Longer_Recruiting}" tabId="noLongerRecruiting" currentTab="{!v.currentTab}"/>-->
-<!--            </c:rrButtonTubSet>-->
-<!--        </aura:if>-->
 
         <div>
             <c:FilterPanel searchText="{!v.filterData.searchText}"
@@ -142,7 +130,9 @@
                 <div style="position: relative; min-height: 100px;" class="slds-gutters_">
                     <c:RRSpinner aura:id="recordsSpinner" size="medium" showSpinner="false"/>
                     <aura:iteration items="{!v.currentPageList}" var="trial">
-                        <c:StudyCard currentStudy = "{!trial}" userMode="{!v.userMode}" parent="{!this}" detailsExpanded="false" accessUserLevel="{!v.accessUserLevel}" searchItem="{!v.isSearchResume}"/>
+                        <c:StudyCard currentStudy="{!trial}" userMode="{!v.userMode}" parent="{!this}"
+                                     detailsExpanded="false" accessUserLevel="{!v.accessUserLevel}"
+                                     searchItem="{!v.isSearchResume}"/>
                     </aura:iteration>
                 </div>
             </div>
@@ -157,26 +147,9 @@
                 <div class="slv-category"></div>
                 <c:RRSpinner aura:id="recordsSpinnerPI" size="medium" showSpinner="false"/>
                 <aura:iteration items="{!v.currentPITrials}" var="trial">
-                    <c:StudyCard currentStudy = "{!trial}" userMode="{!v.userMode}" parent="{!this}" detailsExpanded="true"/>
+                    <c:StudyCard currentStudy="{!trial}" userMode="{!v.userMode}" parent="{!this}"
+                                 detailsExpanded="true"/>
                 </aura:iteration>
-<!--                <aura:if isTrue="{!v.currentTab == 'recruiting'}">-->
-<!--                    <c:EmptyListStub targetList="{!v.currentlyRecruitingTrials}"/>-->
-<!--                        <div class="slv-category"></div>-->
-<!--                        <aura:iteration items="{!v.currentlyRecruitingTrials}" var="trial">-->
-<!--                            <c:StudyCard currentStudy = "{!trial}" userMode="{!v.userMode}" parent="{!this}" detailsExpanded="true"/>-->
-<!--                        </aura:iteration>-->
-<!--                </aura:if>-->
-
-                <!-- Trials no longer recruiting -->
-<!--                <aura:if isTrue="{! v.currentTab == 'noLongerRecruiting'}">-->
-<!--                    <c:EmptyListStub targetList="{!v.trialsNoLongerRecruiting}"/>-->
-<!--                    <aura:if isTrue="{! !empty(v.trialsNoLongerRecruiting)}">-->
-<!--                       <div class="slv-category">{!$Label.c.PG_MRRL_L_Studies}</div>-->
-<!--                        <aura:iteration items="{!v.trialsNoLongerRecruiting}" var="trial">-->
-<!--                            <c:StudyCard currentStudy = "{!trial}" userMode="{!v.userMode}" parent="{!this}" detailsExpanded="true"/>-->
-<!--                        </aura:iteration>-->
-<!--                    </aura:if>-->
-<!--                </aura:if>-->
             </div>
         </aura:if>
 
@@ -190,7 +163,8 @@
         <c:OpenToReceiveReferralsModal aura:id="receiveReferralsModal" parent="{!this}"/>
 
         <!-- No,thanks dialog -->
-        <c:NoTanksModal aura:id="noTanksModal" ssId="{!v.ssId}" trialId="{!v.currentTrialId}" parent="{!this}" userMode="{!v.userMode}"/>
+        <c:NoTanksModal aura:id="noTanksModal" ssId="{!v.ssId}" trialId="{!v.currentTrialId}" parent="{!this}"
+                        userMode="{!v.userMode}"/>
 
         <!-- Share dialog -->
         <c:ShareModal aura:id="shareModal" parent="{!this}"/>
@@ -205,4 +179,5 @@
         <c:Action_UploadParticipants aura:id="actionUploadParticipants"/>
     </aura:if>
 
+    <c:builderStub aura:id="builderStub"/>
 </aura:component>

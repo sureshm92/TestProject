@@ -10,6 +10,8 @@
         }, function (initData) {
             component.set('v.filter', initData.filter);
             component.set('v.viewModePage', initData.viewMode);
+            component.set('v.tasks', initData.listWrapper)
+            component.set('v.studyInfo', initData.infoStudy)
             helper.setSearchResponse(component, initData.searchResponse);
             component.set('v.initialized', true);
         });
