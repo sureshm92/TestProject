@@ -6,7 +6,6 @@
     <messaging:htmlEmailBody>
         <c:EmailWireframe recipientId="{!recipient.Id}"
                           header="{!$Label.Email_Header_Thank_You_For_Your_Interest}"
-                          title="{!$Label.Email_Title_All}"
                           greeting="{!$Label.Email_User_Greeting}"
                           signature="{!$Label.Email_Signature}">
             <c:Paragraph emailLabel="{!$Label.Email_Body_User_Lockout}"/>
@@ -16,7 +15,6 @@
     <messaging:plainTextEmailBody>
         <c:EmailWireframeText recipientId="{!recipient.Id}"
                               header="{!$Label.Email_Header_Thank_You_For_Your_Interest}"
-                              title="{!$Label.Email_Title_All}"
                               greeting="{!$Label.Email_User_Greeting}"
                               signature="{!$Label.Email_Signature}">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_User_Lockout}"/>
