@@ -1,19 +1,33 @@
 ({
 	doExecute: function (component, event, helper) {
 		console.log('DOEXECUTE');
+		let params = event.getParam('arguments');
+		let ipId = params.ipId;
+		component.set('v.callback', params.callback);
+		component.set('v.mode', params.mode);
 		component.set('v.detailsExpandedStudy', true);
 		component.set('v.detailsExpandedSystem', true);
 		component.set('v.planName', '');
-		communityService.executeAction(component, 'getInitData', {
+		if (!ipId) {
+			communityService.executeAction(component, 'getInitData', {
 				ctpId: component.get('v.recordId')
 			}, function (initData) {
-			component.set('v.tasks', initData.listWrapper)
-			component.set("v.studyInfo", initData.infoStudy);
-			component.find('createIncentiveTask').show();
-		});
+				component.set('v.tasks', initData.listWrapper)
+				component.find('createIncentiveTask').show();
+			});
+		}
 
-		let params = event.getParam('arguments');
-		component.set('v.callback', params.callback);
+		if (ipId !== null) {
+			if(params.mode === 'edit' || params.mode === 'view') {
+				helper.callRemote(component, ipId);
+				component.set('v.disableSave', false);
+				component.find('createIncentiveTask').show();
+			} else if(params.mode === 'clone') {
+				helper.callRemote(component, ipId, true);
+				component.set('v.disableSave', false);
+				component.find('createIncentiveTask').show();
+			}
+		}
 
 	},
 	toggleViewStudy: function (cmp, event, helper) {
@@ -38,28 +52,37 @@
 	},
 	doSave: function (component, event, helper) {
 		component.find('spinner').show();
-		var plName = component.get('v.planName');
 		var tasksWrap = component.get('v.tasks');
 		var tasksWrapString = JSON.stringify(tasksWrap);
-		communityService.executeAction(component, 'createIncentivePlan',  {tasksString:tasksWrapString, planName:plName}, function(ipId) {
-			component.find('createIncentiveTask').hide();
+		var plName = component.get('v.planName');
+		if(plName.trim()) {
+			communityService.executeAction(component, 'createUpdateIncentivePlan', {
+				tasksString: tasksWrapString,
+				planName: plName
+			}, function (ipId) {
+				component.find('createIncentiveTask').hide();
+				component.find('spinner').hide();
+
+				let callback = component.get('v.callback');
+				if (callback) callback(ipId);
+
+			});
+		} else {
 			component.find('spinner').hide();
-
-			let callback = component.get('v.callback');
-			if (callback) callback(ipId);
-
-		});
+			communityService.showToast("Error", "error", '\n' +
+				'Required field is empty');
+		}
 	},
 	checkPlanName: function (component, event, helper) {
 		var planName = component.get('v.planName');
-		console.log('TTT', JSON.parse(JSON.stringify(component.get('v.tasks'))));
+		var planId = component.get('v.tasks');
 		communityService.executeAction(component, 'checkNamePlan',  {namePlan:planName}, function(returnValue) {
-			if(returnValue){
+			if(returnValue && planId[0].planId == null){
 				component.set('v.disableSave', true);
 				communityService.showToast("Error", "error", 'The incentive program already exists');
-			} else{
-				component.set('v.disableSave', false);
-			}
+			} else {
+					component.set('v.disableSave', false);
+				}
 
 		});
 
@@ -68,8 +91,6 @@
 		var id = event.getSource().get('v.id')
 		var aura = event.getSource().getLocalId();
 		var tasks = component.get('v.tasks');
-		tasks[id][aura] = !tasks[id][aura];
 		component.set('v.tasks', tasks);
-
 	}
 });
