@@ -8,7 +8,7 @@
             component.set('v.booleanUpdateInProgress', true);
             component.set('v.booleanValue', field.value == 'true');
             component.set('v.booleanUpdateInProgress', false);
-        }
+        }        
         component.set('v.previousValue', field.value)
     },
     onValueChange: function (component, event, helper) {
@@ -16,6 +16,7 @@
         let field = component.get('v.field');
         let updateInProgress = component.get('v.updateInProgress');
         let previousValue = component.get('v.previousValue');
+        console.log('#updateInProgress: '+updateInProgress)
         if (!updateInProgress) {
 
             if (parent !== null && field !== undefined && field.value !== previousValue) {

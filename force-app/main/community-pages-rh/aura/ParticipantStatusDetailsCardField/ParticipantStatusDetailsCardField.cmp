@@ -13,27 +13,28 @@
     <aura:attribute name="updateInProgress" type="Boolean" default="false"/>
     <aura:attribute name="booleanUpdateInProgress" type="Boolean" default="false"/>
     <aura:attribute name="errorMessage" type="String" default=""/>
-
+    
     <aura:method name="checkValidity" action="{!c.doCheckValidity}" access="public"/>
-
-
+    
+    
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    <aura:handler name="change" value="{!v.field.value}" action="{!c.onValueChange}"/>
+    <!-- <aura:handler name="change" value="{!v.field.value}" action="{!c.onValueChange}"/> -->
     <aura:handler name="change" value="{!v.booleanValue}" action="{!c.onBooleanValueChange}"/>
     <div class="{!'slds-col form-field ' + v.field.style }">
         <aura:if isTrue="{!v.field.type=='text'}">
-            <lightning:input aura:id="fieldInput" label="{!if(and(!empty(v.field.requiredTitle),and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required)),v.field.requiredTitle,v.field.title)}" type="text" value="{!v.field.value}"
-                             disabled="{!v.field.readonly || !v.editable || and(and(v.field.dependent, !v.field.dependentActive),v.field.strictDependency)}"
-                             required="{!and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required)}"
-                             onblur="{!c.onBlur}"/>
+                <lightning:input aura:id="fieldInput" label="{!if(and(!empty(v.field.requiredTitle),and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required)),v.field.requiredTitle,v.field.title)}" type="text" value="{!v.field.value}"
+                disabled="{!v.field.readonly || !v.editable || and(and(v.field.dependent, !v.field.dependentActive),v.field.strictDependency)}"
+                required="{!and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required)}"
+                             onblur="{!c.onValueChange}"/>
         </aura:if>
         <aura:if isTrue="{!v.field.type=='picklist'}">
-            <div class="label"><aura:if isTrue="{!and(empty(v.field.requiredTitle),and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required))}"><abbr title="required" class="slds-required">*</abbr></aura:if>{!if(and(!empty(v.field.requiredTitle),and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required)), v.field.requiredTitle, v.field.title)}</div>
-            <c:rrSelect aura:id="selectList" options="{!v.field.values}" value="{!v.field.value}"
-                        placeholder="{!if(v.field.readonly || !v.editable || and(v.field.smartPicklist, v.field.values.length == 1) || and(and(v.field.dependent, !v.field.dependentActive),v.field.strictDependency),' ',$Label.c.PG_AC_Select)}"
-                        disabled="{!v.field.readonly || !v.editable || and(v.field.smartPicklist, v.field.values.length == 1) || and(and(v.field.dependent, !v.field.dependentActive),v.field.strictDependency)}"
-                        required="{!and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required)}"
-                        setValueAsSelected="true" errorMessage="{!v.errorMessage}" useSentenceFont="false"/>
+                <div class="label"><aura:if isTrue="{!and(empty(v.field.requiredTitle),and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required))}"><abbr title="required" class="slds-required">*</abbr></aura:if>{!if(and(!empty(v.field.requiredTitle),and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required)), v.field.requiredTitle, v.field.title)}</div>
+                <c:rrSelect aura:id="selectList" options="{!v.field.values}" value="{!v.field.value}"
+                            placeholder="{!if(v.field.readonly || !v.editable || and(v.field.smartPicklist, v.field.values.length == 1) || and(and(v.field.dependent, !v.field.dependentActive),v.field.strictDependency),' ',$Label.c.PG_AC_Select)}"
+                            disabled="{!v.field.readonly || !v.editable || and(v.field.smartPicklist, v.field.values.length == 1) || and(and(v.field.dependent, !v.field.dependentActive),v.field.strictDependency)}"
+                            required="{!and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required)}"
+                            setValueAsSelected="true" errorMessage="{!v.errorMessage}" useSentenceFont="false"
+                        onchange="{!c.onValueChange}"/>
         </aura:if>
         <aura:if isTrue="{!v.field.type=='date'}">
             <lightning:input aura:id="fieldInput"
@@ -42,7 +43,8 @@
                              max="{!if(v.field.onlyPastDate,v.todayDate,'')}"
                              value="{!v.field.value}"
                              disabled="{!v.field.readonly || !v.editable || and(and(v.field.dependent, !v.field.dependentActive),v.field.strictDependency)}"
-                             required="{!and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required)}"/>
+                             required="{!and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required)}"
+                             onchange="{!c.onValueChange}"/>
         </aura:if>
         <aura:if isTrue="{!v.field.type=='time'}">
             <lightning:input aura:id="fieldInput"
@@ -50,13 +52,14 @@
                              min="05:00:00.000Z"
                              max="23:59:00.000Z"
                              disabled="{!v.field.readonly || !v.editable || and(and(v.field.dependent, !v.field.dependentActive),v.field.strictDependency)}"
-                             required="{!and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required)}"/>
-        </aura:if>
-        <aura:if isTrue="{!v.field.type=='checkbox'}">
-            <lightning:input aura:id="fieldInput" label="{!v.field.title}" type="checkbox" checked="{!v.booleanValue}"
-                             disabled="{!v.field.readonly || !v.editable || and(and(v.field.dependent, !v.field.dependentActive),v.field.strictDependency)}"
-                             required="{!and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required)}"/>
+                             required="{!and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required)}"
+                             onchange="{!c.onValueChange}"/>
+                            </aura:if>
+                            <aura:if isTrue="{!v.field.type=='checkbox'}">
+                                <lightning:input aura:id="fieldInput" label="{!v.field.title}" type="checkbox" checked="{!v.booleanValue}"
+                                                 disabled="{!v.field.readonly || !v.editable || and(and(v.field.dependent, !v.field.dependentActive),v.field.strictDependency)}"
+                                                 required="{!and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required)}"/>                             
         </aura:if>
     </div>
-
+    
 </aura:component>
