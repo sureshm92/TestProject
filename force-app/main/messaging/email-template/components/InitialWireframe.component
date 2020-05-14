@@ -16,7 +16,7 @@
                       recipientId="{!recordId}"
                       sourceId="{!sourceId}"
                       header="{!$Label.Email_Header_Initial_Patient}"
-                      title="{!$Label.Email_Title_ALL}"
+                      title="{!titleLabel}"
                       greeting="{!$Label.Email_User_Greeting_FirstName}"
                       signature="{!$Label.Email_Signature_Patient}">
         <!-- Inner body -->
@@ -28,7 +28,7 @@
                       recipientId="{!recordId}"
                       sourceId="{!sourceId}"
                       header="{!$Label.Email_Header_Initial_Patient}"
-                      title="{!$Label.Email_Title_ALL}"
+                      title="{!titleLabel}"
                       greeting="{!$Label.Email_User_Greeting_FirstName}"
                       signature="{!$Label.Email_Signature_Patient}">
         <!-- Inner body -->
@@ -40,7 +40,7 @@
                       recipientId="{!recordId}"
                       sourceId="{!sourceId}"
                       header="{!$Label.Email_Header_Initial_Patient}"
-                      title="{!$Label.Email_Title_ALL}"
+                      title="{!titleLabel}"
                       greeting="{!$Label.Email_User_Greeting_FirstName}"
                       signature="{!$Label.Email_Signature_Patient}">
         <!-- Inner body -->
@@ -53,7 +53,7 @@
                       recipientId="{!recordId}"
                       sourceId="{!sourceId}"
                       header="{!$Label.Email_Header_Initial_Patient_Delegate}"
-                      title="{!$Label.Email_Title_ALL}"
+                      title="{!titleLabel}"
                       greeting="{!$Label.Email_User_Greeting_FirstName}"
                       signature="{!$Label.Email_Signature_New}">
         <!-- Inner body -->
@@ -67,7 +67,7 @@
                       recipientId="{!recordId}"
                       sourceId="{!sourceId}"
                       header="{!$Label.Email_Header_Initial_PI}"
-                      title="{!$Label.Email_Title_ALL}"
+                      title="{!titleLabel}"
                       greeting="{!$Label.Email_User_Greeting}"
                       signature="{!$Label.Email_Signature}">
         <!-- Inner body -->
@@ -80,7 +80,7 @@
                       recipientId="{!recordId}"
                       sourceId="{!sourceId}"
                       header="{!$Label.Email_Header_Initial_Delegate}"
-                      title="{!$Label.Email_Title_ALL}"
+                      title="{!titleLabel}"
                       greeting="{!$Label.Email_User_Greeting_FirstName}"
                       signature="{!$Label.Email_Signature}">
         <!-- Inner body -->
@@ -94,7 +94,7 @@
                       recipientId="{!recordId}"
                       sourceId="{!sourceId}"
                       header="{!$Label.Email_Header_Initial_HCP}"
-                      title="{!$Label.Email_Title_ALL}"
+                      title="{!titleLabel}"
                       greeting="{!$Label.Email_User_Greeting}"
                       signature="{!$Label.Email_Signature}"
                       specificEmailProvider="{!specificProvider}">
@@ -107,7 +107,7 @@
                       recipientId="{!recordId}"
                       sourceId="{!sourceId}"
                       header="{!$Label.Email_Header_Initial_HCP}"
-                      title="{!$Label.Email_Title_ALL}"
+                      title="{!titleLabel}"
                       greeting="{!$Label.Email_User_Greeting}"
                       signature="{!$Label.Email_Signature}"
                       specificEmailProvider="{!specificProvider}">
@@ -120,7 +120,7 @@
                       recipientId="{!recordId}"
                       sourceId="{!sourceId}"
                       header="{!$Label.Email_Header_Initial_HCP}"
-                      title="{!$Label.Email_Title_ALL}"
+                      title="{!titleLabel}"
                       greeting="{!$Label.Email_User_Greeting}"
                       signature="{!$Label.Email_Signature}"
                       specificEmailProvider="{!specificProvider}">
@@ -134,7 +134,7 @@
                       recipientId="{!recordId}"
                       sourceId="{!sourceId}"
                       header="{!$Label.Email_Header_Initial_Delegate}"
-                      title="{!$Label.Email_Title_ALL}"
+                      title="{!titleLabel}"
                       greeting="{!$Label.Email_User_Greeting_FirstName}"
                       signature="{!$Label.Email_Signature}">
         <!-- Inner body -->

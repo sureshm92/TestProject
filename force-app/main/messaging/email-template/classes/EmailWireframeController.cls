@@ -38,7 +38,7 @@ global without sharing class EmailWireframeController {
 
     public String getTitleText() {
         String titleLabelValue = getLabelValue(titleValue);
-        if (titleLabelValue.contains(EmailTemplateProvider.PARAM_PREFIX)) {
+        if (String.isEmpty(titleLabelValue) || titleLabelValue.contains(EmailTemplateProvider.PARAM_PREFIX)) {
             titleLabelValue = getProvider().getUserMode() == CommunityService.USER_MODE_PARTICIPANT ?
                     getProvider().getParameters().get(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_LABEL)
                     : getProvider().getParameters().get(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_NEW_TM);
