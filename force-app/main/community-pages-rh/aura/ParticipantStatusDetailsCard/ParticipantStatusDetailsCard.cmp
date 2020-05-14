@@ -13,7 +13,7 @@
     <aura:attribute name="todayDate" type="Date"/>
     <aura:attribute name="options" type="List"/>
     <aura:attribute name="disableReason" type="Boolean" />
-                    
+    
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <!--
     <aura:handler name="change" value="{!v.stepWrapper.outcome}" action="{!c.updateReasonList}"/>
@@ -32,14 +32,18 @@
                 <div class="slds-wrap slds-grid slds-gutters">
                     <div class="slds-col slds-size--1-of-2 outcome-form-element">
                         <div class="label">{!$Label.c.PG_ACPE_L_Outcome}</div>
-                        <!--<c:rrSelect options="{!v.options}" value="{!v.stepWrapper.outcome}"
-                                    placeholder="{!v.stepWrapper.outcomePlaceholder}" 
-                                    setValueAsSelected="true" />
+                        <!--<c:rrSelect aura:id="outcome-select" options="{!v.stepWrapper.outcomeList}" value="{!v.stepWrapper.outcome}"
+                                    placeholder="{!v.stepWrapper.outcomePlaceholder}" setValueAsSelected="true"
+                                    disabled="{!!v.stepWrapper.outcomeEditable}" errorMessage="{!v.stepWrapper.outcomeDisclaimer}"
+                                    useSentenceFont="false"/>
                         -->
                         <div class="rrs-container">
                             <div class="rrs-relative">
-                                <lightning:select aura:id="outcomeList"  name="rrs-select" 
-                                                  variant="label-hidden" onchange="{!c.updateReasonList}">
+                                <lightning:select aura:id="outcomeList"  
+                                                  name="rrs-select" 
+                                                  variant="label-hidden" 
+                                                  disabled="{!!v.stepWrapper.outcomeEditable}"
+                                                  onchange="{!c.updateReasonList}">
                                     <option value="{!null}" style="display: none;">{!v.stepWrapper.outcomePlaceholder}</option>
                                     <aura:iteration items="{!v.stepWrapper.outcomeList}" var="item">
                                         <option value="{!item.value}"><aura:unescapedHtml value="{!item.label}"/></option>
@@ -47,21 +51,22 @@
                                 </lightning:select>
                                 <img src="{!$Resource.SelectMenuTriangleDown}" height="16" width="16" />
                             </div>
+                            <div class="{!'rr-error-message' + if(v.stepWrapper.outcomeDisclaimer == '', ' slds-hide','')}">{!v.stepWrapper.outcomeDisclaimer}</div>
                         </div>
                     </div>
                     <div class="slds-col slds-size--1-of-2 outcome-form-element">
                         <div class="label">{!$Label.c.PG_ACPE_L_Reason}</div>
                         <!--<c:rrSelect options="{!v.reasonList}" value="{!v.stepWrapper.reason}"
                                     placeholder="{!if(empty(v.reasonList),'',$Label.c.PG_RP_L_Not_selected)}"
-                                    disabled="{!or(empty(v.stepWrapper.outcome),empty(v.reasonList))}"
-                                    setValueAsSelected="true"/>
+                                    disabled="{!or(or(empty(v.stepWrapper.outcome),empty(v.reasonList)),!v.stepWrapper.outcomeEditable)}"
+                                    setValueAsSelected="true" useSentenceFont="false"/>
                                     -->
                         <div class="rrs-container">
                             <div class="rrs-relative">
                                 <lightning:select aura:id="reasonList"  name="rrs-select" 
                                                   value="{!v.stepWrapper.reason}"
                                                   variant="label-hidden" 
-                                                  disabled="{!or(empty(v.stepWrapper.outcome),empty(v.reasonList)) || v.disableReason}"
+                                                  disabled="{!or(empty(v.stepWrapper.outcome),empty(v.reasonList)) || v.disableReason || !v.stepWrapper.outcomeEditable}"
                                                   onchange="{!c.updateNotesRequired}">
                                     
                                     <option value="{!null}" style="display: none;">{!if(empty(v.reasonList),'',$Label.c.PG_RP_L_Not_selected)}</option>

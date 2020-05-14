@@ -29,10 +29,12 @@
     onBooleanValueChange: function (component, event, helper) {
         let booleanValue = component.get('v.booleanValue');
         let updateInProgress = component.get('v.booleanUpdateInProgress');
+        let parent = component.get('v.parent');
         if (!updateInProgress) {
             let field = component.get('v.field');
             field.value = booleanValue?'true':'false';
             component.set('v.field', field);
+            parent.fieldChanged(field.field, field.value, field.valid, null);
         }
     },
     doCheckValidity: function (component, event, helper) {
