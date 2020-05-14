@@ -342,7 +342,7 @@ global without sharing class EmailTemplateController {
 
     global Boolean getIsInitial() {
         try {
-            return (Id.valueOf(emailRecipientId).getSobjectType() == User.getSObjectType() && !isLockOut);
+            return (Id.valueOf(emailRecipientId).getSobjectType() == User.getSObjectType());
         } catch (Exception e) {
             return false;
         }
