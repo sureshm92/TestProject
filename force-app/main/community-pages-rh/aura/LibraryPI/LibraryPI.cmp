@@ -5,10 +5,11 @@
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
 
-    <aura:attribute name="parent" type="Aura.Component"/>
-    <aura:attribute name="resourceStructureList" type="Object"/>
+      <!--  <aura:attribute name="parent" type="Aura.Component"/>-->
+       <aura:attribute name="resourceStructureList" type="Object"/>
 
 
+    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
     <lightning:accordion aura:id="accordion" allowMultipleSectionsOpen="true">
         <aura:iteration items="{!v.resourceStructureList}" var="resourceStructure" indexVar="key">
             <lightning:accordionSection label="{!resourceStructure.structureName + ' (' + resourceStructure.resources.length + ') '}" class="{!resourceStructure.resources.length &lt; 1 ? 'hide-arrow' : ''}">
