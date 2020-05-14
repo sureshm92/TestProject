@@ -53,12 +53,12 @@
 
                 <div style="margin-top: 30px; margin-bottom: 30px;">
                     <c:EmailTemplateDelegate
-                            rendered="{!NOT(isLockOut) && !((isDelegate && resultUserMode != 'Participant')||hasPIRPDelegationRecords)}"
+                            rendered="{!NOT(isLockOut) && ((isDelegate && resultUserMode != 'Participant') || hasPIRPDelegationRecords)}"
                             userMode="{!resultUserMode}" delegateLevelsPI="{!delegateLevelsPI}"
                             delegateLevelsHCP="{!delegateLevelsHCP}"/>
 
                     <c:EmailTemplateDelegateParticipant userId="{!emailRecipientId}"
-                                                        rendered="{!NOT(isLockOut) && !(isInitial && isDelegate && resultUserMode == 'Participant')}"
+                                                        rendered="{!isInitial && isDelegate && resultUserMode == 'Participant'}"
                                                         params="{!dataParametersValue}"
                                                         commTemplate="{!communityTemplateValue}"
                                                         sourceId="{!sourceRecordId}"/>

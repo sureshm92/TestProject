@@ -62,10 +62,6 @@ global without sharing class EmailTemplateController {
     }
 
     private Boolean isLockOut = false;
-    public Boolean getIsLockOut() {
-        return isLockOut;
-    }
-
     private String bodyParamValue;
     global String bodyValue {
         get {
@@ -348,7 +344,7 @@ global without sharing class EmailTemplateController {
 
     global Boolean getIsInitial() {
         try {
-            return Id.valueOf(emailRecipientId).getSobjectType() == User.getSObjectType();
+            return (Id.valueOf(emailRecipientId).getSobjectType() == User.getSObjectType() && !isLockOut);
         } catch (Exception e) {
             return false;
         }
