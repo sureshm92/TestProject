@@ -46,6 +46,7 @@ public inherited sharing class VisitReportContainerRemote {
         @AuraEnabled public String enrollmentDate;
         @AuraEnabled public String studySiteName;
         @AuraEnabled public String notAvailableMessage;
+        @AuraEnabled public String participantStatus;//For In-trial Summary Report
     }
 
     public class ReportDataTableWrapper {
