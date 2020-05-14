@@ -18,6 +18,7 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_PT_NEW_STDDOC_TYPE = 'Message_to_PT_New_StdDoc_Type';
     public static final String MESSAGE_TO_PT_DATA_AVAILABLE_TYPE = 'Message_to_PT_Data_Available_Type';
     public static final String MESSAGE_TO_PT_HAS_NOT_LOGGED_IN_TYPE = 'Message_to_PT_has_not_Logged_In_Type';
+    public static final String MESSAGE_TO_PT_TRIAL_MATCH = 'Message_To_PT_Trial_Match';
     public static final String MESSAGE_TO_PI_HAS_UNREAD_CONVERSATION = 'Message_to_PI_has_Unread_Conversation';
 
     // for survey & task
