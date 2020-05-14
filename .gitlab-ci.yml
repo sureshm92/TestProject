@@ -105,7 +105,7 @@ DeployINT5.0:
 
   stage: DeployINT5.0
   script:
-    - npm install --global sfdx-cli
+    - sfdx update
     - echo "$INT5_0" > sfdx-auth-url
     - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT5_0 -d
     - sfdx --version
