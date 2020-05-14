@@ -9,9 +9,12 @@ public inherited sharing class VisitReportService {
         Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, CommunityService.USER_MODE_PARTICIPANT);
         VisitResultsService visitResultsService = ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class));
         VisitResultMService visitResultMService = ((VisitResultMService) ClassFactory.newInstance(VisitResultMService.class));
+
         List<Patient_Visit__c> patientVisits = visitResultsService.getPatientVisitsForReport(pe);
         List<Visit_Result_GroupM__mdt> visitResultGroupMS = visitResultMService.getVisitResultGroups(true, null);
-        Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap = getDataTableWrappersByGroupName(pe, patientVisits, visitResultGroupMS);
+        Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap =
+                getDataTableWrappersByGroupName(pe, patientVisits, visitResultGroupMS);
+
         return getFillReportData(reportDataWrapperMap, visitResultGroupMS, pe);
     }
 
@@ -23,22 +26,27 @@ public inherited sharing class VisitReportService {
     ) {
         String language  = IRBParticipantService.getSuitableLanguageForIRBTranslation(pe.Id);
         if(language == null) language = UserInfo.getLanguage();
+
         VisitResultSharingService visitResultSharingServiceInt = ((VisitResultSharingService) ClassFactory.newInstance(VisitResultSharingService.class));
         Map<String, VisitReportContainerRemote.ReportDataTableWrapper> result = new Map<String, VisitReportContainerRemote.ReportDataTableWrapper>();
         Map<Id, List<VisitResultWrapper>> availableVisitResultTypeMSByGroupIds = visitResultSharingServiceInt.geAvailableVisitResultTypeMSByGroupIds(pe, visitResultGroupMS);
         Map<Id, Map<String, Visit_Result__c>> availableVisitResultsByPatientVisitIds = visitResultSharingServiceInt.getAvailableVisitResultsByPatientVisitIds(pe, patientVisits);
         Set<String> notAccessResultType = visitResultSharingServiceInt.getNotAccessResultType();
+
         for (Patient_Visit__c patientVisit : patientVisits) {
             if (availableVisitResultsByPatientVisitIds.containsKey(patientVisit.Id)) {
                 Map<String, Visit_Result__c> availableVisitResultsByResultType = availableVisitResultsByPatientVisitIds.get(patientVisit.Id);
+
                 for (Visit_Result_GroupM__mdt visitResultGroupM : visitResultGroupMS) {
                     if (availableVisitResultTypeMSByGroupIds.containsKey(visitResultGroupM.Id)) {
                         List<VisitResultWrapper> availableVisitResultSortWrappers = availableVisitResultTypeMSByGroupIds.get(visitResultGroupM.Id);
                         List<VisitReportContainerRemote.VisitDataWrapper> reportRowWrappers = new List<VisitReportContainerRemote.VisitDataWrapper>();
                         List<VisitReportContainerRemote.VisitDataWrapper> reportHeaderWrappers = new List<VisitReportContainerRemote.VisitDataWrapper>();
                         List<VisitReportContainerRemote.LabsNameDescriptionWrapper> labsDescription = new List<VisitReportContainerRemote.LabsNameDescriptionWrapper>();
+
                         reportHeaderWrappers.add(new VisitReportContainerRemote.VisitHeaderWrapper('Report_Dates'));
                         reportRowWrappers.add(new VisitReportContainerRemote.VisitDateColumnWrapper(patientVisit.Completed_Date__c));
+
                         Boolean isResult = false;
                         for (VisitResultWrapper visitResultWrapper : availableVisitResultSortWrappers) {
                             if (!notAccessResultType.contains(visitResultWrapper.visitResultTypeM.DeveloperName)) {
@@ -81,23 +89,29 @@ public inherited sharing class VisitReportService {
 
     @TestVisible
     private VisitReportContainerRemote.ReportDataWrapper getFillReportData(
-            Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap
-            , List<Visit_Result_GroupM__mdt> visitResultGroupMS, Participant_Enrollment__c pe
+            Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap,
+            List<Visit_Result_GroupM__mdt> visitResultGroupMS,
+            Participant_Enrollment__c pe
     ) {
         VisitReportContainerRemote.ReportDataWrapper result = new VisitReportContainerRemote.ReportDataWrapper();
+        List<VisitReportContainerRemote.ReportDataTableWrapper> sortReportDataTableWrappers =
+                this.getSortedReportDataTableWrappers(reportDataWrapperMap, visitResultGroupMS);
+
         String language  = IRBParticipantService.getSuitableLanguageForIRBTranslation(pe.Id);
-        if(language == null) {
+        if (language == null) {
             language = UserInfo.getLanguage();
             result.notAvailableMessage = ParticipantIRBCheckerRemote.checkLanguagePermissions(pe.Id).message;
         }
         TranslateHelper.translate(pe, language);
-        List<VisitReportContainerRemote.ReportDataTableWrapper> sortReportDataTableWrappers = this.getSortedReportDataTableWrappers(reportDataWrapperMap, visitResultGroupMS);
+
         result.dataTables = sortReportDataTableWrappers;
         result.studyCodeName = pe.Clinical_Trial_Profile__r.Study_Code_Name__c;
         result.studyTitle = pe.Clinical_Trial_Profile__r.Study_Title__c;
         result.profilePicture = pe.Clinical_Trial_Profile__r.Profile_Picture__c;
         result.participantFullName = pe.Participant__r.Full_Name__c;
         result.participantLastName = pe.Participant__r.Last_Name__c;
+        result.studySiteName = pe.Study_Site__r.Name;
+
         if (pe.Enrolled_DateTime__c != null) {
             Datetime dT = pe.Enrolled_DateTime__c;
             Date myDate = Date.newInstance(dT.year(), dT.month(), dT.day());
@@ -120,6 +134,7 @@ public inherited sharing class VisitReportService {
     ) {
         String language  = IRBParticipantService.getSuitableLanguageForIRBTranslation(peId);
         if(language == null) language = UserInfo.getLanguage();
+
         VisitReportContainerRemote.ReportDataTableWrapper reportDataTableWrapper = new VisitReportContainerRemote.ReportDataTableWrapper();
         reportDataTableWrapper.tHead = reportHeaderWrappers;
         reportDataTableWrapper.visitResultsWrapper = new List<List<VisitReportContainerRemote.VisitDataWrapper>>{
@@ -128,6 +143,7 @@ public inherited sharing class VisitReportService {
         reportDataTableWrapper.tableName = TranslateHelper.getLabelValue('Report_' + visitResultGroupM.DeveloperName + '_header', language);
         reportDataTableWrapper.tableApiName = visitResultGroupM.DeveloperName;
         reportDataTableWrapper.labsDescription = labsDescription;
+
         return reportDataTableWrapper;
     }
 
@@ -156,12 +172,6 @@ public inherited sharing class VisitReportService {
             }
         }
         return result;
-    }
-
-    @TestVisible
-    private Boolean isNotAccessReport(Participant_Enrollment__c pe) {
-        return !PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)
-                || !pe.Participant_Contact__r.Visit_Results_Opt_In__c;
     }
 
     public class VisitResultWrapper implements Comparable {
