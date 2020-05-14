@@ -35,6 +35,6 @@ global without sharing class EmailActionBtnController {
     }
 
     private String getCurrentCommunityURL() {
-        return CommunityTemplateService.getCommunityURL(EmailTemplateProviderService.getProvider().getCommunityTemplateName());
+        return CommunityTemplateService.getCommunityURL(EmailTemplateProviderService.getProvider().getCommunityName());
     }
 }
