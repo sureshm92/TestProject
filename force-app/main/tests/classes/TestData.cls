@@ -70,7 +70,7 @@ public class TestData {
                 SELECT Id,
                         External_Key__c,
                         Participant_Contact__c,Participant_Status__c,
-                        Participant_Contact__r.Visit_Results_Opt_In__c,
+                        Participant_Contact__r.Visit_Results_OptIn__c,
                         Initial_visit_scheduled_date__c,
                         Initial_visit_occurred_date__c,
                         Initial_visit_scheduled_time__c,

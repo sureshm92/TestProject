@@ -59,14 +59,13 @@ public without sharing class VisitResultSharingService {
             String mailingCountryCode = '';
             Integer timeSharing = 0;
             if(!isBatch){
-                if (!isVisitResultAvailable()) return filteredResults;
+                if (!isVisitResultAvailable()) return filteredResults;  // TODO Check
 
                 Clinical_Trial_Profile__c ctp = getCTP(state.ctp.Id);
                 visitResultTypeSharingByType = getResultTypeSharingsByType(ctp.Visit_Result_Type_Sharings__r);
                 mailingCountryCode = state.pe.Participant__r.Mailing_Country_Code__c;
                 timeSharing = patientVisits.size() - (ctp.Shareback_Availability_Timing__c.intValue());
             }
-
 
             for(Integer i = patientVisits.size() - 1; i >= 0; i--) {
                 if(isBatch){
@@ -92,7 +91,7 @@ public without sharing class VisitResultSharingService {
                 }
             }
         } catch (Exception e) {
-            System.debug(e.getCause() + '\n' + e.getLineNumber());
+            System.debug('ERROR in getAvailableVisitResults(), line ' + e.getLineNumber() + ':\n\t' + e.getMessage());
             return filteredResults;
         }
         return filteredResults;
