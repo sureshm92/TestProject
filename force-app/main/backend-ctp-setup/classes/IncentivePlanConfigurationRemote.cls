@@ -109,7 +109,7 @@ public without sharing class IncentivePlanConfigurationRemote {
             List<Incentive_Plan_Task__c> newTask = new List<Incentive_Plan_Task__c>();
             for (IncentivePlanConfigurationRemote.IPWrapper task : tasks) {
                 newTask.add(new Incentive_Plan_Task__c(Id = task.taskId, Incentive_Plan__c = plan.Id, Incentive_Task_Catalog__c = task.taskName, Points__c = task.points,
-                        Description__c = task.taskDescription, Enabled__c = task.checkOn, IQVIA_Supported__c = task.checkIQVIA));
+                                                       Enabled__c = task.checkOn, IQVIA_Supported__c = task.checkIQVIA));
 
             }
             upsert newTask;
@@ -119,7 +119,7 @@ public without sharing class IncentivePlanConfigurationRemote {
             List<Incentive_Plan_Task__c> newTask = new List<Incentive_Plan_Task__c>();
             for (IncentivePlanConfigurationRemote.IPWrapper task : tasks) {
                 newTask.add(new Incentive_Plan_Task__c(Incentive_Plan__c = plan.Id, Incentive_Task_Catalog__c = task.taskName, Points__c = task.points,
-                        Description__c = task.taskDescription, Enabled__c = task.checkOn, IQVIA_Supported__c = task.checkIQVIA));
+                                                       Enabled__c = task.checkOn, IQVIA_Supported__c = task.checkIQVIA));
 
             }
             insert newTask;
@@ -140,10 +140,23 @@ public without sharing class IncentivePlanConfigurationRemote {
     @AuraEnabled
     public static List<IPWrapper> getIncentiveProgramWrapper(String idPlan) {
         Incentive_Plan__c plan = [SELECT Id, Plan_Name__c FROM Incentive_Plan__c WHERE Id =: idPlan];
-        List<Incentive_Plan_Task__c> tasks = [SELECT Id, Incentive_Task_Catalog__c, Description__c, Points__c, Enabled__c, IQVIA_Supported__c FROM Incentive_Plan_Task__c WHERE Incentive_Plan__c =: idPlan];
+        List<Incentive_Task_Catalog__mdt> listTasksMtd = [SELECT Id, DeveloperName, Title_Label__c, Description_Label__c, Default_Number_of_Points__c FROM Incentive_Task_Catalog__mdt];
+        List<Incentive_Plan_Task__c> tasks = [SELECT Id, Incentive_Task_Catalog__c, Points__c, Enabled__c, IQVIA_Supported__c FROM Incentive_Plan_Task__c WHERE Incentive_Plan__c =: idPlan];
+
+        String taskTitle;
+        String taskDescription;
+
+        Map<String, Incentive_Task_Catalog__mdt> mapTasks = new Map<String, Incentive_Task_Catalog__mdt>();
+        for(Incentive_Task_Catalog__mdt taskMdt : listTasksMtd){
+            mapTasks.put(taskMdt.DeveloperName, taskMdt);
+        }
+
         List<IncentivePlanConfigurationRemote.IPWrapper> wrapIP = new List<IncentivePlanConfigurationRemote.IPWrapper>();
+
         for (Incentive_Plan_Task__c task : tasks) {
-            wrapIP.add(new IPWrapper(task.Incentive_Task_Catalog__c, task.Description__c, task.Enabled__c, task.IQVIA_Supported__c, task.Points__c, plan.Plan_Name__c, plan.Id, task.Id));
+            taskTitle = TranslateHelper.getLabelValue(mapTasks.get(task.Incentive_Task_Catalog__c).Title_Label__c);
+            taskDescription = TranslateHelper.getLabelValue(mapTasks.get(task.Incentive_Task_Catalog__c).Description_Label__c);
+            wrapIP.add(new IPWrapper(taskTitle, task.Incentive_Task_Catalog__c, taskDescription, task.Enabled__c, task.IQVIA_Supported__c, task.Points__c, plan.Plan_Name__c, plan.Id, task.Id));
         }
         return wrapIP;
     }
@@ -197,7 +210,8 @@ public without sharing class IncentivePlanConfigurationRemote {
             this.checkIQVIA = checkIQVIA;
             this.points = points;
         }
-        public IPWrapper(String taskName, String taskDescription, Boolean checkOn, Boolean checkIQVIA, Decimal points, String planName, String planId, String taskId) {
+        public IPWrapper(String taskTitle, String taskName, String taskDescription, Boolean checkOn, Boolean checkIQVIA, Decimal points, String planName, String planId, String taskId) {
+            this.taskTitle = taskTitle;
             this.taskName = taskName;
             this.taskDescription = taskDescription;
             this.checkOn = checkOn;
