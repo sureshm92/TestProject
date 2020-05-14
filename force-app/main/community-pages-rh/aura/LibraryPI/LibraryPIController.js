@@ -3,7 +3,7 @@
         var isDelegate = communityService.isDelegate() ? true : false;
         communityService.executeAction(component,'getInitData', {isDelegate : isDelegate}, function (response){
             component.set('v.resourceStructureList', response);
-            component.get('v.parent').find('mainSpinner').hide();
+            component.find('mainSpinner').hide();
         });
 
     },

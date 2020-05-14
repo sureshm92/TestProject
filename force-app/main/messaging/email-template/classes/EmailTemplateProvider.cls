@@ -85,6 +85,10 @@ public without sharing virtual class EmailTemplateProvider {
         return templatePropertiesService.getTemplateName();
     }
 
+    public String getCommunityName() {
+        return templatePropertiesService.getCommunityName();
+    }
+
     public Id getRecipientId() {
         return recipientContactId;
     }
@@ -121,7 +125,7 @@ public without sharing virtual class EmailTemplateProvider {
         parameters.put('emailTemplateBottomLogo', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_BOTTOM_LOGO));
 
         parameters.put('HeaderShortName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_HEADER_SHORT_NAME));
-        parameters.put('CommunityName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_NAME_LABEL));
+        parameters.put('FullCommunityName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_NAME_LABEL));
         parameters.put('ShortCommunityName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_NAME_SHORT));
         parameters.put('SignatureFullCommunityName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_SIGNATURE));
         parameters.put('SignatureShortCommunityName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_SIGNATURE_SHORT));

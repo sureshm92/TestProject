@@ -17,6 +17,10 @@ global without sharing class InitialWireframeController {
         return getTemplateInitial().whatId;
     }
 
+    public String getTitleLabel() {
+        return commTemplate == 'Default' ? Label.Email_Title_Initial_All_IQVIA : Label.Email_Title_Initial_All_GSK;
+    }
+
     public String getSpecificProvider() {
         return (getTemplateInitial().useAllPINames ? 'EmailTemplateProviderHCPMultiPI' : '');
     }

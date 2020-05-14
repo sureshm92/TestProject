@@ -1,1 +1,0 @@
-DeploymentContext.onInstall();
