@@ -1,9 +1,9 @@
 /**
- * Created by Nikita Abrazhevitch on 05-Sep-19.
- */
+* Created by Nikita Abrazhevitch on 05-Sep-19.
+*/
 
 public without sharing class ParticipantInformationRemote {
-
+    
     @AuraEnabled
     public static AddPatientByPIRemote.FormData getInitData() {
         try {
@@ -13,7 +13,7 @@ public without sharing class ParticipantInformationRemote {
             return (AddPatientByPIRemote.FormData) AuraHelper.throwException(e);
         }
     }
-
+    
     @AuraEnabled
     public static String getSteps(String peId, String userMode, String delegateId) {
         try {
@@ -23,7 +23,7 @@ public without sharing class ParticipantInformationRemote {
             return (String) AuraHelper.throwException(e);
         }
     }
-
+    
     @AuraEnabled
     public static String getPrintInformation(String peId, String userMode, String delegateId) {
         try {
@@ -39,7 +39,7 @@ public without sharing class ParticipantInformationRemote {
     /**
    * This method is created to accomodate the requirements of REF-1192
    * It calls getSteps(String, String, String) and
-   * getPrintInformation(String, String, String) returns the combined
+   * getPrintInformation(String, String, String) returns the combined 
    * return value of these methods
    * @param peId Participant_Enrollment__c.Id
    * @param userMode in String
@@ -50,18 +50,18 @@ public without sharing class ParticipantInformationRemote {
    */
     @AuraEnabled
     public static String getPrintInfoWithSteps(String peId, String userMode, String delegateId){
-        try{
+        try{    
             ParticipantItemWithSteps itemSteps = new ParticipantItemWithSteps();
-
-            itemSteps.participantItem = getPrintInformation(peId, userMode, delegateId);
+            
+            itemSteps.participantItem = getPrintInformation(peId, userMode, delegateId); 
             itemSteps.initData = getSteps(peId, userMode, delegateId);
-
+            
             return JSON.serialize(itemSteps);
         }catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
     }
-
+    
     @AuraEnabled
     public static PIDelegateLevelInfo checkPILevelI(String studySiteId) {
         PIDelegateLevelInfo levelInfo = new PIDelegateLevelInfo();
@@ -74,7 +74,7 @@ public without sharing class ParticipantInformationRemote {
     public static void updatePatientInfo(String participantJSON, String peJSON) {
         AddPatientByPIRemote.updatePatientInfo(participantJSON, peJSON);
     }
-
+    
     @AuraEnabled
     public static void updatePatientInfoWithDelegate(String participantJSON, String peJSON, String delegateJSON, String userInfoJSON) {
         AddPatientByPIRemote.updatePatientInfo(participantJSON, peJSON);
@@ -90,7 +90,7 @@ public without sharing class ParticipantInformationRemote {
         }
         updateUserLanguage(userInfoJSON);
     }
-
+    
     @AuraEnabled
     public static List<User> createUserForPatientProtal(String peJSON, Boolean sendEmails) {
         Participant_Enrollment__c pe = (Participant_Enrollment__c) JSON.deserialize(peJSON, Participant_Enrollment__c.class);
@@ -101,14 +101,14 @@ public without sharing class ParticipantInformationRemote {
             List<User> returnUsers = new List<User>();
             if (pe.HCP_Contact__c == null) {
                 returnUsers = ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id>{
-                        pe.Participant_Contact__c => pe.PI_Contact__c
-                });
+                    pe.Participant_Contact__c => pe.PI_Contact__c
+                        });
             } else {
                 returnUsers = ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id>{
-                        pe.Participant_Contact__c => pe.HCP_Contact__c
-                });
+                    pe.Participant_Contact__c => pe.HCP_Contact__c
+                        });
             }
-
+            
             Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
             String permissionSetName = CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
             actionAssignContactPermissions.addPermission(pe.Participant_Contact__c, permissionSetName);
@@ -120,7 +120,7 @@ public without sharing class ParticipantInformationRemote {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-
+    
     @AuraEnabled
     public static DelegateInfo checkDelegateDuplicate(String email) {
         DelegateInfo hp = new DelegateInfo();
@@ -356,7 +356,7 @@ public without sharing class ParticipantInformationRemote {
             throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
         }
     }
-
+    
     @AuraEnabled
     public static List<Participant__c> getParticipantDelegates(String participantId) {
         try {
@@ -385,25 +385,26 @@ public without sharing class ParticipantInformationRemote {
             throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
         }
     }
-
+    
     @AuraEnabled
-    public static String updatePatientStatus(String pathWrapperJSON, String peId){
+    public static String updatePatientStatus(String pathWrapperJSON, String peId, Boolean historyToUpdate){
         Participant_Enrollment__c pe = new Participant_Enrollment__c(Id = peId);
-        return updatePatientStatus(pathWrapperJSON, pe);
+        return updatePatientStatus(pathWrapperJSON, pe, historyToUpdate);
     }
-
-    public static String updatePatientStatus(String pathWrapperJSON, Participant_Enrollment__c pe){
+    
+    public static String updatePatientStatus(String pathWrapperJSON, Participant_Enrollment__c pe, Boolean historyToUpdate){
         try {
             ParticipantWorkflowService.ParticipantWorkflowWrapper pathWrapper =
-                    (ParticipantWorkflowService.ParticipantWorkflowWrapper)JSON.deserialize(pathWrapperJSON, ParticipantWorkflowService.ParticipantWorkflowWrapper.class);
+                (ParticipantWorkflowService.ParticipantWorkflowWrapper)JSON.deserialize(pathWrapperJSON, ParticipantWorkflowService.ParticipantWorkflowWrapper.class);
             Participant_Enrollment__c oldParticipantEnrollment = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityModeService.USER_MODE_PI, null);
             Clinical_Trial_Profile__c ctp = StudyTrialService.getFullTrial(oldParticipantEnrollment.Clinical_Trial_Profile__c);
             ParticipantWorkflowService.populatePEFromWorkflowWrapper(pathWrapper, pe, ctp, oldParticipantEnrollment);
             update pe;
-            pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_PI);
+            pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_PI);            
             Participant_Enrollment_Status_History__c pesh = ParticipantWorkflowService.createPESHFromPathWrapper(pathWrapper, pe, ctp, oldParticipantEnrollment);
-            if(pesh != null) insert pesh;
-
+            if(pesh != null && historyToUpdate){
+                insert pesh;
+            }
             pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_PI);
             if (pe == null) throw new CommunityServiceException('Participant enrollment not found');
             return JSON.serialize( new UpdateResponse(pe, ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe)));
@@ -411,17 +412,23 @@ public without sharing class ParticipantInformationRemote {
             System.debug('ERROR: ' + e.getMessage() + '\n' + e.getStackTraceString());
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());        }
     }
-
+    
     @AuraEnabled
     public static String updatePatientInfoAndStatus(String participantJSON, String peJSON, String pathWrapperJSON, String peId){
         Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
         Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
         update participant;
-        return updatePatientStatus(pathWrapperJSON, pe);
+        return updatePatientStatus(pathWrapperJSON, pe, false);
     }
-
+    
     @AuraEnabled
-    public static String updatePatientInfoAndStatusWithDelegate(String participantJSON, String peJSON, String pathWrapperJSON, String peId, String delegateJSON, String userInfoJSON) {
+    public static String updatePatientInfoAndStatusWithDelegate(String participantJSON, 
+                                                                String peJSON, 
+                                                                String pathWrapperJSON, 
+                                                                String peId, 
+                                                                String delegateJSON, 
+                                                                String userInfoJSON,
+                                                               Boolean historyToUpdate) {
         try{
             Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
             update participant;
@@ -429,7 +436,7 @@ public without sharing class ParticipantInformationRemote {
             AuraHelper.throwException(e);
         }
         Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
-
+        
         if (!String.isBlank(delegateJSON)) {
             Participant__c delegateParticipant = (Participant__c) JSON.deserialize(delegateJSON, Participant__c.class);
             if (delegateParticipant != null && !String.isBlank(delegateParticipant.Id)) {
@@ -441,10 +448,10 @@ public without sharing class ParticipantInformationRemote {
             }
         }
         updateUserLanguage(userInfoJSON);
-
-        return updatePatientStatus(pathWrapperJSON, pe);
+        
+        return updatePatientStatus(pathWrapperJSON, pe, historyToUpdate);
     }
-
+    
     public static void updateUserLanguage(String userJSON) {
         if (!String.isBlank(userJSON)) {
             try {
@@ -455,29 +462,29 @@ public without sharing class ParticipantInformationRemote {
             } catch (Exception e) {
                 throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
             }
-
+            
         }
     }
-
+    
     public class UpdateResponse{
         @AuraEnabled public Participant_Enrollment__c pe;
         @AuraEnabled public ParticipantWorkflowService.ParticipantWorkflowWrapper participantPath;
-
+        
         public UpdateResponse(Participant_Enrollment__c pe, ParticipantWorkflowService.ParticipantWorkflowWrapper participantPath){
             this.pe = pe;
             this.participantPath = participantPath;
         }
     }
-
-    /**
- * This wapper class is created to accomodate the requirements of REF-1192
- * It intends to combine the return value of getSteps(String, String, String)
- * and getPrintInformation(String, String, String)
- * @param args Unused.
- * @return Nothing.
- * @exception IOException On input error.
- * @see IOException
- */
+    
+  /**
+   * This wapper class is created to accomodate the requirements of REF-1192
+   * It intends to combine the return value of getSteps(String, String, String)
+   * and getPrintInformation(String, String, String)  
+   * @param args Unused.
+   * @return Nothing.
+   * @exception IOException On input error.
+   * @see IOException
+   */
     public class ParticipantItemWithSteps{
         @AuraEnabled public String participantItem;
         @AuraEnabled public String initData;
@@ -485,7 +492,7 @@ public without sharing class ParticipantInformationRemote {
             this.participantItem = '';
             this.initData = '';
         }
-
+        
     }
     public class DelegateInfo {
         @AuraEnabled public String email { get; set; }
