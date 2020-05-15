@@ -9,7 +9,7 @@ Referral_Completed_by__r.LastName</formula>
     <inlineHelpText>Referral Completed by</inlineHelpText>
     <label>Referral Completed by</label>
     <required>false</required>
-
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

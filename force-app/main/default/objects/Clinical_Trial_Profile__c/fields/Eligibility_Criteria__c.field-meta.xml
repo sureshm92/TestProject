@@ -2,12 +2,13 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Eligibility_Criteria__c</fullName>
     <description>Examples include Demographic, Age, Gender, Medication History, Formulary, Diagnosis, Co-morbidity, ICD 9/10 Code, etc.</description>
+    <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <inlineHelpText>Examples include Demographic, Age, Gender, Medication History, Formulary, Diagnosis, Co-morbidity, ICD 9/10 Code, etc.</inlineHelpText>
     <label>Eligibility Criteria</label>
     <length>130000</length>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>10</visibleLines>

@@ -1,0 +1,122 @@
+<!--
+ - Created by REF-716 - Gulam Sabir Khan on 04/07/2020.
+ -->
+<aura:component description="DashboardPINew" controller="DashboardRemote">
+    
+    <!-- attributes-->
+    <aura:attribute name="totalParticipants" type="Integer" default="0" />
+   	<aura:attribute name="days_1_To_3_participantOptions" type="List" default="[]"/>
+    <aura:attribute name="days_4_To_7_participantOptions" type="List" default="[]"/>
+    <aura:attribute name="days_8_To_10_participantOptions" type="List" default="[]"/>
+    <aura:attribute name="days_11_To_21_participantOptions" type="List" default="[]"/>
+    <aura:attribute name="greater_21_days_participantOptions" type="List" default="[]"/>
+    <aura:attribute name="actions" type="Object"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="isInvited" type="Boolean" default="true"/>
+    <aura:attribute name="piData" type="Object"/>
+    
+    <!-- handlers -->
+    <aura:handler name="init" value="{!this}" action="{! c.loadParticipantOptions }"/>
+    <aura:handler name="change" value="{!v.piData}" action="{!c.loadParticipantOptions}"/>
+
+    <!-- component body -->
+    <div style="margin-top: 25px;">
+        <lightning:card class="slds-text-heading_small" title="{!v.totalParticipants + ' ' + $Label.c.PG_DBPI_L_Contacted_Participants_Without_Scheduled_Initial_Visit}">
+            <div class="slds-grid" > 
+                <div class="slds-col">
+                </div>
+                <div class="slds-col">
+                    <div class="text_format_days">
+                        <span> {!$Label.c.PG_DBPI_L_1_to_3_Days} </span> 
+                    </div> 
+                    <div class="col_format1">
+                        <span class="text_format">{!v.days_1_To_3_participantOptions.length}</span>                     
+                        <lightning:buttonMenu label="{!$Label.c.PG_DBPI_L_Participants}" onselect="{!c.showEditParticipantInformation}">
+                            <aura:if isTrue="{!not(empty(v.days_1_To_3_participantOptions))}">
+                                <aura:iteration var="item" items="{!v.days_1_To_3_participantOptions}">
+                                    <lightning:menuItem aura:id="actionMenuItems1" label="{!item.label}" value="{!item.value}"  /> 
+                                </aura:iteration>
+                                <aura:set attribute="else">
+                                    <lightning:menuItem aura:id="actionMenuItemselse1" label="{!$Label.c.PG_DBPI_L_No_Records}" value="No participant record" /> 
+                                </aura:set>
+                            </aura:if>
+                        </lightning:buttonMenu>    
+                    </div>
+                </div>
+                <div class="slds-col">
+                    <div class="text_format_days">
+                        <span> {!$Label.c.PG_DBPI_L_4_to_7_Days} </span> 
+                    </div>  
+                    <div class="col_format1">
+                        <span class="text_format">{!v.days_4_To_7_participantOptions.length}</span>                     
+                     	<lightning:buttonMenu label="{!$Label.c.PG_DBPI_L_Participants}" onselect="{!c.showEditParticipantInformation}">
+                            <aura:if isTrue="{!not(empty(v.days_4_To_7_participantOptions))}">
+                                <aura:iteration var="item" items="{!v.days_4_To_7_participantOptions}">
+                                    <lightning:menuItem aura:id="actionMenuItems2" label="{!item.label}" value="{!item.value}"  /> 
+                                </aura:iteration>
+                                <aura:set attribute="else">
+                                    <lightning:menuItem aura:id="actionMenuItemselse2" label="{!$Label.c.PG_DBPI_L_No_Records}" value="No participant record" /> 
+                                </aura:set>
+                            </aura:if>
+                        </lightning:buttonMenu>    
+                    </div>
+                </div>
+                <div class="slds-col">
+                    <div class="text_format_days">
+                        <span> {!$Label.c.PG_DBPI_L_8_to_10_Days} </span> 
+                    </div> 
+                    <div class="col_format1">
+                        <span class="text_format">{!v.days_8_To_10_participantOptions.length}</span>                     
+                        <lightning:buttonMenu label="{!$Label.c.PG_DBPI_L_Participants}" onselect="{!c.showEditParticipantInformation}">
+                            <aura:if isTrue="{!not(empty(v.days_8_To_10_participantOptions))}">
+                                <aura:iteration var="item" items="{!v.days_8_To_10_participantOptions}">
+                                    <lightning:menuItem aura:id="actionMenuItems3" label="{!item.label}" value="{!item.value}"  /> 
+                                </aura:iteration>
+                                <aura:set attribute="else">
+                                    <lightning:menuItem aura:id="actionMenuItemselse3" label="{!$Label.c.PG_DBPI_L_No_Records}" value="No participant record" /> 
+                                </aura:set>
+                            </aura:if>
+                        </lightning:buttonMenu>    
+                    </div>
+                </div>
+                <div class="slds-col">
+                    <div class="text_format_days">
+                        <span> {!$Label.c.PG_DBPI_L_11_to_21_Days} </span> 
+                    </div>  
+                    <div class="col_format1">
+                        <span class="text_format">{!v.days_11_To_21_participantOptions.length}</span>                     
+                        <lightning:buttonMenu label="{!$Label.c.PG_DBPI_L_Participants}" onselect="{!c.showEditParticipantInformation}">
+                            <aura:if isTrue="{!not(empty(v.days_11_To_21_participantOptions))}">
+                                <aura:iteration var="item" items="{!v.days_11_To_21_participantOptions}">
+                                    <lightning:menuItem aura:id="actionMenuItems4" label="{!item.label}" value="{!item.value}"  /> 
+                                </aura:iteration>
+                                <aura:set attribute="else">
+                                    <lightning:menuItem aura:id="actionMenuItemselse4" label="{!$Label.c.PG_DBPI_L_No_Records}" value="No participant record" /> 
+                                </aura:set>
+                            </aura:if>
+                        </lightning:buttonMenu>    
+                    </div>
+                </div>
+                <div class="slds-col">
+                    <div class="text_format_days">
+                        <span> {!$Label.c.PG_DBPI_L_Greater_Than_21_Days} </span> 
+                    </div> 
+                    <div class="col_format1">
+                        <span class="text_format">{!v.greater_21_days_participantOptions.length}</span>                     
+                 		<lightning:buttonMenu label="{!$Label.c.PG_DBPI_L_Participants}" onselect="{!c.showEditParticipantInformation}">
+                            <aura:if isTrue="{!not(empty(v.greater_21_days_participantOptions))}">
+                                <aura:iteration var="item" items="{!v.greater_21_days_participantOptions}">
+                                    <lightning:menuItem aura:id="actionMenuItems5" label="{!item.label}" value="{!item.value}"  /> 
+                                </aura:iteration>
+                                <aura:set attribute="else">
+                                    <lightning:menuItem aura:id="actionMenuItemselse5" label="{!$Label.c.PG_DBPI_L_No_Records}" value="No participant record" /> 
+                                </aura:set>
+                            </aura:if>
+                        </lightning:buttonMenu>
+                    </div>                    
+                </div>
+            </div>
+            <div><br/></div>
+        </lightning:card>
+    </div>
+</aura:component>

@@ -5,6 +5,6 @@
     <externalId>false</externalId>
     <label>Is First Logon</label>
     <trackFeedHistory>false</trackFeedHistory>
-
+    <trackHistory>true</trackHistory>
     <type>Checkbox</type>
 </CustomField>

@@ -52,37 +52,3 @@
     margin-left:2%;
     margin-right:2%;
 }
-
-@media all and (max-width: 550px)  {
-	.THIS .svg-funnel-js:not(.svg-funnel-js--vertical) .svg-funnel-js__label {
-        padding: 0 10px;
-    }
-    
-    .THIS .svg-funnel-js .svg-funnel-js__labels {
-        padding-top: 5px;
-    }
-}
-
-@media all and (max-width: 500px)  {
-    .THIS .funnel {
-        overflow-y: hidden;
-        overflow-x: scroll
-    }
-
-    .THIS .funnel::-webkit-scrollbar{
-    	width: 8px;
-    }
-    .THIS .funnel::-webkit-scrollbar-thumb{
-        width: 8px;
-        border-radius: 4px;
-        background-color: #999999;
-        box-shadow: 0 8px 8px 0 rgba(0,0,0,0.16);
-        height: 100px;
-    }
-    .THIS .funnel::-webkit-scrollbar-track{
-        display:none;
-    }
-    .THIS .funnel::-webkit-scrollbar-button{
-        height: 0;
-    }
-}
