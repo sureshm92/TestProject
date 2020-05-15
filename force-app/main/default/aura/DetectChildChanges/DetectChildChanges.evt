@@ -1,0 +1,5 @@
+<aura:event type="Component" description="This event will pass on the changes detected in child to the parent">
+    <aura:attribute name="isChangedPatientInfo" type="Boolean" access="Public"/>
+    <aura:attribute name="isChangedStatus" type="Boolean" access="Public"/>
+    <aura:attribute name="source" type="String"/>
+</aura:event>

@@ -65,3 +65,14 @@
     }
     
 }
+@media all and (max-width: 500px){
+    
+    .THIS .vpi-fields .vpi-field {
+        flex: 0 0 100%;
+        padding: 0;
+    }
+    
+    .THIS.vpi-clip-item-borders {
+        padding: 0 0 1rem;
+    }
+}

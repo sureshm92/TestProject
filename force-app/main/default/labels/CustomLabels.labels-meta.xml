@@ -4466,7 +4466,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HT 02 B PI</shortDescription>
-        <value>Please provide what you would like your address updated to.</value>
+        <value>Please provide your correct address details and we will update your record.</value>
     </labels>
     <labels>
         <fullName>HT_02_B_RP_Patient</fullName>

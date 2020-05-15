@@ -9,7 +9,7 @@
     <aura:attribute name="pe" type="Object"/>
     <aura:attribute name="isInvited" type="boolean" default="false"/>
     <aura:attribute name="showParticipationSteps" type="boolean" default="true"/>
-    <aura:attribute name="minorDelegate" type="Contact" />
+    <aura:attribute name="minorDelegate" type="Participant__c" />
 
     <!-- handlers: 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -88,7 +88,7 @@
                         <aura:set attribute="else">
                                 <div class="vpi-field">
                                     <div class="label">{!$Label.c.PE_Delegate_Phone}</div>
-                                    <div class="value"><lightning:formattedPhone value="{!v.minorDelegate.Phone}"></lightning:formattedPhone></div>
+                                    <div class="value"><lightning:formattedPhone value="{!v.minorDelegate.Phone__c}"></lightning:formattedPhone></div>
                                 </div>
                         </aura:set>
                     </aura:if>
@@ -135,7 +135,7 @@
                         <aura:set attribute="else">
                                 <div class="vpi-field">
                                     <div class="label">{!$Label.c.PE_Delegate_Phone}</div>
-                                    <div class="value"><lightning:formattedPhone value="{!v.minorDelegate.Phone}"></lightning:formattedPhone></div>
+                                    <div class="value"><lightning:formattedPhone value="{!v.minorDelegate.Phone__c}"></lightning:formattedPhone></div>
                                 </div>
                         </aura:set>
                     </aura:if>
