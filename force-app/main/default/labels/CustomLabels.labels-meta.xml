@@ -5461,7 +5461,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>IncTask_01_HD</shortDescription>
-        <value>Completed pre-screener for:</value>
+        <value>Completed pre-screener for: ##ItemName</value>
     </labels>
     <labels>
         <fullName>IncTask_01_T</fullName>
@@ -5470,6 +5470,110 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>true</protected>
         <shortDescription>IncTask_01_T</shortDescription>
         <value>Pre-screen participant</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Date</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Date</shortDescription>
+        <value>Date</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Incentives</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Incentives</shortDescription>
+        <value>Incentives</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Last_Earned</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Last_Earned</shortDescription>
+        <value>Last Earned:</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_My_Points</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_My_Points</shortDescription>
+        <value>My Points</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Points</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Points</shortDescription>
+        <value>points</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Points_Earned</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Earned</shortDescription>
+        <value>Points Earned</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Pts</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Pts</shortDescription>
+        <value>pts</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Redeem_Points</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Redeem_Points</shortDescription>
+        <value>Redeem Points</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Redeem_Points_Disclaimer</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Redeem_Points_Disclaimer</shortDescription>
+        <value>Ways To Redeem Points Soon</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Task</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Task</shortDescription>
+        <value>Task</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Total</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Total_Points </shortDescription>
+        <value>Total:</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Total_Points</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Total_Points</shortDescription>
+        <value>Total Points:</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_View_Details</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_View_Details</shortDescription>
+        <value>View Details</value>
     </labels>
     <labels>
         <fullName>Incorrect_data</fullName>
