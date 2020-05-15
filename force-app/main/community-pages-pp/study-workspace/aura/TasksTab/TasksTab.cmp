@@ -1,5 +1,5 @@
 <!--
- - Created by Leonid Bartenev
+ - Created by Leonid Bartenev  
  -->
 
 <aura:component description="TasksTab" controller="TasksRemote">
@@ -9,6 +9,8 @@
     <aura:attribute name="openTasks" type="List"/>
     <aura:attribute name="completedTasks" type="List"/>
     <aura:attribute name="emptyTaskLabel" type="String"/>
+    <!-- PEH-1899 Changes: Adding the below attribute to differentiate completed task label -->
+    <aura:attribute name="noCompletedTasksLabel" type="String" default="{!$Label.c.PG_Task_Tab_Completed_Tasks}"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="tasksAvailable" type="Boolean" default="true"/>
     <aura:attribute name="emptyTrial" type="Boolean" default="true"/>
@@ -116,7 +118,7 @@
                         </aura:iteration>
                     </c:RRTable>
                     <aura:if isTrue="{!empty(v.completedTasks)}">
-                        <div class="tt-empty-list">{!v.emptyTaskLabel}</div>
+                        <div class="tt-empty-list">{!v.noCompletedTasksLabel}</div>
                     </aura:if>
                 </div>
             </aura:if>

@@ -9,13 +9,14 @@
         action.setCallback(this, function(response){
             var state = response.getState();
             if(state === "ERROR"){
-
+                
             }
             if (state === "SUCCESS") {
                 component.set("v.invited", response.getReturnValue());
             }
         });
         $A.enqueueAction(action);
-
+        
     }
+    
 });

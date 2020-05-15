@@ -38,6 +38,10 @@
                 <behavior>Edit</behavior>
                 <field>Condition_for_Auto_Update__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Condition__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

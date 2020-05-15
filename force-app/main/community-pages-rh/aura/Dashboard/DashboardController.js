@@ -5,19 +5,25 @@
     doInit: function (component) {
         if (!communityService.isInitialized()) return;
 
-        if(!communityService.isDummy()) {
+        if (!communityService.isDummy()) {
             let spinner = component.find('mainSpinner');
             spinner.show();
             if (communityService.getUserMode() === 'Participant') communityService.navigateToPage('');
             component.set('v.userMode', communityService.getUserMode());
+
+            let ctpId = null;
             let piId = null;
-            if (component.get('v.piData') && component.get('v.piData.selectedPi')) {
-                piId = component.get('v.piData.selectedPi');
+            if (component.get('v.piData')) {
+                if (component.get('v.piData.selectedCTP')) ctpId = component.get('v.piData.selectedCTP');
+                if (component.get('v.piData.selectedPi')) piId = component.get('v.piData.selectedPi');
             }
+
             communityService.executeAction(component, 'getInitData', {
                 userMode: communityService.getUserMode(),
                 delegateId: communityService.getDelegateId(),
-                piId: piId
+                piId: piId,
+                ctpId: ctpId,
+                action: 'Init'
             }, function (returnValue) {
                 if (!returnValue) communityService.navigateToPage('');
                 let responseData = JSON.parse(returnValue);

@@ -1,0 +1,36 @@
+.THIS.rr-white-panel{
+    box-sizing: border-box;
+    height: 486px;
+    width: 1140px;
+    border: 1px solid #E9E9E9;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0)
+}
+
+.THIS  .leaderboard-title{
+    height: 40px;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 22px;
+}
+
+.THIS .title{
+    height: 24px;
+}
+
+
+.THIS  .totalcount{
+    height: 24px;
+    width: 151px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-weight: 510;
+    letter-spacing: 0;
+    line-height: 17px;
+    text-align: right;
+}
