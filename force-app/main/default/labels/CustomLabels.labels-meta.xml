@@ -10170,6 +10170,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>New Patient</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_One_Incentive_Plan</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L One Incentive Plan</shortDescription>
+        <value>Only one Incentive Program per Study Site could be selected!</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_OR</fullName>
         <language>en_US</language>
         <protected>false</protected>
