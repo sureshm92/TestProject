@@ -82,6 +82,7 @@ public without sharing class LibraryPIRemote {
                         URL__c
                 FROM Resource__c
                 WHERE Resource_Visibility__c INCLUDES ('PI')
+                AND RecordType.Name != :EXCLUDED_RESOURCE_TYPE
         ]) {
             res.Language__c = getResourceLanguage(res.Language__c);
             initDataMap.get(NOT_STUDY_SPECIFIC_SECTION).add(new PIResources(res.Id,
