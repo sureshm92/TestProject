@@ -7,12 +7,16 @@
         $A.get("e.siteforce:registerQueryEventMap").setParams({"qsToEvent" : helper.qsToEventMap2}).fire();
         component.set('v.isUsernamePasswordEnabled', helper.getIsUsernamePasswordEnabled(component, event, helper));
         component.set("v.isSelfRegistrationEnabled", helper.getIsSelfRegistrationEnabled(component, event, helper));
-        component.set("v.communityForgotPasswordUrl", helper.getCommunityForgotPasswordUrl(component, event, helper));
+        // component.set("v.communityForgotPasswordUrl", helper.getCommunityForgotPasswordUrl(component, event, helper));
         component.set("v.communitySelfRegisterUrl", helper.getCommunitySelfRegisterUrl(component, event, helper));
     },
 
+    resetUrl: function (component, event, helper){
+      component.set("v.communityForgotPasswordUrl", helper.getCommunityForgotPasswordUrl(component, event, helper));  
+    },    
+    
     handleLogin: function (component, event, helpler) {
-        helpler.handleLogin(component, event, helpler);
+        helpler.handleLogin(component, event, helpler);a
      },
 
     setStartUrl: function (component, event, helpler) {
@@ -30,16 +34,25 @@
         helper.setBrandingCookie(component, event, helper);
     },
 
-    onKeyUp: function(component, event, helper){
+    onKeyUp: function(component, event, helpler){
+        debugger;
+        //var sId = event.getSource();
+        //var id = sId.getLocalId();
+        
+        var pid = event.target.id;
         //checks for "enter" key
-        var usernameField = component.find("username");
-        var userPasswordField = component.find('password');
-        if (event.getParam('keyCode')===13) {
-            usernameField.focus();
-            userPasswordField.focus();
-            helper.handleLogin(component, event, helper);
+
+        if(pid == 'username') {
+            if(event.which == 13) {
+                helpler.handleLogin(component, event, helpler);
+            }
         }
 
+        if(pid == 'password') {
+            if(event.which == 13) {
+                helpler.handleLogin(component, event, helpler);
+         }
+    }
     },
 
     navigateToForgotPassword: function(cmp, event, helper) {
@@ -59,5 +72,16 @@
 
         var attributes = { url: selrRegUrl };
         $A.get("e.force:navigateToURL").setParams(attributes).fire();
+    },
+
+    //Added by Sumit Surve
+    togglePassword : function(component, event, helper) {
+        debugger;
+        if(component.get("v.showpassword")){
+            component.set("v.showpassword",false);
+        }else{
+            component.set("v.showpassword",true);
+        }
     }
+ 
 })

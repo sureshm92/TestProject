@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Co_morbidity__c</fullName>
     <description>Other conditions &amp; diseases that the patient currently has</description>
+    <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <inlineHelpText>Other conditions &amp; diseases that the patient currently has</inlineHelpText>
     <label>Co-morbidity</label>

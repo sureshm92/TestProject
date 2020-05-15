@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 ({
-    preparePathItems: function (component) {
+    preparePathItems: function (component, event) {
         var pe = component.get('v.pe');
         // var currentPEState = statusesMap[pe.Participant_Status__c];
         component.set('v.userMode', communityService.getUserMode());
@@ -42,5 +42,20 @@
         //     }
         // }
         // component.set('v.pathItems', pathList);
-    },
+
+        //Make the server call here 
+        //We will pass the delegate information to the component child
+        //So that relevant information can be displayed in the UI
+        communityService.executeAction(component, 'getDelegateAndContactId', {
+            peId: component.get('v.pe.Id'),
+            userMode: communityService.getUserMode(),
+            delegateId: communityService.getDelegateId(),
+        },function (returnValue) {
+            component.set('v.userContactId', returnValue.userContactId);
+            if(!$A.util.isUndefinedOrNull(returnValue.participantDelegate))
+                component.set('v.participantDelegate', returnValue.participantDelegate);
+        }, null, function(){
+            component.find('spinner').hide();
+        });
+    }
 });

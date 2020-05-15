@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Demographic__c</fullName>
     <description>Demographics of patient profile</description>
+    <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <inlineHelpText>Demographics of patient profile</inlineHelpText>
     <label>Demographic</label>

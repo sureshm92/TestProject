@@ -21,6 +21,7 @@ private class Test_ParticipantInformationRemote {
             ParticipantInformationRemote.getInitData();
             ParticipantInformationRemote.getSteps(testData.pe.Id, CommunityService.USER_MODE_PI, null);
             ParticipantInformationRemote.getPrintInformation(testData.pe.Id, CommunityService.USER_MODE_PI, null);
+            ParticipantInformationRemote.getPrintInfoWithSteps(testData.pe.Id, CommunityService.USER_MODE_PI, null);
         }
         Test.stopTest();
     }
@@ -56,5 +57,3 @@ private class Test_ParticipantInformationRemote {
         Test.stopTest();
     }
 }
-
-

@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>Form_Fields__c</field>
-        <value xsi:type="xsd:string">Init_Visit_Sched_Date,Init_Visit_Sched_Time;Init_Visit_Att,Init_Visit_Att_Date|FG_PE_Inf_Consent#Inf_Cons_Signed,Inf_Cons_Date,Inf_Cons_DateU,Inf_Cons_Reason;Inf_Cons_Notes,Inf_Cons_NotesU|FG_PE_Wash_Out#Run_In_Wash_Out_Required,Revisit_Date;IWRS_ID,blank</value>
+        <value xsi:type="xsd:string">Initial_Visit_Scheduled_Date,Initial_Visit_Scheduled_Time;Initial_Visit_Attended,Initial_Visit_Attended_Date|FG_PE_Inf_Consent#Informed_Consent_Signed,Informed_Consent_Signed_Date|FG_PE_Wash_Out#Run_In_Wash_Out_Required,Revisit_Date;IWRS_ID,blank</value>
     </values>
     <values>
         <field>History_Item_Details_Template_Label__c</field>
@@ -56,7 +56,7 @@
     </values>
     <values>
         <field>Success_Checkbox_Field__c</field>
-        <value xsi:type="xsd:string">Initial_visit_occurred_flag__c;Informed_Consent__c</value>
+        <value xsi:type="xsd:string">Initial_visit_occurred_flag__c;Informed_Consent__c;Initial_visit_scheduled_flag__c</value>
     </values>
     <values>
         <field>Success_Condition__c</field>

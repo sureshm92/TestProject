@@ -1,6 +1,6 @@
 /**
- * Created by Kryvolap
- */
+* Created by Kryvolap
+*/
 
 public without sharing class ParticipantEnrollmentSHTriggerHandler {
 
@@ -33,6 +33,15 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
         }
     }
 
+    public class CreateWelcomeToStudyAlertHandler extends TriggerHandler {
+
+        public override void afterInsert(List<SObject> newList) {
+            if (!Test.isRunningTest()) {
+                createStudyAlerts((List<Participant_Enrollment_Status_History__c>) newList);
+            }
+        }
+    }
+
     //Logic-------------------------------------------------------------------------------------------------------------
     private static void sendToEPR(List<Participant_Enrollment_Status_History__c> newList) {
         List<Id> ids = new List<Id>();
@@ -53,7 +62,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 new Map<Id, List<Participant_Enrollment_Status_History__c>>();
 
         for (Participant_Enrollment_Status_History__c history : histories) {
-            if(history.Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI || history.Status__c == PEStatusState.PE_STATUS_RECEIVED) continue;
+            if (history.Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI || history.Status__c == PEStatusState.PE_STATUS_RECEIVED) continue;
 
             Id peId = history.ParticipantEnrollment__c;
             peIds.add(peId);
@@ -81,7 +90,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 Integer headStatusValue = PEStatusState.PE_ORDERED_STATUSES.get(headHistory.Status__c);
                 Integer currentStatusValue = PEStatusState.PE_ORDERED_STATUSES.get(history.Status__c);
 
-                if((headStatusValue == currentStatusValue && headHistory.Date__c < history.Date__c)
+                if ((headStatusValue == currentStatusValue && headHistory.Date__c < history.Date__c)
                         || headStatusValue != Math.max(headStatusValue, currentStatusValue)) {
                     headHistory = history;
                 }
@@ -91,7 +100,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             pe.Non_Enrollment_Reason__c = headHistory.Reason__c;
             pe.Participant_Status_Last_Changed_Date__c = headHistory.Date__c;
             pe.Participant_Status__c = headHistory.Status__c;
-            if(headHistory.Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
+            if (headHistory.Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
                     || headHistory.Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS) {
                 pe.Informed_Consent__c = true;
                 pe.Enrolled_Date__c = headHistory.Date__c.date();
@@ -110,26 +119,25 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 peIds.add(pesh.ParticipantEnrollment__c);
             }
         }
-        Map<Id,Participant_Enrollment_Status_History__c> lastExitingHistoryMap = new Map<Id, Participant_Enrollment_Status_History__c>();
-        for(Participant_Enrollment_Status_History__c pesh : [
+        Map<Id, Participant_Enrollment_Status_History__c> lastExitingHistoryMap = new Map<Id, Participant_Enrollment_Status_History__c>();
+        for (Participant_Enrollment_Status_History__c pesh : [
                 SELECT Status__c, ParticipantEnrollment__c
                 FROM Participant_Enrollment_Status_History__c
                 WHERE ParticipantEnrollment__c IN :peIds
                 ORDER BY Date__c DESC
-        ]){
-            if(!lastExitingHistoryMap.containsKey(pesh.ParticipantEnrollment__c)){
+        ]) {
+            if (!lastExitingHistoryMap.containsKey(pesh.ParticipantEnrollment__c)) {
                 lastExitingHistoryMap.put(pesh.ParticipantEnrollment__c, pesh);
-                if(pesh.Status__c == acceptedStatus){
+                if (pesh.Status__c == acceptedStatus) {
                     peIds.remove(pesh.ParticipantEnrollment__c);
                 }
             }
         }
 
-        for(Id peId : peIds){
-            if(System.IsBatch() == false && System.isFuture() == false) {
+        for (Id peId : peIds) {
+            if (System.IsBatch() == false && System.isFuture() == false) {
                 IntegrationService.sendPEToStudyHubAsync(peId);
-            }
-            else{
+            } else {
                 IntegrationService.sendPEToStudyHub(peId);
             }
         }
@@ -138,12 +146,12 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
     @TestVisible
     private static void createUsersOrSendNotifications(List<Participant_Enrollment_Status_History__c> newList) {
         Set<Id> peIds = new Set<Id>();
-        for(Participant_Enrollment_Status_History__c pesh: newList){
-            if(pesh.Status__c == PEStatusState.PE_STATUS_RECEIVED){
+        for (Participant_Enrollment_Status_History__c pesh : newList) {
+            if (pesh.Status__c == PEStatusState.PE_STATUS_RECEIVED) {
                 peIds.add(pesh.ParticipantEnrollment__c);
             }
         }
-        if(!peIds.isEmpty()){
+        if (!peIds.isEmpty()) {
             Map<Id, Id> toCreateUser = new Map<Id, Id>();
             List<Contact> contactsForChangeMode = new List<Contact>();
             List<Notification__c> notifications = new List<Notification__c>();
@@ -164,7 +172,9 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                             HCP__r.HCP_Contact__c,
                             Referral_Source__c,
                             Participant_Status__c
-                    FROM Participant_Enrollment__c WHERE Id IN : peIds];
+                    FROM Participant_Enrollment__c
+                    WHERE Id IN :peIds
+            ];
             Set<Id> participantIds = new Set<Id>();
             Map<Id, Participant_Enrollment__c> participantEnrollmentMap = new Map<Id, Participant_Enrollment__c>();
             for (Participant_Enrollment__c pe : participantEnrollments) {
@@ -173,7 +183,9 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             }
             List<Participant__c> participants = [
                     SELECT Id, Contact__c,IsCountry_NOT_Eligible_for_Emails__c, Adult__c
-                    FROM Participant__c WHERE Id IN : participantIds];
+                    FROM Participant__c
+                    WHERE Id IN :participantIds
+            ];
             Map<Id, Participant__c> participantMap = new Map<Id, Participant__c>();
             for (Participant__c participant : participants) {
                 participantContactIds.add(participant.Contact__c);
@@ -193,16 +205,15 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             List<Id> whatIds = new List<Id>();
             for (Participant_Enrollment__c newPE : participantEnrollments) {
                 whatIds.add(newPE.Id);
-                Participant__c participant = newPE.Participant__c != null? participantMap.get(newPE.Participant__c):null;
-                recipientIds.add(participant.Contact__c);
+                recipientIds.add(newPE.Participant__c);
             }
             NotificationAvailabilityService availabilityService = new NotificationAvailabilityService(recipientIds, whatIds);
             for (Participant_Enrollment__c newPE : participantEnrollments) {
-                Participant__c participant = newPE.Participant__c != null? participantMap.get(newPE.Participant__c):null;
+                Participant__c participant = newPE.Participant__c != null ? participantMap.get(newPE.Participant__c) : null;
                 User participantUser;
                 if (participant != null && participant.Contact__c != null) participantUser = usersByContactId.get(participant.Contact__c);
                 Boolean filterCriteria = !newPE.Is_Virtual_Study_Site__c &&
-                        newPE.Study_Site__c != null  &&
+                        newPE.Study_Site__c != null &&
                         newPE.Study_Site__r.Clinical_Trial_Profile__c != null &&
                         !newPE.Study_Site__r.Suppress_Participant_Emails__c &&
                         !newPE.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
@@ -219,7 +230,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                                 Contact__c = participant.Contact__c,
                                 Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH
                         ));
-                    }else {
+                    } else {
                         System.debug('NOTIFY USER');
                         if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP
                                 && !peStatusesSuccess.contains(newPE.Participant_Status__c)
@@ -238,7 +249,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                                     Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SOURCE_PI_TYPE
                             ));
                         } else if (!peStatusesSuccess.contains(newPE.Participant_Status__c)
-                                && !availabilityService.isDeferNotification(participant.Contact__c, newPE.Id)){
+                                && !availabilityService.isDeferNotification(participant.Contact__c, newPE.Id)) {
                             notifications.add(new Notification__c(
                                     Recipient__c = participant.Contact__c,
                                     WhatId__c = newPE.Id,
@@ -254,7 +265,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             }
 
             if (!alertsForInsert.isEmpty()) insert alertsForInsert;
-            if (toCreateUser.size() > 0) {
+            if (!toCreateUser.isEmpty()) {
                 if (Test.isRunningTest()) {
                     ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
                 } else {
@@ -264,5 +275,54 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             if (!notifications.isEmpty()) insert notifications;
             if (!contactsForChangeMode.isEmpty()) update contactsForChangeMode;
         }
+    }
+    @TestVisible
+    private static void createStudyAlerts(List<Participant_Enrollment_Status_History__c> newHistories) {
+        List<Participant_Enrollment_Status_History__c> histories = [
+                SELECT ParticipantEnrollment__r.Participant_Contact__c,
+                        ParticipantEnrollment__r.Participant__c,
+                        ParticipantEnrollment__r.Clinical_Trial_Profile__c,
+                        ParticipantEnrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+                        Status__c
+                FROM Participant_Enrollment_Status_History__c
+                WHERE Id IN:newHistories
+        ];
+
+        List<Participant_Enrollment__c> peSuccess = new List<Participant_Enrollment__c>();
+        for (Participant_Enrollment_Status_History__c history : histories) {
+            if (history.Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
+                    || history.Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS) {
+                Participant_Enrollment__c enrollment = history.ParticipantEnrollment__r;
+                if (enrollment.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c) {
+                    peSuccess.add(enrollment);
+                }
+            }
+        }
+
+        List<Id> participantIds = new List<Id>();
+        for (Participant_Enrollment__c pe : peSuccess) participantIds.add(pe.Participant__c);
+        Map<Id, List<Id>> delegateCntByParticipant = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(participantIds);
+
+        List<Alert__c> alerts = new List<Alert__c>();
+        for (Participant_Enrollment__c pe : peSuccess) {
+            if (pe.Participant_Contact__c != null) {
+                alerts.add(new Alert__c(
+                        Contact__c = pe.Participant_Contact__c,
+                        Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY,
+                        Record_ID__c = pe.Id
+                ));
+            }
+
+            if (!delegateCntByParticipant.containsKey(pe.Participant__c)) continue;
+            for (Id contactDelegateId : delegateCntByParticipant.get(pe.Participant__c)) {
+                alerts.add(new Alert__c(
+                        Contact__c = contactDelegateId,
+                        Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_DELEGATE,
+                        Record_ID__c = pe.Id)
+                );
+            }
+        }
+
+        insert alerts;
     }
 }

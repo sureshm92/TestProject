@@ -7,7 +7,7 @@
     <inlineHelpText>HCP/Physician For IMS physicians only Did physician or proxy opt in to divulge name of IMS physician to PI</inlineHelpText>
     <label>Divulge Name</label>
     <trackFeedHistory>false</trackFeedHistory>
-
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

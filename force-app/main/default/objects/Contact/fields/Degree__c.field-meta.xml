@@ -5,7 +5,7 @@
     <label>Degree</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-
+    <trackHistory>false</trackHistory>
     <type>MultiselectPicklist</type>
     <valueSet>
         <restricted>true</restricted>
@@ -25,6 +25,18 @@
                 <fullName>Office Manager</fullName>
                 <default>false</default>
                 <label>Office Manager</label>
+            </value>
+            <value>
+                <fullName>Doctors Of Osteopathy</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Doctors Of Osteopathy</label>
+            </value>
+            <value>
+                <fullName>Medical Doctors</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Medical Doctors</label>
             </value>
         </valueSetDefinition>
     </valueSet>

@@ -7,7 +7,7 @@
     <label>Referral Source</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -57,6 +57,11 @@
                 <fullName>23andMe</fullName>
                 <default>false</default>
                 <label>23andMe</label>
+            </value>
+            <value>
+                <fullName>IQVIA registry</fullName>
+                <default>false</default>
+                <label>IQVIA registry</label>
             </value>
         </valueSetDefinition>
     </valueSet>
