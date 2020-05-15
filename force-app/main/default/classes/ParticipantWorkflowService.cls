@@ -733,6 +733,10 @@ public without sharing class ParticipantWorkflowService {
             if(previousStep != null) previousStep.right = PEStatusState.STATUS_STATE_SUCCESS;
             result.isCurrent = pe.Participant_Status__c == pesh.Status__c;
             result.right = PEStatusState.STATUS_STATE_NEUTRAL;
+            result.stepHistory = new List<ParticipantWorkflowService.ParticipantWorkflowHistoryWrapper>();
+            ParticipantWorkflowHistoryWrapper historyWrapper = createHistoryWrapper(pesh, step);
+            result.stepHistory.add(historyWrapper);
+
         }
         else{
             result.title = TranslateHelper.getLabelValue(step.Card_Name_Label__c);
@@ -904,6 +908,7 @@ public without sharing class ParticipantWorkflowService {
         @AuraEnabled public String  left;
         @AuraEnabled public String  right;
         @AuraEnabled public Boolean  isCurrent;
+        @AuraEnabled public List<ParticipantWorkflowHistoryWrapper> stepHistory;
     }
 
     public class DependentFieldWrapper{
