@@ -55,7 +55,7 @@
                             </aura:if>
                             <c:ProfileMenu aura:id="profileMenu" userMode="{!v.currentMode.userMode}"/>
                             <aura:if isTrue="{!v.currentMode.userMode == 'PI'}">
-                                <c:navIncentiveCounter/>
+                                <c:navIncentiveCounter onnavigatetoincentives="{!c.doNavigate}"/>
                             </aura:if>
                         </div>
                     </div>
