@@ -58,7 +58,9 @@ public inherited sharing class VisitResultsService {
 
     public VisitResultsContainer getVisitResultsContainer(String visitResultsGroupName) {
         List<Visit_Result_TypeM__mdt> visitResultTypes = this.metadataService.getVisitResultTypes(visitResultsGroupName);
-        List<Visit_Result__c> visitResults = VisitResultSharingService.processResults('Vitals');
+
+        String visitResultMode = this.metadataService.getVisitResultModeByGroupName(visitResultsGroupName);
+        List<Visit_Result__c> visitResults = VisitResultSharingService.processResults(visitResultMode);
 
         //String languageToTranslate = IRBParticipantService.getSuitableLanguageForIRBTranslation(ParticipantService.getParticipantState().pe.Id);
         return visitResults.isEmpty()
@@ -140,14 +142,15 @@ public inherited sharing class VisitResultsService {
                 this.value = visitResult.Actual_Value__c;
                 this.minValue = visitResult.Min_Value__c;
                 this.maxValue = visitResult.Max_Value__c;
-                String measurementLowerCase = visitResult.Measurement__c.toLowerCase();
-                if(measurementNamesMap != null && measurementNamesMap.containsKey(measurementLowerCase)){
-                    this.measurement = measurementNamesMap.get(measurementLowerCase).replace('/',' / ');
+                if (visitResult.Measurement__c != null) {
+                    String measurementLowerCase = visitResult.Measurement__c.toLowerCase();
+                    if (measurementNamesMap != null && measurementNamesMap.containsKey(measurementLowerCase)) {
+                        this.measurement = measurementNamesMap.get(measurementLowerCase).replace('/', ' / ');
+                    } else {
+                        this.measurement = visitResult.Measurement__c.replace('/', ' / ');
+                    }
                 }
-                else{
-                this.measurement = visitResult.Measurement__c.replace('/',' / ');
             }
-        }
         }
 
         public VisitResultWrapper(Visit_Result__c visitResult, String name) {
@@ -159,13 +162,12 @@ public inherited sharing class VisitResultsService {
             if (visitResult != null) {
                 this.value = visitResult.Actual_Value__c;
                 String measurementLowerCase = visitResult.Measurement__c.toLowerCase();
-                if(measurementNamesMap != null && measurementNamesMap.containsKey(measurementLowerCase)){
-                    this.measurement = measurementNamesMap.get(measurementLowerCase).replace('/',' / ');
+                if (measurementNamesMap != null && measurementNamesMap.containsKey(measurementLowerCase)) {
+                    this.measurement = measurementNamesMap.get(measurementLowerCase).replace('/', ' / ');
+                } else {
+                    this.measurement = visitResult.Measurement__c.replace('/', ' / ');
                 }
-                else{
-                this.measurement = visitResult.Measurement__c.replace('/',' / ');
             }
         }
     }
-}
 }
