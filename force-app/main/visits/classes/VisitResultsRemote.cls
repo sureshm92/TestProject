@@ -43,23 +43,6 @@ public without sharing class VisitResultsRemote {
     }
 
     @AuraEnabled
-    public static Boolean changeOptInOnTrue(Id contactId) {
-        try {
-            if (!ParticipantContext.isCurrentDelegate()) {
-                List<Contact> currentContact = [SELECT Id,Visit_Results_Opt_In__c FROM Contact WHERE Id=:contactId];
-                currentContact.get(0).Visit_Results_Opt_In__c = true;
-                update currentContact;
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception e) {
-            AuraHelper.throwException(e);
-        }
-        return null;
-    }
-
-    @AuraEnabled
     public static List<VisitResultsService.VisitResultWrapper> getVisitResultWrappersForDashboard() {
 
         try {

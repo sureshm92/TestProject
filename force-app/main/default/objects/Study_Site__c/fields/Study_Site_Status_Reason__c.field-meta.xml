@@ -6,7 +6,7 @@
     <label>Study Site Status Reason</label>
     <required>false</required>
     <trackFeedHistory>true</trackFeedHistory>
-
+<!--    <trackHistory>true</trackHistory>-->
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

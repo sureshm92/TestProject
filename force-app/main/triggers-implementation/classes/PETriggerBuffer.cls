@@ -62,7 +62,6 @@ public without sharing class PETriggerBuffer {
                         Adult__c,
                         Balance__c,
                         Contact__c,
-                        Contact__r.Visit_Results_Opt_In__c,
                         Contact__r.Visit_Results_OptIn__c,
                         Email__c,
                         Emancipation_in_progress__c,
@@ -80,6 +79,7 @@ public without sharing class PETriggerBuffer {
         ]);
         buffer.putAll([
                 SELECT Id,
+                        Final_Consent_Required__c,
                         Patient_Portal_Enabled__c,
                         Visit_Plan__c,
                         Protocol_ID__c,

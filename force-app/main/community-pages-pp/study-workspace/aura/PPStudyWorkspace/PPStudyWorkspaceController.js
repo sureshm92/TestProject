@@ -20,6 +20,7 @@
             component.set('v.userMode', communityService.getUserMode());
             component.set('v.state', communityService.getCurrentCommunityMode().participantState);
             component.set('v.multiMode', communityService.getAllUserModes().length > 1);
+            component.set('v.isDelegateMode', communityService.getCurrentCommunityMode().currentDelegateId);
             component.set('v.currentTab', tabId);
             component.set('v.taskMode', taskMode);
             component.set('v.resourceMode', resourceMode);

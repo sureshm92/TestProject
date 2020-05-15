@@ -210,6 +210,19 @@
     justify-content: flex-end;
 }
 
+
+@media all and (max-width: 768px){
+     .THIS .vpi-status-btns {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+    
+     .THIS .vpi-title {
+        width: 70%;
+    }
+
+}
+
 @media all and (min-width: 1024px) {
     .THIS .vri-state-label{
         display: block;
@@ -253,17 +266,8 @@
         height: 18px;
         font-weight: 600;
     }
-}
-
-@media all and (max-width: 768px){
-    
-    .THIS .vpi-status-btns {
-        margin-top: 15px;
-        margin-bottom: 15px;
-    }
-    
-     .THIS .vpi-title {
-        width: 70%;
+    .THIS .slds-small-size_6-of-12 {
+        margin-left: 175px;
     }
 }
 

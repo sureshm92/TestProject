@@ -4,9 +4,9 @@
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <label>Mailing State Code</label>
-    <length>2</length>
+    <length>3</length>
     <required>false</required>
-
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

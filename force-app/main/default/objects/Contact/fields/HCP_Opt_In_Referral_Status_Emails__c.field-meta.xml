@@ -5,6 +5,6 @@
     <externalId>false</externalId>
     <label>HCP Opt In Referral Status Emails</label>
     <trackFeedHistory>false</trackFeedHistory>
-
+    <trackHistory>true</trackHistory>
     <type>Checkbox</type>
 </CustomField>

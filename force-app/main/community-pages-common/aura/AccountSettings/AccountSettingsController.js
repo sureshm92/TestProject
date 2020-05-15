@@ -127,34 +127,6 @@
         component.set('v.isUpdated', true);
     },
 
-    handleOkClick: function (component, event, helper) {
-        communityService.executeAction(component, 'changeOptInVisitResults', {
-            contactId: component.get('v.initData.myContact.Id'),
-            isOptIn: component.get('v.initData.myContact.Visit_Results_Opt_In__c')
-        }, function (returnValue) {
-            component.set('v.initData.myContact.Visit_Results_Opt_In__c', returnValue);
-            component.set('v.showModal', false);
-        });
-    },
-
-    handleCancelClick: function (component, event, helper) {
-        component.set('v.initData.myContact.Visit_Results_Opt_In__c', false);
-        component.set('v.showModal', false);
-    },
-
-    openVisitResultsOptInModal: function (component, event, helper) {
-        if (component.get('v.initData.myContact.Visit_Results_Opt_In__c')) {
-            component.set('v.showModal', true);
-        } else {
-            communityService.executeAction(component, 'changeOptInVisitResults', {
-                contactId: component.get('v.initData.myContact.Id'),
-                isOptIn: component.get('v.initData.myContact.Visit_Results_Opt_In__c')
-            }, function (returnValue) {
-                component.set('v.initData.myContact.Visit_Results_Opt_In__c', returnValue);
-            });
-        }
-    },
-
     onEditPerson: function (component, event, helper) {
         let personWrapper = event.getSource().get('v.personWrapper');
         component.set('v.optInEmail', personWrapper.optInEmail);

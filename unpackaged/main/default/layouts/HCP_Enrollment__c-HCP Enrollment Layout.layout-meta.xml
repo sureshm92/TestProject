@@ -66,6 +66,14 @@
                 <behavior>Edit</behavior>
                 <field>Clinical_Trial_Profile__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>referred_who_signed_consent__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>referred_who_have_enrolled__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -81,7 +89,7 @@
                 <field>Status_Reason__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Study_Site__c</field>
             </layoutItems>
             <layoutItems>
@@ -101,8 +109,8 @@
                 <field>PI_Account__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Override_PI_Status__c</field>
+                <behavior>Edit</behavior>
+                <field>Virtual_PI_Contact__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -191,17 +199,13 @@
         <fields>CREATED_DATE</fields>
         <relatedList>Material_Sent__c.HCP_Enrollment__c</relatedList>
     </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>Referring_HCP_Staff__c.HCP_Enrollment__c</relatedList>
-    </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h9E000000lijV</masterLabel>
+        <masterLabel>00h1I000002zidx</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
