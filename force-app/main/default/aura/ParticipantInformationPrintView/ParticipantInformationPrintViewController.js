@@ -5,7 +5,7 @@
     doInit: function (component, event, helper) {
         if (!communityService.isInitialized()) return;
 
-        if(!communityService.isDummy()) {
+        if (!communityService.isDummy()) {
             let peId = communityService.getUrlParameter('id');
             communityService.executeAction(component, 'getPrintInformation', {
                 peId: peId,
@@ -30,5 +30,4 @@
             component.find('builderStub').setPageName(component.getName());
         }
     }
-});
 });
