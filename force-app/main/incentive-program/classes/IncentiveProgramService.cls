@@ -96,10 +96,51 @@ public without sharing class IncentiveProgramService {
         for (Completed_Incentive_Task__c completedTask : [
                 SELECT Id, Incentive_Task_Catalog__c, Points__c, Completed_Date__c, Completed_By__c, Completed_For__c
                 FROM Completed_Incentive_Task__c
-                WHERE Completed_By__c = :UserContext.getUserContactId()]){
+                WHERE Completed_By__c = :UserContext.getUserContactId()
+                ORDER BY Completed_Date__c DESC ]){
             result.totalPoints += Math.round(completedTask.Points__c);
             result.completedTasks.add(new CompletedTaskWrapper(completedTask));
         }
+        return result;
+    }
+
+    public static IncentivePlanResultWrapper getIncentivePlanResultWrapperForStudySite(Id ssId){
+        return new IncentivePlanResultWrapper(null, getTaskMapForStudySite(ssId));
+    }
+
+    public static IncentivePlanResultWrapper getInitialIncentivePlanResultWrapper(){
+        List<Study_Site__c> studySites = StudySiteService.getStudySitesForPI();
+        List<LabelValueItem> studySiteLVL = new List<LabelValueItem>();
+        for(Study_Site__C ss: studySites){
+            studySiteLVL.add(new LabelValueItem(ss.Name, ss.Id));
+        }
+        if(!studySites.isEmpty()){
+            return new IncentivePlanResultWrapper(studySiteLVL, getTaskMapForStudySite(studySites[0].Id));
+        }
+        else{
+            return new IncentivePlanResultWrapper(studySiteLVL, getTaskMapForStudySite(null));
+        }
+
+    }
+
+    public static Map<Integer, Set<Incentive_Task_Catalog__mdt>> getTaskMapForStudySite(Id ssId){
+        Map<Integer, Set<Incentive_Task_Catalog__mdt>> result = new Map<Integer, Set<Incentive_Task_Catalog__mdt>>();
+        Set<Id> planIds = new Set<Id>();
+        for(Study_Incentive_Plan__c sip: [SELECT Id, Incentive_Plan__c FROM Study_Incentive_Plan__c WHERE Study_Site__c = :ssId]){
+            planIds.add(sip.Incentive_Plan__c);
+        }
+        for(Incentive_Plan_Task__c task: [
+                SELECT Id, Points__c, Incentive_Task_Catalog__c
+                FROM Incentive_Plan_Task__c
+                WHERE Incentive_Plan__c IN :planIds AND Enabled__c = TRUE
+                ORDER BY Points__c ASC]){
+            Integer points = Math.round(task.Points__c);
+            if(!result.containsKey(points)){
+                result.put(points, new Set<Incentive_Task_Catalog__mdt>());
+            }
+            result.get(points).add(getTaskCatalogMap().get(task.Incentive_Task_Catalog__c));
+        }
+
         return result;
     }
 
@@ -107,9 +148,34 @@ public without sharing class IncentiveProgramService {
         @AuraEnabled public Integer totalPoints = 0;
         @AuraEnabled public Integer lastPoints = 0;
     }
+
     public class IncentiveHistoryWrapper{
         @AuraEnabled public Integer totalPoints = 0;
         @AuraEnabled public List<CompletedTaskWrapper> completedTasks = new List<CompletedTaskWrapper>();
+    }
+
+    public class IncentivePlanGroupWrapper{
+        @AuraEnabled public Integer points = 0;
+        @AuraEnabled public List<String> tasksDescription = new List<String>();
+
+        public IncentivePlanGroupWrapper(Integer points, Set<Incentive_Task_Catalog__mdt> tasks){
+            this.points =  points;
+            for(Incentive_Task_Catalog__mdt task: tasks){
+                this.tasksDescription.add(TranslateHelper.getLabelValue(task.Description_Label__c));
+            }
+        }
+    }
+
+    public class IncentivePlanResultWrapper{
+        @AuraEnabled public List<LabelValueItem> studySitesOptions = new List<LabelValueItem>();
+        @AuraEnabled public List<IncentivePlanGroupWrapper> tasksGroups = new List<IncentivePlanGroupWrapper>();
+
+        public IncentivePlanResultWrapper(List<LabelValueItem> studySitesOptions, Map<Integer, Set<Incentive_Task_Catalog__mdt>> tasksMap){
+            this.studySitesOptions =  studySitesOptions;
+            for(Integer points: tasksMap.keySet()){
+                this.tasksGroups.add(new IncentivePlanGroupWrapper(points, tasksMap.get(points)));
+            }
+        }
     }
 
     public class CompletedTaskWrapper{
