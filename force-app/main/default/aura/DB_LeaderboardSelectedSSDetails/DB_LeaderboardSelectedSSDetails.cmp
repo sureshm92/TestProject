@@ -1,0 +1,38 @@
+<!--
+ - Created by Sumit Surve.
+ -->
+
+<aura:component description="DB_LeaderboardSelectedSSDetails">
+
+    <!-- attributes:-->
+    <aura:attribute name="pe" type="Object" description="Participant enrollment item"/>
+    <aura:attribute name="userMode" type="String"/>
+    <aura:attribute name="dashboardTitle" type="String"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="currentPi" type="String"/>
+    <aura:attribute name="currentStudy" type="String"/>
+    <aura:attribute name="piData" type="Object"/>
+    <aura:attribute name="totalSSCount" type="Integer"/>
+        
+    <!-- component body -->
+    <div class="rr-white-panel">
+        <div class="slds-clearfix ">
+            <span class="slds-float_left slds-p-left_medium slds-p-top_medium leaderboard-title">
+                {!v.dashboardTitle}
+            </span>   
+            <span class="slds-float_right slds-p-right_medium slds-p-top_medium totalcount">
+                {!$Label.c.Dashboard_Total_Sites}: {!v.piData.currentStudySitesCount}  
+            </span>
+        </div>
+
+        <div class="slds-p-top_small slds-p-left_medium slds-p-right_medium">
+            <div class="slds-float_left">
+                <c:DB_LeaderboardSelectedPIDetails piData="{!v.piData}"/>
+            </div>
+            <div class="slds-float_right">
+                <c:DB_LeaderboardSSRankDisplay piData="{!v.piData}" />
+            </div>
+        </div>
+    </div>
+
+</aura:component>

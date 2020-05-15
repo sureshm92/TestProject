@@ -1,32 +1,19 @@
 /**
  * Created by Andrii Kryvolap.
+ * Updated by Sumit Surve.
  */
-
-.THIS {
-    margin-bottom: 1.5rem;
-}
-
 .THIS .db-quick-actions-container{
     margin-top: 25px;
 }
+.THIS .db-quick-actions-container-participant{
+    margin-top: -208px;
+}
 
+.THIS.pi-picklist-container{
+    padding-bottom: 2%;
+    padding-left: 12px;
+}
 
-@media screen and (max-width: 550px){
-    
-    .THIS > .slds-col {
-        min-width: 100%;
-    }
-    
-    .THIS .rr-white-panel {
-        padding: 0!important;
-    }
-    
-    .THIS .cDashboardTimeWaitingContact {
-        margin-bottom: 25px;
-    }
-    
-    .THIS .dqa-view-more {
-        height: 25px;
-        padding: 0;
-    }
+.THIS .picklist-block{
+    width:251px;
 }

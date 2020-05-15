@@ -5,7 +5,7 @@
     <label>CTMS Recruitment Status</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -161,6 +161,36 @@
                 <fullName>Unsure (Feasibility)</fullName>
                 <default>false</default>
                 <label>Unsure (Feasibility)</label>
+            </value>
+            <value>
+                <fullName>Approved for Site Selection Visit</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Approved for Site Selection Visit</label>
+            </value>
+            <value>
+                <fullName>Back-Up</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Back-Up</label>
+            </value>
+            <value>
+                <fullName>Enrollment On-Hold</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Enrollment On-Hold</label>
+            </value>
+            <value>
+                <fullName>Pre-Selected</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Pre-Selected</label>
+            </value>
+            <value>
+                <fullName>Rejected for Site Selection Visit</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Rejected for Site Selection Visit</label>
             </value>
         </valueSetDefinition>
     </valueSet>

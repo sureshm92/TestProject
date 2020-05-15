@@ -5,7 +5,7 @@
     <label>Non-Enrollment Reason</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -104,26 +104,20 @@
                 <label>Did Not Attend Appointment</label>
             </value>
             <value>
+                <fullName>Declined or Withdrew Consent</fullName>
+                <default>false</default>
+                <label>Declined or Withdrew Consent</label>
+            </value>
+            <value>
                 <fullName>Left a Message</fullName>
                 <default>false</default>
                 <label>Left a Message</label>
-            </value>
-            <value>
-                <fullName>Protocol Concerns</fullName>
-                <default>false</default>
-                <label>Protocol Concerns</label>
             </value>
             <value>
                 <fullName>Could not schedule visit</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>Could not schedule visit</label>
-            </value>
-            <value>
-                <fullName>Declined or Withdrew Consent</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Declined or Withdrew Consent</label>
             </value>
             <value>
                 <fullName>Did not respond to contact attempts</fullName>
@@ -163,664 +157,563 @@
             </value>
         </valueSetDefinition>
         <valueSettings>
+            <controllingFieldValue>Enrollment Success</controllingFieldValue>
+            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
+            <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
+            <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Ready to Screen</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent</controllingFieldValue>
-            <controllingFieldValue>Declined Consent</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
-            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <controllingFieldValue>Screening Failed</controllingFieldValue>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <controllingFieldValue>Failed Review</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <controllingFieldValue>Trial Complete</controllingFieldValue>
             <controllingFieldValue>Drop Out</controllingFieldValue>
+            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
             <controllingFieldValue>Deceased</controllingFieldValue>
             <controllingFieldValue>Received</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Unable to Reach</controllingFieldValue>
-            <controllingFieldValue>Failed Referral</controllingFieldValue>
-            <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
-            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress</controllingFieldValue>
-            <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Enrollment Success</controllingFieldValue>
-            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
-            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <valueName>Site No Longer Accepting Referrals</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Enrollment Success</controllingFieldValue>
+            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
+            <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
+            <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Ready to Screen</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent</controllingFieldValue>
-            <controllingFieldValue>Declined Consent</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
-            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <controllingFieldValue>Screening Failed</controllingFieldValue>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <controllingFieldValue>Failed Review</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <controllingFieldValue>Trial Complete</controllingFieldValue>
             <controllingFieldValue>Drop Out</controllingFieldValue>
+            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
             <controllingFieldValue>Deceased</controllingFieldValue>
+            <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Received</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Unable to Reach</controllingFieldValue>
-            <controllingFieldValue>Failed Referral</controllingFieldValue>
-            <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
-            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress</controllingFieldValue>
-            <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Enrollment Success</controllingFieldValue>
-            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
-            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <valueName>Didn&#39;t Meet Pre-Screening Eligibility</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Enrollment Success</controllingFieldValue>
+            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
+            <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
+            <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Ready to Screen</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent</controllingFieldValue>
-            <controllingFieldValue>Declined Consent</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
-            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <controllingFieldValue>Screening Failed</controllingFieldValue>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <controllingFieldValue>Failed Review</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <controllingFieldValue>Trial Complete</controllingFieldValue>
             <controllingFieldValue>Drop Out</controllingFieldValue>
+            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
             <controllingFieldValue>Deceased</controllingFieldValue>
+            <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Received</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Unable to Reach</controllingFieldValue>
-            <controllingFieldValue>Failed Referral</controllingFieldValue>
-            <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
-            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress</controllingFieldValue>
-            <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Enrollment Success</controllingFieldValue>
-            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
-            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <valueName>Declined Practitioner</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Enrollment Success</controllingFieldValue>
+            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
+            <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
+            <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Ready to Screen</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent</controllingFieldValue>
-            <controllingFieldValue>Declined Consent</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
-            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <controllingFieldValue>Screening Failed</controllingFieldValue>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <controllingFieldValue>Failed Review</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <controllingFieldValue>Trial Complete</controllingFieldValue>
             <controllingFieldValue>Drop Out</controllingFieldValue>
+            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
             <controllingFieldValue>Deceased</controllingFieldValue>
+            <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Received</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Unable to Reach</controllingFieldValue>
-            <controllingFieldValue>Failed Referral</controllingFieldValue>
-            <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
-            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress</controllingFieldValue>
-            <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Enrollment Success</controllingFieldValue>
-            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
-            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <valueName>PI Decision</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Enrollment Success</controllingFieldValue>
+            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
+            <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
+            <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Ready to Screen</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent</controllingFieldValue>
-            <controllingFieldValue>Declined Consent</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
-            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <controllingFieldValue>Screening Failed</controllingFieldValue>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <controllingFieldValue>Failed Review</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <controllingFieldValue>Trial Complete</controllingFieldValue>
             <controllingFieldValue>Drop Out</controllingFieldValue>
+            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
             <controllingFieldValue>Deceased</controllingFieldValue>
+            <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Received</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Unable to Reach</controllingFieldValue>
-            <controllingFieldValue>Failed Referral</controllingFieldValue>
-            <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
-            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress</controllingFieldValue>
-            <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Enrollment Success</controllingFieldValue>
-            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
-            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <valueName>Didn&#39;t Show For Initial Visit</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Enrollment Success</controllingFieldValue>
+            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
+            <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
+            <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Ready to Screen</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent</controllingFieldValue>
-            <controllingFieldValue>Declined Consent</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
-            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <controllingFieldValue>Screening Failed</controllingFieldValue>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <controllingFieldValue>Failed Review</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <controllingFieldValue>Trial Complete</controllingFieldValue>
             <controllingFieldValue>Drop Out</controllingFieldValue>
+            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
             <controllingFieldValue>Deceased</controllingFieldValue>
+            <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Received</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Unable to Reach</controllingFieldValue>
-            <controllingFieldValue>Failed Referral</controllingFieldValue>
-            <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
-            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress</controllingFieldValue>
-            <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Enrollment Success</controllingFieldValue>
-            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
-            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <valueName>Didn&#39;t Sign Consent</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Enrollment Success</controllingFieldValue>
+            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
+            <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
+            <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Ready to Screen</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent</controllingFieldValue>
-            <controllingFieldValue>Declined Consent</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
-            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <controllingFieldValue>Screening Failed</controllingFieldValue>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <controllingFieldValue>Failed Review</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <controllingFieldValue>Trial Complete</controllingFieldValue>
             <controllingFieldValue>Drop Out</controllingFieldValue>
+            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
             <controllingFieldValue>Deceased</controllingFieldValue>
+            <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Received</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Unable to Reach</controllingFieldValue>
-            <controllingFieldValue>Failed Referral</controllingFieldValue>
-            <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
-            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress</controllingFieldValue>
-            <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Enrollment Success</controllingFieldValue>
-            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
-            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <valueName>Failed Inclusion/Exclusion Criteria</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Enrollment Success</controllingFieldValue>
+            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
+            <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
+            <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Ready to Screen</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent</controllingFieldValue>
-            <controllingFieldValue>Declined Consent</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
-            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <controllingFieldValue>Screening Failed</controllingFieldValue>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <controllingFieldValue>Failed Review</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <controllingFieldValue>Trial Complete</controllingFieldValue>
             <controllingFieldValue>Drop Out</controllingFieldValue>
+            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
             <controllingFieldValue>Deceased</controllingFieldValue>
+            <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Received</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Unable to Reach</controllingFieldValue>
-            <controllingFieldValue>Failed Referral</controllingFieldValue>
-            <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
-            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress</controllingFieldValue>
-            <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Enrollment Success</controllingFieldValue>
-            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
-            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <valueName>Patient Declined</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Enrollment Success</controllingFieldValue>
+            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
+            <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
+            <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Ready to Screen</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent</controllingFieldValue>
-            <controllingFieldValue>Declined Consent</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
-            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <controllingFieldValue>Screening Failed</controllingFieldValue>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <controllingFieldValue>Failed Review</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <controllingFieldValue>Trial Complete</controllingFieldValue>
             <controllingFieldValue>Drop Out</controllingFieldValue>
+            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
             <controllingFieldValue>Deceased</controllingFieldValue>
+            <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Received</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Unable to Reach</controllingFieldValue>
-            <controllingFieldValue>Failed Referral</controllingFieldValue>
-            <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
-            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress</controllingFieldValue>
-            <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Enrollment Success</controllingFieldValue>
-            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
-            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <valueName>Visit Out Of Window</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Enrollment Success</controllingFieldValue>
+            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
+            <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
+            <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Ready to Screen</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent</controllingFieldValue>
-            <controllingFieldValue>Declined Consent</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
-            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <controllingFieldValue>Screening Failed</controllingFieldValue>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <controllingFieldValue>Failed Review</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <controllingFieldValue>Trial Complete</controllingFieldValue>
             <controllingFieldValue>Drop Out</controllingFieldValue>
+            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
             <controllingFieldValue>Deceased</controllingFieldValue>
+            <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Received</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Unable to Reach</controllingFieldValue>
-            <controllingFieldValue>Failed Referral</controllingFieldValue>
-            <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
-            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress</controllingFieldValue>
-            <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Enrollment Success</controllingFieldValue>
-            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
-            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <valueName>Patient Decision</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Enrollment Success</controllingFieldValue>
+            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
+            <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
+            <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Ready to Screen</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent</controllingFieldValue>
-            <controllingFieldValue>Declined Consent</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
-            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <controllingFieldValue>Screening Failed</controllingFieldValue>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <controllingFieldValue>Failed Review</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <controllingFieldValue>Trial Complete</controllingFieldValue>
             <controllingFieldValue>Drop Out</controllingFieldValue>
+            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
             <controllingFieldValue>Deceased</controllingFieldValue>
+            <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Received</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Unable to Reach</controllingFieldValue>
-            <controllingFieldValue>Failed Referral</controllingFieldValue>
-            <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
-            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress</controllingFieldValue>
-            <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Enrollment Success</controllingFieldValue>
-            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
-            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <valueName>Other</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Enrollment Success</controllingFieldValue>
+            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
+            <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
+            <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Ready to Screen</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent</controllingFieldValue>
-            <controllingFieldValue>Declined Consent</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
-            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <controllingFieldValue>Screening Failed</controllingFieldValue>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <controllingFieldValue>Failed Review</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <controllingFieldValue>Trial Complete</controllingFieldValue>
             <controllingFieldValue>Drop Out</controllingFieldValue>
+            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
             <controllingFieldValue>Deceased</controllingFieldValue>
+            <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Received</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Unable to Reach</controllingFieldValue>
-            <controllingFieldValue>Failed Referral</controllingFieldValue>
-            <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
-            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress</controllingFieldValue>
-            <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Enrollment Success</controllingFieldValue>
-            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
-            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <valueName>Not Ready to Schedule</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Enrollment Success</controllingFieldValue>
+            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
+            <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
+            <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Ready to Screen</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent</controllingFieldValue>
-            <controllingFieldValue>Declined Consent</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
-            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <controllingFieldValue>Screening Failed</controllingFieldValue>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <controllingFieldValue>Failed Review</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <controllingFieldValue>Trial Complete</controllingFieldValue>
             <controllingFieldValue>Drop Out</controllingFieldValue>
+            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
             <controllingFieldValue>Deceased</controllingFieldValue>
+            <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Received</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Unable to Reach</controllingFieldValue>
-            <controllingFieldValue>Failed Referral</controllingFieldValue>
-            <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
-            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress</controllingFieldValue>
-            <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Enrollment Success</controllingFieldValue>
-            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
-            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <valueName>Call Back</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Enrollment Success</controllingFieldValue>
+            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
+            <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
+            <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Ready to Screen</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent</controllingFieldValue>
-            <controllingFieldValue>Declined Consent</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
-            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <controllingFieldValue>Screening Failed</controllingFieldValue>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <controllingFieldValue>Failed Review</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <controllingFieldValue>Trial Complete</controllingFieldValue>
             <controllingFieldValue>Drop Out</controllingFieldValue>
+            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
             <controllingFieldValue>Deceased</controllingFieldValue>
+            <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Received</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Unable to Reach</controllingFieldValue>
-            <controllingFieldValue>Failed Referral</controllingFieldValue>
-            <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
-            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress</controllingFieldValue>
-            <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Enrollment Success</controllingFieldValue>
-            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
-            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <valueName>Transportation Issues</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Enrollment Success</controllingFieldValue>
+            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
+            <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
+            <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Ready to Screen</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent</controllingFieldValue>
-            <controllingFieldValue>Declined Consent</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
-            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <controllingFieldValue>Screening Failed</controllingFieldValue>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <controllingFieldValue>Failed Review</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <controllingFieldValue>Trial Complete</controllingFieldValue>
             <controllingFieldValue>Drop Out</controllingFieldValue>
+            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
             <controllingFieldValue>Deceased</controllingFieldValue>
+            <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Received</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Unable to Reach</controllingFieldValue>
-            <controllingFieldValue>Failed Referral</controllingFieldValue>
-            <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
-            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress</controllingFieldValue>
-            <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Enrollment Success</controllingFieldValue>
-            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
-            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <valueName>Childcare Issues</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Enrollment Success</controllingFieldValue>
+            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
+            <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
+            <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Ready to Screen</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent</controllingFieldValue>
-            <controllingFieldValue>Declined Consent</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
-            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <controllingFieldValue>Screening Failed</controllingFieldValue>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <controllingFieldValue>Failed Review</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <controllingFieldValue>Trial Complete</controllingFieldValue>
             <controllingFieldValue>Drop Out</controllingFieldValue>
+            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
             <controllingFieldValue>Deceased</controllingFieldValue>
+            <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Received</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Unable to Reach</controllingFieldValue>
-            <controllingFieldValue>Failed Referral</controllingFieldValue>
-            <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
-            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress</controllingFieldValue>
-            <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Enrollment Success</controllingFieldValue>
-            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
-            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <valueName>Participant Not Interested</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Enrollment Success</controllingFieldValue>
+            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
+            <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
+            <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Ready to Screen</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent</controllingFieldValue>
-            <controllingFieldValue>Declined Consent</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
-            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <controllingFieldValue>Screening Failed</controllingFieldValue>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <controllingFieldValue>Failed Review</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <controllingFieldValue>Trial Complete</controllingFieldValue>
             <controllingFieldValue>Drop Out</controllingFieldValue>
+            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
             <controllingFieldValue>Deceased</controllingFieldValue>
+            <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Received</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Unable to Reach</controllingFieldValue>
-            <controllingFieldValue>Failed Referral</controllingFieldValue>
-            <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
-            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress</controllingFieldValue>
-            <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Enrollment Success</controllingFieldValue>
-            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
-            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <valueName>Did Not Meet Inclusion/Exclusion Criteria</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Enrollment Success</controllingFieldValue>
+            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
+            <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
+            <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Ready to Screen</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent</controllingFieldValue>
-            <controllingFieldValue>Declined Consent</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
-            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <controllingFieldValue>Screening Failed</controllingFieldValue>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <controllingFieldValue>Failed Review</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <controllingFieldValue>Trial Complete</controllingFieldValue>
             <controllingFieldValue>Drop Out</controllingFieldValue>
+            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
             <controllingFieldValue>Deceased</controllingFieldValue>
+            <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Received</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Unable to Reach</controllingFieldValue>
-            <controllingFieldValue>Failed Referral</controllingFieldValue>
-            <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
-            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress</controllingFieldValue>
-            <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Enrollment Success</controllingFieldValue>
-            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
-            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <valueName>Did Not Attend Appointment</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Enrollment Success</controllingFieldValue>
+            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
+            <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
+            <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Ready to Screen</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent</controllingFieldValue>
-            <controllingFieldValue>Declined Consent</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
-            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <controllingFieldValue>Screening Failed</controllingFieldValue>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <controllingFieldValue>Failed Review</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <controllingFieldValue>Trial Complete</controllingFieldValue>
             <controllingFieldValue>Drop Out</controllingFieldValue>
+            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
             <controllingFieldValue>Deceased</controllingFieldValue>
+            <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Received</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Unable to Reach</controllingFieldValue>
-            <controllingFieldValue>Failed Referral</controllingFieldValue>
-            <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
-            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress</controllingFieldValue>
-            <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Enrollment Success</controllingFieldValue>
-            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
-            <controllingFieldValue>Screening Passed</controllingFieldValue>
-            <valueName>Left a Message</valueName>
+            <valueName>Declined or Withdrew Consent</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Enrollment Success</controllingFieldValue>
+            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
+            <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
+            <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Ready to Screen</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent</controllingFieldValue>
-            <controllingFieldValue>Declined Consent</controllingFieldValue>
-            <controllingFieldValue>Withdrew Consent After Screening</controllingFieldValue>
-            <controllingFieldValue>Declined Final Consent</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <controllingFieldValue>Screening Failed</controllingFieldValue>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <controllingFieldValue>Failed Review</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <controllingFieldValue>Trial Complete</controllingFieldValue>
             <controllingFieldValue>Drop Out</controllingFieldValue>
+            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
             <controllingFieldValue>Deceased</controllingFieldValue>
+            <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Received</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Unable to Reach</controllingFieldValue>
-            <controllingFieldValue>Failed Referral</controllingFieldValue>
-            <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
-            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress</controllingFieldValue>
-            <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Enrollment Success</controllingFieldValue>
-            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
-            <controllingFieldValue>Screening Passed</controllingFieldValue>
-            <valueName>Protocol Concerns</valueName>
+            <valueName>Left a Message</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

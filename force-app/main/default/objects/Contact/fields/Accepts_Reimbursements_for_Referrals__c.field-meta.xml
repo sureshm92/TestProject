@@ -6,6 +6,6 @@
     <inlineHelpText>will accept reimbursement for referrals</inlineHelpText>
     <label>Accepts Reimbursements for Referrals</label>
     <trackFeedHistory>false</trackFeedHistory>
-
+    <trackHistory>false</trackHistory>
     <type>Checkbox</type>
 </CustomField>

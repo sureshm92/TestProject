@@ -7,7 +7,7 @@
     <inlineHelpText>Clinical Trial Profile&#39;s Protocol Id</inlineHelpText>
     <label>Protocol ID</label>
     <required>false</required>
-
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>
