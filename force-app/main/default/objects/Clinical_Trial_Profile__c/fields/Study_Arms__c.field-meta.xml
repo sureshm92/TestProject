@@ -8,7 +8,7 @@
     <label>Study Arms</label>
     <length>3200</length>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>true</trackHistory>
+<!--    <trackHistory>true</trackHistory>-->
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>
