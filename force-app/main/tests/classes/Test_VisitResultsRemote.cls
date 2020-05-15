@@ -205,53 +205,6 @@ public with sharing class Test_VisitResultsRemote {
         System.assert(true, isExceptionThrown);
     }
 
-
-    @IsTest
-    static void changeOptInOnTrue_test() {
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubBuilder.newInstance(DatabaseProxy.class)
-                .when('updateRecord')
-                .then(null)
-                .build()
-        );
-
-        Test.startTest();
-        TestData testData = new TestData();
-        testData.updatePEStatusEnrollmentSuccess();
-
-        System.runAs(testData.participantUser) {
-            Boolean isOptOn = VisitResultsRemote.changeOptInOnTrue(testData.participant.Contact__c);
-
-            System.assert(isOptOn);
-        }
-        Test.stopTest();
-    }
-
-    @IsTest
-    static void changeOptInWithException_test() {
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubBuilder.newInstance(DatabaseProxy.class)
-                .when('updateRecord')
-                .then(new AuraHandledException('error'))
-                .build()
-        );
-
-        Test.startTest();
-        TestData testData = new TestData();
-        Boolean isExceptionThrown = false;
-        System.runAs(testData.participantUser) {
-            try {
-                VisitResultsRemote.changeOptInOnTrue(testData.participant.Contact__c);
-
-            } catch (Exception e) {
-                isExceptionThrown = true;
-                System.assert(e.getTypeName() == 'System.AuraHandledException');
-            }
-            System.assert(true, isExceptionThrown);
-        }
-        Test.stopTest();
-    }
-
     @IsTest
     static void switchToggleRemoteToggleOn_test() {
         TestData testData = new TestData();

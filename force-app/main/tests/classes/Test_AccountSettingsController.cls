@@ -45,7 +45,6 @@ private class Test_AccountSettingsController {
             AccountSettingsController.updateContact(JSON.serialize(con));
             AccountSettingsController.changeEmail('aaa@bbb.com');
             AccountSettingsController.changePassword('123', '123', '321');
-            AccountSettingsController.changeOptInVisitResults(con.Id, true);
             AccountSettingsController.changeOptInEmail(true, true, true, true);
             AccountSettingsController.changeOptInCookies(false, false);
             AccountSettingsController.fillParticipantContact(con);

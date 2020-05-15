@@ -62,7 +62,6 @@ public without sharing class PETriggerBuffer {
                         Adult__c,
                         Balance__c,
                         Contact__c,
-                        Contact__r.Visit_Results_Opt_In__c,
                         Contact__r.Visit_Results_OptIn__c,
                         Email__c,
                         Emancipation_in_progress__c,
