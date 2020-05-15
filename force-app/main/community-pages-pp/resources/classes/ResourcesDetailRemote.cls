@@ -1,7 +1,7 @@
 /**
  * Created by Yehor Dobrovolskyi
  */
-public with sharing class ResourcesDetailRemote {
+public without sharing class ResourcesDetailRemote {
 
     @AuraEnabled
     public static ResourceService.ResourceWrapperContainer getResourcesById(String resourceId, String resourceType) {
