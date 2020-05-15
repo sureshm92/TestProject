@@ -77,7 +77,12 @@ public inherited sharing class VisitResultMService {
         return visitResultsMeasurementNamesMap;
     }
     public String getVisitResultModeByGroupName(String visitResultsGroupName) {
-        List<Visit_Result_GroupM__mdt> visitResultGroups = [SELECT Id, Visit_Results_Mode__c FROM Visit_Result_GroupM__mdt WHERE Label=:visitResultsGroupName];
+        List<Visit_Result_GroupM__mdt> visitResultGroups = [
+                SELECT Id,
+                        Visit_Results_Mode__c
+                FROM Visit_Result_GroupM__mdt
+                WHERE Label=:visitResultsGroupName
+        ];
         return visitResultGroups.get(0).Visit_Results_Mode__c;
     }
 }
