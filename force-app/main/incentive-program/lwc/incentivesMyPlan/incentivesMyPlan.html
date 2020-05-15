@@ -4,5 +4,34 @@
 
 <!-- Incentives My Plan -->
 <template>
-    <div class="rr-white-panel incentives-my-plan-container"></div>
+    <div class="rr-white-panel incentives-my-plan-container">
+        <template if:true={initialized}>
+            <div class="incentives-my-plan-title">
+                How do I earn Points?
+            </div>
+            <div class="imp-ss-select-container">
+                <lightning-combobox
+                        name="studySiteSelect"
+                        label="Study Site"
+                        value={selectedStudySite}
+                        placeholder="Select Study Sites"
+                        options={studySitesOptions}
+                        onchange={doUpdateStudySite}></lightning-combobox>
+            </div>
+            <template for:each={tasksGroups} for:item="taskGroup">
+                <div key={taskGroup.points} class="incentives-my-plan-group-container">
+                    <div class="incentives-my-plan-group-points">{taskGroup.points} Points</div>
+                    <div class="incentives-my-plan-group-items">
+                        <ul>
+                            <template for:each={taskGroup.tasksDescription} for:item="task">
+                                <li key={task}>
+                                    {task}
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+            </template>
+        </template>
+    </div>
 </template>
