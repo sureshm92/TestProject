@@ -3,11 +3,12 @@
  */
 public with sharing class Batch_TrialMatchNotify extends Batch_ScheduledAbstract {
 
-    private Map<Id, Set<Id>> enrollmentsByContact = new Map<Id, Set<Id>>();
+    private Map<Id, Map<String, Id>> enrollmentsByTemplateByContact = new Map<Id, Map<String, Id>>();
 
     public Database.QueryLocator start(Database.BatchableContext param1) {
         return Database.getQueryLocator([
                 SELECT Participant_Enrollment__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
                         Participant_Enrollment__r.Participant_Contact__c
                 FROM Trial_Match__c
                 WHERE Is_Eligible__c = TRUE
@@ -18,10 +19,16 @@ public with sharing class Batch_TrialMatchNotify extends Batch_ScheduledAbstract
     public void execute(Database.BatchableContext param1, List<Trial_Match__c> matches) {
         for (Trial_Match__c match : matches) {
             Participant_Enrollment__c enrollment = match.Participant_Enrollment__r;
-            if (!enrollmentsByContact.containsKey(enrollment.Participant_Contact__c)) {
-                enrollmentsByContact.put(enrollment.Participant_Contact__c, new Set<Id>());
+            if (!enrollmentsByTemplateByContact.containsKey(enrollment.Participant_Contact__c)) {
+                enrollmentsByTemplateByContact.put(enrollment.Participant_Contact__c, new Map<String, Id>());
             }
-            enrollmentsByContact.get(enrollment.Participant_Contact__c).add(enrollment.Id);
+
+            Map<String, Id> enrollmentsByTemplate = enrollmentsByTemplateByContact.get(enrollment.Participant_Contact__c);
+            String communityTemplate = enrollment.Clinical_Trial_Profile__r.CommunityTemplate__c;
+            if(!enrollmentsByTemplate.containsKey(communityTemplate)) {
+                enrollmentsByTemplate.put(communityTemplate, enrollment.Id);
+            }
+
             match.Is_User_notified__c = true;
         }
 
@@ -30,12 +37,14 @@ public with sharing class Batch_TrialMatchNotify extends Batch_ScheduledAbstract
 
     public override void finalAction() {
         Map<Id, List<Id>> delegatesContByParticipantContact =
-                PatientDelegateService.getDelegateContactIdsByPAContactIs(new List<Id>(enrollmentsByContact.keySet()));
+                PatientDelegateService.getDelegateContactIdsByPAContactIs(new List<Id>(enrollmentsByTemplateByContact.keySet()));
 
         List<Notification__c> notifications = new List<Notification__c>();
-        for(Id partContactId : enrollmentsByContact.keySet()) {
+        for(Id partContactId : enrollmentsByTemplateByContact.keySet()) {
             List<Id> delegates = delegatesContByParticipantContact.get(partContactId);
-            for(Id peId : enrollmentsByContact.get(partContactId)) {
+            Map<String, Id> enrollmentsByTemplate = enrollmentsByTemplateByContact.get(partContactId);
+            for (String template : enrollmentsByTemplate.keySet()) {
+                Id peId = enrollmentsByTemplate.get(template);
                 notifications.add(new Notification__c(
                         Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TRIAL_MATCH,
                         Recipient__c = partContactId,
