@@ -31,7 +31,7 @@
                 <field>Resource_Visibility__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Resource_Type__c</field>
             </layoutItems>
         </layoutColumns>
@@ -110,7 +110,7 @@
                 <field>Source__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Version_Date__c</field>
             </layoutItems>
         </layoutColumns>

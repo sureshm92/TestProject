@@ -2940,7 +2940,7 @@ Please login to the ##CommunityName to check your clinical research trial matche
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Trial Match Delegate</shortDescription>
-        <value>We have found new trial matches for &lt;participant first name&gt;.
+        <value>We have found new trial matches for ##PatientFirstName.
  
 Please log in to ##CommunityName to view this information.</value>
     </labels>

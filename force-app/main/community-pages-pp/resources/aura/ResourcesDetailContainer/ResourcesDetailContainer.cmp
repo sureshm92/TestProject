@@ -17,13 +17,14 @@
 
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
 
+    <c:RRSpinner aura:id="details-spinner" fixed="true" size="medium"/>
+
     <aura:if isTrue="{!v.initialized}">
         <div>
             <c:RRTopBar backLabel="{!v.backStudy == '' ? $Label.c.Link_Back_To_Home : $Label.c.Link_Back_To_Resources}"
                         backPage="{!v.backStudy}"
                         smallTitle="{!v.smallTitle}"
                         bigTitle="{!v.bigTitle}"/>
-            <c:RRSpinner aura:id="spinner" fixed="true" size="medium"/>
 
             <aura:if isTrue="{!v.errorMessage}">
                 <div class="resource-error-message resource-detail-block">

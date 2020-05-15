@@ -1371,8 +1371,8 @@
     <screens>
         <name>Study_Doc_c</name>
         <label>Study Doc</label>
-        <locationX>546</locationX>
-        <locationY>1043</locationY>
+        <locationX>576</locationX>
+        <locationY>933</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1439,7 +1439,7 @@
         </connector>
         <fields>
             <name>Page_show_record_type</name>
-            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Study &lt;/span&gt;&lt;span style=&quot;background-color: var(--lwc-colorBackgroundInput,rgb(255, 255, 255)); font-size: 16px;&quot;&gt;Recourse&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Study &lt;/span&gt;&lt;span style=&quot;font-size: 16px; background-color: var(--lwc-colorBackgroundInput,rgb(255, 255, 255));&quot;&gt;Resource&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
