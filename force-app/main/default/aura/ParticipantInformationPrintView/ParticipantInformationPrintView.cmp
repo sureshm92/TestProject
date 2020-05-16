@@ -13,6 +13,7 @@
     <aura:attribute name="participant" type="Participant__c" access="private"/>
     <aura:attribute name="initialized" type="Boolean" default="false" access="private"/>
     <aura:attribute name="pathItems" type="List"/>
+    <aura:attribute name="delegate" type="Object"/>
     <!--REF-1192-->
     <aura:attribute name="participantWorkflowWrapper" type="Object"/>
     <aura:attribute name="participantHistory" type="List"/>
@@ -30,31 +31,60 @@
                     <div class="ap-section">
                         <div class="ap-section-title">{!$Label.c.PG_AP_H_Patient_Details}</div>
                         <div class="slds-grid slds-gutters slds-wrap">
-                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                            <div class="rr-form-element slds-col slds-size--1-of-4">
                                 <div class="label">{!$Label.c.PG_AS_F_First_name}</div>
                                 <lightning:input type="text" value="{!v.participant.First_Name__c}" disabled="true"/>
                             </div>
-                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                            <div class="rr-form-element slds-col slds-size--1-of-4">
                                 <div class="label">{!$Label.c.PG_AS_F_Middle_name}</div>
                                 <lightning:input type="text" value="{!v.participant.Middle_Name__c}" disabled="true"/>
                             </div>
-                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                            <div class="rr-form-element slds-col slds-size--1-of-4">
                                 <div class="label">{!$Label.c.PG_AS_F_Last_name}</div>
                                 <lightning:input type="text" value="{!v.participant.Last_Name__c}" disabled="true"/>
                             </div>
-                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                            <div class="rr-form-element slds-col slds-size--1-of-4">
+                                <div class="label">{!$Label.c.PG_AS_F_Suffix}</div>
+                                <lightning:input type="text" value="{!v.participant.Suffix__c}" disabled="true"/>
+                            </div>
+                            <div class="rr-form-element slds-col slds-size--1-of-4">
                                 <div class="label">{!$Label.c.PG_AS_F_Date_of_Birth}</div>
                                 <lightning:input max="{!v.todayDate}" type="date"
                                                  value="{!v.participant.Date_of_Birth__c}" disabled="true"/>
                             </div>
-                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                            <div class="rr-form-element slds-col slds-size--1-of-4">
+                                <div class="label">{!$Label.c.PG_AS_F_Nickname}</div>
+                                <lightning:input type="text" value="{!v.participant.Nickname__c}" disabled="true"/>
+                            </div>
+                            <div class="rr-form-element slds-col slds-size--1-of-4">
                                 <div class="label">{!$Label.c.PG_AS_F_Gender}</div>
                                 <lightning:input type="text" value="{!v.participant.Gender__c}" disabled="true"/>
+                            </div>
+                            <div class="rr-form-element slds-col slds-size--1-of-4">
+                                <div class="label">{!$Label.c.PG_AP_F_Language}</div>
+                                <lightning:input type="text" value="{!v.participant.Preferred_Language__c}" disabled="true"/>
                             </div>
                         </div>
                     </div>
                     <!-- contact information: -->
                     <div class="ap-section">
+                    <aura:if isTrue="{!(v.delegate &amp;&amp; !v.participant.Adult__c) || (v.delegate &amp;&amp; v.participant.Adult__c &amp;&amp; v.participant.Emancipation_in_progress__c)}">
+                        <div class="ap-section-title">{!$Label.c.PG_Ref_L_Delegate_Information}</div>
+                        <div class="slds-grid slds-gutters slds-wrap">
+                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                                <div class="label">{!$Label.c.PG_AS_F_First_name}</div>
+                                <lightning:input type="text" value="{!v.delegate.First_Name__c}" disabled="true"/>
+                            </div>
+                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                                <div class="label">{!$Label.c.PG_AS_F_Last_name}</div>
+                                <lightning:input type="text" value="{!v.delegate.Last_Name__c}" disabled="true"/>
+                            </div>
+                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                                <div class="label">{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</div>
+                                <lightning:input type="text" value="{!v.delegate.Phone__c}" disabled="true"/>
+                            </div>
+                        </div>
+                    </aura:if>
                         <div class="ap-section-title">{!$Label.c.PG_AP_H_Contact_Information}</div>
                         <div class="slds-grid slds-gutters slds-wrap">
                             <div class="rr-form-element slds-col slds-size--1-of-3">
@@ -83,6 +113,16 @@
                             <div class="rr-form-element slds-col slds-size--1-of-3">
                                 <div class="label">{!$Label.c.PG_AS_F_Zip_Postal_Code}</div>
                                 <lightning:input type="text" value="{!v.participant.Mailing_Zip_Postal_Code__c}"
+                                                 disabled="true"/>
+                            </div>
+                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                                <div class="label">{!$Label.c.PG_AP_F_Alternative_Phone_Number}</div>
+                                <lightning:input type="text" value="{!v.participant.Alternative_Phone_Number__c}"
+                                                 disabled="true"/>
+                            </div>
+                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                                <div class="label">{!$Label.c.PG_AP_F_Alternative_Phone_Type}</div>
+                                <lightning:input type="text" value="{!v.participant.Alternative_Phone_Type__c}"
                                                  disabled="true"/>
                             </div>
                         </div>
