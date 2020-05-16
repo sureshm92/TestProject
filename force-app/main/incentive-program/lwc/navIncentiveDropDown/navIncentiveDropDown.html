@@ -6,9 +6,9 @@
 <template>
     <div class="nidd-container">
         <div class=" slds-p-around_medium">
-            <div class="nidd-total slds-p-around_xx-small">Total: {totalPoints} pts</div>
-            <div class="nidd-last slds-p-around_xx-small">Last Earned: {lastPoints} pts</div>
-            <button class="apollo-btn tertiary">View Details</button>
+            <div class="nidd-total slds-p-around_xx-small">{labels.totalLabel} {totalPoints} {labels.ptsLabel}</div>
+            <div class="nidd-last slds-p-around_xx-small">{labels.lastEarnedLabel} {lastPoints} {labels.ptsLabel}</div>
+            <div class="apollo-btn tertiary" onclick={doViewDetails}>{labels.viewDetailsLabel}</div>
         </div>
     </div>
 </template>
