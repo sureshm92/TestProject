@@ -1,0 +1,21 @@
+<aura:component>
+
+    <!-- attributes:-->
+    <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="selectedPI" type="String" />
+    <aura:attribute name="selectedStudy" type="String" />
+    <aura:attribute name="piData" type="Object"/>
+    <aura:attribute name="siteRankData" type="Object[]"/>
+
+    <!-- handlers: -->
+    <!--<aura:handler name="init" value="{!this}" action="{!c.doinit}"/>
+    <aura:handler event="c:EventLeaderboardRefreshed" action="{!c.refreshData}"/>-->
+
+    <aura:iteration items="{!v.piData.studySiteRank}" var="item" indexVar="idx">
+        <aura:if isTrue="{!lessthan(idx,5)}">
+            <div class="slds-p-bottom_medium">
+                <c:DB_LeaderboardSSRank siteRankData="{!item}"/>
+            </div>
+        </aura:if>    
+    </aura:iteration>    
+</aura:component>

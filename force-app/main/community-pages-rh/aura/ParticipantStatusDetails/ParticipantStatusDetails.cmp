@@ -7,7 +7,12 @@
     <aura:attribute name="participantWorkflowWrapper" type="Object" required="true"/>
     <aura:attribute name="parent" type="Aura.Component" />
     <aura:attribute name="updateInProgress" type="Boolean"  default="false"/>
-
+    <!-- Attribute to capture the changes made in child 
+    <aura:attribute name="childChanges" type="List" default="[]"/>
+    -->
+	<!-- Component is going to register for event
+		 Event will be handled by Action_ParticipantInformation -->
+    <aura:registerEvent name="detectChildChanges" type="c:DetectChildChanges"/>
 
     <aura:method name="fieldChanged" action="{!c.doFieldChanged}" access="public">
         <aura:attribute name="fieldName" type="String"/>
@@ -15,10 +20,16 @@
         <aura:attribute name="valid" type="Boolean"/>
         <aura:attribute name="fieldMap" type="Object"/>
     </aura:method>
-
+    <!-- This aura method will be called from Child comonents:
+			ParticipantStatusDetailsCard and 
+			ParticipantStatusDetailsCardField
+		to notify changes made in UI -->
+    <aura:method name="notifyParent" action="{!c.doNotifyParent}" access="public">
+        <aura:attribute name="changesMap" type="Map"/>
+    </aura:method>
 
     <div class="slds-grid slds-wrap">
-        <div class="slds-col slds-max-small-size_1-of-1 slds-size--1-of-3  slds-p-horizontal--medium">
+            <div class="slds-col slds-max-small-size_1-of-1 slds-size--1-of-3  slds-p-horizontal--medium">
             <aura:iteration items="{!v.participantWorkflowWrapper.steps}" var="step" indexVar="stepInd">
                 <div>
                     <button class="apollo-btn secondary step-btn" data-step-ind="{!stepInd}" onclick="{!c.doChangeStep}" disabled="{!step.state=='neutral' || v.updateInProgress}">

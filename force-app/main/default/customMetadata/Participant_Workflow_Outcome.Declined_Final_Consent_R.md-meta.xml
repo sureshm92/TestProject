@@ -3,6 +3,10 @@
     <label>Declined Final Consent R</label>
     <protected>false</protected>
     <values>
+        <field>Condition__c</field>
+        <value xsi:type="xsd:string">Final_Consent_Required__c == true</value>
+    </values>
+    <values>
         <field>Condition_for_Auto_Update__c</field>
         <value xsi:nil="true"/>
     </values>

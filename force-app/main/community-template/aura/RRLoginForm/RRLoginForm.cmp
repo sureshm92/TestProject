@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="RRLoginForm" implements="forceCommunity:availableForAllPageTypes" controller="RRLoginRemote">
+ <aura:component description="RRLoginForm" implements="forceCommunity:availableForAllPageTypes" controller="RRLoginRemote">
     <ltng:require styles="{!join(',', $Resource.Community_CSS_Core, $Resource.Community_CSS_Stub, $Resource.proximanova + '/proximanova.css')}"
                   scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.initialize}"/>
 
@@ -14,6 +14,8 @@
     <aura:attribute name="passwordLabel" type="String" required="false" default="{!$Label.c.PG_Login_F_Password}"/>
     <aura:attribute name="loginButtonLabel" type="String" required="false" default="{!$Label.c.BTN_Log_In}"/>
     <aura:attribute name="expid" type="String" required="false" description="The branding experience ID" />
+	<!-- added by Sumit S REF-510-->
+	<aura:attribute name="showpassword" type="Boolean" default="false" />
 
     <aura:attribute name="forgotPasswordLabel" type="String" required="false" default="{!$Label.c.PG_Login_L_Forgot_your_password}"/>
     <aura:attribute name="selfRegisterLabel" type="String" required="false" default="{!$Label.c.PG_Login_L_Not_a_member}"/>
@@ -52,7 +54,21 @@
 
             <div class="lg-form-element">
                 <label>{!$Label.c.PG_Login_F_Password}</label>
-                <ui:inputSecret value="" aura:id="password" keyup="{!c.onKeyUp}" class="input sfdc_passwordinput sfdc" label="{!v.passwordLabel}" labelClass="assistiveText"/>
+                <!--<ui:inputSecret value="" aura:id="password" keyup="{!c.onKeyUp}" class="input sfdc_passwordinput sfdc" label="{!v.passwordLabel}" labelClass="assistiveText"/>-->
+				<!-- added by Sumit S REF-510-->
+				<div>
+					<span onkeyup="{!c.onKeyUp}" id="password">
+						<lightning:input label="{!v.passwordLabel}"
+							variant="label-hidden"
+							aura:id="password"    
+							class="input sfdc_usernameinput sfdc" type="{!v.showpassword ? 'text' : 'password'}" 
+							value=""/> 
+					</span>
+					 <lightning:buttonIcon class="input sfdc_usernameinput sfdc eyeIcon" 
+									iconName="{!v.showpassword ? 'utility:hide':'utility:preview'}" 
+									alternativeText="{!v.coborrowerSSNCB ? 'Hide':'Show'}" 
+									onclick="{!c.togglePassword}"/>
+				</div>
             </div>
 
             <div style="height: 50px; margin-top: 30px">
@@ -60,7 +76,7 @@
             </div>
 
             <div id="sfdc_forgot" class="sfdc">
-                <span><a class="forgot-password-link" href="{!if(v.communityForgotPasswordUrl == null, v.forgotPasswordUrl, v.communityForgotPasswordUrl)}">{!$Label.c.PG_Login_Link_Forgot}</a></span>
+                <span><a class="forgot-password-link" onclick = "{!c.resetUrl}">{!$Label.c.PG_Login_Link_Forgot}</a></span>
                 <aura:renderIf isTrue="{!v.isSelfRegistrationEnabled}">
                     <span style="float:right" ><a href="{!if(v.communitySelfRegisterUrl == null, v.selfRegisterUrl, v.communitySelfRegisterUrl)}">{!v.selfRegisterLabel}</a></span>
                 </aura:renderIf>

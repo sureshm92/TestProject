@@ -29,7 +29,7 @@
         </aura:if>
         <div class="{!if(v.showDashboardforPI,'db-content','db-content-empty')}">
             <aura:if isTrue="{!and(v.userMode == 'PI',v.showDashboardforPI)}">
-                <c:DashboardPINew piData="{!v.piData}" parent="{!this}"/>
+                <c:DashboardPINew piData="{!v.piData}" parent="{!this}" userMode="{!v.userMode}"/>
                 <!-- change PE status action by PI: -->
                 <c:Action_ChangePEStatusByPI aura:id="changePEStatusByPIAction"/>
                 <!-- Change HCP Status dialog -->

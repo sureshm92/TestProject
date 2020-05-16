@@ -6,7 +6,7 @@
     <inlineHelpText>Did the Potential Participant provide informed consent?</inlineHelpText>
     <label>Informed Consent</label>
     <trackFeedHistory>false</trackFeedHistory>
-
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>
