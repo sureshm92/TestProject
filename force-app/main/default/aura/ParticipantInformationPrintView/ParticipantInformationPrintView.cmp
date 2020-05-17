@@ -127,58 +127,63 @@
                         <c:ParticipantStatusPath userMode="PI" pathSteps="{!v.pathItems}" printMode="true"/>
                     </div>
                 </div>
+                <div>
+                    <aura:iteration items="{!v.pathItems}" var="step">
+                    <c:ParticipantStatusHistoryPrintView pathItem="{!step}"/>
+                    </aura:iteration>
+                </div>
             </div>
 
-            <!--                &lt;!&ndash;Status Detail Path Controll&ndash;&gt;-->
-            <!--                <div class="slds-grid slds-grid_vertical rp-status-detail">-->
-            <!--                        <aura:iteration items="{!v.statusSteps}" var="step" indexVar="index">-->
-            <!--                            <aura:if isTrue="{!!empty(step.history)}">-->
-            <!--                            <div class="{!'slds-col slds-grid pe-state-row ' + if(step.isCurrent, ' current', '')}">-->
-            <!--                                <div class="{!'slds-col slds-grid slds-size&#45;&#45;1-of-1 path-item-detail-panel rr-white-panel ' + step.state}" style="position: relative">-->
-            <!--                                    <div class="slds-col slds-size&#45;&#45;4-of-12">-->
-            <!--                                        <div class="title">{!step.name}</div>-->
-            <!--                                        &lt;!&ndash; history list: &ndash;&gt;-->
-            <!--                                            <div class="pe-history">-->
-            <!--                                                <div class="title">{!$Label.c.PE_Activity_History + ':'}</div>-->
-            <!--                                                <aura:iteration items="{!step.history}" var="historyItem" indexVar="hIndex">-->
-            <!--                                                    <div class="history-item">-->
-            <!--                                                        <div class="{!'info ' + historyItem.styleClass + if(hIndex == 0, ' first', '')}">{!historyItem.message}</div>-->
-            <!--                                                        <div class="date">{!$Label.c.PE_Status_History_On_Date + ' '}-->
-            <!--                                                            <ui:outputDateTime value="{!historyItem.changeDate}"/><br/>-->
-            <!--                                                            <aura:if isTrue="{!step.name == 'Referred'}">-->
-            <!--                                                                <aura:if isTrue="{!v.pe.Referral_Source__c == 'HCP'}">-->
-            <!--                                                                    <div class="value">{!$Label.c.PG_IMI_L_by_user + ' ' + v.pe.HCP__r.HCP_Contact__r.Name}</div>-->
-            <!--                                                                    <aura:set attribute="else">-->
-            <!--                                                                        <aura:if isTrue="{!v.pe.Referral_Source__c == 'PI'}">-->
-            <!--                                                                            <div class="value">{!$Label.c.PG_IMI_L_by_user + ' ' + v.pe.PI_Contact__r.Name}</div>-->
-            <!--                                                                            <aura:set attribute="else">-->
-            <!--                                                                                <div class="value">{!$Label.c.PG_IMI_L_by_user + ' ' + v.pe.Source_Type__c}</div>-->
-            <!--                                                                            </aura:set>-->
-            <!--                                                                        </aura:if>-->
-            <!--                                                                    </aura:set>-->
-            <!--                                                                </aura:if>-->
-            <!--                                                                <aura:set attribute="else">-->
-            <!--                                                                    {!$Label.c.PG_IMI_L_by_user + ' ' + historyItem.modifiedBy}-->
-            <!--                                                                </aura:set>-->
-            <!--                                                            </aura:if>-->
-            <!--                                                        </div>-->
-            <!--                                                    </div>-->
-            <!--                                                </aura:iteration>-->
-            <!--                                            </div>-->
-            <!--                                    </div>-->
-            <!--                                </div>-->
-            <!--                            </div>-->
-            <!--                            </aura:if>-->
-            <!--                        </aura:iteration>-->
-            <!--                </div>-->
+                <!--                &lt;!&ndash;Status Detail Path Controll&ndash;&gt;-->
+                <!--                <div class="slds-grid slds-grid_vertical rp-status-detail">-->
+                <!--                        <aura:iteration items="{!v.statusSteps}" var="step" indexVar="index">-->
+                <!--                            <aura:if isTrue="{!!empty(step.history)}">-->
+                <!--                            <div class="{!'slds-col slds-grid pe-state-row ' + if(step.isCurrent, ' current', '')}">-->
+                <!--                                <div class="{!'slds-col slds-grid slds-size&#45;&#45;1-of-1 path-item-detail-panel rr-white-panel ' + step.state}" style="position: relative">-->
+                <!--                                    <div class="slds-col slds-size&#45;&#45;4-of-12">-->
+                <!--                                        <div class="title">{!step.name}</div>-->
+                <!--                                        &lt;!&ndash; history list: &ndash;&gt;-->
+                <!--                                            <div class="pe-history">-->
+                <!--                                                <div class="title">{!$Label.c.PE_Activity_History + ':'}</div>-->
+                <!--                                                <aura:iteration items="{!step.history}" var="historyItem" indexVar="hIndex">-->
+                <!--                                                    <div class="history-item">-->
+                <!--                                                        <div class="{!'info ' + historyItem.styleClass + if(hIndex == 0, ' first', '')}">{!historyItem.message}</div>-->
+                <!--                                                        <div class="date">{!$Label.c.PE_Status_History_On_Date + ' '}-->
+                <!--                                                            <ui:outputDateTime value="{!historyItem.changeDate}"/><br/>-->
+                <!--                                                            <aura:if isTrue="{!step.name == 'Referred'}">-->
+                <!--                                                                <aura:if isTrue="{!v.pe.Referral_Source__c == 'HCP'}">-->
+                <!--                                                                    <div class="value">{!$Label.c.PG_IMI_L_by_user + ' ' + v.pe.HCP__r.HCP_Contact__r.Name}</div>-->
+                <!--                                                                    <aura:set attribute="else">-->
+                <!--                                                                        <aura:if isTrue="{!v.pe.Referral_Source__c == 'PI'}">-->
+                <!--                                                                            <div class="value">{!$Label.c.PG_IMI_L_by_user + ' ' + v.pe.PI_Contact__r.Name}</div>-->
+                <!--                                                                            <aura:set attribute="else">-->
+                <!--                                                                                <div class="value">{!$Label.c.PG_IMI_L_by_user + ' ' + v.pe.Source_Type__c}</div>-->
+                <!--                                                                            </aura:set>-->
+                <!--                                                                        </aura:if>-->
+                <!--                                                                    </aura:set>-->
+                <!--                                                                </aura:if>-->
+                <!--                                                                <aura:set attribute="else">-->
+                <!--                                                                    {!$Label.c.PG_IMI_L_by_user + ' ' + historyItem.modifiedBy}-->
+                <!--                                                                </aura:set>-->
+                <!--                                                            </aura:if>-->
+                <!--                                                        </div>-->
+                <!--                                                    </div>-->
+                <!--                                                </aura:iteration>-->
+                <!--                                            </div>-->
+                <!--                                    </div>-->
+                <!--                                </div>-->
+                <!--                            </div>-->
+                <!--                            </aura:if>-->
+                <!--                        </aura:iteration>-->
+                <!--                </div>-->
 
-            <!--MRR Survey Results-->
-            <aura:if isTrue="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled}">
-                <div>
-                    <div class="header">{!$Label.c.BTN_Screener_Responses}</div>
-                    <c:SurveyGismoResultsView results="{!v.pe.MRR_Survey_Results_URL__c}"/>
-                </div>
-            </aura:if>
+                <!--MRR Survey Results-->
+                <aura:if isTrue="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled}">
+                    <div>
+                        <div class="header">{!$Label.c.BTN_Screener_Responses}</div>
+                        <c:SurveyGismoResultsView results="{!v.pe.MRR_Survey_Results_URL__c}"/>
+                    </div>
+                </aura:if>
 
         </aura:if>
     </div>

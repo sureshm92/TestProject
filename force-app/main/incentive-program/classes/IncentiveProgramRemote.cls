@@ -21,4 +21,20 @@ public without sharing class IncentiveProgramRemote {
             return (IncentiveProgramService.IncentiveHistoryWrapper) AuraHelper.throwException(e);
         }
     }
+    @AuraEnabled
+    public static IncentiveProgramService.IncentivePlanResultWrapper getIncentivePlanResultWrapperForStudySite(Id ssId){
+        try {
+            return  IncentiveProgramService.getIncentivePlanResultWrapperForStudySite(ssId);
+        } catch (Exception e) {
+            return (IncentiveProgramService.IncentivePlanResultWrapper) AuraHelper.throwException(e);
+        }
+    }
+    @AuraEnabled
+    public static IncentiveProgramService.IncentivePlanResultWrapper getInitialIncentivePlanResultWrapper(){
+        try {
+            return  IncentiveProgramService.getInitialIncentivePlanResultWrapper();
+        } catch (Exception e) {
+            return (IncentiveProgramService.IncentivePlanResultWrapper) AuraHelper.throwException(e);
+        }
+    }
 }
