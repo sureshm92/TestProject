@@ -13,18 +13,14 @@ import sendEmail from '@salesforce/apex/EmailTestBoardRemote.sendEmail';
 
 export default class EmailTestBoard extends LightningElement {
 
+    @track currentEmailWrapper;
     @track selectedEmail;
     @track sendMethod = 'notification';
-    @track onlyImmediately;
 
     @track recipientId;
-    recipientType = 'Contact';
     @track recipientSearchMethod = 'Name';
-
-    @track relatedDisabled;
     @track relatedId;
-    @track relatedSearchMethod = 'Name';
-    relatedObjectLabel = 'Participant Enrollment';
+    @track relatedSearchMethod = 'Id';
 
     @track showPreview;
     @track previewHtml;
@@ -54,6 +50,16 @@ export default class EmailTestBoard extends LightningElement {
         }
     }
 
+    get isSupportNotification() {
+        if(!this.currentEmailWrapper) return true;
+        return !this.currentEmailWrapper.supportNotification;
+    }
+
+    get isSupportRelatedSearchByName () {
+        if(!this.currentEmailWrapper) return true;
+        return !this.currentEmailWrapper.supportSearchByName;
+    }
+
     get isRecipientSearchByName() {
         return this.recipientSearchMethod === 'Name';
     }
@@ -63,11 +69,24 @@ export default class EmailTestBoard extends LightningElement {
     }
 
     get relatedInputPlaceholder() {
-        if (!this.relatedObjectLabel) return '';
-        return 'Type ' + this.relatedObjectLabel + (this.relatedSearchMethod === 'Name' ? ' Name' : ' Id') + ' here...';
+        if (!this.currentEmailWrapper || !this.currentEmailWrapper.relatedObjLabel) return '';
+        return 'Type ' + this.currentEmailWrapper.relatedObjLabel
+            + (this.relatedSearchMethod === 'Name' ? ' Name' : ' Id') + ' here...';
     }
 
-    get actionBtnDisabled() {
+    get isRelatedInputDisabled() {
+        if(!this.currentEmailWrapper) return true;
+        return !this.currentEmailWrapper.supportNotification;
+    }
+
+    get isPreviewDisabled() {
+        if(!this.currentEmailWrapper || !this.recipientId) return true;
+        return !this.relatedId;
+    }
+
+    get isSendDisabled() {
+        if(!this.currentEmailWrapper || !this.recipientId) return true;
+        if(this.currentEmailWrapper.supportNotification && !this.relatedId) return true;
         return false;
     }
 
@@ -115,21 +134,17 @@ export default class EmailTestBoard extends LightningElement {
 
     //Handlers:---------------------------------------------------------------------------------------------------------
     handleEmailChange(event) {
+        this.currentEmailWrapper = null;
         this.selectedEmail = event.target.value;
-
-        let context = this;
         this.emailWrappers.some(wr => {
-            if (wr.emailDevName === context.selectedEmail) {
-                context.recipientType = wr.recipientType;
-                context.onlyImmediately = !wr.supportNotification;
-                context.relatedObjectLabel = wr.relatedObjLabel;
+            if (wr.emailDevName === this.selectedEmail) {
+                this.currentEmailWrapper = wr;
                 return true;
             }
         });
-        this.sendMethod = this.onlyImmediately ? 'immediately' : this.sendMethod;
-        this.relatedDisabled = this.onlyImmediately;
-        this.relatedId = null;
-        this.relatedSearchMethod = this.relatedDisabled ? 'Id' : this.relatedSearchMethod;
+        this.sendMethod = this.currentEmailWrapper.supportNotification ? this.sendMethod : 'immediately';
+        this.relatedSearchMethod = this.currentEmailWrapper.supportSearchByName ? 'Name' : 'Id';
+        this.clearSelection(this.relatedId, '.related-look-up');
     }
 
     handleSendMethodChange(event) {
@@ -138,7 +153,7 @@ export default class EmailTestBoard extends LightningElement {
 
     handleRecipientSearchMethodChange(event) {
         this.recipientSearchMethod = event.target.value;
-        this.recipientId = null;
+        this.clearSelection(this.recipientId, '.recipient-look-up');
     }
 
     handleRecipientIdChange(event) {
@@ -147,7 +162,7 @@ export default class EmailTestBoard extends LightningElement {
 
     handleRelatedSearchMethodChange(event) {
         this.relatedSearchMethod = event.target.value;
-        this.relatedId = null;
+        this.clearSelection(this.relatedId, '.related-look-up');
     }
 
     handleRelatedIdChange(event) {
@@ -158,15 +173,13 @@ export default class EmailTestBoard extends LightningElement {
         this.showPreview = !this.showPreview;
         if (this.showPreview) {
             this.previewSpinner.show();
-            let context = this;
             getPreviewHTML({
-                emailName: context.selectedEmail,
-                contactId: context.recipientId,
-                relatedId: context.relatedId
+                wrapper: JSON.stringify(this.currentEmailWrapper),
+                contactId: this.recipientId,
+                relatedId: this.relatedId
             })
                 .then(result => {
-                    console.log(result);
-                    context.previewHtml = result;
+                    this.previewHtml = result;
                 })
                 .catch(error => {
                     this.showPreview = false;
@@ -188,14 +201,17 @@ export default class EmailTestBoard extends LightningElement {
     handleSendClick() {
         this.mainSpinner.show();
         sendEmail({
-            emailName: this.selectedEmail,
+            wrapper: JSON.stringify(this.currentEmailWrapper),
             contactId: this.recipientId,
-            recipientType: this.recipientType,
             relatedId: this.relatedId,
             sendMethod: this.sendMethod
         })
             .then(() => {
-                alert('Success!');
+                this.dispatchEvent(new ShowToastEvent({
+                    title: '',
+                    message: 'Email was sent',
+                    variant: 'success'
+                }));
             })
             .catch(error => {
                 console.error('Send error', JSON.stringify(error));
@@ -225,7 +241,7 @@ export default class EmailTestBoard extends LightningElement {
 
     handleRelatedSearch(event) {
         searchRelated({
-            objT: 'Participant_Enrollment__c',
+            objName: this.currentEmailWrapper.relatedObjName,
             searchTerm: event.detail.searchTerm
         })
             .then(results => {
@@ -256,5 +272,12 @@ export default class EmailTestBoard extends LightningElement {
             selectedId = lookUp.getSelection().length > 0 ? lookUp.getSelection()[0] : null;
         }
         return selectedId;
+    }
+
+    clearSelection(field, lookUpClass) {
+        if(field) {
+            let lookUp = this.template.querySelector(lookUpClass);
+            if (lookUp) lookUp.clearSelection();
+        }
     }
 }
