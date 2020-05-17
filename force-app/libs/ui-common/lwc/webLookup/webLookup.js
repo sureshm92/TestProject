@@ -10,6 +10,7 @@ const SEARCH_DELAY = 300; // Wait 300 ms after user stops typing then, perform s
 
 export default class WebLookup extends LightningElement {
 
+    @api minSearchTermLength = MINIMAL_SEARCH_TERM_LENGTH;
     @api label;
     @api selection = [];
     @api placeholder = '';
@@ -59,6 +60,11 @@ export default class WebLookup extends LightningElement {
     }
 
     @api
+    clearSelection() {
+        this.handleClearSelection();
+    }
+
+    @api
     getKey() {
         return this.customKey;
     }
@@ -81,7 +87,7 @@ export default class WebLookup extends LightningElement {
         this.cleanSearchTerm = newCleanSearchTerm;
 
         // Ignore search terms that are too small
-        if (newCleanSearchTerm.length < MINIMAL_SEARCH_TERM_LENGTH) {
+        if (newCleanSearchTerm.length < this.minSearchTermLength) {
             this.searchResults = [];
             return;
         }
@@ -93,7 +99,7 @@ export default class WebLookup extends LightningElement {
         // eslint-disable-next-line @lwc/lwc/no-async-operation
         this.searchThrottlingTimeout = setTimeout(() => {
             // Send search event if search term is long enough
-            if (this.cleanSearchTerm.length >= MINIMAL_SEARCH_TERM_LENGTH) {
+            if (this.cleanSearchTerm.length >= this.minSearchTermLength) {
                 // Display spinner until results are returned
                 this.loading = true;
 
@@ -220,7 +226,7 @@ export default class WebLookup extends LightningElement {
         if (
             this.hasFocus &&
             this.cleanSearchTerm &&
-            this.cleanSearchTerm.length >= MINIMAL_SEARCH_TERM_LENGTH
+            this.cleanSearchTerm.length >= this.minSearchTermLength
         ) {
             css += 'slds-is-open';
         }
