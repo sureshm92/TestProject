@@ -9,7 +9,7 @@ public without sharing class VisitResultsRemote {
             InitDataWrapper wrapper = (InitDataWrapper) ClassFactory.newInstance(InitDataWrapper.class);
             wrapper.isVisitResultsAvailable = VisitResultSharingService.isVisitResultAvailable();
             wrapper.contact = ParticipantContext.getCurrentContact();
-            wrapper.isResultsExist = !VisitResultSharingService.processResults().isEmpty();
+            wrapper.isResultsExist = !VisitResultSharingService.processResults(visitResultsMode).isEmpty();
             wrapper.visitResultsGroupNames = ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class)).getVisitResultsGroupNames(visitResultsMode);
             wrapper.isDelegate = ParticipantContext.isCurrentDelegate();
             wrapper.toggleState = toggleState(visitResultsMode);
