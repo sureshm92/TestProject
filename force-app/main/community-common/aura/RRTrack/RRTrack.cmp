@@ -1,0 +1,35 @@
+<!--
+ - Created by Nargiz Mamedova on 5/18/2020.
+ -->
+
+<aura:component description="RRTrack">
+
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="rendered" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="wrapper" type="VisitResultsService.VisitResultWrapper"/>
+    <aura:attribute name="showExpectedRange" type="Boolean"/>
+    <aura:attribute name="visitResultType" type="String"/>
+
+    <aura:attribute name="value" type="String" default=""/>
+    <aura:attribute name="minValue" type="Double" default="0"/>
+    <aura:attribute name="maxValue" type="Double" default="0"/>
+
+    <aura:attribute name="arrowColor" type="String" default="#9e54b0" access="private"/>
+    <aura:attribute name="arrowMargin" type="Integer" default="1" access="private"/>
+    <aura:attribute name="trackMargin" type="Integer" default="0" access="private"/>
+    <aura:attribute name="trackWidth" type="Integer" default="0" access="private"/>
+    <aura:attribute name="valueMargin" type="Integer" default="0" access="private"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="render" value="{!this}" action="{!c.doRender}"/>
+
+    <!-- COMPONENT BODY -->
+    <div class="rr-slider-bar">
+        <div aura:id="track" class="rr-slider-track"><span style="{!'width:' + v.trackWidth + '%;margin-left:' + v.trackMargin + '%'}" class="{!v.showExpectedRange ? '' : 'hidden'}"></span></div>
+        <div style="{!'margin-left:' + v.arrowMargin + '%;color:' + v.arrowColor}" aura:id="arrDown" class="hidden"></div>
+    </div>
+    <div style="{!'margin-left:' + v.valueMargin + '%'}" aura:id="actValue" class="visit-result-actual-value">
+        {!if(!v.value, v.wrapper.value + ' ' + v.wrapper.measurement, v.value)}
+    </div>
+
+</aura:component>
