@@ -6,7 +6,7 @@
     <inlineHelpText>did the HCP complete orientation for this study?</inlineHelpText>
     <label>Completed Orientation</label>
     <trackFeedHistory>false</trackFeedHistory>
-
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

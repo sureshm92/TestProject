@@ -134,7 +134,7 @@ public without sharing class PIStudiesFilter implements SearchFilter {
             studySitesQuery += ' (' + DatabaseService.fieldEqual('Principal_Investigator__c', CommunityService.getUserContact().Id) +
                     '   OR  ' + DatabaseService.fieldInValues('Id', DelegateService.getDelegatedStudySiteIds()) + ' )';
         }
-        studySitesQuery += ' )';
+        studySitesQuery += ' AND Override_PI_Referral_Status__c !=null)';
         fields.add(studySitesQuery);
         return fields;
     }

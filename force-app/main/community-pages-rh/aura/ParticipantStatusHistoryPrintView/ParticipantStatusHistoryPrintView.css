@@ -1,0 +1,25 @@
+.THIS.step-card-title{
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+}
+.THIS .step-history-title{
+    margin-top: 16px;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+}
+.THIS .history-item-title{
+    color: #595959;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+    word-break: break-all;
+}
+.THIS .history-item-detail{
+    color: #595959;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+}

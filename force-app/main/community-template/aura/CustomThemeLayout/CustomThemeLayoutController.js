@@ -25,5 +25,9 @@
 
     doGoHome: function () {
         communityService.navigateToPage('');
-    }
+    },
+    doNavigate: function (component, event) {
+        var page = event.getParam('page');
+        communityService.navigateToPage(page);
+    },
 });

@@ -79,6 +79,7 @@ public without sharing class PETriggerBuffer {
         ]);
         buffer.putAll([
                 SELECT Id,
+                        Final_Consent_Required__c,
                         Patient_Portal_Enabled__c,
                         Visit_Plan__c,
                         Protocol_ID__c,

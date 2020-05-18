@@ -6,7 +6,7 @@
     <inlineHelpText>Did the Potential Participant pass the pre-eligibility screening questionnaire?</inlineHelpText>
     <label>Pre-Eligibility</label>
     <trackFeedHistory>false</trackFeedHistory>
-
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

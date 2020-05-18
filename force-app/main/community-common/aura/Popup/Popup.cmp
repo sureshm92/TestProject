@@ -28,13 +28,11 @@
     <aura:handler name="change" value="{!v.showModal}" action="{!c.showChanged}"/>
 
     <!-- methods: -->
-    <aura:method name="scrollTop" action="{!c.scrolling}"/>
     <aura:method name="show" action="{!c.show}"/>
     <aura:method name="hide" action="{!c.hide}"/>
     <aura:method name="cancel" action="{!c.doCancel}"/>
     <aura:method name="showSpinner" action="{!c.showSpinner}"/>
     <aura:method name="hideSpinner" action="{!c.hideSpinner}"/>
-
 
     <div>
         <div id="p-modal" class="{!if(v.showModal, 'transition-show', '')}">
@@ -42,13 +40,13 @@
                 <aura:if isTrue="{!!empty(v.headerButtons)}">
                     {!v.headerButtons}
                 </aura:if>
-                <lightning:button onclick="{!c.doCancel}" name="Close" class="{!'slds-button slds-modal__close slds-button&#45;&#45;icon-inverse' + if(not(v.showClose), ' slds-hide') + if($Browser.isPhone, ' p-mobile-close')}">
+                <lightning:button onclick="{!c.doCancel}" name="Close" class="{!'slds-button slds-modal__close slds-button--icon-inverse' + if(not(v.showClose), ' slds-hide') + if($Browser.isPhone, ' p-mobile-close')}">
                     <c:RRIcon iconName="icon-close" class="close-icon"/>
                 </lightning:button>
 
                 <!-- title: -->
                 <div class="{!'p-header ' + v.variant + if(empty(v.headerButtons),'',' p-header-buttons')}">
-                    <h2 id="p-header" class="{!if(v.showHeader == false, ' slds-hide', '')}"><aura:unescapedHtml value="{!v.title}"/></h2>
+                    <h2 id="p-header" class="{!if(v.showHeader == false, ' slds-hide', '')}">{!v.title}</h2>
                 </div>
                 <div style="position: relative">
                     <!-- dialog body: -->

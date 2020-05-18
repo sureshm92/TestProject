@@ -88,7 +88,14 @@
         doc.setFontType('bold');
         doc.text(reportData.participantFullName, 80, 120);
         doc.text($A.get('$Label.c.Report_Enrollment_Date') + ' ' + reportData.enrollmentDate, 80, 140);
-        doc.text($A.get('$Label.c.Report_Study_Site') + ': ' + reportData.studySiteName, 80, 160);
+
+        if(reportData.participantStatus){
+            doc.text($A.get('$Label.c.Report_Participant_Status') + ': ' + reportData.participantStatus, 80, 160);
+            doc.text($A.get('$Label.c.Report_Study_Site') + ': ' + reportData.studySiteName, 80, 180);
+        }else{
+            doc.text($A.get('$Label.c.Report_Study_Site') + ': ' + reportData.studySiteName, 80, 160);
+        }
+
         doc.setFontType('normal');
         numberPageForTable = helper.generateTable(reportData, doc);
         for (let i = 1; i <= doc.internal.getNumberOfPages(); i++) {

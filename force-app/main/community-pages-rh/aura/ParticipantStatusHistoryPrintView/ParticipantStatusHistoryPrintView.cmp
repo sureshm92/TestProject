@@ -1,0 +1,23 @@
+<!--
+ - Created by user on 14-May-20.
+ -->
+<aura:component description="ParticipantStatusHistoryPrintView" controller="ParticipantInformationRemote">
+
+
+    <aura:attribute name="pathItem" type="Object" required="true"/>
+
+    <aura:if isTrue="{!!empty(v.pathItem.stepHistory)}">
+    <div class="step-card-title">
+        {!v.pathItem.title}
+    </div>
+
+    <div class="step-history-records">
+                <aura:iteration items="{!v.pathItem.stepHistory}" var="history">
+                    <div class="history-item">
+                        <span class="history-item-title">{!history.title}</span>
+                        <span class="history-item-detail">{!history.detail}</span>
+                    </div>
+                </aura:iteration>
+    </div>
+    </aura:if>
+</aura:component>

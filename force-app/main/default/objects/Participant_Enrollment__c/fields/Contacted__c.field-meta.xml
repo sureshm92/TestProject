@@ -6,7 +6,7 @@
     <inlineHelpText>Has contact been made with the Potential Participant?</inlineHelpText>
     <label>Contacted</label>
     <trackFeedHistory>false</trackFeedHistory>
-
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

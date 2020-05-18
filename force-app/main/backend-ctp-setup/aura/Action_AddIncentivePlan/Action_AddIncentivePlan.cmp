@@ -179,7 +179,7 @@
 
         <!--Footer-->
         <aura:set attribute="footer">
-            <div class="footer-buttons" data-gtm="BTNS_Popup_Save_Cancel">
+            <div class="footer-buttons" data-gtm="BTNS_Popup_Save_Cancel_Incentive">
 
                 <lightning:button variant="neutral" name="createIncentiveTask"
                                   onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</lightning:button>
