@@ -39,7 +39,7 @@
                 <apex:outputText value="{!greetingText}" escape="false"/>
 
                 <div style="margin-top: -30px; margin-bottom: 30px;">
-                    <apex:componentBody/>
+                    <apex:componentBody rendered="{!isInitialized}"/>
                 </div>
 
                 <apex:outputPanel style="display:block; margin: 25px 0"
