@@ -21,6 +21,14 @@
     max-height: 200px;
     overflow-y: auto;
 }
+.THIS .db-qal-main-participant{
+    padding: 16px;
+    height: 625px;
+}
+.THIS .db-qal-items-participant{ 
+    max-height: 550px;
+    overflow-y: auto; 
+}
 
 .THIS ::-webkit-scrollbar{
     width: 8px;

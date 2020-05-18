@@ -6,7 +6,7 @@
     <inlineHelpText>If checked, no emails will be sent to participants for this study site.</inlineHelpText>
     <label>Suppress Participant Emails</label>
     <trackFeedHistory>false</trackFeedHistory>
-
+<!--    <trackHistory>true</trackHistory>-->
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

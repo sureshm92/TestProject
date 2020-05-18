@@ -11,7 +11,15 @@
         <value xsi:type="xsd:string">Informed_Consent__c</value>
     </values>
     <values>
+        <field>Depends_On_Values__c</field>
+        <value xsi:type="xsd:string">yes</value>
+    </values>
+    <values>
         <field>False_Value_Label__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>False_Value_Validation_Error_Label__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>
@@ -27,12 +35,36 @@
         <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
+        <field>Populate_Fields_Map__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Populate_from_Field__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Readonly_for_Steps__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Required_Condition__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Required_Title_Label__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>
         <field>Required_for_Steps__c</field>
         <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Status_History_Record_Field__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Strict_Dependency__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Title_Label__c</field>
@@ -45,5 +77,9 @@
     <values>
         <field>Type__c</field>
         <value xsi:type="xsd:string">date</value>
+    </values>
+    <values>
+        <field>Valid_Value_for_Validation_Message__c</field>
+        <value xsi:nil="true"/>
     </values>
 </CustomMetadata>

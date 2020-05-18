@@ -1,47 +1,72 @@
 <!--
  - Created by Alexey Moseev.
+ - Updated by Sumit Surve.
  -->
 
-<aura:component description="DashboardPINew">
+ <aura:component description="DashboardPINew" controller="DashboardRemote"> 
 
     <!-- attributes: -->
     <aura:attribute name="piData" type="Object"/>
     <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="delegatePIPicklistvalues" type="List"/>
     <aura:attribute name="currentPi" type="String"/>
-
+	<aura:attribute name="currentStudy" type="String"/>
+    <aura:attribute name="piCTPPicklist" type="LabelValueItem[]"/>
+    <aura:attribute name="totalSSCount" type="String"/>
+    <aura:attribute name="usermode" type="String"/>
+     <aura:attribute name="isParticipantDisplay" type="boolean" default="false"/>
+     
     <aura:handler name="init" value="{!this}" action="{!c.doinit}"/>
+    <!--<aura:registerEvent name="leaderboardEvent" type="c:EventLeaderboardRefreshed"/>-->
 
 
     <!-- component body: -->
-
-    <aura:if isTrue="{!v.delegatePIPicklistvalues.length &gt; 1}">
-        <div class="pi-picklist-container" data-gtm="DDL_Pi_Picker">
-            <c:rrSelect value="{!v.currentPi}" options="{!v.delegatePIPicklistvalues}" onchange="{!c.refreshData}" useSentenceFont="false"/>
+    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="false" fixed="true"/>
+    <div class="pi-picklist-container slds-grid slds-gutters" data-gtm="DDL_Pi_Picker">
+        <aura:if isTrue="{!v.delegatePIPicklistvalues.length &gt; 1}">
+            <div class="slds-p-right_large">    
+                <span class="picklist-block">
+                    <c:rrSelect value="{!v.currentPi}" options="{!v.delegatePIPicklistvalues}" onchange="{!c.refreshDataOnPiChange}" label="{!$Label.c.Dashboard_PI_Name}"/>
+                </span>
+            </div>
+        </aura:if>     
+        <div>
+            <span>
+                <c:rrSelect value="{!v.currentStudy}" options="{!v.piCTPPicklist}" setValueAsSelected="true" onchange="{!c.refreshDataOnStudyChange}" label="{!$Label.c.Dashboard_Study_Name}"/>
+            </span>
         </div>
-    </aura:if>
+    </div>
     <div class="slds-grid slds-wrap db-section">
         <div class="slds-col slds-size--1-of-2">
             <c:DashboardTimeWaitingContact dashboardTitle="{!$Label.c.PG_DBPI_L_Referrals_waiting_for_first_contact}" peList="{!v.piData.waitingTimeToContact}" parent="{!v.parent}"/>
         </div>
         <div class="slds-col slds-size--1-of-2">
             <c:DashboardWaitingContact dashboardTitle="{!'' + v.piData.participantsWaitingContact + ' ' + $Label.c.PG_DBPI_L_Referrals_waiting_for_contact}" peList="{!v.piData.awaitingToContact}" parent="{!v.parent}"/>
-        </div>
+        </div> 
+         <aura:if isTrue="{!v.isParticipantDisplay}">
+            <div class="slds-col slds-large-size_2-of-3 slds-small-size_1-of-1 slds-medium-size_2-of-3">
+                <c:DB_ParticipantsContactedSchedule parent="{!v.parent}" piData="{!v.piData}"/>
+            </div> 
+         </aura:if> 
         <div class="slds-col slds-large-size_2-of-3 slds-small-size_1-of-1 slds-medium-size_2-of-3">
             <c:FunnelChart funnelData = "{!v.piData.funnelData}"/>
-        </div>
+        </div>  
         <div class="slds-col slds-large-size_1-of-3 slds-small-size_1-of-1 slds-medium-size_2-of-3">
-            <div class="db-quick-actions-container">
+            <div class="{!v.isParticipantDisplay? 'db-quick-actions-container-participant' : 'db-quick-actions-container'}">
                 <c:DashboardQuickActionList
                         parent="{!v.parent}"
                         itemsList="{!v.piData.physiciansWaitingForApprovalList}"
                         itemsType="hcpWaitingApproval"
                         title="{!'' + v.piData.physiciansWaitingForApprovalList.length + ' ' + $Label.c.PG_DBPI_L_Providers_waiting_for_activation}"
                         viewMoreLink="my-referring-clinics?showPending=true"
-                        viewMoreTag="LNK_Dashboard_Physicians_Waiting_Approval_View_More"/>
+                        viewMoreTag="LNK_Dashboard_Physicians_Waiting_Approval_View_More"
+                        isParticipantDisplay="{!v.isParticipantDisplay}" />
             </div>
         </div>
-
+              
+		<div class="slds-col slds-size1-of-1 slds-p-top_large">
+    		<c:DB_LeaderboardSelectedSSDetails dashboardTitle="{!$Label.c.Dashboard_Leaderboard}" piData="{!v.piData}"/>
+        </div>
     </div>
-
+     <c:Action_ParticipantInformation aura:id="updatePatientInfoAction"/>
 </aura:component>

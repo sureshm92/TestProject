@@ -26,23 +26,9 @@ public without sharing class VisitResultSharingService {
                 state.pe.Study_Site__r.Visit_Results_Sharing__c;
     }
 
-    public static List<Visit_Result__c> processResults(String visitResultsMode) {
+    public static List<Visit_Result__c> processResults() {
         if (!onStudy) return new List<Visit_Result__c>();
         Map<Id, List<Visit_Result_Type_Sharing__c>> mapOfCTPByShare = new Map<Id, List<Visit_Result_Type_Sharing__c>>();
-        Id recordTypeIdForCurrentMode = SchemaUtil.getRecordTypeIdByName(visitResultsMode.removeEnd('s'), Visit_Result__c.getSObjectType());
-        List<Visit_Result__c> visitResultsForCurrentMode = [
-                SELECT Id,
-                        Patient_Visit__c
-                FROM Visit_Result__c
-                WHERE RecordTypeId = :recordTypeIdForCurrentMode
-                AND Patient_Visit__r.Participant_Enrollment__c = :state.pe.Id
-                AND Patient_Visit__r.Status__c = 'Completed'
-        ];
-        List<String> visitResultIdsForCurrentMode = new List<String>();
-        for (Visit_Result__c visitResult : visitResultsForCurrentMode) {
-            visitResultIdsForCurrentMode.add(visitResult.Patient_Visit__c);
-        }
-
         List<Patient_Visit__c> patientVisits = [
                 SELECT
                         Id,
@@ -59,7 +45,8 @@ public without sharing class VisitResultSharingService {
                         FROM Visit_Results__r
                 )
                 FROM Patient_Visit__c
-                WHERE Id IN :visitResultIdsForCurrentMode
+                WHERE Participant_Enrollment__c =: state.pe.Id
+                AND Status__c = 'Completed'
                 ORDER BY Visit_Number__c, Completed_Date__c
         ];
 
@@ -72,13 +59,13 @@ public without sharing class VisitResultSharingService {
             String mailingCountryCode = '';
             Integer timeSharing = 0;
             if(!isBatch){
-                if (!isVisitResultAvailable()) return filteredResults;
+                if (!isVisitResultAvailable()) return filteredResults;  // TODO Check
+
                 Clinical_Trial_Profile__c ctp = getCTP(state.ctp.Id);
                 visitResultTypeSharingByType = getResultTypeSharingsByType(ctp.Visit_Result_Type_Sharings__r);
                 mailingCountryCode = state.pe.Participant__r.Mailing_Country_Code__c;
                 timeSharing = patientVisits.size() - (ctp.Shareback_Availability_Timing__c.intValue());
             }
-
 
             for(Integer i = patientVisits.size() - 1; i >= 0; i--) {
                 if(isBatch){
@@ -104,7 +91,7 @@ public without sharing class VisitResultSharingService {
                 }
             }
         } catch (Exception e) {
-            System.debug(e.getCause() + '\n' + e.getLineNumber());
+            System.debug('ERROR in getAvailableVisitResults(), line ' + e.getLineNumber() + ':\n\t' + e.getMessage());
             return filteredResults;
         }
         return filteredResults;

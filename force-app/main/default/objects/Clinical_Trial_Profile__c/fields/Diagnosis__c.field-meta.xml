@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Diagnosis__c</fullName>
     <description>ICD-9 and 10 codes or may just list diagnosis</description>
+    <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <inlineHelpText>ICD-9 and 10 codes or may just list diagnosis</inlineHelpText>
     <label>Diagnosis</label>

@@ -15,7 +15,7 @@
     <aura:attribute name="detailsExpandedStudy" type="Boolean" default="true"/>
     <aura:attribute name="planName" type="String"/>
     <aura:attribute name="recordId" type="String"/>
-    <aura:attribute name="disableSave" type="Boolean" default="false"/>
+    <aura:attribute name="disableSave" type="Boolean" default="true"/>
 
 
     <aura:attribute name="callback" type="Object" access="private"/>
@@ -23,20 +23,22 @@
 
     <!--methods: -->
     <aura:method name="execute" action="{!c.doExecute}">
-        <aura:attribute name="vpId" type="String"/>
+        <aura:attribute name="ipId" type="String"/>
         <aura:attribute name="callback" type="Function"/>
         <aura:attribute name="mode" type="String"/>
     </aura:method>
 
     <!--<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
 
-    <c:uiModal aura:id="createIncentiveTask" size="medium" headerText="Incentive Program">
+    <c:uiModal aura:id="createIncentiveTask" size="medium" headerText="{!if(v.mode == 'edit','Edit Incentive Program',
+                                                                     if(v.mode == 'clone', 'Clone Incentive Program',
+                                                                     if(v.mode == 'view', 'View Incentive Program', 'Create Incentive Program')))}">
         <c:RRSpinner aura:id="spinner"/>
 
             <div class="label">
                 <abbr title="required" class="slds-required">*</abbr>Incentive Program
             </div>
-                <lightning:input type="text" value="{!v.planName}" onblur="{!c.checkPlanName}"/>
+                <lightning:input type="text" value="{!v.planName}" onblur="{!c.checkPlanName}" onchange="{!c.checkPlanName}"/>
 
         <div class="slds-scrollable visits-table">
 
@@ -115,12 +117,12 @@
                         </td>
                         <td>
                             <div class="custom-control custom-checkbox">
-                                <lightning:input aura:id="checkOn" onchange="{!c.checking}" type="checkbox" class="custom-control-input_On" value="{!task.checkOn}" id="{!index}"/>
+                                <lightning:input aura:id="checkOn" onchange="{!c.checking}" type="checkbox" class="custom-control-input_On" checked="{!task.checkOn}" id="{!index}"/>
                             </div>
                         </td>
                         <td>
                             <div class="custom-control custom-checkbox">
-                                <lightning:input aura:id="checkIQVIA" onchange="{!c.checking}" type="checkbox" class="custom-control-input_IQVIA" value="{!task.checkIQVIA}" id="{!index}"/>
+                                <lightning:input aura:id="checkIQVIA" onchange="{!c.checking}" type="checkbox" class="custom-control-input_IQVIA" checked="{!task.checkIQVIA}" id="{!index}"/>
                             </div>
                         </td>
                         <td>
@@ -177,7 +179,7 @@
 
         <!--Footer-->
         <aura:set attribute="footer">
-            <div class="footer-buttons" data-gtm="BTNS_Popup_Save_Cancel">
+            <div class="footer-buttons" data-gtm="BTNS_Popup_Save_Cancel_Incentive">
 
                 <lightning:button variant="neutral" name="createIncentiveTask"
                                   onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</lightning:button>
