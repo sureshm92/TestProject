@@ -11,6 +11,7 @@
                 userMode: communityService.getUserMode(),
                 invitationId: communityService.getUrlParameter('inv')
             }, function (response) {
+                console.log('Response' + response);
                 if (response === 'expired') {
                     communityService.showInfoToast('', $A.get('$Label.c.Invitation_Expired'));
                     communityService.navigateToHome();
@@ -19,6 +20,7 @@
                     component.set('v.codeName', sw.studyCodeName);
                     component.set('v.link', sw.url);
                     component.set('v.surveyName', sw.name);
+                    component.set('v.initialized', true);
                 }
             }, function () {
                 communityService.navigateToHome();
