@@ -26,9 +26,23 @@ public without sharing class VisitResultSharingService {
                 state.pe.Study_Site__r.Visit_Results_Sharing__c;
     }
 
-    public static List<Visit_Result__c> processResults() {
+    public static List<Visit_Result__c> processResults(String visitResultsMode) {
         if (!onStudy) return new List<Visit_Result__c>();
         Map<Id, List<Visit_Result_Type_Sharing__c>> mapOfCTPByShare = new Map<Id, List<Visit_Result_Type_Sharing__c>>();
+        Id recordTypeIdForCurrentMode = SchemaUtil.getRecordTypeIdByName(visitResultsMode.removeEnd('s'), Visit_Result__c.getSObjectType());
+        List<Visit_Result__c> visitResultsForCurrentMode = [
+                SELECT Id,
+                        Patient_Visit__c
+                FROM Visit_Result__c
+                WHERE RecordTypeId = :recordTypeIdForCurrentMode
+                AND Patient_Visit__r.Participant_Enrollment__c = :state.pe.Id
+                AND Patient_Visit__r.Status__c = 'Completed'
+        ];
+        List<String> visitResultIdsForCurrentMode = new List<String>();
+        for (Visit_Result__c visitResult : visitResultsForCurrentMode) {
+            visitResultIdsForCurrentMode.add(visitResult.Patient_Visit__c);
+        }
+
         List<Patient_Visit__c> patientVisits = [
                 SELECT
                         Id,
@@ -45,8 +59,7 @@ public without sharing class VisitResultSharingService {
                         FROM Visit_Results__r
                 )
                 FROM Patient_Visit__c
-                WHERE Participant_Enrollment__c =: state.pe.Id
-                AND Status__c = 'Completed'
+                WHERE Id IN :visitResultIdsForCurrentMode
                 ORDER BY Visit_Number__c, Completed_Date__c
         ];
 
