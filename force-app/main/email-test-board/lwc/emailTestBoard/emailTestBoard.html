@@ -22,7 +22,7 @@
                                            options={sendOptions}
                                            value={sendMethod}
                                            onchange={handleSendMethodChange}
-                                           disabled={onlyImmediately}
+                                           disabled={isSupportNotification}
                                            type="button">
                     </lightning-radio-group>
                 </div>
@@ -41,6 +41,7 @@
                                           onsearch={handleRecipientSearch}
                                           onselectionchange={handleRecipientSelectionChange}
                                           placeholder="Type Contact Name here..."
+                                          min-search-term-length="5"
                                           result-limit="10">
                             </c-web-lookup>
                         </template>
@@ -59,7 +60,7 @@
                                            options={searchOptions}
                                            value={relatedSearchMethod}
                                            onchange={handleRelatedSearchMethodChange}
-                                           disabled={relatedDisabled}
+                                           disabled={isSupportRelatedSearchByName}
                                            type="button">
                     </lightning-radio-group>
                     <div class="search-input">
@@ -76,7 +77,7 @@
                             <lightning-input label="Related"
                                              placeholder={relatedInputPlaceholder}
                                              value={relatedId}
-                                             disabled={relatedDisabled}
+                                             disabled={isRelatedInputDisabled}
                                              onchange={handleRelatedIdChange}>
                             </lightning-input>
                         </template>
@@ -84,10 +85,10 @@
                 </div>
                 <div class="buttons-line">
                     <button class="slds-button slds-button_outline-brand"
-                            disabled={actionBtnDisabled}
+                            disabled={isPreviewDisabled}
                             onclick={handleShowClick}>Show preview</button>
                     <button class="slds-button slds-button_outline-brand"
-                            disabled={actionBtnDisabled}
+                            disabled={isSendDisabled}
                             onclick={handleSendClick}>Send email</button>
                 </div>
             </div>

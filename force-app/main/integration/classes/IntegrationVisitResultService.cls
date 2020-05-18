@@ -56,7 +56,8 @@ public with sharing class IntegrationVisitResultService {
     private Map<String,Id> getRecordTypeMap(){
         return new Map<String, Id>{
                 'Lab' => SchemaUtil.getRecordTypeIdByName('Lab', Visit_Result__c.getSObjectType()),
-                'Vital' => SchemaUtil.getRecordTypeIdByName('Vital', Visit_Result__c.getSObjectType())
+                'Vital' => SchemaUtil.getRecordTypeIdByName('Vital', Visit_Result__c.getSObjectType()),
+                'Biomarker' => SchemaUtil.getRecordTypeIdByName('Biomarker', Visit_Result__c.getSObjectType())
         };
     }
 
