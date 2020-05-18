@@ -4,13 +4,14 @@
 public without sharing class VisitResultsRemote {
 
     @AuraEnabled
-    public static InitDataWrapper getInitData(String visitResultsMode) {
+    public static InitDataWrapper getInitData(String visitResultsMode, Map<String,Map<String,List<String>>> visitResultSharings) {
         try {
             InitDataWrapper wrapper = (InitDataWrapper) ClassFactory.newInstance(InitDataWrapper.class);
             wrapper.isVisitResultsAvailable = VisitResultSharingService.isVisitResultAvailable();
             wrapper.contact = ParticipantContext.getCurrentContact();
-            wrapper.isResultsExist = !VisitResultSharingService.processResults(visitResultsMode).isEmpty();
-            wrapper.visitResultsGroupNames = ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class)).getVisitResultsGroupNames(visitResultsMode);
+            wrapper.isResultsExist = !VisitResultSharingService.processResults(visitResultsMode, null).isEmpty();
+            wrapper.visitResultsGroupNames = notEmptyVisitResultsGroupName(visitResultsMode ,visitResultSharings);
+            wrapper.visitResultsShares = visitResultSharings.get(visitResultsMode);
             wrapper.isDelegate = ParticipantContext.isCurrentDelegate();
             wrapper.toggleState = toggleState(visitResultsMode);
             return wrapper;
@@ -32,10 +33,10 @@ public without sharing class VisitResultsRemote {
     }
 
     @AuraEnabled
-    public static VisitResultsService.VisitResultsContainer getVisitResultsContainer(String visitResultGroupName) {
+    public static VisitResultsService.VisitResultsContainer getVisitResultsContainer(String visitResultGroupName, Map<String,List<String>> visitResultSharings) {
 
         try {
-            return ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class)).getVisitResultsContainer(visitResultGroupName);
+            return ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class)).getVisitResultsContainer(visitResultGroupName, visitResultSharings);
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -77,6 +78,14 @@ public without sharing class VisitResultsRemote {
         update currentContact;
     }
 
+    public static List<String> notEmptyVisitResultsGroupName (String visitResultsMode, Map<String,Map<String,List<String>>> visitResultSharingByGroupAndMode) {
+        Map<String, List<String>> visitResultGroupNamesWithTypes = visitResultSharingByGroupAndMode.get(visitResultsMode);
+        List<String> notEmptyVisitResultsGroupName = new List<String>();
+        for (String groupName : visitResultGroupNamesWithTypes.keySet()) {
+            notEmptyVisitResultsGroupName.add(groupName);
+        }
+        return notEmptyVisitResultsGroupName;
+    }
 
     public class InitDataWrapper {
 
@@ -90,6 +99,8 @@ public without sharing class VisitResultsRemote {
         public Boolean isResultsExist;
         @AuraEnabled
         public List<String> visitResultsGroupNames;
+        @AuraEnabled
+        public Map<String,List<String>> visitResultsShares;
         @AuraEnabled
         public Boolean toggleState;
     }

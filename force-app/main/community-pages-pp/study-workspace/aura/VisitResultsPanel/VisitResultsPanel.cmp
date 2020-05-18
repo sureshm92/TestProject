@@ -6,6 +6,7 @@
     <!-- ATTRIBUTES -->
 
     <aura:attribute name="visitResultGroupName" type="String"/>
+    <aura:attribute name="visitResultsShares" type="Map"/>
 
     <aura:attribute name="visitResultsContainer" type="VisitResultsService.VisitResultsContainer" access="private"/>
     <aura:attribute name="displayPanel" type="Boolean" default="true" access="private"/>
