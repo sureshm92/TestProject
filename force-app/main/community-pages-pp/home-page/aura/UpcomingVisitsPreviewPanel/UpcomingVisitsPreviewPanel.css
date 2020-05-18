@@ -94,3 +94,25 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+@media all and (max-width: 500px) {
+
+    .THIS .sv-body {
+        overflow-x: scroll;
+        padding-bottom: 1rem;
+    }
+
+    .THIS .rr-table {
+        width: 425px
+    }
+
+    .THIS .rr-table th:nth-of-type(2),
+    .THIS .rr-table td:nth-of-type(2) {
+        width: 100px;
+    }
+
+    .THIS .rr-table .cRRIconSplitter .icons-row {
+        flex-wrap: nowrap;
+    }
+
+}

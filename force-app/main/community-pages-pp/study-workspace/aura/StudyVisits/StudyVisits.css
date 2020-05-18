@@ -95,3 +95,10 @@
     margin-left: 1%;
     height: max-content;
 }
+@media all and (max-width: 500px) {
+
+    .THIS .rr-table .cRRIconSplitter .icons-row {
+        flex-wrap: nowrap;
+    }
+
+}
