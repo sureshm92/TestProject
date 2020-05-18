@@ -4501,6 +4501,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Glucose is a sugar, also called &quot;blood sugar&quot;. When your body digests food, carbohydrates are broken down to make glucose. Your small intestine then absorbs the glucose to release it into the blood. Glucose is the most important source of energy for cells in your body and the only source of energy for your brain, spinal cord, and nerves. Blood glucose is measured to check your general health and to check for a range of conditions.</value>
     </labels>
     <labels>
+        <fullName>HLA_Description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HLA Description</shortDescription>
+        <value>Human leukocyte antigen (HLA) is a protein that is found on the surface of white blood cells and some other cells. White blood cells are part of the immune system (your body’s natural defense system). These proteins help the white blood cells to identify the body’s own cells from invaders. There are different types of HLAs and every person has a unique combination (a profile). This test will identify your HLA profile. It is thought that certain cancer treatments (such as immunotherapy) may work well for people with certain HLA profiles. This test may help doctors predict which cancer treatments may work for you.</value>
+    </labels>
+    <labels>
         <fullName>HT_01_B</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -5420,6 +5427,20 @@ Please log in to ##CommunityName to view this information.</value>
         <value>All</value>
     </labels>
     <labels>
+        <fullName>Human_leukocyte_antigen</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Human leukocyte antigen</shortDescription>
+        <value>Human leukocyte antigen</value>
+    </labels>
+    <labels>
+        <fullName>ICOS_Description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ICOS Description</shortDescription>
+        <value>Inducible co-stimulator (ICOS) is a protein that is found on the surface of white blood cells and on cancer cells. White blood cells are part of the immune system (your body’s natural defense system). ICOS proteins play an important part in managing the immune system. This test measures the amount of ICOS in your blood. Some types of treatments may be more suitable for you if you have higher levels of ICOS present in your blood. This test may help doctors predict which cancer treatments may work for you.</value>
+    </labels>
+    <labels>
         <fullName>IRB_Padding_Info</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5581,6 +5602,13 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>false</protected>
         <shortDescription>Incorrect data</shortDescription>
         <value>Please input correct data!</value>
+    </labels>
+    <labels>
+        <fullName>Inducible_co_stimulator</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Inducible co-stimulator</shortDescription>
+        <value>Inducible co-stimulator</value>
     </labels>
     <labels>
         <fullName>Initial_Visit_Scheduled</fullName>
@@ -6059,6 +6087,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>You are already associated with this study.</value>
     </labels>
     <labels>
+        <fullName>NYESO_Description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>NYESO Description</shortDescription>
+        <value>New York esophageal squamous cell carcinoma-1 (NYESO-1) is a substance that is found on the surface of healthy cells and some cancer cells. While it is not completely known how NYESO-1 works, it is thought to play a part in immune responses (your body’s natural defense system). This test measures the amount of NYESO-1 in your blood. This test may help doctors predict which cancer treatments may work for you.</value>
+    </labels>
+    <labels>
         <fullName>Navigation_Dashboard</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6183,6 +6218,13 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>false</protected>
         <shortDescription>Navigation Settings</shortDescription>
         <value>Settings</value>
+    </labels>
+    <labels>
+        <fullName>New_York_carcinoma</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>New York carcinoma</shortDescription>
+        <value>New York esophageal squamous cell carcinoma-1</value>
     </labels>
     <labels>
         <fullName>No_Access</fullName>
@@ -6732,6 +6774,13 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>true</protected>
         <shortDescription>Other_Providers</shortDescription>
         <value>Other Providers</value>
+    </labels>
+    <labels>
+        <fullName>PD_Description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PD Description</shortDescription>
+        <value>Programmed death ligand 1 (PD-L1) is a protein that is found on the surface of many cells. Cancer cells sometimes have large amounts of this protein to help the cancer cells avoid the body’s immune system (your body’s natural defense system). This test measures how much PD-L1 is present on cancer cells. Some types of treatments may be more suitable for you if you have higher levels of PD-L1 present on your cancer cells. This test may help doctors predict which cancer treatments may work for you.</value>
     </labels>
     <labels>
         <fullName>PES_L_All_Steps</fullName>
@@ -11925,6 +11974,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Log Out</value>
     </labels>
     <labels>
+        <fullName>Programmed_death_ligand_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Programmed death ligand 1</shortDescription>
+        <value>Programmed death ligand 1</value>
+    </labels>
+    <labels>
         <fullName>Pulse</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -14558,7 +14614,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit Results Tab Expected Range</shortDescription>
-        <value>Expected Range</value>
+        <value>Expected value</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_If_Is_Empty_Body</fullName>
