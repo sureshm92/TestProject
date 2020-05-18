@@ -26,10 +26,17 @@
             </div>
         </div>
         <div class="visit-result-slider">
+            <aura:if isTrue="{!not(v.visitResultType=='Biomarkers')}">
             <c:RRSlider value="{!v.wrapper.value}" minValue="{!v.wrapper.minValue}" maxValue="{!v.wrapper.maxValue}"/>
             <div class="{!v.showExpectedRange ? 'visit-result-range' : 'hidden'}" title="{!$Label.c.Visit_Results_Tab_Expected_Range + ': ' + v.expectedRange}">
                 {!$Label.c.Visit_Results_Tab_Expected_Range + ': ' + v.expectedRange}
             </div>
+                <aura:set attribute="else">
+                    <div>"{!if(v.wrapper.value==1,'+Positive', (if(v.wrapper.value==-1, '-Negative',(if(v.wrapper.value==0,'Unknown', 'No data')))))}"</div>
+                </aura:set>
+            </aura:if>
+
+
         </div>
         <lightning:helptext content="{!v.wrapper.description}" class="visit-result-item-description"/>
     </div>
