@@ -28,6 +28,42 @@
 
 }
 
+
+.THIS .rr-form-element + .rr-form-element{
+    margin-top: 0;
+}
+
+.THIS .rr-form-element{
+    margin-bottom: 10px;
+}
+
+.THIS .ap-section-title{
+    font-size: 1rem;
+    line-height: 36px;
+    color: #000;
+    font-weight: 600;
+}
+
+.THIS .ap-section + .ap-section{
+    margin-top: 20px;
+}
+
+.THIS .rr-form-element .slds-form-element__label{
+    display: none;
+}
+
+.THIS .rr-form-element .cRrSelect .slds-select_container .slds-select{
+    margin-top: 0;
+}
+.THIS .slds-form-element__icon {
+    padding-top: 0;
+    margin-left: 3px;
+}
+.THIS .lightning-primitiveicon_primitiveicon-host{
+    padding: 20px;
+    color: white;
+}
+
 @media all and (max-width: 500px){
      .THIS .ap-buttons{
         flex-direction: column;
