@@ -7,7 +7,6 @@
         <c:EmailWireframe recipientId="{!recipient.Id}"
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_Welcome_to_Study_Delegate}"
-                          title="{!$Label.Email_Title_PH}"
                           greeting="{!$Label.Email_User_Greeting_FirstName}"
                           signature="{!$Label.Email_Signature_New_Short}">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Welcome_to_Study_Delegate}"/>
@@ -19,7 +18,6 @@
         <c:EmailWireframeText recipientId="{!recipient.Id}"
                               sourceId="{!relatedTo.Id}"
                               header="{!$Label.Email_Header_Welcome_to_Study_Delegate}"
-                              title="{!$Label.Email_Title_PH}"
                               greeting="{!$Label.Email_User_Greeting_FirstName}"
                               signature="{!$Label.Email_Signature_New_Short}">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_Welcome_to_Study_Delegate}"/>
