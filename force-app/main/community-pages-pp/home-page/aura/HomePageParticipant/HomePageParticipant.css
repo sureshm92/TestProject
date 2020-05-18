@@ -89,6 +89,10 @@
 }
 
 @media all and (max-width:500px) {
+    .THIS .hp-welcome-msg {
+        max-width: 100%
+    }
+
     .THIS .apollo-btn.primary.dark {
     	width: 100%;
     }
