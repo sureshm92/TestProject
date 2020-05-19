@@ -1,34 +1,39 @@
 # Triggers approach
 
-###### 1) Create  handler with name `<objectName>`Handler
+###### 1) Create a handler with name `<objectName>`Handler
 e.g.
 ```sh
-public with sharing class TherapeuticAreaPatientTriggerHandler  extends TriggerHandler {
+public without sharing class PrepareAdditionalFieldsHandler  extends TriggerHandler {
+
 }
 ```
 
-###### 2) owerride   event that you need to handle 
+###### 2) Override event that you need to handle 
 e.g.
 ```sh
-public with sharing class TherapeuticAreaPatientTriggerHandler  extends TriggerHandler {
-    public override void beforeInsert(List<SObject> newList) {
-        TherapeuticAreaService.validationOnDuplicate(newList);
+public class PrepareAdditionalFieldsHandler extends TriggerHandler {
+        
+    public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+     
     }
 }
 ```
-###### 3)create/or use existing one service with name  `<objectName>`Service and method  that handle your business logic: 
+###### 3) Create static method that handle your business logic: 
 e.g.
 ```sh
-public override void beforeInsert(List<SObject> newList) {
-        TherapeuticAreaService.validationOnDuplicate(newList);
-        //TherapeuticAreaService.anotherMethod1(newList);
-        //TherapeuticAreaService.anotherMethod2(newList);
+public class PrepareAdditionalFieldsHandler extends TriggerHandler {
+
+    public override beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+        prepareAdditionalFields(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
     }
+}
 ```
 -   trigger example :
 ```sh
-trigger TherapeuticAreaPatientTrigger on Therapeutic_Area_Patient__c (before insert, before update, after insert, after update) {
-    TriggerHandlerExecutor.execute(TherapeuticAreaPatientTriggerHandler.class);
+trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c (before insert, before update, before delete, after insert, after update, after delete, after undelete) {
+    TriggerHandlerExecutor.execute(PETriggerHandler.class);
+    TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class);
+    TriggerHandlerExecutor.execute(PENotificationTriggerHandler.SendEmailIfSSWasChanged.class);
 }
 ```
 

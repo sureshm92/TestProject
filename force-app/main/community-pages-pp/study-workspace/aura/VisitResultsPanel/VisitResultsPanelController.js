@@ -8,8 +8,10 @@
             if(spinner) {
                 spinner.show();
             }
+            let visitResultsShares = JSON.stringify(component.get('v.initData.visitResultsShares'));
             communityService.executeAction(component, 'getVisitResultsContainer', {
-                    visitResultGroupName: component.get('v.visitResultGroupName')
+                    visitResultGroupName: component.get('v.visitResultGroupName'),
+                    visitResultsShares: visitResultsShares
                 }, function (returnValue) {
                     if(returnValue === null) {
                         component.set('v.displayPanel', false);
@@ -25,4 +27,4 @@
             );
         },
     }
-)
+);

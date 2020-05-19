@@ -8,10 +8,14 @@
             if(spinner) {
                 spinner.show();
             }
+            let visitResultSharings = component.get('v.visitResultSharings');
+
             if (communityService.isInitialized()) {
                 communityService.executeAction(component, 'getInitData', {
-                        visitResultsMode: component.get('v.labResultsMode')
+                    visitResultsMode: component.get('v.labResultsMode'),
+                    visitResultSharings: visitResultSharings
                     }, function (returnValue) {
+                    debugger
                     component.set('v.initData', returnValue);
                     component.set('v.initialized', true);
                     component.set('v.togglePosition', returnValue.toggleState);

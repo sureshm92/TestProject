@@ -293,7 +293,7 @@ private class Test_VisitResultsService {
 
         System.runAs(testData.participantUser) {
             VisitResultsService service = new VisitResultsService();
-            VisitResultsService.VisitResultsContainer container = service.getVisitResultsContainer('Vitals');
+            VisitResultsService.VisitResultsContainer container = service.getVisitResultsContainer('Vitals',null);
             System.assertEquals(1, container.wrappers.size());
         }
 

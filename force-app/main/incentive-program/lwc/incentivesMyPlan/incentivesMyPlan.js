@@ -3,10 +3,23 @@
  */
 
 import {LightningElement, track} from 'lwc';
+
 import getInitialPlan from '@salesforce/apex/IncentiveProgramRemote.getInitialIncentivePlanResultWrapper';
 import getPlanForStudySite from '@salesforce/apex/IncentiveProgramRemote.getIncentivePlanResultWrapperForStudySite';
 
+import howDoIEarnLabel from '@salesforce/label/c.IncentiveProgram_How_Do_I_Earn';
+import studySiteLabel from '@salesforce/label/c.IncentiveProgram_Study_Site';
+import selectStudySiteLabel from '@salesforce/label/c.IncentiveProgram_Select_Study_Site';
+import pointsLabel from '@salesforce/label/c.IncentiveProgram_Points';
+
 export default class IncentivesMyPlan extends LightningElement {
+
+    labels={
+        howDoIEarnLabel,
+        studySiteLabel,
+        selectStudySiteLabel,
+        pointsLabel,
+    }
 
     @track studySitesOptions;
     @track tasksGroups;
