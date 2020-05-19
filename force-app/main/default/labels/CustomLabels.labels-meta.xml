@@ -5529,6 +5529,14 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Date</value>
     </labels>
     <labels>
+        <fullName>IncentiveProgram_How_Do_I_Earn</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_How_Do_I_Earn</shortDescription>
+        <value> How do I earn points?</value>
+    </labels>
+    <labels>
         <fullName>IncentiveProgram_Incentives</fullName>
         <categories>Incentive Program</categories>
         <language>en_US</language>
@@ -5558,7 +5566,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>IncentiveProgram_Points</shortDescription>
-        <value>points</value>
+        <value>Points</value>
     </labels>
     <labels>
         <fullName>IncentiveProgram_Points_Earned</fullName>
@@ -5591,6 +5599,22 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>true</protected>
         <shortDescription>IncentiveProgram_Redeem_Points_Disclaimer</shortDescription>
         <value>Ways To Redeem Points Soon</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Select_Study_Site</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Select_Study_Site</shortDescription>
+        <value>Select Study Site</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Study_Site</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Study_Site</shortDescription>
+        <value>Study Site</value>
     </labels>
     <labels>
         <fullName>IncentiveProgram_Task</fullName>

@@ -34,3 +34,9 @@
     font-size: small;
     font-family: auto;
 }
+.THIS .custom-control-input_points .slds-assistive-text{
+    display: none;
+}
+.THIS .custom-control-input_points .slds-form-element__label{
+    display: none;
+}

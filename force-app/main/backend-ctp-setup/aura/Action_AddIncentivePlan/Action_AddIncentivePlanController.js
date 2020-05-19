@@ -28,6 +28,7 @@
 				component.find('createIncentiveTask').show();
 			}
 		}
+		component.set('v.invalidTaskInputs', new Set());
 
 	},
 	toggleViewStudy: function (cmp, event, helper) {
@@ -92,5 +93,26 @@
 		var aura = event.getSource().getLocalId();
 		var tasks = component.get('v.tasks');
 		component.set('v.tasks', tasks);
-	}
+	},
+	validatePoints: function (component, event, helper) {
+		let id = event.getSource().get('v.id')
+		let auraId = event.getSource().getLocalId();
+		let tasks = component.get('v.tasks');
+		let invalidTaskInputs = component.get('v.invalidTaskInputs')
+		let intReg = /^[1-9]\d+$/;
+		let input = component.find(auraId)[id];
+		if (intReg.test(tasks[id].points)){
+			input.setCustomValidity('');
+			input.reportValidity();
+			invalidTaskInputs.delete(id+':points');
+		}
+		else{
+			input.setCustomValidity('Enter a valid non-negative integer');
+			input.reportValidity();
+			invalidTaskInputs.add(id+':points');
+		}
+		component.set('v.allTaskInputsValid',invalidTaskInputs.size == 0);
+		component.set('v.invalidTaskInputs',invalidTaskInputs);
+
+	},
 });
