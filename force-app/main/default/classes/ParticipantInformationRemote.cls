@@ -36,6 +36,7 @@ public without sharing class ParticipantInformationRemote {
         }
     }
 
+
     /**
    * This method is created to accomodate the requirements of REF-1192
    * It calls getSteps(String, String, String) and
@@ -48,6 +49,16 @@ public without sharing class ParticipantInformationRemote {
    * @exception AuraHandledException to community UI
    * @see AuraHandledException
    */
+
+    @AuraEnabled
+    public static Participant__c getDelegates(String participantId) {
+        List<Participant__c> delegates = [SELECT Id, First_Name__c, Last_Name__c, Phone__c FROM Participant__c WHERE Contact__c IN (SELECT Contact__c FROM Patient_Delegate__c WHERE Participant__c = :participantId AND Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS)];
+        if (!delegates.isEmpty()) {
+            return delegates[0];
+        } else {
+            return null;
+        }
+    }
     @AuraEnabled
     public static String getPrintInfoWithSteps(String peId, String userMode, String delegateId){
         try{    

@@ -123,7 +123,4 @@ public without sharing class CommunityTemplateService {
         }
         return resStr;
     }
-
-
-
 }
