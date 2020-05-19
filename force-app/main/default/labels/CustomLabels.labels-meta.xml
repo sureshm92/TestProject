@@ -4159,7 +4159,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Title Initial All GSK</shortDescription>
-        <value>Gather &amp;lt;i&amp;gt;Share&amp;lt;/i&amp;gt; Know Participant Hub</value>
+        <value>Gather &lt;i&gt;Share&lt;/i&gt; Know Participant Hub</value>
     </labels>
     <labels>
         <fullName>Email_Title_Initial_All_IQVIA</fullName>
