@@ -9,7 +9,6 @@
             component.set('v.userPermission', initData.userPermission);
             component.set('v.initData', initData);
             component.set('v.groups', initData.groups);
-            component.set('v.typeSelectLVList', initData.typeSelectLVList);
             component.set('v.options', initData.options);
             component.set('v.dataSnapshot', helper.takeSnapshot(component));
             component.find('spinner').hide();
