@@ -2371,7 +2371,7 @@
 
             Your username is ##UserName. Please click the Enroll Now button to create your password.
 
-            Please note that enrollment in ##CommunityName is not a requirement for ##ParticipantFirstName to be enrolled into the clinical research study.</value>
+            Please note that enrollment in ##FullCommunityName is not a requirement for ##ParticipantFirstName to be enrolled into the clinical research study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Virtual</fullName>

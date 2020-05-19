@@ -77,4 +77,5 @@
 .lg-form-element input {
     color: #868686;
     border-bottom: 1px solid;
+    border-radius: 0;
 }
