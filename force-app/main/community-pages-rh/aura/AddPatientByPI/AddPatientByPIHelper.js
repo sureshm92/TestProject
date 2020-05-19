@@ -71,10 +71,10 @@
                         delegateParticipant.Email__c &&
                         emailDelegateVaild &&
                         emailDelegateRepeatValid));
-        component.set('v.isDelegateValid', isValid);
 
         if (needsDelegate && delegateParticipant && emailDelegateCmp && emailDelegateRepeatCmp) {
             if (delegateParticipant.Email__c && emailDelegateRepeat && delegateParticipant.Email__c.toLowerCase() !== emailDelegateRepeat.toLowerCase()) {
+                isValid = false;
                 emailDelegateCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
                 emailDelegateRepeatCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
             } else {
@@ -86,6 +86,8 @@
                 emailDelegateRepeatCmp.reportValidity();
             }
         }
+
+        component.set('v.isDelegateValid', isValid);
     },
 
     checkParticipantNeedsGuardian: function (component, helper) {
