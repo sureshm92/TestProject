@@ -47,7 +47,9 @@ public with sharing class Test_VisitResultsRemote {
         testData.updatePEStatusEnrollmentSuccess();
 
         System.runAs(testData.participantUser) {
-            VisitResultsRemote.InitDataWrapper wrapper = VisitResultsRemote.getInitData('',null);
+            Map<String, Map<String, List<String>>> visitResultSharings = new Map<String, Map<String, List<String>>>();
+            visitResultSharings.put('Vitals', new Map<String, List<String>>());
+            VisitResultsRemote.InitDataWrapper wrapper = VisitResultsRemote.getInitData('Vitals',visitResultSharings);
             System.assert(wrapper != null);
         }
         Test.stopTest();
@@ -87,7 +89,9 @@ public with sharing class Test_VisitResultsRemote {
         );
 
         Test.startTest();
-        VisitResultsService.VisitResultsContainer tesContainer = VisitResultsRemote.getVisitResultsContainer('', null);
+        Map<String, List<String>> visitResultSharings = new Map<String, List<String>>();
+        visitResultSharings.put('Vitals', new List<String>());
+        VisitResultsService.VisitResultsContainer tesContainer = VisitResultsRemote.getVisitResultsContainer('Vitals', JSON.serialize(visitResultSharings));
         Test.stopTest();
 
         System.assert(tesContainer.groupName.equals('Vitals'));
