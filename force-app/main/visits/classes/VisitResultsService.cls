@@ -17,8 +17,30 @@ public inherited sharing class VisitResultsService {
     public List<VisitResultWrapper> getVisitResultWrappersForDashboard() {
 
         List<Visit_Result_TypeM_Dashboard_Config__mdt> configs = metadataService.getVisitResultTypeDashboardConfigs();
-        List<Visit_Result__c> visitResults = VisitResultSharingService.processResults('Vitals');
-        if (visitResults.isEmpty() || configs.isEmpty()) {
+        List<String> configNames = new List<String>();
+        for (Visit_Result_TypeM_Dashboard_Config__mdt visitResultTypeMDashboardConfig : configs) {
+            configNames.add(visitResultTypeMDashboardConfig.Visit_Result_Type__r.DeveloperName);
+        }
+
+        List<String> ctpAvailableNames = new List<String>();
+        List<Visit_Result_Type_Sharing__c> ctpAvailable = [SELECT Id,Type__c FROM Visit_Result_Type_Sharing__c];
+        for (Visit_Result_Type_Sharing__c visitResultTypeSharing : ctpAvailable) {
+            ctpAvailableNames.add(visitResultTypeSharing.Type__c);
+        }
+
+        List<String> filteredVisitResults = new List<String>();
+        for (String configName : configNames) {
+            if (ctpAvailableNames.contains(configName)) filteredVisitResults.add(configName);
+        }
+
+        List<Visit_Result_TypeM_Dashboard_Config__mdt> filteredConfigs = new List<Visit_Result_TypeM_Dashboard_Config__mdt>();
+        for (Visit_Result_TypeM_Dashboard_Config__mdt visitResultTypeMDashboardConfig : configs) {
+            if (filteredVisitResults.contains(visitResultTypeMDashboardConfig.Visit_Result_Type__r.DeveloperName)) filteredConfigs.add(visitResultTypeMDashboardConfig);
+        }
+
+
+        List<Visit_Result__c> visitResults = VisitResultSharingService.processResults('Vitals',filteredVisitResults);
+        if (visitResults.isEmpty() || filteredConfigs.isEmpty()) {
             return new List<VisitResultWrapper>();
         }
 
@@ -31,7 +53,7 @@ public inherited sharing class VisitResultsService {
         }
 
         //String languageToTranslate = IRBParticipantService.getSuitableLanguageForIRBTranslation(ParticipantService.getParticipantState().pe.Id);
-        for (Visit_Result_TypeM_Dashboard_Config__mdt singleConfig : configs) {
+        for (Visit_Result_TypeM_Dashboard_Config__mdt singleConfig : filteredConfigs) {
             Visit_Result__c visitResult = visitResultValuesByNames.get(singleConfig.Visit_Result_Type__r.DeveloperName);
             if (visitResult != null && visitResult.Actual_Value__c != null) {
                 listIsNotEmpty = true;
@@ -55,18 +77,22 @@ public inherited sharing class VisitResultsService {
         return ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(visitsQuery, true);
     }
 
-    public VisitResultsContainer getVisitResultsContainer(String visitResultsGroupName) {
+    public VisitResultsContainer getVisitResultsContainer(String visitResultsGroupName,  Map<String,List<String>> visitResultSharings) {
         List<Visit_Result_TypeM__mdt> visitResultTypes = this.metadataService.getVisitResultTypes(visitResultsGroupName);
-
+        List<String> availableVisitResults = visitResultSharings.get(visitResultsGroupName);
+        List<Visit_Result_TypeM__mdt> filteredVisitResultTypesIfAvailable = new List<Visit_Result_TypeM__mdt>();
+        for (Visit_Result_TypeM__mdt visitResultTypeM : visitResultTypes) {
+            if (availableVisitResults.contains(visitResultTypeM.DeveloperName)) filteredVisitResultTypesIfAvailable.add(visitResultTypeM);
+        }
         String visitResultMode = this.metadataService.getVisitResultModeByGroupName(visitResultsGroupName);
-        List<Visit_Result__c> visitResults = VisitResultSharingService.processResults(visitResultMode);
+        List<Visit_Result__c> visitResults = VisitResultSharingService.processResults(visitResultMode, visitResultSharings.get(visitResultsGroupName));
 
         //String languageToTranslate = IRBParticipantService.getSuitableLanguageForIRBTranslation(ParticipantService.getParticipantState().pe.Id);
         return visitResults.isEmpty()
                 ? null
                 : new VisitResultsContainer(
                         visitResults[0].Patient_Visit__r,
-                        this.getVisitResultWrappers(visitResults, visitResultTypes),
+                        this.getVisitResultWrappers(visitResults, filteredVisitResultTypesIfAvailable),
                         TranslateHelper.getLabelValue(visitResultsGroupName)
                 );
     }

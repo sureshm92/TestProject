@@ -30,7 +30,7 @@
 
     {!greetingText}
 
-    <apex:componentBody/>
+    <apex:componentBody rendered="{!isInitialized}"/>
 
     {!preSignatureText}
 

@@ -26,18 +26,32 @@ public without sharing class VisitResultSharingService {
                 state.pe.Study_Site__r.Visit_Results_Sharing__c;
     }
 
-    public static List<Visit_Result__c> processResults(String visitResultsMode) {
+    public static List<Visit_Result__c> processResults(String visitResultsMode, List<String> enabledVisitResultTypes) {
         if (!onStudy) return new List<Visit_Result__c>();
         Map<Id, List<Visit_Result_Type_Sharing__c>> mapOfCTPByShare = new Map<Id, List<Visit_Result_Type_Sharing__c>>();
         Id recordTypeIdForCurrentMode = SchemaUtil.getRecordTypeIdByName(visitResultsMode.removeEnd('s'), Visit_Result__c.getSObjectType());
-        List<Visit_Result__c> visitResultsForCurrentMode = [
-                SELECT Id,
-                        Patient_Visit__c
-                FROM Visit_Result__c
-                WHERE RecordTypeId = :recordTypeIdForCurrentMode
-                AND Patient_Visit__r.Participant_Enrollment__c = :state.pe.Id
-                AND Patient_Visit__r.Status__c = 'Completed'
-        ];
+        List<Visit_Result__c> visitResultsForCurrentMode = new List<Visit_Result__c>();
+        if (enabledVisitResultTypes==null) {
+            visitResultsForCurrentMode = [
+                    SELECT Id,
+                            Patient_Visit__c
+                    FROM Visit_Result__c
+                    WHERE RecordTypeId = :recordTypeIdForCurrentMode
+                    AND Patient_Visit__r.Participant_Enrollment__c = :state.pe.Id
+                    AND Patient_Visit__r.Status__c = 'Completed'
+            ];
+        } else {
+            visitResultsForCurrentMode = [
+                    SELECT Id,
+                            Patient_Visit__c
+                    FROM Visit_Result__c
+                    WHERE RecordTypeId = :recordTypeIdForCurrentMode
+                    AND Patient_Visit__r.Participant_Enrollment__c = :state.pe.Id
+                    AND Patient_Visit__r.Status__c = 'Completed'
+                    AND Result_Type__c IN :enabledVisitResultTypes
+            ];
+        }
+
         List<String> visitResultIdsForCurrentMode = new List<String>();
         for (Visit_Result__c visitResult : visitResultsForCurrentMode) {
             visitResultIdsForCurrentMode.add(visitResult.Patient_Visit__c);
@@ -244,5 +258,23 @@ public without sharing class VisitResultSharingService {
         Map<String, Visit_Result_Type_Sharing__c> typeVRSharingMap = new Map<String, Visit_Result_Type_Sharing__c>();
         for (Visit_Result_Type_Sharing__c vr : ctp.Visit_Result_Type_Sharings__r) typeVRSharingMap.put(vr.Type__c, vr);
         return typeVRSharingMap;
+    }
+
+    public static Map<String,Map<String,List<String>>> visitResultSharingByGroupAndMode() {
+        VisitResultMService visitResultMService = new VisitResultMService();
+        List<Visit_Result_Type_Sharing__c> visitResultTypeSharings = [SELECT Id,Type__c FROM Visit_Result_Type_Sharing__c];
+        List<String> visitResultTypeSharingNames = new List<String>();
+        for (Visit_Result_Type_Sharing__c visitResultTypeSharing : visitResultTypeSharings) {
+            visitResultTypeSharingNames.add(visitResultTypeSharing.Type__c);
+        }
+        Map<String,Map<String,List<String>>> visitResultSharingByGroupAndMode = new Map<String, Map<String, List<String>>>();
+        for (String resultType : visitResultTypeSharingNames) {
+            String visitResultGroup = visitResultMService.getVisitResultGroupByTypeName(resultType);
+            String visitResultMode = visitResultMService.getVisitResultModeByGroupName(visitResultGroup);
+            if(visitResultSharingByGroupAndMode.get(visitResultMode)==null) visitResultSharingByGroupAndMode.put(visitResultMode,new Map <String,List<String>>());
+            if(visitResultSharingByGroupAndMode.get(visitResultMode).get(visitResultGroup)==null) visitResultSharingByGroupAndMode.get(visitResultMode).put(visitResultGroup, new List<String>());
+            visitResultSharingByGroupAndMode.get(visitResultMode).get(visitResultGroup).add(resultType);
+        }
+        return visitResultSharingByGroupAndMode;
     }
 }

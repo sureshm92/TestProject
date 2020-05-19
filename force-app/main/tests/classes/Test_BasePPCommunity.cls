@@ -47,7 +47,7 @@ private class Test_BasePPCommunity {
                     Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
             );
             try{
-                AddPatientByPIRemote.saveParticipant(JSON.serialize(participant), JSON.serialize(pe), userLanguage, testDataInstance.ss.Id, true);
+                AddPatientByPIRemote.saveParticipant(JSON.serialize(participant), JSON.serialize(pe), userLanguage, testDataInstance.ss.Id, true, null);
                 for(Participant_Enrollment__c pe2 : [SELECT Name, Referral_ID__c, Participant_Key__c FROM Participant_Enrollment__c]){
                     System.debug('XXX_PE: ' + pe2);
                 }
