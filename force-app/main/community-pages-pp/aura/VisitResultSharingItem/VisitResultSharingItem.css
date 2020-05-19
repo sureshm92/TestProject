@@ -1,44 +1,18 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS .type-picklist,
-.THIS .search-lookup .slds-combobox_container{
-    width: 220px;
-}
 
-.THIS.vr-row{
+.THIS.vr-item {
+    padding: 6px 10px 5px;
+    margin-bottom: 4px;
+    min-width: 200px;
     align-items: center;
     border: 1px solid #e6e6e6;
     border-radius: 5px;
-    padding: 5px 10px 5px 25px;
-    margin-bottom: 2px;
 }
 
-.THIS.vr-row.disabled{
-    background-color: #f5f5f5;
-    opacity: 0.8;
-}
-
-.THIS.vr-row .slds-form-element__label{
-    display: none;
-}
-
-.THIS.vr-row .slds-form-element__control.search-lookup{
-    display: flex;
-    align-items: center;
-}
-
-.THIS .search-lookup .slds-combobox_container{
-    margin-right: 10px;
-    flex-shrink: 0;
-}
-
-.THIS .type-cell{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.THIS .close-country-mode{
-    flex-shrink: 0;
+.THIS.vr-item .slds-form-element__label {
+    display: inline;
+    padding: 0;
+    font-size: 0.8125rem;
 }
