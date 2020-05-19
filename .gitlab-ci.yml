@@ -71,6 +71,8 @@ DeployINT4.0:
     - node convert.js
     - cd ..
     - rm -rf output
+    - type .forceignore_deploy_exclude >> .forceignore
+    - type .forceignore
     - sfdx force:source:convert -d output
     - sfdx force:mdapi:deploy -d output -u INT  -w 60
     - echo "deploy INT success"
