@@ -1,8 +1,9 @@
 ({
     doInit: function(component, event, helper){
         var isDelegate = communityService.isDelegate() ? true : false;
-        communityService.executeAction(component,'getInitData', {isDelegate : isDelegate}, function (response){
-            component.set('v.resourceStructureList', response);
+        communityService.executeAction(component,'getInitData', {isDelegate : isDelegate, language : null}, function (response){
+            component.set('v.resourceStructureList', response.resources);
+            component.set('v.resourceLanguages', response.languages);
             component.find('mainSpinner').hide();
         });
 
@@ -18,5 +19,15 @@
             url += '&ret=' + communityService.createRetString();
             communityService.navigateToPage(url);
         }
+    },
+
+    filterLanguage: function(component, event, helper){
+        component.find('mainSpinner').show();
+        var isDelegate = communityService.isDelegate() ? true : false;
+        communityService.executeAction(component,'getInitData', {isDelegate : isDelegate, language : event.getSource().get('v.itemValue')}, function (response){
+            component.set('v.resourceStructureList', response.resources);
+            component.set('v.resourceLanguages', response.languages);
+            component.find('mainSpinner').hide();
+        });
     },
 })
