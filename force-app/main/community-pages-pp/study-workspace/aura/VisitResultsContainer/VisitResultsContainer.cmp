@@ -6,6 +6,7 @@
     <!-- ATTRIBUTES -->
 
     <aura:attribute name="labResultsMode" type="String" default="Vitals"/>
+    <aura:attribute name="visitResultSharings" type="Map" />
 
     <aura:attribute name="initData" type="VisitResultsRemote.InitDataWrapper" access="private"/>
     <aura:attribute name="initialized" type="Boolean" access="private" default="false"/>
@@ -42,7 +43,7 @@
 
             <aura:if isTrue="{!and(v.togglePosition, and(v.initData.isVisitResultsAvailable, v.initData.isResultsExist))}">
                 <aura:iteration items="{!v.initData.visitResultsGroupNames}" var="visitResultsGroupName">
-                    <c:VisitResultsPanel visitResultGroupName="{!visitResultsGroupName}"/>
+                    <c:VisitResultsPanel visitResultGroupName="{!visitResultsGroupName}" initData="{!v.initData}"/>
                 </aura:iteration>
                 <aura:set attribute="else">
                     <c:VisitsCompliance contactId="{!v.initData.contact.Id}" isVisitResultsExist="{!v.initData.isResultsExist}"
