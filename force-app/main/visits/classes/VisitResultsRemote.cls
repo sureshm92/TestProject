@@ -67,7 +67,9 @@ public without sharing class VisitResultsRemote {
         String currentVisitResults = currentContact.Visit_Results_OptIn__c == null ? '' : currentContact.Visit_Results_OptIn__c;
         String updatedVisitResults = '';
         if (isToggleOn) {
-            updatedVisitResults = currentVisitResults + ';' + visitResultsMode;
+            if (!currentVisitResults.contains(visitResultsMode)) {
+                updatedVisitResults = currentVisitResults + ';' + visitResultsMode;
+            }
         } else {
             List<String> visitResults = currentVisitResults.split(';');
             for (String str : visitResults) {
