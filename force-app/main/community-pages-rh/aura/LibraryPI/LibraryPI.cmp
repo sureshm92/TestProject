@@ -2,34 +2,62 @@
  - Created by Nikita Abrazhevitch on 06-May-20.
  -->
 <aura:component description="LibraryPI" controller="LibraryPIRemote">
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
-                  afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
-      <!--  <aura:attribute name="parent" type="Aura.Component"/>-->
-       <aura:attribute name="resourceStructureList" type="Object"/>
-
+    <aura:attribute name="resourceStructureList" type="List"/>
+    <aura:attribute name="resourceLanguages" type="List"/>
 
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
-    <lightning:accordion aura:id="accordion" allowMultipleSectionsOpen="true">
-        <aura:iteration items="{!v.resourceStructureList}" var="resourceStructure" indexVar="key">
-            <lightning:accordionSection label="{!resourceStructure.structureName + ' (' + resourceStructure.resources.length + ') '}" class="{!resourceStructure.resources.length &lt; 1 ? 'hide-arrow' : ''}">
-                <aura:set attribute="body">
-                    <aura:iteration items="{!resourceStructure.resources}" var="resource" indexVar="resourceIndex">
-                        <div class="slds-grid slds-wrap resource-container">
-                            <aura:if isTrue="{!!empty(resource.videoLink || resource.link)}">
-                                <c:RRLink href="{!resource.videoLink ? resource.videoLink : resource.link}" class="resource-links slds-col slds-size--4-of-12" label="{!resource.name}" target="blank"/>
-                                <aura:set attribute="else">
-                                    <a class="slds-coll slds-size--4-of-12 resource-links" onclick="{!c.doNavigate}" data-attributeVal="{!key + ',' + resourceIndex}">{!resource.name}</a>
-                                </aura:set>
-                            </aura:if>
-                            <div class="slds-coll slds-size--2-of-12">{!resource.language}</div>
-                            <div class="slds-coll slds-size--2-of-12">{!resource.type}</div>
-                            <div class="slds-coll slds-size--2-of-12">{!resource.format}</div>
-                            <div class="slds-coll slds-size--2-of-12">{!resource.versionDate}</div>
-                        </div>
-                    </aura:iteration>
+
+    <div class="slds-grid slds-wrap resource-headers slds-grid--vertical-align-center">
+        <div class="slds-coll slds-size--4-of-12"></div>
+        <div class="slds-coll slds-size--2-of-12">
+            <c:uiHeaderMenu aura:id="menuId" class="language-filter">
+                <aura:set attribute="title">
+                    <span class="language-title">{!$Label.c.Library_Language}</span>
+                    <lightning:icon iconName="utility:filterList" size="xx-small" class="language-filter-icon"/>
+                    <!--
+                                        <lightning:buttonIcon variant="bare-inverse" class="language-filter-icon" iconName="utility:filterList"/>
+                    -->
                 </aura:set>
-            </lightning:accordionSection>
-        </aura:iteration>
-    </lightning:accordion>
+                <aura:iteration items="{!v.resourceLanguages}" var="language">
+                    <c:uiMenuItem label="{!language.label}" itemValue="{!language.value}"
+                                  onclick="{!c.filterLanguage}"/>
+                </aura:iteration>
+            </c:uiHeaderMenu>
+        </div>
+        <div class="slds-coll slds-size--2-of-12">{!$Label.c.Library_Type}</div>
+        <div class="slds-coll slds-size--2-of-12">{!$Label.c.Library_Format}</div>
+        <div class="slds-coll slds-size--2-of-12">{!$Label.c.Library_Version_Date}</div>
+    </div>
+    <div class="rr-white-panel" style="margin-top: 0px">
+        <lightning:accordion aura:id="accordion" allowMultipleSectionsOpen="true">
+            <aura:iteration items="{!v.resourceStructureList}" var="resourceStructure" indexVar="key">
+                <lightning:accordionSection
+                        label="{!resourceStructure.structureName + ' (' + resourceStructure.resources.length + ') '}"
+                        class="{!resourceStructure.resources.length &lt; 1 ? 'hide-arrow' : ''}">
+                    <aura:set attribute="body">
+                        <aura:iteration items="{!resourceStructure.resources}" var="resource" indexVar="resourceIndex">
+                            <div class="slds-grid slds-wrap resource-container">
+                                <aura:if isTrue="{!!empty(resource.videoLink || resource.link)}">
+                                    <c:RRLink href="{!resource.videoLink ? resource.videoLink : resource.link}"
+                                              class="resource-links slds-col slds-size--4-of-12"
+                                              label="{!resource.name}" target="blank"/>
+                                    <aura:set attribute="else">
+                                        <a class="slds-coll slds-size--4-of-12 resource-links"
+                                           onclick="{!c.doNavigate}"
+                                           data-attributeVal="{!key + ',' + resourceIndex}">{!resource.name}</a>
+                                    </aura:set>
+                                </aura:if>
+                                <div class="slds-coll slds-size--2-of-12">{!resource.language}</div>
+                                <div class="slds-coll slds-size--2-of-12">{!resource.type}</div>
+                                <div class="slds-coll slds-size--2-of-12">{!resource.format}</div>
+                                <div class="slds-coll slds-size--2-of-12">{!resource.versionDate}</div>
+                            </div>
+                        </aura:iteration>
+                    </aura:set>
+                </lightning:accordionSection>
+            </aura:iteration>
+        </lightning:accordion>
+    </div>
 </aura:component>

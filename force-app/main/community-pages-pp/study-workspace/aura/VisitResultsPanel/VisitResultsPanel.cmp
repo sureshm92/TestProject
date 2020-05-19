@@ -5,6 +5,8 @@
 
     <!-- ATTRIBUTES -->
     <aura:attribute name="visitResultGroupName" type="String"/>
+    <aura:attribute name="initData" type="Map"/>
+
     <aura:attribute name="visitResultsContainer" type="VisitResultsService.VisitResultsContainer" access="private"/>
     <aura:attribute name="displayPanel" type="Boolean" default="true" access="private"/>
     <aura:attribute name="initialized" type="Boolean" default="false" access="private"/>

@@ -85,4 +85,20 @@ public inherited sharing class VisitResultMService {
         ];
         return visitResultGroups.get(0).Visit_Results_Mode__c;
     }
+
+    public String getVisitResultGroupByTypeName (String visitResultTypeName) {
+        List<Visit_Result_TypeM__mdt> visitResultTypes = [
+                SELECT Id,
+                        Visit_Result_Group__c
+                FROM Visit_Result_TypeM__mdt
+                WHERE DeveloperName =: visitResultTypeName
+        ];
+        List<Visit_Result_GroupM__mdt> visitResultGroup = [
+                SELECT Id,
+                        Label
+                FROM Visit_Result_GroupM__mdt
+                WHERE Id=:visitResultTypes.get(0).Visit_Result_Group__c
+        ];
+        return visitResultGroup.get(0).Label;
+    }
 }
