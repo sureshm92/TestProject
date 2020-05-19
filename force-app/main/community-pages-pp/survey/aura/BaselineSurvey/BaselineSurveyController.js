@@ -11,7 +11,6 @@
                 userMode: communityService.getUserMode(),
                 invitationId: communityService.getUrlParameter('inv')
             }, function (response) {
-                console.log('Response' + response);
                 if (response === 'expired') {
                     communityService.showInfoToast('', $A.get('$Label.c.Invitation_Expired'));
                     communityService.navigateToHome();
