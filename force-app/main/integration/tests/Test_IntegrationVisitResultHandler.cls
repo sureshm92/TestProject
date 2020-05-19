@@ -93,4 +93,25 @@ private class Test_IntegrationVisitResultHandler {
         Test.stopTest();
     }
 
+    @IsTest
+    static void visitResultsBiomarkersTest() {
+        IntegrationVisitResultService service = new IntegrationVisitResultService();
+
+        Test.startTest();
+        Integration_VisitResult__c externalVisitResult = new Integration_VisitResult__c(
+                USUBJID__c = '1~2~3',
+                VISIT__c = 'New Visit',
+                VSDTC__c = Date.today(),
+                TESTCD__c = 'ICOS',
+                Vital_or_Lab__c = 'Biomarker',
+                STUDYID__c = '10',
+                STRESN__c = 1,
+                IsDeletedInSDH__c = 'N'
+        );
+        insert externalVisitResult;
+        service.updateVisitResults(new List<Integration_VisitResult__c> {externalVisitResult});
+        Test.stopTest();
+
+        System.assertEquals(1, [SELECT Actual_Value__c FROM Visit_Result__c][0].Actual_Value__c);
+    }
 }
