@@ -1,0 +1,9 @@
+{
+  "appPageId" : "3c52dbfd-6fc5-447c-9869-3b0d58d04ec1",
+  "id" : "dff07c8f-b665-4116-a576-8fb0db4ef7c4",
+  "label" : "StudyDetail",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-studydetail",
+  "type" : "route",
+  "urlPrefix" : "studydetail"
+}

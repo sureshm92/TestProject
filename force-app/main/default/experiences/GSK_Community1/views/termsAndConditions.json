@@ -1,0 +1,42 @@
+{
+  "appPageId" : "3c52dbfd-6fc5-447c-9869-3b0d58d04ec1",
+  "componentName" : "c:EmptyLayout",
+  "id" : "684cd923-3fbe-4146-90b8-6f14816f4187",
+  "label" : "Terms And Conditions",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : {
+        "isPortalTC" : true,
+        "privacyPolicyId" : "",
+        "titleCode" : ""
+      },
+      "componentName" : "c:TermsAndConditions",
+      "id" : "d81590e9-284d-4e2f-9e89-179b578a548a",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "b0101096-daf0-426e-94e5-e1077a1f576e",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Terms And Conditions"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "660be0af-f7fb-47f8-ad65-0525afc8d174",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "07e6e1b4-a25d-44ec-ba4e-81d606b5a228",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "PctVPKSGLDTHpGqiKLrQNAT18c8HgP",
+  "type" : "view",
+  "viewType" : "custom-terms-and-conditions"
+}
