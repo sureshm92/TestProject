@@ -47,7 +47,6 @@
         },
         "componentName" : "forceCommunity:globalSearchInput",
         "id" : "f991c63d-102e-4652-b835-791daa076c8a",
-        "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
         "type" : "component"
       } ],
@@ -75,7 +74,6 @@
         },
         "componentName" : "selfService:userProfileMenu",
         "id" : "fcbe9ccc-a4e5-4054-adaa-7c9938f8c0a0",
-        "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
         "type" : "component"
       } ],
@@ -91,7 +89,6 @@
         },
         "componentName" : "forceCommunity:globalNavigation",
         "id" : "4f4f4ef8-0ced-476d-8f85-a40667f3263c",
-        "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
         "type" : "component"
       } ],
@@ -116,7 +113,6 @@
         },
         "componentName" : "forceCommunity:globalSearchInput",
         "id" : "0f4befba-21fc-4bbb-b8cd-18d0751d37d5",
-        "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
         "type" : "component"
       } ],
@@ -144,7 +140,6 @@
         },
         "componentName" : "selfService:userProfileMenu",
         "id" : "d2540bf2-10ba-43f3-a3df-5baf42ccbb66",
-        "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
         "type" : "component"
       } ],
@@ -160,7 +155,6 @@
         },
         "componentName" : "forceCommunity:globalNavigation",
         "id" : "34d6bfb3-65bf-4618-a0d7-fd9057150923",
-        "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
         "type" : "component"
       } ],
@@ -207,7 +201,6 @@
         },
         "componentName" : "forceCommunity:globalSearchInput",
         "id" : "263c38cc-4c75-4084-aeea-dc5c5f1e735c",
-        "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
         "type" : "component"
       } ],
@@ -235,7 +228,6 @@
         },
         "componentName" : "selfService:userProfileMenu",
         "id" : "208587db-2501-45ba-b5c4-c78dd3ae2fa6",
-        "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
         "type" : "component"
       } ],
@@ -251,7 +243,6 @@
         },
         "componentName" : "forceCommunity:globalNavigation",
         "id" : "fb9c21d5-6fb9-4cf7-9f93-0d1639723f42",
-        "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
         "type" : "component"
       } ],
@@ -280,7 +271,6 @@
         },
         "componentName" : "forceCommunity:globalSearchInput",
         "id" : "3a0da43f-f277-4ece-94b7-58f760191212",
-        "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
         "type" : "component"
       } ],
@@ -308,7 +298,6 @@
         },
         "componentName" : "selfService:userProfileMenu",
         "id" : "06cb80b6-568b-46a7-ab1b-a1f8366b37ae",
-        "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
         "type" : "component"
       } ],
@@ -324,7 +313,6 @@
         },
         "componentName" : "forceCommunity:globalNavigation",
         "id" : "cbfaf78b-576d-405b-ae98-f4cbe0fa6ea8",
-        "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
         "type" : "component"
       } ],
@@ -353,7 +341,6 @@
         },
         "componentName" : "forceCommunity:globalSearchInput",
         "id" : "e2229539-bab9-4dcf-b6ce-874f99ff06a6",
-        "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
         "type" : "component"
       } ],
@@ -381,7 +368,6 @@
         },
         "componentName" : "selfService:userProfileMenu",
         "id" : "ac952768-a2c7-4d95-9f46-b2d2d30cdbed",
-        "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
         "type" : "component"
       } ],
@@ -397,7 +383,6 @@
         },
         "componentName" : "forceCommunity:globalNavigation",
         "id" : "9271be41-235d-47b0-85e7-c2532ab0acf0",
-        "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
         "type" : "component"
       } ],
@@ -426,7 +411,6 @@
         },
         "componentName" : "forceCommunity:globalSearchInput",
         "id" : "8cc391db-e058-48be-9278-5dee12625299",
-        "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
         "type" : "component"
       } ],
@@ -454,7 +438,6 @@
         },
         "componentName" : "selfService:userProfileMenu",
         "id" : "a01cab12-19ea-49eb-960c-d30003f0ea40",
-        "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
         "type" : "component"
       } ],
@@ -470,7 +453,6 @@
         },
         "componentName" : "forceCommunity:globalNavigation",
         "id" : "49c3b0e1-7fe0-44af-974f-c4c12b7dc96d",
-        "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
         "type" : "component"
       } ],
@@ -499,7 +481,6 @@
         },
         "componentName" : "forceCommunity:globalSearchInput",
         "id" : "c5689ef2-0fb1-4056-8030-0138ca5b3e8d",
-        "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
         "type" : "component"
       } ],
@@ -527,7 +508,6 @@
         },
         "componentName" : "selfService:userProfileMenu",
         "id" : "9d6eec91-bbab-4651-a94a-d94cb678f5e7",
-        "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
         "type" : "component"
       } ],
@@ -543,7 +523,6 @@
         },
         "componentName" : "forceCommunity:globalNavigation",
         "id" : "8d0c5dc6-2fb8-4c4d-a38e-c7c546bb4c23",
-        "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
         "type" : "component"
       } ],

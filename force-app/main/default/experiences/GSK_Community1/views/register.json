@@ -35,7 +35,6 @@
       },
       "componentName" : "forceCommunity:seoAssistant",
       "id" : "2aa1c201-26a0-45ce-82d9-699014f0408e",
-      "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
     } ],
