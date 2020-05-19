@@ -9,7 +9,7 @@ export default class NavIncentiveCounter extends LightningElement {
 
     @track totalPoints=null;
     @track lastPoints=null;
-    @track initialized=false;
+    @track parOfIncentiveProgram=false;
     @track showDropDown;
     lastDatastamp;
 
@@ -23,7 +23,7 @@ export default class NavIncentiveCounter extends LightningElement {
                 .then(data => {
                     this.totalPoints = data.totalPoints;
                     this.lastPoints = data.lastPoints;
-                    this.initialized = true;
+                    this.parOfIncentiveProgram = this.totalPoints > 0 || data.hasEnabledTasks ;
                 })
                 .catch(error => {
                     console.error('Error in getPointsCounter():' + JSON.stringify(error));
