@@ -262,7 +262,12 @@ public without sharing class VisitResultSharingService {
 
     public static Map<String,Map<String,List<String>>> visitResultSharingByGroupAndMode() {
         VisitResultMService visitResultMService = new VisitResultMService();
-        List<Visit_Result_Type_Sharing__c> visitResultTypeSharings = [SELECT Id,Type__c FROM Visit_Result_Type_Sharing__c];
+        List<Visit_Result_Type_Sharing__c> visitResultTypeSharings = [
+                SELECT Id,
+                        Type__c
+                FROM Visit_Result_Type_Sharing__c
+                WHERE Clinical_Trial_Profile__c =:state.ctp.Id
+        ];
         List<String> visitResultTypeSharingNames = new List<String>();
         for (Visit_Result_Type_Sharing__c visitResultTypeSharing : visitResultTypeSharings) {
             visitResultTypeSharingNames.add(visitResultTypeSharing.Type__c);
@@ -271,8 +276,12 @@ public without sharing class VisitResultSharingService {
         for (String resultType : visitResultTypeSharingNames) {
             String visitResultGroup = visitResultMService.getVisitResultGroupByTypeName(resultType);
             String visitResultMode = visitResultMService.getVisitResultModeByGroupName(visitResultGroup);
-            if(visitResultSharingByGroupAndMode.get(visitResultMode)==null) visitResultSharingByGroupAndMode.put(visitResultMode,new Map <String,List<String>>());
-            if(visitResultSharingByGroupAndMode.get(visitResultMode).get(visitResultGroup)==null) visitResultSharingByGroupAndMode.get(visitResultMode).put(visitResultGroup, new List<String>());
+            if(visitResultSharingByGroupAndMode.get(visitResultMode)==null) {
+                visitResultSharingByGroupAndMode.put(visitResultMode,new Map <String,List<String>>());
+            }
+            if(visitResultSharingByGroupAndMode.get(visitResultMode).get(visitResultGroup)==null) {
+                visitResultSharingByGroupAndMode.get(visitResultMode).put(visitResultGroup, new List<String>());
+            }
             visitResultSharingByGroupAndMode.get(visitResultMode).get(visitResultGroup).add(resultType);
         }
         return visitResultSharingByGroupAndMode;
