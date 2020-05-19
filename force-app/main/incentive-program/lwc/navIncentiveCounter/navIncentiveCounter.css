@@ -4,9 +4,12 @@
 .nic-button {
     color: #ffffff;
     display: inline;
-    padding: 16px 20px
+    padding: 16px 20px;
 }
 .nic-button:hover{
+    background-color: rgba(255,255,255,0.16)
+}
+.nic-button.current-page{
     background-color: rgba(255,255,255,0.16)
 }
 .nic-container{
