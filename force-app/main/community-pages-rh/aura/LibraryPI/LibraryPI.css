@@ -49,3 +49,24 @@
     text-decoration: none;
 }
 
+.THIS .language-filter-icon svg{
+    fill: #297dfd;
+}
+
+.THIS .language-title{
+    color: black;
+    font-size: 13px;
+}
+
+.THIS .language-filter .header-menu-link{
+    justify-content: unset;
+    padding: 0px;
+}
+
+.THIS .language-filter .menu-popup-panel.popupTargetContainer {
+    left: -10px;
+    width: 130px;
+}
+
+
+
