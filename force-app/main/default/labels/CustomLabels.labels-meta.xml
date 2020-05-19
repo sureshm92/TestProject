@@ -1328,6 +1328,34 @@
         <value>Blood urea nitrogen (BUN)</value>
     </labels>
     <labels>
+        <fullName>Biomarkers_Expected_Range</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Biomarkers Expected Range</shortDescription>
+        <value>Positive or Negative</value>
+    </labels>
+    <labels>
+        <fullName>Biomarkers_Negative</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Biomarkers Negative</shortDescription>
+        <value>Negative</value>
+    </labels>
+    <labels>
+        <fullName>Biomarkers_Positive</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Biomarkers Positive</shortDescription>
+        <value>Positive</value>
+    </labels>
+    <labels>
+        <fullName>Biomarkers_Unknown</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Biomarkers Unknown</shortDescription>
+        <value>Unknown</value>
+    </labels>
+    <labels>
         <fullName>Body_Mass_Index</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2343,7 +2371,7 @@
 
             Your username is ##UserName. Please click the Enroll Now button to create your password.
 
-            Please note that enrollment in ##CommunityName is not a requirement for ##ParticipantFirstName to be enrolled into the clinical research study.</value>
+            Please note that enrollment in ##FullCommunityName is not a requirement for ##ParticipantFirstName to be enrolled into the clinical research study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Virtual</fullName>
@@ -2940,7 +2968,7 @@ Please login to the ##CommunityName to check your clinical research trial matche
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Trial Match Delegate</shortDescription>
-        <value>We have found new trial matches for &lt;participant first name&gt;.
+        <value>We have found new trial matches for ##PatientFirstName.
  
 Please log in to ##CommunityName to view this information.</value>
     </labels>
@@ -4131,7 +4159,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Title Initial All GSK</shortDescription>
-        <value>Gather &amp;lt;i&amp;gt;Share&amp;lt;/i&amp;gt; Know Participant Hub</value>
+        <value>Gather &lt;i&gt;Share&lt;/i&gt; Know Participant Hub</value>
     </labels>
     <labels>
         <fullName>Email_Title_Initial_All_IQVIA</fullName>
@@ -4499,6 +4527,13 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>false</protected>
         <shortDescription>Glucose Description</shortDescription>
         <value>Glucose is a sugar, also called &quot;blood sugar&quot;. When your body digests food, carbohydrates are broken down to make glucose. Your small intestine then absorbs the glucose to release it into the blood. Glucose is the most important source of energy for cells in your body and the only source of energy for your brain, spinal cord, and nerves. Blood glucose is measured to check your general health and to check for a range of conditions.</value>
+    </labels>
+    <labels>
+        <fullName>HLA_Description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HLA Description</shortDescription>
+        <value>Human leukocyte antigen (HLA) is a protein that is found on the surface of white blood cells and some other cells. White blood cells are part of the immune system (your body’s natural defense system). These proteins help the white blood cells to identify the body’s own cells from invaders. There are different types of HLAs and every person has a unique combination (a profile). This test will identify your HLA profile. It is thought that certain cancer treatments (such as immunotherapy) may work well for people with certain HLA profiles. This test may help doctors predict which cancer treatments may work for you.</value>
     </labels>
     <labels>
         <fullName>HT_01_B</fullName>
@@ -5420,6 +5455,20 @@ Please log in to ##CommunityName to view this information.</value>
         <value>All</value>
     </labels>
     <labels>
+        <fullName>Human_leukocyte_antigen</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Human leukocyte antigen</shortDescription>
+        <value>Human leukocyte antigen</value>
+    </labels>
+    <labels>
+        <fullName>ICOS_Description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ICOS Description</shortDescription>
+        <value>Inducible co-stimulator (ICOS) is a protein that is found on the surface of white blood cells and on cancer cells. White blood cells are part of the immune system (your body’s natural defense system). ICOS proteins play an important part in managing the immune system. This test measures the amount of ICOS in your blood. Some types of treatments may be more suitable for you if you have higher levels of ICOS present in your blood. This test may help doctors predict which cancer treatments may work for you.</value>
+    </labels>
+    <labels>
         <fullName>IRB_Padding_Info</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5461,7 +5510,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>IncTask_01_HD</shortDescription>
-        <value>Completed pre-screener for:</value>
+        <value>Completed pre-screener for: ##ItemName</value>
     </labels>
     <labels>
         <fullName>IncTask_01_T</fullName>
@@ -5472,11 +5521,146 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Pre-screen participant</value>
     </labels>
     <labels>
+        <fullName>IncentiveProgram_Date</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Date</shortDescription>
+        <value>Date</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_How_Do_I_Earn</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_How_Do_I_Earn</shortDescription>
+        <value> How do I earn points?</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Incentives</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Incentives</shortDescription>
+        <value>Incentives</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Last_Earned</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Last_Earned</shortDescription>
+        <value>Last Earned:</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_My_Points</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_My_Points</shortDescription>
+        <value>My Points</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Points</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Points</shortDescription>
+        <value>Points</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Points_Earned</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Earned</shortDescription>
+        <value>Points Earned</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Pts</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Pts</shortDescription>
+        <value>pts</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Redeem_Points</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Redeem_Points</shortDescription>
+        <value>Redeem Points</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Redeem_Points_Disclaimer</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Redeem_Points_Disclaimer</shortDescription>
+        <value>Ways To Redeem Points Soon</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Select_Study_Site</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Select_Study_Site</shortDescription>
+        <value>Select Study Site</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Study_Site</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Study_Site</shortDescription>
+        <value>Study Site</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Task</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Task</shortDescription>
+        <value>Task</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Total</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Total_Points </shortDescription>
+        <value>Total:</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Total_Points</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Total_Points</shortDescription>
+        <value>Total Points:</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_View_Details</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_View_Details</shortDescription>
+        <value>View Details</value>
+    </labels>
+    <labels>
         <fullName>Incorrect_data</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Incorrect data</shortDescription>
         <value>Please input correct data!</value>
+    </labels>
+    <labels>
+        <fullName>Inducible_co_stimulator</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Inducible co-stimulator</shortDescription>
+        <value>Inducible co-stimulator</value>
     </labels>
     <labels>
         <fullName>Initial_Visit_Scheduled</fullName>
@@ -5955,6 +6139,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>You are already associated with this study.</value>
     </labels>
     <labels>
+        <fullName>NYESO_Description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>NYESO Description</shortDescription>
+        <value>New York esophageal squamous cell carcinoma-1 (NYESO-1) is a substance that is found on the surface of healthy cells and some cancer cells. While it is not completely known how NYESO-1 works, it is thought to play a part in immune responses (your body’s natural defense system). This test measures the amount of NYESO-1 in your blood. This test may help doctors predict which cancer treatments may work for you.</value>
+    </labels>
+    <labels>
         <fullName>Navigation_Dashboard</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6079,6 +6270,13 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>false</protected>
         <shortDescription>Navigation Settings</shortDescription>
         <value>Settings</value>
+    </labels>
+    <labels>
+        <fullName>New_York_carcinoma</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>New York carcinoma</shortDescription>
+        <value>New York esophageal squamous cell carcinoma-1</value>
     </labels>
     <labels>
         <fullName>No_Access</fullName>
@@ -6628,6 +6826,13 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>true</protected>
         <shortDescription>Other_Providers</shortDescription>
         <value>Other Providers</value>
+    </labels>
+    <labels>
+        <fullName>PD_Description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PD Description</shortDescription>
+        <value>Programmed death ligand 1 (PD-L1) is a protein that is found on the surface of many cells. Cancer cells sometimes have large amounts of this protein to help the cancer cells avoid the body’s immune system (your body’s natural defense system). This test measures how much PD-L1 is present on cancer cells. Some types of treatments may be more suitable for you if you have higher levels of PD-L1 present on your cancer cells. This test may help doctors predict which cancer treatments may work for you.</value>
     </labels>
     <labels>
         <fullName>PES_L_All_Steps</fullName>
@@ -10051,7 +10256,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Remove Himself</shortDescription>
-        <value>You are about to remove yourself from the Delegate list. If you choose to continue your account will be deactivated. You cannot undo this action.  Do you want to proceed?</value>
+        <value>You are about to remove yourself from the Delegate list. You cannot undo this action. Do you want to proceed?</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_Remove_Himself_Header</fullName>
@@ -11819,6 +12024,13 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>false</protected>
         <shortDescription>Profile Menu Log Out</shortDescription>
         <value>Log Out</value>
+    </labels>
+    <labels>
+        <fullName>Programmed_death_ligand_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Programmed death ligand 1</shortDescription>
+        <value>Programmed death ligand 1</value>
     </labels>
     <labels>
         <fullName>Pulse</fullName>
@@ -14454,7 +14666,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit Results Tab Expected Range</shortDescription>
-        <value>Expected Range</value>
+        <value>Expected value</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_If_Is_Empty_Body</fullName>

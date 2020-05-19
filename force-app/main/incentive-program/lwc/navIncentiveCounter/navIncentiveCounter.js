@@ -4,10 +4,12 @@
 
 import {LightningElement, track} from 'lwc';
 import getPoints from '@salesforce/apex/IncentiveProgramRemote.getCurrentPoints';
+
 export default class NavIncentiveCounter extends LightningElement {
 
-    @track totalPoints=0;
-    @track lastPoints=0;
+    @track totalPoints=null;
+    @track lastPoints=null;
+    @track parOfIncentiveProgram=false;
     @track showDropDown;
     lastDatastamp;
 
@@ -21,6 +23,7 @@ export default class NavIncentiveCounter extends LightningElement {
                 .then(data => {
                     this.totalPoints = data.totalPoints;
                     this.lastPoints = data.lastPoints;
+                    this.parOfIncentiveProgram = this.totalPoints > 0 || data.hasEnabledTasks ;
                 })
                 .catch(error => {
                     console.error('Error in getPointsCounter():' + JSON.stringify(error));
@@ -40,5 +43,13 @@ export default class NavIncentiveCounter extends LightningElement {
         this.showDropDown = false;
         this.lastDatastamp = new Date();
     }
-
+    doEvent(){
+        console.log('event');
+        const navigateToIncentivesEvent = new CustomEvent('navigatetoincentives', {
+            detail: {
+                page: 'incentives'
+            }
+        });
+        this.dispatchEvent(navigateToIncentivesEvent);
+    }
 }

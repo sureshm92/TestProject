@@ -4,12 +4,14 @@
 
 <!-- Nav Incentive Counter -->
 <template>
-    <div class="nic-container" tabindex="0" onblur={doCloseDropDown}>
-        <div class="nic-button" onclick={doToggleDropDown}>
-            <c-web-icon icon-name="icon-star-solid" icon-color="#FFFFFF" icon-size="small"></c-web-icon> {totalPoints}
+    <template if:true={parOfIncentiveProgram}>
+        <div class="nic-container" tabindex="0" onblur={doCloseDropDown}>
+            <div class="nic-button" onclick={doToggleDropDown}>
+                <c-web-icon icon-name="icon-star-solid" icon-color="#FFFFFF" icon-size="small"></c-web-icon> {totalPoints}
+            </div>
+            <template if:true={showDropDown}>
+                <c-nav-incentive-drop-down total-points={totalPoints} last-points={lastPoints} onnavigatetoincentives={doEvent}></c-nav-incentive-drop-down>
+            </template>
         </div>
-        <template if:true={showDropDown}>
-            <c-nav-incentive-drop-down total-points={totalPoints} last-points={lastPoints}></c-nav-incentive-drop-down>
-        </template>
-    </div>
+    </template>
 </template>

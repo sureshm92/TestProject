@@ -1,0 +1,18 @@
+/**
+ * Created by Andrii Kryvolap.
+ */
+
+.incentives-page-container{
+    height: 70vh;
+    padding-bottom: 15vh;
+}
+.incentives-page-title{
+    height: 24px;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 30px;
+    margin-bottom: 20px;
+}

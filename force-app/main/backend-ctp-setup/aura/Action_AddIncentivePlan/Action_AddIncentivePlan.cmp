@@ -16,7 +16,8 @@
     <aura:attribute name="planName" type="String"/>
     <aura:attribute name="recordId" type="String"/>
     <aura:attribute name="disableSave" type="Boolean" default="true"/>
-
+    <aura:attribute name="invalidTaskInputs" type="Object"/>
+    <aura:attribute name="allTaskInputsValid" type="Boolean" access="private" default="true"/>
 
     <aura:attribute name="callback" type="Object" access="private"/>
     <aura:attribute name="mode" type="String" access="private"/>
@@ -126,7 +127,10 @@
                             </div>
                         </td>
                         <td>
-                            <p class="slds-number_points">{!task.points}</p>
+                            <div class="custom-control">
+                                <lightning:input aura:id="points" onchange="{!c.checking}" onblur="{!c.validatePoints}" type="number" formatter="decimal" class="custom-control-input_points" value="{!task.points}" id="{!index}"/>
+                            </div>
+<!--                            <p class="slds-number_points">{!task.points}</p>-->
                         </td>
                         <td>
                             <lightning:formattedText value="{!task.taskDescription}"/>
@@ -179,12 +183,12 @@
 
         <!--Footer-->
         <aura:set attribute="footer">
-            <div class="footer-buttons" data-gtm="BTNS_Popup_Save_Cancel">
+            <div class="footer-buttons" data-gtm="BTNS_Popup_Save_Cancel_Incentive">
 
                 <lightning:button variant="neutral" name="createIncentiveTask"
                                   onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</lightning:button>
 
-                <lightning:button variant="brand" disabled="{!v.disableSave}"
+                <lightning:button variant="brand" disabled="{!or(v.disableSave, !v.allTaskInputsValid)}"
                                   onclick="{!c.doSave}">{!$Label.c.BTN_Save}</lightning:button>
             </div>
         </aura:set>

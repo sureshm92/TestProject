@@ -47,7 +47,7 @@ global without sharing class EmailWireframeController {
     }
 
     public String getGreetingText() {
-        return prepareLineBreaks(replaceParams(getLabelValue(greetingValue)) + '\n\n');
+        return prepareLineBreaks(replaceParams(getLabelValue(greetingValue)) + '\n');
     }
 
     public String getPreSignatureText() {
@@ -57,6 +57,10 @@ global without sharing class EmailWireframeController {
     public String getSignatureText() {
         String signatureLabelValue = replaceParams(getLabelValue(signatureValue));
         return prepareLineBreaks(signatureLabelValue);
+    }
+
+    public Boolean getIsInitialized() {
+        return getProvider().isInitialized();
     }
 
     private EmailTemplateProvider getProvider() {

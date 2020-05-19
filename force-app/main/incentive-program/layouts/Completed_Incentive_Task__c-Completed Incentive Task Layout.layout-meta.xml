@@ -26,6 +26,10 @@
                 <behavior>Edit</behavior>
                 <field>Incentive_Task_Catalog__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Completed_For__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

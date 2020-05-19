@@ -1,0 +1,28 @@
+/**
+ * Created by Andrii Kryvolap.
+ */
+
+.imph-container{
+    padding: 15px 20px 15px 20px;
+}
+.imph-title{
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 30px;
+}
+.imph-points{
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 30px;
+}
+.imph-points strong{
+    font-weight: 600;
+}
+.imph-button-container{
+    text-align: end;
+}
