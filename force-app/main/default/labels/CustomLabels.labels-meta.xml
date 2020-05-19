@@ -10232,7 +10232,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Remove Himself</shortDescription>
-        <value>You are about to remove yourself from the Delegate list. If you choose to continue your account will be deactivated. You cannot undo this action.  Do you want to proceed?</value>
+        <value>You are about to remove yourself from the Delegate list. You cannot undo this action. Do you want to proceed?</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_Remove_Himself_Header</fullName>
