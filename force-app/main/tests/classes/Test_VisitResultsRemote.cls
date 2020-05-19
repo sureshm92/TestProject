@@ -47,7 +47,7 @@ public with sharing class Test_VisitResultsRemote {
         testData.updatePEStatusEnrollmentSuccess();
 
         System.runAs(testData.participantUser) {
-            VisitResultsRemote.InitDataWrapper wrapper = VisitResultsRemote.getInitData('');
+            VisitResultsRemote.InitDataWrapper wrapper = VisitResultsRemote.getInitData('',null);
             System.assert(wrapper != null);
         }
         Test.stopTest();
@@ -87,7 +87,7 @@ public with sharing class Test_VisitResultsRemote {
         );
 
         Test.startTest();
-        VisitResultsService.VisitResultsContainer tesContainer = VisitResultsRemote.getVisitResultsContainer('');
+        VisitResultsService.VisitResultsContainer tesContainer = VisitResultsRemote.getVisitResultsContainer('', null);
         Test.stopTest();
 
         System.assert(tesContainer.groupName.equals('Vitals'));
@@ -125,7 +125,7 @@ public with sharing class Test_VisitResultsRemote {
 
         try {
             System.runAs(testData.participantUser) {
-                VisitResultsRemote.getInitData('');
+                VisitResultsRemote.getInitData('', null);
             }
         } catch (Exception e) {
             isExceptionThrown = true;
@@ -171,7 +171,7 @@ public with sharing class Test_VisitResultsRemote {
 
         Test.startTest();
         try {
-            VisitResultsRemote.getVisitResultsContainer(null);
+            VisitResultsRemote.getVisitResultsContainer(null,null);
 
         } catch (Exception e) {
             isExceptionThrown = true;
