@@ -38,6 +38,7 @@
         var inDate = new Date(participant.Date_of_Birth__c);
         var currentDate = today.setHours(0, 0, 0, 0);
         var inputDate = inDate.setHours(0, 0, 0, 0);
+        let needsGuardian = component.get('v.needsGuardian');
         if(pe.MRN_Id__c){
             component.set('v.disableSourceId', true);
         } else {
@@ -59,9 +60,9 @@
                 (oldPE.Participant__r.Last_Name__c && !participant.Last_Name__c) ||
                 (oldPE.Participant__r.Date_of_Birth__c && !participant.Date_of_Birth__c) ||
                 (oldPE.Participant__r.Gender__c && !participant.Gender__c) ||
-                (oldPE.Participant__r.Phone__c && !participant.Phone__c) ||
-                (oldPE.Participant__r.Phone_Type__c && !participant.Phone_Type__c) ||
-                (oldPE.Participant__r.Email__c && !participant.Email__c) ||
+                (needsGuardian || (oldPE.Participant__r.Phone__c && !participant.Phone__c)) ||
+                (needsGuardian || (oldPE.Participant__r.Phone_Type__c && !participant.Phone_Type__c)) ||
+                (needsGuardian || (oldPE.Participant__r.Email__c && !participant.Email__c)) ||
                 (oldPE.Participant__r.Mailing_Country_Code__c && !participant.Mailing_Country_Code__c) ||
                 (stateRequired && oldPE.Participant__r.Mailing_State_Code__c && !participant.Mailing_State_Code__c) ||
                 (oldPE.Participant__r.Mailing_Zip_Postal_Code__c && !participant.Mailing_Zip_Postal_Code__c) ||
@@ -76,9 +77,9 @@
                     participant.Last_Name__c.trim() &&
                     inputDate <= currentDate &&
                     participant.Gender__c.trim() &&
-                    (participantDelegate || participant.Phone__c.trim()) &&
-                    (participantDelegate || participant.Phone_Type__c.trim()) &&
-                    (participantDelegate || participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
+                    (needsGuardian || participantDelegate || participant.Phone__c.trim()) &&
+                    (needsGuardian || participantDelegate || participant.Phone_Type__c.trim()) &&
+                    (needsGuardian || participantDelegate || participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
                     (!participantDelegate || participantDelegate.Phone__c.trim()) &&
                     (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
                     (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
@@ -95,9 +96,9 @@
                 participant.Last_Name__c &&
                 participant.Date_of_Birth__c &&
                 participant.Gender__c &&
-                (participantDelegate || participant.Phone__c.trim()) &&
-                (participantDelegate || participant.Phone_Type__c.trim()) &&
-                (participantDelegate || participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
+                (needsGuardian || participantDelegate || participant.Phone__c.trim()) &&
+                (needsGuardian || participantDelegate || participant.Phone_Type__c.trim()) &&
+                (needsGuardian || participantDelegate || participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
                 (!participantDelegate || participantDelegate.Phone__c.trim()) &&
                 (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
                 (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
@@ -115,9 +116,9 @@
                     participant.Last_Name__c.trim() &&
                     inputDate <= currentDate &&
                     participant.Gender__c.trim() &&
-                    (participantDelegate || participant.Phone__c.trim()) &&
-                    (participantDelegate || participant.Phone_Type__c.trim()) &&
-                    (participantDelegate || participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
+                    (needsGuardian || participantDelegate || participant.Phone__c.trim()) &&
+                    (needsGuardian || participantDelegate || participant.Phone_Type__c.trim()) &&
+                    (needsGuardian || participantDelegate || participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
                     (!participantDelegate || participantDelegate.Phone__c.trim()) &&
                     (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
                     (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
@@ -138,9 +139,9 @@
                 participant.Last_Name__c &&
                 participant.Date_of_Birth__c &&
                 participant.Gender__c &&
-                (participantDelegate || participant.Phone__c.trim()) &&
-                (participantDelegate || participant.Phone_Type__c.trim()) &&
-                (participantDelegate || participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
+                (needsGuardian || participantDelegate || participant.Phone__c.trim()) &&
+                (needsGuardian || participantDelegate || participant.Phone_Type__c.trim()) &&
+                (needsGuardian || participantDelegate || participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
                 (!participantDelegate || participantDelegate.Phone__c.trim()) &&
                 (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
                 (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
@@ -160,6 +161,17 @@
         component.set('v.isValid', isValid);
          console.log('isValid5' + isValid);
         return isValid;
+    },
+
+    doCheckDateOfBith: function (component, event, helper) {
+        console.log('IN doCheckDateOfBith');
+        let parent = component.get('v.parentComponent');
+        if (parent && parent.checkDateOfBith) {
+            console.log('Parent checkDateOfBith');
+            parent.checkDateOfBith();
+        }
+        this.doCheckFields();
+        console.log('END doCheckDateOfBith');
     },
 
     doCountryCodeChanged: function (component, event, helper) {

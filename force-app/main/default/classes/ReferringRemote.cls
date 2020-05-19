@@ -225,7 +225,7 @@ public without sharing class ReferringRemote {
     }
 
     @Future
-    private static void createParticipantUsers(Map<Id, Id> usersToCreate) {
+    public static void createParticipantUsers(Map<Id, Id> usersToCreate) {
         if (usersToCreate != null && !usersToCreate.isEmpty()) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(usersToCreate);
     }
 

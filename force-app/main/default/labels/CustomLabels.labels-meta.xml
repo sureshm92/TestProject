@@ -1328,6 +1328,34 @@
         <value>Blood urea nitrogen (BUN)</value>
     </labels>
     <labels>
+        <fullName>Biomarkers_Expected_Range</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Biomarkers Expected Range</shortDescription>
+        <value>Positive or Negative</value>
+    </labels>
+    <labels>
+        <fullName>Biomarkers_Negative</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Biomarkers Negative</shortDescription>
+        <value>Negative</value>
+    </labels>
+    <labels>
+        <fullName>Biomarkers_Positive</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Biomarkers Positive</shortDescription>
+        <value>Positive</value>
+    </labels>
+    <labels>
+        <fullName>Biomarkers_Unknown</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Biomarkers Unknown</shortDescription>
+        <value>Unknown</value>
+    </labels>
+    <labels>
         <fullName>Body_Mass_Index</fullName>
         <language>en_US</language>
         <protected>false</protected>

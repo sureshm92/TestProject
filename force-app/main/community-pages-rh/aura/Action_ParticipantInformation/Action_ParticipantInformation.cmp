@@ -102,7 +102,7 @@
                         </aura:if>
                     </lightning:tab>
                     <aura:if
-                            isTrue="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled}">
+                            isTrue="{!v.pe.MRR_Survey_Results_URL__c}">
                         <lightning:tab class="slds-tabs_default__item" aura:id="Survey"
                                        label="{!$Label.c.BTN_Screener_Responses}" onactive="{!c.checkTabs}">
                             <c:SurveyGismoResultsView results="{!v.pe.MRR_Survey_Results_URL__c}"/>
