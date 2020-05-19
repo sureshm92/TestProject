@@ -10249,8 +10249,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Remove Delegate</shortDescription>
-        <value>Remove Delegate</value>
-    </labels>
+        <value>Deactivate Delegate</value>    </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_Remove_Himself</fullName>
         <language>en_US</language>
