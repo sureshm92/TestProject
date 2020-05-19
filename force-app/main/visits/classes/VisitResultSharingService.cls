@@ -31,7 +31,6 @@ public without sharing class VisitResultSharingService {
         Map<Id, List<Visit_Result_Type_Sharing__c>> mapOfCTPByShare = new Map<Id, List<Visit_Result_Type_Sharing__c>>();
         Id recordTypeIdForCurrentMode = SchemaUtil.getRecordTypeIdByName(visitResultsMode.removeEnd('s'), Visit_Result__c.getSObjectType());
         List<Visit_Result__c> visitResultsForCurrentMode = new List<Visit_Result__c>();
-        System.debug('>>>>>>enabledVisitResultTypes' + enabledVisitResultTypes);
         if (enabledVisitResultTypes==null) {
             visitResultsForCurrentMode = [
                     SELECT Id,
@@ -271,7 +270,6 @@ public without sharing class VisitResultSharingService {
         Map<String,Map<String,List<String>>> visitResultSharingByGroupAndMode = new Map<String, Map<String, List<String>>>();
         for (String resultType : visitResultTypeSharingNames) {
             String visitResultGroup = visitResultMService.getVisitResultGroupByTypeName(resultType);
-            System.debug('>>>>visitResultGroup' + visitResultGroup);
             String visitResultMode = visitResultMService.getVisitResultModeByGroupName(visitResultGroup);
             if(visitResultSharingByGroupAndMode.get(visitResultMode)==null) visitResultSharingByGroupAndMode.put(visitResultMode,new Map <String,List<String>>());
             if(visitResultSharingByGroupAndMode.get(visitResultMode).get(visitResultGroup)==null) visitResultSharingByGroupAndMode.get(visitResultMode).put(visitResultGroup, new List<String>());

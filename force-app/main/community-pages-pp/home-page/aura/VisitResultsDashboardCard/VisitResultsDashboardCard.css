@@ -28,6 +28,7 @@
 .THIS .visit-results-container {
     display: flex;
     padding: 15px 0;
+    justify-content: center;
 }
 
 .THIS .visit-results-item {
