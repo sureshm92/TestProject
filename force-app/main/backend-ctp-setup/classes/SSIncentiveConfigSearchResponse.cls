@@ -21,17 +21,17 @@ public without sharing class SSIncentiveConfigSearchResponse {
         Map<Id, Incentive_Plan__c> ipMap = new Map<Id, Incentive_Plan__c>([SELECT Id, Name, Plan_Name__c FROM Incentive_Plan__c]);
         List<Id> selectedIPIds = new List<Id>(ipMap.keySet());
         if (!String.isEmpty(selectedIPIdsStr)) selectedIPIds = selectedIPIdsStr.split(';');
-        List<LabelValueItem> visitPlans = new List<LabelValueItem>();
+        List<LabelValueItem> incentivePlans = new List<LabelValueItem>();
         for (Id ipId : selectedIPIds) {
             Incentive_Plan__c ip = ipMap.get(ipId);
-            if (ip != null) visitPlans.add(new LabelValueItem(ip.Plan_Name__c, ipId));
+            if (ip != null) incentivePlans.add(new LabelValueItem(ip.Plan_Name__c, ipId));
         }
-        return visitPlans;
+        return incentivePlans;
     }
 
     private static Boolean isHaveEmptyAssignment(StudySiteFilter filter){
         List<Study_Site__c> allSSList = [SELECT Id, (SELECT Id FROM Study_Incentive_Plans__r) FROM Study_Site__c WHERE Clinical_Trial_Profile__c =: filter.ctpId];
-        for (Study_Site__c ss : allSSList) if(ss.StudySiteVisitPlans__r.isEmpty()) return true;
+        for (Study_Site__c ss : allSSList) if (ss.StudySiteVisitPlans__r.isEmpty()) return true;
         return false;
     }
 
@@ -47,8 +47,8 @@ public without sharing class SSIncentiveConfigSearchResponse {
             item.emptyAssignments = ssIPList.isEmpty();
             for (LabelValueItem ip : incentivePlans) {
                 Id ssIPId;
-                for(Study_Incentive_Plan__c ssIP : ssIPList){
-                    if(ssIP.Incentive_Plan__c == ip.value){
+                for (Study_Incentive_Plan__c ssIP : ssIPList){
+                    if (ssIP.Incentive_Plan__c == ip.value){
                         ssIPId = ssIP.Id;
                         break;
                     }

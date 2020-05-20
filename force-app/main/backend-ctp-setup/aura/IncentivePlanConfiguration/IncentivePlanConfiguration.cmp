@@ -20,6 +20,8 @@
     <aura:attribute name="tasks" type="List"/>
     <aura:attribute name="studyInfo" type="Object"/>
 
+    <aura:attribute name="selectedIP" type="String"/>
+
     <!-- component body: -->
     <aura:if isTrue="{!notequals(v.viewModePage, 'Disabled')}">
         <aura:set attribute="else">

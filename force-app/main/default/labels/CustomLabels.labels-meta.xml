@@ -10547,6 +10547,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>New Patient</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_One_Incentive_Many_Incentives</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L One Incentive Plan Many Incentives</shortDescription>
+        <value>This selection affected {0} number of study sites</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_One_Incentive_Plan</fullName>
         <language>en_US</language>
         <protected>false</protected>
