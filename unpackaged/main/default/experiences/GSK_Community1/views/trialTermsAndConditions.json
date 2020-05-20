@@ -1,0 +1,41 @@
+{
+  "appPageId" : "3c52dbfd-6fc5-447c-9869-3b0d58d04ec1",
+  "componentName" : "c:EmptyLayout",
+  "id" : "63f765c2-74fc-443a-a790-626385614d1d",
+  "label" : "Trial Terms And Conditions",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : {
+        "isPortalTC" : true,
+        "privacyPolicyId" : "",
+        "titleCode" : ""
+      },
+      "componentName" : "c:TermsAndConditions",
+      "id" : "a06dece3-79ba-4a5e-9f45-8b4b50111fec",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "d22ea672-d934-49ae-92e2-18b55fc6eca1",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Trial Terms And Conditions"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "24521433-a73c-4899-844f-777a88bedbac",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "d5a7bcfb-6074-4d6a-a021-a32d6c0cf611",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "PctVPKSGLDTHpGqiKLrQNAT18c8HgP",
+  "type" : "view",
+  "viewType" : "custom-trial-terms-and-conditions"
+}

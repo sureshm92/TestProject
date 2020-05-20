@@ -5,6 +5,9 @@
 ({
 
     doInit: function (component, event, helper) {
+        var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
+        component.set('v.todayDate', todayDate);
+
         helper.preparePathItems(component);
     },
 

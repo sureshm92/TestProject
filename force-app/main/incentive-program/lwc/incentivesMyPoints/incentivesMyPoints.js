@@ -18,9 +18,16 @@ export default class IncentivesMyPoints extends LightningElement {
                 this.totalPoints = data.totalPoints;
                 this.completedTasks = data.completedTasks;
                 this.initialized = true;
+                this.spinner.hide();
             })
             .catch(error => {
                 console.error('Error in getIncentiveHistory():' + JSON.stringify(error));
             });
+    }
+    renderedCallback(){
+        this.spinner = this.template.querySelector('c-web-spinner');
+        if (!this.initialized){
+            this.spinner.show();
+        }
     }
 }
