@@ -90,7 +90,7 @@
             peJSON: JSON.stringify(pe),
             delegateJSON: JSON.stringify(component.get('v.participantDelegate')),
             userInfoJSON: JSON.stringify(userInfo)
-        }, function () {
+        }, function (returnvalue) {
             if (component.get('v.saveAndChangeStep')) {
                 component.set('v.saveAndChangeStep', false);
 
@@ -99,6 +99,8 @@
             if(callback){
                 callback(pe);
             }
+            component.set('v.pe', returnvalue);
+            component.set('v.participant', returnvalue.Participant__r);
         }, null, function () {
             component.find('spinner').hide();
         });
@@ -157,9 +159,6 @@
                 historyToUpdate : isStatusChanged 
             };
         }
-        // if(component.get('v.isInvited')){
-        //     communityService.executeAction(component, 'updateUserLanguage', {userJSON: JSON.stringify(userInfo)})
-        // }
         communityService.executeAction(component, actionName, actionParams , function () {
             var callback = component.get('v.callback');
             if(callback){
