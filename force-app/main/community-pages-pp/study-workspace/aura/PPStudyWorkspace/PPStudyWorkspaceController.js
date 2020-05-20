@@ -19,17 +19,19 @@
         communityService.executeAction(component, 'visitResultSharingByGroupAndMode',{},
             function (returnValue) {
                 component.set('v.visitResultSharings',returnValue);
-                let availableMods = Object.keys(returnValue);
+                let availableMods = Object.keys(returnValue).toString();
 
-                if (availableMods.toString().includes('Vitals')) {
-                    component.set('v.displayVitalsButton',true);
-                }
-                if (availableMods.toString().includes('Labs')){
-                    component.set('v.displayLabsButton',true);
-                }
-                if (availableMods.toString().includes('Biomarkers')) {
+                if (availableMods.includes('Biomarkers')) {
                     component.set('v.displayBiomarkersButton',true);
-
+                    component.set('v.labResultsMode','Biomarkers');
+                }
+                if (availableMods.includes('Labs')){
+                    component.set('v.displayLabsButton',true);
+                    component.set('v.labResultsMode','Labs');
+                }
+                if (availableMods.includes('Vitals')) {
+                    component.set('v.displayVitalsButton',true);
+                    component.set('v.labResultsMode','Vitals');
                 }
             });
 

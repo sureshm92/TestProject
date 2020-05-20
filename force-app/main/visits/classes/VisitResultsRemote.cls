@@ -90,14 +90,16 @@ public without sharing class VisitResultsRemote {
     }
 
     public static Boolean existAndAvailableByCTP(Map<String, List<String>> availableVisitResults, List<Visit_Result__c> visitResultsForMode) {
-        List<String> availableAndExistResults = new List<String>();
-        for (Visit_Result__c visitResult : visitResultsForMode) {
-            availableAndExistResults.add(visitResult.Result_Type__c);
-        }
-        for (String str : availableVisitResults.keySet()) {
-            List<String> availableResultsForGroup = availableVisitResults.get(str);
-            for (String result : availableResultsForGroup) {
-                if (availableAndExistResults.contains(result)) return true;
+        if (availableVisitResults!=null) {
+            List<String> availableAndExistResults = new List<String>();
+            for (Visit_Result__c visitResult : visitResultsForMode) {
+                availableAndExistResults.add(visitResult.Result_Type__c);
+            }
+            for (String str : availableVisitResults.keySet()) {
+                List<String> availableResultsForGroup = availableVisitResults.get(str);
+                for (String result : availableResultsForGroup) {
+                    if (availableAndExistResults.contains(result)) return true;
+                }
             }
         }
         return false;
