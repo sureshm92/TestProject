@@ -37,3 +37,11 @@
     font-size: 14px;
     line-height: 22px;
 }
+
+@media all and (max-width: 768px) {
+    .THIS.rrp-container .buttons .previous-btn,
+    .THIS.rrp-container .buttons .next-btn {
+        height: 40px;
+        width: 40px;
+    }
+}
