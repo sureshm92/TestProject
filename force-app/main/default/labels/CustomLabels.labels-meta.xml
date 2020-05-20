@@ -1430,7 +1430,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Community Email Logo</shortDescription>
-        <value>https://infohotfix-iqviaconnect.CS84.force.com/servlet/servlet.ImageServer?id=0155E000000OnWQ&amp;oid=00D5E000000Den3</value>
+        <value>https://lh3.googleusercontent.com/EmuOHokKYGwyHoopMnBD54_g8Nw-hnyk7OahOiY7_koTc-V2v2QSkyF7rHoymubsZdQx1V5Krf3yNMipVhifs34bVD6jk0KZtnJal5jaSROMRoWDEKCZ4PBPmWswXtdD0cXO-JkmZ5_C1kUppz9M03uolxkkE_7R2gG9xFO5PYC4AZtobSrqr8sP0PQIK2rsu6YWsK25qgarqFm4aWGl-My3kfUyPGrejgjtMb-FwHfAt4KBr0kwYnOoEbue7YMlDqTlUUtYdT5X7y2DEwkL4BIyzPvYBcmB7m6b4LBBdh3UnxZwuUmJ7V0RcY2FKjmLfY_dGjAXlKVDKAAsLqr1TRbRDEE9CGGBmpe4gYOWT4Cp6Q0A7Y5O8VgI_3IxIVEyWinm0SfBwalH5WlSt78mEbfkJn78mpatq9UKBJXDIvVxfz9_3esXSddGbpOS6Gx5i_PbfpH9fAHvHLaQOQ1OMywK-KHP8hLCasUMmlyeQTBh91IrEPLPo7115kbdhHdPXy--f01NFF-Kv34beTnutGC2JSzYsgSn5UwpZ8RExKozt6I1SHtfX2ePAjC_wp9n-nJ7KkLmqVxLTyiqTxEgc8qd4jn3yj7Mx80erZWQU5HRb1nXKDZibefn6UzNhYmI5jWXHOGh6vIyivycKxDKSnUBl_rmpGbAjjwiCHKcPRN3MWbxGPIAPFp3NqGfCQ=w1920-h937-ft</value>
     </labels>
     <labels>
         <fullName>CommunityPrivatePolicyLink</fullName>
@@ -4262,14 +4262,14 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>FD PE Field Informed Consent Signed Date</shortDescription>
-        <value>Informed Consent Signed</value>
+        <value>Consent Signed</value>
     </labels>
     <labels>
         <fullName>FD_PE_Field_Informed_Consent_Signed_Date</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>FD PE Field Informed Consent Signed Date</shortDescription>
-        <value>Informed Consent Signed Date</value>
+        <value>Signed Date</value>
     </labels>
     <labels>
         <fullName>FD_PE_Field_Initial_Visit_Attended</fullName>
@@ -10162,14 +10162,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Remove Delegate</shortDescription>
-        <value>Remove Delegate</value>
+        <value>Deactivate Delegate</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_Remove_Himself</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Remove Himself</shortDescription>
-        <value>You are about to remove yourself from the Delegate list. If you choose to continue your account will be deactivated. You cannot undo this action.  Do you want to proceed?</value>
+        <value>You are about to remove yourself from the Delegate list. You cannot undo this action.  Do you want to proceed?</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_Remove_Himself_Header</fullName>
@@ -10407,7 +10407,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L Delegate continue be delegate</shortDescription>
-        <value>Please update contact information, even if &quot;Do not continue&quot; is selected</value>
+        <value>Please ensure that the delegate&#39;s information, especially email address, is correct before connecting to patient.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Have_you_had_a_discussion_with_your_patient_about_participating_in_a_cl</fullName>
@@ -10478,7 +10478,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L Participant require agree</shortDescription>
-        <value>I agree that I have confirmed information with emancipated participant.</value>
+        <value>I have confirmed this information with the emancipated participant.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Participant_require_guardian</fullName>
