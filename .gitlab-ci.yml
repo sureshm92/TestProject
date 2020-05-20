@@ -97,7 +97,7 @@ DeployINF4.0:
     - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF -d
     - sfdx --version
     - cat .forceignore_deploy_exclude >> .forceignore
-    - fdx force:source:deploy -p force-app -u INF  -w 60
+    - sfdx force:source:deploy -p force-app -u INF  -w 60
     - echo "Deploy INF success"
 
 RunTestINF4.0:
@@ -132,7 +132,7 @@ DeployINT5.0:
     - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT5_0 -d
     - sfdx --version
     - cat .forceignore_deploy_exclude >> .forceignore
-    - fdx force:source:deploy -p force-app -u INT5_0  -w 60
+    - sfdx force:source:deploy -p force-app -u INT5_0  -w 60
     - echo "Deploy INT success"
 
 RunTestINT5.0:
