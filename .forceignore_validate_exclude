@@ -1,0 +1,4 @@
+# Add excluded metadata for validation only
+
+# Contact record types
+force-app/main/default/objects/Contact/recordTypes/*
