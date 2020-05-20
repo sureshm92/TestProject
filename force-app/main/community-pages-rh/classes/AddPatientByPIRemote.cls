@@ -120,7 +120,7 @@ public without sharing class AddPatientByPIRemote {
     }
 
     @AuraEnabled
-    public static void updatePatientInfo(String participantJSON, String peJSON){
+    public static Participant_Enrollment__c updatePatientInfo(String participantJSON, String peJSON){
         try{
             Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
             if(participant.Contact__r.Email == null && participant.Email__c != null){
@@ -129,8 +129,10 @@ public without sharing class AddPatientByPIRemote {
             Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
             update pe;
             update participant;
+            return pe;
         }catch (Exception e){
             AuraHelper.throwException(e);
+            return null;
         }
     }
     @AuraEnabled
