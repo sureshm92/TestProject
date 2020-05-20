@@ -1,0 +1,37 @@
+{
+  "appPageId" : "3c52dbfd-6fc5-447c-9869-3b0d58d04ec1",
+  "componentName" : "c:EmptyLayout",
+  "id" : "55024112-998a-4d78-b511-cc4ea1e574e6",
+  "label" : "Edit Delegate",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:EditDelegate",
+      "id" : "7c52efea-28f6-4600-88fc-768f3a41dd6d",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "787d01a2-b349-49ff-96d4-836c5cd6732b",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Edit Delegate"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "5b1cae9c-4199-44e3-85ff-a88e53c38695",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "dcd3e1ac-50b6-4614-9dfd-d752662c0241",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-edit-delegate"
+}
