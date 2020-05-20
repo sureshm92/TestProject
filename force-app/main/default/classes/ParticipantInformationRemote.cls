@@ -87,8 +87,12 @@ public without sharing class ParticipantInformationRemote {
     }
     
     @AuraEnabled
-    public static void updatePatientInfoWithDelegate(String participantJSON, String peJSON, String delegateJSON, String userInfoJSON) {
-        AddPatientByPIRemote.updatePatientInfo(participantJSON, peJSON);
+    public static Participant_Enrollment__c updatePatientInfoWithDelegate(String participantJSON, String peJSON, String delegateJSON, String userInfoJSON) {
+        Participant_Enrollment__c pe = AddPatientByPIRemote.updatePatientInfo(participantJSON, peJSON);
+        Participant__c part = [SELECT Id, Adult__c, Emancipation_in_progress__c FROM Participant__c WHERE Id =: pe.Participant__c];
+        pe.Participant__r.Adult__c = part.Adult__c;
+        pe.Participant__r.Emancipation_in_progress__c = part.Emancipation_in_progress__c;
+
         if (!String.isBlank(delegateJSON)) {
             Participant__c delegateParticipant = (Participant__c) JSON.deserialize(delegateJSON, Participant__c.class);
             if (delegateParticipant != null && !String.isBlank(delegateParticipant.Id)) {
@@ -100,6 +104,7 @@ public without sharing class ParticipantInformationRemote {
             }
         }
         updateUserLanguage(userInfoJSON);
+        return pe;
     }
     
     @AuraEnabled
