@@ -48,16 +48,28 @@
     columnCheckboxStateChange: function (component, event, helper) {
         let ipId = event.target.dataset.ip;
         let state = event.target.dataset.state === 'Enabled';
-        component.find('spinner').show();
-        communityService.executeAction(component, 'setIncentivePlanForAll', {
-            visitPlanId: ipId,
-            state: state,
-            filterJSON: JSON.stringify(component.get('v.filter')),
-            paginationJSON: JSON.stringify(component.get('v.pagination')),
-            ssItemsJSON: JSON.stringify(component.get('v.ssItems'))
-        }, function (searchResponse) {
-            helper.setSearchResponse(component, searchResponse);
-        });
+        if (!component.get('v.selectedIP') || !state && component.get('v.selectedIP') === ipId) {
+            component.find('spinner').show();
+            communityService.executeAction(component, 'setIncentivePlanForAll', {
+                incentivePlanId: ipId,
+                state: state,
+                filterJSON: JSON.stringify(component.get('v.filter')),
+                paginationJSON: JSON.stringify(component.get('v.pagination')),
+                ssItemsJSON: JSON.stringify(component.get('v.ssItems'))
+            }, function (searchResponse) {
+                helper.setSearchResponse(component, searchResponse);
+                if (state) {
+                    component.set('v.selectedIP', ipId);
+                } else {
+                    component.set('v.selectedIP', '');
+                }
+                communityService.showWarningToast('Warning!', ($A.get('$Label.c.PG_Ref_L_One_Incentive_Many_Incentives')).replace('{0}', ('' + component.get('v.ssItems').length)), 6000);
+                console.log('SELECTED IP: ' + component.get('v.selectedIP'));
+            });
+        } else if (state && component.get('v.selectedIP') !== ipId) {
+            console.log('SELECTED IP2: ' + component.get('v.selectedIP'));
+            communityService.showWarningToast('Warning!', $A.get('$Label.c.PG_Ref_L_One_Incentive_Plan'), 5000);
+        }
     },
 
     doColumnIPEdit: function (component, event, helper) {
