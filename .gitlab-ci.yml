@@ -23,7 +23,6 @@ stages:
 
 cache:
   paths:
-    - node_modules
     - ~/.sfdx
     - .sfdx
 
@@ -168,7 +167,7 @@ DeployINF5.0:
     - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF5_0 -d
     - sfdx --version
     - cat .forceignore_deploy_exclude >> .forceignore
-    - fdx force:source:deploy -p force-app -u INF5_0  -w 60
+    - sfdx force:source:deploy -p force-app -u INF5_0  -w 60
     - echo "Deploy INF success"
 
 RunTestINF5.0:
