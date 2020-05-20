@@ -47,6 +47,7 @@ VALIDATE:
     - sfdx force:source:deploy -p force-app -u ValidationOrg -c -w 60
     - echo "Validate success"
 
+
 # 4.0 INT: ---------------------------------------------------------------------
 DeployINT4.0:
   tags:
@@ -64,7 +65,7 @@ DeployINT4.0:
     - sfdx --version
     - cat .forceignore_deploy_exclude >> .forceignore
     - sfdx force:source:deploy -p force-app -u INT  -w 60
-    - echo "Deploy INT success"
+    - echo "Deploy INT4.0 success"
 
 RunTestINT4.0:
   tags:
@@ -98,7 +99,7 @@ DeployINF4.0:
     - sfdx --version
     - cat .forceignore_deploy_exclude >> .forceignore
     - sfdx force:source:deploy -p force-app -u INF  -w 60
-    - echo "Deploy INF success"
+    - echo "Deploy INF4.0 success"
 
 RunTestINF4.0:
   tags:
@@ -133,7 +134,7 @@ DeployINT5.0:
     - sfdx --version
     - cat .forceignore_deploy_exclude >> .forceignore
     - sfdx force:source:deploy -p force-app -u INT5_0  -w 60
-    - echo "Deploy INT success"
+    - echo "Deploy INT5.0 success"
 
 RunTestINT5.0:
   tags:
@@ -168,7 +169,7 @@ DeployINF5.0:
     - sfdx --version
     - cat .forceignore_deploy_exclude >> .forceignore
     - sfdx force:source:deploy -p force-app -u INF5_0  -w 60
-    - echo "Deploy INF success"
+    - echo "Deploy INF5.0 success"
 
 RunTestINF5.0:
   tags:
