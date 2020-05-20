@@ -23,7 +23,13 @@ public inherited sharing class VisitResultsService {
         }
 
         List<String> ctpAvailableNames = new List<String>();
-        List<Visit_Result_Type_Sharing__c> ctpAvailable = [SELECT Id,Type__c FROM Visit_Result_Type_Sharing__c];
+        Id currentCTP = ParticipantContext.getCurrentPE().Clinical_Trial_Profile__c;
+        List<Visit_Result_Type_Sharing__c> ctpAvailable = [
+            SELECT Id,
+                    Type__c
+            FROM Visit_Result_Type_Sharing__c
+            WHERE Clinical_Trial_Profile__c = :currentCTP
+        ];
         for (Visit_Result_Type_Sharing__c visitResultTypeSharing : ctpAvailable) {
             ctpAvailableNames.add(visitResultTypeSharing.Type__c);
         }

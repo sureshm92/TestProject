@@ -163,10 +163,12 @@ public without sharing class IncentiveProgramService {
         if (getStudySiteEnabledTasksMap().containsKey(ssId)) {
             for (Incentive_Plan_Task__c task : getStudySiteEnabledTasksMap().get(ssId)){
                 Integer points = Math.round(task.Points__c);
-                if(!result.containsKey(points)){
-                    result.put(points, new Set<Incentive_Task_Catalog__mdt>());
+                if(getTaskCatalogMap().containsKey(task.Incentive_Task_Catalog__c)){
+                    if(!result.containsKey(points)){
+                        result.put(points, new Set<Incentive_Task_Catalog__mdt>());
+                    }
+                    result.get(points).add(getTaskCatalogMap().get(task.Incentive_Task_Catalog__c));
                 }
-                result.get(points).add(getTaskCatalogMap().get(task.Incentive_Task_Catalog__c));
             }
         }
 

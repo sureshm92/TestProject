@@ -44,6 +44,7 @@
     doSaveAndNew: function (component, event, helper) {
         helper.createParticipant(component, function () {
             helper.initData(component);
+            helper.setDelegate(component);
         })
     },
 

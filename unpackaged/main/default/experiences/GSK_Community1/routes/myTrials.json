@@ -1,0 +1,10 @@
+{
+  "activeViewId" : "19cb52c4-e8f3-4579-8814-7f6ac8ceda73",
+  "appPageId" : "3c52dbfd-6fc5-447c-9869-3b0d58d04ec1",
+  "id" : "01c24626-b60b-4a29-89f2-618cc91a9ad2",
+  "label" : "My Trials",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-my-trials",
+  "type" : "route",
+  "urlPrefix" : "my-trials"
+}

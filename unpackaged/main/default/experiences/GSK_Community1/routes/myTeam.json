@@ -1,0 +1,10 @@
+{
+  "activeViewId" : "509841d4-f198-4d8f-a6d7-531d7a9f1968",
+  "appPageId" : "3c52dbfd-6fc5-447c-9869-3b0d58d04ec1",
+  "id" : "6f7d689e-e258-4914-8485-551c84d24424",
+  "label" : "My Team",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-my-team",
+  "type" : "route",
+  "urlPrefix" : "my-team"
+}

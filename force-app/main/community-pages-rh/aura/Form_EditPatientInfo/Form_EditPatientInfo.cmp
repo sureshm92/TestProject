@@ -261,6 +261,9 @@
                                     useSentenceFont="false" onchange="{!c.doCheckFields}" setValueAsSelected="true"/>
                     </div>
                 </aura:if>
+                <aura:if isTrue="{!!v.visitPlanAvailable}">
+                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3"></div>
+                </aura:if>
 
                 <aura:if isTrue="{!v.fromAddParticipantPage}">
                     <div class="slds-form-element" style="margin-top: 30px; margin-left: 10px;">
