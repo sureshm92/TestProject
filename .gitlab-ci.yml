@@ -50,10 +50,11 @@ VALIDATE:
   script:
     - sfdx update
     - echo "$INTTreeTwo" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INTTreeTwo -d
+    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a ValidationOrg -d
     - sfdx --version
-    - sfdx force:source:deploy -p force-app -u INTTreeTwo -c -w 60
-    - echo "validate INT success"
+    - cat .forceignore_deploy_exclude >> .forceignore
+    - sfdx force:source:deploy -p force-app -u ValidationOrg -c -w 60
+    - echo "Validate success"
 
 # 4.0 INT: ---------------------------------------------------------------------
 DeployINT4.0:
@@ -74,6 +75,7 @@ DeployINT4.0:
     - node convert.js
     - cd ..
     - rm -rf output
+    - cat .forceignore_deploy_exclude >> .forceignore
     - sfdx force:source:convert -d output
     - sfdx force:mdapi:deploy -d output -u INT  -w 60
     - echo "deploy INT success"
@@ -112,6 +114,7 @@ DeployINT5.0:
     - node convert.js
     - cd ..
     - rm -rf output
+    - cat .forceignore_deploy_exclude >> .forceignore
     - sfdx force:source:convert -d output
     - sfdx force:mdapi:deploy -d output -u INT5_0  -w 60
     - echo "deploy INT success"
@@ -150,6 +153,7 @@ DeployINF4.0:
     - node convert.js
     - cd ..
     - rm -rf output
+    - cat .forceignore_deploy_exclude >> .forceignore
     - sfdx force:source:convert -d output
     - sfdx force:mdapi:deploy -d output -u INF  -w 60
     - echo "deploy INF success"
