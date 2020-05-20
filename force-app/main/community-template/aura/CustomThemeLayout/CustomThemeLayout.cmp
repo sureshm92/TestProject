@@ -21,6 +21,7 @@
 
     <aura:attribute name="allModes" type="Object[]"/>
     <aura:attribute name="currentMode" type="Object"/>
+    <aura:attribute name="currentPage" type="String"/>
     <aura:attribute name="showModeSwitcher" type="Boolean" default="false"/>
     <aura:attribute name="logoURL" type="String"/>
     <aura:attribute name="communityName" type="String"/>
@@ -46,7 +47,7 @@
                         </div>
 
                         <div class="navigation-block">
-                            <c:CommunityNavigation aura:id="navigation" mode="{!v.currentMode.userMode}"/>
+                            <c:CommunityNavigation aura:id="navigation" mode="{!v.currentMode.userMode}" currentPage="{!v.currentPage}"/>
                         </div>
                         <div class="right-block" data-gtm="community_mode_switcher">
                             <aura:if isTrue="{!v.showModeSwitcher}">
@@ -55,7 +56,7 @@
                             </aura:if>
                             <c:ProfileMenu aura:id="profileMenu" userMode="{!v.currentMode.userMode}"/>
                             <aura:if isTrue="{!v.currentMode.userMode == 'PI'}">
-                                <c:navIncentiveCounter onnavigatetoincentives="{!c.doNavigate}"/>
+                                <c:navIncentiveCounter onnavigatetoincentives="{!c.doNavigate}" currentPage="{!v.currentPage}"/>
                             </aura:if>
                         </div>
                     </div>
