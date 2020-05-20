@@ -52,7 +52,7 @@ VALIDATE:
     - echo "$INTTreeTwo" > sfdx-auth-url
     - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INTTreeTwo -d
     - sfdx --version
-    - sfdx force:source:deploy -u INTTreeTwo -c -w 60
+    - sfdx force:source:deploy -p force-app -u INTTreeTwo -c -w 60
     - echo "validate INT success"
 
 # 4.0 INT: ---------------------------------------------------------------------
