@@ -39,7 +39,7 @@
         communityService.navigateToPage(pageName);
     },
     onClickResource: function (component, event, helper){
-        var pageName = 'resources-pi';
+        var pageName = 'resources';
         helper.updateDocumentTitle(component, pageName);
         communityService.navigateToPage('library');
     },

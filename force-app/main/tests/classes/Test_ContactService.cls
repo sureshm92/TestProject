@@ -58,9 +58,9 @@ private without sharing class Test_ContactService {
 
         //case NextNotifyDate
         Datetime dt = Datetime.newInstance(2020, 1, 1);
-        ContactService.updateNextNotifyDate(conId, dt);
+        ContactService.updateNextNotifyDate(conId, dt, false);
         Contact delCon = [SELECT Id, LastName FROM Contact WHERE LastName = 'Delegate'];
-        ContactService.updateNextNotifyDate(delCon.Id, dt);
+        ContactService.updateNextNotifyDate(delCon.Id, dt, true);
 
         Test.stopTest();
     }

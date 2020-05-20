@@ -25,25 +25,26 @@ window.communityService = (function () {
     let allUserModes;
     let showPastStudies;
     let subDomain;
-    let messagesVisible;
+    var messagesVisible;
     let currentCSSTheme = 'Community_CSS_Stub';
     let isDummy;
+    let trialMatchFeature;
+    let participantCurrentStatus;
 
     //community service functions:
-    let service = {
+    var service = {
+
         initialize: function (component) {
             if(service.isInitialized()) return;
             service.executeAction(component, 'getCommunityData', null, function (returnValue) {
                 console.log('Mode data: ' + returnValue);
-                let communityData = JSON.parse(returnValue);
+                var communityData = JSON.parse(returnValue);
                 preventedCookies = communityData.preventedCookies;
-                if(!isDummy) {
-                    service.deleteCookies(preventedCookies);
-                    console.log('preventedCookies: ' + JSON.stringify(preventedCookies));
-                }
+                service.deleteCookies(preventedCookies);
+                console.log('preventedCookies: ' + JSON.stringify(preventedCookies));
                 subDomain = communityData.subDomain;
                 isDummy = communityData.isDummy;
-                communityMode = isDummy ? 'PI' : communityData.communityMode;
+                communityMode = communityData.communityMode;
                 communityDelegateId = communityData.communityDelegateId;
                 isDelegate = communityData.isDelegate;
                 communityURLPathPrefix = communityData.pathPrefix;
@@ -55,6 +56,10 @@ window.communityService = (function () {
                 isInitializedFlag = true;
                 allUserModes = communityData.allUserModes;
                 showPastStudies = communityData.showPastStudies;
+                trialMatchFeature = communityData.trialMatchFeature;
+                console.log('ss');
+                participantCurrentStatus =communityData.participantCurrentStatus;
+                console.log(participantCurrentStatus);
                 service.setCurrentCommunityMode(communityData.currentUserMode);
                 service.setCookie('RRLanguage', communityData.language, 365);
                 console.log('CommunityService initialized:');
@@ -71,7 +76,7 @@ window.communityService = (function () {
 
         executeAction: function (component, actionName, params, successCallback, errorCallback, finalCallback) {
             service.logError(function () {
-                let action = component.get('c.' + actionName);
+                var action = component.get('c.' + actionName);
                 if (params) action.setParams(params);
                 action.setCallback(this, function (response) {
                     try {
@@ -79,24 +84,22 @@ window.communityService = (function () {
                             if (successCallback) successCallback(response.getReturnValue());
                         } else {
                             if (errorCallback) errorCallback(response);
-                            let errMessage = service.getErrorMessage(response);
+                            var errMessage = service.getErrorMessage(response);
                             if (debugMode) errMessage = 'Action: ' + actionName + ', Error: ' + errMessage;
                             throw new Error(errMessage);
                         }
                     } catch (e) {
-                        if(!isDummy) {
-                            console.error(e);
-                            let message = e.message;
-                            if (!debugMode) message = e.message.split('\n')[0];
-                            console.log('ERROR', message);
-                            if(message.includes('INVALID_EMAIL_ADDRESS')) {
-                                service.showErrorToast('ERROR', 'Invalid Email')
-                            } else  {
-                                if(message.includes('[LanguageLocaleKey]')) {
-                                    service.showWarningToast('Error', 'This language is not set up on Referral Hub');
-                                } else {
-                                    service.showErrorToast('ERROR', message);
-                                }
+                        console.error(e);
+                        var message = e.message;
+                        if (!debugMode) message = e.message.split('\n')[0];
+                        console.log('ERROR', message);
+                        if(message.includes('INVALID_EMAIL_ADDRESS')) {
+                            service.showErrorToast('ERROR', 'Invalid Email')
+                        } else  {
+                            if(message.includes('[LanguageLocaleKey]')) {
+                                service.showWarningToast('Error', 'This language is not set up on Referral Hub');
+                            } else {
+                                service.showErrorToast('ERROR', message);
                             }
                         }
                         //throw e;
@@ -150,7 +153,9 @@ window.communityService = (function () {
         setCurrentCommunityMode: function(mode){
             currentUserMode = mode;
             service.setThemeCSS();
-            if(!isDummy && mode.template.needRedirect) document.location.href = mode.template.redirectURL;
+            if(mode.template.needRedirect && !isDummy){
+                document.location.href = mode.template.redirectURL;
+            }
         },
 
         getMessagesVisible : function () {
@@ -162,7 +167,6 @@ window.communityService = (function () {
         },
 
         setThemeCSS: function(){
-            if(isDummy) return;
             let cssLink = document.querySelector('link[href*="' + currentCSSTheme + '"]');
             try{
                 currentCSSTheme = service.getTemplateProperty('ThemeCSS');
@@ -198,16 +202,27 @@ window.communityService = (function () {
         isDelegate: function(){
             return isDelegate;
         },
-        isDummy: function() {
-            return isDummy;
-        },
         getCommunityURLPathPrefix: function () {
             return communityURLPathPrefix
+        },
+        getTrialMatchFeatureEnablement: function () {
+        
+            return trialMatchFeature;
+        },
+        setTrialMatchFeatureEnablement : function(trialMatchFeaturevisible) {
+            trialMatchFeature = trialMatchFeaturevisible;
+        },
+       getCurrentParticipantStatus: function()
+        {
+            return participantCurrentStatus;
+        },
+        setCurrentParticipantStatus : function(currentParticipantStatus) {
+            participantCurrentStatus = currentParticipantStatus;
         },
 
         isInitialized: function () {
             if (isInitializedFlag) {
-                if (isDummy || communityMode !== null) {
+                if (communityMode !== null) {
                     return true;
                 } else {
                     service.navigateToPage('no-data-to-display');
@@ -218,12 +233,12 @@ window.communityService = (function () {
 
         getFullPageName: function () {
             if (document.location.href.slice(-1) === '/') return '';
-            let urlParts = document.location.href.split('/');
+            var urlParts = document.location.href.split('/');
             if (urlParts.length > 0) return urlParts[urlParts.length - 1];
         },
 
         getUrlParameter: function (sParam) {
-            let sPageURL = document.location.search.substring(1),
+            var sPageURL = document.location.search.substring(1),
                 sURLVariables = sPageURL.split('&'),
                 sParameterName,
                 i;
@@ -236,13 +251,13 @@ window.communityService = (function () {
         },
 
         replaceUrlParameter: function (sParam, value) {
-            let urlWithoutParams = document.location.href.split('?')[0];
-            let sPageURL = document.location.search.substring(1),
+            var urlWithoutParams = document.location.href.split('?')[0];
+            var sPageURL = document.location.search.substring(1),
                 sURLVariables = sPageURL.split('&'),
                 sParameterName,
                 i;
-            let resURL = urlWithoutParams + '?';
-            let params = [];
+            var resURL = urlWithoutParams + '?';
+            var params = [];
             for (i = 0; i < sURLVariables.length; i++) {
                 sParameterName = sURLVariables[i].split('=');
                 if (sParameterName[0] === sParam) {
@@ -255,14 +270,14 @@ window.communityService = (function () {
         },
 
         getPageName: function () {
-            let fullPageName = service.getFullPageName();
-            let nameParts = fullPageName.split('?');
+            var fullPageName = service.getFullPageName();
+            var nameParts = fullPageName.split('?');
             return nameParts[0];
         },
 
         navigateToPage: function (pageName) {
             if(isDummy) return;
-            let urlEvent = $A.get("e.force:navigateToURL");
+            var urlEvent = $A.get("e.force:navigateToURL");
             urlEvent.setParams({
                 url: '/' + pageName
             });
@@ -288,8 +303,8 @@ window.communityService = (function () {
         },
 
         getErrorMessage: function (response) {
-            let errorMsg = 'Unknown error';
-            let errors = response.getError();
+            var errorMsg = 'Unknown error';
+            var errors = response.getError();
             if (errors && errors[0] && errors[0].message) errorMsg = errors[0].message;
             return errorMsg;
         },
@@ -301,7 +316,7 @@ window.communityService = (function () {
         },
 
         showToast: function (title, type, message, duration) {
-            let toastEvent = $A.get("e.force:showToast");
+            var toastEvent = $A.get("e.force:showToast");
             toastEvent.setParams({
                 title: title,
                 message: message,
@@ -333,7 +348,7 @@ window.communityService = (function () {
         },
 
         showTour: function (tourName) {
-            let event = $A.get('e.c:OnboargingSlideTourShow');
+            var event = $A.get('e.c:OnboargingSlideTourShow');
             event.fire();
             alreadyShowedMap[communityMode] = true;
         },
@@ -369,10 +384,10 @@ window.communityService = (function () {
         setStickyBarPosition: function () {
             setTimeout(
                 function () {
-                    let mainBarHeight = 50;
+                    var mainBarHeight = 50;
                     if (allUserModes.length > 1 && window.innerWidth <= 550) mainBarHeight = 80;
                     document.getElementById('stickyBar').classList.remove('sticky');
-                    let stickyBar = document.getElementById('stickyPositionTarget');
+                    var stickyBar = document.getElementById('stickyPositionTarget');
                     stickyBarTop = stickyBar.offsetTop - mainBarHeight;
                 }, 100
             )
@@ -382,16 +397,16 @@ window.communityService = (function () {
             console.log('in getCookie function');
             console.log('cname: ' + cname);
 
-            if (!preventedCookies || preventedCookies.indexOf(cname) !== -1) {
+            if (preventedCookies.indexOf(cname) !== -1) {
                 console.log(cname + ' cookie ignored get');
                 return "";
             }
 
-            let name = cname + "=";
-            let decodedCookie = decodeURIComponent(document.cookie);
-            let ca = decodedCookie.split(';');
-            for (let i = 0; i < ca.length; i++) {
-                let c = ca[i];
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
                 while (c.charAt(0) === ' ') {
                     c = c.substring(1);
                 }
@@ -407,19 +422,19 @@ window.communityService = (function () {
             console.log('cname: ' + cname);
             console.log('cvalue: ' + cvalue);
 
-            if (preventedCookies && preventedCookies.indexOf(cname) !== -1) {
+            if (preventedCookies.indexOf(cname) !== -1) {
                 console.log(cname + ' cookie ignored set');
                 return;
             }
 
-            let d = new Date();
+            var d = new Date();
             d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-            let expires = "expires=" + d.toUTCString();
+            var expires = "expires=" + d.toUTCString();
             document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
         },
 
         isValidEmail: function (email) {
-            let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(String(email).toLowerCase());
         },
 
@@ -431,7 +446,7 @@ window.communityService = (function () {
         },
 
         scrollToTop: function (noSmooth) {
-            let params = {
+            var params = {
                 top: 0
             };
             if (!noSmooth) params.behavior = 'smooth';
@@ -446,7 +461,7 @@ window.communityService = (function () {
         },
 
         stickyBarOnScrollHandler: function () {
-            let stickyBar = document.getElementById('stickyBar');
+            var stickyBar = document.getElementById('stickyBar');
             if (stickyBarTop) {
                 if (window.pageYOffset >= stickyBarTop) {
                     stickyBar.classList.add('sticky');

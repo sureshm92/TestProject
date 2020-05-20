@@ -14868,4 +14868,74 @@ Please log in to ##CommunityName to view this information.</value>
         <shortDescription>configuation table</shortDescription>
         <value>Name</value>
     </labels>
+	<labels>
+        <fullName>Download_Trial_Match</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Download Trial Match</shortDescription>
+        <value>Download Trial Matches</value>
+    </labels>
+    <labels>
+        <fullName>Matched_of</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Matched of</shortDescription>
+        <value>Matched as of</value>
+    </labels>
+    <labels>
+        <fullName>PE_STATUS_ENROLLMENT_SUCCESS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PE_STATUS_ENROLLMENT_SUCCESS</shortDescription>
+        <value>Enrollment Success</value>
+    </labels>
+    <labels>
+        <fullName>PE_STATUS_FOLLOW_UP_PERIOD_STARTED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PE_STATUS_FOLLOW_UP_PERIOD_STARTED</shortDescription>
+        <value>Follow-Up Period Started</value>
+    </labels>
+    <labels>
+        <fullName>PE_STATUS_RANDOMIZATION_SUCCESS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PE_STATUS_RANDOMIZATION_SUCCESS</shortDescription>
+        <value>Randomization Success</value>
+    </labels>
+    <labels>
+        <fullName>PE_STATUS_TREATMENT_PERIOD_STARTED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PE_STATUS_TREATMENT_PERIOD_STARTED</shortDescription>
+        <value>Treatment Period Started</value>
+    </labels>
+    <labels>
+        <fullName>Trial_Match</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Trial Match</shortDescription>
+        <value>Trial Match</value>
+    </labels>
+    <labels>
+        <fullName>Trial_Match_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Trial Match Error</shortDescription>
+        <value>We are unable to find any trial matches at this time.</value>
+    </labels>
+    <labels>
+        <fullName>Trial_Match_Error2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Trial Match Error2</shortDescription>
+        <value>Please check back shortly</value>
+    </labels>
+    <labels>
+        <fullName>search_results</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>search results</shortDescription>
+        <value>Search Results</value>
+    </labels>
 </CustomLabels>
