@@ -35,7 +35,7 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
 
     public void execute(Database.BatchableContext param1, List<Patient_Visit__c> patientVisits) {
         Set<Id> setOfCTPIds = new Set<Id>();
-        Map<Id, List<Visit_Result_Type_Sharing__c>> mapOfCTPByShare = new Map<Id, List<Visit_Result_Type_Sharing__c>>();
+        Map<Id, Clinical_Trial_Profile__c> ctpById = new Map<Id, Clinical_Trial_Profile__c>();
         for (Patient_Visit__c patVisit : patientVisits) {
             setOfCTPIds.add(patVisit.Participant_Enrollment__r.Clinical_Trial_Profile__c);
         }
@@ -49,14 +49,14 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
                         FROM Visit_Result_Type_Sharings__r
                 )
                 FROM Clinical_Trial_Profile__c
-                WHERE Id IN:setOfCTPIds
+                WHERE Id IN :setOfCTPIds
         ];
 
         for (Clinical_Trial_Profile__c clinicalTrial : listOfCTP) {
-            mapOfCTPByShare.put(clinicalTrial.Id, clinicalTrial.Visit_Result_Type_Sharings__r);
+            ctpById.put(clinicalTrial.Id, clinicalTrial);
         }
         List<Visit_Result__c> listOfResult =
-                VisitResultSharingService.getAvailableVisitResults(patientVisits, true, mapOfCTPByShare);
+                VisitResultSharingService.getAvailableVisitResults(patientVisits, true, ctpById);
         List<Notification__c> notifications = new List<Notification__c>();
 
         Set<Patient_Visit__c> updatedPatientVisits = new Set<Patient_Visit__c>();
