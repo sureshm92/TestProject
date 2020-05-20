@@ -1,0 +1,37 @@
+{
+  "appPageId" : "3c52dbfd-6fc5-447c-9869-3b0d58d04ec1",
+  "componentName" : "c:OneColumnLayout",
+  "id" : "6d0bc3e7-5818-40fc-8ca3-4c528aba9fb8",
+  "label" : "Account Settings",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:Page_AccountSettings",
+      "id" : "dc1370b5-80bd-43db-8c60-99c5c5ba8bee",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "02f5d367-3b5d-42e9-ae5d-40aca6195d8c",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Account Settings"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "9390f056-ba97-4ab5-a058-5ac40f0977c5",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "916c1083-9a47-48fa-87e4-ac48522667de",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-account-settings"
+}
