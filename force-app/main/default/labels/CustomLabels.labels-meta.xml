@@ -165,13 +165,6 @@
         <value>Welcome to the ##CommunityWelcome!</value>
     </labels>
     <labels>
-        <fullName>ARM</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>ARM</shortDescription>
-        <value>ARM</value>
-    </labels>
-    <labels>
         <fullName>AST</fullName>
         <language>en_US</language>
         <protected>false</protected>
