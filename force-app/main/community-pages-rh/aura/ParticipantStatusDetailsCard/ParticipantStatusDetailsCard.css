@@ -1,15 +1,16 @@
 /**
  * Created by Andrii Kryvolap.
  */
-.THIS .label{
+.THIS .label,
+.THIS .slds-form-element__label{
     color: #444444;
     font-family: "Proxima Nova";
     font-size: 14px;
     margin-bottom: -10px;
 }
 
-.THIS.rrs-container{
-    display: inline-block;
+.THIS .rrs-container{
+    width: 100%;
 }
 
 .THIS.rrs-container .rrs-label {
@@ -62,11 +63,10 @@
 
 .THIS .slds-select_container:after {
     content: '';
-    background: url(/resource/1571137334000/SelectMenuTriangleDown);
     position: absolute;
     top: 10px;
     right: 10px;
-    background-repeat: no-repeat;
+    background: url(/resource/1571137334000/SelectMenuTriangleDown) no-repeat;
     background-size: 16px 16px;
     width: 16px;
     height: 16px;
@@ -74,9 +74,6 @@
 
 .THIS .rrs-relative img {
     display: none;
- /*   position: absolute;
-    right: 7px;
-    top: 10px;    */
 }
 
 .THIS.step-form{
@@ -121,24 +118,21 @@
     margin-bottom: 20px;
 }
 
-@media screen and (max-width: 768px) {
-    .THIS.step-form,
-        .THIS .outcome-form-element{
-            min-width: 100%;
-        }
-}
 
 @media screen and (max-width: 500px) {
-     .THIS {
+    .THIS {
         line-height: 1;
     }
     .THIS .history-item {
         line-height: 1.5rem;
     }
-    
+
     .THIS.step-card-title {
         margin-top: 15px;
     }
 
-
+    .THIS.step-form,
+    .THIS .outcome-form-element{
+        min-width: 100%;
+    }
 }
