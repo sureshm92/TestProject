@@ -10,7 +10,9 @@
                 for (var j = 0; j < assignments.length; j++) {
                     if (assignments[j] && assignments[j].state && !component.get('v.selectedItem')) {
                         component.set('v.selectedItem', assignments[j].value);
-                        component.set('v.parent.selectedIP', assignments[j].value);
+                        if (!component.get('v.parent.selectedIP')) {
+                            component.set('v.parent.selectedIP', assignments[j].value);
+                        }
                         console.log('SELECTED IP from Parent: ' + component.get('v.parent.selectedIP'));
                         break;
                     }
