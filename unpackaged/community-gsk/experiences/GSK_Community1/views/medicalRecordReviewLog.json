@@ -1,0 +1,37 @@
+{
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "componentName" : "c:OneColumnLayout",
+  "id" : "1f270291-f425-42de-8742-f44822c96a5c",
+  "label" : "Medical Record Review Log",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:MedicalRecordReviewLog",
+      "id" : "254239b1-5dee-46de-b82f-8e7ba32a9ae2",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "5669672e-bb8b-451e-98e0-c59cdca8323d",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Medical Record Review Log"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "8e2c8176-e748-40c1-9a40-0b76d7265c2a",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "ebdc9c36-9578-4cd3-9578-2a9ce8684cfc",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-medical-record-review-log"
+}

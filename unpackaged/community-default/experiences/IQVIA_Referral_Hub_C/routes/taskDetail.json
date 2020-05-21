@@ -1,0 +1,10 @@
+{
+  "activeViewId" : "d84bb45a-edb9-4600-a436-eb310a998996",
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "id" : "86c5dbf3-2733-4372-a356-713996e0145b",
+  "label" : "Task Detail",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-create-task",
+  "type" : "route",
+  "urlPrefix" : "task-detail"
+}
