@@ -21,6 +21,11 @@
             }, function (contact) {
                 component.set('v.currentMode', selectedMode);
                 communityService.setCurrentCommunityMode(selectedMode);
+             
+                communityService.executeAction(component, 'getUserContact', {}, function (updatedContact) {
+                    communityService.setTrialMatchFeatureEnablement(updatedContact.Current_Participant_Enrollment__r.Clinical_Trial_Profile__r.Trial_Match_Is_Available__c);
+                    communityService.setCurrentParticipantStatus(updatedContact.Current_Participant_Enrollment__r.Participant_Status__c);
+                });
                 //do nothing if need redirect:
                 if(selectedMode.template.needRedirect) return;
                 if(communityService.getUserMode() === 'Participant'){
