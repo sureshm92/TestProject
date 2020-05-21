@@ -9,14 +9,14 @@
     <aura:attribute name="globalCountries" type="String" default=""/>
     <aura:attribute name="globalType" type="String" default=""/>
 
-    <aura:attribute name="showResult" type="Boolean" default="true"/>
+    <aura:attribute name="showResult" type="Boolean" default="true" access="private"/>
 
     <!-- events: -->
     <aura:registerEvent name="onChange" type="c:uiEvent"/>
 
     <!-- handlers: -->
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    <aura:handler name="change" value="{!v.visitResult}" action="{!c.doVisutResultChanged}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doUpdateValue}"/>
+    <aura:handler name="change" value="{!v.visitResult}" action="{!c.doUpdateValue}"/>
 
     <!-- component body: -->
     <div class="{!'vr-item'}">
@@ -25,7 +25,7 @@
                               label=""
                               value="{!v.showResult}"
                               disabled="{!v.globalType == 'Disabled'}"
-                              change="{!c.doSharingChanged}"/>
+                              change="{!c.doChangedByUser}"/>
             <span class="slds-form-element__label">{!v.visitResult.label}</span>
         </label>
     </div>

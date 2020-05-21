@@ -41,13 +41,17 @@
                 visitResult.countryCodes = globalCountries;
                 visitResult.type = globalType;
             } else if (globalType === 'Disabled') {
-                visitResult.countryCodes = null;
+                visitResult.countryCodes = '';
                 visitResult.type = 'Disabled';
             }
         }
 
         component.set('v.visitResults', visitResults);
         component.set('v.previousGlobalType', globalType);
+    },
+
+    doShowGroupChanged: function (component, event, helper) {
+        component.getEvent('onChange').fire();
     },
 
     doUpdateGroupDisplay: function (component, event, helper) {
@@ -61,7 +65,7 @@
         component.set('v.showGroup', false);
     },
 
-    doUpdateGroupSharing: function (component, event, helper) {
+    doUpdateGroupItems: function (component, event, helper) {
         let showGroup = component.get('v.showGroup');
         let visitResults = component.get('v.visitResults');
         let globalCountries = component.get('v.globalCountries');
@@ -72,7 +76,7 @@
                 visitResult.countryCodes = globalCountries;
                 visitResult.type = globalType;
             } else {
-                visitResult.countryCodes = null;
+                visitResult.countryCodes = '';
                 visitResult.type = 'Disabled';
             }
         }
