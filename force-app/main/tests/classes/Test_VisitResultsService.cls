@@ -204,13 +204,6 @@ private class Test_VisitResultsService {
                 new Visit_Result_TypeM__mdt()
         };
 
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(VisitResultMService.class, StubBuilder.newInstance(VisitResultMService.class)
-                .when('getVisitResultTypes')
-                .then(types)
-                .build()
-        );
-
         TestData testData = new TestData();
         testData.ctp.Shareback_Availability_Timing__c = 1;
         update testData.ctp;
@@ -293,7 +286,16 @@ private class Test_VisitResultsService {
 
         System.runAs(testData.participantUser) {
             VisitResultsService service = new VisitResultsService();
-            VisitResultsService.VisitResultsContainer container = service.getVisitResultsContainer('Vitals',null);
+            VisitResultMService visitResultMService = new VisitResultMService();
+            String resultType = visitResults.get(0).Result_Type__c;
+            String visitResultGroup =
+                    visitResultMService.getVisitResultGroupByTypeName(resultType);
+            List<String> sharings = new List<String>();
+            sharings.add(resultType);
+            Map<String, List<String>> visitResultSharings = new  Map<String, List<String>>();
+            visitResultSharings.put(visitResultGroup, sharings);
+            VisitResultsService.VisitResultsContainer container =
+                    service.getVisitResultsContainer(visitResultGroup,visitResultSharings);
             System.assertEquals(1, container.wrappers.size());
         }
 
