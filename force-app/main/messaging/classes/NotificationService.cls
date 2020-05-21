@@ -18,18 +18,18 @@ public without sharing class NotificationService {
             NotificationCatalog.MESSAGE_TO_PT_SOURCE_HCP_TYPE,
             NotificationCatalog.MESSAGE_TO_PT_SOURCE_PI_TYPE,
             NotificationCatalog.MESSAGE_TO_PT_SOURCE_ERP_TYPE,
-            NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE
+            NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE,
+            NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE,
+            NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_TYPE,
+            NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_GSK_TYPE,
+            NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_TYPE,
+            NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE
     };
 
     static public String NOTIFICATION_STATUS_PENDING = 'Pending';
     static public String NOTIFICATION_STATUS_PROCESSED = 'Processed';
     static public String NOTIFICATION_STATUS_FAILED = 'Failed';
     static public String NOTIFICATION_STATUS_IN_PROGRESS = 'In Progress';
-
-    static public String STATUS_SKIPPED = 'Skipped';
-    static public String STATUS_IN_PROGRESS = 'In Progress';
-    static public String STATUS_FAILED = 'Failed';
-    static public String STATUS_SENT = 'Sent';
 
     static public String NOTIFICATION_TARGET_TYPE_EMAIL = 'Email';
     static public String NOTIFICATION_TARGET_TYPE_SMS = 'SMS';

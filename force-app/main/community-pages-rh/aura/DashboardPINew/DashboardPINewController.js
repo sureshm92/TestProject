@@ -2,20 +2,33 @@
  * Created by Alexey Moseev.
  */
 ({
-    doAllViewWaitingContact: function (component, event, helper) {
+    doinit:function(component, event, helper){
+        var piData = component.get('v.piData');
+        component.set('v.delegatePIPicklistvalues',piData.delegatePIsPicklist);
+        component.set('v.piCTPPicklist', piData.piCTPPicklist);
+        component.set('v.currentPi', piData.selectedPi);
+        component.set('v.currentStudy', piData.selectedCTP);
+        helper.showParticipantsContactedDashboard(component,helper,piData); 
 
     },
-
-    refreshData: function(component, event, helper){
+    
+    refreshDataOnStudyChange:function(component, event, helper){
         var piData = component.get('v.piData');
         piData.selectedPi = component.get('v.currentPi');
-        component.set('v.piData',piData);
-    	component.get('v.parent').refresh();
+        piData.selectedCTP = component.get('v.currentStudy');
+        var spinner = component.find('mainSpinner');
+        spinner.show();
+        helper.callServerMethod(component, 'getInitData', communityService.getUserMode(), communityService.getDelegateId(), piData.selectedPi, piData.selectedCTP, 'PIChange',helper);  
+        var currentData = component.get('v.piData');
+        component.set('v.currentStudy', currentData.selectedCTP);
     },
 
-    doinit:function(component, event, helper){
-    	var piData = component.get('v.piData');
-    	component.set('v.delegatePIPicklistvalues',piData.delegatePIsPicklist);
-    	component.set('v.currentPi', piData.selectedPi);
-    },
+    refreshDataOnPiChange:function(component, event, helper){
+        var piData = component.get('v.piData');
+        piData.selectedPi = component.get('v.currentPi');
+        var spinner = component.find('mainSpinner');
+        spinner.show();
+        helper.callServerMethod(component, 'getInitData', communityService.getUserMode(), communityService.getDelegateId(), piData.selectedPi, null, 'PIChange',helper); 
+    }
+    
 })

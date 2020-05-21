@@ -61,32 +61,26 @@
                                                        placeholder="Select Study Site"/>
                             </div>
                             <!--Save changes button-->
-                            <div class="slds-col slds-size--1-of-2 slds-p-left--small padding-info">
-                                <aura:if isTrue="{!v.haveEmptyAssigment}">
-                                    <lightning:icon iconName="utility:warning" alternativeText="Warning!"
-                                                    variant="warning"
-                                                    size="small"/>
-                                    <p style="font-size: 11px; padding: 5px;">{!$Label.c.PP_VPC_SS_Empty_VP}</p>
-                                </aura:if>
-                            </div>
+                            <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
+                                <div class="slds-col slds-size--1-of-2">
+                                    <div class="save-btn">
+                                        <lightning:button variant="neutral" label="Add Visit Plan"
+                                                          onclick="{!c.doAddVP}"/>
+                                        <lightning:button variant="brand" label="Save" onclick="{!c.doSaveAndUpdate}"/>
+                                    </div>
+                                </div>
+                            </aura:if>
                         </div>
-                        <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
-                            <div class="save-btn">
-                                <lightning:button variant="neutral" label="Add Visit Plan" onclick="{!c.doAddVP}"/>
-                                <div style="padding-left: 1rem"></div>
-                                <lightning:button variant="brand" label="Save" onclick="{!c.doSaveAndUpdate}"/>
-                            </div>
-                        </aura:if>
-
 
                         <!--Study Site Table-->
                         <div class="ss-table">
                             <c:uiFixedTable class="slds-table slds-table_bordered" scrollLeft="{!v.scrollLeft}">
                                 <aura:set attribute="tableHeader">
                                     <tr class="slds-line-height_reset">
-                                        <c:SSTableHeaderCols filter="{!v.filter}" scrollLeft="{!v.scrollLeft}" onSort="{!c.doSort}"/>
+                                        <c:SSTableHeaderCols filter="{!v.filter}" scrollLeft="{!v.scrollLeft}"
+                                                             onSort="{!c.doSort}"/>
                                         <aura:if isTrue="{!v.visitPlans}">
-                                            <aura:iteration items="{!v.visitPlans}" var="vp" >
+                                            <aura:iteration items="{!v.visitPlans}" var="vp">
                                                 <c:uiCol isHeader="true" scrollLeft="{!v.scrollLeft}">
                                                     <c:VisitPlanColumnMenu plan="{!vp}"
                                                                            onEdit="{!if(equals(v.viewModePage, 'Edit'), c.doColumnVisitEdit, c.doColumnVisitView)}"
@@ -109,7 +103,8 @@
                                 </aura:set>
                                 <aura:if isTrue="{!v.ssItems}">
                                     <aura:iteration items="{!v.ssItems}" var="item">
-                                        <c:StudySiteItem item="{!item}" parent="{!this}" viewMode="{!v.viewModePage}" scrollLeft="{!v.scrollLeft}"/>
+                                        <c:StudySiteItem item="{!item}" parent="{!this}" viewMode="{!v.viewModePage}"
+                                                         scrollLeft="{!v.scrollLeft}"/>
                                     </aura:iteration>
                                 </aura:if>
                             </c:uiFixedTable>

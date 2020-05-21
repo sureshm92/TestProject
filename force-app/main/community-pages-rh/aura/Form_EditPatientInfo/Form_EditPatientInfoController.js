@@ -8,6 +8,7 @@
         var formData = component.get('v.formData');
         var states = formData.statesByCountryMap['US'];
         component.set('v.statesLVList', states);
+        component.set('v.visitPlanAvailable', formData.visitPlansLVList.length > 0);
     },
 
      doCheckFields: function (component, event, hepler) {
@@ -28,9 +29,11 @@
         var stateVaild = stateCmp && stateCmp.get('v.validity') && stateCmp.get('v.validity').valid;
         var dataStamp = component.get('v.dataStamp');
         var isValid = false;
-        const screeningIdRequiredStatuses = 'Enrollment Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete';
+        const screeningIdRequiredStatuses = 'Randomization Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete';
+        const visitPlanRequiredStatuses = 'Enrollment Success; Randomization Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete';
         let screeningIdRequired = false;
-        var isEnrollmentSuccess = false;
+        let visitPlanRequired = false;
+        var isRandomizationSuccess = false;
         var today = new Date();
         var inDate = new Date(participant.Date_of_Birth__c);
         var currentDate = today.setHours(0, 0, 0, 0);
@@ -41,12 +44,14 @@
             component.set('v.disableSourceId', false);
         }
         if (pe && pe.Participant_Status__c) {
-            isEnrollmentSuccess = pe.Participant_Status__c === 'Enrollment Success';
+            isRandomizationSuccess = pe.Participant_Status__c === 'Randomization Success';
             screeningIdRequired = isFinalUpdate || screeningIdRequiredStatuses.indexOf(pe.Participant_Status__c) !== -1;
+            visitPlanRequired = isFinalUpdate || visitPlanRequiredStatuses.indexOf(pe.Participant_Status__c) !== -1;
             component.set('v.visitPlanDisabled', pe.Id && screeningIdRequiredStatuses.indexOf(pe.Participant_Status__c) !== -1);
         }
-        let isVisitPlanNotRequired = !component.get('v.visitPlanRequired') || !screeningIdRequired;
+        let isVisitPlanNotRequired = !component.get('v.visitPlanAvailable') || !visitPlanRequired;
         component.set('v.screeningRequired', screeningIdRequired);
+        component.set('v.visitPlanRequired', visitPlanRequired);
         if (updateMode && !isFinalUpdate && dataStamp) {
             var oldPE = JSON.parse(dataStamp);
             var isRemovedValue =
@@ -74,9 +79,9 @@
                     (participantDelegate || participant.Phone__c.trim()) &&
                     (participantDelegate || participant.Phone_Type__c.trim()) &&
                     (participantDelegate || participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
-                    (!participantDelegate || participantDelegate.Phone.trim()) &&
-                    (!participantDelegate || participantDelegate.FirstName.trim()) &&
-                    (!participantDelegate || participantDelegate.LastName.trim()) &&
+                    (!participantDelegate || participantDelegate.Phone__c.trim()) &&
+                    (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
+                    (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
                     participant.Mailing_Zip_Postal_Code__c.trim() !== ''){
                         isValid = true;
                 } else {
@@ -93,9 +98,9 @@
                 (participantDelegate || participant.Phone__c.trim()) &&
                 (participantDelegate || participant.Phone_Type__c.trim()) &&
                 (participantDelegate || participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
-                (!participantDelegate || participantDelegate.Phone.trim()) &&
-                (!participantDelegate || participantDelegate.FirstName.trim()) &&
-                (!participantDelegate || participantDelegate.LastName.trim()) &&
+                (!participantDelegate || participantDelegate.Phone__c.trim()) &&
+                (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
+                (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
                 participant.Email__c &&
                 participant.Mailing_Zip_Postal_Code__c !== '' &&
                 pe &&
@@ -113,9 +118,9 @@
                     (participantDelegate || participant.Phone__c.trim()) &&
                     (participantDelegate || participant.Phone_Type__c.trim()) &&
                     (participantDelegate || participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
-                    (!participantDelegate || participantDelegate.Phone.trim()) &&
-                    (!participantDelegate || participantDelegate.FirstName.trim()) &&
-                    (!participantDelegate || participantDelegate.LastName.trim()) &&
+                    (!participantDelegate || participantDelegate.Phone__c.trim()) &&
+                    (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
+                    (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
                     participant.Mailing_Zip_Postal_Code__c.trim() !== ''){
                         isValid = true;
                 } else {
@@ -136,13 +141,13 @@
                 (participantDelegate || participant.Phone__c.trim()) &&
                 (participantDelegate || participant.Phone_Type__c.trim()) &&
                 (participantDelegate || participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
-                (!participantDelegate || participantDelegate.Phone.trim()) &&
-                (!participantDelegate || participantDelegate.FirstName.trim()) &&
-                (!participantDelegate || participantDelegate.LastName.trim()) &&
+                (!participantDelegate || participantDelegate.Phone__c.trim()) &&
+                (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
+                (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
                 participant.Mailing_Zip_Postal_Code__c &&
                 pe &&
                 pe.Participant_Status__c &&
-                (!isEnrollmentSuccess || (isEnrollmentSuccess && pe.Screening_ID__c)) &&
+                (!isRandomizationSuccess || (isRandomizationSuccess && pe.Screening_ID__c)) &&
                 //(!stateRequired || (stateRequired && (participant.Mailing_State_Code__c !== '' || participant.Mailing_State_Code__c !== undefined || participant.Mailing_State_Code__c !== null))) &&
                 stateVaild &&
                 (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
@@ -200,7 +205,10 @@
 
     hideHelp: function (component) {
         component.set('hideHelp', false);
-    }
+    },
 
+    doCreateUserInv: function (component) {
+        component.set('v.createUsers', !component.get('v.createUsers'));
+    }
 
 })

@@ -4,7 +4,6 @@
 
 ({
     doInit: function (component, event, helper) {
-
         communityService.executeAction(component, 'getInitData', null, function (formData) {
             var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
             component.set('v.formData', formData);
@@ -17,6 +16,7 @@
             component.find('spinner').show();
             component.set('v.initialized', false);
             component.set('v.sendEmails', false);
+            component.set('v.isStatusChanged', false);
             var params = event.getParam('arguments');
             var pe = JSON.parse(JSON.stringify(params.pe));
             var contId = pe.Participant__r.Contact__c;
@@ -64,6 +64,13 @@
         }
     },
 
+    checkParticipant: function (component, event, helper) {
+        let newPhone = component.get('v.pe.Participant__r.Phone__c');
+        let oldPhone = component.get('v.participant.Phone__c');
+        if (!component.get('v.participant.Adult__c') && !newPhone && newPhone != oldPhone) {
+            component.set('v.participant.Phone__c', newPhone);
+        }
+    },    
 
 
     doUpdate: function (component, event, helper) {
@@ -71,6 +78,9 @@
         var pe = component.get('v.pe');
         var userInfo = component.get('v.userInfo');
         pe.Participant__r = participant;
+        if (!pe.sObjectType) {
+            pe.sObjectType = 'Participant_Enrollment__c';
+        }        
         component.find('spinner').show();
         // if(component.get('v.isInvited')){
         //     communityService.executeAction(component, 'updateUserLanguage', {userJSON: JSON.stringify(userInfo)})
@@ -120,7 +130,23 @@
         var pe = component.get('v.pe');
         var pathWrapper = component.get('v.participantPath');
         var statusDetailValid = component.get('v.statusDetailValid');
+        var isStatusChanged = component.get('v.isStatusChanged');
+        console.log('##Save isStatusChanged1: '+ isStatusChanged);
+        console.log('##Save statusDetailValid: '+statusDetailValid);
+        let steps = component.get('v.participantPath.steps');
+        for (let ind = 0; ind < steps.length; ind++) {
+            if (steps[ind].title == $A.get('$Label.c.PWS_Initial_Visit_Name') 
+                && steps[ind].isCurrentStepValid 
+                && steps[ind].isCurrentStep) {
+                isStatusChanged = true;
+                break;
+            }
+        }
+        console.log('##Save isStatusChanged2: '+ isStatusChanged);
         pe.Participant__r = participant;
+        if (!pe.sObjectType) {
+            pe.sObjectType = 'Participant_Enrollment__c';
+        }        
         component.find('spinner').show();
         var actionName = 'updatePatientInfoWithDelegate';
         var actionParams = {
@@ -137,7 +163,8 @@
                 pathWrapperJSON: JSON.stringify(pathWrapper),
                 peId: pe.Id,
                 delegateJSON: JSON.stringify(component.get('v.participantDelegate')),
-                userInfoJSON: JSON.stringify(userInfo)
+                userInfoJSON: JSON.stringify(userInfo),
+                historyToUpdate : isStatusChanged 
             };
         }
         // if(component.get('v.isInvited')){
@@ -152,6 +179,7 @@
             var comp = component.find('dialog');
             comp.hide();
         }, null, function () {
+            component.set('v.isStatusChanged', false);
             component.find('spinner').hide();
         });
     },
@@ -181,21 +209,38 @@
         let pathWrapper = component.get('v.participantPath');
         let pe = component.get('v.pe');
         let statusDetailValid = component.get('v.statusDetailValid');
+        var isStatusChanged = component.get('v.isStatusChanged');
+        console.log('##isStatusChanged1: '+ isStatusChanged);
+        let steps = component.get('v.participantPath.steps');
+        for (let ind = 0; ind < steps.length; ind++) {
+            if (steps[ind].title == $A.get('$Label.c.PWS_Initial_Visit_Name') 
+                && steps[ind].isCurrentStepValid 
+                && steps[ind].isCurrentStep) {
+                isStatusChanged = true;
+                break;
+            }
+        }
+        console.log('##isStatusChanged2: '+ isStatusChanged);
         if(statusDetailValid){
             component.find('spinner').show();
             console.log(JSON.stringify(pathWrapper));
             communityService.executeAction(component, 'updatePatientStatus', {
                 pathWrapperJSON: JSON.stringify(pathWrapper),
-                peId: pe.Id
+                peId: pe.Id,
+                historyToUpdate: isStatusChanged
             }, function (returnValueJSON) {
                 var returnValue = JSON.parse(returnValueJSON);
+                component.set('v.updateInProgress', true);
                 component.set('v.participantPath',returnValue.participantPath);
+
                 component.set('v.pe', returnValue.pe);
                 var callback = component.get('v.callback');
                 if(callback){
                     callback(pe);
                 }
             }, null, function () {
+                component.set('v.updateInProgress', false);                
+                component.set('v.isStatusChanged', false);
                 component.find('spinner').hide();
             });
         }
@@ -212,4 +257,15 @@
         }
         component.set('v.statusDetailValid', isValid);
     },
+
+    checkChildChanges: function(component, event, helper){
+        var isChangedPatientInfo = event.getParam("isChangedPatientInfo");
+        var isChangedStatus = event.getParam("isChangedStatus");
+        var source = event.getParam("source");
+        
+        if(isChangedStatus && source === 'STATUS'){
+            component.set('v.isStatusChanged', true);
+        }
+        
+    }
 });

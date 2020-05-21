@@ -92,19 +92,19 @@ public without sharing class TaskService {
         String commonFilter = '';
         String ownerVisibility = ' AND Visible_For__c INCLUDES (\'' + TASK_VISIBILITY_OWNER + '\') ';
         String delegatesVisibility = ' AND Visible_For__c INCLUDES (\'' + TASK_VISIBILITY_DELEGATES + '\') ';
-        if(!ParticipantContext.isCurrentDelegate() || (isDecoupled && !currentMode.isDelegate)) {
+        if (!ParticipantContext.isCurrentDelegate() || (isDecoupled && !currentMode.isDelegate)) {
             // Owner or decoupled delegate in prospect view
             commonFilter = '(' +
                     'OwnerId = \'' + ParticipantContext.getOwnUserId() + '\'' + ownerVisibility +
                     ')';
-        }else if(isDecoupled){
+        } else if (isDecoupled) {
             // Decoupled delegate in patient view
             if(ParticipantContext.getCurrentUserId() != null) {
                 commonFilter = '(' +
                         'OwnerId = \'' + ParticipantContext.getCurrentUserId() + '\'' + delegatesVisibility +
                         ')';
             }
-        }else{
+        } else {  // TODO Depricated (all delegates decoupled now)
             // Not decoupled delegate
             commonFilter = '(' +
                     '(OwnerId = \'' + ParticipantContext.getOwnUserId() + '\'' + ownerVisibility + ')';
@@ -112,10 +112,10 @@ public without sharing class TaskService {
                 commonFilter += ' OR ' + '(OwnerId = \'' + ParticipantContext.getCurrentUserId() + '\'' + delegatesVisibility + ')';
             commonFilter += ')';
         }
-        if(filter != null) commonFilter += ' AND ' + filter;
-        if(sortOrder != null) commonFilter += ' ' + sortOrder;
+        if (filter != null) commonFilter += ' AND ' + filter;
+        if (sortOrder != null) commonFilter += ' ' + sortOrder;
         List<Task> tasks;
-        if(isDecoupled && ParticipantContext.getCurrentUserId() == null) {
+        if (isDecoupled && ParticipantContext.getCurrentUserId() == null) {
             tasks = new List<Task>();
         } else {
             tasks = (List<Task>) DatabaseService.query(DEFAULT_FIELDS, Task.getSObjectType(), commonFilter);

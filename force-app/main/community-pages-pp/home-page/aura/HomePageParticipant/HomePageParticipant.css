@@ -24,7 +24,7 @@
 }
 
 .THIS .cPSECard.rr-white-panel {
-    padding: 16px 0 0;
+    padding: 16px;
 }
 
 .THIS > .slds-grid > .slds-col,
@@ -85,5 +85,15 @@
     }
     .THIS > div:nth-child(2) {
         flex-direction: column;
+    }
+}
+
+@media all and (max-width:500px) {
+    .THIS .hp-welcome-msg {
+        max-width: 100%
+    }
+
+    .THIS .apollo-btn.primary.dark {
+        width: 100%;
     }
 }

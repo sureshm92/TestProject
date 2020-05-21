@@ -63,6 +63,17 @@
 @media screen and (max-width: 768px){
     .THIS .slds-grid > .slds-col,
 	.THIS .apollo-btn {
+        width: 50%;
+    }
+    
+    .THIS .healthcare-input input{
+        margin-bottom: 5px;
+    }
+}
+    
+@media screen and (max-width: 500px){
+    .THIS .slds-grid > .slds-col,
+	.THIS .apollo-btn {
         width: 100%;
     }
 

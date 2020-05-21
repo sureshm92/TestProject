@@ -28,7 +28,7 @@ public without sharing class AddPatientByPIRemote {
                 initData.ss =  StudySiteService.getStudySiteForPIById(ssId);
                 initData.ctp = TrialService.getTrial(initData.ss.Clinical_Trial_Profile__c);
                 initData.visitPlansLVList = StudySiteService.getVisitPlansLVList(ssId);
-                initData.peStatusLVList = PEStatusState.getAddPatientByPIStatusesLV(initData.ctp);
+                initData.peStatusLVList = PEStatusState.getParticipantImportStatusesLV(initData.ctp);
                 initData.userLanguage = getUserLanguage();
             }
             return initData;
@@ -36,10 +36,16 @@ public without sharing class AddPatientByPIRemote {
             return (FormData) AuraHelper.throwException(e);
         }
     }
+
     //TODO:Review
     @AuraEnabled
-    public static void saveParticipant(String participantJSON, String peJSON, String userLanguage, String ssId){
-        try{
+    public static void saveParticipant(String participantJSON, String peJSON, String userLanguage, String ssId, Boolean createUser){
+        try {
+            if (!createUser) {
+                TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
+                TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class);
+            }
+
             Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
             trimParticipantFields(participant);
             Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
@@ -48,8 +54,9 @@ public without sharing class AddPatientByPIRemote {
             pe.Referral_Source__c = 'PI';
             ParticipantService.createParticipantAndUpdatePE(participant, pe, userLanguage);
 
-            Participant__c newParticipant = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participant.Id OR Id = :pe.Participant__c];
-            if (newParticipant != null && !String.isBlank(newParticipant.Contact__c) && !String.isBlank(ssId)) {
+            String participantId = !String.isBlank(participant.Id) ? participant.Id : pe.Participant__c;
+            Participant__c newParticipant = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participantId];
+            if (createUser && newParticipant != null && !String.isBlank(newParticipant.Contact__c) && !String.isBlank(ssId)) {
                 Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
                 Study_Site__c ss = StudySiteService.getStudySiteForPIById(ssId);
                 String permissionSetName = CommunityTemplateService.getTemplate(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
@@ -59,11 +66,11 @@ public without sharing class AddPatientByPIRemote {
                 }
             }
             //Moved history Creation to Trigger
-        }catch (Exception e){
+        } catch (Exception e) {
             AuraHelper.throwException(e);
         }
     }
-    
+
     @AuraEnabled
     public static void updatePatientInfo(String participantJSON, String peJSON){
         try{

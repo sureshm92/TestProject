@@ -7,8 +7,8 @@
 }
 
 .THIS .step-status-icon{
-    width: 18px;
-    height: 18px;
+    min-width: 18px;
+    min-height: 18px;
     border-radius: 50%;
     line-height: 1;
     margin-right: 20px;
@@ -61,4 +61,19 @@
     font-size: 13px;
     font-weight: 500;
     line-height: 20px;
+}
+
+@media screen and (max-width: 768px) {
+
+    .THIS .step-btn {
+        min-height: 80px;
+        padding-right: 8px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+
+    .THIS .step-btn {
+        min-height: 60px;
+    }
 }

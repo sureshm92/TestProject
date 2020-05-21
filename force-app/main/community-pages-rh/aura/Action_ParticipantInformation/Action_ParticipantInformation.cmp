@@ -8,7 +8,7 @@
     <!-- attributes: -->
     <aura:attribute name="pe" type="Participant_Enrollment__c"/>
     <aura:attribute name="participant" type="Participant__c" access="private"/>
-    <aura:attribute name="participantDelegate" type="Contact" access="private"/>
+    <aura:attribute name="participantDelegate" type="Participant__c" access="private"/>
     <aura:attribute name="callback" type="Object" access="private"/>
     <aura:attribute name="rootComponent" type="Aura.Component" access="public"/>
     <aura:attribute name="formData" type="AddPatientByPIRemote.FormData" access="private"/>
@@ -29,7 +29,13 @@
     <aura:attribute name="sendEmails" type="Boolean" default="false"/>
     <aura:attribute name="participantPath" type="Object"/>
     <aura:attribute name="userInfo" type="Object"/>
-
+    <aura:attribute name="updateInProgress" type="Boolean"  default="false"/>    
+    <!--<aura:attribute name="isDetailsChanged" type="Boolean" default="false"/>-->
+    <aura:attribute name="isStatusChanged" type="Boolean" default="false"/>
+    <!-- Event handler -->
+    <aura:handler name="detectChildChanges" event="c:DetectChildChanges" action="{!c.checkChildChanges}"/>
+    
+    <aura:handler name="change" value="{!v.pe}" action="{!c.checkParticipant}"/>
 
     <!-- methods -->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
@@ -76,20 +82,20 @@
                                                     isInvited="{!v.isInvited}"
                                                     formData="{!v.formData}"
                                                     updateMode="true"
-                                                    isValid="{!v.isValid}"
-                                                    visitPlanRequired="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c}"/>
+                                                    isValid="{!v.isValid}"/>
                         </div>
                     </lightning:tab>
                     <lightning:tab aura:id="Status" label="{!$Label.c.BTN_Status_Details}" onactive="{!c.checkTabs}">
-                        <c:ParticipantStatusDetails participantWorkflowWrapper="{!v.participantPath}" parent="{!this}"/>
+                        <c:ParticipantStatusDetails participantWorkflowWrapper="{!v.participantPath}" parent="{!this}" updateInProgress="{!v.updateInProgress}"/>
                     </lightning:tab>
                     <lightning:tab class="slds-tabs_default__item" aura:id="Provider"
                                    label="{!$Label.c.Tab_Sharing_Options}"
                                    title="{!$Label.c.Tab_Sharing_Options}" onactive="{!c.checkTabs}">
                         <aura:if isTrue="{!v.pe}">
                             <div id="healthCareProvider">
-                                <c:ReferHealthcareProvider pe="{!v.pe}" refProvider="{!v.pe.HCP__r.HCP_Contact__r}"
-                                                           showReferringProvider="{!v.pe.Show_Referring_Provider__c}"
+                                <c:ReferHealthcareProvider pe="{!v.pe}"
+                                                           refProvider="{#v.pe.HCP__r.HCP_Contact__r}"
+                                                           showReferringProvider="{#v.pe.Show_Referring_Provider__c}"
                                                            fromActionParticipant="true"
                                                            actionDisabled="{!v.actions.screenerResponses.disabled}"/>
                             </div>
@@ -112,21 +118,23 @@
             </lightning:button>
         </aura:set>
         <aura:set attribute="footerButtons">
-            <div class="partinfo-footer-buttons" data-gtm="BTNS_Popup_Save_Cancel">
-                <lightning:button class="apollo-btn tertiary"
-                                  onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</lightning:button>
-                <aura:if isTrue="{!v.checkTabs == 'participantDetails'}">
-                    <lightning:button class="apollo-btn secondary" disabled="{!!v.isValid}"
-                                      onclick="{!c.doUpdate}">{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button>
-                </aura:if>
-                <aura:if isTrue="{!v.checkTabs == 'Status'}">
-                    <lightning:button class="apollo-btn secondary" disabled="{!!v.statusDetailValid}"
-                                      onclick="{!c.doUpdatePatientStatus}">{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button>
-                </aura:if>
-                <lightning:button class="apollo-btn primary slds-button--neutral"
-                                  disabled="{!!v.isValid || ! v.statusDetailValid}"
-                                  onclick="{!c.doUpdateCancel}">{!$Label.c.BTN_Save_All_Tabs}</lightning:button>
-            </div>
+                <div class="partinfo-footer-buttons" data-gtm="BTNS_Popup_Save_Cancel">
+                        <span>
+                            <lightning:button class="apollo-btn tertiary"
+                                              onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</lightning:button>
+                            <aura:if isTrue="{!v.checkTabs == 'participantDetails'}">
+                                <lightning:button class="apollo-btn secondary" disabled="{!!v.isValid}"
+                                                  onclick="{!c.doUpdate}">{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button>
+                            </aura:if>
+                            <aura:if isTrue="{!v.checkTabs == 'Status'}">
+                                <lightning:button class="apollo-btn secondary" disabled="{!!v.statusDetailValid}"
+                                                  onclick="{!c.doUpdatePatientStatus}">{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button>
+                            </aura:if>
+                        </span>
+                        <lightning:button class="apollo-btn primary slds-button--neutral"
+                                          disabled="{!!v.isValid || ! v.statusDetailValid}"
+                                          onclick="{!c.doUpdateCancel}">{!$Label.c.BTN_Save_All_Tabs}</lightning:button>
+                    </div>
         </aura:set>
     </c:Popup>
 </aura:component>

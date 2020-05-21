@@ -184,10 +184,9 @@
 
 @media all and (max-width: 478px){
     .THIS .tour-title{
-        font-size: 20px;
-        line-height: 40px;
+        font-size: 1.25rem;
+        line-height: 1.5rem;
         text-align: center;
-        white-space: nowrap;
         padding: 0;
     }
 
@@ -204,6 +203,14 @@
         line-height: 18px;
     }
 
+    .THIS .tour-buttons-continer {
+        margin-top: 10px;
+    }
+
+    .THIS .tour-btn-group {
+        margin: 1rem 0 0;
+    }
+
     .THIS .tour-btn-group button{
         min-width: 50px;
     }
@@ -215,5 +222,9 @@
 
     .THIS .tour-pages{
         margin: 5px
+    }
+
+    .THIS.tour-fixed-overlay{
+        height: 85%;
     }
 }

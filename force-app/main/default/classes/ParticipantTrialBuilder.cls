@@ -12,6 +12,7 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
         if(pe != null) setTrial(pe.Study_Site__r.Clinical_Trial_Profile__c);
 
         studyAction = getStudyActions();
+        trialDetail.showVisits = ps.showVisits;
         trialDetail.tabs = getStudyTabs();
         trialDetail.communityName = ps.communityName;
     }
@@ -94,7 +95,7 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                     defaultActions
             ));
 
-            if (participantState.isPremium && participantState.showVisits) {
+            if (participantState.isPremium && (participantState.showVisits || participantState.ctp.Travel_Vendor_Is_Available__c)) {
                 tabs.add(new TrialDetail.StudyTab(
                         'tab-visits',
                         'referred-patient',

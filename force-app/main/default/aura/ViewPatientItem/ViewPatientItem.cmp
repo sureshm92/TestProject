@@ -18,7 +18,10 @@
     <aura:attribute name="trial" type="Object"/>
     <aura:attribute name="frameHeight" type="String" default="500px"/>
     <aura:attribute name="userContactId" type="String"/>
-
+    <aura:attribute name="participantDelegate" 
+                    type="Participant__c" 
+                    access="private"
+                    default="{'sObjectType':'Participant__c', 'Phone__c':''}"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -32,8 +35,8 @@
         </aura:if>
         <aura:if isTrue="{!!empty(v.pe)}">
             <c:ParticipantCardHeader userMode="{!v.userMode}" pe="{!v.pe}" isReferral="false" isInvited="{!v.isInvited}"/>
-            <c:ParticipantCardIsEmansipated pe="{!v.pe}" parent="{!v.parent}" userMode="{!v.userMode}"/>
-            <c:ParticipantCardFields userMode="{!v.userMode}" isInvited="{!v.isInvited}" pe="{!v.pe}" showParticipationSteps="false"/>
+            <c:ParticipantCardIsEmansipated pe="{!v.pe}" parent="{!v.parent}" userMode="{!v.userMode}" actions="{!v.actions}"/>
+            <c:ParticipantCardFields userMode="{!v.userMode}" isInvited="{!v.isInvited}" pe="{!v.pe}" minorDelegate="{!v.participantDelegate}" showParticipationSteps="false"/>
             <aura:if isTrue="{!(v.userMode == 'Participant' || (v.showPath &amp;&amp; v.userMode == 'PI') || (v.userMode == 'HCP' &amp;&amp; v.pe.Show_Referring_Provider__c == true &amp;&amp; v.showPath &amp;&amp;
             (v.userContactId == v.pe.HCP__r.HCP_Contact__r.Id)) || (v.userMode == 'HCP') &amp;&amp; v.userContactId != v.pe.HCP__r.HCP_Contact__r.Id)}">
                 <c:ParticipantStatusPath  userMode="{!v.userMode}" pathSteps="{!v.pathItems}"/>
@@ -47,17 +50,18 @@
                                     value="statusDetailsAnchor">
                                 {!$Label.c.BTN_View_Participant_Details}
                             </button>
-                        </div>
-                        <aura:if isTrue="{!empty(v.pe.MRR_Survey_Results_URL__c) &amp;&amp; !v.actions.screenerResponses.disabled &amp;&amp; v.pe.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c}">
-                            <div class="slds-col slds-size_1-of-1 slds-small-size_4-of-12" data-gtm="BTN_Screening">
-                                <lightning:button class="slds-button--neutral"
-                                                  title="{!$Label.c.BTN_Pre_Screen_Participant}"
-                                                  onclick="{!c.doPreScreening}">
-                                    {!$Label.c.BTN_Pre_Screen_Participant}
-                                </lightning:button>
-                            </div>
-                        </aura:if>
-                    </div>
+                        
+							<aura:if isTrue="{!empty(v.pe.MRR_Survey_Results_URL__c) &amp;&amp; !v.actions.screenerResponses.disabled &amp;&amp; v.pe.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c}">
+								<span data-gtm="BTN_Screening">
+									<lightning:button class="slds-button--neutral"
+													  title="{!$Label.c.BTN_Pre_Screen_Participant}"
+													  onclick="{!c.doPreScreening}">
+										{!$Label.c.BTN_Pre_Screen_Participant}
+									</lightning:button>
+								</span>
+							</aura:if>
+						</div>
+					</div>
                 </aura:if>
 
                 <aura:if

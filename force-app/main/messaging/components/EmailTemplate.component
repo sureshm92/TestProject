@@ -23,7 +23,8 @@
     <apex:attribute name="preSignature" assignTo="{!preSignatureValue}" type="String" description=""/>
     <apex:attribute name="multiplePIMessage" assignTo="{!multiplePIMessageValue}" type="Boolean" default="false"
                     description="send message with all PI names to new RP"/>
-    <apex:attribute name="communityTemplate" type="String" assignTo="{!communityTemplateValue}" description="Community template name"/>
+    <apex:attribute name="communityTemplate" type="String" assignTo="{!communityTemplateValue}"
+                    description="Community template name"/>
 
     <apex:attribute name="addBreaks" assignTo="{!replaceLineBreaksOnHTMLBreaks}" type="Boolean" default="true"
                     description="" access="global"/>
@@ -39,25 +40,28 @@
     <div style="{!emailTemplateBackground}">
         <div style="{!emailTemplateTextBackground}">
             <div style="{!emailTemplateHeaderBackground}">
-                <div style="{!emailTemplateHeader}"><apex:outputText value="{!headerValue}" escape="false"/></div>
-                <div style="{!emailTemplateTitle}"><apex:outputText value="{!titleValue}" escape="false"/></div>
+                <div style="{!emailTemplateHeader}">
+                    <apex:outputText value="{!headerValue}" escape="false"/>
+                </div>
+                <div style="{!emailTemplateTitle}">
+                    <apex:outputText value="{!titleValue}" escape="false"/>
+                </div>
             </div>
             <div style="padding: 20px; color: #333333; font-size: 16px; line-height: 20px;">
                 <apex:outputText value="{!userGreetingValue}" escape="false"/>
                 <apex:outputText value="{!bodyValue}" escape="false"/>
 
-                <!-- for delegates: -->
-                <c:EmailTemplateDelegate
-                        rendered="{!((isDelegate && userType != 'Participant')||hasPIRPDelegationRecords)}"
-                        userMode="{!resultUserMode}" delegateLevelsPI="{!delegateLevelsPI}"
-                        delegateLevelsHCP="{!delegateLevelsHCP}"/>
+                <div style="margin-top: 30px; margin-bottom: 30px;">
+                    <c:EmailTemplateDelegate 
+                            rendered="{!((bodyValue !=$Label.Email_Body_User_Lockout) && ((isDelegate && userType != 'Participant')||hasPIRPDelegationRecords))}"
+                            userMode="{!resultUserMode}" delegateLevelsPI="{!delegateLevelsPI}"
+                            delegateLevelsHCP="{!delegateLevelsHCP}"/>
 
-                <c:EmailTemplateDelegateParticipant userId="{!emailRecipientId}"
-                                                    rendered="{!(isDelegate && userCommunityType == 'Participant')}"
-                                                    params="{!dataParametersValue}"
-                                                    commTemplate="{!communityTemplateValue}"/>
-
-                <div style="margin-top: 20px; margin-bottom: 30px;">
+                    <c:EmailTemplateDelegateParticipant userId="{!emailRecipientId}"
+                                                        rendered="{!((bodyValue !=$Label.Email_Body_User_Lockout) && isDelegate && userCommunityType == 'Participant')}"
+                                                        params="{!dataParametersValue}"
+                                                        commTemplate="{!communityTemplateValue}"
+                                                        sourceId="{!sourceRecordId}"/>
                     <apex:componentBody/>
                 </div>
                 <apex:outputPanel style="display:block; margin: 25px 0" rendered="{!preSignatureValue != null}">
@@ -66,8 +70,11 @@
 
                 <table>
                     <tr>
-                        <td style="width: 90%;"> <apex:outputText value="{!signatureValue}" escape="false"/></td>
-                        <td style="width: 10%;"><img style="{!emailTemplateBrandLogoCSS}" src="{!emailTemplateBrandLogo}"/></td>
+                        <td style="width: 90%;">
+                            <apex:outputText value="{!signatureValue}" escape="false"/>
+                        </td>
+                        <td style="width: 10%;"><img style="{!emailTemplateBrandLogoCSS}"
+                                                     src="{!emailTemplateBrandLogo}"/></td>
                     </tr>
                 </table>
             </div>

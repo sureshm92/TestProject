@@ -138,9 +138,12 @@
             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
                 <lightning:input aura:id="pField" type="tel" label="{!$Label.c.PG_AS_F_Phone_number}"
                                  value="{!v.personWrapper.homePhone}" required="true"
-                                 pattern="{!v.phonePattern}"
-                                 placeholder="{!v.phonePlaceholder}"
                                  onblur="{!c.doCheckFieldsValidity}"/>
+                <!--<lightning:input aura:id="pField" type="tel" label="{!$Label.c.PG_AS_F_Phone_number}"
+                                 value="{!v.personWrapper.homePhone}" required="true"
+                                 pattern="{!v.phonePattern}" 
+                                 placeholder="{!v.phonePlaceholder}"
+                                 onblur="{!c.doCheckFieldsValidity}"/>-->
             </div>
 
             <c:RRAnchor aura:id="mobileAnchor" offset="-50"/>
@@ -148,11 +151,16 @@
                 <aura:if isTrue="{!v.reRender}">
                     <lightning:input aura:id="pField" type="tel" label="{!$Label.c.Mob_Phone_Field}"
                                      value="{!v.personWrapper.mobilePhone}"
+                                     required="{!and(v.personWrapper.optInSMS, equals(v.personWrapper.mailingCC, 'US'))}"
+                                     disabled="{!notequals(v.personWrapper.mailingCC, 'US')}"
+                                     onblur="{!c.doCheckFieldsValidity}"/>
+                    <!--<lightning:input aura:id="pField" type="tel" label="{!$Label.c.Mob_Phone_Field}"
+                                     value="{!v.personWrapper.mobilePhone}"
                                      placeholder="{!v.phonePlaceholder}"
                                      pattern="{!v.phonePattern}"
                                      required="{!and(v.personWrapper.optInSMS, equals(v.personWrapper.mailingCC, 'US'))}"
                                      disabled="{!notequals(v.personWrapper.mailingCC, 'US')}"
-                                     onblur="{!c.doCheckFieldsValidity}"/>
+                                     onblur="{!c.doCheckFieldsValidity}"/>-->
                 </aura:if>
             </div>
             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3"></div>

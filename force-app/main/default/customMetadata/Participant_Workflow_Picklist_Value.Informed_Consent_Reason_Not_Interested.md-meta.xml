@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Informed_Consent_Reason_Not_Interested</label>
+    <protected>false</protected>
+    <values>
+        <field>Available_Condition__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Label__c</field>
+        <value xsi:type="xsd:string">PWS_Picklist_Value_Participant_Not_Interested</value>
+    </values>
+    <values>
+        <field>Order__c</field>
+        <value xsi:type="xsd:double">4.0</value>
+    </values>
+    <values>
+        <field>Participant_Workflow_Form_Field__c</field>
+        <value xsi:type="xsd:string">Inf_Cons_Reason</value>
+    </values>
+    <values>
+        <field>Readonly_if_Current__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Selected_Condition__c</field>
+        <value xsi:type="xsd:string">Non_Enrollment_Reason__c == Participant Not Interested &amp;&amp; (Participant_Status__c == Declined Consent || Participant_Status__c == Withdrew Consent)</value>
+    </values>
+    <values>
+        <field>Show_Only_If_Selected__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Value__c</field>
+        <value xsi:type="xsd:string">Participant Not Interested</value>
+    </values>
+</CustomMetadata>

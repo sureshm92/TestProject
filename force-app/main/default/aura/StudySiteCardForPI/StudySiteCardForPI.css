@@ -61,13 +61,12 @@
 }
 
 .THIS #contactInformation .ss-info-details:nth-child(4) {
-    margin-left: 16px;
-    margin-top: 6px;
+    padding-left: 1rem;
+    padding-right: 10px;
 }
 
 .THIS #contactInformation .ss-info-details:last-child {
-    margin-left: 16px;
-    padding-top: 24px;
+    padding: 24px 10px 0 1rem;
 }
 
 .THIS .ss-lightning-input label {
@@ -168,39 +167,18 @@
     justify-content: center;
 }
 
-.THIS .arrow-down {
-    margin: 2px 0 0 8px;
-}
-
-@media (max-width: 925px) {
-    .THIS .ss-info-headers {
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .THIS .ss-info-buttons {
-        margin-top: 10%;
-    }
-}
-
-@media (max-width: 800px) {
-    .THIS .ss-info-buttons .apollo-btn {
-       font-size: 12px;
-       min-height: 58px;
-    }
-}
-
-@media (max-width: 767px) {
-    .THIS .ss-container-border {
-        border-right: none;
+@media all and (max-width: 1000px) {
+    .THIS {height: auto}
+ 	
+    
+    .THIS #contactInformation .ss-info-details:nth-of-type(4) {
+        margin-left: 0;
+        margin-top: 7px;
+        padding-left: 0;
     }
     
-    .THIS .card-locationDetails {
-        paddingn-top: 15px;
-    }
-    
-    .THIS .card-header {
-        padding-bottom: 40px;
+    .THIS .ss-info-details:last-child {
+        margin-left: 0;
     }
     
     .THIS .ss-info-details,
@@ -210,7 +188,68 @@
 
     .THIS .ss-info-buttons {
         margin-top: 5%;
-        display: block;
+        display: flex;
+    }
+    
+    .THIS #contactInformation .ss-info-details:last-child {
+        margin-left: 0;
+        padding: 24px 10px 0 0;
+    }
+    
+    .THIS .uiMenu {
+        margin-left: 15px;
+    }
+    
+    .THIS .uiMenu .uiPopupTrigger {
+        margin-top: -1px;
+    }
+    
+    .THIS .ss-info-buttons .cUiHeaderMenu .header-menu-link {
+        padding: 0;
+    }
+    .THIS .ss-info-details {
+        padding-right: 10px;
+    } 
+}
+
+@media all and (max-width: 925px) {
+    .THIS .card-header {
+        width: 100%;
+    }
+    
+    .THIS .ss-info-headers {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .THIS .ss-info-buttons {
+        margin-top: 10%;
+    }
+    
+    .THIS, .THIS .ssInformation {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 900px) and (min-width: 768px) {
+    
+    .THIS #contactInformation .ss-info-details:nth-child(3),
+    .THIS #contactInformation .ss-info-details:nth-child(4) {
+    	display: block;
+        padding-left: 0;
+        min-width: 100%;
+    }
+    
+    .THIS #contactInformation .ss-info-details:nth-child(4) .slds-form-element {
+        width: 100%;
+    }
+}
+
+@media all and (max-width: 768px) {
+
+    .THIS .card-header {
+        padding-bottom: 60px;
     }
 
     .THIS .clinic-type {
@@ -222,26 +261,68 @@
      	width: 100%;
     }
 
-    .THIS #contactInformation .ss-info-details:nth-child(4) {
-        margin-left: 0px;
+    .THIS .other-ss-info {
+    	padding-left: 5px;    
+    }
+    
+    .THIS  #contactInformation .ss-info-details:nth-child(4) {
+        padding: 0 10px 0 0;
+    }
+    
+    .THIS #contactInformation .ss-info-details:nth-child(4) .slds-form-element {
+        width: 100%;
     }
 
     .THIS #contactInformation .ss-info-details:last-child {
         margin-left: 0px;
-        padding-top: 20px;
+        padding-top: 25px;
+        padding-left: 0;
     }
-
-    .THIS .other-ss-info {
-        padding-left: 0px;
+    
+     .THIS .ss-info-buttons {
+        flex-direction: column;
     }
 
     .THIS .apollo-btn {
-        margin: 0px 0px 20px 0px;
+        margin: 0 0 20px;
         width: 100%;
     }
-
-    .THIS .ss-info-buttons .apollo-btn {
-        font-size: 14px;
-        min-height: unset;
+    
+    .THIS .ss-info-buttons #manageReferringClinicsBySS,
+    .THIS .ss-info-buttons #openToReceiveReferrals {
+        margin-bottom: 0;
     }
+    
+    .THIS .ss-info-buttons div:last-child .apollo-btn {
+        margin: 20px 0 0;
+    }
+    
+     .THIS .uiMenu {
+        margin-left: 0;
+    }
+   
+}
+
+
+@media all and (max-width: 500px) {
+    .THIS .ss-info-details {
+        width: 100%;
+    } 
+    
+    .THIS #contactInformation .ss-info-details:last-child {
+        padding-left: 0;
+    }
+    
+    .THIS .pi-name {
+        width: 100%;
+    }
+    
+    .THIS .card-header {
+        padding-bottom: 45px;
+    }
+    
+    .THIS #contactInformation .ss-info-details:nth-child(4) {
+        padding-left: 0;
+    }
+    
 }

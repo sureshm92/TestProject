@@ -8,9 +8,9 @@
         console.log('currentOutcomeSuccess ' + currentOutcomeSuccess);
         stepWrapper.formFieldGroups.forEach(function (group) {
             group.fields.forEach(function (field) {
-                console.log(field.field + ' ' + field.value + ' required:' + field.required + ' valid:' + field.valid + ' dependent:' + field.dependent);
+                console.log(field.field + ' ' + field.value + ' required:' + field.required + ' valid:' + field.valid + ' dependent:' + field.dependent + ' type: ' + field.type);
                 if (isCurrentStepValid &&
-                    (((field.required && !field.readonly) && (currentOutcomeSuccess || field.dependent)) && (!field.value || field.value.trim() === '')
+                    ((field.required && ((!field.dependent && currentOutcomeSuccess) || (field.dependent && field.dependentActive))) && (!field.value || field.value.trim() === '' || (field.value == 'false' && field.type == 'checkbox'))
                         || field.valid === false)) {
                     isCurrentStepValid = false;
                 }

@@ -7,7 +7,7 @@
     <label>Study Site Phone</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Phone</type>
 </CustomField>

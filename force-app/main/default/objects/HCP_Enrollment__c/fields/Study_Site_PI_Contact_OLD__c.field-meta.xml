@@ -9,7 +9,7 @@
     <relationshipName>HCP_Enrollments1</relationshipName>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

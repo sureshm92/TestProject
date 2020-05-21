@@ -45,6 +45,10 @@ a:hover {
     display: flex;
 }
 
+.forceToastManager--default .forceVisualMessageQueue {
+	z-index: 25000;
+}
+
 .logo-container {
     height: 50px;
     display: flex;
@@ -151,6 +155,7 @@ a:hover {
     width: 85%;
     max-width: 1424px;
     min-height: 40px;
+    min-width: 85%;
     font-size: 15px;
     font-weight: 500;
     line-height: 24px;
@@ -266,7 +271,7 @@ input:focus {
 
 .rr-form-element label, .rr-form-element .label{
     color: #444;
-    font-size: 13px;
+    font-size: .875rem;
     font-weight: 400;
     line-height: 17px;
     display: block;
@@ -693,11 +698,12 @@ lightning-datepicker lightning-button-icon .slds-button svg {
 
 /*--------------------------------------------------------- Error -------------------------------------------------------------*/
 .rr-error-message {
-    height: 21px;
-    color: #FF0031;
-    font-size: 13px;
-    font-weight: 500;
-    line-height: 21px;
+    min-height: 1.1rem;
+    color: rgb(194, 57, 52);
+    font-size: .75rem;
+    margin-top: .125rem;
+    font-weight: 400;
+    line-height: 1.1rem;
     -moz-transition: height 1s ease;
     -webkit-transition: height 1s ease;
     -o-transition: height 1s ease;
@@ -707,13 +713,13 @@ lightning-datepicker lightning-button-icon .slds-button svg {
 
 input.rr-input-error,
 .rr-input-error input {
-    border: 1px solid #FF0031 !important;
-    color: #FF0031 !important;
+    border: 1px solid rgb(194, 57, 52) !important;
+    color: rgb(194, 57, 52) !important;
 }
 
 select.rr-select-error,
 .rr-select-error select {
-    border: 1px solid #FF0031 !important;
+    border: 1px solid rgb(194, 57, 52) !important;
 }
 
 
@@ -1146,7 +1152,7 @@ select.rr-select-error,
 }
 
 .rr-top-bar .title{
-    font-size: 30px;
+    font-size: 1.5rem;
     font-weight: 600;
     line-height: 36px;
     padding-top: 10px;
@@ -1422,17 +1428,63 @@ input[type=password]::-ms-clear
     }
 }
 
-@media all and (max-width: 767px){
+@media all and (max-width: 768px){
     .with-selector .rr-header-content, .with-selector .body-content{
         height: 80px;
     }
 
     .rr-top-bar.sticky.multi-mode .sticky-bar{
-        top: 80px
+        top: 50px
+    }
+    
+    .cCommunityNavigationMobile + .rr-width-limiter.side-padding {
+        padding-top: 1rem!important;
     }
 }
 
 /*----------------------------------------------------- Responsive Common -----------------------------------------------------*/
+@media all and (max-width: 500px){
+    .ci-bottom-aria {
+        bottom: 65px;
+        height: 115px;
+    }
+    
+    .rr-width-limiter.side-padding {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .slds-p-horizontal_medium, 
+    .slds-p-horizontal--medium {
+        padding-left: 0;
+        padding-right: 0;
+    }
+     .slds-p-horizontal_medium > .slds-col, 
+    .slds-p-horizontal--medium > .slds col {
+     	 padding: 0 10px;
+    }
+
+}
+
+@media all and (max-width: 768px){
+ 	.slds-radio .slds-radio_faux, 
+    .slds-radio .slds-radio--faux {
+		height: 1.25rem;
+        width: 1.25rem;
+    }
+    
+    .slds-radio [type=radio]:checked+.slds-radio_faux:after, 
+    .slds-radio [type=radio]:checked+.slds-radio--faux:after, 
+    .slds-radio [type=radio]:checked~.slds-radio_faux:after, 
+    .slds-radio [type=radio]:checked~.slds-radio--faux:after, 
+    .slds-radio [type=radio]:checked+.slds-radio__label .slds-radio_faux:after, 
+    .slds-radio [type=radio]:checked+.slds-radio__label .slds-radio--faux:after {
+        width: .9rem;
+        height: .9rem;
+    }
+}
+
+
 /* small 480 */
 @media all and (min-width: 480px){
     .rr-small-up-hide{

@@ -10,7 +10,7 @@
     color: #000000;
     font-family: "Proxima Nova";
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .THIS .locationContainer{
@@ -29,7 +29,7 @@
 
 .THIS .p-header h2 {
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .THIS .popup-account-name{
@@ -42,7 +42,7 @@
     color: #000000;
     font-family: "Proxima Nova";
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     padding-left: 60px;
 }
 
@@ -59,11 +59,23 @@
     padding-right:5%;
 }
 
+.THIS .account_details {
+    width: 80%;
+    display: flex;
+    flex-direction: row;    
+}
+
+.THIS .popup-account-name + .slds-grid--align-center {
+    min-height: 100%;
+    margin-top: -20px;
+    align-items: center;
+}
+
 .THIS .ss-info-headers {
     height: 24px;
     color: #444;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 24px;
     margin-bottom:5px;
     vertical-align: top;
@@ -97,17 +109,20 @@
     }
 }
 
-@media all and (max-width: 767px) {
+@media all and (max-width: 768px) {
     .THIS .locationContainer{
         padding: 8px 11px 13px;
     }
     
     .THIS .popup-account-name:first-child {
-        padding-left: 0;
+        padding-left: 30px;
     }
     
     .THIS .popup-account-name + .slds-col {
         min-height: 100%;
+        align-items: center;
+    	margin-top: -20px;
+        max-width: 32px;
     }
     
     .THIS .p-footer .p-buttons-container {
@@ -118,10 +133,31 @@
     .THIS .p-footer .p-buttons-container .apollo-btn {
         margin: 15px 0 0 0;
     }
+    
+    .THIS .account_details {
+        flex-direction: column;
+        width: 90%;
+        padding-left: 0;
+    }
+    
+    .THIS .account_details .manage-location-info {
+        width: 100%;
+        margin-bottom: 15px;
+    }
 }
 
 @media all and (max-width: 600px) {
     .THIS .ss-info-address{
         word-wrap: break-word;
+    }
+}
+
+@media all and (max-width: 500px) {
+     .THIS .popup-account-name + .slds-col {
+     	   min-width: 32px;
+    }
+    
+    .THIS .account_details {
+        width: 80%;
     }
 }

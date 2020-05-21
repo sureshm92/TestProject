@@ -32,8 +32,8 @@
 }
 
 .THIS .p-container > .slds-button {
-    width: 1rem;
-    height: 1rem;
+    width: 0; /* 1rem */
+    height: 0; /* 1rem */
     position: absolute;
     top: 5px;
     right: 5px;
@@ -48,10 +48,12 @@
     background-image: url(/resource/1569269587000/iconCloseBlack);
     height: 14px;
     width: 14px;
-    top: 30px;
-    right: 25px;
+    top: 30px; /* 30px */
+    right: 18px; /* 25px */
 }
-/*.THIS .cRRIcon {display: none}*/
+/*
+.THIS .cRRIcon {display: none}
+*/
 .THIS .p-container .p-header {
     width: 100%;
     max-height: 20vh;
@@ -124,8 +126,7 @@
 }
 
 .THIS .p-buttons-container .opt-in-popup-button+.opt-in-popup-button {
-    margin-left: 0;
-    margin-right: 5px;
+    margin-left: 10px;
 }
 
 .THIS #p-modal .p-container{
@@ -140,14 +141,12 @@
 
 .THIS .close-icon {
     position: absolute;
-    height: 29px;
-    top: 0px;
-    left: 0px;
-    padding: 0px;
-    width: 30px;
+    height: 6px; /* 33px */
+    top: 34px; /* -2px */
+    left: 4px; /* -7px */
+    width: 6px; /* 46px */
     fill: rgba(255, 255, 255, 0.5);
 }
-
 .THIS.cAction_ParticipantInformation #p-modal .p-container.large {
     height: 655px;
 }
@@ -184,7 +183,7 @@
 
 .THIS.cAction_ParticipantInformation .p-container .p-footer {
     position: absolute;
-    right: 16px;
+    right: .5rem;
     bottom: 0;
     padding: 15px 15px 15px 24px;
     width: 98%;
@@ -193,6 +192,35 @@
 
 .THIS.cAction_ParticipantInformation .p-container .p-header + div {
     height: 89%;
+}
+@media screen and (max-width: 768px){
+    
+    .THIS .cPopup .p-container .p-content {
+        max-height: 90vh;
+    }
+    
+    .THIS.cAction_ParticipantInformation #p-modal .p-container.large {
+        height: 90vh;
+    }
+    
+     .THIS.cAction_ParticipantInformation .p-container .p-header {
+		max-height: 30vh;
+    }
+    
+	.THIS.cAction_ParticipantInformation .p-container .p-header .invite-patient-container > div:nth-of-type(1) {
+        max-width: 65%;
+    }
+    
+    .THIS.cAction_ParticipantInformation .p-container .p-header .invite-patient-container > div:nth-of-type(1) .slds-size--10-of-12 {
+        max-width: 85%;
+    }  
+     .THIS.cAction_ParticipantInformation .p-container .p-header .invite-patient-container > div:nth-of-type(2) {
+        max-width: 35%;
+    }
+    
+    .THIS .p-container .p-footer {
+        border-top: 1px solid #efefef;
+    }
 }
 
 @media all and (max-width: 767px){
@@ -216,4 +244,21 @@
     .THIS #p-modal .p-container.large {
         width: 800px;
     }
+}
+@media all and (max-width: 500px) {
+    .THIS #p-modal .p-container {
+        height: 95%;
+        max-height: 95%;
+        top: 50%;
+    }
+    
+     .THIS.cAction_ParticipantInformation .p-container .p-footer {
+        right: 0;
+        bottom: 15px;
+        padding: 15px;
+        max-height: 190px;
+        width: 100%;
+        border-top: 1px solid #efefef;
+    }
+
 }

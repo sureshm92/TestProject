@@ -1,15 +1,79 @@
 /**
  * Created by Andrii Kryvolap.
  */
-.THIS .label{
+.THIS .label,
+.THIS .slds-form-element__label{
     color: #444444;
     font-family: "Proxima Nova";
     font-size: 14px;
-    margin-bottom: 8px;
+    margin-bottom: -10px;
 }
 
 .THIS .rrs-container{
     width: 100%;
+}
+
+.THIS.rrs-container .rrs-label {
+    display: flex;
+    color: #666666;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 21px;
+}
+
+.THIS.rrs-container .rrs-label .rrs-error {
+    color: #FF0031;
+}
+
+.THIS .slds-select_container::before {
+    border-bottom: none;
+}
+
+.THIS .slds-select_container::after {
+    border-top: none;
+}
+
+.THIS.rrs-container .rrs-relative {
+    position: relative;
+}
+
+.THIS.rrs-container label {
+    display: none;
+}
+
+.THIS.rrs-container select{
+    height: 32px;
+}
+
+.THIS.rrs-container .rr-icon-default{
+    position: absolute;
+    pointer-events: none;
+    top: 13px;
+    right: 11px;
+    height: 16px;
+    width: 16px;
+}
+
+.THIS .slds-select_container .slds-select{
+    padding-right: 25px;
+    margin-top: 3px;
+    position: relative;
+    font-size: 1rem;
+}
+
+.THIS .slds-select_container:after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: url(/resource/1571137334000/SelectMenuTriangleDown) no-repeat;
+    background-size: 16px 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.THIS .rrs-relative img {
+    display: none;
 }
 
 .THIS.step-form{
@@ -37,7 +101,6 @@
     font-family: "Proxima Nova";
     font-size: 16px;
     font-weight: 600;
-    word-break: break-all;
 }
 .THIS .history-item-detail{
     color: #595959;
@@ -53,5 +116,23 @@
 }
 .THIS .form-field{
     margin-bottom: 20px;
+}
 
+
+@media screen and (max-width: 500px) {
+    .THIS {
+        line-height: 1;
+    }
+    .THIS .history-item {
+        line-height: 1.5rem;
+    }
+
+    .THIS.step-card-title {
+        margin-top: 15px;
+    }
+
+    .THIS.step-form,
+    .THIS .outcome-form-element{
+        min-width: 100%;
+    }
 }

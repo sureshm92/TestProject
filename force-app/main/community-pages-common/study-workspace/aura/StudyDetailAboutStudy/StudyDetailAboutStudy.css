@@ -12,7 +12,7 @@
 
 .THIS.sdas-sub-tab a {
     margin-right: 12px;
-    color: #297DFD;
+    color: #297dfd;
     text-decoration: none;
     font-size: 13px;
     font-weight: 500;
@@ -39,6 +39,7 @@
     position: relative;
 }
 
+/* CHECK THIS */
 .THIS .slds-grid.slds-wrap:before {
     content: '';
     height: 98.5%;
@@ -208,9 +209,10 @@
 }
 
 .THIS .sdas-main-info .title {
-    color: #999;
-    font-size: 1rem;
-    line-height: 12px;
+    line-height: 21px;
+    color: #444;
+    font-weight: 400;
+    font-size: .875rem;
 }
 
 .THIS .sdas-main-info .text {
@@ -316,10 +318,10 @@
     font-size: .875rem;
 }
 
-@media all and (max-width: 768px){
-    .THIS .rr-bottom-bar .bar-content .apollo-btn{
-        width: 150px;
-    }
+@media all and (max-width: 1100px){
+ 	.THIS .socialnetworks-section > .slds-col {
+        min-width: 100%;
+    }   
 }
 
 .THIS .primary-contact-select{
@@ -396,33 +398,6 @@
     border-top: 1px solid #d9d9d9;
 }
 
-@media all and (max-width: 767px) {
-    .THIS .slvi-header-item + .slvi-header-item {
-        margin-top: 16px;
-    }
-    
-    .THIS .slds-grid.slds-wrap:before {
-        display: none;
-    }
-
-    .THIS .site-distance {
-        margin-top: .5rem;
-    }
-
-    .THIS .rri-icon svg {
-        height: 16px;
-        width: 13px;
-    }
-
-    .THIS .rri-icon span {
-        margin: .125rem !important;
-    }
-}
-
-.THIS .socialnetworks-section {
-    position: relative;
-}
-
 .THIS .socialnetworks {
     z-index: 2000;
     position: absolute;
@@ -460,4 +435,69 @@
     color: #444;
     font-size: 1rem;
     line-height: 16px;
+}
+
+@media all and (max-width: 768px) {
+    
+    .THIS .rr-bottom-bar .bar-content .apollo-btn{
+        width: 150px;
+    }
+    
+    .THIS .slvi-header-item + .slvi-header-item {
+        margin-top: 16px;
+    }
+    
+    .cStudyDetailAboutStudy .sdas-main-info .title {
+        font-size: 1rem;
+    }
+    
+    .THIS .slds-grid.slds-wrap:before {
+        display: none;
+    }
+
+    .THIS .site-distance {
+        margin-top: .5rem;
+    }
+
+    .THIS .rri-icon svg {
+        height: 16px;
+        width: 13px;
+    }
+
+    .THIS .rri-icon span {
+        margin: .125rem !important;
+    }
+}
+
+@media all and (max-width: 500px) {
+    
+    .THIS.sdas-main-container {
+        padding: 10px 10px 25px;
+    }
+    
+    .THIS .sdas-main-info {
+        padding: 0;
+    }
+    
+    .THIS .sdas-sub-category {
+        margin-top: 2rem;
+    }
+    
+     .THIS .socialnetworks .rri-icon > a {
+        padding: 0 .5rem;
+    }
+    
+    
+    .THIS .socialnetworks-section.slds-grid.slds-wrap {
+        position: absolute;
+        top: 50px;
+        right: 8px;
+        width: 100%;
+    }
+    
+    .THIS .socialnetworks-section.slds-grid.slds-wrap .rri-icon svg {
+        height: 24px;
+        
+    }
+    
 }

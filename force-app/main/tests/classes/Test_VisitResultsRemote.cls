@@ -5,55 +5,22 @@
 public with sharing class Test_VisitResultsRemote {
     @TestSetup
     static void setup() {
+        TriggerHandlerExecutor.bypassHandler(ContactReferralNetworkTriggerHandler.SyncContactInterestedSites.class);
+        TriggerHandlerExecutor.bypassHandler(ContactTherapeuticAreaTriggerHandler.SyncContactInterestedTopics.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class);
+        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
+        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreateStatusHistoryHandler.class);
+        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class);
+
         Test.startTest();
         TestData.loadTestData();
         Test.stopTest();
 
-        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreateStatusHistoryHandler.class);
-        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class);
-
-        List<Contact> contacts = new List<Contact>{
-                (Contact) TestDataFactory.getSObject(Contact.getSObjectType())
-        };
-        insert contacts;
-
-        List<Account> accounts = new List<Account>{
-                (Account) TestDataFactory.getSObject(Account.getSObjectType())
-        };
-        insert accounts;
-
-        List<Clinical_Trial_Profile__c> ctp = new List<Clinical_Trial_Profile__c>{
-                (Clinical_Trial_Profile__c) TestDataFactory.getSObject(Clinical_Trial_Profile__c.getSObjectType())
-        };
-        insert ctp;
-
-        List<Study_Site__c> studySites = new List<Study_Site__c>{
-                (Study_Site__c) TestDataFactory.getSObject(Study_Site__c.getSObjectType(),
-                        new Map<String, Object>{
-                                'Principal_Investigator__c' => contacts[0].Id,
-                                'Clinical_Trial_Profile__c' => ctp[0].Id,
-                                'Site__c' => accounts[0].Id
-                        })
-        };
-        insert studySites;
-
-        List<Participant_Enrollment__c> participantEnrollments = new List<Participant_Enrollment__c>{
-                (Participant_Enrollment__c) TestDataFactory.getSObject(Participant_Enrollment__c.getSObjectType(),
-                        new Map<String, Object>{
-                                'Study_Site__c' => studySites[0].Id
-                        })
-        };
-        insert participantEnrollments;
     }
 
     @IsTest
     static void getInitData_test() {
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
-        TriggerHandlerExecutor.bypassHandler(ContactReferralNetworkTriggerHandler.SyncContactInterestedSites.class);
-        TriggerHandlerExecutor.bypassHandler(ContactTherapeuticAreaTriggerHandler.SyncContactInterestedTopics.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class);
-        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
-
         List<Clinical_Trial_Profile__c> ctp = new List<Clinical_Trial_Profile__c>{
                 (Clinical_Trial_Profile__c) TestDataFactory.getSObject(Clinical_Trial_Profile__c.getSObjectType(),
                         new Map<String, Object>{
@@ -148,12 +115,6 @@ public with sharing class Test_VisitResultsRemote {
 
     @IsTest
     static void getInitDataWithException_test() {
-        TriggerHandlerExecutor.bypassHandler(ContactReferralNetworkTriggerHandler.SyncContactInterestedSites.class);
-        TriggerHandlerExecutor.bypassHandler(ContactTherapeuticAreaTriggerHandler.SyncContactInterestedTopics.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class);
-        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
-
         Boolean isExceptionThrown = false;
 
         Test.startTest();
@@ -239,12 +200,6 @@ public with sharing class Test_VisitResultsRemote {
 
     @IsTest
     static void changeOptInOnTrue_test() {
-        TriggerHandlerExecutor.bypassHandler(ContactReferralNetworkTriggerHandler.SyncContactInterestedSites.class);
-        TriggerHandlerExecutor.bypassHandler(ContactTherapeuticAreaTriggerHandler.SyncContactInterestedTopics.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class);
-        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
-
         Contact contact = (Contact) TestDataFactory.getSObject(Contact.getSObjectType());
 
         ClassFactory.clearStubTypesByClassNamesMap();
@@ -269,12 +224,6 @@ public with sharing class Test_VisitResultsRemote {
 
     @IsTest
     static void changeOptInWithException_test() {
-        TriggerHandlerExecutor.bypassHandler(ContactReferralNetworkTriggerHandler.SyncContactInterestedSites.class);
-        TriggerHandlerExecutor.bypassHandler(ContactTherapeuticAreaTriggerHandler.SyncContactInterestedTopics.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class);
-        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
-
         Contact contact = (Contact) TestDataFactory.getSObject(Contact.getSObjectType());
 
         ClassFactory.clearStubTypesByClassNamesMap();
