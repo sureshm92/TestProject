@@ -35,45 +35,45 @@ public without sharing class ParametersDataProvider {
         this.communityTemplateName = communityTemplateName;
         parameters = new Map<String, String>();
 
-        try {
-            updateRecipientName();
-            if (sourceId != null) {
-                if (parametersProviderName == null) {
-                    if (sourceId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
-                        initParamsFromPE(sourceId);
-                    } else if (sourceId.getSobjectType() == HCP_Enrollment__c.getSObjectType()) {
-                        initParamsFromHCPE(sourceId);
-                    } else if (sourceId.getSobjectType() == Study_Site__c.getSObjectType()) {
-                        initParamsFromSS(sourceId);
-                    } else if (sourceId.getSobjectType() == Contact.getSObjectType()) {
-                        initParamsFromContact(sourceId);
-                    } else if (sourceId.getSobjectType() == User.getSObjectType()) {
-                        initParamsFromUser(sourceId);
-                    } else if (sourceId.getSobjectType() == Task.getSObjectType()) {
-                        initParamsFromTask(sourceId);
-                    }
-                } else {
-                    Parameters_Provider__mdt pp = CatalogParametersHelper.getParametersProviderMetadata(parametersProviderName);
-                    parameters = CatalogParametersHelper.getParamsValueMap(sourceId, pp, recipientLanguage);
+        try {        
+        updateRecipientName();
+        if (sourceId != null) {
+            if (parametersProviderName == null) {
+                if (sourceId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
+                    initParamsFromPE(sourceId);
+                } else if (sourceId.getSobjectType() == HCP_Enrollment__c.getSObjectType()) {
+                    initParamsFromHCPE(sourceId);
+                } else if (sourceId.getSobjectType() == Study_Site__c.getSObjectType()) {
+                    initParamsFromSS(sourceId);
+                } else if (sourceId.getSobjectType() == Contact.getSObjectType()) {
+                    initParamsFromContact(sourceId);
+                } else if (sourceId.getSobjectType() == User.getSObjectType()) {
+                    initParamsFromUser(sourceId);
+                } else if (sourceId.getSobjectType() == Task.getSObjectType()) {
+                    initParamsFromTask(sourceId);
                 }
             } else {
-                initDummyParams();
+                Parameters_Provider__mdt pp = CatalogParametersHelper.getParametersProviderMetadata(parametersProviderName);
+                parameters = CatalogParametersHelper.getParamsValueMap(sourceId, pp, recipientLanguage);
             }
+        } else {
+            initDummyParams();
+        }
 
-            String clinicalResearchCommunityURL = 'IQVIA Clinical Research Community at https://www.clinicalresearch.com';
-            Id networkId = Network.getNetworkId();
-            Auth.AuthConfiguration authConfig = new Auth.AuthConfiguration(networkId, '');
-            String clinicalResearchCommunityForgotPasswordURL = 'IQVIA Clinical Research Community Forgot password at' + authConfig.getForgotPasswordUrl();
-            if (outputMode == 'HTML') {
-                clinicalResearchCommunityURL = '<a href="https://www.clinicalresearch.com" target="_blank">IQVIA Clinical Research Community</a>';
-                clinicalResearchCommunityForgotPasswordURL = authConfig.getForgotPasswordUrl();
-            }
-            parameters.put('CRCommunityURL', clinicalResearchCommunityURL);
-            parameters.put('RecipientName', getUserName());
-            parameters.put('RecipientFirstName', recipientFirstName);
-            parameters.put('ForgotPasswordURL', clinicalResearchCommunityForgotPasswordURL);
+        String clinicalResearchCommunityURL = 'IQVIA Clinical Research Community at https://www.clinicalresearch.com';
+        Id networkId = Network.getNetworkId();
+        Auth.AuthConfiguration authConfig = new Auth.AuthConfiguration(networkId, '');
+        String clinicalResearchCommunityForgotPasswordURL = 'IQVIA Clinical Research Community Forgot password at' + authConfig.getForgotPasswordUrl();
+        if (outputMode == 'HTML') {
+            clinicalResearchCommunityURL = '<a href="https://www.clinicalresearch.com" target="_blank">IQVIA Clinical Research Community</a>';
+            clinicalResearchCommunityForgotPasswordURL = authConfig.getForgotPasswordUrl();
+        }
+        parameters.put('CRCommunityURL', clinicalResearchCommunityURL);
+        parameters.put('RecipientName', getUserName());
+        parameters.put('RecipientFirstName', recipientFirstName);
+        parameters.put('ForgotPasswordURL', clinicalResearchCommunityForgotPasswordURL);
 
-            if (isDelegate && userMode == CommunityService.USER_MODE_PARTICIPANT) {
+        if (isDelegate && userMode == CommunityService.USER_MODE_PARTICIPANT) {
                 parameters.put('UserName', getCommunityUserName(recipientContactId));
 
                 if (!parameters.containsKey('ParticipantFirstName')) {
@@ -113,7 +113,9 @@ public without sharing class ParametersDataProvider {
     }
 
     private void initParamsFromPE(Id sourceId) {
-        Participant_Enrollment__c pe = [
+        Participant_Enrollment__c pe;
+        if(communityTemplateName !=null){
+        pe = [
                 SELECT Id, Name,
                         Referral_Source__c,
                         HCP__r.HCP_Contact__c,
@@ -157,6 +159,52 @@ public without sharing class ParametersDataProvider {
                 AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = :communityTemplateName
                 LIMIT 1
         ];
+        }else{
+                    pe = [
+                SELECT Id, Name,
+                        Referral_Source__c,
+                        HCP__r.HCP_Contact__c,
+                        HCP__r.HCP_Contact__r.Name,
+                        HCP__r.HCP_Contact__r.FirstName,
+                        HCP__r.HCP_Contact__r.LastName,
+                        HCP__r.HCP_Contact__r.Salutation,
+                        HCP__r.HCP_Contact__r.Language__c,
+                        HCP__r.HCP_Contact__r.Title,
+                        Participant__r.Contact__c,
+                        Participant__r.Contact__r.Name,
+                        Participant__r.Contact__r.FirstName,
+                        Participant__r.Contact__r.LastName,
+                        Participant__r.Contact__r.Salutation,
+                        Participant__r.Contact__r.Language__c,
+                        Participant__r.Language_Preference_Code__c,
+                        Participant__r.First_Name__c,
+                        Participant__r.Last_Name__c,
+                        Participant_Contact__r.FirstName,
+                        Study_Site__r.Name,
+                        Study_Site__r.Principal_Investigator__r.Name,
+                        Study_Site__r.Principal_Investigator__r.FirstName,
+                        Study_Site__r.Principal_Investigator__r.LastName,
+                        Study_Site__r.Principal_Investigator__r.Salutation,
+                        Study_Site__r.Principal_Investigator__r.Language__c,
+                        Study_Site__r.Principal_Investigator__r.Title,
+                        Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
+                        Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                        Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c,
+                        Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Study_Site__r.Study_Site_Phone__c,
+                        Study_Site__r.Site__r.BillingStreet,
+                        Study_Site__r.Site__r.BillingCity,
+                        Study_Site__r.Site__r.BillingPostalCode,
+                        Is_Virtual_Study_Site__c,
+                        IsSubjectIDverifiedInSDH__c,
+                        Motivational_Message_Id__c,
+                        HCP__c
+                FROM Participant_Enrollment__c
+                WHERE (Id = :sourceId OR Participant__r.Contact__c = :sourceId)
+                //AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = :communityTemplateName
+                LIMIT 1
+        ];
+        }
 
         if (pe.Is_Virtual_Study_Site__c) recipientFirstName = pe.Participant__r.First_Name__c;
 
@@ -413,7 +461,7 @@ public without sharing class ParametersDataProvider {
                         WHERE Participant__c IN: partIds
                         AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c IN: templates
                 ];
-                Participant_Enrollment__c pe;
+                Participant_Enrollment__c pe;                          
                 if(listPe.size() > 0) pe = listPe[0];
                 if (pe != null) {
                     parameters.put('ParticipantName', pe.Participant__r.Full_Name__c);
