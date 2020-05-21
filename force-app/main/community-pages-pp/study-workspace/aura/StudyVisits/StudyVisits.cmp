@@ -48,8 +48,7 @@
                                     : visitWrapper.visit.Visit__r.Patient_Portal_Name__c)}</td>
                                 <td class="sv-t-time">{!(visitWrapper.visit.Is_Adhoc__c ? $Label.c.StudyVisit_Ad_hoc_Visit : visitWrapper.visit.Visit__r.Visit_Schedule__c)}</td>
                                 <td class="{!visitWrapper.visit.Is_Adhoc__c ? 'invisible' : 'sv-t-icons'}">
-                                    <c:RRIconSplitter numOfIconsToDisplay="50" class="svl-icon"
-                                                      icons="{!visitWrapper.iconDetails}"/>
+                                    <c:RRIconSplitter class="svl-icon" icons="{!visitWrapper.iconDetails}"/>
                                 </td>
                                 <td class="{!visitWrapper.visit.Is_Adhoc__c ? 'sv-t-icons' : 'invisible'}">{!$Label.c.StudyVisit_Variable}</td>
                                 <td class="sv-t-status">{!if(visitWrapper.visit.Status__c == 'Missed', $Label.c.Study_Visit_Unavailable, visitWrapper.visit.Status__c)}</td>
