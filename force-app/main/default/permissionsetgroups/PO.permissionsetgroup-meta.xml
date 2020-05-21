@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label>Product Owner</label>
+    <label>PO</label>
     <permissionSets>PP_Approved_Languages_Edit</permissionSets>
-    <permissionSets>PP_CTP_Edit</permissionSets>
-    <permissionSets>PP_Manual_Creation_Panel</permissionSets>
     <permissionSets>PP_Message_Configuration_Edit</permissionSets>
     <permissionSets>PP_Motivational_Messages_Edit</permissionSets>
     <permissionSets>PP_Participant_PII_On_Cases_View</permissionSets>
