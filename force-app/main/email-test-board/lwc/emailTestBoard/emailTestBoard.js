@@ -81,7 +81,8 @@ export default class EmailTestBoard extends LightningElement {
 
     get isPreviewDisabled() {
         if(!this.currentEmailWrapper || !this.recipientId) return true;
-        return !this.relatedId;
+        if(this.currentEmailWrapper.supportNotification && !this.relatedId) return true;
+        return false;
     }
 
     get isSendDisabled() {
@@ -144,6 +145,8 @@ export default class EmailTestBoard extends LightningElement {
         });
         this.sendMethod = this.currentEmailWrapper.supportNotification ? this.sendMethod : 'immediately';
         this.relatedSearchMethod = this.currentEmailWrapper.supportSearchByName ? 'Name' : 'Id';
+        this.showPreview = false;
+        this.previewHtml = null;
         this.clearSelection(this.relatedId, '.related-look-up');
     }
 
@@ -173,6 +176,13 @@ export default class EmailTestBoard extends LightningElement {
         this.showPreview = !this.showPreview;
         if (this.showPreview) {
             this.previewSpinner.show();
+
+            console.log(
+                'Wrapper: ' + JSON.stringify(this.currentEmailWrapper) +
+                '\nRecipient: ' + this.recipientId,
+                '\nRelated: ' + this.relatedId
+            );
+
             getPreviewHTML({
                 wrapper: JSON.stringify(this.currentEmailWrapper),
                 contactId: this.recipientId,

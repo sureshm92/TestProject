@@ -1,18 +1,14 @@
 /**
  * Created by Leonid Bartenev
  */
+
 ({
-    doInit: function (component, event, helper) {
+    doUpdateValue: function (component, event, helper) {
         let visitResult = component.get('v.visitResult');
         component.set('v.showResult', visitResult.type !== 'Disabled');
     },
 
-    doVisutResultChanged: function (component, event, helper) {
-        let visitResult = component.get('v.visitResult');
-        component.set('v.showResult', visitResult.type !== 'Disabled');
-    },
-
-    doSharingChanged: function (component, event, helper) {
+    doChangedByUser: function (component, event, helper) {
         let showResult = component.get('v.showResult');
         let visitResult = component.get('v.visitResult');
         let globalCountries = component.get('v.globalCountries');
@@ -22,7 +18,7 @@
             visitResult.countryCodes = globalCountries;
             visitResult.type = globalType;
         } else {
-            visitResult.countryCodes = null;
+            visitResult.countryCodes = '';
             visitResult.type = 'Disabled';
         }
 

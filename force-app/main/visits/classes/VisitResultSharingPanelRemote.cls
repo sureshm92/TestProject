@@ -19,15 +19,16 @@ public without sharing class VisitResultSharingPanelRemote {
 
     private static final List<String> GROUPS_ORDER = new List<String>{
             'Vitals',
-            'FastingLipidProfile',
             'MetabolicPanel',
             'Hematology',
+            'FastingLipidProfile',
             'Biomarkers'
     };
 
     public class VisitResultGroupWrapper {
         @AuraEnabled public String label;
         @AuraEnabled public List<VisitResultWrapper> visitResults;
+        @AuraEnabled public Boolean show = false;
 
         public VisitResultGroupWrapper() {}
 

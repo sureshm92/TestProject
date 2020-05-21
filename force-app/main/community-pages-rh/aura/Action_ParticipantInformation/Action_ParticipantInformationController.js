@@ -58,7 +58,7 @@
                 }), 15);
             });
             component.find('dialog').show();
-            component.find('dialog').scrollTop();
+            //component.find('dialog').scrollTop();
         } catch (e) {
             console.error(e);
         }
