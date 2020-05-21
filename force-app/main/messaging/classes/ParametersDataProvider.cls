@@ -35,45 +35,45 @@ public without sharing class ParametersDataProvider {
         this.communityTemplateName = communityTemplateName;
         parameters = new Map<String, String>();
 
-        try {        
-        updateRecipientName();
-        if (sourceId != null) {
-            if (parametersProviderName == null) {
-                if (sourceId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
-                    initParamsFromPE(sourceId);
-                } else if (sourceId.getSobjectType() == HCP_Enrollment__c.getSObjectType()) {
-                    initParamsFromHCPE(sourceId);
-                } else if (sourceId.getSobjectType() == Study_Site__c.getSObjectType()) {
-                    initParamsFromSS(sourceId);
-                } else if (sourceId.getSobjectType() == Contact.getSObjectType()) {
-                    initParamsFromContact(sourceId);
-                } else if (sourceId.getSobjectType() == User.getSObjectType()) {
-                    initParamsFromUser(sourceId);
-                } else if (sourceId.getSobjectType() == Task.getSObjectType()) {
-                    initParamsFromTask(sourceId);
+        try {
+            updateRecipientName();
+            if (sourceId != null) {
+                if (parametersProviderName == null) {
+                    if (sourceId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
+                        initParamsFromPE(sourceId);
+                    } else if (sourceId.getSobjectType() == HCP_Enrollment__c.getSObjectType()) {
+                        initParamsFromHCPE(sourceId);
+                    } else if (sourceId.getSobjectType() == Study_Site__c.getSObjectType()) {
+                        initParamsFromSS(sourceId);
+                    } else if (sourceId.getSobjectType() == Contact.getSObjectType()) {
+                        initParamsFromContact(sourceId);
+                    } else if (sourceId.getSobjectType() == User.getSObjectType()) {
+                        initParamsFromUser(sourceId);
+                    } else if (sourceId.getSobjectType() == Task.getSObjectType()) {
+                        initParamsFromTask(sourceId);
+                    }
+                } else {
+                    Parameters_Provider__mdt pp = CatalogParametersHelper.getParametersProviderMetadata(parametersProviderName);
+                    parameters = CatalogParametersHelper.getParamsValueMap(sourceId, pp, recipientLanguage);
                 }
             } else {
-                Parameters_Provider__mdt pp = CatalogParametersHelper.getParametersProviderMetadata(parametersProviderName);
-                parameters = CatalogParametersHelper.getParamsValueMap(sourceId, pp, recipientLanguage);
+                initDummyParams();
             }
-        } else {
-            initDummyParams();
-        }
 
-        String clinicalResearchCommunityURL = 'IQVIA Clinical Research Community at https://www.clinicalresearch.com';
-        Id networkId = Network.getNetworkId();
-        Auth.AuthConfiguration authConfig = new Auth.AuthConfiguration(networkId, '');
-        String clinicalResearchCommunityForgotPasswordURL = 'IQVIA Clinical Research Community Forgot password at' + authConfig.getForgotPasswordUrl();
-        if (outputMode == 'HTML') {
-            clinicalResearchCommunityURL = '<a href="https://www.clinicalresearch.com" target="_blank">IQVIA Clinical Research Community</a>';
-            clinicalResearchCommunityForgotPasswordURL = authConfig.getForgotPasswordUrl();
-        }
-        parameters.put('CRCommunityURL', clinicalResearchCommunityURL);
-        parameters.put('RecipientName', getUserName());
-        parameters.put('RecipientFirstName', recipientFirstName);
-        parameters.put('ForgotPasswordURL', clinicalResearchCommunityForgotPasswordURL);
+            String clinicalResearchCommunityURL = 'IQVIA Clinical Research Community at https://www.clinicalresearch.com';
+            Id networkId = Network.getNetworkId();
+            Auth.AuthConfiguration authConfig = new Auth.AuthConfiguration(networkId, '');
+            String clinicalResearchCommunityForgotPasswordURL = 'IQVIA Clinical Research Community Forgot password at' + authConfig.getForgotPasswordUrl();
+            if (outputMode == 'HTML') {
+                clinicalResearchCommunityURL = '<a href="https://www.clinicalresearch.com" target="_blank">IQVIA Clinical Research Community</a>';
+                clinicalResearchCommunityForgotPasswordURL = authConfig.getForgotPasswordUrl();
+            }
+            parameters.put('CRCommunityURL', clinicalResearchCommunityURL);
+            parameters.put('RecipientName', getUserName());
+            parameters.put('RecipientFirstName', recipientFirstName);
+            parameters.put('ForgotPasswordURL', clinicalResearchCommunityForgotPasswordURL);
 
-        if (isDelegate && userMode == CommunityService.USER_MODE_PARTICIPANT) {
+            if (isDelegate && userMode == CommunityService.USER_MODE_PARTICIPANT) {
                 parameters.put('UserName', getCommunityUserName(recipientContactId));
 
                 if (!parameters.containsKey('ParticipantFirstName')) {
