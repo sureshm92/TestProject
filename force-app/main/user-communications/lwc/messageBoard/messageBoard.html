@@ -74,14 +74,14 @@
             </template>
             <template if:false={isPIMode}>
                 <div class="ms-board-footer-part">
-                    <lightning-combobox
-                            class="ms-select-templates"
-                            data-gtm="ms-pa-select"
-                            label={labels.selectLabel}
-                            value={messageText}
-                            placeholder={labels.selectPlaceholderLabel}
-                            options={messageTemplateOptions}
-                            onchange={handleMessageText}></lightning-combobox>
+                    <select class="slds-select ms-select-templates" data-gtm="ms-pa-select"
+                            id="mt-select" onchange={handleMessageText}>
+                        <option value="">{labels.selectPlaceholderLabel}</option>
+                        <template for:each={messageTemplateOptions} for:item="messageTemplateOption">
+                            <option key={messageTemplateOption.value}
+                                    value={messageTemplateOption.value}>{messageTemplateOption.label}</option>
+                        </template>
+                    </select>
 
                     <button class="apollo-btn primary ms-send-button"
                             style={sendPAStyle}
