@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>Visit_Result_Code__c</field>
-        <value xsi:type="xsd:string">NYESO-1</value>
+        <value xsi:type="xsd:string">NYESO-1;NYESO</value>
     </values>
     <values>
         <field>Visit_Result_Group__c</field>
