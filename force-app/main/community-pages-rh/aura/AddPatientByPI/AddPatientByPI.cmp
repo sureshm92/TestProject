@@ -85,6 +85,9 @@
                                 <lightning:input type="text" value="{!v.participantDelegate.Last_Name__c}"
                                                  required="{!v.needsGuardian}" onblur="{!c.doCheckfields}"/>
                             </div>
+                            <div class="slds-col slds-size--1-of-3 rr-form-element">
+                                <div class="label"></div>
+                            </div>
 
                             <div class="slds-col slds-size--1-of-3 rr-form-element">
                                 <div class="label">
@@ -103,6 +106,9 @@
                                                  required="{!v.needsGuardian}" onblur="{!c.doCheckfields}"
                                                  messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"/>
                             </div>
+                            <div class="slds-col slds-size--1-of-3 rr-form-element">
+                                <div class="label"></div>
+                            </div>
 
                             <div class="slds-col slds-size--1-of-3 rr-form-element">
                                 <div class="label">
@@ -117,6 +123,9 @@
                                     <abbr title="required" class="slds-required">{!v.needsGuardian ? '*' : ''}</abbr>{!$Label.c.PG_AS_F_Phone_Type}
                                 </div>
                                 <c:rrSelect options="{!v.formData.phoneTypeLVList}" value="{!v.participantDelegate.Phone_Type__c}" useSentenceFont="false"/>
+                            </div>
+                            <div class="slds-col slds-size--1-of-3 rr-form-element">
+                                <div class="label"></div>
                             </div>
                         </aura:if>
                     </div>
