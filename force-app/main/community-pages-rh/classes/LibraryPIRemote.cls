@@ -131,7 +131,7 @@ public without sharing class LibraryPIRemote {
                         Resource__r.URL__c,
                         Clinical_Trial_Profile__r.Study_Code_Name__c
                 FROM Res_study__c
-                WHERE (Clinical_Trial_Profile__c IN :ctpIds)
+                WHERE (Clinical_Trial_Profile__c IN :ctpIds) AND Visible_To_PI__c = true
         ]) {
             resourceLanguageMap.put(rs.Resource__r.Language__c, getResourceLanguage(rs.Resource__r.Language__c));
             if (rs.Resource__r.Language__c == language) {
