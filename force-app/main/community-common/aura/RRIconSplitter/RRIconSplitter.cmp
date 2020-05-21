@@ -10,8 +10,6 @@
     <aura:attribute name="icons" type="List" access="public"/>
     <aura:attribute name="backgroundColor" type="String" default="white"/>
 
-    <aura:attribute name="numOfIconsToDisplay" type="Integer" description="Deprecated, for merge only"/>
-
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.value}" action="{!c.doInit}"/>
 
