@@ -1,0 +1,37 @@
+{
+  "appPageId" : "3c52dbfd-6fc5-447c-9869-3b0d58d04ec1",
+  "componentName" : "c:EmptyLayout",
+  "id" : "fc130a3c-1207-4648-938c-664c666b07c2",
+  "label" : "Patient Profile",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ViewPatient",
+      "id" : "5b494e08-7cdf-48d8-b0bf-50348e3cc9a7",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "06371a02-76d3-4c0c-a138-7d44ad758932",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Patient Profile"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "47b949a3-2a39-499c-97a0-6daac2f2cd9c",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "a5ac861b-8b7d-4081-bf93-308af762b34a",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-patient-profile"
+}

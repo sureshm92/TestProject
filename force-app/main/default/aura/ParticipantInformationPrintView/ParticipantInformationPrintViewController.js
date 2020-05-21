@@ -5,7 +5,7 @@
     doInit: function (component, event, helper) {
         if (!communityService.isInitialized()) return;
 
-        if(!communityService.isDummy()) {
+        if (!communityService.isDummy()) {
             let peId = communityService.getUrlParameter('id');
             communityService.executeAction(component, 'getPrintInformation', {
                 peId: peId,
@@ -19,6 +19,11 @@
                 component.set('v.participant', returnValue.pe.Participant__r);
                 component.set('v.pathItems', returnValue.pathItems);
                 //window.addEventListener("afterprint", function(event) { window.close(); });
+                communityService.executeAction(component, 'getDelegates', {
+                    participantId: component.get('v.participant').Id
+                }, function (returnValue) {
+                    component.set('v.delegate', returnValue);
+                });
                 setTimeout(
                     $A.getCallback(function () {
                         window.print();

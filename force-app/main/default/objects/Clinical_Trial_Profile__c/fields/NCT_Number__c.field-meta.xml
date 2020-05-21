@@ -3,13 +3,14 @@
     <fullName>NCT_Number__c</fullName>
     <caseSensitive>false</caseSensitive>
     <description>A unique identification code given to each clinical study registered on ClinicalTrials.gov. The format is &quot;NCT&quot; followed by an 8-digit number</description>
+    <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <inlineHelpText>A unique identification code given to each clinical study registered on ClinicalTrials.gov. The format is &quot;NCT&quot; followed by an 8-digit number</inlineHelpText>
     <label>NCT Number</label>
     <length>255</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
+<!--    <trackHistory>true</trackHistory>-->
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>true</unique>

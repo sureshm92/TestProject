@@ -1,0 +1,43 @@
+.THIS .slds-text-heading_small {
+    color: #000000;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+}
+
+.THIS  .col_format1{
+    border-radius: 5px;
+    background-color: #F6F7FB;
+    height: 100px;
+    width: 120px;
+    text-align: center;
+    padding-top: 15px;
+}
+
+.THIS .text_format{
+    color: #000000;
+    font-size: 25px;
+    font-weight: 600;
+}
+.THIS .text_format_days{
+    color: #000000;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    padding-bottom: 9px;
+    text-indent: -20%;
+}
+
+.THIS .slds-button_neutral {
+    margin-top: 16px;
+    font-size: 14px;
+    background-color: #F6F7FB;
+    border: none;
+    font-weight: 400;
+    padding-left: 1rem;
+    padding-right: 0.5rem;
+}
+.THIS .slds-dropdown {
+    font-size: 14px;
+
+}

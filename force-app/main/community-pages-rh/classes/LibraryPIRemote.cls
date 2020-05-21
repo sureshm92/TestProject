@@ -4,8 +4,17 @@
 
 public without sharing class LibraryPIRemote {
 
-    public static final String EXCLUDED_RESOURCE_TYPE = 'Article';
     public static final String NOT_STUDY_SPECIFIC_SECTION = 'Not Study-Specific';
+
+    public class ResourceInitData {
+        @AuraEnabled public List<LabelValueItem> languages;
+        @AuraEnabled public List<ResourceWrapper> resources;
+
+        public ResourceInitData(List<LabelValueItem> languages, List<ResourceWrapper> resources) {
+            this.languages = languages;
+            this.resources = resources;
+        }
+    }
 
     public class ResourceWrapper {
         @AuraEnabled public String structureName;
@@ -42,19 +51,31 @@ public without sharing class LibraryPIRemote {
     }
 
     @AuraEnabled
-    public static List<ResourceWrapper> getInitData(Boolean isDelegate) {
+    public static ResourceInitData getInitData(Boolean isDelegate, String language) {
         Set<Id> ssIds = new Set<Id>();
         Set<Id> ctpIds = new Set<Id>();
+        Contact currentContact = CommunityService.getContacts(new Set<Id>{CommunityService.getUserContact().Id})[0];
+        if (language == null) {
+            if (currentContact.Library_Primary_Language__c != null) {
+                language = currentContact.Library_Primary_Language__c;
+            } else {
+                language = currentContact.Language__c;
+            }
+        } else {
+            currentContact.Library_Primary_Language__c = language;
+            update currentContact;
+        }
+        Map<String, String> resourceLanguageMap = new Map<String, String>();
         List<ResourceWrapper> initData = new List<ResourceWrapper>();
         Map<String, List<PIResources>> initDataMap = new Map<String, List<PIResources>>{
                 NOT_STUDY_SPECIFIC_SECTION => new List<PIResources>()
         };
-        if(isDelegate){
+        if (isDelegate) {
             for (Site_Staff__c siteStaff : [
                     SELECT Study_Site__c
                     FROM Site_Staff__c
                     WHERE Site_Contact__c = :CommunityService.getUserContact().Id
-            ]){
+            ]) {
                 ssIds.add(siteStaff.Study_Site__c);
             }
         }
@@ -83,16 +104,19 @@ public without sharing class LibraryPIRemote {
                 FROM Resource__c
                 WHERE Resource_Visibility__c INCLUDES ('PI')
         ]) {
-            res.Language__c = getResourceLanguage(res.Language__c);
-            initDataMap.get(NOT_STUDY_SPECIFIC_SECTION).add(new PIResources(res.Id,
-                                                                            res.RecordType.DeveloperName,
-                                                                            res.Title__c,
-                                                                            res.Language__c,
-                                                                            res.Resource_Type__c,
-                                                                            res.RecordType.Name,
-                                                                            res.Version_Date__c,
-                                                                            res.URL__c,
-                                                                            res.Video__c));
+            resourceLanguageMap.put(res.Language__c, getResourceLanguage(res.Language__c));
+            if (res.Language__c == language) {
+                res.Language__c = getResourceLanguage(res.Language__c);
+                initDataMap.get(NOT_STUDY_SPECIFIC_SECTION).add(new PIResources(res.Id,
+                        res.RecordType.DeveloperName,
+                        res.Title__c,
+                        res.Language__c,
+                        res.Resource_Type__c,
+                        res.RecordType.Name,
+                        res.Version_Date__c,
+                        res.URL__c,
+                        res.Video__c));
+            }
         }
         for (Res_study__c rs : [
                 SELECT Id,
@@ -108,23 +132,29 @@ public without sharing class LibraryPIRemote {
                         Clinical_Trial_Profile__r.Study_Code_Name__c
                 FROM Res_study__c
                 WHERE (Clinical_Trial_Profile__c IN :ctpIds)
-                AND Resource__r.RecordType.Name != :EXCLUDED_RESOURCE_TYPE
         ]) {
-            rs.Resource__r.Language__c = getResourceLanguage(rs.Resource__r.Language__c);
-            initDataMap.get(rs.Clinical_Trial_Profile__r.Study_Code_Name__c).add(new PIResources(rs.Resource__c,
-                                                                                                rs.Resource__r.RecordType.DeveloperName,
-                                                                                                rs.Resource__r.Title__c,
-                                                                                                rs.Resource__r.Language__c,
-                                                                                                rs.Resource__r.Resource_Type__c,
-                                                                                                rs.Resource__r.RecordType.Name,
-                                                                                                rs.Resource__r.Version_Date__c,
-                                                                                                rs.Resource__r.URL__c,
-                                                                                                rs.Resource__r.Video__c));
+            resourceLanguageMap.put(rs.Resource__r.Language__c, getResourceLanguage(rs.Resource__r.Language__c));
+            if (rs.Resource__r.Language__c == language) {
+                rs.Resource__r.Language__c = getResourceLanguage(rs.Resource__r.Language__c);
+                initDataMap.get(rs.Clinical_Trial_Profile__r.Study_Code_Name__c).add(new PIResources(rs.Resource__c,
+                        rs.Resource__r.RecordType.DeveloperName,
+                        rs.Resource__r.Title__c,
+                        rs.Resource__r.Language__c,
+                        rs.Resource__r.Resource_Type__c,
+                        rs.Resource__r.RecordType.Name,
+                        rs.Resource__r.Version_Date__c,
+                        rs.Resource__r.URL__c,
+                        rs.Resource__r.Video__c));
+            }
+        }
+        List<LabelValueItem> languages = new List<LabelValueItem>();
+        for (String lang : resourceLanguageMap.keySet()) {
+            languages.add(new LabelValueItem(resourceLanguageMap.get(lang), lang));
         }
         for (String key : initDataMap.keySet()) {
             initData.add(new ResourceWrapper(key, initDataMap.get(key)));
         }
-        return initData;
+        return new ResourceInitData(languages, initData);
     }
 
     private static String getResourceLanguage(String languageCode) {
@@ -138,5 +168,4 @@ public without sharing class LibraryPIRemote {
         }
         return null;
     }
-
 }

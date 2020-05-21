@@ -4,13 +4,15 @@
 public without sharing class VisitResultsRemote {
 
     @AuraEnabled
-    public static InitDataWrapper getInitData(String visitResultsMode) {
+    public static InitDataWrapper getInitData(String visitResultsMode, Map<String, Map<String, List<String>>> visitResultSharings) {
         try {
+            List<Visit_Result__c> visitResultsForMode = VisitResultSharingService.processResults(visitResultsMode, null);
             InitDataWrapper wrapper = (InitDataWrapper) ClassFactory.newInstance(InitDataWrapper.class);
             wrapper.isVisitResultsAvailable = VisitResultSharingService.isVisitResultAvailable();
             wrapper.contact = ParticipantContext.getCurrentContact();
-            wrapper.isResultsExist = !VisitResultSharingService.processResults().isEmpty();
-            wrapper.visitResultsGroupNames = ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class)).getVisitResultsGroupNames(visitResultsMode);
+            wrapper.isResultsExist = !visitResultsForMode.isEmpty() && existAndAvailableByCTP(visitResultSharings.get(visitResultsMode), visitResultsForMode);
+            wrapper.visitResultsGroupNames = notEmptyVisitResultsGroupName(visitResultsMode, visitResultSharings);
+            wrapper.visitResultsShares = visitResultSharings.get(visitResultsMode);
             wrapper.isDelegate = ParticipantContext.isCurrentDelegate();
             wrapper.toggleState = toggleState(visitResultsMode);
             return wrapper;
@@ -32,10 +34,9 @@ public without sharing class VisitResultsRemote {
     }
 
     @AuraEnabled
-    public static VisitResultsService.VisitResultsContainer getVisitResultsContainer(String visitResultGroupName) {
-
+    public static VisitResultsService.VisitResultsContainer getVisitResultsContainer(String visitResultGroupName, String visitResultsShares) {
         try {
-            return ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class)).getVisitResultsContainer(visitResultGroupName);
+            return ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class)).getVisitResultsContainer(visitResultGroupName, convertJSONtoMap(visitResultsShares));
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -66,7 +67,9 @@ public without sharing class VisitResultsRemote {
         String currentVisitResults = currentContact.Visit_Results_OptIn__c == null ? '' : currentContact.Visit_Results_OptIn__c;
         String updatedVisitResults = '';
         if (isToggleOn) {
-            updatedVisitResults = currentVisitResults + ';' + visitResultsMode;
+            if (!currentVisitResults.contains(visitResultsMode)) {
+                updatedVisitResults = currentVisitResults + ';' + visitResultsMode;
+            }
         } else {
             List<String> visitResults = currentVisitResults.split(';');
             for (String str : visitResults) {
@@ -77,6 +80,47 @@ public without sharing class VisitResultsRemote {
         update currentContact;
     }
 
+    public static List<String> notEmptyVisitResultsGroupName(String visitResultsMode, Map<String, Map<String, List<String>>> visitResultSharingByGroupAndMode) {
+        Map<String, List<String>> visitResultGroupNamesWithTypes = visitResultSharingByGroupAndMode.get(visitResultsMode);
+        List<String> notEmptyVisitResultsGroupName = new List<String>();
+        if (visitResultGroupNamesWithTypes != null) {
+            for (String groupName : visitResultGroupNamesWithTypes.keySet()) {
+                notEmptyVisitResultsGroupName.add(groupName);
+            }
+        }
+        return notEmptyVisitResultsGroupName;
+    }
+
+    public static Boolean existAndAvailableByCTP(Map<String, List<String>> availableVisitResults, List<Visit_Result__c> visitResultsForMode) {
+        if (availableVisitResults!=null) {
+            List<String> availableAndExistResults = new List<String>();
+            for (Visit_Result__c visitResult : visitResultsForMode) {
+                availableAndExistResults.add(visitResult.Result_Type__c);
+            }
+            for (String str : availableVisitResults.keySet()) {
+                List<String> availableResultsForGroup = availableVisitResults.get(str);
+                for (String result : availableResultsForGroup) {
+                    if (availableAndExistResults.contains(result)) return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static Map<String, List<String>> convertJSONtoMap(String visitResultsShares) {
+        Map<String, Object> visitResultsSharesFirstStageDeserialize = (Map<String, Object>) JSON.deserializeUntyped(visitResultsShares);
+        Map<String, List<String>> visitResultSharings = new Map<String, List<String>>();
+        Set <String> groups = visitResultsSharesFirstStageDeserialize.keySet();
+        for (String groupName : groups) {
+            List<Object> visitResultsSharesSecondStageDeserialize = (List<Object>) visitResultsSharesFirstStageDeserialize.get(groupName);
+            List<String> visitResultsSharesForGroup = new List<String>();
+            for (Integer i = 0; i < visitResultsSharesSecondStageDeserialize.size(); i++) {
+                visitResultsSharesForGroup.add(visitResultsSharesSecondStageDeserialize.get(i).toString());
+            }
+            visitResultSharings.put(groupName, visitResultsSharesForGroup);
+        }
+        return visitResultSharings;
+    }
 
     public class InitDataWrapper {
 
@@ -90,6 +134,8 @@ public without sharing class VisitResultsRemote {
         public Boolean isResultsExist;
         @AuraEnabled
         public List<String> visitResultsGroupNames;
+        @AuraEnabled
+        public Map<String, List<String>> visitResultsShares;
         @AuraEnabled
         public Boolean toggleState;
     }

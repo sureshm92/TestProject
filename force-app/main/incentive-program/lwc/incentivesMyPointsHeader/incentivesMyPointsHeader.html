@@ -1,0 +1,23 @@
+<!--
+ - Created by Andrii Kryvolap.
+ -->
+
+<!-- Incentives My Points Header -->
+<template>
+    <div class="slds-grid imph-container">
+        <div class="slds-col slds-size_1-of-2 slds-large-size_2-of-3">
+            <div class="imph-title">
+                {labels.myPointsLabel}
+            </div>
+            <div class="imph-points">
+                <c-web-icon icon-name="icon-star-solid" icon-color="#DF216D" icon-size="small"></c-web-icon> {labels.totalPointsLabel} <strong>{totalPoints}</strong>
+            </div>
+        </div>
+        <div class="slds-col slds-size_1-of-2 slds-large-size_1-of-3 imph-button-container">
+            <button class="apollo-btn primary" title={labels.redeemPointsDisclaimerLabel}>
+                {labels.redeemPointsLabel}
+            </button>
+        </div>
+
+    </div>
+</template>

@@ -21,6 +21,7 @@ if %ERRORLEVEL% == 0 (
     call sfdx force:user:permset:assign --permsetname PP_Approved_Languages_Edit
     call sfdx force:user:permset:assign --permsetname PP_Batch_Control_Panel
     call sfdx force:user:permset:assign --permsetname PP_CTP_Edit
+    call sfdx force:user:permset:assign --permsetname PP_Email_Test_Board
     call sfdx force:user:permset:assign --permsetname PP_Manual_Creation_Panel
     call sfdx force:user:permset:assign --permsetname PP_Message_Configuration_Edit
     call sfdx force:user:permset:assign --permsetname PP_Motivational_Messages_Edit

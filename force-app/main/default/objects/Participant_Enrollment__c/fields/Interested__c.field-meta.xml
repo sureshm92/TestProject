@@ -6,7 +6,7 @@
     <inlineHelpText>Is the Potential Participant interested in participating in the clinical trial?</inlineHelpText>
     <label>Interested</label>
     <trackFeedHistory>false</trackFeedHistory>
-
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

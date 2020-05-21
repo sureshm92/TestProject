@@ -4,21 +4,19 @@
 <aura:component controller="VisitResultsRemote" description="VisitResultsPanel">
 
     <!-- ATTRIBUTES -->
-
     <aura:attribute name="visitResultGroupName" type="String"/>
+    <aura:attribute name="initData" type="Map"/>
 
     <aura:attribute name="visitResultsContainer" type="VisitResultsService.VisitResultsContainer" access="private"/>
     <aura:attribute name="displayPanel" type="Boolean" default="true" access="private"/>
     <aura:attribute name="initialized" type="Boolean" default="false" access="private"/>
 
     <!-- HANDLERS -->
-
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     <!-- COMPONENT BODY -->
-
     <aura:if isTrue="{!v.displayPanel}">
-        <div class="rr-white-panel visit-result-panel">
+        <div class="visit-result-panel">
             <c:RRSpinner aura:id="mainSpinner" showSpinner="true" size="medium" fixed="false"/>
             <aura:if isTrue="{!v.initialized}">
                 <div class="visit-result-panel-title">

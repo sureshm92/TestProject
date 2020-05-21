@@ -19,6 +19,7 @@
                     component.set('v.codeName', sw.studyCodeName);
                     component.set('v.link', sw.url);
                     component.set('v.surveyName', sw.name);
+                    component.set('v.initialized', true);
                 }
             }, function () {
                 communityService.navigateToHome();

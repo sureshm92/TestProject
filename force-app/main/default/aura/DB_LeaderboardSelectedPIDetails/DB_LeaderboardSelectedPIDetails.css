@@ -1,0 +1,166 @@
+.THIS {
+    border-radius: 5px;
+    background-color: #F6F7FB;
+    height: 418px;
+    width: 320px;
+}
+
+.THIS .pi_Name{
+    padding-left: 12px;
+    padding-top: 20px;
+    padding-bottom: 4px;
+    margin-bottom: 0px;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 20px;
+    letter-spacing: 0;
+    line-height: 24px;
+    font-weight: 550;
+}
+
+.THIS  .study_Name{
+    margin-top: -2px;
+    padding-top: -2px;
+    padding-left: 12px;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 19px;
+    font-weight: 500;
+    height: 19px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; 
+}
+
+.THIS  .topsite{
+    margin-top: -2px;
+    padding-top: -2px;
+    padding-left: 12px;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 15px;
+    letter-spacing: 0;
+    line-height: 20px;
+    font-weight: 500;
+}
+
+.THIS  .study_Name2{
+    margin-top: -2px;
+    padding-top: -2px;
+    padding-left: 12px;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    letter-spacing: 0;
+    line-height: 20px;
+    font-weight: 500;
+}
+
+.THIS .flagdiv  {
+    padding-left: 17px;
+    padding-top: 17px;
+}
+
+.THIS .topsiteblock{
+    padding-top: 25px;
+}
+
+.THIS  .txt_align{
+    height: 120px;
+    text-align: center;
+    padding-left: 7px;
+    padding-right: 10px;
+    margin-left: -2px;
+    padding-top: 12px;
+}
+
+.THIS .innerdiv{
+    height: 105px;
+    margin-right: 3px;
+    margin-left: 3px; 
+    padding-right: 10px;   
+}
+
+.THIS .middlediv{
+    height: 80px;
+    margin-right: 3px;
+    margin-left: 3px; 
+    padding-right: 10px;  
+}
+
+.THIS .txtformat1{
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 510;
+    margin-top: -2px;
+}
+
+.THIS .digitformat1{
+    font-family: "Proxima Nova";
+    font-size: 36px;
+    line-height: 43px;
+    font-weight: 650;
+}
+
+.THIS .textalign2{
+    font-size: 16px;
+    font-weight: 550;
+    font-family: "Proxima Nova";
+    line-height: 19px;
+    color: #000000;
+    text-align: left;
+    letter-spacing: 0;
+    padding-left: 12px;
+    padding-top: 20px;
+    padding-bottom: 0px;
+}
+
+.THIS .borderdiv{
+    border-bottom: 1px solid rgb(211, 211, 211);
+}
+
+.THIS .bottomdiv{
+    height: 80px;
+    margin-right: 3px;
+    margin-left: 3px; 
+    padding-right: 2px;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 20px;
+}
+
+.THIS  .othertopsite1{
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 20px;
+    font-weight: 550;
+    padding-bottom: 5px;
+}
+
+.THIS  .othertopsite2{
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 15px;
+    letter-spacing: 0;
+    line-height: 18px;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 235px;
+    height: 20px;
+    white-space: nowrap; 
+}
+
+.THIS  .othertopsite2rank{
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 15px;
+    letter-spacing: 0;
+    line-height: 18px;
+    font-weight: 500;
+    height: 20px;
+}

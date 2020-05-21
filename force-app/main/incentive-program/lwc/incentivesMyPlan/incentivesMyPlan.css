@@ -1,0 +1,37 @@
+/**
+ * Created by Andrii Kryvolap.
+ */
+
+.incentives-my-plan-container{
+    height: 100%;
+    padding: 20px;
+    position: relative;
+}
+.incentives-my-plan-title {
+    color: #000000;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 30px;
+}
+.imp-ss-select-container{
+    margin-top: 5px;
+    width: 50%;
+}
+.incentives-my-plan-group-points{
+      color: #444444;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 30px;
+}
+.incentives-my-plan-group-items{
+    color: #444444;
+    font-size: 16px;
+    line-height: 30px;
+}
+.incentives-my-plan-group-items ul{
+    list-style-type: disc;
+    list-style-position: inside;
+}
+.incentives-my-plan-group-container{
+    margin-top: 16px;
+}

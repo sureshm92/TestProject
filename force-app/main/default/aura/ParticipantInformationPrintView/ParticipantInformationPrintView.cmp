@@ -1,6 +1,8 @@
 <!--
  - Created by Kryvolap Andrii
- -->
+ - Modified by Pijush Kar on 4/16/2020 
+   to accomodate the changes related to REF-1192
+-->
 
 <aura:component description="ParticipantInformationPrintView" controller="ParticipantInformationRemote"
                 implements="forceCommunity:availableForAllPageTypes">
@@ -11,9 +13,13 @@
     <aura:attribute name="participant" type="Participant__c" access="private"/>
     <aura:attribute name="initialized" type="Boolean" default="false" access="private"/>
     <aura:attribute name="pathItems" type="List"/>
-
+    <aura:attribute name="delegate" type="Object"/>
+    <!--REF-1192-->
+    <aura:attribute name="participantWorkflowWrapper" type="Object"/>
+    <aura:attribute name="participantHistory" type="List"/>
+    
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
-
+    
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" size="medium"/>
     <div class="form-content">
@@ -25,31 +31,60 @@
                     <div class="ap-section">
                         <div class="ap-section-title">{!$Label.c.PG_AP_H_Patient_Details}</div>
                         <div class="slds-grid slds-gutters slds-wrap">
-                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                            <div class="rr-form-element slds-col slds-size--1-of-4">
                                 <div class="label">{!$Label.c.PG_AS_F_First_name}</div>
                                 <lightning:input type="text" value="{!v.participant.First_Name__c}" disabled="true"/>
                             </div>
-                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                            <div class="rr-form-element slds-col slds-size--1-of-4">
                                 <div class="label">{!$Label.c.PG_AS_F_Middle_name}</div>
                                 <lightning:input type="text" value="{!v.participant.Middle_Name__c}" disabled="true"/>
                             </div>
-                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                            <div class="rr-form-element slds-col slds-size--1-of-4">
                                 <div class="label">{!$Label.c.PG_AS_F_Last_name}</div>
                                 <lightning:input type="text" value="{!v.participant.Last_Name__c}" disabled="true"/>
                             </div>
-                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                            <div class="rr-form-element slds-col slds-size--1-of-4">
+                                <div class="label">{!$Label.c.PG_AS_F_Suffix}</div>
+                                <lightning:input type="text" value="{!v.participant.Suffix__c}" disabled="true"/>
+                            </div>
+                            <div class="rr-form-element slds-col slds-size--1-of-4">
                                 <div class="label">{!$Label.c.PG_AS_F_Date_of_Birth}</div>
                                 <lightning:input max="{!v.todayDate}" type="date"
                                                  value="{!v.participant.Date_of_Birth__c}" disabled="true"/>
                             </div>
-                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                            <div class="rr-form-element slds-col slds-size--1-of-4">
+                                <div class="label">{!$Label.c.PG_AS_F_Nickname}</div>
+                                <lightning:input type="text" value="{!v.participant.Nickname__c}" disabled="true"/>
+                            </div>
+                            <div class="rr-form-element slds-col slds-size--1-of-4">
                                 <div class="label">{!$Label.c.PG_AS_F_Gender}</div>
                                 <lightning:input type="text" value="{!v.participant.Gender__c}" disabled="true"/>
+                            </div>
+                            <div class="rr-form-element slds-col slds-size--1-of-4">
+                                <div class="label">{!$Label.c.PG_AP_F_Language}</div>
+                                <lightning:input type="text" value="{!v.participant.Preferred_Language__c}" disabled="true"/>
                             </div>
                         </div>
                     </div>
                     <!-- contact information: -->
                     <div class="ap-section">
+                    <aura:if isTrue="{!(v.delegate &amp;&amp; !v.participant.Adult__c) || (v.delegate &amp;&amp; v.participant.Adult__c &amp;&amp; v.participant.Emancipation_in_progress__c)}">
+                        <div class="ap-section-title">{!$Label.c.PG_Ref_L_Delegate_Information}</div>
+                        <div class="slds-grid slds-gutters slds-wrap">
+                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                                <div class="label">{!$Label.c.PG_AS_F_First_name}</div>
+                                <lightning:input type="text" value="{!v.delegate.First_Name__c}" disabled="true"/>
+                            </div>
+                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                                <div class="label">{!$Label.c.PG_AS_F_Last_name}</div>
+                                <lightning:input type="text" value="{!v.delegate.Last_Name__c}" disabled="true"/>
+                            </div>
+                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                                <div class="label">{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</div>
+                                <lightning:input type="text" value="{!v.delegate.Phone__c}" disabled="true"/>
+                            </div>
+                        </div>
+                    </aura:if>
                         <div class="ap-section-title">{!$Label.c.PG_AP_H_Contact_Information}</div>
                         <div class="slds-grid slds-gutters slds-wrap">
                             <div class="rr-form-element slds-col slds-size--1-of-3">
@@ -80,6 +115,16 @@
                                 <lightning:input type="text" value="{!v.participant.Mailing_Zip_Postal_Code__c}"
                                                  disabled="true"/>
                             </div>
+                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                                <div class="label">{!$Label.c.PG_AP_F_Alternative_Phone_Number}</div>
+                                <lightning:input type="text" value="{!v.participant.Alternative_Phone_Number__c}"
+                                                 disabled="true"/>
+                            </div>
+                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                                <div class="label">{!$Label.c.PG_AP_F_Alternative_Phone_Type}</div>
+                                <lightning:input type="text" value="{!v.participant.Alternative_Phone_Type__c}"
+                                                 disabled="true"/>
+                            </div>
                         </div>
                     </div>
 
@@ -105,6 +150,10 @@
                                 <div class="label">{!$Label.c.MRN_Internal_Id}</div>
                                 <lightning:input type="text" value="{!v.pe.MRN_Id__c}" disabled="true"/>
                             </div>
+                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                                <div class="label">{!$Label.c.FD_PE_Field_Arm_Cohort}</div>
+                                <lightning:input type="text" value="{!v.pe.Visit_Plan__r.Name}" disabled="true"/>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -122,58 +171,63 @@
                         <c:ParticipantStatusPath userMode="PI" pathSteps="{!v.pathItems}" printMode="true"/>
                     </div>
                 </div>
+                <div>
+                    <aura:iteration items="{!v.pathItems}" var="step">
+                    <c:ParticipantStatusHistoryPrintView pathItem="{!step}"/>
+                    </aura:iteration>
+                </div>
             </div>
 
-            <!--                &lt;!&ndash;Status Detail Path Controll&ndash;&gt;-->
-            <!--                <div class="slds-grid slds-grid_vertical rp-status-detail">-->
-            <!--                        <aura:iteration items="{!v.statusSteps}" var="step" indexVar="index">-->
-            <!--                            <aura:if isTrue="{!!empty(step.history)}">-->
-            <!--                            <div class="{!'slds-col slds-grid pe-state-row ' + if(step.isCurrent, ' current', '')}">-->
-            <!--                                <div class="{!'slds-col slds-grid slds-size&#45;&#45;1-of-1 path-item-detail-panel rr-white-panel ' + step.state}" style="position: relative">-->
-            <!--                                    <div class="slds-col slds-size&#45;&#45;4-of-12">-->
-            <!--                                        <div class="title">{!step.name}</div>-->
-            <!--                                        &lt;!&ndash; history list: &ndash;&gt;-->
-            <!--                                            <div class="pe-history">-->
-            <!--                                                <div class="title">{!$Label.c.PE_Activity_History + ':'}</div>-->
-            <!--                                                <aura:iteration items="{!step.history}" var="historyItem" indexVar="hIndex">-->
-            <!--                                                    <div class="history-item">-->
-            <!--                                                        <div class="{!'info ' + historyItem.styleClass + if(hIndex == 0, ' first', '')}">{!historyItem.message}</div>-->
-            <!--                                                        <div class="date">{!$Label.c.PE_Status_History_On_Date + ' '}-->
-            <!--                                                            <ui:outputDateTime value="{!historyItem.changeDate}"/><br/>-->
-            <!--                                                            <aura:if isTrue="{!step.name == 'Referred'}">-->
-            <!--                                                                <aura:if isTrue="{!v.pe.Referral_Source__c == 'HCP'}">-->
-            <!--                                                                    <div class="value">{!$Label.c.PG_IMI_L_by_user + ' ' + v.pe.HCP__r.HCP_Contact__r.Name}</div>-->
-            <!--                                                                    <aura:set attribute="else">-->
-            <!--                                                                        <aura:if isTrue="{!v.pe.Referral_Source__c == 'PI'}">-->
-            <!--                                                                            <div class="value">{!$Label.c.PG_IMI_L_by_user + ' ' + v.pe.PI_Contact__r.Name}</div>-->
-            <!--                                                                            <aura:set attribute="else">-->
-            <!--                                                                                <div class="value">{!$Label.c.PG_IMI_L_by_user + ' ' + v.pe.Source_Type__c}</div>-->
-            <!--                                                                            </aura:set>-->
-            <!--                                                                        </aura:if>-->
-            <!--                                                                    </aura:set>-->
-            <!--                                                                </aura:if>-->
-            <!--                                                                <aura:set attribute="else">-->
-            <!--                                                                    {!$Label.c.PG_IMI_L_by_user + ' ' + historyItem.modifiedBy}-->
-            <!--                                                                </aura:set>-->
-            <!--                                                            </aura:if>-->
-            <!--                                                        </div>-->
-            <!--                                                    </div>-->
-            <!--                                                </aura:iteration>-->
-            <!--                                            </div>-->
-            <!--                                    </div>-->
-            <!--                                </div>-->
-            <!--                            </div>-->
-            <!--                            </aura:if>-->
-            <!--                        </aura:iteration>-->
-            <!--                </div>-->
+                <!--                &lt;!&ndash;Status Detail Path Controll&ndash;&gt;-->
+                <!--                <div class="slds-grid slds-grid_vertical rp-status-detail">-->
+                <!--                        <aura:iteration items="{!v.statusSteps}" var="step" indexVar="index">-->
+                <!--                            <aura:if isTrue="{!!empty(step.history)}">-->
+                <!--                            <div class="{!'slds-col slds-grid pe-state-row ' + if(step.isCurrent, ' current', '')}">-->
+                <!--                                <div class="{!'slds-col slds-grid slds-size&#45;&#45;1-of-1 path-item-detail-panel rr-white-panel ' + step.state}" style="position: relative">-->
+                <!--                                    <div class="slds-col slds-size&#45;&#45;4-of-12">-->
+                <!--                                        <div class="title">{!step.name}</div>-->
+                <!--                                        &lt;!&ndash; history list: &ndash;&gt;-->
+                <!--                                            <div class="pe-history">-->
+                <!--                                                <div class="title">{!$Label.c.PE_Activity_History + ':'}</div>-->
+                <!--                                                <aura:iteration items="{!step.history}" var="historyItem" indexVar="hIndex">-->
+                <!--                                                    <div class="history-item">-->
+                <!--                                                        <div class="{!'info ' + historyItem.styleClass + if(hIndex == 0, ' first', '')}">{!historyItem.message}</div>-->
+                <!--                                                        <div class="date">{!$Label.c.PE_Status_History_On_Date + ' '}-->
+                <!--                                                            <ui:outputDateTime value="{!historyItem.changeDate}"/><br/>-->
+                <!--                                                            <aura:if isTrue="{!step.name == 'Referred'}">-->
+                <!--                                                                <aura:if isTrue="{!v.pe.Referral_Source__c == 'HCP'}">-->
+                <!--                                                                    <div class="value">{!$Label.c.PG_IMI_L_by_user + ' ' + v.pe.HCP__r.HCP_Contact__r.Name}</div>-->
+                <!--                                                                    <aura:set attribute="else">-->
+                <!--                                                                        <aura:if isTrue="{!v.pe.Referral_Source__c == 'PI'}">-->
+                <!--                                                                            <div class="value">{!$Label.c.PG_IMI_L_by_user + ' ' + v.pe.PI_Contact__r.Name}</div>-->
+                <!--                                                                            <aura:set attribute="else">-->
+                <!--                                                                                <div class="value">{!$Label.c.PG_IMI_L_by_user + ' ' + v.pe.Source_Type__c}</div>-->
+                <!--                                                                            </aura:set>-->
+                <!--                                                                        </aura:if>-->
+                <!--                                                                    </aura:set>-->
+                <!--                                                                </aura:if>-->
+                <!--                                                                <aura:set attribute="else">-->
+                <!--                                                                    {!$Label.c.PG_IMI_L_by_user + ' ' + historyItem.modifiedBy}-->
+                <!--                                                                </aura:set>-->
+                <!--                                                            </aura:if>-->
+                <!--                                                        </div>-->
+                <!--                                                    </div>-->
+                <!--                                                </aura:iteration>-->
+                <!--                                            </div>-->
+                <!--                                    </div>-->
+                <!--                                </div>-->
+                <!--                            </div>-->
+                <!--                            </aura:if>-->
+                <!--                        </aura:iteration>-->
+                <!--                </div>-->
 
-            <!--MRR Survey Results-->
-            <aura:if isTrue="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled}">
-                <div>
-                    <div class="header">{!$Label.c.BTN_Screener_Responses}</div>
-                    <c:SurveyGismoResultsView results="{!v.pe.MRR_Survey_Results_URL__c}"/>
-                </div>
-            </aura:if>
+                <!--MRR Survey Results-->
+                <aura:if isTrue="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled}">
+                    <div>
+                        <div class="header">{!$Label.c.BTN_Screener_Responses}</div>
+                        <c:SurveyGismoResultsView results="{!v.pe.MRR_Survey_Results_URL__c}"/>
+                    </div>
+                </aura:if>
 
         </aura:if>
     </div>

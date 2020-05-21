@@ -17,6 +17,8 @@ public class TestData {
     public Participant_Study_Enrollment__c pse; //ONLY FOR DEPLOY
     public Participant_Enrollment__c pe;
     public HCP_Enrollment__c hcpEnrollment;
+    public Contact piContact;
+    public Contact piDelegateContact;
     private static Contact hcpContact;
     private static Terms_And_Conditions__c studyTC;
     private static List<String> necessaryTriggersForLoadTestData = new List<String>(); // these triggers are necessary for correct work of loadTestData()
@@ -68,6 +70,7 @@ public class TestData {
         ];
         pe = [
                 SELECT Id,
+                        Name,
                         External_Key__c,
                         Participant_Contact__c,Participant_Status__c,
                         Participant_Contact__r.Visit_Results_OptIn__c,
@@ -89,6 +92,9 @@ public class TestData {
                 WHERE HCP_Contact__r.LastName = 'HCPTD'
                 LIMIT 1
         ];
+        piContact = [SELECT Id,Name FROM Contact WHERE Email = 'pi@emil.com' LIMIT 1];
+        
+        piDelegateContact = [SELECT Id,Name FROM Contact WHERE Email = 'pi_delegate@emil.com' LIMIT 1];
     }
 
     public User createPatientDelegate() {
@@ -472,8 +478,24 @@ public class TestData {
         insert hcpEnrollment;
 
     }
+
+    public static void createIncentiveProgram(){
+        Incentive_Plan__c plan = new Incentive_Plan__c();
+        plan.Plan_Name__c = 'Test IP1';
+        insert plan;
+        Incentive_Plan_Task__c task = new Incentive_Plan_Task__c();
+        task.Incentive_Task_Catalog__c = IncentiveTaskCatalog.INCENTIVE_TASK_PRE_SCREENING;
+        task.Incentive_Plan__c = plan.Id;
+        task.Enabled__c = true;
+        task.IQVIA_Supported__c = true;
+        task.Points__c = 15;
+        insert task;
+        Study_Incentive_Plan__c sip = new Study_Incentive_Plan__c();
+        sip.Incentive_Plan__c = plan.Id;
+        Study_Site__c studySite = [SELECT Id FROM Study_Site__c WHERE Study_Site_Number__c = 'SS1' LIMIT 1];
+        sip.Study_Site__c = studySite.Id;
+        insert sip;
+
+
+    }
 }
-
-
-
-
