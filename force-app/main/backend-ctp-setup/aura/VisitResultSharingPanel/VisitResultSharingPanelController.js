@@ -1,6 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
+
 ({
     doInit: function (component, event, helper) {
         communityService.executeAction(component, 'getInitData', {
@@ -85,6 +86,14 @@
         }
 
         component.set('v.options', options);
+    },
+
+    doGroupChanged: function (component, event, helper) {
+        let groups = component.get('v.groups');
+        for (const group of groups) {
+            if (group.show) return;
+        }
+        component.set('v.options.countrySelectionType', 'Disabled');
     },
 
     onChangeGlobal: function (component, event, helper) {

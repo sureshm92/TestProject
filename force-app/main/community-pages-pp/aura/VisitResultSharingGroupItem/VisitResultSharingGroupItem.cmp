@@ -2,19 +2,24 @@
  - Created by Dmitry Ivakhnenko on 15-May-20.
  -->
 
-<aura:component description="VisitResultSharingGroup">
+<aura:component description="VisitResultSharingGroupItem">
+
     <!-- attributes: -->
     <aura:attribute name="groupLabel" type="String"/>
     <aura:attribute name="visitResults" type="List"/>
+    <aura:attribute name="showGroup" type="Boolean" default="false"/>
     <aura:attribute name="globalCountries" type="String" default=""/>
     <aura:attribute name="globalType" type="String" default=""/>
 
-    <aura:attribute name="previousGlobalType" type="String" default=""/>
-    <aura:attribute name="showGroup" type="Boolean" default="true"/>
+    <aura:attribute name="previousGlobalType" type="String" default="" access="private"/>
+
+    <!-- events: -->
+    <aura:registerEvent name="onChange" type="c:uiEvent"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.previousGlobalType}" action="{!c.doUpdateGroupDisplay}"/>
+    <aura:handler name="change" value="{!v.showGroup}" action="{!c.doShowGroupChanged}"/>
     <aura:handler name="change" value="{!v.globalCountries}" action="{!c.doGlobalCountryChanged}"/>
     <aura:handler name="change" value="{!v.globalType}" action="{!c.doGlobalTypeChanged}"/>
 
@@ -26,7 +31,7 @@
                                   label=""
                                   value="{!v.showGroup}"
                                   disabled="{!v.globalType == 'Disabled'}"
-                                  change="{!c.doUpdateGroupSharing}"/>
+                                  change="{!c.doUpdateGroupItems}"/>
                 <span class="slds-form-element__label">{!v.groupLabel}</span>
             </label>
         </div>
