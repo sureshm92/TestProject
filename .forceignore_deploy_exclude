@@ -1,4 +1,14 @@
+# Add excluded metadata for deployment here!
+
+
+# Resource record types:
 force-app/main/resources/objects/Resource__c/recordTypes/*
 force-app/main/resources/objects/Resource__c/fields/Type__c
+
+
+# Escalation report:
 force-app/main/default/reports/Escalationreport/*
 
+
+# Contact record types (TODO check this):
+force-app/main/default/objects/Contact/recordTypes/*
