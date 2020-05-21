@@ -4,13 +4,9 @@
 ({
     doInit: function (component, event, helper) {
         if(!communityService.isInitialized()) return;
-
-        if(!communityService.isDummy()) {
-            component.set('v.isDelegate', communityService.isDelegate());
-            component.set('v.userMode', communityService.getUserMode());
-            component.set('v.isInitialized', true);
-        } else {
-            component.find('builderStub').setPageName(component.getName());
-        }
+        var mode = communityService.getUserMode();
+        component.set('v.isDelegate', communityService.isDelegate());
+        component.set('v.userMode', mode);
+        component.set('v.isInitialized', true);
     }
-});
+})

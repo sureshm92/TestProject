@@ -4,7 +4,8 @@
 
 <aura:component description="SitesSearch" implements="forceCommunity:availableForAllPageTypes"
                 controller="SitesSearchRemote">
-    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
     <aura:attribute name="trialId" type="String"/>
@@ -29,7 +30,7 @@
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
 
     <!-- component body: -->
-    <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true"/>
+    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
 
     <div class="rr-min-body-height">
         <aura:if isTrue="{!v.isInitialized}">
@@ -95,6 +96,4 @@
 
         </aura:if>
     </div>
-
-    <c:builderStub aura:id="builderStub"/>
 </aura:component>

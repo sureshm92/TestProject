@@ -4,7 +4,7 @@
 
 <aura:component description="ResourcesDetailContainer" implements="forceCommunity:availableForAllPageTypes"
                 controller="ResourcesDetailRemote">
-    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
     <aura:attribute name="resourceWrapper" type="ResourceService.ResourceWrapper"/>
     <aura:attribute name="resourceType" type="String" default="Article"/>
@@ -13,33 +13,27 @@
     <aura:attribute name="bigTitle" type="String" default="&nbsp;"/>
     <aura:attribute name="errorMessage" type="String" default=""/>
     <aura:attribute name="lang" type="String"/>
-    <aura:attribute name="initialized" type="Boolean"/>
 
-    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
 
-    <aura:if isTrue="{!v.initialized}">
-        <div>
-            <c:RRTopBar backLabel="{!v.backStudy == '' ? $Label.c.Link_Back_To_Home : $Label.c.Link_Back_To_Resources}"
-                        backPage="{!v.backStudy}"
-                        smallTitle="{!v.smallTitle}"
-                        bigTitle="{!v.bigTitle}"/>
-            <c:RRSpinner aura:id="spinner" fixed="true" size="medium"/>
+    <div>
+        <c:RRTopBar backLabel="{!v.backStudy == '' ? $Label.c.Link_Back_To_Home : $Label.c.Link_Back_To_Resources}"
+                    backPage="{!v.backStudy}"
+                    smallTitle="{!v.smallTitle}"
+                    bigTitle="{!v.bigTitle}"/>
+        <c:RRSpinner aura:id="spinner" showSpinner="true" fixed="true" size="medium"/>
 
-            <aura:if isTrue="{!v.errorMessage}">
-                <div class="resource-error-message resource-detail-block">
-                    {!v.errorMessage}
-                </div>
-                <aura:set attribute="else">
-                    <div class="resource-detail-block">
-                        <c:ResourcesDetailItem resourceWrapper ="{!v.resourceWrapper}" lang="{!v.lang}"/>
-                    </div>
-                </aura:set>
-            </aura:if>
-            <div class="rr-width-limiter side-padding footer-resource">
-                <c:CommunityFooter/>
+        <aura:if isTrue="{!v.errorMessage}">
+            <div class="resource-error-message resource-detail-block">
+                {!v.errorMessage}
             </div>
+            <aura:set attribute="else">
+                <div class="resource-detail-block">
+                    <c:ResourcesDetailItem resourceWrapper ="{!v.resourceWrapper}" lang="{!v.lang}"/>
+                </div>
+            </aura:set>
+        </aura:if>
+        <div class="rr-width-limiter side-padding footer-resource">
+            <c:CommunityFooter/>
         </div>
-    </aura:if>
-
-    <c:builderStub aura:id="builderStub"/>
+    </div>
 </aura:component>

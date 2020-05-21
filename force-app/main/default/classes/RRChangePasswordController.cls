@@ -329,7 +329,7 @@ public without sharing class RRChangePasswordController {
     }
     
     public void initTemplateData(){
-        CommunityTemplate currentTemplate = UserContext.getCurrentCommunityTemplate();
+        CommunityTemplate currentTemplate = UserContext.getCurruntCommunityTemplate();
         siteName = Site.getName();
         currentCommunityName = UserContext.getCurrentCommunityName();
         templateName = currentTemplate.templateName;

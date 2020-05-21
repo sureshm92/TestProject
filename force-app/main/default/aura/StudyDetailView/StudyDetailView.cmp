@@ -4,10 +4,10 @@
 
 <aura:component description="StudyDetailView" implements="forceCommunity:availableForAllPageTypes">
 
-    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
-    <aura:attribute name="isInitialized" type="Boolean" default="false"/>
     <aura:attribute name="userMode" type="String"/>
 
     <!-- handlers: -->
@@ -15,15 +15,11 @@
 
     <!-- component body -->
     <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true"/>
-
-    <aura:if isTrue="{!v.isInitialized}">
-        <aura:if isTrue="{!v.userMode == 'Participant'}">
-            <c:PPStudyWorkspace parent="{!this}"/>
-        </aura:if>
-        <aura:if isTrue="{!or(v.userMode == 'HCP', v.userMode == 'PI')}">
-            <c:RHStudyWorkspace parent="{!this}"/>
-        </aura:if>
+    <aura:if isTrue="{!v.userMode == 'Participant'}">
+        <c:PPStudyWorkspace parent="{!this}"/>
+    </aura:if>
+    <aura:if isTrue="{!or(v.userMode == 'HCP', v.userMode == 'PI')}">
+        <c:RHStudyWorkspace parent="{!this}"/>
     </aura:if>
 
-    <c:builderStub aura:id="builderStub"/>
 </aura:component>

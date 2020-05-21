@@ -3,7 +3,8 @@
  -->
 
 <aura:component description="Referring" implements="forceCommunity:availableForAllPageTypes" controller="ReferringRemote">
-    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
     <aura:attribute name="trialId" type="String"/>
@@ -42,6 +43,7 @@
     <aura:attribute name="searchResult" type="Object"/>
     <aura:attribute name="searchData" type="Object"/>
     <aura:attribute name="mrrResult" type="String"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="true"/>
 
     <aura:attribute name="counries" type="List"/>
     <aura:attribute name="selectedCountry" type="String"/>
@@ -57,13 +59,12 @@
     <aura:handler name="change" value="{!v.participant.Mailing_Country_Code__c}" action="{!c.doCountryChange}"/>
     <!--<aura:handler name="change" value="{!v.participant.Mailing_State_Code__c}" action="{!c.doCheckfields}"/>-->
 
-    <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true"/>
+    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
 
+    <!--<aura:if isTrue="{!!empty(v.hcpEnrollment)}">-->
     <aura:if isTrue="{!!empty(v.trial)}">
         <!-- top page bar -->
-        <c:RRTopBar backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}" backPage=""
-                    smallTitle="{!if(!empty(v.trial),v.trial.Study_Code_Name__c,'')}"
-                    bigTitle="{!$Label.c.DLIT_L_Pre_eligibility_screening}">
+        <c:RRTopBar backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}" backPage="" smallTitle="{!if(!empty(v.trial),v.trial.Study_Code_Name__c,'')}" bigTitle="{!$Label.c.DLIT_L_Pre_eligibility_screening}">
             <aura:if isTrue="{!v.currentState == 'Screening'}">
                 <div class="buttons-area">
                     <div class="rr-width-limiter buttons-block">
@@ -689,7 +690,8 @@
                                                    trial="{!v.trial}"
                                                    searchData="{!v.searchData}"
                                                    searchResult="{!v.searchResult}"
-                                                   mrrResult="{!v.mrrResult}"/>
+                                                   mrrResult="{!v.mrrResult}"
+                                                   showSpinner="{!v.showSpinner}"/>
                 </div>
             </aura:if>
 
@@ -701,5 +703,4 @@
         </div>
     </aura:if>
 
-    <c:builderStub aura:id="builderStub"/>
 </aura:component>

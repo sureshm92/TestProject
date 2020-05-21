@@ -4,49 +4,44 @@
 <aura:component description="TrialSearchContainer" implements="forceCommunity:availableForAllPageTypes"
                 controller="TrialSearchContainerRemote" extends="c:LightningService">
 
-    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
 
-    <aura:attribute name="isInitialized" type="Boolean" default="false" access="private"/>
     <aura:attribute name="trialTDOs" type="List"/>
     <aura:attribute name="taps" type="List"/>
     <aura:attribute name="participant" type="Participant__c" access="public"/>
     <aura:attribute name="formData" type="Object" access="public"/>
     <aura:attribute name="initializedTaps" type="Boolean" access="public" default="false"/>
 
-    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
     <aura:handler name="updateSearchEvent" event="c:UpdateConditionsOfInterestSearchEvt" action="{!c.handleUpdateSearchEvent}"/>
 
-    <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true"/>
+    <c:RRSpinner aura:id="mainSpinner" showSpinner="true" size="medium" fixed="true"/>
 
-    <aura:if isTrue="{!v.isInitialized}">
-        <lightning:layout horizontalAlign="center" class="width-limiter">
-            <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="8" flexibility="auto"
-                                  size="12" class="trials-side">
-                <div class="sdv-top-bar" id="stickyBar" aura:id="stickyBar">
-                    <div class="navigation rr-width-limiter side-padding">
-                        <c:RRNavigationPath>
-                            <c:RRNPathItem label="{!$Label.c.Navigation_Home}" page=""/>
-                            <c:RRNPathItem label="{!$Label.c.TrialSearch_Studies_you_may_be_interested_in}"/>
-                        </c:RRNavigationPath>
-                    </div>
+    <lightning:layout horizontalAlign="center" class="width-limiter">
+        <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="8" flexibility="auto"
+                              size="12" class="trials-side">
+            <div class="sdv-top-bar" id="stickyBar" aura:id="stickyBar">
+                <div class="navigation rr-width-limiter side-padding">
+                    <c:RRNavigationPath>
+                        <c:RRNPathItem label="{!$Label.c.Navigation_Home}" page=""/>
+                        <c:RRNPathItem label="{!$Label.c.TrialSearch_Studies_you_may_be_interested_in}"/>
+                    </c:RRNavigationPath>
                 </div>
-                <div class="trials-container">
-                    <c:TrialsContainer trialTDOs="{!v.trialTDOs}" participant="{!v.participant}" formData="{!v.formData}"/>
-                </div>
+            </div>
+            <div class="trials-container">
+                <c:TrialsContainer trialTDOs="{!v.trialTDOs}" participant="{!v.participant}" formData="{!v.formData}"/>
+            </div>
 
-            </lightning:layoutItem>
-            <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="4" flexibility="auto"
-                                  size="12">
-                <div class="filter-side">
-                    <aura:if isTrue="{!v.initializedTaps}">
-                        <c:conditionsOfInterestViewComp taps="{!v.taps}" participantId="{!v.participant.Id}"
-                                                        onupdateCOISearch="{!c.handleUpdateSearchEvent}"/>
-                    </aura:if>
-                </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="4" flexibility="auto"
+                              size="12">
+            <div class="filter-side">
+                <aura:if isTrue="{!v.initializedTaps}">
+                    <c:conditionsOfInterestViewComp taps="{!v.taps}" participantId="{!v.participant.Id}"
+                                                    onupdateCOISearch="{!c.handleUpdateSearchEvent}"/>
+                </aura:if>
+            </div>
 
-            </lightning:layoutItem>
-        </lightning:layout>
-    </aura:if>
-
-    <c:builderStub aura:id="builderStub"/>
+        </lightning:layoutItem>
+    </lightning:layout>
 </aura:component>

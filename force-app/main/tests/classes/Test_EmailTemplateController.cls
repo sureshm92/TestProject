@@ -69,17 +69,18 @@ public with sharing class Test_EmailTemplateController {
             EmailTemplateController controller = new EmailTemplateController();
             controller.sourceRecordId = testDataInstance.hcpUser.Id;
             controller.multiplePIMessageValue = false;
-//            controller.getDataProvider();
-//            String emailTemplateBackground = controller.emailTemplateBackground;
-//            Boolean hasPIRPDelegationRecords = controller.hasPIRPDelegationRecords;
-//            String emailTemplateTextBackground = controller.emailTemplateTextBackground;
-//            String emailTemplateHeaderBackground = controller.emailTemplateHeaderBackground;
-//            String emailTemplateHeader = controller.emailTemplateHeader;
-//            String emailTemplateTitle = controller.emailTemplateTitle;
-//            String emailTemplateBrandLogo = controller.emailTemplateBrandLogo;
-//            String emailTemplateBottomLogo = controller.emailTemplateBottomLogo;
-//            String emailTemplateBrandLogoCSS = controller.emailTemplateBrandLogoCSS;
-//            String dataParametersValue = controller.dataParametersValue;
+            controller.getDataProvider();
+            controller.setDefaultValues();
+            String emailTemplateBackground = controller.emailTemplateBackground;
+            Boolean hasPIRPDelegationRecords = controller.hasPIRPDelegationRecords;
+            String emailTemplateTextBackground = controller.emailTemplateTextBackground;
+            String emailTemplateHeaderBackground = controller.emailTemplateHeaderBackground;
+            String emailTemplateHeader = controller.emailTemplateHeader;
+            String emailTemplateTitle = controller.emailTemplateTitle;
+            String emailTemplateBrandLogo = controller.emailTemplateBrandLogo;
+            String emailTemplateBottomLogo = controller.emailTemplateBottomLogo;
+            String emailTemplateBrandLogoCSS = controller.emailTemplateBrandLogoCSS;
+            String dataParametersValue = controller.dataParametersValue;
         }
 
         testDataInstance.hcpEnrollment = [
@@ -94,7 +95,8 @@ public with sharing class Test_EmailTemplateController {
             EmailTemplateController controller = new EmailTemplateController();
             controller.sourceRecordId = testDataInstance.hcpUser.Id;
             controller.multiplePIMessageValue = true;
-//            controller.getDataProvider();
+            controller.getDataProvider();
+            controller.setDefaultValues();
         }
         Account acc = [
                 SELECT Id
@@ -140,7 +142,8 @@ public with sharing class Test_EmailTemplateController {
             EmailTemplateController controller = new EmailTemplateController();
             controller.sourceRecordId = testDataInstance.hcpUser.Id;
             controller.multiplePIMessageValue = true;
-//            controller.getDataProvider();
+            controller.getDataProvider();
+            controller.setDefaultValues();
         }
     }
 
@@ -157,7 +160,8 @@ public with sharing class Test_EmailTemplateController {
             EmailTemplateController controller = new EmailTemplateController();
             controller.sourceRecordId = testDataInstance.hcpUser.Id;
             controller.multiplePIMessageValue = true;
-//            controller.getDataProvider();
+            controller.getDataProvider();
+            controller.setDefaultValues();
         }
     }
 
@@ -211,8 +215,12 @@ public with sharing class Test_EmailTemplateController {
             controller.buttonUrlValue = 'button URL ## value';
             s = controller.buttonUrlValue;
 
+            controller.getDelegateLevelsPI();
+            controller.getDelegateLevelsHCP();
             controller.getResultUserMode();
             controller.getIsDelegate();
+            controller.getUserName();
+            controller.getParameters();
         }
     }
 
@@ -221,13 +229,12 @@ public with sharing class Test_EmailTemplateController {
         controller.replaceLineBreaksOnHTMLBreaks = true;
         controller.communityTemplateValue = CommunityTemplateService.TEMPLATE_DEFAULT;
 
-        ParametersDataProvider provider;
-//        = controller.getDataProvider();
-//        provider.userMode = 'userType';
-//        provider.recipientName = 'recipientName';
-//        provider.recipientId = UserInfo.getUserId();
-//        provider.recipientLanguage = 'recipientLanguage';
-//        provider.parametersProviderName = 'parametersProviderName';
+        ParametersDataProvider provider = controller.getDataProvider();
+        provider.userMode = 'userType';
+        provider.recipientName = 'recipientName';
+        provider.recipientId = UserInfo.getUserId();
+        provider.recipientLanguage = 'recipientLanguage';
+        provider.parametersProviderName = 'parametersProviderName';
         return provider;
     }
 

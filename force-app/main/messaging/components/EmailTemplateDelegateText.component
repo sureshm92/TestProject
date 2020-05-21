@@ -1,0 +1,19 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<apex:component id="EmailTemplateDelegateText">
+    <!-- attributes: -->
+    <apex:attribute name="userMode" type="String" description=""/>
+    <apex:attribute name="showAllPermissions" type="Boolean" default="false" description=""/>
+    <apex:attribute name="delegateLevelsPI" type="DelegateLevelWrapper[]" description=""/>
+    <apex:attribute name="delegateLevelsHCP" type="DelegateLevelWrapper[]" description=""/>
+    <!-- component body -->
+    <c:EmailTemplateDelegateTableText rendered="{!delegateLevelsPI.size > 0 && (showAllPermissions || userMode == 'PI')}"
+                                  title="{!$Label.Email_Delegate_PI_Levels_Title}"
+                                  delegateLevels="{!delegateLevelsPI}"/>
+    <c:EmailTemplateDelegateTableText rendered="{!delegateLevelsHCP.size > 0 && (showAllPermissions || userMode == 'HCP')}"
+                                  title="{!$Label.Email_Delegate_HCP_Levels_Title}"
+                                  delegateLevels="{!delegateLevelsHCP}"/>
+    
+</apex:component>

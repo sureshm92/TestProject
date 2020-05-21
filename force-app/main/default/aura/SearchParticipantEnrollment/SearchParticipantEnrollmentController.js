@@ -3,7 +3,7 @@
  */
 ({
     doSearchEnrollment: function(component, event, helper){
-        component.find('mainSpinner').show();
+        component.set('v.showSpinner', true);
         var searchData = component.get('v.searchData');
         if(component.get('v.hcpeId')) {
             communityService.executeAction(component, 'createParticipantEnrollmentHcpe', {
@@ -47,7 +47,7 @@
     },
 
     doFrameLoaded: function (component, event, helper) {
-        component.find('mainSpinner').hide();
+        component.set('v.showSpinner', false);
     },
 
     doClearForm: function (component) {

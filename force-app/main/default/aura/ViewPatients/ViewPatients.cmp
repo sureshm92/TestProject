@@ -2,10 +2,10 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="ViewPatients" implements="forceCommunity:availableForAllPageTypes"
-                controller="ViewPatientsRemote">
+<aura:component description="ViewPatients"  implements="forceCommunity:availableForAllPageTypes" controller="ViewPatientsRemote">
 
-    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
 
     <!--attributes:-->
     <aura:attribute name="trialId" type="String"/>
@@ -22,56 +22,48 @@
 
 
     <!--component body:-->
-    <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true"/>
+    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
+
 
     <div class="rr-min-body-height">
         <aura:if isTrue="{!v.isInitialized}">
 
             <aura:if isTrue="{!v.hasEmancipatedParticipants &amp;&amp; v.userMode == 'PI'}">
                 <div class="emancipation-notification">
-                    <span class="emancipation-notification-msg"><!--<c:RRIcon iconName="warning"/> --> <img
-                                class="warning-icon" src="{!$Resource.icon_statusAlertWhite}" width="16"
-                                height="16"/> {!$Label.c.One_or_more_Participants_reached_Majority}</span>
-                    <span class="emancipation-notification-link">
-                        <a data-gtm="link_Filter_emancip" href="javascript:void(0);" onclick="{!c.filterEmancipations}">
-                            {!$Label.c.Filter_Participant_s}
-                        </a>
-                    </span>
+                    <span class="emancipation-notification-msg"><!--<c:RRIcon iconName="warning"/> --> <img class="warning-icon" src="{!$Resource.icon_statusAlertWhite}" width="16" height="16"/> {!$Label.c.One_or_more_Participants_reached_Majority}</span>
+                    <span class="emancipation-notification-link"><a data-gtm="link_Filter_emancip" href="javascript:void(0);" onclick="{!c.filterEmancipations}">{!$Label.c.Filter_Participant_s}</a></span>
                 </div>
             </aura:if>
 
-            <div class="vp-navigation" style="margin-top: 30px;">
-                <aura:if isTrue="{!v.userMode == 'PI'}">
-                    <div class="navigation-breadcrumbs">
-                        <c:RRNavigationPath>
-                            <c:RRNPathItem label="{!$Label.c.PG_RP_L_My_Referrals}"/>
-                        </c:RRNavigationPath>
-                        <aura:set attribute="else">
-                            <c:RRNavigationPath>
-                                <c:RRNPathItem label="{!$Label.c.PG_VP_L_My_Patients}"/>
-                            </c:RRNavigationPath>
-                        </aura:set>
-                    </div>
-                </aura:if>
-                <aura:if isTrue="{!v.userMode != 'HCP'}">
-                    <div class="vp-export-btn">
-                        <button class="apollo-btn secondary" data-gtm="BTN_My_Participants_Export_All"
-                                onclick="{!c.doExport}">
-                            {!$Label.c.BTN_Export_All}
-                        </button>
-                    </div>
-                </aura:if>
-            </div>
+                <div class="vp-navigation" style="margin-top: 30px;">
+                    <!--<aura:if isTrue="{!empty(v.parent)}">-->
+                            <aura:if isTrue="{!v.userMode == 'PI'}">
+                                <div class="navigation-breadcrumbs">
+                                <c:RRNavigationPath>
+                                    <c:RRNPathItem label="{!$Label.c.PG_RP_L_My_Referrals}"/>
+                                </c:RRNavigationPath>
+                                <aura:set attribute="else">
+                                    <c:RRNavigationPath>
+                                        <c:RRNPathItem label="{!$Label.c.PG_VP_L_My_Patients}"/>
+                                    </c:RRNavigationPath>
+                                </aura:set>
+                                </div>
+                            </aura:if>
+                        <aura:if isTrue="{!v.userMode != 'HCP'}">
+                            <div class="vp-export-btn">
+                                <button class="apollo-btn secondary" data-gtm="BTN_My_Participants_Export_All" onclick="{!c.doExport}">
+                                        {!$Label.c.BTN_Export_All}
+                                </button>
+                            </div>
+                        </aura:if>
+                    <!--</aura:if>-->
+                </div>
             <aura:if isTrue="{!v.userMode == 'HCP'}">
                 <c:MedicalRecordReviewLog showStatistics="false" studyFilterEnabled="true" trialId="{!v.trialId}"
                                           header="{!$Label.c.PG_MPS_L_NOT_YET_REFERRED}"/>
             </aura:if>
-            <c:ViewPatientsReferred showStatistics="{!v.userMode=='PI'}" studyFilterEnabled="true"
-                                    trialId="{!v.trialId}" siteId="{!v.siteId}"
-                                    header="{!if(v.userMode == 'HCP',$Label.c.PG_MPS_L_REFERRED,'')}"
-                                    parent="{!v.parent}"/>
+            <c:ViewPatientsReferred showStatistics="{!v.userMode=='PI'}" studyFilterEnabled="true" trialId="{!v.trialId}" siteId="{!v.siteId}"
+                                    header="{!if(v.userMode == 'HCP',$Label.c.PG_MPS_L_REFERRED,'')}" parent="{!v.parent}"/>
         </aura:if>
     </div>
-
-    <c:builderStub aura:id="builderStub"/>
 </aura:component>

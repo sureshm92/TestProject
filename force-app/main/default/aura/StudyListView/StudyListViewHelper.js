@@ -4,7 +4,8 @@
 
 ({
     init: function (component, event, helper) {
-        component.find('mainSpinner').show();
+        if (!communityService.isInitialized()) return;
+        component.set("v.showSpinner", true);
         let userMode = communityService.getUserMode();
         component.set('v.userMode', userMode);
         window.addEventListener('resize', $A.getCallback(function () {
@@ -26,7 +27,7 @@
                 component.set('v.isInitialized', true);
                 setTimeout($A.getCallback(function () {
                     helper.doUpdateStudyTitle(component);
-                    component.find('mainSpinner').hide();
+                    component.set("v.showSpinner", false);
                 }), 1);
             });
         } else if (userMode === 'PI') {
@@ -40,7 +41,7 @@
                 component.set("v.piId",initData.piStudiesFilter.filterData.piId);
                 setTimeout($A.getCallback(function () {
                     helper.doUpdateStudyTitle(component);
-                    component.find('mainSpinner').hide();
+                    component.set("v.showSpinner", false);
                 }), 1);
                 component.set('v.isInitialized', true);
             });
@@ -53,7 +54,7 @@
                 component.set('v.peStatusStateMap', initData.peStatusStateMap);
                 setTimeout($A.getCallback(function () {
                     helper.doUpdateStudyTitle(component);
-                    component.find('mainSpinner').hide();
+                    component.set("v.showSpinner", false);
                 }), 1);
                 component.set('v.isInitialized', true);
                 if (communityService.getUserMode() === 'Participant') {

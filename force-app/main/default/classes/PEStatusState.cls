@@ -235,9 +235,9 @@ public without sharing class PEStatusState {
     };
 
     public static final List<String> PE_STATUS_GROUP_ADD_PATIENT_BY_PI = new List<String>{
-            PE_STATUS_RECEIVED,
-            PE_STATUS_SUCCESSFULLY_CONTACTED,
-            PE_STATUS_SCREENING_PASSED,
+            PE_STATUS_CONTACT_ATTEMPTED,
+            PE_STATUS_ELIGIBILITY_PASSED,
+            PE_STATUS_SCREENING_IN_PROGRESS,
             PE_STATUS_RANDOMIZATION_SUCCESS,
             PE_STATUS_ENROLLMENT_SUCCESS
     };
@@ -474,9 +474,7 @@ public without sharing class PEStatusState {
     }
 
     public static List<LabelValueItem> getAddPatientByPIStatusesLV(Clinical_Trial_Profile__c ctp){
-        return  getStatusesLV(getAddPatientByPIStatuses(ctp), new Map<String, String>{
-                PE_STATUS_RECEIVED => TranslateHelper.getLabelValue('PWS_Contact_Outcome_Placeholder')
-        });
+        return  getStatusesLV(getAddPatientByPIStatuses(ctp), null);
     }
 
     public static List<String> getParticipationFlowSteps(Participant_Enrollment__c pe){

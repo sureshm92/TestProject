@@ -30,8 +30,6 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
         showLessLabel
     };
 
-
-    stubLoad;
     spinner;
     needAfterRenderSetup;
     messageBoard;
@@ -65,7 +63,7 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
     }
 
     renderedCallback() {
-        if (!this.initialized && this.stubLoad) {
+        if (!this.initialized) {
             this.spinner = this.template.querySelector('c-web-spinner');
             this.spinner.show();
         }
@@ -207,44 +205,33 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
         this.conversationWrappers = null;
         this.enrollments = null;
 
-        let context = this;
-        setTimeout(function () {
-            let stub = context.template.querySelector('c-builder-stub');
-            stub.isDummy(function (dummy) {
-                if(!dummy) {
-                    getInit({formFactor: formFactor, isIE: navigator.userAgent.match(/Trident|Edge/) !== null})
-                        .then(data => {
-                            if (!data.isPageEnabled) {
-                                context[NavigationMixin.Navigate]({
-                                    type: 'comm__namedPage',
-                                    attributes: {
-                                        pageName: 'home'
-                                    }
-                                });
-                            }
-
-                            context.userMode = data.userMode;
-                            context.enrollments = data.enrollments;
-                            context.statusByPeMap = data.statusByPeMap;
-
-                            context.conversationWrappers = data.conversationWrappers;
-                            if (context.conversationWrappers) context.firstConWrapper = context.conversationWrappers[0];
-                            context.canStartConversation = context.checkCanStartNewConversation();
-
-                            context.initialized = true;
-                            if (context.userMode === 'Participant') context.messageTemplates = data.messageTemplates;
-                            if (context.conversationWrappers && context.conversationWrappers.length > 0) context.hideEmptyStub = true;
-                        })
-                        .catch(error => {
-                            console.error('Error in getInit():' + JSON.stringify(error));
-                            context.notifyUser('Error', error.message, 'error');
-                        });
-                } else {
-                    stub.setPageName('cMessagesPage');
+        getInit({formFactor: formFactor, isIE: navigator.userAgent.match(/Trident|Edge/) !== null})
+            .then(data => {
+                if (!data.isPageEnabled) {
+                    this[NavigationMixin.Navigate]({
+                        type: 'comm__namedPage',
+                        attributes: {
+                            pageName: 'home'
+                        }
+                    });
                 }
-                context.stubLoad = true;
+
+                this.userMode = data.userMode;
+                this.enrollments = data.enrollments;
+                this.statusByPeMap = data.statusByPeMap;
+
+                this.conversationWrappers = data.conversationWrappers;
+                if (this.conversationWrappers) this.firstConWrapper = this.conversationWrappers[0];
+                this.canStartConversation = this.checkCanStartNewConversation();
+
+                this.initialized = true;
+                if (this.userMode === 'Participant') this.messageTemplates = data.messageTemplates;
+                if (this.conversationWrappers && this.conversationWrappers.length > 0) this.hideEmptyStub = true;
+            })
+            .catch(error => {
+                console.error('Error in getInit():' + JSON.stringify(error));
+                this.notifyUser('Error', error.message, 'error');
             });
-        }, 1);
     }
 
 

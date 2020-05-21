@@ -1,12 +1,6 @@
 ({
     doInit: function (component, event, helper) {
-        if (!communityService.isInitialized()) return;
-
-        if(!communityService.isDummy()) {
-            helper.init(component, event, helper);
-        } else {
-            component.find('builderStub').setPageName(component.getName());
-        }
+        helper.init(component, event, helper);
     },
 
     doUpdateRecords: function (cmp, event, helper) {

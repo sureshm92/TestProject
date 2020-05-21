@@ -1,12 +1,12 @@
 <!--Created by D.Yasinskyi on 27.04.2018-->
-<aura:component controller="AccountSettingsController" description="PersonalSettings"
-                implements="forceCommunity:availableForAllPageTypes">
+<aura:component controller="AccountSettingsController" description="PersonalSettings" implements="forceCommunity:availableForAllPageTypes">
 
-    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
     <aura:attribute name="currentTab" type="String" default="account-settings"/>
-    <aura:attribute name="isInitialized" type="Boolean" default="false"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
     <aura:attribute name="userMode" type="String" description="HCP / PI / Participant" access="private"/>
     <aura:attribute name="validMode" type="Boolean" default="false" access="private"/>
     <aura:attribute name="isDelegate" type="Boolean" default="false" access="private"/>
@@ -16,20 +16,17 @@
 
     <!-- components boddy: -->
 
-    <aura:if isTrue="{!v.isInitialized}">
+    <aura:if isTrue="{!!v.showSpinner}">
         <div class="ps-container">
             <aura:if isTrue="{!and(v.validMode, !v.isDelegate)}">
                 <c:rrButtonTubSet>
                     <aura:if isTrue="{!v.userMode == 'Participant'}">
-                        <c:rrButtonTubSetItem title="{!$Label.c.PG_PST_L_Delegates}" tabId="delegates"
-                                              currentTab="{!v.currentTab}"/>
+                        <c:rrButtonTubSetItem title="{!$Label.c.PG_PST_L_Delegates}" tabId="delegates" currentTab="{!v.currentTab}"/>
                         <aura:set attribute="else">
-                            <c:rrButtonTubSetItem title="{!$Label.c.PG_PST_L_My_Team}" tabId="my-team"
-                                                  currentTab="{!v.currentTab}"/>
+                            <c:rrButtonTubSetItem title="{!$Label.c.PG_PST_L_My_Team}" tabId="my-team" currentTab="{!v.currentTab}"/>
                         </aura:set>
                     </aura:if>
-                    <c:rrButtonTubSetItem title="{!$Label.c.Profile_Menu_Account_Settings}" tabId="account-settings"
-                                          currentTab="{!v.currentTab}"/>
+                    <c:rrButtonTubSetItem title="{!$Label.c.Profile_Menu_Account_Settings}" tabId="account-settings" currentTab="{!v.currentTab}"/>
                     <!--<c:rrButtonTubSetItem title="Communication Preferences" tabId="tab-communication-preferences" isDisabled="true" currentTab="{!v.currentTab}"/>-->
                 </c:rrButtonTubSet>
             </aura:if>
@@ -44,6 +41,4 @@
             </div>
         </div>
     </aura:if>
-
-    <c:builderStub aura:id="builderStub"/>
 </aura:component>

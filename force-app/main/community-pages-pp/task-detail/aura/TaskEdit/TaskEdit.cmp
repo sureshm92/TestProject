@@ -29,7 +29,7 @@
     <aura:handler name="change" value="{!v.initData.activityDate}" action="{!c.doCheckFields}"/>
     <aura:handler name="change" value="{!v.initData.reminderDate}" action="{!c.doCheckFields}"/>
 
-    <c:RRSpinner aura:id="spinner" fixed="true" size="medium"/>
+    <c:RRSpinner aura:id="spinner" fixed="true" size="medium" showSpinner="true"/>
 
     <!--  component body  -->
     <aura:if isTrue="{!not(empty(v.initData))}">
@@ -216,8 +216,6 @@
             </div>
         </div>
     </aura:if>
-
-    <c:builderStub aura:id="builderStub"/>
 
     <div class="rr-width-limiter side-padding">
         <c:CommunityFooter/>
