@@ -18,7 +18,8 @@
                                                  width="16"
                                                  height="16"/> {!$Label.c.This_Participant_has_reached_legal_age_of_emancipation}</span>
             <aura:if isTrue="{!v.actions.addPatient.disabled}">
-                <span style="padding: 0 16px">{!$Label.c.BTN_Verify}</span>
+                <span style="padding: 0 16px"><a data-gtm="link_Verify_emancip" href="javascript:void(0);"
+                                                 title="{!$Label.c.PG_MT_T_Your_permissions_do_not_permit_this_action}">{!$Label.c.BTN_Verify}</a></span>
                 <aura:set attribute="else">
                 <span style="padding: 0 16px"><a data-gtm="link_Verify_emancip" href="javascript:void(0);"
                                                  onclick="{!c.showParticipantEmansipationWizard}">{!$Label.c.BTN_Verify}</a></span>

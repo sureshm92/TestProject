@@ -17,9 +17,25 @@ public without sharing class VisitResultSharingPanelRemote {
     private static final String TYPE_COUNTRIES = 'Countries';
     private static final String TYPE_COUNTRIES_DISABLED = 'Countries_Disabled';
 
+    private static final List<String> GROUPS_ORDER = new List<String>{
+            'Vitals',
+            'MetabolicPanel',
+            'Hematology',
+            'FastingLipidProfile',
+            'Biomarkers'
+    };
+
     public class VisitResultGroupWrapper {
         @AuraEnabled public String label;
         @AuraEnabled public List<VisitResultWrapper> visitResults;
+        @AuraEnabled public Boolean show = false;
+
+        public VisitResultGroupWrapper() {}
+
+        public VisitResultGroupWrapper(String label, List<VisitResultWrapper> visitResults) {
+            this.label = label;
+            this.visitResults = visitResults;
+        }
     }
 
     public class VisitResultWrapper {
@@ -87,6 +103,7 @@ public without sharing class VisitResultSharingPanelRemote {
         try {
             Clinical_Trial_Profile__c ctp = VisitResultSharingService.getCTP(ctpId);
             Map<String, Visit_Result_Type_Sharing__c> typeVRSharingMap = VisitResultSharingService.getTypeVRSharingMap(ctp);
+            Map<String, List<VisitResultWrapper>> resultGroupToVisitResults = new Map<String, List<VisitResultWrapper>>();
 
             InitData initData = new InitData();
             initData.groups = new List<VisitResultGroupWrapper>();
@@ -98,9 +115,7 @@ public without sharing class VisitResultSharingPanelRemote {
             ];
 
             for (Visit_Result_GroupM__mdt resultGroup : resultGroups) {
-                VisitResultGroupWrapper resultGroupWrapper = new VisitResultGroupWrapper();
-                resultGroupWrapper.label = resultGroup.Label;
-                resultGroupWrapper.visitResults = new List<VisitResultWrapper>();
+                List<VisitResultWrapper> visitResults = new List<VisitResultWrapper>();
                 for (Visit_Result_TypeM__mdt visitResultType : resultGroup.Visit_Result_Types__r) {
                     String type = TYPE_DISABLED;
                     String countryCodes = '';
@@ -119,13 +134,19 @@ public without sharing class VisitResultSharingPanelRemote {
                             }
                         }
                     }
-                    resultGroupWrapper.visitResults.add(new VisitResultWrapper(
+                    visitResults.add(new VisitResultWrapper(
                             visitResultType.Label,
                             visitResultType.DeveloperName,
                             type,
                             countryCodes
                     ));
                 }
+                resultGroupToVisitResults.put(resultGroup.Label, visitResults);
+            }
+
+            for (String groupLabel : GROUPS_ORDER) {
+                VisitResultGroupWrapper resultGroupWrapper =
+                        new VisitResultGroupWrapper(groupLabel, resultGroupToVisitResults.get(groupLabel));
                 initData.groups.add(resultGroupWrapper);
             }
 

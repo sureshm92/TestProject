@@ -1,0 +1,37 @@
+{
+  "appPageId" : "3c52dbfd-6fc5-447c-9869-3b0d58d04ec1",
+  "componentName" : "c:OneColumnLayout",
+  "id" : "1afcd09c-d792-4381-af2e-b8db238d86aa",
+  "label" : "Settings",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:PersonalSettings",
+      "id" : "2cc0f6cd-d480-435e-99b1-c04a91c23e9e",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "50c0185f-5355-4980-a5e1-98b739db00cc",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Settings"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "c18755e5-6167-4462-beb2-df9bb20d6acb",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "22b4c457-3f61-4fc6-9b2b-dcd3a83b4b34",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-settings"
+}

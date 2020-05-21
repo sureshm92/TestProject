@@ -5,7 +5,7 @@
 <aura:component description="VisitResultSharingPanel" implements="force:hasRecordId, flexipage:availableForAllPageTypes"
                 controller="VisitResultSharingPanelRemote">
 
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
     <aura:attribute name="initData" type="Object"/>
@@ -166,10 +166,12 @@
                         </div>
                         <!-- visit results options: -->
                         <aura:iteration items="{!v.groups}" var="group">
-                            <c:VisitResultSharingGroup groupLabel="{!group.label}"
-                                                       visitResults="{!group.visitResults}"
-                                                       globalCountries="{!v.options.selectedCountries}"
-                                                       globalType="{!v.options.countrySelectionType}"/>
+                            <c:VisitResultSharingGroupItem groupLabel="{!group.label}"
+                                                           visitResults="{!group.visitResults}"
+                                                           showGroup="{!group.show}"
+                                                           globalCountries="{!v.options.selectedCountries}"
+                                                           globalType="{!v.options.countrySelectionType}"
+                                                           onChange="{!c.doGroupChanged}"/>
                         </aura:iteration>
                         <aura:if isTrue="{!v.userPermission == 'View'}">
                             <div class="overlay"></div>

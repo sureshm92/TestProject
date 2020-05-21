@@ -67,7 +67,9 @@ public without sharing class VisitResultsRemote {
         String currentVisitResults = currentContact.Visit_Results_OptIn__c == null ? '' : currentContact.Visit_Results_OptIn__c;
         String updatedVisitResults = '';
         if (isToggleOn) {
-            updatedVisitResults = currentVisitResults + ';' + visitResultsMode;
+            if (!currentVisitResults.contains(visitResultsMode)) {
+                updatedVisitResults = currentVisitResults + ';' + visitResultsMode;
+            }
         } else {
             List<String> visitResults = currentVisitResults.split(';');
             for (String str : visitResults) {
@@ -90,14 +92,16 @@ public without sharing class VisitResultsRemote {
     }
 
     public static Boolean existAndAvailableByCTP(Map<String, List<String>> availableVisitResults, List<Visit_Result__c> visitResultsForMode) {
-        List<String> availableAndExistResults = new List<String>();
-        for (Visit_Result__c visitResult : visitResultsForMode) {
-            availableAndExistResults.add(visitResult.Result_Type__c);
-        }
-        for (String str : availableVisitResults.keySet()) {
-            List<String> availableResultsForGroup = availableVisitResults.get(str);
-            for (String result : availableResultsForGroup) {
-                if (availableAndExistResults.contains(result)) return true;
+        if (availableVisitResults!=null) {
+            List<String> availableAndExistResults = new List<String>();
+            for (Visit_Result__c visitResult : visitResultsForMode) {
+                availableAndExistResults.add(visitResult.Result_Type__c);
+            }
+            for (String str : availableVisitResults.keySet()) {
+                List<String> availableResultsForGroup = availableVisitResults.get(str);
+                for (String result : availableResultsForGroup) {
+                    if (availableAndExistResults.contains(result)) return true;
+                }
             }
         }
         return false;

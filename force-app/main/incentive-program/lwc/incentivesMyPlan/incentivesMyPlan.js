@@ -25,15 +25,16 @@ export default class IncentivesMyPlan extends LightningElement {
     @track tasksGroups;
     @track selectedStudySite;
     @track initialized=false;
+    spinner;
 
     connectedCallback() {
         getInitialPlan()
             .then(data => {
-                console.log(data);
                 this.studySitesOptions = data.studySitesOptions;
                 this.selectedStudySite = this.studySitesOptions[0].value;
                 this.tasksGroups = data.tasksGroups;
                 this.initialized = true;
+                this.spinner.hide();
             })
             .catch(error => {
                 console.error('Error in getInitialPlan():' + JSON.stringify(error));
@@ -42,16 +43,23 @@ export default class IncentivesMyPlan extends LightningElement {
 
     doUpdateStudySite(event){
         let selectedSS = event.detail.value;
-        console.log(selectedSS);
+        this.spinner.show();
         getPlanForStudySite({
             ssId: selectedSS
         })
             .then(data => {
-                console.log(data);
                 this.tasksGroups = data.tasksGroups;
+                this.spinner.hide();
             })
             .catch(error => {
                 console.error('Error in getPlanForStudySite():' + JSON.stringify(error));
             });
+    }
+
+    renderedCallback(){
+        this.spinner = this.template.querySelector('c-web-spinner');
+        if (!this.initialized){
+            this.spinner.show();
+        }
     }
 }
