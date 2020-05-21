@@ -266,6 +266,8 @@
                 </aura:if>
 
                 <aura:if isTrue="{!v.fromAddParticipantPage}">
+                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3"></div>
+
                     <div class="slds-form-element" style="margin-top: 30px; margin-left: 10px;">
                         <div class="slds-form-element__control">
                             <div class="slds-checkbox">
@@ -310,7 +312,7 @@
 
                 <aura:if isTrue="{!v.pe.Visit_Plan__c}">
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                    <div class="label">{!$Label.c.ARM}</div>
+                    <div class="label">{!$Label.c.FD_PE_Field_Arm_Cohort}</div>
                     <lightning:input aura:id="VisitPlanID" type="text" value="{!v.pe.Visit_Plan__r.Name}" onblur="{!c.doCheckFields}" disabled="true"/>
                 </div>
                 </aura:if>
