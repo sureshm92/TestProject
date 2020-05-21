@@ -764,7 +764,7 @@ public without sharing class ParticipantWorkflowService {
             }
             result.right = PEStatusState.STATUS_STATE_NEUTRAL;
         }
-        if(result.isCurrent && previousStep != null) {
+        if(result.state != PEStatusState.STATUS_STATE_NEUTRAL && previousStep != null) {
             previousStep.right = PEStatusState.STATUS_STATE_SUCCESS;
             previousStep.isCurrent = false;
         }
