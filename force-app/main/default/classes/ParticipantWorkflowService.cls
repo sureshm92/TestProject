@@ -749,11 +749,6 @@ public without sharing class ParticipantWorkflowService {
                     result.dateOccured = ((Date)pe.get(step.Success_Date_Field__c)).format();
                 }
                 result.isCurrent = true;
-                if(previousStep != null) {
-                    previousStep.right = PEStatusState.STATUS_STATE_SUCCESS;
-                    previousStep.isCurrent = false;
-                }
-
             }
             else if(step.In_Progress_Condition__c != null && ConditionCheckerService.checkConditionForObject(step.In_Progress_Condition__c, pe) && (previousStep == null || previousStep.state == PEStatusState.STATUS_STATE_SUCCESS)){
                 result.state = PEStatusState.STATUS_STATE_IN_PROGRESS;
@@ -761,13 +756,17 @@ public without sharing class ParticipantWorkflowService {
                 if(step.In_Progress_Date_Field__c != null && pe.get(step.In_Progress_Date_Field__c) != null){
                     result.dateOccured = ((Date)pe.get(step.In_Progress_Date_Field__c)).format();
                 }
-                if(previousStep != null) previousStep.right = PEStatusState.STATUS_STATE_SUCCESS;
+                result.isCurrent = true;
             }
             else{
                 result.state = PEStatusState.STATUS_STATE_NEUTRAL;
                 result.left = PEStatusState.STATUS_STATE_NEUTRAL;
             }
             result.right = PEStatusState.STATUS_STATE_NEUTRAL;
+        }
+        if(result.isCurrent && previousStep != null) {
+            previousStep.right = PEStatusState.STATUS_STATE_SUCCESS;
+            previousStep.isCurrent = false;
         }
 
         return result;
@@ -909,7 +908,7 @@ public without sharing class ParticipantWorkflowService {
         @AuraEnabled public String  dateOccured;
         @AuraEnabled public String  left;
         @AuraEnabled public String  right;
-        @AuraEnabled public Boolean  isCurrent;
+        @AuraEnabled public Boolean  isCurrent = false;
         @AuraEnabled public List<ParticipantWorkflowHistoryWrapper> stepHistory;
     }
 
