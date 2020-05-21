@@ -2,15 +2,28 @@
  * Created by Andrii Kryvolap.
  */
 
-import {LightningElement, track} from 'lwc';
+import {LightningElement, track, api} from 'lwc';
 import getPoints from '@salesforce/apex/IncentiveProgramRemote.getCurrentPoints';
 
 export default class NavIncentiveCounter extends LightningElement {
 
     @track totalPoints=null;
     @track lastPoints=null;
-    @track initialized=false;
+    @track parOfIncentiveProgram=false;
     @track showDropDown;
+    _currentPage;
+    @api
+    set currentPage(pageName){
+        this._currentPage = pageName;
+        this.updateSelected();
+    }
+    get currentPage(){
+        return this._currentPage;
+    }
+
+
+
+
     lastDatastamp;
 
     connectedCallback() {
@@ -23,7 +36,8 @@ export default class NavIncentiveCounter extends LightningElement {
                 .then(data => {
                     this.totalPoints = data.totalPoints;
                     this.lastPoints = data.lastPoints;
-                    this.initialized = true;
+                    this.parOfIncentiveProgram = this.totalPoints > 0 || data.hasEnabledTasks ;
+                    this.updateSelected();
                 })
                 .catch(error => {
                     console.error('Error in getPointsCounter():' + JSON.stringify(error));
@@ -44,12 +58,23 @@ export default class NavIncentiveCounter extends LightningElement {
         this.lastDatastamp = new Date();
     }
     doEvent(){
-        console.log('event');
+        this.doCloseDropDown();
         const navigateToIncentivesEvent = new CustomEvent('navigatetoincentives', {
             detail: {
                 page: 'incentives'
             }
         });
         this.dispatchEvent(navigateToIncentivesEvent);
+    }
+
+    updateSelected(){
+        if (this.parOfIncentiveProgram){
+            if (this._currentPage =='incentives'){
+                this.template.querySelector('.nic-button').classList.add('current-page');
+            }
+            else{
+                this.template.querySelector('.nic-button').classList.remove('current-page');
+            }
+        }
     }
 }

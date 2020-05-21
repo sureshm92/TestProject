@@ -60,13 +60,13 @@ public without sharing class IncentivePlanConfigurationRemote {
     }
 
     @AuraEnabled
-    public static SSIncentiveConfigSearchResponse setIncentivePlanForAll(String visitPlanId, Boolean state, String filterJSON, String paginationJSON, String ssItemsJSON) {
+    public static SSIncentiveConfigSearchResponse setIncentivePlanForAll(String incentivePlanId, Boolean state, String filterJSON, String paginationJSON, String ssItemsJSON) {
         try {
             save(ssItemsJSON);
             StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(filterJSON, StudySiteFilter.class);
             saveFilter(filter);
             PaginationData pagination = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
-            List<StudySiteItem> allSSItems = SSIncentiveConfigSearchResponse.convertToSSItems(SearchService.search(filter), visitPlanId);
+            List<StudySiteItem> allSSItems = SSIncentiveConfigSearchResponse.convertToSSItems(SearchService.search(filter), incentivePlanId);
             for (StudySiteItem ssItem : allSSItems) {
                 for (ValueStateItem assigment : ssItem.assignments) assigment.state = state;
             }

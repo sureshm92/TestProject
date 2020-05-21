@@ -23,4 +23,9 @@ public without sharing class StudyDetailViewController {
 
     }
 
+    @AuraEnabled
+    public static Map<String,Map<String,List<String>>> visitResultSharingByGroupAndMode(){
+        return VisitResultSharingService.visitResultSharingByGroupAndMode();
+    }
+
 }

@@ -5,22 +5,23 @@
 <!-- Incentives My Plan -->
 <template>
     <div class="rr-white-panel incentives-my-plan-container">
+        <c-web-spinner></c-web-spinner>
         <template if:true={initialized}>
             <div class="incentives-my-plan-title">
-                How do I earn Points?
+                {labels.howDoIEarnLabel}
             </div>
             <div class="imp-ss-select-container">
                 <lightning-combobox
                         name="studySiteSelect"
-                        label="Study Site"
+                        label={labels.studySiteLabel}
                         value={selectedStudySite}
-                        placeholder="Select Study Sites"
+                        placeholder={labels.selectStudySiteLabel}
                         options={studySitesOptions}
                         onchange={doUpdateStudySite}></lightning-combobox>
             </div>
             <template for:each={tasksGroups} for:item="taskGroup">
                 <div key={taskGroup.points} class="incentives-my-plan-group-container">
-                    <div class="incentives-my-plan-group-points">{taskGroup.points} Points</div>
+                    <div class="incentives-my-plan-group-points">{taskGroup.points} {labels.pointsLabel}</div>
                     <div class="incentives-my-plan-group-items">
                         <ul>
                             <template for:each={taskGroup.tasksDescription} for:item="task">

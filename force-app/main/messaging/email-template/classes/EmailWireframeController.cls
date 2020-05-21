@@ -59,6 +59,10 @@ global without sharing class EmailWireframeController {
         return prepareLineBreaks(signatureLabelValue);
     }
 
+    public Boolean getIsInitialized() {
+        return getProvider().isInitialized();
+    }
+
     private EmailTemplateProvider getProvider() {
         if (templateProvider == null) {
             EmailTemplateProviderService.setProviderType(

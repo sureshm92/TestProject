@@ -10,6 +10,10 @@
                 for (var j = 0; j < assignments.length; j++) {
                     if (assignments[j] && assignments[j].state && !component.get('v.selectedItem')) {
                         component.set('v.selectedItem', assignments[j].value);
+                        if (!component.get('v.parent.selectedIP')) {
+                            component.set('v.parent.selectedIP', assignments[j].value);
+                        }
+                        console.log('SELECTED IP from Parent: ' + component.get('v.parent.selectedIP'));
                         break;
                     }
                 }
@@ -46,8 +50,12 @@
                     communityService.showWarningToast('Warning!', $A.get('$Label.c.PG_Ref_L_One_Incentive_Plan'), 5000);
                 } else if (selectedItem && selectedItem === assignments[j].value && !assignments[j].state) {
                     component.set('v.selectedItem', '');
+                    component.set('v.parent.selectedIP', '');
+                    console.log('SELECTED IP from Parent2: ' + component.get('v.parent.selectedIP'));
                 } else if (!selectedItem && assignments[j].state) {
                     component.set('v.selectedItem', assignments[j].value);
+                    component.set('v.parent.selectedIP', assignments[j].value);
+                    console.log('SELECTED IP from Parent3: ' + component.get('v.parent.selectedIP'));
                 }
             }
 

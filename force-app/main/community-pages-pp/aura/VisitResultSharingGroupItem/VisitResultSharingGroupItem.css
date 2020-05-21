@@ -1,0 +1,24 @@
+/**
+ * Created by Dmitry Ivakhnenko on 18-May-20.
+ */
+
+.THIS .group-body {
+    margin-top: 12px;
+}
+
+.THIS .group-title {
+    margin-bottom: 0;
+}
+
+.THIS .slds-form-element__label {
+    margin-left: 8px;
+}
+
+.THIS .uiInput--checkbox {
+    display: inline-block;
+}
+
+.THIS.disabled {
+    background-color: #f5f5f5;
+    opacity: 0.8;
+}

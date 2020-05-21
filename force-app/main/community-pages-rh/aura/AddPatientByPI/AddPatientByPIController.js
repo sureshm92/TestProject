@@ -44,6 +44,28 @@
     doSaveAndNew: function (component, event, helper) {
         helper.createParticipant(component, function () {
             helper.initData(component);
+            helper.setDelegate(component);
         })
+    },
+
+    doCheckfields: function (component, event, helper) {
+        helper.checkFields(component);
+    },
+
+    doCheckDateOfBith: function (component, event, helper) {
+        helper.checkParticipantNeedsGuardian(component, helper);
+    },
+
+    doNeedsGuardian: function (component, event, helper) {
+        component.set('v.participant.Health_care_proxy_is_needed__c', !component.get('v.participant.Health_care_proxy_is_needed__c'));
+
+        let participant = component.get('v.participant');
+        if (participant.Health_care_proxy_is_needed__c) {
+            helper.setDelegate(component);
+        } else {
+            component.set('v.emailDelegateRepeat', '');
+        }
+        component.set('v.needsGuardian', participant.Health_care_proxy_is_needed__c);
     }
+
 })

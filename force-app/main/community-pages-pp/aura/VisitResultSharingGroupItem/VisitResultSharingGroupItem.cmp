@@ -1,0 +1,51 @@
+<!--
+ - Created by Dmitry Ivakhnenko on 15-May-20.
+ -->
+
+<aura:component description="VisitResultSharingGroupItem">
+
+    <!-- attributes: -->
+    <aura:attribute name="groupLabel" type="String"/>
+    <aura:attribute name="visitResults" type="List"/>
+    <aura:attribute name="showGroup" type="Boolean" default="false"/>
+    <aura:attribute name="globalCountries" type="String" default=""/>
+    <aura:attribute name="globalType" type="String" default=""/>
+
+    <aura:attribute name="previousGlobalType" type="String" default="" access="private"/>
+
+    <!-- events: -->
+    <aura:registerEvent name="onChange" type="c:uiEvent"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.previousGlobalType}" action="{!c.doUpdateGroupDisplay}"/>
+    <aura:handler name="change" value="{!v.showGroup}" action="{!c.doShowGroupChanged}"/>
+    <aura:handler name="change" value="{!v.globalCountries}" action="{!c.doGlobalCountryChanged}"/>
+    <aura:handler name="change" value="{!v.globalType}" action="{!c.doGlobalTypeChanged}"/>
+
+    <!-- component body: -->
+    <div class="{!'group-container vrs-panel ' + if(v.globalType == 'Disabled', 'disabled', '')}">
+        <div class="group-title">
+            <label class="uiInput--checkbox">
+                <ui:inputCheckbox aura:id="shareGroup"
+                                  label=""
+                                  value="{!v.showGroup}"
+                                  disabled="{!v.globalType == 'Disabled'}"
+                                  change="{!c.doUpdateGroupItems}"/>
+                <span class="slds-form-element__label">{!v.groupLabel}</span>
+            </label>
+        </div>
+        <aura:if isTrue="{!v.showGroup}">
+            <div class="group-body slds-grid slds-wrap slds-gutters_direct-xxx-small">
+                <aura:iteration items="{!v.visitResults}" var="vResult">
+                    <div class="slds-col slds-small-size_1-of-2 slds-large-size_1-of-3">
+                        <c:VisitResultSharingItem visitResult="{!vResult}"
+                                                  globalCountries="{!v.globalCountries}"
+                                                  globalType="{!v.globalType}"
+                                                  onChange="{!c.doUpdateGroupDisplay}"/>
+                    </div>
+                </aura:iteration>
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

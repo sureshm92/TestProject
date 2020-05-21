@@ -1,53 +1,28 @@
 /**
  * Created by Leonid Bartenev
  */
+
 ({
-    doCountryChanged: function (component, event, hepler) {
-        var visitResult = component.get('v.visitResult');
-        if(!visitResult.countryCodes){
-            visitResult.type = 'All';
-            component.set('v.visitResult', visitResult);
-        }
+    doUpdateValue: function (component, event, helper) {
+        let visitResult = component.get('v.visitResult');
+        component.set('v.showResult', visitResult.type !== 'Disabled');
     },
 
-    doGlobalCountryChanged: function (component, event, hepler) {
+    doChangedByUser: function (component, event, helper) {
+        let showResult = component.get('v.showResult');
         let visitResult = component.get('v.visitResult');
         let globalCountries = component.get('v.globalCountries');
         let globalType = component.get('v.globalType');
 
-        if (globalType === 'Disabled') {
-            return;
-        }
-        if (!visitResult.countryCodes || (!globalCountries && globalType !== 'All')) {
-            visitResult.type = 'All';
-        }
-        if (globalCountries && (globalType !== 'All' || globalType !== 'Disabled')) {
-            visitResult.type = 'Countries';
+        if (showResult) {
             visitResult.countryCodes = globalCountries;
+            visitResult.type = globalType;
+        } else {
+            visitResult.countryCodes = '';
+            visitResult.type = 'Disabled';
         }
-        component.set('v.visitResult', visitResult);
-    },
 
-    doTypeChanged: function (component, event, helper) {
-        var visitResult = component.get('v.visitResult');
-        if (visitResult.type === 'Countries' || visitResult.type === 'Countries_Disabled') {
-            component.find('countryLookup').focus();
-        }
-    },
-
-    doCloseCountryMode: function (component, event, helper) {
-        var visitResult = component.get('v.visitResult');
-        visitResult.countryCodes = null;
-        visitResult.type = 'All';
         component.set('v.visitResult', visitResult);
-    },
-
-    doGlobalTypeChanged: function (component, event, helper) {
-        var globalType = component.get('v.globalType');
-        if (globalType !== 'Disabled') return;
-        var visitResult = component.get('v.visitResult');
-        visitResult.countryCodes = null;
-        visitResult.type = globalType;
-        component.set('v.visitResult', visitResult);
+        component.getEvent('onChange').fire();
     }
 });

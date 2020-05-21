@@ -6,34 +6,27 @@
 
     <!-- attributes: -->
     <aura:attribute name="visitResult" type="Object"/>
-    <aura:attribute name="typeSelectLVList" type="List"/>
-    <aura:attribute name="ctpId" type="String"/>
     <aura:attribute name="globalCountries" type="String" default=""/>
     <aura:attribute name="globalType" type="String" default=""/>
 
-    <aura:handler name="change" value="{!v.globalCountries}" action="{!c.doGlobalCountryChanged}"/>
-    <aura:handler name="change" value="{!v.globalType}" action="{!c.doGlobalTypeChanged}"/>
+    <aura:attribute name="showResult" type="Boolean" default="true" access="private"/>
+
+    <!-- events: -->
+    <aura:registerEvent name="onChange" type="c:uiEvent"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doUpdateValue}"/>
+    <aura:handler name="change" value="{!v.visitResult}" action="{!c.doUpdateValue}"/>
 
     <!-- component body: -->
-    <div class="{!'slds-grid vr-row ' + if(v.visitResult.type == 'Disabled', 'disabled', '')}">
-        <div class="slds-col slds-size_3-of-12 row-label">{!v.visitResult.label}</div>
-        <div class="slds-col slds-size_9-of-12 type-cell">
-            <aura:if isTrue="{!or(v.visitResult.type == 'Disabled', v.visitResult.type == 'All')}">
-                <lightning:select aura:id="visitType" name="Visit type" label="Hidden"  variant="label-hidden" class="type-picklist"
-                                  value="{!v.visitResult.type}" onchange="{!c.doTypeChanged}" disabled="{!v.globalType == 'Disabled'}">
-                    <aura:iteration items="{!v.typeSelectLVList}" var="option">
-                        <option text="{!option.label}" value="{!option.value}"/>
-                    </aura:iteration>
-                </lightning:select>
-            </aura:if>
-            <aura:if isTrue="{!or(v.visitResult.type == 'Countries', v.visitResult.type == 'Countries_Disabled')}">
-                <c:VisitResultSharingCountryLookup aura:id="countryLookup" value="{!v.visitResult.countryCodes}" isMultiEntry="true"
-                                                   onchange="{!c.doCountryChanged}" onblur="{!c.doCountryChanged}"
-                                                   placeholder="Select country" placeholderSelected="Select another country"
-                                                   ctpId="{!v.ctpId}" includeStates="false"
-                                                   isInclude="{!v.visitResult.type == 'Countries'}"
-                                                   selectedCountries="{!v.globalCountries}"/>
-            </aura:if>
-        </div>
+    <div class="{!'vr-item'}">
+        <label class="uiInput--checkbox">
+            <ui:inputCheckbox aura:id="shareResult"
+                              label=""
+                              value="{!v.showResult}"
+                              disabled="{!v.globalType == 'Disabled'}"
+                              change="{!c.doChangedByUser}"/>
+            <span class="slds-form-element__label">{!v.visitResult.label}</span>
+        </label>
     </div>
 </aura:component>

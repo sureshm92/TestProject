@@ -1,6 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
+
 ({
     doInit: function (component, event, helper) {
         communityService.executeAction(component, 'getInitData', {
@@ -9,7 +10,6 @@
             component.set('v.userPermission', initData.userPermission);
             component.set('v.initData', initData);
             component.set('v.groups', initData.groups);
-            component.set('v.typeSelectLVList', initData.typeSelectLVList);
             component.set('v.options', initData.options);
             component.set('v.dataSnapshot', helper.takeSnapshot(component));
             component.find('spinner').hide();
@@ -86,6 +86,14 @@
         }
 
         component.set('v.options', options);
+    },
+
+    doGroupChanged: function (component, event, helper) {
+        let groups = component.get('v.groups');
+        for (const group of groups) {
+            if (group.show) return;
+        }
+        component.set('v.options.countrySelectionType', 'Disabled');
     },
 
     onChangeGlobal: function (component, event, helper) {
