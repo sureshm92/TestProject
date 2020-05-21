@@ -10,14 +10,15 @@
                 <template if:false={isPIMode}>
                     <div class="ms-multi-header-pa">
                         <div class="ms-pi-new-mess">{labels.newMessLabel}</div>
-                        <select class="slds-select" style="flex-basis: 60%;" data-gtm="ms-pa-pe-select"
-                                id="pe-select" onchange={handleEnrollmentSelect}>
-                            <option value="">{labels.selectStudyPlaceholderLabel}</option>
-                            <template for:each={enrollmentsOptions} for:item="enrollmentsOption">
-                                <option key={enrollmentsOption.value}
-                                        value={enrollmentsOption.value}>{enrollmentsOption.label}</option>
-                            </template>
-                        </select>
+                        <lightning-combobox
+                                data-gtm="ms-pa-pe-select"
+                                style="flex-basis: 60%;"
+                                label=""
+                                variant="label-hidden"
+                                value={selectedPeId}
+                                placeholder={labels.selectStudyPlaceholderLabel}
+                                options={enrollmentsOptions}
+                                onchange={handleEnrollmentSelect}></lightning-combobox>
                     </div>
                 </template>
                 <template if:true={isPIMode}>
