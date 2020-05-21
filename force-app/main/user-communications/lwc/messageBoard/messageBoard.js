@@ -277,11 +277,8 @@ export default class MessageBoard extends LightningElement {
                     isIE: navigator.userAgent.match(/Trident|Edge/) !== null
                 })
                     .then(function (data) {
-                        if(formFactor === 'Small') context.hideEmptyStub = false;
-                        setTimeout(function () {
-                            context.fireSendEvent(data);
-                            if (context.spinner) context.spinner.hide();
-                        },1);
+                        context.fireSendEvent(data);
+                        if (context.spinner) context.spinner.hide();
                     })
                     .catch(function (error) {
                         console.error('Error in createConversation():' + error.message);
@@ -354,8 +351,6 @@ export default class MessageBoard extends LightningElement {
     //Service Methods:--------------------------------------------------------------------------------------------------
     clearMessage() {
         this.messageText = null;
-        let messTemplateSelect = this.template.querySelector('.ms-select-templates');
-        if(messTemplateSelect) messTemplateSelect.selectedIndex = 0;
         this.isSendEnable = false;
         this.template.querySelector('.ms-send-button').setAttribute('disabled', '');
         this.attachment = null;
@@ -375,6 +370,7 @@ export default class MessageBoard extends LightningElement {
                 conWr: wrapper
             }
         }));
+        this.clearMessage();
     }
 
     fireMultipleSendEvent() {
