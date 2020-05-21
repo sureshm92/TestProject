@@ -2,7 +2,7 @@
  - Created by Andrii Kryvolap.
  -->
 
-<aura:component description="ParticipantStatusDetailsCard">
+ <aura:component description="ParticipantStatusDetailsCard">
     <aura:attribute name="stepWrapper" type="Object" required="true"/>
     <aura:attribute name="reasonList" type="List" access="private"/>
     <aura:attribute name="previousSelectedOutcome" type="String" access="private"/>
@@ -63,15 +63,15 @@
                                     -->
                         <div class="rrs-container">
                             <div class="rrs-relative">
-                                <lightning:select aura:id="reasonList"  name="rrs-select" 
-                                                  value="{!v.stepWrapper.reason}"
+                                <lightning:select aura:id="reasonList"  
+                                                  name="rrs-select" 
                                                   variant="label-hidden" 
                                                   disabled="{!or(empty(v.stepWrapper.outcome),empty(v.reasonList)) || v.disableReason || !v.stepWrapper.outcomeEditable}"
                                                   onchange="{!c.updateNotesRequired}">
                                     
                                     <option value="{!null}" style="display: none;">{!if(empty(v.reasonList),'',$Label.c.PG_RP_L_Not_selected)}</option>
                                     <aura:iteration items="{!v.reasonList}" var="item">
-                                        <option selected="{!item.value==v.stepWrapper.reason}" value="{!item.value}"><aura:unescapedHtml value="{!item.label}"/></option>
+                                        <option value="{!item.value}"><aura:unescapedHtml value="{!item.label}"/></option>
                                     </aura:iteration>
                                 </lightning:select>
                                 <img src="{!$Resource.SelectMenuTriangleDown}" height="16" width="16" />
