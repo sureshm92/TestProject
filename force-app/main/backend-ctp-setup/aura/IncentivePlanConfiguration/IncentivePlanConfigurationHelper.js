@@ -8,6 +8,19 @@
         component.set('v.ssItems', searchResponse.studySiteItems);
         component.set('v.pagination', searchResponse.pagination);
         component.set('v.incentivePlans', searchResponse.incentivePlans);
+
+        var allSelectedIPs = {};
+        var setOfSS = new Set();
+        for (let index = 0; index < searchResponse.studySiteItems.length; index++) {
+            let item = searchResponse.studySiteItems[index];
+            setOfSS.add(item.ss.Id);
+        }
+        for (let index = 0; index < searchResponse.incentivePlans.length; index++) {
+            allSelectedIPs[searchResponse.incentivePlans[index].value] = new Set();
+        }
+        component.set('v.setOfSS', setOfSS);
+        component.set('v.allSelectedIPs', allSelectedIPs);
+
         component.find('spinner').hide();
     },
 
