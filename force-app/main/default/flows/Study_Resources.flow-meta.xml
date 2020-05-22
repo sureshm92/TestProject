@@ -478,6 +478,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Version_Date__c</field>
+            <value>
+                <elementReference>Version_Date3</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>X3rd_Party_Source__c</field>
             <value>
                 <elementReference>X3rd_Party_Source_field_recordtypeArticle</elementReference>
@@ -566,6 +572,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Language__c</field>
+            <value>
+                <elementReference>Languageobject</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Languages__c</field>
             <value>
                 <elementReference>Languages_field_RecordType</elementReference>
@@ -587,6 +599,12 @@
             <field>URL__c</field>
             <value>
                 <elementReference>URL_field_urlRecordType</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Version_Date__c</field>
+            <value>
+                <elementReference>Version_Date2</elementReference>
             </value>
         </inputAssignments>
         <object>Resource__c</object>
@@ -718,6 +736,12 @@
             <field>Updated_Date__c</field>
             <value>
                 <elementReference>Updated_Date_field_recordtypeArticle_0</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Version_Date__c</field>
+            <value>
+                <elementReference>Version_Date4</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1089,6 +1113,13 @@
             <isRequired>true</isRequired>
         </fields>
         <fields>
+            <name>Version_Date3</name>
+            <dataType>Date</dataType>
+            <fieldText>Version Date</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
             <name>Expiration_Date_field_recordtypeArticle</name>
             <dataType>Date</dataType>
             <fieldText>Expiration Date</fieldText>
@@ -1346,11 +1377,26 @@
             <isRequired>true</isRequired>
         </fields>
         <fields>
+            <name>Language5</name>
+            <choiceReferences>Languageobject</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Language</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
             <name>Type_field_RecordType</name>
             <choiceReferences>Type_c_picklist</choiceReferences>
             <dataType>String</dataType>
             <fieldText>Type</fieldText>
             <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Version_Date2</name>
+            <dataType>Date</dataType>
+            <fieldText>Version Date</fieldText>
+            <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
         </fields>
         <fields>
@@ -1701,6 +1747,13 @@
             <name>Posting_Date_field_recordtypeArticle_0</name>
             <dataType>Date</dataType>
             <fieldText>Posting Date</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Version_Date4</name>
+            <dataType>Date</dataType>
+            <fieldText>Version Date</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
         </fields>
