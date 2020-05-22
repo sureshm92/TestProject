@@ -1,0 +1,37 @@
+{
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "componentName" : "c:OneColumnLayout",
+  "id" : "f8e2257d-c220-4844-b97e-dae16ad81296",
+  "label" : "My Study Sites",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:MyStudySites",
+      "id" : "f48095b2-47e5-44ff-899a-781d37893f76",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "004eb067-37f9-420f-8c8f-da6e136ebf88",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "My Study Sites"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "ceaf3b61-9186-47de-b3df-8204df025c78",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "a7997058-9381-4da9-92a7-244806923e1e",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-my-study-sites"
+}

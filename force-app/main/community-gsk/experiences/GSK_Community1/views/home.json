@@ -1,0 +1,49 @@
+{
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "componentName" : "c:OneColumnLayout",
+  "id" : "0a2e2ff6-7d8f-4f6e-886c-baf011da6eaa",
+  "label" : "Home",
+  "regions" : [ {
+    "id" : "6f81708f-7bb2-4357-a4af-084e60a5ff16",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "id" : "3b334923-5323-422b-a2d2-a1679736ac13",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "ed584e44-ad53-4163-987f-da352cbe5b0a",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Home"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "93125ab0-5f8f-4e9e-a4cf-f44e0eb5bae2",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "51236e88-2504-44a1-b247-c7562c4c0054",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:HomePage",
+      "id" : "973cdfee-452c-4e29-bfb1-1546834eba79",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "1f28134f-474b-466f-8241-eec346e2fb6d",
+    "regionName" : "column1",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "home"
+}

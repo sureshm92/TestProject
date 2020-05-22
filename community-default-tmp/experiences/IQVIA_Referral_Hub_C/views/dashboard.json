@@ -1,0 +1,37 @@
+{
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "componentName" : "c:OneColumnLayout",
+  "id" : "097d9101-f922-4073-bc87-48182fcfc936",
+  "label" : "Dashboard",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:Dashboard",
+      "id" : "b437ccf4-a2d9-413b-82e2-de9833792573",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "f03b35ea-d577-456a-9382-370b2131201b",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Dashboard"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "e298070d-b0bc-4d9b-8d53-167791416acc",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "68251aa8-35e0-4a7c-9fc6-974d514512d5",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-Dashboard"
+}

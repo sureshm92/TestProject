@@ -1,0 +1,10 @@
+{
+  "activeViewId" : "a6702179-4013-42e1-9fdb-a3d871052250",
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "id" : "3b16c133-ee64-4b50-9019-b33ac5b4e3b5",
+  "label" : "Incentives",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-incentives",
+  "type" : "route",
+  "urlPrefix" : "incentives"
+}
