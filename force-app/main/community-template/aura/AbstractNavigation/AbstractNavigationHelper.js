@@ -23,7 +23,7 @@
                 label: $A.get('$Label.c.Navigation_Dashboard'),
                 icon: 'dashboard'
             },
-            'resources-pi':{
+            'resources-pi': {
                 page: 'resources-pi',
                 label: $A.get('$Label.c.Navigation_Resources'),
                 icon: 'resources'
@@ -46,7 +46,7 @@
                 label: $A.get('$Label.c.Navigation_Reports'),
                 icon: 'reports'
             },
-            
+
             'sites-search': {
                 page: 'sites-search',
                 label: $A.get('$Label.c.Search_For_Sites'),
@@ -75,7 +75,7 @@
                 label: $A.get('$Label.c.Navigation_My_Referring_Clinics'),
                 icon: 'referred-clinic'
             },
-            
+
             'referring': {
                 page: 'referring',
                 label: $A.get('$Label.c.Referring')
@@ -101,25 +101,25 @@
                 label: $A.get('$Label.c.Navigation_Settings')
             },
 
-            'participant-home':{
+            'participant-home': {
                 page: '',
                 label: $A.get('$Label.c.Navigation_Home'),
                 icon: 'icon-home-brand-new'
             },
 
-            'my-study':{
+            'my-study': {
                 page: 'study-workspace',
                 label: $A.get('$Label.c.Navigation_My_Study'),
                 icon: 'about-the-study'
             },
 
-            'resources':{
+            'resources': {
                 page: 'study-workspace',
                 label: $A.get('$Label.c.Navigation_Resources'),
                 icon: 'resources'
             },
 
-            'past-studies':{
+            'past-studies': {
                 page: 'past-studies',
                 label: $A.get('$Label.c.Navigation_Past_Studies'),
                 icon: 'plan-check-in-square'
@@ -129,20 +129,34 @@
                 page: 'messages',
                 label: $A.get('$Label.c.Navigation_Messages'),
                 icon: 'icon-envelope'
+            },
+
+            'trial-match': {
+                page: 'trial-match',
+                label: $A.get('$Label.c.Trial_Match'),
+                icon: 'trial-match-mob'
             }
         };
 
         //init items for every type
-        var participantTabs = [];
+        let participantTabs = [];
         participantTabs.push(this.allPagesMap['participant-home']);
-        if(communityService.getCurrentCommunityMode().currentPE) {
+        if (communityService.getCurrentCommunityMode().currentPE) {
             participantTabs.push(this.allPagesMap['my-study']);
-        }else{
+        } else {
             participantTabs.push(this.allPagesMap['resources']);
         }
-        if(communityService.getCurrentCommunityMode().hasPastStudies) participantTabs.push(this.allPagesMap['past-studies']);
-        if(communityService.getMessagesVisible()) {
+        if (communityService.getCurrentCommunityMode().hasPastStudies) participantTabs.push(this.allPagesMap['past-studies']);
+        if (communityService.getMessagesVisible()) {
             participantTabs.push(this.allPagesMap['messages']);
+        }
+
+        if (communityService.getTemplateProperty('CommunityBrandName') === 'Community_GSK') {
+            if (communityService.getTrialMatchVisible()) {
+                if (communityService.getParticipantState() === 'PARTICIPANT') {
+                    participantTabs.push(this.allPagesMap['trial-match']);
+                }
+            }
         }
         participantTabs.push(this.allPagesMap['help']);
 
@@ -173,16 +187,16 @@
     },
 
     updateDocumentTitle: function (component, pageName) {
-        if(!this.itemsMap) this.initItemsMap();
-        var page = this.allPagesMap[pageName];
-        if(page) document.title = page.label;
+        if (!this.itemsMap) this.initItemsMap();
+        let page = this.allPagesMap[pageName];
+        if (page) document.title = page.label;
     },
 
     updateCurrentPage: function (component) {
         try {
-            var helper = this;
-            var menuItems = component.get('v.menuItems');
-            var currentPageName = communityService.getPageName();
+            let helper = this;
+            let menuItems = component.get('v.menuItems');
+            let currentPageName = communityService.getPageName();
             helper.updateDocumentTitle(component, currentPageName);
             //document.title = $A.get('$Label.c.RH_Window_Title');
             component.set('v.currentPage', currentPageName);

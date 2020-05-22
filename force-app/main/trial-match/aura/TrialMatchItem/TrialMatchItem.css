@@ -1,0 +1,96 @@
+/**
+ * Created by Sravani Dasari
+ */
+ .THIS {
+}
+
+.THIS.card-ctp {
+    height: auto;
+    width: auto;
+    border: 1px solid #F2F2F2;
+    box-sizing: border-box;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
+    margin: 15px 15px 0 0;
+}
+
+.THIS .top-line {
+    height: 5px;
+    width: auto;
+    border-radius: 5px 5px 0 0;
+    background-color: #00C221;
+    box-shadow: 0 1px 2px 0 rgba(85, 85, 85, 0.15);
+}
+
+.THIS .button-ctp {
+    margin: 10px 0 15px 15px;
+}
+
+.THIS .tap-class {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: "Proxima Nova";
+    color: #000000;
+    font-size: 14px;
+    line-height: 21px;
+    width: 80%
+}
+
+.THIS .ctp-info-block {
+    display: flex;
+}
+
+.THIS .ctp-study-code-name {
+    font-family: "Proxima Nova";
+    color: #000000;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px;
+    width: 90%
+}
+
+.THIS .ctp-recruitment-status {
+    font-size: 14px;
+    width: 20%;
+    text-align: right;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-weight: 800;
+    line-height: 21px;
+}
+
+.THIS .ctp-date-status {
+    font-size: 14px;
+    width: 20%;
+    text-align: right;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-weight: 500;
+    line-height: 21px;
+}
+
+.THIS .cpt-official-title {
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    line-height: 24px;
+    width: 90%
+}
+
+.THIS .ctp-padding {
+    padding: 5px 10px 5px 15px;
+}
+
+.THIS .modal-pop {
+    min-width: 800px;
+}
+
+.THIS .btn-send {
+    display: block;
+}
+
+.THIS .p-footer {
+    text-align: left !important;
+}
