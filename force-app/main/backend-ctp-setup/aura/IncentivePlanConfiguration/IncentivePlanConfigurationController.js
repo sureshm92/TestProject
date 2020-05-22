@@ -48,7 +48,12 @@
     columnCheckboxStateChange: function (component, event, helper) {
         let ipId = event.target.dataset.ip;
         let state = event.target.dataset.state === 'Enabled';
-        if (!component.get('v.selectedIP') || !state && component.get('v.selectedIP') === ipId) {
+        let haveSelecteAll = false;
+        let allSelectedIPs = component.get('v.allSelectedIPs');
+        for (const incenitvePlan in allSelectedIPs) {
+            haveSelecteAll = haveSelecteAll || (allSelectedIPs[incenitvePlan] && allSelectedIPs[incenitvePlan].size);
+        }
+        if (!haveSelecteAll || !state) {
             component.find('spinner').show();
             communityService.executeAction(component, 'setIncentivePlanForAll', {
                 incentivePlanId: ipId,
@@ -60,14 +65,17 @@
                 helper.setSearchResponse(component, searchResponse);
                 if (state) {
                     component.set('v.selectedIP', ipId);
+                    allSelectedIPs[ipId] = component.get('v.setOfSS');
+                    component.set('v.allSelectedIPs', allSelectedIPs);
                 } else {
                     component.set('v.selectedIP', '');
+                    allSelectedIPs[ipId].clear();
+                    component.set('v.allSelectedIPs', allSelectedIPs);
                 }
                 communityService.showWarningToast('Warning!', ($A.get('$Label.c.PG_Ref_L_One_Incentive_Many_Incentives')).replace('{0}', ('' + component.get('v.ssItems').length)), 6000);
-                console.log('SELECTED IP: ' + component.get('v.selectedIP'));
+                console.log('SELECTED IPs: ' + JSON.stringify(component.get('v.allSelectedIPs')));
             });
-        } else if (state && component.get('v.selectedIP') !== ipId) {
-            console.log('SELECTED IP2: ' + component.get('v.selectedIP'));
+        } else if (state && haveSelecteAll) {
             communityService.showWarningToast('Warning!', $A.get('$Label.c.PG_Ref_L_One_Incentive_Plan'), 5000);
         }
     },
