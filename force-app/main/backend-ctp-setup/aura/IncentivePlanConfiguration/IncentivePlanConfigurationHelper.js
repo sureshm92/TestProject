@@ -8,15 +8,25 @@
         component.set('v.ssItems', searchResponse.studySiteItems);
         component.set('v.pagination', searchResponse.pagination);
         component.set('v.incentivePlans', searchResponse.incentivePlans);
-
+        console.log('pagination' + JSON.stringify(searchResponse.pagination));
+        console.log('incentivePlans' + JSON.stringify(searchResponse.incentivePlans));
+        console.log('ssItems' + JSON.stringify(searchResponse.studySiteItems));
         var allSelectedIPs = {};
+        if (component.get('v.allSelectedIPs')) {
+            allSelectedIPs = component.get('v.allSelectedIPs');
+        }
         var setOfSS = new Set();
+        if (component.get('v.setOfSS')) {
+            setOfSS = component.get('v.setOfSS');
+        }
         for (let index = 0; index < searchResponse.studySiteItems.length; index++) {
             let item = searchResponse.studySiteItems[index];
             setOfSS.add(item.ss.Id);
         }
         for (let index = 0; index < searchResponse.incentivePlans.length; index++) {
-            allSelectedIPs[searchResponse.incentivePlans[index].value] = new Set();
+            if (!allSelectedIPs[searchResponse.incentivePlans[index].value]) {
+                allSelectedIPs[searchResponse.incentivePlans[index].value] = new Set();
+            }
         }
         component.set('v.setOfSS', setOfSS);
         component.set('v.allSelectedIPs', allSelectedIPs);
