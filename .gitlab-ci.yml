@@ -134,6 +134,7 @@ DeployINT5.0:
     - sfdx --version
     - cat .forceignore_deploy_exclude >> .forceignore
     - sfdx force:source:deploy -p force-app -u INT5_0  -w 60
+    - sfdx force:source:deploy -p unpackaged/community-gsk -u INT5_0  -w 60
     - echo "Deploy INT5.0 success"
 
 RunTestINT5.0:
