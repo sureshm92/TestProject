@@ -1,7 +1,7 @@
 /**
  * Created by Sravani Dasari
  */
-public with sharing class TrialMatchHelper {
+public without sharing class TrialMatchHelper {
 
     static {
         ClassFactory.setCacheable(true);
@@ -36,7 +36,7 @@ public with sharing class TrialMatchHelper {
             }
         } 
         
-        if (!isEnrolling && !isNotYetEnrolling || (!trialMatchs.isEmpty() && ctpId.isEmpty())) {
+        if (!isEnrolling && !isNotYetEnrolling || (trialMatchs.isEmpty() || ctpId.isEmpty())) {
             return trialMatchContainer;
         }
         List<Clinical_Trial_Profile__c> ctps = this.getCtps(ctpId,'id',isEnrolling, isNotYetEnrolling);
@@ -104,22 +104,15 @@ public with sharing class TrialMatchHelper {
 
 	@TestVisible
     private List<Trial_Match__c> getTrialMatches() {
-        CommunityService cService = (CommunityService) ClassFactory.newInstance(CommunityService.class);
-        String participantId = cService.getParticipantId();
+        String filter = 'Is_Eligible__c = TRUE AND' +
+                DatabaseService.fieldEqual('Participant_Enrollment__r.Participant__c', ParticipantContext.getCurrentParticipantId());
 
-        String queryTAP = 'SELECT id, ' +
-                'Matched_Date__c, ' +
-                'Therapeutic_Area__c , ' +
-                'Clinical_Trial_Profile__c, ' +
-                'Passed__c, ' +
-            	'Participant_Enrollment__c, ' +
-                'Matching_Score__c ' +
-                'FROM Trial_Match__c ' +
-                'WHERE Is_Eligible__c=true ' +
-                'And Participant_Enrollment__r.Participant__c = \'' + participantId + '\'';
-        List<Trial_Match__c> trialMatches = (List<Trial_Match__c>) proxy.query(queryTAP, true);
-
-        return trialMatches;
+        return (List<Trial_Match__c>) DatabaseService.query(
+                new List<String>{
+                        'Id', 'Clinical_Trial_Profile__c', 'Matched_Date__c', 'Matching_Score__c',
+                        'Passed__c', 'Participant_Enrollment__c', 'Therapeutic_Area__c'
+                }, Trial_Match__c.getSObjectType(), filter
+        );
     }
 
     //To Sravani Dasari, this variant is better, agree?!

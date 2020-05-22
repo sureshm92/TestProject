@@ -373,7 +373,6 @@ public without sharing class ParticipantEnrollmentService {
             'Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c',
             'Clinical_Trial_Profile__r.CommunityTemplate__c',
             'Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c',
-            'Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c',
             'Clinical_Trial_Profile__r.Trial_Match_Is_Available__c',
             'CreatedDate',
             'Enrolled_Date__c',
