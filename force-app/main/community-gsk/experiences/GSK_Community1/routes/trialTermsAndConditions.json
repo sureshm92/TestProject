@@ -1,0 +1,10 @@
+{
+  "activeViewId" : "06163e2c-44e2-4d16-bd31-00ff6fd0a64f",
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "id" : "ec339c72-ca71-4fcb-88bd-8d01494b524b",
+  "label" : "Trial Terms And Conditions",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-trial-terms-and-conditions",
+  "type" : "route",
+  "urlPrefix" : "trial-terms-and-conditions"
+}

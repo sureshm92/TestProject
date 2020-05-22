@@ -17,6 +17,10 @@ force-app/main/default/profiles/Custom%3A Sales Profile.profile-meta.xml
 force-app/main/default/profiles/Custom%3A Support Profile.profile-meta.xml
 force-app/main/default/profiles/IQVIA RH Profile.profile-meta.xml
 
+#groups:
+force-app/main/default/permissionsetgroups/PRDB_Service_Account_User.permissionsetgroup-meta.xml
+force-app/main/default/permissionsetgroups/PO.permissionsetgroup-meta.xml
+
 #community:
 #unpackaged/main/default/experiences
 #unpackaged/main/default/networks

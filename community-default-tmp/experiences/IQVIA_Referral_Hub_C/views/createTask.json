@@ -1,0 +1,37 @@
+{
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "componentName" : "c:EmptyLayout",
+  "id" : "d84bb45a-edb9-4600-a436-eb310a998996",
+  "label" : "Create Task",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:TaskEdit",
+      "id" : "ea579f48-6f57-4046-b1b3-4d218b427d16",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "3e1b126e-beb8-4702-a5d7-08f42b4608f3",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Task Detail"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "9f45aebd-28ae-401d-825d-dcf2263a5be1",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "e89c6b9e-7aa2-4402-8005-b32fc27ec4dc",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "O3BaUt1WFPg1Lbs4TSli1UrNxJ1ZUS",
+  "type" : "view",
+  "viewType" : "custom-create-task"
+}

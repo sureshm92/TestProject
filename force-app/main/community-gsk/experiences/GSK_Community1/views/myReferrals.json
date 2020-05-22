@@ -1,0 +1,37 @@
+{
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "componentName" : "c:OneColumnLayout",
+  "id" : "c6dfeb76-9f79-4931-a7d5-1685861562aa",
+  "label" : "My Referrals",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ViewPatients",
+      "id" : "e7356e27-0748-4081-a105-d03cc0dc19b9",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "4669eb39-959c-4162-ab7f-e7fa56d8d536",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "My Referrals"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "1c4cd51c-21f6-4424-b7c8-c446c1437eea",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "bd194cf4-04a7-4268-865d-1b500f7c4f65",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-my-referrals"
+}

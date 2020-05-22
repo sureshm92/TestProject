@@ -1,0 +1,37 @@
+{
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "componentName" : "c:OneColumnLayout",
+  "id" : "017c1721-93a4-4b8a-ab43-7aa827d81acc",
+  "label" : "Dashborad",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:Dashboard",
+      "id" : "de8f0fad-0598-4562-bbae-f084aab0d552",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "828a4777-dbe9-48aa-8091-0604891a7dda",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Dashborad"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "bd6ad97b-7650-42dc-8b7f-713d809647fb",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "9cc3d4ab-95fa-4651-892b-6e71ae489405",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-Dashborad"
+}

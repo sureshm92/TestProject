@@ -1,0 +1,10 @@
+{
+  "activeViewId" : "9f1a44ae-19ae-4ce4-b492-70f2b4cbcc81",
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "id" : "8fc43332-ca4e-4620-8e06-96ffdaa42b46",
+  "label" : "My Patients",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-my-patients",
+  "type" : "route",
+  "urlPrefix" : "my-patients"
+}

@@ -1,0 +1,37 @@
+{
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "componentName" : "c:OneColumnLayout",
+  "id" : "f2c35319-81a9-4aca-91f1-36f7b52037db",
+  "label" : "Reports",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ReportsContainer",
+      "id" : "26e28e48-4431-4916-867a-5489036cc395",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "1b95047c-8dad-49ba-96f6-75b560606f12",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Reports"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "32015073-0837-4121-b3f7-e2e53f22984a",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "0b735707-1510-44a3-bfa7-5aba05c07135",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-reports"
+}
