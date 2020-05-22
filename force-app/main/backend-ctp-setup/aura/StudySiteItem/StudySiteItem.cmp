@@ -6,6 +6,7 @@
 
     <!-- attributes: -->
     <aura:attribute name="item" type="Object"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="viewMode" type="String"/>
     <aura:attribute name="isSingleChoice" type="Boolean" default="false"/>
 
