@@ -24,15 +24,19 @@ export default class IncentivesMyPlan extends LightningElement {
     @track studySitesOptions;
     @track tasksGroups;
     @track selectedStudySite;
-    @track initialized=false;
+    @track initialized;
+    @track hasStudySitesWithActivePlan;
     spinner;
 
     connectedCallback() {
         getInitialPlan()
             .then(data => {
                 this.studySitesOptions = data.studySitesOptions;
-                this.selectedStudySite = this.studySitesOptions[0].value;
-                this.tasksGroups = data.tasksGroups;
+                this.hasStudySitesWithActivePlan = this.studySitesOptions.length > 0;
+                if (this.hasStudySitesWithActivePlan){
+                    this.selectedStudySite = this.studySitesOptions[0].value;
+                    this.tasksGroups = data.tasksGroups;
+                }
                 this.initialized = true;
                 this.spinner.hide();
             })
