@@ -10,7 +10,7 @@
             selectedMode.isOpen = !selectedMode.isOpen;
             component.set('v.allModes', component.get('v.allModes'));
         }else if(!selectedMode.isSplitter){
-            var currentDelegateId = selectedMode.currentDelegateId;
+            let currentDelegateId = selectedMode.currentDelegateId;
             if(selectedMode.userMode === 'HCP'){
                 currentDelegateId = selectedMode.currentHCPDelegate;
             }
@@ -21,11 +21,7 @@
             }, function (contact) {
                 component.set('v.currentMode', selectedMode);
                 communityService.setCurrentCommunityMode(selectedMode);
-             
-                communityService.executeAction(component, 'getUserContact', {}, function (updatedContact) {
-                    communityService.setTrialMatchFeatureEnablement(updatedContact.Current_Participant_Enrollment__r.Clinical_Trial_Profile__r.Trial_Match_Is_Available__c);
-                    communityService.setCurrentParticipantStatus(updatedContact.Current_Participant_Enrollment__r.Participant_Status__c);
-                });
+
                 //do nothing if need redirect:
                 if(selectedMode.template.needRedirect) return;
                 if(communityService.getUserMode() === 'Participant'){
@@ -36,13 +32,14 @@
                 if(communityService.showTourOnLogin() && !communityService.isTourAlreadyShowed()  && communityService.isNewSession()) {
                     communityService.showTour();
                 }
-                var modes = component.get('v.allModes');
-                for(var i = 0; i < modes.length; i ++){
+                let modes = component.get('v.allModes');
+                for(let i = 0; i < modes.length; i ++){
                     if(modes[i].isGroup) modes[i].isOpen = false;
                 }
 
-                communityService.executeAction(component, 'getMessagesVisibility', {}, function (returnValue) {
-                    communityService.setMessagesVisible(returnValue);
+                communityService.executeAction(component, 'getCommunityUserVisibility', null, function (userVisibility) {
+                    communityService.setMessagesVisible(userVisibility.messagesVisible);
+                    communityService.setTrialMatchVisible(userVisibility.trialMatchVisible);
                     component.set('v.allModes', modes);
                     component.getEvent('onModeChange').fire();
                     component.find('pubsub').fireEvent('reload');

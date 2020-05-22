@@ -69,7 +69,7 @@ public with sharing class TrialMatchHelper {
             tmctp.StudyCodeName = ctp.Study_Code_Name__c;
             tmctp.OfficialTitle = ctp.Official_Title__c;
             String day = String.valueOf(matdate.day()).length()==1?'0'+String.valueOf(matdate.day()):String.valueOf(matdate.day());
-            tmctp.matchDate = day+'-'+getmonth(matdate.month())+'-'+matdate.year();
+            tmctp.matchDate = day+'-'+ getMonth(matdate)+'-'+matdate.year();
             trialmatchCTPS.add(tmctp);
         }
         return trialmatchCTPS;
@@ -97,7 +97,7 @@ public with sharing class TrialMatchHelper {
                 'FROM Clinical_Trial_Profile__c ';
 
         queryCTP += whereClause;
-        System.debug('>>getCtps query: ' + queryCTP);
+
         List<Clinical_Trial_Profile__c> ctps = (List<Clinical_Trial_Profile__c>) proxy.query(queryCTP, true);
         return ctps;
     }
@@ -106,7 +106,7 @@ public with sharing class TrialMatchHelper {
     private List<Trial_Match__c> getTrialMatches() {
         CommunityService cService = (CommunityService) ClassFactory.newInstance(CommunityService.class);
         String participantId = cService.getParticipantId();
-        system.debug('participantId**'+participantId);
+
         String queryTAP = 'SELECT id, ' +
                 'Matched_Date__c, ' +
                 'Therapeutic_Area__c , ' +
@@ -118,34 +118,13 @@ public with sharing class TrialMatchHelper {
                 'WHERE Is_Eligible__c=true ' +
                 'And Participant_Enrollment__r.Participant__c = \'' + participantId + '\'';
         List<Trial_Match__c> trialMatches = (List<Trial_Match__c>) proxy.query(queryTAP, true);
-        system.debug('trialMatches***'+trialMatches);
+
         return trialMatches;
     }
-    String getmonth(Integer num){
-        if(num==1)
-            return 'Jan';
-        else if(num==2)
-            return 'Feb';
-        else if(num==3)
-            return 'Mar';
-        else if(num==4)
-            return 'Apr';
-        else if(num==5)
-            return 'May';
-        else if(num==6)
-            return 'Jun';
-        else if(num==7)
-            return 'Jul';
-        else if(num==8)
-            return 'Aug';
-        else if(num==10)
-            return 'Sep';
-        else if(num==11)
-            return 'Oct';
-        else if(num==2)
-            return 'Nov';
-        else
-            return 'Dec';
+
+    //To Sravani Dasari, this variant is better, agree?!
+    private String getMonth(Date matchDate){
+        Datetime dt = Datetime.newInstanceGmt(matchDate.year(), matchDate.month(), matchDate.day());
+        return dt.format('MMM');
     }
-    
 }

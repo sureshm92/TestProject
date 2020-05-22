@@ -3,14 +3,13 @@
  */
 public without sharing class TrialMatchPageRemote {
 	@AuraEnabled
-    public static trialMatchContainer getMatchCTPs() {
+    public static TrialMatchContainer getMatchCTPs() {
         try {
             TrialMatchHelper helper = (TrialMatchHelper) ClassFactory.newInstance(TrialMatchHelper.class);
             TrialMatchContainer trialMatchContainer = helper.getInitTrialMatchContainer();
             return trialMatchContainer;
         } catch (Exception e) {
-            system.debug('exception ***:'+e);
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            return (TrialMatchContainer) AuraHelper.throwException(e);
         }
     }
 
