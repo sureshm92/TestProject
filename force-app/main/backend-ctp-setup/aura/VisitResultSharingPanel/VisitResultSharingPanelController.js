@@ -1,6 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
+
 ({
     doInit: function (component, event, helper) {
         communityService.executeAction(component, 'getInitData', {
@@ -84,6 +85,20 @@
             options.showAfterDays = 0;
         }
 
+        component.set('v.options', options);
+    },
+
+    doGroupChanged: function (component, event, helper) {
+        let groups = component.get('v.groups');
+        for (const group of groups) {
+            if (group.show) return;
+        }
+
+        let options = component.get('v.options');
+        options.countrySelectionType = 'Disabled';
+        options.ssSelectionType = options.countrySelectionType;
+        options.selectedSSIds = '';
+        options.selectedCountries = '';
         component.set('v.options', options);
     },
 

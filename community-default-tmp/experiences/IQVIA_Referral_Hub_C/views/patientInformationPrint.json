@@ -1,0 +1,37 @@
+{
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "componentName" : "c:OneColumnLayout",
+  "id" : "00e4dc54-ed35-4bcc-a4d7-6e56ba107a13",
+  "label" : "Patient Information Print",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ParticipantInformationPrintView",
+      "id" : "663b7464-78df-411b-b6eb-cbc1d4dfda3c",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "dc4cdb5f-3be4-4a11-b758-de047ae81acb",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Patient Information Print"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "1ec4b494-6113-4da0-9ec7-92e12c77d1e7",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "778c2c57-0437-42e3-819a-da423d83a1b5",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-patient-info-pv"
+}

@@ -15,7 +15,7 @@
             component.find('spinner').hide();
             console.log('pepeMrr', component.get('v.pe.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c'));
             component.find('dialog').show();
-            component.find('dialog').scrollTop();
+            //component.find('dialog').scrollTop();
             helper.addEventListener(component, helper);
         } catch (e) {
             console.error(e);

@@ -48,16 +48,36 @@
     columnCheckboxStateChange: function (component, event, helper) {
         let ipId = event.target.dataset.ip;
         let state = event.target.dataset.state === 'Enabled';
-        component.find('spinner').show();
-        communityService.executeAction(component, 'setIncentivePlanForAll', {
-            visitPlanId: ipId,
-            state: state,
-            filterJSON: JSON.stringify(component.get('v.filter')),
-            paginationJSON: JSON.stringify(component.get('v.pagination')),
-            ssItemsJSON: JSON.stringify(component.get('v.ssItems'))
-        }, function (searchResponse) {
-            helper.setSearchResponse(component, searchResponse);
-        });
+        let haveSelecteAll = false;
+        let allSelectedIPs = component.get('v.allSelectedIPs');
+        for (const incenitvePlan in allSelectedIPs) {
+            haveSelecteAll = haveSelecteAll || (allSelectedIPs[incenitvePlan] && allSelectedIPs[incenitvePlan].size);
+        }
+        if (!haveSelecteAll || !state) {
+            component.find('spinner').show();
+            communityService.executeAction(component, 'setIncentivePlanForAll', {
+                incentivePlanId: ipId,
+                state: state,
+                filterJSON: JSON.stringify(component.get('v.filter')),
+                paginationJSON: JSON.stringify(component.get('v.pagination')),
+                ssItemsJSON: JSON.stringify(component.get('v.ssItems'))
+            }, function (searchResponse) {
+                helper.setSearchResponse(component, searchResponse);
+                if (state) {
+                    component.set('v.selectedIP', ipId);
+                    allSelectedIPs[ipId] = component.get('v.setOfSS');
+                    component.set('v.allSelectedIPs', allSelectedIPs);
+                } else {
+                    component.set('v.selectedIP', '');
+                    allSelectedIPs[ipId].clear();
+                    component.set('v.allSelectedIPs', allSelectedIPs);
+                }
+                communityService.showWarningToast('Warning!', ($A.get('$Label.c.PG_Ref_L_One_Incentive_Many_Incentives')).replace('{0}', ('' + component.get('v.ssItems').length)), 6000);
+                console.log('SELECTED IPs: ' + JSON.stringify(component.get('v.allSelectedIPs')));
+            });
+        } else if (state && haveSelecteAll) {
+            communityService.showWarningToast('Warning!', $A.get('$Label.c.PG_Ref_L_One_Incentive_Plan'), 5000);
+        }
     },
 
     doColumnIPEdit: function (component, event, helper) {
@@ -79,27 +99,6 @@
         component.find('actionIP').execute(menuCmp.get('v.plan').value, function () {
             helper.updateItems(component);
         }, 'clone');
-    },
-
-    doColumnIPDelete: function (component, event, helper) {
-        let menuCmp = event.getSource();
-        let planId = menuCmp.get('v.plan').value;
-        let ipIds = component.get('v.filter.pageFeatureIds');
-        if (ipIds) {
-            let items = ipIds.split(';');
-            let resItems = [];
-            for (let i = 0; i < items.length; i++) {
-                if (items[i] !== planId) resItems.push(items[i]);
-            }
-            component.set('v.filter.pageFeatureIds', resItems.join(';'));
-        }
-        component.find('spinner').show();
-        communityService.executeAction(component, 'deleteIncentivePlan', {
-            planId: planId,
-            filterJSON: JSON.stringify(component.get('v.filter')),
-            paginationJSON: JSON.stringify(component.get('v.pagination'))
-        }, function (searchResponse) {
-            helper.setSearchResponse(component, searchResponse);
-        });
     }
+
 });

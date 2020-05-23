@@ -47,7 +47,6 @@ private class Test_CommunityFacadeRemote {
             CommunityFacadeRemote.changeMode('HCP', null, null);
             CommunityFacadeRemote.isTCAccepted();
             CommunityFacadeRemote.getCommunityData();
-             CommunityFacadeRemote.getUserContact();
             try {
                 CommunityFacadeRemote.getPreferredLanguageCode('us');
             } catch (Exception ex) {

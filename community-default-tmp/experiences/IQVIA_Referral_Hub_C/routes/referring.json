@@ -1,0 +1,10 @@
+{
+  "activeViewId" : "834b0de6-380e-4465-8739-c128205ae4d0",
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "id" : "ce267378-c44c-4493-9fb2-2868b5467a9d",
+  "label" : "Referring",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-Referring",
+  "type" : "route",
+  "urlPrefix" : "referring"
+}

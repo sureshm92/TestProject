@@ -1,0 +1,57 @@
+{
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "componentName" : "c:OneColumnLayout",
+  "id" : "ca2307f2-589f-4b80-8e7a-c2a0c0a80434",
+  "label" : "Clinic Profile",
+  "regions" : [ {
+    "id" : "6ab643ea-e05a-4743-b9d9-8cb0d984b0d7",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ClinicProfile",
+      "id" : "6afc89f2-862f-4657-a557-0214277d3fa8",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "65d8dbc3-e37d-4ff9-b92e-ad1906f689cc",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "fe453422-036b-4e63-990b-4433971b0ab3",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Clinic Profile"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "3bd63be3-2759-4324-94d0-88aa727c271a",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "e4ceaaf3-ed48-4303-a29d-41d57eec2893",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ClinicProfile",
+      "id" : "2b1ab3b8-7b0e-453d-a727-1bac7c985e1a",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "2e5897a2-2e40-4dec-8291-47adcfd5fb95",
+    "regionName" : "column1",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-Clinic Profile"
+}
