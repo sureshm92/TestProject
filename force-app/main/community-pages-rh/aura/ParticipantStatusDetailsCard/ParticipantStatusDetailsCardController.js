@@ -39,6 +39,8 @@
     },
     updateNotesRequired : function (component, event, helper) {
         let stepWrapper = component.get('v.stepWrapper');
+        let selectedReason = component.find('reasonList').get('v.value');
+        component.set('v.stepWrapper.reason', selectedReason);
         component.set('v.notesRequired', stepWrapper.notesRequiredMap[stepWrapper.outcome+';'+stepWrapper.reason]);
         helper.checkValidity(component, event, helper, stepWrapper);
     },

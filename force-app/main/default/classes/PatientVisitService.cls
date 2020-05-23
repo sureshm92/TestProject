@@ -72,12 +72,21 @@ public inherited sharing class PatientVisitService {
     private List<VisitWrapper> getVisitWrappers(List<Patient_Visit__c> visits) {
         List<VisitWrapper> visitWrappers = new List<VisitWrapper>();
         if (visits == null || visits.isEmpty()) return visitWrappers;
-
-        List<Icon_Details__c> iconDetails = [
+        Id visitPlanId;
+        List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
+        for(Patient_Visit__c visit: visits){
+            if(visit.Visit__c!=null && visit.Visit__r.Visit_Plan__c !=null){
+                visitPlanId = visit.Visit__r.Visit_Plan__c;   
+                break;
+            }
+        }
+        if(visitPlanId !=null){
+            iconDetails = [
                 SELECT Id, Name, Label__c
                 FROM Icon_Details__c
-                WHERE Visit_Plan__c = :visits[0].Visit__r.Visit_Plan__c
-        ];
+                WHERE Visit_Plan__c = :visitPlanId
+            ];
+        }
         TranslateHelper.translate(iconDetails);
         Map<String, Icon_Details__c> iconDetailsMap = new Map<String, Icon_Details__c>();
         for(Icon_Details__c iconDetail : iconDetails) iconDetailsMap.put(iconDetail.Name, iconDetail);
@@ -149,7 +158,11 @@ public inherited sharing class PatientVisitService {
             iconDetails = new List<Icon_Details__c>();
             if (visit.Visit__c != null) {
                 icons = visit.Visit__r.Icons__c;
-                List<String> iconNames = visit.Visit__r.Icons__c.split(';');
+                
+				List<String> iconNames = new List<String>();
+                if(visit.Visit__r !=null && visit.Visit__r.Icons__c !=null)
+                    iconNames = visit.Visit__r.Icons__c.split(';');
+
                 if (!iconNames.isEmpty()) {
                     for(String iconName : iconNames) {
                         if(iconDetailsMap.containsKey(iconName)) {
