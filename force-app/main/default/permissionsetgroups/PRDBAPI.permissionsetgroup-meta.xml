@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label>PRDB Service Account User</label>
+    <label>PRDBAPI</label>
     <permissionSets>PP_Approved_Languages_View</permissionSets>
     <permissionSets>PP_CTP_View</permissionSets>
-    <permissionSets>PP_Manual_Creation_Panel</permissionSets>
-    <permissionSets>PP_Motivational_Messages_View</permissionSets>
+    <permissionSets>PP_Motivational_Messages_Edit</permissionSets>
     <permissionSets>PP_Participant_Non_PIII_View</permissionSets>
     <permissionSets>PP_Participant_PII_View</permissionSets>
     <permissionSets>PP_Payment_Vendors_View</permissionSets>
