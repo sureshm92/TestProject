@@ -45,7 +45,7 @@ public inherited sharing class VisitResultsService {
         }
 
 
-        List<Visit_Result__c> visitResults = VisitResultSharingService.processResults('Vitals',filteredVisitResults);
+        List<Visit_Result__c> visitResults = VisitResultSharingService.processResults();
         if (visitResults.isEmpty() || filteredConfigs.isEmpty()) {
             return new List<VisitResultWrapper>();
         }
@@ -90,8 +90,7 @@ public inherited sharing class VisitResultsService {
         for (Visit_Result_TypeM__mdt visitResultTypeM : visitResultTypes) {
             if (availableVisitResults.contains(visitResultTypeM.DeveloperName)) filteredVisitResultTypesIfAvailable.add(visitResultTypeM);
         }
-        String visitResultMode = this.metadataService.getVisitResultModeByGroupName(visitResultsGroupName);
-        List<Visit_Result__c> visitResults = VisitResultSharingService.processResults(visitResultMode, visitResultSharings.get(visitResultsGroupName));
+        List<Visit_Result__c> visitResults = VisitResultSharingService.processResults();
 
         //String languageToTranslate = IRBParticipantService.getSuitableLanguageForIRBTranslation(ParticipantService.getParticipantState().pe.Id);
         return visitResults.isEmpty()
