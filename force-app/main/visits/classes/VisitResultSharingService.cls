@@ -27,37 +27,9 @@ public without sharing class VisitResultSharingService {
                 state.pe.Study_Site__r.Visit_Results_Sharing__c;
     }
 
-    public static List<Visit_Result__c> processResults(String visitResultsMode, List<String> enabledVisitResultTypes) {
+    public static List<Visit_Result__c> processResults() {
         if (!onStudy) return new List<Visit_Result__c>();
         Map<Id, Clinical_Trial_Profile__c> ctpById = new Map<Id, Clinical_Trial_Profile__c>();
-        Id recordTypeIdForCurrentMode = SchemaUtil.getRecordTypeIdByName(visitResultsMode.removeEnd('s'), Visit_Result__c.getSObjectType());
-        List<Visit_Result__c> visitResultsForCurrentMode = new List<Visit_Result__c>();
-        if (enabledVisitResultTypes==null) {
-            visitResultsForCurrentMode = [
-                    SELECT Id,
-                            Patient_Visit__c
-                    FROM Visit_Result__c
-                    WHERE RecordTypeId = :recordTypeIdForCurrentMode
-                    AND Patient_Visit__r.Participant_Enrollment__c = :state.pe.Id
-                    AND Patient_Visit__r.Status__c = 'Completed'
-            ];
-        } else {
-            visitResultsForCurrentMode = [
-                    SELECT Id,
-                            Patient_Visit__c
-                    FROM Visit_Result__c
-                    WHERE RecordTypeId = :recordTypeIdForCurrentMode
-                    AND Patient_Visit__r.Participant_Enrollment__c = :state.pe.Id
-                    AND Patient_Visit__r.Status__c = 'Completed'
-                    AND Result_Type__c IN :enabledVisitResultTypes
-            ];
-        }
-
-        List<String> visitResultIdsForCurrentMode = new List<String>();
-        for (Visit_Result__c visitResult : visitResultsForCurrentMode) {
-            visitResultIdsForCurrentMode.add(visitResult.Patient_Visit__c);
-        }
-
         List<Patient_Visit__c> patientVisits = [
                 SELECT
                         Id,
@@ -74,7 +46,8 @@ public without sharing class VisitResultSharingService {
                         FROM Visit_Results__r
                 )
                 FROM Patient_Visit__c
-                WHERE Id IN :visitResultIdsForCurrentMode
+                WHERE Participant_Enrollment__c = :state.pe.Id
+                AND Status__c = 'Completed'
                 ORDER BY Visit_Number__c, Completed_Date__c
         ];
 
