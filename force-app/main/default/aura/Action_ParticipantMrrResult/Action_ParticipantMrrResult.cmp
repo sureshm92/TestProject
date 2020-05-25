@@ -32,8 +32,9 @@
                 <div class="main-title">{!v.pe.Participant__r.Full_Name__c}&nbsp;{!$Label.c.PG_MRR_R_Failed}</div>
                 <aura:if isTrue="{!!v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c}">
                 <button class="apollo-btn primary"
+                        title="{!v.pe.Participant__r.Email__c ? '' : 'Email address must be entered in participant details to invite the participant to Patient Portal.'}"
                         data-gtm="BTN_InviteToPP"
-                        onclick="{!c.inviteToPortal}">
+                        onclick="{!v.pe.Participant__r.Email__c ? c.inviteToPortal : ''}">
                     {!$Label.c.Invite_Participant_To_Portal}
                 </button>
                 </aura:if>
@@ -50,8 +51,9 @@
                 <div class="main-title">{!v.pe.Participant__r.Full_Name__c}&nbsp;{!$Label.c.PG_MRR_R_Passed}</div>
                 <aura:if isTrue="{!!v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c}">
                     <button class="apollo-btn primary"
+                            title="{!v.pe.Participant__r.Email__c ? '' : 'Email address must be entered in participant details to invite the participant to Patient Portal.'}"
                             data-gtm="BTN_InviteToPP"
-                            onclick="{!c.inviteToPortal}">
+                            onclick="{!v.pe.Participant__r.Email__c ? c.inviteToPortal : ''}">
                         {!$Label.c.Invite_Participant_To_Portal}
                     </button>
                 </aura:if>
