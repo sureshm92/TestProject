@@ -1,5 +1,6 @@
 /**
  * Created by Vitalii Aheienko on 9/13/2019.
+ * Updated by Sravani Dasari on 5/14/2020 
  */
 
 public with sharing class TrialSearchWhereClauseFactory {
@@ -47,7 +48,18 @@ public with sharing class TrialSearchWhereClauseFactory {
 
         return enrolledIdFilteredClause;
     }
+    // Added by Sravani Dasari for Trial Match PEH-2031
+    public WhereClause getInstance(List<Id> taIds, String objfield, Boolean isEnrolling, Boolean isNotYetEnrolling, Set<Id> userQCareSSIds) {
+        WhereClause idFilteredClause = new IdFilteredWhereClause(taIds,objfield);
+        WhereClause enrolledIdFilteredClause = this.getEnrollingExtendedWhereClause(idFilteredClause, isEnrolling, isNotYetEnrolling);
+        if (userQCareSSIds != null && !userQCareSSIds.isEmpty()) {
+            WhereClause qCareEnrolledidFilteredClause = new QCareWhereClauseDecorator(enrolledIdFilteredClause, userQCareSSIds);
+            return qCareEnrolledidFilteredClause;
+        }
 
+        return enrolledIdFilteredClause;
+    }
+	//Ended by Sravani Dasari
     private WhereClause getEnrollingExtendedWhereClause(WhereClause clause, Boolean isEnrolling, Boolean isNotYetEnrolling) {
         if (isEnrolling && isNotYetEnrolling) {
             return new EnrollingNotEnrollingWhereClauseDecorator(clause);
@@ -79,14 +91,22 @@ public with sharing class TrialSearchWhereClauseFactory {
     public class IdFilteredWhereClause implements WhereClause {
 
         List<Id> taIds;
-
+		String whereField; // Added by Sravani Dasari for Trial Match PEH-2031
+        
         public IdFilteredWhereClause(List<Id> taIds) {
             this.taIds = taIds;
+            whereField = 'Therapeutic_Area__c';
         }
-
+		// Added by Sravani Dasari for Trial Match PEH-2031
+        public IdFilteredWhereClause(List<Id> taIds, String objType) {
+            this.taIds = taIds;
+			if(objType!=null)
+			 whereField= objType;
+		}
+        //Ended by Sravani
         public String getWhereClause() {
             Boolean emptyTaIds = taIds == null || taIds.isEmpty();
-            return emptyTaIds ? '' : 'WHERE Therapeutic_Area__c IN (' + CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(taIds)) + ') ';
+            return emptyTaIds ? '' : 'WHERE '+ whereField +' IN (' + CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(taIds)) + ') ';
         }
 
     }

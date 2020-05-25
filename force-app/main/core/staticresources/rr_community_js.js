@@ -26,6 +26,7 @@ window.communityService = (function () {
     let showPastStudies;
     let subDomain;
     let messagesVisible;
+    let trialMatchVisible;
     let currentCSSTheme = 'Community_CSS_Stub';
     let isDummy;
 
@@ -49,6 +50,7 @@ window.communityService = (function () {
                 communityURLPathPrefix = communityData.pathPrefix;
                 isTCAcceptedFlag = communityData.isTCAccepted;
                 messagesVisible = communityData.messagesVisible;
+                trialMatchVisible = communityData.trialMatchVisible;
                 language = communityData.language;
                 participantState = communityData.state;
                 baseUrl = communityData.baseUrl;
@@ -156,9 +158,17 @@ window.communityService = (function () {
         getMessagesVisible : function () {
             return messagesVisible;
         },
-        
+
         setMessagesVisible : function(visible) {
             messagesVisible = visible;
+        },
+
+        getTrialMatchVisible : function () {
+            return trialMatchVisible;
+        },
+
+        setTrialMatchVisible : function(visible) {
+            trialMatchVisible = visible;
         },
 
         setThemeCSS: function(){

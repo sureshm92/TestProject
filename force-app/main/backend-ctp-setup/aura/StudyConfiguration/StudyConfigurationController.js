@@ -16,9 +16,9 @@
     },
 
     saveCTP: function (component, event, helper) {
-        var source = event.getSource().get('v.name');
-        console.log('Source: ' + source);
-        var appEvent = $A.get("e.c:TaskToggleEvent");
+        let source = event.getSource().get('v.name');
+
+        let appEvent = $A.get("e.c:TaskToggleEvent");
         if(source === 'visitScheduleToggle') {
             let vsValue = component.find('vsToggle').get('v.checked');
             component.find('stToggle').set('v.checked', !vsValue);

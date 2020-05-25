@@ -1,0 +1,37 @@
+{
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "componentName" : "c:OneColumnLayout",
+  "id" : "eceeb9df-7ec6-47ba-9369-48afe3ea215e",
+  "label" : "My Referring Clinics",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:MyReferringClinics",
+      "id" : "325ce140-dcca-4265-b4aa-536cee5433c7",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "3155925b-c110-488e-ae29-4968954eb629",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "My Referring Clinics"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "688ee290-9d38-43ca-8cf0-bd9387f1188f",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "7e907451-f04f-44a2-aebd-705eadd206ce",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-my-referring-clinics"
+}

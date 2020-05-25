@@ -21,6 +21,9 @@
     <aura:attribute name="studyInfo" type="Object"/>
 
     <aura:attribute name="selectedIP" type="String"/>
+    <aura:attribute name="allSelectedIPs" type="Object"/>
+    <aura:attribute name="setOfSS" type="Object"/>
+
 
     <!-- component body: -->
     <aura:if isTrue="{!notequals(v.viewModePage, 'Disabled')}">
@@ -109,7 +112,7 @@
                                 </aura:set>
                                 <aura:if isTrue="{!v.ssItems}">
                                     <aura:iteration items="{!v.ssItems}" var="item">
-                                        <c:StudySiteItem item="{!item}" parent="{!this}" viewMode="{!v.viewModePage}"
+                                        <c:StudySiteItem item="{!item}" selectedGlobalItems="{!v.allSelectedIPs}" viewMode="{!v.viewModePage}"
                                                          scrollLeft="{!v.scrollLeft}" fromComponent="Incentive"/>
                                     </aura:iteration>
                                 </aura:if>

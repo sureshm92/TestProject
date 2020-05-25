@@ -1,0 +1,10 @@
+{
+  "activeViewId" : "a2157b68-e80e-480a-a6ae-fdc6753fa172",
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "id" : "dc91631f-c8e8-454c-9def-561482732941",
+  "label" : "Past Studies",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-past-studies",
+  "type" : "route",
+  "urlPrefix" : "past-studies"
+}

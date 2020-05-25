@@ -1,0 +1,10 @@
+{
+  "activeViewId" : "f8e2257d-c220-4844-b97e-dae16ad81296",
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "id" : "9585d230-09a8-4997-8b27-55d39ebcdc6f",
+  "label" : "My Study Sites",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-my-study-sites",
+  "type" : "route",
+  "urlPrefix" : "my-study-sites"
+}

@@ -10,28 +10,33 @@
             <div class="incentives-my-plan-title">
                 {labels.howDoIEarnLabel}
             </div>
-            <div class="imp-ss-select-container">
-                <lightning-combobox
-                        name="studySiteSelect"
-                        label={labels.studySiteLabel}
-                        value={selectedStudySite}
-                        placeholder={labels.selectStudySiteLabel}
-                        options={studySitesOptions}
-                        onchange={doUpdateStudySite}></lightning-combobox>
-            </div>
-            <template for:each={tasksGroups} for:item="taskGroup">
-                <div key={taskGroup.points} class="incentives-my-plan-group-container">
-                    <div class="incentives-my-plan-group-points">{taskGroup.points} {labels.pointsLabel}</div>
-                    <div class="incentives-my-plan-group-items">
-                        <ul>
-                            <template for:each={taskGroup.tasksDescription} for:item="task">
-                                <li key={task}>
-                                    {task}
-                                </li>
-                            </template>
-                        </ul>
-                    </div>
+            <template if:true={hasStudySitesWithActivePlan}>
+                <div class="imp-ss-select-container">
+                    <lightning-combobox
+                            name="studySiteSelect"
+                            label={labels.studySiteLabel}
+                            value={selectedStudySite}
+                            placeholder={labels.selectStudySiteLabel}
+                            options={studySitesOptions}
+                            onchange={doUpdateStudySite}></lightning-combobox>
                 </div>
+                <template for:each={tasksGroups} for:item="taskGroup">
+                    <div key={taskGroup.points} class="incentives-my-plan-group-container">
+                        <div class="incentives-my-plan-group-points">{taskGroup.points} {labels.pointsLabel}</div>
+                        <div class="incentives-my-plan-group-items">
+                            <ul>
+                                <template for:each={taskGroup.tasksDescription} for:item="task">
+                                    <li key={task}>
+                                        {task}
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </div>
+                </template>
+            </template>
+            <template if:false={hasStudySitesWithActivePlan}>
+                <c-web-empty-list></c-web-empty-list>
             </template>
         </template>
     </div>
