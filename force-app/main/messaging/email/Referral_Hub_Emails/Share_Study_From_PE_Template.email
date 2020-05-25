@@ -8,7 +8,6 @@
                           recipientLanguage="{!relatedTo.HCP__r.HCP_Contact__r.Language__c}"
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_Share}"
-                          title="{!$Label.Email_Title}"
                           greeting="{!$Label.Email_Ext_User_Greeting}"
                           signature="{!$Label.Email_Signature_PT}">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Share}"/>
@@ -23,9 +22,8 @@
                               recipientLanguage="{!relatedTo.HCP__r.HCP_Contact__r.Language__c}"
                               sourceId="{!relatedTo.Id}"
                               header="{!$Label.Email_Header_Share}"
-                              title="{!$Label.Email_Title}"
                               greeting="{!$Label.Email_User_Greeting}"
-                              signature="{!$Label.Email_Signature_RH}">
+                              signature="{!$Label.Email_Signature_PT}">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_Share}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_Trial_Details}"
                                   buttonURL="{!relatedTo.Study_Site__r.Clinical_Trial_Profile__r.Share_URL__c}"/>
