@@ -23,7 +23,8 @@
     <requireHttps>true</requireHttps>
     <requireInsecurePortalAccess>false</requireInsecurePortalAccess>
     <selfRegPage>CommunitiesSelfReg</selfRegPage>
-    <siteAdmin>test-wdce3q2e1eak@example.com</siteAdmin>
+    <!--siteAdmin>test-pxn0f7raxigo@example.com</siteAdmin-->
+    <!--siteGuestRecordDefaultOwner>test-pxn0f7raxigo@example.com</siteGuestRecordDefaultOwner-->
     <siteType>ChatterNetwork</siteType>
-    <subdomain>force-force-2719-dev-ed-170448573d3</subdomain>
+    <subdomain>computing-energy-7948-dev-ed-1723b568554</subdomain>
 </CustomSite>

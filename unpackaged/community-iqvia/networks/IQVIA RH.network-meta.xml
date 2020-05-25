@@ -28,7 +28,7 @@
     <gatherCustomerSentimentData>false</gatherCustomerSentimentData>
     <lockoutTemplate>Referral_Hub_Emails/User_Lockout_Email</lockoutTemplate>
     <networkMemberGroups>
-        <profile>Admin</profile>
+        <profile>admin</profile>
         <profile>iqvia customer community plus login user</profile>
     </networkMemberGroups>
     <networkPageOverrides>
