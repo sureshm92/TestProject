@@ -9969,6 +9969,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Team for ##PIName</value>
     </labels>
     <labels>
+        <fullName>PG_MT_T_Email_Required_For_Insert</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG MT T Email Required For Insert</shortDescription>
+        <value>Email address must be entered in participant details to invite the participant to Patient Portal.</value>
+    </labels>
+    <labels>
         <fullName>PG_MT_T_Your_permissions_do_not_permit_this_action</fullName>
         <language>en_US</language>
         <protected>false</protected>
