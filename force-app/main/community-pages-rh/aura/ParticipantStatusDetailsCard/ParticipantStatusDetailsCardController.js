@@ -27,8 +27,11 @@
             let reasonList = stepWrapper.reasonMap[stepWrapper.outcome];
             component.set('v.reasonList', reasonList);
             component.set('v.disableReason', false);
-            component.set('v.stepWrapper.reason',reasonList === undefined || reasonList.length==0?"":reasonList[0].value);
+            let reasonValue = reasonList === undefined || reasonList.length==0?"":reasonList[0].value;
+            component.set('v.stepWrapper.reason',reasonValue);
+            component.find('reasonList').set('v.value', reasonValue);
             component.set('v.previousSelectedOutcome', stepWrapper.outcome);
+            component.set('v.notesRequired', stepWrapper.notesRequiredMap[selectedOutcome+';'+reasonValue]);
             var changesMap = {title : 'outcome',
                               type : 'picklist',
                               isChanged : true};
