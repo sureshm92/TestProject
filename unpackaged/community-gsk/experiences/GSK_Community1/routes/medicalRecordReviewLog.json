@@ -1,0 +1,10 @@
+{
+  "activeViewId" : "1f270291-f425-42de-8742-f44822c96a5c",
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "id" : "b9e727d2-f2f4-4af1-a55e-c7428eace49a",
+  "label" : "Medical Record Review Log",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-medical-record-review-log",
+  "type" : "route",
+  "urlPrefix" : "medical-record-review-log"
+}

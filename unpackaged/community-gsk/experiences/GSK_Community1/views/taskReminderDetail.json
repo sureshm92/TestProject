@@ -1,0 +1,37 @@
+{
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "componentName" : "c:EmptyLayout",
+  "id" : "734d9a5d-5263-4178-9633-2baa77cde73c",
+  "label" : "Task Reminder Detail",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:TaskReminderDetail",
+      "id" : "ddd445b8-d30d-4137-973b-a0f53601692c",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "8dd88c7b-d037-49bc-9d29-ea561d591d01",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Task Reminder Detail"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "7d0b1ae3-bb98-47df-a460-0a7dc58bbc83",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "9ec55d06-2c5d-4b6f-872e-207cd6bd6b22",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "8SKgahOCOGtgpDckdim10UN64K40Pu",
+  "type" : "view",
+  "viewType" : "custom-task-reminder-detail"
+}

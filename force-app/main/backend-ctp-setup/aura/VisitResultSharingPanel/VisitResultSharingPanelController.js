@@ -93,7 +93,13 @@
         for (const group of groups) {
             if (group.show) return;
         }
-        component.set('v.options.countrySelectionType', 'Disabled');
+
+        let options = component.get('v.options');
+        options.countrySelectionType = 'Disabled';
+        options.ssSelectionType = options.countrySelectionType;
+        options.selectedSSIds = '';
+        options.selectedCountries = '';
+        component.set('v.options', options);
     },
 
     onChangeGlobal: function (component, event, helper) {

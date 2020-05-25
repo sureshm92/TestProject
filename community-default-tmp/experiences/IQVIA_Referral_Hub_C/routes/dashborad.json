@@ -1,0 +1,10 @@
+{
+  "activeViewId" : "017c1721-93a4-4b8a-ab43-7aa827d81acc",
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "id" : "6fca81a0-bbff-48d7-8b30-14f20ad1c988",
+  "label" : "Dashborad",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-Dashborad",
+  "type" : "route",
+  "urlPrefix" : "dashborad"
+}
