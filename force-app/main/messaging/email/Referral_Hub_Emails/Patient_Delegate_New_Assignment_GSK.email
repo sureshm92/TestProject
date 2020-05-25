@@ -3,13 +3,14 @@
                          relatedToType="Participant__c"
                          language="{!recipient.Language__c}">
 
-    <messaging:htmlEmailBody >
+    <messaging:htmlEmailBody>
         <c:EmailWireframe recipientId="{!recipient.Id}"
-                         sourceId="{!relatedTo.Id}"
-                         header="{!$Label.Email_Header_Initial_Patient_Delegate}"
-                         greeting="{!$Label.Email_User_Greeting_FirstName}"
-                         signature="{!$Label.Email_Signature_New}"
-                         communityTemplate="GSK">
+                          sourceId="{!relatedTo.Id}"
+                          header="{!$Label.Email_Header_Initial_Patient_Delegate}"
+                          title="{!$Label.Email_Title_Initial_All_GSK}"
+                          greeting="{!$Label.Email_User_Greeting_FirstName}"
+                          signature="{!$Label.Email_Signature_New}"
+                          communityTemplate="GSK">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate}"/>
             <c:EmailTemplateDelegateParticipant commTemplate="GSK"
                                                 sourceId="{!relatedTo.Id}"/>
@@ -18,13 +19,14 @@
         </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody >
+    <messaging:plainTextEmailBody>
         <c:EmailWireframeText recipientId="{!recipient.Id}"
-                             sourceId="{!relatedTo.Id}"
-                             header="{!$Label.Email_Header_Initial_Patient_Delegate}"
-                             greeting="{!$Label.Email_User_Greeting_FirstName}"
-                             signature="{!$Label.Email_Signature_New}"
-                             communityTemplate="GSK">
+                              sourceId="{!relatedTo.Id}"
+                              header="{!$Label.Email_Header_Initial_Patient_Delegate}"
+                              title="{!$Label.Email_Title_Initial_All_GSK}"
+                              greeting="{!$Label.Email_User_Greeting_FirstName}"
+                              signature="{!$Label.Email_Signature_New}"
+                              communityTemplate="GSK">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate}"/>
             <c:EmailTemplateDelegateParticipantText commTemplate="GSK"
                                                     sourceId="{!relatedTo.Id}"/>
