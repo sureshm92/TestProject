@@ -10,21 +10,27 @@
     <authorizationRequiredPage>CommunitiesLogin</authorizationRequiredPage>
     <bandwidthExceededPage>BandwidthExceeded</bandwidthExceededPage>
     <browserXssProtection>true</browserXssProtection>
+    <changePasswordPage>RRChangePassword</changePasswordPage>
     <clickjackProtectionLevel>SameOriginOnly</clickjackProtectionLevel>
     <contentSniffingProtection>true</contentSniffingProtection>
     <cspUpgradeInsecureRequests>true</cspUpgradeInsecureRequests>
+    <!--customWebAddresses>
+        <certificate>Clinical_Research_Collaboration_Platform</certificate>
+        <domainName>cp.clinicalresearch.com</domainName>
+        <primary>true</primary>
+    </customWebAddresses-->
     <enableAuraRequests>true</enableAuraRequests>
     <fileNotFoundPage>FileNotFound</fileNotFoundPage>
     <genericErrorPage>Exception</genericErrorPage>
     <inMaintenancePage>InMaintenance</inMaintenancePage>
     <indexPage>CommunitiesLanding</indexPage>
-    <masterLabel>IQVIA RH</masterLabel>
+    <masterLabel>IQVIA Referral Hub</masterLabel>
     <referrerPolicyOriginWhenCrossOrigin>true</referrerPolicyOriginWhenCrossOrigin>
     <requireHttps>true</requireHttps>
     <requireInsecurePortalAccess>false</requireInsecurePortalAccess>
     <selfRegPage>CommunitiesSelfReg</selfRegPage>
-    <!--siteAdmin>test-pxn0f7raxigo@example.com</siteAdmin-->
-    <!--siteGuestRecordDefaultOwner>test-pxn0f7raxigo@example.com</siteGuestRecordDefaultOwner-->
+    <!--siteAdmin>ajay.chandrapatle@iqvia.com</siteAdmin>
+    <siteGuestRecordDefaultOwner>ajay.chandrapatle@iqvia.com</siteGuestRecordDefaultOwner-->
     <siteType>ChatterNetwork</siteType>
-    <subdomain>computing-energy-7948-dev-ed-1723b568554</subdomain>
+    <subdomain>iqviaconnect</subdomain>
 </CustomSite>

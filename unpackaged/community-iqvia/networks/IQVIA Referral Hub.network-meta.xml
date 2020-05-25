@@ -4,11 +4,11 @@
     <allowMembersToFlag>false</allowMembersToFlag>
     <changePasswordTemplate>Referral_Hub_Emails/Forgot_Password_Email</changePasswordTemplate>
     <communityRoles/>
-    <disableReputationRecordConversations>false</disableReputationRecordConversations>
+    <disableReputationRecordConversations>true</disableReputationRecordConversations>
     <emailSenderAddress>updates@cp.clinicalresearch.com</emailSenderAddress>
     <emailSenderName>IQVIA Referral Hub and Patient Portal</emailSenderName>
     <enableCustomVFErrorPageOverrides>false</enableCustomVFErrorPageOverrides>
-    <enableDirectMessages>false</enableDirectMessages>
+    <enableDirectMessages>true</enableDirectMessages>
     <enableGuestChatter>false</enableGuestChatter>
     <enableGuestFileAccess>true</enableGuestFileAccess>
     <enableGuestMemberVisibility>true</enableGuestMemberVisibility>
@@ -18,7 +18,7 @@
     <enableNicknameDisplay>false</enableNicknameDisplay>
     <enablePrivateMessages>false</enablePrivateMessages>
     <enableReputation>false</enableReputation>
-    <enableShowAllNetworkSettings>true</enableShowAllNetworkSettings>
+    <enableShowAllNetworkSettings>false</enableShowAllNetworkSettings>
     <enableSiteAsContainer>true</enableSiteAsContainer>
     <enableTalkingAboutStats>true</enableTalkingAboutStats>
     <enableTopicAssignmentRules>true</enableTopicAssignmentRules>
@@ -28,20 +28,21 @@
     <gatherCustomerSentimentData>false</gatherCustomerSentimentData>
     <lockoutTemplate>Referral_Hub_Emails/User_Lockout_Email</lockoutTemplate>
     <networkMemberGroups>
+        <permissionSet>Community_Default</permissionSet>
         <profile>admin</profile>
-        <profile>iqvia customer community plus login user</profile>
     </networkMemberGroups>
     <networkPageOverrides>
         <changePasswordPageOverrideSetting>VisualForce</changePasswordPageOverrideSetting>
-        <forgotPasswordPageOverrideSetting>VisualForce</forgotPasswordPageOverrideSetting>
+        <forgotPasswordPageOverrideSetting>Designer</forgotPasswordPageOverrideSetting>
         <homePageOverrideSetting>Designer</homePageOverrideSetting>
         <loginPageOverrideSetting>Designer</loginPageOverrideSetting>
         <selfRegProfilePageOverrideSetting>Designer</selfRegProfilePageOverrideSetting>
     </networkPageOverrides>
-    <picassoSite>IQVIA_RH1</picassoSite>
+    <newSenderAddress>patientupdates@mail.clinicalreserach.com</newSenderAddress>
+    <picassoSite>IQVIA_Referral_Hub_C</picassoSite>
     <selfRegistration>false</selfRegistration>
     <sendWelcomeEmail>true</sendWelcomeEmail>
-    <site>IQVIA_RH</site>
+    <site>IQVIA_Referral_Hub</site>
     <status>Live</status>
     <tabs>
         <defaultTab>home</defaultTab>
