@@ -8,6 +8,7 @@ force-app/main/resources/objects/Resource__c/fields/Type__c
 
 # Escalation report:
 force-app/main/default/reports/Escalationreport/*
+force-app/main/default/reports/unfiled$public/Escalation_report_vBd*
 
 
 # Contact record types (TODO check this):

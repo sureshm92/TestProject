@@ -2099,6 +2099,13 @@
         <value>Oh no, there are no items here.</value>
     </labels>
     <labels>
+	<fullName>Download_Trial_Match</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Download Trial Match</shortDescription>
+        <value>Download Trial Matches</value>
+    </labels>
+    <labels>	
         <fullName>Due_Date</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4141,13 +4148,6 @@ Please log in to ##CommunityName to view this information.</value>
         <value>IQVIA™ Referral Hub</value>
     </labels>
     <labels>
-        <fullName>Email_Title_All</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Title All</shortDescription>
-        <value>##TitleNewTM</value>
-    </labels>
-    <labels>
         <fullName>Email_Title_Initial_All_GSK</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5397,7 +5397,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Home Page Travel Support DateTime Col</shortDescription>
-        <value>Bookings Date and Time</value>
+        <value>Booking Date and Time</value>
     </labels>
     <labels>
         <fullName>Home_Page_Travel_Support_Details_Tab</fullName>
@@ -5984,7 +5984,14 @@ Please log in to ##CommunityName to view this information.</value>
         <shortDescription>Manage My Payments</shortDescription>
         <value>Manage My Payments</value>
     </labels>
-    <labels>
+	<labels>
+        <fullName>Matched_of</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Matched of</shortDescription>
+        <value>Matched as of</value>
+    </labels>
+    <labels>	
         <fullName>Medical_Record_Review</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6982,6 +6989,34 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Referral Provider</value>
     </labels>
     <labels>
+	<fullName>PE_STATUS_ENROLLMENT_SUCCESS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PE_STATUS_ENROLLMENT_SUCCESS</shortDescription>
+        <value>Enrollment Success</value>
+    </labels>
+    <labels>
+        <fullName>PE_STATUS_FOLLOW_UP_PERIOD_STARTED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PE_STATUS_FOLLOW_UP_PERIOD_STARTED</shortDescription>
+        <value>Follow-Up Period Started</value>
+    </labels>
+    <labels>
+        <fullName>PE_STATUS_RANDOMIZATION_SUCCESS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PE_STATUS_RANDOMIZATION_SUCCESS</shortDescription>
+        <value>Randomization Success</value>
+    </labels>
+    <labels>
+        <fullName>PE_STATUS_TREATMENT_PERIOD_STARTED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PE_STATUS_TREATMENT_PERIOD_STARTED</shortDescription>
+        <value>Treatment Period Started</value>
+    </labels>
+    <labels>										   
         <fullName>PE_ST_Contact_Attempts</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9927,6 +9962,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Team for ##PIName</value>
     </labels>
     <labels>
+        <fullName>PG_MT_T_Email_Required_For_Insert</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG MT T Email Required For Insert</shortDescription>
+        <value>Email address must be entered in participant details to invite the participant to Patient Portal.</value>
+    </labels>
+    <labels>
         <fullName>PG_MT_T_Your_permissions_do_not_permit_this_action</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12305,6 +12347,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Remember to add a Study</value>
     </labels>
     <labels>
+        <fullName>Report_Biomarkers_header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Biomarkers header</shortDescription>
+        <value>Biomarkers Summary Table</value>
+    </labels>
+    <labels>
         <fullName>Report_Dates</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -14301,6 +14350,27 @@ Please log in to ##CommunityName to view this information.</value>
         <value>We will alert you when enrollment starts</value>
     </labels>
     <labels>
+	<fullName>Trial_Match</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Trial Match</shortDescription>
+        <value>Trial Match</value>
+    </labels>
+    <labels>
+        <fullName>Trial_Match_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Trial Match Error</shortDescription>
+        <value>We are unable to find any trial matches at this time.</value>
+    </labels>
+    <labels>
+        <fullName>Trial_Match_Error2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Trial Match Error2</shortDescription>
+        <value>Please check back shortly</value>
+    </labels>
+    <labels>										
         <fullName>Trial_Search_Header</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14838,6 +14908,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>there are no planned visits yet</value>
     </labels>
     <labels>
+	<fullName>search_results</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>search results</shortDescription>
+        <value>Search Results</value>
+    </labels>
+    <labels>								
         <fullName>successType</fullName>
         <categories>visit configuration</categories>
         <language>en_US</language>

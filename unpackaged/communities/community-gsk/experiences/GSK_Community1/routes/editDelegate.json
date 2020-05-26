@@ -1,0 +1,10 @@
+{
+  "activeViewId" : "93841af2-14b9-4806-b166-98cf739f6329",
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "id" : "8ac80473-3298-4cb2-9795-68d7c67e305b",
+  "label" : "Edit Delegate",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-edit-delegate",
+  "type" : "route",
+  "urlPrefix" : "edit-delegate"
+}
