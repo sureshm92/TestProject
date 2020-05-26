@@ -16,12 +16,13 @@
                 }
             });
         });
-        /*let notesRequired = component.get('v.notesRequired');
+        let notesRequired = stepWrapper.notesRequiredMap[stepWrapper.outcome+';'+stepWrapper.reason];
+        console.log('##stepWrapper.notesRequired ' + notesRequired );
         isCurrentStepValid = isCurrentStepValid && ((stepWrapper.outcomeList === undefined || stepWrapper.outcomeList.length== 0)
             ||(stepWrapper.outcome === undefined || stepWrapper.outcome ==='')
             ||!notesRequired
             ||(stepWrapper.notes !== undefined && stepWrapper.notes !== '')
-        );*/
+        );
         console.log('##stepWrapper.isCurrentStepValid ' + isCurrentStepValid );
         //component.set('v.stepWrapper.isCurrentStepValid', isCurrentStepValid);
         stepWrapper.isCurrentStepValid = isCurrentStepValid;
