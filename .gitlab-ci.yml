@@ -130,7 +130,7 @@ DeployINT5.0:
   script:
     - echo '$INT5_0' > sfdx-auth-url
     - chmod +x ./scripts/ci/deploy-sandbox.sh
-    - ./scripts/ci/deploy-sandbox.sh
+    - . ./scripts/ci/deploy-sandbox.sh
 
 RunTestINT5.0:
   tags:
