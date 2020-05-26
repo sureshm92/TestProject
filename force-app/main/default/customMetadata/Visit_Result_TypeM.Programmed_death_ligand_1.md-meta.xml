@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>Visit_Result_Code__c</field>
-        <value xsi:type="xsd:string">PD-L1</value>
+        <value xsi:type="xsd:string">PD-L1;PDL1</value>
     </values>
     <values>
         <field>Visit_Result_Group__c</field>

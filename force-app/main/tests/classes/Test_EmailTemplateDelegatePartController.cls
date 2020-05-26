@@ -32,7 +32,8 @@ private class Test_EmailTemplateDelegatePartController {
         controller.delegateUserId = delegate.Id;
         controller.commTemplateStr = 'Default';
         Test.stopTest();
-
+        EmailTemplateProviderService.setProviderType('', delegate.Id, delegate.Name,
+                'en_US', 'IQVIA', delegate.Id, '');
         System.assertEquals(td.ctp.Study_Code_Name__c, controller.getDelegateStudyNames()[0]);
     }
 
@@ -46,7 +47,8 @@ private class Test_EmailTemplateDelegatePartController {
         EmailTemplateDelegatePartController controller = new EmailTemplateDelegatePartController();
         controller.delegateUserId = delegate.Id;
         Test.stopTest();
-
+        EmailTemplateProviderService.setProviderType('', delegate.Id, delegate.Name,
+                'en_US', 'IQVIA', delegate.Id, '');
         System.assert(controller.getDelegateStudyNames().isEmpty());
     }
 }

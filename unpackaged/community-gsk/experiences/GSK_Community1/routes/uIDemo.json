@@ -1,0 +1,10 @@
+{
+  "activeViewId" : "be61aab5-3581-4cbe-aff7-b375dac1ca50",
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "id" : "4dd681e1-e127-4805-abc2-c582a9ea57fb",
+  "label" : "UI Demo",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-ui-demo",
+  "type" : "route",
+  "urlPrefix" : "ui-demo"
+}

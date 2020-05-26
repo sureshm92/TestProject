@@ -86,7 +86,6 @@ private class Test_Batch_IntegrationVisitProcess {
                 SVSTDTC__c = Date.today(),
                 VISIT__c = 'New Visit 1',
                 VISITNUM__c = 1,
-
                 IsDeletedInSDH__c = 'N'
         );
         externalVisits.add(visit);

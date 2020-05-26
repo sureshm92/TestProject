@@ -319,6 +319,14 @@
         <valueField>Name</valueField>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
+        <name>ResourceType</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Resource_Type__c</picklistField>
+        <picklistObject>Resource__c</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
         <name>Type_c_picklist</name>
         <dataType>Picklist</dataType>
         <displayField xsi:nil="true"/>
@@ -442,6 +450,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Resource_Type__c</field>
+            <value>
+                <elementReference>Resource_Type3</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Source__c</field>
             <value>
                 <elementReference>Source_field_recordtypeArticle</elementReference>
@@ -475,6 +489,12 @@
             <field>Updated_Date__c</field>
             <value>
                 <elementReference>Updated_Date_field_recordtypeArticle</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Version_Date__c</field>
+            <value>
+                <elementReference>Version_Date3</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -516,6 +536,12 @@
             <field>Language__c</field>
             <value>
                 <stringValue>en_US</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Resource_Type__c</field>
+            <value>
+                <elementReference>Resource_Type1</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -572,6 +598,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Resource_Type__c</field>
+            <value>
+                <elementReference>Resource_Type2</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Title__c</field>
             <value>
                 <elementReference>Title_URL_field_RecordType</elementReference>
@@ -587,6 +619,12 @@
             <field>URL__c</field>
             <value>
                 <elementReference>URL_field_urlRecordType</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Version_Date__c</field>
+            <value>
+                <elementReference>Version_Date2</elementReference>
             </value>
         </inputAssignments>
         <object>Resource__c</object>
@@ -685,6 +723,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Resource_Type__c</field>
+            <value>
+                <elementReference>Resource_Type4</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Source__c</field>
             <value>
                 <elementReference>Source_field_recordtypeArticle_0</elementReference>
@@ -718,6 +762,12 @@
             <field>Updated_Date__c</field>
             <value>
                 <elementReference>Updated_Date_field_recordtypeArticle_0</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Version_Date__c</field>
+            <value>
+                <elementReference>Version_Date4</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1026,7 +1076,7 @@
         <name>Article_type_record</name>
         <label>Article</label>
         <locationX>317</locationX>
-        <locationY>895</locationY>
+        <locationY>896</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1085,6 +1135,13 @@
             <name>Posting_Date_field_recordtypeArticle</name>
             <dataType>Date</dataType>
             <fieldText>Posting Date</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Version_Date3</name>
+            <dataType>Date</dataType>
+            <fieldText>Version Date</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
         </fields>
@@ -1176,6 +1233,14 @@
             <fieldText>Article External Link</fieldText>
             <fieldType>LargeTextArea</fieldType>
             <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Resource_Type3</name>
+            <choiceReferences>ResourceType</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Resource Type</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
         </fields>
         <fields>
             <name>Remove_sharing_field_recordtypeArticle</name>
@@ -1354,6 +1419,21 @@
             <isRequired>true</isRequired>
         </fields>
         <fields>
+            <name>Resource_Type2</name>
+            <choiceReferences>ResourceType</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Resource Type</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Version_Date2</name>
+            <dataType>Date</dataType>
+            <fieldText>Version Date</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
             <name>FinihsButton</name>
             <extensionName>c:FooterWithFinishButton</extensionName>
             <fieldType>ComponentInstance</fieldType>
@@ -1371,8 +1451,8 @@
     <screens>
         <name>Study_Doc_c</name>
         <label>Study Doc</label>
-        <locationX>576</locationX>
-        <locationY>933</locationY>
+        <locationX>595</locationX>
+        <locationY>934</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1421,6 +1501,14 @@
             </defaultValue>
             <fieldText>Version Date</fieldText>
             <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Resource_Type1</name>
+            <choiceReferences>ResourceType</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Resource Type</fieldText>
+            <fieldType>DropdownBox</fieldType>
             <isRequired>true</isRequired>
         </fields>
         <showFooter>true</showFooter>
@@ -1705,6 +1793,13 @@
             <isRequired>true</isRequired>
         </fields>
         <fields>
+            <name>Version_Date4</name>
+            <dataType>Date</dataType>
+            <fieldText>Version Date</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
             <name>Expiration_Date_field_recordtypeArticle_0</name>
             <dataType>Date</dataType>
             <fieldText>Expiration Date</fieldText>
@@ -1798,6 +1893,14 @@
             <fieldText>Article External Link</fieldText>
             <fieldType>LargeTextArea</fieldType>
             <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Resource_Type4</name>
+            <choiceReferences>ResourceType</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Resource Type</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
         </fields>
         <fields>
             <name>Remove_sharing_field_recordtypeArticle_0</name>

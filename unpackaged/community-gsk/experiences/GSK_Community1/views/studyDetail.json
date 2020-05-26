@@ -1,0 +1,37 @@
+{
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "componentName" : "c:EmptyLayout",
+  "id" : "cece6d04-7876-4cc1-a20e-0b60b1daf271",
+  "label" : "StudyDetail",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:StudyDetailView",
+      "id" : "f91f5b52-7017-43e3-aaea-854e989163a0",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "deee914b-b591-41b1-924b-3d0a00434d37",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "StudyDetail"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "aa40672b-b93c-4e01-a9df-135b6a85cb57",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "7ad30de2-5ceb-4b4a-ae05-6049765b4033",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-studydetail"
+}

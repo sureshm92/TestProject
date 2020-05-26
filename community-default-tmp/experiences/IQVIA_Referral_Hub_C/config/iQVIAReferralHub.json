@@ -1,0 +1,11 @@
+{
+  "forgotPasswordRouteId" : "6518fb1b-2a76-45b5-a29e-a48fa08a3fa5",
+  "isAvailableToGuests" : false,
+  "isFilteredComponentsView" : false,
+  "isProgressiveRenderingEnabled" : false,
+  "loginAppPageId" : "8bce2459-b04e-4576-b6c0-8a039c2a4575",
+  "mainAppPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "preferredDomain" : "intaug-iqviaconnect.cs88.force.com",
+  "selfRegistrationRouteId" : "fb4c7390-ecab-40b8-ab0b-20a37bb23071",
+  "type" : "site"
+}
