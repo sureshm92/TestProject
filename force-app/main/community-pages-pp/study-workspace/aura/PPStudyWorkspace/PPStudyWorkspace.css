@@ -312,7 +312,11 @@
     /*display: block !important;*/
     visibility: visible !important;
 }
-
+.THIS .resource-item{
+    margin-right: 15px;
+    display: inherit;
+    float: right;
+}
 @media all and (max-width: 500px) {
     .THIS .cRRTabSet.ts-tab-container {
         width: 90%
