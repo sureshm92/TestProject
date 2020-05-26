@@ -209,7 +209,9 @@
                                 class="{!'apollo-btn text ' + if(v.labResultsMode == 'Biomarkers', ' current', '')}"
                                 onclick="{!c.doAction}">{!$Label.c.Visit_Results_Tab_Biomarkers}</button>
                             </aura:if>
-                        <aura:if isTrue="{!and(v.state != 'ALUMNI', not(v.isDelegateMode))}">
+                        <!-- PEH-1986: In-trial Summary Report -->
+                        <aura:if isTrue="{!and(equals(v.studyDetail.communityName, 'IQVIA Referral Hub'),
+                                                and(v.state != 'ALUMNI', not(v.isDelegateMode)))}">
                             <div class="resource-item">
                                 <c:VisitSummaryReportLink peId="{!v.studyDetail.pe.Id}" inTrialSummaryReport="true"/>
                             </div>
