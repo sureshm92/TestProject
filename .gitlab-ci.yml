@@ -3,14 +3,6 @@ stages:
   #Validation:
   - VALIDATE
 
-  # 4.0 INT:
-  - DeployINT4.0
-  - RunTestINT4.0
-
-  # 4.0 INF
-  - DeployINF4.0
-  - RunTestINF4.0
-
   #5.0 INT
   - DeployINT5.0
   - RunTestINT5.0
@@ -18,7 +10,6 @@ stages:
   #5.0 INF
   - DeployINF5.0
   - RunTestINF5.0
-
 
 
 cache:
@@ -39,82 +30,8 @@ VALIDATE:
 
   stage: VALIDATE
   script:
-    - sfdx update
-    - echo "$INTTreeTwo" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a ValidationOrg -d
-    - sfdx --version
-    - cat .forceignore_validate_exclude >> .forceignore
-    - sfdx force:source:deploy -p force-app -u ValidationOrg -c -w 60
-    - echo "Validate success"
-
-
-# 4.0 INT: ---------------------------------------------------------------------
-DeployINT4.0:
-  tags:
-    - shell
-  only:
-    - INT4.0
-  except:
-    - merge_requests
-
-  stage: DeployINT4.0
-  script:
-    - sfdx update
-    - echo "$INT" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT -d
-    - sfdx --version
-    - cat .forceignore_deploy_exclude >> .forceignore
-    - sfdx force:source:deploy -p force-app -u INT  -w 60
-    - echo "Deploy INT4.0 success"
-
-RunTestINT4.0:
-  tags:
-    - shell
-  only:
-    - INT4.0
-  except:
-    - merge_requests
-
-  stage: RunTestINT4.0
-  script:
-    - echo "$INT" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT -d
-    - sfdx force:apex:test:run -u INT --testlevel=RunLocalTests -w 60
-
-
-# 4.0 INF: ---------------------------------------------------------------------
-DeployINF4.0:
-  tags:
-    - shell
-  only:
-    - INF4.0
-  except:
-    - merge_requests
-
-  stage: DeployINF4.0
-  script:
-    - sfdx update
-    - echo "$INF" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF -d
-    - sfdx --version
-    - cat .forceignore_deploy_exclude >> .forceignore
-    - sfdx force:source:deploy -p force-app -u INF  -w 60
-    - echo "Deploy INF4.0 success"
-
-RunTestINF4.0:
-  tags:
-    - shell
-  only:
-    - INF4.0
-  except:
-    - merge_requests
-
-  stage: RunTestINF4.0
-  script:
-    - echo "$INF" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF -d
-    - sfdx force:apex:test:run -u INF --testlevel=RunLocalTests -w 60
-
+    - chmod +x ./scripts/ci/validate.sh
+    - . ./scripts/ci/validate.sh INTTreeTwo
 
 
 # 5.0 INT: ---------------------------------------------------------------------
@@ -128,8 +45,8 @@ DeployINT5.0:
 
   stage: DeployINT5.0
   script:
-    - chmod +x ./scripts/ci/deploy-sandbox.sh
-    - . ./scripts/ci/deploy-sandbox.sh INT5_0
+    - chmod +x ./scripts/ci/deploy.sh
+    - . ./scripts/ci/deploy.sh INT5_0
 
 RunTestINT5.0:
   tags:
@@ -141,9 +58,8 @@ RunTestINT5.0:
 
   stage: RunTestINT5.0
   script:
-    - echo "$INT5_0" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT5_0 -d
-    - sfdx force:apex:test:run -u INT5_0 --testlevel=RunLocalTests -w 60
+    - chmod +x ./scripts/ci/run-tests.sh
+    - . ./scripts/ci/run-tests.sh INT5_0
 
 
 
@@ -158,13 +74,8 @@ DeployINF5.0:
 
   stage: DeployINF5.0
   script:
-    - sfdx update
-    - echo "$INF5_0" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF5_0 -d
-    - sfdx --version
-    - cat .forceignore_deploy_exclude >> .forceignore
-    - sfdx force:source:deploy -p force-app -u INF5_0  -w 60
-    - echo "Deploy INF5.0 success"
+    - chmod +x ./scripts/ci/deploy.sh
+    - . ./scripts/ci/deploy.sh INF5_0
 
 RunTestINF5.0:
   tags:
@@ -176,8 +87,7 @@ RunTestINF5.0:
 
   stage: RunTestINF5.0
   script:
-    - echo "$INF5_0" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF5_0 -d
-    - sfdx force:apex:test:run -u INF5_0 --testlevel=RunLocalTests -w 60
+    - chmod +x ./scripts/ci/run-tests.sh
+    - . ./scripts/ci/run-tests.sh INF5_0
 
 

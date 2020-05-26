@@ -1,7 +1,7 @@
 # Show version of SFDX
 sfdx --version
 
-# prepare auth file
+# Prepare auth file
 orgAuthVar=$1
 echo "${!orgAuthVar}" > sfdx-auth-url
 
