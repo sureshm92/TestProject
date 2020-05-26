@@ -1,6 +1,6 @@
 # Show version of SFDX
 sfdx --version
-
+echo 'ORG: $1 $2'
 echo '$($1)' > sfdx-auth-url
 
 # Login to org:
