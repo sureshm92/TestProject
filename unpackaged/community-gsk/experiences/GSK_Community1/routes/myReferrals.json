@@ -1,0 +1,10 @@
+{
+  "activeViewId" : "c6dfeb76-9f79-4931-a7d5-1685861562aa",
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "id" : "be500c11-3a6a-4cc6-af0f-e1f763ea22a2",
+  "label" : "My Referrals",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-my-referrals",
+  "type" : "route",
+  "urlPrefix" : "my-referrals"
+}

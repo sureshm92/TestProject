@@ -19,8 +19,9 @@ public with sharing class StudyConfigurationRemote {
                     SELECT Id, Visit_Schedule_Is_Available__c,
                             Study_Documents_Are_Available__c ,
                             Video_And_Articles_Are_Available__c,
-                            Travel_Vendor_Is_Available__c,
                             Tasks_Are_Available__c,
+                            Travel_Vendor_Is_Available__c,
+                            Trial_Match_Is_Available__c,
                             Relevant_Links_Are_Available__c,
                             Payment_Is_Available__c
                     FROM Clinical_Trial_Profile__c

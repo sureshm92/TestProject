@@ -119,15 +119,22 @@ public without sharing class ParticipantTriggerHandler {
             if(participant.Contact__c != null) contactIds.add(participant.Contact__c);
         }
         List<User> users = [SELECT Id, ContactId, Email FROM User WHERE ContactId IN: contactIds];
+        Map<Id, Contact> contactsByContactIdMap = new Map<Id, Contact>([SELECT Id, Email FROM Contact WHERE Id IN: contactIds]);
         Map<Id, User> usersByContactIdMap = new Map<Id, User>();
         for(User user : users){
             usersByContactIdMap.put(user.ContactId, user);
         }
         List<User> usersForUpdate = new List<User>();
+        List<Contact> contactForUpdate = new List<Contact>();
         for(Participant__c participant : newList){
             Participant__c oldParticipant = oldMap.get(participant.Id);
             if(oldParticipant.Email__c != participant.Email__c && Participant__c.Contact__c != null){
                 User user = usersByContactIdMap.get(participant.Contact__c);
+                Contact cont = contactsByContactIdMap.get(participant.Contact__c);
+                if(cont != null){
+                    cont.Email = participant.Email__c;
+                    contactForUpdate.add(cont);
+                }
                 if(user != null){
                     user.Email = participant.Email__c;
                     usersForUpdate.add(user);
@@ -135,6 +142,7 @@ public without sharing class ParticipantTriggerHandler {
             }
         }
         update usersForUpdate;
+        update contactForUpdate;
     }
 
     @TestVisible

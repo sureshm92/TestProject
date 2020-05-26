@@ -1,0 +1,37 @@
+{
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "componentName" : "c:EmptyLayout",
+  "id" : "e404c4b5-41eb-4bc1-adae-418be4183e9a",
+  "label" : "Study Workspace",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:StudyDetailView",
+      "id" : "b6d709d3-3996-4997-80d6-78e6e359516c",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "f71e05ff-e6a3-4930-a82f-7f9ef7ad90dc",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Study Workspace"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "6518c4f7-c51b-48f8-9241-8f81bcdb3c4d",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "b434e54d-bbeb-4dd2-8b96-80c43457383a",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-Study Workspace"
+}

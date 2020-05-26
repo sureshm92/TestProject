@@ -266,6 +266,8 @@
                 </aura:if>
 
                 <aura:if isTrue="{!v.fromAddParticipantPage}">
+                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3"></div>
+
                     <div class="slds-form-element" style="margin-top: 30px; margin-left: 10px;">
                         <div class="slds-form-element__control">
                             <div class="slds-checkbox">

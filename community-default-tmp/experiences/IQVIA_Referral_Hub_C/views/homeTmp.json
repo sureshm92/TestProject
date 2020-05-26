@@ -1,0 +1,37 @@
+{
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "componentName" : "c:OneColumnLayout",
+  "id" : "52dbf5c7-6049-43b1-9d6a-a7479df3a185",
+  "label" : "Home Tmp",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:HomePage",
+      "id" : "0b8a3f79-3812-45cb-821e-ba80db06bea7",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "a9c94861-94ef-4a69-8eeb-b079bbafa313",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Home Tmp"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "93fd539b-588e-4389-a17a-35b402eb96b1",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "0274e288-8517-434c-8d64-b988d100c261",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-home-tmp"
+}

@@ -1,0 +1,10 @@
+{
+  "activeViewId" : "86c211b4-ce4f-43c6-af62-cca2bf122089",
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "id" : "4b413b79-6a6b-49ca-a23b-29e023e462d2",
+  "label" : "Study Workspace",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-study-workspace",
+  "type" : "route",
+  "urlPrefix" : "study-workspace"
+}

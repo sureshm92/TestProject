@@ -2,7 +2,7 @@
  - Created by Nargiz Mamedova on 12/6/2019.
  -->
 
-<aura:component description="StudyConfiguration" implements="force:hasRecordId, flexipage:availableForAllPageTypes"
+<aura:component description="StudyConfiguration" implements="force:hasRecordId,flexipage:availableForAllPageTypes"
                 controller="StudyConfigurationRemote">
 
     <!-- attributes: -->
@@ -84,6 +84,12 @@
                                              onchange="{!c.saveCTP}" checked="{!v.ctp.Payment_Is_Available__c}"
                                              variant="label-hidden"/>
                             <div style="margin-left: 10px">Payment</div>
+                        </div>
+                        <div class="global-element">
+                            <lightning:input type="toggle" label="Trial Match" name="TrialMatchToggle"
+                                             onchange="{!c.saveCTP}" checked="{!v.ctp.Trial_Match_Is_Available__c}"
+                                             variant="label-hidden"/>
+                            <div style="margin-left: 10px">Trial Match</div>
                         </div>
                     </div>
                 </div>

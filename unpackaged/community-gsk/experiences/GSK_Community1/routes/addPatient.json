@@ -1,0 +1,10 @@
+{
+  "activeViewId" : "0229a896-59fa-42c9-9d70-8d29184b6e95",
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "id" : "ff2e1194-ac2f-41e5-a30a-5321ddbbda4a",
+  "label" : "Add Patient",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-add-patient",
+  "type" : "route",
+  "urlPrefix" : "add-patient"
+}
