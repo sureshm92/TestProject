@@ -17,7 +17,7 @@ mv unpackaged/communities/community-iqvia/experiences/IQVIA_Referral_Hub1.site-m
 mv unpackaged/communities/community-iqvia/experiences/IQVIA_Referral_Hub1 unpackaged/communities/community-iqvia/experiences/IQVIA_Referral_Hub_C
 
 # Deploy project
-sfdx force:source:deploy -p force-app -u TargetOrg  -w 60cre
+sfdx force:source:deploy -p force-app -u TargetOrg  -w 60
 
 # Deploy communities
 sfdx force:source:deploy -p unpackaged/communities -u TargetOrg  -w 60
