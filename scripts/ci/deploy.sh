@@ -3,13 +3,13 @@ sfdx --version
 
 # Prepare auth file
 orgAuthVar=$1
-echo "${!orgAuthVar}" > sfdx-auth-url
+echo "${!orgAuthVar}" > authFile
 
 # Login to org:
-sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a TargetOrg -d
+sfdx force:auth:sfdxurl:store -f authFile -a TargetOrg -d
 
 # Deployment exclusions:
-cat .forceignore_deploy_exclude >> .forceignore
+cat ./scripts/ci/forceignore_deploy_exclude >> .forceignore
 
 # Rename old community for support deployment (from: IQVIA_Referral_Hub1 -> to: IQVIA_Referral_Hub_C)
 sed -i 's/IQVIA_Referral_Hub1/IQVIA_Referral_Hub_C/g' 'unpackaged/communities/community-iqvia/networks/IQVIA Referral Hub.network-meta.xml'
@@ -17,7 +17,7 @@ mv unpackaged/communities/community-iqvia/experiences/IQVIA_Referral_Hub1.site-m
 mv unpackaged/communities/community-iqvia/experiences/IQVIA_Referral_Hub1 unpackaged/communities/community-iqvia/experiences/IQVIA_Referral_Hub_C
 
 # Deploy project
-sfdx force:source:deploy -p force-app -u TargetOrg  -w 60
+sfdx force:source:deploy -p force-app -u TargetOrg  -w 60cre
 
 # Deploy communities
 sfdx force:source:deploy -p unpackaged/communities -u TargetOrg  -w 60

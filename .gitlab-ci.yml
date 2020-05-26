@@ -30,7 +30,6 @@ VALIDATE:
 
   stage: VALIDATE
   script:
-    - chmod +x ./scripts/ci/validate.sh
     - . ./scripts/ci/validate.sh INTTreeTwo
 
 
@@ -45,7 +44,6 @@ DeployINT5.0:
 
   stage: DeployINT5.0
   script:
-    - chmod +x ./scripts/ci/deploy.sh
     - . ./scripts/ci/deploy.sh INT5_0
 
 RunTestINT5.0:
@@ -58,7 +56,6 @@ RunTestINT5.0:
 
   stage: RunTestINT5.0
   script:
-    - chmod +x ./scripts/ci/run-tests.sh
     - . ./scripts/ci/run-tests.sh INT5_0
 
 
@@ -74,7 +71,6 @@ DeployINF5.0:
 
   stage: DeployINF5.0
   script:
-    - chmod +x ./scripts/ci/deploy.sh
     - . ./scripts/ci/deploy.sh INF5_0
 
 RunTestINF5.0:
@@ -87,7 +83,6 @@ RunTestINF5.0:
 
   stage: RunTestINF5.0
   script:
-    - chmod +x ./scripts/ci/run-tests.sh
     - . ./scripts/ci/run-tests.sh INF5_0
 
 
