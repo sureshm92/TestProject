@@ -193,6 +193,8 @@
         doc.line(30.8, 35, 97, 35);
         doc.line(193, 35, 841, 35);
         doc.line(30.8, 550, 841, 550);
+        //TO-DO: Add right border and align table
+        //doc.line(808, 35, 808, 550);
         if (logo) {
             doc.addImage(logo, 'PNG', 100, 12, 90, 35);
         }
