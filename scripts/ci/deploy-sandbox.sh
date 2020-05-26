@@ -1,6 +1,8 @@
 # Show version of SFDX
 sfdx --version
 
+echo '$($1)' > sfdx-auth-url
+
 # Login to org:
 sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a TargetOrg -d
 

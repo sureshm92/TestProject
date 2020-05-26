@@ -128,8 +128,7 @@ DeployINT5.0:
 
   stage: DeployINT5.0
   script:
-    - echo '$INT5_0' > sfdx-auth-url
-    - chmod +x ./scripts/ci/deploy-sandbox.sh
+    - chmod +x ./scripts/ci/deploy-sandbox.sh INT5_0
     - . ./scripts/ci/deploy-sandbox.sh
 
 RunTestINT5.0:
