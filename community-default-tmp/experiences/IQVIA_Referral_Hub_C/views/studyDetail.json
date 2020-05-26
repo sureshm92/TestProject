@@ -1,0 +1,57 @@
+{
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "componentName" : "c:EmptyLayout",
+  "id" : "60a8ef33-a929-4f45-8b61-3adfe91a6f77",
+  "label" : "StudyDetail",
+  "regions" : [ {
+    "id" : "38785218-e3e1-4dd7-ad9c-5af6bdecf779",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:StudyDetailView",
+      "id" : "a898cbbb-5c7e-4a45-8105-55f553baac11",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "e869e521-9419-4392-b97e-308033f7d732",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "a66c0b8f-d9f1-4bfb-b477-56cb8440fda2",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "StudyDetail"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "3d51833a-5681-497d-8f78-8a82e815749b",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "4066e8f0-0ed8-478c-aafa-ab7fbc48085b",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:StudyDetailView",
+      "id" : "2cbb5562-0ca7-49bb-912c-fb09a6babf2e",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "2d5802d4-fce6-4bac-9661-1bcfde0e7638",
+    "regionName" : "column1",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-StudyDetail"
+}

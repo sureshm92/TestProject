@@ -16,23 +16,6 @@
         var visitMode = communityService.getUrlParameter('visitmode');
         if(!visitMode) visitMode = 'VisitDetails';
 
-        communityService.executeAction(component, 'visitResultSharingByGroupAndMode',{},
-            function (returnValue) {
-                component.set('v.visitResultSharings',returnValue);
-                let availableMods = Object.keys(returnValue);
-
-                if (availableMods.toString().includes('Vitals')) {
-                    component.set('v.displayVitalsButton',true);
-                }
-                if (availableMods.toString().includes('Labs')){
-                    component.set('v.displayLabsButton',true);
-                }
-                if (availableMods.toString().includes('Biomarkers')) {
-                    component.set('v.displayBiomarkersButton',true);
-
-                }
-            });
-
         if(communityService.isInitialized()){
             component.set('v.userMode', communityService.getUserMode());
             component.set('v.state', communityService.getCurrentCommunityMode().participantState);
@@ -42,6 +25,27 @@
             component.set('v.taskMode', taskMode);
             component.set('v.resourceMode', resourceMode);
             component.set('v.visitMode', visitMode);
+
+            if (component.get('v.state') !== 'ALUMNI'){
+                communityService.executeAction(component, 'visitResultSharingByGroupAndMode', {},
+                    function (returnValue) {
+                        component.set('v.visitResultSharings', returnValue);
+                        let availableMods = Object.keys(returnValue).toString();
+
+                        if (availableMods.includes('Biomarkers')) {
+                            component.set('v.displayBiomarkersButton', true);
+                            component.set('v.labResultsMode', 'Biomarkers');
+                        }
+                        if (availableMods.includes('Labs')) {
+                            component.set('v.displayLabsButton', true);
+                            component.set('v.labResultsMode', 'Labs');
+                        }
+                        if (availableMods.includes('Vitals')) {
+                            component.set('v.displayVitalsButton', true);
+                            component.set('v.labResultsMode', 'Vitals');
+                        }
+                    });
+            }
 
             communityService.executeAction(component, 'getTrialDetail', {
                 trialId: recId,

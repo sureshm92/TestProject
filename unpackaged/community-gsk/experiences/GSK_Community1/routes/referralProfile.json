@@ -1,0 +1,10 @@
+{
+  "activeViewId" : "d26219ab-1f22-449b-b30e-04ddea2f23c8",
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "id" : "2e49e277-c8df-4cf5-9a10-588ee1eba89f",
+  "label" : "Referral Profile",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-referral-profile",
+  "type" : "route",
+  "urlPrefix" : "referral-profile"
+}

@@ -30,4 +30,8 @@
         var page = event.getParam('page');
         communityService.navigateToPage(page);
     },
-});
+    //Added as per REF-1343 by Vikrant Sharma for Help icon adjacent to User Profile for PI and HCP
+    onClickHelp:function(){
+        communityService.navigateToPage('help'); 
+    }
+}); 

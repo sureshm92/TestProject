@@ -6,12 +6,12 @@ public without sharing class VisitResultsRemote {
     @AuraEnabled
     public static InitDataWrapper getInitData(String visitResultsMode, Map<String, Map<String, List<String>>> visitResultSharings) {
         try {
-            List<Visit_Result__c> visitResultsForMode = VisitResultSharingService.processResults(visitResultsMode, null);
+            List<Visit_Result__c> visitResultsForMode = VisitResultSharingService.processResults();
             InitDataWrapper wrapper = (InitDataWrapper) ClassFactory.newInstance(InitDataWrapper.class);
             wrapper.isVisitResultsAvailable = VisitResultSharingService.isVisitResultAvailable();
             wrapper.contact = ParticipantContext.getCurrentContact();
-            wrapper.isResultsExist = !visitResultsForMode.isEmpty() && existAndAvailableByCTP(visitResultSharings.get(visitResultsMode), visitResultsForMode);
-            wrapper.visitResultsGroupNames = notEmptyVisitResultsGroupName(visitResultsMode, visitResultSharings);
+            wrapper.isResultsExist = existForModeAndAvailableByCTP(visitResultSharings.get(visitResultsMode), visitResultsForMode);
+            wrapper.visitResultsGroupNames = notEmptyVisitResultsGroupName(visitResultsMode, visitResultSharings, visitResultsForMode);
             wrapper.visitResultsShares = visitResultSharings.get(visitResultsMode);
             wrapper.isDelegate = ParticipantContext.isCurrentDelegate();
             wrapper.toggleState = toggleState(visitResultsMode);
@@ -80,26 +80,46 @@ public without sharing class VisitResultsRemote {
         update currentContact;
     }
 
-    public static List<String> notEmptyVisitResultsGroupName(String visitResultsMode, Map<String, Map<String, List<String>>> visitResultSharingByGroupAndMode) {
-        Map<String, List<String>> visitResultGroupNamesWithTypes = visitResultSharingByGroupAndMode.get(visitResultsMode);
+    public static List<String> notEmptyVisitResultsGroupName(String visitResultsMode,
+            Map<String, Map<String, List<String>>> visitResultSharingByGroupAndMode,
+            List<Visit_Result__c> visitResultsForMode) {
+
+        VisitResultMService visitResultMService = new VisitResultMService();
+        List<String> existingVisitResultGroups = new List<String>();
+
+        if (visitResultsForMode!=null) {
+            for (Visit_Result__c visitResult : visitResultsForMode) {
+                existingVisitResultGroups.add(
+                        visitResultMService.getVisitResultGroupByTypeName(visitResult.Result_Type__c));
+            }
+        }
+
+        Map<String, List<String>> visitResultGroupNamesWithTypes =
+                visitResultSharingByGroupAndMode.get(visitResultsMode);
         List<String> notEmptyVisitResultsGroupName = new List<String>();
+
         if (visitResultGroupNamesWithTypes != null) {
             for (String groupName : visitResultGroupNamesWithTypes.keySet()) {
-                notEmptyVisitResultsGroupName.add(groupName);
+                if (existingVisitResultGroups.contains(groupName)){
+                    notEmptyVisitResultsGroupName.add(groupName);
+                }
             }
         }
         return notEmptyVisitResultsGroupName;
     }
 
-    public static Boolean existAndAvailableByCTP(Map<String, List<String>> availableVisitResults, List<Visit_Result__c> visitResultsForMode) {
-        List<String> availableAndExistResults = new List<String>();
-        for (Visit_Result__c visitResult : visitResultsForMode) {
-            availableAndExistResults.add(visitResult.Result_Type__c);
-        }
-        for (String str : availableVisitResults.keySet()) {
-            List<String> availableResultsForGroup = availableVisitResults.get(str);
-            for (String result : availableResultsForGroup) {
-                if (availableAndExistResults.contains(result)) return true;
+    public static Boolean existForModeAndAvailableByCTP(Map<String, List<String>> availableVisitResults,
+            List<Visit_Result__c> visitResultsForMode) {
+        if (availableVisitResults!=null) {
+            List<String> availableAndExistResults = new List<String>();
+            for (Visit_Result__c visitResult : visitResultsForMode) {
+                availableAndExistResults.add(visitResult.Result_Type__c);
+            }
+            for (String str : availableVisitResults.keySet()) {
+                List<String> availableResultsForGroup = availableVisitResults.get(str);
+                for (String result : availableResultsForGroup) {
+                    if (availableAndExistResults.contains(result)) return true;
+                }
             }
         }
         return false;

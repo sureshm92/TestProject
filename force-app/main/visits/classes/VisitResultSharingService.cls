@@ -6,7 +6,8 @@ public without sharing class VisitResultSharingService {
 
     private static ParticipantService.ParticipantState state;
     private static Boolean onStudy;
-    private static Map<String, Visit_Result_Type_Sharing__c> visitResultTypeSharingByType;
+    private static Map<Id, Map<String, Visit_Result_Type_Sharing__c>> visitResultTypeSharingMapByCTP =
+            new Map<Id, Map<String, Visit_Result_Type_Sharing__c>>();
     private static Set<String> notAccessResultType = new Set<String>();
 
     static {
@@ -26,37 +27,9 @@ public without sharing class VisitResultSharingService {
                 state.pe.Study_Site__r.Visit_Results_Sharing__c;
     }
 
-    public static List<Visit_Result__c> processResults(String visitResultsMode, List<String> enabledVisitResultTypes) {
+    public static List<Visit_Result__c> processResults() {
         if (!onStudy) return new List<Visit_Result__c>();
-        Map<Id, List<Visit_Result_Type_Sharing__c>> mapOfCTPByShare = new Map<Id, List<Visit_Result_Type_Sharing__c>>();
-        Id recordTypeIdForCurrentMode = SchemaUtil.getRecordTypeIdByName(visitResultsMode.removeEnd('s'), Visit_Result__c.getSObjectType());
-        List<Visit_Result__c> visitResultsForCurrentMode = new List<Visit_Result__c>();
-        if (enabledVisitResultTypes==null) {
-            visitResultsForCurrentMode = [
-                    SELECT Id,
-                            Patient_Visit__c
-                    FROM Visit_Result__c
-                    WHERE RecordTypeId = :recordTypeIdForCurrentMode
-                    AND Patient_Visit__r.Participant_Enrollment__c = :state.pe.Id
-                    AND Patient_Visit__r.Status__c = 'Completed'
-            ];
-        } else {
-            visitResultsForCurrentMode = [
-                    SELECT Id,
-                            Patient_Visit__c
-                    FROM Visit_Result__c
-                    WHERE RecordTypeId = :recordTypeIdForCurrentMode
-                    AND Patient_Visit__r.Participant_Enrollment__c = :state.pe.Id
-                    AND Patient_Visit__r.Status__c = 'Completed'
-                    AND Result_Type__c IN :enabledVisitResultTypes
-            ];
-        }
-
-        List<String> visitResultIdsForCurrentMode = new List<String>();
-        for (Visit_Result__c visitResult : visitResultsForCurrentMode) {
-            visitResultIdsForCurrentMode.add(visitResult.Patient_Visit__c);
-        }
-
+        Map<Id, Clinical_Trial_Profile__c> ctpById = new Map<Id, Clinical_Trial_Profile__c>();
         List<Patient_Visit__c> patientVisits = [
                 SELECT
                         Id,
@@ -73,23 +46,26 @@ public without sharing class VisitResultSharingService {
                         FROM Visit_Results__r
                 )
                 FROM Patient_Visit__c
-                WHERE Id IN :visitResultIdsForCurrentMode
+                WHERE Participant_Enrollment__c = :state.pe.Id
+                AND Status__c = 'Completed'
                 ORDER BY Visit_Number__c, Completed_Date__c
         ];
 
-        return getAvailableVisitResults(patientVisits, false, mapOfCTPByShare);
+        return getAvailableVisitResults(patientVisits, false, ctpById);
     }
 
-    public static List<Visit_Result__c> getAvailableVisitResults(List<Patient_Visit__c> patientVisits, Boolean isBatch, Map<Id, List<Visit_Result_Type_Sharing__c>> mapOfCTPByShare) {
+    public static List<Visit_Result__c> getAvailableVisitResults(List<Patient_Visit__c> patientVisits, Boolean isBatch, Map<Id, Clinical_Trial_Profile__c> ctpById) {
         List<Visit_Result__c> filteredResults = new List<Visit_Result__c>();
+        Map<String, Visit_Result_Type_Sharing__c> visitResultTypeSharingByType = new Map<String, Visit_Result_Type_Sharing__c>();
+
         try {
             String mailingCountryCode = '';
             Integer timeSharing = 0;
             if(!isBatch){
-                if (!isVisitResultAvailable()) return filteredResults;  // TODO Check
+                if (!isVisitResultAvailable()) return filteredResults;
 
                 Clinical_Trial_Profile__c ctp = getCTP(state.ctp.Id);
-                visitResultTypeSharingByType = getResultTypeSharingsByType(ctp.Visit_Result_Type_Sharings__r);
+                visitResultTypeSharingByType = getResultTypeSharingsByType(ctp);
                 mailingCountryCode = state.pe.Participant__r.Mailing_Country_Code__c;
                 timeSharing = patientVisits.size() - (ctp.Shareback_Availability_Timing__c.intValue());
             }
@@ -97,7 +73,7 @@ public without sharing class VisitResultSharingService {
             for(Integer i = patientVisits.size() - 1; i >= 0; i--) {
                 if(isBatch){
                     timeSharing = patientVisits.size() - patientVisits.get(i).Participant_Enrollment__r.Clinical_Trial_Profile__r.Shareback_Availability_Timing__c.intValue();
-                    visitResultTypeSharingByType = getResultTypeSharingsByType(mapOfCTPByShare.get(patientVisits.get(i).Participant_Enrollment__r.Clinical_Trial_Profile__c));
+                    visitResultTypeSharingByType = getResultTypeSharingsByType(ctpById.get(patientVisits.get(i).Participant_Enrollment__r.Clinical_Trial_Profile__c));
                     mailingCountryCode = patientVisits.get(i).Participant_Enrollment__r.Participant__r.Mailing_Country_Code__c;
                 }
                 if ((i + 1) <= timeSharing) {
@@ -126,9 +102,9 @@ public without sharing class VisitResultSharingService {
 
     public  Map<Id, Map<String, Visit_Result__c>> getAvailableVisitResultsByPatientVisitIds(Participant_Enrollment__c pe, List<Patient_Visit__c> patientVisits) {
         Map<Id, Map<String, Visit_Result__c>> resultMap = new Map<Id, Map<String, Visit_Result__c>>();
-        if (visitResultTypeSharingByType == null) {
-            visitResultTypeSharingByType = getResultTypeSharingsByType(getCTP(pe.Clinical_Trial_Profile__c).Visit_Result_Type_Sharings__r);
-        }
+        Map<String, Visit_Result_Type_Sharing__c> visitResultTypeSharingByType =
+                getResultTypeSharingsByType(getCTP(pe.Clinical_Trial_Profile__c));
+
         String mailingCountryCode = pe.Participant__r.Mailing_Country_Code__c;
         for (Patient_Visit__c patientVisit : patientVisits) {
             Map<String, Visit_Result__c> filteredResultsByType = new Map<String, Visit_Result__c>();
@@ -159,10 +135,10 @@ public without sharing class VisitResultSharingService {
     }
 
     public Map<Id, List<VisitReportService.VisitResultWrapper>> geAvailableVisitResultTypeMSByGroupIds(Participant_Enrollment__c pe, List<Visit_Result_GroupM__mdt> visitResultGroupMs) {
-        if (visitResultTypeSharingByType == null) {
-            visitResultTypeSharingByType = getResultTypeSharingsByType(getCTP(pe.Clinical_Trial_Profile__c).Visit_Result_Type_Sharings__r);
-        }
         Map<Id, List<VisitReportService.VisitResultWrapper>> visitResultTypeMSByGroupIds = new Map<Id, List<VisitReportService.VisitResultWrapper>>();
+        Map<String, Visit_Result_Type_Sharing__c> visitResultTypeSharingByType =
+                getResultTypeSharingsByType(getCTP(pe.Clinical_Trial_Profile__c));
+
         for (Visit_Result_GroupM__mdt groupM : visitResultGroupMs) {
             List<VisitReportService.VisitResultWrapper> visitResultWrappers = new List<VisitReportService.VisitResultWrapper>();
             for (Visit_Result_TypeM__mdt visitResultTypeM : groupM.Visit_Result_Types__r) {
@@ -177,17 +153,19 @@ public without sharing class VisitResultSharingService {
         return visitResultTypeMSByGroupIds;
     }
 
-    private static Map<String, Visit_Result_Type_Sharing__c> getResultTypeSharingsByType(
-            List<Visit_Result_Type_Sharing__c> visitResultTypeSharings
-    ) {
-        if (visitResultTypeSharingByType == null) {
-            visitResultTypeSharingByType = new Map<String, Visit_Result_Type_Sharing__c>();
+    private static Map<String, Visit_Result_Type_Sharing__c> getResultTypeSharingsByType(Clinical_Trial_Profile__c ctp) {
+        Map<String, Visit_Result_Type_Sharing__c> visitResultTypeSharingByType = new Map<String, Visit_Result_Type_Sharing__c>();
+        List<Visit_Result_Type_Sharing__c> visitResultTypeSharings = (ctp != null ? ctp.Visit_Result_Type_Sharings__r : null);
+
+        if (visitResultTypeSharings.isEmpty()) return visitResultTypeSharingByType;
+
+        if (!visitResultTypeSharingMapByCTP.containsKey(ctp.Id)) {
             for (Visit_Result_Type_Sharing__c visitResultTypeSharing : visitResultTypeSharings) {
                 visitResultTypeSharingByType.put(visitResultTypeSharing.Type__c, visitResultTypeSharing);
             }
+            visitResultTypeSharingMapByCTP.put(ctp.Id, visitResultTypeSharingByType);
         }
-
-        return visitResultTypeSharingByType;
+        return visitResultTypeSharingMapByCTP.get(ctp.Id);
     }
 
     public static void updateStudySitesSharing(String ctpId, List<Id> ssIds, Boolean allEnabled, Boolean selectionType) {

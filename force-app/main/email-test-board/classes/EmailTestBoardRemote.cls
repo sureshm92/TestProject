@@ -126,17 +126,13 @@ public without sharing class EmailTestBoardRemote {
             ].Id;
             msg.setTemplateId(shareStudyEmailTemplateId);
 
-            if(String.isNotEmpty(relatedId)) msg.setWhatId(Id.valueOf(relatedId));
-
-            Id recipientId = contactId;
-            if (templateWrapper.recipientType.equals('User')) {
-                List<User> user = [SELECT Id FROM User WHERE ContactId = :contactId];
-                if (user.isEmpty()) throw new EmailTestBoardRemoteException('Can\'t find user with this contact Id!');
-
-                recipientId = user.get(0).Id;
-            }
-            msg.setSaveAsActivity(false);
+            Id recipientId = Id.valueOf(contactId);
+            Id whatId = relatedId != null ? Id.valueOf(relatedId) : null;
+            checkIdFields(templateWrapper, recipientId, whatId);
             msg.setTargetObjectId(recipientId);
+            msg.setWhatId(whatId);
+
+            msg.setSaveAsActivity(false);
             msg.setToAddresses(new List<String>{
                     'mail123@mail.com'
             });
@@ -174,19 +170,26 @@ public without sharing class EmailTestBoardRemote {
                 );
             } else {
                 Id recipientId = contactId;
-                if (templateWrapper.recipientType.equals('User')) {
-                    List<User> user = [SELECT Id FROM User WHERE ContactId = :contactId];
-                    if (user.isEmpty()) throw new EmailTestBoardRemoteException('Can\'t find user with this contact Id!');
-
-                    recipientId = user.get(0).Id;
-                }
-
                 Id whatId = relatedId;
-                if(String.isEmpty(templateWrapper.relatedObjName)) whatId = recipientId;
+                checkIdFields(templateWrapper, recipientId, whatId);
                 EmailService.sendEmail(templateWrapper.emailDevName, recipientId, whatId);
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);
+        }
+    }
+
+    private static void checkIdFields(EmailTemplateWrapper templateWrapper, Id recipientId, Id whatId) {
+        if (templateWrapper.recipientType.equals('User')) {
+            List<User> user = [SELECT Id FROM User WHERE ContactId = :recipientId];
+            if (user.isEmpty()) throw new EmailTestBoardRemoteException('Can\'t find user with this contact Id!');
+
+            recipientId = user.get(0).Id;
+            if (whatId == null) whatId = recipientId;
+        }
+
+        if (whatId == null && templateWrapper.relatedObjName.equals('Community')) {
+            whatId = [SELECT Id FROM Community].Id;
         }
     }
 
