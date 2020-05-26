@@ -8,7 +8,7 @@ public with sharing class PermissionGroupService {
     public static final String PERMISSION_GR_SPNL = 'SPNL';
     public static final String PERMISSION_GR_BUSINESS_ADMINISTRATOR = 'Business Administrator';
     public static final String PERMISSION_GR_BUSINESS_LEAD = 'Business Lead';
-    public static final String PERMISSION_GR_PRDB = 'PRDB Service Account User';
+    public static final String PERMISSION_GR_PRDB = 'PRDBAPI';
     public static final String PERMISSION_GR_PRODUCT_OWNER = 'Product Owner';
 
     static public List<String> permissionGroupList = new List<String>{

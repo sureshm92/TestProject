@@ -39,6 +39,7 @@ public without sharing class CommunityFacadeRemote {
         Boolean isDummy;
         String communityName;
         String subDomain;
+        Boolean trialMatchVisible;
     }
 
     private class CommunityType {
@@ -52,12 +53,20 @@ public without sharing class CommunityFacadeRemote {
         }
     }
 
+    /**
+     * Class, that contains all community user visibility. Please add your new visibility here
+     */
+    public class CommunityUserVisibility {
+        @AuraEnabled public Boolean messagesVisible;
+        @AuraEnabled public Boolean trialMatchVisible;
+    }
+
     @AuraEnabled
     public static String getCommunityData() {
         try {
             CommunityData cd = new CommunityData();
             cd.isDummy = UserContext.isDummyContact();
-            if(!cd.isDummy) {
+            if (!cd.isDummy) {
                 Contact userContact = CommunityService.getUserContact();
                 cd.allUserModes = UserContext.getAllUserModes();
                 cd.communityMode = userContact.userCommunityMode__c;
@@ -66,6 +75,7 @@ public without sharing class CommunityFacadeRemote {
                 cd.state = ParticipantService.getParticipantState().value.name();
                 cd.preventedCookies = getPreventedCookies(userContact.Id);
                 cd.messagesVisible = getMessagesVisibility();
+                cd.trialMatchVisible = getTrialMatchVisibility();
             }
             cd.currentUserMode = UserContext.getCurrentUserMode();
             cd.subDomain = Site.getPathPrefix().replace('/s', '');
@@ -87,6 +97,18 @@ public without sharing class CommunityFacadeRemote {
             return UserContext.isDummyContact();
         } catch (Exception e) {
             return (Boolean) AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
+    public static CommunityUserVisibility getCommunityUserVisibility() {
+        try {
+            CommunityUserVisibility userVisibility = new CommunityUserVisibility();
+            userVisibility.messagesVisible = getMessagesVisibility();
+            userVisibility.trialMatchVisible = getTrialMatchVisibility();
+            return userVisibility;
+        } catch (Exception e) {
+            return (CommunityUserVisibility) AuraHelper.throwException(e);
         }
     }
 
@@ -167,6 +189,14 @@ public without sharing class CommunityFacadeRemote {
 
         if (conversations.isEmpty() && peWithAvailableMessages.isEmpty()) return false;
         return true;
+    }
+
+    private static Boolean getTrialMatchVisibility() {
+        if (ParticipantContext.getCurrentPEId() != null) {
+            return ParticipantContext.getCurrentPE().Clinical_Trial_Profile__r.Trial_Match_Is_Available__c
+                    && ParticipantService.getParticipantState().value == ParticipantService.ParticipantStates.PARTICIPANT;
+        }
+        return false;
     }
 
     @AuraEnabled

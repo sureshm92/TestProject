@@ -319,6 +319,14 @@
         <valueField>Name</valueField>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
+        <name>ResourceType</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Resource_Type__c</picklistField>
+        <picklistObject>Resource__c</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
         <name>Type_c_picklist</name>
         <dataType>Picklist</dataType>
         <displayField xsi:nil="true"/>
@@ -442,6 +450,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Resource_Type__c</field>
+            <value>
+                <elementReference>Resource_Type3</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Source__c</field>
             <value>
                 <elementReference>Source_field_recordtypeArticle</elementReference>
@@ -525,6 +539,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Resource_Type__c</field>
+            <value>
+                <elementReference>Resource_Type1</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Title__c</field>
             <value>
                 <elementReference>Title</elementReference>
@@ -572,15 +592,15 @@
             </value>
         </inputAssignments>
         <inputAssignments>
-            <field>Language__c</field>
-            <value>
-                <elementReference>Languageobject</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
             <field>Languages__c</field>
             <value>
                 <elementReference>Languages_field_RecordType</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Resource_Type__c</field>
+            <value>
+                <elementReference>Resource_Type2</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -700,6 +720,12 @@
             <field>Remove_sharing__c</field>
             <value>
                 <elementReference>Remove_sharing_field_recordtypeArticle_0</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Resource_Type__c</field>
+            <value>
+                <elementReference>Resource_Type4</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1050,7 +1076,7 @@
         <name>Article_type_record</name>
         <label>Article</label>
         <locationX>317</locationX>
-        <locationY>895</locationY>
+        <locationY>896</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1207,6 +1233,14 @@
             <fieldText>Article External Link</fieldText>
             <fieldType>LargeTextArea</fieldType>
             <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Resource_Type3</name>
+            <choiceReferences>ResourceType</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Resource Type</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
         </fields>
         <fields>
             <name>Remove_sharing_field_recordtypeArticle</name>
@@ -1377,18 +1411,18 @@
             <isRequired>true</isRequired>
         </fields>
         <fields>
-            <name>Language5</name>
-            <choiceReferences>Languageobject</choiceReferences>
-            <dataType>String</dataType>
-            <fieldText>Language</fieldText>
-            <fieldType>DropdownBox</fieldType>
-            <isRequired>true</isRequired>
-        </fields>
-        <fields>
             <name>Type_field_RecordType</name>
             <choiceReferences>Type_c_picklist</choiceReferences>
             <dataType>String</dataType>
             <fieldText>Type</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Resource_Type2</name>
+            <choiceReferences>ResourceType</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Resource Type</fieldText>
             <fieldType>DropdownBox</fieldType>
             <isRequired>true</isRequired>
         </fields>
@@ -1417,8 +1451,8 @@
     <screens>
         <name>Study_Doc_c</name>
         <label>Study Doc</label>
-        <locationX>576</locationX>
-        <locationY>933</locationY>
+        <locationX>595</locationX>
+        <locationY>934</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1467,6 +1501,14 @@
             </defaultValue>
             <fieldText>Version Date</fieldText>
             <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Resource_Type1</name>
+            <choiceReferences>ResourceType</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Resource Type</fieldText>
+            <fieldType>DropdownBox</fieldType>
             <isRequired>true</isRequired>
         </fields>
         <showFooter>true</showFooter>
@@ -1851,6 +1893,14 @@
             <fieldText>Article External Link</fieldText>
             <fieldType>LargeTextArea</fieldType>
             <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Resource_Type4</name>
+            <choiceReferences>ResourceType</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Resource Type</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
         </fields>
         <fields>
             <name>Remove_sharing_field_recordtypeArticle_0</name>

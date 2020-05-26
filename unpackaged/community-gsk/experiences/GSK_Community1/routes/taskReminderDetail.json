@@ -1,0 +1,10 @@
+{
+  "activeViewId" : "734d9a5d-5263-4178-9633-2baa77cde73c",
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "id" : "710bd646-c843-4f3d-a23b-549293b77944",
+  "label" : "Task Reminder Detail",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-task-reminder-detail",
+  "type" : "route",
+  "urlPrefix" : "task-reminder-detail"
+}

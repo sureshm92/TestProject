@@ -1,0 +1,38 @@
+<!--
+  - Created by Sravani Dasari
+ -->
+<aura:component description="TrialMatchItem" access="global" extends="c:LightningService" implements="flexipage:availableForAllPageTypes">
+    <lightning:navigation aura:id="navService"/>
+    
+    <aura:attribute name="trialMatch" type="Object"/>
+    
+    <div class="card-ctp">
+        <div class="{!v.trialMatch.isEnrollingCTP ? ' top-line' : ''}"></div>
+        <div class="ctp-info-block ctp-padding">
+            <div class="tap-class">
+                {!$Label.c.TrialSearch_Therapeutic_area} : {!v.trialMatch.TherapeuticArea}
+            </div>
+            <div class="ctp-recruitment-status">
+                {!v.trialMatch.isEnrollingCTP ? $Label.c.TrialSearch_Enrolling : $Label.c.TrialSearch_Not_Yet_Enrolling}
+            </div>
+        </div>
+        <div style="height: 1px;background: #848484;"></div>
+        <div class="ctp-info-block ctp-padding">
+            <div class="ctp-study-code-name">
+                {!v.trialMatch.StudyCodeName}
+            </div>
+            <div class="ctp-date-status">
+                {!$Label.c.Matched_of}&nbsp;{!v.trialMatch.matchDate}
+            </div>
+        </div>
+        <div class="ctp-info-block ctp-padding">
+            <div class="cpt-official-title">
+                {!v.trialMatch.OfficialTitle}
+            </div>
+            <div class="ctp-date-status">
+                <a onclick="{!c.navigateToLearnMorePage}">Learn More</a>
+            </div>
+        </div>
+    </div>
+    <c:RRSpinner aura:id="mainSpinner" showSpinner="false" size="medium" fixed="true"/>
+</aura:component>
