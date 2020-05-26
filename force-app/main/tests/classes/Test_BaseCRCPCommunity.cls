@@ -209,12 +209,6 @@ private class Test_BaseCRCPCommunity {
             ApplicationHelpRemote.getInitData(CommunityService.USER_MODE_PI);
             ApplicationHelpRemote.getInitData(CommunityService.USER_MODE_PARTICIPANT);
             ShareModalController.sendEmail(testData.hcpEnrollment.Id, hcpContact.Id, 'Some@mail.com', null);
-            SendEmailTemplate.sendShareEmail(testData.hcpEnrollment.Id, hcpContact.Id, 'Some@mail.com', templateName);
-            SendEmailTemplate.createEmail(templateName, hcpContact.Id, hcpContact.Id);
-            SendEmailTemplate.createEmail(shareStudyEmailTemplateId, hcpContact.Id, hcpContact.Id,testData.ctp.Id, true, 'HCP');
-            List<SendEmailTemplate.EmailMessageWrapper> emailMessageWrappers = new List<SendEmailTemplate.EmailMessageWrapper>();
-            emailMessageWrappers.add( new SendEmailTemplate.EmailMessageWrapper(testData.hcpEnrollment.Id, hcpContact.Id,templateName));
-            SendEmailTemplate.sendEmailMessages(emailMessageWrappers);
         }
         Test.stopTest();
     }
@@ -380,7 +374,6 @@ private class Test_BaseCRCPCommunity {
             String initDataString = StudyListViewController.getPIInitData();
             StudyListViewController.PIInitData initData = (StudyListViewController.PIInitData) JSON.deserializeStrict( initDataString, StudyListViewController.PIInitData.class);
             StudyListViewController.searchStudiesPI(JSON.serialize(initData.piStudiesFilter.filterData),JSON.serialize(initData.piStudiesFilter.sortData), JSON.serialize(initData.paginationData));
-            SendEmailTemplate.createEmail(shareStudyEmailTemplateId, piContact.Id, piContact.Id,testData.ctp.id, true, 'PI');
         }
         Test.stopTest();
     }

@@ -31,7 +31,7 @@
                                 </td>
                             </tr>
                         </aura:iteration>
-                    </c:RRTable>pa
+                    </c:RRTable>
                 </aura:if>
                 <c:EmptyListStub targetList="{!v.visitWrappers}" iconName="none"
                                  message="{!$Label.c.PG_VP_L_No_Items_display}"/>

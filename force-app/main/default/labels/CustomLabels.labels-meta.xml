@@ -12347,6 +12347,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Remember to add a Study</value>
     </labels>
     <labels>
+        <fullName>Report_Biomarkers_header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Biomarkers header</shortDescription>
+        <value>Biomarkers Summary Table</value>
+    </labels>
+    <labels>
         <fullName>Report_Dates</fullName>
         <language>en_US</language>
         <protected>false</protected>

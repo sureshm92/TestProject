@@ -128,14 +128,8 @@ DeployINT5.0:
 
   stage: DeployINT5.0
   script:
-    - sfdx update
-    - echo "$INT5_0" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT5_0 -d
-    - sfdx --version
-    - cat .forceignore_deploy_exclude >> .forceignore
-    - sfdx force:source:deploy -p force-app -u INT5_0  -w 60
-    - sfdx force:source:deploy -p unpackaged/community-gsk -u INT5_0  -w 60
-    - echo "Deploy INT5.0 success"
+    - echo '$INT5_0' > sfdx-auth-url
+    - ./scripts/ci/deploy-sandbox.sh
 
 RunTestINT5.0:
   tags:
