@@ -9,7 +9,7 @@ echo "${!orgAuthVar}" > authFile
 sfdx force:auth:sfdxurl:store -f authFile -a TargetOrg -d
 
 # Deployment exclusions:
-cat ./scripts/ci/forceignore_deploy_exclude >> .forceignore
+cat ./scripts/ci/.forceignore_deploy_exclude >> .forceignore
 
 # Rename old community for support deployment (from: IQVIA_Referral_Hub1 -> to: IQVIA_Referral_Hub_C)
 sed -i 's/IQVIA_Referral_Hub1/IQVIA_Referral_Hub_C/g' 'unpackaged/communities/community-iqvia/networks/IQVIA Referral Hub.network-meta.xml'
