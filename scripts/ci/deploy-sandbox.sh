@@ -4,7 +4,16 @@ echo 'ORG: ${1} ${2} ${3}'
 for i in $*; do
    echo $i
  done
-echo '$(${1})' > sfdx-auth-url
+echo 'one'
+echo $1
+
+echo 'two'
+echo $2
+
+orgAuthVar=$1
+echo "${!orgAuthVar}"
+
+echo "${!orgAuthVar} > sfdx-auth-url
 
 # Login to org:
 sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a TargetOrg -d
