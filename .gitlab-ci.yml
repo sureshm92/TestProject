@@ -128,8 +128,8 @@ DeployINT5.0:
 
   stage: DeployINT5.0
   script:
-    - chmod +x ./scripts/ci/deploy-sandbox.sh INT5_0
-    - . ./scripts/ci/deploy-sandbox.sh
+    - chmod +x ./scripts/ci/deploy-sandbox.sh
+    - . ./scripts/ci/deploy-sandbox.sh INT5_0
 
 RunTestINT5.0:
   tags:
