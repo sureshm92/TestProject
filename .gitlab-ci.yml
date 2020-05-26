@@ -133,8 +133,14 @@ DeployINT5.0:
     - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT5_0 -d
     - sfdx --version
     - cat .forceignore_deploy_exclude >> .forceignore
+    # rename old community for support deployment (from: IQVIA_Referral_Hub1 -> to: IQVIA_Referral_Hub_C)
+    - sed -i 's/IQVIA_Referral_Hub1/IQVIA_Referral_Hub_C/g' 'unpackaged/communities/community-iqvia/networks/IQVIA Referral Hub.network-meta.xml'
+    - mv unpackaged/communities/community-iqvia/experiences/IQVIA_Referral_Hub1.site-meta.xml unpackaged/communities/community-iqvia/experiences/IQVIA_Referral_Hub_C.site-meta.xml
+    - mv unpackaged/communities/community-iqvia/experiences/IQVIA_Referral_Hub1 unpackaged/communities/community-iqvia/experiences/IQVIA_Referral_Hub_C
+    # deploy project
     - sfdx force:source:deploy -p force-app -u INT5_0  -w 60
-    - sfdx force:source:deploy -p unpackaged/community-gsk -u INT5_0  -w 60
+    # deploy communities
+    - sfdx force:source:deploy -p unpackaged/communities -u INT5_0  -w 60
     - echo "Deploy INT5.0 success"
 
 RunTestINT5.0:
