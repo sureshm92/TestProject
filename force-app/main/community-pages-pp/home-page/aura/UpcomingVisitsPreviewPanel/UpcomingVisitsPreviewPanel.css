@@ -48,20 +48,20 @@
 }
 
 .THIS .sv-footer .cRRLink.rr-link {
- 	padding-right: 16px;
+    padding-right: 16px;
     position: relative;
     font-size: 1rem;
 }
 
 .THIS .sv-footer .cRRLink.rr-link:after {
- 	content: '';
+    content: '';
     position: absolute;
     background-size: 14px 14px;
     background-image: url(/resource/1569526732000/ChevronRightBlue);
     height: 14px;
     width: 14px;
     top: 10px;
-    right: 0px; 
+    right: 0px;
 }
 
 .THIS .main-container .message {
@@ -93,4 +93,26 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+@media all and (max-width: 500px) {
+
+    .THIS .sv-body {
+        overflow-x: scroll;
+        padding-bottom: 1rem;
+    }
+
+    .THIS .rr-table {
+        width: 425px
+    }
+
+    .THIS .rr-table th:nth-of-type(2),
+    .THIS .rr-table td:nth-of-type(2) {
+        width: 100px;
+    }
+
+    .THIS .rr-table .cRRIconSplitter .icons-row {
+        flex-wrap: nowrap;
+    }
+
 }

@@ -23,8 +23,8 @@
     <apex:attribute name="preSignature" assignTo="{!preSignatureValue}" type="String" description=""/>
     <apex:attribute name="multiplePIMessage" assignTo="{!multiplePIMessageValue}" type="Boolean" default="false"
                     description="send message with all PI names to new RP"/>
-    <apex:attribute name="communityTemplate" type="String" assignTo="{!communityTemplateValue}"
-                    description="Community template name"/>
+    <apex:attribute name="communityTemplate" type="String" assignTo="{!communityTemplateValue}" 
+    description="Community template name"/>
 
     <apex:attribute name="addBreaks" assignTo="{!replaceLineBreaksOnHTMLBreaks}" type="Boolean" default="true"
                     description="" access="global"/>
@@ -52,17 +52,17 @@
                 <apex:outputText value="{!bodyValue}" escape="false"/>
 
                 <div style="margin-top: 30px; margin-bottom: 30px;">
-                    <c:EmailTemplateDelegate
-                            rendered="{!NOT(isLockOut) && !((isDelegate && resultUserMode != 'Participant')||hasPIRPDelegationRecords)}"
+                    <c:EmailTemplateDelegate 
+                            rendered="{!(bodyValue !=$Label.Email_Body_User_Lockout && ((isDelegate && userType != 'Participant')||hasPIRPDelegationRecords))}"
                             userMode="{!resultUserMode}" delegateLevelsPI="{!delegateLevelsPI}"
                             delegateLevelsHCP="{!delegateLevelsHCP}"/>
 
-                    <c:EmailTemplateDelegateParticipant userId="{!emailRecipientId}"
-                                                        rendered="{!NOT(isLockOut) && !(isInitial && isDelegate && resultUserMode == 'Participant')}"
-                                                        params="{!dataParametersValue}"
-                                                        commTemplate="{!communityTemplateValue}"
-                                                        sourceId="{!sourceRecordId}"/>
-                    <apex:componentBody/>
+                <c:EmailTemplateDelegateParticipant userId="{!emailRecipientId}"
+                                                    rendered="{!(isDelegate && bodyValue !=$Label.Email_Body_User_Lockout && userCommunityType == 'Participant')}"
+                                                    params="{!dataParametersValue}"
+                                                    commTemplate="{!communityTemplateValue}"
+                                                    sourceId="{!sourceRecordId}"/>
+                                                    <apex:componentBody/>
                 </div>
                 <apex:outputPanel style="display:block; margin: 25px 0" rendered="{!preSignatureValue != null}">
                     <apex:outputText value="{!preSignatureValue}" escape="false"/>

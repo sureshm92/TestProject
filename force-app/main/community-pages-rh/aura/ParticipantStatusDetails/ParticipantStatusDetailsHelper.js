@@ -2,7 +2,7 @@
  * Created by Andrii Kryvolap.
  */
 ({
-    checkValidity : function (component, event, helper, stepWrapper){
+    checkValidity : function (component, event, helper, stepWrapper){        
         let isCurrentStepValid = true;
         let currentOutcomeSuccess = stepWrapper.successOutcomes.indexOf(stepWrapper.outcome)!== -1;
         console.log('currentOutcomeSuccess ' + currentOutcomeSuccess);
@@ -12,19 +12,20 @@
                 if (isCurrentStepValid &&
                     ((field.required && ((!field.dependent && currentOutcomeSuccess) || (field.dependent && field.dependentActive))) && (!field.value || field.value.trim() === '' || (field.value == 'false' && field.type == 'checkbox'))
                         || field.valid === false)) {
-                    isCurrentStepValid = false;
-                    console.log('isCurrentStepValid ' + isCurrentStepValid );
+                    isCurrentStepValid = false;          
                 }
             });
         });
-        let notesRequired = component.get('v.notesRequired');
+        let notesRequired = stepWrapper.notesRequiredMap[stepWrapper.outcome+';'+stepWrapper.reason];
+        console.log('##stepWrapper.notesRequired ' + notesRequired );
         isCurrentStepValid = isCurrentStepValid && ((stepWrapper.outcomeList === undefined || stepWrapper.outcomeList.length== 0)
             ||(stepWrapper.outcome === undefined || stepWrapper.outcome ==='')
             ||!notesRequired
             ||(stepWrapper.notes !== undefined && stepWrapper.notes !== '')
         );
-        console.log('isCurrentStepValid ' + isCurrentStepValid );
-        component.set('v.stepWrapper.isCurrentStepValid', isCurrentStepValid);
+        console.log('##stepWrapper.isCurrentStepValid ' + isCurrentStepValid );
+        //component.set('v.stepWrapper.isCurrentStepValid', isCurrentStepValid);
+        stepWrapper.isCurrentStepValid = isCurrentStepValid;
     },
     updateDependentFields : function (component, event, helper, stepWrapper, fieldName, value){
         if (stepWrapper.fieldDependencyMap.hasOwnProperty(fieldName)) {
@@ -35,24 +36,24 @@
                         if (dependentFields[k].fieldName === stepWrapper.formFieldGroups[i].fields[j].field) {
                             if (dependentFields[k].controllingValue.indexOf(value) !== -1 && value !== '') {
                                 stepWrapper.formFieldGroups[i].fields[j].dependentActive = true;
-                                if (stepWrapper.formFieldGroups[i].fields[j].populateFromDependent !== null && (stepWrapper.formFieldGroups[i].fields[j].value === null || stepWrapper.formFieldGroups[i].fields[j].value === '')) {
-                                    for (let k = 0; k < stepWrapper.formFieldGroups.length; k++) {
-                                        for (let l = 0; l < stepWrapper.formFieldGroups[k].fields.length; l++) {
-                                            if (stepWrapper.formFieldGroups[i].fields[j].populateFromDependent === stepWrapper.formFieldGroups[k].fields[l].field)
-                                                stepWrapper.formFieldGroups[i].fields[j].value = stepWrapper.formFieldGroups[k].fields[l].value;
-                                        }
+                            if (stepWrapper.formFieldGroups[i].fields[j].populateFromDependent !== null && (stepWrapper.formFieldGroups[i].fields[j].value === null || stepWrapper.formFieldGroups[i].fields[j].value === '')) {
+                                for (let k = 0; k < stepWrapper.formFieldGroups.length; k++) {
+                                    for (let l = 0; l < stepWrapper.formFieldGroups[k].fields.length; l++) {
+                                        if (stepWrapper.formFieldGroups[i].fields[j].populateFromDependent === stepWrapper.formFieldGroups[k].fields[l].field)
+                                            stepWrapper.formFieldGroups[i].fields[j].value = stepWrapper.formFieldGroups[k].fields[l].value;
                                     }
                                 }
-                            } else {
-                                stepWrapper.formFieldGroups[i].fields[j].dependentActive = false;
-                                // stepWrapper.formFieldGroups[i].fields[j].required = false;
-                                if (stepWrapper.formFieldGroups[i].fields[j].strictDependency){
-                                    stepWrapper.formFieldGroups[i].fields[j].value = '';
-                                    helper.updateDependentFields(component, event, helper, stepWrapper,stepWrapper.formFieldGroups[i].fields[j].field , '');
-                                //    TODO: rework in future for cascade updates
-                                }
                             }
-                       }
+                        } else {
+                            stepWrapper.formFieldGroups[i].fields[j].dependentActive = false;
+                            // stepWrapper.formFieldGroups[i].fields[j].required = false;
+                            if (stepWrapper.formFieldGroups[i].fields[j].strictDependency){
+                                stepWrapper.formFieldGroups[i].fields[j].value = '';
+                                helper.updateDependentFields(component, event, helper, stepWrapper,stepWrapper.formFieldGroups[i].fields[j].field , '');
+                            //    TODO: rework in future for cascade updates
+                            }
+                        }                            
+                        }
                     }
                 }
             }
