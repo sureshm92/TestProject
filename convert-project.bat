@@ -1,1 +1,0 @@
-sfdx force:source:convert -d output
