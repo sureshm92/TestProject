@@ -2941,7 +2941,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Body_Task_Reminder_Type_Not_Selected Delegate</shortDescription>
-        <value>This is an email to remind you of ##PatientFirstName&#39;s task: ##TaskName.
+        <value>This is an email to remind you of ##ParticipantFirstName&#39;s task: ##TaskName.
 
             Please login to update the status of this task.</value>
     </labels>
