@@ -17,13 +17,6 @@ force-app/main/default/profiles/Custom%3A Sales Profile.profile-meta.xml
 force-app/main/default/profiles/Custom%3A Support Profile.profile-meta.xml
 force-app/main/default/profiles/IQVIA RH Profile.profile-meta.xml
 
-#community:
-#unpackaged/main/default/experiences
-#unpackaged/main/default/networks
-#unpackaged/main/default/sites
-#unpackaged/main/default/networkBranding
-#unpackaged/main/default/navigationMenus
-
 #flows
 force-app/main/default/flows/net_promoter_score.flow-meta.xml
 force-app/main/default/flows/customer_satisfaction.flow-meta.xml
