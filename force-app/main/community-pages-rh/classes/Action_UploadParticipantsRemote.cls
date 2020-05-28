@@ -54,7 +54,7 @@ public without sharing class Action_UploadParticipantsRemote {
                 }
             }
 
-            Database.executeBatch(new UploadParticipantsBatch(finalCSVLines.values(), csvFileLines.get(0), studySiteId, selectedStatus, headerFailed, headerIndexes, createUsers), 25);
+            Database.executeBatch(new UploadParticipantsBatch(finalCSVLines.values(), csvFileLines.get(0), studySiteId, selectedStatus, headerFailed, headerIndexes, createUsers), 5);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
