@@ -37,12 +37,19 @@ global without sharing class EmailWireframeController {
     }
 
     public String getTitleText() {
-        String titleLabelValue = getLabelValue(titleValue);
-        if (String.isEmpty(titleLabelValue)) {
+        String titleLabelValue;
+        if (String.isNotEmpty(titleValue)) {
+            if (titleValue.startsWith('##')) {
+                titleLabelValue = getProvider().getParameters().get(titleValue.substring(2));
+            } else {
+                titleLabelValue = getLabelValue(titleValue);
+            }
+        } else {
             titleLabelValue = getProvider().getUserMode() == CommunityService.USER_MODE_PARTICIPANT ?
                     getProvider().getParameters().get(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_LABEL)
                     : getProvider().getParameters().get(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_NEW_TM);
         }
+
         return titleLabelValue;
     }
 

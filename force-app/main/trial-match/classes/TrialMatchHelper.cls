@@ -79,10 +79,6 @@ public without sharing class TrialMatchHelper {
     private List<Clinical_Trial_Profile__c> getCtps(Set<Id> ctpIds, String objfield, Boolean isEnrolling, Boolean isNotYetEnrolling) {
         TrialSearchWhereClauseFactory factory = (TrialSearchWhereClauseFactory) ClassFactory.newInstance(TrialSearchWhereClauseFactory.class);
         String whereClause = factory.getInstance(new List<Id>(ctpIds), objfield, isEnrolling, isNotYetEnrolling, null).getWhereClause();
-        if(String.isEmpty(whereClause))
-            whereClause = 'where CommunityTemplate__c=\'GSK\' AND Trial_Match_Is_Available__c = true';
-        else
-            whereClause+=' AND CommunityTemplate__c=\'GSK\' AND Trial_Match_Is_Available__c = true';
         String queryCTP = 'SELECT id, ' +
             	'Trial_Match_Is_Available__c, '+
                 'Therapeutic_Area__c, ' +

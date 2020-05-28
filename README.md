@@ -6,17 +6,11 @@
    sfdx force:auth:web:login -d -a devHubAlias
    ```
 
-##### 2) Create Scratch Org(Windows):
+##### 2) Create Scratch Org:
 
    ```sh
-   create-scratch-org.bat scratchOrgAlias
-   ```
-
-##### Create Scratch Org(Mac/Linux):
-
-   ```sh
-   sh create-scratch-org.sh scratchOrgAlias
-   ```
+   ./create-scratch-org.sh scratchOrgAlias
+   ````
 
 ##### 3) Publish community:
 

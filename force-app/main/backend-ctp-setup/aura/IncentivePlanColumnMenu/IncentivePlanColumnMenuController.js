@@ -9,5 +9,8 @@
 
     doCloneSelected: function (component, event, helper) {
         component.getEvent('onClone').fire();
+    },
+    doDeleteSelected: function (component, event, helper) {
+        component.getEvent('onDelete').fire();
     }
 });
