@@ -87,6 +87,7 @@
             }
         }
 
+        console.log('Delegate VALID: ' + isValid);
         component.set('v.isDelegateValid', isValid);
     },
 

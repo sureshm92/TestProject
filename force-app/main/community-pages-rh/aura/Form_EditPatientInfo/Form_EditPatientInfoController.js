@@ -11,7 +11,21 @@
         component.set('v.visitPlanAvailable', formData.visitPlansLVList.length > 0);
     },
 
-     doCheckFields: function (component, event, hepler) {
+    doClearValidity: function (component, event, hepler) {
+        console.log('clearValidity start');
+
+        let needsGuardian = component.get('v.needsGuardian');
+        if (needsGuardian) {
+            component.get('v.parentComponent').find('spinner').show();
+            component.set('v.isRefreshView', true);
+            component.set('v.isRefreshView', false);
+            component.get('v.parentComponent').find('spinner').hide();
+        }
+
+        console.log('clearValidity end');
+    },
+
+    doCheckFields: function (component, event, hepler) {
         console.log('pe', JSON.parse(JSON.stringify(component.get('v.pe'))));
         console.log('part', JSON.parse(JSON.stringify(component.get('v.participant'))));
         console.log('doCheckFields');
@@ -26,9 +40,9 @@
         var isFinalUpdate = component.get('v.isFinalUpdate');
         var stateRequired = component.get('v.statesLVList')[0];
         var stateCmp = component.find('stateField');
-        var stateVaild = stateCmp && stateCmp.get('v.validity') && stateCmp.get('v.validity').valid;
+        //var stateVaild = stateCmp && stateCmp.get('v.validity') && stateCmp.get('v.validity').valid;
         var dataStamp = component.get('v.dataStamp');
-        var isValid = false;
+        let isValid = false;
         const screeningIdRequiredStatuses = 'Randomization Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete';
         const visitPlanRequiredStatuses = 'Enrollment Success; Randomization Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete';
         let screeningIdRequired = false;
@@ -91,7 +105,7 @@
                 console.log('isValid1' + isValid);
             }
         } else if (updateMode && isFinalUpdate) {
-            isValid =
+            isValid = isValid ||
                 participant.First_Name__c &&
                 participant.Last_Name__c &&
                 participant.Date_of_Birth__c &&
@@ -108,7 +122,8 @@
                 pe.Participant_Status__c &&
                 (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
                 pe.Screening_ID__c &&
-                stateVaild;
+                (!stateRequired || (stateRequired && participant.Mailing_State_Code__c));
+                //stateVaild;
             console.log('isValid2' + isValid);
             if(component.get('v.fromActionParticipant') && !isRemovedValue){
                 console.log('component.get(\'v.fromActionParticipant\') && !isRemovedValue');
@@ -134,7 +149,8 @@
         } else if (!updateMode) {
             console.log('!updateMode');
             //var checkReferred = source == 'ePR' ? true : pe.Referred_By__c ? true : false;
-            isValid =
+            isValid = false;
+            isValid = isValid ||
                 participant.First_Name__c &&
                 participant.Last_Name__c &&
                 participant.Date_of_Birth__c &&
@@ -149,17 +165,17 @@
                 pe &&
                 pe.Participant_Status__c &&
                 (!isRandomizationSuccess || (isRandomizationSuccess && pe.Screening_ID__c)) &&
-                //(!stateRequired || (stateRequired && (participant.Mailing_State_Code__c !== '' || participant.Mailing_State_Code__c !== undefined || participant.Mailing_State_Code__c !== null))) &&
-                stateVaild &&
+                (!stateRequired || (stateRequired && participant.Mailing_State_Code__c)) &&
+                //stateVaild &&
                 (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
                 pe.Referred_By__c;
             console.log('isValid4' + isValid);
         }
-        if(participant.Alternative_Phone_Number__c && !participant.Alternative_Phone_Type__c){
+        if (participant.Alternative_Phone_Number__c && !participant.Alternative_Phone_Type__c){
             isValid = false;
         }
         component.set('v.isValid', isValid);
-         console.log('isValid5' + isValid);
+        console.log('isValid5' + isValid);
         return isValid;
     },
 
