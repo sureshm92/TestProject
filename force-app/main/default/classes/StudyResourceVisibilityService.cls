@@ -41,13 +41,19 @@ public without sharing class StudyResourceVisibilityService {
                     Boolean isLangContains = false;
                     for(String lng : pe.Study_Site__r.Approved_Lng__c.split(';')) {
                         if(contentLangs.contains(lng)) {
-                            if(resStudy.Resource__r.Content_Type__c == 'Relevant_Link' && !resStudy.Resource__r.Languages__c.contains(lng)){
+                            if(resStudy.Resource__r.Content_Type__c  == ResourceService.RESOURCE_TYPE_RELEVANT_LINK
+                                    && !resStudy.Resource__r.Languages__c.contains(lng)){
                                 isLangContains = false;
                             } else {
                                 isLangContains = true;
                                 break;
                             }
                         }
+                    }
+                    if(resStudy.Resource__r.Content_Type__c == ResourceService.RESOURCE_TYPE_RELEVANT_LINK
+                            && resStudy.Resource__r.Countries__c != null && pe.Study_Site__r.Site__r.BillingCountryCode != null
+                            && !resStudy.Resource__r.Countries__c.contains(pe.Study_Site__r.Site__r.BillingCountryCode)) {
+                        isVisible = false;
                     }
                     isVisible = isVisible && isLangContains;
                 }
