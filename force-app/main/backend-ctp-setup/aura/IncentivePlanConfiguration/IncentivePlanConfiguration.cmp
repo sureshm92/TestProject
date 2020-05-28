@@ -114,7 +114,7 @@
                                 <aura:if isTrue="{!v.ssItems}">
                                     <aura:iteration items="{!v.ssItems}" var="item">
                                         <c:StudySiteItem item="{!item}" selectedGlobalItems="{!v.allSelectedIPs}" viewMode="{!v.viewModePage}"
-                                                         scrollLeft="{!v.scrollLeft}" fromComponent="Incentive"/>
+                                                         scrollLeft="{!v.scrollLeft}" fromComponent="Incentive" parent="{!this}"/>
                                     </aura:iteration>
                                 </aura:if>
                             </c:uiFixedTable>

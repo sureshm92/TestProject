@@ -2941,7 +2941,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Body_Task_Reminder_Type_Not_Selected Delegate</shortDescription>
-        <value>This is an email to remind you of ##PatientFirstName&#39;s task: ##TaskName.
+        <value>This is an email to remind you of ##ParticipantFirstName&#39;s task: ##TaskName.
 
             Please login to update the status of this task.</value>
     </labels>
@@ -4146,13 +4146,6 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>false</protected>
         <shortDescription>Email Title</shortDescription>
         <value>IQVIA™ Referral Hub</value>
-    </labels>
-    <labels>
-        <fullName>Email_Title_All</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Title All</shortDescription>
-        <value>##TitleNewTM</value>
     </labels>
     <labels>
         <fullName>Email_Title_Initial_All_GSK</fullName>
@@ -12352,6 +12345,13 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>true</protected>
         <shortDescription>Reminder_Study_Specific_No_Study</shortDescription>
         <value>Remember to add a Study</value>
+    </labels>
+    <labels>
+        <fullName>Report_Biomarkers_header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Biomarkers header</shortDescription>
+        <value>Biomarkers Summary Table</value>
     </labels>
     <labels>
         <fullName>Report_Dates</fullName>
