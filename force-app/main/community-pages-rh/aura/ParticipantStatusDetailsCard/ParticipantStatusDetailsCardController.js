@@ -11,6 +11,7 @@
         component.set('v.reasonList', stepWrapper.reasonMap[stepWrapper.outcome]);
         component.set('v.previousSelectedOutcome', stepWrapper.outcome);
         component.set('v.disableReason', true);
+        component.set('v.stepWrapper.reason', '');
         
         helper.checkValidity(component, event, helper, stepWrapper);
     },
