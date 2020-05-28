@@ -14,6 +14,7 @@ public virtual without sharing class ResourceService {
     public static final String RESOURCE_TYPE_ARTICLE = 'Article';
     public static final String RESOURCE_TYPE_VIDEO = 'Video';
     public static final String RESOURCE_TYPE_DOCUMENT = 'Document';
+    public static final String RESOURCE_TYPE_RELEVANT_LINK = 'Relevant_Link';
     public static final String RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT = 'Study_Document';
 
     private static final String EXPIRATION_DATE_API_NAME = 'Expiration_Date__c';
