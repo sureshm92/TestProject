@@ -133,8 +133,18 @@
         var pathWrapper = component.get('v.participantPath');
         var statusDetailValid = component.get('v.statusDetailValid');
         var isStatusChanged = component.get('v.isStatusChanged');
-        console.log('#isStatusChanged: '+ isStatusChanged);
-        console.log('##statusDetailValid: '+statusDetailValid);
+        console.log('##Save isStatusChanged1: '+ isStatusChanged);
+        console.log('##Save statusDetailValid: '+statusDetailValid);
+        let steps = component.get('v.participantPath.steps');
+        for (let ind = 0; ind < steps.length; ind++) {
+            if (steps[ind].title == $A.get('$Label.c.PWS_Initial_Visit_Name') 
+                && steps[ind].isCurrentStepValid 
+                && steps[ind].isCurrentStep) {
+                isStatusChanged = true;
+                break;
+            }
+        }
+        console.log('##Save isStatusChanged2: '+ isStatusChanged);
         pe.Participant__r = participant;
         if (!pe.sObjectType) {
             pe.sObjectType = 'Participant_Enrollment__c';
@@ -199,7 +209,17 @@
         let pe = component.get('v.pe');
         let statusDetailValid = component.get('v.statusDetailValid');
         var isStatusChanged = component.get('v.isStatusChanged');
-        console.log('#isStatusChanged: '+ isStatusChanged);
+        console.log('##isStatusChanged1: '+ isStatusChanged);
+        let steps = component.get('v.participantPath.steps');
+        for (let ind = 0; ind < steps.length; ind++) {
+            if (steps[ind].title == $A.get('$Label.c.PWS_Initial_Visit_Name') 
+                && steps[ind].isCurrentStepValid 
+                && steps[ind].isCurrentStep) {
+                isStatusChanged = true;
+                break;
+            }
+        }
+        console.log('##isStatusChanged2: '+ isStatusChanged);
         if(statusDetailValid){
             component.find('spinner').show();
             console.log(JSON.stringify(pathWrapper));
