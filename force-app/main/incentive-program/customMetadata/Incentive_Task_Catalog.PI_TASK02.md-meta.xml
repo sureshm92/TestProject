@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>PI_TASK02</label>
+    <protected>false</protected>
+    <values>
+        <field>Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Default_Number_of_Points__c</field>
+        <value xsi:type="xsd:double">10.0</value>
+    </values>
+    <values>
+        <field>Description_Label__c</field>
+        <value xsi:type="xsd:string">IncTask_02_D</value>
+    </values>
+    <values>
+        <field>History_Description_Label__c</field>
+        <value xsi:type="xsd:string">IncTask_02_HD</value>
+    </values>
+    <values>
+        <field>Participant_ID_required__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Title_Label__c</field>
+        <value xsi:type="xsd:string">IncTask_02_T</value>
+    </values>
+</CustomMetadata>
