@@ -5535,6 +5535,54 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Pre-screen participant</value>
     </labels>
     <labels>
+        <fullName>IncTask_02_D</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncTask_02_D</shortDescription>
+        <value>Enter initial visit scheduled date and time(Ask Tamara to add proper description to the User Story)</value>
+    </labels>
+    <labels>
+        <fullName>IncTask_02_HD</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncTask_02_HD</shortDescription>
+        <value>Entered initial visit scheduled date and time for: ##ItemName</value>
+    </labels>
+    <labels>
+        <fullName>IncTask_02_T</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncTask_02_T</shortDescription>
+        <value>Enter initial visit scheduled date and time</value>
+    </labels>
+    <labels>
+        <fullName>IncTask_03_D</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncTask_03_D</shortDescription>
+        <value>Make initial contact attempt within 1 day of participant being received(Ask Tamara to add proper description to the User Story)</value>
+    </labels>
+    <labels>
+        <fullName>IncTask_03_HD</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncTask_03_HD</shortDescription>
+        <value>Made initial contact attempt within 1 day of participant being received for: ##ItemName</value>
+    </labels>
+    <labels>
+        <fullName>IncTask_03_T</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncTask_03_T</shortDescription>
+        <value>Make initial contact attempt within 1 day of participant being received</value>
+    </labels>
+    <labels>
         <fullName>IncentiveProgram_Date</fullName>
         <categories>Incentive Program</categories>
         <language>en_US</language>
@@ -10898,6 +10946,13 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>false</protected>
         <shortDescription>PG Ref L Select from Pre-eligibility Screening Log</shortDescription>
         <value>Select from Pre-eligibility Screening Log</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Text_To_Delete_Plan</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG Ref L Text To Delete Plan</shortDescription>
+        <value>number of study sites are using that program, do you want to proceed?</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Thank_you_for_having_a_discussion_with_your_patient_about_clinical_stud</fullName>

@@ -19,10 +19,13 @@
     <aura:attribute name="recordId" type="String"/>
     <aura:attribute name="tasks" type="List"/>
     <aura:attribute name="studyInfo" type="Object"/>
+    <aura:attribute name="planIdForDelete" type="String"/>
 
     <aura:attribute name="selectedIP" type="String"/>
     <aura:attribute name="allSelectedIPs" type="Object"/>
     <aura:attribute name="setOfSS" type="Object"/>
+
+    <aura:method name="doDeletePlan" action="{!c.doColumnIPDelete}" access="public"/>
 
 
     <!-- component body: -->
@@ -95,7 +98,7 @@
                                                     <c:IncentivePlanColumnMenu plan="{!ip}"
                                                                            onEdit="{!if(equals(v.viewModePage, 'Edit'), c.doColumnIPEdit, c.doColumnIPView)}"
                                                                            onClone="{!c.doColumnIPClone}"
-                                                                           onDelete="{!c.doColumnIPDelete}"
+                                                                           onDelete="{!c.doWarningModal}"
                                                                            isVisible="{!equals(v.viewModePage, 'Edit')}"/>
                                                     <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
                                                         <div class="column-btn">
@@ -119,6 +122,9 @@
                                 </aura:if>
                             </c:uiFixedTable>
                         </div>
+
+                        <!--WarningModal-->
+                        <c:WarningModal aura:id="warningModal" parent="{!this}"/>
 
 
                         <!--Pagination-->
