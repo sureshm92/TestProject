@@ -49,6 +49,7 @@ public without sharing virtual class EmailTemplateProvider {
         fillTemplateParams();
 
         parameters.put('RecipientName', getUserName());
+        parameters.put('UserName', getCommunityUserName(recipientContactId));
         parameters.put('RecipientFirstName', recipientFirstName);
         parameters.put('GuestName', TranslateHelper.getLabelValue(Label.Email_Guest_User_Name));
         if (isDelegate && userMode == 'Participant') initYourParticipantFirstName();
