@@ -49,35 +49,33 @@
         <div class="ap-section">
             <div class="ap-section-title">{!$Label.c.BTN_Participant_Information}</div>
             <div class="slds-grid slds-gutters slds-wrap">
-                <div class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3'}">
+                <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
                     <div class="label">
                         <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_First_name}
                     </div>
                     <lightning:input type="text" value="{!v.participant.First_Name__c}" required="true"
                                      onblur="{!c.doCheckFields}"/>
                 </div>
-                <div class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3'}">
+                <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
                     <div class="label">
                         {!$Label.c.PG_AS_F_Middle_name}
                     </div>
                     <lightning:input type="text" value="{!v.participant.Middle_Name__c}"
                                      onblur="{!c.doCheckFields}"/>
                 </div>
-                <div class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3'}">
+                <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
                     <div class="label"><abbr title="required"
                                              class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Last_name}</div>
                     <lightning:input type="text" value="{!v.participant.Last_Name__c}" required="true"
                                      onblur="{!c.doCheckFields}"/>
                 </div>
-                <aura:if isTrue="{!v.fromActionParticipant}">
-                    <div class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3'}">
+                <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
                         <div class="label">{!$Label.c.PG_AS_F_Suffix}</div>
                         <lightning:layoutItem size="5">
                         <lightning:input type="text" value="{!v.participant.Suffix__c}"
                                          onblur="{!c.doCheckFields}"/>
                         </lightning:layoutItem>
                     </div>
-                </aura:if>
                 <aura:if isTrue="{!v.fromActionParticipant}">
                 <div class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3'}">
                     <div class="label">{!$Label.c.PG_AS_F_Nickname}</div>
