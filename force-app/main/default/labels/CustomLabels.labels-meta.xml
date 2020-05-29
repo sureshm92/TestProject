@@ -12188,7 +12188,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Referral Pathway Label</shortDescription>
-        <value>Referral Pathway</value>
+        <value>Participant Pathway</value>
     </labels>
     <labels>
         <fullName>Referring</fullName>
