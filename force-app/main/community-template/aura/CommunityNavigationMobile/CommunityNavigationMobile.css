@@ -112,6 +112,9 @@
     .THIS .nav-menu .nav-item {
         padding: 15px 5px 0;
     }
+    .THIS .nav-menu .nav-item:hover:after{
+        content: attr(title);
+    }
     .THIS .navigation-icon {
         max-height: 32px;
     }

@@ -136,7 +136,7 @@
             <value>
                 <fullName>Screening In Progress - Wash Out Period</fullName>
                 <default>false</default>
-                <label>Screening In Progress - Wash Out Period</label>
+                <label>In wash out period</label>
             </value>
             <value>
                 <fullName>Ready to Screen</fullName>
