@@ -2340,7 +2340,9 @@
 
             To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##FullCommunityName.
 
-            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.</value>
+            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.
+
+            Your username is ##UserName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Created_By_PI</fullName>
@@ -2353,7 +2355,9 @@
 
             To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##FullCommunityName.
 
-            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.</value>
+            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.
+
+            Your username is ##UserName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Delegate</fullName>
@@ -2384,7 +2388,9 @@
 
             To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##FullCommunityName.
 
-            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.</value>
+            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.
+
+            Your username is ##UserName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Medication_Task_Reminder</fullName>
