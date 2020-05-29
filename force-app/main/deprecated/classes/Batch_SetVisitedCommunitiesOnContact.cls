@@ -38,7 +38,7 @@ public with sharing class Batch_SetVisitedCommunitiesOnContact implements Databa
             if (permissionSetByUserMap.containsKey(u.Id)) {
                 String visitedCommunities = '';
                 for (String perm : permissionSetByUserMap.get(u.Id)) {
-                    visitedCommunities += CommunityTemplateService.getTemplateByPermissionSetName(perm).communityName + ';';
+                    visitedCommunities += CommunityTemplateService.getTemplateByPermissionSetName(perm).templateName + ';';
                 }
                 u.Contact.Visited_Communities__c = visitedCommunities.removeEnd(';');
                 updateContacts.add(u.Contact);
