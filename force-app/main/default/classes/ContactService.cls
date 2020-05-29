@@ -248,6 +248,7 @@ public without sharing class ContactService {
                         Third_Choice_Language__c,
                         Participant_Opt_In_Status_Emails__c,
                         Visit_Results_OptIn__c,
+                        Visited_Communities__c,
                         Account.OwnerId,
                         Account.Name,
                         Account.Phone,
@@ -262,5 +263,25 @@ public without sharing class ContactService {
                 FROM Contact
                 WHERE Id = :contactId
         ];
+    }
+
+    public static void updateVisitedCommunity(Contact contact, String communityName) {
+        if (contact.Visited_Communities__c != null) {
+            if (!contact.Visited_Communities__c.contains(communityName)) {
+                communityName = contact.Visited_Communities__c + ';' + communityName;
+            } else {
+                communityName = null;
+            }
+        }
+        if (communityName != null) update new Contact(Id = contact.Id, Visited_Communities__c = communityName);
+    }
+
+    public static Boolean checkVisitedCommunity(Id conId, String communityName) {
+        Boolean isVisitedCommunity = false;
+        String fullCommunityName = CommunityTemplateService.getTemplate(communityName).communityName;
+        Contact con = [SELECT Id, Visited_Communities__c FROM Contact WHERE Id =: conId];
+        if(!con.Visited_Communities__c.contains(fullCommunityName)) return isVisitedCommunity;
+        isVisitedCommunity = true;
+        return isVisitedCommunity;
     }
 }
