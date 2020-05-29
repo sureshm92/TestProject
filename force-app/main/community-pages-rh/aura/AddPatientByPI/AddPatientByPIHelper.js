@@ -18,6 +18,9 @@
             pe.Visit_Plan__c = formData.visitPlansLVList[0].value;
         }
         component.set('v.pe', pe);
+        component.set('v.isValid', false);
+        component.set('v.isDelegateValid', false);
+        component.set('v.needsGuardian', false);
     },
 
     createParticipant: function (component, callback) {
