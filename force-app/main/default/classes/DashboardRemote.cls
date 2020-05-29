@@ -27,7 +27,14 @@ public without sharing class DashboardRemote {
     public static final String STATUS_UNABLE_TO_SCREEN = 'Unable to Screen';
     public static final String STATUS_ENROLLMENT_FAILED = 'Enrollment Failed';
     public static final String STATUS_RANDOMIZATION_FAILED = 'Randomization Failed';
-
+	public static final String STATUS_TREATMENT_PERIOD_STARTED = 'Treatment Period Started';
+    public static final String STATUS_FOLLOW_UP_PERIOD_STARTED = 'Follow-Up Period Started';
+    public static final String STATUS_PARTICIPATION_COMPLETE = 'Participation Complete';
+    public static final String STATUS_TRIAL_COMPLETE = 'Trial Complete';
+    public static final String STATUS_DROP_OUT = 'Drop Out';
+    public static final String STATUS_DECEASED = 'Deceased';
+    public static final String STATUS_READY_TO_SCREEN = 'Ready to Screen';
+            
     class PIData {
         List<DonutItem> referralsReceived = new List<DonutItem>();
         List<FunnelData> funnelData;
@@ -182,7 +189,7 @@ public without sharing class DashboardRemote {
         }
         else
         {
-        	List<Participant_Enrollment__c> pel =[SELECT Id,Initial_visit_scheduled_date__c,(SELECT Id,Status__c,Date__c 
+        	List<Participant_Enrollment__c> pel =[SELECT Id,Initial_visit_scheduled_date__c,(SELECT Id,Status__c,CreatedDate,Date__c  
                                                                                          FROM Participant_Enrollment_Status_History__r 
                                                                                          ORDER BY Name DESC),
                                               Participant_Status__c,PI_Contact__c,Clinical_Trial_Profile__r.Study_Title__c,Participant__c, Participant__r.Full_Name__c
@@ -1038,7 +1045,8 @@ SSRankWrapper - Inner class */
                                         initial_Visits_Completed++;
                                     }else if(pe.Participant_Status__c == PE_STATUS_SCREENING_FAILED ||
                                         pe.Participant_Status__c == STATUS_SCREENING_IN_PROGRESS ||
-                                        pe.Participant_Status__c == STATUS_UNABLE_TO_SCREEN){
+                                        pe.Participant_Status__c == STATUS_UNABLE_TO_SCREEN ||
+                                        pe.Participant_Status__c == STATUS_READY_TO_SCREEN){
                                             contacted++;
                                             scheduled++;
                                             initial_Visits_Completed++;
@@ -1051,7 +1059,13 @@ SSRankWrapper - Inner class */
                                 }
                                 
                                 if(pe.Participant_Status__c == STATUS_ENROLLMENT_SUCCESS ||
-                                pe.Participant_Status__c == STATUS_RANDOMIZATION_SUCCESS ){
+                                pe.Participant_Status__c == STATUS_RANDOMIZATION_SUCCESS ||
+                                pe.Participant_Status__c == STATUS_TREATMENT_PERIOD_STARTED ||
+                                pe.Participant_Status__c == STATUS_FOLLOW_UP_PERIOD_STARTED ||
+                                pe.Participant_Status__c == STATUS_PARTICIPATION_COMPLETE ||
+                                pe.Participant_Status__c == STATUS_TRIAL_COMPLETE ||
+                                pe.Participant_Status__c == STATUS_DROP_OUT ||
+                                pe.Participant_Status__c == STATUS_DECEASED){
                                     contacted++;
                                     scheduled++;
                                     screened++;
