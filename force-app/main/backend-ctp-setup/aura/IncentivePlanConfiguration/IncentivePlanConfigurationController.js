@@ -101,9 +101,18 @@
         }, 'clone');
     },
 
-    doColumnIPDelete: function (component, event, helper) {
+    doWarningModal: function (component, event, helper) {
         let menuCmp = event.getSource();
         let planId = menuCmp.get('v.plan').value;
+        communityService.executeAction(component, 'getNumberStudySites', {
+            planId: planId
+        }, function (returnvalue) {
+            component.set('v.planIdForDelete', planId);
+            component.find('warningModal').show(returnvalue);
+        });
+    },
+    doColumnIPDelete: function (component, event, helper) {
+        let planId = component.get('v.planIdForDelete');
         let ipIds = component.get('v.filter.pageFeatureIds');
         if (ipIds) {
             let items = ipIds.split(';');
@@ -120,6 +129,7 @@
             paginationJSON: JSON.stringify(component.get('v.pagination'))
         }, function (searchResponse) {
             helper.setSearchResponse(component, searchResponse);
+            component.find('warningModal').hide();
         });
     }
 

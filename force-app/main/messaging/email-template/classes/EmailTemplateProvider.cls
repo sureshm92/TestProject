@@ -52,7 +52,6 @@ public without sharing virtual class EmailTemplateProvider {
         parameters.put('UserName', getCommunityUserName(recipientContactId));
         parameters.put('RecipientFirstName', recipientFirstName);
         parameters.put('GuestName', TranslateHelper.getLabelValue(Label.Email_Guest_User_Name));
-        if (isDelegate && userMode == 'Participant') initYourParticipantFirstName();
 
         initCRCommunityUrl();
 
@@ -66,6 +65,7 @@ public without sharing virtual class EmailTemplateProvider {
                 ));
             }
         }
+        if (isDelegate && userMode == 'Participant') initYourParticipantFirstName();
 
         initialized = true;
     }
@@ -209,6 +209,8 @@ public without sharing virtual class EmailTemplateProvider {
     }
 
     private void initYourParticipantFirstName() {
+        if(parameters.containsKey('ParticipantFirstName')) return;
+
         Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(recipientContactId);
         if (participant != null) parameters.put('ParticipantFirstName', participant.First_Name__c);
     }

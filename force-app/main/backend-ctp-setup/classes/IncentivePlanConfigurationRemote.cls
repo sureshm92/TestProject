@@ -109,7 +109,7 @@ public without sharing class IncentivePlanConfigurationRemote {
             List<Incentive_Plan_Task__c> newTask = new List<Incentive_Plan_Task__c>();
             for (IncentivePlanConfigurationRemote.IPWrapper task : tasks) {
                 newTask.add(new Incentive_Plan_Task__c(Id = task.taskId, Incentive_Plan__c = plan.Id, Incentive_Task_Catalog__c = task.taskName, Points__c = task.points,
-                                                       Enabled__c = task.checkOn, IQVIA_Supported__c = task.checkIQVIA));
+                        Enabled__c = task.checkOn, IQVIA_Supported__c = task.checkIQVIA));
 
             }
             upsert newTask;
@@ -119,7 +119,7 @@ public without sharing class IncentivePlanConfigurationRemote {
             List<Incentive_Plan_Task__c> newTask = new List<Incentive_Plan_Task__c>();
             for (IncentivePlanConfigurationRemote.IPWrapper task : tasks) {
                 newTask.add(new Incentive_Plan_Task__c(Incentive_Plan__c = plan.Id, Incentive_Task_Catalog__c = task.taskName, Points__c = task.points,
-                                                       Enabled__c = task.checkOn, IQVIA_Supported__c = task.checkIQVIA));
+                        Enabled__c = task.checkOn, IQVIA_Supported__c = task.checkIQVIA));
 
             }
             insert newTask;
@@ -138,16 +138,24 @@ public without sharing class IncentivePlanConfigurationRemote {
     }
 
     @AuraEnabled
+    public static Integer getNumberStudySites(String planId) {
+        List<Study_Incentive_Plan__c> resultList = [SELECT Id, Incentive_Plan__c, Study_Site__c FROM Study_Incentive_Plan__c WHERE Incentive_Plan__c = :planId];
+        return resultList.size();
+
+
+    }
+
+    @AuraEnabled
     public static List<IPWrapper> getIncentiveProgramWrapper(String idPlan) {
-        Incentive_Plan__c plan = [SELECT Id, Plan_Name__c FROM Incentive_Plan__c WHERE Id =: idPlan];
+        Incentive_Plan__c plan = [SELECT Id, Plan_Name__c FROM Incentive_Plan__c WHERE Id = :idPlan];
         List<Incentive_Task_Catalog__mdt> listTasksMtd = [SELECT Id, DeveloperName, Title_Label__c, Description_Label__c, Default_Number_of_Points__c FROM Incentive_Task_Catalog__mdt];
-        List<Incentive_Plan_Task__c> tasks = [SELECT Id, Incentive_Task_Catalog__c, Points__c, Enabled__c, IQVIA_Supported__c FROM Incentive_Plan_Task__c WHERE Incentive_Plan__c =: idPlan];
+        List<Incentive_Plan_Task__c> tasks = [SELECT Id, Incentive_Task_Catalog__c, Points__c, Enabled__c, IQVIA_Supported__c FROM Incentive_Plan_Task__c WHERE Incentive_Plan__c = :idPlan];
 
         String taskTitle;
         String taskDescription;
 
         Map<String, Incentive_Task_Catalog__mdt> mapTasks = new Map<String, Incentive_Task_Catalog__mdt>();
-        for(Incentive_Task_Catalog__mdt taskMdt : listTasksMtd){
+        for (Incentive_Task_Catalog__mdt taskMdt : listTasksMtd) {
             mapTasks.put(taskMdt.DeveloperName, taskMdt);
         }
 

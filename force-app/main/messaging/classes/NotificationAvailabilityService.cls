@@ -235,7 +235,7 @@ public without sharing class NotificationAvailabilityService {
                 if (hcpe.HCP_Contact__r.HCP_Opt_In_Referral_Status_Emails__c) {
                     checkForNotification = true;
                 }
-            } else if (objType == CONTACT) {
+            } else if (objType == CONTACT || objType == STUDY_SITE_OBJ_NAME) {
                 checkForNotification = true;
             }
 

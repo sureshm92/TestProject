@@ -2,7 +2,7 @@
  - Created by Andrii Kryvolap.
  -->
 
-<aura:component description="ParticipantStatusDetailsCard">
+ <aura:component description="ParticipantStatusDetailsCard">
     <aura:attribute name="stepWrapper" type="Object" required="true"/>
     <aura:attribute name="reasonList" type="List" access="private"/>
     <aura:attribute name="previousSelectedOutcome" type="String" access="private"/>
@@ -11,9 +11,8 @@
     <aura:attribute name="parent" type="Aura.Component" />
     <aura:attribute name="notesRequired" type="Boolean" default="false"/>
     <aura:attribute name="todayDate" type="Date"/>
-    <aura:attribute name="options" type="List"/>
     <aura:attribute name="disableReason" type="Boolean" />
-    
+     
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <!--
     <aura:handler name="change" value="{!v.stepWrapper.outcome}" action="{!c.updateReasonList}"/>
@@ -31,7 +30,7 @@
             <aura:if isTrue="{!and(!empty(v.stepWrapper.outcomeList),v.stepWrapper.editable)}">
                 <div class="slds-wrap slds-grid slds-gutters">
                     <div class="slds-col slds-size--1-of-2 outcome-form-element">
-                        <div class="label">{!$Label.c.PG_ACPE_L_Outcome}</div>
+                        <div class="label2">{!$Label.c.PG_ACPE_L_Outcome}</div>
                         <!--<c:rrSelect aura:id="outcome-select" options="{!v.stepWrapper.outcomeList}" value="{!v.stepWrapper.outcome}"
                                     placeholder="{!v.stepWrapper.outcomePlaceholder}" setValueAsSelected="true"
                                     disabled="{!!v.stepWrapper.outcomeEditable}" errorMessage="{!v.stepWrapper.outcomeDisclaimer}"
@@ -55,7 +54,7 @@
                         </div>
                     </div>
                     <div class="slds-col slds-size--1-of-2 outcome-form-element">
-                        <div class="label">{!$Label.c.PG_ACPE_L_Reason}</div>
+                        <div class="label2">{!$Label.c.PG_ACPE_L_Reason}</div>
                         <!--<c:rrSelect options="{!v.reasonList}" value="{!v.stepWrapper.reason}"
                                     placeholder="{!if(empty(v.reasonList),'',$Label.c.PG_RP_L_Not_selected)}"
                                     disabled="{!or(or(empty(v.stepWrapper.outcome),empty(v.reasonList)),!v.stepWrapper.outcomeEditable)}"
@@ -63,15 +62,15 @@
                                     -->
                         <div class="rrs-container">
                             <div class="rrs-relative">
-                                <lightning:select aura:id="reasonList"  name="rrs-select" 
-                                                  value="{!v.stepWrapper.reason}"
+                                <lightning:select aura:id="reasonList"  
+                                                  name="rrs-select" 
                                                   variant="label-hidden" 
                                                   disabled="{!or(empty(v.stepWrapper.outcome),empty(v.reasonList)) || v.disableReason || !v.stepWrapper.outcomeEditable}"
                                                   onchange="{!c.updateNotesRequired}">
                                     
                                     <option value="{!null}" style="display: none;">{!if(empty(v.reasonList),'',$Label.c.PG_RP_L_Not_selected)}</option>
                                     <aura:iteration items="{!v.reasonList}" var="item">
-                                        <option selected="{!item.value==v.stepWrapper.reason}" value="{!item.value}"><aura:unescapedHtml value="{!item.label}"/></option>
+                                        <option value="{!item.value}" selected="{!item.value == v.stepWrapper.reason}"><aura:unescapedHtml value="{!item.label}"/></option>
                                     </aura:iteration>
                                 </lightning:select>
                                 <img src="{!$Resource.SelectMenuTriangleDown}" height="16" width="16" />
