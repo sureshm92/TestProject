@@ -13,7 +13,7 @@
     <nav class="{!v.class + ' cnm-z-order overlay ' + if(v.showSideMenu, ' dark ', '')}" onclick="{!c.hideMenu}">
         <ul class="{!'mobile-menu-background nav-menu ' + if(v.showSideMenu, 'show', '')}">
             <aura:iteration items="{!v.menuItems}" var="item" >
-                <li class="{!item.page == v.currentPage ? 'nav-item active' : 'nav-item'}" data-page-name="{!item.page}" onclick="{!c.onClick}">
+                <li class="{!item.page == v.currentPage ? 'nav-item active' : 'nav-item'}" data-page-name="{!item.page}" onclick="{!c.onClick}" title="{!item.label}">
                     <div class="nav-menu-item-content">
                         <c:RRIcon iconName="{!item.icon}" color="white" class="navigation-icon"/>
                         <span>{!item.label}</span>
