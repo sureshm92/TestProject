@@ -28,6 +28,7 @@ public without sharing virtual class EmailTemplateProvider {
     protected Id recipientContactId;
     protected Boolean isDelegate;
     protected String userMode;
+    protected Id whatId;
 
     private Boolean initialized = false;
 
@@ -55,6 +56,7 @@ public without sharing virtual class EmailTemplateProvider {
         initCRCommunityUrl();
 
         if(whatId != null) {
+            this.whatId = whatId;
             String parametersProvider = PARAM_PROVIDER_BY_TYPE.get(whatId.getSobjectType().getDescribe().getName());
             if (!String.isEmpty(parametersProvider)) {
                 parameters.putAll(CatalogParametersHelper.getParamsValueMap(
@@ -207,7 +209,7 @@ public without sharing virtual class EmailTemplateProvider {
         return name;
     }
 
-    private void initYourParticipantFirstName() {
+    protected virtual void initYourParticipantFirstName() {
         if(parameters.containsKey('ParticipantFirstName')) return;
 
         Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(recipientContactId);
