@@ -2340,7 +2340,9 @@
 
             To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##FullCommunityName.
 
-            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.</value>
+            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.
+
+            Your username is ##UserName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Created_By_PI</fullName>
@@ -2353,7 +2355,9 @@
 
             To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##FullCommunityName.
 
-            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.</value>
+            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.
+
+            Your username is ##UserName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Delegate</fullName>
@@ -2384,7 +2388,9 @@
 
             To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##FullCommunityName.
 
-            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.</value>
+            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.
+
+            Your username is ##UserName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Medication_Task_Reminder</fullName>
@@ -10946,6 +10952,13 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>false</protected>
         <shortDescription>PG Ref L Select from Pre-eligibility Screening Log</shortDescription>
         <value>Select from Pre-eligibility Screening Log</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Text_To_Delete_Plan</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG Ref L Text To Delete Plan</shortDescription>
+        <value>number of study sites are using that program, do you want to proceed?</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Thank_you_for_having_a_discussion_with_your_patient_about_clinical_stud</fullName>
