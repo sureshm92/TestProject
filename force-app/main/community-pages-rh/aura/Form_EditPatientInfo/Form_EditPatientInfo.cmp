@@ -34,7 +34,8 @@
     <aura:attribute name="dataStamp" type="String" access="private"/>
     <aura:attribute name="visitPlanDisabled" type="Boolean" access="private"/>
 
-
+    <!-- handlers: -->
+    <aura:handler name="change" value="{!v.needsGuardian}" action="{!c.doClearValidity}"/>
 
     <!-- methods: -->
     <aura:method name="checkFields" action="{!c.doCheckFields}" access="public"/>
@@ -150,14 +151,14 @@
                     <div class="label"><abbr title="required" style="{!!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none'}"
                                              class="slds-required">{!!v.needsGuardian ? '*' : ''}</abbr>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
                     </div>
-                    <lightning:input type="text" value="{!v.participant.Phone__c}"
+                    <lightning:input aura:id="phoneInput" type="text" value="{!v.participant.Phone__c}"
                                      required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
                                      onblur="{!c.doCheckFields}"/>
                 </div>
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                     <div class="label"><abbr title="required" style="{!!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none'}"
                                              class="slds-required">{!!v.needsGuardian ? '*' : ''}</abbr>{!$Label.c.PG_AP_F_Phone_Type}</div>
-                    <c:rrSelect options="{!v.formData.phoneTypeLVList}" value="{!v.participant.Phone_Type__c}"
+                    <c:rrSelect aura:id="phoneTypeInput" options="{!v.formData.phoneTypeLVList}" value="{!v.participant.Phone_Type__c}"
                                 placeholder="{!$Label.c.PG_AC_Select}"
                                 required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
                                 onchange="{!c.doCheckFields}"/>
