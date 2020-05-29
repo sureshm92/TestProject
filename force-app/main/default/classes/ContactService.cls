@@ -265,23 +265,19 @@ public without sharing class ContactService {
         ];
     }
 
-    public static void updateVisitedCommunity(Contact contact, String communityName) {
-        if (contact.Visited_Communities__c != null) {
-            if (!contact.Visited_Communities__c.contains(communityName)) {
-                communityName = contact.Visited_Communities__c + ';' + communityName;
-            } else {
-                communityName = null;
-            }
+    public static void updateVisitedCommunity(Contact contact, CommunityTemplate template) {
+        String commStr = contact.Visited_Communities__c;
+        List<String> communities = commStr.split(';');
+        if (!communities.contains(template.templateName)) {
+            communities.add(template.templateName);
+            commStr = String.join(communities, ';');
+            update new Contact(Id = contact.Id, Visited_Communities__c = commStr);
         }
-        if (communityName != null) update new Contact(Id = contact.Id, Visited_Communities__c = communityName);
     }
 
     public static Boolean checkVisitedCommunity(Id conId, String communityName) {
-        Boolean isVisitedCommunity = false;
-        String fullCommunityName = CommunityTemplateService.getTemplate(communityName).communityName;
         Contact con = [SELECT Id, Visited_Communities__c FROM Contact WHERE Id =: conId];
-        if(!con.Visited_Communities__c.contains(fullCommunityName)) return isVisitedCommunity;
-        isVisitedCommunity = true;
-        return isVisitedCommunity;
+        String fullCommunityName = CommunityTemplateService.getTemplate(communityName).templateName;
+        return con.Visited_Communities__c.contains(fullCommunityName);
     }
 }

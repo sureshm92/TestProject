@@ -49,7 +49,6 @@ public without sharing virtual class EmailTemplateProvider {
         fillTemplateParams();
 
         parameters.put('RecipientName', getUserName());
-        parameters.put('UserName', getCommunityUserName(recipientContactId));
         parameters.put('RecipientFirstName', recipientFirstName);
         parameters.put('GuestName', TranslateHelper.getLabelValue(Label.Email_Guest_User_Name));
 
@@ -180,11 +179,11 @@ public without sharing virtual class EmailTemplateProvider {
 
         if (String.isEmpty(recipientName)) recipientName = recipientContact.Salutation_With_Name__c;
         parameters.put(userMode + 'Name', recipientName);
+        parameters.put('UserName', getCommunityUserName());
 
         if (String.isEmpty(recipientLanguage)) recipientLanguage = recipientContact.Language__c;
 
         isDelegate = recipientContact.UserCommunityIsDelegate__c;
-        if (isDelegate) parameters.put('UserName', getCommunityUserName(recipientContactId));
         if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
             List<Participant__c> participants = [
                     SELECT First_Name__c, Last_Name__c
@@ -195,8 +194,8 @@ public without sharing virtual class EmailTemplateProvider {
         }
     }
 
-    private String getCommunityUserName(String contactId) {
-        List<User> userList = [SELECT Username FROM User WHERE ContactId = :contactId];
+    private String getCommunityUserName() {
+        List<User> userList = [SELECT Username FROM User WHERE ContactId = :recipientId];
         return !userList.isEmpty() ? userList.get(0).Username : '';
     }
 

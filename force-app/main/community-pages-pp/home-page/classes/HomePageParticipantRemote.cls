@@ -25,7 +25,7 @@ public class HomePageParticipantRemote {
                             user.LastLoginDate);
                 }
             }
-            ContactService.updateVisitedCommunity(UserContext.getUserContact(), UserContext.getCurrentCommunityName());
+            ContactService.updateVisitedCommunity(UserContext.getUserContact(), UserContext.getCurrentCommunityTemplate());
 
             return JSON.serialize(ParticipantService.getInstance().getState());
         } catch (Exception e) {

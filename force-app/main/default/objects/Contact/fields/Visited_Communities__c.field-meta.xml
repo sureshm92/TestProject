@@ -12,14 +12,14 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>IQVIA Patient Portal</fullName>
+                <fullName>Default</fullName>
                 <default>false</default>
-                <label>IQVIA Patient Portal</label>
+                <label>Default</label>
             </value>
             <value>
-                <fullName>GSK Pan Oncology</fullName>
+                <fullName>GSK</fullName>
                 <default>false</default>
-                <label>GSK Pan Oncology</label>
+                <label>GSK</label>
             </value>
         </valueSetDefinition>
     </valueSet>
