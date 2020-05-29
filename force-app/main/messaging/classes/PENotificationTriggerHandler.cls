@@ -89,7 +89,7 @@ public without sharing class PENotificationTriggerHandler {
                     String currentCommunityName = CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).templateName;
                     Boolean checkVisitedCommunity = false;
                     if (currentCommunityName != null
-                            && visitedCommunities != null) checkVisitedCommunity = pe.Participant__r.Contact__r.Visited_Communities__c.contains(currentCommunityName);
+                            && visitedCommunities != null) checkVisitedCommunity = visitedCommunities.contains(currentCommunityName);
                     if (checkVisitedCommunity) {
                         participantConIds.add(pe.Participant__r.Contact__c);
                         notificationTypePT = NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE;
