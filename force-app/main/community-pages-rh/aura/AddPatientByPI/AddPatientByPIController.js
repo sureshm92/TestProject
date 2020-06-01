@@ -60,12 +60,17 @@
         component.set('v.participant.Health_care_proxy_is_needed__c', !component.get('v.participant.Health_care_proxy_is_needed__c'));
 
         let participant = component.get('v.participant');
+        component.set('v.needsGuardian', participant.Health_care_proxy_is_needed__c);
+
         if (participant.Health_care_proxy_is_needed__c) {
             helper.setDelegate(component);
+            let editForm = component.find('editForm');
+            editForm.checkFields();
+            console.log('editForm checkFields');
         } else {
+            editForm.checkFields();
             component.set('v.emailDelegateRepeat', '');
         }
-        component.set('v.needsGuardian', participant.Health_care_proxy_is_needed__c);
     }
 
 })

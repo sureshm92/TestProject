@@ -18,6 +18,10 @@
             pe.Visit_Plan__c = formData.visitPlansLVList[0].value;
         }
         component.set('v.pe', pe);
+        component.set('v.isValid', false);
+        component.set('v.isDelegateValid', false);
+        component.set('v.needsGuardian', false);
+        component.find('checkbox-delegate').getElement().checked = false;
     },
 
     createParticipant: function (component, callback) {
@@ -87,6 +91,7 @@
             }
         }
 
+        console.log('Delegate VALID: ' + isValid);
         component.set('v.isDelegateValid', isValid);
     },
 
