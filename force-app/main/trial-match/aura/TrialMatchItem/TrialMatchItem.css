@@ -12,7 +12,7 @@
     border-radius: 5px;
     background-color: #FFFFFF;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
-    margin: 15px 15px 0 0;
+    margin: 18px 18px 0 0;
 }
 
 .THIS .top-line {
@@ -57,7 +57,7 @@
     text-align: right;
     color: #000000;
     font-family: "Proxima Nova";
-    font-weight: 800;
+    font-weight: 600;
     line-height: 21px;
 }
 
