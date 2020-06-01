@@ -72,16 +72,19 @@
                         delegateParticipant.First_Name__c &&
                         delegateParticipant.Last_Name__c &&
                         delegateParticipant.Phone__c &&
-                        delegateParticipant.Email__c &&
-                        emailDelegateVaild &&
-                        emailDelegateRepeatValid));
+                        delegateParticipant.Email__c));
 
+        let isEmailValid = emailDelegateVaild && emailDelegateRepeatValid;
         if (needsDelegate && delegateParticipant && emailDelegateCmp && emailDelegateRepeatCmp) {
-            if (delegateParticipant.Email__c && emailDelegateRepeat && delegateParticipant.Email__c.toLowerCase() !== emailDelegateRepeat.toLowerCase()) {
-                isValid = false;
+            if ((delegateParticipant.Email__c && !emailDelegateRepeat) ||
+                (!delegateParticipant.Email__c && emailDelegateRepeat) ||
+                (delegateParticipant.Email__c && emailDelegateRepeat && delegateParticipant.Email__c.toLowerCase() !== emailDelegateRepeat.toLowerCase())) {
+
+                isEmailValid = false;
                 emailDelegateCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
                 emailDelegateRepeatCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
             } else {
+                isEmailValid = true;
                 emailDelegateCmp.setCustomValidity("");
                 emailDelegateRepeatCmp.setCustomValidity("");
             }
@@ -91,6 +94,7 @@
             }
         }
 
+        isValid = isValid && isEmailValid;
         console.log('Delegate VALID: ' + isValid);
         component.set('v.isDelegateValid', isValid);
     },
