@@ -111,7 +111,7 @@ public without sharing class TrialMatchHelper {
         );
     }
 
-    //To Sravani Dasari, this variant is better, agree?!
+    @TestVisible
     private String getMonth(Date matchDate){
         Datetime dt = Datetime.newInstanceGmt(matchDate.year(), matchDate.month(), matchDate.day());
         return dt.format('MMM');
