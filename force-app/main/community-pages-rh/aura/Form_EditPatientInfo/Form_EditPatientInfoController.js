@@ -53,7 +53,11 @@
         var currentDate = today.setHours(0, 0, 0, 0);
         var inputDate = inDate.setHours(0, 0, 0, 0);
         let needsGuardian = component.get('v.needsGuardian');
-        if(pe.MRN_Id__c){
+        let emailParticipantRepeat = component.get('v.emailParticipantRepeat');
+        let emailParticipantReapetCmp = component.find('emailParticipantRepeatField');
+        let emailParticipantCmp = component.find('emailInput');
+
+        if (pe.MRN_Id__c) {
             component.set('v.disableSourceId', true);
         } else {
             component.set('v.disableSourceId', false);
@@ -85,7 +89,7 @@
                 (oldPE.MRN_Id__c && !pe.MRN_Id__c);
             console.log(isRemovedValue);
             isValid = !isRemovedValue;
-            if(component.get('v.fromActionParticipant') && !isRemovedValue){
+            if (component.get('v.fromActionParticipant') && !isRemovedValue) {
                 console.log('component.get(\'v.fromActionParticipant\') && !isRemovedValue');
                 if (participant.First_Name__c.trim() &&
                     participant.Last_Name__c.trim() &&
@@ -97,8 +101,8 @@
                     (!participantDelegate || participantDelegate.Phone__c.trim()) &&
                     (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
                     (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
-                    participant.Mailing_Zip_Postal_Code__c.trim() !== ''){
-                        isValid = true;
+                    participant.Mailing_Zip_Postal_Code__c.trim() !== '') {
+                    isValid = true;
                 } else {
                     isValid = false;
                 }
@@ -125,9 +129,9 @@
                 (!stateRequired || (stateRequired && participant.Mailing_State_Code__c));
                 //stateVaild;
             console.log('isValid2' + isValid);
-            if(component.get('v.fromActionParticipant') && !isRemovedValue){
+            if (component.get('v.fromActionParticipant') && !isRemovedValue) {
                 console.log('component.get(\'v.fromActionParticipant\') && !isRemovedValue');
-                if(participant.First_Name__c.trim() &&
+                if (participant.First_Name__c.trim() &&
                     participant.Last_Name__c.trim() &&
                     inputDate <= currentDate &&
                     participant.Gender__c.trim() &&
@@ -137,17 +141,28 @@
                     (!participantDelegate || participantDelegate.Phone__c.trim()) &&
                     (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
                     (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
-                    participant.Mailing_Zip_Postal_Code__c.trim() !== ''){
-                        isValid = true;
+                    participant.Mailing_Zip_Postal_Code__c.trim() !== '') {
+                    isValid = true;
                 } else {
                     isValid = false;
                 }
                 console.log('isValid3' + isValid);
             }
 
-                //(!stateRequired || (stateRequired && (participant.Mailing_State_Code__c !== '' || participant.Mailing_State_Code__c !== undefined || participant.Mailing_State_Code__c !== null)));
+            //(!stateRequired || (stateRequired && (participant.Mailing_State_Code__c !== '' || participant.Mailing_State_Code__c !== undefined || participant.Mailing_State_Code__c !== null)));
         } else if (!updateMode) {
-            console.log('!updateMode');
+            if (participant.Email__c && emailParticipantRepeat && participant.Email__c.toLowerCase() !== emailParticipantRepeat.toLowerCase()) {
+                isValid = false;
+                emailParticipantCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
+                emailParticipantReapetCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
+            } else {
+                    emailParticipantCmp.setCustomValidity("");
+                    emailParticipantReapetCmp.setCustomValidity("");
+            }
+            if (participant.Email__c && participant.Email__c !== '' && emailParticipantRepeat && emailParticipantRepeat !== '') {
+                emailParticipantCmp.reportValidity();
+                emailParticipantReapetCmp.reportValidity();
+            }
             //var checkReferred = source == 'ePR' ? true : pe.Referred_By__c ? true : false;
             isValid = false;
             isValid = isValid ||
@@ -175,6 +190,7 @@
         if (participant.Alternative_Phone_Number__c && !participant.Alternative_Phone_Type__c){
             isValid = false;
         }
+
         component.set('v.isValid', isValid);
         console.log('isValid5' + isValid);
         return isValid;
@@ -193,10 +209,10 @@
 
     doCountryCodeChanged: function (component, event, helper) {
         var statesByCountryMap = component.get('v.formData.statesByCountryMap');
-        var countryMap =  component.get('v.formData.countriesLVList');
+        var countryMap = component.get('v.formData.countriesLVList');
         var participant = component.get('v.participant');
-        for (let i = 0; i <countryMap.length ; i++) {
-            if(countryMap[i].value == participant.Mailing_Country_Code__c){
+        for (let i = 0; i < countryMap.length; i++) {
+            if (countryMap[i].value == participant.Mailing_Country_Code__c) {
                 component.set('v.participant.Mailing_Country__c', countryMap[i].label);
                 break;
             }
@@ -208,12 +224,12 @@
         component.checkFields();
     },
 
-    doStateChange: function(component, event, helper){
-    	var states = component.get('v.statesLVList');
-    	if (states){
+    doStateChange: function (component, event, helper) {
+        var states = component.get('v.statesLVList');
+        if (states) {
             var participant = component.get('v.participant');
-            for (let i = 0; i < states.length ; i++) {
-                if(states[i].value == participant.Mailing_State_Code__c){
+            for (let i = 0; i < states.length; i++) {
+                if (states[i].value == participant.Mailing_State_Code__c) {
                     component.set('v.participant.Mailing_State__c', states[i].label);
                     break;
                 }
@@ -227,9 +243,9 @@
         component.set('v.dataStamp', JSON.stringify(pe));
     },
 
-    doRefreshView: function(component, event, helper){
-    	component.set('v.isRefreshView', true);
-    	component.set('v.isRefreshView', false);
+    doRefreshView: function (component, event, helper) {
+        component.set('v.isRefreshView', true);
+        component.set('v.isRefreshView', false);
     },
 
     hideHelp: function (component) {
