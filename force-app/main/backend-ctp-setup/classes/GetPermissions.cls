@@ -68,7 +68,7 @@ public with sharing class GetPermissions {
         }
 
         for (String ps : namePermissionSet) {
-            if (ps.endsWith(EDIT_MODE) && ps.startsWith(ppFeature)) {
+            if (ps.endsWith(EDIT_MODE) && ps.contains(feature)) {
                 viewMode = EDIT_MODE;
                 break;
             }
