@@ -56,6 +56,9 @@
         let emailParticipantRepeat = component.get('v.emailParticipantRepeat');
         let emailParticipantReapetCmp = component.find('emailParticipantRepeatField');
         let emailParticipantCmp = component.find('emailInput');
+        console.log('SECOND', emailParticipantReapetCmp);
+        console.log('SECOND', emailParticipantCmp);
+
         if (pe.MRN_Id__c) {
             component.set('v.disableSourceId', true);
         } else {
@@ -126,7 +129,7 @@
                 (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
                 pe.Screening_ID__c &&
                 (!stateRequired || (stateRequired && participant.Mailing_State_Code__c));
-            //stateVaild;
+                //stateVaild;
             console.log('isValid2' + isValid);
             if (component.get('v.fromActionParticipant') && !isRemovedValue) {
                 console.log('component.get(\'v.fromActionParticipant\') && !isRemovedValue');
@@ -150,7 +153,23 @@
 
             //(!stateRequired || (stateRequired && (participant.Mailing_State_Code__c !== '' || participant.Mailing_State_Code__c !== undefined || participant.Mailing_State_Code__c !== null)));
         } else if (!updateMode) {
-            console.log('!updateMode');
+            if (participant.Email__c && emailParticipantRepeat && participant.Email__c.toLowerCase() !== emailParticipantRepeat.toLowerCase()) {
+                isValid = false;
+                console.log('EMEILIFALSE');
+                emailParticipantCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
+                emailParticipantReapetCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
+                console.log('DOSHLOO');
+            } else {
+                if (participant.Email__c && emailParticipantRepeat) {
+                    console.log('CHE21');
+                    emailParticipantCmp.setCustomValidity("");
+                    emailParticipantReapetCmp.setCustomValidity("");
+                }
+            }
+            if (participant.Email__c && participant.Email__c !== '' && emailParticipantRepeat && emailParticipantRepeat !== '') {
+                emailParticipantCmp.reportValidity();
+                emailParticipantReapetCmp.reportValidity();
+            }
             //var checkReferred = source == 'ePR' ? true : pe.Referred_By__c ? true : false;
             isValid = false;
             isValid = isValid ||
@@ -174,21 +193,14 @@
                 pe.Referred_By__c;
             console.log('isValid4' + isValid);
         }
-        if (participant.Alternative_Phone_Number__c && !participant.Alternative_Phone_Type__c) {
+        console.log('TUTTT');
+        if (participant.Alternative_Phone_Number__c && !participant.Alternative_Phone_Type__c){
+            console.log('asfasa111111');
             isValid = false;
         }
-        if (participant.Email__c && emailParticipantRepeat && participant.Email__c.toLowerCase() !== emailParticipantRepeat.toLowerCase()) {
-            isValid = false;
-            emailParticipantCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
-            emailParticipantReapetCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
-        } else {
-            emailParticipantCmp.setCustomValidity("");
-            emailParticipantReapetCmp.setCustomValidity("");
-        }
-        if (participant.Email__c && participant.Email__c !== '' && emailParticipantRepeat && emailParticipantRepeat !== '') {
-            emailParticipantCmp.reportValidity();
-            emailParticipantReapetCmp.reportValidity();
-        }
+        console.log('000000');
+
+        console.log('isValid5CHECKk' + isValid);
         component.set('v.isValid', isValid);
         console.log('isValid5' + isValid);
         return isValid;
