@@ -34,6 +34,10 @@ public without sharing class DashboardRemote {
     public static final String STATUS_DROP_OUT = 'Drop Out';
     public static final String STATUS_DECEASED = 'Deceased';
     public static final String STATUS_READY_TO_SCREEN = 'Ready to Screen';
+    public static final String STATUS_DECLINED_FINAL_CONSENT = 'Declined Final Consent';
+    public static final String STATUS_DECLINED_CONSENT = 'Declined Consent';
+    public static final String STATUS_WITHDREW_CONSENT = 'Withdrew Consent';
+    public static final String STATUS_WITHDREW_CONSENT_AFTER_SCREENING = 'Withdrew Consent After Screening';
             
     class PIData {
         List<DonutItem> referralsReceived = new List<DonutItem>();
@@ -1046,11 +1050,15 @@ SSRankWrapper - Inner class */
                                     }else if(pe.Participant_Status__c == PE_STATUS_SCREENING_FAILED ||
                                         pe.Participant_Status__c == STATUS_SCREENING_IN_PROGRESS ||
                                         pe.Participant_Status__c == STATUS_UNABLE_TO_SCREEN ||
-                                        pe.Participant_Status__c == STATUS_READY_TO_SCREEN){
+                                        pe.Participant_Status__c == STATUS_READY_TO_SCREEN ||
+                                        pe.Participant_Status__c == STATUS_DECLINED_CONSENT ||
+                                        pe.Participant_Status__c == STATUS_WITHDREW_CONSENT){
                                             contacted++;
                                             scheduled++;
                                             initial_Visits_Completed++;
-                                    }else if(pe.Participant_Status__c.contains(STATUS_SCREENING_PASSED)){
+                                    }else if(pe.Participant_Status__c.contains(STATUS_SCREENING_PASSED) || 
+                                        pe.Participant_Status__c == STATUS_DECLINED_FINAL_CONSENT ||
+                                        pe.Participant_Status__c == STATUS_WITHDREW_CONSENT_AFTER_SCREENING){
                                         contacted++;
                                         scheduled++;
                                         screened++;
