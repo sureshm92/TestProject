@@ -63,12 +63,13 @@ public with sharing class GetPermissions {
                     AND PermissionSet.Name LIKE 'PP_%'
             ];
             for (PermissionSetGroupComponent cmp : permissionSetInGroups) {
-                namePermissionSet.add(cmp.PermissionSet.Name);
+                String permName = cmp.PermissionSet.Name;
+                if(permName.contains(feature)) namePermissionSet.add(permName);
             }
         }
 
         for (String ps : namePermissionSet) {
-            if (ps.endsWith(EDIT_MODE) && ps.contains(feature)) {
+            if (ps.endsWith(EDIT_MODE)) {
                 viewMode = EDIT_MODE;
                 break;
             }
