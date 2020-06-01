@@ -108,6 +108,7 @@ public without sharing virtual class EmailTemplateProvider {
     }
 
     public String getDelegateBottomTxt() {
+        if(recipientId.getSobjectType() != User.getSObjectType()) return '';
         return TranslateHelper.replaceParams(
                 TranslateHelper.getLabelValue(Label.Email_Body_Initial_Patient_Delegate_AfterText, recipientLanguage),
                 PARAM_PREFIX, parameters
