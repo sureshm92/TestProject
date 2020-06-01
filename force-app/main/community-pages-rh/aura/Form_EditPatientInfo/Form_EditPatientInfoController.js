@@ -56,8 +56,6 @@
         let emailParticipantRepeat = component.get('v.emailParticipantRepeat');
         let emailParticipantReapetCmp = component.find('emailParticipantRepeatField');
         let emailParticipantCmp = component.find('emailInput');
-        console.log('SECOND', emailParticipantReapetCmp);
-        console.log('SECOND', emailParticipantCmp);
 
         if (pe.MRN_Id__c) {
             component.set('v.disableSourceId', true);
@@ -155,16 +153,11 @@
         } else if (!updateMode) {
             if (participant.Email__c && emailParticipantRepeat && participant.Email__c.toLowerCase() !== emailParticipantRepeat.toLowerCase()) {
                 isValid = false;
-                console.log('EMEILIFALSE');
                 emailParticipantCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
                 emailParticipantReapetCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
-                console.log('DOSHLOO');
             } else {
-                if (participant.Email__c && emailParticipantRepeat) {
-                    console.log('CHE21');
                     emailParticipantCmp.setCustomValidity("");
                     emailParticipantReapetCmp.setCustomValidity("");
-                }
             }
             if (participant.Email__c && participant.Email__c !== '' && emailParticipantRepeat && emailParticipantRepeat !== '') {
                 emailParticipantCmp.reportValidity();
@@ -194,14 +187,10 @@
                 pe.Referred_By__c);
             console.log('isValid4' + isValid);
         }
-        console.log('TUTTT');
         if (participant.Alternative_Phone_Number__c && !participant.Alternative_Phone_Type__c){
-            console.log('asfasa111111');
             isValid = false;
         }
-        console.log('000000');
 
-        console.log('isValid5CHECKk' + isValid);
         component.set('v.isValid', isValid);
         console.log('isValid5' + isValid);
         return isValid;

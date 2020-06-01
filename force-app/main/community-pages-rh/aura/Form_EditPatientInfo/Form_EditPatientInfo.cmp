@@ -168,7 +168,7 @@
             </div>
 
             <aura:if isTrue="{!v.fromAddParticipantPage}">
-                <div class="ap-section-title">{!$Label.c.PG_AP_H_Contact_Information}</div>
+                <div class="ap-section-title">{!$Label.c.PG_AP_H_Participant_Contact_Information}</div>
                 <div class="slds-grid slds-gutters slds-wrap">
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
                         <div class="label"><abbr title="required"
@@ -199,7 +199,7 @@
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
                         <div class="label"><abbr title="required"
                                                  style="{!!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none'}"
-                                                 class="slds-required">{!!v.needsGuardian ? '*' : ''}</abbr>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
+                                                 class="slds-required">{!!v.needsGuardian ? '*' : ''}</abbr>{!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}
                         </div>
                         <lightning:input type="text" value="{!v.participant.Phone__c}"
                                          required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
@@ -327,7 +327,7 @@
             <!-- referral information -->
             <aura:if isTrue="{!!v.fromActionParticipant}">
                 <div class="ap-section">
-                    <div class="ap-section-title">{!$Label.c.PG_AP_H_Referral_Information}</div>
+                    <div class="ap-section-title">{!v.fromAddParticipantPage ? $Label.c.PG_AP_H_Participation_Details : $Label.c.PG_AP_H_Referral_Information}</div>
                     <div class="slds-grid slds-gutters slds-wrap">
                         <aura:if isTrue="{!!v.updateMode}">
                             <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
@@ -380,7 +380,7 @@
                             <div class="rr-form-element slds-col slds-size&#45;&#45;1-of-1 slds-large-size&#45;&#45;1-of-3"></div>
                         </aura:if>-->
 
-                        <aura:if isTrue="{!v.fromAddParticipantPage}">
+                        <aura:if isTrue="{!v.fromAddParticipantPage &amp;&amp; v.participant.Email__c}">
                             <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-1"></div>
 
                             <div class="slds-form-element" style="margin-left: 10px;">
