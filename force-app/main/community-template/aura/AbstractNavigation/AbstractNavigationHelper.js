@@ -150,14 +150,12 @@
         if (communityService.getMessagesVisible()) {
             participantTabs.push(this.allPagesMap['messages']);
         }
-
-        if (communityService.getTemplateProperty('CommunityBrandName') === 'Community_GSK') {
-            if (communityService.getTrialMatchVisible()) {
+        if (communityService.getTrialMatchVisible()) {
                 if (communityService.getParticipantState() === 'PARTICIPANT') {
                     participantTabs.push(this.allPagesMap['trial-match']);
                 }
-            }
         }
+        
         participantTabs.push(this.allPagesMap['help']);
 
         this.itemsMap = {

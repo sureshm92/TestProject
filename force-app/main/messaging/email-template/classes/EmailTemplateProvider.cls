@@ -28,6 +28,7 @@ public without sharing virtual class EmailTemplateProvider {
     protected Id recipientContactId;
     protected Boolean isDelegate;
     protected String userMode;
+    protected Id whatId;
 
     private Boolean initialized = false;
 
@@ -54,7 +55,8 @@ public without sharing virtual class EmailTemplateProvider {
 
         initCRCommunityUrl();
 
-        if (whatId != null) {
+        if(whatId != null) {
+            this.whatId = whatId;
             String parametersProvider = PARAM_PROVIDER_BY_TYPE.get(whatId.getSobjectType().getDescribe().getName());
             if (!String.isEmpty(parametersProvider)) {
                 parameters.putAll(CatalogParametersHelper.getParamsValueMap(
@@ -106,7 +108,6 @@ public without sharing virtual class EmailTemplateProvider {
     }
 
     public String getDelegateBottomTxt() {
-        if (recipientId.getSobjectType() != User.getSObjectType()) return '';
         return TranslateHelper.replaceParams(
                 TranslateHelper.getLabelValue(Label.Email_Body_Initial_Patient_Delegate_AfterText, recipientLanguage),
                 PARAM_PREFIX, parameters
@@ -213,8 +214,8 @@ public without sharing virtual class EmailTemplateProvider {
         return name;
     }
 
-    private void initYourParticipantFirstName() {
-        if (parameters.containsKey('ParticipantFirstName')) return;
+    protected virtual void initYourParticipantFirstName() {
+        if(parameters.containsKey('ParticipantFirstName')) return;
 
         Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(recipientContactId);
         if (participant != null) parameters.put('ParticipantFirstName', participant.First_Name__c);
