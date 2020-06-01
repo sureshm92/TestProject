@@ -39,7 +39,7 @@ public without sharing virtual class EmailTemplateProvider {
         this.recipientId = recipientId;
         this.recipientName = recipientName;
         this.recipientLanguage = recipientLanguage;
-        if(!String.isNotEmpty(outputMode)) this.isHTML = outputMode.equals('HTML');
+        if (!String.isNotEmpty(outputMode)) this.isHTML = outputMode.equals('HTML');
 
         updateRecipientName();
 
@@ -54,7 +54,7 @@ public without sharing virtual class EmailTemplateProvider {
 
         initCRCommunityUrl();
 
-        if(whatId != null) {
+        if (whatId != null) {
             String parametersProvider = PARAM_PROVIDER_BY_TYPE.get(whatId.getSobjectType().getDescribe().getName());
             if (!String.isEmpty(parametersProvider)) {
                 parameters.putAll(CatalogParametersHelper.getParamsValueMap(
@@ -106,7 +106,7 @@ public without sharing virtual class EmailTemplateProvider {
     }
 
     public String getDelegateBottomTxt() {
-        if(recipientId.getSobjectType() != User.getSObjectType()) return '';
+        if (recipientId.getSobjectType() != User.getSObjectType()) return '';
         return TranslateHelper.replaceParams(
                 TranslateHelper.getLabelValue(Label.Email_Body_Initial_Patient_Delegate_AfterText, recipientLanguage),
                 PARAM_PREFIX, parameters
@@ -195,7 +195,13 @@ public without sharing virtual class EmailTemplateProvider {
     }
 
     private String getCommunityUserName() {
-        List<User> userList = [SELECT Username FROM User WHERE ContactId = :recipientId];
+        Id conId = recipientId;
+        if (conId.getSobjectType() == User.getSObjectType()) conId = [
+                SELECT Id, Contact.Id
+                FROM User
+                WHERE Id = :recipientId
+        ].Contact.Id;
+        List<User> userList = [SELECT Username FROM User WHERE ContactId = :conId];
         return !userList.isEmpty() ? userList.get(0).Username : '';
     }
 
@@ -208,7 +214,7 @@ public without sharing virtual class EmailTemplateProvider {
     }
 
     private void initYourParticipantFirstName() {
-        if(parameters.containsKey('ParticipantFirstName')) return;
+        if (parameters.containsKey('ParticipantFirstName')) return;
 
         Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(recipientContactId);
         if (participant != null) parameters.put('ParticipantFirstName', participant.First_Name__c);
