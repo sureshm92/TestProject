@@ -14,6 +14,7 @@
     <aura:attribute name="isValid" type="Boolean" default="false" access="public"/>
     <aura:attribute name="isFinalUpdate" type="Boolean" default="false"/>
     <aura:attribute name="isRefreshView" type="Boolean" default="false"/>
+    <aura:attribute name="isRefreshPediatric" type="Boolean" default="false"/>
     <aura:attribute name="visitPlanRequired" type="Boolean" default="false"/>
     <aura:attribute name="visitPlanAvailable" type="Boolean" default="false"/>
     <aura:attribute name="fromActionParticipant" type="Boolean" default="false"/>

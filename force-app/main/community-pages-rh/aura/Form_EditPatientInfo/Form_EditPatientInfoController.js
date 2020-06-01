@@ -17,8 +17,8 @@
         let needsGuardian = component.get('v.needsGuardian');
         if (needsGuardian) {
             component.get('v.parentComponent').find('spinner').show();
-            component.set('v.isRefreshView', true);
-            component.set('v.isRefreshView', false);
+            component.set('v.isRefreshPediatric', true);
+            component.set('v.isRefreshPediatric', false);
             component.get('v.parentComponent').find('spinner').hide();
         }
 
@@ -173,9 +173,10 @@
             //var checkReferred = source == 'ePR' ? true : pe.Referred_By__c ? true : false;
             isValid = false;
             isValid = isValid ||
-                participant.First_Name__c &&
+                (participant.First_Name__c &&
                 participant.Last_Name__c &&
                 participant.Date_of_Birth__c &&
+                inputDate <= currentDate &&
                 participant.Gender__c &&
                 (needsGuardian || participantDelegate || participant.Phone__c.trim()) &&
                 (needsGuardian || participantDelegate || participant.Phone_Type__c.trim()) &&
@@ -190,7 +191,7 @@
                 (!stateRequired || (stateRequired && participant.Mailing_State_Code__c)) &&
                 //stateVaild &&
                 (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
-                pe.Referred_By__c;
+                pe.Referred_By__c);
             console.log('isValid4' + isValid);
         }
         console.log('TUTTT');
@@ -213,7 +214,7 @@
             console.log('Parent checkDateOfBith');
             parent.checkDateOfBith();
         }
-        this.doCheckFields();
+        $A.enqueueAction(component.get('c.doCheckFields'));
         console.log('END doCheckDateOfBith');
     },
 
