@@ -10,7 +10,6 @@
 
             communityService.executeAction(component, 'getMatchCTPs', null, function (data) {
                 component.set('v.trialmatchCTPs', data.trialmatchctps);
-                component.set('v.initializedTrms', true);
                 component.set('v.initialized', true);
 
                 if (!String.format) {
