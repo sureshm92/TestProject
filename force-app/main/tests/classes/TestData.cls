@@ -13,7 +13,6 @@ public class TestData {
     public Participant__c referral;
     public Participant__c participant;
     public Clinical_Trial_Profile__c ctp;
-    public Trial_Match__c tm;
     public Study_Site__c ss;
     public Participant_Study_Enrollment__c pse; //ONLY FOR DEPLOY
     public Participant_Enrollment__c pe;
@@ -54,7 +53,6 @@ public class TestData {
         ctp = [
                 SELECT Id, Therapeutic_Area__c,
                         Study_Code_Name__c,
-            Official_Title__c,
                         Protocol_ID__c,
                         Patient_Portal_Enabled__c,
                         Terms_and_Conditions__c,
@@ -70,14 +68,6 @@ public class TestData {
                 FROM Study_Site__c
                 WHERE Clinical_Trial_Profile__c = :ctp.Id
         ];
-        tm = [	
-				Select id,Clinical_Trial_Profile__c, 	
-				Is_Eligible__c, Matched_Date__c, 	
-				Matching_Details__c, Matching_Score__c, 	
-				Name, Participant_Enrollment__c, Passed__c, 	
-				Therapeutic_Area__c  from Trial_Match__c 	
-				WHERE Clinical_Trial_Profile__c = :ctp.Id	
-		];
         pe = [
                 SELECT Id,
                         Name,
@@ -259,7 +249,6 @@ public class TestData {
         Clinical_Trial_Profile__c study = new Clinical_Trial_Profile__c(
                 Protocol_ID__c = 'CTP1',
                 Override_Recruitment_Status__c = 'Actively Enrolling',
-            	Official_Title__c = 'OT_Virus_101/R/PNHV/FCY/VPY',
                 NCT_Number__c = 'NCT99999999',
                 Link_to_Pre_screening__c = 'some link',
                 Terms_And_Conditions_ID__c = studyTC.Id,
@@ -361,19 +350,8 @@ public class TestData {
                 Screening_ID__c = 'PESCR1'
         );
         insert pe;
-		
-		Trial_Match__c tm = new Trial_Match__c(	
-				Clinical_Trial_Profile__c = study.id,	
-				Is_Eligible__c = true,	
-				Matched_Date__c = Datetime.now().dateGmt(),	
-				Matching_Details__c = 'Sample Matching Details',	
-				Matching_Score__c = 77,	
-				Participant_Enrollment__c = pe.id,	
-				Passed__c = false,	
-				Therapeutic_Area__c = 'Therapeutic Area Sample test data'	
-		);	
-		insert tm;
-        
+
+
         Referral_Network__c referralNetwork = new Referral_Network__c(
                 Name = 'Test Referral Network'
         );

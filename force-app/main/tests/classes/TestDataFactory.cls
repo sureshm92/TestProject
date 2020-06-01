@@ -196,8 +196,6 @@ public class TestDataFactory {
                 Link_to_Pre_screening__c = 'some link',
                 Terms_And_Conditions_ID__c = portalTC.Id,
                 Study_Title__c = 'Some Title',
-                CommunityTemplate__c = 'GSK',
-            	Trial_Match_Is_Available__c = True,
                 Study_Code_Name__c = 'Some Code Name',
                 Suppress_Participant_Emails__c = false,
                 Therapeutic_Area__c = area.Id,
@@ -273,18 +271,6 @@ public class TestDataFactory {
         );
         insert pe;
 
-        Trial_Match__c tm = new Trial_Match__c(
-				Clinical_Trial_Profile__c = study.id,
-				Is_Eligible__c = true,
-				Matched_Date__c = Datetime.now().dateGmt(),
-				Matching_Details__c = 'Sample Matching Details',
-				Matching_Score__c = 77,
-				Participant_Enrollment__c = pe.id,
-				Passed__c = false,
-				Therapeutic_Area__c = 'Therapeutic Area Sample test data'
-		);
-		insert tm;
-        
         Referral_Network__c referralNetwork = new Referral_Network__c(
                 Name = 'Test Referral Network'
         );
