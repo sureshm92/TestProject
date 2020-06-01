@@ -196,13 +196,7 @@ public without sharing virtual class EmailTemplateProvider {
     }
 
     private String getCommunityUserName() {
-        Id conId = recipientId;
-        if (conId.getSobjectType() == User.getSObjectType()) conId = [
-                SELECT Id, Contact.Id
-                FROM User
-                WHERE Id = :recipientId
-        ].Contact.Id;
-        List<User> userList = [SELECT Username FROM User WHERE ContactId = :conId];
+        List<User> userList = [SELECT Username FROM User WHERE ContactId = :recipientContactId];
         return !userList.isEmpty() ? userList.get(0).Username : '';
     }
 
