@@ -27,7 +27,7 @@ private class Test_TrialMatchHelper {
     }
 
 
-    @IsTest
+  /*  @IsTest
     static void getInitTrialMatchContainer_test() {
         Participant__c participant = [SELECT Id, Contact__c FROM Participant__c where Email__c = 'part1@email.com'LIMIT 1];
         User usr = [SELECT Id FROM User WHERE ContactId = :participant.Contact__c];
@@ -56,7 +56,7 @@ private class Test_TrialMatchHelper {
         }
         System.assertEquals(1, container.trialmatchctps.size());
         Test.stopTest();
-    }
+    } */
     @IsTest
     static void getmonth_test() {
         TrialMatchHelper helper = new TrialMatchHelper();
