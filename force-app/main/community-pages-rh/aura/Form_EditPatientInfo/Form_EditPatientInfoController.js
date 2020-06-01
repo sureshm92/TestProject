@@ -126,7 +126,7 @@
                 (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
                 pe.Screening_ID__c &&
                 (!stateRequired || (stateRequired && participant.Mailing_State_Code__c));
-                //stateVaild;
+            //stateVaild;
             console.log('isValid2' + isValid);
             if (component.get('v.fromActionParticipant') && !isRemovedValue) {
                 console.log('component.get(\'v.fromActionParticipant\') && !isRemovedValue');
@@ -151,25 +151,6 @@
             //(!stateRequired || (stateRequired && (participant.Mailing_State_Code__c !== '' || participant.Mailing_State_Code__c !== undefined || participant.Mailing_State_Code__c !== null)));
         } else if (!updateMode) {
             console.log('!updateMode');
-            /*console.log('PARTIC1', participant.First_Name__c);
-            console.log('PARTIC1', participant.Last_Name__c);
-            console.log('PARTIC1', participant.First_Name__c);
-            console.log('PARTIC1', participant.Date_of_Birth__c);
-            console.log('PARTIC1', participant.Gender__c);
-            console.log('PARTIC1', needsGuardian || participantDelegate || participant.Phone__c.trim());
-            console.log('PARTIC1', (needsGuardian || participantDelegate || participant.Phone_Type__c.trim()));
-            console.log('PARTIC1', (needsGuardian || participantDelegate || participant.Email__c && component.find('emailInput').get('v.validity').valid));
-            console.log('PARTIC1', (!participantDelegate || participantDelegate.Phone__c.trim()) &&
-                (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
-                (!participantDelegate || participantDelegate.Last_Name__c.trim()));
-            console.log('PARTIC1', participant.Mailing_Zip_Postal_Code__c);
-            console.log('PARTIC1', pe);
-            console.log('PARTIC1', (!isRandomizationSuccess || (isRandomizationSuccess && pe.Screening_ID__c)));
-            console.log('PARTIC1', stateVaild);
-            console.log('PARTIC1', stateVaild);
-            console.log('PARTIC1', (pe.Visit_Plan__c || isVisitPlanNotRequired));
-            console.log('PARTIC1', pe.Referred_By__c);*/
-
             //var checkReferred = source == 'ePR' ? true : pe.Referred_By__c ? true : false;
             isValid = false;
             isValid = isValid ||
@@ -193,15 +174,13 @@
                 pe.Referred_By__c;
             console.log('isValid4' + isValid);
         }
-        if (participant.Alternative_Phone_Number__c && !participant.Alternative_Phone_Type__c){
+        if (participant.Alternative_Phone_Number__c && !participant.Alternative_Phone_Type__c) {
             isValid = false;
         }
         if (participant.Email__c && emailParticipantRepeat && participant.Email__c.toLowerCase() !== emailParticipantRepeat.toLowerCase()) {
             isValid = false;
-            console.log('EMEILIFALSE');
             emailParticipantCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
             emailParticipantReapetCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
-            console.log('DOSHLOO');
         } else {
             emailParticipantCmp.setCustomValidity("");
             emailParticipantReapetCmp.setCustomValidity("");
