@@ -4,6 +4,11 @@
  .THIS {
 }
 
+.THIS .resource-link-container, .THIS.resource-link-container{
+    display: flex;
+    align-items: center;
+}
+
 .THIS .filter-side {
     padding-left: 4%;
     padding-top: 70px;
