@@ -99,10 +99,13 @@
         component.set('v.isDelegateValid', isValid);
     },
 
-    checkParticipantNeedsGuardian: function (component, helper) {
+    checkParticipantNeedsGuardian: function (component, helper, event) {
         var spinner = component.find('spinner');
         spinner.show();
         var participant = component.get('v.participant');
+        var params = event.getParam('arguments');
+        component.set('v.callback', params.callback);
+        var callback = component.get('v.callback');
         console.log('checkParticipantNeedsGuardian');
         console.log(JSON.stringify(participant));
         communityService.executeAction(component, 'checkNeedsGuardian', {
@@ -110,6 +113,7 @@
         }, function (returnValue) {
             console.log('isNeedGuardian: ' + returnValue);
             var isNeedGuardian = (returnValue == 'true');
+            if (isNeedGuardian != true && callback) callback();
             console.log('checkNeedsGuardian - SUCCESS: ' + isNeedGuardian);
 
             if (isNeedGuardian != component.get('v.needsGuardian')) {
