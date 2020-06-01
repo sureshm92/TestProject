@@ -187,7 +187,7 @@
             console.log('Parent checkDateOfBith');
             parent.checkDateOfBith();
         }
-        this.doCheckFields();
+        $A.enqueueAction(component.get('c.doCheckFields'));
         console.log('END doCheckDateOfBith');
     },
 
