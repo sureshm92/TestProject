@@ -40,7 +40,7 @@
     </values>
     <values>
         <field>Required_for_Steps__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Enrolled;Randomization</value>
     </values>
     <values>
         <field>Title_Label__c</field>
