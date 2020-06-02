@@ -30,8 +30,11 @@ private class Test_RemoteCall {
     static void testBehavior() {
         TestedRemoteCall remoteCall = new TestedRemoteCall();
         Test.setMock(HttpCalloutMock.class, new RemoteCallHttpCalloutMock());
+
+        Test.startTest();
         Object res = remoteCall.execute();
         String expectedValue = '{"animals": ["majestic badger", "fluffy bunny", "scary bear", "chicken", "mighty moose"]}';
-        System.assertEquals(res, expectedValue);
+        Test.stopTest();
+        System.assertEquals(expectedValue, res);
     }
 }

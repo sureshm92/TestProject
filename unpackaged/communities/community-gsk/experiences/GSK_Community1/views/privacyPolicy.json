@@ -7,7 +7,7 @@
     "components" : [ {
       "componentAttributes" : {
         "isPortalTC" : false,
-        "privacyPolicyId" : "a031I00000qChAmQAK",
+        "privacyPolicyId" : "",
         "titleCode" : "PrivacyPolicy"
       },
       "componentName" : "c:TermsAndConditions",
