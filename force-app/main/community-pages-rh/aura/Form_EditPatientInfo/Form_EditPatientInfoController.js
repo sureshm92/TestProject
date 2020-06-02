@@ -29,7 +29,7 @@
         var stateVaild = stateCmp && stateCmp.get('v.validity') && stateCmp.get('v.validity').valid;
         var dataStamp = component.get('v.dataStamp');
         var isValid = false;
-        const screeningIdRequiredStatuses = 'Randomization Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete';
+        const screeningIdRequiredStatuses = 'Enrollment Success; Randomization Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete';
         const visitPlanRequiredStatuses = 'Enrollment Success; Randomization Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete';
         let screeningIdRequired = false;
         let visitPlanRequired = false;
