@@ -163,6 +163,9 @@
                 emailParticipantCmp.reportValidity();
                 emailParticipantReapetCmp.reportValidity();
             }
+            if (!participantDelegate) {
+                component.set('v.isValid', false);
+            }
             //var checkReferred = source == 'ePR' ? true : pe.Referred_By__c ? true : false;
             isValid = false;
             isValid = isValid ||
@@ -239,6 +242,10 @@
             }
         }
         component.checkFields();
+    },
+
+    doRefreshEmailInput: function (component, event, helper){
+        component.set('v.emailParticipantRepeat', '');
     },
 
     doCreateDataStamp: function (component, event, helper) {
