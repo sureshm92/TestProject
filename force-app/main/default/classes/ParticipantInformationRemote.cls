@@ -30,6 +30,7 @@ public without sharing class ParticipantInformationRemote {
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode, delegateId);
             ParticipantItem pi =  new ParticipantItem(pe);
             ParticipantWorkflowService.populatePatientItemsWithPathWrappers(new List<ParticipantItem>{pi});
+            pi.pe.Participant_Status__c = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, pi.pe.Participant_Status__c);
             return JSON.serialize(pi);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
