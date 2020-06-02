@@ -1,6 +1,7 @@
 global without sharing class TermsAndConditions {
 
     public static final String COOKIE_TC_ID_SETTING = 'COOKIE_TC_ID_SETTING';
+    public static final String PRIVACY_TC_ID_SETTING = 'PRIVACY_TC_ID_SETTING';
 
     public static Terms_And_Conditions__c getPortalTC(){
         return getTC(null, null);
@@ -94,11 +95,25 @@ global without sharing class TermsAndConditions {
         }
     }
 
+    public static Id getOrgDefaultTCbyCode(String code) {
+        if(code.equals('CookiePolicy')) return getOrgDefaultCookieTC();
+        if(code.equals('PrivacyPolicy')) return getOrgDefaultPrivacyTC();
+        return null;
+    }
+
     public static Id getOrgDefaultCookieTC() {
         return (Id) SettingStoreService.getOrgDefault(COOKIE_TC_ID_SETTING);
     }
 
     public static void setOrgDefaultCookieTC(Id termsAndConditions) {
         SettingStoreService.saveOrgDefault(COOKIE_TC_ID_SETTING, termsAndConditions, Id.class);
+    }
+
+    public static Id getOrgDefaultPrivacyTC() {
+        return (Id) SettingStoreService.getOrgDefault(PRIVACY_TC_ID_SETTING);
+    }
+
+    public static void setOrgDefaultPrivacyTC(Id termsAndConditions) {
+        SettingStoreService.saveOrgDefault(PRIVACY_TC_ID_SETTING, termsAndConditions, Id.class);
     }
 }
