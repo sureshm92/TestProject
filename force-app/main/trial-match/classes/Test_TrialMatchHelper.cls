@@ -60,6 +60,7 @@ private class Test_TrialMatchHelper {
     @IsTest
     static void getmonth_test() {
         TrialMatchHelper helper = new TrialMatchHelper();
-        System.assertEquals('May', helper.getmonth(Date.today()));
+        Date myDate = Date.newInstance(2010, 6, 17);
+        System.assertEquals('Jun', helper.getmonth(myDate));
     }
 }
