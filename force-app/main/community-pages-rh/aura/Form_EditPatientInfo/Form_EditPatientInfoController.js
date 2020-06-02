@@ -176,7 +176,7 @@
                 participant.Gender__c &&
                 (needsGuardian || participantDelegate || participant.Phone__c.trim()) &&
                 (needsGuardian || participantDelegate || participant.Phone_Type__c.trim()) &&
-                (needsGuardian || participantDelegate || participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
+                (needsGuardian || participantDelegate || emailParticipantRepeat && participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
                 (!participantDelegate || participantDelegate.Phone__c.trim()) &&
                 (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
                 (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
