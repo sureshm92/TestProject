@@ -5,6 +5,7 @@
     <lightning:navigation aura:id="navService"/>
     
     <aura:attribute name="trialMatch" type="Object"/>
+    <aura:attribute name="islearnmore" type="Boolean" default="True"/>
     
     <div class="card-ctp">
         <div class="{!v.trialMatch.isEnrollingCTP ? ' top-line' : ''}"></div>
@@ -12,11 +13,13 @@
             <div class="tap-class">
                 {!$Label.c.TrialSearch_Therapeutic_area} : {!v.trialMatch.TherapeuticArea}
             </div>
-            <div class="ctp-recruitment-status">
-                {!v.trialMatch.isEnrollingCTP ? $Label.c.TrialSearch_Enrolling : $Label.c.TrialSearch_Not_Yet_Enrolling}
-            </div>
+            <aura:if isTrue="{!v.islearnmore}">
+                <div class="ctp-recruitment-status">
+                    {!v.trialMatch.isEnrollingCTP ? $Label.c.TrialSearch_Enrolling : $Label.c.TrialSearch_Not_Yet_Enrolling}
+                </div>
+            </aura:if>
         </div>
-        <div style="height: 1px;background: #e9e9e9;"></div>
+        <div class="seperator"></div>
         <div class="ctp-info-block ctp-padding">
             <div class="ctp-study-code-name">
                 {!v.trialMatch.StudyCodeName}
@@ -29,9 +32,11 @@
             <div class="cpt-official-title">
                 {!v.trialMatch.OfficialTitle}
             </div>
-            <div class="ctp-date-status">
-                <a onclick="{!c.navigateToLearnMorePage}">Learn More</a>
-            </div>
+            <aura:if isTrue="{!v.islearnmore}">
+                <div class="ctp-date-status">
+                    <a onclick="{!c.navigateToLearnMorePage}">Learn More</a>
+                </div>
+            </aura:if>
         </div>
     </div>
     <c:RRSpinner aura:id="mainSpinner" showSpinner="false" size="medium" fixed="true"/>
