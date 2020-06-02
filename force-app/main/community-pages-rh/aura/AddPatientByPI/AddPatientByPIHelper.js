@@ -113,7 +113,7 @@
         }, function (returnValue) {
             console.log('isNeedGuardian: ' + returnValue);
             var isNeedGuardian = (returnValue == 'true');
-            if (isNeedGuardian != true && callback) callback();
+            if (!isNeedGuardian && callback) callback();
             console.log('checkNeedsGuardian - SUCCESS: ' + isNeedGuardian);
 
             if (isNeedGuardian != component.get('v.needsGuardian')) {
