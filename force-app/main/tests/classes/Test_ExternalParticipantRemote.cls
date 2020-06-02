@@ -6,31 +6,43 @@
 public class Test_ExternalParticipantRemote {
 
     @IsTest
-    public static void runTest() {
+    static void saveParticipantSuccessTest() {
         Test_ExternalParticipantHttpMock httpMock = new Test_ExternalParticipantHttpMock();
-        Test.setMock(HttpCalloutMock.class, httpMock);			// set mock for HTTP callouts
+        Test.setMock(HttpCalloutMock.class, httpMock);
 
         ExternalParticipantsService.ExternalParticipant ep = ExternalParticipantRemote.init();
+        ep.dob = '' + Date.newInstance(2019, 4, 2);
+        ep.countryCode = 'USA';
 
-        ep.dob = Date.today() + '';
+        Test.startTest();
         ExternalParticipantRemote.saveParticipant(JSON.serialize(ep));
-        
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void saveParticipantFailTest() {
+        Test_ExternalParticipantHttpMock httpMock = new Test_ExternalParticipantHttpMock();
         httpMock.statusCode = 500;
+        Test.setMock(HttpCalloutMock.class, httpMock);
+
+        ExternalParticipantsService.ExternalParticipant ep = ExternalParticipantRemote.init();
+        Test.startTest();
         try {
             ExternalParticipantRemote.saveParticipant(JSON.serialize(ep));
         } catch (Exception e) {
             // expected Exception
         }
-    
-        httpMock.statusCode = 200;
+        Test.stopTest();
+    }
 
-        ep.dob = '' + Date.newInstance(2019, 4, 2);
-        ep.countryCode = 'USA';
-        ExternalParticipantRemote.saveParticipant(JSON.serialize(ep));
-    
-        httpMock.returnEmpty = true;
-        ExternalParticipantRemote.saveParticipant(JSON.serialize(ep));
-    
+    @IsTest
+    static void getExternalParticipantsTest() {
+        Test_ExternalParticipantHttpMock httpMock = new Test_ExternalParticipantHttpMock();
+        Test.setMock(HttpCalloutMock.class, httpMock);
+
+        ExternalParticipantsService.ExternalParticipant ep = ExternalParticipantRemote.init();
+        Test.startTest();
         ExternalParticipantRemote.getExternalParticipants('patientId');
+        Test.stopTest();
     }
 }
