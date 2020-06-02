@@ -53,7 +53,7 @@
     },
 
     doCheckDateOfBith: function (component, event, helper) {
-        helper.checkParticipantNeedsGuardian(component, helper);
+        helper.checkParticipantNeedsGuardian(component, helper, event);
     },
 
     doNeedsGuardian: function (component, event, helper) {

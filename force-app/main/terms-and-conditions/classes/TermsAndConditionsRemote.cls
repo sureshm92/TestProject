@@ -33,10 +33,11 @@ public without sharing class TermsAndConditionsRemote {
     }
     
     @AuraEnabled
-    public static String getTC(Id tcId, String languageCode){
+    public static String getTC(String languageCode){
         try{
             TCData tcData = new TCData();
-            tcData.tc = TermsAndConditions.getTC(tcId, languageCode);
+            Id orgDefaultCookieTC = TermsAndConditions.getOrgDefaultCookieTC();
+            if (orgDefaultCookieTC != null) tcData.tc = TermsAndConditions.getTC(orgDefaultCookieTC, languageCode);
             return JSON.serialize(tcData);
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());

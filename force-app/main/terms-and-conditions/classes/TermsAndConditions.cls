@@ -1,5 +1,7 @@
 global without sharing class TermsAndConditions {
 
+    public static final String COOKIE_TC_ID_SETTING = 'COOKIE_TC_ID_SETTING';
+
     public static Terms_And_Conditions__c getPortalTC(){
         return getTC(null, null);
     }
@@ -92,4 +94,11 @@ global without sharing class TermsAndConditions {
         }
     }
 
+    public static Id getOrgDefaultCookieTC() {
+        return (Id) SettingStoreService.getOrgDefault(COOKIE_TC_ID_SETTING);
+    }
+
+    public static void setOrgDefaultCookieTC(Id termsAndConditions) {
+        SettingStoreService.saveOrgDefault(COOKIE_TC_ID_SETTING, termsAndConditions, Id.class);
+    }
 }

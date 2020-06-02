@@ -198,10 +198,13 @@
 
     doCheckDateOfBith: function (component, event, helper) {
         console.log('IN doCheckDateOfBith');
+        component.set('v.isAdult', false)
         let parent = component.get('v.parentComponent');
         if (parent && parent.checkDateOfBith) {
             console.log('Parent checkDateOfBith');
-            parent.checkDateOfBith();
+            parent.checkDateOfBith(function () {
+                component.set('v.isAdult', true);
+            });
         }
         $A.enqueueAction(component.get('c.doCheckFields'));
         console.log('END doCheckDateOfBith');

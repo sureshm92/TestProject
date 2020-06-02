@@ -37,7 +37,6 @@ private class Test_PatientVisitSchedule {
         TestData testDataInstance = new TestData();
         testDataInstance.pe.Visit_Plan__c = vp.Id;
         update testDataInstance.pe;
-        System.debug('ctp updated');
         PETriggerBuffer.clearBuffer();
         testDataInstance.updatePEStatusEnrollmentSuccess();
         Test.stopTest();
@@ -46,7 +45,7 @@ private class Test_PatientVisitSchedule {
                 FROM Patient_Visit__c
                 WHERE Participant_Enrollment__c =: testDataInstance.pe.Id
         ];
-        System.assert(patientVisits.size() == 2, 'Patient Visits not created');
+        System.assertEquals(2, patientVisits.size());
     }
     
 }
