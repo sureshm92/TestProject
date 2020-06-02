@@ -1,0 +1,31 @@
+<!--
+ - Created by user on 28-May-20.
+ -->
+
+<aura:component controller="IncentivePlanConfigurationRemote" description="WarningModal">
+
+    <!-- attributes: -->
+    <aura:attribute name="parent" type="Aura.Component" required="true"/>
+    <aura:attribute name="modalDialogBody" type="String" default="{!$Label.c.PG_Ref_L_Text_To_Delete_Plan}"/>
+    <aura:attribute name="shareModalTitle" type="String" default="Warning"/>
+    <aura:attribute name="numberStudySites" type="Integer" access="public"/>
+    <!-- methods: -->
+    <aura:method name="show" action="{!c.doShow}">
+        <aura:attribute name="numberStudySites" type="Integer" access="public"/>
+    </aura:method>
+    <aura:method name="hide" action="{!c.doHide}"/>
+
+
+
+    <!-- component body: -->
+    <c:Popup aura:id="shareModal" title="{!v.shareModalTitle}" size="small">
+        <div class="modal-dialog-body">
+            {!v.numberStudySites + ' ' + v.modalDialogBody}
+        </div>
+        <aura:set attribute="footerButtons">
+            <c:RRSpinner aura:id="spinner"/>
+            <button class="apollo-btn primary" onclick="{!c.doDelete}">{!$Label.c.BTN_Yes}</button>
+            <button class="apollo-btn tertiary" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
+        </aura:set>
+    </c:Popup>
+</aura:component>

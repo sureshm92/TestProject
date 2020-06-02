@@ -25,10 +25,12 @@ public class HomePageParticipantRemote {
                             user.LastLoginDate);
                 }
             }
+            ContactService.updateVisitedCommunity(UserContext.getUserContact(), UserContext.getCurrentCommunityTemplate());
 
             return JSON.serialize(ParticipantService.getInstance().getState());
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
     }
+
 }
