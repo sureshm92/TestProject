@@ -12,8 +12,7 @@
                           signature="{!$Label.Email_Signature_New}"
                           communityTemplate="Default">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate}"/>
-            <c:EmailTemplateDelegateParticipant commTemplate="Default"
-                                                sourceId="{!relatedTo.Id}"/>
+            <c:EmailTemplateDelegateParticipant sourceId="{!relatedTo.Id}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
                               buttonURL="/s/"/>
         </c:EmailWireframe>
@@ -28,8 +27,7 @@
                               signature="{!$Label.Email_Signature_New}"
                               communityTemplate="Default">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate}"/>
-            <c:EmailTemplateDelegateParticipantText commTemplate="Default"
-                                                    sourceId="{!relatedTo.Id}"/>
+            <c:EmailTemplateDelegateParticipantText sourceId="{!relatedTo.Id}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
                                   buttonURL="/s/"/>
         </c:EmailWireframeText>

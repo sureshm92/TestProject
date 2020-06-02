@@ -29,8 +29,9 @@
                 component.find('mainSpinner').hide();
             });
         }else{
-            if(titleCode === 'CookiePolicy'){
+            if(titleCode === 'CookiePolicy' || titleCode === 'PrivacyPolicy'){
                 communityService.executeAction(component, 'getTC', {
+                    code: titleCode,
                     languageCode: communityService.getUrlParameter('language')
                 }, function (returnValue) {
                     let tcData = JSON.parse(returnValue);
