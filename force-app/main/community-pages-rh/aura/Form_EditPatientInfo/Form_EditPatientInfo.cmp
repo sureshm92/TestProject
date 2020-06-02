@@ -44,6 +44,7 @@
     <aura:method name="checkFields" action="{!c.doCheckFields}" access="public"/>
     <aura:method name="createDataStamp" action="{!c.doCreateDataStamp}" access="public"/>
     <aura:method name="refreshView" action="{!c.doRefreshView}" access="public"/>
+    <aura:method name="refreshEmailInput" action="{!c.doRefreshEmailInput}" access="public"/>
 
 
     <!-- component body: -->
