@@ -266,8 +266,9 @@ public without sharing class ContactService {
     }
 
     public static void updateVisitedCommunity(Contact contact, CommunityTemplate template) {
+        List<String> communities = new List<String>();
         String commStr = contact.Visited_Communities__c;
-        List<String> communities = commStr.split(';');
+        if(String.isNotEmpty(commStr)) communities.addAll(commStr.split(';'));
         if (!communities.contains(template.templateName)) {
             communities.add(template.templateName);
             commStr = String.join(communities, ';');

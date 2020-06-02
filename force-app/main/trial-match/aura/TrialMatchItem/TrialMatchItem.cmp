@@ -16,7 +16,7 @@
                 {!v.trialMatch.isEnrollingCTP ? $Label.c.TrialSearch_Enrolling : $Label.c.TrialSearch_Not_Yet_Enrolling}
             </div>
         </div>
-        <div style="height: 1px;background: #848484;"></div>
+        <div style="height: 1px;background: #e9e9e9;"></div>
         <div class="ctp-info-block ctp-padding">
             <div class="ctp-study-code-name">
                 {!v.trialMatch.StudyCodeName}
