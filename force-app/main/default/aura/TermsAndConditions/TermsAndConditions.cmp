@@ -1,5 +1,6 @@
-<aura:component description="TermsAndConditions" implements="forceCommunity:availableForAllPageTypes" controller="TermsAndConditionsRemote">
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+<aura:component description="TermsAndConditions" implements="forceCommunity:availableForAllPageTypes"
+                controller="TermsAndConditionsRemote">
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
     <aura:attribute name="tcData" type="Object"/>
