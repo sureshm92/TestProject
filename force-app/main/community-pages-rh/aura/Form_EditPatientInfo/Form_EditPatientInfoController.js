@@ -244,6 +244,10 @@
         component.checkFields();
     },
 
+    doRefreshEmailInput: function (component, event, helper){
+        component.set('v.emailParticipantRepeat', '');
+    },
+
     doCreateDataStamp: function (component, event, helper) {
         var pe = component.get('v.pe');
         component.set('v.dataStamp', JSON.stringify(pe));

@@ -45,6 +45,7 @@
         helper.createParticipant(component, function () {
             helper.initData(component);
             helper.setDelegate(component);
+            component.find('editForm').refreshEmailInput();
         })
     },
 
