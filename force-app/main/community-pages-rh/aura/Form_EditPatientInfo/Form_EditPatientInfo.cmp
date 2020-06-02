@@ -28,6 +28,7 @@
     <aura:attribute name="needsGuardian" type="Boolean" default="false"/>
     <aura:attribute name="parentComponent" type="Aura.Component"/>
     <aura:attribute name="emailParticipantRepeat" type="String"/>
+    <aura:attribute name="isAdult" type="Boolean" default="false"/>
 
     <!-- private attributes: -->
     <aura:attribute name="screeningRequired" type="Boolean" default="false" access="private"/>
@@ -380,7 +381,7 @@
                             <div class="rr-form-element slds-col slds-size&#45;&#45;1-of-1 slds-large-size&#45;&#45;1-of-3"></div>
                         </aura:if>-->
 
-                        <aura:if isTrue="{!v.fromAddParticipantPage &amp;&amp; v.participant.Email__c}">
+                        <aura:if isTrue="{!v.fromAddParticipantPage &amp;&amp; v.participant.Email__c &amp;&amp; v.isAdult}">
                             <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-1"></div>
 
                             <div class="slds-form-element" style="margin-left: 10px;">
