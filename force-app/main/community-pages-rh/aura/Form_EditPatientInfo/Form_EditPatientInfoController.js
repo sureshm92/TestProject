@@ -163,6 +163,9 @@
                 emailParticipantCmp.reportValidity();
                 emailParticipantReapetCmp.reportValidity();
             }
+            if (!participantDelegate) {
+                component.set('v.isValid', false);
+            }
             //var checkReferred = source == 'ePR' ? true : pe.Referred_By__c ? true : false;
             isValid = false;
             isValid = isValid ||

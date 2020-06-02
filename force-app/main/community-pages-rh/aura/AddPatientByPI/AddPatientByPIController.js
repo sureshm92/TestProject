@@ -68,6 +68,7 @@
             editForm.checkFields();
             console.log('editForm checkFields');
         } else {
+            let editForm = component.find('editForm');
             editForm.checkFields();
             component.set('v.emailDelegateRepeat', '');
         }
