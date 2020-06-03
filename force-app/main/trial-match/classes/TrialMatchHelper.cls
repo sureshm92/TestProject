@@ -17,14 +17,14 @@ public without sharing class TrialMatchHelper {
         private set;
     }
 
-    public TrialMatchPageRemote.TrialMatchContainer getInitTrialMatchContainer() {
-        TrialMatchPageRemote.TrialMatchContainer trialMatchContainer = this.getTrialMatchContainer(null, true, true);
+    public TrialMatchPageRemote.TrialMatchContainer getInitTrialMatchContainer(Id participantid) {
+        TrialMatchPageRemote.TrialMatchContainer trialMatchContainer = this.getTrialMatchContainer(participantid, null, true, true);
         return trialMatchContainer;
     }
 
-    public TrialMatchPageRemote.TrialMatchContainer getTrialMatchContainer(List<Trial_Match__c> trms, Boolean isEnrolling, Boolean isNotYetEnrolling) {
+    public TrialMatchPageRemote.TrialMatchContainer getTrialMatchContainer(Id participantid, List<Trial_Match__c> trms, Boolean isEnrolling, Boolean isNotYetEnrolling) {
         TrialMatchPageRemote.TrialMatchContainer trialMatchContainer = new TrialMatchPageRemote.TrialMatchContainer();
-        List<Trial_Match__c> trialMatchs = trms != null ? trms : this.getTrialMatches();
+        List<Trial_Match__c> trialMatchs = trms != null ? trms : this.getTrialMatches(participantid);
         Set<Id> ctpId = new Set<Id>();
         Map<Id, Trial_Match__c> trialmatchesforCTP = new Map<Id, Trial_Match__c>();
         if (!trialMatchs.isEmpty()) {
@@ -79,6 +79,7 @@ public without sharing class TrialMatchHelper {
     private List<Clinical_Trial_Profile__c> getCtps(Set<Id> ctpIds, String objfield, Boolean isEnrolling, Boolean isNotYetEnrolling) {
         TrialSearchWhereClauseFactory factory = (TrialSearchWhereClauseFactory) ClassFactory.newInstance(TrialSearchWhereClauseFactory.class);
         String whereClause = factory.getInstance(new List<Id>(ctpIds), objfield, isEnrolling, isNotYetEnrolling, null).getWhereClause();
+        String orderBy = ' ORDER BY Override_Recruitment_Status__c';
         String queryCTP = 'SELECT id, ' +
             	'Trial_Match_Is_Available__c, '+
                 'Therapeutic_Area__c, ' +
@@ -93,15 +94,15 @@ public without sharing class TrialMatchHelper {
                 'FROM Clinical_Trial_Profile__c ';
 
         queryCTP += whereClause;
-
+        queryCTP += orderBy;
         List<Clinical_Trial_Profile__c> ctps = (List<Clinical_Trial_Profile__c>) proxy.query(queryCTP, true);
         return ctps;
     }
 
 	@TestVisible
-    private List<Trial_Match__c> getTrialMatches() {
+    private List<Trial_Match__c> getTrialMatches(Id participantid) {
         String filter = 'Is_Eligible__c = TRUE AND' +
-                DatabaseService.fieldEqual('Participant_Enrollment__r.Participant__c', ParticipantContext.getCurrentParticipantId());
+                DatabaseService.fieldEqual('Participant_Enrollment__r.Participant__c', participantid);
 
         return (List<Trial_Match__c>) DatabaseService.query(
                 new List<String>{

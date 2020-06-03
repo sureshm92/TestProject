@@ -5765,6 +5765,13 @@ Please log in to ##CommunityName to view this information.</value>
         <shortDescription>contact has user</shortDescription>
         <value>Invited</value>
     </labels>
+	<labels>
+        <fullName>Learn_More_Report_Document_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Learn More Report Document Name</shortDescription>
+        <value>Study Detailed Description Report</value>
+    </labels>
     <labels>
         <fullName>Library_Format</fullName>
         <language>en_US</language>

@@ -38,6 +38,7 @@
     display: inline-block;
 }
 .THIS .side-padding {
+    padding-left: 5%;
     padding-right: 4%;
 }
 
