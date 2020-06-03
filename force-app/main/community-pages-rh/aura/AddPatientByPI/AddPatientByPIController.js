@@ -65,8 +65,6 @@
 
         if (participant.Health_care_proxy_is_needed__c) {
             helper.setDelegate(component);
-            let editForm = component.find('editForm');
-            editForm.checkFields();
             console.log('editForm checkFields');
         } else {
             let editForm = component.find('editForm');

@@ -1,7 +1,8 @@
 ({
 	doShow: function (component, event) {
 		var params = event.getParam('arguments');
-		component.set('v.numberStudySites', params.numberStudySites);
+		component.set('v.textBody', params.textBody);
+		component.set('v.changeCheckBox', params.changeCheckBox);
 		component.find('shareModal').show();
 	},
 
@@ -11,6 +12,10 @@
 
 	doDelete: function (component, event, helper) {
 		component.get('v.parent').doDeletePlan();
+	},
+
+	doCheckBoxChanges: function (component, event, helper) {
+		component.get('v.parent').doCheckBoxChange();
 	},
 
 	doCancel: function (component, event, helper) {
