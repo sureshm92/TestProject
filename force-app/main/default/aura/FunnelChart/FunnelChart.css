@@ -52,3 +52,17 @@
     margin-left:2%;
     margin-right:2%;
 }
+
+
+@media screen and (max-width: 1024px) {
+    .THIS.funnel-dashborad-container {
+        margin-top: 12px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .cFunnelChart .funnel {
+        overflow-y: hidden;
+        overflow-x: scroll;
+    }
+}

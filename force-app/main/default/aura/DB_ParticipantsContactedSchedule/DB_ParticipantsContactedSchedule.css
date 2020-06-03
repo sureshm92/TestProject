@@ -1,8 +1,16 @@
+.THIS {
+    margin-top: 25px;
+}
+
+.THIS .slds-card {
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
+  border: 1px solid #e9e9e9;
+}
+
 .THIS .slds-text-heading_small {
     color: #000000;
     font-size: 18px;
     font-weight: 600;
-    border: none;
 }
 
 .THIS  .col_format1{
@@ -39,5 +47,60 @@
 }
 .THIS .slds-dropdown {
     font-size: 14px;
+}
 
+@media all and (max-width: 768px){
+
+  .THIS {
+      margin-top: 1rem;
+  }
+
+  .THIS .slds-card__body {
+      padding: 0 1.25rem;
+  }
+
+   .THIS .slds-card__body > .slds-grid {
+       flex-wrap: wrap;
+  }
+
+  .THIS .slds-card__body > .slds-grid > .slds-col:first-child {
+      display: none;
+  }
+
+  .THIS .slds-card__body > .slds-grid > .slds-col {
+      margin-bottom: 2rem;
+      padding-right: 10px;
+      max-width: 140px;
+  }
+
+  .THIS  .col_format1 {
+       width: 100%;
+      max-width: 150px;
+      height: 125px;
+}
+
+   .THIS .slds-dropdown-trigger {
+      width: 100%;
+  }
+
+  .THIS .text_format {
+       font-size: 3rem;
+      font-weight: 400;
+  }
+
+  .THIS .text_format_days {
+      text-align: left;
+      text-indent: 0;
+      font-weight: 400;
+  }
+
+  .THIS .slds-button_neutral {
+      margin-top: 0;
+  }
+}
+
+@media all and (max-width: 500px){
+  .THIS .slds-card__body > .slds-grid {
+      justify-content: space-between;
+  }
 }
