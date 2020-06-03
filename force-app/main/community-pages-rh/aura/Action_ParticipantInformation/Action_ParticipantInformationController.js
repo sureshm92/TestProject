@@ -49,6 +49,8 @@
                     if (returnValue.isEnrolled) formComponent.set('v.isFinalUpdate', true);
                     component.find('spinner').hide();
                     component.set('v.anchor', params.anchorScroll);
+                    component.set('v.refProvider', returnValue.enrollment.HCP__r.HCP_Contact__r);
+                    returnValue.enrollment.HCP__r.HCP_Contact__r = undefined;
                     component.set('v.pe', returnValue.enrollment);
                     component.set('v.participantDelegate', returnValue.participantDelegate);
                     component.set('v.participant', pe.Participant__r);
