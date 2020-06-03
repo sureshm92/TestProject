@@ -150,7 +150,7 @@ private class Test_BaseCRCPCommunity {
             TermsAndConditionsRemote.getPortalTcData();
             TermsAndConditionsRemote.getTrialTcData(testData.ctp.Id);
             TermsAndConditionsRemote.acceptTC(studyTC.Id);
-            TermsAndConditionsRemote.getTC(studyTC.Id, 'en_US');//TODO: check code
+            TermsAndConditionsRemote.getTC('CookiePolicy', 'en_US');//TODO: check code
             List<HelpController.FileContainer> files = new List<HelpController.FileContainer>();
             HelpController.FileContainer file = new HelpController.FileContainer();
             file.base64Data = EncodingUtil.base64Encode(Blob.valueOf('Test file'));

@@ -17,8 +17,8 @@
         let needsGuardian = component.get('v.needsGuardian');
         if (needsGuardian) {
             component.get('v.parentComponent').find('spinner').show();
-            component.set('v.isRefreshView', true);
-            component.set('v.isRefreshView', false);
+            component.set('v.isRefreshPediatric', true);
+            component.set('v.isRefreshPediatric', false);
             component.get('v.parentComponent').find('spinner').hide();
         }
 
@@ -53,7 +53,11 @@
         var currentDate = today.setHours(0, 0, 0, 0);
         var inputDate = inDate.setHours(0, 0, 0, 0);
         let needsGuardian = component.get('v.needsGuardian');
-        if(pe.MRN_Id__c){
+        let emailParticipantRepeat = component.get('v.emailParticipantRepeat');
+        let emailParticipantReapetCmp = component.find('emailParticipantRepeatField');
+        let emailParticipantCmp = component.find('emailInput');
+
+        if (pe.MRN_Id__c) {
             component.set('v.disableSourceId', true);
         } else {
             component.set('v.disableSourceId', false);
@@ -85,7 +89,7 @@
                 (oldPE.MRN_Id__c && !pe.MRN_Id__c);
             console.log(isRemovedValue);
             isValid = !isRemovedValue;
-            if(component.get('v.fromActionParticipant') && !isRemovedValue){
+            if (component.get('v.fromActionParticipant') && !isRemovedValue) {
                 console.log('component.get(\'v.fromActionParticipant\') && !isRemovedValue');
                 if (participant.First_Name__c.trim() &&
                     participant.Last_Name__c.trim() &&
@@ -97,8 +101,8 @@
                     (!participantDelegate || participantDelegate.Phone__c.trim()) &&
                     (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
                     (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
-                    participant.Mailing_Zip_Postal_Code__c.trim() !== ''){
-                        isValid = true;
+                    participant.Mailing_Zip_Postal_Code__c.trim() !== '') {
+                    isValid = true;
                 } else {
                     isValid = false;
                 }
@@ -125,9 +129,9 @@
                 (!stateRequired || (stateRequired && participant.Mailing_State_Code__c));
                 //stateVaild;
             console.log('isValid2' + isValid);
-            if(component.get('v.fromActionParticipant') && !isRemovedValue){
+            if (component.get('v.fromActionParticipant') && !isRemovedValue) {
                 console.log('component.get(\'v.fromActionParticipant\') && !isRemovedValue');
-                if(participant.First_Name__c.trim() &&
+                if (participant.First_Name__c.trim() &&
                     participant.Last_Name__c.trim() &&
                     inputDate <= currentDate &&
                     participant.Gender__c.trim() &&
@@ -137,43 +141,72 @@
                     (!participantDelegate || participantDelegate.Phone__c.trim()) &&
                     (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
                     (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
-                    participant.Mailing_Zip_Postal_Code__c.trim() !== ''){
-                        isValid = true;
+                    participant.Mailing_Zip_Postal_Code__c.trim() !== '') {
+                    isValid = true;
                 } else {
                     isValid = false;
                 }
                 console.log('isValid3' + isValid);
             }
 
-                //(!stateRequired || (stateRequired && (participant.Mailing_State_Code__c !== '' || participant.Mailing_State_Code__c !== undefined || participant.Mailing_State_Code__c !== null)));
+            //(!stateRequired || (stateRequired && (participant.Mailing_State_Code__c !== '' || participant.Mailing_State_Code__c !== undefined || participant.Mailing_State_Code__c !== null)));
         } else if (!updateMode) {
-            console.log('!updateMode');
+            if (participant.Email__c && emailParticipantRepeat && participant.Email__c.toLowerCase() !== emailParticipantRepeat.toLowerCase()) {
+                isValid = false;
+                emailParticipantCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
+                emailParticipantReapetCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
+            } else {
+                    emailParticipantCmp.setCustomValidity("");
+                    emailParticipantReapetCmp.setCustomValidity("");
+            }
+            if (participant.Email__c && participant.Email__c !== '' && emailParticipantRepeat && emailParticipantRepeat !== '') {
+                emailParticipantCmp.reportValidity();
+                emailParticipantReapetCmp.reportValidity();
+            }
+            if (!participantDelegate) {
+                console.log('++++');
+                component.set('v.isValid', false);
+            }
             //var checkReferred = source == 'ePR' ? true : pe.Referred_By__c ? true : false;
+            if(needsGuardian || participantDelegate || participant.Phone__c) {
+                isValid = false;
+                isValid = isValid ||
+                    (participant.First_Name__c &&
+                        participant.Last_Name__c &&
+                        participant.Date_of_Birth__c &&
+                        inputDate <= currentDate &&
+                        participant.Gender__c &&
+                        (needsGuardian || participantDelegate || participant.Phone__c.trim()) &&
+                        (needsGuardian || participantDelegate || participant.Phone_Type__c) &&
+                        (needsGuardian || participantDelegate || emailParticipantRepeat && participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
+                        (!participantDelegate || participantDelegate.Phone__c.trim()) &&
+                        (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
+                        (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
+                        participant.Mailing_Zip_Postal_Code__c &&
+                        pe &&
+                        pe.Participant_Status__c &&
+                        (!isRandomizationSuccess || (isRandomizationSuccess && pe.Screening_ID__c)) &&
+                        (!stateRequired || (stateRequired && participant.Mailing_State_Code__c)) &&
+                        //stateVaild &&
+                        (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
+                        pe.Referred_By__c);
+                console.log('isValid4' + isValid);
+            }
+        }
+        if (!component.find('emailInput').get('v.validity').valid){
+            console.log('EMAILAIF');
             isValid = false;
-            isValid = isValid ||
-                participant.First_Name__c &&
-                participant.Last_Name__c &&
-                participant.Date_of_Birth__c &&
-                participant.Gender__c &&
-                (needsGuardian || participantDelegate || participant.Phone__c.trim()) &&
-                (needsGuardian || participantDelegate || participant.Phone_Type__c.trim()) &&
-                (needsGuardian || participantDelegate || participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
-                (!participantDelegate || participantDelegate.Phone__c.trim()) &&
-                (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
-                (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
-                participant.Mailing_Zip_Postal_Code__c &&
-                pe &&
-                pe.Participant_Status__c &&
-                (!isRandomizationSuccess || (isRandomizationSuccess && pe.Screening_ID__c)) &&
-                (!stateRequired || (stateRequired && participant.Mailing_State_Code__c)) &&
-                //stateVaild &&
-                (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
-                pe.Referred_By__c;
-            console.log('isValid4' + isValid);
         }
         if (participant.Alternative_Phone_Number__c && !participant.Alternative_Phone_Type__c){
             isValid = false;
         }
+        if (participant.Email__c && !emailParticipantRepeat) {
+            isValid = false;
+        }
+        if (participant.Phone__c && !participant.Phone_Type__c) {
+            isValid = false;
+        }
+
         component.set('v.isValid', isValid);
         console.log('isValid5' + isValid);
         return isValid;
@@ -181,21 +214,24 @@
 
     doCheckDateOfBith: function (component, event, helper) {
         console.log('IN doCheckDateOfBith');
+        component.set('v.isAdult', false)
         let parent = component.get('v.parentComponent');
         if (parent && parent.checkDateOfBith) {
             console.log('Parent checkDateOfBith');
-            parent.checkDateOfBith();
+            parent.checkDateOfBith(function () {
+                component.set('v.isAdult', true);
+            });
         }
-        this.doCheckFields();
+        $A.enqueueAction(component.get('c.doCheckFields'));
         console.log('END doCheckDateOfBith');
     },
 
     doCountryCodeChanged: function (component, event, helper) {
         var statesByCountryMap = component.get('v.formData.statesByCountryMap');
-        var countryMap =  component.get('v.formData.countriesLVList');
+        var countryMap = component.get('v.formData.countriesLVList');
         var participant = component.get('v.participant');
-        for (let i = 0; i <countryMap.length ; i++) {
-            if(countryMap[i].value == participant.Mailing_Country_Code__c){
+        for (let i = 0; i < countryMap.length; i++) {
+            if (countryMap[i].value == participant.Mailing_Country_Code__c) {
                 component.set('v.participant.Mailing_Country__c', countryMap[i].label);
                 break;
             }
@@ -207,12 +243,12 @@
         component.checkFields();
     },
 
-    doStateChange: function(component, event, helper){
-    	var states = component.get('v.statesLVList');
-    	if (states){
+    doStateChange: function (component, event, helper) {
+        var states = component.get('v.statesLVList');
+        if (states) {
             var participant = component.get('v.participant');
-            for (let i = 0; i < states.length ; i++) {
-                if(states[i].value == participant.Mailing_State_Code__c){
+            for (let i = 0; i < states.length; i++) {
+                if (states[i].value == participant.Mailing_State_Code__c) {
                     component.set('v.participant.Mailing_State__c', states[i].label);
                     break;
                 }
@@ -221,14 +257,18 @@
         component.checkFields();
     },
 
+    doRefreshEmailInput: function (component, event, helper){
+        component.set('v.emailParticipantRepeat', '');
+    },
+
     doCreateDataStamp: function (component, event, helper) {
         var pe = component.get('v.pe');
         component.set('v.dataStamp', JSON.stringify(pe));
     },
 
-    doRefreshView: function(component, event, helper){
-    	component.set('v.isRefreshView', true);
-    	component.set('v.isRefreshView', false);
+    doRefreshView: function (component, event, helper) {
+        component.set('v.isRefreshView', true);
+        component.set('v.isRefreshView', false);
     },
 
     hideHelp: function (component) {

@@ -266,8 +266,9 @@ public without sharing class ContactService {
     }
 
     public static void updateVisitedCommunity(Contact contact, CommunityTemplate template) {
+        List<String> communities = new List<String>();
         String commStr = contact.Visited_Communities__c;
-        List<String> communities = commStr.split(';');
+        if(String.isNotEmpty(commStr)) communities.addAll(commStr.split(';'));
         if (!communities.contains(template.templateName)) {
             communities.add(template.templateName);
             commStr = String.join(communities, ';');
@@ -278,6 +279,6 @@ public without sharing class ContactService {
     public static Boolean checkVisitedCommunity(Id conId, String communityName) {
         Contact con = [SELECT Id, Visited_Communities__c FROM Contact WHERE Id =: conId];
         String fullCommunityName = CommunityTemplateService.getTemplate(communityName).templateName;
-        return con.Visited_Communities__c.contains(fullCommunityName);
+        return con.Visited_Communities__c != null ? con.Visited_Communities__c.contains(fullCommunityName) : false;
     }
 }

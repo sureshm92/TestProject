@@ -40,7 +40,7 @@ public without sharing virtual class EmailTemplateProvider {
         this.recipientId = recipientId;
         this.recipientName = recipientName;
         this.recipientLanguage = recipientLanguage;
-        if(!String.isNotEmpty(outputMode)) this.isHTML = outputMode.equals('HTML');
+        if (!String.isNotEmpty(outputMode)) this.isHTML = outputMode.equals('HTML');
 
         updateRecipientName();
 
@@ -197,7 +197,7 @@ public without sharing virtual class EmailTemplateProvider {
     }
 
     private String getCommunityUserName() {
-        List<User> userList = [SELECT Username FROM User WHERE ContactId = :recipientId];
+        List<User> userList = [SELECT Username FROM User WHERE ContactId = :recipientContactId];
         return !userList.isEmpty() ? userList.get(0).Username : '';
     }
 

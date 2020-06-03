@@ -45,6 +45,7 @@
         helper.createParticipant(component, function () {
             helper.initData(component);
             helper.setDelegate(component);
+            component.find('editForm').refreshEmailInput();
         })
     },
 
@@ -53,7 +54,7 @@
     },
 
     doCheckDateOfBith: function (component, event, helper) {
-        helper.checkParticipantNeedsGuardian(component, helper);
+        helper.checkParticipantNeedsGuardian(component, helper, event);
     },
 
     doNeedsGuardian: function (component, event, helper) {
@@ -68,6 +69,7 @@
             editForm.checkFields();
             console.log('editForm checkFields');
         } else {
+            let editForm = component.find('editForm');
             editForm.checkFields();
             component.set('v.emailDelegateRepeat', '');
         }
