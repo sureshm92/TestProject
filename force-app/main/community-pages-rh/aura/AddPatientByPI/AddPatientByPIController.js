@@ -45,6 +45,7 @@
         helper.createParticipant(component, function () {
             helper.initData(component);
             helper.setDelegate(component);
+            component.find('editForm').refreshEmailInput();
         })
     },
 
@@ -53,19 +54,25 @@
     },
 
     doCheckDateOfBith: function (component, event, helper) {
-        helper.checkParticipantNeedsGuardian(component, helper);
+        helper.checkParticipantNeedsGuardian(component, helper, event);
     },
 
     doNeedsGuardian: function (component, event, helper) {
         component.set('v.participant.Health_care_proxy_is_needed__c', !component.get('v.participant.Health_care_proxy_is_needed__c'));
 
         let participant = component.get('v.participant');
+        component.set('v.needsGuardian', participant.Health_care_proxy_is_needed__c);
+
         if (participant.Health_care_proxy_is_needed__c) {
             helper.setDelegate(component);
+            let editForm = component.find('editForm');
+            editForm.checkFields();
+            console.log('editForm checkFields');
         } else {
+            let editForm = component.find('editForm');
+            editForm.checkFields();
             component.set('v.emailDelegateRepeat', '');
         }
-        component.set('v.needsGuardian', participant.Health_care_proxy_is_needed__c);
     }
 
 })

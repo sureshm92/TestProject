@@ -450,12 +450,6 @@
             </value>
         </inputAssignments>
         <inputAssignments>
-            <field>Resource_Type__c</field>
-            <value>
-                <elementReference>Resource_Type3</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
             <field>Source__c</field>
             <value>
                 <elementReference>Source_field_recordtypeArticle</elementReference>
@@ -539,12 +533,6 @@
             </value>
         </inputAssignments>
         <inputAssignments>
-            <field>Resource_Type__c</field>
-            <value>
-                <elementReference>Resource_Type1</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
             <field>Title__c</field>
             <value>
                 <elementReference>Title</elementReference>
@@ -595,12 +583,6 @@
             <field>Languages__c</field>
             <value>
                 <elementReference>Languages_field_RecordType</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Resource_Type__c</field>
-            <value>
-                <elementReference>Resource_Type2</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -720,12 +702,6 @@
             <field>Remove_sharing__c</field>
             <value>
                 <elementReference>Remove_sharing_field_recordtypeArticle_0</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Resource_Type__c</field>
-            <value>
-                <elementReference>Resource_Type4</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1235,14 +1211,6 @@
             <isRequired>false</isRequired>
         </fields>
         <fields>
-            <name>Resource_Type3</name>
-            <choiceReferences>ResourceType</choiceReferences>
-            <dataType>String</dataType>
-            <fieldText>Resource Type</fieldText>
-            <fieldType>DropdownBox</fieldType>
-            <isRequired>true</isRequired>
-        </fields>
-        <fields>
             <name>Remove_sharing_field_recordtypeArticle</name>
             <dataType>Boolean</dataType>
             <fieldText>Remove sharing</fieldText>
@@ -1419,14 +1387,6 @@
             <isRequired>true</isRequired>
         </fields>
         <fields>
-            <name>Resource_Type2</name>
-            <choiceReferences>ResourceType</choiceReferences>
-            <dataType>String</dataType>
-            <fieldText>Resource Type</fieldText>
-            <fieldType>DropdownBox</fieldType>
-            <isRequired>true</isRequired>
-        </fields>
-        <fields>
             <name>Version_Date2</name>
             <dataType>Date</dataType>
             <fieldText>Version Date</fieldText>
@@ -1501,14 +1461,6 @@
             </defaultValue>
             <fieldText>Version Date</fieldText>
             <fieldType>InputField</fieldType>
-            <isRequired>true</isRequired>
-        </fields>
-        <fields>
-            <name>Resource_Type1</name>
-            <choiceReferences>ResourceType</choiceReferences>
-            <dataType>String</dataType>
-            <fieldText>Resource Type</fieldText>
-            <fieldType>DropdownBox</fieldType>
             <isRequired>true</isRequired>
         </fields>
         <showFooter>true</showFooter>
@@ -1893,14 +1845,6 @@
             <fieldText>Article External Link</fieldText>
             <fieldType>LargeTextArea</fieldType>
             <isRequired>false</isRequired>
-        </fields>
-        <fields>
-            <name>Resource_Type4</name>
-            <choiceReferences>ResourceType</choiceReferences>
-            <dataType>String</dataType>
-            <fieldText>Resource Type</fieldText>
-            <fieldType>DropdownBox</fieldType>
-            <isRequired>true</isRequired>
         </fields>
         <fields>
             <name>Remove_sharing_field_recordtypeArticle_0</name>

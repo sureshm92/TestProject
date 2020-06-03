@@ -4,10 +4,11 @@
 
 .THIS .rr-form-element + .rr-form-element{
     margin-top: 0;
+    margin-bottom: 25px;
 }
 
 .THIS .rr-form-element{
-    margin-bottom: 10px;
+    margin-bottom: 25px;
 }
 
 .THIS .ap-section-title{

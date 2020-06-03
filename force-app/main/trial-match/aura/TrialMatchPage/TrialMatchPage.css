@@ -4,6 +4,26 @@
  .THIS {
 }
 
+.THIS .resource-link-container, .THIS.resource-link-container{
+    display: flex;
+    align-items: center;
+}
+
+.THIS .resource-icon{
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.THIS .resource-name{
+    font-size: 20px;
+}
+
+.THIS .tm-title{
+    font-weight: 600;
+    font-size: 24px;
+    color: #000000;
+}
+
 .THIS .filter-side {
     padding-left: 4%;
     padding-top: 70px;
@@ -31,6 +51,7 @@
 }
 .THIS .trials-container{
     padding-top: 20px;
+    position: relative;
 }
 
 .THIS .trials-side{
@@ -44,6 +65,7 @@
     }
     .THIS .trials-container{
         padding-left: 4%;
+        position: relative;
         margin: 5% 0 0 0 !important;
     }
     .THIS .filter-side{

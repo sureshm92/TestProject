@@ -8,13 +8,12 @@
 
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="trialmatchCTPs" type="List"/>
-    <aura:attribute name="initializedTrms" type="Boolean" access="public" default="false"/>
-
+    <aura:attribute name="partid" type="Id"/>
+    
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
 
     <lightning:layout horizontalAlign="center">
-        <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12" flexibility="auto"
-                              size="12">
+        <lightning:layoutItem size="12">
             <div class="sdv-top-bar" id="stickyBar" aura:id="stickyBar">
                 <div class="navigation rr-width-limiter">
                     <c:RRNavigationPath>
@@ -28,11 +27,19 @@
                 <div class="trials-container side-padding">
                     <aura:if isTrue="{!!empty(v.trialmatchCTPs)}">
                         <div class="slds-clearfix">
+                            <div class="slds-page-header__title tm-title">
+                                <lightning:formattedText value="{!$Label.c.Trial_Match}"/>
+                            </div>
+                        </div>
+                        <div class="slds-clearfix">
                             <div class="slds-float_left">
                                 <lightning:formattedText value="{!$Label.c.search_results}"/>
                             </div>
-                            <div class="slds-float_right">
-                                <!-- <c:DownloadTrialMatch reportData="{!v.trialmatchCTPs}"/>-->
+                            <div class="resource-link-container slds-float_right">
+                                <c:RRIcon iconName="icon-pdf" color="#0000EE" class="resource-icon"/>
+                                    <a class="resource-name" onclick="{!c.doGenerateReport}">
+                                        {!$Label.c.Download_Trial_Match}
+                                    </a>
                             </div>
                         </div>
                     </aura:if>

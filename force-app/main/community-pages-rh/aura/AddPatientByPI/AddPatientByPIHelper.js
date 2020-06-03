@@ -18,6 +18,10 @@
             pe.Visit_Plan__c = formData.visitPlansLVList[0].value;
         }
         component.set('v.pe', pe);
+        component.set('v.isValid', false);
+        component.set('v.isDelegateValid', false);
+        component.set('v.needsGuardian', false);
+        component.find('checkbox-delegate').getElement().checked = false;
     },
 
     createParticipant: function (component, callback) {
@@ -72,16 +76,19 @@
                         delegateParticipant.First_Name__c &&
                         delegateParticipant.Last_Name__c &&
                         delegateParticipant.Phone__c &&
-                        delegateParticipant.Email__c &&
-                        emailDelegateVaild &&
-                        emailDelegateRepeatValid));
+                        delegateParticipant.Email__c));
 
+        let isEmailValid = emailDelegateVaild && emailDelegateRepeatValid;
         if (needsDelegate && delegateParticipant && emailDelegateCmp && emailDelegateRepeatCmp) {
-            if (delegateParticipant.Email__c && emailDelegateRepeat && delegateParticipant.Email__c.toLowerCase() !== emailDelegateRepeat.toLowerCase()) {
-                isValid = false;
+            if ((delegateParticipant.Email__c && !emailDelegateRepeat) ||
+                (!delegateParticipant.Email__c && emailDelegateRepeat) ||
+                (delegateParticipant.Email__c && emailDelegateRepeat && delegateParticipant.Email__c.toLowerCase() !== emailDelegateRepeat.toLowerCase())) {
+
+                isEmailValid = false;
                 emailDelegateCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
                 emailDelegateRepeatCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
             } else {
+                isEmailValid = true;
                 emailDelegateCmp.setCustomValidity("");
                 emailDelegateRepeatCmp.setCustomValidity("");
             }
@@ -91,13 +98,18 @@
             }
         }
 
+        isValid = isValid && isEmailValid;
+        console.log('Delegate VALID: ' + isValid);
         component.set('v.isDelegateValid', isValid);
     },
 
-    checkParticipantNeedsGuardian: function (component, helper) {
+    checkParticipantNeedsGuardian: function (component, helper, event) {
         var spinner = component.find('spinner');
         spinner.show();
         var participant = component.get('v.participant');
+        var params = event.getParam('arguments');
+        component.set('v.callback', params.callback);
+        var callback = component.get('v.callback');
         console.log('checkParticipantNeedsGuardian');
         console.log(JSON.stringify(participant));
         communityService.executeAction(component, 'checkNeedsGuardian', {
@@ -105,12 +117,15 @@
         }, function (returnValue) {
             console.log('isNeedGuardian: ' + returnValue);
             var isNeedGuardian = (returnValue == 'true');
+            if (!isNeedGuardian && callback) callback();
             console.log('checkNeedsGuardian - SUCCESS: ' + isNeedGuardian);
 
             if (isNeedGuardian != component.get('v.needsGuardian')) {
                 component.set('v.needsGuardian', isNeedGuardian);
                 component.set('v.participant.Health_care_proxy_is_needed__c', isNeedGuardian);
                 component.set('v.participant.Adult__c', !isNeedGuardian);
+                let editForm = component.find('editForm');
+                editForm.checkFields();
 
                 component.find('checkbox-delegate').getElement().checked = isNeedGuardian;
 

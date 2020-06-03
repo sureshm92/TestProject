@@ -1,0 +1,31 @@
+.THIS .resource-link-container, .THIS.resource-link-container{
+    display: flex;
+    align-items: center;
+}
+
+.THIS .resource-icon{
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.THIS .menu-popup{
+    left: 31px;
+    transform: none;
+}
+
+.THIS .menu-popup li{
+    padding: 0 5px;
+    cursor: pointer;
+}
+
+.THIS .menu-popup li:hover{
+        background-color: #f2f7ff;
+}
+
+.THIS .resource-name{
+    max-width: 250px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+}

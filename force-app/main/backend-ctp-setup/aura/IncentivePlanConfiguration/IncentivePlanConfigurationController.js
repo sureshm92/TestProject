@@ -99,6 +99,38 @@
         component.find('actionIP').execute(menuCmp.get('v.plan').value, function () {
             helper.updateItems(component);
         }, 'clone');
+    },
+
+    doWarningModal: function (component, event, helper) {
+        let menuCmp = event.getSource();
+        let planId = menuCmp.get('v.plan').value;
+        communityService.executeAction(component, 'getNumberStudySites', {
+            planId: planId
+        }, function (returnvalue) {
+            component.set('v.planIdForDelete', planId);
+            component.find('warningModal').show(returnvalue);
+        });
+    },
+    doColumnIPDelete: function (component, event, helper) {
+        let planId = component.get('v.planIdForDelete');
+        let ipIds = component.get('v.filter.pageFeatureIds');
+        if (ipIds) {
+            let items = ipIds.split(';');
+            let resItems = [];
+            for (let i = 0; i < items.length; i++) {
+                if (items[i] !== planId) resItems.push(items[i]);
+            }
+            component.set('v.filter.pageFeatureIds', resItems.join(';'));
+        }
+        component.find('spinner').show();
+        communityService.executeAction(component, 'deleteIncentivePlan', {
+            planId: planId,
+            filterJSON: JSON.stringify(component.get('v.filter')),
+            paginationJSON: JSON.stringify(component.get('v.pagination'))
+        }, function (searchResponse) {
+            helper.setSearchResponse(component, searchResponse);
+            component.find('warningModal').hide();
+        });
     }
 
 });

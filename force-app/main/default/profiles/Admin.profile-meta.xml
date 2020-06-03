@@ -3000,6 +3000,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Visited_Communities__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.primaryContact__c</field>
         <readable>true</readable>
     </fieldPermissions>
