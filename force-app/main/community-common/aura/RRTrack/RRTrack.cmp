@@ -6,9 +6,8 @@
 
     <!-- ATTRIBUTES -->
     <aura:attribute name="rendered" type="Boolean" default="false" access="private"/>
-    <aura:attribute name="wrapper" type="VisitResultsService.VisitResultWrapper"/>
-    <aura:attribute name="showExpectedRange" type="Boolean"/>
-    <aura:attribute name="visitResultType" type="String"/>
+    <aura:attribute name="wrapper" type="Object"/>
+    <aura:attribute name="showPercentage" type="Boolean"/>
 
     <aura:attribute name="value" type="String" default=""/>
     <aura:attribute name="minValue" type="Double" default="0"/>
@@ -25,7 +24,7 @@
 
     <!-- COMPONENT BODY -->
     <div class="rr-slider-bar">
-        <div aura:id="track" class="rr-slider-track"><span style="{!'width:' + v.trackWidth + '%;margin-left:' + v.trackMargin + '%'}" class="{!v.showExpectedRange ? '' : 'hidden'}"></span></div>
+        <div aura:id="track" class="rr-slider-track"><span style="{!'width:' + v.trackWidth + '%;margin-left:' + v.trackMargin + '%'}" class="{!v.showPercentage ? '' : 'hidden'}"></span></div>
         <div style="{!'margin-left:' + v.arrowMargin + '%;background-color:' + v.arrowColor}" aura:id="arrDown" class="hidden"></div>
     </div>
     <div style="{!'margin-left:' + v.valueMargin + '%'}" aura:id="actValue" class="visit-result-actual-value">

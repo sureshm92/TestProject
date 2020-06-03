@@ -6,17 +6,10 @@
     changeValue: function (component, event, helper) {
         var actValue = component.find('actValue');
         let wrapper = component.get('v.wrapper'),
-            showExpectedRange = component.get('v.showExpectedRange'),
-            visitResultType = component.get('v.visitResultType');
+            showPercentage = component.get('v.showPercentage');
         let value = component.get('v.value'),
             minValue,
             maxValue;
-
-        if (visitResultType === 'Biomarkers') {
-            if (wrapper.value === 1) value = '+ ' + $A.get('$Label.c.Biomarkers_Positive');
-            else if (wrapper.value === -1) value = '- ' + $A.get('$Label.c.Biomarkers_Negative');
-            else if (wrapper.value === 0) value = $A.get('$Label.c.Biomarkers_Unknown');
-        }
 
         if (wrapper.minValue && wrapper.maxValue) {
             minValue = wrapper.minValue;
@@ -36,7 +29,7 @@
         component.set('v.minValue', minValue);
         component.set('v.maxValue', maxValue);
 
-        if (visitResultType === 'Biomarkers' || !showExpectedRange || value) {
+        if (!showPercentage || value) {
             $A.util.addClass(actValue, 'actual-value-no-expected-range');
         } else helper.alignTrack(component);
     },

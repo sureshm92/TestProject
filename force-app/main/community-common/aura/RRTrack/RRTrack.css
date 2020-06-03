@@ -25,9 +25,10 @@
 }
 
 .THIS .arrow-down {
+    position: relative;
+    top: -4px;
     width: 9px;
     height: 8px;
-    margin-top: -4px;
     border-top-right-radius: 100%;
     border-bottom-left-radius: 1px;
     transform: rotate(-62deg) skewX(-32deg);
