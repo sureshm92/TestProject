@@ -120,6 +120,8 @@
                 component.set('v.needsGuardian', isNeedGuardian);
                 component.set('v.participant.Health_care_proxy_is_needed__c', isNeedGuardian);
                 component.set('v.participant.Adult__c', !isNeedGuardian);
+                let editForm = component.find('editForm');
+                editForm.checkFields();
 
                 component.find('checkbox-delegate').getElement().checked = isNeedGuardian;
 
