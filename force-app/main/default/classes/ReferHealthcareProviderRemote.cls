@@ -34,37 +34,43 @@ global without sharing class ReferHealthcareProviderRemote {
 
         List<ReferHealthcareProviderRemote.PDWrapper> wrap = getWrapPD(participantId);
         if (wrap.isEmpty()) wrap.add(new PDWrapper());
-        System.debug('MYDEBUG5' + wrap);
-
-
-                return new InitData(healthcareProviders, wrap);
+        return new InitData(healthcareProviders, wrap);
     }
     @AuraEnabled
     public static List<ReferHealthcareProviderRemote.PDWrapper> getWrapPD(String participantId) {
-        List<Patient_Delegate__c> listdel = [SELECT Id, Contact__c, Status__c FROM Patient_Delegate__c WHERE Participant__c =: participantId];
+        List<Patient_Delegate__c> listdel = [
+                SELECT Id,
+                        Contact__c,
+                        Status__c
+                FROM Patient_Delegate__c
+                WHERE Participant__c = :participantId
+        ];
         Map<Id, Patient_Delegate__c> mapDel = new Map<Id, Patient_Delegate__c>();
         Set<Id> setIdDel = new Set<Id>();
 
-        for(Patient_Delegate__c del : listdel){
+        for (Patient_Delegate__c del : listdel) {
             mapDel.put(del.Contact__c, del);
         }
-        System.debug('MYDEBUG' + mapDel);
 
-        for(Patient_Delegate__c del : listdel){
+        for (Patient_Delegate__c del : listdel) {
             setIdDel.add(del.Contact__c);
         }
         List<ReferHealthcareProviderRemote.PDWrapper> wrapPD = new List<ReferHealthcareProviderRemote.PDWrapper>();
 
-        List<Participant__c> listPar = [SELECT Id, Contact__c, First_Name__c, Last_Name__c, Email__c FROM Participant__c WHERE Contact__c IN : setIdDel];
-        System.debug('MYDEBUG1' + listPar);
-        for(Participant__c par : listPar){
-            if(mapDel.keySet().contains(par.Contact__c)){
-                System.debug('MYDEBUG2' + mapDel.get(par.Contact__c));
-                System.debug('MYDEBUG3' + par.First_Name__c);
+        List<Participant__c> listPar = [
+                SELECT Id,
+                        Contact__c,
+                        First_Name__c,
+                        Last_Name__c,
+                        Email__c
+                FROM Participant__c
+                WHERE Contact__c IN :setIdDel
+        ];
+        for (Participant__c par : listPar) {
+            if (mapDel.keySet().contains(par.Contact__c)) {
                 wrapPD.add(new PDWrapper(mapDel.get(par.Contact__c).Id, par.First_Name__c, par.Last_Name__c, par.Email__c, mapDel.get(par.Contact__c).Status__c));
             }
         }
-        System.debug('MYDEBUG4' + wrapPD);
 
         return wrapPD;
 
@@ -74,56 +80,64 @@ global without sharing class ReferHealthcareProviderRemote {
     public static Participant__c getDelegateParticipant(String delegateContactId) {
         List<Participant__c> participantDelegate = [
                 SELECT Id,
-                       First_Name__c,
-                       Last_Name__c,
-                       Email__c
+                        First_Name__c,
+                        Last_Name__c,
+                        Email__c
                 FROM Participant__c
-                WHERE Contact__c =: delegateContactId
+                WHERE Contact__c = :delegateContactId
         ];
         if (participantDelegate.isEmpty()) participantDelegate.add(new Participant__c());
         return participantDelegate[0];
     }
 
     @AuraEnabled
-    public static HealthcareProvider checkDuplicate(String peId, String email) {
+    public static HealthcareProvider checkDuplicate(String peId, String email, String firstName, String lastName, String participantId) {
         HealthcareProvider hp = new HealthcareProvider();
         hp.email = email;
-
         if (!String.isBlank(email)) {
-            List<Contact> contacts = [
-                    SELECT Id,
-                            FirstName,
-                            LastName,
-                            Name,
-                            Email,
-                            userCommunytyType__c
-                    FROM Contact
-                    WHERE Email = :email OR Email = :email.toLowerCase()
-            ];
-
+            String contactQuery = 'SELECT Id, FirstName, LastName, Name, Email, Phone,  userCommunytyType__c FROM Contact WHERE (Email = \'' + email + '\''
+                    +' OR Email = \'' + email.toLowerCase() + '\')';
+            if (!String.isBlank(firstName) && !String.isBlank(lastName)) {
+                contactQuery += ' OR ((Email = \'' + email + '\' OR Email = \'' + email.toLowerCase() + '\')' +
+                        +' AND (FirstName = \'' + firstName + '\' OR FirstName = \'' + firstName.toLowerCase() + '\')' +
+                        +' AND (LastName = \'' + lastName + '\' OR LastName = \'' + lastName.toLowerCase() + '\'))';
+            }
+            List<Contact> contacts = Database.query(contactQuery);
             if (!contacts.isEmpty()) {
-                if (String.isBlank(contacts[0].FirstName) || String.isBlank(contacts[0].LastName)) {
+                hp.contactId = contacts[0].Id;
+                hp.contactPhoneNumber = contacts[0].Phone;
+                hp.firstName = contacts[0].FirstName;
+                hp.lastName = contacts[0].LastName;
+                firstName = contacts[0].FirstName;
+                lastName = contacts[0].LastName;
+               // if (String.isBlank(contacts[0].FirstName) || String.isBlank(contacts[0].LastName)) {
                     List<Participant__c> participants = [
                             SELECT Id,
                                     First_Name__c,
-                                    Last_Name__c
+                                    Last_Name__c,
+                                    Phone__c,
+                                    Phone_Type__c
                             FROM Participant__c
                             WHERE Contact__c = :contacts[0].Id
                     ];
                     if (!participants.isEmpty()) {
+                        hp.participantId = participants[0].Id;
+                        hp.contactPhoneNumber = participants[0].Phone__c;
+                        hp.contactPhoneType = participants[0].Phone_Type__c;
                         hp.firstName = participants[0].First_Name__c;
                         hp.lastName = participants[0].Last_Name__c;
                         contacts[0].FirstName = participants[0].First_Name__c;
                         contacts[0].LastName = participants[0].Last_Name__c;
+                        firstName = participants[0].First_Name__c;
+                        lastName = participants[0].Last_Name__c;
                         update contacts[0];
                     } else {
-                        hp.firstName = contacts[0].FirstName;
-                        hp.lastName = contacts[0].LastName;
+                        hp.participantId = null;
                     }
-                } else {
+               /* } else {
                     hp.firstName = contacts[0].FirstName;
                     hp.lastName = contacts[0].LastName;
-                }
+                }*/
                 hp.email = contacts[0].Email;
                 hp.hcpContactId = contacts[0].Id;
                 if (peId != null) {
@@ -134,42 +148,34 @@ global without sharing class ReferHealthcareProviderRemote {
                             AND Email__c = :email
                     ];
                     if (!isDuplicate.isEmpty()) {
+                        hp.healthcareProviderId = isDuplicate[0].Id;
                         hp.isDuplicate = true;
                     } else {
+                        hp.healthcareProviderId = null;
                         hp.isDuplicate = false;
                     }
-
-                    List<Patient_Delegate__c> duplicateDelegates = [
-                            SELECT Id
-                            FROM Patient_Delegate__c
-                            WHERE Participant__c = :
-                                    [
-                                            SELECT Participant__c
-                                            FROM Participant_Enrollment__c
-                                            WHERE Id = :peId
-                                            LIMIT 1
-                                    ].Participant__c
-                            AND Contact__r.Email = :email
-                    ];
+                }
+                if (participantId == null && peId != null) {
+                    participantId = [
+                            SELECT Participant__c
+                            FROM Participant_Enrollment__c
+                            WHERE Id = :peId
+                            LIMIT 1
+                    ].Participant__c;
+                }
+                if(participantId != null) {
+                    List<Patient_Delegate__c> duplicateDelegates = checkDuplicatePDelegates(participantId, email, firstName, lastName);
                     if (!duplicateDelegates.isEmpty()) {
                         hp.isDuplicateDelegate = true;
                     } else {
                         hp.isDuplicateDelegate = false;
                     }
-                } else {
-                    hp.isDuplicate = contacts[0].get('userCommunytyType__c') != null && contacts[0].userCommunytyType__c.contains('HCP');
                 }
-
-                /*Healthcare_Provider__c newHP = new Healthcare_Provider__c();
-                newHP.Participant_Enrollment__c = peId;
-                newHP.Email__c = hp.email;
-                newHP.First_Name__c = hp.firstName;
-                newHP.Last_Name__c = hp.lastName;
-                newHP.Status__c = HP_S_DUPLICATE;
-                insert newHP;*/
+            } else {
+                hp.contactId = null;
+                //hp.isDuplicate = contacts[0].get('userCommunytyType__c') != null && contacts[0].userCommunytyType__c.contains('HCP');
             }
         }
-
         return hp;
     }
 
@@ -540,9 +546,14 @@ global without sharing class ReferHealthcareProviderRemote {
         @AuraEnabled public String email { get; set; }
         @AuraEnabled public String firstName { get; set; }
         @AuraEnabled public String lastName { get; set; }
+        @AuraEnabled public String participantId { get; set; }
+        @AuraEnabled public String healthcareProviderId { get; set; }
         @AuraEnabled public Boolean isDuplicate { get; set; }
         @AuraEnabled public Boolean isDuplicateDelegate { get; set; }
         @AuraEnabled public String hcpContactId { get; set; }
+        @AuraEnabled public String contactId { get; set; }
+        @AuraEnabled public String contactPhoneNumber { get; set; }
+        @AuraEnabled public String contactPhoneType { get; set; }
     }
 
     public class PDWrapper {
@@ -564,4 +575,10 @@ global without sharing class ReferHealthcareProviderRemote {
         }
     }
 
+    public static List<Patient_Delegate__c> checkDuplicatePDelegates(String participantId, String email, String firstName, String lastName) {
+        String duplicateDelegatesQuery = 'SELECT Id FROM Patient_Delegate__c WHERE Participant__c = \'' + participantId + '\' AND Contact__r.Email = \'' + email + '\'';
+        if (firstName != null) duplicateDelegatesQuery += ' AND (Contact__r.FirstName = \'' + firstName + '\' OR Contact__r.FirstName = \'' + firstName.toLowerCase() + '\')';
+        if (lastName != null) duplicateDelegatesQuery += ' AND (Contact__r.LastName = \'' + lastName + '\' OR Contact__r.LastName = \'' + lastName.toLowerCase() + '\')';
+        return Database.query(duplicateDelegatesQuery);
+    }
 }

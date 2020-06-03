@@ -30,7 +30,7 @@ public without sharing class Action_InviteRPRemote {
 
     @AuraEnabled
     public static ReferHealthcareProviderRemote.HealthcareProvider checkDuplicate(String email) {
-        return ReferHealthcareProviderRemote.checkDuplicate(null, email);
+        return ReferHealthcareProviderRemote.checkDuplicate(null, email, null, null, null);
     }
 
     @AuraEnabled
