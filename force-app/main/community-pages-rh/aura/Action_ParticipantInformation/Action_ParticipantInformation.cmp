@@ -7,6 +7,7 @@
 
     <!-- attributes: -->
     <aura:attribute name="pe" type="Participant_Enrollment__c"/>
+    <aura:attribute name="refProvider" type="Contact"/>
     <aura:attribute name="participant" type="Participant__c" access="private"/>
     <aura:attribute name="participantDelegate" type="Participant__c" access="private"/>
     <aura:attribute name="callback" type="Object" access="private"/>
@@ -94,7 +95,7 @@
                         <aura:if isTrue="{!v.pe}">
                             <div id="healthCareProvider">
                                 <c:ReferHealthcareProvider pe="{!v.pe}"
-                                                           refProvider="{#v.pe.HCP__r.HCP_Contact__r}"
+                                                           refProvider="{!v.refProvider}"
                                                            showReferringProvider="{#v.pe.Show_Referring_Provider__c}"
                                                            fromActionParticipant="true"
                                                            actionDisabled="{!v.actions.screenerResponses.disabled}"/>
