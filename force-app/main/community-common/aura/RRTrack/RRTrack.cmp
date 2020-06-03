@@ -15,7 +15,7 @@
     <aura:attribute name="maxValue" type="Double" default="0"/>
 
     <aura:attribute name="arrowColor" type="String" default="#9e54b0" access="private"/>
-    <aura:attribute name="arrowMargin" type="Integer" default="1" access="private"/>
+    <aura:attribute name="arrowMargin" type="Integer" default="2" access="private"/>
     <aura:attribute name="trackMargin" type="Integer" default="0" access="private"/>
     <aura:attribute name="trackWidth" type="Integer" default="0" access="private"/>
     <aura:attribute name="valueMargin" type="Integer" default="0" access="private"/>
@@ -26,7 +26,7 @@
     <!-- COMPONENT BODY -->
     <div class="rr-slider-bar">
         <div aura:id="track" class="rr-slider-track"><span style="{!'width:' + v.trackWidth + '%;margin-left:' + v.trackMargin + '%'}" class="{!v.showExpectedRange ? '' : 'hidden'}"></span></div>
-        <div style="{!'margin-left:' + v.arrowMargin + '%;color:' + v.arrowColor}" aura:id="arrDown" class="hidden"></div>
+        <div style="{!'margin-left:' + v.arrowMargin + '%;background-color:' + v.arrowColor}" aura:id="arrDown" class="hidden"></div>
     </div>
     <div style="{!'margin-left:' + v.valueMargin + '%'}" aura:id="actValue" class="visit-result-actual-value">
         {!if(!v.value, v.wrapper.value + ' ' + v.wrapper.measurement, v.value)}

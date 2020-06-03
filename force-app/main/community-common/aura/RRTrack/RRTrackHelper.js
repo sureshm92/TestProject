@@ -63,7 +63,7 @@
         }
         component.set('v.trackWidth', trackWidth);
 
-        if (arrowMargin > 1) {
+        if (arrowMargin > 2) {
             if (arrowMargin < 96) component.set('v.arrowMargin', arrowMargin);
             else component.set('v.arrowMargin', 96);
 
