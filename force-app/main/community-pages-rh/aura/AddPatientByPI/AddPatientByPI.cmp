@@ -20,6 +20,7 @@
     <aura:attribute name="emailDelegateRepeat" type="String"/>
     <aura:attribute name="needsGuardian" type="Boolean" default="false"/>
     <aura:attribute name="isDelegateValid" type="Boolean" default="false"/>
+    <aura:attribute name="delegateDuplicateInfo" type="Object" default="false"/>
 
     <!-- methods: -->
     <aura:method name="checkDateOfBith" action="{!c.doCheckDateOfBith}" access="public"/>
@@ -127,6 +128,16 @@
                             <div class="slds-col slds-size--1-of-3 rr-form-element">
                                 <div class="label"></div>
                             </div>
+                            <aura:if isTrue="{!v.delegateDuplicateInfo.isDuplicateDelegate || v.delegateDuplicateInfo.contactId}">
+                                <div class="slds-grid slds-wrap slds-size--7-of-12 slds-large-size--1-of-1 slds-grid_vertical-align-end healthcare-form-container provider-found-section">
+                                    <div class="slds-col slds-size--4-of-12">
+                                        {!$Label.c.Delegate_Found}
+                                    </div>
+                                    <div class="slds-col slds-size--8-of-12">
+                                        <c:RRLink label="{!$Label.c.Different_Delegate}" page="{!'help'}"/>
+                                    </div>
+                                </div>
+                            </aura:if>
                         </aura:if>
                     </div>
                 </div>
