@@ -164,33 +164,46 @@
                 emailParticipantReapetCmp.reportValidity();
             }
             if (!participantDelegate) {
+                console.log('++++');
                 component.set('v.isValid', false);
             }
             //var checkReferred = source == 'ePR' ? true : pe.Referred_By__c ? true : false;
+            if(needsGuardian || participantDelegate || participant.Phone__c) {
+                isValid = false;
+                isValid = isValid ||
+                    (participant.First_Name__c &&
+                        participant.Last_Name__c &&
+                        participant.Date_of_Birth__c &&
+                        inputDate <= currentDate &&
+                        participant.Gender__c &&
+                        (needsGuardian || participantDelegate || participant.Phone__c.trim()) &&
+                        (needsGuardian || participantDelegate || participant.Phone_Type__c) &&
+                        (needsGuardian || participantDelegate || emailParticipantRepeat && participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
+                        (!participantDelegate || participantDelegate.Phone__c.trim()) &&
+                        (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
+                        (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
+                        participant.Mailing_Zip_Postal_Code__c &&
+                        pe &&
+                        pe.Participant_Status__c &&
+                        (!isRandomizationSuccess || (isRandomizationSuccess && pe.Screening_ID__c)) &&
+                        (!stateRequired || (stateRequired && participant.Mailing_State_Code__c)) &&
+                        //stateVaild &&
+                        (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
+                        pe.Referred_By__c);
+                console.log('isValid4' + isValid);
+            }
+        }
+        if (!component.find('emailInput').get('v.validity').valid){
+            console.log('EMAILAIF');
             isValid = false;
-            isValid = isValid ||
-                (participant.First_Name__c &&
-                participant.Last_Name__c &&
-                participant.Date_of_Birth__c &&
-                inputDate <= currentDate &&
-                participant.Gender__c &&
-                (needsGuardian || participantDelegate || participant.Phone__c.trim()) &&
-                (needsGuardian || participantDelegate || participant.Phone_Type__c.trim()) &&
-                (needsGuardian || participantDelegate || emailParticipantRepeat && participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
-                (!participantDelegate || participantDelegate.Phone__c.trim()) &&
-                (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
-                (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
-                participant.Mailing_Zip_Postal_Code__c &&
-                pe &&
-                pe.Participant_Status__c &&
-                (!isRandomizationSuccess || (isRandomizationSuccess && pe.Screening_ID__c)) &&
-                (!stateRequired || (stateRequired && participant.Mailing_State_Code__c)) &&
-                //stateVaild &&
-                (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
-                pe.Referred_By__c);
-            console.log('isValid4' + isValid);
         }
         if (participant.Alternative_Phone_Number__c && !participant.Alternative_Phone_Type__c){
+            isValid = false;
+        }
+        if (participant.Email__c && !emailParticipantRepeat) {
+            isValid = false;
+        }
+        if (participant.Phone__c && !participant.Phone_Type__c) {
             isValid = false;
         }
 
