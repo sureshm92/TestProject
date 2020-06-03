@@ -154,11 +154,27 @@
     margin-left: 0;
 }
 
-@media (max-width: 768px){ 
+@media screen and (max-width: 768px){
    .THIS .db-list-item .rr-small-down-hide {
         display: none;
     } 
     .THIS .db-list-item .rr-small-up-hide .apollo-btn {
         width: 100%;
     }
+}
+
+@media screen and (max-width: 500px) {
+
+    .THIS .cDashboardPINew.db-section > .slds-col {
+        width: 100%;
+    }
+
+    .THIS .cDashboardPINew.db-section > .slds-col:nth-of-type(-n+2) {
+        margin-top: 1rem;
+    }
+
+    .THIS .cDashboardPINew.db-section > .slds-col:nth-of-type(3) {
+        overflow: hidden;
+    }
+
 }
