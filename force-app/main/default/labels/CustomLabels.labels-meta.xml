@@ -2340,7 +2340,9 @@
 
             To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##FullCommunityName.
 
-            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.</value>
+            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.
+
+            Your username is ##UserName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Created_By_PI</fullName>
@@ -2353,7 +2355,9 @@
 
             To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##FullCommunityName.
 
-            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.</value>
+            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.
+
+            Your username is ##UserName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Delegate</fullName>
@@ -2384,7 +2388,9 @@
 
             To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##FullCommunityName.
 
-            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.</value>
+            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.
+
+            Your username is ##UserName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Medication_Task_Reminder</fullName>
@@ -7698,6 +7704,20 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Contact Information</value>
     </labels>
     <labels>
+        <fullName>PG_AP_H_Participant_Contact_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP H Participant Contact Information</shortDescription>
+        <value>Participant Contact Information</value>
+    </labels>
+    <labels>
+        <fullName>PG_AP_H_Participation_Details</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP H Participation Details</shortDescription>
+        <value>Participation Details</value>
+    </labels>
+    <labels>
         <fullName>PG_AP_H_Patient_Contact_Information</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -10855,6 +10875,13 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>false</protected>
         <shortDescription>PG Ref L Participant Information</shortDescription>
         <value>Participant Information</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Participant_Primary_daytime_telephone_number</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG Ref L Participant Primary daytime telephone number</shortDescription>
+        <value>Primary Daytime Telephone Number</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Participant_require_agree</fullName>

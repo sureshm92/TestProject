@@ -28,7 +28,29 @@ private class Test_TrialSearchWhereClauseFactory {
 
         System.assert(!String.isBlank(clause.getWhereClause()));
     }
-
+	
+    @IsTest
+    static void getInstance_QCareTM_test() {
+        List<Id> ctpIds = new List<Id>{
+                TestDataFactory.getFakeId(Trial_Match__c.getSObjectType())
+        };
+        Set<Id> userQCareSSIds = new Set<Id>{
+                TestDataFactory.getFakeId(Study_Site__c.getSObjectType())
+        };
+        TrialSearchWhereClauseFactory.WhereClause clause = new TrialSearchWhereClauseFactory().getInstance(ctpIds, 'Id', true, true, userQCareSSIds);
+        System.assert(!String.isBlank(clause.getWhereClause()));
+    }
+    
+    @IsTest
+    static void getInstance_noQCareTM_test() {
+        List<Id> ctpIds = new List<Id>{
+                TestDataFactory.getFakeId(Trial_Match__c.getSObjectType())
+        };
+        Set<Id> userQCareSSIds = new Set<Id>();
+        TrialSearchWhereClauseFactory.WhereClause clause = new TrialSearchWhereClauseFactory().getInstance(ctpIds, 'Id', true, true, userQCareSSIds);
+        System.assert(!String.isBlank(clause.getWhereClause()));
+    }
+    
     @IsTest
     static void getInstance_enrolling_test() {
         List<Id> taIds = new List<Id>{

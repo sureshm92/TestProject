@@ -8,8 +8,10 @@
 
     <c:uiHeaderMenu aura:id="menuId">
         <aura:set attribute="title">
-            <div>{!$Label.c.Navigation_Resources}</div>
-            <img class="arrow-down" src="{!$Resource.icon_triangleDownWhite}" width="14" height="14"/>
+            <div class="slds-header-link">
+                {!$Label.c.Navigation_Resources}
+                <img class="arrow-down" src="{!$Resource.icon_triangleDownWhite}" width="14" height="14"/>
+            </div>
         </aura:set>
         <c:uiMenuItem label="{!$Label.c.Navigation_Library}" onclick="{!c.onClickResource}"/>
         <c:uiMenuItem label="{!$Label.c.Navigation_Media_Outreach}"/>

@@ -12,8 +12,7 @@
                           signature="{!$Label.Email_Signature_New}"
                           communityTemplate="GSK">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate}"/>
-            <c:EmailTemplateDelegateParticipant commTemplate="GSK"
-                                                sourceId="{!relatedTo.Id}"/>
+            <c:EmailTemplateDelegateParticipant sourceId="{!relatedTo.Id}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
                               buttonURL="/gsk/s/"/>
         </c:EmailWireframe>
@@ -28,8 +27,7 @@
                               signature="{!$Label.Email_Signature_New}"
                               communityTemplate="GSK">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate}"/>
-            <c:EmailTemplateDelegateParticipantText commTemplate="GSK"
-                                                    sourceId="{!relatedTo.Id}"/>
+            <c:EmailTemplateDelegateParticipantText sourceId="{!relatedTo.Id}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
                                   buttonURL="/gsk/s/"/>
         </c:EmailWireframeText>

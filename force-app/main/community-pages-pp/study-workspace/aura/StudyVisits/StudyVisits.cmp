@@ -31,32 +31,33 @@
         </div>
 
         <ui:scrollerWrapper>
-                <aura:if isTrue="{!!empty(v.visitWrappers)}">
-                    <c:RRTable>
+            <aura:if isTrue="{!!empty(v.visitWrappers)}">
+                <c:RRTable>
+                    <tr>
+                        <th class="sv-t-name">{!$Label.c.Home_Page_StudyVisit_Visit}</th>
+                        <th class="sv-t-time">{!$Label.c.Home_Page_StudyVisit_Schedule}</th>
+                        <th class="sv-t-icons">{!$Label.c.Home_Page_StudyVisit_WhToEx}</th>
+                        <th class="sv-t-status">{!$Label.c.Home_Page_StudyVisit_Status}</th>
+                        <th>{!$Label.c.Home_Page_StudyVisit_Reminder}</th>
+                        <th class="sv-t-completed-date">{!$Label.c.Home_Page_StudyVisit_Completed_On}</th>
+                    </tr>
+                    <aura:iteration var="visitWrapper" items="{!v.currentVisits}">
                         <tr>
-                            <th class="sv-t-name">{!$Label.c.Home_Page_StudyVisit_Visit}</th>
-                            <th class="sv-t-time">{!$Label.c.Home_Page_StudyVisit_Schedule}</th>
-                            <th class="sv-t-icons">{!$Label.c.Home_Page_StudyVisit_WhToEx}</th>
-                            <th class="sv-t-status">{!$Label.c.Home_Page_StudyVisit_Status}</th>
-                            <th >{!$Label.c.Home_Page_StudyVisit_Reminder}</th>
-                            <th class="sv-t-completed-date">{!$Label.c.Home_Page_StudyVisit_Completed_On}</th>
-                        </tr>
-                        <aura:iteration var="visitWrapper" items="{!v.currentVisits}">
-                            <tr>
-                                <td class="sv-t-name">{!(visitWrapper.visit.Is_Adhoc__c
-                                    ? $Label.c.StudyVisit_Unscheduled_Visit
-                                    : visitWrapper.visit.Visit__r.Patient_Portal_Name__c)}</td>
-                                <td class="sv-t-time">{!(visitWrapper.visit.Is_Adhoc__c ? $Label.c.StudyVisit_Ad_hoc_Visit : visitWrapper.visit.Visit__r.Visit_Schedule__c)}</td>
-                                <td class="{!visitWrapper.visit.Is_Adhoc__c ? 'invisible' : 'sv-t-icons'}">
-                                    <c:RRIconSplitter class="svl-icon" icons="{!visitWrapper.iconDetails}"/>
-                                </td>
-                                <td class="{!visitWrapper.visit.Is_Adhoc__c ? 'sv-t-icons' : 'invisible'}">{!$Label.c.StudyVisit_Variable}</td>
-                                <td class="sv-t-status">{!if(visitWrapper.visit.Status__c == 'Missed', $Label.c.Study_Visit_Unavailable, visitWrapper.visit.Status__c)}</td>
-                                <td class="sv-t-reminder"
-                                    data-visit-id="{!visitWrapper.visit.Id}"
-                                    data-task-id="{!visitWrapper.task.Id}"
-                                    onclick="{!c.createEditTask}">
-                                    <aura:if isTrue="{!visitWrapper.visit.Status__c == 'Pending'}">
+                            <td class="sv-t-name">{!(visitWrapper.visit.Is_Adhoc__c
+                                ? $Label.c.StudyVisit_Unscheduled_Visit
+                                : visitWrapper.visit.Visit__r.Patient_Portal_Name__c)}</td>
+                            <td class="sv-t-time">{!(visitWrapper.visit.Is_Adhoc__c ? $Label.c.StudyVisit_Ad_hoc_Visit : visitWrapper.visit.Visit__r.Visit_Schedule__c)}</td>
+                            <td class="{!visitWrapper.visit.Is_Adhoc__c ? 'invisible' : 'sv-t-icons'}">
+                                <c:RRIconSplitter class="svl-icon" icons="{!visitWrapper.iconDetails}"/>
+                            </td>
+                            <td class="{!visitWrapper.visit.Is_Adhoc__c ? 'sv-t-icons' : 'invisible'}">{!$Label.c.StudyVisit_Variable}</td>
+                            <td class="sv-t-status">{!if(visitWrapper.visit.Status__c == 'Missed', $Label.c.Study_Visit_Unavailable, visitWrapper.visit.Status__c)}</td>
+                            <td>
+                                <aura:if isTrue="{!visitWrapper.visit.Status__c == 'Pending'}">
+                                    <div class="sv-t-reminder"
+                                         data-visit-id="{!visitWrapper.visit.Id}"
+                                         data-task-id="{!visitWrapper.task.Id}"
+                                         onclick="{!c.createEditTask}">
                                         <aura:if isTrue="{!visitWrapper.task == null}">
                                             {!$Label.c.Create}
                                             <aura:set attribute="else">
@@ -68,25 +69,26 @@
                                                 </aura:if>
                                             </aura:set>
                                         </aura:if>
-                                    </aura:if>
-                                </td>
-                                <td class="">{!visitWrapper.completedOrPlannedDate}</td>
-                            </tr>
-                        </aura:iteration>
-                    </c:RRTable>
-                    <div class="pagination">
-                        <c:rrPagination allObjects="{!v.visitWrappers}" currentObjects="{!v.currentVisits}"
-                                        entriesOnPage="4"/>
-                    </div>
-                </aura:if>
-
-                <c:EmptyListStub class="no-visits-message" targetList="{!v.visitWrappers}" iconName="none"
-                                 message="{!$Label.c.PG_VP_L_No_Items_display}"/>
-            </ui:scrollerWrapper>
-
-
-            <aura:if isTrue="{!v.initialized}">
-                <c:StudyVisitsLegend iconNames="{!v.iconNames}"/>
+                                    </div>
+                                </aura:if>
+                            </td>
+                            <td class="">{!visitWrapper.completedOrPlannedDate}</td>
+                        </tr>
+                    </aura:iteration>
+                </c:RRTable>
+                <div class="pagination">
+                    <c:rrPagination allObjects="{!v.visitWrappers}" currentObjects="{!v.currentVisits}"
+                                    entriesOnPage="4"/>
+                </div>
             </aura:if>
+
+            <c:EmptyListStub class="no-visits-message" targetList="{!v.visitWrappers}" iconName="none"
+                             message="{!$Label.c.PG_VP_L_No_Items_display}"/>
+        </ui:scrollerWrapper>
+
+
+        <aura:if isTrue="{!v.initialized}">
+            <c:StudyVisitsLegend iconNames="{!v.iconNames}"/>
+        </aura:if>
     </div>
 </aura:component>
