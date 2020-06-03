@@ -28,12 +28,11 @@ private class Test_EmailTemplateDelegatePartController {
         patientDelegate.Status__c = 'Active';
         update patientDelegate;
 
-        EmailTemplateDelegatePartController controller = new EmailTemplateDelegatePartController();
-        controller.delegateUserId = delegate.Id;
-        controller.commTemplateStr = 'Default';
-        Test.stopTest();
         EmailTemplateProviderService.setProviderType('', delegate.Id, delegate.Name,
-                'en_US', 'IQVIA', delegate.Id, '');
+                'en_US', 'Default', delegate.Id, '');
+        EmailTemplateDelegatePartController controller = new EmailTemplateDelegatePartController();
+        Test.stopTest();
+
         System.assertEquals(td.ctp.Study_Code_Name__c, controller.getDelegateStudyNames()[0]);
     }
 
@@ -44,11 +43,11 @@ private class Test_EmailTemplateDelegatePartController {
         insert delegate;
 
         Test.startTest();
-        EmailTemplateDelegatePartController controller = new EmailTemplateDelegatePartController();
-        controller.delegateUserId = delegate.Id;
-        Test.stopTest();
         EmailTemplateProviderService.setProviderType('', delegate.Id, delegate.Name,
                 'en_US', 'IQVIA', delegate.Id, '');
+        EmailTemplateDelegatePartController controller = new EmailTemplateDelegatePartController();
+        Test.stopTest();
+
         System.assert(controller.getDelegateStudyNames().isEmpty());
     }
 }
