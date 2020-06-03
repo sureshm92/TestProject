@@ -10986,7 +10986,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG Ref L Text To Delete Plan</shortDescription>
-        <value>number of study sites are using that program, do you want to proceed?</value>
+        <value>{0} number of study sites are using that program, do you want to proceed?</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Thank_you_for_having_a_discussion_with_your_patient_about_clinical_stud</fullName>
