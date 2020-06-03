@@ -56,7 +56,6 @@
     },
 
     columnCheckboxStateChange: function (component, event, helper) {
-        console.log('LLLLLLLLLLLLLLLLLLLL');
         let ipId = component.get('v.ipId');
         let state = component.get('v.state');
         let haveSelecteAll = false;
