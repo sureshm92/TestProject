@@ -4,7 +4,6 @@
 
 .THIS .site-sub-header {
     color: #999999;
-    font-family: "Proxima Nova";
     font-size: 14px;
     line-height: 17px;
 }
@@ -19,15 +18,13 @@
 }
 
 @media all and (min-width: 768px) {
-    .THIS .site-distance {
-        text-align: right;
-        margin-top: .5rem;
+    .THIS .inner-content-card > .slds-grid:last-child .slds-col {
+        margin-bottom: 1rem;
     }
 }
 
 .THIS .site-address {
     color: #333333;
-    font-family: "Proxima Nova";
     font-size: 13px;
     line-height: 16px;
 }

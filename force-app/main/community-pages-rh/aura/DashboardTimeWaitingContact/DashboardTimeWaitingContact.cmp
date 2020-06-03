@@ -18,11 +18,13 @@
             </div>
             <div class="db-qal-items slds-grid slds-wrap db-section"  style="height: 200px; margin-top: 15px;">
                 <aura:iteration items="{!v.peList}" var="item" indexVar="ind">
-                    <div class="slds-col slds-size--3-of-12" style="text-align: right; margin-bottom: 10px;">
+                    <div class="barContainer">
+                        <div class="slds-col slds-size--3-of-12 barTitle" style="margin-bottom: 10px;">
                         {!item.title}
                     </div>
-                    <div class="slds-col slds-size--9-of-12" style="margin-bottom: 10px;">
-                        <div style="{!'width: ' + item.width +'; background-color: ' + item.color + '; height: 20px; display: inline-block;'}"></div><div style="margin-left: 10px; display: inline-block;">{!'' + item.count + ' ' + $Label.c.STP_ELSE_PT1}</div>
+                        <div class="slds-col slds-size--9-of-12 barGrp" style="margin-bottom: 10px;">
+                            <div class="bar" style="{!'width: ' + item.width +'; background-color: ' + item.color + '; height: 20px; display: inline-block;'}"></div><div class="barText" style="margin-left: 10px; display: inline-block;">{!'' + item.count + ' ' + $Label.c.STP_ELSE_PT1}</div>
+                    	</div>
                     </div>
                 </aura:iteration>
             </div>
