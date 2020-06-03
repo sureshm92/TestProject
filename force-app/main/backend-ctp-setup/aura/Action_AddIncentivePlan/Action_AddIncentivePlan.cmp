@@ -39,7 +39,7 @@
             <div class="label">
                 <abbr title="required" class="slds-required">*</abbr>Incentive Program
             </div>
-                <lightning:input type="text" value="{!v.planName}" onblur="{!c.checkPlanName}" onchange="{!c.checkPlanName}"/>
+                <lightning:input aura:id="inputPlanName" type="text" value="{!v.planName}" onblur="{!c.checkPlanName}" onchange="{!c.checkPlanName}"/>
 
         <div class="slds-scrollable visits-table">
 

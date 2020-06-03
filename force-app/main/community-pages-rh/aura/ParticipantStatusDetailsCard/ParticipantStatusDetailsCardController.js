@@ -11,6 +11,7 @@
         component.set('v.reasonList', stepWrapper.reasonMap[stepWrapper.outcome]);
         component.set('v.previousSelectedOutcome', stepWrapper.outcome);
         component.set('v.disableReason', true);
+        component.set('v.stepWrapper.reason', '');
         
         helper.checkValidity(component, event, helper, stepWrapper);
     },
@@ -27,8 +28,11 @@
             let reasonList = stepWrapper.reasonMap[stepWrapper.outcome];
             component.set('v.reasonList', reasonList);
             component.set('v.disableReason', false);
-            component.set('v.stepWrapper.reason',reasonList === undefined || reasonList.length==0?"":reasonList[0].value);
+            let reasonValue = reasonList === undefined || reasonList.length==0?"":reasonList[0].value;
+            component.set('v.stepWrapper.reason',reasonValue);
+            component.find('reasonList').set('v.value', reasonValue);
             component.set('v.previousSelectedOutcome', stepWrapper.outcome);
+            component.set('v.notesRequired', stepWrapper.notesRequiredMap[selectedOutcome+';'+reasonValue]);
             var changesMap = {title : 'outcome',
                               type : 'picklist',
                               isChanged : true};
@@ -39,6 +43,8 @@
     },
     updateNotesRequired : function (component, event, helper) {
         let stepWrapper = component.get('v.stepWrapper');
+        let selectedReason = component.find('reasonList').get('v.value');
+        component.set('v.stepWrapper.reason', selectedReason);
         component.set('v.notesRequired', stepWrapper.notesRequiredMap[stepWrapper.outcome+';'+stepWrapper.reason]);
         helper.checkValidity(component, event, helper, stepWrapper);
     },

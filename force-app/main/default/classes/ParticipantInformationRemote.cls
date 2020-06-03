@@ -416,9 +416,18 @@ public without sharing class ParticipantInformationRemote {
             Clinical_Trial_Profile__c ctp = StudyTrialService.getFullTrial(oldParticipantEnrollment.Clinical_Trial_Profile__c);
             ParticipantWorkflowService.populatePEFromWorkflowWrapper(pathWrapper, pe, ctp, oldParticipantEnrollment);
             update pe;
+            if ((oldParticipantEnrollment.Initial_visit_scheduled_date__c == null || oldParticipantEnrollment.Initial_visit_scheduled_time__c == null)
+                    &&(pe.Initial_visit_scheduled_date__c != null && pe.Initial_visit_scheduled_time__c != null)) {
+                IncentiveProgramService.completeIncentiveTaskCurrentContact(IncentiveTaskCatalog.INCENTIVE_TASK_ENTERED_INITIAL_VISIT_SCHEDULED_TIME, oldParticipantEnrollment.Study_Site__c, oldParticipantEnrollment.Name);
+            }
             pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_PI);            
             Participant_Enrollment_Status_History__c pesh = ParticipantWorkflowService.createPESHFromPathWrapper(pathWrapper, pe, ctp, oldParticipantEnrollment);
             if(pesh != null && historyToUpdate){
+                if (oldParticipantEnrollment.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED
+                        && (pesh.Status__c == PEStatusState.PE_STATUS_CONTACT_ATTEMPTED || pesh.Status__c == PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED)
+                        && oldParticipantEnrollment.Participant_Status_Last_Changed_Date__c.date().daysBetween(Date.today()) <= 1) {
+                    IncentiveProgramService.completeIncentiveTaskCurrentContact(IncentiveTaskCatalog.INCENTIVE_TASK_MADE_CONTACT_ATTEMPT_WITHIN_1_DAY, oldParticipantEnrollment.Study_Site__c, oldParticipantEnrollment.Name);
+                }
                 insert pesh;
             }
             pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_PI);

@@ -19,10 +19,14 @@
     <aura:attribute name="recordId" type="String"/>
     <aura:attribute name="tasks" type="List"/>
     <aura:attribute name="studyInfo" type="Object"/>
+    <aura:attribute name="planIdForDelete" type="String"/>
 
     <aura:attribute name="selectedIP" type="String"/>
     <aura:attribute name="allSelectedIPs" type="Object"/>
     <aura:attribute name="setOfSS" type="Object"/>
+
+    <aura:method name="doDeletePlan" action="{!c.doColumnIPDelete}" access="public"/>
+    <aura:method name="doSave" action="{!c.doSaveAndUpdate}" access="public"/>
 
 
     <!-- component body: -->
@@ -73,10 +77,9 @@
                             <!--Save changes button-->
                             <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
                                 <div class="slds-col slds-size--1-of-2">
-                                    <div class="save-btn">
+                                    <div class="addIP-btn">
                                         <lightning:button variant="neutral" label="Add Incentive Program"
                                                           onclick="{!c.doAddIP}"/>
-                                        <lightning:button variant="brand" label="Save" onclick="{!c.doSaveAndUpdate}"/>
                                     </div>
                                 </div>
                             </aura:if>
@@ -95,6 +98,7 @@
                                                     <c:IncentivePlanColumnMenu plan="{!ip}"
                                                                            onEdit="{!if(equals(v.viewModePage, 'Edit'), c.doColumnIPEdit, c.doColumnIPView)}"
                                                                            onClone="{!c.doColumnIPClone}"
+                                                                           onDelete="{!c.doWarningModal}"
                                                                            isVisible="{!equals(v.viewModePage, 'Edit')}"/>
                                                     <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
                                                         <div class="column-btn">
@@ -118,6 +122,9 @@
                                 </aura:if>
                             </c:uiFixedTable>
                         </div>
+
+                        <!--WarningModal-->
+                        <c:WarningModal aura:id="warningModal" parent="{!this}"/>
 
 
                         <!--Pagination-->
