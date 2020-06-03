@@ -4,6 +4,7 @@
 <aura:component description="VisitResultsItem">
 
     <!-- ATTRIBUTES -->
+    <aura:attribute name="displayedValue" type="Double" default="0" required="true"/>
     <aura:attribute name="wrapper" type="VisitResultsService.VisitResultWrapper"/>
     <aura:attribute name="visitResultType" type="String" default="Vitals"/>
 
@@ -26,8 +27,8 @@
                 {!$Label.c.Visit_Results_Tab_Expected_Range + ': ' + v.expectedRange}
             </div>
             <div class="visit-result-slider">
-                <c:RRTrack wrapper="{!v.wrapper}" showExpectedRange="{!v.showExpectedRange}"
-                           visitResultType="{!v.visitResultType}"/>
+                <c:RRTrack showPercentage="{!and(v.visitResultType != 'Biomarkers', v.showExpectedRange)}"
+                           wrapper="{!v.wrapper}" value="{!v.displayedValue}" />
             </div>
         </div>
     </div>
