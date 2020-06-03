@@ -24,9 +24,15 @@
 				component.find('createIncentiveTask').show();
 			} else if(params.mode === 'clone') {
 				helper.callRemote(component, ipId, true);
-				component.set('v.disableSave', false);
+				component.set('v.disableSave', true);
 				component.find('createIncentiveTask').show();
+
 			}
+			window.setTimeout(
+				$A.getCallback(function () {
+					component.find("inputPlanName").focus();
+				}), 1
+			);
 		}
 		component.set('v.invalidTaskInputs', new Set());
 
@@ -77,7 +83,7 @@
 	checkPlanName: function (component, event, helper) {
 		var planName = component.get('v.planName');
 		var planId = component.get('v.tasks');
-		communityService.executeAction(component, 'checkNamePlan',  {namePlan:planName}, function(returnValue) {
+		communityService.executeAction(component, 'checkNamePlan',  {namePlan:planName.trim()}, function(returnValue) {
 			if(returnValue && planId[0].planId == null){
 				component.set('v.disableSave', true);
 				communityService.showToast("Error", "error", 'The incentive program already exists');

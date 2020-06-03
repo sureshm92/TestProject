@@ -17,7 +17,7 @@
     visibility: visible;
     opacity: 1;
     transition: .3s;
-    z-index: 2500;
+    z-index: 10000;
 }
 
 .THIS.tour-fixed-overlay.hidden{
@@ -225,6 +225,7 @@
     }
 
     .THIS.tour-fixed-overlay{
-        height: 85%;
+        height: 95vh;
+        top: 10px;
     }
 }

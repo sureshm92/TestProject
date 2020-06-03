@@ -28,6 +28,7 @@ public without sharing virtual class EmailTemplateProvider {
     protected Id recipientContactId;
     protected Boolean isDelegate;
     protected String userMode;
+    protected Id whatId;
 
     private Boolean initialized = false;
 
@@ -51,11 +52,11 @@ public without sharing virtual class EmailTemplateProvider {
         parameters.put('RecipientName', getUserName());
         parameters.put('RecipientFirstName', recipientFirstName);
         parameters.put('GuestName', TranslateHelper.getLabelValue(Label.Email_Guest_User_Name));
-        if (isDelegate && userMode == 'Participant') initYourParticipantFirstName();
 
         initCRCommunityUrl();
 
         if(whatId != null) {
+            this.whatId = whatId;
             String parametersProvider = PARAM_PROVIDER_BY_TYPE.get(whatId.getSobjectType().getDescribe().getName());
             if (!String.isEmpty(parametersProvider)) {
                 parameters.putAll(CatalogParametersHelper.getParamsValueMap(
@@ -65,6 +66,7 @@ public without sharing virtual class EmailTemplateProvider {
                 ));
             }
         }
+        if (isDelegate && userMode == 'Participant') initYourParticipantFirstName();
 
         initialized = true;
     }
@@ -179,11 +181,11 @@ public without sharing virtual class EmailTemplateProvider {
 
         if (String.isEmpty(recipientName)) recipientName = recipientContact.Salutation_With_Name__c;
         parameters.put(userMode + 'Name', recipientName);
+        parameters.put('UserName', getCommunityUserName());
 
         if (String.isEmpty(recipientLanguage)) recipientLanguage = recipientContact.Language__c;
 
         isDelegate = recipientContact.UserCommunityIsDelegate__c;
-        if (isDelegate) parameters.put('UserName', getCommunityUserName(recipientContactId));
         if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
             List<Participant__c> participants = [
                     SELECT First_Name__c, Last_Name__c
@@ -194,8 +196,8 @@ public without sharing virtual class EmailTemplateProvider {
         }
     }
 
-    private String getCommunityUserName(String contactId) {
-        List<User> userList = [SELECT Username FROM User WHERE ContactId = :contactId];
+    private String getCommunityUserName() {
+        List<User> userList = [SELECT Username FROM User WHERE ContactId = :recipientId];
         return !userList.isEmpty() ? userList.get(0).Username : '';
     }
 
@@ -207,7 +209,9 @@ public without sharing virtual class EmailTemplateProvider {
         return name;
     }
 
-    private void initYourParticipantFirstName() {
+    protected virtual void initYourParticipantFirstName() {
+        if(parameters.containsKey('ParticipantFirstName')) return;
+
         Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(recipientContactId);
         if (participant != null) parameters.put('ParticipantFirstName', participant.First_Name__c);
     }
