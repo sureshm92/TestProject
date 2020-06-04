@@ -493,11 +493,11 @@
         <enabled>false</enabled>
     </classAccesses>
 	<classAccesses>
-        <apexClass>Test_newMediaOutReach</apexClass>
+        <apexClass>Test_NewMediaOutReach</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Test_viewMediaResult</apexClass>
+        <apexClass>Test_ViewMediaResult</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -505,11 +505,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>newMediaOutReach</apexClass>
+        <apexClass>NewMediaOutReach</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>viewMediaResult</apexClass>
+        <apexClass>ViewMediaResult</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
