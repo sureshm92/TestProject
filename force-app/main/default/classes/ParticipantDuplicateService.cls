@@ -262,13 +262,15 @@ public without sharing class ParticipantDuplicateService {
                             }
                         }
                     }
-                    for (Contact dupContact : contactsByDoB) {
-                        if (dupContact.LastName.toLowerCase() == participant.Last_Name__c.toLowerCase()) {
-                            if (dupContact.Email != null && dupContact.Email.toLowerCase() == delegate.Email__c.toLowerCase() ||
-                                    dupContact.Phone != null && dupContact.Phone == delegate.Phone__c ||
-                                    dupContact.MailingPostalCode != null && dupContact.MailingPostalCode == delegate.ZIP_Code__c) {
-                                if (dupContact.FirstName.toLowerCase() == delegate.First_Name__c.toLowerCase()) {
-                                    duplicate = new DuplicateContainer(dupContact);
+                    if (contactsByDoB != null) {
+                        for (Contact dupContact : contactsByDoB) {
+                            if (dupContact.LastName.toLowerCase() == participant.Last_Name__c.toLowerCase()) {
+                                if (dupContact.Email != null && dupContact.Email.toLowerCase() == delegate.Email__c.toLowerCase() ||
+                                        dupContact.Phone != null && dupContact.Phone == delegate.Phone__c ||
+                                        dupContact.MailingPostalCode != null && dupContact.MailingPostalCode == delegate.ZIP_Code__c) {
+                                    if (dupContact.FirstName.toLowerCase() == delegate.First_Name__c.toLowerCase()) {
+                                        duplicate = new DuplicateContainer(dupContact);
+                                    }
                                 }
                             }
                         }
