@@ -21,7 +21,7 @@
     <aura:attribute name="needsGuardian" type="Boolean" default="false"/>
     <aura:attribute name="isDelegateValid" type="Boolean" default="false"/>
     <aura:attribute name="callback" type="Object" access="private"/>
-    <aura:attribute name="delegateDuplicateInfo" type="Object" default="false"/>
+    <aura:attribute name="delegateDuplicateInfo" type="Object"/>
 
     <!-- methods: -->
     <aura:method name="checkDateOfBith" action="{!c.doCheckDateOfBith}" access="public">

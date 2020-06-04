@@ -51,7 +51,8 @@ public without sharing class AddPatientByPIRemote {
             Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
             participant.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI;
             pe.Referral_Source__c = 'PI';
-            ReferHealthcareProviderRemote.HealthcareProvider ddInfo = (ReferHealthcareProviderRemote.HealthcareProvider) JSON.deserialize(delegateDuplicateInfo, ReferHealthcareProviderRemote.HealthcareProvider.class);
+            ReferHealthcareProviderRemote.HealthcareProvider ddInfo;
+            if (delegateDuplicateInfo != null) ddInfo = (ReferHealthcareProviderRemote.HealthcareProvider) JSON.deserialize(delegateDuplicateInfo, ReferHealthcareProviderRemote.HealthcareProvider.class);
             ParticipantService.createParticipantAndUpdatePE(participant, pe, userLanguage);
 
             String participantId = !String.isBlank(participant.Id) ? participant.Id : pe.Participant__c;
@@ -77,7 +78,7 @@ public without sharing class AddPatientByPIRemote {
             if (participantDelegate != null && !String.isEmpty(participantDelegate.Last_Name__c) &&
                     !String.isEmpty(participantDelegate.Email__c)) {
                 Contact newContact;
-                if(String.isBlank(ddInfo.contactId)) {
+                if(ddInfo == null || String.isBlank(ddInfo.contactId)) {
                     newContact = new Contact();
                     newContact.FirstName = participantDelegate.First_Name__c;
                     newContact.LastName = participantDelegate.Last_Name__c;
@@ -108,8 +109,8 @@ public without sharing class AddPatientByPIRemote {
                     }
                     insert newContact;
                 }
-                if(ddInfo.participantId == null) {
-                    participantDelegate.Contact__c = newContact.Id;
+                if(ddInfo == null || ddInfo.participantId == null) {
+                    participantDelegate.Contact__c = newContact == null ? ddInfo.contactId : newContact.Id;
                     if (String.isBlank(participantDelegate.Phone__c) && !String.isBlank(participant.Phone__c)) {
                         participantDelegate.Phone__c = participant.Phone__c;
                         participantDelegate.Phone_Type__c = participant.Phone_Type__c;
@@ -119,7 +120,7 @@ public without sharing class AddPatientByPIRemote {
 
                 Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
                 ptDelegateRef.Participant__c = participant.Id;
-                ptDelegateRef.Contact__c = ddInfo.contactId == null ? newContact.Id : ddInfo.contactId;
+                ptDelegateRef.Contact__c = newContact == null ? ddInfo.contactId : newContact.Id;
                 insert ptDelegateRef;
 
                 ReferringRemote.createParticipantUsers(new Map<Id, Id> { newContact.Id => null});
