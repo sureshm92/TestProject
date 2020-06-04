@@ -68,22 +68,28 @@ public without sharing class CommunityFacadeRemote {
             cd.isDummy = UserContext.isDummyContact();
             if (!cd.isDummy) {
                 Contact userContact = CommunityService.getUserContact();
-                cd.allUserModes = UserContext.getAllUserModes();
                 cd.communityMode = userContact.userCommunityMode__c;
                 cd.communityDelegateId = userContact.userCommunityDelegateId__c != null ? userContact.userCommunityDelegateId__c : '';
                 cd.isDelegate = userContact.UserCommunityIsDelegate__c;
+                 cd.currentUserMode = UserContext.getCurrentUserMode();
+                if ( (cd.currentUserMode.participantState == 'ALUMNI') && (cd.currentUserMode.currentPE == null) && cd.isDelegate )
+                {
+                    userContact.Current_Participant_Enrollment__c=null;
+                    update userContact;
+                }
                 cd.state = ParticipantService.getParticipantState().value.name();
                 cd.preventedCookies = getPreventedCookies(userContact.Id);
                 cd.messagesVisible = getMessagesVisibility();
                 cd.trialMatchVisible = getTrialMatchVisibility();
-            }
-            cd.currentUserMode = UserContext.getCurrentUserMode();
+                cd.allUserModes = UserContext.getAllUserModes();
+           }
             cd.subDomain = Site.getPathPrefix().replace('/s', '');
             cd.communityName = Site.getName();
             cd.baseUrl = Site.getBaseUrl();
             cd.pathPrefix = Site.getPathPrefix();
             cd.isTCAccepted = cd.isDummy || isTCAccepted();
             cd.language = UserInfo.getLanguage();
+            
 
             return JSON.serialize(cd);
         } catch (Exception e) {
