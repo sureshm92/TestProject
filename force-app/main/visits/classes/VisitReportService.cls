@@ -4,6 +4,7 @@
 public inherited sharing class VisitReportService {
 
     public static final String VISIT_RECORD_TYPE_LABS = 'Labs';
+    public static final String VISIT_RES_RECORD_TYPE_BIO = 'Biomarker';
 
     public VisitReportContainerRemote.ReportDataWrapper getReportDataWrapper(Id peId) {
         Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, CommunityService.USER_MODE_PARTICIPANT);
@@ -158,7 +159,21 @@ public inherited sharing class VisitReportService {
         } else {
             reportHeaderWrappers.add(new VisitReportContainerRemote.VisitHeaderWrapper(visitResult.Result_Type__c, visitResult.Measurement__c));
         }
-        reportRowWrappers.add(new VisitReportContainerRemote.VisitValueWrapper(visitResult.Actual_Value__c, visitResult.Measurement__c));
+        //PEH-2256: Report should display +Positive/ -Negative/ Unknown
+        if(visitResult.RecordType.DeveloperName.equalsIgnoreCase(VisitReportService.VISIT_RES_RECORD_TYPE_BIO)){
+            String biomarkerValue = '';
+            if(visitResult.Actual_Value__c == -1.0){
+                biomarkerValue = '- ' + System.Label.Biomarkers_Negative;
+            } else if(visitResult.Actual_Value__c == 1.0){
+                biomarkerValue = '+ ' + System.Label.Biomarkers_Positive;
+            }else if(visitResult.Actual_Value__c == 0.0){
+                biomarkerValue = System.Label.Biomarkers_Unknown;
+            }
+            reportRowWrappers.add(new VisitReportContainerRemote.VisitValueWrapper(biomarkerValue));
+        } else{
+            reportRowWrappers.add(new VisitReportContainerRemote.VisitValueWrapper(visitResult.Actual_Value__c, visitResult.Measurement__c));
+        }
+        
     }
 
     private List<VisitReportContainerRemote.ReportDataTableWrapper> getSortedReportDataTableWrappers(
