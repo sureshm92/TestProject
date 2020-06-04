@@ -119,6 +119,7 @@ public without sharing class ParticipantDuplicateService {
                 birthDateStrings.add(partWithDelegate.participant.Date_of_Birth__c);
             }
             if (!String.isBlank(partWithDelegate.participant.ZIP_Code__c)) zipCodes.add(partWithDelegate.participant.ZIP_Code__c);
+            if (!String.isBlank(partWithDelegate.participant.Mailing_Zip_Postal_Code__c)) zipCodes.add(partWithDelegate.participant.Mailing_Zip_Postal_Code__c);
 
             if (partWithDelegate.delegate != null) {
                 participantsByDelegates.put(partWithDelegate.participant, partWithDelegate.delegate);
@@ -130,6 +131,7 @@ public without sharing class ParticipantDuplicateService {
                     birthDateStrings.add(partWithDelegate.delegate.Date_of_Birth__c);
                 }
                 if (!String.isBlank(partWithDelegate.delegate.ZIP_Code__c)) zipCodes.add(partWithDelegate.delegate.ZIP_Code__c);
+                if (!String.isBlank(partWithDelegate.delegate.Mailing_Zip_Postal_Code__c)) zipCodes.add(partWithDelegate.delegate.Mailing_Zip_Postal_Code__c);
             }
         }
 
@@ -255,7 +257,8 @@ public without sharing class ParticipantDuplicateService {
                             if (dupParticipant != null && dupParticipant.Last_Name__c != null && dupParticipant.Last_Name__c == participant.Last_Name__c) {
                                 if (dupParticipant.Email__c != null && delegate.Email__c != null && dupParticipant.Email__c.toLowerCase() == delegate.Email__c.toLowerCase() ||
                                         dupParticipant.Phone__c != null && dupParticipant.Phone__c == delegate.Phone__c ||
-                                        dupParticipant.ZIP_Code__c != null && dupParticipant.ZIP_Code__c == participant.ZIP_Code__c) {
+                                        dupParticipant.ZIP_Code__c != null && dupParticipant.ZIP_Code__c == participant.ZIP_Code__c ||
+                                        dupParticipant.Mailing_Zip_Postal_Code__c != null && dupParticipant.Mailing_Zip_Postal_Code__c == participant.Mailing_Zip_Postal_Code__c) {
                                     if (dupParticipant.First_Name__c != null && dupParticipant.First_Name__c == participant.First_Name__c) {
                                         duplicate = new DuplicateContainer(dupParticipant);
                                     }
@@ -268,7 +271,8 @@ public without sharing class ParticipantDuplicateService {
                             if (dupContact != null && dupContact.LastName != null && dupContact.LastName == participant.Last_Name__c) {
                                 if (dupContact.Email != null && delegate.Email__c != null && dupContact.Email.toLowerCase() == delegate.Email__c.toLowerCase() ||
                                         dupContact.Phone != null && dupContact.Phone == delegate.Phone__c ||
-                                        dupContact.MailingPostalCode != null && dupContact.MailingPostalCode == participant.ZIP_Code__c) {
+                                        dupContact.MailingPostalCode != null && (dupContact.MailingPostalCode == participant.ZIP_Code__c ||
+                                        dupContact.MailingPostalCode == participant.Mailing_Zip_Postal_Code__c)) {
                                     if (dupContact.FirstName != null && dupContact.FirstName == participant.First_Name__c) {
                                         duplicate = new DuplicateContainer(dupContact);
                                     }
