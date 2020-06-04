@@ -378,6 +378,7 @@ public without sharing class ParticipantEnrollmentService {
             'Enrolled_DateTime__c',
             'HCP__c',
             'HCP__r.Status__c',
+            'HCP__r.Study_Site__c',
             'HCP__r.HCP_Contact__c',
             'HCP__r.HCP_Contact__r.Name',
             'HCP__r.HCP_Contact__r.FirstName',
