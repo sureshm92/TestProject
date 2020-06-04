@@ -101,7 +101,6 @@ global without sharing class ReferHealthcareProviderRemote {
                 email =  String.escapeSingleQuotes(email);
                 firstName = String.escapeSingleQuotes(firstName);
                 lastName = String.escapeSingleQuotes(lastName);
-                hp.email = email;
                 contactQuery += ' OR ((Email = \'' + email + '\' OR Email = \'' + email.toLowerCase() + '\')' +
                         +' AND (FirstName = \'' + firstName + '\' OR FirstName = \'' + firstName.toLowerCase() + '\')' +
                         +' AND (LastName = \'' + lastName + '\' OR LastName = \'' + lastName.toLowerCase() + '\'))';
@@ -169,7 +168,7 @@ global without sharing class ReferHealthcareProviderRemote {
                     ].Participant__c;
                 }
                 if(participantId != null) {
-                    List<Patient_Delegate__c> duplicateDelegates = checkDuplicatePDelegates(participantId, email, firstName, lastName);
+                    List<Patient_Delegate__c> duplicateDelegates = checkDuplicatePDelegates(participantId, String.escapeSingleQuotes(email), String.escapeSingleQuotes(firstName), String.escapeSingleQuotes(lastName));
                     if (!duplicateDelegates.isEmpty()) {
                         hp.isDuplicateDelegate = true;
                     } else {
