@@ -99,8 +99,8 @@ global without sharing class ReferHealthcareProviderRemote {
                     +' OR Email = \'' + email.toLowerCase() + '\')';
             if (!String.isBlank(firstName) && !String.isBlank(lastName)) {
                 contactQuery += ' OR ((Email = \'' + email + '\' OR Email = \'' + email.toLowerCase() + '\')' +
-                        +' AND (FirstName = \'' + firstName + '\' OR FirstName = \'' + firstName.toLowerCase() + '\')' +
-                        +' AND (LastName = \'' + lastName + '\' OR LastName = \'' + lastName.toLowerCase() + '\'))';
+                        +' AND (FirstName = \'' + String.escapeSingleQuotes(firstName) + '\' OR FirstName = \'' + String.escapeSingleQuotes(firstName.toLowerCase()) + '\')' +
+                        +' AND (LastName = \'' + String.escapeSingleQuotes(lastName) + '\' OR LastName = \'' + String.escapeSingleQuotes(lastName.toLowerCase()) + '\'))';
             }
             List<Contact> contacts = Database.query(contactQuery);
             if (!contacts.isEmpty()) {

@@ -162,7 +162,7 @@ public class Test_ParticipantService {
         ParticipantService.setMock(new ParticipantServiceMock());
         String language = 'ru';
         Test.startTest();
-        ParticipantService.createParticipantAndUpdatePE(getParticipant(), getPE(null), language);
+        ParticipantService.createParticipantAndUpdatePE(getParticipant(), null, getPE(null), language);
         Test.stopTest();
     }
 
