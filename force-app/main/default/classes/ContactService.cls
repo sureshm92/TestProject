@@ -278,6 +278,6 @@ public without sharing class ContactService {
 
     public static Boolean checkVisitedCommunity(Id conId) {
         Contact con = [SELECT Id, Visited_Communities__c FROM Contact WHERE Id =: conId];
-        return con.Visited_Communities__c != null ? true : false;
+        return String.isNotEmpty(con.Visited_Communities__c);
     }
 }
