@@ -486,7 +486,7 @@ private class Test_BaseCRCPCommunity {
                     Phone__c = '12123123',
                     Email__c = 'NewTestPart@email.com'
             );
-            ReferringRemote.saveParticipant(testData.hcpEnrollment.Id, JSON.serialize(refInitData.participantEnrollment), JSON.serialize(participant2), null, null);
+            ReferringRemote.saveParticipant(testData.hcpEnrollment.Id, JSON.serialize(refInitData.participantEnrollment), JSON.serialize(participant2), null, null, null);
         }
         Test.stopTest();
         String vpResultJSON = ViewPatientsRemote.getInitData(testData.ctp.Id, testData.ss.Id, CommunityService.USER_MODE_HCP, null, CommunityService.USER_MODE_HCP, null);
