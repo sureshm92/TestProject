@@ -1,0 +1,37 @@
+{
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "componentName" : "c:OneColumnLayout",
+  "id" : "38ebd218-dd13-4440-bcd7-b26b82b784ca",
+  "label" : "Trial Match Print View",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:TrialMatchPrintView",
+      "id" : "cf3aa499-fc6f-45fb-9ad3-cf29792116b9",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "0d534384-cf3d-4cdf-a4d4-b0e782a324e5",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Trial Match Print View"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "e6668e0c-ad87-4e37-b910-91523607cb3f",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "bd437df8-0c1c-45b4-950c-4821625595fc",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-trial-match-print-view"
+}

@@ -162,7 +162,7 @@ public class Test_ParticipantService {
         ParticipantService.setMock(new ParticipantServiceMock());
         String language = 'ru';
         Test.startTest();
-        ParticipantService.createParticipantAndUpdatePE(getParticipant(), getPE(null), language);
+        ParticipantService.createParticipantAndUpdatePE(getParticipant(), getParticipantDelegate(), getPE(null), language);
         Test.stopTest();
     }
 
@@ -262,4 +262,18 @@ public class Test_ParticipantService {
                 First_Name__c = patientContact.FirstName
         );
     }
+
+    static Participant__c getParticipantDelegate() {
+        Contact patientContact = new Contact(
+                FirstName = 'Ashly',
+                LastName = 'DoyleDelegate',
+                Email = 'a.doyledelegate@gmail.com',
+                userCommunityMode__c = 'Participant'
+        );
+
+        return new Participant__c(
+                First_Name__c = patientContact.FirstName
+        );
+    }
+
 }

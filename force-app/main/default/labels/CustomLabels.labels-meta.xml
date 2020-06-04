@@ -5765,6 +5765,13 @@ Please log in to ##CommunityName to view this information.</value>
         <shortDescription>contact has user</shortDescription>
         <value>Invited</value>
     </labels>
+	<labels>
+        <fullName>Learn_More_Report_Document_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Learn More Report Document Name</shortDescription>
+        <value>Study Detailed Description Report</value>
+    </labels>
     <labels>
         <fullName>Library_Format</fullName>
         <language>en_US</language>
@@ -10853,7 +10860,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L One Incentive Plan Many Incentives</shortDescription>
-        <value>This selection affected {0} number of study sites</value>
+        <value>This selection affected {0} number of study sites. Do you want to proceed?</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_One_Incentive_Plan</fullName>
@@ -10979,7 +10986,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG Ref L Text To Delete Plan</shortDescription>
-        <value>number of study sites are using that program, do you want to proceed?</value>
+        <value>{0} number of study sites are using that program, do you want to proceed?</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Thank_you_for_having_a_discussion_with_your_patient_about_clinical_stud</fullName>
