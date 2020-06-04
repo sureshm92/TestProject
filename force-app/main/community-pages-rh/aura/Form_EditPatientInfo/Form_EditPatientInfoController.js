@@ -191,6 +191,8 @@
                         (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
                         pe.Referred_By__c);
                 console.log('isValid4' + isValid);
+            } else {
+                isValid = false;
             }
         }
         if (!component.find('emailInput').get('v.validity').valid){
