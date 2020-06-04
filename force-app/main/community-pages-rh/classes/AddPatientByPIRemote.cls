@@ -53,7 +53,16 @@ public without sharing class AddPatientByPIRemote {
             pe.Referral_Source__c = 'PI';
             ReferHealthcareProviderRemote.HealthcareProvider ddInfo;
             if (delegateDuplicateInfo != null) ddInfo = (ReferHealthcareProviderRemote.HealthcareProvider) JSON.deserialize(delegateDuplicateInfo, ReferHealthcareProviderRemote.HealthcareProvider.class);
-            ParticipantService.createParticipantAndUpdatePE(participant, pe, userLanguage);
+
+            Participant__c participantDelegate;
+            if (!String.isBlank(participantDelegateJSON)) {
+                participantDelegate = (Participant__c) JSON.deserialize(participantDelegateJSON, Participant__c.class);
+                if (participantDelegate != null) {
+                    participantDelegate.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
+                }
+            }
+
+            ParticipantService.createParticipantAndUpdatePE(participant, participantDelegate, pe, userLanguage);
 
             String participantId = !String.isBlank(participant.Id) ? participant.Id : pe.Participant__c;
             Participant__c newParticipant = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participantId];
@@ -64,14 +73,6 @@ public without sharing class AddPatientByPIRemote {
                 actionAssignContactPermissions.addPermission(newParticipant.Contact__c, permissionSetName);
                 if (!actionAssignContactPermissions.isEmpty()) {
                     ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
-                }
-            }
-
-            Participant__c participantDelegate;
-            if (!String.isBlank(participantDelegateJSON)) {
-                participantDelegate = (Participant__c) JSON.deserialize(participantDelegateJSON, Participant__c.class);
-                if (participantDelegate != null) {
-                    participantDelegate.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
                 }
             }
 

@@ -168,7 +168,7 @@ public without sharing class ReferringRemote {
             enrollment.Show_Referring_Provider__c = true;
             String language = UserInfo.getLanguage();
 
-            ParticipantService.getInstance().createParticipantAndUpdatePEImpl(participant, enrollment, language);
+            ParticipantService.createParticipantAndUpdatePE(participant, participantDelegate, enrollment, language);
 
             if (participantDelegate != null && !String.isEmpty(participantDelegate.Last_Name__c) &&
                     !String.isEmpty(participantDelegate.Email__c)) {
