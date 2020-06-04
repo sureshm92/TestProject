@@ -74,6 +74,10 @@
         display: inline-flex;
     }
 
+	.THIS .db-qal-items {
+		overflow-y: visible;
+	}
+
     .THIS .db-qal-items > .slds-col.slds-size--9-of-12 > div {
         max-width: 60%;
     }
