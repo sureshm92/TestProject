@@ -17,6 +17,7 @@
     <aura:attribute name="isValid" type="Boolean" default="false"/>
     <aura:attribute name="isDuplicate" type="Boolean" default="false"/>
     <aura:attribute name="isDuplicateDelegate" type="Boolean" default="false"/>
+    <aura:attribute name="duplicateDelegateInfo" type="Object"/>
 
 
     <div class="{!'slds-col ' + if(v.printMode, 'slds-size--4-of-12', 'slds-size--1-of-1 slds-large-size--4-of-12')}">
@@ -43,6 +44,7 @@
                                   v.sharingObject.sObjectType == 'Contact' ? v.sharingObject.FirstName :
                                   v.sharingObject.First_Name__c}"
                          onchange="{!c.checkFields}"
+                         onblur="{!c.checkDelegateDuplicate}"
                          disabled="{!v.providerFound || v.isDuplicate || v.sharingObject.Id || v.sharingObject.delegateId}"/>
     </div>
     <div class="{!'slds-col ' + if(v.printMode, 'slds-size--3-of-12', 'slds-size--1-of-1 slds-large-size--3-of-12')}">
@@ -56,6 +58,7 @@
                                   v.sharingObject.sObjectType == 'Contact' ? v.sharingObject.LastName :
                                   v.sharingObject.Last_Name__c}"
                          onchange="{!c.checkFields}"
+                         onblur="{!c.checkDelegateDuplicate}"
                          disabled="{!v.providerFound || v.isDuplicate || v.sharingObject.Id || v.sharingObject.delegateId}"/>
     </div>
     <div class="{!'slds-col ' + if(v.printMode, 'slds-size--2-of-12', 'slds-size--3-of-12 slds-large-size--2-of-12')}"

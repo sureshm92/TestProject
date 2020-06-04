@@ -13,9 +13,10 @@
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
 
     <lightning:layout horizontalAlign="center">
-        <lightning:layoutItem size="12">
+        <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12" flexibility="auto"
+        size="12" >
             <div class="sdv-top-bar" id="stickyBar" aura:id="stickyBar">
-                <div class="navigation rr-width-limiter">
+                <div class="navigation rr-width-limiter side-padding">
                     <c:RRNavigationPath>
                         <c:RRNPathItem label="{!$Label.c.Navigation_Home}" page=""/>
                         <c:RRNPathItem label="{!$Label.c.Trial_Match}"/>
@@ -36,7 +37,7 @@
                                 <lightning:formattedText value="{!$Label.c.search_results}"/>
                             </div>
                             <div class="resource-link-container slds-float_right">
-                                <c:RRIcon iconName="icon-pdf" color="#0000EE" class="resource-icon"/>
+                                <c:RRIcon iconName="icon-pdf" color="#0768FD" class="resource-icon"/>
                                     <a class="resource-name" onclick="{!c.doGenerateReport}">
                                         {!$Label.c.Download_Trial_Match}
                                     </a>
