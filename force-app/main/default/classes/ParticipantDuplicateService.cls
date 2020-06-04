@@ -139,8 +139,7 @@ public without sharing class ParticipantDuplicateService {
                 FROM Participant__c
                 WHERE Email__c IN :emails OR Phone__c IN :phones OR Day_of_Birth__c IN :birthDates OR ZIP_Code__c IN :zipCodes
         ];
-        List<List<SObject>> participantsSearchList = [FIND 'Wingo OR SFDC' IN ALL FIELDS
-                RETURNING Account(Name),Contact(FirstName,LastName,Department)];
+
         Map<String, Participant__c> participantsByEmailMap = new Map<String, Participant__c>();
         Map<String, Participant__c> participantsByPhoneMap = new Map<String, Participant__c>();
         Map<Date, List<Participant__c>> participantsByDoBMap = new Map<Date, List<Participant__c>>();
@@ -242,8 +241,8 @@ public without sharing class ParticipantDuplicateService {
                 System.debug('Pediatric or Adult without phone/email');
                 Integer birthYear = getYearOfBirthForParticipant(participant);
                 System.debug('>>> BY: ' + birthYear);
-                if (birthYear != null && (participantsByDoBStringsMap.containsKey(participant.Date_of_Birth__c) ||
-                        participant.Date_of_Birth__c != null && contactsByDoBMap.containsKey(Date.valueOf(participant.Date_of_Birth__c)))) {
+                if (participantsByDoBStringsMap.containsKey(participant.Date_of_Birth__c) ||
+                        participant.Date_of_Birth__c != null && contactsByDoBMap.containsKey(Date.valueOf(participant.Date_of_Birth__c))) {
                     List<Participant__c> participantsByDoB = participantsByDoBStringsMap.get(participant.Date_of_Birth__c);
                     List<Contact> contactsByDoB = participant.Date_of_Birth__c != null ? contactsByDoBMap.get(Date.valueOf(participant.Date_of_Birth__c)) : new List<Contact>();
                     if (participantsByDoB == null && contactsByDoB == null ||
@@ -253,24 +252,24 @@ public without sharing class ParticipantDuplicateService {
 
                     if (participantsByDoB != null && delegate != null) {
                         for (Participant__c dupParticipant : participantsByDoB) {
-                            if (dupParticipant != null && dupParticipant.Last_Name__c != null && dupParticipant.Last_Name__c.toLowerCase() == participant.Last_Name__c.toLowerCase()) {
+                            if (dupParticipant != null && dupParticipant.Last_Name__c != null && dupParticipant.Last_Name__c == participant.Last_Name__c) {
                                 if (dupParticipant.Email__c != null && delegate.Email__c != null && dupParticipant.Email__c.toLowerCase() == delegate.Email__c.toLowerCase() ||
                                         dupParticipant.Phone__c != null && dupParticipant.Phone__c == delegate.Phone__c ||
-                                        dupParticipant.ZIP_Code__c != null && dupParticipant.ZIP_Code__c == delegate.ZIP_Code__c) {
-                                    if (dupParticipant.First_Name__c != null && delegate.First_Name__c != null && dupParticipant.First_Name__c.toLowerCase() == delegate.First_Name__c.toLowerCase()) {
+                                        dupParticipant.ZIP_Code__c != null && dupParticipant.ZIP_Code__c == participant.ZIP_Code__c) {
+                                    if (dupParticipant.First_Name__c != null && dupParticipant.First_Name__c == participant.First_Name__c) {
                                         duplicate = new DuplicateContainer(dupParticipant);
                                     }
                                 }
                             }
                         }
                     }
-                    if (contactsByDoB != null && delegate != null) {
+                    if (duplicate == null && contactsByDoB != null && delegate != null) {
                         for (Contact dupContact : contactsByDoB) {
-                            if (dupContact != null && dupContact.LastName != null && dupContact.LastName.toLowerCase() == participant.Last_Name__c.toLowerCase()) {
+                            if (dupContact != null && dupContact.LastName != null && dupContact.LastName == participant.Last_Name__c) {
                                 if (dupContact.Email != null && delegate.Email__c != null && dupContact.Email.toLowerCase() == delegate.Email__c.toLowerCase() ||
                                         dupContact.Phone != null && dupContact.Phone == delegate.Phone__c ||
-                                        dupContact.MailingPostalCode != null && dupContact.MailingPostalCode == delegate.ZIP_Code__c) {
-                                    if (dupContact.FirstName != null && delegate.First_Name__c != null && dupContact.FirstName.toLowerCase() == delegate.First_Name__c.toLowerCase()) {
+                                        dupContact.MailingPostalCode != null && dupContact.MailingPostalCode == participant.ZIP_Code__c) {
+                                    if (dupContact.FirstName != null && dupContact.FirstName == participant.First_Name__c) {
                                         duplicate = new DuplicateContainer(dupContact);
                                     }
                                 }
