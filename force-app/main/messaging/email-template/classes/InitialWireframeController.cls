@@ -27,7 +27,7 @@ global without sharing class InitialWireframeController {
     }
 
     public String getBTNLabel() {
-        return ContactService.checkVisitedCommunity(getTemplateInitial().recipientId, commTemplate) ? Label.Email_Action_Login_now : buttonLabelValue;
+        return ContactService.checkVisitedCommunity(getTemplateInitial().recipientId) ? Label.Email_Action_Login_now : buttonLabelValue;
     }
 
     private EmailTemplateInitial getTemplateInitial() {
