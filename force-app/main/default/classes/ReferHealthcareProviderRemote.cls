@@ -95,8 +95,8 @@ global without sharing class ReferHealthcareProviderRemote {
         HealthcareProvider hp = new HealthcareProvider();
         hp.email = email;
         if (!String.isBlank(email)) {
-            String contactQuery = 'SELECT Id, FirstName, LastName, Name, Email, Phone,  userCommunytyType__c FROM Contact WHERE (Email = \'' + email + '\''
-                    +' OR Email = \'' + email.toLowerCase() + '\')';
+            String contactQuery = 'SELECT Id, FirstName, LastName, Name, Email, Phone,  userCommunytyType__c FROM Contact WHERE (Email = \'' + String.escapeSingleQuotes(email) + '\''
+                    +' OR Email = \'' + String.escapeSingleQuotes(email.toLowerCase()) + '\')';
             if (!String.isBlank(firstName) && !String.isBlank(lastName)) {
                 contactQuery += ' OR ((Email = \'' + email + '\' OR Email = \'' + email.toLowerCase() + '\')' +
                         +' AND (FirstName = \'' + String.escapeSingleQuotes(firstName) + '\' OR FirstName = \'' + String.escapeSingleQuotes(firstName.toLowerCase()) + '\')' +
@@ -253,6 +253,7 @@ global without sharing class ReferHealthcareProviderRemote {
         try {
             HealthcareProvider delegateDuplicate;
             if(ddInfo != null) delegateDuplicate = (HealthcareProvider) JSON.deserialize(ddInfo, HealthcareProvider.class);
+            System.debug('delegateDuplicate>>>>>>>'+delegateDuplicate);
             Participant__c participantObj = (Participant__c) JSON.deserialize(participant, Participant__c.class);
             PDWrapper delegateObj = (PDWrapper) JSON.deserialize(delegateContact, PDWrapper.class);
             if (delegateId == null) {
@@ -309,7 +310,7 @@ global without sharing class ReferHealthcareProviderRemote {
 
                 Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
                 ptDelegateRef.Participant__c = participantObj.Id;
-                ptDelegateRef.Contact__c = newContact.Id;
+                ptDelegateRef.Contact__c = newContact == null ? delegateDuplicate.contactId : newContact.Id;
                 insert ptDelegateRef;
                 if(newContact != null) {
                     ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id>{

@@ -36,7 +36,7 @@ private without sharing class Test_ReferringRemote {
                     Mailing_State_Code__c = 'AL'
             );
             ReferringRemote.checkNeedsGuardian(JSON.serialize(participant));
-            ReferringRemote.saveParticipant(testDataInstance.hcpEnrollment.Id, JSON.serialize(pe), JSON.serialize(participant), JSON.serialize(participantDelegate), null);
+            ReferringRemote.saveParticipant(testDataInstance.hcpEnrollment.Id, JSON.serialize(pe), JSON.serialize(participant), JSON.serialize(participantDelegate), null, null);
             ReferringRemote.setfailedReferral(JSON.serialize(pe), ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING);
         }
         Test.stopTest();

@@ -171,13 +171,14 @@ public without sharing class ParticipantDuplicateService {
 
         //Find contacts:
         List<Contact> existedContacts = [
-                SELECT Id, FirstName, Email, Phone, Birthdate
+                SELECT Id, FirstName, Email, Phone, Birthdate, MailingPostalCode
                 FROM Contact
                 WHERE Email IN :emails OR Phone IN :phones OR MailingPostalCode IN :zipCodes
         ];
         Map<String, Contact> contactsByEmailMap = new Map<String, Contact>();
         Map<String, Contact> contactsByPhoneMap = new Map<String, Contact>();
         Map<String, List<Contact>> contactsByZipMap = new Map<String, List<Contact>>();
+        Map<Date, List<Contact>> contactsByDoBMap = new Map<Date, List<Contact>>();
         for(Contact contact : existedContacts){
             if (contact.Email != null) contactsByEmailMap.put(contact.Email.toLowerCase(), contact);
             if (contact.Phone != null) contactsByPhoneMap.put(contact.Phone, contact);
@@ -186,6 +187,12 @@ public without sharing class ParticipantDuplicateService {
                 if (zipContacts == null) zipContacts = new List<Contact>();
                 zipContacts.add(contact);
                 contactsByZipMap.put(contact.MailingPostalCode, zipContacts);
+            }
+            if (contact.Birthdate != null) {
+                List<Contact> dobContacts = contactsByDoBMap.get(contact.Birthdate);
+                if (dobContacts == null) dobContacts = new List<Contact>();
+                dobContacts.add(contact);
+                contactsByDoBMap.put(contact.Birthdate, dobContacts);
             }
         }
 
@@ -235,9 +242,12 @@ public without sharing class ParticipantDuplicateService {
                 System.debug('Pediatric or Adult without phone/email');
                 Integer birthYear = getYearOfBirthForParticipant(participant);
                 System.debug('>>> BY: ' + birthYear);
-                if (birthYear != null && participantsByDoBStringsMap.containsKey(participant.Date_of_Birth__c)) {
+                if (birthYear != null && (participantsByDoBStringsMap.containsKey(participant.Date_of_Birth__c) ||
+                        participant.Date_of_Birth__c != null && contactsByDoBMap.containsKey(Date.valueOf(participant.Date_of_Birth__c)))) {
                     List<Participant__c> participantsByDoB = participantsByDoBStringsMap.get(participant.Date_of_Birth__c);
-                    if (participantsByDoB == null || participantsByDoB.isEmpty()) {
+                    List<Contact> contactsByDoB = participant.Date_of_Birth__c != null ? contactsByDoBMap.get(Date.valueOf(participant.Date_of_Birth__c)) : new List<Contact>();
+                    if (participantsByDoB == null && contactsByDoB == null ||
+                            participantsByDoB.isEmpty() && contactsByDoB.isEmpty()) {
                         continue;
                     }
 
@@ -248,6 +258,19 @@ public without sharing class ParticipantDuplicateService {
                                     dupParticipant.ZIP_Code__c != null && dupParticipant.ZIP_Code__c == delegate.ZIP_Code__c) {
                                 if (dupParticipant.First_Name__c.toLowerCase() == delegate.First_Name__c.toLowerCase()) {
                                     duplicate = new DuplicateContainer(dupParticipant);
+                                }
+                            }
+                        }
+                    }
+                    if (contactsByDoB != null) {
+                        for (Contact dupContact : contactsByDoB) {
+                            if (dupContact.LastName.toLowerCase() == participant.Last_Name__c.toLowerCase()) {
+                                if (dupContact.Email != null && dupContact.Email.toLowerCase() == delegate.Email__c.toLowerCase() ||
+                                        dupContact.Phone != null && dupContact.Phone == delegate.Phone__c ||
+                                        dupContact.MailingPostalCode != null && dupContact.MailingPostalCode == delegate.ZIP_Code__c) {
+                                    if (dupContact.FirstName.toLowerCase() == delegate.First_Name__c.toLowerCase()) {
+                                        duplicate = new DuplicateContainer(dupContact);
+                                    }
                                 }
                             }
                         }
