@@ -493,11 +493,11 @@
         <enabled>false</enabled>
     </classAccesses>
 	<classAccesses>
-        <apexClass>Test_NewMediaOutReach</apexClass>
+        <apexClass>Test_newMediaOutReach</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Test_ViewMediaResult</apexClass>
+        <apexClass>Test_viewMediaResult</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -505,11 +505,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>NewMediaOutReach</apexClass>
+        <apexClass>newMediaOutReach</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ViewMediaResult</apexClass>
+        <apexClass>viewMediaResult</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2561,8 +2561,7 @@
         <field>Clinical_Trial_Profile__c.Study_Documents_Are_Available__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	</fieldPermissions>
-	    <fieldPermissions>
+	<fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Media_outreach_Provider__c</field>
         <readable>true</readable>
@@ -7676,10 +7675,6 @@
     <tabVisibilities>
         <tab>Participant_Study_Enrollment__c</tab>
         <visibility>DefaultOn</visibility>
-    </tabVisibilities>
-	<tabVisibilities>
-        <tab>Media_Outreach__c</tab>
-		<visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Participant__c</tab>
