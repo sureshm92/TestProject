@@ -251,24 +251,28 @@ public without sharing class ParticipantDuplicateService {
                         continue;
                     }
 
-                    for (Participant__c dupParticipant : participantsByDoB) {
-                        if (dupParticipant.Last_Name__c.toLowerCase() == participant.Last_Name__c.toLowerCase()) {
-                            if (dupParticipant.Email__c != null && dupParticipant.Email__c.toLowerCase() == delegate.Email__c.toLowerCase() ||
-                                    dupParticipant.Phone__c != null && dupParticipant.Phone__c == delegate.Phone__c ||
-                                    dupParticipant.ZIP_Code__c != null && dupParticipant.ZIP_Code__c == delegate.ZIP_Code__c) {
-                                if (dupParticipant.First_Name__c.toLowerCase() == delegate.First_Name__c.toLowerCase()) {
-                                    duplicate = new DuplicateContainer(dupParticipant);
+                    if (participantsByDoB != null && delegate != null) {
+                        for (Participant__c dupParticipant : participantsByDoB) {
+                            if (dupParticipant != null && dupParticipant.Last_Name__c != null && dupParticipant.Last_Name__c.toLowerCase() == participant.Last_Name__c.toLowerCase()) {
+                                if (dupParticipant.Email__c != null && delegate.Email__c != null && dupParticipant.Email__c.toLowerCase() == delegate.Email__c.toLowerCase() ||
+                                        dupParticipant.Phone__c != null && dupParticipant.Phone__c == delegate.Phone__c ||
+                                        dupParticipant.ZIP_Code__c != null && dupParticipant.ZIP_Code__c == delegate.ZIP_Code__c) {
+                                    if (dupParticipant.First_Name__c != null && delegate.First_Name__c != null && dupParticipant.First_Name__c.toLowerCase() == delegate.First_Name__c.toLowerCase()) {
+                                        duplicate = new DuplicateContainer(dupParticipant);
+                                    }
                                 }
                             }
                         }
                     }
-                    for (Contact dupContact : contactsByDoB) {
-                        if (dupContact.LastName.toLowerCase() == participant.Last_Name__c.toLowerCase()) {
-                            if (dupContact.Email != null && dupContact.Email.toLowerCase() == delegate.Email__c.toLowerCase() ||
-                                    dupContact.Phone != null && dupContact.Phone == delegate.Phone__c ||
-                                    dupContact.MailingPostalCode != null && dupContact.MailingPostalCode == delegate.ZIP_Code__c) {
-                                if (dupContact.FirstName.toLowerCase() == delegate.First_Name__c.toLowerCase()) {
-                                    duplicate = new DuplicateContainer(dupContact);
+                    if (contactsByDoB != null && delegate != null) {
+                        for (Contact dupContact : contactsByDoB) {
+                            if (dupContact != null && dupContact.LastName != null && dupContact.LastName.toLowerCase() == participant.Last_Name__c.toLowerCase()) {
+                                if (dupContact.Email != null && delegate.Email__c != null && dupContact.Email.toLowerCase() == delegate.Email__c.toLowerCase() ||
+                                        dupContact.Phone != null && dupContact.Phone == delegate.Phone__c ||
+                                        dupContact.MailingPostalCode != null && dupContact.MailingPostalCode == delegate.ZIP_Code__c) {
+                                    if (dupContact.FirstName != null && delegate.First_Name__c != null && dupContact.FirstName.toLowerCase() == delegate.First_Name__c.toLowerCase()) {
+                                        duplicate = new DuplicateContainer(dupContact);
+                                    }
                                 }
                             }
                         }
