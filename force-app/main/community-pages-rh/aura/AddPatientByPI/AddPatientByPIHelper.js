@@ -128,10 +128,11 @@
             if (!isNeedGuardian && callback) callback();
             console.log('checkNeedsGuardian - SUCCESS: ' + isNeedGuardian);
 
+            component.set('v.participant.Adult__c', !isNeedGuardian);
+            component.set('v.participant.Health_care_proxy_is_needed__c', isNeedGuardian);
             if (isNeedGuardian != component.get('v.needsGuardian')) {
                 component.set('v.needsGuardian', isNeedGuardian);
-                component.set('v.participant.Health_care_proxy_is_needed__c', isNeedGuardian);
-                component.set('v.participant.Adult__c', !isNeedGuardian);
+
                 let editForm = component.find('editForm');
                 editForm.checkFields();
 
