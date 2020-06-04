@@ -37,7 +37,7 @@
             ssId: (ssId ? ssId : component.get('v.ss').Id),
             createUser: component.get('v.createUsers'),
             participantDelegateJSON: JSON.stringify(component.get('v.participantDelegate')),
-            delegateDuplicateInfo: JSON.stringify()
+            delegateDuplicateInfo: JSON.stringify(component.get('v.delegateDuplicateInfo'))
         }, function (createdPE) {
             communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
             callback();
