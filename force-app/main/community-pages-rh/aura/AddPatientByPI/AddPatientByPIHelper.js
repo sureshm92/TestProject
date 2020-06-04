@@ -51,6 +51,8 @@
         };
         component.set('v.participantDelegate', delegateParticipant);
         component.set('v.emailDelegateRepeat', '');
+        component.set('v.isDelegateValid', false);
+        component.set('v.isValid', false);
     },
 
     checkFields: function (component) {
@@ -75,6 +77,7 @@
                         delegateParticipant.Email__c));
 
         let isEmailValid = emailDelegateVaild && emailDelegateRepeatValid;
+
         if (needsDelegate && delegateParticipant && emailDelegateCmp && emailDelegateRepeatCmp) {
             if ((delegateParticipant.Email__c && !emailDelegateRepeat) ||
                 (!delegateParticipant.Email__c && emailDelegateRepeat) ||
@@ -92,11 +95,16 @@
                 emailDelegateCmp.reportValidity();
                 emailDelegateRepeatCmp.reportValidity();
             }
+            if (!emailDelegateCmp.get('v.validity').valid) {
+                isEmailValid = false;
+            }
         }
 
         isValid = isValid && isEmailValid;
         console.log('Delegate VALID: ' + isValid);
         component.set('v.isDelegateValid', isValid);
+        let editForm = component.find('editForm');
+        editForm.checkFields();
     },
 
     checkParticipantNeedsGuardian: function (component, helper, event) {

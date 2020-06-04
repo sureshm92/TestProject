@@ -8,7 +8,7 @@
 
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="trialmatchCTPs" type="List"/>
-    <aura:attribute name="peid" type="Id"/>
+    <aura:attribute name="partid" type="Id"/>
     
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
 

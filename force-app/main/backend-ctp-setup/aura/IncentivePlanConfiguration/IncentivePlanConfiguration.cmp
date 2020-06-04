@@ -20,13 +20,17 @@
     <aura:attribute name="tasks" type="List"/>
     <aura:attribute name="studyInfo" type="Object"/>
     <aura:attribute name="planIdForDelete" type="String"/>
+    <aura:attribute name="ipId" type="String"/>
+    <aura:attribute name="state" type="Boolean"/>
 
     <aura:attribute name="selectedIP" type="String"/>
     <aura:attribute name="allSelectedIPs" type="Object"/>
     <aura:attribute name="setOfSS" type="Object"/>
 
     <aura:method name="doDeletePlan" action="{!c.doColumnIPDelete}" access="public"/>
+    <aura:method name="doCheckBoxChange" action="{!c.columnCheckboxStateChange}" access="public"/>
     <aura:method name="doSave" action="{!c.doSaveAndUpdate}" access="public"/>
+    <aura:method name="refresh" action="{!c.doInit}" access="public"/>
 
 
     <!-- component body: -->
@@ -103,10 +107,10 @@
                                                     <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
                                                         <div class="column-btn">
                                                             <a data-state="Enabled" data-ip="{!ip.value}"
-                                                               onclick="{!c.columnCheckboxStateChange}">Select All</a>
+                                                               onclick="{!c.doCheckboxChange}">Select All</a>
                                                             <span style="padding: 0 3px; color: #006DCC; ">|</span>
                                                             <a data-state="Disabled" data-ip="{!ip.value}"
-                                                               onclick="{!c.columnCheckboxStateChange}">Clear All</a>
+                                                               onclick="{!c.doCheckboxChange}">Clear All</a>
                                                         </div>
                                                     </aura:if>
                                                 </c:uiCol>

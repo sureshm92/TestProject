@@ -13,11 +13,9 @@
             <div class="tap-class">
                 {!$Label.c.TrialSearch_Therapeutic_area} : {!v.trialMatch.TherapeuticArea}
             </div>
-            <aura:if isTrue="{!v.islearnmore}">
-                <div class="ctp-recruitment-status">
+            <div class="ctp-recruitment-status">
                     {!v.trialMatch.isEnrollingCTP ? $Label.c.TrialSearch_Enrolling : $Label.c.TrialSearch_Not_Yet_Enrolling}
-                </div>
-            </aura:if>
+            </div>
         </div>
         <div class="seperator"></div>
         <div class="ctp-info-block ctp-padding">
