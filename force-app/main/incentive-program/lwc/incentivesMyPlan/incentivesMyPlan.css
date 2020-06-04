@@ -30,7 +30,8 @@
 }
 .incentives-my-plan-group-items ul{
     list-style-type: disc;
-    list-style-position: inside;
+    list-style-position: outside;
+    padding-left: 20px;
 }
 .incentives-my-plan-group-container{
     margin-top: 16px;
