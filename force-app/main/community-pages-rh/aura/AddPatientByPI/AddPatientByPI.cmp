@@ -20,9 +20,13 @@
     <aura:attribute name="emailDelegateRepeat" type="String"/>
     <aura:attribute name="needsGuardian" type="Boolean" default="false"/>
     <aura:attribute name="isDelegateValid" type="Boolean" default="false"/>
+    <aura:attribute name="callback" type="Object" access="private"/>
+    <aura:attribute name="delegateDuplicateInfo" type="Object"/>
 
     <!-- methods: -->
-    <aura:method name="checkDateOfBith" action="{!c.doCheckDateOfBith}" access="public"/>
+    <aura:method name="checkDateOfBith" action="{!c.doCheckDateOfBith}" access="public">
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
 
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
@@ -112,7 +116,7 @@
 
                             <div class="slds-col slds-size--1-of-3 rr-form-element">
                                 <div class="label">
-                                    <abbr title="required" class="slds-required">{!v.needsGuardian ? '*' : ''}</abbr>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
+                                    <abbr title="required" class="slds-required">{!v.needsGuardian ? '*' : ''}</abbr>{!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}
                                 </div>
                                 <lightning:input type="text" value="{!v.participantDelegate.Phone__c}"
                                                  required="{!v.needsGuardian}"  onblur="{!c.doCheckfields}"/>
@@ -127,6 +131,16 @@
                             <div class="slds-col slds-size--1-of-3 rr-form-element">
                                 <div class="label"></div>
                             </div>
+                            <aura:if isTrue="{!v.delegateDuplicateInfo.isDuplicateDelegate || v.delegateDuplicateInfo.contactId}">
+                                <div class="slds-grid slds-wrap slds-size--7-of-12 slds-large-size--1-of-1 slds-grid_vertical-align-end healthcare-form-container provider-found-section">
+                                    <div class="slds-col slds-size--4-of-12">
+                                        {!$Label.c.Delegate_Found}
+                                    </div>
+                                    <div class="slds-col slds-size--8-of-12">
+                                        <c:RRLink label="{!$Label.c.Different_Delegate}" page="{!'help'}"/>
+                                    </div>
+                                </div>
+                            </aura:if>
                         </aura:if>
                     </div>
                 </div>

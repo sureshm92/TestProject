@@ -150,7 +150,7 @@ private class Test_BaseCRCPCommunity {
             TermsAndConditionsRemote.getPortalTcData();
             TermsAndConditionsRemote.getTrialTcData(testData.ctp.Id);
             TermsAndConditionsRemote.acceptTC(studyTC.Id);
-            TermsAndConditionsRemote.getTC(studyTC.Id, 'en_US');//TODO: check code
+            TermsAndConditionsRemote.getTC('CookiePolicy', 'en_US');//TODO: check code
             List<HelpController.FileContainer> files = new List<HelpController.FileContainer>();
             HelpController.FileContainer file = new HelpController.FileContainer();
             file.base64Data = EncodingUtil.base64Encode(Blob.valueOf('Test file'));
@@ -408,15 +408,15 @@ private class Test_BaseCRCPCommunity {
             Healthcare_Provider__c hp = ReferHealthcareProviderRemote.inviteHP(testData.pe.Id, JSON.serialize(provider))[0];
             hp.Status__c = ReferHealthcareProviderRemote.HP_S_NOSHARING;
             Healthcare_Provider__c hp2 = ReferHealthcareProviderRemote.inviteHP(testData.pe.Id, JSON.serialize(hp))[0];
-            ReferHealthcareProviderRemote.checkDuplicate(testData.pe.Id, 'testHP@mail.com.fake');
+            ReferHealthcareProviderRemote.checkDuplicate(testData.pe.Id, 'testHP@mail.com.fake',null,null,null);
             ReferHealthcareProviderRemote.stopSharing(hp.Id, null);
-            ReferHealthcareProviderRemote.invitePatientDelegate(JSON.serialize(testData.participant), JSON.serialize(new Contact(Email = 'testdelegate@testdelegate.testdelegate', FirstName = 'TestDelegate', LastName = 'TestDelegate')), null);
+            ReferHealthcareProviderRemote.invitePatientDelegate(JSON.serialize(testData.participant), JSON.serialize(new Contact(Email = 'testdelegate@testdelegate.testdelegate', FirstName = 'TestDelegate', LastName = 'TestDelegate')), null, null);
             //Id patientDelegateId = [SELECT ID, Contact__r.Email FROM Patient_Delegate__c WHERE Contact__r.Email='testdelegate@testdelegate.testdelegate'].Id;
         }
         Id patientDelegateId = [SELECT ID, Contact__r.Email FROM Patient_Delegate__c WHERE Contact__r.Email='testdelegate@testdelegate.testdelegate'].Id;
         System.runAs(testData.piUser) {
              ReferHealthcareProviderRemote.stopSharing(null,patientDelegateId);
-             ReferHealthcareProviderRemote.invitePatientDelegate(JSON.serialize(testData.participant),JSON.serialize(new Contact(Email='testdelegate@testdelegate.testdelegate',FirstName='TestDelegate',LastName='TestDelegate')), patientDelegateId);
+             ReferHealthcareProviderRemote.invitePatientDelegate(JSON.serialize(testData.participant),JSON.serialize(new Contact(Email='testdelegate@testdelegate.testdelegate',FirstName='TestDelegate',LastName='TestDelegate')), patientDelegateId, null);
         }
         Test.stopTest();
     }

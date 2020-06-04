@@ -1,0 +1,33 @@
+.THIS {
+}
+
+.THIS .top-line {
+    height: 5px !important;
+    width: auto !important;
+    border-radius: 5px 5px 0 0 !important;
+    background-color: #00C221 !important;
+}
+
+.THIS .seperator {
+    height: 1px;
+    width: auto;
+    border-radius: 5px 5px 0 0;
+    background: #e9e9e9;
+}
+
+@media print{
+    
+    .THIS .top-line {
+        height: 5px !important;
+        width: auto !important;
+        border-radius: 5px 5px 0 0 !important;
+        background-color: #00C221 !important;
+    }
+
+    .THIS .seperator {
+        height: 1px !important;
+        width: auto !important;
+        border-radius: 5px 5px 0 0 !important;
+        background: #e9e9e9 !important;
+    }
+}

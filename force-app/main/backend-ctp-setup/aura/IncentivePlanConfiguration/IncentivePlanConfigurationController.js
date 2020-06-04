@@ -4,6 +4,7 @@
 
 ({
     doInit: function (component, event, helper) {
+        console.log('DOINIT');
         component.find('spinner').show();
         communityService.executeAction(component, 'getInitData', {
             ctpId: component.get('v.recordId')
@@ -45,9 +46,18 @@
 
 
     //Incentive Plan column actions: ---------------------------------------------------------------------------------------
-    columnCheckboxStateChange: function (component, event, helper) {
+
+    doCheckboxChange: function (component, event, helper){
         let ipId = event.target.dataset.ip;
         let state = event.target.dataset.state === 'Enabled';
+        component.set('v.ipId', ipId);
+        component.set('v.state', state);
+        component.find('warningModal').show(($A.get('$Label.c.PG_Ref_L_One_Incentive_Many_Incentives')).replace('{0}', ('' + component.get('v.ssItems').length)), true);
+    },
+
+    columnCheckboxStateChange: function (component, event, helper) {
+        let ipId = component.get('v.ipId');
+        let state = component.get('v.state');
         let haveSelecteAll = false;
         let allSelectedIPs = component.get('v.allSelectedIPs');
         for (const incenitvePlan in allSelectedIPs) {
@@ -72,11 +82,11 @@
                     allSelectedIPs[ipId].clear();
                     component.set('v.allSelectedIPs', allSelectedIPs);
                 }
-                communityService.showWarningToast('Warning!', ($A.get('$Label.c.PG_Ref_L_One_Incentive_Many_Incentives')).replace('{0}', ('' + component.get('v.ssItems').length)), 6000);
-                console.log('SELECTED IPs: ' + JSON.stringify(component.get('v.allSelectedIPs')));
+                component.find('warningModal').hide();
             });
         } else if (state && haveSelecteAll) {
             communityService.showWarningToast('Warning!', $A.get('$Label.c.PG_Ref_L_One_Incentive_Plan'), 5000);
+            component.find('warningModal').hide();
         }
     },
 
@@ -108,7 +118,7 @@
             planId: planId
         }, function (returnvalue) {
             component.set('v.planIdForDelete', planId);
-            component.find('warningModal').show(returnvalue);
+            component.find('warningModal').show(($A.get('$Label.c.PG_Ref_L_Text_To_Delete_Plan')).replace('{0}', ('' + returnvalue)), false);
         });
     },
     doColumnIPDelete: function (component, event, helper) {

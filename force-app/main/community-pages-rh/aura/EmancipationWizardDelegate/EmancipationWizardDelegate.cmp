@@ -7,7 +7,8 @@
     <aura:attribute name="index" type="Integer"/>
     <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="isValid" type="Boolean" default="false"/>
-    <aura:attribute name="isDuplicate" type="Boolean" default="false"/>
+    <aura:attribute name="isDuplicateDelegate" type="Boolean" default="false"/>
+    <aura:attribute name="duplicateDelegateInfo" type="Object"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.checkFields}"/>
 
@@ -31,7 +32,8 @@
             <lightning:input class="healthcare-input" type="text" required="true" aura:id="delFirstName"
                              value="{!v.delegateItem.First_Name__c}"
                              onchange="{!c.checkFields}"
-                             disabled="{!v.delegateItem.isConnected || v.isDuplicate}"/>
+                             onblur="{!c.checkContact}"
+                             disabled="{!v.delegateItem.isConnected || v.duplicateDelegateInfo.isDuplicate}"/>
         </div>
         <div class="rr-form-element slds-col slds-size--3-of-12">
             <div class="label">
@@ -40,18 +42,19 @@
             <lightning:input class="healthcare-input" type="text" required="true" aura:id="delLastName"
                              value="{!v.delegateItem.Last_Name__c}"
                              onchange="{!c.checkFields}"
-                             disabled="{!v.delegateItem.isConnected || v.isDuplicate}"/>
+                             onblur="{!c.checkContact}"
+                             disabled="{!v.delegateItem.isConnected || v.duplicateDelegateInfo.isDuplicate}"/>
         </div>
         <div class="rr-form-element slds-col slds-size--3-of-12">
             <button class="apollo-btn secondary" onclick="{!c.doConnect}"
                     style="margin-top: 23px; box-shadow: none; border: none;"
-                    disabled="{!(!v.isValid || v.isDuplicate)}"
-                    title="{!v.isDuplicate ? $Label.c.HealCare_Provider_Already_Connected : ''}">
+                    disabled="{!(!v.isValid || v.duplicateDelegateInfo.isDuplicateDelegate)}"
+                    title="{!v.duplicateDelegateInfo.isDuplicate ? $Label.c.HealCare_Provider_Already_Connected : ''}">
                 {!v.delegateItem.isConnected ? $Label.c.HealthCare_Provider_Stop_Sharing : $Label.c.HealthCare_Provider_Connect}
             </button>
         </div>
 
-        <aura:if isTrue="{!v.isDuplicate}">
+        <aura:if isTrue="{!v.duplicateDelegateInfo.isDuplicateDelegate || v.duplicateDelegateInfo.contactId}">
             <div class="slds-grid slds-wrap slds-size--7-of-12 slds-large-size--1-of-1 slds-grid_vertical-align-end healthcare-form-container provider-found-section">
                 <div class="slds-col slds-size--4-of-12">
                     {!$Label.c.Delegate_Found}

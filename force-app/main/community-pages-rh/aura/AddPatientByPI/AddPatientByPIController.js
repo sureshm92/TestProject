@@ -45,15 +45,16 @@
         helper.createParticipant(component, function () {
             helper.initData(component);
             helper.setDelegate(component);
+            component.find('editForm').refreshEmailInput();
         })
     },
 
     doCheckfields: function (component, event, helper) {
-        helper.checkFields(component);
+        helper.checkFields(component,helper);
     },
 
     doCheckDateOfBith: function (component, event, helper) {
-        helper.checkParticipantNeedsGuardian(component, helper);
+        helper.checkParticipantNeedsGuardian(component, helper, event);
     },
 
     doNeedsGuardian: function (component, event, helper) {
@@ -64,10 +65,9 @@
 
         if (participant.Health_care_proxy_is_needed__c) {
             helper.setDelegate(component);
-            let editForm = component.find('editForm');
-            editForm.checkFields();
             console.log('editForm checkFields');
         } else {
+            let editForm = component.find('editForm');
             editForm.checkFields();
             component.set('v.emailDelegateRepeat', '');
         }

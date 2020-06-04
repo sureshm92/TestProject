@@ -1,6 +1,6 @@
 1) логин в оргу
 sfdx force:auth:web:login -d -a orgAlias
-sfdx force:auth:web:login -d -a orgAlias -r instanceURL
+sfdx force:auth:web:login -d -a orgAlias -r https://test.salesforce.com
 
 2) задание дефолтной dev-hub/scratch орги в текущей папке или глобально (добавить --global)
 sfdx force:config:set defaultusername=scratchOrgAlias defaultdevhubusername=devHubAlias
