@@ -36,7 +36,8 @@
             userLanguage: userLanguage,
             ssId: (ssId ? ssId : component.get('v.ss').Id),
             createUser: component.get('v.createUsers'),
-            participantDelegateJSON: JSON.stringify(component.get('v.participantDelegate'))
+            participantDelegateJSON: JSON.stringify(component.get('v.participantDelegate')),
+            delegateDuplicateInfo: JSON.stringify(component.get('v.delegateDuplicateInfo'))
         }, function (createdPE) {
             communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
             callback();
@@ -51,9 +52,11 @@
         };
         component.set('v.participantDelegate', delegateParticipant);
         component.set('v.emailDelegateRepeat', '');
+        component.set('v.isDelegateValid', false);
+        component.set('v.isValid', false);
     },
 
-    checkFields: function (component) {
+    checkFields: function (component,helper) {
         let participant = component.get('v.participant');
         let needsDelegate = component.get('v.needsGuardian');
 
@@ -66,6 +69,9 @@
         let emailDelegateRepeatValid = needsDelegate && emailDelegateRepeatCmp && emailDelegateRepeatCmp.get('v.validity') && emailDelegateRepeatCmp.get('v.validity').valid;
 
         let isValid = false;
+        if(emailDelegateVaild && emailDelegateRepeatValid && delegateParticipant.First_Name__c && delegateParticipant.Last_Name__c && delegateParticipant.Email__c.toLowerCase() == emailDelegateRepeat.toLowerCase()){
+            helper.checkDelegateDuplicate(component,delegateParticipant.Email__c, delegateParticipant.First_Name__c, delegateParticipant.Last_Name__c);
+        }
         isValid = isValid || (!needsDelegate ||
                     (needsDelegate && delegateParticipant &&
                         participant.Health_care_proxy_is_needed__c &&
@@ -75,6 +81,7 @@
                         delegateParticipant.Email__c));
 
         let isEmailValid = emailDelegateVaild && emailDelegateRepeatValid;
+
         if (needsDelegate && delegateParticipant && emailDelegateCmp && emailDelegateRepeatCmp) {
             if ((delegateParticipant.Email__c && !emailDelegateRepeat) ||
                 (!delegateParticipant.Email__c && emailDelegateRepeat) ||
@@ -92,11 +99,16 @@
                 emailDelegateCmp.reportValidity();
                 emailDelegateRepeatCmp.reportValidity();
             }
+            if (!emailDelegateCmp.get('v.validity').valid) {
+                isEmailValid = false;
+            }
         }
 
         isValid = isValid && isEmailValid;
         console.log('Delegate VALID: ' + isValid);
         component.set('v.isDelegateValid', isValid);
+        let editForm = component.find('editForm');
+        editForm.checkFields();
     },
 
     checkParticipantNeedsGuardian: function (component, helper, event) {
@@ -116,10 +128,13 @@
             if (!isNeedGuardian && callback) callback();
             console.log('checkNeedsGuardian - SUCCESS: ' + isNeedGuardian);
 
+            component.set('v.participant.Adult__c', !isNeedGuardian);
+            component.set('v.participant.Health_care_proxy_is_needed__c', isNeedGuardian);
             if (isNeedGuardian != component.get('v.needsGuardian')) {
                 component.set('v.needsGuardian', isNeedGuardian);
-                component.set('v.participant.Health_care_proxy_is_needed__c', isNeedGuardian);
-                component.set('v.participant.Adult__c', !isNeedGuardian);
+
+                let editForm = component.find('editForm');
+                editForm.checkFields();
 
                 component.find('checkbox-delegate').getElement().checked = isNeedGuardian;
 
@@ -130,6 +145,27 @@
         }, null, function () {
             spinner.hide();
         });
-    }
+    },
+
+    checkDelegateDuplicate: function (component, email, firstName, lastName) {
+        var spinner = component.find('spinner');
+        spinner.show();
+        communityService.executeAction(component, 'checkDuplicateDelegate', {
+            email: email,
+            firstName: firstName,
+            lastName: lastName
+        }, function (returnValue) {
+            console.log('returnvalue>>>>>',returnValue);
+            component.set('v.delegateDuplicateInfo', returnValue);
+            var participantDelegate = component.get('v.participantDelegate');
+            if(returnValue.email) participantDelegate.Email__c = returnValue.email;
+            if(returnValue.lastName) participantDelegate.Last_Name__c = returnValue.lastName;
+            if(returnValue.firstName) participantDelegate.First_Name__c = returnValue.firstName;
+            if(returnValue.contactPhoneType) participantDelegate.Phone_Type__c = returnValue.contactPhoneType;
+            if(returnValue.contactPhoneNumber) participantDelegate.Phone__c = returnValue.contactPhoneNumber;
+            component.set('v.participantDelegate',participantDelegate);
+        });
+        spinner.hide();
+    },
 
 })

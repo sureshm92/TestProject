@@ -69,7 +69,11 @@
         }
         item.emptyAssignments = asgCount === 0;
         component.set('v.item', item);
-        parent.doSave();
+        if (parent && parent.doSave && parent.refresh) {
+            parent.doSave();
+            parent.refresh();
+        }
+
     },
 
     sscRadioStateChange: function (component, event, helper) {

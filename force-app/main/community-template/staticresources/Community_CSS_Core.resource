@@ -603,8 +603,8 @@ lightning-datepicker lightning-button-icon .slds-button svg {
 }
 
 .slds-datepicker td.slds-is-today>.slds-day {
-    background-color: #297dfd;
-    color: #fff;
+    background-color: #297dfd!important;
+    color: #fff!important;
 }
 
 .slds-datepicker td.slds-is-today>.slds-day:hover {

@@ -10,7 +10,7 @@
 
             communityService.executeAction(component, 'getMatchCTPs', null, function (data) {
                 component.set('v.trialmatchCTPs', data.trialmatchctps);
-               // component.set('v.peid', data.trialmatchctps.participantid);
+                component.set('v.partid', data.partid);
                 component.set('v.initialized', true);
 
                 if (!String.format) {
@@ -30,7 +30,7 @@
     },
 
     doGenerateReport: function (component, event, helper) {
-        var peid = component.get('v.peid');
-        window.open('trial-match-print-view?id=' + peid, '_blank');
+        var partid = component.get('v.partid');
+        window.open('trial-match-print-view?id=' + partid, '_blank');
     }
 });

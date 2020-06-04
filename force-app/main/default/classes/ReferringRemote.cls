@@ -137,11 +137,13 @@ public without sharing class ReferringRemote {
     }
 
     @AuraEnabled
-    public static void saveParticipant(Id hcpeId, String pEnrollmentJSON, String participantJSON, String participantDelegateJSON, String delegateId) {
+    public static void saveParticipant(Id hcpeId, String pEnrollmentJSON, String participantJSON, String participantDelegateJSON, String delegateId, String ddInfo) {
         try {
             Participant__c participant = (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);
             participant.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
             Participant__c participantDelegate;
+            ReferHealthcareProviderRemote.HealthcareProvider delegateDuplicateInfo;
+            if(ddInfo != null) delegateDuplicateInfo = (ReferHealthcareProviderRemote.HealthcareProvider) JSON.deserialize(ddInfo, ReferHealthcareProviderRemote.HealthcareProvider.class);
             if (!String.isBlank(participantDelegateJSON)) {
                 participantDelegate = (Participant__c) JSON.deserialize(participantDelegateJSON, Participant__c.class);
                 if (participantDelegate != null) {
@@ -166,47 +168,60 @@ public without sharing class ReferringRemote {
             enrollment.Show_Referring_Provider__c = true;
             String language = UserInfo.getLanguage();
 
-            ParticipantService.getInstance().createParticipantAndUpdatePEImpl(participant, enrollment, language);
+            ParticipantService.createParticipantAndUpdatePE(participant, participantDelegate, enrollment, language);
 
             if (participantDelegate != null && !String.isEmpty(participantDelegate.Last_Name__c) &&
                     !String.isEmpty(participantDelegate.Email__c)) {
-                Contact newContact = new Contact();
-                newContact.FirstName = participantDelegate.First_Name__c;
-                newContact.LastName = participantDelegate.Last_Name__c;
-                newContact.Email = participantDelegate.Email__c;
-                newContact.AccountId = [SELECT Id FROM Account WHERE Name =: CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE ].Id;
-                newContact.Language__c = UserInfo.getLanguage();
-                newContact.Second_Choice_Language__c = '';
-                newContact.Third_Choice_Language__c = '';
-                newContact.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
-                newContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
-                newContact.userCommunityIsDelegate__c = true;
-                newContact.MailingCountryCode = participant.Mailing_Country_Code__c;
-                newContact.MailingStateCode = participant.Mailing_State_Code__c;
-                newContact.MailingCountry = participant.Mailing_Country__c;
-                newContact.MailingState = participant.Mailing_State__c;
-                if ('Home' == participantDelegate.Phone_Type__c) {
-                    newContact.HomePhone = participantDelegate.Phone__c;
-                } if ('Mobile' == participantDelegate.Phone_Type__c) {
-                    newContact.MobilePhone = participantDelegate.Phone__c;
-                } else {
-                    newContact.Phone = participantDelegate.Phone__c;
+                Contact newContact;
+                if(delegateDuplicateInfo == null || delegateDuplicateInfo.contactId == null) {
+                    newContact = new Contact();
+                    newContact.FirstName = participantDelegate.First_Name__c;
+                    newContact.LastName = participantDelegate.Last_Name__c;
+                    newContact.Email = participantDelegate.Email__c;
+                    newContact.AccountId = [
+                            SELECT Id
+                            FROM Account
+                            WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
+                            LIMIT 1
+                            FOR UPDATE
+                    ].Id;
+                    newContact.Language__c = UserInfo.getLanguage();
+                    newContact.Second_Choice_Language__c = '';
+                    newContact.Third_Choice_Language__c = '';
+                    newContact.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
+                    newContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
+                    newContact.userCommunityIsDelegate__c = true;
+                    newContact.MailingCountryCode = participant.Mailing_Country_Code__c;
+                    newContact.MailingStateCode = participant.Mailing_State_Code__c;
+                    newContact.MailingCountry = participant.Mailing_Country__c;
+                    newContact.MailingState = participant.Mailing_State__c;
+                    if ('Home' == participantDelegate.Phone_Type__c) {
+                        newContact.HomePhone = participantDelegate.Phone__c;
+                    } if ('Mobile' == participantDelegate.Phone_Type__c) {
+                        newContact.MobilePhone = participantDelegate.Phone__c;
+                    } else {
+                        newContact.Phone = participantDelegate.Phone__c;
+                    }
+                    insert newContact;
                 }
-                insert newContact;
-
-                participantDelegate.Contact__c = newContact.Id;
-                if (String.isBlank(participantDelegate.Phone__c) && !String.isBlank(participant.Phone__c)) {
-                    participantDelegate.Phone__c = participant.Phone__c;
-                    participantDelegate.Phone_Type__c = participant.Phone_Type__c;
+                if(delegateDuplicateInfo == null || delegateDuplicateInfo.participantId == null) {
+                    participantDelegate.Contact__c = newContact == null ? newContact.Id : delegateDuplicateInfo.contactId;
+                    if (String.isBlank(participantDelegate.Phone__c) && !String.isBlank(participant.Phone__c)) {
+                        participantDelegate.Phone__c = participant.Phone__c;
+                        participantDelegate.Phone_Type__c = participant.Phone_Type__c;
+                    }
+                    insert participantDelegate;
                 }
-                insert participantDelegate;
 
                 Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
                 ptDelegateRef.Participant__c = participant.Id;
-                ptDelegateRef.Contact__c = newContact.Id;
+                ptDelegateRef.Contact__c = newContact != null ? newContact.Id : delegateDuplicateInfo.contactId;
                 insert ptDelegateRef;
-
-                createParticipantUsers(new Map<Id, Id> { newContact.Id => null});
+                if(newContact != null) {
+                    createParticipantUsers(new Map<Id, Id>{
+                            newContact.Id => null
+                    });
+                }
             } else if (!String.isBlank(hcpEnrollment.Study_Site__c) && !String.isBlank(participant.Id)) {
                 Participant__c newParticipant = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participant.Id];
                 if (newParticipant != null && !String.isBlank(newParticipant.Contact__c)) {
@@ -258,6 +273,11 @@ public without sharing class ReferringRemote {
             User.CountryCode,
             User.StateCode
     );
+
+    @AuraEnabled
+    public static ReferHealthcareProviderRemote.HealthcareProvider checkDuplicateDelegate(String email, String firstName, String lastName){
+        return ReferHealthcareProviderRemote.checkDuplicate(null,email, firstName, lastName, null);
+    }
 
 
 }

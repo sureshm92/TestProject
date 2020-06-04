@@ -50,11 +50,13 @@
     },
 
     doCheckfields: function (component, event, helper) {
-        helper.checkFields(component);
+        helper.checkFields(component,helper);
     },
 
     doCheckDateOfBith: function (component, event, helper) {
+        component.set('v.isDelegateValid', false);
         helper.checkParticipantNeedsGuardian(component, helper, event);
+        $A.enqueueAction(component.get('c.doCheckfields'));
     },
 
     doNeedsGuardian: function (component, event, helper) {
@@ -65,10 +67,9 @@
 
         if (participant.Health_care_proxy_is_needed__c) {
             helper.setDelegate(component);
-            let editForm = component.find('editForm');
-            editForm.checkFields();
             console.log('editForm checkFields');
         } else {
+            component.set('v.isDelegateValid', false);
             let editForm = component.find('editForm');
             editForm.checkFields();
             component.set('v.emailDelegateRepeat', '');

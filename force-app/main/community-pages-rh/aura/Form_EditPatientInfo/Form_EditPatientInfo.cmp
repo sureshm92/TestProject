@@ -29,6 +29,7 @@
     <aura:attribute name="parentComponent" type="Aura.Component"/>
     <aura:attribute name="emailParticipantRepeat" type="String"/>
     <aura:attribute name="isAdult" type="Boolean" default="false"/>
+    <aura:attribute name="haveDelegate" type="Boolean" default="false"/>
 
     <!-- private attributes: -->
     <aura:attribute name="screeningRequired" type="Boolean" default="false" access="private"/>
@@ -186,7 +187,7 @@
                     <div class="slds-col slds-size--1-of-4 rr-form-element">
                         <div class="label">
                             <abbr title="required"
-                                  class="slds-required">{!!v.needsGuardian ? '*' : ''}</abbr>{!$Label.c.PG_Ref_L_Re_enter_email_address}
+                                  class="slds-required">{!!v.needsGuardian || v.participant.Email__c ? '*' : ''}</abbr>{!$Label.c.PG_Ref_L_Re_enter_email_address}
                         </div>
                         <lightning:input aura:id="emailParticipantRepeatField" type="email"
                                          value="{!v.emailParticipantRepeat}"
@@ -382,7 +383,7 @@
                             <div class="rr-form-element slds-col slds-size&#45;&#45;1-of-1 slds-large-size&#45;&#45;1-of-3"></div>
                         </aura:if>-->
 
-                        <aura:if isTrue="{!v.fromAddParticipantPage &amp;&amp; v.participant.Email__c &amp;&amp; v.isAdult}">
+                        <aura:if isTrue="{!v.fromAddParticipantPage &amp;&amp; (v.participant.Email__c &amp;&amp; v.isAdult) || (v.haveDelegate &amp;&amp;  v.participant.Health_care_proxy_is_needed__c)}">
                             <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-1"></div>
 
                             <div class="slds-form-element" style="margin-left: 10px;">
@@ -392,7 +393,7 @@
                                                value="checkbox-unique-id-73" onclick="{!c.doCreateUserInv}"/>
                                         <label class="slds-checkbox__label" for="checkbox-unique-id-73">
                                             <span class="slds-checkbox_faux"></span>
-                                            <span class="slds-form-element__label">{!$Label.c.Create_Users_Checkbox}</span>
+                                            <span class="slds-form-element__label">{!$Label.c.Create_Users_Checkbox_Add_By_Pi}</span>
                                         </label>
                                     </div>
                                 </div>
