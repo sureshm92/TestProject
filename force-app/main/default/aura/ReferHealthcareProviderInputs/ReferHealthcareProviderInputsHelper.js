@@ -40,7 +40,7 @@
                 participant: JSON.stringify(pe.Participant__r),
                 delegateContact: JSON.stringify(sharingObject),
                 delegateId: sharingObject.delegateId ? sharingObject.delegateId : null,
-
+                ddInfo: JSON.stringify(component.get('v.duplicateDelegateInfo'))
             }, function (returnValue) {
                 var mainComponent = component.get('v.mainComponent');
                 mainComponent.refresh();
@@ -76,7 +76,7 @@
             lastName: lastName,
             participantId: null
         }, function (returnValue) {
-            console.log('6');
+            console.log('returnValue>>>>>>',returnValue);
             if (returnValue.firstName) {
                 if (sharingObject.sObjectType == 'Object') {
                     component.set('v.sharingObject.email', email);
