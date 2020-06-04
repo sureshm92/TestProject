@@ -3,7 +3,7 @@
  */
 
 
-.THIS.funnel-dashborad-container {
+ .THIS.funnel-dashborad-container {
     margin-top: 25px;
     background: #FFFFFF;
     border: 1px solid #F2F2F2;
@@ -60,9 +60,18 @@
     }
 }
 
+
 @media screen and (max-width: 500px) {
-    .cFunnelChart .funnel {
-        overflow-y: hidden;
+
+    .THIS {
         overflow-x: scroll;
+    }
+	
+	.THIS .flex {
+       height: 385px;
+    }
+
+	 .cFunnelChart .funnel{
+     	padding-top: 108px!important;  
     }
 }

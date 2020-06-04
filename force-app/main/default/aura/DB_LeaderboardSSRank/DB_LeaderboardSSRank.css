@@ -76,12 +76,14 @@
 
 .THIS .column5{
     height: 47px;
-    text-align: left;
+    text-align: center;
     color: #000000;
     font-size: 16px;
     font-weight: 400;
     letter-spacing: 0;
     line-height: 19px;
+	padding: 0 5%;
+    margin-top: -10px;
 }
 
 @media screen and (max-width: 1024px) {
@@ -165,5 +167,10 @@
        	margin-right: 5px;
     }
 
+}
 
+@media screen and (max-width: 500px) {
+    .THIS .column5 {
+     	text-align: left;
+    }
 }
