@@ -39,7 +39,7 @@ public static String getLogoutURL() {
                                             ORDER BY LoginTime DESC LIMIT 1];
     //return the site base URL when there is no login history available
     //else return the login url from current login
-    return userLoginHistory.isEmpty() ? Site.getBaseUrl() : 'https://' + userLoginHistory.get(0).LoginUrl.substringAfter('https://').substringBefore('/').trim();
+    return userLoginHistory.isEmpty() ? Site.getBaseUrl() : 'https://' + userLoginHistory.get(0).LoginUrl.substringAfter('https://').substringBefore('/s').trim();
 }
 public class UserWrapper{
     public User user;
