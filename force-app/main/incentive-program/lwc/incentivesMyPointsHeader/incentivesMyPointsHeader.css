@@ -7,15 +7,22 @@
 }
 .imph-title{
     color: #000000;
-    font-family: "Proxima Nova";
     font-size: 18px;
     font-weight: 600;
     letter-spacing: 0;
     line-height: 30px;
 }
+.imph-subtitle{
+    display: flex;
+}
+.imph-icon{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-right: 10px;
+}
 .imph-points{
     color: #000000;
-    font-family: "Proxima Nova";
     font-size: 16px;
     letter-spacing: 0;
     line-height: 30px;

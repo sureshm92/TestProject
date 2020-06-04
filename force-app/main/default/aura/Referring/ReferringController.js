@@ -170,7 +170,7 @@
     },
 
     doCheckfields: function (component, event, helper) {
-        helper.checkFields(component);
+        helper.checkFields(component,helper);
     },
 
     doCheckDateOfBith: function (component, event, helper) {
@@ -204,7 +204,8 @@
             pEnrollmentJSON: JSON.stringify(pEnrollment),
             participantJSON: JSON.stringify(participant),
             participantDelegateJSON: JSON.stringify(delegateParticipant),
-            delegateId: communityService.getDelegateId()
+            delegateId: communityService.getDelegateId(),
+            ddInfo: JSON.stringify(component.get('v.delegateDuplicateInfo'))
         }, function (returnValue) {
             component.set('v.currentState', 'Refer Success');
         }, null, function () {
