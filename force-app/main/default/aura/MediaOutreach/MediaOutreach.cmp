@@ -1,0 +1,154 @@
+<!--
+ - Created by velu on 20.05.2020.
+ -->
+
+<aura:component description="MediaOutReach data table" implements="forceCommunity:availableForAllPageTypes"
+    access="global">
+
+    <!-- attributes:-->
+    <aura:attribute name="mediaList" type="Object[]" />
+    <aura:attribute name="SelectedmediaList" type="Object[]" access="public" />
+    <aura:attribute name="status" type="String[]" default="[]" />
+    <aura:attribute name="activerequest" type="list" />
+    <aura:attribute name="closedrequest" type="list" />
+    <aura:attribute name="showfooterbutton" type="boolean" default="true" />
+    <aura:attribute name="SelectedMediaRecord" type="string" access="public" />
+    <aura:attribute name="disabled" type="boolean" access="public" default="false" />
+    <aura:attribute name="ReqRecordtype" type="boolean" access="public" />
+
+    <!-- handlers:-->
+    <aura:handler name="init" value="{!this}" action="{!c.DoInit}" />
+
+    <!-- component body:-->
+    <div class="slds-var-p-around_x-large" style="padding-left:0rem;padding-right:0rem;">
+        <aura:iteration items="{!v.status}" var="Status_item" indexVar="tableindex">
+            <div class="rr-white-panel db-qal-container">
+                <div class="db-qal-main">
+                    <div class="db-qal-title">
+                        {!Status_item}
+                    </div>
+                    <div class="db-qal-items slds-grid slds-wrap">
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Name">{!$Label.c.MO_Request_ID}</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Source">{!$Label.c.MO_Study_Name}</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Source">{!$Label.c.MO_Study_Site}</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Study">{!$Label.c.MO_Media_Type}</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Study">{!$Label.c.MO_Start_Date}</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Study">{!$Label.c.MO_End_Date}</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Study">{!$Label.c.MO_Status}</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <aura:if isTrue="{!tableindex == 0}">
+                                    <aura:iteration items="{!v.mediaList}" var="item" indexVar="index">
+                                        <aura:iteration items="{!v.activerequest}" var="activeReqitem" indexvar="activereqIndex">
+                                            <aura:if isTrue="{!item.Status__c == activeReqitem}">
+                                                <tr class="slds-hint-parent">
+                                                    <th scope="row">
+                                                        <div class="slds-truncate">
+                                                            <div data-gtm="LNK_View_Participants_Details">
+                                                                <button class="slds-button" data-row-index="{!index}" value="{!tableindex}" onclick="{!c.ShowOutreachRecord}">{!item.Name}</button>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                    <td>
+                                                        <div class="slds-truncate">{!item.Study_Name__r.Name}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="slds-truncate">{!item.Study_Name__r.Site__r.Name}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="slds-truncate">{!item.Media_Type__c}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="slds-truncate">
+                                                            <ui:outputDate value="{!item.Requested_Start_Date__c}"
+                                                            />
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="slds-truncate">
+                                                            <ui:outputDate value="{!item.Requested_End_Date__c}"
+                                                            />
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="slds-truncate">{!item.Status__c}</div>
+                                                    </td>
+                                                </tr>
+                                            </aura:if>
+                                        </aura:iteration>
+                                    </aura:iteration>
+                                </aura:if>
+                                <aura:if isTrue="{!tableindex == 1}">
+                                    <aura:iteration items="{!v.mediaList}" var="item" indexVar="index">
+                                        <aura:iteration items="{!v.closedrequest}" var="closedReqitem">
+                                            <aura:if isTrue="{!item.Status__c == closedReqitem}">
+                                                <tr class="slds-hint-parent">
+                                                    <th scope="row">
+                                                        <div class="slds-truncate">
+                                                            <div data-gtm="LNK_View_Participants_Details">
+                                                                <button class="slds-button" data-row-index="{!index}" value="{!tableindex}" onclick="{!c.ShowOutreachRecord}">{!item.Name}</button>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                    <td>
+                                                        <div class="slds-truncate">{!item.Study_Name__r.Name}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="slds-truncate">{!item.Study_Name__r.Site__r.Name}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="slds-truncate">{!item.Media_Type__c}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="slds-truncate">
+                                                            <ui:outputDate value="{!item.Requested_Start_Date__c}"
+                                                            />
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="slds-truncate">
+                                                            <ui:outputDate value="{!item.Requested_End_Date__c}"
+                                                            />
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="slds-truncate">{!item.Status__c}</div>
+                                                    </td>
+                                                </tr>
+                                            </aura:if>
+                                        </aura:iteration>
+                                    </aura:iteration>
+                                </aura:if>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <br></br>
+            <br></br>
+        </aura:iteration>
+    </div>
+
+    <!-- PoPup Media Record:-->
+    <c:ViewMediaRecord aura:id="OpenOutreach" ViewRecord="{!v.SelectedmediaList}" footerbutton="{!v.showfooterbutton}"
+        disablefield="{!v.disabled}" ActiveReqRecord="{!v.ReqRecordtype}"/>
+
+</aura:component>
