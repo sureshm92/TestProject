@@ -7,36 +7,6 @@ private class Test_TrialMatchPageRemote {
 
     @IsTest
     static void getMatchCTPs_test() {
-        TrialMatchPageRemote.TrialMatchContainer container = makeTMContainer();
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(TrialMatchHelper.class, StubBuilder.newInstance(TrialMatchHelper.class)
-                .when('getInitTrialMatchContainer')
-                .then(container)
-                .build()
-        );
-        System.assertEquals(1, TrialMatchPageRemote.getMatchCTPs().trialmatchctps.size());
-    }
-
-    @IsTest
-    static void getMatchCTPsWithException_test() {
-        Boolean isExceptionThrown = false;
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(TrialMatchHelper.class, StubBuilder.newInstance(TrialMatchHelper.class)
-                .when('getInitTrialMatchContainer')
-                .then(new AuraHandledException(''))
-                .build()
-        );
-        try{
-            TrialMatchPageRemote.getMatchCTPs();
-        } catch (AuraHandledException e){
-            isExceptionThrown = true;
-            System.assert(e.getTypeName() == 'System.AuraHandledException');
-        }
-        System.assert(true, isExceptionThrown);
-    }
-
-
-    private static TrialMatchPageRemote.TrialMatchContainer makeTMContainer() {
         TestData.loadTestData();
         TestData testData = new TestData();
         TrialMatchPageRemote.TrialMatchContainer container;
@@ -65,6 +35,31 @@ private class Test_TrialMatchPageRemote {
             container = new TrialMatchPageRemote.TrialMatchContainer();
             container.trialmatchctps = new List<TrialMatchPageRemote.TrialMatchCTP>{tmd};
         }
-        return container;
+        
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(TrialMatchHelper.class, StubBuilder.newInstance(TrialMatchHelper.class)
+                .when('getInitTrialMatchContainer')
+                .then(container)
+                .build()
+        );
+        System.assertEquals(1, TrialMatchPageRemote.getMatchCTPs(testData.participantUser.id).trialmatchctps.size());
+    }
+
+    @IsTest
+    static void getMatchCTPsWithException_test() {
+        Boolean isExceptionThrown = false;
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(TrialMatchHelper.class, StubBuilder.newInstance(TrialMatchHelper.class)
+                .when('getInitTrialMatchContainer')
+                .then(new AuraHandledException(''))
+                .build()
+        );
+        try{
+            TrialMatchPageRemote.getMatchCTPs(null);
+        } catch (AuraHandledException e){
+            isExceptionThrown = true;
+            System.assert(e.getTypeName() == 'System.AuraHandledException');
+        }
+        System.assert(true, isExceptionThrown);
     }
 }
