@@ -265,7 +265,6 @@ public without sharing class NotificationService {
                     }
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_PUSH) {
                     pushNotifications.add(n);
-                    //TODO
                 } else if (nt.Target_Type__c == NOTIFICATION_RECIPIENT_TYPE_EXTERNAL_EMAIL) {
                     //TODO
                 }
@@ -274,7 +273,9 @@ public without sharing class NotificationService {
         sendResultService.updateResults();
 
         if (!emailNotifications.isEmpty()) EmailService.send(emailNotifications, orgWideEmailByNotifyMap);
-        if (!smsNotifications.isEmpty()) SMSService.sendQueueable(smsNotifications);
+        if (!smsNotifications.isEmpty()) ActionExecutor.executeAsync(new Action_SendSMS(smsNotifications), Datetime.now());
+        if (!pushNotifications.isEmpty()) ActionExecutor.executeAsync(new Action_SendPush(pushNotifications), Datetime.now());
+        
     }
 
 }
