@@ -7,7 +7,7 @@
 
 3. **PEH-2206** Go to Developer Console > Debug > Open execute Anonymous > Insert Batch_SetVisitedCommunitiesOnContact.run(); > Execute
    
-4. Create Named Credential for connect SF to itself:
+4. **PEH-2187** **PEH-2199** **PEH-2200** Create Named Credential for connect SF to itself:
 
     4.1. Create Connected App in Salesforce:
     
@@ -55,7 +55,7 @@
          - after save Authentication Status must be: Authenticated as yourUser@email.com 
          - NamedCredential setup complete
 
-5. Create Custom Notification for PP Push Notifications:
+5. **PEH-2187** **PEH-2199** **PEH-2200** Create Custom Notification for PP Push Notifications:
 
     5.1. Go to Setup > Custom Notifications > New 
     
