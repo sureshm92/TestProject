@@ -1553,6 +1553,13 @@
         <value>Participant has consented to receiving an invitation to the Patient Portal.</value>
     </labels>
     <labels>
+        <fullName>Create_Users_Checkbox_Add_By_Pi</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create Users Checkbox Add By Pi</shortDescription>
+        <value>Participant (and/or participant delegate, if applicable) consents to being invited to IQVIA Patient Portal.</value>
+    </labels>
+    <labels>
         <fullName>Create_Users_Checkbox_on_Import</fullName>
         <language>en_US</language>
         <protected>true</protected>
