@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Message_Body__c</fullName>
+    <description>Custom label name or text of message. Use label name here in most cases!</description>
     <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Custom label name or text of message. Use label name here in most cases!</inlineHelpText>
     <label>Message Body</label>
     <required>false</required>
     <type>TextArea</type>

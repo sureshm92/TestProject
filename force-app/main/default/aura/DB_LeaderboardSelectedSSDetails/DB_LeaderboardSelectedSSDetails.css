@@ -5,13 +5,12 @@
     border: 1px solid #E9E9E9;
     border-radius: 4px;
     background-color: #FFFFFF;
-    box-shadow: 0 4px 16px 0 rgba(0,0,0,0)
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
 }
 
 .THIS  .leaderboard-title{
     height: 40px;
     color: #000000;
-    font-family: "Proxima Nova";
     font-size: 18px;
     font-weight: 600;
     letter-spacing: 0;
@@ -27,10 +26,46 @@
     height: 24px;
     width: 151px;
     color: #444444;
-    font-family: "Proxima Nova";
     font-size: 14px;
-    font-weight: 510;
+    font-weight: 500;
     letter-spacing: 0;
     line-height: 17px;
     text-align: right;
+}
+
+@media screen and (max-width: 1024px) {
+
+    .THIS.rr-white-panel {
+        width: 100%;
+        height: auto;
+}
+
+    .THIS .slds-p-top_small {
+        display: flex;
+    }
+
+    .THIS .slds-p-top_small > .slds-float_right {
+        width: 100%;
+        margin-left: 1rem;
+    }
+
+    .THIS .slds-p-top_small > .slds-float_left {
+        margin-bottom: 1rem;
+    }
+
+}
+
+@media screen and (max-width: 650px) {
+    .THIS.rr-white-panel {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .THIS .slds-p-top_small {
+        flex-direction: column;
+    }
+
+    .THIS .slds-p-top_small > .slds-float_right {
+        margin-left: 0;
+    }
 }
