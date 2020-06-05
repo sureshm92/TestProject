@@ -185,7 +185,7 @@
                         participant.Mailing_Zip_Postal_Code__c &&
                         pe &&
                         pe.Participant_Status__c &&
-                        (!isRandomizationSuccess || (isRandomizationSuccess && pe.Screening_ID__c)) &&
+                        (!isFinalStateSuccess || (isFinalStateSuccess && pe.Screening_ID__c)) &&
                         (!stateRequired || (stateRequired && participant.Mailing_State_Code__c)) &&
                         //stateVaild &&
                         (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
