@@ -53,6 +53,7 @@ public class TestData {
         ctp = [
                 SELECT Id, Therapeutic_Area__c,
                         Study_Code_Name__c,
+                        Study_Title__c,
                         Protocol_ID__c,
                         Patient_Portal_Enabled__c,
                         Terms_and_Conditions__c,
