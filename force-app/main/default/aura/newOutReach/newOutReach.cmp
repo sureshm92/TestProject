@@ -21,6 +21,9 @@
     <aura:attribute name="mediaType" type="Map" access="public"/>
     <aura:attribute name="endrequestedError" type="String" default="" access="private"/>
     <aura:attribute name="startrequestedError" type="String" default="" access="private"/>
+    <aura:attribute name="phoneError" type="String" default="" access="private"/>
+    <aura:attribute name="isSiteOptions" type="Boolean" default="false"/>
+    <aura:attribute name="isStudySite" type="Boolean" default="false"/>
 
     <aura:attribute name="reqFieldsFilled" type="Boolean" default="true" access="private"/>
     <aura:attribute name="providerFound" type="Boolean" default="false"/>
@@ -77,10 +80,18 @@
                                         <div class="label slds-text-align_left">{!$Label.c.Study_Site}<abbr title="required"
                                                                                       class="slds-required">*</abbr></div>
                                     <lightning:select class="lightningInput" value="{!v.site}" aura:id="siteId" >
-                                            <option value="">{!$Label.c.Select_Site}</option>
+                                            
+                                    <aura:if isTrue="{!v.studyData.length==1}">
+                                                <aura:iteration items="{!v.studyData}" var="itms1">
+                                        <option value="{!itms1.Site__r.Name}" label="{!itms1.Site__r.Name}"></option>
+                                    </aura:iteration>
+                                    </aura:if>
+                                         <aura:if isTrue="{!v.studyData.length > 1}">
+                                        <option value="">{!$Label.c.Select_Site}</option>
                                     <aura:iteration items="{!v.studyData}" var="itms">
                                     <option value="{!itms.Site__r.Name}" label="{!itms.Site__r.Name}"></option>
                                         </aura:iteration>
+                                    </aura:if>
                                         </lightning:select>
                                         </div>
                                 </div>
@@ -123,8 +134,8 @@
                                                 class="slds-required">*</abbr>
                                         <lightning:select value="{!v.preferred}"  aura:id="preferredId" onchange="{!preferredType}">
                                               <option value=""  label=""></option>
-                                              <option value="{!$Label.c.PG_MRC_RF_Email}" label="{!$Label.c.Media_Email +v.studyEmail}"></option>
-                                              <option value="{!$Label.c.PG_MRC_RF_Phone}" label="{!$Label.c.Media_Phone +v.studyPhone}" ></option>
+                                              <option value="{!$Label.c.PG_MRC_RF_Email}" label="{!$Label.c.Media_Email+'         '+ v.studyEmail}"></option>
+                                              <option value="{!$Label.c.PG_MRC_RF_Phone}" label="{!$Label.c.Media_Phone+'                     ' +v.studyPhone}" ></option>
                                               <option value="{!$Label.c.Other_Email}"  label="{!$Label.c.Other_Email}"></option>
                                               <option value="{!$Label.c.Other_Phone_Number}"  label="{!$Label.c.Other_Phone_Number}"></option>
                                                    </lightning:select>
@@ -146,6 +157,7 @@
                                         <div class="label">{!$Label.c.Alternate_Email_Phone_Number}</div>
                                         <ui:inputText value="{!v.phone}" aura:id="phoneChan"/>
                                     </div>
+                                    <div class="slds-text-color--error slds-p-top--x-small slds-col--padded-small startenddate">{!v.phoneError}</div>
                                 </div>
                                     </aura:if>
                             
