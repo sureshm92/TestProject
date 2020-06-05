@@ -2,25 +2,25 @@
 
 
 1) Tooling API can be used in current context if sessionId available (communication between user and server). 
-    For this case you don't need an additional setup, and you can execute only with method executeInCurrentSession.
+    For this case you don't need an additional setup, and you can execute only with method executeInCurrentSession().
     
     Example execution of code in anonymous with a current session:
     
     ```java
     String code = 'System.debug(\'Hello world!\');'
-    new ToolingAPI_ExecuteAnonymous().executeInCurrentSession(code);
+    new ToolingAPI_ExecuteAnonymous(code).executeInCurrentSession();
     
     ```
 
-2) If sessionId not available in current context (any async execution like batches, schedule, future, queueable)
-    For these cases you need first setup named credential fot connect Salesforce to itself. Setup will be described below. 
+2) SessionId not available in current context (any async execution like batches, schedule, future, queueable)
+    For these cases you need first setup named credential for connect Salesforce to itself. Setup will be described below. 
     And you can use only method execute(), method executeInCurrentSession() not available in these cases.
     
     Example execution of code in anonymous in async context:
     
     ```java
     String code = 'System.debug(\'Hello world!\');'
-    new ToolingAPI_ExecuteAnonymous().execute(code);
+    new ToolingAPI_ExecuteAnonymous(code).execute();
 
     ```
    

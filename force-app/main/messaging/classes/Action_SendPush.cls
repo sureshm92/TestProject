@@ -45,6 +45,14 @@ public without sharing class Action_SendPush implements Action{
                     messageType.Parameters_Provider__r.DeveloperName,
                     n.Recipient__r.Language__c
             );
+            parametrizedMessageService.addMessage(
+                    n.Id + '_title',
+                    pushTarget.Title__c,
+                    n.WhatId__c,
+                    messageType.Parameters_Provider__r.DeveloperName,
+                    n.Recipient__r.Language__c
+            );
+
         }
         parametrizedMessageService.processMessages();
     
@@ -57,13 +65,14 @@ public without sharing class Action_SendPush implements Action{
         List<ToolingAPI_SendCustomNotifications.CustomNotification> customNotifications = new List<ToolingAPI_SendCustomNotifications.CustomNotification>();
         for (Notification__c n : notifications) {
             Id userId = userByContactIdMap.get(n.Recipient__c);
+            String title = parametrizedMessageService.getMessage(n.Id + '_title');
             String message = parametrizedMessageService.getMessage(n.Id);
             if(userId != null) {
                 customNotifications.add(new ToolingAPI_SendCustomNotifications.CustomNotification(
                         ppRhPushNotificationTypes[0].Id,
                         userId,
                         userId,
-                        '',
+                        title,
                         message
                 ));
             }
@@ -96,6 +105,6 @@ public without sharing class Action_SendPush implements Action{
     }
     
     public void postDML(Action__c dbAction, Execution_History__c executionHistory) {
-        //do nothing
+        sendResultService.updateResults();
     }
 }

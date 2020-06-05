@@ -27,6 +27,7 @@ public abstract without sharing class ToolingAPIAbstract {
     }
     
     public Object executeInCurrentSession() {
+        if(String.isEmpty(UserInfo.getSessionId())) throw new ToolingAPIServiceException('Session Id not available, use execute() method instead');
         HttpRequest request = createRequest();
         request.setEndpoint(Url.getSalesforceBaseUrl().toExternalForm() + endPointURL);
         request.setHeader('Authorization', 'Bearer ' + UserInfo.getSessionId());

@@ -21,6 +21,7 @@ public without sharing class ParametrizedMessageService {
         }
         
         public String getMessage(){
+            if (resultMessage == null) resultMessage = sourceMessage;
             return resultMessage;
         }
         
