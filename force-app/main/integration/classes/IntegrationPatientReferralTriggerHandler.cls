@@ -174,7 +174,10 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                         ipr.Participant_Enrollment__c = sr.getId();
                     } else {
                         ipr.Success__c = false;
-                        ipr.Error_Message__C = 'Participant Enrollment Duplicate Error';
+                        ipr.Error_Message__c = 'Participant Enrollment Duplicate Error\n';
+                        for(Database.Error err : sr.getErrors()) {
+                            ipr.Error_Message__c = ipr.Error_Message__c + '\n' + err.getMessage();
+                        }
                     }
                 }
             }
