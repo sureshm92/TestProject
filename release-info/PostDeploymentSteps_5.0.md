@@ -12,8 +12,8 @@
     4.1. Create Connected App in Salesforce:
     
          - In setup open 'App Manager' > New Connected App button > enter below fields:
-         - Connected App Name: 
-         - API Name:
+         - Connected App Name: Salesforce Self Connection
+         - API Name: Salesforce_Self_Connection
          - Contact Email: any email for contact
          - enable a checkbox 'Enable OAuth Settings'
          - Callback URL: https://dummy.com
