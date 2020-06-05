@@ -137,7 +137,7 @@ public without sharing class ParticipantDuplicateService {
 
         //Find participants
         List<Participant__c> existedParticipants = [
-                SELECT Id, First_Name__c, Last_Name__c, Email__c, Phone__c, Day_of_Birth__c, Birth_Year__c, Date_of_Birth__c, Secondary_Source__c, ZIP_Code__c
+                SELECT Id, First_Name__c, Last_Name__c, Email__c, Phone__c, Day_of_Birth__c, Birth_Year__c, Date_of_Birth__c, Secondary_Source__c, ZIP_Code__c, Mailing_Zip_Postal_Code__c
                 FROM Participant__c
                 WHERE Email__c IN :emails OR Phone__c IN :phones OR Day_of_Birth__c IN :birthDates OR ZIP_Code__c IN :zipCodes
         ];
@@ -252,11 +252,13 @@ public without sharing class ParticipantDuplicateService {
                         continue;
                     }
 
-                    if (participantsByDoB != null && delegate != null) {
+                    Boolean isAdultAndHasEmailOrPhone = participant.Adult__c && (!String.isBlank(participant.Email__c) || !String.isBlank(participant.Phone__c));
+                    Participant__c paticipantInfoToCheck = (delegate == null || isAdultAndHasEmailOrPhone ? participant : delegate);
+                    if (participantsByDoB != null) {
                         for (Participant__c dupParticipant : participantsByDoB) {
                             if (dupParticipant != null && dupParticipant.Last_Name__c != null && dupParticipant.Last_Name__c == participant.Last_Name__c) {
-                                if (dupParticipant.Email__c != null && delegate.Email__c != null && dupParticipant.Email__c.toLowerCase() == delegate.Email__c.toLowerCase() ||
-                                        dupParticipant.Phone__c != null && dupParticipant.Phone__c == delegate.Phone__c ||
+                                if (dupParticipant.Email__c != null && paticipantInfoToCheck.Email__c != null && dupParticipant.Email__c.toLowerCase() == paticipantInfoToCheck.Email__c.toLowerCase() ||
+                                        dupParticipant.Phone__c != null && dupParticipant.Phone__c == paticipantInfoToCheck.Phone__c ||
                                         dupParticipant.ZIP_Code__c != null && dupParticipant.ZIP_Code__c == participant.ZIP_Code__c ||
                                         dupParticipant.Mailing_Zip_Postal_Code__c != null && dupParticipant.Mailing_Zip_Postal_Code__c == participant.Mailing_Zip_Postal_Code__c) {
                                     if (dupParticipant.First_Name__c != null && dupParticipant.First_Name__c == participant.First_Name__c) {
@@ -266,11 +268,11 @@ public without sharing class ParticipantDuplicateService {
                             }
                         }
                     }
-                    if (duplicate == null && contactsByDoB != null && delegate != null) {
+                    if (duplicate == null && contactsByDoB != null) {
                         for (Contact dupContact : contactsByDoB) {
                             if (dupContact != null && dupContact.LastName != null && dupContact.LastName == participant.Last_Name__c) {
-                                if (dupContact.Email != null && delegate.Email__c != null && dupContact.Email.toLowerCase() == delegate.Email__c.toLowerCase() ||
-                                        dupContact.Phone != null && dupContact.Phone == delegate.Phone__c ||
+                                if (dupContact.Email != null && paticipantInfoToCheck.Email__c != null && dupContact.Email.toLowerCase() == paticipantInfoToCheck.Email__c.toLowerCase() ||
+                                        dupContact.Phone != null && dupContact.Phone == paticipantInfoToCheck.Phone__c ||
                                         dupContact.MailingPostalCode != null && (dupContact.MailingPostalCode == participant.ZIP_Code__c ||
                                         dupContact.MailingPostalCode == participant.Mailing_Zip_Postal_Code__c)) {
                                     if (dupContact.FirstName != null && dupContact.FirstName == participant.First_Name__c) {
