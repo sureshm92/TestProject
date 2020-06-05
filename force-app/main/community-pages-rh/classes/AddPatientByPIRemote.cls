@@ -135,12 +135,12 @@ public without sharing class AddPatientByPIRemote {
                     }
                     insert participantDelegate;
                 }
-                if(ddInfo == null || !ddInfo.isDuplicateDelegate) {
+                //if(ddInfo == null || !ddInfo.isDuplicateDelegate) {
                     Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
                     ptDelegateRef.Participant__c = participant.Id;
                     ptDelegateRef.Contact__c = newContact.Id;
                     insert ptDelegateRef;
-                }
+               // }
                 if(createDelegateuser) {
                     ReferringRemote.createParticipantUsers(new Map<Id, Id>{
                             newContact.Id => null
