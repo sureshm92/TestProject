@@ -6151,6 +6151,41 @@ Please log in to ##CommunityName to view this information.</value>
         <value>How many visits do I have left?</value>
     </labels>
     <labels>
+        <fullName>Message_Body_New_Data_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message Body New Data Push</shortDescription>
+        <value>New visit data is available for the ##StudyCodeName study. Please log in to the ##ShortCommunityName to view the latest visit data.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_Has_not_Login_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message Body for Has not Login Push</shortDescription>
+        <value>We haven't heard from you in a while. Please log in to the ##ShortCommunityName to view all the latest information on your clinical research study.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Certificate_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message Body for New Certificate Push</shortDescription>
+        <value>You have a new reward certificate from the ##StudyCodeName clinical research study available on the ##ShortCommunityName.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_Visit_Reminder_Del_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message Body for Visit Reminder Del Push</shortDescription>
+        <value>You have an upcoming visit with ##ParticipantFirstName for the ##StudyCodeName clinical research study. If they are unable to make this appointment, please contact the Study Team.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_Visit_Reminder_PT_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message Body for Visit Reminder PT Push</shortDescription>
+        <value>You have an upcoming visit for the ##StudyCodeName clinical research study. If you are unable to make this appointment, please contact the Study Team.</value>
+    </labels>
+    <labels>
         <fullName>Message_For_Delegates</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -13951,6 +13986,34 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>false</protected>
         <shortDescription>Systolic Blood Pr Description</shortDescription>
         <value>Systolic blood pressure is a measure of how hard your blood is pushed against the walls of the arteries when the heart is beating and pushing out blood.</value>
+    </labels>
+    <labels>
+        <fullName>Title_new_Certificate_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for new_Certificate Push</shortDescription>
+        <value>New gift certificate</value>
+    </labels>
+    <labels>
+        <fullName>Title_Has_Not_Login_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for has not Login Push</shortDescription>
+        <value>We miss you</value>
+    </labels>
+    <labels>
+        <fullName>Title_new_visit_data_push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for new visit data push</shortDescription>
+        <value>New visit data</value>
+    </labels>
+    <labels>
+        <fullName>Title_Visit_Reminder_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for Visit Reminder Push</shortDescription>
+        <value>Visit reminder</value>
     </labels>
     <labels>
         <fullName>TST_Complete_Your_Question</fullName>
