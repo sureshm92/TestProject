@@ -225,12 +225,12 @@ public without sharing class ReferringRemote {
                     }
                     insert participantDelegate;
                 }
-                if(delegateDuplicateInfo == null || !delegateDuplicateInfo.isDuplicateDelegate) {
+                //if(delegateDuplicateInfo == null || !delegateDuplicateInfo.isDuplicateDelegate) {
                     Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
                     ptDelegateRef.Participant__c = participant.Id;
                     ptDelegateRef.Contact__c = newContact.Id;
                     insert ptDelegateRef;
-                }
+                //}
                 if(createDelegateuser) {
                     createParticipantUsers(new Map<Id, Id>{
                             newContact.Id => null
