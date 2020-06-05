@@ -79,7 +79,7 @@ public without sharing class AddPatientByPIRemote {
                     ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
                 }
             }
-
+            Boolean createDelegateuser = true;
             if (participantDelegate != null && !String.isEmpty(participantDelegate.Last_Name__c) &&
                     !String.isEmpty(participantDelegate.Email__c)) {
                 Contact newContact;
@@ -113,21 +113,35 @@ public without sharing class AddPatientByPIRemote {
                         newContact.Phone = participantDelegate.Phone__c;
                     }
                     insert newContact;
+                } else{
+                    newContact = [
+                            Select Id,
+                                    FirstName,
+                                    LastName,
+                                    Email,
+                                    MailingCity,
+                                    MailingCountryCode,
+                                    MailingStateCode
+                            FROM Contact
+                            WHERE Id = :ddInfo.contactId
+                    ];
+                    createDelegateuser = false;
                 }
                 if(ddInfo == null || ddInfo.participantId == null) {
-                    participantDelegate.Contact__c = newContact == null ? ddInfo.contactId : newContact.Id;
+                    participantDelegate.Contact__c = newContact.Id;
                     if (String.isBlank(participantDelegate.Phone__c) && !String.isBlank(participant.Phone__c)) {
                         participantDelegate.Phone__c = participant.Phone__c;
                         participantDelegate.Phone_Type__c = participant.Phone_Type__c;
                     }
                     insert participantDelegate;
                 }
-
-                Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
-                ptDelegateRef.Participant__c = participant.Id;
-                ptDelegateRef.Contact__c = newContact == null ? ddInfo.contactId : newContact.Id;
-                insert ptDelegateRef;
-                if(newContact != null) {
+                if(ddInfo == null || !ddInfo.isDuplicateDelegate) {
+                    Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
+                    ptDelegateRef.Participant__c = participant.Id;
+                    ptDelegateRef.Contact__c = newContact.Id;
+                    insert ptDelegateRef;
+                }
+                if(createDelegateuser) {
                     ReferringRemote.createParticipantUsers(new Map<Id, Id>{
                             newContact.Id => null
                     });
