@@ -2448,7 +2448,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body PI1</shortDescription>
-        <value>A new clinical research study has been added to your account on the IQVIA Referral Hub:  ##StudyTitle
+        <value>A new clinical research study has been added to your account on the IQVIA Referral Hub:  ##StudyName
 
             Please take a moment to log into the IQVIA Referral Hub to review and accept the study.</value>
     </labels>
@@ -5545,7 +5545,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>IncTask_01_T</shortDescription>
-        <value>Pre-screen participant</value>
+        <value>Complete pre-screener</value>
     </labels>
     <labels>
         <fullName>IncTask_02_D</fullName>
@@ -5553,7 +5553,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>IncTask_02_D</shortDescription>
-        <value>Enter initial visit scheduled date and time(Ask Tamara to add proper description to the User Story)</value>
+        <value>Enter initial visit scheduled date and time for a participant</value>
     </labels>
     <labels>
         <fullName>IncTask_02_HD</fullName>
@@ -5569,7 +5569,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>IncTask_02_T</shortDescription>
-        <value>Enter initial visit scheduled date and time</value>
+        <value>Initial visit scheduled date and time</value>
     </labels>
     <labels>
         <fullName>IncTask_03_D</fullName>
@@ -5577,7 +5577,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>IncTask_03_D</shortDescription>
-        <value>Make initial contact attempt within 1 day of participant being received(Ask Tamara to add proper description to the User Story)</value>
+        <value>Attempt contact within one day of participant being received</value>
     </labels>
     <labels>
         <fullName>IncTask_03_HD</fullName>
@@ -5585,7 +5585,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>IncTask_03_HD</shortDescription>
-        <value>Made initial contact attempt within 1 day of participant being received for: ##ItemName</value>
+        <value>Attempted contact a day of receiving: ##ItemName</value>
     </labels>
     <labels>
         <fullName>IncTask_03_T</fullName>
@@ -5593,7 +5593,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>IncTask_03_T</shortDescription>
-        <value>Make initial contact attempt within 1 day of participant being received</value>
+        <value>Attempt contact attempt within one day</value>
     </labels>
     <labels>
         <fullName>IncentiveProgram_Date</fullName>
@@ -10860,7 +10860,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L One Incentive Plan Many Incentives</shortDescription>
-        <value>This selection affected {0} number of study sites</value>
+        <value>This selection affected {0} number of study sites. Do you want proceed?</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_One_Incentive_Plan</fullName>
@@ -12619,7 +12619,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Referral Pathway Label</shortDescription>
-        <value>Referral Pathway</value>
+        <value>Participant Pathway</value>
     </labels>
     <labels>
         <fullName>Referring</fullName>
@@ -15376,6 +15376,13 @@ Please log in to ##CommunityName to view this information.</value>
         <shortDescription>MO_Study_Name</shortDescription>
         <value>Study Name</value>
     </labels>
+	  <labels>
+        <fullName>Library_Search</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Library_Search</shortDescription>
+        <value>Search</value>
+    </labels>
     <labels>
         <fullName>MO_Study_Site</fullName>
         <language>en_US</language>
@@ -15643,6 +15650,14 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>true</protected>
         <shortDescription>update resource content</shortDescription>
         <value>Do you want to mark  resource content as updated?</value>
+    </labels>
+	<labels>
+        <fullName>Invalid_Phone</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Invalid Phone</shortDescription>
+        <value>Enter valid phone number</value>
     </labels>
     <labels>
         <fullName>visit_Name</fullName>

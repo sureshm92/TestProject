@@ -30,6 +30,16 @@
     max-height: 500px;
 }
 
+.THIS .upload-icon {
+    height: 16px;
+    width: 16px;
+}
+
+.THIS .upload-close {
+    height: 14px;
+    width: 14px;
+}
+
 @media screen and (max-width: 500px) {
     .THIS .cPopup .p-container .p-footer {
      	max-height: 40vh;   
