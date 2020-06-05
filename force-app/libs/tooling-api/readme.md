@@ -2,7 +2,7 @@
 
 
 1) Tooling API can be used in current context if sessionId available (communication between user and server). 
-    For this case you don't need an additional setup, and you can execute only with method executeInCurrentSession.
+    For this case you don't need an additional setup, and you can execute only with method executeInCurrentSession().
     
     Example execution of code in anonymous with a current session:
     

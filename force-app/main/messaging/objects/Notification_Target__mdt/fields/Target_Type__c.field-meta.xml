@@ -20,7 +20,11 @@
                 <default>false</default>
                 <label>Email</label>
             </value>
+            <value>
+                <fullName>Push</fullName>
+                <default>false</default>
+                <label>Push</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
-
 </CustomField>
