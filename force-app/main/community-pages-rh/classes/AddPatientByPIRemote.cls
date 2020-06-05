@@ -136,10 +136,15 @@ public without sharing class AddPatientByPIRemote {
                     insert participantDelegate;
                 }
                 //if(ddInfo == null || !ddInfo.isDuplicateDelegate) {
-                    Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
-                    ptDelegateRef.Participant__c = participant.Id;
-                    ptDelegateRef.Contact__c = newContact.Id;
-                    insert ptDelegateRef;
+                if(participantId != null && newContact.Id != null){
+                    List<Patient_Delegate__c> checkPDel = [SELECT Id FROM Patient_Delegate__c WHERE Participant__c =:participantId AND Contact__c =:newContact.Id];
+                    if(checkPDel.isEmpty()){
+                        Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
+                        ptDelegateRef.Participant__c = participantId;
+                        ptDelegateRef.Contact__c = newContact.Id;
+                        insert ptDelegateRef;
+                    }
+                }
                // }
                 if(createDelegateuser) {
                     ReferringRemote.createParticipantUsers(new Map<Id, Id>{
