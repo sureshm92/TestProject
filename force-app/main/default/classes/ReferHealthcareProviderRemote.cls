@@ -176,6 +176,7 @@ global without sharing class ReferHealthcareProviderRemote {
                 }
             } else {
                 hp.contactId = null;
+                hp.isDuplicateDelegate = false;
                 //hp.isDuplicate = contacts[0].get('userCommunytyType__c') != null && contacts[0].userCommunytyType__c.contains('HCP');
             }
         }
