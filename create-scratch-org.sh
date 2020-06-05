@@ -19,6 +19,8 @@ if [ $? = 0 ] ; then
 
     sfdx force:apex:execute -f scripts/apex/SFDX_Setup_UpdateSSAndHCPEStatuses.apex
 
+    sfdx force:apex:execute -f scripts/apex/PostSetupBatches.apex
+
     sfdx force:user:permset:assign --permsetname PP_Approved_Languages_Edit
     sfdx force:user:permset:assign --permsetname PP_Batch_Control_Panel
     sfdx force:user:permset:assign --permsetname PP_CTP_Edit
