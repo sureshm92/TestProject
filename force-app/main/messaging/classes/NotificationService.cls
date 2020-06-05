@@ -48,8 +48,13 @@ public without sharing class NotificationService {
                         Parameters_Provider__r.Source_Object_Type__c,
                         Parameters_Provider__r.Parameters__c,
                         Parameters_Provider__r.DeveloperName, (
-                        SELECT Id, Email_Template__c, Email_Template_Delegate__c, Target_Type__c,
-                                Message_Body__c, Org_Wide_Email_Address__c
+                        SELECT Id,
+                                Email_Template__c,
+                                Email_Template_Delegate__c,
+                                Target_Type__c,
+                                Title__c,
+                                Message_Body__c,
+                                Org_Wide_Email_Address__c
                         FROM Notification_Targets__r
                 )
                 FROM Notification_Type__mdt
@@ -265,7 +270,6 @@ public without sharing class NotificationService {
                     }
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_PUSH) {
                     pushNotifications.add(n);
-                    //TODO
                 } else if (nt.Target_Type__c == NOTIFICATION_RECIPIENT_TYPE_EXTERNAL_EMAIL) {
                     //TODO
                 }
@@ -274,7 +278,9 @@ public without sharing class NotificationService {
         sendResultService.updateResults();
 
         if (!emailNotifications.isEmpty()) EmailService.send(emailNotifications, orgWideEmailByNotifyMap);
-        if (!smsNotifications.isEmpty()) SMSService.sendQueueable(smsNotifications);
+        if (!smsNotifications.isEmpty()) ActionExecutor.executeAsync(new Action_SendSMS(smsNotifications), Datetime.now());
+        if (!pushNotifications.isEmpty()) ActionExecutor.executeAsync(new Action_SendPush(pushNotifications), Datetime.now());
+        
     }
 
 }

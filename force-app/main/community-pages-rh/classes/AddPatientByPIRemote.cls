@@ -127,8 +127,11 @@ public without sharing class AddPatientByPIRemote {
                 ptDelegateRef.Participant__c = participant.Id;
                 ptDelegateRef.Contact__c = newContact == null ? ddInfo.contactId : newContact.Id;
                 insert ptDelegateRef;
-
-                ReferringRemote.createParticipantUsers(new Map<Id, Id> { newContact.Id => null});
+                if(newContact != null) {
+                    ReferringRemote.createParticipantUsers(new Map<Id, Id>{
+                            newContact.Id => null
+                    });
+                }
             }
             //Moved history Creation to Trigger
         } catch (Exception e) {
