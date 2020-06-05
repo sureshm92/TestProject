@@ -37,6 +37,10 @@
     line-height: 22px;
     height: 32px;
 }
+.THIS .pwdText{
+   font-size: 30px;
+    opacity:0.6;
+}
 
 .THIS.rri-container svg {
     height: 22px;

@@ -237,6 +237,17 @@ public without sharing class ParticipantService {
         phoneTypes.add(new LabelValueItem(Label.Phone_Type_Mobile, 'Mobile'));
         return phoneTypes;
     }
+	
+	public static List<LabelValueItem> getPrefixList() {
+        List<LabelValueItem> prefix = new List<LabelValueItem>();
+        prefix.add(new LabelValueItem('Mr.', 'Mr.'));
+        prefix.add(new LabelValueItem('Ms.', 'Ms.'));
+        prefix.add(new LabelValueItem('Mrs.', 'Mrs.'));
+        prefix.add(new LabelValueItem('Dr.', 'Dr.'));
+        prefix.add(new LabelValueItem('Prof.', 'Prof.'));
+
+        return prefix;
+    }
 
     public static Map<Id, Integer> getNearestLogOutNotification(List<Id> participantContIds) {
         List<Participant_Enrollment__c> enrollments = [
