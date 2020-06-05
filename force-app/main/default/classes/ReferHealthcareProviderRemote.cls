@@ -98,10 +98,14 @@ global without sharing class ReferHealthcareProviderRemote {
             String contactQuery = 'SELECT Id, FirstName, LastName, Name, Email, Phone,  userCommunytyType__c FROM Contact WHERE (Email = \'' + String.escapeSingleQuotes(email) + '\''
                     +' OR Email = \'' + String.escapeSingleQuotes(email.toLowerCase()) + '\')';
             if (!String.isBlank(firstName) && !String.isBlank(lastName)) {
+                email =  String.escapeSingleQuotes(email);
+                firstName = String.escapeSingleQuotes(firstName);
+                lastName = String.escapeSingleQuotes(lastName);
                 contactQuery += ' OR ((Email = \'' + email + '\' OR Email = \'' + email.toLowerCase() + '\')' +
-                        +' AND (FirstName = \'' + String.escapeSingleQuotes(firstName) + '\' OR FirstName = \'' + String.escapeSingleQuotes(firstName.toLowerCase()) + '\')' +
-                        +' AND (LastName = \'' + String.escapeSingleQuotes(lastName) + '\' OR LastName = \'' + String.escapeSingleQuotes(lastName.toLowerCase()) + '\'))';
+                        +' AND (FirstName = \'' + firstName + '\' OR FirstName = \'' + firstName.toLowerCase() + '\')' +
+                        +' AND (LastName = \'' + lastName + '\' OR LastName = \'' + lastName.toLowerCase() + '\'))';
             }
+
             List<Contact> contacts = Database.query(contactQuery);
             if (!contacts.isEmpty()) {
                 hp.contactId = contacts[0].Id;
@@ -164,7 +168,7 @@ global without sharing class ReferHealthcareProviderRemote {
                     ].Participant__c;
                 }
                 if(participantId != null) {
-                    List<Patient_Delegate__c> duplicateDelegates = checkDuplicatePDelegates(participantId, email, firstName, lastName);
+                    List<Patient_Delegate__c> duplicateDelegates = checkDuplicatePDelegates(participantId, String.escapeSingleQuotes(email), String.escapeSingleQuotes(firstName), String.escapeSingleQuotes(lastName));
                     if (!duplicateDelegates.isEmpty()) {
                         hp.isDuplicateDelegate = true;
                     } else {

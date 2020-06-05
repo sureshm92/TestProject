@@ -1553,6 +1553,13 @@
         <value>Participant has consented to receiving an invitation to the Patient Portal.</value>
     </labels>
     <labels>
+        <fullName>Create_Users_Checkbox_Add_By_Pi</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create Users Checkbox Add By Pi</shortDescription>
+        <value>Participant (and/or participant delegate, if applicable) consents to being invited to IQVIA Patient Portal.</value>
+    </labels>
+    <labels>
         <fullName>Create_Users_Checkbox_on_Import</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -5764,13 +5771,6 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>true</protected>
         <shortDescription>contact has user</shortDescription>
         <value>Invited</value>
-    </labels>
-	<labels>
-        <fullName>Learn_More_Report_Document_Name</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Learn More Report Document Name</shortDescription>
-        <value>Study Detailed Description Report</value>
     </labels>
     <labels>
         <fullName>Library_Format</fullName>
@@ -10860,7 +10860,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L One Incentive Plan Many Incentives</shortDescription>
-        <value>This selection affected {0} number of study sites. Do you want to proceed?</value>
+        <value>This selection affected {0} number of study sites</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_One_Incentive_Plan</fullName>
@@ -10986,7 +10986,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG Ref L Text To Delete Plan</shortDescription>
-        <value>{0} number of study sites are using that program, do you want to proceed?</value>
+        <value>number of study sites are using that program, do you want to proceed?</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Thank_you_for_having_a_discussion_with_your_patient_about_clinical_stud</fullName>
@@ -15237,6 +15237,361 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>false</protected>
         <shortDescription>WBC Count Description</shortDescription>
         <value>White blood cells (WBC or leukocytes) are cells that can be found in your blood and in body tissues that are important for your immune system (your body&#39;s defense responses). WBCs fight infections, cancer, and also remove poison, waste products, and damaged cells from your body. When you are fighting off an infection, the number of white blood cells increases. WBC count is measured to check your general health and to check for conditions that influence your body&#39;s white blood cell production. A high WBC count can mean you have an infection.</value>
+    </labels>
+	 <labels>
+        <fullName>Active_Requests</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Active_Requests</shortDescription>
+        <value>Requested,In Progress</value>
+    </labels>
+	 <labels>
+        <fullName>Cancel_Request</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Cancel Request</shortDescription>
+        <value>Cancel Request</value>
+    </labels>
+    <labels>
+        <fullName>Cancel_request_warning_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cancel request warning message</shortDescription>
+        <value>Are you sure you want to cancel the request?</value>
+    </labels>
+	 <labels>
+        <fullName>Closed_Requests</fullName>
+        <categories>Media OutReach</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Closed_Requests</shortDescription>
+        <value>Fulfilled,Cancelled</value>
+    </labels>
+	 <labels>
+        <fullName>Alternate_Email_Phone_Number</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Alternate Email/Phone Number</shortDescription>
+        <value>Alternate Email/Phone Number</value>
+    </labels>
+	 <labels>
+        <fullName>Additional_Notes_optional</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Additional Notes(optional)</shortDescription>
+        <value>Additional Notes(optional)</value>
+    </labels>
+	 <labels>
+        <fullName>End_Date</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>End Date</shortDescription>
+        <value>End Date should not be smaller than start Date</value>
+    </labels>
+	 <labels>
+        <fullName>MO_Active</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_Active</shortDescription>
+        <value>Active Requests</value>
+    </labels>
+    <labels>
+        <fullName>MO_All_Studies</fullName>
+        <categories>Media OutReach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_All_Studies</shortDescription>
+        <value>All Studies</value>
+    </labels>
+    <labels>
+        <fullName>MO_Closed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_Closed</shortDescription>
+        <value>Closed Requests</value>
+    </labels>
+    <labels>
+        <fullName>MO_End_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_End_Date</shortDescription>
+        <value>Requested End Date</value>
+    </labels>
+    <labels>
+        <fullName>MO_Media_Type</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_Media_Type</shortDescription>
+        <value>Media Type</value>
+    </labels>
+    <labels>
+        <fullName>MO_Notes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_Notes</shortDescription>
+        <value>Notes</value>
+    </labels>
+    <labels>
+        <fullName>MO_RecordUpdate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_RecordUpdate</shortDescription>
+        <value>Record Updated Successfully</value>
+    </labels>
+    <labels>
+        <fullName>MO_Request_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_Request_ID</shortDescription>
+        <value>Request ID</value>
+    </labels>
+    <labels>
+        <fullName>MO_Show_Study</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_Show_Study</shortDescription>
+        <value>Show Study</value>
+    </labels>
+    <labels>
+        <fullName>MO_Start_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_Start_Date</shortDescription>
+        <value>Requested Start Date</value>
+    </labels>
+    <labels>
+        <fullName>MO_Status</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_Status</shortDescription>
+        <value>Status</value>
+    </labels>
+    <labels>
+        <fullName>MO_Study_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_Study_Name</shortDescription>
+        <value>Study Name</value>
+    </labels>
+    <labels>
+        <fullName>MO_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_Study_Site</shortDescription>
+        <value>Study Site</value>
+    </labels>
+	 <labels>
+        <fullName>Media_Chekbox</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Media Chekbox</shortDescription>
+        <value>Media type</value>
+    </labels>
+    <labels>
+        <fullName>Media_Email</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Media Email</shortDescription>
+        <value>Email:</value>
+    </labels>
+    <labels>
+        <fullName>Media_Outreach</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Media_Outreach</shortDescription>
+        <value>Media_Outreach__c</value>
+    </labels>
+    <labels>
+        <fullName>Media_Phone</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Media Phone</shortDescription>
+        <value>Phone Number:</value>
+    </labels>
+    <labels>
+        <fullName>Media_Type</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Media_Type</shortDescription>
+        <value>Media_Type__c</value>
+    </labels>
+	  <labels>
+        <fullName>Navigation_MediaOutreach</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Navigation_MediaOutreach</shortDescription>
+        <value>Media Outreach</value>
+    </labels>
+	 <labels>
+        <fullName>New_OutReach</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>New OutReach</shortDescription>
+        <value>New Outreach</value>
+    </labels>
+	 <labels>
+        <fullName>No</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No</shortDescription>
+        <value>No</value>
+    </labels>
+	 <labels>
+        <fullName>Other_Email</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Other Email</shortDescription>
+        <value>Other Email</value>
+    </labels>
+    <labels>
+        <fullName>Other_Phone_Number</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Other Phone Number</shortDescription>
+        <value>Other Phone Number</value>
+    </labels>
+	  <labels>
+        <fullName>Outreach_Message</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Outreach Message</shortDescription>
+        <value>New Outreach Created Successfully !</value>
+    </labels>
+	 <labels>
+        <fullName>Yes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Yes</shortDescription>
+        <value>Yes</value>
+    </labels>
+	 <labels>
+        <fullName>Preferred_Contact_Method</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Preferred Contact Method</shortDescription>
+        <value>Preferred Contact Method</value>
+    </labels>
+	 <labels>
+        <fullName>Recent_Notes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Recent Notes</shortDescription>
+        <value>Recent Notes</value>
+    </labels>
+	 <labels>
+        <fullName>Requested</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Requested</shortDescription>
+        <value>Requested</value>
+    </labels>
+    <labels>
+        <fullName>Requested_End_Date</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Requested End Date</shortDescription>
+        <value>Requested End Date</value>
+    </labels>
+    <labels>
+        <fullName>Requested_Start_Date</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Requested Start Date</shortDescription>
+        <value>Requested Start Date</value>
+    </labels>
+	 <labels>
+        <fullName>Save</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Save</shortDescription>
+        <value>Save</value>
+    </labels>
+	 <labels>
+        <fullName>Select</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select</shortDescription>
+        <value>Select</value>
+    </labels>
+	 <labels>
+        <fullName>Select_Site</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select Site</shortDescription>
+        <value>Select Site</value>
+    </labels>
+    <labels>
+        <fullName>Select_Study</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select Study</shortDescription>
+        <value>Select Study</value>
+    </labels>
+	 <labels>
+        <fullName>Start_Date</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Start Date</shortDescription>
+        <value>Start Date should not be greater than end Date</value>
+    </labels>
+	 <labels>
+        <fullName>Study_Name</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Name</shortDescription>
+        <value>Study Name</value>
+    </labels>
+    <labels>
+        <fullName>Study_Site</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Site</shortDescription>
+        <value>Study Site</value>
+    </labels>
+	 <labels>
+        <fullName>Submit</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Submit</shortDescription>
+        <value>Submit</value>
+    </labels>
+	 <labels>
+        <fullName>Type_notes_here</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Type notes here</shortDescription>
+        <value>Type notes here</value>
+    </labels>
+	<labels>
+        <fullName>Warning</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Warning</shortDescription>
+        <value>Warning!</value>
     </labels>
     <labels>
         <fullName>Weight</fullName>
