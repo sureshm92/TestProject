@@ -1,0 +1,158 @@
+<!--
+ - Created by velu on 21.05.2020.
+ -->
+
+<aura:component description="ViewPoPupMediaOutreachRecord" Controller="ViewMediaResult"
+    implements="forceCommunity:availableForAllPageTypes" access="global">
+
+    <!-- attributes:-->
+    <aura:attribute name="ViewRecord" type="Object[]" access="public" />
+    <aura:attribute name="lstNotes" type="object[]" access="public" />
+    <aura:attribute name="ViewRecordId" type="string" access="public" />
+    <aura:attribute name="notes" type="String" access="public" />
+    <aura:attribute name="refreshView" type="Boolean" default="false" />
+    <aura:attribute name="footerbutton" type="boolean" />
+    <aura:attribute name="buttonDisable" type="boolean" default="false" />
+    <aura:attribute name="phone" type="String" default="" access="private" />
+    <aura:attribute name="emailS" type="String" default="" access="private" />
+    <aura:attribute name="preferred" type="String" default="" access="private" />
+    <aura:attribute name="study" type="String" default="" access="private" />
+    <aura:attribute name="studyEmail" type="String" default="" access="private" />
+    <aura:attribute name="studyPhone" type="String" default="" access="private" />
+    <aura:attribute name="MOEmail" type="boolean" access="private" />
+    <aura:attribute name="MOPhone" type="boolean" access="private" />
+    <aura:attribute name="Other" type="boolean" access="private" />
+    <aura:attribute name="MO_Phonenumber" type="string" access="private" />
+    <aura:attribute name="MO_Email" type="string" access="private" />
+    <aura:attribute name="PC_Value" type="list" access="private" />
+    <aura:attribute name="disabled" type="boolean" default="true" access="private" />
+    <aura:attribute name="AlternatePhone_email" type="string" default="" access="private"
+    />
+    <aura:attribute name="disablefield" type="boolean" access="public" />
+    <aura:attribute name="Picklistdefaultvalue" type="string" access="private" />
+    <aura:attribute name="ActiveReqRecord" type="boolean" access="public" />
+    <aura:attribute name="MO_Value" type="string" access="public" />
+
+    <!-- methods:-->
+    <aura:method name="execute" action="{!c.doExecute}" access="public" />
+
+    <!-- Events:-->
+    <aura:registerEvent name="cmpRefEvent" type="c:MediaOutreachRefreshtable" />
+
+    <!-- Handler:-->
+    <aura:handler name="cmpEvent" event="c:MediaOutreachCancelReqEvt" action="{!c.closepopup}"
+    />
+
+    <!-- component body:-->
+    <c:Popup aura:id="ShowPoP_Up" title="{!v.ViewRecord[0].Name}" showClose="false" size="medium"
+        showScroll="true">
+        <c:RRSpinner aura:id="modalSpinnerpopup" size="medium" showSpinner="false" />
+        <div class="slds-grid slds-grid_vertical">
+            <div class="slds-col slds-grid slds-size_1-of-1">
+                <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                    <div class="rr-form-element">
+                        <div class="label slds-text-align_left">{!$Label.c.MO_Study_Name}</div>
+                        <b> {!v.ViewRecord[0].Study_Name__r.Name}</b>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                    <div class="rr-form-element">
+                        <div class="label slds-text-align_left">{!$Label.c.MO_Study_Site}</div>
+                        <b> {!v.ViewRecord[0].Study_Name__r.Site__r.Name}</b>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-grid slds-size_1-of-1">
+                <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                    <div class="rr-form-element">
+                        <div class="label slds-text-align_left">{!$Label.c.MO_Media_Type}</div>
+                        <b> {!v.ViewRecord[0].Media_Type__c} </b>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                    <div class="rr-form-element">
+                        <div class="label slds-text-align_left">{!$Label.c.MO_Status}</div>
+                        <b> {!v.ViewRecord[0].Status__c} </b>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-grid slds-size_1-of-1">
+                <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                    <div class="rr-form-element">
+                        <div class="label slds-text-align_left">{!$Label.c.MO_Start_Date}</div>
+                        <b><ui:outputDate value="{!v.ViewRecord[0].Requested_Start_Date__c}" /></b>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                    <div class="rr-form-element">
+                        <div class="label slds-text-align_left">{!$Label.c.MO_End_Date}</div>
+                        <b><ui:outputDate value="{!v.ViewRecord[0].Requested_End_Date__c}" /></b>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-grid slds-size_1-of-1">
+                <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                    <div class="rr-form-element">
+                        {!$Label.c.Preferred_Contact_Method}<abbr title="required"
+                            class="slds-required">*</abbr>
+                        <lightning:select value="{!v.preferred}" aura:id="preferredId" onchange="{!c.preferredType}"
+                            disabled="{!v.disablefield}">
+                            <aura:iteration items="{!v.PC_Value}" var="options" indexVar="index">
+                                <option value="{!options.value}" label="{!options.value}"></option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                    <div class="rr-form-element">
+                        <div class="label">{!$Label.c.Alternate_Email_Phone_Number}</div>
+                        <lightning:input value="{!v.AlternatePhone_email}" aura:id="alternate" disabled="{!v.disabled}"
+                        />
+                    </div>
+                </div>
+            </div>
+            <aura:if isTrue="{!v.footerbutton}">
+                <div class="slds-col slds-grid slds-size_1-of-1">
+                    <div class="slds-col slds-size_1-of-1 slds-p-around_medium">
+                        <lightning:textarea label="{!$Label.c.Additional_Notes_optional}" value="{!v.notes}"
+                            placeholder="{!$Label.c.Type_notes_here}" maxlength="300"
+                            disabled="{!v.buttonDisable}" aura:id="notesId" />
+                    </div>
+                </div>
+            </aura:if>
+        </div>
+        <br></br>
+        <div class="slds-col slds-grid slds-size_1-of-1">
+            <div class="slds-col slds-size_1-of-1 slds-p-around_medium">
+                <p>{!$Label.c.Recent_Notes}:</p><br></br>
+                <aura:iteration items="{!v.lstNotes}" var="item">
+                    <p>
+                        <ui:outputDate value="{!item.CreatedDate}" />: {!item.Title}</p><br></br>
+                </aura:iteration>
+            </div>
+        </div>
+        <aura:set attribute="footerButtons">
+            <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false" />
+            <button class="apollo-btn" onclick="{!c.CancelPoPUp}" disabled="{!v.buttonDisable}"
+                data-gtm="BTN_CancelInvitePopUp">
+                    {!$Label.c.BTN_Cancel}
+                </button>
+            <aura:if isTrue="{!v.footerbutton}">
+                <div class="slds-float_right">
+                    <button class="apollo-btn secondary" onclick="{!c.CancelRequest}" data-gtm="BTN_CancelInvitePopUp"
+                        disabled="{!v.buttonDisable}">
+                    {!$Label.c.Cancel_Request}
+                </button>
+                    <button class="apollo-btn primary" data-gtm="BTN_Invite_Referring_Provider" onclick="{!c.updateMO}"
+                        disabled="{!v.buttonDisable}">
+                    {!$Label.c.Save}
+                </button>
+                </div>
+            </aura:if>
+        </aura:set>
+    </c:Popup>
+
+    <!-- CancelRequest Popup:-->
+    <c:CancelreqConfirmation aura:id="CancelRequest" recordid="{!v.ViewRecordId}" />
+
+</aura:component>
