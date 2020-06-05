@@ -15651,6 +15651,14 @@ Please log in to ##CommunityName to view this information.</value>
         <shortDescription>update resource content</shortDescription>
         <value>Do you want to mark  resource content as updated?</value>
     </labels>
+	<labels>
+        <fullName>Invalid_Phone</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Invalid Phone</shortDescription>
+        <value>Enter valid phone number</value>
+    </labels>
     <labels>
         <fullName>visit_Name</fullName>
         <categories>configuation table</categories>
