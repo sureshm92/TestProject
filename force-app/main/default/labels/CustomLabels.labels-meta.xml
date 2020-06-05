@@ -15376,6 +15376,13 @@ Please log in to ##CommunityName to view this information.</value>
         <shortDescription>MO_Study_Name</shortDescription>
         <value>Study Name</value>
     </labels>
+	  <labels>
+        <fullName>Library_Search</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Library_Search</shortDescription>
+        <value>Search</value>
+    </labels>
     <labels>
         <fullName>MO_Study_Site</fullName>
         <language>en_US</language>
