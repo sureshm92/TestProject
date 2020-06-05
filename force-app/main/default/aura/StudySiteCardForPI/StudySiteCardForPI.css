@@ -167,6 +167,12 @@
     justify-content: center;
 }
 
+
+.THIS .ss-info-buttons .arrow-down {
+    height: 14px;
+    width: 14px;
+}
+
 @media all and (max-width: 1000px) {
     .THIS {height: auto}
  	

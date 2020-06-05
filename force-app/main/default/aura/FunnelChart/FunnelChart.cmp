@@ -15,7 +15,6 @@
     <div class="funnel-dashborad-container">
         <div class="funnel-dashboard-name">
             <div>{!$Label.c.Referral_Pathway_Label}</div>
-            <div>{!v.invitedParticipants + ' ' + $Label.c.Participants_Referred_Label}</div>
         </div>
         <div class="flex">
                 <div aura:id="funnelContainer" class="funnel">
