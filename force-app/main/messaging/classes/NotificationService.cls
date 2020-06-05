@@ -48,8 +48,13 @@ public without sharing class NotificationService {
                         Parameters_Provider__r.Source_Object_Type__c,
                         Parameters_Provider__r.Parameters__c,
                         Parameters_Provider__r.DeveloperName, (
-                        SELECT Id, Email_Template__c, Email_Template_Delegate__c, Target_Type__c,
-                                Message_Body__c, Org_Wide_Email_Address__c
+                        SELECT Id,
+                                Email_Template__c,
+                                Email_Template_Delegate__c,
+                                Target_Type__c,
+                                Title__c,
+                                Message_Body__c,
+                                Org_Wide_Email_Address__c
                         FROM Notification_Targets__r
                 )
                 FROM Notification_Type__mdt
