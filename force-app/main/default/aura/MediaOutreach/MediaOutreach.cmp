@@ -28,7 +28,8 @@
                         {!Status_item}
                     </div>
                     <div class="db-qal-items slds-grid slds-wrap">
-                        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+                        <table class="slds-table slds-table_bordered 
+    slds-max-medium-table_stacked-horizontal slds-table_fixed-layout">
                             <thead>
                                 <tr class="slds-line-height_reset">
                                     <th class="" scope="col">
@@ -68,10 +69,10 @@
                                                         </div>
                                                     </th>
                                                     <td>
-                                                        <div class="slds-truncate">{!item.Study_Name__r.Name}</div>
+                                                        <div class="slds-truncate wraptext" >{!item.Study_Name__r.Name}</div>
                                                     </td>
                                                     <td>
-                                                        <div class="slds-truncate">{!item.Study_Name__r.Site__r.Name}</div>
+                                                        <div class="slds-truncate wraptext" >{!item.Study_Name__r.Site__r.Name}</div>
                                                     </td>
                                                     <td>
                                                         <div class="slds-truncate">{!item.Media_Type__c}</div>
@@ -100,7 +101,7 @@
                                     <aura:iteration items="{!v.mediaList}" var="item" indexVar="index">
                                         <aura:iteration items="{!v.closedrequest}" var="closedReqitem">
                                             <aura:if isTrue="{!item.Status__c == closedReqitem}">
-                                                <tr class="slds-hint-parent">
+                                                <tr class="slds-hint-parent" >
                                                     <th scope="row">
                                                         <div class="slds-truncate">
                                                             <div data-gtm="LNK_View_Participants_Details">
@@ -109,10 +110,10 @@
                                                         </div>
                                                     </th>
                                                     <td>
-                                                        <div class="slds-truncate">{!item.Study_Name__r.Name}</div>
+                                                        <div class="slds-truncate wraptext">{!item.Study_Name__r.Name}</div>
                                                     </td>
                                                     <td>
-                                                        <div class="slds-truncate">{!item.Study_Name__r.Site__r.Name}</div>
+                                                        <div class="slds-truncate wraptext" >{!item.Study_Name__r.Site__r.Name}</div>
                                                     </td>
                                                     <td>
                                                         <div class="slds-truncate">{!item.Media_Type__c}</div>

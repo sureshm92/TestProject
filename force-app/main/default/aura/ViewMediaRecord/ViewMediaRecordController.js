@@ -218,7 +218,7 @@
     CancelPoPUp: function(component, event, helper) {
         component.find('ShowPoP_Up').hide();
     },
-    save: function(component, event, helper) {
+    updateMO: function(component, event, helper) {
         component.find('modalSpinner').show();
         var othermail = $A.get("$Label.c.Other_Email");
         var otherPhone = $A.get("$Label.c.Other_Phone_Number");
@@ -307,5 +307,6 @@
             var cmpEvent = component.getEvent("cmpRefEvent");
             cmpEvent.fire();
         }
-    }
+    },
+    
 })

@@ -17,6 +17,9 @@
     max-height: 200px;
     overflow-y: auto;
 }
+.THIS .wraptext{
+    white-space:normal;
+}
 
 .THIS .slds-table thead th {
 	background: #f8f9fb; 
