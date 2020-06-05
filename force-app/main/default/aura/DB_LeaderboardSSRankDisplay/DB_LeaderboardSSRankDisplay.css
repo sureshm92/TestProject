@@ -1,2 +1,5 @@
-.THIS {
+@media screen and (max-width: 1024px) {
+    .THIS {
+        display: flex;
+    }
 }

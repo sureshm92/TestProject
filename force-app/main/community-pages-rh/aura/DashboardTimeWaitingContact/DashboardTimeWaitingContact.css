@@ -1,7 +1,7 @@
 /**
  * Created by Aleksey Moseev.
  */
-.THIS .dqa-view-more{
+.THIS .dqa-view-more {
     background: #F8F9FB;
     border-top: solid 1px #E9E9E9;
     min-height: 49px;
@@ -9,57 +9,136 @@
     padding-top: 10px;
     padding-bottom: 10px;
 }
-.THIS .db-qal-title{
+
+.THIS .db-qal-title {
     color: #000000;
     font-size: 18px;
     font-weight: 600;
 }
-.THIS .db-qal-main{
+
+.THIS .db-qal-main {
     padding: 16px;
 }
-.THIS .db-qal-items{
+
+.THIS .db-qal-items {
     max-height: 200px;
     overflow-y: auto;
 }
 
 .THIS .db-qal-items > .slds-col {
     display: inline-flex;
-}  
+}
 
 .THIS .db-qal-items > .slds-col:nth-of-type(2n+1) {
     justify-content: flex-end;
 }
 
-.THIS ::-webkit-scrollbar{
+.THIS ::-webkit-scrollbar {
     width: 8px;
 }
-.THIS ::-webkit-scrollbar-thumb{
+
+.THIS ::-webkit-scrollbar-thumb {
     width: 8px;
     border-radius: 4px;
     background-color: #999999;
-    box-shadow: 0 8px 8px 0 rgba(0,0,0,0.16);
+    box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.16);
     height: 100px;
 }
-.THIS ::-webkit-scrollbar-track{
-    display:none;
+
+.THIS ::-webkit-scrollbar-track {
+    display: none;
 }
-.THIS ::-webkit-scrollbar-button{
+
+.THIS ::-webkit-scrollbar-button {
     height: 0;
 }
 
+.THIS .barContainer {
+    width: 100%;
+    display: flex;
+}
 
-@media all and (max-width: 768px)  {
+.THIS .barTitle {
+    text-align: right;
+    padding-right: 10px;
+}
+
+.THIS .barGrp {
+    display: flex;
+}
+
+
+@media all and (max-width: 768px) {
     .THIS .db-qal-items > .slds-col {
         max-width: 60%;
         display: inline-flex;
-    } 
-    
-    .THIS .db-qal-items > .slds-col.slds-size--9-of-12 > div {
-       max-width: 60%; 
     }
-    
+
+	.THIS .db-qal-items {
+		overflow-y: visible;
+	}
+
+    .THIS .db-qal-items > .slds-col.slds-size--9-of-12 > div {
+        max-width: 60%;
+    }
+
     .THIS .db-qal-items > .slds-col:nth-of-type(2n+1) {
         min-width: 30%;
         justify-content: flex-end;
+    }
+
+    .THIS .db-qal-items > .slds-col.slds-size--9-of-12 > div {
+        max-width: 50%;
+    }
+
+    .THIS .db-qal-items > .slds-col:nth-of-type(2n+1) {
+        min-width: 40%;
+    }
+
+
+    .THIS .db-qal-items {
+        min-height: 345px;
+        max-height: 345px;
+    }
+
+    .THIS .barContainer {
+        width: 100%;
+        padding: 5px 1rem 30px;
+        position: relative;
+        border-bottom: 1px solid #e9e9e9;
+    }
+
+    .THIS .barTitle {
+        float: left;
+        display: inline;
+        text-align: left;
+        font-size: 1rem;
+        margin-left: 10px;
+        min-width: 45%;
+        color: #000;
+    }
+
+    .THIS .barGrp {
+        position: absolute;
+        display: inline-flex;
+        min-width: 100%;
+        margin-top: -21px;
+        top: 30px;
+        left: 0;
+        max-width: 100%;
+    }
+
+    .THIS .bar {
+        max-width: 85%;
+        position: absolute;
+        left: 25px;
+        top: 25px;
+    }
+
+    .THIS .barText {
+        text-align: right;
+        position: absolute;
+        top: 0;
+        right: 1.5rem;
     }
 }
