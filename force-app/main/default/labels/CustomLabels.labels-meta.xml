@@ -5538,7 +5538,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>IncTask_01_T</shortDescription>
-        <value>Pre-screen participant</value>
+        <value>Complete pre-screener</value>
     </labels>
     <labels>
         <fullName>IncTask_02_D</fullName>
@@ -5546,7 +5546,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>IncTask_02_D</shortDescription>
-        <value>Enter initial visit scheduled date and time(Ask Tamara to add proper description to the User Story)</value>
+        <value>Enter initial visit scheduled date and time for a participant</value>
     </labels>
     <labels>
         <fullName>IncTask_02_HD</fullName>
@@ -5562,7 +5562,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>IncTask_02_T</shortDescription>
-        <value>Enter initial visit scheduled date and time</value>
+        <value>Initial visit scheduled date and time</value>
     </labels>
     <labels>
         <fullName>IncTask_03_D</fullName>
@@ -5570,7 +5570,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>IncTask_03_D</shortDescription>
-        <value>Make initial contact attempt within 1 day of participant being received(Ask Tamara to add proper description to the User Story)</value>
+        <value>Attempt contact within one day of participant being received</value>
     </labels>
     <labels>
         <fullName>IncTask_03_HD</fullName>
@@ -5578,7 +5578,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>IncTask_03_HD</shortDescription>
-        <value>Made initial contact attempt within 1 day of participant being received for: ##ItemName</value>
+        <value>Attempted contact a day of receiving: ##ItemName</value>
     </labels>
     <labels>
         <fullName>IncTask_03_T</fullName>
@@ -5586,7 +5586,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>IncTask_03_T</shortDescription>
-        <value>Make initial contact attempt within 1 day of participant being received</value>
+        <value>Attempt contact attempt within one day</value>
     </labels>
     <labels>
         <fullName>IncentiveProgram_Date</fullName>
