@@ -44,6 +44,10 @@ public without sharing class AddPatientByPIRemote {
             if (!createUser) {
                 TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
                 TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class);
+            } else {
+                if (ReferringRemote.checkNeedsGuardian(participantJSON) == 'true') {
+                    TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
+                }
             }
 
             Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
