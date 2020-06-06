@@ -76,7 +76,6 @@
 .THIS .sponsor-name {
     height: 20px;
     color: #595959;
-    font-family: "Proxima Nova";
     margin-bottom: 5px;
     font-size: 14px;
     line-height: 20px;
@@ -372,22 +371,12 @@
         padding-right: 15px;
     }
 
-    .THIS .site-distance {
-        text-align: right;
-    }
-    
     .THIS .ss-container-border {
         border-right: none;
     }
 
-    .THIS .slvi-padded-panel-left {
-        padding-left: 9rem;
-        padding-right: 1rem;
-        text-align: right;
-    }
-
-    .THIS .slvi-padded-panel-right {
-        padding-right: 9rem;
+    .THIS .slvi-search-site-btn {
+        width: 100%;
     }
 }
 

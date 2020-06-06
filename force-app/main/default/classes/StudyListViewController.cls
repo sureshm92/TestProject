@@ -248,7 +248,10 @@ public without sharing class StudyListViewController {
                 ssWrapper.delegatePicklist = delegatesPicklistMap.get(ss[i].Id);
                 studyDetailItem.ssList.add(ssWrapper);
             }
-            studyDetailItem.studyActions = new StudyActionsPI(ss[0]).studyListViewItemActions;
+            if(ss!=null && ss.size()>0)
+                studyDetailItem.studyActions = new StudyActionsPI(ss[0]).studyListViewItemActions;
+            else
+                studyDetailItem.studyActions = new List<StudyActions.Action>();
             studyDetailItem.trialRecruitmentStatusLabel = TranslateHelper.getPickListLabel(Clinical_Trial_Profile__c.Override_Recruitment_Status__c, trial.Override_Recruitment_Status__c);
             studies.add(studyDetailItem);
         }

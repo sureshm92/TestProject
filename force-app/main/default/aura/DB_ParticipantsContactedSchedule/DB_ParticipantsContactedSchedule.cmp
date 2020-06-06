@@ -20,7 +20,7 @@
     <aura:handler name="change" value="{!v.piData}" action="{!c.loadParticipantOptions}"/>
 
     <!-- component body -->
-    <div style="margin-top: 25px;">
+    <div>
         <lightning:card class="slds-text-heading_small" title="{!v.totalParticipants + ' ' + $Label.c.PG_DBPI_L_Contacted_Participants_Without_Scheduled_Initial_Visit}">
             <div class="slds-grid" > 
                 <div class="slds-col">

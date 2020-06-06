@@ -43,7 +43,11 @@
         helper.updateDocumentTitle(component, pageName);
         communityService.navigateToPage('library');
     },
-
+	onClickMediaOutreach: function (component, event, helper){
+        //var pageName = 'resources';
+        //helper.updateDocumentTitle(component, pageName);
+        communityService.navigateToPage('my-mediaoutreach');
+    },
     doScroll: function (component, event, helper) {
         let direction = component.get('v.scrollDirection');
         let navMenuCmp = component.getConcreteComponent().find('navMenu');

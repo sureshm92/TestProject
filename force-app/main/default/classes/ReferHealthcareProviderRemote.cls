@@ -93,12 +93,11 @@ global without sharing class ReferHealthcareProviderRemote {
     @AuraEnabled
     public static HealthcareProvider checkDuplicate(String peId, String email, String firstName, String lastName, String participantId) {
         HealthcareProvider hp = new HealthcareProvider();
-        hp.email = email;
         if (!String.isBlank(email)) {
             String contactQuery = 'SELECT Id, FirstName, LastName, Name, Email, Phone,  userCommunytyType__c FROM Contact WHERE (Email = \'' + String.escapeSingleQuotes(email) + '\''
-                    +' OR Email = \'' + String.escapeSingleQuotes(email.toLowerCase()) + '\')';
+                    + ' OR Email = \'' + String.escapeSingleQuotes(email.toLowerCase()) + '\')';
             if (!String.isBlank(firstName) && !String.isBlank(lastName)) {
-                email =  String.escapeSingleQuotes(email);
+                email = String.escapeSingleQuotes(email);
                 firstName = String.escapeSingleQuotes(firstName);
                 lastName = String.escapeSingleQuotes(lastName);
                 contactQuery += ' OR ((Email = \'' + email + '\' OR Email = \'' + email.toLowerCase() + '\')' +
@@ -114,34 +113,34 @@ global without sharing class ReferHealthcareProviderRemote {
                 hp.lastName = contacts[0].LastName;
                 firstName = contacts[0].FirstName;
                 lastName = contacts[0].LastName;
-               // if (String.isBlank(contacts[0].FirstName) || String.isBlank(contacts[0].LastName)) {
-                    List<Participant__c> participants = [
-                            SELECT Id,
-                                    First_Name__c,
-                                    Last_Name__c,
-                                    Phone__c,
-                                    Phone_Type__c
-                            FROM Participant__c
-                            WHERE Contact__c = :contacts[0].Id
-                    ];
-                    if (!participants.isEmpty()) {
-                        hp.participantId = participants[0].Id;
-                        hp.contactPhoneNumber = participants[0].Phone__c;
-                        hp.contactPhoneType = participants[0].Phone_Type__c;
-                        hp.firstName = participants[0].First_Name__c;
-                        hp.lastName = participants[0].Last_Name__c;
-                        contacts[0].FirstName = participants[0].First_Name__c;
-                        contacts[0].LastName = participants[0].Last_Name__c;
-                        firstName = participants[0].First_Name__c;
-                        lastName = participants[0].Last_Name__c;
-                        update contacts[0];
-                    } else {
-                        hp.participantId = null;
-                    }
-               /* } else {
-                    hp.firstName = contacts[0].FirstName;
-                    hp.lastName = contacts[0].LastName;
-                }*/
+                // if (String.isBlank(contacts[0].FirstName) || String.isBlank(contacts[0].LastName)) {
+                List<Participant__c> participants = [
+                        SELECT Id,
+                                First_Name__c,
+                                Last_Name__c,
+                                Phone__c,
+                                Phone_Type__c
+                        FROM Participant__c
+                        WHERE Contact__c = :contacts[0].Id
+                ];
+                if (!participants.isEmpty()) {
+                    hp.participantId = participants[0].Id;
+                    hp.contactPhoneNumber = participants[0].Phone__c;
+                    hp.contactPhoneType = participants[0].Phone_Type__c;
+                    hp.firstName = participants[0].First_Name__c;
+                    hp.lastName = participants[0].Last_Name__c;
+                    contacts[0].FirstName = participants[0].First_Name__c;
+                    contacts[0].LastName = participants[0].Last_Name__c;
+                    firstName = participants[0].First_Name__c;
+                    lastName = participants[0].Last_Name__c;
+                    update contacts[0];
+                } else {
+                    hp.participantId = null;
+                }
+                /* } else {
+                     hp.firstName = contacts[0].FirstName;
+                     hp.lastName = contacts[0].LastName;
+                 }*/
                 hp.email = contacts[0].Email;
                 hp.hcpContactId = contacts[0].Id;
                 if (peId != null) {
@@ -167,7 +166,7 @@ global without sharing class ReferHealthcareProviderRemote {
                             LIMIT 1
                     ].Participant__c;
                 }
-                if(participantId != null) {
+                if (participantId != null) {
                     List<Patient_Delegate__c> duplicateDelegates = checkDuplicatePDelegates(participantId, String.escapeSingleQuotes(email), String.escapeSingleQuotes(firstName), String.escapeSingleQuotes(lastName));
                     if (!duplicateDelegates.isEmpty()) {
                         hp.isDuplicateDelegate = true;
@@ -177,6 +176,7 @@ global without sharing class ReferHealthcareProviderRemote {
                 }
             } else {
                 hp.contactId = null;
+                hp.isDuplicateDelegate = false;
                 //hp.isDuplicate = contacts[0].get('userCommunytyType__c') != null && contacts[0].userCommunytyType__c.contains('HCP');
             }
         }
@@ -256,13 +256,14 @@ global without sharing class ReferHealthcareProviderRemote {
     public static void invitePatientDelegate(String participant, String delegateContact, String delegateId, String ddInfo) {
         try {
             HealthcareProvider delegateDuplicate;
-            if(ddInfo != null) delegateDuplicate = (HealthcareProvider) JSON.deserialize(ddInfo, HealthcareProvider.class);
-            System.debug('delegateDuplicate>>>>>>>'+delegateDuplicate);
+            Boolean createUser = true;
+            if (ddInfo != null) delegateDuplicate = (HealthcareProvider) JSON.deserialize(ddInfo, HealthcareProvider.class);
+            System.debug('delegateDuplicate>>>>>>>' + delegateDuplicate);
             Participant__c participantObj = (Participant__c) JSON.deserialize(participant, Participant__c.class);
             PDWrapper delegateObj = (PDWrapper) JSON.deserialize(delegateContact, PDWrapper.class);
             if (delegateId == null) {
                 Contact newContact;
-                if(delegateDuplicate == null || delegateDuplicate.contactId == null) {
+                if (delegateDuplicate == null || delegateDuplicate.contactId == null) {
                     newContact = new Contact();
                     newContact.FirstName = delegateObj.firstName;
                     newContact.LastName = delegateObj.lastName;
@@ -292,9 +293,23 @@ global without sharing class ReferHealthcareProviderRemote {
                         newContact.Phone = participantObj.Phone__c;
                     }
                     insert newContact;
+                } else {
+                    newContact = [
+                            Select Id,
+                                    FirstName,
+                                    LastName,
+                                    Email,
+                                    MailingCity,
+                                    MailingCountryCode,
+                                    MailingStateCode
+                            FROM Contact
+                            WHERE Id = :delegateDuplicate.contactId
+                    ];
+                    createUser = false;
                 }
+
                 Participant__c participantDelegate;
-                if(delegateDuplicate == null || delegateDuplicate.participantId == null) {
+                if (delegateDuplicate == null || delegateDuplicate.participantId == null) {
                     participantDelegate = new Participant__c(
                             Contact__c = newContact.Id,
                             First_Name__c = newContact.FirstName,
@@ -314,9 +329,9 @@ global without sharing class ReferHealthcareProviderRemote {
 
                 Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
                 ptDelegateRef.Participant__c = participantObj.Id;
-                ptDelegateRef.Contact__c = newContact == null ? delegateDuplicate.contactId : newContact.Id;
+                ptDelegateRef.Contact__c = newContact.Id;
                 insert ptDelegateRef;
-                if(newContact != null) {
+                if (createUser) {
                     ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id>{
                             newContact.Id => null
                     });
