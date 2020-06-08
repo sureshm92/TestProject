@@ -126,11 +126,9 @@ public without sharing class EmailTestBoardRemote {
             ].Id;
             msg.setTemplateId(shareStudyEmailTemplateId);
 
-            Id recipientId = Id.valueOf(contactId);
-            Id whatId = relatedId != null ? Id.valueOf(relatedId) : null;
-            checkIdFields(templateWrapper, recipientId, whatId);
-            msg.setTargetObjectId(recipientId);
-            msg.setWhatId(whatId);
+            List<Id> updatedIds = setIdFields(templateWrapper, contactId, relatedId);
+            msg.setTargetObjectId(updatedIds.get(0));
+            msg.setWhatId(updatedIds.get(1));
 
             msg.setSaveAsActivity(false);
             msg.setToAddresses(new List<String>{
@@ -169,28 +167,29 @@ public without sharing class EmailTestBoardRemote {
                         WhatId__c = relatedId
                 );
             } else {
-                Id recipientId = contactId;
-                Id whatId = relatedId;
-                checkIdFields(templateWrapper, recipientId, whatId);
-                EmailService.sendEmail(templateWrapper.emailDevName, recipientId, whatId);
+                List<Id> updatedIds = setIdFields(templateWrapper, contactId, relatedId);
+                EmailService.sendEmail(templateWrapper.emailDevName, updatedIds.get(0), updatedIds.get(1));
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
     }
 
-    private static void checkIdFields(EmailTemplateWrapper templateWrapper, Id recipientId, Id whatId) {
+    private static List<Id> setIdFields(EmailTemplateWrapper templateWrapper, Id recipientId, Id whatId) {
+        List<Id> updatedIds = new List<Id>{recipientId, whatId};
+
         if (templateWrapper.recipientType.equals('User')) {
             List<User> user = [SELECT Id FROM User WHERE ContactId = :recipientId];
             if (user.isEmpty()) throw new EmailTestBoardRemoteException('Can\'t find user with this contact Id!');
 
-            recipientId = user.get(0).Id;
-            if (whatId == null) whatId = recipientId;
+            updatedIds.set(0, user.get(0).Id);
+            if (whatId == null) updatedIds.set(1, recipientId);
         }
 
-        if (whatId == null && templateWrapper.relatedObjName.equals('Community')) {
-            whatId = [SELECT Id FROM Community].Id;
+        if (updatedIds.get(1) == null && templateWrapper.relatedObjName != null && templateWrapper.relatedObjName.equals('Community')) {
+            updatedIds.set(1, [SELECT Id FROM Community].Id);
         }
+        return updatedIds;
     }
 
     public class EmailTemplateWrapper {
