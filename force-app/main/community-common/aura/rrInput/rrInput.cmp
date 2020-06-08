@@ -26,7 +26,7 @@
     <!--=============================================================================================================-->
 
     <div id="{!v.id}" class="{!'rri-container ' + v.class}">
-		
+
         <aura:if isTrue="{! !empty(v.label)}">
             <div class="rri-label">
                 <aura:if isTrue="{!v.required}"><div class="rri-error">*</div></aura:if>
@@ -47,7 +47,7 @@
                         <aura:if isTrue="{!v.showPasswordInput}">
 
                             <lightning:input aura:id="rr-input" type="{!if(v.showPassword, 'text', 'password')}"
-                                             class="{!if(v.errorMessage != '', 'rr-input-error','pwdText')}" disabled="{!v.disabled}"
+                                             class="{!if(v.errorMessage != '', 'rr-input-error','')}" disabled="{!v.disabled}"
                                              placeholder="{!v.placeholder}" value="{!v.valueString}" label="" name=""/>
 
                             <div id="new" class="rri-show-password" onclick="{!c.togglePassword}">
