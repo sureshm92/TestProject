@@ -19,7 +19,7 @@ public without sharing class AccountSettingsController {
                                 SELECT Id, First_Name__c, Middle_Name__c, Last_Name__c, Phone__c,
                                         Mailing_Zip_Postal_Code__c, Mailing_State__c, Mailing_Country__c,
                                         Mailing_Country_Code__c, Mailing_State_Code__c,
-                                        Gender__c, Date_of_Birth__c, Initials__c
+                                        Gender__c, Date_of_Birth__c, Initials__c,Suffix__c,Salutation__c,Nickname__c,Phone_Type__c
                                 FROM Participant__c
                                 WHERE Contact__c = :initData.myContact.Id
                         ][0];
@@ -182,7 +182,10 @@ public without sharing class AccountSettingsController {
                         Last_Name__c,
                         Initials__c,
                         Gender__c,
-                        Date_of_Birth__c
+                        Date_of_Birth__c,
+                        Nickname__c,
+                        Suffix__c,
+                        Phone_Type__c	
                 FROM Participant__c
                 WHERE Contact__c = :pContact.Id
         ];
@@ -221,7 +224,8 @@ public without sharing class AccountSettingsController {
                         HCP_Opt_In_Referral_Status_Emails__c,
                         Delegate_Opt_In_Status_Emails__c,
                         RRCookiesAllowedCookie__c,
-                        RRLanguageAllowedCookie__c
+                        RRLanguageAllowedCookie__c,
+                        Salutation            
                 FROM Contact
                 WHERE Id IN (
                         SELECT ContactId
@@ -336,6 +340,8 @@ public without sharing class AccountSettingsController {
         @AuraEnabled public Account institute;
         @AuraEnabled public Boolean participantHasUpdateTasks;
         @AuraEnabled public List<LabelValueItem> gendersLVList = ParticipantService.getGenderLVList();
+        @AuraEnabled public List<LabelValueItem> phoneTypeList = ParticipantService.getPhoneTypeLVList();
+        @AuraEnabled public List<LabelValueItem> prefixList = ParticipantService.getPrefixList();
         @AuraEnabled public List<LabelValueItem> countriesLVList = CountryStateUtil.getCountries();
         @AuraEnabled public Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
     }
@@ -372,6 +378,11 @@ public without sharing class AccountSettingsController {
         @AuraEnabled public String mailingCity;
         @AuraEnabled public String mailingState;
         @AuraEnabled public String zip;
+        @AuraEnabled public String suffix;
+        @AuraEnabled public String nickname;
+        @AuraEnabled public String phoneType;
+        @AuraEnabled public String prefix;
+
         @AuraEnabled public Boolean isParticipant;
 
         public PersonWrapper(Contact contact, Participant__c participant) {
@@ -393,11 +404,14 @@ public without sharing class AccountSettingsController {
             mailingCity = contact.MailingCity;
             mailingState = contact.MailingState;
             zip = isParticipant ? participant.Mailing_Zip_Postal_Code__c : contact.MailingPostalCode;
-
+            prefix = isParticipant ? participant.Salutation__c : contact.Salutation;
             if (isParticipant) {
                 middleName = participant.Middle_Name__c;
                 dateBirth = participant.Date_of_Birth__c;
                 gender = participant.Gender__c;
+                suffix = participant.Suffix__c ;
+                nickname= participant.Nickname__c;
+                phoneType=participant.Phone_Type__c	;
             }
         }
 
@@ -420,6 +434,8 @@ public without sharing class AccountSettingsController {
             personContact.MailingCity = mailingCity;
             personContact.MailingState = mailingState;
             personContact.MailingPostalCode = zip;
+            personContact.Salutation=prefix;
+           
 
             return personContact;
         }
@@ -438,6 +454,11 @@ public without sharing class AccountSettingsController {
             personParticipant.Date_of_Birth__c = dateBirth;
             personParticipant.Gender__c = gender;
             personParticipant.Mailing_Zip_Postal_Code__c = zip;
+            personParticipant.Suffix__c = suffix;
+            personParticipant.Salutation__c=prefix;
+            personParticipant.Nickname__c = nickname;
+            personParticipant.Phone_Type__c = phoneType;
+
 
             return personParticipant;
         }

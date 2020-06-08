@@ -1,7 +1,3 @@
-/**
- * Created by Leonid Bartenev
- */
-
 public without sharing class ParticipantService {
     public class ParticipantServiceException extends Exception {
     }
@@ -236,6 +232,16 @@ public without sharing class ParticipantService {
         phoneTypes.add(new LabelValueItem(Label.Phone_Type_Work, 'Work'));
         phoneTypes.add(new LabelValueItem(Label.Phone_Type_Mobile, 'Mobile'));
         return phoneTypes;
+    }
+	
+	public static List<LabelValueItem> getPrefixList() {
+        List<LabelValueItem> prefix = new List<LabelValueItem>();
+        prefix.add(new LabelValueItem('Mr.', 'Mr.'));
+        prefix.add(new LabelValueItem('Ms.', 'Ms.'));
+        prefix.add(new LabelValueItem('Mrs.', 'Mrs.'));
+        prefix.add(new LabelValueItem('Dr.', 'Dr.'));
+        prefix.add(new LabelValueItem('Prof.', 'Prof.'));
+        return prefix;
     }
 
     public static Map<Id, Integer> getNearestLogOutNotification(List<Id> participantContIds) {
