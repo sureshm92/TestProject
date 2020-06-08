@@ -105,6 +105,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             }
 
             //Duplicates check and upsert participant
+            Set<Id> existingDelegates = new Set<Id>();
             ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(allParticipantsWithDelegates);
             for (Integration_Patient_Referral__c ipr : newList) {
                 Participant__c participant = newParticipantsMap.get(ipr.referralID__c);
@@ -131,9 +132,13 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                         refSources.add(ipr.Data_Source__c);
                         delegateDuplicate.Secondary_Source__c = String.join(new List<String>(refSources), ';');
                         newDelegateContactsMap.put(ipr.referralID__c, delegateDuplicate);
+                        existingDelegates.add(delegateDuplicate.Id);
                     } else {
                         Contact delegateContactDuplicate = duplicateService.findDuplicateContact(delegate);
-                        if (delegateContactDuplicate != null) delegate.Contact__c = delegateContactDuplicate.Id;
+                        if (delegateContactDuplicate != null) {
+                            delegate.Contact__c = delegateContactDuplicate.Id;
+                            existingDelegates.add(delegateContactDuplicate.Id);
+                        }
                         newDelegateContactsMap.put(ipr.referralID__c, delegate);
                     }
                 }
@@ -174,7 +179,10 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                         ipr.Participant_Enrollment__c = sr.getId();
                     } else {
                         ipr.Success__c = false;
-                        ipr.Error_Message__C = 'Participant Enrollment Duplicate Error';
+                        ipr.Error_Message__c = 'Participant Enrollment Duplicate Error\n';
+                        for(Database.Error err : sr.getErrors()) {
+                            ipr.Error_Message__c = ipr.Error_Message__c + '\n' + err.getMessage();
+                        }
                     }
                 }
             }
@@ -189,7 +197,9 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                         ptDelegateRef.Contact__c = delegatesById.get(participantDelegate.Id).Contact__c;
                         if (participantsWithoutErrors.contains(ptDelegateRef.Participant__c)) {
                             ptDelegateRefs.add(ptDelegateRef);
-                            delegateUsersToCreate.put(ptDelegateRef.Contact__c, null);
+                            if (!existingDelegates.contains(participantDelegate.Id) && !existingDelegates.contains(ptDelegateRef.Contact__c)) {
+                                delegateUsersToCreate.put(ptDelegateRef.Contact__c, null);
+                            }
                         }
                     }
                 }

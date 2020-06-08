@@ -169,6 +169,7 @@ public without sharing class ReferringRemote {
             String language = UserInfo.getLanguage();
 
             ParticipantService.createParticipantAndUpdatePE(participant, participantDelegate, enrollment, language);
+            String participantId = !String.isBlank(participant.Id) ? participant.Id : enrollment.Participant__c;
             Boolean createDelegateuser = true;
             if (participantDelegate != null && !String.isEmpty(participantDelegate.Last_Name__c) &&
                     !String.isEmpty(participantDelegate.Email__c)) {
@@ -225,12 +226,19 @@ public without sharing class ReferringRemote {
                     }
                     insert participantDelegate;
                 }
-                if(delegateDuplicateInfo == null || !delegateDuplicateInfo.isDuplicateDelegate) {
-                    Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
-                    ptDelegateRef.Participant__c = participant.Id;
-                    ptDelegateRef.Contact__c = newContact.Id;
-                    insert ptDelegateRef;
+                //if(delegateDuplicateInfo == null || !delegateDuplicateInfo.isDuplicateDelegate) {
+
+                if(participantId != null && newContact.Id != null){
+                    List<Patient_Delegate__c> checkPDel = [SELECT Id FROM Patient_Delegate__c WHERE Participant__c =:participantId AND Contact__c =:newContact.Id];
+                    if(checkPDel.isEmpty()){
+                        Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
+                        ptDelegateRef.Participant__c = participantId;
+                        ptDelegateRef.Contact__c = newContact.Id;
+                        insert ptDelegateRef;
+                    }
                 }
+
+                //}
                 if(createDelegateuser) {
                     createParticipantUsers(new Map<Id, Id>{
                             newContact.Id => null
