@@ -174,7 +174,7 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
             if((oldMap == null && String.isEmpty(ctp.ShortCommunityName__c) && String.isNotEmpty(ctp.CommunityTemplate__c)) ||
                     (oldMap != null && oldMap.get(ctp.Id).CommunityTemplate__c != ctp.CommunityTemplate__c)) {
                 CommunityTemplate template = CommunityTemplateService.getTemplate(ctp.CommunityTemplate__c);
-                ctp.ShortCommunityName__c = template.properties.get(TemplatePropertiesCatalog.TEMPLATE_PROP_PUSH_COMM_NAME_SHORT);
+                ctp.ShortCommunityName__c = template.shortCommunityName;
             }
         }
     }

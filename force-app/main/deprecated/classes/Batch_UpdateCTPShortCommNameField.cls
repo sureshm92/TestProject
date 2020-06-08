@@ -19,7 +19,7 @@ public with sharing class Batch_UpdateCTPShortCommNameField implements Database.
     public void execute(Database.BatchableContext param1, List<Clinical_Trial_Profile__c> ctpList) {
         for (Clinical_Trial_Profile__c ctp : ctpList) {
             CommunityTemplate template = CommunityTemplateService.getTemplate(ctp.CommunityTemplate__c);
-            ctp.ShortCommunityName__c = template.properties.get(TemplatePropertiesCatalog.TEMPLATE_PROP_PUSH_COMM_NAME_SHORT);
+            ctp.ShortCommunityName__c = template.shortCommunityName;
         }
         TriggerHandlerExecutor.bypassHandler(CTPNotificationTriggerHandler.CreateNotificationHandler.class);
         update ctpList;
