@@ -6155,21 +6155,21 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Message Body New Data Push</shortDescription>
-        <value>New visit data is available for the ##StudyCodeName study. Please log in to the ##ShortCommunityName to view the latest visit data.</value>
+        <value>New visit data is available for the ##StudyCodeName study. Please log in to the ##ShortCommName to view the latest visit data.</value>
     </labels>
     <labels>
         <fullName>Message_Body_Has_not_Login_Push</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Message Body for Has not Login Push</shortDescription>
-        <value>We haven't heard from you in a while. Please log in to the ##ShortCommunityName to view all the latest information on your clinical research study.</value>
+        <value>We haven't heard from you in a while. Please log in to the ##ShortCommName to view all the latest information on your clinical research study.</value>
     </labels>
     <labels>
         <fullName>Message_Body_New_Certificate_Push</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Message Body for New Certificate Push</shortDescription>
-        <value>You have a new reward certificate from the ##StudyCodeName clinical research study available on the ##ShortCommunityName.</value>
+        <value>You have a new reward certificate from the ##StudyCodeName clinical research study available on the ##ShortCommName.</value>
     </labels>
     <labels>
         <fullName>Message_Body_Visit_Reminder_Del_Push</fullName>
