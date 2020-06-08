@@ -13,11 +13,21 @@ public class Test_LibraryPIRemote {
         insert resources;
         Res_study__c studyRes = new Res_study__c(Resource__c = resources[1].Id, Visible_To_PI__c = true, Clinical_Trial_Profile__c = testDataInstance.ctp.Id);
         insert studyRes;
+        
+        string searchstr='study';
         System.runAs(testDataInstance.piUser){
-            LibraryPIRemote.getInitData(false, null);
-            LibraryPIRemote.getInitData(true, null);
-            LibraryPIRemote.getInitData(true, 'en_US');
+            LibraryPIRemote.getInitData(false, null,null);
+            LibraryPIRemote.getInitData(true, null,null);
+            LibraryPIRemote.getInitData(true, 'en_US',searchstr);
+            
         }
+        Test.stopTest();
+    }
+        @IsTest
+        static void Test_Downloaddocument() {
+        Test.startTest();
+        ContentDocumentLink DDL = new ContentDocumentLink(ContentDocumentId = '', LinkedEntityId = '', id= System.now()+'Test');
+        insert DDL;       
         Test.stopTest();
     }
 }

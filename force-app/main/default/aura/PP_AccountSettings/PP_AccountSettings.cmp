@@ -1,0 +1,84 @@
+<!--Created by D.Yasinskyi on 07.05.2018-->
+<aura:component controller="AccountSettingsController" description="AccountSettings">
+    
+    <!-- attributes: -->
+    <aura:attribute name="initData" type="Object" access="private"/>
+    <aura:attribute name="userMode" type="String" required="true"/>
+    <aura:attribute name="isDelegate" type="Boolean"/>
+    
+    <aura:attribute name="contactSectionData" type="Object"/>
+    <aura:attribute name="personWrapper" type="Object"/>
+    <aura:attribute name="contact" type="Contact"/>
+    
+    <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
+    <aura:attribute name="isInitialized" type="Boolean" default="false" access="private"/>
+    
+    <aura:attribute name="isUpdated" type="Boolean"/>
+    <aura:attribute name="showEditProfile" type="Boolean" default="true"/>
+    <aura:attribute name="changePswd" type="Boolean"/>
+    <aura:attribute name="notPref" type="Boolean"/>
+    <aura:attribute name="langReg" type="Boolean"/>
+    <aura:attribute name="custExp" type="Boolean"/>
+    <aura:attribute name="cookSet" type="Boolean"/>
+    <aura:attribute name="conditionOfInterestList" type="Object[]"/>
+    <aura:attribute name="isSaveList" type="Boolean"/>
+    <aura:handler name="change" value="{!v.isSaveList}" action="{!c.doSaveSortCOIs}"/>
+    <aura:attribute name="selectedItem" type="String" />
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!-- component body: -->
+    <div class="as-container">
+        
+        <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
+        <c:Action_RemoveDelegate aura:id="actionRemoveDelegate"/>
+        
+        <aura:if isTrue="{!v.isInitialized}">
+            <div class="slds-vertical-tabs container-white-normal">
+                <div class="slds-vertical-tabs__nav vertical-line">
+            <lightning:layout>
+                <lightning:layoutItem>
+                    <lightning:verticalNavigation
+                                                  selectedItem="{! v.selectedItem }"
+                                                  onselect="{! c.handleSelect }"
+                                                  class="navigation">
+                        <lightning:verticalNavigationSection label="{!$Label.c.PP_Account_Settings}" class="account-settings"/>
+                        <lightning:verticalNavigationSection>
+                            <lightning:verticalNavigationItem label="{!$Label.c.PP_Profile_Information}" name="editProfile" class="{! v.showEditProfile ? 'mouse-hover group-6' : 'profile-information group-6 slds-border_bottom'}" />
+                            <lightning:verticalNavigationItem label="{!$Label.c.PP_Password_Management}" name="changepwd" class="{! v.changePswd ? 'mouse-hover group-6' : 'profile-information group-6 slds-border_bottom'}" />
+                            <lightning:verticalNavigationItem label="{!$Label.c.PP_Language_and_Location}" name="langreg" class="{! v.langReg ? 'mouse-hover group-6' : 'profile-information group-6 slds-border_bottom'}"/>
+                            <lightning:verticalNavigationItem label="{!$Label.c.PP_Customize_Experience}" name="custex" class="{! v.custExp ? 'mouse-hover group-6' : 'profile-information group-6 slds-border_bottom'}"  />
+                            <aura:if isTrue="{!!v.isDelegate}">
+                            <lightning:verticalNavigationItem label="{!$Label.c.PP_Cookie_Settings}" name="cookset" class="{! v.cookSet ? 'mouse-hover group-6' : 'profile-information group-6 slds-border_bottom'}" />
+                            </aura:if>
+                        </lightning:verticalNavigationSection>
+                    </lightning:verticalNavigation>
+                </lightning:layoutItem>
+                
+                <lightning:layoutItem>
+                    <aura:if isTrue="{!v.showEditProfile}">
+                    <c:AccountSettings_EditProfile userMode="{!v.userMode}"></c:AccountSettings_EditProfile>
+                    </aura:if>
+                    <aura:if isTrue="{!v.changePswd}">
+                    <c:ChangePassword userMode="{!v.userMode}"/>
+                    </aura:if>
+                    <aura:if isTrue="{!v.notPref}">
+                    </aura:if>
+                    <aura:if isTrue="{!v.langReg}">
+                    <c:PP_LanguageSwitcher personWrapper="{!v.personWrapper}"/>
+                    </aura:if>
+                    <aura:if isTrue="{!v.custExp}">
+                    <div class="slds-p-around_x-small">
+                    <c:CustomizeExperience />
+                    </div>
+                    </aura:if>
+                    <aura:if isTrue="{!v.cookSet}">
+                    <c:CookieSettings userMode="{!v.userMode}"/>
+                    </aura:if>
+                </lightning:layoutItem>
+            </lightning:layout>
+                </div>
+           </div>                                                          
+        </aura:if>
+    </div>
+</aura:component>
