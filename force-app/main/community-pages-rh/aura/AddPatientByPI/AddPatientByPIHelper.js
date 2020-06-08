@@ -29,6 +29,7 @@
         var pe = component.get('v.pe');
         var participant = component.get('v.participant');
         var userLanguage = component.get('v.userLanguage');
+        console.log('component.get(\'v.delegateDuplicateInfo\')>>>>>>',component.get('v.delegateDuplicateInfo'));
         var ssId = communityService.getUrlParameter('ssId');
         communityService.executeAction(component, 'saveParticipant', {
             participantJSON: JSON.stringify(participant),
@@ -56,7 +57,7 @@
         component.set('v.isValid', false);
     },
 
-    checkFields: function (component,helper) {
+    checkFields: function (component,helper, doNotCheckFields) {
         let participant = component.get('v.participant');
         let needsDelegate = component.get('v.needsGuardian');
 
@@ -69,8 +70,8 @@
         let emailDelegateRepeatValid = needsDelegate && emailDelegateRepeatCmp && emailDelegateRepeatCmp.get('v.validity') && emailDelegateRepeatCmp.get('v.validity').valid;
 
         let isValid = false;
-        if(emailDelegateVaild && emailDelegateRepeatValid && delegateParticipant.First_Name__c && delegateParticipant.Last_Name__c && delegateParticipant.Email__c.toLowerCase() == emailDelegateRepeat.toLowerCase()){
-            helper.checkDelegateDuplicate(component,delegateParticipant.Email__c, delegateParticipant.First_Name__c, delegateParticipant.Last_Name__c);
+        if(emailDelegateVaild && emailDelegateRepeatValid && delegateParticipant.First_Name__c && delegateParticipant.Last_Name__c && delegateParticipant.Email__c.toLowerCase() == emailDelegateRepeat.toLowerCase() && !doNotCheckFields){
+            helper.checkDelegateDuplicate(component,helper, delegateParticipant.Email__c, delegateParticipant.First_Name__c, delegateParticipant.Last_Name__c);
         }
         isValid = isValid || (!needsDelegate ||
                     (needsDelegate && delegateParticipant &&
@@ -147,7 +148,7 @@
         });
     },
 
-    checkDelegateDuplicate: function (component, email, firstName, lastName) {
+    checkDelegateDuplicate: function (component, helper, email, firstName, lastName) {
         var spinner = component.find('spinner');
         spinner.show();
         communityService.executeAction(component, 'checkDuplicateDelegate', {
@@ -164,6 +165,7 @@
             if(returnValue.contactPhoneType) participantDelegate.Phone_Type__c = returnValue.contactPhoneType;
             if(returnValue.contactPhoneNumber) participantDelegate.Phone__c = returnValue.contactPhoneNumber;
             component.set('v.participantDelegate',participantDelegate);
+            helper.checkFields(component,helper, true);
         });
         spinner.hide();
     },
