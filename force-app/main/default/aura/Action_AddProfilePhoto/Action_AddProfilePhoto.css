@@ -1,0 +1,118 @@
+.THIS {
+    text-align: center;
+}
+ 
+.THIS > p {
+    font-size: 14px;
+    color: #CCCCCC;
+    margin: 4px 0;
+}
+ 
+
+.THIS .prfile-img-stub{
+    width: 100px;
+    min-height: 50px;
+    margin: 10px auto;
+}
+.THIS .slds-avatar{
+    border-radius:50%;
+    width:55px;
+    height:55px;
+}
+
+.THIS .inputFile{
+    position: absolute;left: 0 ;opacity: 0 ;top: 0 ;bottom: 0 ;
+}
+
+.THIS .prfile-btn-container{
+    display: flex;
+    justify-content: space-around;
+}
+.THIS .profileLabel{
+    color:blue;margin-left:-500px;
+}
+.THIS .btn-upload-photo{
+    position: relative;
+    margin: 0 auto;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-end;
+}
+
+.THIS .btn-upload-photo svg{
+    width: 20px;
+    height: 22px;
+    fill: #999999;
+    margin-right: 5px;
+    flex-shrink: 0;
+}
+
+.THIS .btn-upload-photo .input-control{
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.THIS .inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+.THIS .inputfile + label {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: white;
+    background-color: black;
+    display: inline-block;
+    cursor: pointer; 
+}
+
+.THIS .inputfile:focus + label,
+.THIS .inputfile + label:hover {
+    background-color: red;
+}
+
+
+.THIS .custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    color: blue;
+    margin-left:-150px;
+}
+.THIS .hideInput{
+    position: absolute !important;
+    left: 0 !important;
+    opacity: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+
+}
+
+
+.THIS .slds-avatar .slds-icon_container{
+    background-color:mediumvioletred;
+}
+.THIS .avatar {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+  }
+
+.THIS .username {
+    height: 20px;
+    width: 86px;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 17px;
+    letter-spacing: 0;
+    line-height: 20px;
+    margin-left: 18px;
+  }
