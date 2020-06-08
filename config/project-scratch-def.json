@@ -35,6 +35,9 @@
             "sessionSettings": {
                 "enableCacheAndAutocomplete": false
             }
+        },
+        "enhancedNotesSettings": {
+            "enableEnhancedNotes": true
         }
     }
 }

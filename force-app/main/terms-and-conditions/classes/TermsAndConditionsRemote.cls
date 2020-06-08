@@ -33,10 +33,10 @@ public without sharing class TermsAndConditionsRemote {
     }
     
     @AuraEnabled
-    public static String getTC(Id tcId, String languageCode){
+    public static String getTC(String code, String languageCode){
         try{
             TCData tcData = new TCData();
-            tcData.tc = TermsAndConditions.getTC(tcId, languageCode);
+            tcData.tc = TermsAndConditions.getTC(TermsAndConditions.getOrgDefaultTCbyCode(code), languageCode);
             return JSON.serialize(tcData);
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());

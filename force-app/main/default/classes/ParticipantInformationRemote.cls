@@ -30,6 +30,7 @@ public without sharing class ParticipantInformationRemote {
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode, delegateId);
             ParticipantItem pi =  new ParticipantItem(pe);
             ParticipantWorkflowService.populatePatientItemsWithPathWrappers(new List<ParticipantItem>{pi});
+            pi.pe.Participant_Status__c = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, pi.pe.Participant_Status__c);
             return JSON.serialize(pi);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
@@ -138,48 +139,8 @@ public without sharing class ParticipantInformationRemote {
     }
     
     @AuraEnabled
-    public static DelegateInfo checkDelegateDuplicate(String email) {
-        DelegateInfo hp = new DelegateInfo();
-        hp.email = email;
-
-        if (!String.isBlank(email)) {
-            List<Contact> contacts = [
-                    SELECT Id, FirstName, LastName, Name, Email, userCommunytyType__c
-                    FROM Contact
-                    WHERE Email = :email OR Email = :email.toLowerCase()
-            ];
-
-            if (!contacts.isEmpty()) {
-                if (String.isBlank(contacts[0].FirstName) || String.isBlank(contacts[0].LastName)) {
-                    List<Participant__c> participants = [
-                            SELECT Id,
-                                    First_Name__c,
-                                    Last_Name__c
-                            FROM Participant__c
-                            WHERE Contact__c = :contacts[0].Id
-                    ];
-                    if (!participants.isEmpty()) {
-                        hp.firstName = participants[0].First_Name__c;
-                        hp.lastName = participants[0].Last_Name__c;
-                        contacts[0].FirstName = participants[0].First_Name__c;
-                        contacts[0].LastName = participants[0].Last_Name__c;
-                        update contacts[0];
-                    } else {
-                        hp.firstName = contacts[0].FirstName;
-                        hp.lastName = contacts[0].LastName;
-                    }
-                } else {
-                    hp.firstName = contacts[0].FirstName;
-                    hp.lastName = contacts[0].LastName;
-                }
-                hp.email = contacts[0].Email;
-                hp.contactId = contacts[0].Id;
-
-                hp.isDuplicate = true;
-            }
-        }
-
-        return hp;
+    public static ReferHealthcareProviderRemote.HealthcareProvider checkDelegateDuplicate(String email, String firstName, String lastName, String participantId) {
+        return  ReferHealthcareProviderRemote.checkDuplicate(null, email, firstName, lastName, participantId);
     }
 
     @AuraEnabled

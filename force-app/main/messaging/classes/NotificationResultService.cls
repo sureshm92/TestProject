@@ -81,7 +81,7 @@ public without sharing class NotificationResultService {
     private void setResultStatus(Id notificationId, String targetType, String status, String errorMessage){
         Send_Result__c result = getSendResult(notificationId, targetType);
         result.Status__c = status;
-        result.Error__c = errorMessage;
+        result.Error__c = SObjectHelper.trimForField(errorMessage, Send_Result__c.Error__c);
     }
     
     private void updateNotificationsStatus(){

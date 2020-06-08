@@ -4,6 +4,26 @@
         <apexClass>AccountSettingsController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+		<classAccesses>
+        <apexClass>Test_NewMediaOutReach</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ViewMediaResult</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MediaOutreachServices</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>NewMediaOutReach</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ViewMediaResult</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>Action</apexClass>
         <enabled>true</enabled>
@@ -2450,6 +2470,11 @@
         <field>Clinical_Trial_Profile__c.Orientation_Required__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Media_outreach_Provider__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Orientation__c</field>
@@ -2769,6 +2794,46 @@
         <editable>false</editable>
         <field>Community_Template__mdt.Community_Name__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Media_Outreach__c.Media_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Media_Outreach__c.Preferred_contact_method__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+		<editable>false</editable>
+        <field>Media_Outreach__c.Requested_End_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+	    <editable>false</editable>
+        <field>Media_Outreach__c.Requested_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Media_Outreach__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+		<editable>false</editable>
+        <field>Media_Outreach__c.Study_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+	<editable>false</editable>
+        <field>Media_Outreach__c.Study_Site__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+		<field>Media_Outreach__c.Type__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -6995,6 +7060,9 @@
     <layoutAssignments>
         <layout>Execution_History__c-Execution History Layout</layout>
     </layoutAssignments>
+	<layoutAssignments>
+        <layout>Media_Outreach__c-Media Outreach Layout</layout>
+	</layoutAssignments>
     <layoutAssignments>
         <layout>Guides_Setting__mdt-Guides Setting Layout</layout>
     </layoutAssignments>
@@ -7558,6 +7626,15 @@
         <modifyAllRecords>false</modifyAllRecords>
         <object>Therapeutic_Area_Assignment__c</object>
         <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+	<objectPermissions>
+		<allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Media_Outreach__c</object>
+		<viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>

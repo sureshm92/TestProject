@@ -75,7 +75,7 @@ public inherited sharing class VisitResultsService {
                 'Completed_Date__c, ' +
                 'Participant_Enrollment__r.Participant__r.Full_Name__c, ' +
                 'Participant_Enrollment__r.Participant__r.Last_Name__c, ' +
-                '(SELECT Name, Actual_Value__c, Min_Value__c, Max_Value__c, Measurement__c, Result_Type__c, Patient_Visit__r.Visit_Number__c FROM Visit_Results__r) ' +
+                '(SELECT Name, Actual_Value__c, Min_Value__c, Max_Value__c, Measurement__c, Result_Type__c, Patient_Visit__r.Visit_Number__c, RecordType.DeveloperName FROM Visit_Results__r) ' +
                 'FROM Patient_Visit__c ' +
                 'WHERE Participant_Enrollment__c = \'' + pe.Id + '\'' +
                 ' AND Status__c = \'Completed\'' +

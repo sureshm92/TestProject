@@ -10,6 +10,8 @@ public without sharing class DashboardRemote {
     public static final String PE_STATUS_SUCCESSFULLY_CONTACTED = 'Successfully Contacted';
     public static final String STATUS_SCREENING_PASSED = 'Screening Passed';
     public static final String PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD = 'Screening Passed - Wash Out Period';
+    public static final String STATUS_IN_WASH_OUT_PERIOD = 'In Wash Out Period';
+    public static final String STATUS_SCREENING_IN_PROGRESS_WASH_OUT = 'Screening In Progress - Wash Out Period';
     public static final String PE_STATUS_SCREENING_FAILED = 'Screening Failed';
     public static final String STATUS_ENROLLMENT_SUCCESS = 'Enrollment Success';
     public static final String STATUS_RANDOMIZATION_SUCCESS = 'Randomization Success';
@@ -27,7 +29,18 @@ public without sharing class DashboardRemote {
     public static final String STATUS_UNABLE_TO_SCREEN = 'Unable to Screen';
     public static final String STATUS_ENROLLMENT_FAILED = 'Enrollment Failed';
     public static final String STATUS_RANDOMIZATION_FAILED = 'Randomization Failed';
-
+	public static final String STATUS_TREATMENT_PERIOD_STARTED = 'Treatment Period Started';
+    public static final String STATUS_FOLLOW_UP_PERIOD_STARTED = 'Follow-Up Period Started';
+    public static final String STATUS_PARTICIPATION_COMPLETE = 'Participation Complete';
+    public static final String STATUS_TRIAL_COMPLETE = 'Trial Complete';
+    public static final String STATUS_DROP_OUT = 'Drop Out';
+    public static final String STATUS_DECEASED = 'Deceased';
+    public static final String STATUS_READY_TO_SCREEN = 'Ready to Screen';
+    public static final String STATUS_DECLINED_FINAL_CONSENT = 'Declined Final Consent';
+    public static final String STATUS_DECLINED_CONSENT = 'Declined Consent';
+    public static final String STATUS_WITHDREW_CONSENT = 'Withdrew Consent';
+    public static final String STATUS_WITHDREW_CONSENT_AFTER_SCREENING = 'Withdrew Consent After Screening';
+            
     class PIData {
         List<DonutItem> referralsReceived = new List<DonutItem>();
         List<FunnelData> funnelData;
@@ -182,7 +195,7 @@ public without sharing class DashboardRemote {
         }
         else
         {
-        	List<Participant_Enrollment__c> pel =[SELECT Id,Initial_visit_scheduled_date__c,(SELECT Id,Status__c,Date__c 
+        	List<Participant_Enrollment__c> pel =[SELECT Id,Initial_visit_scheduled_date__c,(SELECT Id,Status__c,CreatedDate,Date__c  
                                                                                          FROM Participant_Enrollment_Status_History__r 
                                                                                          ORDER BY Name DESC),
                                               Participant_Status__c,PI_Contact__c,Clinical_Trial_Profile__r.Study_Title__c,Participant__c, Participant__r.Full_Name__c
@@ -976,7 +989,7 @@ SSRankWrapper - Inner class */
         String studyName = getStudyName(studyid);
 
         List<Study_Site__c> studySites = [SELECT Id, Study_Site_Number__c, Name, Site__r.BillingCountry, Principal_Investigator__c, Clinical_Trial_Profile__r.Id, Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c FROM Study_Site__c WHERE Clinical_Trial_Profile__r.Id =: studyid ORDER BY Study_Site_Number__c ASC NULLS LAST];
-        List<Participant_Enrollment__c> peList =  [SELECT Id, Initial_visit_scheduled_date__c, Participant_Status__c,Name, Initial_visit_scheduled_flag__c, Initial_visit_occurred_flag__c, Study_Site__r.Id, Study_Site__r.Name, Randomized__c, Enrolled__c FROM Participant_Enrollment__c];
+        List<Participant_Enrollment__c> peList =  [SELECT Id, Initial_visit_scheduled_date__c, Participant_Status__c,Name, Initial_visit_scheduled_flag__c, Initial_visit_occurred_flag__c, Study_Site__r.Id, Study_Site__r.Name, Randomized__c, Enrolled__c FROM Participant_Enrollment__c WHERE Study_Site__r.Id IN : studySites];
         
         try{
             if(studySites!=null && !studySites.isEmpty()){
@@ -1038,11 +1051,20 @@ SSRankWrapper - Inner class */
                                         initial_Visits_Completed++;
                                     }else if(pe.Participant_Status__c == PE_STATUS_SCREENING_FAILED ||
                                         pe.Participant_Status__c == STATUS_SCREENING_IN_PROGRESS ||
-                                        pe.Participant_Status__c == STATUS_UNABLE_TO_SCREEN){
+                                        pe.Participant_Status__c == STATUS_UNABLE_TO_SCREEN ||
+                                        pe.Participant_Status__c == STATUS_READY_TO_SCREEN ||
+                                        pe.Participant_Status__c == PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD ||
+                                        pe.Participant_Status__c == STATUS_IN_WASH_OUT_PERIOD ||
+                                        pe.Participant_Status__c == STATUS_SCREENING_IN_PROGRESS_WASH_OUT ||
+                                        pe.Participant_Status__c == STATUS_DECLINED_CONSENT ||
+                                        pe.Participant_Status__c == STATUS_WITHDREW_CONSENT){
                                             contacted++;
                                             scheduled++;
                                             initial_Visits_Completed++;
-                                    }else if(pe.Participant_Status__c.contains(STATUS_SCREENING_PASSED)){
+                                    }else if(
+                                        pe.Participant_Status__c == STATUS_SCREENING_PASSED ||
+                                        pe.Participant_Status__c == STATUS_DECLINED_FINAL_CONSENT ||
+                                        pe.Participant_Status__c == STATUS_WITHDREW_CONSENT_AFTER_SCREENING){
                                         contacted++;
                                         scheduled++;
                                         screened++;
@@ -1051,7 +1073,13 @@ SSRankWrapper - Inner class */
                                 }
                                 
                                 if(pe.Participant_Status__c == STATUS_ENROLLMENT_SUCCESS ||
-                                pe.Participant_Status__c == STATUS_RANDOMIZATION_SUCCESS ){
+                                pe.Participant_Status__c == STATUS_RANDOMIZATION_SUCCESS ||
+                                pe.Participant_Status__c == STATUS_TREATMENT_PERIOD_STARTED ||
+                                pe.Participant_Status__c == STATUS_FOLLOW_UP_PERIOD_STARTED ||
+                                pe.Participant_Status__c == STATUS_PARTICIPATION_COMPLETE ||
+                                pe.Participant_Status__c == STATUS_TRIAL_COMPLETE ||
+                                pe.Participant_Status__c == STATUS_DROP_OUT ||
+                                pe.Participant_Status__c == STATUS_DECEASED){
                                     contacted++;
                                     scheduled++;
                                     screened++;

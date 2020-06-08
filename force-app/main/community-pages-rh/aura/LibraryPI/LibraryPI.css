@@ -1,15 +1,18 @@
 .THIS .resource-container {
     background-color: white !important;
     margin-left: 50px;
+    margin-top:13px;
+    margin-bottom:9px;
 }
 
 .THIS .slds-accordion__summary-heading > button > span {
-    order: 1;
+    order: 2;
 }
 
+
 .THIS .slds-accordion__summary-heading > button > lightning-primitive-icon {
-    margin-left: 5px;
-    order: 2;
+    order: 1;
+    color:grey;
 }
 
 .THIS .hide-arrow  button{
@@ -22,7 +25,7 @@
 }
 
 .THIS lightning-primitive-icon > svg {
-    fill: black;
+    fill: grey;
 }
 
 .THIS .slds-button{
@@ -50,7 +53,7 @@
 }
 
 .THIS .language-filter-icon svg{
-    fill: #297dfd;
+    fill: #808080;
 }
 
 .THIS .language-title{
@@ -68,5 +71,12 @@
     width: 130px;
 }
 
+.THIS .slds-icon:hover{
+    cursor: pointer;
+    title:'downoad';
+}
 
 
+.THIS .downloadBtnCSS:hover{
+    cursor: pointer;
+}

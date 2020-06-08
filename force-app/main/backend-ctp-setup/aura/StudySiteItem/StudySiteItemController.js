@@ -42,6 +42,7 @@
         var item = component.get('v.item');
         var asgCount = 0;
         var assignments = item.assignments;
+        let parent = component.get('v.parent');
 
         for (var j = 0; j < assignments.length; j++) {
             if (isIncetive) {
@@ -68,6 +69,11 @@
         }
         item.emptyAssignments = asgCount === 0;
         component.set('v.item', item);
+        if (parent && parent.doSave && parent.refresh) {
+            parent.doSave();
+            parent.refresh();
+        }
+
     },
 
     sscRadioStateChange: function (component, event, helper) {

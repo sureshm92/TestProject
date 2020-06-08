@@ -276,9 +276,8 @@ public without sharing class ContactService {
         }
     }
 
-    public static Boolean checkVisitedCommunity(Id conId, String communityName) {
+    public static Boolean checkVisitedCommunity(Id conId) {
         Contact con = [SELECT Id, Visited_Communities__c FROM Contact WHERE Id =: conId];
-        String fullCommunityName = CommunityTemplateService.getTemplate(communityName).templateName;
-        return con.Visited_Communities__c != null ? con.Visited_Communities__c.contains(fullCommunityName) : false;
+        return String.isNotEmpty(con.Visited_Communities__c);
     }
 }
