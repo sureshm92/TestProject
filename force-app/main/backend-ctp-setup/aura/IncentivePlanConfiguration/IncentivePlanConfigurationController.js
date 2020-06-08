@@ -62,7 +62,22 @@
         let allSelectedIPs = component.get('v.allSelectedIPs');
         for (const incenitvePlan in allSelectedIPs) {
             haveSelecteAll = haveSelecteAll || (allSelectedIPs[incenitvePlan] && allSelectedIPs[incenitvePlan].size);
+            console.log('HAVESELECT', haveSelecteAll);
         }
+        console.log('HAVESELECTPEREDIF', haveSelecteAll);
+        if (haveSelecteAll) {
+            haveSelecteAll = false;
+            for (const incenitvePlan in allSelectedIPs) {
+                if (allSelectedIPs[incenitvePlan].size != 0 && allSelectedIPs[incenitvePlan] != allSelectedIPs[ipId]) {
+                    haveSelecteAll = true;
+                    console.log('Pervoe uslo', allSelectedIPs[incenitvePlan].size != 0);
+                    console.log('Vtoroe uslo', allSelectedIPs[incenitvePlan] != allSelectedIPs[ipId]);
+                }
+            }
+
+        }
+        console.log('HAVESELECTPOOSLE', haveSelecteAll);
+        console.log('HAVESELECT2', JSON.parse(JSON.stringify(allSelectedIPs[ipId])));
         if (!haveSelecteAll || !state) {
             component.find('spinner').show();
             communityService.executeAction(component, 'setIncentivePlanForAll', {
