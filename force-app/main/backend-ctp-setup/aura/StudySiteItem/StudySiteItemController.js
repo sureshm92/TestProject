@@ -69,8 +69,10 @@
         }
         item.emptyAssignments = asgCount === 0;
         component.set('v.item', item);
-        parent.doSave();
-        parent.refresh();
+        if (parent && parent.doSave && parent.refresh) {
+            parent.doSave();
+            parent.refresh();
+        }
 
     },
 

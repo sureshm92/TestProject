@@ -44,6 +44,10 @@ public without sharing class AddPatientByPIRemote {
             if (!createUser) {
                 TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
                 TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class);
+            } else {
+                if (ReferringRemote.checkNeedsGuardian(participantJSON) == 'true') {
+                    TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
+                }
             }
 
             Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
@@ -53,7 +57,16 @@ public without sharing class AddPatientByPIRemote {
             pe.Referral_Source__c = 'PI';
             ReferHealthcareProviderRemote.HealthcareProvider ddInfo;
             if (delegateDuplicateInfo != null) ddInfo = (ReferHealthcareProviderRemote.HealthcareProvider) JSON.deserialize(delegateDuplicateInfo, ReferHealthcareProviderRemote.HealthcareProvider.class);
-            ParticipantService.createParticipantAndUpdatePE(participant, pe, userLanguage);
+
+            Participant__c participantDelegate;
+            if (!String.isBlank(participantDelegateJSON)) {
+                participantDelegate = (Participant__c) JSON.deserialize(participantDelegateJSON, Participant__c.class);
+                if (participantDelegate != null) {
+                    participantDelegate.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
+                }
+            }
+
+            ParticipantService.createParticipantAndUpdatePE(participant, participantDelegate, pe, userLanguage);
 
             String participantId = !String.isBlank(participant.Id) ? participant.Id : pe.Participant__c;
             Participant__c newParticipant = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participantId];
@@ -66,15 +79,7 @@ public without sharing class AddPatientByPIRemote {
                     ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
                 }
             }
-
-            Participant__c participantDelegate;
-            if (!String.isBlank(participantDelegateJSON)) {
-                participantDelegate = (Participant__c) JSON.deserialize(participantDelegateJSON, Participant__c.class);
-                if (participantDelegate != null) {
-                    participantDelegate.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
-                }
-            }
-
+            Boolean createDelegateuser = true;
             if (participantDelegate != null && !String.isEmpty(participantDelegate.Last_Name__c) &&
                     !String.isEmpty(participantDelegate.Email__c)) {
                 Contact newContact;
@@ -108,22 +113,39 @@ public without sharing class AddPatientByPIRemote {
                         newContact.Phone = participantDelegate.Phone__c;
                     }
                     insert newContact;
+                } else{
+                    newContact = [
+                            Select Id,
+                                    FirstName,
+                                    LastName,
+                                    Email,
+                                    MailingCity,
+                                    MailingCountryCode,
+                                    MailingStateCode
+                            FROM Contact
+                            WHERE Id = :ddInfo.contactId
+                    ];
+                    createDelegateuser = false;
                 }
                 if(ddInfo == null || ddInfo.participantId == null) {
-                    participantDelegate.Contact__c = newContact == null ? ddInfo.contactId : newContact.Id;
+                    participantDelegate.Contact__c = newContact.Id;
                     if (String.isBlank(participantDelegate.Phone__c) && !String.isBlank(participant.Phone__c)) {
                         participantDelegate.Phone__c = participant.Phone__c;
                         participantDelegate.Phone_Type__c = participant.Phone_Type__c;
                     }
                     insert participantDelegate;
                 }
-
-                Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
-                ptDelegateRef.Participant__c = participant.Id;
-                ptDelegateRef.Contact__c = newContact == null ? ddInfo.contactId : newContact.Id;
-                insert ptDelegateRef;
-
-                ReferringRemote.createParticipantUsers(new Map<Id, Id> { newContact.Id => null});
+                if(ddInfo == null || !ddInfo.isDuplicateDelegate) {
+                    Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
+                    ptDelegateRef.Participant__c = participant.Id;
+                    ptDelegateRef.Contact__c = newContact.Id;
+                    insert ptDelegateRef;
+                }
+                if(createDelegateuser) {
+                    ReferringRemote.createParticipantUsers(new Map<Id, Id>{
+                            newContact.Id => null
+                    });
+                }
             }
             //Moved history Creation to Trigger
         } catch (Exception e) {

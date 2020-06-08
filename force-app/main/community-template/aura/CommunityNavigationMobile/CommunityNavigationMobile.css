@@ -105,12 +105,18 @@
 
 
 @media screen and (max-width: 550px) {
+    .THIS .nav-menu {
+        height: 65px;
+    }
+
     .THIS.overlay.multi-mode{
         top: 80px;
     }
-    .THIS .nav-menu .nav-menu-item-content > span {display: none}
+    .THIS .nav-menu .nav-menu-item-content > span {
+        display: none;
+    }
     .THIS .nav-menu .nav-item {
-        padding: 15px 5px 0;
+        padding: 5px 5px 0;
     }
     .THIS .navigation-icon {
         max-height: 32px;

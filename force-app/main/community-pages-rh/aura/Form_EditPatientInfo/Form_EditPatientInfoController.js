@@ -42,12 +42,12 @@
         var stateCmp = component.find('stateField');
         //var stateVaild = stateCmp && stateCmp.get('v.validity') && stateCmp.get('v.validity').valid;
         var dataStamp = component.get('v.dataStamp');
-        let isValid = false;
-        const screeningIdRequiredStatuses = 'Randomization Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete';
+        var isValid = false;
+        const screeningIdRequiredStatuses = 'Enrollment Success; Randomization Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete';
         const visitPlanRequiredStatuses = 'Enrollment Success; Randomization Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete';
         let screeningIdRequired = false;
         let visitPlanRequired = false;
-        var isRandomizationSuccess = false;
+        var isFinalStateSuccess = false;
         var today = new Date();
         var inDate = new Date(participant.Date_of_Birth__c);
         var currentDate = today.setHours(0, 0, 0, 0);
@@ -63,7 +63,7 @@
             component.set('v.disableSourceId', false);
         }
         if (pe && pe.Participant_Status__c) {
-            isRandomizationSuccess = pe.Participant_Status__c === 'Randomization Success';
+            isFinalStateSuccess = pe.Participant_Status__c === 'Randomization Success' || pe.Participant_Status__c === 'Enrollment Success';
             screeningIdRequired = isFinalUpdate || screeningIdRequiredStatuses.indexOf(pe.Participant_Status__c) !== -1;
             visitPlanRequired = isFinalUpdate || visitPlanRequiredStatuses.indexOf(pe.Participant_Status__c) !== -1;
             component.set('v.visitPlanDisabled', pe.Id && screeningIdRequiredStatuses.indexOf(pe.Participant_Status__c) !== -1);
@@ -185,7 +185,7 @@
                         participant.Mailing_Zip_Postal_Code__c &&
                         pe &&
                         pe.Participant_Status__c &&
-                        (!isRandomizationSuccess || (isRandomizationSuccess && pe.Screening_ID__c)) &&
+                        (!isFinalStateSuccess || (isFinalStateSuccess && pe.Screening_ID__c)) &&
                         (!stateRequired || (stateRequired && participant.Mailing_State_Code__c)) &&
                         //stateVaild &&
                         (pe.Visit_Plan__c || isVisitPlanNotRequired) &&

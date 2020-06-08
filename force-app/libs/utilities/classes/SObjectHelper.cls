@@ -76,6 +76,11 @@ public class SObjectHelper {
         }
         return resList;
     }
+    
+    public static String trimForField(String sourceStr, SObjectField field){
+        if(sourceStr == null) return sourceStr;
+        return sourceStr.mid(0, field.getDescribe().length);
+    }
 
 
 }

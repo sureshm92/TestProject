@@ -27,7 +27,8 @@
             console.log('HCPERROR', JSON.stringify(sharingObject));
             communityService.executeAction(component, 'inviteHP', {
                 peId: pe.Id,
-                hp: JSON.stringify(sharingObject)
+                hp: JSON.stringify(sharingObject),
+                ddInfo : JSON.stringify(component.get('v.duplicateDelegateInfo'))
             }, function (returnValue) {
                 var mainComponent = component.get('v.mainComponent');
                 mainComponent.refresh();
@@ -38,7 +39,8 @@
             communityService.executeAction(component, 'invitePatientDelegate', {
                 participant: JSON.stringify(pe.Participant__r),
                 delegateContact: JSON.stringify(sharingObject),
-                delegateId: sharingObject.delegateId ? sharingObject.delegateId : null
+                delegateId: sharingObject.delegateId ? sharingObject.delegateId : null,
+                ddInfo: JSON.stringify(component.get('v.duplicateDelegateInfo'))
             }, function (returnValue) {
                 var mainComponent = component.get('v.mainComponent');
                 mainComponent.refresh();
@@ -63,16 +65,10 @@
     },
 
     doCheckContact: function(component, event, helper, firstName, lastName, email){
-        console.log('1');
         var sharingObject = component.get('v.sharingObject');
-        console.log('2');
         var parent = component.get('v.parent');
-        console.log('3');
         parent.find('spinner').show();
-        console.log('4');
         var pe = component.get('v.pe');
-        console.log('5');
-        console.log('email>>>>>>',email);
         communityService.executeAction(component, 'checkDuplicate', {
             peId: pe.Id,
             email: email,
@@ -80,9 +76,8 @@
             lastName: lastName,
             participantId: null
         }, function (returnValue) {
-            console.log('6');
+            console.log('returnValue>>>>>>',returnValue);
             if (returnValue.firstName) {
-                console.log('7');
                 if (sharingObject.sObjectType == 'Object') {
                     component.set('v.sharingObject.email', email);
                     component.set('v.sharingObject.firstName', returnValue.firstName);
@@ -105,6 +100,7 @@
                 component.set('v.providerFound', true);
                 component.set('v.isDuplicate', returnValue.isDuplicate);
                 component.set('v.isDuplicateDelegate', returnValue.isDuplicateDelegate);
+                component.set('v.duplicateDelegateInfo', returnValue);
                 if (returnValue.firstName && returnValue.lastName) {
                     component.set('v.isValid', true);
                 }

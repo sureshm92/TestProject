@@ -17,6 +17,7 @@
     <aura:attribute name="isValid" type="Boolean" default="false"/>
     <aura:attribute name="isDuplicate" type="Boolean" default="false"/>
     <aura:attribute name="isDuplicateDelegate" type="Boolean" default="false"/>
+    <aura:attribute name="duplicateDelegateInfo" type="Object"/>
 
 
     <div class="{!'slds-col ' + if(v.printMode, 'slds-size--4-of-12', 'slds-size--1-of-1 slds-large-size--4-of-12')}">

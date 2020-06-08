@@ -95,13 +95,17 @@ global without sharing class ReferHealthcareProviderRemote {
         HealthcareProvider hp = new HealthcareProvider();
         hp.email = email;
         if (!String.isBlank(email)) {
-            String contactQuery = 'SELECT Id, FirstName, LastName, Name, Email, Phone,  userCommunytyType__c FROM Contact WHERE (Email = \'' + email + '\''
-                    +' OR Email = \'' + email.toLowerCase() + '\')';
+            String contactQuery = 'SELECT Id, FirstName, LastName, Name, Email, Phone,  userCommunytyType__c FROM Contact WHERE (Email = \'' + String.escapeSingleQuotes(email) + '\''
+                    + ' OR Email = \'' + String.escapeSingleQuotes(email.toLowerCase()) + '\')';
             if (!String.isBlank(firstName) && !String.isBlank(lastName)) {
+                email = String.escapeSingleQuotes(email);
+                firstName = String.escapeSingleQuotes(firstName);
+                lastName = String.escapeSingleQuotes(lastName);
                 contactQuery += ' OR ((Email = \'' + email + '\' OR Email = \'' + email.toLowerCase() + '\')' +
                         +' AND (FirstName = \'' + firstName + '\' OR FirstName = \'' + firstName.toLowerCase() + '\')' +
                         +' AND (LastName = \'' + lastName + '\' OR LastName = \'' + lastName.toLowerCase() + '\'))';
             }
+
             List<Contact> contacts = Database.query(contactQuery);
             if (!contacts.isEmpty()) {
                 hp.contactId = contacts[0].Id;
@@ -110,34 +114,34 @@ global without sharing class ReferHealthcareProviderRemote {
                 hp.lastName = contacts[0].LastName;
                 firstName = contacts[0].FirstName;
                 lastName = contacts[0].LastName;
-               // if (String.isBlank(contacts[0].FirstName) || String.isBlank(contacts[0].LastName)) {
-                    List<Participant__c> participants = [
-                            SELECT Id,
-                                    First_Name__c,
-                                    Last_Name__c,
-                                    Phone__c,
-                                    Phone_Type__c
-                            FROM Participant__c
-                            WHERE Contact__c = :contacts[0].Id
-                    ];
-                    if (!participants.isEmpty()) {
-                        hp.participantId = participants[0].Id;
-                        hp.contactPhoneNumber = participants[0].Phone__c;
-                        hp.contactPhoneType = participants[0].Phone_Type__c;
-                        hp.firstName = participants[0].First_Name__c;
-                        hp.lastName = participants[0].Last_Name__c;
-                        contacts[0].FirstName = participants[0].First_Name__c;
-                        contacts[0].LastName = participants[0].Last_Name__c;
-                        firstName = participants[0].First_Name__c;
-                        lastName = participants[0].Last_Name__c;
-                        update contacts[0];
-                    } else {
-                        hp.participantId = null;
-                    }
-               /* } else {
-                    hp.firstName = contacts[0].FirstName;
-                    hp.lastName = contacts[0].LastName;
-                }*/
+                // if (String.isBlank(contacts[0].FirstName) || String.isBlank(contacts[0].LastName)) {
+                List<Participant__c> participants = [
+                        SELECT Id,
+                                First_Name__c,
+                                Last_Name__c,
+                                Phone__c,
+                                Phone_Type__c
+                        FROM Participant__c
+                        WHERE Contact__c = :contacts[0].Id
+                ];
+                if (!participants.isEmpty()) {
+                    hp.participantId = participants[0].Id;
+                    hp.contactPhoneNumber = participants[0].Phone__c;
+                    hp.contactPhoneType = participants[0].Phone_Type__c;
+                    hp.firstName = participants[0].First_Name__c;
+                    hp.lastName = participants[0].Last_Name__c;
+                    contacts[0].FirstName = participants[0].First_Name__c;
+                    contacts[0].LastName = participants[0].Last_Name__c;
+                    firstName = participants[0].First_Name__c;
+                    lastName = participants[0].Last_Name__c;
+                    update contacts[0];
+                } else {
+                    hp.participantId = null;
+                }
+                /* } else {
+                     hp.firstName = contacts[0].FirstName;
+                     hp.lastName = contacts[0].LastName;
+                 }*/
                 hp.email = contacts[0].Email;
                 hp.hcpContactId = contacts[0].Id;
                 if (peId != null) {
@@ -163,8 +167,8 @@ global without sharing class ReferHealthcareProviderRemote {
                             LIMIT 1
                     ].Participant__c;
                 }
-                if(participantId != null) {
-                    List<Patient_Delegate__c> duplicateDelegates = checkDuplicatePDelegates(participantId, email, firstName, lastName);
+                if (participantId != null) {
+                    List<Patient_Delegate__c> duplicateDelegates = checkDuplicatePDelegates(participantId, String.escapeSingleQuotes(email), String.escapeSingleQuotes(firstName), String.escapeSingleQuotes(lastName));
                     if (!duplicateDelegates.isEmpty()) {
                         hp.isDuplicateDelegate = true;
                     } else {
@@ -249,54 +253,76 @@ global without sharing class ReferHealthcareProviderRemote {
     }
 
     @AuraEnabled
-    public static void invitePatientDelegate(String participant, String delegateContact, String delegateId) {
+    public static void invitePatientDelegate(String participant, String delegateContact, String delegateId, String ddInfo) {
         try {
+            HealthcareProvider delegateDuplicate;
+            Boolean createUser = true;
+            if (ddInfo != null) delegateDuplicate = (HealthcareProvider) JSON.deserialize(ddInfo, HealthcareProvider.class);
+            System.debug('delegateDuplicate>>>>>>>' + delegateDuplicate);
             Participant__c participantObj = (Participant__c) JSON.deserialize(participant, Participant__c.class);
             PDWrapper delegateObj = (PDWrapper) JSON.deserialize(delegateContact, PDWrapper.class);
             if (delegateId == null) {
-                Contact newContact = new Contact();
-                newContact.FirstName = delegateObj.firstName;
-                newContact.LastName = delegateObj.lastName;
-                newContact.Email = delegateObj.email;
-                newContact.AccountId = [
-                        SELECT Id
-                        FROM Account
-                        WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
-                        LIMIT 1
-                        FOR UPDATE
-                ].Id;
-                newContact.Language__c = UserInfo.getLanguage();
-                newContact.Second_Choice_Language__c = '';
-                newContact.Third_Choice_Language__c = '';
-                newContact.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
-                newContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
-                newContact.userCommunityIsDelegate__c = true;
-                newContact.MailingCountryCode = participantObj.Mailing_Country_Code__c;
-                newContact.MailingStateCode = participantObj.Mailing_State_Code__c;
-                newContact.MailingCountry = participantObj.Mailing_Country__c;
-                newContact.MailingState = participantObj.Mailing_State__c;
-                if ('Home' == participantObj.Phone_Type__c) {
-                    newContact.HomePhone = participantObj.Phone__c;
-                } if ('Mobile' == participantObj.Phone_Type__c) {
-                    newContact.MobilePhone = participantObj.Phone__c;
+                Contact newContact;
+                if (delegateDuplicate == null || delegateDuplicate.contactId == null) {
+                    newContact = new Contact();
+                    newContact.FirstName = delegateObj.firstName;
+                    newContact.LastName = delegateObj.lastName;
+                    newContact.Email = delegateObj.email;
+                    newContact.AccountId = [
+                            SELECT Id
+                            FROM Account
+                            WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
+                            LIMIT 1
+                            FOR UPDATE
+                    ].Id;
+                    newContact.Language__c = UserInfo.getLanguage();
+                    newContact.Second_Choice_Language__c = '';
+                    newContact.Third_Choice_Language__c = '';
+                    newContact.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
+                    newContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
+                    newContact.userCommunityIsDelegate__c = true;
+                    newContact.MailingCountryCode = participantObj.Mailing_Country_Code__c;
+                    newContact.MailingStateCode = participantObj.Mailing_State_Code__c;
+                    newContact.MailingCountry = participantObj.Mailing_Country__c;
+                    newContact.MailingState = participantObj.Mailing_State__c;
+                    if ('Home' == participantObj.Phone_Type__c) {
+                        newContact.HomePhone = participantObj.Phone__c;
+                    } if ('Mobile' == participantObj.Phone_Type__c) {
+                        newContact.MobilePhone = participantObj.Phone__c;
+                    } else {
+                        newContact.Phone = participantObj.Phone__c;
+                    }
+                    insert newContact;
                 } else {
-                    newContact.Phone = participantObj.Phone__c;
+                    newContact = [
+                            Select Id,
+                                    FirstName,
+                                    LastName,
+                                    Email,
+                                    MailingCity,
+                                    MailingCountryCode,
+                                    MailingStateCode
+                            FROM Contact
+                            WHERE Id = :delegateDuplicate.contactId
+                    ];
+                    createUser = false;
                 }
-                insert newContact;
 
-                Participant__c participantDelegate = new Participant__c(
-                        Contact__c = newContact.Id,
-                        First_Name__c = newContact.FirstName,
-                        Last_Name__c = newContact.LastName,
-                        Email__c = newContact.Email,
-                        Phone__c = participantObj.Phone__c,
-                        Mailing_City__c = newContact.MailingCity,
-                        Mailing_Country_Code__c = newContact.MailingCountryCode,
-                        Mailing_State_Code__c = newContact.MailingStateCode
+                Participant__c participantDelegate;
+                if (delegateDuplicate == null || delegateDuplicate.participantId == null) {
+                    participantDelegate = new Participant__c(
+                            Contact__c = newContact.Id,
+                            First_Name__c = newContact.FirstName,
+                            Last_Name__c = newContact.LastName,
+                            Email__c = newContact.Email,
+                            Phone__c = participantObj.Phone__c,
+                            Mailing_City__c = newContact.MailingCity,
+                            Mailing_Country_Code__c = newContact.MailingCountryCode,
+                            Mailing_State_Code__c = newContact.MailingStateCode
 
-                );
-                insert participantDelegate;
-
+                    );
+                    insert participantDelegate;
+                }
                 if (!participantObj.Adult__c) {
                     update new Participant__c(Id = participantObj.Id, Phone_Type__c = null, Phone__c = null);
                 }
@@ -305,9 +331,11 @@ global without sharing class ReferHealthcareProviderRemote {
                 ptDelegateRef.Participant__c = participantObj.Id;
                 ptDelegateRef.Contact__c = newContact.Id;
                 insert ptDelegateRef;
-                ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id>{
-                        newContact.Id => null
-                });
+                if (createUser) {
+                    ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id>{
+                            newContact.Id => null
+                    });
+                }
 
             } else {
                 update new Patient_Delegate__c(Id = delegateId, Status__c = DEL_ACTIVE);
