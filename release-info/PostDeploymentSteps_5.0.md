@@ -6,4 +6,6 @@
 2. **PEH-1965** Add Batch_TrialMatchNotify to the Batch Control Panel
 
 3. **PEH-2206** Go to Developer Console > Debug > Open execute Anonymous > Insert Batch_SetVisitedCommunitiesOnContact.run(); > Execute
-                    
+
+4. **PEH-2202** Go to Developer Console > Debug > Open execute Anonymous > Insert Batch_UpdateCTPShortCommNameField.run(); > Execute
+                                    

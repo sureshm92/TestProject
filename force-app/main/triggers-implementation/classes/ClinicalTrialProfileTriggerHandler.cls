@@ -9,12 +9,14 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
         public override void beforeInsert(List<SObject> newList){
             overrideStatusChangedBy(newList, null);
             populateOverrideFields(newList);
+            updateShortCommunityName(newList, null);
         }
 
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap){
             overrideStatusChangedBy(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
             populateOverrideFields(newList);
             populateDateOnTrialComplete(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
+            updateShortCommunityName(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
         }
 
         public override void afterInsert(List<SObject> newList) {
@@ -163,6 +165,16 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
             if(oldMap != null && ctp.Status__c == ClinicalTrialProfileService.STATUS_COMPLETED
                 && oldMap.get(ctp.Id).Status__c != ctp.Status__c) {
                 ctp.Trial_Complete__c = Date.today();
+            }
+        }
+    }
+
+    private static void updateShortCommunityName(List<SObject> newList, Map<Id, Clinical_Trial_Profile__c> oldMap) {
+        for(Clinical_Trial_Profile__c ctp : (List<Clinical_Trial_Profile__c>)newList){
+            if((oldMap == null && String.isEmpty(ctp.ShortCommunityName__c) && String.isNotEmpty(ctp.CommunityTemplate__c)) ||
+                    (oldMap != null && oldMap.get(ctp.Id).CommunityTemplate__c != ctp.CommunityTemplate__c)) {
+                CommunityTemplate template = CommunityTemplateService.getTemplate(ctp.CommunityTemplate__c);
+                ctp.ShortCommunityName__c = template.properties.get(TemplatePropertiesCatalog.TEMPLATE_PROP_PUSH_COMM_NAME_SHORT);
             }
         }
     }
