@@ -28,46 +28,48 @@
 ### Setup named credential for use Tooling API without current sessionId:
 
 #### 1. Create Connected App in Salesforce:
- - In setup open 'App Manager' > New Connected App button > enter below fields:
- - Connected App Name: 
- - API Name:
- - Contact Email: any email for contact
- - enable a checkbox 'Enable OAuth Settings'
- - Callback URL: https://dummy.com
- - Selected OAuth Scopes: select all and move to right
- - press Save
+
+     - In setup open 'App Manager' > New Connected App button > enter below fields:
+     - Connected App Name: Salesforce Self Connection
+     - API Name: Salesforce_Self_Connection
+     - Contact Email: any email for contact
+     - enable a checkbox 'Enable OAuth Settings'
+     - Callback URL: https://dummy.com
+     - Selected OAuth Scopes: select all and move to right
+     - press Save
 
 #### 2. Create Authentication Provider:
- - In setup open in a new tab 'Auth. Providers' > New >  enter below fields:
- - Provider Type: Salesforce
- - Name: SF AP
- - URL Suffix: SF_AP
- - Consumer Key: copy value from created Connected App before
- - Consumer Secret: copy value from created Connected App before
- - Default Scopes: full refresh_token offline_access
- - Registration Handler: click on 'Automatically create a registration handler template'
- - click save
- - copy Callback URL to the clipboard 
+
+     - In setup open in a new tab 'Auth. Providers' > New >  enter below fields:
+     - Provider Type: Salesforce
+     - Name: SF AP
+     - URL Suffix: SF_AP
+     - Consumer Key: copy value from created Connected App before
+     - Consumer Secret: copy value from created Connected App before
+     - Default Scopes: full refresh_token offline_access
+     - Registration Handler: click on 'Automatically create a registration handler template'
+     - click save
+     - copy Callback URL to the clipboard 
 
 #### 3. Update Callback URL in Connected APP:
- - return to your Authentication Provider, press enter and paste to Callback URL field value from clipboard
- - click save and wait 10 minutes
+     - return to your Authentication Provider, press enter and paste to Callback URL field value from clipboard
+     - click save and wait 10 minutes
 
 #### 4. Create Named Credential:
- - In setup open 'Named Credentials' > new
- - Label: Salesforce Credential
- - Name: Salesforce_Credential
- - URL: in setup search enter 'domains'and open in a new tab > find my domain and copy url to clipboard, 
-   return to a named credential and paste url, add 'https://' before url value
- - Identity Type: Named Principal
- - Authentication Protocol OAuth 2.0
- - Authentication Provider: SF AP
- - Scope: full refresh_token offline_access
- - Start Authentication Flow on Save: checked
- - click Save
- - you will be redirected to login page, login to this org and press 'Allow' button
- - after save Authentication Status must be: Authenticated as yourUser@email.com 
- - NamedCredential setup complete
+     - In setup open 'Named Credentials' > new
+     - Label: Salesforce Credential
+     - Name: Salesforce_Credential
+     - URL: in setup search enter 'domains'and open in a new tab > find my domain and copy url to clipboard, 
+       return to a named credential and paste url, add 'https://' before url value
+     - Identity Type: Named Principal
+     - Authentication Protocol OAuth 2.0
+     - Authentication Provider: SF AP
+     - Scope: full refresh_token offline_access
+     - Start Authentication Flow on Save: checked
+     - click Save
+     - you will be redirected to login page, login to this org and press 'Allow' button
+     - after save Authentication Status must be: Authenticated as yourUser@email.com 
+     - NamedCredential setup complete
 
 
 ## Extend functionality
