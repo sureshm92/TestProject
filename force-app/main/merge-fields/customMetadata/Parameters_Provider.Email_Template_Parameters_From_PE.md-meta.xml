@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <label>Email Template Parameters From PE</label>
     <protected>false</protected>
     <values>
@@ -30,7 +29,7 @@
             PIName = Study_Site__r.Principal_Investigator__r.Salutation_With_Name__c
             PILanguage = Study_Site__r.Principal_Investigator__r.Language__c
             PITitle = Study_Site__r.Principal_Investigator__r.Title
-        </value>
+ShortCommunityName = Study_Site__r.Clinical_Trial_Profile__r.ShortCommunityName__c</value>
     </values>
     <values>
         <field>Source_Object_Type__c</field>
