@@ -8,7 +8,7 @@
         helper.clearInviteFields(component, event, helper);
         helper.studyContact(component, event, helper);
         helper.mediaType(component, event, helper);
-    },
+        },
     
     doExecute: function (component, event, helper) {
         
@@ -103,16 +103,17 @@
     },
     phoneFormatType : function(component, event, helper){
         
-        var phone = component.get('v.phone');
-        var reg = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-        var isPhoneValid = reg.test(phone);
-        if (isPhoneValid == false) 
+        var phoneCmpValue = component.get('v.phone');
+        var phoneRegexFormat = /^\d{10}$/;
+		 var phoneErrorval = $A.get("$Label.c.Invalid_Phone");
+        if (!phoneCmpValue.match(phoneRegexFormat)) 
         {
+		    component.set("v.phoneError", phoneErrorval);
             component.set("v.phone", '');
-            
-            
+        }else{
+            component.set("v.phoneError", '');
         }
-        return true;
+        
     },
     submit : function (component, event, helper) {
         var study = component.get('v.study');

@@ -2,10 +2,13 @@
     margin-top: 20px;
 }
 
+
 .THIS .slds-card__header-title {
     font-weight: 700;
     font-size: 25px;
-    margin: 25px;
+     /* margin: 25px; */
+    margin:12px;
+    padding-left:7px;
 }
 .THIS .rr-link.expanded-icon .rr-icon-default {
     transform-origin: center;
@@ -33,4 +36,15 @@
 .THIS.resource-headers {
     margin-left: 50px;
     padding: 0 .75rem;
+}
+.THIS .fp-search-input
+{
+   padding-left: 25px;   
+    background: #fff url(/resource/1570111512000/searchIcon) no-repeat 7px 9px;
+	background-size: 14px 14px;
+	padding-left: 25px;
+	position: relative;
+	top: 0;
+	left: 0;
+     display: inline-block;
 }

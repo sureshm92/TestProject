@@ -14,6 +14,8 @@
         component.set("v.notes", '');
         component.set("v.endrequestedError", '');
         component.set("v.startrequestedError", '');
+        component.set("v.phoneError", '');
+        component.set("v.studyData", '');
         component.set("v.isDuplicate", false);
     },
     
@@ -43,7 +45,6 @@
         communityService.executeAction(component, 'getstudyData', {
             dataStudy:study
         }, function (returnValue) {
-            
             component.set("v.studyData",returnValue);
             
             component.find('modalSpinner').hide();
@@ -66,9 +67,9 @@
          if((study == '' || study == undefined)){
              reqFieldsFilled = true;
          }
-         if((site == '' || site == undefined)){
+         /*if((site == '' || site == undefined)){
              reqFieldsFilled = true;
-         }
+         }*/
          if((media == '' || media == undefined)){
              reqFieldsFilled = true;
          }
