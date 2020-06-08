@@ -17,3 +17,17 @@
 .THIS .picklist-block{
     width:251px;
 }
+
+@media all and (max-width: 1024px) {
+    .THIS .db-quick-actions-container-participant{
+        margin-top: 24px;
+    }
+
+}
+
+@media all and (max-width: 500px){
+    .THIS.pi-picklist-container{
+        padding-right: 12px;
+    }
+
+}

@@ -232,30 +232,23 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                         ));
                     } else {
                         System.debug('NOTIFY USER');
-                        if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP
-                                && !peStatusesSuccess.contains(newPE.Participant_Status__c)
-                                && !availabilityService.isDeferNotification(participant.Contact__c, newPE.Id)) {
-                            notifications.add(new Notification__c(
-                                    Recipient__c = participant.Contact__c,
-                                    WhatId__c = newPE.Id,
-                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SOURCE_HCP_TYPE
-                            ));
-                        } else if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI
-                                && !peStatusesSuccess.contains(newPE.Participant_Status__c)
-                                && !availabilityService.isDeferNotification(participant.Contact__c, newPE.Id)) {
-                            notifications.add(new Notification__c(
-                                    Recipient__c = participant.Contact__c,
-                                    WhatId__c = newPE.Id,
-                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SOURCE_PI_TYPE
-                            ));
-                        } else if (!peStatusesSuccess.contains(newPE.Participant_Status__c)
-                                && !availabilityService.isDeferNotification(participant.Contact__c, newPE.Id)) {
-                            notifications.add(new Notification__c(
-                                    Recipient__c = participant.Contact__c,
-                                    WhatId__c = newPE.Id,
-                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SOURCE_ERP_TYPE
-                            ));
+                        String notificationTypeStr;
+                        Boolean check = !availabilityService.isDeferNotification(participant.Contact__c, newPE.Id);
+                        String sourcePe = newPE.Referral_Source__c;
+                        if (sourcePe.contains(ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP)
+                                && !peStatusesSuccess.contains(newPE.Participant_Status__c) && check) {
+                            notificationTypeStr = NotificationCatalog.MESSAGE_TO_PT_SOURCE_HCP_TYPE;
+                        } else if (sourcePe.contains(ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI)
+                                && !peStatusesSuccess.contains(newPE.Participant_Status__c) && check) {
+                            notificationTypeStr = NotificationCatalog.MESSAGE_TO_PT_SOURCE_PI_TYPE;
+                        } else if (!peStatusesSuccess.contains(newPE.Participant_Status__c) && check) {
+                            notificationTypeStr = NotificationCatalog.MESSAGE_TO_PT_SOURCE_ERP_TYPE;
                         }
+                        if (notificationTypeStr != null) notifications.add(new Notification__c(
+                                Recipient__c = participant.Contact__c,
+                                WhatId__c = newPE.Id,
+                                Notification_Type__c = notificationTypeStr
+                        ));
                     }
                     contactsForChangeMode.add(new Contact(
                             Id = participant.Contact__c,

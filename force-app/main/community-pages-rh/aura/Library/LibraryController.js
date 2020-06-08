@@ -10,5 +10,11 @@
 		} else {
 			cmp.set("v.detailsExpanded", true);
 		}
-	}
+	},
+     SearchRecords: function(component, event) {
+         var txtsearch=event.target.value;
+        component.set("v.searchvalue",txtsearch);
+        var LibraryPI = component.find("childcmp");
+        var search = LibraryPI.LibraryPIMethod();
+    }
 })
