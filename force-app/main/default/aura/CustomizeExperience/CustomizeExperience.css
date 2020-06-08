@@ -26,9 +26,15 @@
 .THIS .slds-pill__label{
     text-align: center;
     margin-bottom: 10px;
-
-
 }
+.THIS .slds-pill{
+    padding-bottom: 10%;
+    padding-top: 5%;
+}
+.THIS .slds-pill__remove{
+    padding-right: 10% !important;
+}
+
 .THIS .alert-count-condition{
     height: 17px;
     width: auto;

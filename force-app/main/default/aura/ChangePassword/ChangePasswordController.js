@@ -28,6 +28,16 @@
             component.find('spinner').hide();
         })
     },
+    togglePassword: function (component, event, helper) {
+        component.set("v.showPasswordInput", false);
+        component.set("v.showPassword", !component.get("v.showPassword"));
+        if(component.get("v.iconColor") === "#999999") {
+            component.set("v.iconColor", "#297dfd");
+        } else {
+            component.set("v.iconColor", "#999999");
+        }
+        component.set("v.showPasswordInput", true);
+    },
      doChangePassword: function (component, event, helper) {
         component.set('v.showSpinner', true);
         let initData = component.get('v.initData');

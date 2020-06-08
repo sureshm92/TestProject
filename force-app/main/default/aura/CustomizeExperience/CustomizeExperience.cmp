@@ -4,7 +4,7 @@
   @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
   @Group              : 
   @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
-  @Last Modified On   : 6/4/2020, 11:54:11 AM
+  @Last Modified On   : 6/7/2020, 12:57:53 PM
   @Modification Log   : 
   Ver       Date            Author      		    Modification
   1.0    6/3/2020   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
@@ -15,6 +15,8 @@
     <aura:attribute name="originalItems" type="Object[]" default=""/>
     <aura:attribute name="displayedItems" type="List" default=""/>
     <aura:attribute name="selectedValues" type="List" default=""/>
+    <aura:attribute name="isMultiEntry" type="Boolean" default="true"/>
+    <aura:attribute name="SelectedAccount" type="String[]"/>    
 
     <aura:attribute name="conditionsOfInterest" type="List" default=""/>
     <aura:attribute name="conditionsOfInterestTemp" type="List" default=""/>
@@ -26,7 +28,7 @@
     
     <aura:attribute name="footerButtons" type="Aura.Component[]" description="custom buttons array, inset of standard button set"/>
 
-
+ 
     <!--    <aura:attribute name="displayFooter" type="Boolean" default=""/>-->
     <aura:attribute name="bypass" type="Boolean" default=""/>
 
@@ -46,14 +48,17 @@
                    role="treegrid">
                    
                 <tbody>
-                <aura:iteration items="{!v.displayedItems}" var="coiWrapper">
+                <aura:iteration items="{!v.displayedItems}" var="coiWrapper" indexVar="index">
                     <tr aria-level="1" aria-posinset="1" aria-selected="false" aria-setsize="4" class="slds-hint-parent"
                         tabindex="0">
                         <td class="slds-text-align_right" role="gridcell" style="width: 1.25rem;">
                             <div class="slds-checkbox">
-                                <lightning:input label="" type="checkbox" checked="{!coiWrapper.isSelected}"
-                                                 value="{!coiWrapper}" onchange="{!c.handleChange}" aura:id="boxPack"/>
+                                <lightning:input label="" type="checkbox" 
+                                                 value="{!coiWrapper}" onchange="{!c.handleChange}" name="{!index}"/>
+                                                 
                             </div>
+                           
+    
                         </td>
                         <th class="" data-label="Account Name" scope="row">
                             <div class="slds-truncate">{!coiWrapper.coi.Therapeutic_Area__r.Name}</div>
@@ -84,8 +89,9 @@
              </tbody>
         </aura:if>
         <br/><br/>
-        <div class="slds-col slds-size_1-of-1 as-buttons-footer">
+    <div class="slds-col slds-size_1-of-1 as-buttons-footer">
     <lightning:button variant="brand" label="{!$Label.c.PP_Save_Changes}" title="" onclick="{! c.doSave }" class="slds-button slds-button_brand apollo-btn primary"/> 
-    </div>       
+    </div> 
+       
     </div>
 </aura:component>

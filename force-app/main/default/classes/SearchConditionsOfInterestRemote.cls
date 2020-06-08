@@ -57,13 +57,4 @@ public without sharing class SearchConditionsOfInterestRemote {
         }
         return cois;
     }
-@AuraEnabled
-    public static void createSubscribeConnection(List<Therapeutic_Area_Patient__c> cois){
-        try {
-            TrialSearchHelper helper = (TrialSearchHelper) ClassFactory.newInstance(TrialSearchHelper.class);
-            helper.createSubscribeConnectionByCOI(cois);
-        } catch (Exception e) {
-            AuraHelper.throwException(e);
-        }
-    }
 }

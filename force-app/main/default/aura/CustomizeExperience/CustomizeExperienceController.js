@@ -3,7 +3,6 @@
  */
 ({
     doInit: function (component, event, helper) {
-       //debugger;
         communityService.executeAction(component, 'getConditionOfInterest', {}, function (returnValue) {
             
         component.set('v.conditionOfInterestList', returnValue);
@@ -48,20 +47,10 @@
     doSave: function (component, event, helper) {
         helper.saveElement(component,event,helper);
     },
-    handleRemoveOnly: function (component, event) {
+    handleRemoveOnly: function (component, event,helper) {
         event.preventDefault();
-        var pillName = event.getSource().get('v.name');
-        var pills = component.get('v.conditionsOfInterestTemp');
-        var selectedList=[];
-        for (var i = 0; i < pills.length; i++) {
-            if (pillName === pills[i].coi.Therapeutic_Area__r.Name) { 
-                selectedList.push(pills[i]);
-              pills.splice(i, 1);
-              
-              break;
-            }
-          }
-          component.set('v.conditionsOfInterestTemp', pills);
+        helper.handleClearPill(component,event,helper)
+       
         }
     
 })

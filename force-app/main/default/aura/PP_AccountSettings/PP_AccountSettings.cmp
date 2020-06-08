@@ -65,7 +65,7 @@
                     <aura:if isTrue="{!v.notPref}">
                     </aura:if>
                     <aura:if isTrue="{!v.langReg}">
-                    <c:LanguageSwitcher personWrapper="{!v.personWrapper}"/>
+                    <c:PP_LanguageSwitcher personWrapper="{!v.personWrapper}"/>
                     </aura:if>
                     <aura:if isTrue="{!v.custExp}">
                     <div class="slds-p-around_x-small">

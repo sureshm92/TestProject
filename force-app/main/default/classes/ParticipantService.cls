@@ -1,7 +1,3 @@
-/**
- * Created by Leonid Bartenev
- */
-
 public without sharing class ParticipantService {
     public class ParticipantServiceException extends Exception {
     }
@@ -245,7 +241,6 @@ public without sharing class ParticipantService {
         prefix.add(new LabelValueItem('Mrs.', 'Mrs.'));
         prefix.add(new LabelValueItem('Dr.', 'Dr.'));
         prefix.add(new LabelValueItem('Prof.', 'Prof.'));
-
         return prefix;
     }
 
