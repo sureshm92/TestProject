@@ -50,30 +50,37 @@ public without sharing class ParametersProviderService {
         if(pp == null) return null;
         return Schema.getGlobalDescribe().get(pp.Source_Object_Type__c);
     }
-    
-    public static String substituteMergeFields(String sourceString, String providerName, SObject sourceObject, String language){
-        if(language == null) language = UserInfo.getLanguage();
+
+    public static Map<String, String> getValueMap(String providerName, SObject sourceObject, String language) {
+        Map<String, String> valueByParam = new Map<String, String>();
+        String userLanguage = String.isNotEmpty(language) ? language : UserInfo.getLanguage();
+
         Map<String, String> paramsMap = getParamsMap(providerName);
-        Map<String, String> valuesMap = new Map<String, String>();
         for (String paramName : paramsMap.keySet()) {
             String fieldPath = paramsMap.get(paramName);
             Object value = SObjectHelper.getSObjectFieldValue(sourceObject, fieldPath);
             String valueStr;
             if (value instanceof Date) {
-                valueStr = UserService.formatDate((Date) value, language);
+                valueStr = UserService.formatDate((Date) value, userLanguage);
             } else if (value instanceof Datetime) {
-                valueStr = UserService.formatDateTime((Date) value, language);
+                valueStr = UserService.formatDateTime((Date) value, userLanguage);
             } else {
                 valueStr = (value != null ? value : '') + '';
             }
-            valuesMap.put(paramName, valueStr);
+            valueByParam.put(paramName, valueStr);
         }
+
+        return valueByParam;
+    }
+    
+    public static String substituteMergeFields(String sourceString, String providerName, SObject sourceObject, String language){
         if (sourceString == null) return null;
         String resultValue = sourceString;
+
+        Map<String, String> valuesMap = getValueMap(providerName, sourceObject, language);
         for (String parameterName : valuesMap.keySet()) {
             resultValue = resultValue.replace('##' + parameterName, valuesMap.get(parameterName));
         }
         return resultValue;
     }
-    
 }
