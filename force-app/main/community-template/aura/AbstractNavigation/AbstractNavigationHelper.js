@@ -151,9 +151,9 @@
             participantTabs.push(this.allPagesMap['messages']);
         }
         if (communityService.getTrialMatchVisible()) {
-                if (communityService.getParticipantState() === 'PARTICIPANT') {
+            if (communityService.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
                     participantTabs.push(this.allPagesMap['trial-match']);
-                }
+            }
         }
         
         participantTabs.push(this.allPagesMap['help']);
