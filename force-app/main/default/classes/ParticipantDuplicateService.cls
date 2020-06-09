@@ -31,41 +31,12 @@ public without sharing class ParticipantDuplicateService {
             return ((Contact)duplicate).FirstName;
         }
 
-        public String getLastName() {
-            if (isParticipant()) {
-                return ((Participant__c)duplicate).Last_Name__c;
-            }
-            return ((Contact)duplicate).LastName;
-        }
-
-        public String getZipCode() {
-            if (isParticipant()) {
-                return ((Participant__c)duplicate).ZIP_Code__c;
-            }
-            return ((Contact)duplicate).MailingPostalCode;
-        }
-
-        public Date getDateOfBirth() {
-            if (isParticipant()) {
-                Participant__c participant = (Participant__c)duplicate;
-                return Date.valueOf(participant.Date_of_Birth__c);
-            }
-            return null;
-        }
-
         public Integer getYearOfBirth() {
             if (isParticipant()) {
                 Participant__c participant = (Participant__c)duplicate;
                 return getYearOfBirthForParticipant(participant);
             }
             return null;
-        }
-
-        public Boolean isAdult() {
-            if (isParticipant()) {
-                return ((Participant__c)duplicate).Adult__c;
-            }
-            return true;
         }
 
         public Participant__c getParticipant() {
@@ -110,7 +81,7 @@ public without sharing class ParticipantDuplicateService {
         Set<String> zipCodes = new Set<String>();
         Set<Date> birthDates = new Set<Date>();
         Set<String> birthDateStrings = new Set<String>();
-        Map<Participant__c, Participant__c> participantsByDelegates = new Map<Participant__c, Participant__c>();
+
         for (ParticipantWithDelegate partWithDelegate : partsWithDelegates) {
             if (!String.isBlank(partWithDelegate.participant.Phone__c)) phones.add(partWithDelegate.participant.Phone__c);
             if (!String.isBlank(partWithDelegate.participant.Email__c)) emails.add(partWithDelegate.participant.Email__c);
@@ -122,8 +93,6 @@ public without sharing class ParticipantDuplicateService {
             if (!String.isBlank(partWithDelegate.participant.Mailing_Zip_Postal_Code__c)) zipCodes.add(partWithDelegate.participant.Mailing_Zip_Postal_Code__c);
 
             if (partWithDelegate.delegate != null) {
-                participantsByDelegates.put(partWithDelegate.participant, partWithDelegate.delegate);
-
                 if (!String.isBlank(partWithDelegate.delegate.Phone__c)) phones.add(partWithDelegate.delegate.Phone__c);
                 if (!String.isBlank(partWithDelegate.delegate.Email__c)) emails.add(partWithDelegate.delegate.Email__c);
                 if (!String.isBlank(partWithDelegate.delegate.Date_of_Birth__c)) {
@@ -247,14 +216,17 @@ public without sharing class ParticipantDuplicateService {
                         participant.Date_of_Birth__c != null && contactsByDoBMap.containsKey(Date.valueOf(participant.Date_of_Birth__c))) {
                     List<Participant__c> participantsByDoB = participantsByDoBStringsMap.get(participant.Date_of_Birth__c);
                     List<Contact> contactsByDoB = participant.Date_of_Birth__c != null ? contactsByDoBMap.get(Date.valueOf(participant.Date_of_Birth__c)) : new List<Contact>();
-                    if (participantsByDoB == null && contactsByDoB == null ||
-                            participantsByDoB.isEmpty() && contactsByDoB.isEmpty()) {
+                    Boolean participantsByDoBExist = participantsByDoB == null;
+                    Boolean contactsByDoBExist = contactsByDoB == null;
+                    if (participantsByDoBExist && contactsByDoBExist ||
+                            !participantsByDoBExist && participantsByDoB.isEmpty() &&
+                            !contactsByDoBExist && contactsByDoB.isEmpty()) {
                         continue;
                     }
 
                     Boolean isAdultAndHasEmailOrPhone = participant.Adult__c && (!String.isBlank(participant.Email__c) || !String.isBlank(participant.Phone__c));
                     Participant__c paticipantInfoToCheck = (delegate == null || isAdultAndHasEmailOrPhone ? participant : delegate);
-                    if (participantsByDoB != null) {
+                    if (!participantsByDoBExist) {
                         for (Participant__c dupParticipant : participantsByDoB) {
                             if (dupParticipant != null && dupParticipant.Last_Name__c != null && dupParticipant.Last_Name__c == participant.Last_Name__c) {
                                 if (dupParticipant.Email__c != null && paticipantInfoToCheck.Email__c != null && dupParticipant.Email__c.toLowerCase() == paticipantInfoToCheck.Email__c.toLowerCase() ||
@@ -268,7 +240,7 @@ public without sharing class ParticipantDuplicateService {
                             }
                         }
                     }
-                    if (duplicate == null && contactsByDoB != null) {
+                    if (duplicate == null && !contactsByDoBExist) {
                         for (Contact dupContact : contactsByDoB) {
                             if (dupContact != null && dupContact.LastName != null && dupContact.LastName == participant.Last_Name__c) {
                                 if (dupContact.Email != null && paticipantInfoToCheck.Email__c != null && dupContact.Email.toLowerCase() == paticipantInfoToCheck.Email__c.toLowerCase() ||
