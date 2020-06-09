@@ -104,6 +104,7 @@ public without sharing class Action_SendPush implements Action{
     }
     
     public void postDML(Action__c dbAction, Execution_History__c executionHistory) {
+        sendResultService.setAction(dbAction);
         sendResultService.updateResults();
     }
 }

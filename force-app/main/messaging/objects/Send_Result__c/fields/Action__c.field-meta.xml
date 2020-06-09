@@ -2,12 +2,11 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Action__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
-    <description>Deprecated!</description>
     <externalId>false</externalId>
-    <label>Action (Deprecated)</label>
+    <label>Action</label>
     <referenceTo>Action__c</referenceTo>
-    <relationshipLabel>Notifications</relationshipLabel>
-    <relationshipName>Notifications</relationshipName>
+    <relationshipLabel>Send Results</relationshipLabel>
+    <relationshipName>Send_Results</relationshipName>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
