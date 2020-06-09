@@ -22,6 +22,7 @@
     <aura:attribute name="planIdForDelete" type="String"/>
     <aura:attribute name="ipId" type="String"/>
     <aura:attribute name="state" type="Boolean"/>
+    <aura:attribute name="initilizedMap" type="Boolean" default="false"/>
 
     <aura:attribute name="selectedIP" type="String"/>
     <aura:attribute name="allSelectedIPs" type="Object"/>

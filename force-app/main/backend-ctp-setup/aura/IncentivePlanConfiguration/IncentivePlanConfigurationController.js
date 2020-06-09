@@ -60,9 +60,14 @@
         let state = component.get('v.state');
         let haveSelecteAll = false;
         let allSelectedIPs = component.get('v.allSelectedIPs');
+
         for (const incenitvePlan in allSelectedIPs) {
-            haveSelecteAll = haveSelecteAll || (allSelectedIPs[incenitvePlan] && allSelectedIPs[incenitvePlan].size);
+            if (allSelectedIPs[incenitvePlan] && allSelectedIPs[incenitvePlan].size > 0 && incenitvePlan !== ipId) {
+                console.log('allSelectedIPs[incenitvePlan]: ' + JSON.stringify(Array.from(allSelectedIPs[incenitvePlan])));
+                haveSelecteAll = true;
+            }
         }
+
         if (!haveSelecteAll || !state) {
             component.find('spinner').show();
             communityService.executeAction(component, 'setIncentivePlanForAll', {
@@ -75,11 +80,15 @@
                 helper.setSearchResponse(component, searchResponse);
                 if (state) {
                     component.set('v.selectedIP', ipId);
-                    allSelectedIPs[ipId] = component.get('v.setOfSS');
+                    let setOfSS = component.get('v.setOfSS');
+                    console.log('setOfSS: ' + JSON.stringify(Array.from(setOfSS)));
+                    allSelectedIPs[ipId] = new Set(Array.from(setOfSS));
+                    console.log('ALL: ' + JSON.stringify(Array.from(allSelectedIPs[ipId])));
                     component.set('v.allSelectedIPs', allSelectedIPs);
                 } else {
                     component.set('v.selectedIP', '');
                     allSelectedIPs[ipId].clear();
+                    console.log('CLEAR: ' + JSON.stringify(Array.from(allSelectedIPs[ipId])));
                     component.set('v.allSelectedIPs', allSelectedIPs);
                 }
                 component.find('warningModal').hide();
