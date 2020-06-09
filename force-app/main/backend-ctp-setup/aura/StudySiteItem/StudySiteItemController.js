@@ -14,7 +14,6 @@
                             component.set('v.selectedItem', assignments[j].value);
                         }
                         allSelectedIPs[assignments[j].value].add(component.get('v.item').ss.Id);
-                        console.log('INIT: ' + JSON.stringify(Array.from(allSelectedIPs[assignments[j].value])));
                     }
                 }
                 component.set('v.selectedGlobalItems', allSelectedIPs);
@@ -45,7 +44,6 @@
         var assignments = item.assignments;
         let parent = component.get('v.parent');
 
-
         for (var j = 0; j < assignments.length; j++) {
             if (isIncetive) {
                 let selectedItem = component.get('v.selectedItem');
@@ -56,17 +54,13 @@
                     component.set('v.selectedItem', '');
 
                     var allSelectedIPs = component.get('v.selectedGlobalItems');
-                    if (allSelectedIPs[assignments[j].value].delete(component.get('v.item').ss.Id)) {
-                        console.log('DELETED: ' + component.get('v.item').ss.Id);
-                    }
-                    console.log('DELETE: ' + JSON.stringify(Array.from(allSelectedIPs[assignments[j].value])));
+                    allSelectedIPs[assignments[j].value].delete(component.get('v.item').ss.Id)
                     component.set('v.selectedGlobalItems', allSelectedIPs);
                 } else if (!selectedItem && assignments[j].state) {
                     component.set('v.selectedItem', assignments[j].value);
 
                     var allSelectedIPs = component.get('v.selectedGlobalItems');
                     allSelectedIPs[assignments[j].value].add(component.get('v.item').ss.Id);
-                    console.log('ADD: ' + JSON.stringify(Array.from(allSelectedIPs[assignments[j].value])));
                     component.set('v.selectedGlobalItems', allSelectedIPs);
                 }
             }
@@ -75,12 +69,10 @@
         }
         item.emptyAssignments = asgCount === 0;
         component.set('v.item', item);
-        if (parent && parent.doSave && parent.refresh) {
-            parent.doSave();
-            //parent.refresh();
-            //$A.enqueueAction('c.doInit');
-        }
 
+        if (parent && parent.doSave) {
+            parent.doSave();
+        }
     },
 
     sscRadioStateChange: function (component, event, helper) {

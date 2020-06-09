@@ -8,9 +8,7 @@
         component.set('v.ssItems', searchResponse.studySiteItems);
         component.set('v.pagination', searchResponse.pagination);
         component.set('v.incentivePlans', searchResponse.incentivePlans);
-        //console.log('pagination' + JSON.stringify(searchResponse.pagination));
-        //console.log('incentivePlans' + JSON.stringify(searchResponse.incentivePlans));
-        //console.log('ssItems' + JSON.stringify(searchResponse.studySiteItems));
+
         let setOfSS = new Set();
         if (component.get('v.setOfSS')) {
             setOfSS = component.get('v.setOfSS');
@@ -22,7 +20,6 @@
         component.set('v.setOfSS', setOfSS);
 
         if (!component.get('v.initilizedMap')) {
-            console.log('INC INIT');
             var allSelectedIPs = {};
             if (component.get('v.allSelectedIPs')) {
                 allSelectedIPs = component.get('v.allSelectedIPs');
