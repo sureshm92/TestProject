@@ -276,31 +276,11 @@ public without sharing class NotificationService {
             }
         }
     
-        //Update initial send results
-        new ToolingAPI_ExecuteAnonymous(
-                ActionExecutor.generateCodeExecutionForAnonymous(new Action_UpdateSendResults(sendResultService))
-        ).execute();
-    
+        sendResultService.updateResults();
         //Send emails:
-        if (!emailNotifications.isEmpty()) {
-            new ToolingAPI_ExecuteAnonymous(
-                    ActionExecutor.generateCodeExecutionForAnonymous(new Action_SendEmail(emailNotifications, orgWideEmailByNotifyMap))
-            ).execute();
-        }
-        
-        //Send SMS:
-        if (!smsNotifications.isEmpty()) {
-            new ToolingAPI_ExecuteAnonymous(
-                    ActionExecutor.generateCodeExecutionForAnonymous(new Action_SendSMS(smsNotifications))
-            );
-        }
-        
-        //Send Push:
-        if (!pushNotifications.isEmpty()) {
-            new ToolingAPI_ExecuteAnonymous(
-                    ActionExecutor.generateCodeExecutionForAnonymous(new Action_SendPush(pushNotifications))
-            ).execute();
-        }
+        if (!emailNotifications.isEmpty()) EmailService.send(emailNotifications, orgWideEmailByNotifyMap);
+        //
+        new ActionChain(new Action_SendSMS(smsNotifications)).next(new Action_SendPush(pushNotifications)).runChain();
     }
 
 }
