@@ -10933,6 +10933,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>New Patient</value>
     </labels>
     <labels>
+										
+								  
+									
+														
+						 
+			 
+			
         <fullName>PG_Ref_L_One_Incentive_Many_Incentives</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12013,6 +12020,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Add Profile Photo</value>
     </labels>
     <labels>
+	<fullName>PP_Condition_of_Interest_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Condition of Interest title</shortDescription>
+        <value>Conditions of Interest</value>
+    </labels>
+    <labels>	
         <fullName>PP_Cookie_Settings</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -12020,6 +12034,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Cookie Settings</value>
     </labels>
     <labels>
+	<fullName>PP_Customize_Exp_Description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Customize Exp Description</shortDescription>
+        <value>Select up to 5 medical conditions related to your diagnosis, to help us prioritize the content that we display to you.</value>
+    </labels>
+    <labels>	
         <fullName>PP_Customize_Experience</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -12027,6 +12048,20 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Customize Experience</value>
     </labels>
     <labels>
+	<fullName>PP_Customize_footer_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Customize footer message</shortDescription>
+        <value>Please select up to 5 conditions of interest</value>
+    </labels>
+    <labels>
+        <fullName>PP_Customize_search_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Customize search text</shortDescription>
+        <value>Search</value>
+    </labels>
+    <labels>	
         <fullName>PP_File_Size_Exceeded</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -12164,6 +12199,7 @@ communications using the toggles below.</value>
 		<fullName>PP_VPC_SS_Empty_VP</fullName>
 								  
         <language>en_US</language>									<protected>false</protected>
+									
         <shortDescription>PP VPC SS Empty VP</shortDescription>
         <value>Some of the Study Sites do not have a Visit plan. Ensure each Study Site has at least one Visit plan assigned.</value>
     </labels>

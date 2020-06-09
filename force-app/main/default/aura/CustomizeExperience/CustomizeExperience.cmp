@@ -36,11 +36,17 @@
     <!--<aura:handler name="change" value="{!v.displayedItems}" action="{!c.doInit}"/>-->
    <!--<aura:handler name="change" value="{!v.showmenu}" action="{!c.doInit}"/>-->
     <div style="width: 600px;">
+    <div class="as-title"><b>{!$Label.c.PP_Condition_of_Interest_title}</b></div>
+		
+        <div class="section-description">  {!$Label.c.PP_Customize_Exp_Description}</div>
+        <br/>
+        <div class="alert-count-condition1">{!$Label.c.PP_Condition_of_Interest_title}</div>
         <lightning:input onchange="{!c.bulkSearch}" aura:id="searchInput" type="search" name="search" label=""
-                         variant="label-hidden" placeholder="{!$Label.c.PG_SCOI_L_Search_for_Condition}"/>
+                         variant="label-hidden" placeholder="{!$Label.c.PP_Customize_search_text}"/>
         <div class="alert-count-condition">
-            {!$Label.c.PG_SCOI_L_You_may_only_select}
+            {!$Label.c.PP_Customize_footer_message}
         </div>
+        <br/>
         <aura:if isTrue="{!v.showmenu}">
         <div class="table-scroll" aura:id="scrolllist">
             <table aria-multiselectable="true"
@@ -88,7 +94,7 @@
                
              </tbody>
         </aura:if>
-        <br/><br/>
+        <br/>
     <div class="slds-col slds-size_1-of-1 as-buttons-footer">
     <lightning:button variant="brand" label="{!$Label.c.PP_Save_Changes}" title="" onclick="{! c.doSave }" class="slds-button slds-button_brand apollo-btn primary"/> 
     </div> 
