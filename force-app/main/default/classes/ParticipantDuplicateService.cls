@@ -110,6 +110,7 @@ public without sharing class ParticipantDuplicateService {
                 FROM Participant__c
                 WHERE Email__c IN :emails OR Phone__c IN :phones OR Day_of_Birth__c IN :birthDates OR ZIP_Code__c IN :zipCodes
         ];
+        Map<Id, Participant__c> participantsByIds = new Map<Id, Participant__c>(existedParticipants);
 
         Map<String, Participant__c> participantsByEmailMap = new Map<String, Participant__c>();
         Map<String, Participant__c> participantsByPhoneMap = new Map<String, Participant__c>();
@@ -164,6 +165,25 @@ public without sharing class ParticipantDuplicateService {
                 dobContacts.add(contact);
                 contactsByDoBMap.put(contact.Birthdate, dobContacts);
             }
+        }
+
+        //Find Participant Delegates
+        List<Patient_Delegate__c> patientDelegates = [
+                SELECT Id, Participant__c, Contact__c
+                FROM Patient_Delegate__c
+                WHERE Participant__c IN :participantsByIds.keySet() AND
+                Status__c != :PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS ORDER BY LastModifiedDate DESC, Status__c];
+        Map<Id, Id> delegateContactIdsByPatientIds = new Map<Id, Id>();
+        for (Patient_Delegate__c pt : patientDelegates) {
+            if (!delegateContactIdsByPatientIds.containsKey(pt.Participant__c)) delegateContactIdsByPatientIds.put(pt.Participant__c, pt.Contact__c);
+        }
+        List<Participant__c> delegateParticipants = [
+                SELECT Id, First_Name__c, Last_Name__c, Email__c, Phone__c, Day_of_Birth__c, Birth_Year__c, Date_of_Birth__c, Secondary_Source__c, ZIP_Code__c, Mailing_Zip_Postal_Code__c
+                FROM Participant__c
+                WHERE Contact__c IN :delegateContactIdsByPatientIds.values()];
+        Map<Id, Participant__c> delegatesByContactIds = new Map<Id, Participant__c>();
+        for (Participant__c delegate : delegateParticipants) {
+            delegatesByContactIds.put(delegate.Contact__c, delegate);
         }
 
         for (ParticipantWithDelegate partWithDelegate : partsWithDelegates) {
@@ -229,10 +249,18 @@ public without sharing class ParticipantDuplicateService {
                     if (!participantsByDoBExist) {
                         for (Participant__c dupParticipant : participantsByDoB) {
                             if (dupParticipant != null && dupParticipant.Last_Name__c != null && dupParticipant.Last_Name__c == participant.Last_Name__c) {
+                                Participant__c dupParticipantDelegate;
+                                if (delegateContactIdsByPatientIds.containsKey(dupParticipant.Id)) {
+                                    dupParticipantDelegate = delegatesByContactIds.get(delegateContactIdsByPatientIds.get(dupParticipant.Id));
+                                }
+                                Boolean isDupParticipantDelegateCoincide = dupParticipantDelegate != null &&
+                                        (dupParticipantDelegate.Email__c != null && paticipantInfoToCheck.Email__c != null && dupParticipantDelegate.Email__c.toLowerCase() == paticipantInfoToCheck.Email__c.toLowerCase() ||
+                                        dupParticipantDelegate.Phone__c != null && dupParticipantDelegate.Phone__c == paticipantInfoToCheck.Phone__c);
                                 if (dupParticipant.Email__c != null && paticipantInfoToCheck.Email__c != null && dupParticipant.Email__c.toLowerCase() == paticipantInfoToCheck.Email__c.toLowerCase() ||
                                         dupParticipant.Phone__c != null && dupParticipant.Phone__c == paticipantInfoToCheck.Phone__c ||
                                         dupParticipant.ZIP_Code__c != null && dupParticipant.ZIP_Code__c == participant.ZIP_Code__c ||
-                                        dupParticipant.Mailing_Zip_Postal_Code__c != null && dupParticipant.Mailing_Zip_Postal_Code__c == participant.Mailing_Zip_Postal_Code__c) {
+                                        dupParticipant.Mailing_Zip_Postal_Code__c != null && dupParticipant.Mailing_Zip_Postal_Code__c == participant.Mailing_Zip_Postal_Code__c ||
+                                        isDupParticipantDelegateCoincide) {
                                     if (dupParticipant.First_Name__c != null && dupParticipant.First_Name__c == participant.First_Name__c) {
                                         duplicate = new DuplicateContainer(dupParticipant);
                                     }
