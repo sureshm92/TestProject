@@ -41,8 +41,7 @@
         let helper = this;
         let ssItemsJSON = null;
         if (saveCurrentState) ssItemsJSON = JSON.stringify(component.get('v.ssItems'));
-        console.log('upd filter: ' + JSON.stringify(component.get('v.filter')));
-        console.log('upd pagination: ' + JSON.stringify(component.get('v.pagination')));
+
         communityService.executeAction(component, 'getItems', {
             ssItemsJSON: ssItemsJSON,
             filterJSON: JSON.stringify(component.get('v.filter')),
