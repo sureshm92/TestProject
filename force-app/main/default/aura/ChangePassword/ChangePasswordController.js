@@ -29,14 +29,37 @@
         })
     },
     togglePassword: function (component, event, helper) {
-        component.set("v.showPasswordInput", false);
-        component.set("v.showPassword", !component.get("v.showPassword"));
-        if(component.get("v.iconColor") === "#999999") {
-            component.set("v.iconColor", "#297dfd");
-        } else {
-            component.set("v.iconColor", "#999999");
+        
+        var id = event.currentTarget.id;
+        if(id=='1'){
+            component.set("v.showPasswordInput1", false)
+            component.set("v.showPassword1", !component.get("v.showPassword1"));
+            if(component.get("v.iconColor1") === "#999999") {
+                component.set("v.iconColor1", "#297dfd");
+            } else {
+                component.set("v.iconColor1", "#999999");
+            }
+            component.set("v.showPasswordInput1", true);
+        }else if(id=='2'){
+            component.set("v.showPasswordInput2", false)
+            component.set("v.showPassword2", !component.get("v.showPassword2"));
+            if(component.get("v.iconColor2") === "#999999") {
+                component.set("v.iconColor2", "#297dfd");
+            } else {
+                component.set("v.iconColor2", "#999999");
+            }
+            component.set("v.showPasswordInput2", true);
+        }else if(id=='3'){
+            component.set("v.showPasswordInput3", false)
+            component.set("v.showPassword3", !component.get("v.showPassword3"));
+            if(component.get("v.iconColor3") === "#999999") {
+                component.set("v.iconColor3", "#297dfd");
+            } else {
+                component.set("v.iconColor3", "#999999");
+            }
+            component.set("v.showPasswordInput3", true);
         }
-        component.set("v.showPasswordInput", true);
+        
     },
      doChangePassword: function (component, event, helper) {
         component.set('v.showSpinner', true);
