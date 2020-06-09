@@ -58,14 +58,11 @@
     columnCheckboxStateChange: function (component, event, helper) {
         let ipId = component.get('v.ipId');
         let state = component.get('v.state');
+
         let haveSelecteAll = false;
         let allSelectedIPs = component.get('v.allSelectedIPs');
-
         for (const incenitvePlan in allSelectedIPs) {
-            if (allSelectedIPs[incenitvePlan] && allSelectedIPs[incenitvePlan].size > 0 && incenitvePlan !== ipId) {
-                console.log('allSelectedIPs[incenitvePlan]: ' + JSON.stringify(Array.from(allSelectedIPs[incenitvePlan])));
-                haveSelecteAll = true;
-            }
+            haveSelecteAll = haveSelecteAll || allSelectedIPs[incenitvePlan] && allSelectedIPs[incenitvePlan].size && incenitvePlan !== ipId;
         }
 
         if (!haveSelecteAll || !state) {
@@ -79,16 +76,11 @@
             }, function (searchResponse) {
                 helper.setSearchResponse(component, searchResponse);
                 if (state) {
-                    component.set('v.selectedIP', ipId);
                     let setOfSS = component.get('v.setOfSS');
-                    console.log('setOfSS: ' + JSON.stringify(Array.from(setOfSS)));
                     allSelectedIPs[ipId] = new Set(Array.from(setOfSS));
-                    console.log('ALL: ' + JSON.stringify(Array.from(allSelectedIPs[ipId])));
                     component.set('v.allSelectedIPs', allSelectedIPs);
                 } else {
-                    component.set('v.selectedIP', '');
                     allSelectedIPs[ipId].clear();
-                    console.log('CLEAR: ' + JSON.stringify(Array.from(allSelectedIPs[ipId])));
                     component.set('v.allSelectedIPs', allSelectedIPs);
                 }
                 component.find('warningModal').hide();
