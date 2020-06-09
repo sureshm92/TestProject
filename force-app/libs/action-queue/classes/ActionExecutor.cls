@@ -51,7 +51,17 @@ public with sharing class ActionExecutor {
         if(actionSetting == null) actionSetting = orgDefaultSetting;
         return actionSetting;
     }
-
+    
+    public static String generateCodeExecutionForAnonymous(Action action){
+        String actionJSON = JSON.serialize(action);
+        return 'ActionExecutor.execute(\'' + actionJSON + '\', ' + action.getType() + '.class).complete();';
+    }
+    
+    public static ExecutionResult execute(String actionJSON, Type actionType){
+        Action action = (Action)JSON.deserialize(actionJSON, actionType);
+        return execute(action);
+    }
+    
     public static ExecutionResult execute(Action action){
         Action__c act = new Action__c(
                 Type__c = action.getType().toString(),

@@ -277,9 +277,20 @@ public without sharing class NotificationService {
         }
         sendResultService.updateResults();
 
+        //Send emails:
         if (!emailNotifications.isEmpty()) EmailService.send(emailNotifications, orgWideEmailByNotifyMap);
-        if (!smsNotifications.isEmpty()) SMSService.sendQueueable(smsNotifications);
-        if (!pushNotifications.isEmpty()) ActionExecutor.executeAsync(new Action_SendPush(pushNotifications), Datetime.now());
+        //Send SMS async:
+        if (!smsNotifications.isEmpty()) {
+            new ToolingAPI_ExecuteAnonymous(
+                    ActionExecutor.generateCodeExecutionForAnonymous(new Action_SendSMS(smsNotifications))
+            );
+        }
+        //Send Push async:
+        if (!pushNotifications.isEmpty()) {
+            new ToolingAPI_ExecuteAnonymous(
+                    ActionExecutor.generateCodeExecutionForAnonymous(new Action_SendPush(pushNotifications))
+            ).execute();
+        }
         
     }
 
