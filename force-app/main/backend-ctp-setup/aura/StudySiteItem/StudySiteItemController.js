@@ -4,21 +4,21 @@
 
 ({
     doInit: function (component, event, helper) {
-        if (component.get('v.fromComponent') === 'Incentive') {
+        if (component.get('v.fromComponent') === 'Incentive' && !component.get('v.initilizedMap')) {
             let assignments = component.get('v.item.assignments');
             if (assignments) {
+                let allSelectedIPs = component.get('v.selectedGlobalItems');
                 for (var j = 0; j < assignments.length; j++) {
-                    if (assignments[j] && assignments[j].state && !component.get('v.selectedItem')) {
-                        component.set('v.selectedItem', assignments[j].value);
-
-                        let allSelectedIPs = component.get('v.selectedGlobalItems');
+                    if (assignments[j] && assignments[j].state) {
+                        if (!component.get('v.selectedItem')) {
+                            component.set('v.selectedItem', assignments[j].value);
+                        }
                         allSelectedIPs[assignments[j].value].add(component.get('v.item').ss.Id);
-                        component.set('v.selectedGlobalItems', allSelectedIPs);
-
-                        break;
                     }
                 }
+                component.set('v.selectedGlobalItems', allSelectedIPs);
             }
+            component.set('v.initilizedMap', true);
         }
     },
 
@@ -53,13 +53,13 @@
                 } else if (selectedItem && selectedItem === assignments[j].value && !assignments[j].state) {
                     component.set('v.selectedItem', '');
 
-                    let allSelectedIPs = component.get('v.selectedGlobalItems');
-                    allSelectedIPs[assignments[j].value].delete(component.get('v.item').ss.Id);
+                    var allSelectedIPs = component.get('v.selectedGlobalItems');
+                    allSelectedIPs[assignments[j].value].delete(component.get('v.item').ss.Id)
                     component.set('v.selectedGlobalItems', allSelectedIPs);
                 } else if (!selectedItem && assignments[j].state) {
                     component.set('v.selectedItem', assignments[j].value);
 
-                    let allSelectedIPs = component.get('v.selectedGlobalItems');
+                    var allSelectedIPs = component.get('v.selectedGlobalItems');
                     allSelectedIPs[assignments[j].value].add(component.get('v.item').ss.Id);
                     component.set('v.selectedGlobalItems', allSelectedIPs);
                 }
@@ -69,11 +69,10 @@
         }
         item.emptyAssignments = asgCount === 0;
         component.set('v.item', item);
-        if (parent && parent.doSave && parent.refresh) {
-            parent.doSave();
-            parent.refresh();
-        }
 
+        if (parent && parent.doSave) {
+            parent.doSave();
+        }
     },
 
     sscRadioStateChange: function (component, event, helper) {

@@ -12,8 +12,8 @@
                 new: '',
                 reNew: ''
             };
-            var numbers=/^\d{10}$/;
-            component.set('v.phonePattern', numbers);
+           // var numbers=/^\d{10}$/;
+           // component.set('v.phonePattern', numbers);
 
             component.set('v.initData', initData);
             component.set('v.contactChanged', initData.contactChanged);
@@ -153,7 +153,16 @@ if(component.get('v.personWrapper.mobilePhone')==''){
         component.set('v.personWrapper', personWrapper);
     },
     doCheckFieldsValidity: function(component, event, helper){
+        event.preventDefault();
+
         let personWrapper = component.get('v.personWrapper');
+        if(!personWrapper.gender || !personWrapper.firstName || !personWrapper.lastName || !personWrapper.dateBirth){
+            component.set('v.disableSave',true);
+ 
+        }else{
+            component.set('v.disableSave',false);
+ 
+        }
         if(personWrapper.mailingCC !== component.get('v.previousCC')) {
             let statesByCountryMap = component.get('v.statesByCountryMap');
             let states = statesByCountryMap[personWrapper.mailingCC];
@@ -202,36 +211,60 @@ if(component.get('v.personWrapper.mobilePhone')==''){
     ,
 
     doUpdatePerson: function (component, event, helper) {
+         
         var per=component.get('v.personWrapper');
-        var numbers=/^\d{10}$/;
-            if(!(per.mobilePhone.match(numbers)) && per.mobilePhone!=""){
-                        communityService.showToast('warning', 'warning', $A.get('$Label.c.PP_Valid_Phone'));
+        console.log(JSON.stringify(per));
+                var numbers=/^\d{10}$/;
+                console.log('perMob-->'+numbers.test(per.homePhone));
+                if(per.mobilePhone==="" || per.mobilePhone===null){
+                    var canSave="true";
 
+                }
+                else if((!numbers.test(per.mobilePhone)  && per.mobilePhone!=="")){
+                    communityService.showToast('warning', 'warning', $A.get('$Label.c.PP_Valid_Phone'));
+                    return;
+                }
+        if(per.homePhone==="" || per.homePhone===null){
+            var canSave="true";
+
+        }
+        else if((!numbers.test(per.homePhone)  && per.homePhone!=="")){
+            communityService.showToast('warning', 'warning', $A.get('$Label.c.PP_Valid_Phone'));
             return;
-            
-            }
-    else if(!(per.homePhone.match(numbers)) && per.homePhone!=""){
-                                communityService.showToast('warning', 'warning', $A.get('$Label.c.PP_Valid_Phone'));
-return;
-    
-    
-    }
-  
-       else{
-        component.find('spinner').show();
-        communityService.executeAction(component, 'updatePerson', {
-            wrapperJSON: JSON.stringify(component.get('v.personWrapper'))
-        }, function () {
-            component.set('v.participantHasUpdateTasks', false);
-            helper.setPersonSnapshot(component);
-            component.find('spinner').hide();
-            communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'));
 
-        });
+        }
+             /*   if((!numbers.test(per.mobilePhone)  && per.mobilePhone!=="")) {
+                    communityService.showToast('warning', 'warning', $A.get('$Label.c.PP_Valid_Phone'));
+                    return;
+               
+        
+        }
+        else if((!numbers.test(per.homePhone)  && per.homePhone!=="")){
+            communityService.showToast('warning', 'warning', $A.get('$Label.c.PP_Valid_Phone'));
+            return;
 
-       }
+        }*/
+        if(canSave==="true"){
+            component.find('spinner').show();
+
+
+            communityService.executeAction(component, 'updatePerson', {
+                wrapperJSON: JSON.stringify(component.get('v.personWrapper'))
+            }, function () {
+                component.set('v.participantHasUpdateTasks', false);
+               
+                helper.setPersonSnapshot(component);
+                component.find('spinner').hide();
+                communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'));
+    
+            });
+
+
+        }
       
-       
+      
+      
+
      
         let initData = component.get('v.initData');
         let newEmail = initData.myContact.Email;
@@ -254,7 +287,39 @@ return;
             component.set('v.showSpinner', false);
         })
     },
-
+    handleMobileValidation : function(component,event) {
+        var inputValue = event.getSource().get("v.value");
+        var phoneField=component.find('pField1');
+        console.log('phoneField-->'+phoneField);
+        console.log('inputValue-->'+inputValue);
+        var numbers=/^\d{10}$/;
+        if(inputValue===""){
+            phoneField.setCustomValidity("");  
+        }
+       if ((!numbers.test(inputValue)  && inputValue!=="")) {
+        phoneField.setCustomValidity("Phone number must be numeric");
+        } else {
+            phoneField.setCustomValidity(""); // reset custom error message
+        }
+        phoneField.reportValidity();
+    },
+    handleHomePhoneValidation:function(component,event) {
+        var inputValue = event.getSource().get("v.value");
+        var phoneField=component.find('pField2');
+        console.log('phoneField-->'+phoneField);
+        console.log('inputValue-->'+inputValue);
+        var numbers=/^\d{10}$/;
+        if(inputValue===""){
+            phoneField.setCustomValidity("");  
+        }
+       if ((!numbers.test(inputValue)  && inputValue!=="")) {
+        phoneField.setCustomValidity("Phone number must be numeric");
+        } else {
+            phoneField.setCustomValidity(""); // reset custom error message
+        }
+        phoneField.reportValidity();
+    },
+    
     doStateChanged: function (component, event, helper) {
         let snapShot = component.get('v.personSnapshot');
         let personWrapper = component.get('v.personWrapper');
