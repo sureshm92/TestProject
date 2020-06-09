@@ -16,7 +16,7 @@ controller="TrialMatchPageRemote">
     <lightning:layout horizontalAlign="center">
         <lightning:layoutItem size="12">
             <aura:if isTrue="{!v.initialized}">
-                <div class="trials-container side-padding">
+                <div class="trials-container side-padding backgroundprint">
                     <aura:iteration items="{!v.trialmatchCTPs}" var="trial">
                         <c:TrialMatchItem trialMatch="{!trial}" islearnmore="false"/>
                     </aura:iteration>
