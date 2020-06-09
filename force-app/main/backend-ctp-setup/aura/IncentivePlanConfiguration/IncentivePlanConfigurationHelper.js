@@ -8,14 +8,10 @@
         component.set('v.ssItems', searchResponse.studySiteItems);
         component.set('v.pagination', searchResponse.pagination);
         component.set('v.incentivePlans', searchResponse.incentivePlans);
-        console.log('pagination' + JSON.stringify(searchResponse.pagination));
-        console.log('incentivePlans' + JSON.stringify(searchResponse.incentivePlans));
-        console.log('ssItems' + JSON.stringify(searchResponse.studySiteItems));
-        var allSelectedIPs = {};
-        if (component.get('v.allSelectedIPs')) {
-            allSelectedIPs = component.get('v.allSelectedIPs');
-        }
-        var setOfSS = new Set();
+        //console.log('pagination' + JSON.stringify(searchResponse.pagination));
+        //console.log('incentivePlans' + JSON.stringify(searchResponse.incentivePlans));
+        //console.log('ssItems' + JSON.stringify(searchResponse.studySiteItems));
+        let setOfSS = new Set();
         if (component.get('v.setOfSS')) {
             setOfSS = component.get('v.setOfSS');
         }
@@ -23,13 +19,22 @@
             let item = searchResponse.studySiteItems[index];
             setOfSS.add(item.ss.Id);
         }
-        for (let index = 0; index < searchResponse.incentivePlans.length; index++) {
-            if (!allSelectedIPs[searchResponse.incentivePlans[index].value]) {
-                allSelectedIPs[searchResponse.incentivePlans[index].value] = new Set();
-            }
-        }
         component.set('v.setOfSS', setOfSS);
-        component.set('v.allSelectedIPs', allSelectedIPs);
+
+        if (!component.get('v.initilizedMap')) {
+            console.log('INC INIT');
+            var allSelectedIPs = {};
+            if (component.get('v.allSelectedIPs')) {
+                allSelectedIPs = component.get('v.allSelectedIPs');
+            }
+            for (let index = 0; index < searchResponse.incentivePlans.length; index++) {
+                if (!allSelectedIPs[searchResponse.incentivePlans[index].value]) {
+                    allSelectedIPs[searchResponse.incentivePlans[index].value] = new Set();
+                }
+            }
+            component.set('v.allSelectedIPs', allSelectedIPs);
+            component.set('v.initilizedMap', true);
+        }
 
         component.find('spinner').hide();
     },

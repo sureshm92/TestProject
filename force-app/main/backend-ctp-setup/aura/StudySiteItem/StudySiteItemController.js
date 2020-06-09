@@ -4,21 +4,22 @@
 
 ({
     doInit: function (component, event, helper) {
-        if (component.get('v.fromComponent') === 'Incentive') {
+        if (component.get('v.fromComponent') === 'Incentive' && !component.get('v.initilizedMap')) {
             let assignments = component.get('v.item.assignments');
             if (assignments) {
+                let allSelectedIPs = component.get('v.selectedGlobalItems');
                 for (var j = 0; j < assignments.length; j++) {
-                    if (assignments[j] && assignments[j].state && !component.get('v.selectedItem')) {
-                        component.set('v.selectedItem', assignments[j].value);
-
-                        let allSelectedIPs = component.get('v.selectedGlobalItems');
+                    if (assignments[j] && assignments[j].state) {
+                        if (!component.get('v.selectedItem')) {
+                            component.set('v.selectedItem', assignments[j].value);
+                        }
                         allSelectedIPs[assignments[j].value].add(component.get('v.item').ss.Id);
-                        component.set('v.selectedGlobalItems', allSelectedIPs);
-
-                        break;
+                        console.log('INIT: ' + JSON.stringify(Array.from(allSelectedIPs[assignments[j].value])));
                     }
                 }
+                component.set('v.selectedGlobalItems', allSelectedIPs);
             }
+            component.set('v.initilizedMap', true);
         }
     },
 
@@ -44,6 +45,7 @@
         var assignments = item.assignments;
         let parent = component.get('v.parent');
 
+
         for (var j = 0; j < assignments.length; j++) {
             if (isIncetive) {
                 let selectedItem = component.get('v.selectedItem');
@@ -53,14 +55,18 @@
                 } else if (selectedItem && selectedItem === assignments[j].value && !assignments[j].state) {
                     component.set('v.selectedItem', '');
 
-                    let allSelectedIPs = component.get('v.selectedGlobalItems');
-                    allSelectedIPs[assignments[j].value].delete(component.get('v.item').ss.Id);
+                    var allSelectedIPs = component.get('v.selectedGlobalItems');
+                    if (allSelectedIPs[assignments[j].value].delete(component.get('v.item').ss.Id)) {
+                        console.log('DELETED: ' + component.get('v.item').ss.Id);
+                    }
+                    console.log('DELETE: ' + JSON.stringify(Array.from(allSelectedIPs[assignments[j].value])));
                     component.set('v.selectedGlobalItems', allSelectedIPs);
                 } else if (!selectedItem && assignments[j].state) {
                     component.set('v.selectedItem', assignments[j].value);
 
-                    let allSelectedIPs = component.get('v.selectedGlobalItems');
+                    var allSelectedIPs = component.get('v.selectedGlobalItems');
                     allSelectedIPs[assignments[j].value].add(component.get('v.item').ss.Id);
+                    console.log('ADD: ' + JSON.stringify(Array.from(allSelectedIPs[assignments[j].value])));
                     component.set('v.selectedGlobalItems', allSelectedIPs);
                 }
             }
@@ -71,7 +77,8 @@
         component.set('v.item', item);
         if (parent && parent.doSave && parent.refresh) {
             parent.doSave();
-            parent.refresh();
+            //parent.refresh();
+            //$A.enqueueAction('c.doInit');
         }
 
     },
