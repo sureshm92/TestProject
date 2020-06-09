@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
-    <excludeButtons>RequestUseSfdc</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>true</customLabel>
@@ -348,6 +347,12 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>Notification_Type__c</fields>
+        <fields>Status__c</fields>
+        <fields>WhatId__c</fields>
+        <fields>IsDelegate__c</fields>
+        <fields>Action__c</fields>
+        <fields>CREATED_DATE</fields>
         <relatedList>Notification__c.Recipient__c</relatedList>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
