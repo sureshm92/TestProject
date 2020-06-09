@@ -8517,6 +8517,10 @@
         <tab>TravelVendor__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
+	<tabVisibilities>
+        <tab>Media_Outreach__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
     <tabVisibilities>
         <tab>Trial_Survey__c</tab>
         <visibility>DefaultOn</visibility>

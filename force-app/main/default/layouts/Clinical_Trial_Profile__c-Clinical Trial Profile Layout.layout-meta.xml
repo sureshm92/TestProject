@@ -27,6 +27,10 @@
                 <behavior>Required</behavior>
                 <field>CommunityTemplate__c</field>
             </layoutItems>
+			<layoutItems>
+                <behavior>Edit</behavior>
+                <field>Media_outreach_Provider__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
