@@ -12,6 +12,7 @@
 .THIS .resource-icon{
     margin-right: 12px;
     flex-shrink: 0;
+    height:20px;
 }
 
 .THIS .tm-title{
@@ -31,8 +32,8 @@
     font-size: 16px;
     overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;
     display: inline-block;
+    padding-right: 20px;
 }
 
 .THIS .trials-container{
@@ -41,7 +42,6 @@
 }
 
 .THIS .sdv-top-bar{
-    padding-top: 20px;
     z-index: 1250;
     position: relative;
 }

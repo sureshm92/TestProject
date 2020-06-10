@@ -36,6 +36,7 @@ public with sharing class ResStudyTriggerHandler {
                 WHERE Resource__r.document_type__c = 'Certificate'
                 AND Id IN :resStudyIds
                 AND Visible_To_Participant__c = TRUE
+                AND Notify_On_Availability__c = TRUE
         ]) {
             resStudies.add((Res_study__c) resStudy);
         }

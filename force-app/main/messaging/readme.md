@@ -26,7 +26,8 @@ in your message
 (PT - means Participant, HCP, PI or eRP) and shortly about topic) and then word **Email, SMS or Push** to indicate type of message
 - **Notification Type**:
 Choose that one you created previously to link them
-- **Message Body**: (only for SMS target type)
+- **Message Body**: (only for SMS and Push target type) Custom Label name (preferable!) or text    
+- **Title**: (only for Push target type) Custom Label name (preferable!) or text
 - **Email Template**: RP2_Patient_Accepted 
 (template name in the system)
 - **Email Template Delegate**: (if template for delegate has differences)  

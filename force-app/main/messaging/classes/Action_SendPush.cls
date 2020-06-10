@@ -33,7 +33,6 @@ public without sharing class Action_SendPush implements Action{
         Map<Id, Id> userByContactIdMap = new Map<Id, Id>();
         for(User user : users) userByContactIdMap.put(user.ContactId, user.Id);
         sendResultService = new NotificationResultService(notifications);
-        Map<String, String> messageByUserId = new Map<String, String>();
         ParametrizedMessageService parametrizedMessageService = new ParametrizedMessageService();
         for(Notification__c n : notifications){
             Notification_Type__mdt messageType = NotificationService.getNotificationType(n.Notification_Type__c);
@@ -105,6 +104,7 @@ public without sharing class Action_SendPush implements Action{
     }
     
     public void postDML(Action__c dbAction, Execution_History__c executionHistory) {
+        sendResultService.setAction(dbAction);
         sendResultService.updateResults();
     }
 }

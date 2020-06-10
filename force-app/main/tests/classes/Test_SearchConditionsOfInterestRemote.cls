@@ -1,9 +1,14 @@
 /**
  * Created by Yehor Dobrovolskyi
  */
-@IsTest(IsParallel=true)
-public with sharing class Test_SearchConditionsOfInterestRemote {
-
+@IsTest(IsParallel=false)
+public without sharing class Test_SearchConditionsOfInterestRemote {
+    @TestSetup
+    static void setup() {
+        Test.startTest();
+        TestDataFactory.createInitData();
+        Test.stopTest();
+    }
     @IsTest
     public static void searchConditionOfInterest_Test() {
         ClassFactory.clearStubTypesByClassNamesMap();
@@ -84,6 +89,69 @@ public with sharing class Test_SearchConditionsOfInterestRemote {
         try {
             SearchConditionsOfInterestRemote.deleteCOI(new List<Id>{
                     tap.Id
+            });
+        } catch (Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        System.assert(isExceptionThrown);
+    }
+
+    @IsTest
+    public static void getConditionOfInterest_Exception_Test() {
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(TherapeuticAreaService.class, StubBuilder.newInstance(TherapeuticAreaService.class)
+                .when('getParticipant')
+                .then(new AuraHandledException('Test Exception'))
+                .build()
+       );
+        Boolean isExceptionThrown = false;
+        Test.startTest();
+        try {
+            SearchConditionsOfInterestRemote.getConditionOfInterest();
+        } catch (Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        System.assert(isExceptionThrown);
+    }
+
+    @IsTest
+    public static void upsertListCoi_Test() {
+        Account account = (Account) TestDataFactory.getSObject(Account.getSObjectType(), new Map<String, Object>{
+                'Name' => CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
+        });
+        Participant__c participant = (Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType());
+        Therapeutic_Area__c ta = (Therapeutic_Area__c) TestDataFactory.getSObject(Therapeutic_Area__c.getSObjectType());
+        insert new List<SObject>{
+                account,
+                participant,
+                ta
+        };
+
+        Therapeutic_Area_Patient__c tap = (Therapeutic_Area_Patient__c) TestDataFactory.getSObject(Therapeutic_Area_Patient__c.getSObjectType(), new Map<String, Object>{
+                'Participant__c' => participant.Id,
+                'Therapeutic_Area__c' => ta.Id,
+                'Condition_Of_Interest_Order__c' => 0
+        });
+        Test.startTest();
+        List<Therapeutic_Area_Patient__c> taps = SearchConditionsOfInterestRemote.upsertListCoi(new List<Therapeutic_Area_Patient__c>{
+                tap
+        });
+        Test.stopTest();
+        System.assert(!taps.isEmpty());
+        System.assertNotEquals(null, taps[0].Id);
+
+    }
+
+    @IsTest
+    public static void upsertListCoi_Exception_Test() {
+        Therapeutic_Area_Patient__c tap = (Therapeutic_Area_Patient__c) TestDataFactory.getSObject(Therapeutic_Area_Patient__c.getSObjectType());
+        Boolean isExceptionThrown = false;
+        Test.startTest();
+        try {
+            List<Therapeutic_Area_Patient__c> taps = SearchConditionsOfInterestRemote.upsertListCoi(new List<Therapeutic_Area_Patient__c>{
+                    tap
             });
         } catch (Exception e) {
             isExceptionThrown = true;

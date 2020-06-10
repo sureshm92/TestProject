@@ -224,6 +224,11 @@ export default class EmailTestBoard extends LightningElement {
                 }));
             })
             .catch(error => {
+                this.dispatchEvent(new ShowToastEvent({
+                    title: '',
+                    message: 'Send error',
+                    variant: 'error'
+                }));
                 console.error('Send error', JSON.stringify(error));
             })
             .finally(() => {
