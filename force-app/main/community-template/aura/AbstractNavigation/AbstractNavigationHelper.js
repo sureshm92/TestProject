@@ -151,7 +151,8 @@
             participantTabs.push(this.allPagesMap['messages']);
         }
         if (communityService.getTrialMatchVisible()) {
-                if (communityService.getParticipantState() === 'PARTICIPANT') {
+            //PEH-2288: Check from the currentCommunityMode
+                if (communityService.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
                     participantTabs.push(this.allPagesMap['trial-match']);
                 }
         }

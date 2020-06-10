@@ -22,7 +22,6 @@ public abstract without sharing class ToolingAPIAbstract {
     public Object execute(){
         HttpRequest request = createRequest();
         request.setEndpoint(SALESFORCE_URL + endPointURL);
-        Http http = new Http();
         return sendRequest(request);
     }
     

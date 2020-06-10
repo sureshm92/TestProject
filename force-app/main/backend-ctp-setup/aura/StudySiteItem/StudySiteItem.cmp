@@ -13,6 +13,7 @@
     <aura:attribute name="fromComponent" type="String" default="Visit"/>
     <aura:attribute name="selectedItem" type="String"/>
     <aura:attribute name="selectedGlobalItems" type="Object"/>
+    <aura:attribute name="initilizedMap" type="Boolean" default="false"/>
 
     <aura:attribute name="showHelp" type="Boolean"/>
     <aura:attribute name="helpText" type="String" default="Help text stub"/>

@@ -2558,7 +2558,7 @@
 
             We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
 
-            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##CommunityName.
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##FullCommunityName.
 
             Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
@@ -6151,6 +6151,41 @@ Please log in to ##CommunityName to view this information.</value>
         <value>How many visits do I have left?</value>
     </labels>
     <labels>
+        <fullName>Message_Body_New_Data_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message Body New Data Push</shortDescription>
+        <value>New visit data is available for the ##StudyCodeName study. Please log in to the ##ShortCommName to view the latest visit data.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_Has_not_Login_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message Body for Has not Login Push</shortDescription>
+        <value>We haven't heard from you in a while. Please log in to the ##ShortCommName to view all the latest information on your clinical research study.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Certificate_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message Body for New Certificate Push</shortDescription>
+        <value>You have a new reward certificate from the ##StudyCodeName clinical research study available on the ##ShortCommName.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_Visit_Reminder_Del_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message Body for Visit Reminder Del Push</shortDescription>
+        <value>You have an upcoming visit with ##ParticipantFirstName for the ##StudyCodeName clinical research study. If they are unable to make this appointment, please contact the Study Team.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_Visit_Reminder_PT_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message Body for Visit Reminder PT Push</shortDescription>
+        <value>You have an upcoming visit for the ##StudyCodeName clinical research study. If you are unable to make this appointment, please contact the Study Team.</value>
+    </labels>
+    <labels>
         <fullName>Message_For_Delegates</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -7837,7 +7872,14 @@ Please log in to ##CommunityName to view this information.</value>
         <shortDescription>PG ASSR T Study Site Request Sent</shortDescription>
         <value>Study Site Request Sent</value>
     </labels>
-    <labels>
+	<labels>
+		<fullName>PG_AS_BTN_Save_Changes</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AS BTN Save Changes</shortDescription>
+        <value>Save Changes</value>
+    </labels>
+    <labels>	 
         <fullName>PG_AS_BTN_Save_Preference</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7894,6 +7936,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>This will be used to display study information when your other 2 choices are not available.</value>
     </labels>
     <labels>
+	<fullName>PG_AS_F_Current_Password</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_AS_F_Current_Password</shortDescription>
+        <value>Current Password</value>
+    </labels>
+    <labels>								  
         <fullName>PG_AS_F_Date_of_Birth</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8132,6 +8181,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Title</value>
     </labels>
     <labels>
+	<fullName>PG_AS_F_Update_Password</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_AS_F_Update_Password</shortDescription>
+        <value>Update Password</value>
+    </labels>
+    <labels>	 
         <fullName>PG_AS_F_Username</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8181,6 +8237,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Contact Preferences</value>
     </labels>
     <labels>
+	<fullName>PG_AS_H_Password_HelpText</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_AS_H_Password_HelpText</shortDescription>
+        <value>Password must have at least 8 characters and include at least one number or special character.</value>
+    </labels>
+    <labels>	 
         <fullName>PG_AS_H_Privacy_Rights</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9331,6 +9394,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Profile Information</value>
     </labels>
     <labels>
+	<fullName>PG_Login_H_Residence_Region</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG Login H Residence Region</shortDescription>
+        <value>Residence Region</value>
+    </labels>
+    <labels>													
         <fullName>PG_Login_H_Terms_And_Conditions</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9338,6 +9408,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Terms And Conditions</value>
     </labels>
     <labels>
+	<fullName>PG_Login_H_Time_Zone_and_Locale</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG Login H Time Zone and Locale</shortDescription>
+        <value>Time Zone and Locale</value>
+    </labels>
+    <labels>													
         <fullName>PG_Login_L_Forgot_your_password</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -10856,6 +10933,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>New Patient</value>
     </labels>
     <labels>
+										
+								  
+									
+														
+						 
+			 
+			
         <fullName>PG_Ref_L_One_Incentive_Many_Incentives</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11909,8 +11993,15 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Recipent will be approved to refer participants to the following investigators</value>
     </labels>
     <labels>
-        <fullName>PP_Account_Settings_Cookie_Description</fullName>
+    <fullName>PP_Account_Settings</fullName>
         <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Account Setting</shortDescription>
+        <value>Account Settings</value>
+    </labels>
+    <labels>											
+		<fullName>PP_Account_Settings_Cookie_Description</fullName>
+        <language>en_US</language>							
         <protected>false</protected>
         <shortDescription>PP Account Settings Cookie Description</shortDescription>
         <value>Some essential features on ##CommunityWelcome site just won&#39;t work
@@ -11922,6 +12013,69 @@ Please log in to ##CommunityName to view this information.</value>
             However &quot;Functional&quot; cookies can be turned on or off below.</value>
     </labels>
     <labels>
+	<fullName>PP_AddProfilePhoto</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AddProfilePhoto</shortDescription>
+        <value>Add Profile Photo</value>
+    </labels>
+    <labels>
+	<fullName>PP_Condition_of_Interest_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Condition of Interest title</shortDescription>
+        <value>Conditions of Interest</value>
+    </labels>
+    <labels>	
+        <fullName>PP_Cookie_Settings</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Cookie Settings</shortDescription>
+        <value>Cookie Settings</value>
+    </labels>
+    <labels>
+	<fullName>PP_Customize_Exp_Description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Customize Exp Description</shortDescription>
+        <value>Select up to 5 medical conditions related to your diagnosis, to help us prioritize the content that we display to you.</value>
+    </labels>
+    <labels>	
+        <fullName>PP_Customize_Experience</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Customize Experience</shortDescription>
+        <value>Customize Experience</value>
+    </labels>
+    <labels>
+	<fullName>PP_Customize_footer_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Customize footer message</shortDescription>
+        <value>Please select up to 5 conditions of interest</value>
+    </labels>
+    <labels>
+        <fullName>PP_Customize_search_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Customize search text</shortDescription>
+        <value>Search</value>
+    </labels>
+    <labels>	
+        <fullName>PP_File_Size_Exceeded</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_File_Size_Exceeded</shortDescription>
+        <value>File size cannot exceed 3MB.</value>
+    </labels>
+    <labels>
+        <fullName>PP_General_Info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_General_Info</shortDescription>
+        <value>General Information</value>
+    </labels>
+    <labels>							   
         <fullName>PP_HLP_T1_Feedback</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11978,13 +12132,85 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Please select your preferred language for Patient Portal. English will be displayed if a translation is not available for your preferred language.</value>
     </labels>
     <labels>
-        <fullName>PP_VPC_SS_Empty_VP</fullName>
+	<fullName>PP_Language_and_Location</fullName>
         <language>en_US</language>
-        <protected>false</protected>
+        <protected>true</protected>
+        <shortDescription>PP Language and Location</shortDescription>
+        <value>Language and Location</value>
+    </labels>
+    <labels>
+        <fullName>PP_MessagePatternMismatch</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MessagePatternMismatch</shortDescription>
+        <value>Phone number must be numeric.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Nickname</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Nickname</shortDescription>
+        <value>Nickname</value>
+    </labels>
+    <labels>
+        <fullName>PP_Password_Management</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Password Management</shortDescription>
+        <value>Password Management</value>
+    </labels>
+    <labels>
+        <fullName>PP_Prefix</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Prefix</shortDescription>
+        <value>Prefix</value>
+    </labels>
+    <labels>
+        <fullName>PP_Profile_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Profile Information</shortDescription>
+        <value>Profile Information</value>
+    </labels>
+    <labels>
+        <fullName>PP_Profile_Update_Success</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Profile_Update_Success</shortDescription>
+        <value>Your Profile Information Updated Successfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_Save_Changes</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Save_Changes</shortDescription>
+        <value>Save Changes</value>
+    </labels>
+    <labels>
+        <fullName>PP_Toggle_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Toggle_Information</shortDescription>
+        <value>Emails that notify you of required action,allow you to reset your password or inform you of important system updates will always be sent.Additionally you can choose to receive optional
+communications using the toggles below.</value>
+    </labels>
+    <labels>												 
+		<fullName>PP_VPC_SS_Empty_VP</fullName>
+								  
+        <language>en_US</language>									<protected>false</protected>
+									
         <shortDescription>PP VPC SS Empty VP</shortDescription>
         <value>Some of the Study Sites do not have a Visit plan. Ensure each Study Site has at least one Visit plan assigned.</value>
     </labels>
     <labels>
+		<fullName>PP_Valid_Phone</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Valid_Phone</shortDescription>
+        <value>Please enter a valid mobile number.</value>
+    </labels>
+    <labels>				 
         <fullName>PSC_Docs_will_be_published</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12321,6 +12547,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>You are about to deactivate ##Name from your account. Do you want to proceed?</value>
     </labels>
     <labels>
+	<fullName>Phone_Type</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Phone Type</shortDescription>
+        <value>Phone Type</value>
+    </labels>
+    <labels>			   
         <fullName>Phone_Type_Home</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -13951,6 +14184,34 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>false</protected>
         <shortDescription>Systolic Blood Pr Description</shortDescription>
         <value>Systolic blood pressure is a measure of how hard your blood is pushed against the walls of the arteries when the heart is beating and pushing out blood.</value>
+    </labels>
+    <labels>
+        <fullName>Title_new_Certificate_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for new_Certificate Push</shortDescription>
+        <value>New gift certificate</value>
+    </labels>
+    <labels>
+        <fullName>Title_Has_Not_Login_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for has not Login Push</shortDescription>
+        <value>We miss you</value>
+    </labels>
+    <labels>
+        <fullName>Title_new_visit_data_push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for new visit data push</shortDescription>
+        <value>New visit data</value>
+    </labels>
+    <labels>
+        <fullName>Title_Visit_Reminder_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for Visit Reminder Push</shortDescription>
+        <value>Visit reminder</value>
     </labels>
     <labels>
         <fullName>TST_Complete_Your_Question</fullName>

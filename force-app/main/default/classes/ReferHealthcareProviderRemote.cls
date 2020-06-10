@@ -93,7 +93,6 @@ global without sharing class ReferHealthcareProviderRemote {
     @AuraEnabled
     public static HealthcareProvider checkDuplicate(String peId, String email, String firstName, String lastName, String participantId) {
         HealthcareProvider hp = new HealthcareProvider();
-        hp.email = email;
         if (!String.isBlank(email)) {
             String contactQuery = 'SELECT Id, FirstName, LastName, Name, Email, Phone,  userCommunytyType__c FROM Contact WHERE (Email = \'' + String.escapeSingleQuotes(email) + '\''
                     + ' OR Email = \'' + String.escapeSingleQuotes(email.toLowerCase()) + '\')';
@@ -177,6 +176,7 @@ global without sharing class ReferHealthcareProviderRemote {
                 }
             } else {
                 hp.contactId = null;
+                hp.isDuplicateDelegate = false;
                 //hp.isDuplicate = contacts[0].get('userCommunytyType__c') != null && contacts[0].userCommunytyType__c.contains('HCP');
             }
         }
