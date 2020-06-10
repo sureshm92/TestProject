@@ -20,8 +20,8 @@ public without sharing class ActionChain implements Queueable{
     }
     
     public void execute(QueueableContext qc) {
-        ActionExecutor.execute(action);
-        System.enqueueJob(next);
+        ActionExecutor.execute(action).complete();
+        if(next != null) System.enqueueJob(next);
     }
     
     public void runChain(){
