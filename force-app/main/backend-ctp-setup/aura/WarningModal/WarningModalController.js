@@ -2,7 +2,6 @@
 	doShow: function (component, event) {
 		var params = event.getParam('arguments');
 		component.set('v.textBody', params.textBody);
-		component.set('v.changeCheckBox', params.changeCheckBox);
 		component.find('shareModal').show();
 	},
 
