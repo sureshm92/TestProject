@@ -69,7 +69,8 @@
     component.set('v.isSaveList', !component.get('v.isSaveList'));
     var self=this;
     self.saveCOIs(component,event,helper);
-    $A.get('e.force:refreshView').fire();
+    //component.find('displayeditm').refresh();
+    communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'));
     },
     saveCOIs: function (component,event,helper) {
     try{
