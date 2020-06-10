@@ -85,13 +85,7 @@ public with sharing class Action_SendSMS implements Action{
             executionHistory.Integration_Log__c = log.Id;
             update executionHistory;
         }
-        List<Notification__c> notifications = new List<Notification__c>();
-        for(Id notificationId : notificationIds){
-            Id actionId = null;
-            if(dbAction.Status__c != ActionExecutor.ACTION_STATUS_COMPLETED) actionId = dbAction.Id;
-            notifications.add(new Notification__c(Id = notificationId, Action__c = actionId));
-        }
-        if(notifications.size() > 0) update notifications;
+        sendResultService.setAction(dbAction);
         sendResultService.updateResults(log);
     }
     

@@ -49,7 +49,7 @@ public without sharing class CommunityModeService {
     private static List<CommunityMode> getParticipantModes(){
         List<CommunityMode> modes = new List<CommunityMode>();
         List<Participant__c> userParticipants = [
-                SELECT Id, First_Name__c, Last_Name__c, Contact__c
+                SELECT Id, First_Name__c, Last_Name__c, Contact__c, Contact__r.Landing_Community__c
                 FROM Participant__c
                 WHERE Contact__c =: CommunityService.getInstance().getCurrentContactId() LIMIT 1
         ];
@@ -77,13 +77,16 @@ public without sharing class CommunityModeService {
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(userParticipant.Id);
             List<Participant_Enrollment__c> pastPEList = pePastMap.get(userParticipant.Id);
             Boolean hasPastStudies = pastPEList != null && pastPEList.size() > 0;
-
+            //PEH-2038: For prospect view check the Landing_Community__c
+            CommunityTemplate initTemplate =  !String.isBlank(userParticipant.Contact__r.Landing_Community__c) ? 
+            		CommunityTemplateService.getTemplateByCommunityName(userParticipant.Contact__r.Landing_Community__c) : 
+            		CommunityTemplateService.getTemplateByCommunityName(UserContext.getCurrentCommunityName());
             CommunityMode mode = new CommunityMode(
                     USER_MODE_PARTICIPANT,
                     userParticipant.First_Name__c + ' ' + userParticipant.Last_Name__c,
                     null,
                     null,
-                    CommunityTemplateService.getTemplateByCommunityName(UserContext.getCurrentCommunityName())
+                    initTemplate
             );
             mode.hasPastStudies = hasPastStudies;
             modes.add(mode);
@@ -139,7 +142,6 @@ public without sharing class CommunityModeService {
     
     private static CommunityMode findMode(String key, List<CommunityMode> modes){
         for(CommunityMode communityMode : modes){
-            if( ( communityMode.participantState == 'ALUMNI' ) && ( communityMode.subModes.isEmpty() ) )  return communityMode; 
             if(!communityMode.isGroup && communityMode.key == key && !communityMode.isSplitter){
                 return communityMode;
             }
@@ -234,9 +236,4 @@ public without sharing class CommunityModeService {
         }
         return resMap;
     }
- 
-
-
-
-
 }

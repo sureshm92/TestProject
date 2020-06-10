@@ -68,3 +68,5 @@
 6. **REF-1441 & REF-1550** Activate the process builder. Go to Setup > Process Builder > Select Create Task For OutReach User > Click on Activate
 
 7. **REF-1441 & REF-1550** Publish the community. Setup > All Communities > Click on the Builder of IQVIA Referal Hub > Once the builder opens click on Publish
+
+8. **PEH-2202** Go to Developer Console > Debug > Open execute Anonymous > Insert Batch_UpdateCTPShortCommNameField.run(); > Execute

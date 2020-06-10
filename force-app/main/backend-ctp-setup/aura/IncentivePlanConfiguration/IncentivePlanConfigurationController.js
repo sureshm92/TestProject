@@ -58,26 +58,13 @@
     columnCheckboxStateChange: function (component, event, helper) {
         let ipId = component.get('v.ipId');
         let state = component.get('v.state');
+
         let haveSelecteAll = false;
         let allSelectedIPs = component.get('v.allSelectedIPs');
         for (const incenitvePlan in allSelectedIPs) {
-            haveSelecteAll = haveSelecteAll || (allSelectedIPs[incenitvePlan] && allSelectedIPs[incenitvePlan].size);
-            console.log('HAVESELECT', haveSelecteAll);
+            haveSelecteAll = haveSelecteAll || allSelectedIPs[incenitvePlan] && allSelectedIPs[incenitvePlan].size && incenitvePlan !== ipId;
         }
-        console.log('HAVESELECTPEREDIF', haveSelecteAll);
-        if (haveSelecteAll) {
-            haveSelecteAll = false;
-            for (const incenitvePlan in allSelectedIPs) {
-                if (allSelectedIPs[incenitvePlan].size != 0 && allSelectedIPs[incenitvePlan] != allSelectedIPs[ipId]) {
-                    haveSelecteAll = true;
-                    console.log('Pervoe uslo', allSelectedIPs[incenitvePlan].size != 0);
-                    console.log('Vtoroe uslo', allSelectedIPs[incenitvePlan] != allSelectedIPs[ipId]);
-                }
-            }
 
-        }
-        console.log('HAVESELECTPOOSLE', haveSelecteAll);
-        console.log('HAVESELECT2', JSON.parse(JSON.stringify(allSelectedIPs[ipId])));
         if (!haveSelecteAll || !state) {
             component.find('spinner').show();
             communityService.executeAction(component, 'setIncentivePlanForAll', {
@@ -89,11 +76,10 @@
             }, function (searchResponse) {
                 helper.setSearchResponse(component, searchResponse);
                 if (state) {
-                    component.set('v.selectedIP', ipId);
-                    allSelectedIPs[ipId] = component.get('v.setOfSS');
+                    let setOfSS = component.get('v.setOfSS');
+                    allSelectedIPs[ipId] = new Set(Array.from(setOfSS));
                     component.set('v.allSelectedIPs', allSelectedIPs);
                 } else {
-                    component.set('v.selectedIP', '');
                     allSelectedIPs[ipId].clear();
                     component.set('v.allSelectedIPs', allSelectedIPs);
                 }

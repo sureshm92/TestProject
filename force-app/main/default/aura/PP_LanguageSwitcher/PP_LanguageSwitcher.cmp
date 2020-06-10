@@ -1,0 +1,139 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+ <aura:component description="LanguageSwitcher" controller="PP_LanguageSwitcherRemote">
+
+    <!-- attributes: -->
+    <aura:attribute name="languageKey" type="String"/>
+	<aura:attribute name="countryKey" type="String"/>
+	<aura:attribute name="stateKey" type="String"/>
+    <aura:attribute name="secondLangKey" type="String"/>
+    <aura:attribute name="thirdLangKey" type="String"/>
+    <aura:attribute name="languages" type="LabelValueItem[]"/>
+	<aura:attribute name="countries" type="LabelValueItem[]"/>
+	<aura:attribute name="states" type="LabelValueItem[]"/>
+    <aura:attribute name="optionalLanguages" type="LabelValueItem[]"/>
+    <aura:attribute name="localeKey" type="String"/>
+    <aura:attribute name="locales" type="LabelValueItem[]"/>
+    <aura:attribute name="timezoneKey" type="String" />
+    <aura:attribute name="timezones" type="LabelValueItem[]" />
+    <aura:attribute name="initialized" type="Boolean" default="false"/>
+	<aura:attribute name="personWrapper" type="Object"/>
+    <!--country section-->
+	<aura:attribute name="statesByCountryMap" type="Map"/>
+	<aura:attribute name="userMode" type="String"/>
+    <aura:attribute name="contactSectionData" type="Object"/>
+    <aura:attribute name="countriesLVList" type="LabelValueItem[]"/>
+    <aura:attribute name="statesLVList" type="LabelValueItem[]"/> 
+    
+    <aura:attribute name="isDelegate" type="Boolean"/>
+    
+    <aura:attribute name="previousCC" type="String"/>
+    <aura:attribute name="personSnapshot" type="String"/>
+    <aura:attribute name="isStateChanged" type="Boolean"/>
+    <aura:attribute name="reRender" type="Boolean" default="true"/>
+	
+	
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+
+    <!-- component body -->
+    <div style="padding-top: 10px">
+         <div style="width:840px;">
+        <div class="as-container">
+        <c:RRSpinner size="medium" aura:id="spinner" fixed="true"/>
+        <div class="as-title"><b>{!$Label.c.PG_Login_H_Language_Options}</b></div>
+		
+        <div class="section-description">  {!$Label.c.PG_Login_H_Language_Description}</div>
+		
+        <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end language-switcher" style="position: relative; padding-top:12px;">
+           
+		    <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4"> 
+                <div class="label slds-size_2-of-4" >{!$Label.c.PG_AS_F_Preferred_Language}
+                    <span>
+                        <lightning:helptext content="{!$Label.c.PG_AS_F_Preferred_Language_Help_Text}"/>
+                    </span>
+                </div>
+                <c:rrSelect options="{!v.languages}" value="{!v.languageKey}" disabled="{!!v.initialized}" class="ls-select" useSentenceFont="{!false}"/>
+            </div> 
+		    <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4"/> 
+			
+            
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                <div class="label">{!$Label.c.PG_AS_F_2nd_Choice_Language}
+                    <span>
+                        <lightning:helptext content="{!$Label.c.PG_AS_F_2nd_Choice_Language_Help_Text}"/>
+                    </span>
+                </div>
+                <c:rrSelect options="{!v.optionalLanguages}" value="{!v.secondLangKey}" disabled="{!!v.initialized}" class="ls-select" useSentenceFont="{!false}"/>
+            </div>
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                <div class="label">{!$Label.c.PG_AS_F_3rd_Choice_Language}
+                    <span>
+                        <lightning:helptext content="{!$Label.c.PG_AS_F_3rd_Choice_Language_Help_Text}"/>
+                    </span>
+                </div>
+                <c:rrSelect options="{!v.optionalLanguages}" value="{!v.thirdLangKey}" disabled="{!!v.initialized}" class="ls-select" useSentenceFont="{!false}"/>
+            </div>
+        </div>
+
+        <br/>
+
+        <div class="as-title"><b>{!$Label.c.PG_Login_H_Time_Zone_and_Locale}</b></div>
+        <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end language-switcher" style="position: relative; padding-top:12px;">
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4">
+                <div class="label">{!$Label.c.PG_AS_F_Preferred_Timezone}</div>
+                <c:rrSelect options="{!v.timezones}" value="{!v.timezoneKey}" disabled="{!!v.initialized}" class="ls-select" useSentenceFont="{!false}"/>
+            </div>
+			<div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4"/>
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4">
+                <div class="label">{!$Label.c.PG_AS_F_Locale_For_Date_Format}</div>
+                <c:rrSelect options="{!v.locales}" value="{!v.localeKey}" disabled="{!!v.initialized}" class="ls-select" useSentenceFont="{!false}"/>
+            </div>
+			<div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4"/>
+        </div>
+
+        <br/>
+		
+        <!-- Country Section-->
+        <aura:if isTrue="{!v.userMode == 'Participant'}">
+
+		<div class="as-title"><b>{!$Label.c.PG_Login_H_Residence_Region}</b></div>
+			<div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end language-switcher" style="position: relative; padding-top:12px;">
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Institute_Country}</div>
+				<c:rrSelect aura:id="countryList" id="countryList" options="{!v.countries}" value="{!v.countryKey}" disabled="{!!v.initialized}"  onchange="{!c.updateStates}" class="ls-select" useSentenceFont="{!false}" />
+                <!-- <c:rrInput valueString="{!v.personWrapper.mailingCountry}" disabled="false"/> -->
+				</div>
+				
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Institute_State}</div>
+				<c:rrSelect  aura:id="stateList" id="stateList" options="{!v.states}" value="{!v.stateKey}" disabled="{!!v.initialized}" class="ls-select" useSentenceFont="{!false}"/> 
+				<!-- <lightning:select name="stateList" aura:id="stateList" onchange="{!c.change}">
+					<aura:iteration items="{!v.states}" var="st">
+					<option value="{!st.value}">{!st.label}</option>
+					</aura:iteration>
+				</lightning:select> -->
+                <!-- <c:rrInput valueString="{!v.personWrapper.mailingState}" disabled="false"/> -->
+            </div>
+
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Institute_Zip_Postal_Code}</div>
+                <c:rrInput aura:id="zipcode" id="zipcode" valueString="{!v.personWrapper.zip}" disabled="false"/>
+            </div>
+        </div>
+            
+
+            
+        </aura:if>
+    
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
+            <button class="apollo-btn secondary" id="0" onclick="{!c.doChangeLanguage}">{!$Label.c.PG_AS_BTN_Save_Changes}</button>
+        </div>
+
+    </div>
+	 </div>
+    </div>
+</aura:component>

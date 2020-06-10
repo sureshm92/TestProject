@@ -4,6 +4,7 @@
 
 <apex:component id="ParagraphText" controller="ParagraphController" access="global">
     <apex:attribute name="emailLabel" type="String" assignTo="{!labelName}" description="" access="global"/>
+    <apex:attribute name="outputType" assignTo="{!outputMode}" type="String" description="" default="Text"/>
 
     {!labelValue}
 </apex:component>
