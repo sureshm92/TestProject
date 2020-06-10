@@ -66,6 +66,12 @@
     padding: 0px;
 }
 
+.THIS .resourceLinkHover:hover{
+    text-decoration: none;
+    background-color: #eef5ff;
+    transition: .25s;
+}
+
 .THIS .language-filter .menu-popup-panel.popupTargetContainer {
     left: -10px;
     width: 130px;
