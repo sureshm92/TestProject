@@ -80,10 +80,9 @@
 			countryName:   countryName,
 			stateName:	   stateName,
 			zipcode:	   zipcode
-        }, function () {
-            location.reload()
-        }, function () {
+        },function () {
             component.find('spinner').hide();
+            communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'));
         })
     },
 

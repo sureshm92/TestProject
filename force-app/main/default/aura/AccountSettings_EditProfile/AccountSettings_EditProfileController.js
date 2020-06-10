@@ -12,9 +12,9 @@
                 new: '',
                 reNew: ''
             };
-           // var numbers=/^\d{10}$/;
-           // component.set('v.phonePattern', numbers);
-
+           let todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
+        	component.set('v.todayDate', todayDate);
+            
             component.set('v.initData', initData);
             component.set('v.contactChanged', initData.contactChanged);
             component.set('v.personWrapper', initData.contactSectionData.personWrapper);
@@ -156,7 +156,6 @@ if(component.get('v.personWrapper.mobilePhone')==''){
         event.preventDefault();
 
         let personWrapper = component.get('v.personWrapper');
-        
         if(!personWrapper.firstName || !personWrapper.lastName || !personWrapper.dateBirth){
             component.set('v.disableSave',true);
  
@@ -201,7 +200,6 @@ if(component.get('v.personWrapper.mobilePhone')==''){
         component.set('v.reRender', true);
         let phone = personWrapper.homePhone;
         component.set('v.isAllFieldsValid', regex.test(phone));
-
         if(personWrapper.optInSMS && !personWrapper.mobilePhone) {
             helper.setFieldsValidity(component);
             setTimeout(function () {
@@ -215,10 +213,6 @@ if(component.get('v.personWrapper.mobilePhone')==''){
          
         var per=component.get('v.personWrapper');
         console.log(JSON.stringify(per));
-
-       
-    
-       
             component.find('spinner').show();
 
 
@@ -266,17 +260,22 @@ if(component.get('v.personWrapper.mobilePhone')==''){
         var phoneField=component.find('pField1');
         console.log('phoneField-->'+phoneField);
         console.log('inputValue-->'+inputValue);
-        var numbers=/^\d{10}$/;
+        
+        var numbers=/^[0-9]*$/ ;
+
         if(inputValue===""){
             phoneField.setCustomValidity("");  
         }
        if ((!numbers.test(inputValue)  && inputValue!=="")) {
+           component.set('v.disableToggle',true);
         phoneField.setCustomValidity("Phone number must be numeric");
         component.set('v.disableSave',true);
 
         } else {
             phoneField.setCustomValidity(""); // reset custom error message
             component.set('v.disableSave',false);
+            component.set('v.disableToggle',false);
+
 
         }
         phoneField.reportValidity();
@@ -286,7 +285,9 @@ if(component.get('v.personWrapper.mobilePhone')==''){
         var phoneField=component.find('pField2');
         console.log('phoneField-->'+phoneField);
         console.log('inputValue-->'+inputValue);
-        var numbers=/^\d{10}$/;
+       
+        //var numbers=/^[0-9]*$/ ;
+        var numbers=/^[0-9]*$/;
         if(inputValue===""){
             phoneField.setCustomValidity("");  
         }

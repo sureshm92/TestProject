@@ -321,7 +321,7 @@
     <div class="slds-col slds-size_1-of-1 as-buttons-footer">
     
 <lightning:button variant="brand" label="{!$Label.c.PP_Save_Changes}" title="" onclick="{! c.doUpdatePerson }" class="slds-button slds-button_brand apollo-btn primary" disabled="{!v.disableSave}"/>       
-    </div> 
+    </div>
     
                                 
                             </aura:if>
