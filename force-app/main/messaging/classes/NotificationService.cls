@@ -269,38 +269,23 @@ public without sharing class NotificationService {
                         sendResultService.setSkipped(n.Id, nt.Target_Type__c);
                     }
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_PUSH) {
-                    pushNotifications.add(n);
+                    if(availabilityService.isAvailableForPush(n.Id, n.WhatId__c)){
+                        sendResultService.setInProgress(n.Id, nt.Target_Type__c);
+                        pushNotifications.add(n);
+                    }else{
+                        sendResultService.setSkipped(n.Id, nt.Target_Type__c);
+                    }
                 } else if (nt.Target_Type__c == NOTIFICATION_RECIPIENT_TYPE_EXTERNAL_EMAIL) {
                     //TODO
                 }
             }
         }
     
-        //Update initial send results
-        new ToolingAPI_ExecuteAnonymous(
-                ActionExecutor.generateCodeExecutionForAnonymous(new Action_UpdateSendResults(sendResultService))
-        ).execute();
-    
+        sendResultService.updateResults();
         //Send emails:
-        if (!emailNotifications.isEmpty()) {
-            new ToolingAPI_ExecuteAnonymous(
-                    ActionExecutor.generateCodeExecutionForAnonymous(new Action_SendEmail(emailNotifications, orgWideEmailByNotifyMap))
-            ).execute();
-        }
-        
-        //Send SMS:
-        if (!smsNotifications.isEmpty()) {
-            new ToolingAPI_ExecuteAnonymous(
-                    ActionExecutor.generateCodeExecutionForAnonymous(new Action_SendSMS(smsNotifications))
-            );
-        }
-        
-        //Send Push:
-        if (!pushNotifications.isEmpty()) {
-            new ToolingAPI_ExecuteAnonymous(
-                    ActionExecutor.generateCodeExecutionForAnonymous(new Action_SendPush(pushNotifications))
-            ).execute();
-        }
+        if (!emailNotifications.isEmpty()) EmailService.send(emailNotifications, orgWideEmailByNotifyMap);
+        //
+        new ActionChain(new Action_SendSMS(smsNotifications)).next(new Action_SendPush(pushNotifications)).runChain();
     }
 
 }

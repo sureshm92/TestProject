@@ -57,6 +57,11 @@ public with sharing class ActionExecutor {
         return 'ActionExecutor.execute(\'' + actionJSON + '\', ' + action.getType() + '.class).complete();';
     }
     
+    public static String generateAsyncCodeExecutionForAnonymous(Action action){
+        String actionJSON = JSON.serialize(action);
+        return 'ActionExecutor.executeAsync(\'' + actionJSON + '\', \'' + action.getType() + '\');';
+    }
+    
     public static ExecutionResult execute(String actionJSON, Type actionType){
         Action action = (Action)JSON.deserialize(actionJSON, actionType);
         return execute(action);
@@ -141,7 +146,7 @@ public with sharing class ActionExecutor {
     }
 
      public static void executeAsync(Action action){
-        executeAsyncImpl(JSON.serialize(action), action.getType().toString());
+        executeAsync(JSON.serialize(action), action.getType().toString());
     }
 
      public static void executeAsync(Action__c act){
@@ -149,10 +154,10 @@ public with sharing class ActionExecutor {
     }
 
     @Future(Callout=true)
-    private static void executeAsyncImpl(String actionJSON, String actionTypeStr){
+    public static void executeAsync(String actionJSON, String actionTypeStr){
         Type actionType = Type.forName(actionTypeStr);
         Action action = (Action) JSON.deserialize(actionJSON, actionType);
-        execute(action);
+        execute(action).complete();
     }
 
     @Future(Callout=true)

@@ -22,6 +22,7 @@
     <aura:attribute name="endrequestedError" type="String" default="" access="private"/>
     <aura:attribute name="startrequestedError" type="String" default="" access="private"/>
     <aura:attribute name="phoneError" type="String" default="" access="private"/>
+    <aura:attribute name="emailError" type="String" default="" access="private"/>
     <aura:attribute name="isSiteOptions" type="Boolean" default="false"/>
     <aura:attribute name="isStudySite" type="Boolean" default="false"/>
 
@@ -49,7 +50,7 @@
     <aura:handler name="change" value="{!v.preferred}" action="{!c.preferredType}"/>
     <aura:handler name="change" value="{!v.study}" action="{!c.studyType}"/>
     <aura:handler name="change" value="{!v.emailS}" action="{!c.emailFormatType}"/>
-    <aura:handler name="change" value="{!v.phone}" action="{!c.phoneFormatType}"/>
+    
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
     </aura:method>
@@ -70,7 +71,7 @@
                                 <lightning:select class="lightningInput" value="{!v.study}" aura:id="studyId" onchange="{!studyType}">
                                         <option value="">{!$Label.c.Select_Study}</option>
                                 <aura:iteration items="{!v.studysite}" var="rol">
-                                        <option value="{!rol.Name}" label="{!rol.Name}"></option>
+                                        <option value="{!rol.Clinical_Trial_Profile__r.Study_Code_Name__c}" label="{!rol.Clinical_Trial_Profile__r.Study_Code_Name__c}"></option>
                                     </aura:iteration>
                                     </lightning:select>
                                     </div>
@@ -83,19 +84,20 @@
                                             
                                     <aura:if isTrue="{!v.studyData.length==1}">
                                                 <aura:iteration items="{!v.studyData}" var="itms1">
-                                        <option value="{!itms1.Site__r.Name}" label="{!itms1.Site__r.Name}"></option>
+                                        <option value="{!itms1.Name}" label="{!itms1.Name}"></option>
+                                        <option value="">{!$Label.c.Select_Site}</option>
                                     </aura:iteration>
                                     </aura:if>
                                          <aura:if isTrue="{!v.studyData.length > 1}">
                                         <option value="">{!$Label.c.Select_Site}</option>
                                     <aura:iteration items="{!v.studyData}" var="itms">
-                                    <option value="{!itms.Site__r.Name}" label="{!itms.Site__r.Name}"></option>
+                                    <option value="{!itms.Name}" label="{!itms.Name}"></option>
                                         </aura:iteration>
                                     </aura:if>
                                         </lightning:select>
                                         </div>
                                 </div>
-
+ 
                         </div>
 							
 							<div class="slds-col slds-grid slds-size_1-of-1">
@@ -147,17 +149,19 @@
                                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                                     <div class="rr-form-element">
                                         <div class="label">{!$Label.c.Alternate_Email_Phone_Number}</div>
-                                        <lightning:input type="email" value="{!v.emailS}" aura:id="emailChan" />
+                                        <ui:inputText value="{!v.emailS}" aura:id="emailChan" />
                                     </div>
+                                    <div class="slds-text-color--error slds-p-top--x-small slds-col--padded-small startenddate">{!v.emailError}</div> 
                                 </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.isphone}">
                                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                                     <div class="rr-form-element">
                                         <div class="label">{!$Label.c.Alternate_Email_Phone_Number}</div>
-                                        <ui:inputText value="{!v.phone}" aura:id="phoneChan"/>
+                                        <lightning:input type="text" maxlength="10" value="{!v.phone}" aura:id="phoneChan" onblur = "{!c.phoneFormatType}"/>
+                                        <div class="slds-form-element__help"></div>
                                     </div>
-                                    <div class="slds-text-color--error slds-p-top--x-small slds-col--padded-small startenddate">{!v.phoneError}</div>
+                                    <div class="slds-text-color--error slds-p-top--x-small slds-col--padded-small startenddate ">{!v.phoneError}</div>
                                 </div>
                                     </aura:if>
                             

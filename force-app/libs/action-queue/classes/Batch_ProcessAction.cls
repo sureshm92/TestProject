@@ -22,6 +22,7 @@ public with sharing class Batch_ProcessAction extends Batch_ScheduledAbstract im
     }
 
     public void execute(Database.BatchableContext bc, List<Object> dbActions) {
+        System.debug('SCOPE SIZE: ' + dbActions.size());
         DMLService.useDMLBuffer(true);
         List<ActionExecutor.ExecutionResult> executionResults = new List<ActionExecutor.ExecutionResult>();
         for(Action__c dbAction : (List<Action__c>) dbActions) {
@@ -38,4 +39,9 @@ public with sharing class Batch_ProcessAction extends Batch_ScheduledAbstract im
     public override Integer getRecommendedRelaunchInterval() {
         return 5;
     }
+    
+    public override Integer getRecommendedScopeSize() {
+        return 10;
+    }
+
 }

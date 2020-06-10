@@ -276,9 +276,9 @@ public without sharing class LibraryPIRemote {
     //This method returns the Content document ID attached to the resource
     Private static String getFileId(string resId){
         if(resId!=null && resId!=''){
-            list<ContentDocumentLink> cd= [SELECT ContentDocumentId, LinkedEntityId  FROM ContentDocumentLink where LinkedEntityId =:resId];
+            list<ContentDocumentLink> cd= [SELECT ContentDocumentId,LinkedEntityId  FROM ContentDocumentLink where LinkedEntityId =:resId];
             if(!cd.isEmpty())
-                return cd[0].ContentDocumentId;	
+            return cd[0].ContentDocumentId;	
         }
         
         return null;

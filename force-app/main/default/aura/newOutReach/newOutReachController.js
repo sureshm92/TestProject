@@ -53,13 +53,15 @@
     },
     studyType: function (component, event, helper) {
         var study = component.get('v.study');
-        console.log('STUDYType>>'+JSON.stringify(study));
+       // console.log('STUDYType>>'+JSON.stringify(study));
         communityService.executeAction(component, 'getstudyType', {
             study:study
         }, function (returnValue) {
             var studyData = JSON.parse(returnValue);
             component.set("v.studyEmail",studyData.preEmail);
             component.set("v.studyPhone",studyData.prePhone);
+            console.log('STUDstudyData.prePhoneYType>>'+JSON.stringify(studyData.prePhone));
+            console.log('studyData.preEmailType>>'+JSON.stringify(studyData.preEmail));
             helper.studyDatafun(component, event, helper,study);
             component.find('modalSpinner').hide();
         });
@@ -87,22 +89,20 @@
         }
     },
     emailFormatType : function(component, event, helper){
-        var email = event.getSource().get('v.value');
-        if(email && communityService.isValidEmail(email)){
-            event.getSource().setCustomValidity('');
-            event.getSource().reportValidity();
-            component.find('modalSpinner').show();
-        }
-        if(email && !communityService.isValidEmail(email)){
-            
-            event.getSource().setCustomValidity($A.get('$Label.c.TST_Invalid_email_address'));
-            
-            event.getSource().reportValidity();
+        var email = component.get('v.emailS');
+        var regExpEmailformat = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var emailErrorval = $A.get("$Label.c.TST_Invalid_email_address");
+        if (!email.match(regExpEmailformat)) 
+        {
+		    component.set("v.emailError", emailErrorval);
+            component.set("v.emailS", '');
+        }else{
+            component.set("v.emailError", '');
         }
         
     },
     phoneFormatType : function(component, event, helper){
-        
+        var isValidPhone = true;
         var phoneCmpValue = component.get('v.phone');
         var phoneRegexFormat = /^\d{10}$/;
 		 var phoneErrorval = $A.get("$Label.c.Invalid_Phone");
@@ -110,11 +110,16 @@
         {
 		    component.set("v.phoneError", phoneErrorval);
             component.set("v.phone", '');
+            isValidPhone = false;
         }else{
-            component.set("v.phoneError", '');
+            isValidPhone = true;
         }
-        
-    },
+        if(isValidPhone){
+            helper.validPhoneNumber(component, event, helper)
+        }
+               
+},
+
     submit : function (component, event, helper) {
         var study = component.get('v.study');
         var site = component.get('v.site');
@@ -164,37 +169,37 @@
         var stemailVal='';
         var startdate;
         var endDate;
-        
+        var actualemailPhone;
+        //if(email && !communityService.isValidEmail(email)){
         emailVal = emailS;
+        //}
+        //if(email && !communityService.isValidEmail(email)){
         stemailVal = studyEmail;
-        
-        if((emailVal == '' || emailVal == undefined) && (phone == '' || phone == undefined) && (stemailVal != '' || stemailVal != undefined) && (studyPhone != '' || studyPhone != undefined) && cntValidEmail && !cntemail && !cntPhone){
-            prefferedtype = emailVal;
+        //}
+        if((emailS != '' || emailS != undefined) && (phone != '' || phone != undefined) && cntValidEmail && !cntemail && !cntPhone){
+            actualemailPhone = emailS;
         }
-        if((emailVal != '' || emailVal != undefined) && (phone == '' || phone == undefined) && (stemailVal == '' || stemailVal == undefined) && (studyPhone == '' || studyPhone == undefined) && cntValidEmail && !cntemail && !cntPhone){
-            prefferedtype = emailVal;
+        if((emailS != '' || emailS != undefined) && (phone == '' || phone == undefined) && cntValidEmail && !cntemail && !cntPhone){
+            actualemailPhone = emailS;
         }
-        if((emailVal != '' || emailVal != undefined) && (phone == '' || phone == undefined) && (stemailVal != '' || stemailVal == undefined) && (studyPhone != '' || studyPhone == undefined) && cntValidEmail && !cntemail && !cntPhone){
-            prefferedtype = emailVal;
+        if((phone != '' || phone != undefined) && (emailS != '' || emailS != undefined) && cntValidPhone && !cntemail && !cntPhone){
+            actualemailPhone = phone;
         }
-        if((phone != '' || phone != undefined) && (emailVal == '' || emailVal == undefined) && (stemailVal != '' || stemailVal != undefined) && (studyPhone != '' || studyPhone != undefined) && cntValidPhone && !cntemail && !cntPhone){
-            prefferedtype = phone;
-        }
-        if((phone != '' || phone != undefined) && (emailVal == '' || emailVal == undefined) && (stemailVal == '' || stemailVal == undefined) && (studyPhone == '' || studyPhone == undefined) && cntValidPhone && !cntemail && !cntPhone){
-            prefferedtype = phone;
+        if((phone != '' || phone != undefined) && (emailS == '' || emailS == undefined) && cntValidPhone && !cntemail && !cntPhone){
+            actualemailPhone = phone;
         }
         
-        
-        if((stemailVal != '' || stemailVal != undefined) && (phone == '' || phone == undefined) && (emailVal == '' || emailVal == undefined) && (studyPhone != '' || studyPhone != undefined) && cntemail){
+
+        if((stemailVal != '' || stemailVal != undefined) && (studyPhone != '' || studyPhone != undefined) && cntemail){
             prefferedtype = stemailVal;
         }
-        if((stemailVal != '' || stemailVal != undefined) && (phone == '' || phone == undefined) && (emailVal == '' || emailVal == undefined) && (studyPhone == '' || studyPhone == undefined) && cntemail){
+        if((stemailVal != '' || stemailVal != undefined) && (studyPhone == '' || studyPhone == undefined) && cntemail){
             prefferedtype = stemailVal;
         }
-        if((studyPhone != '' || studyPhone != undefined) && (phone == '' || phone == undefined) && (emailVal == '' || emailVal == undefined) && (stemailVal != '' || stemailVal != undefined) && cntPhone){
+        if((studyPhone != '' || studyPhone != undefined) && (stemailVal != '' || stemailVal != undefined) && cntPhone){
             prefferedtype = studyPhone;
         }
-        if((studyPhone != '' || studyPhone != undefined) && (phone == '' || phone == undefined) && (emailVal == '' || emailVal == undefined) && (stemailVal == '' || stemailVal == undefined) && cntPhone){
+        if((studyPhone != '' || studyPhone != undefined) && (stemailVal == '' || stemailVal == undefined) && cntPhone){
             prefferedtype = studyPhone;
         }
         component.find('modalSpinner').show();
@@ -203,6 +208,7 @@
             study:study,
             site:site,
             prefferedtype: prefferedtype,
+            actualemailPhone: actualemailPhone,
             media: media,
             startdt: startdt,
             enddt: enddt,
