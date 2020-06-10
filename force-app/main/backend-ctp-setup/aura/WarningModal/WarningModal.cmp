@@ -8,9 +8,11 @@
     <aura:attribute name="parent" type="Aura.Component" required="true"/>
     <aura:attribute name="shareModalTitle" type="String" default="Warning"/>
     <aura:attribute name="textBody" type="String" access="public"/>
+    <aura:attribute name="changeCheckBox" type="Boolean" default="false"/>
     <!-- methods: -->
     <aura:method name="show" action="{!c.doShow}">
         <aura:attribute name="textBody" type="String" access="public"/>
+        <aura:attribute name="changeCheckBox" type="Boolean" default="false"/>
     </aura:method>
     <aura:method name="hide" action="{!c.doHide}"/>
 
