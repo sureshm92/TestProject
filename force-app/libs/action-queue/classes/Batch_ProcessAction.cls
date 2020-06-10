@@ -38,4 +38,9 @@ public with sharing class Batch_ProcessAction extends Batch_ScheduledAbstract im
     public override Integer getRecommendedRelaunchInterval() {
         return 5;
     }
+    
+    public override Integer getRecommendedScopeSize() {
+        return 10;
+    }
+
 }

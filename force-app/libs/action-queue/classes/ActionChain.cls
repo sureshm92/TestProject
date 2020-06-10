@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public without sharing class ActionChain implements Queueable{
+public without sharing class ActionChain implements Queueable, Database.AllowsCallouts{
     
     private Action action;
     private ActionChain parent;
@@ -21,7 +21,7 @@ public without sharing class ActionChain implements Queueable{
     
     public void execute(QueueableContext qc) {
         ActionExecutor.execute(action).complete();
-        if(next != null) System.enqueueJob(next);
+        if(next != null && ! Test.isRunningTest()) System.enqueueJob(next);
     }
     
     public void runChain(){
