@@ -202,7 +202,7 @@
         if (participant.Alternative_Phone_Number__c && !participant.Alternative_Phone_Type__c){
             isValid = false;
         }
-        if (participant.Email__c && !emailParticipantRepeat) {
+        if (!updateMode && participant.Email__c && !emailParticipantRepeat) {
             isValid = false;
         }
         if (participant.Phone__c && !participant.Phone_Type__c) {
