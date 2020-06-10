@@ -15918,7 +15918,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Invalid Phone</shortDescription>
-        <value>Enter valid phone number</value>
+        <value>Enter 10 digits phone number</value>
     </labels>
     <labels>
         <fullName>visit_Name</fullName>

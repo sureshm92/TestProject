@@ -4,7 +4,7 @@
 load the data from logged in community
 *  @Author : Vicky
 *  @created  2020-05-22
-* @version 48.0
+* @version 48.0   
 */
 public without sharing class NewMediaOutReach {
     
@@ -31,21 +31,25 @@ public without sharing class NewMediaOutReach {
     @AuraEnabled
     public static string getstudyType(string study) {
         List<Study_Site__c> studylst = new List<Study_Site__c>();
+         Clinical_Trial_Profile__c ctplst;
+
         Contact userContact = CommunityService.getUserContact();
-        
         studyContactId = userContact.Id;
+
         if((String.isNotBlank(study))){
-            Study_Site__c siteId =[SELECT id,Name,Study_Site_Phone__c from Study_Site__c where Name =:study LIMIT 1];
+            ctplst =[SELECT Id,Study_Code_Name__c,Name FROM Clinical_Trial_Profile__c WHERE Study_Code_Name__c =:study LIMIT 1];
+            }
+            if(ctplst != null){
+        Study_Site__c siteId =[SELECT id,Name,Study_Site_Phone__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Clinical_Trial_Profile__c FROM Study_Site__c WHERE Clinical_Trial_Profile__c =:ctplst.Id LIMIT 1];
             lstvalsite = siteId.Study_Site_Phone__c;
-        }
+            }
         Contact con=[SELECT id,name,Email,Phone from Contact where Id =:studyContactId LIMIT 1];
         CommunityPreferred commm = new CommunityPreferred();
         
         commm.prePhone = lstvalsite;
         commm.preEmail = con.Email;
         
-        
-        return JSON.serialize(commm);
+       return JSON.serialize(commm);
         
     }
     /**   
@@ -57,10 +61,14 @@ public without sharing class NewMediaOutReach {
     
     @AuraEnabled
     public static List<Study_Site__c> getstudyData(string dataStudy) {
+         Clinical_Trial_Profile__c ctpdata;
         Integer limitRows = Limits.getLimitQueryRows() - Limits.getQueryRows();
         if((String.isNotBlank(dataStudy))){
-            studyDataLast =[SELECT id,Site__r.Name,Name from Study_Site__c where Name =:dataStudy LIMIT :limitRows];
-        }
+             ctpdata =[SELECT id,Study_Code_Name__c,Name from Clinical_Trial_Profile__c WHERE Study_Code_Name__c =:dataStudy LIMIT 1];
+            }
+            if(ctpdata != null){
+            studyDataLast =[SELECT id,Site__r.Name,Clinical_Trial_Profile__r.Study_Code_Name__c,Name from Study_Site__c WHERE Clinical_Trial_Profile__c =:ctpdata.Id LIMIT :limitRows];
+            }
         return studyDataLast;
         
     }
@@ -79,7 +87,7 @@ public without sharing class NewMediaOutReach {
         
         studyContactId = userContact.Id;
         //studylst =[SELECT id,Name,Principal_Investigator__c from Study_Site__c where Principal_Investigator__c =:studyContactId LIMIT :limitRows];
-        studylst =[SELECT id,Name,Clinical_Trial_Profile__r.Media_outreach_Provider__c,Principal_Investigator__c from Study_Site__c where Principal_Investigator__c =:studyContactId AND Clinical_Trial_Profile__r.Media_outreach_Provider__c != null LIMIT :limitRows];
+        studylst =[SELECT id,Name,Clinical_Trial_Profile__r.Media_outreach_Provider__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Principal_Investigator__c from Study_Site__c where Principal_Investigator__c =:studyContactId AND Clinical_Trial_Profile__r.Media_outreach_Provider__c != null LIMIT :limitRows];
         return studylst;
         
     }
@@ -110,13 +118,17 @@ public without sharing class NewMediaOutReach {
 **/
     
     @AuraEnabled
-    public static void inviteNewMedia(string study,string site,String prefferedtype, List<String> media,string startdt,string enddt,string notes){
-        try{
+    public static void inviteNewMedia(string study,string site,String prefferedtype,string actualemailPhone, List<String> media,string startdt,string enddt,string notes){
+       try{
+            Clinical_Trial_Profile__c ctpLstdata;
             Study_Site__c siteId;
             Account accLst;
             if(study != '' || study != null){
-                siteId =[SELECT id,Site__c,Name,Principal_Investigator__c from Study_Site__c where Name =:study LIMIT 1];
-            }
+                ctpLstdata =[SELECT id,Study_Code_Name__c,Name from Clinical_Trial_Profile__c WHERE Study_Code_Name__c =:study LIMIT 1];
+                }
+                 if(ctpLstdata != null && (site != '' || site != null)){
+                siteId =[SELECT id,Site__c,Name,Principal_Investigator__c from Study_Site__c WHERE Clinical_Trial_Profile__c =:ctpLstdata.Id AND Name =:site LIMIT 1];
+                 }
             if(siteId.Site__c != null){
                 accLst =[SELECT id,name FROM Account where Id =:siteId.Site__c LIMIT 1];
             }
@@ -131,12 +143,14 @@ public without sharing class NewMediaOutReach {
                     if(i>0){
                         typeval = typeval+';'+ media[i];  
                     }
-                }
+                } 
             }
+            mediaOut.Clinical_Trial_Profile__c = ctpLstdata.Study_Code_Name__c;
             mediaOut.Study_Name__c = siteId.Id;
-            mediaOut.Study_Site__c = accLst.Id;
+           // mediaOut.Study_Site__c = accLst.Id;
             mediaOut.Media_Type__c =  typeval;
             mediaOut.Preferred_contact_method__c = prefferedtype;
+            mediaOut.Alternate_Email_Phone_Number__c = actualemailPhone;
             mediaOut.Status__c = REQUESTED_VAL;
             if(startdt!= ''){
                 mediaOut.Requested_Start_Date__c = Date.valueOf(startdt);

@@ -51,7 +51,8 @@ private  class Test_NewMediaOutReach {
             Preferred_contact_method__c = 'test@gmail.com',
             Status__c = 'Requested',
             Requested_Start_Date__c = Date.parse('5/22/2020'),
-            Requested_End_Date__c = Date.parse('5/29/2020')
+            Requested_End_Date__c = Date.parse('5/29/2020'),
+            Alternate_Email_Phone_Number__c = 'nks11@gmail.com'
         );
         insert mediaOut;
         List<string> lsstng = new List<string>();
@@ -68,7 +69,7 @@ private  class Test_NewMediaOutReach {
         string enddt = string.valueof(Date.parse('5/29/2020'));
         Test.startTest();
         newMediaOutReach.getPickListValues('Media_Outreach__c','Media_Type__c');
-        newMediaOutReach.inviteNewMedia('Test','Study Site Account','test@gmail.com', lsstng,start,enddt,'Test notes');
+        newMediaOutReach.inviteNewMedia('Some Code Name','Test','test@gmail.com', 'nks11@gmail.com',lsstng,start,enddt,'Test notes');
         Test.stopTest();
     }
     
@@ -140,8 +141,8 @@ private  class Test_NewMediaOutReach {
             );
             insert studySite;
             newMediaOutReach.getstudyContact();
-            newMediaOutReach.getstudyType('Test');
-            newMediaOutReach.getstudyData('Test');
+            newMediaOutReach.getstudyType('Some Code Name');
+            newMediaOutReach.getstudyData('Some Code Name');
         }
         Test.stopTest();
     }

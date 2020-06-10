@@ -7,7 +7,7 @@ public class MediaOutreachServices {
     
     public static final Map<String, Map<String, String>> FILTER_FIELD_MAP = new Map<String, Map<String, String>>{
         STUDIES_FILTER_DATA_FIELD => new Map<String, String>{
-            'Study_Name__c' => 'Study_Name__r.Name'
+            'Study_Name__c' => 'Study_Name__r.Clinical_Trial_Profile__r.Study_Code_Name__c'
                 }
     };
         
@@ -77,6 +77,7 @@ public class MediaOutreachServices {
             'Media_Type__c',
             'Study_Name__r.Site__r.Name',
             'Study_Name__r.Name',
+            'Study_Name__r.Clinical_Trial_Profile__r.Study_Code_Name__c',
             'Study_Name__r.Clinical_Trial_Profile__c',
             'Study_Name__r.Principal_Investigator__c',
             'Requested_End_Date__c',
