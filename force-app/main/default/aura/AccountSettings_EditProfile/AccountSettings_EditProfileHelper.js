@@ -28,6 +28,7 @@
     },
 
     setFieldsValidity: function(component){
+        event.preventDefault();
         let fieldsGroup = 'pField';
         let allValid = component.find(fieldsGroup).reduce(function (validSoFar, inputCmp) {
             return validSoFar && inputCmp.get('v.validity').valid;

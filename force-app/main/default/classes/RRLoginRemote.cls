@@ -8,6 +8,25 @@ global without sharing class RRLoginRemote {
     public static String login(String username, String password, String startUrl) {
         try{
             ApexPages.PageReference lgn = Site.login(username, password, startUrl);
+            
+            //PEH-2038 & PEH-2008: When porspect who is delegate of a participant logs in the community,
+            //set the Landing_Community__c based on the Site
+            //set userCommunityDelegateId__c to null 
+            //set Current_Participant_Enrollment__c to null 
+            User loginUser = [SELECT Id, ContactId, Contact.Email, Contact.Current_Participant_Enrollment__c,
+                              Contact.userCommunityDelegateId__c, Contact.UserCommunityIsDelegate__c, 
+                              Contact.Landing_Community__c
+                              FROM User WHERE UserName =: username limit 1];
+            List<Participant_Enrollment__c> loginUserPEs = [SELECT Id FROM Participant_Enrollment__c WHERE Participant_Contact__c = : loginUser.ContactId ];
+            //No participant enrollment and UserCommunityIsDelegate__c to ensure the 
+            //contact is a prospect and delegate of a certain contact
+            if(loginUserPEs.isEmpty() && loginUser.Contact.UserCommunityIsDelegate__c){
+                Contact c= new Contact(Id = loginUser.ContactId, 
+                                       Current_Participant_Enrollment__c = null, 
+                                       userCommunityDelegateId__c = null,
+                                       Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH') ? CommunityService.IQVIA_NETWORK_NAME : Site.getMasterLabel());
+                update c;
+            }
             aura.redirect(lgn);
             return null;
         }

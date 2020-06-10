@@ -275,12 +275,12 @@ public without sharing class NotificationService {
                 }
             }
         }
+    
         sendResultService.updateResults();
-
+        //Send emails:
         if (!emailNotifications.isEmpty()) EmailService.send(emailNotifications, orgWideEmailByNotifyMap);
-        if (!smsNotifications.isEmpty()) SMSService.sendQueueable(smsNotifications);
-        if (!pushNotifications.isEmpty()) ActionExecutor.executeAsync(new Action_SendPush(pushNotifications), Datetime.now());
-        
+        //
+        new ActionChain(new Action_SendSMS(smsNotifications)).next(new Action_SendPush(pushNotifications)).runChain();
     }
 
 }
