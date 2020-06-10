@@ -93,9 +93,11 @@ public class MediaOutreachServices {
                     
                     //If a filter is selected
                     if (String.isEmpty(filter.searchText)) {
-                        
                         if (!String.isEmpty(filter.study)) filterStr += ' AND Study_Name__c = \'' + filter.study + '\' ';
                     }
+                    
+                    //sort
+                    filterStr += ' ORDER BY Name DESC';
                     
                     //get media outreach List:
                     List<Media_Outreach__c> mList = getMOutreachCommon(filterStr, delegateId);
