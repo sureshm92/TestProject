@@ -45,3 +45,8 @@
 .THIS .startenddate{
     font-size:0.75rem;
 }
+.THIS .slds-form-element__help{
+    font-size: .75rem;
+    margin-top: .125rem;
+    display: none;
+}
