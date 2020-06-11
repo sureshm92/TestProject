@@ -10944,7 +10944,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L One Incentive Plan Many Incentives</shortDescription>
-        <value>This selection affected {0} number of study sites. Do you want proceed?</value>
+        <value>This action will affect {0} study sites. Do you want to proceed?</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_One_Incentive_Plan</fullName>
@@ -12178,7 +12178,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Profile_Update_Success</shortDescription>
-        <value>Your Profile Information Updated Successfully!</value>
+        <value>Data Updated Successfully!</value>
     </labels>
     <labels>
         <fullName>PP_Save_Changes</fullName>
