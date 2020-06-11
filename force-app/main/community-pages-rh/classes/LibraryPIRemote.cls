@@ -4,7 +4,7 @@
 
 public without sharing class LibraryPIRemote {
     
-    public static final String NOT_STUDY_SPECIFIC_SECTION = 'Not Study-Specific';
+    public static final String NOT_STUDY_SPECIFIC_SECTION = system.label.Library_General_Resources;
     
     public class ResourceInitData {
         @AuraEnabled public List<LabelValueItem> languages;

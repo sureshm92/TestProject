@@ -30,6 +30,9 @@
 .imph-points strong{
     font-weight: 600;
 }
-.imph-button-container{
-    text-align: end;
+.imph-disclaimer{
+    color: #000000;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 30px;
 }
