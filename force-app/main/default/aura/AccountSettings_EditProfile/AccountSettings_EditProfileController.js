@@ -12,9 +12,9 @@
                 new: '',
                 reNew: ''
             };
-           // var numbers=/^\d{10}$/;
-           // component.set('v.phonePattern', numbers);
-
+           let todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
+        	component.set('v.todayDate', todayDate);
+            
             component.set('v.initData', initData);
             component.set('v.contactChanged', initData.contactChanged);
             component.set('v.personWrapper', initData.contactSectionData.personWrapper);
@@ -156,7 +156,7 @@ if(component.get('v.personWrapper.mobilePhone')==''){
         event.preventDefault();
 
         let personWrapper = component.get('v.personWrapper');
-        if(!personWrapper.gender || !personWrapper.firstName || !personWrapper.lastName || !personWrapper.dateBirth){
+        if(!personWrapper.firstName || !personWrapper.lastName || !personWrapper.dateBirth){
             component.set('v.disableSave',true);
  
         }else{
@@ -200,7 +200,6 @@ if(component.get('v.personWrapper.mobilePhone')==''){
         component.set('v.reRender', true);
         let phone = personWrapper.homePhone;
         component.set('v.isAllFieldsValid', regex.test(phone));
-
         if(personWrapper.optInSMS && !personWrapper.mobilePhone) {
             helper.setFieldsValidity(component);
             setTimeout(function () {
@@ -214,37 +213,6 @@ if(component.get('v.personWrapper.mobilePhone')==''){
          
         var per=component.get('v.personWrapper');
         console.log(JSON.stringify(per));
-                var numbers=/^\d{10}$/;
-                console.log('perMob-->'+numbers.test(per.homePhone));
-                if(per.mobilePhone==="" || per.mobilePhone===null){
-                    var canSave="true";
-
-                }
-                else if((!numbers.test(per.mobilePhone)  && per.mobilePhone!=="")){
-                    communityService.showToast('warning', 'warning', $A.get('$Label.c.PP_Valid_Phone'));
-                    return;
-                }
-        if(per.homePhone==="" || per.homePhone===null){
-            var canSave="true";
-
-        }
-        else if((!numbers.test(per.homePhone)  && per.homePhone!=="")){
-            communityService.showToast('warning', 'warning', $A.get('$Label.c.PP_Valid_Phone'));
-            return;
-
-        }
-             /*   if((!numbers.test(per.mobilePhone)  && per.mobilePhone!=="")) {
-                    communityService.showToast('warning', 'warning', $A.get('$Label.c.PP_Valid_Phone'));
-                    return;
-               
-        
-        }
-        else if((!numbers.test(per.homePhone)  && per.homePhone!=="")){
-            communityService.showToast('warning', 'warning', $A.get('$Label.c.PP_Valid_Phone'));
-            return;
-
-        }*/
-        if(canSave==="true"){
             component.find('spinner').show();
 
 
@@ -260,7 +228,7 @@ if(component.get('v.personWrapper.mobilePhone')==''){
             });
 
 
-        }
+      
       
       
       
@@ -292,14 +260,23 @@ if(component.get('v.personWrapper.mobilePhone')==''){
         var phoneField=component.find('pField1');
         console.log('phoneField-->'+phoneField);
         console.log('inputValue-->'+inputValue);
-        var numbers=/^\d{10}$/;
+        
+        var numbers=/^[0-9]*$/ ;
+
         if(inputValue===""){
             phoneField.setCustomValidity("");  
         }
        if ((!numbers.test(inputValue)  && inputValue!=="")) {
+           component.set('v.disableToggle',true);
         phoneField.setCustomValidity("Phone number must be numeric");
+        component.set('v.disableSave',true);
+
         } else {
             phoneField.setCustomValidity(""); // reset custom error message
+            component.set('v.disableSave',false);
+            component.set('v.disableToggle',false);
+
+
         }
         phoneField.reportValidity();
     },
@@ -308,14 +285,20 @@ if(component.get('v.personWrapper.mobilePhone')==''){
         var phoneField=component.find('pField2');
         console.log('phoneField-->'+phoneField);
         console.log('inputValue-->'+inputValue);
-        var numbers=/^\d{10}$/;
+       
+        //var numbers=/^[0-9]*$/ ;
+        var numbers=/^[0-9]*$/;
         if(inputValue===""){
             phoneField.setCustomValidity("");  
         }
        if ((!numbers.test(inputValue)  && inputValue!=="")) {
         phoneField.setCustomValidity("Phone number must be numeric");
+        component.set('v.disableSave',true);
+
         } else {
             phoneField.setCustomValidity(""); // reset custom error message
+            component.set('v.disableSave',false);
+
         }
         phoneField.reportValidity();
     },

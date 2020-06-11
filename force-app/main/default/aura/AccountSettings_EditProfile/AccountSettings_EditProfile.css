@@ -1,11 +1,14 @@
-.THIS .rr-white-panel {
-    padding: 1rem!important;
+.THIS .rr-white-settings-panel {
+    margin-bottom: 200px;
+    position: absolute;
+    z-index: 5;
+    width: 833px;
 }
 
 .THIS.as-container {
     position: relative;
     padding-bottom: 100px;
-   
+        margin-bottom: -2%;
    
 }
 

@@ -81,10 +81,12 @@ public without sharing class ParticipantDuplicateService {
         Set<String> zipCodes = new Set<String>();
         Set<Date> birthDates = new Set<Date>();
         Set<String> birthDateStrings = new Set<String>();
+        Set<String> lastNames = new Set<String>();
 
         for (ParticipantWithDelegate partWithDelegate : partsWithDelegates) {
             if (!String.isBlank(partWithDelegate.participant.Phone__c)) phones.add(partWithDelegate.participant.Phone__c);
             if (!String.isBlank(partWithDelegate.participant.Email__c)) emails.add(partWithDelegate.participant.Email__c);
+            if (!String.isBlank(partWithDelegate.participant.Last_Name__c)) lastNames.add(partWithDelegate.participant.Last_Name__c);
             if (!String.isBlank(partWithDelegate.participant.Date_of_Birth__c)) {
                 birthDates.add(Date.valueOf(partWithDelegate.participant.Date_of_Birth__c));
                 birthDateStrings.add(partWithDelegate.participant.Date_of_Birth__c);
@@ -108,7 +110,7 @@ public without sharing class ParticipantDuplicateService {
         List<Participant__c> existedParticipants = [
                 SELECT Id, Contact__c, First_Name__c, Last_Name__c, Email__c, Phone__c, Day_of_Birth__c, Birth_Year__c, Date_of_Birth__c, Secondary_Source__c, ZIP_Code__c, Mailing_Zip_Postal_Code__c
                 FROM Participant__c
-                WHERE Email__c IN :emails OR Phone__c IN :phones OR Day_of_Birth__c IN :birthDates OR ZIP_Code__c IN :zipCodes
+                WHERE Email__c IN :emails OR Phone__c IN :phones OR Day_of_Birth__c IN :birthDates OR ZIP_Code__c IN :zipCodes OR Last_Name__c IN :lastNames
         ];
         Map<Id, Participant__c> participantsByIds = new Map<Id, Participant__c>(existedParticipants);
 
@@ -150,7 +152,7 @@ public without sharing class ParticipantDuplicateService {
         Map<String, Contact> contactsByPhoneMap = new Map<String, Contact>();
         Map<String, List<Contact>> contactsByZipMap = new Map<String, List<Contact>>();
         Map<Date, List<Contact>> contactsByDoBMap = new Map<Date, List<Contact>>();
-        for(Contact contact : existedContacts){
+        for (Contact contact : existedContacts) {
             if (contact.Email != null) contactsByEmailMap.put(contact.Email.toLowerCase(), contact);
             if (contact.Phone != null) contactsByPhoneMap.put(contact.Phone, contact);
             if (!String.isBlank(contact.MailingPostalCode)) {
@@ -171,8 +173,7 @@ public without sharing class ParticipantDuplicateService {
         List<Patient_Delegate__c> patientDelegates = [
                 SELECT Id, Participant__c, Contact__c
                 FROM Patient_Delegate__c
-                WHERE Participant__c IN :participantsByIds.keySet() AND
-                Status__c != :PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS ORDER BY LastModifiedDate DESC, Status__c];
+                WHERE Participant__c IN :participantsByIds.keySet() ORDER BY LastModifiedDate DESC];
         Map<Id, Id> delegateContactIdsByPatientIds = new Map<Id, Id>();
         for (Patient_Delegate__c pt : patientDelegates) {
             if (!delegateContactIdsByPatientIds.containsKey(pt.Participant__c)) delegateContactIdsByPatientIds.put(pt.Participant__c, pt.Contact__c);

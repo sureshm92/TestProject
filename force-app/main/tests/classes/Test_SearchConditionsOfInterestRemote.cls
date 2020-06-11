@@ -25,6 +25,7 @@ public without sharing class Test_SearchConditionsOfInterestRemote {
        );
         Test.startTest();
         List<TherapeuticAreaService.CAWrapper> caWrappers = SearchConditionsOfInterestRemote.searchConditionOfInterest('test');
+
         Test.stopTest();
         System.assert(!caWrappers.isEmpty());
     }
@@ -138,6 +139,8 @@ public without sharing class Test_SearchConditionsOfInterestRemote {
         List<Therapeutic_Area_Patient__c> taps = SearchConditionsOfInterestRemote.upsertListCoi(new List<Therapeutic_Area_Patient__c>{
                 tap
         });
+		SearchConditionsOfInterestRemote.createSubscribeConnection(taps);
+        
         Test.stopTest();
         System.assert(!taps.isEmpty());
         System.assertNotEquals(null, taps[0].Id);
@@ -159,4 +162,25 @@ public without sharing class Test_SearchConditionsOfInterestRemote {
         Test.stopTest();
         System.assert(isExceptionThrown);
     }
+    
+    @isTest
+    public static void getConditionsOfInterest() {
+        
+        TestData testDataInstance = new TestData();
+        Therapeutic_Area__c area = new Therapeutic_Area__c(Name = 'Test TA TD1');
+        insert area;
+        Therapeutic_Area_Patient__c tap = new Therapeutic_Area_Patient__c();
+        tap.Condition_Of_Interest_Order__c=1;
+        tap.Participant__r.Contact__c = testDataInstance.participantUser.ContactId;
+        tap.Therapeutic_Area__c=area.id;
+        insert tap;
+        Test.startTest();
+        
+        
+       System.runAs(testDataInstance.participantUser) {
+        SearchConditionsOfInterestRemote.getConditionOfInterest();    
+        }
+        Test.StopTest();
+    }
+    
 }
