@@ -16,3 +16,57 @@
     background-color: rgba(255, 255, 255, 0.16);
     cursor: pointer;
 }
+
+@media screen and (max-width: 768px) {
+    .THIS .slds-header-link {
+        font-size: 14px;
+        padding: 0;
+        background: transparent;
+        margin-top: 25px;
+    }
+
+    .THIS {
+        position: static;
+    }
+
+    .THIS .header-menu-link {
+        position: absolute;
+        height: 100%;
+        top: 0;
+        left: 0;
+        padding: 16px 15px 13px 10px;
+    }
+
+    .THIS .arrow-down {
+        transform: scaleY(-1);
+    }
+}
+
+@media screen and (max-width: 550px) {
+
+    .THIS .header-menu-link {
+        width: 75px;
+        height: 65px;
+        align-items: flex-start;
+    }
+
+    .THIS .slds-header-link {
+        margin-top: 0;
+        width: 100%;
+    }
+
+    .THIS .slds-header-link > span {
+        display: none;
+    }
+
+    .THIS .header-menu-link {
+        margin-top: 0;
+    }
+
+    .THIS .header-menu-link .arrow-down {
+        height: 1.25rem;
+        width: 1.25rem;
+        margin-left: 40px;
+    }
+
+}
