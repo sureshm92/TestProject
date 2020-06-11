@@ -278,7 +278,6 @@
     </div>
     
                                 <!-- Toggle for SMS -->
-                                <aura:if isTrue="{!and(v.initData.isSMSAvailableFromSS, equals(v.personWrapper.mailingCC, 'US'))}">
                                     <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
                                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-media--responsive">
                                           
@@ -289,6 +288,8 @@
                                          onblur="{!c.handleMobileValidation}" /> 
      
                                         </div>
+                                        <aura:if isTrue="{!and(v.initData.isSMSAvailableFromSS, equals(v.personWrapper.mailingCC, 'US'))}">
+
                                         <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}"
                                                          variant="label-hidden"
                                                          messageToggleInactive="{!$Label.c.BTN_Off}"
@@ -299,8 +300,8 @@
                                                          <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-m-top--large slds-media--responsive">
     
                                         {!$Label.c.PG_AS_L_Opt_In_Participant_Status_SMS}</div>
+                                        </aura:if>
                                     </div>
-                                </aura:if>
     <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
     
         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-media--responsive">
