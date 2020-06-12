@@ -1,0 +1,75 @@
+/**
+ * Created by Olga Skrynnikova on 6/10/2020.
+ */
+
+.THIS.contain:first-child .unset:first-child .main-box .menu-item .icon-del{
+    visibility: visible;
+    opacity: unset;
+}
+
+.THIS.main-box {
+    padding-left: 31.5px!important;
+    padding-bottom: 6px!important;
+}
+
+.THIS .menu-item{
+    font-size: 14px;
+    color: #000000;
+    padding-bottom: 6px!important;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+
+.THIS .menu-item:first-child{
+    padding-top: 8px!important;
+}
+
+.THIS .menu-sub-item{
+    width: 215px;
+    font-size: 12px;
+    color: #797979;
+}
+
+.THIS .selected{
+    color: #0768FD;
+    font-weight: bold;
+    max-width: 80%;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+
+.THIS .overflow-ellipsis{
+    max-width: 80%;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+
+.THIS .icon-check{
+    width: 16px;
+    height: 16px;
+}
+
+.THIS .icon-cog{
+    width: 14px;
+    height: 14px;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.THIS .icon-del{
+    width: 14px;
+    height: 14px;
+    margin-right: 15px;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.THIS .unset:first-child .main-box .menu-item .icon-cog{
+    visibility: visible;
+    opacity: unset;
+}
+
+

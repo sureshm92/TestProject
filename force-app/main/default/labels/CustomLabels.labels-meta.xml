@@ -929,6 +929,13 @@
         <value>No</value>
     </labels>
     <labels>
+        <fullName>BTN_No_Active_Studies</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN No Active Studies</shortDescription>
+        <value>No Active Studies</value>
+    </labels>
+    <labels>
         <fullName>BTN_No_thanks</fullName>
         <language>en_US</language>
         <protected>false</protected>

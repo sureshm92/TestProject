@@ -1,0 +1,55 @@
+<!--
+ - Created by Olga Skrynnikova on 6/10/2020.
+ -->
+
+<aura:component description="PPMenuItems">
+    <aura:attribute name="allModes" type="Object[]"/>
+    <aura:attribute name="currentMode" type="Object"/>
+
+    <aura:registerEvent access="global" name="onclick" type="c:uiEvent"/>
+
+    <aura:iteration var="item" items="{!v.allModes}">
+        <aura:if isTrue="{!item.isGroup}">
+            <div class="contain" style="">
+                <aura:if isTrue="{!not(empty(item.subModes))}">
+                    <aura:iteration items="{!item.subModes}" var="subItem">
+                        <c:uiMenuItem label="{!item.label}" onclick="{!c.doSelectItem}"
+                                      itemValue="{!item}"
+                                      closeAfterClick="{!and(!item.isGroup, !item.isSplitter)}"
+                                      class="unset">
+                            <div class="main-box">
+                                <div class="menu-item">
+                                    <div class="{! v.currentMode.key == subItem.key ? 'selected ' : ''}">
+                                        {!item.label}
+                                        <aura:if isTrue="{!v.currentMode.key == subItem.key}">
+                                            <c:RRIcon class="icon-check" color="#0768FD" iconName="icon-chevron-down"/>
+                                        </aura:if>
+                                    </div>
+                                    <div class="cog">
+                                        <c:RRIcon class="icon-del" iconName="delegate"/>
+                                        <c:RRIcon class="icon-cog" iconName="cog"/>
+                                    </div>
+                                </div>
+                                <div class="menu-sub-item">
+                                    <div class="{!v.currentMode.key == subItem.key ? 'selected ' : '' + 'overflow-ellipsis '}">{!subItem.label}</div>
+                                </div>
+                            </div>
+
+                        </c:uiMenuItem>
+                    </aura:iteration>
+                    <aura:set attribute="else">
+                        <div class="main-box">
+                            <div class="menu-item">
+                                <div class="selected">{!item.label}</div>
+                            </div>
+                            <div class="menu-sub-item">
+                                <div class="selected overflow-ellipsis">{!$Label.c.BTN_No_Active_Studies}</div>
+                            </div>
+                        </div>
+                    </aura:set>
+                </aura:if>
+            </div>
+        </aura:if>
+    </aura:iteration>
+
+</aura:component>
