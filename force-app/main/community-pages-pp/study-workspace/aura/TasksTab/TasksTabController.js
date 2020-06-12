@@ -15,7 +15,9 @@
     },
 
     doCreateNewTask: function (component, event, helper) {
-        communityService.navigateToPage('task-detail');
+        //communityService.navigateToPage('task-detail');
+        let title = $A.get('$Label.c.BTN_Create_New_Task');
+        helper.createStudyVisitReminder(component, true, null, null, title);
     },
 
     doTaskClick: function (component, event, helper) {

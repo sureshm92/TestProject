@@ -123,5 +123,6 @@
                 </div>
             </aura:if>
         </div>
+        <div aura:id ="visitReminder"/>
     </aura:if>
 </aura:component>

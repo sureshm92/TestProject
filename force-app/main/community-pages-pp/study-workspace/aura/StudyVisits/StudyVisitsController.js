@@ -53,45 +53,12 @@
         
         if (!taskId) {
             //communityService.navigateToPage('task-detail?visitId=' + visitId);
-            $A.createComponent("c:StudyVisitReminder", 
-                               {
-                                   "parent" : component.get('v.parent'),
-                                   "visitId" : visitId,
-                                   "title" : "Create Visit Reminder"
-                               },
-                               function (reminder, status, errorMessage) {
-                                   if (status === "SUCCESS") {
-                                       let visitReminder = component.find('visitReminder');
-                                       let body = visitReminder.get('v.body');
-                                       body.push(reminder);
-                                       visitReminder.set('v.body', body);
-                                   } else if (status === "INCOMPLETE") {
-                                       console.log("No response from server or client is offline.")
-                                   } else if (status === "ERROR") {
-                                       console.log("Error: " + errorMessage);
-                                   }
-                               });
+            let title = 'Create Visit Reminder';
+            helper.createStudyVisitReminder(component, visitId, null, title);
         } else {
             //communityService.navigateToPage('task-detail?id=' + taskId + '&visitId=' + visitId);
-            $A.createComponent("c:StudyVisitReminder", 
-                               {
-                                   "parent" : component.get('v.parent'),
-                                   "visitId" : visitId,
-                                   "taskId" : taskId,
-                                   "title" : "Edit Visit Reminder"
-                               },
-                               function (reminder, status, errorMessage) {
-                                   if (status === "SUCCESS") {
-                                       let visitReminder = component.find('visitReminder');
-                                       let body = visitReminder.get('v.body');
-                                       body.push(reminder);
-                                       visitReminder.set('v.body', body);
-                                   } else if (status === "INCOMPLETE") {
-                                       console.log("No response from server or client is offline.")
-                                   } else if (status === "ERROR") {
-                                       console.log("Error: " + errorMessage);
-                                   }
-                               });
+            let title = 'Edit Visit Reminder';
+            helper.createStudyVisitReminder(component, visitId, taskId, title);
         }
     }
 });

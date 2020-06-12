@@ -6,7 +6,7 @@
 
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
-    <!--attributes-->
+    <!--ATTRIBUTES-->
     <aura:attribute name="visitWrappers" type="PatientVisitService.VisitWrapper[]"/>
     <aura:attribute name="currentVisits" type="PatientVisitService.VisitWrapper[]"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
@@ -18,7 +18,7 @@
     <aura:attribute name="parent" type="Aura.Component" default="{!this}"/>
     <!--DEPENDENCY-->
     <aura:dependency resource="markup://c:StudyVisitReminder"/>
-    <!--HANDLERS-->
+    <!--HANDLER-->
     <aura:handler name="change" value="{!v.visitMode}" action="{!c.getVisits}"/>
     
     <c:RRSpinner aura:id="spinner" size="medium" showSpinner="true" fixed="true"/>
