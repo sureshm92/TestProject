@@ -1,0 +1,17 @@
+<aura:component description="StudyVisitReminder">
+    <aura:attribute name="title" type="String"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="visitId" type="String"/>
+    <aura:attribute name="taskId" type="String"/>
+    <!-- event handlers -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <c:Popup aura:id="reminderModal" title="{!v.title}" size="small">
+        <!-- Add the input fields -->
+        <aura:set attribute="footerButtons">
+            <button class="apollo-btn tertiary" id="Cancel" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
+            <button class="apollo-btn primary" id="Save" onclick="{!c.doSave}">{!$Label.c.BTN_Save}</button>
+        </aura:set>
+    </c:Popup>    
+    
+</aura:component>
