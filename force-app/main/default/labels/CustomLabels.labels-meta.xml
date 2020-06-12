@@ -479,6 +479,14 @@
         <shortDescription>AdHoc CheckBox Help Text</shortDescription>
         <value>Survey tasks will expire when the Participants status is changed to: Drop Out, Trial Complete or Participation Complete</value>
     </labels>
+	<labels>
+        <fullName>Additional_Notes_optional</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Additional Notes</shortDescription>
+        <value>Additional Notes</value>
+    </labels>
     <labels>
         <fullName>Add_Another_Delegate</fullName>
         <language>en_US</language>
@@ -563,6 +571,13 @@
         <protected>true</protected>
         <shortDescription>Avaliable Icons</shortDescription>
         <value>Avaliable Icons</value>
+    </labels>
+	<labels>
+        <fullName>BTN_Close</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Close</shortDescription>
+        <value>Close</value>
     </labels>
     <labels>
         <fullName>BTN_Accept</fullName>
@@ -15743,6 +15758,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Yes</shortDescription>
         <value>Yes</value>
+    </labels>
+	<labels>
+        <fullName>Preferred_Contact_Method_View</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Preferred Contact Method View</shortDescription>
+        <value>Preferred Contact Method *</value>
     </labels>
 	 <labels>
         <fullName>Preferred_Contact_Method</fullName>
