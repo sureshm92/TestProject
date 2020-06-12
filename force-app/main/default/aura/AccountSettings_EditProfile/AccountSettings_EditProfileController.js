@@ -12,9 +12,9 @@
                 new: '',
                 reNew: ''
             };
-            var numbers=/^\d{10}$/;
-            component.set('v.phonePattern', numbers);
-
+           let todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
+        	component.set('v.todayDate', todayDate);
+            
             component.set('v.initData', initData);
             component.set('v.contactChanged', initData.contactChanged);
             component.set('v.personWrapper', initData.contactSectionData.personWrapper);
@@ -153,7 +153,16 @@ if(component.get('v.personWrapper.mobilePhone')==''){
         component.set('v.personWrapper', personWrapper);
     },
     doCheckFieldsValidity: function(component, event, helper){
+        event.preventDefault();
+
         let personWrapper = component.get('v.personWrapper');
+        if(!personWrapper.firstName || !personWrapper.lastName || !personWrapper.dateBirth){
+            component.set('v.disableSave',true);
+ 
+        }else{
+            component.set('v.disableSave',false);
+ 
+        }
         if(personWrapper.mailingCC !== component.get('v.previousCC')) {
             let statesByCountryMap = component.get('v.statesByCountryMap');
             let states = statesByCountryMap[personWrapper.mailingCC];
@@ -191,7 +200,6 @@ if(component.get('v.personWrapper.mobilePhone')==''){
         component.set('v.reRender', true);
         let phone = personWrapper.homePhone;
         component.set('v.isAllFieldsValid', regex.test(phone));
-
         if(personWrapper.optInSMS && !personWrapper.mobilePhone) {
             helper.setFieldsValidity(component);
             setTimeout(function () {
@@ -202,36 +210,29 @@ if(component.get('v.personWrapper.mobilePhone')==''){
     ,
 
     doUpdatePerson: function (component, event, helper) {
+         
         var per=component.get('v.personWrapper');
-        var numbers=/^\d{10}$/;
-            if(!(per.mobilePhone.match(numbers)) && per.mobilePhone!=""){
-                        communityService.showToast('warning', 'warning', $A.get('$Label.c.PP_Valid_Phone'));
+        console.log(JSON.stringify(per));
+            component.find('spinner').show();
 
-            return;
-            
-            }
-    else if(!(per.homePhone.match(numbers)) && per.homePhone!=""){
-                                communityService.showToast('warning', 'warning', $A.get('$Label.c.PP_Valid_Phone'));
-return;
+
+            communityService.executeAction(component, 'updatePerson', {
+                wrapperJSON: JSON.stringify(component.get('v.personWrapper'))
+            }, function () {
+                component.set('v.participantHasUpdateTasks', false);
+               
+                helper.setPersonSnapshot(component);
+                component.find('spinner').hide();
+                communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'));
     
-    
-    }
-  
-       else{
-        component.find('spinner').show();
-        communityService.executeAction(component, 'updatePerson', {
-            wrapperJSON: JSON.stringify(component.get('v.personWrapper'))
-        }, function () {
-            component.set('v.participantHasUpdateTasks', false);
-            helper.setPersonSnapshot(component);
-            component.find('spinner').hide();
-            communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'));
+            });
 
-        });
 
-       }
       
-       
+      
+      
+      
+
      
         let initData = component.get('v.initData');
         let newEmail = initData.myContact.Email;
@@ -254,7 +255,54 @@ return;
             component.set('v.showSpinner', false);
         })
     },
+    handleMobileValidation : function(component,event) {
+        var inputValue = event.getSource().get("v.value");
+        var phoneField=component.find('pField1');
+        console.log('phoneField-->'+phoneField);
+        console.log('inputValue-->'+inputValue);
+        
+        var numbers=/^[0-9]*$/ ;
 
+        if(inputValue===""){
+            phoneField.setCustomValidity("");  
+        }
+       if ((!numbers.test(inputValue)  && inputValue!=="")) {
+           component.set('v.disableToggle',true);
+        phoneField.setCustomValidity("Phone number must be numeric");
+        component.set('v.disableSave',true);
+
+        } else {
+            phoneField.setCustomValidity(""); // reset custom error message
+            component.set('v.disableSave',false);
+            component.set('v.disableToggle',false);
+
+
+        }
+        phoneField.reportValidity();
+    },
+    handleHomePhoneValidation:function(component,event) {
+        var inputValue = event.getSource().get("v.value");
+        var phoneField=component.find('pField2');
+        console.log('phoneField-->'+phoneField);
+        console.log('inputValue-->'+inputValue);
+       
+        //var numbers=/^[0-9]*$/ ;
+        var numbers=/^[0-9]*$/;
+        if(inputValue===""){
+            phoneField.setCustomValidity("");  
+        }
+       if ((!numbers.test(inputValue)  && inputValue!=="")) {
+        phoneField.setCustomValidity("Phone number must be numeric");
+        component.set('v.disableSave',true);
+
+        } else {
+            phoneField.setCustomValidity(""); // reset custom error message
+            component.set('v.disableSave',false);
+
+        }
+        phoneField.reportValidity();
+    },
+    
     doStateChanged: function (component, event, helper) {
         let snapShot = component.get('v.personSnapshot');
         let personWrapper = component.get('v.personWrapper');

@@ -5673,7 +5673,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>IncentiveProgram_Redeem_Points_Disclaimer</shortDescription>
-        <value>Ways To Redeem Points Soon</value>
+        <value>Start earning points now. Redemption opportunities coming soon.</value>
     </labels>
     <labels>
         <fullName>IncentiveProgram_Select_Study_Site</fullName>
@@ -10933,11 +10933,18 @@ Please log in to ##CommunityName to view this information.</value>
         <value>New Patient</value>
     </labels>
     <labels>
+										
+								  
+									
+														
+						 
+			 
+			
         <fullName>PG_Ref_L_One_Incentive_Many_Incentives</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L One Incentive Plan Many Incentives</shortDescription>
-        <value>This selection affected {0} number of study sites. Do you want proceed?</value>
+        <value>This action will affect {0} study sites. Do you want to proceed?</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_One_Incentive_Plan</fullName>
@@ -11063,7 +11070,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG Ref L Text To Delete Plan</shortDescription>
-        <value>number of study sites are using that program, do you want to proceed?</value>
+        <value>{0} number of study sites are using that program, do you want to proceed?</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Thank_you_for_having_a_discussion_with_your_patient_about_clinical_stud</fullName>
@@ -12013,6 +12020,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Add Profile Photo</value>
     </labels>
     <labels>
+	<fullName>PP_Condition_of_Interest_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Condition of Interest title</shortDescription>
+        <value>Conditions of Interest</value>
+    </labels>
+    <labels>	
         <fullName>PP_Cookie_Settings</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -12020,6 +12034,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Cookie Settings</value>
     </labels>
     <labels>
+	<fullName>PP_Customize_Exp_Description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Customize Exp Description</shortDescription>
+        <value>Select up to 5 medical conditions related to your diagnosis, to help us prioritize the content that we display to you.</value>
+    </labels>
+    <labels>	
         <fullName>PP_Customize_Experience</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -12027,6 +12048,20 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Customize Experience</value>
     </labels>
     <labels>
+	<fullName>PP_Customize_footer_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Customize footer message</shortDescription>
+        <value>Please select up to 5 conditions of interest</value>
+    </labels>
+    <labels>
+        <fullName>PP_Customize_search_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Customize search text</shortDescription>
+        <value>Search</value>
+    </labels>
+    <labels>	
         <fullName>PP_File_Size_Exceeded</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -12143,7 +12178,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Profile_Update_Success</shortDescription>
-        <value>Your Profile Information Updated Successfully!</value>
+        <value>Data Updated Successfully!</value>
     </labels>
     <labels>
         <fullName>PP_Save_Changes</fullName>
@@ -12164,6 +12199,7 @@ communications using the toggles below.</value>
 		<fullName>PP_VPC_SS_Empty_VP</fullName>
 								  
         <language>en_US</language>									<protected>false</protected>
+									
         <shortDescription>PP VPC SS Empty VP</shortDescription>
         <value>Some of the Study Sites do not have a Visit plan. Ensure each Study Site has at least one Visit plan assigned.</value>
     </labels>
@@ -15882,7 +15918,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Invalid Phone</shortDescription>
-        <value>Enter valid phone number</value>
+        <value>Enter 10 digits phone number</value>
     </labels>
     <labels>
         <fullName>visit_Name</fullName>
@@ -15891,5 +15927,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>configuation table</shortDescription>
         <value>Name</value>
+    </labels>
+	    <labels>
+        <fullName>Library_General_Resources</fullName>
+        <categories>Contains Label for Not Specific Study related to Library Tab</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Library_General_Resources</shortDescription>
+        <value>General Resources</value>
     </labels>
 </CustomLabels>

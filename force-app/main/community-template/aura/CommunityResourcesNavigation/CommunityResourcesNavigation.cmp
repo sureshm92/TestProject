@@ -9,7 +9,7 @@
     <c:uiHeaderMenu aura:id="menuId">
         <aura:set attribute="title">
             <div class="slds-header-link">
-                {!$Label.c.Navigation_Resources}
+                <span>{!$Label.c.Navigation_Resources}</span>
                 <img class="arrow-down" src="{!$Resource.icon_triangleDownWhite}" width="14" height="14"/>
             </div>
         </aura:set>

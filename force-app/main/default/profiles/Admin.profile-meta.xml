@@ -2747,6 +2747,16 @@
         <field>Media_Outreach__c.Media_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Media_Outreach__c.Alternate_Email_Phone_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Media_Outreach__c.Clinical_Trial_Profile__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Media_Outreach__c.Preferred_contact_method__c</field>
@@ -6170,6 +6180,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Score__c.Study_Site__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Send_Result__c.Action__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

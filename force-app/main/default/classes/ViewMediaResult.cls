@@ -24,17 +24,7 @@ public Without sharing class ViewMediaResult {
     public CommunityPreferred(){
         }  
     }  
-    public class MOWrapper{
-        public List<Media_Outreach__c> mItem;
-        
-    }
-    
-    Public class wrapNotes{
-        @AuraEnabled
-        Public List<Note> lstnotes;
-    }
-    
-    
+     
     //init data
     @AuraEnabled
     public static string getInitData(Id trialId,Id siteId, String mode, String btnFilter, String userMode, String delegateId){
@@ -58,10 +48,15 @@ public Without sharing class ViewMediaResult {
             trialFilterData.addAll(filterData.get(MediaOutreachServices.STUDIES_FILTER_DATA_FIELD));
             
         }
+        
+        try{
         initData.currentPageList = mList;
         
         initData.moFilterData.studies = trialFilterData;
         return JSON.serialize(initData);
+        }catch (Exception e){
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
     }
     
      @AuraEnabled

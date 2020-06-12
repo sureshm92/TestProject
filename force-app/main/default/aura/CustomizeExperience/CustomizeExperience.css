@@ -35,15 +35,50 @@
     padding-right: 10% !important;
 }
 
+.THIS .title-desc{
+    height: 24px;
+    width: 129px;
+    color: #595959;
+}
+.THIS .as-title{
+  height: 22px;
+  width: 250px;
+  color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 22px;
+}
+.THIS .section-description {
+    height: 48px;
+  width: 663px;
+  color: #595959;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+
 .THIS .alert-count-condition{
     height: 17px;
     width: auto;
-    color: #999999;
+    color: #000000;
     font-family: "Proxima Nova";
     font-size: 14px;
-    font-style: italic;
     line-height: 17px;
-    text-align: center;
+    text-align: left;
+    padding-top: 5px;
+}
+.THIS .alert-count-condition1{
+    height: 17px;
+    width: auto;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    line-height: 17px;
+    text-align: left;
+    padding-bottom: 5px;
 }
 
 .THIS table{

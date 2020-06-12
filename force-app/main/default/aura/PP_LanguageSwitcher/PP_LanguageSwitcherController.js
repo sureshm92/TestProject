@@ -16,7 +16,7 @@
             component.set('v.locales',   initData.locales);
             component.set('v.timezones', initData.timezones);
 			
-            let personWrapper = component.get('v.personWrapper');                        
+           // let personWrapper = component.get('v.personWrapper');                        
             //helper.setPersonSnapshot(component);
            
    
@@ -27,13 +27,15 @@
                 component.set('v.thirdLangKey',  initData.thirdLangKey);
                 component.set('v.localeKey',     initData.localeKey);
                 component.set('v.timezoneKey',   initData.timezoneKey);
+				
 				//sneha-added- on 6/6/2020
 				component.set('v.countryKey',   initData.countryKey);                				
 				var statesByCountryMap = component.get('v.statesByCountryMap');		
 				var countryCode = component.get("v.countryKey");		
 				component.set('v.states', statesByCountryMap[countryCode]);							 										
-                component.set('v.initialized',   true);				
-				component.set('v.personWrapper.zip',   personWrapper.zip);
+                component.set('v.initialized',   true);	
+                component.set('v.zipcodeKey',    initData.zipcodeKey);
+				//component.set('v.personWrapper.zip',   personWrapper.zip);
             }), 50);
 			
 			setTimeout(
@@ -62,13 +64,14 @@
 			stateindex = tempstates.findIndex(item => item.value == statevalue);	
 			stateName = stateindex >= 0? tempstates[stateindex].label: null;
 			//if(component.get('v.personWrapper.zip')!=null)
-			zipcode = component.get('v.personWrapper.zip');		
+			 zipcode = component.get("v.zipcodeKey");		
 		}	
 		
         var secondLangKey = component.get('v.secondLangKey');		
         var thirdLangKey  = component.get('v.thirdLangKey');
         var localeKey     = component.get('v.localeKey');
         var timezoneKey   = component.get('v.timezoneKey');
+        var zipcode = component.get('v.zipcodeKey');		
         component.find('spinner').show();
 		
         communityService.executeAction(component, 'changeLanguage', {
@@ -80,10 +83,9 @@
 			countryName:   countryName,
 			stateName:	   stateName,
 			zipcode:	   zipcode
-        }, function () {
-            location.reload()
-        }, function () {
+        },function () {
             component.find('spinner').hide();
+            communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'));
         })
     },
 

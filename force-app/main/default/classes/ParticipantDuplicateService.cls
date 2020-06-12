@@ -31,41 +31,12 @@ public without sharing class ParticipantDuplicateService {
             return ((Contact)duplicate).FirstName;
         }
 
-        public String getLastName() {
-            if (isParticipant()) {
-                return ((Participant__c)duplicate).Last_Name__c;
-            }
-            return ((Contact)duplicate).LastName;
-        }
-
-        public String getZipCode() {
-            if (isParticipant()) {
-                return ((Participant__c)duplicate).ZIP_Code__c;
-            }
-            return ((Contact)duplicate).MailingPostalCode;
-        }
-
-        public Date getDateOfBirth() {
-            if (isParticipant()) {
-                Participant__c participant = (Participant__c)duplicate;
-                return Date.valueOf(participant.Date_of_Birth__c);
-            }
-            return null;
-        }
-
         public Integer getYearOfBirth() {
             if (isParticipant()) {
                 Participant__c participant = (Participant__c)duplicate;
                 return getYearOfBirthForParticipant(participant);
             }
             return null;
-        }
-
-        public Boolean isAdult() {
-            if (isParticipant()) {
-                return ((Participant__c)duplicate).Adult__c;
-            }
-            return true;
         }
 
         public Participant__c getParticipant() {
@@ -110,10 +81,12 @@ public without sharing class ParticipantDuplicateService {
         Set<String> zipCodes = new Set<String>();
         Set<Date> birthDates = new Set<Date>();
         Set<String> birthDateStrings = new Set<String>();
-        Map<Participant__c, Participant__c> participantsByDelegates = new Map<Participant__c, Participant__c>();
+        Set<String> lastNames = new Set<String>();
+
         for (ParticipantWithDelegate partWithDelegate : partsWithDelegates) {
             if (!String.isBlank(partWithDelegate.participant.Phone__c)) phones.add(partWithDelegate.participant.Phone__c);
             if (!String.isBlank(partWithDelegate.participant.Email__c)) emails.add(partWithDelegate.participant.Email__c);
+            if (!String.isBlank(partWithDelegate.participant.Last_Name__c)) lastNames.add(partWithDelegate.participant.Last_Name__c);
             if (!String.isBlank(partWithDelegate.participant.Date_of_Birth__c)) {
                 birthDates.add(Date.valueOf(partWithDelegate.participant.Date_of_Birth__c));
                 birthDateStrings.add(partWithDelegate.participant.Date_of_Birth__c);
@@ -122,8 +95,6 @@ public without sharing class ParticipantDuplicateService {
             if (!String.isBlank(partWithDelegate.participant.Mailing_Zip_Postal_Code__c)) zipCodes.add(partWithDelegate.participant.Mailing_Zip_Postal_Code__c);
 
             if (partWithDelegate.delegate != null) {
-                participantsByDelegates.put(partWithDelegate.participant, partWithDelegate.delegate);
-
                 if (!String.isBlank(partWithDelegate.delegate.Phone__c)) phones.add(partWithDelegate.delegate.Phone__c);
                 if (!String.isBlank(partWithDelegate.delegate.Email__c)) emails.add(partWithDelegate.delegate.Email__c);
                 if (!String.isBlank(partWithDelegate.delegate.Date_of_Birth__c)) {
@@ -137,10 +108,11 @@ public without sharing class ParticipantDuplicateService {
 
         //Find participants
         List<Participant__c> existedParticipants = [
-                SELECT Id, First_Name__c, Last_Name__c, Email__c, Phone__c, Day_of_Birth__c, Birth_Year__c, Date_of_Birth__c, Secondary_Source__c, ZIP_Code__c, Mailing_Zip_Postal_Code__c
+                SELECT Id, Contact__c, First_Name__c, Last_Name__c, Email__c, Phone__c, Day_of_Birth__c, Birth_Year__c, Date_of_Birth__c, Secondary_Source__c, ZIP_Code__c, Mailing_Zip_Postal_Code__c
                 FROM Participant__c
-                WHERE Email__c IN :emails OR Phone__c IN :phones OR Day_of_Birth__c IN :birthDates OR ZIP_Code__c IN :zipCodes
+                WHERE Email__c IN :emails OR Phone__c IN :phones OR Day_of_Birth__c IN :birthDates OR ZIP_Code__c IN :zipCodes OR Last_Name__c IN :lastNames
         ];
+        Map<Id, Participant__c> participantsByIds = new Map<Id, Participant__c>(existedParticipants);
 
         Map<String, Participant__c> participantsByEmailMap = new Map<String, Participant__c>();
         Map<String, Participant__c> participantsByPhoneMap = new Map<String, Participant__c>();
@@ -180,7 +152,7 @@ public without sharing class ParticipantDuplicateService {
         Map<String, Contact> contactsByPhoneMap = new Map<String, Contact>();
         Map<String, List<Contact>> contactsByZipMap = new Map<String, List<Contact>>();
         Map<Date, List<Contact>> contactsByDoBMap = new Map<Date, List<Contact>>();
-        for(Contact contact : existedContacts){
+        for (Contact contact : existedContacts) {
             if (contact.Email != null) contactsByEmailMap.put(contact.Email.toLowerCase(), contact);
             if (contact.Phone != null) contactsByPhoneMap.put(contact.Phone, contact);
             if (!String.isBlank(contact.MailingPostalCode)) {
@@ -195,6 +167,24 @@ public without sharing class ParticipantDuplicateService {
                 dobContacts.add(contact);
                 contactsByDoBMap.put(contact.Birthdate, dobContacts);
             }
+        }
+
+        //Find Participant Delegates
+        List<Patient_Delegate__c> patientDelegates = [
+                SELECT Id, Participant__c, Contact__c
+                FROM Patient_Delegate__c
+                WHERE Participant__c IN :participantsByIds.keySet() ORDER BY LastModifiedDate DESC];
+        Map<Id, Id> delegateContactIdsByPatientIds = new Map<Id, Id>();
+        for (Patient_Delegate__c pt : patientDelegates) {
+            if (!delegateContactIdsByPatientIds.containsKey(pt.Participant__c)) delegateContactIdsByPatientIds.put(pt.Participant__c, pt.Contact__c);
+        }
+        List<Participant__c> delegateParticipants = [
+                SELECT Id, Contact__c, First_Name__c, Last_Name__c, Email__c, Phone__c, Day_of_Birth__c, Birth_Year__c, Date_of_Birth__c, Secondary_Source__c, ZIP_Code__c, Mailing_Zip_Postal_Code__c
+                FROM Participant__c
+                WHERE Contact__c IN :delegateContactIdsByPatientIds.values()];
+        Map<Id, Participant__c> delegatesByContactIds = new Map<Id, Participant__c>();
+        for (Participant__c delegate : delegateParticipants) {
+            delegatesByContactIds.put(delegate.Contact__c, delegate);
         }
 
         for (ParticipantWithDelegate partWithDelegate : partsWithDelegates) {
@@ -247,20 +237,31 @@ public without sharing class ParticipantDuplicateService {
                         participant.Date_of_Birth__c != null && contactsByDoBMap.containsKey(Date.valueOf(participant.Date_of_Birth__c))) {
                     List<Participant__c> participantsByDoB = participantsByDoBStringsMap.get(participant.Date_of_Birth__c);
                     List<Contact> contactsByDoB = participant.Date_of_Birth__c != null ? contactsByDoBMap.get(Date.valueOf(participant.Date_of_Birth__c)) : new List<Contact>();
-                    if (participantsByDoB == null && contactsByDoB == null ||
-                            participantsByDoB.isEmpty() && contactsByDoB.isEmpty()) {
+                    Boolean participantsByDoBExist = participantsByDoB == null;
+                    Boolean contactsByDoBExist = contactsByDoB == null;
+                    if (participantsByDoBExist && contactsByDoBExist ||
+                            !participantsByDoBExist && participantsByDoB.isEmpty() &&
+                            !contactsByDoBExist && contactsByDoB.isEmpty()) {
                         continue;
                     }
 
                     Boolean isAdultAndHasEmailOrPhone = participant.Adult__c && (!String.isBlank(participant.Email__c) || !String.isBlank(participant.Phone__c));
                     Participant__c paticipantInfoToCheck = (delegate == null || isAdultAndHasEmailOrPhone ? participant : delegate);
-                    if (participantsByDoB != null) {
+                    if (!participantsByDoBExist) {
                         for (Participant__c dupParticipant : participantsByDoB) {
                             if (dupParticipant != null && dupParticipant.Last_Name__c != null && dupParticipant.Last_Name__c == participant.Last_Name__c) {
+                                Participant__c dupParticipantDelegate;
+                                if (delegateContactIdsByPatientIds.containsKey(dupParticipant.Id)) {
+                                    dupParticipantDelegate = delegatesByContactIds.get(delegateContactIdsByPatientIds.get(dupParticipant.Id));
+                                }
+                                Boolean isDupParticipantDelegateCoincide = dupParticipantDelegate != null &&
+                                        (dupParticipantDelegate.Email__c != null && paticipantInfoToCheck.Email__c != null && dupParticipantDelegate.Email__c.toLowerCase() == paticipantInfoToCheck.Email__c.toLowerCase() ||
+                                        dupParticipantDelegate.Phone__c != null && dupParticipantDelegate.Phone__c == paticipantInfoToCheck.Phone__c);
                                 if (dupParticipant.Email__c != null && paticipantInfoToCheck.Email__c != null && dupParticipant.Email__c.toLowerCase() == paticipantInfoToCheck.Email__c.toLowerCase() ||
                                         dupParticipant.Phone__c != null && dupParticipant.Phone__c == paticipantInfoToCheck.Phone__c ||
                                         dupParticipant.ZIP_Code__c != null && dupParticipant.ZIP_Code__c == participant.ZIP_Code__c ||
-                                        dupParticipant.Mailing_Zip_Postal_Code__c != null && dupParticipant.Mailing_Zip_Postal_Code__c == participant.Mailing_Zip_Postal_Code__c) {
+                                        dupParticipant.Mailing_Zip_Postal_Code__c != null && dupParticipant.Mailing_Zip_Postal_Code__c == participant.Mailing_Zip_Postal_Code__c ||
+                                        isDupParticipantDelegateCoincide) {
                                     if (dupParticipant.First_Name__c != null && dupParticipant.First_Name__c == participant.First_Name__c) {
                                         duplicate = new DuplicateContainer(dupParticipant);
                                     }
@@ -268,7 +269,7 @@ public without sharing class ParticipantDuplicateService {
                             }
                         }
                     }
-                    if (duplicate == null && contactsByDoB != null) {
+                    if (duplicate == null && !contactsByDoBExist) {
                         for (Contact dupContact : contactsByDoB) {
                             if (dupContact != null && dupContact.LastName != null && dupContact.LastName == participant.Last_Name__c) {
                                 if (dupContact.Email != null && paticipantInfoToCheck.Email__c != null && dupContact.Email.toLowerCase() == paticipantInfoToCheck.Email__c.toLowerCase() ||

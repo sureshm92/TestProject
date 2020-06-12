@@ -269,18 +269,23 @@ public without sharing class NotificationService {
                         sendResultService.setSkipped(n.Id, nt.Target_Type__c);
                     }
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_PUSH) {
-                    pushNotifications.add(n);
+                    if(availabilityService.isAvailableForPush(n.Id, n.WhatId__c)){
+                        sendResultService.setInProgress(n.Id, nt.Target_Type__c);
+                        pushNotifications.add(n);
+                    }else{
+                        sendResultService.setSkipped(n.Id, nt.Target_Type__c);
+                    }
                 } else if (nt.Target_Type__c == NOTIFICATION_RECIPIENT_TYPE_EXTERNAL_EMAIL) {
                     //TODO
                 }
             }
         }
+    
         sendResultService.updateResults();
-
+        //Send emails:
         if (!emailNotifications.isEmpty()) EmailService.send(emailNotifications, orgWideEmailByNotifyMap);
-        if (!smsNotifications.isEmpty()) SMSService.sendQueueable(smsNotifications);
-        if (!pushNotifications.isEmpty()) ActionExecutor.executeAsync(new Action_SendPush(pushNotifications), Datetime.now());
-        
+        //
+        new ActionChain(new Action_SendSMS(smsNotifications)).next(new Action_SendPush(pushNotifications)).runChain();
     }
 
 }

@@ -23,7 +23,7 @@
     <aura:attribute name="phonePattern" type="String"/>
     <aura:attribute name="phonePlaceholder" type="String"/>
     <aura:attribute name="reRender" type="Boolean" default="true"/>
-
+    <aura:attribute name="disableSave" type="Boolean" default="false"/>
 
     <aura:attribute name="contactSectionData" type="Object"/>
     <aura:attribute name="personWrapper" type="Object"/>
@@ -41,6 +41,7 @@
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
      <!-- Methods: -->
      <aura:method name="scrollOnMobileField" action="{!c.doScrollInto}" access="public">
         <aura:attribute name="smsOptIn" type="Boolean"/>
@@ -277,18 +278,18 @@
     </div>
     
                                 <!-- Toggle for SMS -->
-                                <aura:if isTrue="{!and(v.initData.isSMSAvailableFromSS, equals(v.personWrapper.mailingCC, 'US'))}">
                                     <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
                                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-media--responsive">
                                           
-                                         <lightning:input aura:id="pField" type="tel" label="{!$Label.c.Mob_Phone_Field}"
+                                         <lightning:input aura:id="pField1" type="tel" label="{!$Label.c.Mob_Phone_Field}"
                                          value="{!v.personWrapper.mobilePhone}"
-                                         pattern="{!v.phonePattern}"
                                          required="{!and(v.personWrapper.optInSMS, equals(v.personWrapper.mailingCC, 'US'))}"
                                          disabled="{!notequals(v.personWrapper.mailingCC, 'US')}"
-                                         onblur="{!c.doCheckFieldsValidity}" messageWhenPatternMismatch="{!$Label.c.PP_MessagePatternMismatch}"/> 
+                                         onblur="{!c.handleMobileValidation}" /> 
      
                                         </div>
+                                        <aura:if isTrue="{!and(v.initData.isSMSAvailableFromSS, equals(v.personWrapper.mailingCC, 'US'))}">
+
                                         <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}"
                                                          variant="label-hidden"
                                                          messageToggleInactive="{!$Label.c.BTN_Off}"
@@ -299,17 +300,15 @@
                                                          <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-m-top--large slds-media--responsive">
     
                                         {!$Label.c.PG_AS_L_Opt_In_Participant_Status_SMS}</div>
+                                        </aura:if>
                                     </div>
-                                </aura:if>
     <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
     
         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-media--responsive">
     
-            <lightning:input aura:id="pField" type="tel" label="{!$Label.c.PG_AS_F_Phone_number}"
+            <lightning:input aura:id="pField2" type="tel" label="{!$Label.c.PG_AS_F_Phone_number}"
             value="{!v.personWrapper.homePhone}" 
-            pattern="{!v.phonePattern}"
-            messageWhenPatternMismatch="{!$Label.c.PP_MessagePatternMismatch}"
-            onblur="{!c.doCheckFieldsValidity}" 
+            onblur="{!c.handleHomePhoneValidation}" 
             /></div>
     
                     <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-media--responsive">
@@ -322,8 +321,7 @@
                               
     <div class="slds-col slds-size_1-of-1 as-buttons-footer">
     
-    <lightning:button variant="brand" label="{!$Label.c.PP_Save_Changes}" title="" onclick="{! c.doUpdatePerson }" class="slds-button slds-button_brand apollo-btn primary"/>
-       
+<lightning:button variant="brand" label="{!$Label.c.PP_Save_Changes}" title="" onclick="{! c.doUpdatePerson }" class="slds-button slds-button_brand apollo-btn primary" disabled="{!v.disableSave}"/>       
     </div>
     
                                 
