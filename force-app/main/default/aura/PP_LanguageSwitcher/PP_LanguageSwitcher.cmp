@@ -10,6 +10,7 @@
 	<aura:attribute name="stateKey" type="String"/>
     <aura:attribute name="secondLangKey" type="String"/>
     <aura:attribute name="thirdLangKey" type="String"/>
+    <aura:attribute name="zipcodeKey" type="String"/>
     <aura:attribute name="languages" type="LabelValueItem[]"/>
 	<aura:attribute name="countries" type="LabelValueItem[]"/>
 	<aura:attribute name="states" type="LabelValueItem[]"/>
@@ -121,7 +122,8 @@
 
             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
                 <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Institute_Zip_Postal_Code}</div>
-                <c:rrInput aura:id="zipcode" id="zipcode" valueString="{!v.personWrapper.zip}" disabled="false"/>
+               <!-- <c:rrInput aura:id="zipcode" id="zipcode" valueString="{!v.personWrapper.zip}" disabled="false"/>-->
+				<c:rrInput aura:id="zipcode" id="zipcode" valueString="{!v.zipcodeKey}" disabled="false"/>
             </div>
         </div>
             

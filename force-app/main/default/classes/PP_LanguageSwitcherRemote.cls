@@ -16,11 +16,13 @@ public without sharing class PP_LanguageSwitcherRemote {
         String secondLangKey;
         String thirdLangKey;
 		
+		
 		//Sneha-Added variables to store country and its states
 		String countryKey;
         List<LabelValueItem> countries = new List<LabelValueItem>();		
 		String stateKey;
 		Map<String, List<LabelValueItem>> statesByCountryMap = new Map<String, List<LabelValueItem>>();
+		String zipcodeKey;
     }
 	 
     public static List<LabelValueItem> countriesLVList = new List<LabelValueItem>();
@@ -90,6 +92,7 @@ public without sharing class PP_LanguageSwitcherRemote {
 			if(participantList.size()> 0){				
 				initData.countryKey    = participantList[0].Mailing_Country_Code__c;				
 				initData.stateKey    = participantList[0].Mailing_State_Code__c;
+				initData.zipcodeKey   = participantList[0].Mailing_Zip_Postal_Code__c;
 			}		
             return JSON.serialize(initData);
         }catch (Exception e){

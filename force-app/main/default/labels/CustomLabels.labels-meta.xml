@@ -5673,7 +5673,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>IncentiveProgram_Redeem_Points_Disclaimer</shortDescription>
-        <value>Ways To Redeem Points Soon</value>
+        <value>Start earning points now. Redemption opportunities coming soon.</value>
     </labels>
     <labels>
         <fullName>IncentiveProgram_Select_Study_Site</fullName>
@@ -12178,7 +12178,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Profile_Update_Success</shortDescription>
-        <value>Your Profile Information Updated Successfully!</value>
+        <value>Data Updated Successfully!</value>
     </labels>
     <labels>
         <fullName>PP_Save_Changes</fullName>
@@ -15927,5 +15927,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>configuation table</shortDescription>
         <value>Name</value>
+    </labels>
+	    <labels>
+        <fullName>Library_General_Resources</fullName>
+        <categories>Contains Label for Not Specific Study related to Library Tab</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Library_General_Resources</shortDescription>
+        <value>General Resources</value>
     </labels>
 </CustomLabels>

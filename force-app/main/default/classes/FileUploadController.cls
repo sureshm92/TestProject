@@ -33,7 +33,7 @@ public without sharing class FileUploadController {
     }
 
     @AuraEnabled
-    public static FilesWrapper deleteContentDocument(String documentId, String resourceId){
+    public static FilesWrapper deleteContentDocument(String documentId,String fileName, String resourceId){
         try {
             delete [SELECT Id FROM ContentDocument WHERE Id =: documentId ];
             return createFilesWrapper(resourceId);
@@ -43,15 +43,15 @@ public without sharing class FileUploadController {
     }
 
     @AuraEnabled
-    public static FilesWrapper updateContentDocument(String documentId, String codeValue, String resourceId){
+    public static FilesWrapper updateContentDocument(String documentId, String fileName, String resourceId){//String codeValue
         try{
             ContentDocument contentDoc = [
                     SELECT Id
                     FROM ContentDocument
                     WHERE Id =: documentId
             ];
-            contentDoc.Title = codeValue;
-            update contentDoc;
+            //contentDoc.Title = codeValue;
+            ////update contentDoc;
             return createFilesWrapper(resourceId);
         }catch (Exception e){
             return (FilesWrapper) AuraHelper.throwException(e);
