@@ -572,13 +572,6 @@
         <shortDescription>Avaliable Icons</shortDescription>
         <value>Avaliable Icons</value>
     </labels>
-	<labels>
-        <fullName>BTN_Close</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Close</shortDescription>
-        <value>Close</value>
-    </labels>
     <labels>
         <fullName>BTN_Accept</fullName>
         <language>en_US</language>
@@ -15550,14 +15543,6 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Alternate Email/Phone Number</shortDescription>
         <value>Alternate Email/Phone Number</value>
-    </labels>
-	 <labels>
-        <fullName>Additional_Notes_optional</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Additional Notes(optional)</shortDescription>
-        <value>Additional Notes(optional)</value>
     </labels>
 	 <labels>
         <fullName>End_Date</fullName>
