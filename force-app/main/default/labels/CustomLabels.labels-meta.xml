@@ -15928,4 +15928,12 @@ communications using the toggles below.</value>
         <shortDescription>configuation table</shortDescription>
         <value>Name</value>
     </labels>
+	    <labels>
+        <fullName>Library_General_Resources</fullName>
+        <categories>Contains Label for Not Specific Study related to Library Tab</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Library_General_Resources</shortDescription>
+        <value>General Resources</value>
+    </labels>
 </CustomLabels>
