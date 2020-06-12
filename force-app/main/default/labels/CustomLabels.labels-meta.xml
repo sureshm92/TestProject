@@ -13275,6 +13275,13 @@ communications using the toggles below.</value>
         <shortDescription>Resources Study Document Table Col Summary</shortDescription>
         <value>Summary</value>
     </labels>
+	 <labels>
+        <fullName>Request</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Request</shortDescription>
+        <value>Request</value>
+    </labels>
     <labels>
         <fullName>Resources_Study_Document_Table_Col_Title</fullName>
         <language>en_US</language>
