@@ -15920,6 +15920,27 @@ communications using the toggles below.</value>
         <shortDescription>Invalid Phone</shortDescription>
         <value>Enter 10 digits phone number</value>
     </labels>
+	<labels>
+        <fullName>New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>New</shortDescription>
+        <value>New</value>
+    </labels>
+	<labels>
+        <fullName>New_Note</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>New Note</shortDescription>
+        <value>New Note</value>
+    </labels>
+	<labels>
+        <fullName>Cancel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
     <labels>
         <fullName>visit_Name</fullName>
         <categories>configuation table</categories>
