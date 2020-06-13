@@ -16,8 +16,14 @@
 
     doCreateNewTask: function (component, event, helper) {
         //communityService.navigateToPage('task-detail');
+        let firstLoad = component.get('v.firstLoad');
         let title = $A.get('$Label.c.BTN_Create_New_Task');
-        helper.createStudyVisitReminder(component, true, null, null, title);
+        if(!firstLoad){
+            helper.createStudyVisitReminder(component, true, null, null, title);
+        } else{
+            //TO-DO: Add necessary arguments later
+            component.find('studyVisitReminder').reloadPopup();
+        }
     },
 
     doTaskClick: function (component, event, helper) {

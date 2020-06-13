@@ -15,6 +15,11 @@
     <aura:attribute name="tasksAvailable" type="Boolean" default="true"/>
     <aura:attribute name="emptyTrial" type="Boolean" default="true"/>
     <aura:attribute name="showCreateTaskButton" type="Boolean" default="false"/>
+    <aura:attribute name="firstLoad" type="Boolean" default="false" />
+
+
+    <!--dependency-->
+    <aura:dependency resource="markup://c:StudyVisitReminder" type="COMPONENT"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>

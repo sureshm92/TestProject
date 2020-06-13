@@ -45,20 +45,25 @@
     },
     
     createEditTask: function (component, event, helper) {
-        debugger;
         let currentVisits = component.get('v.currentVisits');
         let indexVar = event.getSource().get('v.value');
         let taskId = currentVisits[indexVar].task.Id;
         let visitId = currentVisits[indexVar].visit.Id;
-        
-        if (!taskId) {
-            //communityService.navigateToPage('task-detail?visitId=' + visitId);
-            let title = 'Create Visit Reminder';
-            helper.createStudyVisitReminder(component, visitId, null, title);
-        } else {
-            //communityService.navigateToPage('task-detail?id=' + taskId + '&visitId=' + visitId);
-            let title = 'Edit Visit Reminder';
-            helper.createStudyVisitReminder(component, visitId, taskId, title);
+        let firstLoad = component.get('v.firstLoad');
+
+        if(!firstLoad){
+            if (!taskId) {
+                //communityService.navigateToPage('task-detail?visitId=' + visitId);
+                let title = 'Create Visit Reminder'; //Create custom label
+                helper.createStudyVisitReminder(component, visitId, null, title);
+            } else {
+                //communityService.navigateToPage('task-detail?id=' + taskId + '&visitId=' + visitId);
+                let title = 'Edit Visit Reminder'; //Create custom label
+                helper.createStudyVisitReminder(component, visitId, taskId, title);
+            }
+        } else{
+            //TO-DO: Add necessary arguments later
+            component.find('studyVisitReminder').reloadPopup();
         }
     }
 });

@@ -9,6 +9,11 @@
     <!-- event handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
+    <!-- methods -->
+    <aura:method name="reloadPopup" action="{!c.doInit}" description="Reload the popup in the parent component" >
+        <!-- add arguments-->
+    </aura:method>
+
     <c:Popup aura:id="reminderModal" title="{!v.title}" size="small">
         <!-- Add the input fields -->
         <aura:set attribute="footerButtons">

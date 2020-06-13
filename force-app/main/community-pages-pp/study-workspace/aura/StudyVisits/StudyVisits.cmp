@@ -15,9 +15,9 @@
     <aura:attribute name="options" type="List"/>
     <aura:attribute name="iconNames" type="String" default=""/>
     <aura:attribute name="isHasVisits" type="Boolean" default="true"/>
-    <aura:attribute name="parent" type="Aura.Component" default="{!this}"/>
+    <aura:attribute name="firstLoad" type="Boolean" default="false" />
     <!--DEPENDENCY-->
-    <aura:dependency resource="markup://c:StudyVisitReminder"/>
+    <aura:dependency resource="markup://c:StudyVisitReminder" type="COMPONENT"/>
     <!--HANDLER-->
     <aura:handler name="change" value="{!v.visitMode}" action="{!c.getVisits}"/>
     
