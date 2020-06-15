@@ -35,7 +35,6 @@
                                     <div class="{!v.currentMode.key == subItem.key ? 'selected ' : '' + 'overflow-ellipsis '}">{!subItem.label}</div>
                                 </div>
                             </div>
-
                         </c:uiMenuItem>
                     </aura:iteration>
                     <aura:set attribute="else">
@@ -43,10 +42,19 @@
                                       closeAfterClick="{!and(!item.isGroup, !item.isSplitter)}">
                         <div class="main-box">
                             <div class="menu-item">
-                                <div class="selected">{!item.label}</div>
+                                <div class="{!v.currentMode.Label == item.Label ? 'selected ' : ''}">
+                                    {!item.label}
+                                    <aura:if isTrue="{!v.currentMode.Label == item.Label}">
+                                        <c:RRIcon class="icon-check" color="#0768FD" iconName="icon-chevron-down"/>
+                                    </aura:if>
+                                </div>
+                            </div>
+                            <div class="cog">
+                                <c:RRIcon class="icon-del" iconName="delegate"/>
+                                <c:RRIcon class="icon-cog" iconName="cog"/>
                             </div>
                             <div class="menu-sub-item">
-                                <div class="selected overflow-ellipsis">{!$Label.c.BTN_No_Active_Studies}</div>
+                                <div class="{!v.currentMode.Label == item.Label ? 'selected ' : '' + 'overflow-ellipsis '}">{!$Label.c.BTN_No_Active_Studies}</div>
                             </div>
                         </div>
                         </c:uiMenuItem>
