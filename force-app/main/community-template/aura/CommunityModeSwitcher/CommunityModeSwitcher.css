@@ -88,6 +88,13 @@
     }
 }
 
+@media all and (max-width: 768px) {
+    .THIS  .menu-popup-panel.popupTargetContainer {
+        top: 40px;
+    }
+}
+
+
 @media all and (max-width: 550px) {
     .THIS.mode-block{
         position: absolute;
