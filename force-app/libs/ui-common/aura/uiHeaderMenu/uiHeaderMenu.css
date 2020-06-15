@@ -103,9 +103,17 @@
     height: 40px;
 }
 
-@media all and (max-width: 767px) {
-    .THIS .menu-popup-panel.popupTargetContainer{
+@media all and (max-width: 768px) {
+
+    .cUiHeaderMenu .menu-popup-panel.popupTargetContainer {
         left: auto;
-        right: 0;
+        right: -40px;
+        top: -82px;
+    }
+}
+
+@media all and (max-width: 550px) {
+    .cUiHeaderMenu .menu-popup-panel.popupTargetContainer {
+        right: 6px;
     }
 }

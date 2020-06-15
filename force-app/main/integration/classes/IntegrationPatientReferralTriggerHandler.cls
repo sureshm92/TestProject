@@ -189,6 +189,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
 
             if (!participantIdByParticipantDelegateId.isEmpty()) {
                 List<Patient_Delegate__c> ptDelegateRefs = new List<Patient_Delegate__c>();
+                List<Contact> delegateContacts = new List<Contact>();
                 Map<Id, Id> delegateUsersToCreate = new Map<Id, Id>();
                 for (Participant__c participantDelegate : newDelegateContactsMap.values()) {
                     Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
@@ -197,6 +198,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                         ptDelegateRef.Contact__c = delegatesById.get(participantDelegate.Id).Contact__c;
                         if (participantsWithoutErrors.contains(ptDelegateRef.Participant__c)) {
                             ptDelegateRefs.add(ptDelegateRef);
+                            delegateContacts.add(new Contact(Id = ptDelegateRef.Contact__c, UserCommunityIsDelegate__c = true));
                             if (!existingDelegates.contains(participantDelegate.Id) && !existingDelegates.contains(ptDelegateRef.Contact__c)) {
                                 delegateUsersToCreate.put(ptDelegateRef.Contact__c, null);
                             }
@@ -204,6 +206,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                     }
                 }
                 if (!ptDelegateRefs.isEmpty()) {
+                    update delegateContacts;
                     insert ptDelegateRefs;
                 }
                 if (!delegateUsersToCreate.isEmpty()) {

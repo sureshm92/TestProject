@@ -58,16 +58,26 @@
                              style="{!if(resourceStructure.resources.length > 6 , 'height :10rem' ,'margin-right:17px')}">
                             <aura:iteration items="{!resourceStructure.resources}" var="resource" indexVar="resourceIndex">
                                 <div class="slds-grid slds-wrap resource-container">
+                                    
                                     <aura:if isTrue="{!!empty(resource.videoLink || resource.link)}">
                                         <c:RRLink href="{!resource.videoLink ? resource.videoLink : resource.link}"
                                                   class="resource-links slds-col slds-size--4-of-12"
                                                   label="{!resource.name}" target="blank"/>
                                         <aura:set attribute="else">
-                                            <a class="slds-coll slds-size--4-of-12 resource-links"
-                                               onclick="{!c.doNavigate}"
-                                               data-attributeVal="{!key + ',' + resourceIndex}">{!resource.name}</a>
+                                            <aura:if isTrue="{!and(resource.format == 'Study Document',!empty(resource.fileID))}">
+                                                
+                                                <a class="slds-coll slds-size--4-of-12 resource-links resourceLinkHover"
+                                                   onclick="{!c.doNavigate}"
+                                                   data-attributeVal="{!key + ',' + resourceIndex}">{!resource.name}</a>
+                                                <aura:set attribute="else">
+                                                    <div class="slds-coll slds-size--4-of-12">
+                                                        {!resource.name}
+                                                    </div>
+                                                </aura:set>
+                                            </aura:if>
                                         </aura:set>
                                     </aura:if>
+                                    
                                     <div class="slds-coll slds-size--2-of-12">{!resource.language}</div>
                                     <div class="slds-coll slds-size--2-of-12">{!resource.type}</div>
                                     <div class="slds-coll slds-size--2-of-12">{!resource.format}</div>

@@ -13,11 +13,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Study_Name__c</field>
+                <field>Clinical_Trial_Profile__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Study_Site__c</field>
+                <field>Study_Name__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -38,6 +38,18 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Requested_End_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Alternate_Email_Phone_Number__c</field>
+            </layoutItems>
+			<layoutItems>
+                <behavior>Edit</behavior>
+                <field>Actual_Start_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Actual_End_Date__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
