@@ -41,6 +41,8 @@
             if (ipIds) ipIds += ';' + ipId;
             component.set('v.filter.pageFeatureIds', ipIds);
             helper.updateItems(component);
+            component.set('v.initilizedMap', false)
+            $A.enqueueAction(component.get('c.doInit'));
         }, 'create');
     },
 
@@ -109,6 +111,8 @@
         let menuCmp = event.getSource();
         component.find('actionIP').execute(menuCmp.get('v.plan').value, function () {
             helper.updateItems(component);
+            component.set('v.initilizedMap', false)
+            $A.enqueueAction(component.get('c.doInit'));
         }, 'clone');
     },
 
@@ -125,6 +129,7 @@
     doColumnIPDelete: function (component, event, helper) {
         let planId = component.get('v.planIdForDelete');
         let ipIds = component.get('v.filter.pageFeatureIds');
+        let allSelectedIPs = component.get('v.allSelectedIPs');
         if (ipIds) {
             let items = ipIds.split(';');
             let resItems = [];
@@ -134,6 +139,8 @@
             component.set('v.filter.pageFeatureIds', resItems.join(';'));
         }
         component.find('spinner').show();
+        allSelectedIPs[planId].clear();
+        component.set('v.allSelectedIPs', allSelectedIPs);
         communityService.executeAction(component, 'deleteIncentivePlan', {
             planId: planId,
             filterJSON: JSON.stringify(component.get('v.filter')),
