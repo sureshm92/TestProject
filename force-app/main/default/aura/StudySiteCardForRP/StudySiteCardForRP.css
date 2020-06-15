@@ -8,19 +8,17 @@
     line-height: 17px;
 }
 
-.THIS .inner-content-card {
-    box-sizing: border-box; 
-    border-radius: 4px; 
-    background-color: #f8f9fb; 
-    min-height: 100px; 
-    margin-top: 20px; 
-    padding: 15px;
+.THIS .site-distance {
+    text-align: right;
 }
 
-@media all and (min-width: 768px) {
-    .THIS .inner-content-card > .slds-grid:last-child .slds-col {
-        margin-bottom: 1rem;
-    }
+.THIS .inner-content-card {
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: #f8f9fb;
+    min-height: 100px;
+    margin-top: 20px;
+    padding: 15px;
 }
 
 .THIS .site-address {
@@ -31,4 +29,23 @@
 
 .THIS .slvi-site-btn {
     width: 100%;
+}
+
+
+@media all and (min-width: 501px) and (max-width: 768px) {
+    .THIS .inner-content-card > .slds-grid > .slds-col {
+        max-width: 50%
+    }
+}
+
+@media screen and (max-width: 500px) {
+
+    .THIS .site-distance {
+        text-align: left;
+        margin-top: .5rem;
+    }
+
+    .THIS .site-address + .site-address {
+        margin-bottom: 1rem;
+    }
 }

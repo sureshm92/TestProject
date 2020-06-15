@@ -31,7 +31,10 @@
     <aura:attribute name="disablefield" type="boolean" access="public" />
     <aura:attribute name="Picklistdefaultvalue" type="string" access="private" />
     <aura:attribute name="ActiveReqRecord" type="boolean" access="public" />
-    <aura:attribute name="MO_Value" type="string" access="public" />
+    <aura:attribute name="MO_AlternateValue" type="string" access="public" />
+    <aura:attribute name="isEmailPhone" type="Boolean" default="false"/>
+    <aura:attribute name="ErrorMsg" type="string" access="private" />
+    <aura:attribute name="Validated" type="Boolean" access="private" default="false" />
 
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public" />
@@ -44,7 +47,7 @@
     />
 
     <!-- component body:-->
-    <c:Popup aura:id="ShowPoP_Up" title="{!v.ViewRecord[0].Name}" showClose="false" size="medium"
+    <c:Popup aura:id="ShowPoP_Up" title="{!$Label.c.Request+' '+v.ViewRecord[0].Name}" showClose="true" size="medium"
         showScroll="true">
         <c:RRSpinner aura:id="modalSpinnerpopup" size="medium" showSpinner="false" />
         <div class="slds-grid slds-grid_vertical">
@@ -52,13 +55,13 @@
                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                     <div class="rr-form-element">
                         <div class="label slds-text-align_left">{!$Label.c.MO_Study_Name}</div>
-                        <b> {!v.ViewRecord[0].Study_Name__r.Name}</b>
+                        <b> {!v.ViewRecord[0].Study_Name__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</b>
                     </div>
                 </div>
                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                     <div class="rr-form-element">
                         <div class="label slds-text-align_left">{!$Label.c.MO_Study_Site}</div>
-                        <b> {!v.ViewRecord[0].Study_Name__r.Site__r.Name}</b>
+                        <b> {!v.ViewRecord[0].Study_Name__r.Name}</b>
                     </div>
                 </div>
             </div>
@@ -93,9 +96,8 @@
             <div class="slds-col slds-grid slds-size_1-of-1">
                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                     <div class="rr-form-element">
-                        {!$Label.c.Preferred_Contact_Method}<abbr title="required"
-                            class="slds-required">*</abbr>
-                        <lightning:select value="{!v.preferred}" aura:id="preferredId" onchange="{!c.preferredType}"
+                        <!--<div class="label">{!$Label.c.Preferred_Contact_Method}</div>-->
+                        <lightning:select value="{!v.preferred}" label="{!$Label.c.Preferred_Contact_Method_View}" aura:id="preferredId" onchange="{!c.preferredType}"
                             disabled="{!v.disablefield}">
                             <aura:iteration items="{!v.PC_Value}" var="options" indexVar="index">
                                 <option value="{!options.value}" label="{!options.value}"></option>
@@ -103,19 +105,22 @@
                         </lightning:select>
                     </div>
                 </div>
+                <aura:if isTrue="{!v.isEmailPhone}">
                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                     <div class="rr-form-element">
-                        <div class="label">{!$Label.c.Alternate_Email_Phone_Number}</div>
-                        <lightning:input value="{!v.AlternatePhone_email}" aura:id="alternate" disabled="{!v.disabled}"
+                        <!--<div class="label">{!$Label.c.Alternate_Email_Phone_Number}</div>-->
+                        <lightning:input value="{!v.AlternatePhone_email}" label="{!$Label.c.Alternate_Email_Phone_Number}" aura:id="alternate" disabled="{!v.disabled}"
                         />
                     </div>
+                    <div class="slds-text-color--error slds-p-top--x-small slds-col--padded-small startenddate">{!v.ErrorMsg}</div>
                 </div>
-            </div>
+                </aura:if>
+            </div> 
             <aura:if isTrue="{!v.footerbutton}">
                 <div class="slds-col slds-grid slds-size_1-of-1">
                     <div class="slds-col slds-size_1-of-1 slds-p-around_medium">
                         <lightning:textarea label="{!$Label.c.Additional_Notes_optional}" value="{!v.notes}"
-                            placeholder="{!$Label.c.Type_notes_here}" maxlength="300"
+                            placeholder="{!$Label.c.Type_notes_here}"
                             disabled="{!v.buttonDisable}" aura:id="notesId" />
                     </div>
                 </div>
@@ -128,14 +133,14 @@
                 <aura:iteration items="{!v.lstNotes}" var="item">
                     <p>
                         <ui:outputDate value="{!item.CreatedDate}" />: {!item.Title}</p><br></br>
-                </aura:iteration>
+                </aura:iteration> 
             </div>
         </div>
         <aura:set attribute="footerButtons">
             <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false" />
             <button class="apollo-btn" onclick="{!c.CancelPoPUp}" disabled="{!v.buttonDisable}"
                 data-gtm="BTN_CancelInvitePopUp">
-                    {!$Label.c.BTN_Cancel}
+                    {!$Label.c.BTN_Close}
                 </button>
             <aura:if isTrue="{!v.footerbutton}">
                 <div class="slds-float_right">

@@ -15,12 +15,7 @@ public without sharing class PP_LanguageSwitcherRemote {
         List<LabelValueItem> timezones = new List<LabelValueItem>();
         String secondLangKey;
         String thirdLangKey;
-		
-		//Sneha-Added variables to store country and its states
-		String countryKey;
-        List<LabelValueItem> countries = new List<LabelValueItem>();		
-		String stateKey;
-		Map<String, List<LabelValueItem>> statesByCountryMap = new Map<String, List<LabelValueItem>>();
+        String defaultCountryName;								
     }
 	 
     public static List<LabelValueItem> countriesLVList = new List<LabelValueItem>();
@@ -34,22 +29,8 @@ public without sharing class PP_LanguageSwitcherRemote {
             for(PicklistEntry ple : listPLE){
                 initData.languages.add(new LabelValueItem(ple.getLabel(), ple.getValue()));
                 initData.optionalLanguages.add(new LabelValueItem(ple.getLabel(), ple.getValue()));
-            }
+            }						
 			
-			//Sneha-Added logic to store country and its states
-			countriesLVList = CountryStateUtil.getCountries();
-			initData.countries.addAll(countriesLVList);
-			
-			Map<String, List<LabelValueItem>> tempStatesByCountryMap = new Map<String, List<LabelValueItem>>();
-            
-			tempStatesByCountryMap = CountryStateUtil.getStatesByCountryMap();
-            system.debug('@@ statePicklist'+tempStatesByCountryMap.get('CN'));
-			for(string cc: tempStatesByCountryMap.keySet()){
-                if(tempStatesByCountryMap.get(cc).size()>0){
-					tempStatesByCountryMap.get(cc).add(0,new LabelValueItem('--' + Label.None + '--', null));
-                }
-			}
-			initData.statesByCountryMap.putAll(tempStatesByCountryMap);
 			
 			
 			
@@ -77,20 +58,7 @@ public without sharing class PP_LanguageSwitcherRemote {
             initData.thirdLangKey  = user.Contact.Third_Choice_Language__c;
             initData.localeKey     = UserInfo.getLocale();
             initData.timezoneKey   = String.ValueOf(UserInfo.getTimeZone());
-			
-			List<Participant__c> participantList = new List<Participant__c>();
-			participantList = [
-                                SELECT Id, First_Name__c, Middle_Name__c, Last_Name__c, Phone__c,
-                                        Mailing_Zip_Postal_Code__c, Mailing_State__c, Mailing_Country__c,
-                                        Mailing_Country_Code__c, Mailing_State_Code__c,
-                                        Gender__c, Date_of_Birth__c
-                                FROM Participant__c
-                                WHERE Contact__c = :user.ContactId limit 1
-                        ];
-			if(participantList.size()> 0){				
-				initData.countryKey    = participantList[0].Mailing_Country_Code__c;				
-				initData.stateKey    = participantList[0].Mailing_State_Code__c;
-			}		
+            						
             return JSON.serialize(initData);
         }catch (Exception e){
             return (String) AuraHelper.throwException(e);
@@ -147,6 +115,9 @@ public without sharing class PP_LanguageSwitcherRemote {
 					Mailing_State__c = stateName					
 				);
 			}
+				
+			
+						
 				
 			
         }catch (Exception e){
