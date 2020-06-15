@@ -10,6 +10,7 @@
         helper.clearInviteFields(component, event, helper);
         helper.studyContact(component, event, helper);
         helper.mediaType(component, event, helper);
+       // helper.modeInit(component, event, helper);
         },
     
     doExecute: function (component, event, helper) {
