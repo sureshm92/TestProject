@@ -1,0 +1,57 @@
+/**
+ * Created by Andrii Kryvolap
+ */
+
+.THIS.mode-group{
+    color: #000000;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+    padding: 9px 0 9px 34px;
+
+    border-top: 1px solid #F8F9FB;
+    border-bottom: 1px solid #F8F9FB;
+}
+.THIS.mode-group:hover,
+.THIS.mode-sub-item:hover{
+    background: #eef5ff;
+}
+
+.THIS.mode-group.selected{
+    color: #0768FD;
+}
+
+.THIS.mode-sub-item{
+    color: #444444;
+    font-size: 16px;
+    font-weight: normal;
+    letter-spacing: 0;
+    line-height: 24px;
+    padding: 9px 0 9px 45px;
+    border-top: 1px solid #F8F9FB;
+    border-bottom: 1px solid #F8F9FB;
+}
+
+.THIS.mode-sub-item.selected{
+    color: #0768FD;
+    font-weight: 600;
+}
+.THIS.selected-mode-group-icon,
+.THIS .selected-mode-sub-item-icon,
+.THIS.mode-group-icon.selected{
+    fill: #0768FD;
+}
+
+.THIS.mode-group-icon{
+    position: absolute;
+    left: 16px;
+    height: 42px;
+    width: 12px;
+}
+.THIS.selected-mode-group-icon,
+.THIS .selected-mode-sub-item-icon{
+    height: 24px;
+    width: 14px;
+    margin-left: 5px;
+}
