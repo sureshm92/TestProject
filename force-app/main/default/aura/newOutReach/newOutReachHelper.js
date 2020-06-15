@@ -19,6 +19,7 @@
         component.set("v.studyData", '');
         component.set("v.isDuplicate", false);
     },
+
     studyContact: function (component, event, helper) {
         communityService.executeAction(component, 'getstudyContact', {
         }, function (returnValue) {
@@ -78,9 +79,6 @@
             reqFieldsFilled = true;
          }
          if((preferred==otherPhone) && (phone == '' || phone == undefined)){
-            reqFieldsFilled = true;
-         }
-         if((preferred=='Phone') && (studyPhone == '' || studyPhone == undefined)){
             reqFieldsFilled = true;
          }
       
