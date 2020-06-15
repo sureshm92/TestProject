@@ -11,6 +11,9 @@
     },
 
     onClick: function (component, event) {
+        if (!component.get('v.page')){
+            component.set('v.page', ' ');
+        }
         let onclickEvent = component.getEvent('onclick');
         onclickEvent.setParams({
             "message": component.get('v.page'),

@@ -4,7 +4,7 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <description>To capture the study Name.</description>
     <externalId>false</externalId>
-    <label>Study Name</label>
+    <label>Study Site</label>
     <referenceTo>Study_Site__c</referenceTo>
     <relationshipLabel>Media Outreachs</relationshipLabel>
     <relationshipName>Media_Outreachs</relationshipName>

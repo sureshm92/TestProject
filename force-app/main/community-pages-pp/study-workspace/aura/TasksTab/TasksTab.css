@@ -70,3 +70,13 @@
 .THIS .rr-table .ignored{
     opacity: .5;
 }
+
+@media screen and (max-width:500px) {
+    .THIS .rr-white-panel {
+        overflow-x: scroll;
+    }
+
+    .THIS .rr-table {
+        width: 600px;
+    }
+}

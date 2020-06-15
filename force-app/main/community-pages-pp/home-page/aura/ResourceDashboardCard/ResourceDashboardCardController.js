@@ -14,5 +14,21 @@
                 });
             });
         }
-    }
+    },
+    navigateToCoi: function(component, event, helper){
+        var navService = component.find("navService");
+    var pageReference = {
+
+        type: "comm__namedPage",
+        attributes: {  
+            pageName: "account-settings"  
+        },    
+        state: {
+            sampleVar: true
+        }
+    };
+    sessionStorage.setItem('pageTransfer', JSON.stringify(pageReference.state));  
+    navService.navigate(pageReference);
+}
+   
 })

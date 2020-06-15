@@ -1,12 +1,44 @@
-.THIS .rr-white-panel {
-    padding: 1rem!important;
+.THIS .rr-white-settings-panel {
+    margin-bottom: 200px;
+    position: absolute;
+    z-index: 5;
+    width: 833px;
 }
 
 .THIS.as-container {
     position: relative;
     padding-bottom: 100px;
+        margin-bottom: -2%;
    
-   
+}
+
+.THIS .slds-select_container{
+    width:fit-content;
+}
+
+.THIS .slds-select_container{
+    width:fit-content;
+} 
+.THIS .slds-input{
+  color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 1rem;
+  letter-spacing: 0;
+  line-height: 24px;
+    
+    
+}
+.THIS .mar{
+    margin-left:-95px;
+    
+}
+.THIS .suffix{
+    width:156px;
+}
+.THIS .mar_dob{
+    margin-left:-159px;
+    width:fit-content;
+    
 }
 
 .THIS.as-container .as-password .rr-form-element + .rr-form-element {
