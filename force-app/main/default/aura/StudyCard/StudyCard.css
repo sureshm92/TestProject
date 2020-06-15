@@ -375,9 +375,6 @@
         border-right: none;
     }
 
-    .THIS .slvi-search-site-btn {
-        width: 100%;
-    }
 }
 
 @media screen and (max-width: 500px) {
@@ -423,6 +420,10 @@
     
     .THIS .slvi-top-container-hcp .study-title span:nth-of-type(2) {
         display: none;
+    }
+
+    .THIS .apollo-btn.primary.slvi-search-site-btn {
+        width: 100%;
     }
 
 }
