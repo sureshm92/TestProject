@@ -101,4 +101,8 @@
             helper.doCheckContact(component, event, helper, sharingObject.firstName, sharingObject.lastName, sharingObject.email.trim());
         }
     },
+
+    approveDelegate:function(component, event, helper){
+        component.set('v.useThisDelegate', true);
+    },
 });
