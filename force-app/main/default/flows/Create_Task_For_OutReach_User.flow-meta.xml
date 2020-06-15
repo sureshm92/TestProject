@@ -60,25 +60,25 @@
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>CASE (MOD (DATEVALUE( [Media_Outreach__c].CreatedDate )- DATE (1900, 1, 7), 7), 0, TODAY()+3,  5, TODAY()+5, 6,  TODAY()+4, TODAY()+3 )</stringValue>
+                <stringValue>TODAY()+3</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_2_myRule_1_A1_0050540923</name>
+        <name>formula_2_myRule_1_A1_6191787634</name>
         <dataType>Date</dataType>
-        <expression>CASE (MOD (DATEVALUE( {!myVariable_current.CreatedDate} )- DATE (1900, 1, 7), 7), 0, TODAY()+3,  5, TODAY()+5, 6,  TODAY()+4, TODAY()+3 )</expression>
+        <expression>TODAY()+3</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>&#39;New media outreach request from PI&#39; + [Media_Outreach__c].Study_Name__c.Principal_Investigator__c.FirstName + &#39; &#39; + [Media_Outreach__c].Study_Name__c.Principal_Investigator__c.LastName </stringValue>
+                <stringValue>&apos;New media outreach request from PI&apos; + &apos;  &apos; +[Media_Outreach__c].Study_Name__c.Principal_Investigator__c.FirstName + &apos; &apos; + [Media_Outreach__c].Study_Name__c.Principal_Investigator__c.LastName </stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_3_myRule_1_A1_4300367972</name>
+        <name>formula_3_myRule_1_A1_9131393263</name>
         <dataType>String</dataType>
-        <expression>&#39;New media outreach request from PI&#39; + {!myVariable_current.Study_Name__r.Principal_Investigator__r.FirstName} + &#39; &#39; + {!myVariable_current.Study_Name__r.Principal_Investigator__r.LastName}</expression>
+        <expression>&apos;New media outreach request from PI&apos; + &apos;  &apos; +{!myVariable_current.Study_Name__r.Principal_Investigator__r.FirstName} + &apos; &apos; + {!myVariable_current.Study_Name__r.Principal_Investigator__r.LastName}</expression>
     </formulas>
-    <interviewLabel>Create_Task_For_OutReach_User-1_InterviewLabel</interviewLabel>
+    <interviewLabel>Create_Task_For_OutReach_User-2_InterviewLabel</interviewLabel>
     <label>Create Task For OutReach User</label>
     <processMetadataValues>
         <name>ObjectType</name>
@@ -143,7 +143,7 @@
             </processMetadataValues>
             <field>ActivityDate</field>
             <value>
-                <elementReference>formula_2_myRule_1_A1_0050540923</elementReference>
+                <elementReference>formula_2_myRule_1_A1_6191787634</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -281,7 +281,7 @@
             </processMetadataValues>
             <field>Subject</field>
             <value>
-                <elementReference>formula_3_myRule_1_A1_4300367972</elementReference>
+                <elementReference>formula_3_myRule_1_A1_9131393263</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -323,7 +323,7 @@
         <object>Task</object>
     </recordCreates>
     <startElementReference>myDecision</startElementReference>
-    <status>Obsolete</status>
+    <status>Active</status>
     <variables>
         <name>myVariable_current</name>
         <dataType>SObject</dataType>
