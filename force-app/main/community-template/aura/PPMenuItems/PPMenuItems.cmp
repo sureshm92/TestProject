@@ -8,8 +8,9 @@
 
     <aura:registerEvent access="global" name="onclick" type="c:uiEvent"/>
 
+    <div class="mega-container">
     <aura:iteration var="item" items="{!v.allModes}">
-        <aura:if isTrue="{!item.isGroup}">
+        <aura:if isTrue="{!or(item.isGroup, item.participantState == 'ALUMNI')}">
             <div class="contain" style="">
                 <aura:if isTrue="{!not(empty(item.subModes))}">
                     <aura:iteration items="{!item.subModes}" var="subItem">
@@ -38,6 +39,8 @@
                         </c:uiMenuItem>
                     </aura:iteration>
                     <aura:set attribute="else">
+                        <c:uiMenuItem onclick="{!c.doOnClick}" itemValue="{!item}" class="unset"
+                                      closeAfterClick="{!and(!item.isGroup, !item.isSplitter)}">
                         <div class="main-box">
                             <div class="menu-item">
                                 <div class="selected">{!item.label}</div>
@@ -46,10 +49,12 @@
                                 <div class="selected overflow-ellipsis">{!$Label.c.BTN_No_Active_Studies}</div>
                             </div>
                         </div>
+                        </c:uiMenuItem>
                     </aura:set>
                 </aura:if>
             </div>
         </aura:if>
     </aura:iteration>
+    </div>
 
 </aura:component>

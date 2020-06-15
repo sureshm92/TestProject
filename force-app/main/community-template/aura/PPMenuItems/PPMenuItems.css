@@ -2,7 +2,7 @@
  * Created by Olga Skrynnikova on 6/10/2020.
  */
 
-.THIS.contain:first-child .unset:first-child .main-box .menu-item .icon-del{
+.THIS .contain:first-child .unset:first-child .main-box .menu-item .icon-del{
     visibility: visible;
     opacity: unset;
 }
@@ -26,7 +26,7 @@
 }
 
 .THIS .menu-sub-item{
-    width: 215px;
+    width: 300px;
     font-size: 12px;
     color: #797979;
 }
