@@ -4,65 +4,67 @@
 
 <aura:component description="PPMenuItems">
     <aura:attribute name="allModes" type="Object[]"/>
-    <aura:attribute name="currentMode" type="Object"/>
 
     <aura:registerEvent access="global" name="onclick" type="c:uiEvent"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
-    <div class="mega-container">
-    <aura:iteration var="item" items="{!v.allModes}">
-        <aura:if isTrue="{!or(item.isGroup, item.participantState == 'ALUMNI')}">
-            <div class="contain" style="">
-                <aura:if isTrue="{!not(empty(item.subModes))}">
-                    <aura:iteration items="{!item.subModes}" var="subItem">
-                        <c:uiMenuItem label="{!item.label}" onclick="{!c.doSelectItem}"
+    <div class="all-container">
+        <aura:iteration var="item" items="{!v.allModes}">
+            <div class="contain">
+                <aura:iteration items="{!item.subItems}" var="subItem">
+                    <c:uiMenuItem label="{!item.title}" onclick="{!c.doSelectItem}"
+                                  itemValue="{!item}"
+                                  class="unset">
+                        <div class="main-box">
+                            <div class="menu-item">
+                                <div class="{!subItem.isSelected ? 'selected ' : ''}">
+                                    {!item.title}
+                                    <aura:if isTrue="{!subItem.isSelected}">
+                                        <c:RRIcon iconName="icon-check" class="icon-check"/>
+                                    </aura:if>
+                                </div>
+                                <div>
+                                    <c:RRIcon class="icon-delegate" iconName="delegate"/>
+                                    <c:RRIcon class="icon-cog" iconName="cog"/>
+                                </div>
+                            </div>
+                            <div class="menu-sub-item">
+                                <div class="{!subItem.isSelected ? 'selected ' : '' + 'overflow-ellipsis '}">
+                                    {!subItem.title}
+                                </div>
+                            </div>
+                        </div>
+                    </c:uiMenuItem>
+                </aura:iteration>
+                <aura:if isTrue="{!empty(item.subItems)}">
+                    <div class="contain">
+                        <c:uiMenuItem label="{!item.title}" onclick="{!c.doSelectItem}"
                                       itemValue="{!item}"
-                                      closeAfterClick="{!and(!item.isGroup, !item.isSplitter)}"
                                       class="unset">
                             <div class="main-box">
                                 <div class="menu-item">
-                                    <div class="{! v.currentMode.key == subItem.key ? 'selected ' : ''}">
-                                        {!item.label}
-                                        <aura:if isTrue="{!v.currentMode.key == subItem.key}">
-                                            <c:RRIcon class="icon-check" color="#0768FD" iconName="icon-chevron-down"/>
+                                    <div class="{!item.isSelected ? 'selected ' : ''}">
+                                        {!item.title}
+                                        <aura:if isTrue="{!item.isSelected}">
+                                            <c:RRIcon iconName="icon-check" class="icon-check"/>
                                         </aura:if>
                                     </div>
-                                    <div class="cog">
-                                        <c:RRIcon class="icon-del" iconName="delegate"/>
+                                    <div>
+                                        <c:RRIcon class="icon-delegate" iconName="delegate"/>
                                         <c:RRIcon class="icon-cog" iconName="cog"/>
                                     </div>
                                 </div>
                                 <div class="menu-sub-item">
-                                    <div class="{!v.currentMode.key == subItem.key ? 'selected ' : '' + 'overflow-ellipsis '}">{!subItem.label}</div>
+                                    <div class="{!item.isSelected ? 'selected ' : '' + 'overflow-ellipsis '}">
+                                        {!item.subTitle}
+                                    </div>
                                 </div>
                             </div>
                         </c:uiMenuItem>
-                    </aura:iteration>
-                    <aura:set attribute="else">
-                        <c:uiMenuItem onclick="{!c.doOnClick}" itemValue="{!item}" class="unset"
-                                      closeAfterClick="{!and(!item.isGroup, !item.isSplitter)}">
-                        <div class="main-box">
-                            <div class="menu-item">
-                                <div class="{!v.currentMode.Label == item.Label ? 'selected ' : ''}">
-                                    {!item.label}
-                                    <aura:if isTrue="{!v.currentMode.Label == item.Label}">
-                                        <c:RRIcon class="icon-check" color="#0768FD" iconName="icon-chevron-down"/>
-                                    </aura:if>
-                                </div>
-                            </div>
-                            <div class="cog">
-                                <c:RRIcon class="icon-del" iconName="delegate"/>
-                                <c:RRIcon class="icon-cog" iconName="cog"/>
-                            </div>
-                            <div class="menu-sub-item">
-                                <div class="{!v.currentMode.Label == item.Label ? 'selected ' : '' + 'overflow-ellipsis '}">{!$Label.c.BTN_No_Active_Studies}</div>
-                            </div>
-                        </div>
-                        </c:uiMenuItem>
-                    </aura:set>
+                    </div>
                 </aura:if>
             </div>
-        </aura:if>
-    </aura:iteration>
+        </aura:iteration>
     </div>
 
 </aura:component>
