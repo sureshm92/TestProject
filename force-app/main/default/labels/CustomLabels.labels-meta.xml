@@ -2307,6 +2307,17 @@
         <value>One or more of your Referral Hub study permissions has changed.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_FollowUp_Reminder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body FollowUp Reminder</shortDescription>
+        <value>You haven't confirmed your enrollment yet in ##ShortCommunityName. Please click the link bellow, so that you can enroll and view your study progress.
+
+        Please note that enrollment in ##ShortCommunityName is not a requirement for you to be enrolled into the clinical research study.
+
+        Your user name is ##UserName.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Initial_Delegate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3137,6 +3148,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>We haven&#39;t heard from you in a while</value>
     </labels>
     <labels>
+        <fullName>Email_Header_FollowUp_Reminder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header FollowUp Reminder</shortDescription>
+        <value>Reminder: Please enroll in ##ShortCommunityName</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Import_Participants_Completed</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3810,6 +3828,13 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>true</protected>
         <shortDescription>Email Subject Complete Baseline Survey</shortDescription>
         <value>Feedback requested</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_FollowUp_Reminder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject FollowUp Reminder</shortDescription>
+        <value>We haven&#39;t heard from you in a while</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Follow_up_on_a_Study</fullName>
