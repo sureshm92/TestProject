@@ -17,6 +17,7 @@ public without sharing class CommunityModes {
         public Boolean isSelected;
         public String title; //for group can be 'View as Investigative Site' or 'View as Referring Provider', for non contains user name for RP mode
         public String itemType; //PI/RP
+        public String itemId; //PI/RP
         public List<RHCommunityModeItem> subItems; //only for group items
     }
     
