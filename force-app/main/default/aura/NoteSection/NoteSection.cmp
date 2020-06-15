@@ -1,0 +1,63 @@
+<!--
+ - Created by Velu on 12.06.2020.
+ -->
+<aura:component controller="GetNotes" implements="flexipage:availableForAllPageTypes,force:hasRecordId" access="global">
+    <aura:attribute name="NotesData" type="Object" access="public" />
+    <aura:attribute name="isOpen" type="boolean" default="false"/>
+    <aura:attribute name="notes" type="string" default=""/>
+    <aura:attribute name="validated" type="boolean" default="false"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <lightning:card title="{!$Label.c.Recent_Notes}">
+        <aura:set attribute="actions">
+            <lightning:button label="{!$Label.c.New}" onclick="{!c.openModel }"/>
+        </aura:set>
+        <p class="slds-p-horizontal_large">
+            <div class="slds-grid slds-wrap">
+                <aura:iteration items="{!v.NotesData}" var="Note">
+                    <div class="slds-col slds-size_1-of-1">
+                        <span><b><ui:outputDate value="{!Note.CreatedDate}" />:  </b>   {!Note.Title}</span>
+                        <br></br><br></br>
+                    </div>
+                </aura:iteration>
+            </div>
+        </p>
+    </lightning:card>
+    <aura:if isTrue="{!v.isOpen}">
+        <!-- Modal/Popup Box starts here-->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box Header Starts here-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeModel }"
+                                          alternativeText="close"
+                                          variant="bare-inverse"
+                                          class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!$Label.c.New_Note}</h2>
+                </header>
+                <!--Modal/Popup Box Body Starts here-->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div class="slds-col slds-grid slds-size_1-of-1">
+                        <div class="slds-col slds-size_1-of-1 slds-p-around_medium">
+                            <lightning:textarea value="{!v.notes}"
+                                                placeholder="{!$Label.c.Type_notes_here}"
+                                                disabled="{!v.buttonDisable}" Required="true" aura:id="notesId" />
+                        </div>
+                    </div>
+                </div>
+                <!--Modal/Popup Box Footer Starts here-->
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral"
+                                      label="{!$Label.c.Cancel}"
+                                      title="{!$Label.c.Cancel}"
+                                      onclick="{! c.closeModel }"/>
+                    <lightning:button variant="brand"
+                                      label="{!$Label.c.Save}"
+                                      title="{!$Label.c.Save}"
+                                      onclick="{!c.submitDetails}"/>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+</aura:component>
