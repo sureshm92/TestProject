@@ -478,13 +478,14 @@ public without sharing class MyTeamRemote {
                 ];
                 Participant__c participant = ParticipantService.getInstance().getState().participant;
                 contactDelegate.AccountId = user.Contact.AccountId;
-                contactDelegate.Current_Participant_Enrollment__c = participant.Contact__r.Current_Participant_Enrollment__c;
+                contactDelegate.Current_Participant_Enrollment__c = null;
                 contactDelegate.Language__c = UserInfo.getLanguage();
                 contactDelegate.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
                 contactDelegate.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
                 contactDelegate.UserCommunityIsDelegate__c = true;
                 contactDelegate.MailingCountryCode = participant.Mailing_Country_Code__c;
                 contactDelegate.MailingStateCode = participant.Mailing_State_Code__c;
+                contactDelegate.Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH') ? CommunityService.IQVIA_NETWORK_NAME : Site.getMasterLabel();
                 insert contactDelegate;
 
                 User delegateUser = CommunityService.createUser(contactDelegate, null, null, null);

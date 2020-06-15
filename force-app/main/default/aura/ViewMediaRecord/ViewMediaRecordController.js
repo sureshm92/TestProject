@@ -27,7 +27,7 @@
                 component.set("v.Other", resultData.Other);
                 component.set("v.MO_Phonenumber", resultData.MO_Phonenumber);
                 component.set("v.MO_Email", resultData.MO_Email);
-                component.set("v.MO_Value", resultData.MO_Value);
+                component.set("v.MO_AlternateValue", resultData.MO_AlternateValue);
                 var Picklist_option = [];
 
                 if (component.get("v.MOEmail") == false &&
@@ -163,7 +163,7 @@
                         component.set("v.disabled", true);
                     }
                     component.set("v.AlternatePhone_email",
-                        component.get("v.MO_Value")
+                        component.get("v.MO_AlternateValue")
                     );
                 } else if (Picklist_option[0].value == otherpone) {
                     if (component.get("v.ActiveReqRecord")) {
@@ -173,7 +173,7 @@
                         component.set("v.disabled", true);
                     }
                     component.set("v.AlternatePhone_email",
-                        component.get("v.MO_Value"));
+                        component.get("v.MO_AlternateValue"));
                 } else {
                     component.set("v.disabled", true);
                 }
@@ -193,7 +193,7 @@
             component.set('v.isEmailPhone', true);
             if (component.get('v.PC_Value')[0].value == picklistval) {
                 component.set("v.AlternatePhone_email", component.get(
-                    "V.MO_Value"));
+                    "V.MO_AlternateValue"));
             } else {
                 component.set("v.AlternatePhone_email", "");
             }
@@ -202,7 +202,7 @@
             component.set('v.isEmailPhone', true);
             if (component.get('v.PC_Value')[0].value == picklistval) {
                 component.set("v.AlternatePhone_email", component.get(
-                    "V.MO_Value"));
+                    "V.MO_AlternateValue"));
             } else {
                 component.set("v.AlternatePhone_email", "");
             }
@@ -221,17 +221,14 @@
         var othermail = $A.get("$Label.c.Other_Email");
         var otherPhone = $A.get("$Label.c.Other_Phone_Number");
         var picklistval = component.find('preferredId').get('v.value');
-        var PC_oldvalue = component.get("V.MO_Value");
+        var PC_oldvalue = component.get("V.MO_AlternateValue");
         var PC_Newvalue = "";
         var update = true;
+        var other = false;
         var existingvalue_phone = $A.get("$Label.c.PG_MRC_RF_Phone") +
             ':' + component.get("v.MO_Phonenumber");
         if (picklistval == othermail) {
-            if (PC_oldvalue == component.get(
-                    "v.AlternatePhone_email")) {
-                update = false;
-                component.set("v.Validated", true);
-            } else {
+            other = true;
                 PC_Newvalue = component.find('alternate').get(
                     "v.value");
                 var regExpEmailformat = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -243,44 +240,34 @@
                     component.set("v.ErrorMsg", "");
                 }
                 update = true;
-            }
-
         } else if (picklistval == otherPhone) {
-            if (PC_oldvalue == component.get("v.AlternatePhone_email")) {
-                update = false;
-                component.set("v.Validated", true);
-                component.set("v.ErrorMsg", "");
-            } else {
+                other = true;
                 PC_Newvalue = component.find('alternate').get("v.value");
-                var regNumbers = /^\d{10,15}$/;
+                var regNumbers = /^[a-zA-Z]+$/;
                 if (!PC_Newvalue.match(regNumbers)) {
+                    if(PC_Newvalue == '' || PC_Newvalue == ' ' || PC_Newvalue == '  '){
+                         component.set("v.Validated", false);
+                            component.set("v.ErrorMsg", $A.get("$Label.c.Invalid_Phone"));
+                    }else{
+                         component.set("v.Validated", true);
+                    component.set("v.ErrorMsg", "");
+                    }
+                   
+                    
+                } else {
                     component.set("v.Validated", false);
                     component.set("v.ErrorMsg", $A.get("$Label.c.Invalid_Phone"));
-                } else {
-                    component.set("v.Validated", true);
-                    component.set("v.ErrorMsg", "");
                 }
                 update = true;
-            }
         } else {
             if (picklistval == existingvalue_phone) {
-                if (PC_oldvalue == component.get("v.MO_Phonenumber")) {
-                    update = false;
-                    component.set("v.Validated", true);
-                } else {
                     update = true;
                     PC_Newvalue = component.get("v.MO_Phonenumber");
                     component.set("v.Validated", true);
-                }
             } else {
-                if (PC_oldvalue == component.get("v.MO_Email")) {
-                    update = false;
-                    component.set("v.Validated", true);
-                } else {
                     update = true;
                     PC_Newvalue = component.get("v.MO_Email");
                     component.set("v.Validated", true);
-                }
             }
         }
         if (component.get("v.Validated")) {
@@ -291,15 +278,13 @@
                 updateval: update,
                 newval: PC_Newvalue,
                 notes: notes,
+                other: other,
                 Cancelrequest: 'false'
             }, function(returnValue) {
                 var initData = JSON.parse(returnValue);
                 component.find('modalSpinner').hide();
                 component.find('ShowPoP_Up').hide();
-                communityService.showToast("success", "success", $A
-                    .get(
-                        "$Label.c.MO_RecordUpdate"
-                    ));
+                helper.showToast();
             });
             component.set("v.notes", '');
             component.set("v.preferred", '');

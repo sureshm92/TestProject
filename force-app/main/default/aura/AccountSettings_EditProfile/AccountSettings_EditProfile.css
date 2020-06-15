@@ -12,6 +12,35 @@
    
 }
 
+.THIS .slds-select_container{
+    width:fit-content;
+}
+
+.THIS .slds-select_container{
+    width:fit-content;
+} 
+.THIS .slds-input{
+  color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 1rem;
+  letter-spacing: 0;
+  line-height: 24px;
+    
+    
+}
+.THIS .mar{
+    margin-left:-95px;
+    
+}
+.THIS .suffix{
+    width:156px;
+}
+.THIS .mar_dob{
+    margin-left:-159px;
+    width:fit-content;
+    
+}
+
 .THIS.as-container .as-password .rr-form-element + .rr-form-element {
      margin-top: 0;
 }

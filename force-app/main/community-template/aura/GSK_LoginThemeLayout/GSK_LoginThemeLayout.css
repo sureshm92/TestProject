@@ -122,8 +122,35 @@
     padding: 11px;
 }
 
+.THIS .lg-form-element input {
+    border: none;
+}
 
 @media (max-width: 480px) {
+
+    .THIS.all-content {
+        align-items: normal;
+        padding-top: 50px;
+    }
+
+    .THIS .body-content {
+        margin: 0 1rem;
+        width: auto;
+    }
+
+    .THIS .login-form-panel .brand-sub-header {
+        width: 100%;
+    }
+
+
+    .THIS  .login-form-panel {
+        padding: 1rem .5rem;
+    }
+
+    .THIS .cRRLoginForm {
+        padding-top: 0!important;
+    }
+
     .THIS .logo-block{
         margin-top: 10px;
     }
@@ -132,5 +159,11 @@
         margin: 0;
         padding: 0 20px;
         margin-top: 10px;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .THIS .login-form-panel .brand-header {
+        font-size: 28px;
     }
 }

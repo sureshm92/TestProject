@@ -140,8 +140,14 @@ private  class Test_NewMediaOutReach {
                 Suppress_Participant_Emails__c = false
             );
             insert studySite;
+            Site_Staff__c siteStaff = new Site_Staff__c(
+                Delegate_Level__c = 'Level 1',
+                Study_Site__c = studySite.Id,
+                Site_Contact__c = con.Id
+            );
+            insert siteStaff;
             newMediaOutReach.getstudyContact();
-            newMediaOutReach.getstudyType('Some Code Name');
+            newMediaOutReach.getstudyType('Test');
             newMediaOutReach.getstudyData('Some Code Name');
         }
         Test.stopTest();
