@@ -9,7 +9,7 @@
   Ver       Date            Author      		    Modification
   1.0    6/3/2020   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
 -->
-<aura:component description="SearchConditionsOfInterest" controller="SearchConditionsOfInterestRemote">
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,lightning:isUrlAddressable" description="SearchConditionsOfInterest" controller="SearchConditionsOfInterestRemote">
     <aura:attribute name="searchCriterias" type="String[]"/>
     <aura:attribute name="conditionOfInterestList" type="Object[]"/>
     <aura:attribute name="originalItems" type="Object[]" default=""/>

@@ -15,7 +15,10 @@
     font-size: 18px;
     font-weight: 600;
     line-height: 27px;
-    padding: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top:16px;
+    padding-bottom:none;
 }
 
 .THIS .hptp-body{
@@ -60,4 +63,3 @@
     position: relative;
     font-size: 1rem;
 }
-
