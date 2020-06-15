@@ -6,7 +6,7 @@
 
     <aura:attribute name="communityModesList" type="List"/>
 
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+<!--    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
 
     <!-- events: -->
     <aura:registerEvent access="global" name="onclick" type="c:uiEvent"/>
