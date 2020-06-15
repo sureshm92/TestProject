@@ -153,6 +153,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_FollowUpReminder</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_HCPEStatusUpdate</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2884,6 +2888,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Is_FollowUp_Sent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.Landing_Community__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3275,6 +3284,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Execution_History__c.Stack_Trace__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>FollowUp_Reminder__mdt.Days_after_Permission_gets__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

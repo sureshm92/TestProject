@@ -13,6 +13,7 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_PT_NEW_STUDY_eRP_VT_TYPE = 'Message_to_PT_New_Study_eRP_VT_Type';
 
     // for batches
+    public static final String MESSAGE_TO_PT_FOLLOWUP = 'Message_To_PT_FollowUp';
     public static final String MESSAGE_TO_PT_PATIENT_BECOME_ADULT_TYPE = 'Message_to_PT_Patient_Become_Adult_Type';
     public static final String MESSAGE_TO_PT_ONE_YEAR_TYPE = 'Message_to_PT_One_Year_Type';
     public static final String MESSAGE_TO_PT_NEW_STDDOC_TYPE = 'Message_to_PT_New_StdDoc_Type';
