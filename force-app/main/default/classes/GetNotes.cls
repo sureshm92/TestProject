@@ -1,9 +1,15 @@
 /* Created By
- * Velu */
+* Velu */
 public Without sharing class GetNotes {
-
+    
+    Public class NoteData{
+        @AuraEnabled
+        public list<ContentDocument> CD;
+    }
+    
     @AuraEnabled
-    public static List < ContentDocument > getNotesdata(Id MediaRecordId) {
+    public static string getNotesdata(Id MediaRecordId) {
+        
         try {
             List < ID > cdid = new list < Id > ();
             List < ContentDocumentLink > CDLink = new List < ContentDocumentLink > ();
@@ -13,10 +19,12 @@ public Without sharing class GetNotes {
             }
             List < ContentDocument > lstCD = new list < ContentDocument > ();
             lstCD = [select id, Title, CreatedDate from ContentDocument where id IN: cdid Order By CreatedDate DESC];
+            NoteData ND = new NoteData();
+            ND.CD=lstCD ;
             
-            return lstCD;
+            return JSON.serialize(ND);
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            return (string) AuraHelper.throwException(e);
         }
     }
     @AuraEnabled
@@ -26,7 +34,7 @@ public Without sharing class GetNotes {
                 ContentNote cnt = new ContentNote();
                 cnt.Title = notes;
                 insert cnt;
-
+                
                 ContentDocumentLink clnk = new ContentDocumentLink();
                 clnk.LinkedEntityId = MediaRecordId;
                 clnk.ContentDocumentId = cnt.Id;
