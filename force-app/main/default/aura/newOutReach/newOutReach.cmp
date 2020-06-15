@@ -40,7 +40,8 @@
     <aura:attribute name="isphone" type="Boolean" default="false"/>
     <aura:attribute name="isemail" type="Boolean" default="false"/>
     <aura:registerEvent name="cmpRefEvent" type="c:MediaOutreachRefreshtable"/>
-    <!-- handlers: -->
+
+   <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.study}" action="{!c.checkReqFields}"/>
     <aura:handler name="change" value="{!v.site}" action="{!c.checkReqFields}"/>
@@ -64,6 +65,7 @@
         <c:Popup aura:id="inviteRPDialog" title="{!$Label.c.New_OutReach}"
                  size="large" showScroll="{!true}">
             <aura:if isTrue="{!!v.refreshView}">
+                    
                 <div>
                     <div class="slds-grid slds-grid_vertical">
                         <div class="slds-col slds-grid slds-size_1-of-1">
@@ -177,7 +179,7 @@
                                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                                     <div class="rr-form-element">
                                         <div class="label">{!$Label.c.Alternate_Email_Phone_Number}</div>
-                                        <lightning:input type="text" maxlength="10" value="{!v.phone}" aura:id="phoneChan" />
+                                        <lightning:input type="text"  value="{!v.phone}" aura:id="phoneChan" />
                                         <div class="slds-form-element__help"></div>
                                     </div>
                                     <div class="slds-text-color--error slds-p-top--x-small slds-col--padded-small startenddate ">{!v.phoneError}</div>
@@ -196,7 +198,6 @@
                     </div>
                     
             </aura:if>
-
             <aura:set attribute="footerButtons">
                 <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false"/>
                 <div class="slds-float_right">

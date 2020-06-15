@@ -1398,6 +1398,13 @@
         <shortDescription>Submit Your Question</shortDescription>
         <value>Submit Your Question</value>
     </labels>
+	<labels>
+        <fullName>Cancel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
     <labels>
         <fullName>CTL_L_HCP_DELEGATE_MODE</fullName>
         <language>en_US</language>
@@ -6403,6 +6410,20 @@ Please log in to ##CommunityName to view this information.</value>
         <shortDescription>New York carcinoma</shortDescription>
         <value>New York esophageal squamous cell carcinoma-1</value>
     </labels>
+	<labels>
+        <fullName>New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>New</shortDescription>
+        <value>New</value>
+    </labels>
+	<labels>
+        <fullName>New_Note</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>New Note</shortDescription>
+        <value>New Note</value>
+    </labels>
     <labels>
         <fullName>No_Access</fullName>
         <language>en_US</language>
@@ -10948,6 +10969,13 @@ Please log in to ##CommunityName to view this information.</value>
 						 
 			 
 			
+										
+								  
+									
+														
+						 
+			 
+			
         <fullName>PG_Ref_L_One_Incentive_Many_Incentives</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12028,6 +12056,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Add Profile Photo</value>
     </labels>
     <labels>
+	<fullName>PP_Change_Preferences_Resource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Change Preferences Resource</shortDescription>
+        <value>Change preferences here</value>
+    </labels>
+    <labels>		
 	<fullName>PP_Condition_of_Interest_title</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15942,7 +15977,7 @@ communications using the toggles below.</value>
         <shortDescription>configuation table</shortDescription>
         <value>Name</value>
     </labels>
-	    <labels>
+	<labels>
         <fullName>Library_General_Resources</fullName>
         <categories>Contains Label for Not Specific Study related to Library Tab</categories>
         <language>en_US</language>
