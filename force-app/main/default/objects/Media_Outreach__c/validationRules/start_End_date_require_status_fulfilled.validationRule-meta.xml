@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>start_End_date_require_status_fulfilled</fullName>
+    <active>true</active>
+    <description>Actual start Date and Actual start Date mandatory when status is fulfilled.</description>
+    <errorConditionFormula>AND(
+OR((ISBLANK(Actual_Start_Date__c)),
+(ISBLANK(Actual_End_Date__c))),
+(ISPICKVAL(Status__c, &quot;Fulfilled&quot;))
+)</errorConditionFormula>
+    <errorMessage>Actual start Date and  Actual start Date mandatory when status is fulfilled.</errorMessage>
+</ValidationRule>

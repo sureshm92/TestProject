@@ -141,7 +141,7 @@ private  class Test_NewMediaOutReach {
             );
             insert studySite;
             newMediaOutReach.getstudyContact();
-            newMediaOutReach.getstudyType('Some Code Name');
+            newMediaOutReach.getstudyType('Test');
             newMediaOutReach.getstudyData('Some Code Name');
         }
         Test.stopTest();
