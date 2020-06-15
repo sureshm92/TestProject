@@ -4,7 +4,9 @@
 ({   
     doInit: function (component, event, helper) {
         component.find('modalSpinner').show();
-        
+        component.set('v.isCheckPhoneNumber', false);
+        component.set('v.isCheckPhonenull', false);
+        component.set('v.isthirdcheck', true);
         helper.clearInviteFields(component, event, helper);
         helper.studyContact(component, event, helper);
         helper.mediaType(component, event, helper);
@@ -51,21 +53,46 @@
         }
         
     },
-    studyType: function (component, event, helper) {
+    studyDatafun: function (component, event, helper) {
         var study = component.get('v.study');
-       // console.log('STUDYType>>'+JSON.stringify(study));
-        communityService.executeAction(component, 'getstudyType', {
-            study:study
+        console.log('studyHelper>>'+JSON.stringify(study));
+        communityService.executeAction(component, 'getstudyData', {
+            dataStudy:study
         }, function (returnValue) {
-            var studyData = JSON.parse(returnValue);
-            component.set("v.studyEmail",studyData.preEmail);
-            component.set("v.studyPhone",studyData.prePhone);
-            console.log('STUDstudyData.prePhoneYType>>'+JSON.stringify(studyData.prePhone));
-            console.log('studyData.preEmailType>>'+JSON.stringify(studyData.preEmail));
-            helper.studyDatafun(component, event, helper,study);
-            component.find('modalSpinner').hide();
+            component.set("v.studyData",returnValue);
+            console.log('returnValue>>'+JSON.stringify(returnValue));
+          //  component.find('modalSpinner').hide();
         });
     },
+   
+    studyType: function (component, event, helper) {
+       
+       var site = component.get('v.site');
+         console.log('STUDYType>>'+JSON.stringify(site));
+         communityService.executeAction(component, 'getstudyType', {
+            site:site
+         }, function (returnValue) {
+             var studyData = JSON.parse(returnValue);
+             console.log('studyData>>'+JSON.stringify(studyData));
+            
+             component.set("v.studyEmail",studyData.preEmail);
+             //component.set("v.studyPhone",studyData.prePhone);
+              if((studyData.prePhone == null || studyData.prePhone == undefined)){
+                 console.log('STUDstudyData.prePhoneYType>>'+JSON.stringify(studyData.prePhone));
+             //component.set("v.studyPhone",studyData.prePhone);
+             component.set('v.isCheckPhoneNumber', true);
+             component.set('v.isCheckPhonenull', false);
+             component.set('v.isthirdcheck', false);
+             }
+             if((studyData.prePhone != null || studyData.prePhone != undefined)){
+                component.set("v.studyPhone",studyData.prePhone);
+                 component.set('v.isCheckPhonenull', true);
+                 component.set('v.isCheckPhoneNumber', false);
+                 component.set('v.isthirdcheck', false);
+             }
+         });
+     },
+
     startdateController : function(component, event, helper){
         var startdt = component.get('v.startdt');
         var enddt = component.get('v.enddt');
@@ -101,25 +128,7 @@
         }
         
     },
-    phoneFormatType : function(component, event, helper){
-        var isValidPhone = true;
-        var phoneCmpValue = component.get('v.phone');
-        var phoneRegexFormat = /^\d{10}$/;
-		 var phoneErrorval = $A.get("$Label.c.Invalid_Phone");
-        if (!phoneCmpValue.match(phoneRegexFormat)) 
-        {
-		    component.set("v.phoneError", phoneErrorval);
-            component.set("v.phone", '');
-            isValidPhone = false;
-        }else{
-            isValidPhone = true;
-        }
-        if(isValidPhone){
-            helper.validPhoneNumber(component, event, helper)
-        }
-               
-},
-
+    
     submit : function (component, event, helper) {
         var study = component.get('v.study');
         var site = component.get('v.site');
