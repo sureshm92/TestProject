@@ -15,13 +15,15 @@
         component.set("v.endrequestedError", '');
         component.set("v.startrequestedError", '');
         component.set("v.phoneError", '');
+        component.set("v.emailError", '');
         component.set("v.studyData", '');
         component.set("v.isDuplicate", false);
     },
-    
+
     studyContact: function (component, event, helper) {
         communityService.executeAction(component, 'getstudyContact', {
         }, function (returnValue) {
+            console.log('studycontacthelper>>'+JSON.stringify(returnValue));
             component.set("v.studysite",returnValue);
         });
     },
@@ -40,16 +42,8 @@
             component.set("v.mediaType",opts);
         });
     },
-    studyDatafun: function (component, event, helper,study) {
-        var study = component.get('v.study');
-        communityService.executeAction(component, 'getstudyData', {
-            dataStudy:study
-        }, function (returnValue) {
-            component.set("v.studyData",returnValue);
-            
-            component.find('modalSpinner').hide();
-        });
-    },
+    
+
     checkFields : function (component, event, helper) {
         var study = component.get('v.study');
         var site = component.get('v.site');
@@ -61,24 +55,33 @@
         var emailS = component.get('v.emailS');
         var inputPattern = new RegExp('[!+@#$%^&*(),.?":{}|<>]','g');
         var phonePattern = new RegExp('[!@#$%^&*,.?":{}|<>]','g');
-        var isPhoneValid = !phonePattern.test(phone);
-        var isstudyPhoneValid = !phonePattern.test(studyPhone);
+        //var isPhoneValid = !phonePattern.test(phone);
+       // var isstudyPhoneValid = !phonePattern.test(studyPhone);
+        var othermail = $A.get("$Label.c.Other_Email");
+        var otherPhone = $A.get("$Label.c.Other_Phone_Number");
+        var emailLabel = $A.get("$Label.c.PG_MRC_RF_Email");
+        var phoneLabel = $A.get("$Label.c.PG_MRC_RF_Phone");
         var reqFieldsFilled;
          if((study == '' || study == undefined)){
              reqFieldsFilled = true;
          }
-         /*if((site == '' || site == undefined)){
+         if((site == '' || site == undefined)){
              reqFieldsFilled = true;
-         }*/
+         }
          if((media == '' || media == undefined)){
              reqFieldsFilled = true;
          }
+         
          if((preferred == '' || preferred == undefined)){
              reqFieldsFilled = true;
          }
-         if((preferred == '' || preferred == undefined)){
-             reqFieldsFilled = true;
+         if((preferred==othermail) && (emailS == '' || emailS == undefined)){
+            reqFieldsFilled = true;
          }
+         if((preferred==otherPhone) && (phone == '' || phone == undefined)){
+            reqFieldsFilled = true;
+         }
+      
          var delegatePIs = component.get('v.PIForInvetation');
          if(delegatePIs.length > 0){
              var chosenPis = component.get('v.checkboxGroupValues');

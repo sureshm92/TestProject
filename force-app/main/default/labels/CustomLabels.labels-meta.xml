@@ -479,6 +479,14 @@
         <shortDescription>AdHoc CheckBox Help Text</shortDescription>
         <value>Survey tasks will expire when the Participants status is changed to: Drop Out, Trial Complete or Participation Complete</value>
     </labels>
+	<labels>
+        <fullName>Additional_Notes_optional</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Additional Notes</shortDescription>
+        <value>Additional Notes</value>
+    </labels>
     <labels>
         <fullName>Add_Another_Delegate</fullName>
         <language>en_US</language>
@@ -1389,6 +1397,13 @@
         <protected>false</protected>
         <shortDescription>Submit Your Question</shortDescription>
         <value>Submit Your Question</value>
+    </labels>
+	<labels>
+        <fullName>Cancel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Cancel</shortDescription>
+        <value>Cancel</value>
     </labels>
     <labels>
         <fullName>CTL_L_HCP_DELEGATE_MODE</fullName>
@@ -5698,7 +5713,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>IncentiveProgram_Redeem_Points_Disclaimer</shortDescription>
-        <value>Ways To Redeem Points Soon</value>
+        <value>Start earning points now. Redemption opportunities coming soon.</value>
     </labels>
     <labels>
         <fullName>IncentiveProgram_Select_Study_Site</fullName>
@@ -6419,6 +6434,20 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>true</protected>
         <shortDescription>New York carcinoma</shortDescription>
         <value>New York esophageal squamous cell carcinoma-1</value>
+    </labels>
+	<labels>
+        <fullName>New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>New</shortDescription>
+        <value>New</value>
+    </labels>
+	<labels>
+        <fullName>New_Note</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>New Note</shortDescription>
+        <value>New Note</value>
     </labels>
     <labels>
         <fullName>No_Access</fullName>
@@ -10965,11 +10994,18 @@ Please log in to ##CommunityName to view this information.</value>
 						 
 			 
 			
+										
+								  
+									
+														
+						 
+			 
+			
         <fullName>PG_Ref_L_One_Incentive_Many_Incentives</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L One Incentive Plan Many Incentives</shortDescription>
-        <value>This selection affected {0} number of study sites. Do you want proceed?</value>
+        <value>This action will affect {0} study sites. Do you want to proceed?</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_One_Incentive_Plan</fullName>
@@ -11095,7 +11131,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG Ref L Text To Delete Plan</shortDescription>
-        <value>number of study sites are using that program, do you want to proceed?</value>
+        <value>{0} number of study sites are using that program, do you want to proceed?</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Thank_you_for_having_a_discussion_with_your_patient_about_clinical_stud</fullName>
@@ -12045,6 +12081,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Add Profile Photo</value>
     </labels>
     <labels>
+	<fullName>PP_Change_Preferences_Resource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Change Preferences Resource</shortDescription>
+        <value>Change preferences here</value>
+    </labels>
+    <labels>		
 	<fullName>PP_Condition_of_Interest_title</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -12203,7 +12246,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Profile_Update_Success</shortDescription>
-        <value>Your Profile Information Updated Successfully!</value>
+        <value>Data Updated Successfully!</value>
     </labels>
     <labels>
         <fullName>PP_Save_Changes</fullName>
@@ -13291,6 +13334,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Resources Study Document Table Col Summary</shortDescription>
         <value>Summary</value>
+    </labels>
+	 <labels>
+        <fullName>Request</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Request</shortDescription>
+        <value>Request</value>
     </labels>
     <labels>
         <fullName>Resources_Study_Document_Table_Col_Title</fullName>
@@ -15562,14 +15612,6 @@ communications using the toggles below.</value>
         <value>Alternate Email/Phone Number</value>
     </labels>
 	 <labels>
-        <fullName>Additional_Notes_optional</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Additional Notes(optional)</shortDescription>
-        <value>Additional Notes(optional)</value>
-    </labels>
-	 <labels>
         <fullName>End_Date</fullName>
         <categories>Media Outreach</categories>
         <language>en_US</language>
@@ -15769,6 +15811,13 @@ communications using the toggles below.</value>
         <shortDescription>Yes</shortDescription>
         <value>Yes</value>
     </labels>
+	<labels>
+        <fullName>Preferred_Contact_Method_View</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Preferred Contact Method View</shortDescription>
+        <value>Preferred Contact Method *</value>
+    </labels>
 	 <labels>
         <fullName>Preferred_Contact_Method</fullName>
         <categories>Media Outreach</categories>
@@ -15943,7 +15992,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Invalid Phone</shortDescription>
-        <value>Enter valid phone number</value>
+        <value>Enter 10 digits phone number</value>
     </labels>
     <labels>
         <fullName>visit_Name</fullName>
@@ -15952,5 +16001,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>configuation table</shortDescription>
         <value>Name</value>
+    </labels>
+	<labels>
+        <fullName>Library_General_Resources</fullName>
+        <categories>Contains Label for Not Specific Study related to Library Tab</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Library_General_Resources</shortDescription>
+        <value>General Resources</value>
     </labels>
 </CustomLabels>

@@ -10,6 +10,7 @@
         let copy = JSON.parse(JSON.stringify(component.get('v.conditionOfInterestList')));
 
         component.set('v.conditionsOfInterestTemp', copy);
+        
         helper.valueChange(component, event, helper);
             });
         
@@ -49,8 +50,7 @@
     },
     handleRemoveOnly: function (component, event,helper) {
         event.preventDefault();
-        helper.handleClearPill(component,event,helper)
-       
+        helper.handleClearPill(component,event,helper);       
         }
     
 })

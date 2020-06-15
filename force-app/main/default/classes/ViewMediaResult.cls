@@ -19,22 +19,12 @@ public Without sharing class ViewMediaResult {
        @AuraEnabled public string MO_Phonenumber;
        @AuraEnabled public string MO_Email;
        @AuraEnabled  Public List<ContentDocument> lstnotes;
-       @AuraEnabled  Public string MO_Value;
+       @AuraEnabled  Public string MO_AlternateValue;
        
     public CommunityPreferred(){
         }  
     }  
-    public class MOWrapper{
-        public List<Media_Outreach__c> mItem;
-        
-    }
-    
-    Public class wrapNotes{
-        @AuraEnabled
-        Public List<Note> lstnotes;
-    }
-    
-    
+     
     //init data
     @AuraEnabled
     public static string getInitData(Id trialId,Id siteId, String mode, String btnFilter, String userMode, String delegateId){
@@ -58,10 +48,15 @@ public Without sharing class ViewMediaResult {
             trialFilterData.addAll(filterData.get(MediaOutreachServices.STUDIES_FILTER_DATA_FIELD));
             
         }
+        
+        try{
         initData.currentPageList = mList;
         
         initData.moFilterData.studies = trialFilterData;
         return JSON.serialize(initData);
+        }catch (Exception e){
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
     }
     
      @AuraEnabled
@@ -73,134 +68,149 @@ public Without sharing class ViewMediaResult {
         string contactemail ='';
         string Newvalue ='';
         Boolean result = false;
+        string PreferredContMethod ='';
+        string AlternateEmailPhone ='';
+       
         
           CommunityPreferred commm = new CommunityPreferred();
-          Newvalue =[select id,Preferred_contact_method__c from Media_Outreach__c where id=:MediaRecordId].Preferred_contact_method__c;
-          commm.MO_Value = Newvalue;
-        
-          if(string.isNotBlank(Newvalue)){
-              result=Newvalue.contains('@');
-          }
-        if(result)
-        {
-            Email = true;
-        }else{
-            Phone = true;
-        }
-      
-        
-        if(Phone){
-            if(string.isNotBlank(studysiteId)){
-              studysitephonenumber =[SELECT id,Name,Study_Site_Phone__c from Study_Site__c where Id =:studysiteId LIMIT 1].Study_Site_Phone__c;  
-            }
-            
-            Contact userContact = CommunityService.getUserContact();
-            studyContactId = userContact.Id;
-            if(string.isNotBlank(studyContactId)){
-             contactemail =[SELECT id,name,Email,Phone from Contact where Id =:studyContactId LIMIT 1].Email;   
-            }
-              if(Newvalue == studysitephonenumber)
-                 {                  
+          Media_Outreach__c MediaOutreachObj =[select id,Preferred_contact_method__c,Alternate_Email_Phone_Number__c from Media_Outreach__c where id=:MediaRecordId limit 1];
+          
+          PreferredContMethod=MediaOutreachObj.Preferred_contact_method__c;
+          AlternateEmailPhone=MediaOutreachObj.Alternate_Email_Phone_Number__c;
+          
+           if(string.isNotBlank(PreferredContMethod))
+           {
+                result=PreferredContMethod.contains('@');
+                if(result)
+                {
+                   Email = true;
+                }else{
+                   Phone = true;
+                }
+                if(Phone)
+                {
                        commm.MOEmail=false;
                        commm.MOPhone=true;
                        commm.Other=false;
-                     if(string.isNotBlank(studysitephonenumber))
-                      {
+                       if(string.isNotBlank(studysiteId))
+                       {
+                         studysitephonenumber =[SELECT id,Name,Study_Site_Phone__c from Study_Site__c where Id =:studysiteId LIMIT 1].Study_Site_Phone__c;  
+                       }
+                        Contact userContact = CommunityService.getUserContact();
+                        studyContactId = userContact.Id;
+                        if(string.isNotBlank(studyContactId))
+                        {
+                         contactemail =[SELECT id,name,Email,Phone from Contact where Id =:studyContactId LIMIT 1].Email;   
+                        }
+                        if(string.isNotBlank(studysitephonenumber))
+                        {
                           commm.MO_Phonenumber=studysitephonenumber;
-                          if(string.isNotBlank(contactemail))
-                          {
-                              commm.MO_Email=contactemail;
-                          }else{commm.MO_Email='null';}
-                      }else{
-                          commm.MO_Phonenumber='null';
-                          if(string.isNotBlank(contactemail))
-                          {
-                              commm.MO_Email=contactemail;
-                          }else{commm.MO_Email='null';}
-                      }
-                 }else{
-                       commm.MOEmail=false;
-                       commm.MOPhone=true;
-                       commm.Other=true;
-                       if(string.isNotBlank(studysitephonenumber))
-                      {
-                          commm.MO_Phonenumber=studysitephonenumber;
-                          if(string.isNotBlank(contactemail))
-                          {
-                              commm.MO_Email=contactemail;
-                          }else{commm.MO_Email='null';}
-                      }else{
-                          commm.MO_Phonenumber='null';
-                          if(string.isNotBlank(contactemail))
-                          {
-                              commm.MO_Email=contactemail;
-                          }else{commm.MO_Email='null';}
-                      }
-                   
-                  }
-        }else{
-            
-           if(string.isNotBlank(studysiteId)){
-              studysitephonenumber =[SELECT id,Name,Study_Site_Phone__c from Study_Site__c where Id =:studysiteId LIMIT 1].Study_Site_Phone__c;  
-            }
-            
-            Contact userContact = CommunityService.getUserContact();
-            studyContactId = userContact.Id;
-            if(string.isNotBlank(studyContactId)){
-             contactemail =[SELECT id,name,Email,Phone from Contact where Id =:studyContactId LIMIT 1].Email;   
-            }
-              if(Newvalue == contactemail)
-                 {                  
+                        }else{commm.MO_Phonenumber='null';}
+                        if(string.isNotBlank(contactemail))
+                        {
+                          commm.MO_Email=contactemail;
+                        }else{commm.MO_Email='null';}
+                        commm.MO_AlternateValue='';
+                }
+                if(Email)
+                {
                        commm.MOEmail=true;
                        commm.MOPhone=false;
                        commm.Other=false;
-                     if(string.isNotBlank(studysitephonenumber))
-                      {
+                       if(string.isNotBlank(studysiteId))
+                       {
+                         studysitephonenumber =[SELECT id,Name,Study_Site_Phone__c from Study_Site__c where Id =:studysiteId LIMIT 1].Study_Site_Phone__c;  
+                       }
+                        Contact userContact = CommunityService.getUserContact();
+                        studyContactId = userContact.Id;
+                        if(string.isNotBlank(studyContactId))
+                        {
+                         contactemail =[SELECT id,name,Email,Phone from Contact where Id =:studyContactId LIMIT 1].Email;   
+                        }
+                        if(string.isNotBlank(studysitephonenumber))
+                        {
                           commm.MO_Phonenumber=studysitephonenumber;
-                          if(string.isNotBlank(contactemail))
-                          {
-                              commm.MO_Email=contactemail;
-                          }else{commm.MO_Email='null';}
-                      }else{
-                          commm.MO_Phonenumber='null';
-                          if(string.isNotBlank(contactemail))
-                          {
-                              commm.MO_Email=contactemail;
-                          }else{commm.MO_Email='null';}
-                      }
-                 }else{
+                        }else{commm.MO_Phonenumber='null';}
+                        if(string.isNotBlank(contactemail))
+                        {
+                          commm.MO_Email=contactemail;
+                        }else{commm.MO_Email='null';}
+                        commm.MO_AlternateValue='';
+                }
+           }else
+           {   
+                result=AlternateEmailPhone.contains('@');
+                if(result)
+                {
+                   Email = true;
+                }else{
+                   Phone = true;
+                }
+                if(Phone)
+                {
+                       commm.MOEmail=false;
+                       commm.MOPhone=true;
+                       commm.Other=true;
+                       if(string.isNotBlank(studysiteId))
+                       {
+                         studysitephonenumber =[SELECT id,Name,Study_Site_Phone__c from Study_Site__c where Id =:studysiteId LIMIT 1].Study_Site_Phone__c;  
+                       }
+                        Contact userContact = CommunityService.getUserContact();
+                        studyContactId = userContact.Id;
+                        if(string.isNotBlank(studyContactId))
+                        {
+                         contactemail =[SELECT id,name,Email,Phone from Contact where Id =:studyContactId LIMIT 1].Email;   
+                        }
+                        if(string.isNotBlank(studysitephonenumber))
+                        {
+                          commm.MO_Phonenumber=studysitephonenumber;
+                        }else{commm.MO_Phonenumber='null';}
+                        if(string.isNotBlank(contactemail))
+                        {
+                          commm.MO_Email=contactemail;
+                        }else{commm.MO_Email='null';}
+                        commm.MO_AlternateValue=AlternateEmailPhone;
+                }
+                if(Email)
+                {
                        commm.MOEmail=true;
                        commm.MOPhone=false;
                        commm.Other=true;
-                       if(string.isNotBlank(studysitephonenumber))
-                      {
+                       if(string.isNotBlank(studysiteId))
+                       {
+                         studysitephonenumber =[SELECT id,Name,Study_Site_Phone__c from Study_Site__c where Id =:studysiteId LIMIT 1].Study_Site_Phone__c;  
+                       }
+                        Contact userContact = CommunityService.getUserContact();
+                        studyContactId = userContact.Id;
+                        if(string.isNotBlank(studyContactId))
+                        {
+                         contactemail =[SELECT id,name,Email,Phone from Contact where Id =:studyContactId LIMIT 1].Email;   
+                        }
+                        if(string.isNotBlank(studysitephonenumber))
+                        {
                           commm.MO_Phonenumber=studysitephonenumber;
-                          if(string.isNotBlank(contactemail))
-                          {
-                              commm.MO_Email=contactemail;
-                          }else{commm.MO_Email='null';}
-                      }else{
-                          commm.MO_Phonenumber='null';
-                          if(string.isNotBlank(contactemail))
-                          {
-                              commm.MO_Email=contactemail;
-                          }else{commm.MO_Email='null';}
-                      }
-                   
-                  }
-             
-        } 
+                        }else{commm.MO_Phonenumber='null';}
+                        if(string.isNotBlank(contactemail))
+                        {
+                          commm.MO_Email=contactemail;
+                        }else{commm.MO_Email='null';}
+                        commm.MO_AlternateValue=AlternateEmailPhone;
+                }      
+              
+           }
+          
+          
             List<ID> cdid = new list<Id>();
             List<ContentDocumentLink> CDLink = new List<ContentDocumentLink>();
             List<string> lstofCN = new list<string>();
-            CDLink = [SELECT ContentDocumentId,LinkedEntityId FROM ContentDocumentLink WHERE LinkedEntityId =:MediaRecordId];
+            CDLink = [SELECT ContentDocumentId,LinkedEntityId,Visibility FROM ContentDocumentLink WHERE LinkedEntityId =:MediaRecordId];
             for(ContentDocumentLink cd:CDLink)
             {
                 cdid.add(cd.ContentDocumentId);
             }
             List<ContentDocument> lstCD = new list<ContentDocument>();
             lstCD =[select id,Title,CreatedDate from ContentDocument where id IN:cdid Order By CreatedDate DESC];
-            commm.lstnotes = lstCD;
+            commm.lstnotes = lstCD; 
             
             
             return JSON.serialize(commm);
@@ -214,7 +224,7 @@ public Without sharing class ViewMediaResult {
     
     //To update the existing records 
     @AuraEnabled
-    public static void UpdateRecord(Id MediaRecordId,string notes,Boolean Cancelrequest,Boolean updateval,string newval){
+    public static void UpdateRecord(Id MediaRecordId,string notes,Boolean Cancelrequest,Boolean updateval,string newval,Boolean other){
         try{
             if(Cancelrequest){
                 Media_Outreach__c MediaOutreach = new Media_Outreach__c();
@@ -226,6 +236,7 @@ public Without sharing class ViewMediaResult {
             
             if(String.isNotBlank(notes)) {
                 
+ 
                 ContentNote cnt = new ContentNote();
                 cnt.Title = notes;
                 insert cnt;
@@ -242,7 +253,15 @@ public Without sharing class ViewMediaResult {
                 {
                 Media_Outreach__c MediaOutreach = new Media_Outreach__c();
                 MediaOutreach.Id=MediaRecordId;
-                MediaOutreach.Preferred_contact_method__c=newval;
+                if(other)
+                {
+                   MediaOutreach.Alternate_Email_Phone_Number__c=newval;
+                   MediaOutreach.Preferred_contact_method__c='';
+                }else
+                {
+                   MediaOutreach.Preferred_contact_method__c=newval;
+                   MediaOutreach.Alternate_Email_Phone_Number__c='';
+                }
                 update MediaOutreach;  
                 }                
             }

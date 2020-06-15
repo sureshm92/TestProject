@@ -22,8 +22,12 @@
     <aura:attribute name="endrequestedError" type="String" default="" access="private"/>
     <aura:attribute name="startrequestedError" type="String" default="" access="private"/>
     <aura:attribute name="phoneError" type="String" default="" access="private"/>
+    <aura:attribute name="emailError" type="String" default="" access="private"/>
     <aura:attribute name="isSiteOptions" type="Boolean" default="false"/>
     <aura:attribute name="isStudySite" type="Boolean" default="false"/>
+    <aura:attribute name="isCheckPhoneNumber" type="Boolean" default="false"/>
+    <aura:attribute name="isCheckPhonenull" type="Boolean" default="false"/>
+    <aura:attribute name="isthirdcheck" type="Boolean" default="false"/>
 
     <aura:attribute name="reqFieldsFilled" type="Boolean" default="true" access="private"/>
     <aura:attribute name="providerFound" type="Boolean" default="false"/>
@@ -36,7 +40,8 @@
     <aura:attribute name="isphone" type="Boolean" default="false"/>
     <aura:attribute name="isemail" type="Boolean" default="false"/>
     <aura:registerEvent name="cmpRefEvent" type="c:MediaOutreachRefreshtable"/>
-    <!-- handlers: -->
+
+   <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.study}" action="{!c.checkReqFields}"/>
     <aura:handler name="change" value="{!v.site}" action="{!c.checkReqFields}"/>
@@ -47,9 +52,10 @@
     <aura:handler name="change" value="{!v.studyEmail}" action="{!c.checkReqFields}"/>
     <aura:handler name="change" value="{!v.studyPhone}" action="{!c.checkReqFields}"/>
     <aura:handler name="change" value="{!v.preferred}" action="{!c.preferredType}"/>
-    <aura:handler name="change" value="{!v.study}" action="{!c.studyType}"/>
+    <!--<aura:handler name="change" value="{!v.study}" action="{!c.studyDatafun}"/>
+    <aura:handler name="change" value="{!v.study}" action="{!c.studyType}"/>-->
     <aura:handler name="change" value="{!v.emailS}" action="{!c.emailFormatType}"/>
-    <aura:handler name="change" value="{!v.phone}" action="{!c.phoneFormatType}"/>
+    
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
     </aura:method>
@@ -59,6 +65,7 @@
         <c:Popup aura:id="inviteRPDialog" title="{!$Label.c.New_OutReach}"
                  size="large" showScroll="{!true}">
             <aura:if isTrue="{!!v.refreshView}">
+                    
                 <div>
                     <div class="slds-grid slds-grid_vertical">
                         <div class="slds-col slds-grid slds-size_1-of-1">
@@ -67,10 +74,10 @@
                                 <div class="rr-form-element">
                                     <div class="label slds-text-align_left">{!$Label.c.Study_Name}<abbr title="required"
                                                                                   class="slds-required">*</abbr></div>
-                                <lightning:select class="lightningInput" value="{!v.study}" aura:id="studyId" onchange="{!studyType}">
+                                <lightning:select class="lightningInput" value="{!v.study}" aura:id="studyId" onchange="{!c.studyDatafun}">
                                         <option value="">{!$Label.c.Select_Study}</option>
                                 <aura:iteration items="{!v.studysite}" var="rol">
-                                        <option value="{!rol.Name}" label="{!rol.Name}"></option>
+                                        <option value="{!rol.Study_Code_Name__c}" label="{!rol.Study_Code_Name__c}"></option>
                                     </aura:iteration>
                                     </lightning:select>
                                     </div>
@@ -79,23 +86,15 @@
                                     <div class="rr-form-element">
                                         <div class="label slds-text-align_left">{!$Label.c.Study_Site}<abbr title="required"
                                                                                       class="slds-required">*</abbr></div>
-                                    <lightning:select class="lightningInput" value="{!v.site}" aura:id="siteId" >
-                                            
-                                    <aura:if isTrue="{!v.studyData.length==1}">
-                                                <aura:iteration items="{!v.studyData}" var="itms1">
-                                        <option value="{!itms1.Site__r.Name}" label="{!itms1.Site__r.Name}"></option>
-                                    </aura:iteration>
-                                    </aura:if>
-                                         <aura:if isTrue="{!v.studyData.length > 1}">
-                                        <option value="">{!$Label.c.Select_Site}</option>
+                                    <lightning:select class="lightningInput" value="{!v.site}" aura:id="siteId" onchange="{!c.studyType}">
+                                    <option value="">{!$Label.c.Select_Site}</option>
                                     <aura:iteration items="{!v.studyData}" var="itms">
-                                    <option value="{!itms.Site__r.Name}" label="{!itms.Site__r.Name}"></option>
+                                    <option value="{!itms.Name}" label="{!itms.Name}"></option>
                                         </aura:iteration>
-                                    </aura:if>
-                                        </lightning:select>
+                                   </lightning:select>
                                         </div>
                                 </div>
-
+ 
                         </div>
 							
 							<div class="slds-col slds-grid slds-size_1-of-1">
@@ -112,7 +111,8 @@
                            
                             <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                                 <div class="rr-form-element">
-                                    <div class="label slds-text-align_left">{!$Label.c.Requested_Start_Date}</div>
+                                    <div class="label slds-text-align_left">{!$Label.c.Requested_Start_Date}<abbr title="required"
+                                        class="slds-required"></abbr></div>
                                     <lightning:input type="date" value="{!v.startdt}" aura:id="startdtId" placeholder="{!$Label.c.Select}" onchange="{!c.startdateController}"/>  
                                 </div>
                                 <div class="slds-text-color--error slds-p-top--x-small slds-col--padded-small startenddate">{!v.startrequestedError}</div>
@@ -120,7 +120,8 @@
 							
 							<div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                                 <div class="rr-form-element">
-                                    <div class="label slds-text-align_left">{!$Label.c.Requested_End_Date}</div>
+                                    <div class="label slds-text-align_left">{!$Label.c.Requested_End_Date}<abbr title="required"
+                                        class="slds-required"></abbr></div>
                                     
                                     <lightning:input type="date" value="{!v.enddt}" aura:id="enddtId"  placeholder="{!$Label.c.Select}" onchange="{!c.enddateController}"/>  
                                 </div>
@@ -132,13 +133,35 @@
                                         <div class="rr-form-element">{!$Label.c.Preferred_Contact_Method}
                                                 <abbr title="required"
                                                 class="slds-required">*</abbr>
-                                        <lightning:select value="{!v.preferred}"  aura:id="preferredId" onchange="{!preferredType}">
-                                              <option value=""  label=""></option>
-                                              <option value="{!$Label.c.PG_MRC_RF_Email}" label="{!$Label.c.Media_Email+'         '+ v.studyEmail}"></option>
-                                              <option value="{!$Label.c.PG_MRC_RF_Phone}" label="{!$Label.c.Media_Phone+'                     ' +v.studyPhone}" ></option>
-                                              <option value="{!$Label.c.Other_Email}"  label="{!$Label.c.Other_Email}"></option>
-                                              <option value="{!$Label.c.Other_Phone_Number}"  label="{!$Label.c.Other_Phone_Number}"></option>
-                                                   </lightning:select>
+
+                                                <aura:if isTrue="{!v.isthirdcheck}">
+                                                    <lightning:select value="{!v.preferred}"  aura:id="preferredId" onchange="{!preferredType}">
+                                                        <option value=""  label=""></option>
+                                                        <option value="{!$Label.c.PG_MRC_RF_Email}" label="{!$Label.c.Media_Email+'         '+ v.studyEmail}"></option>
+                                                        <option value="{!$Label.c.PG_MRC_RF_Phone}" label="{!$Label.c.Media_Phone+'                     ' +v.studyPhone}" ></option>
+                                                        <option value="{!$Label.c.Other_Email}"  label="{!$Label.c.Other_Email}"></option>
+                                                        <option value="{!$Label.c.Other_Phone_Number}"  label="{!$Label.c.Other_Phone_Number}"></option>
+                                                             </lightning:select>
+                                                              </aura:if>
+                                                <aura:if isTrue="{!v.isCheckPhonenull}">
+                                                <lightning:select value="{!v.preferred}"  aura:id="preferredId" onchange="{!preferredType}">
+                                                    <option value=""  label=""></option>
+                                                    <option value="{!$Label.c.PG_MRC_RF_Email}" label="{!$Label.c.Media_Email+'         '+ v.studyEmail}"></option>
+                                                    <option value="{!$Label.c.PG_MRC_RF_Phone}" label="{!$Label.c.Media_Phone+'                     ' +v.studyPhone}" ></option>
+                                                    <option value="{!$Label.c.Other_Email}"  label="{!$Label.c.Other_Email}"></option>
+                                                    <option value="{!$Label.c.Other_Phone_Number}"  label="{!$Label.c.Other_Phone_Number}"></option>
+                                                         </lightning:select>
+                                                          </aura:if>
+                                                          
+                                                         <aura:if isTrue="{!v.isCheckPhoneNumber}">
+                                                         
+                                                  <lightning:select value="{!v.preferred}"  aura:id="preferredId" onchange="{!preferredType}">
+                                                    <option value=""  label=""></option>
+                                                    <option value="{!$Label.c.PG_MRC_RF_Email}" label="{!$Label.c.Media_Email+'         '+ v.studyEmail}"></option>
+                                                    <option value="{!$Label.c.Other_Email}"  label="{!$Label.c.Other_Email}"></option>
+                                                    <option value="{!$Label.c.Other_Phone_Number}"  label="{!$Label.c.Other_Phone_Number}"></option>
+                                                         </lightning:select>
+                                                         </aura:if>
                                         </div>
                                     </div>
                                     <!--<aura:if isTrue="{!v.providerFound}">-->
@@ -147,17 +170,19 @@
                                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                                     <div class="rr-form-element">
                                         <div class="label">{!$Label.c.Alternate_Email_Phone_Number}</div>
-                                        <lightning:input type="email" value="{!v.emailS}" aura:id="emailChan" />
+                                        <ui:inputText value="{!v.emailS}" aura:id="emailChan" />
                                     </div>
+                                    <div class="slds-text-color--error slds-p-top--x-small slds-col--padded-small startenddate">{!v.emailError}</div> 
                                 </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.isphone}">
                                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                                     <div class="rr-form-element">
                                         <div class="label">{!$Label.c.Alternate_Email_Phone_Number}</div>
-                                        <ui:inputText value="{!v.phone}" aura:id="phoneChan"/>
+                                        <lightning:input type="text"  value="{!v.phone}" aura:id="phoneChan" />
+                                        <div class="slds-form-element__help"></div>
                                     </div>
-                                    <div class="slds-text-color--error slds-p-top--x-small slds-col--padded-small startenddate">{!v.phoneError}</div>
+                                    <div class="slds-text-color--error slds-p-top--x-small slds-col--padded-small startenddate ">{!v.phoneError}</div>
                                 </div>
                                     </aura:if>
                             
@@ -173,7 +198,6 @@
                     </div>
                     
             </aura:if>
-
             <aura:set attribute="footerButtons">
                 <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false"/>
                 <div class="slds-float_right">

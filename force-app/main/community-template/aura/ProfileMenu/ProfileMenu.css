@@ -27,3 +27,10 @@
     text-align: right!important;
 }
 
+@media all and (max-width: 768px) {
+
+    .THIS.cUiHeaderMenu .menu-popup-panel.popupTargetContainer {
+        top: 50px;
+    }
+}
+

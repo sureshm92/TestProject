@@ -69,13 +69,13 @@
                                                         </div>
                                                     </th>
                                                     <td>
+                                                        <div class="slds-truncate wraptext" >{!item.Study_Name__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</div>
+                                                    </td>
+                                                    <td>
                                                         <div class="slds-truncate wraptext" >{!item.Study_Name__r.Name}</div>
                                                     </td>
                                                     <td>
-                                                        <div class="slds-truncate wraptext" >{!item.Study_Name__r.Site__r.Name}</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="slds-truncate">{!item.Media_Type__c}</div>
+                                                        <div class="slds-truncate wraptext">{!item.Media_Type__c}</div>
                                                     </td>
                                                     <td>
                                                         <div class="slds-truncate">
@@ -110,13 +110,13 @@
                                                         </div>
                                                     </th>
                                                     <td>
-                                                        <div class="slds-truncate wraptext">{!item.Study_Name__r.Name}</div>
+                                                        <div class="slds-truncate wraptext">{!item.Study_Name__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</div>
                                                     </td>
                                                     <td>
-                                                        <div class="slds-truncate wraptext" >{!item.Study_Name__r.Site__r.Name}</div>
+                                                        <div class="slds-truncate wraptext" >{!item.Study_Name__r.Name}</div>
                                                     </td>
                                                     <td>
-                                                        <div class="slds-truncate">{!item.Media_Type__c}</div>
+                                                        <div class="slds-truncate wraptext">{!item.Media_Type__c}</div>
                                                     </td>
                                                     <td>
                                                         <div class="slds-truncate">
