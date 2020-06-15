@@ -9,13 +9,13 @@ public without sharing class TaskEditRemote {
     public class TaskEditDataWrapper {
         @AuraEnabled public List<LabelValueItem> taskTypeList = new List<LabelValueItem>{
                 new LabelValueItem(Label.Task_Type_Not_Selected, 'Not Selected'),
-                new LabelValueItem(Label.Task_Type_Medication, 'Medication'),
-                new LabelValueItem(Label.Task_Type_Visit, 'Visit')
+                new LabelValueItem(Label.Task_Type_Medication, 'Medication')
+                //new LabelValueItem(Label.Task_Type_Visit, 'Visit')
         };
-        @AuraEnabled public List<LabelValueItem> reminderSetList = new List<LabelValueItem>{
-                new LabelValueItem(Label.Email, 'Email'),
-                new LabelValueItem(Label.Disabled, 'Disabled')
-        };
+        //@AuraEnabled public List<LabelValueItem> reminderSetList = new List<LabelValueItem>{
+        //        new LabelValueItem(Label.Email, 'Email'),
+        //        new LabelValueItem(Label.Disabled, 'Disabled')
+        //};
         @AuraEnabled public List<LabelValueItem> reminderFrequencyList = new List<LabelValueItem>{
                 new LabelValueItem(Label.Complete_By_Date, 'By_Date'),
                 new LabelValueItem(Label.One_day_before, 'Day_Before')
@@ -27,20 +27,23 @@ public without sharing class TaskEditRemote {
         @AuraEnabled public Date reminderDate;
         @AuraEnabled public Boolean isEnrolled;
         @AuraEnabled public String errorMessage;
-        @AuraEnabled public Boolean reminderEnabled;
+        @AuraEnabled public Boolean isEmailReminderSet;
+        @AuraEnabled public Boolean isSMSReminderSet
         @AuraEnabled public Boolean createdByAdmin;
         @AuraEnabled public Boolean isStudyTasksEnabled;
 
         public TaskEditDataWrapper() {
             List<Contact> delegates = PatientDelegateService.getInstance().getDelegates();
             Boolean emailPreferencesIsOn = checkEmailPreferencesIsOn();
+            Boolean smsPreferenceIsOn = checkSMSPreferencesIsOn();
 
             ParticipantService.ParticipantStates status = ParticipantService.getInstance().getState().value;
             isEnrolled = status == ParticipantService.ParticipantStates.REFERRAL ||
                     status == ParticipantService.ParticipantStates.PARTICIPANT;
 
             errorMessage = checkEmailPermissions(emailPreferencesIsOn, delegates);
-            reminderEnabled = emailEnabledForOneRelatedContact(emailPreferencesIsOn, delegates);
+            isEmailReminderSet = emailEnabledForOneRelatedContact(emailPreferencesIsOn, delegates);
+            isSMSReminderSet = smsEnabledForOneRelatedContact(smsPreferenceIsOn, delegates);
             createdByAdmin = false;
 
             task = new Task(Task_Type__c = 'Not Selected');
@@ -134,6 +137,10 @@ public without sharing class TaskEditRemote {
         return ParticipantContext.getCurrentContact().Participant_Opt_In_Status_Emails__c;
     }
 
+    private static Boolean checkSMSPreferencesIsOn() {
+        return ParticipantContext.getCurrentContact().Participant_Opt_In_Status_SMS__c;
+    }
+
     private static String checkEmailPermissions(Boolean emailPreferencesIsOn, List<Contact> delegates) {
         String errorMessage = '';
 
@@ -161,6 +168,16 @@ public without sharing class TaskEditRemote {
         if (ParticipantContext.isCurrentDelegate()) {
             for (Contact delegate : delegates) {
                 if (delegate.Participant_Opt_In_Status_Emails__c) return true;
+            }
+        }
+        return false;
+    }
+
+    private static Boolean smsEnabledForOneRelatedContact(Boolean smsPreferencesIsOn, List<Contact> delegates) {
+        if (emailPreferencesIsOn) return true;
+        if (ParticipantContext.isCurrentDelegate()) {
+            for (Contact delegate : delegates) {
+                if (delegate.Participant_Opt_In_Status_SMS__c) return true;
             }
         }
         return false;
