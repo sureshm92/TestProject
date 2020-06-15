@@ -479,6 +479,14 @@
         <shortDescription>AdHoc CheckBox Help Text</shortDescription>
         <value>Survey tasks will expire when the Participants status is changed to: Drop Out, Trial Complete or Participation Complete</value>
     </labels>
+	<labels>
+        <fullName>Additional_Notes_optional</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Additional Notes</shortDescription>
+        <value>Additional Notes</value>
+    </labels>
     <labels>
         <fullName>Add_Another_Delegate</fullName>
         <language>en_US</language>
@@ -1390,6 +1398,13 @@
         <shortDescription>Submit Your Question</shortDescription>
         <value>Submit Your Question</value>
     </labels>
+	<labels>
+        <fullName>Cancel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
     <labels>
         <fullName>CTL_L_HCP_DELEGATE_MODE</fullName>
         <language>en_US</language>
@@ -2292,6 +2307,17 @@
         <value>One or more of your Referral Hub study permissions has changed.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_FollowUp_Reminder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body FollowUp Reminder</shortDescription>
+        <value>You haven't confirmed your enrollment yet in ##ShortCommunityName. Please click the link bellow, so that you can enroll and view your study progress.
+
+        Please note that enrollment in ##ShortCommunityName is not a requirement for you to be enrolled into the clinical research study.
+
+        Your user name is ##UserName.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Initial_Delegate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3122,6 +3148,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>We haven&#39;t heard from you in a while</value>
     </labels>
     <labels>
+        <fullName>Email_Header_FollowUp_Reminder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header FollowUp Reminder</shortDescription>
+        <value>Reminder: Please enroll in ##ShortCommunityName</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Import_Participants_Completed</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3795,6 +3828,13 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>true</protected>
         <shortDescription>Email Subject Complete Baseline Survey</shortDescription>
         <value>Feedback requested</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_FollowUp_Reminder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject FollowUp Reminder</shortDescription>
+        <value>We haven&#39;t heard from you in a while</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Follow_up_on_a_Study</fullName>
@@ -6394,6 +6434,20 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>true</protected>
         <shortDescription>New York carcinoma</shortDescription>
         <value>New York esophageal squamous cell carcinoma-1</value>
+    </labels>
+	<labels>
+        <fullName>New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>New</shortDescription>
+        <value>New</value>
+    </labels>
+	<labels>
+        <fullName>New_Note</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>New Note</shortDescription>
+        <value>New Note</value>
     </labels>
     <labels>
         <fullName>No_Access</fullName>
@@ -10940,6 +10994,13 @@ Please log in to ##CommunityName to view this information.</value>
 						 
 			 
 			
+										
+								  
+									
+														
+						 
+			 
+			
         <fullName>PG_Ref_L_One_Incentive_Many_Incentives</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12020,6 +12081,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Add Profile Photo</value>
     </labels>
     <labels>
+	<fullName>PP_Change_Preferences_Resource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Change Preferences Resource</shortDescription>
+        <value>Change preferences here</value>
+    </labels>
+    <labels>		
 	<fullName>PP_Condition_of_Interest_title</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -13266,6 +13334,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Resources Study Document Table Col Summary</shortDescription>
         <value>Summary</value>
+    </labels>
+	 <labels>
+        <fullName>Request</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Request</shortDescription>
+        <value>Request</value>
     </labels>
     <labels>
         <fullName>Resources_Study_Document_Table_Col_Title</fullName>
@@ -15537,14 +15612,6 @@ communications using the toggles below.</value>
         <value>Alternate Email/Phone Number</value>
     </labels>
 	 <labels>
-        <fullName>Additional_Notes_optional</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Additional Notes(optional)</shortDescription>
-        <value>Additional Notes(optional)</value>
-    </labels>
-	 <labels>
         <fullName>End_Date</fullName>
         <categories>Media Outreach</categories>
         <language>en_US</language>
@@ -15744,6 +15811,13 @@ communications using the toggles below.</value>
         <shortDescription>Yes</shortDescription>
         <value>Yes</value>
     </labels>
+	<labels>
+        <fullName>Preferred_Contact_Method_View</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Preferred Contact Method View</shortDescription>
+        <value>Preferred Contact Method *</value>
+    </labels>
 	 <labels>
         <fullName>Preferred_Contact_Method</fullName>
         <categories>Media Outreach</categories>
@@ -15928,7 +16002,7 @@ communications using the toggles below.</value>
         <shortDescription>configuation table</shortDescription>
         <value>Name</value>
     </labels>
-	    <labels>
+	<labels>
         <fullName>Library_General_Resources</fullName>
         <categories>Contains Label for Not Specific Study related to Library Tab</categories>
         <language>en_US</language>

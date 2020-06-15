@@ -153,6 +153,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_FollowUpReminder</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_HCPEStatusUpdate</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2749,6 +2753,16 @@
     </fieldPermissions>
 	<fieldPermissions>
         <editable>false</editable>
+        <field>Media_Outreach__c.Actual_End_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Media_Outreach__c.Actual_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
         <field>Media_Outreach__c.Alternate_Email_Phone_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2890,6 +2904,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Is_First_Logon__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Is_FollowUp_Sent__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3285,6 +3304,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Execution_History__c.Stack_Trace__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>FollowUp_Reminder__mdt.Days_after_Permission_gets__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -12,7 +12,17 @@
                 new: '',
                 reNew: ''
             };
-
+            var resultMsg = sessionStorage.getItem( 'pageTransfer' );
+            const queryString = window.location.href;
+            if(queryString.includes('sampleVar')){
+            component.set("v.showEditProfile",false);
+            component.set("v.selectedItem","custex");
+            component.set('v.custExp', true);
+            component.set( "v.coibool", JSON.parse( resultMsg ).sampleVar );
+            }else{
+                component.set("v.showEditProfile",true);
+                component.set( "v.coibool", false );   
+            }
             component.set('v.initData', initData);
             component.set('v.contactChanged', initData.contactChanged);
             component.set('v.personWrapper', initData.contactSectionData.personWrapper);
@@ -51,5 +61,9 @@
         }else if(selected === 'cookset'){
            component.set('v.cookSet', true); 
         }
+    },
+    onEditPerson: function (component, event, helper) {
+        let personWrapper = event.getSource().get('v.personWrapper');        
+        component.set('v.personWrapper', personWrapper);
     }
 });

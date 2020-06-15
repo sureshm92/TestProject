@@ -6,7 +6,7 @@ load the data from logged in community
 *  @created  2020-05-22
 * @version 48.0   
 */
-public without sharing class NewMediaOutReach {
+public with sharing class NewMediaOutReach {
     
     public static String REQUESTED_VAL = Label.Requested;
     
@@ -29,20 +29,18 @@ public without sharing class NewMediaOutReach {
 * @Description: To Pass the phone from study site and email from logged in community user on component.
 **/
     @AuraEnabled
-    public static string getstudyType(string study) {
+    public static string getstudyType(string site) {
         List<Study_Site__c> studylst = new List<Study_Site__c>();
-         Clinical_Trial_Profile__c ctplst;
+        Integer limitRows = Limits.getLimitQueryRows() - Limits.getQueryRows();
 
         Contact userContact = CommunityService.getUserContact();
         studyContactId = userContact.Id;
 
-        if((String.isNotBlank(study))){
-            ctplst =[SELECT Id,Study_Code_Name__c,Name FROM Clinical_Trial_Profile__c WHERE Study_Code_Name__c =:study LIMIT 1];
-            }
-            if(ctplst != null){
-        Study_Site__c siteId =[SELECT id,Name,Study_Site_Phone__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Clinical_Trial_Profile__c FROM Study_Site__c WHERE Clinical_Trial_Profile__c =:ctplst.Id LIMIT 1];
+        if((String.isNotBlank(site))){
+            Study_Site__c siteId =[SELECT id,Name,Study_Site_Phone__c FROM Study_Site__c WHERE Name =:site LIMIT 1];
             lstvalsite = siteId.Study_Site_Phone__c;
             }
+            
         Contact con=[SELECT id,name,Email,Phone from Contact where Id =:studyContactId LIMIT 1];
         CommunityPreferred commm = new CommunityPreferred();
         
@@ -79,16 +77,43 @@ public without sharing class NewMediaOutReach {
 * @Description: To fetch the Media outreach Provider not null.
 **/
     @AuraEnabled
-    public static List<Study_Site__c> getstudyContact() {
+    public static List<Clinical_Trial_Profile__c> getstudyContact() {
         Integer limitRows = Limits.getLimitQueryRows() - Limits.getQueryRows();
         Id studyContactId;
+        List<Clinical_Trial_Profile__c> clinicalTrialLst = new List<Clinical_Trial_Profile__c>(); 
         List<Study_Site__c> studylst = new List<Study_Site__c>(); 
+        List<Site_Staff__c> siteStaff = new List<Site_Staff__c>();
+        Contact con;
+        set<Id> ctpIds = new set<Id>();
         Contact userContact = CommunityService.getUserContact();
         
         studyContactId = userContact.Id;
-        //studylst =[SELECT id,Name,Principal_Investigator__c from Study_Site__c where Principal_Investigator__c =:studyContactId LIMIT :limitRows];
-        studylst =[SELECT id,Name,Clinical_Trial_Profile__r.Media_outreach_Provider__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Principal_Investigator__c from Study_Site__c where Principal_Investigator__c =:studyContactId AND Clinical_Trial_Profile__r.Media_outreach_Provider__c != null LIMIT :limitRows];
-        return studylst;
+        system.System.debug('studyContactId??'+studyContactId);
+        con =[SELECT id,UserCommunityIsDelegate__c FROM Contact WHERE Id =:studyContactId LIMIT 1];
+       
+        if(studyContactId != null && con.UserCommunityIsDelegate__c == false){
+        studylst =[SELECT id,Name,Clinical_Trial_Profile__r.Media_outreach_Provider__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Principal_Investigator__c FROM Study_Site__c WHERE Principal_Investigator__c =:studyContactId AND Clinical_Trial_Profile__r.Media_outreach_Provider__c != null LIMIT :limitRows];
+        }
+
+        if(studyContactId != null && con.UserCommunityIsDelegate__c == true ){
+       siteStaff =[SELECT id,Delegate_Level__c,Study_Site__r.Clinical_Trial_Profile__c,Study_Site__r.Clinical_Trial_Profile__r.Media_outreach_Provider__c,Study_Site__c,Site_Contact__c FROM Site_Staff__c where Site_Contact__c =:studyContactId AND Study_Site__r.Clinical_Trial_Profile__r.Media_outreach_Provider__c != null LIMIT :limitRows];
+        }
+
+        if(studylst.size()>0){
+          for(Study_Site__c st: studylst){
+              ctpIds.add(st.Clinical_Trial_Profile__c);
+          }
+        }
+        if(siteStaff.size()>0){
+          for(Site_Staff__c ss: siteStaff){
+              ctpIds.add(ss.Study_Site__r.Clinical_Trial_Profile__c);
+          }
+        }
+        if(!ctpIds.isEmpty()){
+           clinicalTrialLst =[SELECT id,Study_Code_Name__c,Name from Clinical_Trial_Profile__c WHERE Id =:ctpIds LIMIT :limitRows];
+        }
+        
+        return clinicalTrialLst;
         
     }
     /**   
