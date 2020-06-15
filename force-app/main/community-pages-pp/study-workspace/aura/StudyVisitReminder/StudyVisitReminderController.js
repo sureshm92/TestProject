@@ -9,5 +9,13 @@
     
     doSave : function(component, event, helper){
         
+    },
+
+    doIgnore : function(component, event, helper){
+        
+    },
+
+    doMarkComplete : function(component, event, helper){
+        
     }
 })

@@ -3,21 +3,35 @@
     <aura:attribute name="parent" type="Aura.Component" />
     <aura:attribute name="visitId" type="String" />
     <aura:attribute name="taskId" type="String" />
-    <aura:attribute name="taskType" type="String" />
+    <aura:attribute name="taskType" type="String" description="Visit; Medication; Not Selected; Survey"/>
     <aura:attribute name="isNewTask" type="Boolean" default="false" />
+    <aura:attribute name="mode" type"String" description="CREATE; EDIT" />
 
     <!-- event handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
     <!-- methods -->
-    <aura:method name="reloadPopup" action="{!c.doInit}" description="Reload the popup in the parent component" >
+    <aura:method name="reloadPopup" action="{!c.doInit}" description="Reload the popup in the parent component">
         <!-- add arguments-->
     </aura:method>
 
-    <c:Popup aura:id="reminderModal" title="{!v.title}" size="small">
-        <!-- Add the input fields -->
+    <c:Popup aura:id="reminderModal" title="{!v.title}" size="{!v.taskType == 'Visit' ? 'small' : 'medium' }">
+        <!-- Task Details -->
+        <aura:if isTrue="{!v.taskType != 'Visit'}">
+
+
+            <!-- Task Reminder Details -->
+            <aura:set attribute="else">
+
+            </aura:set>
+
+        </aura:if>
         <aura:set attribute="footerButtons">
             <button class="apollo-btn tertiary" id="Cancel" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
+            <aura:if isTrue="{!v.mode == 'EDIT'}">
+                <button class="apollo-btn secondary" id="Ignore" onclick="{!c.doIgnore}">Ignore</button>
+                <button class="apollo-btn secondary" id="MarkComplete" onclick="{!c.doMarkComplete}">Mark as Complete</button>
+            </aura:if>
             <button class="apollo-btn primary" id="Save" onclick="{!c.doSave}">{!$Label.c.BTN_Save}</button>
         </aura:set>
     </c:Popup>
