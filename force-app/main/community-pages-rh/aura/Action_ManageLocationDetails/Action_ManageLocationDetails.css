@@ -127,11 +127,11 @@
     
     .THIS .p-footer .p-buttons-container {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
     }
     
     .THIS .p-footer .p-buttons-container .apollo-btn {
-        margin: 15px 0 0 0;
+        margin: 15px 15px 0 0;
     }
     
     .THIS .account_details {
@@ -153,6 +153,14 @@
 }
 
 @media all and (max-width: 500px) {
+    .THIS .p-footer .p-buttons-container {
+        flex-direction: column;
+    }
+
+    .THIS .p-footer .p-buttons-container .apollo-btn {
+        margin: 15px 0 0 0;
+    }
+
      .THIS .popup-account-name + .slds-col {
      	   min-width: 32px;
     }
