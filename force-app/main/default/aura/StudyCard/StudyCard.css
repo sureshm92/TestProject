@@ -32,8 +32,8 @@
 }
 
 .THIS .block-with-text {
-  /* background: #fff!important; */
-   padding-left: 4px;
+    /* background: #fff!important; */
+    padding-left: 4px;
 }
 
 .THIS .study-name .study-title.rr-link {
@@ -45,7 +45,7 @@
     line-height: 30px;
     padding: 0 8px;
     position: relative;
-    max-height: 6rem;    
+    max-height: 6rem;
     padding-right: 1rem;
     align-items: flex-start;
     display: block;
@@ -173,7 +173,7 @@
 
 .THIS .accordion-bar {
     background-color: #f8f9fb;
-    min-height: 40px; 
+    min-height: 40px;
     box-sizing: border-box;
 }
 
@@ -307,38 +307,38 @@
     .THIS .slvi-buttons .slvi-btn + .slvi-btn {
         border-top: 1px solid #f9f9f9;
     }
-    
+
 
     .THIS .study-name .study-title.rr-link span:first-child {
         width: 100%;
         white-space: nowrap!important;
     }
 
-     .THIS .slvi-top-container-hcp .study-name .study-title.rr-link {
+    .THIS .slvi-top-container-hcp .study-name .study-title.rr-link {
         max-width: 100%;
     }
 
-	.THIS .slvi-status-item {
-    	height: auto;    
+    .THIS .slvi-status-item {
+        height: auto;
     }
-    
+
     .THIS .slvi-header-item + .slvi-header-item {
         margin-top: 16px;
     }
-    
-     .THIS .slvi-top-container-hcp .slds-wrap div:last-child {
+
+    .THIS .slvi-top-container-hcp .slds-wrap div:last-child {
         order: 2;
     }
-    
+
     .THIS .study-name {
         order: 1;
     }
-    
+
     .THIS .sponsor-name {
-     	margin-bottom: 20px; 
+        margin-bottom: 20px;
         order: 3;
     }
-    
+
     .THIS .slvi-name-section-hcp .rri-icon svg {
         height: 20px;
         width: 20px;
@@ -353,19 +353,19 @@
     .THIS .slvi-name-section-hcp .rri-icon .slds-m-around_x-small,
     .THIS .rri-icon-pi .slds-m-around_x-small {
         display: inline-block;
-         margin: 0 1rem 0 0;
-         padding: 0 .5rem
+        margin: 0 1rem 0 0;
+        padding: 0 .5rem
     }
-    
-     .THIS .slvi-name-section-hcp .rri-icon a:last-child .slds-m-around_x-small,
+
+    .THIS .slvi-name-section-hcp .rri-icon a:last-child .slds-m-around_x-small,
     .THIS .rri-icon-pi a:last-child .slds-m-around_x-small {
-         margin: 0;
+        margin: 0;
     }
 
     .THIS .slvi-objective-section{
         margin-bottom: 15px;
     }
-    
+
     .THIS .slds-grid.slvi-buttons {
         display: flex;
         padding-right: 15px;
@@ -381,43 +381,43 @@
     .THIS.slvi-container {
         padding-top: 0;
     }
-    
+
     .THIS .slvi-top-container-hcp {
-        padding-top: .5rem;
+        padding-top: 8px;
     }
-    
+
     .THIS .slvi-top-container-hcp .slds-wrap div:last-child {
         margin-bottom: .5rem;
         margin-top: .5rem;
     }
-    
+
     .THIS .slvi-top-container-hcp + div .slds-order_4 .rr-link.expanded-icon {
         padding-left: 15px;
     }
-     
- 	.THIS .rri-icon-pi span {
-          margin: 1rem;
+
+    .THIS .rri-icon-pi span {
+        margin: 1rem;
     }
-    
+
     .THIS.rr-white-panel {
         overflow: visible;
     }
-    
+
     .THIS .slds-grid.slvi-buttons {
         flex-direction: column;
     }
-    
-     .THIS .slds-grid.slvi-buttons .apollo-btn {
-     	width: 100%;  
-        text-align: center; 
-        margin: 20px 0 0 0; 
+
+    .THIS .slds-grid.slvi-buttons .apollo-btn {
+        width: 100%;
+        text-align: center;
+        margin: 20px 0 0 0;
     }
-    
-     .THIS .slvi-top-container-hcp .slds-wrap div:last-child .rri-icon-pi {
+
+    .THIS .slvi-top-container-hcp .slds-wrap div:last-child .rri-icon-pi {
         float: none!important;
         text-align: center;
     }
-    
+
     .THIS .slvi-top-container-hcp .study-title span:nth-of-type(2) {
         display: none;
     }
