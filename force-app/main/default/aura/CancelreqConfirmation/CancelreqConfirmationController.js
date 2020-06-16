@@ -10,10 +10,7 @@
         }, function(returnValue) {
             var initData = JSON.parse(returnValue);
             component.find('Show_WarningPoP_Up').hide();
-            communityService.showToast("success", "success", $A
-                .get(
-                    "$Label.c.MO_RecordUpdate"
-                ));
+             helper.showToast();
         });
         var cmpEvent = component.getEvent("cmpEvent");
         cmpEvent.setParams({
@@ -28,5 +25,9 @@
             "closeAllPopup": "no"
         });
         cmpEvent.fire();
+    },
+     closepopup: function(component, event, helper) {
+        component.find('Show_WarningPoP_Up').hide();
     }
+    
 })
