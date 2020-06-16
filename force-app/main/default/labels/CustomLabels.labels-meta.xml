@@ -6191,6 +6191,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>How many visits do I have left?</value>
     </labels>
     <labels>
+        <fullName>Message_Body_Contact_PT_Reminder_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message Body Contact PT Reminder Push</shortDescription>
+        <value>5 days have passed since one or more participants have been received and contact has not been attempted.</value>
+    </labels>
+    <labels>
         <fullName>Message_Body_New_Data_Push</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -14259,6 +14266,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Systolic Blood Pr Description</shortDescription>
         <value>Systolic blood pressure is a measure of how hard your blood is pushed against the walls of the arteries when the heart is beating and pushing out blood.</value>
+    </labels>
+    <labels>
+        <fullName>Title_Contact_PT_Reminder_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for Contact PT Reminder Push</shortDescription>
+        <value>Participant contact has not been attempted</value>
     </labels>
     <labels>
         <fullName>Title_new_Certificate_Push</fullName>
