@@ -1,2 +1,37 @@
-.THIS {
+.THIS.te-task-panel{
+    min-height: 400px;
+    max-width: 1140px;
+    margin: 25px auto 30px;
+}
+.THIS .rr-white-panel {
+    overflow: visible;
+}
+
+.THIS.rr-body-content {
+    display: none;
+}
+
+.THIS .te-col {
+    margin-bottom: 10px;
+}
+
+.THIS .te-col-horizontal {
+    margin-bottom: 10px;
+    max-width: 360px;
+}
+
+.THIS .te-col-header {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.THIS .te-col-header-info {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.THIS .slds-form-element__label{
+    padding-bottom: 5px;
+    font-size: 14px;
+    color: #444;
 }
