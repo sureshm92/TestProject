@@ -171,7 +171,9 @@
                                                            showGroup="{!group.show}"
                                                            globalCountries="{!v.options.selectedCountries}"
                                                            globalType="{!v.options.countrySelectionType}"
-                                                           onChange="{!c.doGroupChanged}"/>
+                                                           showOnMyResultCard="{!group.displayOnMyResultCard}"
+                                                           onChange="{!c.doGroupChanged}"
+                                                           onChangeShowOnMyResultCard="{!c.doGroupSelectionChanged}"/>
                         </aura:iteration>
                         <aura:if isTrue="{!v.userPermission == 'View'}">
                             <div class="overlay"></div>

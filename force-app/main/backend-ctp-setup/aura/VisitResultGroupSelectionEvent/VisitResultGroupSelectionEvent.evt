@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="VisitResultGroupSelectionEvent">
+    <aura:attribute name="visitResultGroupLabel" type="String"/>
+    <aura:attribute name="showOnMyResultCard" type="Boolean"/>
+</aura:event>
