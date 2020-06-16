@@ -19,17 +19,7 @@
         component.set("v.studyData", '');
         component.set("v.isDuplicate", false);
     },
-    validPhoneNumber : function(component, event, helper){
-        var phoneCmpValue = component.get('v.phone');
-        console.log('phoneCmpValueHELPER'+JSON.stringify(phoneCmpValue));
-            var s = (""+phoneCmpValue).replace(/\D/g, '');
-            var m = s.match(/^(\d{3})(\d{3})(\d{4})$/);
-            var formattedPhone = (!m) ? null : "(" + m[1] + ") " + m[2] + "-" + m[3];
-            component.set("v.phone", formattedPhone);
-            component.set("v.phoneError", '');
-        
-    },
-    
+
     studyContact: function (component, event, helper) {
         communityService.executeAction(component, 'getstudyContact', {
         }, function (returnValue) {
@@ -52,17 +42,8 @@
             component.set("v.mediaType",opts);
         });
     },
-    studyDatafun: function (component, event, helper) {
-        var study = component.get('v.study');
-        console.log('studyHelper>>'+JSON.stringify(study));
-        communityService.executeAction(component, 'getstudyData', {
-            dataStudy:study
-        }, function (returnValue) {
-            component.set("v.studyData",returnValue);
-            console.log('returnValue>>'+JSON.stringify(returnValue));
-            component.find('modalSpinner').hide();
-        });
-    },
+    
+
     checkFields : function (component, event, helper) {
         var study = component.get('v.study');
         var site = component.get('v.site');
@@ -98,9 +79,6 @@
             reqFieldsFilled = true;
          }
          if((preferred==otherPhone) && (phone == '' || phone == undefined)){
-            reqFieldsFilled = true;
-         }
-         if((preferred=='Phone') && (studyPhone == '' || studyPhone == undefined)){
             reqFieldsFilled = true;
          }
       

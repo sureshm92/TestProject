@@ -94,8 +94,8 @@ public class Test_ViewMediaResult {
             List < Media_Outreach__c > lstMO = New List < Media_Outreach__c > ();
 
             Media_Outreach__c MO_req = New Media_Outreach__c();
-            MO_req.Requested_Start_Date__c = system.today();
-            MO_req.Requested_End_Date__c = system.today();
+            MO_req.Requested_Start_Date__c = Date.parse('5/22/2020');
+            MO_req.Requested_End_Date__c = Date.parse('5/29/2020');
             MO_req.Status__c = 'Requested';
             MO_req.Study_Name__c = studySite.Id;
             MO_req.Study_Site__c = participantsAccount.Id;
@@ -103,8 +103,8 @@ public class Test_ViewMediaResult {
             lstMO.add(MO_req);
 
             Media_Outreach__c MO_inprogress = New Media_Outreach__c();
-            MO_inprogress.Requested_Start_Date__c = system.today();
-            MO_inprogress.Requested_End_Date__c = system.today();
+            MO_inprogress.Requested_Start_Date__c = Date.parse('5/22/2020');
+            MO_inprogress.Requested_End_Date__c = Date.parse('5/29/2020');
             MO_inprogress.Status__c = 'In Progress';
             MO_inprogress.Study_Name__c = studySite.Id;
             MO_inprogress.Study_Site__c = participantsAccount.Id;
@@ -112,8 +112,10 @@ public class Test_ViewMediaResult {
             lstMO.add(MO_inprogress);
 
             Media_Outreach__c MO_fulfilled = New Media_Outreach__c();
-            MO_fulfilled.Requested_Start_Date__c = system.today();
-            MO_fulfilled.Requested_End_Date__c = system.today();
+            MO_fulfilled.Requested_Start_Date__c = Date.parse('5/22/2020');
+            MO_fulfilled.Requested_End_Date__c = Date.parse('5/29/2020');
+            MO_fulfilled.Actual_Start_Date__c= Date.parse('5/22/2020');
+            MO_fulfilled.Actual_End_Date__c=Date.parse('5/29/2020');
             MO_fulfilled.Status__c = 'Fulfilled';
             MO_fulfilled .Study_Name__c=studySite.Id;
             MO_fulfilled.Study_Site__c = participantsAccount.Id;
@@ -123,8 +125,8 @@ public class Test_ViewMediaResult {
             Insert lstMo;
 
             Media_Outreach__c MO_cancelled = New Media_Outreach__c();
-            MO_cancelled.Requested_Start_Date__c = system.today();
-            MO_cancelled.Requested_End_Date__c = system.today();
+            MO_cancelled.Requested_Start_Date__c = Date.parse('5/22/2020');
+            MO_cancelled.Requested_End_Date__c = Date.parse('5/29/2020');
             MO_cancelled.Status__c = 'Cancelled';
             MO_cancelled .Study_Name__c=studySite.Id;
             MO_cancelled.Study_Site__c = participantsAccount.Id;
@@ -149,7 +151,7 @@ public class Test_ViewMediaResult {
             viewMediaResult.getInitData(clinical.id, null, null, null, null, null);
             viewMediaResult.getRecords(clinical.id, filterJson, PaginationJson, null, 'PI', null, null);
             try {
-                viewMediaResult.UpdateRecord(MO_inprogress.ID, MediaoutreachNotes, true, true, '1234567890');
+                viewMediaResult.UpdateRecord(MO_inprogress.ID, MediaoutreachNotes, true, true, '1234567890',true);
             } catch (exception e) {}
             try {
                 viewMediaResult.PreferredContactsandNotes(studySite.Id, MO_inprogress.ID);

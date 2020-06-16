@@ -62,7 +62,7 @@
     
                     <div class="as-email rr-form-element">
                         <div class="as-email-input slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end">
-                            <div class="rr-form-element slds-col slds-size_1-of-1">
+                            <div class="slds-col slds-size_1-of-1">
                                
                                            <c:Action_AddProfilePhoto username="{!v.initData.userName}"></c:Action_AddProfilePhoto>
     
@@ -106,14 +106,14 @@
                     <aura:if isTrue="{!(v.isDelegate)}">
                         <lightning:input aura:id="pField" type="text" label="{!$Label.c.PG_AS_F_First_name}"
                         value="{!v.personWrapper.firstName}" required="true"
-                        onblur="{!c.doCheckFieldsValidity}" disabled="true"/>
+                        onblur="{!c.doCheckFieldsValidity}" disabled="true" class="mar"/>
        </aura:if>
                     <aura:if isTrue="{!not(v.isDelegate)}">
     
     
                     <lightning:input aura:id="pField" type="text" label="{!$Label.c.PG_AS_F_First_name}"
                                      value="{!v.personWrapper.firstName}" required="true"
-                                     onblur="{!c.doCheckFieldsValidity}"/>
+                                     onblur="{!c.doCheckFieldsValidity}" class="mar"/>
                                      </aura:if>
                 </div>
                
@@ -159,11 +159,11 @@
     
                     <lightning:input aura:id="pField" type="text" label="Suffix"
                                      value="{!v.personWrapper.suffix}" 
-                                     onblur="{!c.doCheckFieldsValidity}"/></aura:if>
+                                     onblur="{!c.doCheckFieldsValidity}" class="suffix"/></aura:if>
                                      <aura:if isTrue="{!(v.isDelegate)}">
                                         <lightning:input aura:id="pField" type="text" label="Suffix"
                                         value="{!v.personWrapper.suffix}" 
-                                        onblur="{!c.doCheckFieldsValidity}" disabled="true"/>                                              
+                                        onblur="{!c.doCheckFieldsValidity}" disabled="true" class="suffix"/>                                              
                                                                   </aura:if>
     
                 </div>
@@ -205,12 +205,12 @@
                         <lightning:input aura:id="pField" type="date" label="{!$Label.c.PG_AS_F_Date_of_Birth}"
                                          max="{!v.todayDate}"
                                          value="{!v.personWrapper.dateBirth}" required="true"
-                                         onblur="{!c.doCheckFieldsValidity}"/></aura:if>
+                                         onblur="{!c.doCheckFieldsValidity}" class="mar_dob"/></aura:if>
                                          <aura:if isTrue="{!(v.isDelegate)}">
                                             <lightning:input aura:id="pField" type="date" label="{!$Label.c.PG_AS_F_Date_of_Birth}"
                                             max="{!v.todayDate}"
                                             value="{!v.personWrapper.dateBirth}" required="true"
-                                            onblur="{!c.doCheckFieldsValidity}" disabled="true"/>                                                  
+                                            onblur="{!c.doCheckFieldsValidity}" disabled="true" class="mar_dob"/>                                                  
                                                                       </aura:if>
                     </div>
                     </div>
@@ -308,8 +308,7 @@
     
             <lightning:input aura:id="pField2" type="tel" label="{!$Label.c.PG_AS_F_Phone_number}"
             value="{!v.personWrapper.homePhone}" 
-            onblur="{!c.handleHomePhoneValidation}" 
-            /></div>
+            onblur="{!c.handleHomePhoneValidation}" required="true"/></div>
     
                     <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-media--responsive">
                         <div class="label rr-sentence-font mar_top ">{!$Label.c.Phone_Type}</div>

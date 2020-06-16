@@ -1,0 +1,6 @@
+<!--
+ - Created by Nikita Abrazhevitch on 13-Jun-20.
+ -->
+
+<aura:event type="COMPONENT" description="DDMessageEvent">
+</aura:event>
