@@ -20,6 +20,7 @@ public with sharing class Batch_FollowUpReminder extends Batch_ScheduledAbstract
                 WHERE Assignee.Contact.Is_First_Logon__c = TRUE
                 AND Assignee.Contact.Is_FollowUp_Sent__c = FALSE
                 AND Assignee.Contact.Visited_Communities__c = NULL
+                AND Assignee.Contact.userCommunityMode__c = 'Participant'
                 AND PermissionSet.Name IN: CommunityTemplateService.getAllPermissionSets()
                 AND SystemModstamp <=:Datetime.now().addDays(-followUpDays)
         ]);
