@@ -2,12 +2,12 @@
  - Created by Igor Malyuta on 29.04.2020.
  -->
 
-<apex:component id="InitialWireframe" controller="InitialWireframeController" access="global">
+ <apex:component id="InitialWireframe" controller="InitialWireframeController" access="global">
 
     <!-- attributes: -->
     <apex:attribute name="userId" type="Id" assignTo="{!recordId}" description="" access="global"/>
     <apex:attribute name="communityTemplate" type="String" assignTo="{!commTemplate}" description="" access="global"/>
-    <apex:attribute name="buttonLabel" type="String" description="" access="global"/>
+    <apex:attribute name="buttonLabel" type="String" assignTo="{!buttonLabelValue}" description="" access="global"/>
     <apex:attribute name="buttonURL" type="String" description="" access="global"/>
     <apex:attribute name="outputType" type="String" assignTo="{!outputMode}" description="" default="HTML"/>
 
@@ -21,7 +21,7 @@
                       signature="{!$Label.Email_Signature_Patient}">
         <!-- Inner body -->
         <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Virtual}"/>
-        <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
+        <!--        <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>-->
     </c:EmailWireframe>
 
     <c:EmailWireframe rendered="{!userMode == 'Participant referred by PI'}"
@@ -33,7 +33,7 @@
                       signature="{!$Label.Email_Signature_Patient}">
         <!-- Inner body -->
         <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Created_By_PI}"/>
-        <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
+        <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframe>
 
     <c:EmailWireframe rendered="{!userMode == 'Participant referred by HCP'}"
@@ -45,7 +45,7 @@
                       signature="{!$Label.Email_Signature_Patient}">
         <!-- Inner body -->
         <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient}"/>
-        <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
+        <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframe>
 
     <!-- Participant Delegate -->
@@ -58,8 +58,8 @@
                       signature="{!$Label.Email_Signature_New}">
         <!-- Inner body -->
         <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate}"/>
-        <c:EmailTemplateDelegateParticipant />
-        <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
+        <c:EmailTemplateDelegateParticipant/>
+        <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframe>
 
     <!-- PI -->
@@ -85,7 +85,7 @@
                       signature="{!$Label.Email_Signature}">
         <!-- Inner body -->
         <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Delegate}"/>
-        <c:EmailTemplateDelegate />
+        <c:EmailTemplateDelegate/>
         <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframe>
 
@@ -139,7 +139,7 @@
                       signature="{!$Label.Email_Signature}">
         <!-- Inner body -->
         <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Delegate}"/>
-        <c:EmailTemplateDelegate />
+        <c:EmailTemplateDelegate/>
         <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframe>
     
@@ -155,6 +155,4 @@
         <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_CC}"/>
         <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframe>
-    
-
 </apex:component>
