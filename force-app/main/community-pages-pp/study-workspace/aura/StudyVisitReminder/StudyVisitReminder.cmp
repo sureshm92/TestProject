@@ -1,10 +1,4 @@
-<<<<<<< HEAD
 <aura:component description="StudyVisitReminder" controller="TaskEditRemote">
-
-=======
-
-<aura:component description="StudyVisitReminder" controller="TaskEditRemote">
->>>>>>> 4572ce3e41571370186797d710eea7c8b401537a
     <aura:attribute name="title" type="String" />
     <aura:attribute name="parent" type="Aura.Component" />
     <aura:attribute name="visitId" type="String" />
@@ -12,10 +6,6 @@
     <aura:attribute name="taskType" type="String" description="Visit; Medication; Not Selected; Survey" />
     <aura:attribute name="isNewTask" type="Boolean" default="false" />
     <aura:attribute name="isTaskTab" type="Boolean" description="Set TRUE if component called from TaskTab" />
-<<<<<<< HEAD
-
-=======
->>>>>>> 4572ce3e41571370186797d710eea7c8b401537a
     <!-- Task Related Attributes -->
     <aura:attribute name="initData" type="Object" />
     <aura:attribute name="task" type="Task" />
@@ -23,32 +13,20 @@
     <aura:attribute name="isEditable" type="Boolean" />
     <aura:attribute name="isEnrolled" type="Boolean" />
     <aura:attribute name="jsonInitData" type="String" />
-<<<<<<< HEAD
-
-=======
->>>>>>> 4572ce3e41571370186797d710eea7c8b401537a
     <!-- Reminder Attributes -->
     <aura:attribute name="isEmailReminderSet" type="Boolean" />
     <aura:attribute name="isSMSReminderSet" type="Boolean" />
     <aura:attribute name="frequencyMode" type="String" default="By_Date" />
-<<<<<<< HEAD
-
-=======
->>>>>>> 4572ce3e41571370186797d710eea7c8b401537a
     <aura:attribute name="reminderEnabled" type="Boolean" default="false" />
     <aura:attribute name="frequencyEnabled" type="Boolean" default="false" />
     <aura:attribute name="reminderDateEnabled" type="Boolean" default="false" />
     <aura:attribute name="isValidFields" type="Boolean" default="true" />
-<<<<<<< HEAD
-
-=======
 	
 	<aura:attribute name="options" type="List" default="[
     {'label': 'Email', 'value': 'Email'},
     {'label': 'SMS', 'value': 'SMS'}	
     ]"/>
 	<aura:attribute name="value" type="List" default="option1"/>
->>>>>>> 4572ce3e41571370186797d710eea7c8b401537a
     <!-- event handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     
@@ -76,24 +54,6 @@
                     </div>
                 </div>
 
-<<<<<<< HEAD
-    <c:RRSpinner aura:id="spinner" fixed="true" size="small" />
-
-    <c:Popup aura:id="reminderModal" title="{!v.title}" size="{!v.taskType == 'Visit' ? 'small' : 'medium' }">
-        <!-- Task Details -->
-        <aura:if isTrue="{!v.taskType != 'Visit'}">
-
-
-            <!-- Task Reminder Details -->
-            <aura:set attribute="else">
-
-            </aura:set>
-
-        </aura:if>
-        <aura:set attribute="footerButtons">
-            <button class="apollo-btn tertiary" id="Cancel" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
-            <aura:if isTrue="{!and (not (v.isNewTask) , v.isTaskTab}">
-=======
                 <div class="slds-grid slds-gutters slds-wrap">
                     <!-- Due Date -->
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
@@ -172,7 +132,6 @@
         <aura:set attribute="footerButtons">
             <button class="apollo-btn tertiary" id="Cancel" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
             <aura:if isTrue="{!and (not (v.isNewTask) , v.isTaskTab)}">
->>>>>>> 4572ce3e41571370186797d710eea7c8b401537a
                 <button class="apollo-btn secondary" id="Ignore" onclick="{!c.doIgnore}">{!$Label.c.BTN_Ignore}</button>
                 <button class="apollo-btn secondary" id="MarkComplete"
                     onclick="{!c.doMarkComplete}">{!$Label.c.BTN_Mark_As_Completed}</button>
@@ -180,10 +139,6 @@
             <button class="apollo-btn primary" id="Save" onclick="{!c.doSave}">{!$Label.c.BTN_Save}</button>
         </aura:set>
     </c:Popup>
-<<<<<<< HEAD
-
-=======
->>>>>>> 4572ce3e41571370186797d710eea7c8b401537a
     <c:builderStub aura:id="builderStub"/>
     
 </aura:component>

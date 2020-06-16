@@ -174,7 +174,7 @@ public without sharing class TaskEditRemote {
     }
 
     private static Boolean smsEnabledForOneRelatedContact(Boolean smsPreferencesIsOn, List<Contact> delegates) {
-        if (emailPreferencesIsOn) return true;
+        if (smsPreferencesIsOn) return true;
         if (ParticipantContext.isCurrentDelegate()) {
             for (Contact delegate : delegates) {
                 if (delegate.Participant_Opt_In_Status_SMS__c) return true;

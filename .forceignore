@@ -26,3 +26,11 @@ force-app/main/user-communications/images
 
 #ignore all onboarding slides, comment line for include
 **/onboarding-tour/staticresources
+
+force-app/main/default/navigationMenus/Default_Navigation1.navigationMenu-meta.xml
+force-app/main/default/navigationMenus/Default_Navigation.navigationMenu-meta.xml
+unpackaged/communities/community-gsk/experiences/GSK_Community1.site-meta.xml
+unpackaged/communities/community-gsk/experiences/IQVIA_Referral_Hub1.site-meta.xml
+**/jsconfig.json
+
+**/.eslintrc.json
