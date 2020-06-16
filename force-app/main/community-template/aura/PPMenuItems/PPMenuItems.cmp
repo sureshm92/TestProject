@@ -18,7 +18,7 @@
                         <div class="main-box">
                             <div class="menu-item">
                                 <div class="{!subItem.isSelected ? 'selected ' : ''}">
-                                    {!item.title}
+                                    {!subItem.title}
                                     <aura:if isTrue="{!subItem.isSelected}">
                                         <c:RRIcon iconName="icon-check" class="icon-check"/>
                                     </aura:if>
@@ -30,39 +30,12 @@
                             </div>
                             <div class="menu-sub-item">
                                 <div class="{!subItem.isSelected ? 'selected ' : '' + 'overflow-ellipsis '}">
-                                    {!subItem.title}
+                                    {!subItem.subTitle}
                                 </div>
                             </div>
                         </div>
                     </c:uiMenuItem>
                 </aura:iteration>
-                <aura:if isTrue="{!empty(item.subItems)}">
-                    <div class="contain">
-                        <c:uiMenuItem label="{!item.title}" onclick="{!c.doSelectItem}"
-                                      itemValue="{!item}"
-                                      class="unset">
-                            <div class="main-box">
-                                <div class="menu-item">
-                                    <div class="{!item.isSelected ? 'selected ' : ''}">
-                                        {!item.title}
-                                        <aura:if isTrue="{!item.isSelected}">
-                                            <c:RRIcon iconName="icon-check" class="icon-check"/>
-                                        </aura:if>
-                                    </div>
-                                    <div>
-                                        <c:RRIcon class="icon-delegate" iconName="delegate"/>
-                                        <c:RRIcon class="icon-cog" iconName="cog"/>
-                                    </div>
-                                </div>
-                                <div class="menu-sub-item">
-                                    <div class="{!item.isSelected ? 'selected ' : '' + 'overflow-ellipsis '}">
-                                        {!item.subTitle}
-                                    </div>
-                                </div>
-                            </div>
-                        </c:uiMenuItem>
-                    </div>
-                </aura:if>
             </div>
         </aura:iteration>
     </div>

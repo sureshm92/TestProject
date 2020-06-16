@@ -6,27 +6,36 @@
     doInit: function (component, event, helper) {
         let communityModes = [
             {
-                isSelected: false,
                 title: 'Hernya Delegate',
-                subTitle: 'No active studies',
-                subItems: []
-            },
-            {
-                isSelected: false,
-                title: 'Marcus Ray',
+                isDelegate: false,
                 subItems: [
                     {
-                        title: 'Study Test 1',
+                        title: 'Hernya Delegate',
+                        subTitle: 'No active studies',
+                        isDelegate: true,
+                        isSelected: false
+                    }
+                ]
+            },
+            {
+                title: 'Marcus Ray',
+                isDelegate: true,
+                subItems: [
+                    {
+                        title: 'Marcus Ray',
+                        subTitle: 'Study Test 1',
                         isDelegate: true,
                         isSelected: true
                     },
                     {
-                        title: 'Study Test 2',
+                        title: 'Marcus Ray',
+                        subTitle: 'Study Test 2',
                         isDelegate: true,
                         isSelected: false
                     },
                     {
-                        title: 'Study Test 3',
+                        title: 'Marcus Ray',
+                        subTitle: 'Study Test 3',
                         isDelegate: true,
                         isSelected: false
                     }
