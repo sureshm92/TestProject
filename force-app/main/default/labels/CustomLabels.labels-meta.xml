@@ -3834,7 +3834,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject FollowUp Reminder</shortDescription>
-        <value>We haven&#39;t heard from you in a while</value>
+        <value>Your enrollment is pending</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Follow_up_on_a_Study</fullName>
