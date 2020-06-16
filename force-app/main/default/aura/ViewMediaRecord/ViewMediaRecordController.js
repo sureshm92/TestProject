@@ -302,7 +302,10 @@
             component.set("v.buttonDisable", false);
             component.set("v.disablefield", false);
             component.set("v.disabled", false);
-        } else {
+        }else if(message == "closewarningpopup")
+        {
+            component.find('CancelRequest').close();            
+        }else {
             component.find('ShowPoP_Up').hide();
             var cmpEvent = component.getEvent("cmpRefEvent");
             cmpEvent.fire();

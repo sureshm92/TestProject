@@ -67,6 +67,7 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_PI_PATIENT_BECOME_ADULT_TYPE = 'Message_to_PI_Patient_Become_Adult_Type';
     public static final String MESSAGE_TO_PI_NEW_MESSAGE_TYPE = 'Message_To_PI_New_Message_Type';
     public static final String MESSAGE_TO_PI_ACCESS_LEVEL_CHANGED_TYPE = 'Message_to_PI_Access_Level_Changed_Type';
+    public static final String MESSAGE_TO_PI_CONTACT_PARTICIPANT_TYPE = 'Message_To_PI_Contact_Participant_Type';
 
 /**
  *  MESSAGE TO HCP
