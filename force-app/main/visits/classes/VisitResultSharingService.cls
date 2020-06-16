@@ -221,7 +221,7 @@ public without sharing class VisitResultSharingService {
                         Shareback_Settings_on_StudySites__c,
                         Shareback_Settings_On_Country_Level__c,
                         Shareback_Settings_Countries__c,
-                        Participant_Visit_Result_Group__c
+                        Participant_Visit_Result_Group__c,
                         Visit_Data_Shareback__c, (
                         SELECT Id,
                                 Include_Countries__c,
