@@ -22,7 +22,7 @@ public with sharing class Batch_FollowUpReminder extends Batch_ScheduledAbstract
                 AND Assignee.Contact.Visited_Communities__c = NULL
                 AND Assignee.Contact.userCommunityMode__c = 'Participant'
                 AND PermissionSet.Name IN: CommunityTemplateService.getAllPermissionSets()
-                AND SystemModstamp <=:Datetime.now().addDays(-followUpDays)
+                AND SystemModstamp >=:Datetime.now().addDays(-followUpDays)
         ]);
     }
 
@@ -64,10 +64,14 @@ public with sharing class Batch_FollowUpReminder extends Batch_ScheduledAbstract
             if(!peByContact.containsKey(participantContact)) {
                 Map<Datetime, String> permByDT = permSetNameWithDTByContact.get(participantContact);
                 List<Datetime> datesSet = new List<Datetime>(permByDT.keySet());
-                String permissionName = permByDT.get(datesSet.get(datesSet.size() - 1));
-                if(pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                        CommunityTemplateService.getTemplateByPermissionSetName(permissionName).templateName) {
-                    peByContact.put(participantContact, pe.Id);
+                String template = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
+
+                for(Integer i = datesSet.size() - 1; i >= 0; i--) {
+                    String permissionName = permByDT.get(datesSet.get(i));
+                    if (template == CommunityTemplateService.getTemplateByPermissionSetName(permissionName).templateName) {
+                        peByContact.put(participantContact, pe.Id);
+                        break;
+                    }
                 }
             }
         }
