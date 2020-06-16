@@ -10,6 +10,10 @@
     background: #EA6621;
 }
 
+.cCommunityNavigationMobile .mobile-menu-background.nav-menu  {
+    background: #ea6621;
+}
+
 .slds-spinner_brand.slds-spinner:before,
 .slds-spinner_brand.slds-spinner:after,
 .slds-spinner--brand.slds-spinner:before,
@@ -24,7 +28,6 @@
 .slds-spinner--brand .slds-spinner__dot-b:after {
     background-color: #EA6621 !important;
 }
-
 
 .apollo-btn.primary.login{
     background: #EA6621;
