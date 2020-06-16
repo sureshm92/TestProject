@@ -59,6 +59,10 @@
     font-weight: 600;
 }
 
+.THIS .delegate-alert-message{
+    background-color: #ffffff;
+}
+
 @media screen and (max-width: 768px){
     .THIS .slds-grid > .slds-col,
     .THIS .apollo-btn {

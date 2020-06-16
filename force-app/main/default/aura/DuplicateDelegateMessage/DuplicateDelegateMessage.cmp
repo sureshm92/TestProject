@@ -1,0 +1,29 @@
+<!--
+ - Created by Nikita Abrazhevitch on 13-Jun-20.
+ -->
+
+<aura:component description="DuplicateDelegateMessage">
+
+    <aura:attribute name="delegateDuplicateInfo" type="Object"/>
+
+    <!-- events: -->
+    <aura:registerEvent access="global" name="ddMessageButtonClick" type="c:DDMessageEvent"/>
+
+    <div class="slds-grid slds-wrap delegate-alert-message slds-grid--vertical-align-center">
+        <div class = "alert-icon-margin" style="margin-right: 16px">
+            <img src="{!$Resource.icon_statusAlertOrange}" class="status-alert-icon"/>
+        </div>
+        <div class="slds-col slds-size--11-of-12">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_12-of-12 alert-text">
+                    <span>{!v.delegateDuplicateInfo.email}</span>
+                    <span>{!' is already associated with ' + v.delegateDuplicateInfo.firstName + ' ' + v.delegateDuplicateInfo.lastName + '. We only allow one user per email address. Please confirm that this is the correct email address. If this is not '+v.delegateDuplicateInfo.firstName +', please enter the new delegate’s unique email address.'}</span>
+                </div>
+                <aura:if isTrue="{!!v.delegateDuplicateInfo.isDuplicateDelegate}">
+                    <lightning:button class="status-alert-action-button" onclick="{!c.doOnClick}">Use Entered Email Address</lightning:button>
+                </aura:if>
+            </div>
+        </div>
+    </div>
+
+</aura:component>

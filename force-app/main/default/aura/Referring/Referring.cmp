@@ -29,6 +29,8 @@
     <aura:attribute name="markers" type="Object[]"/>
     <aura:attribute name="accessUserLevel" type="String"/>
     <aura:attribute name="delegateDuplicateInfo" type="Object"/>
+    <aura:attribute name="useThisDelegate" type="Boolean" default="true"/>
+
 
     <aura:attribute name="showMRRButton" type="Boolean"/>
 
@@ -57,6 +59,8 @@
     <aura:handler name="change" value="{!v.mrrResult}" action="{!c.doStartPreScreening}"/>
     <aura:handler name="change" value="{!v.participant.Mailing_Country_Code__c}" action="{!c.doCountryChange}"/>
     <!--<aura:handler name="change" value="{!v.participant.Mailing_State_Code__c}" action="{!c.doCheckfields}"/>-->
+    <aura:handler name="ddMessageButtonClick" event="c:DDMessageEvent" action="{!c.approveDelegate}"/>
+
 
     <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true"/>
 
@@ -497,6 +501,9 @@
                                                                      messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"/>
                                                 </div>
                                             </div>
+                                            <aura:if isTrue="{!(v.delegateDuplicateInfo.isDuplicateDelegate || v.delegateDuplicateInfo.contactId || v.delegateDuplicateInfo.participantId) &amp;&amp; !v.useThisDelegate}">
+                                                <c:DuplicateDelegateMessage delegateDuplicateInfo="{!v.delegateDuplicateInfo}"/>
+                                            </aura:if>
                                             <div class="slds-grid slds-gutters slds-wrap rr-form-element">
                                                 <div class="slds-col slds-size--1-of-2">
                                                     <lightning:input type="text" label="{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}" value="{!v.delegateParticipant.Phone__c}"
@@ -510,16 +517,7 @@
                                                     <c:rrSelect options="{!v.phoneTypes}" value="{!v.delegateParticipant.Phone_Type__c}" useSentenceFont="false"/>
                                                 </div>
                                             </div>
-                                            <aura:if isTrue="{!v.delegateDuplicateInfo.isDuplicateDelegate || v.delegateDuplicateInfo.contactId}">
-                                                <div class="slds-grid slds-wrap slds-size--7-of-12 slds-large-size--1-of-1 slds-grid_vertical-align-end healthcare-form-container provider-found-section">
-                                                    <div class="slds-col slds-size--4-of-12">
-                                                        {!$Label.c.Delegate_Found}
-                                                    </div>
-                                                    <div class="slds-col slds-size--8-of-12">
-                                                        <c:RRLink label="{!$Label.c.Different_Delegate}" page="{!'help'}"/>
-                                                    </div>
-                                                </div>
-                                            </aura:if>
+
                                         </aura:if>
                                         <div class="rr-form-element slds-no-label" style="margin-top: 25px;">
                                             <div class="rr-cb-container">
@@ -530,7 +528,7 @@
                                         <button class="apollo-btn primary" style="width: 100%; margin: 20px 0 50px 0"
                                                 data-gtm="btn_SaveParticipant_referring"
                                                 onclick="{!c.doSaveParticipant}"
-                                                disabled="{!!v.allRequiredCompleted}">
+                                                disabled="{!!v.allRequiredCompleted || !v.useThisDelegate}">
                                             <!--                                                disabled="{!v.actions.refer.disabled || !v.allRequiredCompleted}"-->
                                             <!--                                                title="{!v.actions.refer.disableReason}">-->
                                             {!$Label.c.BTN_Refer_Now}

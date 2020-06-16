@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Start_from_1</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    NOT( ISNULL( Days_after_Permission_gets__c ) ),
+    Days_after_Permission_gets__c &lt;= 0
+)</errorConditionFormula>
+    <errorDisplayField>Days_after_Permission_gets__c</errorDisplayField>
+    <errorMessage>Support only values equal or above 1</errorMessage>
+</ValidationRule>

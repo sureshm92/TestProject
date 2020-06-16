@@ -171,6 +171,7 @@
         }
         component.set('v.conditionsOfInterestTemp', pills);
         component.set('v.displayedItems', pills);
-    
+        component.set('v.showmenu',false);
     }
+    
     })
