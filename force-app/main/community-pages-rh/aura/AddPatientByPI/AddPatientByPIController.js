@@ -74,6 +74,10 @@
             editForm.checkFields();
             component.set('v.emailDelegateRepeat', '');
         }
-    }
+    },
+
+    approveDelegate:function(component, event, helper){
+        component.set('v.useThisDelegate', true);
+    },
 
 })

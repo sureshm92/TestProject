@@ -288,17 +288,18 @@ if(component.get('v.personWrapper.mobilePhone')==''){
        
         //var numbers=/^[0-9]*$/ ;
         var numbers=/^[0-9]*$/;
-        if(inputValue===""){
-            phoneField.setCustomValidity("");  
-        }
-       if ((!numbers.test(inputValue)  && inputValue!=="")) {
-        phoneField.setCustomValidity("Phone number must be numeric");
-        component.set('v.disableSave',true);
-
-        } else {
+        
+        if ((!numbers.test(inputValue)  || !inputValue)) {
+            if(!inputValue){
+                phoneField.setCustomValidity("Phone number is mandatory");
+            }else{
+                phoneField.setCustomValidity("Phone number must be numeric");   
+            }
+         component.set('v.disableSave',true);
+         } 
+        else {
             phoneField.setCustomValidity(""); // reset custom error message
             component.set('v.disableSave',false);
-
         }
         phoneField.reportValidity();
     },

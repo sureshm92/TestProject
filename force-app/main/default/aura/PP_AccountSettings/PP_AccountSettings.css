@@ -1,5 +1,15 @@
 .THIS .rr-white-panel {
     padding: 1rem!important;
+    border :  1px solid #E9E9E9; 
+    margin-left: -1px;
+    margin-top: -4px;
+    box-sizing:none;
+    box-shadow:none;
+    border-bottom:none;
+    border-right:none;
+    border-left:none;
+    
+
 }
 
 .THIS.as-container {
@@ -15,7 +25,7 @@
 
 .THIS.as-container .as-email,
 .THIS.as-container .as-password
- {
+{
     margin-top: 10px;
     /*margin-bottom: 30px;*/
 }
@@ -47,6 +57,7 @@
     font-weight: 600;
     margin-bottom: 10px
 }
+
 
 .THIS.as-container .as-sub-title {
     color: #333333;
@@ -169,7 +180,19 @@
   height: 1500px;
   width: 1135px;
   background-color:#FFFFFF;
+  border :  1px solid #E9E9E9;
+
 }
+.THIS .slds-border_bottom{
+     border :  .5px solid #E9E9E9;
+
+}
+
+.THIS .slds-vertical-tabs__nav .vertical-line{
+    border :  .5px solid #E9E9E9;
+    border-right:.5px solid #E9E9E9;
+    
+    }
 .THIS .wrdText{
   font-family: "Proxima Nova";
   font-size: 16px;
@@ -180,13 +203,14 @@
   width: 300px;
 }
 .THIS .divider-vertical-light-divider {
-  height: 1165px;
+  height: 1505px;
   width: 1px;
   transform: scaleX(-1);
 }
 
 .THIS .vertical-line{
     width: 300px;
+    
 }
 .THIS .horz-width{
     width:1135px;
@@ -233,8 +257,8 @@
 .THIS .slds-nav-vertical__item.slds-is-active .slds-nav-vertical__action {
     font-weight: bold;
     
-	}	
-		
+              }             
+                             
 .THIS .slds-nav-vertical__action {
     position: relative;
     display: flex;
@@ -265,7 +289,7 @@
         left: 0;
         top: 5px;
         position: absolute;
-	}
+              }
 }
 
 @media screen and (max-width: 500px){  
