@@ -28,7 +28,7 @@ public without sharing class TaskEditRemote {
         @AuraEnabled public Boolean isEnrolled;
         @AuraEnabled public String errorMessage;
         @AuraEnabled public Boolean isEmailReminderSet;
-        @AuraEnabled public Boolean isSMSReminderSet
+        @AuraEnabled public Boolean isSMSReminderSet;
         @AuraEnabled public Boolean createdByAdmin;
         @AuraEnabled public Boolean isStudyTasksEnabled;
 
