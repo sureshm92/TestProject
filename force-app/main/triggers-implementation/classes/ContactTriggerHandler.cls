@@ -87,11 +87,27 @@ public without sharing class ContactTriggerHandler {
     @TestVisible
     private static void createUserForDelegateContact(List<Contact> newList) {
         Map<Id, Contact> filteredContactsByIds = new Map<Id, Contact>();
+		List<CC_Staff__c> ccList=[SELECT Id,Contact__c,CC_Staff_Status__c
+                                  From CC_Staff__c 
+                                  WHERE CC_Staff_Status__c = 'Invited'
+                                  AND Contact__c IN: newList];
+        
         for (Contact cont : newList) {
             if (cont.primaryContact__c != null && cont.Email != null) {
                 filteredContactsByIds.put(cont.Id, cont);
             }
         }
+		 //Added for CC Staff
+            if (cont.userCommunytyType__c == 'CC' && cont.Email != null) {
+                if(!ccList.isEmpty()){
+                for(CC_Staff__c c: ccList) {
+                    if(!filteredContactsByIds.containsKey(cont.Id)){
+                    filteredContactsByIds.put(cont.Id, cont);
+                    }
+                }
+				}
+            }
+            //
         if (filteredContactsByIds.isEmpty()) return;
 
         //get users if exist

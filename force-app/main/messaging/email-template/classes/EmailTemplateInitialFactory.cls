@@ -31,6 +31,13 @@ public without sharing class EmailTemplateInitialFactory {
                     emailTemplateInitial = new EmailTemplateInitialHCP(user.ContactId, outputMode);
                 }
             }
+            //added by Akanksha
+            when 'CC' {
+                
+                    emailTemplateInitial = new EmailTemplateInitialCC(user.ContactId, outputMode);
+                
+            }
+            
             when else {
                 if (isDelegate) {
                     emailTemplateInitial = new EmailTemplateInitialPTDel(user.ContactId, outputMode, communityTemplateName);
@@ -42,4 +49,7 @@ public without sharing class EmailTemplateInitialFactory {
 
         return emailTemplateInitial;
     }
+
+ 
+
 }

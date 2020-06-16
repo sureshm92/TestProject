@@ -2087,6 +2087,16 @@
         <field>CTE__c.CTE_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>CC_Staff__c.CC_Staff_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>CC_Staff__c.Contact__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>CTE__c.Clinical_Trial_Profile__c</field>
@@ -7171,6 +7181,9 @@
     <layoutAssignments>
         <layout>Booking__c-Booking Layout</layout>
     </layoutAssignments>
+	<layoutAssignments>
+        <layout>CC_Staff__c-CC Staff Layout</layout>
+    </layoutAssignments>
     <layoutAssignments>
         <layout>CTC__c-CTC Layout</layout>
     </layoutAssignments>
@@ -7632,6 +7645,15 @@
         <modifyAllRecords>true</modifyAllRecords>
         <object>Booking__c</object>
         <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+	<objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>CC_Staff__c</object>
+		<viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -8451,6 +8473,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>CTE__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+	<tabVisibilities>
+        <tab>CC_Staff__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>

@@ -104,6 +104,14 @@ public without sharing class CommunityMode {
             whatId = currentPE;
             isDelegate = currentDelegateId != null;
         }
+        
+        //Added by Akanksha for Call Center Staff
+        if(userMode == CommunityService.USER_MODE_CC) {
+            whatId = currentPE;
+            isDelegate = currentDelegateId != null;
+        }
+        //
+        
         key = CommunityModeService.generateModeKey(userMode, currentDelId, whatId);
         groupKey = key;
         

@@ -1405,6 +1405,13 @@
         <shortDescription>Cancel</shortDescription>
         <value>Cancel</value>
     </labels>
+	<labels>
+        <fullName>CTL_L_CC_MODE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CTL_L_CC_MODE</shortDescription>
+        <value>View as Call Center</value>
+    </labels>
     <labels>
         <fullName>CTL_L_HCP_DELEGATE_MODE</fullName>
         <language>en_US</language>
@@ -2305,6 +2312,13 @@
         <protected>false</protected>
         <shortDescription>Email Body Delegate Permission Changed</shortDescription>
         <value>One or more of your Referral Hub study permissions has changed.</value>
+    </labels>
+	<labels>
+        <fullName>Email_Body_Initial_CC</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email_Body_Initial_CC</shortDescription>
+        <value>Welcome to IQVIA Referal Hub</value>
     </labels>
     <labels>
         <fullName>Email_Body_FollowUp_Reminder</fullName>
