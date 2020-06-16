@@ -38,12 +38,12 @@ window.communityService = (function () {
                 console.log('Mode data: ' + returnValue);
                 let communityData = JSON.parse(returnValue);
                 preventedCookies = communityData.preventedCookies;
+                isDummy = communityData.isDummy;
                 if(!isDummy) {
                     service.deleteCookies(preventedCookies);
                     console.log('preventedCookies: ' + JSON.stringify(preventedCookies));
                 }
                 subDomain = communityData.subDomain;
-                isDummy = communityData.isDummy;
                 communityMode = isDummy ? 'PI' : communityData.communityMode;
                 communityDelegateId = communityData.communityDelegateId;
                 isDelegate = communityData.isDelegate;
