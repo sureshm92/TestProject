@@ -248,6 +248,7 @@ public without sharing class ContactService {
                         Third_Choice_Language__c,
                         Participant_Opt_In_Status_Emails__c,
                         Visit_Results_OptIn__c,
+                        Visited_Communities__c,
                         Email,
                         Account.OwnerId,
                         Account.Name,
@@ -261,7 +262,7 @@ public without sharing class ContactService {
                         Account.BillingCountryCode,
                         Phone,
                         MobilePhone,
-                        Phone_Type__c
+                        Phone_Type__c,
                 FROM Contact
                 WHERE Id = :contactId
         ];
