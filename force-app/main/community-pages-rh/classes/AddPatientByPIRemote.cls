@@ -39,7 +39,7 @@ public without sharing class AddPatientByPIRemote {
 
     //TODO:Review
     @AuraEnabled
-    public static void saveParticipant(String participantJSON, String peJSON, String userLanguage, String ssId, Boolean createUser, String participantDelegateJSON, String delegateDuplicateInfo){
+    public static void saveParticipant(String participantJSON, String peJSON, String userLanguage, String ssId, Boolean createUser, Boolean doNotContact, String participantDelegateJSON, String delegateDuplicateInfo){
         try {
             if (!createUser) {
                 TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
@@ -55,6 +55,7 @@ public without sharing class AddPatientByPIRemote {
             Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
             participant.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI;
             pe.Referral_Source__c = 'PI';
+            pe.To_permit_IQVIA_to_contact_the_participa__c = !doNotContact;
             ReferHealthcareProviderRemote.HealthcareProvider ddInfo;
             if (delegateDuplicateInfo != null) ddInfo = (ReferHealthcareProviderRemote.HealthcareProvider) JSON.deserialize(delegateDuplicateInfo, ReferHealthcareProviderRemote.HealthcareProvider.class);
 

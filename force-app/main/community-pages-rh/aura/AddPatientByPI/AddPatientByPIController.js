@@ -57,6 +57,10 @@
         component.set('v.isDelegateValid', false);
         helper.checkParticipantNeedsGuardian(component, helper, event);
         $A.enqueueAction(component.get('c.doCheckfields'));
+        var participant = component.get('v.participant');
+        component.set('v.participant', participant);
+        console.log('EMEil', participant.Email__c);
+        console.log('ADult', participant.Adult__c);
     },
 
     doNeedsGuardian: function (component, event, helper) {
@@ -74,6 +78,20 @@
             editForm.checkFields();
             component.set('v.emailDelegateRepeat', '');
         }
-    }
+    },
+
+    doRefreshParticipant: function (component, event, helper) {
+        var participant = component.get('v.participant');
+        component.set('v.participant', participant);
+
+    },
+
+    doCreateUserInv: function (component) {
+        component.set('v.createUsers', !component.get('v.createUsers'));
+    },
+
+    doNotContact: function (component) {
+        component.set('v.doNotContact', !component.get('v.doNotContact'));
+    },
 
 })
