@@ -7,13 +7,13 @@
     color: #CCCCCC;
     margin: 4px 0;
 }
+ 
 
 .THIS .prfile-img-stub{
     width: 100px;
     min-height: 50px;
     margin: 10px auto;
 }
-
 .THIS .slds-avatar{
     border-radius:50%;
     width:55px;
@@ -28,14 +28,8 @@
     display: flex;
     justify-content: space-around;
 }
-
-.THIS .profileInfo {
-    display: flex;
-    flex-direction: column;
-    margin-left: 5px;
-}
-
 .THIS .profileLabel{
+    margin-left:-500px;
     color: #0768FD;
     font-family: "Proxima Nova";
     font-size: 16px;
@@ -44,7 +38,6 @@
     line-height: 24px;
     text-align: center;
 }
-
 .THIS .btn-upload-photo{
     position: relative;
     margin: 0 auto;
@@ -91,12 +84,15 @@
     background-color: red;
 }
 
+
 .THIS .custom-file-upload {
-    padding: 6px 10px;
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
     cursor: pointer;
     color: blue;
+    margin-left:-150px;
 }
-
 .THIS .hideInput{
     position: absolute !important;
     left: 0 !important;
@@ -107,10 +103,10 @@
 
 }
 
+
 .THIS .slds-avatar .slds-icon_container{
     background-color:mediumvioletred;
 }
-
 .THIS .avatar {
     width: 55px;
     height: 55px;
@@ -125,5 +121,5 @@
     font-size: 17px;
     letter-spacing: 0;
     line-height: 20px;
-    margin-left: 10px;
+    margin-left: 18px;
   }
