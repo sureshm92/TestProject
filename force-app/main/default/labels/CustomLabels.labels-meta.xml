@@ -13221,7 +13221,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Resource Visit Summary Report</shortDescription>
-        <value>Visit Summary Report</value>
+        <value>My Study Data Report</value>
     </labels>
     <labels>
         <fullName>Resources_Article</fullName>
@@ -15488,6 +15488,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Visit Results Dashboard My Results</shortDescription>
         <value>My Results</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Group_If_Is_Not_Selected_For_My_Results</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Group If Is Not Selected For My Results</shortDescription>
+        <value>Please select atleast one data point(Vitals/Labs or Biomarkers) to show in My Results card</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_Biomarkers</fullName>
