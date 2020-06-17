@@ -9,64 +9,63 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     <div class="container">
-        <aura:iteration items="{!v.communityModes}" var="mode">
-
-                <div class="item-container">
-                    <aura:if isTrue="{!mode.isPPItemsCollapsed}">
-                        <div class="menu-item">
-                            <c:RRIcon iconName="icon-chevron-right"
-                                      class="{!'mode-icon ' + if(mode.isPPItemsSelected,'selected','')}"/>
-                        </div>
-                        <aura:set attribute="else">
-                            <div class="menu-item">
-                                <c:RRIcon iconName="icon-chevron-down"
-                                          class="{!'mode-icon ' + if(mode.isPPItemsSelected,'selected','')}"/>
-                            </div>
-                        </aura:set>
-                    </aura:if>
-                    <div class="{!'label ' + if(mode.isPPItemsSelected, ' selected', '')}">
-                        {!$Label.c.Patient_Portal_Views}
-                    </div>
+        <div class="item-container" data-group-id="{!'pp'}" onclick="{!c.doToggleGroup}">
+            <aura:if isTrue="{!v.communityModes.isPPItemsCollapsed}">
+                <div class="menu-item">
+                    <c:RRIcon iconName="icon-chevron-right"
+                              class="{!'mode-icon ' + if(v.communityModes.isPPItemsSelected,'selected','')}"/>
                 </div>
-                <aura:if isTrue="{!not(mode.isPPItemsCollapsed)}">
-                    <c:PPMenuItems allModes="{!mode.ppModeItems}"/>
-                </aura:if>
-
-                <div class="item-container">
-                    <aura:if isTrue="{!mode.isRHItemsCollapsed}">
-                        <div class="menu-item">
-                            <c:RRIcon iconName="icon-chevron-right"
-                                      class="{!'mode-icon ' + if(mode.isRHItemsSelected,'selected','')}"/>
-                        </div>
-                        <aura:set attribute="else">
-                            <div class="menu-item">
-                                <c:RRIcon iconName="icon-chevron-down"
-                                          class="{!'mode-icon ' + if(mode.isRHItemsSelected,'selected','')}"/>
-                            </div>
-                        </aura:set>
-                    </aura:if>
-                    <div class="{!'label ' + if(mode.isRHItemsSelected, 'selected', '')}">
-                        {!$Label.c.Referral_Hub_Views}
-                        <aura:if isTrue="{!mode.isRHItemsSelected}">
-                            <div class="icon-settings-box">
-                                <c:uiMenuItem onclick="{!c.doSelectItem}" itemValue="account-settings"
-                                              class="unset">
-                                    <div><c:RRIcon class="icon-delegate" iconName="delegate"/></div>
-                                </c:uiMenuItem>
-
-                                <c:uiMenuItem onclick="{!c.doSelectItem}" itemValue="my-team" class="unset">
-                                    <div class="icon-box">
-                                        <c:RRIcon class="icon-cog" iconName="cog"/>
-                                    </div>
-                                </c:uiMenuItem>
-                            </div>
-                        </aura:if>
+                <aura:set attribute="else">
+                    <div class="menu-item">
+                        <c:RRIcon iconName="icon-chevron-down"
+                                  class="{!'mode-icon ' + if(v.communityModes.isPPItemsSelected,'selected','')}"/>
                     </div>
-                </div>
-                <aura:if isTrue="{!not(mode.isRHItemsCollapsed)}">
-                    <c:RHCommunityModesList communityModesList="{!mode.rhModeItems}"/>
-                </aura:if>
+                </aura:set>
+            </aura:if>
+            <div class="{!'label ' + if(v.communityModes.isPPItemsSelected, ' selected', '')}">
+                {!$Label.c.Patient_Portal_Views}
+            </div>
+        </div>
+        <aura:if isTrue="{!not(v.communityModes.isPPItemsCollapsed)}">
+            <c:PPMenuItems allModes="{!v.communityModes.ppModeItems}"/>
+        </aura:if>
 
-        </aura:iteration>
+        <div class="item-container" data-group-id="{!'rh'}" onclick="{!c.doToggleGroup}">
+            <aura:if isTrue="{!v.communityModes.isRHItemsCollapsed}">
+                <div class="menu-item">
+                    <c:RRIcon iconName="icon-chevron-right"
+                              class="{!'mode-icon ' + if(v.communityModes.isRHItemsSelected,'selected','')}"/>
+                </div>
+                <aura:set attribute="else">
+                    <div class="menu-item">
+                        <c:RRIcon iconName="icon-chevron-down"
+                                  class="{!'mode-icon ' + if(v.communityModes.isRHItemsSelected,'selected','')}"/>
+                    </div>
+                </aura:set>
+            </aura:if>
+            <div class="{!'label ' + if(v.communityModes.isRHItemsSelected, 'selected', '')}">
+                {!$Label.c.Referral_Hub_Views}
+                <aura:if isTrue="{!v.communityModes.isRHItemsSelected}">
+                    <div class="icon-settings-box">
+                        <c:uiMenuItem onclick="{!c.doSelectItem}" itemValue="account-settings"
+                                      class="unset">
+                            <div>
+                                <c:RRIcon class="icon-delegate" iconName="delegate"/>
+                            </div>
+                        </c:uiMenuItem>
+
+                        <c:uiMenuItem onclick="{!c.doSelectItem}" itemValue="my-team" class="unset">
+                            <div class="icon-box">
+                                <c:RRIcon class="icon-cog" iconName="cog"/>
+                            </div>
+                        </c:uiMenuItem>
+                    </div>
+                </aura:if>
+            </div>
+        </div>
+        <aura:if isTrue="{!not(v.communityModes.isRHItemsCollapsed)}">
+            <c:RHCommunityModesList communityModesList="{!v.communityModes.rhModeItems}"/>
+        </aura:if>
     </div>
+
 </aura:component>
