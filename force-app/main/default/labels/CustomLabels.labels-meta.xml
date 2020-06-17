@@ -937,11 +937,18 @@
         <value>No</value>
     </labels>
     <labels>
-        <fullName>BTN_No_Active_Studies</fullName>
+        <fullName>Patient_Portal_Views</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BTN No Active Studies</shortDescription>
-        <value>No Active Studies</value>
+        <value>Patient Portal Views</value>
+    </labels>
+    <labels>
+        <fullName>Referral_Hub_Views</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN No Active Studies</shortDescription>
+        <value>Referral Hub Views</value>
     </labels>
     <labels>
         <fullName>BTN_No_thanks</fullName>

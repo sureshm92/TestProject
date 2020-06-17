@@ -2,33 +2,32 @@
  * Created by Olga Skrynnikova on 6/10/2020.
  */
 
-.THIS .unset:first-child .main-box .menu-item .icon-cog{
+.THIS .unset:first-child .main-box .menu-item-box .icon-cog{
     visibility: visible;
     opacity: unset;
 }
 
-.THIS .contain:first-child .unset .main-box .menu-item .icon-delegate{
+.THIS .contain:first-child .unset .main-box .menu-item-box .icon-delegate{
     visibility: visible;
     opacity: unset;
 }
 
-.THIS .menu-item{
+.THIS .menu-item-box{
     color: #000000;
     font-size: 16px;
     letter-spacing: 0;
-    display: flex;
-    justify-content: space-between;
     font-weight: 600;
-    padding-left: 12px;
     width: 215px;
     line-height: 28px!important;
     margin-top: 10px!important;
+    display: flex;
+    align-content: space-between;
+
 }
 
 .THIS .menu-sub-item{
     width: 250px;
     color: #797979;
-    padding-left: 17px;
 }
 
 .THIS .selected{
