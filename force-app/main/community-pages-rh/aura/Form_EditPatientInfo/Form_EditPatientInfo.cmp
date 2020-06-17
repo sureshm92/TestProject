@@ -383,8 +383,8 @@
                             <div class="rr-form-element slds-col slds-size&#45;&#45;1-of-1 slds-large-size&#45;&#45;1-of-3"></div>
                         </aura:if>-->
 
-                        <aura:if isTrue="{!v.fromAddParticipantPage &amp;&amp; (v.participant.Email__c &amp;&amp; v.isAdult) || (v.haveDelegate &amp;&amp;  v.participant.Health_care_proxy_is_needed__c)}">
-                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-1"></div>
+                        <!--<aura:if isTrue="{!v.fromAddParticipantPage &amp;&amp; (v.participant.Email__c &amp;&amp; v.isAdult) || (v.haveDelegate &amp;&amp;  v.participant.Health_care_proxy_is_needed__c)}">
+                            <div class="rr-form-element slds-col slds-size&#45;&#45;1-of-1 slds-large-size&#45;&#45;1-of-1"></div>
 
                             <div class="slds-form-element" style="margin-left: 10px;">
                                 <div class="slds-form-element__control">
@@ -398,7 +398,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </aura:if>
+                        </aura:if>-->
                     </div>
                 </div>
                 <aura:set attribute="else">
