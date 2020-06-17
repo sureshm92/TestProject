@@ -96,7 +96,7 @@ public without sharing class ContactTriggerHandler {
             if (cont.primaryContact__c != null && cont.Email != null) {
                 filteredContactsByIds.put(cont.Id, cont);
             }
-        }
+        
 		 //Added for CC Staff
             if (cont.userCommunytyType__c == 'CC' && cont.Email != null) {
                 if(!ccList.isEmpty()){
@@ -108,6 +108,7 @@ public without sharing class ContactTriggerHandler {
 				}
             }
             //
+        }
         if (filteredContactsByIds.isEmpty()) return;
 
         //get users if exist
