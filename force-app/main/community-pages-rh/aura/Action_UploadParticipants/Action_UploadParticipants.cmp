@@ -17,6 +17,7 @@
     <aura:attribute name="fileBody" type="String"/>
     <aura:attribute name="fullFileName" type="String"/>
     <aura:attribute name="createUsers" type="Boolean" default="false"/>
+    <aura:attribute name="doNotContactParticipants" type="Boolean" default="false"/>
 
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
@@ -82,27 +83,32 @@
                     </div>
                 </div>
             </div>
+            <div class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center" style="margin-bottom: 15px; margin-top: 15px">
+                <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.doNotContactParticipants}"/>
+                <div class="slds-size_1-of-1 slds-item_label">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact}</div>
+            </div>
+            <div class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
+                <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.createUsers}"/>
+                <div class="slds-size_1-of-1 slds-item_label">{!$Label.c.Create_Users_Checkbox_on_Import}</div>
+            </div>
+
+            <div class="slds-col slds-size--1-of-1 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center slds-textInfo-label" style="margin-top: 10px;">
+                {!$Label.c.Create_Users_Allow_Several_Minutes}
+            </div>
 
             <aura:set attribute="footerButtons">
                 <div class="slds-grid slds-wrap">
-                    <div class="slds-col slds-size--7-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
-                        <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.createUsers}"/>
-                        <div class="slds-size--10-of-12">{!$Label.c.Create_Users_Checkbox_on_Import}</div>
-                    </div>
-                    <div class="slds-col slds-size--5-of-12">
-                        <button class="apollo-btn tertiary" data-gtm="btn_UploadNewParticipants_cancel"
+                    <div class="slds-col slds-size--5-of-12" style="margin-left: 60%;">
+                        <button class="apollo-btn tertiary slds-button__icon_right" data-gtm="btn_UploadNewParticipants_cancel"
                                 onclick="{!c.doCancel}">
                             {!$Label.c.BTN_Cancel}
                         </button>
-                        <button class="apollo-btn primary" onclick="{!c.doImport}"
+                        <button class="apollo-btn primary slds-button__icon_right" onclick="{!c.doImport}"
                                 data-gtm="btn_UploadNewParticipants_import"
                                 disabled="{!!v.selectedStatus || !v.fileName}"
                                 title="{!(!v.selectedStatus || !v.fileName) ? $Label.c.PG_MRC_RF_Not_all_Req_Fields : ''}">
                             {!$Label.c.BTN_Import}
                         </button>
-                    </div>
-                    <div class="slds-col slds-size--1-of-1 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center" style="margin-top: 10px;">
-                        {!$Label.c.Create_Users_Allow_Several_Minutes}
                     </div>
                 </div>
             </aura:set>

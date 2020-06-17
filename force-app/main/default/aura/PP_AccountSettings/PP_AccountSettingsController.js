@@ -12,13 +12,12 @@
                 new: '',
                 reNew: ''
             };
-            var resultMsg = sessionStorage.getItem( 'pageTransfer' );
             const queryString = window.location.href;
-            if(queryString.includes('sampleVar')){
+            if(queryString.includes('changePref')){
             component.set("v.showEditProfile",false);
             component.set("v.selectedItem","custex");
             component.set('v.custExp', true);
-            component.set( "v.coibool", JSON.parse( resultMsg ).sampleVar );
+            component.set( "v.coibool", true );
             }else{
                 component.set("v.showEditProfile",true);
                 component.set( "v.coibool", false );   

@@ -1,6 +1,6 @@
 .THIS .rr-white-panel {
     padding: 1rem!important;
-    border :  1px solid #E9E9E9; 
+    border :  .5px solid #E9E9E9; 
     margin-left: -1px;
     margin-top: -4px;
     box-sizing:none;
@@ -17,6 +17,10 @@
     padding-bottom: 100px;
     height:1400px;
     overflow:hidden;
+}
+.THIS .slds-vertical-tabs__nav {
+  border:.5px solid #E9E9E9;    
+    
 }
 
 .THIS.as-container .as-password .rr-form-element + .rr-form-element {
@@ -166,7 +170,7 @@
     height: 380px;
 }
 .THIS .mouse-hover{
-    background-color: #0768FD;
+    background-color: #297DFD;
     color: white;
     height: 24px;
     width: 252px;
@@ -176,11 +180,12 @@
     letter-spacing: 0;
     line-height: 24px;
 }
+
 .THIS .container-white-normal {
   height: 1500px;
   width: 1135px;
   background-color:#FFFFFF;
-  border :  1px solid #E9E9E9;
+  border :  .5px solid #E9E9E9;
 
 }
 .THIS .slds-border_bottom{
@@ -232,7 +237,7 @@
 .THIS .profile-information {
   height: 24px;
   width: 219px;
-  color: #444444;
+  color:white;
   font-family: "Proxima Nova";
   font-size: 15px;
   letter-spacing: 0;
@@ -254,10 +259,15 @@
 .THIS .navigation {
     min-width: 225px;
 }
-.THIS .slds-nav-vertical__item.slds-is-active .slds-nav-vertical__action {
+/*.THIS .slds-nav-vertical__item.slds-is-active .slds-nav-vertical__action {
     font-weight: bold;
     
-              }             
+              }  */
+.THIS .slds-nav-vertical__item.slds-is-active .slds-nav-vertical__action {
+    font-weight: 600;
+    color: white;
+    box-shadow: none;
+}            
                              
 .THIS .slds-nav-vertical__action {
     position: relative;

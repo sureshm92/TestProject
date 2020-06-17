@@ -28,11 +28,11 @@
     margin-bottom: 10px;
 }
 .THIS .slds-pill{
-    padding-bottom: 10%;
-    padding-top: 5%;
+    padding-top: 3px;
 }
 .THIS .slds-pill__remove{
-    padding-right: 10% !important;
+    top: 45%;
+    padding-right: 12%;
 }
 
 .THIS .title-desc{
