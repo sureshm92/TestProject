@@ -11645,14 +11645,14 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SST L Invite</shortDescription>
-        <value>Intite</value>
+        <value>Invite</value>
     </labels>
     <labels>
         <fullName>PG_SST_L_Invited</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SST L Invited</shortDescription>
-        <value>Intited?</value>
+        <value>Invited?</value>
     </labels>
     <labels>
         <fullName>PG_SST_L_Name</fullName>
