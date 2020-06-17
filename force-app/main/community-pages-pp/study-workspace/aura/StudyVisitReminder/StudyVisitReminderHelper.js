@@ -3,7 +3,7 @@
         var taskId = component.get('v.taskId');
         var isNewTask = component.get('v.isNewTask');
         var visitId = component.get('v.visitId');
-        var visitData = compoent.get('v.visitData');
+        var visitData = component.get('v.visitData');
         var taskType = component.get('v.taskType');
         if (!communityService.isDummy()) {
             component.find('spinner').show();

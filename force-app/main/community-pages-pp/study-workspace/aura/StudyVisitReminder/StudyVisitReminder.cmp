@@ -73,7 +73,7 @@
                     <div class="slds-grid slds-gutters slds-wrap">
                         <!-- Due Date -->
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                            <lightning:input aura:id="field" type="date" min="{!v.initData.today}"
+                            <lightning:input aura:id="dateField" type="date" min="{!v.initData.today}"
                                 label="{!$Label.c.Due_Date}" value="{!v.initData.activityDate}"
                                 onchange="{!c.onChangeDueDate}" />
                         </div>
@@ -113,7 +113,7 @@
                             </div>
                             <!--Reminder Date-->
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                                <lightning:input aura:id="field" type="date"
+                                <lightning:input aura:id="dateField" type="date"
                                     label="{!$Label.c.Home_Page_StudyVisit_Completed_On}"
                                     value="{!v.initData.reminderDate}" onchange="{!c.onChangeReminderDate}"
                                     min="{!v.initData.today}"
@@ -167,7 +167,7 @@
                         </div>
                         <!--Reminder Date-->
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                            <lightning:input aura:id="field" type="date"
+                            <lightning:input aura:id="dateField" type="date"
                                 label="{!$Label.c.Home_Page_StudyVisit_Completed_On}" value="{!v.initData.reminderDate}"
                                 onchange="{!c.onChangeReminderDate}" min="{!v.initData.today}"
                                 max="{!if(v.initData.activityDate, v.initData.activityDate, '')}" />
