@@ -63,6 +63,10 @@
                 <behavior>Edit</behavior>
                 <field>Show_Referring_Provider__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>To_permit_IQVIA_to_contact_the_participa__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

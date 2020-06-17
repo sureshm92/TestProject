@@ -17,6 +17,7 @@
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="userLanguage" type="String"/>
     <aura:attribute name="createUsers" type="Boolean" default="false"/>
+    <aura:attribute name="doNotContact" type="Boolean" default="false"/>
     <aura:attribute name="emailDelegateRepeat" type="String"/>
     <aura:attribute name="needsGuardian" type="Boolean" default="false"/>
     <aura:attribute name="isDelegateValid" type="Boolean" default="false"/>
@@ -28,6 +29,8 @@
     <aura:method name="checkDateOfBith" action="{!c.doCheckDateOfBith}" access="public">
         <aura:attribute name="callback" type="Function"/>
     </aura:method>
+    <aura:method name="refreshParticipant" action="{!c.doRefreshParticipant}" access="public"/>
+
 
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
@@ -65,7 +68,7 @@
                                     <input aura:id="checkbox-delegate" type="checkbox" name="options" id="checkbox-unique-id-74" value="checkbox-unique-id-74" onclick="{!c.doNeedsGuardian}"/>
                                     <label class="slds-checkbox__label" for="checkbox-unique-id-74">
                                         <span class="slds-checkbox_faux"></span>
-                                        <span class="slds-form-element__label">{!$Label.c.PG_Ref_L_Health_care_proxy_is_needed}</span>
+                                        <span class="slds-form-element__label-for-checkbox">{!$Label.c.PG_Ref_L_Health_care_proxy_is_needed}</span>
                                     </label>
                                 </div>
                             </div>
@@ -164,6 +167,36 @@
                                     </div>
                                 </div>-->
                         </aura:if>
+                    </div>
+                    <aura:if isTrue="{!(v.participant.Email__c &amp;&amp; v.participant.Adult__c) || (v.needsGuardian &amp;&amp; v.participant.Health_care_proxy_is_needed__c)}">
+                        <div class="slds-grid slds-gutters slds-wrap">
+                        <div class="slds-form-element" style="margin-top: 30px; margin-left: 10px;">
+                                <div class="slds-form-element__control">
+                                <div class="slds-checkbox">
+                                    <input type="checkbox" name="options" id="checkbox-unique-id-73"
+                                           value="checkbox-unique-id-73" onclick="{!c.doCreateUserInv}"/>
+                                    <label class="slds-checkbox__label" for="checkbox-unique-id-73">
+                                        <span class="slds-checkbox_faux"></span>
+                                        <span class="slds-form-element__label-for-checkbox">{!$Label.c.Create_Users_Checkbox_Add_By_Pi}</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </aura:if>
+                    <div class="slds-grid slds-gutters slds-wrap">
+                        <div class="slds-form-element" style="margin-top: 30px; margin-left: 10px;">
+                            <div class="slds-form-element__control">
+                                <div class="slds-checkbox">
+                                    <input aura:id="checkbox-doContact" type="checkbox" name="options" id="checkbox-unique-id-75"
+                                           value="checkbox-unique-id-75" onclick="{!c.doNotContact}"/>
+                                    <label class="slds-checkbox__label" for="checkbox-unique-id-75">
+                                        <span class="slds-checkbox_faux"></span>
+                                        <span class="slds-form-element__label-for-checkbox">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact}</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
