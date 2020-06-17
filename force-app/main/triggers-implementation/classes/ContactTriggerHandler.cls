@@ -1,7 +1,7 @@
 /**
- * Created by D.Yasinskyi on 05.05.2018
- * Refactored by Leonid Bartenev
- */
+* Created by D.Yasinskyi on 05.05.2018
+* Refactored by Leonid Bartenev
+*/
 
 public without sharing class ContactTriggerHandler {
     
@@ -31,13 +31,13 @@ public without sharing class ContactTriggerHandler {
             setShowTourDefault(newList);
         }
     }
-
+    
     public class PopulateOverrideFields extends TriggerHandler{
-
+        
         public override void beforeInsert(List<SObject> newList) {
             populateOverrideFields(newList);
         }
-
+        
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             populateOverrideFields(newList);
         }
@@ -87,30 +87,17 @@ public without sharing class ContactTriggerHandler {
     @TestVisible
     private static void createUserForDelegateContact(List<Contact> newList) {
         Map<Id, Contact> filteredContactsByIds = new Map<Id, Contact>();
-		List<CC_Staff__c> ccList=[SELECT Id,Contact__c,CC_Staff_Status__c
-                                  From CC_Staff__c 
-                                  WHERE CC_Staff_Status__c = 'Invited'
-                                  AND Contact__c IN: newList];
         
+        //Added a check for CC Staff
         for (Contact cont : newList) {
-            if (cont.primaryContact__c != null && cont.Email != null) {
+            if (cont.primaryContact__c != null && cont.Email != null || 
+                cont.CC_Staff_Status__c == True && cont.Email != null) {
                 filteredContactsByIds.put(cont.Id, cont);
             }
-        
-		 //Added for CC Staff
-            if (cont.userCommunytyType__c == 'CC' && cont.Email != null) {
-                if(!ccList.isEmpty()){
-                for(CC_Staff__c c: ccList) {
-                    if(!filteredContactsByIds.containsKey(cont.Id)){
-                    filteredContactsByIds.put(cont.Id, cont);
-                    }
-                }
-				}
-            }
-            //
+            
         }
         if (filteredContactsByIds.isEmpty()) return;
-
+        
         //get users if exist
         Map<Id, User> communityUsers = new Map<Id, User>();
         for (User usr : CommunityService.getCommunityUsersByContactIds(filteredContactsByIds.keySet())) {
@@ -120,7 +107,7 @@ public without sharing class ContactTriggerHandler {
                 communityUsers.put(usr.ContactId, usr);
             }
         }
-
+        
         Set<Id> toCreateUser = new Set<Id>();
         for (Id contactId : filteredContactsByIds.keySet()) {
             if (!communityUsers.containsKey(contactId)) toCreateUser.add(contactId);
@@ -131,13 +118,13 @@ public without sharing class ContactTriggerHandler {
     @TestVisible
     private static void setShowTourDefault(List<Contact> newList){
         List<String> defaultModes = new List<String>{
-                CommunityService.USER_MODE_PI,
+            CommunityService.USER_MODE_PI,
                 CommunityService.USER_MODE_HCP,
                 CommunityService.USER_MODE_PARTICIPANT
-        };
-        for(Contact contact : newList) contact.userCommunity_ShowTour__c =String.join(defaultModes, ';');
+                };
+                    for(Contact contact : newList) contact.userCommunity_ShowTour__c =String.join(defaultModes, ';');
     }
-
+    
     private static void populateOverrideFields(List<Contact> newList){
         for(Contact contact : newList){
             if(contact.LastName != null && String.isBlank(contact.Override_Mailing_Address__c)){
@@ -150,4 +137,5 @@ public without sharing class ContactTriggerHandler {
             contact.Next_Profile_Update_DT__c = Datetime.now().addYears(1);
         }
     }
+    
 }

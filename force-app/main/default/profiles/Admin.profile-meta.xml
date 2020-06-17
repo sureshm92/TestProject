@@ -2087,16 +2087,6 @@
         <field>CTE__c.CTE_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
-        <editable>true</editable>
-        <field>CC_Staff__c.CC_Staff_Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>CC_Staff__c.Contact__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>CTE__c.Clinical_Trial_Profile__c</field>
@@ -2849,6 +2839,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Affiliation_to_Organization__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.CC_Staff_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

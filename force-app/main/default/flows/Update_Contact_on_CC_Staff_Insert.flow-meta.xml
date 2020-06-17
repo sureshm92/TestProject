@@ -46,13 +46,44 @@
                     <stringValue>Invited</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <processMetadataValues>
+                    <name>inputDataType</name>
+                    <value>
+                        <stringValue>Picklist</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>leftHandSideType</name>
+                    <value>
+                        <stringValue>Picklist</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>operatorDataType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>rightHandSideType</name>
+                    <value>
+                        <stringValue>Picklist</stringValue>
+                    </value>
+                </processMetadataValues>
+                <leftValueReference>myVariable_current.Contact__r.userCommunityMode__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>CC</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>myRule_1_A1</targetReference>
             </connector>
             <label>Check CC Staff Invited</label>
         </rules>
     </decisions>
-    <interviewLabel>Update_Contact_on_CC_Staff_Insert-3_InterviewLabel</interviewLabel>
+    <interviewLabel>Update_Contact_on_CC_Staff_Insert-7_InterviewLabel</interviewLabel>
     <label>Update Contact on CC Staff Insert</label>
     <processMetadataValues>
         <name>ObjectType</name>
@@ -125,7 +156,7 @@
             <processMetadataValues>
                 <name>dataType</name>
                 <value>
-                    <stringValue>Picklist</stringValue>
+                    <stringValue>Boolean</stringValue>
                 </value>
             </processMetadataValues>
             <processMetadataValues>
@@ -137,7 +168,7 @@
             <processMetadataValues>
                 <name>leftHandSideLabel</name>
                 <value>
-                    <stringValue>User Community Mode</stringValue>
+                    <stringValue>CC Staff Status</stringValue>
                 </value>
             </processMetadataValues>
             <processMetadataValues>
@@ -149,48 +180,12 @@
             <processMetadataValues>
                 <name>rightHandSideType</name>
                 <value>
-                    <stringValue>Picklist</stringValue>
+                    <stringValue>Boolean</stringValue>
                 </value>
             </processMetadataValues>
-            <field>userCommunityMode__c</field>
+            <field>CC_Staff_Status__c</field>
             <value>
-                <stringValue>CC</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <processMetadataValues>
-                <name>dataType</name>
-                <value>
-                    <stringValue>MultiPicklist</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>isRequired</name>
-                <value>
-                    <booleanValue>false</booleanValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideLabel</name>
-                <value>
-                    <stringValue>User Community Type</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideReferenceTo</name>
-                <value>
-                    <stringValue/>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>rightHandSideType</name>
-                <value>
-                    <stringValue>MultiPicklist</stringValue>
-                </value>
-            </processMetadataValues>
-            <field>userCommunytyType__c</field>
-            <value>
-                <stringValue>CC</stringValue>
+                <booleanValue>true</booleanValue>
             </value>
         </inputAssignments>
         <object>Contact</object>
