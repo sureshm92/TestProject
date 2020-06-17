@@ -66,6 +66,7 @@ public Without sharing class ViewMediaResult {
         Boolean Email = false;
         string studysitephonenumber ='';
         string contactemail ='';
+        string UserMailId ='';
         string Newvalue ='';
         Boolean result = false;
         string PreferredContMethod ='';
@@ -73,7 +74,7 @@ public Without sharing class ViewMediaResult {
        
         
           CommunityPreferred commm = new CommunityPreferred();
-          Media_Outreach__c MediaOutreachObj =[select id,Preferred_contact_method__c,Alternate_Email_Phone_Number__c from Media_Outreach__c where id=:MediaRecordId limit 1];
+          Media_Outreach__c MediaOutreachObj =[select id,Preferred_contact_method__c,Alternate_Email_Phone_Number__c,CreatedById from Media_Outreach__c where id=:MediaRecordId limit 1];
           
           PreferredContMethod=MediaOutreachObj.Preferred_contact_method__c;
           AlternateEmailPhone=MediaOutreachObj.Alternate_Email_Phone_Number__c;
@@ -96,19 +97,15 @@ public Without sharing class ViewMediaResult {
                        {
                          studysitephonenumber =[SELECT id,Name,Study_Site_Phone__c from Study_Site__c where Id =:studysiteId LIMIT 1].Study_Site_Phone__c;  
                        }
-                        Contact userContact = CommunityService.getUserContact();
-                        studyContactId = userContact.Id;
-                        if(string.isNotBlank(studyContactId))
-                        {
-                         contactemail =[SELECT id,name,Email,Phone from Contact where Id =:studyContactId LIMIT 1].Email;   
-                        }
+                         UserMailId = [select id,Email from user where id=:MediaOutreachObj.CreatedById LIMIT 1].Email;
+                        
                         if(string.isNotBlank(studysitephonenumber))
                         {
                           commm.MO_Phonenumber=studysitephonenumber;
                         }else{commm.MO_Phonenumber='null';}
-                        if(string.isNotBlank(contactemail))
+                        if(string.isNotBlank(UserMailId))
                         {
-                          commm.MO_Email=contactemail;
+                          commm.MO_Email=UserMailId;
                         }else{commm.MO_Email='null';}
                         commm.MO_AlternateValue='';
                 }
@@ -121,19 +118,14 @@ public Without sharing class ViewMediaResult {
                        {
                          studysitephonenumber =[SELECT id,Name,Study_Site_Phone__c from Study_Site__c where Id =:studysiteId LIMIT 1].Study_Site_Phone__c;  
                        }
-                        Contact userContact = CommunityService.getUserContact();
-                        studyContactId = userContact.Id;
-                        if(string.isNotBlank(studyContactId))
-                        {
-                         contactemail =[SELECT id,name,Email,Phone from Contact where Id =:studyContactId LIMIT 1].Email;   
-                        }
+                        
                         if(string.isNotBlank(studysitephonenumber))
                         {
                           commm.MO_Phonenumber=studysitephonenumber;
                         }else{commm.MO_Phonenumber='null';}
-                        if(string.isNotBlank(contactemail))
+                        if(string.isNotBlank(PreferredContMethod))
                         {
-                          commm.MO_Email=contactemail;
+                          commm.MO_Email=PreferredContMethod;
                         }else{commm.MO_Email='null';}
                         commm.MO_AlternateValue='';
                 }
@@ -155,19 +147,15 @@ public Without sharing class ViewMediaResult {
                        {
                          studysitephonenumber =[SELECT id,Name,Study_Site_Phone__c from Study_Site__c where Id =:studysiteId LIMIT 1].Study_Site_Phone__c;  
                        }
-                        Contact userContact = CommunityService.getUserContact();
-                        studyContactId = userContact.Id;
-                        if(string.isNotBlank(studyContactId))
-                        {
-                         contactemail =[SELECT id,name,Email,Phone from Contact where Id =:studyContactId LIMIT 1].Email;   
-                        }
+                        
+                        UserMailId = [select id,Email from user where id=:MediaOutreachObj.CreatedById LIMIT 1].Email;
                         if(string.isNotBlank(studysitephonenumber))
                         {
                           commm.MO_Phonenumber=studysitephonenumber;
                         }else{commm.MO_Phonenumber='null';}
-                        if(string.isNotBlank(contactemail))
+                        if(string.isNotBlank(UserMailId))
                         {
-                          commm.MO_Email=contactemail;
+                          commm.MO_Email=UserMailId;
                         }else{commm.MO_Email='null';}
                         commm.MO_AlternateValue=AlternateEmailPhone;
                 }
@@ -180,19 +168,15 @@ public Without sharing class ViewMediaResult {
                        {
                          studysitephonenumber =[SELECT id,Name,Study_Site_Phone__c from Study_Site__c where Id =:studysiteId LIMIT 1].Study_Site_Phone__c;  
                        }
-                        Contact userContact = CommunityService.getUserContact();
-                        studyContactId = userContact.Id;
-                        if(string.isNotBlank(studyContactId))
-                        {
-                         contactemail =[SELECT id,name,Email,Phone from Contact where Id =:studyContactId LIMIT 1].Email;   
-                        }
+                        
+                        UserMailId = [select id,Email from user where id=:MediaOutreachObj.CreatedById LIMIT 1].Email;
                         if(string.isNotBlank(studysitephonenumber))
                         {
                           commm.MO_Phonenumber=studysitephonenumber;
                         }else{commm.MO_Phonenumber='null';}
-                        if(string.isNotBlank(contactemail))
+                        if(string.isNotBlank(UserMailId))
                         {
-                          commm.MO_Email=contactemail;
+                          commm.MO_Email=UserMailId;
                         }else{commm.MO_Email='null';}
                         commm.MO_AlternateValue=AlternateEmailPhone;
                 }      
