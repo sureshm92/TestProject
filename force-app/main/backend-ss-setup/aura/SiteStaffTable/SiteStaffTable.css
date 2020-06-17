@@ -14,3 +14,9 @@
     font-weight: 600;
     padding: 10px;
 }
+.THIS td{
+    white-space: normal!important;
+}
+.THIS td.email-column{
+    word-break: break-all;
+}
