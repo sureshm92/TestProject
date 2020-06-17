@@ -6,13 +6,13 @@
     <aura:attribute name="allModes" type="Object[]"/>
 
     <aura:registerEvent access="global" name="onclick" type="c:uiEvent"/>
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <!--    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
 
     <div class="all-container">
         <aura:iteration var="item" items="{!v.allModes}">
             <div class="contain">
                 <aura:iteration items="{!item.subItems}" var="subItem">
-                    <c:uiMenuItem label="{!item.title}" onclick="{!c.doSelectItem}"
+                    <c:uiMenuItem onclick="{!c.doSelectItem}"
                                   itemValue="{!item}"
                                   class="unset">
                         <div class="main-box">
@@ -23,9 +23,21 @@
                                         <c:RRIcon iconName="icon-check" class="icon-check"/>
                                     </aura:if>
                                 </div>
-                                <div>
-                                    <c:RRIcon class="icon-delegate" iconName="delegate"/>
-                                    <c:RRIcon class="icon-cog" iconName="cog"/>
+                                <div class="icon-settings-box">
+                                    <c:uiMenuItem onclick="{!c.doSelectItem}" itemValue="account-settings"
+                                                  class="unset">
+                                        <aura:if isTrue="{!not(item.isDelegate)}">
+                                            <div>
+                                                <c:RRIcon class="icon-delegate" iconName="delegate"/>
+                                            </div>
+                                        </aura:if>
+                                    </c:uiMenuItem>
+
+                                    <c:uiMenuItem onclick="{!c.doSelectItem}" itemValue="logout" class="unset">
+                                        <div class="icon-box">
+                                            <c:RRIcon class="icon-cog" iconName="cog"/>
+                                        </div>
+                                    </c:uiMenuItem>
                                 </div>
                             </div>
                             <div class="menu-sub-item">
