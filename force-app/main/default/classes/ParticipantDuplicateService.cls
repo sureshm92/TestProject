@@ -137,7 +137,7 @@ public without sharing class ParticipantDuplicateService {
                 FROM Participant__c
                 WHERE Email__c IN :emails OR Phone__c IN :phones OR Day_of_Birth__c IN :birthDates OR ZIP_Code__c IN :zipCodes OR Last_Name__c IN :lastNames
         ];
-        List<Participant__c> existedParticipantDelegates;
+        List<Participant__c> existedParticipantDelegates = new List<Participant__c>();
         if (!delegatesEmail.isEmpty() && !delegatesFirstName.isEmpty() && !delegatesLastName.isEmpty()) {
             existedParticipantDelegates = [
                     SELECT Id,
