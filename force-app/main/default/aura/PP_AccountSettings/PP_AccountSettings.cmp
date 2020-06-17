@@ -34,7 +34,6 @@
         
         <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
         <c:Action_RemoveDelegate aura:id="actionRemoveDelegate"/>
-        
         <aura:if isTrue="{!v.isInitialized}">
             <div class="slds-vertical-tabs container-white-normal">
                 <div class="slds-vertical-tabs__nav vertical-line">
@@ -46,12 +45,12 @@
                                                   class="navigation">
                         <lightning:verticalNavigationSection label="{!$Label.c.PP_Account_Settings}" class="account-settings"/>
                         <lightning:verticalNavigationSection>
-                            <lightning:verticalNavigationItem label="{!$Label.c.PP_Profile_Information}" name="editProfile" class="{! v.showEditProfile ? 'mouse-hover group-6' : 'profile-information group-6 slds-border_bottom'}" />
-                            <lightning:verticalNavigationItem label="{!$Label.c.PP_Password_Management}" name="changepwd" class="{! v.changePswd ? 'mouse-hover group-6' : 'profile-information group-6 slds-border_bottom'}" />
-                            <lightning:verticalNavigationItem label="{!$Label.c.PP_Language_and_Location}" name="langreg" class="{! v.langReg ? 'mouse-hover group-6' : 'profile-information group-6 slds-border_bottom'}"/>
-                            <lightning:verticalNavigationItem label="{!$Label.c.PP_Customize_Experience}" aura:id="navServiceCust" name="custex" class="{! v.custExp ? 'mouse-hover group-6' : 'profile-information group-6 slds-border_bottom'}"  />
+                            <lightning:verticalNavigationItem label="{!$Label.c.PP_Profile_Information}" name="editProfile" class="{! v.showEditProfile ? 'mouse-hover group-6' : 'profile-information group-6'}" />
+                            <lightning:verticalNavigationItem label="{!$Label.c.PP_Password_Management}" name="changepwd" class="{! v.changePswd ? 'mouse-hover group-6' : 'profile-information group-6'}" />
+                            <lightning:verticalNavigationItem label="{!$Label.c.PP_Language_and_Location}" name="langreg" class="{! v.langReg ? 'mouse-hover group-6' : 'profile-information group-6'}"/>
+                            <lightning:verticalNavigationItem label="{!$Label.c.PP_Customize_Experience}" aura:id="navServiceCust" name="custex" class="{! v.custExp ? 'mouse-hover group-6' : 'profile-information group-6'}"  />
                             <aura:if isTrue="{!!v.isDelegate}">
-                            <lightning:verticalNavigationItem label="{!$Label.c.PP_Cookie_Settings}" name="cookset" class="{! v.cookSet ? 'mouse-hover group-6' : 'profile-information group-6 slds-border_bottom'}" />
+                            <lightning:verticalNavigationItem label="{!$Label.c.PP_Cookie_Settings}" name="cookset" class="{! v.cookSet ? 'mouse-hover group-6' : 'profile-information group-6'}" />
                             </aura:if>
                         </lightning:verticalNavigationSection>
                     </lightning:verticalNavigation>

@@ -29,13 +29,17 @@
     <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
 
       <div class="slds-grid">
-        <img src="{!v.pictureSrc}"  class="slds-avatar slds-avatar_circle slds-avatar_medium" />
-        <p class="username">{!v.username}</p>
+          <img src="{!v.pictureSrc}"  class="slds-avatar slds-avatar_circle slds-avatar_medium" />
+          <div class="profileInfo">
+              <p class="username">{!v.username}</p>
+              <label for="file-upload" class="custom-file-upload">
+                  <span  class="profileLabel"> {!$Label.c.PP_AddProfilePhoto}</span>
+              </label>
+          </div>
+
       </div>
       
-    <label for="file-upload" class="custom-file-upload" style="margin-top: -25px;margin-left: -15px;">
-      <span  class="profileLabel"> {!$Label.c.PP_AddProfilePhoto}</span>
-      </label>
+
    
     
     <div class="prfile-btn-container">
