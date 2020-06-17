@@ -12,38 +12,41 @@
 
 <aura:component controller="ProfilePictureController"
                 implements="flexipage:availableForAllPageTypes,force:hasRecordId,forceCommunity:availableForAllPageTypes">
-     
+    
     <!-- Id of the Record the page hosting this component is showing -->
-   <aura:attribute name="recordId" type="Id"/>
-   <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
     <aura:attribute name="username" type="String" />
-    <aura:attribute name="pictureSrc" type="String"
-            />
- 
+    <aura:attribute name="pictureSrc" type="String"/>
+    <aura:attribute name="isDelegate" type="Boolean" default="false"/>
+    
     <aura:attribute name="message" type="String" default="Drag profile picture here"/>
-
+    
     <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
-
-   <aura:handler name="change" value="{!v.pictureSrc}" action="{!c.onInit}" />
-
+    
+    <aura:handler name="change" value="{!v.pictureSrc}" action="{!c.onInit}" />
+    
     <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
-
-      <div class="slds-grid">
+    
+    <div class="slds-grid">
         <img src="{!v.pictureSrc}"  class="slds-avatar slds-avatar_circle slds-avatar_medium" />
         <p class="username">{!v.username}</p>
-      </div>
-      
-    <label for="file-upload" class="custom-file-upload" style="margin-top: -25px;margin-left: -15px;">
-      <span  class="profileLabel"> {!$Label.c.PP_AddProfilePhoto}</span>
-      </label>
-   
+    </div>
+    
+    <aura:if isTrue="{!!v.isDelegate}">
+        <label for="file-upload" class="custom-file-upload" style="margin-top: -25px;
+                                                                   margin-left: -15px;">
+            <span  class="profileLabel"> {!$Label.c.PP_AddProfilePhoto}</span>
+        </label>
+    </aura:if>
+    
     
     <div class="prfile-btn-container">
-      <div class="btn-upload-photo">
-           
-        
-<input id="file-upload" type="file" aura:id="file" onchange="{!c.onDrop}" class="inputFile"/>                            </div>
-  </div>          
-
+        <div class="btn-upload-photo">
+            
+            
+            <input id="file-upload" type="file" aura:id="file" onchange="{!c.onDrop}" class="inputFile"/>                            </div>
+    </div>          
     
-    </aura:component>
+    
+</aura:component>

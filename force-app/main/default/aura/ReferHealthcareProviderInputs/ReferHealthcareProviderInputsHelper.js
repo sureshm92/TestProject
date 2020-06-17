@@ -76,9 +76,10 @@
             lastName: lastName,
             participantId: null
         }, function (returnValue) {
-            console.log('returnValue>>>>>>',returnValue);
             if (returnValue.firstName) {
                 if (sharingObject.sObjectType == 'Object') {
+                    if(returnValue.isDuplicateDelegate || returnValue.contactId || returnValue.participantId) component.set('v.useThisDelegate', false);
+                    else component.set('v.useThisDelegate', true);
                     component.set('v.sharingObject.email', email);
                     component.set('v.sharingObject.firstName', returnValue.firstName);
                     component.find('firstNameInput').focus();

@@ -9,8 +9,8 @@ public with sharing class TemplatePropertiesService {
     private String communityName;
     
     public TemplatePropertiesService(String templateName){
-        this.templateName = templateName;
         CommunityTemplate communityTemplate = CommunityTemplateService.getTemplate(templateName);
+        this.templateName = communityTemplate.templateName;
         properties = communityTemplate.properties;
         communityName = communityTemplate.communityName;
     }

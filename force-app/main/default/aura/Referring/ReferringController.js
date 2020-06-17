@@ -266,7 +266,9 @@
 
         component.set('v.selectedCountry', participant.Mailing_Country_Code__c);
         helper.checkFields(component);
-    }
+    },
 
-
+    approveDelegate:function(component, event, helper){
+        component.set('v.useThisDelegate', true);
+    },
 })

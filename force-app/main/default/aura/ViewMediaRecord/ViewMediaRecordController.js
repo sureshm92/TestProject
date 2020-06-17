@@ -37,7 +37,7 @@
                         Picklist_option.push({
                             value: $A.get(
                                 "$Label.c.PG_MRC_RF_Phone"
-                            ) + ':' + component.get(
+                            ) + ': ' + component.get(
                                 "v.MO_Phonenumber")
                         });
                     }
@@ -45,7 +45,7 @@
                         Picklist_option.push({
                             value: $A.get(
                                 "$Label.c.PG_MRC_RF_Email"
-                            ) + ':' + component.get(
+                            ) + ': ' + component.get(
                                 "v.MO_Email")
                         });
                     }
@@ -77,7 +77,7 @@
                         Picklist_option.push({
                             value: $A.get(
                                 "$Label.c.PG_MRC_RF_Phone"
-                            ) + ':' + component.get(
+                            ) + ': ' + component.get(
                                 "v.MO_Phonenumber")
                         });
                     }
@@ -85,7 +85,7 @@
                         Picklist_option.push({
                             value: $A.get(
                                 "$Label.c.PG_MRC_RF_Email"
-                            ) + ':' + component.get(
+                            ) + ': ' + component.get(
                                 "v.MO_Email")
                         });
                     }
@@ -99,7 +99,7 @@
                         Picklist_option.push({
                             value: $A.get(
                                 "$Label.c.PG_MRC_RF_Email"
-                            ) + ':' + component.get(
+                            ) + ': ' + component.get(
                                 "v.MO_Email")
                         });
                     }
@@ -107,7 +107,7 @@
                         Picklist_option.push({
                             value: $A.get(
                                 "$Label.c.PG_MRC_RF_Phone"
-                            ) + ':' + component.get(
+                            ) + ': ' + component.get(
                                 "v.MO_Phonenumber")
                         });
                     }
@@ -139,7 +139,7 @@
                         Picklist_option.push({
                             value: $A.get(
                                 "$Label.c.PG_MRC_RF_Email"
-                            ) + ':' + component.get(
+                            ) + ': ' + component.get(
                                 "v.MO_Email")
                         });
                     }
@@ -147,7 +147,7 @@
                         Picklist_option.push({
                             value: $A.get(
                                 "$Label.c.PG_MRC_RF_Phone"
-                            ) + ':' + component.get(
+                            ) + ': ' + component.get(
                                 "v.MO_Phonenumber")
                         });
                     }
@@ -226,7 +226,7 @@
         var update = true;
         var other = false;
         var existingvalue_phone = $A.get("$Label.c.PG_MRC_RF_Phone") +
-            ':' + component.get("v.MO_Phonenumber");
+            ': ' + component.get("v.MO_Phonenumber");
         if (picklistval == othermail) {
             other = true;
                 PC_Newvalue = component.find('alternate').get(
@@ -302,7 +302,10 @@
             component.set("v.buttonDisable", false);
             component.set("v.disablefield", false);
             component.set("v.disabled", false);
-        } else {
+        }else if(message == "closewarningpopup")
+        {
+            component.find('CancelRequest').close();            
+        }else {
             component.find('ShowPoP_Up').hide();
             var cmpEvent = component.getEvent("cmpRefEvent");
             cmpEvent.fire();

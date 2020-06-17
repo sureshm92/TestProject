@@ -41,6 +41,7 @@
             component.get('v.studySiteId'),
             component.get('v.selectedStatus'),
             component.get('v.createUsers'),
+            component.get('v.doNotContactParticipants'),
             helper);
     },
 
