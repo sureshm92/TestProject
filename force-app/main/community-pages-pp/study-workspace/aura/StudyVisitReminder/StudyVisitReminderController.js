@@ -1,7 +1,8 @@
 ({
     doInit: function (component, event, helper) {
         var taskId = component.get('v.taskId');
-        var isNewTask = component.get('v.isNewTask')
+        var isNewTask = component.get('v.isNewTask');
+        
         if (!communityService.isDummy()) {
             component.find('spinner').show();
             communityService.executeAction(component, 'getTaskEditData', {
@@ -37,6 +38,7 @@
                     var isOwner = task.OwnerId === task.CreatedById;
                     component.set('v.owner', isOwner);
                     component.set('v.isEditable', isOwner && task.Status !== 'Completed');
+                    
                 } else {
                     component.set('v.isEditable', true);
 
