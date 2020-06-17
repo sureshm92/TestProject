@@ -2655,6 +2655,11 @@
         <field>Clinical_Trial_Profile__c.Study_Code_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Study_Content__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Study_Design__c</field>

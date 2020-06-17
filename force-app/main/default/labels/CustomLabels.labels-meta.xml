@@ -2351,6 +2351,17 @@
         <value>One or more of your Referral Hub study permissions has changed.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_FollowUp_Reminder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body FollowUp Reminder</shortDescription>
+        <value>You haven't confirmed your enrollment yet in ##ShortCommunityName. Please click the link bellow, so that you can enroll and view your study progress.
+
+        Please note that enrollment in ##ShortCommunityName is not a requirement for you to be enrolled into the clinical research study.
+
+        Your user name is ##UserName.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Initial_Delegate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3181,6 +3192,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>We haven&apos;t heard from you in a while</value>
     </labels>
     <labels>
+        <fullName>Email_Header_FollowUp_Reminder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header FollowUp Reminder</shortDescription>
+        <value>Reminder: Please enroll in ##ShortCommunityName</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Import_Participants_Completed</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3854,6 +3872,13 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>true</protected>
         <shortDescription>Email Subject Complete Baseline Survey</shortDescription>
         <value>Feedback requested</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_FollowUp_Reminder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject FollowUp Reminder</shortDescription>
+        <value>Reminder : Your enrollment is pending</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Follow_up_on_a_Study</fullName>
@@ -6371,6 +6396,20 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>false</protected>
         <shortDescription>Mess Variant Visits left</shortDescription>
         <value>How many visits do I have left?</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_Contact_PT_Reminder_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message Body Contact PT Reminder Push</shortDescription>
+        <value>5 days have passed since one or more participants have been received and contact has not been attempted.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Data_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message Body New Data Push</shortDescription>
+        <value>New visit data is available for the ##StudyCodeName study. Please log in to the ##ShortCommName to view the latest visit data.</value>
     </labels>
     <labels>
         <fullName>Message_Body_Has_not_Login_Push</fullName>
@@ -11278,6 +11317,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Receive information about clinical study opportunities.</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_Contact</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG Ref L Permit IQVIA To Contact</shortDescription>
+        <value>IQVIA cannot contact regarding this study</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_Please_complete_Medical_Record_Review_first</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11825,6 +11871,62 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>false</protected>
         <shortDescription>PG SRP L Referring Providers</shortDescription>
         <value>Referring Providers</value>
+    </labels>
+    <labels>
+        <fullName>PG_SST_L_Access_Level</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SST L Access Level</shortDescription>
+        <value>Access Level</value>
+    </labels>
+    <labels>
+        <fullName>PG_SST_L_Email</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SST L Email</shortDescription>
+        <value>Email</value>
+    </labels>
+    <labels>
+        <fullName>PG_SST_L_Invite</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SST L Invite</shortDescription>
+        <value>Invite</value>
+    </labels>
+    <labels>
+        <fullName>PG_SST_L_Invited</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SST L Invited</shortDescription>
+        <value>Invited?</value>
+    </labels>
+    <labels>
+        <fullName>PG_SST_L_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SST L Name</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>PG_SST_L_Pending</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SST L Pending</shortDescription>
+        <value>Pending...</value>
+    </labels>
+    <labels>
+        <fullName>PG_SST_L_Site_Staff</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SST L Site Staff</shortDescription>
+        <value>Site Staff</value>
+    </labels>
+    <labels>
+        <fullName>PG_SST_L_Yes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SST L Yes</shortDescription>
+        <value>Yes</value>
     </labels>
     <labels>
         <fullName>PG_SV_L_Referral_s_Status</fullName>
@@ -13424,7 +13526,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Resource Visit Summary Report</shortDescription>
-        <value>Visit Summary Report</value>
+        <value>My Study Data Report</value>
     </labels>
     <labels>
         <fullName>Resources_Article</fullName>
@@ -14583,6 +14685,41 @@ communications using the toggles below.</value>
         <value>Systolic blood pressure is a measure of how hard your blood is pushed against the walls of the arteries when the heart is beating and pushing out blood.</value>
     </labels>
     <labels>
+        <fullName>Title_Contact_PT_Reminder_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for Contact PT Reminder Push</shortDescription>
+        <value>Participant contact has not been attempted</value>
+    </labels>
+    <labels>
+        <fullName>Title_new_Certificate_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for new_Certificate Push</shortDescription>
+        <value>New gift certificate</value>
+    </labels>
+    <labels>
+        <fullName>Title_Has_Not_Login_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for has not Login Push</shortDescription>
+        <value>We miss you</value>
+    </labels>
+    <labels>
+        <fullName>Title_new_visit_data_push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for new visit data push</shortDescription>
+        <value>New visit data</value>
+    </labels>
+    <labels>
+        <fullName>Title_Visit_Reminder_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for Visit Reminder Push</shortDescription>
+        <value>Visit reminder</value>
+    </labels>
+    <labels>
         <fullName>TST_Complete_Your_Question</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -14652,6 +14789,21 @@ communications using the toggles below.</value>
         <shortDescription>TST Request to invite a referring provider</shortDescription>
         <value>Request to invite a referring provider has been successfully submitted</value>
     </labels>
+    <labels>
+        <fullName>TST_SST_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST_SST_Error</shortDescription>
+        <value>Unable to create User</value>
+    </labels>
+    <labels>
+        <fullName>TST_SST_Success</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST_SST_Success</shortDescription>
+        <value>User have been created. Pending Permission Set Assignment</value>
+    </labels>
+
     <labels>
         <fullName>TST_Screenshot_Wrong_Format</fullName>
         <language>en_US</language>
@@ -15733,6 +15885,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Visit Results Dashboard My Results</shortDescription>
         <value>My Results</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Group_If_Is_Not_Selected_For_My_Results</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Group If Is Not Selected For My Results</shortDescription>
+        <value>Please select atleast one data point(Vitals/Labs or Biomarkers) to show in My Results card</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_Biomarkers</fullName>
