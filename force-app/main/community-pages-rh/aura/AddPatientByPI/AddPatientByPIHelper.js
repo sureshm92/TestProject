@@ -161,8 +161,8 @@
             firstName: firstName,
             lastName: lastName
         }, function (returnValue) {
-            console.log('returnvalue>>>>>',returnValue);
             component.set('v.delegateDuplicateInfo', returnValue);
+            if(returnValue.isDuplicateDelegate || returnValue.contactId || returnValue.participantId) component.set('v.useThisDelegate', false);
             var participantDelegate = component.get('v.participantDelegate');
             if(returnValue.email) participantDelegate.Email__c = returnValue.email;
             if(returnValue.lastName) participantDelegate.Last_Name__c = returnValue.lastName;
@@ -171,8 +171,8 @@
             if(returnValue.contactPhoneNumber) participantDelegate.Phone__c = returnValue.contactPhoneNumber;
             component.set('v.participantDelegate',participantDelegate);
             helper.checkFields(component,helper, true);
+            spinner.hide();
         });
-        spinner.hide();
     },
 
 })

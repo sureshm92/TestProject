@@ -79,6 +79,9 @@
             component.set('v.emailDelegateRepeat', '');
         }
     },
+    
+    approveDelegate:function(component, event, helper){
+        component.set('v.useThisDelegate', true);
 
     doRefreshParticipant: function (component, event, helper) {
         var participant = component.get('v.participant');

@@ -20,7 +20,7 @@
                           signature="{!$Label.Email_Signature_Patient}">
         <!-- Inner body -->
         <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_Patient_Virtual}"/>
-        <c:EmailActionBtnText buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
+<!--        <c:EmailActionBtnText buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>-->
     </c:EmailWireframeText>
 
     <c:EmailWireframeText rendered="{!userMode == 'Participant referred by PI'}"

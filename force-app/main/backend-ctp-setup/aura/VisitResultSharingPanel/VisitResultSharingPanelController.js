@@ -117,16 +117,46 @@
             communityService.showWarningToast('', 'Not found changes!');
             return;
         }
-
-        component.find('spinner').show();
-        communityService.executeAction(component, 'saveSharingRules', {
-            'options': JSON.stringify(component.get('v.options')),
-            'groups': JSON.stringify(component.get('v.groups')),
-            'ctpId': component.get('v.recordId')
-        }, function () {
-            component.find('spinner').hide();
-            communityService.showSuccessToast('Success', 'Visit Result Sharing setting saved!');
-            if (!component.get('v.options.globalShareBck')) component.refresh();
-        });
+        let groups=component.get('v.groups');
+        let options = component.get('v.options');
+        let displayOnMyResultCardFlag=false;
+        if(options.countrySelectionType !== 'Disabled'){
+            for(let group of groups){
+                if(group.displayOnMyResultCard){
+                    displayOnMyResultCardFlag=true;
+                    break;
+                }
+            }   
+        }
+        if(!displayOnMyResultCardFlag && options.countrySelectionType !== 'Disabled'){
+            communityService.showErrorToast('', $A.get('$Label.c.Visit_Results_Group_If_Is_Not_Selected_For_My_Results'));
+        }
+        else{
+            component.find('spinner').show();
+            communityService.executeAction(component, 'saveSharingRules', {
+                'options': JSON.stringify(options),
+                'groups': JSON.stringify(groups),
+                'ctpId': component.get('v.recordId')
+            }, function () {
+                component.find('spinner').hide();
+                communityService.showSuccessToast('Success', 'Visit Result Sharing setting saved!');
+                if (!component.get('v.options.globalShareBck')) component.refresh();
+            });
+        }   
+    },
+    doGroupSelectionChanged:function(component,event,helper){
+        let selectGroupName=event.getParam("visitResultGroupLabel");
+        let showOnMyResultCard=event.getParam("showOnMyResultCard");
+        let groups = component.get('v.groups');
+        for(let group of groups){
+            if(group.label===selectGroupName && showOnMyResultCard){
+                group.displayOnMyResultCard=true;
+            }
+            else{
+                group.displayOnMyResultCard=false;
+            }
+        }
+        component.set('v.groups',groups);
     }
+    
 });

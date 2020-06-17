@@ -4,7 +4,8 @@
 
 <aura:component description="TrialMatchPrintView" implements="forceCommunity:availableForAllPageTypes"
 controller="TrialMatchPageRemote">
-    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.kendo_jqueryminjs, $Resource.kendo_jszipminjs,
+    $Resource.kendo_allmin, $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
     <aura:attribute name="initialized" type="Boolean" default="false"/>
@@ -16,7 +17,7 @@ controller="TrialMatchPageRemote">
     <lightning:layout horizontalAlign="center">
         <lightning:layoutItem size="12">
             <aura:if isTrue="{!v.initialized}">
-                <div class="trials-container side-padding backgroundprint">
+                <div id="trialmatchcontent" class="trials-container side-padding backgroundprint">
                     <aura:iteration items="{!v.trialmatchCTPs}" var="trial">
                         <c:TrialMatchItem trialMatch="{!trial}" islearnmore="false"/>
                     </aura:iteration>

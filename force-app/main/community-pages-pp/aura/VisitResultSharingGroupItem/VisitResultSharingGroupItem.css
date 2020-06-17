@@ -22,3 +22,8 @@
     background-color: #f5f5f5;
     opacity: 0.8;
 }
+
+.THIS .showMyResult--checkbox{
+    left : 30%;
+    position:absolute;
+}
