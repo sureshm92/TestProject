@@ -6,7 +6,6 @@
     <aura:attribute name="allModes" type="Object[]"/>
 
     <aura:registerEvent access="global" name="onclick" type="c:uiEvent"/>
-    <!--    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
 
     <div class="all-container">
         <aura:iteration var="item" items="{!v.allModes}">
