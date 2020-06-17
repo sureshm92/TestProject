@@ -71,9 +71,7 @@
                                              isDelegate="{!v.isDelegate}" userMode="{!v.userMode}"/>                    
                     </aura:if>
                     <aura:if isTrue="{!or(v.custExp,v.coibool)}">
-                    <div class="slds-p-around_x-small">
                     <c:CustomizeExperience />
-                    </div>
                     </aura:if>
                     <aura:if isTrue="{!v.cookSet}">
                     <c:CookieSettings userMode="{!v.userMode}"/>

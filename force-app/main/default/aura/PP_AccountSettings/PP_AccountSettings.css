@@ -3,12 +3,12 @@
 .THIS.as-container {
     position: relative;
     padding-bottom: 100px;
-    overflow:hidden;
+    overflow: hidden;
 }
 
 .THIS .as-container .rr-white-panel {
-    padding: 1.5rem;
-    box-shadow:none;
+    padding: 30px;
+    box-shadow: none;
     border-radius: 0;
     border: none;
     background: none;
@@ -21,10 +21,6 @@
 .THIS.as-container .as-email,
 .THIS.as-container .as-password {
     margin-top: 10px;
-}
-
-.THIS.as-container .as-email-preference {
-    margin-top: 40px;
 }
 
 .THIS .as-info > .rr-form-element{
@@ -137,7 +133,7 @@
 .THIS .as-buttons-footer{
     display: flex;
     justify-content: flex-start;
-    margin-top: 30px;
+    margin-top: 40px;
 }
 
 .THIS .opt-in-popup-button {
@@ -193,8 +189,13 @@
 }
 
 .THIS .vertical-line{
-    width: 300px;
-    border-right: 1px solid #e9e9e9;
+    width: 100%;
+    border-right: none;
+}
+
+.THIS .vertical-line .slds-grid {
+    width: 100%;
+    height: 100%;
 }
 
 .THIS .horz-width{
@@ -210,7 +211,7 @@
   letter-spacing: 0;
   line-height: 29px;
   margin-left: 8px;
-  margin-top: 1rem;
+  padding-top: 1rem;
 }
 
 .THIS .profile-information {
@@ -239,6 +240,8 @@
 
 .THIS .navigation {
     min-width: 225px;
+    height: 100%;
+    border-right: 1px solid #e9e9e9;
 }
 
 .THIS .slds-nav-vertical__section .slds-nav-vertical__item {

@@ -50,7 +50,7 @@
 
 
     <!-- component body: -->
-    <div style="width:840px;">
+    <div>
         <div class="as-container">
 
             <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
@@ -63,24 +63,24 @@
                     <div class="as-email rr-form-element">
                         <div class="as-email-input slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end">
                             <div class="slds-col slds-size_1-of-1">
-                               
+
                                            <c:Action_AddProfilePhoto username="{!v.initData.userName}"></c:Action_AddProfilePhoto>
-    
-    
-     
-    
-    
+
+
+
+
+
                             </div>
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
-    
+
     </div>
-                          
-                          
+
+
                         </div>
                     </div>
-    
-                   
-                   
+
+
+
                  <aura:if isTrue="{!equals(v.userMode, 'Participant')}">
                 <!-- Name Section -->
                 <div class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start">
@@ -237,8 +237,9 @@
                                 <div class="as-title">
                                     {!$Label.c.PG_AS_H_Contact_Information}
                                 </div>
+                                <div class="contactDesc">
                                 {!$Label.c.PP_Toggle_Information}
-
+                                </div>
                                 <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
                                     <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
                                         <aura:if isTrue="{!not(v.isDelegate)}">
