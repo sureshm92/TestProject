@@ -211,7 +211,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>autocomplete description</shortDescription>
-        <value>Used to determine whether the browser remembers a user&#39;s login ID</value>
+        <value>Used to determine whether the browser remembers a user&apos;s login ID</value>
     </labels>
     <labels>
         <fullName>AccountSettings_Cookie_ClientSrc</fullName>
@@ -393,7 +393,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AccountSettings Cookies RRLanguage Description</shortDescription>
-        <value>Used to store user&#39;s preferred language so that log in page may be displayed in user&#39;s preferred language.</value>
+        <value>Used to store user&apos;s preferred language so that log in page may be displayed in user&apos;s preferred language.</value>
     </labels>
     <labels>
         <fullName>AccountSettings_Functional_Cookies</fullName>
@@ -473,19 +473,18 @@
         <value>View Study Site</value>
     </labels>
     <labels>
+        <fullName>Active_Requests</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Active_Requests</shortDescription>
+        <value>Requested,In Progress</value>
+    </labels>
+    <labels>
         <fullName>AdHoc_CheckBox_Help_Text</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AdHoc CheckBox Help Text</shortDescription>
         <value>Survey tasks will expire when the Participants status is changed to: Drop Out, Trial Complete or Participation Complete</value>
-    </labels>
-	<labels>
-        <fullName>Additional_Notes_optional</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Additional Notes</shortDescription>
-        <value>Additional Notes</value>
     </labels>
     <labels>
         <fullName>Add_Another_Delegate</fullName>
@@ -521,6 +520,14 @@
         <protected>true</protected>
         <shortDescription>Add Patient Delegate</shortDescription>
         <value>Add Patient Delegate</value>
+    </labels>
+    <labels>
+        <fullName>Additional_Notes_optional</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Additional Notes</shortDescription>
+        <value>Additional Notes</value>
     </labels>
     <labels>
         <fullName>Admin</fullName>
@@ -563,6 +570,14 @@
         <protected>false</protected>
         <shortDescription>Alkaline Phosphatase Description</shortDescription>
         <value>Alkaline phosphatase is a protein present in multiple parts of your body, but most is found in your bones and liver. In the liver, it helps to digest fat. It also helps to create bones. Alkaline phosphatase is measured to check the health of your liver and bones.</value>
+    </labels>
+    <labels>
+        <fullName>Alternate_Email_Phone_Number</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Alternate Email/Phone Number</shortDescription>
+        <value>Alternate Email/Phone Number</value>
     </labels>
     <labels>
         <fullName>Avaliable_Icons</fullName>
@@ -828,15 +843,15 @@
         <fullName>BTN_I_don_t_know_yet</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>BTN I don&#39;t know yet</shortDescription>
-        <value>I don&#39;t know yet</value>
+        <shortDescription>BTN I don&apos;t know yet</shortDescription>
+        <value>I don&apos;t know yet</value>
     </labels>
     <labels>
         <fullName>BTN_I_m_open_to_receive_referrals</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>BTN I&#39;m open to receive referrals</shortDescription>
-        <value>I&#39;m open to receive referrals</value>
+        <shortDescription>BTN I&apos;m open to receive referrals</shortDescription>
+        <value>I&apos;m open to receive referrals</value>
     </labels>
     <labels>
         <fullName>BTN_Ignore</fullName>
@@ -871,7 +886,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BTN Lets Go</shortDescription>
-        <value>Let&#39;s Go!</value>
+        <value>Let&apos;s Go!</value>
     </labels>
     <labels>
         <fullName>BTN_Log_In</fullName>
@@ -1368,7 +1383,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Body Mass Index Description</shortDescription>
-        <value>BMI is a measure that shows a person&#39;s weight to height ratio. It is calculated by dividing your weight in kilograms (kg) by the square of your body height in meters (m).</value>
+        <value>BMI is a measure that shows a person&apos;s weight to height ratio. It is calculated by dividing your weight in kilograms (kg) by the square of your body height in meters (m).</value>
     </labels>
     <labels>
         <fullName>Body_Mass_Index_Name_Labs</fullName>
@@ -1397,13 +1412,6 @@
         <protected>false</protected>
         <shortDescription>Submit Your Question</shortDescription>
         <value>Submit Your Question</value>
-    </labels>
-	<labels>
-        <fullName>Cancel</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Cancel</shortDescription>
-        <value>Cancel</value>
     </labels>
     <labels>
         <fullName>CTL_L_HCP_DELEGATE_MODE</fullName>
@@ -1455,11 +1463,40 @@
         <value>You can not edit this object. Delete and create a new one instead.</value>
     </labels>
     <labels>
+        <fullName>Cancel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>Cancel_Request</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Cancel Request</shortDescription>
+        <value>Cancel Request</value>
+    </labels>
+    <labels>
+        <fullName>Cancel_request_warning_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cancel request warning message</shortDescription>
+        <value>Are you sure you want to cancel the request?</value>
+    </labels>
+    <labels>
         <fullName>Case_Owner_Email_For_User_Lockout</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Case_Owner_Email_For_User_Lockout</shortDescription>
         <value>rajesh.r@quintiles.com</value>
+    </labels>
+    <labels>
+        <fullName>Closed_Requests</fullName>
+        <categories>Media OutReach</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Closed_Requests</shortDescription>
+        <value>Fulfilled,Cancelled</value>
     </labels>
     <labels>
         <fullName>CommunityEmailLogo</fullName>
@@ -1726,7 +1763,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>DLIT L Add a participants provider</shortDescription>
-        <value>Add a participant&#39;s provider</value>
+        <value>Add a participant&apos;s provider</value>
     </labels>
     <labels>
         <fullName>DLIT_L_Decline_or_place_on_hold_a_referring_HCP</fullName>
@@ -1796,7 +1833,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>DLIT L Remove a participants provider</shortDescription>
-        <value>Remove a participant&#39;s provider</value>
+        <value>Remove a participant&apos;s provider</value>
     </labels>
     <labels>
         <fullName>DLIT_L_Select_a_study_site_to_refer_to</fullName>
@@ -2121,18 +2158,25 @@
         <value>Oh no, there are no items here.</value>
     </labels>
     <labels>
-	<fullName>Download_Trial_Match</fullName>
+        <fullName>Download_Trial_Match</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Download Trial Match</shortDescription>
         <value>Download Trial Matches</value>
     </labels>
-    <labels>	
+    <labels>
         <fullName>Due_Date</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Due Date</shortDescription>
         <value>Due Date</value>
+    </labels>
+    <labels>
+        <fullName>Duplicate_Delegate_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Duplicate Delegate Message</shortDescription>
+        <value>is already associated with ##firstName ##lastName. We only allow one user per email address. Please confirm that this is the correct email address. If this is not ##firstName, please enter the new delegate’s unique email address.</value>
     </labels>
     <labels>
         <fullName>Eamil_Action_View_My_Studies</fullName>
@@ -2268,9 +2312,9 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body By PI RP1</shortDescription>
-        <value>You have been invited to track a patient&#39;s progress in the IQVIA Referral Hub by ##PIName, at the patient&#39;s request. If you are not already a Referring Provider in the system , this will also make it possible for you to find other clinical research studies that are available and refer patients to nearby study sites.
+        <value>You have been invited to track a patient&apos;s progress in the IQVIA Referral Hub by ##PIName, at the patient&apos;s request. If you are not already a Referring Provider in the system , this will also make it possible for you to find other clinical research studies that are available and refer patients to nearby study sites.
 
-            Please take a moment to log in to the Referral Hub, access &quot;My Studies,&quot; review your patient&#39;s study, and access My Patients to see details about the patient who requested that you have visibility to their study status.</value>
+            Please take a moment to log in to the Referral Hub, access &quot;My Studies,&quot; review your patient&apos;s study, and access My Patients to see details about the patient who requested that you have visibility to their study status.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Case</fullName>
@@ -2338,7 +2382,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial PI</shortDescription>
-        <value>Please take a moment to enroll in the IQVIA Referral Hub. This will allow you to use Referral Hub&#39;s participant contact and status tracking capabilities. For studies with Patient Portal capabilities available, this will also allow your patients to track their status throughout their participation with the study, without calling your office for updates.</value>
+        <value>Please take a moment to enroll in the IQVIA Referral Hub. This will allow you to use Referral Hub&apos;s participant contact and status tracking capabilities. For studies with Patient Portal capabilities available, this will also allow your patients to track their status throughout their participation with the study, without calling your office for updates.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_PI_HCP</fullName>
@@ -2354,9 +2398,9 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial PI PT HCP</shortDescription>
-        <value>You have been invited to track a patient&#39;s progress in the IQVIA Referral Hub by ##PIName, at the patient&#39;s request. The first step is for you to enroll in the IQVIA Referral Hub.
+        <value>You have been invited to track a patient&apos;s progress in the IQVIA Referral Hub by ##PIName, at the patient&apos;s request. The first step is for you to enroll in the IQVIA Referral Hub.
 
-            Once enrolled, access &quot;My Studies&quot; to review your patient&#39;s study and access &quot;My Patients&quot; to see details about the patient who requested that you have visibility to their study status. You can also search for other studies that are available and refer patients to nearby and virtual study sites.
+            Once enrolled, access &quot;My Studies&quot; to review your patient&apos;s study and access &quot;My Patients&quot; to see details about the patient who requested that you have visibility to their study status. You can also search for other studies that are available and refer patients to nearby and virtual study sites.
 
             If you believe you have received this invitation in error, please notify support@cp.clinicalresearch.com.
 
@@ -2404,7 +2448,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial Patient Delegate After Text</shortDescription>
-        <value>To assist you in tracking ##ParticipantFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in ##FullCommunityName.
+        <value>To assist you in tracking ##ParticipantFirstName&apos;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in ##FullCommunityName.
 
             Your username is ##UserName. Please click the Enroll Now button to create your password.
 
@@ -2437,7 +2481,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Medication Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##PatientFirstName&#39;s upcoming medication dosage for the clinical research study: ##StudyName.  If you have any questions regarding this medication, please contact the Study Team. Please login for additional details.</value>
+        <value>This is a quick email to remind you of ##PatientFirstName&apos;s upcoming medication dosage for the clinical research study: ##StudyName.  If you have any questions regarding this medication, please contact the Study Team. Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Once_at_Trial_Completion_DGT</fullName>
@@ -2730,7 +2774,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient9 Delegate</shortDescription>
-        <value>The study team has updated  ##PatientFirstName&#39;s referral status for clinical study ##StudyName.
+        <value>The study team has updated  ##PatientFirstName&apos;s referral status for clinical study ##StudyName.
 
             To see additional information, log in to the ##ShortCommunityName and then go to &quot;My Studies&quot;.</value>
     </labels>
@@ -2753,7 +2797,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient CreatedDate</shortDescription>
-        <value>&quot;We haven&#39;t heard from you in a while.
+        <value>&quot;We haven&apos;t heard from you in a while.
 
             Please log in to the ##ShortCommunityName to view all the latest information on your clinical research study.&quot;</value>
     </labels>
@@ -2762,7 +2806,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient Log In</shortDescription>
-        <value>We haven&#39;t heard from you in a while.
+        <value>We haven&apos;t heard from you in a while.
 
             Please login to the ##ShortCommunityName to view all the latest information on your clinical research study.</value>
     </labels>
@@ -2809,7 +2853,7 @@
 
             The study team will contact your referral directly to discuss next steps.
 
-            To see additional information about this patient&#39;s referral status, log in to the Referral Hub, and then access &quot;My Patients&quot; from the main navigation menu or the My Studies page.
+            To see additional information about this patient&apos;s referral status, log in to the Referral Hub, and then access &quot;My Patients&quot; from the main navigation menu or the My Studies page.
 
             To see additional information about this study or to refer another patient, log in to the Referral Hub, then go to &quot;My Studies.&quot;</value>
     </labels>
@@ -2820,7 +2864,7 @@
         <shortDescription>Email Body RP3</shortDescription>
         <value>Your patient referral, ID number: ##PEName, has been put on hold for the clinical research study: ##StudyTitle.
 
-            To see additional information about this patient&#39;s referral status, log in to the Referral Hub, and access &quot;My Patients.&quot;
+            To see additional information about this patient&apos;s referral status, log in to the Referral Hub, and access &quot;My Patients.&quot;
 
             To see additional information about this study or refer another patient, log in to the Referral Hub, and access &quot;My Studies.&quot;</value>
     </labels>
@@ -2831,7 +2875,7 @@
         <shortDescription>Email Body RP4</shortDescription>
         <value>Your patient referral, ID number: ##PEName, has been declined for the clinical research study: ##StudyTitle.
 
-            To see additional information about this patient&#39;s referral status, log in to the Referral Hub, and access &quot;My Patients.&quot;
+            To see additional information about this patient&apos;s referral status, log in to the Referral Hub, and access &quot;My Patients.&quot;
 
             To see additional information about this study or refer another patient, log in to the Referral Hub, and access &quot;My Studies.&quot;</value>
     </labels>
@@ -2980,7 +3024,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Body_Task_Reminder_Type_Not_Selected Delegate</shortDescription>
-        <value>This is an email to remind you of ##ParticipantFirstName&#39;s task: ##TaskName.
+        <value>This is an email to remind you of ##ParticipantFirstName&apos;s task: ##TaskName.
 
             Please login to update the status of this task.</value>
     </labels>
@@ -3043,7 +3087,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##PatientFirstName&#39;s upcoming visit for the clinical research study: ##StudyName. If ##PatientFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.</value>
+        <value>This is a quick email to remind you of ##PatientFirstName&apos;s upcoming visit for the clinical research study: ##StudyName. If ##PatientFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Welcome_to_Study_Delegate</fullName>
@@ -3052,7 +3096,7 @@ Please log in to ##CommunityName to view this information.</value>
         <shortDescription>Email Body Welcome to Study Delegate</shortDescription>
         <value>Congratulations, ##PatientFirstName has been enrolled in ##StudyName clinical research study.
 
-            To assist you in tracking ##PatientFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to visit the ##ShortCommunityName.
+            To assist you in tracking ##PatientFirstName&apos;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to visit the ##ShortCommunityName.
 
             Please note that enrollment in ##ShortCommunityName is not a requirement for ##PatientFirstName to be enrolled into the research study: ##StudyName.</value>
     </labels>
@@ -3145,7 +3189,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Created Date</shortDescription>
-        <value>We haven&#39;t heard from you in a while</value>
+        <value>We haven&apos;t heard from you in a while</value>
     </labels>
     <labels>
         <fullName>Email_Header_FollowUp_Reminder</fullName>
@@ -3166,7 +3210,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Header Initial Delegate</shortDescription>
-        <value>You&#39;ve been added as a team member in the</value>
+        <value>You&apos;ve been added as a team member in the</value>
     </labels>
     <labels>
         <fullName>Email_Header_Initial_HCP</fullName>
@@ -3320,7 +3364,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Patient Log In</shortDescription>
-        <value>We haven&#39;t heard from you in a while</value>
+        <value>We haven&apos;t heard from you in a while</value>
     </labels>
     <labels>
         <fullName>Email_Header_Plain_Summary</fullName>
@@ -3334,7 +3378,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Header RP10</shortDescription>
-        <value>Your patient&#39;s referral status has been updated</value>
+        <value>Your patient&apos;s referral status has been updated</value>
     </labels>
     <labels>
         <fullName>Email_Header_RP11</fullName>
@@ -3418,7 +3462,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Referral Status Updated Delegate</shortDescription>
-        <value>Your patient&#39;s referral status has changed</value>
+        <value>Your patient&apos;s referral status has changed</value>
     </labels>
     <labels>
         <fullName>Email_Header_Review_and_accept_a_new_study</fullName>
@@ -3509,7 +3553,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Header_Visit_Task_Reminder_Delegate</shortDescription>
-        <value>This is a reminder of your patient&#39;s upcoming visit</value>
+        <value>This is a reminder of your patient&apos;s upcoming visit</value>
     </labels>
     <labels>
         <fullName>Email_Header_Welcome_to_Study_Delegate</fullName>
@@ -3603,9 +3647,9 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature Forgot Password</shortDescription>
-        <value>If you don&#39;t want to change your password or didn&#39;t request this, just ignore this email and no changes will be made to your account.
+        <value>If you don&apos;t want to change your password or didn&apos;t request this, just ignore this email and no changes will be made to your account.
 
-            To keep your account secure, please don&#39;t forward this email to anyone.</value>
+            To keep your account secure, please don&apos;t forward this email to anyone.</value>
     </labels>
     <labels>
         <fullName>Email_Signature_GSK</fullName>
@@ -4044,7 +4088,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Referral Status Changed</shortDescription>
-        <value>Your patient&#39;s referral status has changed</value>
+        <value>Your patient&apos;s referral status has changed</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Reset_Your_Password</fullName>
@@ -4289,6 +4333,14 @@ Please log in to ##CommunityName to view this information.</value>
         <value>This feature is not available for Studies not participating in Patient Portal</value>
     </labels>
     <labels>
+        <fullName>End_Date</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>End Date</shortDescription>
+        <value>End Date should not be smaller than start Date</value>
+    </labels>
+    <labels>
         <fullName>Enrolled_Or_Randomized</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4307,7 +4359,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Error Message Can Not Use Visit Plan</shortDescription>
-        <value>Participant&#39;s visit plan is not available for that study site. Please determine if participant&#39;s visit plan can still be changed or if the study site is not appropriate for this participant and proceed accordingly.</value>
+        <value>Participant&apos;s visit plan is not available for that study site. Please determine if participant&apos;s visit plan can still be changed or if the study site is not appropriate for this participant and proceed accordingly.</value>
     </labels>
     <labels>
         <fullName>Error_Message_Participant_Duplicate</fullName>
@@ -4726,7 +4778,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 06 H PI</shortDescription>
-        <value>How do I check on my Participant&#39;s status?</value>
+        <value>How do I check on my Participant&apos;s status?</value>
     </labels>
     <labels>
         <fullName>HT_06_H_Participant</fullName>
@@ -4747,7 +4799,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 07 B PI</shortDescription>
-        <value>The IQVIA™ Referral Hub is a personalized platform that allows a principal investigator to manage participant&#39;s participation in a clinical research study.</value>
+        <value>The IQVIA™ Referral Hub is a personalized platform that allows a principal investigator to manage participant&apos;s participation in a clinical research study.</value>
     </labels>
     <labels>
         <fullName>HT_07_B_Participant</fullName>
@@ -4782,7 +4834,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 07 H RP</shortDescription>
-        <value>How do I check on my patients&#39; status?</value>
+        <value>How do I check on my patients&apos; status?</value>
     </labels>
     <labels>
         <fullName>HT_08_B_Participant</fullName>
@@ -4824,14 +4876,14 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 09 B RP</shortDescription>
-        <value>Clinical trial investigators are usually physicians in active practice. They are responsible for the day-to-day management of clinical trials at the site level. Their main responsibilities are ensuring patient safety during the trial and safeguarding patients&#39; rights, making sure that trial activities and procedures are done in accordance with the protocol. Clinical trial investigators are also responsible for maintaining the quality of data collected during the trial.</value>
+        <value>Clinical trial investigators are usually physicians in active practice. They are responsible for the day-to-day management of clinical trials at the site level. Their main responsibilities are ensuring patient safety during the trial and safeguarding patients&apos; rights, making sure that trial activities and procedures are done in accordance with the protocol. Clinical trial investigators are also responsible for maintaining the quality of data collected during the trial.</value>
     </labels>
     <labels>
         <fullName>HT_09_H_Participant</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 09 H Participant</shortDescription>
-        <value>Why can&#39;t I see any information under the results tab?</value>
+        <value>Why can&apos;t I see any information under the results tab?</value>
     </labels>
     <labels>
         <fullName>HT_09_H_RP</fullName>
@@ -4887,7 +4939,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 11 H Participant</shortDescription>
-        <value>Why can&#39;t I see any articles and videos?</value>
+        <value>Why can&apos;t I see any articles and videos?</value>
     </labels>
     <labels>
         <fullName>HT_11_H_RP</fullName>
@@ -4936,7 +4988,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 13 B RP</shortDescription>
-        <value>Each potential participant in a clinical trial is helped to make an informed decision about their participation, and informed consent is at the heart of this process. The overall purpose of the informed consent process is to offer potential participants detailed information about the trial aim, the tested intervention, potential benefits and risks, specific procedures, and participants&#39; rights and responsibilities.
+        <value>Each potential participant in a clinical trial is helped to make an informed decision about their participation, and informed consent is at the heart of this process. The overall purpose of the informed consent process is to offer potential participants detailed information about the trial aim, the tested intervention, potential benefits and risks, specific procedures, and participants&apos; rights and responsibilities.
 
             Once the potential participant decides to join a trial, they must sign the Informed Consent Form (ICF). Participants have the right to withdraw from the trial at any time without any explanation and without jeopardizing their standard of medical care.</value>
     </labels>
@@ -5133,28 +5185,28 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HealCare Provider Message</shortDescription>
-        <value>You should only invite a participant&#39;s provider with the participant&#39;s explicit permission. Upon registration, the provider will be able to track a participant&#39;s status.</value>
+        <value>You should only invite a participant&apos;s provider with the participant&apos;s explicit permission. Upon registration, the provider will be able to track a participant&apos;s status.</value>
     </labels>
     <labels>
         <fullName>HealthCare_Delegates_Email</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HealthCare_Delegates_Email</shortDescription>
-        <value>Delegate&#39;s email address</value>
+        <value>Delegate&apos;s email address</value>
     </labels>
     <labels>
         <fullName>HealthCare_Delegates_First_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HealthCare_Delegates_First_Name</shortDescription>
-        <value>Delegate&#39;s first name</value>
+        <value>Delegate&apos;s first name</value>
     </labels>
     <labels>
         <fullName>HealthCare_Delegates_Last_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HealthCare_Delegates_Last_Name</shortDescription>
-        <value>Delegate&#39;s last name</value>
+        <value>Delegate&apos;s last name</value>
     </labels>
     <labels>
         <fullName>HealthCare_Provider</fullName>
@@ -5196,21 +5248,21 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HealthCare Providers Email</shortDescription>
-        <value>Provider&#39;s email address</value>
+        <value>Provider&apos;s email address</value>
     </labels>
     <labels>
         <fullName>HealthCare_Providers_First_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HealthCare Providers First Name</shortDescription>
-        <value>Provider&#39;s first name</value>
+        <value>Provider&apos;s first name</value>
     </labels>
     <labels>
         <fullName>HealthCare_Providers_Last_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HealthCare Providers Last Name</shortDescription>
-        <value>Provider&#39;s last name</value>
+        <value>Provider&apos;s last name</value>
     </labels>
     <labels>
         <fullName>Height</fullName>
@@ -5649,7 +5701,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>IncentiveProgram_How_Do_I_Earn</shortDescription>
-        <value> How do I earn points?</value>
+        <value>How do I earn points?</value>
     </labels>
     <labels>
         <fullName>IncentiveProgram_Incentives</fullName>
@@ -5744,7 +5796,7 @@ Please log in to ##CommunityName to view this information.</value>
         <categories>Incentive Program</categories>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>IncentiveProgram_Total_Points </shortDescription>
+        <shortDescription>IncentiveProgram_Total_Points</shortDescription>
         <value>Total:</value>
     </labels>
     <labels>
@@ -5785,6 +5837,14 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Initial Visit Scheduled</value>
     </labels>
     <labels>
+        <fullName>Invalid_Phone</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Invalid Phone</shortDescription>
+        <value>Enter 10 digits phone number</value>
+    </labels>
+    <labels>
         <fullName>Investigator_phone</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5820,11 +5880,26 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Format</value>
     </labels>
     <labels>
+        <fullName>Library_General_Resources</fullName>
+        <categories>Contains Label for Not Specific Study related to Library Tab</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Library_General_Resources</shortDescription>
+        <value>General Resources</value>
+    </labels>
+    <labels>
         <fullName>Library_Language</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Library Language</shortDescription>
         <value>Language</value>
+    </labels>
+    <labels>
+        <fullName>Library_Search</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Library_Search</shortDescription>
+        <value>Search</value>
     </labels>
     <labels>
         <fullName>Library_Type</fullName>
@@ -5888,6 +5963,98 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>false</protected>
         <shortDescription>Low-density Lipoprotein Description</shortDescription>
         <value>Lipoproteins are made of a combination of lipids (fats) and proteins. Low-density lipoproteins (LDL) are produced by the liver and move cholesterol from the liver to other body parts. LDL cholesterol is also known as &quot;bad&quot; cholesterol. When your LDL cholesterol is high, it means it can build up in the walls of your blood vessels and block the blood flow.</value>
+    </labels>
+    <labels>
+        <fullName>MO_Active</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_Active</shortDescription>
+        <value>Active Requests</value>
+    </labels>
+    <labels>
+        <fullName>MO_All_Studies</fullName>
+        <categories>Media OutReach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_All_Studies</shortDescription>
+        <value>All Studies</value>
+    </labels>
+    <labels>
+        <fullName>MO_Closed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_Closed</shortDescription>
+        <value>Closed Requests</value>
+    </labels>
+    <labels>
+        <fullName>MO_End_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_End_Date</shortDescription>
+        <value>Requested End Date</value>
+    </labels>
+    <labels>
+        <fullName>MO_Media_Type</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_Media_Type</shortDescription>
+        <value>Media Type</value>
+    </labels>
+    <labels>
+        <fullName>MO_Notes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_Notes</shortDescription>
+        <value>Notes</value>
+    </labels>
+    <labels>
+        <fullName>MO_RecordUpdate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_RecordUpdate</shortDescription>
+        <value>Record Updated Successfully</value>
+    </labels>
+    <labels>
+        <fullName>MO_Request_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_Request_ID</shortDescription>
+        <value>Request ID</value>
+    </labels>
+    <labels>
+        <fullName>MO_Show_Study</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_Show_Study</shortDescription>
+        <value>Show Study</value>
+    </labels>
+    <labels>
+        <fullName>MO_Start_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_Start_Date</shortDescription>
+        <value>Requested Start Date</value>
+    </labels>
+    <labels>
+        <fullName>MO_Status</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_Status</shortDescription>
+        <value>Status</value>
+    </labels>
+    <labels>
+        <fullName>MO_Study_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_Study_Name</shortDescription>
+        <value>Study Name</value>
+    </labels>
+    <labels>
+        <fullName>MO_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_Study_Site</shortDescription>
+        <value>Study Site</value>
     </labels>
     <labels>
         <fullName>MP_Motivation_Message_1</fullName>
@@ -6106,14 +6273,54 @@ Please log in to ##CommunityName to view this information.</value>
         <shortDescription>Manage My Payments</shortDescription>
         <value>Manage My Payments</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>Matched_of</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Matched of</shortDescription>
         <value>Matched as of</value>
     </labels>
-    <labels>	
+    <labels>
+        <fullName>Media_Chekbox</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Media Chekbox</shortDescription>
+        <value>Media type</value>
+    </labels>
+    <labels>
+        <fullName>Media_Email</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Media Email</shortDescription>
+        <value>Email:</value>
+    </labels>
+    <labels>
+        <fullName>Media_Outreach</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Media_Outreach</shortDescription>
+        <value>Media_Outreach__c</value>
+    </labels>
+    <labels>
+        <fullName>Media_Phone</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Media Phone</shortDescription>
+        <value>Phone Number:</value>
+    </labels>
+    <labels>
+        <fullName>Media_Type</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Media_Type</shortDescription>
+        <value>Media_Type__c</value>
+    </labels>
+    <labels>
         <fullName>Medical_Record_Review</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6198,18 +6405,11 @@ Please log in to ##CommunityName to view this information.</value>
         <value>5 days have passed since one or more participants have been received and contact has not been attempted.</value>
     </labels>
     <labels>
-        <fullName>Message_Body_New_Data_Push</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Message Body New Data Push</shortDescription>
-        <value>New visit data is available for the ##StudyCodeName study. Please log in to the ##ShortCommName to view the latest visit data.</value>
-    </labels>
-    <labels>
         <fullName>Message_Body_Has_not_Login_Push</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Message Body for Has not Login Push</shortDescription>
-        <value>We haven't heard from you in a while. Please log in to the ##ShortCommName to view all the latest information on your clinical research study.</value>
+        <value>We haven&apos;t heard from you in a while. Please log in to the ##ShortCommName to view all the latest information on your clinical research study.</value>
     </labels>
     <labels>
         <fullName>Message_Body_New_Certificate_Push</fullName>
@@ -6217,6 +6417,13 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>false</protected>
         <shortDescription>Message Body for New Certificate Push</shortDescription>
         <value>You have a new reward certificate from the ##StudyCodeName clinical research study available on the ##ShortCommName.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Data_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message Body New Data Push</shortDescription>
+        <value>New visit data is available for the ##StudyCodeName study. Please log in to the ##ShortCommName to view the latest visit data.</value>
     </labels>
     <labels>
         <fullName>Message_Body_Visit_Reminder_Del_Push</fullName>
@@ -6237,14 +6444,14 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message_For_Delegates</shortDescription>
-        <value>Unless the participant is a minor or otherwise requires a legal guardian, a delegate should only be entered with the participant&#39;s explicit permission. Upon registration, the delegate will be able to view the participant information available via the Patient Portal.</value>
+        <value>Unless the participant is a minor or otherwise requires a legal guardian, a delegate should only be entered with the participant&apos;s explicit permission. Upon registration, the delegate will be able to view the participant information available via the Patient Portal.</value>
     </labels>
     <labels>
         <fullName>Message_For_Providers</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message_For_Providers</shortDescription>
-        <value>You should only invite a participant&#39;s provider with the participant&#39;s explicit permission. Upon registration, the provider will be able to track a participant&#39;s status.</value>
+        <value>You should only invite a participant&apos;s provider with the participant&apos;s explicit permission. Upon registration, the provider will be able to track a participant&apos;s status.</value>
     </labels>
     <labels>
         <fullName>Message_Studies_Length</fullName>
@@ -6336,6 +6543,13 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>true</protected>
         <shortDescription>Navigation Library</shortDescription>
         <value>Library</value>
+    </labels>
+    <labels>
+        <fullName>Navigation_MediaOutreach</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Navigation_MediaOutreach</shortDescription>
+        <value>Media Outreach</value>
     </labels>
     <labels>
         <fullName>Navigation_Media_Outreach</fullName>
@@ -6436,25 +6650,40 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Settings</value>
     </labels>
     <labels>
-        <fullName>New_York_carcinoma</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>New York carcinoma</shortDescription>
-        <value>New York esophageal squamous cell carcinoma-1</value>
-    </labels>
-	<labels>
         <fullName>New</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>New</shortDescription>
         <value>New</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>New_Note</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>New Note</shortDescription>
         <value>New Note</value>
+    </labels>
+    <labels>
+        <fullName>New_OutReach</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>New OutReach</shortDescription>
+        <value>New Outreach</value>
+    </labels>
+    <labels>
+        <fullName>New_York_carcinoma</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>New York carcinoma</shortDescription>
+        <value>New York esophageal squamous cell carcinoma-1</value>
+    </labels>
+    <labels>
+        <fullName>No</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No</shortDescription>
+        <value>No</value>
     </labels>
     <labels>
         <fullName>No_Access</fullName>
@@ -6738,7 +6967,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT DRP S8 T</shortDescription>
-        <value>Click on your user profile icon to access My Team. Add new members to your team by clicking on Add New Team Member. Manage an existing team member&#39;s permission for all studies by selecting a permission level and saving it on the team member&#39;s card.</value>
+        <value>Click on your user profile icon to access My Team. Add new members to your team by clicking on Add New Team Member. Manage an existing team member&apos;s permission for all studies by selecting a permission level and saving it on the team member&apos;s card.</value>
     </labels>
     <labels>
         <fullName>OT_DRP_S9_H</fullName>
@@ -6899,7 +7128,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT PI S1 T</shortDescription>
-        <value>Click on your user profile icon to access My Team. Add new members to your team by clicking on Add New Team Member. Manage existing team member&#39;s permissions for individual studies using the dropdowns.</value>
+        <value>Click on your user profile icon to access My Team. Add new members to your team by clicking on Add New Team Member. Manage existing team member&apos;s permissions for individual studies using the dropdowns.</value>
     </labels>
     <labels>
         <fullName>OT_PI_S2_T</fullName>
@@ -7097,7 +7326,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT RP S2 T</shortDescription>
-        <value>Click on your user profile icon to access My Team. Add new members to your team by clicking on Add New Team Member. Manage an existing team member&#39;s permission for all studies by selecting a permission level and saving it on the team member&#39;s card.</value>
+        <value>Click on your user profile icon to access My Team. Add new members to your team by clicking on Add New Team Member. Manage an existing team member&apos;s permission for all studies by selecting a permission level and saving it on the team member&apos;s card.</value>
     </labels>
     <labels>
         <fullName>OT_RP_S3_H</fullName>
@@ -7163,11 +7392,35 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Originator</value>
     </labels>
     <labels>
+        <fullName>Other_Email</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Other Email</shortDescription>
+        <value>Other Email</value>
+    </labels>
+    <labels>
+        <fullName>Other_Phone_Number</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Other Phone Number</shortDescription>
+        <value>Other Phone Number</value>
+    </labels>
+    <labels>
         <fullName>Other_Providers</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Other_Providers</shortDescription>
         <value>Other Providers</value>
+    </labels>
+    <labels>
+        <fullName>Outreach_Message</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Outreach Message</shortDescription>
+        <value>New Outreach Created Successfully !</value>
     </labels>
     <labels>
         <fullName>PD_Description</fullName>
@@ -7331,7 +7584,7 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Referral Provider</value>
     </labels>
     <labels>
-	<fullName>PE_STATUS_ENROLLMENT_SUCCESS</fullName>
+        <fullName>PE_STATUS_ENROLLMENT_SUCCESS</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PE_STATUS_ENROLLMENT_SUCCESS</shortDescription>
@@ -7358,7 +7611,7 @@ Please log in to ##CommunityName to view this information.</value>
         <shortDescription>PE_STATUS_TREATMENT_PERIOD_STARTED</shortDescription>
         <value>Treatment Period Started</value>
     </labels>
-    <labels>										   
+    <labels>
         <fullName>PE_ST_Contact_Attempts</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7481,8 +7734,8 @@ Please log in to ##CommunityName to view this information.</value>
         <fullName>PG_ACPE_L_Change_Provider_s_Status</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG ACPE L Change Provider&#39;s Status</shortDescription>
-        <value>Change Provider&#39;s Status</value>
+        <shortDescription>PG ACPE L Change Provider&apos;s Status</shortDescription>
+        <value>Change Provider&apos;s Status</value>
     </labels>
     <labels>
         <fullName>PG_ACPE_L_Notes</fullName>
@@ -7933,14 +8186,14 @@ Please log in to ##CommunityName to view this information.</value>
         <shortDescription>PG ASSR T Study Site Request Sent</shortDescription>
         <value>Study Site Request Sent</value>
     </labels>
-	<labels>
-		<fullName>PG_AS_BTN_Save_Changes</fullName>
+    <labels>
+        <fullName>PG_AS_BTN_Save_Changes</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG AS BTN Save Changes</shortDescription>
         <value>Save Changes</value>
     </labels>
-    <labels>	 
+    <labels>
         <fullName>PG_AS_BTN_Save_Preference</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7997,13 +8250,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>This will be used to display study information when your other 2 choices are not available.</value>
     </labels>
     <labels>
-	<fullName>PG_AS_F_Current_Password</fullName>
+        <fullName>PG_AS_F_Current_Password</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG_AS_F_Current_Password</shortDescription>
         <value>Current Password</value>
     </labels>
-    <labels>								  
+    <labels>
         <fullName>PG_AS_F_Date_of_Birth</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8242,13 +8495,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Title</value>
     </labels>
     <labels>
-	<fullName>PG_AS_F_Update_Password</fullName>
+        <fullName>PG_AS_F_Update_Password</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG_AS_F_Update_Password</shortDescription>
         <value>Update Password</value>
     </labels>
-    <labels>	 
+    <labels>
         <fullName>PG_AS_F_Username</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8298,13 +8551,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Contact Preferences</value>
     </labels>
     <labels>
-	<fullName>PG_AS_H_Password_HelpText</fullName>
+        <fullName>PG_AS_H_Password_HelpText</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG_AS_H_Password_HelpText</shortDescription>
         <value>Password must have at least 8 characters and include at least one number or special character.</value>
     </labels>
-    <labels>	 
+    <labels>
         <fullName>PG_AS_H_Privacy_Rights</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8616,8 +8869,8 @@ Please log in to ##CommunityName to view this information.</value>
         <fullName>PG_DBPI_L_My_Patients_Referring_Status</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG DBPI L My Patients&#39; Referring Status</shortDescription>
-        <value>My Patients&#39; Referring Status</value>
+        <shortDescription>PG DBPI L My Patients&apos; Referring Status</shortDescription>
+        <value>My Patients&apos; Referring Status</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_L_No_Records</fullName>
@@ -8728,15 +8981,15 @@ Please log in to ##CommunityName to view this information.</value>
         <fullName>PG_DBPI_My_Patients_Acceptance_Status</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG DBPI My Patients&#39; Acceptance Status</shortDescription>
-        <value>My Patients&#39; Acceptance Status</value>
+        <shortDescription>PG DBPI My Patients&apos; Acceptance Status</shortDescription>
+        <value>My Patients&apos; Acceptance Status</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_My_Patients_Enrollment_Status</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG DBPI My Patients&#39; Enrollment Status</shortDescription>
-        <value>My Patients&#39; Enrollment Status</value>
+        <shortDescription>PG DBPI My Patients&apos; Enrollment Status</shortDescription>
+        <value>My Patients&apos; Enrollment Status</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_Referrals</fullName>
@@ -8770,22 +9023,22 @@ Please log in to ##CommunityName to view this information.</value>
         <fullName>PG_DB_L_Track_providers_status</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG DB L Track providers&#39; status</shortDescription>
-        <value>Track providers&#39; status</value>
+        <shortDescription>PG DB L Track providers&apos; status</shortDescription>
+        <value>Track providers&apos; status</value>
     </labels>
     <labels>
         <fullName>PG_DB_L_Track_your_patients_status</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG DB L Track your patients&#39; status</shortDescription>
-        <value>Track your patients&#39; status</value>
+        <shortDescription>PG DB L Track your patients&apos; status</shortDescription>
+        <value>Track your patients&apos; status</value>
     </labels>
     <labels>
         <fullName>PG_DB_L_Track_your_referrals_status</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG DB L Track your referrals&#39; status</shortDescription>
-        <value>Track your participants&#39; status</value>
+        <shortDescription>PG DB L Track your referrals&apos; status</shortDescription>
+        <value>Track your participants&apos; status</value>
     </labels>
     <labels>
         <fullName>PG_DB_L_category</fullName>
@@ -8897,14 +9150,14 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG EMN MSG Update Contact Info</shortDescription>
-        <value>Please update participant&#39;s contact information:</value>
+        <value>Please update participant&apos;s contact information:</value>
     </labels>
     <labels>
         <fullName>PG_EMN_MSG_Update_Participant_Info</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG EMN MSG Update Participant Info</shortDescription>
-        <value>Please ensure that participant&#39;s personal information is up-to-date:</value>
+        <value>Please ensure that participant&apos;s personal information is up-to-date:</value>
     </labels>
     <labels>
         <fullName>PG_EPP_Header</fullName>
@@ -8960,14 +9213,14 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Error T1</shortDescription>
-        <value>Because we can&#39;t seem to find the page you are looking for. It is either unavailable or may no longer exist.</value>
+        <value>Because we can&apos;t seem to find the page you are looking for. It is either unavailable or may no longer exist.</value>
     </labels>
     <labels>
         <fullName>PG_Error_T2</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Error T2</shortDescription>
-        <value>Please try using the navigation to find what you&#39;re looking for.</value>
+        <value>Please try using the navigation to find what you&apos;re looking for.</value>
     </labels>
     <labels>
         <fullName>PG_FP_L_Filter_by</fullName>
@@ -9249,7 +9502,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG HLP T1 Feedback</shortDescription>
-        <value>Though we can&#39;t review and respond to every submission, we do use feedback like yours to improve the IQVIA™ Referral Hub experience for everyone.</value>
+        <value>Though we can&apos;t review and respond to every submission, we do use feedback like yours to improve the IQVIA™ Referral Hub experience for everyone.</value>
     </labels>
     <labels>
         <fullName>PG_HLP_T2_Feedback</fullName>
@@ -9332,8 +9585,8 @@ Please log in to ##CommunityName to view this information.</value>
         <fullName>PG_IM_L_Provider_s_Status_Details</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG IM L Provider&#39;s Status Details</shortDescription>
-        <value>Provider&#39;s Status Details</value>
+        <shortDescription>PG IM L Provider&apos;s Status Details</shortDescription>
+        <value>Provider&apos;s Status Details</value>
     </labels>
     <labels>
         <fullName>PG_IM_L_Study_Site_Status_Details</fullName>
@@ -9455,13 +9708,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Profile Information</value>
     </labels>
     <labels>
-	<fullName>PG_Login_H_Residence_Region</fullName>
+        <fullName>PG_Login_H_Residence_Region</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG Login H Residence Region</shortDescription>
         <value>Residence Region</value>
     </labels>
-    <labels>													
+    <labels>
         <fullName>PG_Login_H_Terms_And_Conditions</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9469,13 +9722,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Terms And Conditions</value>
     </labels>
     <labels>
-	<fullName>PG_Login_H_Time_Zone_and_Locale</fullName>
+        <fullName>PG_Login_H_Time_Zone_and_Locale</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG Login H Time Zone and Locale</shortDescription>
         <value>Time Zone and Locale</value>
     </labels>
-    <labels>													
+    <labels>
         <fullName>PG_Login_L_Forgot_your_password</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -10258,8 +10511,8 @@ Please log in to ##CommunityName to view this information.</value>
         <fullName>PG_MS_L_Dont_see_a_study</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG MS L Don&#39;t see a study that you could refer your patients to?</shortDescription>
-        <value>Don&#39;t see a study that you could refer your patients to?</value>
+        <shortDescription>PG MS L Don&apos;t see a study that you could refer your patients to?</shortDescription>
+        <value>Don&apos;t see a study that you could refer your patients to?</value>
     </labels>
     <labels>
         <fullName>PG_MS_L_Global_Search_for_Study</fullName>
@@ -10602,8 +10855,8 @@ Please log in to ##CommunityName to view this information.</value>
         <fullName>PG_PST_L_Delegates_CantAssign</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>This person can&#39;t be assigned</shortDescription>
-        <value>This person can&#39;t be assigned as a delegate, please, pick another email address.</value>
+        <shortDescription>This person can&apos;t be assigned</shortDescription>
+        <value>This person can&apos;t be assigned as a delegate, please, pick another email address.</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_Click_Add_New</fullName>
@@ -10934,14 +11187,14 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L Delegate continue be delegate</shortDescription>
-        <value>Please ensure that delegate&#39;s contact information is up-to-date</value>
+        <value>Please ensure that delegate&apos;s contact information is up-to-date</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Delegate_update_info_uptodate</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L Delegate continue be delegate</shortDescription>
-        <value>Please ensure that the delegate&#39;s information, especially email address, is correct before connecting to patient.</value>
+        <value>Please ensure that the delegate&apos;s information, especially email address, is correct before connecting to patient.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Have_you_had_a_discussion_with_your_patient_about_participating_in_a_cl</fullName>
@@ -10977,7 +11230,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L My patient agrees to share their contact details with IQVIA, the study</shortDescription>
-        <value>My patient, and/or patient&#39;s legal guardian if applicable, agrees to share the contact information above and patient&#39;s pre-screener data with IQVIA, the study doctors, and other affiliates so that they may contact the patient and/or their delegate regarding applicable clinical studies.</value>
+        <value>My patient, and/or patient&apos;s legal guardian if applicable, agrees to share the contact information above and patient&apos;s pre-screener data with IQVIA, the study doctors, and other affiliates so that they may contact the patient and/or their delegate regarding applicable clinical studies.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_My_patient_agrees_to_the_privacy_policy</fullName>
@@ -10994,20 +11247,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>New Patient</value>
     </labels>
     <labels>
-										
-								  
-									
-														
-						 
-			 
-			
-										
-								  
-									
-														
-						 
-			 
-			
+        <fullName>PG_Ref_L_OR</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L OR</shortDescription>
+        <value>OR</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_One_Incentive_Many_Incentives</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11020,13 +11266,6 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>false</protected>
         <shortDescription>PG Ref L One Incentive Plan</shortDescription>
         <value>Only one Incentive Program per Study Site could be selected!</value>
-    </labels>
-    <labels>
-        <fullName>PG_Ref_L_OR</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG Ref L OR</shortDescription>
-        <value>OR</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Participant_Information</fullName>
@@ -11088,8 +11327,8 @@ Please log in to ##CommunityName to view this information.</value>
         <fullName>PG_Ref_L_Please_enter_your_patient_s_details_into_the_form_so_that_a_study_site</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG Ref L Please enter your patient&#39;s details into the form so that a study site</shortDescription>
-        <value>Please enter your patient&#39;s details into the form so that a study site representative can continue to work with your patient on the screening, consent, and study enrollment process.</value>
+        <shortDescription>PG Ref L Please enter your patient&apos;s details into the form so that a study site</shortDescription>
+        <value>Please enter your patient&apos;s details into the form so that a study site representative can continue to work with your patient on the screening, consent, and study enrollment process.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Please_first_have_a_meaningful_discussion_with_your_patient_about_parti</fullName>
@@ -11179,14 +11418,14 @@ Please log in to ##CommunityName to view this information.</value>
         <fullName>PG_Ref_L_Your_patient_s_contact_information_will_only_be_used_to_contact_them_ab</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG Ref L Your patient&#39;s contact information will only be used to contact them ab</shortDescription>
-        <value>Your patient&#39;s contact information will only be used to contact them about this clinical study.</value>
+        <shortDescription>PG Ref L Your patient&apos;s contact information will only be used to contact them ab</shortDescription>
+        <value>Your patient&apos;s contact information will only be used to contact them about this clinical study.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_MSG_Email_s_not_equals</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG Ref MSG Email&#39;s not equals</shortDescription>
+        <shortDescription>PG Ref MSG Email&apos;s not equals</shortDescription>
         <value>Email addresses do not match</value>
     </labels>
     <labels>
@@ -11243,7 +11482,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref T Emails dont match</shortDescription>
-        <value>Entered patient emails don&#39;t match.</value>
+        <value>Entered patient emails don&apos;t match.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_T_Req_Fields_Missing</fullName>
@@ -11376,7 +11615,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SDAS L No items</shortDescription>
-        <value>Oh no, there&#39;s nothing here. When a provider sends you a site request, their clinic information will show up here.</value>
+        <value>Oh no, there&apos;s nothing here. When a provider sends you a site request, their clinic information will show up here.</value>
     </labels>
     <labels>
         <fullName>PG_SDAS_L_list_referring_clinics</fullName>
@@ -11398,9 +11637,9 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>false</protected>
         <shortDescription>PG SDAS T steps</shortDescription>
         <value>In order for referring clinics to be able to send referrals to you, you must do the following:
-            1) Click on the &quot;I&#39;m Open to Receive Referrals&quot; button so that your site will become visible to the referring clinic(s).
+            1) Click on the &quot;I&apos;m Open to Receive Referrals&quot; button so that your site will become visible to the referring clinic(s).
             2) Wait for the referring clinic(s) to send you a site request.
-            3) Approve and activate the referring clinic(s)&#39; referral functionality.</value>
+            3) Approve and activate the referring clinic(s)&apos; referral functionality.</value>
     </labels>
     <labels>
         <fullName>PG_SDRC_L_All</fullName>
@@ -11532,22 +11771,22 @@ Please log in to ##CommunityName to view this information.</value>
         <fullName>PG_SPE_L_Patient_s_first_name_Optional</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG SPE L Patient&#39;s first name (Optional)</shortDescription>
-        <value>Patient&#39;s first name (optional)</value>
+        <shortDescription>PG SPE L Patient&apos;s first name (Optional)</shortDescription>
+        <value>Patient&apos;s first name (optional)</value>
     </labels>
     <labels>
         <fullName>PG_SPE_L_Patient_s_first_name_Optional_tip</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG SPE L Patient&#39;s first name (Optional) tip</shortDescription>
+        <shortDescription>PG SPE L Patient&apos;s first name (Optional) tip</shortDescription>
         <value>Enter your patient’s name to make it easier to find that person on the My Patients page after pre-screening. The patient’s name will not be shared with anyone until the referral is completed, but will become required at that time.</value>
     </labels>
     <labels>
         <fullName>PG_SPE_L_Patient_s_last_name_Optional</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG SPE L Patient&#39;s last name (Optional)</shortDescription>
-        <value>Patient&#39;s last name (optional)</value>
+        <shortDescription>PG SPE L Patient&apos;s last name (Optional)</shortDescription>
+        <value>Patient&apos;s last name (optional)</value>
     </labels>
     <labels>
         <fullName>PG_SPE_L_Ready_to_refer_this_patient_to_this_study</fullName>
@@ -11575,7 +11814,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SPE ST Other</shortDescription>
-        <value>You can&#39;t complete a pre-eligibility screening for this Patient ID for this study since it has already been completed by a different HCP in your hospital.</value>
+        <value>You can&apos;t complete a pre-eligibility screening for this Patient ID for this study since it has already been completed by a different HCP in your hospital.</value>
     </labels>
     <labels>
         <fullName>PG_SPE_ST_PES_Fail</fullName>
@@ -11603,7 +11842,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SPE T Other</shortDescription>
-        <value>To complete a review for another patient, please clear the form and provide another patient&#39;s identifier</value>
+        <value>To complete a review for another patient, please clear the form and provide another patient&apos;s identifier</value>
     </labels>
     <labels>
         <fullName>PG_SP_L_My_Referring_Providers</fullName>
@@ -11686,8 +11925,8 @@ Please log in to ##CommunityName to view this information.</value>
         <fullName>PG_SV_L_Referral_s_Status</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG SV L Referral&#39;s Status</shortDescription>
-        <value>Referral&#39;s Status</value>
+        <shortDescription>PG SV L Referral&apos;s Status</shortDescription>
+        <value>Referral&apos;s Status</value>
     </labels>
     <labels>
         <fullName>PG_SW_F_ClinicalTrials_gov_Identifier</fullName>
@@ -12124,47 +12363,47 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Recipent will be approved to refer participants to the following investigators</value>
     </labels>
     <labels>
-    <fullName>PP_Account_Settings</fullName>
+        <fullName>PP_Account_Settings</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Account Setting</shortDescription>
         <value>Account Settings</value>
     </labels>
-    <labels>											
-		<fullName>PP_Account_Settings_Cookie_Description</fullName>
-        <language>en_US</language>							
+    <labels>
+        <fullName>PP_Account_Settings_Cookie_Description</fullName>
+        <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP Account Settings Cookie Description</shortDescription>
-        <value>Some essential features on ##CommunityWelcome site just won&#39;t work
+        <value>Some essential features on ##CommunityWelcome site just won&apos;t work
             without cookies.
-            And having other cookies switched off can seriously affect the way you&#39;ll be able to enjoy our
+            And having other cookies switched off can seriously affect the way you&apos;ll be able to enjoy our
             services.
-            Please check your cookie settings below and turn on any cookies you&#39;re happy with.
-            &quot;Strictly necessary&quot; cookies can&#39;t be turned off.
+            Please check your cookie settings below and turn on any cookies you&apos;re happy with.
+            &quot;Strictly necessary&quot; cookies can&apos;t be turned off.
             However &quot;Functional&quot; cookies can be turned on or off below.</value>
     </labels>
     <labels>
-	<fullName>PP_AddProfilePhoto</fullName>
+        <fullName>PP_AddProfilePhoto</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_AddProfilePhoto</shortDescription>
         <value>Add Profile Photo</value>
     </labels>
     <labels>
-	<fullName>PP_Change_Preferences_Resource</fullName>
+        <fullName>PP_Change_Preferences_Resource</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Change Preferences Resource</shortDescription>
         <value>Change preferences here</value>
     </labels>
-    <labels>		
-	<fullName>PP_Condition_of_Interest_title</fullName>
+    <labels>
+        <fullName>PP_Condition_of_Interest_title</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Condition of Interest title</shortDescription>
         <value>Conditions of Interest</value>
     </labels>
-    <labels>	
+    <labels>
         <fullName>PP_Cookie_Settings</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -12172,13 +12411,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Cookie Settings</value>
     </labels>
     <labels>
-	<fullName>PP_Customize_Exp_Description</fullName>
+        <fullName>PP_Customize_Exp_Description</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Customize Exp Description</shortDescription>
         <value>Select up to 5 medical conditions related to your diagnosis, to help us prioritize the content that we display to you.</value>
     </labels>
-    <labels>	
+    <labels>
         <fullName>PP_Customize_Experience</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -12186,7 +12425,7 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Customize Experience</value>
     </labels>
     <labels>
-	<fullName>PP_Customize_footer_message</fullName>
+        <fullName>PP_Customize_footer_message</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Customize footer message</shortDescription>
@@ -12199,7 +12438,7 @@ Please log in to ##CommunityName to view this information.</value>
         <shortDescription>PP Customize search text</shortDescription>
         <value>Search</value>
     </labels>
-    <labels>	
+    <labels>
         <fullName>PP_File_Size_Exceeded</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -12213,12 +12452,12 @@ Please log in to ##CommunityName to view this information.</value>
         <shortDescription>PP_General_Info</shortDescription>
         <value>General Information</value>
     </labels>
-    <labels>							   
+    <labels>
         <fullName>PP_HLP_T1_Feedback</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP HLP T1 Feedback</shortDescription>
-        <value>Though we can&#39;t review and respond to every submission, we do use feedback like yours to improve the IQVIA™ Patient Portal experience for everyone.</value>
+        <value>Though we can&apos;t review and respond to every submission, we do use feedback like yours to improve the IQVIA™ Patient Portal experience for everyone.</value>
     </labels>
     <labels>
         <fullName>PP_HLP_T2_Feedback</fullName>
@@ -12270,7 +12509,7 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Please select your preferred language for Patient Portal. English will be displayed if a translation is not available for your preferred language.</value>
     </labels>
     <labels>
-	<fullName>PP_Language_and_Location</fullName>
+        <fullName>PP_Language_and_Location</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Language and Location</shortDescription>
@@ -12333,22 +12572,21 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Emails that notify you of required action,allow you to reset your password or inform you of important system updates will always be sent.Additionally you can choose to receive optional
 communications using the toggles below.</value>
     </labels>
-    <labels>												 
-		<fullName>PP_VPC_SS_Empty_VP</fullName>
-								  
-        <language>en_US</language>									<protected>false</protected>
-									
+    <labels>
+        <fullName>PP_VPC_SS_Empty_VP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
         <shortDescription>PP VPC SS Empty VP</shortDescription>
         <value>Some of the Study Sites do not have a Visit plan. Ensure each Study Site has at least one Visit plan assigned.</value>
     </labels>
     <labels>
-		<fullName>PP_Valid_Phone</fullName>
+        <fullName>PP_Valid_Phone</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Valid_Phone</shortDescription>
         <value>Please enter a valid mobile number.</value>
     </labels>
-    <labels>				 
+    <labels>
         <fullName>PSC_Docs_will_be_published</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12685,13 +12923,13 @@ communications using the toggles below.</value>
         <value>You are about to deactivate ##Name from your account. Do you want to proceed?</value>
     </labels>
     <labels>
-	<fullName>Phone_Type</fullName>
+        <fullName>Phone_Type</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Phone Type</shortDescription>
         <value>Phone Type</value>
     </labels>
-    <labels>			   
+    <labels>
         <fullName>Phone_Type_Home</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12731,7 +12969,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Platelet Count Description</shortDescription>
-        <value>Platelets, also known as thrombocytes, are tiny parts of cells in the blood that are responsible for blood clotting. They made by your bone marrow and released into your bloodstream. When you are injured, platelets will help to stop the bleeding. The platelet count test shows the number of platelets you have in your blood sample. Platelet count is measured to check your general health and to check for any conditions that influence your body&#39;s platelet production. Low platelet count can be caused by certain cancers, chemotherapy, and in some autoimmune conditions.</value>
+        <value>Platelets, also known as thrombocytes, are tiny parts of cells in the blood that are responsible for blood clotting. They made by your bone marrow and released into your bloodstream. When you are injured, platelets will help to stop the bleeding. The platelet count test shows the number of platelets you have in your blood sample. Platelet count is measured to check your general health and to check for any conditions that influence your body&apos;s platelet production. Low platelet count can be caused by certain cancers, chemotherapy, and in some autoimmune conditions.</value>
     </labels>
     <labels>
         <fullName>Poput_ICF</fullName>
@@ -12753,6 +12991,21 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Potassium Description</shortDescription>
         <value>Potassium is an electrolyte (a mineral) that helps to transport nutrients into cells and waste products out of cells. It  also lets muscles and nerves to communicate with other muscles and nerves. Potassium is measured to check the balance of your electrolytes.</value>
+    </labels>
+    <labels>
+        <fullName>Preferred_Contact_Method</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Preferred Contact Method</shortDescription>
+        <value>Preferred Contact Method</value>
+    </labels>
+    <labels>
+        <fullName>Preferred_Contact_Method_View</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Preferred Contact Method View</shortDescription>
+        <value>Preferred Contact Method *</value>
     </labels>
     <labels>
         <fullName>Primary_Investigator</fullName>
@@ -12808,7 +13061,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RBC Count Description</shortDescription>
-        <value>Red blood cells (RBCs or erythrocytes) are cells in your blood that contain hemoglobin, which carries oxygen throughout your body. RBC count is the total number of red blood cells that are present in your blood sample. RBC count is measured to check your general health and to check for conditions that influence your body&#39;s red blood cell production. Low RBC count can lead to signs of anemia, such as tiredness. High RBC count can cause dizziness and headache.</value>
+        <value>Red blood cells (RBCs or erythrocytes) are cells in your blood that contain hemoglobin, which carries oxygen throughout your body. RBC count is the total number of red blood cells that are present in your blood sample. RBC count is measured to check your general health and to check for conditions that influence your body&apos;s red blood cell production. Low RBC count can lead to signs of anemia, such as tiredness. High RBC count can cause dizziness and headache.</value>
     </labels>
     <labels>
         <fullName>RCEI_Site</fullName>
@@ -12963,6 +13216,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Received</shortDescription>
         <value>Received</value>
+    </labels>
+    <labels>
+        <fullName>Recent_Notes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Recent Notes</shortDescription>
+        <value>Recent Notes</value>
     </labels>
     <labels>
         <fullName>ReferralNetwork_NoRNSelected</fullName>
@@ -13159,6 +13419,37 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Report Vitals header</shortDescription>
         <value>Vitals Summary Table</value>
+    </labels>
+    <labels>
+        <fullName>Request</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Request</shortDescription>
+        <value>Request</value>
+    </labels>
+    <labels>
+        <fullName>Requested</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Requested</shortDescription>
+        <value>Requested</value>
+    </labels>
+    <labels>
+        <fullName>Requested_End_Date</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Requested End Date</shortDescription>
+        <value>Requested End Date</value>
+    </labels>
+    <labels>
+        <fullName>Requested_Start_Date</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Requested Start Date</shortDescription>
+        <value>Requested Start Date</value>
     </labels>
     <labels>
         <fullName>Resource_In_Trial_Summary_Report</fullName>
@@ -13405,13 +13696,6 @@ communications using the toggles below.</value>
         <shortDescription>Resources Study Document Table Col Summary</shortDescription>
         <value>Summary</value>
     </labels>
-	 <labels>
-        <fullName>Request</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Request</shortDescription>
-        <value>Request</value>
-    </labels>
     <labels>
         <fullName>Resources_Study_Document_Table_Col_Title</fullName>
         <language>en_US</language>
@@ -13535,8 +13819,8 @@ communications using the toggles below.</value>
         <fullName>SGT_Pending_Study_Site_s_Action</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>SGT Pending Study Site&#39;s Action</shortDescription>
-        <value>Pending Study Site&#39;s Action</value>
+        <shortDescription>SGT Pending Study Site&apos;s Action</shortDescription>
+        <value>Pending Study Site&apos;s Action</value>
     </labels>
     <labels>
         <fullName>SGT_Pending_Your_Action</fullName>
@@ -13634,7 +13918,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>SS Confirm and Manage</shortDescription>
-        <value>Confirm and Manage Emancipated Participant&#39;s Access</value>
+        <value>Confirm and Manage Emancipated Participant&apos;s Access</value>
     </labels>
     <labels>
         <fullName>SS_Country</fullName>
@@ -13938,6 +14222,13 @@ communications using the toggles below.</value>
         <value>There is the sames RP in the System</value>
     </labels>
     <labels>
+        <fullName>Save</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Save</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
         <fullName>Screening_Passed</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -13952,6 +14243,14 @@ communications using the toggles below.</value>
         <value>Search For Sites</value>
     </labels>
     <labels>
+        <fullName>Select</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select</shortDescription>
+        <value>Select</value>
+    </labels>
+    <labels>
         <fullName>Select_All_PI</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -13964,6 +14263,22 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Select Planned Date</shortDescription>
         <value>Select Planned Date</value>
+    </labels>
+    <labels>
+        <fullName>Select_Site</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select Site</shortDescription>
+        <value>Select Site</value>
+    </labels>
+    <labels>
+        <fullName>Select_Study</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select Study</shortDescription>
+        <value>Select Study</value>
     </labels>
     <labels>
         <fullName>Selected_Icons</fullName>
@@ -13992,7 +14307,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Sharing_Options_Message</shortDescription>
-        <value>Upon registration, a delegate or provider added here will be able to view the participant&#39;s status in the study. Delegates can also see other participant information available via the Patient Portal. Unless the participant is a minor or otherwise requires a legal guardian, a delegate or provider should only be entered with the participant&#39;s explicit permission.</value>
+        <value>Upon registration, a delegate or provider added here will be able to view the participant&apos;s status in the study. Delegates can also see other participant information available via the Patient Portal. Unless the participant is a minor or otherwise requires a legal guardian, a delegate or provider should only be entered with the participant&apos;s explicit permission.</value>
     </labels>
     <labels>
         <fullName>Sodium</fullName>
@@ -14014,6 +14329,14 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Source_ID</shortDescription>
         <value>Source ID</value>
+    </labels>
+    <labels>
+        <fullName>Start_Date</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Start Date</shortDescription>
+        <value>Start Date should not be greater than end Date</value>
     </labels>
     <labels>
         <fullName>Studies_FindSitesForStudy</fullName>
@@ -14041,7 +14364,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Studies_SearchForMoreLabel</shortDescription>
-        <value>Don&#39;t see a study that you could refer your patients to?</value>
+        <value>Don&apos;t see a study that you could refer your patients to?</value>
     </labels>
     <labels>
         <fullName>Studies_SearchPlaceholder</fullName>
@@ -14258,6 +14581,22 @@ communications using the toggles below.</value>
         <value>Variable</value>
     </labels>
     <labels>
+        <fullName>Study_Name</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Name</shortDescription>
+        <value>Study Name</value>
+    </labels>
+    <labels>
+        <fullName>Study_Site</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Site</shortDescription>
+        <value>Study Site</value>
+    </labels>
+    <labels>
         <fullName>Study_Site_phone_number</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -14285,6 +14624,14 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Study Workspace Travel Support View Booking</shortDescription>
         <value>View Booking</value>
+    </labels>
+    <labels>
+        <fullName>Submit</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Submit</shortDescription>
+        <value>Submit</value>
     </labels>
     <labels>
         <fullName>Success</fullName>
@@ -14426,7 +14773,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>TST Permissions should be the same for study!</shortDescription>
-        <value>A team member&#39;s permissions must be the same for each site within a given study. This functionality will be enhanced in an upcoming release.</value>
+        <value>A team member&apos;s permissions must be the same for each site within a given study. This functionality will be enhanced in an upcoming release.</value>
     </labels>
     <labels>
         <fullName>TST_Request_to_invite_a_referring_provider</fullName>
@@ -15130,7 +15477,7 @@ communications using the toggles below.</value>
         <value>We will alert you when enrollment starts</value>
     </labels>
     <labels>
-	<fullName>Trial_Match</fullName>
+        <fullName>Trial_Match</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Trial Match</shortDescription>
@@ -15150,7 +15497,7 @@ communications using the toggles below.</value>
         <shortDescription>Trial Match Error2</shortDescription>
         <value>Please check back shortly</value>
     </labels>
-    <labels>										
+    <labels>
         <fullName>Trial_Search_Header</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15191,6 +15538,14 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Triglycerides Description</shortDescription>
         <value>Triglycerides are a type of fat found in your blood. Your body uses triglycerides to give you energy. When you eat too many calories, your body will store these calories as triglycerides to use later. Most fats that we eat, such as animal fats and trans fats, are triglycerides. However, the body also produces triglycerides from the carbohydrates that we eat. When your triglycerides are high, they can build in the walls of your cells and block the blood flow, just like LDL cholesterol.</value>
+    </labels>
+    <labels>
+        <fullName>Type_notes_here</fullName>
+        <categories>Media Outreach</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Type notes here</shortDescription>
+        <value>Type notes here</value>
     </labels>
     <labels>
         <fullName>UOM_Kilometers</fullName>
@@ -15671,363 +16026,9 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>WBC Count Description</shortDescription>
-        <value>White blood cells (WBC or leukocytes) are cells that can be found in your blood and in body tissues that are important for your immune system (your body&#39;s defense responses). WBCs fight infections, cancer, and also remove poison, waste products, and damaged cells from your body. When you are fighting off an infection, the number of white blood cells increases. WBC count is measured to check your general health and to check for conditions that influence your body&#39;s white blood cell production. A high WBC count can mean you have an infection.</value>
-    </labels>
-	 <labels>
-        <fullName>Active_Requests</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Active_Requests</shortDescription>
-        <value>Requested,In Progress</value>
-    </labels>
-	 <labels>
-        <fullName>Cancel_Request</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Cancel Request</shortDescription>
-        <value>Cancel Request</value>
+        <value>White blood cells (WBC or leukocytes) are cells that can be found in your blood and in body tissues that are important for your immune system (your body&apos;s defense responses). WBCs fight infections, cancer, and also remove poison, waste products, and damaged cells from your body. When you are fighting off an infection, the number of white blood cells increases. WBC count is measured to check your general health and to check for conditions that influence your body&apos;s white blood cell production. A high WBC count can mean you have an infection.</value>
     </labels>
     <labels>
-        <fullName>Cancel_request_warning_message</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Cancel request warning message</shortDescription>
-        <value>Are you sure you want to cancel the request?</value>
-    </labels>
-	 <labels>
-        <fullName>Closed_Requests</fullName>
-        <categories>Media OutReach</categories>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Closed_Requests</shortDescription>
-        <value>Fulfilled,Cancelled</value>
-    </labels>
-	 <labels>
-        <fullName>Alternate_Email_Phone_Number</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Alternate Email/Phone Number</shortDescription>
-        <value>Alternate Email/Phone Number</value>
-    </labels>
-	 <labels>
-        <fullName>End_Date</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>End Date</shortDescription>
-        <value>End Date should not be smaller than start Date</value>
-    </labels>
-	 <labels>
-        <fullName>MO_Active</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MO_Active</shortDescription>
-        <value>Active Requests</value>
-    </labels>
-    <labels>
-        <fullName>MO_All_Studies</fullName>
-        <categories>Media OutReach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MO_All_Studies</shortDescription>
-        <value>All Studies</value>
-    </labels>
-    <labels>
-        <fullName>MO_Closed</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MO_Closed</shortDescription>
-        <value>Closed Requests</value>
-    </labels>
-    <labels>
-        <fullName>MO_End_Date</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MO_End_Date</shortDescription>
-        <value>Requested End Date</value>
-    </labels>
-    <labels>
-        <fullName>MO_Media_Type</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MO_Media_Type</shortDescription>
-        <value>Media Type</value>
-    </labels>
-    <labels>
-        <fullName>MO_Notes</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MO_Notes</shortDescription>
-        <value>Notes</value>
-    </labels>
-    <labels>
-        <fullName>MO_RecordUpdate</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MO_RecordUpdate</shortDescription>
-        <value>Record Updated Successfully</value>
-    </labels>
-    <labels>
-        <fullName>MO_Request_ID</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MO_Request_ID</shortDescription>
-        <value>Request ID</value>
-    </labels>
-    <labels>
-        <fullName>MO_Show_Study</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MO_Show_Study</shortDescription>
-        <value>Show Study</value>
-    </labels>
-    <labels>
-        <fullName>MO_Start_Date</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MO_Start_Date</shortDescription>
-        <value>Requested Start Date</value>
-    </labels>
-    <labels>
-        <fullName>MO_Status</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MO_Status</shortDescription>
-        <value>Status</value>
-    </labels>
-    <labels>
-        <fullName>MO_Study_Name</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MO_Study_Name</shortDescription>
-        <value>Study Name</value>
-    </labels>
-	  <labels>
-        <fullName>Library_Search</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Library_Search</shortDescription>
-        <value>Search</value>
-    </labels>
-    <labels>
-        <fullName>MO_Study_Site</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MO_Study_Site</shortDescription>
-        <value>Study Site</value>
-    </labels>
-	 <labels>
-        <fullName>Media_Chekbox</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Media Chekbox</shortDescription>
-        <value>Media type</value>
-    </labels>
-    <labels>
-        <fullName>Media_Email</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Media Email</shortDescription>
-        <value>Email:</value>
-    </labels>
-    <labels>
-        <fullName>Media_Outreach</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Media_Outreach</shortDescription>
-        <value>Media_Outreach__c</value>
-    </labels>
-    <labels>
-        <fullName>Media_Phone</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Media Phone</shortDescription>
-        <value>Phone Number:</value>
-    </labels>
-    <labels>
-        <fullName>Media_Type</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Media_Type</shortDescription>
-        <value>Media_Type__c</value>
-    </labels>
-	  <labels>
-        <fullName>Navigation_MediaOutreach</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Navigation_MediaOutreach</shortDescription>
-        <value>Media Outreach</value>
-    </labels>
-	 <labels>
-        <fullName>New_OutReach</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>New OutReach</shortDescription>
-        <value>New Outreach</value>
-    </labels>
-	 <labels>
-        <fullName>No</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>No</shortDescription>
-        <value>No</value>
-    </labels>
-	 <labels>
-        <fullName>Other_Email</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Other Email</shortDescription>
-        <value>Other Email</value>
-    </labels>
-    <labels>
-        <fullName>Other_Phone_Number</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Other Phone Number</shortDescription>
-        <value>Other Phone Number</value>
-    </labels>
-	  <labels>
-        <fullName>Outreach_Message</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Outreach Message</shortDescription>
-        <value>New Outreach Created Successfully !</value>
-    </labels>
-	 <labels>
-        <fullName>Yes</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Yes</shortDescription>
-        <value>Yes</value>
-    </labels>
-	<labels>
-        <fullName>Preferred_Contact_Method_View</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Preferred Contact Method View</shortDescription>
-        <value>Preferred Contact Method *</value>
-    </labels>
-	 <labels>
-        <fullName>Preferred_Contact_Method</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Preferred Contact Method</shortDescription>
-        <value>Preferred Contact Method</value>
-    </labels>
-	 <labels>
-        <fullName>Recent_Notes</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Recent Notes</shortDescription>
-        <value>Recent Notes</value>
-    </labels>
-	 <labels>
-        <fullName>Requested</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Requested</shortDescription>
-        <value>Requested</value>
-    </labels>
-    <labels>
-        <fullName>Requested_End_Date</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Requested End Date</shortDescription>
-        <value>Requested End Date</value>
-    </labels>
-    <labels>
-        <fullName>Requested_Start_Date</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Requested Start Date</shortDescription>
-        <value>Requested Start Date</value>
-    </labels>
-	 <labels>
-        <fullName>Save</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Save</shortDescription>
-        <value>Save</value>
-    </labels>
-	 <labels>
-        <fullName>Select</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Select</shortDescription>
-        <value>Select</value>
-    </labels>
-	 <labels>
-        <fullName>Select_Site</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Select Site</shortDescription>
-        <value>Select Site</value>
-    </labels>
-    <labels>
-        <fullName>Select_Study</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Select Study</shortDescription>
-        <value>Select Study</value>
-    </labels>
-	 <labels>
-        <fullName>Start_Date</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Start Date</shortDescription>
-        <value>Start Date should not be greater than end Date</value>
-    </labels>
-	 <labels>
-        <fullName>Study_Name</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Study Name</shortDescription>
-        <value>Study Name</value>
-    </labels>
-    <labels>
-        <fullName>Study_Site</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Study Site</shortDescription>
-        <value>Study Site</value>
-    </labels>
-	 <labels>
-        <fullName>Submit</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Submit</shortDescription>
-        <value>Submit</value>
-    </labels>
-	 <labels>
-        <fullName>Type_notes_here</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Type notes here</shortDescription>
-        <value>Type notes here</value>
-    </labels>
-	<labels>
         <fullName>Warning</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -16049,6 +16050,13 @@ communications using the toggles below.</value>
         <value>Your weight is the measurement of your body mass in kilograms (kg) or in pounds.</value>
     </labels>
     <labels>
+        <fullName>Yes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Yes</shortDescription>
+        <value>Yes</value>
+    </labels>
+    <labels>
         <fullName>empty_visits</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16056,13 +16064,13 @@ communications using the toggles below.</value>
         <value>there are no planned visits yet</value>
     </labels>
     <labels>
-	<fullName>search_results</fullName>
+        <fullName>search_results</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>search results</shortDescription>
         <value>Search Results</value>
     </labels>
-    <labels>								
+    <labels>
         <fullName>successType</fullName>
         <categories>visit configuration</categories>
         <language>en_US</language>
@@ -16085,14 +16093,6 @@ communications using the toggles below.</value>
         <shortDescription>update resource content</shortDescription>
         <value>Do you want to mark  resource content as updated?</value>
     </labels>
-	<labels>
-        <fullName>Invalid_Phone</fullName>
-        <categories>Media Outreach</categories>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Invalid Phone</shortDescription>
-        <value>Enter 10 digits phone number</value>
-    </labels>
     <labels>
         <fullName>visit_Name</fullName>
         <categories>configuation table</categories>
@@ -16100,13 +16100,5 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>configuation table</shortDescription>
         <value>Name</value>
-    </labels>
-	<labels>
-        <fullName>Library_General_Resources</fullName>
-        <categories>Contains Label for Not Specific Study related to Library Tab</categories>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Library_General_Resources</shortDescription>
-        <value>General Resources</value>
     </labels>
 </CustomLabels>
