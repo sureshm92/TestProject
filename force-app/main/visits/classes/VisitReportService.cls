@@ -44,10 +44,17 @@ public inherited sharing class VisitReportService {
                         List<VisitReportContainerRemote.VisitDataWrapper> reportRowWrappers = new List<VisitReportContainerRemote.VisitDataWrapper>();
                         List<VisitReportContainerRemote.VisitDataWrapper> reportHeaderWrappers = new List<VisitReportContainerRemote.VisitDataWrapper>();
                         List<VisitReportContainerRemote.LabsNameDescriptionWrapper> labsDescription = new List<VisitReportContainerRemote.LabsNameDescriptionWrapper>();
-
+                        //PEH-2374: Added logic to avoid null pointer exception
                         reportHeaderWrappers.add(new VisitReportContainerRemote.VisitHeaderWrapper('Report_Dates'));
-                        reportRowWrappers.add(new VisitReportContainerRemote.VisitDateColumnWrapper(patientVisit.Completed_Date__c));
-
+                        if(!PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)){
+                            reportRowWrappers.add(patientVisit.Planned_Date__c != null ? 
+                                    new VisitReportContainerRemote.VisitDateColumnWrapper(patientVisit.Planned_Date__c) :
+                                    new VisitReportContainerRemote.VisitValueWrapper('______'));
+                        } else{
+                            reportRowWrappers.add(patientVisit.Completed_Date__c != null ? 
+                                    new VisitReportContainerRemote.VisitDateColumnWrapper(patientVisit.Completed_Date__c) :
+                                    new VisitReportContainerRemote.VisitValueWrapper('______'));
+                        }
                         Boolean isResult = false;
                         for (VisitResultWrapper visitResultWrapper : availableVisitResultSortWrappers) {
                             if (!notAccessResultType.contains(visitResultWrapper.visitResultTypeM.DeveloperName)) {
@@ -118,8 +125,8 @@ public inherited sharing class VisitReportService {
             Date myDate = Date.newInstance(dT.year(), dT.month(), dT.day());
             result.enrollmentDate = myDate.format();
         }
-        //PEH-1986: Show status if only a PARTICIPANT
-        if(ParticipantService.getInstance().getState().value == ParticipantService.ParticipantStates.PARTICIPANT){
+        //PEH-1986: Show status if Trial is not yet completed
+        if(!PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)){
             result.participantStatus = pe.Participant_Status__c;
         }
         result.studySiteName = pe.Study_Site__r.Name;
