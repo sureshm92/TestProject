@@ -48,7 +48,7 @@ private class Test_BasePPCommunity {
             );
             try{
                 ReferHealthcareProviderRemote.HealthcareProvider ddInfo = ReferHealthcareProviderRemote.checkDuplicate(pe.Id,'del@email.delemail','firstName','lastName',null);
-                AddPatientByPIRemote.saveParticipant(JSON.serialize(participant), JSON.serialize(pe), userLanguage, testDataInstance.ss.Id, true, null, JSON.serialize(ddInfo));
+                AddPatientByPIRemote.saveParticipant(JSON.serialize(participant), JSON.serialize(pe), userLanguage, testDataInstance.ss.Id, true, false, null, JSON.serialize(ddInfo));
                 for(Participant_Enrollment__c pe2 : [SELECT Name, Referral_ID__c, Participant_Key__c FROM Participant_Enrollment__c]){
                     System.debug('XXX_PE: ' + pe2);
                 }
