@@ -2452,6 +2452,11 @@
         <field>Clinical_Trial_Profile__c.Override_Status_Updated_By__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Participant_Visit_Result_Group__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Participant_Workflow_Final_Step__c</field>
@@ -2605,6 +2610,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Study_Code_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Study_Content__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

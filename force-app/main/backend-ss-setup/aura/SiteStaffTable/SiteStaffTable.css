@@ -1,0 +1,16 @@
+/**
+ * Created by Andrii Kryvolap.
+ */
+
+.THIS.sst-container{
+    min-height: 300px;
+    position: relative;
+}
+.THIS .invite-col{
+    text-align: center;
+}
+.THIS .sst-title{
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px;
+}
