@@ -11620,6 +11620,62 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Referring Providers</value>
     </labels>
     <labels>
+        <fullName>PG_SST_L_Access_Level</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SST L Access Level</shortDescription>
+        <value>Access Level</value>
+    </labels>
+    <labels>
+        <fullName>PG_SST_L_Email</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SST L Email</shortDescription>
+        <value>Email</value>
+    </labels>
+    <labels>
+        <fullName>PG_SST_L_Invite</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SST L Invite</shortDescription>
+        <value>Intite</value>
+    </labels>
+    <labels>
+        <fullName>PG_SST_L_Invited</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SST L Invited</shortDescription>
+        <value>Intited?</value>
+    </labels>
+    <labels>
+        <fullName>PG_SST_L_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SST L Name</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>PG_SST_L_Pending</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SST L Pending</shortDescription>
+        <value>Pending...</value>
+    </labels>
+    <labels>
+        <fullName>PG_SST_L_Site_Staff</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SST L Site Staff</shortDescription>
+        <value>Site Staff</value>
+    </labels>
+    <labels>
+        <fullName>PG_SST_L_Yes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SST L Yes</shortDescription>
+        <value>Yes</value>
+    </labels>
+    <labels>
         <fullName>PG_SV_L_Referral_s_Status</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -14372,6 +14428,21 @@ communications using the toggles below.</value>
         <shortDescription>TST Request to invite a referring provider</shortDescription>
         <value>Request to invite a referring provider has been successfully submitted</value>
     </labels>
+    <labels>
+        <fullName>TST_SST_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST_SST_Error</shortDescription>
+        <value>Unable to create User</value>
+    </labels>
+    <labels>
+        <fullName>TST_SST_Success</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST_SST_Success</shortDescription>
+        <value>User have been created. Pending Permission Set Assignment</value>
+    </labels>
+
     <labels>
         <fullName>TST_Screenshot_Wrong_Format</fullName>
         <language>en_US</language>
