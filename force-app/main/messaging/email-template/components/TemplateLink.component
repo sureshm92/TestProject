@@ -1,0 +1,11 @@
+<!--
+ - Created by Igor Malyuta on 15.06.2020.
+ -->
+
+<apex:component id="TemplateLink" controller="TemplateLinkController" access="global">
+    <apex:attribute name="linkLabel" type="String" assignTo="{!linkLabelValue}" description="" access="global"/>
+    <apex:attribute name="urlLink" type="String" assignTo="{!urlValue}" description="" access="global"/>
+
+    <apex:outputLink value="{!urlValue}">{!linkLabelValue}</apex:outputLink>
+
+</apex:component>

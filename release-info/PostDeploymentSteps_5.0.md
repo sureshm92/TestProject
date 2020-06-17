@@ -70,3 +70,5 @@
 7. **REF-1441 & REF-1550** Publish the community. Setup > All Communities > Click on the Builder of IQVIA Referal Hub > Once the builder opens click on Publish
 
 8. **PEH-2202** Go to Developer Console > Debug > Open execute Anonymous > Insert Batch_UpdateCTPShortCommNameField.run(); > Execute
+
+9. **PEH-2201** Add Batch_FollowUpReminder to the Batch Control Panel

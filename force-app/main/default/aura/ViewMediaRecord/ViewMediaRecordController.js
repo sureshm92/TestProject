@@ -1,12 +1,12 @@
 ({
-    doInit: function(component, event, helper) {
-        //component.find('modalSpinner').show();
-    },
     doExecute: function(component, event, helper) {
 
         component.find('ShowPoP_Up').show();
         component.find('modalSpinnerpopup').show();
+        component.set('v.isEmailPhone', false);
         component.set("v.buttonDisable", false);
+        component.set("v.ErrorMsg", "");
+        component.set("v.notes", '');
         component.set("v.ViewRecordId", component.get("v.ViewRecord")[0]
             .Id);
         component.set("v.AlternatePhone_email", "");
@@ -27,7 +27,7 @@
                 component.set("v.Other", resultData.Other);
                 component.set("v.MO_Phonenumber", resultData.MO_Phonenumber);
                 component.set("v.MO_Email", resultData.MO_Email);
-                component.set("v.MO_Value", resultData.MO_Value);
+                component.set("v.MO_AlternateValue", resultData.MO_AlternateValue);
                 var Picklist_option = [];
 
                 if (component.get("v.MOEmail") == false &&
@@ -63,6 +63,7 @@
                 if (component.get("v.MOEmail") == false &&
                     component.get("v.MOPhone") == true &&
                     component.get("v.Other") == true) {
+                    component.set('v.isEmailPhone', true);
                     Picklist_option.push({
                         value: $A.get(
                             "$Label.c.Other_Phone_Number"
@@ -124,6 +125,7 @@
                 if (component.get("v.MOEmail") == true && component
                     .get("v.MOPhone") == false &&
                     component.get("v.Other") == true) {
+                    component.set('v.isEmailPhone', true);
                     Picklist_option.push({
                         value: $A.get(
                             "$Label.c.Other_Email")
@@ -161,7 +163,7 @@
                         component.set("v.disabled", true);
                     }
                     component.set("v.AlternatePhone_email",
-                        component.get("v.MO_Value")
+                        component.get("v.MO_AlternateValue")
                     );
                 } else if (Picklist_option[0].value == otherpone) {
                     if (component.get("v.ActiveReqRecord")) {
@@ -171,7 +173,7 @@
                         component.set("v.disabled", true);
                     }
                     component.set("v.AlternatePhone_email",
-                        component.get("v.MO_Value"));
+                        component.get("v.MO_AlternateValue"));
                 } else {
                     component.set("v.disabled", true);
                 }
@@ -182,113 +184,111 @@
         component.find('modalSpinnerpopup').hide();
     },
     preferredType: function(component, event, helper) {
+        component.set("v.ErrorMsg", "");
         var othermail = $A.get("$Label.c.Other_Email");
         var otherPhone = $A.get("$Label.c.Other_Phone_Number");
         var picklistval = component.find('preferredId').get('v.value');
         if (picklistval == othermail) {
             component.set("v.disabled", false);
+            component.set('v.isEmailPhone', true);
             if (component.get('v.PC_Value')[0].value == picklistval) {
                 component.set("v.AlternatePhone_email", component.get(
-                    "V.MO_Value"));
-
+                    "V.MO_AlternateValue"));
             } else {
                 component.set("v.AlternatePhone_email", "");
             }
         } else if (picklistval == otherPhone) {
             component.set("v.disabled", false);
+            component.set('v.isEmailPhone', true);
             if (component.get('v.PC_Value')[0].value == picklistval) {
                 component.set("v.AlternatePhone_email", component.get(
-                    "V.MO_Value"));
-
+                    "V.MO_AlternateValue"));
             } else {
                 component.set("v.AlternatePhone_email", "");
             }
         } else {
             component.set("v.disabled", true);
-            if (component.get('v.PC_Value')[0].value == picklistval) {
-                component.set("v.AlternatePhone_email", component.get(
-                    "V.MO_Value"));
-
-            } else {
-                component.set("v.AlternatePhone_email", "");
-            }
+            component.set('v.isEmailPhone', false);
+            component.set("v.AlternatePhone_email", "");
         }
-
     },
     CancelPoPUp: function(component, event, helper) {
         component.find('ShowPoP_Up').hide();
+        component.set("v.isEmailPhone", false);
     },
     updateMO: function(component, event, helper) {
-        component.find('modalSpinner').show();
+
         var othermail = $A.get("$Label.c.Other_Email");
         var otherPhone = $A.get("$Label.c.Other_Phone_Number");
         var picklistval = component.find('preferredId').get('v.value');
-        var PC_oldvalue = component.get("V.MO_Value");
+        var PC_oldvalue = component.get("V.MO_AlternateValue");
         var PC_Newvalue = "";
         var update = true;
+        var other = false;
         var existingvalue_phone = $A.get("$Label.c.PG_MRC_RF_Phone") +
             ':' + component.get("v.MO_Phonenumber");
         if (picklistval == othermail) {
-            console.log('picklistval', picklistval);
-            console.log('current value', component.get('v.PC_Value')[0]
-                .value);
-            if (component.get('v.PC_Value')[0].value == picklistval) {
-                if (PC_oldvalue == component.get(
-                        "v.AlternatePhone_email")) {
-                    update = false;
+            other = true;
+                PC_Newvalue = component.find('alternate').get(
+                    "v.value");
+                var regExpEmailformat = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                if (!PC_Newvalue.match(regExpEmailformat)) {
+                    component.set("v.ErrorMsg", $A.get('$Label.c.TST_Invalid_email_address'));
+                    component.set("v.Validated", false);
                 } else {
-                    PC_Newvalue = component.find('alternate').get(
-                        "v.value");
-                    update = true;
+                    component.set("v.Validated", true);
+                    component.set("v.ErrorMsg", "");
                 }
-            } else {
-                PC_Newvalue = component.find('alternate').get("v.value");
                 update = true;
-            }
         } else if (picklistval == otherPhone) {
-            if (PC_oldvalue == component.get("v.AlternatePhone_email")) {
-                update = false;
-            } else {
-                //PC_Newvalue = component.get("v.AlternatePhone_email");
+                other = true;
                 PC_Newvalue = component.find('alternate').get("v.value");
+                var regNumbers = /^[a-zA-Z]+$/;
+                if (!PC_Newvalue.match(regNumbers)) {
+                    if(PC_Newvalue == '' || PC_Newvalue == ' ' || PC_Newvalue == '  '){
+                         component.set("v.Validated", false);
+                            component.set("v.ErrorMsg", $A.get("$Label.c.Invalid_Phone"));
+                    }else{
+                         component.set("v.Validated", true);
+                    component.set("v.ErrorMsg", "");
+                    }
+                   
+                    
+                } else {
+                    component.set("v.Validated", false);
+                    component.set("v.ErrorMsg", $A.get("$Label.c.Invalid_Phone"));
+                }
                 update = true;
-            }
         } else {
             if (picklistval == existingvalue_phone) {
-                if (PC_oldvalue == component.get("v.MO_Phonenumber")) {
-                    update = false;
-                } else {
                     update = true;
                     PC_Newvalue = component.get("v.MO_Phonenumber");
-                }
+                    component.set("v.Validated", true);
             } else {
-                if (PC_oldvalue == component.get("v.MO_Email")) {
-                    update = false;
-                } else {
                     update = true;
                     PC_Newvalue = component.get("v.MO_Email");
-                }
+                    component.set("v.Validated", true);
             }
         }
-
-        var notes = component.get('v.notes');
-        communityService.executeAction(component, 'UpdateRecord', {
-            MediaRecordId: component.get("v.ViewRecordId"),
-            updateval: update,
-            newval: PC_Newvalue,
-            notes: notes,
-            Cancelrequest: 'false'
-        }, function(returnValue) {
-            var initData = JSON.parse(returnValue);
-            component.find('modalSpinner').hide();
-            component.find('ShowPoP_Up').hide();
-            communityService.showToast("success", "success", $A
-                .get(
-                    "$Label.c.MO_RecordUpdate"
-                ));
-        });
-        component.set("v.notes", '');
-        component.set("v.preferred", '');
+        if (component.get("v.Validated")) {
+            component.find('modalSpinner').show();
+            var notes = component.get('v.notes');
+            communityService.executeAction(component, 'UpdateRecord', {
+                MediaRecordId: component.get("v.ViewRecordId"),
+                updateval: update,
+                newval: PC_Newvalue,
+                notes: notes,
+                other: other,
+                Cancelrequest: 'false'
+            }, function(returnValue) {
+                var initData = JSON.parse(returnValue);
+                component.find('modalSpinner').hide();
+                component.find('ShowPoP_Up').hide();
+                helper.showToast();
+            });
+            component.set("v.notes", '');
+            component.set("v.preferred", '');
+        }
     },
     CancelRequest: function(component, event, helper) {
         component.set("v.buttonDisable", true);
@@ -302,11 +302,14 @@
             component.set("v.buttonDisable", false);
             component.set("v.disablefield", false);
             component.set("v.disabled", false);
-        } else {
+        }else if(message == "closewarningpopup")
+        {
+            component.find('CancelRequest').close();            
+        }else {
             component.find('ShowPoP_Up').hide();
             var cmpEvent = component.getEvent("cmpRefEvent");
             cmpEvent.fire();
         }
     },
-    
+
 })

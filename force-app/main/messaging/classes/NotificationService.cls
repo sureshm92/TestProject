@@ -23,7 +23,8 @@ public without sharing class NotificationService {
             NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_TYPE,
             NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_GSK_TYPE,
             NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_TYPE,
-            NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE
+            NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE,
+            NotificationCatalog.MESSAGE_TO_PT_FOLLOWUP
     };
 
     static public String NOTIFICATION_STATUS_PENDING = 'Pending';
@@ -269,7 +270,12 @@ public without sharing class NotificationService {
                         sendResultService.setSkipped(n.Id, nt.Target_Type__c);
                     }
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_PUSH) {
-                    pushNotifications.add(n);
+                    if(availabilityService.isAvailableForPush(n.Id, n.WhatId__c)){
+                        sendResultService.setInProgress(n.Id, nt.Target_Type__c);
+                        pushNotifications.add(n);
+                    }else{
+                        sendResultService.setSkipped(n.Id, nt.Target_Type__c);
+                    }
                 } else if (nt.Target_Type__c == NOTIFICATION_RECIPIENT_TYPE_EXTERNAL_EMAIL) {
                     //TODO
                 }
