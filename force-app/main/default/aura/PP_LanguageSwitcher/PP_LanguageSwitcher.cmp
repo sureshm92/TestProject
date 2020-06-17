@@ -29,7 +29,8 @@
     <aura:attribute name="statesLVList" type="LabelValueItem[]"/> 
     
     <aura:attribute name="isDelegate" type="Boolean"/>
-    
+    <aura:attribute name="disableSave" type="Boolean" default="false"/>
+     <aura:attribute name="boolstate" type="Boolean" default="false"/>
     <aura:attribute name="previousCC" type="String"/>
     <aura:attribute name="personSnapshot" type="String"/>
     <aura:attribute name="isStateChanged" type="Boolean"/>
@@ -38,6 +39,8 @@
 	
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.personWrapper}" action="{!c.doStateChanged}"/>
+     <aura:registerEvent name="onEdit" type="c:uiEvent"/>
     
 
     <!-- component body -->
@@ -99,41 +102,44 @@
         <br/>
 		
         <!-- Country Section-->
-        <aura:if isTrue="{!v.userMode == 'Participant'}">
-
+        <aura:if isTrue="{!v.userMode == 'Participant'}"> 
 		<div class="as-title"><b>{!$Label.c.PG_Login_H_Residence_Region}</b></div>
-			<div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end language-switcher" style="position: relative; padding-top:12px;">
+		<div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end language-switcher" style="position: relative; padding-top:12px;">
+		<!-- Country Section -->
             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
-                <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Institute_Country}</div>
-				<c:rrSelect aura:id="countryList" id="countryList" options="{!v.countries}" value="{!v.countryKey}" disabled="{!!v.initialized}"  onchange="{!c.updateStates}" class="ls-select" useSentenceFont="{!false}" />
-                <!-- <c:rrInput valueString="{!v.personWrapper.mailingCountry}" disabled="false"/> -->
-				</div>
-				
+                <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PE_Country}</div>
+                <c:rrSelect aura:id="pFieldCountry" options="{!v.countriesLVList}"
+                            value="{!v.personWrapper.mailingCC}" setValueAsSelected="true"
+                            required="true" useSentenceFont="false"
+                            onchange="{!c.doCheckFieldsValidity}"/>
+            </div>
             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
-                <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Institute_State}</div>
-				<c:rrSelect  aura:id="stateList" id="stateList" options="{!v.states}" value="{!v.stateKey}" disabled="{!!v.initialized}" class="ls-select" useSentenceFont="{!false}"/> 
-				<!-- <lightning:select name="stateList" aura:id="stateList" onchange="{!c.change}">
-					<aura:iteration items="{!v.states}" var="st">
-					<option value="{!st.value}">{!st.label}</option>
-					</aura:iteration>
-				</lightning:select> -->
-                <!-- <c:rrInput valueString="{!v.personWrapper.mailingState}" disabled="false"/> -->
+                <div class="label">
+                    <aura:if isTrue="{!not(empty(v.statesLVList))}">
+                        <abbr title="required" class="slds-required">*</abbr>
+                    </aura:if>
+                    {!$Label.c.PE_State}
+                </div>
+                <c:rrSelect aura:id="pFieldState" options="{!v.statesLVList}" disabled="{!empty(v.statesLVList)}"
+                            value="{!v.personWrapper.mailingSC}" setValueAsSelected="true"
+                            placeholder="{!$Label.c.PG_AC_Select}" required="{!not(empty(v.statesLVList))}"
+                            useSentenceFont="false"
+                            onchange="{!c.doCheckFieldsValidity}"/>
+            </div>
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                <lightning:input aura:id="pField" type="text" label="{!$Label.c.PG_AS_F_Zip_Postal_Code}"
+                                 value="{!v.personWrapper.zip}"
+                                 onblur="{!c.doCheckFieldsValidity}"/>
             </div>
 
-            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
-                <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Institute_Zip_Postal_Code}</div>
-               <!-- <c:rrInput aura:id="zipcode" id="zipcode" valueString="{!v.personWrapper.zip}" disabled="false"/>-->
-				<c:rrInput aura:id="zipcode" id="zipcode" valueString="{!v.zipcodeKey}" disabled="false"/>
-            </div>
         </div>
-            
 
             
         </aura:if>
     
-        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
-            <button class="apollo-btn secondary" id="0" onclick="{!c.doChangeLanguage}">{!$Label.c.PG_AS_BTN_Save_Changes}</button>
-        </div>
+    <div class="slds-col slds-size_1-of-1 as-buttons-footer">
+		<lightning:button variant="brand" label="{!$Label.c.PP_Save_Changes}" title="" onclick="{!c.doChangeLanguage}" class="slds-button slds-button_brand apollo-btn primary" disabled="{!and(not(empty(v.statesLVList)),empty(v.personWrapper.mailingSC))}"/>       
+    </div>
 
     </div>
 	 </div>

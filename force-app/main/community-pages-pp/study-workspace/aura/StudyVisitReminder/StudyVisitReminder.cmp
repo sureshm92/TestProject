@@ -38,7 +38,7 @@
         <!-- add arguments-->
     </aura:method>
     <c:RRSpinner aura:id="spinner" fixed="true" size="small" />
-    <c:Popup aura:id="reminderModal" title="{!v.title}" size="{!v.taskType == 'Visit' ? 'small' : 'medium' }" showFooter="false">
+    <c:Popup aura:id="reminderModal" title="{!v.title}" size="{!v.taskType == 'Visit' ? 'small' : 'medium' }" >
         <!-- Task Details -->
         <aura:if isTrue="{!v.taskType != 'Visit'}">
             <!-- Task Reminder Details -->
@@ -188,70 +188,8 @@
                 </aura:if> 
             </aura:set>
         </aura:if>
-		
-		
-		<!--Create Task-->
-		 
-		 <aura:if isTrue="{!not(v.newTask)}">
-            <!--<aura:if isTrue="{!not(v.newTask)}">-->
-                <div class="buttons-area">
-                    <div class="rr-width-limiter buttons-block">
-                        <div class="apollo-btn secondary" onclick="{!c.doCancel}">
-                            <div>
-                                
-                                {!$Label.c.BTN_Cancel}
-                            </div>
-                        </div>
-                        <div class="apollo-btn primary" onclick="{!c.doSave}">
-                            <div>
-                               
-                                {!$Label.c.BTN_Save_Task}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </aura:if>
-
-            <!-- Edit Task -->
-			<aura:if isTrue="{!v.newTask}">
-            <!--<aura:if isTrue="{!v.newTask}">-->
-                <div class="buttons-area">
-                    <div class="rr-width-limiter buttons-block">                    
-						<aura:if isTrue="{!v.isOwner}">
-                            <div class="apollo-btn secondary" onclick="{!c.doSave}">
-                                <div>
-                                   <!-- <c:RRIcon iconName="icon-check-circle"/>  -->
-                                    {!$Label.c.BTN_Save_Task}
-                                </div>
-                            </div>
-                            <!--<aura:set attribute="else"> -->
-                                <div class="apollo-btn secondary" onclick="{!c.doCancel}">
-                                    <div>
-                                     <!--   <c:RRIcon iconName="icon-close-circle"/> -->
-                                        {!$Label.c.BTN_Cancel}
-                                    </div>
-                                </div>
-                           <!-- </aura:set> -->
-                        </aura:if>
-                        <div class="apollo-btn secondary" onclick="{!c.doIgnoreTask}">
-                            <div>
-                            <!--    <c:RRIcon iconName="icon-stop" color="orange"/> -->
-                                {!$Label.c.BTN_Ignore}
-                            </div>
-                        </div>
-                        <div class="apollo-btn secondary" onclick="{!c.doMarkAsCompleted}">
-                            <div>
-                          <!--      <c:RRIcon iconName="icon-check-circle"/> -->
-                                {!$Label.c.BTN_Mark_As_Completed}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </aura:if>
-            
-    
-		
-        <!--<aura:set attribute="footerButtons">
+        <aura:set attribute="footerButtons">
+		<p align="right">
             <button class="apollo-btn tertiary" id="Cancel" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
             <aura:if isTrue="{!and (not (v.isNewTask) , v.isTaskTab)}">
                 <button class="apollo-btn secondary" id="Ignore" onclick="{!c.doIgnore}">{!$Label.c.BTN_Ignore}</button>
@@ -259,7 +197,9 @@
                     onclick="{!c.doMarkComplete}">{!$Label.c.BTN_Mark_As_Completed}</button>
             </aura:if>
             <button class="apollo-btn primary" id="Save" onclick="{!c.doSave}">{!$Label.c.BTN_Save}</button>
-        </aura:set>-->
+			</p>
+        </aura:set>
+		
     </c:Popup>
     <c:builderStub aura:id="builderStub"/>
     
