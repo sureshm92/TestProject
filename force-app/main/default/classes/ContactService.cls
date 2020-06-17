@@ -262,7 +262,7 @@ public without sharing class ContactService {
                         Account.BillingCountryCode,
                         Phone,
                         MobilePhone,
-                        Phone_Type__c,
+                        Phone_Type__c
                 FROM Contact
                 WHERE Id = :contactId
         ];
