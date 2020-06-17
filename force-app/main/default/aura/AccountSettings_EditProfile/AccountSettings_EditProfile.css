@@ -25,20 +25,22 @@
   font-size: 1rem;
   letter-spacing: 0;
   line-height: 24px;
-    
-    
 }
-.THIS .mar{
-    margin-left:-95px;
-    
+
+.THIS .smallName {
+    width: 115px;
 }
-.THIS .suffix{
-    width:156px;
+
+.THIS .nickname {
+    max-width: 264px;
 }
+
+.THIS .longName {
+    max-width: 350px;
+}
+
 .THIS .mar_dob{
-    margin-left:-159px;
-    width:fit-content;
-    
+    width: fit-content;
 }
 
 .THIS.as-container .as-password .rr-form-element + .rr-form-element {
@@ -46,20 +48,13 @@
 }
 
 .THIS.as-container .as-email,
-.THIS.as-container .as-password
- {
+.THIS.as-container .as-password {
     margin-top: 10px;
     margin-bottom: 30px;
 }
 
-.THIS.as-container .as-email-preference {
-    margin-top: 30px;
-}
-
-
 .THIS.as-container .as-info,
-.THIS.as-container .as-language-switcher
-{
+.THIS.as-container .as-language-switcher {
     margin-top: 10px;
 }
 
@@ -88,7 +83,6 @@
 
 }
 
-
 .THIS.as-container .as-sub-title {
     color: #333333;
     font-size: 14px;
@@ -100,22 +94,11 @@
     margin-top: 20px;
 }
 
-.THIS .as-email-input.slds-gutters,
-.THIS .as-password-input{
-    margin: -20px 0 0;
-}
-
 .THIS .slds-gutters.as-email-input .slds-col,
 .THIS .slds-gutters.as-password-input .slds-col{
     padding-left: 0;
     padding-right: 1.5rem;
 }
-
-.THIS .as-email-input > *,
-.THIS .as-password-input > *{
-    margin-top: 20px;
-}
-
 
 .THIS .collapse-section.slds-m-top_large,
 .THIS .collapse-section.slds-m-top--large {
@@ -187,34 +170,31 @@
     background-color: #FFFFFF;
     padding: 0px 20px 30px 20px;
 }
+
 .THIS .ah-item-label{
     color: black;
     font-weight: 600;
     font-size: 17px;
 }
+
 .THIS .ah-item-sublabel{
     color: #666666;
     font-size: 13px;
 }
+
 .THIS .ah-item-panel{
     box-sizing: border-box;
     border: 1px solid #D9D9D9;
     background-color: #F8F9FB;
     padding: 17px;
 }
+
 .THIS .ah-section-title{
     color: black;
     font-weight: 600;
     font-size: 17px;
     margin-top: 25px;
     margin-bottom: 25px;
-}
-
-.THIS .as-buttons-footer{
-    display: flex;
-    justify-content: flex-start;
-    padding: 12px;
-    margin-top: 20px;
 }
 
 .THIS .opt-in-popup-button {

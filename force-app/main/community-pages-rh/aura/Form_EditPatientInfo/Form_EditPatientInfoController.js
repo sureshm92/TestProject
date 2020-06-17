@@ -208,6 +208,7 @@
         if (participant.Phone__c && !participant.Phone_Type__c) {
             isValid = false;
         }
+        component.get('v.parentComponent').refreshParticipant();
 
         component.set('v.isValid', isValid);
         console.log('isValid5' + isValid);
@@ -275,10 +276,6 @@
 
     hideHelp: function (component) {
         component.set('hideHelp', false);
-    },
-
-    doCreateUserInv: function (component) {
-        component.set('v.createUsers', !component.get('v.createUsers'));
     }
 
 })

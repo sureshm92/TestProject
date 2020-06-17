@@ -11071,6 +11071,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Receive information about clinical study opportunities.</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_Contact</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG Ref L Permit IQVIA To Contact</shortDescription>
+        <value>IQVIA cannot contact regarding this study</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_Please_complete_Medical_Record_Review_first</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11618,6 +11625,62 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>false</protected>
         <shortDescription>PG SRP L Referring Providers</shortDescription>
         <value>Referring Providers</value>
+    </labels>
+    <labels>
+        <fullName>PG_SST_L_Access_Level</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SST L Access Level</shortDescription>
+        <value>Access Level</value>
+    </labels>
+    <labels>
+        <fullName>PG_SST_L_Email</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SST L Email</shortDescription>
+        <value>Email</value>
+    </labels>
+    <labels>
+        <fullName>PG_SST_L_Invite</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SST L Invite</shortDescription>
+        <value>Invite</value>
+    </labels>
+    <labels>
+        <fullName>PG_SST_L_Invited</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SST L Invited</shortDescription>
+        <value>Invited?</value>
+    </labels>
+    <labels>
+        <fullName>PG_SST_L_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SST L Name</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>PG_SST_L_Pending</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SST L Pending</shortDescription>
+        <value>Pending...</value>
+    </labels>
+    <labels>
+        <fullName>PG_SST_L_Site_Staff</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SST L Site Staff</shortDescription>
+        <value>Site Staff</value>
+    </labels>
+    <labels>
+        <fullName>PG_SST_L_Yes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SST L Yes</shortDescription>
+        <value>Yes</value>
     </labels>
     <labels>
         <fullName>PG_SV_L_Referral_s_Status</fullName>
@@ -13165,7 +13228,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Resource Visit Summary Report</shortDescription>
-        <value>Visit Summary Report</value>
+        <value>My Study Data Report</value>
     </labels>
     <labels>
         <fullName>Resources_Article</fullName>
@@ -14373,6 +14436,21 @@ communications using the toggles below.</value>
         <value>Request to invite a referring provider has been successfully submitted</value>
     </labels>
     <labels>
+        <fullName>TST_SST_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST_SST_Error</shortDescription>
+        <value>Unable to create User</value>
+    </labels>
+    <labels>
+        <fullName>TST_SST_Success</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST_SST_Success</shortDescription>
+        <value>User have been created. Pending Permission Set Assignment</value>
+    </labels>
+
+    <labels>
         <fullName>TST_Screenshot_Wrong_Format</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -15417,6 +15495,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Visit Results Dashboard My Results</shortDescription>
         <value>My Results</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Group_If_Is_Not_Selected_For_My_Results</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Group If Is Not Selected For My Results</shortDescription>
+        <value>Please select atleast one data point(Vitals/Labs or Biomarkers) to show in My Results card</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_Biomarkers</fullName>

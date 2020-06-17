@@ -3,7 +3,7 @@
  -->
 
 <aura:component description="AbstractNavigation" extensible="true" abstract="true" extends="c:CommunityContext">
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doChangeItemsList}"/>
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doChangeItemsList}"/>
 
     <!-- attributes: -->
     <aura:attribute name="menuItems" type="List" access="public"/>
