@@ -73,7 +73,7 @@ public with sharing class ResourceRemote {
                 if(!Test.isRunningTest()) {
                     if(state.communityName.equals(CommunityService.GSK_NETWORK_NAME)) goToProfile += '/gsk';
                 }
-                goToProfile += '/s/account-settings">' + Label.Resources_Go_To_Your_Profile + '</a>';
+                goToProfile += '/s/account-settings?changePref">' + Label.Resources_Go_To_Your_Profile + '</a>';
                 noTAMessage = String.format(message, new List<String>{
                         goToProfile
                 });
