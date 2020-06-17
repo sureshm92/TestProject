@@ -32,6 +32,7 @@ public without sharing class CommunityService {
     public static final String USER_MODE_HCP = 'HCP';
     public static final String USER_MODE_PI = 'PI';
     public static final String USER_MODE_PARTICIPANT = 'Participant';
+    public static final String USER_MODE_CC = 'CC';
 
     //Exception messages
     public static String ERROR_MISSING_STUDY = 'Unexpected error occurred. Contact administrator.';
