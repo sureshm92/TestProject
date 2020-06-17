@@ -4,9 +4,8 @@
 
 <apex:component id="Paragraph" controller="ParagraphController" access="global">
     <apex:attribute name="emailLabel" type="String" assignTo="{!labelName}" description="" access="global"/>
-    <apex:attribute name="outputType" assignTo="{!outputMode}" type="String" description="" default="HTML"/>
+    <apex:attribute name="outputType" type="String" assignTo="{!outputMode}" description="" default="HTML"/>
 
-    <br/>
     <div style="margin-top: 15px; margin-bottom: 15px;">
         <apex:outputText escape="false" value="{!labelValue}"/>
     </div>

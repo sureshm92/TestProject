@@ -51,6 +51,7 @@
                     if(returnValue.contactId) delegateItem.Contact__c = returnValue.contactId;
                     if(returnValue.isDuplicate) delegateItem.isDuplicate = returnValue.isDuplicate;
                     component.set('v.duplicateDelegateInfo',returnValue);
+                    if(returnValue.isDuplicateDelegate || returnValue.contactId || returnValue.participantId) component.set('v.useThisDelegate', false);
                     component.set('v.delegateItem',delegateItem);
                     if (returnValue.firstName && returnValue.lastName) {
                         component.set('v.isValid', true);
@@ -94,6 +95,10 @@
             component.find('spinner').hide();
             communityService.showErrorToast('', "Emancipation process - connect/disconnect delegate action failed! Description: " + returnValue);
         })
+    },
+
+    approveDelegate:function(component, event, helper){
+        component.set('v.useThisDelegate', true);
     },
 
 });

@@ -27,18 +27,18 @@ public without sharing class CommunityFacadeRemote {
         String communityDelegateId;
         Boolean isDelegate;
         String state;
-        String pathPrefix;
         Boolean isTCAccepted;
-        Boolean messagesVisible;
         String language;
         List<String> preventedCookies;
         Boolean isNewSession;
         String baseUrl;
+        String pathPrefix;
+        String subDomain;
         List<CommunityMode> allUserModes;
         CommunityMode currentUserMode;
         Boolean isDummy;
         String communityName;
-        String subDomain;
+        Boolean messagesVisible;
         Boolean trialMatchVisible;
     }
 
@@ -72,13 +72,13 @@ public without sharing class CommunityFacadeRemote {
                 cd.communityDelegateId = userContact.userCommunityDelegateId__c != null ? userContact.userCommunityDelegateId__c : '';
                 cd.isDelegate = userContact.UserCommunityIsDelegate__c;
                 cd.allUserModes = UserContext.getAllUserModes();
-                cd.currentUserMode = UserContext.getCurrentUserMode();
                 cd.isNewSession = CommunityService.isNewSession();
                 cd.state = ParticipantService.getParticipantState().value.name();
                 cd.preventedCookies = getPreventedCookies(userContact.Id);
                 cd.messagesVisible = getMessagesVisibility();
                 cd.trialMatchVisible = getTrialMatchVisibility();
             }
+            cd.currentUserMode = UserContext.getCurrentUserMode();
             cd.subDomain = Site.getPathPrefix().replace('/s', '');
             cd.communityName = Site.getName();
             cd.baseUrl = Site.getBaseUrl();
@@ -89,7 +89,7 @@ public without sharing class CommunityFacadeRemote {
 
             return JSON.serialize(cd);
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            return (String) AuraHelper.throwException(e);
         }
     }
 

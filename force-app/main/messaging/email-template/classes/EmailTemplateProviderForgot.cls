@@ -11,12 +11,8 @@ public without sharing class EmailTemplateProviderForgot extends EmailTemplatePr
         List<Participant__c> participant = [SELECT Full_Name__c FROM Participant__c WHERE Contact__c = :recipientId];
         if(!parameters.isEmpty()) parameters.put('RecipientName', participant.get(0).Full_Name__c);
 
-        CommunityTemplate communityTemplate = CommunityTemplateService.getTemplate(communityTemplateName);
-        Id networkId = [SELECT Id FROM Network WHERE Name = :communityTemplate.communityName].Id;
-
-        Auth.AuthConfiguration authConfig = new Auth.AuthConfiguration(networkId, '');
-        String clinicalResearchCommunityForgotPasswordURL = isHTML ? '' : 'IQVIA Clinical Research Community Forgot password at';
-        clinicalResearchCommunityForgotPasswordURL += authConfig.getForgotPasswordUrl();
-        parameters.put('ForgotPasswordURL', clinicalResearchCommunityForgotPasswordURL);
+        CommunityTemplate communityTemplate = CommunityTemplateService.getTemplate(getCommunityTemplateName());
+        String forgotPasswordURL = communityTemplate.redirectURL + '/s/login/ForgotPassword';
+        parameters.put('ForgotPasswordURL', forgotPasswordURL);
     }
 }
