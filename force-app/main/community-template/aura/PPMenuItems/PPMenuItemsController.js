@@ -6,6 +6,6 @@
     doOnClick: function (component, event) {
         let onclickEvent = component.getEvent('onclick');
         onclickEvent.setParam('source', event.getSource());
-        component.getEvent('onclick').fire();
+        onclickEvent.fire();
     },
 });
