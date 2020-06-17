@@ -5,7 +5,7 @@
 
 <aura:component description="StudyVisitReminder" controller="TaskEditRemote">
 
-    <ltng:require scripts="{!$Resource.moment_js)}" afterScriptsLoaded="{!c.doInit}" />
+    <ltng:require scripts="{!$Resource.moment_js}" afterScriptsLoaded="{!c.doInit}" />
 
     <aura:attribute name="title" type="String" />
     <aura:attribute name="visitId" type="String" />
@@ -39,7 +39,7 @@
 
 
     <!-- event handlers -->
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <!--<aura:handler name="init" value="{!this}" action="{!c.doInit}" />-->
     <aura:handler name="change" value="{!v.initData.activityDate}" action="{!c.validateFields}" />
     <aura:handler name="change" value="{!v.initData.reminderDate}" action="{!c.validateFields}" />
 
@@ -47,7 +47,9 @@
     <aura:method name="reloadPopup" action="{!c.doInit}" description="Reload the popup in the parent component">
         <!-- add arguments-->
     </aura:method>
+
     <c:RRSpinner aura:id="spinner" fixed="true" size="small" />
+
     <c:Popup aura:id="reminderModal" title="{!v.title}" size="{!v.taskType == 'Visit' ? 'small' : 'medium' }">
         <!-- Task Details -->
         <aura:if isTrue="{!v.taskType != 'Visit'}">
@@ -63,18 +65,20 @@
                     <div class="slds-grid te-form slds-gutters slds-wrap">
                         <div class="slds-col slds-size_1-of-1">
                             <lightning:input name="taskName" label="{!$Label.c.Task_Name}" value="{!v.task.Subject}"
-                                required="true" disabled="{!not(v.editAvailable)}" />
+                                required="true" />
                         </div>
                     </div>
+                    <div class="slds-p-top_small"></div>
 
                     <div class="slds-grid slds-gutters slds-wrap">
                         <!-- Due Date -->
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                            <lightning:input aura:id="dateField" type="date" min="{!v.initData.today}"
+                            <lightning:input aura:id="field" type="date" min="{!v.initData.today}"
                                 label="{!$Label.c.Due_Date}" value="{!v.initData.activityDate}"
-                                disabled="{!not(v.editAvailable)}" onchange="{!c.onChangeDueDate}" />
+                                onchange="{!c.onChangeDueDate}" />
                         </div>
                         <!-- Task Type -->
+                        <div class="slds-p-top_small"></div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                             <aura:if isTrue="{!not(v.initData.createdByAdmin)}">
                                 <!--   <aura:if isTrue="{!and(v.isEnrolled, v.initData.isStudyTasksEnabled)}"> -->
@@ -100,9 +104,8 @@
                         <div class="slds-grid te-form slds-gutters slds-wrap">
                             <!--Reminder Frequency-->
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                                <lightning:select label="{!$Label.c.Reminder_Frequency}" required="true"
-                                    onchange="{!c.onChangeFreq}" disabled="{!!v.frequencyEnabled}"
-                                    value="{!v.frequencyMode}">
+                                <lightning:select label="{!$Label.c.Remind_Me}" required="true"
+                                    onchange="{!c.onChangeFreq}" value="{!v.frequencyMode}">
                                     <aura:iteration items="{!v.initData.reminderFrequencyList}" var="mode">
                                         <option value="{!mode.value}">{!mode.label}</option>
                                     </aura:iteration>
@@ -110,14 +113,14 @@
                             </div>
                             <!--Reminder Date-->
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                                <lightning:input aura:id="dateField" type="date" label="{!$Label.c.Reminder_Date}"
-                                    value="{!v.initData.reminderDate}" onchange="{!c.doChangeReminderDate}"
-                                    disabled="{!or(v.task.Is_Reminder_Sent__c, !v.reminderDateEnabled)}"
+                                <lightning:input aura:id="field" type="date"
+                                    label="{!$Label.c.Home_Page_StudyVisit_Completed_On}"
+                                    value="{!v.initData.reminderDate}" onchange="{!c.onChangeReminderDate}"
                                     min="{!v.initData.today}"
                                     max="{!if(v.initData.activityDate, v.initData.activityDate, '')}" />
                             </div>
                         </div>
-
+                        <div class="slds-p-top_small"></div>
                         <div class="slds-grid te-form slds-gutters slds-wrap">
                             <!--Remind Using-->
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
@@ -125,28 +128,82 @@
                                     options="{!v.options}" value="{!v.value}" onchange="{!c.handleChange}" />
                             </div>
                         </div>
-
+                        <div class="slds-p-top_small"></div>
                         <div class="slds-grid te-form slds-gutters slds-wrap">
                             <!--Account settings-->
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
-                                <a>Change your notificaiton setting under Account settings</a>
+                                <a>{!$Label.c.PP_Change_Notification}</a>
                             </div>
                         </div>
                     </aura:if>
                 </div>
             </div>
             <aura:set attribute="else">
+
+                <!--Visit Reminder-->
+                <div class="slds-grid te-form slds-gutters slds-wrap">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <lightning:input name="visitName" label="{!$Label.c.Visits_Name}" value="{!v.visit.Subject}"
+                            required="true" disabled="{!not(v.editAvailable)}" />
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <lightning:input name="visitDate" label="{!$Label.c.Visits_Date}" value="{!v.visit.Subject}"
+                            required="true" disabled="{!not(v.editAvailable)}" />
+                    </div>
+                </div>
+                <div class="slds-p-top_small"></div>
+
+                <aura:if isTrue="{!not(v.initData.createdByAdmin)}">
+
+                    <div class="slds-grid te-form slds-gutters slds-wrap">
+                        <!--Reminder Frequency-->
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                            <lightning:select label="{!$Label.c.Remind_Me}" required="true" onchange="{!c.onChangeFreq}"
+                                value="{!v.frequencyMode}">
+                                <aura:iteration items="{!v.initData.reminderFrequencyList}" var="mode">
+                                    <option value="{!mode.value}">{!mode.label}</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                        <!--Reminder Date-->
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                            <lightning:input aura:id="field" type="date"
+                                label="{!$Label.c.Home_Page_StudyVisit_Completed_On}" value="{!v.initData.reminderDate}"
+                                onchange="{!c.onChangeReminderDate}" min="{!v.initData.today}"
+                                max="{!if(v.initData.activityDate, v.initData.activityDate, '')}" />
+                        </div>
+                    </div>
+                    <div class="slds-p-top_small"></div>
+                    <div class="slds-grid te-form slds-gutters slds-wrap">
+                        <!--Remind Using-->
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                            <lightning:checkboxGroup name="Checkbox Group" label="Remind Using" options="{!v.options}"
+                                value="{!v.value}" onchange="{!c.handleChange}" />
+                        </div>
+                    </div>
+                    <div class="slds-p-top_small"></div>
+                    <div class="slds-grid te-form slds-gutters slds-wrap">
+                        <!--Account settings-->
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
+                            <a>{!$Label.c.PP_Change_Notification}</a>
+                        </div>
+                    </div>
+                </aura:if>
             </aura:set>
         </aura:if>
         <aura:set attribute="footerButtons">
-            <button class="apollo-btn tertiary" id="Cancel" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
-            <aura:if isTrue="{!and (not (v.isNewTask) , v.isTaskTab)}">
-                <button class="apollo-btn secondary" id="Ignore" onclick="{!c.doIgnore}">{!$Label.c.BTN_Ignore}</button>
-                <button class="apollo-btn secondary" id="MarkComplete"
-                    onclick="{!c.doMarkComplete}">{!$Label.c.BTN_Mark_As_Completed}</button>
-            </aura:if>
-            <button class="apollo-btn primary" id="Save" onclick="{!c.doSave}">{!$Label.c.BTN_Save}</button>
+            <div align="right">
+                <lightning:button class="apollo-btn tertiary" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</lightning:button>
+                <aura:if isTrue="{!and (not (v.isNewTask) , v.isTaskTab)}">
+                    <lightning:button class="apollo-btn secondary"
+                        onclick="{!c.doIgnore}">{!$Label.c.BTN_Ignore}</lightning:button>
+                    <lightning:button class="apollo-btn secondary"
+                        onclick="{!c.doMarkComplete}">{!$Label.c.BTN_Mark_As_Completed}</lightning:button>
+                </aura:if>
+                <lightning:button class="apollo-btn primary" onclick="{!c.doSave}">{!$Label.c.BTN_Save}</lightning:button>
+            </div>
         </aura:set>
+
     </c:Popup>
 
     <c:builderStub aura:id="builderStub" />

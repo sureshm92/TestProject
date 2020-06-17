@@ -12397,6 +12397,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Change preferences here</value>
     </labels>
     <labels>
+        <fullName>PP_Change_Notification</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Change Notification</shortDescription>
+        <value>Change your notificaiton setting under Account settings</value>
+    </labels>
+    <labels>
         <fullName>PP_Condition_of_Interest_title</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -13286,6 +13293,20 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Reminder Frequency</shortDescription>
         <value>Reminder Frequency</value>
+    </labels>
+    <labels>
+        <fullName>Remind_Me</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Remind Me</shortDescription>
+        <value>Remind Me</value>
+    </labels>
+    <labels>
+        <fullName>Remind_Using</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Remind Using</shortDescription>
+        <value>Remind Using</value>
     </labels>
     <labels>
         <fullName>Reminder_PlatformTA_No_TA</fullName>
@@ -15588,6 +15609,20 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>User_Name_For_Email_Recipient_User_Lockout</shortDescription>
         <value>Nazma Ansari</value>
+    </labels>
+    <labels>
+        <fullName>Visits_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Date</shortDescription>
+        <value>Visit Date</value>
+    </labels>
+    <labels>
+        <fullName>Visits_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Name</shortDescription>
+        <value>Visit Name</value>
     </labels>
     <labels>
         <fullName>VPN_AddDate</fullName>
