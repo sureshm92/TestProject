@@ -2,19 +2,27 @@
     doInit: function (component, event, helper) {
 
               component.find('spinner').show();
-        if (communityService.getCurrentCommunityMode().currentDelegateId) component.set('v.isDelegate', true);
+        if (communityService.getCurrentCommunityMode().currentDelegateId){
+            component.set('v.isDelegate', true);}
+        else{
+            component.set('v.isDelegate', false);
+
+        }
+        
         communityService.executeAction(component, 'getInitData', {
             userMode: component.get('v.userMode')
         }, function (returnValue) {
             let initData = JSON.parse(returnValue);
+            console.log('initData',initData);
             initData.password = {
                 old: '',
                 new: '',
                 reNew: ''
             };
+           
+            
            let todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
         	component.set('v.todayDate', todayDate);
-            
             component.set('v.initData', initData);
             component.set('v.contactChanged', initData.contactChanged);
             component.set('v.personWrapper', initData.contactSectionData.personWrapper);
@@ -22,7 +30,18 @@
             component.set('v.optInEmail', initData.contactSectionData.personWrapper.optInEmail);
             component.set('v.optInSMS', initData.contactSectionData.personWrapper.optInSMS);
             component.set('v.contact', initData.myContact);
-            component.set('v.currentEmail', initData.myContact.Email);
+            component.set('v.userEmail', initData.myContact.Email);
+            component.set('v.delegateContact',initData.delegateContact);
+             if(communityService.getCurrentCommunityMode().currentDelegateId){
+               component.set('v.userId',communityService.getCurrentCommunityMode().currentDelegateId);
+console.log('inside delegate-->'+communityService.getCurrentCommunityMode().currentDelegateId);
+                
+            }
+            else{
+                component.set('v.userId',initData.myContact.Id);
+                console.log('inside participant-->'+initData.myContact.Id)
+            }
+            console.log('initData.myContact.Email',initData.myContact.Email);
 
 if(component.get('v.personWrapper.mobilePhone')==''){
     component.set('v.disableToggle',true);
@@ -208,44 +227,33 @@ if(component.get('v.personWrapper.mobilePhone')==''){
         }
     }
     ,
-
     doUpdatePerson: function (component, event, helper) {
-         
         var per=component.get('v.personWrapper');
         console.log(JSON.stringify(per));
             component.find('spinner').show();
-
-
             communityService.executeAction(component, 'updatePerson', {
                 wrapperJSON: JSON.stringify(component.get('v.personWrapper'))
             }, function () {
                 component.set('v.participantHasUpdateTasks', false);
-               
                 helper.setPersonSnapshot(component);
                 component.find('spinner').hide();
                 communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'));
     
             });
-
-
-      
-      
-      
-      
-
-     
         let initData = component.get('v.initData');
-        let newEmail = initData.myContact.Email;
-        if (!newEmail) {
-            communityService.showToast('error', 'error', $A.get('$Label.c.TST_Email_can_t_be_empty'));
-            return;
-        }
-        let oldEmail = component.get('v.currentEmail');
-        if (newEmail === oldEmail) {
-            communityService.showToast('waring', 'warning', $A.get('$Label.c.TST_Emails_are_same'));
-            return;
-        }
-
+        let isUserDelegate = component.get('v.isDelegate');
+        if(!isUserDelegate){
+            let newEmail = initData.myContact.Email;
+            if (!newEmail) {
+           communityService.showToast('error', 'error', $A.get('$Label.c.TST_Email_can_t_be_empty'));
+           return;
+       }
+       let oldEmail = component.get('v.currentEmail');
+       if (newEmail === oldEmail) {
+           communityService.showToast('waring', 'warning', $A.get('$Label.c.TST_Emails_are_same'));
+           return;
+       }    
+       }
         component.set('v.showSpinner', true);
         communityService.executeAction(component, 'changeEmail', {
             newEmail: newEmail
@@ -260,9 +268,7 @@ if(component.get('v.personWrapper.mobilePhone')==''){
         var phoneField=component.find('pField1');
         console.log('phoneField-->'+phoneField);
         console.log('inputValue-->'+inputValue);
-        
         var numbers=/^[0-9]*$/ ;
-
         if(inputValue===""){
             phoneField.setCustomValidity("");  
         }
@@ -270,13 +276,10 @@ if(component.get('v.personWrapper.mobilePhone')==''){
            component.set('v.disableToggle',true);
         phoneField.setCustomValidity("Phone number must be numeric");
         component.set('v.disableSave',true);
-
         } else {
             phoneField.setCustomValidity(""); // reset custom error message
             component.set('v.disableSave',false);
             component.set('v.disableToggle',false);
-
-
         }
         phoneField.reportValidity();
     },
@@ -285,21 +288,20 @@ if(component.get('v.personWrapper.mobilePhone')==''){
         var phoneField=component.find('pField2');
         console.log('phoneField-->'+phoneField);
         console.log('inputValue-->'+inputValue);
-       
-        //var numbers=/^[0-9]*$/ ;
         var numbers=/^[0-9]*$/;
-        
-        if ((!numbers.test(inputValue)  || !inputValue)) {
-            if(!inputValue){
-                phoneField.setCustomValidity("Phone number is mandatory");
-            }else{
-                phoneField.setCustomValidity("Phone number must be numeric");   
-            }
-         component.set('v.disableSave',true);
-         } 
-        else {
+       if ((!numbers.test(inputValue)  || !inputValue)) {
+           if(!inputValue){
+               phoneField.setCustomValidity("Phone number is mandatory");
+           }
+           else{
+                       phoneField.setCustomValidity("Phone number must be numeric");
+           }
+        component.set('v.disableSave',true);
+
+        } else {
             phoneField.setCustomValidity(""); // reset custom error message
             component.set('v.disableSave',false);
+
         }
         phoneField.reportValidity();
     },

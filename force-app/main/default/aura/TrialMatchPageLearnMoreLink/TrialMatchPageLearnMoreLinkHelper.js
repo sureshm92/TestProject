@@ -85,7 +85,7 @@
                 doc.text(reportData.Study_Code_Name__c , 600, 12);
             }
         }
-        doc.setDrawColor(0, 0, 100);
+        doc.setDrawColor(216, 216, 216);
         doc.setLineWidth(8);
         doc.line(35, 35, 35, 550);
         doc.line(30.8, 35, 97, 35);
@@ -136,8 +136,8 @@
         doc.setFontSize(12);
         doc.setTextColor('#000000');
         heightY += 50;
-        if (ctpRecord.Detailed_Description__c) {
-            let splitStudyTitle = doc.splitTextToSize(ctpRecord.Detailed_Description__c, 600);
+        if (ctpRecord.Study_Content__c) {
+            let splitStudyTitle = doc.splitTextToSize(ctpRecord.Study_Content__c, 600);
             splitStudyTitle.forEach(function (el, ind) {
                 helper.centeredText(el, (heightY + ind * doc.internal.getLineHeight()), doc);
             });

@@ -217,7 +217,8 @@
 
     .THIS .tour-panel{
         width: calc(100% - 8px);
-        height: calc(100% - 8px);
+        height: 92vh;
+        margin: 20px auto;
     }
 
     .THIS .tour-pages{
@@ -225,7 +226,6 @@
     }
 
     .THIS.tour-fixed-overlay{
-        height: 95vh;
-        top: 10px;
+        height: 100vh;
     }
 }

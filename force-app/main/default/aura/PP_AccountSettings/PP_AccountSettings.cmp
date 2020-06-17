@@ -49,7 +49,7 @@
                             <lightning:verticalNavigationItem label="{!$Label.c.PP_Profile_Information}" name="editProfile" class="{! v.showEditProfile ? 'mouse-hover group-6' : 'profile-information group-6 slds-border_bottom'}" />
                             <lightning:verticalNavigationItem label="{!$Label.c.PP_Password_Management}" name="changepwd" class="{! v.changePswd ? 'mouse-hover group-6' : 'profile-information group-6 slds-border_bottom'}" />
                             <lightning:verticalNavigationItem label="{!$Label.c.PP_Language_and_Location}" name="langreg" class="{! v.langReg ? 'mouse-hover group-6' : 'profile-information group-6 slds-border_bottom'}"/>
-                            <lightning:verticalNavigationItem label="{!$Label.c.PP_Customize_Experience}" aura:id="navServiceCust" name="custex" class="{! v.custExp ? 'mouse-hover group-6' : 'profile-information group-6 slds-border_bottom'}"  />
+                            <lightning:verticalNavigationItem label="{!$Label.c.PP_Customize_Experience}"  name="custex" class="{! v.custExp ? 'mouse-hover group-6' : 'profile-information group-6 slds-border_bottom'}"  />
                             <aura:if isTrue="{!!v.isDelegate}">
                             <lightning:verticalNavigationItem label="{!$Label.c.PP_Cookie_Settings}" name="cookset" class="{! v.cookSet ? 'mouse-hover group-6' : 'profile-information group-6 slds-border_bottom'}" />
                             </aura:if>

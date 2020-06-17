@@ -250,6 +250,7 @@ public without sharing class ContactService {
                         Participant_Opt_In_Status_SMS__c,
                         Visit_Results_OptIn__c,
                         Visited_Communities__c,
+                        Email,
                         Account.OwnerId,
                         Account.Name,
                         Account.Phone,
@@ -260,12 +261,13 @@ public without sharing class ContactService {
                         Account.BillingCountry,
                         Account.BillingPostalCode,
                         Account.BillingCountryCode,
-                        Phone
+                        Phone,
+                        MobilePhone,
+                        Phone_Type__c
                 FROM Contact
                 WHERE Id = :contactId
         ];
     }
-
     public static void updateVisitedCommunity(Contact contact, CommunityTemplate template) {
         List<String> communities = new List<String>();
         String commStr = contact.Visited_Communities__c;

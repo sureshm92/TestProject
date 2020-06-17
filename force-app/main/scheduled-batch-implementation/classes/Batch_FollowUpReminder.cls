@@ -20,14 +20,44 @@ public with sharing class Batch_FollowUpReminder extends Batch_ScheduledAbstract
                 WHERE Assignee.Contact.Is_First_Logon__c = TRUE
                 AND Assignee.Contact.Is_FollowUp_Sent__c = FALSE
                 AND Assignee.Contact.Visited_Communities__c = NULL
+                AND Assignee.Contact.userCommunityMode__c = 'Participant'
                 AND PermissionSet.Name IN: CommunityTemplateService.getAllPermissionSets()
-                AND SystemModstamp <=:Datetime.now().addDays(followUpDays)
+                AND SystemModstamp <=:Datetime.now().addDays(-followUpDays)
         ]);
     }
 
     public void execute(Database.BatchableContext param1, List<PermissionSetAssignment> oldAssignments) {
+        Map<Id, Map<Datetime, String>> permSetNameWithDTByContact = getPermSetByContactMap(oldAssignments);
+        Map<Id, List<Participant_Enrollment__c>> enrollmentsByContact = getEnrollmentsByContact(permSetNameWithDTByContact);
+
+        Map<Id, Id> peByContact = new Map<Id, Id>();
+        for (Id contactId : enrollmentsByContact.keySet()) {
+            Map<Datetime, String> permByDT = permSetNameWithDTByContact.get(contactId);
+            List<Datetime> datesSet = new List<Datetime>(permByDT.keySet());
+
+            Id whatId;
+            Integer datesIndex = datesSet.size() - 1;
+            do {
+                String permissionName = permByDT.get(datesSet.get(datesIndex));
+                for (Participant_Enrollment__c pe : enrollmentsByContact.get(contactId)) {
+                    String template = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                    if (CommunityTemplateService.getTemplate(template).templateName
+                            == CommunityTemplateService.getTemplateByPermissionSetName(permissionName).templateName) {
+                        whatId = pe.Id;
+                        break;
+                    }
+                }
+                datesIndex--;
+            } while(whatId == null && datesIndex >= 0);
+
+            if(whatId != null) peByContact.put(contactId, whatId);
+        }
+        createNotificationsAndUpdateContacts(peByContact);
+    }
+
+    private Map<Id, Map<Datetime, String>> getPermSetByContactMap(List<PermissionSetAssignment> oldAssignments) {
         Set<Id> userIds = new Set<Id>();
-        for(PermissionSetAssignment assignment : oldAssignments) userIds.add(assignment.AssigneeId);
+        for (PermissionSetAssignment assignment : oldAssignments) userIds.add(assignment.AssigneeId);
 
         List<PermissionSetAssignment> assignments = [
                 SELECT
@@ -36,7 +66,7 @@ public with sharing class Batch_FollowUpReminder extends Batch_ScheduledAbstract
                         SystemModstamp
                 FROM PermissionSetAssignment
                 WHERE AssigneeId IN:userIds
-                AND PermissionSet.Name IN: CommunityTemplateService.getAllPermissionSets()
+                AND PermissionSet.Name IN:CommunityTemplateService.getAllPermissionSets()
         ];
         Map<Id, Map<Datetime, String>> permSetNameWithDTByContact = new Map<Id, Map<Datetime, String>>();
         for (PermissionSetAssignment assignment : assignments) {
@@ -44,12 +74,16 @@ public with sharing class Batch_FollowUpReminder extends Batch_ScheduledAbstract
             if (!permSetNameWithDTByContact.containsKey(contactId)) {
                 permSetNameWithDTByContact.put(contactId, new Map<Datetime, String>());
             }
-
             Map<Datetime, String> dateTimeByPermSet = permSetNameWithDTByContact.get(contactId);
             dateTimeByPermSet.put(assignment.SystemModstamp, assignment.PermissionSet.Name);
             permSetNameWithDTByContact.put(contactId, dateTimeByPermSet);
         }
+        return permSetNameWithDTByContact;
+    }
 
+    private Map<Id, List<Participant_Enrollment__c>> getEnrollmentsByContact(
+            Map<Id, Map<Datetime, String>> permSetNameWithDTByContact
+    ) {
         List<Participant_Enrollment__c> enrollments = [
                 SELECT Id,
                         Clinical_Trial_Profile__r.CommunityTemplate__c,
@@ -57,20 +91,17 @@ public with sharing class Batch_FollowUpReminder extends Batch_ScheduledAbstract
                 FROM Participant_Enrollment__c
                 WHERE Participant_Contact__c IN:permSetNameWithDTByContact.keySet()
         ];
-        Map<Id, Id> peByContact = new Map<Id, Id>();
-        for (Participant_Enrollment__c pe : enrollments) {
-            Id participantContact = pe.Participant_Contact__c;
-            if(!peByContact.containsKey(participantContact)) {
-                Map<Datetime, String> permByDT = permSetNameWithDTByContact.get(participantContact);
-                List<Datetime> datesSet = new List<Datetime>(permByDT.keySet());
-                String permissionName = permByDT.get(datesSet.get(datesSet.size() - 1));
-                if(pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                        CommunityTemplateService.getTemplateByPermissionSetName(permissionName).templateName) {
-                    peByContact.put(participantContact, pe.Id);
-                }
+        Map<Id, List<Participant_Enrollment__c>> enrollmentsByContact = new Map<Id, List<Participant_Enrollment__c>>();
+        for (Participant_Enrollment__c enrollment : enrollments) {
+            if (!enrollmentsByContact.containsKey(enrollment.Participant_Contact__c)) {
+                enrollmentsByContact.put(enrollment.Participant_Contact__c, new List<Participant_Enrollment__c>());
             }
+            enrollmentsByContact.get(enrollment.Participant_Contact__c).add(enrollment);
         }
+        return enrollmentsByContact;
+    }
 
+    private void createNotificationsAndUpdateContacts(Map<Id, Id> peByContact) {
         List<Contact> contacts = new List<Contact>();
         List<Notification__c> notifications = new List<Notification__c>();
         for (Id contactId : peByContact.keySet()) {
@@ -93,7 +124,7 @@ public with sharing class Batch_FollowUpReminder extends Batch_ScheduledAbstract
     }
 
     public override String getBatchDescription() {
-        return super.getBatchDescription();
+        return 'Creates Follow-up notifications when participant does not enroll in X number of days';
     }
 
     public override String getRecommendedIntervalMode() {

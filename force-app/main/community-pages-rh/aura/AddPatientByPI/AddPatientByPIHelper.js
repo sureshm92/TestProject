@@ -21,7 +21,9 @@
         component.set('v.isValid', false);
         component.set('v.isDelegateValid', false);
         component.set('v.needsGuardian', false);
+        component.set('v.doNotContact', false);
         component.find('checkbox-delegate').getElement().checked = false;
+        component.find('checkbox-doContact').getElement().checked = false;
     },
 
     createParticipant: function (component, callback) {
@@ -37,6 +39,7 @@
             userLanguage: userLanguage,
             ssId: (ssId ? ssId : component.get('v.ss').Id),
             createUser: component.get('v.createUsers'),
+            doNotContact: component.get('v.doNotContact'),
             participantDelegateJSON: JSON.stringify(component.get('v.participantDelegate')),
             delegateDuplicateInfo: JSON.stringify(component.get('v.delegateDuplicateInfo'))
         }, function (createdPE) {
@@ -100,7 +103,7 @@
                 emailDelegateCmp.reportValidity();
                 emailDelegateRepeatCmp.reportValidity();
             }
-            if (!emailDelegateCmp.get('v.validity').valid) {
+            if (emailDelegateCmp && !emailDelegateCmp.get('v.validity').valid) {
                 isEmailValid = false;
             }
         }
@@ -126,7 +129,9 @@
         }, function (returnValue) {
             console.log('isNeedGuardian: ' + returnValue);
             var isNeedGuardian = (returnValue == 'true');
-            if (!isNeedGuardian && callback) callback();
+            if (!isNeedGuardian && callback) {
+                callback();
+            }
             console.log('checkNeedsGuardian - SUCCESS: ' + isNeedGuardian);
 
             component.set('v.participant.Adult__c', !isNeedGuardian);
@@ -158,6 +163,7 @@
         }, function (returnValue) {
             component.set('v.delegateDuplicateInfo', returnValue);
             if(returnValue.isDuplicateDelegate || returnValue.contactId || returnValue.participantId) component.set('v.useThisDelegate', false);
+            else component.set('v.useThisDelegate', true);
             var participantDelegate = component.get('v.participantDelegate');
             if(returnValue.email) participantDelegate.Email__c = returnValue.email;
             if(returnValue.lastName) participantDelegate.Last_Name__c = returnValue.lastName;
