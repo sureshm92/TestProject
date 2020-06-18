@@ -43,7 +43,7 @@ public class TrialMatchLearnMoreLinkPDF {
     public static Clinical_Trial_Profile__c fetchCTPLearnMoreDetails(Id ctpId) {
         Clinical_Trial_Profile__c ctpDetails;
         try {
-            ctpDetails = [SELECT Id,Study_Code_Name__c,Detailed_Description__c FROM Clinical_Trial_Profile__c WHERE Id =:ctpId];
+            ctpDetails = [SELECT Id,Study_Code_Name__c, Study_Content__c, Detailed_Description__c FROM Clinical_Trial_Profile__c WHERE Id =:ctpId];
             return ctpDetails;
         } catch (Exception e) {
             return (Clinical_Trial_Profile__c) AuraHelper.throwException(e);

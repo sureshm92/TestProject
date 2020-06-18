@@ -1,0 +1,28 @@
+<!--
+ - Created by Nargiz Mamedova on 6/10/2020.
+ -->
+
+<aura:component description="SmallIconButton">
+
+    <!-- attributes: -->
+    <aura:attribute name="user" type="User"/>
+    <aura:attribute name="isDelegate" type="Boolean"/>
+    <aura:attribute name="reset" type="Boolean" default="false"/>
+
+    <aura:method name="refresh" action="{!c.doRefresh}" access="public"/>
+
+    <aura:if isTrue="{!not(v.reset)}">
+<!--        <aura:if isTrue="{!notequals(v.user.SmallPhotoUrl,'/profilephoto/005/T')}">-->
+<!--            <lightning:avatar src="{!v.user.SmallPhotoUrl}" variant="circle" size="medium"-->
+<!--                              alternativeText="{!v.user.Contact.FirstName + ' ' + v.user.Contact.LastName}"-->
+<!--                              fallbackIconName="standard:avatar"/>-->
+<!--            <aura:set attribute="else">-->
+<!--                <div title="{!v.user.Contact.FirstName + ' ' + v.user.Contact.LastName}">-->
+                    <c:RRIcon color="white" class="small-avatar"
+                              iconName="{!if(v.isDelegate, 'multiple-neutral-circle', 'single-neutral')}"/>
+<!--                </div>-->
+<!--            </aura:set>-->
+<!--        </aura:if>-->
+    </aura:if>
+    <c:RRIcon color="white" iconName="arrow-button-down-2" class="arrow-down"/>
+</aura:component>

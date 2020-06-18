@@ -2551,6 +2551,11 @@
         <field>Clinical_Trial_Profile__c.Study_Code_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Study_Content__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Study_Design__c</field>
@@ -6359,6 +6364,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Visit_Results_Sharing__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Completed_training__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Review_Board_Approval__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

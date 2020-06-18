@@ -1,5 +1,8 @@
 #!/bin/sh
 
+echo "Clean up previous scratch org"
+sfdx force:org:delete -p
+
 echo "Creating scratch org..."
 sfdx force:org:create -f config/project-scratch-def.json -d 30 -s -a $1
 

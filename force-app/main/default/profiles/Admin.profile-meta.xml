@@ -153,6 +153,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_FollowUpReminder</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_HCPEStatusUpdate</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2438,6 +2442,11 @@
         <field>Clinical_Trial_Profile__c.Override_Status_Updated_By__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Participant_Visit_Result_Group__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Participant_Workflow_Final_Step__c</field>
@@ -2591,6 +2600,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Study_Code_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Study_Content__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2900,6 +2914,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Is_First_Logon__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Is_FollowUp_Sent__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3295,6 +3314,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Execution_History__c.Stack_Trace__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>FollowUp_Reminder__mdt.Days_after_Permission_gets__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6313,6 +6337,11 @@
         <field>Study_Site__c.Chart_Review__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Completed_training__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.Cleaned_Study_Key__c</field>
@@ -6461,6 +6490,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.ReferralNetworkId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Review_Board_Approval__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

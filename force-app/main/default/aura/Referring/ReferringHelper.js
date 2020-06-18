@@ -154,15 +154,17 @@
             lastName: lastName
         }, function (returnValue) {
             component.set('v.delegateDuplicateInfo', returnValue);
+            if(returnValue.isDuplicateDelegate || returnValue.contactId || returnValue.participantId) component.set('v.useThisDelegate', false);
+            else component.set('v.useThisDelegate', true);
             var participantDelegate = component.get('v.delegateParticipant');
             if(returnValue.email) participantDelegate.Email__c = returnValue.email;
             if(returnValue.lastName) participantDelegate.Last_Name__c = returnValue.lastName;
             if(returnValue.firstName) participantDelegate.First_Name__c = returnValue.firstName;
-            if(returnValue.contactPhoneType) participantDelegate.Phone_Type__c = returnValue.contactPhoneType;
-            if(returnValue.contactPhoneNumber) participantDelegate.Phone__c = returnValue.contactPhoneNumber;
+            //if(returnValue.contactPhoneType) participantDelegate.Phone_Type__c = returnValue.contactPhoneType;
+            //if(returnValue.contactPhoneNumber) participantDelegate.Phone__c = returnValue.contactPhoneNumber;
             component.set('v.delegateParticipant',participantDelegate);
+            spinner.hide();
         });
-        spinner.hide();
     },
 
     checkParticipantNeedsGuardian: function (component, helper) {

@@ -211,6 +211,12 @@
 
         component.set('v.isValid', isValid);
         console.log('isValid5' + isValid);
+
+        let parentComponent = component.get('v.parentComponent');
+        if (parentComponent && parentComponent.refreshParticipant) {
+            parentComponent.refreshParticipant();
+        }
+
         return isValid;
     },
 
@@ -275,10 +281,6 @@
 
     hideHelp: function (component) {
         component.set('hideHelp', false);
-    },
-
-    doCreateUserInv: function (component) {
-        component.set('v.createUsers', !component.get('v.createUsers'));
     }
 
 })

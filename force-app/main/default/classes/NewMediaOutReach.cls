@@ -14,10 +14,11 @@ public with sharing class NewMediaOutReach {
     public  static String lstvalsite;
     public  static string lstvalstudy;
     public  static  List<Study_Site__c> studyDataLast;
+   
     public class CommunityPreferred {
         @AuraEnabled public string preEmail;
         @AuraEnabled public string prePhone;
-        @AuraEnabled public string preName;
+        @AuraEnabled public string studyName;
         
         public CommunityPreferred(){
         }  
@@ -57,20 +58,55 @@ public with sharing class NewMediaOutReach {
 * @Description: To Pass the list of study.
 **/
     
-    @AuraEnabled
-    public static List<Study_Site__c> getstudyData(string dataStudy) {
-         Clinical_Trial_Profile__c ctpdata;
-        Integer limitRows = Limits.getLimitQueryRows() - Limits.getQueryRows();
-        if((String.isNotBlank(dataStudy))){
-             ctpdata =[SELECT id,Study_Code_Name__c,Name from Clinical_Trial_Profile__c WHERE Study_Code_Name__c =:dataStudy LIMIT 1];
-            }
-            if(ctpdata != null){
-            studyDataLast =[SELECT id,Site__r.Name,Clinical_Trial_Profile__r.Study_Code_Name__c,Name from Study_Site__c WHERE Clinical_Trial_Profile__c =:ctpdata.Id LIMIT :limitRows];
-            }
-        return studyDataLast;
+   @AuraEnabled
+    public static List<NewMediaOutReach.CommunityPreferred> getstudyData(string dataStudy) {
+        List<NewMediaOutReach.CommunityPreferred> result = new List<NewMediaOutReach.CommunityPreferred>();
+        NewMediaOutReach.CommunityPreferred studyPoistion;
+        Clinical_Trial_Profile__c ctpdata;
+        Id studyContactId;
+        Contact userContact = CommunityService.getUserContact();
         
-    }
-    /**   
+        studyContactId = userContact.Id;
+        Contact con =[SELECT id,UserCommunityIsDelegate__c FROM Contact WHERE Id =:studyContactId LIMIT 1];
+        Integer limitRows = Limits.getLimitQueryRows() - Limits.getQueryRows();
+        
+        //for PI 
+        
+        if((String.isNotBlank(dataStudy))){
+            ctpdata =[SELECT id,Study_Code_Name__c,Name from Clinical_Trial_Profile__c WHERE Study_Code_Name__c =:dataStudy LIMIT 1];
+        }
+        if(studyContactId != null && con.UserCommunityIsDelegate__c == false){
+            if(ctpdata != null){
+                studyDataLast =[SELECT id,Site__r.Name,Clinical_Trial_Profile__r.Study_Code_Name__c,Name FROM Study_Site__c WHERE Clinical_Trial_Profile__c =:ctpdata.Id AND Principal_Investigator__c =:studyContactId LIMIT :limitRows];
+                for(Study_Site__c sc: studyDataLast){
+                    studyPoistion = new NewMediaOutReach.CommunityPreferred();
+                    studyPoistion.studyName = sc.Name;
+                    result.add(studyPoistion);
+                }
+            }
+        }
+        //for PI staff
+        if(studyContactId != null && con.UserCommunityIsDelegate__c == true ){
+            if(ctpdata != null){
+                List<id> studySiteIds = new List<Id>();
+                List<Site_Staff__c> sitestaffDetails = [SELECT id,Delegate_Level__c,Study_Site__r.Clinical_Trial_Profile__c,Study_Site__r.Clinical_Trial_Profile__r.Media_outreach_Provider__c,Study_Site__c,Site_Contact__c FROM Site_Staff__c where Site_Contact__c =:studyContactId AND Study_Site__r.Clinical_Trial_Profile__r.Media_outreach_Provider__c != null  AND Study_Site__r.Clinical_Trial_Profile__c =:ctpdata.id LIMIT :limitRows];
+                for(Site_Staff__c sitestaff: sitestaffDetails) {
+                    studySiteIds.add(sitestaff.Study_Site__c);
+                } 
+                if(!studySiteIds.isEmpty()){
+                    studyDataLast =[SELECT id,Site__r.Name,Clinical_Trial_Profile__r.Study_Code_Name__c,Name FROM Study_Site__c WHERE id in: studySiteIds LIMIT :limitRows];
+                    for(Study_Site__c sc: studyDataLast){
+                        studyPoistion = new NewMediaOutReach.CommunityPreferred();
+                        studyPoistion.studyName = sc.Name;
+                        result.add(studyPoistion);
+                    }
+                }
+            }
+        }
+        return result;
+        
+    } 
+ /**   
 * @Author: Vicky
 * @name: getstudyData
 * @CreateDate: 2020-05-25
