@@ -6,41 +6,44 @@
 
     <aura:attribute name="communityModesList" type="List"/>
 
-<!--    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
+    <!--    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
 
     <!-- events: -->
     <aura:registerEvent access="global" name="onclick" type="c:uiEvent"/>
-
+    <div class="main-container">
     <aura:iteration items="{!v.communityModesList}" var="modeGroup">
-        <aura:if isTrue="{!!modeGroup.isGroup}">
-            <div data-group-id="{!modeGroup.itemType}" data-delegate-id="{!modeGroup.itemId}" class="{!'mode-group ' + if(modeGroup.isSelected, 'selected', '')}" onclick="{!c.doSwitchMode}">
-                {!modeGroup.title}
-                <aura:if isTrue="{!modeGroup.isSelected}">
-                    <c:RRIcon iconName="icon-check" class="selected-mode-group-icon"/>
-                </aura:if>
+        <c:uiMenuItem onclick="{!c.doSelectItem}"
+                      itemValue="{!modeGroup}" class="unset">
+            <div class="main-box">
+                    <aura:if isTrue="{!modeGroup.isCollapsed}">
+                        <div class="{!'icon-box ' + if(modeGroup.isGroup, 'icon-unset ','')}"><c:RRIcon iconName="icon-chevron-right"
+                                  class="{!'mode-icon ' + if(modeGroup.isSelected,'selected ','')}"/></div>
+                        <aura:set attribute="else">
+                            <div class="{!'icon-box ' + if(modeGroup.isGroup, 'icon-unset ','')}"><c:RRIcon iconName="icon-chevron-down"
+                                           class="{!'mode-icon ' + if(modeGroup.isSelected,'selected ','')}"/></div>
+                        </aura:set>
+                    </aura:if>
+                    <div data-group-id="{!modeGroup.itemType}"
+                         class="{!'mode-group ' + if(modeGroup.isSelected, 'selected', '')}"
+                         onclick="{!c.doToggleGroup}">
+                        {!modeGroup.title}
+                    </div>
             </div>
-            <aura:set attribute="else">
-                <aura:if isTrue="{!modeGroup.isCollapsed}">
-                    <c:RRIcon iconName="icon-chevron-right" class="{!if(modeGroup.isSelected,'selected ','') + 'mode-group-icon'}"/>
-                    <aura:set attribute="else">
-                        <c:RRIcon iconName="icon-chevron-down" class="{!if(modeGroup.isSelected,'selected ','') + 'mode-group-icon'}"/>
-                    </aura:set>
-                </aura:if>
-                <div data-group-id="{!modeGroup.itemType}" class="{!'mode-group ' + if(modeGroup.isSelected, 'selected', '')}" onclick="{!c.doToggleGroup}">
-                    {!modeGroup.title}
-                </div>
-                <aura:if isTrue="{!!modeGroup.isCollapsed}">
-                    <aura:iteration items="{!modeGroup.subItems}" var="subItem">
-                        <div data-group-id="{!subItem.itemType}" data-delegate-id="{!subItem.itemId}" class="{!'mode-sub-item ' + if(subItem.isSelected,'selected','')}" onclick="{!c.doSwitchMode}">
+            <aura:if isTrue="{!!modeGroup.isCollapsed}">
+                <aura:iteration items="{!modeGroup.subItems}" var="subItem">
+                    <c:uiMenuItem onclick="{!c.doSelectItem}"
+                                  itemValue="{!subItem}" class="unset">
+                        <div data-group-id="{!subItem.itemType}" data-delegate-id="{!subItem.itemId}"
+                             class="{!'mode-sub-item ' + if(subItem.isSelected,'selected','')}">
                             {!subItem.title}
                             <aura:if isTrue="{!subItem.isSelected}">
-                                <c:RRIcon iconName="icon-check" class="selected-mode-sub-item-icon"/>
+                                <c:RRIcon iconName="icon-check" class="icon-check"/>
                             </aura:if>
                         </div>
-                    </aura:iteration>
-                </aura:if>
-            </aura:set>
-        </aura:if>
-
+                    </c:uiMenuItem>
+                </aura:iteration>
+            </aura:if>
+        </c:uiMenuItem>
     </aura:iteration>
+    </div>
 </aura:component>
