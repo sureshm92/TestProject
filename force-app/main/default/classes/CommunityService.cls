@@ -33,7 +33,6 @@ public without sharing class CommunityService {
     public static final String USER_MODE_PI = 'PI';
     public static final String USER_MODE_PARTICIPANT = 'Participant';
     public static final String USER_MODE_CC = 'CC';
-
     //Exception messages
     public static String ERROR_MISSING_STUDY = 'Unexpected error occurred. Contact administrator.';
     private static String ERROR_MISSING_CONTACT_ON_USER = 'User Contact can not be NULL';
@@ -218,7 +217,19 @@ public without sharing class CommunityService {
         newUser.setOptions(dlo);
         return newUser;
     }
-
+    
+    //for activating CC Users 
+    @Future
+    public static void ActivateUsers(Set<Id> contactIds) {
+        List<User> users = [
+                SELECT Id, IsActive
+                FROM User
+                WHERE ContactId IN :contactIds
+        ];
+        for (User u : users) u.IsActive = true;
+        update users;
+    }
+    
     @Future
     public static void deactivateUsers(List<Id> contactIds) {
         List<User> users = [
