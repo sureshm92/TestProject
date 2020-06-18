@@ -50,6 +50,10 @@
                             <c:CommunityNavigation aura:id="navigation" mode="{!v.currentMode.userMode}" currentPage="{!v.currentPage}"/>
                         </div>
                         <div class="right-block" data-gtm="community_mode_switcher">
+                            <div class="bell-container">
+                                <forceCommunity:notifications/>
+
+                            </div>
                             <aura:if isTrue="{!v.showModeSwitcher}">
                                 <c:CommunityModeSwitcher allModes="{!v.allModes}" currentMode="{!v.currentMode}"
                                                          onModeChange="{!c.doRefresh}"/>

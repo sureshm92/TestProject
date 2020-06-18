@@ -6337,6 +6337,11 @@
         <field>Study_Site__c.Chart_Review__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Completed_training__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.Cleaned_Study_Key__c</field>
@@ -6485,6 +6490,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.ReferralNetworkId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Review_Board_Approval__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
