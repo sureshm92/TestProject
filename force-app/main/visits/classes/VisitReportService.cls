@@ -49,11 +49,11 @@ public inherited sharing class VisitReportService {
                         if(!PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)){
                             reportRowWrappers.add(patientVisit.Planned_Date__c != null ? 
                                     new VisitReportContainerRemote.VisitDateColumnWrapper(patientVisit.Planned_Date__c) :
-                                    new VisitReportContainerRemote.VisitValueWrapper('______'));
+                                    new VisitReportContainerRemote.VisitDateColumnWrapper('______'));
                         } else{
                             reportRowWrappers.add(patientVisit.Completed_Date__c != null ? 
                                     new VisitReportContainerRemote.VisitDateColumnWrapper(patientVisit.Completed_Date__c) :
-                                    new VisitReportContainerRemote.VisitValueWrapper('______'));
+                                    new VisitReportContainerRemote.VisitDateColumnWrapper('______'));
                         }
                         Boolean isResult = false;
                         for (VisitResultWrapper visitResultWrapper : availableVisitResultSortWrappers) {
