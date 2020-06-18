@@ -89,7 +89,7 @@
                                     <lightning:select class="lightningInput" value="{!v.site}" aura:id="siteId" onchange="{!c.studyType}">
                                     <option value="">{!$Label.c.Select_Site}</option>
                                     <aura:iteration items="{!v.studyData}" var="itms">
-                                    <option value="{!itms.Name}" label="{!itms.Name}"></option>
+                                    <option value="{!itms.studyName}" label="{!itms.studyName}"></option>
                                         </aura:iteration>
                                    </lightning:select>
                                         </div>
