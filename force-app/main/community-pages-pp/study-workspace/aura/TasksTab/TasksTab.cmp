@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev  
  -->
 
-<aura:component description="TasksTab" controller="TasksRemote">
+ <aura:component description="TasksTab" controller="TasksRemote">
 
     <!-- attributes: -->
     <aura:attribute name="taskMode" type="String" default="{!$Label.c.Task_Tab_Open_Tasks}"/>
@@ -33,9 +33,12 @@
             <aura:if isTrue="{!v.taskMode == 'Open'}">
                 <div class="tt-title">{!$Label.c.Task_Tab_Open_Tasks}
                     <aura:if isTrue="{!v.showCreateTaskButton}">
-                        <button class="apollo-btn primary" onclick="{!c.doCreateNewTask}">{!$Label.c.BTN_Create_New_Task}</button>
+                        <button class="apollo-btn primary" onclick="{!c.doCreateNewVisit}">Create Visit Reminder</button>
+						<button class="apollo-btn primary" onclick="{!c.doCreateNewTask}">{!$Label.c.BTN_Create_New_Task}</button>
                     </aura:if>
                 </div>
+				 
+                    
                 <div class="rr-white-panel">
                     <c:RRTable>
                         <tr>
