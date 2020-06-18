@@ -4,9 +4,11 @@
 
 public with sharing class SiteStaffTableRemote {
 
+    public static final String FEATURE_SITE_STAFF_INVITATION = 'Site_Staff_Invitation';
     public final static String PI_ACCESS_LEVEL_LABEL = 'Principal Investigator';
 
     public class InitData {
+        @AuraEnabled public String viewMode;
         @AuraEnabled public Boolean inInvitationSentState;
         @AuraEnabled public List<SiteStaffWrapper> siteStaffMembers;
     }
@@ -21,6 +23,10 @@ public with sharing class SiteStaffTableRemote {
     @AuraEnabled
     public static InitData getInitData(String ssId){
         InitData data = new InitData();
+        data.viewMode = GetPermissions.getViewMode(FEATURE_SITE_STAFF_INVITATION);
+        if (data.viewMode == 'Disabled') {
+            return data;
+        }
         Study_Site__c ss = [SELECT id, Principal_Investigator__c, Principal_Investigator__r.Id, Principal_Investigator__r.Name, Principal_Investigator__r.Email, Override_PI_Referral_Status__c, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Study_Site__c WHERE Id = :ssId];
         Set<Id> staffContactIds = new Set<Id>();
         Map<Id, SiteStaffWrapper> siteStaffWrapperMap = new Map<Id, SiteStaffWrapper>();
@@ -33,6 +39,9 @@ public with sharing class SiteStaffTableRemote {
         siteStaffWrapperMap.put(ss.Principal_Investigator__c, piWrapper);
         data.siteStaffMembers.add(piWrapper);
         for (Site_Staff__c staffMember: [SELECT Id, Delegate_Level__c, Study_Site__c, Site_Contact__r.Id, Site_Contact__r.Name, Site_Contact__r.Email FROM Site_Staff__c WHERE Study_Site__c = :ssId  ORDER BY Delegate_Level__c ASC ]){
+            if (staffContactIds.contains(staffMember.Site_Contact__c)) {
+                continue;
+            }
             SiteStaffWrapper staffMemberWrapper = new SiteStaffWrapper();
             staffMemberWrapper.staffContact = staffMember.Site_Contact__r;
             staffMemberWrapper.accessLevel = staffMember.Delegate_Level__c;
