@@ -13050,6 +13050,13 @@ communications using the toggles below.</value>
         <value>Log Out</value>
     </labels>
     <labels>
+        <fullName>Profile_Menu_More</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Profile Menu More</shortDescription>
+        <value>More</value>
+    </labels>
+    <labels>
         <fullName>Programmed_death_ligand_1</fullName>
         <language>en_US</language>
         <protected>true</protected>
