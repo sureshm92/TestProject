@@ -74,6 +74,7 @@
             console.log('editForm checkFields');
         } else {
             component.set('v.isDelegateValid', false);
+            component.set('v.useThisDelegate', true);
             let editForm = component.find('editForm');
             editForm.checkFields();
             component.set('v.emailDelegateRepeat', '');
