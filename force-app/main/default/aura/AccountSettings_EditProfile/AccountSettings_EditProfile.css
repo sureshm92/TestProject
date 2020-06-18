@@ -8,8 +8,11 @@
 .THIS.as-container {
     position: relative;
     padding-bottom: 100px;
-        margin-bottom: -2%;
-   
+}
+
+.THIS .contactDesc {
+    width: 80%;
+    font-size: 1rem;
 }
 
 .THIS .slds-select_container{
@@ -28,9 +31,13 @@
     
     
 }
-.THIS .mar{
-    margin-left:-95px;
-    
+
+.THIS .smallName {
+    width: 115px;
+}
+
+.THIS .nickname {
+    max-width: 270px;
 }
 .THIS .suffix{
     width:156px;
@@ -65,6 +72,11 @@
 
 .THIS .as-info > .rr-form-element{
     margin-top: 20px;
+}
+
+
+.THIS .as-container .as-email-preference {
+    margin-top: 40px;
 }
 
 .THIS.as-container .as-privacy{
@@ -169,7 +181,6 @@
     height: 55px;
 }*/
   .THIS .username_title {
-
         height: 17px;
         width: 70px;
         color: #000000;

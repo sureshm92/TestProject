@@ -40,8 +40,8 @@ public without sharing class Batch_CreatePushNotificationForPE extends Batch_Sch
 
         List<Notification__c> notifications = new List<Notification__c>();
         for (Participant_Enrollment_Status_History__c peStatusHistory : pesHistories) {
-            if (peStatusHistory.Date__c != null && System.today().daysBetween(peStatusHistory.Date__c.date()) >= DAYS_NO_CONTACT ||
-                    System.today().daysBetween(peStatusHistory.CreatedDate.date()) >= DAYS_NO_CONTACT) {
+            if (peStatusHistory.Date__c != null && peStatusHistory.Date__c.date().daysBetween(System.today()) >= DAYS_NO_CONTACT ||
+                    peStatusHistory.CreatedDate.date().daysBetween(System.today()) >= DAYS_NO_CONTACT) {
                 notifications.add(new Notification__c(
                         Recipient__c = peStatusHistory.ParticipantEnrollment__r.PI_Contact__c,
                         WhatId__c = peStatusHistory.ParticipantEnrollment__r.Clinical_Trial_Profile__c,

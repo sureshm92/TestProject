@@ -74,6 +74,7 @@
             console.log('editForm checkFields');
         } else {
             component.set('v.isDelegateValid', false);
+            component.set('v.useThisDelegate', true);
             let editForm = component.find('editForm');
             editForm.checkFields();
             component.set('v.emailDelegateRepeat', '');
@@ -81,6 +82,12 @@
     },
     
     approveDelegate:function(component, event, helper) {
+        var ddi = component.get('v.delegateDuplicateInfo');
+        var partDel = component.get('v.participantDelegate');
+        if(ddi.contactPhoneType) partDel.Phone_Type__c = ddi.contactPhoneType;
+        if(ddi.contactPhoneNumber) partDel.Phone__c = ddi.contactPhoneNumber;
+        component.set('v.participantDelegate', partDel);
+        component.set('v.useThisDelegate', true);
         component.set('v.useThisDelegate', true);
     },
 
