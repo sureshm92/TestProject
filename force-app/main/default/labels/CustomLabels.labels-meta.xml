@@ -5779,7 +5779,15 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>IncentiveProgram_Redeem_Points_Disclaimer</shortDescription>
-        <value>Start earning points now. Redemption opportunities coming soon.</value>
+        <value>Start earning points now.</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Redeem_Points_Disclaimer2</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Redeem_Points_Disclaimer2</shortDescription>
+        <value>Redemption opportunities coming soon.</value>
     </labels>
     <labels>
         <fullName>IncentiveProgram_Select_Study_Site</fullName>
