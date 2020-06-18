@@ -12,15 +12,18 @@ public without sharing class SSIncentiveConfigSearchResponse {
     public SSIncentiveConfigSearchResponse(StudySiteFilter filter, PaginationData pagination){
         this.pagination = pagination;
         List<Study_Site__c> ssList = SearchService.search(filter, this.pagination);
-        incentivePlans = getIncentivePlans(filter.pageFeatureIds);
-        studySiteItems = convertToSSItems(ssList, filter.pageFeatureIds);
+        incentivePlans = getIncentivePlans(filter);
+        studySiteItems = convertToSSItems(ssList, filter, true);
         haveEmptyAssigment = isHaveEmptyAssignment(filter);
     }
 
-    private static List<LabelValueItem> getIncentivePlans(String selectedIPIdsStr) {
-        Map<Id, Incentive_Plan__c> ipMap = new Map<Id, Incentive_Plan__c>([SELECT Id, Name, Plan_Name__c FROM Incentive_Plan__c]);
+    private static List<LabelValueItem> getIncentivePlans(StudySiteFilter filter) {
+        Map<Id, Incentive_Plan__c> ipMap = new Map<Id, Incentive_Plan__c>([
+                SELECT Id, Name, Plan_Name__c
+                FROM Incentive_Plan__c
+                WHERE Clinical_Trial_Profile__c = :filter.ctpId]);
         List<Id> selectedIPIds = new List<Id>(ipMap.keySet());
-        if (!String.isEmpty(selectedIPIdsStr)) selectedIPIds = selectedIPIdsStr.split(';');
+        if (!String.isEmpty(filter.pageFeatureIds)) selectedIPIds = filter.pageFeatureIds.split(';');
         List<LabelValueItem> incentivePlans = new List<LabelValueItem>();
         for (Id ipId : selectedIPIds) {
             Incentive_Plan__c ip = ipMap.get(ipId);
@@ -30,13 +33,13 @@ public without sharing class SSIncentiveConfigSearchResponse {
     }
 
     private static Boolean isHaveEmptyAssignment(StudySiteFilter filter){
-        List<Study_Site__c> allSSList = [SELECT Id, (SELECT Id FROM Study_Incentive_Plans__r) FROM Study_Site__c WHERE Clinical_Trial_Profile__c =: filter.ctpId];
+        List<Study_Site__c> allSSList = [SELECT Id, (SELECT Id FROM Study_Incentive_Plans__r) FROM Study_Site__c WHERE Clinical_Trial_Profile__c = :filter.ctpId];
         for (Study_Site__c ss : allSSList) if (ss.StudySiteVisitPlans__r.isEmpty()) return true;
         return false;
     }
 
-    public static List<StudySiteItem> convertToSSItems(List<Study_Site__c> studySites, String selectedIPIdsStr) {
-        List<LabelValueItem> incentivePlans = getIncentivePlans(selectedIPIdsStr);
+    public static List<StudySiteItem> convertToSSItems(List<Study_Site__c> studySites, StudySiteFilter filter, Boolean fromInit) {
+        List<LabelValueItem> incentivePlans = getIncentivePlans(filter);
         Map<Id, List<Study_Incentive_Plan__c>> ssIncentivePlansBySSIdMap = getIncentivePlansBySSIdMap(studySites);
         List<StudySiteItem> studySiteItems = new List<StudySiteItem>();
         for (Study_Site__c ss : studySites) {
@@ -45,6 +48,7 @@ public without sharing class SSIncentiveConfigSearchResponse {
             StudySiteItem item = new StudySiteItem(new LabelValueItem(countryName, countryCode), ss.Name, ss);
             List<Study_Incentive_Plan__c> ssIPList = ssIncentivePlansBySSIdMap.containsKey(ss.Id) ? ssIncentivePlansBySSIdMap.get(ss.Id) : new List<Study_Incentive_Plan__c>();
             item.emptyAssignments = ssIPList.isEmpty();
+            Boolean hasCheckedIncentives = false;
             for (LabelValueItem ip : incentivePlans) {
                 Id ssIPId;
                 for (Study_Incentive_Plan__c ssIP : ssIPList){
@@ -53,9 +57,12 @@ public without sharing class SSIncentiveConfigSearchResponse {
                         break;
                     }
                 }
+                hasCheckedIncentives = hasCheckedIncentives || ssIPId != null;
                 item.assignments.add(new ValueStateItem(ip.value, ssIPId));
             }
-            studySiteItems.add(item);
+            if (!fromInit || fromInit && (hasCheckedIncentives || String.isEmpty(filter.pageFeatureIds))) {
+                studySiteItems.add(item);
+            }
         }
         return studySiteItems;
     }

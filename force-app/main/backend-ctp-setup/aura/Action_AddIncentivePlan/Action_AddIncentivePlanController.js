@@ -65,7 +65,8 @@
 		if(plName.trim()) {
 			communityService.executeAction(component, 'createUpdateIncentivePlan', {
 				tasksString: tasksWrapString,
-				planName: plName
+				planName: plName,
+				ctpId: component.get('v.recordId')
 			}, function (ipId) {
 				component.find('createIncentiveTask').hide();
 				component.find('spinner').hide();
