@@ -24,7 +24,9 @@ public without sharing class CommunityModes {
     public class PPCommunityModeItem{
         public String title;
         public String subTitle;
+        public Boolean isDelegate;
         public Boolean isSelected;
+        public List<PPCommunityModeItem> subItems;
     }
     
     public String type; // MODE_TYPE_PP_ONLY/ MODE_TYPE_RH_ONLY/ MODE_TYPE_PP_AND_RH
@@ -33,6 +35,7 @@ public without sharing class CommunityModes {
     
     public Boolean isPPItemsCollapsed; //only for MODE_TYPE_PP_AND_RH mode
     public Boolean isRHItemsCollapsed; //only for MODE_TYPE_PP_AND_RH mode
-    
+    public Boolean isPPItemsSelected;
+    public Boolean isRHItemsSelected;
 
 }
