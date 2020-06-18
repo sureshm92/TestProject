@@ -30,6 +30,7 @@
         <aura:if isTrue="{!equals(v.communityModes.type, 'PP_And_RH')}">
             <c:UnifiedStructurePP_RH communityModes="{!v.communityModes}"/>
         </aura:if>
+        <c:CommunityModeSwitcherMenuButtons type="{!v.communityModes.type}"/>
         <lightning:button label="{!$Label.c.Profile_Menu_Log_Out}" class="apollo-btn logout-btn"
                           onclick="{!c.logout}"/>
     </c:uiHeaderMenu>
