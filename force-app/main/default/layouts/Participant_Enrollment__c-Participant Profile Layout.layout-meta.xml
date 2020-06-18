@@ -65,7 +65,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>To_permit_IQVIA_to_contact_the_participa__c</field>
+                <field>To_permit_IQVIA_to_contact_about_study__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

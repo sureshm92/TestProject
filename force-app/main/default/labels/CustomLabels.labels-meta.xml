@@ -1579,7 +1579,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Create Users Checkbox on Import</shortDescription>
-        <value>Participant included in this file have consented to receiving an invitation to the Patient Portal.</value>
+        <value>Participant(s) included in this file have consented to receiving an invitation to the Patient Portal.</value>
     </labels>
     <labels>
         <fullName>Created_Date</fullName>
