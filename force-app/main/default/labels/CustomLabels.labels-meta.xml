@@ -1491,13 +1491,6 @@
         <value>You can not edit this object. Delete and create a new one instead.</value>
     </labels>
     <labels>
-        <fullName>Cancel</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Cancel</shortDescription>
-        <value>Cancel</value>
-    </labels>
-    <labels>
         <fullName>Cancel_Request</fullName>
         <language>en_US</language>
         <protected>false</protected>
