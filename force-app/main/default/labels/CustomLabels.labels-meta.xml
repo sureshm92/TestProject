@@ -2355,7 +2355,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body FollowUp Reminder</shortDescription>
-        <value>You haven't confirmed your enrollment yet in ##ShortCommunityName. Please click the link bellow, so that you can enroll and view your study progress.
+        <value>You haven&apos;t confirmed your enrollment yet in ##ShortCommunityName. Please click the link bellow, so that you can enroll and view your study progress.
 
         Please note that enrollment in ##ShortCommunityName is not a requirement for you to be enrolled into the clinical research study.
 
@@ -12390,18 +12390,18 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Add Profile Photo</value>
     </labels>
     <labels>
-        <fullName>PP_Change_Preferences_Resource</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PP Change Preferences Resource</shortDescription>
-        <value>Change preferences here</value>
-    </labels>
-    <labels>
         <fullName>PP_Change_Notification</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP Change Notification</shortDescription>
         <value>Change your notificaiton setting under Account settings</value>
+    </labels>
+    <labels>
+        <fullName>PP_Change_Preferences_Resource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Change Preferences Resource</shortDescription>
+        <value>Change preferences here</value>
     </labels>
     <labels>
         <fullName>PP_Condition_of_Interest_title</fullName>
@@ -12416,6 +12416,14 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>true</protected>
         <shortDescription>PP Cookie Settings</shortDescription>
         <value>Cookie Settings</value>
+    </labels>
+    <labels>
+        <fullName>PP_Create_Visit_Reminder</fullName>
+        <categories>c:StudyVisitReminder</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Create Visit Reminder</shortDescription>
+        <value>Create Visit Reminder</value>
     </labels>
     <labels>
         <fullName>PP_Customize_Exp_Description</fullName>
@@ -12444,6 +12452,14 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>true</protected>
         <shortDescription>PP Customize search text</shortDescription>
         <value>Search</value>
+    </labels>
+    <labels>
+        <fullName>PP_Edit_Visit_Reminder</fullName>
+        <categories>c:StudyVisitReminder</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Edit Visit Reminder</shortDescription>
+        <value>Edit Visit Reminder</value>
     </labels>
     <labels>
         <fullName>PP_File_Size_Exceeded</fullName>
@@ -12563,6 +12579,14 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>true</protected>
         <shortDescription>PP_Profile_Update_Success</shortDescription>
         <value>Data Updated Successfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_Remind_Using</fullName>
+        <categories>c:StudyVisitReminder</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Remind_Using</shortDescription>
+        <value>Remind Using</value>
     </labels>
     <labels>
         <fullName>PP_Save_Changes</fullName>
@@ -13274,6 +13298,20 @@ communications using the toggles below.</value>
         <value>Referring Provider</value>
     </labels>
     <labels>
+        <fullName>Remind_Me</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Remind Me</shortDescription>
+        <value>Remind Me</value>
+    </labels>
+    <labels>
+        <fullName>Remind_Using</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Remind Using</shortDescription>
+        <value>Remind Using</value>
+    </labels>
+    <labels>
         <fullName>Reminder_3rd_Party_No_TA</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -13293,20 +13331,6 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Reminder Frequency</shortDescription>
         <value>Reminder Frequency</value>
-    </labels>
-    <labels>
-        <fullName>Remind_Me</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Remind Me</shortDescription>
-        <value>Remind Me</value>
-    </labels>
-    <labels>
-        <fullName>Remind_Using</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Remind Using</shortDescription>
-        <value>Remind Using</value>
     </labels>
     <labels>
         <fullName>Reminder_PlatformTA_No_TA</fullName>
@@ -14699,41 +14723,6 @@ communications using the toggles below.</value>
         <value>Systolic blood pressure is a measure of how hard your blood is pushed against the walls of the arteries when the heart is beating and pushing out blood.</value>
     </labels>
     <labels>
-        <fullName>Title_Contact_PT_Reminder_Push</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Title for Contact PT Reminder Push</shortDescription>
-        <value>Participant contact has not been attempted</value>
-    </labels>
-    <labels>
-        <fullName>Title_new_Certificate_Push</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Title for new_Certificate Push</shortDescription>
-        <value>New gift certificate</value>
-    </labels>
-    <labels>
-        <fullName>Title_Has_Not_Login_Push</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Title for has not Login Push</shortDescription>
-        <value>We miss you</value>
-    </labels>
-    <labels>
-        <fullName>Title_new_visit_data_push</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Title for new visit data push</shortDescription>
-        <value>New visit data</value>
-    </labels>
-    <labels>
-        <fullName>Title_Visit_Reminder_Push</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Title for Visit Reminder Push</shortDescription>
-        <value>Visit reminder</value>
-    </labels>
-    <labels>
         <fullName>TST_Complete_Your_Question</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -14817,7 +14806,6 @@ communications using the toggles below.</value>
         <shortDescription>TST_SST_Success</shortDescription>
         <value>User have been created. Pending Permission Set Assignment</value>
     </labels>
-
     <labels>
         <fullName>TST_Screenshot_Wrong_Format</fullName>
         <language>en_US</language>
@@ -15302,6 +15290,41 @@ communications using the toggles below.</value>
         <value>This Participant has reached legal age of emancipation, but continues to require legal guardianship. Please verify that this is correct.</value>
     </labels>
     <labels>
+        <fullName>Title_Contact_PT_Reminder_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for Contact PT Reminder Push</shortDescription>
+        <value>Participant contact has not been attempted</value>
+    </labels>
+    <labels>
+        <fullName>Title_Has_Not_Login_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for has not Login Push</shortDescription>
+        <value>We miss you</value>
+    </labels>
+    <labels>
+        <fullName>Title_Visit_Reminder_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for Visit Reminder Push</shortDescription>
+        <value>Visit reminder</value>
+    </labels>
+    <labels>
+        <fullName>Title_new_Certificate_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for new_Certificate Push</shortDescription>
+        <value>New gift certificate</value>
+    </labels>
+    <labels>
+        <fullName>Title_new_visit_data_push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for new visit data push</shortDescription>
+        <value>New visit data</value>
+    </labels>
+    <labels>
         <fullName>Toast_Changes_Successfully</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -15609,20 +15632,6 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>User_Name_For_Email_Recipient_User_Lockout</shortDescription>
         <value>Nazma Ansari</value>
-    </labels>
-    <labels>
-        <fullName>Visits_Date</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Visit Date</shortDescription>
-        <value>Visit Date</value>
-    </labels>
-    <labels>
-        <fullName>Visits_Name</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Visit Name</shortDescription>
-        <value>Visit Name</value>
     </labels>
     <labels>
         <fullName>VPN_AddDate</fullName>
@@ -16041,6 +16050,20 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Visit b Save</shortDescription>
         <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>Visits_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Date</shortDescription>
+        <value>Visit Date</value>
+    </labels>
+    <labels>
+        <fullName>Visits_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Name</shortDescription>
+        <value>Visit Name</value>
     </labels>
     <labels>
         <fullName>Vitals</fullName>

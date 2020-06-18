@@ -3,14 +3,19 @@
  */
 
 ({
-    createStudyVisitReminder: function (component, visitId, taskId, title) {
-        
+    createStudyVisitReminder: function (component, visitWrapper) {
+        debugger;
+        var title = $A.util.isUndefinedOrNull(visitWrapper.task.Id) ? $A.get('$Label.c.PP_Create_Visit_Reminder') : $A.get('$Label.c.PP_Edit_Visit_Reminder');
+        var isNewTask = $A.util.isUndefinedOrNull(visitWrapper.task.Id) ? true : false;
         $A.createComponent("c:StudyVisitReminder",
             {
                 "aura:id" : "studyVisitReminder",
-                "visitId": visitId,
-                "taskId": taskId,
-                "title": title
+                "visitId": visitWrapper.visit.Id,
+                "taskId": visitWrapper.task.Id,
+                "title":  title,
+                "taskType": 'Visit',
+                "visitData": visitWrapper,
+                "isNewTask": isNewTask
             },
             function (reminder, status, errorMessage) {
                 if (component.isValid() && status === "SUCCESS") {

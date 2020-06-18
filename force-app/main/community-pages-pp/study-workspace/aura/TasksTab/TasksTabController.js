@@ -27,9 +27,10 @@
     },
 
     doTaskClick: function (component, event, helper) {
+        /*debugger;
         communityService.executeAction(component, 'taskClicked', {
             id: event.getParam('identifier'),
             message: event.getParam('message')
-        });
+        });*/
     }
 });

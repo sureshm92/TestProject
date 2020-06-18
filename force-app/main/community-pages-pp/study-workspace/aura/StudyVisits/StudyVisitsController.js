@@ -45,25 +45,25 @@
     },
     
     createEditTask: function (component, event, helper) {
-        let currentVisits = component.get('v.currentVisits');
-        let indexVar = event.getSource().get('v.value');
-        let taskId = currentVisits[indexVar].task.Id;
-        let visitId = currentVisits[indexVar].visit.Id;
-        let firstLoad = component.get('v.firstLoad');
+        var currentVisits = component.get('v.currentVisits');
+        var indexVar = event.getSource().get('v.value');
+        var visitWrapper = currentVisits[indexVar];
+        var firstLoad = component.get('v.firstLoad');
 
         if(!firstLoad){
-            if (!taskId) {
-                //communityService.navigateToPage('task-detail?visitId=' + visitId);
-                let title = 'Create Visit Reminder'; //Create custom label
-                helper.createStudyVisitReminder(component, visitId, null, title);
-            } else {
-                //communityService.navigateToPage('task-detail?id=' + taskId + '&visitId=' + visitId);
-                let title = 'Edit Visit Reminder'; //Create custom label
-                helper.createStudyVisitReminder(component, visitId, taskId, title);
-            }
+            helper.createStudyVisitReminder(component, visitWrapper);
         } else{
-            //TO-DO: Add necessary arguments later
-            component.find('studyVisitReminder').reloadPopup();
+            var title = $A.util.isUndefinedOrNull(visitWrapper.task.Id) ? $A.get('$Label.c.PP_Create_Visit_Reminder') : $A.get('$Label.c.PP_Edit_Visit_Reminder');
+            var isNewTask = $A.util.isUndefinedOrNull(visitWrapper.task.Id) ? true : false;
+            var relaodAttributes = {
+                "visitId": visitWrapper.visit.Id,
+                "taskId": visitWrapper.task.Id,
+                "title":  title,
+                "taskType": 'Visit',
+                "visitData": visitWrapper,
+                "isNewTask": isNewTask
+            };
+            component.find('studyVisitReminder').reloadPopup(relaodAttributes);
         }
     }
 });
