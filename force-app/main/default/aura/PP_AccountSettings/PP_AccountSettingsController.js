@@ -12,13 +12,12 @@
                 new: '',
                 reNew: ''
             };
-            var resultMsg = sessionStorage.getItem( 'pageTransfer' );
             const queryString = window.location.href;
-            if(queryString.includes('sampleVar')){
+            if(queryString.includes('changePref')){
             component.set("v.showEditProfile",false);
             component.set("v.selectedItem","custex");
             component.set('v.custExp', true);
-            component.set( "v.coibool", JSON.parse( resultMsg ).sampleVar );
+            component.set( "v.coibool", true );
             }else{
                 component.set("v.showEditProfile",true);
                 component.set( "v.coibool", false );   
@@ -50,16 +49,26 @@
             component.set('v.cookSet', false);
         if (selected === 'editProfile') {
             component.set('v.showEditProfile', true);
+            component.set('v.coibool',false);
+            component.set('v.custExp', false);
         }else if(selected === 'changepwd'){
             component.set('v.changePswd', true);
+            component.set('v.coibool',false);
+            component.set('v.custExp', false);
         }else if(selected === 'notfpre'){
             component.set('v.notPref', true);
+            component.set('v.coibool',false);
+            component.set('v.custExp', false);
         }else if(selected === 'langreg'){
             component.set('v.langReg', true);
+            component.set('v.coibool',false);
+            component.set('v.custExp', false);
         }else if(selected === 'custex'){
             component.set('v.custExp', true);
         }else if(selected === 'cookset'){
-           component.set('v.cookSet', true); 
+           component.set('v.cookSet', true);
+            component.set('v.coibool',false);
+            component.set('v.custExp', false);
         }
     },
     onEditPerson: function (component, event, helper) {

@@ -95,6 +95,14 @@
     padding: 35px 0 0;
 }
 
+.THIS .alert-icon-margin{
+    margin-right: 9px !important;
+}
+
+.THIS .delegate-alert-message{
+    background-color: #ffffff;
+}
+
 .THIS .pe-panel{
     border: 1px solid #e9e9e9;
     border-radius: 5px;

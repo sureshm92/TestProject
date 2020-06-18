@@ -12,13 +12,14 @@
 
     <!-- Events:-->
     <aura:registerEvent name="cmpEvent" type="c:MediaOutreachCancelReqEvt" />
-
+    
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public" />
-
+    <aura:method name="close" action="{!c.closepopup}" access="public" />
+    
     <!-- component body:-->
     <c:Popup aura:id="Show_WarningPoP_Up" title="{!v.title}" showClose="false" size="small"
-        showScroll="false" showFooter="false">
+        showScroll="false" showFooter="false" >
         
         <div class="slds-grid slds-grid_vertical">
             <p>{!$Label.c.Cancel_request_warning_message}</p>
