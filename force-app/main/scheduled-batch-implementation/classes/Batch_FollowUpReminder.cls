@@ -34,7 +34,8 @@ public with sharing class Batch_FollowUpReminder extends Batch_ScheduledAbstract
         for (Id contactId : enrollmentsByContact.keySet()) {
             Map<Datetime, String> permByDT = permSetNameWithDTByContact.get(contactId);
             List<Datetime> datesSet = new List<Datetime>(permByDT.keySet());
-
+            datesSet.sort();
+            
             Id whatId;
             Integer datesIndex = datesSet.size() - 1;
             do {

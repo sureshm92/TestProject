@@ -124,7 +124,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 }
                 Participant__c delegate = newDelegateContactsMap.get(ipr.referralID__c);
                 if (delegate != null) {
-                    Participant__c delegateDuplicate = duplicateService.findDuplicate(delegate);
+                    Participant__c delegateDuplicate = duplicateService.findDuplicateDelegate(delegate);
                     if (delegateDuplicate != null) {
                         String refSourceStr = delegateDuplicate.Secondary_Source__c;
                         if (refSourceStr == null) refSourceStr = '';
@@ -134,7 +134,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                         newDelegateContactsMap.put(ipr.referralID__c, delegateDuplicate);
                         existingDelegates.add(delegateDuplicate.Id);
                     } else {
-                        Contact delegateContactDuplicate = duplicateService.findDuplicateContact(delegate);
+                        Contact delegateContactDuplicate = duplicateService.findDuplicateDelegateContact(delegate);
                         if (delegateContactDuplicate != null) {
                             delegate.Contact__c = delegateContactDuplicate.Id;
                             existingDelegates.add(delegateContactDuplicate.Id);

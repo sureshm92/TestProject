@@ -2,56 +2,75 @@
  * Created by Andrii Kryvolap
  */
 
-.THIS.mode-group{
-    color: #000000;
-    font-size: 16px;
-    font-weight: 600;
-    letter-spacing: 0;
-    line-height: 24px;
-    padding: 9px 0 9px 34px;
-
-    border-top: 1px solid #F8F9FB;
-    border-bottom: 1px solid #F8F9FB;
+.THIS .mode-group{
+    width: 205px;
 }
 .THIS.mode-group:hover,
 .THIS.mode-sub-item:hover{
-    background: #eef5ff;
+    cursor: pointer;
 }
 
 .THIS.mode-group.selected{
     color: #0768FD;
 }
 
-.THIS.mode-sub-item{
+.THIS .mode-sub-item{
     color: #444444;
     font-size: 16px;
     font-weight: normal;
+    height: 48px;
+    width: 305px;
     letter-spacing: 0;
-    line-height: 24px;
-    padding: 9px 0 9px 45px;
-    border-top: 1px solid #F8F9FB;
+    line-height: 48px;
     border-bottom: 1px solid #F8F9FB;
+    padding-left: 32px;
 }
 
 .THIS.mode-sub-item.selected{
     color: #0768FD;
     font-weight: 600;
 }
-.THIS.selected-mode-group-icon,
-.THIS .selected-mode-sub-item-icon,
-.THIS.mode-group-icon.selected{
-    fill: #0768FD;
+
+.THIS .mode-icon{
+    width: 16px;
+    height: 16px;
+    margin-left: 8px;
+    margin-right: 8px;
+    line-height: 48px;
 }
 
-.THIS.mode-group-icon{
-    position: absolute;
-    left: 16px;
-    height: 42px;
-    width: 12px;
+.THIS .main-box{
+    height: 48px;
+    width: 305px;
+    color: #000000;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 48px;
+    display: flex;
+    justify-content: left;
+    border-bottom: 1px solid #F8F9FB;
+
 }
-.THIS.selected-mode-group-icon,
-.THIS .selected-mode-sub-item-icon{
-    height: 24px;
-    width: 14px;
+.THIS .icon-box{
+    line-height: 48px;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.THIS .icon-unset{
+    visibility: visible!important;
+    opacity: unset!important;
+}
+
+.THIS li.unset{
+    display: block!important;
+}
+
+.THIS .icon-check{
+    width: 20px;
+    height: 20px;
+    fill: #0768FD;
     margin-left: 5px;
 }
+
