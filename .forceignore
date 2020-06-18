@@ -26,3 +26,7 @@ force-app/main/user-communications/images
 
 #ignore all onboarding slides, comment line for include
 **/onboarding-tour/staticresources
+
+**/jsconfig.json
+
+**/.eslintrc.json
