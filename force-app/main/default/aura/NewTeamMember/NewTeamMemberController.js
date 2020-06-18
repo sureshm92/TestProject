@@ -142,8 +142,7 @@
 
         if (component.get('v.userMode') === 'Participant') {
             communityService.executeAction(component, 'savePatientDelegate', {
-                delegate: JSON.stringify(delegate.delegateContact),
-                createUser: createUser
+                delegate: JSON.stringify(delegate.delegateContact)
             }, function () {
                 communityService.showToast(
                     'Success', 'success', $A.get('$Label.c.TST_You_have_successfully_created_permissions_for') + ' ' +

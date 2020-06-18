@@ -29,6 +29,7 @@ public without sharing class VisitResultSharingPanelRemote {
         @AuraEnabled public String label;
         @AuraEnabled public List<VisitResultWrapper> visitResults;
         @AuraEnabled public Boolean show = false;
+        @AuraEnabled public Boolean displayOnMyResultCard = false;
 
         public VisitResultGroupWrapper() {}
 
@@ -147,6 +148,9 @@ public without sharing class VisitResultSharingPanelRemote {
             for (String groupLabel : GROUPS_ORDER) {
                 VisitResultGroupWrapper resultGroupWrapper =
                         new VisitResultGroupWrapper(groupLabel, resultGroupToVisitResults.get(groupLabel));
+                    if( !String.isBlank( ctp.Participant_Visit_Result_Group__c ) && groupLabel == ctp.Participant_Visit_Result_Group__c ) {
+                        resultGroupWrapper.displayOnMyResultCard=true;
+                    }
                 initData.groups.add(resultGroupWrapper);
             }
 
@@ -222,6 +226,16 @@ public without sharing class VisitResultSharingPanelRemote {
                 ctp.Shareback_Settings_Countries__c = optionsWrapper.selectedCountries != null ? optionsWrapper.selectedCountries : '';
 
                 ssIds = optionsWrapper.selectedSSIds.split(';');
+                if( ctp.Shareback_Settings_On_Country_Level__c ) {
+                    for ( VisitResultGroupWrapper groupWrapper : groupsList ) {
+                        if( groupWrapper.displayOnMyResultCard ) {
+                            ctp.Participant_Visit_Result_Group__c = groupWrapper.label;
+                        }
+                    }
+                }
+                else{
+                     ctp.Participant_Visit_Result_Group__c = '';   
+                }
                 updateVRTSharing(groupsList, VisitResultSharingService.getTypeVRSharingMap(ctp), ctpId);
             }
 
