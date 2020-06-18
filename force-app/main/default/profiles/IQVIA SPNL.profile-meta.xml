@@ -6366,6 +6366,16 @@
         <field>Study_Site__c.Visit_Results_Sharing__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Completed_training__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Review_Board_Approval__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>SurveyInvitation.ExpireDateTime__c</field>
