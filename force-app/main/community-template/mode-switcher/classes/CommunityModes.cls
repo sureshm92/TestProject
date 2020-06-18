@@ -6,7 +6,9 @@ public without sharing class CommunityModes {
     
     public static final String MODE_TYPE_PP_ONLY = 'PP_Only';
     public static final String MODE_TYPE_RH_ONLY = 'RH_Only';
+    public static final String MODE_TYPE_RH_SINGLE_VIEW = 'RH_Single_View';
     public static final String MODE_TYPE_PP_AND_RH = 'PP_And_RH';
+
     
     public static final String RH_ITEM_TYPE_PI = 'PI';
     public static final String RH_ITEM_TYPE_RP = 'RP';
@@ -28,8 +30,7 @@ public without sharing class CommunityModes {
         public Boolean isSelected;
         public List<PPCommunityModeItem> subItems;
     }
-    
-    public String type; // MODE_TYPE_PP_ONLY/ MODE_TYPE_RH_ONLY/ MODE_TYPE_PP_AND_RH
+    public String type; // MODE_TYPE_PP_ONLY/ MODE_TYPE_RH_ONLY/ MODE_TYPE_PP_AND_RH / MODE_TYPE_RH_SINGLE_VIEW
     public List<RHCommunityModeItem> rhModeItems; // rhModeItems.size() = 1 if user has only one RH mode, used only for MODE_TYPE_RH_ONLY or MODE_TYPE_PP_AND_RH modes
     public List<PPCommunityModeItem> ppModeItems;
     
