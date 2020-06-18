@@ -14,7 +14,7 @@
 }
 
 .THIS.menu-block .menu-popup-panel.popupTargetContainer {
-    width: 345px;
+    min-width: 345px;
     max-height: 550px;
     right: 0;
     left: initial;
@@ -145,4 +145,5 @@
     background-color: unset !important;
     color: unset;
     padding-left: unset!important;
+    padding-right: unset!important;
 }
