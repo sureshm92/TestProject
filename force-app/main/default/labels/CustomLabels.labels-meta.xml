@@ -1427,7 +1427,6 @@
         <shortDescription>Submit Your Question</shortDescription>
         <value>Submit Your Question</value>
     </labels>
-<<<<<<< HEAD
 	<labels>
         <fullName>Cancel</fullName>
         <language>en_US</language>
@@ -1442,8 +1441,6 @@
         <shortDescription>CTL_L_CC_MODE</shortDescription>
         <value>View as Call Center</value>
     </labels>
-=======
->>>>>>> origin/INT5.0
     <labels>
         <fullName>CTL_L_HCP_DELEGATE_MODE</fullName>
         <language>en_US</language>
