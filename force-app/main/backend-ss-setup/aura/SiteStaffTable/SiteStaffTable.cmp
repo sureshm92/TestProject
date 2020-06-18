@@ -15,10 +15,9 @@
     <aura:attribute name="levelWidth" type="String" default="140px"/>
     <aura:attribute name="inviteWidth" type="String" default="90px"/>
 
-    <aura:dependency resource="markup://force:editRecord" type="EVENT" />
+    <aura:dependency resource="markup://force:editRecord" type="EVENT"/>
 
-    <aura:handler event="force:refreshView" action="{!c.doInit}" />
-
+    <aura:handler event="force:refreshView" action="{!c.doInit}"/>
 
 
     <!-- component body: -->
@@ -27,55 +26,65 @@
             {!$Label.c.PG_SST_L_Site_Staff}
         </div>
         <c:RRSpinner aura:id="spinner"/>
-        <lightning:navigation aura:id="navLink"/>
-        <c:uiFixedTable class="slds-table slds-table_bordered" scrollLeft="{!v.scrollLeft}">
-            <aura:set attribute="tableHeader">
-                <tr class="slds-line-height_reset">
-                    <c:uiCol isHeader="true" scrollLeft="{!v.scrollLeft}" width="{!v.nameWidth}">
-                        {!$Label.c.PG_SST_L_Name}
-                    </c:uiCol>
-                    <c:uiCol isHeader="true"  scrollLeft="{!v.scrollLeft}" width="{!v.emailWidth}" class="email-column">
-                        {!$Label.c.PG_SST_L_Email}
-                    </c:uiCol>
-                    <c:uiCol isHeader="true" scrollLeft="{!v.scrollLeft}" width="{!v.levelWidth}">
-                        {!$Label.c.PG_SST_L_Access_Level}
-                    </c:uiCol>
-                    <aura:if isTrue="{!v.initData.inInvitationSentState}">
-                        <c:uiCol isHeader="true" scrollLeft="{!v.scrollLeft}" width="{!v.inviteWidth}">
-                            {!$Label.c.PG_SST_L_Invited}
-                        </c:uiCol>
-                    </aura:if>
-                </tr>
-            </aura:set>
-            <aura:if isTrue="{!v.initData}">
-                <aura:iteration items="{!v.initData.siteStaffMembers}" var="staffMember">
+        <aura:if isTrue="{!v.initData.viewMode != 'Disabled'}">
+            <lightning:navigation aura:id="navLink"/>
+            <c:uiFixedTable class="slds-table slds-table_bordered" scrollLeft="{!v.scrollLeft}">
+                <aura:set attribute="tableHeader">
                     <tr class="slds-line-height_reset">
-                    <c:uiCol scrollLeft="{!v.scrollLeft}" width="{!v.nameWidth}">
-                        <a href="javascript:void(0);" tabindex="-1" data-contactid="{!staffMember.staffContact.Id}"
-                           onclick="{!c.navigateToContact}">{!staffMember.staffContact.Name}&nbsp;</a>
-                    </c:uiCol>
-                    <c:uiCol scrollLeft="{!v.scrollLeft}" width="{!v.emailWidth}" class="email-column">
-                        {!staffMember.staffContact.Email}
-                    </c:uiCol>
-                    <c:uiCol scrollLeft="{!v.scrollLeft}" width="{!v.levelWidth}">
-                        {!staffMember.accessLevel}
-                    </c:uiCol>
-                    <aura:if isTrue="{!v.initData.inInvitationSentState}">
-                        <c:uiCol class="invite-col" scrollLeft="{!v.scrollLeft}" width="{!v.inviteWidth}">
-                            <aura:if isTrue="{!staffMember.hasUser || staffMember.hasPendingActions}">
-                                <aura:set attribute="else">
-                                    <button class="slds-button slds-button_brand" onclick="{!c.doInviteStaffMember}" data-contact-id="{!staffMember.staffContact.Id}">
-                                        {!$Label.c.PG_SST_L_Invite}
-                                    </button>
-                                </aura:set>
-                                    {!staffMember.hasUser?$Label.c.PG_SST_L_Yes:$Label.c.PG_SST_L_Pending}
-                            </aura:if>
+                        <c:uiCol isHeader="true" scrollLeft="{!v.scrollLeft}" width="{!v.nameWidth}">
+                            {!$Label.c.PG_SST_L_Name}
                         </c:uiCol>
-                    </aura:if>
+                        <c:uiCol isHeader="true" scrollLeft="{!v.scrollLeft}" width="{!v.emailWidth}"
+                                 class="email-column">
+                            {!$Label.c.PG_SST_L_Email}
+                        </c:uiCol>
+                        <c:uiCol isHeader="true" scrollLeft="{!v.scrollLeft}" width="{!v.levelWidth}">
+                            {!$Label.c.PG_SST_L_Access_Level}
+                        </c:uiCol>
+                        <aura:if isTrue="{!v.initData.inInvitationSentState}">
+                            <c:uiCol isHeader="true" scrollLeft="{!v.scrollLeft}" width="{!v.inviteWidth}">
+                                {!$Label.c.PG_SST_L_Invited}
+                            </c:uiCol>
+                        </aura:if>
                     </tr>
-                </aura:iteration>
-            </aura:if>
+                </aura:set>
+                <aura:if isTrue="{!v.initData}">
+                    <aura:iteration items="{!v.initData.siteStaffMembers}" var="staffMember">
+                        <tr class="slds-line-height_reset">
+                            <c:uiCol scrollLeft="{!v.scrollLeft}" width="{!v.nameWidth}">
+                                <a href="javascript:void(0);" tabindex="-1"
+                                   data-contactid="{!staffMember.staffContact.Id}"
+                                   onclick="{!c.navigateToContact}">{!staffMember.staffContact.Name}&nbsp;</a>
+                            </c:uiCol>
+                            <c:uiCol scrollLeft="{!v.scrollLeft}" width="{!v.emailWidth}" class="email-column">
+                                {!staffMember.staffContact.Email}
+                            </c:uiCol>
+                            <c:uiCol scrollLeft="{!v.scrollLeft}" width="{!v.levelWidth}">
+                                {!staffMember.accessLevel}
+                            </c:uiCol>
+                            <aura:if isTrue="{!v.initData.inInvitationSentState}">
+                                <c:uiCol class="invite-col" scrollLeft="{!v.scrollLeft}" width="{!v.inviteWidth}">
+                                    <aura:if isTrue="{!staffMember.hasUser || staffMember.hasPendingActions}">
+                                        <aura:set attribute="else">
+                                            <button class="slds-button slds-button_brand"
+                                                    onclick="{!c.doInviteStaffMember}"
+                                                    data-contact-id="{!staffMember.staffContact.Id}">
+                                                {!$Label.c.PG_SST_L_Invite}
+                                            </button>
+                                        </aura:set>
+                                        {!staffMember.hasUser?$Label.c.PG_SST_L_Yes:$Label.c.PG_SST_L_Pending}
+                                    </aura:if>
+                                </c:uiCol>
+                            </aura:if>
+                        </tr>
+                    </aura:iteration>
+                </aura:if>
 
-        </c:uiFixedTable>
+
+            </c:uiFixedTable>
+            <aura:set attribute="else">
+                <c:EmptyListStub message="{!$Label.c.No_permission_Visits_tab}"/>
+            </aura:set>
+        </aura:if>
     </div>
 </aura:component>
