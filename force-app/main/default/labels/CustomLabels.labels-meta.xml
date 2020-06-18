@@ -1630,7 +1630,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Create Users Checkbox on Import</shortDescription>
-        <value>Participant included in this file have consented to receiving an invitation to the Patient Portal.</value>
+        <value>Participant(s) included in this file have consented to receiving an invitation to the Patient Portal.</value>
     </labels>
     <labels>
         <fullName>Created_Date</fullName>
@@ -13048,6 +13048,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Profile Menu Log Out</shortDescription>
         <value>Log Out</value>
+    </labels>
+    <labels>
+        <fullName>Profile_Menu_More</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Profile Menu More</shortDescription>
+        <value>More</value>
     </labels>
     <labels>
         <fullName>Programmed_death_ligand_1</fullName>
