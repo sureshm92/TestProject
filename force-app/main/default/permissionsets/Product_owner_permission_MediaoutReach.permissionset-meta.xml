@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
-     <classAccesses>
+    <classAccesses>
         <apexClass>NewMediaOutReach</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -8,6 +8,7 @@
         <apexClass>ViewMediaResult</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <description>Media out reach access.</description>
     <fieldPermissions>
         <editable>true</editable>
         <field>Media_Outreach__c.Actual_End_Date__c</field>
@@ -69,7 +70,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>true</hasActivationRequired>
-    <label>Product owner permission MediaoutReach</label>
+    <label>PP_Mediaoutreachaccess</label>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
