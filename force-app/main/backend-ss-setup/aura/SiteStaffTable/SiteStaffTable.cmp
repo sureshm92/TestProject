@@ -34,7 +34,7 @@
                     <c:uiCol isHeader="true" scrollLeft="{!v.scrollLeft}" width="{!v.nameWidth}">
                         {!$Label.c.PG_SST_L_Name}
                     </c:uiCol>
-                    <c:uiCol isHeader="true"  scrollLeft="{!v.scrollLeft}" width="{!v.emailWidth}">
+                    <c:uiCol isHeader="true"  scrollLeft="{!v.scrollLeft}" width="{!v.emailWidth}" class="email-column">
                         {!$Label.c.PG_SST_L_Email}
                     </c:uiCol>
                     <c:uiCol isHeader="true" scrollLeft="{!v.scrollLeft}" width="{!v.levelWidth}">
@@ -54,7 +54,7 @@
                         <a href="javascript:void(0);" tabindex="-1" data-contactid="{!staffMember.staffContact.Id}"
                            onclick="{!c.navigateToContact}">{!staffMember.staffContact.Name}&nbsp;</a>
                     </c:uiCol>
-                    <c:uiCol scrollLeft="{!v.scrollLeft}" width="{!v.emailWidth}">
+                    <c:uiCol scrollLeft="{!v.scrollLeft}" width="{!v.emailWidth}" class="email-column">
                         {!staffMember.staffContact.Email}
                     </c:uiCol>
                     <c:uiCol scrollLeft="{!v.scrollLeft}" width="{!v.levelWidth}">
@@ -64,7 +64,7 @@
                         <c:uiCol class="invite-col" scrollLeft="{!v.scrollLeft}" width="{!v.inviteWidth}">
                             <aura:if isTrue="{!staffMember.hasUser || staffMember.hasPendingActions}">
                                 <aura:set attribute="else">
-                                    <button class="slds-button" onclick="{!c.doInviteStaffMember}" data-contact-id="{!staffMember.staffContact.Id}">
+                                    <button class="slds-button slds-button_brand" onclick="{!c.doInviteStaffMember}" data-contact-id="{!staffMember.staffContact.Id}">
                                         {!$Label.c.PG_SST_L_Invite}
                                     </button>
                                 </aura:set>

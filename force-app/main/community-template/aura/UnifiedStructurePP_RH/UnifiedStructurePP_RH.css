@@ -1,0 +1,58 @@
+/**
+ * Created by Olga Skrynnikova on 6/16/2020.
+ */
+
+.THIS .label{
+    height: 48px;
+    width: 305px;
+    color: #000000;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 48px;
+    display: flex;
+}
+
+.THIS .item-container{
+    display: flex;
+    justify-content: left;
+    border-bottom: 1px solid #f8f9fb;
+}
+
+
+.THIS .mode-icon{
+    width: 16px;
+    height: 16px;
+}
+
+.THIS .selected{
+    color: #0768FD;
+    font-weight: bold;
+}
+
+.THIS .mode-icon.selected{
+    fill: #0768FD;
+}
+
+.THIS .menu-item{
+    margin-left: 8px;
+    margin-right: 8px;
+    line-height: 48px;
+}
+
+.THIS .icon-cog, .THIS .icon-delegate{
+    width: 16px;
+    height: 16px;
+    fill: #666666!important;
+}
+
+.THIS .icon-settings-box{
+    padding-left: 21px;
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    right: 10px;
+}
+.THIS .menu-popup-panel li{
+    padding-left: unset!important;
+}

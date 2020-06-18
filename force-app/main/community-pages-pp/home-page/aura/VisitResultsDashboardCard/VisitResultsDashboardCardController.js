@@ -5,12 +5,12 @@
                 communityService.executeAction(component, 'getVisitResultWrappersForDashboard', {}, function(returnValue) {
                     if(returnValue.length){
                         component.set('v.visitReportHeader',returnValue[0].recordtype+'s');
+                        communityService.executeAction(component, 'toggleState', {
+                            visitResultsMode: component.get('v.visitReportHeader')
+                        }, function(returnValue) {
+                            component.set('v.toggleVitalsIsOn', returnValue);
+                        });
                     }
-                    communityService.executeAction(component, 'toggleState', {
-                        visitResultsMode: component.get('v.visitReportHeader')
-                    }, function(returnValue) {
-                        component.set('v.toggleVitalsIsOn', returnValue);
-                    });
                     returnValue.forEach(function (wrapper) {
                         if(wrapper.value) {
                             wrapper.value = +(Math.round(wrapper.value + "e+3")  + "e-3");

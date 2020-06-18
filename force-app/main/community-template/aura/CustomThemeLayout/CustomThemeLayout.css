@@ -62,6 +62,10 @@
     margin-top: 6px;
 }
 
+.THIS .bell-container{
+    display: inline-block;
+}
+
 .THIS .slds-form-element__label {
 	color: #444;
     font-size: .875rem;
