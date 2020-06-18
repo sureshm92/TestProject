@@ -102,6 +102,9 @@ public inherited sharing class VisitReportContainerRemote {
         public VisitDateColumnWrapper(Date resultDate) {
             this.value = resultDate.format();
         }
+        public VisitDateColumnWrapper(String value) {
+            this.value = value;
+        }
     }
 
     public class VisitValueWrapper extends VisitDataWrapper {
