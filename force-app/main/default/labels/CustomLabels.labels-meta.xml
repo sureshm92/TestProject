@@ -1428,13 +1428,6 @@
         <value>Submit Your Question</value>
     </labels>
 	<labels>
-        <fullName>Cancel</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Cancel</shortDescription>
-        <value>Cancel</value>
-    </labels>
-	<labels>
         <fullName>CTL_L_CC_MODE</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1489,6 +1482,13 @@
         <protected>false</protected>
         <shortDescription>Can Not Edit Mapping</shortDescription>
         <value>You can not edit this object. Delete and create a new one instead.</value>
+    </labels>
+    <labels>
+        <fullName>Cancel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Cancel</shortDescription>
+        <value>Cancel</value>
     </labels>
     <labels>
         <fullName>Cancel_Request</fullName>
