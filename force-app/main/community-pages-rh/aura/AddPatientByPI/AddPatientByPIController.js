@@ -5,8 +5,6 @@
     doInit: function (component, event, helper) {
         if(!communityService.isInitialized()) return;
 
-        component.find('checkbox-doContact').getElement().checked = true;
-
         if(!communityService.isDummy()) {
             let ssId = communityService.getUrlParameter('ssId');
 
@@ -23,6 +21,7 @@
                 window.setTimeout(
                     $A.getCallback(function () {
                         helper.initData(component);
+                        component.find('checkbox-doContact').getElement().checked = true;
                     }), 100
                 );
             }, null, function () {
