@@ -34,7 +34,7 @@
             </c:uiHeaderMenu>
         </div>
         <div class="slds-coll slds-size--2-of-12">{!$Label.c.Library_Type}</div>
-        <div class="slds-coll slds-size--2-of-12">{!$Label.c.Library_Format}</div>
+        <div class="slds-coll slds-size--2-of-12 formatForMobile">{!$Label.c.Library_Format}</div>
         <div class="slds-coll slds-size--2-of-12">{!$Label.c.Library_Version_Date}</div>
     </div>
     <div class="rr-white-panel" style="margin-top: 0px">
@@ -79,9 +79,9 @@
                                     </aura:if>
                                     
                                     <div class="slds-coll slds-size--2-of-12">{!resource.language}</div>
-                                    <div class="slds-coll slds-size--2-of-12">{!resource.type}</div>
+                                    <div class="slds-coll slds-size--2-of-12 libraryTypeForMobile">{!resource.type}</div>
                                     <div class="slds-coll slds-size--2-of-12">{!resource.format}</div>
-                                    <div class="slds-coll slds-size--1-of-12">{!resource.versionDate}</div>
+                                    <div class="slds-coll slds-size--1-of-12 versionForMobile">{!resource.versionDate}</div>
                                     <div  data-attributeVal="{!key + ',' + resourceIndex}" class="slds-coll slds-size--1-of-12 " onclick="{!c.downloadResource}" >
                                         <aura:if isTrue="{!!empty(resource.fileID)}">
                                             <lightning:icon iconName="utility:download" size="xx-small" alternativeText="Download" title="Download"

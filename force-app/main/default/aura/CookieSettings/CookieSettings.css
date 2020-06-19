@@ -1,5 +1,5 @@
 .THIS {
-    padding: 30px;
+    padding: 24px;
 }
 
 .THIS .as-container .rr-white-panel {
@@ -13,6 +13,15 @@
 .THIS.as-container .as-email,
 .THIS.as-container .as-password
  {
+}
+.THIS .as-title{
+   color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 22px;
+    margin-top: 10px;
 }
 
 .THIS.as-container .as-email-preference {
@@ -41,6 +50,7 @@
     line-height: 24px;   
     width: 90%;
     margin-bottom: 30px;
+    margin-top: 17.33px;
 }
 
 .THIS .ah-toggle-container{

@@ -48,7 +48,7 @@
     	<div class="as-container">
     	<c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
             <aura:if isTrue="{!v.isInitialized}">
-                <div class="rr-white-panel">
+                <div class="">
                 	<!-- Cookies settings -->
                 <div class="as-email-preference">
                     

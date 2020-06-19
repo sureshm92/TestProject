@@ -17,7 +17,7 @@
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="userLanguage" type="String"/>
     <aura:attribute name="createUsers" type="Boolean" default="false"/>
-    <aura:attribute name="doNotContact" type="Boolean" default="false"/>
+    <aura:attribute name="doNotContact" type="Boolean" default="true"/>
     <aura:attribute name="emailDelegateRepeat" type="String"/>
     <aura:attribute name="needsGuardian" type="Boolean" default="false"/>
     <aura:attribute name="isDelegateValid" type="Boolean" default="false"/>
