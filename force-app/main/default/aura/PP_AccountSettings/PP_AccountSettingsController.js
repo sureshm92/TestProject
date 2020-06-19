@@ -1,5 +1,6 @@
 ({
     doInit: function (component, event, helper) {
+        console.log('inside init pp account');
         component.find('spinner').show();
         if (communityService.getCurrentCommunityMode().currentDelegateId) component.set('v.isDelegate', true);
 
@@ -14,13 +15,9 @@
             };
             const queryString = window.location.href;
             if(queryString.includes('changePref')){
-            component.set("v.showEditProfile",false);
-            component.set("v.selectedItem","custex");
-            component.set('v.custExp', true);
-            component.set( "v.coibool", true );
+            component.set( "v.compId", '4' );    
             }else{
-                component.set("v.showEditProfile",true);
-                component.set( "v.coibool", false );   
+                component.set( "v.compId", '1' ); 
             }
             component.set('v.initData', initData);
             component.set('v.contactChanged', initData.contactChanged);
@@ -37,40 +34,10 @@
             component.find('spinner').hide();
         })
     },
-
-    
-    handleSelect: function(component, event, helper) {
-        var selected = event.getParam('name');
-			component.set('v.showEditProfile', false);
-            component.set('v.changePswd', false);
-            component.set('v.notPref', false);
-            component.set('v.langReg', false);
-            component.set('v.custExp', false);
-            component.set('v.cookSet', false);
-        if (selected === 'editProfile') {
-            component.set('v.showEditProfile', true);
-            component.set('v.coibool',false);
-            component.set('v.custExp', false);
-        }else if(selected === 'changepwd'){
-            component.set('v.changePswd', true);
-            component.set('v.coibool',false);
-            component.set('v.custExp', false);
-        }else if(selected === 'notfpre'){
-            component.set('v.notPref', true);
-            component.set('v.coibool',false);
-            component.set('v.custExp', false);
-        }else if(selected === 'langreg'){
-            component.set('v.langReg', true);
-            component.set('v.coibool',false);
-            component.set('v.custExp', false);
-        }else if(selected === 'custex'){
-            component.set('v.custExp', true);
-        }else if(selected === 'cookset'){
-           component.set('v.cookSet', true);
-            component.set('v.coibool',false);
-            component.set('v.custExp', false);
-        }
-    },
+	onClick : function(component, event, helper) {
+       var id = event.target.dataset.menuItemId;
+       component.set("v.compId",id)
+  	},
     onEditPerson: function (component, event, helper) {
         let personWrapper = event.getSource().get('v.personWrapper');        
         component.set('v.personWrapper', personWrapper);
