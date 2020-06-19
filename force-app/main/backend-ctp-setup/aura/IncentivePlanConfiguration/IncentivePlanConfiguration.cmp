@@ -42,7 +42,6 @@
             <c:RRSpinner aura:id="spinner"/>
             <lightning:navigation aura:id="navLink"/>
             <aura:if isTrue="{!v.initialized}">
-                <aura:if isTrue="{!not(empty(v.ssItems))}">
                     <!--Filters-->
                     <div class="slds-m-bottom--small">
                         <div class="slds-grid slds-gutters">
@@ -144,10 +143,6 @@
                             </div>
                         </div>
                     </div>
-                </aura:if>
-                <aura:if isTrue="{!empty(v.ssItems)}">
-                    <c:EmptyListStub message="{!$Label.c.PG_VP_L_No_Items_display}"/>
-                </aura:if>
             </aura:if>
         </div>
         <c:Action_AddIncentivePlan aura:id="actionIP" studyInfo="{!v.studyInfo}" tasks="{!v.tasks}" recordId="{!v.recordId}"/>

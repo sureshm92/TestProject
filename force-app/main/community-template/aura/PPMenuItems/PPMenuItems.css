@@ -17,7 +17,7 @@
     font-size: 16px;
     letter-spacing: 0;
     font-weight: 600;
-    width: 305px;
+    width: 280px;
     line-height: 28px!important;
     margin-top: 10px!important;
     display: flex;
@@ -27,6 +27,9 @@
 .THIS .menu-sub-item{
     width: 250px;
     color: #797979;
+    font-size: 14px;
+    line-height: 28px!important;
+    margin-bottom: 10px!important;
 }
 
 .THIS .selected{
@@ -63,8 +66,12 @@
 .THIS .icon-settings-box{
     display: flex;
     justify-content: space-between;
-    width: 50px;
+    width: 16px;
     margin-right: 20px;
 }
 
+.THIS .main-box{
+    padding-left: 32px;
+    border-bottom: 1px solid #F8F9FB;
+}
 

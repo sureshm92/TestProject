@@ -208,10 +208,15 @@
         if (participant.Phone__c && !participant.Phone_Type__c) {
             isValid = false;
         }
-        component.get('v.parentComponent').refreshParticipant();
 
         component.set('v.isValid', isValid);
         console.log('isValid5' + isValid);
+
+        let parentComponent = component.get('v.parentComponent');
+        if (parentComponent && parentComponent.refreshParticipant) {
+            parentComponent.refreshParticipant();
+        }
+
         return isValid;
     },
 

@@ -4,9 +4,11 @@
 
 <aura:component description="UnifiedStructurePP_RH">
 
+    <!-- attributes: -->
     <aura:attribute name="communityModes" type="Object"/>
 
-<!--    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
+    <!-- events: -->
+    <aura:registerEvent access="global" name="onclick" type="c:uiEvent"/>
 
     <div class="container">
         <div class="item-container" data-group-id="{!'pp'}" onclick="{!c.doToggleGroup}">
@@ -27,44 +29,33 @@
             </div>
         </div>
         <aura:if isTrue="{!not(v.communityModes.isPPItemsCollapsed)}">
-            <c:PPMenuItems allModes="{!v.communityModes.ppModeItems}"/>
+            <c:PPMenuItems onclick="{!c.doSelectItem}" allModes="{!v.communityModes.ppModeItems}"/>
         </aura:if>
-
-        <div class="item-container" data-group-id="{!'rh'}" onclick="{!c.doToggleGroup}">
-            <aura:if isTrue="{!v.communityModes.isRHItemsCollapsed}">
-                <div class="menu-item">
+        <div class="item-container">
+            <div class="menu-item" data-group-id="{!'rh'}" onclick="{!c.doToggleGroup}">
+                <aura:if isTrue="{!v.communityModes.isRHItemsCollapsed}">
                     <c:RRIcon iconName="icon-chevron-right"
                               class="{!'mode-icon ' + if(v.communityModes.isRHItemsSelected,'selected','')}"/>
-                </div>
-                <aura:set attribute="else">
-                    <div class="menu-item">
+                    <aura:set attribute="else">
                         <c:RRIcon iconName="icon-chevron-down"
                                   class="{!'mode-icon ' + if(v.communityModes.isRHItemsSelected,'selected','')}"/>
-                    </div>
-                </aura:set>
-            </aura:if>
-            <div class="{!'label ' + if(v.communityModes.isRHItemsSelected, 'selected', '')}">
-                {!$Label.c.Referral_Hub_Views}
-                <aura:if isTrue="{!v.communityModes.isRHItemsSelected}">
-                    <div class="icon-settings-box">
-                        <c:uiMenuItem onclick="{!c.doSelectItem}" itemValue="account-settings"
-                                      class="unset">
-                            <div>
-                                <c:RRIcon class="icon-delegate" iconName="delegate"/>
-                            </div>
-                        </c:uiMenuItem>
-
-                        <c:uiMenuItem onclick="{!c.doSelectItem}" itemValue="my-team" class="unset">
-                            <div class="icon-box">
-                                <c:RRIcon class="icon-cog" iconName="cog"/>
-                            </div>
-                        </c:uiMenuItem>
-                    </div>
+                    </aura:set>
                 </aura:if>
+            </div>
+            <div class="item-label-box">
+                <div data-group-id="{!'rh'}" onclick="{!c.doToggleGroup}"
+                     class="{!'label ' + if(v.communityModes.isRHItemsSelected, 'selected', '')}">
+                    {!$Label.c.Referral_Hub_Views} </div>
+                <div class="icon-settings-box">
+                    <c:menuItemButton class="icon-delegate" iconName="delegate" navigateTo="my-team"
+                                      onclick="{!c.doOnClick}" modes="{!v.communityModes.rhModeItems}"/>
+                    <c:menuItemButton class="icon-cog" iconName="cog" navigateTo="account-settings"
+                                      onclick="{!c.doOnClick}" modes="{!v.communityModes.rhModeItems}"/>
+                </div>
             </div>
         </div>
         <aura:if isTrue="{!not(v.communityModes.isRHItemsCollapsed)}">
-            <c:RHCommunityModesList communityModesList="{!v.communityModes.rhModeItems}"/>
+            <c:RHCommunityModesList onclick="{!c.doSelectItem}" communityModesList="{!v.communityModes.rhModeItems}"/>
         </aura:if>
     </div>
 

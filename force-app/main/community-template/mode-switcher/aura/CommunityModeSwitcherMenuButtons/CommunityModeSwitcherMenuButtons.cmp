@@ -1,0 +1,32 @@
+<!--
+ - Created by Andrii Kryvolap.
+ -->
+
+<aura:component description="CommunityModeSwitcherMenuButtons">
+
+    <!-- attributes: -->
+    <aura:attribute name="type" type="String"/>
+    <aura:attribute name="buttonItems" type="List"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doRefresh}"/>
+    <aura:handler name="change" value="{!v.type}" action="{!c.doRefresh}"/>
+    <!-- methods: -->
+    <aura:method name="refresh" action="{!c.doRefresh}" access="public"/>
+
+    <div>
+        <aura:if isTrue="{!v.type == 'RH_Only'}">
+            <div class="more-separator">
+                {!$Label.c.Profile_Menu_More}
+            </div>
+        </aura:if>
+        <aura:iteration items="{!v.buttonItems}" var="buttonItem">
+            <c:uiMenuItem onclick="{!c.doNavigateToItem}" itemValue="{!buttonItem.page}">
+                <c:RRIcon class="{!'button-icon icon-'+ buttonItem.icon}" iconName="{!buttonItem.icon}"/>
+                <div class="button-label">
+                    {!buttonItem.label}
+                </div>
+            </c:uiMenuItem>
+        </aura:iteration>
+    </div>
+</aura:component>
