@@ -107,6 +107,7 @@ public inherited sharing class VisitReportService {
 
         result.dataTables = sortReportDataTableWrappers;
         result.studyCodeName = pe.Clinical_Trial_Profile__r.Study_Code_Name__c;
+        result.communityTemplate = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
         result.studyTitle = pe.Clinical_Trial_Profile__r.Study_Title__c;
         result.profilePicture = pe.Clinical_Trial_Profile__r.Profile_Picture__c;
         result.participantFullName = pe.Participant__r.Full_Name__c;
@@ -159,7 +160,7 @@ public inherited sharing class VisitReportService {
         } else {
             reportHeaderWrappers.add(new VisitReportContainerRemote.VisitHeaderWrapper(visitResult.Result_Type__c, visitResult.Measurement__c));
         }
-        //PEH-2256: Report should display +Positive/ -Negative/ Unknown
+    //PEH-2256: Report should display +Positive/ -Negative/ Unknown
         if(visitResult.RecordType.DeveloperName.equalsIgnoreCase(VisitReportService.VISIT_RES_RECORD_TYPE_BIO)){
             String biomarkerValue = '';
             if(visitResult.Actual_Value__c == -1.0){
