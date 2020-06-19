@@ -47,10 +47,14 @@
                      class="{!'label ' + if(v.communityModes.isRHItemsSelected, 'selected', '')}">
                     {!$Label.c.Referral_Hub_Views} </div>
                 <div class="icon-settings-box">
-                    <c:menuItemButton class="icon-delegate" iconName="delegate" navigateTo="my-team"
-                                      onclick="{!c.doOnClick}" modes="{!v.communityModes.rhModeItems}"/>
-                    <c:menuItemButton class="icon-cog" iconName="cog" navigateTo="account-settings"
-                                      onclick="{!c.doOnClick}" modes="{!v.communityModes.rhModeItems}"/>
+                    <div class="menu-item">
+                        <c:menuItemButton class="icon-delegate" iconName="delegate" navigateTo="my-team"
+                                          onclick="{!c.doOnClick}" modes="{!v.communityModes.rhModeItems}"/>
+                    </div>
+                    <div class="menu-item">
+                        <c:menuItemButton class="icon-cog" iconName="cog" navigateTo="account-settings"
+                                          onclick="{!c.doOnClick}" modes="{!v.communityModes.rhModeItems}"/>
+                    </div>
                 </div>
             </div>
         </div>

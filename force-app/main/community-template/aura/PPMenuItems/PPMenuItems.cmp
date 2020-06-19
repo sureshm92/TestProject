@@ -27,11 +27,15 @@
                                 </div>
                                 <div class="icon-settings-box">
                                     <aura:if isTrue="{!not(item.isDelegate)}">
-                                        <c:menuItemButton class="icon-delegate" iconName="delegate" navigateTo="my-team"
-                                                          itemValue="{!subItem}" onclick="{!c.doOnClick}"/>
+                                        <div>
+                                            <c:menuItemButton class="icon-delegate" iconName="delegate" navigateTo="my-team"
+                                                              itemValue="{!subItem}" onclick="{!c.doOnClick}"/>
+                                        </div>
                                     </aura:if>
-                                    <c:menuItemButton class="icon-cog" iconName="cog" navigateTo="account-settings"
-                                                      itemValue="{!subItem}" onclick="{!c.doOnClick}"/>
+                                    <div class="icon-box">
+                                        <c:menuItemButton class="icon-cog" iconName="cog" navigateTo="account-settings"
+                                                          itemValue="{!subItem}" onclick="{!c.doOnClick}"/>
+                                    </div>
                                 </div>
                             </div>
                             <div class="menu-sub-item">
