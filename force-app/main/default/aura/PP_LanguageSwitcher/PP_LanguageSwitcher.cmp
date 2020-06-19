@@ -44,14 +44,15 @@
     
 
     <!-- component body -->
-    <div>
-        <div class="as-container">
+    <div style="padding-top: 32px">
+         <div style="width:840px;">
+        <div class="as-container" style="margin-left:20px;">
         <c:RRSpinner size="medium" aura:id="spinner" fixed="true"/>
-        <div class="as-title"><b>{!$Label.c.PG_Login_H_Language_Options}</b></div>
+        <div class="as-title" style="margin-top:12px;">{!$Label.c.PG_Login_H_Language_Options}</div>
 		
-        <div class="section-description">  {!$Label.c.PG_Login_H_Language_Description}</div>
+        <div class="section-description">{!$Label.c.PG_Login_H_Language_Description}</div>
 		
-        <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end language-switcher" style="position: relative;">
+        <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end language-switcher" style="position: relative; padding-top:12px;">
            
 		    <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4"> 
                 <div class="label slds-size_2-of-4" >{!$Label.c.PG_AS_F_Preferred_Language}
@@ -84,24 +85,26 @@
 
         <br/>
 
-        <div class="as-title"><b>{!$Label.c.PG_Login_H_Time_Zone_and_Locale}</b></div>
-        <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end language-switcher" style="position: relative;">
-            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+        <div class="as-title pr_40">{!$Label.c.PG_Login_H_Time_Zone_and_Locale}</div>
+        <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end language-switcher" style="position: relative; padding-top:12px;">
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4">
                 <div class="label">{!$Label.c.PG_AS_F_Preferred_Timezone}</div>
                 <c:rrSelect options="{!v.timezones}" value="{!v.timezoneKey}" disabled="{!!v.initialized}" class="ls-select" useSentenceFont="{!false}"/>
             </div>
-            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+			<div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4"/>
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4">
                 <div class="label">{!$Label.c.PG_AS_F_Locale_For_Date_Format}</div>
                 <c:rrSelect options="{!v.locales}" value="{!v.localeKey}" disabled="{!!v.initialized}" class="ls-select" useSentenceFont="{!false}"/>
             </div>
+			<div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4"/>
         </div>
 
         <br/>
 		
         <!-- Country Section-->
         <aura:if isTrue="{!v.userMode == 'Participant'}"> 
-		<div class="as-title"><b>{!$Label.c.PG_Login_H_Residence_Region}</b></div>
-		<div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end language-switcher" style="position: relative;">
+		<div class="as-title pr_40">{!$Label.c.PG_Login_H_Residence_Region}</div>
+		<div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end language-switcher" style="position: relative; padding-top:12px;">
 		<!-- Country Section -->
             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
                 <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PE_Country}</div>
@@ -134,10 +137,11 @@
             
         </aura:if>
     
-    <div class="slds-col slds-size_1-of-1 as-buttons-footer">
+    <div class="slds-col slds-size_1-of-1 as-buttons-footer" style="margin-left:18px;padding-top:40px;">
 		<lightning:button variant="brand" label="{!$Label.c.PP_Save_Changes}" title="" onclick="{!c.doChangeLanguage}" class="slds-button slds-button_brand apollo-btn primary" disabled="{!and(not(empty(v.statesLVList)),empty(v.personWrapper.mailingSC))}"/>       
     </div>
 
     </div>
+	 </div>
     </div>
 </aura:component>

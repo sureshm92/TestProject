@@ -17,7 +17,7 @@
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="userLanguage" type="String"/>
     <aura:attribute name="createUsers" type="Boolean" default="false"/>
-    <aura:attribute name="doNotContact" type="Boolean" default="false"/>
+    <aura:attribute name="doNotContact" type="Boolean" default="true"/>
     <aura:attribute name="emailDelegateRepeat" type="String"/>
     <aura:attribute name="needsGuardian" type="Boolean" default="false"/>
     <aura:attribute name="isDelegateValid" type="Boolean" default="false"/>
@@ -187,7 +187,7 @@
                     <div class="slds-grid slds-gutters slds-wrap">
                         <div class="slds-form-element" style="margin-top: 30px; margin-left: 10px;">
                             <div class="slds-form-element__control">
-                                <div class="slds-checkbox">
+                                <div class="slds-checkbox" data-gtm="checkbox_Permit_IQVIA_Connect">
                                     <input aura:id="checkbox-doContact" type="checkbox" name="options" id="checkbox-unique-id-75"
                                            value="checkbox-unique-id-75" onclick="{!c.doNotContact}"/>
                                     <label class="slds-checkbox__label" for="checkbox-unique-id-75">
