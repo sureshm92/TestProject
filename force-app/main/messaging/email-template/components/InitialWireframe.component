@@ -2,7 +2,7 @@
  - Created by Igor Malyuta on 29.04.2020.
  -->
 
- <apex:component id="InitialWireframe" controller="InitialWireframeController" access="global">
+<apex:component id="InitialWireframe" controller="InitialWireframeController" access="global">
 
     <!-- attributes: -->
     <apex:attribute name="userId" type="Id" assignTo="{!recordId}" description="" access="global"/>
@@ -149,7 +149,6 @@
     <!-- CC -->
     <c:EmailWireframe rendered="{!userMode == 'CC'}"
                       recipientId="{!recordId}"
-                      sourceId="{!sourceId}"
                       header="{!$Label.Email_Header_Initial_PI}"
                       title="{!titleLabel}"
                       greeting="{!$Label.Email_User_Greeting}"
