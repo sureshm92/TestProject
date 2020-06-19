@@ -34,6 +34,7 @@
 
     <div aura:id="tourContainer" class="slds-scope tour-fixed-overlay hidden">
         <div class="tour-panel rr-width-limiter">
+            <div class="wt-scroller">
             <div class="tour-slides-container brand-gradient-background">
 
                 <div class="tour-title"><aura:unescapedHtml value="{!v.title}"/></div>
@@ -91,6 +92,7 @@
                 </div>
             </div>
             <c:RRSpinner aura:id="spinner" showSpinner="true" size="medium"/>
+            </div>
         </div>
     </div>
 
