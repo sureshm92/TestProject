@@ -25,7 +25,7 @@ public with sharing class Test_IncentivePlanConfigurationRemote {
         String tasksString = JSON.serialize(tasks);
 
         Test.startTest();
-        String planId = IncentivePlanConfigurationRemote.createUpdateIncentivePlan(tasksString, planName);
+        String planId = IncentivePlanConfigurationRemote.createUpdateIncentivePlan(tasksString, planName, null);
         Test.stopTest();
         System.assert(planId != null);
     }

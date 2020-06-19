@@ -83,7 +83,7 @@
                     </div>
                 </div>
             </div>
-            <div class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center" style="margin-bottom: 15px; margin-top: 15px">
+            <div data-gtm="checkbox_Permit_IQVIA_Connect" class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center" style="margin-bottom: 15px; margin-top: 15px">
                 <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.doNotContactParticipants}"/>
                 <div class="slds-size_1-of-1 slds-item_label">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact}</div>
             </div>
@@ -92,7 +92,7 @@
                 <div class="slds-size_1-of-1 slds-item_label">{!$Label.c.Create_Users_Checkbox_on_Import}</div>
             </div>
 
-            <div class="slds-col slds-size--1-of-1 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center slds-textInfo-label" style="margin-top: 10px;">
+            <div class="slds-col slds-size--1-of-1 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center slds-textInfo-label" style="margin-top: 15px;">
                 {!$Label.c.Create_Users_Allow_Several_Minutes}
             </div>
 

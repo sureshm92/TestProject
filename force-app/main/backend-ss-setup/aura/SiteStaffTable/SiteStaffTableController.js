@@ -25,12 +25,12 @@
             ssId: component.get('v.recordId')
         }, function (initData) {
             component.find('spinner').hide();
-            communityService.showToast("success", "success", $A.get("$Label.c.TST_SST_Success"));
+            communityService.showToast("Success", "success", $A.get("$Label.c.TST_SST_Success"));
             setTimeout($A.getCallback(function () {
                 helper.doInit(component, event, helper);
             }), 200);
         }, function () {
-            communityService.showToast("error", "error", $A.get("$Label.c.TST_SST_Error"));
+            communityService.showToast("Error", "error", $A.get("$Label.c.TST_SST_Error"));
         });
     }
 })

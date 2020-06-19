@@ -4,6 +4,14 @@
   "id" : "ad3c3494-1d20-4104-92d6-519db936d40a",
   "label" : "Record Detail",
   "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:RedirectToHome",
+      "id" : "d5bec897-646b-45e8-ac74-278725b7c28d",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
     "id" : "1cd7843b-3aba-4fc6-b2d4-b1d361fe124d",
     "regionName" : "header",
     "type" : "region"
