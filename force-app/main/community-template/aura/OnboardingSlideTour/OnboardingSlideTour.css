@@ -217,7 +217,7 @@
 
     .THIS .tour-panel{
         width: calc(100% - 8px);
-        height: 92vh;
+        height: 90vh;
         margin: 20px auto;
     }
 
