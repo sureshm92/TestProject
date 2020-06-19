@@ -31,7 +31,7 @@ public without sharing class EmailTemplateInitialFactory {
                     emailTemplateInitial = new EmailTemplateInitialHCP(user.ContactId, outputMode);
                 }
             }
-            //added by Akanksha
+            //added by for CC
             when 'CC' {
                 
                     emailTemplateInitial = new EmailTemplateInitialCC(user.ContactId, outputMode);
