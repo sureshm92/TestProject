@@ -21,6 +21,7 @@
                 window.setTimeout(
                     $A.getCallback(function () {
                         helper.initData(component);
+                        component.find('checkbox-doContact').getElement().checked = true;
                     }), 100
                 );
             }, null, function () {
