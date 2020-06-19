@@ -2192,6 +2192,11 @@
         <field>Clinical_Trial_Profile__c.Age__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Block_Outreach__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Brief_Summary__c</field>
@@ -5476,6 +5481,11 @@
         <field>Participant__c.Date_of_Birth__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	 <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Block_Outreach__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Day_of_Birth__c</field>
@@ -6320,6 +6330,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Account_Was_Changed__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	 <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Site__c.Block_Outreach__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
