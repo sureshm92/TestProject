@@ -197,20 +197,28 @@ public without sharing class CommunityService {
         }
         if(timeZone == null) timeZone = 'America/Los_Angeles';
         String newUserName = getAvailableUserName(cont.Email);
-        User newUser = new User(
-                ProfileId = COMMUNITY_USER_PROFILE_ID,
-                Username = newUserName,
-                Email = cont.Email,
-                EmailEncodingKey = 'UTF-8',
-                LocaleSidKey = locale,
-                LanguageLocaleKey = language,
-                TimeZoneSidKey = timeZone,
-                ContactId = cont.Id,
-                LastName = cont.LastName,
-                FirstName = cont.FirstName,
-                Alias = 'test', //todo
-                IsActive = true
+        String EmailId;
+        User newUser = new User();
+        if(cont.Email.endsWith('cc'))
+            EmailId = cont.Email.substring(0,cont.Email.length()-2);
+        else
+            EmailId = cont.Email;
+        
+        newUser = new User(
+            ProfileId = COMMUNITY_USER_PROFILE_ID,
+            Username = newUserName,
+            Email = EmailId,
+            EmailEncodingKey = 'UTF-8',
+            LocaleSidKey = locale,
+            LanguageLocaleKey = language,
+            TimeZoneSidKey = timeZone,
+            ContactId = cont.Id,
+            LastName = cont.LastName,
+            FirstName = cont.FirstName,
+            Alias = 'test', //todo
+            IsActive = true
         );
+        
         Database.DMLOptions dlo=new Database.DMLOptions();
         dlo.EmailHeader.triggerUserEmail =true;
         dlo.EmailHeader.triggerAutoResponseEmail=true;

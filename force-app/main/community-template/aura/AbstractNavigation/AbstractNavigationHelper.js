@@ -135,6 +135,11 @@
                 page: 'trial-match',
                 label: $A.get('$Label.c.Trial_Match'),
                 icon: 'trial-match-mob'
+            },
+
+            'participant-support':{
+                page: '',
+                label: $A.get('$Label.CC_Participant_Support')
             }
         };
 
@@ -181,6 +186,10 @@
                 // this.allPagesMap['my-study-sites'],
                 this.allPagesMap['reports']
                // this.allPagesMap['help'] //Comment as we are using help text from CustomThemeLayout Component as per REF-1343 for PI and Referral Provider
+            ],
+
+            CC: [
+                this.allPagesMap['participant-support']
             ]
         }
     },

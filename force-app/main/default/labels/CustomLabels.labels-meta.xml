@@ -1511,6 +1511,83 @@
         <shortDescription>Case_Owner_Email_For_User_Lockout</shortDescription>
         <value>rajesh.r@quintiles.com</value>
     </labels>
+	<labels>
+        <fullName>CC_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Name</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>CC_PI_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_PI_Name</shortDescription>
+        <value>PI Name</value>
+    </labels>
+    <labels>
+        <fullName>CC_Participant_Support</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Participant_Support</shortDescription>
+        <value>Participant Support</value>
+    </labels>
+    <labels>
+        <fullName>CC_Phone_Number</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Phone_Number</shortDescription>
+        <value>Phone Number</value>
+    </labels>
+    <labels>
+        <fullName>CC_Phone_Type</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Phone_Type</shortDescription>
+        <value>Phone Type</value>
+    </labels>
+    <labels>
+        <fullName>CC_Received</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Received</shortDescription>
+        <value>Received</value>
+    </labels>
+    <labels>
+        <fullName>CC_Site_Contact</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Site_Contact</shortDescription>
+        <value>Site Contact</value>
+    </labels>
+    <labels>
+        <fullName>CC_Site_Phone_Number</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Site_Phone_Number</shortDescription>
+        <value>Site Phone Number</value>
+    </labels>
+    <labels>
+        <fullName>CC_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Study</shortDescription>
+        <value>Study</value>
+    </labels>
+    <labels>
+        <fullName>CC_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Study_Site</shortDescription>
+        <value>Study Site</value>
+    </labels>
+    <labels>
+        <fullName>CC_search_for_a_participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_search_for_a_participant</shortDescription>
+        <value>search for a participant</value>
+    </labels>
     <labels>
         <fullName>Closed_Requests</fullName>
         <categories>Media OutReach</categories>

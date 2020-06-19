@@ -54,12 +54,12 @@
                                 <forceCommunity:notifications/>
 
                             </div>
-                            <aura:if isTrue="{!v.showModeSwitcher}">
+                            <aura:if isTrue="{!and(v.showModeSwitcher,v.currentMode.userMode != 'CC')}">
                                 <c:CommunityModeSwitcher allModes="{!v.allModes}" currentMode="{!v.currentMode}"
                                                          onModeChange="{!c.doRefresh}"/>
                             </aura:if>
                              <!-- Added as per REF-1343 by Vikrant Sharma for Help icon adjacent to User Profile for PI and HCP -->
-                             <aura:if isTrue="{!v.currentMode.userMode != 'Participant'}">
+                             <aura:if isTrue="{!and(v.currentMode.userMode != 'Participant', v.currentMode.userMode != 'CC')}">
                                 <div onclick="{!c.onClickHelp}" style="display:inline;margin-left: 11px;" class="helpNavigationCSS" title="help">
                                 <c:RRIcon iconName="help" color="white" class="navigation-icon"/>
                                 </div>
