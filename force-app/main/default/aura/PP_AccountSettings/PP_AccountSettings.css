@@ -15,12 +15,15 @@
 .THIS.as-container {
     position: relative;
     padding-bottom: 100px;
-    height:1400px;
-    overflow:hidden;
+    overflow: hidden;
 }
-.THIS .slds-vertical-tabs__nav {
-  border:.5px solid #E9E9E9;    
-    
+
+.THIS .as-container .rr-white-panel {
+    padding: 30px;
+    box-shadow: none;
+    border-radius: 0;
+    border: none;
+    background: none;
 }
 
 .THIS.as-container .as-password .rr-form-element + .rr-form-element {
@@ -32,17 +35,6 @@
 {
     margin-top: 10px;
     /*margin-bottom: 30px;*/
-}
-
-.THIS.as-container .as-email-preference {
-    margin-top: 30px;
-}
-
-
-.THIS.as-container .as-info,
-.THIS.as-container .as-language-switcher
-{
-    /*margin-top: 10px;*/
 }
 
 .THIS .as-info > .rr-form-element{
@@ -151,8 +143,8 @@
 .THIS .as-buttons-footer{
     display: flex;
     justify-content: flex-start;
-    padding: 12px;
-    margin-top: 20px;
+    margin-top: 40px;
+
 }
 
 .THIS .opt-in-popup-button {
@@ -214,8 +206,13 @@
 }
 
 .THIS .vertical-line{
-    width: 300px;
-    
+    width: 100%;
+    border-right: none;
+}
+
+.THIS .vertical-line .slds-grid {
+    width: 100%;
+    height: 100%;
 }
 .THIS .horz-width{
     width:1135px;
@@ -231,8 +228,7 @@
   letter-spacing: 0;
   line-height: 29px;
   margin-left: 8px;
-  margin-top: 32.99px;
-  margin-bottom:32.99px;
+  padding-top: 1rem;
 }
 .THIS .profile-information {
   height: 24px;
@@ -258,6 +254,8 @@
 }
 .THIS .navigation {
     min-width: 225px;
+    height: 100%;
+    border-right: 1px solid #e9e9e9;
 }
 /*.THIS .slds-nav-vertical__item.slds-is-active .slds-nav-vertical__action {
     font-weight: bold;

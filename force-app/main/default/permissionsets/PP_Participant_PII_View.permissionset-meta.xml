@@ -347,6 +347,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant_Enrollment__c.To_permit_IQVIA_to_contact_about_study__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant_Enrollment__c.Visit_Completed__c</field>
         <readable>true</readable>
     </fieldPermissions>
