@@ -5,6 +5,8 @@
     doInit: function (component, event, helper) {
         if(!communityService.isInitialized()) return;
 
+        component.find('checkbox-doContact').getElement().checked = true;
+
         if(!communityService.isDummy()) {
             let ssId = communityService.getUrlParameter('ssId');
 
