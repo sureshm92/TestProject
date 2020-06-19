@@ -17,7 +17,7 @@
     <aura:attribute name="fileBody" type="String"/>
     <aura:attribute name="fullFileName" type="String"/>
     <aura:attribute name="createUsers" type="Boolean" default="false"/>
-    <aura:attribute name="doNotContactParticipants" type="Boolean" default="false"/>
+    <aura:attribute name="doNotContactParticipants" type="Boolean" default="true"/>
 
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
