@@ -17,6 +17,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     private Account participantAccount;
     private Id uploaderContactId;
     private Boolean createUsers;
+    private Boolean doNotContactParticipants;
     private User uploadUser;
 
     private String emailError = '';
@@ -31,12 +32,13 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     private Set<String> laguageLVSet = new Set<String>();
 
 
-    public UploadParticipantsBatch(List<List<String>> csvFileLines, String header, String studySiteId, String selectedStatus, Boolean headerFailed, Map<String, Integer> headerIndexes, Boolean createUsers) {
+    public UploadParticipantsBatch(List<List<String>> csvFileLines, String header, String studySiteId, String selectedStatus, Boolean headerFailed, Map<String, Integer> headerIndexes, Boolean createUsers, Boolean doNotContactParticipants) {
         uploadTime = DateTime.now();
         Integer totalRowCount = csvFileLines.size();
         this.headerIndexes = headerIndexes;
         this.selectedStatus = selectedStatus;
         this.createUsers = createUsers;
+        this.doNotContactParticipants = doNotContactParticipants;
 
         studySiteDetails = [SELECT Id, Name, Principal_Investigator__c, Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Study_Site__c WHERE Id = :studySiteId];
 
@@ -428,6 +430,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
                         if (participant.Id != null) {
                             participantEnrollment.Participant__c = participant.Id;
+                            participantEnrollment.To_permit_IQVIA_to_contact_about_study__c = !doNotContactParticipants;
 
                             Database.SaveResult saveRes = Database.insert(participantEnrollment, false);
                             participantEnrollmentsByContact.put(participantEnrollment.Participant_Contact__c, participantEnrollment);

@@ -1,0 +1,55 @@
+.THIS .cCustomThemeLayout{
+    color: #444;
+    font-size: 0.1rem;
+    font-weight: 50;
+    line-height: 10px;
+    margin-bottom: 0.5rem;
+}
+.THIS .slds-checkbox .slds-checkbox__label .slds-form-element__label {
+    display: inline-flex;
+    font-size: .8125rem;
+}
+
+.THIS .invite-popup{
+    max-width: 500px;
+}
+
+.THIS .pi_selection_container{
+    padding: 1rem;
+    color: #000;
+}
+
+.THIS .pi_selection_header{
+    font-size:16px;
+    font-weight:600;
+}
+
+.THIS .pi_selection_info{
+    font-size: 14px;
+    margin: 1% 0 1% 0;
+}
+
+.THIS .select_all_checkbox{
+    margin: 0 0 2% 0;
+}
+
+.THIS .select_all_checkbox .slds-form-element__label{
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.THIS .select_checkbox_group .slds-form-element__label{
+    font-weight: 600;
+    font-size:16px;
+}
+.THIS .startenddate{
+    font-size:0.75rem;
+}
+.THIS .slds-form-element__help{
+    font-size: .75rem;
+    margin-top: .125rem;
+    display: none;
+}
+.THIS.cPopup .p-container .p-content{
+    padding: 0px 10px 20px 10px;
+}

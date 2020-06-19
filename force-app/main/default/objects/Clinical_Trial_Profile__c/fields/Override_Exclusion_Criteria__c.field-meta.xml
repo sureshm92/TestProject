@@ -7,7 +7,7 @@
     <label>Override Exclusion Criteria</label>
     <length>32768</length>
     <trackFeedHistory>true</trackFeedHistory>
-    <trackHistory>true</trackHistory>
+<!--    <trackHistory>true</trackHistory>-->
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>

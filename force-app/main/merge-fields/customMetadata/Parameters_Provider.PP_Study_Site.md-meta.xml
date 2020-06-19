@@ -12,6 +12,7 @@
             SitePhoneNumber = Study_Site_Phone__c
             ReferralNetworkName = ReferralNetworkId__r.Name
             PILanguage = Principal_Investigator__r.Language__c
+            PIName = Principal_Investigator__r.Salutation_With_Name__c
         </value>
     </values>
     <values>

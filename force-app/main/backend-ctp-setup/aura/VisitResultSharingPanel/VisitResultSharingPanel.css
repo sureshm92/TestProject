@@ -1,6 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
+
 .THIS{
     min-height: 100px;
 }
@@ -18,19 +19,26 @@
     margin-top: 20px;
 }
 
-.THIS .group-title{
-    line-height: 27px;
-    font-size: 15px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
 .THIS .group-container{
     margin-bottom: 20px;
 }
 
 .THIS .group-container .slds-form-element__label{
     display: none;
+}
+
+.THIS .group-title,
+.THIS .group-title .slds-form-element__label {
+    margin-bottom: 10px;
+    line-height: 27px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.THIS .group-title .slds-form-element__label {
+    display: inline;
+    padding: 0;
+    color: inherit;
 }
 
 .THIS .ss-options{

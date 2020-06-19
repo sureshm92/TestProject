@@ -2,30 +2,26 @@
                          recipientType="Contact"
                          relatedToType="Case">
 
-    <messaging:htmlEmailBody >
-        <c:EmailTemplate recipientId="{!recipient.Id}"
-                         sourceId="{!relatedTo.Id}"
-                         parametersProvider="Email_Template_Parameters_From_Case"
-                         header="{!$Label.Email_Header_Thank_you_for_submitting_a_request}"
-                         title="{!$Label.Email_Title_PH}"
-                         greeting="{!$Label.Email_Notification_Greeting}"
-                         body="{!$Label.Email_Body_Participant_Answer}"
-                         signature="{!$Label.Email_Signature_New_Continue}">
+    <messaging:htmlEmailBody>
+        <c:EmailWireframe recipientId="{!recipient.Id}"
+                          sourceId="{!relatedTo.Id}"
+                          header="{!$Label.Email_Header_Thank_you_for_submitting_a_request}"
+                          greeting="{!$Label.Email_Notification_Greeting}"
+                          signature="{!$Label.Email_Signature_New_Continue}">
+            <c:Paragraph emailLabel="{!$Label.Email_Body_Participant_Answer}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
-        </c:EmailTemplate>
+        </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody >
-        <c:EmailTemplateText recipientId="{!recipient.Id}"
-                             sourceId="{!relatedTo.Id}"
-                             parametersProvider="Email_Template_Parameters_From_Case"
-                             header="{!$Label.Email_Header_Thank_you_for_submitting_a_request}"
-                             title="{!$Label.Email_Title_PH}"
-                             greeting="{!$Label.Email_Notification_Greeting}"
-                             body="{!$Label.Email_Body_Participant_Answer}"
-                             signature="{!$Label.Email_Signature_New_Continue}">
+    <messaging:plainTextEmailBody>
+        <c:EmailWireframeText recipientId="{!recipient.Id}"
+                              sourceId="{!relatedTo.Id}"
+                              header="{!$Label.Email_Header_Thank_you_for_submitting_a_request}"
+                              greeting="{!$Label.Email_Notification_Greeting}"
+                              signature="{!$Label.Email_Signature_New_Continue}">
+            <c:ParagraphText emailLabel="{!$Label.Email_Body_Participant_Answer}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
-        </c:EmailTemplateText>
+        </c:EmailWireframeText>
     </messaging:plainTextEmailBody>
 
 </messaging:emailTemplate>

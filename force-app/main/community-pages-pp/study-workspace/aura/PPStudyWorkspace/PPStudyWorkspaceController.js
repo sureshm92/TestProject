@@ -20,10 +20,32 @@
             component.set('v.userMode', communityService.getUserMode());
             component.set('v.state', communityService.getCurrentCommunityMode().participantState);
             component.set('v.multiMode', communityService.getAllUserModes().length > 1);
+            component.set('v.isDelegateMode', communityService.getCurrentCommunityMode().currentDelegateId);
             component.set('v.currentTab', tabId);
             component.set('v.taskMode', taskMode);
             component.set('v.resourceMode', resourceMode);
             component.set('v.visitMode', visitMode);
+
+            if (component.get('v.state') !== 'ALUMNI'){
+                communityService.executeAction(component, 'visitResultSharingByGroupAndMode', {},
+                    function (returnValue) {
+                        component.set('v.visitResultSharings', returnValue);
+                        let availableMods = Object.keys(returnValue).toString();
+
+                        if (availableMods.includes('Biomarkers')) {
+                            component.set('v.displayBiomarkersButton', true);
+                            component.set('v.labResultsMode', 'Biomarkers');
+                        }
+                        if (availableMods.includes('Labs')) {
+                            component.set('v.displayLabsButton', true);
+                            component.set('v.labResultsMode', 'Labs');
+                        }
+                        if (availableMods.includes('Vitals')) {
+                            component.set('v.displayVitalsButton', true);
+                            component.set('v.labResultsMode', 'Vitals');
+                        }
+                    });
+            }
 
             communityService.executeAction(component, 'getTrialDetail', {
                 trialId: recId,

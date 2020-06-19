@@ -3,52 +3,26 @@
  */
 ({
 
-    checkFields: function (component, event) {
+    checkFields: function (component, event, helper) {
         var delegateItem = component.get('v.delegateItem');
 
         if (event.getSource().getLocalId() == 'delEmail') {
             delegateItem.First_Name__c = null;
             delegateItem.Last_Name__c = null;
         }
-
         delegateItem.isConnected = false;
         delegateItem.isDuplicate = false;
         component.set('v.delegateItem', delegateItem);
         component.set('v.isDuplicate', false);
-
         var isValid = (delegateItem.Email__c && communityService.isValidEmail(delegateItem.Email__c)) &&
             delegateItem.First_Name__c && delegateItem.First_Name__c.trim() &&
             delegateItem.Last_Name__c && delegateItem.Last_Name__c.trim();
         component.set('v.isValid', isValid);
+        if(isValid && event.getType()==='aura:valueInit')  helper.doCheckContact(component,event);
     },
 
-    checkContact: function (component, event) {
-        var email = event.getSource().get('v.value');
-
-        if (email && communityService.isValidEmail(email)) {
-            component.find('spinner').show();
-
-            communityService.executeAction(component, 'checkDelegateDuplicate', {
-                email: email
-            }, function (returnValue) {
-                if (returnValue.firstName) {
-                    component.set('v.delegateItem.First_Name__c', returnValue.firstName);
-                    component.find('delFirstName').focus();
-                    component.set('v.delegateItem.Last_Name__c', returnValue.lastName);
-                    component.find('delLastName').focus();
-                    component.set('v.delegateItem.Contact__c', returnValue.contactId);
-                    component.set('v.isDuplicate', returnValue.isDuplicate);
-                    component.set('v.delegateItem.isDuplicate', returnValue.isDuplicate);
-                    if (returnValue.firstName && returnValue.lastName) {
-                        component.set('v.isValid', true);
-                    }
-                    component.find('spinner').hide();
-                } else {
-                    component.set('v.isDuplicate', returnValue.isDuplicate);
-                    component.find('spinner').hide();
-                }
-            });
-        }
+    checkContact: function (component, event,helper) {
+        helper.doCheckContact(component,event);
     },
 
     doConnect : function (component) {
@@ -85,6 +59,10 @@
             component.find('spinner').hide();
             communityService.showErrorToast('', "Emancipation process - connect/disconnect delegate action failed! Description: " + returnValue);
         })
+    },
+
+    approveDelegate:function(component, event, helper){
+        component.set('v.useThisDelegate', true);
     },
 
 });

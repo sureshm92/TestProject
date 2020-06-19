@@ -78,10 +78,20 @@ public without sharing class NotificationResultService {
         updateNotificationsStatus();
     }
     
+    public void setAction(Action__c action){
+        List<Send_Result__c> results = new List<Send_Result__c>();
+        for(List<Send_Result__c> nResults : sendResultsMap.values()){
+            for(Send_Result__c sr : nResults) {
+                sr.Action__c = action.Id;
+            }
+            results.addAll(nResults);
+        }
+    }
+    
     private void setResultStatus(Id notificationId, String targetType, String status, String errorMessage){
         Send_Result__c result = getSendResult(notificationId, targetType);
         result.Status__c = status;
-        result.Error__c = errorMessage;
+        result.Error__c = SObjectHelper.trimForField(errorMessage, Send_Result__c.Error__c);
     }
     
     private void updateNotificationsStatus(){

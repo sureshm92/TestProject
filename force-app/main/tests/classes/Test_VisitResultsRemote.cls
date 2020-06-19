@@ -3,6 +3,7 @@
  */
 @IsTest
 public with sharing class Test_VisitResultsRemote {
+
     @TestSetup
     static void setup() {
         TriggerHandlerExecutor.bypassHandler(ContactReferralNetworkTriggerHandler.SyncContactInterestedSites.class);
@@ -16,7 +17,6 @@ public with sharing class Test_VisitResultsRemote {
         Test.startTest();
         TestData.loadTestData();
         Test.stopTest();
-
     }
 
     @IsTest
@@ -47,7 +47,9 @@ public with sharing class Test_VisitResultsRemote {
         testData.updatePEStatusEnrollmentSuccess();
 
         System.runAs(testData.participantUser) {
-            VisitResultsRemote.InitDataWrapper wrapper = VisitResultsRemote.getInitData('');
+            Map<String, Map<String, List<String>>> visitResultSharings = new Map<String, Map<String, List<String>>>();
+            visitResultSharings.put('Vitals', new Map<String, List<String>>());
+            VisitResultsRemote.InitDataWrapper wrapper = VisitResultsRemote.getInitData('Vitals',visitResultSharings);
             System.assert(wrapper != null);
         }
         Test.stopTest();
@@ -87,7 +89,9 @@ public with sharing class Test_VisitResultsRemote {
         );
 
         Test.startTest();
-        VisitResultsService.VisitResultsContainer tesContainer = VisitResultsRemote.getVisitResultsContainer('');
+        Map<String, List<String>> visitResultSharings = new Map<String, List<String>>();
+        visitResultSharings.put('Vitals', new List<String>());
+        VisitResultsService.VisitResultsContainer tesContainer = VisitResultsRemote.getVisitResultsContainer('Vitals', JSON.serialize(visitResultSharings));
         Test.stopTest();
 
         System.assert(tesContainer.groupName.equals('Vitals'));
@@ -122,15 +126,17 @@ public with sharing class Test_VisitResultsRemote {
         testData.updatePEStatusEnrollmentSuccess();
         testData.participant.Contact__c = null;
         update testData.participant;
+
         try {
             System.runAs(testData.participantUser) {
-                VisitResultsRemote.getInitData('');
+                VisitResultsRemote.getInitData('', null);
             }
         } catch (Exception e) {
             isExceptionThrown = true;
             System.assert(e.getTypeName() == 'System.AuraHandledException');
         }
         Test.stopTest();
+
         System.assert(true, isExceptionThrown);
     }
 
@@ -143,6 +149,7 @@ public with sharing class Test_VisitResultsRemote {
                 .then(new AuraHandledException('exception'))
                 .build()
         );
+
         Test.startTest();
         try {
             VisitResultsRemote.getVisitResultsGroupNames(null);
@@ -152,6 +159,7 @@ public with sharing class Test_VisitResultsRemote {
             System.assert(e.getTypeName() == 'System.AuraHandledException');
         }
         Test.stopTest();
+
         System.assert(true, isExceptionThrown);
     }
 
@@ -164,15 +172,17 @@ public with sharing class Test_VisitResultsRemote {
                 .then(new AuraHandledException('exception'))
                 .build()
         );
+
         Test.startTest();
         try {
-            VisitResultsRemote.getVisitResultsContainer(null);
+            VisitResultsRemote.getVisitResultsContainer(null,null);
 
         } catch (Exception e) {
             isExceptionThrown = true;
             System.assert(e.getTypeName() == 'System.AuraHandledException');
         }
         Test.stopTest();
+
         System.assert(true, isExceptionThrown);
     }
 
@@ -185,6 +195,7 @@ public with sharing class Test_VisitResultsRemote {
                 .then(new AuraHandledException('exception'))
                 .build()
         );
+
         Test.startTest();
         try {
             VisitResultsRemote.getVisitResultWrappersForDashboard();
@@ -194,58 +205,62 @@ public with sharing class Test_VisitResultsRemote {
             System.assert(e.getTypeName() == 'System.AuraHandledException');
         }
         Test.stopTest();
+
         System.assert(true, isExceptionThrown);
     }
 
-
     @IsTest
-    static void changeOptInOnTrue_test() {
-        Contact contact = (Contact) TestDataFactory.getSObject(Contact.getSObjectType());
-
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubBuilder.newInstance(DatabaseProxy.class)
-                .when('updateRecord')
-                .then(null)
-                .build()
-        );
-
-        Test.startTest();
+    static void switchToggleRemoteToggleOn_test() {
         TestData testData = new TestData();
         testData.updatePEStatusEnrollmentSuccess();
-        testData.participant.Contact__c = contact.Id;
-        update testData.participant;
-        System.runAs(testData.participantUser) {
-            Boolean isOptOn = VisitResultsRemote.changeOptInOnTrue(contact.Id);
 
-            System.assert(isOptOn);
+        Contact contact = [
+                SELECT Visit_Results_OptIn__c
+                FROM Contact
+                WHERE Id = :testData.participantUser.ContactId
+        ];
+        contact.Visit_Results_OptIn__c = 'Biomarkers';
+        update contact;
+
+        Test.startTest();
+        System.runAs(testData.participantUser) {
+            VisitResultsRemote.switchToggleRemote('Vitals', true);
         }
         Test.stopTest();
+
+        contact = [
+                SELECT Visit_Results_OptIn__c
+                FROM Contact
+                WHERE Id = :testData.participantUser.ContactId
+        ];
+        System.assertEquals('Vitals;Biomarkers', contact.Visit_Results_OptIn__c);
     }
 
     @IsTest
-    static void changeOptInWithException_test() {
-        Contact contact = (Contact) TestDataFactory.getSObject(Contact.getSObjectType());
+    static void switchToggleRemoteToggleOff_test() {
+        TestData testData = new TestData();
+        testData.updatePEStatusEnrollmentSuccess();
 
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubBuilder.newInstance(DatabaseProxy.class)
-                .when('updateRecord')
-                .then(new AuraHandledException('error'))
-                .build()
-        );
+        Contact contact = [
+                SELECT Visit_Results_OptIn__c
+                FROM Contact
+                WHERE Id = :testData.participantUser.ContactId
+        ];
+        contact.Visit_Results_OptIn__c = 'Vitals;Labs;Biomarkers';
+        update contact;
 
         Test.startTest();
-        TestData testData = new TestData();
-        Boolean isExceptionThrown = false;
         System.runAs(testData.participantUser) {
-            try {
-                VisitResultsRemote.changeOptInOnTrue(contact.Id);
-
-            } catch (Exception e) {
-                isExceptionThrown = true;
-                System.assert(e.getTypeName() == 'System.AuraHandledException');
-            }
-            System.assert(true, isExceptionThrown);
+            VisitResultsRemote.switchToggleRemote('Vitals', false);
+            VisitResultsRemote.switchToggleRemote('Biomarkers', false);
         }
         Test.stopTest();
+
+        contact = [
+                SELECT Visit_Results_OptIn__c
+                FROM Contact
+                WHERE Id = :testData.participantUser.ContactId
+        ];
+        System.assertEquals('Labs', contact.Visit_Results_OptIn__c);
     }
 }

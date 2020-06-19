@@ -1,0 +1,38 @@
+<!--
+ - Created by velu on 21.05.2020.
+ -->
+
+<aura:component description="MediaOutreachRecordCancelRequest" Controller="ViewMediaResult"
+    implements="forceCommunity:availableForAllPageTypes" access="global">
+
+    <!-- attributes:-->
+    <aura:attribute name="title" type="String" default="{!$Label.c.Warning}" access="public"
+    />
+    <aura:attribute name="recordid" type="String" access="public" />
+
+    <!-- Events:-->
+    <aura:registerEvent name="cmpEvent" type="c:MediaOutreachCancelReqEvt" />
+    
+    <!-- methods:-->
+    <aura:method name="execute" action="{!c.doExecute}" access="public" />
+    <aura:method name="close" action="{!c.closepopup}" access="public" />
+    
+    <!-- component body:-->
+    <c:Popup aura:id="Show_WarningPoP_Up" title="{!v.title}" showClose="false" size="small"
+        showScroll="false" showFooter="false" >
+        
+        <div class="slds-grid slds-grid_vertical">
+            <p>{!$Label.c.Cancel_request_warning_message}</p>
+            <br></br>
+        </div>
+        <div class="slds-float_right">
+            <button class="apollo-btn primary" data-gtm="BTN_Invite_Referring_Provider" onclick="{!c.confirmed}">
+                    {!$Label.c.Yes}
+                </button>
+            <button class="apollo-btn primary" data-gtm="BTN_Invite_Referring_Provider" onclick="{!c.declined}">
+                    {!$Label.c.No}
+                </button>
+        </div>
+    </c:Popup>
+
+</aura:component>

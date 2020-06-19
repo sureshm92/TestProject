@@ -22,6 +22,10 @@
                 <behavior>Required</behavior>
                 <field>Permission_Set_Developer_Name__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ShortCommunityName__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

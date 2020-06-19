@@ -1,4 +1,4 @@
-<aura:component controller="ParticipantVisitsRemote" description="StudyVisitsPreviewPanel" >
+<aura:component controller="ParticipantVisitsRemote" description="StudyVisitsPreviewPanel">
 
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
@@ -27,13 +27,14 @@
                                 <td><p class="visit-schedule slds-hyphenate">
                                         {!visitWrapper.visit.Visit__r.Visit_Schedule__c}</p></td>
                                 <td style="max-width: 130px">
-                                    <c:RRIconSplitter class="svl-icon" value="{!visitWrapper.icons}"/>
+                                    <c:RRIconSplitter class="svl-icon" icons="{!visitWrapper.iconDetails}"/>
                                 </td>
                             </tr>
                         </aura:iteration>
                     </c:RRTable>
                 </aura:if>
-                <c:EmptyListStub targetList="{!v.visitWrappers}" iconName="none" message="{!$Label.c.PG_VP_L_No_Items_display}"/>
+                <c:EmptyListStub targetList="{!v.visitWrappers}" iconName="none"
+                                 message="{!$Label.c.PG_VP_L_No_Items_display}"/>
             </div>
             <div class="sv-footer">
                 <c:RRLink page="study-workspace?tab=tab-visits" label="{!$Label.c.Resources_See_All}"/>

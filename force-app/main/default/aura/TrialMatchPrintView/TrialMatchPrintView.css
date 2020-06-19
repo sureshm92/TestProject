@@ -1,0 +1,130 @@
+.THIS {
+}
+
+.THIS .tap-class {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: "Proxima Nova" !important;;
+    color: #000000;
+    font-size: 14px !important;
+    line-height: 21px;
+    width: 80%
+}
+
+.THIS .ctp-recruitment-status {
+    font-size: 14px !important;
+    width: 20%;
+    text-align: right;
+    color: #000000;
+    font-family: "Proxima Nova" !important;
+    font-weight: 600 !important;
+    line-height: 21px;
+}
+
+.THIS .ctp-study-code-name {
+    font-family: "Proxima Nova" !important;
+    color: #000000;
+    font-weight: 600 !important;
+    font-size: 20px !important;
+    line-height: 30px;
+    width: 60ch
+}
+
+.THIS .top-line {
+    height: 5px !important;
+    width: auto !important;
+    border-radius: 5px 5px 0 0 !important;
+    background-color: #00C221 !important;
+}
+
+.THIS .seperator {
+    height: 1px !important;
+    width: auto !important;
+    border-radius: 5px 5px 0 0 !important;
+    background: #e9e9e9 !important;
+}
+
+.THIS .ctp-date-status {
+    font-size: 14px !important;
+    width: 45%;
+    text-align: right;
+    color: #000000;
+    font-family: "Proxima Nova" !important;
+    font-weight: 500 !important;
+    line-height: 21px;
+}
+
+.THIS .cpt-official-title {
+    color: #000000;
+    font-family: "Proxima Nova" !important;
+    font-size: 16px !important;
+    line-height: 24px;
+    width: 60ch
+}
+
+@media print{
+
+    .THIS .tap-class {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-family: "Proxima Nova" !important;;
+        color: #000000;
+        font-size: 14px !important;
+        line-height: 21px;
+        width: 80%
+    }
+    
+    .THIS .ctp-recruitment-status {
+        font-size: 14px !important;
+        width: 20%;
+        text-align: right;
+        color: #000000;
+        font-family: "Proxima Nova" !important;
+        font-weight: 600 !important;
+        line-height: 21px;
+    }
+
+    .THIS .ctp-study-code-name {
+        font-family: "Proxima Nova" !important;
+        color: #000000;
+        font-weight: 600 !important;
+        font-size: 20px !important;
+        line-height: 30px;
+        width: 60ch
+    }
+
+    .THIS .top-line {
+        height: 5px !important;
+        width: auto !important;
+        border-radius: 5px 5px 0 0 !important;
+        background-color: #00C221 !important;
+    }
+
+    .THIS .seperator {
+        height: 1px !important;
+        width: auto !important;
+        border-radius: 5px 5px 0 0 !important;
+        background: #e9e9e9 !important;
+    }
+
+    .THIS .ctp-date-status {
+        font-size: 14px !important;
+        width: 45%;
+        text-align: right;
+        color: #000000;
+        font-family: "Proxima Nova" !important;
+        font-weight: 500 !important;
+        line-height: 21px;
+    }
+    
+    .THIS .cpt-official-title {
+        color: #000000;
+        font-family: "Proxima Nova" !important;
+        font-size: 16px !important;
+        line-height: 24px;
+        width: 60ch
+    }
+    
+}

@@ -3,8 +3,7 @@
  -->
 
 <aura:component description="Referring" implements="forceCommunity:availableForAllPageTypes" controller="ReferringRemote">
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
-                  afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
     <aura:attribute name="trialId" type="String"/>
@@ -29,6 +28,9 @@
     <aura:attribute name="todayDate" type="Date"/>
     <aura:attribute name="markers" type="Object[]"/>
     <aura:attribute name="accessUserLevel" type="String"/>
+    <aura:attribute name="delegateDuplicateInfo" type="Object"/>
+    <aura:attribute name="useThisDelegate" type="Boolean" default="true"/>
+
 
     <aura:attribute name="showMRRButton" type="Boolean"/>
 
@@ -43,7 +45,6 @@
     <aura:attribute name="searchResult" type="Object"/>
     <aura:attribute name="searchData" type="Object"/>
     <aura:attribute name="mrrResult" type="String"/>
-    <aura:attribute name="showSpinner" type="Boolean" default="true"/>
 
     <aura:attribute name="counries" type="List"/>
     <aura:attribute name="selectedCountry" type="String"/>
@@ -58,13 +59,16 @@
     <aura:handler name="change" value="{!v.mrrResult}" action="{!c.doStartPreScreening}"/>
     <aura:handler name="change" value="{!v.participant.Mailing_Country_Code__c}" action="{!c.doCountryChange}"/>
     <!--<aura:handler name="change" value="{!v.participant.Mailing_State_Code__c}" action="{!c.doCheckfields}"/>-->
+    <aura:handler name="ddMessageButtonClick" event="c:DDMessageEvent" action="{!c.approveDelegate}"/>
 
-    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
 
-    <!--<aura:if isTrue="{!!empty(v.hcpEnrollment)}">-->
+    <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true"/>
+
     <aura:if isTrue="{!!empty(v.trial)}">
         <!-- top page bar -->
-        <c:RRTopBar backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}" backPage="" smallTitle="{!if(!empty(v.trial),v.trial.Study_Code_Name__c,'')}" bigTitle="{!$Label.c.DLIT_L_Pre_eligibility_screening}">
+        <c:RRTopBar backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}" backPage=""
+                    smallTitle="{!if(!empty(v.trial),v.trial.Study_Code_Name__c,'')}"
+                    bigTitle="{!$Label.c.DLIT_L_Pre_eligibility_screening}">
             <aura:if isTrue="{!v.currentState == 'Screening'}">
                 <div class="buttons-area">
                     <div class="rr-width-limiter buttons-block">
@@ -497,6 +501,9 @@
                                                                      messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"/>
                                                 </div>
                                             </div>
+                                            <aura:if isTrue="{!(v.delegateDuplicateInfo.isDuplicateDelegate || v.delegateDuplicateInfo.contactId || v.delegateDuplicateInfo.participantId) &amp;&amp; !v.useThisDelegate}">
+                                                <c:DuplicateDelegateMessage delegateDuplicateInfo="{!v.delegateDuplicateInfo}"/>
+                                            </aura:if>
                                             <div class="slds-grid slds-gutters slds-wrap rr-form-element">
                                                 <div class="slds-col slds-size--1-of-2">
                                                     <lightning:input type="text" label="{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}" value="{!v.delegateParticipant.Phone__c}"
@@ -510,6 +517,7 @@
                                                     <c:rrSelect options="{!v.phoneTypes}" value="{!v.delegateParticipant.Phone_Type__c}" useSentenceFont="false"/>
                                                 </div>
                                             </div>
+
                                         </aura:if>
                                         <div class="rr-form-element slds-no-label" style="margin-top: 25px;">
                                             <div class="rr-cb-container">
@@ -520,7 +528,7 @@
                                         <button class="apollo-btn primary" style="width: 100%; margin: 20px 0 50px 0"
                                                 data-gtm="btn_SaveParticipant_referring"
                                                 onclick="{!c.doSaveParticipant}"
-                                                disabled="{!!v.allRequiredCompleted}">
+                                                disabled="{!!v.allRequiredCompleted || !v.useThisDelegate}">
                                             <!--                                                disabled="{!v.actions.refer.disabled || !v.allRequiredCompleted}"-->
                                             <!--                                                title="{!v.actions.refer.disableReason}">-->
                                             {!$Label.c.BTN_Refer_Now}
@@ -690,8 +698,7 @@
                                                    trial="{!v.trial}"
                                                    searchData="{!v.searchData}"
                                                    searchResult="{!v.searchResult}"
-                                                   mrrResult="{!v.mrrResult}"
-                                                   showSpinner="{!v.showSpinner}"/>
+                                                   mrrResult="{!v.mrrResult}"/>
                 </div>
             </aura:if>
 
@@ -703,4 +710,5 @@
         </div>
     </aura:if>
 
+    <c:builderStub aura:id="builderStub"/>
 </aura:component>

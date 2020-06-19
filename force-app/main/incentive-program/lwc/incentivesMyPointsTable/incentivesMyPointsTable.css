@@ -1,0 +1,61 @@
+/**
+ * Created by Andrii Kryvolap.
+ */
+table{
+    table-layout: fixed;
+}
+thead > tr{
+    background: #F6F7FB;
+    color: #595959;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+}
+tr>th:nth-child(1), tr>td:nth-child(1){
+    width:20%;
+}
+tr>th:nth-child(2), tr>td:nth-child(2){
+    width:50%;
+}
+tr>th:nth-child(3){
+    width:22%;
+    text-align: end;
+}
+ tr>td:nth-child(3){
+    width:25%;
+    text-align: end;
+}
+tbody>tr{
+    color: #444444;
+    font-size: 16px;
+    line-height: 30px;
+    border-bottom: 2px solid #F8F9FB;
+}
+td, th{
+    padding: 10px 20px;
+}
+tbody{
+    display:block;
+    overflow:auto;
+    height:45vh;
+    width:100%;
+}
+thead tr{
+    display:block;
+}
+::-webkit-scrollbar{
+    width: 8px;
+}
+::-webkit-scrollbar-thumb{
+    width: 8px;
+    border-radius: 4px;
+    background-color: #999999;
+    box-shadow: 0 8px 8px 0 rgba(0,0,0,0.16);
+    height: 100px;
+}
+::-webkit-scrollbar-track{
+    display:none;
+}
+::-webkit-scrollbar-button{
+    height: 0;
+}

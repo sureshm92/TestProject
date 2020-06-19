@@ -189,18 +189,9 @@ public without sharing class ContactService {
                 ParticipantEnrollmentService.PE_COMMON_FIELDS, Participant_Enrollment__c.getSObjectType(), filter);
     }
 
-    public static void updateNextNotifyDate(Id cntId, Datetime lastLoginDateByContactId, Boolean isDelegate) {
-        Id participantCnt = cntId;
-        if (isDelegate) {
-            List<Patient_Delegate__c> delegate = [
-                    SELECT Id, Contact__c, Participant__r.Contact__c
-                    FROM Patient_Delegate__c
-                    WHERE Contact__c = :cntId
-            ];
-            if (delegate.isEmpty()) return;
+    public static void updateNextNotifyDate(Id cntId, Datetime lastLoginDateByContactId) {
+        Id participantCnt = ParticipantContext.getCurrentContactId();
 
-            participantCnt = delegate.get(0).Participant__r.Contact__c;
-        }
         Map<Id, Integer> notifyDayByPartCnt = ParticipantService.getNearestLogOutNotification(new List<Id>{
                 participantCnt
         });
@@ -242,6 +233,7 @@ public without sharing class ContactService {
                         PI_DelegateAccessLevel__c,
                         userCommunity_ShowTour__c,
                         Current_Participant_Enrollment__c,
+                        Next_Notify_Date__c,
                         Last_Session_Id__c,
                         Language__c,
                         Second_Choice_Language__c,
@@ -255,7 +247,9 @@ public without sharing class ContactService {
                         PI_My_Studies_Filters__c,
                         Third_Choice_Language__c,
                         Participant_Opt_In_Status_Emails__c,
-                        Visit_Results_Opt_In__c,
+                        Visit_Results_OptIn__c,
+                        Visited_Communities__c,
+                        Email,
                         Account.OwnerId,
                         Account.Name,
                         Account.Phone,
@@ -266,9 +260,26 @@ public without sharing class ContactService {
                         Account.BillingCountry,
                         Account.BillingPostalCode,
                         Account.BillingCountryCode,
-                        Phone
+                        Phone,
+                        MobilePhone,
+                        Phone_Type__c
                 FROM Contact
                 WHERE Id = :contactId
         ];
+    }
+    public static void updateVisitedCommunity(Contact contact, CommunityTemplate template) {
+        List<String> communities = new List<String>();
+        String commStr = contact.Visited_Communities__c;
+        if(String.isNotEmpty(commStr)) communities.addAll(commStr.split(';'));
+        if (!communities.contains(template.templateName)) {
+            communities.add(template.templateName);
+            commStr = String.join(communities, ';');
+            update new Contact(Id = contact.Id, Visited_Communities__c = commStr);
+        }
+    }
+
+    public static Boolean checkVisitedCommunity(Id conId) {
+        Contact con = [SELECT Id, Visited_Communities__c FROM Contact WHERE Id =: conId];
+        return String.isNotEmpty(con.Visited_Communities__c);
     }
 }

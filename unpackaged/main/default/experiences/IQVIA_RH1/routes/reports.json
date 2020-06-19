@@ -1,9 +1,0 @@
-{
-  "appPageId" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
-  "id" : "aa28d4d5-a118-41b0-b813-821e1f1a69d1",
-  "label" : "Reports",
-  "pageAccess" : "UseParent",
-  "routeType" : "custom-reports",
-  "type" : "route",
-  "urlPrefix" : "reports"
-}

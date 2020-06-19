@@ -2,10 +2,11 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component implements="forceCommunity:themeLayout" controller="CommunityFacadeRemote">
-    <ltng:require styles="{!join(',', $Resource.Community_CSS_Core, $Resource.Community_CSS_Stub, $Resource.proximanova + '/proximanova.css')}"
-                  scripts="{!$Resource.rr_community_js}"
-                  afterScriptsLoaded="{!c.doInit}"/>
+ <aura:component implements="forceCommunity:themeLayout" controller="CommunityFacadeRemote">
+    <ltng:require
+            styles="{!join(',', $Resource.Community_CSS_Core, $Resource.Community_CSS_Stub, $Resource.proximanova + '/proximanova.css')}"
+            scripts="{!$Resource.rr_community_js}"
+            afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
     <aura:attribute name="search" type="Aura.Component[]"/>
@@ -14,11 +15,13 @@
     <aura:attribute name="sidebarFooter" type="Aura.Component[]"/>
     <aura:attribute name="showSideMenu" type="Boolean" default="false"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
+    <aura:attribute name="isDummy" type="Boolean" default="false"/>
     <aura:attribute name="isArabic" type="Boolean"/>
     <aura:attribute name="template" type="String"/>
 
     <aura:attribute name="allModes" type="Object[]"/>
     <aura:attribute name="currentMode" type="Object"/>
+    <aura:attribute name="currentPage" type="String"/>
     <aura:attribute name="showModeSwitcher" type="Boolean" default="false"/>
     <aura:attribute name="logoURL" type="String"/>
     <aura:attribute name="communityName" type="String"/>
@@ -31,24 +34,41 @@
 
     <aura:if isTrue="{!v.isInitialized}">
         <div class="{!'rr-all-content ' + $Browser.formFactor + ' ' + if(v.showSideMenu, ' bodyShift ', ' ') + if(v.availableModes.length > 1, ' with-selector ', '')}">
-            <div class="{!'rr-header-content ' + if(v.showModeSwitcher, ' multi-mode ', ' ') + if(v.isInitialized, 'main-header-brand', 'main-header-neutral')}" >
+            <div class="{!'rr-header-content ' + if(v.showModeSwitcher, ' multi-mode ', ' ') + if(v.isInitialized, 'main-header-brand', 'main-header-neutral')}">
                 <aura:if isTrue="{!v.isInitialized}">
                     <div class="{!'layout-header rr-width-limiter side-padding ' + if(v.isArabic, 'rtl', '')}">
                         <div class="menu-btn" onclick="{!c.switchSideMenu}">
-                            <img src="{!$Resource.rr_community_icons + '/menu_btn.png'}" class="chevron" style="height: 32px; width: 32px"/>
+                            <img src="{!$Resource.rr_community_icons + '/menu_btn.png'}" class="chevron"
+                                 style="height: 32px; width: 32px"/>
                         </div>
                         <div class="logo-container">
-                            <img src="{!if(v.currentMode.userMode == 'Participant', v.logoURL, $Resource.rr_community_icons + '/Referral_Hub_Logo.svg')}" class="title-logo" onclick="{!c.doGoHome}"/>
+                            <img src="{!if(v.currentMode.userMode == 'Participant', v.logoURL, $Resource.rr_community_icons + '/Referral_Hub_Logo.svg')}"
+                                 class="title-logo" onclick="{!c.doGoHome}"/>
                         </div>
 
                         <div class="navigation-block">
-                            <c:CommunityNavigation aura:id="navigation" mode="{!v.currentMode.userMode}" />
+                            <c:CommunityNavigation aura:id="navigation" mode="{!v.currentMode.userMode}" currentPage="{!v.currentPage}"/>
                         </div>
                         <div class="right-block" data-gtm="community_mode_switcher">
+                            <div class="bell-container">
+                                <forceCommunity:notifications/>
+
+                            </div>
                             <aura:if isTrue="{!v.showModeSwitcher}">
-                                <c:CommunityModeSwitcher allModes="{!v.allModes}" currentMode="{!v.currentMode}" onModeChange="{!c.doRefresh}"/>
+                                <c:CommunityModeSwitcher allModes="{!v.allModes}" currentMode="{!v.currentMode}"
+                                                         onModeChange="{!c.doRefresh}"/>
                             </aura:if>
+                             <!-- Added as per REF-1343 by Vikrant Sharma for Help icon adjacent to User Profile for PI and HCP -->
+                             <aura:if isTrue="{!v.currentMode.userMode != 'Participant'}">
+                                <div onclick="{!c.onClickHelp}" style="display:inline;margin-left: 11px;" class="helpNavigationCSS" title="help">
+                                <c:RRIcon iconName="help" color="white" class="navigation-icon"/>
+                                </div>
+                                 </aura:if>
+                               <!-- Ending of REF-1343 -->
                             <c:ProfileMenu aura:id="profileMenu" userMode="{!v.currentMode.userMode}"/>
+                            <aura:if isTrue="{!v.currentMode.userMode == 'PI'}">
+                                <c:navIncentiveCounter onnavigatetoincentives="{!c.doNavigate}" currentPage="{!v.currentPage}"/>
+                            </aura:if>
                         </div>
                     </div>
                 </aura:if>
@@ -67,13 +87,17 @@
             <aura:if isTrue="{!v.isInitialized}">
                 <div class="footer">
                     <div class="rr-width-limiter" style="padding: 0 15px">
-                        <c:CommunityFooter />
+                        <c:CommunityFooter/>
                     </div>
                 </div>
-                <c:CookiesInfo/>
+                <aura:if isTrue="{!not(v.isDummy)}">
+                    <c:CookiesInfo/>
+                </aura:if>
             </aura:if>
 
-            <c:Alerts aura:id="alerts"/>
+            <aura:if isTrue="{!not(v.isDummy)}">
+                <c:Alerts aura:id="alerts"/>
+            </aura:if>
         </div>
 
     </aura:if>

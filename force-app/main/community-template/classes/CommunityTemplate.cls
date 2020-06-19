@@ -10,6 +10,7 @@ public without sharing class CommunityTemplate {
     @AuraEnabled public String redirectURL;
     @AuraEnabled public Boolean needRedirect;
     @AuraEnabled public String communityName;
+    @AuraEnabled public String shortCommunityName;
     @AuraEnabled public String permissionSet;
 
     public CommunityTemplate(Community_Template__mdt templateMdt, Map<String, String> properties) {
@@ -20,6 +21,7 @@ public without sharing class CommunityTemplate {
         this.currentCommunityURL = Site.getBaseUrl();
         this.redirectURL = CommunityTemplateService.getCommunityURL(templateMdt.Community_Name__c);
         this.needRedirect = communityName != UserContext.getCurrentCommunityName();
+        this.shortCommunityName = templateMdt.ShortCommunityName__c;
     }
 
 }

@@ -1,9 +1,0 @@
-{
-  "appPageId" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
-  "id" : "75a30d7c-26ed-4cf4-882a-1bf5cd551502",
-  "label" : "Resources",
-  "pageAccess" : "UseParent",
-  "routeType" : "custom-resources",
-  "type" : "route",
-  "urlPrefix" : "resources"
-}

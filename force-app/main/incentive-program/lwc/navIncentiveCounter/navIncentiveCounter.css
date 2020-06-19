@@ -1,0 +1,34 @@
+/**
+ * Created by Andrii Kryvolap.
+ */
+.nic-button {
+    color: #ffffff;
+    display: inline;
+    padding: 16px 5px;
+}
+.nic-button:hover{
+    background-color: rgba(255,255,255,0.16)
+}
+.nic-button.current-page{
+    background-color: rgba(255,255,255,0.16)
+}
+.nic-container{
+    position: relative;
+    display: inline;
+}
+.nic-container:hover{
+    cursor: default;
+}
+.nic-container:focus{
+    outline: none;
+}
+:host {
+    height: 50px;
+    min-width: 30px;
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .nic-container{
+        top: -19.5px;
+    }
+}

@@ -2,7 +2,7 @@
  * Created by Igor Malyuta on 31.05.2019.
  */
 
-public abstract class Batch_ScheduledAbstract implements Database.Batchable<SObject>, Database.Stateful{
+public abstract class Batch_ScheduledAbstract implements Database.Batchable<SObject>, Database.Stateful {
 
     public static final String INTERVAL_MINUTES = 'Minutes';
     public static final String INTERVAL_HOURS = 'Hours';
@@ -19,22 +19,31 @@ public abstract class Batch_ScheduledAbstract implements Database.Batchable<SObj
         return null;
     }
 
+    /**
+     * Pre-setup for batch panel
+    */
     public virtual String getRecommendedIntervalMode() {
         return INTERVAL_MINUTES;
     }
 
+    /**
+     * Pre-setup for batch panel
+    */
     public virtual Integer getRecommendedRelaunchInterval() {
         return 10;
     }
 
+    /**
+     * Pre-setup for batch panel
+    */
     public virtual Integer getRecommendedScopeSize() {
         return 200;
     }
 
-    public virtual void finalAction(){
-    
+    public virtual void finalAction() {
+
     }
-    
+
     public virtual void finish(Database.BatchableContext param1) {
         finalAction();
         List<Batch_Detail__c> batchDetails = [
@@ -49,6 +58,7 @@ public abstract class Batch_ScheduledAbstract implements Database.Batchable<SObj
             Batch_Detail__c detail = batchDetails.get(0);
             Integer minutes = getMinutesByMode(detail.Interval_Mode__c, detail.Relaunch_Interval__c.intValue());
             Integer scopeSize = detail.Scope_Size__c.intValue();
+            System.debug('Next Scope Size: ' + scopeSize);
             System.scheduleBatch(
                     (Database.Batchable<SObject>) getType().newInstance(), getType().getName(), minutes, scopeSize);
         }

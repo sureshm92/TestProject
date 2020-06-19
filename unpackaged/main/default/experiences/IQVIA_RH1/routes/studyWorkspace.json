@@ -1,9 +1,0 @@
-{
-  "appPageId" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
-  "id" : "e23c5a37-4fe6-4bc6-aab1-cc01dce7ce47",
-  "label" : "Study Workspace",
-  "pageAccess" : "UseParent",
-  "routeType" : "custom-study-workspace",
-  "type" : "route",
-  "urlPrefix" : "study-workspace"
-}

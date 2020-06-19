@@ -4,12 +4,12 @@
 
 public without sharing class CommunityFacadeRemote {
     public static String COOKIE_FIELD_MARK = 'AllowedCookie__c';
-    
+
     @AuraEnabled
     public static Boolean isFirstLogon() {
         return [SELECT Id, Contact.Is_First_Logon__c FROM User WHERE Id = :UserInfo.getUserId()].Contact.Is_First_Logon__c;
     }
-    
+
     @AuraEnabled
     public static void acceptTerms() {
         try {
@@ -21,67 +21,102 @@ public without sharing class CommunityFacadeRemote {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-    
+
     private class CommunityData {
         String communityMode;
         String communityDelegateId;
         Boolean isDelegate;
         String state;
-        String pathPrefix;
         Boolean isTCAccepted;
-        Boolean messagesVisible;
         String language;
         List<String> preventedCookies;
         Boolean isNewSession;
         String baseUrl;
+        String pathPrefix;
+        String subDomain;
         List<CommunityMode> allUserModes;
         CommunityMode currentUserMode;
         Boolean isDummy;
         String communityName;
-        String subDomain;
+        Boolean messagesVisible;
+        Boolean trialMatchVisible;
     }
-    
-    private class CommunityType{
+
+    private class CommunityType {
         String value;
         String label;
         String delegateId;
-        public CommunityType(String value, String label, String delegateId){
+        public CommunityType(String value, String label, String delegateId) {
             this.value = value;
             this.label = label;
             this.delegateId = delegateId;
         }
     }
-    
+
+    /**
+     * Class, that contains all community user visibility. Please add your new visibility here
+     */
+    public class CommunityUserVisibility {
+        @AuraEnabled public Boolean messagesVisible;
+        @AuraEnabled public Boolean trialMatchVisible;
+    }
+
     @AuraEnabled
     public static String getCommunityData() {
         try {
-            Contact userContact = CommunityService.getUserContact();
             CommunityData cd = new CommunityData();
             cd.isDummy = UserContext.isDummyContact();
-            cd.allUserModes = UserContext.getAllUserModes();
+            if (!cd.isDummy) {
+                Contact userContact = CommunityService.getUserContact();
+                cd.communityMode = userContact.userCommunityMode__c;
+                cd.communityDelegateId = userContact.userCommunityDelegateId__c != null ? userContact.userCommunityDelegateId__c : '';
+                cd.isDelegate = userContact.UserCommunityIsDelegate__c;
+                cd.allUserModes = UserContext.getAllUserModes();
+                cd.isNewSession = CommunityService.isNewSession();
+                cd.state = ParticipantService.getParticipantState().value.name();
+                cd.preventedCookies = getPreventedCookies(userContact.Id);
+                cd.messagesVisible = getMessagesVisibility();
+                cd.trialMatchVisible = getTrialMatchVisibility();
+            }
             cd.currentUserMode = UserContext.getCurrentUserMode();
-            cd.isTCAccepted = cd.isDummy || isTCAccepted();
-            cd.communityMode = userContact.userCommunityMode__c;
-            cd.communityDelegateId = userContact.userCommunityDelegateId__c!=null?userContact.userCommunityDelegateId__c:'';
-            cd.state = ParticipantService.getParticipantState().value.name();
-            cd.pathPrefix = Site.getPathPrefix();
-            cd.language = UserInfo.getLanguage();
-            cd.preventedCookies = getPreventedCookies(userContact.Id);
-            cd.isDelegate = userContact.UserCommunityIsDelegate__c;
-            cd.baseUrl = Site.getBaseUrl();
-            cd.messagesVisible = getMessagesVisibility();
-            cd.communityName = Site.getName();
             cd.subDomain = Site.getPathPrefix().replace('/s', '');
+            cd.communityName = Site.getName();
+            cd.baseUrl = Site.getBaseUrl();
+            cd.pathPrefix = Site.getPathPrefix();
+            cd.isTCAccepted = cd.isDummy || isTCAccepted();
+            cd.language = UserInfo.getLanguage();
+            
 
             return JSON.serialize(cd);
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            return (String) AuraHelper.throwException(e);
         }
     }
-    
+
+    @AuraEnabled
+    public static Boolean isDummyMode() {
+        try {
+            return UserContext.isDummyContact();
+        } catch (Exception e) {
+            return (Boolean) AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
+    public static CommunityUserVisibility getCommunityUserVisibility() {
+        try {
+            CommunityUserVisibility userVisibility = new CommunityUserVisibility();
+            userVisibility.messagesVisible = getMessagesVisibility();
+            userVisibility.trialMatchVisible = getTrialMatchVisibility();
+            return userVisibility;
+        } catch (Exception e) {
+            return (CommunityUserVisibility) AuraHelper.throwException(e);
+        }
+    }
+
     private static List<String> getPreventedCookies(Id contactId) {
         List<String> preventedCookies = new List<String>();
-        
+
         List<String> cookieFields = new List<String>();
         Map<String, Schema.SObjectField> fields = Contact.getSObjectType().getDescribe().fields.getMap();
         for (String currField : fields.keySet()) {
@@ -90,7 +125,7 @@ public without sharing class CommunityFacadeRemote {
                 cookieFields.add(fieldName);
             }
         }
-        
+
         if (!cookieFields.isEmpty()) {
             String query = 'SELECT ' + String.join(cookieFields, ', ') + ' FROM Contact WHERE Id = \'' + contactId + '\'';
             List<Contact> currContacts = Database.query(query);
@@ -106,10 +141,10 @@ public without sharing class CommunityFacadeRemote {
                 }
             }
         }
-        
+
         return preventedCookies;
     }
-    
+
     public static String extractCookieName(String fieldName) {
         if (String.isNotBlank(fieldName)) {
             Integer pos = fieldName.indexOf(COOKIE_FIELD_MARK);
@@ -119,7 +154,7 @@ public without sharing class CommunityFacadeRemote {
             return null;
         }
     }
-    
+
     public static Boolean isTCAccepted() {
         Terms_And_Conditions__c portalTC = TermsAndConditions.getPortalTC();
         if (portalTC != null) return TermsAndConditions.isTCAccepted(portalTC.Id);
@@ -134,27 +169,36 @@ public without sharing class CommunityFacadeRemote {
         List<Id> peIds = new List<Id>();
         CommunityMode communityMode = UserContext.getCurrentUserMode();
 
-        if(communityMode.currentPE != null) peIds.add(communityMode.currentPE);
-        if(communityMode.hasPastStudies) {
+        if (communityMode.currentPE != null) peIds.add(communityMode.currentPE);
+        if (communityMode.hasPastStudies) {
             Id currentContactId = userContact.Id;
-            if(communityMode.isDelegate) {
+            if (communityMode.isDelegate) {
                 currentContactId = PatientDelegateService.getParticipantByDelegateContactId(currentContactId).Contact__c;
             }
             List<Id> pastPEs = PatientDelegateService.getPastPEIdsForContact(currentContactId);
-            if(pastPEs != null) peIds.addAll(pastPEs);
+            if (pastPEs != null) peIds.addAll(pastPEs);
         }
 
         if (!peIds.isEmpty()) {
-            conversations = [ SELECT Id FROM Conversation__c WHERE Participant_Enrollment__c IN: peIds];
+            conversations = [SELECT Id FROM Conversation__c WHERE Participant_Enrollment__c IN:peIds];
 
             peWithAvailableMessages = [
-                    SELECT Id FROM Participant_Enrollment__c
-                    WHERE Id IN: peIds AND Study_Site__r.Messages_Are_Available__c = TRUE
+                    SELECT Id
+                    FROM Participant_Enrollment__c
+                    WHERE Id IN:peIds AND Study_Site__r.Messages_Are_Available__c = TRUE
             ];
         }
 
-        if(conversations.isEmpty() && peWithAvailableMessages.isEmpty()) return false;
+        if (conversations.isEmpty() && peWithAvailableMessages.isEmpty()) return false;
         return true;
+    }
+
+    private static Boolean getTrialMatchVisibility() {
+        if (ParticipantContext.getCurrentPEId() != null) {
+            return ParticipantContext.getCurrentPE().Clinical_Trial_Profile__r.Trial_Match_Is_Available__c
+                    && ParticipantService.getParticipantState().value == ParticipantService.ParticipantStates.PARTICIPANT;
+        }
+        return false;
     }
 
     @AuraEnabled
@@ -162,18 +206,18 @@ public without sharing class CommunityFacadeRemote {
         try {
             Contact userContact = CommunityService.getUserContact();
             userContact.userCommunityMode__c = mode;
-            if(mode == CommunityService.USER_MODE_HCP) userContact.userCommunityDelegateId__c = delegateId;
-            if(mode == CommunityService.USER_MODE_PARTICIPANT) {
+            if (mode == CommunityService.USER_MODE_HCP) userContact.userCommunityDelegateId__c = delegateId;
+            if (mode == CommunityService.USER_MODE_PARTICIPANT) {
                 userContact.Current_Participant_Enrollment__c = peId;
                 userContact.userCommunityDelegateId__c = delegateId;
             }
             update userContact;
             return userContact;
         } catch (Exception e) {
-            return (Contact)AuraHelper.throwException(e);
+            return (Contact) AuraHelper.throwException(e);
         }
     }
-    
+
     @AuraEnabled
     public static String getPreferredLanguageCode(String browserLanguages) {
         try {
@@ -182,7 +226,7 @@ public without sharing class CommunityFacadeRemote {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-    
+
     public static String getLocalizedURL(String defaultURL) {
         String lang = UserInfo.getLanguage();
         lang = lang.replace('_', '-');
@@ -196,11 +240,11 @@ public without sharing class CommunityFacadeRemote {
             return url2;
         }
         return defaultURL;
-    
+
     }
 
     public static Boolean urlExists(String url) {
-        try{
+        try {
             if (Test.isRunningTest()) return true;
             HttpRequest req = new HttpRequest();
             req.setEndpoint(url);
@@ -208,7 +252,7 @@ public without sharing class CommunityFacadeRemote {
             Http http = new Http();
             HttpResponse res = http.send(req);
             return res.getStatusCode() == 200;
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }

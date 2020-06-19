@@ -49,6 +49,10 @@
                     if (returnValue.isEnrolled) formComponent.set('v.isFinalUpdate', true);
                     component.find('spinner').hide();
                     component.set('v.anchor', params.anchorScroll);
+                    if (returnValue.enrollment.HCP__r){
+                        component.set('v.refProvider', returnValue.enrollment.HCP__r.HCP_Contact__r);
+                        returnValue.enrollment.HCP__r.HCP_Contact__r = undefined;
+                    }
                     component.set('v.pe', returnValue.enrollment);
                     component.set('v.participantDelegate', returnValue.participantDelegate);
                     component.set('v.participant', pe.Participant__r);
@@ -58,7 +62,7 @@
                 }), 15);
             });
             component.find('dialog').show();
-            component.find('dialog').scrollTop();
+            //component.find('dialog').scrollTop();
         } catch (e) {
             console.error(e);
         }
@@ -90,7 +94,7 @@
             peJSON: JSON.stringify(pe),
             delegateJSON: JSON.stringify(component.get('v.participantDelegate')),
             userInfoJSON: JSON.stringify(userInfo)
-        }, function () {
+        }, function (returnvalue) {
             if (component.get('v.saveAndChangeStep')) {
                 component.set('v.saveAndChangeStep', false);
 
@@ -99,6 +103,8 @@
             if(callback){
                 callback(pe);
             }
+            component.set('v.pe', returnvalue);
+            component.set('v.participant', returnvalue.Participant__r);
         }, null, function () {
             component.find('spinner').hide();
         });
@@ -167,9 +173,6 @@
                 historyToUpdate : isStatusChanged 
             };
         }
-        // if(component.get('v.isInvited')){
-        //     communityService.executeAction(component, 'updateUserLanguage', {userJSON: JSON.stringify(userInfo)})
-        // }
         communityService.executeAction(component, actionName, actionParams , function () {
             var callback = component.get('v.callback');
             if(callback){

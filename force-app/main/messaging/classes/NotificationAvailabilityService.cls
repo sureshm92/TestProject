@@ -266,6 +266,11 @@ public without sharing class NotificationAvailabilityService {
         }
         return isAvailable;
     }
+    
+    public Boolean isAvailableForPush(Id contactId, String whatId){
+        //TODO
+        return true;
+    }
 
     public Boolean isDeferNotification(Id contactId, String whatId){
         if(!permissionSetsByConIdMap.containsKey(contactId)) return true;

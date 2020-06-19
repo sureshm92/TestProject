@@ -4,34 +4,32 @@
 <aura:component description="VisitResultsItem">
 
     <!-- ATTRIBUTES -->
-
+    <aura:attribute name="displayedValue" type="Double" default="0" required="true"/>
     <aura:attribute name="wrapper" type="VisitResultsService.VisitResultWrapper"/>
-    <aura:attribute name="isVitals" type="Boolean" default="false"/>
+    <aura:attribute name="visitResultType" type="String" default="Vitals"/>
 
     <aura:attribute name="expectedRange" type="String" default="-" access="private"/>
     <aura:attribute name="showExpectedRange" type="Boolean" default="true" access="private"/>
 
     <!-- HANDLERS -->
-
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     <!-- COMPONENT BODY -->
-
     <div class="visit-result-item-panel">
-        <div class="visit-result-name-container">
-            <div class="visit-result-name">
-                {!v.wrapper.name}
-                <br />
-                <div class="visit-result-measurement"><aura:unescapedHtml value="{!v.wrapper.measurement}"/></div>
+        <div class="visit-result-content-container">
+            <div class="visit-result-name-container">
+                <div class="visit-result-name">{!v.wrapper.name}</div>
+                <div>
+                    <lightning:helptext content="{!v.wrapper.description}" class="visit-result-item-description"/>
+                </div>
             </div>
-        </div>
-        <div class="visit-result-slider">
-            <c:RRSlider value="{!v.wrapper.value}" minValue="{!v.wrapper.minValue}" maxValue="{!v.wrapper.maxValue}"/>
-            <div class="{!v.showExpectedRange ? 'visit-result-range' : 'hidden'}" title="{!$Label.c.Visit_Results_Tab_Expected_Range + ': ' + v.expectedRange}">
+            <div class="{!v.showExpectedRange ? 'visit-result-expected' : 'hidden'}">
                 {!$Label.c.Visit_Results_Tab_Expected_Range + ': ' + v.expectedRange}
             </div>
+            <div class="visit-result-slider">
+                <c:RRTrack showPercentage="{!and(v.visitResultType != 'Biomarkers', v.showExpectedRange)}"
+                           wrapper="{!v.wrapper}" value="{!v.displayedValue}" />
+            </div>
         </div>
-        <lightning:helptext content="{!v.wrapper.description}" class="visit-result-item-description"/>
     </div>
-
 </aura:component>

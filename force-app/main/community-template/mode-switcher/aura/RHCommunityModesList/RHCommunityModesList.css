@@ -1,0 +1,76 @@
+/**
+ * Created by Andrii Kryvolap
+ */
+
+.THIS .mode-group{
+    width: 205px;
+}
+.THIS.mode-group:hover,
+.THIS.mode-sub-item:hover{
+    cursor: pointer;
+}
+
+.THIS.mode-group.selected{
+    color: #0768FD;
+}
+
+.THIS .mode-sub-item{
+    color: #444444;
+    font-size: 16px;
+    font-weight: normal;
+    height: 48px;
+    width: 305px;
+    letter-spacing: 0;
+    line-height: 48px;
+    border-bottom: 1px solid #F8F9FB;
+    padding-left: 32px;
+}
+
+.THIS.mode-sub-item.selected{
+    color: #0768FD;
+    font-weight: 600;
+}
+
+.THIS .mode-icon{
+    width: 16px;
+    height: 16px;
+    margin-left: 8px;
+    margin-right: 8px;
+    line-height: 48px;
+}
+
+.THIS .main-box{
+    height: 48px;
+    width: 305px;
+    color: #000000;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 48px;
+    display: flex;
+    justify-content: left;
+    border-bottom: 1px solid #F8F9FB;
+
+}
+.THIS .icon-box{
+    line-height: 48px;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.THIS .icon-unset{
+    visibility: visible!important;
+    opacity: unset!important;
+}
+
+.THIS li.unset{
+    display: block!important;
+}
+
+.THIS .icon-check{
+    width: 20px;
+    height: 20px;
+    fill: #0768FD;
+    margin-left: 5px;
+}
+

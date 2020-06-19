@@ -7,7 +7,7 @@
     <label>Study Sponsor</label>
     <length>400</length>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>true</trackHistory>
+<!--    <trackHistory>true</trackHistory>-->
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>5</visibleLines>

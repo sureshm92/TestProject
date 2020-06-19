@@ -1,7 +1,3 @@
-/**
- * Created by Leonid Bartenev
- */
-
 public without sharing class ParticipantService {
     public class ParticipantServiceException extends Exception {
     }
@@ -111,7 +107,7 @@ public without sharing class ParticipantService {
                         Contact__c,
                         Conditions__c,
                         Contact__r.Current_Participant_Enrollment__c,
-                        Contact__r.Visit_Results_Opt_In__c,
+                        Contact__r.Visit_Results_OptIn__c,
                         Contact__r.Participant_Opt_In_Status_Emails__c,
                         Marketing_Flag__c
                 FROM Participant__c
@@ -179,9 +175,13 @@ public without sharing class ParticipantService {
         return participantState;
     }
 
-    public void createParticipantAndUpdatePEImpl(Participant__c participant, Participant_Enrollment__c pe, String userLanguage) {
+    public void createParticipantAndUpdatePEImpl(Participant__c participant, Participant__c participantDelegate, Participant_Enrollment__c pe, String userLanguage) {
         participant.Preferred_Language__c = userLanguage;
-        ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(participant);
+        ParticipantDuplicateService.ParticipantWithDelegate participantWithDelegate = new ParticipantDuplicateService.ParticipantWithDelegate();
+        participantWithDelegate.participant = participant;
+        participantWithDelegate.delegate = participantDelegate;
+
+        ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(participantWithDelegate);
         Participant__c participantFromDatabase = duplicateService.findDuplicate(participant);
         if (participantFromDatabase != null) {
             participant = participantFromDatabase;
@@ -215,8 +215,8 @@ public without sharing class ParticipantService {
         return getInstance().getState();
     }
 
-    public static void createParticipantAndUpdatePE(Participant__c participant, Participant_Enrollment__c pe, String userLanguage) {
-        getInstance().createParticipantAndUpdatePEImpl(participant, pe, userLanguage);
+    public static void createParticipantAndUpdatePE(Participant__c participant, Participant__c participantDelegate, Participant_Enrollment__c pe, String userLanguage) {
+        getInstance().createParticipantAndUpdatePEImpl(participant, participantDelegate, pe, userLanguage);
     }
 
     public static List<LabelValueItem> getGenderLVList() {
@@ -232,6 +232,16 @@ public without sharing class ParticipantService {
         phoneTypes.add(new LabelValueItem(Label.Phone_Type_Work, 'Work'));
         phoneTypes.add(new LabelValueItem(Label.Phone_Type_Mobile, 'Mobile'));
         return phoneTypes;
+    }
+	
+	public static List<LabelValueItem> getPrefixList() {
+        List<LabelValueItem> prefix = new List<LabelValueItem>();
+        prefix.add(new LabelValueItem('Mr.', 'Mr.'));
+        prefix.add(new LabelValueItem('Ms.', 'Ms.'));
+        prefix.add(new LabelValueItem('Mrs.', 'Mrs.'));
+        prefix.add(new LabelValueItem('Dr.', 'Dr.'));
+        prefix.add(new LabelValueItem('Prof.', 'Prof.'));
+        return prefix;
     }
 
     public static Map<Id, Integer> getNearestLogOutNotification(List<Id> participantContIds) {

@@ -21,6 +21,7 @@
         <!-- component body -->
         <div>   
             <div class="slds-grid">     
+            <div class="slds-col nameGrp">
                 <div class="slds-col column1">
                     {!v.siteRankData.rank}.
                 </div>    
@@ -35,6 +36,7 @@
                         {!v.siteRankData.location}
                     </div>
                 </div>   
+            </div>
                 <div class="slds-col column4">
                    <div class="slds-col " >
                         {!$Label.c.Dashboard_Contacted}: <span class="digit-span">{!v.siteRankData.contacted}</span>

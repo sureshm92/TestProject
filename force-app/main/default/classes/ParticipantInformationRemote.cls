@@ -30,11 +30,13 @@ public without sharing class ParticipantInformationRemote {
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode, delegateId);
             ParticipantItem pi =  new ParticipantItem(pe);
             ParticipantWorkflowService.populatePatientItemsWithPathWrappers(new List<ParticipantItem>{pi});
+            pi.pe.Participant_Status__c = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, pi.pe.Participant_Status__c);
             return JSON.serialize(pi);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
     }
+
 
     /**
    * This method is created to accomodate the requirements of REF-1192
@@ -48,6 +50,16 @@ public without sharing class ParticipantInformationRemote {
    * @exception AuraHandledException to community UI
    * @see AuraHandledException
    */
+
+    @AuraEnabled
+    public static Participant__c getDelegates(String participantId) {
+        List<Participant__c> delegates = [SELECT Id, First_Name__c, Last_Name__c, Phone__c FROM Participant__c WHERE Contact__c IN (SELECT Contact__c FROM Patient_Delegate__c WHERE Participant__c = :participantId AND Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS)];
+        if (!delegates.isEmpty()) {
+            return delegates[0];
+        } else {
+            return null;
+        }
+    }
     @AuraEnabled
     public static String getPrintInfoWithSteps(String peId, String userMode, String delegateId){
         try{    
@@ -76,8 +88,12 @@ public without sharing class ParticipantInformationRemote {
     }
     
     @AuraEnabled
-    public static void updatePatientInfoWithDelegate(String participantJSON, String peJSON, String delegateJSON, String userInfoJSON) {
-        AddPatientByPIRemote.updatePatientInfo(participantJSON, peJSON);
+    public static Participant_Enrollment__c updatePatientInfoWithDelegate(String participantJSON, String peJSON, String delegateJSON, String userInfoJSON) {
+        Participant_Enrollment__c pe = AddPatientByPIRemote.updatePatientInfo(participantJSON, peJSON);
+        Participant__c part = [SELECT Id, Adult__c, Emancipation_in_progress__c FROM Participant__c WHERE Id =: pe.Participant__c];
+        pe.Participant__r.Adult__c = part.Adult__c;
+        pe.Participant__r.Emancipation_in_progress__c = part.Emancipation_in_progress__c;
+
         if (!String.isBlank(delegateJSON)) {
             Participant__c delegateParticipant = (Participant__c) JSON.deserialize(delegateJSON, Participant__c.class);
             if (delegateParticipant != null && !String.isBlank(delegateParticipant.Id)) {
@@ -89,6 +105,7 @@ public without sharing class ParticipantInformationRemote {
             }
         }
         updateUserLanguage(userInfoJSON);
+        return pe;
     }
     
     @AuraEnabled
@@ -122,48 +139,8 @@ public without sharing class ParticipantInformationRemote {
     }
     
     @AuraEnabled
-    public static DelegateInfo checkDelegateDuplicate(String email) {
-        DelegateInfo hp = new DelegateInfo();
-        hp.email = email;
-
-        if (!String.isBlank(email)) {
-            List<Contact> contacts = [
-                    SELECT Id, FirstName, LastName, Name, Email, userCommunytyType__c
-                    FROM Contact
-                    WHERE Email = :email OR Email = :email.toLowerCase()
-            ];
-
-            if (!contacts.isEmpty()) {
-                if (String.isBlank(contacts[0].FirstName) || String.isBlank(contacts[0].LastName)) {
-                    List<Participant__c> participants = [
-                            SELECT Id,
-                                    First_Name__c,
-                                    Last_Name__c
-                            FROM Participant__c
-                            WHERE Contact__c = :contacts[0].Id
-                    ];
-                    if (!participants.isEmpty()) {
-                        hp.firstName = participants[0].First_Name__c;
-                        hp.lastName = participants[0].Last_Name__c;
-                        contacts[0].FirstName = participants[0].First_Name__c;
-                        contacts[0].LastName = participants[0].Last_Name__c;
-                        update contacts[0];
-                    } else {
-                        hp.firstName = contacts[0].FirstName;
-                        hp.lastName = contacts[0].LastName;
-                    }
-                } else {
-                    hp.firstName = contacts[0].FirstName;
-                    hp.lastName = contacts[0].LastName;
-                }
-                hp.email = contacts[0].Email;
-                hp.contactId = contacts[0].Id;
-
-                hp.isDuplicate = true;
-            }
-        }
-
-        return hp;
+    public static ReferHealthcareProviderRemote.HealthcareProvider checkDelegateDuplicate(String email, String firstName, String lastName, String participantId) {
+        return  ReferHealthcareProviderRemote.checkDuplicate(null, email, firstName, lastName, participantId);
     }
 
     @AuraEnabled
@@ -400,9 +377,18 @@ public without sharing class ParticipantInformationRemote {
             Clinical_Trial_Profile__c ctp = StudyTrialService.getFullTrial(oldParticipantEnrollment.Clinical_Trial_Profile__c);
             ParticipantWorkflowService.populatePEFromWorkflowWrapper(pathWrapper, pe, ctp, oldParticipantEnrollment);
             update pe;
+            if ((oldParticipantEnrollment.Initial_visit_scheduled_date__c == null || oldParticipantEnrollment.Initial_visit_scheduled_time__c == null)
+                    &&(pe.Initial_visit_scheduled_date__c != null && pe.Initial_visit_scheduled_time__c != null)) {
+                IncentiveProgramService.completeIncentiveTaskCurrentContact(IncentiveTaskCatalog.INCENTIVE_TASK_ENTERED_INITIAL_VISIT_SCHEDULED_TIME, oldParticipantEnrollment.Study_Site__c, oldParticipantEnrollment.Name);
+            }
             pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_PI);            
             Participant_Enrollment_Status_History__c pesh = ParticipantWorkflowService.createPESHFromPathWrapper(pathWrapper, pe, ctp, oldParticipantEnrollment);
             if(pesh != null && historyToUpdate){
+                if (oldParticipantEnrollment.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED
+                        && (pesh.Status__c == PEStatusState.PE_STATUS_CONTACT_ATTEMPTED || pesh.Status__c == PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED)
+                        && oldParticipantEnrollment.Participant_Status_Last_Changed_Date__c.date().daysBetween(Date.today()) <= 1) {
+                    IncentiveProgramService.completeIncentiveTaskCurrentContact(IncentiveTaskCatalog.INCENTIVE_TASK_MADE_CONTACT_ATTEMPT_WITHIN_1_DAY, oldParticipantEnrollment.Study_Site__c, oldParticipantEnrollment.Name);
+                }
                 insert pesh;
             }
             pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_PI);

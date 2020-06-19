@@ -5,48 +5,14 @@
     checkContact: function (component, event, helper) {
         var sharingObject = component.get('v.sharingObject');
         var email = event.getSource().get('v.value');
-        if (email && communityService.isValidEmail(email)) {
-            var parent = component.get('v.parent');
-            parent.find('spinner').show();
-            var pe = component.get('v.pe');
-            communityService.executeAction(component, 'checkDuplicate', {
-                peId: pe.Id,
-                email: email
-            }, function (returnValue) {
-                if (returnValue.firstName) {
-                    if (sharingObject.sObjectType == 'Object') {
-                        component.set('v.sharingObject.email', email);
-                        component.set('v.sharingObject.firstName', returnValue.firstName);
-                        component.find('firstNameInput').focus();
-                        component.set('v.sharingObject.lastName', returnValue.lastName);
-                        component.find('lastNameInput').focus();
-                    } else if (sharingObject.sObjectType == 'Contact') {
-                        component.set('v.sharingObject.Email', email);
-                        component.set('v.sharingObject.FirstName', returnValue.firstName);
-                        component.find('firstNameInput').focus();
-                        component.set('v.sharingObject.LastName', returnValue.lastName);
-                        component.find('lastNameInput').focus();
-                    } else {
-                        component.set('v.sharingObject.Email__c', email);
-                        component.set('v.sharingObject.First_Name__c', returnValue.firstName);
-                        component.find('firstNameInput').focus();
-                        component.set('v.sharingObject.Last_Name__c', returnValue.lastName);
-                        component.find('lastNameInput').focus();
-                    }
-                    component.set('v.providerFound', true);
-                    component.set('v.isDuplicate', returnValue.isDuplicate);
-                    component.set('v.isDuplicateDelegate', returnValue.isDuplicateDelegate);
-                    if (returnValue.firstName && returnValue.lastName) {
-                        component.set('v.isValid', true);
-                    }
-                    parent.find('spinner').hide();
-                } else {
-                    component.set('v.isDuplicate', returnValue.isDuplicate);
-                    component.set('v.isDuplicateDelegate', returnValue.isDuplicateDelegate);
-                    parent.find('spinner').hide();
-                }
-            });
+        var isValid = component.get('v.isValid');
+        if (email && communityService.isValidEmail(email.trim()) && sharingObject.sObjectType != 'Object') {
+            helper.doCheckContact(component, event, helper, null, null, email.trim());
         }
+        if(isValid && sharingObject.sObjectType == 'Object'){
+            helper.doCheckContact(component, event, helper, sharingObject.firstName, sharingObject.lastName, sharingObject.email.trim());
+        }
+
     },
 
     checkFields: function (component, event, helper) {
@@ -126,5 +92,17 @@
         } else {
             helper.doConnect(component, event, helper);
         }
+    },
+
+    checkDelegateDuplicate: function(component, event, helper){
+        var isValid = component.get('v.isValid');
+        var sharingObject = component.get('v.sharingObject');
+        if(isValid && sharingObject.sObjectType == 'Object'){
+            helper.doCheckContact(component, event, helper, sharingObject.firstName, sharingObject.lastName, sharingObject.email.trim());
+        }
+    },
+
+    approveDelegate:function(component, event, helper){
+        component.set('v.useThisDelegate', true);
     },
 });

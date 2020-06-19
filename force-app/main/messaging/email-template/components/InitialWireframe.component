@@ -1,0 +1,149 @@
+<!--
+ - Created by Igor Malyuta on 29.04.2020.
+ -->
+
+<apex:component id="InitialWireframe" controller="InitialWireframeController" access="global">
+
+    <!-- attributes: -->
+    <apex:attribute name="userId" type="Id" assignTo="{!recordId}" description="" access="global"/>
+    <apex:attribute name="communityTemplate" type="String" assignTo="{!commTemplate}" description="" access="global"/>
+    <apex:attribute name="buttonLabel" type="String" assignTo="{!buttonLabelValue}" description="" access="global"/>
+    <apex:attribute name="buttonURL" type="String" description="" access="global"/>
+    <apex:attribute name="outputType" type="String" assignTo="{!outputMode}" description="" default="HTML"/>
+
+    <!-- Participant: -->
+    <c:EmailWireframe rendered="{!userMode == 'Participant Virtual'}"
+                      recipientId="{!recordId}"
+                      sourceId="{!sourceId}"
+                      header="{!$Label.Email_Header_Initial_Patient}"
+                      title="{!titleLabel}"
+                      greeting="{!$Label.Email_User_Greeting_FirstName}"
+                      signature="{!$Label.Email_Signature_Patient}"
+                      communityTemplate="{!communityTemplate}">
+        <!-- Inner body -->
+        <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Virtual}"/>
+    </c:EmailWireframe>
+
+    <c:EmailWireframe rendered="{!userMode == 'Participant referred by PI'}"
+                      recipientId="{!recordId}"
+                      sourceId="{!sourceId}"
+                      header="{!$Label.Email_Header_Initial_Patient}"
+                      title="{!titleLabel}"
+                      greeting="{!$Label.Email_User_Greeting_FirstName}"
+                      signature="{!$Label.Email_Signature_Patient}"
+                      communityTemplate="{!communityTemplate}">
+        <!-- Inner body -->
+        <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Created_By_PI}"/>
+        <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
+    </c:EmailWireframe>
+
+    <c:EmailWireframe rendered="{!userMode == 'Participant referred by HCP'}"
+                      recipientId="{!recordId}"
+                      sourceId="{!sourceId}"
+                      header="{!$Label.Email_Header_Initial_Patient}"
+                      title="{!titleLabel}"
+                      greeting="{!$Label.Email_User_Greeting_FirstName}"
+                      signature="{!$Label.Email_Signature_Patient}"
+                      communityTemplate="{!communityTemplate}">
+        <!-- Inner body -->
+        <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient}"/>
+        <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
+    </c:EmailWireframe>
+
+    <!-- Participant Delegate -->
+    <c:EmailWireframe rendered="{!userMode == 'Participant Delegate'}"
+                      recipientId="{!recordId}"
+                      sourceId="{!sourceId}"
+                      header="{!$Label.Email_Header_Initial_Patient_Delegate}"
+                      title="{!titleLabel}"
+                      greeting="{!$Label.Email_User_Greeting_FirstName}"
+                      signature="{!$Label.Email_Signature_New}"
+                      communityTemplate="{!communityTemplate}">
+        <!-- Inner body -->
+        <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate}"/>
+        <c:EmailTemplateDelegateParticipant/>
+        <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
+    </c:EmailWireframe>
+
+    <!-- PI -->
+    <c:EmailWireframe rendered="{!userMode == 'PI'}"
+                      recipientId="{!recordId}"
+                      sourceId="{!sourceId}"
+                      header="{!$Label.Email_Header_Initial_PI}"
+                      title="{!titleLabel}"
+                      greeting="{!$Label.Email_User_Greeting}"
+                      signature="{!$Label.Email_Signature}">
+        <!-- Inner body -->
+        <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_PI}"/>
+        <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
+    </c:EmailWireframe>
+
+    <!-- PI Delegate -->
+    <c:EmailWireframe rendered="{!userMode == 'PI Delegate'}"
+                      recipientId="{!recordId}"
+                      sourceId="{!sourceId}"
+                      header="{!$Label.Email_Header_Initial_Delegate}"
+                      title="{!titleLabel}"
+                      greeting="{!$Label.Email_User_Greeting_FirstName}"
+                      signature="{!$Label.Email_Signature}">
+        <!-- Inner body -->
+        <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Delegate}"/>
+        <c:EmailTemplateDelegate/>
+        <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
+    </c:EmailWireframe>
+
+    <!-- HCP -->
+    <c:EmailWireframe rendered="{!userMode == 'HCP'}"
+                      recipientId="{!recordId}"
+                      sourceId="{!sourceId}"
+                      header="{!$Label.Email_Header_Initial_HCP}"
+                      title="{!titleLabel}"
+                      greeting="{!$Label.Email_User_Greeting}"
+                      signature="{!$Label.Email_Signature}"
+                      specificEmailProvider="{!specificProvider}">
+        <!-- Inner body -->
+        <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_HCP}"/>
+        <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
+    </c:EmailWireframe>
+
+    <c:EmailWireframe rendered="{!userMode == 'HCP Health Care Provider'}"
+                      recipientId="{!recordId}"
+                      sourceId="{!sourceId}"
+                      header="{!$Label.Email_Header_Initial_HCP}"
+                      title="{!titleLabel}"
+                      greeting="{!$Label.Email_User_Greeting}"
+                      signature="{!$Label.Email_Signature}"
+                      specificEmailProvider="{!specificProvider}">
+        <!-- Inner body -->
+        <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_PI_PT_HCP}"/>
+        <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
+    </c:EmailWireframe>
+
+    <c:EmailWireframe rendered="{!userMode == 'HCP has enrollments'}"
+                      recipientId="{!recordId}"
+                      sourceId="{!sourceId}"
+                      header="{!$Label.Email_Header_Initial_HCP}"
+                      title="{!titleLabel}"
+                      greeting="{!$Label.Email_User_Greeting}"
+                      signature="{!$Label.Email_Signature}"
+                      specificEmailProvider="{!specificProvider}">
+        <!-- Inner body -->
+        <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_PI_HCP}"/>
+        <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
+    </c:EmailWireframe>
+
+    <!-- HCP Delegate -->
+    <c:EmailWireframe rendered="{!userMode == 'HCP Delegate'}"
+                      recipientId="{!recordId}"
+                      sourceId="{!sourceId}"
+                      header="{!$Label.Email_Header_Initial_Delegate}"
+                      title="{!titleLabel}"
+                      greeting="{!$Label.Email_User_Greeting_FirstName}"
+                      signature="{!$Label.Email_Signature}">
+        <!-- Inner body -->
+        <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Delegate}"/>
+        <c:EmailTemplateDelegate/>
+        <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
+    </c:EmailWireframe>
+
+</apex:component>

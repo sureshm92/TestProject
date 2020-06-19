@@ -7,12 +7,14 @@
     <aura:attribute name="ctpId" type="String" required="true"/>
     <aura:attribute name="visitResultWrappers" type="Object[]" access="private"/>
     <aura:attribute name="VisitResultPage" type="String" access="private"/>
+    <aura:attribute name="toggleVitalsIsOn" type="Boolean" access="private"/>
+    <aura:attribute name="visitReportHeader" type="String" />
 
     <!-- HANDLERS -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     <!-- COMPONENT BODY -->
-    <aura:if isTrue="{!and(v.visitResultWrappers.length != 0, v.ctpId != null)}">
+    <aura:if isTrue="{!and(and(v.ctpId != null, v.toggleVitalsIsOn), v.visitResultWrappers.length != 0)}">
         <c:HomePreviewTablePanel title="{!$Label.c.Visit_Results_Dashboard_My_Results}">
             <div class="objective-link">
                 <div class="objective-section">
@@ -24,7 +26,7 @@
             </div>
 
             <div class="visit-results-body">
-                <div class="visit-results-title">{!$Label.c.Visit_Results_Tab_Vitals}</div>
+                <div class="visit-results-title">{!v.visitReportHeader}</div>
                 <div class="visit-results-container">
                     <aura:iteration items="{!v.visitResultWrappers}" var="visitResultWrapper">
                         <div class="visit-results-item">

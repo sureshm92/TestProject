@@ -46,6 +46,7 @@ public inherited sharing class VisitReportContainerRemote {
         @AuraEnabled public String enrollmentDate;
         @AuraEnabled public String studySiteName;
         @AuraEnabled public String notAvailableMessage;
+        @AuraEnabled public String participantStatus;//For In-trial Summary Report
     }
 
     public class ReportDataTableWrapper {
@@ -100,6 +101,9 @@ public inherited sharing class VisitReportContainerRemote {
     public class VisitDateColumnWrapper extends VisitDataWrapper{
         public VisitDateColumnWrapper(Date resultDate) {
             this.value = resultDate.format();
+        }
+        public VisitDateColumnWrapper(String value) {
+            this.value = value;
         }
     }
 

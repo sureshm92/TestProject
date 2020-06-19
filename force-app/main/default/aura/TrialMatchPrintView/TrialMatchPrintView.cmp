@@ -1,0 +1,30 @@
+<!--
+ - Created by Sravani Dasari
+-->
+
+<aura:component description="TrialMatchPrintView" implements="forceCommunity:availableForAllPageTypes"
+controller="TrialMatchPageRemote">
+    <ltng:require scripts="{!join(',', $Resource.kendo_jqueryminjs, $Resource.kendo_jszipminjs,
+    $Resource.kendo_allmin, $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="initialized" type="Boolean" default="false"/>
+    <aura:attribute name="trialmatchCTPs" type="List"/>
+    
+    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
+    
+    <!-- component body: -->
+    <lightning:layout horizontalAlign="center">
+        <lightning:layoutItem size="12">
+            <aura:if isTrue="{!v.initialized}">
+                <div id="trialmatchcontent" class="trials-container side-padding backgroundprint">
+                    <aura:iteration items="{!v.trialmatchCTPs}" var="trial">
+                        <c:TrialMatchItem trialMatch="{!trial}" islearnmore="false"/>
+                    </aura:iteration>
+                </div>
+            </aura:if>
+            <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true"/>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <c:builderStub aura:id="builderStub"/>
+</aura:component>

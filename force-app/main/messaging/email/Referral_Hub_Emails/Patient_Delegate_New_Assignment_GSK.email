@@ -3,41 +3,34 @@
                          relatedToType="Participant__c"
                          language="{!recipient.Language__c}">
 
-    <messaging:htmlEmailBody >
-        <c:EmailTemplate recipientId="{!recipient.Id}"
-                         sourceId="{!relatedTo.Id}"
-                         parametersProvider="PP_Participant"
-                         header="{!$Label.Email_Header_Initial_Patient_Delegate}"
-                         title="{!$Label.Email_Title_All}"
-                         greeting="{!$Label.Email_User_Greeting_FirstName}"
-                         body="{!$Label.Email_Body_Initial_Patient_Delegate}"
-                         signature="{!$Label.Email_Signature_New}"
-                         communityTemplate="GSK">
-            <c:EmailTemplateDelegateParticipant userId="{!recipient.Id}"
-                                                commTemplate="GSK"
-                                                sourceId="{!relatedTo.Id}"/>
-
+    <messaging:htmlEmailBody>
+        <c:EmailWireframe recipientId="{!recipient.Id}"
+                          sourceId="{!relatedTo.Id}"
+                          header="{!$Label.Email_Header_Initial_Patient_Delegate}"
+                          title="{!$Label.Email_Title_Initial_All_GSK}"
+                          greeting="{!$Label.Email_User_Greeting_FirstName}"
+                          signature="{!$Label.Email_Signature_New}"
+                          communityTemplate="GSK">
+            <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate}"/>
+            <c:EmailTemplateDelegateParticipant sourceId="{!relatedTo.Id}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
                               buttonURL="/gsk/s/"/>
-        </c:EmailTemplate>
+        </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody >
-        <c:EmailTemplateText recipientId="{!recipient.Id}"
-                             sourceId="{!relatedTo.Id}"
-                             parametersProvider="PP_Participant"
-                             header="{!$Label.Email_Header_Initial_Patient_Delegate}"
-                             title="{!$Label.Email_Title_All}"
-                             greeting="{!$Label.Email_User_Greeting_FirstName}"
-                             body="{!$Label.Email_Body_Initial_Patient_Delegate}"
-                             signature="{!$Label.Email_Signature_New}"
-                             communityTemplate="GSK">
-            <c:EmailTemplateDelegateParticipantText userId="{!recipient.Id}"
-                                                    commTemplate="GSK"
-                                                    sourceId="{!relatedTo.Id}"/>
-
+    <messaging:plainTextEmailBody>
+        <c:EmailWireframeText recipientId="{!recipient.Id}"
+                              sourceId="{!relatedTo.Id}"
+                              header="{!$Label.Email_Header_Initial_Patient_Delegate}"
+                              title="{!$Label.Email_Title_Initial_All_GSK}"
+                              greeting="{!$Label.Email_User_Greeting_FirstName}"
+                              signature="{!$Label.Email_Signature_New}"
+                              communityTemplate="GSK">
+            <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate}"/>
+            <c:EmailTemplateDelegateParticipantText sourceId="{!relatedTo.Id}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
                                   buttonURL="/gsk/s/"/>
-        </c:EmailTemplateText>
+        </c:EmailWireframeText>
     </messaging:plainTextEmailBody>
+
 </messaging:emailTemplate>

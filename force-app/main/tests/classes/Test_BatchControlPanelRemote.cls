@@ -78,7 +78,7 @@ public class Test_BatchControlPanelRemote {
                 Interval_Mode__c = 'Minutes',
                 Panel_Label__c = 'User' + batchesSOQL.get(0).Name,
                 Relaunch_Interval__c = 1);
-        BatchControlPanelRemote.addBatch(batchDetailToAdd);
+        BatchControlPanelRemote.addBatch(batchDetailToAdd, false);
         List <Batch_Detail__c> batchDetailsAfterAdd = [
                 SELECT Id
                 FROM Batch_Detail__c

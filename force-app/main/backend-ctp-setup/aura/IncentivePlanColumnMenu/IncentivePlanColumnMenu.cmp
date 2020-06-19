@@ -1,0 +1,38 @@
+<!--
+ - Created by Alexey Moseev on 12.05.2020.
+ -->
+
+<aura:component description="IncentivePlanColumnMenu">
+
+    <aura:attribute name="plan" type="Object"/>
+    <aura:attribute name="isVisible" type="Boolean"/>
+
+    <aura:registerEvent name="onEdit" type="c:uiEvent"/>
+    <aura:registerEvent name="onClone" type="c:uiEvent"/>
+    <aura:registerEvent name="onDelete" type="c:uiEvent"/>
+
+    <ui:menu>
+        <ui:menuTriggerLink>
+            <div style="text-align: center">{!v.plan.label}</div>
+        </ui:menuTriggerLink>
+        <ui:menuList aura:id="actionMenu" class="menu-popup">
+            <aura:if isTrue="{!v.isVisible}">
+                <c:uiMenuItem label="Edit" onclick="{!c.doEditSelected}">
+                    <lightning:icon iconName="utility:edit" size="x-small"/>Edit
+                </c:uiMenuItem>
+                <c:uiMenuItem label="Clone" onclick="{!c.doCloneSelected}">
+                    <lightning:icon iconName="utility:copy" size="x-small"/>Clone
+                </c:uiMenuItem>
+                <c:uiMenuItem label="Delete" onclick="{!c.doDeleteSelected}">
+                    <lightning:icon iconName="utility:close" size="x-small"/>Remove
+                </c:uiMenuItem>
+                <aura:set attribute="else">
+                    <c:uiMenuItem label="View" onclick="{!c.doEditSelected}">
+                        <lightning:icon iconName="utility:preview" size="x-small"/>View
+                    </c:uiMenuItem>
+                </aura:set>
+            </aura:if>
+        </ui:menuList>
+    </ui:menu>
+
+</aura:component>

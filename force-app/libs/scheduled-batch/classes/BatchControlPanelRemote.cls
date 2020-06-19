@@ -152,9 +152,10 @@ public without sharing class BatchControlPanelRemote {
     }
 
     @AuraEnabled
-    public static PanelWrapper addBatch(Batch_Detail__c detail) {
+    public static PanelWrapper addBatch(Batch_Detail__c detail, Boolean launchNow) {
         try {
             insert detail;
+            if(launchNow) Database.executeBatch((Database.Batchable<SObject>) Type.forName(detail.Name).newInstance());
 
             return getData();
         } catch (Exception e) {
@@ -189,7 +190,10 @@ public without sharing class BatchControlPanelRemote {
                             jobWrapper.detail.Scope_Size__c.intValue()
                     );
                 } else {
-                    Database.executeBatch((Database.Batchable<SObject>) Type.forName(jobWrapper.detail.Name).newInstance());
+                    Database.executeBatch(
+                            (Database.Batchable<SObject>) Type.forName(jobWrapper.detail.Name).newInstance(),
+                            jobWrapper.detail.Scope_Size__c.intValue()
+                    );
                 }
             }
             return true;
@@ -205,6 +209,17 @@ public without sharing class BatchControlPanelRemote {
             if (jobWrapper.jobId != null) System.abortJob(jobWrapper.jobId);
         } catch (Exception e) {
             AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
+    public static Boolean relaunchBatch(String wrapper) {
+        try {
+            JobWrapper jobWrapper = (JobWrapper) JSON.deserialize(wrapper, JobWrapper.class);
+            stopBatch(jobWrapper.detail.Name);
+            return runBatch(wrapper);
+        } catch (Exception e) {
+            return (Boolean) AuraHelper.throwException(e);
         }
     }
 

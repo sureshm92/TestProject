@@ -1,0 +1,24 @@
+<!--
+ - Created by Olga Skrynnikova on 2/19/2020.
+ -->
+
+<apex:page id="TestEmailTemplate">
+    <c:EmailWireframe recipientId="{!$CurrentPage.parameters.recipientId}"
+                      sourceId="{!$CurrentPage.parameters.sourceId}"
+                      header="{!$CurrentPage.parameters.header}"
+                      title="{!$CurrentPage.parameters.title}"
+                      greeting="{!$CurrentPage.parameters.greeting}"
+                      signature="{!$CurrentPage.parameters.signature}"
+                      preSignature="{!$CurrentPage.parameters.preSignature}"
+                      specificEmailProvider="{!$CurrentPage.parameters.specificEmailProvider}"
+                      communityTemplate="{!$CurrentPage.parameters.communityTemplate}">
+        <c:Paragraph emailLabel="{!$CurrentPage.parameters.bodyLabel}"/>
+        <c:EmailTemplateDelegateParticipant rendered="{!$CurrentPage.parameters.delegateTable == 'true'}"
+                                            commTemplate="{!$CurrentPage.parameters.communityTemplate}"
+                                            sourceId="{!$CurrentPage.parameters.sourceId}"/>
+        <c:EmailActionBtn rendered="{!$CurrentPage.parameters.buttonLabel != null}"
+                          buttonLabel="{!$CurrentPage.parameters.buttonLabel}"
+                          caseId="{!IF($CurrentPage.parameters.haveCaseId == 'true', $CurrentPage.parameters.sourceId, null)}"
+                          surveyId="{!IF($CurrentPage.parameters.haveSurveyId == 'true', $CurrentPage.parameters.sourceId, null)}"/>
+    </c:EmailWireframe>
+</apex:page>

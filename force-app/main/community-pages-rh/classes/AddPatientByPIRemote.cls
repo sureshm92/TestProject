@@ -39,20 +39,35 @@ public without sharing class AddPatientByPIRemote {
 
     //TODO:Review
     @AuraEnabled
-    public static void saveParticipant(String participantJSON, String peJSON, String userLanguage, String ssId, Boolean createUser){
+    public static void saveParticipant(String participantJSON, String peJSON, String userLanguage, String ssId, Boolean createUser, Boolean doNotContact, String participantDelegateJSON, String delegateDuplicateInfo){
         try {
             if (!createUser) {
                 TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
                 TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class);
+            } else {
+                if (ReferringRemote.checkNeedsGuardian(participantJSON) == 'true') {
+                    TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
+                }
             }
 
             Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
             trimParticipantFields(participant);
             Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
             participant.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI;
-            PEStatusState currentState = PEStatusState.STATUSES_MAP.get(pe.Participant_Status__c);
             pe.Referral_Source__c = 'PI';
-            ParticipantService.createParticipantAndUpdatePE(participant, pe, userLanguage);
+            pe.To_permit_IQVIA_to_contact_about_study__c = !doNotContact;
+            ReferHealthcareProviderRemote.HealthcareProvider ddInfo;
+            if (delegateDuplicateInfo != null) ddInfo = (ReferHealthcareProviderRemote.HealthcareProvider) JSON.deserialize(delegateDuplicateInfo, ReferHealthcareProviderRemote.HealthcareProvider.class);
+
+            Participant__c participantDelegate;
+            if (!String.isBlank(participantDelegateJSON)) {
+                participantDelegate = (Participant__c) JSON.deserialize(participantDelegateJSON, Participant__c.class);
+                if (participantDelegate != null) {
+                    participantDelegate.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
+                }
+            }
+
+            ParticipantService.createParticipantAndUpdatePE(participant, participantDelegate, pe, userLanguage);
 
             String participantId = !String.isBlank(participant.Id) ? participant.Id : pe.Participant__c;
             Participant__c newParticipant = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participantId];
@@ -65,6 +80,79 @@ public without sharing class AddPatientByPIRemote {
                     ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
                 }
             }
+            Boolean createDelegateuser = true;
+            if (participantDelegate != null && !String.isEmpty(participantDelegate.Last_Name__c) &&
+                    !String.isEmpty(participantDelegate.Email__c)) {
+                Contact newContact;
+                if(ddInfo == null || String.isBlank(ddInfo.contactId)) {
+                    newContact = new Contact();
+                    newContact.FirstName = participantDelegate.First_Name__c;
+                    newContact.LastName = participantDelegate.Last_Name__c;
+                    newContact.Email = participantDelegate.Email__c;
+                    newContact.AccountId = [
+                            SELECT Id
+                            FROM Account
+                            WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
+                            LIMIT 1
+                            FOR UPDATE
+                    ].Id;
+                    newContact.Language__c = UserInfo.getLanguage();
+                    newContact.Second_Choice_Language__c = '';
+                    newContact.Third_Choice_Language__c = '';
+                    newContact.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
+                    newContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
+                    newContact.userCommunityIsDelegate__c = true;
+                    newContact.MailingCountryCode = participant.Mailing_Country_Code__c;
+                    newContact.MailingStateCode = participant.Mailing_State_Code__c;
+                    newContact.MailingCountry = participant.Mailing_Country__c;
+                    newContact.MailingState = participant.Mailing_State__c;
+                    if ('Home' == participantDelegate.Phone_Type__c) {
+                        newContact.HomePhone = participantDelegate.Phone__c;
+                    } if ('Mobile' == participantDelegate.Phone_Type__c) {
+                        newContact.MobilePhone = participantDelegate.Phone__c;
+                    } else {
+                        newContact.Phone = participantDelegate.Phone__c;
+                    }
+                    insert newContact;
+                } else{
+                    newContact = [
+                            Select Id,
+                                    FirstName,
+                                    LastName,
+                                    Email,
+                                    MailingCity,
+                                    MailingCountryCode,
+                                    MailingStateCode
+                            FROM Contact
+                            WHERE Id = :ddInfo.contactId
+                    ];
+                    createDelegateuser = false;
+                }
+                if(ddInfo == null || ddInfo.participantId == null) {
+                    participantDelegate.Contact__c = newContact.Id;
+                    if (String.isBlank(participantDelegate.Phone__c) && !String.isBlank(participant.Phone__c)) {
+                        participantDelegate.Phone__c = participant.Phone__c;
+                        participantDelegate.Phone_Type__c = participant.Phone_Type__c;
+                    }
+                    insert participantDelegate;
+                }
+                //if(ddInfo == null || !ddInfo.isDuplicateDelegate) {
+                if(participantId != null && newContact.Id != null){
+                    List<Patient_Delegate__c> checkPDel = [SELECT Id FROM Patient_Delegate__c WHERE Participant__c =:participantId AND Contact__c =:newContact.Id];
+                    if(checkPDel.isEmpty()){
+                        Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
+                        ptDelegateRef.Participant__c = participantId;
+                        ptDelegateRef.Contact__c = newContact.Id;
+                        insert ptDelegateRef;
+                    }
+                }
+               // }
+                if(createDelegateuser) {
+                    ReferringRemote.createParticipantUsers(new Map<Id, Id>{
+                            newContact.Id => null
+                    });
+                }
+            }
             //Moved history Creation to Trigger
         } catch (Exception e) {
             AuraHelper.throwException(e);
@@ -72,7 +160,7 @@ public without sharing class AddPatientByPIRemote {
     }
 
     @AuraEnabled
-    public static void updatePatientInfo(String participantJSON, String peJSON){
+    public static Participant_Enrollment__c updatePatientInfo(String participantJSON, String peJSON){
         try{
             Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
             if(participant.Contact__r.Email == null && participant.Email__c != null){
@@ -81,8 +169,10 @@ public without sharing class AddPatientByPIRemote {
             Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
             update pe;
             update participant;
+            return pe;
         }catch (Exception e){
             AuraHelper.throwException(e);
+            return null;
         }
     }
     @AuraEnabled
@@ -91,9 +181,20 @@ public without sharing class AddPatientByPIRemote {
     }
 
     private static void trimParticipantFields(Participant__c participant){
-        participant.Phone__c = participant.Phone__c.trim();
-        participant.First_Name__c = participant.First_Name__c.trim();
-        participant.Last_Name__c = participant.Last_Name__c.trim();
-        participant.Email__c = participant.Email__c.trim();
+        participant.Phone__c = !String.isBlank(participant.Phone__c) ? participant.Phone__c.trim() : null;
+        participant.First_Name__c = !String.isBlank(participant.First_Name__c) ? participant.First_Name__c.trim() : null;
+        participant.Last_Name__c = !String.isBlank(participant.Last_Name__c) ? participant.Last_Name__c.trim() : null;
+        participant.Email__c = !String.isBlank(participant.Email__c) ? participant.Email__c.trim() : null;
     }
+
+    @AuraEnabled
+    public static String checkNeedsGuardian(String participantJSON) {
+        return ReferringRemote.checkNeedsGuardian(participantJSON);
+    }
+
+    @AuraEnabled
+    public static ReferHealthcareProviderRemote.HealthcareProvider checkDuplicateDelegate(String email, String firstName, String lastName){
+        return ReferHealthcareProviderRemote.checkDuplicate(null,email, firstName, lastName, null);
+    }
+
 }

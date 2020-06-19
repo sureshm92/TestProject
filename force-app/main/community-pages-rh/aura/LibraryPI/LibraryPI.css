@@ -1,0 +1,88 @@
+.THIS .resource-container {
+    background-color: white !important;
+    margin-left: 50px;
+    margin-top:13px;
+    margin-bottom:9px;
+}
+
+.THIS .slds-accordion__summary-heading > button > span {
+    order: 2;
+}
+
+
+.THIS .slds-accordion__summary-heading > button > lightning-primitive-icon {
+    order: 1;
+    color:grey;
+}
+
+.THIS .hide-arrow  button{
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.THIS .hide-arrow  button > lightning-primitive-icon {
+    display: none;
+}
+
+.THIS lightning-primitive-icon > svg {
+    fill: grey;
+}
+
+.THIS .slds-button{
+    color: black;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.THIS .slds-accordion__summary-heading .slds-button:focus{
+    text-decoration: none;
+}
+
+.THIS .slds-truncate {
+    font-weight: 600;
+}
+
+.THIS .resource-links {
+    color: black !important;
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+.THIS .resource-links:focus {
+    text-decoration: none;
+}
+
+.THIS .language-filter-icon svg{
+    fill: #808080;
+}
+
+.THIS .language-title{
+    color: black;
+    font-size: 13px;
+}
+
+.THIS .language-filter .header-menu-link{
+    justify-content: unset;
+    padding: 0px;
+}
+
+.THIS .resourceLinkHover:hover{
+    text-decoration: none;
+    background-color: #eef5ff;
+    transition: .25s;
+}
+
+.THIS .language-filter .menu-popup-panel.popupTargetContainer {
+    left: -10px;
+    width: 130px;
+}
+
+.THIS .slds-icon:hover{
+    cursor: pointer;
+    title:'downoad';
+}
+
+
+.THIS .downloadBtnCSS:hover{
+    cursor: pointer;
+}

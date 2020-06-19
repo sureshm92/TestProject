@@ -3,19 +3,19 @@
 
     <!-- ATTRIBUTES -->
 
+    <aura:attribute name="labResultsMode" type="String"/>
     <aura:attribute name="contactId" type="Id" required="true"/>
     <aura:attribute name="isDelegate" type="Boolean" default="false" required="true"/>
     <aura:attribute name="isVisitResultsExist" type="Boolean" default="false" required="true"/>
     <aura:attribute name="isVisitResultsAvailable" type="Boolean" default="false" required="true"/>
     <aura:attribute name="isOptIn" type="Boolean" default="false" required="true"/>
-    <aura:attribute name="optInChanged" type="Boolean" default="false"/>
 
     <aura:attribute name="optInBody" type="String" access="private"/>
     <aura:attribute name="showModal" type="Boolean" default="false" access="private"/>
 
     <!-- COMPONENT BODY -->
 
-    <div class="rr-white-panel visit-compliance-panel">
+    <div class="visit-compliance-panel">
         <aura:if isTrue="{!!v.isVisitResultsAvailable}">
 
             <!-- shareback set to opt-out at the Study or Site levels -->
@@ -37,16 +37,11 @@
                     <!-- shareback set to opt-out at the Patient level -->
 
                         <lightning:layout class="slds-p-around--large" horizontalAlign="center" verticalAlign="start">
-                            <lightning:layoutItem size="12" class=" visit-assessment-inf" flexibility="shrink">
-                            <div aura:id="opt-in-body" style="margin: 0 auto; max-width: 85%;" >
-                                    <aura:if isTrue="{!!v.isDelegate}">
-                                        <p style="white-space: pre-line;">{!$Label.c.Visit_Results_Tab_If_Is_Not_Opt_In + ' '}
-                                            <span class="to-modal-link" onclick="{!c.openOptInModal}"> {!$Label.c.Visit_Results_Tab_Linked_Text}</span>{!$Label.c.Visit_Results_Tab_If_Is_Not_Opt_In_2}</p>
-                                        <p>{!$Label.c.Visit_Results_Tab_If_Is_Not_Opt_In_3}</p>
-                                        <aura:set attribute="else">
-                                            <p>{!$Label.c.Visit_Results_Tab_If_Is_Not_Opt_In_Delegate}</p>
-                                        </aura:set>
-                                    </aura:if>
+                            <lightning:layoutItem size="12" class="visit-assessment-inf" flexibility="shrink">
+                            <div class="opt-out-info">
+                                <c:RRIcon iconName="icon-visits-opt-out-info" color="#999999"/>
+                                <p>{!$Label.c.Visit_Results_Tab_If_Is_Not_Opt_In + ' ' + v.labResultsMode + ' '
+                                    + $Label.c.Visit_Results_Tab_If_Is_Not_Opt_In_2}</p>
                                 </div>
                             </lightning:layoutItem>
                         </lightning:layout>
@@ -69,18 +64,8 @@
 
                         </aura:if>
                     </aura:set>
-
                 </aura:if>
             </aura:set>
         </aura:if>
     </div>
-
-    <c:Popup title="{!$Label.c.Visit_Results_Tab_Modal_Title}" showModal="{!v.showModal}" size="small"
-             headerText="{!$Label.c.Visit_Results_Tab_Modal_Body}">
-        <aura:set attribute="footerButtons">
-            <button class="apollo-btn primary opt-in-popup-button" onclick="{!c.handleOkClick}" tabindex="0">{!$Label.c.BTN_OK}</button>
-            <button class="apollo-btn secondary opt-in-popup-button" onclick="{!c.handleCancelClick}" tabindex="1">{!$Label.c.BTN_Cancel}</button>
-        </aura:set>
-    </c:Popup>
-
 </aura:component>

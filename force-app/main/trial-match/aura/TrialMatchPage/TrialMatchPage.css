@@ -1,0 +1,107 @@
+/**
+ * Created by Sravani Dasari
+ */
+ .THIS {
+}
+
+.THIS .resource-link-container {
+    display: flex;
+    align-items: center;
+}
+
+.THIS .resource-icon{
+    margin-right: 12px;
+    flex-shrink: 0;
+    height:20px;
+}
+
+.THIS .tm-title{
+    font-weight: 600;
+    font-size: 24px;
+    color: #000000;
+}
+
+.THIS .filter-side {
+    padding-left: 4%;
+    padding-top: 70px;
+    position: fixed;
+}
+
+.THIS .resource-name{
+    max-width: 250px;
+    font-size: 16px;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    padding-right: 20px;
+}
+
+.THIS .trials-container{
+    padding-top: 20px;
+    position: relative;
+}
+
+.THIS .sdv-top-bar{
+    z-index: 1250;
+    position: relative;
+}
+.THIS .sdv-top-bar.sticky{
+    box-shadow: none;
+}
+
+.THIS .sdv-top-bar.sticky .sticky-bar{
+    position: fixed;
+    z-index: 2000;
+    box-shadow: 0px 20px 30px -10px rgba(0,0,0,0.15);
+}
+
+
+.THIS .sdv-top-bar .navigation{
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 16px;
+}
+
+.THIS .sdv-top-bar .title{
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 36px;
+    padding-bottom: 10px;
+}
+
+.THIS .sdv-top-bar .tabs{
+    border-top: 1px solid #F2F2F2;
+    border-bottom: 1px solid #F2F2F2;
+}
+
+.THIS .sdv-top-bar .links{
+    transition: 0.4s;
+    overflow: hidden;
+}
+
+.THIS .sdv-top-bar .links.collapsed{
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 0;
+}
+
+.THIS .sdv-top-bar .links.collapsed button{
+    opacity: 0;
+    transition: 0.4s;
+}
+
+.THIS .sdv-top-bar .sticky-bar{
+    background-color: white;
+}
+
+.THIS .sdv-top-bar .sticky-bar.sticky{
+    box-shadow: 0 20px 30px -10px rgba(0,0,0,0.15);
+}
+
+.THIS .sdv-top-bar .height-stub{
+    display: none;
+}
+
+.THIS .sdv-top-bar.sticky .height-stub{
+    display: block;
+}

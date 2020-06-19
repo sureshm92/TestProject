@@ -18,13 +18,9 @@
     <aura:attribute name="isInitialized" type="Boolean" default="false" access="private"/>
 
     <aura:attribute name="isUpdated" type="Boolean"/>
-    <aura:attribute name="closeButtonClicked" type="Boolean" default="false"
-                    description="if close button on popup clicked, this value will change"/>
-    <aura:attribute name="showModal" type="Boolean" default="false"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    <aura:handler name="change" value="{!v.closeButtonClicked}" action="{!c.handleCancelClick}"/>
 
     <!-- component body: -->
     <div class="as-container">
@@ -271,20 +267,6 @@
                                              contactSectionData="{!v.contactSectionData}" onEdit="{!c.onEditPerson}"
                                              isDelegate="{!v.isDelegate}" userMode="{!v.userMode}"/>
 
-                <div style="height: 65px"></div>
-                <aura:if isTrue="{!and(v.userMode == 'Participant',!v.isDelegate)}">
-                    <div class="as-title">{!$Label.c.PG_AS_H_Display_Vitals_and_Lab_Data}</div>
-                    <div class="as-sub-title">{!$Label.c.PG_AS_T_Display_Vitals_and_Lab_Data}</div>
-                    <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
-                        <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}"
-                                         variant="label-hidden"
-                                         messageToggleInactive="{!$Label.c.BTN_Off}"
-                                         class="slds-col ah-toggle slds-m-top--small slds-m-bottom--medium"
-                                         checked="{!v.contact.Visit_Results_Opt_In__c}"
-                                         onchange="{!c.openVisitResultsOptInModal}"/>
-                        <p class="slds-m-top--small">{!$Label.c.PG_AS_L_Opt_In_Visit_Results}</p>
-                    </div>
-                </aura:if>
                 <div style="height: 45px"></div>
                 <div class="as-title">{!$Label.c.PG_AS_H_Privacy_Rights}</div>
                 <div class="as-sub-title">{!$Label.c.PG_AS_T_Privacy_Rights}</div>
@@ -305,16 +287,6 @@
                         </div>
                     </div>
                 </div>
-                <c:Popup title="{!$Label.c.Visit_Results_Tab_Modal_Title}" showModal="{!v.showModal}" size="small"
-                         headerText="{!$Label.c.Visit_Results_Tab_Modal_Body}"
-                         closeButtonClicked="{!v.closeButtonClicked}">
-                    <aura:set attribute="footerButtons">
-                        <button class="apollo-btn secondary opt-in-popup-button" onclick="{!c.handleCancelClick}"
-                                tabindex="1">{!$Label.c.BTN_Cancel}</button>
-                        <button class="apollo-btn secondary opt-in-popup-button" onclick="{!c.handleOkClick}"
-                                tabindex="0">{!$Label.c.BTN_OK}</button>
-                    </aura:set>
-                </c:Popup>
             </div>
         </aura:if>
     </div>

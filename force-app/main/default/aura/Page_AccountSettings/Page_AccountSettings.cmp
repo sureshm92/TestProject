@@ -13,13 +13,20 @@
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
 
-    <!-- components boddy: -->
+    <!-- components body: -->
 
     <aura:if isTrue="{!v.isInitialized}">
         <div class="ps-container">
             <div class="ps-body">
-                <c:AccountSettings userMode="{!v.userMode}"/>
+                <aura:if isTrue="{!v.userMode == 'Participant'}">
+                    <c:PP_AccountSettings userMode="{!v.userMode}"/>
+                    <aura:set attribute="else">
+                    <c:AccountSettings userMode="{!v.userMode}"/>
+                </aura:set>
+                </aura:if> 
             </div>
         </div>
     </aura:if>
+
+    <c:builderStub aura:id="builderStub"/>
 </aura:component>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Business Administrator</label>
+    <permissionSets>PP_Approved_Languages_Edit</permissionSets>
+    <permissionSets>PP_CTP_Edit</permissionSets>
+    <permissionSets>PP_Manual_Creation_Panel</permissionSets>
+    <permissionSets>PP_Message_Configuration_Edit</permissionSets>
+    <permissionSets>PP_Motivational_Messages_Edit</permissionSets>
+    <permissionSets>PP_Participant_PII_On_Cases_View</permissionSets>
+    <permissionSets>PP_Participant_PII_View</permissionSets>
+    <permissionSets>PP_Payment_Vendors_Edit</permissionSets>
+    <permissionSets>PP_Site_Staff_Invitation_Edit</permissionSets>
+    <permissionSets>PP_Site_Staff_Invitation_View</permissionSets>
+    <permissionSets>PP_StudySite_Edit</permissionSets>
+    <permissionSets>PP_Study_Resources_Edit</permissionSets>
+    <permissionSets>PP_Toggle_Feature_Delta_Edit</permissionSets>
+    <permissionSets>PP_Travel_Vendors_Edit</permissionSets>
+    <permissionSets>PP_Trial_Surveys_Edit</permissionSets>
+    <permissionSets>PP_Visits_Configuration_Edit</permissionSets>
+    <permissionSets>PP_Visits_Results_Sharing_Edit</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>

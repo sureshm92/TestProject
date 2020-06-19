@@ -1,0 +1,31 @@
+/**
+ * Created by Andrii Kryvolap.
+ */
+.nidd-container{
+    min-width: 200px;
+    display: block;
+    position: absolute;
+    color: black;
+    left: initial;
+    right: 0;
+    border: 1px solid #d9d9d9;
+    border-radius: 0;
+    background-color: #ffffff;
+    box-shadow: 0 16px 24px 0 rgba(0, 0, 0, 0.16);
+    padding: 0;
+    transition: .4s;
+    transform: none;
+    margin-top: 0;
+    z-index: 10010;
+}
+.nidd-total{
+    color: #000000;
+    font-size: 1rem;
+}
+.nidd-last{
+    color: #777777;
+    font-size: 1rem;
+}
+.apollo-btn {
+    width: 100%;
+}

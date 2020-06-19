@@ -1,34 +1,29 @@
 .THIS.visit-result-item-panel {
-    height: 105px;
+    height: 115px;
+    width: 300px;
     display: flex;
-    border: 1px solid #D9D9D9;
-    border-radius: 5px;
-    background-color: #FFFFFF;
-    position: relative;
-    align-items: baseline;
+    flex-direction: column;
+}
+
+.THIS .visit-result-content-container {
+    margin-top: auto;
 }
 
 .THIS .visit-result-name-container {
-    width: 32%;
     display: flex;
     align-self: center;
-    align-items: center;
+    flex-direction: row;
+    align-items: flex-start;
 }
 
 .THIS .visit-result-name {
-    width: 100%;
     align-self: center;
-    text-align: center;
-    padding: 0 10px;
     color: #000000;
     font-family: "Proxima Nova";
     font-size: 16px;
     line-height: 19px;
-}
-
-.THIS .visit-result-slider {
-    width: 68%;
-    margin-top: 10px;
+    max-width: 94%;
+    margin-bottom: 3px;
 }
 
 .THIS .visit-result-range {
@@ -47,18 +42,39 @@
 
 .THIS .visit-result-item-description {
     position: absolute;
-    top: 0;
-    right: 0;
     margin: 0 5px;
 }
 
-.THIS .visit-result-measurement {
-    /*white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;*/
-    overflow-wrap: break-word;
+.THIS .visit-result-item-description .slds-form-element__icon {
+    padding-top: 0;
+}
+
+.THIS .visit-result-item-description .slds-button {
+    color: #999999;
+}
+
+.THIS .visit-result-expected {
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    line-height: 19px;
+    color: #6F6F6F;
+    margin-bottom: 4px;
+}
+
+.THIS .visit-result-actual-value{
+    height: 32px;
     width: 100%;
-    font-weight: 700;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    line-height: 32px;
+    font-weight: 600;
+}
+
+.THIS .actual-value-no-expected-range{
+    margin-top: 8px;
+    text-align: center;
+    font-weight: 400 !important;
 }
 
 .THIS .hidden {

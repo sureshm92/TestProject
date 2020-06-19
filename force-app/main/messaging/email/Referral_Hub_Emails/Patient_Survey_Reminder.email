@@ -3,31 +3,28 @@
                          relatedToType="SurveyInvitation"
                          language="{!recipient.Language__c}">
 
-    <messaging:htmlEmailBody >
-        <c:EmailTemplate recipientId="{!recipient.Id}"
-                         parametersProvider="Email_Template_Parameters_From_SI"
-                         sourceId="{!relatedTo.Id}"
-                         header="{!$Label.Email_Header_Complete_Baseline_Survey}"
-                         title="{!$Label.Email_Title_PH}"
-                         greeting="{!$Label.Email_User_Greeting_FirstName}"
-                         body="{!$Label.Email_Body_Survey_Reminder}"
-                         signature="{!$Label.Email_Signature_Survey}">
+    <messaging:htmlEmailBody>
+        <c:EmailWireframe recipientId="{!recipient.Id}"
+                          sourceId="{!relatedTo.Id}"
+                          header="{!$Label.Email_Header_Complete_Baseline_Survey}"
+                          greeting="{!$Label.Email_User_Greeting_FirstName}"
+                          signature="{!$Label.Email_Signature_Survey}">
+            <c:Paragraph emailLabel="{!$Label.Email_Body_Survey_Reminder}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Complete_Baseline_Survey}"
-                              resourceId="{!relatedTo.Id}" surveyId="{!relatedTo.Id}"/>
-        </c:EmailTemplate>
+                              surveyId="{!relatedTo.Id}"/>
+        </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody >
-        <c:EmailTemplateText recipientId="{!recipient.Id}"
-                             parametersProvider="Email_Template_Parameters_From_SI"
-                             sourceId="{!relatedTo.Id}"
-                             header="{!$Label.Email_Header_Complete_Baseline_Survey}"
-                             title="{!$Label.Email_Title_PH}"
-                             greeting="{!$Label.Email_User_Greeting_FirstName}"
-                             body="{!$Label.Email_Body_Survey_Reminder}"
-                             signature="{!$Label.Email_Signature_Survey}">
+    <messaging:plainTextEmailBody>
+        <c:EmailWireframeText recipientId="{!recipient.Id}"
+                              sourceId="{!relatedTo.Id}"
+                              header="{!$Label.Email_Header_Complete_Baseline_Survey}"
+                              greeting="{!$Label.Email_User_Greeting_FirstName}"
+                              signature="{!$Label.Email_Signature_Survey}">
+            <c:ParagraphText emailLabel="{!$Label.Email_Body_Survey_Reminder}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Complete_Baseline_Survey}"
-                                  resourceId="{!relatedTo.Id}" surveyId="{!relatedTo.Id}"/>
-        </c:EmailTemplateText>
+                                  surveyId="{!relatedTo.Id}"/>
+        </c:EmailWireframeText>
     </messaging:plainTextEmailBody>
+
 </messaging:emailTemplate>

@@ -150,7 +150,7 @@ private class Test_BaseCRCPCommunity {
             TermsAndConditionsRemote.getPortalTcData();
             TermsAndConditionsRemote.getTrialTcData(testData.ctp.Id);
             TermsAndConditionsRemote.acceptTC(studyTC.Id);
-            TermsAndConditionsRemote.getTC(studyTC.Id, 'en_US');//TODO: check code
+            TermsAndConditionsRemote.getTC('CookiePolicy', 'en_US');//TODO: check code
             List<HelpController.FileContainer> files = new List<HelpController.FileContainer>();
             HelpController.FileContainer file = new HelpController.FileContainer();
             file.base64Data = EncodingUtil.base64Encode(Blob.valueOf('Test file'));
@@ -209,12 +209,6 @@ private class Test_BaseCRCPCommunity {
             ApplicationHelpRemote.getInitData(CommunityService.USER_MODE_PI);
             ApplicationHelpRemote.getInitData(CommunityService.USER_MODE_PARTICIPANT);
             ShareModalController.sendEmail(testData.hcpEnrollment.Id, hcpContact.Id, 'Some@mail.com', null);
-            SendEmailTemplate.sendShareEmail(testData.hcpEnrollment.Id, hcpContact.Id, 'Some@mail.com', templateName);
-            SendEmailTemplate.createEmail(templateName, hcpContact.Id, hcpContact.Id);
-            SendEmailTemplate.createEmail(shareStudyEmailTemplateId, hcpContact.Id, hcpContact.Id,testData.ctp.Id, true, 'HCP');
-            List<SendEmailTemplate.EmailMessageWrapper> emailMessageWrappers = new List<SendEmailTemplate.EmailMessageWrapper>();
-            emailMessageWrappers.add( new SendEmailTemplate.EmailMessageWrapper(testData.hcpEnrollment.Id, hcpContact.Id,templateName));
-            SendEmailTemplate.sendEmailMessages(emailMessageWrappers);
         }
         Test.stopTest();
     }
@@ -243,40 +237,40 @@ private class Test_BaseCRCPCommunity {
         Test.stopTest();
     }
     
-    @IsTest
-    static void emailTemplateController() {
-        TestData testData = new TestData();
-        Contact piDelegateContact = [SELECT Id FROM Contact WHERE Email = 'pi_delegate@emil.com'];
-        Test.startTest();
-        EmailTemplateController controller = new EmailTemplateController();
-        controller.sourceRecordId = piDelegateContact.Id;
-        controller.userCommunityType = CommunityService.USER_MODE_PI;
-        controller.outputMode = 'HTML';
-        controller.getParameters();
-        
-        controller = new EmailTemplateController();
-        controller.sourceRecordId = testData.hcpEnrollment.Id;
-        controller.userCommunityType = CommunityService.USER_MODE_HCP;
-        controller.outputMode = 'HTML';
-        controller.getParameters();
-        
-        controller = new EmailTemplateController();
-        controller.sourceRecordId = testData.pe.Id;
-        controller.userCommunityType = CommunityService.USER_MODE_PARTICIPANT;
-        controller.outputMode = 'HTML';
-        
-        controller.getParameters();
-        controller.getDelegateLevelsPI();
-        controller.getDelegateLevelsHCP();
-        controller.getResultUserMode();
-        controller.getParameters();
-        
-        EmailActionBtnController emailActionBtnController = new EmailActionBtnController();
-        String url = emailActionBtnController.getResultURL();
-        url = emailActionBtnController.getResultURL();
-        
-        Test.stopTest();
-    }
+//    @IsTest
+//    static void emailTemplateController() {
+//        TestData testData = new TestData();
+//        Contact piDelegateContact = [SELECT Id FROM Contact WHERE Email = 'pi_delegate@emil.com'];
+//        Test.startTest();
+//        EmailTemplateController controller = new EmailTemplateController();
+//        controller.sourceRecordId = piDelegateContact.Id;
+//        controller.userCommunityType = CommunityService.USER_MODE_PI;
+//        controller.outputMode = 'HTML';
+//        controller.getParameters();
+//
+//        controller = new EmailTemplateController();
+//        controller.sourceRecordId = testData.hcpEnrollment.Id;
+//        controller.userCommunityType = CommunityService.USER_MODE_HCP;
+//        controller.outputMode = 'HTML';
+//        controller.getParameters();
+//
+//        controller = new EmailTemplateController();
+//        controller.sourceRecordId = testData.pe.Id;
+//        controller.userCommunityType = CommunityService.USER_MODE_PARTICIPANT;
+//        controller.outputMode = 'HTML';
+//
+//        controller.getParameters();
+//        controller.getDelegateLevelsPI();
+//        controller.getDelegateLevelsHCP();
+//        controller.getResultUserMode();
+//        controller.getParameters();
+//
+//        EmailActionButtonController emailActionBtnController = new EmailActionButtonController();
+//        String url = emailActionBtnController.getResultURL();
+//        url = emailActionBtnController.getResultURL();
+//
+//        Test.stopTest();
+//    }
     
     @IsTest
     static void slideTour() {
@@ -380,7 +374,6 @@ private class Test_BaseCRCPCommunity {
             String initDataString = StudyListViewController.getPIInitData();
             StudyListViewController.PIInitData initData = (StudyListViewController.PIInitData) JSON.deserializeStrict( initDataString, StudyListViewController.PIInitData.class);
             StudyListViewController.searchStudiesPI(JSON.serialize(initData.piStudiesFilter.filterData),JSON.serialize(initData.piStudiesFilter.sortData), JSON.serialize(initData.paginationData));
-            SendEmailTemplate.createEmail(shareStudyEmailTemplateId, piContact.Id, piContact.Id,testData.ctp.id, true, 'PI');
         }
         Test.stopTest();
     }
@@ -415,15 +408,15 @@ private class Test_BaseCRCPCommunity {
             Healthcare_Provider__c hp = ReferHealthcareProviderRemote.inviteHP(testData.pe.Id, JSON.serialize(provider))[0];
             hp.Status__c = ReferHealthcareProviderRemote.HP_S_NOSHARING;
             Healthcare_Provider__c hp2 = ReferHealthcareProviderRemote.inviteHP(testData.pe.Id, JSON.serialize(hp))[0];
-            ReferHealthcareProviderRemote.checkDuplicate(testData.pe.Id, 'testHP@mail.com.fake');
+            ReferHealthcareProviderRemote.checkDuplicate(testData.pe.Id, 'testHP@mail.com.fake',null,null,null);
             ReferHealthcareProviderRemote.stopSharing(hp.Id, null);
-            ReferHealthcareProviderRemote.invitePatientDelegate(JSON.serialize(testData.participant), JSON.serialize(new Contact(Email = 'testdelegate@testdelegate.testdelegate', FirstName = 'TestDelegate', LastName = 'TestDelegate')), null);
+            ReferHealthcareProviderRemote.invitePatientDelegate(JSON.serialize(testData.participant), JSON.serialize(new Contact(Email = 'testdelegate@testdelegate.testdelegate', FirstName = 'TestDelegate', LastName = 'TestDelegate')), null, null);
             //Id patientDelegateId = [SELECT ID, Contact__r.Email FROM Patient_Delegate__c WHERE Contact__r.Email='testdelegate@testdelegate.testdelegate'].Id;
         }
         Id patientDelegateId = [SELECT ID, Contact__r.Email FROM Patient_Delegate__c WHERE Contact__r.Email='testdelegate@testdelegate.testdelegate'].Id;
         System.runAs(testData.piUser) {
              ReferHealthcareProviderRemote.stopSharing(null,patientDelegateId);
-             ReferHealthcareProviderRemote.invitePatientDelegate(JSON.serialize(testData.participant),JSON.serialize(new Contact(Email='testdelegate@testdelegate.testdelegate',FirstName='TestDelegate',LastName='TestDelegate')), patientDelegateId);
+             ReferHealthcareProviderRemote.invitePatientDelegate(JSON.serialize(testData.participant),JSON.serialize(new Contact(Email='testdelegate@testdelegate.testdelegate',FirstName='TestDelegate',LastName='TestDelegate')), patientDelegateId, null);
         }
         Test.stopTest();
     }
@@ -493,7 +486,7 @@ private class Test_BaseCRCPCommunity {
                     Phone__c = '12123123',
                     Email__c = 'NewTestPart@email.com'
             );
-            ReferringRemote.saveParticipant(testData.hcpEnrollment.Id, JSON.serialize(refInitData.participantEnrollment), JSON.serialize(participant2), null, null);
+            ReferringRemote.saveParticipant(testData.hcpEnrollment.Id, JSON.serialize(refInitData.participantEnrollment), JSON.serialize(participant2), null, null, null);
         }
         Test.stopTest();
         String vpResultJSON = ViewPatientsRemote.getInitData(testData.ctp.Id, testData.ss.Id, CommunityService.USER_MODE_HCP, null, CommunityService.USER_MODE_HCP, null);

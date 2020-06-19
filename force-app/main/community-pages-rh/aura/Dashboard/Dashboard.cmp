@@ -20,7 +20,7 @@
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
 
     <!-- component body: -->
-    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
+    <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true"/>
     <aura:if isTrue="{!v.isInitialized}">
         <aura:if isTrue="{!and(v.userMode == 'PI',v.showDashboardforPI)}">
         <c:RRNavigationPath>
@@ -43,5 +43,5 @@
         </div>
    </aura:if>
 
-
+    <c:builderStub aura:id="builderStub"/>
 </aura:component>

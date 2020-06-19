@@ -7,17 +7,16 @@
 
     doChangeItemsList: function (component, event, helper) {
         try {
-            //if(communityService.isInitialized()) return;
             helper.initItemsMap();
-            var userMode = component.get('v.mode');
-            var menuItems = helper.itemsMap[userMode];
+            let userMode = component.get('v.mode');
+            let menuItems = helper.itemsMap[userMode];
             component.set('v.menuItems', menuItems);
             component.set('v.scrollRequired', false);
             component.set('v.scrollDirection', 'left');
-            var scrollEnableCheckHandler = $A.getCallback(function () {
-                var navMenuCmp = component.getConcreteComponent().find('navMenu');
+            let scrollEnableCheckHandler = $A.getCallback(function () {
+                let navMenuCmp = component.getConcreteComponent().find('navMenu');
                 if (navMenuCmp) {
-                    var navMenu = navMenuCmp.getElement();
+                    let navMenu = navMenuCmp.getElement();
                     component.set('v.scrollRequired', navMenu.scrollWidth > navMenu.clientWidth);
                 }
             });
@@ -34,17 +33,27 @@
     },
 
     onClick: function (component, event, helper) {
-        var pageName = event.currentTarget.dataset.pageName;
+        let pageName = event.currentTarget.dataset.pageName;
         helper.updateDocumentTitle(component, pageName);
         communityService.navigateToPage(pageName);
     },
 
+    onClickResource: function (component, event, helper){
+        let pageName = 'resources-pi';
+        helper.updateDocumentTitle(component, pageName);
+        communityService.navigateToPage('library');
+    },
+	onClickMediaOutreach: function (component, event, helper){
+        //var pageName = 'resources';
+        //helper.updateDocumentTitle(component, pageName);
+        communityService.navigateToPage('my-mediaoutreach');
+    },
     doScroll: function (component, event, helper) {
-        var direction = component.get('v.scrollDirection');
-        var navMenuCmp = component.getConcreteComponent().find('navMenu');
+        let direction = component.get('v.scrollDirection');
+        let navMenuCmp = component.getConcreteComponent().find('navMenu');
         if (navMenuCmp) {
-            var navMenu = navMenuCmp.getElement();
-            var navMenuWidth = navMenu.getBoundingClientRect().width;
+            let navMenu = navMenuCmp.getElement();
+            let navMenuWidth = navMenu.getBoundingClientRect().width;
             try{
                 if (direction === 'right') {
                     component.set('v.scrollDirection', 'left');
@@ -57,6 +66,4 @@
             }
         }
     }
-
-
 })

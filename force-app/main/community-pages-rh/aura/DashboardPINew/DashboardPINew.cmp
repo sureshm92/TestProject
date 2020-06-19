@@ -26,13 +26,13 @@
         <aura:if isTrue="{!v.delegatePIPicklistvalues.length &gt; 1}">
             <div class="slds-p-right_large">    
                 <span class="picklist-block">
-                    <c:rrSelect value="{!v.currentPi}" options="{!v.delegatePIPicklistvalues}" onchange="{!c.refreshDataOnPiChange}" label="{!$Label.c.Dashboard_PI_Name}"/>
+                    <c:rrSelect value="{!v.currentPi}" options="{!v.delegatePIPicklistvalues}" onchange="{!c.refreshDataOnPiChange}" label="{!$Label.c.Dashboard_PI_Name}" useSentenceFont="false"/>
                 </span>
             </div>
         </aura:if>     
         <div>
             <span>
-                <c:rrSelect value="{!v.currentStudy}" options="{!v.piCTPPicklist}" setValueAsSelected="true" onchange="{!c.refreshDataOnStudyChange}" label="{!$Label.c.Dashboard_Study_Name}"/>
+                <c:rrSelect value="{!v.currentStudy}" options="{!v.piCTPPicklist}" setValueAsSelected="true" onchange="{!c.refreshDataOnStudyChange}" label="{!$Label.c.Dashboard_Study_Name}" useSentenceFont="false"/>
             </span>
         </div>
     </div>
@@ -44,14 +44,14 @@
             <c:DashboardWaitingContact dashboardTitle="{!'' + v.piData.participantsWaitingContact + ' ' + $Label.c.PG_DBPI_L_Referrals_waiting_for_contact}" peList="{!v.piData.awaitingToContact}" parent="{!v.parent}"/>
         </div> 
          <aura:if isTrue="{!v.isParticipantDisplay}">
-            <div class="slds-col slds-large-size_2-of-3 slds-small-size_1-of-1 slds-medium-size_2-of-3">
+            <div class="slds-col slds-large-size_2-of-3 slds-small-size_1-of-1 slds-medium-size_1-of-1">
                 <c:DB_ParticipantsContactedSchedule parent="{!v.parent}" piData="{!v.piData}"/>
             </div> 
          </aura:if> 
-        <div class="slds-col slds-large-size_2-of-3 slds-small-size_1-of-1 slds-medium-size_2-of-3">
+        <div class="slds-col slds-large-size_2-of-3 slds-small-size_1-of-1 slds-medium-size_1-of-1">
             <c:FunnelChart funnelData = "{!v.piData.funnelData}"/>
         </div>  
-        <div class="slds-col slds-large-size_1-of-3 slds-small-size_1-of-1 slds-medium-size_2-of-3">
+        <div class="slds-col slds-large-size_1-of-3 slds-small-size_1-of-1 slds-medium-size_1-of-1">
             <div class="{!v.isParticipantDisplay? 'db-quick-actions-container-participant' : 'db-quick-actions-container'}">
                 <c:DashboardQuickActionList
                         parent="{!v.parent}"
@@ -64,7 +64,7 @@
             </div>
         </div>
               
-		<div class="slds-col slds-size1-of-1 slds-p-top_large">
+        <div class="slds-col slds-size1-of-1  slds-medium-size_1-of-1 slds-p-top_large">
     		<c:DB_LeaderboardSelectedSSDetails dashboardTitle="{!$Label.c.Dashboard_Leaderboard}" piData="{!v.piData}"/>
         </div>
     </div>

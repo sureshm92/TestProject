@@ -3,26 +3,17 @@ stages:
   #Validation:
   - VALIDATE
 
-  # 3.2 INT:
-  - DeployINT3.2
-  - RunTestINT3.2
+  #5.0 INT
+  - DeployINT5.0
+  - RunTestINT5.0
 
-  # 3.2 INF:
-  - DeployINF3.2
-  - RunTestINF3.2
+  #5.0 INF
+  - DeployINF5.0
+  - RunTestINF5.0
 
-  # 4.0 INT:
-  - DeployINT4.0
-  - RunTestINT4.0
-  
-  # 4.0 INF
-  - DeployINF4.0
-  - RunTestINF4.0
-  
 
 cache:
   paths:
-    - node_modules
     - ~/.sfdx
     - .sfdx
 
@@ -39,169 +30,59 @@ VALIDATE:
 
   stage: VALIDATE
   script:
-    - sfdx update
-    - echo "$INTTreeTwo" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INTTreeTwo -d
-    - sfdx --version
-    - cd Nodejs
-    - node convert.js
-    - cd ..
-    - rm -rf output
-    - sfdx force:source:convert -d output
-    - sfdx force:mdapi:deploy -d output -u INTTreeTwo -c -w 60
-    - echo "validate INT success"
+    - . ./scripts/ci/validate.sh INF4
 
 
-# 4.0 INT: ---------------------------------------------------------------------
-DeployINT4.0:
+# 5.0 INT: ---------------------------------------------------------------------
+DeployINT5.0:
   tags:
     - shell
   only:
-    - INT4.0
+    - INT5.0
   except:
     - merge_requests
 
-  stage: DeployINT4.0
+  stage: DeployINT5.0
   script:
-    - sfdx update
-    - echo "$INT" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT -d
-    - sfdx --version
-    - cd Nodejs
-    - node convert.js
-    - cd ..
-    - rm -rf output
-    - cat .forceignore_deploy_exclude >> .forceignore
-    - sfdx force:source:convert -d output
-    - sfdx force:mdapi:deploy -d output -u INT  -w 60
-    - echo "deploy INT success"
+    - . ./scripts/ci/deploy.sh INT5_0
 
-RunTestINT4.0:
+RunTestINT5.0:
   tags:
     - shell
   only:
-    - INT4.0
+    - INT5.0
   except:
     - merge_requests
 
-  stage: RunTestINT4.0
+  stage: RunTestINT5.0
   script:
-    - echo "$INT" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT -d
-    - sfdx force:apex:test:run -u INT --testlevel=RunLocalTests -w 60
+    - . ./scripts/ci/run-tests.sh INT5_0
 
 
-# 4.0 INF: ---------------------------------------------------------------------
-DeployINF4.0:
+
+# 5.0 INF: ---------------------------------------------------------------------
+DeployINF5.0:
   tags:
     - shell
   only:
-    - INF4.0
+    - INF5.0
   except:
     - merge_requests
 
-  stage: DeployINF4.0
+  stage: DeployINF5.0
   script:
-    - sfdx update
-    - echo "$INF" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF -d
-    - sfdx --version
-    - cd Nodejs
-    - node convert.js
-    - cd ..
-    - rm -rf output
-    - cat .forceignore_deploy_exclude >> .forceignore
-    - sfdx force:source:convert -d output
-    - sfdx force:mdapi:deploy -d output -u INF  -w 60
-    - echo "deploy INF success"
+    - . ./scripts/ci/deploy.sh INF5_0
 
-RunTestINF4.0:
+RunTestINF5.0:
   tags:
     - shell
   only:
-    - INF4.0
+    - INF5.0
   except:
     - merge_requests
 
-  stage: RunTestINF4.0
+  stage: RunTestINF5.0
   script:
-    - echo "$INF" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF -d
-    - sfdx force:apex:test:run -u INF --testlevel=RunLocalTests -w 60
-
-
-# 3.2 INT: ---------------------------------------------------------------------
-DeployINT3.2:
-  tags:
-    - shell
-  only:
-    - Sprint-RH3.2-PP1.2-Refactoring
-  except:
-    - merge_requests
-
-  stage: DeployINT3.2
-  script:
-    - sfdx update
-    - echo "$INTTreeTwo" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT3.2 -d
-    - sfdx --version
-    - cd Nodejs
-    - node convert.js
-    - cd ..
-    - rm -rf output
-    - sfdx force:source:convert -d output
-    - sfdx force:mdapi:deploy -d output -u INT3.2  -w 60
-    - echo "deploy INT3.2 success"
-
-RunTestINT3.2:
-  tags:
-    - shell
-  only:
-    - Sprint-RH3.2-PP1.2-Refactoring
-  except:
-    - merge_requests
-
-  stage: RunTestINT3.2
-  script:
-    - echo "$INTTreeTwo" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT3.2 -d
-    - sfdx force:apex:test:run -u INT3.2 --testlevel=RunLocalTests -w 60
-
-
-# 3.2 INF: ---------------------------------------------------------------------
-DeployINF3.2:
-  tags:
-    - shell
-  only:
-    - RH3.2-PP1.2-INF3.2
-  except:
-    - merge_requests
-
-  stage: DeployINF3.2
-  script:
-    - echo "$INFTreeTwo" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF3.2 -d
-    - sfdx --version
-    - cd Nodejs
-    - node convert.js
-    - cd ..
-    - rm -rf output
-    - sfdx force:source:convert -d output
-    - sfdx force:mdapi:deploy -d output -u INF3.2  -w 60
-    - echo "deploy INF3.2 success"
-
-RunTestINF3.2:
-  tags:
-    - shell
-  only:
-    - RH3.2-PP1.2-INF3.2
-  except:
-    - merge_requests
-
-  stage: RunTestINF3.2
-  script:
-    - echo "$INFTreeTwo" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF3.2 -d
-    - sfdx force:apex:test:run -u INF3.2 --testlevel=RunLocalTests -w 60
+    - . ./scripts/ci/run-tests.sh INF5_0
 
 

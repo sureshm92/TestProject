@@ -64,6 +64,9 @@ public inherited sharing class ResourceTARelatedService extends ResourceService 
     }
 
     protected override Boolean isObjectsToFilterMissing() {
+        if(CommunityService.getContactUserMode(CommunityService.getUserContact().Id) == CommunityService.USER_MODE_PI) {
+            return false;
+        }
         return (this.therapeuticAreaId == null) && (this.therapeuticAreas.isEmpty());
     }
 }

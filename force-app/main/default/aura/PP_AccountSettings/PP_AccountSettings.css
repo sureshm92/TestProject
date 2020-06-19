@@ -1,0 +1,322 @@
+.THIS .rr-white-panel {
+    padding: 1rem!important;
+    border :  .5px solid #E9E9E9; 
+    margin-left: -1px;
+    margin-top: -4px;
+    box-sizing:none;
+    box-shadow:none;
+    border-bottom:none;
+    border-right:none;
+    border-left:none;
+    
+
+}
+
+.THIS.as-container {
+    position: relative;
+    padding-bottom: 100px;
+    overflow: hidden;
+}
+
+.THIS .as-container .rr-white-panel {
+    padding: 30px;
+    box-shadow: none;
+    border-radius: 0;
+    border: none;
+    background: none;
+}
+
+.THIS.as-container .as-password .rr-form-element + .rr-form-element {
+     margin-top: 0;
+}
+
+.THIS.as-container .as-email,
+.THIS.as-container .as-password
+{
+    margin-top: 10px;
+    /*margin-bottom: 30px;*/
+}
+
+.THIS .as-info > .rr-form-element{
+    margin-top: 20px;
+}
+
+.THIS.as-container .as-privacy{
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.THIS.as-container .as-title {
+    color: #000000;
+    font-size: 18px;
+    line-height: 20px;
+    font-weight: 600;
+    margin-bottom: 10px
+}
+
+
+.THIS.as-container .as-sub-title {
+    color: #333333;
+    font-size: 14px;
+    line-height: 24px;   
+    width: 60%;
+}
+
+.THIS.as-container .as-password .as-password-button {
+    margin-top: 20px;
+}
+
+.THIS .as-email-input.slds-gutters,
+.THIS .as-password-input{
+    margin: -20px 0 0;
+}
+
+.THIS .slds-gutters.as-email-input .slds-col,
+.THIS .slds-gutters.as-password-input .slds-col{
+    padding-left: 0;
+    padding-right: 1.5rem;
+}
+
+.THIS .as-email-input > *,
+.THIS .as-password-input > *{
+    margin-top: 20px;
+}
+
+
+.THIS .collapse-section.slds-m-top_large,
+.THIS .collapse-section.slds-m-top--large {
+    margin-top: 0;
+}
+
+.THIS .rr-link{
+    color: #297DFD;
+    display: inline-flex;
+    align-items: center;
+}
+
+.THIS .as-privacy-form textarea{
+    height: 200px;
+    margin-top: 30px;
+}
+.THIS .as-submit-button{
+    margin-top: 25px;
+}
+.THIS .as-email-pref-item{
+    margin-top: 15px;
+}
+
+.THIS .ah-toggle{
+    flex: inherit;
+}
+
+.THIS.ah-main-container{
+    margin-top: 30px;
+    padding: 10px;
+}
+.THIS .ah-main-panel{
+    background-color: #FFFFFF;
+    padding: 0px 20px 30px 20px;
+}
+.THIS .ah-item-label{
+    color: black;
+    font-weight: 600;
+    font-size: 17px;
+}
+.THIS .ah-item-sublabel{
+    color: #666666;
+    font-size: 13px;
+}
+.THIS .ah-item-panel{
+    box-sizing: border-box;
+    border: 1px solid #D9D9D9;
+    background-color: #F8F9FB;
+    padding: 17px;
+}
+.THIS .ah-section-title{
+    color: black;
+    font-weight: 600;
+    font-size: 17px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.THIS .as-buttons-footer{
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 40px;
+
+}
+
+.THIS .opt-in-popup-button {
+    width: 130px;
+}
+
+.THIS .opt-in-popup-button+.opt-in-popup-button {
+    margin-left: 30px;
+}
+.THIS .slds-text-heading_small{
+    font-weight: 600;
+    font-size: 17px;
+}
+.THIS .opt-tab-height{
+    height: 380px;
+}
+.THIS .mouse-hover{
+    background-color: #297DFD;
+    color: white;
+    height: 24px;
+    width: 252px;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.THIS .container-white-normal {
+  height: 1500px;
+  width: 1135px;
+  background-color:#FFFFFF;
+  border :  .5px solid #E9E9E9;
+
+}
+.THIS .slds-border_bottom{
+     border :  .5px solid #E9E9E9;
+
+}
+
+.THIS .slds-vertical-tabs__nav .vertical-line{
+    border :  .5px solid #E9E9E9;
+    border-right:.5px solid #E9E9E9;
+    
+    }
+.THIS .wrdText{
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 600;
+}
+.THIS .accordion-vertical-ui-stan {
+  height: 48px;
+  width: 300px;
+}
+.THIS .divider-vertical-light-divider {
+  height: 1505px;
+  width: 1px;
+  transform: scaleX(-1);
+}
+
+.THIS .vertical-line{
+    width: 100%;
+    border-right: none;
+}
+
+.THIS .vertical-line .slds-grid {
+    width: 100%;
+    height: 100%;
+}
+.THIS .horz-width{
+    width:1135px;
+}
+.THIS .account-settings {
+  height: 29px;
+  width: 189px;
+  color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 24px;
+  font-weight: 600;
+  white-space: nowrap;
+  letter-spacing: 0;
+  line-height: 29px;
+  margin-left: 8px;
+  padding-top: 1rem;
+}
+.THIS .profile-information {
+  height: 24px;
+  width: 219px;
+  color:white;
+  font-family: "Proxima Nova";
+  font-size: 15px;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+.THIS .group-6 {
+  height: 48px;
+  width: 300px;
+}
+.THIS .divider-horizontal-standard-co {
+  height: 1px;
+  width: 300px;
+}
+.THIS .slds-nav-vertical__title {
+
+  font-size: 24px;
+  white-space: nowrap;
+}
+.THIS .navigation {
+    min-width: 225px;
+    height: 100%;
+    border-right: 1px solid #e9e9e9;
+}
+/*.THIS .slds-nav-vertical__item.slds-is-active .slds-nav-vertical__action {
+    font-weight: bold;
+    
+              }  */
+.THIS .slds-nav-vertical__item.slds-is-active .slds-nav-vertical__action {
+    font-weight: 600;
+    color: white;
+    box-shadow: none;
+}            
+                             
+.THIS .slds-nav-vertical__action {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+    padding: 0.5rem 1.5rem 0.5rem 2rem;
+    text-decoration: none;
+    border-left: none;
+}
+
+@media (max-width: 768px){  
+    .THIS.as-container .as-sub-title,
+    .THIS .cLanguageSwitcher .section-description {
+        width: 100%;
+    } 
+    
+    .THIS .as-email-pref-item {
+        margin-top: 15px;
+        height: 42px;
+        display: flex;
+        padding-left: 80px;
+        align-items: center;
+        position: relative;
+    }
+    
+    .THIS .as-email-pref-item .ah-toggle {
+        left: 0;
+        top: 5px;
+        position: absolute;
+              }
+}
+
+@media screen and (max-width: 500px){  
+    .THIS .slds-gutters.as-email-input .slds-col, 
+    .THIS .slds-gutters.as-password-input .slds-col {
+        padding-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    .THIS .apollo-btn {
+        width: 100%;     
+    }
+    
+    .THIS.as-container .as-language-switcher .apollo-btn {
+        width: 100%;
+        margin-top: 15px;
+        height: auto;
+    }
+    
+
+    
+}

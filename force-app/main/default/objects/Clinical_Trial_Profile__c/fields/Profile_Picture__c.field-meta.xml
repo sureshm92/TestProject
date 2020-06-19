@@ -6,7 +6,7 @@
     <label>Profile Picture</label>
     <length>130000</length>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>true</trackHistory>
+<!--    <trackHistory>true</trackHistory>-->
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>

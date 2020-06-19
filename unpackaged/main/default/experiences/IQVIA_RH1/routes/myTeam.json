@@ -1,9 +1,0 @@
-{
-  "appPageId" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
-  "id" : "65cb2960-bb78-4c94-a3ca-341e0121ec14",
-  "label" : "My Team",
-  "pageAccess" : "UseParent",
-  "routeType" : "custom-my-team",
-  "type" : "route",
-  "urlPrefix" : "my-team"
-}

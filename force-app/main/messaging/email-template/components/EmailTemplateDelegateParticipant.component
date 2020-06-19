@@ -1,0 +1,30 @@
+<!--
+ - Created by Olga Skrynnikova on 1/30/2020.
+ -->
+
+<apex:component id="EmailTemplateDelegateParticipant" controller="EmailTemplateDelegatePartController" access="global">
+    <!-- attributes: -->
+    <apex:attribute name="sourceId" type="Id" assignTo="{!sourceIdValue}" description="" access="global"/>
+    <apex:attribute name="userId" type="Id"  description="DEPRECATED" access="global"/>
+    <apex:attribute name="afterText" type="String" description="DEPRECATED" access="global"/>
+    <apex:attribute name="commTemplate" type="String" description="DEPRECATED" access="global"/>
+
+    <apex:outputPanel rendered="{!delegateStudyNames.size > 0}">
+        <div style="margin-bottom: 15px">
+            <table style="width: 100%;table-layout: fixed; border-collapse: collapse;">
+                <apex:repeat value="{!delegateStudyNames}" var="studyName">
+                    <tr style="font-size: 16px; color: #424242; ">
+                        <td style="font-weight: bold;border-bottom: 0.5px solid #979797;border-top: 0.5px solid #979797; width: 80%;padding: 10px 0 10px 0">
+                            {!studyName}
+                        </td>
+                    </tr>
+                </apex:repeat>
+            </table>
+            <br/>
+        </div>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!bottomText != ''}">
+        <apex:outputText value="{!bottomText}" escape="false"/>
+        <div style="margin-bottom: 40px"></div>
+    </apex:outputPanel>
+</apex:component>

@@ -13,11 +13,13 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_PT_NEW_STUDY_eRP_VT_TYPE = 'Message_to_PT_New_Study_eRP_VT_Type';
 
     // for batches
+    public static final String MESSAGE_TO_PT_FOLLOWUP = 'Message_To_PT_FollowUp';
     public static final String MESSAGE_TO_PT_PATIENT_BECOME_ADULT_TYPE = 'Message_to_PT_Patient_Become_Adult_Type';
     public static final String MESSAGE_TO_PT_ONE_YEAR_TYPE = 'Message_to_PT_One_Year_Type';
     public static final String MESSAGE_TO_PT_NEW_STDDOC_TYPE = 'Message_to_PT_New_StdDoc_Type';
     public static final String MESSAGE_TO_PT_DATA_AVAILABLE_TYPE = 'Message_to_PT_Data_Available_Type';
     public static final String MESSAGE_TO_PT_HAS_NOT_LOGGED_IN_TYPE = 'Message_to_PT_has_not_Logged_In_Type';
+    public static final String MESSAGE_TO_PT_TRIAL_MATCH = 'Message_To_PT_Trial_Match';
     public static final String MESSAGE_TO_PI_HAS_UNREAD_CONVERSATION = 'Message_to_PI_has_Unread_Conversation';
 
     // for survey & task
@@ -65,6 +67,7 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_PI_PATIENT_BECOME_ADULT_TYPE = 'Message_to_PI_Patient_Become_Adult_Type';
     public static final String MESSAGE_TO_PI_NEW_MESSAGE_TYPE = 'Message_To_PI_New_Message_Type';
     public static final String MESSAGE_TO_PI_ACCESS_LEVEL_CHANGED_TYPE = 'Message_to_PI_Access_Level_Changed_Type';
+    public static final String MESSAGE_TO_PI_CONTACT_PARTICIPANT_TYPE = 'Message_To_PI_Contact_Participant_Type';
 
 /**
  *  MESSAGE TO HCP

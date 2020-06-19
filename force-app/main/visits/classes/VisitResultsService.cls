@@ -15,40 +15,85 @@ public inherited sharing class VisitResultsService {
     }
 
     public List<VisitResultWrapper> getVisitResultWrappersForDashboard() {
-
-        List<Visit_Result_TypeM_Dashboard_Config__mdt> configs = metadataService.getVisitResultTypeDashboardConfigs();
+        Id currentCTP = ParticipantContext.getCurrentPE().Clinical_Trial_Profile__c;
+        Clinical_Trial_Profile__c ctpObject=[Select Id,Participant_Visit_Result_Group__c from Clinical_Trial_Profile__c where Id = :currentCTP];
+        String currentCTPVisitResultGroup = ctpObject.Participant_Visit_Result_Group__c;
+        List<String> ctpAvailableNames = new List<String>();
+        List<Visit_Result_Type_Sharing__c> ctpAvailable = [
+            SELECT Id,
+            Type__c
+            FROM Visit_Result_Type_Sharing__c
+            WHERE Clinical_Trial_Profile__c = :currentCTP
+            
+        ];
+        for (Visit_Result_Type_Sharing__c visitResultTypeSharing : ctpAvailable) {
+            ctpAvailableNames.add(visitResultTypeSharing.Type__c);
+        }
+        List<Visit_Result_GroupM__mdt> visistResultGroupMetaDataTypeList=[SELECT Id, Label, (SELECT Id, DeveloperName, Label, Visit_Result_Code__c FROM Visit_Result_Types__r) FROM Visit_Result_GroupM__mdt WHERE Label=:currentCTPVisitResultGroup];
+        List<String> attributePerSectionList=new List<String>();
+        for(Visit_Result_GroupM__mdt objMetadata:visistResultGroupMetaDataTypeList){
+            for(Visit_Result_TypeM__mdt objVSR:objMetadata.Visit_Result_Types__r){
+                attributePerSectionList.add(objVSR.DeveloperName);
+            }
+        }
+        List<String> filteredVisitResults = new List<String>();
+        for(String ctpAttributeAvailable : ctpAvailableNames){
+            if(attributePerSectionList.contains(ctpAttributeAvailable)){
+                filteredVisitResults.add(ctpAttributeAvailable);
+            }
+        }
         List<Visit_Result__c> visitResults = VisitResultSharingService.processResults();
-        if (visitResults.isEmpty() || configs.isEmpty()) {
+        if (visitResults.isEmpty() || filteredVisitResults.isEmpty()) {
             return new List<VisitResultWrapper>();
         }
-
         Map<String, Visit_Result__c> visitResultValuesByNames = new Map<String, Visit_Result__c>();
         List<VisitResultWrapper> wrappers = new List<VisitResultWrapper>();
         Boolean listIsNotEmpty = false;
-
         for (Visit_Result__c singleVisitResult : visitResults) {
             visitResultValuesByNames.put(singleVisitResult.Result_Type__c, singleVisitResult);
         }
-
-        //String languageToTranslate = IRBParticipantService.getSuitableLanguageForIRBTranslation(ParticipantService.getParticipantState().pe.Id);
-        for (Visit_Result_TypeM_Dashboard_Config__mdt singleConfig : configs) {
-            Visit_Result__c visitResult = visitResultValuesByNames.get(singleConfig.Visit_Result_Type__r.DeveloperName);
+        for(String selectedVisitGroup :filteredVisitResults)
+        {
+            Visit_Result__c visitResult = visitResultValuesByNames.get(selectedVisitGroup); 
             if (visitResult != null && visitResult.Actual_Value__c != null) {
                 listIsNotEmpty = true;
             }
-            wrappers.add(new VisitResultWrapper(visitResult, TranslateHelper.getLabelValue(singleConfig.Dashboard_Name__c), this.visitResultsMeasurementNamesMap));
+            wrappers.add(new VisitResultWrapper(visitResult, TranslateHelper.getLabelValue(selectedVisitGroup), this.visitResultsMeasurementNamesMap));
         }
-        return listIsNotEmpty ? wrappers : new List<VisitResultWrapper>();
+        List<VisitResultWrapper> resultWrappers =new List<VisitResultWrapper>();
+        List<VisitResultWrapper> emptyWrappers =new List<VisitResultWrapper>();
+        for( Integer index=0; index < wrappers.size() ; index++)
+        {  
+            if( wrappers.get(index).value != null){
+                resultWrappers.add(wrappers.get(index));
+            }
+            else
+            {
+                emptyWrappers.add(wrappers.get(index));   
+            }
+        }
+        if(resultWrappers.isEmpty()) {
+            return new List<VisitResultWrapper>();
+        }
+        resultWrappers.addAll(emptyWrappers);
+        if(resultWrappers.size() > 5)
+        {
+            for(Integer index=resultWrappers.size()-1; index >= 5; index--)
+            {
+                resultWrappers.remove(index);
+            }
+        }
+        return listIsNotEmpty ? resultWrappers : new List<VisitResultWrapper>();
     }
 
     public List<Patient_Visit__c> getPatientVisitsForReport(Participant_Enrollment__c pe) {
         String visitsQuery = 'SELECT ' +
                 'Name, ' +
                 'Completed_Date__c, ' +
-                'Participant_Enrollment__r.Participant__r.Contact__r.Visit_Results_Opt_In__c, ' +
+                'Planned_Date__c, ' +
                 'Participant_Enrollment__r.Participant__r.Full_Name__c, ' +
                 'Participant_Enrollment__r.Participant__r.Last_Name__c, ' +
-                '(SELECT Name, Actual_Value__c, Min_Value__c, Max_Value__c, Measurement__c, Result_Type__c, Patient_Visit__r.Visit_Number__c FROM Visit_Results__r) ' +
+                '(SELECT Name, Actual_Value__c, Min_Value__c, Max_Value__c, Measurement__c, Result_Type__c, Patient_Visit__r.Visit_Number__c, RecordType.DeveloperName FROM Visit_Results__r) ' +
                 'FROM Patient_Visit__c ' +
                 'WHERE Participant_Enrollment__c = \'' + pe.Id + '\'' +
                 ' AND Status__c = \'Completed\'' +
@@ -56,8 +101,13 @@ public inherited sharing class VisitResultsService {
         return ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(visitsQuery, true);
     }
 
-    public VisitResultsContainer getVisitResultsContainer(String visitResultsGroupName) {
+    public VisitResultsContainer getVisitResultsContainer(String visitResultsGroupName,  Map<String,List<String>> visitResultSharings) {
         List<Visit_Result_TypeM__mdt> visitResultTypes = this.metadataService.getVisitResultTypes(visitResultsGroupName);
+        List<String> availableVisitResults = visitResultSharings.get(visitResultsGroupName);
+        List<Visit_Result_TypeM__mdt> filteredVisitResultTypesIfAvailable = new List<Visit_Result_TypeM__mdt>();
+        for (Visit_Result_TypeM__mdt visitResultTypeM : visitResultTypes) {
+            if (availableVisitResults.contains(visitResultTypeM.DeveloperName)) filteredVisitResultTypesIfAvailable.add(visitResultTypeM);
+        }
         List<Visit_Result__c> visitResults = VisitResultSharingService.processResults();
 
         //String languageToTranslate = IRBParticipantService.getSuitableLanguageForIRBTranslation(ParticipantService.getParticipantState().pe.Id);
@@ -65,7 +115,7 @@ public inherited sharing class VisitResultsService {
                 ? null
                 : new VisitResultsContainer(
                         visitResults[0].Patient_Visit__r,
-                        this.getVisitResultWrappers(visitResults, visitResultTypes),
+                        this.getVisitResultWrappers(visitResults, filteredVisitResultTypesIfAvailable),
                         TranslateHelper.getLabelValue(visitResultsGroupName)
                 );
     }
@@ -127,6 +177,8 @@ public inherited sharing class VisitResultsService {
         public String measurement;
         @AuraEnabled
         public String description;
+        @AuraEnabled
+        public String recordtype;
 
         public VisitResultWrapper(Visit_Result__c visitResult, String name, String description) {
             this(visitResult, name, description, null);
@@ -140,14 +192,15 @@ public inherited sharing class VisitResultsService {
                 this.value = visitResult.Actual_Value__c;
                 this.minValue = visitResult.Min_Value__c;
                 this.maxValue = visitResult.Max_Value__c;
-                String measurementLowerCase = visitResult.Measurement__c.toLowerCase();
-                if(measurementNamesMap != null && measurementNamesMap.containsKey(measurementLowerCase)){
-                    this.measurement = measurementNamesMap.get(measurementLowerCase).replace('/',' / ');
+                if (visitResult.Measurement__c != null) {
+                    String measurementLowerCase = visitResult.Measurement__c.toLowerCase();
+                    if (measurementNamesMap != null && measurementNamesMap.containsKey(measurementLowerCase)) {
+                        this.measurement = measurementNamesMap.get(measurementLowerCase).replace('/', ' / ');
+                    } else {
+                        this.measurement = visitResult.Measurement__c.replace('/', ' / ');
+                    }
                 }
-                else{
-                this.measurement = visitResult.Measurement__c.replace('/',' / ');
             }
-        }
         }
 
         public VisitResultWrapper(Visit_Result__c visitResult, String name) {
@@ -158,14 +211,14 @@ public inherited sharing class VisitResultsService {
             this.name = name;
             if (visitResult != null) {
                 this.value = visitResult.Actual_Value__c;
+                this.recordtype=visitResult.RecordType.DeveloperName;
                 String measurementLowerCase = visitResult.Measurement__c.toLowerCase();
-                if(measurementNamesMap != null && measurementNamesMap.containsKey(measurementLowerCase)){
-                    this.measurement = measurementNamesMap.get(measurementLowerCase).replace('/',' / ');
+                if (measurementNamesMap != null && measurementNamesMap.containsKey(measurementLowerCase)) {
+                    this.measurement = measurementNamesMap.get(measurementLowerCase).replace('/', ' / ');
+                } else {
+                    this.measurement = visitResult.Measurement__c.replace('/', ' / ');
                 }
-                else{
-                this.measurement = visitResult.Measurement__c.replace('/',' / ');
             }
         }
     }
-}
 }

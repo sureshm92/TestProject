@@ -159,7 +159,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 if (participant != null) {
                     pe.Participant_Contact__c = participant.Contact__c;
                     if (oldMap == null && pe.Participant_Contact__c != null) {
-                        participant.Contact__r.Visit_Results_Opt_In__c = visitOpt;
+                        participant.Contact__r.Visit_Results_OptIn__c = visitOpt ? 'Vitals;Labs;Biomarkers' : null;
                         participantContacts.add(participant.Contact__r);
                     }
                     participantName = participant.Name;

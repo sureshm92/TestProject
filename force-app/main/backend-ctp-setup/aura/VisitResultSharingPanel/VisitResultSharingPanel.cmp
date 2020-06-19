@@ -5,12 +5,11 @@
 <aura:component description="VisitResultSharingPanel" implements="force:hasRecordId, flexipage:availableForAllPageTypes"
                 controller="VisitResultSharingPanelRemote">
 
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
     <aura:attribute name="initData" type="Object"/>
     <aura:attribute name="groups" type="List"/>
-    <aura:attribute name="typeSelectLVList" type="List"/>
     <aura:attribute name="options" type="Object"/>
     <aura:attribute name="dataSnapshot" type="String"/>
     <aura:attribute name="userPermission" type="String"/>
@@ -167,16 +166,14 @@
                         </div>
                         <!-- visit results options: -->
                         <aura:iteration items="{!v.groups}" var="group">
-                            <div class="group-container vrs-panel">
-                                <div class="group-title">{!group.label}</div>
-                                <aura:iteration items="{!group.visitResults}" var="vResult">
-                                    <c:VisitResultSharingItem visitResult="{!vResult}"
-                                                              typeSelectLVList="{!v.typeSelectLVList}"
-                                                              ctpId="{!v.recordId}"
-                                                              globalCountries="{!v.options.selectedCountries}"
-                                                              globalType="{!v.options.countrySelectionType}"/>
-                                </aura:iteration>
-                            </div>
+                            <c:VisitResultSharingGroupItem groupLabel="{!group.label}"
+                                                           visitResults="{!group.visitResults}"
+                                                           showGroup="{!group.show}"
+                                                           globalCountries="{!v.options.selectedCountries}"
+                                                           globalType="{!v.options.countrySelectionType}"
+                                                           showOnMyResultCard="{!group.displayOnMyResultCard}"
+                                                           onChange="{!c.doGroupChanged}"
+                                                           onChangeShowOnMyResultCard="{!c.doGroupSelectionChanged}"/>
                         </aura:iteration>
                         <aura:if isTrue="{!v.userPermission == 'View'}">
                             <div class="overlay"></div>

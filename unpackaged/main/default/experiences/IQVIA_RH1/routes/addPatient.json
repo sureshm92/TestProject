@@ -1,9 +1,0 @@
-{
-  "appPageId" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
-  "id" : "c91cafdc-e58a-4020-8ee4-483eaa5d44ef",
-  "label" : "Add Patient",
-  "pageAccess" : "UseParent",
-  "routeType" : "custom-add-patient",
-  "type" : "route",
-  "urlPrefix" : "add-patient"
-}

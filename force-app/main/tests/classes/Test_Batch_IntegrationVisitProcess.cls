@@ -86,7 +86,6 @@ private class Test_Batch_IntegrationVisitProcess {
                 SVSTDTC__c = Date.today(),
                 VISIT__c = 'New Visit 1',
                 VISITNUM__c = 1,
-
                 IsDeletedInSDH__c = 'N'
         );
         externalVisits.add(visit);
@@ -97,12 +96,23 @@ private class Test_Batch_IntegrationVisitProcess {
                 USUBJID__c = 'CTP1~SS1~PE1',
                 Vital_or_Lab__c = 'Lab',
                 STUDYID__c = '10',
-                TESTCD__c = 'BUNCC', //
+                TESTCD__c = 'BUNCC',
                 VSDTC__c = Date.today(),
                 VISIT__c = 'New Visit 1',
                 IsDeletedInSDH__c = 'N'
         );
+        Integration_VisitResult__c result1 = new Integration_VisitResult__c(
+                USUBJID__c = 'CTP1~SS1~PE1',
+                Vital_or_Lab__c = 'Biomarker',
+                STUDYID__c = '10',
+                TESTCD__c = 'NYESO-1',
+                VSDTC__c = Date.today(),
+                VISIT__c = 'New Visit 1',
+                STRESN__c = 1,
+                IsDeletedInSDH__c = 'N'
+        );
         visitResults.add(result);
+        visitResults.add(result1);
         insert visitResults;
 
         Database.executeBatch(new Batch_IntegrationVisitProcess());
@@ -119,8 +129,7 @@ private class Test_Batch_IntegrationVisitProcess {
         System.assert(patientVisits.size() > 0, 'Visits not found');
         System.assertEquals(enrollments.get(0).Id, patientVisits.get(0).Participant_Enrollment__c);
 
-        List<Visit_Result__c> results = [SELECT Id, Patient_Visit__c FROM Visit_Result__c];
-        System.assert(results.size() > 0, 'Results not found');
-        System.assertEquals(patientVisits.get(0).Id, results.get(0).Patient_Visit__c);
+        List<Visit_Result__c> results = [SELECT Id, Patient_Visit__c, Result_Type__c, Actual_Value__c FROM Visit_Result__c];
+        System.assertEquals(2, results.size());
     }
 }

@@ -2,31 +2,26 @@
                          recipientType="Contact"
                          relatedToType="Participant_Enrollment__c">
 
-    <messaging:htmlEmailBody >
-        <c:EmailTemplate recipientId="{!recipient.Id}"
-                         parametersProvider="Email_Template_Parameters_From_PE"
-                         sourceId="{!relatedTo.Id}"
-                         header="{!$Label.Email_Header_Available}"
-                         title="{!$Label.Email_Title_PH}"
-                         greeting="{!$Label.Email_User_Greeting_FirstName}"
-                         body="{!$Label.Email_Body_Available}"
-                         signature="{!$Label.Email_Signature_Plain_Summary_Available}">
-            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
-                              resourceId="{!relatedTo.Id}"/>
-        </c:EmailTemplate>
+    <messaging:htmlEmailBody>
+        <c:EmailWireframe recipientId="{!recipient.Id}"
+                          sourceId="{!relatedTo.Id}"
+                          header="{!$Label.Email_Header_Available}"
+                          greeting="{!$Label.Email_User_Greeting_FirstName}"
+                          signature="{!$Label.Email_Signature_Plain_Summary_Available}">
+            <c:Paragraph emailLabel="{!$Label.Email_Body_Available}"/>
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
+        </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody >
-        <c:EmailTemplateText recipientId="{!recipient.Id}"
-                             parametersProvider="Email_Template_Parameters_From_PE"
-                             sourceId="{!relatedTo.Id}"
-                             header="{!$Label.Email_Header_Available}"
-                             title="{!$Label.Email_Title_PH}"
-                             greeting="{!$Label.Email_User_Greeting_FirstName}"
-                             body="{!$Label.Email_Body_Available}"
-                             signature="{!$Label.Email_Signature_Plain_Summary_Available}">
-            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
-                                  resourceId="{!relatedTo.Id}"/>
-        </c:EmailTemplateText>
+    <messaging:plainTextEmailBody>
+        <c:EmailWireframeText recipientId="{!recipient.Id}"
+                              sourceId="{!relatedTo.Id}"
+                              header="{!$Label.Email_Header_Available}"
+                              greeting="{!$Label.Email_User_Greeting_FirstName}"
+                              signature="{!$Label.Email_Signature_Plain_Summary_Available}">
+            <c:ParagraphText emailLabel="{!$Label.Email_Body_Available}"/>
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
+        </c:EmailWireframeText>
     </messaging:plainTextEmailBody>
+
 </messaging:emailTemplate>

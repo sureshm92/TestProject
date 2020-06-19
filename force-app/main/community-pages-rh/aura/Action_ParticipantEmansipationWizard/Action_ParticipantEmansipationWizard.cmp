@@ -26,7 +26,7 @@
     <aura:attribute name="delegateItemsDisabled" type="Boolean" default="false"/>
     <aura:attribute name="actions" type="Object"/>
 
-
+    <aura:attribute name="todayDate" type="Date" access="private"/>
     <aura:attribute name="statesLVList" type="LabelValueItem[]" access="private"/>
     <aura:attribute name="participantMsgWithName" type="String" access="private"/>
 
@@ -247,7 +247,7 @@
                                         </aura:if>
 
                                         <aura:if isTrue="{!!delegateItem.isConnected || !delegateItem.fromStart}">
-                                            <c:EmancipationWizardDelegate delegateItem="{!delegateItem}" index="{!ind}" parent="{!this}" isDuplicate="{!delegateItem.isDuplicate}"/>
+                                            <c:EmancipationWizardDelegate delegateItem="{!delegateItem}" index="{!ind}" parent="{!this}" aura:id="delegateWizard"/>
                                         </aura:if>
                                     </div>
                                 </div>

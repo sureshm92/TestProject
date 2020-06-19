@@ -14,6 +14,12 @@
     <aura:attribute name="shareButtons" type="List"/>
     <aura:attribute name="multiMode" type="Boolean"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
+    <aura:attribute name="isDelegateMode" type="Boolean" default="true"/>
+    <aura:attribute name="visitResultSharings" type="Map"/>
+    <aura:attribute name="displayVitalsButton" type="Boolean" default="false"/>
+    <aura:attribute name="displayLabsButton" type="Boolean" default="false"/>
+    <aura:attribute name="displayBiomarkersButton" type="Boolean" default="false"/>
+
 
     <aura:attribute name="isReportsTabInitialized" type="Boolean"/>
     <aura:attribute name="isReferralsTabInitialized" type="Boolean"/>
@@ -188,12 +194,27 @@
                     </div>
 
                     <div class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-lab-results', '', ' collapsed')}">
-                        <button id="changeLabResultsMode" data-lab-results-mode="Vitals"
-                                class="{!'apollo-btn text ' + if(v.labResultsMode == 'Vitals', ' current', '')}"
-                                onclick="{!c.doAction}">{!$Label.c.Visit_Results_Tab_Vitals}</button>
-                        <button id="changeLabResultsMode" data-lab-results-mode="Labs"
+                        <aura:if isTrue="{!v.displayVitalsButton}">
+                            <button id="changeLabResultsMode" data-gtm="BTN_Visit_Results_Vitals" data-lab-results-mode="Vitals"
+                                    class="{!'apollo-btn text ' + if(v.labResultsMode == 'Vitals', ' current', '')}"
+                                    onclick="{!c.doAction}">{!$Label.c.Visit_Results_Tab_Vitals}</button>
+                        </aura:if>
+                        <aura:if isTrue="{!v.displayLabsButton}">
+                        <button id="changeLabResultsMode" data-gtm="BTN_Visit_Results_Labs" data-lab-results-mode="Labs"
                                 class="{!'apollo-btn text ' + if(v.labResultsMode == 'Labs', ' current', '')}"
                                 onclick="{!c.doAction}">{!$Label.c.Visit_Results_Tab_Labs}</button>
+                        </aura:if>
+                        <aura:if isTrue="{!v.displayBiomarkersButton}">
+                        <button id="changeLabResultsMode" data-gtm="BTN_Visit_Results_Biomarkers" data-lab-results-mode="Biomarkers"
+                                class="{!'apollo-btn text ' + if(v.labResultsMode == 'Biomarkers', ' current', '')}"
+                                onclick="{!c.doAction}">{!$Label.c.Visit_Results_Tab_Biomarkers}</button>
+                            </aura:if>
+                        <!-- PEH-1986: In-trial Summary Report -->
+                        <aura:if isTrue="{!and(v.state != 'ALUMNI', not(v.isDelegateMode))}">
+                            <div class="resource-item">
+                                <c:VisitSummaryReportLink peId="{!v.studyDetail.pe.Id}" inTrialSummaryReport="true"/>
+                            </div>
+                        </aura:if>
                     </div>
 
                 </div>
@@ -241,7 +262,7 @@
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-lab-results'}">
-                        <c:VisitResultsContainer labResultsMode="{!v.labResultsMode}"/>
+                        <c:VisitResultsContainer labResultsMode="{!v.labResultsMode}" visitResultSharings="{!v.visitResultSharings}"/>
                     </aura:if>
                 </div>
             </div>
