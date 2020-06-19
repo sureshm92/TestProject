@@ -6,6 +6,7 @@
 
     <aura:attribute name="isMultiEntry" type="Boolean" default="true"/>
     <aura:attribute name="minTermLength" type="Integer" default="0"/>
+    <aura:attribute name="ctpId" type="String"/>
 
     <!-- methods: -->
     <aura:method name="searchByTerm" action="{!c.doSearchByTerm}" access="public">

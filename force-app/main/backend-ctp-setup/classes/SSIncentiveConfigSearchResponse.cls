@@ -60,7 +60,8 @@ public without sharing class SSIncentiveConfigSearchResponse {
                 hasCheckedIncentives = hasCheckedIncentives || ssIPId != null;
                 item.assignments.add(new ValueStateItem(ip.value, ssIPId));
             }
-            if (!fromInit || fromInit && (hasCheckedIncentives || String.isEmpty(filter.pageFeatureIds))) {
+            if (!fromInit || String.isBlank(filter.pageFeatureIds) ||
+                    !String.isBlank(filter.pageFeatureIds) && hasCheckedIncentives) {
                 studySiteItems.add(item);
             }
         }
