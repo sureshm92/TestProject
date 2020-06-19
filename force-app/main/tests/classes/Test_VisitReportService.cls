@@ -100,7 +100,12 @@ private class Test_VisitReportService {
       
         System.runAs(testData.participantUser){
             VisitReportContainerRemote.getReportDataWrappers(testData.pe.Id);
-            VisitReportContainerRemote.getLogoFromStatic();
+            try{
+                VisitReportContainerRemote.getLogoFromStatic('GSK');
+            }
+            catch(Exception e){
+                System.debug('Exception Handled');
+            }
         }
         
         Test.stopTest();

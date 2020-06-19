@@ -12,13 +12,11 @@ public inherited sharing class VisitReportContainerRemote {
     private static String base64PNG = 'data:image/png;base64,';
 
     @AuraEnabled
-    public static String getLogoFromStatic() {
+    public static String getLogoFromStatic(String communityname) {
+        String reportlogopath = '/resource/ReportBrandingLogos/'+communityname+'.png';
         try {
-            Blob imageLogo = [
-                    SELECT Body
-                    FROM StaticResource
-                    WHERE Name = :IQVIA_LOGO
-            ].Body;
+            PageReference pr = new PageReference(reportlogopath);
+            Blob imageLogo = pr.getContent();
             return base64PNG + EncodingUtil.base64Encode(imageLogo);
         } catch (Exception e) {
             AuraHelper.throwException(e);
@@ -39,6 +37,7 @@ public inherited sharing class VisitReportContainerRemote {
     public class ReportDataWrapper {
         @AuraEnabled public List<ReportDataTableWrapper> dataTables;
         @AuraEnabled public String studyCodeName;
+        @AuraEnabled public String communityTemplate;
         @AuraEnabled public String studyTitle;
         @AuraEnabled public String profilePicture;
         @AuraEnabled public String participantFullName;
