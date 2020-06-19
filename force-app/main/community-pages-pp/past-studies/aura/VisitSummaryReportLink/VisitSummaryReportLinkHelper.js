@@ -38,7 +38,7 @@
     getLogo: function (component, reportData, isSave) {
         const helper = this;
         const url = window.location.hostname;
-        let filepath = '/'+ctpRecord.CommunityTemplate__c +'.png';
+        let filepath = '/'+reportData.communityTemplate +'.png';
         const resourceRelPath = $A.get('$Resource.ReportBrandingLogos') + filepath;
         const resourceUrl = 'https://'.concat(url).concat(resourceRelPath);
         window.fetch(resourceUrl).then($A.getCallback(function (response) {
@@ -188,7 +188,7 @@
             }
             doc.text(reportData.participantLastName, 600, 24);
         }
-        doc.setDrawColor(0, 0, 100);
+        doc.setDrawColor(216, 216, 216);
         doc.setLineWidth(8);
         doc.line(35, 35, 35, 550);
         doc.line(30.8, 35, 97, 35);
