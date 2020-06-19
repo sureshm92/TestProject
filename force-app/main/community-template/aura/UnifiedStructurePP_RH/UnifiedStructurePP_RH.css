@@ -4,7 +4,7 @@
 
 .THIS .label{
     height: 48px;
-    width: 237px;
+    width: 213px;
     color: #000000;
     font-size: 16px;
     font-weight: 600;
@@ -15,6 +15,10 @@
 .THIS .item-container{
     display: flex;
     border-bottom: 1px solid #f8f9fb;
+}
+
+.THIS .item-container:hover{
+    cursor: pointer;
 }
 
 .THIS .mode-icon{
