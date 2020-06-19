@@ -24,14 +24,14 @@ public class CCStaffTriggerHandler {
                                     Contact__r.userCommunityMode__c,
                                     Contact__r.CC_Staff_Status__c
                                     FROM CC_Staff__c
-                                    WHERE ID IN: newList];
+                                    WHERE ID IN: newList AND
+                                   Contact__r.userCommunityMode__c = 'CC'];
         For(CC_Staff__c c: ccList){
-            if(c.Contact__r.userCommunityMode__c == 'CC'){
                 if(c.CC_Staff_Status__c == 'Invited')
                     c.Contact__r.CC_Staff_Status__c = True;  
                 else
                     c.Contact__r.CC_Staff_Status__c = False; 
-            }
+            
             conList.add(c.Contact__r);
         }
         update conList;
