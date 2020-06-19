@@ -59,6 +59,11 @@
     flex-shrink: 0;
 }
 
+.THIS .wt-scroller {
+    height: 85vh;
+    padding: 1rem;
+}
+
 .THIS .tour-buttons-continer{
     display: flex;
     flex-wrap: wrap;
