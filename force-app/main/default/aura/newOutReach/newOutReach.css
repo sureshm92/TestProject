@@ -50,6 +50,10 @@
     margin-top: .125rem;
     display: none;
 }
-.THIS.cPopup .p-container .p-content{
-    padding: 0px 10px 20px 10px;
+.THIS .popupcontent{
+    font-size: 1.575rem;
+    padding-left: 15px;
+}
+.THIS .prefferedcontact {
+    font-size: .875rem;
 }

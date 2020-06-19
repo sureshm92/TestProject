@@ -9,6 +9,8 @@
     <permissionSets>PP_Participant_PII_On_Cases_View</permissionSets>
     <permissionSets>PP_Participant_PII_View</permissionSets>
     <permissionSets>PP_Payment_Vendors_Edit</permissionSets>
+    <permissionSets>PP_Site_Staff_Invitation_Edit</permissionSets>
+    <permissionSets>PP_Site_Staff_Invitation_View</permissionSets>
     <permissionSets>PP_StudySite_Edit</permissionSets>
     <permissionSets>PP_Study_Resources_Edit</permissionSets>
     <permissionSets>PP_Toggle_Feature_Delta_Edit</permissionSets>

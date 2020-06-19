@@ -6,6 +6,7 @@
     <aura:attribute name="userMode" type="String" required="true"/>
     <aura:attribute name="isDelegate" type="Boolean"/>
     <aura:attribute name="disableToggle" type="Boolean"/>
+    <aura:attribute name="delegateContact" type="Contact"/>
 
     <aura:attribute name="institute" type="Object"/>
     <aura:attribute name="previousCC" type="String"/>
@@ -36,7 +37,9 @@
     <aura:attribute name="showEmailPrefSpinner" type="Boolean" default="false" access="private"/>
     <aura:attribute name="privacyFormText" type="String" access="private"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false" access="private"/>
-
+    <aura:attribute name="currentEmail" type="String"/>
+    <aura:attribute name="userEmail" type="String"/>
+    <aura:attribute name="userId" type="String"/>
     <aura:attribute name="isUpdated" type="Boolean"/>
 
     <!-- handlers: -->
@@ -50,10 +53,12 @@
 
 
     <!-- component body: -->
-    <div style="width:840px;">
+    <div>
         <div class="as-container">
 
             <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
+                   <c:Action_RemoveDelegate aura:id="actionRemoveDelegate"/>
+
             <aura:if isTrue="{!v.isInitialized}">
                 <div class="rr-white-panel" style="padding: 30px">
                     <div class="as-title">
@@ -63,24 +68,20 @@
                     <div class="as-email rr-form-element">
                         <div class="as-email-input slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end">
                             <div class="slds-col slds-size_1-of-1">
-                               
-                                           <c:Action_AddProfilePhoto username="{!v.initData.userName}"></c:Action_AddProfilePhoto>
-    
-    
-     
-    
-    
+
+                                           <c:Action_AddProfilePhoto username="{!v.userEmail}" recordId="{!v.userId}" isDelegate="{!v.isDelegate}" ></c:Action_AddProfilePhoto>
+
                             </div>
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
-    
+
     </div>
-                          
-                          
+
+
                         </div>
                     </div>
-    
-                   
-                   
+
+
+
                  <aura:if isTrue="{!equals(v.userMode, 'Participant')}">
                 <!-- Name Section -->
                 <div class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start">
@@ -230,7 +231,7 @@
                     <div style="height: 45px"></div>
     
                     <aura:if isTrue="{!v.isDelegate}">
-                        <c:DelegateInformation contact="{!v.contact}" parentComponent="{!this}"/>
+                        <c:DelegateInformation contact="{!v.delegateContact}" parentComponent="{!this}"/>
                     </aura:if>
                   
                   
@@ -242,8 +243,9 @@
                                 <div class="as-title">
                                     {!$Label.c.PG_AS_H_Contact_Information}
                                 </div>
+                                <div class="contactDesc">
                                 {!$Label.c.PP_Toggle_Information}
-
+                                </div>
                                 <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
                                     <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
                                         <aura:if isTrue="{!not(v.isDelegate)}">

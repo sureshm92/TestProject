@@ -2,37 +2,52 @@
  * Created by Yehor Dobrovolskyi
  */
 .THIS {
+    padding: 30px;
 }
 
-.THIS .button {
-    background-color:#297DFD;
+.THIS .button.slds-pill {
+    background-color: #297DFD;
     border: none;
     color: white;
-    padding: 10px 16px;
+    padding: 0 16px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    margin: 4px 2px 4px 2px;
     cursor: pointer;
-    border-radius: 16px;
+    border-radius: 14px;
+    height: 28px;
+    display: flex;
+    align-items: center;
   }
-  .THIS .slds-pill__action{
-      border:0px;
-      
-  }
-  .THIS .slds-pill__remove svg{
-      color:white;
-  }
+
+.THIS .button.slds-pill:hover {
+    border: none;
+}
+
+.THIS .slds-pill__action{
+    border:0;
+    padding-top: 0;
+}
+
+.THIS .slds-badge__icon_right {
+    margin-left: 0;
+}
+
+.THIS .slds-pill__remove svg{
+    color:white;
+}
+
 .THIS .slds-pill__label{
     text-align: center;
     margin-bottom: 10px;
 }
 .THIS .slds-pill{
-    padding-bottom: 10%;
-    padding-top: 5%;
+    padding-top: 3px;
 }
+
 .THIS .slds-pill__remove{
-    padding-right: 10% !important;
+    top: 45%;
+    padding-right: 12%;
 }
 
 .THIS .title-desc{
@@ -40,45 +55,40 @@
     width: 129px;
     color: #595959;
 }
+
 .THIS .as-title{
-  height: 22px;
-  width: 250px;
-  color: #000000;
-  font-family: "Proxima Nova";
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: 0;
-  line-height: 22px;
-}
+    height: 22px;
+    width: 250px;
+    color: #000000;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 22px;
+    }
+
 .THIS .section-description {
     height: 48px;
-  width: 663px;
-  color: #595959;
-  font-family: "Proxima Nova";
-  font-size: 16px;
-  letter-spacing: 0;
-  line-height: 24px;
+    width: 663px;
+    color: #595959;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
 }
 
 .THIS .alert-count-condition{
-    height: 17px;
-    width: auto;
     color: #000000;
-    font-family: "Proxima Nova";
     font-size: 14px;
     line-height: 17px;
     text-align: left;
-    padding-top: 5px;
+    padding-top: 1rem;
 }
+
 .THIS .alert-count-condition1{
-    height: 17px;
-    width: auto;
     color: #000000;
-    font-family: "Proxima Nova";
     font-size: 14px;
     line-height: 17px;
     text-align: left;
-    padding-bottom: 5px;
+    padding-bottom: .5rem;
 }
 
 .THIS table{

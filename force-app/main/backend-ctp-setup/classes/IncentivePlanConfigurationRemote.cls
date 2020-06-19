@@ -66,7 +66,8 @@ public without sharing class IncentivePlanConfigurationRemote {
             StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(filterJSON, StudySiteFilter.class);
             saveFilter(filter);
             PaginationData pagination = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
-            List<StudySiteItem> allSSItems = SSIncentiveConfigSearchResponse.convertToSSItems(SearchService.search(filter), incentivePlanId);
+            filter.pageFeatureIds = incentivePlanId;
+            List<StudySiteItem> allSSItems = SSIncentiveConfigSearchResponse.convertToSSItems(SearchService.search(filter), filter, false);
             for (StudySiteItem ssItem : allSSItems) {
                 for (ValueStateItem assigment : ssItem.assignments) assigment.state = state;
             }
@@ -100,7 +101,7 @@ public without sharing class IncentivePlanConfigurationRemote {
     }
 
     @AuraEnabled
-    public static String createUpdateIncentivePlan(String tasksString, String planName) {
+    public static String createUpdateIncentivePlan(String tasksString, String planName, String ctpId) {
         List<IncentivePlanConfigurationRemote.IPWrapper> tasks = (List<IncentivePlanConfigurationRemote.IPWrapper>) JSON.deserialize(tasksString, List<IncentivePlanConfigurationRemote.IPWrapper>.class);
         Incentive_Plan__c plan = new Incentive_Plan__c(Plan_Name__c = planName);
         if (tasks[0].planId != null) {
@@ -115,6 +116,7 @@ public without sharing class IncentivePlanConfigurationRemote {
             upsert newTask;
             return plan.Id;
         } else {
+            plan.Clinical_Trial_Profile__c = ctpId;
             insert plan;
             List<Incentive_Plan_Task__c> newTask = new List<Incentive_Plan_Task__c>();
             for (IncentivePlanConfigurationRemote.IPWrapper task : tasks) {

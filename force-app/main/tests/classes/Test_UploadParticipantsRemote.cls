@@ -29,7 +29,7 @@ public class Test_UploadParticipantsRemote {
         csvFileLines.add(',Tst,,tst4Test,Male,,tst4@tseststest.tst,+1123456689,Mobile,+1133456769,Home,Test str,,,12121,,');
         Test.startTest();
         System.runAs(tstData.piUser) {
-            Action_UploadParticipantsRemote.uploadParticipants(csvFileLines, 'TestFile', tstData.ss.Id, statuses[2].value, false);
+            Action_UploadParticipantsRemote.uploadParticipants(csvFileLines, 'TestFile', tstData.ss.Id, statuses[2].value, false, false);
         }
         Test.stopTest();
         List<Participant__c> participants = [SELECT Id FROM Participant__c];
@@ -50,7 +50,7 @@ public class Test_UploadParticipantsRemote {
         csvFileLines2.add('Test1,Tst,Test2,tst2Test,Male,1980-11-11,tst@tseststest.tst,+1123456789,Mobile,+1133456789,Home,Test str,New York,New York,12121,United States,en_US');
         Test.startTest();
         System.runAs(tstData.piUser) {
-            Action_UploadParticipantsRemote.uploadParticipants(csvFileLines2, 'TestFile', tstData.ss.Id, statuses[2].value, true);
+            Action_UploadParticipantsRemote.uploadParticipants(csvFileLines2, 'TestFile', tstData.ss.Id, statuses[2].value, true, false);
         }
         Test.stopTest();
         List<Participant__c> participants = [SELECT Id FROM Participant__c];
