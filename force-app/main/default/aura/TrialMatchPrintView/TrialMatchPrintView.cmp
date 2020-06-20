@@ -4,8 +4,8 @@
 
 <aura:component description="TrialMatchPrintView" implements="forceCommunity:availableForAllPageTypes"
 controller="TrialMatchPageRemote">
-    <ltng:require scripts="{!join(',', $Resource.kendo_jqueryminjs, $Resource.kendo_jszipminjs,
-    $Resource.kendo_allmin, $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js, $Resource.kendo_jqueryminjs, $Resource.kendo_jszipminjs,
+    $Resource.kendo_allmin)}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
     <aura:attribute name="initialized" type="Boolean" default="false"/>

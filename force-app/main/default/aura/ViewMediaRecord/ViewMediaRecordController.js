@@ -217,7 +217,7 @@
         component.set("v.isEmailPhone", false);
     },
     updateMO: function(component, event, helper) {
-
+        var btnclickId = event.getSource().getLocalId();
         var othermail = $A.get("$Label.c.Other_Email");
         var otherPhone = $A.get("$Label.c.Other_Phone_Number");
         var picklistval = component.find('preferredId').get('v.value');
@@ -270,7 +270,7 @@
                     component.set("v.Validated", true);
             }
         }
-        if (component.get("v.Validated")) {
+        if (component.get("v.Validated") && btnclickId=='save') {
             component.find('modalSpinner').show();
             var notes = component.get('v.notes');
             communityService.executeAction(component, 'UpdateRecord', {
@@ -287,7 +287,7 @@
                 helper.showToast();
             });
             component.set("v.notes", '');
-            component.set("v.preferred", '');
+            component.set("v.preferred", '');   
         }
     },
     CancelRequest: function(component, event, helper) {
