@@ -263,7 +263,10 @@ public without sharing class ContactService {
                         Account.BillingCountryCode,
                         Phone,
                         MobilePhone,
-                        Phone_Type__c
+                        Phone_Type__c,
+                        HCP_Opt_In_Patient_Status_Emails__c,
+                        HCP_Opt_In_Referral_Status_Emails__c,
+                        HCP_Opt_In_Study_Emails__c
                 FROM Contact
                 WHERE Id = :contactId
         ];

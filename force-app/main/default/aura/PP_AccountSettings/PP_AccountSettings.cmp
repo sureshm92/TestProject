@@ -1,5 +1,4 @@
-<!--Created by D.Yasinskyi on 07.05.2018-->
-<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,lightning:isUrlAddressable" controller="AccountSettingsController" description="AccountSettings">
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,lightning:isUrlAddressable" controller="AccountSettingsController" description="AccountSettings" extends="forceCommunity:navigationMenuBase">
     
     <!-- attributes: -->
     <aura:attribute name="initData" type="Object" access="private"/>
@@ -26,63 +25,55 @@
     <aura:attribute name="selectedItem" type="String" />
     <aura:attribute name="coibool" type="Boolean" default="false"/>
     <aura:attribute name="custep" type="Boolean" default="false"/>
+    <aura:attribute name="compId" type="string" default="1"/>
+    <aura:attribute name="hoverId" type="string" />
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     
-    <!-- component body: -->
     <div class="as-container">
-        
         <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
         <c:Action_RemoveDelegate aura:id="actionRemoveDelegate"/>
         
         <aura:if isTrue="{!v.isInitialized}">
-            <div class="slds-vertical-tabs container-white-normal">
-                <div class="slds-vertical-tabs__nav vertical-line">
-            <lightning:layout>
-                <lightning:layoutItem>
-                    <lightning:verticalNavigation
-                                                  selectedItem="{! v.selectedItem }"
-                                                  onselect="{! c.handleSelect }"
-                                                  class="navigation">
-                        <lightning:verticalNavigationSection label="{!$Label.c.PP_Account_Settings}" class="account-settings"/>
-                        <lightning:verticalNavigationSection>
-                            <lightning:verticalNavigationItem label="{!$Label.c.PP_Profile_Information}" name="editProfile" class="{! v.showEditProfile ? 'mouse-hover group-6' : 'profile-information group-6 slds-border_bottom'}" />
-                            <lightning:verticalNavigationItem label="{!$Label.c.PP_Password_Management}" name="changepwd" class="{! v.changePswd ? 'mouse-hover group-6' : 'profile-information group-6 slds-border_bottom'}" />
-                            <lightning:verticalNavigationItem label="{!$Label.c.PP_Language_and_Location}" name="langreg" class="{! v.langReg ? 'mouse-hover group-6' : 'profile-information group-6 slds-border_bottom'}"/>
-                            <lightning:verticalNavigationItem label="{!$Label.c.PP_Customize_Experience}"  name="custex" class="{! v.custExp ? 'mouse-hover group-6' : 'profile-information group-6 slds-border_bottom'}"  />
-                            <aura:if isTrue="{!!v.isDelegate}">
-                            <lightning:verticalNavigationItem label="{!$Label.c.PP_Cookie_Settings}" name="cookset" class="{! v.cookSet ? 'mouse-hover group-6' : 'profile-information group-6 slds-border_bottom'}" />
-                            </aura:if>
-                        </lightning:verticalNavigationSection>
-                    </lightning:verticalNavigation>
-                </lightning:layoutItem>
-                
-                <lightning:layoutItem>
-                    <aura:if isTrue="{!v.showEditProfile}">
-                    <c:AccountSettings_EditProfile userMode="{!v.userMode}"></c:AccountSettings_EditProfile>
-                    </aura:if>
-                    <aura:if isTrue="{!v.changePswd}">
-                    <c:ChangePassword userMode="{!v.userMode}"/>
-                    </aura:if>
-                    <aura:if isTrue="{!v.notPref}">
-                    </aura:if>
-                    <aura:if isTrue="{!v.langReg}">
-                    <c:PP_LanguageSwitcher personWrapper="{!v.personWrapper}"
-                                             contactSectionData="{!v.contactSectionData}" onEdit="{!c.onEditPerson}"
-                                             isDelegate="{!v.isDelegate}" userMode="{!v.userMode}"/>                    
-                    </aura:if>
-                    <aura:if isTrue="{!or(v.custExp,v.coibool)}">
-                    <div class="slds-p-around_x-small">
-                    <c:CustomizeExperience />
+            <div class="NavContainer">
+                <div class="NavContainer1">
+                    <div class="title">
+                        <a class="account-settings">{!$Label.c.PP_Account_Settings}</a>
                     </div>
-                    </aura:if>
-                    <aura:if isTrue="{!v.cookSet}">
-                    <c:CookieSettings userMode="{!v.userMode}"/>
-                    </aura:if>
-                </lightning:layoutItem>
-            </lightning:layout>
+                    <div class="navBar">
+                        <ul onclick="{!c.onClick}" onmouseover="{!c.UpdateColor}">
+                            <li style="border-bottom : 1px solid #E9E9E9;" ><a class="slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="0" href="#home"></a></li>
+                            <li class="{!(v.compId=='1') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="1" onclick="{!c.selectProfile}">{!$Label.c.PP_Profile_Information}</a></li>
+                            <li class="{!(v.compId=='2') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="2" onclick="{!c.selectPassword}">{!$Label.c.PP_Password_Management}</a></li>
+                            <li class="{!(v.compId=='3') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="3" onclick="{!c.selectLanguage}">{!$Label.c.PP_Language_and_Location}</a></li>
+                            <li class="{!(v.compId=='4') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="4" onclick="{!c.selectCoi}">{!$Label.c.PP_Customize_Experience}</a></li>
+                            <aura:if isTrue="{!!v.isDelegate}">
+                                <li class="{!(v.compId=='5') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="5" onclick="{!c.selectCookie}">{!$Label.c.PP_Cookie_Settings}</a></li>
+                            </aura:if>
+                        </ul>
+                    </div>
                 </div>
-           </div>                                                          
+                <div class="NavComponent">
+                    <aura:if isTrue="{!(v.compId=='1')}">
+                        <c:AccountSettings_EditProfile userMode="{!v.userMode}"></c:AccountSettings_EditProfile>
+                    </aura:if>
+                    <aura:if isTrue="{!(v.compId=='2')}">
+                        <c:ChangePassword userMode="{!v.userMode}"/>
+                    </aura:if>
+                    <aura:if isTrue="{!(v.compId=='3')}">
+                        <c:PP_LanguageSwitcher personWrapper="{!v.personWrapper}"
+                                               contactSectionData="{!v.contactSectionData}" onEdit="{!c.onEditPerson}"
+                                               isDelegate="{!v.isDelegate}" userMode="{!v.userMode}"/>                    
+                    </aura:if>
+                    <aura:if isTrue="{!(v.compId=='4')}">
+                            <c:CustomizeExperience />
+                    </aura:if>
+                    <aura:if isTrue="{!(v.compId=='5')}">
+                        <c:CookieSettings userMode="{!v.userMode}"/>
+                    </aura:if>
+                </div>
+            </div>
         </aura:if>
     </div>
+    
 </aura:component>

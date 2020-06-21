@@ -60,7 +60,7 @@
                    <c:Action_RemoveDelegate aura:id="actionRemoveDelegate"/>
 
             <aura:if isTrue="{!v.isInitialized}">
-                <div class="rr-white-panel" style="padding: 30px">
+                <div class="rr-white-panel1" style="padding: 30px">
                     <div class="as-title">
                         {!$Label.c.PP_General_Info}
                     </div>
@@ -238,10 +238,10 @@
                         <div class="as-email-preference">
                            
                             <aura:if isTrue="{!v.userMode == 'Participant'}">
-                                <div class="as-title">
+                                <div class="as-title" style="margin-top:-40px;">
                                     {!$Label.c.PG_AS_H_Contact_Information}
                                 </div>
-                                {!$Label.c.PP_Toggle_Information}
+                               <span class="emails-that-notify-y">{!$Label.c.PP_Toggle_Information}</span> 
 
                                 <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
                                     <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">

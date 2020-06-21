@@ -952,6 +952,20 @@
         <value>No</value>
     </labels>
     <labels>
+        <fullName>Patient_Portal_Views</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN No Active Studies</shortDescription>
+        <value>Patient Portal Views</value>
+    </labels>
+    <labels>
+        <fullName>Referral_Hub_Views</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN No Active Studies</shortDescription>
+        <value>Referral Hub Views</value>
+    </labels>
+    <labels>
         <fullName>BTN_No_thanks</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1425,7 +1439,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CTL L HCP MODE</shortDescription>
-        <value>View as Referring Provider Clinic</value>
+        <value>View as Referring Provider</value>
     </labels>
     <labels>
         <fullName>CTL_L_PI_MODE</fullName>
@@ -1616,7 +1630,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Create Users Checkbox on Import</shortDescription>
-        <value>Participant included in this file have consented to receiving an invitation to the Patient Portal.</value>
+        <value>Participant(s) included in this file have consented to receiving an invitation to the Patient Portal.</value>
     </labels>
     <labels>
         <fullName>Created_Date</fullName>
@@ -5765,7 +5779,15 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>IncentiveProgram_Redeem_Points_Disclaimer</shortDescription>
-        <value>Start earning points now. Redemption opportunities coming soon.</value>
+        <value>Start earning points now.</value>
+    </labels>
+    <labels>
+        <fullName>IncentiveProgram_Redeem_Points_Disclaimer2</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Redeem_Points_Disclaimer2</shortDescription>
+        <value>Redemption opportunities coming soon.</value>
     </labels>
     <labels>
         <fullName>IncentiveProgram_Select_Study_Site</fullName>
@@ -5842,7 +5864,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Invalid Phone</shortDescription>
-        <value>Enter 10 digits phone number</value>
+        <value>Invalid phone number</value>
     </labels>
     <labels>
         <fullName>Investigator_phone</fullName>
@@ -13065,6 +13087,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Profile Menu Log Out</shortDescription>
         <value>Log Out</value>
+    </labels>
+    <labels>
+        <fullName>Profile_Menu_More</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Profile Menu More</shortDescription>
+        <value>More</value>
     </labels>
     <labels>
         <fullName>Programmed_death_ligand_1</fullName>

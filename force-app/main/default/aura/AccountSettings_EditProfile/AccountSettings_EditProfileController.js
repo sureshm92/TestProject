@@ -237,7 +237,8 @@ if(component.get('v.personWrapper.mobilePhone')==''){
                 component.set('v.participantHasUpdateTasks', false);
                 helper.setPersonSnapshot(component);
                 component.find('spinner').hide();
-                communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'));
+                 $A.get('e.force:refreshView').fire();
+                communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'),100);
     
             });
         let initData = component.get('v.initData');

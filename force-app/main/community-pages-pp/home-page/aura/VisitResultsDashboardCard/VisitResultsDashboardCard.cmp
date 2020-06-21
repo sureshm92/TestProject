@@ -8,6 +8,7 @@
     <aura:attribute name="visitResultWrappers" type="Object[]" access="private"/>
     <aura:attribute name="VisitResultPage" type="String" access="private"/>
     <aura:attribute name="toggleVitalsIsOn" type="Boolean" access="private"/>
+    <aura:attribute name="visitReportHeader" type="String" />
 
     <!-- HANDLERS -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>

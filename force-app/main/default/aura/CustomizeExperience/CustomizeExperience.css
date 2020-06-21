@@ -32,7 +32,9 @@
 }
 .THIS .slds-pill__remove{
     top: 45%;
-    padding-right: 12%;
+    position: absolute;
+    margin-right: 10px;
+    z-index: 1;
 }
 
 .THIS .title-desc{
@@ -49,6 +51,14 @@
   font-weight: 600;
   letter-spacing: 0;
   line-height: 22px;
+  margin-top: 36px;
+}
+.THIS .mar{
+    margin-top: 50px;
+}
+.THIS .contain{
+    width:600px;
+    padding-left:24px;
 }
 .THIS .section-description {
     height: 48px;
@@ -58,27 +68,30 @@
   font-size: 16px;
   letter-spacing: 0;
   line-height: 24px;
+  margin-top: 17.33px;
 }
 
 .THIS .alert-count-condition{
     height: 17px;
     width: auto;
-    color: #000000;
+    color: #595959;
     font-family: "Proxima Nova";
     font-size: 14px;
     line-height: 17px;
     text-align: left;
     padding-top: 5px;
+    margin-bottom: 12px;
 }
 .THIS .alert-count-condition1{
     height: 17px;
     width: auto;
-    color: #000000;
+    color: #595959;
     font-family: "Proxima Nova";
     font-size: 14px;
     line-height: 17px;
     text-align: left;
     padding-bottom: 5px;
+    margin-bottom: 7px;
 }
 
 .THIS table{

@@ -1,10 +1,9 @@
-.THIS .rr-white-panel {
-    padding: 1rem!important;
+.THIS {
+    padding: 24px;
 }
 
-.THIS.as-container {
-    position: relative;
-    padding-bottom: 100px;
+.THIS .as-container .rr-white-panel {
+    padding: 0;
 }
 
 .THIS.as-container .as-password .rr-form-element + .rr-form-element {
@@ -14,6 +13,15 @@
 .THIS.as-container .as-email,
 .THIS.as-container .as-password
  {
+}
+.THIS .as-title{
+   color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 22px;
+    margin-top: 10px;
 }
 
 .THIS.as-container .as-email-preference {
@@ -32,37 +40,19 @@
     margin-bottom: 10px;
 }
 
-.THIS.as-container .as-title {
-    color: #000000;
-    font-size: 18px;
-    line-height: 20px;
-    font-weight: 600;
-    margin-bottom: 10px
-}
-.THIS .as-title{
-    font-family: "Proxima Nova";
-    color: #000000;
-    font-size: 18px;
-    line-height: 20px;
-    font-weight: 600;
-    margin-bottom: 10px;
-
+.THIS .as-container .as-email-preference {
+    width: 90%;
 }
 
-
-.THIS.as-container .as-sub-title {
-    color: #333333;
-    font-size: 14px;
+.THIS .as-container .as-sub-title.cookieDesc {
+    color: #595959;
+    font-size: 1rem;
     line-height: 24px;   
-    width: 60%;
+    width: 90%;
+    margin-bottom: 30px;
+    margin-top: 17.33px;
 }
-.THIS .cookieDesc{
-  color: #646464;
-  font-family: "Proxima Nova";
-  font-size: 16px;
-  letter-spacing: 0;
-  line-height: 24px;
-}
+
 .THIS .ah-toggle-container{
     margin-top: 10px;
 }
@@ -115,26 +105,24 @@
 }
 .THIS .ah-item-label{
     color: #6F6F6F;
-  font-family: "Proxima Nova";
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 0;
-  line-height: 19px;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 19px;
 }
 .THIS .ah-item-sublabel{
     color: #646464;
-  font-family: "Proxima Nova";
-  font-size: 16px;
-  letter-spacing: 0;
-  line-height: 24px;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
 }
 .THIS .ah-item-panel{
+    border: none;
     border-bottom: 1px solid #E9E9E9;
     background-color: #FFFFFF;
-    border-top:0px;
-    border-left:0px;
-    border-right:0px;
-    padding: 12px 0 0px 30px;  
+    padding: 12px 0 12px 30px;
 }
 .THIS .ah-section-title{
     color: black;

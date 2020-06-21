@@ -177,6 +177,8 @@ public inherited sharing class VisitResultsService {
         public String measurement;
         @AuraEnabled
         public String description;
+        @AuraEnabled
+        public String recordtype;
 
         public VisitResultWrapper(Visit_Result__c visitResult, String name, String description) {
             this(visitResult, name, description, null);
@@ -209,6 +211,7 @@ public inherited sharing class VisitResultsService {
             this.name = name;
             if (visitResult != null) {
                 this.value = visitResult.Actual_Value__c;
+                this.recordtype=visitResult.RecordType.DeveloperName;
                 String measurementLowerCase = visitResult.Measurement__c.toLowerCase();
                 if (measurementNamesMap != null && measurementNamesMap.containsKey(measurementLowerCase)) {
                     this.measurement = measurementNamesMap.get(measurementLowerCase).replace('/', ' / ');
