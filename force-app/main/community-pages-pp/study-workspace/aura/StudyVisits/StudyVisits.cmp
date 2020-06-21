@@ -16,10 +16,13 @@
     <aura:attribute name="iconNames" type="String" default=""/>
     <aura:attribute name="isHasVisits" type="Boolean" default="true"/>
     <aura:attribute name="firstLoad" type="Boolean" default="false" />
+    <aura:attribute name="cmpDef" type="Aura.Component" default="{!this}" />
     <!--DEPENDENCY-->
     <aura:dependency resource="markup://c:StudyVisitReminder" type="COMPONENT"/>
     <!--HANDLER-->
     <aura:handler name="change" value="{!v.visitMode}" action="{!c.getVisits}"/>
+    <!--METHOD-->
+    <aura:method name="reload" access="public" action="{!c.doInit}" />
     
     <c:RRSpinner aura:id="spinner" size="medium" showSpinner="true" fixed="true"/>
 

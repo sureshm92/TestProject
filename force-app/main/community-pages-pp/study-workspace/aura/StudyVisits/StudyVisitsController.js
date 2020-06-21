@@ -45,6 +45,7 @@
     },
     
     createEditTask: function (component, event, helper) {
+        debugger;
         var currentVisits = component.get('v.currentVisits');
         var indexVar = event.getSource().get('v.value');
         var visitWrapper = currentVisits[indexVar];
@@ -53,15 +54,16 @@
         if(!firstLoad){
             helper.createStudyVisitReminder(component, visitWrapper);
         } else{
-            var title = $A.util.isUndefinedOrNull(visitWrapper.task.Id) ? $A.get('$Label.c.PP_Create_Visit_Reminder') : $A.get('$Label.c.PP_Edit_Visit_Reminder');
-            var isNewTask = $A.util.isUndefinedOrNull(visitWrapper.task.Id) ? true : false;
+            var title = $A.util.isUndefinedOrNull(visitWrapper.task) ? $A.get('$Label.c.PP_Create_Visit_Reminder') : $A.get('$Label.c.PP_Edit_Visit_Reminder');
+            var isNewTask = $A.util.isUndefinedOrNull(visitWrapper.task) ? true : false;
             var relaodAttributes = {
-                "visitId": visitWrapper.visit.Id,
-                "taskId": visitWrapper.task.Id,
+                "visitId": $A.util.isUndefinedOrNull(visitWrapper.task) ? null : visitWrapper.visit.Id,
+                "taskId": $A.util.isUndefinedOrNull(visitWrapper.task) ? null : visitWrapper.task.Id,
                 "title":  title,
                 "taskType": 'Visit',
                 "visitData": visitWrapper,
-                "isNewTask": isNewTask
+                "isNewTask": isNewTask,
+                "isReminderOnly": true
             };
             component.find('studyVisitReminder').reloadPopup(relaodAttributes);
         }
