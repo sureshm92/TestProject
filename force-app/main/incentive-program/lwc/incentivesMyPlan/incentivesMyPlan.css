@@ -3,7 +3,6 @@
  */
 
 .incentives-my-plan-container{
-    height: 100%;
     padding: 20px;
     position: relative;
 }
@@ -15,7 +14,6 @@
 }
 .imp-ss-select-container{
     margin-top: 5px;
-    width: 50%;
 }
 .incentives-my-plan-group-points{
       color: #444444;
@@ -35,4 +33,17 @@
 }
 .incentives-my-plan-group-container{
     margin-top: 16px;
+}
+
+@media all and (min-width: 768px) {
+    .incentives-my-plan-container{
+        height: 100%;
+        width: 50%;
+    }
+}
+
+@media all and (max-width: 767px) {
+    .incentives-my-plan-container{
+        width: 100%;
+    }
 }
