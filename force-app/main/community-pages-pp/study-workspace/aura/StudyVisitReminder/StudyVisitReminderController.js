@@ -62,7 +62,7 @@
        		component.find('spinner').hide();
             component.set('v.isSaveOperation', true);
             communityService.showSuccessToast('', message, 3000);
-            helper.hideModal(component);
+            //helper.hideModal(component);
         }, null, null);
     },
 

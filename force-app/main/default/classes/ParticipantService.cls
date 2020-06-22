@@ -109,7 +109,6 @@ public without sharing class ParticipantService {
                         Contact__r.Current_Participant_Enrollment__c,
                         Contact__r.Visit_Results_OptIn__c,
                         Contact__r.Participant_Opt_In_Status_Emails__c,
-						Contact__r.Participant_Opt_In_Status_SMS__c,
                         Marketing_Flag__c
                 FROM Participant__c
                 WHERE Contact__c = :sourceId OR Id = :sourceId

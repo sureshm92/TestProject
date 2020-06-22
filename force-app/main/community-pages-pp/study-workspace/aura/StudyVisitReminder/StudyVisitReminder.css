@@ -55,9 +55,3 @@
     font-size: 14px;
     font-family: "Proxima Nova";
 }
-.THIS .p-content{
-    overflow-y: hidden;
-}
-.THIS .p-content.with-scroll{
-    overflow-y: auto;
-}
