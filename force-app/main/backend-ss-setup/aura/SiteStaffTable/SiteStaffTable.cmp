@@ -41,7 +41,7 @@
                         <c:uiCol isHeader="true" scrollLeft="{!v.scrollLeft}" width="{!v.levelWidth}">
                             {!$Label.c.PG_SST_L_Access_Level}
                         </c:uiCol>
-                        <aura:if isTrue="{!v.initData.inInvitationSentState}">
+                        <aura:if isTrue="{!v.initData.inInvitationActiveStatus}">
                             <c:uiCol isHeader="true" scrollLeft="{!v.scrollLeft}" width="{!v.inviteWidth}">
                                 {!$Label.c.PG_SST_L_Invited}
                             </c:uiCol>
@@ -62,7 +62,7 @@
                             <c:uiCol scrollLeft="{!v.scrollLeft}" width="{!v.levelWidth}">
                                 {!staffMember.accessLevel}
                             </c:uiCol>
-                            <aura:if isTrue="{!v.initData.inInvitationSentState}">
+                            <aura:if isTrue="{!v.initData.inInvitationActiveStatus}">
                                 <c:uiCol class="invite-col" scrollLeft="{!v.scrollLeft}" width="{!v.inviteWidth}">
                                     <aura:if isTrue="{!staffMember.hasUser || staffMember.hasPendingActions}">
                                         <aura:set attribute="else">

@@ -62,6 +62,9 @@ private class Test_BaseCRCPCommunity {
             newRecordRN.Id = recordsRN[0].Id;
             newRecordRN.isSelected = true;
             SubscribeToReferralNetworkRemote.saveReferralNetworks(JSON.serialize(newRecordRN));
+            List<SubscribeToReferralNetworkRemote.ReferralNetworkWrapper> newRecRNs = new  List<SubscribeToReferralNetworkRemote.ReferralNetworkWrapper>();
+            newRecRNs.add(newRecordRN);
+            SearchConditionsOfInterestRemote.saveReferralNetworksNew(JSON.serialize(newRecRNs));
             
             List<SubscribeToReferralNetworkRemote.ReferralNetworkWrapper> recordsTA = SubscribeToReferralNetworkRemote.getReferralNetworkRecords('Therapeutic_Area__c');
             SubscribeToReferralNetworkRemote.searchForReferralNetworks(recordsTA[0].Name, 'Therapeutic_Area__c');
@@ -69,10 +72,18 @@ private class Test_BaseCRCPCommunity {
                     recordsTA[0].Id
             });
             
+            List<SubscribeToReferralNetworkRemote.ReferralNetworkWrapper> newRecTAs = new  List<SubscribeToReferralNetworkRemote.ReferralNetworkWrapper>();
             SubscribeToReferralNetworkRemote.ReferralNetworkWrapper newRecordTA = new SubscribeToReferralNetworkRemote.ReferralNetworkWrapper();
             newRecordTA.Id = recordsTA[0].Id;
             newRecordTA.isSelected = true;
+            newRecTAs.add(newRecordTA);
+         
             SubscribeToReferralNetworkRemote.saveReferralNetworks(JSON.serialize(newRecordTA));
+            SearchConditionsOfInterestRemote.saveReferralNetworksNew(JSON.serialize(newRecTAs));
+         
+            
+            
+           // SubscribeToReferralNetworkRemote.saveReferralNetworksNew(JSON.serialize(newRecTAs));
         }
         Test.stopTest();
     }
