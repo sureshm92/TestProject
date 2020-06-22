@@ -9,7 +9,6 @@ Developer                Date            Description
 Srinath       			21/05/2020      			Initial Version
 */
 public class TrialMatchLearnMoreLinkPDF {
-    public static final String IQVIA_LOGO = 'IQVIA';
     private static String base64PNG = 'data:image/png;base64,';
     
     /**
@@ -20,10 +19,12 @@ public class TrialMatchLearnMoreLinkPDF {
 * @return        String 
 */
     @AuraEnabled
-    public static String getLogoFromStatic() {
+    public static String getLogoFromStatic(String communityname) {
+        String reportlogopath = '/resource/ReportBrandingLogos/'+communityname+'.png';
         try{
-            Blob imageLogo = [SELECT Body FROM StaticResource WHERE Name = :IQVIA_LOGO].Body;
-            if (imageLogo != null) {
+            PageReference pr = new PageReference(reportlogopath);
+            Blob imageLogo = pr.getContent(); 
+           if (imageLogo != null) {
                 return base64PNG + EncodingUtil.base64Encode(imageLogo);   
             }
             return base64PNG;
@@ -43,7 +44,7 @@ public class TrialMatchLearnMoreLinkPDF {
     public static Clinical_Trial_Profile__c fetchCTPLearnMoreDetails(Id ctpId) {
         Clinical_Trial_Profile__c ctpDetails;
         try {
-            ctpDetails = [SELECT Id,Study_Code_Name__c, Study_Content__c, Detailed_Description__c FROM Clinical_Trial_Profile__c WHERE Id =:ctpId];
+            ctpDetails = [SELECT Id,Study_Code_Name__c, CommunityTemplate__c, Study_Content__c, Detailed_Description__c FROM Clinical_Trial_Profile__c WHERE Id =:ctpId];
             return ctpDetails;
         } catch (Exception e) {
             return (Clinical_Trial_Profile__c) AuraHelper.throwException(e);

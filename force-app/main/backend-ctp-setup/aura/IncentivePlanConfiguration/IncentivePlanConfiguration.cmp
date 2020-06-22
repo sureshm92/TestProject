@@ -50,6 +50,7 @@
                                 <c:IncentivePlansLookup aura:id="ipLookup"
                                                         value="{!v.filter.pageFeatureIds}"
                                                         isMultiEntry="true"
+                                                        ctpId="{!v.recordId}"
                                                         onchange="{!c.doUpdate}"
                                                         placeholder="Select Incentive Program"
                                                         placeholderSelected="Select another Incentive Plan"/>

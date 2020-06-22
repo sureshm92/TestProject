@@ -5955,7 +5955,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Invalid Phone</shortDescription>
-        <value>Enter 10 digits phone number</value>
+        <value>Invalid phone number</value>
     </labels>
     <labels>
         <fullName>Investigator_phone</fullName>
