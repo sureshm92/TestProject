@@ -75,12 +75,24 @@
 .THIS .language-filter .menu-popup-panel.popupTargetContainer {
     left: -10px;
     width: 130px;
-}
+} 
 
 .THIS .slds-icon:hover{
     cursor: pointer;
     title:'downoad';
 }
+
+@media screen and (max-width: 768px) {
+  .THIS .formatForMobile {
+    margin-left: -18px;
+  }
+  .THIS .libraryTypeForMobile{
+        margin-left: -29px;
+    }
+    .THIS .versionForMobile{
+        width:11%;
+    }
+} 
 
 
 .THIS .downloadBtnCSS:hover{

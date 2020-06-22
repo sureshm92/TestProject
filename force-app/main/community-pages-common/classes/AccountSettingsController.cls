@@ -105,6 +105,16 @@ public without sharing class AccountSettingsController {
             AuraHelper.throwException(e);
         }
     }
+     @AuraEnabled
+    public static void updateAccount(String AccName) {
+        try {
+            Account acc = [select id from account where id=: getCurrentContact().AccountId];
+            acc.Name = AccName;
+            update acc;
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
     
     @AuraEnabled
     public static void updatePerson(String wrapperJSON) {
@@ -121,12 +131,16 @@ public without sharing class AccountSettingsController {
         }
     }
     
-    @AuraEnabled
+   @AuraEnabled
     public static void changeEmail(String newEmail) {
         try {
-            Contact currentContact = getCurrentContact();
-            currentContact.Email = newEmail;
-            update currentContact;
+            AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
+            initData.myContact = getCurrentContact();
+            if(initData.myContact.userCommunityDelegateId__c != null){
+                initData.myContact = ContactService.getContact(initData.myContact.userCommunityDelegateId__c);
+            }
+            initData.myContact.Email = newEmail;
+            update initData.myContact;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
@@ -145,12 +159,16 @@ public without sharing class AccountSettingsController {
     @AuraEnabled
     public static void changeOptInEmail(Boolean participantOptInStatusEmail, Boolean hcpOptInPatientEmail, Boolean hcpOptInStudyEmail, Boolean hcpOptInRefStatusEmail) {
         try {
-            Contact currentContact = getCurrentContact();
-            currentContact.Participant_Opt_In_Status_Emails__c = participantOptInStatusEmail;
-            currentContact.HCP_Opt_In_Patient_Status_Emails__c = hcpOptInPatientEmail;
-            currentContact.HCP_Opt_In_Study_Emails__c = hcpOptInStudyEmail;
-            currentContact.HCP_Opt_In_Referral_Status_Emails__c = hcpOptInRefStatusEmail;
-            update currentContact;
+            AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
+                        initData.myContact = getCurrentContact();
+            if(initData.myContact.userCommunityDelegateId__c != null){
+                initData.myContact = ContactService.getContact(initData.myContact.userCommunityDelegateId__c);
+            }             
+            initData.myContact.Participant_Opt_In_Status_Emails__c = participantOptInStatusEmail;
+            initData.myContact.HCP_Opt_In_Patient_Status_Emails__c = hcpOptInPatientEmail;
+            initData.myContact.HCP_Opt_In_Study_Emails__c = hcpOptInStudyEmail;
+            initData.myContact.HCP_Opt_In_Referral_Status_Emails__c = hcpOptInRefStatusEmail;
+            update initData.myContact;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
@@ -159,9 +177,14 @@ public without sharing class AccountSettingsController {
     @AuraEnabled
     public static void changeOptInSMS(Boolean participantOptInStatusSMS) {
         try {
-            Contact currentContact = getCurrentContact();
-            currentContact.Participant_Opt_In_Status_SMS__c = participantOptInStatusSMS;
-            update currentContact;
+            AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
+            initData.myContact = getCurrentContact();
+            if(initData.myContact.userCommunityDelegateId__c != null){
+                initData.myContact = ContactService.getContact(initData.myContact.userCommunityDelegateId__c);
+            }
+            initData.myContact.Participant_Opt_In_Status_SMS__c = participantOptInStatusSMS;
+            
+            update initData.myContact;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
@@ -190,7 +213,7 @@ public without sharing class AccountSettingsController {
             Date_of_Birth__c,
             Nickname__c,
             Suffix__c,
-            Phone_Type__c	
+            Phone_Type__c  
             FROM Participant__c
             WHERE Contact__c = :pContact.Id
         ];
@@ -401,7 +424,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             firstName = isParticipant ? participant.First_Name__c : contact.FirstName;
             lastName = isParticipant ? participant.Last_Name__c : contact.LastName;
             homePhone = isParticipant ? participant.Phone__c : contact.Phone;
-            mobilePhone = contact.MobilePhone;
+            mobilePhone = (contact.Phone_Type__c == 'Mobile' || (isParticipant ? participant.Phone_Type__c == 'Mobile':false)) ? homePhone : contact.MobilePhone;
             fax = contact.Fax;
             optInEmail = contact.Participant_Opt_In_Status_Emails__c;
             optInSMS = contact.Participant_Opt_In_Status_SMS__c;
@@ -426,9 +449,8 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         
         public Contact convertToContact() {
             Contact personContact = new Contact(Id = contactId);
-            //            personContact.Participant_Opt_In_Status_Emails__c = optInEmail;
-            //            personContact.Participant_Opt_In_Status_SMS__c = optInSMS && isOptInSMS();
-            personContact.MobilePhone = mobilePhone;
+                 personContact.MobilePhone = phoneType =='Mobile' ? homePhone : mobilePhone;
+
             
             if (isParticipant) return personContact;
             

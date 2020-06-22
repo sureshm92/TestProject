@@ -2,13 +2,13 @@
  - Created by Nargiz Mamedova on 6/11/2020.
  -->
 
-<aura:component description="CommunityModeSwitcherMenu" >
-<!--    controller="CommunityModeSwitcherRemote"-->
+<aura:component description="CommunityModeSwitcherMenu" controller="CommunityModeSwitcherRemote">
 
     <!-- attributes: -->
     <aura:attribute name="user" type="User" access="private"/>
     <aura:attribute name="communityModes" type="Object"/>
     <aura:attribute name="currentMode" type="Object"/>
+    <aura:attribute name="reset" type="Boolean" default="false"/>
 
     <!-- events: -->
     <aura:registerEvent access="global" name="onModeChange" type="c:uiEvent"/>
@@ -16,24 +16,28 @@
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
-    <c:uiHeaderMenu aura:id="menu" class="menu-block">
-        <aura:set attribute="title">
-            <c:SmallIconButton isDelegate="{!v.currentMode.isDelegate}" aura:id="icon"/>
-        </aura:set>
-        <c:HeaderViewInformation currentMode="{!v.currentMode}" aura:id="header"/>
-        <aura:if isTrue="{!equals(v.communityModes.type, 'PP_Only')}">
-            <c:PPMenuItems onclick="{!c.doSelectItem}" allModes="{!v.communityModes.ppModeItems}"/>
-        </aura:if>
-        <aura:if isTrue="{!equals(v.communityModes.type, 'RH_Only')}">
-            <c:RHCommunityModesList communityModesList="{!v.communityModes.rhModeItems}"/>
-        </aura:if>
-        <aura:if isTrue="{!equals(v.communityModes.type, 'PP_And_RH')}">
-            <c:UnifiedStructurePP_RH communityModes="{!v.communityModes}"/>
-        </aura:if>
-        <c:CommunityModeSwitcherMenuButtons type="{!v.communityModes.type}"/>
-        <lightning:button label="{!$Label.c.Profile_Menu_Log_Out}" class="apollo-btn logout-btn"
-                          onclick="{!c.logout}"/>
-    </c:uiHeaderMenu>
+    <aura:if isTrue="{!not(v.reset)}">
+        <c:uiHeaderMenu aura:id="menu" class="menu-block">
+            <aura:set attribute="title">
+                <c:SmallIconButton user="{!v.user}" isDelegate="{!v.currentMode.isDelegate}"/>
+            </aura:set>
+            <c:HeaderViewInformation user="{!v.user}" currentMode="{!v.currentMode}" aura:id="header"/>
+            <aura:if isTrue="{!equals(v.communityModes.type, 'PP_Only')}">
+                <c:PPMenuItems onclick="{!c.doSelectItem}" allModes="{!v.communityModes.ppModeItems}"/>
+            </aura:if>
+            <aura:if isTrue="{!equals(v.communityModes.type, 'RH_Only')}">
+                <c:RHCommunityModesList onclick="{!c.doSelectItem}" communityModesList="{!v.communityModes.rhModeItems}"/>
+                <c:CommunityModeSwitcherMenuButtons type="{!v.communityModes.type}"/>
+            </aura:if>
+            <aura:if isTrue="{!equals(v.communityModes.type, 'PP_And_RH')}">
+                <c:UnifiedStructurePP_RH onclick="{!c.doSelectItem}" communityModes="{!v.communityModes}"/>
+            </aura:if>
+            <aura:if isTrue="{!equals(v.communityModes.type, 'RH_Single_View')}">
+                <c:CommunityModeSwitcherMenuButtons type="{!v.communityModes.type}"/>
+            </aura:if>
+            <lightning:button onclick="{!c.logout}" label="{!$Label.c.Profile_Menu_Log_Out}" class="apollo-btn logout-btn"/>
+        </c:uiHeaderMenu>
+    </aura:if>
 
     <c:auraPubsub aura:id="pubsub"/>
 </aura:component>

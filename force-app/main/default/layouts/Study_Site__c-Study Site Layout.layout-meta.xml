@@ -60,6 +60,10 @@
                 <behavior>Edit</behavior>
                 <field>Review_Board_Approval__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Block_Outreach__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

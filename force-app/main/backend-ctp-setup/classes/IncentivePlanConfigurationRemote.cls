@@ -66,12 +66,14 @@ public without sharing class IncentivePlanConfigurationRemote {
             StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(filterJSON, StudySiteFilter.class);
             saveFilter(filter);
             PaginationData pagination = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
+            String pageFeatureIds = filter.pageFeatureIds;
             filter.pageFeatureIds = incentivePlanId;
             List<StudySiteItem> allSSItems = SSIncentiveConfigSearchResponse.convertToSSItems(SearchService.search(filter), filter, false);
             for (StudySiteItem ssItem : allSSItems) {
                 for (ValueStateItem assigment : ssItem.assignments) assigment.state = state;
             }
             save(allSSItems);
+            filter.pageFeatureIds = pageFeatureIds;
             return new SSIncentiveConfigSearchResponse(filter, pagination);
         } catch (Exception e) {
             return (SSIncentiveConfigSearchResponse) AuraHelper.throwException(e);
