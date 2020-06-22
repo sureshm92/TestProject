@@ -6,7 +6,7 @@
 <template>
     <template if:true={parOfIncentiveProgram}>
         <div class="nic-container" tabindex="0" onblur={doCloseDropDown}>
-            <div class="nic-button" onclick={doToggleDropDown}>
+            <div class="nic-button" onclick={doToggleDropDown} data-gtm="BTN_points_menu">
                 <c-web-icon icon-name="icon-star-solid" icon-color="#FFFFFF" icon-width="20" icon-height="20"></c-web-icon>
                 <span class="nic-points">{totalPoints}</span>
             </div>

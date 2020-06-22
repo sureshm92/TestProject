@@ -27,7 +27,7 @@
             </aura:if>
             <aura:if isTrue="{!equals(v.communityModes.type, 'RH_Only')}">
                 <c:RHCommunityModesList onclick="{!c.doSelectItem}" communityModesList="{!v.communityModes.rhModeItems}"/>
-                <c:CommunityModeSwitcherMenuButtons type="{!v.communityModes.type}"/>
+                <c:CommunityModeSwitcherMenuButtons type="{!v.communityModes.type}" reset="{!v.reset}"/>
             </aura:if>
             <aura:if isTrue="{!equals(v.communityModes.type, 'PP_And_RH')}">
                 <c:UnifiedStructurePP_RH onclick="{!c.doSelectItem}" communityModes="{!v.communityModes}"/>

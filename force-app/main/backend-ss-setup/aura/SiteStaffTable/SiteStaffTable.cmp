@@ -68,7 +68,7 @@
                                         <aura:set attribute="else">
                                             <button class="slds-button slds-button_brand"
                                                     onclick="{!c.doInviteStaffMember}"
-                                                    data-contact-id="{!staffMember.staffContact.Id}">
+                                                    data-contact-id="{!staffMember.staffContact.Id}" data-gtm="BTN_invite_staff">
                                                 {!$Label.c.PG_SST_L_Invite}
                                             </button>
                                         </aura:set>
