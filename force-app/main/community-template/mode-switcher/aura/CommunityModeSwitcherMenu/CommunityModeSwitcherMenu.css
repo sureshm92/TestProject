@@ -15,7 +15,6 @@
 
 .THIS.menu-block .menu-popup-panel.popupTargetContainer {
     width: 345px;
-    max-height: 550px;
     right: 0;
     left: initial;
     display: flex;
@@ -39,10 +38,6 @@
 }
 
 /*-----------------------------------------------------------------------*/
-
-.THIS.mode-block .menu-popup-panel {
-    /*border: 0!important;*/
-}
 
 .THIS.mode-block {
     display: inline-block;
@@ -77,14 +72,7 @@
 
 .THIS .menu-item.active,
 .THIS .menu-sub-item.active {
-    /*font-weight: bold!important;*/
-    /*color: white!important;
-    background-color: #0469A5!important;*/
     cursor: pointer;
-}
-
-.THIS .menu-item.active svg {
-    /*fill: white!important;*/
 }
 
 .THIS .menu-item, .THIS .menu-sub-item {
@@ -110,21 +98,7 @@
     text-overflow: ellipsis;
 }
 
-/*@media all and (max-width: 1024px) {*/
-/*    .THIS .menu-popup-panel.popupTargetContainer {*/
-/*        left: auto;*/
-/*        right: 0;*/
-/*    }*/
-/*}*/
-
 @media all and (max-width: 550px) {
-    /*.THIS.mode-block {*/
-    /*    position: absolute;*/
-    /*    top: 50px;*/
-    /*    left: 0;*/
-    /*    width: 100%;*/
-    /*    height: 40px;*/
-    /*}*/
     .THIS .header-menu-link {
         padding: 0 1rem;
     }
@@ -148,5 +122,5 @@
 }
 
 .THIS .uiMenuList--default ul {
-    max-height: 550px;
+    max-height: unset;
 }
