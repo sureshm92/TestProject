@@ -110,7 +110,7 @@
                             <th>{!$Label.c.Task_Tab_Table_Col_Name}</th>
                             <th>{!$Label.c.Task_Tab_Table_Col_Completed}</th>
                         </tr>
-                        <aura:iteration items="{!v.completedTasks}" var="taskWrapper">
+                        <aura:iteration items="{!v.completedTasks}" var="taskWrapper" indexVar="index">
                             <tr class="{!if(taskWrapper.task.Status == 'Ignored', 'ignored', '')}">
                                 <td>
                                     <aura:if isTrue="{!taskWrapper.task.Status == 'Ignored'}">
@@ -118,7 +118,7 @@
                                                   page="{!'task-detail?id=' + taskWrapper.task.Id}"/>-->
                                         <div class="rr-link limit-width"
                                          	 data-index="{!index}"
-                                             onclick="{!c.onReminderDateClick}">{!taskWrapper.task.Subject}</div>
+                                             onclick="{!c.onClickIgnored}">{!taskWrapper.task.Subject}</div>
                                     </aura:if>
                                     <aura:if
                                             isTrue="{!taskWrapper.task.Status == 'Completed' || taskWrapper.task.Status == 'Expired'}">

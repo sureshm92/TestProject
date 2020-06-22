@@ -72,7 +72,7 @@
     },
 
     doMarkComplete: function (component, event, helper) {
-        helper.updateTaskStatus(component, 'markAsCompleted');
+        helper.updateTaskStatus(component, helper, 'markAsCompleted');
     },
 
     doChangeReminderDate: function (component, event, helper) {

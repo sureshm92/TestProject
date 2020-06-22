@@ -26,7 +26,7 @@
                         task.Subject = visitData.visit.Is_Adhoc__c
                         ? $A.get('$Label.c.StudyVisit_Unscheduled_Visit')
                         : visitData.visit.Visit__r.Patient_Portal_Name__c;
-                        wrapper.activityDate = visitData.completedOrPlannedDate == $A.get('$Label.Study_Visit_Unavailable') ? null : visitData.completedOrPlannedDate; //moment(visitData.completedOrPlannedDate, 'YYYY-MM-DD'); 
+                        wrapper.activityDate = visitData.completedOrPlannedDate == $A.get('$Label.c.Study_Visit_Unavailable') ? null : visitData.completedOrPlannedDate; //moment(visitData.completedOrPlannedDate, 'YYYY-MM-DD'); 
                         component.set('v.isEditable', false);
                     }
                     task.Status = 'Open';
