@@ -54,11 +54,11 @@
                 
                 component.set('v.jsonState', JSON.stringify(wrapper) + '' + JSON.stringify(task));
                 component.set('v.isValidFields', true);
-                component.find('spinner').hide();
+                //component.find('spinner').hide();
                 component.find('reminderModal').show();
             });
         } else {
-            component.find('spinner').hide();
+            //component.find('spinner').hide();
             component.find('builderStub').setPageName(component.getName());
         }
         
@@ -70,6 +70,7 @@
             'taskId': component.get('v.taskId')
         }, function () {
             component.find('spinner').hide();
+            component.set('v.isSaveOperation', true);
         }, null, function () {
             helper.hideModal(component);
         });

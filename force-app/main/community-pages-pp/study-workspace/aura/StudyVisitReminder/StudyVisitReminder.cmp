@@ -45,7 +45,7 @@
         <aura:attribute name="relaodAttributes" type="Object"/>
     </aura:method>
     
-    <c:Popup aura:id="reminderModal" title="{!v.title}" size="medium">
+    <c:Popup aura:id="reminderModal" title="{!v.title}" size="medium" showScroll="{!not(v.isReminderOnly)}">
         <c:RRSpinner aura:id="spinner" fixed="true" size="medium" />
         <!-- Task Panel -->
         <aura:if isTrue="{!not(v.isReminderOnly)}">
@@ -149,26 +149,30 @@
         <aura:if isTrue="{!v.isReminderOnly}">
             <div class="te-task-panel">
                 <div class="rr-white-panel padding slds-col" style="min-height: 220px;">
-                    <aura:if isTrue="{!v.taskType == 'Visit'}">
                         <!--Visit Reminder-->
                         <div class="slds-grid te-form slds-gutters slds-wrap slds-form-element__label">
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                                <lightning:formattedText value="{!$Label.c.Visits_Name}" /><br/>
+                                <lightning:formattedText value="{!v.taskType == 'Visit' ? $Label.c.Visits_Name : $Label.c.Task_Name}" /><br/>
                                 <div class="slds-p-top_small"></div>
-                                <b><lightning:formattedText value="{!v.visitData.visit.Is_Adhoc__c
-                                                                   ? '$Label.c.StudyVisit_Unscheduled_Visit'
+                                <aura:if isTrue="{!v.taskType == 'Visit'}">
+                                	<b><lightning:formattedText value="{!v.visitData.visit.Is_Adhoc__c
+                                                                   ? $Label.c.StudyVisit_Unscheduled_Visit
                                                                    : v.visitData.visit.Visit__r.Patient_Portal_Name__c}"/></b>
+                                    <aura:set attribute="else">
+                                    	<b><lightning:formattedText value="{!v.task.Subject}"/></b>
+                                    </aura:set>
+                                </aura:if>
                                 
                             </div>
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                                <lightning:formattedText value="{!$Label.c.Visits_Date}" />
+                                <lightning:formattedText value="{!v.taskType == 'Visit' ? $Label.c.Visits_Date : $Label.c.Due_Date }" />
                                 <br/>
                                 <div class="slds-p-top_small"></div>
-                                <b><lightning:formattedText value="{!v.visitData.completedOrPlannedDate}"/></b>
+                                <b><lightning:formattedText value="{!not(v.isTaskTab) ? v.visitData.completedOrPlannedDate : v.initData.activityDate}"/></b>
                             </div>
                         </div>
                         <div class="slds-p-top_large"></div>
-                    </aura:if>
+                    
                     <!--<aura:if isTrue="{!not(v.initData.createdByAdmin-->
                         <div class="slds-grid te-form slds-gutters slds-wrap">
                             <!--Reminder Frequency-->
@@ -185,7 +189,8 @@
                                 <lightning:input aura:id="field" type="date"
                                                  label="{!$Label.c.Home_Page_StudyVisit_Completed_On}" value="{!v.initData.reminderDate}"
                                                  onchange="{!c.onChangeReminderDate}" min="{!v.initData.today}"
-                                                 max="{!if(v.initData.activityDate, v.initData.activityDate, '')}" />
+                                                 max="{!if(v.initData.activityDate, v.initData.activityDate, '')}"
+                                                 required="true"/>
                             </div>
                         </div>
                         <div class="slds-p-top_small"></div>

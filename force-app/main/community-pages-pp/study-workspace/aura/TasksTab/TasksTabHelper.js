@@ -3,7 +3,8 @@
  * 12-June-2020
  */
 ({
-    createStudyVisitReminder: function (component, title, taskData) {
+    createStudyVisitReminder: function (component, title, taskData, isReminderOnly) {
+        component.find('spinner').show();
         console.log('TasksTabHelper: '+JSON.stringify(taskData));
         var task;
         if(taskData.openTask){
@@ -23,6 +24,8 @@
                 "taskType": !$A.util.isUndefinedOrNull(task) ? task.Task_Type__c : '',
                 "taskData": taskData,
                 "isNewTask": isNewTask,
+                "isTaskTab": true,
+                "isReminderOnly": isReminderOnly,
                 "parent": component.get('v.cmpDef')
             },
             function (reminder, status, errorMessage) {
@@ -32,6 +35,7 @@
                     body.push(reminder);
                     visitReminder.set('v.body', body);
                     component.set('v.firstLoad', true);
+                    component.find('spinner').hide();
                 } else if (status === "INCOMPLETE") {
                     console.log("No response from server or client is offline.")
                 } else if (status === "ERROR") {

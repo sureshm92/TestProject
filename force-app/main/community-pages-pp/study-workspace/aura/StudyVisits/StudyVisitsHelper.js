@@ -5,6 +5,7 @@
 ({
     createStudyVisitReminder: function (component, visitWrapper) {
         debugger;
+        component.find('spinner').show();
         var title = $A.util.isUndefinedOrNull(visitWrapper.task) ? $A.get('$Label.c.PP_Create_Visit_Reminder') : $A.get('$Label.c.PP_Edit_Visit_Reminder');
         var isNewTask = $A.util.isUndefinedOrNull(visitWrapper.task) ? true : false;
         $A.createComponent("c:StudyVisitReminder",
@@ -26,6 +27,7 @@
                     body.push(reminder);
                     visitReminder.set('v.body', body);
                     component.set('v.firstLoad', true);
+                    component.find('spinner').hide();
                 } else if (status === "INCOMPLETE") {
                     console.log("No response from server or client is offline.")
                 } else if (status === "ERROR") {

@@ -1,6 +1,6 @@
 ({
     doInit: function (component, event, helper) {
-        component.find('spinner').show();
+        //component.find('spinner').show();
         var params = event.getParam('arguments');
         if(params){
             console.log('#relaodAttributes: '+ JSON.stringify(params.relaodAttributes));
@@ -11,6 +11,7 @@
             component.set('v.taskData', params.relaodAttributes.taskData);
             component.set('v.isNewTask', params.relaodAttributes.isNewTask);
             component.set('v.title', params.relaodAttributes.title);
+            component.set('v.isReminderOnly', params.relaodAttributes.isReminderOnly);
         }
         helper.initialize(component);
     },
@@ -33,7 +34,7 @@
         }
         if(!$A.util.isUndefinedOrNull(reminderDate)
            && !smsPeferenceSelected && !emailPeferenceSelected){
-            communityService.showErrorToast('', $A.get('$Label.c.Empty_Reminder'), 3000);
+            communityService.showErrorToast('', $A.get('$Label.c.PP_Remind_Using_Required'), 3000);
             return;
         }
         if (!component.get('v.isValidFields')) {
@@ -59,10 +60,10 @@
             'wrapper': JSON.stringify(component.get('v.initData')),
             'paramTask': JSON.stringify(task)
         }, function(){
-       		component.find('spinner').hide();
-            component.set('v.isSaveOperation', true);
+       		component.set('v.isSaveOperation', true);
+            component.find('spinner').hide();
             communityService.showSuccessToast('', message, 3000);
-            //helper.hideModal(component);
+            helper.hideModal(component);
         }, null, null);
     },
 
@@ -88,7 +89,8 @@
 
     validateFields: function (component, event, helper) {
         if (component.get('v.initData') && component.get('v.initData.createdByAdmin')) return;
-        /*console.log(component.find('field'));
+        /* TO-DO: Set custom validation message and check component.validity
+         * console.log(component.find('field'));
         var allValid = component.find('field').reduce(function (validSoFar, inputCmp) {
             return validSoFar && inputCmp.checkValidity();
         }, true);
