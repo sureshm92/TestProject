@@ -928,7 +928,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>button marks as completed task</shortDescription>
-        <value>Mark as Completed</value>
+        <value>Mark as Complete</value>
     </labels>
     <labels>
         <fullName>BTN_My_Patients</fullName>
@@ -1427,6 +1427,13 @@
         <shortDescription>Submit Your Question</shortDescription>
         <value>Submit Your Question</value>
     </labels>
+	<labels>
+        <fullName>CTL_L_CC_MODE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CTL_L_CC_MODE</shortDescription>
+        <value>View as Call Center</value>
+    </labels>
     <labels>
         <fullName>CTL_L_HCP_DELEGATE_MODE</fullName>
         <language>en_US</language>
@@ -1503,6 +1510,83 @@
         <protected>false</protected>
         <shortDescription>Case_Owner_Email_For_User_Lockout</shortDescription>
         <value>rajesh.r@quintiles.com</value>
+    </labels>
+	<labels>
+        <fullName>CC_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Name</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>CC_PI_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_PI_Name</shortDescription>
+        <value>PI Name</value>
+    </labels>
+    <labels>
+        <fullName>CC_Participant_Support</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Participant_Support</shortDescription>
+        <value>Participant Support</value>
+    </labels>
+    <labels>
+        <fullName>CC_Phone_Number</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Phone_Number</shortDescription>
+        <value>Phone Number</value>
+    </labels>
+    <labels>
+        <fullName>CC_Phone_Type</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Phone_Type</shortDescription>
+        <value>Phone Type</value>
+    </labels>
+    <labels>
+        <fullName>CC_Received</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Received</shortDescription>
+        <value>Received</value>
+    </labels>
+    <labels>
+        <fullName>CC_Site_Contact</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Site_Contact</shortDescription>
+        <value>Site Contact</value>
+    </labels>
+    <labels>
+        <fullName>CC_Site_Phone_Number</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Site_Phone_Number</shortDescription>
+        <value>Site Phone Number</value>
+    </labels>
+    <labels>
+        <fullName>CC_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Study</shortDescription>
+        <value>Study</value>
+    </labels>
+    <labels>
+        <fullName>CC_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Study_Site</shortDescription>
+        <value>Study Site</value>
+    </labels>
+    <labels>
+        <fullName>CC_search_for_a_participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_search_for_a_participant</shortDescription>
+        <value>search for a participant</value>
     </labels>
     <labels>
         <fullName>Closed_Requests</fullName>
@@ -2364,12 +2448,19 @@
         <shortDescription>Email Body Delegate Permission Changed</shortDescription>
         <value>One or more of your Referral Hub study permissions has changed.</value>
     </labels>
+	<labels>
+        <fullName>Email_Body_Initial_CC</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email_Body_Initial_CC</shortDescription>
+        <value>Welcome to IQVIA Referal Hub</value>
+    </labels>
     <labels>
         <fullName>Email_Body_FollowUp_Reminder</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body FollowUp Reminder</shortDescription>
-        <value>You haven't confirmed your enrollment yet in ##ShortCommunityName. Please click the link bellow, so that you can enroll and view your study progress.
+        <value>You haven&apos;t confirmed your enrollment yet in ##ShortCommunityName. Please click the link bellow, so that you can enroll and view your study progress.
 
         Please note that enrollment in ##ShortCommunityName is not a requirement for you to be enrolled into the clinical research study.
 
@@ -6734,6 +6825,13 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>true</protected>
         <shortDescription>No Relevant Links to display</shortDescription>
         <value>Check back periodically for helpful links</value>
+    </labels>
+    <labels>
+        <fullName>No_active_studies</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No active studies</shortDescription>
+        <value>No active studies</value>
     </labels>
     <labels>
         <fullName>No_permission_Visits_tab</fullName>
@@ -12412,6 +12510,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Add Profile Photo</value>
     </labels>
     <labels>
+        <fullName>PP_Change_Notification</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Change Notification</shortDescription>
+        <value>Change your notification setting under Account Settings</value>
+    </labels>
+    <labels>
         <fullName>PP_Change_Preferences_Resource</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -12431,6 +12536,22 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>true</protected>
         <shortDescription>PP Cookie Settings</shortDescription>
         <value>Cookie Settings</value>
+    </labels>
+	<labels>
+        <fullName>PP_Create_Task_Reminder</fullName>
+        <categories>c:StudyVisitReminder</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create Task Reminder</shortDescription>
+        <value>Create Task Reminder</value>
+    </labels>
+    <labels>
+        <fullName>PP_Create_Visit_Reminder</fullName>
+        <categories>c:StudyVisitReminder</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Create Visit Reminder</shortDescription>
+        <value>Create Visit Reminder</value>
     </labels>
     <labels>
         <fullName>PP_Customize_Exp_Description</fullName>
@@ -12459,6 +12580,22 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>true</protected>
         <shortDescription>PP Customize search text</shortDescription>
         <value>Search</value>
+    </labels>
+	<labels>
+        <fullName>PP_Edit_Task_Reminder</fullName>
+        <categories>c:StudyVisitReminder</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Edit Task Reminder</shortDescription>
+        <value>Edit Task Reminder</value>
+    </labels>
+    <labels>
+        <fullName>PP_Edit_Visit_Reminder</fullName>
+        <categories>c:StudyVisitReminder</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Edit Visit Reminder</shortDescription>
+        <value>Edit Visit Reminder</value>
     </labels>
     <labels>
         <fullName>PP_File_Size_Exceeded</fullName>
@@ -12580,18 +12717,42 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Data Updated Successfully!</value>
     </labels>
     <labels>
+        <fullName>PP_Remind_Using</fullName>
+        <categories>c:StudyVisitReminder</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Remind_Using</shortDescription>
+        <value>Remind Using</value>
+    </labels>
+    <labels>
+        <fullName>PP_Remind_Using_Required</fullName>
+        <categories>c:StudyVisitReminder</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Remind_Using_Required</shortDescription>
+        <value>Please an option to send reminder.</value>
+    </labels>
+    <labels>
         <fullName>PP_Save_Changes</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Save_Changes</shortDescription>
         <value>Save Changes</value>
     </labels>
+	<labels>
+        <fullName>PP_Task_Success_Toast</fullName>
+        <categories>c:StudyVisitReminder</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Task Success Toast</shortDescription>
+        <value>Task created successfully. ; Changes are successfully saved. ; Visit reminder created successfully. ; Visit reminder updated.</value>
+    </labels>
     <labels>
         <fullName>PP_Toggle_Information</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Toggle_Information</shortDescription>
-        <value>Emails that notify you of required action,allow you to reset your password or inform you of important system updates will always be sent.Additionally you can choose to receive optional
+        <value>Emails that notify you of required action, allow you to reset your password or inform you of important system updates will always be sent. Additionally you can choose to receive optional
 communications using the toggles below.</value>
     </labels>
     <labels>
@@ -13296,6 +13457,20 @@ communications using the toggles below.</value>
         <value>Referring Provider</value>
     </labels>
     <labels>
+        <fullName>Remind_Me</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Remind Me</shortDescription>
+        <value>Remind Me</value>
+    </labels>
+    <labels>
+        <fullName>Remind_Using</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Remind Using</shortDescription>
+        <value>Remind Using</value>
+    </labels>
+    <labels>
         <fullName>Reminder_3rd_Party_No_TA</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -13780,6 +13955,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Respiratory Rate Description</shortDescription>
         <value>Respiratory rate is a measurement of how many breaths you take per minute.</value>
+    </labels>
+	  <labels>
+        <fullName>RH_Notification</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH Notification</shortDescription>
+        <value>Notification preferences</value>
     </labels>
     <labels>
         <fullName>SDC_List_View</fullName>
@@ -14360,6 +14542,13 @@ communications using the toggles below.</value>
         <value>Source ID</value>
     </labels>
     <labels>
+        <fullName>Space_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Space Delegate</shortDescription>
+        <value>Delegate</value>
+    </labels>
+    <labels>
         <fullName>Start_Date</fullName>
         <categories>Media Outreach</categories>
         <language>en_US</language>
@@ -14707,41 +14896,6 @@ communications using the toggles below.</value>
         <value>Systolic blood pressure is a measure of how hard your blood is pushed against the walls of the arteries when the heart is beating and pushing out blood.</value>
     </labels>
     <labels>
-        <fullName>Title_Contact_PT_Reminder_Push</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Title for Contact PT Reminder Push</shortDescription>
-        <value>Participant contact has not been attempted</value>
-    </labels>
-    <labels>
-        <fullName>Title_new_Certificate_Push</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Title for new_Certificate Push</shortDescription>
-        <value>New gift certificate</value>
-    </labels>
-    <labels>
-        <fullName>Title_Has_Not_Login_Push</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Title for has not Login Push</shortDescription>
-        <value>We miss you</value>
-    </labels>
-    <labels>
-        <fullName>Title_new_visit_data_push</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Title for new visit data push</shortDescription>
-        <value>New visit data</value>
-    </labels>
-    <labels>
-        <fullName>Title_Visit_Reminder_Push</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Title for Visit Reminder Push</shortDescription>
-        <value>Visit reminder</value>
-    </labels>
-    <labels>
         <fullName>TST_Complete_Your_Question</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -14825,7 +14979,6 @@ communications using the toggles below.</value>
         <shortDescription>TST_SST_Success</shortDescription>
         <value>User have been created. Pending Permission Set Assignment</value>
     </labels>
-
     <labels>
         <fullName>TST_Screenshot_Wrong_Format</fullName>
         <language>en_US</language>
@@ -15308,6 +15461,41 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>This Participant has reached legal age of emancipation</shortDescription>
         <value>This Participant has reached legal age of emancipation, but continues to require legal guardianship. Please verify that this is correct.</value>
+    </labels>
+    <labels>
+        <fullName>Title_Contact_PT_Reminder_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for Contact PT Reminder Push</shortDescription>
+        <value>Participant contact has not been attempted</value>
+    </labels>
+    <labels>
+        <fullName>Title_Has_Not_Login_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for has not Login Push</shortDescription>
+        <value>We miss you</value>
+    </labels>
+    <labels>
+        <fullName>Title_Visit_Reminder_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for Visit Reminder Push</shortDescription>
+        <value>Visit reminder</value>
+    </labels>
+    <labels>
+        <fullName>Title_new_Certificate_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for new_Certificate Push</shortDescription>
+        <value>New gift certificate</value>
+    </labels>
+    <labels>
+        <fullName>Title_new_visit_data_push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for new visit data push</shortDescription>
+        <value>New visit data</value>
     </labels>
     <labels>
         <fullName>Toast_Changes_Successfully</fullName>
@@ -15836,6 +16024,34 @@ communications using the toggles below.</value>
         <value>View Visit Legend</value>
     </labels>
     <labels>
+        <fullName>Viewing_as_Investigative_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Viewing as Investigative Site</shortDescription>
+        <value>Viewing as Investigative Site</value>
+    </labels>
+    <labels>
+        <fullName>Viewing_as_Participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Viewing as Participant</shortDescription>
+        <value>Viewing as Participant</value>
+    </labels>
+    <labels>
+        <fullName>Viewing_as_Referring_Provider</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Viewing as Referring Provider</shortDescription>
+        <value>Viewing as Referring Provider</value>
+    </labels>
+    <labels>
+        <fullName>Viewing_as_Self</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Viewing as Self</shortDescription>
+        <value>Viewing as Self</value>
+    </labels>
+    <labels>
         <fullName>Visit_Icons</fullName>
         <categories>Visit Icons</categories>
         <language>en_US</language>
@@ -16035,6 +16251,20 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Visit b Save</shortDescription>
         <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>Visits_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Date</shortDescription>
+        <value>Visit Date</value>
+    </labels>
+    <labels>
+        <fullName>Visits_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Name</shortDescription>
+        <value>Visit Name</value>
     </labels>
     <labels>
         <fullName>Vitals</fullName>

@@ -9,7 +9,9 @@
     <aura:attribute name="isValid" type="Boolean" default="false"/>
     <aura:attribute name="isDuplicateDelegate" type="Boolean" default="false"/>
     <aura:attribute name="duplicateDelegateInfo" type="Object"/>
-    <aura:attribute name="useThisDelegate" type="Boolean"/>
+    <aura:attribute name="useThisDelegate" type="Boolean" default="true"/>
+    <!--<aura:attribute name="delegateInstance" type="String"/>-->
+    <aura:attribute name="delegateEmailWasChanged" type="Boolean" default="false"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.checkFields}"/>
     <aura:handler name="ddMessageButtonClick" event="c:DDMessageEvent" action="{!c.approveDelegate}"/>

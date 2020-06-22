@@ -6,7 +6,7 @@
         window.setTimeout(
             $A.getCallback(function() {
                 let container = component.find('tableContainer');
-                if (container) {
+                if (container && container.getElement()) {
                     let containerWidth = container.getElement().clientWidth;
                     component.set('v.width', containerWidth);
                 }
@@ -15,7 +15,7 @@
         );
         window.addEventListener('resize', $A.getCallback(function() {
             let container = component.find('tableContainer');
-            if (container) {
+            if (container && container.getElement()) {
                 let containerWidth = container.getElement().clientWidth;
                 component.set('v.width', containerWidth);
             }

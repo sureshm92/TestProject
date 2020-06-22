@@ -7,28 +7,27 @@
     <!-- attributes: -->
     <aura:attribute name="user" type="User"/>
     <aura:attribute name="currentMode" type="Object"/>
-    <aura:attribute name="reset" type="Boolean" default="false"/>
+    <aura:attribute name="reset" type="Boolean" default="true"/>
+    <aura:attribute name="hasProfilePic" type="Boolean"/>
+    <aura:attribute name="viewMode" type="String"/>
 
-    <aura:method name="refresh" action="{!c.doRefresh}" access="public"/>
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     <aura:if isTrue="{!not(v.reset)}">
         <div class="header-container">
             <div class="avatar-icon">
-<!--                <aura:if isTrue="{!notequals(v.user.SmallPhotoUrl,'/profilephoto/005/T')}">-->
-<!--                    <lightning:avatar src="{!v.user.SmallPhotoUrl}" variant="circle" size="large"-->
-<!--                                      alternativeText="" fallbackIconName="standard:avatar"/>-->
-<!--                    <aura:set attribute="else">-->
-                        <c:RRIcon color="white"
-                                  class="{!if(v.currentMode.isDelegate, 'delegate-avatar', 'single-avatar')}"
+                <aura:if isTrue="{!v.hasProfilePic}">
+                    <lightning:avatar src="{!v.user.SmallPhotoUrl}" variant="circle" size="large"
+                                      alternativeText="" fallbackIconName="standard:avatar"/>
+                    <aura:set attribute="else">
+                        <c:RRIcon color="white" class="{!if(v.currentMode.isDelegate, 'delegate-avatar', 'single-avatar')}"
                                   iconName="{!if(v.currentMode.isDelegate, 'multiple-neutral-circle', 'single-neutral')}"/>
-<!--                    </aura:set>-->
-<!--                </aura:if>-->
+                    </aura:set>
+                </aura:if>
             </div>
-<!--            <div class="user-name">{!v.user.Contact.FirstName + ' ' + v.user.Contact.LastName}</div>-->
-            <div class="user-mode">{!'Viewing as '
-                + if(equals(v.currentMode.participantState, 'ALUMNI'), 'Self', v.currentMode.userMode)
-                + if(v.currentMode.isDelegate, ' Delegate', '')}
-            </div>
+            <div class="user-name">{!v.user.Contact.FirstName + ' ' + v.user.Contact.LastName}</div>
+            <div class="user-mode">{!v.viewMode}</div>
         </div>
     </aura:if>
 </aura:component>

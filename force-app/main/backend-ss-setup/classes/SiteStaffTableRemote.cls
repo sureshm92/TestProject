@@ -6,10 +6,15 @@ public with sharing class SiteStaffTableRemote {
 
     public static final String FEATURE_SITE_STAFF_INVITATION = 'Site_Staff_Invitation';
     public final static String PI_ACCESS_LEVEL_LABEL = 'Principal Investigator';
+    public static final Set<String> INVITATION_ACTIVE_STATUSES = new Set<String>{
+            StudySiteService.PI_S_INVITATION_SENT,
+            StudySiteService.PI_S_ACCEPTED,
+            StudySiteService.PI_S_ACCEPTED_A
+    };
 
     public class InitData {
         @AuraEnabled public String viewMode;
-        @AuraEnabled public Boolean inInvitationSentState;
+        @AuraEnabled public Boolean inInvitationActiveStatus;
         @AuraEnabled public List<SiteStaffWrapper> siteStaffMembers;
     }
     public class SiteStaffWrapper{
@@ -22,15 +27,21 @@ public with sharing class SiteStaffTableRemote {
 
     @AuraEnabled
     public static InitData getInitData(String ssId){
+        String viewMode = GetPermissions.getViewMode(FEATURE_SITE_STAFF_INVITATION);
+        return createInitData(ssId, viewMode);
+    }
+
+    @TestVisible
+    private static InitData createInitData(String ssId, String viewMode){
         InitData data = new InitData();
-        data.viewMode = GetPermissions.getViewMode(FEATURE_SITE_STAFF_INVITATION);
-        if (data.viewMode == 'Disabled') {
+        data.viewMode = viewMode;
+        if (viewMode == 'Disabled') {
             return data;
         }
         Study_Site__c ss = [SELECT id, Principal_Investigator__c, Principal_Investigator__r.Id, Principal_Investigator__r.Name, Principal_Investigator__r.Email, Override_PI_Referral_Status__c, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Study_Site__c WHERE Id = :ssId];
         Set<Id> staffContactIds = new Set<Id>();
         Map<Id, SiteStaffWrapper> siteStaffWrapperMap = new Map<Id, SiteStaffWrapper>();
-        data.inInvitationSentState = ss.Override_PI_Referral_Status__c == StudySiteService.PI_S_INVITATION_SENT;
+        data.inInvitationActiveStatus = INVITATION_ACTIVE_STATUSES.contains(ss.Override_PI_Referral_Status__c);
         data.siteStaffMembers = new List<SiteStaffWrapper>();
         SiteStaffWrapper piWrapper = new SiteStaffWrapper();
         piWrapper.staffContact = ss.Principal_Investigator__r;
@@ -75,9 +86,11 @@ public with sharing class SiteStaffTableRemote {
         try{
             Study_Site__c ss = [SELECT id, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Study_Site__c WHERE Id = :ssId];
             Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
-            actionAssignContactPermissions.addPermission(contactId, CommunityTemplateService.getTemplate(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet);
             if (CommunityService.getCommunityUsersByContactIds(new Set<Id>{contactId}).isEmpty()) {
                 ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id>{contactId});
+            }
+            else{
+                actionAssignContactPermissions.addPermission(contactId, CommunityTemplateService.getTemplate(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet);
             }
             if (!actionAssignContactPermissions.isEmpty()) {
                 ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
