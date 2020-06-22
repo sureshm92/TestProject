@@ -43,15 +43,16 @@ public without sharing class ContactTriggerHandler {
         }
     }
     
-    public class UpdateEmailField extends TriggerHandler {
+    public class CreateUserForCCContactHandler extends TriggerHandler {
         
-        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            updateEmailForCCMode(newList, (Map<Id, Contact>) oldMap);
+        public override void afterInsert(List<SObject> newList) {
+            createUserForCCContact(newList);
         }
-        public override void beforeInsert(List<SObject> newList) {
-            updateEmailForCCMode(newList, null);
+        
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            createUserForCCContact(newList);
         }
-    } 
+    }
     
     // Logic: ----------------------------------------------------------------------------------------------------------
     
@@ -97,23 +98,13 @@ public without sharing class ContactTriggerHandler {
     @TestVisible
     private static void createUserForDelegateContact(List<Contact> newList) {
         Map<Id, Contact> filteredContactsByIds = new Map<Id, Contact>();
-        Map<Id, Contact> filteredCCContactsByIds = new Map<Id, Contact>();
-        List<Id> DeactivateCCContact = new List<Id>();
         
-        //Added a check for CC Staff
         for (Contact cont : newList) {
-            if (cont.Email != null) {
-                if (cont.primaryContact__c != null || cont.CC_Staff_Status__c) {
+            if (cont.Email != null && cont.primaryContact__c != null) {
                     filteredContactsByIds.put(cont.Id, cont);
-                    if(cont.CC_Staff_Status__c)
-                        filteredCCContactsByIds.put(cont.Id, cont);
-                }
-                if (!cont.CC_Staff_Status__c) {
-                    DeactivateCCContact.add(cont.Id);
-                }
+               
             }
         }
-        if(!DeactivateCCContact.isEmpty()) CommunityService.deactivateUsers(DeactivateCCContact);
         
         if (filteredContactsByIds.isEmpty()) return;
         
@@ -134,11 +125,6 @@ public without sharing class ContactTriggerHandler {
         }
         if (!toCreateUser.isEmpty()) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(toCreateUser);
         
-        
-        for (Id contactId : filteredCCContactsByIds.keySet()) {
-            if (communityUsers.containsKey(contactId)) toActivateUser.add(contactId);
-        }
-        if (!toActivateUser.isEmpty()) CommunityService.ActivateUsers(toActivateUser);
         
     }
     
@@ -165,16 +151,44 @@ public without sharing class ContactTriggerHandler {
         }
     }
     
-    @TestVisible
-    private static void updateEmailForCCMode(List<Contact> newList, Map<Id, Contact> oldMap) {
+	@TestVisible
+    private static void createUserForCCContact(List<Contact> newList) {
+        Map<Id, Contact> filteredCCContactsByIds = new Map<Id, Contact>();
+        List<Id> DeactivateCCContact = new List<Id>();
+        
         for (Contact cont : newList) {
-            Boolean appendInEmail = oldmap == null
-                || oldMap.get(cont.Id).Email != cont.Email;
-            if(appendInEmail && cont.Email != null && cont.userCommunityMode__c == 'CC' && cont.userCommunytyType__c == 'CC'){
-                cont.Email = cont.Email+'cc';
+            if (cont.Email != null && cont.CC_Staff_Status__c) {
+                        filteredCCContactsByIds.put(cont.Id, cont);
+                }
+                if (!cont.CC_Staff_Status__c) {
+                    DeactivateCCContact.add(cont.Id);
+                }
+            }
+        if(!DeactivateCCContact.isEmpty()) CommunityService.deactivateUsers(DeactivateCCContact);
+        
+        //get users if exist
+        Map<Id, User> communityUsers = new Map<Id, User>();
+        for (User usr : CommunityService.getCommunityUsersByContactIds(filteredCCContactsByIds.keySet())) {
+            if (communityUsers.containsKey(usr.ContactId)) {
+                System.debug('Several users for contact Id= ' + usr.Id);
+            } else {
+                communityUsers.put(usr.ContactId, usr);
             }
         }
+        
+        Set<Id> toActivateUser = new Set<Id>();
+        Set<Id> toCreateUser = new Set<Id>();
+        for (Id contactId : filteredCCContactsByIds.keySet()) {
+            if (!communityUsers.containsKey(contactId)) toCreateUser.add(contactId);
+            else toActivateUser.add(contactId);
+                
+        }
+        if (!toCreateUser.isEmpty()) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(toCreateUser);
+        
+        if (!toActivateUser.isEmpty()) CommunityService.ActivateUsers(toActivateUser);
+        
     }
+    
     
     
 }

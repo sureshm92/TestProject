@@ -8,5 +8,5 @@ trigger ContactTrigger on Contact (before insert, before update, before delete, 
     TriggerHandlerExecutor.execute(ContactTriggerHandler.CreateUserForDelegateContactHandler.class);
     TriggerHandlerExecutor.execute(ContactTriggerHandler.SetShowTourDefaultHandler.class);
     TriggerHandlerExecutor.execute(ContactTriggerHandler.PopulateOverrideFields.class);
-    TriggerHandlerExecutor.execute(ContactTriggerHandler.UpdateEmailField.class); 
+    TriggerHandlerExecutor.execute(ContactTriggerHandler.CreateUserForCCContactHandler.class);
 }

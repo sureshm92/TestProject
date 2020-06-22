@@ -139,7 +139,7 @@
 
             'participant-support':{
                 page: '',
-                label: $A.get('$Label.CC_Participant_Support')
+                label: $A.get('$Label.c.CC_Participant_Support')
             }
         };
 
