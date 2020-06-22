@@ -162,6 +162,72 @@ public without sharing class SubscribeToReferralNetworkRemote {
             }
         }
     }
+    
+     @AuraEnabled
+    public static void saveReferralNetworksNew(String referralNetworkJSON) {
+        List<ReferralNetworkWrapper> referralNetwork = (List<ReferralNetworkWrapper>) JSON.deserializeStrict(referralNetworkJSON, List<ReferralNetworkWrapper>.class);
+
+       // Id recordId = referralNetwork.Id;
+        List<Contact_Referral_Network__c> currReferralNetworks = new List<Contact_Referral_Network__c>();
+        List<Contact_Referral_Network__c> toDeletes = new List<Contact_Referral_Network__c>();
+        List<Id> delNetworkIds = new List<id>();
+        String conId = CommunityService.getUserContact().Id;
+        
+        
+        for(ReferralNetworkWrapper reNetworks : referralNetwork) {
+            if (reNetworks.id.getSobjectType() == Referral_Network__c.getSObjectType()) {
+                Contact_Referral_Network__c currReferralNetwork = new Contact_Referral_Network__c();
+                currReferralNetwork.ContactId__c = conid;
+                currReferralNetwork.ReferralNetworkId__c = reNetworks.Id;
+    
+                if (reNetworks.isSelected) {
+                    currReferralNetworks.add(currReferralNetwork);
+                    //insert currReferralNetwork;
+                } else {
+                    delNetworkIds.add(reNetworks.Id);
+                    }
+                 }
+               
+           }    
+               insert currReferralNetworks;
+                List<Contact_Referral_Network__c> toDelete = [
+                        SELECT Id
+                        FROM Contact_Referral_Network__c
+                        WHERE ContactId__c = :conId
+                        AND ReferralNetworkId__c = :delNetworkIds
+                ];
+                delete toDelete;
+           
+        List<Contact_Therapeutic_Area__c> currReferralNetworks1 = new List<Contact_Therapeutic_Area__c>();
+        List<Contact_Therapeutic_Area__c> toDeletes1 = new List<Contact_Therapeutic_Area__c>();
+        List<Id> delNetworkIds1 = new List<id>();
+        
+         for(ReferralNetworkWrapper reNetworks : referralNetwork) {
+                if (reNetworks.Id.getSobjectType() == Therapeutic_Area__c.getSObjectType()) {
+                    Contact_Therapeutic_Area__c currReferralNetwork1 = new Contact_Therapeutic_Area__c();
+                    currReferralNetwork1.ContactId__c = conid;
+                    currReferralNetwork1.TherapeuticAreaId__c = reNetworks.Id;
+        
+                    if (reNetworks.isSelected) {
+                         currReferralNetworks1.add(currReferralNetwork1);
+                    } else {
+                     delNetworkIds1.add(reNetworks.Id);
+                     }
+                  } 
+                  
+                  
+               }     
+               
+                 insert currReferralNetworks1;
+                        List<Contact_Therapeutic_Area__c> toDelete1 = [
+                                SELECT Id
+                                FROM Contact_Therapeutic_Area__c
+                                WHERE ContactId__c = :conid
+                                AND TherapeuticAreaId__c = :delNetworkIds1
+                        ];
+                        delete toDelete1;
+                 
+    }
 
     private static List<ReferralNetworkWrapper> getReferralNetworkWrappers(List<SObject> refNetworks, List<SObject> currentReferralNetworks) {
         Set<Id> currentRefIds = new Set<Id>();

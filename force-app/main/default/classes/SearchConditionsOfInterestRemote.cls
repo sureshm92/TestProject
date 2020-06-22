@@ -66,4 +66,12 @@ public without sharing class SearchConditionsOfInterestRemote {
             AuraHelper.throwException(e);
         }
     }
+    
+     
+    
+       @AuraEnabled
+    public static void saveReferralNetworksNew(String referralNetworkJSON) {
+      SubscribeToReferralNetworkRemote.saveReferralNetworksNew(referralNetworkJSON);
+      
+      }
 }
