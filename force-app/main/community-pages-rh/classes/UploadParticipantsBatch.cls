@@ -430,7 +430,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
                         if (participant.Id != null) {
                             participantEnrollment.Participant__c = participant.Id;
-                            participantEnrollment.To_permit_IQVIA_to_contact_about_study__c = !doNotContactParticipants;
+                            participantEnrollment.Permit_IQVIA_to_contact_about_study__c = !doNotContactParticipants;
 
                             Database.SaveResult saveRes = Database.insert(participantEnrollment, false);
                             participantEnrollmentsByContact.put(participantEnrollment.Participant_Contact__c, participantEnrollment);

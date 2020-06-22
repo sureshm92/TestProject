@@ -267,7 +267,7 @@ public class TestDataFactory {
                 Referral_Source__c = 'HCP',
                 Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED,
                 Participant__c = participant.Id,
-                To_permit_IQVIA_to_contact_about_study__c = false,
+                Permit_IQVIA_to_contact_about_study__c = false,
                 Screening_ID__c = 'PESCR1'
         );
         insert pe;
