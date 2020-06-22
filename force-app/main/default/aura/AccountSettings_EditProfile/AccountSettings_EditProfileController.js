@@ -23,9 +23,20 @@
             
            let todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
         	component.set('v.todayDate', todayDate);
-            component.set('v.initData', initData);
+            component.set('v.initData', initData); 
             component.set('v.contactChanged', initData.contactChanged);
+            component.set('v.institute', initData.contactSectionData.institute);
             component.set('v.personWrapper', initData.contactSectionData.personWrapper);
+            if(initData.contactSectionData.personWrapper) { // split mailing street(address line1 and address line2)
+                if(initData.contactSectionData.personWrapper.mailingStreet) 
+                    helper.splitAddress(component, initData.contactSectionData.personWrapper.mailingStreet);
+                
+                if(initData.contactSectionData.personWrapper.mailingCC &&  initData.contactSectionData.statesByCountryMap) {
+                    let statesByCountryMap = initData.contactSectionData.statesByCountryMap;
+                    let states = statesByCountryMap[initData.contactSectionData.personWrapper.mailingCC];
+                    component.set('v.statesLVList', states);  
+                }
+            }
             component.set('v.contactSectionData', initData.contactSectionData);
             component.set('v.optInEmail', initData.contactSectionData.personWrapper.optInEmail);
             component.set('v.optInSMS', initData.contactSectionData.personWrapper.optInSMS);
@@ -231,6 +242,12 @@ if(component.get('v.personWrapper.mobilePhone')==''){
         var per=component.get('v.personWrapper');
         console.log(JSON.stringify(per));
             component.find('spinner').show();
+		  var personWrapper = component.get('v.personWrapper');
+        var addressLine1 = component.get('v.addressLine1');
+        var addressLine2 = component.get('v.addressLine2');
+        if(personWrapper)
+            personWrapper.mailingStreet = addressLine1 + ' ' + addressLine2;
+
             communityService.executeAction(component, 'updatePerson', {
                 wrapperJSON: JSON.stringify(component.get('v.personWrapper'))
             }, function () {
@@ -256,6 +273,18 @@ if(component.get('v.personWrapper.mobilePhone')==''){
        }    
        }
         component.set('v.showSpinner', true);
+        var inst = component.get('v.institute');
+        console.log(inst.Name);
+       // console.log(v.institute.Name)
+        
+         communityService.executeAction(component, 'updateAccount', {
+            AccName : inst.Name
+        }, function (returnValue) {
+           
+        }, null, function () {
+         
+        });  
+        
         communityService.executeAction(component, 'changeEmail', {
             newEmail: newEmail
         }, function (returnValue) {

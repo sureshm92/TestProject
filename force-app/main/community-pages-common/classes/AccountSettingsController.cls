@@ -105,6 +105,16 @@ public without sharing class AccountSettingsController {
             AuraHelper.throwException(e);
         }
     }
+     @AuraEnabled
+    public static void updateAccount(String AccName) {
+        try {
+            Account acc = [select id from account where id=: getCurrentContact().AccountId];
+            acc.Name = AccName;
+            update acc;
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
     
     @AuraEnabled
     public static void updatePerson(String wrapperJSON) {
@@ -220,7 +230,7 @@ public without sharing class AccountSettingsController {
             Date_of_Birth__c,
             Nickname__c,
             Suffix__c,
-            Phone_Type__c	
+            Phone_Type__c  
             FROM Participant__c
             WHERE Contact__c = :pContact.Id
         ];

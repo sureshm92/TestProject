@@ -26,6 +26,34 @@
         component.set('v.personSnapshot', JSON.stringify(personWrapper));
         component.set('v.isStateChanged', false);
     },
+    
+     
+    splitAddress : function (component, address) {
+        var addLst = address.split('\n');
+        var add1 = '';
+        var add2 = '';
+        if(addLst) {
+            var s = addLst.length;
+            debugger;
+            if(s>0) {
+                for(var i in addLst) {
+                    
+                    if(parseInt(i) <= 1) 
+                        add1 = add1 + addLst[i];
+                    else
+                        add2 = add2 + addLst[i]; 
+                }
+                component.set('v.addressLine1', add1);
+                component.set('v.addressLine2', add2);
+            } else
+                component.set('v.addressLine1', initData.contactSectionData.personWrapper.mailingStreet);
+            
+        } else
+            component.set('v.addressLine1', initData.contactSectionData.personWrapper.mailingStreet);
+        
+        
+        
+    },
 
     setFieldsValidity: function(component){
         event.preventDefault();
