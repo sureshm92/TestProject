@@ -78,10 +78,18 @@ public without sharing class CommunityModeService {
                 userParticipant, delegatedParticipantIds,
                 DatabaseService.fieldNotInValues('Participant_Status__c', PEStatusState.PE_STATUS_GROUP_ALUMNI)
         );
+        Map<Id, List<Participant_Enrollment__c>> pePastMap = getPEMap(
+                userParticipant,
+                delegatedParticipantIds,
+                DatabaseService.fieldInValues('Participant_Status__c', PEStatusState.PE_STATUS_GROUP_ALUMNI)
+        );
 
         if (!userParticipants.isEmpty()) {
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(userParticipant.Id);
-            CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(false);
+            List<Participant_Enrollment__c> pePastList = pePastMap.get(userParticipant.Id);
+            CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(
+                    false, peList != null || pePastList != null
+            );
 
             if (peList != null) {
                 for (Participant_Enrollment__c pe : peList) {
@@ -104,7 +112,10 @@ public without sharing class CommunityModeService {
         for (Id participantId : delegatedParticipantIds) {
             Participant__c participant = participantsMap.get(participantId);
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(participantId);
-            CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(true);
+            List<Participant_Enrollment__c> pePastList = pePastMap.get(participantId);
+            CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(
+                    false, peList != null || pePastList != null
+            );
 
             if (peList != null) {
                 for (Participant_Enrollment__c pe : peList) {
