@@ -5,4 +5,12 @@
 .incentives-my-points-container{
     height: 100%;
     position: relative;
+    margin-bottom: 20px;
+}
+
+@media all and (min-width: 768px) {
+    .incentives-my-points-container{
+        height: 100%;
+        margin-bottom: 0
+    }
 }
