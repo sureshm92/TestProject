@@ -460,8 +460,9 @@ global without sharing class ReferHealthcareProviderRemote {
                             MailingStreet,
                             AccountId
                     FROM Contact
-                    WHERE Email = :email OR
-                    Email = :email.toLowerCase()
+                    WHERE (Email = :email OR
+                    Email = :email.toLowerCase()) AND
+                    userCommunityMode__c != 'CC'
                     LIMIT 1
             ];
         }
