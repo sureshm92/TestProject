@@ -15,7 +15,8 @@
     getLogo: function (component, ctpRecord, isSave) {
         const helper = this;
         const url = window.location.hostname;
-        const resourceRelPath = $A.get('$Resource.IQVIA');
+        let filepath = '/'+ctpRecord.CommunityTemplate__c +'.png';
+        const resourceRelPath = $A.get('$Resource.ReportBrandingLogos') + filepath;
         const resourceUrl = 'https://'.concat(url).concat(resourceRelPath);
         window.fetch(resourceUrl).then($A.getCallback(function (response) {
                 console.log(response);
@@ -38,7 +39,7 @@
 
     getLogoFromIE: function (component, ctpRecord, isSave) {
         const helper = this;
-        helper.enqueue(component, 'c.getLogoFromStatic', {}).then(function (iqviaLogo) {
+        helper.enqueue(component, 'c.getLogoFromStatic', {communityname:ctpRecord.CommunityTemplate__c}).then(function (iqviaLogo) {
                 helper.fillData(component, ctpRecord, iqviaLogo, isSave);
             }, function (err) {
                 if (err && err[0].message) {

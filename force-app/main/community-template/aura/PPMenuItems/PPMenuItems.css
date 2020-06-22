@@ -65,13 +65,16 @@
 
 .THIS .icon-settings-box{
     display: flex;
-    justify-content: space-between;
-    width: 16px;
+    justify-content: flex-end;
     margin-right: 20px;
 }
 
 .THIS .main-box{
     padding-left: 32px;
     border-bottom: 1px solid #F8F9FB;
+}
+
+.THIS .icon-box{
+    margin-left: 21px;
 }
 

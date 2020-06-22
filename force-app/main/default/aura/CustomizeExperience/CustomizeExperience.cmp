@@ -35,8 +35,8 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <!--<aura:handler name="change" value="{!v.displayedItems}" action="{!c.doInit}"/>-->
    <!--<aura:handler name="change" value="{!v.showmenu}" action="{!c.doInit}"/>-->
-    <div style="width: 600px;">
-    <div class="as-title"><b>{!$Label.c.PP_Condition_of_Interest_title}</b></div>
+    <div style="width:600px;padding-left:24px;">
+    <div class="as-title">{!$Label.c.PP_Condition_of_Interest_title}</div>
 		
         <div class="section-description">  {!$Label.c.PP_Customize_Exp_Description}</div>
         <br/>
@@ -96,7 +96,7 @@
         </aura:if>
         <br/>
     <div class="slds-col slds-size_1-of-1 as-buttons-footer">
-    <lightning:button variant="brand" label="{!$Label.c.PP_Save_Changes}" title="" onclick="{! c.doSave }" class="slds-button slds-button_brand apollo-btn primary"/> 
+    <lightning:button variant="brand" label="{!$Label.c.PP_Save_Changes}" title="" onclick="{! c.doSave }" class="slds-button slds-button_brand apollo-btn primary mar"/> 
     </div> 
        
     </div>

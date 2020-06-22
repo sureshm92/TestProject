@@ -6,6 +6,7 @@
     doExecute: function (component, event, helper) {
         component.find('upModalSpinner').show();
         component.set('v.createUsers', false);
+        component.set('v.doNotContactParticipants', true);
         var params = event.getParam('arguments');
         component.find('uploadParticipantsDialog').show();
         var studySiteId = params["studySiteId"];

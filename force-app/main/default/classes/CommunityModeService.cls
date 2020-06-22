@@ -94,7 +94,7 @@ public without sharing class CommunityModeService {
             } else {
                 String participantName = userParticipant.First_Name__c + ' ' + userParticipant.Last_Name__c;
                 modeItem.subItems.add(new CommunityModes.PPCommunityModeItem(
-                        USER_MODE_PARTICIPANT, participantName, Label.BTN_No_Active_Studies,
+                        USER_MODE_PARTICIPANT, participantName, Label.No_active_studies,
                         null, null, false
                 ));
             }
@@ -117,7 +117,7 @@ public without sharing class CommunityModeService {
             } else {
                 String participantName = participant.First_Name__c + ' ' + participant.Last_Name__c;
                 modeItem.subItems.add(new CommunityModes.PPCommunityModeItem(
-                        USER_MODE_PARTICIPANT, participantName, Label.BTN_No_Active_Studies,
+                        USER_MODE_PARTICIPANT, participantName, Label.No_active_studies,
                         null, participant.Contact__c, true
                 ));
             }

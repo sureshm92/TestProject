@@ -46,7 +46,6 @@
     display: block;
 }
 
-
 .THIS .tour-slides-container{
     width: 100%;
     height: 70%;
@@ -58,6 +57,11 @@
 
 .THIS .tour-info-container{
     flex-shrink: 0;
+}
+
+.THIS .wt-scroller {
+    height: 85vh;
+    padding: 1rem;
 }
 
 .THIS .tour-buttons-continer{
@@ -181,6 +185,19 @@
     height: 100%;
 }
 
+@media only screen
+and (min-device-width: 375px)
+and (max-device-width: 812px)
+and (orientation: landscape) {
+    .THIS .wt-scroller {
+        overflow-y: scroll;
+        padding: 1rem;
+    }
+
+    .THIS .tour-slides-container {
+        height: 500px;
+    }
+}
 
 @media all and (max-width: 478px){
     .THIS .tour-title{
@@ -216,9 +233,15 @@
     }
 
     .THIS .tour-panel{
-        width: calc(100% - 8px);
-        height: 92vh;
-        margin: 20px auto;
+        width: calc(100% - 10px);
+        height: 85vh;
+        margin: 20px auto 0;
+    }
+
+    .THIS .wt-scroller {
+        height: 90vh;
+        overflow-y: scroll;
+        padding: 1rem;
     }
 
     .THIS .tour-pages{

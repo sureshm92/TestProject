@@ -109,7 +109,7 @@
                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                     <div class="rr-form-element">
                         <!--<div class="label">{!$Label.c.Alternate_Email_Phone_Number}</div>-->
-                        <lightning:input value="{!v.AlternatePhone_email}" label="{!$Label.c.Alternate_Email_Phone_Number}" aura:id="alternate" disabled="{!v.disabled}"
+                        <lightning:input value="{!v.AlternatePhone_email}" label="{!$Label.c.Alternate_Email_Phone_Number}" aura:id="alternate" onblur="{!c.updateMO}" disabled="{!v.disabled}"
                         />
                     </div>
                     <div class="slds-text-color--error slds-p-top--x-small slds-col--padded-small startenddate">{!v.ErrorMsg}</div>
@@ -148,10 +148,10 @@
                         disabled="{!v.buttonDisable}">
                     {!$Label.c.Cancel_Request}
                 </button>
-                    <button class="apollo-btn primary" data-gtm="BTN_Invite_Referring_Provider" onclick="{!c.updateMO}"
+                    <lightning:button class="apollo-btn primary" variant="brand" aura:id="save" onclick="{!c.updateMO}"
                         disabled="{!v.buttonDisable}">
                     {!$Label.c.Save}
-                </button>
+                </lightning:button>
                 </div>
             </aura:if>
         </aura:set>
