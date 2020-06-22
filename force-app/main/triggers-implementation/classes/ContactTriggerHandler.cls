@@ -101,8 +101,8 @@ public without sharing class ContactTriggerHandler {
         
         for (Contact cont : newList) {
             if (cont.Email != null && cont.primaryContact__c != null) {
-                    filteredContactsByIds.put(cont.Id, cont);
-               
+                filteredContactsByIds.put(cont.Id, cont);
+                
             }
         }
         
@@ -148,19 +148,21 @@ public without sharing class ContactTriggerHandler {
         }
     }
     
-	@TestVisible
+    @TestVisible
     private static void createUserForCCContact(List<Contact> newList) {
         Map<Id, Contact> filteredCCContactsByIds = new Map<Id, Contact>();
         List<Id> DeactivateCCContact = new List<Id>();
         
         for (Contact cont : newList) {
-            if (cont.Email != null && cont.CC_Staff_Status__c) {
-                        filteredCCContactsByIds.put(cont.Id, cont);
+            if(cont.userCommunityMode__c == 'CC'){
+                if (cont.Email != null && cont.CC_Staff_Status__c) {
+                    filteredCCContactsByIds.put(cont.Id, cont);
                 }
-                if (!cont.CC_Staff_Status__c) {
+                if (!cont.CC_Staff_Status__c ) {
                     DeactivateCCContact.add(cont.Id);
                 }
             }
+        }
         if(!DeactivateCCContact.isEmpty()) CommunityService.deactivateUsers(DeactivateCCContact);
         
         //get users if exist
