@@ -6,9 +6,10 @@
 
     <!-- attributes: -->
     <aura:attribute name="user" type="User"/>
+    <aura:attribute name="hasProfilePic" type="Boolean"/>
     <aura:attribute name="isDelegate" type="Boolean"/>
 
-    <aura:if isTrue="{!notequals(v.user.SmallPhotoUrl,'/profilephoto/005/T')}">
+    <aura:if isTrue="{!v.hasProfilePic}">
         <lightning:avatar src="{!v.user.SmallPhotoUrl}" variant="circle" size="medium"
                           alternativeText="{!v.user.Contact.FirstName + ' ' + v.user.Contact.LastName}"
                           fallbackIconName="standard:avatar"/>
