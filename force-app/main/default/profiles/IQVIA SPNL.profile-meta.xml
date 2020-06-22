@@ -266,7 +266,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>CTPSendNotificationService</apexClass>
-        <apexClass>Batch_UpdatePE_PermitContactFlag</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
