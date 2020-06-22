@@ -27,8 +27,8 @@ public without sharing class TaskEditRemote {
         @AuraEnabled public Date reminderDate;
         @AuraEnabled public Boolean isEnrolled;
         @AuraEnabled public String errorMessage;
-        @AuraEnabled public Boolean emailOptIn;
-        @AuraEnabled public Boolean smsOptIn;
+        @AuraEnabled public Boolean isEmailReminderSet;
+        @AuraEnabled public Boolean isSMSReminderSet;
         @AuraEnabled public Boolean createdByAdmin;
         @AuraEnabled public Boolean isStudyTasksEnabled;
 
@@ -42,8 +42,8 @@ public without sharing class TaskEditRemote {
                     status == ParticipantService.ParticipantStates.PARTICIPANT;
 
             errorMessage = checkEmailPermissions(emailPreferencesIsOn, delegates);
-            emailOptIn = emailEnabledForOneRelatedContact(emailPreferencesIsOn, delegates);
-            smsOptIn = smsEnabledForOneRelatedContact(smsPreferenceIsOn, delegates);
+            isEmailReminderSet = emailEnabledForOneRelatedContact(emailPreferencesIsOn, delegates);
+            isSMSReminderSet = smsEnabledForOneRelatedContact(smsPreferenceIsOn, delegates);
             createdByAdmin = false;
 
             task = new Task(Task_Type__c = 'Not Selected');
