@@ -90,7 +90,28 @@
         var isSaveOperation = component.get('v.isSaveOperation');
         component.find('reminderModal').hide();
         if(isSaveOperation){
+            component.set('v.isSaveOperation', false);
             component.get('v.parent').reload();
         }
+    },
+    
+    setSuccessToast: function (component){
+        
+        var isReminderOnly = component.get('v.isReminderOnly');
+        var isNewTask = component.get('v.isNewTask');
+        //Task created successfully. ; Changes are successfully saved. ; Visit reminder created successfully. ; Visit reminder updated.
+        var successToastArray = $A.get('$Label.c.PP_Task_Success_Toast').split(';');
+        var message = '';
+        if (isNewTask && !isReminderOnly){
+            message = successToastArray[0].trim();
+        } else if (isNewTask && isReminderOnly){
+            message = successToastArray[2].trim();
+        } else if (!isNewTask && !isReminderOnly){
+            message = successToastArray[1].trim();
+        } else{
+            message = successToastArray[3].trim();
+        }
+        
+        return message;
     }
 })

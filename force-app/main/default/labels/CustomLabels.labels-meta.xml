@@ -12439,6 +12439,14 @@ Please log in to ##CommunityName to view this information.</value>
         <shortDescription>PP Cookie Settings</shortDescription>
         <value>Cookie Settings</value>
     </labels>
+	<labels>
+        <fullName>PP_Create_Task_Reminder</fullName>
+        <categories>c:StudyVisitReminder</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create Task Reminder</shortDescription>
+        <value>Create Task Reminder</value>
+    </labels>
     <labels>
         <fullName>PP_Create_Visit_Reminder</fullName>
         <categories>c:StudyVisitReminder</categories>
@@ -12474,6 +12482,14 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>true</protected>
         <shortDescription>PP Customize search text</shortDescription>
         <value>Search</value>
+    </labels>
+	<labels>
+        <fullName>PP_Edit_Task_Reminder</fullName>
+        <categories>c:StudyVisitReminder</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Edit Task Reminder</shortDescription>
+        <value>Edit Task Reminder</value>
     </labels>
     <labels>
         <fullName>PP_Edit_Visit_Reminder</fullName>
@@ -12616,6 +12632,14 @@ Please log in to ##CommunityName to view this information.</value>
         <protected>true</protected>
         <shortDescription>PP_Save_Changes</shortDescription>
         <value>Save Changes</value>
+    </labels>
+	<labels>
+        <fullName>PP_Task_Success_Toast</fullName>
+        <categories>c:StudyVisitReminder</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Task Success Toast</shortDescription>
+        <value>Task created successfully. ; Changes are successfully saved. ; Visit reminder created successfully. ; Visit reminder updated.</value>
     </labels>
     <labels>
         <fullName>PP_Toggle_Information</fullName>

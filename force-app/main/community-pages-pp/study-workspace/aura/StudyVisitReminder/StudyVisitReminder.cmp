@@ -59,7 +59,7 @@
                     <div class="slds-grid te-form slds-gutters slds-wrap">
                         <div class="slds-col slds-size_1-of-1">
                             <lightning:input name="taskName" label="{!$Label.c.Task_Name}" value="{!v.task.Subject}"
-                                             required="true" disabled="{!!v.isEditable}"/>
+                                             required="true" disabled="{!not(v.isEditable) || v.task.Task_Type__c == 'Visit'}"/>
                         </div>
                     </div>
                     <!--Seperator-->
@@ -69,19 +69,28 @@
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                             <lightning:input aura:id="field" type="date" min="{!v.initData.today}"
                                              label="{!$Label.c.Due_Date}" value="{!v.initData.activityDate}"
-                                             disabled="{!!v.isEditable}"/>
+                                             disabled="{!not(v.isEditable) || v.task.Task_Type__c == 'Visit'}"/>
                         </div>
                         <!--Seperator-->
                         <div class="slds-p-top_small"></div>
                         <!-- Task Type -->
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                            <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type}"
-                                              value="{!v.task.Task_Type__c}"
-                                              disabled="{!!v.isEditable || !v.initData.createdByAdmin}">
-                                <aura:iteration items="{!v.initData.taskTypeList}" var="type">
-                                    <option value="{!type.value}">{!type.label}</option>
-                                </aura:iteration>
-                            </lightning:select>
+                            <aura:if isTrue="{!v.task.Task_Type__c != 'Visit'}">
+                                <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type}"
+                                                  value="{!v.task.Task_Type__c}"
+                                                  disabled="{!not(v.isEditable)}">
+                                    <aura:iteration items="{!v.initData.taskTypeList}" var="type">
+                                        <option value="{!type.value}">{!type.label}</option>
+                                    </aura:iteration>
+                                </lightning:select>
+                                <aura:set attribute="else">
+                                	<lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type  + Else}"
+                                                  value="{!v.task.Task_Type__c}"
+                                                  disabled="true">
+                                        <option value="{!v.task.Task_Type__c}">{!v.task.Task_Type__c}</option>
+                                	</lightning:select>
+                                </aura:set>
+                            </aura:if>
                             
                         </div>
                     </div>
@@ -91,7 +100,7 @@
                         {!$Label.c.Task_Reminder_Details}
                     </div>
                     <!-- Task Reminder Details -->
-                    <aura:if isTrue="{!not(v.initData.createdByAdmin)}">
+                    <!--<aura:if isTrue="{!not(v.initData.createdByAdmin)}"> -->
                         <div class="slds-grid te-form slds-gutters slds-wrap">
                             <!--Reminder Frequency-->
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
@@ -132,7 +141,7 @@
                                 </div>
                             </div>
                         </aura:if>
-                    </aura:if>
+                    <!--</aura:if>-->
                 </div>
             </div>
         </aura:if>
@@ -140,7 +149,7 @@
         <aura:if isTrue="{!v.isReminderOnly}">
             <div class="te-task-panel">
                 <div class="rr-white-panel padding slds-col" style="min-height: 220px;">
-                    <aura:if isTrue="{!true}">
+                    <aura:if isTrue="{!v.taskType == 'Visit'}">
                         <!--Visit Reminder-->
                         <div class="slds-grid te-form slds-gutters slds-wrap slds-form-element__label">
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
@@ -160,7 +169,7 @@
                         </div>
                         <div class="slds-p-top_large"></div>
                     </aura:if>
-                    <aura:if isTrue="{!not(v.initData.createdByAdmin)}">
+                    <!--<aura:if isTrue="{!not(v.initData.createdByAdmin-->
                         <div class="slds-grid te-form slds-gutters slds-wrap">
                             <!--Reminder Frequency-->
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
@@ -201,7 +210,7 @@
                                 </div>
                             </div>
                         </aura:if>
-                    </aura:if>   
+                    <!--</aura:if>-->
                 </div> <!-- Reminder Section rr-white-panel min-height: 220px; -->
             </div>	<!-- Reminder Section te-task-panel -->
         </aura:if> <!-- End of Reminder Section -->

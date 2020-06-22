@@ -10,7 +10,7 @@
         $A.createComponent("c:StudyVisitReminder",
             {
                 "aura:id" : "studyVisitReminder",
-                "visitId": $A.util.isUndefinedOrNull(visitWrapper.task) ? null : visitWrapper.visit.Id,
+                "visitId": visitWrapper.visit.Id,
                 "taskId": $A.util.isUndefinedOrNull(visitWrapper.task) ? null : visitWrapper.task.Id,
                 "title":  title,
                 "taskType": 'Visit',

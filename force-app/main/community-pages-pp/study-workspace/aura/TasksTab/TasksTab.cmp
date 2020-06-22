@@ -79,12 +79,13 @@
                                     <aura:if isTrue="{!taskWrapper.reminder != null}">
                                         <div class="rr-link limit-width"
                                          data-index="{!index}"
-                                         onclick="{!c.doTaskClick}">{!taskWrapper.reminder}</div>
+                                         data-reminder="{!taskWrapper.reminder}"
+                                         onclick="{!c.onReminderDateClick}">{!taskWrapper.reminder}</div>
                                         <!--<ui:outputDate value="{!taskWrapper.reminder}"/>-->
                                         <aura:set attribute="else">
                                         	<div class="rr-link limit-width"
                                          		 data-index="{!index}"
-                                                 onclick="{!c.doTaskClick}">{!$Label.c.Create}</div>
+                                                 onclick="{!c.onReminderDateClick}">{!$Label.c.Create}</div>
                                         </aura:set>
                                     </aura:if>
                                 </td>
@@ -117,7 +118,7 @@
                                                   page="{!'task-detail?id=' + taskWrapper.task.Id}"/>-->
                                         <div class="rr-link limit-width"
                                          	 data-index="{!index}"
-                                             onclick="{!c.doTaskClick}">{!taskWrapper.task.Subject}</div>
+                                             onclick="{!c.onReminderDateClick}">{!taskWrapper.task.Subject}</div>
                                     </aura:if>
                                     <aura:if
                                             isTrue="{!taskWrapper.task.Status == 'Completed' || taskWrapper.task.Status == 'Expired'}">

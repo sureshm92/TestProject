@@ -3258,6 +3258,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Event.Remind_Using_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Remind_Using_SMS__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Event.Start_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6670,6 +6680,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.Reminder_Schedule__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Remind_Using_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Remind_Using_SMS__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -49,14 +49,19 @@
                 return;
             }
         }
+        component.set('v.task.Remind_Using_Email__c', emailPeferenceSelected);
+        component.set('v.task.Remind_Using_SMS__c', smsPeferenceSelected);
+        var message = helper.setSuccessToast(component);
+        
         component.find('spinner').show();
+        
         communityService.executeAction(component, 'upsertTask', {
             'wrapper': JSON.stringify(component.get('v.initData')),
             'paramTask': JSON.stringify(task)
         }, function(){
        		component.find('spinner').hide();
             component.set('v.isSaveOperation', true);
-            communityService.showSuccessToast('', 'Task Created', 3000);
+            communityService.showSuccessToast('', message, 3000);
             //helper.hideModal(component);
         }, null, null);
     },
@@ -79,8 +84,7 @@
         var reminderDate = moment(component.get('v.initData.reminderDate'), 'YYYY-MM-DD');
         reminderDate.subtract(1, 'days');
         component.set('v.initData.reminderDate', reminderDate.format('YYYY-MM-DD'));
-
-    },
+	},
 
     validateFields: function (component, event, helper) {
         if (component.get('v.initData') && component.get('v.initData.createdByAdmin')) return;
