@@ -22,9 +22,11 @@
         </aura:if>
         <aura:iteration items="{!v.buttonItems}" var="buttonItem">
             <c:uiMenuItem onclick="{!c.doNavigateToItem}" itemValue="{!buttonItem.page}">
-                <c:RRIcon class="{!'button-icon icon-'+ buttonItem.icon}" iconName="{!buttonItem.icon}"/>
-                <div class="button-label">
-                    {!buttonItem.label}
+                <div class="mode-switcher-menu-button">
+                    <c:RRIcon class="{!'button-icon icon-'+ buttonItem.icon}" iconName="{!buttonItem.icon}"/>
+                    <div class="button-label">
+                        {!buttonItem.label}
+                    </div>
                 </div>
             </c:uiMenuItem>
         </aura:iteration>

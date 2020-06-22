@@ -23,3 +23,6 @@
 .THIS li{
     border-bottom: 1px solid #F8F9FB;
 }
+.THIS li:hover{
+    background-color: #FFFFFF !important;
+}
