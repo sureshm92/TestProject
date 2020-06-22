@@ -5,6 +5,10 @@
     color: #ffffff;
     display: inline;
     padding: 16px 5px;
+    height: 24px;
+    width: 19px;
+    font-size: 16px;
+    line-height: 24px;
 }
 .nic-button:hover{
     background-color: rgba(255,255,255,0.16)
@@ -25,6 +29,9 @@
 :host {
     height: 50px;
     min-width: 30px;
+}
+.nic-points{
+    padding-left: 10px;
 }
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {

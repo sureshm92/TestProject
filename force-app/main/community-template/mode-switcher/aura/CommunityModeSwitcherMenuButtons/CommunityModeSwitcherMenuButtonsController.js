@@ -12,5 +12,7 @@
         const item = event.getSource();
         const itemValue = item.get('v.itemValue');
         communityService.navigateToPage(itemValue);
+        component.set('v.reset', true);
+        component.set('v.reset', false);
     }
 })
