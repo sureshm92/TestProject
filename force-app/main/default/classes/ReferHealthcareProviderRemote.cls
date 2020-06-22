@@ -95,7 +95,7 @@ global without sharing class ReferHealthcareProviderRemote {
         HealthcareProvider hp = new HealthcareProvider();
         if (!String.isBlank(email)) {
             String contactQuery = 'SELECT Id, FirstName, LastName, Name, Email, Phone,  userCommunytyType__c FROM Contact WHERE (Email = \'' + String.escapeSingleQuotes(email) + '\''
-                    + ' OR Email = \'' + String.escapeSingleQuotes(email.toLowerCase()) + '\')';
+                    + ' OR Email = \'' + String.escapeSingleQuotes(email.toLowerCase()) + '\') AND userCommunityMode__c != \'CC\'';
             if (!String.isBlank(firstName) && !String.isBlank(lastName)) {
                 email = String.escapeSingleQuotes(email);
                 firstName = String.escapeSingleQuotes(firstName);
@@ -460,8 +460,9 @@ global without sharing class ReferHealthcareProviderRemote {
                             MailingStreet,
                             AccountId
                     FROM Contact
-                    WHERE Email = :email OR
-                    Email = :email.toLowerCase()
+                    WHERE (Email = :email OR
+                    Email = :email.toLowerCase()) AND
+                    userCommunityMode__c != 'CC'
                     LIMIT 1
             ];
         }
