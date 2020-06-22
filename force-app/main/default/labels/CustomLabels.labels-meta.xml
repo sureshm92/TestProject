@@ -928,7 +928,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>button marks as completed task</shortDescription>
-        <value>Mark as Completed</value>
+        <value>Mark as Complete</value>
     </labels>
     <labels>
         <fullName>BTN_My_Patients</fullName>
@@ -12514,7 +12514,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP Change Notification</shortDescription>
-        <value>Change your notificaiton setting under Account settings</value>
+        <value>Change your notification setting under Account Settings</value>
     </labels>
     <labels>
         <fullName>PP_Change_Preferences_Resource</fullName>
