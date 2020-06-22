@@ -7,11 +7,9 @@ public without sharing class CommunityModeService {
     public static final String USER_MODE_HCP = 'HCP';
     public static final String USER_MODE_PI = 'PI';
     public static final String USER_MODE_PARTICIPANT = 'Participant';
-<<<<<<< HEAD
 	public static final String USER_MODE_CC = 'CC';
     
     
-=======
 
     public static final Map<String, String> labelByMode = new Map<String, String>{
             USER_MODE_HCP => Label.CTL_L_HCP_MODE,
@@ -197,7 +195,6 @@ public without sharing class CommunityModeService {
         }
     }
 
->>>>>>> origin/INT5.0
     public static List<CommunityMode> getUserCommunityModes(Id contactId) {
         List<CommunityMode> modes = new List<CommunityMode>();
         Contact userContact = ContactService.getContact(contactId);

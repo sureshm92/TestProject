@@ -197,9 +197,7 @@ public without sharing class CommunityService {
         }
         if(timeZone == null) timeZone = 'America/Los_Angeles';
         String newUserName = getAvailableUserName(cont.Email);
-        User newUser = new User();
-        
-        newUser = new User(
+        User newUser = new User(
             ProfileId = COMMUNITY_USER_PROFILE_ID,
             Username = newUserName,
             Email = cont.Email,
@@ -213,7 +211,6 @@ public without sharing class CommunityService {
             Alias = 'test', //todo
             IsActive = true
         );
-        
         
         Database.DMLOptions dlo=new Database.DMLOptions();
         dlo.EmailHeader.triggerUserEmail =true;
