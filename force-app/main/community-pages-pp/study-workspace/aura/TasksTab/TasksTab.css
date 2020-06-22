@@ -71,6 +71,41 @@
     opacity: .5;
 }
 
+.THIS .rr-link{
+    color: #297DFD;
+    padding: 4px 8px;
+  /*  display: inline-flex; */
+    align-items: center;
+    border-radius: 4px;
+    margin: 1px 0 0 -8px;
+}
+/*
+.THIS.rr-link.only-text{
+    display: inline;
+}
+*/
+.THIS .rr-link:hover{
+    text-decoration: none;
+    background-color: #eef5ff;
+    transition: .25s;
+    cursor: pointer;
+}
+
+.THIS .rr-link .limit-width{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+ /*   white-space: nowrap; */
+    display: inline-block;
+    padding-top: 4px;
+}
+
+.THIS .rr-link svg{
+    fill: #297DFD;
+    width: 12px;
+    height: 12px;
+}
+
 @media screen and (max-width:500px) {
     .THIS .rr-white-panel {
         overflow-x: scroll;
