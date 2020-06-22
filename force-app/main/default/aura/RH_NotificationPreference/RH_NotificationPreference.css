@@ -1,0 +1,30 @@
+.THIS.as-container .as-email-preference {
+    margin-top: 30px;
+}
+
+.THIS .as-title{
+    color: #000000;
+    font-size: 18px;
+    line-height: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.THIS.as-container .as-sub-title {
+    color: #333333;
+    font-size: 14px;
+    line-height: 24px;   
+    width: 70%;
+}
+
+.THIS .cookieDesc{
+  color: #646464;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+
+.THIS .ah-toggle{
+    flex: inherit;
+}

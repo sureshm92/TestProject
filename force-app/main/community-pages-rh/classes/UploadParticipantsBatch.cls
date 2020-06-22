@@ -300,6 +300,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                     Mailing_State__c = State,
                                     Mailing_Country__c = uploadUser.Contact.MailingCountry,
                                     Mailing_Zip_Postal_Code__c = PostalCode);
+                    participant.Adult__c = ReferringRemote.checkNeedsGuardian(JSON.serialize(participant)) == 'false';
 
                     //Duplicates check
                     Boolean isDuplicate = false;
@@ -430,7 +431,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
                         if (participant.Id != null) {
                             participantEnrollment.Participant__c = participant.Id;
-                            participantEnrollment.To_permit_IQVIA_to_contact_about_study__c = !doNotContactParticipants;
+                            participantEnrollment.Permit_IQVIA_to_contact_about_study__c = !doNotContactParticipants;
 
                             Database.SaveResult saveRes = Database.insert(participantEnrollment, false);
                             participantEnrollmentsByContact.put(participantEnrollment.Participant_Contact__c, participantEnrollment);

@@ -27,6 +27,8 @@
     <aura:attribute name="disableSave" type="Boolean" default="false"/>
 
     <aura:attribute name="contactSectionData" type="Object"/>
+    <aura:attribute name="addressLine2" type="String" default=""/>
+    <aura:attribute name="addressLine1" type="String" default=""/>
     <aura:attribute name="personWrapper" type="Object"/>
     <aura:attribute name="contact" type="Contact"/>
     <aura:attribute name="optInEmail" type="Boolean"/>
@@ -53,14 +55,14 @@
 
 
     <!-- component body: -->
-    <div style="width:840px;">
+    <div>
         <div class="as-container">
 
             <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
                    <c:Action_RemoveDelegate aura:id="actionRemoveDelegate"/>
 
             <aura:if isTrue="{!v.isInitialized}">
-                <div class="rr-white-panel1" style="padding: 30px">
+                <div class="rr-white-panel" style="padding: 30px">
                     <div class="as-title">
                         {!$Label.c.PP_General_Info}
                     </div>
@@ -68,19 +70,21 @@
                     <div class="as-email rr-form-element">
                         <div class="as-email-input slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end">
                             <div class="slds-col slds-size_1-of-1">
+
                                            <c:Action_AddProfilePhoto username="{!v.userEmail}" recordId="{!v.userId}" isDelegate="{!v.isDelegate}" ></c:Action_AddProfilePhoto>
+
                             </div>
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
-    
+
     </div>
-                          
-                          
+
+
                         </div>
                     </div>
-    
-                   
-                   
-                 <aura:if isTrue="{!equals(v.userMode, 'Participant')}">
+
+
+
+                <!-- <aura:if isTrue="{!equals(v.userMode, 'Participant')}"> -->
                 <!-- Name Section -->
                 <div class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start">
                     <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
@@ -217,7 +221,7 @@
               
                
                
-            </aura:if>
+        <!--    </aura:if>  -->
     
     
     
@@ -234,15 +238,16 @@
                   
                   
                     <div style="height: 45px"></div>
-                    <aura:if isTrue="{!v.userMode != 'PI'}">
+                  <!--  <aura:if isTrue="{!v.userMode != 'PI'}">  -->
                         <div class="as-email-preference">
                            
-                            <aura:if isTrue="{!v.userMode == 'Participant'}">
-                                <div class="as-title" style="margin-top:-40px;">
+                           <!-- <aura:if isTrue="{!v.userMode == 'Participant'}"> -->
+                                <div class="as-title">
                                     {!$Label.c.PG_AS_H_Contact_Information}
                                 </div>
-                               <span class="emails-that-notify-y">{!$Label.c.PP_Toggle_Information}</span> 
-
+                                <div class="contactDesc">
+                                {!$Label.c.PP_Toggle_Information}
+                                </div>
                                 <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
                                     <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
                                         <aura:if isTrue="{!not(v.isDelegate)}">
@@ -263,7 +268,7 @@
     
                                                    
     
-        
+          						<aura:if isTrue="{!v.userMode == 'Participant'}">
                                     
                                                    <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}"
                                                    variant="label-hidden"
@@ -274,9 +279,11 @@
                                                   <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-m-top--large">
     
                                                   {!$Label.c.PG_AS_L_Opt_In_Participant_Status_Emails}</div>
-    </div>
+                                    </aura:if>
+                                    </div>
     
                                 <!-- Toggle for SMS -->
+                          
                                     <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
                                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-media--responsive">
                                           
@@ -287,6 +294,7 @@
                                          onblur="{!c.handleMobileValidation}" /> 
      
                                         </div>
+                                           <aura:if isTrue="{!v.userMode == 'Participant'}">
                                         <aura:if isTrue="{!and(v.initData.isSMSAvailableFromSS, equals(v.personWrapper.mailingCC, 'US'))}">
 
                                         <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}"
@@ -299,8 +307,11 @@
                                                          <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-m-top--large slds-media--responsive">
     
                                         {!$Label.c.PG_AS_L_Opt_In_Participant_Status_SMS}</div>
+                                       </aura:if> 
                                         </aura:if>
                                     </div>
+                           
+                             <aura:if isTrue="{!v.userMode == 'Participant'}">
     <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
     
         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-media--responsive">
@@ -316,6 +327,55 @@
                                 placeholder="{!$Label.c.PG_AC_Select}"/></div>
     
     </div>
+                            </aura:if>
+     <aura:if isTrue="{!v.userMode != 'Participant'}">
+                        <div style="height: 45px"></div>
+                        <!--  Bussines Address -->
+                        
+                        <div class="as-title">
+                            Business Address
+                        </div>
+                        
+                        <div class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start">
+                            
+                            <div
+                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-media--responsive">
+                                <lightning:input type="text" label="Hospital/Clinic/Practice Name" value="{!v.institute.Name}" disabled="false"/>
+                            </div>
+                            <div
+                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-media--responsive">
+                                <lightning:input type="text" label="Address Line 1" value="{!v.addressLine1}" />
+                            </div>
+                            
+                            <div
+                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-media--responsive">
+                                <lightning:input type="text" label="Address Line 2" value="{!v.addressLine2}" />
+                            </div>
+                            
+                            <!--<div
+                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
+                                <div class="label rr-sentence-font">Country</div>
+                                <c:rrSelect options="[]" value="{!v.personWrapper.mailingCountry}" />
+                            </div> -->
+                            <br/>
+                            <div
+                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-media--responsive">
+                                <div class="label rr-sentence-font">State</div>
+                                <c:rrSelect options="{!v.statesLVList}" value="{!v.personWrapper.mailingSC}" />
+                            </div>
+                            
+                            <div
+                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-media--responsive">
+                                <lightning:input type="text" label="City" value="{!v.personWrapper.mailingCity}" />
+                            </div>
+                            <div
+                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-media--responsive">
+                                <lightning:input type="text" label="Zip/Postal Code" value="{!v.personWrapper.zip}" />
+                            </div>
+                            
+                            
+                        </div>
+                    </aura:if>
                               
     <div class="slds-col slds-size_1-of-1 as-buttons-footer">
     
@@ -323,9 +383,9 @@
     </div>
     
                                 
-                            </aura:if>
-                        </div>
-                    </aura:if>
+                           <!--  </aura:if>  -->
+                       </div>
+                  <!--  </aura:if>  -->
                     <div style="height: 45px"></div>
                   
                     <div style="height: 65px"></div>

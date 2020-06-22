@@ -2,12 +2,12 @@
  * Created by Olga Skrynnikova on 6/10/2020.
  */
 
-.THIS .unset:first-child .main-box .menu-item-box .icon-cog{
+.THIS .unset:first-child .main-box .menu-item-box .icon-settings-box .icon-cog{
     visibility: visible;
     opacity: unset;
 }
 
-.THIS .contain:first-child .unset .main-box .menu-item-box .icon-delegate{
+.THIS .unset:first-child .main-box .menu-item-box .icon-settings-box .icon-delegate{
     visibility: visible;
     opacity: unset;
 }

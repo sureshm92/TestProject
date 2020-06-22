@@ -7,6 +7,7 @@
         communityService.executeAction(component, 'getSwitcherInitData', null, function (returnValue) {
             const userData = JSON.parse(returnValue);
             component.set('v.user', userData.user);
+            component.set('v.hasProfilePic', userData.hasProfilePic);
             component.set('v.communityModes', userData.communityModes);
             component.set('v.currentMode', communityService.getCurrentCommunityMode());
         });
@@ -17,7 +18,7 @@
         let navigateTo = source.get('v.navigateTo');
         const itemValue = source.get('v.itemValue');
         var comModes = component.get('v.communityModes');
-        if(navigateTo && !itemValue) {
+        if (navigateTo && !itemValue) {
             communityService.navigateToPage(navigateTo);
         } else if (itemValue) {
             if (itemValue.subItems.length === 0) {
@@ -41,6 +42,7 @@
                     component.set('v.communityModes', comData.communityModes);
                     communityService.setCurrentCommunityMode(comData.currentMode);
 
+                    if (comData.currentMode.template.needRedirect) return;
                     if (!navigateTo) {
                         if (communityService.getUserMode() === 'Participant') {
                             navigateTo = communityService.getFullPageName();

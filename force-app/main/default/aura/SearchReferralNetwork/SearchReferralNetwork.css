@@ -1,0 +1,130 @@
+/**
+ * Created by Yehor Dobrovolskyi
+ */
+
+.THIS .button {
+    background-color:#297DFD;
+    border: none;
+    color: white;
+    padding: 10px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px 4px 2px;
+    cursor: pointer;
+    border-radius: 16px;
+  }
+  .THIS .slds-pill__action{
+      border:0px;
+      
+  }
+  .THIS .slds-pill__remove svg{
+      color:white;
+  }
+.THIS .slds-pill__label{
+    text-align: center;
+    margin-bottom: 10px;
+}
+.THIS .slds-pill{
+    padding-bottom: 10%;
+    padding-top: 5%;
+}
+.THIS .slds-pill__remove{
+    padding-right: 10% !important;
+}
+
+.THIS .title-desc{
+    height: 24px;
+    width: 129px;
+    color: #595959;
+}
+.THIS .as-title{
+  height: 22px;
+  width: 250px;
+  color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 22px;
+}
+.THIS .section-description {
+    height: 48px;
+  width: 663px;
+  color: #595959;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+
+.THIS .alert-count-condition{
+    height: 17px;
+    width: auto;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    line-height: 17px;
+    text-align: left;
+    padding-top: 5px;
+}
+.THIS .alert-count-condition1{
+    height: 17px;
+    width: auto;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    line-height: 17px;
+    text-align: left;
+    padding-bottom: 5px;
+}
+
+.THIS table{
+    border-top: 0;
+    border-collapse: collapse;
+}
+
+.THIS .table-scroll{
+    height: 170px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin-top: 5px;
+}
+
+@media all and (max-width: 750px) {
+    .THIS .alert-count-condition{
+        font-size: 12px;
+    }
+    .THIS .table-scroll{
+        font-size: 12px;
+        overflow-x: auto;
+        overflow-y: auto;
+    }
+}
+
+@media all and (max-width: 500px) {
+    .THIS .slds-table_edit .slds-truncate {
+        font-size: 1rem;
+    }
+    
+    .THIS .table-scroll {
+        height: 250px;
+        margin-top: 1rem;
+    }
+    
+    .THIS .slds-table th, 
+    .THIS .slds-table td {
+     	padding: .75rem .5rem;   
+    }
+
+    
+    .THIS .p-footer.p-variant- {
+        width: 100%;
+        padding: 1rem; 
+    }
+   
+    .THIS .p-footer .apollo-btn.primary {
+        margin-top: 1rem;
+        margin-left: 0;
+    }
+}

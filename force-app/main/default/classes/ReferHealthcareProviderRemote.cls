@@ -87,16 +87,16 @@ global without sharing class ReferHealthcareProviderRemote {
     public static HealthcareProvider checkDuplicate(String peId, String email, String firstName, String lastName, String participantId) {
         HealthcareProvider hp = new HealthcareProvider();
         if (!String.isBlank(email)) {
-            String contactQuery = 'SELECT Id, FirstName, LastName, Name, Email, Phone,  userCommunytyType__c FROM Contact';
+            String contactQuery = 'SELECT Id, FirstName, LastName, Name, Email, Phone,  userCommunytyType__c FROM Contact WHERE userCommunityMode__c != \'CC\'';
             if (!String.isBlank(firstName) && !String.isBlank(lastName)) {
                 email = String.escapeSingleQuotes(email);
                 firstName = String.escapeSingleQuotes(firstName);
                 lastName = String.escapeSingleQuotes(lastName);
-                contactQuery += ' WHERE ((Email = \'' + email + '\' OR Email = \'' + email.toLowerCase() + '\')' +
+                contactQuery += ' AND ((Email = \'' + email + '\' OR Email = \'' + email.toLowerCase() + '\')' +
                         +' AND (FirstName = \'' + firstName + '\' OR FirstName = \'' + firstName.toLowerCase() + '\')' +
                         +' AND (LastName = \'' + lastName + '\' OR LastName = \'' + lastName.toLowerCase() + '\'))';
             } else if (String.isBlank(firstName) && String.isBlank(lastName)) {
-                contactQuery += ' WHERE (Email = \'' + String.escapeSingleQuotes(email) + '\''
+                contactQuery += ' AND (Email = \'' + String.escapeSingleQuotes(email) + '\''
                         + ' OR Email = \'' + String.escapeSingleQuotes(email.toLowerCase()) + '\')';
             }
 
@@ -455,8 +455,9 @@ global without sharing class ReferHealthcareProviderRemote {
                             MailingStreet,
                             AccountId
                     FROM Contact
-                    WHERE Email = :email OR
-                    Email = :email.toLowerCase()
+                    WHERE (Email = :email OR
+                    Email = :email.toLowerCase()) AND
+                    userCommunityMode__c != 'CC'
                     LIMIT 1
             ];
         }
