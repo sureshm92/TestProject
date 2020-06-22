@@ -52,10 +52,12 @@ export default class NavIncentiveCounter extends LightningElement {
             this.lastDatastamp = new Date();
         }
         this.showDropDown = !this.showDropDown;
+        this.updateSelected();
     }
     doCloseDropDown() {
         this.showDropDown = false;
         this.lastDatastamp = new Date();
+        this.updateSelected();
     }
     doEvent(){
         this.doCloseDropDown();
@@ -73,7 +75,12 @@ export default class NavIncentiveCounter extends LightningElement {
                 this.template.querySelector('.nic-button').classList.add('current-page');
             }
             else{
-                this.template.querySelector('.nic-button').classList.remove('current-page');
+                if (this.showDropDown){
+                    this.template.querySelector('.nic-button').classList.add('current-page');
+                }
+                else{
+                    this.template.querySelector('.nic-button').classList.remove('current-page');
+                }
             }
         }
     }
