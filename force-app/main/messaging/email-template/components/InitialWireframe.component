@@ -145,5 +145,16 @@
         <c:EmailTemplateDelegate/>
         <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframe>
-
+    
+    <!-- CC -->
+    <c:EmailWireframe rendered="{!userMode == 'CC'}"
+                      recipientId="{!recordId}"
+                      header="{!$Label.Email_Header_Initial_PI}"
+                      title="{!titleLabel}"
+                      greeting="{!$Label.Email_User_Greeting}"
+                      signature="{!$Label.Email_Signature}">
+        <!-- Inner body -->
+        <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_CC}"/>
+        <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
+    </c:EmailWireframe>
 </apex:component>
