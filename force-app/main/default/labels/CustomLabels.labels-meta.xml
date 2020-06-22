@@ -1427,6 +1427,13 @@
         <shortDescription>Submit Your Question</shortDescription>
         <value>Submit Your Question</value>
     </labels>
+	<labels>
+        <fullName>CTL_L_CC_MODE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CTL_L_CC_MODE</shortDescription>
+        <value>View as Call Center</value>
+    </labels>
     <labels>
         <fullName>CTL_L_HCP_DELEGATE_MODE</fullName>
         <language>en_US</language>
@@ -1503,6 +1510,83 @@
         <protected>false</protected>
         <shortDescription>Case_Owner_Email_For_User_Lockout</shortDescription>
         <value>rajesh.r@quintiles.com</value>
+    </labels>
+	<labels>
+        <fullName>CC_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Name</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>CC_PI_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_PI_Name</shortDescription>
+        <value>PI Name</value>
+    </labels>
+    <labels>
+        <fullName>CC_Participant_Support</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Participant_Support</shortDescription>
+        <value>Participant Support</value>
+    </labels>
+    <labels>
+        <fullName>CC_Phone_Number</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Phone_Number</shortDescription>
+        <value>Phone Number</value>
+    </labels>
+    <labels>
+        <fullName>CC_Phone_Type</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Phone_Type</shortDescription>
+        <value>Phone Type</value>
+    </labels>
+    <labels>
+        <fullName>CC_Received</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Received</shortDescription>
+        <value>Received</value>
+    </labels>
+    <labels>
+        <fullName>CC_Site_Contact</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Site_Contact</shortDescription>
+        <value>Site Contact</value>
+    </labels>
+    <labels>
+        <fullName>CC_Site_Phone_Number</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Site_Phone_Number</shortDescription>
+        <value>Site Phone Number</value>
+    </labels>
+    <labels>
+        <fullName>CC_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Study</shortDescription>
+        <value>Study</value>
+    </labels>
+    <labels>
+        <fullName>CC_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Study_Site</shortDescription>
+        <value>Study Site</value>
+    </labels>
+    <labels>
+        <fullName>CC_search_for_a_participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_search_for_a_participant</shortDescription>
+        <value>search for a participant</value>
     </labels>
     <labels>
         <fullName>Closed_Requests</fullName>
@@ -2363,6 +2447,13 @@
         <protected>false</protected>
         <shortDescription>Email Body Delegate Permission Changed</shortDescription>
         <value>One or more of your Referral Hub study permissions has changed.</value>
+    </labels>
+	<labels>
+        <fullName>Email_Body_Initial_CC</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email_Body_Initial_CC</shortDescription>
+        <value>Welcome to IQVIA Referal Hub</value>
     </labels>
     <labels>
         <fullName>Email_Body_FollowUp_Reminder</fullName>
@@ -13856,6 +13947,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Respiratory Rate Description</shortDescription>
         <value>Respiratory rate is a measurement of how many breaths you take per minute.</value>
+    </labels>
+	  <labels>
+        <fullName>RH_Notification</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH Notification</shortDescription>
+        <value>Notification preferences</value>
     </labels>
     <labels>
         <fullName>SDC_List_View</fullName>

@@ -17,7 +17,11 @@
     <aura:attribute name="selectedValues" type="List" default=""/>
     <aura:attribute name="isMultiEntry" type="Boolean" default="true"/>
     <aura:attribute name="SelectedAccount" type="String[]"/>    
-
+    <aura:attribute name="userMode" type="String"/>
+    
+      <aura:attribute name="referralResult" type="List"/>
+      <aura:attribute name="therapeticResult" type="List"/>
+    
     <aura:attribute name="conditionsOfInterest" type="List" default=""/>
     <aura:attribute name="conditionsOfInterestTemp" type="List" default=""/>
     <aura:attribute name="isSaveList" type="Boolean"/>
@@ -27,8 +31,8 @@
     <aura:attribute name="removed" type="Boolean" default="false"/>
     
     <aura:attribute name="footerButtons" type="Aura.Component[]" description="custom buttons array, inset of standard button set"/>
-
- 
+     <aura:handler name="SearchReferralNetworkResult" event="c:SearchReferralNetworkResult" action="{!c.setReferralSearchResult}"/>
+    
     <!--    <aura:attribute name="displayFooter" type="Boolean" default=""/>-->
     <aura:attribute name="bypass" type="Boolean" default=""/>
 
@@ -36,6 +40,7 @@
     <!--<aura:handler name="change" value="{!v.displayedItems}" action="{!c.doInit}"/>-->
    <!--<aura:handler name="change" value="{!v.showmenu}" action="{!c.doInit}"/>-->
     <div style="width:600px;padding-left:24px;">
+          <aura:if isTrue="{!equals(v.userMode, 'Participant')}">
     <div class="as-title">{!$Label.c.PP_Condition_of_Interest_title}</div>
 		
         <div class="section-description">  {!$Label.c.PP_Customize_Exp_Description}</div>
@@ -98,6 +103,33 @@
     <div class="slds-col slds-size_1-of-1 as-buttons-footer">
     <lightning:button variant="brand" label="{!$Label.c.PP_Save_Changes}" title="" onclick="{! c.doSave }" class="slds-button slds-button_brand apollo-btn primary mar"/> 
     </div> 
-       
+        </aura:if>
+         <aura:if isTrue="{!notequals(v.userMode, 'Participant')}">
+                <!-- Referral Network settings -->
+                 <div class="as-title"><b>{!$Label.c.AccountSettings_Referral_Networks}</b></div>
+            
+               <div class="section-description">
+                            {!$Label.c.AccountSettings_Referral_Networks_Description}
+                        </div>
+             <br/>
+             <br/>
+             <div class="slds-m-top_xx-large slds-m-top_xx-large">
+                 
+                 <div class="as-sub-title slds-m-top--medium">
+                     {!$Label.c.AccountSettings_Referral_Networks_Site_Based}
+                 </div>
+                 <c:SearchReferralNetwork sObjectType="Referral_Network__c" />
+                 <div class="as-sub-title">
+                     {!$Label.c.AccountSettings_Referral_Networks_Topic_Based}
+                 </div>
+                 <c:SearchReferralNetwork sObjectType="Therapeutic_Area__c" />
+                 
+                 <br/>
+             </div>
+           <div class="slds-col slds-size_1-of-1 as-buttons-footer">
+                <lightning:button variant="brand" label="{!$Label.c.PP_Save_Changes}" title="" onclick="{! c.savechanges }" class="slds-button slds-button_brand apollo-btn primary"/> 
+            </div> 
+             
+    </aura:if>
     </div>
 </aura:component>
