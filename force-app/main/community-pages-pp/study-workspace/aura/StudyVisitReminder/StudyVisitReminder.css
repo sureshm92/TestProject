@@ -1,4 +1,4 @@
-.THIS.te-task-panel{
+.THIS .te-task-panel{
     min-height: 400px;
     max-width: 1140px;   
     margin: 25px auto 30px;
@@ -9,7 +9,7 @@
     font-family: "Proxima Nova";
 }
 
-.THIS.rr-body-content {
+.THIS .rr-body-content {
     display: none;
 }
 
@@ -25,20 +25,26 @@
 .THIS .te-col-header {
     margin-bottom: 10px;
     font-size: 18px;
-	font-family: "Proxima Nova";
+    font-family: "Proxima Nova";
 }
 
 .THIS .te-col-header-info {
     margin-bottom: 10px;
     font-weight: bold;
-	font-family: "Proxima Nova";
-	 }
+    font-family: "Proxima Nova";
+}
 
 .THIS .slds-form-element__label{
     padding-bottom: 5px;
     font-size: 14px;
     color: #444;
-	font-family: "Proxima Nova";
+    font-family: "Proxima Nova";
+}
+
+.THIS .slds-select, .THIS .slds-input{
+    font-size: 14px;
+    color: #444;
+    font-family: "Proxima Nova";
 }
 
 .THIS .slds-checkbox{
@@ -47,5 +53,11 @@
 
 .THIS .te-col-changeNotif {
     font-size: 14px;
-	font-family: "Proxima Nova";
+    font-family: "Proxima Nova";
+}
+.THIS .p-content{
+    overflow-y: hidden;
+}
+.THIS .p-content.with-scroll{
+    overflow-y: auto;
 }
