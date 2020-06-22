@@ -6827,6 +6827,13 @@ Please log in to ##CommunityName to view this information.</value>
         <value>Check back periodically for helpful links</value>
     </labels>
     <labels>
+        <fullName>No_active_studies</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No active studies</shortDescription>
+        <value>No active studies</value>
+    </labels>
+    <labels>
         <fullName>No_permission_Visits_tab</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -14451,6 +14458,13 @@ communications using the toggles below.</value>
         <value>Source ID</value>
     </labels>
     <labels>
+        <fullName>Space_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Space Delegate</shortDescription>
+        <value>Delegate</value>
+    </labels>
+    <labels>
         <fullName>Start_Date</fullName>
         <categories>Media Outreach</categories>
         <language>en_US</language>
@@ -15925,6 +15939,34 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>View Visit Legend</shortDescription>
         <value>View Visit Legend</value>
+    </labels>
+    <labels>
+        <fullName>Viewing_as_Investigative_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Viewing as Investigative Site</shortDescription>
+        <value>Viewing as Investigative Site</value>
+    </labels>
+    <labels>
+        <fullName>Viewing_as_Participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Viewing as Participant</shortDescription>
+        <value>Viewing as Participant</value>
+    </labels>
+    <labels>
+        <fullName>Viewing_as_Referring_Provider</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Viewing as Referring Provider</shortDescription>
+        <value>Viewing as Referring Provider</value>
+    </labels>
+    <labels>
+        <fullName>Viewing_as_Self</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Viewing as Self</shortDescription>
+        <value>Viewing as Self</value>
     </labels>
     <labels>
         <fullName>Visit_Icons</fullName>
