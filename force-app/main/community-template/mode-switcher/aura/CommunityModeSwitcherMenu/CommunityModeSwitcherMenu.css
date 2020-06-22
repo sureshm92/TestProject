@@ -125,7 +125,6 @@
     /*    width: 100%;*/
     /*    height: 40px;*/
     /*}*/
-
     .THIS .header-menu-link {
         padding: 0 1rem;
     }
@@ -144,5 +143,10 @@
     height: unset !important;
     background-color: unset !important;
     color: unset;
-    padding-left: unset!important;
+    padding-left: unset !important;
+    padding-right: unset !important;
+}
+
+.THIS .uiMenuList--default ul {
+    max-height: 550px;
 }
