@@ -254,14 +254,14 @@ if(component.get('v.personWrapper.mobilePhone')==''){
                 component.set('v.participantHasUpdateTasks', false);
                 helper.setPersonSnapshot(component);
                 component.find('spinner').hide();
-                 $A.get('e.force:refreshView').fire();
+                 communityService.navigateToPage('account-settings'); 
                 communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'),100);
     
             });
         let initData = component.get('v.initData');
         let isUserDelegate = component.get('v.isDelegate');
+         let newEmail = initData.myContact.Email;
         if(!isUserDelegate){
-            let newEmail = initData.myContact.Email;
             if (!newEmail) {
            communityService.showToast('error', 'error', $A.get('$Label.c.TST_Email_can_t_be_empty'));
            return;

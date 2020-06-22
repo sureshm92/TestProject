@@ -13788,6 +13788,13 @@ communications using the toggles below.</value>
         <shortDescription>Respiratory Rate Description</shortDescription>
         <value>Respiratory rate is a measurement of how many breaths you take per minute.</value>
     </labels>
+	  <labels>
+        <fullName>RH_Notification</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH Notification</shortDescription>
+        <value>Notification preferences</value>
+    </labels>
     <labels>
         <fullName>SDC_List_View</fullName>
         <language>en_US</language>

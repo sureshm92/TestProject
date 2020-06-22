@@ -131,17 +131,13 @@ public without sharing class AccountSettingsController {
         }
     }
     
-    @AuraEnabled
+   @AuraEnabled
     public static void changeEmail(String newEmail) {
         try {
-             Contact currentContact ;
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
+            initData.myContact = getCurrentContact();
             if(initData.myContact.userCommunityDelegateId__c != null){
                 initData.myContact = ContactService.getContact(initData.myContact.userCommunityDelegateId__c);
-            }else{
-                initData.myContact = getCurrentContact();
-
-                
             }
             initData.myContact.Email = newEmail;
             update initData.myContact;
@@ -164,21 +160,11 @@ public without sharing class AccountSettingsController {
     public static void changeOptInEmail(Boolean participantOptInStatusEmail, Boolean hcpOptInPatientEmail, Boolean hcpOptInStudyEmail, Boolean hcpOptInRefStatusEmail) {
         try {
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
+                        initData.myContact = getCurrentContact();
             if(initData.myContact.userCommunityDelegateId__c != null){
-                system.debug('inside delegate Id-->');
                 initData.myContact = ContactService.getContact(initData.myContact.userCommunityDelegateId__c);
-            }else{
-                                system.debug('inside normal user-->');
-
-                initData.myContact = getCurrentContact();
-            }
-
-           /* currentContact.Participant_Opt_In_Status_Emails__c = participantOptInStatusEmail;
-            currentContact.HCP_Opt_In_Patient_Status_Emails__c = hcpOptInPatientEmail;
-            currentContact.HCP_Opt_In_Study_Emails__c = hcpOptInStudyEmail;
-            currentContact.HCP_Opt_In_Referral_Status_Emails__c = hcpOptInRefStatusEmail;
-            update currentContact;*/
-             initData.myContact.Participant_Opt_In_Status_Emails__c = participantOptInStatusEmail;
+            }             
+            initData.myContact.Participant_Opt_In_Status_Emails__c = participantOptInStatusEmail;
             initData.myContact.HCP_Opt_In_Patient_Status_Emails__c = hcpOptInPatientEmail;
             initData.myContact.HCP_Opt_In_Study_Emails__c = hcpOptInStudyEmail;
             initData.myContact.HCP_Opt_In_Referral_Status_Emails__c = hcpOptInRefStatusEmail;
@@ -192,13 +178,10 @@ public without sharing class AccountSettingsController {
     public static void changeOptInSMS(Boolean participantOptInStatusSMS) {
         try {
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
+            initData.myContact = getCurrentContact();
             if(initData.myContact.userCommunityDelegateId__c != null){
                 initData.myContact = ContactService.getContact(initData.myContact.userCommunityDelegateId__c);
-            }else{
-                initData.myContact = getCurrentContact();
             }
-
-
             initData.myContact.Participant_Opt_In_Status_SMS__c = participantOptInStatusSMS;
             
             update initData.myContact;
