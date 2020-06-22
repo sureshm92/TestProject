@@ -41,10 +41,12 @@ public without sharing class CommunityModes {
         public String subTitle;
         public Boolean isDelegate;
         public Boolean isSelected;
+        public Boolean hasBeenActive;
         public List<PPCommunityModeItem> subItems;
 
-        public PPCommunityModeItem(Boolean isDelegate){
+        public PPCommunityModeItem(Boolean isDelegate, Boolean hasBeenActive){
             this.isDelegate = isDelegate;
+            this.hasBeenActive = hasBeenActive;
             this.subItems = new List<PPCommunityModeItem>();
         }
 

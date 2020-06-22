@@ -9,6 +9,7 @@
     <aura:attribute name="communityModes" type="Object"/>
     <aura:attribute name="currentMode" type="Object"/>
     <aura:attribute name="reset" type="Boolean" default="false"/>
+    <aura:attribute name="hasProfilePic" type="Boolean"/>
 
     <!-- events: -->
     <aura:registerEvent access="global" name="onModeChange" type="c:uiEvent"/>
@@ -19,9 +20,9 @@
     <aura:if isTrue="{!not(v.reset)}">
         <c:uiHeaderMenu aura:id="menu" class="menu-block">
             <aura:set attribute="title">
-                <c:SmallIconButton user="{!v.user}" isDelegate="{!v.currentMode.isDelegate}"/>
+                <c:SmallIconButton user="{!v.user}" isDelegate="{!v.currentMode.isDelegate}" hasProfilePic="{!v.hasProfilePic}"/>
             </aura:set>
-            <c:HeaderViewInformation user="{!v.user}" currentMode="{!v.currentMode}" aura:id="header"/>
+            <c:HeaderViewInformation user="{!v.user}" currentMode="{!v.currentMode}" hasProfilePic="{!v.hasProfilePic}"/>
             <aura:if isTrue="{!equals(v.communityModes.type, 'PP_Only')}">
                 <c:PPMenuItems onclick="{!c.doSelectItem}" allModes="{!v.communityModes.ppModeItems}"/>
             </aura:if>
