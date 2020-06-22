@@ -15,7 +15,6 @@
         helper.init(component);
         component.find('navigation').refresh();
         component.find('navigationMobile').refresh();
-        component.find('profileMenu').refresh();
         component.find('alerts').refresh();
     },
 

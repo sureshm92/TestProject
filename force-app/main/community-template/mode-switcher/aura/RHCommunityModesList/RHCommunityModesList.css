@@ -10,8 +10,8 @@
     cursor: pointer;
 }
 
-.THIS.mode-group.selected{
-    color: #0768FD;
+.THIS .selected{
+    color: #0768FD!important;
 }
 
 .THIS .mode-sub-item{
@@ -24,11 +24,6 @@
     line-height: 48px;
     border-bottom: 1px solid #F8F9FB;
     padding-left: 32px;
-}
-
-.THIS.mode-sub-item.selected{
-    color: #0768FD;
-    font-weight: 600;
 }
 
 .THIS .mode-icon{
