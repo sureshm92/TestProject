@@ -18,6 +18,23 @@
             "HCP__c": "@hcpe1",
             "Participant__c": "@participant1",
             "Visit_Plan__c": "@vsp"
+        },
+        {
+            "attributes": {
+                "type": "Participant_Enrollment__c",
+                "referenceId": "pe2"
+            },
+            "Medical_Record_Review_Status__c": "Pass",
+            "Medical_Record_Review_Completed_by__c": "@contact3",
+            "Referral_Completed_by__c": "@contact3",
+            "Pre_screening_Status__c": "Pass",
+            "Participant_Name__c": "Anabella",
+            "Participant_Surname__c": "Galloway",
+            "Patient_ID__c": "12345679",
+            "Participant_Status__c": "Received",
+            "Referral_Source__c": "PI",
+            "Study_Site__c": "@ss9",
+            "Participant__c": "@participant2"
         }
     ]
 }

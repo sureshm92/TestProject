@@ -28,6 +28,7 @@
         <c:RRSpinner aura:id="spinner"/>
         <aura:if isTrue="{!v.initData.viewMode != 'Disabled'}">
             <lightning:navigation aura:id="navLink"/>
+            <aura:if isTrue="{!v.initData}">
             <c:uiFixedTable class="slds-table slds-table_bordered" scrollLeft="{!v.scrollLeft}">
                 <aura:set attribute="tableHeader">
                     <tr class="slds-line-height_reset">
@@ -41,14 +42,13 @@
                         <c:uiCol isHeader="true" scrollLeft="{!v.scrollLeft}" width="{!v.levelWidth}">
                             {!$Label.c.PG_SST_L_Access_Level}
                         </c:uiCol>
-                        <aura:if isTrue="{!v.initData.inInvitationSentState}">
+                        <aura:if isTrue="{!v.initData.inInvitationActiveStatus}">
                             <c:uiCol isHeader="true" scrollLeft="{!v.scrollLeft}" width="{!v.inviteWidth}">
                                 {!$Label.c.PG_SST_L_Invited}
                             </c:uiCol>
                         </aura:if>
                     </tr>
                 </aura:set>
-                <aura:if isTrue="{!v.initData}">
                     <aura:iteration items="{!v.initData.siteStaffMembers}" var="staffMember">
                         <tr class="slds-line-height_reset">
                             <c:uiCol scrollLeft="{!v.scrollLeft}" width="{!v.nameWidth}">
@@ -62,13 +62,13 @@
                             <c:uiCol scrollLeft="{!v.scrollLeft}" width="{!v.levelWidth}">
                                 {!staffMember.accessLevel}
                             </c:uiCol>
-                            <aura:if isTrue="{!v.initData.inInvitationSentState}">
+                            <aura:if isTrue="{!v.initData.inInvitationActiveStatus}">
                                 <c:uiCol class="invite-col" scrollLeft="{!v.scrollLeft}" width="{!v.inviteWidth}">
                                     <aura:if isTrue="{!staffMember.hasUser || staffMember.hasPendingActions}">
                                         <aura:set attribute="else">
                                             <button class="slds-button slds-button_brand"
                                                     onclick="{!c.doInviteStaffMember}"
-                                                    data-contact-id="{!staffMember.staffContact.Id}">
+                                                    data-contact-id="{!staffMember.staffContact.Id}" data-gtm="BTN_invite_staff">
                                                 {!$Label.c.PG_SST_L_Invite}
                                             </button>
                                         </aura:set>
@@ -78,10 +78,8 @@
                             </aura:if>
                         </tr>
                     </aura:iteration>
-                </aura:if>
-
-
             </c:uiFixedTable>
+            </aura:if>
             <aura:set attribute="else">
                 <c:EmptyListStub message="{!$Label.c.No_permission_Visits_tab}"/>
             </aura:set>

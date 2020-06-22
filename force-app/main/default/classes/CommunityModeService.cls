@@ -7,6 +7,9 @@ public without sharing class CommunityModeService {
     public static final String USER_MODE_HCP = 'HCP';
     public static final String USER_MODE_PI = 'PI';
     public static final String USER_MODE_PARTICIPANT = 'Participant';
+	public static final String USER_MODE_CC = 'CC';
+    
+    
 
     public static final Map<String, String> labelByMode = new Map<String, String>{
             USER_MODE_HCP => Label.CTL_L_HCP_MODE,
@@ -78,10 +81,18 @@ public without sharing class CommunityModeService {
                 userParticipant, delegatedParticipantIds,
                 DatabaseService.fieldNotInValues('Participant_Status__c', PEStatusState.PE_STATUS_GROUP_ALUMNI)
         );
+        Map<Id, List<Participant_Enrollment__c>> pePastMap = getPEMap(
+                userParticipant,
+                delegatedParticipantIds,
+                DatabaseService.fieldInValues('Participant_Status__c', PEStatusState.PE_STATUS_GROUP_ALUMNI)
+        );
 
         if (!userParticipants.isEmpty()) {
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(userParticipant.Id);
-            CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(false);
+            List<Participant_Enrollment__c> pePastList = pePastMap.get(userParticipant.Id);
+            CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(
+                    false, peList != null || pePastList != null
+            );
 
             if (peList != null) {
                 for (Participant_Enrollment__c pe : peList) {
@@ -104,7 +115,10 @@ public without sharing class CommunityModeService {
         for (Id participantId : delegatedParticipantIds) {
             Participant__c participant = participantsMap.get(participantId);
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(participantId);
-            CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(true);
+            List<Participant_Enrollment__c> pePastList = pePastMap.get(participantId);
+            CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(
+                    false, peList != null || pePastList != null
+            );
 
             if (peList != null) {
                 for (Participant_Enrollment__c pe : peList) {
@@ -204,6 +218,11 @@ public without sharing class CommunityModeService {
         if (availableModes != null && availableModes.contains(USER_MODE_HCP)) {
             modes.add(new CommunityMode(USER_MODE_HCP, Label.CTL_L_HCP_MODE, null));
         }
+		//For CC
+        if (availableModes != null && availableModes.contains(USER_MODE_CC)) {
+            modes.add(new CommunityMode(USER_MODE_CC, Label.CTL_L_CC_MODE, null));
+        }
+        //
         //TODO contactId param into DelegateService.getHCPDelegates()
         for (RP_Delegate_Relationship__c delegate : DelegateService.getHCPDelegates()) {
             String rpFullName = (delegate.Referring_Provider__r.Salutation != null?delegate.Referring_Provider__r.Salutation + ' ':'') +

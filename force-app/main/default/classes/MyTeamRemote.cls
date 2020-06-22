@@ -56,6 +56,7 @@ public without sharing class MyTeamRemote {
                         SELECT Id, FirstName, LastName, Name, Email
                         FROM Contact
                         WHERE Email = :contactEmail
+                        AND userCommunityMode__c != 'CC'
                 ];
             }
 
