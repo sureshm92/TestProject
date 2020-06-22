@@ -266,8 +266,7 @@ public without sharing class ContactService {
                         Phone_Type__c,
                         HCP_Opt_In_Patient_Status_Emails__c,
                         HCP_Opt_In_Referral_Status_Emails__c,
-                        HCP_Opt_In_Study_Emails__c,
-                        Participant_Opt_In_Status_SMS__c
+                        HCP_Opt_In_Study_Emails__c
                 FROM Contact
                 WHERE Id = :contactId
         ];
