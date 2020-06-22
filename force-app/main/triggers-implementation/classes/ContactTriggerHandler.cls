@@ -154,15 +154,17 @@ public without sharing class ContactTriggerHandler {
         List<Id> DeactivateCCContact = new List<Id>();
 
         for (Contact cont : newList) {
-            if (cont.Email != null && cont.CC_Staff_Status__c) {
-                filteredCCContactsByIds.put(cont.Id, cont);
-            }
-            if (!cont.CC_Staff_Status__c && cont.userCommunityMode__c == 'CC') {
-                DeactivateCCContact.add(cont.Id);
+            if(cont.userCommunityMode__c == 'CC'){
+                if (cont.Email != null && cont.CC_Staff_Status__c) {
+                    filteredCCContactsByIds.put(cont.Id, cont);
+                }
+                if (!cont.CC_Staff_Status__c ) {
+                    DeactivateCCContact.add(cont.Id);
+                }
             }
         }
-        if (!DeactivateCCContact.isEmpty()) CommunityService.deactivateUsers(DeactivateCCContact);
-
+        if(!DeactivateCCContact.isEmpty()) CommunityService.deactivateUsers(DeactivateCCContact);
+        
         //get users if exist
         Map<Id, User> communityUsers = new Map<Id, User>();
         for (User usr : CommunityService.getCommunityUsersByContactIds(filteredCCContactsByIds.keySet())) {
