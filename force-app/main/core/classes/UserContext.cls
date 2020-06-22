@@ -92,6 +92,13 @@ public without sharing class UserContext {
         return getUserContact().userCommunityMode__c == CommunityModeService.USER_MODE_PI;
     }
     
+    
+    //Added by Akanksha
+    public static Boolean isCC(){
+        return getUserContact().userCommunityMode__c == CommunityModeService.USER_MODE_CC;
+    }
+    //
+    
     public static String getTemplateProperty(String propertyName){
         return getCurrentUserMode().template.properties.get(propertyName);
     }
