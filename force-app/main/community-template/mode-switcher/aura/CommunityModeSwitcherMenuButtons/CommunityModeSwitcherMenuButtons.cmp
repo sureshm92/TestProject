@@ -7,6 +7,7 @@
     <!-- attributes: -->
     <aura:attribute name="type" type="String"/>
     <aura:attribute name="buttonItems" type="List"/>
+    <aura:attribute name="reset" type="Boolean" />
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doRefresh}"/>
@@ -22,7 +23,7 @@
         </aura:if>
         <aura:iteration items="{!v.buttonItems}" var="buttonItem">
             <c:uiMenuItem onclick="{!c.doNavigateToItem}" itemValue="{!buttonItem.page}">
-                <div class="mode-switcher-menu-button">
+                <div class="mode-switcher-menu-button" data-gtm="{!buttonItem.staticId}">
                     <c:RRIcon class="{!'button-icon icon-'+ buttonItem.icon}" iconName="{!buttonItem.icon}"/>
                     <div class="button-label">
                         {!buttonItem.label}
