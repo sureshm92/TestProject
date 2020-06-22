@@ -15,6 +15,7 @@ public inherited sharing class VisitResultsService {
     }
 
     public List<VisitResultWrapper> getVisitResultWrappersForDashboard() {
+        //Added code as a part of PEH-2239
         Id currentCTP = ParticipantContext.getCurrentPE().Clinical_Trial_Profile__c;
         Clinical_Trial_Profile__c ctpObject=[Select Id,Participant_Visit_Result_Group__c from Clinical_Trial_Profile__c where Id = :currentCTP];
         String currentCTPVisitResultGroup = ctpObject.Participant_Visit_Result_Group__c;
