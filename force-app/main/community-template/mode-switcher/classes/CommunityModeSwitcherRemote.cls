@@ -6,6 +6,7 @@ public without sharing class CommunityModeSwitcherRemote {
 
     public class CommunityModesWrapper {
         public User user;
+        public Boolean hasProfilePic;
         public CommunityMode currentMode;
         public CommunityModes communityModes;
     }
@@ -22,6 +23,7 @@ public without sharing class CommunityModeSwitcherRemote {
         ];
         ContactService.applyRelevantNames(currentUser);
         result.user = currentUser[0];
+        result.hasProfilePic = !currentUser[0].SmallPhotoUrl.contains('profilephoto/005/T');
 
         Contact userContact = UserContext.getUserContact();
 
@@ -54,9 +56,8 @@ public without sharing class CommunityModeSwitcherRemote {
     public static String changeMode(String mode, Id delegateId, Id peId, String communityModes) {
         CommunityModesWrapper result = new CommunityModesWrapper();
         Contact resContact = CommunityFacadeRemote.changeMode(mode, delegateId, peId);
-        update resContact;
-
-        result.currentMode = UserContext.getCurrentUserMode();
+        List<CommunityMode> allModes = CommunityModeService.getUserCommunityModes(resContact.Id);
+        result.currentMode = CommunityModeService.findMode(CommunityModeService.generateModeKey(resContact), allModes);
         result.communityModes = (CommunityModes) JSON.deserialize(communityModes, CommunityModes.class);
         CommunityModeService.getCurrentItemMode(resContact, result.communityModes);
 
