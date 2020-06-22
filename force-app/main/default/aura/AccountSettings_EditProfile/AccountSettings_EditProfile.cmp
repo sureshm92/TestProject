@@ -62,7 +62,7 @@
                    <c:Action_RemoveDelegate aura:id="actionRemoveDelegate"/>
 
             <aura:if isTrue="{!v.isInitialized}">
-                <div class="rr-white-panel" style="padding: 30px">
+                <div class="rr-white-panel">
                     <div class="as-title">
                         {!$Label.c.PP_General_Info}
                     </div>
@@ -87,7 +87,7 @@
                 <!-- <aura:if isTrue="{!equals(v.userMode, 'Participant')}"> -->
                 <!-- Name Section -->
                 <div class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start">
-                    <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                    <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 smallName">
                         <aura:if isTrue="{!(v.isDelegate)}">
                            
                             <div class="label username_title">{!$Label.c.PP_Prefix}</div>
@@ -105,7 +105,7 @@
                                          </aura:if>
     
                     </div>
-                <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4 longName">
                     <aura:if isTrue="{!(v.isDelegate)}">
                         <lightning:input aura:id="pField" type="text" label="{!$Label.c.PG_AS_F_First_name}"
                         value="{!v.personWrapper.firstName}" required="true"
@@ -130,7 +130,7 @@
     
     
                 <div class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start">
-                 <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                 <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 smallName">
                         <aura:if isTrue="{!not(v.isDelegate)}">
     
                         <lightning:input aura:id="pField" type="text" label="{!$Label.c.PG_AS_F_Middle_name}"
@@ -144,7 +144,7 @@
                                             onblur="{!c.doCheckFieldsValidity}" disabled="true"/> 
                                         </aura:if>
                     </div>
-                     <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                     <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4 longName">
                     <aura:if isTrue="{!not(v.isDelegate)}">
     
                     <lightning:input aura:id="pField" type="text" label="{!$Label.c.PG_AS_F_Last_name}"
@@ -157,7 +157,7 @@
                                         onblur="{!c.doCheckFieldsValidity}" disabled="true"/>                                              
                                                                   </aura:if>
                 </div>
-                <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 smallName">
                     <aura:if isTrue="{!not(v.isDelegate)}">
     
                     <lightning:input aura:id="pField" type="text" label="Suffix"
@@ -175,7 +175,7 @@
     
                 <!-- Date of Birth and Sex Section -->
                 <div class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start">
-                    <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                    <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4 nickname">
                         <aura:if isTrue="{!not(v.isDelegate)}">
     
                         <lightning:input aura:id="pField" type="text" label="NickName"
@@ -189,7 +189,7 @@
                                                                       </aura:if>
         
                     </div>
-                    <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                    <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 smallName">
                         <aura:if isTrue="{!not(v.isDelegate)}">
     
                         <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Gender}</div>
@@ -202,7 +202,7 @@
                                         placeholder="{!$Label.c.PG_AC_Select}" disabled="true"/>                                                  
                                                                       </aura:if>
                     </div>
-                    <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                    <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
                         <aura:if isTrue="{!not(v.isDelegate)}">
     
                         <lightning:input aura:id="pField" type="date" label="{!$Label.c.PG_AS_F_Date_of_Birth}"
@@ -230,14 +230,13 @@
     
                    
                    
-                    <div style="height: 45px"></div>
+                    <div style="height: 30px"></div>
     
                     <aura:if isTrue="{!v.isDelegate}">
                         <c:DelegateInformation contact="{!v.delegateContact}" parentComponent="{!this}"/>
+                        <div style="height: 30px"></div>
                     </aura:if>
-                  
-                  
-                    <div style="height: 45px"></div>
+
                   <!--  <aura:if isTrue="{!v.userMode != 'PI'}">  -->
                         <div class="as-email-preference">
                            
