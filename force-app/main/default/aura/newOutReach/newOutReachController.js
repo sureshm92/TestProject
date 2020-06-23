@@ -10,8 +10,8 @@
         helper.clearInviteFields(component, event, helper);
         helper.studyContact(component, event, helper);
         helper.mediaType(component, event, helper);
-       // helper.modeInit(component, event, helper);
-        },
+       
+    },
     
     doExecute: function (component, event, helper) {
         
@@ -62,38 +62,33 @@
         }, function (returnValue) {
             component.set("v.studyData",returnValue);
             console.log('returnValue>>'+JSON.stringify(returnValue));
-          //  component.find('modalSpinner').hide();
+            //  component.find('modalSpinner').hide();
         });
     },
-   
+    
     studyType: function (component, event, helper) {
-       
-       var site = component.get('v.site');
-         console.log('STUDYType>>'+JSON.stringify(site));
-         communityService.executeAction(component, 'getstudyType', {
+        
+        var site = component.get('v.site');
+        //console.log('STUDYType>>'+JSON.stringify(site));
+        communityService.executeAction(component, 'getstudyType', {
             site:site
-         }, function (returnValue) {
-             var studyData = JSON.parse(returnValue);
-             console.log('studyData>>'+JSON.stringify(studyData));
-            
-             component.set("v.studyEmail",studyData.preEmail);
-             //component.set("v.studyPhone",studyData.prePhone);
-              if((studyData.prePhone == null || studyData.prePhone == undefined)){
-                 console.log('STUDstudyData.prePhoneYType>>'+JSON.stringify(studyData.prePhone));
-             //component.set("v.studyPhone",studyData.prePhone);
-             component.set('v.isCheckPhoneNumber', true);
-             component.set('v.isCheckPhonenull', false);
-             component.set('v.isthirdcheck', false);
-             }
-             if((studyData.prePhone != null || studyData.prePhone != undefined)){
+        }, function (returnValue) {
+            var studyData = JSON.parse(returnValue);
+            component.set("v.studyEmail",studyData.preEmail);
+            if((studyData.prePhone == null || studyData.prePhone == undefined)){
+                component.set('v.isCheckPhoneNumber', true);
+                component.set('v.isCheckPhonenull', false);
+                component.set('v.isthirdcheck', false);
+            }
+            if((studyData.prePhone != null || studyData.prePhone != undefined)){
                 component.set("v.studyPhone",studyData.prePhone);
-                 component.set('v.isCheckPhonenull', true);
-                 component.set('v.isCheckPhoneNumber', false);
-                 component.set('v.isthirdcheck', false);
-             }
-         });
-     },
-
+                component.set('v.isCheckPhonenull', true);
+                component.set('v.isCheckPhoneNumber', false);
+                component.set('v.isthirdcheck', false);
+            }
+        });
+    },
+    
     startdateController : function(component, event, helper){
         var startdt = component.get('v.startdt');
         var enddt = component.get('v.enddt');
@@ -122,7 +117,7 @@
         var emailErrorval = $A.get("$Label.c.TST_Invalid_email_address");
         if (!email.match(regExpEmailformat)) 
         {
-		    component.set("v.emailError", emailErrorval);
+            component.set("v.emailError", emailErrorval);
             component.set("v.emailS", '');
         }else{
             component.set("v.emailError", '');
@@ -199,7 +194,7 @@
             actualemailPhone = phone;
         }
         
-
+        
         if((stemailVal != '' || stemailVal != undefined) && (studyPhone != '' || studyPhone != undefined) && cntemail){
             prefferedtype = stemailVal;
         }

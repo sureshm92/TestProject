@@ -82,7 +82,10 @@ public without sharing class ParticipantEnrollmentService {
         if (userMode == CommunityService.USER_MODE_HCP && !(filter != null && filter.contains(' AND Id='))) {
             defaultFilter += '  AND (' + getUserModeFilter(userMode, delegateId) + getHealthcareProviderFilter() + ') ';
             defaultFilter += filter != null ? filter : '';
-        } else {
+        } else if(userMode == CommunityService.USER_MODE_CC){
+             defaultFilter +=''+filter;
+        }
+		else {
             defaultFilter += ' AND ' + getUserModeFilter(userMode, delegateId);
             if (filter != null) defaultFilter += ' ' + filter;
         }
@@ -546,14 +549,14 @@ public without sharing class ParticipantEnrollmentService {
 
     private static String getUserModeFilter(String userMode, String delegateId) {
         String delegatesFilter = '';
-        if (userMode == CommunityService.USER_MODE_PI) {
+        if (userMode == CommunityService.USER_MODE_PI || userMode == CommunityService.USER_MODE_CC) {
             List<Id> delegatedSSIds = DelegateService.getDelegatedStudySiteIds();
             if (delegatedSSIds.size() > 0) delegatesFilter = ' OR Study_Site__c IN (\'' + String.join(delegatedSSIds, '\',\'') + '\')' ;
             return '( ' +
                     '   Study_Site__r.Principal_Investigator__c = \'' + CommunityService.getUserContact().Id + '\' ' +
                     delegatesFilter +
                     ') ';
-        } else if (userMode == CommunityService.USER_MODE_HCP) {
+        } else if (userMode == CommunityService.USER_MODE_HCP || userMode == CommunityService.USER_MODE_CC) {
             String contactId = CommunityService.getUserContact().Id;
             if (delegateId != null && delegateId != '') {
                 contactId = delegateId;
@@ -640,49 +643,69 @@ public without sharing class ParticipantEnrollmentService {
     }
 
     public static PEFilterData getPEFilterData(Id trialId, String mode, Boolean restrictTrial, String delegateId) {
-        Id userContactId = CommunityService.getUserContact().Id;
-        Clinical_Trial_Profile__c trial;
-        PEFilterData peFilterData = new PEFilterData();
-        peFilterData.mode = mode;
-        Map<Id, Clinical_Trial_Profile__c> trialsMap = new Map<Id, Clinical_Trial_Profile__c>(TrialService.getAvailableTrials(mode, delegateId));
         //init trials
-        peFilterData.studies = new List<LabelValueItem>();
-        peFilterData.studies.add(new LabelValueItem(Label.PG_MRRL_L_All_studies, null));
-        peFilterData.trialIds = new List<Id>();
-        /*if(trialId != null){
-            peFilterData.trialIds.add(trialId);
-            trial = trialsMap.get(trialId);
-            if(trial != null){
-                peFilterData.studies.add(new LabelValueItem(trial.Study_Code_Name__c, trial.Id));
-            }
-        }else*/{
-            for (String id : trialsMap.keySet()) {
-                peFilterData.trialIds.add(id);
-                trial = trialsMap.get(id);
-                peFilterData.studies.add(new LabelValueItem(trial.Study_Code_Name__c, trial.Id));
-            }
-        }
+        Map<Id, Clinical_Trial_Profile__c> trialsMap = new Map<Id, Clinical_Trial_Profile__c>(TrialService.getAvailableTrials(mode, delegateId));
         //init study sites:
-        peFilterData.studySites = new List<LabelValueItem>();
-        peFilterData.studySites.add(new LabelValueItem(Label.PG_Report_L_All_study_sites, null));
+        List<Study_Site__c> studySites;
         if (mode == CommunityService.USER_MODE_HCP) {
-            List<Study_Site__c> studySites;
             if (restrictTrial && trialId != null) {
                 studySites = StudySiteService.getStudySitesForHCPByTrialId(trialId);
             } else {
-                studySites = StudySiteService.getStudySitesForHCP(peFilterData.trialIds, delegateId);
+                studySites = StudySiteService.getStudySitesForHCP(new List<Id>(trialsMap.keySet()), delegateId);
             }
-            for (Study_Site__c ss : studySites) peFilterData.studySites.add(new LabelValueItem(ss.Name, ss.Id));
         }
         if (mode == CommunityService.USER_MODE_PI) {
-            List<Study_Site__c> studySites;
             if (restrictTrial && trialId != null) {
                 studySites = StudySiteService.getStudySiteForPIByTrialId(trialId);
             } else {
                 studySites = StudySiteService.getStudySitesForPI();
             }
-            for (Study_Site__c ss : studySites) peFilterData.studySites.add(new LabelValueItem(ss.Name, ss.Id));
         }
+        return createPEFilterDataForTrials(trialsMap, studySites, mode);
+    }
+
+    public static PEFilterData getPEFilterDataWithExistingPERecords(String activePE, Id trialId, String mode, Boolean restrictTrial, String delegateId, String additionalFilters) {
+        //init trials
+        Map<Id, Clinical_Trial_Profile__c> trialsMap = new Map<Id, Clinical_Trial_Profile__c>(TrialService.getAvailableTrialsWithPE(activePE, mode, delegateId, additionalFilters));
+        //init study sites:
+        List<Study_Site__c> studySites;
+        if (mode == CommunityService.USER_MODE_HCP) {
+            if (restrictTrial && trialId != null && trialsMap.containsKey(trialId)) {
+                studySites = StudySiteService.getStudySitesForHCPByTrialId(trialId);
+            } else {
+                studySites = StudySiteService.getStudySitesForHCP(new List<Id>(trialsMap.keySet()), delegateId);
+            }
+        }
+        if (mode == CommunityService.USER_MODE_PI) {
+            if (restrictTrial && trialId != null && trialsMap.containsKey(trialId)) {
+                studySites = StudySiteService.getStudySiteForPIByTrialId(trialId);
+            } else {
+                studySites = StudySiteService.getStudySitesForPI();
+            }
+        }
+        studySites = StudySiteService.filterStudySitesWithPE(studySites, activePE, mode, delegateId, additionalFilters);
+        return createPEFilterDataForTrials(trialsMap, studySites, mode);
+    }
+
+    private static PEFilterData createPEFilterDataForTrials( Map<Id, Clinical_Trial_Profile__c> trialsMap, List<Study_Site__c> studySites,String mode) {
+
+        PEFilterData peFilterData = new PEFilterData();
+        peFilterData.mode = mode;
+        //init trials
+        peFilterData.studies = new List<LabelValueItem>();
+        peFilterData.studies.add(new LabelValueItem(Label.PG_MRRL_L_All_studies, null));
+        peFilterData.trialIds = new List<Id>();
+        Clinical_Trial_Profile__c trial;
+        for (String id : trialsMap.keySet()) {
+            peFilterData.trialIds.add(id);
+            trial = trialsMap.get(id);
+            peFilterData.studies.add(new LabelValueItem(trial.Study_Code_Name__c, trial.Id));
+        }
+
+        //init study sites:
+        peFilterData.studySites = new List<LabelValueItem>();
+        peFilterData.studySites.add(new LabelValueItem(Label.PG_Report_L_All_study_sites, null));
+        for (Study_Site__c ss : studySites) peFilterData.studySites.add(new LabelValueItem(ss.Name, ss.Id));
 
         peFilterData.referringClinics = new List<LabelValueItem>();
         peFilterData.referringClinics.add(new LabelValueItem(Label.PG_Report_L_All_referring_clinics, null));
@@ -745,7 +768,7 @@ public without sharing class ParticipantEnrollmentService {
             for (Participant_Enrollment__c pe : peList) {
                 Boolean isFound = false;
                 for (String searchField : filter.searchFields) {
-                    String searchFieldValue = getSObjectFieldValue(pe, searchField) + '';
+                    String searchFieldValue = SObjectHelper.getSObjectFieldValue(pe, searchField) + '';
                     for (String searchWord : filter.searchText.split(' ')) {
                         if (searchFieldValue.containsIgnoreCase(searchWord)) {
                             isFound = true;
@@ -767,7 +790,7 @@ public without sharing class ParticipantEnrollmentService {
             for (Participant_Enrollment__c pe : peList) {
                 String key = '';
                 for (String field : fields) {
-                    if (!field.contains('Alphabetical')) key += ' ' + getSObjectFieldValue(pe, field.trim());
+                    if (!field.contains('Alphabetical')) key += ' ' + SObjectHelper.getSObjectFieldValue(pe, field.trim());
                 }
                 key += pe.Id;
                 orderList.add(key.toLowerCase());
@@ -808,14 +831,14 @@ public without sharing class ParticipantEnrollmentService {
         return peList;
     }
 
-    private static Object getSObjectFieldValue(SObject sObj, String fieldPath) {
-        List<String> pathItems = fieldPath.split('\\.');
-        SObject currentSObject = sObj;
-        for (Integer i = 0; i < pathItems.size() - 1; i++) {
-            currentSObject = currentSObject.getSObject(pathItems[i]);
-            if (currentSObject == null) return null;
+    public static List<Participant_Enrollment__c> getParticipantEnrollmentsActiveFilter(String activePE, String mode, String delegateId, String additionalFilter){
+        String filterStr = '';
+        if (mode == CommunityService.USER_MODE_PI && activePE == PEStatusState.PE_STATUSES_ACTIVE) {
+            filterStr = ' AND Participant_Status__c  IN (\'' + String.join(PEStatusState.PE_STATUS_GROUP_ACTIVE, '\',\'') + '\') ';
+        } else if(mode == CommunityService.USER_MODE_PI) {
+            filterStr = ' AND Participant_Status__c  IN (\'' + String.join(PEStatusState.PE_STATUS_GROUP_INACTIVE, '\',\'') + '\') ';
         }
-        return currentSObject.get(pathItems[pathItems.size() - 1]);
+        return getPEnrolmentsCommon(mode,filterStr + ' AND ' + additionalFilter ,delegateId);
     }
 
     public static List<Participant_Enrollment__c> getEnrollmentsByExternalKey(List<String> externalKeys) {

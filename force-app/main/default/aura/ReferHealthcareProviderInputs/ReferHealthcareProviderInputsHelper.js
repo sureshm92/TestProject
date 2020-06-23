@@ -69,6 +69,10 @@
         var parent = component.get('v.parent');
         parent.find('spinner').show();
         var pe = component.get('v.pe');
+        console.log('pe.Id>>>',pe.Id);
+        console.log('firstName>>>',firstName);
+        console.log('email>>>',email);
+        console.log('lastName>>>',lastName);
         communityService.executeAction(component, 'checkDuplicate', {
             peId: pe.Id,
             email: email,

@@ -15,6 +15,27 @@
     color:grey;
 }
 
+.THIS .slds-accordion__section {
+    background-color: #F6F7FB;
+}
+
+.THIS .slds-is-open .slds-truncate {
+    font-weight: 600 !important;
+}
+
+.THIS .slds-is-open {
+    background-color: white !important;
+}
+
+.THIS .slds-border_bottom {
+    height: 1px;
+    width: 1157px;
+    background-color: #F8F9FB;
+    margin-bottom: -1px;
+    opacity: 0.2;
+}
+
+
 .THIS .hide-arrow  button{
     cursor: not-allowed;
     pointer-events: none;
@@ -38,9 +59,6 @@
     text-decoration: none;
 }
 
-.THIS .slds-truncate {
-    font-weight: 600;
-}
 
 .THIS .resource-links {
     color: black !important;
