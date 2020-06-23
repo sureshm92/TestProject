@@ -39,7 +39,7 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <!--<aura:handler name="change" value="{!v.displayedItems}" action="{!c.doInit}"/>-->
    <!--<aura:handler name="change" value="{!v.showmenu}" action="{!c.doInit}"/>-->
-    <div style="width:600px;padding-left:24px;">
+    <div>
           <aura:if isTrue="{!equals(v.userMode, 'Participant')}">
     <div class="as-title">{!$Label.c.PP_Condition_of_Interest_title}</div>
 		
