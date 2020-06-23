@@ -11,7 +11,7 @@ public without sharing class CC_ParticipantSupportRemote {
             String searchKey = '%' + searchKeyWord + '%';
 
             List < Participant_Enrollment__c > returnList = new List < Participant_Enrollment__c > ();
-            List < Participant_Enrollment__c > lstOfParticipantEnrollment = [SELECT Participant__r.Full_Name__c, Days_After_Referred__c, Participant__c, Participant__r.Phone__c, Participant__r.Regex_Phone_Number__c, Participant__r.Phone_Type__c, Clinical_Trial_Profile__r.Study_Code_Name__c, PI_Contact__r.Name, Study_Site__r.Name,
+            List < Participant_Enrollment__c > lstOfParticipantEnrollment = [SELECT Participant__r.Full_Name__c, Days_After_Referred__c, Participant__c, Participant__r.Phone__c, Participant__r.Phone_Type__c, Clinical_Trial_Profile__r.Study_Code_Name__c, PI_Contact__r.Name, Study_Site__r.Name,
                 Participant_Contact__r.Name, Participant__r.First_Name__c,
                 Participant__r.Last_Name__c,
                 Participant__r.Middle_Name__c,
