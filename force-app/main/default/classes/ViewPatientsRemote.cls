@@ -22,12 +22,12 @@ public without sharing class ViewPatientsRemote {
     };
 
     @AuraEnabled
-    public static String getInitData(Id trialId, Id siteId, String mode, String userMode, String delegateId) {
+    public static String getInitData(Id trialId, Id siteId, String userMode, String delegateId) {
         try{
             InitData initData = new InitData();
-            String additionalFilter = getAdditionalFilter(mode, false, null);
+            String additionalFilter = getAdditionalFilter(userMode, false, null);
             initData.paginationData = new PaginationData();
-            initData.peFilterData = createPEFilterData(userMode == 'PI' ? 'Active' : null, trialId, siteId, mode, true, delegateId, additionalFilter);
+            initData.peFilterData = createPEFilterData(userMode == 'PI' ? 'Active' : null, trialId, siteId, userMode, true, delegateId, additionalFilter);
             initData.peFilter = new ParticipantEnrollmentService.PEFilter(initData.peFilterData);
             initData.peFilter.studySite = siteId;
             initData.peFilter.study = trialId;

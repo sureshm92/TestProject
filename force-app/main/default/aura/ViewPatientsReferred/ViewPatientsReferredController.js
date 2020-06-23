@@ -13,8 +13,7 @@
         communityService.executeAction(component, 'getInitData', {
             trialId: trialId,
             siteId: siteId,
-            mode: communityService.getUserMode(),
-            userMode: component.get('v.userMode'),
+            userMode: communityService.getUserMode(),
             delegateId: communityService.getDelegateId()
         }, function (returnValue) {
             var initData = JSON.parse(returnValue);
