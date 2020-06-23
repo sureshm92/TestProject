@@ -78,6 +78,14 @@ public without sharing class TrialService {
         }
         return new List<Clinical_Trial_Profile__c>(trials);
     }
+    public List<Clinical_Trial_Profile__c> getAvailableTrialsWithPEImpl(String activePE, String mode, String delegateId){
+        List<Clinical_Trial_Profile__c> trials= getAvailableTrials(mode,delegateId);
+        Set<Id> trialIds = new Set<Id>();
+        for (Participant_Enrollment__c pe : ParticipantEnrollmentService.getParticipantEnrollmentsActiveFilter(activePE, mode, delegateId)){
+            trialIds.add(pe.Clinical_Trial_Profile__c);
+        }
+        return (List<Clinical_Trial_Profile__c>)SObjectHelper.filterSObjectsByIds(trials, trialIds);
+    }
     
     public List<Clinical_Trial_Profile__c> getOwnTrialsImpl(String userMode){
         List<Clinical_Trial_Profile__c> ownTrials = new List<Clinical_Trial_Profile__c>();
@@ -127,6 +135,10 @@ public without sharing class TrialService {
 
     public static List<Clinical_Trial_Profile__c> getAvailableTrials(String userMode, String delegateId){
         return getInstance().getAvailableTrialsImpl(userMode, delegateId);
+    }
+
+    public static List<Clinical_Trial_Profile__c> getAvailableTrialsWithPE(String activePE, String userMode, String delegateId){
+        return getInstance().getAvailableTrialsWithPEImpl(activePE, userMode, delegateId);
     }
     
     public static List<Clinical_Trial_Profile__c> getOwnTrials(String userMode){
