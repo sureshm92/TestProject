@@ -78,10 +78,10 @@ public without sharing class TrialService {
         }
         return new List<Clinical_Trial_Profile__c>(trials);
     }
-    public List<Clinical_Trial_Profile__c> getAvailableTrialsWithPEImpl(String activePE, String mode, String delegateId){
+    public List<Clinical_Trial_Profile__c> getAvailableTrialsWithPEImpl(String activePE, String mode, String delegateId, String additionalFilter){
         List<Clinical_Trial_Profile__c> trials= getAvailableTrials(mode,delegateId);
         Set<Id> trialIds = new Set<Id>();
-        for (Participant_Enrollment__c pe : ParticipantEnrollmentService.getParticipantEnrollmentsActiveFilter(activePE, mode, delegateId)){
+        for (Participant_Enrollment__c pe : ParticipantEnrollmentService.getParticipantEnrollmentsActiveFilter(activePE, mode, delegateId, additionalFilter)){
             trialIds.add(pe.Clinical_Trial_Profile__c);
         }
         return (List<Clinical_Trial_Profile__c>)SObjectHelper.filterSObjectsByIds(trials, trialIds);
@@ -137,8 +137,8 @@ public without sharing class TrialService {
         return getInstance().getAvailableTrialsImpl(userMode, delegateId);
     }
 
-    public static List<Clinical_Trial_Profile__c> getAvailableTrialsWithPE(String activePE, String userMode, String delegateId){
-        return getInstance().getAvailableTrialsWithPEImpl(activePE, userMode, delegateId);
+    public static List<Clinical_Trial_Profile__c> getAvailableTrialsWithPE(String activePE, String userMode, String delegateId, String additionalFilter){
+        return getInstance().getAvailableTrialsWithPEImpl(activePE, userMode, delegateId, additionalFilter);
     }
     
     public static List<Clinical_Trial_Profile__c> getOwnTrials(String userMode){
