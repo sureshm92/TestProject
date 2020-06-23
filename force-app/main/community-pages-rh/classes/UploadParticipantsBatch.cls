@@ -298,6 +298,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                     Mailing_State__c = State,
                                     Mailing_Country__c = uploadUser.Contact.MailingCountry,
                                     Mailing_Zip_Postal_Code__c = PostalCode);
+                    participant.Adult__c = ReferringRemote.checkNeedsGuardian(JSON.serialize(participant)) == 'false';
 
                     //Duplicates check
                     Boolean isDuplicate = false;
