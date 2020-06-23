@@ -7,7 +7,7 @@
     opacity: unset;
 }
 
-.THIS .unset:first-child .main-box .menu-item-box .icon-settings-box .icon-delegate{
+.THIS .contain:first-child .unset .main-box .menu-item-box .icon-settings-box .icon-delegate-box .icon-delegate{
     visibility: visible;
     opacity: unset;
 }

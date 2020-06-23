@@ -27,7 +27,7 @@
                                 </div>
                                 <div class="icon-settings-box">
                                     <aura:if isTrue="{!and(not(item.isDelegate), item.hasBeenActive)}">
-                                        <div>
+                                        <div class="icon-delegate-box">
                                             <c:menuItemButton class="icon-delegate" iconName="delegate" navigateTo="my-team"
                                                               itemValue="{!subItem}" onclick="{!c.doOnClick}"/>
                                         </div>
