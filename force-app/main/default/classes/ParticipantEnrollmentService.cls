@@ -661,9 +661,9 @@ public without sharing class ParticipantEnrollmentService {
         return createPEFilterDataForTrials(trialsMap, studySites, mode);
     }
 
-    public static PEFilterData getPEFilterDataWithExistingPERecords(String activePE, Id trialId, String mode, Boolean restrictTrial, String delegateId) {
+    public static PEFilterData getPEFilterDataWithExistingPERecords(String activePE, Id trialId, String mode, Boolean restrictTrial, String delegateId, String additionalFilters) {
         //init trials
-        Map<Id, Clinical_Trial_Profile__c> trialsMap = new Map<Id, Clinical_Trial_Profile__c>(TrialService.getAvailableTrialsWithPE(activePE, mode, delegateId));
+        Map<Id, Clinical_Trial_Profile__c> trialsMap = new Map<Id, Clinical_Trial_Profile__c>(TrialService.getAvailableTrialsWithPE(activePE, mode, delegateId, additionalFilters));
         //init study sites:
         List<Study_Site__c> studySites;
         if (mode == CommunityService.USER_MODE_HCP) {
@@ -680,7 +680,7 @@ public without sharing class ParticipantEnrollmentService {
                 studySites = StudySiteService.getStudySitesForPI();
             }
         }
-        studySites = StudySiteService.filterStudySitesWithPE(studySites, activePE, mode, delegateId);
+        studySites = StudySiteService.filterStudySitesWithPE(studySites, activePE, mode, delegateId, additionalFilters);
         return createPEFilterDataForTrials(trialsMap, studySites, mode);
     }
 
@@ -828,14 +828,14 @@ public without sharing class ParticipantEnrollmentService {
         return peList;
     }
 
-    public static List<Participant_Enrollment__c> getParticipantEnrollmentsActiveFilter(String activePE, String mode, String delegateId){
+    public static List<Participant_Enrollment__c> getParticipantEnrollmentsActiveFilter(String activePE, String mode, String delegateId, String additionalFilter){
         String filterStr;
         if (mode == CommunityService.USER_MODE_PI && activePE == PEStatusState.PE_STATUSES_ACTIVE) {
             filterStr = ' AND Participant_Status__c  IN (\'' + String.join(PEStatusState.PE_STATUS_GROUP_ACTIVE, '\',\'') + '\') ';
         } else if(mode == CommunityService.USER_MODE_PI) {
             filterStr = ' AND Participant_Status__c  IN (\'' + String.join(PEStatusState.PE_STATUS_GROUP_INACTIVE, '\',\'') + '\') ';
         }
-        return getPEnrolmentsCommon(mode,filterStr ,delegateId);
+        return getPEnrolmentsCommon(mode,filterStr + ' AND ' + additionalFilter ,delegateId);
     }
 
     public static List<Participant_Enrollment__c> getEnrollmentsByExternalKey(List<String> externalKeys) {

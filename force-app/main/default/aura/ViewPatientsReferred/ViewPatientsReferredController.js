@@ -55,6 +55,9 @@
     doActiveChanged: function (component, event, helper) {
         helper.doUpdateRecords(component, event, helper, 'active');
     },
+    doEmancipatedChanged: function (component, event, helper) {
+        helper.doUpdateRecords(component, event, helper, 'emancipation');
+    },
 
     filterEmancipations: function(component, event, helper){
         console.log('aaaaa');
