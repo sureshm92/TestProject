@@ -23,7 +23,6 @@
     <aura:attribute name="peStatusStateMap" type="Map"/>
     <aura:attribute name="emptyListMessage" type="String" access="private" default="{!$Label.c.PG_VP_L_No_Items}"/>
     <aura:attribute name="changeStatusBtnList" type="List"/>
-    <aura:attribute name="piBtnFilter" type="String"/>
     <aura:attribute name="showStatistics" type="Boolean" default="false"/>
     <aura:attribute name="header" type="String" default="" access="public"/>
     <aura:attribute name="studyFilterEnabled" type="Boolean" default="false" access="public"/>
@@ -37,11 +36,17 @@
 
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
-    <aura:handler name="change" value="{!v.paginationData.pageRecordsCount}" action="{!c.doUpdateRecords}"/>
-    <aura:handler name="change" value="{!v.paginationData.currentPage}" action="{!c.doUpdateRecords}"/>
-    <aura:handler name="change" value="{!v.peFilter}" action="{!c.doUpdateRecords}"/>
-    <aura:handler name="change" value="{!v.piBtnFilter}" action="{!c.doUpdateRecords}"/>
-    <aura:handler name="change" value="{!v.showEmancipatedOnly}" action="{!c.doUpdateRecords}"/>
+    <aura:handler name="change" value="{!v.paginationData.pageRecordsCount}" action="{!c.doPaginationChanged}"/>
+    <aura:handler name="change" value="{!v.paginationData.currentPage}" action="{!c.doPaginationChanged}"/>
+    <aura:handler name="change" value="{!v.peFilter.studySite}" action="{!c.doSiteChanged}"/>
+    <aura:handler name="change" value="{!v.peFilter.study}" action="{!c.doStudyChanged}"/>
+    <aura:handler name="change" value="{!v.peFilter.activePE}" action="{!c.doActiveChanged}"/>
+    <aura:handler name="change" value="{!v.peFilter.searchText}" action="{!c.doFilterChanged}"/>
+    <aura:handler name="change" value="{!v.peFilter.referringStatus}" action="{!c.doFilterChanged}"/>
+    <aura:handler name="change" value="{!v.peFilter.dateRange}" action="{!c.doFilterChanged}"/>
+    <aura:handler name="change" value="{!v.peFilter.source}" action="{!c.doFilterChanged}"/>
+    <aura:handler name="change" value="{!v.peFilter.participantStatus}" action="{!c.doFilterChanged}"/>
+    <aura:handler name="change" value="{!v.showEmancipatedOnly}" action="{!c.doFilterChanged}"/>
 
     <!-- methods: -->
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
@@ -58,11 +63,6 @@
                     {!v.header}
                 </div>
             </aura:if>
-            <!-- statistic panel -->
-            <!-- <aura:if isTrue="{!v.showStatistics}">
-
-                 <c:MyPatientsStatistics statistics="{!v.statistics}" userMode="{!v.userMode}" currentBtnFilter="{!v.piBtnFilter}"/>
-             </aura:if>-->
 
             <!-- filter panel -->
             <c:FilterPanel searchText="{!v.peFilter.searchText}"
