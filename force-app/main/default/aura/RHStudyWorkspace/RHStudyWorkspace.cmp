@@ -38,8 +38,12 @@
                 <div class="navigation rr-width-limiter side-padding">
                     <aura:if isTrue="{!v.userMode != 'Participant'}">
                         <c:RRNavigationPath>
-                            <c:RRNPathItem label="{!$Label.c.Home_Page_Label}" page=""/>
-                            <c:RRNPathItem label="{!$Label.c.PG_SW_Title}"/>
+                            <aura:if isTrue="{!v.userMode == 'CC'}">
+                                <c:RRNPathItem label="{!$Label.c.CC_HomePageLabel}" page=""/>
+                                <aura:set attribute="else">
+                                    <c:RRNPathItem label="{!$Label.c.Home_Page_Label}" page=""/>
+                                </aura:set>
+                            </aura:if>
                         </c:RRNavigationPath>
                         <div class="title rr-width-limiter side-padding">{!v.studyDetail.trial.Study_Code_Name__c}</div>
                     </aura:if>
