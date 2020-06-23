@@ -61,9 +61,7 @@ public without sharing class ViewPatientsRemote {
             result.paginationData = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
             result.peFilter.additionalFilter = getAdditionalFilter(userMode, emancipatedPE, null);
             updateSearchResultAccordingItemChanged(result, changedItem);
-            if(changedItem != 'pagination'){
-                result.peFilterData = createPEFilterData(result.peFilter.activePE, result.peFilter.study,result.peFilter.studySite, userMode, true, delegateId, result.peFilter.additionalFilter);
-            }
+            result.peFilterData = createPEFilterData(result.peFilter.activePE, result.peFilter.study,result.peFilter.studySite, userMode, true, delegateId, result.peFilter.additionalFilter);
             List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollments(result.peFilter, delegateId);
             peList = ParticipantEnrollmentService.getParticipantEnrollmentsPaginated(peList, result.paginationData);
             result.peList = convertToPEWrapperList(peList, userMode, delegateId);
