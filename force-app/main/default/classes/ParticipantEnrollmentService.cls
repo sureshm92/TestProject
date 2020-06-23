@@ -82,7 +82,10 @@ public without sharing class ParticipantEnrollmentService {
         if (userMode == CommunityService.USER_MODE_HCP && !(filter != null && filter.contains(' AND Id='))) {
             defaultFilter += '  AND (' + getUserModeFilter(userMode, delegateId) + getHealthcareProviderFilter() + ') ';
             defaultFilter += filter != null ? filter : '';
-        } else {
+        } else if(userMode == CommunityService.USER_MODE_CC){
+             defaultFilter +=''+filter;
+        }
+		else {
             defaultFilter += ' AND ' + getUserModeFilter(userMode, delegateId);
             if (filter != null) defaultFilter += ' ' + filter;
         }
@@ -546,14 +549,14 @@ public without sharing class ParticipantEnrollmentService {
 
     private static String getUserModeFilter(String userMode, String delegateId) {
         String delegatesFilter = '';
-        if (userMode == CommunityService.USER_MODE_PI) {
+        if (userMode == CommunityService.USER_MODE_PI || || userMode == CommunityService.USER_MODE_CC) {
             List<Id> delegatedSSIds = DelegateService.getDelegatedStudySiteIds();
             if (delegatedSSIds.size() > 0) delegatesFilter = ' OR Study_Site__c IN (\'' + String.join(delegatedSSIds, '\',\'') + '\')' ;
             return '( ' +
                     '   Study_Site__r.Principal_Investigator__c = \'' + CommunityService.getUserContact().Id + '\' ' +
                     delegatesFilter +
                     ') ';
-        } else if (userMode == CommunityService.USER_MODE_HCP) {
+        } else if (userMode == CommunityService.USER_MODE_HCP || || userMode == CommunityService.USER_MODE_CC) {
             String contactId = CommunityService.getUserContact().Id;
             if (delegateId != null && delegateId != '') {
                 contactId = delegateId;

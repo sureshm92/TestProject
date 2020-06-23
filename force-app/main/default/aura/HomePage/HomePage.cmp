@@ -20,8 +20,11 @@
         <aura:if isTrue="{!v.userMode == 'Participant'}">
             <c:HomePageParticipant/>
         </aura:if>
-        <aura:if isTrue="{!v.userMode != 'Participant'}">
+        <aura:if isTrue="{!(v.userMode != 'Participant'&amp;&amp; v.userMode != 'CC')}">
             <c:StudyListView/>
+        </aura:if>
+        <aura:if isTrue="{!v.userMode == 'CC'}">
+            <c:CC_ParticipantSupport/>
         </aura:if>
     </aura:if>
 
