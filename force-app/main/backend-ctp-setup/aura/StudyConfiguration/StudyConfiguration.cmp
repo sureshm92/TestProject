@@ -2,7 +2,7 @@
  - Created by Nargiz Mamedova on 12/6/2019.
  -->
 
-<aura:component description="StudyConfiguration" implements="force:hasRecordId, flexipage:availableForAllPageTypes"
+<aura:component description="StudyConfiguration" implements="force:hasRecordId,flexipage:availableForAllPageTypes"
                 controller="StudyConfigurationRemote">
 
     <!-- attributes: -->
@@ -59,14 +59,31 @@
                             <div style="margin-left: 10px">Video and Articles</div>
                         </div>
                     </div>
-                    <div class="group-title">Others</div>
+                    <div class="group-title">Travel Support</div>
                     <div class="global-data">
                         <div class="global-element">
-                            <lightning:input type="toggle" label="Travel Support" name="travelVendorToggle"
-                                             onchange="{!c.saveCTP}" checked="{!v.ctp.Travel_Vendor_Is_Available__c}"
+                            <lightning:input aura:id="tvToggle" type="toggle" label="Post-enrollment" name="travelVendorToggle"
+                                             onchange="{!c.savePostEnrollment}" checked="{!v.ctp.Travel_Vendor_Is_Available__c}"
                                              variant="label-hidden"/>
-                            <div style="margin-left: 10px">Travel Support</div>
+                            <div style="margin-left: 10px">Post-enrollment</div>
                         </div>
+                        <div class="global-element">
+                            <lightning:input aura:id="cToggle" type="toggle" label="Consent through Enrolled/Randomized" name="consentToggle"
+                                             onchange="{!c.saveConsentThroughEnrolledOrRandomized}" checked="{!v.ctp.Enrolled_Or_Randomized_Consent_Available__c}"
+                                             disabled="{!!v.ctp.Travel_Vendor_Is_Available__c}"
+                                             variant="label-hidden"/>
+                            <div style="margin-left: 10px">Consent through Enrolled/Randomized</div>
+                        </div>
+                        <div class="global-element">
+                            <lightning:input aura:id="ruToggle" type="toggle" label="Received until Consent" name="ReceivedUntilConsent"
+                                             onchange="{!c.saveCTP}" checked="{!v.ctp.Received_Until_Consent_Is_Available__c}"
+                                             disabled="{!!v.ctp.Travel_Vendor_Is_Available__c}"
+                                             variant="label-hidden"/>
+                            <div style="margin-left: 10px">Received until Consent</div>
+                        </div>
+                    </div>                    
+                    <div class="group-title">Others</div>
+                    <div class="global-data">
                         <div class="global-element">
                             <lightning:input type="toggle" label="Tasks" name="tasksToggle"
                                              onchange="{!c.saveCTP}" checked="{!v.ctp.Tasks_Are_Available__c}"
