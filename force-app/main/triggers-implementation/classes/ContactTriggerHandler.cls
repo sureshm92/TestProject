@@ -4,58 +4,58 @@
 */
 
 public without sharing class ContactTriggerHandler {
-    
+
     // Handlers: -------------------------------------------------------------------------------------------------------
-    
+
     public class UpdateParticipantAndUserEmailsOnEmailChangeHandler extends TriggerHandler {
-        
+
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             updateParticipantAndUserEmailsOnEmailChange(newList, (Map<Id, Contact>) oldMap);
         }
     }
-    
+
     public class CreateUserForDelegateContactHandler extends TriggerHandler {
-        
+
         public override void afterInsert(List<SObject> newList) {
             createUserForDelegateContact(newList);
         }
-        
+
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             createUserForDelegateContact(newList);
         }
     }
-    
+
     public class SetShowTourDefaultHandler extends TriggerHandler {
-        
+
         public override void beforeInsert(List<SObject> newList) {
             setShowTourDefault(newList);
         }
     }
-    
+
     public class PopulateOverrideFields extends TriggerHandler {
-        
+
         public override void beforeInsert(List<SObject> newList) {
             populateOverrideFields(newList);
         }
-        
+
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             populateOverrideFields(newList);
         }
     }
-    
+
     public class CreateUserForCCContactHandler extends TriggerHandler {
-        
+
         public override void afterInsert(List<SObject> newList) {
             createUserForCCContact(newList);
         }
-        
+
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             createUserForCCContact(newList);
         }
     }
-    
+
     // Logic: ----------------------------------------------------------------------------------------------------------
-    
+
     @TestVisible
     private static void updateParticipantAndUserEmailsOnEmailChange(List<Contact> newList, Map<Id, Contact> oldMap) {
         Boolean needUpdate = false;
@@ -94,20 +94,20 @@ public without sharing class ContactTriggerHandler {
             update participantsForUpdate;
         }
     }
-    
+
     @TestVisible
     private static void createUserForDelegateContact(List<Contact> newList) {
         Map<Id, Contact> filteredContactsByIds = new Map<Id, Contact>();
-        
+
         for (Contact cont : newList) {
             if (cont.Email != null && cont.primaryContact__c != null) {
-                    filteredContactsByIds.put(cont.Id, cont);
-               
+                filteredContactsByIds.put(cont.Id, cont);
+
             }
         }
-        
+
         if (filteredContactsByIds.isEmpty()) return;
-        
+
         //get users if exist
         Map<Id, User> communityUsers = new Map<Id, User>();
         for (User usr : CommunityService.getCommunityUsersByContactIds(filteredContactsByIds.keySet())) {
@@ -122,19 +122,19 @@ public without sharing class ContactTriggerHandler {
             if (!communityUsers.containsKey(contactId)) toCreateUser.add(contactId);
         }
         if (!toCreateUser.isEmpty()) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(toCreateUser);
-        
+
     }
-    
+
     @TestVisible
     private static void setShowTourDefault(List<Contact> newList) {
         List<String> defaultModes = new List<String>{
-            CommunityService.USER_MODE_PI,
+                CommunityService.USER_MODE_PI,
                 CommunityService.USER_MODE_HCP,
                 CommunityService.USER_MODE_PARTICIPANT
-                };
-                    for (Contact contact : newList) contact.userCommunity_ShowTour__c = String.join(defaultModes, ';');
+        };
+        for (Contact contact : newList) contact.userCommunity_ShowTour__c = String.join(defaultModes, ';');
     }
-    
+
     private static void populateOverrideFields(List<Contact> newList) {
         for (Contact contact : newList) {
             if (contact.LastName != null && String.isBlank(contact.Override_Mailing_Address__c)) {
@@ -147,20 +147,22 @@ public without sharing class ContactTriggerHandler {
             contact.Next_Profile_Update_DT__c = Datetime.now().addYears(1);
         }
     }
-    
-	@TestVisible
+
+    @TestVisible
     private static void createUserForCCContact(List<Contact> newList) {
         Map<Id, Contact> filteredCCContactsByIds = new Map<Id, Contact>();
         List<Id> DeactivateCCContact = new List<Id>();
-        
+
         for (Contact cont : newList) {
-            if (cont.Email != null && cont.CC_Staff_Status__c) {
-                        filteredCCContactsByIds.put(cont.Id, cont);
+            if(cont.userCommunityMode__c == 'CC'){
+                if (cont.Email != null && cont.CC_Staff_Status__c) {
+                    filteredCCContactsByIds.put(cont.Id, cont);
                 }
-                if (!cont.CC_Staff_Status__c) {
+                if (!cont.CC_Staff_Status__c ) {
                     DeactivateCCContact.add(cont.Id);
                 }
             }
+        }
         if(!DeactivateCCContact.isEmpty()) CommunityService.deactivateUsers(DeactivateCCContact);
         
         //get users if exist
@@ -172,19 +174,17 @@ public without sharing class ContactTriggerHandler {
                 communityUsers.put(usr.ContactId, usr);
             }
         }
-        
+
         Set<Id> toActivateUser = new Set<Id>();
         Set<Id> toCreateUser = new Set<Id>();
         for (Id contactId : filteredCCContactsByIds.keySet()) {
-            if (!communityUsers.containsKey(contactId)) toCreateUser.add(contactId);
-            else toActivateUser.add(contactId);
+            if (!communityUsers.containsKey(contactId)) toCreateUser.add(contactId); else toActivateUser.add(contactId);
         }
         if (!toCreateUser.isEmpty()) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(toCreateUser);
-        
+
         if (!toActivateUser.isEmpty()) CommunityService.ActivateUsers(toActivateUser);
-        
+
     }
-    
-    
-    
+
+
 }

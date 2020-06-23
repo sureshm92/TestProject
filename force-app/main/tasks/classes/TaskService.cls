@@ -52,6 +52,8 @@ public without sharing class TaskService {
             'Reminder_Date__c',
             'Originator__c',
             'Patient_Visit__c',
+            'Remind_Using_Email__c',
+            'Remind_Using_SMS__c',
             'Is_Reminder_Sent__c',
             'Survey_Invitation__c',
             'Survey_Invitation__r.Is_Expired__c',

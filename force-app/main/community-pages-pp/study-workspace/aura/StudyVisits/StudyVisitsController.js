@@ -11,15 +11,15 @@
             {value: "Past", label: $A.get("$Label.c.Home_Page_StudyVisit_Filter_Past_Visits")}];
         component.set('v.options', opts);
         communityService.executeAction(component, 'isStudySiteHasVisits', {},
-            function (response) {
-                if (!response) {
-                    component.set('v.isHasVisits', response);
-                    component.set('v.initialized', true);
-                } else $A.enqueueAction(component.get('c.getVisits'));
-            });
+                                       function (response) {
+                                           if (!response) {
+                                               component.set('v.isHasVisits', response);
+                                               component.set('v.initialized', true);
+                                           } else $A.enqueueAction(component.get('c.getVisits'));
+                                       });
         component.find('spinner').hide();
     },
-
+    
     getVisits: function (component, event, helper) {
         component.find('spinner').show();
         communityService.executeAction(component, 'getParticipantVisits', {
@@ -35,22 +35,37 @@
         });
         component.find('spinner').hide();
     },
-
+    
     onTravel: function (component, event, helper) {
         component.find('showVendors').show();
     },
-
+    
     closeModal: function (component, event, helper) {
         component.find('showVendors').hide();
     },
-
+    
     createEditTask: function (component, event, helper) {
-        let taskId = event.currentTarget.dataset.taskId;
-        let visitId = event.currentTarget.dataset.visitId;
-        if (!taskId) {
-            communityService.navigateToPage('task-detail?visitId=' + visitId);
-        } else {
-            communityService.navigateToPage('task-detail?id=' + taskId + '&visitId=' + visitId);
+        debugger;
+        var currentVisits = component.get('v.currentVisits');
+        var indexVar = event.getSource().get('v.value');
+        var visitWrapper = currentVisits[indexVar];
+        var firstLoad = component.get('v.firstLoad');
+
+        if(!firstLoad){
+            helper.createStudyVisitReminder(component, visitWrapper);
+        } else{
+            var title = $A.util.isUndefinedOrNull(visitWrapper.task) ? $A.get('$Label.c.PP_Create_Visit_Reminder') : $A.get('$Label.c.PP_Edit_Visit_Reminder');
+            var isNewTask = $A.util.isUndefinedOrNull(visitWrapper.task) ? true : false;
+            var relaodAttributes = {
+                "visitId": visitWrapper.visit.Id,
+                "taskId": $A.util.isUndefinedOrNull(visitWrapper.task) ? null : visitWrapper.task.Id,
+                "title":  title,
+                "taskType": 'Visit',
+                "visitData": visitWrapper,
+                "isNewTask": isNewTask,
+                "isReminderOnly": true
+            };
+            component.find('studyVisitReminder').reloadPopup(relaodAttributes);
         }
     }
 });

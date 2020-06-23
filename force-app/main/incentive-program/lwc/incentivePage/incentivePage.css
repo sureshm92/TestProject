@@ -17,6 +17,10 @@
     margin-bottom: 20px;
 }
 
+.incentive-panel{
+    height: 100%;
+}
+
 @media all and (min-width: 768px) {
     .incentives-page-container {
         height: 70vh;

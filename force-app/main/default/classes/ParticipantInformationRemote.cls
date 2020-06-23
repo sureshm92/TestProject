@@ -144,11 +144,12 @@ public without sharing class ParticipantInformationRemote {
     }
 
     @AuraEnabled
-    public static DelegateConnectedInfo connectDelegateToPatient(String participantS, String delegateS, String studySiteId, Boolean isConnected) {
+    public static DelegateConnectedInfo connectDelegateToPatient(String participantS, String delegateS, String studySiteId, Boolean isConnected, String duplicateDelegateInfo) {
         DelegateConnectedInfo isConnectedRes = new DelegateConnectedInfo();
         isConnectedRes.isConnected = isConnected;
 
         try {
+            ReferHealthcareProviderRemote.HealthcareProvider ddi = (ReferHealthcareProviderRemote.HealthcareProvider) JSON.deserialize(duplicateDelegateInfo, ReferHealthcareProviderRemote.HealthcareProvider.class);
             Participant__c participant = (Participant__c) JSON.deserialize(participantS, Participant__c.class);
             Participant__c delegateParticipant = (Participant__c) JSON.deserialize(delegateS, Participant__c.class);
             isConnectedRes.contactId = delegateParticipant.Contact__c;
@@ -157,10 +158,10 @@ public without sharing class ParticipantInformationRemote {
             Contact delegateContact;
             Boolean userNotExists = false;
 
-            if (String.isBlank(delegateParticipant.Contact__c)) {
-                ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(new List<Participant__c>{
+            if (String.isBlank(delegateParticipant.Contact__c) && String.isBlank(ddi.contactId)) {
+                /*ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(new List<Participant__c>{
                         delegateParticipant
-                });
+                });*/
 
                 delegateContact = new Contact(
                         AccountId = [SELECT Id FROM Account WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE].Id,
@@ -179,15 +180,14 @@ public without sharing class ParticipantInformationRemote {
                         userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT,
                         userCommunityIsDelegate__c = true
                 );
-                if (duplicateService.findDuplicateContact(delegateParticipant) != null) {
+                /*if (duplicateService.findDuplicateContact(delegateParticipant) != null) {
                     delegateContact.Id = duplicateService.findDuplicateContact(delegateParticipant).Id;
                 } else if (!String.isBlank(delegateParticipant.Contact__c)) {
                     delegateContact.Id = delegateParticipant.Contact__c;
-                }
-
+                }*/
                 insert delegateContact;
             } else {
-                delegateContact = new Contact(Id = delegateParticipant.Contact__c);
+                delegateContact = new Contact(Id = ddi.contactId);
             }
 
             List<Patient_Delegate__c> patientDelegatesEver = [
@@ -228,13 +228,16 @@ public without sharing class ParticipantInformationRemote {
                 delegateParticipant.Phone__c = participant.Phone__c;
                 delegateParticipant.Phone_Type__c = participant.Phone_Type__c;
             }
+            if(!String.isBlank(ddi.participantId)){
+                delegateParticipant.Id = ddi.participantId;
+            }
             upsert delegateParticipant;
             isConnectedRes.participantId = delegateParticipant.Id;
 
             if (!patientDelegatesToInsert.isEmpty()) {
                 upsert patientDelegatesToInsert;
             }
-            createCommunityUser(toCreateUser, userNotExists);
+            if(String.isBlank(ddi.contactId))  createCommunityUser(toCreateUser, userNotExists);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }

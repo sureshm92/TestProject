@@ -6,8 +6,9 @@
 <template>
     <template if:true={parOfIncentiveProgram}>
         <div class="nic-container" tabindex="0" onblur={doCloseDropDown}>
-            <div class="nic-button" onclick={doToggleDropDown}>
-                <c-web-icon icon-name="icon-star-solid" icon-color="#FFFFFF" icon-size="small"></c-web-icon> {totalPoints}
+            <div class="nic-button" onclick={doToggleDropDown} data-gtm="BTN_points_menu">
+                <c-web-icon icon-name="icon-star-solid" icon-color="#FFFFFF" icon-width="20" icon-height="20"></c-web-icon>
+                <span class="nic-points">{totalPoints}</span>
             </div>
             <template if:true={showDropDown}>
                 <c-nav-incentive-drop-down total-points={totalPoints} last-points={lastPoints} onnavigatetoincentives={doEvent}></c-nav-incentive-drop-down>
