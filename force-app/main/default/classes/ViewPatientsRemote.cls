@@ -1,3 +1,4 @@
+
 /**
  * Created by Leonid Bartenev
  */
@@ -61,9 +62,7 @@ public without sharing class ViewPatientsRemote {
             result.paginationData = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
             result.peFilter.additionalFilter = getAdditionalFilter(userMode, emancipatedPE, null);
             updateSearchResultAccordingItemChanged(result, changedItem);
-            if(changedItem != 'pagination'){
-                result.peFilterData = createPEFilterData(result.peFilter.activePE, result.peFilter.study,result.peFilter.studySite, userMode, true, delegateId, result.peFilter.additionalFilter);
-            }
+            result.peFilterData = createPEFilterData(result.peFilter.activePE, result.peFilter.study,result.peFilter.studySite, userMode, true, delegateId, result.peFilter.additionalFilter);
             List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollments(result.peFilter, delegateId);
             peList = ParticipantEnrollmentService.getParticipantEnrollmentsPaginated(peList, result.paginationData);
             result.peList = convertToPEWrapperList(peList, userMode, delegateId);
@@ -229,7 +228,7 @@ public without sharing class ViewPatientsRemote {
     }
 
     private static ParticipantEnrollmentService.PEFilterData createPEFilterData(String activePE, Id trialId, Id siteId, String mode, Boolean restrictTrial, String delegateId, String additionalFilter) {
-        ParticipantEnrollmentService.PEFilterData filterData = ParticipantEnrollmentService.getPEFilterDataWithExistingPERecords(activePE, trialId, mode, restrictTrial, delegateId);
+        ParticipantEnrollmentService.PEFilterData filterData = ParticipantEnrollmentService.getPEFilterDataWithExistingPERecords(activePE, trialId, mode, restrictTrial, delegateId, additionalFilter);
         ParticipantEnrollmentService.PEFilter filter = new ParticipantEnrollmentService.PEFilter(filterData);
         filter.activePE = activePE;
         filter.study = trialId;
@@ -297,13 +296,13 @@ public without sharing class ViewPatientsRemote {
     }
 
     private static void updateSearchResultAccordingItemChanged(SearchResult result, String changedItem){
-        if (changedItem == 'active') {
+        if (changedItem == 'active' || changedItem == 'emancipation') {
             result.peFilter.study = null;
         }
-        if (changedItem == 'active' || changedItem == 'study') {
+        if (changedItem == 'active' || changedItem == 'emancipation' || changedItem == 'study') {
             result.peFilter.studySite = null;
         }
-        if (changedItem == 'active' || changedItem == 'study' || changedItem == 'site') {
+        if (changedItem == 'active' || changedItem == 'emancipation' || changedItem == 'study' || changedItem == 'site') {
             result.peFilter.source = null;
             result.peFilter.dateRange = null;
             result.peFilter.participantStatus = null;
