@@ -89,6 +89,10 @@
     /*height: 110px;*/
 }
 
+.THIS .ie-login-rows input:focus{
+    background-color: #213e7e;
+}
+
 @media (max-width: 500px) {
     .THIS .logo-block{
         margin-top: 10px;
