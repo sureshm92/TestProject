@@ -30,7 +30,9 @@
     <aura:attribute name="sendEmails" type="Boolean" default="false"/>
     <aura:attribute name="participantPath" type="Object"/>
     <aura:attribute name="userInfo" type="Object"/>
-    <aura:attribute name="updateInProgress" type="Boolean"  default="false"/>    
+    <aura:attribute name="updateInProgress" type="Boolean"  default="false"/> 
+    <aura:attribute name="NotCCMode" type="Boolean"  default="true" access="public"/>
+   
     <!--<aura:attribute name="isDetailsChanged" type="Boolean" default="false"/>-->
     <aura:attribute name="isStatusChanged" type="Boolean" default="false"/>
     <!-- Event handler -->
@@ -55,6 +57,7 @@
     <!-- component body: -->
     <c:Popup aura:id="dialog" title="{!v.popUpTitle}" size="large" showScroll="true" showHeader="true"
              showFooter="true">
+        <aura:if isTrue="{!v.NotCCMode}">
         <aura:if isTrue="{!!v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp;
                  !v.pe.Participant__r.Marketing_Flag__c &amp;&amp; v.pe.Participant__r.Email__c &amp;&amp;
                  v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c}">
@@ -68,6 +71,7 @@
                         data-gtm="BTN_Invite_To_PP">{!$Label.c.BTN_Create_User_on_PE_Info}</button>
             </div>
         </aura:if>
+    </aura:if>
         <c:RRSpinner aura:id="spinner" size="medium"/>
         <div class="form-content" data-gtm="Tabs_View_Details" id="anchor">
             <aura:if isTrue="{!v.initialized}">
@@ -87,8 +91,10 @@
                         </div>
                     </lightning:tab>
                     <lightning:tab aura:id="Status" label="{!$Label.c.BTN_Status_Details}" onactive="{!c.checkTabs}">
-                        <c:ParticipantStatusDetails participantWorkflowWrapper="{!v.participantPath}" parent="{!this}" updateInProgress="{!v.updateInProgress}"/>
+                        <c:ParticipantStatusDetails NotCCMode="{!v.NotCCMode}" participantWorkflowWrapper="{!v.participantPath}" parent="{!this}" updateInProgress="{!v.updateInProgress}"/>
                     </lightning:tab>
+                    
+                    <aura:if isTrue="{!v.NotCCMode}">
                     <lightning:tab class="slds-tabs_default__item" aura:id="Provider"
                                    label="{!$Label.c.Tab_Sharing_Options}"
                                    title="{!$Label.c.Tab_Sharing_Options}" onactive="{!c.checkTabs}">
@@ -101,7 +107,9 @@
                                                            actionDisabled="{!v.actions.screenerResponses.disabled}"/>
                             </div>
                         </aura:if>
-                    </lightning:tab>
+                    </lightning:tab>  
+                    </aura:if>
+                    
                     <aura:if
                             isTrue="{!v.pe.MRR_Survey_Results_URL__c}">
                         <lightning:tab class="slds-tabs_default__item" aura:id="Survey"
