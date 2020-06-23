@@ -3263,6 +3263,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Event.Remind_Using_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Remind_Using_SMS__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Event.Start_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6532,6 +6542,11 @@
         <field>Study_Site__c.SPNL_LN_assignment__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Site_Information_Form_Completed__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Site_Link__c</field>
@@ -6675,6 +6690,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.Reminder_Schedule__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Remind_Using_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Remind_Using_SMS__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -30,6 +30,7 @@
     <aura:attribute name="accessUserLevel" type="String"/>
     <aura:attribute name="delegateDuplicateInfo" type="Object"/>
     <aura:attribute name="useThisDelegate" type="Boolean" default="true"/>
+    <aura:attribute name="emailInstance" type="String"/>
 
 
     <aura:attribute name="showMRRButton" type="Boolean"/>

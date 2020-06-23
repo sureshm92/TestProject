@@ -38,12 +38,14 @@
 @media all and (min-width: 768px) {
     .incentives-my-plan-container{
         height: 100%;
+    }
+    .imp-ss-select-container{
         width: 50%;
     }
 }
 
 @media all and (max-width: 767px) {
-    .incentives-my-plan-container{
+    .imp-ss-select-container{
         width: 100%;
     }
 }

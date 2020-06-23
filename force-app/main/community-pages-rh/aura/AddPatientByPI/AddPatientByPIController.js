@@ -50,7 +50,7 @@
     },
 
     doCheckfields: function (component, event, helper) {
-        helper.checkFields(component,helper);
+        helper.checkFields(component,event,helper);
     },
 
     doCheckDateOfBith: function (component, event, helper) {
