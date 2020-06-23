@@ -84,6 +84,9 @@ public class SObjectHelper {
 
     public static List<SObject> filterSObjectsByIds(List<SObject> objects, Set<Id> idsToFilter){
         List<SObject> filteredObjects = new List<SObject>();
+        if (objects == null) {
+            return filteredObjects;
+        }
         for (SObject currentObject: objects){
             if (idsToFilter.contains(currentObject.Id)) {
                 filteredObjects.add(currentObject);

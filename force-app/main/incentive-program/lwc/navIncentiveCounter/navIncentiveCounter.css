@@ -11,10 +11,10 @@
     line-height: 24px;
 }
 .nic-button:hover{
-    background-color: rgba(255,255,255,0.16)
+    background-color: rgba(255,255,255,0.16);
 }
-.nic-button.current-page{
-    background-color: rgba(255,255,255,0.16)
+.current-page{
+    background-color: rgba(255,255,255,0.16);
 }
 .nic-container{
     position: relative;
@@ -32,6 +32,7 @@
 }
 .nic-points{
     padding-left: 10px;
+    padding-top: 3px;
 }
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
