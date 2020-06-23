@@ -102,6 +102,7 @@
 
     doNotContact: function (component) {
         component.set('v.doNotContact', !component.get('v.doNotContact'));
-    },
+        if (component.get('v.doNotContact')) component.set('v.createUsers', false);
+    }
 
 })
