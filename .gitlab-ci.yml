@@ -18,7 +18,10 @@ stages:
   # 4.0 INF
   - DeployINF4.0
   - RunTestINF4.0
-  
+
+  # 4.1 INF Hotfix
+  - DeployINF4.1Hotfix
+  - RunTestINF4.1Hotfix
 
 cache:
   paths:
@@ -50,6 +53,45 @@ VALIDATE:
     - sfdx force:source:convert -d output
     - sfdx force:mdapi:deploy -d output -u INTTreeTwo -c -w 60
     - echo "validate INT success"
+
+# 4.1 HOT FIX: ---------------------------------------------------------------------
+DeployINF4.1Hotfix:
+  tags:
+    - shell
+  only:
+    - HOT_Fix_4.1
+  except:
+    - merge_requests
+
+  stage: DeployINF4.1Hotfix
+  script:
+    - sfdx update
+    - echo "$INF4_1_HotFix" > sfdx-auth-url
+    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF -d
+    - sfdx --version
+    - cd Nodejs
+    - node convert.js
+    - cd ..
+    - rm -rf output
+    - cat .forceignore_deploy_exclude >> .forceignore
+    - sfdx force:source:convert -d output
+    - sfdx force:mdapi:deploy -d output -u INF  -w 60
+    - echo "deploy success"
+
+RunTestINF4.1Hotfix:
+  tags:
+    - shell
+  only:
+    - HOT_Fix_4.1
+  except:
+    - merge_requests
+
+  stage: RunTestINF4.1Hotfix
+  script:
+    - echo "$INF4_1_HotFix" > sfdx-auth-url
+    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF -d
+    - sfdx force:apex:test:run -u INF --testlevel=RunLocalTests -w 60
+
 
 
 # 4.0 INT: ---------------------------------------------------------------------
