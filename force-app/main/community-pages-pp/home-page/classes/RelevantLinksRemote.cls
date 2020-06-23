@@ -76,10 +76,11 @@ public without sharing class RelevantLinksRemote {
 
         List<Res_study__c> resStudies = [
                 SELECT Id, Clinical_Trial_Profile__c, Resource__c,
-                        Resource__r.URL__c,Resource__r.Title__c,
+                        Resource__r.URL__c, Resource__r.Title__c,
                         Resource__r.Type__c, Resource__r.Content_Type__c,
                         Resource__r.Countries__c, Resource__r.Languages__c,
-                        Visible_To_Participant__c, Visible_To_Delegates__c, Visible_In_Alumni__c,
+                        Visible_To_Participant__c, Visible_To_Delegates__c,
+                        Visible_To_PI__c, Visible_To_RP__c, Visible_In_Alumni__c,
                         Expires_After_Days__c, Expires_On_Status__c,
                         Active_On_Status__c, Active_After_Days__c
                 FROM Res_study__c
