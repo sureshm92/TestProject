@@ -449,7 +449,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         
         public Contact convertToContact() {
             Contact personContact = new Contact(Id = contactId);
-                 personContact.MobilePhone = phoneType =='Mobile' ? homePhone : mobilePhone;
+                 personContact.MobilePhone = mobilePhone;
 
             
             if (isParticipant) return personContact;

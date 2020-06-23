@@ -261,6 +261,13 @@ if(component.get('v.personWrapper.mobilePhone')==''){
         let initData = component.get('v.initData');
         let isUserDelegate = component.get('v.isDelegate');
          let newEmail = initData.myContact.Email;
+         communityService.executeAction(component, 'changeEmail', {
+            newEmail: newEmail
+        }, function (returnValue) {
+            component.set('v.currentEmail', newEmail);
+        }, null, function () {
+            component.set('v.showSpinner', false);
+        })
         if(!isUserDelegate){
             if (!newEmail) {
            communityService.showToast('error', 'error', $A.get('$Label.c.TST_Email_can_t_be_empty'));
@@ -285,13 +292,7 @@ if(component.get('v.personWrapper.mobilePhone')==''){
          
         });  
         
-        communityService.executeAction(component, 'changeEmail', {
-            newEmail: newEmail
-        }, function (returnValue) {
-            component.set('v.currentEmail', newEmail);
-        }, null, function () {
-            component.set('v.showSpinner', false);
-        })
+       
     },
     handleMobileValidation : function(component,event) {
         var inputValue = event.getSource().get("v.value");
