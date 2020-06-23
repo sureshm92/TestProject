@@ -21,9 +21,8 @@
         component.set('v.isValid', false);
         component.set('v.isDelegateValid', false);
         component.set('v.needsGuardian', false);
-        component.set('v.doNotContact', false);
         component.find('checkbox-delegate').getElement().checked = false;
-        component.find('checkbox-doContact').getElement().checked = false;
+        component.find('checkbox-doContact').getElement().checked = true;
     },
 
     createParticipant: function (component, callback) {

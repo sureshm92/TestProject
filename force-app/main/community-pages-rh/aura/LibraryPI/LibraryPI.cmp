@@ -16,7 +16,7 @@
     
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>    
     
-    <div class="slds-grid slds-wrap resource-headers slds-grid--vertical-align-center" style="height:31px;margin-right:27px">
+    <div class="slds-grid slds-wrap resource-headers slds-grid--vertical-align-center" style="height:31px;padding-right:27px;background-color: #F6F7FB;">
         <div class="slds-coll slds-size--4-of-12"></div>
         <div class="slds-coll slds-size--2-of-12">
             <c:uiHeaderMenu aura:id="menuId" class="language-filter">
@@ -38,7 +38,7 @@
         <div class="slds-coll slds-size--2-of-12">{!$Label.c.Library_Version_Date}</div>
     </div>
     <div class="rr-white-panel" style="margin-top: 0px">
-        <lightning:accordion aura:id="accordion" allowMultipleSectionsOpen="true" onsectiontoggle="{! c.handleSectionToggle }">
+        <lightning:accordion aura:id="accordion" allowMultipleSectionsOpen="true" onsectiontoggle="{! c.handleSectionToggle }" class="">
             <aura:iteration items="{!v.resourceStructureList}" var="resourceStructure" indexVar="key">
                 <lightning:accordionSection
                                             label="{!resourceStructure.structureName}"
@@ -89,6 +89,7 @@
                                         </aura:if>    
                                     </div>
                                 </div>
+                                <div class="slds-border_bottom"/>
                                 
                             </aura:iteration>  
                         </div>
