@@ -829,7 +829,7 @@ public without sharing class ParticipantEnrollmentService {
     }
 
     public static List<Participant_Enrollment__c> getParticipantEnrollmentsActiveFilter(String activePE, String mode, String delegateId, String additionalFilter){
-        String filterStr;
+        String filterStr = '';
         if (mode == CommunityService.USER_MODE_PI && activePE == PEStatusState.PE_STATUSES_ACTIVE) {
             filterStr = ' AND Participant_Status__c  IN (\'' + String.join(PEStatusState.PE_STATUS_GROUP_ACTIVE, '\',\'') + '\') ';
         } else if(mode == CommunityService.USER_MODE_PI) {
