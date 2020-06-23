@@ -31,6 +31,9 @@
                          class="{!'mode-group ' + if(modeGroup.isSelected, 'selected', '')}"
                          onclick="{!c.doToggleGroup}">
                         {!modeGroup.title}
+                        <aura:if isTrue="{!and(!modeGroup.isGroup, modeGroup.isSelected)}">
+                            <c:RRIcon iconName="icon-check" class="icon-check"/>
+                        </aura:if>
                     </div>
                 </div>
                 <aura:if isTrue="{!!modeGroup.isCollapsed}">
