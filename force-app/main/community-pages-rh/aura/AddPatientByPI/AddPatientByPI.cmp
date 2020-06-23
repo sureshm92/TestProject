@@ -24,6 +24,7 @@
     <aura:attribute name="callback" type="Object" access="private"/>
     <aura:attribute name="delegateDuplicateInfo" type="Object"/>
     <aura:attribute name="useThisDelegate" type="Boolean" default="true"/>
+    <aura:attribute name="emailInstance" type="String"/>
 
     <!-- methods: -->
     <aura:method name="checkDateOfBith" action="{!c.doCheckDateOfBith}" access="public">

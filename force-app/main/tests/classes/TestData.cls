@@ -88,7 +88,7 @@ public class TestData {
                 WHERE Participant__c = :participant.Id
         ];
         hcpEnrollment = [
-                SELECT Id, Orientation_Date__c, HCP_Contact__c
+                SELECT Id, Orientation_Date__c, HCP_Contact__c, Study_Site__c
                 FROM HCP_Enrollment__c
                 WHERE HCP_Contact__r.LastName = 'HCPTD'
                 LIMIT 1

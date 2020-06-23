@@ -41,13 +41,18 @@
                         <a class="account-settings">{!$Label.c.PP_Account_Settings}</a>
                     </div>
                     <div class="navBar">
-                        <ul onclick="{!c.onClick}" onmouseover="{!c.UpdateColor}">
+                        <ul onclick="{!c.onClick}" onmouseover="{!c.UpdateColor}"> 
                             <li style="border-bottom : 1px solid #E9E9E9;" ><a class="slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="0" href="#home"></a></li>
                             <li class="{!(v.compId=='1') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="1" onclick="{!c.selectProfile}">{!$Label.c.PP_Profile_Information}</a></li>
                             <li class="{!(v.compId=='2') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="2" onclick="{!c.selectPassword}">{!$Label.c.PP_Password_Management}</a></li>
                             <li class="{!(v.compId=='3') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="3" onclick="{!c.selectLanguage}">{!$Label.c.PP_Language_and_Location}</a></li>
-                            <li class="{!(v.compId=='4') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="4" onclick="{!c.selectCoi}">{!$Label.c.PP_Customize_Experience}</a></li>
-                            <aura:if isTrue="{!!v.isDelegate}">
+                             <aura:if isTrue="{!v.userMode == 'HCP'}"> 
+                            <li class="{!(v.compId=='6') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="6" onclick="{!c.selectLanguage}">{!$Label.c.RH_Notification}</a></li>
+                            </aura:if>
+                              <aura:if isTrue="{!v.userMode == 'HCP' || v.userMode == 'Participant'}">
+                                 <li class="{!(v.compId=='4') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="4" onclick="{!c.selectCoi}">{!$Label.c.PP_Customize_Experience}</a></li>
+                            </aura:if>
+                                 <aura:if isTrue="{!!v.isDelegate}">
                                 <li class="{!(v.compId=='5') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="5" onclick="{!c.selectCookie}">{!$Label.c.PP_Cookie_Settings}</a></li>
                             </aura:if>
                         </ul>
@@ -66,7 +71,10 @@
                                                isDelegate="{!v.isDelegate}" userMode="{!v.userMode}"/>                    
                     </aura:if>
                     <aura:if isTrue="{!(v.compId=='4')}">
-                            <c:CustomizeExperience />
+                            <c:CustomizeExperience userMode="{!v.userMode}"/>
+                    </aura:if>
+                     <aura:if isTrue="{!(v.compId=='6')}">
+                            <c:RH_NotificationPreference />
                     </aura:if>
                     <aura:if isTrue="{!(v.compId=='5')}">
                         <c:CookieSettings userMode="{!v.userMode}"/>

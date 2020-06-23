@@ -32,6 +32,11 @@
                 <default>false</default>
                 <label>Delegate</label>
             </value>
+            <value>
+                <fullName>CC</fullName>
+                <default>false</default>
+                <label>CC</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

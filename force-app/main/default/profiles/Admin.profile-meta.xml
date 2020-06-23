@@ -2848,6 +2848,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.CC_Staff_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.Consent_To_Inform_About_Study__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3254,6 +3259,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Event.Reminder_Schedule__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Remind_Using_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Remind_Using_SMS__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6674,6 +6689,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Task.Remind_Using_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Remind_Using_SMS__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Task.Start_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7206,6 +7231,9 @@
     <layoutAssignments>
         <layout>Booking__c-Booking Layout</layout>
     </layoutAssignments>
+	<layoutAssignments>
+        <layout>CC_Staff__c-CC Staff Layout</layout>
+    </layoutAssignments>
     <layoutAssignments>
         <layout>CTC__c-CTC Layout</layout>
     </layoutAssignments>
@@ -7667,6 +7695,15 @@
         <modifyAllRecords>true</modifyAllRecords>
         <object>Booking__c</object>
         <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+	<objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>CC_Staff__c</object>
+		<viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -8486,6 +8523,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>CTE__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+	<tabVisibilities>
+        <tab>CC_Staff__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
