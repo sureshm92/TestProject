@@ -30,23 +30,23 @@
     
     <div class="slds-grid">
         <img src="{!v.pictureSrc}"  class="slds-avatar slds-avatar_circle slds-avatar_medium" />
-        <p class="username">{!v.username}</p>
+
+
+        <div class="photo-label">
+            <p class="username">{!v.username}</p>
+            <aura:if isTrue="{!!v.isDelegate}">
+                <label for="file-upload" class="custom-file-upload">
+                    <span  class="profileLabel"> {!$Label.c.PP_AddProfilePhoto}</span>
+                </label>
+            </aura:if>
+
+            <div class="prfile-btn-container">
+                <div class="btn-upload-photo">
+                    <input id="file-upload" type="file" aura:id="file" onchange="{!c.onDrop}" class="inputFile"/>
+                </div>
+            </div>
+        </div>
     </div>
-    
-    <aura:if isTrue="{!!v.isDelegate}">
-        <label for="file-upload" class="custom-file-upload" style="margin-top: -25px;
-                                                                   margin-left: -15px;">
-            <span  class="profileLabel"> {!$Label.c.PP_AddProfilePhoto}</span>
-        </label>
-    </aura:if>
-    
-    
-    <div class="prfile-btn-container">
-        <div class="btn-upload-photo">
-            
-            
-            <input id="file-upload" type="file" aura:id="file" onchange="{!c.onDrop}" class="inputFile"/>                            </div>
-    </div>          
-    
+
     
 </aura:component>
