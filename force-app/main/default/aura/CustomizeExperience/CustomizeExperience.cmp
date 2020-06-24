@@ -29,6 +29,7 @@
     <aura:attribute name="showPills" type="Boolean" default="false"/>
     <aura:attribute name="removed" type="Boolean" default="false"/>
     <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
+    <aura:attribute name="itemshow" type="Boolean" default="false"/>
     <aura:attribute name="footerButtons" type="Aura.Component[]" description="custom buttons array, inset of standard button set"/>
 	 <aura:handler name="SearchReferralNetworkResult" event="c:SearchReferralNetworkResult" action="{!c.setReferralSearchResult}"/>
  
@@ -53,8 +54,8 @@
             {!$Label.c.PP_Customize_footer_message}
         </div>
         <br/>
-        <aura:if isTrue="{!v.showmenu}">
-        <div class="table-scroll" aura:id="scrolllist">
+        <aura:if isTrue="{!and(v.showmenu, v.itemshow)}"> 
+                <div class="table-scroll" aura:id="scrolllist">
             <table aria-multiselectable="true"
                    class="slds-table slds-table_header-hidden slds-table_edit"
                    role="treegrid">
