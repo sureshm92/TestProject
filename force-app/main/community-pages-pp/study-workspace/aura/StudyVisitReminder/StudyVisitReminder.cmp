@@ -79,11 +79,11 @@
                                 <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type}"
                                     value="{!v.task.Task_Type__c}" disabled="{!not(v.isEditable)}">
                                     <aura:iteration items="{!v.initData.taskTypeList}" var="type">
-                                        <option value="{!type.value}">{!type.label}</option>
+                                        <option value="{!type.value}" selected="{!type.value == v.task.Task_Type__c}">{!type.label}</option>
                                     </aura:iteration>
                                 </lightning:select>
                                 <aura:set attribute="else">
-                                    <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type  + Else}"
+                                    <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type}"
                                         value="{!v.task.Task_Type__c}" disabled="true">
                                         <option value="{!v.task.Task_Type__c}">{!v.task.Task_Type__c}</option>
                                     </lightning:select>
