@@ -106,7 +106,7 @@
 		let auraId = event.getSource().getLocalId();
 		let tasks = component.get('v.tasks');
 		let invalidTaskInputs = component.get('v.invalidTaskInputs')
-		let intReg = /^[1-9]\d+$/;
+		let intReg = /^[1-9]\d*$/;
 		let input = component.find(auraId)[id];
 		if (intReg.test(tasks[id].points)){
 			input.setCustomValidity('');
