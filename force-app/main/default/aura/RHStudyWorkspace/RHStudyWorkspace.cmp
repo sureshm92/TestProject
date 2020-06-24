@@ -34,7 +34,7 @@
             <!-- Share dialog -->
             <c:ShareModal aura:id="shareModal" parent="{!this}" needRefresh="false"/>
             <!-- top bar -->
-            <div class="{!if(or(v.userMode == 'HCP', v.userMode == 'PI'), 'sdv-top-bar sdv-top-bar-pi-rp ', 'sdv-top-bar ') + if(v.multiMode, 'multi-mode', '')}" id="stickyBar" aura:id="stickyBar">
+            <div class="{!if((v.userMode == 'HCP'|| v.userMode == 'PI'|| v.userMode == 'CC'), 'sdv-top-bar sdv-top-bar-pi-rp ', 'sdv-top-bar ') + if(v.multiMode, 'multi-mode', '')}" id="stickyBar" aura:id="stickyBar">
                 <div class="navigation rr-width-limiter side-padding">
                     <aura:if isTrue="{!v.userMode != 'Participant'}">
                         <c:RRNavigationPath>
@@ -44,6 +44,7 @@
                                     <c:RRNPathItem label="{!$Label.c.Home_Page_Label}" page=""/>
                                 </aura:set>
                             </aura:if>
+                            <c:RRNPathItem label="{!$Label.c.PG_SW_Title}"/>
                         </c:RRNavigationPath>
                         <div class="title rr-width-limiter side-padding">{!v.studyDetail.trial.Study_Code_Name__c}</div>
                     </aura:if>
