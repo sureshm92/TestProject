@@ -34,7 +34,7 @@
             rrCookieAllowed: initData.myContact.RRCookiesAllowedCookie__c,
             rrLanguageAllowed: initData.myContact.RRLanguageAllowedCookie__c
         }, function () {
-            location.reload();
+            communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'),100);
         });
     },
 

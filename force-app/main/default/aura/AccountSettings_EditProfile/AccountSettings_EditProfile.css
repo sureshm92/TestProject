@@ -37,6 +37,12 @@
 }
 
 
+.THIS .stateCss
+{
+    margin-top: -21px;
+}
+
+
 .THIS.as-container .as-password .rr-form-element + .rr-form-element {
     margin-top: 0;
 }

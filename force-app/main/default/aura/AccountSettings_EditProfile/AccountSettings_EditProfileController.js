@@ -41,16 +41,17 @@
             component.set('v.optInEmail', initData.contactSectionData.personWrapper.optInEmail);
             component.set('v.optInSMS', initData.contactSectionData.personWrapper.optInSMS);
             component.set('v.contact', initData.myContact);
-            component.set('v.userEmail', initData.myContact.Email);
             component.set('v.delegateContact',initData.delegateContact);
              if(communityService.getCurrentCommunityMode().currentDelegateId){
                component.set('v.userId',communityService.getCurrentCommunityMode().currentDelegateId);
-console.log('inside delegate-->'+communityService.getCurrentCommunityMode().currentDelegateId);
+			   component.set('v.userEmail', initData.delegateUserName.Username);
+
                 
             }
             else{
                 component.set('v.userId',initData.myContact.Id);
-                console.log('inside participant-->'+initData.myContact.Id)
+				component.set('v.userEmail', initData.userName);
+
             }
             console.log('initData.myContact.Email',initData.myContact.Email);
 
@@ -185,13 +186,24 @@ if(component.get('v.personWrapper.mobilePhone')==''){
     doCheckFieldsValidity: function(component, event, helper){
         event.preventDefault();
 
-        let personWrapper = component.get('v.personWrapper');
-        if(!personWrapper.firstName || !personWrapper.lastName || !personWrapper.dateBirth){
-            component.set('v.disableSave',true);
- 
-        }else{
-            component.set('v.disableSave',false);
- 
+       let personWrapper = component.get('v.personWrapper');
+        if(component.get('v.userMode') == 'Participant') {
+            if(!personWrapper.firstName || !personWrapper.lastName || !personWrapper.dateBirth){
+                component.set('v.disableSave',true);
+                
+            }else{
+                component.set('v.disableSave',false);
+                
+            }
+        } else if(component.get('v.userMode') == 'HCP' || component.get('v.userMode') == 'PI')
+        {
+            if(!personWrapper.firstName || !personWrapper.lastName){
+                component.set('v.disableSave',true);
+            }
+            else{
+                 component.set('v.disableSave',false);
+            }
+                
         }
         if(personWrapper.mailingCC !== component.get('v.previousCC')) {
             let statesByCountryMap = component.get('v.statesByCountryMap');
@@ -290,7 +302,14 @@ if(component.get('v.personWrapper.mobilePhone')==''){
            
         }, null, function () {
          
-        });  
+        }); 
+		 communityService.executeAction(component, 'changeEmail', {
+            newEmail: newEmail
+        }, function (returnValue) {
+            component.set('v.currentEmail', newEmail);
+        }, null, function () {
+            component.set('v.showSpinner', false);
+        })
         
        
     },
