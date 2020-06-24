@@ -18,20 +18,21 @@
     height: 40px;
 }
 
+.THIS .apollo-btn {
+    height: 40px;
+}
+
 .THIS .cRrSelect .slds-select_container:after {
     top: 16px;
 }
 
 .THIS.container1 {
-
 }
 
 .THIS .slds-vertical-tabs__nav {
-
 }
 
 .THIS .container-white-normal {
-
 }
 
 .THIS .title {
@@ -47,7 +48,6 @@
 }
 
 .THIS .NavContainer1 {
-    border-right: 1px solid #e9e9e9;
     min-width: 300px
 }
 
@@ -74,15 +74,11 @@
     height: 48px;
 }
 
-.THIS .NavComponent {
-
-}
-
 .THIS .hoverColor {
     background-color: yellow;
 }
 
-.THIS .mouse-hover {
+.THIS .mouse-hover.navItem {
     background: #0768FD;
     color: white;
     font-family: "Proxima Nova";
@@ -95,4 +91,78 @@
 .THIS .slds-navigation-list-vertical__action:active,
 .THIS .slds-navigation-list--vertical__action:active {
     background: #0768FD;
+    color: #fff;
+}
+
+.THIS .NavComponent {
+    border-left: 1px solid #e9e9e9;
+}
+
+@media all and (max-width: 768px) {
+    .THIS .NavContainer {
+        flex-direction: column;
+    }
+
+    .THIS .NavContainer1,
+    .THIS .NavComponent {
+        width: 100%;
+    }
+
+    .THIS .navBar {
+        position: relative;
+        height: 50px;
+    }
+
+    .THIS .navBar ul {
+        display: flex;
+        flex-direction: column;
+        background: #fff;
+        position: absolute;
+        width: 275px;
+        z-index: 100;
+    }
+
+
+    .THIS .navBar .navItem {
+       order: 2;
+        border-left: 1px solid #e9e9e9;
+        border-right: 1px solid #e9e9e9;
+        display: none;
+    }
+
+    .THIS .navBar .navItem.mouse-hover {
+        order: 1;
+        display: block;
+        font-size: 1.25rem;
+    }
+
+    .THIS .mouse-hover.navItem,
+    .THIS .slds-navigation-list-vertical__action:active,
+    .THIS .slds-navigation-list--vertical__action:active {
+        background: none;
+        border: none;
+        color: #444;
+        position: relative;
+    }
+
+    .THIS .mouse-hover.navItem:after {
+        content: '';
+        background: url(/resource/1571137334000/SelectMenuTriangleDown);
+        position: absolute;
+        top: 13px;
+        right: 10px;
+        background-repeat: no-repeat;
+        background-size: 16px 16px;
+        width: 16px;
+        height: 16px;
+    }
+
+    .THIS .navBar ul:hover {
+        box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.16);
+    }
+
+    .THIS .navBar ul:hover .navItem {
+        display: block;
+    }
+
 }

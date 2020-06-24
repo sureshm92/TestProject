@@ -198,6 +198,9 @@
         if (!this.itemsMap) this.initItemsMap();
         let page = this.allPagesMap[pageName];
         if (page) document.title = page.label;
+        //for CC mode 
+        if(communityService.getCurrentCommunityMode().userMode ==='CC' && page.page == '')
+            document.title = $A.get('$Label.c.CC_Participant_Support');
     },
 
     updateCurrentPage: function (component) {

@@ -4,7 +4,7 @@
         communityService.executeAction(component, 'getReferralNetworkRecords', {
             sObjectType: component.get("v.sObjectType")
         }, function (returnValue) {
-            console.log(returnValue);
+            console.log('returnValue' + JSON.stringify(returnValue));
       
             component.set('v.records', returnValue);
             

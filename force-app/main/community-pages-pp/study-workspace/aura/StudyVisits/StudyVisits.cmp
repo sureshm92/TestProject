@@ -62,12 +62,12 @@
                                         <aura:if isTrue="{!visitWrapper.task == null}">
                                             <lightning:button variant="base" value="{!index}" label="{!$Label.c.Create}" onclick="{! c.createEditTask}"/>
                                             <aura:set attribute="else">
-                                                <aura:if isTrue="{!visitWrapper.task.ReminderDateTime == null}">
+                                                <!--<aura:if isTrue="{!visitWrapper.task.ReminderDateTime == null}">
                                                     {!$Label.c.Home_Page_StudyVisit_No_Reminder_Date}
-                                                    <aura:set attribute="else">
-                                                        <lightning:button variant="base" value="{!index}" label="{!visitWrapper.reminderDate}" onclick="{!c.createEditTask}"/>
-                                                  	</aura:set>
-                                                </aura:if>
+                                                    <aura:set attribute="else">-->
+                                                        <lightning:button variant="base" value="{!index}" label="{!visitWrapper.task.ReminderDateTime == null ? $Label.c.Create : visitWrapper.reminderDate}" onclick="{!c.createEditTask}"/>
+                                                  	<!--</aura:set>
+                                                </aura:if>-->
                                             </aura:set>
                                         </aura:if>
                                     </div>
