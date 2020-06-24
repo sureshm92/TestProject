@@ -2149,6 +2149,13 @@
         <value>Review Cases</value>
     </labels>
     <labels>
+        <fullName>Email_Action_View_Dashboard</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Action View Dashboard</shortDescription>
+        <value>View Dashboard</value>
+    </labels>
+    <labels>
         <fullName>Email_Action_View_My_Home_Page</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2425,9 +2432,9 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body PI3</shortDescription>
-        <value>##HCPName at ##StudySiteName is requesting to become a referring healthcare provider for the clinical research study: ##StudyName.
+        <value>##HCPName is requesting to become a referring healthcare provider for the clinical research study: ##StudyName.
 
-            To accept this request, please log in to the IQVIA Referral Hub and navigate to &quot;My Referring Clinics.&quot;</value>
+To accept this request, please log in to the IQVIA Referral Hub and navigate to &quot;Dashboard.&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI5</fullName>
@@ -2455,6 +2462,13 @@
         <protected>false</protected>
         <shortDescription>Email_Body_PI_Conv_Rem</shortDescription>
         <value>You have unread messages from referred patients waiting for your response. Please login to the IQVIA Referral Hub to view your messages.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_PI_Delegate_Referrals</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Body_PI_Delegate_Referrals</shortDescription>
+        <value>One or more referrals have been awaiting your response. Please access these participants on My Participants to manage their pre-enrollment status.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI_New_Mess</fullName>
@@ -3855,6 +3869,13 @@
         <protected>false</protected>
         <shortDescription>Email Subject PI New Mess</shortDescription>
         <value>You have a new Message</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_PI_Referral_Pending</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>You have participants awaiting your action</shortDescription>
+        <value>You have participants awaiting your action</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Patient2</fullName>
@@ -6815,7 +6836,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PE Investigator Name</shortDescription>
-        <value>Investigator name</value>
+        <value>Investigator Name</value>
     </labels>
     <labels>
         <fullName>PE_Investigator_Recruitment_Expert</fullName>
@@ -6941,14 +6962,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PE Site Address</shortDescription>
-        <value>Site address</value>
+        <value>Site Address</value>
     </labels>
     <labels>
         <fullName>PE_Site_Name</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PE_Site Name</shortDescription>
-        <value>Site name</value>
+        <value>Site Name</value>
     </labels>
     <labels>
         <fullName>PE_Site_SiteZIPCode</fullName>
@@ -8209,7 +8230,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DBPI L study site</shortDescription>
-        <value>Study site</value>
+        <value>Study Site</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_My_Patients_Acceptance_Status</fullName>
@@ -12016,6 +12037,27 @@
         <value>Site</value>
     </labels>
     <labels>
+        <fullName>RH_External_Link_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_External_Link_Disclaimer</shortDescription>
+        <value>Links will open in a new browser window.</value>
+    </labels>
+    <labels>
+        <fullName>RH_External_Link_Disclaimer1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_External_Link_Disclaimer1</shortDescription>
+        <value>is not responsible for content provided in external websites.</value>
+    </labels>
+    <labels>
+        <fullName>RH_Initial_Visit_Date_and_time</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH Initial Visit Date and time</shortDescription>
+        <value>Outcome of Successfully Contacted and Initial Visit Scheduled Date and Time are required to proceed to the Initial Visit tab</value>
+    </labels>
+    <labels>
         <fullName>RH_Window_Title</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -13432,7 +13474,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Study Site phone number</shortDescription>
-        <value>Study Site phone</value>
+        <value>Study Site Phone</value>
     </labels>
     <labels>
         <fullName>Study_Team</fullName>

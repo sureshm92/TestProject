@@ -12,6 +12,7 @@
     <aura:attribute name="travelMode" type="String" default="All"/>
     <aura:attribute name="options" type="List"/>
     <aura:attribute name="vendors" type="Object[]"/>
+     <aura:attribute name="externalLinkDisclaimer" type="String"/> <!-- @Krishna Mahto - PEH-2179 -->
 
     <!--    <aura:handler name="change" value="{!v.travelMode}" action="{!c.getTravels}"/>-->
 
@@ -52,7 +53,7 @@
                         <th class="sv-t-status">{!$Label.c.Home_Page_Travel_Support_Booking_Status_Col}</th>
                         <th class="sv-t-date">{!$Label.c.Home_Page_Travel_Support_Booking_Date_Col}</th>
                         <th class="sv-t-time">{!$Label.c.Home_Page_Travel_Support_Booking_Time_Col}</th>
-                        <th>{!$Label.c.Home_Page_Travel_Support_Action_Col}</th>
+                        <th>{!$Label.c.Home_Page_Travel_Support_Action_Col} &nbsp; <lightning:helptext content="{!v.externalLinkDisclaimer}"/></th> <!-- @Krishna Mahto - Added RH_External_Link_Disclaimer for PEH-2179 -->
                     </tr>
                     <aura:iteration var="travelWrapper" items="{!v.currentTravels}">
                         <tr>

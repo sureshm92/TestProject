@@ -139,10 +139,13 @@
                     },
                     {
                         text : $A.get('$Label.c.PG_PST_L_Delegates_My_Measur')
-                    },
+                    }
+ 					//@krishna Kumar Mahto - Removed for story PEH-2234 - Start 
+ 					/*,
                     {
                         text : $A.get('$Label.c.PG_PST_L_Delegates_AAddit_Item')
-                    }
+                    }*/
+ 					//@krishna Kumar Mahto - Removed for story PEH-2234 - end
                 ];
                 component.set('v.capList', capList);
         }

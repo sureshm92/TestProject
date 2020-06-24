@@ -69,6 +69,7 @@
 	
 	.THIS .flex {
        height: 385px;
+       width:  700px; /*@krishna Mahto- REF-1635 */
     }
 
 	 .cFunnelChart .funnel{
