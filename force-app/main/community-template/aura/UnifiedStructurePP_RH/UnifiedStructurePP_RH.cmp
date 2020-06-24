@@ -46,16 +46,18 @@
                 <div data-group-id="{!'rh'}" onclick="{!c.doToggleGroup}"
                      class="{!'label ' + if(v.communityModes.isRHItemsSelected, 'selected', '')}">
                     {!$Label.c.Referral_Hub_Views} </div>
-                <div class="icon-settings-box">
-                    <div class="menu-item">
-                        <c:menuItemButton class="icon-delegate" iconName="delegate" navigateTo="my-team"
-                                          onclick="{!c.doOnClick}" modes="{!v.communityModes.rhModeItems}"/>
+                <aura:if isTrue="{!v.communityModes.isRHItemsSelected}">
+                    <div class="icon-settings-box">
+                        <div class="menu-item">
+                            <c:menuItemButton class="icon-delegate" iconName="delegate" navigateTo="my-team"
+                                              onclick="{!c.doOnClick}" modes="{!v.communityModes.rhModeItems}"/>
+                        </div>
+                        <div class="menu-item">
+                            <c:menuItemButton class="icon-cog" iconName="cog" navigateTo="account-settings"
+                                              onclick="{!c.doOnClick}" modes="{!v.communityModes.rhModeItems}"/>
+                        </div>
                     </div>
-                    <div class="menu-item">
-                        <c:menuItemButton class="icon-cog" iconName="cog" navigateTo="account-settings"
-                                          onclick="{!c.doOnClick}" modes="{!v.communityModes.rhModeItems}"/>
-                    </div>
-                </div>
+                </aura:if>
             </div>
         </div>
         <aura:if isTrue="{!not(v.communityModes.isRHItemsCollapsed)}">

@@ -43,5 +43,25 @@
                 }
             });
 
+    },
+    
+    setReloadAttributes: function(component, taskData, title, isOpenTask, isReminderOnly){
+        var task;
+        if(isOpenTask){
+            task = taskData.openTask;
+        } else{
+            task = taskData.task;
+        }
+        let relaodAttributes = {
+                "visitId": task.Patient_Visit__c,
+                "taskId": task.Id,
+                "title":  title,
+                "taskType": taskData.Task_Type__c,
+                "taskData": taskData,
+                "isNewTask": false,
+                "isReminderOnly": isReminderOnly,
+                "isTaskTab": true
+            };
+        return relaodAttributes;
     }
 })

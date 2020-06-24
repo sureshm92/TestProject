@@ -64,7 +64,7 @@
         component.set('v.emailDelegateRepeat', '');
     },
 
-    checkFields: function (component, helper) {
+    checkFields: function (component, event, helper) {
         let agreePolicy = component.get('v.agreePolicy');
         let states = component.get('v.states');
         let needsDelegate = component.get('v.needsGuardian');
@@ -84,8 +84,16 @@
         let emailDelegateRepeat = component.get('v.emailDelegateRepeat');
         let emailDelegateCmp = component.find('emailDelegateField');
         let emailDelegateRepeatCmp = component.find('emailDelegateRepeatField');
-        let emailDelegateVaild = needsDelegate && emailDelegateCmp && emailDelegateCmp.get('v.validity') && emailDelegateCmp.get('v.validity').valid;
-        let emailDelegateRepeatValid = needsDelegate && emailDelegateRepeatCmp && emailDelegateRepeatCmp.get('v.validity') && emailDelegateRepeatCmp.get('v.validity').valid;
+        let emailDelegateVaild = needsDelegate && emailDelegateCmp && communityService.isValidEmail(delegateParticipant.Email__c);
+        let emailDelegateRepeatValid = needsDelegate && emailDelegateRepeatCmp && communityService.isValidEmail(emailDelegateRepeat);
+        //let emailDelegateVaild = needsDelegate && emailDelegateCmp && emailDelegateCmp.get('v.validity') && emailDelegateCmp.get('v.validity').valid;
+        //let emailDelegateRepeatValid = needsDelegate && emailDelegateRepeatCmp && emailDelegateRepeatCmp.get('v.validity') && emailDelegateRepeatCmp.get('v.validity').valid;
+
+        if(emailDelegateVaild && emailDelegateRepeatValid && delegateParticipant.First_Name__c &&
+            delegateParticipant.Last_Name__c && delegateParticipant.Email__c.toLowerCase() == emailDelegateRepeat.toLowerCase()
+            && delegateParticipant.Email__c.toLowerCase() != component.get('v.emailInstance')){
+            helper.checkDelegateDuplicate(component,delegateParticipant.Email__c, delegateParticipant.First_Name__c, delegateParticipant.Last_Name__c);
+        }
 
         let isValid = false;
         isValid = isValid ||
@@ -110,10 +118,6 @@
                     emailDelegateRepeatValid)) &&
             agreePolicy);
         component.set('v.allRequiredCompleted', isValid);
-
-        if(emailDelegateVaild && emailDelegateRepeatValid && delegateParticipant.First_Name__c && delegateParticipant.Last_Name__c && delegateParticipant.Email__c.toLowerCase() == emailDelegateRepeat.toLowerCase()){
-            helper.checkDelegateDuplicate(component,delegateParticipant.Email__c, delegateParticipant.First_Name__c, delegateParticipant.Last_Name__c);
-        }
 
         if (!needsDelegate && emailCmp && emailRepeatCmp) {
             if (participant.Email__c && emailRepeat && participant.Email__c.toLowerCase() !== emailRepeat.toLowerCase()) {
@@ -154,15 +158,20 @@
             lastName: lastName
         }, function (returnValue) {
             component.set('v.delegateDuplicateInfo', returnValue);
-            if(returnValue.isDuplicateDelegate || returnValue.contactId || returnValue.participantId) component.set('v.useThisDelegate', false);
+            if(returnValue.isDuplicateDelegate || returnValue.contactId || returnValue.participantId) {
+                component.set('v.useThisDelegate', true);
+                component.set('v.useThisDelegate', false);
+            }
             else component.set('v.useThisDelegate', true);
             var participantDelegate = component.get('v.delegateParticipant');
-            if(returnValue.email) participantDelegate.Email__c = returnValue.email;
+            if(returnValue.email) {
+                participantDelegate.Email__c = returnValue.email;
+                component.set('v.emailInstance',returnValue.email.toLowerCase());
+            } else component.set('v.emailInstance',null);
             if(returnValue.lastName) participantDelegate.Last_Name__c = returnValue.lastName;
             if(returnValue.firstName) participantDelegate.First_Name__c = returnValue.firstName;
-            //if(returnValue.contactPhoneType) participantDelegate.Phone_Type__c = returnValue.contactPhoneType;
-            //if(returnValue.contactPhoneNumber) participantDelegate.Phone__c = returnValue.contactPhoneNumber;
             component.set('v.delegateParticipant',participantDelegate);
+
             spinner.hide();
         });
     },

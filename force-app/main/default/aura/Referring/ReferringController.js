@@ -170,12 +170,12 @@
     },
 
     doCheckfields: function (component, event, helper) {
-        helper.checkFields(component,helper);
+        helper.checkFields(component,event,helper);
     },
 
     doCheckDateOfBith: function (component, event, helper) {
         helper.checkParticipantNeedsGuardian(component, helper);
-        helper.checkFields(component);
+        helper.checkFields(component, event, helper);
     },
 
     doNeedsGuardian: function (component, event, helper) {
@@ -183,6 +183,7 @@
         if (participant.Health_care_proxy_is_needed__c) {
             helper.setDelegate(component);
         } else {
+            component.set('v.useThisDelegate', true);
             component.set('v.emailDelegateRepeat', '');
         }
         component.set('v.needsGuardian', participant.Health_care_proxy_is_needed__c);
@@ -265,7 +266,7 @@
         }
 
         component.set('v.selectedCountry', participant.Mailing_Country_Code__c);
-        helper.checkFields(component);
+        helper.checkFields(component, event, helper);
     },
 
     approveDelegate:function(component, event, helper){

@@ -24,6 +24,7 @@
     <aura:attribute name="callback" type="Object" access="private"/>
     <aura:attribute name="delegateDuplicateInfo" type="Object"/>
     <aura:attribute name="useThisDelegate" type="Boolean" default="true"/>
+    <aura:attribute name="emailInstance" type="String"/>
 
     <!-- methods: -->
     <aura:method name="checkDateOfBith" action="{!c.doCheckDateOfBith}" access="public">
@@ -168,7 +169,7 @@
                                 </div>-->
                         </aura:if>
                     </div>
-                    <aura:if isTrue="{!(v.participant.Email__c &amp;&amp; v.participant.Adult__c) || (v.needsGuardian &amp;&amp; v.participant.Health_care_proxy_is_needed__c)}">
+                    <aura:if isTrue="{!!v.doNotContact &amp;&amp; (v.participant.Email__c &amp;&amp; v.participant.Adult__c) || (v.needsGuardian &amp;&amp; v.participant.Health_care_proxy_is_needed__c)}">
                         <div class="slds-grid slds-gutters slds-wrap">
                         <div class="slds-form-element" style="margin-top: 30px; margin-left: 10px;">
                                 <div class="slds-form-element__control">

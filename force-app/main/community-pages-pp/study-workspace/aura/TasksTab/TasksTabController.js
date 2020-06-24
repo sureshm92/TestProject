@@ -24,6 +24,8 @@
         } else{
             taskData.title = $A.get('$Label.c.TTL_Create_Task');
             taskData.isReminderOnly = false;
+            taskData.isNewTask = true;
+            taskData.isTaskTab = true;
             component.find('studyVisitReminder').reloadPopup(taskData);
         }
     },
@@ -46,20 +48,11 @@
                 communityService.navigateToPage(actionURL);
             }, null, null);
         } else if(!firstLoad){
+            //function (component, title, taskData, isReminderOnly)
             helper.createStudyVisitReminder(component, title, taskData, false);
         } else{
-            let isNewTask = false;
-            let relaodAttributes = {
-                "visitId": taskData.openTask.Patient_Visit__c,
-                "taskId": taskData.openTask.Id,
-                "title":  title,
-                "taskType": taskData.openTask.Task_Type__c,
-                "taskData": taskData,
-                "isNewTask": isNewTask,
-                "isReminderOnly": false,
-                "isTaskTab": true
-            };
-            component.find('studyVisitReminder').reloadPopup(relaodAttributes);
+            //function(component, taskData, title, isOpenTask, isReminderOnly)
+            component.find('studyVisitReminder').reloadPopup(helper.setReloadAttributes(component, taskData, title, true, false));
         }
     },
     
@@ -88,20 +81,29 @@
 			}
 		}
         if(!firstLoad){
+            //function (component, title, taskData, isReminderOnly)
             helper.createStudyVisitReminder(component, title, taskData, true);
         } else{
+            //function(component, taskData, title, isOpenTask, isReminderOnly)
+            component.find('studyVisitReminder').reloadPopup(helper.setReloadAttributes(component, taskData, title, true, true));
+        }
+    },
+    
+    onClickIgnored: function(component, event, helper){
+        debugger;
+        let index = event.currentTarget.dataset.index;
+        let taskData = component.get('v.completedTasks')[index];
+        console.log('doTaskClick taskData: '+JSON.stringify(taskData));
+        let taskId = taskData.task.Id;
+        let firstLoad = component.get('v.firstLoad');
+        let title = $A.get('$Label.c.TTL_Edit_Task');
+        if(!firstLoad){
+            //function (component, title, taskData, isReminderOnly)
+            helper.createStudyVisitReminder(component, title, taskData, false);
+        } else{
             let isNewTask = false;
-            let relaodAttributes = {
-                "visitId": taskData.openTask.Patient_Visit__c,
-                "taskId": taskData.openTask.Id,
-                "title":  title,
-                "taskType": taskData.openTask.Task_Type__c,
-                "taskData": taskData,
-                "isNewTask": isNewTask,
-                "isReminderOnly": true,
-                "isTaskTab": true
-            };
-            component.find('studyVisitReminder').reloadPopup(relaodAttributes);
+            //function(component, taskData, title, isOpenTask, isReminderOnly)
+            component.find('studyVisitReminder').reloadPopup(helper.setReloadAttributes(component, taskData, title, false, false));
         }
     }
 });

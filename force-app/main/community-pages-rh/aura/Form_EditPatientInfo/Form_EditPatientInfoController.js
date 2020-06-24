@@ -87,24 +87,35 @@
                 (oldPE.Screening_ID__c && !pe.Screening_ID__c) ||
                 (oldPE.Referred_By__c && !pe.Referred_By__c) ||
                 (oldPE.MRN_Id__c && !pe.MRN_Id__c);
-            console.log(isRemovedValue);
+            console.log('IsRemovedValue',isRemovedValue);
             isValid = !isRemovedValue;
             if (component.get('v.fromActionParticipant') && !isRemovedValue) {
                 console.log('component.get(\'v.fromActionParticipant\') && !isRemovedValue');
-                if (participant.First_Name__c.trim() &&
-                    participant.Last_Name__c.trim() &&
-                    inputDate <= currentDate &&
-                    participant.Gender__c.trim() &&
-                    (needsGuardian || participantDelegate || participant.Phone__c.trim()) &&
-                    (needsGuardian || participantDelegate || participant.Phone_Type__c.trim()) &&
-                    (needsGuardian || participantDelegate || participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
-                    (!participantDelegate || participantDelegate.Phone__c.trim()) &&
-                    (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
-                    (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
-                    participant.Mailing_Zip_Postal_Code__c.trim() !== '') {
-                    isValid = true;
-                } else {
+                console.log('isValid0' + isValid);
+                console.log('CHECK8', participantDelegate);
+                if (!participantDelegate && (!participant.Phone__c || !participant.Phone_Type__c || !participant.Email__c)) {
+                    console.log('CHECK0', (!needsGuardian && !participant.Phone__c && !participant.Phone_Type__c && !participant.Email__c));
+                    console.log('CHECK00', participantDelegate);
+                    console.log('CHECK000', (!participant.Phone__c && !participant.Phone_Type__c && !participant.Email__c));
                     isValid = false;
+                } else {
+                    console.log('CHECK1');
+                    if (participant.Gender__c) {
+                        isValid = isValid || (participant.First_Name__c.trim() &&
+                            participant.Last_Name__c.trim() &&
+                            inputDate <= currentDate &&
+                            participant.Gender__c.trim() &&
+                            (needsGuardian || participantDelegate || participant.Phone__c.trim()) &&
+                            (needsGuardian || participantDelegate || participant.Phone_Type__c.trim()) &&
+                            (needsGuardian || participantDelegate || participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
+                            (!participantDelegate || participantDelegate.Phone__c.trim()) &&
+                            (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
+                            (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
+                            participant.Mailing_Zip_Postal_Code__c.trim() !== '')
+                    } else {
+                        console.log('CHECK2');
+                        isValid = false;
+                    }
                 }
                 console.log('isValid1' + isValid);
             }

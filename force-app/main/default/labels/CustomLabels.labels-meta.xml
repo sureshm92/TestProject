@@ -1512,6 +1512,13 @@
         <value>rajesh.r@quintiles.com</value>
     </labels>
 	<labels>
+        <fullName>CC_HomePageLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_HomePageLabel</shortDescription>
+        <value>Participant Status</value>
+    </labels>
+	<labels>
         <fullName>CC_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1586,7 +1593,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>CC_search_for_a_participant</shortDescription>
-        <value>search for a participant</value>
+        <value>Search for a phone number</value>
     </labels>
     <labels>
         <fullName>Closed_Requests</fullName>
@@ -12752,7 +12759,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Toggle_Information</shortDescription>
-        <value>Emails that notify you of required action,allow you to reset your password or inform you of important system updates will always be sent.Additionally you can choose to receive optional
+        <value>Emails that notify you of required action, allow you to reset your password or inform you of important system updates will always be sent. Additionally you can choose to receive optional
 communications using the toggles below.</value>
     </labels>
     <labels>

@@ -1,135 +1,138 @@
 <!--
-  @File Name          : CustomizeExperience.cmp
-  @Description        : 
-  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
-  @Group              : 
-  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
-  @Last Modified On   : 6/7/2020, 12:57:53 PM
-  @Modification Log   : 
-  Ver       Date            Author      		    Modification
-  1.0    6/3/2020   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+@File Name          : CustomizeExperience.cmp
+@Description        : 
+@Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+@Group              : 
+@Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+@Last Modified On   : 6/7/2020, 12:57:53 PM
+@Modification Log   : 
+Ver       Date            Author      		    Modification
+1.0    6/3/2020   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
 -->
 <aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,lightning:isUrlAddressable" description="SearchConditionsOfInterest" controller="SearchConditionsOfInterestRemote">
-    <aura:attribute name="searchCriterias" type="String[]"/>
-    <aura:attribute name="conditionOfInterestList" type="Object[]"/>
-    <aura:attribute name="originalItems" type="Object[]" default=""/>
-    <aura:attribute name="displayedItems" type="List" default=""/>
-    <aura:attribute name="selectedValues" type="List" default=""/>
-    <aura:attribute name="isMultiEntry" type="Boolean" default="true"/>
-    <aura:attribute name="SelectedAccount" type="String[]"/>    
-    <aura:attribute name="userMode" type="String"/>
-    
-      <aura:attribute name="referralResult" type="List"/>
-      <aura:attribute name="therapeticResult" type="List"/>
-    
-    <aura:attribute name="conditionsOfInterest" type="List" default=""/>
-    <aura:attribute name="conditionsOfInterestTemp" type="List" default=""/>
-    <aura:attribute name="isSaveList" type="Boolean"/>
-    <aura:attribute name="showmenu" type="Boolean" default="false"/>
-    <aura:attribute name="selectedPills" type="Boolean" default="true"/>
-    <aura:attribute name="showPills" type="Boolean" default="false"/>
-    <aura:attribute name="removed" type="Boolean" default="false"/>
-    
-    <aura:attribute name="footerButtons" type="Aura.Component[]" description="custom buttons array, inset of standard button set"/>
-     <aura:handler name="SearchReferralNetworkResult" event="c:SearchReferralNetworkResult" action="{!c.setReferralSearchResult}"/>
-    
-    <!--    <aura:attribute name="displayFooter" type="Boolean" default=""/>-->
-    <aura:attribute name="bypass" type="Boolean" default=""/>
+<aura:attribute name="searchCriterias" type="String[]"/>
+<aura:attribute name="conditionOfInterestList" type="Object[]"/>
+<aura:attribute name="originalItems" type="Object[]" default=""/>
+<aura:attribute name="displayedItems" type="List" default=""/>
+<aura:attribute name="selectedValues" type="List" default=""/>
+<aura:attribute name="isMultiEntry" type="Boolean" default="true"/>
+<aura:attribute name="SelectedAccount" type="String[]"/>    
+<aura:attribute name="userMode" type="String"/>
+	<aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
 
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    <!--<aura:handler name="change" value="{!v.displayedItems}" action="{!c.doInit}"/>-->
-   <!--<aura:handler name="change" value="{!v.showmenu}" action="{!c.doInit}"/>-->
-    <div style="width:600px;padding-left:24px;">
-          <aura:if isTrue="{!equals(v.userMode, 'Participant')}">
-    <div class="as-title">{!$Label.c.PP_Condition_of_Interest_title}</div>
+  <aura:attribute name="referralResult" type="List"/>
+  <aura:attribute name="therapeticResult" type="List"/>
+
+<aura:attribute name="conditionsOfInterest" type="List" default=""/>
+<aura:attribute name="conditionsOfInterestTemp" type="List" default=""/>
+<aura:attribute name="isSaveList" type="Boolean"/>
+<aura:attribute name="showmenu" type="Boolean" default="false"/>
+<aura:attribute name="selectedPills" type="Boolean" default="true"/>
+<aura:attribute name="showPills" type="Boolean" default="false"/>
+<aura:attribute name="removed" type="Boolean" default="false"/>
+
+<aura:attribute name="footerButtons" type="Aura.Component[]" description="custom buttons array, inset of standard button set"/>
+ <aura:handler name="SearchReferralNetworkResult" event="c:SearchReferralNetworkResult" action="{!c.setReferralSearchResult}"/>
+
+<!--    <aura:attribute name="displayFooter" type="Boolean" default=""/>-->
+<aura:attribute name="bypass" type="Boolean" default=""/>
+
+<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+<!--<aura:handler name="change" value="{!v.displayedItems}" action="{!c.doInit}"/>-->
+<!--<aura:handler name="change" value="{!v.showmenu}" action="{!c.doInit}"/>-->
+<div>
+    <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
+
+	  <aura:if isTrue="{!equals(v.userMode, 'Participant')}">
+<div class="as-title">{!$Label.c.PP_Condition_of_Interest_title}</div>
+	
+	<div class="section-description">  {!$Label.c.PP_Customize_Exp_Description}</div>
+	<br/>
+	<div class="alert-count-condition1">{!$Label.c.PP_Condition_of_Interest_title}</div>
+	<lightning:input onchange="{!c.bulkSearch}" aura:id="searchInput" type="search" name="search" label=""
+					 variant="label-hidden" placeholder="{!$Label.c.PP_Customize_search_text}"/>
+	<div class="alert-count-condition">
+		{!$Label.c.PP_Customize_footer_message}
+	</div>
+	<br/>
+	<aura:if isTrue="{!v.showmenu}">
+	<div class="table-scroll" aura:id="scrolllist">
+		<table aria-multiselectable="true"
+			   class="slds-table slds-table_header-hidden slds-table_edit"
+			   role="treegrid">
+			   
+			<tbody>
+			<aura:iteration aura:id="displayeditm" items="{!v.displayedItems}" var="coiWrapper" indexVar="index">
+				<tr aria-level="1" aria-posinset="1" aria-selected="false" aria-setsize="4" class="slds-hint-parent"
+					tabindex="0">
+					<td class="slds-text-align_right" role="gridcell" style="width: 1.25rem;">
+						<div class="slds-checkbox">
+							<lightning:input label="" type="checkbox" 
+											 value="{!coiWrapper}" onchange="{!c.handleChange}" name="{!index}"/>
+											 
+						</div>
+					   
+
+					</td>
+					<th class="" data-label="Account Name" scope="row">
+						<div class="slds-truncate">{!coiWrapper.coi.Therapeutic_Area__r.Name}</div>
+					</th>
+				</tr>
+			</aura:iteration>
+			</tbody>
+		</table>
+	</div><br/>
+	
+	</aura:if>
+	<aura:if isTrue="{!v.selectedPills}">
+	<tbody>
+			<aura:iteration items="{!v.conditionsOfInterestTemp}" var="showCoi">
+
+				<div class="slds-badge__icon slds-badge__icon_right  slds-wrap">
+					<ul class="slds-list_horizontal">
+						<li>
+							<lightning:pill name = "{!showCoi.coi.Therapeutic_Area__r.Name}" 
+							label="{!showCoi.coi.Therapeutic_Area__r.Name}"  onremove="{! c.handleRemoveOnly }" class="slds-pill slds-pill--bare slds-pill__action button"/>
+				 
+						</li>
+					</ul>
+
+						 </div>
+			</aura:iteration>
+		   
+		 </tbody>
+	</aura:if>
+	<br/>
+<div class="slds-col slds-size_1-of-1 as-buttons-footer">
+<lightning:button variant="brand" label="{!$Label.c.PP_Save_Changes}" title="" onclick="{! c.doSave }" class="slds-button slds-button_brand apollo-btn primary mar"/> 
+</div> 
+	</aura:if>
+	 <aura:if isTrue="{!notequals(v.userMode, 'Participant')}">
+			<!-- Referral Network settings -->
+			 <div class="as-title"><b>{!$Label.c.AccountSettings_Referral_Networks}</b></div>
 		
-        <div class="section-description">  {!$Label.c.PP_Customize_Exp_Description}</div>
-        <br/>
-        <div class="alert-count-condition1">{!$Label.c.PP_Condition_of_Interest_title}</div>
-        <lightning:input onchange="{!c.bulkSearch}" aura:id="searchInput" type="search" name="search" label=""
-                         variant="label-hidden" placeholder="{!$Label.c.PP_Customize_search_text}"/>
-        <div class="alert-count-condition">
-            {!$Label.c.PP_Customize_footer_message}
-        </div>
-        <br/>
-        <aura:if isTrue="{!v.showmenu}">
-        <div class="table-scroll" aura:id="scrolllist">
-            <table aria-multiselectable="true"
-                   class="slds-table slds-table_header-hidden slds-table_edit"
-                   role="treegrid">
-                   
-                <tbody>
-                <aura:iteration aura:id="displayeditm" items="{!v.displayedItems}" var="coiWrapper" indexVar="index">
-                    <tr aria-level="1" aria-posinset="1" aria-selected="false" aria-setsize="4" class="slds-hint-parent"
-                        tabindex="0">
-                        <td class="slds-text-align_right" role="gridcell" style="width: 1.25rem;">
-                            <div class="slds-checkbox">
-                                <lightning:input label="" type="checkbox" 
-                                                 value="{!coiWrapper}" onchange="{!c.handleChange}" name="{!index}"/>
-                                                 
-                            </div>
-                           
-    
-                        </td>
-                        <th class="" data-label="Account Name" scope="row">
-                            <div class="slds-truncate">{!coiWrapper.coi.Therapeutic_Area__r.Name}</div>
-                        </th>
-                    </tr>
-                </aura:iteration>
-                </tbody>
-            </table>
-        </div><br/>
-        
-        </aura:if>
-        <aura:if isTrue="{!v.selectedPills}">
-        <tbody>
-                <aura:iteration items="{!v.conditionsOfInterestTemp}" var="showCoi">
-    
-                    <div class="slds-badge__icon slds-badge__icon_right  slds-wrap">
-                        <ul class="slds-list_horizontal">
-                            <li>
-                                <lightning:pill name = "{!showCoi.coi.Therapeutic_Area__r.Name}" 
-                                label="{!showCoi.coi.Therapeutic_Area__r.Name}"  onremove="{! c.handleRemoveOnly }" class="slds-pill slds-pill--bare slds-pill__action button"/>
-                     
-                            </li>
-                        </ul>
-
-                             </div>
-                </aura:iteration>
-               
-             </tbody>
-        </aura:if>
-        <br/>
-    <div class="slds-col slds-size_1-of-1 as-buttons-footer">
-    <lightning:button variant="brand" label="{!$Label.c.PP_Save_Changes}" title="" onclick="{! c.doSave }" class="slds-button slds-button_brand apollo-btn primary mar"/> 
-    </div> 
-        </aura:if>
-         <aura:if isTrue="{!notequals(v.userMode, 'Participant')}">
-                <!-- Referral Network settings -->
-                 <div class="as-title"><b>{!$Label.c.AccountSettings_Referral_Networks}</b></div>
-            
-               <div class="section-description">
-                            {!$Label.c.AccountSettings_Referral_Networks_Description}
-                        </div>
-             <br/>
-             <br/>
-             <div class="slds-m-top_xx-large slds-m-top_xx-large">
-                 
-                 <div class="as-sub-title slds-m-top--medium">
-                     {!$Label.c.AccountSettings_Referral_Networks_Site_Based}
-                 </div>
-                 <c:SearchReferralNetwork sObjectType="Referral_Network__c" />
-                 <div class="as-sub-title">
-                     {!$Label.c.AccountSettings_Referral_Networks_Topic_Based}
-                 </div>
-                 <c:SearchReferralNetwork sObjectType="Therapeutic_Area__c" />
-                 
-                 <br/>
-             </div>
-           <div class="slds-col slds-size_1-of-1 as-buttons-footer">
-                <lightning:button variant="brand" label="{!$Label.c.PP_Save_Changes}" title="" onclick="{! c.savechanges }" class="slds-button slds-button_brand apollo-btn primary"/> 
-            </div> 
-             
-    </aura:if>
-    </div>
+		   <div class="section-description">
+						{!$Label.c.AccountSettings_Referral_Networks_Description}
+					</div>
+		 <br/>
+		 <br/>
+		 <div class="slds-m-top_xx-large slds-m-top_xx-large">
+			 
+			 <div class="as-sub-title slds-m-top--medium">
+				 {!$Label.c.AccountSettings_Referral_Networks_Site_Based}
+			 </div>
+			 <c:SearchReferralNetwork sObjectType="Referral_Network__c" />
+			 <div class="as-sub-title">
+				 {!$Label.c.AccountSettings_Referral_Networks_Topic_Based}
+			 </div>
+			 <c:SearchReferralNetwork sObjectType="Therapeutic_Area__c" />
+			 
+			 <br/>
+		 </div>
+	   <div class="slds-col slds-size_1-of-1 as-buttons-footer">
+			<lightning:button variant="brand" label="{!$Label.c.PP_Save_Changes}" title="" onclick="{! c.savechanges }" class="slds-button slds-button_brand apollo-btn primary"/> 
+		</div> 
+		 
+</aura:if>
+</div>
 </aura:component>

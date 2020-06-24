@@ -27,6 +27,10 @@
         component.find('uploadParticipantsDialog').cancel();
     },
 
+    resetCreateUsers: function (component, event, helper) {
+        if(component.get('v.doNotContactParticipants')) component.set('v.createUsers', false);
+    },
+
     doClearFile: function (component, event, helper) {
         component.set("v.FileList", []);
         component.set("v.fullFileName", '');

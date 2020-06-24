@@ -14,6 +14,22 @@
             "Mailing_Zip_Postal_Code__c": "1234231234",
             "Preferred_Language__c": "en_US",
             "Adult__c": true
+        },
+        {
+            "attributes": {
+                "type": "Participant__c",
+                "referenceId": "participant2"
+            },
+            "First_Name__c": "Anabella",
+            "Last_Name__c": "Galloway",
+            "Email__c": "anabella@galloway.com",
+            "Gender__c": "Female",
+            "Phone__c": "13241321223",
+            "Mailing_Country_Code__c": "US",
+            "Mailing_State_Code__c": "NY",
+            "Mailing_Zip_Postal_Code__c": "1234231234",
+            "Preferred_Language__c": "en_US",
+            "Adult__c": true
         }
     ]
 }

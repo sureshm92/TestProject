@@ -6,14 +6,14 @@ global without sharing class Batch_UpdatePE_PermitContactFlag implements Databas
 
 
     global Database.QueryLocator start(Database.BatchableContext BC) {
-        return Database.getQueryLocator([SELECT Id, To_permit_IQVIA_to_contact_about_study__c
+        return Database.getQueryLocator([SELECT Id, Permit_IQVIA_to_contact_about_study__c
                                          FROM Participant_Enrollment__c]);
     }
 
     global void execute(Database.BatchableContext bc, List<Participant_Enrollment__c> scope) {
 
         for (Participant_Enrollment__c pe : scope) {
-            pe.To_permit_IQVIA_to_contact_about_study__c = true;
+            pe.Permit_IQVIA_to_contact_about_study__c = true;
         }
         TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
         TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class);

@@ -206,11 +206,8 @@ public without sharing class CommunityFacadeRemote {
         try {
             Contact userContact = CommunityService.getUserContact();
             userContact.userCommunityMode__c = mode;
-            if (mode == CommunityService.USER_MODE_HCP) userContact.userCommunityDelegateId__c = delegateId;
-            if (mode == CommunityService.USER_MODE_PARTICIPANT) {
-                userContact.Current_Participant_Enrollment__c = peId;
-                userContact.userCommunityDelegateId__c = delegateId;
-            }
+            userContact.userCommunityDelegateId__c = delegateId;
+            if (mode == CommunityService.USER_MODE_PARTICIPANT) userContact.Current_Participant_Enrollment__c = peId;
             update userContact;
             return userContact;
         } catch (Exception e) {

@@ -11,15 +11,18 @@
     },
 
     onClick: function (component, event) {
-        if (!component.get('v.page')){
-            component.set('v.page', ' ');
+        if(component.get('v.hasIdentifier')){
+            if (!component.get('v.page')){
+                component.set('v.page', ' ');
+            }
+
+            let onclickEvent = component.getEvent('onclick');
+            onclickEvent.setParams({
+                "message": component.get('v.page'),
+                "identifier": component.get('v.identifier')
+            });
+            onclickEvent.fire();
         }
-        let onclickEvent = component.getEvent('onclick');
-        onclickEvent.setParams({
-            "message": component.get('v.page'),
-            "identifier": component.get('v.identifier')
-        });
-        onclickEvent.fire();
 
         if(component.get('v.page')){
             event.preventDefault();

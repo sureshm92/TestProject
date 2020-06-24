@@ -21,9 +21,8 @@
         component.set('v.isValid', false);
         component.set('v.isDelegateValid', false);
         component.set('v.needsGuardian', false);
-        component.set('v.doNotContact', false);
         component.find('checkbox-delegate').getElement().checked = false;
-        component.find('checkbox-doContact').getElement().checked = false;
+        component.find('checkbox-doContact').getElement().checked = true;
     },
 
     createParticipant: function (component, callback) {
@@ -60,7 +59,7 @@
         component.set('v.isValid', false);
     },
 
-    checkFields: function (component,helper, doNotCheckFields) {
+    checkFields: function (component,event,helper, doNotCheckFields) {
         let participant = component.get('v.participant');
         let needsDelegate = component.get('v.needsGuardian');
 
@@ -73,8 +72,11 @@
         let emailDelegateRepeatValid = needsDelegate && emailDelegateRepeatCmp && communityService.isValidEmail(emailDelegateRepeat);
 
         let isValid = false;
-        if(emailDelegateVaild && emailDelegateRepeatValid && delegateParticipant.First_Name__c && delegateParticipant.Last_Name__c && delegateParticipant.Email__c.toLowerCase() == emailDelegateRepeat.toLowerCase() && !doNotCheckFields){
-            helper.checkDelegateDuplicate(component,helper, delegateParticipant.Email__c, delegateParticipant.First_Name__c, delegateParticipant.Last_Name__c);
+        if(emailDelegateVaild && emailDelegateRepeatValid &&
+            delegateParticipant.First_Name__c && delegateParticipant.Last_Name__c &&
+            delegateParticipant.Email__c.toLowerCase() == emailDelegateRepeat.toLowerCase() && !doNotCheckFields &&
+            delegateParticipant.Email__c.toLowerCase() != component.get('v.emailInstance')){
+            helper.checkDelegateDuplicate(component, event, helper, delegateParticipant.Email__c, delegateParticipant.First_Name__c, delegateParticipant.Last_Name__c);
         }
         isValid = isValid || (!needsDelegate ||
                     (needsDelegate && delegateParticipant &&
@@ -153,7 +155,7 @@
         });
     },
 
-    checkDelegateDuplicate: function (component, helper, email, firstName, lastName) {
+    checkDelegateDuplicate: function (component, event, helper, email, firstName, lastName) {
         var spinner = component.find('spinner');
         spinner.show();
         communityService.executeAction(component, 'checkDuplicateDelegate', {
@@ -162,16 +164,21 @@
             lastName: lastName
         }, function (returnValue) {
             component.set('v.delegateDuplicateInfo', returnValue);
-            if(returnValue.isDuplicateDelegate || returnValue.contactId || returnValue.participantId) component.set('v.useThisDelegate', false);
-            else component.set('v.useThisDelegate', true);
+            if(returnValue.isDuplicateDelegate || returnValue.contactId || returnValue.participantId) {
+                component.set('v.useThisDelegate', true);
+                component.set('v.useThisDelegate', false);
+            } else component.set('v.useThisDelegate', true);
             var participantDelegate = component.get('v.participantDelegate');
-            if(returnValue.email) participantDelegate.Email__c = returnValue.email;
+            if(returnValue.email) {
+                component.set('v.emailInstance', returnValue.email.toLowerCase());
+                participantDelegate.Email__c = returnValue.email;
+            }
             if(returnValue.lastName) participantDelegate.Last_Name__c = returnValue.lastName;
             if(returnValue.firstName) participantDelegate.First_Name__c = returnValue.firstName;
-            if(returnValue.contactPhoneType) participantDelegate.Phone_Type__c = returnValue.contactPhoneType;
-            if(returnValue.contactPhoneNumber) participantDelegate.Phone__c = returnValue.contactPhoneNumber;
+
             component.set('v.participantDelegate',participantDelegate);
-            helper.checkFields(component,helper, true);
+            helper.checkFields(component,event,helper, true);
+            component.set('v.delegateEmailWasChanged',false);
             spinner.hide();
         });
     },
