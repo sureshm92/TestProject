@@ -185,13 +185,24 @@ if(component.get('v.personWrapper.mobilePhone')==''){
     doCheckFieldsValidity: function(component, event, helper){
         event.preventDefault();
 
-        let personWrapper = component.get('v.personWrapper');
-        if(!personWrapper.firstName || !personWrapper.lastName || !personWrapper.dateBirth){
-            component.set('v.disableSave',true);
- 
-        }else{
-            component.set('v.disableSave',false);
- 
+       let personWrapper = component.get('v.personWrapper');
+        if(component.get('v.userMode') == 'Participant') {
+            if(!personWrapper.firstName || !personWrapper.lastName || !personWrapper.dateBirth){
+                component.set('v.disableSave',true);
+                
+            }else{
+                component.set('v.disableSave',false);
+                
+            }
+        } else if(component.get('v.userMode') == 'HCP' || component.get('v.userMode') == 'PI')
+        {
+            if(!personWrapper.firstName || !personWrapper.lastName){
+                component.set('v.disableSave',true);
+            }
+            else{
+                 component.set('v.disableSave',false);
+            }
+                
         }
         if(personWrapper.mailingCC !== component.get('v.previousCC')) {
             let statesByCountryMap = component.get('v.statesByCountryMap');
@@ -290,7 +301,14 @@ if(component.get('v.personWrapper.mobilePhone')==''){
            
         }, null, function () {
          
-        });  
+        }); 
+		 communityService.executeAction(component, 'changeEmail', {
+            newEmail: newEmail
+        }, function (returnValue) {
+            component.set('v.currentEmail', newEmail);
+        }, null, function () {
+            component.set('v.showSpinner', false);
+        })
         
        
     },
