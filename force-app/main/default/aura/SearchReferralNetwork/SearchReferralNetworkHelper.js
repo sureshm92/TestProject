@@ -36,14 +36,17 @@
          var check = event.getSource().get("v.checked");
           var value = event.getSource().get("v.value");
          var records = component.get('v.records');
-         console.log(value);
-         console.log(check);
+         console.log('value' + value);
+         console.log('check'+ check);
          if(check) 
          	records.push(value);
-         else
-            records.splice(records.indexOf(value), 1 );
+         else {
+             value.isSelected = false;
+             records.splice(records.indexOf(value), 1 );
+         }
            
          component.set('v.records', records);
+         console.log('records' + JSON.stringify(records));
         var cmpEvent = component.getEvent("SearchReferralNetworkResult"); 
         //Set event attribute value
         cmpEvent.setParams({"refResult" : records,

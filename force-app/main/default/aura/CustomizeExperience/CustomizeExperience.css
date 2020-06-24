@@ -34,9 +34,7 @@
 }
 
 .THIS .slds-pill__remove svg {
-    color: #297dfd;
-    width: .5rem;
-    height: .5rem;
+    color: white;
 }
 
 .THIS .slds-pill__label {
@@ -49,15 +47,10 @@
 }
 
 .THIS .slds-pill__remove {
-    top: 50%;
+    top: 45%;
     position: absolute;
     margin-right: 10px;
     z-index: 1;
-    background: #fff;
-    border-radius: 50%;
-    height: .75rem;
-    width: .75rem;
-    line-height: 0;
 }
 
 .THIS .title-desc {
@@ -71,21 +64,16 @@
     font-weight: 600;
     letter-spacing: 0;
     line-height: 1;
-    margin-bottom: 10px;
+
 }
 
 
 .THIS .section-description {
-    color: #444;
+    color: #595959;
     font-family: "Proxima Nova";
     font-size: 16px;
     letter-spacing: 0;
     line-height: 24px;
-    width: 80%;
-}
-
-.THIS .slds-form-element {
-    width: 50%;
 }
 
 .THIS .alert-count-condition {
@@ -128,26 +116,21 @@
     margin-top: 20px;
 }
 
-@media all and (max-width: 768px) {
-
-    .THIS .table-scroll {
-        overflow-x: auto;
-        overflow-y: auto;
+@media all and (max-width: 750px) {
+    .THIS .alert-count-condition {
+        font-size: 12px;
     }
 
-    .THIS .section-description {
-        width: 100%;
+    .THIS .table-scroll {
+        font-size: 12px;
+        overflow-x: auto;
+        overflow-y: auto;
     }
 }
 
 @media all and (max-width: 500px) {
     .THIS .slds-table_edit .slds-truncate {
         font-size: 1rem;
-    }
-
-    .THIS .slds-form-element,
-    .THIS .apollo-btn.primary {
-        width: 100%;
     }
 
     .THIS .table-scroll {
@@ -159,6 +142,7 @@
     .THIS .slds-table td {
         padding: .75rem .5rem;
     }
+
 
     .THIS .p-footer.p-variant- {
         width: 100%;

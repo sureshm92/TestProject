@@ -26,7 +26,6 @@
     width: 80%;
     margin-bottom: 10px;
     margin-top: 10px;
-    color: #444;
 }
 
 .THIS .slds-form-element__icon {
@@ -53,18 +52,7 @@
     position: relative;
     padding-bottom: 100px;
     padding-left: 24px;
-}
 
-.THIS .pr_40 {
-    padding-top: 40px;
-}
-
-.THIS .slds-form-element__help {
-    position: absolute;
-}
-
-.THIS .as-buttons-footer {
-    margin-top: 30px;
 }
 
 @media (max-width: 768px) {
@@ -87,38 +75,25 @@
         top: 5px;
         position: absolute;
     }
+}
 
-    .THIS .section-description {
-        width: 100%;
-    }
+.THIS .pr_40 {
+    padding-top: 40px;
+}
+
+.THIS .slds-form-element__help {
+    position: absolute;
 }
 
 @media screen and (max-width: 500px) {
-
-    .THIS {
-        padding-bottom: 100px;
-    }
-
-    .THIS .language-switcher>* {
-        padding: 0;
-    }
-
     .THIS .slds-gutters.as-email-input .slds-col,
     .THIS .slds-gutters.as-password-input .slds-col {
         padding-right: 0;
         margin-bottom: 15px;
     }
 
-    .THIS .language-switcher {
-        width: 100%;
-        margin: 0;
-    }
     .THIS .apollo-btn {
         width: 100%;
-    }
-
-    .THIS .rr-form-element .label {
-        min-width: 100%;
     }
 
     .THIS.as-container .as-language-switcher .apollo-btn {
