@@ -33,22 +33,9 @@
     font-size: 1rem;
     letter-spacing: 0;
     line-height: 24px;
-
-
+    height: 40px;
 }
 
-.THIS .mar {
-
-}
-
-.THIS .suffix {
-
-}
-
-.THIS .mar_dob {
-
-
-}
 
 .THIS.as-container .as-password .rr-form-element + .rr-form-element {
     margin-top: 0;
@@ -63,7 +50,6 @@
 .THIS.as-container .as-email-preference {
     margin-top: 30px;
 }
-
 
 .THIS.as-container .as-info,
 .THIS.as-container .as-language-switcher {
@@ -93,9 +79,7 @@
     line-height: 20px;
     font-weight: 600;
     margin-bottom: 10px;
-
 }
-
 
 .THIS.as-container .as-sub-title {
     color: #333333;
@@ -110,7 +94,6 @@
 
 .THIS .as-email-input.slds-gutters,
 .THIS .as-password-input {
-
 }
 
 .THIS .slds-gutters.as-email-input .slds-col,
@@ -118,7 +101,6 @@
     padding-left: 0;
     padding-right: 1.5rem;
 }
-
 
 .THIS .collapse-section.slds-m-top_large,
 .THIS .collapse-section.slds-m-top--large {
@@ -179,6 +161,12 @@
 
 .THIS .as-email-preference .rr-form-element + .rr-form-element {
     margin-top: 0;
+}
+
+
+.THIS .contactDesc {
+    width: 80%;
+    color: #444;
 }
 
 /*.THIS .slds-avatar{
@@ -254,17 +242,22 @@
 
     .THIS .as-email-pref-item {
         margin-top: 15px;
-        height: 42px;
         display: flex;
-        padding-left: 80px;
         align-items: center;
         position: relative;
     }
 
     .THIS .as-email-pref-item .ah-toggle {
-        left: 0;
-        top: 5px;
-        position: absolute;
+        position: static;
+        padding-top: 12px;
+    }
+
+    .THIS .nickname + .smallName + .rr-form-element {
+        min-width: 200px;
+    }
+
+    .THIS .contactDesc {
+        width: 100%;
     }
 }
 
@@ -279,11 +272,24 @@
         width: 100%;
     }
 
+    .THIS .nickname {
+        max-width: 100%;
+    }
+
     .THIS.as-container .as-language-switcher .apollo-btn {
         width: 100%;
-        margin-top: 15px;
+        margin-top: 20px;
         height: auto;
     }
 
+    .THIS .as-email-pref-item,
+    .THIS .ah-toggle,
+    .THIS .as-email-preference .rr-form-element+.rr-form-element {
+        margin-top: 20px;
+    }
 
+    .THIS .ah-toggle + .rr-form-element {
+        width: 50%;
+        margin-top: 1rem;
+    }
 }
