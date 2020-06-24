@@ -40,6 +40,12 @@
 
     bulkSearch: function (component, event, helper) {
         var bypass = component.get('v.bypass');
+        var coival = component.find("searchInput").get("v.value");
+        if(coival){
+            component.set('v.itemshow',true);
+        }else{
+           component.set('v.itemshow',false); 
+        } 
         component.set('v.showmenu',true);
         if (bypass) {
             return;

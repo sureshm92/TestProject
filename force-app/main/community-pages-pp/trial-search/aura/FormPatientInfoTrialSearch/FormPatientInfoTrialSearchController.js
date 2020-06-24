@@ -29,6 +29,24 @@
             component.set('v.isValid', false);
         }
     },
+    handleHomePhoneValidation:function(component,event) {
+        var inputValue = event.getSource().get("v.value");
+        var phoneField=component.find('pField2');
+        var numbers=/^[0-9]*$/;
+        if(inputValue===""){
+            phoneField.setCustomValidity("");  
+        }
+       if ((!numbers.test(inputValue)  && inputValue!=="")) {
+        phoneField.setCustomValidity("Phone number must be numeric");
+        component.set('v.isValid', false);
+
+        } else {
+            phoneField.setCustomValidity(""); // reset custom error 
+            component.set('v.isValid', true);
+
+        }
+        phoneField.reportValidity();
+    },
 
     doCountryCodeChanged: function (component, event, helper) {
         var statesByCountryMap = component.get('v.formData.statesByCountryMap');
