@@ -37,7 +37,7 @@ public without sharing class CommunityModeService {
         } else if (!rpDelegates.isEmpty()) {
             Set<Id> contactIds = new Set<Id>{userContact.Id};
             for (RP_Delegate_Relationship__c delegate : rpDelegates){
-                contactIds.add(delegate.Delegate__c);
+                contactIds.add(delegate.Referring_Provider__c);
             }
             Map<Id, Participant__c> participantByContactMap = new Map<Id, Participant__c>();
             for (Participant__c participantRecord : [
