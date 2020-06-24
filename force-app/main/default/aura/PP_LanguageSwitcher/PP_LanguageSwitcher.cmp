@@ -137,7 +137,7 @@
             
         </aura:if>
     
-    <div class="slds-col slds-size_1-of-1 as-buttons-footer">
+    <div class="slds-col slds-size_1-of-1 as-buttons-footer" style="margin-left:18px;padding-top:40px;">
 		<lightning:button variant="brand" label="{!$Label.c.PP_Save_Changes}" title="" onclick="{!c.doChangeLanguage}" class="slds-button slds-button_brand apollo-btn primary" disabled="{!and(not(empty(v.statesLVList)),empty(v.personWrapper.mailingSC))}"/>       
     </div>
 

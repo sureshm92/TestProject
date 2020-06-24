@@ -47,12 +47,12 @@
 }
 
 .THIS .as-container .as-sub-title.cookieDesc {
-    color: #444;
+    color: #595959;
     font-size: 1rem;
     line-height: 24px;
-    width: 80%;
+    width: 90%;
     margin-bottom: 30px;
-    margin-top: 1rem;
+    margin-top: 17.33px;
 }
 
 .THIS .ah-toggle-container {
@@ -180,10 +180,7 @@
         left: 0;
         top: 5px;
         position: absolute;
-    }
 
-    .THIS .as-container .as-sub-title.cookieDesc {
-        width: 100%;
     }
 }
 
@@ -194,8 +191,7 @@
         margin-bottom: 15px;
     }
 
-    .THIS .apollo-btn,
-    .THIS .as-container .as-email-preference {
+    .THIS .apollo-btn {
         width: 100%;
     }
 
@@ -203,5 +199,6 @@
         width: 100%;
         height: auto;
     }
+
 
 }
