@@ -5,8 +5,11 @@
 }
 .THIS .rr-white-panel {
     overflow: visible;
-    margin-top: -40px;
+    margin-top: -65px;
     font-family: "Proxima Nova";
+    border:none;
+    border-radius: 0px;
+    box-shadow: 0px;
 }
 
 .THIS .rr-body-content {
@@ -26,6 +29,11 @@
     margin-bottom: 10px;
     font-size: 18px;
     font-family: "Proxima Nova";
+    height: 32px;
+    width: 216px;
+    color: #000000;
+    letter-spacing: 0;
+    line-height: 32px;
 }
 
 .THIS .te-col-header-info {
@@ -33,6 +41,15 @@
     font-weight: bold;
     font-family: "Proxima Nova";
 }
+
+.THIS .p-header.normal {
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 20px;
+    font-weight: 600;
+
+}
+
 
 .THIS .slds-form-element__label{
     padding-bottom: 5px;
