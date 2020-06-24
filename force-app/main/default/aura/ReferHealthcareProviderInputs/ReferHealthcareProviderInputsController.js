@@ -9,7 +9,9 @@
         if (email && communityService.isValidEmail(email.trim()) && sharingObject.sObjectType != 'Object') {
             helper.doCheckContact(component, event, helper, null, null, email.trim());
         }
-        if(isValid && sharingObject.sObjectType == 'Object'){
+        console.log('sharingObject.sObjectType >>>>>',sharingObject.sObjectType);
+        console.log('isValid >>>>>',isValid);
+        if(isValid && sharingObject.sObjectType == 'Object' && sharingObject.firstName && sharingObject.lastName && sharingObject.email.trim()){
             helper.doCheckContact(component, event, helper, sharingObject.firstName, sharingObject.lastName, sharingObject.email.trim());
         }
 
@@ -97,7 +99,7 @@
     checkDelegateDuplicate: function(component, event, helper){
         var isValid = component.get('v.isValid');
         var sharingObject = component.get('v.sharingObject');
-        if(isValid && sharingObject.sObjectType == 'Object'){
+        if(isValid && sharingObject.sObjectType == 'Object' && sharingObject.firstName && sharingObject.lastName && sharingObject.email.trim()){
             helper.doCheckContact(component, event, helper, sharingObject.firstName, sharingObject.lastName, sharingObject.email.trim());
         }
     },

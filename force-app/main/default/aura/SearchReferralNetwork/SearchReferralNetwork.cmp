@@ -42,7 +42,7 @@
             <aura:if isTrue="{!!empty(v.records)}">
                 <tbody>
                     <aura:iteration items="{!v.records}" var="record" indexVar="arrayInd">
-                        
+                      
                         <div class="slds-badge__icon slds-badge__icon_right  slds-wrap">
                             <ul class="slds-list_horizontal">
                                 <li>
@@ -53,6 +53,7 @@
                             </ul>
                             
                         </div>
+                      
                     </aura:iteration>
                     
                 </tbody>
