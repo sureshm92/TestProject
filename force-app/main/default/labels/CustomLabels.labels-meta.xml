@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
-        <fullName>PG_Unable_To_Login</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG_Unable_To_Login</shortDescription>
-        <value>Unable to log in?</value>
-    </labels>
-    <labels>
-        <fullName>PG_Unable_To_Login_L1</fullName>
-        <language>en_US<<?xml version="1.0" encoding="UTF-8"?>
-<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
-    <labels>
         <fullName>ALT</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11376,7 +11365,7 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <shortDescription>PG Task Tab No Tasks Delegate</shortDescription>
         <value>##ParticipantFirstName does not currently have any tasks created or assigned at this time.</value>
     </labels>
-	<labels>
+	 <labels>
         <fullName>PG_Unable_To_Login</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -14947,74 +14936,5 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <protected>true</protected>
         <shortDescription>configuation table</shortDescription>
         <value>Name</value>
-    </labels>
-</CustomLabels>
-/language>
-        <protected>false</protected>
-        <shortDescription>PG_Unable_To_Login_L1</shortDescription>
-        <value>Are you locked out?</value>
-    </labels>
-    <labels>
-        <fullName>PG_Unable_To_Login_L10</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG_Unable_To_Login_L10</shortDescription>
-        <value>for help with password reset and we will investigate any potential security issues.</value>
-    </labels>
-    <labels>
-        <fullName>PG_Unable_To_Login_L2</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG_Unable_To_Login_L2</shortDescription>
-        <value>You have been locked out of your account because of several failed login attempts. Please wait for 15 minutes before trying to log back in again. If you have already waited for 15 minutes and cannot log in, please click on</value>
-    </labels>
-    <labels>
-        <fullName>PG_Unable_To_Login_L3</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG_Unable_To_Login_L3</shortDescription>
-        <value>to have your password reset.</value>
-    </labels>
-    <labels>
-        <fullName>PG_Unable_To_Login_L4</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG_Unable_To_Login_L4</shortDescription>
-        <value>Didn&#39;t receive your password reset email?</value>
-    </labels>
-    <labels>
-        <fullName>PG_Unable_To_Login_L5</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG_Unable_To_Login_L5</shortDescription>
-        <value>if you have not received your password reset email within 2 hours, please email</value>
-    </labels>
-    <labels>
-        <fullName>PG_Unable_To_Login_L6</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG_Unable_To_Login_L6</shortDescription>
-        <value>support@mail.clinicalresearch.com</value>
-    </labels>
-    <labels>
-        <fullName>PG_Unable_To_Login_L7</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG_Unable_To_Login_L7</shortDescription>
-        <value>and provide your name, the email address you used for registration, and your phone number so that we can verify that you are a valid user and can call you if necessary with assistance.</value>
-    </labels>
-    <labels>
-        <fullName>PG_Unable_To_Login_L8</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG_Unable_To_Login_L8</shortDescription>
-        <value>Need to contact technical support?</value>
-    </labels>
-    <labels>
-        <fullName>PG_Unable_To_Login_L9</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG_Unable_To_Login_L9</shortDescription>
-        <value>Send us an email at</value>
     </labels>
 </CustomLabels>
