@@ -57,7 +57,6 @@
     <!-- component body: -->
     <c:Popup aura:id="dialog" title="{!v.popUpTitle}" size="large" showScroll="true" showHeader="true"
              showFooter="true">
-        <aura:if isTrue="{!v.NotCCMode}">
         <aura:if isTrue="{!!v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp;
                  !v.pe.Participant__r.Marketing_Flag__c &amp;&amp; v.pe.Participant__r.Email__c &amp;&amp;
                  v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c}">
@@ -71,7 +70,6 @@
                         data-gtm="BTN_Invite_To_PP">{!$Label.c.BTN_Create_User_on_PE_Info}</button>
             </div>
         </aura:if>
-    </aura:if>
         <c:RRSpinner aura:id="spinner" size="medium"/>
         <div class="form-content" data-gtm="Tabs_View_Details" id="anchor">
             <aura:if isTrue="{!v.initialized}">

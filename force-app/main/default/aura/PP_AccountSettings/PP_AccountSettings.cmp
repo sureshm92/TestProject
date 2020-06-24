@@ -4,6 +4,7 @@
     <aura:attribute name="initData" type="Object" access="private"/>
     <aura:attribute name="userMode" type="String" required="true"/>
     <aura:attribute name="isDelegate" type="Boolean"/>
+     <aura:attribute name="userTypeHCP_PI" type="Boolean" default="false"/>
     
     <aura:attribute name="contactSectionData" type="Object"/>
     <aura:attribute name="personWrapper" type="Object"/>
@@ -40,13 +41,14 @@
                     <h2 class="title"> {!$Label.c.PP_Account_Settings}</h2>
                     <div class="navBar">
                         <ul onclick="{!c.onClick}" onmouseover="{!c.UpdateColor}">
+
                             <li class="{!(v.compId=='1') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="1" onclick="{!c.selectProfile}">{!$Label.c.PP_Profile_Information}</a></li>
                             <li class="{!(v.compId=='2') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="2" onclick="{!c.selectPassword}">{!$Label.c.PP_Password_Management}</a></li>
                             <li class="{!(v.compId=='3') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="3" onclick="{!c.selectLanguage}">{!$Label.c.PP_Language_and_Location}</a></li>
-                             <aura:if isTrue="{!v.userMode == 'HCP'}"> 
+                             <aura:if isTrue="{!(v.userMode == 'HCP' || v.userTypeHCP_PI)}"> 
                             <li class="{!(v.compId=='6') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="6" onclick="{!c.selectLanguage}">{!$Label.c.RH_Notification}</a></li>
                             </aura:if>
-                              <aura:if isTrue="{!v.userMode == 'HCP' || v.userMode == 'Participant'}">
+                              <aura:if isTrue="{!(v.userMode == 'HCP' || v.userMode == 'Participant' || v.userTypeHCP_PI)}">
                                  <li class="{!(v.compId=='4') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="4" onclick="{!c.selectCoi}">{!$Label.c.PP_Customize_Experience}</a></li>
                             </aura:if>
                                  <aura:if isTrue="{!!v.isDelegate}">

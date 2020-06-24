@@ -185,13 +185,24 @@ if(component.get('v.personWrapper.mobilePhone')==''){
     doCheckFieldsValidity: function(component, event, helper){
         event.preventDefault();
 
-        let personWrapper = component.get('v.personWrapper');
-        if(!personWrapper.firstName || !personWrapper.lastName || !personWrapper.dateBirth){
-            component.set('v.disableSave',true);
- 
-        }else{
-            component.set('v.disableSave',false);
- 
+       let personWrapper = component.get('v.personWrapper');
+        if(component.get('v.userMode') == 'Participant') {
+            if(!personWrapper.firstName || !personWrapper.lastName || !personWrapper.dateBirth){
+                component.set('v.disableSave',true);
+                
+            }else{
+                component.set('v.disableSave',false);
+                
+            }
+        } else if(component.get('v.userMode') == 'HCP' || component.get('v.userMode') == 'PI')
+        {
+            if(!personWrapper.firstName || !personWrapper.lastName){
+                component.set('v.disableSave',true);
+            }
+            else{
+                 component.set('v.disableSave',false);
+            }
+                
         }
         if(personWrapper.mailingCC !== component.get('v.previousCC')) {
             let statesByCountryMap = component.get('v.statesByCountryMap');
@@ -261,6 +272,13 @@ if(component.get('v.personWrapper.mobilePhone')==''){
         let initData = component.get('v.initData');
         let isUserDelegate = component.get('v.isDelegate');
          let newEmail = initData.myContact.Email;
+         communityService.executeAction(component, 'changeEmail', {
+            newEmail: newEmail
+        }, function (returnValue) {
+            component.set('v.currentEmail', newEmail);
+        }, null, function () {
+            component.set('v.showSpinner', false);
+        })
         if(!isUserDelegate){
             if (!newEmail) {
            communityService.showToast('error', 'error', $A.get('$Label.c.TST_Email_can_t_be_empty'));
@@ -283,15 +301,16 @@ if(component.get('v.personWrapper.mobilePhone')==''){
            
         }, null, function () {
          
-        });  
-        
-        communityService.executeAction(component, 'changeEmail', {
+        }); 
+		 communityService.executeAction(component, 'changeEmail', {
             newEmail: newEmail
         }, function (returnValue) {
             component.set('v.currentEmail', newEmail);
         }, null, function () {
             component.set('v.showSpinner', false);
         })
+        
+       
     },
     handleMobileValidation : function(component,event) {
         var inputValue = event.getSource().get("v.value");

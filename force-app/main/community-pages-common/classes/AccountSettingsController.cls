@@ -228,6 +228,7 @@ public without sharing class AccountSettingsController {
         return [
             SELECT Id,
             FirstName,
+			MiddleName,
             LastName,
             AccountId,
             Email,
@@ -255,6 +256,7 @@ public without sharing class AccountSettingsController {
             RRLanguageAllowedCookie__c,
             Salutation,
             userCommunityDelegateId__c,
+			userCommunytyType__c,
             Phone_Type__c
             FROM Contact
             WHERE Id IN (
@@ -422,9 +424,11 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             if (isParticipant) participantId = participant.Id;
             
             firstName = isParticipant ? participant.First_Name__c : contact.FirstName;
+			middleName = isParticipant ? participant.Middle_Name__c : contact.MiddleName;
             lastName = isParticipant ? participant.Last_Name__c : contact.LastName;
             homePhone = isParticipant ? participant.Phone__c : contact.Phone;
-            mobilePhone = (contact.Phone_Type__c == 'Mobile' || (isParticipant ? participant.Phone_Type__c == 'Mobile':false)) ? homePhone : contact.MobilePhone;
+           //mobilePhone = (contact.Phone_Type__c == 'Mobile' || (isParticipant ? participant.Phone_Type__c == 'Mobile':false)) ? homePhone : contact.MobilePhone;
+            mobilePhone = contact.MobilePhone;
             fax = contact.Fax;
             optInEmail = contact.Participant_Opt_In_Status_Emails__c;
             optInSMS = contact.Participant_Opt_In_Status_SMS__c;
@@ -439,7 +443,6 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             phoneType = isParticipant ? participant.Phone_Type__c : contact.Phone_Type__c;
 
             if (isParticipant) {
-                middleName = participant.Middle_Name__c;
                 dateBirth = participant.Date_of_Birth__c;
                 gender = participant.Gender__c;
                 suffix = participant.Suffix__c ;
@@ -449,12 +452,13 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         
         public Contact convertToContact() {
             Contact personContact = new Contact(Id = contactId);
-                 personContact.MobilePhone = phoneType =='Mobile' ? homePhone : mobilePhone;
+                  personContact.MobilePhone = mobilePhone;
 
             
             if (isParticipant) return personContact;
             
             personContact.FirstName = firstName;
+			personContact.MiddleName = MiddleName;
             personContact.LastName = lastName;
             personContact.Phone = homePhone;
             personContact.Fax = fax;

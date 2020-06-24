@@ -99,8 +99,36 @@ global without sharing class ReferHealthcareProviderRemote {
                 contactQuery += ' AND (Email = \'' + String.escapeSingleQuotes(email) + '\''
                         + ' OR Email = \'' + String.escapeSingleQuotes(email.toLowerCase()) + '\')';
             }
-
+            List<Participant__c> delegateParticipants = new List<Participant__c>();
+            Set<Id> delegateContactsIds = new Set<Id>();
             List<Contact> contacts = Database.query(contactQuery);
+            if(contacts.isEmpty() && !String.isBlank(firstName) && !String.isBlank(lastName)){
+                delegateParticipants = [
+                        SELECT Id,
+                                First_Name__c,
+                                Last_Name__c,
+                                Phone__c,
+                                Phone_Type__c,
+                                Contact__c
+                        FROM Participant__c
+                        WHERE (First_Name__c = :firstName OR First_Name__c = :firstName.toLowerCase())
+                               AND (Last_Name__c = :lastName OR Last_Name__c = :lastName.toLowerCase())
+                               AND (Email__c = :email OR Email__c = :email.toLowerCase())
+                ];
+                if(!delegateParticipants.isEmpty()){
+                    contacts = [
+                            SELECT Id,
+                                    FirstName,
+                                    LastName,
+                                    Name,
+                                    Email,
+                                    Phone,
+                                    userCommunytyType__c
+                            FROM Contact
+                            WHERE userCommunityMode__c != 'CC' AND Id = :delegateParticipants[0].Contact__c
+                    ];
+                }
+            }
             if (!contacts.isEmpty()) {
                 hp.contactId = contacts[0].Id;
                 hp.contactPhoneNumber = contacts[0].Phone;
@@ -109,15 +137,18 @@ global without sharing class ReferHealthcareProviderRemote {
                 firstName = contacts[0].FirstName;
                 lastName = contacts[0].LastName;
                 // if (String.isBlank(contacts[0].FirstName) || String.isBlank(contacts[0].LastName)) {
-                List<Participant__c> participants = [
-                        SELECT Id,
-                                First_Name__c,
-                                Last_Name__c,
-                                Phone__c,
-                                Phone_Type__c
-                        FROM Participant__c
-                        WHERE Contact__c = :contacts[0].Id
-                ];
+                List<Participant__c> participants;
+                if(delegateParticipants.isEmpty()) {
+                    participants = [
+                            SELECT Id,
+                                    First_Name__c,
+                                    Last_Name__c,
+                                    Phone__c,
+                                    Phone_Type__c
+                            FROM Participant__c
+                            WHERE Contact__c = :contacts[0].Id
+                    ];
+                } else participants = delegateParticipants;
                 if (!participants.isEmpty()) {
                     hp.participantId = participants[0].Id;
                     hp.contactPhoneNumber = participants[0].Phone__c;
