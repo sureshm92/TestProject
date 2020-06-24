@@ -4,73 +4,66 @@
 
 ({
     doInit: function (component, event, helper) {
-        let communityModes = {
-            isPPItemsCollapsed: false,
-            isRHItemsCollapsed: false,
-            isPPItemsSelected: false,
-            isRHItemsSelected: true,
-            type: 'PP_And_RH',
-            ppModeItems: [
-                {
-                    title: 'Del Delegate',
-                    isDelegate: false,
-                    subItems: [
-                        {
-                            title: 'Del Delegate',
-                            subTitle: 'No active studies',
-                            isDelegate: true,
-                            isSelected: true
-                        }
-                    ]
+        communityService.executeAction(component, 'getSwitcherInitData', null, function (returnValue) {
+            const userData = JSON.parse(returnValue);
+            component.set('v.user', userData.user);
+            component.set('v.hasProfilePic', userData.hasProfilePic);
+            component.set('v.communityModes', userData.communityModes);
+            component.set('v.currentMode', communityService.getCurrentCommunityMode());
+        });
+    },
+
+    doSelectItem: function (component, event, helper) {
+        const source = event.getParam('source');
+        let navigateTo = source.get('v.navigateTo');
+        const itemValue = source.get('v.itemValue');
+        var comModes = component.get('v.communityModes');
+        if (navigateTo && !itemValue) {
+            communityService.navigateToPage(navigateTo);
+        } else if (itemValue) {
+            if (itemValue.subItems.length === 0) {
+                let currentDelegateId;
+                let currentEnrollmentId;
+                if (itemValue.mode === 'Participant') {
+                    currentDelegateId = itemValue.delegateId;
+                    currentEnrollmentId = itemValue.peId;
+                } else {
+                    currentDelegateId = itemValue.itemId;
+                    currentEnrollmentId = null;
                 }
-            ],
-            rhModeItems: [
-                {
-                    isGroup: false,
-                    isSelected: false,
-                    isCollapsed: false,
-                    title: 'View as Investigative Site',
-                    itemType: 'PI',
-                    itemId: '',
-                    subItems: []
-                },
-                {
-                    isGroup: true,
-                    isSelected: true,
-                    isCollapsed: false,
-                    title: 'View as Referring Provider',
-                    itemType: 'RP',
-                    itemId: '',
-                    subItems: [
-                        {
-                            isGroup: false,
-                            isSelected: true,
-                            isCollapsed: false,
-                            title: 'Dr. Oliver Scott',
-                            itemType: 'RP',
-                            itemId: '',
-                            subItems: []
-                        },
-                        {
-                            isGroup: false,
-                            isSelected: false,
-                            isCollapsed: false,
-                            title: 'Dr. Lana Liama',
-                            itemType: 'RP',
-                            itemId: '0912321324234',
-                            subItems: []
+                communityService.executeAction(component, 'changeMode', {
+                    mode: itemValue.mode,
+                    delegateId: currentDelegateId,
+                    peId: currentEnrollmentId,
+                    communityModes: JSON.stringify(comModes)
+                }, function (returnValue) {
+                    const comData = JSON.parse(returnValue);
+                    component.set('v.currentMode', comData.currentMode);
+                    component.set('v.communityModes', comData.communityModes);
+                    communityService.setCurrentCommunityMode(comData.currentMode);
+
+                    if (comData.currentMode.template.needRedirect) return;
+                    if (!navigateTo) {
+                        if (communityService.getUserMode() === 'Participant') {
+                            navigateTo = communityService.getFullPageName();
+                        } else {
+                            navigateTo = '';
                         }
-                    ]
-                }
-            ]
-        };
-        component.set('v.communityModes', communityModes);
-        // communityService.executeAction(component, 'getSwitcherInitData', null, function (returnValue) {
-        //     const userData = JSON.parse(returnValue);
-        //     component.set('v.user', userData.user);
-        //     component.set('v.communityModes', userData.communityModes);
-        //     component.set('v.currentMode', communityService.getCurrentCommunityMode());
-        // });
+                    }
+                    communityService.navigateToPage(navigateTo);
+
+                    component.set('v.reset', true);
+                    component.set('v.reset', false);
+
+                    communityService.executeAction(component, 'getCommunityUserVisibility', null, function (userVisibility) {
+                        communityService.setMessagesVisible(userVisibility.messagesVisible);
+                        communityService.setTrialMatchVisible(userVisibility.trialMatchVisible);
+                        component.getEvent('onModeChange').fire();
+                        component.find('pubsub').fireEvent('reload');
+                    });
+                });
+            }
+        }
     },
 
     logout: function (component, event, helper) {

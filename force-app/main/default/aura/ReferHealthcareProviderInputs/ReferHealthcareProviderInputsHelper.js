@@ -69,6 +69,10 @@
         var parent = component.get('v.parent');
         parent.find('spinner').show();
         var pe = component.get('v.pe');
+        console.log('pe.Id>>>',pe.Id);
+        console.log('firstName>>>',firstName);
+        console.log('email>>>',email);
+        console.log('lastName>>>',lastName);
         communityService.executeAction(component, 'checkDuplicate', {
             peId: pe.Id,
             email: email,
@@ -78,8 +82,10 @@
         }, function (returnValue) {
             if (returnValue.firstName) {
                 if (sharingObject.sObjectType == 'Object') {
-                    if(returnValue.isDuplicateDelegate || returnValue.contactId || returnValue.participantId) component.set('v.useThisDelegate', false);
-                    else component.set('v.useThisDelegate', true);
+                    if(returnValue.isDuplicateDelegate || returnValue.contactId || returnValue.participantId){
+                        component.set('v.useThisDelegate', true);
+                        component.set('v.useThisDelegate', false);
+                    } else component.set('v.useThisDelegate', true);
                     component.set('v.duplicateDelegateInfo', returnValue);
                     component.set('v.sharingObject.email', email);
                     component.set('v.sharingObject.firstName', returnValue.firstName);

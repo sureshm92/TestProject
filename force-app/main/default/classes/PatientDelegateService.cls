@@ -29,6 +29,7 @@ public without sharing class PatientDelegateService {
                         'Participant__r.Full_Name__c',
                         'Participant__r.Contact__c',
                         'Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c',
+                        'Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c',
                         'Participant__r.First_Name__c',
                         'Participant__r.Last_Name__c',
                         'Contact__c'

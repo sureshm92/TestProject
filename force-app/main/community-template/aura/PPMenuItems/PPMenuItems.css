@@ -2,12 +2,12 @@
  * Created by Olga Skrynnikova on 6/10/2020.
  */
 
-.THIS .unset:first-child .main-box .menu-item-box .icon-cog{
+.THIS .unset:first-child .main-box .menu-item-box .icon-settings-box .icon-cog{
     visibility: visible;
     opacity: unset;
 }
 
-.THIS .contain:first-child .unset .main-box .menu-item-box .icon-delegate{
+.THIS .contain:first-child .unset:first-child .main-box .menu-item-box .icon-settings-box .icon-delegate-box .icon-delegate{
     visibility: visible;
     opacity: unset;
 }
@@ -17,17 +17,19 @@
     font-size: 16px;
     letter-spacing: 0;
     font-weight: 600;
-    width: 215px;
+    width: 280px;
     line-height: 28px!important;
     margin-top: 10px!important;
     display: flex;
-    align-content: space-between;
-
+    justify-content: space-between;
 }
 
 .THIS .menu-sub-item{
     width: 250px;
     color: #797979;
+    font-size: 14px;
+    line-height: 28px!important;
+    margin-bottom: 10px!important;
 }
 
 .THIS .selected{
@@ -62,11 +64,17 @@
 }
 
 .THIS .icon-settings-box{
-    padding-left: 21px;
     display: flex;
-    justify-content: space-between;
-    position: absolute;
-    right: 10px;
+    justify-content: flex-end;
+    margin-right: 20px;
 }
 
+.THIS .main-box{
+    padding-left: 32px;
+    border-bottom: 1px solid #F8F9FB;
+}
+
+.THIS .icon-box{
+    margin-left: 21px;
+}
 

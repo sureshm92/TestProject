@@ -23,9 +23,20 @@
             
            let todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
         	component.set('v.todayDate', todayDate);
-            component.set('v.initData', initData);
+            component.set('v.initData', initData); 
             component.set('v.contactChanged', initData.contactChanged);
+            component.set('v.institute', initData.contactSectionData.institute);
             component.set('v.personWrapper', initData.contactSectionData.personWrapper);
+            if(initData.contactSectionData.personWrapper) { // split mailing street(address line1 and address line2)
+                if(initData.contactSectionData.personWrapper.mailingStreet) 
+                    helper.splitAddress(component, initData.contactSectionData.personWrapper.mailingStreet);
+                
+                if(initData.contactSectionData.personWrapper.mailingCC &&  initData.contactSectionData.statesByCountryMap) {
+                    let statesByCountryMap = initData.contactSectionData.statesByCountryMap;
+                    let states = statesByCountryMap[initData.contactSectionData.personWrapper.mailingCC];
+                    component.set('v.statesLVList', states);  
+                }
+            }
             component.set('v.contactSectionData', initData.contactSectionData);
             component.set('v.optInEmail', initData.contactSectionData.personWrapper.optInEmail);
             component.set('v.optInSMS', initData.contactSectionData.personWrapper.optInSMS);
@@ -174,13 +185,24 @@ if(component.get('v.personWrapper.mobilePhone')==''){
     doCheckFieldsValidity: function(component, event, helper){
         event.preventDefault();
 
-        let personWrapper = component.get('v.personWrapper');
-        if(!personWrapper.firstName || !personWrapper.lastName || !personWrapper.dateBirth){
-            component.set('v.disableSave',true);
- 
-        }else{
-            component.set('v.disableSave',false);
- 
+       let personWrapper = component.get('v.personWrapper');
+        if(component.get('v.userMode') == 'Participant') {
+            if(!personWrapper.firstName || !personWrapper.lastName || !personWrapper.dateBirth){
+                component.set('v.disableSave',true);
+                
+            }else{
+                component.set('v.disableSave',false);
+                
+            }
+        } else if(component.get('v.userMode') == 'HCP' || component.get('v.userMode') == 'PI')
+        {
+            if(!personWrapper.firstName || !personWrapper.lastName){
+                component.set('v.disableSave',true);
+            }
+            else{
+                 component.set('v.disableSave',false);
+            }
+                
         }
         if(personWrapper.mailingCC !== component.get('v.previousCC')) {
             let statesByCountryMap = component.get('v.statesByCountryMap');
@@ -231,20 +253,33 @@ if(component.get('v.personWrapper.mobilePhone')==''){
         var per=component.get('v.personWrapper');
         console.log(JSON.stringify(per));
             component.find('spinner').show();
+		  var personWrapper = component.get('v.personWrapper');
+        var addressLine1 = component.get('v.addressLine1');
+        var addressLine2 = component.get('v.addressLine2');
+        if(personWrapper)
+            personWrapper.mailingStreet = addressLine1 + ' ' + addressLine2;
+
             communityService.executeAction(component, 'updatePerson', {
                 wrapperJSON: JSON.stringify(component.get('v.personWrapper'))
             }, function () {
                 component.set('v.participantHasUpdateTasks', false);
                 helper.setPersonSnapshot(component);
                 component.find('spinner').hide();
-                 $A.get('e.force:refreshView').fire();
+                 communityService.navigateToPage('account-settings'); 
                 communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'),100);
     
             });
         let initData = component.get('v.initData');
         let isUserDelegate = component.get('v.isDelegate');
+         let newEmail = initData.myContact.Email;
+         communityService.executeAction(component, 'changeEmail', {
+            newEmail: newEmail
+        }, function (returnValue) {
+            component.set('v.currentEmail', newEmail);
+        }, null, function () {
+            component.set('v.showSpinner', false);
+        })
         if(!isUserDelegate){
-            let newEmail = initData.myContact.Email;
             if (!newEmail) {
            communityService.showToast('error', 'error', $A.get('$Label.c.TST_Email_can_t_be_empty'));
            return;
@@ -256,13 +291,26 @@ if(component.get('v.personWrapper.mobilePhone')==''){
        }    
        }
         component.set('v.showSpinner', true);
-        communityService.executeAction(component, 'changeEmail', {
+        var inst = component.get('v.institute');
+        console.log(inst.Name);
+       // console.log(v.institute.Name)
+        
+         communityService.executeAction(component, 'updateAccount', {
+            AccName : inst.Name
+        }, function (returnValue) {
+           
+        }, null, function () {
+         
+        }); 
+		 communityService.executeAction(component, 'changeEmail', {
             newEmail: newEmail
         }, function (returnValue) {
             component.set('v.currentEmail', newEmail);
         }, null, function () {
             component.set('v.showSpinner', false);
         })
+        
+       
     },
     handleMobileValidation : function(component,event) {
         var inputValue = event.getSource().get("v.value");

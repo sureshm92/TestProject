@@ -17,28 +17,9 @@
     "type" : "region"
   }, {
     "components" : [ {
-      "componentAttributes" : {
-        "recordId" : "{!recordId}"
-      },
-      "componentName" : "forceCommunity:recordHeadline",
-      "id" : "70b33b1d-143c-4b4c-b2e4-14d51c89142e",
-      "renderPriority" : "NEUTRAL",
-      "renditionMap" : { },
-      "type" : "component"
-    }, {
-      "componentAttributes" : {
-        "detailsTabLabel" : "Details",
-        "discussionsTabLabel" : "Feed",
-        "recordId" : "{!recordId}",
-        "relatedTabLabel" : "Related",
-        "tab1Type" : "details",
-        "tab2Type" : "related",
-        "tab3Type" : "chatter",
-        "tab4Type" : "none",
-        "timelineTabLabel" : "Activity"
-      },
-      "componentName" : "forceCommunity:recordHomeTabs",
-      "id" : "3098de71-2d9f-4392-a2da-ed46bc41c2de",
+      "componentAttributes" : { },
+      "componentName" : "c:SpinnerPage",
+      "id" : "5de92076-6f3e-4ccf-97bb-e83e511ed02a",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"

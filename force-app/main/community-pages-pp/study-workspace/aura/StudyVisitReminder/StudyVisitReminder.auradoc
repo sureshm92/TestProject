@@ -1,0 +1,6 @@
+<aura:documentation>
+	<aura:description>
+		<code>c:StudyVisitReminder</code> Implements the <code>c:Popup</code> logic to create and edit task in PP.
+	</aura:description>
+	<aura:example name="ExampleVisitReminder" ref="c:StudyVisitReminder" label="Example of StudyVisitReminder" />
+</aura:documentation>

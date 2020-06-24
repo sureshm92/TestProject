@@ -105,6 +105,16 @@ public without sharing class AccountSettingsController {
             AuraHelper.throwException(e);
         }
     }
+     @AuraEnabled
+    public static void updateAccount(String AccName) {
+        try {
+            Account acc = [select id from account where id=: getCurrentContact().AccountId];
+            acc.Name = AccName;
+            update acc;
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
     
     @AuraEnabled
     public static void updatePerson(String wrapperJSON) {
@@ -121,17 +131,13 @@ public without sharing class AccountSettingsController {
         }
     }
     
-    @AuraEnabled
+   @AuraEnabled
     public static void changeEmail(String newEmail) {
         try {
-             Contact currentContact ;
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
+            initData.myContact = getCurrentContact();
             if(initData.myContact.userCommunityDelegateId__c != null){
                 initData.myContact = ContactService.getContact(initData.myContact.userCommunityDelegateId__c);
-            }else{
-                initData.myContact = getCurrentContact();
-
-                
             }
             initData.myContact.Email = newEmail;
             update initData.myContact;
@@ -154,21 +160,11 @@ public without sharing class AccountSettingsController {
     public static void changeOptInEmail(Boolean participantOptInStatusEmail, Boolean hcpOptInPatientEmail, Boolean hcpOptInStudyEmail, Boolean hcpOptInRefStatusEmail) {
         try {
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
+                        initData.myContact = getCurrentContact();
             if(initData.myContact.userCommunityDelegateId__c != null){
-                system.debug('inside delegate Id-->');
                 initData.myContact = ContactService.getContact(initData.myContact.userCommunityDelegateId__c);
-            }else{
-                                system.debug('inside normal user-->');
-
-                initData.myContact = getCurrentContact();
-            }
-
-           /* currentContact.Participant_Opt_In_Status_Emails__c = participantOptInStatusEmail;
-            currentContact.HCP_Opt_In_Patient_Status_Emails__c = hcpOptInPatientEmail;
-            currentContact.HCP_Opt_In_Study_Emails__c = hcpOptInStudyEmail;
-            currentContact.HCP_Opt_In_Referral_Status_Emails__c = hcpOptInRefStatusEmail;
-            update currentContact;*/
-             initData.myContact.Participant_Opt_In_Status_Emails__c = participantOptInStatusEmail;
+            }             
+            initData.myContact.Participant_Opt_In_Status_Emails__c = participantOptInStatusEmail;
             initData.myContact.HCP_Opt_In_Patient_Status_Emails__c = hcpOptInPatientEmail;
             initData.myContact.HCP_Opt_In_Study_Emails__c = hcpOptInStudyEmail;
             initData.myContact.HCP_Opt_In_Referral_Status_Emails__c = hcpOptInRefStatusEmail;
@@ -182,13 +178,10 @@ public without sharing class AccountSettingsController {
     public static void changeOptInSMS(Boolean participantOptInStatusSMS) {
         try {
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
+            initData.myContact = getCurrentContact();
             if(initData.myContact.userCommunityDelegateId__c != null){
                 initData.myContact = ContactService.getContact(initData.myContact.userCommunityDelegateId__c);
-            }else{
-                initData.myContact = getCurrentContact();
             }
-
-
             initData.myContact.Participant_Opt_In_Status_SMS__c = participantOptInStatusSMS;
             
             update initData.myContact;
@@ -220,7 +213,7 @@ public without sharing class AccountSettingsController {
             Date_of_Birth__c,
             Nickname__c,
             Suffix__c,
-            Phone_Type__c	
+            Phone_Type__c  
             FROM Participant__c
             WHERE Contact__c = :pContact.Id
         ];
@@ -235,6 +228,7 @@ public without sharing class AccountSettingsController {
         return [
             SELECT Id,
             FirstName,
+			MiddleName,
             LastName,
             AccountId,
             Email,
@@ -262,6 +256,7 @@ public without sharing class AccountSettingsController {
             RRLanguageAllowedCookie__c,
             Salutation,
             userCommunityDelegateId__c,
+			userCommunytyType__c,
             Phone_Type__c
             FROM Contact
             WHERE Id IN (
@@ -429,9 +424,11 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             if (isParticipant) participantId = participant.Id;
             
             firstName = isParticipant ? participant.First_Name__c : contact.FirstName;
+			middleName = isParticipant ? participant.Middle_Name__c : contact.MiddleName;
             lastName = isParticipant ? participant.Last_Name__c : contact.LastName;
             homePhone = isParticipant ? participant.Phone__c : contact.Phone;
-            mobilePhone = (contact.Phone_Type__c == 'Mobile' || (isParticipant ? participant.Phone_Type__c == 'Mobile':false)) ? homePhone : contact.MobilePhone;
+           //mobilePhone = (contact.Phone_Type__c == 'Mobile' || (isParticipant ? participant.Phone_Type__c == 'Mobile':false)) ? homePhone : contact.MobilePhone;
+            mobilePhone = contact.MobilePhone;
             fax = contact.Fax;
             optInEmail = contact.Participant_Opt_In_Status_Emails__c;
             optInSMS = contact.Participant_Opt_In_Status_SMS__c;
@@ -446,7 +443,6 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             phoneType = isParticipant ? participant.Phone_Type__c : contact.Phone_Type__c;
 
             if (isParticipant) {
-                middleName = participant.Middle_Name__c;
                 dateBirth = participant.Date_of_Birth__c;
                 gender = participant.Gender__c;
                 suffix = participant.Suffix__c ;
@@ -456,12 +452,13 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         
         public Contact convertToContact() {
             Contact personContact = new Contact(Id = contactId);
-                 personContact.MobilePhone = phoneType =='Mobile' ? homePhone : mobilePhone;
+                  personContact.MobilePhone = mobilePhone;
 
             
             if (isParticipant) return personContact;
             
             personContact.FirstName = firstName;
+			personContact.MiddleName = MiddleName;
             personContact.LastName = lastName;
             personContact.Phone = homePhone;
             personContact.Fax = fax;

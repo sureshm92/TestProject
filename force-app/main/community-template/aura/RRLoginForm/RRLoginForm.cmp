@@ -28,6 +28,7 @@
     <aura:attribute name="communitySelfRegisterUrl" type="String" access="private"/>
 
     <aura:attribute name="paddingTop" type="String" access="private" default="40px"/>
+    <aura:attribute name="ieClass" type="String" access="private" default=""/>
 
     <aura:registerevent name="sitePropagatedStartUrl" type="c:setStartUrl"/>
     <aura:dependency resource="c:setStartUrl" type="EVENT"/>
@@ -47,7 +48,7 @@
                     </div>
                 </aura:renderIf>
             </span>
-            <div class="lg-form-element">
+            <div class="{!'lg-form-element ' + v.ieClass}">
                 <label>{!$Label.c.PG_Login_F_User_Name}</label>
                 <!--<ui:inputText value="" aura:id="username" keyup="{!c.onKeyUp}" class="input sfdc_usernameinput sfdc" label="{!v.usernameLabel}" labelClass="assistiveText"/>-->
 					<span onkeyup="{!c.onKeyUp}" id="username">
@@ -58,7 +59,7 @@
 					</span>
             </div>
 
-            <div class="lg-form-element">
+            <div class="{!'lg-form-element ' + v.ieClass}">
                 <label>{!$Label.c.PG_Login_F_Password}</label>
                 <!--<ui:inputSecret value="" aura:id="password" keyup="{!c.onKeyUp}" class="input sfdc_passwordinput sfdc" label="{!v.passwordLabel}" labelClass="assistiveText"/>-->
 				<!-- added by Sumit S REF-510-->

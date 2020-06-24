@@ -7,6 +7,7 @@
     <aura:attribute name="participantWorkflowWrapper" type="Object" required="true"/>
     <aura:attribute name="parent" type="Aura.Component" />
     <aura:attribute name="updateInProgress" type="Boolean"  default="false"/>
+    <aura:attribute name="NotCCMode" type="Boolean"  default="true" access="public"/>
     <!-- Attribute to capture the changes made in child 
     <aura:attribute name="childChanges" type="List" default="[]"/>
     -->
@@ -31,6 +32,7 @@
     <div class="slds-grid slds-wrap">
             <div class="slds-col slds-max-small-size_1-of-1 slds-size--1-of-3  slds-p-horizontal--medium">
             <aura:iteration items="{!v.participantWorkflowWrapper.steps}" var="step" indexVar="stepInd">
+                <aura:if isTrue="{!v.NotCCMode}">
                 <div>
                     <button class="apollo-btn secondary step-btn" data-step-ind="{!stepInd}" onclick="{!c.doChangeStep}" disabled="{!step.state=='neutral' || v.updateInProgress}">
                         <div class="{!'step-status-icon icon-' + step.state}">
@@ -47,16 +49,51 @@
                         </div>
                     </button>
                 </div>
+                   
+                <aura:set attribute="else">
+                    <aura:if isTrue="{!step.title =='Received' || step.title =='Contact'}">
+                  <div>
+                    <button class="apollo-btn secondary step-btn" data-step-ind="{!stepInd}" onclick="{!c.doChangeStep}" disabled="{!step.state=='neutral' || v.updateInProgress}">
+                        <div class="{!'step-status-icon icon-' + step.state}">
+                            <aura:if isTrue="{!step.state=='success'}">
+                                <c:RRIcon iconName="icon-check"/>
+                            </aura:if>
+                            <aura:if isTrue="{!step.state=='failure'}">
+                                <c:RRIcon iconName="icon-close"/>
+                            </aura:if>
+                        </div>
+                        <div class="step-info">
+                            <div class="step-title">{!step.title}</div>
+                            <div class="step-status">{!step.status}</div>
+                        </div>
+                    </button>
+                </div></aura:if>
+                </aura:set> 
+            </aura:if>
             </aura:iteration>
         </div>
         <div class="slds-col slds-max-small-size_1-of-1 slds-size--2-of-3">
             <aura:iteration items="{!v.participantWorkflowWrapper.steps}" var="step">
+                <aura:if isTrue="{!v.NotCCMode}">
                 <div style="{!if(step.isCurrentStep ,'display: block','display: none')}">
                     <c:ParticipantStatusDetailsCard aura:id="stepCard"
                                                     stepWrapper="{!step}"
                                                     partInfoForm="{!v.parent}" parent="{!this}"
                                                     updateInProgress="{!v.updateInProgress}"/>
                 </div>
+                    <aura:set attribute="else">
+                    <aura:if isTrue="{!step.title =='Received' || step.title =='Contact'}">
+                   
+                        <div style="{!if(step.isCurrentStep ,'display: block','display: none')}">
+                        <c:ParticipantStatusDetailsCard aura:id="stepCard"
+                                                    stepWrapper="{!step}"
+                                                    partInfoForm="{!v.parent}" parent="{!this}"
+                                                    updateInProgress="{!v.updateInProgress}"/>
+                      </div>
+                        
+                     </aura:if>
+                    </aura:set>
+                </aura:if>
             </aura:iteration>
         </div>
     </div>

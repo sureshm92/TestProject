@@ -1,0 +1,63 @@
+<aura:component controller="SubscribeToReferralNetworkRemote">
+	 <aura:attribute name="sObjectType" type="String" access="public"/>
+     <aura:attribute name="showmenu" type="boolean" access="public" default="false"/>
+     <aura:attribute name="displayedRefNetworks" type="List" access="public"/>
+    <aura:attribute name="selectedPills" type="List" access="public"/>
+    <aura:attribute name="records" type="List" access="public"/>
+     <aura:attribute name="currChosenRefNetworks" type="List" default="[]" access="public"/>
+     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+     <aura:registerEvent name="SearchReferralNetworkResult" type="c:SearchReferralNetworkResult" />
+     
+  <div aura:id="referral" onmouseleave="{!c.closeSearch}">
+    <lightning:input onchange="{!c.bulkSearch}" onclick="{!c.bulkSearch}" aura:id="searchInput" type="search" name="search" label=""
+                             variant="label-hidden" placeholder="{!$Label.c.ReferralNetwork_Search_For}"/>
+          
+            <br/>
+    
+      <div class="table-scroll slds-hide"  aura:id="dropdown">
+    <!-- <div class="slds-m-top-medium slds-hide" style="height: 220px; overflow-y: auto;" aura:id="dropdown"> close -->
+            <table aria-multiselectable="true"
+                   class="slds-table slds-table_header-hidden slds-table_edit slds-tree slds-table_tree"
+                   role="treegrid">
+                <tbody>
+                <aura:iteration items="{!v.displayedRefNetworks}" var="refNetwork">
+                    <tr aria-level="1" aria-posinset="1" aria-selected="false" aria-setsize="4"
+                        class="slds-hint-parent"
+                        tabindex="0">
+                        <td class="slds-text-align_right" role="gridcell" style="width: 3.25rem;">
+                            <div class="slds-checkbox">
+                                <lightning:input label="" type="checkbox" checked="{!refNetwork.isSelected}"
+                                                 value="{!refNetwork}" onchange="{!c.handleChange}"/>
+                            </div>
+                        </td>
+                        <th class="slds-tree__item" data-label="Referral Network Name" scope="row">
+                            <div class="slds-truncate">{!refNetwork.Name}</div>
+                        </th>
+                    </tr>
+                </aura:iteration>
+                </tbody>
+            </table>
+        </div>
+
+            <aura:if isTrue="{!!empty(v.records)}">
+                <tbody>
+                    <aura:iteration items="{!v.records}" var="record" indexVar="arrayInd">
+                      
+                        <div class="slds-badge__icon slds-badge__icon_right  slds-wrap">
+                            <ul class="slds-list_horizontal">
+                                <li>
+                                    <lightning:pill name = "{!record.Name}" 
+                                                    label="{!record.Name}"  onremove="{! c.handleRemoveOnly }" class="slds-pill slds-pill-bare slds-pill__action button"/>
+                                    
+                                </li>
+                            </ul>
+                            
+                        </div>
+                      
+                    </aura:iteration>
+                    
+                </tbody>
+            </aura:if> 
+           
+    </div>
+</aura:component>

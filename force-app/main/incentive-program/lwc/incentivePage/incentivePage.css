@@ -2,10 +2,7 @@
  * Created by Andrii Kryvolap.
  */
 
-.incentives-page-container{
-    height: 70vh;
-    padding-bottom: 15vh;
-}
+
 .incentives-page-title{
     height: 24px;
     color: #000000;
@@ -14,4 +11,19 @@
     letter-spacing: 0;
     line-height: 30px;
     margin-bottom: 20px;
+}
+
+.incentives-page-container{
+    margin-bottom: 20px;
+}
+
+.incentive-panel{
+    height: 100%;
+}
+
+@media all and (min-width: 768px) {
+    .incentives-page-container {
+        height: 70vh;
+        padding-bottom: 15vh;
+    }
 }

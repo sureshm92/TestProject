@@ -1,24 +1,32 @@
 /**
  * Created by Leonid Bartenev
  */
- .THIS .ls-select{
-    width: 100%
-}
-.THIS .language-switcher{
-    margin-top: -20px;
-    padding-left:20px;
-    padding-right:20px;
+
+.THIS {
+    padding: 1.5rem;
 }
 
-.THIS .language-switcher > *{
+.THIS .ls-select {
+    width: 100%
+}
+
+.THIS .language-switcher {
+    width: 95%;
+}
+
+.THIS .language-switcher > * {
     margin-top: 20px;
 }
 
+.THIS .language-switcher .slds-form-element__icon .slds-button {
+    color: #b5b5b5;
+}
+
 .THIS .section-description {
-    width: 60%;
+    width: 80%;
     margin-bottom: 10px;
     margin-top: 10px;
-    padding-left:20px;
+    color: #444;
 }
 
 .THIS .slds-form-element__icon {
@@ -26,34 +34,45 @@
     margin-left: 3px;
 }
 
-.THIS .as-title{
-    height: 22px;
-    width: 300px;
+.THIS .as-title {
     color: #000000;
     font-family: "Proxima Nova";
     font-size: 18px;
-    padding-left:20px;
-    padding-bottom:40px;
+    font-weight: 600;
+    line-height: 1;
 }
-.THIS .apollo-btn.secondary{
+
+.THIS .apollo-btn.secondary {
     background: #0768FD;
-    color:white;
+    color: white;
     margin-top: 10px;
-    margin-left:20px;
+    margin-left: 20px;
 }
 
 .THIS.as-container {
     position: relative;
     padding-bottom: 100px;
-   padding-left: 24px;
-   
+    padding-left: 24px;
 }
-@media (max-width: 768px){  
+
+.THIS .pr_40 {
+    padding-top: 40px;
+}
+
+.THIS .slds-form-element__help {
+    position: absolute;
+}
+
+.THIS .as-buttons-footer {
+    margin-top: 30px;
+}
+
+@media (max-width: 768px) {
     .THIS.as-container .as-sub-title,
     .THIS .cLanguageSwitcher .section-description {
         width: 100%;
-    } 
-    
+    }
+
     .THIS .as-email-pref-item {
         margin-top: 15px;
         height: 42px;
@@ -62,39 +81,51 @@
         align-items: center;
         position: relative;
     }
-    
+
     .THIS .as-email-pref-item .ah-toggle {
         left: 0;
         top: 5px;
         position: absolute;
-	}
+    }
+
+    .THIS .section-description {
+        width: 100%;
+    }
 }
 
-.THIS .pr_40{
-    padding-top:40px;
-}
+@media screen and (max-width: 500px) {
 
-.THIS .slds-form-element__help{
-	position : absolute;
-}
+    .THIS {
+        padding-bottom: 100px;
+    }
 
-@media screen and (max-width: 500px){  
-    .THIS .slds-gutters.as-email-input .slds-col, 
+    .THIS .language-switcher>* {
+        padding: 0;
+    }
+
+    .THIS .slds-gutters.as-email-input .slds-col,
     .THIS .slds-gutters.as-password-input .slds-col {
         padding-right: 0;
         margin-bottom: 15px;
     }
-    
-    .THIS .apollo-btn {
-        width: 100%;     
+
+    .THIS .language-switcher {
+        width: 100%;
+        margin: 0;
     }
-    
+    .THIS .apollo-btn {
+        width: 100%;
+    }
+
+    .THIS .rr-form-element .label {
+        min-width: 100%;
+    }
+
     .THIS.as-container .as-language-switcher .apollo-btn {
         width: 100%;
         margin-top: 15px;
         height: auto;
     }
-    
 
-    
+
 }

@@ -17,6 +17,18 @@
         
     },
 
+      setReferralSearchResult : function(component, event) { 
+        //Get the event message attribute
+        var refResult = event.getParam("refResult");
+        var sobjectName = event.getParam("sobjectName");
+        var referralResult = component.get('v.referralResult');
+          if(sobjectName == 'Referral_Network__c')
+          	  component.set('v.referralResult', refResult);
+          if(sobjectName == 'Therapeutic_Area__c')
+             component.set('v.therapeticResult', refResult); 
+          console.log('refResult'+ refResult);
+               
+    } ,
     show: function (component, event, helper) {
         helper.valueChange(component, event, helper);
         component.find('searchModal').show();
@@ -52,5 +64,27 @@
         event.preventDefault();
         helper.handleClearPill(component,event,helper);       
         }
+    
+,    
+   savechanges : function (component, event) {
+      
+		var referralResult = component.get('v.referralResult');//, refResult);
+        var therapeticResult =  component.get('v.therapeticResult');//, refResult);
+       var referrals = [];
+       for(var i in referralResult) {
+          
+       		referrals.push(referralResult[i]);
+       }
+       for(var i in therapeticResult) {
+       		referrals.push(therapeticResult[i]);
+       }  
+       console.log('referrals'+ JSON.stringify(referrals));
+        communityService.executeAction(component, 'saveReferralNetworksNew', {
+            referralNetworkJSON: JSON.stringify(referrals)
+        }, function (returnValue) {
+          console.log(returnValue);
+             communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'),100);
+        });
+    }
     
 })

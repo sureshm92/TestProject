@@ -51,7 +51,7 @@
     outline: none;
 }
 
-.THIS  .eyeIcon:focus,.THIS .eyeIcon:hover,.THIS .eyeIcon:link,.THIS .eyeIcon:visited {
+.THIS .eyeIcon:focus,.THIS .eyeIcon:hover,.THIS .eyeIcon:link,.THIS .eyeIcon:visited {
     outline: none;
     box-shadow:none
 }
