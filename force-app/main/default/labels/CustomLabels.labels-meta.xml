@@ -2467,7 +2467,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body FollowUp Reminder</shortDescription>
-        <value>You haven&apos;t confirmed your enrollment yet in ##ShortCommunityName. Please click the link bellow, so that you can enroll and view your study progress.
+        <value>You haven&apos;t confirmed your enrollment yet in ##ShortCommunityName. Please click the link below, so that you can enroll and view your study progress.
 
         Please note that enrollment in ##ShortCommunityName is not a requirement for you to be enrolled into the clinical research study.
 
