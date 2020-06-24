@@ -173,6 +173,8 @@
             if(returnValue.email) {
                 component.set('v.emailInstance', returnValue.email.toLowerCase());
                 participantDelegate.Email__c = returnValue.email;
+            } else {
+                component.set('v.emailInstance', '');
             }
             if(returnValue.lastName) participantDelegate.Last_Name__c = returnValue.lastName;
             if(returnValue.firstName) participantDelegate.First_Name__c = returnValue.firstName;
