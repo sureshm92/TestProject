@@ -2,8 +2,8 @@
     doInit: function (component, event, helper) {
         //component.find('spinner').show();
         var params = event.getParam('arguments');
-        if(params){
-            console.log('#relaodAttributes: '+ JSON.stringify(params.relaodAttributes));
+        if (params) {
+            console.log('#relaodAttributes: ' + JSON.stringify(params.relaodAttributes));
             component.set('v.visitId', params.relaodAttributes.visitId);
             component.set('v.taskId', params.relaodAttributes.taskId);
             component.set('v.taskType', params.relaodAttributes.taskType);
@@ -22,18 +22,18 @@
 
     doSave: function (component, event, helper) {
         debugger;
-		var task = component.get('v.task');
+        var task = component.get('v.task');
         var reminderDate = component.get('v.initData.reminderDate');
-        
+
         var emailPeferenceSelected = component.find('emailField').get('v.checked');
         var smsPeferenceSelected = component.find('smsField').get('v.checked');
-        
+
         if (!task.Subject) {
             communityService.showErrorToast('', $A.get('$Label.c.Empty_TaskName'));
             return;
         }
-        if(!$A.util.isUndefinedOrNull(reminderDate)
-           && !smsPeferenceSelected && !emailPeferenceSelected){
+        if (!$A.util.isUndefinedOrNull(reminderDate)
+            && !smsPeferenceSelected && !emailPeferenceSelected) {
             communityService.showErrorToast('', $A.get('$Label.c.PP_Remind_Using_Required'), 3000);
             return;
         }
@@ -50,17 +50,17 @@
                 return;
             }
         }
-        component.set('v.task.Remind_Using_Email__c', emailPeferenceSelected);
-        component.set('v.task.Remind_Using_SMS__c', smsPeferenceSelected);
+        //component.set('v.task.Remind_Using_Email__c', emailPeferenceSelected);
+        //component.set('v.task.Remind_Using_SMS__c', smsPeferenceSelected);
         var message = helper.setSuccessToast(component);
-        
+
         component.find('spinner').show();
-        
+
         communityService.executeAction(component, 'upsertTask', {
             'wrapper': JSON.stringify(component.get('v.initData')),
             'paramTask': JSON.stringify(task)
-        }, function(){
-       		component.set('v.isSaveOperation', true);
+        }, function () {
+            component.set('v.isSaveOperation', true);
             component.find('spinner').hide();
             communityService.showSuccessToast('', message, 3000);
             helper.hideModal(component);
@@ -85,27 +85,28 @@
         var reminderDate = moment(component.get('v.initData.reminderDate'), 'YYYY-MM-DD');
         reminderDate.subtract(1, 'days');
         component.set('v.initData.reminderDate', reminderDate.format('YYYY-MM-DD'));
-	},
+    },
 
     validateFields: function (component, event, helper) {
-        if (component.get('v.initData') && component.get('v.initData.createdByAdmin')) return;
-        /* TO-DO: Set custom validation message and check component.validity
-         * console.log(component.find('field'));
-        var allValid = component.find('field').reduce(function (validSoFar, inputCmp) {
+        //if (component.get('v.initData') && component.get('v.initData.createdByAdmin')) return;
+        // TO-DO: Set custom validation message
+        debugger;
+        var allValid = [].concat(component.find('field')).reduce(function (validSoFar, inputCmp) {
             return validSoFar && inputCmp.checkValidity();
         }, true);
 
-        component.set('v.isValidFields', allValid);*/
+        component.set('v.isValidFields', allValid);
     },
-    
-    doNavigateToAccountSettings: function(component, event, helper){
+
+    doNavigateToAccountSettings: function (component, event, helper) {
         communityService.navigateToPage('account-settings');
     },
-    
-    doChangePreference: function(component, event, helper){
-        
+
+    doChangePreference: function (component, event, helper) {
+
+
     },
-    
+
     onChangeFreq: function (component, event, helper) {
         var freq = component.get('v.frequencyMode');
         if (freq === 'By_Date') {
