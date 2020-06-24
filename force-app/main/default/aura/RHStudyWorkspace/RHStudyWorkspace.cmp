@@ -36,7 +36,6 @@
             <!-- top bar -->
             <div class="{!if((v.userMode == 'HCP'|| v.userMode == 'PI'|| v.userMode == 'CC'), 'sdv-top-bar sdv-top-bar-pi-rp ', 'sdv-top-bar ') + if(v.multiMode, 'multi-mode', '')}" id="stickyBar" aura:id="stickyBar">
                 <div class="navigation rr-width-limiter side-padding">
-                    <aura:if isTrue="{!v.userMode != 'Participant'}">
                         <c:RRNavigationPath>
                             <aura:if isTrue="{!v.userMode == 'CC'}">
                                 <c:RRNPathItem label="{!$Label.c.CC_HomePageLabel}" page=""/>
@@ -47,7 +46,6 @@
                             <c:RRNPathItem label="{!$Label.c.PG_SW_Title}"/>
                         </c:RRNavigationPath>
                         <div class="title rr-width-limiter side-padding">{!v.studyDetail.trial.Study_Code_Name__c}</div>
-                    </aura:if>
                 </div>
             </div>
             <div id="sd-selected-tab-container" style="position: relative">
