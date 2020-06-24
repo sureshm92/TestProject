@@ -72,7 +72,6 @@ public without sharing class CommunityFacadeRemote {
                 cd.communityDelegateId = userContact.userCommunityDelegateId__c != null ? userContact.userCommunityDelegateId__c : '';
                 cd.isDelegate = userContact.UserCommunityIsDelegate__c;
                 cd.allUserModes = UserContext.getAllUserModes();
-                cd.isNewSession = CommunityService.isNewSession();
                 cd.state = ParticipantService.getParticipantState().value.name();
                 cd.preventedCookies = getPreventedCookies(userContact.Id);
                 cd.messagesVisible = getMessagesVisibility();
