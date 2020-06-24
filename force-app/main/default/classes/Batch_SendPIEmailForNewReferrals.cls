@@ -119,4 +119,16 @@ public class Batch_SendPIEmailForNewReferrals extends Batch_ScheduledAbstract {
     public override void finalAction(){
         DataBase.executeBatch(new Batch_SendDelegateEMailForNewReferrals(timestarted), 100);
     }
+    
+        public override String getBatchDescription() {
+        return 'This job sends Emails to PIs and Delegates to remind them about pending referrals';
+    }
+
+    public override String getRecommendedIntervalMode() {
+        return Batch_ScheduledAbstract.INTERVAL_HOURS;
+    }
+
+    public override Integer getRecommendedRelaunchInterval() {
+        return 1;
+    }
 }
