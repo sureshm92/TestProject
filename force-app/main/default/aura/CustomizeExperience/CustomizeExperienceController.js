@@ -40,6 +40,12 @@
 
     bulkSearch: function (component, event, helper) {
         var bypass = component.get('v.bypass');
+        var coival = component.find("searchInput").get("v.value");
+        if(coival){
+            component.set('v.itemshow',true);
+        }else{
+           component.set('v.itemshow',false); 
+        } 
         component.set('v.showmenu',true);
         if (bypass) {
             return;
@@ -71,15 +77,19 @@
 		var referralResult = component.get('v.referralResult');//, refResult);
         var therapeticResult =  component.get('v.therapeticResult');//, refResult);
        var referrals = [];
-       for(var i in referralResult)
+       for(var i in referralResult) {
+          
        		referrals.push(referralResult[i]);
-        for(var i in therapeticResult)
+       }
+       for(var i in therapeticResult) {
        		referrals.push(therapeticResult[i]);
+       }  
        console.log('referrals'+ JSON.stringify(referrals));
         communityService.executeAction(component, 'saveReferralNetworksNew', {
             referralNetworkJSON: JSON.stringify(referrals)
         }, function (returnValue) {
           console.log(returnValue);
+             communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'),100);
         });
     }
     
