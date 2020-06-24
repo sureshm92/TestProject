@@ -11,16 +11,19 @@
     color:white;
     text-decoration: none;
 }
+/* @Krishna Mahto- PEH-1910 
 .THIS  a:not(.no-float) {
     float: right;
 }
+*/
 
+/*@Krishna Mahto- PEH-1910 
 .THIS  a:hover {
     color:white;
     text-decoration: none;
     background-color: none;
 }
-
+*/
 .THIS label.uiLabel-hidden {
     display:none;
 }
@@ -55,3 +58,40 @@
     outline: none;
     box-shadow:none
 }
+
+/* @Krishna Mahto for PEH-1910 - start */
+.THIS .bg-color-rh{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #25095b 0%,#176ba4 100%);
+    font-family: "Proxima Nova";
+    color: white;
+    height:80%;
+}
+
+.THIS .bg-color-gsk{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-family: "Proxima Nova";
+   color: black;
+   height:80%;
+}
+
+.THIS .SFDC_links-gsk{
+ color:DodgerBlue;
+ font-weight: bold;
+} 
+
+.THIS .SFDC_links-rh{
+   color:white;
+ font-weight: bold;
+} 
+
+.THIS .slds-modal__container{
+	height: 110% !important;
+	max-height: 110% !important;
+}
+
+/* @Krishna Mahto for PEH-1910- End */

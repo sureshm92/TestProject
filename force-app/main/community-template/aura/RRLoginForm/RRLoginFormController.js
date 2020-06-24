@@ -9,6 +9,16 @@
         component.set("v.isSelfRegistrationEnabled", helper.getIsSelfRegistrationEnabled(component, event, helper));
         // component.set("v.communityForgotPasswordUrl", helper.getCommunityForgotPasswordUrl(component, event, helper));
         component.set("v.communitySelfRegisterUrl", helper.getCommunitySelfRegisterUrl(component, event, helper));
+        
+        //@Krishna mahto- PEH-1910- Start 
+        var community = window.location.pathname.startsWith('/gsk/') ? '/gsk/s/login' : '/s/login';
+        if(community==='/s/login'){
+            component.set("v.isGSKCommunity",false);
+        }else if(community==='/gsk/s/login'){
+            component.set("v.isGSKCommunity",true);
+        }
+        //@Krishna mahto- PEH-1910- End 
+       
     },
 
     resetUrl: function (component, event, helper){

@@ -3873,6 +3873,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Atid__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Integration_Patient__c.External_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5024,6 +5029,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.utmz__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Atid__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
