@@ -84,7 +84,7 @@
                 </div>
                 <lightning:input type="text" value="{!v.participantInfo.Phone__c}"
                                  required="true"
-                                 onblur="{!c.doCheckFields}"/>
+                                 onblur="{!c.handleHomePhoneValidation}" aura:id="pField2"/>
             </div>
             <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                 <div class="label">{!$Label.c.PG_AP_F_Phone_Type}</div>

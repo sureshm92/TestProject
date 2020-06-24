@@ -62,10 +62,19 @@
                                         <aura:if isTrue="{!visitWrapper.task == null}">
                                             <lightning:button variant="base" value="{!index}" label="{!$Label.c.Create}" onclick="{! c.createEditTask}"/>
                                             <aura:set attribute="else">
-                                                <!--<aura:if isTrue="{!visitWrapper.task.ReminderDateTime == null}">
+                                               <!-- <aura:if isTrue="{!visitWrapper.task.ReminderDateTime == null}">
                                                     {!$Label.c.Home_Page_StudyVisit_No_Reminder_Date}
                                                     <aura:set attribute="else">-->
-                                                        <lightning:button variant="base" value="{!index}" label="{!visitWrapper.task.ReminderDateTime == null ? $Label.c.Create : visitWrapper.reminderDate}" onclick="{!c.createEditTask}"/>
+                                                       <!-- <lightning:button variant="base" value="{!index}" label="{!visitWrapper.reminderDate}" onclick="{!c.createEditTask}"/> -->
+                                                       <lightning:button variant="base" value="{!index}"  onclick="{!c.createEditTask}"> 
+                                                            <aura:if isTrue="{!visitWrapper.task.ReminderDateTime == null}">
+                                                                {!$Label.c.Create}
+                                                            <aura:set attribute="else">
+                                                                <ui:outputDate value="{!visitWrapper.reminderDate}"/>
+                                                            </aura:set>
+                                                            </aura:if> 
+                                                       </lightning:button>
+                                                      <!-- <a onclick="{!c.createEditTask}"><ui:outputDate value="{!visitWrapper.reminderDate}"/></a> -->
                                                   	<!--</aura:set>
                                                 </aura:if>-->
                                             </aura:set>
@@ -73,7 +82,9 @@
                                     </div>
                                 </aura:if>
                             </td>
-                            <td class="">{!visitWrapper.completedOrPlannedDate}</td>
+                           <!-- <td class="">{!visitWrapper.completedOrPlannedDate}</td>-->
+                           <td class=""><ui:outputDate value="{!visitWrapper.completedOrPlannedDate}"/></td>
+                            
                         </tr>
                     </aura:iteration>
                 </c:RRTable>

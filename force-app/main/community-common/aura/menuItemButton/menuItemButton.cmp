@@ -8,6 +8,7 @@
     <aura:attribute name="iconName" type="String"/>
     <aura:attribute name="navigateTo" type="String" access="public"/>
     <aura:attribute name="class" type="String"/>
+    <aura:attribute name="closeAfterClick" type="Boolean" default="true"/>
     <aura:attribute name="itemValue" type="Object" access="public"/>
     <aura:attribute name="modes" type="List" access="public"/>
 

@@ -31,6 +31,6 @@
 
     doGenerateReport: function (component, event, helper) {
         var partid = component.get('v.partid');
-        window.open('trial-match-print-view?id=' + partid, '_blank');
+        window.open('/apex/TrialMatchData?id=' + partid, '_blank');
     }
 });

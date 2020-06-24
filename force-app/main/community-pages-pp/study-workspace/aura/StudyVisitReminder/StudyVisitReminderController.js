@@ -14,6 +14,10 @@
             component.set('v.isReminderOnly', params.relaodAttributes.isReminderOnly);
         }
         helper.initialize(component);
+        if(!component.get('v.isReminderOnly')){           
+            document.getElementsByClassName('with-scroll')[0].scrollTop = 0;  
+        }
+        
     },
 
     doCancel: function (component, event, helper) {

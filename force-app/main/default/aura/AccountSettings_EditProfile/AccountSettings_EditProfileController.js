@@ -41,16 +41,17 @@
             component.set('v.optInEmail', initData.contactSectionData.personWrapper.optInEmail);
             component.set('v.optInSMS', initData.contactSectionData.personWrapper.optInSMS);
             component.set('v.contact', initData.myContact);
-            component.set('v.userEmail', initData.myContact.Email);
             component.set('v.delegateContact',initData.delegateContact);
              if(communityService.getCurrentCommunityMode().currentDelegateId){
                component.set('v.userId',communityService.getCurrentCommunityMode().currentDelegateId);
-console.log('inside delegate-->'+communityService.getCurrentCommunityMode().currentDelegateId);
+			   component.set('v.userEmail', initData.delegateUserName.Username);
+
                 
             }
             else{
                 component.set('v.userId',initData.myContact.Id);
-                console.log('inside participant-->'+initData.myContact.Id)
+				component.set('v.userEmail', initData.userName);
+
             }
             console.log('initData.myContact.Email',initData.myContact.Email);
 
