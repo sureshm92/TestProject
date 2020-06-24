@@ -35,7 +35,7 @@ public without sharing class CC_ParticipantSupportRemote {
                                                                              Participant__r.Alternative_Phone_Type__c,
                                                                              Study_Site__r.Study_Site_Phone__c, Study_Site__c 
                                                                              FROM Participant_Enrollment__c 
-                                                                             where ParticipantPhone__c Like:srchtxt
+                                                                             where ParticipantPhone__c=: searchKeyWord
                                                                             ];
             //  system.debug('lstOfParticipantEnrollment'+lstOfParticipantEnrollment);
             
