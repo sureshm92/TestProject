@@ -12,11 +12,9 @@
 
     <div class="all-container">
         <aura:iteration var="item" items="{!v.allModes}">
-            <div class="contain">
+            <ul class="contain">
                 <aura:iteration items="{!item.subItems}" var="subItem">
-                    <c:uiMenuItem onclick="{!c.doOnClick}"
-                                  itemValue="{!subItem}"
-                                  class="unset">
+                    <c:uiMenuItem onclick="{!c.doOnClick}" itemValue="{!subItem}" class="pp-item">
                         <div class="main-box">
                             <div class="menu-item-box">
                                 <div class="{!subItem.isSelected ? 'selected ' : ''}">
@@ -28,7 +26,8 @@
                                 <div class="icon-settings-box">
                                     <aura:if isTrue="{!and(not(item.isDelegate), item.hasBeenActive)}">
                                         <div class="icon-delegate-box">
-                                            <c:menuItemButton class="icon-delegate" iconName="delegate" navigateTo="my-team"
+                                            <c:menuItemButton class="icon-delegate" iconName="delegate"
+                                                              navigateTo="my-team"
                                                               itemValue="{!subItem}" onclick="{!c.doOnClick}"/>
                                         </div>
                                     </aura:if>
@@ -38,15 +37,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="menu-sub-item">
-                                <div class="{!subItem.isSelected ? 'selected ' : '' + 'overflow-ellipsis '}">
-                                    {!subItem.subTitle}
-                                </div>
+                            <div class="{!'menu-sub-item ' + if(subItem.isSelected, 'selected ', '') + 'overflow'}">
+                                {!subItem.subTitle}
                             </div>
                         </div>
                     </c:uiMenuItem>
                 </aura:iteration>
-            </div>
+            </ul>
         </aura:iteration>
     </div>
 

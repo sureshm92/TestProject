@@ -3,10 +3,10 @@
  */
 
 .THIS .mode-group{
-    width: 205px;
+    width: 300px;
 }
-.THIS.mode-group:hover,
-.THIS.mode-sub-item:hover{
+.THIS .mode-group:hover,
+.THIS .mode-sub-item:hover{
     cursor: pointer;
 }
 
@@ -68,4 +68,3 @@
     fill: #0768FD;
     margin-left: 5px;
 }
-
