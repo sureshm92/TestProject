@@ -238,7 +238,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                         Boolean checkPermissionSet = !availabilityService.isDeferNotification(participant.Contact__c, newPE.Id);
                         String sourcePe = newPE.Referral_Source__c;
                         String visitedCommunities = newPE.Participant__r.Contact__r.Visited_Communities__c;
-                        String currentCommunityName = newPE.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                        String currentCommunityName = CommunityTemplateService.getTemplate(newPE.Clinical_Trial_Profile__r.CommunityTemplate__c).templateName;
                         Boolean checkVisitedCommunity = false;
                         if (visitedCommunities != null) checkVisitedCommunity = visitedCommunities.contains(currentCommunityName);
                         if (checkPermissionSet && !peStatusesSuccess.contains(newPE.Participant_Status__c) && checkVisitedCommunity) {
