@@ -12,6 +12,11 @@
    ```sh
    ./create-scratch-org.sh scratchOrgAlias
    ````
+
+##### 2) Publish each community:
+
+   _Go to Setup > All Communities > Open Community Builder > press "Publish"_
+
 ----------------------------------------------------------------------------------
 If merge request fails on the error 
 just remove <userPermission> with the name ViewFlowUsageAndFlowEventData from Admin.profile
