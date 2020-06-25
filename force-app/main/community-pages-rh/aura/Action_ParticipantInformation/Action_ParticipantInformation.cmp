@@ -28,6 +28,7 @@
     <aura:attribute name="checkTabs" type="String" default="participantDetails"/>
     <aura:attribute name="isInvited" type="Boolean" access="public"/>
     <aura:attribute name="sendEmails" type="Boolean" default="false"/>
+    <aura:attribute name="doNotContact" type="Boolean" default="true"/>
     <aura:attribute name="participantPath" type="Object"/>
     <aura:attribute name="userInfo" type="Object"/>
     <aura:attribute name="updateInProgress" type="Boolean"  default="false"/> 
@@ -60,7 +61,7 @@
         <aura:if isTrue="{!v.NotCCMode}">
         <aura:if isTrue="{!!v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp;
                  !v.pe.Participant__r.Marketing_Flag__c &amp;&amp; v.pe.Participant__r.Email__c &amp;&amp;
-                 v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c}">
+                 v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &amp;&amp; v.pe.Permit_IQVIA_to_contact_about_study__c}">
             <div class="invite-patient-container slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap">
                 <div class="slds-col slds-size--9-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
                     <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.sendEmails}"/>
@@ -71,7 +72,15 @@
                         data-gtm="BTN_Invite_To_PP">{!$Label.c.BTN_Create_User_on_PE_Info}</button>
             </div>
         </aura:if>
-    </aura:if>
+        </aura:if>
+        <aura:if isTrue="{!!v.pe.Permit_IQVIA_to_contact_about_study__c}">
+            <div class="IQVIA_contact-patient-container slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap">
+                <div class="slds-col slds-size--9-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
+                    <lightning:input type="checkbox" class="IQVIA_contact-patient-checkbox" checked="{!v.doNotContact}"/>
+                    <div class="slds-size--10-of-12">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact}</div>
+                </div>
+            </div>
+        </aura:if>
         <c:RRSpinner aura:id="spinner" size="medium"/>
         <div class="form-content" data-gtm="Tabs_View_Details" id="anchor">
             <aura:if isTrue="{!v.initialized}">
