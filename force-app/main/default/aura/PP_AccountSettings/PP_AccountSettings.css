@@ -160,7 +160,7 @@
 
     .THIS .mouse-hover.navItem:after {
         content: '';
-        background: url(/resource/1593008180000/IconTriangleDownBlue);
+        background: url(/resource/1593008431000/IconTriangleDownBlue);
         top: 4px;
         background-repeat: no-repeat;
         background-size: 20px 20px;
