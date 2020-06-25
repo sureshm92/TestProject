@@ -243,11 +243,17 @@ public without sharing class RRChangePasswordController {
                 try {
                     contact.MailingCountryCode = (noCountry ? null : contact.MailingCountryCode);
                     contact.MailingStateCode = (noState ? null : contact.MailingStateCode);
-            
+                    List<Participant_Enrollment__c> loginUserPEs = [SELECT Id FROM Participant_Enrollment__c WHERE Participant_Contact__c = : contact.Id ];
+                    if(loginUserPEs.isEmpty() && contact.UserCommunityIsDelegate__c){
+                        contact.Current_Participant_Enrollment__c = null;
+                        contact.userCommunityDelegateId__c = null;
+                        contact.Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH') ? CommunityService.IQVIA_NETWORK_NAME : Site.getMasterLabel();
+                    }
                     update contact;
-            
                     country = contact.MailingCountryCode;
                     state = contact.MailingStateCode;
+            
+                    
                 } catch (Exception exp) {
                     System.debug(exp);
                 }
