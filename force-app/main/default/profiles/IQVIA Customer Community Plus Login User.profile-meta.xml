@@ -4965,11 +4965,6 @@
         <field>Participant_Enrollment__c.Pre_Eligibility__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	 <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Enrollment__c.ParticipantPhone__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Pre_screening_Status__c</field>

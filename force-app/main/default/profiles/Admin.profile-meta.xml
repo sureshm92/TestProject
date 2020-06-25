@@ -4956,11 +4956,6 @@
         <field>Participant_Enrollment__c.Participant_Enrollment_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	 <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Enrollment__c.ParticipantPhone__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Participant_ID_randomized_ID__c</field>
