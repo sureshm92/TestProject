@@ -1,63 +1,106 @@
-<aura:component controller='CC_ParticipantSupportRemote' implements="forceCommunity:availableForAllPageTypes" access="global">
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
-    <!-- CREATE ATTRIBUTE/VARIABLE-->
+<aura:component controller="CC_ParticipantSupportRemote" implements="forceCommunity:availableForAllPageTypes"
+                access="global">
+
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- Attributes: -->
     <aura:attribute name="searchResult" type="List"/>
     <aura:attribute name="searchKeyword" type="String"/>
     <aura:attribute name="parent" type="Aura.Component"/>
-    <aura:attribute name="Message" type="boolean" default="false"/>
+    <aura:attribute name="message" type="boolean" default="false"/>
     <aura:attribute name="pe" type="Object" description="Participant enrollment item"/>
-    <aura:attribute name="peobj" type="Object" description="Participant enrollment item"/>
+    <aura:attribute name="enrollments" type="List"/>
     <aura:attribute name="isInvited" type="Boolean"/>
-    <aura:attribute name="actions" type="Object" default="true" />
-    
-    <lightning:spinner variant="brand" size="large" aura:id="Id_spinner" class="slds-hide" />
-    
+    <aura:attribute name="actions" type="Object" default="true"/>
+
+    <lightning:spinner variant="brand" size="large" aura:id="Id_spinner" class="slds-hide"/>
+
     <div>
         <div class="slds-col slds-size--3-of-12" style="padding:13px;">
             <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
                 <lightning:input placeholder="{!$Label.c.CC_search_for_a_participant}" type="search"
-                                 value="{!v.searchKeyword}" onkeyup="{!c.Search}"  aura:id="searchField"/>
+                                 value="{!v.searchKeyword}" onkeyup="{!c.doSearch}" aura:id="searchField"/>
             </div>
         </div>
         <!-- TABLE CONTENT-->
         <div class="rr-white-panel db-qal-container">
             <div class="db-qal-main">
-                <div class="db-qal-items slds-grid slds-wrap">                    
-                    <div class="slds-coll slds-size--4-of-12" ></div>
-                    
-                    <table class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal slds-table_fixed-layout slds-float_right" >
+                <div class="db-qal-items slds-grid slds-wrap">
+                    <div class="slds-coll slds-size--4-of-12"></div>
+
+                    <table class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal slds-table_fixed-layout slds-float_right">
                         <thead class="div-container">
-                            <tr class="slds-line-height_reset">
-                                <td><div class="" scope="col">{!$Label.c.CC_Name}</div></td>
-                                <td><div class="" scope="col">{!$Label.c.CC_Phone_Number}</div></td>
-                                <td><div class="" scope="col">{!$Label.c.CC_Phone_Type}</div></td>
-                                <td><div class="" scope="col">{!$Label.c.CC_Study}</div></td>
-                                <td><div class="" scope="col">{!$Label.c.CC_PI_Name}</div></td>
-                                <td><div class="" scope="col">{!$Label.c.CC_Study_Site}</div></td>
-                                <td><div class="" scope="col">{!$Label.c.CC_Site_Contact}</div></td>
-                                <td class="wraptext"><div class="" scope="col">{!$Label.c.CC_Site_Phone_Number}</div></td>
-                                <td><div class="" scope="col">{!$Label.c.CC_Received}</div></td>
-                            </tr>
+                        <tr class="slds-line-height_reset">
+                            <td>
+                                <div scope="col">{!$Label.c.CC_Name}</div>
+                            </td>
+                            <td>
+                                <div scope="col">{!$Label.c.CC_Phone_Number}</div>
+                            </td>
+                            <td>
+                                <div scope="col">{!$Label.c.CC_Phone_Type}</div>
+                            </td>
+                            <td>
+                                <div scope="col">{!$Label.c.CC_Study}</div>
+                            </td>
+                            <td>
+                                <div scope="col">{!$Label.c.CC_PI_Name}</div>
+                            </td>
+                            <td>
+                                <div scope="col">{!$Label.c.CC_Study_Site}</div>
+                            </td>
+                            <td>
+                                <div scope="col">{!$Label.c.CC_Site_Contact}</div>
+                            </td>
+                            <td class="wraptext">
+                                <div scope="col">{!$Label.c.CC_Site_Phone_Number}</div>
+                            </td>
+                            <td>
+                                <div scope="col">{!$Label.c.CC_Received}</div>
+                            </td>
+                        </tr>
                         </thead>
-                        <aura:iteration items="{!v.searchResult}" var="PE" indexVar="index">                   
-                            <tr>                        
-                                <td><div class="slds-truncate wraptext"><lightning:button variant="base" name="{!index}" value="{!PE.Participant__r.Id}" label="{!PE.Participant__r.Full_Name__c}" onclick="{!c.showEditParticipantInformation}"/>
-                                    </div></td>
-                                <td><div class="slds-truncate wraptext">{!PE.Participant__r.Phone__c}</div></td>
-                                <td><div class="slds-truncate wraptext">{!PE.Participant__r.Phone_Type__c}</div></td>
-                                <td><div class="slds-truncate wraptext">
-                                    <c:RRLink class="study-title" label="{!PE.Clinical_Trial_Profile__r.Study_Code_Name__c}"
-                                              page="{!'study-workspace?id=' + PE.Clinical_Trial_Profile__r.Id}"/>
-                                    </div></td>
-                                <td><div class="slds-truncate wraptext">{!PE.PI_Contact__r.Name}</div></td>
-                                <td><div class="slds-truncate wraptext">{!PE.Study_Site__r.Name}</div></td>
-                                <td><div class="slds-truncate wraptext">{!PE.Participant_Contact__r.Name}</div></td>
-                                <td><div class="slds-truncate wraptext">{!PE.Study_Site__r.Study_Site_Phone__c}</div></td>
-                                <td><div class="slds-truncate wraptext">{!PE.Days_After_Referred__c} days ago</div></td>
+                        <aura:iteration items="{!v.searchResult}" var="pe" indexVar="index">
+                            <tr>
+                                <td>
+                                    <div class="slds-truncate wraptext">
+                                        <lightning:button variant="base" name="{!index}" value="{!pe.Participant__r.Id}"
+                                                          label="{!pe.Participant__r.Full_Name__c}"
+                                                          onclick="{!c.showEditParticipantInformation}"/>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="slds-truncate wraptext">{!pe.Participant__r.Phone__c}</div>
+                                </td>
+                                <td>
+                                    <div class="slds-truncate wraptext">{!pe.Participant__r.Phone_Type__c}</div>
+                                </td>
+                                <td>
+                                    <div class="slds-truncate wraptext">
+                                        <c:RRLink class="study-title"
+                                                  label="{!pe.Clinical_Trial_Profile__r.Study_Code_Name__c}"
+                                                  page="{!'study-workspace?id=' + pe.Clinical_Trial_Profile__r.Id}"/>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="slds-truncate wraptext">{!pe.PI_Contact__r.Name}</div>
+                                </td>
+                                <td>
+                                    <div class="slds-truncate wraptext">{!pe.Study_Site__r.Name}</div>
+                                </td>
+                                <td>
+                                    <div class="slds-truncate wraptext">{!pe.Participant_Contact__r.Name}</div>
+                                </td>
+                                <td>
+                                    <div class="slds-truncate wraptext">{!pe.Study_Site__r.Study_Site_Phone__c}</div>
+                                </td>
+                                <td>
+                                    <div class="slds-truncate wraptext">{!pe.Days_After_Referred__c} days ago</div>
+                                </td>
                             </tr>
-                        </aura:iteration>		
-                    </table>         
-                    <c:Action_ParticipantInformation aura:id="OpenPatientInfoAction" NotCCMode="false" isValid="true" />
+                        </aura:iteration>
+                    </table>
+                    <c:Action_ParticipantInformation aura:id="OpenPatientInfoAction" NotCCMode="false" isValid="true"/>
                 </div>
             </div>
         </div>

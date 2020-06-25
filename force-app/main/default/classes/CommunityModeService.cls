@@ -29,27 +29,36 @@ public without sharing class CommunityModeService {
                     USER_MODE_PI, labelByMode.get(USER_MODE_PI), itemTypeByMode.get(USER_MODE_PI),
                     null, false, false));
         }
-
         List<RP_Delegate_Relationship__c> rpDelegates = DelegateService.getHCPDelegates();
         if (availableModes.contains(USER_MODE_HCP) && rpDelegates.isEmpty()) {
             modes.add(new CommunityModes.RHCommunityModeItem(
                     USER_MODE_HCP, labelByMode.get(USER_MODE_HCP), itemTypeByMode.get(USER_MODE_HCP),
                     null, false, false));
         } else if (!rpDelegates.isEmpty()) {
+            Set<Id> contactIds = new Set<Id>{userContact.Id};
+            for (RP_Delegate_Relationship__c delegate : rpDelegates){
+                contactIds.add(delegate.Referring_Provider__c);
+            }
+            Map<Id, Participant__c> participantByContactMap = new Map<Id, Participant__c>();
+            for (Participant__c participantRecord : [
+                    SELECT Id, First_Name__c, Last_Name__c, Contact__c
+                    FROM Participant__c
+                    WHERE Contact__c IN :contactIds
+
+            ]){
+                participantByContactMap.put(participantRecord.Contact__c, participantRecord);
+            }
             CommunityModes.RHCommunityModeItem modeItem = new CommunityModes.RHCommunityModeItem(
                     USER_MODE_HCP, labelByMode.get(USER_MODE_HCP), itemTypeByMode.get(USER_MODE_HCP),
                     null, true, true);
             if (availableModes.contains(USER_MODE_HCP)) {
-                String rpName = (userContact.Salutation != null ? userContact.Salutation + ' ' : '') +
-                    userContact.Full_Name__c + (userContact.Suffix != null ? ' ' + userContact.Suffix : '');
+                String rpName = getRPName(userContact, participantByContactMap);
                 modeItem.subItems.add(new CommunityModes.RHCommunityModeItem(
                         USER_MODE_HCP, rpName, itemTypeByMode.get(USER_MODE_HCP),
                         null, false, false));
             }
             for (RP_Delegate_Relationship__c delegate : rpDelegates) {
-                String rpName = (delegate.Referring_Provider__r.Salutation != null ? delegate.Referring_Provider__r.Salutation + ' ' : '') +
-                        delegate.Referring_Provider__r.Full_Name__c +
-                        (delegate.Referring_Provider__r.Suffix != null ? ' ' + delegate.Referring_Provider__r.Suffix : '');
+                String rpName = getRPName(delegate.Referring_Provider__r, participantByContactMap);
                 modeItem.subItems.add(new CommunityModes.RHCommunityModeItem(
                         USER_MODE_HCP, rpName, itemTypeByMode.get(USER_MODE_HCP),
                         delegate.Referring_Provider__c, false, false));
@@ -437,5 +446,19 @@ public without sharing class CommunityModeService {
             }
         }
         return resMap;
+    }
+
+    private static String getRPName(Contact rpContact, Map<Id, Participant__c> participantsByContactIdsMap){
+        if (!participantsByContactIdsMap.containsKey(rpContact.Id)) {
+            return (rpContact.Salutation != null ? rpContact.Salutation + ' ' : '') +
+            rpContact.Full_Name__c + (rpContact.Suffix != null ? ' ' + rpContact.Suffix : '');
+        }
+        else{
+            Participant__c rpParticipantRecord = participantsByContactIdsMap.get(rpContact.Id);
+            return (rpContact.Salutation != null ? rpContact.Salutation + ' ' : '') +
+                    rpParticipantRecord.First_Name__c + ' ' + rpParticipantRecord.Last_Name__c
+                    + (rpContact.Suffix != null ? ' ' + rpContact.Suffix : '');
+        }
+
     }
 }
