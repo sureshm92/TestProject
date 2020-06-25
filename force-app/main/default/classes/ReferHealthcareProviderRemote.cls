@@ -100,7 +100,6 @@ global without sharing class ReferHealthcareProviderRemote {
                         + ' OR Email = \'' + String.escapeSingleQuotes(email.toLowerCase()) + '\')';
             }
             List<Participant__c> delegateParticipants = new List<Participant__c>();
-            Set<Id> delegateContactsIds = new Set<Id>();
             List<Contact> contacts = Database.query(contactQuery);
             if(contacts.isEmpty() && !String.isBlank(firstName) && !String.isBlank(lastName)){
                 delegateParticipants = [

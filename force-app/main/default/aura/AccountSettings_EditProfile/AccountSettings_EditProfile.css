@@ -37,6 +37,12 @@
 }
 
 
+.THIS .stateCss
+{
+    margin-top: -21px;
+}
+
+
 .THIS.as-container .as-password .rr-form-element + .rr-form-element {
     margin-top: 0;
 }
@@ -74,7 +80,7 @@
 }
 
 .THIS .as-title {
-    color: #000000;
+    color: #444;
     font-size: 18px;
     line-height: 20px;
     font-weight: 600;
@@ -128,6 +134,11 @@
 
 .THIS .ah-toggle {
     flex: inherit;
+    margin-top: 2rem;
+}
+
+.THIS .ah-toggle + .rr-form-element {
+    margin-top: 2rem;
 }
 
 .THIS .mar_25 {
@@ -262,14 +273,20 @@
 }
 
 @media screen and (max-width: 500px) {
+
     .THIS .slds-gutters.as-email-input .slds-col,
     .THIS .slds-gutters.as-password-input .slds-col {
         padding-right: 0;
         margin-bottom: 15px;
     }
 
-    .THIS .apollo-btn {
+    .THIS .apollo-btn,
+    .THIS .slds-select_container{
         width: 100%;
+    }
+
+    .THIS .smallName {
+        min-width: 100%;
     }
 
     .THIS .nickname {
@@ -278,18 +295,19 @@
 
     .THIS.as-container .as-language-switcher .apollo-btn {
         width: 100%;
-        margin-top: 20px;
+        margin-top: 30px;
         height: auto;
     }
 
+    .THIS .as-info>.rr-form-element,
     .THIS .as-email-pref-item,
     .THIS .ah-toggle,
     .THIS .as-email-preference .rr-form-element+.rr-form-element {
-        margin-top: 20px;
+        margin-top: 30px;
     }
 
     .THIS .ah-toggle + .rr-form-element {
-        width: 50%;
+        width: 70%;
         margin-top: 1rem;
     }
 }

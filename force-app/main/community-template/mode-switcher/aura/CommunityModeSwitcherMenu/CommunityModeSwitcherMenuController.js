@@ -20,6 +20,9 @@
         var comModes = component.get('v.communityModes');
         if (navigateTo && !itemValue) {
             communityService.navigateToPage(navigateTo);
+
+            component.set('v.reset', true);
+            component.set('v.reset', false);
         } else if (itemValue) {
             if (itemValue.subItems.length === 0) {
                 let currentDelegateId;
