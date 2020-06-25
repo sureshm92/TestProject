@@ -162,6 +162,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                     SELECT Id,
                             Participant__c,
                             Participant_Contact__c,
+                            Participant__r.Contact__r.Visited_Communities__c,
                             Study_Site__c,
                             Study_Site__r.Clinical_Trial_Profile__c,
                             Study_Site__r.Suppress_Participant_Emails__c,
@@ -205,7 +206,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             List<Id> whatIds = new List<Id>();
             for (Participant_Enrollment__c newPE : participantEnrollments) {
                 whatIds.add(newPE.Id);
-                Participant__c participant = newPE.Participant__c != null? participantMap.get(newPE.Participant__c):null;
+                Participant__c participant = newPE.Participant__c != null ? participantMap.get(newPE.Participant__c) : null;
                 recipientIds.add(participant.Contact__c);
             }
             NotificationAvailabilityService availabilityService = new NotificationAvailabilityService(recipientIds, whatIds);
@@ -234,16 +235,20 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                     } else {
                         System.debug('NOTIFY USER');
                         String notificationTypeStr;
-                        Boolean check = !availabilityService.isDeferNotification(participant.Contact__c, newPE.Id);
+                        Boolean checkPermissionSet = !availabilityService.isDeferNotification(participant.Contact__c, newPE.Id);
                         String sourcePe = newPE.Referral_Source__c;
-                        if (sourcePe.contains(ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP)
-                                && !peStatusesSuccess.contains(newPE.Participant_Status__c) && check) {
-                            notificationTypeStr = NotificationCatalog.MESSAGE_TO_PT_SOURCE_HCP_TYPE;
-                        } else if (sourcePe.contains(ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI)
-                                && !peStatusesSuccess.contains(newPE.Participant_Status__c) && check) {
-                            notificationTypeStr = NotificationCatalog.MESSAGE_TO_PT_SOURCE_PI_TYPE;
-                        } else if (!peStatusesSuccess.contains(newPE.Participant_Status__c) && check) {
-                            notificationTypeStr = NotificationCatalog.MESSAGE_TO_PT_SOURCE_ERP_TYPE;
+                        String visitedCommunities = newPE.Participant__r.Contact__r.Visited_Communities__c;
+                        String currentCommunityName = newPE.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                        Boolean checkVisitedCommunity = false;
+                        if (visitedCommunities != null) checkVisitedCommunity = visitedCommunities.contains(currentCommunityName);
+                        if (checkPermissionSet && !peStatusesSuccess.contains(newPE.Participant_Status__c) && checkVisitedCommunity) {
+                            if (sourcePe.contains(ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP)) {
+                                notificationTypeStr = NotificationCatalog.MESSAGE_TO_PT_SOURCE_HCP_TYPE;
+                            } else if (sourcePe.contains(ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI)) {
+                                notificationTypeStr = NotificationCatalog.MESSAGE_TO_PT_SOURCE_PI_TYPE;
+                            } else {
+                                notificationTypeStr = NotificationCatalog.MESSAGE_TO_PT_SOURCE_ERP_TYPE;
+                            }
                         }
                         if (notificationTypeStr != null) notifications.add(new Notification__c(
                                 Recipient__c = participant.Contact__c,
