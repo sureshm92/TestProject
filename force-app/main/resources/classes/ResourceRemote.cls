@@ -67,17 +67,8 @@ public with sharing class ResourceRemote {
         try {
             ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
             if ((state.value == ParticipantService.ParticipantStates.ALUMNI) && (state.participant.Conditions__c == 0)) {
-                String noTAMessage;
-                String message = Label.Resources_No_Therapeutic_Area;
-                String goToProfile = '<br /><a href="';
-                if(!Test.isRunningTest()) {
-                    if(state.communityName.equals(CommunityService.GSK_NETWORK_NAME)) goToProfile += '/gsk';
-                }
-                goToProfile += '/s/account-settings?changePref">' + Label.Resources_Go_To_Your_Profile + '</a>';
-                noTAMessage = String.format(message, new List<String>{
-                        goToProfile
-                });
-                return noTAMessage;
+                String message = Label.PP_Customize_Exp_Description;
+                return message;
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);
