@@ -4,6 +4,27 @@
     z-index: 5;
     width: 833px;
 }
+.THIS .rr-white-panel1 {
+    border :  .5px #E9E9E9; 
+    margin-left: -1px;
+    margin-top: -1px;
+    box-sizing:none;
+    box-shadow:none;
+    border-bottom:none;
+    border-right:none;
+    border-left:none;
+    
+
+}
+.THIS .emails-that-notify-y {
+  height: 72px;
+  width: 607px;
+  color: #444444;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 24px;
+}
 
 .THIS.as-container {
     position: relative;
@@ -215,6 +236,8 @@
     justify-content: flex-start;
     padding: 12px;
     margin-top: 20px;
+    margin-left:-12px;
+
 }
 
 .THIS .opt-in-popup-button {

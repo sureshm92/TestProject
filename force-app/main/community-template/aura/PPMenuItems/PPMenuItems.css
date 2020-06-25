@@ -1,0 +1,80 @@
+/**
+ * Created by Olga Skrynnikova on 6/10/2020.
+ */
+
+.THIS .unset:first-child .main-box .menu-item-box .icon-cog{
+    visibility: visible;
+    opacity: unset;
+}
+
+.THIS .contain:first-child .unset .main-box .menu-item-box .icon-delegate{
+    visibility: visible;
+    opacity: unset;
+}
+
+.THIS .menu-item-box{
+    color: #000000;
+    font-size: 16px;
+    letter-spacing: 0;
+    font-weight: 600;
+    width: 280px;
+    line-height: 28px!important;
+    margin-top: 10px!important;
+    display: flex;
+    justify-content: space-between;
+}
+
+.THIS .menu-sub-item{
+    width: 250px;
+    color: #797979;
+    font-size: 14px;
+    line-height: 28px!important;
+    margin-bottom: 10px!important;
+}
+
+.THIS .selected{
+    color: #0768FD;
+    font-weight: bold;
+    max-width: 80%;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+
+.THIS .overflow-ellipsis{
+    max-width: 80%;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+
+.THIS .icon-cog, .THIS .icon-delegate{
+    width: 16px;
+    height: 16px;
+    visibility: hidden;
+    opacity: 0;
+    fill: #666666!important;
+}
+
+.THIS .icon-check{
+    width: 20px;
+    height: 20px;
+    fill: #0768FD;
+    margin-left: 5px;
+}
+
+.THIS .icon-settings-box{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 20px;
+}
+
+.THIS .main-box{
+    padding-left: 32px;
+    border-bottom: 1px solid #F8F9FB;
+}
+
+.THIS .icon-box{
+    margin-left: 21px;
+}
+

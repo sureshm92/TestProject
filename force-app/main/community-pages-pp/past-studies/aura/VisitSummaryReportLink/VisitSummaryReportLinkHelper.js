@@ -38,7 +38,8 @@
     getLogo: function (component, reportData, isSave) {
         const helper = this;
         const url = window.location.hostname;
-        const resourceRelPath = $A.get('$Resource.IQVIA');
+        let filepath = '/'+reportData.communityTemplate +'.png';
+        const resourceRelPath = $A.get('$Resource.ReportBrandingLogos') + filepath;
         const resourceUrl = 'https://'.concat(url).concat(resourceRelPath);
         window.fetch(resourceUrl).then($A.getCallback(function (response) {
                 console.log(response);
@@ -61,7 +62,7 @@
 
     getLogoFromIE: function (component, reportData, isSave) {
         const helper = this;
-        helper.enqueue(component, 'c.getLogoFromStatic', {}).then(function (iqviaLogo) {
+        helper.enqueue(component, 'c.getLogoFromStatic', {communityname:reportData.communityTemplate}).then(function (iqviaLogo) {
                 helper.fillData(component, reportData, iqviaLogo, isSave);
             }, function (err) {
                 if (err && err[0].message) {
@@ -89,7 +90,7 @@
         doc.text(reportData.participantFullName, 80, 120);
         doc.text($A.get('$Label.c.Report_Enrollment_Date') + ' ' + reportData.enrollmentDate, 80, 140);
 
-        if(reportData.participantStatus){
+        if(!$A.util.isUndefinedOrNull(reportData.participantStatus)){
             doc.text($A.get('$Label.c.Report_Participant_Status') + ': ' + reportData.participantStatus, 80, 160);
             doc.text($A.get('$Label.c.Report_Study_Site') + ': ' + reportData.studySiteName, 80, 180);
         }else{
@@ -187,7 +188,7 @@
             }
             doc.text(reportData.participantLastName, 600, 24);
         }
-        doc.setDrawColor(0, 0, 100);
+        doc.setDrawColor(216, 216, 216);
         doc.setLineWidth(8);
         doc.line(35, 35, 35, 550);
         doc.line(30.8, 35, 97, 35);

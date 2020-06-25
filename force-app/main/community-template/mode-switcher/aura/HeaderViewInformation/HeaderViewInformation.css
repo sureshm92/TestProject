@@ -1,0 +1,57 @@
+/**
+ * Created by Nargiz Mamedova on 6/10/2020.
+ */
+
+.THIS.header-container{
+    width: 315px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-bottom: 1px solid #F8F9FB;
+}
+
+.THIS .avatar-icon{
+    background-color: #DF216D;
+    height: 55px;
+    width: 55px;
+    margin: 18px;
+    border-radius: 100%;
+}
+
+.THIS .slds-avatar_large,
+.THIS .slds-avatar--large {
+    width: 55px;
+    height: 55px;
+}
+
+.THIS .delegate-avatar{
+    height: 38px;
+    width: 38px;
+    margin-top: 15%;
+    margin-left: 15%;
+}
+
+.THIS .single-avatar {
+    height: 24px;
+    width: 21px;
+    margin-top: 27%;
+    margin-left: 31%;
+}
+
+.THIS .user-name{
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 24px;
+    margin-bottom: 5px;
+}
+
+.THIS .user-mode{
+    color: #595959;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 17px;
+    margin-bottom: 15px;
+}

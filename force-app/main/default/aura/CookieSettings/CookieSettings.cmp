@@ -44,17 +44,16 @@
     </aura:method>
     <aura:method name="showHelpMessageIfInvalid" action="{!c.doShowHelpMessageIfInvalid}"/>
     
-    <div style="width:840px;">
+    <div>
     	<div class="as-container">
     	<c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
             <aura:if isTrue="{!v.isInitialized}">
-                <div class="rr-white-panel" style="padding: 30px">
+                <div class="">
                 	<!-- Cookies settings -->
                 <div class="as-email-preference">
                     
                     <div class="as-title">{!$Label.c.AccountSettings_Cookie_Settings}</div>
-                    <div class="as-sub-title cookieDesc"
-                         style="margin-bottom: 15px"><aura:unescapedHtml value="{!v.initData.cookieDescription}"/>
+                    <div class="as-sub-title cookieDesc"><aura:unescapedHtml value="{!v.initData.cookieDescription}"/>
                     </div>
                     <div class="collapse-section slds-m-top--large">
                         <c:RRCollapse label="{!$Label.c.AccountSettings_Strictly_Necessary_Cookies}" isCollapsed="true">

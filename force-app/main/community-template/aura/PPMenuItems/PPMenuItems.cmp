@@ -1,0 +1,53 @@
+<!--
+ - Created by Olga Skrynnikova on 6/10/2020.
+ -->
+
+<aura:component description="PPMenuItems">
+
+    <!-- attributes: -->
+    <aura:attribute name="allModes" type="Object[]"/>
+
+    <!-- events: -->
+    <aura:registerEvent access="global" name="onclick" type="c:uiEvent"/>
+
+    <div class="all-container">
+        <aura:iteration var="item" items="{!v.allModes}">
+            <div class="contain">
+                <aura:iteration items="{!item.subItems}" var="subItem">
+                    <c:uiMenuItem onclick="{!c.doOnClick}"
+                                  itemValue="{!subItem}"
+                                  class="unset">
+                        <div class="main-box">
+                            <div class="menu-item-box">
+                                <div class="{!subItem.isSelected ? 'selected ' : ''}">
+                                    {!subItem.title}
+                                    <aura:if isTrue="{!subItem.isSelected}">
+                                        <c:RRIcon iconName="icon-check" class="icon-check"/>
+                                    </aura:if>
+                                </div>
+                                <div class="icon-settings-box">
+                                    <aura:if isTrue="{!not(item.isDelegate)}">
+                                        <div>
+                                            <c:menuItemButton class="icon-delegate" iconName="delegate" navigateTo="my-team"
+                                                              itemValue="{!subItem}" onclick="{!c.doOnClick}"/>
+                                        </div>
+                                    </aura:if>
+                                    <div class="icon-box">
+                                        <c:menuItemButton class="icon-cog" iconName="cog" navigateTo="account-settings"
+                                                          itemValue="{!subItem}" onclick="{!c.doOnClick}"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="menu-sub-item">
+                                <div class="{!subItem.isSelected ? 'selected ' : '' + 'overflow-ellipsis '}">
+                                    {!subItem.subTitle}
+                                </div>
+                            </div>
+                        </div>
+                    </c:uiMenuItem>
+                </aura:iteration>
+            </div>
+        </aura:iteration>
+    </div>
+
+</aura:component>
