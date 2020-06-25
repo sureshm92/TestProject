@@ -252,8 +252,6 @@ public without sharing class RRChangePasswordController {
                     update contact;
                     country = contact.MailingCountryCode;
                     state = contact.MailingStateCode;
-            
-                    
                 } catch (Exception exp) {
                     System.debug(exp);
                 }
