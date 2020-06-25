@@ -3156,7 +3156,7 @@
         <shortDescription>Email Body Trial Match</shortDescription>
         <value>You have been matched for new studies.
 
-Please login to the ##CommunityName to view your clinical trial matches anytime.</value>
+Please login in to the ##CommunityName to view your clinical trial matches anytime.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Trial_Match_Delegate</fullName>
