@@ -4,7 +4,7 @@
 
 <aura:component controller="StudyDetailViewController" implements="forceCommunity:availableForAllPageTypes"
                 description="RHStudyWorkspace">
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"/>
+    <ltng:require scripts="{!$Resource.rr_community_js}"/>
 
     <!-- attributes: -->
     <aura:attribute name="parent" type="Aura.Component" required="true"/>
@@ -34,15 +34,18 @@
             <!-- Share dialog -->
             <c:ShareModal aura:id="shareModal" parent="{!this}" needRefresh="false"/>
             <!-- top bar -->
-            <div class="{!if(or(v.userMode == 'HCP', v.userMode == 'PI'), 'sdv-top-bar sdv-top-bar-pi-rp ', 'sdv-top-bar ') + if(v.multiMode, 'multi-mode', '')}" id="stickyBar" aura:id="stickyBar">
+            <div class="{!'sdv-top-bar sdv-top-bar-pi-rp ' + if(v.multiMode, 'multi-mode', '')}" id="stickyBar" aura:id="stickyBar">
                 <div class="navigation rr-width-limiter side-padding">
-                    <aura:if isTrue="{!v.userMode != 'Participant'}">
                         <c:RRNavigationPath>
-                            <c:RRNPathItem label="{!$Label.c.Home_Page_Label}" page=""/>
+                            <aura:if isTrue="{!v.userMode == 'CC'}">
+                                <c:RRNPathItem label="{!$Label.c.CC_HomePageLabel}" page=""/>
+                                <aura:set attribute="else">
+                                    <c:RRNPathItem label="{!$Label.c.Home_Page_Label}" page=""/>
+                                </aura:set>
+                            </aura:if>
                             <c:RRNPathItem label="{!$Label.c.PG_SW_Title}"/>
                         </c:RRNavigationPath>
                         <div class="title rr-width-limiter side-padding">{!v.studyDetail.trial.Study_Code_Name__c}</div>
-                    </aura:if>
                 </div>
             </div>
             <div id="sd-selected-tab-container" style="position: relative">

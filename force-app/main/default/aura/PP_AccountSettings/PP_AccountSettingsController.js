@@ -25,7 +25,12 @@
             component.set('v.contactSectionData', initData.contactSectionData);
             component.set('v.optInEmail', initData.contactSectionData.personWrapper.optInEmail);
             component.set('v.optInSMS', initData.contactSectionData.personWrapper.optInSMS);
-
+			component.set('v.userType', initData.myContact.UserCommunytyType__c);
+            var userType = initData.myContact.userCommunytyType__c;
+            if(userType)
+                 if(userType.includes('HCP') && component.get('v.userMode') == 'PI')
+                     component.set('v.userTypeHCP_PI', true);
+            
             component.set('v.contact', initData.myContact);
             component.set('v.currentEmail', initData.myContact.Email);
 

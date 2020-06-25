@@ -24,6 +24,8 @@
         } else{
             taskData.title = $A.get('$Label.c.TTL_Create_Task');
             taskData.isReminderOnly = false;
+            taskData.isNewTask = true;
+            taskData.isTaskTab = true;
             component.find('studyVisitReminder').reloadPopup(taskData);
         }
     },
