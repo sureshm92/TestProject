@@ -30,7 +30,9 @@
     <aura:attribute name="sendEmails" type="Boolean" default="false"/>
     <aura:attribute name="participantPath" type="Object"/>
     <aura:attribute name="userInfo" type="Object"/>
-    <aura:attribute name="updateInProgress" type="Boolean"  default="false"/>    
+    <aura:attribute name="updateInProgress" type="Boolean"  default="false"/> 
+    <aura:attribute name="NotCCMode" type="Boolean"  default="true" access="public"/>
+   
     <!--<aura:attribute name="isDetailsChanged" type="Boolean" default="false"/>-->
     <aura:attribute name="isStatusChanged" type="Boolean" default="false"/>
     <!-- Event handler -->
@@ -87,8 +89,10 @@
                         </div>
                     </lightning:tab>
                     <lightning:tab aura:id="Status" label="{!$Label.c.BTN_Status_Details}" onactive="{!c.checkTabs}">
-                        <c:ParticipantStatusDetails participantWorkflowWrapper="{!v.participantPath}" parent="{!this}" updateInProgress="{!v.updateInProgress}"/>
+                        <c:ParticipantStatusDetails NotCCMode="{!v.NotCCMode}" participantWorkflowWrapper="{!v.participantPath}" parent="{!this}" updateInProgress="{!v.updateInProgress}"/>
                     </lightning:tab>
+                    
+                    <aura:if isTrue="{!v.NotCCMode}">
                     <lightning:tab class="slds-tabs_default__item" aura:id="Provider"
                                    label="{!$Label.c.Tab_Sharing_Options}"
                                    title="{!$Label.c.Tab_Sharing_Options}" onactive="{!c.checkTabs}">
@@ -101,7 +105,9 @@
                                                            actionDisabled="{!v.actions.screenerResponses.disabled}"/>
                             </div>
                         </aura:if>
-                    </lightning:tab>
+                    </lightning:tab>  
+                    </aura:if>
+                    
                     <aura:if
                             isTrue="{!v.pe.MRR_Survey_Results_URL__c}">
                         <lightning:tab class="slds-tabs_default__item" aura:id="Survey"

@@ -92,9 +92,10 @@
             if (component.get('v.fromActionParticipant') && !isRemovedValue) {
                 console.log('component.get(\'v.fromActionParticipant\') && !isRemovedValue');
                 console.log('isValid0' + isValid);
-                if (!participantDelegate && (!participant.Phone__c && !participant.Phone_Type__c && !participant.Email__c)) {
+                console.log('CHECK8', participantDelegate);
+                if (!participantDelegate && (!participant.Phone__c || !participant.Phone_Type__c || !participant.Email__c)) {
                     console.log('CHECK0', (!needsGuardian && !participant.Phone__c && !participant.Phone_Type__c && !participant.Email__c));
-                    console.log('CHECK00', needsGuardian);
+                    console.log('CHECK00', participantDelegate);
                     console.log('CHECK000', (!participant.Phone__c && !participant.Phone_Type__c && !participant.Email__c));
                     isValid = false;
                 } else {

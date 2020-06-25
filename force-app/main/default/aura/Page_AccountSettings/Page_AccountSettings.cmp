@@ -18,12 +18,12 @@
     <aura:if isTrue="{!v.isInitialized}">
         <div class="ps-container">
             <div class="ps-body">
-                <aura:if isTrue="{!v.userMode == 'Participant'}">
-                    <c:PP_AccountSettings userMode="{!v.userMode}"/>
-                    <aura:set attribute="else">
+               <!-- <aura:if isTrue="{!v.userMode == 'Participant'}"> -->
+                   <c:PP_AccountSettings userMode="{!v.userMode}"/> 
+                   <!-- <aura:set attribute="else">
                     <c:AccountSettings userMode="{!v.userMode}"/>
-                </aura:set>
-                </aura:if> 
+                </aura:set> 
+                </aura:if>  -->
             </div>
         </div>
     </aura:if>

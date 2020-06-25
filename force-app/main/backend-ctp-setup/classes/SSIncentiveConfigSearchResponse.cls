@@ -11,7 +11,9 @@ public without sharing class SSIncentiveConfigSearchResponse {
 
     public SSIncentiveConfigSearchResponse(StudySiteFilter filter, PaginationData pagination){
         this.pagination = pagination;
-        List<Study_Site__c> ssList = SearchService.search(filter, this.pagination);
+        List<Study_Site__c> ssList = !String.isEmpty(filter.pageFeatureIds) ?
+                DatabaseService.query(filter.getFields(), filter.getSObjectType(), filter.getFilterString(), filter.getOrderBy()) :
+                SearchService.search(filter, this.pagination);
         incentivePlans = getIncentivePlans(filter);
         studySiteItems = convertToSSItems(ssList, filter, true);
         haveEmptyAssigment = isHaveEmptyAssignment(filter);

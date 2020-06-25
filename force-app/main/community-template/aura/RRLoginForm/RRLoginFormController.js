@@ -9,6 +9,7 @@
         component.set("v.isSelfRegistrationEnabled", helper.getIsSelfRegistrationEnabled(component, event, helper));
         // component.set("v.communityForgotPasswordUrl", helper.getCommunityForgotPasswordUrl(component, event, helper));
         component.set("v.communitySelfRegisterUrl", helper.getCommunitySelfRegisterUrl(component, event, helper));
+        if(navigator.userAgent.match(/Trident/)) component.set("v.ieClass", 'ie-login-rows');
     },
 
     resetUrl: function (component, event, helper){

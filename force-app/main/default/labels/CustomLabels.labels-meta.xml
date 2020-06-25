@@ -1512,6 +1512,13 @@
         <value>rajesh.r@quintiles.com</value>
     </labels>
 	<labels>
+        <fullName>CC_HomePageLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_HomePageLabel</shortDescription>
+        <value>Participant Status</value>
+    </labels>
+	<labels>
         <fullName>CC_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1586,7 +1593,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>CC_search_for_a_participant</shortDescription>
-        <value>search for a participant</value>
+        <value>Search for a phone number</value>
     </labels>
     <labels>
         <fullName>Closed_Requests</fullName>
@@ -2460,7 +2467,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body FollowUp Reminder</shortDescription>
-        <value>You haven&apos;t confirmed your enrollment yet in ##ShortCommunityName. Please click the link bellow, so that you can enroll and view your study progress.
+        <value>You haven&apos;t confirmed your enrollment yet in ##ShortCommunityName. Please click the link below, so that you can enroll and view your study progress.
 
         Please note that enrollment in ##ShortCommunityName is not a requirement for you to be enrolled into the clinical research study.
 
@@ -8668,7 +8675,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS H Email Preferences</shortDescription>
-        <value>Contact Preferences</value>
+        <value>Referral Contact Preference</value>
     </labels>
     <labels>
         <fullName>PG_AS_H_Password_HelpText</fullName>
@@ -13962,6 +13969,20 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RH Notification</shortDescription>
         <value>Notification preferences</value>
+    </labels>
+	 <labels>
+        <fullName>RH_OPT_INT_STATUS_EMAIL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_OPT_INT_STATUS_EMAIL</shortDescription>
+        <value>Receive email notifications</value>
+    </labels>
+    <labels>
+        <fullName>RH_OPT_IN_STATUS_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_OPT_IN_STATUS_SMS</shortDescription>
+        <value>Receive SMS notifications</value>
     </labels>
     <labels>
         <fullName>SDC_List_View</fullName>

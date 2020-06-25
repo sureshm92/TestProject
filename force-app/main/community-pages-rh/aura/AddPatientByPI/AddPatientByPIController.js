@@ -21,7 +21,6 @@
                 window.setTimeout(
                     $A.getCallback(function () {
                         helper.initData(component);
-                        component.find('checkbox-doContact').getElement().checked = true;
                     }), 100
                 );
             }, null, function () {
@@ -103,6 +102,7 @@
 
     doNotContact: function (component) {
         component.set('v.doNotContact', !component.get('v.doNotContact'));
-    },
+        if (component.get('v.doNotContact')) component.set('v.createUsers', false);
+    }
 
 })
