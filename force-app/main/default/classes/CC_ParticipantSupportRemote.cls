@@ -2,15 +2,15 @@ public without sharing class CC_ParticipantSupportRemote {
     
     public class InitData {
         @AuraEnabled
-        public List < Participant_Enrollment__c > ParticipantEnrollment;
+        public List < Participant_Enrollment__c > enrollments;
     }
     
     @AuraEnabled
     public static string fetchParticipantEnrollment(String searchKeyWord) {
         try {
-            string srchtxt='%'+searchKeyWord+'%';
+            
             List < Participant_Enrollment__c > returnList = new List < Participant_Enrollment__c > ();
-            List < Participant_Enrollment__c > lstOfParticipantEnrollment = [SELECT Participant__r.Full_Name__c,ParticipantPhone__c,
+            List < Participant_Enrollment__c > lstOfParticipantEnrollment = [SELECT Participant__r.Full_Name__c,
                                                                              Days_After_Referred__c, Participant__c, 
                                                                              Participant__r.Phone__c, 
                                                                              Participant__r.Phone_Type__c, 
@@ -35,15 +35,14 @@ public without sharing class CC_ParticipantSupportRemote {
                                                                              Participant__r.Alternative_Phone_Type__c,
                                                                              Study_Site__r.Study_Site_Phone__c, Study_Site__c 
                                                                              FROM Participant_Enrollment__c 
-                                                                             where ParticipantPhone__c=: searchKeyWord
+                                                                             where Participant__r.Phone__c =: searchKeyWord
                                                                             ];
-            //  system.debug('lstOfParticipantEnrollment'+lstOfParticipantEnrollment);
             
             for (Participant_Enrollment__c PE: lstOfParticipantEnrollment) {
                 returnList.add(PE);
             }
             InitData initData = new InitData();
-            initData.ParticipantEnrollment = returnList;
+            initData.enrollments= returnList;
             return JSON.serialize(initData);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
