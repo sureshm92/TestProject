@@ -197,7 +197,7 @@
         //TO-DO: Add right border and align table
         //doc.line(808, 35, 808, 550);
         if (logo) {
-            doc.addImage(logo, 'PNG', 100, 12, 90, 35);
+            doc.addImage(logo, 'PNG', 95, 20, 100, 25);
         }
         splitTextFooter.forEach(function (el, ind) {
             doc.setFontSize(8);
