@@ -12521,7 +12521,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP Change Notification</shortDescription>
-        <value>Change your notification setting under Account Settings</value>
+        <value>Change your notification preferences under Contact Information</value>
     </labels>
     <labels>
         <fullName>PP_Change_Preferences_Resource</fullName>
