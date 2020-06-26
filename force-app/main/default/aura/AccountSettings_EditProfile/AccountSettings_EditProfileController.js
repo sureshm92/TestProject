@@ -231,7 +231,7 @@ if(component.get('v.personWrapper.mobilePhone')===null && component.get('v.optIn
 
         }
         homephoneField.reportValidity();
-        if(!personWrapper.firstName || !personWrapper.lastName || !personWrapper.dateBirth || mobilePhoneValid===false || homePhoneValid===false ){
+        if(!personWrapper.firstName || !personWrapper.lastName || !personWrapper.dateBirth || mobilePhoneValid===false || homePhoneValid===false || !personWrapper.homePhone){
             component.set('v.disableSave',true);
         }else{
             console.log('personWrapper.optInSMS'+personWrapper.optInSMS)
