@@ -19,6 +19,10 @@
     font-size: 16px;
 }
 
+.THIS.menu-block li.body{
+    max-height: 450px;
+}
+
 /*-----------------------------------------------------------------------*/
 
 @media all and (max-width: 550px) {
