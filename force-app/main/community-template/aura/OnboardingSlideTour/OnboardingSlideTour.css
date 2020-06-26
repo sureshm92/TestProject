@@ -62,7 +62,7 @@
 }
 
 .THIS .wt-scroller {
-    height: 85vh;
+    max-height: 800px;
     margin: 0 1rem;
 }
 
