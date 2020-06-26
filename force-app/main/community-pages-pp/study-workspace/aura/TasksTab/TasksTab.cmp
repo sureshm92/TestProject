@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev  
  -->
 
-<aura:component description="TasksTab" controller="TasksRemote">
+ <aura:component description="TasksTab" controller="TasksRemote">
 
     <!-- attributes: -->
     <aura:attribute name="taskMode" type="String" default="{!$Label.c.Task_Tab_Open_Tasks}"/>
@@ -77,11 +77,11 @@
                                 </td>
                                 <td>
                                     <aura:if isTrue="{!taskWrapper.reminder != null}">
-                                        <div class="rr-link limit-width"
+                                         <div class="rr-link limit-width"
                                          data-index="{!index}"
                                          data-reminder="{!taskWrapper.reminder}"
-                                         onclick="{!c.onReminderDateClick}">{!taskWrapper.reminder}</div>
-                                        <!--<ui:outputDate value="{!taskWrapper.reminder}"/>-->
+                                         onclick="{!c.onReminderDateClick}"><ui:outputDate value="{!taskWrapper.reminder}"/></div>
+                                       
                                         <aura:set attribute="else">
                                         	<div class="rr-link limit-width"
                                          		 data-index="{!index}"

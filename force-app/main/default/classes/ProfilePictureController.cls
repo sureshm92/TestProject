@@ -7,10 +7,22 @@ public with sharing class ProfilePictureController {
             throw new System.NoAccessException();
             //return null;
         }
+        Contact currentContact = new Contact();
+        currentContact =  [ SELECT Id,userCommunityDelegateId__c FROM Contact WHERE Id IN (
+                SELECT ContactId
+                FROM User
+                WHERE Id = :UserInfo.getUserId()
+            )
+            LIMIT 1];
+
+        if(currentContact.userCommunityDelegateId__c != null){
+            currentContact = ContactService.getContact(currentContact.userCommunityDelegateId__c);
+        }
         
         return [SELECT Id, Name, FullPhotoUrl FROM User 
-                WHERE Id=:UserInfo.getUserId()].FullPhotoUrl;
+                WHERE ContactId =: currentContact.Id].FullPhotoUrl;
         
+             
     }
     
     @AuraEnabled

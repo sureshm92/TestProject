@@ -13,12 +13,15 @@
     doCheckFields: function (component, event, hepler) {
         var participant = component.get('v.participantInfo');
         var stateRequired = component.get('v.statesLVList')[0];
+        var numbers=/^[0-9]*$/;
+
         let isValid =
             participant.First_Name__c &&
             participant.Last_Name__c &&
             participant.Date_of_Birth__c &&
             participant.Gender__c &&
             participant.Phone__c &&
+            numbers.test(participant.Phone__c) &&
             participant.Email__c &&
             component.get('v.sendFor') !== '' &&
             component.find('emailInput').get('v.validity').valid;
@@ -28,6 +31,24 @@
         } else {
             component.set('v.isValid', false);
         }
+    },
+    handleHomePhoneValidation:function(component,event) {
+        var inputValue = event.getSource().get("v.value");
+        var phoneField=component.find('pField2');
+        var numbers=/^[0-9]*$/;
+        if(inputValue===""){
+            phoneField.setCustomValidity("");  
+        }
+       if ((!numbers.test(inputValue)  && inputValue!=="")) {
+        phoneField.setCustomValidity("Phone number must be numeric");
+        component.set('v.isValid', false);
+
+        } else {
+            phoneField.setCustomValidity(""); // reset custom error 
+            component.set('v.isValid', true);
+
+        }
+        phoneField.reportValidity();
     },
 
     doCountryCodeChanged: function (component, event, helper) {

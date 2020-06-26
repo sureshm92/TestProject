@@ -20,6 +20,9 @@
         var comModes = component.get('v.communityModes');
         if (navigateTo && !itemValue) {
             communityService.navigateToPage(navigateTo);
+
+            component.set('v.reset', true);
+            component.set('v.reset', false);
         } else if (itemValue) {
             if (itemValue.subItems.length === 0) {
                 let currentDelegateId;
@@ -40,7 +43,7 @@
                     const comData = JSON.parse(returnValue);
                     component.set('v.currentMode', comData.currentMode);
                     component.set('v.communityModes', comData.communityModes);
-                    communityService.setCurrentCommunityMode(comData.currentMode);
+                    communityService.setCurrentCommunityMode(comData.currentMode, navigateTo);
 
                     if (comData.currentMode.template.needRedirect) return;
                     if (!navigateTo) {

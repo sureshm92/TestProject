@@ -79,7 +79,7 @@
 }
 
 .THIS .mouse-hover.navItem {
-    background: #0768FD;
+    background: #297dfd;
     color: white;
     font-family: "Proxima Nova";
     font-size: 16px;
@@ -90,7 +90,7 @@
 
 .THIS .slds-navigation-list-vertical__action:active,
 .THIS .slds-navigation-list--vertical__action:active {
-    background: #0768FD;
+    background: #297dfd;
     color: #fff;
 }
 
@@ -99,6 +99,7 @@
 }
 
 @media all and (max-width: 768px) {
+
     .THIS .NavContainer {
         flex-direction: column;
     }
@@ -110,7 +111,8 @@
 
     .THIS .navBar {
         position: relative;
-        height: 50px;
+        height: 30px;
+        margin-top: 0;
     }
 
     .THIS .navBar ul {
@@ -118,22 +120,35 @@
         flex-direction: column;
         background: #fff;
         position: absolute;
-        width: 275px;
+        width: 225px;
         z-index: 100;
     }
 
 
     .THIS .navBar .navItem {
-       order: 2;
-        border-left: 1px solid #e9e9e9;
-        border-right: 1px solid #e9e9e9;
+        order: 2;
         display: none;
+        border: none;
     }
 
     .THIS .navBar .navItem.mouse-hover {
         order: 1;
         display: block;
-        font-size: 1.25rem;
+        font-size: 1rem;
+    }
+
+    .THIS .navBar .navItem.mouse-hover .navItem1 {
+        padding: .75rem 5px 0 .25rem;
+        display: inline-block;
+        border: none;
+    }
+
+    .THIS .navBar .navItem.mouse-hover .navItem1:hover {
+        background-color: transparent;
+    }
+
+    .THIS .navBar .navItem .navItem1 {
+        padding-left: 1.25rem;
     }
 
     .THIS .mouse-hover.navItem,
@@ -143,18 +158,20 @@
         border: none;
         color: #444;
         position: relative;
+        color: #297dfd;
+        padding-left: 20px;
     }
 
     .THIS .mouse-hover.navItem:after {
         content: '';
-        background: url(/resource/1571137334000/SelectMenuTriangleDown);
-        position: absolute;
-        top: 13px;
-        right: 10px;
+        background: url(/resource/1593008431000/IconTriangleDownBlue);
+        top: 5px;
         background-repeat: no-repeat;
-        background-size: 16px 16px;
-        width: 16px;
-        height: 16px;
+        background-size: 20px 20px;
+        width: 20px;
+        height: 20px;
+        position: relative;
+        display: inline-block;
     }
 
     .THIS .navBar ul:hover {
@@ -163,6 +180,13 @@
 
     .THIS .navBar ul:hover .navItem {
         display: block;
+    }
+
+    .THIS .slds-navigation-list-vertical__action:hover,
+    .THIS .slds-navigation-list-vertical__action:focus,
+    .THIS .slds-navigation-list--vertical__action:hover,
+    .THIS .slds-navigation-list--vertical__action:focus {
+        background: transparent;
     }
 
 }

@@ -55,33 +55,32 @@
             <div class="ap-section">
                 <div class="ap-section-title">{!$Label.c.BTN_Participant_Information}</div>
                 <div class="slds-grid slds-gutters slds-wrap">
-                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
+                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                         <div class="label">
                             <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_First_name}
                         </div>
                         <lightning:input type="text" value="{!v.participant.First_Name__c}" required="true"
                                          onblur="{!c.doCheckFields}"/>
                     </div>
-                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
+                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-8">
                         <div class="label">
                             {!$Label.c.PG_AS_F_Middle_name}
                         </div>
                         <lightning:input type="text" value="{!v.participant.Middle_Name__c}"
                                          onblur="{!c.doCheckFields}"/>
                     </div>
-                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
+                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                         <div class="label"><abbr title="required"
                                                  class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Last_name}</div>
                         <lightning:input type="text" value="{!v.participant.Last_Name__c}" required="true"
                                          onblur="{!c.doCheckFields}"/>
                     </div>
-                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
+                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-8">
                         <div class="label">{!$Label.c.PG_AS_F_Suffix}</div>
-                        <lightning:layoutItem size="5">
                             <lightning:input type="text" value="{!v.participant.Suffix__c}"
                                              onblur="{!c.doCheckFields}"/>
-                        </lightning:layoutItem>
                     </div>
+                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"/>
                     <aura:if isTrue="{!v.fromActionParticipant || v.fromAddParticipantPage}">
                         <div class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-medium-size--1-of-4'}">
                             <div class="label">{!$Label.c.PG_AS_F_Nickname}</div>
@@ -100,7 +99,7 @@
                             <div class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size--1-of-4"/>
                         </aura:if>
                     </aura:if>
-                    <div class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3'}">
+                    <div class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8'}">
                         <div class="label"><abbr title="required"
                                                  class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Date_of_Birth}
                         </div>
@@ -109,7 +108,7 @@
                                          onblur="{!c.doCheckDateOfBith}"/>
                     </div>
                     <aura:if isTrue="{!v.fromAddParticipantPage}">
-                        <div class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3'}">
+                        <div class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8'}">
                             <div class="label"><abbr title="required"
                                                      class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Language}</div>
                             <c:rrSelect options="{!v.formData.languageLVList}" value="{!v.userLanguage}"
@@ -128,13 +127,14 @@
                             </aura:if>
                         </aura:set>
                     </aura:if>
-                    <div class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3'}">
+                    <div class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8'}">
                         <div class="label"><abbr title="required"
                                                  class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Gender}</div>
                         <c:rrSelect options="{!v.formData.genderLVList}" value="{!v.participant.Gender__c}"
                                     placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"
                                     onchange="{!c.doCheckFields}"/>
                     </div>
+                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"/>
                 </div>
             </div>
 
@@ -144,21 +144,21 @@
                         isTrue="{!!v.needsGuardian &amp;&amp; ((v.participantDelegate &amp;&amp; !v.participant.Adult__c) || (v.participantDelegate &amp;&amp; v.participant.Adult__c &amp;&amp; v.participant.Emancipation_in_progress__c))}">
                     <div class="ap-section-title">{!$Label.c.PG_Ref_L_Delegate_Information}</div>
                     <div class="slds-grid slds-gutters slds-wrap">
-                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                             <div class="label"><abbr title="required"
                                                      class="slds-required">*</abbr>{!$Label.c.PG_AS_F_First_name}</div>
                             <lightning:input type="text" value="{!v.participantDelegate.First_Name__c}"
                                              required="{!v.participantDelegate}"
                                              onblur="{!c.doCheckFields}"/>
                         </div>
-                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                             <div class="label"><abbr title="required"
                                                      class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Last_name}</div>
                             <lightning:input type="text" value="{!v.participantDelegate.Last_Name__c}"
                                              required="{!v.participantDelegate}"
                                              onblur="{!c.doCheckFields}"/>
                         </div>
-                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                             <div class="label"><abbr title="required"
                                                      class="slds-required">*</abbr>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
                             </div>
@@ -166,6 +166,7 @@
                                              required="{!v.participantDelegate}"
                                              onblur="{!c.doCheckFields}"/>
                         </div>
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"/>
                     </div>
                 </aura:if>
             </div>
@@ -199,7 +200,7 @@
                     <div class="slds-col slds-size--1-of-4 rr-form-element"/>
 
 
-                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
+                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                         <div class="label"><abbr title="required"
                                                  style="{!!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none'}"
                                                  class="slds-required">{!!v.needsGuardian ? '*' : ''}</abbr>{!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}
@@ -208,7 +209,7 @@
                                          required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
                                          onblur="{!c.doCheckFields}"/>
                     </div>
-                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
+                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                         <div class="label"><abbr title="required"
                                                  style="{!!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none'}"
                                                  class="slds-required">{!!v.needsGuardian ? '*' : ''}</abbr>{!$Label.c.PG_AP_F_Phone_Type}
@@ -218,10 +219,10 @@
                                     required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
                                     onchange="{!c.doCheckFields}"/>
                     </div>
-                    <div class="slds-col slds-size--1-of-4 rr-form-element"/>
-                    <div class="slds-col slds-size--1-of-4 rr-form-element"/>
+                    <div class="slds-col slds-size--2-of-8 rr-form-element"/>
+                    <div class="slds-col slds-size--2-of-8 rr-form-element"/>
 
-                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                         <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PE_Country}
                         </div>
                         <c:rrSelect options="{!v.formData.countriesLVList}"
@@ -229,7 +230,7 @@
                                     placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"
                                     onchange="{!c.doCountryCodeChanged}"/>
                     </div>
-                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                         <div class="label">
                             <aura:if isTrue="{!!empty(v.statesLVList)}">
                                 <abbr title="required" class="slds-required">*</abbr>
@@ -240,18 +241,19 @@
                                     placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"
                                     onchange="{!c.doStateChange}"/>
                     </div>
-                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                         <div class="label"><abbr title="required"
                                                  class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Zip_Postal_Code}
                         </div>
                         <lightning:input type="text" value="{!v.participant.Mailing_Zip_Postal_Code__c}"
                                          required="true" onblur="{!c.doCheckFields}"/>
                     </div>
+                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"/>
                 </div>
                 <aura:set attribute="else">
                     <div class="ap-section-title">{!$Label.c.PG_AP_H_Contact_Information}</div>
                     <div class="slds-grid slds-gutters slds-wrap">
-                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                             <div class="label"><abbr title="required"
                                                      style="{!!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none'}"
                                                      class="slds-required">{!!v.needsGuardian ? '*' : ''}</abbr>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
@@ -260,7 +262,7 @@
                                              required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
                                              onblur="{!c.doCheckFields}"/>
                         </div>
-                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                             <div class="label"><abbr title="required"
                                                      style="{!!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none'}"
                                                      class="slds-required">{!!v.needsGuardian ? '*' : ''}</abbr>{!$Label.c.PG_AP_F_Phone_Type}
@@ -271,7 +273,7 @@
                                         required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
                                         onchange="{!c.doCheckFields}"/>
                         </div>
-                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                             <div class="label"><abbr title="required"
                                                      style="{!!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none'}"
                                                      class="slds-required">{!!v.needsGuardian ? '*' : ''}</abbr>{!$Label.c.PG_AS_F_Email_address}
@@ -280,7 +282,8 @@
                                              required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
                                              onblur="{!c.doCheckFields}"/>
                         </div>
-                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"/>
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                             <div class="label"><abbr title="required"
                                                      class="slds-required">*</abbr>{!$Label.c.PE_Country}
                             </div>
@@ -289,7 +292,7 @@
                                         placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"
                                         onchange="{!c.doCountryCodeChanged}"/>
                         </div>
-                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                             <div class="label">
                                 <aura:if isTrue="{!!empty(v.statesLVList)}">
                                     <abbr title="required" class="slds-required">*</abbr>
@@ -301,26 +304,30 @@
                                         placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"
                                         onchange="{!c.doStateChange}"/>
                         </div>
-                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                             <div class="label"><abbr title="required"
                                                      class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Zip_Postal_Code}
                             </div>
                             <lightning:input type="text" value="{!v.participant.Mailing_Zip_Postal_Code__c}"
                                              required="true" onblur="{!c.doCheckFields}"/>
                         </div>
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"/>
                         <aura:if isTrue="{!v.fromActionParticipant}">
-                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                                 <div class="label">{!$Label.c.PG_AP_F_Alternative_Phone_Number}</div>
                                 <lightning:input type="text" value="{!v.participant.Alternative_Phone_Number__c}"
                                                  onblur="{!c.doCheckFields}"/>
                             </div>
-                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                                 <div class="label">{!$Label.c.PG_AP_F_Alternative_Phone_Type}</div>
                                 <c:rrSelect options="{!v.formData.phoneTypeLVList}"
                                             value="{!v.participant.Alternative_Phone_Type__c}"
                                             placeholder="{!$Label.c.PG_AC_Select}" onchange="{!c.doCheckFields}"
                                             disabled="{!!v.participant.Alternative_Phone_Number__c}"/>
                             </div>
+                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"/>
+                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"/>
+
                         </aura:if>
                     </div>
                 </aura:set>
@@ -333,7 +340,7 @@
                     <div class="ap-section-title">{!v.fromAddParticipantPage ? $Label.c.PG_AP_H_Participation_Details : $Label.c.PG_AP_H_Referral_Information}</div>
                     <div class="slds-grid slds-gutters slds-wrap">
                         <aura:if isTrue="{!!v.updateMode}">
-                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
+                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-small-size_1-of-5">
                                 <div class="label"><abbr title="required"
                                                          class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Patient_Status}
                                 </div>
@@ -342,7 +349,7 @@
                                             useSentenceFont="false" onchange="{!c.doCheckFields}"/>
                             </div>
                         </aura:if>
-                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-small-size_1-of-5">
                             <div class="label">
                                 <aura:if isTrue="{!!v.updateMode}">
                                     <abbr title="required"
@@ -353,7 +360,7 @@
                                         placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"
                                         onchange="{!c.doCheckFields}"/>
                         </div>
-                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-small-size_1-of-5">
                             <div class="label">
                                 <aura:if isTrue="{!v.screeningRequired}">
                                     <abbr title="required" class="slds-required">*</abbr>
@@ -365,7 +372,7 @@
                                              required="{!v.screeningRequired}"/>
                         </div>
                         <aura:if isTrue="{!v.visitPlanAvailable}">
-                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
+                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-small-size_1-of-5">
                                 <div class="label">
                                     <aura:if isTrue="{!v.visitPlanRequired}">
                                         <abbr title="required" class="slds-required">*</abbr>
@@ -378,6 +385,7 @@
                                             useSentenceFont="false" onchange="{!c.doCheckFields}"
                                             setValueAsSelected="true"/>
                             </div>
+                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-small-size_1-of-5"/>
                         </aura:if>
                         <!--<aura:if isTrue="{!!v.visitPlanAvailable}">
                             <div class="rr-form-element slds-col slds-size&#45;&#45;1-of-1 slds-large-size&#45;&#45;1-of-3"></div>

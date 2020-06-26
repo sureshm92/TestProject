@@ -149,10 +149,12 @@ window.communityService = (function () {
             return currentUserMode;
         },
 
-        setCurrentCommunityMode: function(mode){
+        setCurrentCommunityMode: function(mode, page){
             currentUserMode = mode;
             service.setThemeCSS();
-            if(!isDummy && mode.template.needRedirect) document.location.href = mode.template.redirectURL;
+            let redirectURL = mode.template.redirectURL;
+            if(page) redirectURL += '/s/' + page;
+            if(!isDummy && mode.template.needRedirect) document.location.href = redirectURL;
         },
 
         getMessagesVisible : function () {

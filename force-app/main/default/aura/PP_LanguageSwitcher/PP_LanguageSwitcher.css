@@ -18,8 +18,18 @@
     margin-top: 20px;
 }
 
+.THIS .slds-form-element__icon {
+    margin-top: -2px;
+    margin-left: 7px;
+}
+
 .THIS .language-switcher .slds-form-element__icon .slds-button {
-    color: #b5b5b5;
+    color: #595959;
+}
+
+.THIS .language-switcher .slds-form-element__icon .slds-button .slds-button__icon {
+    width: 16px;
+    height: 16px;
 }
 
 .THIS .section-description {
@@ -68,6 +78,15 @@
 }
 
 @media (max-width: 768px) {
+
+    .THIS  {
+        padding: 14px 1.5rem 1.5rem;
+    }
+
+    .THIS .as-title {
+        line-height: 19px;
+    }
+
     .THIS.as-container .as-sub-title,
     .THIS .cLanguageSwitcher .section-description {
         width: 100%;
@@ -126,6 +145,5 @@
         margin-top: 15px;
         height: auto;
     }
-
 
 }

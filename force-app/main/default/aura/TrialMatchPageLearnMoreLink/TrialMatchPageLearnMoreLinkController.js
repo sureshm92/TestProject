@@ -7,10 +7,12 @@
 ({
     doInit: function(component,event, helper){
         component.set('v.initialized', true);
+    },
+    doGenerateReport: function (component, event, helper) {
         helper.uploadReportData(component, function () {
             window.setTimeout($A.getCallback(function() {
                     helper.generateLearnMorePDF(component);
-            }), 1000);
+            }), 100);
         })
     }
 });

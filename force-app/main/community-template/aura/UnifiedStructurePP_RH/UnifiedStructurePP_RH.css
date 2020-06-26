@@ -4,7 +4,7 @@
 
 .THIS .label{
     height: 48px;
-    width: 213px;
+    width: 199px;
     color: #000000;
     font-size: 16px;
     font-weight: 600;
@@ -14,6 +14,7 @@
 
 .THIS .item-container{
     display: flex;
+    width: 315px;
     border-bottom: 1px solid #f8f9fb;
 }
 
@@ -52,11 +53,6 @@
     justify-content: space-between;
     width: 50px;
     margin-right: 20px;
-}
-
-.THIS .menu-popup-panel li{
-    padding-left: unset!important;
-    padding-right: unset!important;
 }
 
 .THIS .item-label-box{
