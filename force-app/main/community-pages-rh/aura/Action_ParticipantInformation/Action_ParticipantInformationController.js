@@ -13,6 +13,7 @@
 
     doExecute: function (component, event, helper) {
         try {
+            component.set('v.doNotContact', false);
             component.find('spinner').show();
             component.set('v.initialized', false);
             component.set('v.sendEmails', false);
