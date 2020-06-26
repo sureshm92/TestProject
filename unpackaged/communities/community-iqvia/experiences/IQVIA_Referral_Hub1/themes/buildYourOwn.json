@@ -516,7 +516,7 @@
   }, {
     "componentName" : "c:CustomThemeLayout",
     "id" : "08e9ee51-e380-424d-ae96-5e152206f4b1",
-    "label" : "Default",
+    "label" : "Default1",
     "regions" : [ {
       "components" : [ {
         "componentAttributes" : {
@@ -586,7 +586,7 @@
   }, {
     "componentName" : "c:LoginThemeLayout",
     "id" : "9084f5cd-d942-4cf7-81b3-1b9940fdd76b",
-    "label" : "Login",
+    "label" : "Login1",
     "regions" : [ {
       "components" : [ {
         "componentAttributes" : {
