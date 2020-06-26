@@ -3,13 +3,13 @@
     max-width: 1140px;   
     margin: 25px auto 30px;
 }
+
 .THIS .rr-white-panel {
     overflow: visible;
     margin-top: -65px;
     font-family: "Proxima Nova";
     border:none;
-    border-radius: 0px;
-    box-shadow: 0px;
+    box-shadow: none;
 }
 
 .THIS .rr-body-content {
