@@ -4,12 +4,12 @@
 
 .THIS .pp-item:first-child .main-box .menu-item-box .icon-settings-box .icon-cog{
     visibility: visible;
-    opacity: unset;
+    opacity: 1;
 }
 
-.THIS .contain:first-child .unset:first-child .main-box .menu-item-box .icon-settings-box .icon-delegate-box .icon-delegate{
+.THIS .contain:first-child .pp-item:first-child .main-box .menu-item-box .icon-settings-box .icon-delegate-box .icon-delegate{
     visibility: visible;
-    opacity: unset;
+    opacity: 1;
 }
 
 .THIS .menu-item-box{
