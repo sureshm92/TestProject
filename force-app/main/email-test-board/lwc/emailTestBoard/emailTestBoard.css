@@ -33,6 +33,7 @@
 }
 
 .preview-block {
+    margin: auto;
     position: relative;
     overflow: auto;
     height: 600px;
