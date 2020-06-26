@@ -32,7 +32,7 @@
             </div>
             <aura:if isTrue="{!v.islearnmore}">
                 <div class="ctp-date-status">
-                    <a onclick="{!c.navigateToLearnMorePage}">Learn More</a>
+                  <c:TrialMatchPageLearnMoreLink ctpId="{!v.trialMatch.ctpid}"/> 
                 </div>
             </aura:if>
         </div>
