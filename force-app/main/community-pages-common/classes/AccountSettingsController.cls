@@ -72,7 +72,7 @@ public without sharing class AccountSettingsController {
             initData.userName = UserInfo.getUserName();
             User uval = [Select Id,ContactId from User where Id =: UserInfo.getUserId()];
             initData.delegateContact = [Select Id From Contact where Id =: uval.ContactId];
-            initData.delegateUserName = [Select Id,Email,Name,Username from User where ContactId =: initData.myContact.Id LIMIT 1];
+            initData.delegateUserName = [Select Id,Email,Name,Username ,FullPhotoUrl from User where ContactId =: initData.myContact.Id LIMIT 1];
             initData.hasProfilePic = !initData.delegateUserName.FullPhotoUrl.contains('profilephoto/005/F');
             return JSON.serialize(initData, false);
         } catch (Exception e) {
