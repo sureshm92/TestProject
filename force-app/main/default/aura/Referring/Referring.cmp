@@ -508,7 +508,7 @@
                                             <div class="slds-grid slds-gutters slds-wrap rr-form-element">
                                                 <div class="slds-col slds-size--1-of-2">
                                                     <lightning:input type="text" label="{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}" value="{!v.delegateParticipant.Phone__c}"
-                                                                     required="{!v.needsGuardian}"  onblur="{!c.doCheckfields}"/>
+                                                                     required="{!v.needsGuardian}"  onblur="{!c.doCheckfields}" aura:id="delegate-phone"/>
                                                 </div>
                                                 <div class="slds-col rr-medium-up-hide" style="height: 20px"></div>
                                                 <div class="slds-col slds-size--1-of-2">
