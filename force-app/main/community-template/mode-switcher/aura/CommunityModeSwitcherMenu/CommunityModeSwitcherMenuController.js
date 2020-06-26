@@ -43,7 +43,7 @@
                     const comData = JSON.parse(returnValue);
                     component.set('v.currentMode', comData.currentMode);
                     component.set('v.communityModes', comData.communityModes);
-                    communityService.setCurrentCommunityMode(comData.currentMode);
+                    communityService.setCurrentCommunityMode(comData.currentMode, navigateTo);
 
                     if (comData.currentMode.template.needRedirect) return;
                     if (!navigateTo) {
