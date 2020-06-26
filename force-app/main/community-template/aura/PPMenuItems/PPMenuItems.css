@@ -7,10 +7,10 @@
     opacity: 1;
 }
 
-.THIS .contain:first-child .pp-item:first-child .main-box .menu-item-box .icon-settings-box .icon-delegate-box .icon-delegate{
-    visibility: visible;
-    opacity: 1;
-}
+/*.THIS .contain:first-child .pp-item:first-child .main-box .menu-item-box .icon-settings-box .icon-delegate-box .icon-delegate{*/
+/*    visibility: visible;*/
+/*    opacity: 1;*/
+/*}*/
 
 .THIS .menu-item-box{
     color: #000000;
@@ -51,8 +51,8 @@
 .THIS .icon-cog, .THIS .icon-delegate{
     width: 16px;
     height: 16px;
-    visibility: hidden;
-    opacity: 0;
+    /*visibility: hidden;*/
+    /*opacity: 0;*/
     fill: #666666!important;
 }
 
@@ -76,5 +76,10 @@
 
 .THIS .icon-box{
     margin-left: 21px;
+}
+
+.THIS .hidden {
+    visibility: hidden;
+    opacity: 0;
 }
 
