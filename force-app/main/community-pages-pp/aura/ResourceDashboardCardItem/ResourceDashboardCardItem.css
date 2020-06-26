@@ -18,7 +18,6 @@
     max-height: 123px;
     max-width: 215px;
     margin: 0 auto 5px 0;
-    cursor: pointer;
     overflow: hidden;
 }
 
@@ -122,5 +121,13 @@
     } 
    .THIS .resource-error-message{
         padding: 30% 0;
+    }
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .THIS .resource-image-container > img {
+        min-height: 65px;
+        font-size: 12px;
+        font-weight: 300;
     }
 }
