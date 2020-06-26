@@ -164,6 +164,11 @@
         <aura:if isTrue="{!v.isReminderOnly}">
             <div class="te-task-panel">
                 <div class="rr-white-panel padding slds-col" style="min-height: 220px;">
+                    <!-- Task Header Info -->
+                    <div class="te-col-header-info">
+                        {!$Label.c.Task_Details_Header_Info}
+                    </div>
+                    <div class="slds-p-top_small"></div>
                     <!--Visit Reminder-->
                     <div class="slds-grid te-form slds-gutters slds-wrap slds-form-element__label">
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">

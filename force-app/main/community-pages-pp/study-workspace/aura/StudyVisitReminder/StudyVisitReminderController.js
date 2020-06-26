@@ -96,7 +96,10 @@
     },
 
     doNavigateToAccountSettings: function (component, event, helper) {
-        communityService.navigateToPage('account-settings');
+        //communityService.navigateToPage('account-settings');
+        window.open('account-settings', '_blank');
+        window.focus();  
+        helper.hideModal(component);
     },
 
     onChangeFreq: function (component, event, helper) {
