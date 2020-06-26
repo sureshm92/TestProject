@@ -44,7 +44,7 @@ private class Test_EmailTemplateDelegatePartController {
 
         Test.startTest();
         EmailTemplateProviderService.setProviderType('', delegate.Id, delegate.Name,
-                'en_US', 'IQVIA', delegate.Id, '');
+                'en_US', 'Default', delegate.Id, '');
         EmailTemplateDelegatePartController controller = new EmailTemplateDelegatePartController();
         Test.stopTest();
 
