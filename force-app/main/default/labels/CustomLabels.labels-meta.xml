@@ -3155,8 +3155,8 @@
         <protected>false</protected>
         <shortDescription>Email Body Trial Match</shortDescription>
         <value>You have been matched for new studies.
- 
-Please login to the ##CommunityName to check your clinical research trial matches at any time.</value>
+
+Please login in to the ##CommunityName to view your clinical trial matches anytime.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Trial_Match_Delegate</fullName>
@@ -3165,7 +3165,7 @@ Please login to the ##CommunityName to check your clinical research trial matche
         <shortDescription>Email Body Trial Match Delegate</shortDescription>
         <value>We have found new trial matches for ##PatientFirstName.
  
-Please log in to ##CommunityName to view this information.</value>
+Please log in to ##CommunityName to view your clinical research trial matches anytime.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Trial_Message</fullName>
@@ -3651,7 +3651,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Header Trial Match</shortDescription>
-        <value>New Trial Matches are available</value>
+        <value>New trial matches are available for you</value>
     </labels>
     <labels>
         <fullName>Email_Header_Visit_Task_Reminder</fullName>
@@ -3839,9 +3839,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature PT</shortDescription>
-        <value>Thank you for participating in the ##CommunityName.
-
-            Sincerely,
+        <value>Sincerely,
 
             ##SignatureShortCommunityName</value>
     </labels>
@@ -4298,14 +4296,14 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Trial Match</shortDescription>
-        <value>New Trial Matches are available for you</value>
+        <value>New trial matches are available for you</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Trial_Match_Delegate</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Trial Match Delegate</shortDescription>
-        <value>New Trial Matches are available</value>
+        <value>New trial matches are available for you</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Trial_Search_Match_Alert_Received</fullName>
@@ -4340,7 +4338,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Welcome To The Study</shortDescription>
-        <value>You have been enrolled to a clinical research study</value>
+        <value>You have been enrolled in a clinical research study</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Welcome_To_The_Study_Del</fullName>

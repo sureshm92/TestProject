@@ -15,11 +15,10 @@
     min-height: 50px;
     margin: 10px auto;
 }
-
-.THIS .slds-avatar {
-    border-radius: 50%;
-    width: 55px;
-    height: 55px;
+.THIS .slds-avatar{
+    border-radius: 100%;
+    width: 56px;
+    height: 56px;
 }
 
 .THIS .inputFile {
@@ -130,4 +129,83 @@
     letter-spacing: 0;
     line-height: 20px;
     margin-left: 18px;
+  }
+/**
+ * Created by Nargiz Mamedova on 6/10/2020.
+ */
+
+.THIS .slds-icon-standard-avatar {
+}
+
+.THIS.arrow-down{
+    height: 6px;
+    width: 8px;
+    cursor: pointer;
+    margin-left: 9px;
+}
+
+.THIS .small-avatar{
+    height: 20px;
+    width: 18px;
+}
+
+/**
+ * Created by Nargiz Mamedova on 6/10/2020.
+ */
+
+.THIS.header-container{
+    width: 315px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-bottom: 1px solid #F8F9FB;
+}
+
+.THIS .avatar-icon{
+    background-color: #DF216D;
+    height: 55px;
+    width: 55px;
+    border-radius: 100%;
+}
+.THIS .noAvatar-icon{
+    border-radius: 100%;
+    border: 0.1px solid lightgrey;
+    
+}
+
+.THIS .slds-avatar_large,
+.THIS .slds-avatar--large {
+    width: 55px;
+    height: 55px;
+}
+
+.THIS .delegate-avatar{
+    height: 38px;
+    width: 38px;
+    margin-top: 15%;
+    margin-left: 15%;
+}
+
+.THIS .single-avatar {
+    height: 24px;
+    width: 21px;
+    margin-top: 27%;
+}
+
+.THIS .user-name{
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 24px;
+    margin-bottom: 5px;
+}
+
+.THIS .user-mode{
+    color: #595959;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 17px;
+    margin-bottom: 15px;
 }

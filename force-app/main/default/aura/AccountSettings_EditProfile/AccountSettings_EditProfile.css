@@ -246,6 +246,11 @@
 }
 
 @media (max-width: 768px) {
+
+    .THIS .rr-white-panel {
+        padding: 14px 1.5rem 1.5rem;
+    }
+
     .THIS.as-container .as-sub-title,
     .THIS .cLanguageSwitcher .section-description {
         width: 100%;

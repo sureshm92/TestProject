@@ -7,7 +7,8 @@
     <aura:attribute name="isDelegate" type="Boolean"/>
     <aura:attribute name="disableToggle" type="Boolean"/>
     <aura:attribute name="delegateContact" type="Contact"/>
-    
+    <aura:attribute name="hasProfilePic" type="Boolean"/>
+
     <aura:attribute name="institute" type="Object"/>
     <aura:attribute name="previousCC" type="String"/>
     
@@ -70,9 +71,9 @@
                     <div class="as-email rr-form-element">
                         <div class="as-email-input slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end">
                             <div class="slds-col slds-size_1-of-1">
-                                
-                                <c:Action_AddProfilePhoto username="{!v.userEmail}" recordId="{!v.userId}" isDelegate="{!v.isDelegate}" ></c:Action_AddProfilePhoto>
-                                
+
+                                           <c:Action_AddProfilePhoto username="{!v.userEmail}" recordId="{!v.userId}" isDelegate="{!v.isDelegate}" hasProfilePic="{!v.hasProfilePic}"></c:Action_AddProfilePhoto>
+
                             </div>
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                                 
@@ -291,7 +292,7 @@
                                                  value="{!v.personWrapper.mobilePhone}"
                                                  required="{!and(v.personWrapper.optInSMS, equals(v.personWrapper.mailingCC, 'US'))}"
                                                  disabled="{!notequals(v.personWrapper.mailingCC, 'US')}"
-                                                 onblur="{!c.handleMobileValidation}" /> 
+                                                 onblur="{!c.doCheckFieldsValidity}" /> 
                                 
                             </div>
                             <!-- <aura:if isTrue="{!v.userMode == 'Participant'}">  -->
@@ -318,7 +319,7 @@
                                 
                                 <lightning:input aura:id="pField2" type="tel" label="{!$Label.c.PG_AS_F_Phone_number}"
                                                  value="{!v.personWrapper.homePhone}" 
-                                                 onblur="{!c.handleHomePhoneValidation}" required="true"/></div>
+                                                 onblur="{!c.doCheckFieldsValidity}" required="true"/></div>
                             
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-media--responsive">
                                 <div class="label rr-sentence-font mar_top ">{!$Label.c.Phone_Type}</div>

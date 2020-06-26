@@ -42,6 +42,8 @@
             component.set('v.optInSMS', initData.contactSectionData.personWrapper.optInSMS);
             component.set('v.contact', initData.myContact);
             component.set('v.delegateContact',initData.delegateContact);
+            component.set('v.hasProfilePic',initData.hasProfilePic);
+
              if(communityService.getCurrentCommunityMode().currentDelegateId){
                component.set('v.userId',communityService.getCurrentCommunityMode().currentDelegateId);
 			   component.set('v.userEmail', initData.delegateUserName.Username);
@@ -57,6 +59,9 @@
 
 if(component.get('v.personWrapper.mobilePhone')==''){
     component.set('v.disableToggle',true);
+}
+if(component.get('v.personWrapper.mobilePhone')===null && component.get('v.optInSMS')===true){
+    component.set('v.disableSave',true);
 }
             component.set('v.isInitialized', true);
         }, null, function () {
@@ -185,17 +190,70 @@ if(component.get('v.personWrapper.mobilePhone')==''){
     },
     doCheckFieldsValidity: function(component, event, helper){
         event.preventDefault();
-
+        var numbers=/^[0-9]*$/;
        let personWrapper = component.get('v.personWrapper');
         if(component.get('v.userMode') == 'Participant') {
-            if(!personWrapper.firstName || !personWrapper.lastName || !personWrapper.dateBirth){
-                component.set('v.disableSave',true);
-                
-            }else{
+			        let mobilePhoneValid = personWrapper.mobilePhone && numbers.test(personWrapper.mobilePhone);
+        let homePhoneValid = personWrapper.homePhone && numbers.test(personWrapper.homePhone);
+        var phoneField=component.find('pField1');
+        if(personWrapper.mobilePhone){
+           if (!numbers.test(personWrapper.mobilePhone)) {
+               component.set('v.disableToggle',true);
+            phoneField.setCustomValidity("Phone number must be numeric");
+            component.set('v.disableSave',true);
+            } else {
+                phoneField.setCustomValidity(""); // reset custom error message
                 component.set('v.disableSave',false);
-                
+                component.set('v.disableToggle',false);
             }
-        } else if(component.get('v.userMode') == 'HCP' || component.get('v.userMode') == 'PI')
+        }else{
+            
+            phoneField.setCustomValidity("");
+        }
+        phoneField.reportValidity();
+
+        
+         var homephoneField=component.find('pField2');
+          if ((!numbers.test(personWrapper.homePhone)  || !personWrapper.homePhone)) {
+           if(!personWrapper.homePhone){
+               homephoneField.setCustomValidity("Phone number is mandatory");
+                       component.set('v.disableSave',true);
+
+           }
+           else{
+                       homephoneField.setCustomValidity("Phone number must be numeric");
+           }
+        component.set('v.disableSave',true);
+
+        } else {
+            homephoneField.setCustomValidity(""); // reset custom error message
+            component.set('v.disableSave',false);
+
+        }
+        homephoneField.reportValidity();
+        if(!personWrapper.firstName || !personWrapper.lastName || !personWrapper.dateBirth || mobilePhoneValid===false || homePhoneValid===false || !personWrapper.homePhone){
+            component.set('v.disableSave',true);
+        }else{
+            console.log('personWrapper.optInSMS'+personWrapper.optInSMS)
+            console.log('!personWrapper.mobilePhone'+!personWrapper.mobilePhone)
+             if(personWrapper.optInSMS && !personWrapper.mobilePhone){
+                 console.log('inside optinsms--->')
+                 component.set('v.disableSave',true);
+                 console.log('inside optinsms--->')
+
+               }
+             else{
+                     component.set('v.disableSave',false);
+                }
+
+        }
+
+        } 
+		
+		
+		
+		
+		else if(component.get('v.userMode') == 'HCP' || component.get('v.userMode') == 'PI')
         {
             if(!personWrapper.firstName || !personWrapper.lastName){
                 component.set('v.disableSave',true);
@@ -219,7 +277,6 @@ if(component.get('v.personWrapper.mobilePhone')==''){
 
         helper.setFieldsValidity(component);
     },
-
     doShowHelpMessageIfInvalid: function (component) {
         let fieldsGroup = 'pField';
         component.find(fieldsGroup).reduce(function (validSoFar, inputCmp) {

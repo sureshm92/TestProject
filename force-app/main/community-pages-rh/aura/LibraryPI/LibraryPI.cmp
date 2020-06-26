@@ -60,9 +60,9 @@
                                 <div class="slds-grid slds-wrap resource-container">
                                     
                                     <aura:if isTrue="{!!empty(resource.videoLink || resource.link)}">
-                                        <c:RRLink href="{!resource.videoLink ? resource.videoLink : resource.link}"
-                                                  class="resource-links slds-col slds-size--4-of-12"
-                                                  label="{!resource.name}" target="blank"/>
+                                       <a class="slds-coll slds-size--4-of-12 resource-links resourceLinkHover"
+                                                   onclick="{!c.doNavigate}"
+                                                   data-attributeVal="{!key + ',' + resourceIndex}">{!resource.name}</a>
                                         <aura:set attribute="else">
                                             <aura:if isTrue="{!and(resource.format == 'Study Document',!empty(resource.fileID))}">
                                                 
