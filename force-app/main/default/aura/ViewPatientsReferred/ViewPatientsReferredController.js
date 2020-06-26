@@ -55,6 +55,9 @@
     doActiveChanged: function (component, event, helper) {
         helper.doUpdateRecords(component, event, helper, 'active');
     },
+    doSortChanged: function (component, event, helper) {
+        helper.doUpdateRecords(component, event, helper, 'sort');
+    },
     doEmancipatedChanged: function (component, event, helper) {
         helper.doUpdateRecords(component, event, helper, 'emancipation');
     },
