@@ -1,44 +1,53 @@
 ({
-    doInit: function (component, event, helper) {
-        let elements = document.getElementsByClassName('db-qal-main');
-        elements[0].style.display = 'none';
+    doInit: function(component, event, helper) {
+        var elements = document.getElementsByClassName("db-qal-main");
+        elements[0].style.display = 'block';
     },
-
-    doSearch: function (component, event, helper) {
-        let dbQalMainStyle = 'none';
-        let searchField = component.find('searchField').get('v.value');
-        if (searchField.length > 1) {
+    
+    doSearch: function(component, event, helper) {
+        var searchField= document.getElementById('searchTxt').value;
+        //searchField = searchField.replace(/[^0-9\s]/g, "").replace(/\s\s/g, " ").replace(/\s/g,""); 
+        if (searchField.length >= 1) {
             communityService.executeAction(component, 'fetchParticipantEnrollment', {
                 searchKeyWord: searchField
-            }, function (returnValue) {
-                let initData = JSON.parse(returnValue);
-                component.set('v.searchResult', initData.enrollments);
-                component.set('v.pe', initData.enrollments[0]);
-                component.set('v.enrollments', initData.enrollments);
-                dbQalMainStyle = 'block';
+            }, function(returnValue) {
+                var initData = JSON.parse(returnValue);
+                component.set("v.searchResult", initData.enrollments);
+                //component.set("v.pe", initData.enrollments[0]);
+                component.set("v.peobj", initData.enrollments);
+                var elements = document.getElementsByClassName("db-qal-main");
+                elements[0].style.display = 'block';
             });
         } else {
-            component.set('v.searchResult', []);
-            component.set('v.pe', null);
-        }
-        let elements = document.getElementsByClassName('db-qal-main');
-        elements[0].style.display = dbQalMainStyle;
+            component.set("v.searchResult", []);
+            component.set("v.pe", null);
+            var elements = document.getElementsByClassName("db-qal-main");
+            elements[0].style.display = 'block';
+        }  
     },
-
-    showEditParticipantInformation: function (component, event, helper) {
-        let peIndex = event.getSource().get('v.name');
-        let pe = component.get('v.enrollments')[peIndex];
-        let actions = component.get('v.actions');
-        let rootComponent = $A.get('e.c:CC_ParticipantSupport');
-        let isInvited = component.get('v.isInvited');
-        component.find('OpenPatientInfoAction').execute(pe, actions, rootComponent, isInvited, function (enrollment) {
+    
+    showEditParticipantInformation: function(component, event, helper) {
+        var PeIndex = event.getSource().get("v.name");
+        var rootComponent = $A.get("e.c:CC_ParticipantSupport");
+        var pe = component.get('v.peobj')[PeIndex];
+        var actions = component.get('v.actions');
+        var isInvited = component.get('v.isInvited');
+        var anchor = event.currentTarget.value;
+        component.find("OpenPatientInfoAction").execute(pe, actions, rootComponent, isInvited, function(enrollment) {
             component.set('v.pe', enrollment);
             component.set('v.isInvited', true);
+            
         });
     },
-
-    removeComponent: function (cmp, event) {
-        let comp = event.getParam('comp');
+    removeComponent: function(cmp, event) {
+        var comp = event.getParam("comp");
         comp.destroy();
+    },
+
+    doNavigate: function(component, event, helper) {
+        var PeIndex = event.getSource().get("v.name");
+        var ctpid = component.get('v.peobj')[PeIndex].Clinical_Trial_Profile__c;
+        var urlLink = '/s/study-workspace?id='+ctpid;
+        window.open(urlLink);
     }
 })
