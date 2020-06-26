@@ -52,6 +52,7 @@ public without sharing class TaskService {
             'Reminder_Date__c',
             'Originator__c',
             'Patient_Visit__c',
+            'Remind_Me__c',
             'Remind_Using_Email__c',
             'Remind_Using_SMS__c',
             'Is_Reminder_Sent__c',
@@ -147,7 +148,10 @@ public without sharing class TaskService {
         for(Task t : tasks){
             Boolean skipTask = false;
             Id curPEId = ParticipantContext.getCurrentPEId();
-            if(t.WhatId != null && t.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()){
+            //Visit Task to be displayed in Task Tab panel
+            if(t.WhatId != null
+                && t.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()
+                && t.Task_Type__c != 'Visit'){
                 skipTask = skipPEIds.contains(t.WhatId) || (curPEId != null && t.WhatId != curPEId);
             } else if(t.Survey_Invitation__c != null){
                 skipTask = skipSurveyInvIds.contains(t.Survey_Invitation__c) || (curPEId != null && t.Survey_Invitation__r.Participant_Enrollment__c != curPEId);

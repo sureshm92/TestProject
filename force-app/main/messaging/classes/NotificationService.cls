@@ -285,8 +285,12 @@ public without sharing class NotificationService {
         sendResultService.updateResults();
         //Send emails:
         if (!emailNotifications.isEmpty()) EmailService.send(emailNotifications, orgWideEmailByNotifyMap);
-        //
-        new ActionChain(new Action_SendSMS(smsNotifications)).next(new Action_SendPush(pushNotifications)).runChain();
+        
+        //Async send SMS and Push
+        ActionStack actionStack = new ActionStack();
+        if(smsNotifications.size() > 0) actionStack.add(new Action_SendSMS(smsNotifications));
+        if(pushNotifications.size() > 0) actionStack.add(new Action_SendPush(pushNotifications));
+        actionStack.run();
     }
 
 }
