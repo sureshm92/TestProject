@@ -181,7 +181,7 @@ public without sharing class PENotificationTriggerHandler {
         for (Participant_Enrollment__c pe : newList) {
             if (pe.Study_Site__c != oldMap.get(pe.Id).Study_Site__c && oldMap.get(pe.Id).Study_Site__c != null
                && !(oldMap.get(pe.Id).Participant_Status__c == 'Pending Referral' 
-                && pe.Participant_Status__c == 'Received')) {
+                && (pe.Participant_Status__c == 'Received'||pe.Participant_Status__c == 'Eligibility Passed'))) {
                 peIds.add(pe.Id);
             }
         }

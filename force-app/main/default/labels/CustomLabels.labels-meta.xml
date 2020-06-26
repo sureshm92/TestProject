@@ -2841,7 +2841,7 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body SS on PE Was Changed To PI</shortDescription>
-        <value>A participant, ##PEProfileName, has been transferred to your study site: ##SSName.
+        <value>A participant, ##PEProfileName, has been transferred from another study site: ##SSName.
 
             If you have questions or concerns about this transfer, please contact your IQVIA Patient Recruitment Lead.</value>
     </labels>
