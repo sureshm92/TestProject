@@ -13,12 +13,15 @@
     doCheckFields: function (component, event, hepler) {
         var participant = component.get('v.participantInfo');
         var stateRequired = component.get('v.statesLVList')[0];
+        var numbers=/^[0-9]*$/;
+
         let isValid =
             participant.First_Name__c &&
             participant.Last_Name__c &&
             participant.Date_of_Birth__c &&
             participant.Gender__c &&
             participant.Phone__c &&
+            numbers.test(participant.Phone__c) &&
             participant.Email__c &&
             component.get('v.sendFor') !== '' &&
             component.find('emailInput').get('v.validity').valid;

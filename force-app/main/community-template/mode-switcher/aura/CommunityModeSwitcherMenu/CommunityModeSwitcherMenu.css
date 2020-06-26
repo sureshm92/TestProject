@@ -9,24 +9,6 @@
     color: white;
 }
 
-.THIS .header-menu-link {
-    padding: 0 10px;
-}
-
-.THIS.menu-block .menu-popup-panel.popupTargetContainer {
-    width: 345px;
-    right: 0;
-    left: initial;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    border-radius: 0 0 4px 4px;
-}
-
-.THIS.menu-block.rtl .menu-popup-panel.popupTargetContainer {
-    left: 0;
-}
-
 .THIS .logout-btn {
     height: 40px;
     width: 315px;
@@ -39,88 +21,8 @@
 
 /*-----------------------------------------------------------------------*/
 
-.THIS.mode-block {
-    display: inline-block;
-    position: relative;
-    height: 50px;
-    color: white;
-    background-color: rgba(255, 255, 255, 0.05);
-}
-
-.THIS .mode-label {
-    max-width: 245px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    display: inline-block;
-    vertical-align: middle;
-    font-size: .875rem;
-}
-
-.THIS .menu-chevron {
-    width: 14px;
-    margin-right: 5px;
-    cursor: pointer;
-}
-
-.THIS .menu-item.splitter, .THIS .menu-item.splitter:hover {
-    height: 25px !important;
-    background-color: #eaeaea !important;
-    color: #5f5f5f !important;
-    cursor: auto !important;
-}
-
-.THIS .menu-item.active,
-.THIS .menu-sub-item.active {
-    cursor: pointer;
-}
-
-.THIS .menu-item, .THIS .menu-sub-item {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    cursor: pointer;
-}
-
-.THIS .menu-sub-item.hidden {
-    visibility: hidden;
-    opacity: 0;
-    height: 0 !important;
-    padding-top: 0 !important;
-}
-
-.THIS .overflow-ellipsis {
-    overflow: hidden;
-    display: block;
-    text-overflow: ellipsis;
-}
-
 @media all and (max-width: 550px) {
     .THIS .header-menu-link {
         padding: 0 1rem;
     }
-}
-
-.THIS .menu-popup-panel li:hover.unset {
-    background-color: unset !important;
-}
-
-.THIS .menu-popup-panel li.unset {
-    height: unset !important;
-    background-color: unset !important;
-}
-
-.THIS li.unset {
-    height: unset !important;
-    background-color: unset !important;
-    color: unset;
-    padding-left: unset !important;
-    padding-right: unset !important;
-}
-
-.THIS .uiMenuList--default ul {
-    max-height: 650px;
 }

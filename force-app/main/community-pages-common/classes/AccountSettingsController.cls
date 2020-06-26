@@ -72,7 +72,8 @@ public without sharing class AccountSettingsController {
             initData.userName = UserInfo.getUserName();
             User uval = [Select Id,ContactId from User where Id =: UserInfo.getUserId()];
             initData.delegateContact = [Select Id From Contact where Id =: uval.ContactId];
-            initData.delegateUserName = [Select Id,Email,Name,Username from User where ContactId =: initData.myContact.Id LIMIT 1];
+            initData.delegateUserName = [Select Id,Email,Name,Username ,FullPhotoUrl from User where ContactId =: initData.myContact.Id LIMIT 1];
+            initData.hasProfilePic = !initData.delegateUserName.FullPhotoUrl.contains('profilephoto/005/F');
             return JSON.serialize(initData, false);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
@@ -366,6 +367,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         @AuraEnabled public String cookieDescription;
         @AuraEnabled public List<CookieSettings> cookieSettings;
         @AuraEnabled public Boolean isSMSAvailableFromSS = false;
+        @AuraEnabled public Boolean hasProfilePic = false;
         @AuraEnabled public ContactSectionData contactSectionData = new ContactSectionData();
         @AuraEnabled public Participant__c participant;
     }

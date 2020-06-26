@@ -1,0 +1,18 @@
+<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+ <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+ <title>triangle-down</title>
+ <desc>Created with Sketch.</desc>
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g fill-rule="evenodd" fill="none" id="Symbols">
+   <g fill-rule="nonzero" fill="#000000" id="icon/triangle/down">
+    <path fill="#297dfd" id="Shape" d="m17.8683,8.45654c-0.18136,-0.28201 -0.52204,-0.45649 -0.89141,-0.45654l-9.95395,0c-0.36916,0.00016 -0.70962,0.17454 -0.89096,0.45635c-0.18133,0.2818 -0.17545,0.62736 0.01541,0.9043l4.97697,7.20685c0.18542,0.26848 0.51747,0.4325 0.87555,0.4325c0.35809,0 0.69014,-0.16402 0.87555,-0.4325l4.97698,-7.20685c0.19091,-0.27682 0.19697,-0.62228 0.01586,-0.90411z"/>
+   </g>
+  </g>
+ </g>
+</svg>

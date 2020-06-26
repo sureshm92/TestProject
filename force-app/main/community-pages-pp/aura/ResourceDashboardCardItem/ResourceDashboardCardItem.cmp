@@ -27,11 +27,9 @@
 
             <div class="resource-main">
                 <aura:if isTrue="{!v.errorMessage}">
-
                     <div class="resource-error-message">
                         {!v.errorMessage}
                     </div>
-
                     <aura:set attribute="else">
                         <div class="resource-image-container resource-pointer"
                              data-type="{!v.resourceWrappers[0].resource.RecordType.DeveloperName}"
@@ -55,28 +53,7 @@
 
                 </aura:if>
             </div>
-			<!--
-            <div class="resource-more-links">
-                {!v.resourceType == v.videoResource ? $Label.c.Resources_More_Videos : $Label.c.Resources_More_Articles}
-                <aura:if isTrue="{! !v.errorMessage}">
-                    <aura:if isTrue="{!v.resourceWrappers.length > 1}">
-                        <div class="resource-more-single-link resource-pointer"
-                             data-type="{!v.resourceWrappers[1].resource.RecordType.DeveloperName}"
-                             data-id="{!v.resourceWrappers[1].resource.Id}" onclick="{!c.navigateToPage}">
-                            {!v.resourceWrappers[1].resource.Title__c}
-                        </div>
-                    </aura:if>
-                    <aura:if isTrue="{!v.resourceWrappers.length > 2}">
-                        <div class="resource-more-single-link resource-pointer"
-                             data-type="{!v.resourceWrappers[2].resource.RecordType.DeveloperName}"
-                             data-id="{!v.resourceWrappers[2].resource.Id}" onclick="{!c.navigateToPage}">
-                            {!v.resourceWrappers[2].resource.Title__c}
-                        </div>
-                    </aura:if>
-                </aura:if>
-            </div> -->
         </aura:if>
-
     </div>
 
 </aura:component>

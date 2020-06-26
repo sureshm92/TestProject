@@ -86,7 +86,7 @@
 }
 
 .THIS .ti-width-limiter{
-    width: 90%;
+    width: 100%;
 }
 
 .THIS .tour-title{
@@ -240,5 +240,10 @@
 
     .THIS.tour-fixed-overlay{
         height: 100vh;
+    }
+}
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .THIS .slide-body{
+        max-width: 70vw;
     }
 }

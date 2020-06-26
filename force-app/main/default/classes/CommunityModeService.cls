@@ -124,9 +124,8 @@ public without sharing class CommunityModeService {
         for (Id participantId : delegatedParticipantIds) {
             Participant__c participant = participantsMap.get(participantId);
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(participantId);
-            List<Participant_Enrollment__c> pePastList = pePastMap.get(participantId);
             CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(
-                    false, peList != null || pePastList != null
+                    false, false
             );
 
             if (peList != null) {
@@ -247,7 +246,7 @@ public without sharing class CommunityModeService {
 
     public static CommunityMode getCurrentCommunityMode(Contact contact, List<CommunityMode> allModes){
         CommunityMode resMode = findMode(generateModeKey(contact), allModes);
-        if((resMode == null || resMode.template.communityName != UserContext.getCurrentCommunityName()) && allModes.size() > 0){
+        if((resMode == null /*|| resMode.template.communityName != UserContext.getCurrentCommunityName()*/) && allModes.size() > 0){
             resMode = getFirstMode(allModes);
             if(resMode != null){
                 resMode.setAsCurrentMode(contact);
