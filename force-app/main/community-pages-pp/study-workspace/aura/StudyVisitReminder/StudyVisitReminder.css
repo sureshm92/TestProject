@@ -80,3 +80,11 @@
 .THIS .p-content.with-scroll{
     overflow-y: auto;
 }
+
+.THIS .disabledVisit .slds-input{
+    background-color: #d9d9d9;
+}
+
+.THIS .disabledVisit .slds-select {
+    background-color: #d9d9d9;
+}

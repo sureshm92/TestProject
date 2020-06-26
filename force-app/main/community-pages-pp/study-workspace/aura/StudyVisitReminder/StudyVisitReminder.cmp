@@ -62,7 +62,7 @@
                     <div class="slds-grid te-form slds-gutters slds-wrap">
                         <div class="slds-col slds-size_1-of-1">
                             <lightning:input name="taskName" label="{!$Label.c.Task_Name}" value="{!v.task.Subject}"
-                                required="true" disabled="{!not(v.isEditable) || v.task.Task_Type__c == 'Visit'}" />
+                                required="true" disabled="{!not(v.isEditable) || v.task.Task_Type__c == 'Visit'}" class="{!v.task.Task_Type__c == 'Visit' ? 'disabledVisit' : ''}"/>
                         </div>
                     </div>
                     <!--Seperator-->
@@ -73,7 +73,7 @@
                             <lightning:input aura:id="field" type="date" min="{!v.initData.today}"
                                 label="{!$Label.c.Due_Date}" value="{!v.initData.activityDate}"
                                 disabled="{!not(v.isEditable) || v.task.Task_Type__c == 'Visit'}"
-                                onchange="{!c.validateDueDate}" />
+                                onchange="{!c.validateDueDate}" class="{!v.task.Task_Type__c == 'Visit' ? 'disabledVisit' : ''}"/>
                         </div>
                         <!--Seperator-->
                         <div class="slds-p-top_small"></div>
@@ -89,7 +89,7 @@
                                 </lightning:select>
                                 <aura:set attribute="else">
                                     <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type}"
-                                        value="{!v.task.Task_Type__c}" disabled="true">
+                                        value="{!v.task.Task_Type__c}" disabled="true" class="disabledVisit">
                                         <option value="{!v.task.Task_Type__c}">{!v.task.Task_Type__c}</option>
                                     </lightning:select>
                                 </aura:set>
