@@ -3,8 +3,8 @@
  -->
 
 <aura:component description="ViewPoPupMediaOutreachRecord" Controller="ViewMediaResult"
-    implements="forceCommunity:availableForAllPageTypes" access="global">
-
+                implements="forceCommunity:availableForAllPageTypes" access="global">
+    
     <!-- attributes:-->
     <aura:attribute name="ViewRecord" type="Object[]" access="public" />
     <aura:attribute name="lstNotes" type="object[]" access="public" />
@@ -13,6 +13,7 @@
     <aura:attribute name="refreshView" type="Boolean" default="false" />
     <aura:attribute name="footerbutton" type="boolean" />
     <aura:attribute name="buttonDisable" type="boolean" default="false" />
+    <aura:attribute name="DisableSavebtn" type="boolean" default="true" />
     <aura:attribute name="phone" type="String" default="" access="private" />
     <aura:attribute name="emailS" type="String" default="" access="private" />
     <aura:attribute name="preferred" type="String" default="" access="private" />
@@ -27,7 +28,7 @@
     <aura:attribute name="PC_Value" type="list" access="private" />
     <aura:attribute name="disabled" type="boolean" default="true" access="private" />
     <aura:attribute name="AlternatePhone_email" type="string" default="" access="private"
-    />
+                    />
     <aura:attribute name="disablefield" type="boolean" access="public" />
     <aura:attribute name="Picklistdefaultvalue" type="string" access="private" />
     <aura:attribute name="ActiveReqRecord" type="boolean" access="public" />
@@ -35,20 +36,20 @@
     <aura:attribute name="isEmailPhone" type="Boolean" default="false"/>
     <aura:attribute name="ErrorMsg" type="string" access="private" />
     <aura:attribute name="Validated" type="Boolean" access="private" default="false" />
-
+    
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public" />
-
+    
     <!-- Events:-->
     <aura:registerEvent name="cmpRefEvent" type="c:MediaOutreachRefreshtable" />
-
+    
     <!-- Handler:-->
     <aura:handler name="cmpEvent" event="c:MediaOutreachCancelReqEvt" action="{!c.closepopup}"
-    />
-
+                  />
+    
     <!-- component body:-->
     <c:Popup aura:id="ShowPoP_Up" title="{!$Label.c.Request+' '+v.ViewRecord[0].Name}" showClose="true" size="medium"
-        showScroll="true" childpopup="true">
+             showScroll="true" childpopup="true">
         <c:RRSpinner aura:id="modalSpinnerpopup" size="medium" showSpinner="false" />
         <div class="slds-grid slds-grid_vertical">
             <div class="slds-col slds-grid slds-size_1-of-1">
@@ -98,7 +99,7 @@
                     <div class="rr-form-element">
                         <!--<div class="label">{!$Label.c.Preferred_Contact_Method}</div>-->
                         <lightning:select value="{!v.preferred}" label="{!$Label.c.Preferred_Contact_Method_View}" aura:id="preferredId" onchange="{!c.preferredType}"
-                            disabled="{!v.disablefield}">
+                                          disabled="{!v.disablefield}">
                             <aura:iteration items="{!v.PC_Value}" var="options" indexVar="index">
                                 <option value="{!options.value}" label="{!options.value}"></option>
                             </aura:iteration>
@@ -106,22 +107,22 @@
                     </div>
                 </div>
                 <aura:if isTrue="{!v.isEmailPhone}">
-                <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
-                    <div class="rr-form-element">
-                        <!--<div class="label">{!$Label.c.Alternate_Email_Phone_Number}</div>-->
-                        <lightning:input value="{!v.AlternatePhone_email}" label="{!$Label.c.Alternate_Email_Phone_Number}" aura:id="alternate" onblur="{!c.updateMO}" disabled="{!v.disabled}"
-                        />
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                        <div class="rr-form-element">
+                            <!--<div class="label">{!$Label.c.Alternate_Email_Phone_Number}</div>-->
+                            <lightning:input value="{!v.AlternatePhone_email}" label="{!$Label.c.Alternate_Email_Phone_Number}" aura:id="alternate" onblur="{!c.updateMO}" disabled="{!v.disabled}"
+                                             />
+                        </div>
+                        <div class="slds-text-color--error slds-p-top--x-small slds-col--padded-small startenddate">{!v.ErrorMsg}</div>
                     </div>
-                    <div class="slds-text-color--error slds-p-top--x-small slds-col--padded-small startenddate">{!v.ErrorMsg}</div>
-                </div>
                 </aura:if>
             </div> 
             <aura:if isTrue="{!v.footerbutton}">
                 <div class="slds-col slds-grid slds-size_1-of-1">
                     <div class="slds-col slds-size_1-of-1 slds-p-around_medium">
                         <lightning:textarea label="{!$Label.c.Additional_Notes_optional}" value="{!v.notes}"
-                            placeholder="{!$Label.c.Type_notes_here}"
-                            disabled="{!v.buttonDisable}" aura:id="notesId" />
+                                            placeholder="{!$Label.c.Type_notes_here}"
+                                            disabled="{!v.buttonDisable}" aura:id="notesId" onblur="{!c.doEnablebutton}" />
                     </div>
                 </div>
             </aura:if>
@@ -139,25 +140,25 @@
         <aura:set attribute="footerButtons">
             <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false" />
             <button class="apollo-btn" onclick="{!c.CancelPoPUp}" disabled="{!v.buttonDisable}"
-                data-gtm="BTN_CancelInvitePopUp">
-                    {!$Label.c.BTN_Close}
-                </button>
+                    data-gtm="BTN_CancelInvitePopUp">
+                {!$Label.c.BTN_Close}
+            </button>
             <aura:if isTrue="{!v.footerbutton}">
                 <div class="slds-float_right">
                     <button class="apollo-btn secondary" onclick="{!c.CancelRequest}" data-gtm="BTN_CancelInvitePopUp"
-                        disabled="{!v.buttonDisable}">
-                    {!$Label.c.Cancel_Request}
-                </button>
+                            disabled="{!v.buttonDisable}">
+                        {!$Label.c.Cancel_Request}
+                    </button>
                     <lightning:button class="apollo-btn primary" variant="brand" aura:id="save" onclick="{!c.updateMO}"
-                        disabled="{!v.buttonDisable}">
-                    {!$Label.c.Save}
-                </lightning:button>
+                                      disabled="{!v.DisableSavebtn}">
+                        {!$Label.c.Save}
+                    </lightning:button>
                 </div>
             </aura:if>
         </aura:set>
     </c:Popup>
-
+    
     <!-- CancelRequest Popup:-->
     <c:CancelreqConfirmation aura:id="CancelRequest" recordid="{!v.ViewRecordId}" />
-
+    
 </aura:component>
