@@ -134,7 +134,6 @@
 }
 
 .THIS .slide-body{
-    max-width: 70vw;
     font-size: 14px;
     line-height: 22px;
     min-height: 45px;
@@ -241,5 +240,10 @@
 
     .THIS.tour-fixed-overlay{
         height: 100vh;
+    }
+}
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .THIS .slide-body{
+        max-width: 70vw;
     }
 }
