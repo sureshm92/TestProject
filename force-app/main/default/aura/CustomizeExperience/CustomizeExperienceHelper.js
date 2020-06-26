@@ -3,6 +3,7 @@
  */
 ({
     valueChange: function (component, event, helper) {
+        component.find('spinner').show();
     component.set('v.bypass', false);
     let value = event.getSource().get('v.value');
     if (!value) {
@@ -31,6 +32,7 @@
             
             }
         }
+        component.find('spinner').hide();
         component.set('v.displayedItems', unselecteditems);
     });
     },
@@ -69,8 +71,8 @@
     component.set('v.isSaveList', !component.get('v.isSaveList'));
     var self=this;
     self.saveCOIs(component,event,helper);
-    //component.find('displayeditm').refresh();
-    communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'));
+    communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'),100);
+    communityService.navigateToPage('account-settings?changePref'); 
     },
     saveCOIs: function (component,event,helper) {
     try{

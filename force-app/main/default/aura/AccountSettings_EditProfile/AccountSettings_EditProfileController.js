@@ -41,21 +41,27 @@
             component.set('v.optInEmail', initData.contactSectionData.personWrapper.optInEmail);
             component.set('v.optInSMS', initData.contactSectionData.personWrapper.optInSMS);
             component.set('v.contact', initData.myContact);
-            component.set('v.userEmail', initData.myContact.Email);
             component.set('v.delegateContact',initData.delegateContact);
+            component.set('v.hasProfilePic',initData.hasProfilePic);
+
              if(communityService.getCurrentCommunityMode().currentDelegateId){
                component.set('v.userId',communityService.getCurrentCommunityMode().currentDelegateId);
-console.log('inside delegate-->'+communityService.getCurrentCommunityMode().currentDelegateId);
+			   component.set('v.userEmail', initData.delegateUserName.Username);
+
                 
             }
             else{
                 component.set('v.userId',initData.myContact.Id);
-                console.log('inside participant-->'+initData.myContact.Id)
+				component.set('v.userEmail', initData.userName);
+
             }
             console.log('initData.myContact.Email',initData.myContact.Email);
 
 if(component.get('v.personWrapper.mobilePhone')==''){
     component.set('v.disableToggle',true);
+}
+if(component.get('v.personWrapper.mobilePhone')===null && component.get('v.optInSMS')===true){
+    component.set('v.disableSave',true);
 }
             component.set('v.isInitialized', true);
         }, null, function () {
@@ -184,14 +190,78 @@ if(component.get('v.personWrapper.mobilePhone')==''){
     },
     doCheckFieldsValidity: function(component, event, helper){
         event.preventDefault();
-
-        let personWrapper = component.get('v.personWrapper');
-        if(!personWrapper.firstName || !personWrapper.lastName || !personWrapper.dateBirth){
+        var numbers=/^[0-9]*$/;
+       let personWrapper = component.get('v.personWrapper');
+        if(component.get('v.userMode') == 'Participant') {
+			        let mobilePhoneValid = personWrapper.mobilePhone && numbers.test(personWrapper.mobilePhone);
+        let homePhoneValid = personWrapper.homePhone && numbers.test(personWrapper.homePhone);
+        var phoneField=component.find('pField1');
+        if(personWrapper.mobilePhone){
+           if (!numbers.test(personWrapper.mobilePhone)) {
+               component.set('v.disableToggle',true);
+            phoneField.setCustomValidity("Phone number must be numeric");
             component.set('v.disableSave',true);
- 
+            } else {
+                phoneField.setCustomValidity(""); // reset custom error message
+                component.set('v.disableSave',false);
+                component.set('v.disableToggle',false);
+            }
         }else{
+            
+            phoneField.setCustomValidity("");
+        }
+        phoneField.reportValidity();
+
+        
+         var homephoneField=component.find('pField2');
+          if ((!numbers.test(personWrapper.homePhone)  || !personWrapper.homePhone)) {
+           if(!personWrapper.homePhone){
+               homephoneField.setCustomValidity("Phone number is mandatory");
+                       component.set('v.disableSave',true);
+
+           }
+           else{
+                       homephoneField.setCustomValidity("Phone number must be numeric");
+           }
+        component.set('v.disableSave',true);
+
+        } else {
+            homephoneField.setCustomValidity(""); // reset custom error message
             component.set('v.disableSave',false);
- 
+
+        }
+        homephoneField.reportValidity();
+        if(!personWrapper.firstName || !personWrapper.lastName || !personWrapper.dateBirth || mobilePhoneValid===false || homePhoneValid===false || !personWrapper.homePhone){
+            component.set('v.disableSave',true);
+        }else{
+            console.log('personWrapper.optInSMS'+personWrapper.optInSMS)
+            console.log('!personWrapper.mobilePhone'+!personWrapper.mobilePhone)
+             if(personWrapper.optInSMS && !personWrapper.mobilePhone){
+                 console.log('inside optinsms--->')
+                 component.set('v.disableSave',true);
+                 console.log('inside optinsms--->')
+
+               }
+             else{
+                     component.set('v.disableSave',false);
+                }
+
+        }
+
+        } 
+		
+		
+		
+		
+		else if(component.get('v.userMode') == 'HCP' || component.get('v.userMode') == 'PI')
+        {
+            if(!personWrapper.firstName || !personWrapper.lastName){
+                component.set('v.disableSave',true);
+            }
+            else{
+                 component.set('v.disableSave',false);
+            }
+                
         }
         if(personWrapper.mailingCC !== component.get('v.previousCC')) {
             let statesByCountryMap = component.get('v.statesByCountryMap');
@@ -207,7 +277,6 @@ if(component.get('v.personWrapper.mobilePhone')==''){
 
         helper.setFieldsValidity(component);
     },
-
     doShowHelpMessageIfInvalid: function (component) {
         let fieldsGroup = 'pField';
         component.find(fieldsGroup).reduce(function (validSoFar, inputCmp) {
@@ -261,6 +330,13 @@ if(component.get('v.personWrapper.mobilePhone')==''){
         let initData = component.get('v.initData');
         let isUserDelegate = component.get('v.isDelegate');
          let newEmail = initData.myContact.Email;
+         communityService.executeAction(component, 'changeEmail', {
+            newEmail: newEmail
+        }, function (returnValue) {
+            component.set('v.currentEmail', newEmail);
+        }, null, function () {
+            component.set('v.showSpinner', false);
+        })
         if(!isUserDelegate){
             if (!newEmail) {
            communityService.showToast('error', 'error', $A.get('$Label.c.TST_Email_can_t_be_empty'));
@@ -283,15 +359,16 @@ if(component.get('v.personWrapper.mobilePhone')==''){
            
         }, null, function () {
          
-        });  
-        
-        communityService.executeAction(component, 'changeEmail', {
+        }); 
+		 communityService.executeAction(component, 'changeEmail', {
             newEmail: newEmail
         }, function (returnValue) {
             component.set('v.currentEmail', newEmail);
         }, null, function () {
             component.set('v.showSpinner', false);
         })
+        
+       
     },
     handleMobileValidation : function(component,event) {
         var inputValue = event.getSource().get("v.value");

@@ -17,7 +17,10 @@
         var resourceInd = event.currentTarget.getAttribute('data-attributeVal').split(',');
         var resource = component.get('v.resourceStructureList')[resourceInd[0]].resources[resourceInd[1]];
         if(resource.videoLink || resource.link){
-            communityService.navigateToPage(resource.videoLink ? resource.videoLink : resource.link);
+            var urlLink = resource.format == 'Video' ? resource.videoLink : resource.link;
+            let urlEvent = $A.get("e.force:navigateToURL");
+            urlEvent.setParams({url: urlLink});
+            urlEvent.fire();    
         } else {
             var url = 'resources?resourceType=' + resource.recordTypeDevName + '&resId=' + resource.resourceId;
             url += '&ret=' + communityService.createRetString();

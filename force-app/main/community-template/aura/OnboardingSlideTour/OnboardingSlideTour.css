@@ -36,6 +36,7 @@
     border-radius: 0 0 4px 4px;
     overflow: hidden;
     position: relative;
+    overflow-y: auto;
 }
 
 .THIS .tour-panel:before {
@@ -53,6 +54,7 @@
     flex-direction: column;
     overflow: hidden;
     text-overflow: ellipsis;
+    min-height: 400px;
 }
 
 .THIS .tour-info-container{
@@ -61,7 +63,7 @@
 
 .THIS .wt-scroller {
     height: 85vh;
-    padding: 1rem;
+    margin: 0 1rem;
 }
 
 .THIS .tour-buttons-continer{
@@ -84,7 +86,7 @@
 }
 
 .THIS .ti-width-limiter{
-    width: 90%;
+    width: 100%;
 }
 
 .THIS .tour-title{
@@ -185,19 +187,7 @@
     height: 100%;
 }
 
-@media only screen
-and (min-device-width: 375px)
-and (max-device-width: 812px)
-and (orientation: landscape) {
-    .THIS .wt-scroller {
-        overflow-y: scroll;
-        padding: 1rem;
-    }
 
-    .THIS .tour-slides-container {
-        height: 500px;
-    }
-}
 
 @media all and (max-width: 478px){
     .THIS .tour-title{
@@ -250,5 +240,10 @@ and (orientation: landscape) {
 
     .THIS.tour-fixed-overlay{
         height: 100vh;
+    }
+}
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .THIS .slide-body{
+        max-width: 70vw;
     }
 }

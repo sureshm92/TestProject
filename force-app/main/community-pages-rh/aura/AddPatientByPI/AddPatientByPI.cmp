@@ -169,6 +169,21 @@
                                 </div>-->
                         </aura:if>
                     </div>
+                    <div class="slds-grid slds-gutters slds-wrap">
+                        <div class="slds-form-element" style="margin-top: 30px; margin-left: 10px;">
+                            <div class="slds-form-element__control">
+                                <div class="slds-checkbox" data-gtm="checkbox_Permit_IQVIA_Connect">
+                                    <input aura:id="checkbox-doContact" type="checkbox" name="options" id="checkbox-unique-id-75"
+                                           value="checkbox-unique-id-75" onclick="{!c.doNotContact}"/>
+                                    <label class="slds-checkbox__label" for="checkbox-unique-id-75">
+                                        <span class="slds-checkbox_faux"></span>
+                                        <span class="slds-form-element__label-for-checkbox">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact}</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <aura:if isTrue="{!!v.doNotContact}">
                     <aura:if isTrue="{!(v.participant.Email__c &amp;&amp; v.participant.Adult__c) || (v.needsGuardian &amp;&amp; v.participant.Health_care_proxy_is_needed__c)}">
                         <div class="slds-grid slds-gutters slds-wrap">
                         <div class="slds-form-element" style="margin-top: 30px; margin-left: 10px;">
@@ -185,20 +200,7 @@
                         </div>
                         </div>
                     </aura:if>
-                    <div class="slds-grid slds-gutters slds-wrap">
-                        <div class="slds-form-element" style="margin-top: 30px; margin-left: 10px;">
-                            <div class="slds-form-element__control">
-                                <div class="slds-checkbox" data-gtm="checkbox_Permit_IQVIA_Connect">
-                                    <input aura:id="checkbox-doContact" type="checkbox" name="options" id="checkbox-unique-id-75"
-                                           value="checkbox-unique-id-75" onclick="{!c.doNotContact}"/>
-                                    <label class="slds-checkbox__label" for="checkbox-unique-id-75">
-                                        <span class="slds-checkbox_faux"></span>
-                                        <span class="slds-form-element__label-for-checkbox">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact}</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </aura:if>
                 </div>
             </div>
             <div class="ap-bottom-info">

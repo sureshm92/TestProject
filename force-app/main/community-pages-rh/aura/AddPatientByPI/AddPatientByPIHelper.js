@@ -21,9 +21,8 @@
         component.set('v.isValid', false);
         component.set('v.isDelegateValid', false);
         component.set('v.needsGuardian', false);
-        component.set('v.doNotContact', false);
         component.find('checkbox-delegate').getElement().checked = false;
-        component.find('checkbox-doContact').getElement().checked = false;
+        component.find('checkbox-doContact').getElement().checked = true;
     },
 
     createParticipant: function (component, callback) {
@@ -173,6 +172,8 @@
             if(returnValue.email) {
                 component.set('v.emailInstance', returnValue.email.toLowerCase());
                 participantDelegate.Email__c = returnValue.email;
+            } else {
+                component.set('v.emailInstance', '');
             }
             if(returnValue.lastName) participantDelegate.Last_Name__c = returnValue.lastName;
             if(returnValue.firstName) participantDelegate.First_Name__c = returnValue.firstName;

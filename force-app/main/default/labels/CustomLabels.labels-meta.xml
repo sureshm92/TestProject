@@ -1512,6 +1512,13 @@
         <value>rajesh.r@quintiles.com</value>
     </labels>
 	<labels>
+        <fullName>CC_HomePageLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_HomePageLabel</shortDescription>
+        <value>Participant Status</value>
+    </labels>
+	<labels>
         <fullName>CC_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1586,7 +1593,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>CC_search_for_a_participant</shortDescription>
-        <value>search for a participant</value>
+        <value>Search for a phone number</value>
     </labels>
     <labels>
         <fullName>Closed_Requests</fullName>
@@ -2460,7 +2467,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body FollowUp Reminder</shortDescription>
-        <value>You haven&apos;t confirmed your enrollment yet in ##ShortCommunityName. Please click the link bellow, so that you can enroll and view your study progress.
+        <value>You haven&apos;t confirmed your enrollment yet in ##ShortCommunityName. Please click the link below, so that you can enroll and view your study progress.
 
         Please note that enrollment in ##ShortCommunityName is not a requirement for you to be enrolled into the clinical research study.
 
@@ -3148,8 +3155,8 @@
         <protected>false</protected>
         <shortDescription>Email Body Trial Match</shortDescription>
         <value>You have been matched for new studies.
- 
-Please login to the ##CommunityName to check your clinical research trial matches at any time.</value>
+
+Please login in to the ##CommunityName to view your clinical trial matches anytime.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Trial_Match_Delegate</fullName>
@@ -3158,7 +3165,7 @@ Please login to the ##CommunityName to check your clinical research trial matche
         <shortDescription>Email Body Trial Match Delegate</shortDescription>
         <value>We have found new trial matches for ##PatientFirstName.
  
-Please log in to ##CommunityName to view this information.</value>
+Please log in to ##CommunityName to view your clinical research trial matches anytime.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Trial_Message</fullName>
@@ -3644,7 +3651,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Header Trial Match</shortDescription>
-        <value>New Trial Matches are available</value>
+        <value>New trial matches are available for you</value>
     </labels>
     <labels>
         <fullName>Email_Header_Visit_Task_Reminder</fullName>
@@ -3832,9 +3839,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature PT</shortDescription>
-        <value>Thank you for participating in the ##CommunityName.
-
-            Sincerely,
+        <value>Sincerely,
 
             ##SignatureShortCommunityName</value>
     </labels>
@@ -4291,14 +4296,14 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Trial Match</shortDescription>
-        <value>New Trial Matches are available for you</value>
+        <value>New trial matches are available for you</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Trial_Match_Delegate</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Trial Match Delegate</shortDescription>
-        <value>New Trial Matches are available</value>
+        <value>New trial matches are available for you</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Trial_Search_Match_Alert_Received</fullName>
@@ -4333,7 +4338,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Welcome To The Study</shortDescription>
-        <value>You have been enrolled to a clinical research study</value>
+        <value>You have been enrolled in a clinical research study</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Welcome_To_The_Study_Del</fullName>
@@ -8668,7 +8673,7 @@ Please log in to ##CommunityName to view this information.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS H Email Preferences</shortDescription>
-        <value>Contact Preferences</value>
+        <value>Referral Contact Preference</value>
     </labels>
     <labels>
         <fullName>PG_AS_H_Password_HelpText</fullName>
@@ -13962,6 +13967,20 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RH Notification</shortDescription>
         <value>Notification preferences</value>
+    </labels>
+	 <labels>
+        <fullName>RH_OPT_INT_STATUS_EMAIL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_OPT_INT_STATUS_EMAIL</shortDescription>
+        <value>Receive email notifications</value>
+    </labels>
+    <labels>
+        <fullName>RH_OPT_IN_STATUS_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_OPT_IN_STATUS_SMS</shortDescription>
+        <value>Receive SMS notifications</value>
     </labels>
     <labels>
         <fullName>SDC_List_View</fullName>

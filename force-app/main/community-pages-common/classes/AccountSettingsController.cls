@@ -72,6 +72,8 @@ public without sharing class AccountSettingsController {
             initData.userName = UserInfo.getUserName();
             User uval = [Select Id,ContactId from User where Id =: UserInfo.getUserId()];
             initData.delegateContact = [Select Id From Contact where Id =: uval.ContactId];
+            initData.delegateUserName = [Select Id,Email,Name,Username ,FullPhotoUrl from User where ContactId =: initData.myContact.Id LIMIT 1];
+            initData.hasProfilePic = !initData.delegateUserName.FullPhotoUrl.contains('profilephoto/005/F');
             return JSON.serialize(initData, false);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
@@ -228,6 +230,7 @@ public without sharing class AccountSettingsController {
         return [
             SELECT Id,
             FirstName,
+			MiddleName,
             LastName,
             AccountId,
             Email,
@@ -255,6 +258,7 @@ public without sharing class AccountSettingsController {
             RRLanguageAllowedCookie__c,
             Salutation,
             userCommunityDelegateId__c,
+			userCommunytyType__c,
             Phone_Type__c
             FROM Contact
             WHERE Id IN (
@@ -358,10 +362,12 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         @AuraEnabled public Contact myContact;
         @AuraEnabled public String userName;
         @AuraEnabled public Contact delegateContact;
+        @AuraEnabled public User delegateUserName;
         @AuraEnabled public String message;
         @AuraEnabled public String cookieDescription;
         @AuraEnabled public List<CookieSettings> cookieSettings;
         @AuraEnabled public Boolean isSMSAvailableFromSS = false;
+        @AuraEnabled public Boolean hasProfilePic = false;
         @AuraEnabled public ContactSectionData contactSectionData = new ContactSectionData();
         @AuraEnabled public Participant__c participant;
     }
@@ -422,9 +428,11 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             if (isParticipant) participantId = participant.Id;
             
             firstName = isParticipant ? participant.First_Name__c : contact.FirstName;
+			middleName = isParticipant ? participant.Middle_Name__c : contact.MiddleName;
             lastName = isParticipant ? participant.Last_Name__c : contact.LastName;
             homePhone = isParticipant ? participant.Phone__c : contact.Phone;
-            mobilePhone = (contact.Phone_Type__c == 'Mobile' || (isParticipant ? participant.Phone_Type__c == 'Mobile':false)) ? homePhone : contact.MobilePhone;
+           //mobilePhone = (contact.Phone_Type__c == 'Mobile' || (isParticipant ? participant.Phone_Type__c == 'Mobile':false)) ? homePhone : contact.MobilePhone;
+            mobilePhone = contact.MobilePhone;
             fax = contact.Fax;
             optInEmail = contact.Participant_Opt_In_Status_Emails__c;
             optInSMS = contact.Participant_Opt_In_Status_SMS__c;
@@ -439,7 +447,6 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             phoneType = isParticipant ? participant.Phone_Type__c : contact.Phone_Type__c;
 
             if (isParticipant) {
-                middleName = participant.Middle_Name__c;
                 dateBirth = participant.Date_of_Birth__c;
                 gender = participant.Gender__c;
                 suffix = participant.Suffix__c ;
@@ -449,12 +456,13 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         
         public Contact convertToContact() {
             Contact personContact = new Contact(Id = contactId);
-                 personContact.MobilePhone = phoneType =='Mobile' ? homePhone : mobilePhone;
+                  personContact.MobilePhone = mobilePhone;
 
             
             if (isParticipant) return personContact;
             
             personContact.FirstName = firstName;
+			personContact.MiddleName = MiddleName;
             personContact.LastName = lastName;
             personContact.Phone = homePhone;
             personContact.Fax = fax;

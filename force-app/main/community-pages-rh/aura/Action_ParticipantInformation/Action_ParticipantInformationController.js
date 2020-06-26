@@ -13,6 +13,7 @@
 
     doExecute: function (component, event, helper) {
         try {
+            component.set('v.doNotContact', false);
             component.find('spinner').show();
             component.set('v.initialized', false);
             component.set('v.sendEmails', false);
@@ -54,6 +55,7 @@
                         returnValue.enrollment.HCP__r.HCP_Contact__r = undefined;
                     }
                     component.set('v.pe', returnValue.enrollment);
+                    component.set('v.doNotContact', !pe.Permit_IQVIA_to_contact_about_study__c);
                     component.set('v.participantDelegate', returnValue.participantDelegate);
                     component.set('v.participant', pe.Participant__r);
                     component.set('v.userInfo', returnValue.userInfo);
@@ -80,6 +82,7 @@
     doUpdate: function (component, event, helper) {
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
+        pe.Permit_IQVIA_to_contact_about_study__c = !component.get('v.doNotContact');
         var userInfo = component.get('v.userInfo');
         pe.Participant__r = participant;
         if (!pe.sObjectType) {
@@ -134,6 +137,7 @@
         var userInfo = component.get('v.userInfo');
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
+        pe.Permit_IQVIA_to_contact_about_study__c = !component.get('v.doNotContact');
         var pathWrapper = component.get('v.participantPath');
         var statusDetailValid = component.get('v.statusDetailValid');
         var isStatusChanged = component.get('v.isStatusChanged');
@@ -211,6 +215,7 @@
     doUpdatePatientStatus: function (component, event, helper) {
         let pathWrapper = component.get('v.participantPath');
         let pe = component.get('v.pe');
+        pe.Permit_IQVIA_to_contact_about_study__c = !component.get('v.doNotContact');
         let statusDetailValid = component.get('v.statusDetailValid');
         var isStatusChanged = component.get('v.isStatusChanged');
         console.log('##isStatusChanged1: '+ isStatusChanged);
