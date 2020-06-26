@@ -167,6 +167,15 @@
 
 
 @media (max-width: 768px) {
+
+    .THIS  {
+        padding: 14px 1.5rem 1.5rem;
+    }
+
+    .THIS .as-title {
+        line-height: 19px;
+    }
+
     .THIS.as-container .as-sub-title,
     .THIS .cLanguageSwitcher .section-description {
         width: 100%;
