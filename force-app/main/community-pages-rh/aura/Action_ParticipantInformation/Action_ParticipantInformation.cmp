@@ -71,7 +71,7 @@
                         data-gtm="BTN_Invite_To_PP">{!$Label.c.BTN_Create_User_on_PE_Info}</button>
             </div>
         </aura:if>
-        <aura:if isTrue="{!!v.pe.Permit_IQVIA_to_contact_about_study__c}">
+        <aura:if isTrue="{!v.doNotContact}">
             <div class="IQVIA_contact-patient-container slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap">
                 <div class="slds-col slds-size--9-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
                     <lightning:input type="checkbox" class="IQVIA_contact-patient-checkbox" checked="{!v.doNotContact}"/>
