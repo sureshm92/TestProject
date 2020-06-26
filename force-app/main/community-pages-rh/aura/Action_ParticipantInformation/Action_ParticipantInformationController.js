@@ -278,6 +278,11 @@
                 if(callback){
                     callback(pe);
                 }
+                if(usermode === 'CC'){
+                    var cmpEvent = component.getEvent("callcenter"); 
+                    cmpEvent.setParams({"searchKey" : component.get("v.searchKey")}); 
+                    cmpEvent.fire(); 
+                }
             }, null, function () {
                 component.set('v.updateInProgress', false);                
                 component.set('v.isStatusChanged', false);
