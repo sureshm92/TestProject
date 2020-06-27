@@ -38,10 +38,10 @@
             if(s>0) {
                 for(var i in addLst) {
                     
-                    if(parseInt(i) <= 1) 
+                    if(parseInt(i) < 1) 
                         add1 = add1 + addLst[i];
                     else
-                        add2 = add2 + addLst[i]; 
+                        add2 = add2 + ' ' + addLst[i]; 
                 }
                 component.set('v.addressLine1', add1);
                 component.set('v.addressLine2', add2);

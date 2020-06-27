@@ -199,11 +199,11 @@
         <aura:set attribute="footerButtons">
             <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false"/>
             <div class="slds-float_right">
-                <button class="apollo-btn secondary uibitton" onclick="{!c.doClearInviteAndHide}" data-gtm="BTN_CancelInvitePopUp">
+                <button class="apollo-btn uiButton tertiary" onclick="{!c.doClearInviteAndHide}" data-gtm="BTN_CancelInvitePopUp">
                     {!$Label.c.BTN_Cancel}
                 </button>
                 
-                <button class="apollo-btn primary" data-gtm="BTN_Invite_Referring_Provider" onclick="{!c.submit}"
+                <button class="apollo-btn primary csubmit" data-gtm="BTN_Invite_Referring_Provider" onclick="{!c.submit}"
                         disabled="{!v.reqFieldsFilled}">
                     {!$Label.c.Submit}
                 </button>

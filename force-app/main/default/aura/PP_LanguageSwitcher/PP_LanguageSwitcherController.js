@@ -30,6 +30,7 @@
             console.log(initData.languages);
             setTimeout($A.getCallback(function () {
                 component.set('v.languageKey',   initData.languageKey);
+                component.set('v.previousValue',initData.languageKey);
                 component.set('v.secondLangKey', initData.secondLangKey);
                 component.set('v.thirdLangKey',  initData.thirdLangKey);
                 component.set('v.localeKey',     initData.localeKey);
@@ -62,7 +63,8 @@
     doChangeLanguage: function(component){
 		
         if(!component.get('v.initialized')) return;
-        var languageKey   = component.get('v.languageKey');		
+        var languageKey   = component.get('v.languageKey');	
+        var previousLangaugeKey = component.get('v.previousValue');	
 		var countryName, stateName, zipcode;
 		//Sneha-Logic to fetch the Country Name through country code and pass it to the controller
 		if(component.get('v.userMode') == 'Participant'){
@@ -105,6 +107,8 @@
         },function () {
             component.find('spinner').hide();
             communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'));
+            if(previousLangaugeKey != languageKey)
+            window.location.reload();
         })
     },
     doStateChanged: function (component, event, helper) {

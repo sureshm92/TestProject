@@ -13,14 +13,16 @@
             }, function(returnValue) {
                 var initData = JSON.parse(returnValue);
                 component.set("v.searchResult", initData.enrollments);
-                //component.set("v.pe", initData.enrollments[0]);
+                component.set("v.count",component.get("v.searchResult").length);
                 component.set("v.peobj", initData.enrollments);
+                component.set("v.searchKey",searchField);
                 var elements = document.getElementsByClassName("db-qal-main");
                 elements[0].style.display = 'block';
             });
         } else {
             component.set("v.searchResult", []);
             component.set("v.pe", null);
+            component.set("v.count",0);
             var elements = document.getElementsByClassName("db-qal-main");
             elements[0].style.display = 'block';
         }  
@@ -49,5 +51,19 @@
         var ctpid = component.get('v.peobj')[PeIndex].Clinical_Trial_Profile__c;
         var urlLink = '/s/study-workspace?id='+ctpid;
         window.open(urlLink);
+    },
+    doRefreshtable: function(component, event, helper) {
+        var searchkeys = event.getParam("searchKey"); 
+        communityService.executeAction(component, 'fetchParticipantEnrollment', {
+                searchKeyWord: searchkeys
+            }, function(returnValue) {
+                var initData = JSON.parse(returnValue);
+                component.set("v.searchResult", initData.enrollments);
+                component.set("v.count",component.get("v.searchResult").length);
+                component.set("v.peobj", initData.enrollments);
+                component.set("v.searchKey",searchkeys);
+                var elements = document.getElementsByClassName("db-qal-main");
+                elements[0].style.display = 'block';
+            });
     }
 })

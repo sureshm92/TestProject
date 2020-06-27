@@ -19,7 +19,7 @@
             component.set('v.contactSectionData', initData.contactSectionData);
             component.set('v.optInEmail', initData.contactSectionData.personWrapper.optInEmail);
             component.set('v.optInSMS', initData.contactSectionData.personWrapper.optInSMS);
-
+            component.set('v.isDisabled',true);
             component.set('v.contact', initData.myContact);
             component.set('v.currentEmail', initData.myContact.Email);
 
@@ -28,6 +28,18 @@
             component.find('spinner').hide();
         })
     },
+    
+    onChangeInput : function(component,event,helper) {
+        component.set('v.isDisabled',false);
+        var getoldPass = component.find('rr-input1').get("v.value");
+        var getNewPass = component.find('rr-input2').get("v.value");
+        var getReNewPass = component.find('rr-input3').get("v.value");
+        if ((getoldPass == null || getoldPass == undefined ||  getoldPass.length == 0)
+            || (getNewPass == null || getNewPass == undefined ||  getNewPass.length == 0)
+            || (getReNewPass == null || getReNewPass == undefined ||  getReNewPass.length == 0))
+            component.set('v.isDisabled',true);
+    },
+
     togglePassword: function (component, event, helper) {
         
         var id = event.currentTarget.id;

@@ -59,7 +59,7 @@
     opacity: 0;
     position: absolute;
     color: black;
-    left: initial;
+    left: auto;
     right: 0;
     top: 50px!important;
     width: 345px;
@@ -79,8 +79,9 @@
     visibility: visible;
     opacity: 1;
 }
+
 .THIS .uiMenuList--default ul {
-    max-height: 650px;
+    max-height: 100%;
     align-items: center;
     display: flex;
     flex-direction: column;

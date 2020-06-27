@@ -4,7 +4,8 @@
                          language="{!relatedTo.Language__c}">
 
     <messaging:htmlEmailBody >
-        <c:EmailWireframe sourceId="{!relatedTo.Id}"
+        <c:EmailWireframe recipientId="{!recipient.Id}"
+                         sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_Your_Access_Level_Has_Been_Changed}"
                          title="{!$Label.Email_Title}"
                          greeting="{!$Label.Email_User_Greeting}"
@@ -15,7 +16,8 @@
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
-        <c:EmailWireframeText sourceId="{!relatedTo.Id}"
+        <c:EmailWireframeText recipientId="{!recipient.Id}"
+                             sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Your_Access_Level_Has_Been_Changed}"
                              title="{!$Label.Email_Title}"
                              greeting="{!$Label.Email_User_Greeting}"

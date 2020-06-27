@@ -7,11 +7,15 @@
 }
 .THIS .slds-checkbox .slds-checkbox__label .slds-form-element__label {
     display: inline-flex;
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
 }
-.THIS .slds-checkbox .slds-checkbox_faux{
-    width: 0.75rem;
-    height: 0.75rem;
+.THIS .uiButton{
+   height: 40px;
+  width: 81px;
+}
+.THIS .csubmit{
+    height: 40px;
+  width: 81px;
 }
 .THIS.cPopup .p-container .p-content{
     padding: 0px 10px 20px 10px;

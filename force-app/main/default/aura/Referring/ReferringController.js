@@ -275,6 +275,8 @@
         if(ddi.contactPhoneType) partDel.Phone_Type__c = ddi.contactPhoneType;
         if(ddi.contactPhoneNumber) partDel.Phone__c = ddi.contactPhoneNumber;
         component.set('v.delegateParticipant', partDel);
+        component.find('delegate-phone').focus();
+        component.find('delegate-phone').blur();
         component.set('v.useThisDelegate', true);
     },
 })
