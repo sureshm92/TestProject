@@ -60,7 +60,7 @@
     padding: 16px;
 }
 .THIS .db-qal-items{
-    max-height: 260px;
+    max-height: 650px;
     overflow-y: auto;
 }
 .THIS .wraptext{
@@ -130,7 +130,7 @@
     padding: 16px;
 }
 .THIS .db-qal-items{
-    max-height: 260px;
+    max-height: 650px;
     overflow-y: auto;
 }
 
@@ -171,4 +171,8 @@
 
 .THIS .slds-table_bordered {
     border: none;
+}
+
+.THIS .align-left{
+    text-align: left;
 }

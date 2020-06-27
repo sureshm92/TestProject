@@ -372,6 +372,12 @@ public without sharing class ParticipantInformationRemote {
         return updatePatientStatus(pathWrapperJSON, pe, historyToUpdate);
     }
     
+    @AuraEnabled
+    public static String updatePatientStatusCC(String pathWrapperJSON, String peId, Boolean historyToUpdate){
+        Participant_Enrollment__c pe = new Participant_Enrollment__c(Id = peId);
+        return updatePatientStatusCC(pathWrapperJSON, pe, historyToUpdate);
+    }
+    
     public static String updatePatientStatus(String pathWrapperJSON, Participant_Enrollment__c pe, Boolean historyToUpdate){
         try {
             ParticipantWorkflowService.ParticipantWorkflowWrapper pathWrapper =
@@ -401,6 +407,41 @@ public without sharing class ParticipantInformationRemote {
             System.debug('ERROR: ' + e.getMessage() + '\n' + e.getStackTraceString());
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());        }
     }
+    
+    //CC
+    @AuraEnabled
+    public static String updatePatientStatusCC(String pathWrapperJSON, Participant_Enrollment__c pe, Boolean historyToUpdate){
+        try {
+            ParticipantWorkflowService.ParticipantWorkflowWrapper pathWrapper =
+                (ParticipantWorkflowService.ParticipantWorkflowWrapper)JSON.deserialize(pathWrapperJSON, ParticipantWorkflowService.ParticipantWorkflowWrapper.class);
+
+            Participant_Enrollment__c oldParticipantEnrollment = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityModeService.USER_MODE_CC, null);
+            Clinical_Trial_Profile__c ctp = StudyTrialService.getFullTrial(oldParticipantEnrollment.Clinical_Trial_Profile__c);
+            ParticipantWorkflowService.populatePEFromWorkflowWrapper(pathWrapper, pe, ctp, oldParticipantEnrollment);
+            update pe;
+            if ((oldParticipantEnrollment.Initial_visit_scheduled_date__c == null || oldParticipantEnrollment.Initial_visit_scheduled_time__c == null)
+                    &&(pe.Initial_visit_scheduled_date__c != null && pe.Initial_visit_scheduled_time__c != null)) {
+                IncentiveProgramService.completeIncentiveTaskCurrentContact(IncentiveTaskCatalog.INCENTIVE_TASK_ENTERED_INITIAL_VISIT_SCHEDULED_TIME, oldParticipantEnrollment.Study_Site__c, oldParticipantEnrollment.Name);
+            }
+            pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_CC);            
+            Participant_Enrollment_Status_History__c pesh = ParticipantWorkflowService.createPESHFromPathWrapper(pathWrapper, pe, ctp, oldParticipantEnrollment);
+            if(pesh != null && historyToUpdate){
+                if (oldParticipantEnrollment.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED
+                        && (pesh.Status__c == PEStatusState.PE_STATUS_CONTACT_ATTEMPTED || pesh.Status__c == PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED)
+                        && oldParticipantEnrollment.Participant_Status_Last_Changed_Date__c.date().daysBetween(Date.today()) <= 1) {
+                    IncentiveProgramService.completeIncentiveTaskCurrentContact(IncentiveTaskCatalog.INCENTIVE_TASK_MADE_CONTACT_ATTEMPT_WITHIN_1_DAY, oldParticipantEnrollment.Study_Site__c, oldParticipantEnrollment.Name);
+                }
+                insert pesh;
+            }
+            pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_CC);
+            if (pe == null) throw new CommunityServiceException('Participant enrollment not found');
+            return JSON.serialize( new UpdateResponse(pe, ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe)));
+        } catch (Exception e) {
+            System.debug('ERROR: ' + e.getMessage() + '\n' + e.getStackTraceString());
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());        }
+    }
+    //
+    
     
     @AuraEnabled
     public static String updatePatientInfoAndStatus(String participantJSON, String peJSON, String pathWrapperJSON, String peId){
@@ -440,6 +481,39 @@ public without sharing class ParticipantInformationRemote {
         
         return updatePatientStatus(pathWrapperJSON, pe, historyToUpdate);
     }
+    
+    //CC
+    @AuraEnabled
+    public static String updatePatientInfoAndStatusWithDelegateCC(String participantJSON, 
+                                                                String peJSON, 
+                                                                String pathWrapperJSON, 
+                                                                String peId, 
+                                                                String delegateJSON, 
+                                                                String userInfoJSON,
+                                                               Boolean historyToUpdate) {
+        try{
+            Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
+            update participant;
+        }catch (Exception e){
+            AuraHelper.throwException(e);
+        }
+        Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
+        
+        if (!String.isBlank(delegateJSON)) {
+            Participant__c delegateParticipant = (Participant__c) JSON.deserialize(delegateJSON, Participant__c.class);
+            if (delegateParticipant != null && !String.isBlank(delegateParticipant.Id)) {
+                try {
+                    update delegateParticipant;
+                } catch (Exception exp) {
+                    system.debug('No delegate was provided');
+                }
+            }
+        }
+        updateUserLanguage(userInfoJSON);
+        
+        return updatePatientStatusCC(pathWrapperJSON, pe, historyToUpdate);
+    }
+    //
     
     public static void updateUserLanguage(String userJSON) {
         if (!String.isBlank(userJSON)) {
