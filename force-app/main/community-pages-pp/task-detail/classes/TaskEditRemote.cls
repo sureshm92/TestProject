@@ -17,8 +17,8 @@ public without sharing class TaskEditRemote {
         //        new LabelValueItem(Label.Disabled, 'Disabled')
         //};
         @AuraEnabled public List<LabelValueItem> reminderFrequencyList = new List<LabelValueItem>{
-                new LabelValueItem(Label.Complete_By_Date, 'By_Date'),
-                new LabelValueItem(Label.One_day_before, 'Day_Before')
+                new LabelValueItem(Label.Complete_By_Date, Label.Complete_By_Date),
+                new LabelValueItem(Label.One_day_before, Label.One_day_before)
         };
 
         @AuraEnabled public Task task;

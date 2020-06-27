@@ -12519,7 +12519,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP Change Notification</shortDescription>
-        <value>Change your notification setting under Account Settings</value>
+        <value>Change your notification preferences under Contact Information</value>
     </labels>
     <labels>
         <fullName>PP_Change_Preferences_Resource</fullName>
@@ -12736,6 +12736,22 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <protected>false</protected>
         <shortDescription>PP_Remind_Using_Required</shortDescription>
         <value>Please an option to send reminder.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Reminder_Overflow</fullName>
+        <categories>c:StudyVisitReminder</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Reminder_Overflow</shortDescription>
+        <value>Reminder date cannot be set beyond the Due Date.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Reminder_Underflow</fullName>
+        <categories>c:StudyVisitReminder</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Reminder_Underflow</shortDescription>
+        <value>Reminder date cannot be set in the past.</value>
     </labels>
     <labels>
         <fullName>PP_Save_Changes</fullName>

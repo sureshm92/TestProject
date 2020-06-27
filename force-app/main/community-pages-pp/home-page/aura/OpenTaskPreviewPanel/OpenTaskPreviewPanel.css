@@ -6,6 +6,7 @@
     border-radius: 4px;
     margin: 1px 0 0 -8px;
 }
+
 .THIS .rr-link .limit-width{
     overflow: hidden;
     text-overflow: ellipsis;
@@ -13,5 +14,11 @@
  /*   white-space: nowrap; */
     display: inline-block;
     padding-top: 4px;
+}
 
+.THIS .rr-link:hover{
+    text-decoration: none;
+    background-color: #eef5ff;
+    transition: .25s;
+    cursor: pointer;
 }
