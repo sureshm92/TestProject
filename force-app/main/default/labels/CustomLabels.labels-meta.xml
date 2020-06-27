@@ -14555,6 +14555,13 @@ communications using the toggles below.</value>
         <shortDescription>Set Reminder</shortDescription>
         <value>Set Reminder</value>
     </labels>
+	<labels>
+        <fullName>Showing</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Showing Participant - call center</shortDescription>
+        <value>Showing</value>
+    </labels>
     <labels>
         <fullName>Sharing_Options_Message</fullName>
         <language>en_US</language>
