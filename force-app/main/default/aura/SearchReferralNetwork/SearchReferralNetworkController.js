@@ -1,22 +1,17 @@
 ({
     doInit: function (component, event, helper) {
-        
         communityService.executeAction(component, 'getReferralNetworkRecords', {
             sObjectType: component.get("v.sObjectType")
         }, function (returnValue) {
-            
             var selectedPills = component.get('v.selectedPills');
             var selPills = [];
             for(var i in returnValue) {
                 selPills.push(returnValue[i]);
                 selPills[i].isSelected = true;
                 selectedPills[selPills[i].Id] =  selPills[i];
-                
-            }
+             }
             component.set('v.selectedPills', selectedPills);
-            
             component.set('v.records', returnValue);
-            
         });  
     },
     
@@ -28,9 +23,7 @@
         var ddown = component.find('dropdown');
         $A.util.addClass(ddown, 'slds-hide');
         component.find('searchInput').set('v.value', '');
-        // component.set('v.records', null);
-        
-    },
+     },
     
     handleChange: function (component, event, helper) {
         helper.changeCheckBox(component, event);
