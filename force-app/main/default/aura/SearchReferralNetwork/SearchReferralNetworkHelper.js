@@ -1,21 +1,14 @@
 ({
     doSearch: function (component, event, helper) {
-        
         let value = event.getSource().get('v.value');
-        if (!value) {
-            //  value = null;
-            
-        }
         communityService.executeAction(component, 'searchForReferralNetworks', {
             term: value,
             sObjectType: component.get('v.sObjectType')
         }, function (returnValue) {
             if(returnValue) {
                 var rec = [];
-                
                 var selectedPills = component.get('v.selectedPills');
-                console.log('selectedPills++'+ JSON.stringify(selectedPills));
-                for(var i in returnValue) { 
+                 for(var i in returnValue) { 
                     if(selectedPills) {
                         if(selectedPills[returnValue[i].Id]) {
                             if(selectedPills[returnValue[i].Id].isSelected ===  true) 
@@ -27,18 +20,14 @@
                     } else
                         returnValue[i].isSelected =  false;
                 }
-                
-                
-                if(returnValue.length == 0) {
+                 if(returnValue.length == 0) {
                     var ddown = component.find('dropdown');
                     $A.util.addClass(ddown, 'slds-hide');
                 } else {
                     var ddown = component.find('dropdown');
                     $A.util.removeClass(ddown, 'slds-hide');
                 }
-                
             }
-            
             component.set('v.displayedRefNetworks', returnValue);
         });
     },
@@ -47,12 +36,8 @@
         var check = event.getSource().get("v.checked");
         var value = event.getSource().get("v.value");
         var records = component.get('v.records');
-        
         var selectedPills = new Map();
         selectedPills = component.get('v.selectedPills');
-        
-        console.log('value' + value);
-        console.log('check'+ check);
         if(check) {
             records.push(value);
             selectedPills[value.Id] = value;
@@ -61,51 +46,37 @@
             selectedPills[value.Id] = value;
             records.splice(records.indexOf(value), 1 );
         }
-        
         component.set('v.selectedPills',selectedPills); 
         component.set('v.records', records);
-        
         var cmpEvent = component.getEvent("SearchReferralNetworkResult"); 
         //Set event attribute value
         cmpEvent.setParams({"refResult" : records,
                             'sobjectName': component.get('v.sObjectType')}); 
         cmpEvent.fire(); 
-        
     },
+
     handleClearPill:function(component,event) {
         var pillName = event.getSource().get('v.name');
         var pills = component.get('v.records');
         var selectedList=[];
         var selectedPills = new Map();
-        
         selectedPills = component.get('v.selectedPills');
-        
         for (var i = 0; i < pills.length; i++) {
             if (pillName === pills[i].Id) { 
                 pills[i].isSelected = false;
                 selectedList.push(pills[i]);
                 selectedPills[pills[i].Id] = pills[i];
                 pills.splice(i, 1);
-                
-            }   else 
+            } else 
                 selectedList.push(pills[i]);
-            
         }
-        
         component.set('v.selectedPills', selectedPills);
         component.set('v.records', pills);
         component.find('searchInput').set('v.value', '');
-        
-        
         var cmpEvent = component.getEvent("SearchReferralNetworkResult"); 
-        
         cmpEvent.setParams({"refResult" : selectedList,
                             'sobjectName': component.get('v.sObjectType')}); 
         cmpEvent.fire(); 
-        
-        
-        
-        
     },
     
 })
