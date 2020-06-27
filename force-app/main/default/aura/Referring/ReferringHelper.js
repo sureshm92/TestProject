@@ -64,7 +64,7 @@
         component.set('v.emailDelegateRepeat', '');
     },
 
-    checkFields: function (component, event, helper) {
+    checkFields: function (component, event, helper, doNotCheckFields) {
         let agreePolicy = component.get('v.agreePolicy');
         let states = component.get('v.states');
         let needsDelegate = component.get('v.needsGuardian');
@@ -90,9 +90,9 @@
         //let emailDelegateRepeatValid = needsDelegate && emailDelegateRepeatCmp && emailDelegateRepeatCmp.get('v.validity') && emailDelegateRepeatCmp.get('v.validity').valid;
 
         if(emailDelegateVaild && emailDelegateRepeatValid && delegateParticipant.First_Name__c &&
-            delegateParticipant.Last_Name__c && delegateParticipant.Email__c.toLowerCase() == emailDelegateRepeat.toLowerCase()
+            delegateParticipant.Last_Name__c && delegateParticipant.Email__c.toLowerCase() == emailDelegateRepeat.toLowerCase() && !doNotCheckFields
             && delegateParticipant.Email__c.toLowerCase() != component.get('v.emailInstance')){
-            helper.checkDelegateDuplicate(component,delegateParticipant.Email__c, delegateParticipant.First_Name__c, delegateParticipant.Last_Name__c);
+            helper.checkDelegateDuplicate(component, event, helper, delegateParticipant.Email__c, delegateParticipant.First_Name__c, delegateParticipant.Last_Name__c);
         }
 
         let isValid = false;
@@ -149,7 +149,7 @@
         console.log('VALIDATION isValid RESULT2: ' + isValid);
     },
 
-    checkDelegateDuplicate: function (component, email, firstName, lastName) {
+    checkDelegateDuplicate: function (component, event, helper, email, firstName, lastName) {
         var spinner = component.find('mainSpinner');
         spinner.show();
         communityService.executeAction(component, 'checkDuplicateDelegate', {
@@ -170,8 +170,8 @@
             } else component.set('v.emailInstance',null);
             if(returnValue.lastName) participantDelegate.Last_Name__c = returnValue.lastName;
             if(returnValue.firstName) participantDelegate.First_Name__c = returnValue.firstName;
-            component.set('v.delegateParticipant',participantDelegate);
-
+            helper.checkFields(component,event,helper, true);
+            component.set('v.delegateParticipant', participantDelegate);
             spinner.hide();
         });
     },

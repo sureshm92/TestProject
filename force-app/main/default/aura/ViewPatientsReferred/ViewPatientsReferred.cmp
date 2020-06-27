@@ -46,6 +46,7 @@
     <aura:handler name="change" value="{!v.peFilter.dateRange}" action="{!c.doFilterChanged}"/>
     <aura:handler name="change" value="{!v.peFilter.source}" action="{!c.doFilterChanged}"/>
     <aura:handler name="change" value="{!v.peFilter.participantStatus}" action="{!c.doFilterChanged}"/>
+    <aura:handler name="change" value="{!v.peFilter.sortType}" action="{!c.doSortChanged}"/>
     <aura:handler name="change" value="{!v.showEmancipatedOnly}" action="{!c.doEmancipatedChanged}"/>
 
     <!-- methods: -->

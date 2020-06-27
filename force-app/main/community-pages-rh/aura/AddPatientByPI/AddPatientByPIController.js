@@ -88,7 +88,7 @@
         if(ddi.contactPhoneNumber) partDel.Phone__c = ddi.contactPhoneNumber;
         component.set('v.participantDelegate', partDel);
         component.set('v.useThisDelegate', true);
-        component.set('v.useThisDelegate', true);
+        helper.checkFields(component,event,helper, true);
     },
 
     doRefreshParticipant: function (component, event, helper) {

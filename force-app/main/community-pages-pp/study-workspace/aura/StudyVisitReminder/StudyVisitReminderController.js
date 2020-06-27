@@ -13,11 +13,12 @@
             component.set('v.title', params.relaodAttributes.title);
             component.set('v.isReminderOnly', params.relaodAttributes.isReminderOnly);
         }
-        helper.initialize(component);
-        if(!component.get('v.isReminderOnly')){           
-            document.getElementsByClassName('with-scroll')[0].scrollTop = 0;  
+
+        helper.initialize(component, helper);
+        //Take scroll bar to top next time when the popup is displayed
+        if (!component.get('v.isReminderOnly')) {
+            document.getElementsByClassName('with-scroll')[0].scrollTop = 0;
         }
-        
     },
 
     doCancel: function (component, event, helper) {
@@ -28,12 +29,13 @@
         debugger;
         var task = component.get('v.task');
         var reminderDate = component.get('v.initData.reminderDate');
-
-        var emailPeferenceSelected = component.find('emailField').get('v.checked');
-        var smsPeferenceSelected = component.find('smsField').get('v.checked');
+        var emailPeferenceSelected = component.get('v.task.Remind_Using_Email__c');
+        var smsPeferenceSelected = component.get('v.task.Remind_Using_SMS__c');
+        console.log('smsPeferenceSelected: ' + smsPeferenceSelected);
+        console.log('emailPeferenceSelected: ' + emailPeferenceSelected);
 
         if (!task.Subject) {
-            communityService.showErrorToast('', $A.get('$Label.c.Empty_TaskName'));
+            communityService.showErrorToast('', $A.get('$Label.c.Empty_TaskName'), 3000);
             return;
         }
         if (!$A.util.isUndefinedOrNull(reminderDate)
@@ -41,7 +43,8 @@
             communityService.showErrorToast('', $A.get('$Label.c.PP_Remind_Using_Required'), 3000);
             return;
         }
-        if (!component.get('v.isValidFields')) {
+        var isValidFields = helper.doValidateDueDate(component) && helper.doValidateReminder(component);
+        if (!isValidFields) {
             var showToast = true;
             if (!component.get('v.isNewTask')) {
                 if (component.get('v.jsonState') ===
@@ -54,8 +57,7 @@
                 return;
             }
         }
-        //component.set('v.task.Remind_Using_Email__c', emailPeferenceSelected);
-        //component.set('v.task.Remind_Using_SMS__c', smsPeferenceSelected);
+        
         var message = helper.setSuccessToast(component);
 
         component.find('spinner').show();
@@ -79,46 +81,41 @@
         helper.updateTaskStatus(component, helper, 'markAsCompleted');
     },
 
-    doChangeReminderDate: function (component, event, helper) {
-        if (freq === 'Day_Before') {
-            $A.enqueueAction(component.get('c.setOneDayBefore'));
-        }
-    },
-
     setOneDayBefore: function (component, event, helper) {
         var reminderDate = moment(component.get('v.initData.reminderDate'), 'YYYY-MM-DD');
         reminderDate.subtract(1, 'days');
         component.set('v.initData.reminderDate', reminderDate.format('YYYY-MM-DD'));
     },
 
-    validateFields: function (component, event, helper) {
-        //if (component.get('v.initData') && component.get('v.initData.createdByAdmin')) return;
-        // TO-DO: Set custom validation message
-        debugger;
-        var allValid = [].concat(component.find('field')).reduce(function (validSoFar, inputCmp) {
-            return validSoFar && inputCmp.checkValidity();
-        }, true);
+    validateDueDate: function (component, event, helper) {
+        helper.doValidateDueDate(component);
+    },
 
-        component.set('v.isValidFields', allValid);
+    validateReminderDate: function (component, event, helper) {
+        helper.doValidateReminder(component);
     },
 
     doNavigateToAccountSettings: function (component, event, helper) {
-        communityService.navigateToPage('account-settings');
-    },
-
-    doChangePreference: function (component, event, helper) {
-
-
+        //communityService.navigateToPage('account-settings');
+        window.open('account-settings', '_blank');
+        window.focus();  
+        helper.hideModal(component);
     },
 
     onChangeFreq: function (component, event, helper) {
-        var freq = component.get('v.frequencyMode');
-        if (freq === 'By_Date') {
-            component.set('v.initData.reminderDate', component.get('v.initData.activityDate'));
-            //component.set('v.reminderDateEnabled', true);
-        } else if (freq === 'Day_Before') {
-            $A.enqueueAction(component.get('c.setOneDayBefore'));
-            //component.set('v.reminderDateEnabled', false);
+        debugger;
+        var reminderCmp = component.find('reminderDate');
+        var freq = component.get('v.task.Remind_Me__c');
+        var reminderDate = moment(component.get('v.initData.reminderDate'), 'YYYY-MM-DD');
+        var tomorrow = moment(component.get('v.tomorrow'), 'YYYY-MM-DD');
+        if (freq == $A.get('$Label.c.One_day_before')
+            && reminderDate.isValid()
+            && !tomorrow.isSameOrAfter(reminderDate)) {
+            reminderCmp.setCustomValidity(component.get('v.messageWhenRangeUnderflow'));
+        } else {
+            reminderCmp.setCustomValidity('');
         }
+        reminderCmp.reportValidity();
     }
+
 })
