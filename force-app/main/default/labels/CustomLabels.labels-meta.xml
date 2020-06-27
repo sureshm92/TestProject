@@ -8498,7 +8498,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F New password</shortDescription>
-        <value>New password</value>
+        <value>New Password</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Nickname</fullName>
@@ -8533,7 +8533,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Phone number</shortDescription>
-        <value>Daytime phone number</value>
+        <value>Daytime Phone Number</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Placeholder_Enter_text</fullName>
@@ -8563,12 +8563,12 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <shortDescription>PG_AS_F_Preferred_Timezone</shortDescription>
         <value>Preferred timezone</value>
     </labels>
-    <labels>
+   <labels>
         <fullName>PG_AS_F_Re_enter_new_password</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS  F Re-enter new password</shortDescription>
-        <value>Re-enter new password</value>
+        <value>Re-Enter New Password</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Screening_Subject_ID</fullName>
