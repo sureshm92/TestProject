@@ -31,7 +31,6 @@
             component.set('v.displayedRefNetworks', returnValue);
         });
     },
-    
     changeCheckBox: function (component, event) {
         var check = event.getSource().get("v.checked");
         var value = event.getSource().get("v.value");
@@ -54,8 +53,7 @@
                             'sobjectName': component.get('v.sObjectType')}); 
         cmpEvent.fire(); 
     },
-
-    handleClearPill:function(component,event) {
+   handleClearPill:function(component,event) {
         var pillName = event.getSource().get('v.name');
         var pills = component.get('v.records');
         var selectedList=[];
