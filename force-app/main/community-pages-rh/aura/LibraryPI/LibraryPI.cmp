@@ -16,16 +16,17 @@
     
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>    
     
-    <div class="slds-grid slds-wrap resource-headers slds-grid--vertical-align-center" style="height:31px;padding-right:27px;background-color: #F6F7FB;">
+    <div class="slds-grid slds-wrap resource-headers slds-grid--vertical-align-center" style="height:31px;padding-right:27px;">
         <div class="slds-coll slds-size--4-of-12"></div>
         <div class="slds-coll slds-size--2-of-12">
             <c:uiHeaderMenu aura:id="menuId" class="language-filter">
                 <aura:set attribute="title">
                     <span class="language-title">{!$Label.c.Library_Language}</span>
-                    <lightning:icon iconName="utility:filterList" size="xx-small" class="language-filter-icon"/>
-                    <!--
-      <lightning:buttonIcon variant="bare-inverse" class="language-filter-icon" iconName="utility:filterList"/>
-                    -->
+                    <img class="language-filter-icon" src="{!$Resource.icon_filterBlue}" width="16" height="16"/>
+                    <!--   <lightning:icon iconName="utility:filterList" size="xx-small" class="language-filter-icon"/>
+
+        <lightning:buttonIcon variant="bare-inverse" class="language-filter-icon" iconName="utility:filterList"/>
+                      -->
                 </aura:set>
                 <aura:iteration items="{!v.resourceLanguages}" var="language">
                     <c:uiMenuItem label="{!language.label}" itemValue="{!language.value}"
@@ -55,7 +56,7 @@
                     </aura:set>
                     <aura:set attribute="body"> 
                         <div class="slds-scrollable_y" 
-                             style="{!if(resourceStructure.resources.length > 6 , 'height :10rem' ,'margin-right:17px')}">
+                             style="{!if(resourceStructure.resources.length > 12 , 'height :10rem' ,'margin-right:17px')}">
                             <aura:iteration items="{!resourceStructure.resources}" var="resource" indexVar="resourceIndex">
                                 <div class="slds-grid slds-wrap resource-container">
                                     
@@ -78,14 +79,17 @@
                                         </aura:set>
                                     </aura:if>
                                     
-                                    <div class="slds-coll slds-size--2-of-12">{!resource.language}</div>
-                                    <div class="slds-coll slds-size--2-of-12 libraryTypeForMobile">{!resource.type}</div>
-                                    <div class="slds-coll slds-size--2-of-12">{!resource.format}</div>
-                                    <div class="slds-coll slds-size--1-of-12 versionForMobile">{!resource.versionDate}</div>
+                                    <div class="slds-coll slds-size--2-of-12"><span class="libLabel">Language:</span>{!resource.language}</div>
+                                    <div class="slds-coll slds-size--2-of-12 libraryTypeForMobile"><span class="libLabel">Type:</span>{!resource.type}</div>
+                                    <div class="slds-coll slds-size--2-of-12"><span class="libLabel">Format:</span>{!resource.format}</div>
+                                    <div class="slds-coll slds-size--1-of-12 versionForMobile"><span class="libLabel">Version Date:</span>{!resource.versionDate}</div>
                                     <div  data-attributeVal="{!key + ',' + resourceIndex}" class="slds-coll slds-size--1-of-12 " onclick="{!c.downloadResource}" >
+
                                         <aura:if isTrue="{!!empty(resource.fileID)}">
-                                            <lightning:icon iconName="utility:download" size="xx-small" alternativeText="Download" title="Download"
-                                                            variant="inverse" class="slds-align_absolute-center" />
+                                            <span class="libLabel dld">Download</span>
+                                            <!-- <lightning:icon iconName="utility:download" size="xx-small" alternativeText="Download" title="Download"
+                                                            variant="inverse" class="slds-align_absolute-center" /> -->
+                                             <img class="slds-align_absolute-center" src="{!$Resource.icon_download}" width="16" height="16"/>
                                         </aura:if>    
                                     </div>
                                 </div>

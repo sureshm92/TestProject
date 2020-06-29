@@ -20,6 +20,7 @@
   }
   .THIS .slds-pill__remove svg{
       color:white;
+    margin-left: 0.6rem;
   }
 .THIS .slds-pill__label{
     text-align: center;

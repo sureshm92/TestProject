@@ -158,7 +158,14 @@ public without sharing class EmailTestBoardRemote {
                         WHERE Email_Template__c = :templateWrapper.emailDevName
                 ];
                 if (notificationTarget.isEmpty()) {
-                    throw new EmailTestBoardRemoteException('Can\'t find notification type for this email template!');
+                    notificationTarget = [
+                            SELECT Notification_Type__r.DeveloperName
+                            FROM Notification_Target__mdt
+                            WHERE Email_Template_Delegate__c = :templateWrapper.emailDevName
+                    ];
+                    if(notificationTarget.isEmpty()) {
+                        throw new EmailTestBoardRemoteException('Can\'t find notification type for this email template!');
+                    }
                 }
 
                 insert new Notification__c(

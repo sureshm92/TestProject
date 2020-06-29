@@ -9,9 +9,19 @@
     <aura:attribute name="peobj" type="Object" description="Participant enrollment item"/>
     <aura:attribute name="isInvited" type="Boolean"/>
     <aura:attribute name="actions" type="Object" default="true" />
+    <aura:attribute name="searchKey" type="String" access="public" /> 
+    <aura:attribute name="count" type="Integer" default="0" />  
     
+    <!-- Event handler -->
+    <aura:handler name="callcenter" event="c:CallCenterRefresh" action="{!c.doRefreshtable}"/>
+    
+    <div class="vp-navigation" style="margin-top:10px;">
+        <c:RRNavigationPath>
+            <c:RRNPathItem label="{!$Label.c.CC_Participant_Support}"/>
+        </c:RRNavigationPath>
+    </div>
     <div>
-        <div class="slds-grid slds-wrap" style="padding-bottom:18px;">
+        <div class="slds-grid slds-wrap" style="padding-bottom:18px;margin-top:35px;">
             <div class="slds-col slds-size--5-of-12">
                 <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left slds-icon-text-default">
                     <lightning:icon class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" iconName="utility:search" size="x-small"/>
@@ -23,6 +33,9 @@
                 <lightning:button label="{!$Label.c.Library_Search}" onclick="{!c.doSearch}"/>
             </div>
         </div> 
+        <div style="padding-bottom:15px;">
+            {!$Label.c.Showing}&nbsp;{!v.count}&nbsp;{!$Label.c.Participant}
+        </div>
         
         <!-- TABLE CONTENT-->
         <div class="rr-white-panel db-qal-container">
@@ -65,7 +78,12 @@
                         <aura:iteration items="{!v.searchResult}" var="pe" indexVar="index">                   
                             <tr>                        
                                 <td>
-                                    <div class="slds-truncate wraptext"><lightning:button variant="base" name="{!index}" value="{!pe.Participant__r.Id}" label="{!pe.Participant__r.Full_Name__c}" onclick="{!c.showEditParticipantInformation}"/>
+                                    <div class="slds-truncate wraptext" >
+                                        <lightning:button class="align-left"
+                                                          variant="base" name="{!index}"
+                                                          value="{!pe.Participant__r.Id}" 
+                                                          label="{!pe.Participant__r.Full_Name__c}" 
+                                                          onclick="{!c.showEditParticipantInformation}"/>
                                     </div>
                                 </td>
                                 <td>
@@ -75,10 +93,10 @@
                                     <div class="slds-truncate wraptext">{!pe.Participant__r.Phone_Type__c}</div>
                                 </td>
                                 <td>
-                                    <div class="slds-truncate wraptext">
-                                    <lightning:button variant="base"
-                                                      onclick="{!c.doNavigate}" name="{!index}"
-                                                      label="{!pe.Clinical_Trial_Profile__r.Study_Code_Name__c}"/>  
+                                    <div class="slds-truncate wraptext" >
+                                        <lightning:button variant="base" class="align-left"
+                                                          onclick="{!c.doNavigate}" name="{!index}"
+                                                          label="{!pe.Clinical_Trial_Profile__r.Study_Code_Name__c}"/>  
                                     </div>
                                 </td>
                                 <td>
@@ -94,13 +112,18 @@
                                     <div class="slds-truncate wraptext">{!pe.Study_Site__r.Study_Site_Phone__c}</div>
                                 </td>
                                 <td>
-                                    <div class="slds-truncate wraptext">{!pe.Days_After_Referred__c} days ago</div>
+                                    <aura:if isTrue = "{!pe.Days_After_Referred__c lt 1}">
+                                        <div class="slds-truncate wraptext">{!pe.Days_After_Referred__c} day ago</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-truncate wraptext">{!pe.Days_After_Referred__c} days ago</div>
+                                        </aura:set>
+                                    </aura:if>
                                 </td>
                             </tr>
                         </aura:iteration>		
                     </table>  
                     
-                    <c:Action_ParticipantInformation aura:id="OpenPatientInfoAction" NotCCMode="false" isValid="true" />
+                    <c:Action_ParticipantInformation aura:id="OpenPatientInfoAction" NotCCMode="false" isValid="true" searchKey="{!v.searchKey}" />
                 </div>
             </div>
         </div>

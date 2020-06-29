@@ -3273,6 +3273,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Event.Remind_Me__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Event.Remind_Using_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6700,6 +6705,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.Reminder_Schedule__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Remind_Me__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

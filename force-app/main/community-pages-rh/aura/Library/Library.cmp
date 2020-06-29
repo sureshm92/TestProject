@@ -24,7 +24,7 @@
             <div class="slds-col slds-size--9-of-12">
                 <div class="slds-card__header-title">{!$Label.c.Navigation_Library}</div>
             </div>
-            <div class="slds-col slds-size--3-of-12" style="padding:13px;">
+            <div class="slds-col slds-size--3-of-12">
                 <!--<c:rrInput valueString="{!v.searchText}" iconName="icon-search" placeholder="{!$Label.c.Library_Search}"/>-->
                 <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
                 <lightning:icon class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" iconName="utility:search" size="x-small"/>
