@@ -1,0 +1,29 @@
+<aura:component description="CPD_CommunityFooter" implements="forceCommunity:availableForAllPageTypes" extends="c:CommunityContext" access="global">
+   
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
+    afterScriptsLoaded="{!c.doInit}"/>
+    <aura:attribute name="isArabic" type="Boolean" default="false"/>
+
+    <div class="{!'rrc-footer ' + if(v.isArabic, 'rtl', '')}">
+        <div class="footer-content-algin">
+            <div class="slds-grid slds-wrap slds-gutters slds-gutters_x-small slds-grid_pull-padded-x-small bg-content">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                    <p class="privacy-policy">
+                        <a id="privacy" name="privacy" onclick="{!c.clicktoRedirect}" class="a-underline"
+                            target="_blank">{!$Label.c.CPD_Privacy_Policy}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a id="terms" name="terms" onclick="{!c.clicktoRedirect}" class="a-underline" target="_blank">{!$Label.c.CPD_Terms_of_Use}</a>
+                    </p>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                    <p class="iqvia-all-ri-res">{!$Label.c.CPD_All_rights_reserved}</p>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                    <p class="this-website-is-inte">{!$Label.c.CPD_This_website_is_intended}</p>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                    <p class="in-a-clinical-resea"> {!$Label.c.CPD_In_a_clinical_research_study}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>
