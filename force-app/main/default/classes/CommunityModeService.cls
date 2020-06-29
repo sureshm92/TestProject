@@ -168,6 +168,7 @@ public without sharing class CommunityModeService {
                 for (CommunityModes.PPCommunityModeItem subItem : item.subItems) {
                     if (subItem.peId == contact.Current_Participant_Enrollment__c && subItem.delegateId == contact.userCommunityDelegateId__c) {
                         communityModes.isPPItemsSelected = true;
+                        communityModes.isPPItemsCollapsed = false;
                         subItem.isSelected = true;
                     }
                 }
@@ -181,14 +182,21 @@ public without sharing class CommunityModeService {
                         }
                     }
                     item.isSelected = true;
+                    item.isCollapsed = false;
+                    communityModes.isRHItemsCollapsed = false;
                     communityModes.isRHItemsSelected = true;
                 }
             }
         } else {
             if (!communityModes.ppModeItems.isEmpty()) {
+                communityModes.isPPItemsSelected = true;
+                communityModes.isPPItemsCollapsed = false;
                 communityModes.ppModeItems[0].subItems[0].isSelected = true;
             } else if (!communityModes.rhModeItems.isEmpty()) {
+                communityModes.isRHItemsSelected = true;
+                communityModes.isRHItemsCollapsed = false;
                 communityModes.rhModeItems[0].isSelected = true;
+                communityModes.rhModeItems[0].isCollapsed = false;
                 if (!communityModes.rhModeItems[0].subItems.isEmpty()) {
                     communityModes.rhModeItems[0].subItems[0].isSelected = true;
                 }
@@ -208,6 +216,7 @@ public without sharing class CommunityModeService {
         }
         for (CommunityModes.RHCommunityModeItem rhItem : communityModes.rhModeItems) {
             rhItem.isSelected = false;
+            rhItem.isCollapsed = true;
             for (CommunityModes.RHCommunityModeItem rhSubItem : rhItem.subItems) {
                 rhSubItem.isSelected = false;
             }
