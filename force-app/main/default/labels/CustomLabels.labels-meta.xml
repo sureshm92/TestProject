@@ -3156,7 +3156,7 @@
         <shortDescription>Email Body Trial Match</shortDescription>
         <value>You have been matched for new studies.
 
-Please login in to the ##CommunityName to view your clinical trial matches anytime.</value>
+Please log in to the ##CommunityName to view your clinical trial matches anytime.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Trial_Match_Delegate</fullName>
@@ -3830,7 +3830,9 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Signature_PPST</shortDescription>
-        <value>Sincerely,
+        <value>We are excited to be on this journey with you.
+
+            Sincerely,
 
             ##SignatureShortCommunityName</value>
     </labels>
