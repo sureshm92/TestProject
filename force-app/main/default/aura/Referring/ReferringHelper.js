@@ -115,7 +115,8 @@
                     delegateParticipant.Phone__c &&
                     delegateParticipant.Email__c &&
                     emailDelegateVaild &&
-                    emailDelegateRepeatValid)) &&
+                    emailDelegateRepeatValid &&
+                    delegateParticipant.Email__c == emailDelegateRepeat)) &&
             agreePolicy);
         component.set('v.allRequiredCompleted', isValid);
 
