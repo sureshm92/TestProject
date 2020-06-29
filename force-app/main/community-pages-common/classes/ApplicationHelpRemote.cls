@@ -15,10 +15,16 @@ public without sharing class ApplicationHelpRemote {
         try {
             InitData initData = new InitData();
             String userLanguage = UserInfo.getLanguage();
+            ContactService.updateVisitedCommunity(UserContext.getUserContact(), UserContext.getCurrentCommunityTemplate());
+
+            ParticipantService ps = new ParticipantService();
+            ParticipantService.ParticipantState pState =ps.getState();
+
+
             List<Guides_Setting__mdt> guidesSettings = [
                     SELECT Language__c, HCP_Quick_Reference__c, HCP_User_Manual__c, HCP_Video_Guide__c,
                             PI_Quick_Reference__c, PI_User_Manual__c, PI_Video_Guide__c,
-                            Participant_Quick_Reference__c, Participant_User_Manual__c, Participant_Video_Guide__c
+                            Participant_Quick_Reference__c,Participant_Quick_Reference_GSK__c,Participant_User_Manual__c, Participant_Video_Guide__c
                     FROM Guides_Setting__mdt
                     WHERE Language__c = :userLanguage OR Language__c = 'en_US'
             ];
@@ -38,7 +44,13 @@ public without sharing class ApplicationHelpRemote {
                     initData.videoLink = setting.PI_Video_Guide__c;
                     initData.userManual = setting.PI_User_Manual__c;
                     initData.quickReference = setting.PI_Quick_Reference__c;
-                } else {
+                }
+                else if (pState.communityName == 'GSK Community') {
+                    initData.videoLink = setting.Participant_Video_Guide__c;
+                    initData.userManual = setting.Participant_User_Manual__c;
+                    initData.quickReference = setting.Participant_Quick_Reference_GSK__c;
+                } 
+                else {
                     initData.videoLink = setting.Participant_Video_Guide__c;
                     initData.userManual = setting.Participant_User_Manual__c;
                     initData.quickReference = setting.Participant_Quick_Reference__c;
