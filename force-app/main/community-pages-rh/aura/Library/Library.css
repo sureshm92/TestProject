@@ -68,7 +68,7 @@
 @media screen and (max-width: 500px) {
 
     .THIS.rr-white-panel {
-        margin-bottom: 20px;
+       border-bottom: 0;
     }
 
     .THIS.rr-white-panel > .slds-grid > .slds-col {
