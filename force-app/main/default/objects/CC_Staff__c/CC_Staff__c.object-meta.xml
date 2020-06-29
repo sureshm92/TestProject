@@ -156,7 +156,7 @@
     <label>CC Staff</label>
     <nameField>
         <label>CC Staff Name</label>
-        <type>Text</type>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>CC Staffs</pluralLabel>
     <searchLayouts/>
