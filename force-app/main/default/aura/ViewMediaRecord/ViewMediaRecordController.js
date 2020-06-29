@@ -10,6 +10,7 @@
         component.set("v.ViewRecordId", component.get("v.ViewRecord")[0]
             .Id);
         component.set("v.AlternatePhone_email", "");
+        component.set("v.Validated", false);
         if (component.get("v.disablefield")) {
             component.set("v.disabled", true);
         }
@@ -222,7 +223,7 @@
         } else {
             component.set("v.disabled", true);
             component.set('v.isEmailPhone', false);
-
+            component.set("v.Validated", true);
             if (component.get('v.PC_Value')[0].value == picklistval) {
                 if (Notesval == '' || Notesval == ' ') {
                     component.set("v.DisableSavebtn", true);
@@ -245,7 +246,6 @@
         var picklistval = component.find('preferredId').get('v.value');
         var othermail = $A.get("$Label.c.Other_Email");
         var otherPhone = $A.get("$Label.c.Other_Phone_Number");
-        var picklistval = component.find('preferredId').get('v.value');
         var PC_oldvalue = component.get("V.MO_AlternateValue");
         var PC_Newvalue = "";
         var update = true;
@@ -323,8 +323,9 @@
     CancelRequest: function(component, event, helper) {
         component.set("v.buttonDisable", true);
         component.set("v.disablefield", true);
-        component.set("v.DisableSavebtn", true);
         component.set("v.disabled", true);
+        component.set("v.SaveButtonStatus",component.get("v.DisableSavebtn"));
+        component.set("v.DisableSavebtn", true);
         component.find('CancelRequest').execute();
     },
     closepopup: function(component, event, helper) {
@@ -333,7 +334,7 @@
             component.set("v.buttonDisable", false);
             component.set("v.disablefield", false);
             component.set("v.disabled", false);
-            component.set("v.DisableSavebtn", false);
+            component.set("v.DisableSavebtn",component.get("v.SaveButtonStatus"));
         } else if (message == "closewarningpopup") {
             component.find('CancelRequest').close();
         } else {
@@ -346,11 +347,58 @@
         var picklistval = component.find('preferredId').get('v.value');
         var othermail = $A.get("$Label.c.Other_Email");
         var otherPhone = $A.get("$Label.c.Other_Phone_Number");
-        if (component.get("v.Validated")) {
-            component.set("v.DisableSavebtn", false);
+        var Notesval = component.find('notesId').get('v.value');
+        var PC_oldvalue = component.get("V.MO_AlternateValue");
+        var PC_Newvalue = component.find('alternate').get("v.value");
+        if (component.get("v.Validated")) 
+        {
+            if (component.get('v.PC_Value')[0].value == picklistval) 
+            {
+                 if (component.get("v.Other") == true) 
+                {
+                    if (PC_oldvalue == PC_Newvalue) 
+                    {
+                        if (Notesval == '' || Notesval == ' ') {
+                            component.set("v.DisableSavebtn", true);
+                        } else {
+                            component.set("v.DisableSavebtn", false);
+                        }
+
+                    } else {
+                        component.set("v.DisableSavebtn", false);
+                    }
+
+                }
+               
+            } else {
+                component.set("v.DisableSavebtn", false);
+            }
         } else {
             if (component.get('v.PC_Value')[0].value == picklistval) {
-                component.set("v.DisableSavebtn", false);
+                if (component.get("v.Other") == true) 
+                {
+                    if (PC_oldvalue == PC_Newvalue) {
+                        if (Notesval == '' || Notesval == ' ') {
+                            component.set("v.DisableSavebtn", true);
+                        } else {
+                            component.set("v.DisableSavebtn", false);
+                        }
+
+                    } else {
+                        component.set("v.DisableSavebtn", true);
+                    }
+
+                } else 
+                {
+                    if (Notesval == '' || Notesval == ' ') {
+                        component.set("v.DisableSavebtn", true);
+                    } else {
+                        component.set("v.DisableSavebtn", false);
+                    }
+
+                }
+
+
             } else {
                 if (picklistval != othermail && picklistval != otherPhone) {
                     component.set("v.DisableSavebtn", false);
