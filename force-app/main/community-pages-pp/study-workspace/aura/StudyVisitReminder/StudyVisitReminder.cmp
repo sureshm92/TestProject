@@ -48,7 +48,7 @@
         <aura:attribute name="relaodAttributes" type="Object" />
     </aura:method>
 
-    <c:Popup aura:id="reminderModal" title="{!v.title}" size="medium" showScroll="{!not(v.isReminderOnly)}">
+    <c:Popup aura:id="reminderModal" title="{!v.title}" size="medium" showScroll="true">
         <c:RRSpinner aura:id="spinner" fixed="true" size="medium" />
         <!-- Task Panel -->
         <aura:if isTrue="{!not(v.isReminderOnly)}">

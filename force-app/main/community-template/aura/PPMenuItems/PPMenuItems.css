@@ -36,6 +36,11 @@
     cursor: pointer;
 }
 
+.THIS.all-container{
+    max-height: 370px;
+    overflow-y: scroll;
+}
+
 .THIS .selected{
     color: #0768FD;
     font-weight: bold;

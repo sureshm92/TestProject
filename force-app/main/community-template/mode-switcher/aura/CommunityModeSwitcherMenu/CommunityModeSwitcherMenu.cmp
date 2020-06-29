@@ -27,7 +27,7 @@
             </li>
             <li class="body">
                 <aura:if isTrue="{!equals(v.communityModes.type, 'PP_Only')}">
-                    <c:PPMenuItems onclick="{!c.doSelectItem}" allModes="{!v.communityModes.ppModeItems}"/>
+                    <c:PPMenuItems onclick="{!c.doSelectItem}" allModes="{!v.communityModes}"/>
                 </aura:if>
                 <aura:if isTrue="{!equals(v.communityModes.type, 'RH_Only')}">
                     <c:RHCommunityModesList onclick="{!c.doSelectItem}" communityModesList="{!v.communityModes.rhModeItems}"/>
