@@ -1,5 +1,5 @@
 ({
-    initialize: function (component) {
+    initialize: function (component, helper) {
         debugger;
         var taskId = component.get('v.taskId');
         var isNewTask = component.get('v.isNewTask');
@@ -54,6 +54,7 @@
 
                 component.set('v.jsonState', JSON.stringify(wrapper) + '' + JSON.stringify(task));
                 component.set('v.isValidFields', true);
+                component.set('v.tomorrow', helper.setTomorrow(component, wrapper.today));
                 //component.find('spinner').hide();
                 component.find('reminderModal').show();
             });
@@ -76,6 +77,11 @@
         });
     },
 
+    setTomorrow: function (component, todayDate) {
+        todayDate = moment(todayDate, 'YYYY-MM-DD').add(1, 'days');
+        return todayDate.format('YYYY-MM-DD');
+    },
+
     //Just for safe-keeping. Might use it when Planned_Date_c
     //for Patient Visit is populated by SDH
     isSameDay: function (component) {
@@ -90,6 +96,7 @@
         debugger;
         var isSaveOperation = component.get('v.isSaveOperation');
         component.find('reminderModal').hide();
+        //Re-initialize the parent table to display the updates
         if (isSaveOperation) {
             component.set('v.isSaveOperation', false);
             component.get('v.parent').reload();
@@ -112,7 +119,32 @@
         } else {
             message = successToastArray[3].trim();
         }
-
         return message;
+    },
+
+    doValidateReminder: function (component) {
+        debugger;
+        var reminderValid = component.find('reminderDate');
+        console.log('reminderValid: ' + JSON.stringify(reminderValid));
+        var isReminderValid = true;
+        if (!$A.util.isUndefinedOrNull(reminderValid)) {
+            //reminderValid.reportValidity();
+            isReminderValid = [].concat(reminderValid).reduce(function (validSoFar, inputCmp) {
+                inputCmp.reportValidity();
+                return validSoFar && inputCmp.checkValidity();
+            }, true);
+        }
+        return isReminderValid;
+    },
+
+    doValidateDueDate: function (component) {
+        var fieldValid = component.find('field');
+        console.log('fieldValid: ' + JSON.stringify(fieldValid));
+        var isFieldValid = true;
+        if (!$A.util.isUndefinedOrNull(fieldValid)) {
+            fieldValid.reportValidity();
+            isFieldValid = fieldValid.checkValidity();
+        }
+        return isFieldValid;
     }
 })
