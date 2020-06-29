@@ -115,16 +115,12 @@
                         </div>
              <br/>
           
-             <div class="slds-m-top_xx-large slds-m-top_xx-large">
-                 
-                 <div class="as-sub-title slds-m-top--medium">
-                     {!$Label.c.AccountSettings_Referral_Networks_Site_Based}
-                 </div>
-                 <c:SearchReferralNetwork sObjectType="Referral_Network__c" />
-                 <div class="as-sub-title">
-                     {!$Label.c.AccountSettings_Referral_Networks_Topic_Based}
-                 </div>
-                 <c:SearchReferralNetwork sObjectType="Therapeutic_Area__c" />
+             <div class="slds-m-top_xx-large">
+                
+                <c:SearchReferralNetwork sObjectType="Referral_Network__c" header="{!$Label.c.AccountSettings_Referral_Networks_Site_Based}" />
+                <br/> <br/>
+                
+                <c:SearchReferralNetwork sObjectType="Therapeutic_Area__c" header="{!$Label.c.AccountSettings_Referral_Networks_Topic_Based}" />
                  
                  <br/>
              </div>
