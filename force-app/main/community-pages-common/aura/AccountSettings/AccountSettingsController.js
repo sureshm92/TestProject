@@ -160,5 +160,18 @@
         component.set('v.optInEmail', personWrapper.optInEmail);
         component.set('v.optInSMS', personWrapper.optInSMS);
         component.set('v.personWrapper', personWrapper);
+    },
+    
+    checkPswdStrength: function (component, event, helper) {
+        var caps = event.getParam("caps");
+        component.set("v.caps", caps);
+        var small = event.getParam("small");
+        component.set("v.small", small);
+        var numbers = event.getParam("numbers");
+        component.set("v.numbers", numbers);
+        var length = event.getParam("length");
+        component.set("v.length", length);
+		var special = event.getParam("special");
+        component.set("v.special", special);
     }
 });
