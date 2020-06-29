@@ -18,8 +18,9 @@
 
 .THIS .slds-avatar{
     border-radius: 100%;
-    min-width: 56px;
-    height: 56px;
+    min-width: 55px;
+    width : 55px;
+    height: 55px;
 }
 
 .THIS .inputFile {
@@ -177,7 +178,7 @@
 .THIS .slds-avatar_large,
 .THIS .slds-avatar--large {
     width: 55px;
-    height: 55px;
+    height: 100%;
 }
 
 .THIS .delegate-avatar{

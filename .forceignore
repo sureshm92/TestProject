@@ -25,7 +25,7 @@ force-app/main/default/flows/customer_satisfaction.flow-meta.xml
 force-app/main/user-communications/images
 
 #ignore all onboarding slides, comment line for include
-**/onboarding-tour/staticresources
+#**/onboarding-tour/staticresources
 
 **/jsconfig.json
 
