@@ -13,6 +13,9 @@
                         if (!component.get('v.selectedItem')) {
                             component.set('v.selectedItem', assignments[j].value);
                         }
+                        if (!allSelectedIPs[assignments[j].value]) {
+                            allSelectedIPs[assignments[j].value] = new Set();
+                        }
                         allSelectedIPs[assignments[j].value].add(component.get('v.item').ss.Id);
                     }
                 }

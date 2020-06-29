@@ -6,6 +6,7 @@
 
     <!-- attributes: -->
     <aura:attribute name="languageKey" type="String"/>
+    <aura:attribute name="previousValue" type="String" />
 	<aura:attribute name="countryKey" type="String"/>
 	<aura:attribute name="stateKey" type="String"/>
     <aura:attribute name="secondLangKey" type="String"/>

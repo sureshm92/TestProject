@@ -315,7 +315,7 @@ if(component.get('v.personWrapper.mobilePhone')===null && component.get('v.optIn
         var addressLine1 = component.get('v.addressLine1');
         var addressLine2 = component.get('v.addressLine2');
         if(personWrapper)
-            personWrapper.mailingStreet = addressLine1 + ' ' + addressLine2;
+            personWrapper.mailingStreet = addressLine1 + '\n' + addressLine2;
 
             communityService.executeAction(component, 'updatePerson', {
                 wrapperJSON: JSON.stringify(component.get('v.personWrapper'))

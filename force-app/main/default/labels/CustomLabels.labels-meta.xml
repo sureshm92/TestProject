@@ -8500,7 +8500,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F New password</shortDescription>
-        <value>New password</value>
+        <value>New Password</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Nickname</fullName>
@@ -8535,7 +8535,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Phone number</shortDescription>
-        <value>Daytime phone number</value>
+        <value>Daytime Phone Number</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Placeholder_Enter_text</fullName>
@@ -8565,12 +8565,12 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <shortDescription>PG_AS_F_Preferred_Timezone</shortDescription>
         <value>Preferred timezone</value>
     </labels>
-    <labels>
+   <labels>
         <fullName>PG_AS_F_Re_enter_new_password</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS  F Re-enter new password</shortDescription>
-        <value>Re-enter new password</value>
+        <value>Re-Enter New Password</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Screening_Subject_ID</fullName>
@@ -12521,7 +12521,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP Change Notification</shortDescription>
-        <value>Change your notification setting under Account Settings</value>
+        <value>Change your notification preferences under Contact Information</value>
     </labels>
     <labels>
         <fullName>PP_Change_Preferences_Resource</fullName>
@@ -12738,6 +12738,22 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <protected>false</protected>
         <shortDescription>PP_Remind_Using_Required</shortDescription>
         <value>Please an option to send reminder.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Reminder_Overflow</fullName>
+        <categories>c:StudyVisitReminder</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Reminder_Overflow</shortDescription>
+        <value>Reminder date cannot be set beyond the Due Date.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Reminder_Underflow</fullName>
+        <categories>c:StudyVisitReminder</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Reminder_Underflow</shortDescription>
+        <value>Reminder date cannot be set in the past.</value>
     </labels>
     <labels>
         <fullName>PP_Save_Changes</fullName>
@@ -13062,6 +13078,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>PWS Withdrew Conscent Disclaimer</shortDescription>
         <value>On Initial Visit tab, update informed consent date (add a note if date is same as initial date of consent) and save to proceed with screening.</value>
+    </labels>
+	<labels>
+        <fullName>Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Showing Participant - call center</shortDescription>
+        <value>participants</value>
     </labels>
     <labels>
         <fullName>Participant_Created_Date</fullName>
@@ -14533,6 +14556,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Set Reminder</shortDescription>
         <value>Set Reminder</value>
+    </labels>
+	<labels>
+        <fullName>Showing</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Showing Participant - call center</shortDescription>
+        <value>Showing</value>
     </labels>
     <labels>
         <fullName>Sharing_Options_Message</fullName>
