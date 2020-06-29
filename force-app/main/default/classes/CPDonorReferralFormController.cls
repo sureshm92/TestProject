@@ -60,18 +60,6 @@ public without sharing class CPDonorReferralFormController
         return JSON.serialize(studySites);
     }
 
-    @AuraEnabled
-    public static List<String> getPickListZipCode()
-    {
-        List<String> pickListValuesList= new List<String>();
-		Schema.DescribeFieldResult fieldResult = CPD_zip_code__mdt.NY_Zipcode__c.getDescribe();
-		List<Schema.PicklistEntry> ple = fieldResult.getPicklistValues();
-		for( Schema.PicklistEntry pickListVal : ple)
-        {
-			pickListValuesList.add(pickListVal.getLabel());
-		}     
-		return pickListValuesList;
-    }
 
     @AuraEnabled
     public static Map<String, List<LabelValueItem>> getStateMapByCountry(){
