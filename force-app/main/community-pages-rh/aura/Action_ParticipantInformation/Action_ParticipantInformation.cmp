@@ -2,7 +2,7 @@
  - Created by Nikita Abrazhevitch on 05-Sep-19.
  -->
 
-<aura:component description="Action_ParticipantInformation" controller="ParticipantInformationRemote">
+ <aura:component description="Action_ParticipantInformation" controller="ParticipantInformationRemote">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
@@ -33,10 +33,12 @@
     <aura:attribute name="userInfo" type="Object"/>
     <aura:attribute name="updateInProgress" type="Boolean"  default="false"/> 
     <aura:attribute name="NotCCMode" type="Boolean"  default="true" access="public"/>
+	<aura:attribute name="searchKey" type="String" access="public" />
    
     <!--<aura:attribute name="isDetailsChanged" type="Boolean" default="false"/>-->
     <aura:attribute name="isStatusChanged" type="Boolean" default="false"/>
     <!-- Event handler -->
+	<aura:registerEvent name="callcenter" type="c:CallCenterRefresh" />
     <aura:handler name="detectChildChanges" event="c:DetectChildChanges" action="{!c.checkChildChanges}"/>
     
     <aura:handler name="change" value="{!v.pe}" action="{!c.checkParticipant}"/>

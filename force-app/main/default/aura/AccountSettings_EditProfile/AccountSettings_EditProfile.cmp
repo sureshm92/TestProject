@@ -362,7 +362,7 @@
                                 <div
                                      class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-media--responsive">
                                     <div class="label rr-sentence-font stateCss">State</div>
-                                    <c:rrSelect options="{!v.statesLVList}" value="{!v.personWrapper.mailingSC}" />
+                                    <c:rrSelect options="{!v.statesLVList}" value="{!v.personWrapper.mailingSC}" useSentenceFont="{!false}"/>
                                 </div>
                                 
                                 <div
