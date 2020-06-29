@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Action_Link__c</field>
-        <value xsi:type="xsd:string">account-settings?changePref</value>
+        <value xsi:type="xsd:string">account-settings?changePref#autocomplete=true</value>
     </values>
     <values>
         <field>Comments_Label__c</field>
