@@ -3894,6 +3894,14 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <value>Your participant has become an adult on Study. Please login for additional details.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Initial_Patient_Covid_19</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Initial Patient Covid 19</shortDescription>
+        <value>We have received your Convalescent Plasma COVID-19 donor registration information.
+We will contact you soon to schedule your first convalescent plasma donation appointment.</value>
+    </labels>    
+    <labels>
         <fullName>Email_Body_Patient_CreatedDate</fullName>
         <language>en_US</language>
         <protected>true</protected>

@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Questionnaire Section Event">
+    <aura:attribute name="positive" type="Boolean"  />
+    <aura:attribute name="dateOfBirth" type="Date" />
+</aura:event>
