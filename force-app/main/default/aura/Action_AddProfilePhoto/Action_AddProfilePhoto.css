@@ -178,7 +178,7 @@
 .THIS .slds-avatar_large,
 .THIS .slds-avatar--large {
     width: 55px;
-    height: 55px;
+    height: 100%;
 }
 
 .THIS .delegate-avatar{
