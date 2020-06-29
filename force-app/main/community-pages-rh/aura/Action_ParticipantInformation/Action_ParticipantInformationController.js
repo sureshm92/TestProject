@@ -13,7 +13,7 @@
 
     doExecute: function (component, event, helper) {
         try {
-            component.set('v.doNotContact', false);
+			component.set('v.doNotContact', false);
             component.find('spinner').show();
             component.set('v.initialized', false);
             component.set('v.sendEmails', false);
@@ -82,6 +82,7 @@
     doUpdate: function (component, event, helper) {
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
+		var usermode = communityService.getUserMode();
         pe.Permit_IQVIA_to_contact_about_study__c = !component.get('v.doNotContact');
         var userInfo = component.get('v.userInfo');
         pe.Participant__r = participant;
@@ -108,6 +109,11 @@
             }
             component.set('v.pe', returnvalue);
             component.set('v.participant', returnvalue.Participant__r);
+			if(usermode === 'CC'){
+                var cmpEvent = component.getEvent("callcenter"); 
+                cmpEvent.setParams({"searchKey" : component.get("v.searchKey")}); 
+                cmpEvent.fire(); 
+            }
         }, null, function () {
             component.find('spinner').hide();
         });
@@ -135,6 +141,7 @@
     },
     doUpdateCancel: function (component, event, helper) {
         var userInfo = component.get('v.userInfo');
+		var usermode = communityService.getUserMode();
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
         pe.Permit_IQVIA_to_contact_about_study__c = !component.get('v.doNotContact');
@@ -158,7 +165,13 @@
             pe.sObjectType = 'Participant_Enrollment__c';
         }        
         component.find('spinner').show();
-        var actionName = 'updatePatientInfoWithDelegate';
+        var actionName;
+        if(usermode == 'CC'){
+            actionName = 'updatePatientInfoWithDelegateCC';
+        }
+        else{
+            actionName = 'updatePatientInfoWithDelegate';
+        }
         var actionParams = {
             participantJSON: JSON.stringify(participant),
             peJSON: JSON.stringify(pe),
@@ -166,7 +179,12 @@
             userInfoJSON: JSON.stringify(userInfo)
         };
         if(statusDetailValid){
-            actionName = 'updatePatientInfoAndStatusWithDelegate';
+            if(usermode == 'CC'){
+                actionName = 'updatePatientInfoAndStatusWithDelegateCC';
+            }
+            else{
+                actionName = 'updatePatientInfoAndStatusWithDelegate';
+            }
             actionParams = {
                 participantJSON: JSON.stringify(participant),
                 peJSON: JSON.stringify(pe),
@@ -184,6 +202,12 @@
             }
             component.find('spinner').hide();
             var comp = component.find('dialog');
+			if(usermode === 'CC')
+            {
+                var cmpEvent = component.getEvent("callcenter"); 
+                cmpEvent.setParams({"searchKey" : component.get("v.searchKey")}); 
+                cmpEvent.fire(); 
+            }
             comp.hide();
         }, null, function () {
             component.set('v.isStatusChanged', false);
@@ -214,6 +238,7 @@
 
     doUpdatePatientStatus: function (component, event, helper) {
         let pathWrapper = component.get('v.participantPath');
+		var usermode = communityService.getUserMode();
         let pe = component.get('v.pe');
         pe.Permit_IQVIA_to_contact_about_study__c = !component.get('v.doNotContact');
         let statusDetailValid = component.get('v.statusDetailValid');
@@ -231,8 +256,15 @@
         console.log('##isStatusChanged2: '+ isStatusChanged);
         if(statusDetailValid){
             component.find('spinner').show();
+			var actionName;
+            if(usermode == 'CC'){
+                actionName= 'updatePatientStatusCC';
+            }
+            else {
+                actionName= 'updatePatientStatus';
+            }
             console.log(JSON.stringify(pathWrapper));
-            communityService.executeAction(component, 'updatePatientStatus', {
+            communityService.executeAction(component, actionName, {
                 pathWrapperJSON: JSON.stringify(pathWrapper),
                 peId: pe.Id,
                 historyToUpdate: isStatusChanged
@@ -245,6 +277,11 @@
                 var callback = component.get('v.callback');
                 if(callback){
                     callback(pe);
+                }
+                if(usermode === 'CC'){
+                    var cmpEvent = component.getEvent("callcenter"); 
+                    cmpEvent.setParams({"searchKey" : component.get("v.searchKey")}); 
+                    cmpEvent.fire(); 
                 }
             }, null, function () {
                 component.set('v.updateInProgress', false);                

@@ -135,12 +135,14 @@
         order: 1;
         display: block;
         font-size: 1rem;
+        padding-left: 20px;
     }
 
     .THIS .navBar .navItem.mouse-hover .navItem1 {
         padding: .75rem 5px 0 .25rem;
         display: inline-block;
         border: none;
+        width: 100%;
     }
 
     .THIS .navBar .navItem.mouse-hover .navItem1:hover {
@@ -159,10 +161,9 @@
         color: #444;
         position: relative;
         color: #297dfd;
-        padding-left: 20px;
     }
 
-    .THIS .mouse-hover.navItem:after {
+    .THIS .mouse-hover.navItem .navItem1:after {
         content: '';
         background: url(/resource/1593008431000/IconTriangleDownBlue);
         top: 5px;
@@ -187,6 +188,13 @@
     .THIS .slds-navigation-list--vertical__action:hover,
     .THIS .slds-navigation-list--vertical__action:focus {
         background: transparent;
+    }
+
+}
+
+@media all and (max-width: 500px) {
+    .THIS .NavContainer {
+        min-height: auto;
     }
 
 }

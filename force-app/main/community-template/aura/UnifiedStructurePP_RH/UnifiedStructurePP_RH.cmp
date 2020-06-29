@@ -68,8 +68,7 @@
         </li>
         <aura:if isTrue="{!not(v.communityModes.isRHItemsCollapsed)}">
             <li class="modes-container">
-                <c:RHCommunityModesList onclick="{!c.doSelectItem}"
-                                        communityModesList="{!v.communityModes.rhModeItems}"/>
+                <c:RHCommunityModesList onclick="{!c.doSelectItem}" communityModesList="{!v.communityModes.rhModeItems}"/>
             </li>
         </aura:if>
     </ul>

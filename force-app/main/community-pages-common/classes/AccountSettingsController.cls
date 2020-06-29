@@ -245,6 +245,7 @@ public without sharing class AccountSettingsController {
             MailingStateCode,
             MailingStreet,
             MobilePhone,
+            Suffix,
             primaryContact__c,
             primaryContact__r.AccountId,
             HasOptedOutOfEmail,
@@ -439,6 +440,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             mailingCC = isParticipant ? participant.Mailing_Country_Code__c : contact.MailingCountryCode;
             mailingSC = isParticipant ? participant.Mailing_State_Code__c : contact.MailingStateCode;
             mailingCountry = contact.MailingCountry;
+            suffix = contact.suffix;
             mailingStreet = contact.MailingStreet;
             mailingCity = contact.MailingCity;
             mailingState = contact.MailingState;
@@ -471,6 +473,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             personContact.MailingCountry = mailingCountry;
             personContact.MailingStreet = mailingStreet;
             personContact.MailingCity = mailingCity;
+             personContact.suffix=suffix;
             personContact.MailingState = mailingState;
             personContact.MailingPostalCode = zip;
             personContact.Salutation=prefix;
