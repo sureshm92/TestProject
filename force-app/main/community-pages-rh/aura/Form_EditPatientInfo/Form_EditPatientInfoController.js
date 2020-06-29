@@ -117,9 +117,6 @@
                 if (participantDelegate && (!participantDelegate.Phone__c.trim() || !participantDelegate.First_Name__c.trim() || !participantDelegate.Last_Name__c.trim())) {
                     isValid = false;
                 }
-                if (participantDelegate && (!participantDelegate.Phone__c.trim() || !participantDelegate.First_Name__c.trim() || !participantDelegate.Last_Name__c.trim())) {
-                    isValid = false;
-                }
                 console.log('isValid1' + isValid);
             }
         } else if (updateMode && isFinalUpdate) {
