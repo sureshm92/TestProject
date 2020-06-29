@@ -32,7 +32,7 @@
         </li>
         <aura:if isTrue="{!not(v.communityModes.isPPItemsCollapsed)}">
             <li class="modes-container">
-                <c:PPMenuItems onclick="{!c.doSelectItem}" allModes="{!v.communityModes.ppModeItems}"/>
+                <c:PPMenuItems onclick="{!c.doSelectItem}" allModes="{!v.communityModes}"/>
             </li>
         </aura:if>
         <li>
