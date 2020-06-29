@@ -100,6 +100,7 @@
             (participant.First_Name__c &&
             participant.Last_Name__c &&
             participant.Date_of_Birth__c &&
+            participant.Date_of_Birth__c <= component.get('v.todayDate') &&
             (needsDelegate || participant.Email__c) &&
             (needsDelegate || emailVaild) &&
             (needsDelegate || emailRepeatValid) &&
