@@ -42,7 +42,7 @@
                 strengthValue.numbers = true;
             } else if(!strengthValue.small && char >=97 && char <= 122){
                 strengthValue.small = true;
-            } else if(!strengthValue.special && (char >=33 && char <= 47) || (char >=58 && char <= 64)) {
+            } else if(!strengthValue.special && (char >=33 && char <= 47) || (char >=58 && char <= 64) || (char >=91 && char <=96) || (char >=123 && char <=126)) {
                 strengthValue.special = true;
             }
         }
