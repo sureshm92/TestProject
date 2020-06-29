@@ -78,8 +78,8 @@
                 (oldPE.Participant__r.Last_Name__c && !participant.Last_Name__c) ||
                 (oldPE.Participant__r.Date_of_Birth__c && !participant.Date_of_Birth__c) ||
                 (oldPE.Participant__r.Gender__c && !participant.Gender__c) ||
-                (needsGuardian || (oldPE.Participant__r.Phone__c && !participant.Phone__c)) ||
-                (needsGuardian || (oldPE.Participant__r.Phone_Type__c && !participant.Phone_Type__c)) ||
+                (needsGuardian || (oldPE.Participant__r.Phone__c && !participant.Phone__c.trim())) ||
+                (needsGuardian || (oldPE.Participant__r.Phone_Type__c && !participant.Phone_Type__c.trim())) ||
                 (needsGuardian || (oldPE.Participant__r.Email__c && !participant.Email__c)) ||
                 (oldPE.Participant__r.Mailing_Country_Code__c && !participant.Mailing_Country_Code__c) ||
                 (stateRequired && oldPE.Participant__r.Mailing_State_Code__c && !participant.Mailing_State_Code__c) ||
@@ -108,14 +108,17 @@
                             (needsGuardian || participantDelegate || participant.Phone__c.trim()) &&
                             (needsGuardian || participantDelegate || participant.Phone_Type__c.trim()) &&
                             (needsGuardian || participantDelegate || participant.Email__c && component.find('emailInput').get('v.validity').valid) &&
-                            (!participantDelegate || participantDelegate.Phone__c.trim()) &&
-                            (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
-                            (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
                             participant.Mailing_Zip_Postal_Code__c.trim() !== '')
                     } else {
                         console.log('CHECK2');
                         isValid = false;
                     }
+                }
+                if (participantDelegate && (!participantDelegate.Phone__c.trim() || !participantDelegate.First_Name__c.trim() || !participantDelegate.Last_Name__c.trim())) {
+                    isValid = false;
+                }
+                if (participantDelegate && (!participantDelegate.Phone__c.trim() || !participantDelegate.First_Name__c.trim() || !participantDelegate.Last_Name__c.trim())) {
+                    isValid = false;
                 }
                 console.log('isValid1' + isValid);
             }

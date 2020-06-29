@@ -14260,7 +14260,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Postal Code</shortDescription>
-        <value>ZIp/Postal Code</value>
+        <value>Zip/Postal Code</value>
     </labels>
     <labels>
         <fullName>SS_Press_To_Check</fullName>
