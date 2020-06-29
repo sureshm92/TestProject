@@ -36,6 +36,7 @@
     <aura:attribute name="isEmailPhone" type="Boolean" default="false"/>
     <aura:attribute name="ErrorMsg" type="string" access="private" />
     <aura:attribute name="Validated" type="Boolean" access="private" default="false" />
+    <aura:attribute name="SaveButtonStatus" type="Boolean" access="public"/>
     
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public" />
