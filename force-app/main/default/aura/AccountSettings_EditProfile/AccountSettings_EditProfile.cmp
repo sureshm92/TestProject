@@ -318,7 +318,7 @@
                                 
                                 <lightning:input aura:id="pField2" type="tel" label="{!$Label.c.PG_AS_F_Phone_number}"
                                                  value="{!v.personWrapper.homePhone}" 
-                                                 onblur="{!c.handleHomePhoneValidation}" onblur="{!c.doCheckFieldsValidity}" required="true"/></div>
+                                                 onblur="{!c.doCheckFieldsValidity}" required="true"/></div>
                             
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-media--responsive">
                                 <div class="label rr-sentence-font mar_top ">{!$Label.c.Phone_Type}</div>
