@@ -2,7 +2,7 @@
  * Created by Yehor Dobrovolskyi
  */
 
-.THIS .button {
+ .THIS .button {
     background-color:#297DFD;
     border: none;
     color: white;
@@ -14,26 +14,47 @@
     cursor: pointer;
     border-radius: 16px;
   }
-  .THIS .slds-pill__action{
-      border:0px;
-      
-  }
-  .THIS .slds-pill__remove svg{
-      color:white;
-    margin-left: 0.6rem;
-  }
-.THIS .slds-pill__label{
+ 
+.THIS .button.slds-pill:hover {
+    border: none;
+}
+
+.THIS .slds-pill__action {
+    border: 0;
+    padding-top: 0;
+}
+
+.THIS .slds-badge__icon_right {
+    margin-left: 0;
+    margin-right: 1rem;
+}
+
+.THIS .slds-pill__remove svg {
+    color: #297dfd;
+    width: .5rem;
+    height: .5rem;
+}
+
+.THIS .slds-pill__label {
     text-align: center;
     margin-bottom: 10px;
 }
-.THIS .slds-pill{
-    padding-bottom: 10%;
-    padding-top: 5%;
-}
-.THIS .slds-pill__remove{
-    padding-right: 10% !important;
+
+.THIS .slds-pill {
+    padding-top: 3px;
 }
 
+.THIS .slds-pill__remove {
+    top: 50%;
+    position: absolute;
+    margin-right: 10px;
+    z-index: 1;
+    background: #fff;
+    border-radius: 50%;
+    height: .75rem;
+    width: .75rem;
+    line-height: 0;
+}
 .THIS .title-desc{
     height: 24px;
     width: 129px;

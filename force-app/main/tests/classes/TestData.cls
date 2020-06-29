@@ -10,6 +10,7 @@ public class TestData {
     public User participantUser;
     public User hcpDelUser;
     public User piDelUser;
+    public User ccUser;
     public Participant__c referral;
     public Participant__c participant;
     public Clinical_Trial_Profile__c ctp;
@@ -36,7 +37,8 @@ public class TestData {
                 'HCPTD',
                 'PITD',
                 'HCPDelTD',
-                'PIDelTD'
+                'PIDelTD',
+                    'CCID'
         };
         List<User> users = [
                 SELECT Id, ContactId, LastName
@@ -49,6 +51,7 @@ public class TestData {
             if (user.LastName == 'PIDelTD') piDelUser = user;
             if (user.LastName == 'HCPDelTD') hcpDelUser = user;
             if (user.LastName == participant.Name) participantUser = user;
+            if(user.LastName == 'CCID')ccUser = user;
         }
         ctp = [
                 SELECT Id, Therapeutic_Area__c,
@@ -242,6 +245,16 @@ public class TestData {
 
 
         contacts.add(hcpContact);
+        Contact ccContact = new Contact(
+                FirstName = 'CCTD',
+                LastName = 'CCTD',
+                Email = 'cc@emil.com',
+                AccountId = hcpAccount.Id,
+            userCommunytyType__c = CommunityService.USER_MODE_CC,
+            userCommunityMode__c = CommunityService.USER_MODE_CC
+        );
+        
+        contacts.add(ccContact);
         insert contacts;
 
         Therapeutic_Area__c area = new Therapeutic_Area__c(Name = 'Test TA TD');
