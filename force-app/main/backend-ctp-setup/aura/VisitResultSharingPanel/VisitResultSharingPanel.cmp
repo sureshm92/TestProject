@@ -153,21 +153,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- PSE Status -->
-                            <!--                        <div class="group-container">-->
-                            <!--                            <div class="group-title">When to show the Visit Report</div>-->
-                            <!--                            <div class="ss-options">-->
-                            <!--                                <c:RRPicklistLookup aura:id="statusSelectLookup" value="{!v.options.selectedStatuses}"-->
-                            <!--                                                    sObjectName="Participant_Study_Enrollment__c" fieldName="Status__c"-->
-                            <!--                                                    onchange="{!c.doSelectedStatusesChanged}"-->
-                            <!--                                                    onblur="{!c.doSelectedStatusesChanged}"/>-->
-                            <!--                            </div>-->
-                            <!--                        </div>-->
                         </div>
                         <!-- visit results options: -->
                         <aura:iteration items="{!v.groups}" var="group">
                             <c:VisitResultSharingGroupItem groupLabel="{!group.label}"
+                                                           ctpId="{!v.recordId}"
                                                            visitResults="{!group.visitResults}"
+                                                           typeSelectLVList="{!v.initData.typeSelectLVList}"
                                                            showGroup="{!group.show}"
                                                            globalCountries="{!v.options.selectedCountries}"
                                                            globalType="{!v.options.countrySelectionType}"
