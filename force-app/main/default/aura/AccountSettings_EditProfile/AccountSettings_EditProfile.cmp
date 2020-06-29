@@ -269,7 +269,7 @@
                             
                             
                             
-                            <!--<aura:if isTrue="{!v.userMode == 'Participant'}">  -->
+                            <aura:if isTrue="{!v.userMode == 'Participant'}">  
                             
                             <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}"
                                              variant="label-hidden"
@@ -280,7 +280,7 @@
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-m-top--large">
                                 
                                 {!v.userMode == 'Participant'? $Label.c.PG_AS_L_Opt_In_Participant_Status_Emails : $Label.c.RH_OPT_INT_STATUS_EMAIL}</div>
-                            <!-- </aura:if>  -->
+                             </aura:if>  
                         </div>
                         
                         <!-- Toggle for SMS -->
@@ -295,7 +295,7 @@
                                                  onblur="{!c.doCheckFieldsValidity}" /> 
                                 
                             </div>
-                            <!-- <aura:if isTrue="{!v.userMode == 'Participant'}">  -->
+                             <aura:if isTrue="{!v.userMode == 'Participant'}">  
                             <aura:if isTrue="{!and(v.initData.isSMSAvailableFromSS, equals(v.personWrapper.mailingCC, 'US'))}">
                                 
                                 <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}"
@@ -308,7 +308,7 @@
                                 <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-m-top--large slds-media--responsive">
                                     
                                     {!v.userMode == 'Participant'? $Label.c.PG_AS_L_Opt_In_Participant_Status_SMS : $Label.c.RH_OPT_IN_STATUS_SMS}</div>
-                                <!-- </aura:if>  -->
+                                 </aura:if>  
                             </aura:if>
                         </div>
                         
