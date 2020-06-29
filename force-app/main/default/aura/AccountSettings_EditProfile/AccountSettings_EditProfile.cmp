@@ -7,7 +7,7 @@
     <aura:attribute name="isDelegate" type="Boolean"/>
     <aura:attribute name="disableToggle" type="Boolean"/>
     <aura:attribute name="delegateContact" type="Contact"/>
-    
+    <aura:attribute name="hasProfilePic" type="Boolean"/>
     <aura:attribute name="institute" type="Object"/>
     <aura:attribute name="previousCC" type="String"/>
     
