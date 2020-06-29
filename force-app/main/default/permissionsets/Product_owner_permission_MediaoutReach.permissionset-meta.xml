@@ -70,6 +70,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>true</hasActivationRequired>
+    <license>Salesforce</license>
     <label>PP_Mediaoutreachaccess</label>
     <objectPermissions>
         <allowCreate>true</allowCreate>
