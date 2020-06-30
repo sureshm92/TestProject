@@ -249,7 +249,7 @@
                             {!$Label.c.PP_Toggle_Information}
                         </div>
                         <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
-                            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-small-size_1-of-2">
                                 <aura:if isTrue="{!not(v.isDelegate)}">
                                     
                                     <div class="label">{!$Label.c.PG_AS_F_Email_address}</div>
@@ -285,7 +285,7 @@
                         <!-- Toggle for SMS -->
                         
                         <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
-                            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-media--responsive">
+                            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-small-size_1-of-2 slds-media--responsive">
                                 
                                 <lightning:input aura:id="pField1" type="tel" label="{!$Label.c.Mob_Phone_Field}"
                                                  value="{!v.personWrapper.mobilePhone}"
@@ -314,13 +314,13 @@
                         <!--<aura:if isTrue="{!v.userMode == 'Participant'}">  -->
                         <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
                             
-                            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-media--responsive">
+                            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-small-size_1-of-2 slds-media--responsive">
                                 
                                 <lightning:input aura:id="pField2" type="tel" label="{!$Label.c.PG_AS_F_Phone_number}"
                                                  value="{!v.personWrapper.homePhone}" 
                                                  onblur="{!c.doCheckFieldsValidity}" required="true"/></div>
                             
-                            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-media--responsive">
+                            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-small-size_1-of-2 slds-media--responsive">
                                 <div class="label rr-sentence-font mar_top ">{!$Label.c.Phone_Type}</div>
                                 
                                 <c:rrSelect options="{!v.contactSectionData.phoneTypeList}" value="{!v.personWrapper.phoneType}"
@@ -337,19 +337,19 @@
                              
                             </div>
                             
-                            <div class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start">
+                            <div class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start business-info">
                                
                                 <div
-                                     class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-media--responsive">
+                                     class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-small-size_2-of-3 slds-media--responsive">
                                     <lightning:input type="text" label="{!$Label.c.RH_HCP_Name}" value="{!v.institute.Name}" disabled="false"/>
                                 </div>
                                 <div
-                                     class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-media--responsive">
+                                     class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-small-size_2-of-3 slds-media--responsive">
                                     <lightning:input type="text" label="{!$Label.c.RH_Address_Line_1}" value="{!v.addressLine1}" />
                                 </div>
                                 
                                 <div
-                                     class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-media--responsive">
+                                     class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-small-size_2-of-3 slds-media--responsive">
                                     <lightning:input type="text" label="{!$Label.c.RH_Address_Line_2}" value="{!v.addressLine2}" />
                                 </div>
                                 
@@ -358,19 +358,19 @@
                                 <div class="label rr-sentence-font">Country</div>
                                 <c:rrSelect options="[]" value="{!v.personWrapper.mailingCountry}" />
                             </div> -->
-                                <br/>
+
                                 <div
-                                     class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-media--responsive">
+                                     class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-media--responsive state-input">
                                     <div class="label rr-sentence-font stateCss">{!$Label.c.SS_State}</div>
                                     <c:rrSelect options="{!v.statesLVList}" value="{!v.personWrapper.mailingSC}" useSentenceFont="{!false}"/>
                                 </div>
                                 
                                 <div
-                                     class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-media--responsive">
+                                     class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-small-size_2-of-3 slds-media--responsive">
                                     <lightning:input type="text" label="{!$Label.c.SS_City}" value="{!v.personWrapper.mailingCity}" />
                                 </div>
                                 <div
-                                     class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-media--responsive">
+                                     class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-small-size_2-of-3 slds-media--responsive">
                                     <lightning:input type="text" label="{!$Label.c.SS_Postal_Code}" value="{!v.personWrapper.zip}" />
                                 </div>
                                 

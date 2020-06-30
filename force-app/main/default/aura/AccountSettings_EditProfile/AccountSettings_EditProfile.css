@@ -36,15 +36,8 @@
     height: 40px;
 }
 
-
-.THIS .stateCss
-{
+.THIS .stateCss {
     margin-top: -21px;
-}
-
-
-.THIS.as-container .as-password .rr-form-element + .rr-form-element {
-    margin-top: 0;
 }
 
 .THIS.as-container .as-email,
@@ -62,8 +55,16 @@
     margin-top: 10px;
 }
 
-.THIS .as-info > .rr-form-element {
-    margin-top: 20px;
+.THIS .rr-form-element {
+    margin-top: 15px;
+}
+
+.THIS .as-email-preference .business-info.as-info .rr-form-element:first-child {
+    margin-top: 0;
+}
+
+.THIS .state-input {
+    margin-top: 36px;
 }
 
 .THIS.as-container .as-privacy {
@@ -129,10 +130,6 @@
     margin-top: 25px;
 }
 
-.THIS .as-email-pref-item {
-    margin-top: 15px;
-}
-
 .THIS .ah-toggle {
     flex: inherit;
     margin-top: 2rem;
@@ -169,10 +166,6 @@
 
 .THIS .slds-checkbox_toggle .slds-checkbox_faux {
     border: none;
-}
-
-.THIS .as-email-preference .rr-form-element + .rr-form-element {
-    margin-top: 0;
 }
 
 
@@ -249,7 +242,7 @@
 @media (max-width: 768px) {
 
     .THIS .rr-white-panel {
-        padding: 14px 1.5rem 1.5rem;
+        padding: 0 1.5rem 1.5rem;
     }
 
     .THIS.as-container .as-sub-title,
@@ -258,7 +251,6 @@
     }
 
     .THIS .as-email-pref-item {
-        margin-top: 15px;
         display: flex;
         align-items: center;
         position: relative;
@@ -280,12 +272,6 @@
 
 @media screen and (max-width: 500px) {
 
-    .THIS .slds-gutters.as-email-input .slds-col,
-    .THIS .slds-gutters.as-password-input .slds-col {
-        padding-right: 0;
-        margin-bottom: 15px;
-    }
-
     .THIS .apollo-btn,
     .THIS .slds-select_container{
         width: 100%;
@@ -295,7 +281,9 @@
         min-width: 100%;
     }
 
-    .THIS .nickname {
+    .THIS .nickname,
+    .THIS .longName,
+    .THIS .smallName{
         max-width: 100%;
     }
 
@@ -305,11 +293,12 @@
         height: auto;
     }
 
-    .THIS .as-info>.rr-form-element,
-    .THIS .as-email-pref-item,
-    .THIS .ah-toggle,
-    .THIS .as-email-preference .rr-form-element+.rr-form-element {
+    .THIS .rr-form-element {
         margin-top: 30px;
+    }
+
+    .THIS .as-email-input .rr-form-element {
+        margin-top: 0;
     }
 
     .THIS .ah-toggle + .rr-form-element {
