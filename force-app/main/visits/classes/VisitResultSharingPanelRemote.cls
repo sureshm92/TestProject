@@ -1,4 +1,3 @@
-
 /**
  * Created by Leonid Bartenev
  * Edited by Igor Malyuta
@@ -31,7 +30,8 @@ public without sharing class VisitResultSharingPanelRemote {
         @AuraEnabled public Boolean show = false;
         @AuraEnabled public Boolean displayOnMyResultCard = false;
 
-        public VisitResultGroupWrapper() {}
+        public VisitResultGroupWrapper() {
+        }
 
         public VisitResultGroupWrapper(String label, List<VisitResultWrapper> visitResults) {
             this.label = label;
@@ -79,7 +79,6 @@ public without sharing class VisitResultSharingPanelRemote {
                 new LabelValueItem('Disabled for all countries', TYPE_DISABLED),
                 new LabelValueItem('Enabled for all countries', TYPE_ALL),
                 new LabelValueItem('Enabled for selected countries', TYPE_COUNTRIES)
-                //new LabelValueItem('Disabled for selected countries', TYPE_COUNTRIES_DISABLED)
         };
         @AuraEnabled public List<LabelValueItem> participantDefaultLVList = new List<LabelValueItem>{
                 new LabelValueItem('Opt in', 'Opt in'),
@@ -148,9 +147,9 @@ public without sharing class VisitResultSharingPanelRemote {
             for (String groupLabel : GROUPS_ORDER) {
                 VisitResultGroupWrapper resultGroupWrapper =
                         new VisitResultGroupWrapper(groupLabel, resultGroupToVisitResults.get(groupLabel));
-                    if( !String.isBlank( ctp.Participant_Visit_Result_Group__c ) && groupLabel == ctp.Participant_Visit_Result_Group__c ) {
-                        resultGroupWrapper.displayOnMyResultCard=true;
-                    }
+                if (!String.isBlank(ctp.Participant_Visit_Result_Group__c) && groupLabel == ctp.Participant_Visit_Result_Group__c) {
+                    resultGroupWrapper.displayOnMyResultCard = true;
+                }
                 initData.groups.add(resultGroupWrapper);
             }
 
@@ -162,7 +161,9 @@ public without sharing class VisitResultSharingPanelRemote {
             Set<Id> selectedSSIds = new Set<Id>();
             for (Study_Site__c ss : studySites) {
                 if (ctp.Shareback_Settings_on_StudySites__c && ss.Visit_Results_Sharing__c ||
-                        !ctp.Shareback_Settings_on_StudySites__c && !ss.Visit_Results_Sharing__c) selectedSSIds.add(ss.Id);
+                        !ctp.Shareback_Settings_on_StudySites__c && !ss.Visit_Results_Sharing__c) {
+                    selectedSSIds.add(ss.Id);
+                }
             }
             String ssSelectionType;
             if (studySites.size() == selectedSSIds.size()) {
@@ -174,13 +175,12 @@ public without sharing class VisitResultSharingPanelRemote {
             }
 
             String selectionCountryType;
-            if(ctp.Shareback_Settings_On_Country_Level__c) {
+            if (ctp.Shareback_Settings_On_Country_Level__c) {
                 selectionCountryType = String.isNotBlank(ctp.Shareback_Settings_Countries__c) ? TYPE_COUNTRIES : TYPE_ALL;
             } else {
                 selectionCountryType = ctp.Shareback_Settings_Countries__c != null ? TYPE_COUNTRIES_DISABLED : TYPE_DISABLED;
                 selectionCountryType = TYPE_DISABLED;
             }
-
 
             initData.options = new OptionsWrapper();
             initData.options.globalShareBck = ctp.Visit_Data_Shareback__c;
@@ -226,15 +226,14 @@ public without sharing class VisitResultSharingPanelRemote {
                 ctp.Shareback_Settings_Countries__c = optionsWrapper.selectedCountries != null ? optionsWrapper.selectedCountries : '';
 
                 ssIds = optionsWrapper.selectedSSIds.split(';');
-                if( ctp.Shareback_Settings_On_Country_Level__c ) {
-                    for ( VisitResultGroupWrapper groupWrapper : groupsList ) {
-                        if( groupWrapper.displayOnMyResultCard ) {
+                if (ctp.Shareback_Settings_On_Country_Level__c) {
+                    for (VisitResultGroupWrapper groupWrapper : groupsList) {
+                        if (groupWrapper.displayOnMyResultCard) {
                             ctp.Participant_Visit_Result_Group__c = groupWrapper.label;
                         }
                     }
-                }
-                else{
-                     ctp.Participant_Visit_Result_Group__c = '';   
+                } else {
+                    ctp.Participant_Visit_Result_Group__c = '';
                 }
                 updateVRTSharing(groupsList, VisitResultSharingService.getTypeVRSharingMap(ctp), ctpId);
             }

@@ -16,29 +16,33 @@ public inherited sharing class VisitResultsService {
 
     public List<VisitResultWrapper> getVisitResultWrappersForDashboard() {
         Id currentCTP = ParticipantContext.getCurrentPE().Clinical_Trial_Profile__c;
-        Clinical_Trial_Profile__c ctpObject=[Select Id,Participant_Visit_Result_Group__c from Clinical_Trial_Profile__c where Id = :currentCTP];
+        Clinical_Trial_Profile__c ctpObject = [SELECT Id,Participant_Visit_Result_Group__c FROM Clinical_Trial_Profile__c WHERE Id = :currentCTP];
         String currentCTPVisitResultGroup = ctpObject.Participant_Visit_Result_Group__c;
         List<String> ctpAvailableNames = new List<String>();
         List<Visit_Result_Type_Sharing__c> ctpAvailable = [
-            SELECT Id,
-            Type__c
-            FROM Visit_Result_Type_Sharing__c
-            WHERE Clinical_Trial_Profile__c = :currentCTP
-            
+                SELECT Id,
+                        Type__c
+                FROM Visit_Result_Type_Sharing__c
+                WHERE Clinical_Trial_Profile__c = :currentCTP
+
         ];
         for (Visit_Result_Type_Sharing__c visitResultTypeSharing : ctpAvailable) {
             ctpAvailableNames.add(visitResultTypeSharing.Type__c);
         }
-        List<Visit_Result_GroupM__mdt> visistResultGroupMetaDataTypeList=[SELECT Id, Label, (SELECT Id, DeveloperName, Label, Visit_Result_Code__c FROM Visit_Result_Types__r) FROM Visit_Result_GroupM__mdt WHERE Label=:currentCTPVisitResultGroup];
-        List<String> attributePerSectionList=new List<String>();
-        for(Visit_Result_GroupM__mdt objMetadata:visistResultGroupMetaDataTypeList){
-            for(Visit_Result_TypeM__mdt objVSR:objMetadata.Visit_Result_Types__r){
+        List<Visit_Result_GroupM__mdt> visistResultGroupMetaDataTypeList = [
+                SELECT Id, Label, (SELECT Id, DeveloperName, Label, Visit_Result_Code__c FROM Visit_Result_Types__r)
+                FROM Visit_Result_GroupM__mdt
+                WHERE Label = :currentCTPVisitResultGroup
+        ];
+        List<String> attributePerSectionList = new List<String>();
+        for (Visit_Result_GroupM__mdt objMetadata : visistResultGroupMetaDataTypeList) {
+            for (Visit_Result_TypeM__mdt objVSR : objMetadata.Visit_Result_Types__r) {
                 attributePerSectionList.add(objVSR.DeveloperName);
             }
         }
         List<String> filteredVisitResults = new List<String>();
-        for(String ctpAttributeAvailable : ctpAvailableNames){
-            if(attributePerSectionList.contains(ctpAttributeAvailable)){
+        for (String ctpAttributeAvailable : ctpAvailableNames) {
+            if (attributePerSectionList.contains(ctpAttributeAvailable)) {
                 filteredVisitResults.add(ctpAttributeAvailable);
             }
         }
@@ -52,34 +56,28 @@ public inherited sharing class VisitResultsService {
         for (Visit_Result__c singleVisitResult : visitResults) {
             visitResultValuesByNames.put(singleVisitResult.Result_Type__c, singleVisitResult);
         }
-        for(String selectedVisitGroup :filteredVisitResults)
-        {
-            Visit_Result__c visitResult = visitResultValuesByNames.get(selectedVisitGroup); 
+        for (String selectedVisitGroup : filteredVisitResults) {
+            Visit_Result__c visitResult = visitResultValuesByNames.get(selectedVisitGroup);
             if (visitResult != null && visitResult.Actual_Value__c != null) {
                 listIsNotEmpty = true;
             }
             wrappers.add(new VisitResultWrapper(visitResult, TranslateHelper.getLabelValue(selectedVisitGroup), this.visitResultsMeasurementNamesMap));
         }
-        List<VisitResultWrapper> resultWrappers =new List<VisitResultWrapper>();
-        List<VisitResultWrapper> emptyWrappers =new List<VisitResultWrapper>();
-        for( Integer index=0; index < wrappers.size() ; index++)
-        {  
-            if( wrappers.get(index).value != null){
+        List<VisitResultWrapper> resultWrappers = new List<VisitResultWrapper>();
+        List<VisitResultWrapper> emptyWrappers = new List<VisitResultWrapper>();
+        for (Integer index = 0; index < wrappers.size(); index++) {
+            if (wrappers.get(index).value != null) {
                 resultWrappers.add(wrappers.get(index));
-            }
-            else
-            {
-                emptyWrappers.add(wrappers.get(index));   
+            } else {
+                emptyWrappers.add(wrappers.get(index));
             }
         }
-        if(resultWrappers.isEmpty()) {
+        if (resultWrappers.isEmpty()) {
             return new List<VisitResultWrapper>();
         }
         resultWrappers.addAll(emptyWrappers);
-        if(resultWrappers.size() > 5)
-        {
-            for(Integer index=resultWrappers.size()-1; index >= 5; index--)
-            {
+        if (resultWrappers.size() > 5) {
+            for (Integer index = resultWrappers.size() - 1; index >= 5; index--) {
                 resultWrappers.remove(index);
             }
         }
@@ -101,7 +99,7 @@ public inherited sharing class VisitResultsService {
         return ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(visitsQuery, true);
     }
 
-    public VisitResultsContainer getVisitResultsContainer(String visitResultsGroupName,  Map<String,List<String>> visitResultSharings) {
+    public VisitResultsContainer getVisitResultsContainer(String visitResultsGroupName, Map<String, List<String>> visitResultSharings) {
         List<Visit_Result_TypeM__mdt> visitResultTypes = this.metadataService.getVisitResultTypes(visitResultsGroupName);
         List<String> availableVisitResults = visitResultSharings.get(visitResultsGroupName);
         List<Visit_Result_TypeM__mdt> filteredVisitResultTypesIfAvailable = new List<Visit_Result_TypeM__mdt>();
@@ -211,7 +209,7 @@ public inherited sharing class VisitResultsService {
             this.name = name;
             if (visitResult != null) {
                 this.value = visitResult.Actual_Value__c;
-                this.recordtype=visitResult.RecordType.DeveloperName;
+                this.recordtype = visitResult.RecordType.DeveloperName;
                 String measurementLowerCase = visitResult.Measurement__c.toLowerCase();
                 if (measurementNamesMap != null && measurementNamesMap.containsKey(measurementLowerCase)) {
                     this.measurement = measurementNamesMap.get(measurementLowerCase).replace('/', ' / ');

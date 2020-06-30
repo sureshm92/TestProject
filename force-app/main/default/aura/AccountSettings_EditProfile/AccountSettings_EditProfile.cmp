@@ -100,7 +100,7 @@
                                 <div class="label username_title">{!$Label.c.PP_Prefix}</div>
                                 
                                 <c:rrSelect options="{!v.contactSectionData.prefixList}" value="{!v.personWrapper.prefix}"
-                                            placeholder="{!$Label.c.PG_AC_Select}"/>
+                                            placeholder="{!$Label.c.PG_AC_Select}" isValueChanged="{!v.disableSave}"/>
                                 
                             </aura:if>
                             
@@ -194,7 +194,7 @@
                                     
                                     <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Gender}</div>
                                     <c:rrSelect options="{!v.contactSectionData.gendersLVList}" value="{!v.personWrapper.gender}"
-                                                placeholder="{!$Label.c.PG_AC_Select}"/></aura:if>
+                                                placeholder="{!$Label.c.PG_AC_Select}" isValueChanged="{!v.disableSave}"/></aura:if>
                                 <aura:if isTrue="{!(v.isDelegate)}">
                                     <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Gender}</div>
                                     
@@ -255,7 +255,7 @@
                                     <div class="label">{!$Label.c.PG_AS_F_Email_address}</div>
                                     
                                     <c:rrInput valueString="{!v.contact.Email}"
-                                               placeholder="{!$Label.c.PG_AS_F_Email_address}"/>
+                                               placeholder="{!$Label.c.PG_AS_F_Email_address}" isValueChanged="{!v.disableSave}"/>
                                 </aura:if>
                                 
                                 <aura:if isTrue="{!(v.isDelegate)}">
@@ -315,16 +315,22 @@
                         <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
                             
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-media--responsive">
-                                
+                                <aura:if isTrue="{!v.userMode == 'Participant'}">
+                                    <lightning:input aura:id="pField2" type="tel" label="{!$Label.c.PG_AS_F_Phone_number}"
+                                                     value="{!v.personWrapper.homePhone}" 
+                                                     onblur="{!c.doCheckFieldsValidity}" required="true"/>
+                                </aura:if>
+                                <aura:if isTrue="{!v.userMode != 'Participant'}">
                                 <lightning:input aura:id="pField2" type="tel" label="{!$Label.c.PG_AS_F_Phone_number}"
                                                  value="{!v.personWrapper.homePhone}" 
-                                                 onblur="{!c.doCheckFieldsValidity}" required="true"/></div>
-                            
+                                                 onblur="{!c.doCheckFieldsValidity}"/>
+                                 </aura:if>
+                            </div>
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-media--responsive">
                                 <div class="label rr-sentence-font mar_top ">{!$Label.c.Phone_Type}</div>
                                 
                                 <c:rrSelect options="{!v.contactSectionData.phoneTypeList}" value="{!v.personWrapper.phoneType}"
-                                            placeholder="{!$Label.c.PG_AC_Select}"/></div>
+                                            placeholder="{!$Label.c.PG_AC_Select}" isValueChanged="{!v.disableSave}"/></div>
                             
                         </div>
                         <!--  </aura:if>  -->
@@ -341,16 +347,16 @@
                                
                                 <div
                                      class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-media--responsive">
-                                    <lightning:input type="text" label="{!$Label.c.RH_HCP_Name}" value="{!v.institute.Name}" disabled="false"/>
+                                    <lightning:input type="text" label="{!$Label.c.RH_HCP_Name}" value="{!v.institute.Name}" disabled="false" onchange = "{!c.onChangeInput}"/>
                                 </div>
                                 <div
                                      class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-media--responsive">
-                                    <lightning:input type="text" label="{!$Label.c.RH_Address_Line_1}" value="{!v.addressLine1}" />
+                                    <lightning:input type="text" label="{!$Label.c.RH_Address_Line_1}" value="{!v.addressLine1}" onchange = "{!c.onChangeInput}"/>
                                 </div>
                                 
                                 <div
                                      class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-media--responsive">
-                                    <lightning:input type="text" label="{!$Label.c.RH_Address_Line_2}" value="{!v.addressLine2}" />
+                                    <lightning:input type="text" label="{!$Label.c.RH_Address_Line_2}" value="{!v.addressLine2}" onchange = "{!c.onChangeInput}" />
                                 </div>
                                 
                                 <!--<div
@@ -362,16 +368,16 @@
                                 <div
                                      class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-media--responsive">
                                     <div class="label rr-sentence-font stateCss">{!$Label.c.SS_State}</div>
-                                    <c:rrSelect options="{!v.statesLVList}" value="{!v.personWrapper.mailingSC}" useSentenceFont="{!false}"/>
+                                    <c:rrSelect options="{!v.statesLVList}" value="{!v.personWrapper.mailingSC}" useSentenceFont="{!false}" isValueChanged="{!v.disableSave}"/>
                                 </div>
                                 
                                 <div
                                      class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-media--responsive">
-                                    <lightning:input type="text" label="{!$Label.c.SS_City}" value="{!v.personWrapper.mailingCity}" />
+                                    <lightning:input type="text" label="{!$Label.c.SS_City}" value="{!v.personWrapper.mailingCity}" onchange = "{!c.onChangeInput}" />
                                 </div>
                                 <div
                                      class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-media--responsive">
-                                    <lightning:input type="text" label="{!$Label.c.SS_Postal_Code}" value="{!v.personWrapper.zip}" />
+                                    <lightning:input type="text" label="{!$Label.c.SS_Postal_Code}" value="{!v.personWrapper.zip}" onchange = "{!c.onChangeInput}" />
                                 </div>
                                 
                             </div>
