@@ -24,7 +24,8 @@
 			component.set('v.languages', initData.languages);
             component.set('v.optionalLanguages', initData.optionalLanguages);
             component.set('v.locales',   initData.locales);
-            component.set('v.timezones', initData.timezones);			           
+            component.set('v.timezones', initData.timezones);	
+            component.set('v.isDisabled',true);		           
            
    
             console.log(initData.languages);
@@ -46,6 +47,7 @@
     },
 	doCheckFieldsValidity: function(component, event, helper){
         let personWrapper = component.get('v.personWrapper');
+        component.set('v.isDisabled',true);
         if(personWrapper.mailingCC !== component.get('v.previousCC')) {
             let statesByCountryMap = component.get('v.statesByCountryMap');
             let states = statesByCountryMap[personWrapper.mailingCC];
