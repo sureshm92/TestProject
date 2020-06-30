@@ -157,13 +157,13 @@
                         <!-- visit results options: -->
                         <aura:iteration items="{!v.groups}" var="group">
                             <c:VisitResultSharingGroupItem groupLabel="{!group.label}"
-                                                           ctpId="{!v.recordId}"
                                                            visitResults="{!group.visitResults}"
-                                                           typeSelectLVList="{!v.initData.typeSelectLVList}"
                                                            showGroup="{!group.show}"
+                                                           showOnMyResultCard="{!group.displayOnMyResultCard}"
+                                                           ctpId="{!v.recordId}"
+                                                           typeSelectLVList="{!v.initData.typeSelectLVList}"
                                                            globalCountries="{!v.options.selectedCountries}"
                                                            globalType="{!v.options.countrySelectionType}"
-                                                           showOnMyResultCard="{!group.displayOnMyResultCard}"
                                                            onChange="{!c.doGroupChanged}"
                                                            onChangeShowOnMyResultCard="{!c.doGroupSelectionChanged}"/>
                         </aura:iteration>
