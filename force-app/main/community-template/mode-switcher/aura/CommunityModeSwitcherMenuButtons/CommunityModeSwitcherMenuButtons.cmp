@@ -15,7 +15,7 @@
     <!-- methods: -->
     <aura:method name="refresh" action="{!c.doRefresh}" access="public"/>
 
-    <div style="width: 100%">
+    <div style="width: 315px">
         <aura:if isTrue="{!v.type == 'RH_Only'}">
             <div class="more-separator">
                 {!$Label.c.Profile_Menu_More}

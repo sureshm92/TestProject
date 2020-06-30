@@ -38,7 +38,7 @@
                                
                                 <span style="float: right;">
                                     <ui:outputURL aura:id="oURL" value="{!$Resource.PARTICIPANTS_TEMPLATE}" label="{!$Label.c.FU_Download_Template}"/>
-                                     <img class="upload-icon" src="{!$Resource.icon_download}" width="16" height="16"/>
+                                     <c:RRIcon iconName="icon-download-brand-new" class="icon-download-brand-new"/>
                                 </span>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                                 {!v.fullFileName}
                                 <aura:if isTrue="{!!empty(v.fullFileName)}">
                                     <a href="javascript:void(0)" onclick="{!c.doClearFile}">
-                                         <img class="upload-close" src="{!$Resource.icon_delete}" width="14" height="14"/>
+                                        <c:RRIcon iconName="icon-trash" class="icon-trash"/>
                                     </a>
                                 </aura:if>
                             </div>
@@ -87,7 +87,7 @@
                 <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.doNotContactParticipants}" onchange="{!c.resetCreateUsers}"/>
                 <div class="slds-size_1-of-1 slds-item_label">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact}</div>
             </div>
-            <aura:if isTrue="{!v.doNotContactParticipants}">
+            <aura:if isTrue="{!!v.doNotContactParticipants}">
             <div class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
                 <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.createUsers}"/>
                 <div class="slds-size_1-of-1 slds-item_label">{!$Label.c.Create_Users_Checkbox_on_Import}</div>

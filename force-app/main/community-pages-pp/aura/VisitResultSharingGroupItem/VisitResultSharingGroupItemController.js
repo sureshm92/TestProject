@@ -28,19 +28,18 @@
         let globalType = component.get('v.globalType');
         let previousGlobalType = component.get('v.previousGlobalType');
 
-        if (globalType === previousGlobalType ||
-            (previousGlobalType !== 'Disabled' && globalType !== 'Disabled')) return;
+        if (globalType === previousGlobalType) return;
 
         let visitResults = component.get('v.visitResults');
         let globalCountries = component.get('v.globalCountries');
 
         for (const visitResult of visitResults) {
-            if (previousGlobalType === 'Disabled') {
-                visitResult.countryCodes = globalCountries;
-                visitResult.type = globalType;
-            } else if (globalType === 'Disabled') {
+            if (globalType === 'Disabled') {
                 visitResult.countryCodes = '';
                 visitResult.type = 'Disabled';
+            } else {
+                visitResult.countryCodes = globalCountries;
+                visitResult.type = globalType;
             }
         }
 

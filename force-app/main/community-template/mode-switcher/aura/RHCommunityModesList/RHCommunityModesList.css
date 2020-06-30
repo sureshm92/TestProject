@@ -55,7 +55,7 @@
 
 .THIS .icon-unset{
     visibility: visible!important;
-    opacity: unset!important;
+    opacity: 1;
 }
 
 .THIS li.unset{

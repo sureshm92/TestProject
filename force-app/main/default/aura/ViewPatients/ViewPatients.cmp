@@ -29,9 +29,7 @@
 
             <aura:if isTrue="{!v.hasEmancipatedParticipants &amp;&amp; v.userMode == 'PI'}">
                 <div class="emancipation-notification">
-                    <span class="emancipation-notification-msg"><!--<c:RRIcon iconName="warning"/> --> <img
-                                class="warning-icon" src="{!$Resource.icon_statusAlertWhite}" width="16"
-                                height="16"/> {!$Label.c.One_or_more_Participants_reached_Majority}</span>
+                    <span class="emancipation-notification-msg"><c:RRIcon iconName="warning" class="warning-icon"/>{!$Label.c.One_or_more_Participants_reached_Majority}</span>
                     <span class="emancipation-notification-link">
                         <a data-gtm="link_Filter_emancip" href="javascript:void(0);" onclick="{!c.filterEmancipations}">
                             {!$Label.c.Filter_Participant_s}
