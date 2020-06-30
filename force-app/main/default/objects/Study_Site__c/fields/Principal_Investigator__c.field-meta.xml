@@ -4,8 +4,18 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
     <label>Principal Investigator</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>Cannot add CC Contact as Principal Investigator</errorMessage>
+        <filterItems>
+            <field>Contact.userCommunityMode__c</field>
+            <operation>notEqual</operation>
+            <value>CC</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
     <referenceTo>Contact</referenceTo>
-    <relationshipLabel>PI&#39;s Study Sites</relationshipLabel>
+<relationshipLabel>PI&#39;s Study Sites</relationshipLabel>
     <relationshipName>Study_Site</relationshipName>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
