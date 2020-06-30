@@ -99,8 +99,8 @@
                     console.log('CHECK000', (!participant.Phone__c && !participant.Phone_Type__c && !participant.Email__c));
                     isValid = false;
                 } else {
-                    console.log('CHECK1');
                     if (participant.Gender__c) {
+                        isValid = false;
                         isValid = isValid || (participant.First_Name__c.trim() &&
                             participant.Last_Name__c.trim() &&
                             inputDate <= currentDate &&

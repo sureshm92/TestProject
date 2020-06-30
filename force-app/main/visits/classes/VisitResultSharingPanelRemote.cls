@@ -1,4 +1,3 @@
-
 /**
  * Created by Leonid Bartenev
  * Edited by Igor Malyuta
@@ -79,8 +78,7 @@ public without sharing class VisitResultSharingPanelRemote {
         @AuraEnabled public List<LabelValueItem> typeSelectCountryLevelList = new List<LabelValueItem>{
                 new LabelValueItem('Disabled for all countries', TYPE_DISABLED),
                 new LabelValueItem('Enabled for all countries', TYPE_ALL),
-                new LabelValueItem('Enabled for selected countries', TYPE_COUNTRIES),
-                new LabelValueItem('Disabled for selected countries', TYPE_COUNTRIES_DISABLED)
+                new LabelValueItem('Enabled for selected countries', TYPE_COUNTRIES)
         };
         @AuraEnabled public List<LabelValueItem> participantDefaultLVList = new List<LabelValueItem>{
                 new LabelValueItem('Opt in', 'Opt in'),

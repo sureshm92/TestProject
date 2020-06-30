@@ -175,6 +175,7 @@ public without sharing class RRChangePasswordController {
     public PageReference changePassword() {
         try{
             PageReference pr = Site.changePassword(newPassword, verifyNewPassword, oldPassword);
+            contact.Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH') ? CommunityService.IQVIA_NETWORK_NAME : Site.getMasterLabel();
             contact.Is_First_Logon__c = false;
             update contact;
 //            if(translation.Language__c != null) {
