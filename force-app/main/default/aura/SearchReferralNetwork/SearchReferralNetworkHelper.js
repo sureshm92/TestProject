@@ -51,7 +51,7 @@
         } else {
             value.isSelected = false;
             selectedPills[value.Id] = value;
-            isChanged = false;
+            isChanged = true;
             if(existingValues)
                 for(var key in existingValues)
                     if(existingValues[value.Id])
