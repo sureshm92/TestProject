@@ -8,7 +8,6 @@
     <aura:attribute name="initData" type="Object"/>
     <aura:attribute name="href" type="String"/>
 
-    <aura:if isTrue="{!!equals(v.href, 'none')}">
         <div class="sv-panel rr-white-panel" style="position: relative" data-gtm="PNL_PaymentsPanel">
             <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
             <aura:if isTrue="{!v.initialized}">
@@ -47,5 +46,4 @@
                 </aura:if>
             </aura:if>
         </div>
-    </aura:if>
 </aura:component>
