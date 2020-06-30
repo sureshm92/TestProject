@@ -49,7 +49,7 @@
             selectedList = records;
           
         } else {
-            value.isSelected = false;
+            value.isSelected = true;
             selectedPills[value.Id] = value;
             isChanged = false;
             if(existingValues)
