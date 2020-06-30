@@ -56,7 +56,7 @@
                     </aura:set>
                     <aura:set attribute="body"> 
                         <div class="slds-scrollable_y" 
-                             style="{!if(resourceStructure.resources.length > 12 , 'height :10rem' ,'margin-right:17px')}">
+                             style="{!if(resourceStructure.resources.length > 12 , 'height :10rem')}">
                             <aura:iteration items="{!resourceStructure.resources}" var="resource" indexVar="resourceIndex">
                                 <div class="slds-grid slds-wrap resource-container">
                                     
