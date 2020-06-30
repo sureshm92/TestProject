@@ -43,8 +43,8 @@
             communityService.showErrorToast('', $A.get('$Label.c.PP_Remind_Using_Required'), 3000);
             return;
         }
-        //var isValidFields = helper.doValidateDueDate(component) && helper.doValidateReminder(component);
-        if (!component.get('v.isValidFields')) {
+        var isValidFields = helper.doValidateDueDate(component, helper) && helper.doValidateReminder(component);
+        if (!component.get('v.isValidFields') || !isValidFields) {
             var showToast = true;
             if (!component.get('v.isNewTask')) {
                 if (component.get('v.jsonState') ===
@@ -89,8 +89,8 @@
 
     doValidateFields: function (component, event, helper){
         var isValidFields = helper.doValidateDueDate(component, helper) &&
-                            helper.doValidateReminder(component) &&
-                            helper.doValidateDueDateOnFreqChange(component);
+                            helper.doValidateReminder(component);
+                            //helper.doValidateDueDateOnFreqChange(component);
 
         component.set('v.isValidFields', isValidFields);
     },
