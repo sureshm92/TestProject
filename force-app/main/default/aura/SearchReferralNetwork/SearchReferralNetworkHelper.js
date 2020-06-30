@@ -57,7 +57,7 @@
                             'sobjectName': component.get('v.sObjectType')}); 
         cmpEvent.fire(); 
      
-    },
+    }, 
    handleClearPill:function(component,event) {
         var pillName = event.getSource().get('v.name');
         var pills = component.get('v.records');

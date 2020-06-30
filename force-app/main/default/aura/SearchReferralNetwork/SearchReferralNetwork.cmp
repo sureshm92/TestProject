@@ -41,7 +41,7 @@
                     </aura:iteration>
                 </tbody>
             </table>
-        </div>
+        </div> 
         
         <aura:if isTrue="{!!empty(v.records)}">
             <tbody>

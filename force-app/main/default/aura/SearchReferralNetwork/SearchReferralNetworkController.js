@@ -15,7 +15,7 @@
             component.set('v.records', selPills);
              component.set('v.showSpinner',false);
         });  
-    },
+    }, 
     bulkSearch: function (component, event, helper) {
         helper.doSearch(component, event, helper);
      },
