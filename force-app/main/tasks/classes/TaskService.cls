@@ -280,7 +280,9 @@ public without sharing class TaskService {
                     for (Id pdId : patientDelContactIds) {
                         if (delContactUser.get(pdId) == null) continue;
 
-                        tmpConfigs.add(new TaskConfig(delContactUser.get(pdId)));
+                        Id userId = userTimezoneMap.get(delContactUser.get(pdId)) != null
+                                ? delContactUser.get(pdId) : null;
+                        tmpConfigs.add(new TaskConfig(userId, pdId));
                         userContact.put(delContactUser.get(pdId), pdId);
                     }
                 }
@@ -289,7 +291,9 @@ public without sharing class TaskService {
                     for (Id pdId : patientDelContactIds) {
                         if (delContactUser.get(pdId) == null) continue;
 
-                        tmpConfigs.add(new TaskConfig(delContactUser.get(pdId)));
+                        Id userId = userTimezoneMap.get(delContactUser.get(pdId)) != null
+                                ? delContactUser.get(pdId) : null;
+                        tmpConfigs.add(new TaskConfig(userId, pdId));
                         userContact.put(delContactUser.get(pdId), pdId);
                     }
                 }
@@ -396,15 +400,12 @@ public without sharing class TaskService {
     
     public Map<Id, Id> getContactUserIdsMap(Set<Id> contactIds) {
         List<User> users = [
-                SELECT Id, ContactId, IsActive
+                SELECT Id, ContactId
                 FROM User
                 WHERE ContactId IN:contactIds
         ];
         Map<Id, Id> contactUserMap = new Map<Id, Id>();
-        for (User u : users) {
-            System.debug('>>> Is Active: ' + u.IsActive);
-            contactUserMap.put(u.ContactId, u.Id);
-        }
+        for (User u : users) contactUserMap.put(u.ContactId, u.Id);
 
         return contactUserMap;
     }
