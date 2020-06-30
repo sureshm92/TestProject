@@ -307,6 +307,8 @@ public without sharing class TaskService {
 
                 if(tsc.ownerId != null) {
                     TimeZone userTZ = userTimezoneMap.get(tsc.ownerId);
+                    if(userTZ == null) continue;
+
                     Datetime userDatetime =
                             DateTimeConverterUtil.getUserDT(Datetime.now().date(), Datetime.now().time(), userTZ);
 
