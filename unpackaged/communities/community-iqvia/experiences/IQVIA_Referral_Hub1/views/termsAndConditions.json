@@ -1,6 +1,6 @@
 {
   "appPageId" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
-  "componentName" : "c:OneColumnLayout",
+  "componentName" : "c:EmptyLayout",
   "id" : "daf32f96-e714-4de3-bba0-3ec8396348ca",
   "label" : "Terms And Conditions",
   "regions" : [ {
