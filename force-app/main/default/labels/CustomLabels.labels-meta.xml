@@ -2841,7 +2841,7 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body SS on PE Was Changed To PI</shortDescription>
-        <value>A participant, ##PEProfileName, has been transferred from another study site: ##SSName.
+        <value>Participant ##PEProfileName has been transferred from another study site.
 
             If you have questions or concerns about this transfer, please contact your IQVIA Patient Recruitment Lead.</value>
     </labels>
@@ -11412,7 +11412,7 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG_Unable_To_Login_L5</shortDescription>
-        <value>if you have not received your password reset email within 2 hours, please email</value>
+        <value>If you have not received your password reset email within 2 hours, please email</value>
     </labels>
     <labels>
         <fullName>PG_Unable_To_Login_L6</fullName>

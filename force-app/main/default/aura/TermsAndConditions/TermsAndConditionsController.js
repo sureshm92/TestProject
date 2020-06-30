@@ -57,6 +57,7 @@
                 });
             }
         }
+        helper.hideOkButton(component, event, helper); // @Krishna Mahto - PEH-2450 
     },
 
     doAccept: function (component, event, helper) {
