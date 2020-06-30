@@ -255,7 +255,7 @@
                                     <div class="label">{!$Label.c.PG_AS_F_Email_address}</div>
                                     
                                     <c:rrInput valueString="{!v.contact.Email}"
-                                               placeholder="{!$Label.c.PG_AS_F_Email_address}" isValueChanged="{!v.disableSave}"/>
+                                               placeholder="{!$Label.c.PG_AS_F_Email_address}" isSaveBtnDisable="{!v.disableSave}"/>
                                 </aura:if>
                                 
                                 <aura:if isTrue="{!(v.isDelegate)}">
