@@ -3,10 +3,8 @@
     <aura:attribute name="showmenu" type="boolean" access="public" default="false"/>
     <aura:attribute name="displayedRefNetworks" type="List" access="public"/>
     <aura:attribute name="selectedPills" type="Map" access="public" default="{}"/>
-    <aura:attribute name="unSelectedList" type="List" access="public"/>
-    <aura:attribute name="records" type="List" access="public"/>
+     <aura:attribute name="records" type="List" access="public"/>
     <aura:attribute name="header" type="String" access="public"/>
-    <aura:attribute name="existingValues" type="Map" access="public" default="{}"/>
     <aura:attribute name="currChosenRefNetworks" type="List" default="[]" access="public"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>

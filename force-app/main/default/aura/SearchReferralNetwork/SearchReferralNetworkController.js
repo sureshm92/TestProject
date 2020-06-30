@@ -6,15 +6,12 @@
         }, function (returnValue) {
             var selectedPills = component.get('v.selectedPills');
             var selPills = [];
-             var existingValues = {};
             for(var i in returnValue) {
                 selPills.push(returnValue[i]);
                 selPills[i].isSelected = true;
                 selectedPills[selPills[i].Id] =  selPills[i];
-                existingValues[selPills[i].Id] = selPills[i];
-            }
+             }
             component.set('v.selectedPills', selectedPills);
-            component.set('v.existingValues', existingValues);
             component.set('v.records', selPills);
              component.set('v.showSpinner',false);
         });  
