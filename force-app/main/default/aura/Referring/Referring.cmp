@@ -388,7 +388,7 @@
                                                 <div class="label">
                                                     <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Date_of_Birth}
                                                 </div>
-                                                <lightning:input max="{!v.todayDate}" type="date" value="{!v.participant.Date_of_Birth__c}"
+                                                <lightning:input max="{!v.todayDate}" min="1900-01-01" type="date" value="{!v.participant.Date_of_Birth__c}"
                                                                  onblur="{!c.doCheckDateOfBith}"/>
                                             </div>
                                         </div>
