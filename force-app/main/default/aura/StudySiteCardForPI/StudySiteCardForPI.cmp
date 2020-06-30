@@ -142,7 +142,7 @@
                                     <aura:set attribute="title">
                                         <div class="apollo-btn primary slds-align-bottom">
                                             <div title="Add Participant">{!v.addParticipantInfo.label}</div>
-                                            <img class="arrow-down" src="{!$Resource.icon_triangleDownWhite}" width="14" height="14"/>
+                                            <c:RRIcon iconName="icon-chevron-down" class="icon-chevron-down-resources"/>
                                         </div>
                                     </aura:set>
                                     <aura:iteration items="{!v.siteWrapper.actions}" var="action">
