@@ -16,9 +16,9 @@
 
         helper.initialize(component, helper);
         //Take scroll bar to top next time when the popup is displayed
-        if (!component.get('v.isReminderOnly')) {
+        //if (!component.get('v.isReminderOnly')) {
             document.getElementsByClassName('with-scroll')[0].scrollTop = 0;
-        }
+        //}
     },
 
     doCancel: function (component, event, helper) {
