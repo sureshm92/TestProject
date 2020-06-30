@@ -10,7 +10,7 @@
         <aura:set attribute="title">
             <div class="slds-header-link">
                 <span>{!$Label.c.Navigation_Resources}</span>
-                <img class="arrow-down" src="{!$Resource.icon_triangleDownWhite}" width="14" height="14"/>
+                <c:RRIcon iconName="icon-chevron-down" class="icon-chevron-down-resources"/>
             </div>
         </aura:set>
         <c:uiMenuItem label="{!$Label.c.Navigation_Library}" onclick="{!c.onClickResource}"/>
