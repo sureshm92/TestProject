@@ -12,8 +12,6 @@
         let showGroup = component.get('v.showGroup');
         let globalType = component.get('v.globalType');
 
-        if (globalType === 'Disabled' || !showGroup) return;
-
         let visitResults = component.get('v.visitResults');
         let globalCountries = component.get('v.globalCountries');
 
