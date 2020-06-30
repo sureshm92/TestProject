@@ -9,6 +9,7 @@
     <aura:attribute name="titleCode" type="String"/>
     <aura:attribute name="title" type="String"/>
     <aura:attribute name="userMode" type="String"/>
+    <aura:attribute name="isUserLoggedIn" type="Boolean" default="false"/> <!-- @Krishna Mahto - PEH-2450 --> 
 
     <aura:handler event="c:TCCookieClassesRemove" action="{!c.removeClasses}"/>
 
@@ -35,8 +36,10 @@
                         </aura:if>
                     </aura:if>
                 </div>
-                <aura:if isTrue="{!v.tcData.isAccepted || !empty(v.privacyPolicyId)}">
-                    <button class="apollo-btn primary" onclick="{!c.doGoBack}">{!$Label.c.BTN_OK}</button>
+                <aura:if isTrue="{!v.tcData.isAccepted || !empty(v.privacyPolicyId)}"> 
+                  <aura:if isTrue="{!v.isUserLoggedIn}"> <!-- @Krishna Mahto - PEH-2450 --> 
+                    	<button class="apollo-btn primary" onclick="{!c.doGoBack}">{!$Label.c.BTN_OK}</button>
+                  </aura:if> <!-- @Krishna Mahto - PEH-2450 --> 
                     <aura:set attribute="else">
                         <aura:if isTrue="{!!v.isPortalTC}">
                             <aura:if isTrue="{!or(notequals(v.userMode, 'Participant'), and(equals(v.userMode, 'Participant'), v.tcData.isAccepted))}">
