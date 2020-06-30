@@ -27,8 +27,28 @@
             component.find('emailInput').get('v.validity').valid;
         console.log(isValid);
         if (isValid) {
+            if (numbers.test(participant.Phone__c)  && participant.Phone__c) {
+                phoneField.setCustomValidity(""); // reset custom error message
+   
+               }
+                        phoneField.reportValidity();
             component.set('v.isValid', true);
         } else {
+            if(participant.Phone__c){
+                if (!numbers.test(participant.Phone__c)) {
+                 phoneField.setCustomValidity("Phone number must be numeric and mandatory");
+                 } else {
+                     phoneField.setCustomValidity(""); // reset custom error message
+                 }
+             }
+                 else if(!participant.Phone__c){
+                                 phoneField.setCustomValidity("Phone number must be numeric and mandatory");
+                 }
+                     else{
+                         phoneField.setCustomValidity(""); // reset custom error message
+                     }
+              phoneField.reportValidity();
+     
             component.set('v.isValid', false);
         }
     },
