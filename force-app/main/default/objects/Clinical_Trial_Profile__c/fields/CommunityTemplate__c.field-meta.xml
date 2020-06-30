@@ -22,6 +22,11 @@
                 <default>false</default>
                 <label>GSK Pan Oncology</label>
             </value>
+            <value>
+                <fullName>COVID-19 Plasma Donor Registry</fullName>
+                <default>false</default>
+                <label>COVID-19 Plasma Donor Registry</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

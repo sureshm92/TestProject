@@ -2,7 +2,7 @@
  - Created by Nikita Abrazhevitch on 05-Sep-19.
  -->
 
-<aura:component description="Action_ParticipantInformation" controller="ParticipantInformationRemote">
+ <aura:component description="Action_ParticipantInformation" controller="ParticipantInformationRemote">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
@@ -108,6 +108,13 @@
                                        label="{!$Label.c.BTN_Screener_Responses}" onactive="{!c.checkTabs}">
                             <c:SurveyGismoResultsView results="{!v.pe.MRR_Survey_Results_URL__c}"/>
                         </lightning:tab>
+                    </aura:if>
+                    <!--Survey Response-->
+                    <aura:if isTrue="{!v.pe.Referral_Source__c == 'IQVIA registry'}">
+                        <lightning:tab class="slds-tabs_default__item" aura:id="Survey"
+                                       label="{!$Label.c.BTN_Screener_Responses}" onactive="{!c.checkTabs}">  
+                            <c:SurveyResponseView pe="{!v.pe}"/>
+                            </lightning:tab>             
                     </aura:if>
                 </lightning:tabset>
             </aura:if>

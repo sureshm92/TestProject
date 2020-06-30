@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Send_email_to_delegate</fullName>
+        <description>Send email to delegate</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Delegate_Email_Address__c</field>
+            <type>email</type>
+        </recipients>
+        <recipients>
+            <field>email__c</field>
+            <type>email</type>
+        </recipients>
+        <senderAddress>updates@mail.clinicalresearch.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>Referral_Hub_Emails/Covid19_New_Study</template>
+    </alerts>
+    <alerts>
+        <fullName>Send_email_to_participant</fullName>
+        <description>Send email to participant</description>
+        <protected>false</protected>
+        <recipients>
+            <field>email__c</field>
+            <type>email</type>
+        </recipients>
+        <senderAddress>updates@mail.clinicalresearch.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>Referral_Hub_Emails/Covid19_New_Study</template>
+    </alerts>
+</Workflow>
