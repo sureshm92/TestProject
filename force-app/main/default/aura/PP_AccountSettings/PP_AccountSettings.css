@@ -179,10 +179,9 @@
         box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.16);
     }
 
-    .THIS .navBar ul:hover .navItem {
+    .THIS ul:hover .navItem {
         display: block;
     }
-
     .THIS .slds-navigation-list-vertical__action:hover,
     .THIS .slds-navigation-list-vertical__action:focus,
     .THIS .slds-navigation-list--vertical__action:hover,

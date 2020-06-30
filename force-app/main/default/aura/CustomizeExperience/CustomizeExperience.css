@@ -18,6 +18,8 @@
     height: 28px;
     display: flex;
     align-items: center;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
     box-shadow: 0 4px 8px 0 rgba(41, 125, 253, 0.16), 0 4px 4px 0 rgba(0, 0, 0, 0.04), 0 8px 16px 0 rgba(41, 125, 253, 0.32)
 }
 
@@ -36,7 +38,6 @@
 
 .THIS .slds-badge__icon_right {
     margin-left: 0;
-    margin-right: 1rem;
 }
 
 .THIS .slds-pill__remove svg {
@@ -182,5 +183,9 @@
     .THIS .p-footer .apollo-btn.primary {
         margin-top: 1rem;
         margin-left: 0;
+    }
+
+    .THIS .button.slds-pill {
+        max-width: 290px;
     }
 }

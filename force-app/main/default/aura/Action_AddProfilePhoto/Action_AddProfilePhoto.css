@@ -172,6 +172,8 @@
 .THIS .noAvatar-icon{
     border-radius: 100%;
     border: 0.1px solid lightgrey;
+    width:55px;
+    height:55px;
     
 }
 
