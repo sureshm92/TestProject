@@ -11,6 +11,14 @@
     margin-bottom: 0;
 }
 
+.THIS .icon-trash {
+    margin: 0 0 3px 8px;
+    fill: black;
+    height: 14px;
+    width: 14px;
+    display: inline-block;
+}
+
 .THIS .slds-grid .slds-m-around--small.uploadFiles {
     margin-top: 0;
     margin-bottom: 20px;
@@ -19,6 +27,14 @@
 .THIS .uploadFiles .input-fields-labels {
     margin-top: 10px;
     color: #297dfd;
+}
+
+.THIS .icon-download-brand-new {
+    fill: #297dfd;
+    margin: 0 0 3px 8px;
+    height: 16px;
+    width: 16px;
+    display: inline-block;
 }
 
 .THIS .uploadFiles .input-fields-labels .upload-close,

@@ -9,8 +9,6 @@
         if (email && communityService.isValidEmail(email.trim()) && sharingObject.sObjectType != 'Object') {
             helper.doCheckContact(component, event, helper, null, null, email.trim());
         }
-        console.log('sharingObject.sObjectType >>>>>',sharingObject.sObjectType);
-        console.log('isValid >>>>>',isValid);
         if(isValid && sharingObject.sObjectType == 'Object' && sharingObject.firstName && sharingObject.lastName && sharingObject.email.trim()){
             helper.doCheckContact(component, event, helper, sharingObject.firstName, sharingObject.lastName, sharingObject.email.trim());
         }
