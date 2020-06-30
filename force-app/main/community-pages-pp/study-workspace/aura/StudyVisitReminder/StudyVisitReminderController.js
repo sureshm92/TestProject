@@ -43,8 +43,8 @@
             communityService.showErrorToast('', $A.get('$Label.c.PP_Remind_Using_Required'), 3000);
             return;
         }
-        var isValidFields = helper.doValidateDueDate(component) && helper.doValidateReminder(component);
-        if (!isValidFields) {
+        var isValidFields = helper.doValidateDueDate(component, helper) && helper.doValidateReminder(component);
+        if (!component.get('v.isValidFields') || !isValidFields) {
             var showToast = true;
             if (!component.get('v.isNewTask')) {
                 if (component.get('v.jsonState') ===
@@ -87,35 +87,18 @@
         component.set('v.initData.reminderDate', reminderDate.format('YYYY-MM-DD'));
     },
 
-    validateDueDate: function (component, event, helper) {
-        helper.doValidateDueDate(component);
-    },
+    doValidateFields: function (component, event, helper){
+        var isValidFields = helper.doValidateDueDate(component, helper) &&
+                            helper.doValidateReminder(component);
+                            //helper.doValidateDueDateOnFreqChange(component);
 
-    validateReminderDate: function (component, event, helper) {
-        helper.doValidateReminder(component);
+        component.set('v.isValidFields', isValidFields);
     },
-
+    
     doNavigateToAccountSettings: function (component, event, helper) {
         //communityService.navigateToPage('account-settings');
         window.open('account-settings', '_blank');
         window.focus();  
         helper.hideModal(component);
-    },
-
-    onChangeFreq: function (component, event, helper) {
-        debugger;
-        var reminderCmp = component.find('reminderDate');
-        var freq = component.get('v.task.Remind_Me__c');
-        var reminderDate = moment(component.get('v.initData.reminderDate'), 'YYYY-MM-DD');
-        var tomorrow = moment(component.get('v.tomorrow'), 'YYYY-MM-DD');
-        if (freq == $A.get('$Label.c.One_day_before')
-            && reminderDate.isValid()
-            && !tomorrow.isSameOrAfter(reminderDate)) {
-            reminderCmp.setCustomValidity(component.get('v.messageWhenRangeUnderflow'));
-        } else {
-            reminderCmp.setCustomValidity('');
-        }
-        reminderCmp.reportValidity();
     }
-
 })
