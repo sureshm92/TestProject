@@ -1,0 +1,196 @@
+@font-face {
+  font-family: Muli;
+  src: url(/resource/CPD_CommunityFont);
+}
+
+.THIS.main-content{
+  position: relative;
+  min-height: 100%;
+}
+
+.THIS.tab-align-css {
+    text-align:center; 
+    margin-left: 4%;
+    margin-right: 3%;
+}
+
+.THIS.border-line {
+  border-bottom: 1px solid #1AA0D9;
+    margin-right: -1%;
+    margin-left: -1%;
+}
+
+.THIS .slds-tabs_default__nav {
+    border-bottom: 1px solid #135f90;
+    border-top: 1px solid #135f90;
+    display: none;
+}
+
+.THIS .slds-progress-bar_small {
+    width: 95%;
+}
+
+.THIS .slds-progress-bar_small {
+    height: .25rem;
+}
+
+.THIS .slds-progress-bar__value {
+    background: #005587;
+}
+
+.THIS .tab-font {
+    color: #757575;
+    font-size: 10px;
+    letter-spacing: 0;
+    line-height: 25px;
+    font-family: "Muli", sans-serif;
+}
+
+.THIS .div-border-line {
+    border-bottom: 2px solid #1AA0D9;
+}
+
+.THIS .rectangle-2 {
+    box-sizing: border-box;
+    border: 2px solid #1AA0D9;
+    background-color: #1AA0D9;
+    height: 110px;
+    margin: 0% -1% 0% -1%;
+  }
+
+.THIS .next-step-complete {
+    color: #FFFFFF;
+    font-family: "Muli", sans-serif;
+    font-size: 36px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 42px;
+    text-align: center;
+    padding-top:3%;
+}
+
+.THIS .next-question-align{
+    margin-left: 20%;
+  }
+
+.THIS .next-align{
+    margin-left: 4%;
+}
+
+.THIS .submit-button-align{
+    margin-left: 4%;
+  }
+
+.THIS .next-question {
+    line-height: 2.8rem!important;
+    color: #1AA0D9!important;
+    font-family: "Muli", sans-serif!important;
+    font-size: 16px!important;
+    font-weight: bold!important;
+    border: 2px solid #1AA0D9!important;
+    border-radius: 5px!important;
+    background-color: #FFFFFF!important;
+    width: 160px;
+  }
+
+.THIS .next-button {
+    line-height: 2.8rem!important;
+    color: #1AA0D9!important;
+    font-family: "Muli", sans-serif!important;
+    font-size: 16px!important;
+    font-weight: bold!important;
+    border: 2px solid #1AA0D9!important;
+    border-radius: 5px!important;
+    background-color: #FFFFFF!important;
+    width: 130px!important;
+  }
+  
+  .THIS .slds-spinner_container{
+    position: fixed !important;
+  }
+  /* 
+    ##Device = Most of the Smartphones Mobiles (Portrait)
+    ##Screen = B/w 320px to 479px
+  */
+
+  @media (min-width: 320px) and (max-width: 480px) {
+
+    .THIS.tab-align-css {
+      text-align:center; 
+      margin-left: 0%;
+      margin-right: 0%;
+    }
+    
+    .THIS .next-question-align{
+      margin-left: 25%;
+    }
+
+    .THIS .next-align{
+      margin-left: 25%;
+    }
+    
+    .THIS .submit-button-align {
+      margin-left: 25%;
+      /*margin-top: 15rem;*/
+
+    }
+
+    .THIS .next-button {
+      line-height: 2.8rem!important;
+      color: #1AA0D9!important;
+      font-family: "Muli", sans-serif!important;
+      font-size: 16px!important;
+      font-weight: bold!important;
+      border: 2px solid #1AA0D9!important;
+      border-radius: 5px!important;
+      background-color: #FFFFFF!important;
+      width: 160px!important;
+    }
+
+    .THIS .rectangle-2 {
+      box-sizing: border-box;
+      border: 2px solid #1AA0D9;
+      background-color: #1AA0D9;
+      height: 120px;
+      margin: 0% -3% 0% -3%;
+    }
+
+    .THIS .next-step-complete {
+      color: #FFFFFF;
+      font-family: "Muli", sans-serif!important;
+      font-size: 36px;
+      font-weight: 600;
+      letter-spacing: 0;
+      line-height: 42px;
+      text-align: center;
+      padding-top: 6%;
+      width: 98%;
+    }
+}        
+  /* 
+    ##Device = Low Resolution Tablets, Mobiles (Landscape)
+    ##Screen = B/w 481px to 767px
+  */
+  
+  @media (min-width: 481px) and (max-width: 767px) {
+    
+    .THIS .submit-button-align {
+      margin-left: 25%;
+      margin-top: 31rem;
+
+    }
+    
+  }
+    /* 
+    ##Device = Tablets, Ipads (landscape)
+    ##Screen = B/w 768px to 1024px
+  */
+  
+  @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    
+    .THIS .submit-button-align {
+      margin-left: 25%;
+      margin-top: 0rem;
+    }
+    
+  }

@@ -1,0 +1,110 @@
+@font-face {
+    font-family: Muli;
+    src: url(/resource/CPD_CommunityFont);
+}
+
+
+.THIS .footer-content-algin {
+    /*margin-top: 1.8em;*/
+    position: absolute;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.THIS .bg-content {
+    box-sizing: border-box;
+    border: 1px solid #005587;
+    background-color: #005587;
+    height: 15rem;
+    padding: 3% 0% 2% 3%;
+    margin-top: 15px;
+}
+
+.THIS .privacy-policy {
+    color: #FFFFFF;
+    font-family: "Muli", sans-serif;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 20px;
+}
+
+.THIS .a-underline {
+     color: #FFFFFF;
+    font-family: "Muli", sans-serif;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 20px;
+    text-decoration: underline;
+}
+
+.THIS .iqvia-all-ri-res {
+    color: #FFFFFF;
+    font-family: Muli;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 20px;
+    margin-left: 40%;
+}
+
+.THIS .this-website-is-inte {
+    color: #FFFFFF;
+    font-family: "Muli", sans-serif;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 20px;
+}
+
+.THIS .in-a-clinical-resea {
+    color: #FFFFFF;
+    font-family: "Muli", sans-serif;
+    font-size: 13px;
+    letter-spacing: 0;
+    line-height: 20px;
+    width: 95%;
+}
+
+  /* 
+    ##Device = Most of the Smartphones Mobiles (Portrait)
+    ##Screen = B/w 320px to 479px
+  */
+@media (min-width: 320px) and (max-width: 480px) {
+  
+    .THIS .bg-content {
+        box-sizing: border-box;
+        border: 1px solid #005587;
+        background-color: #005587;
+        height: 30rem;
+        padding: 3rem 0rem 8rem 2rem;
+    }
+    
+    .THIS .iqvia-all-ri-res {
+        margin-left: 0rem;
+    }
+}
+
+  /* 
+    ##Device = Low Resolution Tablets, Mobiles (Landscape)
+    ##Screen = B/w 481px to 767px
+  */
+  
+  @media (min-width: 481px) and (max-width: 767px) {
+    
+    .THIS .bg-content {
+        box-sizing: border-box;
+        border: 1px solid #005587;
+        background-color: #005587;
+        height: 15rem;
+        padding: 2rem 0rem 0rem 2rem;
+    }
+    .THIS .iqvia-all-ri-res {
+        color: #FFFFFF;
+        font-family: Muli;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 20px;
+        margin-left: 0rem;
+    }
+    
+  }
