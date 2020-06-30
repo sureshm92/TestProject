@@ -87,13 +87,19 @@
         component.set('v.initData.reminderDate', reminderDate.format('YYYY-MM-DD'));
     },
 
-    validateDueDate: function (component, event, helper) {
+    doValidateFields: function (component, event, helper){
+        helper.doValidateDueDate(component);
+        helper.doValidateReminder(component);
+        helper.doValidateDueDateOnFreqChange(component);
+    },
+    
+    /*validateDueDate: function (component, event, helper) {
         helper.doValidateDueDate(component);
     },
 
     validateReminderDate: function (component, event, helper) {
         helper.doValidateReminder(component);
-    },
+    },*/
 
     doNavigateToAccountSettings: function (component, event, helper) {
         //communityService.navigateToPage('account-settings');
@@ -102,20 +108,8 @@
         helper.hideModal(component);
     },
 
-    onChangeFreq: function (component, event, helper) {
-        debugger;
-        var reminderCmp = component.find('reminderDate');
-        var freq = component.get('v.task.Remind_Me__c');
-        var reminderDate = moment(component.get('v.initData.reminderDate'), 'YYYY-MM-DD');
-        var tomorrow = moment(component.get('v.tomorrow'), 'YYYY-MM-DD');
-        if (freq == $A.get('$Label.c.One_day_before')
-            && reminderDate.isValid()
-            && !tomorrow.isSameOrAfter(reminderDate)) {
-            reminderCmp.setCustomValidity(component.get('v.messageWhenRangeUnderflow'));
-        } else {
-            reminderCmp.setCustomValidity('');
-        }
-        reminderCmp.reportValidity();
-    }
+    /*onChangeFreq: function (component, event, helper) {
+        helper.doValidateDueDateOnFreqChange(component);
+    }*/
 
 })

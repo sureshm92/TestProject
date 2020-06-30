@@ -114,7 +114,10 @@
             message = successToastArray[0].trim();
         } else if (isNewTask && isReminderOnly) {
             message = successToastArray[2].trim();
-        } else if (!isNewTask && !isReminderOnly) {
+        }else if (!isNewTask && isReminderOnly) {
+            message = successToastArray[2].trim();
+        } 
+        else if (!isNewTask && !isReminderOnly) {
             message = successToastArray[1].trim();
         } else {
             message = successToastArray[3].trim();
@@ -146,5 +149,21 @@
             isFieldValid = fieldValid.checkValidity();
         }
         return isFieldValid;
+    },
+
+    doValidateDueDateOnFreqChange: function(component) {
+        debugger;
+        var reminderCmp = component.find('reminderDate');
+        var freq = component.get('v.task.Remind_Me__c');
+        var reminderDate = moment(component.get('v.initData.reminderDate'), 'YYYY-MM-DD');
+        var tomorrow = moment(component.get('v.tomorrow'), 'YYYY-MM-DD');
+        if (freq == $A.get('$Label.c.One_day_before')
+            && reminderDate.isValid()
+            && !tomorrow.isSameOrAfter(reminderDate)) {
+            reminderCmp.setCustomValidity(component.get('v.messageWhenRangeUnderflow'));
+        } else {
+            reminderCmp.setCustomValidity('');
+        }
+        reminderCmp.reportValidity();
     }
 })

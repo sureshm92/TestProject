@@ -40,8 +40,9 @@
     <aura:attribute name="tomorrow" type="Date" />
 
     <!-- event handlers -->
-    <aura:handler name="change" value="{!v.initData.activityDate}" action="{!c.validateDueDate}" />
-    <aura:handler name="change" value="{!v.initData.reminderDate}" action="{!c.validateReminderDate}" />
+    <aura:handler name="change" value="{!v.initData.activityDate}" action="{!c.doValidateFields}" />
+    <aura:handler name="change" value="{!v.initData.reminderDate}" action="{!c.doValidateFields}" />
+    <aura:handler name="change" value="{!v.task.Remind_Me__c}" action="{!c.doValidateFields}" />
 
     <!-- methods -->
     <aura:method name="reloadPopup" action="{!c.doInit}" description="Reload the popup in the parent component">
@@ -112,7 +113,7 @@
                     <div class="slds-grid te-form slds-gutters slds-wrap">
                         <!--Reminder Frequency-->
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                            <lightning:select label="{!$Label.c.Remind_Me}" onchange="{!c.onChangeFreq}"
+                            <lightning:select label="{!$Label.c.Remind_Me}"
                                 value="{!v.task.Remind_Me__c}">
                                 <aura:iteration items="{!v.initData.reminderFrequencyList}" var="mode">
                                     <option value="{!mode.value}" selected="{!mode.value == v.task.Remind_Me__c}">
@@ -206,7 +207,7 @@
                     <div class="slds-grid te-form slds-gutters slds-wrap">
                         <!--Reminder Frequency-->
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                            <lightning:select label="{!$Label.c.Remind_Me}" required="true" onchange="{!c.onChangeFreq}"
+                            <lightning:select label="{!$Label.c.Remind_Me}" required="true"
                                 value="{!v.task.Remind_Me__c}">
                                 <aura:iteration items="{!v.initData.reminderFrequencyList}" var="mode">
                                     <option value="{!mode.value}" selected="{!mode.value == v.task.Remind_Me__c}">
