@@ -24,7 +24,10 @@
     <aura:attribute name="id"           type="String"/>
     <aura:attribute name="class"        type="String"/>
     <!--=============================================================================================================-->
-
+	<aura:attribute name="isNewPswd" 	type="Boolean"/>
+    
+    <aura:registerEvent name="cmpEvent" type="c:eventCheckPswdStrength"/>
+    
     <div id="{!v.id}" class="{!'rri-container ' + v.class}">
 
         <aura:if isTrue="{! !empty(v.label)}">
@@ -45,10 +48,17 @@
                 <aura:if isTrue="{!v.type == 'password'}">
                     <div class="rri-password">
                         <aura:if isTrue="{!v.showPasswordInput}">
-
+							<aura:if isTrue="{!v.isNewPswd}">
                             <lightning:input aura:id="rr-input" type="{!if(v.showPassword, 'text', 'password')}"
                                              class="{!if(v.errorMessage != '', 'rr-input-error','')}" disabled="{!v.disabled}"
+                                             placeholder="{!v.placeholder}" value="{!v.valueString}" label="" onchange="{!c.changePswd}" name=""/>    
+                                <aura:set attribute="else">
+                            	<lightning:input aura:id="rr-input" type="{!if(v.showPassword, 'text', 'password')}"
+                                             class="{!if(v.errorMessage != '', 'rr-input-error','')}" disabled="{!v.disabled}"
                                              placeholder="{!v.placeholder}" value="{!v.valueString}" label="" name=""/>
+                                </aura:set>
+                            </aura:if>   
+                            
 
                             <div id="new" class="rri-show-password" onclick="{!c.togglePassword}">
                                 <c:RRIcon iconName="icon-view" color="{!v.passwordIconColor}"/>
