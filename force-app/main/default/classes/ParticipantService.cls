@@ -191,6 +191,13 @@ public without sharing class ParticipantService {
             //check contact duplicate:
             if (duplicateService.findDuplicateContact(participant) != null) {
                 participant.Contact__c = duplicateService.findDuplicateContact(participant).Id;
+                 if ('Home' == participant.Phone_Type__c) {
+                        participant.Contact__r.HomePhone = participant.Phone__c;
+                    } if ('Mobile' == participant.Phone_Type__c) {
+                        participant.Contact__r.MobilePhone = participant.Phone__c;
+                    } else {
+                        participant.Contact__r.Phone = participant.Phone__c;
+                    }
             }
             insert participant;
         }
