@@ -24,7 +24,6 @@
     <requireInsecurePortalAccess>false</requireInsecurePortalAccess>
     <selfRegPage>CommunitiesSelfReg</selfRegPage>
     <siteAdmin>ajay.chandrapatle@iqvia.com</siteAdmin>
-    <siteGuestRecordDefaultOwner>ajay.chandrapatle@iqvia.com</siteGuestRecordDefaultOwner>
     <siteType>ChatterNetwork</siteType>
     <subdomain>iqviaconnect</subdomain>
     <urlPathPrefix>Covid19</urlPathPrefix>
