@@ -10,7 +10,7 @@
     <!-- events: -->
     <aura:registerEvent access="global" name="onclick" type="c:uiEvent"/>
 
-    <ul class="container">
+    <ul class="container" style="max-height: 370px; -ms-overflow-y: scroll">
         <li data-group-id="{!'pp'}" onclick="{!c.doToggleGroup}">
             <div class="item-container">
                 <aura:if isTrue="{!v.communityModes.isPPItemsCollapsed}">
@@ -32,7 +32,7 @@
         </li>
         <aura:if isTrue="{!not(v.communityModes.isPPItemsCollapsed)}">
             <li class="modes-container">
-                <c:PPMenuItems onclick="{!c.doSelectItem}" allModes="{!v.communityModes.ppModeItems}"/>
+                <c:PPMenuItems onclick="{!c.doSelectItem}" allModes="{!v.communityModes}"/>
             </li>
         </aura:if>
         <li>
@@ -68,7 +68,7 @@
         </li>
         <aura:if isTrue="{!not(v.communityModes.isRHItemsCollapsed)}">
             <li class="modes-container">
-                <c:RHCommunityModesList onclick="{!c.doSelectItem}" communityModesList="{!v.communityModes.rhModeItems}"/>
+                <c:RHCommunityModesList onclick="{!c.doSelectItem}" communityModes="{!v.communityModes}"/>
             </li>
         </aura:if>
     </ul>

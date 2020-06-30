@@ -74,8 +74,8 @@
         let emailRepeat = component.get('v.emailRepeat');
         let emailCmp = component.find('emailField');
         let emailRepeatCmp = component.find('emailRepeatField');
-        let emailVaild = emailCmp && emailCmp.get('v.validity') && emailCmp.get('v.validity').valid;
-        let emailRepeatValid = emailRepeatCmp && emailRepeatCmp.get('v.validity') && emailRepeatCmp.get('v.validity').valid;
+        let emailVaild = emailCmp && communityService.isValidEmail(participant.Email__c);
+        let emailRepeatValid = emailRepeatCmp && communityService.isValidEmail(emailRepeat);
         let selectedCountry = participant.Mailing_Country_Code__c;
         let selectedState = participant.Mailing_State_Code__c;
 
@@ -100,9 +100,11 @@
             (participant.First_Name__c &&
             participant.Last_Name__c &&
             participant.Date_of_Birth__c &&
+            participant.Date_of_Birth__c <= component.get('v.todayDate') &&
             (needsDelegate || participant.Email__c) &&
             (needsDelegate || emailVaild) &&
             (needsDelegate || emailRepeatValid) &&
+            participant.Email__c == emailRepeat &&
             (needsDelegate || participant.Phone__c) &&
             participant.Mailing_Zip_Postal_Code__c &&
             selectedCountry &&
@@ -115,7 +117,8 @@
                     delegateParticipant.Phone__c &&
                     delegateParticipant.Email__c &&
                     emailDelegateVaild &&
-                    emailDelegateRepeatValid)) &&
+                    emailDelegateRepeatValid &&
+                    delegateParticipant.Email__c == emailDelegateRepeat)) &&
             agreePolicy);
         component.set('v.allRequiredCompleted', isValid);
 

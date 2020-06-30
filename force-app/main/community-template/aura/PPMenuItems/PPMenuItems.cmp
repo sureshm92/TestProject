@@ -5,13 +5,13 @@
 <aura:component description="PPMenuItems">
 
     <!-- attributes: -->
-    <aura:attribute name="allModes" type="Object[]"/>
+    <aura:attribute name="allModes" type="Object"/>
 
     <!-- events: -->
     <aura:registerEvent access="global" name="onclick" type="c:uiEvent"/>
 
-    <div class="all-container">
-        <aura:iteration var="item" items="{!v.allModes}">
+    <div class="{!if(equals(v.allModes.type, 'PP_Only'), 'all-container', '')}">
+        <aura:iteration var="item" items="{!v.allModes.ppModeItems}">
             <ul class="contain">
                 <aura:iteration items="{!item.subItems}" var="subItem">
                     <c:uiMenuItem onclick="{!c.doOnClick}" itemValue="{!subItem}" class="pp-item">
@@ -26,8 +26,7 @@
                                 <div class="icon-settings-box">
                                     <aura:if isTrue="{!and(not(item.isDelegate), item.hasBeenActive)}">
                                         <div class="icon-delegate-box">
-                                            <c:menuItemButton class="icon-delegate" iconName="delegate"
-                                                              navigateTo="my-team"
+                                            <c:menuItemButton class="icon-delegate" iconName="delegate" navigateTo="my-team"
                                                               itemValue="{!subItem}" onclick="{!c.doOnClick}"/>
                                         </div>
                                     </aura:if>

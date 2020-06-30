@@ -19,16 +19,15 @@
             delegateItem.First_Name__c && delegateItem.First_Name__c.trim() &&
             delegateItem.Last_Name__c && delegateItem.Last_Name__c.trim();
         component.set('v.isValid', isValid);
-        if(isValid && event.getType()==='aura:valueInit')  helper.doCheckContact(component,event);
+        if(isValid && event.getType()==='aura:valueInit')  helper.doCheckContact(component,event,helper);
     },
 
-    checkContact: function (component, event,helper) {
-        helper.doCheckContact(component,event);
+    checkContact: function (component, event, helper) {
+        helper.doCheckContact(component,event,helper);
     },
 
     doConnect: function (component, event, helper) {
-        console.log('hello');
-        helper.doCheckContact(component,event,helper);
+        helper.doCheckContact(component, event, helper,true);
     },
 
     approveDelegate:function(component, event, helper){
