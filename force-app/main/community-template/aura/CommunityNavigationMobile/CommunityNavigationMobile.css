@@ -118,6 +118,11 @@
 
 
 @media screen and (max-width: 550px) {
+
+    .THIS + .rr-width-limiter.side-padding {
+        padding-top: .25rem!important;
+    }
+
     .THIS .nav-menu {
         height: 65px;
     }

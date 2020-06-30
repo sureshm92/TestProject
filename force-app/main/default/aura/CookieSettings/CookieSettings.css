@@ -213,10 +213,13 @@
         padding: 1.5rem 0;
     }
 
-    .THIS .apollo-btn,
-    .THIS .as-container .as-email-preference,
-    .THIS as-container .as-email-preference {
+    .THIS .apollo-btn {
         width: 100%;
+    }
+
+    .THIS .as-container .as-email-preference {
+        width: 100%;
+        margin-bottom: 60px;
     }
 
     .THIS .ah-item-panel>.slds-col {

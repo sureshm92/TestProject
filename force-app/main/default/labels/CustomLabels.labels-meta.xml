@@ -3156,7 +3156,7 @@
         <shortDescription>Email Body Trial Match</shortDescription>
         <value>You have been matched for new studies.
 
-Please login in to the ##CommunityName to view your clinical trial matches anytime.</value>
+Please log in to the ##CommunityName to view your clinical trial matches anytime.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Trial_Match_Delegate</fullName>
@@ -3830,7 +3830,9 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Signature_PPST</shortDescription>
-        <value>Sincerely,
+        <value>We are excited to continue this journey with you.
+
+            Sincerely,
 
             ##SignatureShortCommunityName</value>
     </labels>
@@ -13984,6 +13986,34 @@ communications using the toggles below.</value>
         <shortDescription>Respiratory Rate Description</shortDescription>
         <value>Respiratory rate is a measurement of how many breaths you take per minute.</value>
     </labels>
+      <labels>
+        <fullName>RH_Address_Line_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH Address Line 1</shortDescription>
+        <value>Address Line 1</value>
+    </labels>
+    <labels>
+        <fullName>RH_Address_Line_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH Address Line 2</shortDescription>
+        <value>Address Line 2</value>
+    </labels>
+    <labels>
+        <fullName>RH_Business_Address</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH Business Address</shortDescription>
+        <value>Business Address</value>
+    </labels>
+    <labels>
+        <fullName>RH_HCP_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH Hospital/Clinic/Practice Name</shortDescription>
+        <value>Hospital/Clinic/Practice Name</value>
+    </labels>
 	  <labels>
         <fullName>RH_Notification</fullName>
         <language>en_US</language>
@@ -14283,7 +14313,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Postal Code</shortDescription>
-        <value>ZIp/Postal Code</value>
+        <value>Zip/Postal Code</value>
     </labels>
     <labels>
         <fullName>SS_Press_To_Check</fullName>

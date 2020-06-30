@@ -100,6 +100,7 @@
             (participant.First_Name__c &&
             participant.Last_Name__c &&
             participant.Date_of_Birth__c &&
+            participant.Date_of_Birth__c <= component.get('v.todayDate') &&
             (needsDelegate || participant.Email__c) &&
             (needsDelegate || emailVaild) &&
             (needsDelegate || emailRepeatValid) &&
@@ -115,7 +116,8 @@
                     delegateParticipant.Phone__c &&
                     delegateParticipant.Email__c &&
                     emailDelegateVaild &&
-                    emailDelegateRepeatValid)) &&
+                    emailDelegateRepeatValid &&
+                    delegateParticipant.Email__c == emailDelegateRepeat)) &&
             agreePolicy);
         component.set('v.allRequiredCompleted', isValid);
 

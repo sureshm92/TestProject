@@ -15,10 +15,12 @@
     min-height: 50px;
     margin: 10px auto;
 }
+
 .THIS .slds-avatar{
     border-radius: 100%;
-    width: 56px;
-    height: 56px;
+    min-width: 55px;
+    width : 55px;
+    height: 55px;
 }
 
 .THIS .inputFile {
@@ -122,13 +124,13 @@
 
 .THIS .username {
     height: 20px;
-    width: 86px;
     color: #000000;
     font-family: "Proxima Nova";
     font-size: 17px;
-    letter-spacing: 0;
-    line-height: 20px;
     margin-left: 18px;
+    max-width: 76%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 /**
  * Created by Nargiz Mamedova on 6/10/2020.
@@ -164,7 +166,7 @@
 .THIS .avatar-icon{
     background-color: #DF216D;
     height: 55px;
-    width: 55px;
+    min-width: 55px;
     border-radius: 100%;
 }
 .THIS .noAvatar-icon{
@@ -176,7 +178,7 @@
 .THIS .slds-avatar_large,
 .THIS .slds-avatar--large {
     width: 55px;
-    height: 55px;
+    height: 100%;
 }
 
 .THIS .delegate-avatar{
@@ -208,4 +210,9 @@
     font-weight: 500;
     line-height: 17px;
     margin-bottom: 15px;
+}
+
+.THIS .photo-label {
+    text-align: left;
+    width: 100%;
 }
