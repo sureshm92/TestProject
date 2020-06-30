@@ -43,8 +43,8 @@
             communityService.showErrorToast('', $A.get('$Label.c.PP_Remind_Using_Required'), 3000);
             return;
         }
-        var isValidFields = helper.doValidateDueDate(component) && helper.doValidateReminder(component);
-        if (!isValidFields) {
+        //var isValidFields = helper.doValidateDueDate(component) && helper.doValidateReminder(component);
+        if (!component.get('v.isValidFields')) {
             var showToast = true;
             if (!component.get('v.isNewTask')) {
                 if (component.get('v.jsonState') ===
@@ -88,28 +88,17 @@
     },
 
     doValidateFields: function (component, event, helper){
-        helper.doValidateDueDate(component);
-        helper.doValidateReminder(component);
-        helper.doValidateDueDateOnFreqChange(component);
+        var isValidFields = helper.doValidateDueDate(component, helper) &&
+                            helper.doValidateReminder(component) &&
+                            helper.doValidateDueDateOnFreqChange(component);
+
+        component.set('v.isValidFields', isValidFields);
     },
     
-    /*validateDueDate: function (component, event, helper) {
-        helper.doValidateDueDate(component);
-    },
-
-    validateReminderDate: function (component, event, helper) {
-        helper.doValidateReminder(component);
-    },*/
-
     doNavigateToAccountSettings: function (component, event, helper) {
         //communityService.navigateToPage('account-settings');
         window.open('account-settings', '_blank');
         window.focus();  
         helper.hideModal(component);
-    },
-
-    /*onChangeFreq: function (component, event, helper) {
-        helper.doValidateDueDateOnFreqChange(component);
-    }*/
-
+    }
 })
