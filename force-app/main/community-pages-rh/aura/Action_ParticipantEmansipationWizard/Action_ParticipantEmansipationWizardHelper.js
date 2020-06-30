@@ -87,9 +87,9 @@
             delete delegateItems[ind].statesDelegateLVList;
             delete delegateItems[ind].continueDelegateMsg;
             delete delegateItems[ind].isConnected;
-            delete delegateItems[ind].fromStart;
             delete delegateItems[ind].isDuplicate;
             if (delegateItems[ind].fromStart) {
+                delete delegateItems[ind].fromStart;
                 delegateToProceedItems.push(delegateItems[ind]);
             }
         }

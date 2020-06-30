@@ -1,9 +1,9 @@
 ({
-    doCheckContact: function(component, event, helper) {
+    doCheckContact: function(component, event, helper, connect) {
         var delegateItem = component.get('v.delegateItem');
         var currentDelegateUsage = JSON.parse(JSON.stringify(component.get('v.useThisDelegate')));
         //var delegateNewInstance = delegateItem.Email__c+delegateItem.Last_Name__c+delegateItem.First_Name__c;
-        if((component.get('v.useThisDelegate') && component.get('v.delegateEmailWasChanged')) || (component.get('v.useThisDelegate') && helper)) {
+        if(component.get('v.delegateEmailWasChanged') || (component.get('v.useThisDelegate') && connect)) {
             var isValid = component.get('v.isValid');
             var parent = component.get('v.parent');
             var part = parent.get('v.participant');
@@ -42,7 +42,7 @@
                         component.set('v.isValid', true);
                     }
                     component.set('v.delegateEmailWasChanged',false);
-                    if(helper && !returnValue.isDuplicateDelegate ) helper.doConnectDelegate(component, event, helper);
+                    if(connect && !returnValue.isDuplicateDelegate ) helper.doConnectDelegate(component, event, helper);
                     component.find('spinner').hide();
                 });
             }

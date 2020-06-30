@@ -20,6 +20,7 @@ public without sharing class ParticipantService {
         @AuraEnabled public Boolean showResults;
         @AuraEnabled public Boolean isPremium;
         @AuraEnabled public String communityName;
+        @AuraEnabled public String payCardLink;
 
         public ParticipantState() {
             value = ParticipantStates.ALUMNI;
@@ -62,6 +63,7 @@ public without sharing class ParticipantService {
                 TranslateHelper.translate(participantState.pe, IRBParticipantService.getSuitableLanguageForIRBTranslation(pe.Id));
                 participantState.showTerms = showTerms();
                 participantState.isPremium = participantState.ctp.Patient_Portal_Enabled__c;
+                participantState.payCardLink = PaymentService.getPaymentVendorLink(participantState.pe.Study_Site__c);
                 if (PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)) {
                     participantState.value = ParticipantStates.PARTICIPANT;
                     participantState.showVisits = showVisits();
@@ -189,6 +191,13 @@ public without sharing class ParticipantService {
             //check contact duplicate:
             if (duplicateService.findDuplicateContact(participant) != null) {
                 participant.Contact__c = duplicateService.findDuplicateContact(participant).Id;
+                 if ('Home' == participant.Phone_Type__c) {
+                        participant.Contact__r.HomePhone = participant.Phone__c;
+                    } if ('Mobile' == participant.Phone_Type__c) {
+                        participant.Contact__r.MobilePhone = participant.Phone__c;
+                    } else {
+                        participant.Contact__r.Phone = participant.Phone__c;
+                    }
             }
             insert participant;
         }

@@ -38,7 +38,8 @@
 
 .THIS.all-container{
     max-height: 370px;
-    overflow-y: scroll;
+    overflow-y: auto;
+    -ms-overflow-y: scroll;
 }
 
 .THIS .selected{
