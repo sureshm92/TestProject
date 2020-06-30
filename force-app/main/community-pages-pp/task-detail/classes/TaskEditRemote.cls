@@ -83,12 +83,14 @@ public without sharing class TaskEditRemote {
 
             taskToUpsert.Originator__c = ParticipantContext.isCurrentDelegate() ? 'Delegate' : 'Participant';
             if (taskToUpsert.Visible_For__c == null) taskToUpsert.Visible_For__c = 'Owner;Delegates';
-
-            if (taskToUpsert.Task_Type__c != TaskService.TASK_TYPE_NOT_SELECTED && String.isNotBlank(taskToUpsert.Task_Type__c)) {
-                taskToUpsert.WhatId = ParticipantContext.getCurrentPEId();
-            } else {
-                taskToUpsert.WhatId = ParticipantContext.getCurrentParticipantId();
-            }
+            //Don't update WhatId once set
+            if (taskToUpsert.WhatId == null) {
+                if (taskToUpsert.Task_Type__c != TaskService.TASK_TYPE_NOT_SELECTED && String.isNotBlank(taskToUpsert.Task_Type__c)) {
+                    taskToUpsert.WhatId = ParticipantContext.getCurrentPEId();
+                } else {
+                    taskToUpsert.WhatId = ParticipantContext.getCurrentParticipantId();
+                }
+            } 
 
             if (taskWrapper.activityDate != null) {
                 taskToUpsert.Activity_Datetime__c = Datetime.newInstance(taskWrapper.activityDate, Datetime.now().time());
