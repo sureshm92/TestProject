@@ -13,6 +13,7 @@ public without sharing class CC_ParticipantSupportRemote {
             List < Participant_Enrollment__c > lstOfParticipantEnrollment = [SELECT Participant__r.Full_Name__c,
                                                                              Days_After_Referred__c, Participant__c, 
                                                                              Participant__r.Phone__c, 
+                                                                             Permit_IQVIA_to_contact_about_study__c,
                                                                              Participant__r.Phone_Type__c, 
                                                                              Clinical_Trial_Profile__r.Study_Code_Name__c, 
                                                                              PI_Contact__r.Name, Study_Site__r.Name,
