@@ -24,6 +24,7 @@
     <aura:attribute name="id"           type="String"/>
     <aura:attribute name="class"        type="String"/>
     <!--=============================================================================================================-->
+    <aura:attribute name="isSaveBtnDisable" type="Boolean" />
 	<aura:attribute name="isNewPswd" 	type="Boolean"/>
     
     <aura:registerEvent name="cmpEvent" type="c:eventCheckPswdStrength"/>

@@ -3,29 +3,25 @@
                          relatedToType="Participant_Enrollment__c">
 
     <messaging:htmlEmailBody >
-        <c:EmailTemplate recipientId="{!relatedTo.Participant__r.Contact__c}"
-                         sourceId="{!relatedTo.Id}"
-                         parametersProvider="Email_Template_Parameters_From_PE"
-                         header="{!$Label.Email_Header_Covid_19}"
-                         title="{!$Label.Community_Covid19}"
-                         greeting="{!$Label.Email_Greeting}"
-                         body="{!$Label.Email_Body_Initial_Patient_Covid_19 }"
-                         signature="{!$Label.Email_Signature_Participant_Covid_19}">
-    
-        </c:EmailTemplate>
+        <c:EmailWireframe recipientId="{!relatedTo.Participant__r.Contact__c}"
+                                  sourceId="{!relatedTo.Id}"
+                                  header="{!$Label.Email_Header_Covid_19}"
+                                  title="{!$Label.Community_Covid19}"
+                                  greeting="{!$Label.Email_Greeting}"
+                                  signature="{!$Label.Email_Signature_Participant_Covid_19}">
+                    <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Covid_19}"/>
+        </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
-        <c:EmailTemplateText recipientId="{!relatedTo.Participant__r.Contact__c}"
-                             sourceId="{!relatedTo.Id}"
-                             parametersProvider="Email_Template_Parameters_From_PE"
-                             header="{!$Label.Email_Header_Covid_19}"
-                             title="{!$Label.Community_Covid19}"
-                             greeting="{!$Label.Email_Greeting}"
-                             body="{!$Label.Email_Body_Initial_Patient_Covid_19 }"
-                             signature="{!$Label.Email_Signature_Participant_Covid_19}">
-        
-        </c:EmailTemplateText>
+            <c:EmailWireframeText recipientId="{!relatedTo.Participant__r.Contact__c}"
+                                  sourceId="{!relatedTo.Id}"
+                                  header="{!$Label.Email_Header_Covid_19}"
+                                  title="{!$Label.Community_Covid19}"
+                                  greeting="{!$Label.Email_Greeting}"
+                                  signature="{!$Label.Email_Signature_Participant_Covid_19}">
+                <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_Patient_Covid_19}"/>
+            </c:EmailWireframeText>
     </messaging:plainTextEmailBody>
 
 </messaging:emailTemplate>
