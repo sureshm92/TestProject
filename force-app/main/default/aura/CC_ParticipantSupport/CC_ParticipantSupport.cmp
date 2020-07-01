@@ -113,9 +113,9 @@
                                 </td>
                                 <td>
                                     <aura:if isTrue = "{!pe.Days_After_Referred__c lt 1}">
-                                        <div class="slds-truncate wraptext">{!pe.Days_After_Referred__c} day ago</div>
+                                        <div class="slds-truncate wraptext">{!pe.Days_After_Referred__c}&nbsp; {!$Label.c.CC_Day_Ago}</div>
                                         <aura:set attribute="else">
-                                            <div class="slds-truncate wraptext">{!pe.Days_After_Referred__c} days ago</div>
+                                            <div class="slds-truncate wraptext">{!pe.Days_After_Referred__c}&nbsp; {!$Label.c.CC_Days_Ago}</div>
                                         </aura:set>
                                     </aura:if>
                                 </td>
