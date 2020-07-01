@@ -21,12 +21,25 @@
         //Get the event message attribute
         var refResult = event.getParam("refResult");
         var sobjectName = event.getParam("sobjectName");
+        var isChanged = event.getParam("isChanged");
         var referralResult = component.get('v.referralResult');
-          if(sobjectName == 'Referral_Network__c')
-          	  component.set('v.referralResult', refResult);
-          if(sobjectName == 'Therapeutic_Area__c')
-             component.set('v.therapeticResult', refResult); 
-          console.log('refResult'+ refResult);
+        if(sobjectName == 'Referral_Network__c') {
+            component.set('v.referralResult', refResult);
+        if(isChanged === true)
+            component.set('v.isReferalChange' , false);
+        else
+            component.set('v.isReferalChange' , true); 
+        
+        }   
+        if(sobjectName == 'Therapeutic_Area__c') {
+            component.set('v.therapeticResult', refResult); 
+                if(isChanged === true)
+                component.set('v.isTherapChange' , false);
+            else
+                component.set('v.isTherapChange' , true); 
+        
+            }  
+         // console.log('refResult'+ refResult);
                
     } ,
     show: function (component, event, helper) {
@@ -88,7 +101,10 @@
         communityService.executeAction(component, 'saveReferralNetworksNew', {
             referralNetworkJSON: JSON.stringify(referrals)
         }, function (returnValue) {
-          console.log(returnValue);
+            component.set('v.showSpinner',false);
+            component.set('v.isReferalChange', true);
+             component.set('v.isTherapChange', true);
+         // console.log(returnValue);
              communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'),100);
         });
     }

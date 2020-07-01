@@ -3,6 +3,16 @@
     <fullName>Site_Contact__c</fullName>
     <externalId>false</externalId>
     <label>Site Contact</label>
+	<lookupFilter>
+        <active>true</active>
+        <errorMessage>Cannot add CC contact as Site contact</errorMessage>
+        <filterItems>
+            <field>Contact.userCommunityMode__c</field>
+            <operation>notEqual</operation>
+            <value>CC</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
     <referenceTo>Contact</referenceTo>
     <relationshipLabel>Staff&#39;s Study Sites</relationshipLabel>
     <relationshipName>PI_Profiles</relationshipName>
