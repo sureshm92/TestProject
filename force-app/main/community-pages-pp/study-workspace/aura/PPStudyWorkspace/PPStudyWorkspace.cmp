@@ -180,7 +180,7 @@
                                 isTrue="{!and(v.studyDetail.trial.Study_Documents_Are_Available__c, v.state != 'ALUMNI')}">
                             <button id="changeResourceMode" data-resource-mode="Documents"
                                     class="{!'apollo-btn text ' + if(v.resourceMode == 'Documents', ' current', '')}"
-                                    onclick="{!c.doAction}">{!$Label.c.Resource_Tab_Study_Documents}</button>
+                                    onclick="{!c.doAction}" style="margin-left:160px">{!$Label.c.Resource_Tab_Study_Documents}</button>
                         </aura:if>
                         <aura:if
                                 isTrue="{!or(v.state == 'ALUMNI', v.studyDetail.trial.Video_And_Articles_Are_Available__c)}">
@@ -191,6 +191,7 @@
                                     class="{!'apollo-btn text ' + if(v.resourceMode == 'Favorite', ' current', '')}"
                                     onclick="{!c.doAction}">{!$Label.c.Resource_Tab_Favorites}</button>
                         </aura:if>
+                        <a onclick="{!c.navigateToCoi}" class="change-pref" >{!$Label.c.PP_Change_Preferences_Resource}</a>
                     </div>
 
                     <div class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-lab-results', '', ' collapsed')}">
