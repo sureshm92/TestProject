@@ -38,10 +38,12 @@
     <aura:attribute name="messageWhenRangeOverflow" type="String" default="{!$Label.c.PP_Reminder_Overflow}" />
     <aura:attribute name="messageWhenRangeUnderflow" type="String" default="{!$Label.c.PP_Reminder_Underflow}" />
     <aura:attribute name="tomorrow" type="Date" />
+    <aura:attribute name="dayAfterDueDate" type="Date" />
 
     <!-- event handlers -->
-    <aura:handler name="change" value="{!v.initData.activityDate}" action="{!c.validateDueDate}" />
-    <aura:handler name="change" value="{!v.initData.reminderDate}" action="{!c.validateReminderDate}" />
+    <aura:handler name="change" value="{!v.initData.activityDate}" action="{!c.doValidateFields}" />
+    <aura:handler name="change" value="{!v.initData.reminderDate}" action="{!c.doValidateFields}" />
+    <aura:handler name="change" value="{!v.task.Remind_Me__c}" action="{!c.doValidateFields}" />
 
     <!-- methods -->
     <aura:method name="reloadPopup" action="{!c.doInit}" description="Reload the popup in the parent component">
@@ -66,8 +68,9 @@
                     <div class="slds-grid te-form slds-gutters slds-wrap">
                         <div class="slds-col slds-size_1-of-1">
                             <lightning:input name="taskName" label="{!$Label.c.Task_Name}" value="{!v.task.Subject}"
-                                required="true" disabled="{!not(v.isEditable) || v.task.Task_Type__c == 'Visit'}"
-                                class="{!v.task.Task_Type__c == 'Visit' ? 'disabledVisit' : ''}" />
+                                required="true"
+                                disabled="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit'}"
+                                class="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit' ? 'disabledVisit' : ''}" />
                         </div>
                     </div>
                     <!--Seperator-->
@@ -77,8 +80,8 @@
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                             <lightning:input aura:id="field" type="date" min="{!v.initData.today}"
                                 label="{!$Label.c.Due_Date}" value="{!v.initData.activityDate}"
-                                disabled="{!not(v.isEditable) || v.task.Task_Type__c == 'Visit'}"
-                                class="{!v.task.Task_Type__c == 'Visit' ? 'disabledVisit' : ''}" />
+                                disabled="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit'}"
+                                class="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit' ? 'disabledVisit' : ''}" />
                         </div>
                         <!--Seperator-->
                         <div class="slds-p-top_small"></div>
@@ -86,7 +89,8 @@
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                             <aura:if isTrue="{!v.task.Task_Type__c != 'Visit'}">
                                 <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type}"
-                                    value="{!v.task.Task_Type__c}" disabled="{!not(v.isEditable)}">
+                                    value="{!v.task.Task_Type__c}" disabled="{!v.initData.createdByAdmin}"
+                                    class="{!v.initData.createdByAdmin ? 'disabledVisit' : '' }">
                                     <aura:iteration items="{!v.initData.taskTypeList}" var="type">
                                         <option value="{!type.value}" selected="{!type.value == v.task.Task_Type__c}">
                                             {!type.label}</option>
@@ -112,8 +116,7 @@
                     <div class="slds-grid te-form slds-gutters slds-wrap">
                         <!--Reminder Frequency-->
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                            <lightning:select label="{!$Label.c.Remind_Me}" onchange="{!c.onChangeFreq}"
-                                value="{!v.task.Remind_Me__c}">
+                            <lightning:select label="{!$Label.c.Remind_Me}" value="{!v.task.Remind_Me__c}">
                                 <aura:iteration items="{!v.initData.reminderFrequencyList}" var="mode">
                                     <option value="{!mode.value}" selected="{!mode.value == v.task.Remind_Me__c}">
                                         {!mode.label}</option>
@@ -125,7 +128,7 @@
                             <lightning:input aura:id="reminderDate" type="date"
                                 label="{!$Label.c.Home_Page_StudyVisit_Completed_On}" value="{!v.initData.reminderDate}"
                                 min="{!if(v.task.Remind_Me__c == $Label.c.One_day_before, v.tomorrow , v.initData.today)}"
-                                max="{!if(v.initData.activityDate, v.initData.activityDate, '')}"
+                                max="{!if(v.initData.activityDate, if(v.task.Remind_Me__c == $Label.c.One_day_before , v.dayAfterDueDate, v.initData.activityDate), '')}"
                                 messageWhenRangeOverflow="{!v.messageWhenRangeOverflow}"
                                 messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}" />
                         </div>
@@ -206,7 +209,7 @@
                     <div class="slds-grid te-form slds-gutters slds-wrap">
                         <!--Reminder Frequency-->
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                            <lightning:select label="{!$Label.c.Remind_Me}" required="true" onchange="{!c.onChangeFreq}"
+                            <lightning:select label="{!$Label.c.Remind_Me}" required="true"
                                 value="{!v.task.Remind_Me__c}">
                                 <aura:iteration items="{!v.initData.reminderFrequencyList}" var="mode">
                                     <option value="{!mode.value}" selected="{!mode.value == v.task.Remind_Me__c}">
@@ -219,7 +222,7 @@
                             <lightning:input aura:id="reminderDate" type="date"
                                 label="{!$Label.c.Home_Page_StudyVisit_Completed_On}" value="{!v.initData.reminderDate}"
                                 min="{!if(v.task.Remind_Me__c == $Label.c.One_day_before, v.tomorrow , v.initData.today)}"
-                                max="{!if(v.initData.activityDate, v.initData.activityDate, '')}"
+                                max="{!if(v.initData.activityDate, if(v.task.Remind_Me__c == $Label.c.One_day_before , v.dayAfterDueDate, v.initData.activityDate), '')}"
                                 messageWhenRangeOverflow="{!v.messageWhenRangeOverflow}"
                                 messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}" required="true" />
                         </div>

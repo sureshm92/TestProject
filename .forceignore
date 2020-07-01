@@ -30,3 +30,11 @@ force-app/main/user-communications/images
 **/jsconfig.json
 
 **/.eslintrc.json
+
+#Staic resources to stay within SFDX governor limit. Will free ~5MB 
+#Feel free to add more static resources as required. DO NOT commit uncommented file to team branch.
+#Uncomment the below lines when necessary.
+#force-app/main/default/staticresources/Flags.svg
+#force-app/main/default/staticresources/Flags.resource-meta.xml
+#force-app/main/default/staticresources/pdf_worker_js.js
+#force-app/main/default/staticresources/Participant_quick_reference_GSK.pdf

@@ -1,12 +1,12 @@
 ({
     doInit: function (component, event, helper) {
-
-              component.find('spinner').show();
+        
+        component.find('spinner').show();
         if (communityService.getCurrentCommunityMode().currentDelegateId){
             component.set('v.isDelegate', true);}
         else{
             component.set('v.isDelegate', false);
-
+            
         }
         
         communityService.executeAction(component, 'getInitData', {
@@ -19,10 +19,10 @@
                 new: '',
                 reNew: ''
             };
-           
             
-           let todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
-        	component.set('v.todayDate', todayDate);
+            
+            let todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
+            component.set('v.todayDate', todayDate);
             component.set('v.initData', initData); 
             component.set('v.contactChanged', initData.contactChanged);
             component.set('v.institute', initData.contactSectionData.institute);
@@ -43,32 +43,33 @@
             component.set('v.contact', initData.myContact);
             component.set('v.delegateContact',initData.delegateContact);
             component.set('v.hasProfilePic',initData.hasProfilePic);
-
-             if(communityService.getCurrentCommunityMode().currentDelegateId){
-               component.set('v.userId',communityService.getCurrentCommunityMode().currentDelegateId);
-			   component.set('v.userEmail', initData.delegateUserName.Username);
-
+            component.set('v.disableSave',true);
+            
+            if(communityService.getCurrentCommunityMode().currentDelegateId){
+                component.set('v.userId',communityService.getCurrentCommunityMode().currentDelegateId);
+                component.set('v.userEmail', initData.delegateUserName.Username);
+                
                 
             }
             else{
                 component.set('v.userId',initData.myContact.Id);
-				component.set('v.userEmail', initData.userName);
-
+                component.set('v.userEmail', initData.userName);
+                
             }
             console.log('initData.myContact.Email',initData.myContact.Email);
-
-if(component.get('v.personWrapper.mobilePhone')==''){
-    component.set('v.disableToggle',true);
-}
-if(component.get('v.personWrapper.mobilePhone')===null && component.get('v.optInSMS')===true){
-    component.set('v.disableSave',true);
-}
+            
+            if(component.get('v.personWrapper.mobilePhone')==''){
+                component.set('v.disableToggle',true);
+            }
+            if(component.get('v.personWrapper.mobilePhone')===null && component.get('v.optInSMS')===true){
+                component.set('v.disableSave',true);
+            }
             component.set('v.isInitialized', true);
         }, null, function () {
             component.find('spinner').hide();
         })
     },
-
+    
     doChangeEmail: function (component, event, helper) {
         let initData = component.get('v.initData');
         let newEmail = initData.myContact.Email;
@@ -81,7 +82,7 @@ if(component.get('v.personWrapper.mobilePhone')===null && component.get('v.optIn
             communityService.showToast('waring', 'warning', $A.get('$Label.c.TST_Emails_are_same'));
             return;
         }
-
+        
         component.set('v.showSpinner', true);
         communityService.executeAction(component, 'changeEmail', {
             newEmail: newEmail
@@ -92,11 +93,11 @@ if(component.get('v.personWrapper.mobilePhone')===null && component.get('v.optIn
             component.set('v.showSpinner', false);
         })
     },
-
+    
     doChangePassword: function (component, event, helper) {
         component.set('v.showSpinner', true);
         let initData = component.get('v.initData');
-
+        
         communityService.executeAction(component, 'changePassword', {
             newPassword: initData.password.new,
             verifyNewPassword: initData.password.reNew,
@@ -113,7 +114,7 @@ if(component.get('v.personWrapper.mobilePhone')===null && component.get('v.optIn
             component.set('v.showSpinner', false);
         });
     },
-
+    
     doSwitchOptInEmail: function (component, event, helper) {
         let initData = component.get('v.initData');
         let optInEmail = component.get('v.optInEmail');
@@ -124,31 +125,31 @@ if(component.get('v.personWrapper.mobilePhone')===null && component.get('v.optIn
             hcpOptInRefStatusEmail: initData.myContact.HCP_Opt_In_Referral_Status_Emails__c
         }, function () {});
     },
-
+    
     doSwitchOptInSMS: function (component, event, helper) {
         let optInSMS = component.get('v.optInSMS');
         communityService.executeAction(component, 'changeOptInSMS', {
             participantOptInStatusSMS: optInSMS
         }, function () {
-           let smsOptIn = optInSMS;
-           let personWrapper = component.get('v.personWrapper');
-           personWrapper.optInSMS = smsOptIn;
-           component.set('v.personWrapper', personWrapper);
-           component.set('v.reRender', false);
-           component.set('v.reRender', true);
-           let phone = personWrapper.homePhone;
-   
-           if(personWrapper.optInSMS && !personWrapper.mobilePhone) {
-               helper.setFieldsValidity(component);
-              component.set('v.disableToggle',true);
-               setTimeout(function () {
-                   communityService.showInfoToast('', $A.get('$Label.c.Toast_Enter_Mob_Num'));
-               }, 800);
-           }
-
+            let smsOptIn = optInSMS;
+            let personWrapper = component.get('v.personWrapper');
+            personWrapper.optInSMS = smsOptIn;
+            component.set('v.personWrapper', personWrapper);
+            component.set('v.reRender', false);
+            component.set('v.reRender', true);
+            let phone = personWrapper.homePhone;
+            
+            if(personWrapper.optInSMS && !personWrapper.mobilePhone) {
+                helper.setFieldsValidity(component);
+                component.set('v.disableToggle',true);
+                setTimeout(function () {
+                    communityService.showInfoToast('', $A.get('$Label.c.Toast_Enter_Mob_Num'));
+                }, 800);
+            }
+            
         });
     },
-
+    
     doSwitchOptInCookies: function (component, event, helper) {
         let initData = component.get('v.initData');
         communityService.executeAction(component, 'changeOptInCookies', {
@@ -158,14 +159,14 @@ if(component.get('v.personWrapper.mobilePhone')===null && component.get('v.optIn
             location.reload();
         });
     },
-
+    
     doSubmitQuestion: function (component, event, helper) {
         let description = component.get('v.privacyFormText');
         if (!description) {
             communityService.showToast('warning', 'warning', $A.get('$Label.c.TST_Complete_Your_Question'));
             return;
         }
-
+        
         component.set('v.showSpinner', true);
         communityService.executeAction(component, 'createCase', {
             description: description,
@@ -177,11 +178,11 @@ if(component.get('v.personWrapper.mobilePhone')===null && component.get('v.optIn
             component.set('v.showSpinner', false);
         })
     },
-
+    
     checkUpdate: function (component, event, helper) {
         component.set('v.isUpdated', true);
     },
-
+    
     onEditPerson: function (component, event, helper) {
         let personWrapper = event.getSource().get('v.personWrapper');
         component.set('v.optInEmail', personWrapper.optInEmail);
@@ -191,77 +192,85 @@ if(component.get('v.personWrapper.mobilePhone')===null && component.get('v.optIn
     doCheckFieldsValidity: function(component, event, helper){
         event.preventDefault();
         var numbers=/^[0-9]*$/;
-       let personWrapper = component.get('v.personWrapper');
-        if(component.get('v.userMode') == 'Participant') {
-			        let mobilePhoneValid = personWrapper.mobilePhone && numbers.test(personWrapper.mobilePhone);
-        let homePhoneValid = personWrapper.homePhone && numbers.test(personWrapper.homePhone);
+        let personWrapper = component.get('v.personWrapper');
+        var homephoneField=component.find('pField2');
+        
         var phoneField=component.find('pField1');
         if(personWrapper.mobilePhone){
-           if (!numbers.test(personWrapper.mobilePhone)) {
-               component.set('v.disableToggle',true);
-            phoneField.setCustomValidity("Phone number must be numeric");
-            component.set('v.disableSave',true);
+            if (!numbers.test(personWrapper.mobilePhone)) {
+                component.set('v.disableToggle',true);
+                phoneField.setCustomValidity("Phone number must be numeric");
+                component.set('v.disableSave',true);
             } else {
                 phoneField.setCustomValidity(""); // reset custom error message
                 component.set('v.disableSave',false);
                 component.set('v.disableToggle',false);
             }
         }else{
-            
             phoneField.setCustomValidity("");
         }
         phoneField.reportValidity();
-
         
-         var homephoneField=component.find('pField2');
-          if ((!numbers.test(personWrapper.homePhone)  || !personWrapper.homePhone)) {
-           if(!personWrapper.homePhone){
-               homephoneField.setCustomValidity("Phone number is mandatory");
-                       component.set('v.disableSave',true);
-
-           }
-           else{
-                       homephoneField.setCustomValidity("Phone number must be numeric");
-           }
-        component.set('v.disableSave',true);
-
-        } else {
-            homephoneField.setCustomValidity(""); // reset custom error message
-            component.set('v.disableSave',false);
-
-        }
-        homephoneField.reportValidity();
-        if(!personWrapper.firstName || !personWrapper.lastName || !personWrapper.dateBirth || mobilePhoneValid===false || homePhoneValid===false || !personWrapper.homePhone){
-            component.set('v.disableSave',true);
-        }else{
-            console.log('personWrapper.optInSMS'+personWrapper.optInSMS)
-            console.log('!personWrapper.mobilePhone'+!personWrapper.mobilePhone)
-             if(personWrapper.optInSMS && !personWrapper.mobilePhone){
-                 console.log('inside optinsms--->')
-                 component.set('v.disableSave',true);
-                 console.log('inside optinsms--->')
-
-               }
-             else{
-                     component.set('v.disableSave',false);
+        if(component.get('v.userMode') == 'Participant') {
+            let mobilePhoneValid = personWrapper.mobilePhone && numbers.test(personWrapper.mobilePhone);
+            let homePhoneValid = personWrapper.homePhone && numbers.test(personWrapper.homePhone);
+            
+            if ((!numbers.test(personWrapper.homePhone)  || !personWrapper.homePhone)) {
+                if(!personWrapper.homePhone){
+                    homephoneField.setCustomValidity("Phone number is mandatory");
+                    component.set('v.disableSave',true);
                 }
-
-        }
-
+                else{
+                    homephoneField.setCustomValidity("Phone number must be numeric");
+                }
+                component.set('v.disableSave',true);
+                
+            } else {
+                homephoneField.setCustomValidity(""); // reset custom error message
+                component.set('v.disableSave',false);
+            }
+            homephoneField.reportValidity();
+            if(!personWrapper.firstName || !personWrapper.lastName || !personWrapper.dateBirth || mobilePhoneValid===false || homePhoneValid===false || !personWrapper.homePhone){
+                component.set('v.disableSave',true);
+            }else{
+                console.log('personWrapper.optInSMS'+personWrapper.optInSMS)
+                console.log('!personWrapper.mobilePhone'+!personWrapper.mobilePhone)
+                if(personWrapper.optInSMS && !personWrapper.mobilePhone){
+                    console.log('inside optinsms--->')
+                    component.set('v.disableSave',true);
+                    console.log('inside optinsms--->')
+                    
+                }
+                else{
+                    component.set('v.disableSave',false);
+                }
+            }
         } 
-		
-		
-		
-		
-		else if(component.get('v.userMode') == 'HCP' || component.get('v.userMode') == 'PI')
+        
+        else if(component.get('v.userMode') == 'HCP' || component.get('v.userMode') == 'PI')
         {
-            if(!personWrapper.firstName || !personWrapper.lastName){
+            if(!personWrapper.firstName || !personWrapper.lastName) {
                 component.set('v.disableSave',true);
             }
-            else{
-                 component.set('v.disableSave',false);
-            }
+            else if (personWrapper.homePhone) {
+                if(!numbers.test(personWrapper.homePhone))
+                {
+                    homephoneField.setCustomValidity("Phone number must be numeric");
+                    component.set('v.disableSave',true);
+                }
+                else {
+                    homephoneField.setCustomValidity(""); // reset custom error message
+                    component.set('v.disableSave',false);
+                    
+                }
                 
+            }
+                else{
+                    homephoneField.setCustomValidity("");
+                    component.set('v.disableSave',false);
+                }
+            homephoneField.reportValidity();
+            
         }
         if(personWrapper.mailingCC !== component.get('v.previousCC')) {
             let statesByCountryMap = component.get('v.statesByCountryMap');
@@ -270,11 +279,11 @@ if(component.get('v.personWrapper.mobilePhone')===null && component.get('v.optIn
             component.set('v.previousCC', personWrapper.mailingCC);
             personWrapper.mailingSC = null;
             component.set('v.personWrapper', personWrapper);
-
+            
             component.set('v.reRender', false);
             component.set('v.reRender', true);
         }
-
+        
         helper.setFieldsValidity(component);
     },
     doShowHelpMessageIfInvalid: function (component) {
@@ -288,7 +297,7 @@ if(component.get('v.personWrapper.mobilePhone')===null && component.get('v.optIn
         }, true);
     }
     ,
-
+    
     doScrollInto: function (component, event, helper) {
         let smsOptIn = event.getParam('arguments').smsOptIn;
         let personWrapper = component.get('v.personWrapper');
@@ -305,70 +314,76 @@ if(component.get('v.personWrapper.mobilePhone')===null && component.get('v.optIn
                 communityService.showInfoToast('', $A.get('$Label.c.Toast_Enter_Mob_Num'));
             }, 800);
         }
-    }
-    ,
+    } ,
+    
     doUpdatePerson: function (component, event, helper) {
         var per=component.get('v.personWrapper');
-        console.log(JSON.stringify(per));
-            component.find('spinner').show();
-		  var personWrapper = component.get('v.personWrapper');
+        var personWrapper = component.get('v.personWrapper');
         var addressLine1 = component.get('v.addressLine1');
         var addressLine2 = component.get('v.addressLine2');
-        if(personWrapper)
+        var homephoneField=component.find('pField2');
+        var numbers=/^[0-9]*$/ ;
+        if (personWrapper.homePhone && (!numbers.test(personWrapper.homePhone))){
+            homephoneField.setCustomValidity("Phone number must be numeric");
+            component.set('v.disableSave',true);
+            homephoneField.reportValidity();
+        }
+        else if(personWrapper) {
+            component.find('spinner').show();
             personWrapper.mailingStreet = addressLine1 + '\n' + addressLine2;
-
+            
             communityService.executeAction(component, 'updatePerson', {
                 wrapperJSON: JSON.stringify(component.get('v.personWrapper'))
             }, function () {
                 component.set('v.participantHasUpdateTasks', false);
                 helper.setPersonSnapshot(component);
                 component.find('spinner').hide();
-                 communityService.navigateToPage('account-settings'); 
+                communityService.navigateToPage('account-settings'); 
                 communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'),100);
-    
+                
             });
-        let initData = component.get('v.initData');
-        let isUserDelegate = component.get('v.isDelegate');
-         let newEmail = initData.myContact.Email;
-         communityService.executeAction(component, 'changeEmail', {
-            newEmail: newEmail
-        }, function (returnValue) {
-            component.set('v.currentEmail', newEmail);
-        }, null, function () {
-            component.set('v.showSpinner', false);
-        })
-        if(!isUserDelegate){
-            if (!newEmail) {
-           communityService.showToast('error', 'error', $A.get('$Label.c.TST_Email_can_t_be_empty'));
-           return;
-       }
-       let oldEmail = component.get('v.currentEmail');
-       if (newEmail === oldEmail) {
-           communityService.showToast('waring', 'warning', $A.get('$Label.c.TST_Emails_are_same'));
-           return;
-       }    
-       }
-        component.set('v.showSpinner', true);
-        var inst = component.get('v.institute');
-        console.log(inst.Name);
-       // console.log(v.institute.Name)
+            let initData = component.get('v.initData');
+            let isUserDelegate = component.get('v.isDelegate');
+            let newEmail = initData.myContact.Email;
+            communityService.executeAction(component, 'changeEmail', {
+                newEmail: newEmail
+            }, function (returnValue) {
+                component.set('v.currentEmail', newEmail);
+            }, null, function () {
+                component.set('v.showSpinner', false);
+            })
+            if(!isUserDelegate){
+                if (!newEmail) {
+                    communityService.showToast('error', 'error', $A.get('$Label.c.TST_Email_can_t_be_empty'));
+                    return;
+                }
+                let oldEmail = component.get('v.currentEmail');
+                if (newEmail === oldEmail) {
+                    communityService.showToast('waring', 'warning', $A.get('$Label.c.TST_Emails_are_same'));
+                    return;
+                }    
+            }
+            component.set('v.showSpinner', true);
+            var inst = component.get('v.institute');
+            console.log(inst.Name);
+            // console.log(v.institute.Name)
+            
+            communityService.executeAction(component, 'updateAccount', {
+                AccName : inst.Name
+            }, function (returnValue) {
+                
+            }, null, function () {
+                
+            }); 
+            communityService.executeAction(component, 'changeEmail', {
+                newEmail: newEmail
+            }, function (returnValue) {
+                component.set('v.currentEmail', newEmail);
+            }, null, function () {
+                component.set('v.showSpinner', false);
+            })
+        } 
         
-         communityService.executeAction(component, 'updateAccount', {
-            AccName : inst.Name
-        }, function (returnValue) {
-           
-        }, null, function () {
-         
-        }); 
-		 communityService.executeAction(component, 'changeEmail', {
-            newEmail: newEmail
-        }, function (returnValue) {
-            component.set('v.currentEmail', newEmail);
-        }, null, function () {
-            component.set('v.showSpinner', false);
-        })
-        
-       
     },
     handleMobileValidation : function(component,event) {
         var inputValue = event.getSource().get("v.value");
@@ -379,10 +394,10 @@ if(component.get('v.personWrapper.mobilePhone')===null && component.get('v.optIn
         if(inputValue===""){
             phoneField.setCustomValidity("");  
         }
-       if ((!numbers.test(inputValue)  && inputValue!=="")) {
-           component.set('v.disableToggle',true);
-        phoneField.setCustomValidity("Phone number must be numeric");
-        component.set('v.disableSave',true);
+        if ((!numbers.test(inputValue)  && inputValue!=="")) {
+            component.set('v.disableToggle',true);
+            phoneField.setCustomValidity("Phone number must be numeric");
+            component.set('v.disableSave',true);
         } else {
             phoneField.setCustomValidity(""); // reset custom error message
             component.set('v.disableSave',false);
@@ -396,19 +411,19 @@ if(component.get('v.personWrapper.mobilePhone')===null && component.get('v.optIn
         console.log('phoneField-->'+phoneField);
         console.log('inputValue-->'+inputValue);
         var numbers=/^[0-9]*$/;
-       if ((!numbers.test(inputValue)  || !inputValue)) {
-           if(!inputValue){
-               phoneField.setCustomValidity("Phone number is mandatory");
-           }
-           else{
-                       phoneField.setCustomValidity("Phone number must be numeric");
-           }
-        component.set('v.disableSave',true);
-
+        if ((!numbers.test(inputValue)  || !inputValue)) {
+            if(!inputValue){
+                phoneField.setCustomValidity("Phone number is mandatory");
+            }
+            else{
+                phoneField.setCustomValidity("Phone number must be numeric");
+            }
+            component.set('v.disableSave',true);
+            
         } else {
             phoneField.setCustomValidity(""); // reset custom error message
             component.set('v.disableSave',false);
-
+            
         }
         phoneField.reportValidity();
     },
@@ -419,11 +434,15 @@ if(component.get('v.personWrapper.mobilePhone')===null && component.get('v.optIn
         let currentState = JSON.stringify(personWrapper);
         let isStateChanged = snapShot !== currentState;
         component.set('v.isStateChanged', isStateChanged);
-
+        
         if(isStateChanged && (personWrapper.mailingCC !== component.get('v.previousCC'))) {
             setTimeout(function () {
                 component.getEvent('onEdit').fire();
             }, 50);
         }
+    },
+    
+    onChangeInput : function(component,event,helper){
+        component.set('v.disableSave',false);
     }
 });

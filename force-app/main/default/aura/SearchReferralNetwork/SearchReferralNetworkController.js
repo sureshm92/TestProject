@@ -1,5 +1,6 @@
 ({
     doInit: function (component, event, helper) {
+        component.set('v.showSpinner',true);
         communityService.executeAction(component, 'getReferralNetworkRecords', {
             sObjectType: component.get("v.sObjectType")
         }, function (returnValue) {
@@ -9,11 +10,12 @@
                 selPills.push(returnValue[i]);
                 selPills[i].isSelected = true;
                 selectedPills[selPills[i].Id] =  selPills[i];
-            }
+             }
             component.set('v.selectedPills', selectedPills);
-            component.set('v.records', returnValue);
+            component.set('v.records', selPills);
+             component.set('v.showSpinner',false);
         });  
-    },
+    }, 
     bulkSearch: function (component, event, helper) {
         helper.doSearch(component, event, helper);
      },

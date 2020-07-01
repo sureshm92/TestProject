@@ -1,5 +1,5 @@
 <!--
- - Created by Leonid Bartenev
+ - Created by Sneha Thuluri
  -->
 
  <aura:component description="LanguageSwitcher" controller="PP_LanguageSwitcherRemote">

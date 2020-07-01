@@ -1,7 +1,7 @@
 <!--
  - Created by Nikita Abrazhevitch on 06-May-20.
  -->
-<aura:component description="LibraryPI" controller="LibraryPIRemote">
+ <aura:component description="LibraryPI" controller="LibraryPIRemote">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
     
     <aura:attribute name="resourceStructureList" type="List"/>
@@ -47,16 +47,16 @@
                                             name="{!resourceStructure.structureName+key}">
                     <aura:set attribute="actions">
                         <aura:if isTrue="{!v.sectionOpen}">
-                            <lightning:menuItem value="{!resourceStructure.resources.length+ ' Items'}" label="{!resourceStructure.resources.length+ ' Items'}"/>
+                            <lightning:menuItem value="{!resourceStructure.resources.length+' ' + $Label.c.Library_Items}" label="{!resourceStructure.resources.length+ ' ' + $Label.c.Library_Items}"/>
                             <aura:set attribute="else">
-                                <lightning:menuItem value="{!resourceStructure.resources.length+ ' Items'}" label="{!resourceStructure.resources.length+ ' Items'}" class="slds-hide"/>
+                                <lightning:menuItem value="{!resourceStructure.resources.length+ ' ' + $Label.c.Library_Items}" label="{!resourceStructure.resources.length+ ' ' + $Label.c.Library_Items}" class="slds-hide"/>
                             </aura:set>
                         </aura:if>                  	
                         
                     </aura:set>
                     <aura:set attribute="body"> 
                         <div class="slds-scrollable_y" 
-                             style="{!if(resourceStructure.resources.length > 12 , 'height :10rem' ,'margin-right:17px')}">
+                             style="{!if(resourceStructure.resources.length > 12 , 'height :10rem')}">
                             <aura:iteration items="{!resourceStructure.resources}" var="resource" indexVar="resourceIndex">
                                 <div class="slds-grid slds-wrap resource-container">
                                     

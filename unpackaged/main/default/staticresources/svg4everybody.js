@@ -66,8 +66,7 @@
     }
 
     function d(a) {
-        for (var b = a;
-             "svg" !== b.nodeName.toLowerCase() && (b = b.parentNode););
+        for (var b = a; b && b.nodeName && "svg" !== b.nodeName.toLowerCase() && (b = b.parentNode););
         return b
     }
     return c

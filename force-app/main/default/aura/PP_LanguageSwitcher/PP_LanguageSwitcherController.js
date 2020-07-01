@@ -3,7 +3,14 @@
  */
 ({
     doInit: function (component, event, helper) {
-        component.set('v.userMode', communityService.getUserMode());        
+        component.set('v.userMode', communityService.getUserMode()); 
+        console.log(communityService.getCurrentCommunityMode().currentDelegateId);   
+        if (communityService.getCurrentCommunityMode().currentDelegateId){
+            component.set('v.isDelegate', true);}
+        else{
+            component.set('v.isDelegate', false);
+
+        }  
         communityService.executeAction(component, 'getInitData',  null, function (returnValue) {
             let initData = JSON.parse(returnValue);			            
             let sectionData = component.get('v.contactSectionData');
