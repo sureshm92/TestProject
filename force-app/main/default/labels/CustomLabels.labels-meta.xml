@@ -1512,6 +1512,20 @@
         <value>rajesh.r@quintiles.com</value>
     </labels>
 	<labels>
+        <fullName>CC_Day_Ago</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Day_Ago</shortDescription>
+        <value>day ago</value>
+    </labels>
+    <labels>
+        <fullName>CC_Days_Ago</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Days_Ago</shortDescription>
+        <value>days ago</value>
+    </labels>
+	<labels>
         <fullName>CC_HomePageLabel</fullName>
         <language>en_US</language>
         <protected>true</protected>
