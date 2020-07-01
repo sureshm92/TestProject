@@ -6037,6 +6037,13 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <shortDescription>Library_General_Resources</shortDescription>
         <value>General Resources</value>
     </labels>
+	<labels>
+        <fullName>Library_Items</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Library Items</shortDescription>
+        <value>Items</value>
+    </labels>
     <labels>
         <fullName>Library_Language</fullName>
         <language>en_US</language>
