@@ -1,4 +1,5 @@
 <aura:event type="COMPONENT" description="get referral net work selected values">
     <aura:attribute name="refResult" type="List"/>
      <aura:attribute name="sobjectName" type="String"/>
+    <aura:attribute name="isChanged" type="Boolean" default="false"/>
 </aura:event>
