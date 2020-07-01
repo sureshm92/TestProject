@@ -132,11 +132,16 @@
 
 .THIS .ah-toggle {
     flex: inherit;
-    margin-top: 2rem;
+    margin-top: 2.25rem;
+}
+
+.THIS .ah-toggle .slds-form-element__control {
+    margin-top: 10px
 }
 
 .THIS .ah-toggle + .rr-form-element {
-    margin-top: 2rem;
+    margin-top: 3rem;
+    padding-left: 0;
 }
 
 .THIS .mar_25 {
@@ -305,4 +310,13 @@
         width: 70%;
         margin-top: 1rem;
     }
+
+    .THIS .ah-toggle {
+        margin-top: 1rem;
+    }
+
+    .THIS .ah-toggle .slds-form-element__control {
+        margin-top: 0;
+    }
+
 }

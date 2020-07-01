@@ -202,7 +202,7 @@
                                                 placeholder="{!$Label.c.PG_AC_Select}" disabled="true"/>                                                  
                                 </aura:if>
                             </div>
-                            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4">
                                 <aura:if isTrue="{!not(v.isDelegate)}">
                                     
                                     <lightning:input aura:id="pField" type="date" label="{!$Label.c.PG_AS_F_Date_of_Birth}"
@@ -268,16 +268,16 @@
                             
                             
                             
-                           <aura:if isTrue="{!v.userMode == 'Participant'}">  
-                            
+                           <aura:if isTrue="{!v.userMode == 'Participant'}">
+
                             <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}"
                                              variant="label-hidden"
                                              messageToggleInactive="{!$Label.c.BTN_Off}"
                                              class="slds-col ah-toggle slds-m-top--large"
                                              checked="{!v.optInEmail}"
                                              onchange="{!c.doSwitchOptInEmail}" value="{v.personWrapper.optInEmail}"/>
-                            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-m-top--large">
-                                
+                            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-small-size_1-of-3 slds-m-top--large">
+
                                 {!v.userMode == 'Participant'? $Label.c.PG_AS_L_Opt_In_Participant_Status_Emails : $Label.c.RH_OPT_INT_STATUS_EMAIL}</div>
                            </aura:if> 
                         </div>
@@ -296,16 +296,16 @@
                             </div>
                              <aura:if isTrue="{!v.userMode == 'Participant'}">  
                             <aura:if isTrue="{!and(v.initData.isSMSAvailableFromSS, equals(v.personWrapper.mailingCC, 'US'))}">
-                                
+
                                 <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}"
                                                  variant="label-hidden"
                                                  messageToggleInactive="{!$Label.c.BTN_Off}"
                                                  class="slds-col ah-toggle slds-m-top--large slds-media--responsive"
                                                  checked="{!v.optInSMS}"
-                                                 onchange="{!c.doSwitchOptInSMS}" value="{!v.personWrapper.optInSMS}" 
+                                                 onchange="{!c.doSwitchOptInSMS}" value="{!v.personWrapper.optInSMS}"
                                                  disabled="{!empty(v.personWrapper.mobilePhone)||(v.disableToggle)}"/>
-                                <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-m-top--large slds-media--responsive">
-                                    
+                                <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-small-size_1-of-3 slds-m-top--large slds-media--responsive">
+
                                     {!v.userMode == 'Participant'? $Label.c.PG_AS_L_Opt_In_Participant_Status_SMS : $Label.c.RH_OPT_IN_STATUS_SMS}</div>
                                  </aura:if>  
                             </aura:if>
