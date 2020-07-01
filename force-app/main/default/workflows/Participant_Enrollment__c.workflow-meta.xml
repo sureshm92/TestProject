@@ -215,6 +215,15 @@
         <operation>Formula</operation>
         <protected>false</protected>
     </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Participant_Status</fullName>
+        <field>Participant_Status__c</field>
+        <literalValue>Eligibility Passed</literalValue>
+        <name>Update Participant Status</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+    </fieldUpdates>
     <rules>
         <fullName>Email to HCP- Patient Accepted</fullName>
         <actions>
@@ -416,5 +425,15 @@
         <description>To update an empty Screening ID by Screening ID 1</description>
         <formula>AND(Screening_ID__c  = NULL,  IVRS_IWRS__c   &lt;&gt; NULL)</formula>
         <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Skip to Eligibility Passed option checked</fullName>
+        <actions>
+            <name>Update_Participant_Status</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>AND(Study_Site__r.Skip_to_Eligibility_Passed__c,  ISPICKVAL(Participant_Status__c , &#39;Received&#39;))</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>
 </Workflow>

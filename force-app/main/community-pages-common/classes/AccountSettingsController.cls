@@ -153,8 +153,14 @@ public without sharing class AccountSettingsController {
         PageReference pr;
         try {
             pr = Site.changePassword(newPassword, verifyNewPassword, oldPassword);
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+           
+        } catch (Exception ex) {
+            if(ex.getMessage().contains(System.Label.Pswd_Val_strng1) || ex.getMessage().contains(System.Label.Pswd_Val_strng2))
+            {
+                throw new AuraHandledException(System.Label.Pswd_ValidationMsg3_1 + ' '+ System.Label.Pswd_ValidationMsg3_2);
+            }else{
+                throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
+            }            
         }
     }
     

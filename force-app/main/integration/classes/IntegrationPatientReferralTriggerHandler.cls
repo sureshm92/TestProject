@@ -280,7 +280,8 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 utm_source__c = ipr.UTM_campaignSource__c,
                 utm_term__c = ipr.UTM_campaignTerm__c,
                 utmz__c = ipr.UTM_campaignCookie__c,
-                gclid__c = ipr.UTM_GCLID__c
+                gclid__c = ipr.UTM_GCLID__c,
+                Atid__c = ipr.Atid__c
         );
     }
     
