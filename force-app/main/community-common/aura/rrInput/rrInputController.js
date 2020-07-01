@@ -10,6 +10,7 @@
         component.set("v.showPasswordInput", true);
     },
     checkField: function (component, event, helper) {
+        component.set('v.isSaveBtnDisable',false);
         if(component.get('v.valueString').length >= 200){
             communityService.showInfoToast('', $A.get('{!$Label.c.Message_Studies_Length}'));
         }
