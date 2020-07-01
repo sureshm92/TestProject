@@ -173,6 +173,9 @@
         helper.setBrowserHistory(component);
         helper.setTabInitialized(component);
         helper.setTabActions(component);
+    },
+    navigateToCoi: function(component, event, helper){
+        communityService.navigateToPage('account-settings?changePref');
     }
 
 })
