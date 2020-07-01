@@ -32,7 +32,9 @@ public without sharing class PatientDelegateService {
                         'Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c',
                         'Participant__r.First_Name__c',
                         'Participant__r.Last_Name__c',
-                        'Contact__c'
+                        'Contact__c',
+                        'Contact__r.Participant_Opt_In_Status_Emails__c',
+                        'Contact__r.Participant_Opt_In_Status_SMS__c'
                 },
                 Patient_Delegate__c.getSObjectType(),
                 DatabaseService.fieldEqual('Contact__c', CommunityService.getInstance().getCurrentContactId())
@@ -99,6 +101,7 @@ public without sharing class PatientDelegateService {
                         'Contact__r.Language__c',
                         'Contact__r.Email',
                         'Contact__r.Participant_Opt_In_Status_Emails__c',
+                        'Contact__r.Participant_Opt_In_Status_SMS__c',
                         'Contact__r.HCP_Opt_In_Patient_Status_Emails__c',
                         'Contact__r.HCP_Opt_In_Study_Emails__c',
                         'Contact__r.HCP_Opt_In_Referral_Status_Emails__c',
