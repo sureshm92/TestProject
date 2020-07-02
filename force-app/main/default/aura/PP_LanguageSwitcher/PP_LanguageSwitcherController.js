@@ -3,7 +3,14 @@
  */
 ({
     doInit: function (component, event, helper) {
-        component.set('v.userMode', communityService.getUserMode());        
+        component.set('v.userMode', communityService.getUserMode()); 
+        console.log(communityService.getCurrentCommunityMode().currentDelegateId);   
+        if (communityService.getCurrentCommunityMode().currentDelegateId){
+            component.set('v.isDelegate', true);}
+        else{
+            component.set('v.isDelegate', false);
+
+        }  
         communityService.executeAction(component, 'getInitData',  null, function (returnValue) {
             let initData = JSON.parse(returnValue);			            
             let sectionData = component.get('v.contactSectionData');
@@ -24,8 +31,7 @@
 			component.set('v.languages', initData.languages);
             component.set('v.optionalLanguages', initData.optionalLanguages);
             component.set('v.locales',   initData.locales);
-            component.set('v.timezones', initData.timezones);	
-            component.set('v.isDisabled',true);		           
+            component.set('v.timezones', initData.timezones);			           
            
    
             console.log(initData.languages);
@@ -47,7 +53,6 @@
     },
 	doCheckFieldsValidity: function(component, event, helper){
         let personWrapper = component.get('v.personWrapper');
-        component.set('v.isDisabled',true);
         if(personWrapper.mailingCC !== component.get('v.previousCC')) {
             let statesByCountryMap = component.get('v.statesByCountryMap');
             let states = statesByCountryMap[personWrapper.mailingCC];
