@@ -262,6 +262,6 @@ public without sharing class CommunityFacadeRemote {
                 ORDER BY LastModifiedDate DESC LIMIT 1
         ];
         String currentSession = sessions.isEmpty() ? 'Browser' : sessions[0].LoginHistory.Application;
-        return !currentSession.equals('Browser');
+        return currentSession != 'Browser';
     }
 }
