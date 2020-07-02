@@ -72,6 +72,13 @@
 
 .THIS .bell-container .slds-button{
     color: #fff;
+    border-radius: 0;
+    height: 50px;
+    width: 50px;
+}
+
+.THIS .bell-container .slds-button.activated {
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 .THIS .slds-form-element__label {
@@ -171,6 +178,8 @@
 .THIS .right-block{
     flex-shrink: 0;
     margin-left: auto;
+    align-items: center;
+    display: flex;
 }
 
 .THIS .helpNavigationCSS .cRRIcon.rr-icon-default {
