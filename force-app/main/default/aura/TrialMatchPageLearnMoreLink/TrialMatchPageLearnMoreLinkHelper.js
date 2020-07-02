@@ -60,7 +60,7 @@
         doc.setTextColor('#6e6e6e');
         let splitTextFooter = doc.splitTextToSize(textFooter, 650);
         helper.generateFirstPage(ctpRecord, doc, helper);
-        doc.setFontSize(16);
+		doc.setFontSize(16);
         doc.setTextColor('#000096');
         doc.setFontType('bold');
         doc.setFontType('normal');
@@ -79,13 +79,6 @@
 
       addBorder: function (reportData, doc, logo, splitTextFooter, isFirstPage) {
         const helper = this;
-        if (!isFirstPage) {
-            doc.setFontSize(10);
-            doc.setTextColor('#6e6e6e');
-            if (reportData.Study_Code_Name__c ) {
-                doc.text(reportData.Study_Code_Name__c , 600, 12);
-            }
-        }
         doc.setDrawColor(216, 216, 216);
         doc.setLineWidth(8);
         doc.line(35, 35, 35, 550);
@@ -136,13 +129,13 @@
         doc.setFont('Roboto-Regular', 'normal');
         doc.setFontSize(12);
         doc.setTextColor('#000000');
-        heightY += 50;
+        heightY += 35;
         if (ctpRecord.Study_Content__c) {
             let splitStudyTitle = doc.splitTextToSize(ctpRecord.Study_Content__c, 600);
             splitStudyTitle.forEach(function (el, ind) {
-                helper.centeredText(el, (heightY + ind * doc.internal.getLineHeight()), doc);
+				heightY = helper.validationEndPage(doc, (heightY + 15), 75);
+                helper.centeredText(el, heightY, doc);
             });
-            heightY += doc.internal.getLineHeight() * splitStudyTitle.length;
         } else {
             heightY += 100;
         }
