@@ -13,6 +13,8 @@ public without sharing class CC_ParticipantSupportRemote {
             List < Participant_Enrollment__c > lstOfParticipantEnrollment = [SELECT Participant__r.Full_Name__c,
                                                                              Days_After_Referred__c, Participant__c, 
                                                                              Participant__r.Phone__c, 
+                                                                             Participant_Contact__c,
+                                                                             HCP_Contact_HCPEnroll__c,
                                                                              Permit_IQVIA_to_contact_about_study__c,
                                                                              Participant__r.Phone_Type__c, 
                                                                              Clinical_Trial_Profile__r.Study_Code_Name__c, 
@@ -34,7 +36,10 @@ public without sharing class CC_ParticipantSupportRemote {
                                                                              Participant__r.Mailing_Zip_Postal_Code__c,
                                                                              Participant__r.Alternative_Phone_Number__c,
                                                                              Participant__r.Alternative_Phone_Type__c,
-                                                                             Study_Site__r.Study_Site_Phone__c, Study_Site__c 
+                                                                             Study_Site__r.Study_Site_Phone__c, Study_Site__c,
+                                                                             Participant__r.Marketing_Flag__c,
+                                                                             Study_Site__r.Study_Site_Type__c,
+                                                                             Participant__r.IsCountry_NOT_Eligible_for_Emails__c                                                                           
                                                                              FROM Participant_Enrollment__c 
                                                                              where Participant__r.Phone__c =: searchKeyWord
                                                                             ];
@@ -48,5 +53,26 @@ public without sharing class CC_ParticipantSupportRemote {
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
+    }
+    
+    @AuraEnabled
+    public static string getInvitedDetails(string contactid){
+      try{
+          Boolean Userexist;
+          List<user> lstUser = new List<user>();
+          lstUser = [select id,ContactId from user where ContactId=:contactid];
+          if(lstUser.size() == 0)
+          {
+            Userexist=false;
+          }else
+          {
+            Userexist=true;
+          }
+          return JSON.serialize(Userexist);
+      
+      } catch (Exception e){
+           throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+      }
+    
     }
 }
