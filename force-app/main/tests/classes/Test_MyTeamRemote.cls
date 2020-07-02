@@ -80,7 +80,7 @@ private class Test_MyTeamRemote {
         dlw.add(wrap);
         Boolean result = false;
         Test.startTest();
-            result = MyTeamRemote.doCreateUser(dlw);
+            result = MyTeamRemote.doCreateUser(dlw, 'PI');
         Test.stopTest();
         System.assertEquals(true, result);
     }
@@ -98,7 +98,7 @@ private class Test_MyTeamRemote {
         dlw.add(wrap);
         Boolean result = false;
         Test.startTest();
-        result = MyTeamRemote.doCreateUser(dlw);
+        result = MyTeamRemote.doCreateUser(dlw, 'PI');
         Test.stopTest();
         System.assertEquals(false, result);
     }
