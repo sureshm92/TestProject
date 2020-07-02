@@ -61,7 +61,7 @@ public without sharing class TaskEditRemote {
                 wrapper.task = task;
 
                 if (task.Activity_Datetime__c != null) wrapper.activityDate = task.Activity_Datetime__c.date();
-                if (task.ReminderDateTime != null) wrapper.reminderDate = task.ReminderDateTime.date();
+                if (task.Reminder_Date__c != null) wrapper.reminderDate = task.Reminder_Date__c.date();
 
                 wrapper.createdByAdmin = createdByAdmin(task);
             }
@@ -97,7 +97,9 @@ public without sharing class TaskEditRemote {
             }
             if (taskWrapper.reminderDate != null) {
                 taskToUpsert.Reminder_Date__c = Datetime.newInstance(taskWrapper.reminderDate, Datetime.now().time());
-                taskToUpsert.ReminderDateTime =
+                Datetime newReminderDate = taskToUpsert.Reminder_Date__c.addDays(-1);
+                taskToUpsert.ReminderDateTime = String.isNotBlank(taskToUpsert.Remind_Me__c) && taskToUpsert.Remind_Me__c.equals(Label.One_day_before) ?
+                        Datetime.newInstanceGmt(newReminderDate.dateGmt(), newReminderDate.timeGmt()) :
                         Datetime.newInstanceGmt(taskToUpsert.Reminder_Date__c.dateGmt(), taskToUpsert.Reminder_Date__c.timeGmt());
             }
 

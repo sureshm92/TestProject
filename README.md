@@ -3,7 +3,7 @@
 ##### 0) Login to Dev Hub org and make it default (-d key):
 
    ```
-   sfdx force:auth:web:login -d -a devHubAlias
+   sfdx force:auth:web:login -d -a PPDevHub
    sfdx force:config:set defaultdevhubusername=devHubAlias --global
    ```
 

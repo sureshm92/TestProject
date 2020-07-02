@@ -25,7 +25,7 @@ force-app/main/default/flows/customer_satisfaction.flow-meta.xml
 force-app/main/user-communications/images
 
 #ignore all onboarding slides, comment line for include
-#**/onboarding-tour/staticresources
+**/onboarding-tour/staticresources
 
 **/jsconfig.json
 
@@ -37,4 +37,49 @@ force-app/main/user-communications/images
 #force-app/main/default/staticresources/Flags.svg
 #force-app/main/default/staticresources/Flags.resource-meta.xml
 #force-app/main/default/staticresources/pdf_worker_js.js
-#force-app/main/default/staticresources/Participant_quick_reference_GSK.pdf
+#force-app/main/default/staticresources/Participant_quick_reference_GSK.pdf# Add excluded metadata for deployment here!
+
+
+# Resource record types:
+force-app/main/resources/objects/Resource__c/recordTypes/*
+force-app/main/resources/objects/Resource__c/fields/Type__c
+
+
+# Escalation report:
+force-app/main/default/reports/Escalationreport/*
+force-app/main/default/reports/unfiled$public/Escalation_report_vBd*
+
+
+# Contact record types (TODO check this):
+force-app/main/default/objects/Contact/recordTypes/*
+
+# Exclude community settings
+unpackaged/communities/community-gsk/networkBranding
+unpackaged/communities/community-gsk/networks
+unpackaged/communities/community-gsk/sites
+unpackaged/communities/community-iqvia/networkBranding
+unpackaged/communities/community-iqvia/networks
+unpackaged/communities/community-iqvia/sites
+# Add excluded metadata for deployment here!
+
+
+# Resource record types:
+force-app/main/resources/objects/Resource__c/recordTypes/*
+force-app/main/resources/objects/Resource__c/fields/Type__c
+
+
+# Escalation report:
+force-app/main/default/reports/Escalationreport/*
+force-app/main/default/reports/unfiled$public/Escalation_report_vBd*
+
+
+# Contact record types (TODO check this):
+force-app/main/default/objects/Contact/recordTypes/*
+
+# Exclude community settings
+unpackaged/communities/community-gsk/networkBranding
+unpackaged/communities/community-gsk/networks
+unpackaged/communities/community-gsk/sites
+unpackaged/communities/community-iqvia/networkBranding
+unpackaged/communities/community-iqvia/networks
+unpackaged/communities/community-iqvia/sites
