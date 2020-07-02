@@ -2,5 +2,5 @@
 <StaticResource xmlns="http://soap.sforce.com/2006/04/metadata">
     <cacheControl>Public</cacheControl>
     <contentType>application/x-zip-compressed</contentType>
-    <description>Icons for Rocket Referral Community</description>
+    <description>Icons for Patient Portal and Referral Hub</description>
 </StaticResource>
