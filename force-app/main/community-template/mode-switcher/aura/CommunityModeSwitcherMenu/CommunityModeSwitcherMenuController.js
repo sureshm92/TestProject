@@ -69,6 +69,15 @@
         }
     },
 
+    handleShow: function(component, event, helper) {
+        component.set('v.initialCommunityModes', JSON.parse(JSON.stringify(component.get('v.communityModes'))));
+    },
+
+    handleBlur: function (component, event, helper) {
+        const comModes = component.get('v.initialCommunityModes');
+        component.set('v.communityModes', comModes);
+    },
+
     logout: function (component, event, helper) {
         communityService.executeAction(component, 'getLogoutURL', null, function (url) {
             window.location.replace(url + "/secur/logout.jsp");

@@ -15,19 +15,34 @@ public inherited sharing class VisitResultsService {
     }
 
     public List<VisitResultWrapper> getVisitResultWrappersForDashboard() {
-        Id currentCTP = ParticipantContext.getCurrentPE().Clinical_Trial_Profile__c;
+        Participant_Enrollment__c objCurrParEnroll=ParticipantContext.getCurrentPE();
+        String strCountryCode='';
+        if(objCurrParEnroll.Study_Site__c!=null && objCurrParEnroll.Study_Site__r.Site__c!=null){
+            strCountryCode=objCurrParEnroll.Study_Site__r.Site__r.BillingCountryCode;
+        }
+        
+        Id currentCTP = objCurrParEnroll.Clinical_Trial_Profile__c;
         Clinical_Trial_Profile__c ctpObject = [SELECT Id,Participant_Visit_Result_Group__c FROM Clinical_Trial_Profile__c WHERE Id = :currentCTP];
         String currentCTPVisitResultGroup = ctpObject.Participant_Visit_Result_Group__c;
         List<String> ctpAvailableNames = new List<String>();
         List<Visit_Result_Type_Sharing__c> ctpAvailable = [
-                SELECT Id,
+                SELECT Id,Include_Countries__c,Sharing_Countries__c,
                         Type__c
                 FROM Visit_Result_Type_Sharing__c
                 WHERE Clinical_Trial_Profile__c = :currentCTP
 
         ];
         for (Visit_Result_Type_Sharing__c visitResultTypeSharing : ctpAvailable) {
-            ctpAvailableNames.add(visitResultTypeSharing.Type__c);
+            if(!visitResultTypeSharing.Include_Countries__c){
+                if(String.isBlank(strCountryCode) || String.isBlank(visitResultTypeSharing.Sharing_Countries__c) || visitResultTypeSharing.Sharing_Countries__c.equals('All') || (!visitResultTypeSharing.Sharing_Countries__c.contains(strCountryCode))){
+                    ctpAvailableNames.add(visitResultTypeSharing.Type__c);
+                }    
+            }
+            else{
+                if(String.isBlank(strCountryCode) || String.isBlank(visitResultTypeSharing.Sharing_Countries__c) || (!String.isBlank(strCountryCode) && visitResultTypeSharing.Sharing_Countries__c.contains(strCountryCode))){
+                    ctpAvailableNames.add(visitResultTypeSharing.Type__c);
+                }
+            }
         }
         List<Visit_Result_GroupM__mdt> visistResultGroupMetaDataTypeList = [
                 SELECT Id, Label, (SELECT Id, DeveloperName, Label, Visit_Result_Code__c FROM Visit_Result_Types__r)
@@ -210,11 +225,13 @@ public inherited sharing class VisitResultsService {
             if (visitResult != null) {
                 this.value = visitResult.Actual_Value__c;
                 this.recordtype = visitResult.RecordType.DeveloperName;
-                String measurementLowerCase = visitResult.Measurement__c.toLowerCase();
-                if (measurementNamesMap != null && measurementNamesMap.containsKey(measurementLowerCase)) {
-                    this.measurement = measurementNamesMap.get(measurementLowerCase).replace('/', ' / ');
-                } else {
-                    this.measurement = visitResult.Measurement__c.replace('/', ' / ');
+                if(visitResult.Measurement__c!=null){
+                    String measurementLowerCase = visitResult.Measurement__c.toLowerCase();
+                    if (measurementNamesMap != null && measurementNamesMap.containsKey(measurementLowerCase)) {
+                        this.measurement = measurementNamesMap.get(measurementLowerCase).replace('/', ' / ');
+                    } else {
+                        this.measurement = visitResult.Measurement__c.replace('/', ' / ');
+                    }
                 }
             }
         }

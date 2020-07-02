@@ -1512,6 +1512,20 @@
         <value>rajesh.r@quintiles.com</value>
     </labels>
 	<labels>
+        <fullName>CC_Day_Ago</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Day_Ago</shortDescription>
+        <value>day ago</value>
+    </labels>
+    <labels>
+        <fullName>CC_Days_Ago</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Days_Ago</shortDescription>
+        <value>days ago</value>
+    </labels>
+	<labels>
         <fullName>CC_HomePageLabel</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -5257,6 +5271,22 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <shortDescription>HT 19 B Participant</shortDescription>
         <value>How do I update my contact information?</value>
     </labels>
+	<labels>
+        <fullName>HT_20_B</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HT 20 B</shortDescription>
+        <value>We acquire, hold, use, and process your personal information based on legal grounds, your explicit consent and for the legitimate business purposes outlined in the &lt;a href=privacy-policy?ret=help&gt;Privacy Policy&lt;/a&gt; .
+If you wish to access, correct, update or request removal of any of your information you provided to us or if you have any questions regarding this Privacy Policy or would like more information on our privacy practices, please contact 
+IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&quot;&gt;data.protection@iqvia.com&lt;/a&gt;</value>
+    </labels>
+    <labels>
+        <fullName>HT_20_H</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HT 20 H</shortDescription>
+        <value>How do you use my personal information?</value>
+    </labels>
     <labels>
         <fullName>Haematocrit</fullName>
         <language>en_US</language>
@@ -6006,6 +6036,13 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <protected>true</protected>
         <shortDescription>Library_General_Resources</shortDescription>
         <value>General Resources</value>
+    </labels>
+	<labels>
+        <fullName>Library_Items</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Library Items</shortDescription>
+        <value>Items</value>
     </labels>
     <labels>
         <fullName>Library_Language</fullName>
@@ -8753,6 +8790,13 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <protected>false</protected>
         <shortDescription>PG AS L Select conditions</shortDescription>
         <value>Select up to 5 medical conditions related to your diagnosis, to help us prioritize the content we display to you.</value>
+    </labels>
+	<labels>
+        <fullName>PG_AS_NickName</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_AS_NickName</shortDescription>
+        <value>NickName</value>
     </labels>
     <labels>
         <fullName>PG_AS_T1_Contact_Info</fullName>
@@ -15031,6 +15075,13 @@ communications using the toggles below.</value>
         <value>Invalid email address!</value>
     </labels>
     <labels>
+        <fullName>TST_JS_Injection_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST JS Injection Error</shortDescription>
+        <value>HTML or JS Code is not permitted for inputs!</value>
+    </labels>
+    <labels>
         <fullName>TST_Permissions_should_be_the_same_for_study</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -15539,7 +15590,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>This Participant has reached legal age of emancipation</shortDescription>
-        <value>This Participant has reached legal age of emancipation, but continues to require legal guardianship. Please verify that this is correct.</value>
+        <value>This participant has reached the legal age of emancipation. Please update and verify the participant details with the participant.</value>
     </labels>
     <labels>
         <fullName>Title_Contact_PT_Reminder_Push</fullName>
@@ -16439,4 +16490,4 @@ communications using the toggles below.</value>
         <shortDescription>configuation table</shortDescription>
         <value>Name</value>
     </labels>
-</CustomLabels>
+</CustomLabels>	

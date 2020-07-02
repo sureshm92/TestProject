@@ -6,6 +6,7 @@
 
     <!-- attributes: -->
     <aura:attribute name="user" type="User" access="private"/>
+    <aura:attribute name="initialCommunityModes" type="Object"/>
     <aura:attribute name="communityModes" type="Object"/>
     <aura:attribute name="currentMode" type="Object"/>
     <aura:attribute name="reset" type="Boolean" default="false"/>
@@ -16,6 +17,8 @@
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="onblur" event="c:uiEvent" action="{!c.handleBlur}"/>
+    <aura:handler name="onshow" event="c:uiEvent" action="{!c.handleShow}"/>
 
     <aura:if isTrue="{!not(v.reset)}">
         <c:ModeHeaderMenu class="menu-block">
