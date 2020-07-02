@@ -545,14 +545,19 @@ public without sharing class MyTeamRemote {
     }
 
     public static Boolean doCreateUser(List<TrialDelegateWrapper> dlw, String userMode) {
-        for (MyTeamRemote.TrialDelegateWrapper t : dlw) {
-            for (MyTeamRemote.DelegateLevelWrapper d : t.siteLevels) {
-                if ((d.ReferralStatus == 'Accepted' &&  String.isNotBlank(d.delegateLevel)) || (userMode != CommunityService.USER_MODE_PI)) {
-                    return true;
+        if(userMode != CommunityService.USER_MODE_PI){
+          return true;
+        }
+        else{
+            for (MyTeamRemote.TrialDelegateWrapper t : dlw) {
+                for (MyTeamRemote.DelegateLevelWrapper d : t.siteLevels) {
+                    if (d.ReferralStatus == 'Accepted' &&  String.isNotBlank(d.delegateLevel)) {
+                        return true;
+                    }
                 }
             }
+            return false;
         }
-        return false;
     }
 
     private static Contact createDelegateContact(DelegateWrapper delegate, String userMode) {
