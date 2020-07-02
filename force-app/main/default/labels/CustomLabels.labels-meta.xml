@@ -15068,6 +15068,13 @@ communications using the toggles below.</value>
         <value>Invalid email address!</value>
     </labels>
     <labels>
+        <fullName>TST_JS_Injection_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST JS Injection Error</shortDescription>
+        <value>HTML or JS Code is not permitted for inputs!</value>
+    </labels>
+    <labels>
         <fullName>TST_Permissions_should_be_the_same_for_study</fullName>
         <language>en_US</language>
         <protected>false</protected>

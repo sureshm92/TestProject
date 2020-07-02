@@ -76,7 +76,7 @@ window.communityService = (function () {
                 let action = component.get('c.' + actionName);
                 if (params) {
                     if (service.parametersHaveValidInputs(params)) {
-                        service.showErrorToast('Error', 'HTML or JS Code is not permitted for inputs');
+                        service.showErrorToast('Error', $A.get('$Label.c.TST_JS_Injection_Error'));
                         if (errorCallback) errorCallback();
                         if (finalCallback) finalCallback();
                     }
