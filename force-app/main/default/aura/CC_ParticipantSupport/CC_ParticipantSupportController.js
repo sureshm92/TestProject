@@ -35,9 +35,30 @@
         var actions = component.get('v.actions');
         var isInvited = component.get('v.isInvited');
         var anchor = event.currentTarget.value;
+        var contactId;
+        
+        if(component.get('v.peobj')[PeIndex].Participant_Contact__c != null)
+        {
+           contactId=component.get('v.peobj')[PeIndex].Participant_Contact__c;
+        }else if(component.get('v.peobj')[PeIndex].HCP_Contact_HCPEnroll__c != null)
+        {
+           contactId=component.get('v.peobj')[PeIndex].HCP_Contact_HCPEnroll__c;
+        }else
+        {
+           contactId=null;
+        }
+        
+        if(contactId != null)
+        {
+           communityService.executeAction(component, 'getInvitedDetails', {
+                contactid: contactId
+            }, function(returnValue) {
+                 component.set('v.InviteStatus', JSON.parse(returnValue));
+            });
+        }
         component.find("OpenPatientInfoAction").execute(pe, actions, rootComponent, isInvited, function(enrollment) {
             component.set('v.pe', enrollment);
-            component.set('v.isInvited', true);
+            component.set('v.isInvited', component.get('v.InviteStatus'));
             
         });
     },
