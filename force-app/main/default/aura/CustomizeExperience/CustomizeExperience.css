@@ -188,4 +188,8 @@
     .THIS .button.slds-pill {
         max-width: 290px;
     }
+
+    .THIS .slds-m-top_xx-large {
+        margin-top: 1rem;
+    }
 }
