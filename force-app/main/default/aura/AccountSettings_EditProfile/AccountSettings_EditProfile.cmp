@@ -160,11 +160,11 @@
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 smallName">
                             <aura:if isTrue="{!not(v.isDelegate)}">
                                 
-                                <lightning:input aura:id="pField" type="text" label="Suffix"
+                                <lightning:input aura:id="pField" type="text" label="{!$Label.c.PG_AS_F_Suffix}"
                                                  value="{!v.personWrapper.suffix}" 
                                                  onblur="{!c.doCheckFieldsValidity}" class="suffix"/></aura:if>
                             <aura:if isTrue="{!(v.isDelegate)}">
-                                <lightning:input aura:id="pField" type="text" label="Suffix"
+                                <lightning:input aura:id="pField" type="text" label="{!$Label.c.PG_AS_F_Suffix}"
                                                  value="{!v.personWrapper.suffix}" 
                                                  onblur="{!c.doCheckFieldsValidity}" disabled="true" class="suffix"/>                                              
                             </aura:if>
@@ -178,12 +178,12 @@
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4 nickname">
                                 <aura:if isTrue="{!not(v.isDelegate)}">
                                     
-                                    <lightning:input aura:id="pField" type="text" label="NickName"
+                                    <lightning:input aura:id="pField" type="text" label="{!$Label.c.PG_AS_NickName}"
                                                      value="{!v.personWrapper.nickname}" 
                                                      onblur="{!c.doCheckFieldsValidity}"/></aura:if>
                                 
                                 <aura:if isTrue="{!v.isDelegate}">
-                                    <lightning:input aura:id="pField" type="text" label="NickName"
+                                    <lightning:input aura:id="pField" type="text" label="{!$Label.c.PG_AS_NickName}"
                                                      value="{!v.personWrapper.nickname}" 
                                                      onblur="{!c.doCheckFieldsValidity}" disabled="true"/>                                                  
                                 </aura:if>
