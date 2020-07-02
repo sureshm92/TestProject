@@ -8791,6 +8791,13 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <shortDescription>PG AS L Select conditions</shortDescription>
         <value>Select up to 5 medical conditions related to your diagnosis, to help us prioritize the content we display to you.</value>
     </labels>
+	<labels>
+        <fullName>PG_AS_NickName</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_AS_NickName</shortDescription>
+        <value>NickName</value>
+    </labels>
     <labels>
         <fullName>PG_AS_T1_Contact_Info</fullName>
         <language>en_US</language>
@@ -16483,4 +16490,4 @@ communications using the toggles below.</value>
         <shortDescription>configuation table</shortDescription>
         <value>Name</value>
     </labels>
-</CustomLabels>
+</CustomLabels>	
