@@ -1,0 +1,21 @@
+<aura:component description="CPD_InformationContent" access="global">
+        
+    <div class="sld-all-information-rectangle">
+        <div class="sld-content-alignment">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-12 slds-large-size_1-of-12">
+                    <img src="{!$Resource.CPD_Covid_Registry_Images + '/privacy-information-rect.svg'}"/>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-large-size_5-of-12">
+                    <p class="sld-all-information-rectangle-p">{!$Label.c.CPD_All_information_provided_will_be}</p>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-12 slds-large-size_1-of-12">
+                    <img src="{!$Resource.CPD_Covid_Registry_Images + '/clock-information-rect.svg'}" />
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-large-size_5-of-12">
+                    <p class="sld-all-information-rectangle-p">{!$Label.c.CPD_The_entire_qualification_process}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

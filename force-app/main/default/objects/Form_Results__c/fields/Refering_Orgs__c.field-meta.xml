@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Refering_Orgs__c</fullName>
+    <externalId>false</externalId>
+    <label>Referring Orgs</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Covid Plasma Save a Life</fullName>
+                <default>false</default>
+                <label>Covid Plasma Save a Life</label>
+            </value>
+            <value>
+                <fullName>Kamin Health Urgent Case</fullName>
+                <default>false</default>
+                <label>Kamin Health Urgent Case</label>
+            </value>
+            <value>
+                <fullName>Nassau/Suffolk County</fullName>
+                <default>false</default>
+                <label>Nassau/Suffolk County</label>
+            </value>
+            <value>
+                <fullName>NYC DOH</fullName>
+                <default>false</default>
+                <label>NYC DOH</label>
+            </value>
+            <value>
+                <fullName>NYPD (LBA)</fullName>
+                <default>false</default>
+                <label>NYPD (LBA)</label>
+            </value>
+            <value>
+                <fullName>NYS</fullName>
+                <default>false</default>
+                <label>NYS</label>
+            </value>
+            <value>
+                <fullName>Westchester County</fullName>
+                <default>false</default>
+                <label>Westchester County</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
