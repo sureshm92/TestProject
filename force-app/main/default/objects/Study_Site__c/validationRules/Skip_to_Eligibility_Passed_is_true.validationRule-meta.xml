@@ -2,7 +2,7 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Skip_to_Eligibility_Passed_is_true</fullName>
     <active>true</active>
-    <description>The checkbox &#39;Skip to Eligibility Passed&#39; should only be clickable if the Study Site Type = Virtual</description>
-    <errorConditionFormula>AND(Skip_to_Eligibility_Passed__c,!ISPICKVAL(Study_Site_Type__c,&#39;Virtual&#39;) )</errorConditionFormula>
-    <errorMessage>&#39;Skip to Eligibility Passed&#39; should only be true if the Study Site Type is Virtual</errorMessage>
+    <description>The checkbox &#39;Skip to Eligibility Passed&#39; should only be clickable if the Study Site Type = Virtual or Hybrid</description>
+    <errorConditionFormula>AND(Skip_to_Eligibility_Passed__c,!OR(ISPICKVAL(Study_Site_Type__c,&#39;Virtual&#39;),ISPICKVAL(Study_Site_Type__c,&#39;Hybrid&#39;)) )</errorConditionFormula>
+    <errorMessage>&#39;Skip to Eligibility Passed&#39; should only be true if the Study Site Type is Virtual or Hybrid</errorMessage>
 </ValidationRule>

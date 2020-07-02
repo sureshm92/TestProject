@@ -1,0 +1,122 @@
+<aura:component description="CPD_ReferralForm" implements="forceCommunity:availableForAllPageTypes"
+    controller="CPDonorReferralFormController" access="global">
+
+    <!-- Attributes-->
+    <aura:attribute name="selTabId" type="string" default="1" />
+    <aura:attribute name="isVisible" type="Boolean" default="false" />
+    <aura:attribute name="isNextStepVisible" type="Boolean" default="false" />
+    <aura:attribute name="isSiteVisible" type="Boolean" default="false" />
+
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:attribute name="DOB" type="string" />
+    <aura:attribute name="positiveCase" type="Boolean" />
+    <aura:attribute name="hideParent" type="Boolean" />
+    <aura:attribute name="parentRequired" type="Boolean" />
+    <aura:attribute name="patientRequired" type="Boolean" />
+
+    <aura:attribute name="progressLevel1" type="string" default="50" />
+    <aura:attribute name="progressLevel2" type="string" default="0" />
+    <aura:attribute name="progressLevel3" type="string" default="0" />
+
+    <aura:attribute name="uploadedFile" type="Object" />
+    <aura:attribute name="selectedFile" type="Object" />
+    <aura:attribute name="integrationPatientReferralObj" type="Integration_Patient_Referral__c"
+        default="{'sobjectType':'Integration_Patient_Referral__c'}" />
+    <aura:attribute name="formResultObj" type="Form_Results__c" default="{'sobjectType':'Form_Results__c'}" />
+
+    <!-- Site selection-->
+    <aura:attribute name="studySitesInstance" type="object" />
+
+    <!-- Handler-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="questionnaireEvent" event="c:CPD_QuestionnaireEvt" action="{!c.handleQuestionnaireEvent}" />
+
+    <aura:if isTrue="{!v.isNextStepVisible}">
+        <br />
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_12-of-12">
+                <div class="rectangle-2">
+                    <p class="next-step-complete">{!$Label.c.CPD_Next_step_complete_a_few_details}</p>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+
+    <aura:if isTrue="{!v.isSiteVisible}">
+        <br />
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_12-of-12">
+                <div class="rectangle-2">
+                    <p class="next-step-complete">{!$Label.c.CPD_Select_your_preferred_location}</p>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+    <br />
+    <div class="slds-grid slds-wrap tab-align-css">
+        <div class="slds-col slds-size_1-of-3">
+            <lightning:progressBar value="{!v.progressLevel1}" size="small" />
+            <p id="questionnaireFont" class="tab-font">{!$Label.c.CPD_Questionnaire}</p>
+        </div>
+        <div class="slds-col slds-size_1-of-3">
+            <lightning:progressBar value="{!v.progressLevel2}" size="small" />
+            <p id="contactInfoFont" class="tab-font">{!$Label.c.CPD_Contact_Info}</p>
+        </div>
+        <div class="slds-col slds-size_1-of-3">
+            <lightning:progressBar value="{!v.progressLevel3}" size="small" />
+            <p id="siteSelectionFont" class="tab-font">{!$Label.c.CPD_Site_Selection}</p>
+        </div>
+    </div>
+
+    <div class="border-line" />
+    <lightning:tabset selectedTabId="{!v.selTabId}">
+        <lightning:tab label="Questionnaire" id="1">
+            <c:CPD_Questionnaire aura:id="questionnaireSection" isParentRequired="{!v.parentRequired}"
+                showParent="{!v.hideParent}" isPatientRequired="{!v.patientRequired}" />
+        </lightning:tab>
+        <lightning:tab label="QuestionnaireMain" id="2">
+            <c:CPD_QuestionnaireOther aura:id="questionnaireOtherSection"
+                integrationPatientReferral="{!v.integrationPatientReferralObj}" formresult="{!v.formResultObj}"
+                fileData="{!v.selectedFile}" fileList="{!v.uploadedFile}" />
+        </lightning:tab>
+        <lightning:tab label="Contact Info" id="3">
+            <c:CPD_ContactInfo aura:id="contactInfoSection" isParentRequired="{!v.parentRequired}"
+                showParent="{!v.hideParent}" isPatientRequired="{!v.patientRequired}" formresult="{!v.formResultObj}"
+                intpatientreferral="{!v.integrationPatientReferralObj}" />
+        </lightning:tab>
+        <lightning:tab label="Site Selection" id="4">
+            <c:CPD_SiteMapSelection aura:id="siteMapSection" studySitesInstance="{!v.studySitesInstance}" />
+        </lightning:tab>
+    </lightning:tabset>
+
+    <aura:if isTrue="{!v.isVisible}">
+        <div class="slds-clearfix">
+            <div class="next-question-align">
+                <lightning:button class="next-question" variant="neutral" label="{!$Label.c.CPD_Next_Question_btn_label}" onclick="{!c.next}" />
+            </div>
+        </div>
+    </aura:if>
+
+    <aura:if isTrue="{!v.isNextStepVisible}">
+        <div class="slds-clearfix">
+            <div class="next-align">
+                <lightning:button class="next-button" variant="neutral" label="{!$Label.c.CPD_Next_btn_label}" onclick="{!c.submit}" />
+            </div>
+        </div>
+    </aura:if>
+
+    <aura:if isTrue="{!v.isSiteVisible}">
+        <div class="slds-clearfix">
+            <div class="submit-button-align">
+                <lightning:button class="next-button" variant="neutral" label="{!$Label.c.CPD_Submit_btn_label}" onclick="{!c.update}" />
+            </div>
+        </div>
+    </aura:if>
+
+    <div class="exampleHolder">
+        <aura:if isTrue="{! v.loaded }">
+            <lightning:spinner alternativeText="Loading" />
+        </aura:if>
+    </div>
+
+</aura:component>
