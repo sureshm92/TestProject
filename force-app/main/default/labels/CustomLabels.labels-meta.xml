@@ -3673,7 +3673,7 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_PI_Delegate_Referrals</shortDescription>
-        <value>One or more referrals have been awaiting your response. Please access these participants on My Participants to manage their pre-enrollment status.</value>
+        <value>One or more referrals are awaiting your response. Please access these participants on My Participants to manage their pre-enrollment status.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI_New_Mess</fullName>
