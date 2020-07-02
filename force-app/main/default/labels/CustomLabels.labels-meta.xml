@@ -8791,6 +8791,13 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <shortDescription>PG AS L Select conditions</shortDescription>
         <value>Select up to 5 medical conditions related to your diagnosis, to help us prioritize the content we display to you.</value>
     </labels>
+	<labels>
+        <fullName>PG_AS_NickName</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_AS_NickName</shortDescription>
+        <value>NickName</value>
+    </labels>
     <labels>
         <fullName>PG_AS_T1_Contact_Info</fullName>
         <language>en_US</language>
@@ -15068,6 +15075,13 @@ communications using the toggles below.</value>
         <value>Invalid email address!</value>
     </labels>
     <labels>
+        <fullName>TST_JS_Injection_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST JS Injection Error</shortDescription>
+        <value>HTML or JS Code is not permitted for inputs!</value>
+    </labels>
+    <labels>
         <fullName>TST_Permissions_should_be_the_same_for_study</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -15576,7 +15590,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>This Participant has reached legal age of emancipation</shortDescription>
-        <value>This Participant has reached legal age of emancipation, but continues to require legal guardianship. Please verify that this is correct.</value>
+        <value>This participant has reached the legal age of emancipation. Please update and verify the participant details with the participant.</value>
     </labels>
     <labels>
         <fullName>Title_Contact_PT_Reminder_Push</fullName>
@@ -16476,4 +16490,4 @@ communications using the toggles below.</value>
         <shortDescription>configuation table</shortDescription>
         <value>Name</value>
     </labels>
-</CustomLabels>
+</CustomLabels>	
