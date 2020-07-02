@@ -23,7 +23,7 @@
                 <label>GSK Pan Oncology</label>
             </value>
             <value>
-                <fullName>COVID-19 Plasma Donor Registry</fullName>
+                <fullName>Covid_19</fullName>
                 <default>false</default>
                 <label>COVID-19 Plasma Donor Registry</label>
             </value>
