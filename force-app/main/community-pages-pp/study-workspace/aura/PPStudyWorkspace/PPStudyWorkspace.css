@@ -176,6 +176,16 @@
     border-width: 0 1px;
 }
 
+.THIS .change-pref{
+    color: #297DFD;
+    padding: 4px 8px;
+    align-items: center;
+    border-radius: 4px;
+    font-weight: 600;
+    float:right;
+    margin-right:10px;
+}
+
 .THIS .sdv-top-bar .links.collapsed{
     padding-top: 0;
     padding-bottom: 0;

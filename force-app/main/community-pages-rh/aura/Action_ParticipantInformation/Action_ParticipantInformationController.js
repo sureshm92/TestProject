@@ -13,7 +13,7 @@
 
     doExecute: function (component, event, helper) {
         try {
-			component.set('v.doNotContact', false);
+            component.set('v.init', false);
             component.find('spinner').show();
             component.set('v.initialized', false);
             component.set('v.sendEmails', false);
@@ -55,6 +55,7 @@
                         returnValue.enrollment.HCP__r.HCP_Contact__r = undefined;
                     }
                     component.set('v.pe', returnValue.enrollment);
+                    component.set('v.init', true);
                     component.set('v.doNotContact', !pe.Permit_IQVIA_to_contact_about_study__c);
                     component.set('v.participantDelegate', returnValue.participantDelegate);
                     component.set('v.participant', pe.Participant__r);

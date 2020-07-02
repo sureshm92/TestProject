@@ -138,16 +138,18 @@
                     <div class="slds-grid te-form slds-gutters slds-wrap">
                         <!--Remind Using-->
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                            <lightning:input aura:id="emailField" type="checkbox" label="Email"
+                            <lightning:input aura:id="emailField" type="checkbox" label="Email" name="Email"
                                 value="{!v.task.Remind_Using_Email__c}" disabled="{!not(v.emailOptIn)}"
-                                checked="{!v.task.Remind_Using_Email__c}" />
+                                checked="{!v.emailOptIn ? v.task.Remind_Using_Email__c : false}" 
+                                onchange="{!c.setAttributeValue}"/>
                         </div>
                     </div>
                     <div class="slds-grid te-form slds-gutters slds-wrap">
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                            <lightning:input aura:id="smsField" type="checkbox" label="SMS"
+                            <lightning:input aura:id="smsField" type="checkbox" label="SMS" name="SMS"
                                 value="{!v.task.Remind_Using_SMS__c}" disabled="{!not(v.smsOptIn)}"
-                                checked="{!v.task.Remind_Using_SMS__c}" />
+                                checked="{!v.smsOptIn ? v.task.Remind_Using_SMS__c : false}" 
+                                onchange="{!c.setAttributeValue}"/>
                         </div>
                     </div>
                     <div class="slds-p-top_small"></div>
@@ -232,16 +234,18 @@
                     <div class="slds-grid te-form slds-gutters slds-wrap">
                         <!--Remind Using-->
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                            <lightning:input aura:id="emailField" type="checkbox" label="Email"
+                            <lightning:input aura:id="emailField" type="checkbox" label="Email" name="Email"
                                 disabled="{!not(v.emailOptIn)}" value="{!v.task.Remind_Using_Email__c}"
-                                checked="{!v.task.Remind_Using_Email__c}" />
+                                checked="{!v.emailOptIn ? v.task.Remind_Using_Email__c : false}" 
+                                onchange="{!c.setAttributeValue}"/>
                         </div>
                     </div>
                     <div class="slds-grid te-form slds-gutters slds-wrap">
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                            <lightning:input aura:id="smsField" type="checkbox" label="SMS"
+                            <lightning:input aura:id="smsField" type="checkbox" label="SMS" name="SMS"
                                 disabled="{!not(v.smsOptIn)}" value="{!v.task.Remind_Using_SMS__c}"
-                                checked="{!v.task.Remind_Using_SMS__c}" />
+                                checked="{!v.smsOptIn ? v.task.Remind_Using_SMS__c : false}" 
+                                onchange="{!c.setAttributeValue}"/>
                         </div>
                     </div>
                     <div class="slds-p-top_large"></div>
