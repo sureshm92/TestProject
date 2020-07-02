@@ -16,6 +16,7 @@
     <aura:attribute name="showSideMenu" type="Boolean" default="false"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
     <aura:attribute name="isDummy" type="Boolean" default="false"/>
+    <aura:attribute name="isMobileApp" type="Boolean" default="false"/>
     <aura:attribute name="isArabic" type="Boolean"/>
     <aura:attribute name="template" type="String"/>
 
@@ -51,10 +52,11 @@
                         </div>
                         <div class="right-block" data-gtm="community_mode_switcher">
                             <aura:if isTrue="{!v.currentMode.userMode != 'CC'}">
-                                <div class="bell-container">
-                                    <forceCommunity:notifications/>
-                                    
-                                </div>
+                                <aura:if isTrue="{!v.isMobileApp}">
+                                    <div class="bell-container">
+                                        <forceCommunity:notifications/>
+                                    </div>
+                                </aura:if>
                                 <!-- Added as per REF-1343 by Vikrant Sharma for Help icon adjacent to User Profile for PI and HCP -->
                                 <aura:if isTrue="{!v.currentMode.userMode != 'Participant'}">
                                     <div onclick="{!c.onClickHelp}" style="display:inline;margin-left: 11px;" class="helpNavigationCSS" title="help">

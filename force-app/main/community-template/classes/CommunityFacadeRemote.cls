@@ -253,4 +253,15 @@ public without sharing class CommunityFacadeRemote {
         }
     }
 
+    @AuraEnabled
+    public static Boolean isCurrentSessionMobileApp(){
+        List<AuthSession> sessions = [
+                SELECT Id, IsCurrent, LoginHistory.Application, LastModifiedDate
+                FROM AuthSession
+                WHERE UsersId =: UserContext.getUserId() AND IsCurrent = TRUE
+                ORDER BY LastModifiedDate DESC LIMIT 1
+        ];
+        String currentSession = sessions.isEmpty() ? 'Browser' : sessions[0].LoginHistory.Application;
+        return !currentSession.equals('Browser');
+    }
 }
