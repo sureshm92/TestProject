@@ -73,7 +73,9 @@
             component.find('spinner').hide();
             communityService.showSuccessToast('', message, 3000);
             helper.hideModal(component);
-        }, null, null);
+        }, function () {
+            component.find('spinner').hide();
+        }, null);
     },
 
     doIgnore: function (component, event, helper) {
