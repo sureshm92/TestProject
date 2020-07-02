@@ -146,17 +146,8 @@ public without sharing class ContactTriggerHandler {
             }
             if (contact.userCommunityMode__c == 'CC')
             {
-                if (contact.userCommunytyType__c == null)
-                {
-                   contact.userCommunytyType__c ='CC';
-                }
-                else if(contact.userCommunytyType__c.contains('CC'))
-                {
-                  contact.userCommunytyType__c =contact.userCommunytyType__c;
-                }else
-                {
-                   contact.userCommunytyType__c =contact.userCommunytyType__c+';CC';
-                }
+                 contact.userCommunytyType__c ='CC';
+              
            }
             contact.Next_Profile_Update_DT__c = Datetime.now().addYears(1);
         }
