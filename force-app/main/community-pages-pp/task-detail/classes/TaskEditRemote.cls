@@ -81,7 +81,7 @@ public without sharing class TaskEditRemote {
             taskToUpsert.OwnerId = ParticipantContext.getCurrentUserId();
             taskToUpsert.WhoId = ParticipantContext.getCurrentContactId();
 
-            taskToUpsert.Originator__c = ParticipantContext.isCurrentDelegate() ? 'Delegate' : 'Participant';
+            if (String.isEmpty(taskToUpsert.Originator__c)) taskToUpsert.Originator__c = ParticipantContext.isCurrentDelegate() ? 'Delegate' : 'Participant';
             if (taskToUpsert.Visible_For__c == null) taskToUpsert.Visible_For__c = 'Owner;Delegates';
             //Don't update WhatId once set
             if (taskToUpsert.WhatId == null) {

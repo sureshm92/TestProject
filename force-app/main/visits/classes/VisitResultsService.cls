@@ -210,11 +210,13 @@ public inherited sharing class VisitResultsService {
             if (visitResult != null) {
                 this.value = visitResult.Actual_Value__c;
                 this.recordtype = visitResult.RecordType.DeveloperName;
-                String measurementLowerCase = visitResult.Measurement__c.toLowerCase();
-                if (measurementNamesMap != null && measurementNamesMap.containsKey(measurementLowerCase)) {
-                    this.measurement = measurementNamesMap.get(measurementLowerCase).replace('/', ' / ');
-                } else {
-                    this.measurement = visitResult.Measurement__c.replace('/', ' / ');
+                if(visitResult.Measurement__c!=null){
+                    String measurementLowerCase = visitResult.Measurement__c.toLowerCase();
+                    if (measurementNamesMap != null && measurementNamesMap.containsKey(measurementLowerCase)) {
+                        this.measurement = measurementNamesMap.get(measurementLowerCase).replace('/', ' / ');
+                    } else {
+                        this.measurement = visitResult.Measurement__c.replace('/', ' / ');
+                    }
                 }
             }
         }

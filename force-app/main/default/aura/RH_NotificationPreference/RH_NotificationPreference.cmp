@@ -20,7 +20,7 @@ This component is only for the HCP User Mode -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     
     
-    <div class="as-container" style="padding:30px;width:840px;">
+    <div class="as-container">
         <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true" />
         <aura:if isTrue="{!v.isInitialized}">
             
@@ -38,12 +38,11 @@ This component is only for the HCP User Mode -->
                                  class="slds-col ah-toggle slds-m-top--large"
                                  checked="{!v.contact.HCP_Opt_In_Patient_Status_Emails__c}"
                                  onchange="{!c.doSwitchOptInEmail}"/>
-                <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-m-top--large"
-                     style="padding-top:5px;width:70%;">
+                <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-m-top--large">
                     
                     {!$Label.c.PG_AS_L_Opt_In_HCP_Patient_Status_Emails}</div>
             </div>
-            <div class="slds-grid slds-wrap slds-gutters" style="margin-top:-12px;">
+            <div class="slds-grid slds-wrap slds-gutters">
                 <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}"
                                  variant="label-hidden"
                                  messageToggleInactive="{!$Label.c.BTN_Off}"
@@ -51,8 +50,7 @@ This component is only for the HCP User Mode -->
                                  checked="{!v.contact.HCP_Opt_In_Referral_Status_Emails__c}"
                                  onchange="{!c.doSwitchOptInEmail}"/>
                 
-                <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-m-top--large"
-                     style="width:70%;padding-top:5px;">
+                <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-m-top--large">
                     {!$Label.c.PG_AS_L_Opt_In_HCP_Referral_Status_Emails}</div>
             </div>
             
