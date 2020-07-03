@@ -12,6 +12,10 @@
         component.set('v.currentMode', communityService.getCurrentCommunityMode());
         component.set('v.isArabic', communityService.getLanguage() === 'ar' );
         component.set('v.logoURL', communityService.getTemplateProperty('CommunityLogo'));
+        communityService.executeAction(component, 'isCurrentSessionMobileApp', null,
+            function (returnValue) {
+                component.set('v.isMobileApp', returnValue);
+            });
         component.set('v.isInitialized', true);
     }
 });

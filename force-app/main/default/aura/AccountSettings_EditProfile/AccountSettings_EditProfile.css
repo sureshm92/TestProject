@@ -1,6 +1,8 @@
 .THIS .rr-white-panel {
+    min-width:50rem;
     padding: 1.5rem;
 }
+
 
 .THIS .emails-that-notify-y {
     height: 72px;
@@ -9,6 +11,20 @@
     font-size: 16px;
     letter-spacing: 0;
     line-height: 24px;
+}
+.THIS .single-avatar {
+     height: 24px;
+    width: 21px;
+    margin-top: 27%;
+    margin-left: 31%;
+}
+.THIS .avatar-icon{
+    background-color: #DF216D;
+    height: 55px;
+    width: 55px;
+    margin: 18px;
+    border-radius: 100%;
+
 }
 
 .THIS.as-container {
@@ -319,4 +335,10 @@
         margin-top: 0;
     }
 
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .THIS .delegateInfo {
+        width:720px;
+    }
 }
