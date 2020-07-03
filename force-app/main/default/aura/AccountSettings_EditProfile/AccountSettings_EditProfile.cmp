@@ -195,7 +195,7 @@
                                                      onblur="{!c.doCheckFieldsValidity}"/></aura:if>
                                 
                                 <aura:if isTrue="{!v.isDelegate}">
-                                    <lightning:input aura:id="pField" type="text" label="{!$Label.c.PG_AS_NickName}"
+                                    <lightning:input class="dob" aura:id="pField" type="text" label="{!$Label.c.PG_AS_NickName}"
                                                      value="{!v.personWrapper.nickname}" 
                                                      onblur="{!c.doCheckFieldsValidity}" disabled="true"/>                                                  
                                 </aura:if>
