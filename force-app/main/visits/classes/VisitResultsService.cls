@@ -1,7 +1,7 @@
 public inherited sharing class VisitResultsService {
 
     public static final String DASHBOARD_TYPE_HOME_PAGE = 'Home Page';
-
+    public static final String ALL_COUNTRIES='All';
     private VisitResultMService metadataService;
     private Map<String, String> visitResultsMeasurementNamesMap;
 
@@ -34,7 +34,7 @@ public inherited sharing class VisitResultsService {
         ];
         for (Visit_Result_Type_Sharing__c visitResultTypeSharing : ctpAvailable) {
             if(!visitResultTypeSharing.Include_Countries__c){
-                if(String.isBlank(strCountryCode) || String.isBlank(visitResultTypeSharing.Sharing_Countries__c) || visitResultTypeSharing.Sharing_Countries__c.equals('All') || (!visitResultTypeSharing.Sharing_Countries__c.contains(strCountryCode))){
+                if(String.isBlank(strCountryCode) || String.isBlank(visitResultTypeSharing.Sharing_Countries__c) || visitResultTypeSharing.Sharing_Countries__c.equals(ALL_COUNTRIES) || (!visitResultTypeSharing.Sharing_Countries__c.contains(strCountryCode))){
                     ctpAvailableNames.add(visitResultTypeSharing.Type__c);
                 }    
             }
