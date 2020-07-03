@@ -92,7 +92,8 @@
 }
 
 .THIS .slds-form-element {
-    width: 50%;
+    width: 100%;
+    max-width: 22rem;
 }
 
 .THIS .alert-count-condition {
