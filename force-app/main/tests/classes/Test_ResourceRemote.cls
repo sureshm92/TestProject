@@ -227,6 +227,7 @@ public class Test_ResourceRemote {
         TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateWelcomeToStudyAlertHandler.class);
         TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
         TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.UpdatePEHandler.class);
 
         testData.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_GROUP_ALUMNI.get(0));
         Contact contact = [SELECT Id, Current_Participant_Enrollment__c FROM Contact WHERE Id =: testData.participant.Contact__c];
