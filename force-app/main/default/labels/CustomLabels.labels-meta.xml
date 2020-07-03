@@ -1370,6 +1370,147 @@
         <value>Submit Your Question</value>
     </labels>
     <labels>
+        <fullName>CTL_L_HCP_DELEGATE_MODE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CTL L HCP DELEGATE MODE</shortDescription>
+        <value>View as ##RPName</value>
+    </labels>
+    <labels>
+        <fullName>CTL_L_HCP_MODE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CTL L HCP MODE</shortDescription>
+        <value>View as Referring Provider Clinic</value>
+    </labels>
+    <labels>
+        <fullName>CTL_L_PI_MODE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CTL L PI MODE</shortDescription>
+        <value>View as Investigative Site</value>
+    </labels>
+    <labels>
+        <fullName>CTL_L_Patricipant_MODE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CTL L Patricipant MODE</shortDescription>
+        <value>View as a Participant</value>
+    </labels>
+    <labels>
+        <fullName>Calcium</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Calcium</shortDescription>
+        <value>Calcium</value>
+    </labels>
+    <labels>
+        <fullName>Calcium_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Calcium Description</shortDescription>
+        <value>Calcium is an electrolyte (a mineral) that is important for the functioning of your muscles, including your heart, and nerves. Calcium is also needed for blood clotting and for creating and keeping your bones and teeth healthy. This test measures the amount of calcium in your blood sample. Calcium is measured to check your general health and can be used to check for a range of conditions.</value>
+    </labels>
+    <labels>
+        <fullName>Can_Not_Edit_Mapping</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Can Not Edit Mapping</shortDescription>
+        <value>You can not edit this object. Delete and create a new one instead.</value>
+    </labels>
+    <labels>
+        <fullName>Case_Owner_Email_For_User_Lockout</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Case_Owner_Email_For_User_Lockout</shortDescription>
+        <value>rajesh.r@quintiles.com</value>
+    </labels>
+    <labels>
+        <fullName>CommunityEmailLogo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community Email Logo</shortDescription>
+        <value>https://lh3.googleusercontent.com/EmuOHokKYGwyHoopMnBD54_g8Nw-hnyk7OahOiY7_koTc-V2v2QSkyF7rHoymubsZdQx1V5Krf3yNMipVhifs34bVD6jk0KZtnJal5jaSROMRoWDEKCZ4PBPmWswXtdD0cXO-JkmZ5_C1kUppz9M03uolxkkE_7R2gG9xFO5PYC4AZtobSrqr8sP0PQIK2rsu6YWsK25qgarqFm4aWGl-My3kfUyPGrejgjtMb-FwHfAt4KBr0kwYnOoEbue7YMlDqTlUUtYdT5X7y2DEwkL4BIyzPvYBcmB7m6b4LBBdh3UnxZwuUmJ7V0RcY2FKjmLfY_dGjAXlKVDKAAsLqr1TRbRDEE9CGGBmpe4gYOWT4Cp6Q0A7Y5O8VgI_3IxIVEyWinm0SfBwalH5WlSt78mEbfkJn78mpatq9UKBJXDIvVxfz9_3esXSddGbpOS6Gx5i_PbfpH9fAHvHLaQOQ1OMywK-KHP8hLCasUMmlyeQTBh91IrEPLPo7115kbdhHdPXy--f01NFF-Kv34beTnutGC2JSzYsgSn5UwpZ8RExKozt6I1SHtfX2ePAjC_wp9n-nJ7KkLmqVxLTyiqTxEgc8qd4jn3yj7Mx80erZWQU5HRb1nXKDZibefn6UzNhYmI5jWXHOGh6vIyivycKxDKSnUBl_rmpGbAjjwiCHKcPRN3MWbxGPIAPFp3NqGfCQ=w1920-h937-ft</value>
+    </labels>
+    <labels>
+        <fullName>CommunityPrivatePolicyLink</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community Private Policy Link</shortDescription>
+        <value>https://infohotfix-iqviaconnect.CS84.force.com/s/privacy-policy</value>
+    </labels>
+    <labels>
+        <fullName>CommunityURL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CommunityURL</shortDescription>
+        <value>https://formal-iqviaconnect.cs129.force.com</value>
+    </labels>
+    <labels>
+        <fullName>Community_GSK</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community GSK</shortDescription>
+        <value>Gather &lt;i&gt;Share&lt;/i&gt; Know Participant Hub</value>
+    </labels>
+    <labels>
+        <fullName>Community_GSK_Short</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community GSK Short</shortDescription>
+        <value>Gather &lt;i&gt;Share&lt;/i&gt; Know</value>
+    </labels>
+    <labels>
+        <fullName>Community_IQVIA_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community IQVIA PP</shortDescription>
+        <value>IQVIA™ Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>Community_IQVIA_RH_Help</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Community IQVIA RH Help</shortDescription>
+        <value>IQVIA about Referral Hub</value>
+    </labels>
+    <labels>
+        <fullName>Community_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community PP</shortDescription>
+        <value>Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>Complete_By_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Complete By Date</shortDescription>
+        <value>Complete By</value>
+    </labels>
+    <labels>
+        <fullName>Continue</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Continue</shortDescription>
+        <value>Continue</value>
+    </labels>
+    <labels>
+        <fullName>Cookies_Info_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Cookies Info Text</shortDescription>
+        <value>This site uses ##cookiesURL for the essential functioning of the site and for analytical purposes. For more information about these cookies, please view our ##privacyPolicyURL.
+            By clicking through to our website, you are accepting use of cookies.</value>
+    </labels>
+    <labels>
+        <fullName>Cookies_Info_Text_First_Logon</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Cookies Info Text First Logon</shortDescription>
+        <value>This site uses cookies for the essential functioning of the site, to improve user experience, and for analytical purposes. By using this site you are consenting to our use of cookies.</value>
+    </labels>
+    <labels>
         <fullName>CPD_About_you</fullName>
         <categories>Covid19</categories>
         <language>en_US</language>
@@ -1714,1344 +1855,13 @@
         <value>Referring organization (optional)</value>
     </labels>
     <labels>
-        <fullName>CPD_Search_for_the_study</fullName>
+        <fullName>CPD_SitemapError</fullName>
         <categories>Covid19</categories>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>CPD_Search for the study</shortDescription>
-        <value>Search for the study</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Select_as_My_Preferred_Site</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Select as My Preferred Site</shortDescription>
-        <value>Select as My Preferred Site</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Select_your_preferred_location</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Select your preferred location</shortDescription>
-        <value>Select your preferred location</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Site_Selection</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Site Selection</shortDescription>
-        <value>Site Selection</value>
-    </labels>
-    <labels>
-        <fullName>CPD_State</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_State</shortDescription>
-        <value>New York</value>
-    </labels>
-    <labels>
-        <fullName>CPD_State_Error</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_State Error</shortDescription>
-        <value>Select the State</value>
-    </labels>
-    <labels>
-        <fullName>CPD_State_label</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_State label</shortDescription>
-        <value>State</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Submit_btn_label</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Submit btn label</shortDescription>
-        <value>Submit</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Symptom_free_for_14_days</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Symptom free for 14 days</shortDescription>
-        <value>Symptom free for 14 days</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Terms_of_Use</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Terms of Use</shortDescription>
-        <value>Terms of Use</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Test_Date</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Test Date</shortDescription>
-        <value>Test date</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Thank_you_for_your_interest</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Thank you for your interest</shortDescription>
-        <value>Thank you for your interest!</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Thank_you_for_your_time</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Thank you for your time</shortDescription>
-        <value>Thank you for your time and completing these questions.</value>
-    </labels>
-    <labels>
-        <fullName>CPD_The_entire_qualification_process</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_The entire qualification process</shortDescription>
-        <value>The entire qualification process, including this questionnaire, will take about 5 - 7 minutes.</value>
-    </labels>
-    <labels>
-        <fullName>CPD_This_website_is_intended</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_This website is intended</shortDescription>
-        <value>This website is intended for residents of the USA only.</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Unfortunately_you_are_not_eligible</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Unfortunately you are not eligible</shortDescription>
-        <value>Unfortunately, you are not eligible to be a plasma donor with NYBC. Look for other COVID-19 studies to help the fight.</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Upload_documentation_that_you_tested</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Upload documentation that you tested</shortDescription>
-        <value>Upload documentation that you tested positive for COVID-19</value>
-    </labels>
-    <labels>
-        <fullName>CPD_We_are_increasing</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_We_are_increasing</shortDescription>
-        <value>We are increasing the nation’s supply of convalescent plasma by collecting donations from those who have recovered from COVID-19. &lt;br /&gt;&lt;br /&gt;
-We will collect, process the plasma for infusion, and maintain a bank for hospitals to treat patients with serious or immediately life-threatening COVID-19 infections. &lt;br /&gt;&lt;br /&gt;
-We are asking all eligible donors to come forward so we can treat as many patients as possible.
-&lt;br /&gt;&lt;br /&gt;</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Wear_a_face_mask_during_appointments</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Wear a face mask during appointments</shortDescription>
-        <value>Wear a face mask during appointments</value>
-    </labels>
-    <labels>
-        <fullName>CPD_When_did_you_have_symptoms</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_When did you have symptoms</shortDescription>
-        <value>When did you have symptoms?</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Who_can_take_part</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Who can take part</shortDescription>
-        <value>Who can take part?</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Willing_to_donate_plasma</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Willing to donate plasma</shortDescription>
-        <value>Willing to donate plasma</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Your_privacy_is_important_to_us</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Your privacy is important to us</shortDescription>
-        <value>Your privacy is important to us. By clicking &quot;Next,&quot; you confirm that you have reviewed and agree to our</value>
-    </labels>
-    <labels>
-        <fullName>CPD_and_our</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_and our</shortDescription>
-        <value>and our</value>
-    </labels>
-    <labels>
-        <fullName>CP_Agree_Statement</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Agree Statement</shortDescription>
-        <value>I agree to share the information that I have entered with IQVIA, New York Blood Center, and their staff and agents so that my information can be reviewed to determine appropriate next steps and so that I can be contacted about donating plasma.</value>
-    </labels>
-    <labels>
-        <fullName>CP_Cancel_Button</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Cancel Button</shortDescription>
-        <value>Cancel</value>
-    </labels>
-    <labels>
-        <fullName>CP_Consent_Error</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Consent Error</shortDescription>
-        <value>Please select agree to submit</value>
-    </labels>
-    <labels>
-        <fullName>CP_Consent_Header</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Consent Header</shortDescription>
-        <value>Consent</value>
-    </labels>
-    <labels>
-        <fullName>CP_Covid_Header</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Covid Header</shortDescription>
-        <value>COVID-19 Convalescent Plasma Drive</value>
-    </labels>
-    <labels>
-        <fullName>CP_Date_of_Birth</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Date of Birth</shortDescription>
-        <value>Date of Birth</value>
-    </labels>
-    <labels>
-        <fullName>CP_Date_of_Birth_Age_Error</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Date of Birth Age Error</shortDescription>
-        <value>Your age is below 16 so you can&#39;t complete this survey</value>
-    </labels>
-    <labels>
-        <fullName>CP_Date_of_Birth_Error</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Date of Birth Error</shortDescription>
-        <value>Please select the date of birth</value>
-    </labels>
-    <labels>
-        <fullName>CP_Document_Upload_Error</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Document Upload Error</shortDescription>
-        <value>Please select the documents to upload</value>
-    </labels>
-    <labels>
-        <fullName>CP_Documentation_of_a_positive_test</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Documentation of a positive test</shortDescription>
-        <value>Documentation of a positive test is required to donate.</value>
-    </labels>
-    <labels>
-        <fullName>CP_Donor_Registration_Form_Header</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Donor Registration Form Header</shortDescription>
-        <value>COVID-19 Convalescent Plasma Donor Registration</value>
-    </labels>
-    <labels>
-        <fullName>CP_Email_Address</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Email Address</shortDescription>
-        <value>Email</value>
-    </labels>
-    <labels>
-        <fullName>CP_Estimated_date_of_first_symptom</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Estimated date of first symptom</shortDescription>
-        <value>Estimated date of first symptom</value>
-    </labels>
-    <labels>
-        <fullName>CP_Estimated_date_of_first_symptoms_Error</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Estimated date of first symptoms Error</shortDescription>
-        <value>Please select the date</value>
-    </labels>
-    <labels>
-        <fullName>CP_Estimated_date_of_last_symptom</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Estimated date of last symptom</shortDescription>
-        <value>Estimated date of last symptom</value>
-    </labels>
-    <labels>
-        <fullName>CP_Estimated_date_of_last_symptoms_Error</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Estimated date of last symptoms Error</shortDescription>
-        <value>Please select the date</value>
-    </labels>
-    <labels>
-        <fullName>CP_First_Name</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP First Name</shortDescription>
-        <value>First Name</value>
-    </labels>
-    <labels>
-        <fullName>CP_Form_Submit_Error_Toast_Message</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Form Submit Error Toast Message</shortDescription>
-        <value>Please contact administrator</value>
-    </labels>
-    <labels>
-        <fullName>CP_Form_Submit_Success_Toast_Message</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Form Submit Success Toast Message</shortDescription>
-        <value>The record created successfully</value>
-    </labels>
-    <labels>
-        <fullName>CP_Get_Started_Button</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Get Started Button</shortDescription>
-        <value>Get Started</value>
-    </labels>
-    <labels>
-        <fullName>CP_Has_IT_Been_At_Last_Symptoms</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Has IT Been At Last Symptoms</shortDescription>
-        <value>Has it been at least 14 days since your last day of symptoms?</value>
-    </labels>
-    <labels>
-        <fullName>CP_Has_it_been_at_last_Symptoms_Error</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Has it been at last Symptoms Error</shortDescription>
-        <value>Please select the option</value>
-    </labels>
-    <labels>
-        <fullName>CP_If_Your_Qualify</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP If Your Qualify</shortDescription>
-        <value>See if You Qualify</value>
-    </labels>
-    <labels>
-        <fullName>CP_Important_Remainders</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Important Reminders</shortDescription>
-        <value>Important Reminders</value>
-    </labels>
-    <labels>
-        <fullName>CP_Important_Reminders_Are</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Important Reminders Are</shortDescription>
-        <value>&lt;li&gt;Documentation of a positive test is required to donate.&lt;/li&gt;
-&lt;li&gt;Documentation must include your full name, testing facility or physician, and date of test.&lt;/li&gt;
-&lt;li&gt;All information provided will be kept confidential and will only be used to qualify you as a donor.&lt;/li&gt;
-&lt;li&gt;Please only submit this form one time. Once you submit the form, you are in the registry database and will be contacted to schedule your first and future convalescent plasma donation appointments.&lt;/li&gt;
-&lt;li&gt;Donors are asked to wear a face mask or covering while attending donation appointments.&lt;/li&gt;</value>
-    </labels>
-    <labels>
-        <fullName>CP_Join_the_fight_save_lives</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP_Join_the_fight_save_lives</shortDescription>
-        <value>Join the fight to save lives</value>
-    </labels>
-    <labels>
-        <fullName>CP_Last_Name</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Last Name</shortDescription>
-        <value>Last Name</value>
-    </labels>
-    <labels>
-        <fullName>CP_Legal_Guardian_Email_Error</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Legal Guardian Email Error</shortDescription>
-        <value>Please enter email address</value>
-    </labels>
-    <labels>
-        <fullName>CP_Legal_Guardian_First_Name_Error</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Legal Guardian First Name Error</shortDescription>
-        <value>Please enter first name</value>
-    </labels>
-    <labels>
-        <fullName>CP_Legal_Guardian_Last_Name_Error</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Legal Guardian Last Name Error</shortDescription>
-        <value>Please enter last name</value>
-    </labels>
-    <labels>
-        <fullName>CP_Legal_Guardian_Preferred_Phone_Number_Error</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Legal Guardian Preferred Phone Number Error</shortDescription>
-        <value>Please enter preferred number</value>
-    </labels>
-    <labels>
-        <fullName>CP_Middle_Initial</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Middle Initial</shortDescription>
-        <value>Middle Initial</value>
-    </labels>
-    <labels>
-        <fullName>CP_Next_Button</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Next Button</shortDescription>
-        <value>Next</value>
-    </labels>
-    <labels>
-        <fullName>CP_Other_Referring_Organization_Error</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Other Referring Organization Error</shortDescription>
-        <value>Please enter other referring organization</value>
-    </labels>
-    <labels>
-        <fullName>CP_Outside_Organization_Label</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Outside Organization Label</shortDescription>
-        <value>If you were referred by an outside organization, please select referring organization</value>
-    </labels>
-    <labels>
-        <fullName>CP_Parent_Legal_Guardian_ages</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Parent Legal Guardian ages</shortDescription>
-        <value>Please provide Parent or Legal Guardian information below if you are between the ages of 16 and 18.</value>
-    </labels>
-    <labels>
-        <fullName>CP_Parent_or_Legal_Guardian</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Parent or Legal Guardian</shortDescription>
-        <value>Parent or Legal Guardian Information</value>
-    </labels>
-    <labels>
-        <fullName>CP_Patient_Email_Error</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Patient Email Error</shortDescription>
-        <value>Please enter the email</value>
-    </labels>
-    <labels>
-        <fullName>CP_Patient_First_Name_Error</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Patient First Name Error</shortDescription>
-        <value>Please enter the first name</value>
-    </labels>
-    <labels>
-        <fullName>CP_Patient_Information</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Patient Information</shortDescription>
-        <value>Patient Information</value>
-    </labels>
-    <labels>
-        <fullName>CP_Patient_Last_Name_Error</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Patient Last Name Error</shortDescription>
-        <value>Please enter the last name</value>
-    </labels>
-    <labels>
-        <fullName>CP_Patient_Preferred_Phone_Number_Error</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Patient Preferred Phone Number Error</shortDescription>
-        <value>Please enter the preferred phone number</value>
-    </labels>
-    <labels>
-        <fullName>CP_Patient_Zip_Code_Error</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Patient Zip Code Error</shortDescription>
-        <value>Please enter the zip code</value>
-    </labels>
-    <labels>
-        <fullName>CP_Phone_Type</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Phone Type</shortDescription>
-        <value>Phone Type</value>
-    </labels>
-    <labels>
-        <fullName>CP_Phone_Type_Error</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Phone Type Error</shortDescription>
-        <value>Please select phone type</value>
-    </labels>
-    <labels>
-        <fullName>CP_Please_Upload_Documentation</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Please Upload Documentation</shortDescription>
-        <value>Please Upload Documentation</value>
-    </labels>
-    <labels>
-        <fullName>CP_Please_Upload_Documentation_HelpText</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Please Upload Documentation HelpText</shortDescription>
-        <value>Documentation must include your full name, testing facility or doctor name, and date of test. Valid file formats are .pdf, .jpg, .png and .jpeg.</value>
-    </labels>
-    <labels>
-        <fullName>CP_Preferred_Phone_Format_Error</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Preferred Phone Format Error</shortDescription>
-        <value>Your entry does not matched the pattern</value>
-    </labels>
-    <labels>
-        <fullName>CP_Preferred_Phone_Number</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Preferred Phone Number</shortDescription>
-        <value>Preferred Phone Number</value>
-    </labels>
-    <labels>
-        <fullName>CP_Previous_Button</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Previous Button</shortDescription>
-        <value>Previous</value>
-    </labels>
-    <labels>
-        <fullName>CP_Referred_by_outside_org</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Referred by outside org</shortDescription>
-        <value>If you were referred by an outside organization, please select referring organization</value>
-    </labels>
-    <labels>
-        <fullName>CP_Referring_Organization</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Referring Organization</shortDescription>
-        <value>If other, please enter referring organization</value>
-    </labels>
-    <labels>
-        <fullName>CP_Referring_Organization_Error</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Referring Organization Error</shortDescription>
-        <value>Please select Referring Organization</value>
-    </labels>
-    <labels>
-        <fullName>CP_Referring_Organization_Title</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Referring Organization Title</shortDescription>
-        <value>Referring Organization</value>
-    </labels>
-    <labels>
-        <fullName>CP_Registration_Criteria_Are</fullName>
-        <categories>Covid</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Registration Criteria Are</shortDescription>
-        <value>Lab confirmed positive test for COVID-19 (documentation of 
-positive test is required)
-Your symptoms have been gone for 14 days
-You are willing to donate plasma
-All information provided will be kept confidential and will only be used to qualify you as a donor.</value>
-    </labels>
-    <labels>
-        <fullName>CP_See_if_You_Qualify_Header</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP See if You Qualify Header</shortDescription>
-        <value>See if You Qualify</value>
-    </labels>
-    <labels>
-        <fullName>CP_See_if_You_Qualify_Test_Positive</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP_See if You Qualify Test Positive</shortDescription>
-        <value>Did you test positive for COVID-19?</value>
-    </labels>
-    <labels>
-        <fullName>CP_Select_Criteria</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Select Criteria</shortDescription>
-        <value>If you meet the following criteria, please select Get Started to begin your registration:</value>
-    </labels>
-    <labels>
-        <fullName>CP_Select_Criteria_Content_Paragraph</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Select Criteria Content Paragraph</shortDescription>
-        <value>&lt;li&gt;Lab confirmed positive test for COVID-19 (documentation of positive test is required)&lt;/li&gt;
-&lt;li&gt;Your symptoms have been gone for 14 days&lt;/li&gt;
-&lt;li&gt;You are willing to donate plasma&lt;/li&gt;</value>
-    </labels>
-    <labels>
-        <fullName>CP_Select_The_Study_Location</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Select The Study Location</shortDescription>
-        <value>Please select the site location that works best for you:</value>
-    </labels>
-    <labels>
-        <fullName>CP_Selected_Site_Is</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Selected site is</shortDescription>
-        <value>Selected site is :</value>
-    </labels>
-    <labels>
-        <fullName>CP_Site_Selection_title</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Site Selection title</shortDescription>
-        <value>Site Selection</value>
-    </labels>
-    <labels>
-        <fullName>CP_Study_Site_Error</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Study Site Error</shortDescription>
-        <value>Please select study site</value>
-    </labels>
-    <labels>
-        <fullName>CP_Study_site_location</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Study site location</shortDescription>
-        <value>Please select the study location that works best for you.</value>
-    </labels>
-    <labels>
-        <fullName>CP_Submit_Button</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Submit Button</shortDescription>
-        <value>Submit</value>
-    </labels>
-    <labels>
-        <fullName>CP_Suffix</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Suffix</shortDescription>
-        <value>Suffix</value>
-    </labels>
-    <labels>
-        <fullName>CP_Survey_is_ended</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Survey is ended</shortDescription>
-        <value>Thank you for your interest. At this time we are only registering people who have tested positive for COVID-19. If you would like to help us as we work toward a cure, please share our site on social media.</value>
-    </labels>
-    <labels>
-        <fullName>CP_Symptoms_HelpText</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Symptoms HelpText</shortDescription>
-        <value>COVID-19 symptoms include fever, cough, fatigue and shortness of breath.</value>
-    </labels>
-    <labels>
-        <fullName>CP_Symptoms_No</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Symptoms No</shortDescription>
-        <value>No</value>
-    </labels>
-    <labels>
-        <fullName>CP_Symptoms_Yes</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Symptoms Yes</shortDescription>
-        <value>Yes</value>
-    </labels>
-    <labels>
-        <fullName>CP_Test_Date</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Test Date</shortDescription>
-        <value>What was your test date?</value>
-    </labels>
-    <labels>
-        <fullName>CP_Test_Date_Error</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Test Date Error</shortDescription>
-        <value>Please select the date</value>
-    </labels>
-    <labels>
-        <fullName>CP_Test_Result</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP_Test_Result</shortDescription>
-        <value>Test Result</value>
-    </labels>
-    <labels>
-        <fullName>CP_Thank_For_After_Submit</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Thank For After Submit</shortDescription>
-        <value>Thank you for your interest in convalescent plasma donation. You will receive an email shortly confirming your registration and next steps.
-Please share our site on social media to encourage others to assist us as we work toward a cure.</value>
-    </labels>
-    <labels>
-        <fullName>CP_Thank_You_Title</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Thank You Title</shortDescription>
-        <value>Thanks for Registering!</value>
-    </labels>
-    <labels>
-        <fullName>CP_Thanks_After_Submit_Under_Age</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Thanks After Submit Under Age</shortDescription>
-        <value>We are only registering donors who are 16 years of age or above. You can still help join the fight against COVID-19 by sharing this form with your friends and family!</value>
-    </labels>
-    <labels>
-        <fullName>CP_Thanks_for_Your_Interest_Under_Age</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Thanks for Your Interest Under Age</shortDescription>
-        <value>Thanks for Your Interest!</value>
-    </labels>
-    <labels>
-        <fullName>CP_Zipcode</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Zipcode</shortDescription>
-        <value>Zip code</value>
-    </labels>
-    <labels>
-        <fullName>CP_initial_thank_you</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP initial thank you</shortDescription>
-        <value>Thank you for your interest in convalescent plasma donation and &lt;b&gt;joining our fight to save lives.&lt;/b&gt; While COVID-19 has no proven treatment, it is possible that plasma taken from those who have recovered (convalescent plasma), which has antibodies against the virus, could help.</value>
-    </labels>
-    <labels>
-        <fullName>Cp_Agree_Checkbox</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Cp Agree Checkbox</shortDescription>
-        <value>Agree</value>
-    </labels>
-    <labels>
-        <fullName>Cp_Scheduled_Maintenance</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CP Scheduled Maintenance</shortDescription>
-        <value>This site is under maintenance. Please visit later</value>
+        <shortDescription>CPD_SitemapError</shortDescription>
+        <value>Please select a study site to submit</value>
     </labels>    
-    <labels>
-        <fullName>CTL_L_HCP_DELEGATE_MODE</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>CTL L HCP DELEGATE MODE</shortDescription>
-        <value>View as ##RPName</value>
-    </labels>
-    <labels>
-        <fullName>CTL_L_HCP_MODE</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CTL L HCP MODE</shortDescription>
-        <value>View as Referring Provider Clinic</value>
-    </labels>
-    <labels>
-        <fullName>CTL_L_PI_MODE</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CTL L PI MODE</shortDescription>
-        <value>View as Investigative Site</value>
-    </labels>
-    <labels>
-        <fullName>CTL_L_Patricipant_MODE</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CTL L Patricipant MODE</shortDescription>
-        <value>View as a Participant</value>
-    </labels>
-    <labels>
-        <fullName>Calcium</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Calcium</shortDescription>
-        <value>Calcium</value>
-    </labels>
-    <labels>
-        <fullName>Calcium_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Calcium Description</shortDescription>
-        <value>Calcium is an electrolyte (a mineral) that is important for the functioning of your muscles, including your heart, and nerves. Calcium is also needed for blood clotting and for creating and keeping your bones and teeth healthy. This test measures the amount of calcium in your blood sample. Calcium is measured to check your general health and can be used to check for a range of conditions.</value>
-    </labels>
-    <labels>
-        <fullName>Can_Not_Edit_Mapping</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Can Not Edit Mapping</shortDescription>
-        <value>You can not edit this object. Delete and create a new one instead.</value>
-    </labels>
-    <labels>
-        <fullName>Case_Owner_Email_For_User_Lockout</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Case_Owner_Email_For_User_Lockout</shortDescription>
-        <value>rajesh.r@quintiles.com</value>
-    </labels>
-    <labels>
-        <fullName>CommunityEmailLogo</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Community Email Logo</shortDescription>
-        <value>https://lh3.googleusercontent.com/EmuOHokKYGwyHoopMnBD54_g8Nw-hnyk7OahOiY7_koTc-V2v2QSkyF7rHoymubsZdQx1V5Krf3yNMipVhifs34bVD6jk0KZtnJal5jaSROMRoWDEKCZ4PBPmWswXtdD0cXO-JkmZ5_C1kUppz9M03uolxkkE_7R2gG9xFO5PYC4AZtobSrqr8sP0PQIK2rsu6YWsK25qgarqFm4aWGl-My3kfUyPGrejgjtMb-FwHfAt4KBr0kwYnOoEbue7YMlDqTlUUtYdT5X7y2DEwkL4BIyzPvYBcmB7m6b4LBBdh3UnxZwuUmJ7V0RcY2FKjmLfY_dGjAXlKVDKAAsLqr1TRbRDEE9CGGBmpe4gYOWT4Cp6Q0A7Y5O8VgI_3IxIVEyWinm0SfBwalH5WlSt78mEbfkJn78mpatq9UKBJXDIvVxfz9_3esXSddGbpOS6Gx5i_PbfpH9fAHvHLaQOQ1OMywK-KHP8hLCasUMmlyeQTBh91IrEPLPo7115kbdhHdPXy--f01NFF-Kv34beTnutGC2JSzYsgSn5UwpZ8RExKozt6I1SHtfX2ePAjC_wp9n-nJ7KkLmqVxLTyiqTxEgc8qd4jn3yj7Mx80erZWQU5HRb1nXKDZibefn6UzNhYmI5jWXHOGh6vIyivycKxDKSnUBl_rmpGbAjjwiCHKcPRN3MWbxGPIAPFp3NqGfCQ=w1920-h937-ft</value>
-    </labels>
-    <labels>
-        <fullName>CommunityPrivatePolicyLink</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Community Private Policy Link</shortDescription>
-        <value>https://infohotfix-iqviaconnect.CS84.force.com/s/privacy-policy</value>
-    </labels>
-    <labels>
-        <fullName>CommunityURL</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CommunityURL</shortDescription>
-        <value>https://formal-iqviaconnect.cs129.force.com</value>
-    </labels>
-    <labels>
-        <fullName>Community_GSK</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Community GSK</shortDescription>
-        <value>Gather &lt;i&gt;Share&lt;/i&gt; Know Participant Hub</value>
-    </labels>
-    <labels>
-        <fullName>Community_GSK_Short</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Community GSK Short</shortDescription>
-        <value>Gather &lt;i&gt;Share&lt;/i&gt; Know</value>
-    </labels>
-    <labels>
-        <fullName>Community_IQVIA_PP</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Community IQVIA PP</shortDescription>
-        <value>IQVIA™ Patient Portal</value>
-    </labels>
-    <labels>
-        <fullName>Community_IQVIA_RH_Help</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Community IQVIA RH Help</shortDescription>
-        <value>IQVIA about Referral Hub</value>
-    </labels>
-    <labels>
-        <fullName>Community_PP</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Community PP</shortDescription>
-        <value>Patient Portal</value>
-    </labels>
-    <labels>
-        <fullName>Complete_By_Date</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Complete By Date</shortDescription>
-        <value>Complete By</value>
-    </labels>
-    <labels>
-        <fullName>Continue</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Continue</shortDescription>
-        <value>Continue</value>
-    </labels>
-    <labels>
-        <fullName>Cookies_Info_Text</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Cookies Info Text</shortDescription>
-        <value>This site uses ##cookiesURL for the essential functioning of the site and for analytical purposes. For more information about these cookies, please view our ##privacyPolicyURL.
-            By clicking through to our website, you are accepting use of cookies.</value>
-    </labels>
-    <labels>
-        <fullName>Cookies_Info_Text_First_Logon</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Cookies Info Text First Logon</shortDescription>
-        <value>This site uses cookies for the essential functioning of the site, to improve user experience, and for analytical purposes. By using this site you are consenting to our use of cookies.</value>
-    </labels>
-    <labels>
-        <fullName>CPD_About_you</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_About you</shortDescription>
-        <value>About you</value>
-    </labels>
-    <labels>
-        <fullName>CPD_All_information_provided_will_be</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_All information provided will be</shortDescription>
-        <value>All information provided will be kept confidential and will only be used to qualify you as a donor.</value>
-    </labels>
-    <labels>
-        <fullName>CPD_All_rights_reserved</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_All rights reserved</shortDescription>
-        <value>© 2020 IQVIA.All rights reserved.</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Birthdate</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Birthdate</shortDescription>
-        <value>What is your birthdate?</value>
-    </labels>
-    <labels>
-        <fullName>CPD_COVID_19_symptoms_include_fever</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_COVID-19 symptoms include fever</shortDescription>
-        <value>COVID-19 symptoms include fever, cough, fatigue, and shortness of breath.</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Contact_Info</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Contact Info</shortDescription>
-        <value>Contact Info</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Country</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Country</shortDescription>
-        <value>US</value>
-    </labels>
-    <labels>
-        <fullName>CPD_DataSource</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_DataSource</shortDescription>
-        <value>IQVIA registry</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Date_of_first_symptom</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Date of first symptom</shortDescription>
-        <value>Date of first symptom</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Date_of_last_symptom</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Date of last symptom</shortDescription>
-        <value>Date of last symptom</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Default_study_site</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Default_study_site</shortDescription>
-        <value>LF010</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Delegate_Email_address_label</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Delegate Email address label</shortDescription>
-        <value>Email address</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Delegate_First_name</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Delegate First name</shortDescription>
-        <value>First name</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Delegate_Last_name_label</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Delegate Last name label</shortDescription>
-        <value>Last name</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Delegate_Middle_initial_label</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Delegate Middle initial label</shortDescription>
-        <value>Middle initial (optional)</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Delegate_Phone_type</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Delegate Phone type</shortDescription>
-        <value>Phone type</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Delegate_Primary_phone</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Delegate Primary phone</shortDescription>
-        <value>Primary phone</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Did_you_test_positive_for_COVID_19</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Did you test positive for COVID-19</shortDescription>
-        <value>Did you test positive for COVID-19?</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Distance</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Distance</shortDescription>
-        <value>Distance</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Documentation_must_include_your_full_name</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Documentation must include your full name</shortDescription>
-        <value>Documentation must include your full name, testing facility or MD and test date.</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Documentation_of_a_positive_test</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Documentation of a positive test</shortDescription>
-        <value>Documentation of a positive test (either nasal swab or blood antibody) is required to donate.</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Email_address_label</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Email address label</shortDescription>
-        <value>Email address</value>
-    </labels>
-    <labels>
-        <fullName>CPD_First_name_label</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_First name label</shortDescription>
-        <value>First name</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Help_treat_patients_with_life_threatening</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Help treat patients with life-threatening</shortDescription>
-        <value>Help treat patients with life-threatening COVID-19 infections by increasing the supply of convalescent plasma.</value>
-    </labels>
-    <labels>
-        <fullName>CPD_How_did_you_hear_about_us</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_How did you hear about us</shortDescription>
-        <value>How did you hear about us?</value>
-    </labels>
-    <labels>
-        <fullName>CPD_In_a_clinical_research_study</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_In a clinical research study</shortDescription>
-        <value>*In a clinical research study, the participants may receive the investigational medication or an inactive substance, or placebo, depending on the study design. All participants will receive study-related care from a doctor/research team for the duration of the study. Reasonable reimbursements will be made for participation, and the length of the study may vary.</value>
-    </labels>
-    <labels>
-        <fullName>CPD_In_partnership_with</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_In partnership with</shortDescription>
-        <value>In partnership with</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Lab_confirmed_positive</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Lab confirmed positive</shortDescription>
-        <value>Lab confirmed positive test for COVID-19</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Language_Preference</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Language_Preference</shortDescription>
-        <value>en_US</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Last_name_label</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Last name label</shortDescription>
-        <value>Last name</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Middle_initial_label</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Middle initial label</shortDescription>
-        <value>Middle initial (optional)</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Next_Question_btn_label</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Next Question btn label</shortDescription>
-        <value>Next Question</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Next_btn_label</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Next btn label</shortDescription>
-        <value>Next</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Next_step_complete_a_few_details</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Next step complete a few details</shortDescription>
-        <value>Next step: complete a few details</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Organization_other_label</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Organization other label</shortDescription>
-        <value>Organization name</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Parent_Legal_guardian_title</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Parent Legal guardian title</shortDescription>
-        <value>Parent/Legal guardian</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Phone_type_label</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Phone type label</shortDescription>
-        <value>Phone type</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Please_Upload_Documentation</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Please Upload Documentation</shortDescription>
-        <value>Please Upload Documentation</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Primary_phone_label</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Primary phone label</shortDescription>
-        <value>Primary phone</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Privacy_Policy</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Privacy Policy</shortDescription>
-        <value>Privacy Policy</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Protocol_ID</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Protocol_ID</shortDescription>
-        <value>C19NYBC</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Questionnaire</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Questionnaire</shortDescription>
-        <value>Questionnaire</value>
-    </labels>
-    <labels>
-        <fullName>CPD_Referring_organization_label</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_Referring organization label</shortDescription>
-        <value>Referring organization (optional)</value>
-    </labels>
     <labels>
         <fullName>CPD_Search_for_the_study</fullName>
         <categories>Covid19</categories>
@@ -3060,14 +1870,6 @@ Please share our site on social media to encourage others to assist us as we wor
         <shortDescription>CPD_Search for the study</shortDescription>
         <value>Search for a study</value>
     </labels>
-    <labels>
-        <fullName>CPD_SitemapError</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_SitemapError</shortDescription>
-        <value>Please select a study site to submit</value>
-    </labels>    
     <labels>
         <fullName>CPD_Select_as_My_Preferred_Site</fullName>
         <categories>Covid19</categories>
@@ -5107,14 +3909,6 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <value>Your participant has become an adult on Study. Please login for additional details.</value>
     </labels>
     <labels>
-        <fullName>Email_Body_Initial_Patient_Covid_19</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Initial Patient Covid 19</shortDescription>
-        <value>We have received your Convalescent Plasma COVID-19 donor registration information.
-We will contact you soon to schedule your first convalescent plasma donation appointment.</value>
-    </labels>    
-    <labels>
         <fullName>Email_Body_Patient_CreatedDate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6061,34 +4855,6 @@ The NYBC Convalescent Plasma Donation Team</value>
 
             ##SignatureShortCommunityName</value>
     </labels>
-    <labels>
-        <fullName>Email_Subject_COVID19_Participant</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Subject COVID19 Participant</shortDescription>
-        <value>CP COVID-19 Donor Registration Confirmation</value>
-    </labels>
-    <labels>
-        <fullName>Help_Participant_Name</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Help_Participant_Name</shortDescription>
-        <value>Participant Name:</value>
-    </labels>
-    <labels>
-        <fullName>Help_Study_Site</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Help_Study_Site:</shortDescription>
-        <value>Study Site</value>
-    </labels>
-    <labels>
-        <fullName>PG_HLP_BTN_Submit_Your_Request</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG_HLP_BTN_Submit_Your_Request</shortDescription>
-        <value>Submit Your Request</value>
-    </labels>    
     <labels>
         <fullName>Email_Signature_Patient</fullName>
         <language>en_US</language>
@@ -7921,20 +6687,6 @@ The NYBC Convalescent Plasma Donation Team</value>
         <shortDescription>Home Page VisitTab Filter Show All</shortDescription>
         <value>All</value>
     </labels>
-    <labels>
-        <fullName>HT_02_CPD</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>HT_02_CPD</shortDescription>
-        <value>I need to transfer a participant to another site.</value>
-    </labels>
-    <labels>
-        <fullName>HT_02_CPD_SL</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>HT_02_CPD_SL</shortDescription>
-        <value>Please select  the participant and the study site you would like the participant transferred to.</value>
-    </labels>    
     <labels>
         <fullName>IRB_Padding_Info</fullName>
         <language>en_US</language>
