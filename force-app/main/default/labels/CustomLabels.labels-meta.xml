@@ -13021,6 +13021,13 @@ The NYBC Convalescent Plasma Donation Team</value>
         <value>Your password must be at least 8 characters long and include at least 3 of the following:&lt;/br&gt; numbers, uppercase and/or lowercase letters, and special characters.</value>
     </labels>
     <labels>
+        <fullName>Pswd_ValidationMsg4</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pswd_ValidationMsg4</shortDescription>
+        <value>Your password must be at least 8 characters long.</value>
+    </labels>
+    <labels>
         <fullName>Pswd_ValidationMsg3_1</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -13039,7 +13046,7 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Pswd_Your_Pswd_Include</shortDescription>
-        <value>Your password must include at least</value>
+        <value>Password must include at least</value>
     </labels>    
     <labels>
         <fullName>PWS_Contact_Card_Name</fullName>

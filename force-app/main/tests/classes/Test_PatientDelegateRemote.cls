@@ -134,9 +134,11 @@ public class Test_PatientDelegateRemote {
         Contact delegateContact = [SELECT Id FROM Contact WHERE Email = 'j.smith@gmail.com'];
         TestData.loadTestData();
         TestData testData = new TestData();
+        Test.startTest();
         System.runAs(testData.participantUser) {
             PatientDelegateRemote.changeDelegateStatus(delegateContact.Id, false);
         }
+        Test.stopTest();
     }
 
     @IsTest
