@@ -486,11 +486,8 @@ public without sharing class MyTeamRemote {
                 contactDelegate.UserCommunityIsDelegate__c = true;
                 contactDelegate.MailingCountryCode = participant.Mailing_Country_Code__c;
                 contactDelegate.MailingStateCode = participant.Mailing_State_Code__c;
-                contactDelegate.Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH') ? CommunityService.IQVIA_NETWORK_NAME : Site.getMasterLabel();
+                contactDelegate.Landing_Community__c = Site.getMasterLabel() == 'IQVIA RH' ? CommunityService.IQVIA_NETWORK_NAME : Site.getMasterLabel();
                 insert contactDelegate;
-
-                User delegateUser = CommunityService.createUser(contactDelegate, null, null, null);
-                insert delegateUser;
 
                 Participant__c participantDelegate = new Participant__c(
                         Adult__c = true,
@@ -505,6 +502,9 @@ public without sharing class MyTeamRemote {
 
                 );
                 insert participantDelegate;
+
+                User delegateUser = CommunityService.createUser(contactDelegate, null, null, null);
+                insert delegateUser;
 
             } else if (!CommunityService.isUserInCommunity(contactDelegate.Id)) {
                 contactDelegate.UserCommunityIsDelegate__c = true;
