@@ -647,7 +647,7 @@ public without sharing class ParticipantEnrollmentService {
         //init trials
         Map<Id, Clinical_Trial_Profile__c> trialsMap = new Map<Id, Clinical_Trial_Profile__c>(TrialService.getAvailableTrials(mode, delegateId));
         //init study sites:
-        List<Study_Site__c> studySites;
+        List<Study_Site__c> studySites = new List<Study_Site__c>();
         if (mode == CommunityService.USER_MODE_HCP) {
             if (restrictTrial && trialId != null) {
                 studySites = StudySiteService.getStudySitesForHCPByTrialId(trialId);
