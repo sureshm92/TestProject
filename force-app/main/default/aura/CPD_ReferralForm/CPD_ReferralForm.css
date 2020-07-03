@@ -13,6 +13,21 @@
     margin-left: 4%;
     margin-right: 3%;
 }
+.THIS .message{
+    margin-left: 80px;
+    margin-top: 10px;
+}
+.THIS .sld-error-message{
+  color: red;
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: 25px;
+  font-family: "Muli", sans-serif;
+  display: block;
+} 
+.THIS .hidden{
+  display: none;
+}
 
 .THIS.border-line {
   border-bottom: 1px solid #1AA0D9;

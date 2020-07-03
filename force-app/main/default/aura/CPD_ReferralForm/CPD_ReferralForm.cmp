@@ -26,6 +26,7 @@
 
     <!-- Site selection-->
     <aura:attribute name="studySitesInstance" type="object" />
+    <aura:attribute name="showError" type="Boolean" default="false" />
 
     <!-- Handler-->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
@@ -86,6 +87,9 @@
         </lightning:tab>
         <lightning:tab label="Site Selection" id="4">
             <c:CPD_SiteMapSelection aura:id="siteMapSection" studySitesInstance="{!v.studySitesInstance}" />
+            <div class="message">
+                <span aura:id="errorMsg" class="{!(v.showError ==  true) ? 'sld-error-message':'sld-error-message hidden'}">{!$Label.c.CPD_SitemapError}</span>
+            </div>
         </lightning:tab>
     </lightning:tabset>
 

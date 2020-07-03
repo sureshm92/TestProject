@@ -51,6 +51,22 @@
     width: 255px!important;
 }
 
+.THIS .select-as-my-preferr:hover {
+    background-color: #1AA0D9!important;
+    color: #FFFFFF!important;
+    border: 2px solid #FFFFFF!important;    
+  }
+
+  .THIS .data-row:hover {
+    /*background-color:#54698d;
+    color:white;
+    cursor:pointer;*/
+   }
+   .THIS .data-row.selectedRow{
+    /* background-color:#54698d;
+     color:white;*/
+    }
+
 .THIS .sWrapTest {
     height: 31rem;
 

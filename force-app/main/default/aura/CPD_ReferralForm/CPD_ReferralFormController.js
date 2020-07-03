@@ -1,5 +1,6 @@
 ({
-  doInit : function (component, event, helper){    
+  doInit : function (component, event, helper){
+    helper.onclose(event);    
   },
 
   handleQuestionnaireEvent : function(component, event, helper){

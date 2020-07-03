@@ -205,9 +205,9 @@
         <div class="slds-grid slds-wrap">
             <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                 <div class="your-privacy-is-impo">
-                    <p>{!$Label.c.CPD_Your_privacy_is_important_to_us}
-                    <a href="https://c19trials.com/#!/PrivacyPolicy" class="privacy-blue-font" id="privacy" name="privacy"  target="_blank">{!$Label.c.CPD_Privacy_Policy}</a>
-                    {!$Label.c.CPD_and_our} <a href="https://c19trials.com/#!/TermsOfUse" class="privacy-blue-font" id="terms" name="terms"  target="_blank">{!$Label.c.CPD_Terms_of_Use}</a></p>
+                    <p>{!$Label.c.CPD_Your_privacy_is_important_to_us}&nbsp;
+                    <a href="https://c19trials.com/#!/PrivacyPolicy" class="privacy-blue-font" id="privacy" name="privacy"  target="_blank">{!$Label.c.CPD_Privacy_Policy}</a>&nbsp;
+                    {!$Label.c.CPD_and_our}&nbsp;<a href="https://c19trials.com/#!/TermsOfUse" class="privacy-blue-font" id="terms" name="terms"  target="_blank">{!$Label.c.CPD_Terms_of_Use}</a></p>
                 </div>
             </div>
         </div>

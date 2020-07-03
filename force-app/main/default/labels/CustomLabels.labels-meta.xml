@@ -1455,7 +1455,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CPD_Default_study_site</shortDescription>
-        <value>LF010</value>
+        <value>1010</value>
     </labels>
     <labels>
         <fullName>CPD_Delegate_Email_address_label</fullName>
@@ -3058,8 +3058,16 @@ Please share our site on social media to encourage others to assist us as we wor
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CPD_Search for the study</shortDescription>
-        <value>Search for the study</value>
+        <value>Search for a study</value>
     </labels>
+    <labels>
+        <fullName>CPD_SitemapError</fullName>
+        <categories>Covid19</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPD_SitemapError</shortDescription>
+        <value>Please select a study site to submit</value>
+    </labels>    
     <labels>
         <fullName>CPD_Select_as_My_Preferred_Site</fullName>
         <categories>Covid19</categories>
@@ -3848,7 +3856,7 @@ All information provided will be kept confidential and will only be used to qual
         <protected>false</protected>
         <shortDescription>CP Thank For After Submit</shortDescription>
         <value>Thank you for your interest in convalescent plasma donation. You will receive an email shortly confirming your registration and next steps.
-Please share our site on social media to encourage others to assist us as we work toward a cure.</value>
+Please share our site on social media to encourage others to assist us as we work towards a cure.</value>
     </labels>
     <labels>
         <fullName>CP_Thank_You_Title</fullName>
