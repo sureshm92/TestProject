@@ -183,7 +183,7 @@ public without sharing class RRChangePasswordController {
             update userVal;
 //            }
             for (ApexPages.Message m : ApexPages.getMessages()) {
-                if(m.getDetail().contains(System.Label.Pswd_Val_strng1) || m.getDetail().contains(System.Label.Pswd_Val_strng2))
+                if(m.getDetail().contains(System.Label.Pswd_Val_strng1) || m.getDetail().contains(System.Label.Pswd_Val_strng2) || m.getDetail().contains(System.Label.Pswd_ValidationMsg4))
                 {
                     m = new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.Pswd_ValidationMsg3);
                     failingPageResponse = m.getDetail();
@@ -288,7 +288,7 @@ public without sharing class RRChangePasswordController {
                 
               		for (ApexPages.Message m : ApexPages.getMessages()) 
                     {
-                        if(m.getDetail().contains(System.Label.Pswd_Val_strng1) || m.getDetail().contains(System.Label.Pswd_Val_strng2))
+                       if(m.getDetail().contains(System.Label.Pswd_Val_strng1) || m.getDetail().contains(System.Label.Pswd_Val_strng2) || m.getDetail().contains(System.Label.Pswd_ValidationMsg4))
                         {
                             m = new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.Pswd_ValidationMsg3);
                             failingPageResponse = m.getDetail();
