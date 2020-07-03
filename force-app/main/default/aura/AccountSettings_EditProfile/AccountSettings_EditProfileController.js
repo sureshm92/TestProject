@@ -44,20 +44,27 @@
             component.set('v.delegateContact',initData.delegateContact);
             component.set('v.hasProfilePic',initData.hasProfilePic);
             component.set('v.disableSave',true);
+            component.set('v.isAdult',initData.participant.Adult__c);
+            console.log('v.isAdult'+component.get('v.isAdult'));
+
             
             if(communityService.getCurrentCommunityMode().currentDelegateId){
                 component.set('v.userId',communityService.getCurrentCommunityMode().currentDelegateId);
-                component.set('v.userEmail', initData.delegateUserName.Username);
+                                                if(initData.participant.Adult__c){
+
+                                                    component.set('v.userEmail', initData.delegateUserName.Username);}
                 
                 
             }
             else{
                 component.set('v.userId',initData.myContact.Id);
-                component.set('v.userEmail', initData.userName);
+                                                if(initData.participant.Adult__c){
+
+                                                    component.set('v.userEmail', initData.userName);}
                 
             }
             console.log('initData.myContact.Email',initData.myContact.Email);
-            
+            component.set('v.minorUserName',initData.myContact.Email);
             if(component.get('v.personWrapper.mobilePhone')==''){
                 component.set('v.disableToggle',true);
             }
