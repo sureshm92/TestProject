@@ -41,6 +41,8 @@
         <zip destfile="${dist.dir}/${dist.name}.zip">
             <zipfileset dir="${source.dir}" prefix="${release.version}" includes="**/*.*" />
         </zip>
+
+        <antcall target="build-communities"/>
     </target>
 
     <!-- filter metadata files before deploy: -->
@@ -91,7 +93,6 @@
         <exec dir=".." executable="cmd" osfamily="windows">
             <arg value="/c convert-project.bat"/>
         </exec>
-        <!-- TODO test for mac -->
         <exec dir=".." executable="pwsh" osfamily="mac">
             <arg path="../convert-project.bat"/>
         </exec>
@@ -99,6 +100,21 @@
         <!-- restore forceignore: -->
         <copy file=".forceignore" todir=".." overwrite="true"/>
         <delete file=".forceignore"/>
+    </target>
+
+    <target name="build-communities">
+        <delete dir="${source.dir}"/>
+        <!-- convertation: -->
+        <exec dir=".." executable="cmd" osfamily="windows">
+            <arg value="/c convert-communities.bat"/>
+        </exec>
+        <exec dir=".." executable="pwsh" osfamily="mac">
+            <arg path="../convert-communities.bat"/>
+        </exec>
+
+        <zip destfile="${dist.dir}/${dist.name}-communities.zip">
+            <zipfileset dir="${source.dir}" prefix="${release.version}" includes="**/*.*" />
+        </zip>
     </target>
 
 

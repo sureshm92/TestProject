@@ -494,8 +494,10 @@ public class TestData {
     }
 
     public static void createIncentiveProgram(){
+        Study_Site__c studySite = [SELECT Id, Clinical_Trial_Profile__c FROM Study_Site__c WHERE Study_Site_Number__c = 'SS1' LIMIT 1];
         Incentive_Plan__c plan = new Incentive_Plan__c();
         plan.Plan_Name__c = 'Test IP1';
+        plan.Clinical_Trial_Profile__c = studySite.Clinical_Trial_Profile__c;
         insert plan;
         Incentive_Plan_Task__c task = new Incentive_Plan_Task__c();
         task.Incentive_Task_Catalog__c = IncentiveTaskCatalog.INCENTIVE_TASK_PRE_SCREENING;
@@ -506,7 +508,6 @@ public class TestData {
         insert task;
         Study_Incentive_Plan__c sip = new Study_Incentive_Plan__c();
         sip.Incentive_Plan__c = plan.Id;
-        Study_Site__c studySite = [SELECT Id FROM Study_Site__c WHERE Study_Site_Number__c = 'SS1' LIMIT 1];
         sip.Study_Site__c = studySite.Id;
         insert sip;
 

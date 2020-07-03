@@ -43,7 +43,8 @@
     <aura:attribute name="userEmail" type="String"/>
     <aura:attribute name="userId" type="String"/>
     <aura:attribute name="isUpdated" type="Boolean"/>
-    
+    <aura:attribute name="isAdult" type="Boolean"/>
+
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     
@@ -71,7 +72,9 @@
                         <div class="as-email-input slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end">
                             <div class="slds-col slds-size_1-of-1">
                                 
-                                <c:Action_AddProfilePhoto username="{!v.userEmail}" recordId="{!v.userId}" isDelegate="{!v.isDelegate}" hasProfilePic="{!v.hasProfilePic}"></c:Action_AddProfilePhoto>
+                                <aura:if isTrue="{!v.isAdult=='true'}">
+                                 <c:Action_AddProfilePhoto username="{!v.userEmail}" recordId="{!v.userId}" isDelegate="{!v.isDelegate}" hasProfilePic="{!v.hasProfilePic}"></c:Action_AddProfilePhoto>
+                                </aura:if>
                                 
                             </div>
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
@@ -178,12 +181,12 @@
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4 nickname">
                                 <aura:if isTrue="{!not(v.isDelegate)}">
                                     
-                                    <lightning:input aura:id="pField" type="text" label="{!$Label.c.PG_AS_NickName}"
+                                    <lightning:input  aura:id="pField" type="text" label="{!$Label.c.PG_AS_NickName}"
                                                      value="{!v.personWrapper.nickname}" 
                                                      onblur="{!c.doCheckFieldsValidity}"/></aura:if>
                                 
                                 <aura:if isTrue="{!v.isDelegate}">
-                                    <lightning:input aura:id="pField" type="text" label="{!$Label.c.PG_AS_NickName}"
+                                    <lightning:input class="dob" aura:id="pField" type="text" label="{!$Label.c.PG_AS_NickName}"
                                                      value="{!v.personWrapper.nickname}" 
                                                      onblur="{!c.doCheckFieldsValidity}" disabled="true"/>                                                  
                                 </aura:if>
@@ -234,7 +237,9 @@
                     <div style="height: 30px"></div>
                     
                     <aura:if isTrue="{!v.isDelegate}">
+                        <div class="delegateInfo">
                         <c:DelegateInformation contact="{!v.delegateContact}" parentComponent="{!this}"/>
+                        </div>
                         <div style="height: 30px"></div>
                     </aura:if>
                     
