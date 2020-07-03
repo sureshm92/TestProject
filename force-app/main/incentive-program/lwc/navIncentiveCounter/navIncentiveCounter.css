@@ -27,7 +27,7 @@
     outline: none;
 }
 :host {
-    height: 50px;
+    max-height: 50px;
     min-width: 30px;
 }
 .nic-points{
