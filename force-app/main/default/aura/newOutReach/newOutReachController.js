@@ -63,6 +63,7 @@
             component.set("v.studyData",returnValue);
             console.log('returnValue>>'+JSON.stringify(returnValue));
             //  component.find('modalSpinner').hide();
+            component.set('v.reqFieldsFilled', true);
         });
     },
     
