@@ -15,10 +15,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>FileName__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>LanguageCode__c</field>
             </layoutItems>
         </layoutColumns>
