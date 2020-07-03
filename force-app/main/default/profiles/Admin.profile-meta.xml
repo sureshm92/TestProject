@@ -1705,6 +1705,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_EmailTestBoardRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ExcelController</apexClass>
         <enabled>true</enabled>
     </classAccesses>

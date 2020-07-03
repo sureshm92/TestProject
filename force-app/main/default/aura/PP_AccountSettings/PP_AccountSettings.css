@@ -111,14 +111,13 @@
 
     .THIS .navBar {
         position: relative;
-        height: 30px;
+        height: 38px;
         margin-top: 0;
     }
 
     .THIS .navBar ul {
         display: flex;
         flex-direction: column;
-        background: #fff;
         position: absolute;
         width: 225px;
         z-index: 100;
@@ -129,6 +128,7 @@
         order: 2;
         display: none;
         border: none;
+        background: #fff;
     }
 
     .THIS .navBar .navItem.mouse-hover {
@@ -143,10 +143,6 @@
         display: inline-block;
         border: none;
         width: 100%;
-    }
-
-    .THIS .navBar .navItem.mouse-hover .navItem1:hover {
-        background-color: transparent;
     }
 
     .THIS .navBar .navItem .navItem1 {
@@ -174,14 +170,19 @@
         position: relative;
         display: inline-block;
     }
+    /*
+
+     .THIS .navBar .navItem.mouse-hover .navItem1:hover {
+        background-color: transparent;
+    }
+
 
     .THIS .navBar ul:hover {
         box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.16);
     }
 
-    .THIS ul:hover .navItem {
-        display: block;
-    }
+ */
+
     .THIS .slds-navigation-list-vertical__action:hover,
     .THIS .slds-navigation-list-vertical__action:focus,
     .THIS .slds-navigation-list--vertical__action:hover,
@@ -189,6 +190,10 @@
         background: transparent;
     }
 
+
+    .THIS .navBar ul:hover .navItem {
+        display: block;
+    }
 }
 
 @media all and (max-width: 500px) {

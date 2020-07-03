@@ -74,7 +74,14 @@ window.communityService = (function () {
         executeAction: function (component, actionName, params, successCallback, errorCallback, finalCallback) {
             service.logError(function () {
                 let action = component.get('c.' + actionName);
-                if (params) action.setParams(params);
+                if (params) {
+                    if (service.parametersHaveValidInputs(params)) {
+                        service.showErrorToast('Error', $A.get('$Label.c.TST_JS_Injection_Error'));
+                        if (errorCallback) errorCallback();
+                        if (finalCallback) finalCallback();
+                    }
+                    action.setParams(params);
+                }
                 action.setCallback(this, function (response) {
                     try {
                         if (response.getState() === "SUCCESS") {
@@ -470,7 +477,19 @@ window.communityService = (function () {
 
         logOut: function () {
             window.location.replace(baseUrl + '/secur/logout.jsp');
-        }
+        },
+
+        parametersHaveValidInputs: function (params) {
+            let paramsJSON = JSON.stringify(params);
+            let re = /javascript|<.*>/gm;
+            return re.test(String(paramsJSON).toLowerCase());
+        },
+
+        parametersEscapeHTML: function (params) {
+            let paramsJSON = JSON.stringify(params);
+            paramsJSON = paramsJSON.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            return JSON.parse(paramsJSON);
+        },
     };
 
     window.onscroll = function () {

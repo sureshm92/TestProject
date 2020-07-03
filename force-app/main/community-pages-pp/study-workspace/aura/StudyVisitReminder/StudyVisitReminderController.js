@@ -17,7 +17,7 @@
         helper.initialize(component, helper);
         //Take scroll bar to top next time when the popup is displayed
         //if (!component.get('v.isReminderOnly')) {
-            document.getElementsByClassName('with-scroll')[0].scrollTop = 0;
+        document.getElementsByClassName('with-scroll')[0].scrollTop = 0;
         //}
     },
 
@@ -31,15 +31,18 @@
         var reminderDate = component.get('v.initData.reminderDate');
         var emailPeferenceSelected = component.get('v.task.Remind_Using_Email__c');
         var smsPeferenceSelected = component.get('v.task.Remind_Using_SMS__c');
-        console.log('smsPeferenceSelected: ' + smsPeferenceSelected);
-        console.log('emailPeferenceSelected: ' + emailPeferenceSelected);
+        var emailOptIn = component.get('v.emailOptIn');
+        var smsOptIn = component.get('v.smsOptIn');
+        console.log('smsPeferenceSelected: ' + smsPeferenceSelected + '  smsOptIn' + smsOptIn);
+        console.log('emailPeferenceSelected: ' + emailPeferenceSelected + '  emailOptIn' + emailOptIn);
 
         if (!task.Subject) {
             communityService.showErrorToast('', $A.get('$Label.c.Empty_TaskName'), 3000);
             return;
         }
         if (!$A.util.isUndefinedOrNull(reminderDate)
-            && !smsPeferenceSelected && !emailPeferenceSelected) {
+            && !(smsPeferenceSelected && smsOptIn)
+            && !(emailPeferenceSelected && emailOptIn)) {
             communityService.showErrorToast('', $A.get('$Label.c.PP_Remind_Using_Required'), 3000);
             return;
         }
@@ -57,7 +60,7 @@
                 return;
             }
         }
-        
+
         var message = helper.setSuccessToast(component);
 
         component.find('spinner').show();
@@ -70,7 +73,9 @@
             component.find('spinner').hide();
             communityService.showSuccessToast('', message, 3000);
             helper.hideModal(component);
-        }, null, null);
+        }, function () {
+            component.find('spinner').hide();
+        }, null);
     },
 
     doIgnore: function (component, event, helper) {
@@ -87,18 +92,30 @@
         component.set('v.initData.reminderDate', reminderDate.format('YYYY-MM-DD'));
     },
 
-    doValidateFields: function (component, event, helper){
+    doValidateFields: function (component, event, helper) {
         var isValidFields = helper.doValidateDueDate(component, helper) &&
-                            helper.doValidateReminder(component);
-                            //helper.doValidateDueDateOnFreqChange(component);
+            helper.doValidateReminder(component);
+        //helper.doValidateDueDateOnFreqChange(component);
 
         component.set('v.isValidFields', isValidFields);
     },
-    
+
     doNavigateToAccountSettings: function (component, event, helper) {
         //communityService.navigateToPage('account-settings');
         window.open('account-settings', '_blank');
-        window.focus();  
+        window.focus();
         helper.hideModal(component);
+    },
+
+    setAttributeValue: function (component, event, helper) {
+        var sourceEvt = event.getSource();
+        switch (sourceEvt.get('v.name')) {
+            case 'Email':
+                component.set('v.task.Remind_Using_Email__c', sourceEvt.get('v.checked'));
+                break;
+            case 'SMS':
+                component.set('v.task.Remind_Using_SMS__c', sourceEvt.get('v.checked'));
+                break;
+        }
     }
 })
