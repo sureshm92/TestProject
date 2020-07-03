@@ -106,6 +106,14 @@
     "label" : "Lithuanian",
     "languageCode" : "lt",
     "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "69b10d87-b17d-4f6d-8f53-7f36be064b96",
+    "isActive" : true,
+    "label" : "Bengali",
+    "languageCode" : "bn",
+    "type" : "language"
   } ],
   "type" : "languageContainer"
 }
