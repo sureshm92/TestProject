@@ -190,16 +190,19 @@ public without sharing class ParticipantService {
         } else {
             //check contact duplicate:
             if (duplicateService.findDuplicateContact(participant) != null) {
-                participant.Contact__c = duplicateService.findDuplicateContact(participant).Id;
+                Contact existingContact = duplicateService.findDuplicateContact(participant);
+                participant.Contact__c = existingContact.Id;
                  if ('Home' == participant.Phone_Type__c) {
-                        participant.Contact__r.HomePhone = participant.Phone__c;
+                        existingContact.HomePhone = participant.Phone__c;
                     } if ('Mobile' == participant.Phone_Type__c) {
-                        participant.Contact__r.MobilePhone = participant.Phone__c;
+                        existingContact.MobilePhone = participant.Phone__c;
                     } else {
-                        participant.Contact__r.Phone = participant.Phone__c;
+                        existingContact.Phone = participant.Phone__c;
                     }
+                update existingContact;
             }
             insert participant;
+
         }
         if (pe != null) {
             pe.Participant__c = participant.Id;
