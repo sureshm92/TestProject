@@ -31,7 +31,7 @@
                 <behavior>Edit</behavior>
                 <field>Media_outreach_Provider__c</field>
             </layoutItems>
-			 <layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Block_Outreach__c</field>
             </layoutItems>
@@ -65,6 +65,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Brief_Summary__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Study_Content__c</field>
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
@@ -103,10 +107,6 @@
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Study_Content__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

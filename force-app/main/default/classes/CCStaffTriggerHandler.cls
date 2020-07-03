@@ -28,7 +28,7 @@ public class CCStaffTriggerHandler {
                                     WHERE ID IN: newList AND
                                    Contact__r.userCommunityMode__c = 'CC'];
         For(CC_Staff__c c: ccList){
-                    c.Contact__r.userCommunytyType__c = 'CC';
+                    //c.Contact__r.userCommunytyType__c = 'CC';
                 if(c.CC_Staff_Status__c == 'Invited')
                     c.Contact__r.CC_Staff_Status__c = True;  
                 else

@@ -522,7 +522,7 @@ public without sharing class MyTeamRemote {
         Contact delegateContact = createDelegateContact(delegate, userMode);
         List<Site_Staff__c> piDelegates = new List<Site_Staff__c>();
         List<TrialDelegateWrapper> dlw = delegate.delegateTrials;
-        Boolean createUser = doCreateUser(dlw);
+        Boolean createUser = doCreateUser(dlw, userMode);
         if (userMode == CommunityService.USER_MODE_PI) {
             piDelegates = createPIDelegationRecord(delegate, delegateContact);
         }
@@ -544,15 +544,20 @@ public without sharing class MyTeamRemote {
         }
     }
 
-    public static Boolean doCreateUser(List<TrialDelegateWrapper> dlw) {
-        for (MyTeamRemote.TrialDelegateWrapper t : dlw) {
-            for (MyTeamRemote.DelegateLevelWrapper d : t.siteLevels) {
-                if (d.ReferralStatus == 'Accepted' &&  String.isNotBlank(d.delegateLevel)) {
-                    return true;
+    public static Boolean doCreateUser(List<TrialDelegateWrapper> dlw, String userMode) {
+        if(userMode != CommunityService.USER_MODE_PI){
+          return true;
+        }
+        else{
+            for (MyTeamRemote.TrialDelegateWrapper t : dlw) {
+                for (MyTeamRemote.DelegateLevelWrapper d : t.siteLevels) {
+                    if (d.ReferralStatus == 'Accepted' &&  String.isNotBlank(d.delegateLevel)) {
+                        return true;
+                    }
                 }
             }
+            return false;
         }
-        return false;
     }
 
     private static Contact createDelegateContact(DelegateWrapper delegate, String userMode) {
