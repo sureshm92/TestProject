@@ -44,7 +44,6 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
         setInterval(() => {
             if (!this.inProcess) {
                 if (this.initialized) {
-
                     this.inProcess = true;
                     getJobs()
                         .then(data => {
