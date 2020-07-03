@@ -41,6 +41,15 @@ public with sharing class Test_IncentivePlanConfigurationRemote {
         TestData testDataInstance = new TestData();
         Test.startTest();
         String planId = IncentivePlanConfigurationRemote.createUpdateIncentivePlan(tasksString, planName, testDataInstance.ctp.Id);
+        task.planId = planId;
+        tasksString = JSON.serialize(tasks);
+        IncentivePlanConfigurationRemote.createUpdateIncentivePlan(tasksString, planName, testDataInstance.ctp.Id);
+
+        IncentivePlanConfigurationRemote.InitData initData = IncentivePlanConfigurationRemote.getInitData(testDataInstance.ctp.Id);
+        IncentivePlanConfigurationRemote.getItems(JSON.serialize(new List<StudySiteItem>()), JSON.serialize(initData.filter), JSON.serialize(initData.searchResponse.pagination));
+        IncentivePlanConfigurationRemote.getNumberStudySites(planId);
+        IncentivePlanConfigurationRemote.setIncentivePlanForAll(planId, true, JSON.serialize(initData.filter), JSON.serialize(initData.searchResponse.pagination), JSON.serialize(new List<StudySiteItem>()));
+        IncentivePlanConfigurationRemote.deleteIncentivePlan(planId, JSON.serialize(initData.filter), JSON.serialize(initData.searchResponse.pagination));
         Test.stopTest();
         System.assert(planId != null);
     }
