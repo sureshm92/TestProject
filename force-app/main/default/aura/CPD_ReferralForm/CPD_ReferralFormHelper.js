@@ -13,15 +13,15 @@
     if (((showParent === false && showParent != undefined) && (parentIsRequired === false && parentIsRequired != undefined) && (patientisRequired === false && patientisRequired != undefined))) {
       if (positiveCase != undefined && positiveCase === 'false') {
         this.pageNavigate(event, "/thank-you?page_types=underage");
-      } 
+      }
       else {
-        this.pageNavigate(event, "/thank-you?page_types=underage");       
+        this.pageNavigate(event, "/thank-you?page_types=underage");
       }
     } else if (positiveCase != undefined && positiveCase === 'false') {
 
       if (((showParent === false && showParent != undefined) && (parentIsRequired === false && parentIsRequired != undefined) && (patientisRequired === false && patientisRequired != undefined))) {
         this.pageNavigate(event, "/thank-you?page_types=underage");
-      } 
+      }
       else {
         this.pageNavigate(event, "/thank-you?page_types=underage");
       }
@@ -74,7 +74,7 @@
     }
   },
 
-  setTabProperties : function(tabId, progressId, progressLevel){
+  setTabProperties: function (tabId, progressId, progressLevel) {
     component.set("v.selTabId", tabId);
     component.set("v.progressLevel", progressLevel);
   },
@@ -108,27 +108,32 @@
       dob = component.get("v.DOB"),
       studySiteNumber = component.get("v.studySitesInstance.Study_Site_Number__c"),
       protocolNumber = $A.get("$Label.c.CPD_Protocol_ID");
+    if (studySiteNumber) {
+      action.setParams({
+        'emailAddress': email,
+        'phoneNumber': phone,
+        'delegateEmailAddress': delegateEmail,
+        'delegatePhoneNumber': delegatePhone,
+        'dateOfBirth': dob,
+        'siteSelectedId': studySiteNumber,
+        'protocolId': protocolNumber
+      });
 
-    action.setParams({
-      'emailAddress': email,
-      'phoneNumber': phone,
-      'delegateEmailAddress': delegateEmail,
-      'delegatePhoneNumber': delegatePhone,
-      'dateOfBirth': dob,
-      'siteSelectedId': studySiteNumber,
-      'protocolId': protocolNumber
-    });
-
-    action.setCallback(this, function (response) {
-      var state = response.getState();
-      if (state === 'SUCCESS') {
-        this.pageNavigate(event, "/thank-you?page_types=success");
-        component.set('v.loaded', false);
-      } else if (state === 'ERROR') {
-        console.log(response.getError('Details')[0]);
-      }
-    });
-    $A.enqueueAction(action);
+      action.setCallback(this, function (response) {
+        var state = response.getState();
+        if (state === 'SUCCESS') {
+          this.pageNavigate(event, "/thank-you?page_types=success");
+          component.set('v.loaded', false);
+          component.set('v.showError', false);
+        } else if (state === 'ERROR') {
+          console.log(response.getError('Details')[0]);
+        }
+      });
+      $A.enqueueAction(action);
+    } else {
+      component.set('v.loaded', false);
+      component.set('v.showError', true);
+    }
   },
 
   submit: function (component, event) {
@@ -208,11 +213,11 @@
     var birthDate = component.get("v.DOB");
     var action = component.get("c.enrollPatient");
     action.setParams({
-        birthDate: birthDate,
-        intPatientReferral: patientref,
-        formResult: formresult,
-        fileData: JSON.stringify(fileData)
-      });
+      birthDate: birthDate,
+      intPatientReferral: patientref,
+      formResult: formresult,
+      fileData: JSON.stringify(fileData)
+    });
 
     action.setCallback(this, function (response) {
       var state = response.getState();
@@ -241,9 +246,9 @@
   // utm parameters mapping
   getQueryForm: function (component, settings) {
     var patientref = component.get("v.integrationPatientReferralObj"),
-        reset = settings && settings.reset ? settings.reset : false,
-        self = window.location.toString(),
-        querystring = self.split("?");
+      reset = settings && settings.reset ? settings.reset : false,
+      self = window.location.toString(),
+      querystring = self.split("?");
 
     if (querystring.length > 1) {
       var pairs = querystring[1].split("&");
@@ -270,7 +275,7 @@
     component.set("v.positiveCase", positive);
     component.set("v.DOB", DOB);
   },
-  
+
   setColor: function (id) {
     document.getElementById(id).style.color = "#005587";
   },
@@ -287,5 +292,18 @@
     });
     $A.enqueueAction(action);
   },
+
+  onclose: function (event) {
+    window.onbeforeunload = function (event) {
+      var message = 'Important: Please click on \'Save\' button to leave this page.';
+      if (typeof event == 'undefined') {
+        event = window.event;
+      }
+      if (event) {
+        event.returnValue = message;
+      }
+      return message;
+    };
+  }
 
 })

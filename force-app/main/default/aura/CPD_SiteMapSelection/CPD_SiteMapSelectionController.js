@@ -16,6 +16,7 @@
 
     changeMapMarker : function(component, event, helper) 
     {  
+        //helper.buttonactive(component,event);
         /*var index = event.getSource().get('v.name');
         var ctarget = event.currentTarget;
         var index = ctarget.dataset.value;*/
@@ -44,6 +45,6 @@
         component.set('v.zoomLevel', 16);
          component.set('v.showFooter', true);	
          //component.set('v.markersTitle', siteAddress[index].Site__r.BillingStreet + ' '+siteAddress[index].Site__r.BillingCity + ' ' +siteAddress[index].Site__r.BillingCountry + ' ' +siteAddress[index].Site__r.BillingCity +' '+siteAddress[index].Site__r.BillingPostalCode);
+    },
 
-    }
 })

@@ -62,6 +62,7 @@ public without sharing class CPD_DistanceCalculator
         Location accounLocation;
         String protocolId = 'C19NYBC';
         String studyAccepted = 'Accepted';
+        String studyAcceptedAdmin = 'Accepted (Admin)';
         List<georesultWrapper> result;
 
         List<Account> accList = [Select Id,BillingLatitude,BillingLongitude from Account where Name='Dummy-Covid-19'];
@@ -80,7 +81,7 @@ public without sharing class CPD_DistanceCalculator
             'Site__r.BillingAddress,Site__r.BillingStreet,Site__r.BillingCity,Site__r.BillingCountry,Site__r.BillingPostalCode, '+
             'Site__r.BillingState,Site__r.BillingLatitude,Site__r.BillingLongitude ' + 
             'FROM Study_Site__c  WHERE ';
-            query +='( Override_PI_Referral_Status__c =: studyAccepted AND Study_Site_Number__c != NULL AND Clinical_Trial_Profile__r.Protocol_ID__c = :protocolId )';
+            query +='( (Override_PI_Referral_Status__c =: studyAccepted OR Override_PI_Referral_Status__c =: studyAcceptedAdmin ) AND Study_Site_Number__c != NULL AND Clinical_Trial_Profile__r.Protocol_ID__c = :protocolId )';
             query += ' ORDER BY DISTANCE(Site__r.BillingAddress, GEOLOCATION(' + contactLocation.Latitude + ', ' + contactLocation.Longitude + '), \'mi\') ASC ';
             studySiteList = database.Query(query);
         }
@@ -90,7 +91,7 @@ public without sharing class CPD_DistanceCalculator
             Clinical_Trial_Profile__r.Study_Code_Name__c,Site__r.BillingAddress,
             Site__r.BillingStreet,Site__r.BillingCity,Site__r.BillingCountry,
             Site__r.BillingPostalCode,Site__r.BillingState,Site__r.BillingLatitude,Site__r.BillingLongitude
-            From Study_Site__c Where Clinical_Trial_Profile__r.Protocol_ID__c =: protocolId AND Override_PI_Referral_Status__c =: studyAccepted AND Study_Site_Number__c != NULL];
+            From Study_Site__c Where Clinical_Trial_Profile__r.Protocol_ID__c =: protocolId AND (Override_PI_Referral_Status__c =: studyAccepted OR Override_PI_Referral_Status__c =: studyAcceptedAdmin) AND Study_Site_Number__c != NULL];
         }
         for(Study_Site__c site : studySiteList) 
         {
