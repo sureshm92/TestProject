@@ -60,7 +60,6 @@ public without sharing class CPDonorReferralFormController
         return JSON.serialize(studySites);
     }
 
-
     @AuraEnabled
     public static Map<String, List<LabelValueItem>> getStateMapByCountry(){
         List<LabelValueItem> countriesLVList = CountryStateUtil.getCountries();

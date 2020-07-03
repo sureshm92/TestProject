@@ -1,7 +1,7 @@
 @IsTest
 public class TestCPDonor
 {
-/*
+/* Remove
    @IsTest
     static void testAll() {
     
@@ -203,8 +203,8 @@ public class TestCPDonor
 
         issList.add(iss);
         issList.add(iss2);
-        //insert(issList);
-
+        //insert(issList);*/
+/* Remove
         test.stopTest();
         CPDonorReferralFormController.getStudySites('Test');
         CPDonorReferralFormController.getPickListValuesIntoList();
@@ -239,8 +239,8 @@ public class TestCPDonor
         CPDonorReferralFormController.getStudySites('Test');
 
         Test.stopTest();
-    }
-
+    }*/
+   /* Remove
     private static Integration_Patient_Referral__c createIntegrationPatientReferral()
     {
         Integration_Patient_Referral__c newIntegrationPatientReferral = new Integration_Patient_Referral__c();
@@ -297,5 +297,5 @@ public class TestCPDonor
         insert att;
         return att;
     }
-    */
+    Remove */
 }

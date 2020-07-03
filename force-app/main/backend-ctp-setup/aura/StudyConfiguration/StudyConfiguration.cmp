@@ -75,11 +75,11 @@
                             <div style="margin-left: 10px">Consent through Enrolled/Randomized</div>
                         </div>
                         <div class="global-element">
-                            <lightning:input aura:id="ruToggle" type="toggle" label="Received until Consent" name="ReceivedUntilConsent"
+                            <lightning:input aura:id="ruToggle" type="toggle" label="Pre-consent" name="ReceivedUntilConsent"
                                              onchange="{!c.saveCTP}" checked="{!v.ctp.Received_Until_Consent_Is_Available__c}"
                                              disabled="{!!v.ctp.Travel_Vendor_Is_Available__c}"
                                              variant="label-hidden"/>
-                            <div style="margin-left: 10px">Received until Consent</div>
+                            <div style="margin-left: 10px">Pre-consent</div>
                         </div>
                     </div>                    
                     <div class="group-title">Others</div>

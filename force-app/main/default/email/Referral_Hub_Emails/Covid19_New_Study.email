@@ -1,5 +1,5 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_COVID19_Participant}"
-                         recipientType="Contact"
+                         recipientType="User"
                          relatedToType="Participant_Enrollment__c">
 
     <messaging:htmlEmailBody >

@@ -3,7 +3,38 @@
  -->
 
  <aura:component description="Action_ParticipantInformation" controller="ParticipantInformationRemote">
-        <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="pe" type="Participant_Enrollment__c"/>
+    <aura:attribute name="refProvider" type="Contact"/>
+    <aura:attribute name="participant" type="Participant__c" access="private"/>
+    <aura:attribute name="participantDelegate" type="Participant__c" access="private"/>
+    <aura:attribute name="callback" type="Object" access="private"/>
+    <aura:attribute name="rootComponent" type="Aura.Component" access="public"/>
+    <aura:attribute name="formData" type="AddPatientByPIRemote.FormData" access="private"/>
+    <aura:attribute name="initialized" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="isFinalUpdate" type="Boolean"/>
+    <aura:attribute name="isValid" type="Boolean" default="false"/>
+    <aura:attribute name="statusDetailValid" type="Boolean" default="true"/>
+    <aura:attribute name="saveAndChangeStep" type="Boolean" default="false"/>
+    <aura:attribute name="popUpTitle" type="String"/>
+    <aura:attribute name="statusSteps" type="List" access="public"/>
+    <aura:attribute name="anchor" type="String"/>
+    <aura:attribute name="refreshForm" type="Boolean" default="false"/>
+    <aura:attribute name="refreshSteps" type="Boolean" default="false"/>
+    <aura:attribute name="actions" type="Object"/>
+    <aura:attribute name="currentTab" type="String" default="by-study"/>
+    <aura:attribute name="checkTabs" type="String" default="participantDetails"/>
+    <aura:attribute name="isInvited" type="Boolean" access="public"/>
+    <aura:attribute name="sendEmails" type="Boolean" default="false"/>
+    <aura:attribute name="participantPath" type="Object"/>
+    <aura:attribute name="userInfo" type="Object"/>
+    <aura:attribute name="updateInProgress" type="Boolean"  default="false"/>    
+    <!--<aura:attribute name="isDetailsChanged" type="Boolean" default="false"/>-->
+    <aura:attribute name="isStatusChanged" type="Boolean" default="false"/>
+    <!-- Event handler -->
+    <aura:handler name="detectChildChanges" event="c:DetectChildChanges" action="{!c.checkChildChanges}"/>
     
         <!-- attributes: -->
         <aura:attribute name="pe" type="Participant_Enrollment__c"/>
