@@ -1,4 +1,3 @@
-
 <aura:component description="FormPatientInfoTrialSearch">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
@@ -47,7 +46,7 @@
                 </div>
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                     <div class="label">
-                        {!$Label.c.PG_AS_F_First_name}
+                        <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_First_name}
                     </div>
                     <lightning:input type="text" value="{!v.participantInfo.First_Name__c}" required="true"
                                      onblur="{!c.doCheckFields}"/>
@@ -58,13 +57,13 @@
                 <!--                                     onblur="{!c.doCheckFields}"/>-->
                 <!--                </div>-->
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                    <div class="label">{!$Label.c.PG_AS_F_Last_name}</div>
+                    <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Last_name}</div>
                     <lightning:input type="text" value="{!v.participantInfo.Last_Name__c}"
                                      required="true"
                                      onblur="{!c.doCheckFields}"/>
                 </div>
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                    <div class="label">{!$Label.c.PG_AS_F_Date_of_Birth}
+                    <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Date_of_Birth}
                     </div>
                     <lightning:input max="{!v.todayDate}" type="date" value="{!v.participantInfo.Date_of_Birth__c}"
                                      onblur="{!c.doCheckfields}" required="true" onchange="{!c.doCheckFields}"/>
@@ -80,7 +79,7 @@
         <!-- contact information: -->
         <div class="slds-grid slds-gutters slds-wrap">
             <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                <div class="label">{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
+                <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
                 </div>
                 <lightning:input type="text" value="{!v.participantInfo.Phone__c}"
                                  required="true"
@@ -93,7 +92,7 @@
                             value="{!v.participantInfo.Phone_Type__c}"/>
             </div>
             <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                <div class="label">{!$Label.c.PG_AS_F_Email_address}
+                <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Email_address}
                 </div>
                 <lightning:input aura:id="emailInput" type="email" value="{!v.participantInfo.Email__c}"
                                  required="true"

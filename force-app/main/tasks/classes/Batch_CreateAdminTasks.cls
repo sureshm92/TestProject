@@ -50,8 +50,12 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                     Datetime activityDT;
                     if(taskConfig.endTime != null) activityDT = Datetime.newInstance(taskConfig.endTime, Datetime.now().time());
 
+                    Datetime reminderDT_GMT;
                     Datetime reminderDT;
-                    if(taskConfig.reminderDate != null) reminderDT = Datetime.newInstanceGmt(taskConfig.reminderDate, Datetime.now().timeGmt());
+                    if(taskConfig.reminderDate != null) {
+                         reminderDT_GMT = Datetime.newInstanceGmt(taskConfig.reminderDate, Datetime.now().timeGmt());
+                         reminderDT = Datetime.newInstance(taskConfig.reminderDate, Datetime.now().time());
+                    }
 
                     tasks.add(new Task(
                             OwnerId = user.Id,
@@ -59,7 +63,8 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                             Priority = taskConfig.priority,
                             Start_Date__c = taskConfig.startDate,
                             Activity_Datetime__c = activityDT,
-                            ReminderDateTime = reminderDT,
+                            ReminderDateTime = reminderDT_GMT,
+                            Reminder_Date__c = reminderDT, 
                             Visible_For__c = taskConfig.visibility,
                             WhatId = whatId,
                             WhoId = user.ContactId,

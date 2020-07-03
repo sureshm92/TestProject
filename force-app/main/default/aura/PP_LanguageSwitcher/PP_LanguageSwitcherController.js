@@ -9,7 +9,6 @@
             component.set('v.isDelegate', true);}
         else{
             component.set('v.isDelegate', false);
-
         }  
         communityService.executeAction(component, 'getInitData',  null, function (returnValue) {
             let initData = JSON.parse(returnValue);			            
@@ -31,7 +30,8 @@
 			component.set('v.languages', initData.languages);
             component.set('v.optionalLanguages', initData.optionalLanguages);
             component.set('v.locales',   initData.locales);
-            component.set('v.timezones', initData.timezones);			           
+            component.set('v.timezones', initData.timezones);	
+            component.set('v.isDisabled',true);
            
    
             console.log(initData.languages);
@@ -53,6 +53,7 @@
     },
 	doCheckFieldsValidity: function(component, event, helper){
         let personWrapper = component.get('v.personWrapper');
+         component.set('v.isDisabled',false);
         if(personWrapper.mailingCC !== component.get('v.previousCC')) {
             let statesByCountryMap = component.get('v.statesByCountryMap');
             let states = statesByCountryMap[personWrapper.mailingCC];
@@ -70,8 +71,8 @@
     doChangeLanguage: function(component){
 		
         if(!component.get('v.initialized')) return;
-        var languageKey   = component.get('v.languageKey');	
-        var previousLangaugeKey = component.get('v.previousValue');	
+        var languageKey   = component.get('v.languageKey');
+        var previousLangaugeKey = component.get('v.previousValue');
 		var countryName, stateName, zipcode;
 		//Sneha-Logic to fetch the Country Name through country code and pass it to the controller
 		if(component.get('v.userMode') == 'Participant'){
@@ -115,7 +116,7 @@
             component.find('spinner').hide();
             communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'));
             if(previousLangaugeKey != languageKey)
-            window.location.reload();
+                window.location.reload();
         })
     },
     doStateChanged: function (component, event, helper) {

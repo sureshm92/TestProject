@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <name>SiteDotCom</name>
+        <members>IQVIA_Referral_Hub_C</members>
+    </types>
+</Package>

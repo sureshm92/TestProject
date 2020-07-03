@@ -71,6 +71,15 @@
     margin-left: 5px;
 }
 
+.THIS .rr-summary-panel .slds-col {
+    margin-top: 2px;
+}
+
+.THIS .slds-truncate {
+    white-space: normal;
+    overflow: visible;
+}
+
 .THIS .fp-mobile .fp-header {
     display: flex;
     flex-direction: column-reverse;
@@ -159,4 +168,20 @@
 .THIS .show-more a:hover {
     background-color: #eef5ff;
     transition: .25s;
+}
+
+@media all and (max-width: 500px){
+    .THIS .fp-filters-container {
+        margin-bottom: 15px;
+    }
+
+    .THIS .fp-main-filter-block {
+        flex-direction: column;
+    }
+
+    .THIS .fp-filters-container .rrs-container {
+        max-width: 100%;
+        width: 100%;
+    }
+
 }

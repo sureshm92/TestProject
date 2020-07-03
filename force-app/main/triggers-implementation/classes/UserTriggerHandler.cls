@@ -98,31 +98,23 @@ public without sharing class UserTriggerHandler {
 
     @TestVisible
     private static void createCompleteYourProfileTask(List<User> newList) {
-        Map<Id, Contact> userContactById = new Map<Id, Contact>();
-        for (User user : newList) if (user.ContactId != null) userContactById.put(user.ContactId, null);
-        List<Contact> userContacts = [SELECT UserCommunityIsDelegate__c FROM Contact WHERE Id IN :userContactById.keySet()];
-        for (Contact contact : userContacts) userContactById.put(contact.Id, contact);
-
-        List<Participant_Enrollment__c> participantEnrollments = [
-                SELECT Id, Participant_Contact__c, Participant__c
-                FROM Participant_Enrollment__c
-                WHERE Participant_Contact__c IN :userContactById.keySet()
-        ];
-        Map<Id, Id> participantIdByContactIdMap = new Map<Id, Id>();
-        for (Participant_Enrollment__c pe : participantEnrollments) {
-            participantIdByContactIdMap.put(pe.Participant_Contact__c, pe.Participant__c);
+        Set<Id> userContactIds = new Set<Id>();
+        for (User user : newList) {
+            if (user.ContactId != null) userContactIds.add(user.ContactId);
         }
+
+        List<Participant__c> participants = [SELECT Id, Contact__c FROM Participant__c WHERE Contact__c IN:userContactIds];
+        Map<Id, Id> participantByContact = new Map<Id, Id>();
+        for (Participant__c participant : participants) participantByContact.put(participant.Contact__c, participant.Id);
 
         List<Task> tasksForInsert = new List<Task>();
         for (User user : newList) {
-            if (user.ProfileId == CommunityService.COMMUNITY_USER_PROFILE_ID) {
-                if (user.ContactId != null) {
-                    Id participant = participantIdByContactIdMap.get(user.ContactId);
-                    if (participant != null) {
-                        tasksForInsert.add(TaskService.getInstance().createCompleteYourProfileTask(user.Id, participant, user.ContactId));
-                    } else if (userContactById.get(user.ContactId).UserCommunityIsDelegate__c) {
-                        tasksForInsert.add(TaskService.getInstance().createCompleteYourProfileTask(user.Id, null, user.ContactId));
-                    }
+            if (user.ContactId != null && user.ProfileId == CommunityService.COMMUNITY_USER_PROFILE_ID) {
+                Id participantId = participantByContact.get(user.ContactId);
+                if (participantId != null) {
+                    tasksForInsert.add(
+                            TaskService.getInstance().createCompleteYourProfileTask(user.Id, participantId, user.ContactId)
+                    );
                 }
             }
         }
@@ -183,7 +175,7 @@ public without sharing class UserTriggerHandler {
             task.OwnerId = taskUser.Id;
             task.Owner_Contact__c = null;
 
-            if(task.Task_Type__c == TaskService.TASK_TYPE_SURVEY) {
+            if (task.Task_Type__c == TaskService.TASK_TYPE_SURVEY) {
                 TimeZone userTZ = userTimezoneMap.get(taskUser.Id);
                 Datetime userDatetime = DateTimeConverterUtil.getUserDT(Datetime.now().date(), Datetime.now().time(), userTZ);
 
