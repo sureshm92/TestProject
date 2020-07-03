@@ -32,7 +32,9 @@
 }
 .nic-points{
     padding-left: 10px;
-    padding-top: 3px;
+    display: inline-block;
+    position: relative;
+    top: 3px;
 }
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {

@@ -1,0 +1,105 @@
+<!-- Author leonid Bartenev -->
+<project name="Deployment script" basedir="." xmlns:sf="antlib:com.salesforce">
+
+    <property file="build.properties"/>
+    <property environment="env"/>
+
+    <taskdef resource="com/salesforce/antlib.xml" uri="antlib:com.salesforce">
+        <classpath>
+            <pathelement location="${ant.salesforce.lib}"/>
+        </classpath>
+    </taskdef>
+
+    <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask">
+        <classpath>
+            <pathelement location="${ant.xmltask.lib}"/>
+        </classpath>
+    </taskdef>
+
+    <tstamp>
+        <format property="nowDT" pattern="yyyy-MM-dd__HH-mm"  locale="en,US" />
+    </tstamp>
+    <property name="dist.name" value="PH_RH__${release.version}__${nowDT}"/>
+
+    <!-- targets: -->
+
+    <target name="create-distributive" depends="prepare-metadata">
+        <echo message="Creating distributive: ${dist.name} ..." level="info"/>
+        <exec executable="git">
+            <arg value="tag"/>
+            <arg value="${dist.name}"/>
+        </exec>
+        <exec executable="git">
+            <arg value="push"/>
+            <arg value="origin"/>
+            <arg value="${dist.name}"/>
+        </exec>
+
+        <delete dir="${dist.dir}"/>
+        <mkdir dir="${dist.dir}"/>
+
+        <zip destfile="${dist.dir}/${dist.name}.zip">
+            <zipfileset dir="${source.dir}" prefix="${release.version}" includes="**/*.*" />
+        </zip>
+    </target>
+
+    <!-- filter metadata files before deploy: -->
+    <target name="prepare-metadata" depends="convert-project">
+        <echo message="Start metadata filtration" level="info"/>
+        <xmltask todir="${source.dir}/profiles" encoding="UTF-8">
+            <fileset dir="${source.dir}/profiles"/>
+            <remove path="/:Profile/:userPermissions[:name[text()='EnableCommunityAppLauncher']]"/>
+            <remove path="/:Profile/:userPermissions[:name[text()='FieldServiceAccess']]"/>
+            <remove path="/:Profile/:userPermissions[:name[text()='SendExternalEmailAvailable']]"/>
+            <remove path="/:Profile/:applicationVisibilities[:application[text()='Developer']]"/>
+        </xmltask>
+        <echo message="Profiles filtered" level="info"/>
+        <!-- temporary fix for deployment of Contact (remove Master record type from metadata): -->
+        <xmltask source="${source.dir}/objects/Contact.object" dest="${source.dir}/objects/Contact.object" encoding="UTF-8">
+            <remove path="/:CustomObject/:recordTypes[:fullName[text()='MASTER']]"/>
+        </xmltask>
+        <xmltask source="${source.dir}/labels/CustomLabels.labels" dest="${source.dir}/labels/CustomLabels.labels" encoding="UTF-8">
+            <remove path="/:CustomLabels/:labels[:fullName[text()='CommunityURL']]"/>
+        </xmltask>
+
+        <xmltask source="${source.dir}/package.xml" dest="${source.dir}/package.xml" encoding="UTF-8">
+            <remove path="/:Package/:types/:members[text()='Contact.MASTER']"/>
+            <!--remove path="/:Package/:types[:name[text()='EmailTemplate']]"/-->
+            <!-- temporary remove SiteDotCom file from deployment -->
+        </xmltask>
+        <echo message="Removed Contact.MASTER record type from metadata" level="info"/>
+    </target>
+
+    <target name="skip-community">
+        <xmltask source="${source.dir}/package.xml" dest="${source.dir}/package.xml" encoding="UTF-8">
+            <remove path="/:Package/:types[:name[text()='SiteDotCom']]"/>
+        </xmltask>
+    </target>
+
+    <target name="convert-project">
+        <delete dir="${source.dir}"/>
+        <!-- prepare forceignore for deploy: -->
+        <copy file="../.forceignore" todir="."/>
+        <concat destfile="../.forceignore_res">
+            <fileset file="../.forceignore" />
+            <fileset file="../scripts/ci/.forceignore_deploy_exclude" />
+        </concat>
+        <copy file="../.forceignore_res" tofile="../.forceignore"/>
+        <delete file="../.forceignore_res"/>
+
+        <!-- convertation: -->
+        <exec dir=".." executable="cmd" osfamily="windows">
+            <arg value="/c convert-project.bat"/>
+        </exec>
+        <!-- TODO test for mac -->
+        <exec dir=".." executable="pwsh" osfamily="mac">
+            <arg path="../convert-project.bat"/>
+        </exec>
+
+        <!-- restore forceignore: -->
+        <copy file=".forceignore" todir=".." overwrite="true"/>
+        <delete file=".forceignore"/>
+    </target>
+
+
+</project>
