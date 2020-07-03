@@ -178,12 +178,12 @@
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4 nickname">
                                 <aura:if isTrue="{!not(v.isDelegate)}">
                                     
-                                    <lightning:input aura:id="pField" type="text" label="{!$Label.c.PG_AS_NickName}"
+                                    <lightning:input  aura:id="pField" type="text" label="{!$Label.c.PG_AS_NickName}"
                                                      value="{!v.personWrapper.nickname}" 
                                                      onblur="{!c.doCheckFieldsValidity}"/></aura:if>
                                 
                                 <aura:if isTrue="{!v.isDelegate}">
-                                    <lightning:input aura:id="pField" type="text" label="{!$Label.c.PG_AS_NickName}"
+                                    <lightning:input class="dob" aura:id="pField" type="text" label="{!$Label.c.PG_AS_NickName}"
                                                      value="{!v.personWrapper.nickname}" 
                                                      onblur="{!c.doCheckFieldsValidity}" disabled="true"/>                                                  
                                 </aura:if>
@@ -234,7 +234,9 @@
                     <div style="height: 30px"></div>
                     
                     <aura:if isTrue="{!v.isDelegate}">
+                        <div class="delegateInfo">
                         <c:DelegateInformation contact="{!v.delegateContact}" parentComponent="{!this}"/>
+                        </div>
                         <div style="height: 30px"></div>
                     </aura:if>
                     
