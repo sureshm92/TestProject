@@ -43,6 +43,7 @@
 }
 
 .THIS.rr-collapse-panel .body{
+    max-width:50rem;
     overflow: hidden;
   /*  transition: 0.6s ease-in-out; */
     max-height: 3000px;
