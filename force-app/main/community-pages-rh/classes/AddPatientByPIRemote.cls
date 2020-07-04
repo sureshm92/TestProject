@@ -70,7 +70,19 @@ public without sharing class AddPatientByPIRemote {
             ParticipantService.createParticipantAndUpdatePE(participant, participantDelegate, pe, userLanguage);
 
             String participantId = !String.isBlank(participant.Id) ? participant.Id : pe.Participant__c;
-            Participant__c newParticipant = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participantId];
+            Participant__c newParticipant = [SELECT Id, Contact__c,Phone__c FROM Participant__c WHERE Id = :participantId];
+            Contact participantCon = new Contact();
+            participantCon = [Select Id ,MobilePhone,HomePhone,Phone From Contact where Id =: newParticipant.Contact__c];
+            if(participantCon.Id != null){
+                if (participant.Phone_Type__c == 'Home') {
+                    participantCon.HomePhone = participant.Phone__c;
+                } if (participant.Phone_Type__c == 'Mobile') {
+                    participantCon.MobilePhone = participant.Phone__c;
+                } else {
+                    participantCon.Phone = participant.Phone__c;
+                }
+                update participantCon;
+            }
             if (createUser && newParticipant != null && !String.isBlank(newParticipant.Contact__c) && !String.isBlank(ssId)) {
                 Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
                 Study_Site__c ss = StudySiteService.getStudySiteForPIById(ssId);
