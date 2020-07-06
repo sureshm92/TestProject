@@ -15,6 +15,7 @@ private class Test_Dashboard {
     @IsTest
     static void HCPTest() {
         TestData testDataInst = new TestData();
+        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED);
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_ELIGIBILITY_PASSED);
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_SCREENING_PASSED);
@@ -30,6 +31,7 @@ private class Test_Dashboard {
     static void PITest() {
         TestData testDataInst = new TestData();
         TestData.createHCPEWaitingAcceptance();
+        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED);
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_ELIGIBILITY_PASSED);
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_SCREENING_PASSED);

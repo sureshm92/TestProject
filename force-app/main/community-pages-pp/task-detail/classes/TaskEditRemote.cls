@@ -17,8 +17,8 @@ public without sharing class TaskEditRemote {
         //        new LabelValueItem(Label.Disabled, 'Disabled')
         //};
         @AuraEnabled public List<LabelValueItem> reminderFrequencyList = new List<LabelValueItem>{
-                new LabelValueItem(Label.Complete_By_Date, Label.Complete_By_Date),
-                new LabelValueItem(Label.One_day_before, Label.One_day_before)
+                new LabelValueItem(Label.Complete_By_Date, 'Complete By'),
+                new LabelValueItem(Label.One_day_before, '1 day before')
         };
 
         @AuraEnabled public Task task;
@@ -61,7 +61,7 @@ public without sharing class TaskEditRemote {
                 wrapper.task = task;
 
                 if (task.Activity_Datetime__c != null) wrapper.activityDate = task.Activity_Datetime__c.date();
-                if (task.ReminderDateTime != null) wrapper.reminderDate = task.ReminderDateTime.date();
+                if (task.Reminder_Date__c != null) wrapper.reminderDate = task.Reminder_Date__c.date();
 
                 wrapper.createdByAdmin = createdByAdmin(task);
             }
@@ -97,7 +97,9 @@ public without sharing class TaskEditRemote {
             }
             if (taskWrapper.reminderDate != null) {
                 taskToUpsert.Reminder_Date__c = Datetime.newInstance(taskWrapper.reminderDate, Datetime.now().time());
-                taskToUpsert.ReminderDateTime =
+                Datetime newReminderDate = taskToUpsert.Reminder_Date__c.addDays(-1);
+                taskToUpsert.ReminderDateTime = String.isNotBlank(taskToUpsert.Remind_Me__c) && taskToUpsert.Remind_Me__c.equals(Label.One_day_before) ?
+                        Datetime.newInstanceGmt(newReminderDate.dateGmt(), newReminderDate.timeGmt()) :
                         Datetime.newInstanceGmt(taskToUpsert.Reminder_Date__c.dateGmt(), taskToUpsert.Reminder_Date__c.timeGmt());
             }
 

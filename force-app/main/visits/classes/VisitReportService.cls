@@ -46,15 +46,9 @@ public inherited sharing class VisitReportService {
                         List<VisitReportContainerRemote.LabsNameDescriptionWrapper> labsDescription = new List<VisitReportContainerRemote.LabsNameDescriptionWrapper>();
                         //PEH-2374: Added logic to avoid null pointer exception
                         reportHeaderWrappers.add(new VisitReportContainerRemote.VisitHeaderWrapper('Report_Dates'));
-                        if(!PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)){
-                            reportRowWrappers.add(patientVisit.Planned_Date__c != null ? 
-                                    new VisitReportContainerRemote.VisitDateColumnWrapper(patientVisit.Planned_Date__c) :
-                                    new VisitReportContainerRemote.VisitDateColumnWrapper('______'));
-                        } else{
-                            reportRowWrappers.add(patientVisit.Completed_Date__c != null ? 
-                                    new VisitReportContainerRemote.VisitDateColumnWrapper(patientVisit.Completed_Date__c) :
-                                    new VisitReportContainerRemote.VisitDateColumnWrapper('______'));
-                        }
+                        reportRowWrappers.add(patientVisit.Completed_Date__c != null ? 
+                                new VisitReportContainerRemote.VisitDateColumnWrapper(patientVisit.Completed_Date__c) :
+                                new VisitReportContainerRemote.VisitDateColumnWrapper('______'));
                         Boolean isResult = false;
                         for (VisitResultWrapper visitResultWrapper : availableVisitResultSortWrappers) {
                             if (!notAccessResultType.contains(visitResultWrapper.visitResultTypeM.DeveloperName)) {

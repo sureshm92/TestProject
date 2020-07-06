@@ -21,12 +21,14 @@
 
 .THIS.menu-block li.body{
     max-height: 370px;
+    width: 344px;
 }
 
 /*-----------------------------------------------------------------------*/
 
 @media all and (max-width: 550px) {
     .THIS .header-menu-link {
-        padding: 0 1rem;
+        padding: 0 8px 0 1rem;
     }
 }
+

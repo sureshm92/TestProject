@@ -28,6 +28,8 @@
     doSave: function (component, event, helper) {
         debugger;
         var task = component.get('v.task');
+        task.Task_Type__c = $A.util.isUndefinedOrNull(task.Task_Type__c) &&
+            !component.get('v.initData.createdByAdmin') ? 'Not Selected' : task.Task_Type__c;
         var reminderDate = component.get('v.initData.reminderDate');
         var emailPeferenceSelected = component.get('v.task.Remind_Using_Email__c');
         var smsPeferenceSelected = component.get('v.task.Remind_Using_SMS__c');
@@ -63,6 +65,8 @@
 
         var message = helper.setSuccessToast(component);
 
+        console.log('#task: '+ JSON.stringify(task));
+
         component.find('spinner').show();
 
         communityService.executeAction(component, 'upsertTask', {
@@ -73,7 +77,9 @@
             component.find('spinner').hide();
             communityService.showSuccessToast('', message, 3000);
             helper.hideModal(component);
-        }, null, null);
+        }, function () {
+            component.find('spinner').hide();
+        }, null);
     },
 
     doIgnore: function (component, event, helper) {

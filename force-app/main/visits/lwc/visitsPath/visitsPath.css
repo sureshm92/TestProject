@@ -28,8 +28,8 @@
     justify-content: space-around;
 }
 
-.arrow-border span i {
-    font-size: 20px;
+.arrow-border i span {
+    font-size: 14px;
     align-self: center;
     color: #979797;
     transition: all 0.4s;
@@ -37,7 +37,7 @@
     margin: 0 auto;
 }
 
-.arrow-border span i::before {
+.arrow-border i span::before {
     display: inline-block;
     text-decoration: none;
 }
