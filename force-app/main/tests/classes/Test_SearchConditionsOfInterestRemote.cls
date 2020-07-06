@@ -6,7 +6,7 @@ public without sharing class Test_SearchConditionsOfInterestRemote {
     @TestSetup
     static void setup() {
         Test.startTest();
-        TestDataFactory.createInitData();
+        TestData.loadTestData();
         Test.stopTest();
     }
     @IsTest
@@ -165,22 +165,21 @@ public without sharing class Test_SearchConditionsOfInterestRemote {
     
     @isTest
     public static void getConditionsOfInterest() {
-        
         TestData testDataInstance = new TestData();
         Therapeutic_Area__c area = new Therapeutic_Area__c(Name = 'Test TA TD1');
         insert area;
         Therapeutic_Area_Patient__c tap = new Therapeutic_Area_Patient__c();
         tap.Condition_Of_Interest_Order__c=1;
-        tap.Participant__r.Contact__c = testDataInstance.participantUser.ContactId;
+        tap.Participant__c = testDataInstance.participant.Id;
         tap.Therapeutic_Area__c=area.id;
         insert tap;
         Test.startTest();
         
         
        System.runAs(testDataInstance.participantUser) {
-        SearchConditionsOfInterestRemote.getConditionOfInterest();    
+           SearchConditionsOfInterestRemote.getConditionOfInterest();
         }
-        Test.StopTest();
+        Test.stopTest();
     }
     
 }
