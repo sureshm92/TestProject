@@ -98,7 +98,6 @@
     },
 
     hideModal: function (component) {
-        debugger;
         var isSaveOperation = component.get('v.isSaveOperation');
         component.find('reminderModal').hide();
         //Re-initialize the parent table to display the updates
@@ -109,7 +108,6 @@
     },
 
     setSuccessToast: function (component) {
-
         var isReminderOnly = component.get('v.isReminderOnly');
         var isNewTask = component.get('v.isNewTask');
         //Task created successfully. ; Changes are successfully saved. ; Visit reminder created successfully. ; Visit reminder updated.
@@ -130,7 +128,6 @@
     },
 
     doValidateReminder: function (component) {
-        debugger;
         var reminderValid = component.find('reminderDate');
         console.log('reminderValid: ' + JSON.stringify(reminderValid));
         var isReminderValid = true;
