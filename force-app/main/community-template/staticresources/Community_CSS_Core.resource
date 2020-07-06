@@ -85,8 +85,8 @@ a:hover {
     margin-top: 3px;
     width: 100%;
     border: none;
-    background: none;
-    color: #FFFFFF;
+    background: none ! important;
+    color: #FFFFFF ;
     font-size: 15px;
     font-weight: 300;
     line-height: 21px;

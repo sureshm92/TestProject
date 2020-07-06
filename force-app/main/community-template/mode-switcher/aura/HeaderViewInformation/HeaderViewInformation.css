@@ -3,7 +3,7 @@
  */
 
 .THIS.header-container{
-    width: 315px;
+    width: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
