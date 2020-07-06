@@ -64,6 +64,11 @@
             console.log('returnValue>>'+JSON.stringify(returnValue));
             //  component.find('modalSpinner').hide();
             component.set('v.reqFieldsFilled', true);
+            component.set("v.preferred", '');
+            component.set("v.media", '');
+            component.set("v.startdt", '');
+            component.set("v.enddt", '');
+            component.set("v.notes", '');
         });
     },
     
