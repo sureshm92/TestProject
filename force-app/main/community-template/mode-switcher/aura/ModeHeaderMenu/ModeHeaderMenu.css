@@ -110,13 +110,7 @@
 
     .cModeHeaderMenu .menu-popup-panel.popupTargetContainer {
         left: auto;
-        right: -40px;
+        right: -45px;
         top: -82px;
-    }
-}
-
-@media all and (max-width: 550px) {
-    .cModeHeaderMenu .menu-popup-panel.popupTargetContainer {
-        right: 6px;
     }
 }
