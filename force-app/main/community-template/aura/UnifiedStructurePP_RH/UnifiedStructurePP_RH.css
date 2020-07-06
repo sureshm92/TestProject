@@ -4,7 +4,6 @@
 
 .THIS .label{
     height: 48px;
-    width: 201px;
     color: #000000;
     font-size: 16px;
     font-weight: 600;
@@ -14,7 +13,7 @@
 
 .THIS .item-container{
     display: flex;
-    width: 315px;
+    width: 100%;
     border-bottom: 1px solid #f8f9fb;
 }
 
@@ -50,11 +49,12 @@
 
 .THIS .icon-settings-box{
     display: flex;
-    width: 50px;
+    align-items: center;
     margin-right: 20px;
 }
 
 .THIS .item-label-box{
+    width: 100%;
     display: flex;
     justify-content: space-between;
 }

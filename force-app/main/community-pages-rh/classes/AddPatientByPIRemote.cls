@@ -71,9 +71,9 @@ public without sharing class AddPatientByPIRemote {
 
             String participantId = !String.isBlank(participant.Id) ? participant.Id : pe.Participant__c;
             Participant__c newParticipant = [SELECT Id, Contact__c,Phone__c FROM Participant__c WHERE Id = :participantId];
-            Contact participantCon = new Contact();
-            participantCon = [Select Id ,MobilePhone,HomePhone,Phone From Contact where Id =: newParticipant.Contact__c];
-            if(participantCon.Id != null){
+            if (newParticipant.Contact__c != null) {
+                Contact participantCon = new Contact(Id = newParticipant.Contact__c);
+
                 if (participant.Phone_Type__c == 'Home') {
                     participantCon.HomePhone = participant.Phone__c;
                 } if (participant.Phone_Type__c == 'Mobile') {
@@ -83,6 +83,7 @@ public without sharing class AddPatientByPIRemote {
                 }
                 update participantCon;
             }
+
             if (createUser && newParticipant != null && !String.isBlank(newParticipant.Contact__c) && !String.isBlank(ssId)) {
                 Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
                 Study_Site__c ss = StudySiteService.getStudySiteForPIById(ssId);
@@ -92,11 +93,35 @@ public without sharing class AddPatientByPIRemote {
                     ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
                 }
             }
+            if(participant.Email__c!=null && participant.First_Name__c!=null && participant.Last_Name__c!=null){
+                List<Participant__c> participantObj = new List<Participant__c>();
+                Participant__c newPartcipantObj = new Participant__c(); newPartcipantObj = [Select Id , First_Name__c , Last_Name__c , Suffix__c , Middle_Name__c , Nickname__c , Date_of_Birth__c , Gender__c , Email__c , Phone_Type__c , Phone__c , Mailing_Zip_Postal_Code__c , Mailing_Country_Code__c , Mailing_State_Code__c from Participant__c where  Email__c =: participant.Email__c and First_Name__c =: participant.First_Name__c and Last_Name__c =: participant.Last_Name__c];
+                if(newPartcipantObj != null){
+                    newPartcipantObj.First_Name__c = participant.First_Name__c;
+                    newPartcipantObj.Last_Name__c = participant.Last_Name__c;
+                    newPartcipantObj.Suffix__c = participant.Suffix__c;
+                    newPartcipantObj.Middle_Name__c = participant.Middle_Name__c;
+                    newPartcipantObj.Nickname__c = participant.Nickname__c;
+                    newPartcipantObj.Date_of_Birth__c = participant.Date_of_Birth__c;
+                    newPartcipantObj.Gender__c = participant.Gender__c;
+                    newPartcipantObj.Email__c = participant.Email__c;
+                    newPartcipantObj.Phone__c = participant.Phone__c;
+                    newPartcipantObj.Phone_Type__c = participant.Phone_Type__c;
+                    newPartcipantObj.Mailing_Country_Code__c = participant.Mailing_Country_Code__c;
+                    newPartcipantObj.Mailing_Zip_Postal_Code__c = participant.Mailing_Zip_Postal_Code__c;
+                    newPartcipantObj.Mailing_State_Code__c = participant.Mailing_State_Code__c;
+                    participantObj.add(newPartcipantObj);
+                    if(participantObj.size() > 0){
+                        update participantObj;
+                    }
+                    
+                }
+            }
             Boolean createDelegateuser = true;
             if (participantDelegate != null && !String.isEmpty(participantDelegate.Last_Name__c) &&
                     !String.isEmpty(participantDelegate.Email__c)) {
                 Contact newContact;
-                if(ddInfo == null || String.isBlank(ddInfo.contactId)) {
+                if (ddInfo == null || String.isBlank(ddInfo.contactId)) {
                     newContact = new Contact();
                     newContact.FirstName = participantDelegate.First_Name__c;
                     newContact.LastName = participantDelegate.Last_Name__c;
@@ -159,7 +184,7 @@ public without sharing class AddPatientByPIRemote {
                     }
                 }
                // }
-                if(createDelegateuser) {
+                if (createDelegateuser) {
                     ReferringRemote.createParticipantUsers(new Map<Id, Id>{
                             newContact.Id => null
                     });
