@@ -7,6 +7,7 @@ private class Test_TrialItemRemote {
 
     @TestSetup
     static void setup() {
+        TriggerHandlerExecutor.bypassHandler(ContactTherapeuticAreaTriggerHandler.SyncContactInterestedTopics.class);
         Test.startTest();
         TestDataFactory.createInitData();
         Test.stopTest();
