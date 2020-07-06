@@ -189,6 +189,10 @@
     margin-left: 25px;
 }
 
+.THIS .participantTitle {
+    display: none;
+}
+
 @media all and (max-width: 768px){
     .THIS .slds-max-medium-table_stacked-horizontal td,
     .THIS .slds-max-medium-table--stacked-horizontal td {
@@ -199,6 +203,7 @@
         color: #595959;
         padding-right: 5px;
         white-space: nowrap;
+        display: inline-block;
     }
 
     .THIS td .slds-truncate {
