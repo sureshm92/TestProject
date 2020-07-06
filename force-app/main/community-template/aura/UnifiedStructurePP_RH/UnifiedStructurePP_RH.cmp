@@ -53,11 +53,9 @@
                         {!$Label.c.Referral_Hub_Views} </div>
                     <aura:if isTrue="{!v.communityModes.isRHItemsSelected}">
                         <div class="icon-settings-box">
-                            <div class="menu-item" style="margin-right: 13px;">
-                                <c:menuItemButton class="icon-delegate" iconName="delegate" navigateTo="my-team"
-                                                  onclick="{!c.doOnClick}" modes="{!v.communityModes.rhModeItems}"/>
-                            </div>
-                            <div class="menu-item">
+                            <c:menuItemButton class="icon-delegate" iconName="delegate" navigateTo="my-team"
+                                              onclick="{!c.doOnClick}" modes="{!v.communityModes.rhModeItems}"/>
+                            <div style="margin-left: 21px">
                                 <c:menuItemButton class="icon-cog" iconName="cog" navigateTo="account-settings"
                                                   onclick="{!c.doOnClick}" modes="{!v.communityModes.rhModeItems}"/>
                             </div>
