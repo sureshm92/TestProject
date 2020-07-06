@@ -10,9 +10,9 @@
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     
     <!--COMPONENT BODY-->
-    
+
     <c:HomePreviewTablePanel title="{!$Label.c.PG_L_Resources}" >
-    <a onclick="{!c.navigateToCoi}" class="rr-link" style="margin-top:-25px;">{!$Label.c.PP_Change_Preferences_Resource}</a>
+    <div><a onclick="{!c.navigateToCoi}" class="change-pref" >{!$Label.c.PP_Change_Preferences_Resource}</a></div>
         <c:RRSpinner aura:id="mainSpinner" showSpinner="true" size="small"/>
         <aura:if isTrue="{!v.initialized}">
             <aura:if isTrue="{!!empty(v.noTAMessage)}">

@@ -36,7 +36,7 @@
         height: 100%;
         top: 0;
         left: 0;
-        padding: 16px 15px 13px 10px;
+        padding: 16px 0 13px 10px;
     }
 
     .THIS .arrow-down {
@@ -50,6 +50,7 @@
         width: 75px;
         height: 65px;
         align-items: flex-start;
+        margin-top: 0;
     }
 
     .THIS .slds-header-link {
@@ -59,10 +60,6 @@
 
     .THIS .slds-header-link > span {
         display: none;
-    }
-
-    .THIS .header-menu-link {
-        margin-top: 0;
     }
 
     .THIS .header-menu-link .arrow-down {

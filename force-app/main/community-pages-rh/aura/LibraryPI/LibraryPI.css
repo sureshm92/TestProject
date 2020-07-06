@@ -221,6 +221,10 @@
         margin-bottom: 12px;
     }
 
+    .THIS.rr-white-panel .resource-container a.slds-coll {
+        color: #297dfd;
+    }
+
     .THIS lightning-primitive-icon > svg {
         fill: #000;
     }

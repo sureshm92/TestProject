@@ -6540,7 +6540,7 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HT 20 B</shortDescription>
-        <value>We acquire, hold, use, and process your personal information based on legal grounds, your explicit consent and for the legitimate business purposes outlined in the &lt;a href=&quot;/s/privacy-policy&quot;&gt;Privacy Policy&lt;/a&gt; .
+        <value>We acquire, hold, use, and process your personal information based on legal grounds, your explicit consent and for the legitimate business purposes outlined in the &lt;a href=privacy-policy?ret=help&gt;Privacy Policy&lt;/a&gt; .
 If you wish to access, correct, update or request removal of any of your information you provided to us or if you have any questions regarding this Privacy Policy or would like more information on our privacy practices, please contact 
 IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&quot;&gt;data.protection@iqvia.com&lt;/a&gt;</value>
     </labels>
@@ -7328,6 +7328,13 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <protected>true</protected>
         <shortDescription>Library_General_Resources</shortDescription>
         <value>General Resources</value>
+    </labels>
+	<labels>
+        <fullName>Library_Items</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Library Items</shortDescription>
+        <value>Items</value>
     </labels>
     <labels>
         <fullName>Library_Language</fullName>
@@ -10076,6 +10083,13 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <shortDescription>PG AS L Select conditions</shortDescription>
         <value>Select up to 5 medical conditions related to your diagnosis, to help us prioritize the content we display to you.</value>
     </labels>
+	<labels>
+        <fullName>PG_AS_NickName</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_AS_NickName</shortDescription>
+        <value>NickName</value>
+    </labels>
     <labels>
         <fullName>PG_AS_T1_Contact_Info</fullName>
         <language>en_US</language>
@@ -11245,7 +11259,7 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Login T Please Contact Us</shortDescription>
-        <value>Please review your contact information. If any information is incorrect, please contact us for update your information.</value>
+        <value>Please review your contact information and make required corrections in Account Settings.</value>
     </labels>
     <labels>
         <fullName>PG_Login_T_This_Site_Optimized_For</fullName>
@@ -14753,6 +14767,90 @@ communications using the toggles below.</value>
         <value>Programmed death ligand 1</value>
     </labels>
     <labels>
+        <fullName>Pswd_8_Characters</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pswd_8_Characters</shortDescription>
+        <value>8 characters</value>
+    </labels>
+    <labels>
+        <fullName>Pswd_Include_Any_3</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pswd_Include_Any_3</shortDescription>
+        <value>And include any 3 of the following</value>
+    </labels>
+    <labels>
+        <fullName>Pswd_Lowercase</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pswd_Lowercase</shortDescription>
+        <value>Lowercase</value>
+    </labels>
+    <labels>
+        <fullName>Pswd_Numbers</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pswd_Numbers</shortDescription>
+        <value>Numbers</value>
+    </labels>
+    <labels>
+        <fullName>Pswd_Special_Characters</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pswd_Special_Characters</shortDescription>
+        <value>Special characters</value>
+    </labels>
+    <labels>
+        <fullName>Pswd_Uppercase</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pswd_Uppercase</shortDescription>
+        <value>Uppercase</value>
+    </labels>
+    <labels>
+        <fullName>Pswd_Val_strng1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pswd_Val_strng1</shortDescription>
+        <value>Your password must be at least 8 characters long and include atleast 3 of the following: numbers, uppercase and lowercase letters, and at least one of these special characters</value>
+    </labels>
+    <labels>
+        <fullName>Pswd_Val_strng2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pswd_Val_strng2</shortDescription>
+        <value>Your password must include atleast 3 of the following</value>
+    </labels>
+    <labels>
+        <fullName>Pswd_ValidationMsg3</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pswd_ValidationMsg3</shortDescription>
+        <value>Your password must be at least 8 characters long and include at least 3 of the following:&lt;/br&gt; numbers, uppercase and/or lowercase letters, and special characters.</value>
+    </labels>
+    <labels>
+        <fullName>Pswd_ValidationMsg3_1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pswd_ValidationMsg3_1</shortDescription>
+        <value>Your password must be at least 8 characters long and include at least 3 of the following:</value>
+    </labels>
+    <labels>
+        <fullName>Pswd_ValidationMsg3_2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pswd_ValidationMsg3_2</shortDescription>
+        <value>numbers, uppercase and/or lowercase letters, and special characters.</value>
+    </labels>
+    <labels>
+        <fullName>Pswd_Your_Pswd_Include</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pswd_Your_Pswd_Include</shortDescription>
+        <value>Your password must include at least</value>
+    </labels>
+    <labels>
         <fullName>Pulse</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -16558,6 +16656,13 @@ communications using the toggles below.</value>
         <value>Invalid email address!</value>
     </labels>
     <labels>
+        <fullName>TST_JS_Injection_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST JS Injection Error</shortDescription>
+        <value>HTML or JS Code is not permitted for inputs!</value>
+    </labels>
+    <labels>
         <fullName>TST_Permissions_should_be_the_same_for_study</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -17066,7 +17171,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>This Participant has reached legal age of emancipation</shortDescription>
-        <value>This Participant has reached legal age of emancipation, but continues to require legal guardianship. Please verify that this is correct.</value>
+        <value>This participant has reached the legal age of emancipation. Please update and verify the participant details with the participant.</value>
     </labels>
     <labels>
         <fullName>Title_Contact_PT_Reminder_Push</fullName>
@@ -17966,4 +18071,4 @@ communications using the toggles below.</value>
         <shortDescription>configuation table</shortDescription>
         <value>Name</value>
     </labels>
-</CustomLabels>
+</CustomLabels>	

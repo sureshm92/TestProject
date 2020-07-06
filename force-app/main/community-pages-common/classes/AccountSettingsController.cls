@@ -22,7 +22,7 @@ public without sharing class AccountSettingsController {
                         initData.participant = [
                             SELECT Id, First_Name__c, Middle_Name__c, Last_Name__c, Phone__c,
                             Mailing_Zip_Postal_Code__c, Mailing_State__c, Mailing_Country__c,
-                            Mailing_Country_Code__c, Mailing_State_Code__c,
+                            Mailing_Country_Code__c, Mailing_State_Code__c,Adult__c,
                             Gender__c, Date_of_Birth__c, Initials__c,Suffix__c,Salutation__c,Nickname__c,Phone_Type__c
                             FROM Participant__c
                             WHERE Contact__c = :initData.myContact.Id
@@ -68,13 +68,14 @@ public without sharing class AccountSettingsController {
             }
             
             initData.contactSectionData.personWrapper = new PersonWrapper(initData.myContact, initData.participant);
-            
+            if(initData.participant.Adult__c){
             initData.userName = UserInfo.getUserName();
             User uval = [Select Id,ContactId from User where Id =: UserInfo.getUserId()];
             initData.delegateContact = [Select Id From Contact where Id =: uval.ContactId];
             initData.delegateUserName = [Select Id,Email,Name,Username ,FullPhotoUrl from User where ContactId =: initData.myContact.Id LIMIT 1];
             initData.hasProfilePic = !initData.delegateUserName.FullPhotoUrl.contains('profilephoto/005/F');
-            return JSON.serialize(initData, false);
+            }
+           return JSON.serialize(initData, false);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }

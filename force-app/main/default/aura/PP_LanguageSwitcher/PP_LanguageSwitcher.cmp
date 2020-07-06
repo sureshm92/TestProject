@@ -6,8 +6,8 @@
 
     <!-- attributes: -->
     <aura:attribute name="languageKey" type="String"/>
-    <aura:attribute name="previousValue" type="String" />
 	<aura:attribute name="countryKey" type="String"/>
+    <aura:attribute name="previousValue" type="String" />
 	<aura:attribute name="stateKey" type="String"/>
     <aura:attribute name="secondLangKey" type="String"/>
     <aura:attribute name="thirdLangKey" type="String"/>
@@ -36,8 +36,9 @@
     <aura:attribute name="personSnapshot" type="String"/>
     <aura:attribute name="isStateChanged" type="Boolean"/>
     <aura:attribute name="reRender" type="Boolean" default="true"/>
-    <aura:attribute name="isDisabled" type="Boolean" description="for Disbaled the Update Button" default="false"/>
-
+     
+     <aura:attribute name="isDisabled" type="Boolean" description="for Disbaled the Update Button" default="false"/>
+	
 	
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -62,8 +63,8 @@
                         <lightning:helptext content="{!$Label.c.PG_AS_F_Preferred_Language_Help_Text}"/>
                     </span>
                 </div>
-                <c:rrSelect options="{!v.languages}" value="{!v.languageKey}" disabled="{!!v.initialized}" class="ls-select"
-                 useSentenceFont="{!false}" isValueChanged="{!v.isDisabled}"/>
+                <c:rrSelect options="{!v.languages}" value="{!v.languageKey}" disabled="{!!v.initialized}" 
+                            class="ls-select" useSentenceFont="{!false}" isValueChanged="{!v.isDisabled}"/>
             </div> 
 		    <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4"/> 
 			
@@ -74,8 +75,8 @@
                         <lightning:helptext content="{!$Label.c.PG_AS_F_2nd_Choice_Language_Help_Text}"/>
                     </span>
                 </div>
-                <c:rrSelect options="{!v.optionalLanguages}" value="{!v.secondLangKey}" disabled="{!!v.initialized}" class="ls-select" 
-                useSentenceFont="{!false}" isValueChanged="{!v.isDisabled}"/>
+                <c:rrSelect options="{!v.optionalLanguages}" value="{!v.secondLangKey}" disabled="{!!v.initialized}"
+                            class="ls-select" useSentenceFont="{!false}" isValueChanged="{!v.isDisabled}"/>
             </div>
             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                 <div class="label">{!$Label.c.PG_AS_F_3rd_Choice_Language}
@@ -83,8 +84,8 @@
                         <lightning:helptext content="{!$Label.c.PG_AS_F_3rd_Choice_Language_Help_Text}"/>
                     </span>
                 </div>
-                <c:rrSelect options="{!v.optionalLanguages}" value="{!v.thirdLangKey}" disabled="{!!v.initialized}" class="ls-select" 
-                useSentenceFont="{!false}" isValueChanged="{!v.isDisabled}"/>
+                <c:rrSelect options="{!v.optionalLanguages}" value="{!v.thirdLangKey}" disabled="{!!v.initialized}" 
+                            class="ls-select" useSentenceFont="{!false}" isValueChanged="{!v.isDisabled}"/>
             </div>
         </div>
 
@@ -95,13 +96,13 @@
             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4">
                 <div class="label">{!$Label.c.PG_AS_F_Preferred_Timezone}</div>
                 <c:rrSelect options="{!v.timezones}" value="{!v.timezoneKey}" disabled="{!!v.initialized}" class="ls-select" 
-                useSentenceFont="{!false}" isValueChanged="{!v.isDisabled}"/>
+                            useSentenceFont="{!false}" isValueChanged="{!v.isDisabled}"/>
             </div>
 			<div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4"/>
             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4">
                 <div class="label">{!$Label.c.PG_AS_F_Locale_For_Date_Format}</div>
-                <c:rrSelect options="{!v.locales}" value="{!v.localeKey}" disabled="{!!v.initialized}" class="ls-select"
-                 useSentenceFont="{!false}" isValueChanged="{!v.isDisabled}"/>
+                <c:rrSelect options="{!v.locales}" value="{!v.localeKey}" disabled="{!!v.initialized}" class="ls-select" 
+                            useSentenceFont="{!false}" isValueChanged="{!v.isDisabled}"/>
             </div>
 			<div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4"/>
         </div>

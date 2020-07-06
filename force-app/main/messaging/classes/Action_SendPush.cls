@@ -29,9 +29,9 @@ public without sharing class Action_SendPush implements Action{
         for(Notification__c notification : notifications) {
             if(notification.Recipient__c != null) contactIds.add(notification.Recipient__c);
         }
-        List<User> users = [SELECT Id, ContactId FROM User WHERE ContactId IN: contactIds];
-        Map<Id, Id> userByContactIdMap = new Map<Id, Id>();
-        for(User user : users) userByContactIdMap.put(user.ContactId, user.Id);
+        List<User> users = [SELECT Id, ContactId, IsActive FROM User WHERE ContactId IN: contactIds];
+        Map<Id, User> userByContactIdMap = new Map<Id, User>();
+        for(User user : users) userByContactIdMap.put(user.ContactId, user);
         sendResultService = new NotificationResultService(notifications);
         ParametrizedMessageService parametrizedMessageService = new ParametrizedMessageService();
         for(Notification__c n : notifications){
@@ -63,14 +63,14 @@ public without sharing class Action_SendPush implements Action{
         if(ppRhPushNotificationTypes.size() == 0) throw new Action_SendPush_Exception('Custom notification: ' + CUSTOM_NOTIFICATION_TYPE_NAME + ' not found. Create custom notification with this name' );
         List<ToolingAPI_SendCustomNotifications.CustomNotification> customNotifications = new List<ToolingAPI_SendCustomNotifications.CustomNotification>();
         for (Notification__c n : notifications) {
-            Id userId = userByContactIdMap.get(n.Recipient__c);
+            User user = userByContactIdMap.get(n.Recipient__c);
             String title = parametrizedMessageService.getMessage(n.Id + '_title');
             String message = parametrizedMessageService.getMessage(n.Id);
-            if(userId != null) {
+            if(user != null && user.IsActive) {
                 customNotifications.add(new ToolingAPI_SendCustomNotifications.CustomNotification(
                         ppRhPushNotificationTypes[0].Id,
-                        userId,
-                        userId,
+                        user.Id,
+                        user.Id,
                         title,
                         message
                 ));

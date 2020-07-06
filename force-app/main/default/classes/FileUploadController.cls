@@ -43,15 +43,19 @@ public without sharing class FileUploadController {
     }
 
     @AuraEnabled
-    public static FilesWrapper updateContentDocument(String documentId, String fileName, String resourceId){//String codeValue
+    public static FilesWrapper updateContentDocument(String documentId, String codeValue, String resourceId){//String codeValue
         try{
             ContentDocument contentDoc = [
-                    SELECT Id
+                    SELECT Id,LatestPublishedVersionId
                     FROM ContentDocument
                     WHERE Id =: documentId
             ];
             //contentDoc.Title = codeValue;
             ////update contentDoc;
+            ContentVersion conversion=  [SELECT Id,LanguageCode__c
+                    FROM ContentVersion where Id=: contentDoc.LatestPublishedVersionId limit 1];
+            conversion.LanguageCode__c=codeValue;
+            update conversion;
             return createFilesWrapper(resourceId);
         }catch (Exception e){
             return (FilesWrapper) AuraHelper.throwException(e);
