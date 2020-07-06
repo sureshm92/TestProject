@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>EmailTemplateLogo</label>
+    <protected>false</protected>
+    <values>
+        <field>Community_Template__c</field>
+        <value xsi:type="xsd:string">Janseen</value>
+    </values>
+    <values>
+        <field>Value__c</field>
+        <value xsi:type="xsd:string">https://quintilesimscmo--c.documentforce.com/servlet/servlet.ImageServer?id=0152o000006srqA&amp;oid=00D1I000001V1t1&amp;lastMod=1581869299000</value>
+    </values>
+</CustomMetadata>
