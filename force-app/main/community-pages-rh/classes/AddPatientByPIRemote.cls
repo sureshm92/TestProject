@@ -71,9 +71,9 @@ public without sharing class AddPatientByPIRemote {
 
             String participantId = !String.isBlank(participant.Id) ? participant.Id : pe.Participant__c;
             Participant__c newParticipant = [SELECT Id, Contact__c,Phone__c FROM Participant__c WHERE Id = :participantId];
-            Contact participantCon = new Contact();
-            participantCon = [Select Id ,MobilePhone,HomePhone,Phone From Contact where Id =: newParticipant.Contact__c];
-            if(participantCon.Id != null){
+            if (newParticipant.Contact__c != null) {
+                Contact participantCon = new Contact(Id = newParticipant.Contact__c);
+
                 if (participant.Phone_Type__c == 'Home') {
                     participantCon.HomePhone = participant.Phone__c;
                 } if (participant.Phone_Type__c == 'Mobile') {
@@ -83,6 +83,7 @@ public without sharing class AddPatientByPIRemote {
                 }
                 update participantCon;
             }
+
             if (createUser && newParticipant != null && !String.isBlank(newParticipant.Contact__c) && !String.isBlank(ssId)) {
                 Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
                 Study_Site__c ss = StudySiteService.getStudySiteForPIById(ssId);
@@ -96,7 +97,7 @@ public without sharing class AddPatientByPIRemote {
             if (participantDelegate != null && !String.isEmpty(participantDelegate.Last_Name__c) &&
                     !String.isEmpty(participantDelegate.Email__c)) {
                 Contact newContact;
-                if(ddInfo == null || String.isBlank(ddInfo.contactId)) {
+                if (ddInfo == null || String.isBlank(ddInfo.contactId)) {
                     newContact = new Contact();
                     newContact.FirstName = participantDelegate.First_Name__c;
                     newContact.LastName = participantDelegate.Last_Name__c;
@@ -159,7 +160,7 @@ public without sharing class AddPatientByPIRemote {
                     }
                 }
                // }
-                if(createDelegateuser) {
+                if (createDelegateuser) {
                     ReferringRemote.createParticipantUsers(new Map<Id, Id>{
                             newContact.Id => null
                     });
