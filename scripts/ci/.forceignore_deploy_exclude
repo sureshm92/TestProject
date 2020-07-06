@@ -21,3 +21,7 @@ unpackaged/communities/community-gsk/sites
 unpackaged/communities/community-iqvia/networkBranding
 unpackaged/communities/community-iqvia/networks
 unpackaged/communities/community-iqvia/sites
+
+unpackaged/communities/community-iqvia/experiences/IQVIA_Referral_Hub1/config/languages.json
+unpackaged/communities/community-iqvia/experiences/IQVIA_Referral_Hub_C/config/languages.json
+unpackaged/communities/community-gsk/experiences/GSK_Community1/config/languages.json
