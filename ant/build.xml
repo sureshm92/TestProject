@@ -112,6 +112,12 @@
             <arg path="../convert-communities.bat"/>
         </exec>
 
+        <move file="${source.dir}/experiences/IQVIA_Referral_Hub1" todir="${source.dir}/experiences/IQVIA_Referral_Hub_C"/>
+        <move file="${source.dir}/experiences/IQVIA_Referral_Hub1.site-meta.xml" tofile="${source.dir}/experiences/IQVIA_Referral_Hub_C.site-meta.xml"/>
+        <replace dir="${source.dir}" token="IQVIA_Referral_Hub1" value="IQVIA_Referral_Hub_C">
+            <include name="**/*.*"/>
+        </replace>
+
         <zip destfile="${dist.dir}/${dist.name}-communities.zip">
             <zipfileset dir="${source.dir}" prefix="${release.version}" includes="**/*.*" />
         </zip>

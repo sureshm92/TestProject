@@ -24,8 +24,6 @@
     <requireHttps>true</requireHttps>
     <requireInsecurePortalAccess>false</requireInsecurePortalAccess>
     <selfRegPage>CommunitiesSelfReg</selfRegPage>
-    <siteAdmin>lb.int@ct.com</siteAdmin>
-    <siteGuestRecordDefaultOwner>lb.int@ct.com</siteGuestRecordDefaultOwner>
     <siteType>ChatterNetwork</siteType>
     <subdomain>iqviaconnect</subdomain>
     <urlPathPrefix>gsk</urlPathPrefix>
