@@ -77,8 +77,8 @@
                                 <c:Action_AddProfilePhoto username="{!v.userEmail}" recordId="{!v.userId}" isDelegate="{!v.isDelegate}" hasProfilePic="{!v.hasProfilePic}"></c:Action_AddProfilePhoto>
                                 <aura:set attribute="else">
                                     <div class="slds-grid" style="margin-left:-18px;">
-                                    <div class="avatar-icon">
-                                   <c:RRIcon color="white" class="single-avatar"
+                                    <div class="avatar-icon-minor">
+                                   <c:RRIcon color="white" class="single-avatar-minor"
                                              iconName="single-neutral"/>
                                     <div class="slds-col slds-size_1-of-2" style="margin-left: 70px;margin-top: -40px;">
     
@@ -343,8 +343,23 @@
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-small-size_1-of-2 slds-media--responsive">
                                 <div class="label rr-sentence-font mar_top ">{!$Label.c.Phone_Type}</div>
                                 
-                                <c:rrSelect options="{!v.contactSectionData.phoneTypeList}" value="{!v.personWrapper.phoneType}"
-                                            placeholder="{!$Label.c.PG_AC_Select}" isValueChanged="{!v.disableSave}"/></div>
+                                <aura:if isTrue="{!v.userMode != 'Participant'}">
+                                
+                                 <c:rrSelect options="{!v.contactSectionData.phoneTypeList}" value="{!v.personWrapper.phoneType}"
+                                            placeholder="{!$Label.c.PG_AC_Select}" isValueChanged="{!v.disableSave}"/>
+                                
+                                </aura:if>
+                                  <aura:if isTrue="{!v.userMode == 'Participant'}">
+                                
+                                 <c:rrSelect options="{!v.contactSectionData.phoneTypeList}" value="{!v.personWrapper.phoneType}"
+                                            placeholder="{!$Label.c.PG_AC_Select}"/>
+                                
+                                </aura:if>
+
+                            
+                            
+                            
+                            </div>
                             
                         </div>
                         <!--  </aura:if>  -->
