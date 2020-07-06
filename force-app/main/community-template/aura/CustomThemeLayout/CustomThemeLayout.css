@@ -70,6 +70,17 @@
     display: inline-block;
 }
 
+.THIS .bell-container .slds-button{
+    color: #fff;
+    border-radius: 0;
+    height: 50px;
+    width: 50px;
+}
+
+.THIS .bell-container .slds-button.activated {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
 .THIS .slds-form-element__label {
 	color: #444;
     font-size: .875rem;
@@ -167,8 +178,14 @@
 .THIS .right-block{
     flex-shrink: 0;
     margin-left: auto;
+    align-items: center;
+    display: flex;
 }
 
+.THIS .helpNavigationCSS .cRRIcon.rr-icon-default {
+    height: 20px;
+    width: 20px;
+}
 
 .THIS .helpNavigationCSS:hover{
         background-color: rgba(255, 255, 255, 0.16);
@@ -181,6 +198,18 @@
     left: t(sideMenuWidth);
     overflow: visible;
     width: 100%;
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .THIS .navigation-icon {
+        margin-bottom: 40px;
+    }
+    .THIS .helpNavigationCSS:hover {
+        background-color: rgba(255, 255, 255, 0);
+    }
+    .THIS .bell-container button {
+        margin-bottom: 40px;
+    }
 }
 
 @media all and (max-width: 1140px){

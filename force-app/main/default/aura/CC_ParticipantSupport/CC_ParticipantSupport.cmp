@@ -11,6 +11,7 @@
     <aura:attribute name="actions" type="Object" default="true" />
     <aura:attribute name="searchKey" type="String" access="public" /> 
     <aura:attribute name="count" type="Integer" default="0" />  
+    <aura:attribute name="InviteStatus" type="Boolean" default="false" />
     
     <!-- Event handler -->
     <aura:handler name="callcenter" event="c:CallCenterRefresh" action="{!c.doRefreshtable}"/>
@@ -113,9 +114,9 @@
                                 </td>
                                 <td>
                                     <aura:if isTrue = "{!pe.Days_After_Referred__c lt 1}">
-                                        <div class="slds-truncate wraptext">{!pe.Days_After_Referred__c} day ago</div>
+                                        <div class="slds-truncate wraptext">{!pe.Days_After_Referred__c}&nbsp; {!$Label.c.CC_Day_Ago}</div>
                                         <aura:set attribute="else">
-                                            <div class="slds-truncate wraptext">{!pe.Days_After_Referred__c} days ago</div>
+                                            <div class="slds-truncate wraptext">{!pe.Days_After_Referred__c}&nbsp; {!$Label.c.CC_Days_Ago}</div>
                                         </aura:set>
                                     </aura:if>
                                 </td>
@@ -123,7 +124,7 @@
                         </aura:iteration>		
                     </table>  
                     
-                    <c:Action_ParticipantInformation aura:id="OpenPatientInfoAction" NotCCMode="false" isValid="true" searchKey="{!v.searchKey}" />
+                    <c:Action_ParticipantInformation aura:id="OpenPatientInfoAction" NotCCMode="false"  isValid="true" isInvited="{!v.InviteStatus}" searchKey="{!v.searchKey}" />
                 </div>
             </div>
         </div>

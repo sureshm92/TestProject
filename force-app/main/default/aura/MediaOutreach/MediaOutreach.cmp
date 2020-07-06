@@ -64,33 +64,36 @@
                                                     <th scope="row">
                                                         <div class="slds-truncate">
                                                             <div data-gtm="LNK_View_Participants_Details">
-                                                                <button class="slds-button" data-row-index="{!index}" value="{!tableindex}" onclick="{!c.ShowOutreachRecord}">{!item.Name}</button>
+                                                                <span class="outreachTitle">{!$Label.c.MO_Request_ID}:</span><button class="slds-button" data-row-index="{!index}" value="{!tableindex}" onclick="{!c.ShowOutreachRecord}">{!item.Name}</button>
                                                             </div>
                                                         </div>
                                                     </th>
                                                     <td>
-                                                        <div class="slds-truncate wraptext" >{!item.Study_Name__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</div>
+                                                        <div class="slds-truncate wraptext oName" ><span class="outreachTitle">{!$Label.c.MO_Study_Name}:</span><span class="outreachName">{!item.Study_Name__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span></div>
                                                     </td>
                                                     <td>
-                                                        <div class="slds-truncate wraptext" >{!item.Study_Name__r.Name}</div>
+                                                        <div class="slds-truncate wraptext" ><span class="outreachTitle">{!$Label.c.MO_Study_Site}:</span>{!item.Study_Name__r.Name}</div>
                                                     </td>
                                                     <td>
-                                                        <div class="slds-truncate wraptext">{!item.Media_Type__c}</div>
+                                                        <div class="slds-truncate wraptext"><span class="outreachTitle">{!$Label.c.MO_Media_Type}:</span>{!item.Media_Type__c}</div>
                                                     </td>
                                                     <td>
                                                         <div class="slds-truncate">
+                                                            <span class="outreachTitle">{!$Label.c.MO_Start_Date}:</span>
                                                             <ui:outputDate value="{!item.Requested_Start_Date__c}"
                                                             />
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div class="slds-truncate">
+                                                            <span class="outreachTitle">{!$Label.c.MO_End_Date}:</span>
                                                             <ui:outputDate value="{!item.Requested_End_Date__c}"
                                                             />
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <div class="slds-truncate">{!item.Status__c}</div>
+
+                                                        <div class="slds-truncate"><span class="outreachTitle">{!$Label.c.MO_Status}:</span>{!item.Status__c}</div>
                                                     </td>
                                                 </tr>
                                             </aura:if>

@@ -93,7 +93,7 @@ public class MediaOutreachServices {
                     
                     //If a filter is selected
                     if (String.isEmpty(filter.searchText)) {
-                        if (!String.isEmpty(filter.study)) filterStr += ' AND Study_Name__c = \'' + filter.study + '\' ';
+                        if (!String.isEmpty(filter.study)) filterStr += ' AND Study_Name__r.Clinical_Trial_Profile__c = \'' + filter.study + '\' ';
                     }
                     
                     //sort

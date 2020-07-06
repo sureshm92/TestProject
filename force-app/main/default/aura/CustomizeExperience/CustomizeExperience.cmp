@@ -28,6 +28,8 @@
     <aura:attribute name="selectedPills" type="Boolean" default="true"/>
     <aura:attribute name="showPills" type="Boolean" default="false"/>
     <aura:attribute name="removed" type="Boolean" default="false"/>
+    <aura:attribute name="isReferalChange" type="Boolean" default="true"/>
+    <aura:attribute name="isTherapChange" type="Boolean" default="true"/>
     <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
     <aura:attribute name="itemshow" type="Boolean" default="false"/>
     <aura:attribute name="footerButtons" type="Aura.Component[]" description="custom buttons array, inset of standard button set"/>
@@ -125,7 +127,7 @@
                  <br/>
              </div>
            <div class="slds-col slds-size_1-of-1 as-buttons-footer">
-                <lightning:button variant="brand" label="{!$Label.c.PP_Save_Changes}" title="" onclick="{! c.savechanges }" class="slds-button slds-button_brand apollo-btn primary"/> 
+                <lightning:button variant="brand" label="{!$Label.c.PP_Save_Changes}" title="" onclick="{! c.savechanges }" disabled="{!and(v.isReferalChange , v.isTherapChange)}" class="slds-button slds-button_brand apollo-btn primary"/> 
             </div> 
              
     </aura:if>

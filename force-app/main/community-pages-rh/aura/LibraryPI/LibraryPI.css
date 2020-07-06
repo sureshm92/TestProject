@@ -5,10 +5,10 @@
     margin-bottom: 9px;
 }
 
-.THIS.rr-white-panel {
+.THIS.cLibrary.rr-white-panel {
     border: 1px solid #e9e9e9;
-    border-width: 1px 1px 0 1px;
-    border-radius: 5px 5px 0 0;
+    border-width: 0 1px 1px 1px;
+    border-radius: 0 5px 5px 0;
 }
 
 .THIS .slds-accordion__summary-heading > button > span {
@@ -70,6 +70,7 @@
     color: #000;
     text-decoration: none;
     font-size: 16px;
+    font-weight: 500;
 }
 
 .THIS .slds-is-open .slds-button {
@@ -82,6 +83,10 @@
 
 .THIS .slds-accordion__list-item {
     border-top: 1px solid #e9e9e9;
+}
+
+.THIS .slds-accordion__list-item:first-child {
+    border-top: none;
 }
 
 .THIS .slds-accordion__summary-heading .slds-button:focus {
@@ -214,6 +219,10 @@
         min-width: 100%;
         color: #000;
         margin-bottom: 12px;
+    }
+
+    .THIS.rr-white-panel .resource-container a.slds-coll {
+        color: #297dfd;
     }
 
     .THIS lightning-primitive-icon > svg {

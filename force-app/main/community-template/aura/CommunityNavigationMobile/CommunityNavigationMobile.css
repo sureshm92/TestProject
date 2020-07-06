@@ -53,11 +53,11 @@
     z-index: 8500;
 }
 
-.THIS .navigation-icon {
+.THIS .navigation-icon.cRRIcon.rr-icon-default {
     margin-right: 12px;
     margin-left: 10px;
-    /*   pointer-events: none;
-       width: 18px;*/
+    height: 32px;
+    width: 26px;
     flex-shrink: 0;
     max-height: 28px;
 }
@@ -107,7 +107,7 @@
     }
 
     .THIS .nav-menu > .nav-menu-item-content > .navigation-icon {
-        margin: 7px auto;
+        margin: 7px 17px 7px 0;
     }
 
     .THIS .nav-menu .nav-menu-item-content > span {

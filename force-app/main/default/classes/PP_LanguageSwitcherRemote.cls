@@ -23,6 +23,33 @@ public without sharing class PP_LanguageSwitcherRemote {
     public static String getInitData(){
         try{
             InitData initData = new InitData();
+			contact myContact = new contact();
+			myContact = getCurrentContact();
+			if(myContact.userCommunityDelegateId__c != null){
+                myContact = ContactService.getContact(myContact.userCommunityDelegateId__c);
+			}
+			
+			User userdetail = [
+                    SELECT  ContactId,
+							LocaleSidKey,
+							LanguageLocaleKey,
+							TimeZoneSidKey,
+                            Contact.Language__c,
+                            Contact.Second_Choice_Language__c,
+                            Contact.Third_Choice_Language__c,
+							Contact.MailingCountry,
+							Contact.MailingState
+                    FROM    User
+                    WHERE  contactId=:myContact.Id];
+    
+            //initData.languageKey   = UserInfo.getLanguage();
+			initData.languageKey   = userdetail.LanguageLocaleKey;
+            initData.secondLangKey = userdetail.Contact.Second_Choice_Language__c;
+            initData.thirdLangKey  = userdetail.Contact.Third_Choice_Language__c;
+            //initData.localeKey     = UserInfo.getLocale();
+			initData.localeKey     = userdetail.LocaleSidKey;
+            //initData.timezoneKey   = String.ValueOf(UserInfo.getTimeZone());
+			initData.timezoneKey = userdetail.TimeZoneSidKey;
 			
             List<PicklistEntry> listPLE = Translation__c.Language__c.getDescribe().getPicklistValues();
             initData.optionalLanguages.add(new LabelValueItem('--' + Label.None + '--', null));
@@ -43,21 +70,7 @@ public without sharing class PP_LanguageSwitcherRemote {
                 initData.timezones.add(new LabelValueItem(ple.getLabel(), ple.getValue()));
             }
     
-            User user = [
-                    SELECT  ContactId,
-                            Contact.Language__c,
-                            Contact.Second_Choice_Language__c,
-                            Contact.Third_Choice_Language__c,
-							Contact.MailingCountry,
-							Contact.MailingState
-                    FROM    User
-                    WHERE   Id = :UserInfo.getUserId()];
-    
-            initData.languageKey   = UserInfo.getLanguage();
-            initData.secondLangKey = user.Contact.Second_Choice_Language__c;
-            initData.thirdLangKey  = user.Contact.Third_Choice_Language__c;
-            initData.localeKey     = UserInfo.getLocale();
-            initData.timezoneKey   = String.ValueOf(UserInfo.getTimeZone());
+           
             						
             return JSON.serialize(initData);
         }catch (Exception e){
@@ -68,15 +81,20 @@ public without sharing class PP_LanguageSwitcherRemote {
     @AuraEnabled
     public static void changeLanguage(String languageKey, String countryName,String stateName,String zipcode, String secondLangKey, String thirdLangKey, String localeKey, String timezoneKey){
         try{
-			
-            update new User(
-                    Id = UserInfo.getUserId(),
+			contact myContact = new contact();
+			myContact = getCurrentContact();
+			if(myContact.userCommunityDelegateId__c != null){
+                myContact = ContactService.getContact(myContact.userCommunityDelegateId__c);
+				
+            }
+			User userdetail = [SELECT id,LanguageLocaleKey,LocaleSidKey,Timezonesidkey,ContactId FROM User WHERE ContactId = :myContact.Id];
+				update new User(
+                    Id = userdetail.Id,
                     LanguageLocaleKey = languageKey,
                     LocaleSidKey = localeKey,
                 	Timezonesidkey = timezoneKey
-            );
-    
-            User user = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
+				);
+           // User user = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
             List<Participant__c> participantList = new List<Participant__c>();
 			participantList = [
                                 SELECT Id, First_Name__c, Middle_Name__c, Last_Name__c, Phone__c,
@@ -84,30 +102,14 @@ public without sharing class PP_LanguageSwitcherRemote {
                                         Mailing_Country_Code__c, Mailing_State_Code__c,
                                         Gender__c, Date_of_Birth__c
                                 FROM Participant__c
-                                WHERE Contact__c = :user.ContactId limit 1
-                        ];
-			boolean isParticipant = false;
-			if(participantList.size()>0)
-			isParticipant = true;
-			if(isParticipant){
+                                WHERE Contact__c = :myContact.Id limit 1
+                        ];			
+			if(participantList.size()>0){
 				update new Contact(
-						Id = user.ContactId,
+						Id = myContact.Id,
 						Second_Choice_Language__c = secondLangKey,
 						Third_Choice_Language__c = thirdLangKey						
 				);
-			}
-			else{
-				update new Contact(
-						Id = user.ContactId,
-						Second_Choice_Language__c = secondLangKey,
-						Third_Choice_Language__c = thirdLangKey,
-						MailingCountry = countryName,
-						MailingState = stateName,
-						MailingPostalCode = zipcode						
-				);
-			}
-			
-			if(isParticipant){
 				update new Participant__c(
                     Id = participantList[0].id,
                     Mailing_Zip_Postal_Code__c = zipcode,
@@ -115,13 +117,66 @@ public without sharing class PP_LanguageSwitcherRemote {
 					Mailing_State__c = stateName					
 				);
 			}
-				
-			
-						
+			else{
+				update new Contact(
+						Id = myContact.Id,
+						Second_Choice_Language__c = secondLangKey,
+						Third_Choice_Language__c = thirdLangKey,
+						MailingCountry = countryName,
+						MailingState = stateName,
+						MailingPostalCode = zipcode						
+				);
+			}
+																		
 				
 			
         }catch (Exception e){
             AuraHelper.throwException(e);
         }
+    }
+	
+	public static Contact getCurrentContact() {
+        return [
+            SELECT Id,
+            FirstName,
+			MiddleName,
+            LastName,
+            AccountId,
+            Email,
+            Fax,
+            Phone,
+            MailingAddress,
+            MailingCity,
+            MailingCountry,
+            MailingCountryCode,
+            MailingPostalCode,
+            MailingState,
+            MailingStateCode,
+            MailingStreet,
+            MobilePhone,
+            Suffix,
+            primaryContact__c,
+            primaryContact__r.AccountId,
+            HasOptedOutOfEmail,
+            Participant_Opt_In_Status_Emails__c,
+            Participant_Opt_In_Status_SMS__c,
+            HCP_Opt_In_Patient_Status_Emails__c,
+            HCP_Opt_In_Study_Emails__c,
+            HCP_Opt_In_Referral_Status_Emails__c,
+            Delegate_Opt_In_Status_Emails__c,
+            RRCookiesAllowedCookie__c,
+            RRLanguageAllowedCookie__c,
+            Salutation,
+            userCommunityDelegateId__c,
+			userCommunytyType__c,
+            Phone_Type__c
+            FROM Contact
+            WHERE Id IN (
+                SELECT ContactId
+                FROM User
+                WHERE Id = :UserInfo.getUserId()
+            )
+            LIMIT 1
+        ];
     }
 }

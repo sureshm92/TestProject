@@ -48,7 +48,7 @@ public class Test_PatientDelegateRemote {
         TestData testData = new TestData();
 
         System.runAs(testData.participantUser){
-            String patientFirstName = PatientDelegateRemote.getYourPatientFirstName();
+            PatientDelegateRemote.getYourPatientFirstName();
         }
         Test.stopTest();
     }
@@ -133,10 +133,13 @@ public class Test_PatientDelegateRemote {
     static void changeDelegateStatusTest() {
         Contact delegateContact = [SELECT Id FROM Contact WHERE Email = 'j.smith@gmail.com'];
         TestData.loadTestData();
+
+        Test.startTest();
         TestData testData = new TestData();
         System.runAs(testData.participantUser) {
             PatientDelegateRemote.changeDelegateStatus(delegateContact.Id, false);
         }
+        Test.stopTest();
     }
 
     @IsTest
