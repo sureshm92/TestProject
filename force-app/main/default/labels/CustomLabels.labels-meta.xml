@@ -2702,11 +2702,20 @@ Please share our site on social media to encourage others to assist us as we wor
     </labels>
     <labels>
         <fullName>Community_Covid19</fullName>
+        <categories>Covid19</categories>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Community Covid19</shortDescription>
         <value>NYBC COVID-19 Convalescent Plasma Registry</value>
     </labels>
+    <labels>
+        <fullName>Covid19_NYBC_Email_Logo</fullName>
+        <categories>Covid19</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Covid19 NYBC Email Logo</shortDescription>
+        <value>https://quintilesimscmo--infohotfix--c.documentforce.com/servlet/servlet.ImageServer?id=0150E0000012Jl0&amp;oid=00D0E0000002F9W&amp;lastMod=1594043869000</value>
+    </labels>    
     <labels>
         <fullName>Cp_Agree_Checkbox</fullName>
         <categories>Covid19</categories>
@@ -4648,11 +4657,11 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Covid_19</fullName>
+        <categories>Covid19</categories>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial Patient Covid 19</shortDescription>
-        <value>We have received your Convalescent Plasma COVID-19 donor registration information.
-We will contact you soon to schedule your first convalescent plasma donation appointment.</value>
+        <value>&lt;p&gt;We have received your information and will contact you soon to schedule your first donation appointment.&lt;/p&gt;&lt;p&gt;How to prepare for your appointment:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Eat and hydrate&lt;/li&gt;&lt;li&gt;Get a good night’s sleep&lt;/li&gt;&lt;li&gt;Bring your face covering with you &lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Thank you for your interest in COVID-19 convalescent plasma donation.&lt;/p&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Greeting</fullName>
@@ -4663,10 +4672,11 @@ We will contact you soon to schedule your first convalescent plasma donation app
     </labels>
     <labels>
         <fullName>Email_Header_Covid_19</fullName>
+        <categories>Covid19</categories>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email header Covid 19</shortDescription>
-        <value>Thank you for your interest in convalescent plasma donation</value>
+        <value>Thanks for joining the fight to save lives</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Participant_Covid_19</fullName>
