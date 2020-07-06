@@ -105,7 +105,7 @@ public without sharing class CommunityMode {
             isDelegate = currentDelegateId != null;
         }
         if(userMode == CommunityService.USER_MODE_PI) {
-            String pathPrefix = Site.getPathPrefix();
+            template = CommunityTemplateService.getTemplateByPrefix(Site.getPathPrefix());
         }
         
         key = CommunityModeService.generateModeKey(userMode, currentDelId, whatId);
