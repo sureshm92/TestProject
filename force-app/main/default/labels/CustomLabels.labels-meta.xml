@@ -1596,60 +1596,11 @@
         <value>View as Investigative Site</value>
     </labels>
     <labels>
-        <fullName>CTL_L_Patricipant_MODE</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CTL L Patricipant MODE</shortDescription>
-        <value>View as a Participant</value>
-    </labels>
-    <labels>
-        <fullName>Calcium</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Calcium</shortDescription>
-        <value>Calcium</value>
-    </labels>
-    <labels>
-        <fullName>Calcium_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Calcium Description</shortDescription>
-        <value>Calcium is an electrolyte (a mineral) that is important for the functioning of your muscles, including your heart, and nerves. Calcium is also needed for blood clotting and for creating and keeping your bones and teeth healthy. This test measures the amount of calcium in your blood sample. Calcium is measured to check your general health and can be used to check for a range of conditions.</value>
-    </labels>
-    <labels>
         <fullName>Can_Not_Edit_Mapping</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Can Not Edit Mapping</shortDescription>
         <value>You can not edit this object. Delete and create a new one instead.</value>
-    </labels>
-    <labels>
-        <fullName>Cancel</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Cancel</shortDescription>
-        <value>Cancel</value>
-    </labels>
-    <labels>
-        <fullName>Cancel_Request</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Cancel Request</shortDescription>
-        <value>Cancel Request</value>
-    </labels>
-    <labels>
-        <fullName>Cancel_request_warning_message</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Cancel request warning message</shortDescription>
-        <value>Are you sure you want to cancel the request?</value>
-    </labels>
-    <labels>
-        <fullName>Case_Owner_Email_For_User_Lockout</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Case_Owner_Email_For_User_Lockout</shortDescription>
-        <value>rajesh.r@quintiles.com</value>
     </labels>
     <labels>
         <fullName>Closed_Requests</fullName>
