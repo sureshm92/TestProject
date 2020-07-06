@@ -7,6 +7,7 @@ private class Test_Batch_UpdatePE_PermitContactFlag {
 
     @IsTest
     static void testBehavior() {
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class);
         TestDataFactory.createInitData();
 
         Integer peSize = [SELECT Id, Permit_IQVIA_to_contact_about_study__c
