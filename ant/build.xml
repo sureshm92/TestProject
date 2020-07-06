@@ -104,6 +104,16 @@
 
     <target name="build-communities">
         <delete dir="${source.dir}"/>
+
+        <!-- prepare forceignore for deploy: -->
+        <copy file="../.forceignore" todir="."/>
+        <concat destfile="../.forceignore_res">
+            <fileset file="../.forceignore" />
+            <fileset file="../scripts/ci/.forceignore_deploy_exclude" />
+        </concat>
+        <copy file="../.forceignore_res" tofile="../.forceignore"/>
+        <delete file="../.forceignore_res"/>
+
         <!-- convertation: -->
         <exec dir=".." executable="cmd" osfamily="windows">
             <arg value="/c convert-communities.bat"/>
@@ -112,7 +122,9 @@
             <arg path="../convert-communities.bat"/>
         </exec>
 
-        <move file="${source.dir}/experiences/IQVIA_Referral_Hub1" todir="${source.dir}/experiences/IQVIA_Referral_Hub_C"/>
+        <move todir="${source.dir}/experiences/IQVIA_Referral_Hub_C">
+            <fileset dir="${source.dir}/experiences/IQVIA_Referral_Hub1"/>
+        </move>
         <move file="${source.dir}/experiences/IQVIA_Referral_Hub1.site-meta.xml" tofile="${source.dir}/experiences/IQVIA_Referral_Hub_C.site-meta.xml"/>
         <replace dir="${source.dir}" token="IQVIA_Referral_Hub1" value="IQVIA_Referral_Hub_C">
             <include name="**/*.*"/>
@@ -121,6 +133,11 @@
         <zip destfile="${dist.dir}/${dist.name}-communities.zip">
             <zipfileset dir="${source.dir}" prefix="${release.version}" includes="**/*.*" />
         </zip>
+
+        <!-- restore forceignore: -->
+        <copy file=".forceignore" todir=".." overwrite="true"/>
+        <delete file=".forceignore"/>
+
     </target>
 
 
