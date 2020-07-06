@@ -14234,20 +14234,6 @@ communications using the toggles below.</value>
         <value>Site Location</value>
     </labels>
     <labels>
-        <fullName>Pswd_8_Characters</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Pswd_8_Characters</shortDescription>
-        <value>8 characters</value>
-    </labels>
-    <labels>
-        <fullName>Pswd_Include_Any_3</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Pswd_Include_Any_3</shortDescription>
-        <value>And include any 3 of the following</value>
-    </labels>
-    <labels>
         <fullName>Pswd_Lowercase</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -14255,25 +14241,11 @@ communications using the toggles below.</value>
         <value>Lowercase</value>
     </labels>
     <labels>
-        <fullName>Pswd_Numbers</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Pswd_Numbers</shortDescription>
-        <value>Numbers</value>
-    </labels>
-    <labels>
         <fullName>Pswd_Special_Characters</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Pswd_Special_Characters</shortDescription>
         <value>Special characters</value>
-    </labels>
-    <labels>
-        <fullName>Pswd_Uppercase</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Pswd_Uppercase</shortDescription>
-        <value>Uppercase</value>
     </labels>
     <labels>
         <fullName>Pswd_Val_strng1</fullName>
@@ -14781,13 +14753,6 @@ communications using the toggles below.</value>
         <value>And include any 3 of the following</value>
     </labels>
     <labels>
-        <fullName>Pswd_Lowercase</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Pswd_Lowercase</shortDescription>
-        <value>Lowercase</value>
-    </labels>
-    <labels>
         <fullName>Pswd_Numbers</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -14795,60 +14760,11 @@ communications using the toggles below.</value>
         <value>Numbers</value>
     </labels>
     <labels>
-        <fullName>Pswd_Special_Characters</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Pswd_Special_Characters</shortDescription>
-        <value>Special characters</value>
-    </labels>
-    <labels>
         <fullName>Pswd_Uppercase</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Pswd_Uppercase</shortDescription>
         <value>Uppercase</value>
-    </labels>
-    <labels>
-        <fullName>Pswd_Val_strng1</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Pswd_Val_strng1</shortDescription>
-        <value>Your password must be at least 8 characters long and include atleast 3 of the following: numbers, uppercase and lowercase letters, and at least one of these special characters</value>
-    </labels>
-    <labels>
-        <fullName>Pswd_Val_strng2</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Pswd_Val_strng2</shortDescription>
-        <value>Your password must include atleast 3 of the following</value>
-    </labels>
-    <labels>
-        <fullName>Pswd_ValidationMsg3</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Pswd_ValidationMsg3</shortDescription>
-        <value>Your password must be at least 8 characters long and include at least 3 of the following:&lt;/br&gt; numbers, uppercase and/or lowercase letters, and special characters.</value>
-    </labels>
-    <labels>
-        <fullName>Pswd_ValidationMsg3_1</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Pswd_ValidationMsg3_1</shortDescription>
-        <value>Your password must be at least 8 characters long and include at least 3 of the following:</value>
-    </labels>
-    <labels>
-        <fullName>Pswd_ValidationMsg3_2</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Pswd_ValidationMsg3_2</shortDescription>
-        <value>numbers, uppercase and/or lowercase letters, and special characters.</value>
-    </labels>
-    <labels>
-        <fullName>Pswd_Your_Pswd_Include</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Pswd_Your_Pswd_Include</shortDescription>
-        <value>Your password must include at least</value>
     </labels>
     <labels>
         <fullName>Pulse</fullName>
