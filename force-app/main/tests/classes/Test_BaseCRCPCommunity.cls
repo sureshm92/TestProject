@@ -474,7 +474,6 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
-    
     @IsTest
     static void mrrAndReferringTest1() {
         TestData testData = new TestData();
@@ -484,8 +483,16 @@ private class Test_BaseCRCPCommunity {
             MedicalRecordReviewRemote.SearchPEResult searchPEResult = (MedicalRecordReviewRemote.SearchPEResult) JSON.deserialize(jsonResult, MedicalRecordReviewRemote.SearchPEResult.class);
             String peJSON = JSON.serialize(searchPEResult.pe);
             MedicalRecordReviewRemote.setMRRStatus(peJSON, ParticipantEnrollmentService.PES_STATUS_PASS, 'https://link.test');
-            Participant_Enrollment__c pe = [SELECT Id FROM Participant_Enrollment__c LIMIT 1];
-            String refInitDataJSON = ReferringRemote.getInitData(testData.ctp.Id, pe.Id, testData.hcpEnrollment.Id, CommunityService.USER_MODE_HCP, null);
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void mrrAndReferringTest2() {
+        TestData testData = new TestData();
+        Test.startTest();
+        System.runAs(testData.hcpUser) {
+            String refInitDataJSON = ReferringRemote.getInitData(testData.ctp.Id, testData.pe.Id, testData.hcpEnrollment.Id, CommunityService.USER_MODE_HCP, null);
             ReferringRemote.InitData refInitData = (ReferringRemote.InitData) JSON.deserialize(refInitDataJSON, ReferringRemote.InitData.class);
             insert new Participant__c(First_Name__c = 'FN1',
                     Last_Name__c = 'LN1',
@@ -505,7 +512,7 @@ private class Test_BaseCRCPCommunity {
     }
     
     @IsTest
-    static void mrrAndReferringTest2() {
+    static void mrrAndReferringTest3() {
         TestData testData = new TestData();
         TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
         Test.startTest();
