@@ -12739,6 +12739,20 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <shortDescription>PP Password Management</shortDescription>
         <value>Password Management</value>
     </labels>
+	 <labels>
+        <fullName>PP_Phone_Mandatory</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Phone_Mandatory</shortDescription>
+        <value>Phone number is mandatory.</value>
+    </labels>
+	 <labels>
+        <fullName>PP_Phone_Numeric</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Phone_Numeric</shortDescription>
+        <value>Phone number must be numeric.</value>
+    </labels>
     <labels>
         <fullName>PP_Prefix</fullName>
         <language>en_US</language>
