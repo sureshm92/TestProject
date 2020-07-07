@@ -1,0 +1,18 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="BellTestLayout" implements="forceCommunity:themeLayout" access="global">
+    <aura:attribute name="search" type="Aura.Component[]" required="false"/>
+    <aura:attribute name="profileMenu" type="Aura.Component[]" required="false"/>
+    <aura:attribute name="navBar" type="Aura.Component[]" required="false"/>
+    <aura:attribute name="newHeader" type="Aura.Component[]" required="false"/>
+    <div>
+        <div title="Bell Container" style="color: gray; height: 60px">
+            <forceCommunity:notifications/>
+        </div>
+        <div class="mainContentArea">
+            {!v.body}
+        </div>
+    </div>
+</aura:component>
