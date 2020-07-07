@@ -110,6 +110,11 @@
     border: none;
 }
 
+.THIS .slds-table th,
+.THIS .slds-table td {
+    white-space: normal;
+}
+
 .THIS .fp-search-input
 {
    padding-left: 25px;   
@@ -139,6 +144,9 @@
     border: none;
 }
 
+.THIS .slds-input-has-icon .slds-input__icon {
+    top: 45%;
+}
 
 .THIS .slds-table_bordered tbody th:hover,
 .THIS .slds-table_bordered tbody td:hover,
@@ -175,4 +183,59 @@
 
 .THIS .align-left{
     text-align: left;
+}
+
+.THIS .participantBtn {
+    margin-left: 25px;
+}
+
+.THIS .participantTitle {
+    display: none;
+}
+
+@media all and (max-width: 768px){
+    .THIS .slds-max-medium-table_stacked-horizontal td,
+    .THIS .slds-max-medium-table--stacked-horizontal td {
+        text-align: left;
+    }
+
+    .THIS .participantTitle {
+        color: #595959;
+        padding-right: 5px;
+        white-space: nowrap;
+        display: inline-block;
+    }
+
+    .THIS td .slds-truncate {
+        color: #000;
+    }
+
+    .THIS .slds-max-medium-table_stacked-horizontal tr,
+    .THIS .slds-max-medium-table--stacked-horizontal tr {
+        border-top: none;
+        border-bottom: 1px solid #f8f9fb;
+    }
+
+}
+
+@media all and (max-width: 500px){
+    .THIS .participantSearch {
+        min-width: 100%
+    }
+
+    .THIS .participantBtn {
+        margin-top: 15px;
+        margin-left: 0;
+    }
+
+    .THIS .participantStudy + .slds-button {
+        display: inline-block;
+        max-width: 80%;
+    }
+
+
+    .THIS .participantPhone .participantTitle {
+        display: block;
+    }
+
 }

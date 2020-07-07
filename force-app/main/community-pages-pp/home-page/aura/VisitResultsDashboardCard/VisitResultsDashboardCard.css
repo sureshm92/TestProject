@@ -46,6 +46,9 @@
     width: 100%;
     line-height: 34px;
     height: 34px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .THIS .visit-result-item-name {

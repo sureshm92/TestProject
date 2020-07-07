@@ -170,7 +170,7 @@
     }
 
     .THIS .outreachTitle {
-        color: #000;
+        color: #595959;
         padding-right: 5px;
         white-space: nowrap;
     }
@@ -180,7 +180,7 @@
     }
 
     .THIS .slds-truncate {
-        color: #595959;
+        color: #000;
     }
 
     .THIS .slds-table_bordered tbody th,
