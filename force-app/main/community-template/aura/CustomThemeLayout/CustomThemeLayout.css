@@ -50,6 +50,10 @@
     flex-direction: row-reverse;
 }
 
+.THIS .slds-table thead th {
+    font-weight: 400;
+}
+
 .THIS .title-logo{
     /*height: 39px;*/
     width: 165px;
