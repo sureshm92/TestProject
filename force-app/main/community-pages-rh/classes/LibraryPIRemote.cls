@@ -100,7 +100,7 @@ public without sharing class LibraryPIRemote {
             for (Res_study__c rs : [
                 SELECT Id,
                 Resource__c,
-                Resource__r.RecordType.Name,
+                toLabel(Resource__r.RecordType.Name),
                 Resource__r.RecordType.DeveloperName,
                 Resource__r.Title__c,
                 Resource__r.Languages__c,
@@ -128,7 +128,7 @@ public without sharing class LibraryPIRemote {
                                                                                                          rs.Resource__r.RecordType.DeveloperName,
                                                                                                          rs.Resource__r.Title__c,
                                                                                                          getResourceLanguage(language),
-                                                                                                         rs.Resource__r.Resource_Type__c,
+                            TranslateHelper.getPickListLabel(Resource__c.Resource_Type__c,rs.Resource__r.Resource_Type__c),
                                                                                                          rs.Resource__r.RecordType.Name,
                                                                                                          rs.Resource__r.Version_Date__c,
                                                                                                          rs.Resource__r.URL__c,
@@ -138,7 +138,7 @@ public without sharing class LibraryPIRemote {
             }
             for (Resource__c res : [
                 SELECT Id,
-                RecordType.Name,
+                toLabel(RecordType.Name),
                 RecordType.DeveloperName,
                 Title__c,
                 Languages__c,
@@ -177,7 +177,7 @@ public without sharing class LibraryPIRemote {
             for (Res_study__c rs: [
                 SELECT Id,
                 Resource__c,
-                Resource__r.RecordType.Name,
+                toLabel(Resource__r.RecordType.Name),
                 Resource__r.RecordType.DeveloperName,
                 Resource__r.Title__c,
                 Resource__r.Languages__c,
@@ -205,7 +205,7 @@ public without sharing class LibraryPIRemote {
                                                                                                          rs.Resource__r.RecordType.DeveloperName,
                                                                                                          rs.Resource__r.Title__c,
                                                                                                          getResourceLanguage(language),
-                                                                                                         rs.Resource__r.Resource_Type__c,
+                                                                                                         TranslateHelper.getPickListLabel(Resource__c.Resource_Type__c, rs.Resource__r.Resource_Type__c),
                                                                                                          rs.Resource__r.RecordType.Name,
                                                                                                          rs.Resource__r.Version_Date__c,
                                                                                                          rs.Resource__r.URL__c,
@@ -215,7 +215,7 @@ public without sharing class LibraryPIRemote {
             }
             for (Resource__c res: [
                 SELECT Id,
-                RecordType.Name,
+                toLabel(RecordType.Name),
                 RecordType.DeveloperName,
                 Title__c,
                 Languages__c,
