@@ -21,7 +21,7 @@
                 <c:RRNPathItem label="{!$Label.c.Navigation_Home}"/>
             </c:RRNavigationPath>
         </div>
-        <div style="display: flex;">
+        <div class="hp-welcome-line">
             <div class="hp-welcome-msg"><aura:unescapedHtml value="{!v.participantState.welcomeMessage}"/></div>
             <aura:if isTrue="{!v.showTrialSearch}">
                 <div style="@media screen and (max-width: 600px) {width: 20%;}">
