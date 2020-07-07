@@ -39,7 +39,7 @@
                 </div>
                 <aura:if isTrue="{!v.tcData.isAccepted || !empty(v.privacyPolicyId)}"> 
                   <aura:if isTrue="{!v.isUserLoggedIn}"> <!-- @Krishna Mahto - PEH-2450 --> 
-                    	<button class="apollo-btn primary" onclick="{!c.doGoBack}">{!$Label.c.BTN_OK}</button>
+                    	<button class="apollo-btn primary" onclick="{!c.doGoBack}">{!$Label.c.BTN_Close}</button>
                   </aura:if> <!-- @Krishna Mahto - PEH-2450 --> 
                     <aura:set attribute="else">
                         <aura:if isTrue="{!!v.isPortalTC}">

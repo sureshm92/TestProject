@@ -21,8 +21,9 @@
         <div class="slds-grid slds-wrap">
             <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_5-of-12 width-height">
                 <ui:scrollerWrapper class="sWrapTest">
+                    <div aura:id="main">
                     <aura:iteration var="item" items="{!v.distaceStudySites}" indexVar="index">
-                        <div class="slds-box">
+                        <div aura:id="{!index+1}" data-id="{!item.Id}" data-name="{!item.Id}" class="slds-box data-row">
                             <div class="study-site-name-copy"> {!index+1} . {!item.studySite.Name}</div>
                             <br/>
                             <div class="address-line-1-addre">
@@ -38,13 +39,14 @@
                                 </aura:if>    
 
                                 <div class="site-button-align">
-                                    <a onclick="{!c.changeMapMarker}" data-row-index="{!index}">
-                                        <button class="slds-button slds-button_neutral select-as-my-preferr"> {!$Label.c.CPD_Select_as_My_Preferred_Site}</button>
+                                    <a aura:id="btn" onclick="{!c.changeMapMarker}" data-row-index="{!index}">
+                                        <button aura:id="btnselect" class="slds-button slds-button_neutral select-as-my-preferr"> {!$Label.c.CPD_Select_as_My_Preferred_Site}</button>
                                     </a>
                                 </div>
                             </div>
                         </div>
                     </aura:iteration>
+                </div>
                 </ui:scrollerWrapper>
             </div>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_7-of-12 width-height">

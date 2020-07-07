@@ -105,7 +105,9 @@ public class Batch_SendPIEmailForNewReferrals extends Batch_ScheduledAbstract {
                 }
             }
         }
-        update qualifiedUsers;        
+        if(!Test.isRunningTest()){
+            update qualifiedUsers;
+        }    
         system.debug('notifications.values()'+notifications.values());
         if (notifications.values().size() > 0)
             insert notifications.values();

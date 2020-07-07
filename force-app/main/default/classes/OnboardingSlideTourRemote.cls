@@ -53,11 +53,11 @@ public without sharing class OnboardingSlideTourRemote {
 
             List<String> staticResourceNames = new List<String>();
             for(Onboarding_Tour_Slides__mdt tourItem : tourList) {
-                if(formFactor == 'PHONE'){
-                    staticResourceNames.add(tourItem.Onboarding_Slide__r.Static_Resource__c + '_mobile');
-                }else{
+//                if(formFactor == 'PHONE'){
+//                    staticResourceNames.add(tourItem.Onboarding_Slide__r.Static_Resource__c + '_mobile');
+//                }else{
                     staticResourceNames.add(tourItem.Onboarding_Slide__r.Static_Resource__c);
-                }
+//                }
             }
             List<StaticResource> staticResources = [
                     SELECT Id, SystemModstamp, Name
@@ -70,7 +70,7 @@ public without sharing class OnboardingSlideTourRemote {
             List<SlideData> outputSlides = new List<SlideData>();
             for(Onboarding_Tour_Slides__mdt tourItem : tourList){
                 String resourceName = tourItem.Onboarding_Slide__r.Static_Resource__c;
-                if(formFactor == 'PHONE') resourceName += '_mobile';
+//                if(formFactor == 'PHONE') resourceName += '_mobile';
                 TranslateHelper.prepareLabelFields(tourItem.Onboarding_Slide__r, new Set<String>{
                         'Title__c',
                         'Sub_Title__c',

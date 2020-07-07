@@ -35,7 +35,8 @@ public without sharing class CPDonorReferralFormController
     public static String getStudySites(String studyName)
     {
         String protocolId = System.Label.CPD_Protocol_ID; // 'C19NYBC'
-        List<Study_Site__c> studySites = [Select Id, Name, Protocol_ID__c, Study_Site_Number__c, Clinical_Trial_Profile__r.Study_Code_Name__c,Site__r.BillingAddress,Site__r.BillingStreet,Site__r.BillingCity,Site__r.BillingCountry,Site__r.BillingPostalCode,Site__r.BillingState From Study_Site__c Where Clinical_Trial_Profile__r.Protocol_ID__c =: protocolId AND Study_Site_Number__c != null  AND Override_PI_Referral_Status__c ='Accepted'];
+        List<Study_Site__c> studySites = [Select Id, Name, Protocol_ID__c, Study_Site_Number__c, Clinical_Trial_Profile__r.Study_Code_Name__c,Site__r.BillingAddress,Site__r.BillingStreet,Site__r.BillingCity,Site__r.BillingCountry,Site__r.BillingPostalCode,Site__r.BillingState From Study_Site__c Where Clinical_Trial_Profile__r.Protocol_ID__c =: protocolId AND Study_Site_Number__c != null  AND 
+        (Override_PI_Referral_Status__c ='Accepted' OR Override_PI_Referral_Status__c ='Accepted (Admin)')];
        /* Clinical_Trial_Profile__c ctp = [Select Id, Name, Protocol_ID__c From Clinical_Trial_Profile__c WHERE Protocol_ID__c = 'C19NYBC' ];
         InitData initData = new InitData();
         initData.trial = TrialService.getInstance().getTrialImpl(ctp.Id);
@@ -47,13 +48,13 @@ public without sharing class CPDonorReferralFormController
         initData.markers = new List<CPDonorReferralFormController.AccountWrapper>();
         initData.studies = new List<StudySiteService.StudySiteDistanceWrapper>();
         for(StudySiteService.StudySiteDistanceWrapper siteWrapper : studiesTemp){
-			initData.studies.add(siteWrapper);
-			AccountWrapper aw = new AccountWrapper();
-			aw.clinic = siteWrapper.site.Principal_Investigator__r.Account;
-			aw.ssAccount = siteWrapper.site.Site__r;
-			aw.name = siteWrapper.site.Name;
-			aw.siteType = siteWrapper.siteType;
-			initData.markers.add(aw);
+            initData.studies.add(siteWrapper);
+            AccountWrapper aw = new AccountWrapper();
+            aw.clinic = siteWrapper.site.Principal_Investigator__r.Account;
+            aw.ssAccount = siteWrapper.site.Site__r;
+            aw.name = siteWrapper.site.Name;
+            aw.siteType = siteWrapper.siteType;
+            initData.markers.add(aw);
             }
         initData.countries = CountryStateUtil.getCountries();
         initData.statesByCountryMap = CountryStateUtil.getStatesByCountryMap();*/
@@ -70,12 +71,12 @@ public without sharing class CPDonorReferralFormController
     @AuraEnabled
     public static List<String> getPickListValuesIntoList(){
         List<String> pickListValuesList= new List<String>();
-		Schema.DescribeFieldResult fieldResult = Form_Results__c.Refering_Orgs__c.getDescribe();
-		List<Schema.PicklistEntry> ple = fieldResult.getPicklistValues();
-		for( Schema.PicklistEntry pickListVal : ple){
-			pickListValuesList.add(pickListVal.getLabel());
-		}     
-		return pickListValuesList;
+        Schema.DescribeFieldResult fieldResult = Form_Results__c.Refering_Orgs__c.getDescribe();
+        List<Schema.PicklistEntry> ple = fieldResult.getPicklistValues();
+        for( Schema.PicklistEntry pickListVal : ple){
+            pickListValuesList.add(pickListVal.getLabel());
+        }     
+        return pickListValuesList;
     }
 
     @AuraEnabled

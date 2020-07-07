@@ -62,8 +62,8 @@
                 </div>
 
                 <div class="as-title ">{!$Label.c.PG_AS_H_Change_Password}</div>
-                <div class="slds-p-bottom_xx-small slds-p-left_small" style="font-weight: 550">
-                    <div>
+                <div class="slds-p-bottom_xx-small slds-p-left_none">
+                    <div style="font-weight: 400;font-size: .875rem">
                         {!$Label.c.Pswd_Your_Pswd_Include}
                     </div>
                     <div>
@@ -75,13 +75,13 @@
                                 </aura:set>
                             </aura:if>  
                         </span> 
-                        <span>
+                        <span style="font-weight: 550">
                             {!$Label.c.Pswd_8_Characters}
                         </span>
                     </div>
                 </div>
-                <div class="slds-p-bottom_small slds-p-left_small" style="font-weight: 550">
-                    <div>
+                <div class="slds-p-bottom_small slds-p-left_none">
+                    <div style="font-weight: 400;font-size: .875rem">
                         {!$Label.c.Pswd_Include_Any_3}
                     </div>
                     <div>
@@ -93,7 +93,7 @@
                                 </aura:set>
                             </aura:if>  
                         </span>
-                        <span>
+                        <span style="font-weight: 550">
                             {!$Label.c.Pswd_Numbers}
                         </span>
                     </div>
@@ -106,7 +106,7 @@
                                 </aura:set>
                             </aura:if>  
                         </span> 
-                        <span>
+                        <span style="font-weight: 550">
                             {!$Label.c.Pswd_Uppercase}
                         </span>
                     </div>
@@ -119,7 +119,7 @@
                                 </aura:set>
                             </aura:if>  
                         </span>   
-                        <span>
+                        <span style="font-weight: 550">
                             {!$Label.c.Pswd_Lowercase}
                         </span>
                     </div>
@@ -132,7 +132,7 @@
                                 </aura:set>
                             </aura:if>  
                         </span> 
-                        <span>
+                        <span style="font-weight: 550">
                             {!$Label.c.Pswd_Special_Characters}
                         </span>
                     </div>
@@ -143,6 +143,8 @@
                             <div class="label">{!$Label.c.PG_AS_F_Old_password}</div>
                             <c:rrInput type="password" valueString="{!v.initData.password.old}"/>
                         </div>
+                    </div>
+                    	<div class="as-password-input slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end slds-p-top--x-large">
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
                             <div class="label">{!$Label.c.PG_AS_F_New_password}</div>
                             <c:rrInput type="password" valueString="{!v.initData.password.new}" isNewPswd="true"/>
@@ -151,6 +153,9 @@
                             <div class="label">{!$Label.c.PG_AS_F_Re_enter_new_password}</div>
                             <c:rrInput type="password" valueString="{!v.initData.password.reNew}"/>
                         </div>
+                    </div>
+                    
+                    <div class="as-password-input slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end slds-p-top--x-large">
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
                             <button class="apollo-btn secondary" id="0"
                                     onclick="{!c.doChangePassword}">{!$Label.c.PG_AS_BTN_Update_My_Password}</button>
