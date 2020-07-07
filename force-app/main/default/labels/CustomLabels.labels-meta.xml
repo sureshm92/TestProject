@@ -13318,14 +13318,14 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Pswd_8_Characters</shortDescription>
-        <value>8 characters</value>
+        <value>8 Characters</value>
     </labels>
     <labels>
         <fullName>Pswd_Include_Any_3</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Pswd_Include_Any_3</shortDescription>
-        <value>And include any 3 of the following</value>
+        <value>And include any 3 of the following:</value>
     </labels>
     <labels>
         <fullName>Pswd_Lowercase</fullName>
@@ -13347,6 +13347,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Pswd_Special_Characters</shortDescription>
         <value>Special characters</value>
+    </labels>
+    <labels>
+        <fullName>Pswd_Symbols</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Pswd Symbols</shortDescription>
+        <value>Symbols</value>
     </labels>
     <labels>
         <fullName>Pswd_Uppercase</fullName>
@@ -13395,7 +13402,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Pswd_Your_Pswd_Include</shortDescription>
-        <value>Your password must include at least</value>
+        <value>Your password must include at least:</value>
     </labels>
     <labels>
         <fullName>Pulse</fullName>
