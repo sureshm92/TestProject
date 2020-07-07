@@ -16,6 +16,7 @@ h1, h2, h3, h4, h5, h6{
 
 body{
     font-size: 13px;
+    overflow: visible!important;
 }
 
  a,
@@ -1254,9 +1255,6 @@ select.rr-select-error,
 }
 
 /*-------------------------------------------------------- Common -------------------------------------------------------------*/
-.comm-panels-container.uiContainerManager.siteforcePanelsContainer{
-    display: none;
-}
 
 .brand-gradient-background{
     background: #eef5ff;
