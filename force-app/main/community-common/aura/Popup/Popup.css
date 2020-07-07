@@ -184,7 +184,7 @@
 .THIS.cAction_ParticipantInformation .p-container .p-footer {
     position: absolute;
     right: .5rem;
-    bottom: 0;
+    bottom: -3px;
     padding: 15px 15px 15px 24px;
     width: 98%;
     z-index: 100;
@@ -247,7 +247,7 @@
 }
 @media all and (max-width: 500px) {
     .THIS #p-modal .p-container {
-        height: 95%;
+     /*   height: 95%; */
         max-height: 95%;
         top: 50%;
     }

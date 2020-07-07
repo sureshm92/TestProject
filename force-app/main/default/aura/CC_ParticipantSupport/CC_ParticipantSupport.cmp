@@ -23,14 +23,14 @@
     </div>
     <div>
         <div class="slds-grid slds-wrap" style="padding-bottom:18px;margin-top:35px;">
-            <div class="slds-col slds-size--5-of-12">
+            <div class="slds-col slds-size--5-of-12 participantSearch">
                 <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left slds-icon-text-default">
                     <lightning:icon class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" iconName="utility:search" size="x-small"/>
                     <input class="slds-input" placeholder="{!$Label.c.CC_search_for_a_participant}" type="text" id="searchTxt" 
                            value="{!v.searchKeyword}" />
                 </div>
             </div>
-            <div class="slds-col slds-size--5-of-12" style="padding-left: 25px;">
+            <div class="slds-col slds-size--5-of-12 participantBtn">
                 <lightning:button label="{!$Label.c.Library_Search}" onclick="{!c.doSearch}"/>
             </div>
         </div> 
@@ -88,35 +88,38 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="slds-truncate wraptext">{!pe.Participant__r.Phone__c}</div>
+                                    <div class="slds-truncate wraptext"><span class="participantTitle">{!$Label.c.CC_Phone_Number}:</span>{!pe.Participant__r.Phone__c}</div>
                                 </td>
                                 <td>
-                                    <div class="slds-truncate wraptext">{!pe.Participant__r.Phone_Type__c}</div>
+                                    <div class="slds-truncate wraptext"><span class="participantTitle">{!$Label.c.CC_Phone_Type}:</span>{!pe.Participant__r.Phone_Type__c}</div>
                                 </td>
                                 <td>
                                     <div class="slds-truncate wraptext" >
+                                        <span class="participantTitle">{!$Label.c.CC_Study}:</span>
                                         <lightning:button variant="base" class="align-left"
                                                           onclick="{!c.doNavigate}" name="{!index}"
                                                           label="{!pe.Clinical_Trial_Profile__r.Study_Code_Name__c}"/>  
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="slds-truncate wraptext">{!pe.PI_Contact__r.Name}</div>
+                                    <div class="slds-truncate wraptext"><span class="participantTitle">{!$Label.c.CC_PI_Name}:</span>{!pe.PI_Contact__r.Name}</div>
                                 </td>
                                 <td>
-                                    <div class="slds-truncate wraptext">{!pe.Study_Site__r.Name}</div>
+                                    <div class="slds-truncate wraptext"><span class="participantTitle">{!$Label.c.CC_Study_Site}:</span>{!pe.Study_Site__r.Name}</div>
                                 </td>
                                 <td>
-                                    <div class="slds-truncate wraptext">{!pe.Participant_Contact__r.Name}</div>
+                                    <div class="slds-truncate wraptext"><span class="participantTitle">{!$Label.c.CC_Site_Contact}:</span>{!pe.Participant_Contact__r.Name}</div>
                                 </td>
                                 <td>
-                                    <div class="slds-truncate wraptext">{!pe.Study_Site__r.Study_Site_Phone__c}</div>
+                                    <div class="slds-truncate wraptext participantPhone"><span class="participantTitle">{!$Label.c.CC_Site_Phone_Number}:</span>{!pe.Study_Site__r.Study_Site_Phone__c}</div>
                                 </td>
                                 <td>
                                     <aura:if isTrue = "{!pe.Days_After_Referred__c lt 1}">
-                                        <div class="slds-truncate wraptext">{!pe.Days_After_Referred__c}&nbsp; {!$Label.c.CC_Day_Ago}</div>
+
+                                        <div class="slds-truncate wraptext"><span class="participantTitle">{!$Label.c.CC_Received}:</span>{!pe.Days_After_Referred__c}&nbsp; {!$Label.c.CC_Day_Ago}</div>
                                         <aura:set attribute="else">
-                                            <div class="slds-truncate wraptext">{!pe.Days_After_Referred__c}&nbsp; {!$Label.c.CC_Days_Ago}</div>
+
+                                            <div class="slds-truncate wraptext"><span class="participantTitle">{!$Label.c.CC_Received}:</span>{!pe.Days_After_Referred__c}&nbsp; {!$Label.c.CC_Days_Ago}</div>
                                         </aura:set>
                                     </aura:if>
                                 </td>

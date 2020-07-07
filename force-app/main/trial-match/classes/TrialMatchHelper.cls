@@ -96,6 +96,13 @@ public without sharing class TrialMatchHelper {
         queryCTP += whereClause;
         queryCTP += orderBy;
         List<Clinical_Trial_Profile__c> ctps = (List<Clinical_Trial_Profile__c>) proxy.query(queryCTP, true);
+        if(ctps.size() > 0){
+        String language = UserInfo.getLanguage();
+            if(CommunityService.getUserContact().userCommunityMode__c.equals(CommunityService.USER_MODE_PARTICIPANT)) {
+                language = IRBParticipantService.getSuitableLanguageForIRBTranslation(ParticipantService.getParticipantState().pe.Id);
+            }
+        TranslateHelper.translate(ctps, language);
+        }
         return ctps;
     }
 

@@ -10,7 +10,7 @@
     <aura:if isTrue="{!v.initialized}">
         <div>
             <a onclick="{!c.doGenerateReport}">
-                Learn More
+                {!$Label.c.Learn_More}
             </a>
         </div>
     </aura:if>
