@@ -346,8 +346,8 @@ public without sharing class ParticipantDuplicateService {
                                     }
                                 }
                                 Boolean isDupParticipantDelegateCoincide = dupParticipantDelegate != null &&
-                                        (dupParticipantDelegate.Email__c != null && paticipantInfoToCheck.Email__c != null && dupParticipantDelegate.Email__c.toLowerCase() == paticipantInfoToCheck.Email__c.toLowerCase() ||
-                                                dupParticipantDelegate.First_Name__c != null && dupParticipantDelegate.First_Name__c == paticipantInfoToCheck.First_Name__c ||
+                                        (dupParticipantDelegate.Email__c != null && paticipantInfoToCheck.Email__c != null && dupParticipantDelegate.Email__c.toLowerCase() == paticipantInfoToCheck.Email__c.toLowerCase() &&
+                                                dupParticipantDelegate.First_Name__c != null && dupParticipantDelegate.First_Name__c == paticipantInfoToCheck.First_Name__c &&
                                                 dupParticipantDelegate.Last_Name__c != null && dupParticipantDelegate.Last_Name__c == paticipantInfoToCheck.Last_Name__c);
                                 if (dupParticipant.Email__c != null && paticipantInfoToCheck.Email__c != null && dupParticipant.Email__c.toLowerCase() == paticipantInfoToCheck.Email__c.toLowerCase() ||
                                         dupParticipant.Phone__c != null && dupParticipant.Phone__c == paticipantInfoToCheck.Phone__c ||
