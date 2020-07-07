@@ -26,8 +26,8 @@ public without sharing virtual class EmailTemplateProvider {
     protected Boolean isHTML = true;
     protected String recipientFirstName;
     protected Id recipientContactId;
-    protected Boolean isDelegate;
-    protected String userMode;
+    protected Boolean isDelegate = false;
+    protected String userMode = 'Guest';
     protected Id whatId;
 
     private Boolean initialized = false;
@@ -164,7 +164,9 @@ public without sharing virtual class EmailTemplateProvider {
                     FROM User
                     WHERE Id = :recipientId
             ];
+            if (recipientUser.Contact == null) return ;
             recipientContact = recipientUser.Contact;
+
         } else {
             recipientContact = [
                     SELECT Id,
