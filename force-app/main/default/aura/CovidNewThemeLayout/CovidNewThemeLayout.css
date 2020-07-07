@@ -1,0 +1,253 @@
+.THIS{
+    font-family: "Proxima Nova";
+}
+
+.THIS.rr-min-body-height{
+    min-height:10px !important;
+}
+
+.THIS .comm-layout-column{
+    background-color: white !important;
+}
+
+.THIS .theme-header{
+    background: linear-gradient(to right, white 0%, white 100%); 
+    box-shadow:0px 0px 5px 0px #888888;
+    width:100%
+}
+.THIS .border-content
+{
+    flex: 1;
+    display: flex;
+    margin: 0;
+    border-right: #D9D9D9 1px solid;
+    border-color: #D9D9D9;
+    padding: 1rem;
+}
+
+
+.THIS.theme-content-background{
+    background-color:white; 
+    bottom: 0; 
+    top: 0; 
+    left: 0;
+    right: 0;
+}
+
+.THIS .hide-standard-nav {
+    opacity: 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 1px;
+}
+
+.THIS.rr-all-content{
+    /*position: relative;*/
+    left: 0;
+    transition: t(sideMoveSpeed);
+}
+
+.THIS .menu-btn{
+    height: 50px;
+    display: inline-block;
+    padding: 9px 10px 9px 0;
+    opacity: .8;
+    cursor: pointer;
+}
+
+.THIS .logo-container{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    flex-shrink: 0;
+    margin-left: 10%;
+}
+
+.THIS .layout-header{
+    height: 100%;
+    overflow: inherit;
+    display: flex;
+}
+
+.THIS .layout-header.rtl{
+    flex-direction: row-reverse;
+}
+
+.THIS .image-logo{
+    height: 25px;
+    width: 132px;
+    cursor: pointer;
+ }
+.THIS .title-logo{
+   height: 21.17px;
+    width: 115.92px;
+    margin-left: 22px;
+    cursor: pointer;
+}
+
+.THIS .big-title{
+    font-weight: bold;
+    font-size: 1rem;
+    color: white;
+    opacity: .9;
+    vertical-align: middle;
+    margin-top: 6px;
+}
+
+.THIS .slds-form-element__label {
+	color: #444;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 17px;
+    margin-bottom: 8px;
+}
+
+.THIS .slds-form-element__label:empty {
+    height: 0;
+    margin-bottom: 0;
+}
+
+
+.THIS .slds-select {
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+}
+
+.THIS .slds-select:focus,
+.THIS .slds-input:focus,
+.THIS .slds-pill:focus,
+.THIS .slds-textarea:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.THIS .slds-select:hover,
+.THIS .slds-input:hover,
+.THIS .slds-pill:hover,
+.THIS .slds-textarea:hover {
+    border: 1px solid #297dfd;
+}
+
+.THIS .slds-input {
+    box-sizing: border-box;	
+    height: 32px;		
+    border: 1px solid #d9d9d9;	
+    border-radius: 4px;	
+    background-color: #fff;	
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0);
+}
+
+.THIS .slds-select {
+    font-size: 1rem;
+}
+
+.THIS .slds-input::placeholder {
+    font-size: 1rem;
+    color: #999;
+    font-weight: 400;
+}
+
+.THIS input::placeholder {
+    color: #999;
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+.THIS .slds-pill {
+    height: 32px;
+    font-size: 1rem;
+}
+
+.THIS .sub-title{
+    font-size: .65rem;
+    color: white;
+    opacity: .5;
+    line-height: 7px;
+}
+
+.THIS .profile-block{
+    height: 100%;
+    vertical-align: middle;
+    float: right;
+    display: inline-block;
+    padding-top: 10px;
+}
+
+.THIS .navigation-block{
+    display: inline-block;
+    height: 100%;
+    opacity: .8;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 10;
+    position: relative;
+    margin-right: 5px;
+}
+
+.THIS .right-block{
+    flex-shrink: 0;
+    margin-left: auto;
+}
+.THIS .main-header-brand {
+    background: linear-gradient(to right, white 0%, white 100%);
+}
+
+.THIS.bodyShift, .THIS .bodyShift{
+    position: fixed;
+    top: 0;
+    left: t(sideMenuWidth);
+    overflow: visible;
+    width: 100%;
+}
+
+@media all and (max-width: 1140px){
+    /*hide verical navigation*/
+    .THIS .navigation-block{
+        display: none!important;
+    }
+}
+
+@media all and (min-width: 1140px) {
+    .THIS .menu-btn{
+        display: none!important;
+    }
+}
+
+@media screen and (max-width: 550px){
+    .THIS .rr-header-content.multi-mode{
+        height: 80px;
+    }
+
+    .THIS .rr-header-margin.multi-mode{
+        height: 80px;
+    }
+}
+
+@media print {
+    .THIS .rr-header-content{
+        display: none!important;
+    }
+    .THIS .footer{
+        display: none!important;
+    }
+
+}
+@media (min-width: 320px) and (max-width: 480px) {
+  
+    .THIS .border-content
+    {
+        display: none!important;
+    }
+    .THIS .image-logo {
+        margin-left: 65%;
+    }
+    .THIS .logo-container{
+        margin-left: 0%;
+
+    }
+}

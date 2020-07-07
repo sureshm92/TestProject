@@ -178,6 +178,10 @@
                 <behavior>Edit</behavior>
                 <field>Delegate_Middle_Name__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Atid__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

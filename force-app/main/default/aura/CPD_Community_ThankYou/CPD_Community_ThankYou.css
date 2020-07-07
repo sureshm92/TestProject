@@ -1,0 +1,380 @@
+@font-face {
+    font-family: Muli;
+    src: url(/resource/CPD_CommunityFont);
+}
+
+@media screen and (min-width: 1024px) {
+    .THIS.slds-top-contnet {
+        margin-top: 2%;
+        margin-left: -1%;
+    }
+
+    .THIS .rr-min-body-height{
+        min-height: 0px !important;
+    }
+
+    .THIS .thank-you-rect1 {
+        box-sizing: border-box;
+        /*height: 696px;*/
+        height: 42.3rem;
+        border: 2px solid #1AA0D9;
+        background-color: #1AA0D9;
+        left: 0;
+        z-index: 0;
+        /*margin-bottom: -7.4%;*/
+    }
+    .THIS .col-height {
+        height: 40rem;
+    }
+
+    .THIS .thank-you-rect-1-p {
+        height: 112px;
+        width: 50%;
+        color: #FFFFFF;
+        font-family: "Muli", sans-serif;
+        font-size: 48px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 56px;
+        text-align: center;
+        margin-left: 25%;
+        margin-top: 3%;
+    }
+
+
+    .THIS .thank-you-rect-2-p {
+        height: 84px;
+        color: #005587;
+        font-family: "Muli", sans-serif;
+        font-size: 36px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 42px;
+    }
+
+
+    .THIS .thank-you-rect-2-unfortunately {
+        height: 40px;
+        color: #333333;
+        font-family: "Muli", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 20px;
+        margin-top: 8%;
+        width: 82%;
+    }
+
+    .THIS div.thank-you-search-button {
+        box-sizing: border-box;
+        height: 52px;
+        width: 364px;
+        border: 2px solid #1AA0D9;
+        border-radius: 5px;
+        background-color: #1AA0D9;
+        margin-top: 5em;
+        padding-left: 7em;
+        padding-top: 1em;
+    }
+
+    .THIS .thank-you-search-button-label {
+        height: 38px;
+        width: 364px;
+        color: #FFFFFF;
+        font-family: "Muli", sans-serif;
+        font-size: 20px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 20px;
+        text-align: center;
+    }
+
+    .THIS .thankyou-screen-2 {
+        padding-left: 11%;
+        padding-top: 20%;
+    }
+
+
+    .THIS .thankyou-icon {
+        padding-left: 43%;
+        padding-top: 13%;
+        z-index: 2;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+
+    .THIS .thankyou-screen-2 {
+        padding-left: 5%;
+        padding-top: 20%;
+    }
+
+    .THIS .thank-you-rect1 {
+        box-sizing: border-box;
+        border: 2px solid #1AA0D9;
+        background-color: #1AA0D9;
+        left: 0;
+        z-index: 0;
+        height: 24rem;
+        margin-left: -2%;
+        margin-right: -3%;
+    }
+
+    .THIS .thank-you-rect-1-p {
+        height: 112px;
+        width: 100%;
+        color: #FFFFFF;
+        font-family: "Muli", sans-serif;
+        font-size: 48px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 56px;
+        text-align: center;
+        margin-left: 0%;
+        margin-top: 3%;
+    }
+
+    .THIS .thank-you-rect-2-unfortunately {
+        height: 40px;
+        color: #333333;
+        font-family: "Muli", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 20px;
+        margin-top: 3rem;
+        width: 100%;
+        height: 100px;
+    }
+
+    .THIS .thank-you-rect-2-p {
+        height: 8rem;
+        color: #005587;
+        font-family: "Muli", sans-serif;
+        font-size: 35px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 42px;
+    }
+
+    .THIS div.thank-you-search-button {
+        box-sizing: border-box;
+        height: 52px;
+        border: 2px solid #1AA0D9;
+        border-radius: 5px;
+        background-color: #1AA0D9;
+        margin-top: 16%;
+        padding-left: 24%;
+        padding-top: 3%;
+        width: 97%;
+    }
+
+    .THIS .thank-you-search-button-label {
+        height: 38px;
+        width: 364px;
+        color: #FFFFFF;
+        font-family: "Muli", sans-serif;
+        font-size: 20px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 20px;
+        text-align: center;
+    }
+
+    .THIS .thankyou-screen-2 {
+        padding-top: 10%;
+    }
+
+    .THIS .thankyou-icon {
+        padding-left: 43%;
+        padding-top: 25%;
+        z-index: 2;
+    }
+
+}
+
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 1) {
+
+    .THIS.slds-top-contnet {
+        margin-top: 2%;
+        margin-left: -1%;
+    }
+
+    .THIS .thank-you-rect1 {
+        box-sizing: border-box;
+        height: 696px;
+        border: 2px solid #1AA0D9;
+        background-color: #1AA0D9;
+        left: 0;
+        z-index: 0;
+        margin-bottom: -7.4%;
+    }
+
+    .THIS .thank-you-rect-1-p {
+        height: 112px;
+        width: 100%;
+        color: #FFFFFF;
+        font-family: "Muli", sans-serif;
+        font-size: 48px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 56px;
+        text-align: center;
+        margin-left: 4%;
+        margin-top: 8%;
+    }
+
+
+    .THIS .thank-you-rect-2-p {
+        height: 84px;
+        color: #005587;
+        font-family: "Muli", sans-serif;
+        font-size: 36px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 42px;
+    }
+
+
+    .THIS .thank-you-rect-2-unfortunately {
+        height: 40px;
+        color: #333333;
+        font-family: "Muli", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 20px;
+        margin-top: 7rem;
+        width: 100%;
+        height: 100px;
+    }
+
+    .THIS div.thank-you-search-button {
+        box-sizing: border-box;
+        height: 52px;
+        border: 2px solid #1AA0D9;
+        border-radius: 5px;
+        background-color: #1AA0D9;
+        margin-top: 5em;
+        padding-left: 8em;
+        padding-top: 1em;
+    }
+
+    .THIS .thank-you-search-button-label {
+        height: 38px;
+        width: 364px;
+        color: #FFFFFF;
+        font-family: "Muli", sans-serif;
+        font-size: 20px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 20px;
+        text-align: center;
+    }
+
+    .THIS .thankyou-screen-2 {
+        padding-left: 11%;
+        padding-top: 20%;
+    }
+
+
+    .THIS .thankyou-icon {
+        padding-left: 43%;
+        padding-top: 13%;
+        z-index: 2;
+    }
+
+}
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 834px) and (max-device-width: 1112px) and (-webkit-min-device-pixel-ratio: 2) {
+
+    .THIS.slds-top-contnet {
+        margin-top: 2%;
+        margin-left: -1%;
+    }
+
+    .THIS .thank-you-rect1 {
+        box-sizing: border-box;
+        height: 696px;
+        border: 2px solid #1AA0D9;
+        background-color: #1AA0D9;
+        left: 0;
+        z-index: 0;
+        margin-bottom: -7.4%;
+    }
+
+    .THIS .thank-you-rect-1-p {
+        height: 112px;
+        width: 100%;
+        color: #FFFFFF;
+        font-family: "Muli", sans-serif;
+        font-size: 48px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 56px;
+        text-align: center;
+        margin-left: 4%;
+        margin-top: 8%;
+    }
+
+
+    .THIS .thank-you-rect-2-p {
+        height: 84px;
+        color: #005587;
+        font-family: "Muli", sans-serif;
+        font-size: 36px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 42px;
+    }
+
+
+    .THIS .thank-you-rect-2-unfortunately {
+        height: 40px;
+        color: #333333;
+        font-family: "Muli", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 20px;
+        margin-top: 7rem;
+        width: 100%;
+        height: 84px;
+    }
+
+    .THIS div.thank-you-search-button {
+        box-sizing: border-box;
+        height: 52px;
+        width: 364px;
+        border: 2px solid #1AA0D9;
+        border-radius: 5px;
+        background-color: #1AA0D9;
+        margin-top: 5em;
+        padding-left: 9em;
+        padding-top: 1em;
+    }
+
+    .THIS .thank-you-search-button-label {
+        height: 38px;
+        width: 364px;
+        color: #FFFFFF;
+        font-family: "Muli", sans-serif;
+        font-size: 20px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 20px;
+        text-align: center;
+    }
+
+    .THIS .thankyou-screen-2 {
+        padding-left: 11%;
+        padding-top: 20%;
+    }
+
+
+    .THIS .thankyou-icon {
+        padding-left: 43%;
+        padding-top: 13%;
+        z-index: 2;
+    }
+
+}

@@ -1,0 +1,18 @@
+<aura:component description="CPDonorReferrelMain" implements="forceCommunity:availableForAllPageTypes" access="global"
+    controller="CPDonorReferralFormController">
+    
+    <!--Attribute declaration -->
+    <aura:attribute name="isUnderMaintance" type="boolean" description="check active or not"/>
+    <aura:attribute name="isUnderMaintanceForm" type="boolean" description="check active or not"/>
+
+    <!--Handle decleration-->
+    <aura:handler name="init" value="{!this}" action="{!c.getcheckScheduledMaintenance}" />
+
+    <aura:renderIf isTrue="{!v.isUnderMaintance}">
+        <c:CPDonorMaintaince/>
+    </aura:renderIf>   
+
+    <aura:renderIf isTrue="{!v.isUnderMaintanceForm}">
+        <c:CPD_CommunityMainContent />
+    </aura:renderIf>
+</aura:component>

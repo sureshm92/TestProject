@@ -1,0 +1,7 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<apex:component id="EmailTemplatePendingReferrals" access="global">
+
+</apex:component>
