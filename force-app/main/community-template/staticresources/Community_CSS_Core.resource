@@ -1255,6 +1255,9 @@ select.rr-select-error,
 }
 
 /*-------------------------------------------------------- Common -------------------------------------------------------------*/
+.comm-panels-container.uiContainerManager.siteforcePanelsContainer{
+    display: none;
+}
 
 .brand-gradient-background{
     background: #eef5ff;
