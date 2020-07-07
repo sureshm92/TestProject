@@ -26,8 +26,8 @@ public without sharing virtual class EmailTemplateProvider {
     protected Boolean isHTML = true;
     protected String recipientFirstName;
     protected Id recipientContactId;
-    protected Boolean isDelegate;
-    protected String userMode;
+    protected Boolean isDelegate = false;
+    protected String userMode = 'Guest';
     protected Id whatId;
 
     private Boolean initialized = false;
@@ -164,7 +164,9 @@ public without sharing virtual class EmailTemplateProvider {
                     FROM User
                     WHERE Id = :recipientId
             ];
+            if (recipientUser.Contact == null) return ;
             recipientContact = recipientUser.Contact;
+
         } else {
             recipientContact = [
                     SELECT Id,
@@ -177,27 +179,25 @@ public without sharing virtual class EmailTemplateProvider {
                     WHERE Id = :recipientId
             ];
         }
-        if (recipientContact != null) {
-            recipientContactId = recipientContact.Id;
-            userMode = recipientContact.userCommunityMode__c;
-            isDelegate = recipientContact.UserCommunityIsDelegate__c;
+        recipientContactId = recipientContact.Id;
+        userMode = recipientContact.userCommunityMode__c;
+        isDelegate = recipientContact.UserCommunityIsDelegate__c;
 
-            recipientFirstName = recipientContact.FirstName;
-            if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
-                List<Participant__c> participants = [
-                        SELECT First_Name__c, Last_Name__c
-                        FROM Participant__c
-                        WHERE Contact__c = :recipientContactId
-                ];
-                if (!participants.isEmpty()) recipientFirstName = participants.get(0).First_Name__c;
-            }
-
-            if (String.isEmpty(recipientName)) recipientName = recipientContact.Salutation_With_Name__c;
-            parameters.put(userMode + 'Name', recipientName);
-            parameters.put('UserName', getCommunityUserName());
-
-            if (String.isEmpty(recipientLanguage)) recipientLanguage = recipientContact.Language__c;
+        recipientFirstName = recipientContact.FirstName;
+        if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
+            List<Participant__c> participants = [
+                    SELECT First_Name__c, Last_Name__c
+                    FROM Participant__c
+                    WHERE Contact__c = :recipientContactId
+            ];
+            if (!participants.isEmpty()) recipientFirstName = participants.get(0).First_Name__c;
         }
+
+        if (String.isEmpty(recipientName)) recipientName = recipientContact.Salutation_With_Name__c;
+        parameters.put(userMode + 'Name', recipientName);
+        parameters.put('UserName', getCommunityUserName());
+
+        if (String.isEmpty(recipientLanguage)) recipientLanguage = recipientContact.Language__c;
     }
 
     private String getCommunityUserName() {
