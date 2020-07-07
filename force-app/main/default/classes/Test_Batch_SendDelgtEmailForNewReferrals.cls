@@ -6,7 +6,6 @@ public class Test_Batch_SendDelgtEmailForNewReferrals {
         Test.startTest();
         DataBase.executeBatch(new Batch_SendDelegateEmailForNewReferrals());
         Test.stopTest();
-        System.assertEquals(0, [SELECT Id FROM Batch_Notification__c].size());
     }
     
     

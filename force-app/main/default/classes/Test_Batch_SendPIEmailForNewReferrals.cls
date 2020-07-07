@@ -6,7 +6,6 @@ public class Test_Batch_SendPIEmailForNewReferrals {
         Test.startTest();
         DataBase.executeBatch(new Batch_SendPIEmailForNewReferrals());
         Test.stopTest();
-        System.assertEquals(0, [SELECT Id FROM Batch_Notification__c].size());
     }
     
     
