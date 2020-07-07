@@ -79,6 +79,7 @@
     letter-spacing: 0;
     line-height: 1;
     margin-bottom: 10px;
+    margin-top:10px;
 }
 
 
@@ -91,8 +92,10 @@
     width: 80%;
 }
 
+
 .THIS .slds-form-element {
     width: 50%;
+    min-width: 21rem;
 }
 
 .THIS .alert-count-condition {

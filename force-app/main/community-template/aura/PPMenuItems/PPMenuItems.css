@@ -7,6 +7,10 @@
     opacity: 1;
 }
 
+.THIS{
+    width: 100%;
+}
+
 .THIS .contain:first-child .pp-item:first-child .main-box .menu-item-box .icon-settings-box .icon-delegate-box .icon-delegate{
     visibility: visible;
     opacity: 1;
@@ -17,7 +21,6 @@
     font-size: 16px;
     letter-spacing: 0;
     font-weight: 600;
-    width: 280px;
     line-height: 28px;
     margin-top: 10px;
     display: flex;
@@ -38,6 +41,7 @@
 
 .THIS.all-container{
     max-height: 370px;
+    width: 100%;
     overflow-y: auto;
     -ms-overflow-y: scroll;
 }
@@ -76,6 +80,7 @@
 }
 
 .THIS .main-box{
+    width: 100%;
     padding-left: 32px;
     border-bottom: 1px solid #F8F9FB;
 }

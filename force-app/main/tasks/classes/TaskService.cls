@@ -385,7 +385,8 @@ public without sharing class TaskService {
                 Priority = TASK_PRIORITY_CRITICAL,
                 WhatId = participantId,
                 WhoId = participantContactId,
-                Visible_For__c = TASK_VISIBILITY_OWNER
+                Visible_For__c = TASK_VISIBILITY_OWNER,
+                Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED
         );
     }
     

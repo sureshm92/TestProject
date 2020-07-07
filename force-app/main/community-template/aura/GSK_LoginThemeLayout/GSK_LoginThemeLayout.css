@@ -96,7 +96,7 @@
 }
 
 .THIS .lg-form-element input{
-    color: #000000;
+    color: #000000 !important ;
 }
 
 .THIS .lg-form-element{

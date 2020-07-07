@@ -31,6 +31,43 @@
     
     onChangeInput : function(component,event,helper) {
         component.set('v.isDisabled',false);
+        //Get password
+        var password = component.get("v.initData.password.new");
+          
+        //Password Strength Check
+        let strengthValue = {
+            'caps': false,
+            'length': false,
+            'special': false,
+            'numbers': false,
+            'small': false
+        };
+        //Check Password Length
+        if(password.length >= 8) {
+            strengthValue.length = true;
+        }
+        //Calculate Password Strength
+        for(let index=0; index < password.length; index++) {
+            let char = password.charCodeAt(index);
+            if(!strengthValue.caps && char >= 65 && char <= 90) {
+                strengthValue.caps = true;
+            } else if(!strengthValue.numbers && char >=48 && char <= 57){
+                strengthValue.numbers = true;
+            } else if(!strengthValue.small && char >=97 && char <= 122){
+                strengthValue.small = true;
+            } else if(!strengthValue.special && (char >=33 && char <= 47) || (char >=58 && char <= 64) || (char >=91 && char <=96) || (char >=123 && char <=126)) {
+                strengthValue.special = true;
+            }
+        }
+        component.set("v.caps",strengthValue.caps);
+        component.set("v.small",strengthValue.small);
+        component.set("v.numbers",strengthValue.numbers);
+        component.set("v.length",strengthValue.length);
+        component.set("v.special",strengthValue.special);
+        if(!strengthValue.caps || !strengthValue.small || !strengthValue.numbers || !strengthValue.length || !strengthValue.special){
+            component.set('v.isDisabled',true);
+        }
+        
         var getoldPass = component.find('rr-input1').get("v.value");
         var getNewPass = component.find('rr-input2').get("v.value");
         var getReNewPass = component.find('rr-input3').get("v.value");
@@ -38,6 +75,7 @@
             || (getNewPass == null || getNewPass == undefined ||  getNewPass.length == 0)
             || (getReNewPass == null || getReNewPass == undefined ||  getReNewPass.length == 0))
             component.set('v.isDisabled',true);
+
     },
 
     togglePassword: function (component, event, helper) {

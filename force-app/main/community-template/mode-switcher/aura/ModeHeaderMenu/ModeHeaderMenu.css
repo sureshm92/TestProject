@@ -89,6 +89,7 @@
 }
 
 .THIS .menu-popup-panel li {
+    width: 100%;
     font-size: 1rem;
     display: flex;
     flex-direction: column;
@@ -109,13 +110,5 @@
 
     .cModeHeaderMenu .menu-popup-panel.popupTargetContainer {
         left: auto;
-        right: -40px;
-        top: -82px;
-    }
-}
-
-@media all and (max-width: 550px) {
-    .cModeHeaderMenu .menu-popup-panel.popupTargetContainer {
-        right: 6px;
     }
 }

@@ -63,16 +63,21 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
         for(Res_study__c rs : studyDocumentsResources) studyDocResourceIds.add(rs.Resource__c);
         if(studyDocumentsResources.size() > 0){
             List<ContentDocumentLink> contentDocumentLinks = [
-                    SELECT Id, ContentDocument.Title, LinkedEntityId
+                    SELECT Id, ContentDocument.Title, LinkedEntityId,ContentDocument.LatestPublishedVersion.LanguageCode__c
                     FROM ContentDocumentLink
-                    WHERE LinkedEntityId IN :studyDocResourceIds AND ContentDocument.Title IN: contactPreferredLanguages
+                    WHERE LinkedEntityId IN :studyDocResourceIds AND ( ContentDocument.Title IN: contactPreferredLanguages OR ContentDocument.LatestPublishedVersion.LanguageCode__c IN: contactPreferredLanguages )
             ];
     
             for (ContentDocumentLink content : contentDocumentLinks) {
                 if (!contentLangByResId.containsKey(content.LinkedEntityId)) {
                     contentLangByResId.put(content.LinkedEntityId, new List<String>());
                 }
-                contentLangByResId.get(content.LinkedEntityId).add(content.ContentDocument.Title);
+                 if(contactPreferredLanguages.contains(content.ContentDocument.Title)){
+                    contentLangByResId.get(content.LinkedEntityId).add(content.ContentDocument.Title);
+                }
+                 else{
+                contentLangByResId.get(content.LinkedEntityId).add(content.ContentDocument.LatestPublishedVersion.LanguageCode__c);
+                 }
             }
         }
         
