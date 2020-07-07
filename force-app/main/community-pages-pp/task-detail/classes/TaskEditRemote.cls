@@ -92,7 +92,7 @@ public without sharing class TaskEditRemote {
                 }
             } 
             //Set Task_Type__c as 'Not Selected' for COMPLETE_YOUR_PROFILE task
-            if (taskToUpsert.Task_Code__c.equals(TaskService.TASK_CODE_COMPLETE_YOUR_PROFILE) && String.isNotBlank(taskToUpsert.Task_Type__c)) {
+            if (taskToUpsert.Task_Code__c.equals(TaskService.TASK_CODE_COMPLETE_YOUR_PROFILE) && String.isBlank(taskToUpsert.Task_Type__c)) {
                 taskToUpsert.Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED;
             }
 

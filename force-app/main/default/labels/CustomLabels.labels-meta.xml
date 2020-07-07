@@ -12783,6 +12783,22 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <value>Remind Using</value>
     </labels>
     <labels>
+        <fullName>PP_Remind_Using_Email</fullName>
+        <categories>c:StudyVisitReminder</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Remind_Using_Email</shortDescription>
+        <value>Email</value>
+    </labels>
+    <labels>
+        <fullName>PP_Remind_Using_SMS</fullName>
+        <categories>c:StudyVisitReminder</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Remind_Using_SMS</shortDescription>
+        <value>SMS</value>
+    </labels>
+    <labels>
         <fullName>PP_Remind_Using_Required</fullName>
         <categories>c:StudyVisitReminder</categories>
         <language>en_US</language>
