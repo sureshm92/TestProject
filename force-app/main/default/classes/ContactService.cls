@@ -131,7 +131,7 @@ public without sharing class ContactService {
         List<ContentDocumentLink> contentDocumentLinks = new List<ContentDocumentLink>();
         if (resStudyResourceIds.size() > 0) {
             contentDocumentLinks = [
-                    SELECT Id, ContentDocument.Title, LinkedEntityId
+                    SELECT Id, ContentDocument.Title, LinkedEntityId,ContentDocument.LatestPublishedVersion.LanguageCode__c
                     FROM ContentDocumentLink
                     WHERE LinkedEntityId IN:resStudyResourceIds
             ];
@@ -142,7 +142,12 @@ public without sharing class ContactService {
             if (!contentLangByResId.containsKey(content.LinkedEntityId)) {
                 contentLangByResId.put(content.LinkedEntityId, new List<String>());
             }
+            if( content.ContentDocument.LatestPublishedVersion.LanguageCode__c !='' && content.ContentDocument.LatestPublishedVersion.LanguageCode__c != null) {
+                contentLangByResId.get(content.LinkedEntityId).add(content.ContentDocument.LatestPublishedVersion.LanguageCode__c);
+            }
+            else {
             contentLangByResId.get(content.LinkedEntityId).add(content.ContentDocument.Title);
+            }
         }
         
         List<Participant_Enrollment_Status_History__c> peshList = [
