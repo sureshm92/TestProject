@@ -43,39 +43,48 @@
             component.set('v.contact', initData.myContact);
             component.set('v.delegateContact',initData.delegateContact);
             component.set('v.hasProfilePic',initData.hasProfilePic);
-            component.set('v.disableSave',true);
+            if(component.get('v.userMode') == 'HCP' || component.get('v.userMode') == 'PI'){
+                component.set('v.disableSave',true);
+                
+            }
             if(component.get('v.userMode') === 'Participant' ){
-                           component.set('v.isAdult',initData.participant.Adult__c);
- 
+                component.set('v.isAdult',initData.participant.Adult__c);
+                
             }
             console.log('v.isAdult'+component.get('v.isAdult'));
-
+            
             
             if(communityService.getCurrentCommunityMode().currentDelegateId){
                 component.set('v.userId',communityService.getCurrentCommunityMode().currentDelegateId);
                 if(component.get('v.userMode') === 'Participant'){
-                                                if(initData.participant.Adult__c ){
-
-                                                    component.set('v.userEmail', initData.delegateUserName.Username);}
-                
-                
-            }
+                    if(initData.participant.Adult__c ){
+                        
+                        component.set('v.userEmail', initData.delegateUserName.Username);}
+                    
+                    
+                }
             }
             else{
                 component.set('v.userId',initData.myContact.Id);
                 if(component.get('v.userMode') === 'Participant'){
-                                                if(initData.participant.Adult__c ){
-
-                                                    component.set('v.userEmail', initData.userName);}
-                
+                    if(initData.participant.Adult__c ){
+                        
+                        component.set('v.userEmail', initData.userName);}
+                    
+                }
             }
+            if(component.get('v.userMode') == 'HCP' || component.get('v.userMode') == 'PI'){
+                component.set('v.userEmail', initData.myContact.Email);
             }
-            console.log('initData.myContact.Email',initData.myContact.Email);
+            // console.log('initData.myContact.Email',initData.myContact.Email);
             component.set('v.minorUserName',initData.myContact.Email);
             if(component.get('v.personWrapper.mobilePhone')==''){
                 component.set('v.disableToggle',true);
             }
             if(component.get('v.personWrapper.mobilePhone')===null && component.get('v.optInSMS')===true){
+                component.set('v.disableSave',true);
+            }
+            if(component.get('v.personWrapper.homePhone') === null){
                 component.set('v.disableSave',true);
             }
             component.set('v.isInitialized', true);
@@ -213,7 +222,7 @@
         if(personWrapper.mobilePhone){
             if (!numbers.test(personWrapper.mobilePhone)) {
                 component.set('v.disableToggle',true);
-                phoneField.setCustomValidity("Phone number must be numeric");
+                phoneField.setCustomValidity($A.get('$Label.c.PP_Phone_Numeric'));
                 component.set('v.disableSave',true);
             } else {
                 phoneField.setCustomValidity(""); // reset custom error message
@@ -231,11 +240,11 @@
             
             if ((!numbers.test(personWrapper.homePhone)  || !personWrapper.homePhone)) {
                 if(!personWrapper.homePhone){
-                    homephoneField.setCustomValidity("Phone number is mandatory");
+                    homephoneField.setCustomValidity($A.get('$Label.c.PP_Phone_Mandatory'));
                     component.set('v.disableSave',true);
                 }
                 else{
-                    homephoneField.setCustomValidity("Phone number must be numeric");
+                    homephoneField.setCustomValidity($A.get('$Label.c.PP_Phone_Numeric'));
                 }
                 component.set('v.disableSave',true);
                 
@@ -266,10 +275,10 @@
             if(!personWrapper.firstName || !personWrapper.lastName) {
                 component.set('v.disableSave',true);
             }
-            else if (personWrapper.homePhone) {
+            if (personWrapper.homePhone) {
                 if(!numbers.test(personWrapper.homePhone))
                 {
-                    homephoneField.setCustomValidity("Phone number must be numeric");
+                    homephoneField.setCustomValidity($A.get('$Label.c.PP_Phone_Numeric'));
                     component.set('v.disableSave',true);
                 }
                 else {
@@ -279,10 +288,10 @@
                 }
                 
             }
-                else{
-                    homephoneField.setCustomValidity("");
-                    component.set('v.disableSave',false);
-                }
+            else{
+                homephoneField.setCustomValidity("");
+                component.set('v.disableSave',false);
+            }
             homephoneField.reportValidity();
             
         }
@@ -335,16 +344,57 @@
         var personWrapper = component.get('v.personWrapper');
         var addressLine1 = component.get('v.addressLine1');
         var addressLine2 = component.get('v.addressLine2');
+        var fieldName = component.find('pField');
         var homephoneField=component.find('pField2');
+        var phoneField=component.find('pField1');
         var numbers=/^[0-9]*$/ ;
         if (personWrapper.homePhone && (!numbers.test(personWrapper.homePhone))){
-            homephoneField.setCustomValidity("Phone number must be numeric");
+            homephoneField.setCustomValidity($A.get('$Label.c.PP_Phone_Numeric'));
             component.set('v.disableSave',true);
             homephoneField.reportValidity();
+            return;
+        }
+        if (personWrapper.mobilePhone && (!numbers.test(personWrapper.mobilePhone))){
+            phoneField.setCustomValidity($A.get('$Label.c.PP_Phone_Numeric'));
+            component.set('v.disableSave',true);
+            phoneField.reportValidity();
+            return;
+        }
+        if(!personWrapper.firstName || !personWrapper.lastName) {
+            component.set('v.disableSave',true);
+            fieldName.reportValidity();
+            return;
+            
         }
         else if(personWrapper) {
             component.find('spinner').show();
             personWrapper.mailingStreet = addressLine1 + '\n' + addressLine2;
+            let initData = component.get('v.initData');
+            let isUserDelegate = component.get('v.isDelegate');
+            let newEmail = initData.myContact.Email;
+            
+            if(!isUserDelegate){
+                if (!newEmail) {
+                    communityService.showToast('error', 'error', $A.get('$Label.c.TST_Email_can_t_be_empty'));
+                    component.set('v.showSpinner', false);
+                    
+                    return;
+                }
+                let oldEmail = component.get('v.currentEmail');
+                if (newEmail === oldEmail) {
+                    communityService.showToast('waring', 'warning', $A.get('$Label.c.TST_Emails_are_same'));
+                    component.set('v.showSpinner', false);
+                    return;
+                }  
+                
+            }
+            communityService.executeAction(component, 'changeEmail', {
+                newEmail: newEmail
+            }, function (returnValue) {
+                component.set('v.currentEmail', newEmail);
+            }, null, function () {
+                component.set('v.showSpinner', false);
+            });
             
             communityService.executeAction(component, 'updatePerson', {
                 wrapperJSON: JSON.stringify(component.get('v.personWrapper'))
@@ -356,27 +406,6 @@
                 communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'),100);
                 
             });
-            let initData = component.get('v.initData');
-            let isUserDelegate = component.get('v.isDelegate');
-            let newEmail = initData.myContact.Email;
-            communityService.executeAction(component, 'changeEmail', {
-                newEmail: newEmail
-            }, function (returnValue) {
-                component.set('v.currentEmail', newEmail);
-            }, null, function () {
-                component.set('v.showSpinner', false);
-            })
-            if(!isUserDelegate){
-                if (!newEmail) {
-                    communityService.showToast('error', 'error', $A.get('$Label.c.TST_Email_can_t_be_empty'));
-                    return;
-                }
-                let oldEmail = component.get('v.currentEmail');
-                if (newEmail === oldEmail) {
-                    communityService.showToast('waring', 'warning', $A.get('$Label.c.TST_Emails_are_same'));
-                    return;
-                }    
-            }
             component.set('v.showSpinner', true);
             var inst = component.get('v.institute');
             console.log(inst.Name);
@@ -389,13 +418,13 @@
             }, null, function () {
                 
             }); 
-            communityService.executeAction(component, 'changeEmail', {
+            /*communityService.executeAction(component, 'changeEmail', {
                 newEmail: newEmail
             }, function (returnValue) {
                 component.set('v.currentEmail', newEmail);
             }, null, function () {
                 component.set('v.showSpinner', false);
-            })
+            })*/
         } 
         
     },
@@ -427,10 +456,10 @@
         var numbers=/^[0-9]*$/;
         if ((!numbers.test(inputValue)  || !inputValue)) {
             if(!inputValue){
-                phoneField.setCustomValidity("Phone number is mandatory");
+                phoneField.setCustomValidity($A.get('$Label.c.PP_Phone_Mandatory'));
             }
             else{
-                phoneField.setCustomValidity("Phone number must be numeric");
+                phoneField.setCustomValidity($A.get('$Label.c.PP_Phone_Numeric'));
             }
             component.set('v.disableSave',true);
             
