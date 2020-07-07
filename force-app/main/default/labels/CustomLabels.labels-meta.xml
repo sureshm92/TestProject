@@ -1596,13 +1596,6 @@
         <value>View as Investigative Site</value>
     </labels>
     <labels>
-        <fullName>Can_Not_Edit_Mapping</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Can Not Edit Mapping</shortDescription>
-        <value>You can not edit this object. Delete and create a new one instead.</value>
-    </labels>
-    <labels>
         <fullName>Closed_Requests</fullName>
         <categories>Media OutReach</categories>
         <language>en_US</language>
