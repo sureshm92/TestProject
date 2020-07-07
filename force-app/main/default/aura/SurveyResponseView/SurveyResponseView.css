@@ -1,0 +1,18 @@
+.THIS .divpadding{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: list-item;                                                        
+    list-style-type: disc;      
+    list-style-position: inside;
+    font-size: 14px;
+}
+
+.THIS.maindiv{
+    padding-left: 10px;
+}
+
+.THIS  .filediv{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+}

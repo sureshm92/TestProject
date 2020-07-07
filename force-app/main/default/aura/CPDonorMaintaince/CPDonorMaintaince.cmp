@@ -1,0 +1,7 @@
+<aura:component description="CPDonorMaintaince">
+        <div class="slds-text-align_center">                                     
+            <div class="sld_submit_message">      
+                <p> {!$Label.c.Cp_Scheduled_Maintenance}</p>                 
+            </div>
+        </div>
+</aura:component>
