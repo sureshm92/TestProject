@@ -69,7 +69,7 @@ public without sharing virtual class EmailTemplateProvider {
                 }
             }
         }
-        if (isDelegate && userMode == 'Participant') initYourParticipantFirstName();
+        if (isDelegate != null && isDelegate && userMode!= null && userMode == 'Participant') initYourParticipantFirstName();
 
         initialized = true;
     }
@@ -177,25 +177,27 @@ public without sharing virtual class EmailTemplateProvider {
                     WHERE Id = :recipientId
             ];
         }
-        recipientContactId = recipientContact.Id;
-        userMode = recipientContact.userCommunityMode__c;
-        isDelegate = recipientContact.UserCommunityIsDelegate__c;
+        if (recipientContact != null) {
+            recipientContactId = recipientContact.Id;
+            userMode = recipientContact.userCommunityMode__c;
+            isDelegate = recipientContact.UserCommunityIsDelegate__c;
 
-        recipientFirstName = recipientContact.FirstName;
-        if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
-            List<Participant__c> participants = [
-                    SELECT First_Name__c, Last_Name__c
-                    FROM Participant__c
-                    WHERE Contact__c = :recipientContactId
-            ];
-            if (!participants.isEmpty()) recipientFirstName = participants.get(0).First_Name__c;
+            recipientFirstName = recipientContact.FirstName;
+            if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
+                List<Participant__c> participants = [
+                        SELECT First_Name__c, Last_Name__c
+                        FROM Participant__c
+                        WHERE Contact__c = :recipientContactId
+                ];
+                if (!participants.isEmpty()) recipientFirstName = participants.get(0).First_Name__c;
+            }
+
+            if (String.isEmpty(recipientName)) recipientName = recipientContact.Salutation_With_Name__c;
+            parameters.put(userMode + 'Name', recipientName);
+            parameters.put('UserName', getCommunityUserName());
+
+            if (String.isEmpty(recipientLanguage)) recipientLanguage = recipientContact.Language__c;
         }
-
-        if (String.isEmpty(recipientName)) recipientName = recipientContact.Salutation_With_Name__c;
-        parameters.put(userMode + 'Name', recipientName);
-        parameters.put('UserName', getCommunityUserName());
-
-        if (String.isEmpty(recipientLanguage)) recipientLanguage = recipientContact.Language__c;
     }
 
     private String getCommunityUserName() {
