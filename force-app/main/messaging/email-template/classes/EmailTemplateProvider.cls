@@ -69,7 +69,7 @@ public without sharing virtual class EmailTemplateProvider {
                 }
             }
         }
-        if (isDelegate != null && isDelegate && userMode!= null && userMode == 'Participant') initYourParticipantFirstName();
+        if (isDelegate && userMode == 'Participant') initYourParticipantFirstName();
 
         initialized = true;
     }
