@@ -9,8 +9,14 @@ public without sharing class PENotificationTriggerHandler {
     public class CreateNotificationHandler extends TriggerHandler {
 
         public override void afterInsert(List<SObject> newList) {
-            createNotificationByStatus(newList, null);
-            referredToNewStudyDelegateNotifications(newList);
+            if (System.isFuture() || System.isBatch()) {
+                createNotificationByStatus(newList, null);
+                referredToNewStudyDelegateNotifications(newList);
+            } else {
+                Map<Id, Participant_Enrollment__c> pesById = new Map<Id, Participant_Enrollment__c>((List<Participant_Enrollment__c>)newList);
+                createNotificationByStatusFuture(pesById.keySet());
+                referredToNewStudyDelegateNotificationsFuture(pesById.keySet());
+            }
         }
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
@@ -27,8 +33,31 @@ public without sharing class PENotificationTriggerHandler {
     // Logic: ----------------------------------------------------------------------------------------------------------
 
     @TestVisible
-    private static void createNotificationByStatus(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
+    @Future
+    private static void createNotificationByStatusFuture(Set<Id> peIds) {
+        List<Participant_Enrollment__c> newList =
+            [SELECT Id,
+                    HCP_Contact_HCPEnroll__c,
+                    Participant__c,
+                    Participant__r.Contact__c,
+                    Participant__r.Contact__r.Visited_Communities__c,
+                    Participant_Contact__c,
+                    Clinical_Trial_Profile__c,
+                    Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+                    Clinical_Trial_Profile__r.CommunityTemplate__c,
+                    Study_Site__r.Principal_Investigator__r.Id,
+                    Participant_Status__c,
+                    Is_Virtual_Study_Site__c,
+                    Referral_Source__c,
+                    IsAutoaccepted__c,
+                    Source_Type__c
+            FROM Participant_Enrollment__c
+            WHERE Id IN :peIds];
+        createNotificationByStatus(newList, null);
+    }
 
+    @TestVisible
+    private static void createNotificationByStatus(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         List<String> peStatusesSuccess = new List<String>{
                 PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS,
                 PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS
@@ -133,6 +162,30 @@ public without sharing class PENotificationTriggerHandler {
         notifications.addAll(delegateNotifications);
 
         insert notifications;
+    }
+
+    @TestVisible
+    @Future
+    private static void referredToNewStudyDelegateNotificationsFuture(Set<Id> peIds) {
+        List<Participant_Enrollment__c> newList =
+            [SELECT Id,
+                    HCP_Contact_HCPEnroll__c,
+                    Participant__c,
+                    Participant__r.Contact__c,
+                    Participant__r.Contact__r.Visited_Communities__c,
+                    Participant_Contact__c,
+                    Clinical_Trial_Profile__c,
+                    Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+                    Clinical_Trial_Profile__r.CommunityTemplate__c,
+                    Study_Site__r.Principal_Investigator__r.Id,
+                    Participant_Status__c,
+                    Is_Virtual_Study_Site__c,
+                    Referral_Source__c,
+                    IsAutoaccepted__c,
+                    Source_Type__c
+            FROM Participant_Enrollment__c
+            WHERE Id IN :peIds];
+        referredToNewStudyDelegateNotifications(newList);
     }
 
     @TestVisible

@@ -1,5 +1,5 @@
 /**
- * Created by Leonid Bartenev
+ * Created by Sneha Shilpa Thuluri
  */
 
  .THIS {
@@ -7,7 +7,7 @@
 }
 
 .THIS .ls-select {
-    width: 100%
+    width: 100%;
 }
 
 .THIS .language-switcher {
@@ -146,5 +146,13 @@
         margin-top: 15px;
         height: auto;
     }
-
 }
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        .THIS .widthAlign input{
+            width:auto;            
+        }
+
+        .THIS .ls-select {
+            width: 300px;
+        }
+    }
