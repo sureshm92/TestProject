@@ -26,7 +26,7 @@
             </div>
 
             <div class="visit-results-body">
-                <div class="visit-results-title">{!v.visitReportHeader}</div>
+                <div class="visit-results-title">{!v.visitReportHeader=='Vitals'?$Label.c.Visit_Results_Tab_Vitals:v.visitReportHeader=='Biomarkers'?$Label.c.Visit_Results_Tab_Biomarkers:$Label.c.Visit_Results_Tab_Labs}</div>
                 <div class="visit-results-container">
                     <aura:iteration items="{!v.visitResultWrappers}" var="visitResultWrapper">
                         <div class="visit-results-item">

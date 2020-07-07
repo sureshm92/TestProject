@@ -952,20 +952,6 @@
         <value>No</value>
     </labels>
     <labels>
-        <fullName>Patient_Portal_Views</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN No Active Studies</shortDescription>
-        <value>Patient Portal Views</value>
-    </labels>
-    <labels>
-        <fullName>Referral_Hub_Views</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN No Active Studies</shortDescription>
-        <value>Referral Hub Views</value>
-    </labels>
-    <labels>
         <fullName>BTN_No_thanks</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1427,34 +1413,6 @@
         <shortDescription>Submit Your Question</shortDescription>
         <value>Submit Your Question</value>
     </labels>
-	<labels>
-        <fullName>CTL_L_CC_MODE</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>CTL_L_CC_MODE</shortDescription>
-        <value>View as Call Center</value>
-    </labels>
-    <labels>
-        <fullName>CTL_L_HCP_DELEGATE_MODE</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>CTL L HCP DELEGATE MODE</shortDescription>
-        <value>View as ##RPName</value>
-    </labels>
-    <labels>
-        <fullName>CTL_L_HCP_MODE</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CTL L HCP MODE</shortDescription>
-        <value>View as Referring Provider</value>
-    </labels>
-    <labels>
-        <fullName>CTL_L_PI_MODE</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CTL L PI MODE</shortDescription>
-        <value>View as Investigative Site</value>
-    </labels>
     <labels>
         <fullName>CTL_L_Patricipant_MODE</fullName>
         <language>en_US</language>
@@ -1532,7 +1490,7 @@
         <shortDescription>CC_HomePageLabel</shortDescription>
         <value>Participant Status</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>CC_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1608,6 +1566,34 @@
         <protected>true</protected>
         <shortDescription>CC_search_for_a_participant</shortDescription>
         <value>Search for a phone number</value>
+    </labels>
+    <labels>
+        <fullName>CTL_L_CC_MODE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CTL_L_CC_MODE</shortDescription>
+        <value>View as Call Center</value>
+    </labels>
+    <labels>
+        <fullName>CTL_L_HCP_DELEGATE_MODE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CTL L HCP DELEGATE MODE</shortDescription>
+        <value>View as ##RPName</value>
+    </labels>
+    <labels>
+        <fullName>CTL_L_HCP_MODE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CTL L HCP MODE</shortDescription>
+        <value>View as Referring Provider</value>
+    </labels>
+    <labels>
+        <fullName>CTL_L_PI_MODE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CTL L PI MODE</shortDescription>
+        <value>View as Investigative Site</value>
     </labels>
     <labels>
         <fullName>Closed_Requests</fullName>
@@ -2469,13 +2455,6 @@
         <shortDescription>Email Body Delegate Permission Changed</shortDescription>
         <value>One or more of your Referral Hub study permissions has changed.</value>
     </labels>
-	<labels>
-        <fullName>Email_Body_Initial_CC</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email_Body_Initial_CC</shortDescription>
-        <value>Welcome to IQVIA Referal Hub</value>
-    </labels>
     <labels>
         <fullName>Email_Body_FollowUp_Reminder</fullName>
         <language>en_US</language>
@@ -2486,6 +2465,13 @@
         Please note that enrollment in ##ShortCommunityName is not a requirement for you to be enrolled into the clinical research study.
 
         Your user name is ##UserName.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Initial_CC</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email_Body_Initial_CC</shortDescription>
+        <value>Welcome to IQVIA Referal Hub</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Delegate</fullName>
@@ -8609,7 +8595,7 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <shortDescription>PG_AS_F_Preferred_Timezone</shortDescription>
         <value>Preferred timezone</value>
     </labels>
-   <labels>
+    <labels>
         <fullName>PG_AS_F_Re_enter_new_password</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12595,7 +12581,7 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <shortDescription>PP Cookie Settings</shortDescription>
         <value>Cookie Settings</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>PP_Create_Task_Reminder</fullName>
         <categories>c:StudyVisitReminder</categories>
         <language>en_US</language>
@@ -12639,7 +12625,7 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <shortDescription>PP Customize search text</shortDescription>
         <value>Search</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>PP_Edit_Task_Reminder</fullName>
         <categories>c:StudyVisitReminder</categories>
         <language>en_US</language>
@@ -12753,6 +12739,20 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <shortDescription>PP Password Management</shortDescription>
         <value>Password Management</value>
     </labels>
+	 <labels>
+        <fullName>PP_Phone_Mandatory</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Phone_Mandatory</shortDescription>
+        <value>Phone number is mandatory.</value>
+    </labels>
+	 <labels>
+        <fullName>PP_Phone_Numeric</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Phone_Numeric</shortDescription>
+        <value>Phone number must be numeric.</value>
+    </labels>
     <labels>
         <fullName>PP_Prefix</fullName>
         <language>en_US</language>
@@ -12781,6 +12781,22 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <protected>false</protected>
         <shortDescription>PP_Remind_Using</shortDescription>
         <value>Remind Using</value>
+    </labels>
+    <labels>
+        <fullName>PP_Remind_Using_Email</fullName>
+        <categories>c:StudyVisitReminder</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Remind_Using_Email</shortDescription>
+        <value>Email</value>
+    </labels>
+    <labels>
+        <fullName>PP_Remind_Using_SMS</fullName>
+        <categories>c:StudyVisitReminder</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Remind_Using_SMS</shortDescription>
+        <value>SMS</value>
     </labels>
     <labels>
         <fullName>PP_Remind_Using_Required</fullName>
@@ -12813,7 +12829,7 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <shortDescription>PP_Save_Changes</shortDescription>
         <value>Save Changes</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>PP_Task_Success_Toast</fullName>
         <categories>c:StudyVisitReminder</categories>
         <language>en_US</language>
@@ -13130,7 +13146,7 @@ communications using the toggles below.</value>
         <shortDescription>PWS Withdrew Conscent Disclaimer</shortDescription>
         <value>On Initial Visit tab, update informed consent date (add a note if date is same as initial date of consent) and save to proceed with screening.</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>Participant</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -13185,6 +13201,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Patient Delegate Deactivate Mess</shortDescription>
         <value>You are about to deactivate ##Name from your account. Do you want to proceed?</value>
+    </labels>
+    <labels>
+        <fullName>Patient_Portal_Views</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN No Active Studies</shortDescription>
+        <value>Patient Portal Views</value>
     </labels>
     <labels>
         <fullName>Phone_Type</fullName>
@@ -13318,14 +13341,14 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Pswd_8_Characters</shortDescription>
-        <value>8 characters</value>
+        <value>8 Characters</value>
     </labels>
     <labels>
         <fullName>Pswd_Include_Any_3</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Pswd_Include_Any_3</shortDescription>
-        <value>And include any 3 of the following</value>
+        <value>And include any 3 of the following:</value>
     </labels>
     <labels>
         <fullName>Pswd_Lowercase</fullName>
@@ -13347,6 +13370,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Pswd_Special_Characters</shortDescription>
         <value>Special characters</value>
+    </labels>
+    <labels>
+        <fullName>Pswd_Symbols</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Pswd Symbols</shortDescription>
+        <value>Symbols</value>
     </labels>
     <labels>
         <fullName>Pswd_Uppercase</fullName>
@@ -13395,7 +13425,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Pswd_Your_Pswd_Include</shortDescription>
-        <value>Your password must include at least</value>
+        <value>Your password must include at least:</value>
     </labels>
     <labels>
         <fullName>Pulse</fullName>
@@ -13424,6 +13454,55 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RCEI Site</shortDescription>
         <value>Site</value>
+    </labels>
+    <labels>
+        <fullName>RH_Address_Line_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH Address Line 1</shortDescription>
+        <value>Address Line 1</value>
+    </labels>
+    <labels>
+        <fullName>RH_Address_Line_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH Address Line 2</shortDescription>
+        <value>Address Line 2</value>
+    </labels>
+    <labels>
+        <fullName>RH_Business_Address</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH Business Address</shortDescription>
+        <value>Business Address</value>
+    </labels>
+    <labels>
+        <fullName>RH_HCP_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH Hospital/Clinic/Practice Name</shortDescription>
+        <value>Hospital/Clinic/Practice Name</value>
+    </labels>
+    <labels>
+        <fullName>RH_Notification</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH Notification</shortDescription>
+        <value>Notification preferences</value>
+    </labels>
+    <labels>
+        <fullName>RH_OPT_INT_STATUS_EMAIL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_OPT_INT_STATUS_EMAIL</shortDescription>
+        <value>Receive email notifications</value>
+    </labels>
+    <labels>
+        <fullName>RH_OPT_IN_STATUS_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_OPT_IN_STATUS_SMS</shortDescription>
+        <value>Receive SMS notifications</value>
     </labels>
     <labels>
         <fullName>RH_Window_Title</fullName>
@@ -13599,6 +13678,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>ReferralNetwork_SelectReferralNetwork</shortDescription>
         <value>Select Referral Networks</value>
+    </labels>
+    <labels>
+        <fullName>Referral_Hub_Views</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN No Active Studies</shortDescription>
+        <value>Referral Hub Views</value>
     </labels>
     <labels>
         <fullName>Referral_Pathway_Label</fullName>
@@ -14120,55 +14206,6 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Respiratory Rate Description</shortDescription>
         <value>Respiratory rate is a measurement of how many breaths you take per minute.</value>
-    </labels>
-      <labels>
-        <fullName>RH_Address_Line_1</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>RH Address Line 1</shortDescription>
-        <value>Address Line 1</value>
-    </labels>
-    <labels>
-        <fullName>RH_Address_Line_2</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>RH Address Line 2</shortDescription>
-        <value>Address Line 2</value>
-    </labels>
-    <labels>
-        <fullName>RH_Business_Address</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>RH Business Address</shortDescription>
-        <value>Business Address</value>
-    </labels>
-    <labels>
-        <fullName>RH_HCP_Name</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>RH Hospital/Clinic/Practice Name</shortDescription>
-        <value>Hospital/Clinic/Practice Name</value>
-    </labels>
-	  <labels>
-        <fullName>RH_Notification</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>RH Notification</shortDescription>
-        <value>Notification preferences</value>
-    </labels>
-	 <labels>
-        <fullName>RH_OPT_INT_STATUS_EMAIL</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>RH_OPT_INT_STATUS_EMAIL</shortDescription>
-        <value>Receive email notifications</value>
-    </labels>
-    <labels>
-        <fullName>RH_OPT_IN_STATUS_SMS</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>RH_OPT_IN_STATUS_SMS</shortDescription>
-        <value>Receive SMS notifications</value>
     </labels>
     <labels>
         <fullName>SDC_List_View</fullName>
@@ -14720,19 +14757,19 @@ communications using the toggles below.</value>
         <shortDescription>Set Reminder</shortDescription>
         <value>Set Reminder</value>
     </labels>
-	<labels>
-        <fullName>Showing</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Showing Participant - call center</shortDescription>
-        <value>Showing</value>
-    </labels>
     <labels>
         <fullName>Sharing_Options_Message</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Sharing_Options_Message</shortDescription>
         <value>Upon registration, a delegate or provider added here will be able to view the participant&apos;s status in the study. Delegates can also see other participant information available via the Patient Portal. Unless the participant is a minor or otherwise requires a legal guardian, a delegate or provider should only be entered with the participant&apos;s explicit permission.</value>
+    </labels>
+    <labels>
+        <fullName>Showing</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Showing Participant - call center</shortDescription>
+        <value>Showing</value>
     </labels>
     <labels>
         <fullName>Sodium</fullName>
