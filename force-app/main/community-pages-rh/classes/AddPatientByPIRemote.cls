@@ -91,6 +91,30 @@ public without sharing class AddPatientByPIRemote {
                     ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
                 }
             }
+            if(participant.Email__c!=null && participant.First_Name__c!=null && participant.Last_Name__c!=null){
+                List<Participant__c> participantObj = new List<Participant__c>();
+                Participant__c newPartcipantObj = new Participant__c(); newPartcipantObj = [Select Id , First_Name__c , Last_Name__c , Suffix__c , Middle_Name__c , Nickname__c , Date_of_Birth__c , Gender__c , Email__c , Phone_Type__c , Phone__c , Mailing_Zip_Postal_Code__c , Mailing_Country_Code__c , Mailing_State_Code__c from Participant__c where  Email__c =: participant.Email__c and First_Name__c =: participant.First_Name__c and Last_Name__c =: participant.Last_Name__c];
+                if(newPartcipantObj != null){
+                    newPartcipantObj.First_Name__c = participant.First_Name__c;
+                    newPartcipantObj.Last_Name__c = participant.Last_Name__c;
+                    newPartcipantObj.Suffix__c = participant.Suffix__c;
+                    newPartcipantObj.Middle_Name__c = participant.Middle_Name__c;
+                    newPartcipantObj.Nickname__c = participant.Nickname__c;
+                    newPartcipantObj.Date_of_Birth__c = participant.Date_of_Birth__c;
+                    newPartcipantObj.Gender__c = participant.Gender__c;
+                    newPartcipantObj.Email__c = participant.Email__c;
+                    newPartcipantObj.Phone__c = participant.Phone__c;
+                    newPartcipantObj.Phone_Type__c = participant.Phone_Type__c;
+                    newPartcipantObj.Mailing_Country_Code__c = participant.Mailing_Country_Code__c;
+                    newPartcipantObj.Mailing_Zip_Postal_Code__c = participant.Mailing_Zip_Postal_Code__c;
+                    newPartcipantObj.Mailing_State_Code__c = participant.Mailing_State_Code__c;
+                    participantObj.add(newPartcipantObj);
+                    if(participantObj.size() > 0){
+                        update participantObj;
+                    }
+
+                }
+            }
 
             createParticipantDelegate(participantDelegateJSON, delegateDuplicateInfo, participantId, participantJSON);
             //Moved history Creation to Trigger
