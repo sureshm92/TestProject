@@ -107,7 +107,9 @@ public class Batch_SendDelegateEMailForNewReferrals extends Batch_ScheduledAbstr
                 }
             }
         }
-        update qualifiedUsers;
+        if(!Test.isRunningTest()){
+            update qualifiedUsers;
+        }
         if (notifications.values().size() > 0)
             insert notifications.values();
         
