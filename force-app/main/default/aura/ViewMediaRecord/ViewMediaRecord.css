@@ -15,10 +15,23 @@
     font-size:0.75rem;
 }
 
+.THIS .rr-form-element span {
+    color: #000;
+    font-weight: 400;
+}
+
+.THIS .p-buttons-container .slds-float_right {
+    display: flex;
+}
+
 @media (max-width: 500px) {
 
     .THIS.cPopup .p-container .p-content {
         padding: 0 0 20px 0;
+    }
+
+    .THIS.cPopup .p-container .p-content {
+        padding: 0 15px 20px;
     }
 
     .THIS.cPopup .p-container .p-footer {

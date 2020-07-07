@@ -122,6 +122,17 @@
  .THIS .form-field{
      margin-bottom: 20px;
  }
+
+@media screen and (max-width: 768px) {
+
+    .THIS .slds-select_container .slds-select {
+        height: 40px;
+    }
+
+    .THIS .slds-select_container:after {
+        top: 15px
+    }
+}
  
  
  @media screen and (max-width: 500px) {

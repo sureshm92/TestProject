@@ -57,13 +57,13 @@
                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                     <div class="rr-form-element">
                         <div class="label slds-text-align_left">{!$Label.c.MO_Study_Name}</div>
-                        <b> {!v.ViewRecord[0].Study_Name__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</b>
+                        <span> {!v.ViewRecord[0].Study_Name__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span>
                     </div>
                 </div>
                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                     <div class="rr-form-element">
                         <div class="label slds-text-align_left">{!$Label.c.MO_Study_Site}</div>
-                        <b> {!v.ViewRecord[0].Study_Name__r.Name}</b>
+                        <span> {!v.ViewRecord[0].Study_Name__r.Name}</span>
                     </div>
                 </div>
             </div>
@@ -71,13 +71,13 @@
                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                     <div class="rr-form-element">
                         <div class="label slds-text-align_left">{!$Label.c.MO_Media_Type}</div>
-                        <b> {!v.ViewRecord[0].Media_Type__c} </b>
+                        <span> {!v.ViewRecord[0].Media_Type__c} </span>
                     </div>
                 </div>
                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                     <div class="rr-form-element">
                         <div class="label slds-text-align_left">{!$Label.c.MO_Status}</div>
-                        <b> {!v.ViewRecord[0].Status__c} </b>
+                        <span> {!v.ViewRecord[0].Status__c} </span>
                     </div>
                 </div>
             </div>
@@ -85,13 +85,13 @@
                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                     <div class="rr-form-element">
                         <div class="label slds-text-align_left">{!$Label.c.MO_Start_Date}</div>
-                        <b><ui:outputDate value="{!v.ViewRecord[0].Requested_Start_Date__c}" /></b>
+                        <span><ui:outputDate value="{!v.ViewRecord[0].Requested_Start_Date__c}" /></span>
                     </div>
                 </div>
                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                     <div class="rr-form-element">
                         <div class="label slds-text-align_left">{!$Label.c.MO_End_Date}</div>
-                        <b><ui:outputDate value="{!v.ViewRecord[0].Requested_End_Date__c}" /></b>
+                        <span><ui:outputDate value="{!v.ViewRecord[0].Requested_End_Date__c}" /></span>
                     </div>
                 </div>
             </div>
