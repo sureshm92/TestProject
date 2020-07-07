@@ -6016,6 +6016,13 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <value>Invited</value>
     </labels>
     <labels>
+        <fullName>Learn_More</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Learn More</shortDescription>
+        <value>Learn More</value>
+    </labels>
+    <labels>
         <fullName>Library_Format</fullName>
         <language>en_US</language>
         <protected>true</protected>
