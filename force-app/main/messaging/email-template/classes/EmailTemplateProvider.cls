@@ -164,9 +164,8 @@ public without sharing virtual class EmailTemplateProvider {
                     FROM User
                     WHERE Id = :recipientId
             ];
-            if (recipientUser.Contact == null) return ;
             recipientContact = recipientUser.Contact;
-
+            if (recipientContact == null) return;
         } else {
             recipientContact = [
                     SELECT Id,
