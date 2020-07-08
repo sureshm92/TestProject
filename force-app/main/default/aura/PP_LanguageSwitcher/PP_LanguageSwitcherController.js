@@ -124,7 +124,8 @@
 			zipcode:	   zipcode
         },function () {
             component.find('spinner').hide();
-            communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'));
+            communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'),100);
+            communityService.navigateToPage('account-settings?langloc'); 
             if(previousLangaugeKey != languageKey)
                 window.location.reload();
         })

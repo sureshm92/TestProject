@@ -16,7 +16,11 @@
             const queryString = window.location.href;
             if(queryString.includes('changePref')){
             component.set( "v.compId", '4' );    
-            }else{
+            }
+            else if(queryString.includes('langloc')){
+                component.set( "v.compId", '3' );
+            }
+            else{
                 component.set( "v.compId", '1' ); 
             }
             component.set('v.initData', initData);
