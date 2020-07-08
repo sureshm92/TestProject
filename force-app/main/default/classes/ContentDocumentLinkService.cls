@@ -81,12 +81,17 @@ public with sharing class ContentDocumentLinkService {
     public ContentDocumentLink getCDLForResource(Id resourceId, String languageCode){
         List<ContentDocumentLink> cdlList = [
                 SELECT ContentDocument.LatestPublishedVersion.Title,
-                        ContentDocument.LatestPublishedVersion.VersionData
+                        ContentDocument.LatestPublishedVersion.VersionData,
+                         ContentDocument.LatestPublishedVersion.LanguageCode__c
                 FROM ContentDocumentLink
                 WHERE LinkedEntityId = :resourceId
         ];
         for(ContentDocumentLink cdl : cdlList){
-            if(cdl.ContentDocument.LatestPublishedVersion.Title == languageCode) return cdl;
+            if(cdl.ContentDocument.LatestPublishedVersion.LanguageCode__c !='' && cdl.ContentDocument.LatestPublishedVersion.LanguageCode__c != null){
+               if( cdl.ContentDocument.LatestPublishedVersion.LanguageCode__c  == languageCode ) return cdl;
+            } else {
+            if( cdl.ContentDocument.LatestPublishedVersion.Title == languageCode ) return cdl;
+            }
         }
         if(cdlList.size() > 0) return cdlList[0];
         return null;
