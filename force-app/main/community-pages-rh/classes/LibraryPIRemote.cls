@@ -128,7 +128,7 @@ public without sharing class LibraryPIRemote {
                                                                                                          rs.Resource__r.RecordType.DeveloperName,
                                                                                                          rs.Resource__r.Title__c,
                                                                                                          getResourceLanguage(language),
-                                                                                                         rs.Resource__r.Resource_Type__c,
+                                        TranslateHelper.getPickListLabel(Resource__c.Resource_Type__c,rs.Resource__r.Resource_Type__c),
                                                                                                          rs.Resource__r.RecordType.Name,
                                                                                                          rs.Resource__r.Version_Date__c,
                                                                                                          rs.Resource__r.URL__c,
@@ -164,7 +164,7 @@ public without sharing class LibraryPIRemote {
                                                                                     res.RecordType.DeveloperName,
                                                                                     res.Title__c,
                                                                                     getResourceLanguage(language),
-                                                                                    res.Resource_Type__c,
+                            TranslateHelper.getPickListLabel(Resource__c.Resource_Type__c,res.Resource_Type__c),
                                                                                     res.RecordType.Name,
                                                                                     res.Version_Date__c,
                                                                                     res.URL__c,
@@ -225,7 +225,7 @@ public without sharing class LibraryPIRemote {
                 Video__c,
                 URL__c
                 FROM Resource__c
-                WHERE Resource_Visibility__c INCLUDES('PI') AND Id NOT IN: resIds AND(Title__c Like: searchstring OR RecordType.Name Like: searchstring OR Resource_Type__c Like: searchstring)
+                WHERE Resource_Visibility__c INCLUDES('PI') AND Id NOT IN: resIds AND (Title__c Like: searchstring OR RecordType.Name Like: searchstring OR Resource_Type__c Like: searchstring)
             ]) {
                 Set < String > rlLanguages = new Set < String > ();
                 if (res.Languages__c != null) {
