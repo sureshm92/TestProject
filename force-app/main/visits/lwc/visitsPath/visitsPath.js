@@ -10,6 +10,7 @@ import saveBTNLabel from '@salesforce/label/c.BTN_Save';
 import cancelBTNLabel from '@salesforce/label/c.BTN_Cancel';
 import planDate from '@salesforce/label/c.VPN_AddDate';
 import selDate from '@salesforce/label/c.VPN_Sel_Date';
+import visitUnavailable from '@salesforce/label/c.Study_Visit_Unavailable';
 
 import getCardVisits from '@salesforce/apex/ParticipantVisitsRemote.getCardPatientVisits';
 import updatePV from '@salesforce/apex/ParticipantVisitsRemote.updatePatientVisit';
@@ -126,7 +127,7 @@ export default class VisitsPath extends LightningElement {
                 };
                 if (isMissed) {
                     item.stateStatus = stateMissed;
-                    item.complDate = 'Unavailable';
+                    item.complDate = visitUnavailable;
                 }
 
                 this.pathItems.push(item);
