@@ -145,7 +145,7 @@
                                 <div class="label">
                                     <abbr title="required" class="slds-required">{!v.needsGuardian ? '*' : ''}</abbr>{!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}
                                 </div>
-                                <lightning:input type="text" value="{!v.participantDelegate.Phone__c}"
+                                <lightning:input aura:id="delegate-phone" type="text" value="{!v.participantDelegate.Phone__c}"
                                                  required="{!v.needsGuardian}"  onblur="{!c.doCheckfields}"/>
                             </div>
                             <div class="slds-col rr-medium-up-hide" style="height: 20px"></div>
