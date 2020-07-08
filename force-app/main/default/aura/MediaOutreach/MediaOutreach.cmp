@@ -152,7 +152,6 @@
             <br></br>
         </aura:iteration>
     </div>
-
     <!-- PoPup Media Record:-->
     <c:ViewMediaRecord aura:id="OpenOutreach" ViewRecord="{!v.SelectedmediaList}" footerbutton="{!v.showfooterbutton}"
         disablefield="{!v.disabled}" ActiveReqRecord="{!v.ReqRecordtype}"/>
