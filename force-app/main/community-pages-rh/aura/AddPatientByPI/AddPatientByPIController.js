@@ -87,8 +87,10 @@
         if(ddi.contactPhoneType) partDel.Phone_Type__c = ddi.contactPhoneType;
         if(ddi.contactPhoneNumber) partDel.Phone__c = ddi.contactPhoneNumber;
         component.set('v.participantDelegate', partDel);
+        component.find('delegate-phone').focus();
+        component.find('delegate-phone').blur();
         component.set('v.useThisDelegate', true);
-        helper.checkFields(component,event,helper, true);
+        //helper.checkFields(component,event,helper, true);
     },
 
     doRefreshParticipant: function (component, event, helper) {
