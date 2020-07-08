@@ -98,7 +98,7 @@
 }
 
 .THIS .tour-slides-body{
-    flex: 1;
+    flex: 1 0 auto;
     overflow: hidden;
     width: 100%;
 }
