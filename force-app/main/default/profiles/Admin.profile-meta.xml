@@ -2769,6 +2769,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Trial_Match_Is_Available__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Clinical_Trial_Profile__c.US_FDA_Regulated_Product__c</field>
         <readable>true</readable>
     </fieldPermissions>
