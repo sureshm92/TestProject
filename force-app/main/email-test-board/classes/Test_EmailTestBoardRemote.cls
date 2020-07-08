@@ -11,9 +11,8 @@ private class Test_EmailTestBoardRemote {
         Test.setFixedSearchResults(new List<String>{
                 contact.Id
         });
-
         EmailTestBoardRemote.searchRecipient(contact.FirstName);
-        EmailTestBoardRemote.searchRelated('Contact', contact.FirstName);
+        EmailTestBoardRemote.searchRelated('Account', CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME);
     }
 
     @IsTest
