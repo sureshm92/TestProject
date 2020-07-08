@@ -33,4 +33,21 @@ public without sharing class PaymentsRemote {
             return (InitData) AuraHelper.throwException(e);
         }
     }
+    //@Krishna Mahto - PEH-2179 - Start 
+    /**
+    * ───────────────────────────────────────────────────────────────────────────────────────────────┐
+    * This method will return the current communityName
+    * ────────────────────────────────────────────────────────────────────────────────────────────────
+    * @Method:   getCommunityName
+    * @param:    NA   
+    * @return:   Strings  
+    * ───────────────────────────────────────────────────────────────────────────────────────────────┘
+    **/
+    @auraEnabled
+    public static String getCommunityName(){
+		String communityName=FindCommunityName.getCommunityName();
+        return communityName;
+    }
+    
+    //@Krishna Mahto - PEH-2179 - End
 }

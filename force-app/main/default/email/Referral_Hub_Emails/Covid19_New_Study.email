@@ -1,0 +1,19 @@
+<messaging:emailTemplate subject="{!$Label.Email_Subject_COVID19_Participant}"
+                         recipientType="User"
+                         relatedToType="Participant_Enrollment__c"
+                         language="{!relatedTo.Participant__r.Contact__r.Language__c}">
+
+    <messaging:htmlEmailBody >
+        <c:Covid19EmailTemplate>
+    
+        </c:Covid19EmailTemplate>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody >
+        <c:EmailTemplateText>
+    
+        
+        </c:EmailTemplateText>
+    </messaging:plainTextEmailBody>
+
+</messaging:emailTemplate>

@@ -1,0 +1,59 @@
+<aura:component description="CPD_Questionnaire" access="global">
+
+    <!-- Attributes-->
+    <aura:attribute name="selTabId" type="string" default="1" />
+    <aura:attribute name="radioOptions" type="List" />
+    <aura:attribute name="dob" type="Date" />
+    <aura:attribute name="todayDate" type="Date" />
+    <aura:attribute name="value" type="String" />
+    <aura:attribute name="options" type="List" />
+    
+
+    <aura:attribute name="isPatientRequired" type="Boolean" default="true" />
+    <aura:attribute name="isParentRequired" type="Boolean" default="true" />
+    <aura:attribute name="showParent" type="Boolean" default="false" />
+    <aura:attribute name="radioCheck" type="Boolean" />    
+    
+    <!-- Handler-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <!--Event-->
+    <aura:registerEvent name="questionnaireEvent" type="c:CPD_QuestionnaireEvt" />
+
+    <!-- Aura method -->
+    <aura:method name="questionnairevalidate" action="{!c.validatequestion}" />
+   
+    <!-- Body-->
+    <div class="content-align">
+        <div class="slds-grid slds-wrap">   
+            <div class="slds-col slds-size_3-of-3">
+                <label class="documentation-of-h"><span style="color:red;">*</span>{!$Label.c.CPD_Birthdate}</label>
+                <br/>
+                <br/>
+                <lightning:input type="date" value="{!v.dob}" name="dob"
+                    aura:id="dateofbirth" max="{!v.todayDate}" label="{!$Label.c.CPD_Birthdate}"
+                    required="true" class="sld-date-input-style" variant="label-hidden"
+                    messageWhenValueMissing="{!$Label.c.CP_Date_of_Birth_Error}"
+                    messageWhenTypeMismatch="{!$Label.c.CP_Date_of_Birth_Error}"
+                    onchange="{!c.hanldeCalculateDOB}" dateStyle="short" />
+            </div>
+        </div>
+        <br/><br/>
+        <div class="slds-grid slds-wrap">  
+            <div class="slds-col slds-size_3-of-3">
+                <label class="documentation-of-h"><span style="color:red;">*</span>{!$Label.c.CP_See_if_You_Qualify_Test_Positive}</label>
+                <p class="documentation-of-a-p">{!$Label.c.CPD_Documentation_of_a_positive_test}</p>
+                <br />
+                <lightning:radioGroup aura:id="positive" name="positive"
+                    label="Did you test positive for COVID-19?" 
+                    options="{!v.radioOptions}"
+                    value="{! v.value }" 
+                    variant="label-hidden" 
+                    onchange="{!c.radioInputChange}"
+                    required="true"
+                    type="radio" 
+                    class="sld-radio-style"/>
+            </div>
+        </div>
+    </div>
+</aura:component>

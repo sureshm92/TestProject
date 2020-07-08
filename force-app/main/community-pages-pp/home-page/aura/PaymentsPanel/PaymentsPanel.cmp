@@ -7,12 +7,13 @@
     <aura:attribute name="initialized" type="Boolean"/>
     <aura:attribute name="initData" type="Object"/>
     <aura:attribute name="href" type="String"/>
+    <aura:attribute name="externalLinkDisclaimer" type="String"/> <!-- @Krishna Mahto - PEH-2179 -->
 
         <div class="sv-panel rr-white-panel" style="position: relative" data-gtm="PNL_PaymentsPanel">
             <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
             <aura:if isTrue="{!v.initialized}">
                 <div class="sv-header">
-                    <div class="sv-title">{!$Label.c.Home_Page_Payments_Title}</div>
+                    <div class="sv-title">{!$Label.c.Home_Page_Payments_Title} &nbsp;<lightning:helptext content="{!v.externalLinkDisclaimer}"/></div> <!-- PEH-2179-Added by Krishna Mahto --> 
                 </div>
                 <aura:if isTrue="{!v.initData.informationAvailable}">
                     <div class="sv-body">

@@ -4,6 +4,17 @@
 .THIS {
 }
 
+/* @krishna Mahto- REF-2179 - start */
+.THIS .slds-form-element__icon {
+    padding-top:0;
+}
+
+/* @krishna Mahto- REF-2179 - end */
+.THIS .hp-welcome-line {
+    display: flex;
+    justify-content: space-between;
+}
+
 .THIS .hp-welcome-msg {
     color: #999999;
     font-size: 17px;
