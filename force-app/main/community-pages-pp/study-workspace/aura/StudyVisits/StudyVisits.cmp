@@ -55,7 +55,7 @@
                                 <c:RRIconSplitter class="svl-icon" icons="{!visitWrapper.iconDetails}"/>
                             </td>
                             <td class="{!visitWrapper.visit.Is_Adhoc__c ? 'sv-t-icons' : 'invisible'}">{!$Label.c.StudyVisit_Variable}</td>
-                            <td class="sv-t-status">{!if(visitWrapper.visit.Status__c == 'Missed', $Label.c.Study_Visit_Unavailable, visitWrapper.visit.Status__c)}</td>
+                            <td class="sv-t-status">{!if(visitWrapper.visit.Status__c == 'Missed', $Label.c.Study_Visit_Unavailable, visitWrapper.visitStatus)}</td>
                             <td>
                                 <aura:if isTrue="{!visitWrapper.visit.Status__c == 'Pending'}">
                                     <div class="sv-t-reminder">

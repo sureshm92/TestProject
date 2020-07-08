@@ -312,6 +312,7 @@
             "Suppress_Participant_Emails__c": false,
             "US_FDA_Regulated_Product__c": false,
             "Therapeutic_Area__c": "@Therapeutic_Area__cRef92",
+            "Trial_Match_Is_Available__c": true,
             "Synch_with_TMDH__c": true
         }
     ]
