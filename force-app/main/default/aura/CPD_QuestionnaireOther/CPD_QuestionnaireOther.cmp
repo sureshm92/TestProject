@@ -1,0 +1,103 @@
+<aura:component description="CPD_QuestionnaireOther" access="global">
+
+    <!-- Attributes-->
+    <aura:attribute name="selTabId" type="string" default="1" />
+    <aura:attribute name="fileLabel" type="String" default="test file name test file name test file name test file name" />
+    <aura:attribute name="isfileAttached" type="Boolean" default="false" />
+    <aura:attribute name="todayDate" type="Date" />
+    <aura:attribute name="endDate" type="Date" />
+
+    <aura:attribute name="fileName" type="String" />
+    <aura:attribute name="fileData" type="Object" />
+    <aura:attribute name="fileList" type="Object" />
+    <aura:attribute name="attachmentErrorShow" type="Boolean" default="false" />
+
+
+    <aura:attribute name="integrationPatientReferral" type="Integration_Patient_Referral__c"
+        default="{'sobjectType':'Integration_Patient_Referral__c'}" />
+    <aura:attribute name="formresult" type="Form_Results__c" default="{'sobjectType':'Form_Results__c'}" />
+
+    <!-- Handler-->
+    <aura:handler name="init" value="this" action="{!c.doInit}" />
+    <!--Aura Method-->
+    <aura:method name="questionnaireOthervalidate" action="{!c.handleValidateInput}" />
+
+    <!-- Body-->
+    <div class="content-align">
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_12-of-12">
+                <label class="documentation-of-h"><span style="color:red;">*</span>{!$Label.c.CPD_Upload_documentation_that_you_tested}</label>
+                <br /><br />
+                <p class="documentation-of-a-p">{!$Label.c.CPD_Documentation_must_include_your_full_name}</p>
+                <br />
+                <label class="documentation-of-a-p">{!$Label.c.CPD_Test_Date}</label>                
+                <lightning:input aura:id="fileData" type="date" value="{!v.formresult.Covid_19_Test_Date__c}"
+                    name="covidTestDate" label="{!$Label.c.CPD_Test_Date}" variant="label-hidden"
+                    max="{!v.todayDate}" required="true" messageWhenValueMissing="{!$Label.c.CP_Test_Date_Error}"
+                    onchange="{!c.handleValidateInputOnChange}" dateStyle="short" class="sld-date-input-style" />
+            </div>
+        </div>
+        <br />
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_12-of-12">
+                <lightning:input aura:id="fileData" name="healthcareDocument" label="{!$Label.c.CPD_Please_Upload_Documentation}"
+                    value="{!v.fileName}" accept=".pdf,image/png,image/jpg,image/jpeg" files="{!v.fileData}" type="file"
+                    required="true" variant="label-hidden" onchange="{!c.handleFilesChange }"
+                    messageWhenValueMissing="{!$Label.c.CP_Document_Upload_Error}" />
+
+                <aura:if isTrue="{!v.isfileAttached}">
+                    <div class="slds-text-body_small slds-text-color_error">
+                        <aura:unescapedHtml value="{!v.fileLabel}" />
+                        &nbsp;&nbsp;&nbsp;<a onclick="{!c.handledeleteFiles }">
+                            <lightning:icon iconName="utility:delete" size="xx-small" />
+                        </a>
+                    </div>
+                    <aura:set attribute="else">
+                        <aura:if isTrue="{!v.attachmentErrorShow}">
+                            <span class="sld-custom-help-message-show">{!$Label.c.CP_Document_Upload_Error}</span>
+                        </aura:if>
+                    </aura:set>
+                </aura:if>
+
+            </div>
+        </div>
+        <br /><br />
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_12-of-12">
+                <label class="documentation-of-h"><span style="color:red;">*</span>{!$Label.c.CPD_When_did_you_have_symptoms}</label>
+                <br /><br />
+                <p class="documentation-of-a-p">{!$Label.c.CPD_COVID_19_symptoms_include_fever}</p>
+            </div>
+        </div>
+        <br /><br />
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                <label class="documentation-of-a-p"><span style="color:red;">*</span>{!$Label.c.CPD_Date_of_first_symptom}</label>
+                <br />
+                <lightning:input type="date" aura:id="fileData"
+                    value="{!v.formresult.Estimated_Date_of_first_symptom__c}" 
+                    name="estimatelastdate"
+                    variant="label-hidden" 
+                    max="{!v.todayDate}" 
+                    onblur="{!c.handleChangeDateLimitation}"
+                    onchange="{!c.handleValidateInputOnChange}" label="{!$Label.c.CPD_Date_of_first_symptom}" required="true"
+                    messageWhenValueMissing="{!$Label.c.CP_Estimated_date_of_first_symptoms_Error}" dateStyle="short"
+                    class="sld-date-width" />
+                <!-- onchange="{!c.handleValidateInputOnChange}" -->
+                <br />
+            </div>
+
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                <label class="documentation-of-a-p"><span style="color:red;">*</span>{!$Label.c.CPD_Date_of_last_symptom}</label>
+                <br />
+                <lightning:input type="date" aura:id="fileData"
+                    value="{!v.formresult.Estimated_date_of_last_symptom__c}" max="{!v.todayDate}" min="{!v.endDate}"
+                    onchange="{!c.handleValidateInputOnChange}" name="estimatefirstdate" variant="label-hidden"
+                    label="{!$Label.c.CPD_Date_of_last_symptom}" required="true"
+                    messageWhenValueMissing="{!$Label.c.CP_Estimated_date_of_last_symptoms_Error}" dateStyle="short"
+                    class="sld-date-width" />
+                <!-- onchange="{!c.handleValidateInputOnChange}"-->
+            </div>
+        </div>
+    </div>
+</aura:component>

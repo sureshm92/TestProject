@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS.all-content{
+ .THIS.all-content{
     overflow: auto;
     position: fixed;
     width: 100%;
@@ -96,7 +96,7 @@
 }
 
 .THIS .lg-form-element input{
-    color: #000000;
+    color: #000000 !important ;
 }
 
 .THIS .lg-form-element{

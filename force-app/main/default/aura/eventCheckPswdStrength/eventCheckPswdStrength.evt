@@ -1,0 +1,8 @@
+<!-- PEH-2178 Added by Sumit S-->
+<aura:event type="COMPONENT">
+    <aura:attribute name="caps"       type="Boolean" />
+    <aura:attribute name="small"      type="Boolean" />
+    <aura:attribute name="numbers"    type="Boolean" />
+    <aura:attribute name="length"     type="Boolean" />
+    <aura:attribute name="special"    type="Boolean" />
+</aura:event>

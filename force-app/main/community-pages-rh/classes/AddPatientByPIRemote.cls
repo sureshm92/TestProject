@@ -41,6 +41,8 @@ public without sharing class AddPatientByPIRemote {
     @AuraEnabled
     public static void saveParticipant(String participantJSON, String peJSON, String userLanguage, String ssId, Boolean createUser, Boolean doNotContact, String participantDelegateJSON, String delegateDuplicateInfo){
         try {
+            TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.CreateUserForCCContactHandler.class);
+
             if (!createUser) {
                 TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
                 TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class);
@@ -56,8 +58,6 @@ public without sharing class AddPatientByPIRemote {
             participant.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI;
             pe.Referral_Source__c = 'PI';
             pe.Permit_IQVIA_to_contact_about_study__c = !doNotContact;
-            ReferHealthcareProviderRemote.HealthcareProvider ddInfo;
-            if (delegateDuplicateInfo != null) ddInfo = (ReferHealthcareProviderRemote.HealthcareProvider) JSON.deserialize(delegateDuplicateInfo, ReferHealthcareProviderRemote.HealthcareProvider.class);
 
             Participant__c participantDelegate;
             if (!String.isBlank(participantDelegateJSON)) {
@@ -114,9 +114,13 @@ public without sharing class AddPatientByPIRemote {
                     if(participantObj.size() > 0){
                         update participantObj;
                     }
-                    
+
                 }
             }
+
+            ReferHealthcareProviderRemote.HealthcareProvider ddInfo;
+            if (delegateDuplicateInfo != null) ddInfo = (ReferHealthcareProviderRemote.HealthcareProvider) JSON.deserialize(delegateDuplicateInfo, ReferHealthcareProviderRemote.HealthcareProvider.class);
+
             Boolean createDelegateuser = true;
             if (participantDelegate != null && !String.isEmpty(participantDelegate.Last_Name__c) &&
                     !String.isEmpty(participantDelegate.Email__c)) {
@@ -153,7 +157,7 @@ public without sharing class AddPatientByPIRemote {
                     insert newContact;
                 } else{
                     newContact = [
-                            Select Id,
+                            SELECT Id,
                                     FirstName,
                                     LastName,
                                     Email,
@@ -183,7 +187,7 @@ public without sharing class AddPatientByPIRemote {
                         insert ptDelegateRef;
                     }
                 }
-               // }
+                // }
                 if (createDelegateuser) {
                     ReferringRemote.createParticipantUsers(new Map<Id, Id>{
                             newContact.Id => null

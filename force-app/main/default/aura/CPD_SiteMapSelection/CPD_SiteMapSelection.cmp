@@ -1,0 +1,63 @@
+<aura:component  description="CPD_SiteMapSelection" access="global" controller="CPD_DistanceCalculator">
+
+   <!-- attributes: -->
+   <aura:attribute name="studySites" type="List" />
+   <aura:attribute name="contactRecordId" type="string" />
+   <aura:attribute name="state" type="string" />
+   <aura:attribute name="country" type="string" />
+   <aura:attribute name="zipcode" type="string" />
+   <aura:attribute name="distaceStudySites" type="List" />
+   <aura:attribute name="mapMarkers" type="Object"/>
+   <aura:attribute name="studySitesInstance" type="object" />
+   <aura:attribute name="options" type="List" default="[{'label': '', 'value': ''}]" />
+   <aura:attribute name="zoomLevel" type="Integer" default="16" />
+   <aura:attribute name="markersTitle" type="String" />
+   <aura:attribute name="showFooter" type="Boolean"/>
+   <aura:attribute name="loaded" type="Boolean" default="true" />
+
+   <aura:handler name="init" value="{!this}" action="{!c.doInit}" />  
+
+   <div class="site-rectangle">
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_5-of-12 width-height">
+                <ui:scrollerWrapper class="sWrapTest">
+                    <div aura:id="main">
+                    <aura:iteration var="item" items="{!v.distaceStudySites}" indexVar="index">
+                        <div aura:id="{!index+1}" data-id="{!item.Id}" data-name="{!item.Id}" class="slds-box data-row">
+                            <div class="study-site-name-copy"> {!index+1} . {!item.studySite.Name}</div>
+                            <br/>
+                            <div class="address-line-1-addre">
+                                {!item.studySite.Site__r.BillingStreet}
+                                <br/>
+                                <!--{!item.studySite.Site__r.BillingCity},-->
+                                {!item.studySite.Site__r.BillingState},
+                                {!item.studySite.Site__r.BillingCountry},
+                                {!item.studySite.Site__r.BillingPostalCode}
+                                <br />
+                                <aura:if isTrue="{!item.distance != '0'}">
+                                    {!$Label.c.CPD_Distance} : {!item.distance}
+                                </aura:if>    
+
+                                <div class="site-button-align">
+                                    <a aura:id="btn" onclick="{!c.changeMapMarker}" data-row-index="{!index}">
+                                        <button aura:id="btnselect" class="slds-button slds-button_neutral select-as-my-preferr"> {!$Label.c.CPD_Select_as_My_Preferred_Site}</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </aura:iteration>
+                </div>
+                </ui:scrollerWrapper>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_7-of-12 width-height">
+                <lightning:map mapMarkers="{!v.mapMarkers}" zoomLevel="{!v.zoomLevel}" 
+                showFooter="{ !v.showFooter }" />
+            </div> 
+        </div>
+    </div>
+    <div class="exampleHolder">
+        <aura:if isTrue="{! v.loaded }">
+            <lightning:spinner alternativeText="Loading" />
+        </aura:if>
+    </div>
+</aura:component>
