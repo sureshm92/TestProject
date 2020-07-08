@@ -63,7 +63,7 @@
              showFooter="true">
         <aura:if isTrue="{!!v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp;
                  !v.pe.Participant__r.Marketing_Flag__c &amp;&amp; v.pe.Participant__r.Email__c &amp;&amp;
-                 v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &amp;&amp; v.pe.Permit_IQVIA_to_contact_about_study__c}">
+                 v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &amp;&amp; v.pe.Permit_IQVIA_to_contact_about_study__c &amp;&amp; v.init}">
             <div class="invite-patient-container slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap">
                 <div class="slds-col slds-size--9-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
                     <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.sendEmails}"/>
