@@ -22,6 +22,7 @@
         component.set('v.isDelegateValid', false);
         component.set('v.needsGuardian', false);
         component.set('v.doNotContact', true);
+        component.set('v.emailInstance', '');
         component.find('checkbox-delegate').getElement().checked = false;
         component.find('checkbox-doContact').getElement().checked = true;
     },
