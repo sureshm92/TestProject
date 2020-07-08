@@ -148,9 +148,11 @@ public inherited sharing class PatientVisitService {
         @AuraEnabled public Task task;
         @AuraEnabled public Date reminderDate;
         @AuraEnabled public Patient_Visit__c visit;
+        @AuraEnabled public String visitStatus;
 
         public VisitWrapper(Patient_Visit__c visit, Task task, Map<String, Icon_Details__c> iconDetailsMap) {
             this.visit = visit;
+            this.visitStatus = TranslateHelper.getPickListLabel(Patient_Visit__c.Status__c, visit.Status__c);
             iconDetails = new List<Icon_Details__c>();
             if (visit.Visit__c != null) {
                 icons = visit.Visit__r.Icons__c;
