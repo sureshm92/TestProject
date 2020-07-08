@@ -6,23 +6,6 @@
 private class Test_TrialMatchHelper {
 
     @IsTest
-    static void isCtpEnrolling_Test() {
-        Test.startTest();
-        TestDataFactory.createInitData();
-        Test.stopTest();
-        Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) TestDataFactory.getSObject(Clinical_Trial_Profile__c.getSObjectType(), new Map<String, Object>{
-                'Override_Recruitment_Status__c' => TrialSearchWhereClauseFactory.ACTIVELY_ENROLLING
-        });
-        TrialMatchHelper helper = new TrialMatchHelper();
-        System.assert(helper.isCtpEnrolling(ctp));
-
-        ctp.Override_Recruitment_Status__c = null;
-        ctp.Recruitment_Status__c = TrialSearchWhereClauseFactory.OPEN_TO_ENROLLMENT;
-        System.assert(helper.isCtpEnrolling(ctp));
-    }
-
-
-    @IsTest
     static void getInitTrialMatchContainer_test() {
         Test.startTest();
         TestData.loadTestData();

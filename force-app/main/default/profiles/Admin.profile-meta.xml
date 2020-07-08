@@ -2848,6 +2848,11 @@
     </fieldPermissions>
 	<fieldPermissions>
         <editable>false</editable>
+        <field>Media_Outreach__c.fMediaType__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
         <field>Media_Outreach__c.Actual_End_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
