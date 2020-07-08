@@ -1,0 +1,14 @@
+<messaging:emailTemplate subject="{!$Label.Email_Subject_PI_Referral_Pending}"
+                         recipientType="Contact"
+                         relatedToType="Contact"
+                         language="{!relatedTo.Language__c}">
+    <messaging:htmlEmailBody >
+        <c:EmailTemplatePendingReferrals>
+        </c:EmailTemplatePendingReferrals>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody >
+        <c:EmailTemplateTextPendingReferrals>
+        </c:EmailTemplateTextPendingReferrals>
+    </messaging:plainTextEmailBody>
+</messaging:emailTemplate>

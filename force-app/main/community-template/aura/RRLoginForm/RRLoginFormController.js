@@ -9,6 +9,16 @@
         component.set("v.isSelfRegistrationEnabled", helper.getIsSelfRegistrationEnabled(component, event, helper));
         // component.set("v.communityForgotPasswordUrl", helper.getCommunityForgotPasswordUrl(component, event, helper));
         component.set("v.communitySelfRegisterUrl", helper.getCommunitySelfRegisterUrl(component, event, helper));
+        
+        //@Krishna mahto- PEH-1910- Start 
+        var community = window.location.pathname.startsWith('/gsk/') ? '/gsk/s/login' : '/s/login';
+        if(community==='/s/login'){
+            component.set("v.isGSKCommunity",false);
+        }else if(community==='/gsk/s/login'){
+            component.set("v.isGSKCommunity",true);
+        }
+        //@Krishna mahto- PEH-1910- End 
+       
         if(navigator.userAgent.match(/Trident/)) component.set("v.ieClass", 'ie-login-rows');
     },
 
@@ -83,6 +93,18 @@
         }else{
             component.set("v.showpassword",true);
         }
-    }
+    },
+    //@Krishna mahto- PEH-1910- Start
+    openModel: function(component, event, helper) {
+      // for Display Model,set the "isOpen" attribute to "true"
+      component.set("v.isOpen", true);
+   },
+ 
+   closeModel: function(component, event, helper) {
+      // for Hide/Close Model,set the "isOpen" attribute to "Fasle"  
+      component.set("v.isOpen", false);
+   }
+   //@Krishna mahto- PEH-1910- end
+ 
  
 })

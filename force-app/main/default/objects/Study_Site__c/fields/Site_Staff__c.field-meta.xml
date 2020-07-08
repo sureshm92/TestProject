@@ -4,7 +4,7 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <description>Lookup to study site delegate</description>
     <externalId>false</externalId>
-    <label>Site Staff</label>
+    <label>Primary Contact</label>
     <referenceTo>Site_Staff__c</referenceTo>
     <relationshipLabel>Study Sites</relationshipLabel>
     <relationshipName>Study_Sites</relationshipName>

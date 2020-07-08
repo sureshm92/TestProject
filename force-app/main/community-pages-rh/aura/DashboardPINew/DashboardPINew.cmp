@@ -37,12 +37,12 @@
         </div>
     </div>
     <div class="slds-grid slds-wrap db-section">
-        <div class="slds-col slds-size--1-of-2">
+		<div class="slds-col slds-size--1-of-2">  <!-- Krishna M- REF-1635- Moved the section above -->
+            <c:DashboardWaitingContact dashboardTitle="{!'' + v.piData.participantsWaitingContact + ' ' + $Label.c.PG_DBPI_L_Referrals_waiting_for_contact}" peList="{!v.piData.awaitingToContact}" parent="{!v.parent}"/>
+        </div>
+        <div class="slds-col slds-size--1-of-2"> 
             <c:DashboardTimeWaitingContact dashboardTitle="{!$Label.c.PG_DBPI_L_Referrals_waiting_for_first_contact}" peList="{!v.piData.waitingTimeToContact}" parent="{!v.parent}"/>
         </div>
-        <div class="slds-col slds-size--1-of-2">
-            <c:DashboardWaitingContact dashboardTitle="{!'' + v.piData.participantsWaitingContact + ' ' + $Label.c.PG_DBPI_L_Referrals_waiting_for_contact}" peList="{!v.piData.awaitingToContact}" parent="{!v.parent}"/>
-        </div> 
          <aura:if isTrue="{!v.isParticipantDisplay}">
             <div class="slds-col slds-large-size_2-of-3 slds-small-size_1-of-1 slds-medium-size_1-of-1">
                 <c:DB_ParticipantsContactedSchedule parent="{!v.parent}" piData="{!v.piData}"/>

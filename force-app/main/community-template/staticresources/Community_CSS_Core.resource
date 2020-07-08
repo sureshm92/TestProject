@@ -16,6 +16,7 @@ h1, h2, h3, h4, h5, h6{
 
 body{
     font-size: 13px;
+    overflow: visible!important;
 }
 
  a,
@@ -84,9 +85,9 @@ a:hover {
     padding: 4px 0 6px 0;
     margin-top: 3px;
     width: 100%;
-    border: none;
+    border: none ! important;
     background: none ! important;
-    color: #FFFFFF ;
+    color: #FFFFFF ! important;
     font-size: 15px;
     font-weight: 300;
     line-height: 21px;

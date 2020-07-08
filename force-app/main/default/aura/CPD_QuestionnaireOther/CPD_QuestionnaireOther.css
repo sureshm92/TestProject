@@ -1,0 +1,125 @@
+@font-face {
+    font-family: Muli;
+    src: url(/resource/CPD_CommunityFont);
+}
+
+.THIS.content-align {
+    padding: 1% 30% 1% 20%;
+}
+
+.THIS .slds-input {
+    height: 40px;
+}
+
+.THIS .documentation-of-h {
+    color: #005587 !important;
+    font-size: 17px !important;
+    letter-spacing: 0 !important;
+    line-height: 22px !important;
+    font-family: "Muli", sans-serif;
+    font-weight: 800 !important;
+}
+
+.THIS .documentation-of-a-p {
+    color: #595959 !important;
+    font-family: "Muli", sans-serif;
+    font-size: 14px !important;
+    letter-spacing: 0 !important;
+    line-height: 20px !important;
+    font-weight: 400 !important;
+    width: 91%;
+    margin-left: 1%;
+}
+
+.THIS .slds-text-color_error {
+    height: 20px;
+    color: #1AA0D9;
+    font-family: Muli;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 20px;
+}
+
+.THIS .sld-custom-help-message-show {
+    color: rgb(194, 57, 52);
+    font-size: .75rem;
+    margin-top: .125rem;
+    display: block;
+}
+
+
+.THIS .sld-date-input-style {
+    width: 50% !important;
+}
+
+.THIS .sld-date-width {
+    width: 85% !important;
+}
+
+.THIS .slds-file-selector__text {
+    display: none !important;
+}
+
+.THIS .slds-file-selector__dropzone {
+    border: 0px dashed #d4d4d4 !important;
+}
+
+.THIS .slds-form-element__label {
+    font-size: 15px !important;
+    line-height: 30px !important;
+    font-family: "Muli", sans-serif;
+    font-weight: 400 !important;
+    color: #595959 !important;
+}
+
+.THIS .slds-file-selector__dropzone .slds-file-selector__button .slds-button__icon {
+    display: none;
+}
+
+.THIS .slds-file-selector__dropzone .slds-file-selector__button {
+    font-size: 0;
+    background-color: #1AA0D9 !important;
+    border: 15px solid #1AA0D9 !important;
+    border-radius: 5px !important;
+}
+
+.THIS .slds-file-selector__dropzone .slds-file-selector__button:before {
+    content: 'Upload document';
+    color: #FFFFFF !important;
+    font-family: "Muli", sans-serif;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+
+    .THIS.content-align {
+        padding: 0% 0% 0% 10%;
+    }
+
+    .THIS .sld-date-input-style {
+        width: 85% !important;
+    }
+
+    .THIS .sld-date-width {
+        width: 85% !important;
+    }
+
+    .THIS .slds-file-selector__dropzone .slds-file-selector__button:before {
+        content: 'Upload document';
+        color: #FFFFFF !important;
+        font-family: "Muli", sans-serif;
+        font-size: 20px !important;
+        font-weight: 600 !important;
+    }
+
+    .THIS .slds-file-selector__dropzone .slds-file-selector__button {
+        font-size: 0;
+        background-color: #1AA0D9 !important;
+        border: 12px solid #1AA0D9 !important;
+        border-radius: 5px !important;
+        padding-right: 50px !important;
+        padding-left: 50px !important;
+    }
+}

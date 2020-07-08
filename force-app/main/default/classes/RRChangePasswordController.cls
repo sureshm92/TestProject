@@ -22,6 +22,7 @@ public without sharing class RRChangePasswordController {
     public String oldPassword {get; set;}
     public String newPassword {get; set;}
     public String verifyNewPassword {get; set;}
+    public String failingPageResponse {get; set;}
 
     public Boolean isPaswordsEquals {get; set;}
     public Account account {get; set;}
@@ -68,7 +69,7 @@ public without sharing class RRChangePasswordController {
     private Map<String, String> countryCodeByName = new Map<String, String>();
     private Map<String, String> stateCodeByName = new Map<String, String>();
     private String oldAccountName;
-
+    
     public RRChangePasswordController() {
         translation = new Translation__c();
         init();
@@ -182,7 +183,16 @@ public without sharing class RRChangePasswordController {
 //                userVal.LanguageLocaleKey = translation.Language__c;
             update userVal;
 //            }
-
+            for (ApexPages.Message m : ApexPages.getMessages()) {
+                if(m.getDetail().contains(System.Label.Pswd_Val_strng1) || m.getDetail().contains(System.Label.Pswd_Val_strng2) || m.getDetail().contains(System.Label.Pswd_ValidationMsg4))
+                {
+                    m = new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.Pswd_ValidationMsg3);
+                    failingPageResponse = m.getDetail();
+                }else{
+                    failingPageResponse = Null;
+                }
+            }
+            
             if (tcId!=null) {
                 Terms_And_Conditions_Acceptance__c tca = new Terms_And_Conditions_Acceptance__c();
                 tca.Accepted_Date__c = Datetime.now();
@@ -194,7 +204,6 @@ public without sharing class RRChangePasswordController {
             return pr;
         }catch (Exception e){
             isProfileView = true;
-            ApexPages.addMessages(e);
             return null;
         }
     }
@@ -279,7 +288,21 @@ public without sharing class RRChangePasswordController {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Institute Name' + ERROR_SUFFIX));
             }
             try {
-                if (!Test.isRunningTest()) Site.validatePassword(userVal, newPassword, verifyNewPassword);
+                if (!Test.isRunningTest()){ 
+                    Site.validatePassword(userVal, newPassword, verifyNewPassword);
+                
+              		for (ApexPages.Message m : ApexPages.getMessages()) 
+                    {
+                       if(m.getDetail().contains(System.Label.Pswd_Val_strng1) || m.getDetail().contains(System.Label.Pswd_Val_strng2) || m.getDetail().contains(System.Label.Pswd_ValidationMsg4))
+                        {
+                            m = new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.Pswd_ValidationMsg3);
+                            failingPageResponse = m.getDetail();
+                        }else{
+                            failingPageResponse = Null;
+                        }
+                	}
+            	}
+                
             } catch (Exception e) {
                 ApexPages.addMessages(e);
             }
@@ -297,7 +320,7 @@ public without sharing class RRChangePasswordController {
     @Future
     private static void updateHCPStatus(Id contactId){
         List<HCP_Enrollment__c> hcpEnrollments = [
-                SELECT Id,
+                SELECT Id,//
                         HCP_Contact__c,
                         Status__c
                 FROM HCP_Enrollment__c

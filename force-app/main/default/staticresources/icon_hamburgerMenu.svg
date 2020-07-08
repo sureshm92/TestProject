@@ -1,0 +1,14 @@
+<svg width="23.999999999999996" height="23.999999999999996" xmlns="http://www.w3.org/2000/svg">
+ <title>navigation-menu-1</title>
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <rect fill="#ffffff" id="svg_1" ry="1.5" rx="1.5" height="4" width="18" y="3" x="3"/>
+  <rect fill="#ffffff" id="svg_2" ry="1.5" rx="1.5" height="4" width="18" y="10" x="3"/>
+  <rect fill="#ffffff" id="svg_3" ry="1.5" rx="1.5" height="4" width="18" y="17" x="3"/>
+ </g>
+</svg>

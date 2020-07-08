@@ -1,0 +1,215 @@
+<aura:component description="CPD_ContactInfo" implements="forceCommunity:availableForAllPageTypes" 
+    controller="CPDonorReferralFormController"  access="global">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+
+    <aura:attribute name="isPatientRequired" type="Boolean" default="true" />
+    <aura:attribute name="isParentRequired" type="Boolean" default="true" />
+    <aura:attribute name="showParent" type="Boolean" default="false" />
+    <aura:attribute name="isOtherRequired" type="Boolean" default="false" />
+    <aura:attribute name="showOtherTextbox" type="Boolean" default="false" />
+    <aura:attribute name="formData" type="CPDonorReferralFormController.InitData" access="public"/>
+    <aura:attribute name="phoneType" type="String[]" default="Mobile,Work,Home" />
+    <aura:attribute name="stateList" type="String[]"  />
+    <aura:attribute name="suffix" type="String[]" default="Sr.,Jr.,II.,III.,IV." />
+    <aura:attribute name="refsites" type="List" />
+    <aura:attribute name="intpatientreferral" type="Integration_Patient_Referral__c"
+        default="{'sobjectType':'Integration_Patient_Referral__c'}" />
+    <aura:attribute name="formresult" type="Form_Results__c" default="{'sobjectType':'Form_Results__c'}" />
+
+   <!-- Aura method -->
+   <aura:method name="contactInfoValidate" action="{!c.validateContactInfo}" />
+   
+   <!--Aura handler-->
+   <aura:handler name="init" value="{!this}" action="{!c.doInit}" /> 
+
+    <!--patient section -->
+    <div class="rectangle">
+        <p class="about-you">{!$Label.c.CPD_About_you}</p>
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                <lightning:input type="text" aura:id="contactInfo" value="{!v.intpatientreferral.firstName__c}"
+                    name="firstname" label="{!$Label.c.CPD_First_name_label}" required="true" 
+                    onchange="{!c.handleInputValidation}" 
+                    messageWhenValueMissing="{!$Label.c.CP_Patient_First_Name_Error}" class="sld-input-style" />
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_2-of-12">
+                <lightning:input type="text" aura:id="contactInfo" value="{!v.intpatientreferral.Middle_Initial__c}"
+                    name="middlename" label="{!$Label.c.CPD_Middle_initial_label}" class="slds-input-middle" />
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                <lightning:input type="text" aura:id="contactInfo" value="{!v.intpatientreferral.lastName__c}"
+                    name="lastname" label="{!$Label.c.CPD_Last_name_label}" required="true" 
+                    onchange="{!c.handleInputValidation}"
+                    messageWhenValueMissing="{!$Label.c.CP_Patient_Last_Name_Error}" class="sld-input-style" />
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_2-of-12">
+                <lightning:select aura:id="contactInfo" name="select" value="{v.intpatientreferral.Suffix__c}"
+                    label="{!$Label.c.CP_Suffix+' (optional)'}" class="select-sld-input-style" onchange="{!c.changePatSuffix}">
+                    <option text="" value=""></option>
+                    <aura:iteration items="{!v.suffix}" var="suf">
+                        <option text="{!suf}" value="{!suf}" selected="{!suf==v.intpatientreferral.Suffix__c}"></option>
+                    </aura:iteration>
+                </lightning:select>
+            </div>
+        </div>
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                <lightning:input type="email" value="{!v.intpatientreferral.email__c}" aura:id="contactInfo"
+                    name="email" placeholder="johnsmith@qq.qq" label="{!v.isPatientRequired == true ? $Label.c.CPD_Email_address_label : $Label.c.CPD_Email_address_label+' (optional)'}" 
+                    onchange="{!c.handleInputValidation}"
+                    required="{!v.isPatientRequired}" messageWhenValueMissing="{!$Label.c.CP_Patient_Email_Error}"
+                    messageWhenTypeMismatch="{!$Label.c.CP_Patient_Email_Error}" class="sld-input-style" />
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_2-of-12">
+                <lightning:input type="text" value="{!v.intpatientreferral.phone__c}" aura:id="contactInfo"
+                    name="phone3" label="{!v.isPatientRequired == true ? $Label.c.CPD_Primary_phone_label : $Label.c.CPD_Primary_phone_label+' (optional)'}" placeholder="000-000-0000"
+                    required="{!v.isPatientRequired}"
+                    messageWhenValueMissing="{!$Label.c.CP_Patient_Preferred_Phone_Number_Error}"
+                    messageWhenTypeMismatch="{!$Label.c.CP_Patient_Preferred_Phone_Number_Error}"
+                    onchange="{!c.handleInputValidation}" class="sld-input-style" maxlength="15" minlength="10"
+                    pattern="^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$" />
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_2-of-12">
+                <lightning:select aura:id="contactInfo" name="select" value="{!v.intpatientreferral.Phone_Type__c}"
+                    class="select-sld-input-style" required="{!v.isPatientRequired}" label="{!v.isPatientRequired == true ? $Label.c.CPD_Phone_type_label : $Label.c.CPD_Phone_type_label+' (optional)'}"
+                    onchange="{!c.changePhoneType}" messageWhenValueMissing="{!$Label.c.CP_Phone_Type_Error}">
+                    <option text="" value=""></option>
+                    <aura:iteration items="{!v.phoneType}" var="type">
+                        <option text="{!type}" value="{!type}" selected="{!type==v.intpatientreferral.Phone_Type__c}">
+                        </option>
+                    </aura:iteration>
+                </lightning:select>
+            </div>
+            <!--required="{!v.isPatientRequired}"-->
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_2-of-12">
+                <lightning:select aura:id="contactInfo" name="select" value="{!v.intpatientreferral.Address_State__c}"
+                    class="select-sld-input-style" required="true" label="{!$Label.c.CPD_State_label}" onchange="{!c.changeState}"
+                    messageWhenValueMissing="{!$Label.c.CPD_State_Error}">
+                    <option text="New York" value="New York"></option>
+                    <aura:iteration items="{!v.stateList}" var="type">
+                        <option text="{!type.label}" value="{!type.label}" selected="{!type.label==v.intpatientreferral.Address_State__c}">
+                        </option>
+                    </aura:iteration>
+                </lightning:select>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_2-of-12">
+                    <lightning:input type="text" value="{!v.intpatientreferral.Address_ZipCode__c}" name="zipcode"
+                    onchange="{!c.handleInputValidation}"
+                    aura:id="contactInfo" label="{!$Label.c.CP_Zipcode}" required="true" placeholder="00000"
+                    messageWhenValueMissing="{!$Label.c.CP_Patient_Zip_Code_Error}" pattern="\d{5}(?:[-\s]\d{4})?"
+                    class="sld-input-style" />
+            </div>
+        </div>
+    </div>
+    <!--patient section -->
+    <!--Parent or legal guardian section -->
+    <aura:if isTrue="{!v.showParent}">
+        <div class="rectangle">
+            <p class="about-you">{!$Label.c.CPD_Parent_Legal_guardian_title}</p>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                    <lightning:input type="text" aura:id="legalguardian"
+                        value="{!v.intpatientreferral.Delegate_First_Name__c}" name="firstname"
+                        label="{!$Label.c.CPD_Delegate_First_name}" required="{!v.isParentRequired}"
+                        onchange="{!c.handleInputValidationDelegate}"
+                        messageWhenValueMissing="{!$Label.c.CP_Legal_Guardian_First_Name_Error}"
+                        class="sld-input-style" />
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_2-of-12">
+                    <lightning:input type="text" label="{!$Label.c.CPD_Delegate_Middle_initial_label}" aura:id="legalguardian"
+                        value="{!v.intpatientreferral.Delegate_Middle_Name__c}" name="middlename"
+                        class="slds-input-middle" />
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                    <lightning:input type="text" aura:id="legalguardian"
+                        value="{!v.intpatientreferral.Delegate_Last_Name__c}" name="lastname"
+                        label="{!$Label.c.CPD_Delegate_Last_name_label}" required="{!v.isParentRequired}"
+                        onchange="{!c.handleInputValidationDelegate}"
+                        messageWhenValueMissing="{!$Label.c.CP_Legal_Guardian_Last_Name_Error}"
+                        class="sld-input-style" />
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_2-of-12">
+                    <lightning:select name="select" aura:id="legalguardian" label="{!$Label.c.CP_Suffix+' (optional)'}"
+                        class="select-sld-input-style" onchange="{!c.changeDelSuffix}">
+                        <option text="" value=""></option>
+                        <aura:iteration items="{!v.suffix}" var="delSuf">
+                            <option text="{!delSuf}" value="{!delSuf}"
+                                selected="{!delSuf==v.intpatientreferral.Delegate_Suffix__c}" />
+                        </aura:iteration>
+                    </lightning:select>
+                </div>
+            </div>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                    <lightning:input type="email" value="{!v.intpatientreferral.Delegate_Email_Address__c}"
+                        aura:id="legalguardian" name="email" placeholder="johnsmith@qq.qq"
+                        label="{!$Label.c.CPD_Delegate_Email_address_label}" required="{!v.isParentRequired}"
+                        onchange="{!c.handleInputValidationDelegate}"
+                        messageWhenValueMissing="{!$Label.c.CP_Legal_Guardian_Email_Error}"
+                        messageWhenTypeMismatch="{!$Label.c.CP_Legal_Guardian_Email_Error}" class="sld-input-style" />
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_2-of-12">
+                    <!--required="{!v.isParentRequired}"-->
+                    <lightning:input type="text" value="{!v.intpatientreferral.Delegate_Daytime_Phone_Number__c}"
+                        aura:id="legalguardian" name="phone3" label="{!$Label.c.CPD_Delegate_Primary_phone}"
+                        placeholder="000-000-0000" required="{!v.isParentRequired}"
+                        messageWhenValueMissing="{!$Label.c.CP_Legal_Guardian_Preferred_Phone_Number_Error}"
+                        messageWhenTypeMismatch="{!$Label.c.CP_Patient_Preferred_Phone_Number_Error}"
+                        onchange="{!c.handleInputValidationDelegate}" class="sld-input-style" maxlength="15" minlength="10"
+                        pattern="^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$" />
+                </div>
+
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_2-of-12">
+                    <!--required="{!v.isParentRequired}"-->
+                    <lightning:select aura:id="legalguardian" name="select"
+                        value="{!v.intpatientreferral.Delegate_Phone_Number_Type__c}" label="{!$Label.c.CPD_Delegate_Phone_type}"
+                        required="false" class="select-sld-input-style"
+                        messageWhenValueMissing="{!$Label.c.CP_Phone_Type_Error}">
+                        <option text="" value=""></option>
+                        <aura:iteration items="{!v.phoneType}" var="type">
+                            <option text="{!type}" value="{!type}"
+                                selected="{!type==v.intpatientreferral.Delegate_Phone_Number_Type__c}"></option>
+                        </aura:iteration>
+                    </lightning:select>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+    <!--Parent or legal guardian section -->
+    <!--Referring organization section -->
+    <div class="rectangle">
+        <p class="about-you">{!$Label.c.CPD_How_did_you_hear_about_us}</p>
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                <lightning:select name="referringOrg" class="select-sld-input-style" label="{!$Label.c.CPD_Referring_organization_label}"
+                    aura:id="refOrg" value="{!v.formresult.Refering_Orgs__c}" onchange="{!c.changeReferringOrganization}"                   
+                    messageWhenValueMissing="{!$Label.c.CP_Referring_Organization_Error}">
+                    <option text="" value=""></option>
+                    <aura:iteration items="{!v.refsites}" var="rsite">
+                        <option text="{!rsite}" value="{!rsite}" selected="{!rsite==v.formresult.Referral_Org__c}" />
+                    </aura:iteration>
+                </lightning:select>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                <aura:if isTrue="{!v.showOtherTextbox}"> <!--refOrgOther--> 
+                        <lightning:input value="{!v.formresult.Other_Referral_Org__c}" type="text" name="referringOther"
+                        label="{!$Label.c.CPD_Organization_other_label}" aura:id="contactInfo" required="{!v.isOtherRequired}"
+                        onchange="{!c.handleInputValidation}"
+                        messageWhenValueMissing="{!$Label.c.CP_Other_Referring_Organization_Error}" />
+                </aura:if>                
+            </div>
+        </div>
+    </div>
+    <div class="privacy-rectangle">
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                <div class="your-privacy-is-impo">
+                    <p>{!$Label.c.CPD_Your_privacy_is_important_to_us}&nbsp;
+                    <a href="https://c19trials.com/#!/PrivacyPolicy" class="privacy-blue-font" id="privacy" name="privacy"  target="_blank">{!$Label.c.CPD_Privacy_Policy}</a>&nbsp;
+                    {!$Label.c.CPD_and_our}&nbsp;<a href="https://c19trials.com/#!/TermsOfUse" class="privacy-blue-font" id="terms" name="terms"  target="_blank">{!$Label.c.CPD_Terms_of_Use}</a></p>
+                </div>
+            </div>
+        </div>
+   </div>
+</aura:component>

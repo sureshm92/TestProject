@@ -1,0 +1,62 @@
+@font-face {
+  font-family: Muli;
+  src: url(/resource/CPD_CommunityFont);
+}
+
+.THIS .about-you {
+    color: #005587;
+    font-family: "Muli", sans-serif;
+    font-weight: 800!important;
+    font-size: 18px;
+    letter-spacing: 0;
+    line-height: 22px;
+  }
+
+.THIS.rectangle {
+    box-sizing: border-box;
+    border: 1px solid #999999;
+    background-color: #FAFAFA;
+    padding: 1rem 2rem 2rem 2rem;
+    margin-left: 4%;
+    margin-right: 4%;
+}
+
+.THIS .slds-form-element__label { 
+  color: #595959!important;
+  font-family: "Muli", sans-serif!important;
+  font-size: 14px!important;
+  letter-spacing: 0!important;
+  line-height: 20px!important;
+}
+
+.THIS .slds-input {
+    height: 40px;
+    width: 90%;
+}
+
+.THIS .select-sld-input-style {
+  width: 90%!important;
+  margin-top: 0.3%!important;;
+}
+
+.THIS .slds-select {
+  height: 40px!important;
+}
+
+.THIS .your-privacy-is-impo {
+  color: #000000;
+  font-family: "Muli", sans-serif;
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+
+.THIS .privacy-blue-font {
+  color: #008FFF;
+}
+.THIS.privacy-rectangle
+{
+    padding: 1rem 2rem 2rem 2rem;
+    margin-left: 3%;
+    margin-right: 4%;
+}

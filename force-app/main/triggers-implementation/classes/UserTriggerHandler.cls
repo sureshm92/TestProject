@@ -127,19 +127,44 @@ public without sharing class UserTriggerHandler {
                 SELECT Id, ContactId
                 FROM User
                 WHERE Id IN:insertedUsers
-                AND ContactId != NULL
-                AND Contact.userCommunityMode__c != 'Participant'
+                AND ((ContactId != NULL
+                AND Contact.userCommunityMode__c != 'Participant') AND
+            	(Contact.Registry_Source__c != 'IQVIA registry' OR Contact.Source__c != 'IQVIA registry'))
         ];
 
         Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
+       
         for (User user : rhUsers) {
             actionAssignContactPermissions.addPermission(
                     user.ContactId, CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME
             );
         }
-
+		
         if (!actionAssignContactPermissions.isEmpty()) {
             ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+        }
+        
+        if(rhUsers == null){
+            List<User> registryUsers = [
+                    SELECT Id, ContactId
+                    FROM User
+                    WHERE Id IN:insertedUsers
+                    AND ((ContactId != NULL
+                    AND Contact.userCommunityMode__c != 'Participant') AND
+                    (Contact.Registry_Source__c = 'IQVIA registry' OR Contact.Source__c = 'IQVIA registry'))
+            ];
+    
+            Action_AssignContactPermissions registryActionAssignContactPermissions = new Action_AssignContactPermissions();
+           
+            for (User user : registryUsers) {
+                registryActionAssignContactPermissions.addPermission(
+                        user.ContactId, CommunityTemplateService.PERMISSION_COMMUNITY_COVID19_NAME
+                );
+            }
+            
+            if (!registryActionAssignContactPermissions.isEmpty()) {
+                ActionExecutor.executeAsync(registryActionAssignContactPermissions, Datetime.now());
+            }
         }
     }
 

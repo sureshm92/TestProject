@@ -4,6 +4,11 @@
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
     <name>PI3 New HCP Request Study Site</name>
+    <packageVersions>
+        <majorNumber>1</majorNumber>
+        <minorNumber>7</minorNumber>
+        <namespace>sf_com_apps</namespace>
+    </packageVersions>
     <style>none</style>
     <subject>A new provider wants to refer patients to you</subject>
     <type>visualforce</type>

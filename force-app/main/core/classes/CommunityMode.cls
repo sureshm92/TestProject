@@ -104,6 +104,9 @@ public without sharing class CommunityMode {
             whatId = currentPE;
             isDelegate = currentDelegateId != null;
         }
+        if(userMode == CommunityService.USER_MODE_PI) {
+            template = CommunityTemplateService.getTemplateByPrefix(Site.getPathPrefix());
+        }
         
         key = CommunityModeService.generateModeKey(userMode, currentDelId, whatId);
         groupKey = key;
