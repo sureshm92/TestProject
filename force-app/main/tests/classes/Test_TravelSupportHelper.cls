@@ -7,6 +7,8 @@ public with sharing class Test_TravelSupportHelper {
 
     @TestSetup
     static void setup() {
+        TriggerHandlerExecutor.bypassHandler(ContactTherapeuticAreaTriggerHandler.SyncContactInterestedTopics.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class);
         Test.startTest();
         TestDataFactory.createDataForTravelSupportTesting();
         Test.stopTest();

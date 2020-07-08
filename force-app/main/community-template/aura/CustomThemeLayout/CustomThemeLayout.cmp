@@ -39,7 +39,7 @@
                 <aura:if isTrue="{!v.isInitialized}">
                     <div class="{!'layout-header rr-width-limiter side-padding ' + if(v.isArabic, 'rtl', '')}">
                         <div class="menu-btn" onclick="{!c.switchSideMenu}">
-                            <img src="{!$Resource.rr_community_icons + '/menu_btn.png'}" class="chevron"
+                            <img src="{!$Resource.rr_community_icons + '/hamburger-white.svg'}" class="chevron"
                                  style="height: 32px; width: 32px"/>
                         </div>
                         <div class="logo-container">

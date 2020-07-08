@@ -13,6 +13,7 @@ public without sharing class CommunityTemplateService {
     public static final String PROPERTY_PATH_PREFIX = 'PathPrefix';
 
     public static final String PERMISSION_COMMUNITY_DEFAULT_NAME = 'Community_Default';
+    public static final String PERMISSION_COMMUNITY_COVID19_NAME = 'Community_Covid19';
     public static final String PERMISSION_COMMUNITY_GSK_NAME = 'Community_GSK_Pan_Oncology';
 
     public static final String TEMPLATE_DEFAULT = 'Default';

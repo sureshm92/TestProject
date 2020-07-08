@@ -17,6 +17,11 @@
     <aura:attribute name="didSolveOptions" type="List" default="[]"/>
 	<aura:attribute type="Boolean" name="isInitialized" access="private" default="false"/>
     
+    <aura:attribute type="String" name="currentParticipant" default="" access="private" />
+    <aura:attribute type="String" name="currentSite" default="" access="private" />
+    <aura:attribute type="List" name="participantPicklistvalues" default="[]" />
+    <aura:attribute type="List" name="sitePicklistvalues" default="[]"/>
+    
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.didThisHelp}" action="{!c.doResponseReceived}"/>
@@ -52,9 +57,9 @@
                                           class="ht-sub-label"/>
                 </div>
             </aura:if>
-            <aura:if isTrue="{!(v.selectedTopicSettings.submitRequired || v.didThisHelp=='No') &amp;&amp; (v.userMode == 'PI' || v.userMode == 'HCP')}">
+            <aura:if isTrue="{!(v.selectedTopicSettings.submitRequired || v.didThisHelp=='No') &amp;&amp; (v.selectedTopicSettings.displayName != $Label.c.HT_02_CPD)}">
                 <div class="ht-panel">
-
+                    
                     <aura:if isTrue="{!v.selectedTopicSettings.userDescriptionRequired}">
                         <div class="h-body-text-area ht-label">
                             <lightning:textArea value="{!v.textValueProblem}" name="description" label=""
@@ -103,12 +108,44 @@
                     </div>
                     <div class="h-body-button ht-label">
                         <button class="apollo-btn primary" tabindex="1" onclick="{!c.submitRequest}">
-                                {!$Label.c.PG_HLP_BTN_Submit_Your_Problem}
+                                {!$Label.c.PG_HLP_BTN_Submit_Your_Problem}      
                         </button>
                     </div>
                 </div>
             </aura:if>
-        </div>
+            <!--Participant transfer-->
+            
+         	<div class="ht-panel">
+                <div class="pi-picklist-container slds-grid slds-gutters" data-gtm="DDL_Pi_Picker">
+                    <aura:if isTrue="{!v.selectedTopicSettings.displayName == $Label.c.HT_02_CPD}">
+                    <div class="slds-align_absolute-center">    
+                        <!--<span class="picklist-block">
+                            <c:rrSelect value="{!v.currentParticipant}" options="{!v.participantPicklistvalues}" label="{!$Label.c.Help_Participant_Name}" useSentenceFont="false"/>
+                        </span>-->
+
+                        <span class="picklist-block slds-p-right_medium">
+                        	<lightning:input label="{!$Label.c.Help_Participant_Name}" value="{!v.currentParticipant}"/>
+                        </span>
+                        
+                        <span>
+                            <c:rrSelect value="{!v.currentSite}" options="{!v.sitePicklistvalues}" setValueAsSelected="true" label="{!$Label.c.Help_Study_Site}" useSentenceFont="false"/>
+                        </span>
+                    </div>
+
+                    </aura:if>
+                </div>
+                <div class="slds-p-top_large">
+                    <aura:if isTrue="{!v.selectedTopicSettings.displayName == $Label.c.HT_02_CPD}">    
+                        <div class="h-body-button ht-label">
+                            <button class="apollo-btn primary" tabindex="1" onclick="{!c.submitRequest}">   
+                                    {!$Label.c.PG_HLP_BTN_Submit_Your_Request}
+                            </button>
+                        </div>
+                    </aura:if>
+                </div>
+            </div>
+               <!--Participant transfer-->
+    </div>
     </div>
     </aura:if>
 </aura:component>

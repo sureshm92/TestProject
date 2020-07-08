@@ -14,6 +14,19 @@
         component.set('v.stepWrapper.reason', '');
         
         helper.checkValidity(component, event, helper, stepWrapper);
+        //@krishna Mahto - For REF-1390- start
+        // Display the error message when current step is contact Attemp
+        console.log('********stepWrapper.cardTitle '+stepWrapper.cardTitle)
+        console.log('********stepWrapper.Status '+stepWrapper.status)
+        if(stepWrapper.cardTitle!=null && 
+           stepWrapper.cardTitle== "Contact Attempt" &&
+           stepWrapper.isCurrentStep==true &&
+           component.get('v.isDateTimeFieldsAvailable')==true){
+            component.set('v.isSuccessfullyContacted',true)
+        } else{
+            component.set('v.isSuccessfullyContacted',false)
+        }
+        //@krishna Mahto - For REF-1390- end
     },
     updateReasonList : function (component, event, helper) {
         let stepWrapper = component.get('v.stepWrapper');

@@ -1,0 +1,46 @@
+<aura:component description="SurveyResponseView" controller="SurveyResponseViewController">
+    <aura:attribute name="pe" type="Participant_Enrollment__c"/>
+    <aura:attribute name="surveyresponse" type="Object"/>
+
+		<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+		<div class="maindiv">
+			<div class="divpadding">
+					<aura:if isTrue="{!v.surveyresponse.fr.Positive_for_COVID_19__c}">
+							{!$Label.c.CP_See_if_You_Qualify_Test_Positive}  &nbsp;{!$Label.c.CP_Symptoms_Yes}     
+							<aura:set attribute="else">
+									{!$Label.c.CP_See_if_You_Qualify_Test_Positive}  &nbsp;{!$Label.c.CP_Symptoms_No} 
+							</aura:set> 
+					</aura:if>			
+			</div>
+			<div class="divpadding">
+				{!$Label.c.CP_Test_Date} &nbsp;{!v.surveyresponse.fr.Covid_19_Test_Date__c}
+			</div>
+            <!--
+			<div class="divpadding">
+					<aura:if isTrue="{!v.surveyresponse.fr.Days_14_of_symptoms__c}">
+							{!$Label.c.CP_Has_IT_Been_At_Last_Symptoms}  &nbsp;{!$Label.c.CP_Symptoms_Yes} 
+							<aura:set attribute="else">
+									{!$Label.c.CP_Has_IT_Been_At_Last_Symptoms}  &nbsp;{!$Label.c.CP_Symptoms_No} 
+							</aura:set>
+					</aura:if>		
+			</div>
+			-->
+			<div class="divpadding">
+				{!$Label.c.CP_Estimated_date_of_first_symptom}: &nbsp;{!v.surveyresponse.fr.Estimated_Date_of_first_symptom__c}
+			</div>
+			<div class="divpadding">
+				{!$Label.c.CP_Estimated_date_of_last_symptom}: &nbsp;{!v.surveyresponse.fr.Estimated_date_of_last_symptom__c}
+			</div>
+			<div class="divpadding">
+				{!$Label.c.CP_Outside_Organization_Label} - {!v.surveyresponse.fr.Referral_Org__c}
+			</div>
+			<div class="divpadding">
+				{!$Label.c.CP_Referring_Organization} -	{!v.surveyresponse.fr.Other_Referral_Org__c}
+			</div>
+
+			<div class="divpadding">
+				{!$Label.c.CP_Test_Result} - <a href="{!'/servlet/servlet.FileDownload?file='+ v.surveyresponse.entries[0].Id}" target="_blank" download="{!v.surveyresponse.entries[0].Name}">{!v.surveyresponse.entries[0].Name}</a>
+				<!--<a href="{!'/Covid19/servlet/servlet.FileDownload?file=' + v.surveyresponse.entries[0].Id}"></a>-->
+			</div>
+		</div>	
+</aura:component>

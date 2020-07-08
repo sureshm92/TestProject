@@ -9,8 +9,14 @@ public without sharing class PENotificationTriggerHandler {
     public class CreateNotificationHandler extends TriggerHandler {
 
         public override void afterInsert(List<SObject> newList) {
-            createNotificationByStatus(newList, null);
-            referredToNewStudyDelegateNotifications(newList);
+            if (System.isFuture() || System.isBatch()) {
+                createNotificationByStatus(newList, null);
+                referredToNewStudyDelegateNotifications(newList);
+            } else {
+                Map<Id, Participant_Enrollment__c> pesById = new Map<Id, Participant_Enrollment__c>((List<Participant_Enrollment__c>)newList);
+                createNotificationByStatusFuture(pesById.keySet());
+                referredToNewStudyDelegateNotificationsFuture(pesById.keySet());
+            }
         }
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
@@ -27,8 +33,31 @@ public without sharing class PENotificationTriggerHandler {
     // Logic: ----------------------------------------------------------------------------------------------------------
 
     @TestVisible
-    private static void createNotificationByStatus(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
+    @Future
+    private static void createNotificationByStatusFuture(Set<Id> peIds) {
+        List<Participant_Enrollment__c> newList =
+            [SELECT Id,
+                    HCP_Contact_HCPEnroll__c,
+                    Participant__c,
+                    Participant__r.Contact__c,
+                    Participant__r.Contact__r.Visited_Communities__c,
+                    Participant_Contact__c,
+                    Clinical_Trial_Profile__c,
+                    Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+                    Clinical_Trial_Profile__r.CommunityTemplate__c,
+                    Study_Site__r.Principal_Investigator__r.Id,
+                    Participant_Status__c,
+                    Is_Virtual_Study_Site__c,
+                    Referral_Source__c,
+                    IsAutoaccepted__c,
+                    Source_Type__c
+            FROM Participant_Enrollment__c
+            WHERE Id IN :peIds];
+        createNotificationByStatus(newList, null);
+    }
 
+    @TestVisible
+    private static void createNotificationByStatus(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         List<String> peStatusesSuccess = new List<String>{
                 PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS,
                 PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS
@@ -109,27 +138,6 @@ public without sharing class PENotificationTriggerHandler {
                     ));
                 }
             }
-            if (oldMap == null || pe.Participant_Status__c != (oldMap.get(pe.Id)).Participant_Status__c) {
-                //Forming additional notification for PI
-                if (pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED && pe.Source_Type__c != ParticipantEnrollmentService.PE_SOURCE_TYPE_PI) {
-                    notifications.add(new Notification__c(
-                            Recipient__c = pe.Study_Site__r.Principal_Investigator__r.Id,
-                            WhatId__c = pe.Id,
-                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE
-                    ));
-                    for (Site_Staff__c delegate : [
-                            SELECT Id, Site_Contact__c
-                            FROM Site_Staff__c
-                            WHERE Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
-                            AND Study_Site__c = :pe.Study_Site__c
-                    ]) {
-                        notifications.add(new Notification__c(
-                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE,
-                                Recipient__c = delegate.Site_Contact__c,
-                                WhatId__c = pe.Id));
-                    }
-                }
-            }
         }
 
         //get Delegates for Participant
@@ -154,6 +162,30 @@ public without sharing class PENotificationTriggerHandler {
         notifications.addAll(delegateNotifications);
 
         insert notifications;
+    }
+
+    @TestVisible
+    @Future
+    private static void referredToNewStudyDelegateNotificationsFuture(Set<Id> peIds) {
+        List<Participant_Enrollment__c> newList =
+            [SELECT Id,
+                    HCP_Contact_HCPEnroll__c,
+                    Participant__c,
+                    Participant__r.Contact__c,
+                    Participant__r.Contact__r.Visited_Communities__c,
+                    Participant_Contact__c,
+                    Clinical_Trial_Profile__c,
+                    Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+                    Clinical_Trial_Profile__r.CommunityTemplate__c,
+                    Study_Site__r.Principal_Investigator__r.Id,
+                    Participant_Status__c,
+                    Is_Virtual_Study_Site__c,
+                    Referral_Source__c,
+                    IsAutoaccepted__c,
+                    Source_Type__c
+            FROM Participant_Enrollment__c
+            WHERE Id IN :peIds];
+        referredToNewStudyDelegateNotifications(newList);
     }
 
     @TestVisible
@@ -216,7 +248,9 @@ public without sharing class PENotificationTriggerHandler {
         List<Notification__c> notificationList = new List<Notification__c>();
         List<Id> peIds = new List<Id>();
         for (Participant_Enrollment__c pe : newList) {
-            if (pe.Study_Site__c != oldMap.get(pe.Id).Study_Site__c && oldMap.get(pe.Id).Study_Site__c != null) {
+            if (pe.Study_Site__c != oldMap.get(pe.Id).Study_Site__c && oldMap.get(pe.Id).Study_Site__c != null
+               && !(oldMap.get(pe.Id).Participant_Status__c == 'Pending Referral' 
+                && (pe.Participant_Status__c == 'Received'||pe.Participant_Status__c == 'Eligibility Passed'))) {
                 peIds.add(pe.Id);
             }
         }

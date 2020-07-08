@@ -10,6 +10,8 @@
             component.set('v.userContact', initData.userContact.currentContact);
             component.set('v.helpTopicOptions', initData.helpTopicOptions);
             component.set('v.helpTopicSettings', initData.helpTopicSettings);
+            component.set('v.participantPicklistvalues', initData.participantEnrollOptions);
+            component.set('v.sitePicklistvalues', initData.siteOptions);
             helper.initRGOptions(component);
             component.set('v.isInitialized', true);
             var spinner = component.find('spinner');

@@ -1,0 +1,104 @@
+@font-face {
+    font-family: Muli;
+    src: url(/resource/CPD_CommunityFont);
+}
+
+.THIS.site-rectangle {
+    box-sizing: border-box;
+    height: 500px;
+    border: 1px solid #9B9B9B;
+    background-color: #F7F7F7;
+    margin-left: 4%;
+    margin-right: 4%;
+}
+
+.THIS .study-site-name-copy {
+    color: #005587;
+    font-family: "Muli", sans-serif;
+    font-weight: bolder;
+    font-size: 18px;
+    letter-spacing: 0;
+    line-height: 22px;
+}
+
+.THIS .address-line-1-addre {
+    color: #333333;
+    font-family: "Muli", sans-serif;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 20px;
+}
+
+.THIS .slds-box {
+    padding: 2rem 1rem 1rem 2rem!important;
+    border-radius : 0rem!important;
+    border-bottom: 1px solid #005587!important;
+}
+
+.THIS .site-button-align {
+    margin-top: 8%;
+}
+
+.THIS .select-as-my-preferr {
+    line-height: 2.8rem!important;
+    color: #1AA0D9!important;
+    font-family: "Muli", sans-serif!important;
+    font-size: 16px!important;
+    font-weight: bold!important;
+    border: 2px solid #1AA0D9!important;
+    border-radius: 5px!important;
+    background-color: #FFFFFF!important;
+    width: 255px!important;
+}
+
+.THIS .select-as-my-preferr:hover {
+    background-color: #1AA0D9!important;
+    color: #FFFFFF!important;
+    border: 2px solid #FFFFFF!important;    
+  }
+
+  .THIS .data-row:hover {
+    /*background-color:#54698d;
+    color:white;
+    cursor:pointer;*/
+   }
+   .THIS .data-row.selectedRow{
+    /* background-color:#54698d;
+     color:white;*/
+    }
+
+.THIS .sWrapTest {
+    height: 31rem;
+
+}
+.THIS .slds-map iframe {
+
+    height: 31rem!important;
+}    
+
+@media (min-width: 320px) and (max-width: 480px) {
+   
+    .THIS.site-rectangle {
+        box-sizing: border-box;
+        border: 1px solid #9B9B9B;
+        background-color: #F7F7F7;
+        margin-left: -2%;
+        margin-right: -2%;
+    }
+    
+    .THIS .slds-map_container {
+        margin-top: 4%;
+    }
+    .THIS .slds-map {
+        min-width: 16.75rem!important;
+    }
+    .THIS .slds-map iframe {
+        height: 15rem!important;
+    }   
+
+    .THIS .sWrapTest {
+        height: 15rem;
+        border-radius: 2px;
+    }
+    
+}
