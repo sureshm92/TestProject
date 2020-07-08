@@ -129,4 +129,22 @@ public without sharing class TravelSupportRemote {
             }
         }
     }
+    
+    //@Krishna Mahto - PEH-2179 - Start 
+    /**
+    * ───────────────────────────────────────────────────────────────────────────────────────────────┐
+    * This method will return the current communityName
+    * ────────────────────────────────────────────────────────────────────────────────────────────────
+    * @Method:   getCommunityName
+    * @param:    NA   
+    * @return:   Strings  
+    * ───────────────────────────────────────────────────────────────────────────────────────────────┘
+    **/
+    @auraEnabled
+    public static String getCommunityName(){
+		String communityName=FindCommunityName.getCommunityName();
+        return communityName;
+    }
+    
+    //@Krishna Mahto - PEH-2179 - End
 }

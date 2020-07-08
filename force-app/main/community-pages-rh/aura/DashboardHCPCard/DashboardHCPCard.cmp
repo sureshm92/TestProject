@@ -16,6 +16,8 @@
             <div data-gtm="LNK_View_All_RP">
                 <c:RRLink label="{!v.hcpe.data.HCP_Contact__r.Salutation + ' ' + v.hcpe.data.HCP_Contact__r.Name + ' '}"
                           page="my-referring-clinics"/>
+                 <br/> <!-- @Krishna Mahto - REF-1600 -->
+                {!$Label.c.PG_DBPI_at + ' '} {!v.hcpe.data.HCP_Contact__r.Account.Name} <!-- @Krishna Mahto - REF-1600 -->
             </div>
             <c:uiHeaderMenu aura:id="menuId" class="accept-btn">
                 <aura:set attribute="title">
@@ -48,7 +50,7 @@
             <!--                        {!v.hcpe.action.label}-->
             <!--                </button>-->
         </div>
-        {!$Label.c.PG_DBPI_at + ' '} {!v.hcpe.data.HCP_Contact__r.Account.Name}
+        <!-- {!$Label.c.PG_DBPI_at + ' '} {!v.hcpe.data.HCP_Contact__r.Account.Name}--> <!-- @Krishna Mahto - REF-1600 -->
         <br/>
         {!$Label.c.PG_DBPI_L_study + ': '}&nbsp;<c:RRLink
                 label="{!v.hcpe.data.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}"

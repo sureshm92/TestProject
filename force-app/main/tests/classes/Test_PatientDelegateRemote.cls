@@ -136,6 +136,7 @@ public class Test_PatientDelegateRemote {
 
         Test.startTest();
         TestData testData = new TestData();
+        Test.startTest();
         System.runAs(testData.participantUser) {
             PatientDelegateRemote.changeDelegateStatus(delegateContact.Id, false);
         }

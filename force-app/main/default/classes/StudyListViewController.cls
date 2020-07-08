@@ -238,6 +238,7 @@ public without sharing class StudyListViewController {
         for (Clinical_Trial_Profile__c trial : piTrials) {
             List<Study_Site__c> ss = trial.Study_Site_Profiles__r;
             StudyDetailItem studyDetailItem = new StudyDetailItem();
+            TranslateHelper.translate(trial);
             studyDetailItem.trial = trial;
             Map<String, Study_Site__c> statusMap = new Map<String, Study_Site__c>();
             for (Integer i = 0; i < ss.size(); i++) {

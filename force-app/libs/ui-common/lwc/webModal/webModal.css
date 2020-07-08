@@ -5,3 +5,7 @@
     width: 40%;
     min-width: 26rem;
 }
+
+.slds-modal__content {
+    overflow: initial;
+}
