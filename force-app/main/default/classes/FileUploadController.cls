@@ -69,7 +69,8 @@ public without sharing class FileUploadController {
         if(resourceId != null){
             listOfFiles = [
                     SELECT ContentDocument.Title,
-                            ContentDocument.FileType
+                           ContentDocument.FileType,
+                           ContentDocument.LatestPublishedVersion.LanguageCode__c
                     FROM ContentDocumentLink
                     WHERE LinkedEntityId = :resourceId
             ];
