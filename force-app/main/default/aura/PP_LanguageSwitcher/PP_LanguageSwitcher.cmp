@@ -1,5 +1,5 @@
 <!--
- - Created by Leonid Bartenev
+ - Created by Sneha Shilpa Thuluri
  -->
 
  <aura:component description="LanguageSwitcher" controller="PP_LanguageSwitcherRemote">
@@ -83,12 +83,12 @@
                     <span>
                         <lightning:helptext content="{!$Label.c.PG_AS_F_3rd_Choice_Language_Help_Text}"/>
                     </span>
-                </div>
+                </div> 
                 <c:rrSelect options="{!v.optionalLanguages}" value="{!v.thirdLangKey}" disabled="{!!v.initialized}" 
                             class="ls-select" useSentenceFont="{!false}" isValueChanged="{!v.isDisabled}"/>
             </div>
         </div>
-
+  
         <br/>
 
         <div class="as-title pr_40">{!$Label.c.PG_Login_H_Time_Zone_and_Locale}</div>
@@ -133,11 +133,13 @@
                             placeholder="{!$Label.c.PG_AC_Select}" required="{!not(empty(v.statesLVList))}"
                             useSentenceFont="false"
                             onchange="{!c.doCheckFieldsValidity}" isValueChanged="{!v.isDisabled}"/>
-            </div>
-            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+            </div>   
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">    
+                    <div class="widthAlign">            
                 <lightning:input aura:id="pField" type="text" label="{!$Label.c.PG_AS_F_Zip_Postal_Code}"
                                  value="{!v.personWrapper.zip}"
                                  onblur="{!c.doCheckFieldsValidity}"/>
+            </div>
             </div>
 
         </div>

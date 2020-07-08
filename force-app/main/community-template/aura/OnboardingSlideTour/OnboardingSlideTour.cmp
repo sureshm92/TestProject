@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="OnboardingSlideTour" implements="forceCommunity:availableForAllPageTypes" controller="OnboardingSlideTourRemote">
+ <aura:component description="OnboardingSlideTour" implements="forceCommunity:availableForAllPageTypes" controller="OnboardingSlideTourRemote">
 
     <ltng:require scripts="{!$Resource.rr_community_js}"/>
 

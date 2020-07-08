@@ -28,3 +28,13 @@
     font-size: 1rem;
     line-height: 21px;
 }
+
+/* @krishna Mahto - PEH-1379  */
+.THIS .slds-form-element__icon {
+    display: inline-block;
+    position: absolute;
+    padding-top: 0;
+    vertical-align: top;
+    line-height: 1;
+    z-index: 1;
+}

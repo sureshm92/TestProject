@@ -95,7 +95,6 @@
 
 .THIS .slds-form-element {
     width: 50%;
-    min-width: 21rem;
 }
 
 .THIS .alert-count-condition {
@@ -112,7 +111,7 @@
 
 .THIS .alert-count-condition1 {
     height: 17px;
-    width: auto;
+    width: 50rem;
     color: #595959;
     font-family: "Proxima Nova";
     font-size: 14px;
