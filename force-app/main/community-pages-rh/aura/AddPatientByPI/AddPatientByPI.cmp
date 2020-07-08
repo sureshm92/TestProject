@@ -76,10 +76,9 @@
                         </div>
 
                         <aura:if isTrue="{!v.needsGuardian}">
-                            <div class="slds-col slds-size--1-of-2 ap-section-title" style="size: 16px; margin-top: 15px">
+                            <div class="slds-col slds-size--2-of-2 ap-section-title" style="size: 16px; margin-top: 15px">
                                 <label>{!$Label.c.PG_Ref_L_Delegate_Information}</label>
                             </div>
-                            <div class="slds-col slds-size--1-of-2"></div>
 
                             <div class="slds-col slds-size--1-of-3 rr-form-element">
                                 <div class="label">

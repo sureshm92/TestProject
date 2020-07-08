@@ -40,7 +40,10 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
         }
 
         List<ContentDocumentLink> contentDocumentLinks = [
-                SELECT Id, ContentDocument.Title, LinkedEntityId
+                SELECT Id,
+                        LinkedEntityId,
+                        ContentDocument.Title,
+                        ContentDocument.LatestPublishedVersion.LanguageCode__c
                 FROM ContentDocumentLink
                 WHERE LinkedEntityId IN:resIds
         ];
@@ -50,7 +53,7 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
             if (!contentLangByResId.containsKey(content.LinkedEntityId)) {
                 contentLangByResId.put(content.LinkedEntityId, new List<String>());
             }
-            contentLangByResId.get(content.LinkedEntityId).add(content.ContentDocument.Title);
+            contentLangByResId.get(content.LinkedEntityId).add(content.ContentDocument.LatestPublishedVersion.LanguageCode__c);
         }
 
         List<Participant_Enrollment__c> enrollment = [
