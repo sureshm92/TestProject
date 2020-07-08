@@ -68,7 +68,7 @@ public without sharing class AccountSettingsController {
             }
             
             initData.contactSectionData.personWrapper = new PersonWrapper(initData.myContact, initData.participant);
-            if(initData.participant.Adult__c){
+            if(initData.participant.Adult__c || (userMode == 'PI' || userMode == 'HCP')){
             initData.userName = UserInfo.getUserName();
             User uval = [Select Id,ContactId from User where Id =: UserInfo.getUserId()];
             initData.delegateContact = [Select Id From Contact where Id =: uval.ContactId];
