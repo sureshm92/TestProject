@@ -1,43 +1,9 @@
 /**
  * Created by Kryvolap on 13.09.2018.
  */
- .THIS.dlit-container {
+.THIS.dlit-container {
     padding: 20px;
 }
-.THIS .slds-button__icon_left{
-    margin-left:-20px;
-}
-
-.THIS .slds-accordion__summary-heading .slds-button:focus {
-    text-decoration:none;
-}
-
-.THIS .slds-truncate{
-  color: #0768FD;
-  font-family: "Proxima Nova";
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 0;
-  line-height: 24px;
-    
-}
-
-.THIS .header_text{
-   color: #0768FD;
-  font-family: "Proxima Nova";
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 0;
-  line-height: 24px;
-}
-
-.THIS ul li{
-    list-style-type:disc;
-    list-style:disc;
-   color: #000000;
-  font-family: "Proxima Nova";
-  font-size: 16px;
-  letter-spacing: 0;}
 .THIS .dlit-table th{
     font-size: 1rem;
     font-weight: bold;
@@ -66,15 +32,6 @@
 }
 .THIS .greenIcon svg {
     fill: #00C221;
-}
-.THIS .complete-tasks-on {
-  height: 150px;
-  width: 309px;
-  color: #000000;
-  font-family: "Proxima Nova";
-  font-size: 16px;
-  letter-spacing: 0;
-  line-height: 25px;
 }
 
 @media all and (max-width: 500px) {

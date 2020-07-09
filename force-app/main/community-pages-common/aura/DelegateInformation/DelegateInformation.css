@@ -1,21 +1,13 @@
 /**
  * Created by Igor Malyuta on 25.03.2019.
  */
- .THIS .line {
+.THIS .line {
     margin-top: 82px;
     margin-bottom: 28px;
     box-sizing: border-box;
     height: 239px;
     width: 2px;
     border: 1px solid #979797;
-}
-.THIS .delegateInfo{
-    color: #000000;
-  font-family: "Proxima Nova";
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 0;
-  line-height: 24px;
 }
 .THIS h3{
     width: 277px;
@@ -24,12 +16,11 @@
     line-height: 36px;
 }
 .THIS .mti-button{
-    /*float: right;*/
-    margin-top:20px;
+    float: right;
 }
 .THIS .mti-info-text{
-    /*margin-top: 89px;
-    margin-right: 63px;*/
+    margin-top: 89px;
+    margin-right: 63px;
 }
 
 @media all and (max-width: 550px) {
@@ -61,7 +52,5 @@
     .THIS .mti-button {
         margin-top: 15px;
         height: auto;
-        color:#0768FD;
-        font-weight:600;
     }
 }

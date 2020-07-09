@@ -248,7 +248,7 @@
                     
                     <aura:if isTrue="{!v.isDelegate}">
                         <div class="delegateInfo">
-                            <c:DelegateInformation contact="{!v.delegateContact}" parentComponent="{!this}" userMode="Participant"/>
+                            <c:DelegateInformation contact="{!v.delegateContact}" parentComponent="{!this}"/>
                         </div>
                         <div style="height: 30px"></div>
                     </aura:if>
