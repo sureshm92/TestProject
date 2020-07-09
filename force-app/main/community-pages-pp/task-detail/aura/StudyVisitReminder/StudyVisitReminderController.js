@@ -28,7 +28,7 @@
     doSave: function (component, event, helper) {
         debugger;
         var task = component.get('v.task');
-        task.Task_Type__c = $A.util.isUndefinedOrNull(task.Task_Type__c) &&
+        task.Task_Type__c = $A.util.isEmpty(task.Task_Type__c) &&
             !component.get('v.initData.createdByAdmin') ? 'Not Selected' : task.Task_Type__c;
         var reminderDate = component.get('v.initData.reminderDate');
         var emailPeferenceSelected = component.get('v.task.Remind_Using_Email__c');
