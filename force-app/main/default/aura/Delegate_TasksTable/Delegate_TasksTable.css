@@ -1,0 +1,88 @@
+/**
+ * Created by Deeksha on 09.07.2020.
+ */
+.THIS.dlit-container {
+    padding: 20px;
+}
+.THIS .slds-button__icon_left{
+    margin-left:-20px;
+}
+
+.THIS .slds-accordion__summary-heading .slds-button:focus {
+    text-decoration:none;
+}
+
+.THIS .slds-truncate{
+  color: #0768FD;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 24px;
+    
+}
+
+.THIS .header_text{
+   color: #0768FD;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+
+.THIS ul li{
+    list-style-type:disc;
+    list-style:disc;
+   color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  letter-spacing: 0;}
+.THIS .dlit-table th{
+    font-size: 1rem;
+    font-weight: bold;
+}
+.THIS .dlit-table td, .THIS .dlit-table th{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.THIS .dlit-table td{
+    border-top: 0.5px solid #999999;
+    color: #666666;
+    font-size: 1rem;
+}
+.THIS .dlit-table th:nth-child(n+2){
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.THIS .dlit-table td:nth-child(n+2){
+    text-align: center;
+    font-size: 14px;
+    color: black;
+    font-weight: bold;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.THIS .greenIcon svg {
+    fill: #00C221;
+}
+.THIS .complete-tasks-on {
+  height: 150px;
+  width: 309px;
+  color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 25px;
+}
+
+@media all and (max-width: 500px) {
+    .THIS.dlit-container {
+        padding: 0 1rem;
+    }
+    .THIS .dlit-table th,
+    .THIS .dlit-table td{
+        font-size: 1rem;
+    }
+}
