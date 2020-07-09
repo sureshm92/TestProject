@@ -2822,6 +2822,11 @@
     </fieldPermissions>
 	<fieldPermissions>
         <editable>false</editable>
+        <field>Media_Outreach__c.fMediaType__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
         <field>Media_Outreach__c.Alternate_Email_Phone_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>

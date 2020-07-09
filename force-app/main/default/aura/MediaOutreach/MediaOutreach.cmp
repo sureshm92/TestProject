@@ -75,7 +75,7 @@
                                                         <div class="slds-truncate wraptext" ><span class="outreachTitle">{!$Label.c.MO_Study_Site}:</span>{!item.Study_Name__r.Name}</div>
                                                     </td>
                                                     <td>
-                                                        <div class="slds-truncate wraptext"><span class="outreachTitle">{!$Label.c.MO_Media_Type}:</span>{!item.Media_Type__c}</div>
+                                                        <div class="slds-truncate wraptext"><span class="outreachTitle">{!$Label.c.MO_Media_Type}:</span>{!item.fMediaType__c}</div>
                                                     </td>
                                                     <td>
                                                         <div class="slds-truncate">
@@ -108,7 +108,7 @@
                                                     <th scope="row">
                                                         <div class="slds-truncate">
                                                             <div data-gtm="LNK_View_Participants_Details">
-                                                                <button class="slds-button" data-row-index="{!index}" value="{!tableindex}" onclick="{!c.ShowOutreachRecord}">{!item.Name}</button>
+                                                              <span class="outreachTitle">{!$Label.c.MO_Request_ID}:</span><button class="slds-button" data-row-index="{!index}" value="{!tableindex}" onclick="{!c.ShowOutreachRecord}">{!item.Name}</button>
                                                             </div>
                                                         </div>
                                                     </th>
@@ -119,7 +119,7 @@
                                                         <div class="slds-truncate wraptext" ><span class="outreachTitle">{!$Label.c.MO_Study_Site}:</span>{!item.Study_Name__r.Name}</div>
                                                     </td>
                                                     <td>
-                                                        <div class="slds-truncate wraptext"><span class="outreachTitle">{!$Label.c.MO_Media_Type}:</span>{!item.Media_Type__c}</div>
+                                                        <div class="slds-truncate wraptext"><span class="outreachTitle">{!$Label.c.MO_Media_Type}:</span>{!item.fMediaType__c}</div>
                                                     </td>
                                                     <td>
                                                         <div class="slds-truncate">
@@ -152,7 +152,6 @@
             <br></br>
         </aura:iteration>
     </div>
-
     <!-- PoPup Media Record:-->
     <c:ViewMediaRecord aura:id="OpenOutreach" ViewRecord="{!v.SelectedmediaList}" footerbutton="{!v.showfooterbutton}"
         disablefield="{!v.disabled}" ActiveReqRecord="{!v.ReqRecordtype}"/>

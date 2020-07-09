@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>fMediaType__c</fullName>
+    <externalId>false</externalId>
+    <formula>LEFT(IF(INCLUDES( Media_Type__c , &quot;Radio&quot;), &quot;Radio&quot; +&quot;, &quot;, NULL)   + 
+IF(INCLUDES( Media_Type__c , &quot;Television&quot;), &quot;Television&quot;+ &quot;, &quot;, NULL)   + 
+IF(INCLUDES( Media_Type__c , &quot;Print&quot;), &quot;Print&quot; +&quot;, &quot; , NULL)  + 
+IF(INCLUDES( Media_Type__c , &quot;Social Media&quot;), &quot;Social Media&quot; +&quot;, &quot;,NULL ),(LEN(IF(INCLUDES( Media_Type__c , &quot;Radio&quot;), &quot;Radio&quot; +&quot;, &quot;, NULL)   + 
+IF(INCLUDES( Media_Type__c , &quot;Television&quot;), &quot;Television&quot;+ &quot;, &quot;, NULL)   + 
+IF(INCLUDES( Media_Type__c , &quot;Print&quot;), &quot;Print&quot; +&quot;, &quot; , NULL)  + 
+IF(INCLUDES( Media_Type__c , &quot;Social Media&quot;), &quot;Social Media&quot; +&quot;, &quot;,NULL )) - 2) )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>fMediaType</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
