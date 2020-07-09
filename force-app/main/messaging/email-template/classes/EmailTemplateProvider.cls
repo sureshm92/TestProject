@@ -169,6 +169,7 @@ public without sharing virtual class EmailTemplateProvider {
         } else {
             recipientContact = [
                     SELECT Id,
+                            Salutation,
                             FirstName,
                             Language__c,
                             Salutation_With_Name__c,
@@ -183,13 +184,14 @@ public without sharing virtual class EmailTemplateProvider {
         isDelegate = recipientContact.UserCommunityIsDelegate__c;
 
         recipientFirstName = recipientContact.FirstName;
-        if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
-            List<Participant__c> participants = [
-                    SELECT First_Name__c, Last_Name__c
-                    FROM Participant__c
-                    WHERE Contact__c = :recipientContactId
-            ];
-            if (!participants.isEmpty()) recipientFirstName = participants.get(0).First_Name__c;
+        List<Participant__c> participants = [
+                SELECT First_Name__c, Last_Name__c
+                FROM Participant__c
+                WHERE Contact__c = :recipientContactId
+        ];
+        if (!participants.isEmpty()) {
+            recipientFirstName = participants.get(0).First_Name__c;
+            recipientName = (recipientContact.Salutation == null ? '' : recipientContact.Salutation) + ' ' +  participants.get(0).First_Name__c + ' ' + participants.get(0).Last_Name__c;
         }
 
         if (String.isEmpty(recipientName)) recipientName = recipientContact.Salutation_With_Name__c;
