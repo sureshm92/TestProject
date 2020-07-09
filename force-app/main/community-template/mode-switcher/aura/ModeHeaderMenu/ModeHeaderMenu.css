@@ -107,9 +107,14 @@
     color: #000;
 }
 
-@media all and (max-width: 768px) {
+@media all and (orientation:landscape) and (max-width: 1024px) {
+    .THIS .menu-popup-panel.popupTargetContainer {
+       right: .5rem;
+    }
+}
 
-    .cModeHeaderMenu .menu-popup-panel.popupTargetContainer {
-        left: auto;
+@media all and (orientation:portrait) and (max-width: 1024px) {
+    .THIS .menu-popup-panel.popupTargetContainer {
+        right: .5rem;
     }
 }
