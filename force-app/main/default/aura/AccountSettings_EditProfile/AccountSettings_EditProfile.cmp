@@ -6,6 +6,8 @@
     <aura:attribute name="userMode" type="String" required="true"/>
     <aura:attribute name="isDelegate" type="Boolean"/>
     <aura:attribute name="disableToggle" type="Boolean"/>
+    <aura:attribute name="disableEmailToggle" type="Boolean"/>
+
     <aura:attribute name="delegateContact" type="Contact"/>
     <aura:attribute name="hasProfilePic" type="Boolean"/>
     <aura:attribute name="institute" type="Object"/>
@@ -288,7 +290,7 @@
                                                  messageToggleInactive="{!$Label.c.BTN_Off}"
                                                  class="slds-col ah-toggle slds-m-top--large"
                                                  checked="{!v.optInEmail}"
-                                                 onchange="{!c.doSwitchOptInEmail}" value="{v.personWrapper.optInEmail}"/>
+                                                 onchange="{!c.doSwitchOptInEmail}" value="{v.personWrapper.optInEmail}" disabled="{!empty(v.contact.Email)||(v.disableEmailToggle)}"/>
                                 <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-small-size_1-of-3 slds-m-top--large">
                                     
                                     {!v.userMode == 'Participant'? $Label.c.PG_AS_L_Opt_In_Participant_Status_Emails : $Label.c.RH_OPT_INT_STATUS_EMAIL}</div>

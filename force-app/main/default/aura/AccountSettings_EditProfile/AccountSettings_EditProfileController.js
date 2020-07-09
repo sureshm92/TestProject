@@ -81,6 +81,10 @@
             if(component.get('v.personWrapper.mobilePhone')==''){
                 component.set('v.disableToggle',true);
             }
+                        if(component.get('v.contact.Email')==''){
+                component.set('v.disableEmailToggle',true);
+            }
+
             if(component.get('v.personWrapper.mobilePhone')===null && component.get('v.optInSMS')===true){
                 component.set('v.disableSave',true);
             }

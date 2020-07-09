@@ -69,7 +69,8 @@ public without sharing class FileUploadController {
         if(resourceId != null){
             listOfFiles = [
                     SELECT ContentDocument.Title,
-                            ContentDocument.FileType
+                           ContentDocument.FileType,
+                           ContentDocument.LatestPublishedVersion.LanguageCode__c
                     FROM ContentDocumentLink
                     WHERE LinkedEntityId = :resourceId
             ];
@@ -77,7 +78,12 @@ public without sharing class FileUploadController {
         Set<String> usedLanguages = new Set<String>();
         List<LabelValueItem> availableLanguagesLVList = new List<LabelValueItem>();
         for(ContentDocumentLink contentLink : listOfFiles) {
+            if(contentLink.ContentDocument.LatestPublishedVersion.LanguageCode__c !='' && contentLink.ContentDocument.LatestPublishedVersion.LanguageCode__c != null){
+              usedLanguages.add(contentLink.ContentDocument.LatestPublishedVersion.LanguageCode__c);
+            }
+            else{
             usedLanguages.add(contentLink.ContentDocument.Title);
+            }
             listOfFileWrappers.add(new FileWrapper(
                     contentLink.ContentDocument,
                     TranslateHelper.getPickListLabel(Contact.Language__c, contentLink.ContentDocument.Title)
