@@ -166,13 +166,22 @@ public without sharing class PatientDelegateTriggerHandler {
             }
         }
 
-        if(!notifications.isEmpty()) insertNotifications(JSON.serialize(notifications));
+        if (!notifications.isEmpty()) insertNotifications(notifications);
+    }
+
+    private static void insertNotifications(List<Notification__c> notifications) {
+        if (System.isFuture() || System.isBatch()) {
+            insert notifications;
+        } else {
+            insertNotificationsAsync(JSON.serialize(notifications));
+        }
     }
 
     @Future
-    private static void insertNotifications(String notificationsJSON) {
+    private static void insertNotificationsAsync(String notificationsJSON) {
         List<Notification__c> newNotifications =
                 (List<Notification__c>) JSON.deserialize(notificationsJSON, List<Notification__c>.class);
         insert newNotifications;
     }
+
 }
