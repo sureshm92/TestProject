@@ -224,8 +224,14 @@ public without sharing class PENotificationTriggerHandler {
                 }
         );
 
+        Boolean isFutureContext = System.isFuture() || System.isBatch();
         for (Participant_Enrollment__c pe : newList) {
-            String communityName = ((Clinical_Trial_Profile__c) PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).CommunityTemplate__c;
+            String communityName;
+            if (!isFutureContext) {
+                communityName = ((Clinical_Trial_Profile__c) PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).CommunityTemplate__c;
+            } else if (pe.Clinical_Trial_Profile__r != null) {
+                communityName = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
+            }
             if (pesByCommunityName.get(communityName) != null) {
                 Map<Id, List<Participant_Enrollment__c>> pesByPartCont = pesByCommunityName.get(communityName);
                 if (pesByPartCont.get(pe.Participant_Contact__c).size() > 1 && delegateContactsByPartCnt.keySet().contains(pe.Participant_Contact__c)) {
