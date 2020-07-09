@@ -1,0 +1,30 @@
+<!--
+ - Created by Deeksha on 09.07.2020.
+ -->
+
+<aura:component description="DelegateLevelInfoTable">
+    <!-- attributes: -->
+    <aura:attribute name="activeSections" type="List" default="['A','C']" />
+    
+    <aura:attribute name="userMode" required="true" type="String"/>
+    <aura:attribute name="capList" required="false" access="private" type="Object[]"/>
+    <aura:attribute name="header" required="false" access="private" type="Object"/>
+    
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!-- component body-->
+       <aura:if isTrue="{!(v.userMode == 'Participant')}" >
+        <lightning:accordion allowMultipleSectionsOpen="true"
+                             onsectiontoggle="{! c.handleSectionToggle }" activeSectionName="{! v.activeSections }" >
+            <lightning:accordionSection name="B" label="{!$Label.c.PP_DelegateTasks}">
+                <aura:iteration items="{!v.capList}" var="capability">
+                    <span>
+                        <ul>
+                            <li>{!capability.text}</li>
+                        </ul>
+                    </span></aura:iteration>
+            </lightning:accordionSection></lightning:accordion>
+        
+    </aura:if>
+</aura:component>
