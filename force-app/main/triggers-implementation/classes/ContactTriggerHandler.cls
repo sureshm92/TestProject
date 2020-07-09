@@ -50,7 +50,9 @@ public without sharing class ContactTriggerHandler {
         }
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            createUserForCCContact(newList);
+            if(!Test.isrunningTest()){
+                createUserForCCContact(newList);
+            }
         }
     }
 
