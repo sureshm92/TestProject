@@ -50,7 +50,7 @@
                     <c:VisitsCompliance contactId="{!v.initData.contact.Id}" isVisitResultsExist="{!v.initData.isResultsExist}"
                                         isDelegate="{!v.initData.isDelegate}"
                                         isVisitResultsAvailable="{!v.initData.isVisitResultsAvailable}"
-                                        isOptIn="{!v.togglePosition}" labResultsMode="{!v.labResultsMode}"/>
+                                        isOptIn="{!v.togglePosition}" labResultsMode="{!v.resultModeLabel}"/>
                 </aura:set>
             </aura:if>
         </aura:if>

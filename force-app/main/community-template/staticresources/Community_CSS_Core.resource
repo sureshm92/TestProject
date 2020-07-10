@@ -1312,7 +1312,7 @@ input[type=password]::-ms-clear
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 2100;
+    z-index: 8700;
 }
 
 @media not print {
