@@ -2,29 +2,45 @@
  - Created by Igor Malyuta on 25.03.2019.
  -->
 
-<aura:component controller="PatientDelegateRemote" description="DelegateInformation">
+ <aura:component controller="PatientDelegateRemote" description="DelegateInformation">
 
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
-
+    <aura:attribute name="userMode" required="true" type="String"/>
     <aura:attribute name="contact" type="Contact" required="true"/>
     <aura:attribute name="infoText" type="String" access="private"/>
+    <aura:attribute name="delegateInfoHeader" type="String" access="private"/>
+    
     <aura:attribute name="parentComponent" type="Aura.Component" required="true"/>
-
-    <div class="rr-white-panel" style="padding: 30px">
-        <div class="slds-grid slds-gutters">
-            <div class="slds-col slds-size--1-of-3">
+    
+    <div class="rr-white-panel" style="border-radius: 0 3px 0 0;
+                                       background-color: #F6F7FB;">
+        <div>
+            <div>
                 <div class="delegate-info">
-                    <div class="as-title">{!$Label.c.PG_PST_L_Delegates_Delegate_Information}</div>
-                    <c:DelegateLevelInfoTable userMode="Participant"/>
+                    <aura:if isTrue="{!not(v.userMode == 'Participant')}" >
+                        
+                        <div class="as-title">{!$Label.c.PG_PST_L_Delegates_Delegate_Information}</div>
+                    </aura:if>
+                    <aura:if isTrue="{!(v.userMode == 'Participant')}" >
+                        <p class="delegateInfo">{!v.delegateInfoHeader}</p>
+                        
+                        <c:DelegateLevelInfoTable userMode="Participant"/></aura:if>
                 </div>
             </div>
-           <div class="slds-col slds-grow-none">
-                <div class="height-stub line"></div>
-           </div>
-            <div class="slds-col slds-size--2-of-3">
+            <aura:if isTrue="{!not(v.userMode == 'Participant')}" >
+                
+                <div class="slds-col slds-grow-none">
+                    <div class="height-stub line"></div>
+                </div></aura:if>
+            <div>
                 <div class="mti-info-text">
-                    <p>{!v.infoText}</p>
+                    <aura:if isTrue="{!not(v.userMode == 'Participant')}" >
+                        
+                        <p>{!v.infoText}</p></aura:if>
+                    <aura:if isTrue="{!(v.userMode == 'Participant')}" >
+                        
+                        <p>{!$Label.c.PP_Withdraw_Delegate}</p></aura:if>
                     <button class="apollo-btn secondary mti-button"
                             title="{!$Label.c.PG_PST_L_Delegates_Withdraw_From_Delegate}"
                             onclick="{!c.onClickWithdraw}">
