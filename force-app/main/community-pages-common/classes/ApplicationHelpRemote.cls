@@ -15,12 +15,8 @@ public without sharing class ApplicationHelpRemote {
         try {
             InitData initData = new InitData();
             String userLanguage = UserInfo.getLanguage();
-            ContactService.updateVisitedCommunity(UserContext.getUserContact(), UserContext.getCurrentCommunityTemplate());
-
             ParticipantService ps = new ParticipantService();
             ParticipantService.ParticipantState pState =ps.getState();
-
-
             List<Guides_Setting__mdt> guidesSettings = [
                     SELECT Language__c, HCP_Quick_Reference__c, HCP_User_Manual__c, HCP_Video_Guide__c,
                             PI_Quick_Reference__c, PI_User_Manual__c, PI_Video_Guide__c,
