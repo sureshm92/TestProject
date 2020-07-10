@@ -24,7 +24,8 @@
 }
 
 .THIS .slds-select,
-.THIS .slds-input {
+.THIS .slds-input,
+.THIS .uiInputSelect {
     height: 40px;
 }
 
