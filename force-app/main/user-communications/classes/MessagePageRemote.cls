@@ -410,7 +410,7 @@ public without sharing class MessagePageRemote {
     @TestVisible
     private static List<Participant_Enrollment__c> getEnrollmentsForPI(String additionalFiler) {
         Id currentContactId = CommunityService.getInstance().getCurrentContactId();
-        String filter = 'Study_Site__r.Messages_Are_Available__c = TRUE AND'
+        String filter = 'Study_Site__r.Messages_Are_Available__c = TRUE AND ('
                 + DatabaseService.fieldEqual('Study_Site__r.Principal_Investigator__c', currentContactId);
 
         List<Site_Staff__c> siteStaffs = [
@@ -423,7 +423,8 @@ public without sharing class MessagePageRemote {
             for (Site_Staff__c staff : siteStaffs) ssIds.add(staff.Study_Site__c);
             filter += 'OR' + DatabaseService.fieldInValues('Study_Site__c', ssIds);
         }
-
+        
+        filter += ')';
         if (String.isNotEmpty(additionalFiler)) filter += ' AND' + additionalFiler;
 
         return (List<Participant_Enrollment__c>) DatabaseService.query(
