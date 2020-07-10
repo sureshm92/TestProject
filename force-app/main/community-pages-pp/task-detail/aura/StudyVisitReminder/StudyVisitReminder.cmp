@@ -89,8 +89,8 @@
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                             <aura:if isTrue="{!v.task.Task_Type__c != 'Visit'}">
                                 <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type}"
-                                    value="{!v.task.Task_Type__c}" disabled="{!v.initData.createdByAdmin}"
-                                    class="{!v.initData.createdByAdmin ? 'disabledVisit' : '' }">
+                                    value="{!v.task.Task_Type__c}" disabled="{!or(v.initData.createdByAdmin, not(v.initData.isEnrolled))}"
+                                    class="{!or(v.initData.createdByAdmin, not(v.initData.isEnrolled)) ? 'disabledVisit' : '' }">
                                     <aura:iteration items="{!v.initData.taskTypeList}" var="type">
                                         <option value="{!type.value}" selected="{!type.value == v.task.Task_Type__c}">
                                             {!type.label}</option>

@@ -7325,6 +7325,13 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <shortDescription>Learn More</shortDescription>
         <value>Learn More</value>
     </labels>
+	<labels>
+        <fullName>Learn_More_Report_Document_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Learn More Report Document Name</shortDescription>
+        <value>Study Detailed Description Report</value>
+    </labels>
     <labels>
         <fullName>Library_Format</fullName>
         <language>en_US</language>
@@ -14019,7 +14026,21 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <shortDescription>PP Customize search text</shortDescription>
         <value>Search</value>
     </labels>
-	<labels>
+    <labels>
+        <fullName>PP_DelegateTasks</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_DelegateTasks</shortDescription>
+        <value>What Can I See or Do?</value>
+    </labels>
+    <labels>
+        <fullName>PP_Delegate_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Delegate_Header</shortDescription>
+        <value>##PatientFirstName has designated you as their delegate.</value>
+    </labels>
+    <labels>
         <fullName>PP_Edit_Task_Reminder</fullName>
         <categories>c:StudyVisitReminder</categories>
         <language>en_US</language>
@@ -14252,6 +14273,16 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>PP_Valid_Phone</shortDescription>
         <value>Please enter a valid mobile number.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Withdraw_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Withdraw_Delegate</shortDescription>
+        <value>You  may  choose  to  withdraw  from  your  delegate  appointment  at  any  time.  
+ Doing  so  will  prevent  you  from  seeing  any  more  information  associated  with 
+ Hermione.  If  you  withdraw  in  error , kindly  contact  your  patient  to  be 
+ reappointed  as  a  delegate.</value>
     </labels>
     <labels>
         <fullName>PSC_Docs_will_be_published</fullName>

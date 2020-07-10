@@ -2,7 +2,7 @@
  * Created by Olga Skrynnikova on 2/26/2020.
  */
 
-public with sharing class TemplatePropertiesService {
+public without sharing class TemplatePropertiesService {
 
     private Map<String, String> properties;
     private String templateName;

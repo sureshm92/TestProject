@@ -129,7 +129,7 @@ public inherited sharing class VisitResultsService {
                 : new VisitResultsContainer(
                         visitResults[0].Patient_Visit__r,
                         this.getVisitResultWrappers(visitResults, filteredVisitResultTypesIfAvailable),
-                        TranslateHelper.getLabelValue(visitResultsGroupName)
+                        TranslateHelper.getLabelValue('Visit_Results_Tab_' + visitResultsGroupName)
                 );
     }
 
