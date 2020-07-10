@@ -16,10 +16,10 @@ public without sharing class AddPatientByPIRemote {
         @AuraEnabled public Clinical_Trial_Profile__c ctp;
         @AuraEnabled public Study_Site__c ss;
         @AuraEnabled public String userLanguage;
-        
+
         public FormData() {}
     }
-    
+
     @AuraEnabled
     public static FormData getInitData(Id ssId) {
         try {
@@ -85,43 +85,54 @@ public without sharing class AddPatientByPIRemote {
             }
 
             if (createUser && newParticipant != null && !String.isBlank(newParticipant.Contact__c) && !String.isBlank(ssId)) {
-                Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
-                Study_Site__c ss = StudySiteService.getStudySiteForPIById(ssId);
-                String permissionSetName = CommunityTemplateService.getTemplate(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
-                actionAssignContactPermissions.addPermission(newParticipant.Contact__c, permissionSetName);
-                if (!actionAssignContactPermissions.isEmpty()) {
-                    ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
-                }
-            }
-            if(participant.Email__c!=null && participant.First_Name__c!=null && participant.Last_Name__c!=null){
-                List<Participant__c> participantObj = new List<Participant__c>();
-                Participant__c newPartcipantObj = new Participant__c(); newPartcipantObj = [Select Id , First_Name__c , Last_Name__c , Suffix__c , Middle_Name__c , Nickname__c , Date_of_Birth__c , Gender__c , Email__c , Phone_Type__c , Phone__c , Mailing_Zip_Postal_Code__c , Mailing_Country_Code__c , Mailing_State_Code__c from Participant__c where  Email__c =: participant.Email__c and First_Name__c =: participant.First_Name__c and Last_Name__c =: participant.Last_Name__c];
-                if(newPartcipantObj != null){
-                    newPartcipantObj.First_Name__c = participant.First_Name__c;
-                    newPartcipantObj.Last_Name__c = participant.Last_Name__c;
-                    newPartcipantObj.Suffix__c = participant.Suffix__c;
-                    newPartcipantObj.Middle_Name__c = participant.Middle_Name__c;
-                    newPartcipantObj.Nickname__c = participant.Nickname__c;
-                    newPartcipantObj.Date_of_Birth__c = participant.Date_of_Birth__c;
-                    newPartcipantObj.Gender__c = participant.Gender__c;
-                    newPartcipantObj.Email__c = participant.Email__c;
-                    newPartcipantObj.Phone__c = participant.Phone__c;
-                    newPartcipantObj.Phone_Type__c = participant.Phone_Type__c;
-                    newPartcipantObj.Mailing_Country_Code__c = participant.Mailing_Country_Code__c;
-                    newPartcipantObj.Mailing_Zip_Postal_Code__c = participant.Mailing_Zip_Postal_Code__c;
-                    newPartcipantObj.Mailing_State_Code__c = participant.Mailing_State_Code__c;
-                    participantObj.add(newPartcipantObj);
-                    if(participantObj.size() > 0){
-                        update participantObj;
-                    }
-
-                }
+                assignParticipantPermissions(ssId, newParticipant.Contact__c);
             }
 
+            updateParticipant(JSON.serialize(participant));
             createParticipantDelegate(participantDelegateJSON, delegateDuplicateInfo, participantId, participantJSON);
             //Moved history Creation to Trigger
         } catch (Exception e) {
             AuraHelper.throwException(e);
+        }
+    }
+
+    @Future
+    private static void assignParticipantPermissions(String ssId, String contactId) {
+        Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
+        Study_Site__c ss = StudySiteService.getStudySiteForPIById(ssId);
+        String permissionSetName = CommunityTemplateService.getTemplate(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
+        actionAssignContactPermissions.addPermission(contactId, permissionSetName);
+        if (!actionAssignContactPermissions.isEmpty()) {
+            ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+        }
+    }
+
+    @Future
+    private static void updateParticipant(String participantJSON) {
+        Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
+
+        if (participant.Email__c!=null && participant.First_Name__c!=null && participant.Last_Name__c!=null) {
+            List<Participant__c> participantObj = new List<Participant__c>();
+            Participant__c newPartcipantObj = new Participant__c(); newPartcipantObj = [Select Id , First_Name__c , Last_Name__c , Suffix__c , Middle_Name__c , Nickname__c , Date_of_Birth__c , Gender__c , Email__c , Phone_Type__c , Phone__c , Mailing_Zip_Postal_Code__c , Mailing_Country_Code__c , Mailing_State_Code__c from Participant__c where  Email__c =: participant.Email__c and First_Name__c =: participant.First_Name__c and Last_Name__c =: participant.Last_Name__c];
+            if (newPartcipantObj != null) {
+                newPartcipantObj.First_Name__c = participant.First_Name__c;
+                newPartcipantObj.Last_Name__c = participant.Last_Name__c;
+                newPartcipantObj.Suffix__c = participant.Suffix__c;
+                newPartcipantObj.Middle_Name__c = participant.Middle_Name__c;
+                newPartcipantObj.Nickname__c = participant.Nickname__c;
+                newPartcipantObj.Date_of_Birth__c = participant.Date_of_Birth__c;
+                newPartcipantObj.Gender__c = participant.Gender__c;
+                newPartcipantObj.Email__c = participant.Email__c;
+                newPartcipantObj.Phone__c = participant.Phone__c;
+                newPartcipantObj.Phone_Type__c = participant.Phone_Type__c;
+                newPartcipantObj.Mailing_Country_Code__c = participant.Mailing_Country_Code__c;
+                newPartcipantObj.Mailing_Zip_Postal_Code__c = participant.Mailing_Zip_Postal_Code__c;
+                newPartcipantObj.Mailing_State_Code__c = participant.Mailing_State_Code__c;
+                participantObj.add(newPartcipantObj);
+                if (!participantObj.isEmpty()) {
+                    update participantObj;
+                }
+            }
         }
     }
 
