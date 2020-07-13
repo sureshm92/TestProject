@@ -95,7 +95,7 @@
                     </div>
                 </div>
             </div>
-            <div class="slds-col slds-grid slds-size_1-of-1">
+            <div class="slds-col slds-grid slds-size_1-of-1 contactType">
                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium prefContact">
                     <div class="rr-form-element">
                         <!--<div class="label">{!$Label.c.Preferred_Contact_Method}</div>-->
