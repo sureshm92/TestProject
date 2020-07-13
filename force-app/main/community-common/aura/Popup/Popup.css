@@ -264,8 +264,6 @@
 }
 @media all and (orientation:landscape){
     .THIS.cAction_ParticipantInformation #p-modal .p-container.large {
-        width: calc(100% - 30px);
-        height: calc(100% - 30px);
         min-height: auto;
         overflow: hidden;
     }
