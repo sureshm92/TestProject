@@ -106,7 +106,7 @@
 
 @media all and (max-width: 500px) {
 
-    .THIS .slds-grid > .slds-grid {
+    .THIS .slds-grid > .slds-grid:not(.slds-datepicker__filter_month) {
         flex-direction: column;
     }
 
