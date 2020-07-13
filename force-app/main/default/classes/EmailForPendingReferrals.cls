@@ -1,3 +1,14 @@
+/**
+ * @description       : Sends Emails to PI and Delegates for awaiting Patient.
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 07-13-2020
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+ * Modifications Log 
+ * Ver   Date         Author                               Modification
+ * 1.0   07-13-2020   Anshuman Mishra                      Initial Version
+**/
+
 public class EmailForPendingReferrals {
 @InvocableMethod
     public static void sendMails(List<Batch_Notification__c> notifications){
@@ -5,7 +16,6 @@ public class EmailForPendingReferrals {
          List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
         Notification_Type__mdt notificationType = NotificationService.getNotificationType('PI_Delegates_New_Referral');
         Notification_Target__mdt nt = notificationType.Notification_Targets__r[0];
-        /*
         for(Batch_Notification__c bn : notifications){
             List<Id> contactIds = new List<Id>();
             contactIds = bn.Recipient_Ids__c.split(';');
@@ -15,7 +25,6 @@ public class EmailForPendingReferrals {
 		emailMessages.add(EmailService.createEmail(EmailService.getEmailTemplateId('PI_RP_New_Referral'), contactId, contactId, 
                                       availabilityService.getOrgWideEmail(contactId, contactId,nt.Org_Wide_Email_Address__c)));
         }
-*/
-       // List<Messaging.SendEmailResult> resultList = Messaging.sendEmail(emailMessages, false);
+        List<Messaging.SendEmailResult> resultList = Messaging.sendEmail(emailMessages, false);
     }
 }
