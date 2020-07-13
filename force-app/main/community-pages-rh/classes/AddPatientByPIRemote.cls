@@ -198,7 +198,7 @@ public without sharing class AddPatientByPIRemote {
                 ];
                 createDelegateuser = false;
             }
-            if(ddInfo == null || ddInfo.participantId == null) {
+            if (ddInfo == null || ddInfo.participantId == null) {
                 participantDelegate.Contact__c = newContact.Id;
                 if (String.isBlank(participantDelegate.Phone__c) && !String.isBlank(participant.Phone__c)) {
                     participantDelegate.Phone__c = participant.Phone__c;
@@ -207,11 +207,12 @@ public without sharing class AddPatientByPIRemote {
                 insert participantDelegate;
             }
             //if(ddInfo == null || !ddInfo.isDuplicateDelegate) {
-            if(participantId != null && newContact.Id != null){
+            if (participantId != null && newContact.Id != null) {
                 List<Patient_Delegate__c> checkPDel = [SELECT Id FROM Patient_Delegate__c WHERE Participant__c =:participantId AND Contact__c =:newContact.Id];
-                if(checkPDel.isEmpty()){
+                if (checkPDel.isEmpty()) {
+                    Participant__c mainParticipant = [SELECT Id FROM Participant__c WHERE Id = :participantId FOR UPDATE];
                     Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
-                    ptDelegateRef.Participant__c = participantId;
+                    ptDelegateRef.Participant__c = mainParticipant.Id;
                     ptDelegateRef.Contact__c = newContact.Id;
                     insert ptDelegateRef;
                 }
