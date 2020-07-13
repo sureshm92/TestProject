@@ -149,10 +149,9 @@ public without sharing class CommunityService {
         System.debug('ParticipantContactId -> HCPContactId MAP: ' + contactIdsMap);
         List<Contact> contacts = getContacts(contactIdsMap.keySet());
         List<User> hcpUsers = [
-                SELECT Id, ContactId, LocaleSidKey, TimeZoneSidKey, LanguageLocaleKey
-                FROM User
-                WHERE ContactId IN: contactIdsMap.values() AND LocaleSidKey != NULL
-                FOR UPDATE
+            SELECT Id, ContactId, LocaleSidKey, TimeZoneSidKey, LanguageLocaleKey
+            FROM User
+            WHERE ContactId IN: contactIdsMap.values() AND LocaleSidKey != NULL
         ];
         Map<Id, User> hcpUsersMap = new Map<Id, User>();
         for(User hcp : hcpUsers) hcpUsersMap.put(hcp.ContactId, hcp);
@@ -262,7 +261,7 @@ public without sharing class CommunityService {
             names.add(email + '.' + numberStr);
         }
         //BUG: Don't return Username field for portal users
-        List<User> users = [SELECT FirstName, Username, Email FROM User WHERE Username IN : names OR Email IN :names FOR UPDATE];
+        List<User> users = [SELECT FirstName, Username, Email FROM User WHERE Username IN : names OR Email IN :names];
         System.debug('usersAvailable:' + users);
         if(users != null && users.size() == 1){
             return email + '01';
