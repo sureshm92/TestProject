@@ -1,5 +1,5 @@
 /**
- * Created by Leonid Bartenev
+ * Created by Sneha Shilpa Thuluri
  */
 
 public without sharing class PP_LanguageSwitcherRemote {
@@ -15,7 +15,8 @@ public without sharing class PP_LanguageSwitcherRemote {
         List<LabelValueItem> timezones = new List<LabelValueItem>();
         String secondLangKey;
         String thirdLangKey;
-        String defaultCountryName;								
+        String defaultCountryName;		
+		Participant__c participant;
     }
 	 
     public static List<LabelValueItem> countriesLVList = new List<LabelValueItem>();
@@ -28,6 +29,25 @@ public without sharing class PP_LanguageSwitcherRemote {
 			if(myContact.userCommunityDelegateId__c != null){
                 myContact = ContactService.getContact(myContact.userCommunityDelegateId__c);
 			}
+			
+			List<Participant__c> participantList = new List<Participant__c>();
+			participantList = [
+                                SELECT Id, First_Name__c, Middle_Name__c, Last_Name__c, Phone__c,
+                                        Mailing_Zip_Postal_Code__c, Mailing_State__c, Mailing_Country__c,
+                                        Mailing_Country_Code__c, Mailing_State_Code__c,Adult__c,
+                                        Gender__c, Date_of_Birth__c
+                                FROM Participant__c
+                                WHERE Contact__c = :myContact.Id limit 1
+                        ];	
+			boolean isMinor=false;
+			if(participantList.size()>0){
+				if(!participantList[0].Adult__c){
+					isMinor = true;
+					system.debug('@@ in if '+isMinor);
+				}
+			}			
+			system.debug('@@ in if '+isMinor);
+						
 			
 			User userdetail = [
                     SELECT  ContactId,
@@ -47,10 +67,15 @@ public without sharing class PP_LanguageSwitcherRemote {
             initData.secondLangKey = userdetail.Contact.Second_Choice_Language__c;
             initData.thirdLangKey  = userdetail.Contact.Third_Choice_Language__c;
             //initData.localeKey     = UserInfo.getLocale();
-			initData.localeKey     = userdetail.LocaleSidKey;
-            //initData.timezoneKey   = String.ValueOf(UserInfo.getTimeZone());
-			initData.timezoneKey = userdetail.TimeZoneSidKey;
-			
+					
+			if(isMinor){				
+				initData.localeKey     = UserInfo.getLocale();
+				initData.timezoneKey   = String.ValueOf(UserInfo.getTimeZone());				
+            }
+			else{
+			initData.localeKey     = userdetail.LocaleSidKey;           
+			initData.timezoneKey = userdetail.TimeZoneSidKey;		
+			}
             List<PicklistEntry> listPLE = Translation__c.Language__c.getDescribe().getPicklistValues();
             initData.optionalLanguages.add(new LabelValueItem('--' + Label.None + '--', null));
             for(PicklistEntry ple : listPLE){
@@ -69,9 +94,8 @@ public without sharing class PP_LanguageSwitcherRemote {
             for(PicklistEntry ple : listPLE){
                 initData.timezones.add(new LabelValueItem(ple.getLabel(), ple.getValue()));
             }
-    
-           
-            						
+			
+							
             return JSON.serialize(initData);
         }catch (Exception e){
             return (String) AuraHelper.throwException(e);
@@ -84,26 +108,45 @@ public without sharing class PP_LanguageSwitcherRemote {
 			contact myContact = new contact();
 			myContact = getCurrentContact();
 			if(myContact.userCommunityDelegateId__c != null){
-                myContact = ContactService.getContact(myContact.userCommunityDelegateId__c);
-				
+                myContact = ContactService.getContact(myContact.userCommunityDelegateId__c);				
             }
-			User userdetail = [SELECT id,LanguageLocaleKey,LocaleSidKey,Timezonesidkey,ContactId FROM User WHERE ContactId = :myContact.Id];
-				update new User(
-                    Id = userdetail.Id,
-                    LanguageLocaleKey = languageKey,
-                    LocaleSidKey = localeKey,
-                	Timezonesidkey = timezoneKey
-				);
-           // User user = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
-            List<Participant__c> participantList = new List<Participant__c>();
+			List<Participant__c> participantList = new List<Participant__c>();
 			participantList = [
                                 SELECT Id, First_Name__c, Middle_Name__c, Last_Name__c, Phone__c,
                                         Mailing_Zip_Postal_Code__c, Mailing_State__c, Mailing_Country__c,
-                                        Mailing_Country_Code__c, Mailing_State_Code__c,
+                                        Mailing_Country_Code__c, Mailing_State_Code__c,Adult__c,
                                         Gender__c, Date_of_Birth__c
                                 FROM Participant__c
                                 WHERE Contact__c = :myContact.Id limit 1
-                        ];			
+                        ];
+			boolean isMinor=false;
+			if(participantList.size()>0){
+				if(!participantList[0].Adult__c)
+					isMinor = true;
+			}
+			system.debug('@@ isMinor'+isMinor);
+						
+			
+			User userdetail = [SELECT id,LanguageLocaleKey,LocaleSidKey,Timezonesidkey,ContactId FROM User WHERE ContactId = :myContact.Id];
+				if(isMinor){									
+					update new User(
+                    Id = userinfo.getUserId(),
+                    LanguageLocaleKey = languageKey,
+						LocaleSidKey = localeKey,
+						Timezonesidkey = timezoneKey
+					);
+					system.debug('@@ in if');
+				}
+				else{
+					update new User(
+						Id = userdetail.Id,
+						LanguageLocaleKey = languageKey,
+						LocaleSidKey = localeKey,
+						Timezonesidkey = timezoneKey
+					);
+				}
+           // User user = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
+           		
 			if(participantList.size()>0){
 				update new Contact(
 						Id = myContact.Id,
@@ -116,6 +159,7 @@ public without sharing class PP_LanguageSwitcherRemote {
                     Mailing_Country__c = countryName,
 					Mailing_State__c = stateName					
 				);
+				
 			}
 			else{
 				update new Contact(

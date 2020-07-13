@@ -25,7 +25,7 @@
                     <aura:if isTrue="{!(v.userMode == 'Participant')}" >
                         <p class="delegateInfo">{!v.delegateInfoHeader}</p>
                         
-                        <c:DelegateLevelInfoTable userMode="Participant"/></aura:if>
+                        <c:Delegate_TasksTable userMode="Participant"/></aura:if>
                 </div>
             </div>
             <aura:if isTrue="{!not(v.userMode == 'Participant')}" >

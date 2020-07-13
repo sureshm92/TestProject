@@ -155,6 +155,7 @@
     <externalSharingModel>Private</externalSharingModel>
     <label>CC Staff</label>
     <nameField>
+        <displayFormat>CC-{0000}</displayFormat>
         <label>CC Staff Name</label>
         <type>AutoNumber</type>
     </nameField>

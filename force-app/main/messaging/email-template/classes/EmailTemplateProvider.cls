@@ -156,6 +156,7 @@ public without sharing virtual class EmailTemplateProvider {
                     SELECT Id,
                             ContactId,
                             Contact.FirstName,
+                            Contact.Salutation,
                             Contact.Salutation_With_Name__c,
                             Contact.Language__c,
                             Contact.UserCommunityIsDelegate__c,
