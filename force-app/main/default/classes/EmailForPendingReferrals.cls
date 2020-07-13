@@ -1,14 +1,3 @@
-/**
- * @description       : Sends Emails to PI and Delegates for awaiting Patient.
- * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
- * @group             : 
- * @last modified on  : 07-13-2020
- * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
- * Modifications Log 
- * Ver   Date         Author                               Modification
- * 1.0   07-13-2020   Anshuman Mishra                      Initial Version
-**/
-
 public class EmailForPendingReferrals {
 @InvocableMethod
     public static void sendMails(List<Batch_Notification__c> notifications){
