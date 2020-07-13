@@ -14,7 +14,7 @@
          <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
             <div class="alert-count-condition1">{!v.header}</div>
         <lightning:input onchange="{!c.bulkSearch}" onclick="{!c.bulkSearch}" aura:id="searchInput" type="search" name="search" label=""
-                         variant="label-hidden" placeholder="Search"/>
+                         variant="label-hidden" placeholder="{!$Label.c.PP_Customize_search_text}"/>
         
         <br/>
         
