@@ -319,6 +319,14 @@
         <valueField>Name</valueField>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
+        <name>Resource_Type</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Resource_Type__c</picklistField>
+        <picklistObject>Resource__c</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
         <name>ResourceType</name>
         <dataType>Picklist</dataType>
         <displayField xsi:nil="true"/>
@@ -450,6 +458,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Resource_Type__c</field>
+            <value>
+                <elementReference>Resource_Type3</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Source__c</field>
             <value>
                 <elementReference>Source_field_recordtypeArticle</elementReference>
@@ -533,6 +547,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Resource_Type__c</field>
+            <value>
+                <elementReference>Resource_Type1</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Title__c</field>
             <value>
                 <elementReference>Title</elementReference>
@@ -583,6 +603,12 @@
             <field>Languages__c</field>
             <value>
                 <elementReference>Languages_field_RecordType</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Resource_Type__c</field>
+            <value>
+                <elementReference>Resource_Type2</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -702,6 +728,12 @@
             <field>Remove_sharing__c</field>
             <value>
                 <elementReference>Remove_sharing_field_recordtypeArticle_0</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Resource_Type__c</field>
+            <value>
+                <elementReference>Resource_Type4</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1108,6 +1140,14 @@
             <isRequired>true</isRequired>
         </fields>
         <fields>
+            <name>Resource_Type3</name>
+            <choiceReferences>Resource_Type</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Resource Type</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
             <name>Posting_Date_field_recordtypeArticle</name>
             <dataType>Date</dataType>
             <fieldText>Posting Date</fieldText>
@@ -1150,7 +1190,7 @@
         <fields>
             <name>Author_s_Name_field_recordtypeArticle</name>
             <dataType>String</dataType>
-            <fieldText>Author&#39;s Name</fieldText>
+            <fieldText>Author&apos;s Name</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>false</isRequired>
         </fields>
@@ -1387,6 +1427,14 @@
             <isRequired>true</isRequired>
         </fields>
         <fields>
+            <name>Resource_Type2</name>
+            <choiceReferences>Resource_Type</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Resource Type</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
             <name>Version_Date2</name>
             <dataType>Date</dataType>
             <fieldText>Version Date</fieldText>
@@ -1450,6 +1498,14 @@
             <choiceReferences>Document_type</choiceReferences>
             <dataType>String</dataType>
             <fieldText>Document types</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Resource_Type1</name>
+            <choiceReferences>Resource_Type</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Resource Type</fieldText>
             <fieldType>DropdownBox</fieldType>
             <isRequired>true</isRequired>
         </fields>
@@ -1738,6 +1794,14 @@
             <isRequired>true</isRequired>
         </fields>
         <fields>
+            <name>Resource_Type4</name>
+            <choiceReferences>Resource_Type</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Resource Type</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
             <name>Posting_Date_field_recordtypeArticle_0</name>
             <dataType>Date</dataType>
             <fieldText>Posting Date</fieldText>
@@ -1786,7 +1850,7 @@
         <fields>
             <name>Author_s_Name_field_recordtypeArticle_0</name>
             <dataType>String</dataType>
-            <fieldText>Author&#39;s Name</fieldText>
+            <fieldText>Author&apos;s Name</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>false</isRequired>
         </fields>
