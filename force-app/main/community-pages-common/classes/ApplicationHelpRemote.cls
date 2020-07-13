@@ -13,6 +13,7 @@ public without sharing class ApplicationHelpRemote {
     @AuraEnabled
     public static String getInitData(String userMode) {
         try {
+            
             InitData initData = new InitData();
             String userLanguage = UserInfo.getLanguage();
             ParticipantService ps = new ParticipantService();
