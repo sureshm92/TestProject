@@ -71,7 +71,7 @@
                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                     <div class="rr-form-element">
                         <div class="label slds-text-align_left">{!$Label.c.MO_Media_Type}</div>
-                        <span> {!v.ViewRecord[0].Media_Type__c} </span>
+                        <span> {!v.ViewRecord[0].fMediaType__c} </span>
                     </div>
                 </div>
                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
@@ -95,7 +95,7 @@
                     </div>
                 </div>
             </div>
-            <div class="slds-col slds-grid slds-size_1-of-1">
+            <div class="slds-col slds-grid slds-size_1-of-1 contactType">
                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium prefContact">
                     <div class="rr-form-element">
                         <!--<div class="label">{!$Label.c.Preferred_Contact_Method}</div>-->

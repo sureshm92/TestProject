@@ -26,6 +26,7 @@ public without sharing class ConversationService {
                 'Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c',
                 'Participant_Enrollment__r.Participant__c',
                 'Participant_Enrollment__r.Participant__r.Full_Name__c',
+                'Participant_Enrollment__r.Participant_Contact__c',
                 'Participant_Enrollment__r.Participant_Status__c',
                 'Participant_Enrollment__r.Study_Site__c',
                 'Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Name',

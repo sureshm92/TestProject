@@ -248,11 +248,11 @@ public without sharing class ParticipantService {
 	
 	public static List<LabelValueItem> getPrefixList() {
         List<LabelValueItem> prefix = new List<LabelValueItem>();
-        prefix.add(new LabelValueItem('Mr.', 'Mr.'));
-        prefix.add(new LabelValueItem('Ms.', 'Ms.'));
-        prefix.add(new LabelValueItem('Mrs.', 'Mrs.'));
-        prefix.add(new LabelValueItem('Dr.', 'Dr.'));
-        prefix.add(new LabelValueItem('Prof.', 'Prof.'));
+        prefix.add(new LabelValueItem(Label.PP_Prefix_Mr, 'Mr.'));
+        prefix.add(new LabelValueItem(Label.PP_Prefix_Ms, 'Ms.'));
+        prefix.add(new LabelValueItem(Label.PP_Prefix_Mrs, 'Mrs.'));
+        prefix.add(new LabelValueItem(Label.PP_Prefix_Dr, 'Dr.'));
+        prefix.add(new LabelValueItem(Label.PP_Prefix_Prof, 'Prof.'));
         return prefix;
     }
 

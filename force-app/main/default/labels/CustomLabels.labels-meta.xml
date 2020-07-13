@@ -6270,7 +6270,7 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 09 B RP</shortDescription>
-        <value>Clinical trial investigators are usually physicians in active practice. They are responsible for the day-to-day management of clinical trials at the site level. Their main responsibilities are ensuring patient safety during the trial and safeguarding patients&apos; rights, making sure that trial activities and procedures are done in accordance with the protocol. Clinical trial investigators are also responsible for maintaining the quality of data collected during the trial.</value>
+        <value>Clinical study investigators are usually physicians in active practice. They are responsible for the day-to-day management of clinical studies at the site level. Their main responsibilities are ensuring patient safety during the study and safeguarding patients&apos; rights, and making sure that study activities and procedures are done in accordance with the protocol. Clinical study investigators are also responsible for maintaining the quality of data collected during the study.</value>
     </labels>
     <labels>
         <fullName>HT_09_H_Participant</fullName>
@@ -6284,7 +6284,7 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 09 H RP</shortDescription>
-        <value>Who are clinical trial investigators?</value>
+        <value>Who are clinical study investigators?</value>
     </labels>
     <labels>
         <fullName>HT_10_B_Participant</fullName>
@@ -6298,7 +6298,7 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 10 B RP</shortDescription>
-        <value>By conducting clinical trials, physicians can be at the cutting edge of research in their medical field. This may add prestige to their medical practice and respect within the professional community. Being a clinical trial investigator also helps you to connect patients to clinical trials that are right for them.</value>
+        <value>By conducting clinical studies, physicians can be at the cutting edge of research in their medical field. This may add prestige to their medical practice and respect within the professional community. Being a clinical study investigator also helps you to connect patients to clinical studies that are right for them.</value>
     </labels>
     <labels>
         <fullName>HT_10_H_Participant</fullName>
@@ -6312,21 +6312,21 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 10 H RP</shortDescription>
-        <value>What are the benefits of becoming a clinical trial investigator?</value>
+        <value>What are the benefits of becoming a clinical study investigator?</value>
     </labels>
     <labels>
         <fullName>HT_11_B_Participant</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 11 B Participant</shortDescription>
-        <value>Articles and videos are available on a study by study basis.  As new articles and videos are added to your study, they will become visible on your home page.</value>
+        <value>Articles and videos are available on a study-by-study basis.  As new articles and videos are added to your study, they will become visible on your home page.</value>
     </labels>
     <labels>
         <fullName>HT_11_B_RP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 11 B RP</shortDescription>
-        <value>IQVIA is committed to delivering excellency in clinical trials and adhering to the highest standards of scientific research. With over 30 years of experience in running and optimizing clinical trials, IQVIA has the people, processes, and technology to streamline the investigator experience – from communication to training to workflow for the entire course of a trial.</value>
+        <value>IQVIA is committed to delivering excellency in clinical studies and adhering to the highest standards of scientific research. With over 30 years of experience in running and optimizing clinical studies, IQVIA has the people, processes, and technology to streamline the investigator experience – from communication to training to workflow for the entire course of a study.</value>
     </labels>
     <labels>
         <fullName>HT_11_H_Participant</fullName>
@@ -6340,21 +6340,21 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 11 H RP</shortDescription>
-        <value>How does IQVIA™ help clinical tial investigators?</value>
+        <value>How does IQVIA help clinical study investigators?</value>
     </labels>
     <labels>
         <fullName>HT_12_B_Participant</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 12 B Participant</shortDescription>
-        <value>Clinical research is how the pharmaceutical industry builds the evidence for potential new treatment approaches for humans to find the ones that are well tolerated and effective. A clinical study or trial is a research study involving human participants that tests and evaluates the investigational drug, device, or procedure to find out how safe it is and how well it works. Before any investigational drug, device, or procedure can be approved for use in humans, it must be evaluated in a series of clinical studies.</value>
+        <value>Clinical research is how the pharmaceutical industry builds the evidence to prove that potential new treatment approaches for humans to find the treatments that are well tolerated and effective. A clinical study is research conducted by a Principal Investigator to evaluate an investigational drug, device, or procedure to find out how safe it is and how well it works. Before any investigational drug, device, or procedure can be approved for use in humans, it must be evaluated in a series of clinical studies.</value>
     </labels>
     <labels>
         <fullName>HT_12_B_RP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 12 B RP</shortDescription>
-        <value>If you are interested in becoming a clinical trial investigator, you can start by registering in our database (coming soon). Our staff will assess the information provided and contact you when a future clinical trial matches your interest.</value>
+        <value>If you are interested in becoming a clinical study investigator, you can start by registering in our database (coming soon). Our staff will assess the information provided and contact you when a future clinical study matches your interest.</value>
     </labels>
     <labels>
         <fullName>HT_12_H_Participant</fullName>
@@ -6368,23 +6368,23 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 12 H RP</shortDescription>
-        <value>How can I express my interest in becoming a clinical trial investigator?</value>
+        <value>How can I express my interest in becoming a clinical study investigator?</value>
     </labels>
     <labels>
         <fullName>HT_13_B_Participant</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 13 B Participant</shortDescription>
-        <value>You can do an instant search to find clinical trials recruiting in your area, which requires no registration. Or, you can register to receive notifications when new clinical trials in a condition that you are interested in start recruiting patients.</value>
+        <value>You can do an instant search to find clinical studies recruiting in your area, which requires no registration. Or, you can register to receive notifications when new clinical studies in a condition that you are interested in start recruiting patients.</value>
     </labels>
     <labels>
         <fullName>HT_13_B_RP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 13 B RP</shortDescription>
-        <value>Each potential participant in a clinical trial is helped to make an informed decision about their participation, and informed consent is at the heart of this process. The overall purpose of the informed consent process is to offer potential participants detailed information about the trial aim, the tested intervention, potential benefits and risks, specific procedures, and participants&apos; rights and responsibilities.
+        <value>The informed consent process ensures that potential participants receive the detailed information about the study goals, the intervention being studied, potential benefits and risks, specific procedures, and participants&apos; rights and responsibilities that is required to make an informed decision regarding their choice to participate.
 
-            Once the potential participant decides to join a trial, they must sign the Informed Consent Form (ICF). Participants have the right to withdraw from the trial at any time without any explanation and without jeopardizing their standard of medical care.</value>
+             After reviewing the provided information, potential participants must then sign the Informed Consent Form (ICF) to be eligible to participate in the study. Participants have the right to withdraw from the study at any time without any explanation and without jeopardizing their standard of medical care.</value>
     </labels>
     <labels>
         <fullName>HT_13_H_Participant</fullName>
@@ -6405,18 +6405,16 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 14 B Participant</shortDescription>
-        <value>The length of a clinical study and how much of your time it will take up varies, depending on what is being studied. You will be told how long a study will last before you decide whether to take part.</value>
+        <value>The length of a clinical study and how much of your time is required to participate in the study will vary depending on what is being studied and how it is being studied. You will be told how long a study will last before you decide whether to participate.</value>
     </labels>
     <labels>
         <fullName>HT_14_B_RP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 14 B RP</shortDescription>
-        <value>The institutional review board (IRB)/ethics committee (EC) is a local administrative body that safeguards the rights and safety of participants involved in a clinical trial. It reviews trial documentation (e.g. the Clinical Trial Protocol, Participant Information Sheet, and Informed Consent Form) and provides an opinion on the proposed research. The outcome of the review may vary, and the trial can be approved, approved with comments, or rejected.
+        <value>The institutional review board (IRB)/ethics committee (EC) is a local administrative body that safeguards the rights and safety of participants involved in a clinical study. It reviews study documentation (e.g. the Clinical Trial Protocol, Participant Information Sheet, and Informed Consent Form) and provides an opinion on the proposed research. The outcome of the review may vary, and the study can be approved, approved with comments, or rejected.
 
-            The IRB/EC members have various backgrounds (e.g. physicians, nurses, statisticians, and community representatives). It operates in accordance with national and/or local regulations and the International Council for Harmonisation of Technical Requirements for Pharmaceuticals for Human Use (ICH) Good Clinical Practice guidelines.
-
-            The IRB/EC is also entitled to perform periodic checks throughout the trial duration.</value>
+             The IRB/EC members have various backgrounds (e.g. physicians, nurses, statisticians, and community representatives). Each IRB/EC operates in accordance with national and/or local regulations and the International Council for Harmonisation of Technical Requirements for Pharmaceuticals for Human Use (ICH) Good Clinical Practice guidelines. The IRB/EC is also entitled to perform periodic checks throughout the trial duration.</value>
     </labels>
     <labels>
         <fullName>HT_14_H_Participant</fullName>
@@ -6444,9 +6442,9 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 15 B RP</shortDescription>
-        <value>The Good Clinical Practice (GCP) guidelines are the principles and practices that are followed to ensure participant safety and well-being. Compliance with GCP helps ensure that the rights, safety, and well-being of trial participants are protected, and that research data are reliable.
+        <value>The Good Clinical Practice (GCP) guidelines are the principles and practices that are followed to ensure participant safety and well-being. Compliance with GCP helps ensure that the rights, safety, and well-being of study participants are protected, and that research data are reliable.
 
-            If you want to be involved in clinical trials, you should have a good understanding of GCP, which is the international ethical and scientific quality practical standard to which all clinical research should adhere.</value>
+            If you want to be involved in clinical studies, you should have a good understanding of GCP, which is the international ethical and scientific quality practical standard to which all clinical research should adhere.</value>
     </labels>
     <labels>
         <fullName>HT_15_H_Participant</fullName>
@@ -6467,14 +6465,14 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 16 B Participant</shortDescription>
-        <value>Yes, clinical studies for children are called &quot;pediatric clinical studies.&quot; It is often specified in the title of the clinical study if the patient population is children only. These trials are designed specifically to look at investigational drugs, devices, or procedures in children. There are also clinical studies that are for both adults and children; the age range of the patient population will be detailed in the trial information.</value>
+        <value>Yes, clinical studies for children are called &quot;pediatric clinical trials.&quot; It is often specified in the title of the clinical study if the patient population is children only. These trials are designed specifically to look at investigational drugs, devices, or procedures in children. There are also clinical studies that are for both adults and children; the age range of the patient population will be detailed in the study information.</value>
     </labels>
     <labels>
         <fullName>HT_16_B_RP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 16 B RP</shortDescription>
-        <value>Clinical trials must be conducted in compliance with the international and national regulations governing the conduct of trials derived from the Declaration of Helsinki, US Food and Drug Administration (FDA) regulations, or European Medicines Agency (EMA) directives.</value>
+        <value>Clinical studies must be conducted in compliance with the international and national regulations governing the conduct of studies derived from the Declaration of Helsinki, US Food and Drug Administration (FDA) regulations, or European Medicines Agency (EMA) directives.</value>
     </labels>
     <labels>
         <fullName>HT_16_H_Participant</fullName>
@@ -6495,14 +6493,14 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 17 B Participant</shortDescription>
-        <value>Some clinical studies may offer payment. Other clinical trials will not offer payment, but may provide compensation for any travel costs or other expenses incurred during participation. You can check this with the study team before agreeing to take part.</value>
+        <value>Some clinical studies may offer payment. Other clinical studies will not offer payment, but may provide compensation for any travel costs or other expenses incurred during participation. You can check this with the study team before agreeing to take part.</value>
     </labels>
     <labels>
         <fullName>HT_17_B_RP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 17 B RP</shortDescription>
-        <value>To facilitate development and implementation of clinical trials, a research infrastructure may be available to you. It consists of specialized units that offer support for trial set-up, conduct, monitoring, networking, and training. These units are organized at the national, central, or local level and can include clinical research offices, research and development departments, clinical trials units, and investigator networks.</value>
+        <value>To facilitate development and implementation of clinical studies, a research infrastructure may be available to you. It consists of specialized units that offer support for study set-up, conduct, monitoring, networking, and training. These units are organized at the national, central, or local level and can include clinical research offices, research and development departments, clinical trials units, and investigator networks.</value>
     </labels>
     <labels>
         <fullName>HT_17_H_Participant</fullName>
@@ -6523,7 +6521,9 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 18 B Participant</shortDescription>
-        <value>You will not need to pay a fee to participate in a clinical study, but you may need to pay for travel costs to attend visits at the study location nearest to you. You may also need to pay for babysitting or childcare, and factor in lost income if the visits take place during working hours. Clinical studies may provide compensation to cover these costs. If the clinical trial is using an approved medication, then depending on your country of residence (e.g. the United States), your medical insurance may need to be billed. You can check this with the study team before agreeing to take part.</value>
+        <value>You will not need to pay a fee to participate in a clinical study, but you may need to pay for travel costs to attend visits at the study site most convenient to you. You may also need to pay for babysitting or childcare, and factor in lost income if the visits take place during working hours. Clinical studies may provide compensation to cover these costs.
+
+            If the clinical study is using an approved medication, then depending on your country of residence (e.g. the United States), your medical insurance may need to be billed. You can check this with the study team before agreeing to take part.</value>
     </labels>
     <labels>
         <fullName>HT_18_H_Participant</fullName>
@@ -7324,6 +7324,13 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <protected>false</protected>
         <shortDescription>Learn More</shortDescription>
         <value>Learn More</value>
+    </labels>
+	<labels>
+        <fullName>Learn_More_Report_Document_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Learn More Report Document Name</shortDescription>
+        <value>Study Detailed Description Report</value>
     </labels>
     <labels>
         <fullName>Library_Format</fullName>
@@ -14167,6 +14174,41 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <protected>true</protected>
         <shortDescription>PP_Prefix</shortDescription>
         <value>Prefix</value>
+    </labels>
+    <labels>
+        <fullName>PP_Prefix_Dr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Prefix_Dr</shortDescription>
+        <value>Dr.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Prefix_Mr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Prefix_Mr</shortDescription>
+        <value>Mr.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Prefix_Mrs</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Prefix_Mrs</shortDescription>
+        <value>Mrs.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Prefix_Ms</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Prefix_Ms</shortDescription>
+        <value>Ms.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Prefix_Prof</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Prefix_Prof</shortDescription>
+        <value>Prof.</value>
     </labels>
     <labels>
         <fullName>PP_Profile_Information</fullName>

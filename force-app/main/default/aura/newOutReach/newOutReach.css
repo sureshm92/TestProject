@@ -24,7 +24,8 @@
 }
 
 .THIS .slds-select,
-.THIS .slds-input {
+.THIS .slds-input,
+.THIS .uiInputSelect {
     height: 40px;
 }
 
@@ -105,7 +106,7 @@
 
 @media all and (max-width: 500px) {
 
-    .THIS .slds-grid > .slds-grid {
+    .THIS .p-content > .slds-grid > .slds-grid {
         flex-direction: column;
     }
 
