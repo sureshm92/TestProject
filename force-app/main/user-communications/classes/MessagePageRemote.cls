@@ -105,7 +105,13 @@ public without sharing class MessagePageRemote {
                 }
             } else if (pageData.userMode == CommunityService.USER_MODE_PI) {
                 //Collect Conversations
-                if (sharedConversations != null) conversations.addAll(sharedConversations);
+                if (sharedConversations != null) {
+                    for (Conversation__c conversation : sharedConversations) {
+                        if(conversation.Participant_Enrollment__r.Participant_Contact__c != UserContext.getUserContactId()) {
+                            conversations.add(conversation);
+                        }
+                    }
+                }
 
                 //Collect Enrollments
                 pageData.enrollments = getEnrollmentsForPI(null);
