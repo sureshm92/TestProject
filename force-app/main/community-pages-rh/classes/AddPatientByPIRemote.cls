@@ -111,10 +111,13 @@ public without sharing class AddPatientByPIRemote {
     private static void updateParticipant(String participantJSON) {
         Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
 
-        if (participant.Email__c!=null && participant.First_Name__c!=null && participant.Last_Name__c!=null) {
-            List<Participant__c> participantObj = new List<Participant__c>();
-            Participant__c newPartcipantObj = new Participant__c(); newPartcipantObj = [Select Id , First_Name__c , Last_Name__c , Suffix__c , Middle_Name__c , Nickname__c , Date_of_Birth__c , Gender__c , Email__c , Phone_Type__c , Phone__c , Mailing_Zip_Postal_Code__c , Mailing_Country_Code__c , Mailing_State_Code__c from Participant__c where  Email__c =: participant.Email__c and First_Name__c =: participant.First_Name__c and Last_Name__c =: participant.Last_Name__c];
-            if (newPartcipantObj != null) {
+        if (participant.Email__c != null && participant.First_Name__c != null && participant.Last_Name__c != null) {
+            List<Participant__c> newPartcipantObjs =
+                [SELECT Id , First_Name__c , Last_Name__c , Suffix__c , Middle_Name__c , Nickname__c , Date_of_Birth__c , Gender__c , Email__c , Phone_Type__c , Phone__c , Mailing_Zip_Postal_Code__c , Mailing_Country_Code__c , Mailing_State_Code__c
+                 FROM Participant__c
+                 WHERE  Email__c =: participant.Email__c AND First_Name__c =: participant.First_Name__c AND Last_Name__c =: participant.Last_Name__c];
+            if (!newPartcipantObjs.isEmpty()) {
+                Participant__c newPartcipantObj = newPartcipantObjs[0];
                 newPartcipantObj.First_Name__c = participant.First_Name__c;
                 newPartcipantObj.Last_Name__c = participant.Last_Name__c;
                 newPartcipantObj.Suffix__c = participant.Suffix__c;
@@ -128,10 +131,8 @@ public without sharing class AddPatientByPIRemote {
                 newPartcipantObj.Mailing_Country_Code__c = participant.Mailing_Country_Code__c;
                 newPartcipantObj.Mailing_Zip_Postal_Code__c = participant.Mailing_Zip_Postal_Code__c;
                 newPartcipantObj.Mailing_State_Code__c = participant.Mailing_State_Code__c;
-                participantObj.add(newPartcipantObj);
-                if (!participantObj.isEmpty()) {
-                    update participantObj;
-                }
+
+                update newPartcipantObj;
             }
         }
     }
