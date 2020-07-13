@@ -7325,6 +7325,13 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <shortDescription>Learn More</shortDescription>
         <value>Learn More</value>
     </labels>
+	<labels>
+        <fullName>Learn_More_Report_Document_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Learn More Report Document Name</shortDescription>
+        <value>Study Detailed Description Report</value>
+    </labels>
     <labels>
         <fullName>Library_Format</fullName>
         <language>en_US</language>
