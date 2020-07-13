@@ -6270,7 +6270,7 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 09 B RP</shortDescription>
-        <value>Clinical trial investigators are usually physicians in active practice. They are responsible for the day-to-day management of clinical trials at the site level. Their main responsibilities are ensuring patient safety during the trial and safeguarding patients&apos; rights, making sure that trial activities and procedures are done in accordance with the protocol. Clinical trial investigators are also responsible for maintaining the quality of data collected during the trial.</value>
+        <value>Clinical study investigators are usually physicians in active practice. They are responsible for the day-to-day management of clinical studies at the site level. Their main responsibilities are ensuring patient safety during the study and safeguarding patients&apos; rights, and making sure that study activities and procedures are done in accordance with the protocol. Clinical study investigators are also responsible for maintaining the quality of data collected during the study.</value>
     </labels>
     <labels>
         <fullName>HT_09_H_Participant</fullName>
@@ -6335,12 +6335,12 @@ The NYBC Convalescent Plasma Donation Team</value>
         <shortDescription>HT 11 H Participant</shortDescription>
         <value>Why can&apos;t I see any articles and videos?</value>
     </labels>
-    <labels>
+   <labels>
         <fullName>HT_11_H_RP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 11 H RP</shortDescription>
-        <value>How does IQVIA™ help clinical tial investigators?</value>
+        <value>How does IQVIA™ help clinical trial investigators?</value>
     </labels>
     <labels>
         <fullName>HT_12_B_Participant</fullName>
@@ -6375,16 +6375,16 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 13 B Participant</shortDescription>
-        <value>You can do an instant search to find clinical trials recruiting in your area, which requires no registration. Or, you can register to receive notifications when new clinical trials in a condition that you are interested in start recruiting patients.</value>
+        <value>You can do an instant search to find clinical studies recruiting in your area, which requires no registration. Or, you can register to receive notifications when new clinical studies in a condition that you are interested in start recruiting patients.</value>
     </labels>
     <labels>
         <fullName>HT_13_B_RP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 13 B RP</shortDescription>
-        <value>Each potential participant in a clinical trial is helped to make an informed decision about their participation, and informed consent is at the heart of this process. The overall purpose of the informed consent process is to offer potential participants detailed information about the trial aim, the tested intervention, potential benefits and risks, specific procedures, and participants&apos; rights and responsibilities.
+        <value>The informed consent process ensures that potential participants receive the detailed information about the study goals, the intervention being studied, potential benefits and risks, specific procedures, and participants&apos; rights and responsibilities that is required to make an informed decision regarding their choice to participate.
 
-            Once the potential participant decides to join a trial, they must sign the Informed Consent Form (ICF). Participants have the right to withdraw from the trial at any time without any explanation and without jeopardizing their standard of medical care.</value>
+            After reviewing the provided information, potential participants must then sign the Informed Consent Form (ICF) to be eligible to participate in the study. Participants have the right to withdraw from the study at any time without any explanation and without jeopardizing their standard of medical care.</value>
     </labels>
     <labels>
         <fullName>HT_13_H_Participant</fullName>
@@ -14174,6 +14174,41 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <protected>true</protected>
         <shortDescription>PP_Prefix</shortDescription>
         <value>Prefix</value>
+    </labels>
+    <labels>
+        <fullName>PP_Prefix_Dr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Prefix_Dr</shortDescription>
+        <value>Dr.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Prefix_Mr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Prefix_Mr</shortDescription>
+        <value>Mr.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Prefix_Mrs</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Prefix_Mrs</shortDescription>
+        <value>Mrs.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Prefix_Ms</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Prefix_Ms</shortDescription>
+        <value>Ms.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Prefix_Prof</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Prefix_Prof</shortDescription>
+        <value>Prof.</value>
     </labels>
     <labels>
         <fullName>PP_Profile_Information</fullName>
