@@ -42,13 +42,10 @@
 
 .THIS .visit-result-item-value {
     color: #000000;
-    font-size: 34px;
+    font-size: 28px;
     width: 100%;
     line-height: 34px;
     height: 34px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .THIS .visit-result-item-name {

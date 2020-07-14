@@ -30,7 +30,7 @@
                 <div class="visit-results-container">
                     <aura:iteration items="{!v.visitResultWrappers}" var="visitResultWrapper">
                         <div class="visit-results-item">
-                            <span class="visit-result-item-value">{!visitResultWrapper.value == null ? '-' : visitResultWrapper.recordtype =='Biomarker' ? visitResultWrapper.value==1.0 ? '+ '+$Label.c.Biomarkers_Positive:visitResultWrapper.value==-1.0 ? '- '+$Label.c.Biomarkers_Negative:visitResultWrapper.value==0.0?$Label.c.Biomarkers_Unknown:'':visitResultWrapper.value}</span>
+                            <span class="visit-result-item-value">{!visitResultWrapper.value == null ? '-' : visitResultWrapper.recordtype =='Biomarker' ? visitResultWrapper.value==1.0 ?$Label.c.Biomarkers_Positive:visitResultWrapper.value==-1.0 ?$Label.c.Biomarkers_Negative:visitResultWrapper.value==0.0?$Label.c.Biomarkers_Unknown:'':visitResultWrapper.value}</span>
                             <span class="visit-result-item-name">{!visitResultWrapper.name}</span>
                             <span class="{!visitResultWrapper.measurement != null ? 'visit-result-item-measurement' : 'hidden'}">
                                     <aura:unescapedHtml value="{!'(' + visitResultWrapper.measurement + ')'}"/>
