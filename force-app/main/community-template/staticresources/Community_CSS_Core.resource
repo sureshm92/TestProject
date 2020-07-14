@@ -587,9 +587,10 @@ lightning-datepicker lightning-button-icon .slds-button svg {
     right: 4px;
 }
 
+.slds-datepicker tbody>tr>td,
 .slds-datepicker td,
 .slds-datepicker th{
-    font-size: .875rem;
+    font-size: 1rem;
 }
 
 .slds-datepicker td:not(.slds-disabled-text),

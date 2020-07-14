@@ -123,7 +123,7 @@
 }
 
 .THIS .lg-form-element input {
-    border: none;
+    border: none!important;
 }
 
 @media (max-width: 500px) {
