@@ -35,7 +35,7 @@
 
 
 .THIS .resource-table {
-    padding: 0 35px;
+    padding: 0 24px;
     min-height: 300px;
 }
 
@@ -76,4 +76,10 @@
 
 .THIS .resource-item-container{
     margin-bottom: 20px;
+}
+
+@media all and (max-width: 768px) {
+    .THIS .resource-table {
+        padding: 0 1rem;
+    }
 }
