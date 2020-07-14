@@ -3,7 +3,6 @@
     padding: 1.5rem;
 }
 
-
 .THIS .emails-that-notify-y {
     height: 72px;
     color: #444444;
@@ -264,6 +263,7 @@
 
     .THIS .rr-white-panel {
         padding: 0 1.5rem 1.5rem;
+        min-width: auto;
     }
 
     .THIS.as-container .as-sub-title,
