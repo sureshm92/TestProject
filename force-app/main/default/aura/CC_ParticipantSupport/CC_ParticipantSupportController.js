@@ -6,7 +6,7 @@
     
     doSearch: function(component, event, helper) {
         var searchField= document.getElementById('searchTxt').value;
-        searchField = searchField.replace(/[^0-9\s]/g, "").replace(/\s\s/g, " ").replace(/\s/g,""); 
+        //searchField = searchField.replace(/[^0-9\s]/g, "").replace(/\s\s/g, " ").replace(/\s/g,""); 
         if (searchField.length >= 1) {
             communityService.executeAction(component, 'fetchParticipantEnrollment', {
                 searchKeyWord: searchField
