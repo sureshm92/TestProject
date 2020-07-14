@@ -256,12 +256,20 @@
         min-height: auto;
         height: auto;
     }
+
+    .THIS .tour-slides-body {
+        margin-top: 15px;
+    }
 }
 
 @media all and (max-height: 500px) and (orientation: landscape) {
     .THIS .tour-slides-container {
         min-height: auto;
         height: auto;
+    }
+
+    .THIS .tour-slides-body {
+        margin-top: 15px;
     }
 }
 
