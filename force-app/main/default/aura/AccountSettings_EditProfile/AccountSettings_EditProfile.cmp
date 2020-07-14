@@ -72,20 +72,21 @@
                     </div>
                     
                     <div class="as-email rr-form-element">
-                        <div class="as-email-input slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end">
+                        <div class="as-email-input slds-grid">
                             <div class="slds-col slds-size_1-of-1">
                                 <aura:if isTrue="{!v.userMode == 'Participant'}">
                                     <aura:if isTrue="{!v.isAdult}">
-                                        
                                         <c:Action_AddProfilePhoto username="{!v.userEmail}" recordId="{!v.userId}" isDelegate="{!v.isDelegate}" hasProfilePic="{!v.hasProfilePic}"></c:Action_AddProfilePhoto>
                                         <aura:set attribute="else">
-                                            <div class="slds-grid" style="margin-left:-18px;">
+                                            <div class="slds-grid profileImg">
                                                 <div class="avatar-icon-minor">
                                                     <c:RRIcon color="white" class="single-avatar-minor"
                                                               iconName="single-neutral"/>
-                                                    <div class="slds-col slds-size_1-of-2" style="margin-left: 70px;margin-top: -40px;">
-                                                        
-                                                        {!v.minorUserName}</div></div></div>
+                                                </div>
+                                                 <div class="profileEmail">
+                                                    {!v.minorUserName}
+                                                </div>
+                                             </div>
                                         </aura:set>
                                     </aura:if>
                                 </aura:if>
