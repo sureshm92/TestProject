@@ -44,7 +44,8 @@ public without sharing class CC_ParticipantSupportRemote {
                                                                             ];
                                                                             
             
-            for (Participant_Enrollment__c PE: lstOfParticipantEnrollment) {
+            for (Participant_Enrollment__c PE: lstOfParticipantEnrollment) 
+            {
                 returnList.add(PE);
             }
             InitData initData = new InitData();
