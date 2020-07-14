@@ -3,6 +3,8 @@
     <label>Business Administrator</label>
     <permissionSets>PP_Approved_Languages_Edit</permissionSets>
     <permissionSets>PP_CTP_Edit</permissionSets>
+    <permissionSets>PP_Incentive_Program_Edit</permissionSets>
+    <permissionSets>PP_Incentive_Program_View</permissionSets>
     <permissionSets>PP_Manual_Creation_Panel</permissionSets>
     <permissionSets>PP_Message_Configuration_Edit</permissionSets>
     <permissionSets>PP_Motivational_Messages_Edit</permissionSets>
