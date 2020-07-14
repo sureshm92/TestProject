@@ -17,8 +17,8 @@
                         component.set('v.wrapper.maxValue', helper.roundValue(wrapper.maxValue));
                     }
                     if (visitResultType === 'Biomarkers') {
-                        if (wrapper.value === 1) displayedValue = '+ ' + $A.get('$Label.c.Biomarkers_Positive');
-                        else if (wrapper.value === -1) displayedValue = '- ' + $A.get('$Label.c.Biomarkers_Negative');
+                        if (wrapper.value === 1) displayedValue = $A.get('$Label.c.Biomarkers_Positive');
+                        else if (wrapper.value === -1) displayedValue = $A.get('$Label.c.Biomarkers_Negative');
                         else if (wrapper.value === 0) displayedValue = $A.get('$Label.c.Biomarkers_Unknown');
                         component.set('v.displayedValue', displayedValue);
                     }
