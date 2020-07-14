@@ -31,6 +31,10 @@
 
     doGenerateReport: function (component, event, helper) {
         var partid = component.get('v.partid');
-        window.open('/apex/TrialMatchData?id=' + partid, '_blank');
+        var pageurl = window.location.href;
+        if(pageurl.includes("gsk"))
+            window.open('/gsk/apex/TrialMatchData?id=' + partid, '_blank');
+        else
+        	window.open('/apex/TrialMatchData?id=' + partid, '_blank');
     }
 });

@@ -20,6 +20,10 @@
     font-weight: 400;
 }
 
+.THIS .slds-select {
+    height: 40px;
+}
+
 .THIS .p-buttons-container .slds-float_right {
     display: flex;
 }
@@ -27,20 +31,20 @@
 @media (max-width: 500px) {
 
     .THIS.cPopup .p-container .p-content {
-        padding: 0 0 20px 0;
-    }
-
-    .THIS.cPopup .p-container .p-content {
-        padding: 0 15px 20px;
+        padding: 0 0 20px;
     }
 
     .THIS.cPopup .p-container .p-footer {
         padding: 15px 15px 30px 15px;
     }
 
-    .THIS .prefContact,
+    .THIS .contactType {
+        flex-direction: column;
+    }
+
+    .THIS .contactType > .slds-col,
     .THIS .p-buttons-container > .apollo-btn {
-        width: 100%;
+        min-width: 100%;
     }
 
     .THIS .p-buttons-container .slds-float_right {
@@ -53,4 +57,5 @@
     .THIS .p-buttons-container .slds-float_right .apollo-btn {
         flex-grow: 1;
     }
+
 }

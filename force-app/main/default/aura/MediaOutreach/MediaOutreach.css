@@ -164,19 +164,20 @@
 }
 
 @media (max-width: 768px) {
-    .THIS .outreachTitle,
-    .THIS .outreachName {
-        display: inline-block;
+
+    .THIS .oName {
+        display: flex;
     }
 
     .THIS .outreachTitle {
         color: #595959;
         padding-right: 5px;
         white-space: nowrap;
+        display: inline-block;
     }
 
-    .THIS .oName {
-        display: flex;
+    .THIS .outreachTitle + span {
+        display: inline-block;
     }
 
     .THIS .slds-truncate {
