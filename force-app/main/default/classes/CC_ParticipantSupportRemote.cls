@@ -8,7 +8,7 @@ public without sharing class CC_ParticipantSupportRemote {
     @AuraEnabled
     public static string fetchParticipantEnrollment(String searchKeyWord) {
         try {
-            
+            String StrSearch='%'+searchKeyWord+'%';
             List < Participant_Enrollment__c > returnList = new List < Participant_Enrollment__c > ();
             List < Participant_Enrollment__c > lstOfParticipantEnrollment = [SELECT Participant__r.Full_Name__c,
                                                                              Days_After_Referred__c, Participant__c, 
@@ -39,9 +39,10 @@ public without sharing class CC_ParticipantSupportRemote {
                                                                              Study_Site__r.Study_Site_Phone__c, Study_Site__c,
                                                                              Participant__r.Marketing_Flag__c,
                                                                              Study_Site__r.Study_Site_Type__c,
-                                                                             Participant__r.IsCountry_NOT_Eligible_for_Emails__c                                                                           
+                                                                             Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
+                                                                             Participant__r.fPhone__c                                                                           
                                                                              FROM Participant_Enrollment__c 
-                                                                             where Participant__r.Phone__c =: searchKeyWord
+                                                                             where Participant__r.fPhone__c  like : StrSearch
                                                                             ];
             
             for (Participant_Enrollment__c PE: lstOfParticipantEnrollment) {
