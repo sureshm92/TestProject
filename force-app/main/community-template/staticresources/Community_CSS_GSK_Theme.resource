@@ -78,7 +78,7 @@
 }
 
 .lg-form-element input {
-    color: #868686;
-    border-bottom: 1px solid;
+    color: #868686 ! important;
+    border-bottom: 1px solid ! important;
     border-radius: 0;
 }
