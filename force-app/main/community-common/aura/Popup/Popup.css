@@ -194,30 +194,30 @@
     height: 89%;
 }
 @media screen and (max-width: 768px){
-    
+
     .THIS .cPopup .p-container .p-content {
         max-height: 90vh;
     }
-    
+
     .THIS.cAction_ParticipantInformation #p-modal .p-container.large {
         height: 90vh;
     }
-    
+
      .THIS.cAction_ParticipantInformation .p-container .p-header {
 		max-height: 30vh;
     }
-    
+
 	.THIS.cAction_ParticipantInformation .p-container .p-header .invite-patient-container > div:nth-of-type(1) {
         max-width: 65%;
     }
-    
+
     .THIS.cAction_ParticipantInformation .p-container .p-header .invite-patient-container > div:nth-of-type(1) .slds-size--10-of-12 {
         max-width: 85%;
-    }  
+    }
      .THIS.cAction_ParticipantInformation .p-container .p-header .invite-patient-container > div:nth-of-type(2) {
         max-width: 35%;
     }
-    
+
     .THIS .p-container .p-footer {
         border-top: 1px solid #efefef;
     }
@@ -251,7 +251,7 @@
         max-height: 95%;
         top: 50%;
     }
-    
+
      .THIS.cAction_ParticipantInformation .p-container .p-footer {
         right: 0;
         bottom: 15px;
@@ -261,4 +261,21 @@
         border-top: 1px solid #efefef;
     }
 
+}
+@media all and (orientation:landscape){
+    .THIS.cAction_ParticipantInformation #p-modal .p-container.large {
+        min-height: auto;
+        overflow: hidden;
+    }
+
+    .THIS.cAction_ParticipantInformation #p-modal .p-container.large .form-content {
+        padding-bottom: 50px;
+    }
+}
+
+
+@media all and (orientation:landscape) and (max-height: 450px) {
+    .THIS.cAction_ParticipantInformation .p-container .p-footer {
+        bottom: 35px;
+    }
 }

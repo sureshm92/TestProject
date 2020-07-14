@@ -81,7 +81,8 @@ public class MediaOutreachServices {
             'Study_Name__r.Clinical_Trial_Profile__c',
             'Study_Name__r.Principal_Investigator__c',
             'Requested_End_Date__c',
-            'Requested_Start_Date__c'
+            'Requested_Start_Date__c',
+            'fMediaType__c'
             
             };
                 

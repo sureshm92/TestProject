@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-.THIS.tour-fixed-overlay {
+ .THIS.tour-fixed-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -32,7 +32,7 @@
     height: calc(100% - 100px);
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /*align-items: center;*/
     border-radius: 0 0 4px 4px;
     overflow: hidden;
     position: relative;

@@ -12,6 +12,7 @@ public without sharing class  IntegrationService {
         public SubjectDetails subjectDetails;
         public ReferralDetails referralDetails;
         public AuditLog auditLog;
+        public string  One_Key_ID;
     }
     
     public class CommunicationPreferences {
@@ -221,7 +222,8 @@ public without sharing class  IntegrationService {
                         Referral_ID__c,
                         Referred_Date__c,
                         Study_Site__r.Protocol_ID__c,
-                        Study_Site__r.Study_Site_Type__c
+                        Study_Site__r.Study_Site_Type__c,
+                        Study_Site__r.Principal_Investigator__r.OneKeyID__c
                 FROM Participant_Enrollment__c
                 WHERE Id =: participantEnrollmentId
         ];
@@ -266,7 +268,7 @@ public without sharing class  IntegrationService {
         integrationMessage.subjectDetails = subjectDetails;
         integrationMessage.referralDetails = referralDetails;
         integrationMessage.auditLog = auditLog;
-
+        integrationMessage.One_Key_ID = pe.Study_Site__r.Principal_Investigator__r.OneKeyID__c;
         return integrationMessage;
     }
     

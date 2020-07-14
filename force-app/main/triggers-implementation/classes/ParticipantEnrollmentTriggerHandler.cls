@@ -176,7 +176,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 pe.Referred_Date__c = Date.today();
             }
 
-            pe.Initial_visit_scheduled_flag__c = pe.Initial_visit_scheduled_date__c != null || pe.Initial_visit_occurred_flag__c;
+            pe.Initial_visit_scheduled_flag__c = (pe.Initial_visit_scheduled_date__c != null && pe.Initial_visit_scheduled_time__c != null) || pe.Initial_visit_occurred_flag__c; // @Krishna Mahto: Changes for REF-1390- added Initial_visit_scheduled_time__c 
         }
 
         if (!participantContacts.isEmpty()) update participantContacts;
@@ -435,6 +435,18 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     peListForTaskCreation.add(pe);
                     if (pe.Participant_Contact__c != null) participantContactIds.add(pe.Participant_Contact__c);
                 }
+            }else if (pe.Participant_Status__c == PEStatusState.PE_STATUS_ELIGIBILITY_PASSED) {
+                if (oldMap == null || (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != PEStatusState.PE_STATUS_ELIGIBILITY_PASSED)) {
+                    histories.add(new Participant_Enrollment_Status_History__c(
+                            Date__c = pe.Participant_Status_Last_Changed_Date__c,
+                            Status__c = pe.Participant_Status__c,
+                            Notes__c = pe.Non_Referral_Notes__c,
+                            ParticipantEnrollment__c = pe.Id,
+                            Reason__c = pe.Non_Referral_Reason__c
+                    ));
+                    peListForTaskCreation.add(pe);
+                    if (pe.Participant_Contact__c != null) participantContactIds.add(pe.Participant_Contact__c);
+                }
             } else if (oldMap == null) {
                 peListForTaskCreation.add(pe);
                 Clinical_Trial_Profile__c ctp =
@@ -510,7 +522,14 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 }
             }
         }
+        Set<Id> ctpIds = new Set<Id>();
+        for (Participant_Enrollment__c pe : peEnrollSuccessWithParticipating) ctpIds.add(pe.Clinical_Trial_Profile__c);
+        Map<Id, Clinical_Trial_Profile__c> ctpMap = new Map<Id, Clinical_Trial_Profile__c>();
+        for (Id ctpId : ctpIds) {
+            ctpMap.put(ctpId, (Clinical_Trial_Profile__c) PETriggerBuffer.getSObject(ctpId));
+        }
         Set<Id> visitPlanIds = new Set<Id>();
+        for (Clinical_Trial_Profile__c ctp : ctpMap.values()) visitPlanIds.add(ctp.Visit_Plan__c);
         for (Participant_Enrollment__c pe : enrollments) visitPlanIds.add(pe.Visit_Plan__c);
         Map<Id, Visit_Plan__c> visitPlansMap = new Map<Id, Visit_Plan__c>([
                 SELECT Id, (SELECT Id, Name, Visit_Number__c, Visit_Schedule__c, Patient_Portal_Name__c FROM Visits__r)
@@ -520,7 +539,9 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
         List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>();
         for (Participant_Enrollment__c pe : peEnrollSuccessWithParticipating) {
+            Clinical_Trial_Profile__c ctp = ctpMap.get(pe.Clinical_Trial_Profile__c);
             Id vpId = pe.Visit_Plan__c;
+            if (vpId == null) vpId = ctp.Visit_Plan__c;
             if (vpId == null) continue;
             Visit_Plan__c vp = visitPlansMap.get(vpId);
             if (vp == null) continue;

@@ -1,0 +1,62 @@
+@font-face {
+    font-family: Muli;
+    src: url(/resource/CPD_CommunityFont);
+}
+
+.THIS.content-align {
+    padding: 1% 30% 1% 20%;
+}
+
+.THIS .documentation-of-h {
+    color: #005587!important;
+    font-size: 17px!important;
+    letter-spacing: 0!important;
+    line-height: 22px!important;
+    font-family: "Muli", sans-serif;
+    font-weight: 800!important;
+  }
+
+.THIS .documentation-of-a-p {
+    color: #595959!important;
+    font-family: "Muli", sans-serif;
+    font-size: 14px!important;
+    letter-spacing: 0!important;
+    line-height: 20px!important;
+    font-weight: 400!important;
+    width: 100%;
+    margin-left: 1%;
+  }
+
+.THIS .sld-date-input-style {
+    width: 50%!important;
+}
+/*.THIS .slds-form-element__control {
+    width: 50%!important;
+}*/
+
+.THIS .slds-form-element__label {
+    font-size: 15px !important;
+    line-height: 30px !important;
+    font-family: "Muli", sans-serif;
+    font-weight: 400!important;
+    color: #595959!important;
+  }
+
+  .THIS .slds-input{
+      height: 40px;
+  }
+
+@media (min-width: 320px) and (max-width: 480px) {
+   
+    .THIS.content-align{
+        padding: 0% 0% 0% 10%;
+    }
+    .THIS .sld-date-input-style {
+        width: 85%!important;
+    }
+    
+    /*.THIS .slds-form-element__control {
+        width: 85%!important;
+    }*/
+    
+}
