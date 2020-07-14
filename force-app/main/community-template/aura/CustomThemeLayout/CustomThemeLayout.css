@@ -205,14 +205,8 @@
 }
 
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-    .THIS .navigation-icon {
-        margin-bottom: 40px;
-    }
-    .THIS .helpNavigationCSS:hover {
+     .THIS .helpNavigationCSS:hover {
         background-color: rgba(255, 255, 255, 0);
-    }
-    .THIS .bell-container button {
-        margin-bottom: 40px;
     }
 }
 
