@@ -27,7 +27,7 @@
         <aura:if isTrue="{!v.initialized}">
 
             <div class="visit-results-disclaimer">
-                {!$Label.c.Visit_Results_Tab_Disclaimer}
+                {!v.resultModeLabel=='Vitals'?$Label.c.Visit_Results_Tab_Vit_Disclaimer:v.resultModeLabel=='Biomarkers'?$Label.c.Visit_Results_Tab_Bio_Disclaimer:$Label.c.Visit_Results_Tab_Lab_Disclaimer}
             </div>
             <div class="slds-grid slds-wrap slds-gutters">
                 <div class="slds-col slds-m-top--small slds-m-bottom--medium slds-size_1-of-4">
