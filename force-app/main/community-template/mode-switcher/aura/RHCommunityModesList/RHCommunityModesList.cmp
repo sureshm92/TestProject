@@ -10,7 +10,7 @@
     <!-- events: -->
     <aura:registerEvent access="global" name="onclick" type="c:uiEvent"/>
 
-    <ul class="main-container" style="{!if(equals(v.communityModes.type, 'RH_Only'), 'max-height: 370px; -ms-overflow-y: scroll', '')}">
+    <ul class="main-container">
         <aura:iteration items="{!v.communityModes.rhModeItems}" var="modeGroup">
             <c:uiMenuItem onclick="{!c.doOnclick}" itemValue="{!modeGroup}">
                 <div class="main-box">

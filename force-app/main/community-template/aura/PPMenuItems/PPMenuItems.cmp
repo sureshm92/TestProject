@@ -10,7 +10,7 @@
     <!-- events: -->
     <aura:registerEvent access="global" name="onclick" type="c:uiEvent"/>
 
-    <div class="{!if(equals(v.allModes.type, 'PP_Only'), 'all-container', '')}">
+    <div>
         <aura:iteration var="item" items="{!v.allModes.ppModeItems}">
             <ul class="contain">
                 <aura:iteration items="{!item.subItems}" var="subItem">
