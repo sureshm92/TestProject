@@ -45,9 +45,7 @@ public without sharing class CC_ParticipantSupportRemote {
                                                                              where Participant__r.fphone__c  like : StrSearch
                                                                             ];
             
-
-            for (Participant_Enrollment__c PE: lstOfParticipantEnrollment) 
-            {
+            for (Participant_Enrollment__c PE: lstOfParticipantEnrollment) {
                 returnList.add(PE);
             }
             InitData initData = new InitData();
