@@ -7,7 +7,7 @@
         var carouselBody = component.find('carouselBody').getElement();
         var carouselBodyWidth = carouselBody.getBoundingClientRect().width;
         var currentPage = component.get('v.currentPage');
-        var slideSpeed = 500; // Milliseconds
+        var slideSpeed = (navigator.userAgent.match(/Trident/)) ? 50:500; // Milliseconds
         var frameRate = 25;
         var frameTime = slideSpeed / frameRate;
         var frameCount = 0;

@@ -2,7 +2,8 @@
  * Created by Sneha Shilpa Thuluri 
  */
 ({
-    doInit: function (component, event, helper) {
+    doInit: function (component, event, helper) {                
+		component.find('spinner').show();        
         component.set('v.userMode', communityService.getUserMode()); 
         console.log(communityService.getCurrentCommunityMode().currentDelegateId);   
         if (communityService.getCurrentCommunityMode().currentDelegateId){
@@ -47,8 +48,9 @@
                 component.set('v.personWrapper.mailingCC',personWrapper.mailingCC);
                 component.set('v.initialized',   true);	                
             }), 2000);
-			
-			
+						
+        }, null, function () {
+            component.find('spinner').hide();
         })
     },
 	doCheckFieldsValidity: function(component, event, helper){

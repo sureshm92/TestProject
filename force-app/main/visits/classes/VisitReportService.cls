@@ -165,9 +165,9 @@ public inherited sharing class VisitReportService {
         if(visitResult.RecordType.DeveloperName.equalsIgnoreCase(VisitReportService.VISIT_RES_RECORD_TYPE_BIO)){
             String biomarkerValue = '';
             if(visitResult.Actual_Value__c == -1.0){
-                biomarkerValue = '- ' + System.Label.Biomarkers_Negative;
+                biomarkerValue =  System.Label.Biomarkers_Negative;
             } else if(visitResult.Actual_Value__c == 1.0){
-                biomarkerValue = '+ ' + System.Label.Biomarkers_Positive;
+                biomarkerValue =  System.Label.Biomarkers_Positive;
             }else if(visitResult.Actual_Value__c == 0.0){
                 biomarkerValue = System.Label.Biomarkers_Unknown;
             }

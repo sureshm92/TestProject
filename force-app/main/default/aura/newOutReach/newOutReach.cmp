@@ -61,7 +61,7 @@
     </aura:method>
     <aura:method name="checkfields" action="{!c.checkReqFields}"></aura:method>  
     
-    <c:Popup aura:id="inviteRPDialog" showClose="false" size="large"
+    <c:Popup aura:id="inviteRPDialog" showClose="true" size="large"
              showScroll="true">
         <aura:if isTrue="{!!v.refreshView}">
             <div class="slds-grid slds-grid_vertical">
