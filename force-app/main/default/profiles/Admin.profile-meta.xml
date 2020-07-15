@@ -5616,6 +5616,11 @@
         <field>Participant__c.Emancipation_in_progress__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.fPhone__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.First_Name__c</field>
