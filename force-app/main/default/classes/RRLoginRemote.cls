@@ -152,4 +152,23 @@ global without sharing class RRLoginRemote {
         }
     }
 
+     //@Krishna Mahto - PEH-1910 - Prod Issue fix- Start 
+    /**
+    * ───────────────────────────────────────────────────────────────────────────────────────────────┐
+    * This method will return the current communityName
+    * ────────────────────────────────────────────────────────────────────────────────────────────────
+    * @Method:   getCommunityName
+    * @param:    NA   
+    * @return:   Strings  
+    * ───────────────────────────────────────────────────────────────────────────────────────────────┘
+    **/
+    @auraEnabled
+    public static String getCommunityName(){
+        Id networkId = Network.getNetworkId();
+        String communityName = [Select Id,Name from Network where Id=:networkId].Name;
+        return communityName;
+    }
+    
+    //@Krishna Mahto - PEH-1910 - Prod Issue fix- End
+
 }
