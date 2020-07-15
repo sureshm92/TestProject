@@ -11,6 +11,7 @@ public without sharing class ParticipantDuplicateService {
     public Map<String, Contact> duplicateDelegatesContactMap = new Map<String, Contact>();
     public Map<String, Participant__c> duplicateDelegatesParticipantMap = new Map<String, Participant__c>();
 
+    
     public class ParticipantWithDelegate {
         public Participant__c participant;
         public Participant__c delegate;
