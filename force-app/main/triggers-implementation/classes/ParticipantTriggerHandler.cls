@@ -27,7 +27,11 @@ public without sharing class ParticipantTriggerHandler {
     public class ChangeUserEmailOnParticipantEmailChangeHandler extends TriggerHandler{
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            changeUserEmailOnParticipantEmailChange(newList, (Map<Id, Participant__c>)oldMap);
+            if (System.isFuture() || System.isBatch()) {
+                changeUserEmailOnParticipantEmailChange(newList, (Map<Id, Participant__c>) oldMap);
+            } else {
+                changeUserEmailOnParticipantEmailChangeAsync(JSON.serialize(newList), JSON.serialize((Map<Id, Participant__c>) oldMap));
+            }
         }
     }
 
@@ -113,7 +117,15 @@ public without sharing class ParticipantTriggerHandler {
     }
 
     @TestVisible
-    private static void changeUserEmailOnParticipantEmailChange(List<Participant__c> newList, Map<Id, Participant__c> oldMap){
+    @Future
+    private static void changeUserEmailOnParticipantEmailChangeAsync(String newListJSON, String oldMapJSON) {
+        List<Participant__c> newList = (List<Participant__c>) JSON.deserialize(newListJSON, List<Participant__c>.class);
+        Map<Id, Participant__c> oldMap = (Map<Id, Participant__c>) JSON.deserialize(oldMapJSON, Map<Id, Participant__c>.class);;
+        changeUserEmailOnParticipantEmailChange(newList, oldMap);
+    }
+
+    @TestVisible
+    private static void changeUserEmailOnParticipantEmailChange(List<Participant__c> newList, Map<Id, Participant__c> oldMap) {
         Set<Id> contactIds = new Set<Id>();
         for(Participant__c participant : newList) {
             if(participant.Contact__c != null) contactIds.add(participant.Contact__c);
