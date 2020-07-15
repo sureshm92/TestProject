@@ -199,11 +199,6 @@ private class Test_VisitResultsService {
 
     @IsTest
     private static void getVisitResultsContainer_test() {
-
-        List<Visit_Result_TypeM__mdt> types = new List<Visit_Result_TypeM__mdt>{
-                new Visit_Result_TypeM__mdt()
-        };
-
         TestData testData = new TestData();
         testData.ctp.Shareback_Availability_Timing__c = 1;
         update testData.ctp;
@@ -295,7 +290,11 @@ private class Test_VisitResultsService {
             Map<String, List<String>> visitResultSharings = new  Map<String, List<String>>();
             visitResultSharings.put(visitResultGroup, sharings);
             VisitResultsService.VisitResultsContainer container =
-                    service.getVisitResultsContainer(visitResultGroup,visitResultSharings);
+                    service.getVisitResultsContainer(
+                            visitResultGroup, visitResultSharings,
+                            ParticipantContext.getCurrentPE().Clinical_Trial_Profile__c,
+                            ParticipantContext.getCurrentPE().Participant__r.Mailing_Country_Code__c
+                    );
             System.assertEquals(1, container.wrappers.size());
         }
 
