@@ -131,7 +131,7 @@ public inherited sharing class VisitResultsService {
                 : new VisitResultsContainer(
                         resultsWithAvailableSing.get(0).visitResult.Patient_Visit__r,
                         getVisitResultWrappers(resultsWithAvailableSing, filteredVisitResultTypesIfAvailable),
-                        TranslateHelper.getLabelValue('Visit_Results_Tab_' + visitResultsGroupName)
+                        TranslateHelper.getLabelValue('Visit_Result_Group_' + visitResultsGroupName)
                 );
     }
 
