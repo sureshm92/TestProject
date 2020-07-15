@@ -248,9 +248,9 @@
     }
     
     .THIS .vis-path.slds-grid .line-div .state-ico-wrapper {
-        width: 32px;
-        height: 32px;
-        top: -18px;
+        width: 30px;
+        height: 30px;
+        top: -16px;
         left: -14px;
     }
     
@@ -262,7 +262,7 @@
     .THIS .vis-path.slds-grid .line-div .state-ico-wrapper-middle {
         top: -21px!important;
         left: -18px!important;
-        width: 40px!important;
+        width: 6px!important;
         height: 40px!important;
     }
     
