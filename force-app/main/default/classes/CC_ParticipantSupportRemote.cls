@@ -40,7 +40,7 @@ public without sharing class CC_ParticipantSupportRemote {
                                                                              Participant__r.Marketing_Flag__c,
                                                                              Study_Site__r.Study_Site_Type__c,
                                                                              Participant__r.IsCountry_NOT_Eligible_for_Emails__c                                                                                                                                                      FROM Participant_Enrollment__c 
-                                                                             where Participant__r.Phone__c  like : StrSearch
+                                                                             where Participant__r.Phone__c  =: searchKeyWord
                                                                             ];
                                                                             
             
