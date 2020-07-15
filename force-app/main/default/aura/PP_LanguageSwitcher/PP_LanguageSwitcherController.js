@@ -26,7 +26,7 @@
 			setTimeout($A.getCallback(function () {
 				helper.setFieldsValidity(component);
 				component.showHelpMessageIfInvalid();
-			}), 1000);
+			}), 50);
 			
 			component.set('v.languages', initData.languages);
             component.set('v.optionalLanguages', initData.optionalLanguages);
@@ -47,7 +47,7 @@
                 //component.find("pFieldCountry").set('v.value',personWrapper.mailingCC);
                 component.set('v.personWrapper.mailingCC',personWrapper.mailingCC);
                 component.set('v.initialized',   true);	                
-            }), 2000);
+            }), 100);
 						
         }, null, function () {
             component.find('spinner').hide();
