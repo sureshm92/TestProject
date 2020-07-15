@@ -17880,6 +17880,13 @@ communications using the toggles below.</value>
         <value>This data is being provided as part of your participation in a clinical research study. It is for research purposes only. Values are only available for vitals recorded for the visit date displayed. If you have questions or concerns about this data, please contact the Principal Investigator at your study center.</value>
     </labels>
     <labels>
+        <fullName>Visit_Results_Tab_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Disclaimer</shortDescription>
+        <value>This data is being provided as part of your participation in a clinical research study. It is for research purposes only. Values are only available for vitals recorded for the visit date displayed. If you have questions or concerns about this data, please contact the Principal Investigator at your study center.</value>
+    </labels>
+    <labels>
         <fullName>Visit_Results_Tab_Bio_Disclaimer</fullName>
         <language>en_US</language>
         <protected>true</protected>

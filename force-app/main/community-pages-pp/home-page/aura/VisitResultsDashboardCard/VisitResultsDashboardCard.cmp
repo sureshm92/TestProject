@@ -18,7 +18,7 @@
         <c:HomePreviewTablePanel title="{!$Label.c.Visit_Results_Dashboard_My_Results}">
             <div class="objective-link">
                 <div class="objective-section">
-                    <div class="visit-results-disclaimer objective-text">{!v.visitReportHeader=='Vitals'?$Label.c.Visit_Results_Tab_Vit_Disclaimer:v.visitReportHeader=='Biomarkers'?$Label.c.Visit_Results_Tab_Bio_Disclaimer:$Label.c.Visit_Results_Tab_Lab_Disclaimer}</div>
+                    <div class="visit-results-disclaimer objective-text">{!$Label.c.Visit_Results_Tab_Disclaimer}</div>
                     <div class="objective-link">
                         <c:RRLink page="{!v.VisitResultPage}">{!$Label.c.BTN_Learn_More}<c:RRIcon iconName="icon-chevron-right"/></c:RRLink>
                     </div>
