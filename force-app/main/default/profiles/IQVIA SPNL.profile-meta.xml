@@ -5333,7 +5333,7 @@
     </fieldPermissions>
 	<fieldPermissions>
         <editable>false</editable>
-        <field>Participant__c.fPhone__c</field>
+        <field>Participant__c.FPhone__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
