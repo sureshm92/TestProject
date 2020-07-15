@@ -10,14 +10,18 @@
         // component.set("v.communityForgotPasswordUrl", helper.getCommunityForgotPasswordUrl(component, event, helper));
         component.set("v.communitySelfRegisterUrl", helper.getCommunitySelfRegisterUrl(component, event, helper));
         
-        //@Krishna mahto- PEH-1910- Start 
-        var community = window.location.pathname.startsWith('/gsk/') ? '/gsk/s/login' : '/s/login';
-        if(community==='/s/login'){
-            component.set("v.isGSKCommunity",false);
-        }else if(community==='/gsk/s/login'){
-            component.set("v.isGSKCommunity",true);
-        }
-        //@Krishna mahto- PEH-1910- End 
+        //@Krishna mahto- PEH-1910- Prod Issue Fix- Start 
+        communityService.executeAction(component, 'getCommunityName', {    
+        }, function (returnValue) {
+            if (returnValue !== null) {
+                if(returnValue==='IQVIA Referral Hub'){
+                    component.set("v.isGSKCommunity",false);
+                }else if(returnValue==='GSK Community'){
+                    component.set("v.isGSKCommunity",true);
+                }
+            }
+        });
+        //@Krishna mahto- PEH-1910- Prod Isseu Fix- End 
        
         if(navigator.userAgent.match(/Trident/)) component.set("v.ieClass", 'ie-login-rows');
     },
