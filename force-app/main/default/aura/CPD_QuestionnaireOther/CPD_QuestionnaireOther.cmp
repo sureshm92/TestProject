@@ -11,6 +11,8 @@
     <aura:attribute name="fileData" type="Object" />
     <aura:attribute name="fileList" type="Object" />
     <aura:attribute name="attachmentErrorShow" type="Boolean" default="false" />
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+
 
 
     <aura:attribute name="integrationPatientReferral" type="Integration_Patient_Referral__c"
@@ -100,4 +102,6 @@
             </div>
         </div>
     </div>
+
+    <c:CPD_Popup_Model isModalOpen="{!v.isModalOpen}"  popupMessage="{!$Label.c.CPD_File_Type_Error}"  />
 </aura:component>

@@ -4,7 +4,7 @@ Created by Sumit Surve
 */
 
 public without sharing class IntegrationSiteStaffTriggerHandler {
-	    
+        
     private static final List<String> SS_STATUSES_ACCEPT_REFERRALS = new List<String>{
             StudySiteService.PI_S_ACCEPTED,
             StudySiteService.PI_S_ACCEPTED_A,
@@ -18,52 +18,52 @@ public without sharing class IntegrationSiteStaffTriggerHandler {
             checkFields();
             upsertSiteStaff();
         }
-    
-		private Map<String, Study_Site__c> ssByPrimaryKeyEPRMap = new Map<String, Study_Site__c>();
-		private Map<String, Clinical_Trial_Profile__c> ctpByProtocolIdMap = new Map<String, Clinical_Trial_Profile__c>();
-		List<Integration_Site_Staff__c> newList;
-		private Map<String, Integration_Site_Staff__c> newMap = new Map<String, Integration_Site_Staff__c>();
+        
+        private Map<String, Study_Site__c> ssByPrimaryKeyEPRMap = new Map<String, Study_Site__c>();
+        private Map<String, Clinical_Trial_Profile__c> ctpByProtocolIdMap = new Map<String, Clinical_Trial_Profile__c>();
+        List<Integration_Site_Staff__c> newList;
+        private Map<String, Integration_Site_Staff__c> newMap = new Map<String, Integration_Site_Staff__c>();
         private Map<String, Site_Staff__c> newSiteMap = new Map<String, Site_Staff__c>();
-		private List<Site_Staff__c> newLevelSiteStaffList = new List<Site_Staff__c>();
+        private List<Site_Staff__c> newLevelSiteStaffList = new List<Site_Staff__c>();
     
 
-		private void setNewList(List<Integration_Site_Staff__c> newList){
-			this.newList = newList;
-			List<String> protocolIds = new List<String>();
-			List<String> ssNumbersList = new List<String>();
-			String studySiteNumber;
-			String StudyNumber;
-			String ctpAndSiteNumber;
-			for (Integration_Site_Staff__c iss : newList) {
-				ctpAndSiteNumber = iss.protocolId__c;
-				StudyNumber =  ctpAndSiteNumber.substringBefore('_');
-				studySiteNumber =  ctpAndSiteNumber.substringAfter('_');
-				protocolIds.add(StudyNumber);
-				ssNumbersList.add(studySiteNumber);
-				newMap.put(iss.Site_Email_Key__c, iss);
-			}
-			//SS Map
-			
-			List<Study_Site__c> ssList = [
-					SELECT Id, Protocol_ID__c, Primary_Key_ePR__c, Study_Site_Number__c,
-							Override_PI_Referral_Status__c
-					FROM Study_Site__c
-					WHERE Study_Site_Number__c IN: ssNumbersList
-			];
-			for (Study_Site__c ss : ssList) ssByPrimaryKeyEPRMap.put(ss.Primary_Key_ePR__c, ss);
-			
-			
-			//CTP Map
-			List<Clinical_Trial_Profile__c> ctpList = [
-					SELECT Id, Override_Recruitment_Status__c, Protocol_ID__c
-					FROM Clinical_Trial_Profile__c
-					WHERE Protocol_ID__c IN: protocolIds
-			];
-			for (Clinical_Trial_Profile__c ctp : ctpList) ctpByProtocolIdMap.put(ctp.Protocol_ID__c, ctp);
-			
-		}
+        private void setNewList(List<Integration_Site_Staff__c> newList){
+            this.newList = newList;
+            List<String> protocolIds = new List<String>();
+            List<String> ssNumbersList = new List<String>();
+            String studySiteNumber;
+            String StudyNumber;
+            String ctpAndSiteNumber;
+            for (Integration_Site_Staff__c iss : newList) {
+                ctpAndSiteNumber = iss.protocolId__c;
+                StudyNumber =  ctpAndSiteNumber.substringBefore('_');
+                //studySiteNumber =  ctpAndSiteNumber.substringAfter('_');
+                protocolIds.add(StudyNumber);
+                ssNumbersList.add(studySiteNumber);
+                newMap.put(iss.Site_Email_Key__c, iss);
+            }
+            //SS Map
+            
+            List<Study_Site__c> ssList = [
+                    SELECT Id, Protocol_ID__c, Primary_Key_ePR__c, Study_Site_Number__c,
+                            Override_PI_Referral_Status__c
+                    FROM Study_Site__c
+                    WHERE Study_Site_Number__c IN: ssNumbersList
+            ];
+            for (Study_Site__c ss : ssList) ssByPrimaryKeyEPRMap.put(ss.Primary_Key_ePR__c, ss);
+            
+            
+            //CTP Map
+            List<Clinical_Trial_Profile__c> ctpList = [
+                    SELECT Id, Override_Recruitment_Status__c, Protocol_ID__c
+                    FROM Clinical_Trial_Profile__c
+                    WHERE Protocol_ID__c IN: protocolIds
+            ];
+            for (Clinical_Trial_Profile__c ctp : ctpList) ctpByProtocolIdMap.put(ctp.Protocol_ID__c, ctp);
+            
+        }
 
-		private void checkFields() {
+        private void checkFields() {
             //process items:
             for (Integration_Site_Staff__c iss : newList) {
                 List<String> errorsLog = new List<String>();
@@ -97,102 +97,85 @@ public without sharing class IntegrationSiteStaffTriggerHandler {
             }
             
             Map<String, Study_Site__c> siteMap = new Map<String, Study_Site__c>();
-			
+            
             List<Study_Site__c> siteList = [SELECT Id, Study_Site_Number__c, Principal_Investigator__r.AccountId 
-                            				FROM Study_Site__c 
-                            				WHERE Study_Site_Number__c IN :siteNumbers];
+                                            FROM Study_Site__c 
+                                            WHERE Study_Site_Number__c IN :siteNumbers];
             
             for(Integration_Site_Staff__c iss : newList){
                 for( Study_Site__c site : siteList){
                     if(iss.Study_Site_Number__c == site.Study_Site_Number__c){
-                    	siteMap.put(site.Study_Site_Number__c, site);
+                        siteMap.put(site.Study_Site_Number__c, site);
                     }    
                 }
             }
             
             List<Contact> cntList = new List<Contact>([SELECT Id, Email, Phone
-                                                      	FROM Contact
-                                                      	WHERE Email IN :emails OR Phone IN :phones]);
+                                                        FROM Contact
+                                                        WHERE Email IN :emails OR Phone IN :phones]);
             
             for (Integration_Site_Staff__c iss : newList) {
                 Study_Site__c ss = siteMap.get(iss.Study_Site_Number__c);
                 newSiteStaffMap.put(iss.Site_Email_Key__c, convertToSiteStaff(iss, ss, cntList));
             }
-			
-            List<Site_Staff__c>  staffs = [SELECT Phone__c, 
-                                              Email__c, 
-                                              Site_Email_Key__c, 
-                                              Roles__c, 
-                                              Study_Site__c, 
-                                              Delegate_Level__c, 
-                                              Site__c, 
-                                              Site_Contact__c, 
-                                           	  Site_Number__c,
-                                              Study_Site__r.Study_Site_Number__c, 
-                                              Clinical_Trial_Profile__c, 
-                                              Name, 
-                                              Id 
-                                              FROM Site_Staff__c
-                                          	  WHERE Phone__c IN :phones AND Email__c IN: emails];
+            
             
             //Duplicates check and upsert site staff
-            SiteStaffDuplicateService duplicateService = new SiteStaffDuplicateService(newSiteStaffMap.values());
+            //SiteStaffDuplicateService duplicateService = new SiteStaffDuplicateService(newSiteStaffMap.values());
+            SiteStaffDuplicateService duplicateService = new SiteStaffDuplicateService(newSiteStaffMap);
             for (Integration_Site_Staff__c iss : newList) {
+                System.debug('iss.Site_Email_Key__c1---> ' + iss.Site_Email_Key__c);
                 Site_Staff__c site_Staff = newSiteStaffMap.get(iss.Site_Email_Key__c);
+                System.debug('####newSiteStaffMap.get -site_Staff ---->' + site_Staff);
                 Site_Staff__c siteStaffDuplicate = duplicateService.findDuplicate(site_Staff);
-                Site_Staff__c duplicateStaff;
+                System.debug('####siteStaffDuplicate ---->' + siteStaffDuplicate);
                
                 if(siteStaffDuplicate != null)
-				{
-                    for(Site_Staff__c ss : staffs)
+                {
+                    if(siteStaffDuplicate.Site_Number__c == iss.Study_Site_Number__c)
                     {
-                        if(ss.id == siteStaffDuplicate.id)
-                        {
-                            duplicateStaff = ss;
-                        }
-                    }
-                   
-					if(duplicateStaff.Site_Number__c == iss.Study_Site_Number__c)
-					{
-                        String rolesStr = duplicateStaff.Roles__c;
-	
+                        System.debug('iss.Site_Email_Key__c2---> ' + iss.Site_Email_Key__c);
+                        System.debug('after for ---> '+ siteStaffDuplicate.Site_Number__c+ '_' +iss.Study_Site_Number__c);
+                        String rolesStr = siteStaffDuplicate.Roles__c;
+    
                         Set<String> roles = new Set<String>(rolesStr.split(';'));
                         String rolesStr2 = iss.Roles__c;
                         Set<String> roles2 = new Set<String>(rolesStr2.split(';'));
                         roles.addAll(roles2);
-						if(roles != null){
-							duplicateStaff.Roles__c = String.join(new List<String>(roles), ';');
-							if(duplicateStaff.Roles__c.contains('STUDY COORDINATOR, PRIMARY') ||
-								duplicateStaff.Roles__c.contains('SUB-INVESTIGATOR') ||
-								duplicateStaff.Roles__c.contains('STUDY COORDINATOR') ||
-								duplicateStaff.Roles__c.contains('RECRUITMENT AND RETENTION')){
-									duplicateStaff.Delegate_Level__c = 'Level 1';
-							}else if(
-                                duplicateStaff.Roles__c.contains('STUDY COORDINATOR (BACK-UP)') ||
-                                duplicateStaff.Roles__c.contains('STUDY NURSE') ||
-                                duplicateStaff.Roles__c.contains('RESEARCH NURSE') ||
-                                duplicateStaff.Roles__c.contains('SITE ADMINISTRATOR') ||
-                                duplicateStaff.Roles__c.contains('RESEARCH DIRECTOR')){
-                                    duplicateStaff.Delegate_Level__c = 'Level 2';
+                        if(roles != null){
+                            siteStaffDuplicate.Roles__c = String.join(new List<String>(roles), ';');
+                            if(siteStaffDuplicate.Roles__c.contains('STUDY COORDINATOR, PRIMARY') ||
+                                siteStaffDuplicate.Roles__c.contains('SUB-INVESTIGATOR') ||
+                                siteStaffDuplicate.Roles__c.contains('STUDY COORDINATOR') ||
+                                siteStaffDuplicate.Roles__c.contains('RECRUITMENT AND RETENTION')){
+                                    siteStaffDuplicate.Delegate_Level__c = 'Level 1';
+                            }else if(
+                                siteStaffDuplicate.Roles__c.contains('STUDY COORDINATOR (BACK-UP)') ||
+                                siteStaffDuplicate.Roles__c.contains('STUDY NURSE') ||
+                                siteStaffDuplicate.Roles__c.contains('RESEARCH NURSE') ||
+                                siteStaffDuplicate.Roles__c.contains('SITE ADMINISTRATOR') ||
+                                siteStaffDuplicate.Roles__c.contains('RESEARCH DIRECTOR')){
+                                    siteStaffDuplicate.Delegate_Level__c = 'Level 2';
                                 }else{
-                                    duplicateStaff.Delegate_Level__c = 'Level 3';
+                                    siteStaffDuplicate.Delegate_Level__c = 'Level 3';
                                 } 
-							newSiteStaffMap.put(iss.Site_Email_Key__c, duplicateStaff);
-							//sendEmailNotification(duplicateStaff.Site_Contact__c);
-						}                            
-					}else if(duplicateStaff.Site_Number__c != iss.Study_Site_Number__c) 
-					{
-                        Study_Site__c ss = siteMap.get(iss.Study_Site_Number__c);
-                        newSiteStaffMap.put(iss.Site_Email_Key__c, createSiteStaff(iss, duplicateStaff, ss));
-						//sendEmailNotification(duplicateStaff.Site_Contact__c);
-					}
-				}      
+                            newSiteStaffMap.put(iss.Site_Email_Key__c, siteStaffDuplicate);
+                        }                            
+                    }
+                }else if(siteStaffDuplicate == null){
+                    Contact contactDuplicate = duplicateService.findDuplicateContact(site_Staff);
+                    if (contactDuplicate != null) {
+                            system.debug('inside contact duplicate '+ contactDuplicate);
+                            site_Staff.Site_Contact__c = contactDuplicate.Id;
+                        	newSiteStaffMap.put(iss.Site_Email_Key__c, site_Staff);
+                    }
+                }     
             }
             upsert newSiteStaffMap.values();
         }
     }
         
-	@testVisible
+    @testVisible
     private static Site_Staff__c convertToSiteStaff(Integration_Site_Staff__c iss, Study_Site__c ss, List<Contact> cList) {
        
         Contact cnt;
