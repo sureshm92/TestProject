@@ -1,5 +1,6 @@
 # Add excluded metadata for deployment here!
 
+force-app/unpackaged
 
 # Resource record types:
 force-app/main/resources/objects/Resource__c/recordTypes/*
