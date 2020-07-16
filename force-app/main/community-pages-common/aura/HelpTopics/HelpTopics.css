@@ -5,6 +5,16 @@
     margin-bottom: 20px;
 }
 
+.THIS .slds-has-error .slds-form-element__help {
+    position: absolute;
+    width: 100;
+    margin-bottom: 18px;
+    z-index: 0;
+    display: flex;
+}
+.THIS .sld-input-margin{
+    margin-top: -4px;
+}
 
 .THIS .h-body {
     margin-top: 0;
@@ -105,6 +115,14 @@
 
     .THIS .h-body .h-body-info {
         margin-top: 20px;
+    }
+
+    .THIS .slds-has-error .slds-form-element__help {
+        position: relative;
+        width: 100%;
+        margin-bottom: 18px;
+        z-index: 0;
+        display: flex;
     }
 }
 

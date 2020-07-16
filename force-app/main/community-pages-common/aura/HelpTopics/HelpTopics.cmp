@@ -3,7 +3,7 @@
  - Updated by Sumit Surve on 13.07.2020
  -->
 
-<aura:component description="HelpTopics" controller="HelpController">
+ <aura:component description="HelpTopics" controller="HelpController">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"/>
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String" access="public"/>
@@ -124,19 +124,20 @@
                             <c:rrSelect value="{!v.currentParticipant}" options="{!v.participantPicklistvalues}" label="{!$Label.c.Help_Participant_Name}" useSentenceFont="false"/>
                         </span>-->
 
-                        <span class="slds-p-right_medium">
-                        	<lightning:input required="true"
-                                             aura:id="participant"
-                                             label="{!$Label.c.Help_Participant_Name}" 
-                                             value="{!v.currentParticipant}" 
-                                             messageWhenValueMissing = "{!$Label.c.Help_referralId_missing}"
-                                             messageWhenPatternMismatch="{!$Label.c.Help_referralId_incorrect}"
-                                             pattern="([REF]{3}[0-9]{5})"/>
-                        </span>
-                        
-                        <span>
-                            <c:rrSelect value="{!v.currentSite}" options="{!v.sitePicklistvalues}" setValueAsSelected="true" label="{!$Label.c.Help_Study_Site}" useSentenceFont="false"/>
-                        </span>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_5-of-12">
+                                <lightning:input required="true" aura:id="participant"
+                                    label="{!$Label.c.Help_Participant_Name}" value="{!v.currentParticipant}"
+                                    messageWhenValueMissing="{!$Label.c.Help_referralId_missing}"
+                                    messageWhenPatternMismatch="{!$Label.c.Help_referralId_incorrect}"
+                                    pattern="([REF]{3}[0-9]{5})" class="sld-input-margin" />
+                            </div>
+                            <div class="slds-col slds-size_5-of-12">
+                                <c:rrSelect value="{!v.currentSite}" options="{!v.sitePicklistvalues}"
+                                    setValueAsSelected="true" label="{!$Label.c.Help_Study_Site}"
+                                    useSentenceFont="false" />
+                            </div>
+                        </div>
                     </div>
 
                     </aura:if>
