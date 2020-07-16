@@ -4,7 +4,7 @@
     <available>true</available>
     <description>New Covid19 Email Participant</description>
     <encodingKey>UTF-8</encodingKey>
-    <name>Covid19 New Study</name>
+    <name>Covid19 Delegate</name>
     <style>none</style>
     <subject>CP COVID-19 Donor Registration Confirmation</subject>
     <type>visualforce</type>

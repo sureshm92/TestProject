@@ -121,37 +121,38 @@ public without sharing class UserTriggerHandler {
         insert tasksForInsert;
     }
 
-    @TestVisible
-    private static void assignCommunityPermissionSetToUser(List<User> insertedUsers) {
+@TestVisible
+    private static void assignCommunityPermissionSetToUser(List<User> insertedUsers) 
+    {
         List<User> rhUsers = [
                 SELECT Id, ContactId
                 FROM User
                 WHERE Id IN:insertedUsers
-                AND ((ContactId != NULL
-                AND Contact.userCommunityMode__c != 'Participant') AND
-            	(Contact.Registry_Source__c != 'IQVIA registry' OR Contact.Source__c != 'IQVIA registry'))
+                AND ContactId != NULL
+                AND Contact.userCommunityMode__c != 'Participant' And CreatedBy.Name != 'Covid-19 Site Guest User'
         ];
 
         Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
-       
-        for (User user : rhUsers) {
-            actionAssignContactPermissions.addPermission(
-                    user.ContactId, CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME
-            );
-        }
-		
-        if (!actionAssignContactPermissions.isEmpty()) {
+        if(rhUsers != null)
+        {
+            for (User user : rhUsers) {
+                actionAssignContactPermissions.addPermission(
+                        user.ContactId, CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME
+                );
+            }
+
+            if (!actionAssignContactPermissions.isEmpty()) {
             ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+            }
         }
-        
-        if(rhUsers == null){
+        else
+        {
             List<User> registryUsers = [
                     SELECT Id, ContactId
                     FROM User
                     WHERE Id IN:insertedUsers
-                    AND ((ContactId != NULL
-                    AND Contact.userCommunityMode__c != 'Participant') AND
-                    (Contact.Registry_Source__c = 'IQVIA registry' OR Contact.Source__c = 'IQVIA registry'))
+                    AND ContactId != NULL
+                    AND Contact.userCommunityMode__c != 'Participant' 
             ];
     
             Action_AssignContactPermissions registryActionAssignContactPermissions = new Action_AssignContactPermissions();
