@@ -1,18 +1,39 @@
 /**
  * Created by Deeksha on 09.07.2020.
  */
-.THIS.dlit-container {
+ .THIS.dlit-container {
     padding: 20px;
 }
-.THIS .slds-button__icon_left{
+/*.THIS .slds-button__icon_left{
     margin-left:-20px;
-}
+}*/
 
-.THIS .slds-accordion__summary-heading .slds-button:focus {
+/*.THIS .slds-accordion__summary-heading .slds-button:focus {
     text-decoration:none;
-}
+}*/
 
-.THIS .slds-truncate{
+/*.THIS .slds-truncate{
+  color: #0768FD;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 24px;
+    
+}*/
+
+/*.THIS .slds-button:focus {
+  color: #0768FD;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 24px;
+  background-color:#F6F7FB;
+}*/
+
+
+.THIS .section{
   color: #0768FD;
   font-family: "Proxima Nova";
   font-size: 16px;
@@ -22,7 +43,94 @@
     
 }
 
+.THIS .slds-section__title-action{
+  color: #0768FD;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 24px;
+  background-color:#F6F7FB;
+
+    
+}
+
+.THIS .slds-section__title{
+  color: #0768FD;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 24px;
+  background-color:#F6F7FB;
+
+    
+}
+
+.THIS a:hover {
+  background-color:#F6F7FB;
+  color: #0768FD;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+
+.THIS a:visited {
+  background-color:#F6F7FB;
+  color: #0768FD;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+
+.THIS a:focus {
+  background-color:#F6F7FB;
+  color: #0768FD;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+
+.THIS .font_size{
+  color: #0768FD;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+
+.THIS .button_color{
+    background-color:#F6F7FB;
+    color: #0768FD;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 24px;
+    
+}
+.THIS .orangeColor{
+    background-color:orange;
+}
+
 .THIS .header_text{
+   color: #0768FD;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+
+.THIS a{
+    text-decoration:none;
    color: #0768FD;
   font-family: "Proxima Nova";
   font-size: 16px;
@@ -37,7 +145,8 @@
    color: #000000;
   font-family: "Proxima Nova";
   font-size: 16px;
-  letter-spacing: 0;}
+  letter-spacing: 0;
+}
 .THIS .dlit-table th{
     font-size: 1rem;
     font-weight: bold;

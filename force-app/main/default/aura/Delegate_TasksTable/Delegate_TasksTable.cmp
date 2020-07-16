@@ -2,7 +2,7 @@
  - Created by Deeksha on 09.07.2020.
  -->
 
-<aura:component description="DelegateLevelInfoTable">
+ <aura:component description="DelegateLevelInfoTable">
     <!-- attributes: -->
     <aura:attribute name="activeSections" type="List" default="['A','C']" />
     
@@ -15,16 +15,35 @@
     
     <!-- component body-->
        <aura:if isTrue="{!(v.userMode == 'Participant')}" >
-        <lightning:accordion allowMultipleSectionsOpen="true"
-                             onsectiontoggle="{! c.handleSectionToggle }" activeSectionName="{! v.activeSections }" >
-            <lightning:accordionSection name="B" label="{!$Label.c.PP_DelegateTasks}">
-                <aura:iteration items="{!v.capList}" var="capability">
-                    <span>
-                        <ul>
-                            <li>{!capability.text}</li>
+       
+            <div class="slds-section slds-is-close" aura:id="tasksSection">
+        <!--section header-->
+        <h6 class="slds-section__title">
+            <a aria-controls="tasksList" class="button_color">
+                <span onclick="{!c.toggleSection}" data-auraId="tasksSection">
+                    <lightning:icon iconName="utility:switch"
+                                    size="x-small"
+                                    class="slds-section__title-action-icon slds-button__icon_left"
+                                    alternativeText="button icon" 
+                                    />
+                </span>
+                <span class="button_color"  title="{!$Label.c.PP_DelegateTasks}"  style="font-weight:600;text-decoration:none;color:#0768FD;">{!$Label.c.PP_DelegateTasks}</span>
+            </a>
+            
+
+        </h6>
+        <!--section body-->
+        <div class="slds-section__content" id="tasksList" style="margin-left: 20px;">
+            <aura:iteration items="{!v.capList}" var="capability">
+                <span>
+                <ul>
+                            <li style="list-style-type:disc;list-style:disc;color: #000000;">{!capability.text}</li>
                         </ul>
-                    </span></aura:iteration>
-            </lightning:accordionSection></lightning:accordion>
+                </span>
+                        
+                    </aura:iteration>
+        </div>
+    </div>
         
     </aura:if>
 </aura:component>
