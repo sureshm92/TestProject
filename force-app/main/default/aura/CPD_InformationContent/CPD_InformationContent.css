@@ -1,125 +1,180 @@
 @font-face {
-    font-family: Muli;
-    src: url(/resource/CPD_CommunityFont);
+  font-family: Muli;
+  src: url(/resource/CPD_CommunityFont);
 }
 
 .THIS.sld-all-information-rectangle {
-    box-sizing: border-box;
-    height: 8rem;
-    width: 93%;
-    border: 1px solid #005587;
-    background-color: #FAFAFA;
-    margin-top: 3%;
+  box-sizing: border-box;
+  height: 8rem;
+  width: 93%;
+  border: 1px solid #005587;
+  background-color: #FAFAFA;
+  margin-top: 3%;
 }
 
 .THIS .sld-all-information-rectangle-p {
-    color: #333333;
-    font-family: "Muli", sans-serif;
-    font-size: 16px;
-    letter-spacing: 0;
-    line-height: 20px;
-    margin-left: 3%;
+  color: #333333;
+  font-family: "Muli", sans-serif;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 20px;
+  margin-left: 3%;
 }
 
 .THIS .sld-content-alignment {
-   /* margin-left: 12%;
+  /* margin-left: 12%;
     margin-top: 3%;
     width: 86%;*/
-    padding: 35px 68px;
+  padding: 35px 68px;
 }
-   
+
 /* 
   ##Device = Tablets, Ipads (portrait)
   ##Screen = B/w 768px to 1024px
 */
 
 @media (min-width: 768px) and (max-width: 1024px) {
-  
-    /*CSS*/
-    
-  }
-  
-  /* 
+
+  /*CSS*/
+
+}
+
+/* 
     ##Device = Tablets, Ipads (landscape)
     ##Screen = B/w 768px to 1024px
   */
-  
-  @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-    
-    /*CSS*/
-    
-  }
-  
-  /* 
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+
+  /*CSS*/
+
+}
+
+/* 
     ##Device = Low Resolution Tablets, Mobiles (Landscape)
     ##Screen = B/w 481px to 767px
   */
-  
-  @media (min-width: 481px) and (max-width: 767px) {
-    
-    .THIS.sld-all-information-rectangle {
-        box-sizing: border-box;
-        height: 18rem;
-        width: 100%;
-        border: 1px solid #005587;
-        background-color: #fafafa;
-        margin-top: 3%;
-    }
-    
-    .THIS .sld-all-information-rectangle-p {
-        color: #333333;
-        font-family: "Muli", sans-serif;
-        font-size: 16px;
-        letter-spacing: 0;
-        line-height: 20px;
-        margin-left: 16%;
-        margin-top: -10%;
-        margin-bottom: 10%;
-    }
-    
-    .THIS .sld-content-alignment {
-       /* width: 86%;
+
+@media (min-width: 481px) and (max-width: 767px) {
+
+  .THIS.sld-all-information-rectangle {
+    box-sizing: border-box;
+    height: 18rem;
+    width: 100%;
+    border: 1px solid #005587;
+    background-color: #fafafa;
+    margin-top: 3%;
+  }
+
+  .THIS .sld-all-information-rectangle-p {
+    color: #333333;
+    font-family: "Muli", sans-serif;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 20px;
+    margin-left: 16%;
+    margin-top: -10%;
+    margin-bottom: 10%;
+  }
+
+  .THIS .sld-content-alignment {
+    /* width: 86%;
         margin-left: 6%;
         margin-top: 3%;*/
-        padding: 35px 35px;
-    }
-    
+    padding: 35px 35px;
   }
-  
-  /* 
+
+}
+
+/* 
     ##Device = Most of the Smartphones Mobiles (Portrait)
     ##Screen = B/w 320px to 479px
   */
-  
-  @media (min-width: 320px) and (max-width: 480px) {
-    
-    
-    .THIS.sld-all-information-rectangle {
-        box-sizing: border-box;
-        height: 18rem;
-        width: 100%;
-        border: 1px solid #005587;
-        background-color: #fafafa;
-        margin-top: 3%;
-    }
-    
-    .THIS .sld-all-information-rectangle-p {
-        color: #333333;
-        font-family: "Muli", sans-serif;
-        font-size: 16px;
-        letter-spacing: 0;
-        line-height: 20px;
-        margin-left: 30%;
-        margin-top: -20%;
-        margin-bottom: 11%;
-        width: 71%;
-    }
-    
-    .THIS .sld-content-alignment {
-       /* width: 90%;
-        margin-left: 3%;
-        margin-top: 10%;*/
-        padding: 35px 35px;
-    }
-    
+
+@media (min-width: 320px) and (max-width: 480px) {
+
+  .THIS.sld-all-information-rectangle {
+    box-sizing: border-box;
+    height: 18rem;
+    width: 100%;
+    border: 1px solid #005587;
+    background-color: #fafafa;
+    margin-top: 3%;
   }
+
+  .THIS .sld-all-information-rectangle-p {
+    color: #333333;
+    font-family: "Muli", sans-serif;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 20px;
+    margin-left: 30%;
+    margin-top: -20%;
+    margin-bottom: 11%;
+    width: 71%;
+  }
+
+  .THIS .sld-content-alignment {
+    padding: 35px 35px;
+  }
+
+}
+
+
+/* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
+
+/* Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape) {
+
+    .THIS .sld-content-alignment {
+      padding: 35px 35px !important;
+    }
+
+    .THIS .sld-all-information-rectangle-p {
+      color: #333333;
+      font-family: "Muli", sans-serif;
+      font-size: 16px;
+      letter-spacing: 0;
+      line-height: 20px;
+      margin-left: 18% !important;
+      margin-top: -10% !important;
+      margin-bottom: 10%;
+      width: 100%;
+    }
+
+}
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+
+
+  .THIS.sld-all-information-rectangle {
+    box-sizing: border-box;
+    height: 18rem;
+    width: 100%;
+    border: 1px solid #005587;
+    background-color: #fafafa;
+    margin-top: 3%;
+  }
+
+  .THIS .sld-all-information-rectangle-p {
+    color: #333333;
+    font-family: "Muli", sans-serif;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 20px;
+    margin-left: 30%;
+    margin-top: -20%;
+    margin-bottom: 11%;
+    width: 71%;
+  }
+
+  .THIS .sld-content-alignment {
+    padding: 22px 22px;
+  }
+
+}

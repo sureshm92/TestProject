@@ -3,8 +3,7 @@
                          relatedToType="Integration_Patient_Referral__c">
 
     <messaging:htmlEmailBody >    
-        <c:Covid19EmailTemplate ParticipantVsDeligate="Participant" 
-                              firstName="{!relatedTo.firstName__c}"/>
-                              
+        <c:Covid19EmailTemplate ParticipantVsDeligate="Deligate" 
+                              deligateFirstName="{!relatedTo.Delegate_First_Name__c}"/>
     </messaging:htmlEmailBody>
 </messaging:emailTemplate>

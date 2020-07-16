@@ -10,7 +10,8 @@
     <aura:attribute name="contact" type="Contact" required="true"/>
     <aura:attribute name="infoText" type="String" access="private"/>
     <aura:attribute name="delegateInfoHeader" type="String" access="private"/>
-    
+    <aura:attribute name="withdrawInfoHeader" type="String" access="private"/>
+
     <aura:attribute name="parentComponent" type="Aura.Component" required="true"/>
     
     <div class="rr-white-panel" style="border-radius: 0 3px 0 0;
@@ -40,7 +41,7 @@
                         <p>{!v.infoText}</p></aura:if>
                     <aura:if isTrue="{!(v.userMode == 'Participant')}" >
                         
-                        <p>{!$Label.c.PP_Withdraw_Delegate}</p></aura:if>
+                        <p>{!v.withdrawInfoHeader}</p></aura:if>
                     <button class="apollo-btn secondary mti-button"
                             title="{!$Label.c.PG_PST_L_Delegates_Withdraw_From_Delegate}"
                             onclick="{!c.onClickWithdraw}">
