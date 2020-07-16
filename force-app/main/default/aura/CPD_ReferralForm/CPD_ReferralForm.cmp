@@ -35,7 +35,7 @@
     <aura:if isTrue="{!v.isNextStepVisible}">
         <br />
         <div class="slds-grid slds-wrap">
-            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_12-of-12">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                 <div class="rectangle-2">
                     <p class="next-step-complete">{!$Label.c.CPD_Next_step_complete_a_few_details}</p>
                 </div>
@@ -46,7 +46,7 @@
     <aura:if isTrue="{!v.isSiteVisible}">
         <br />
         <div class="slds-grid slds-wrap">
-            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_12-of-12">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                 <div class="rectangle-2">
                     <p class="next-step-complete">{!$Label.c.CPD_Select_your_preferred_location}</p>
                 </div>
