@@ -3,11 +3,9 @@
     {
       "path": "force-app",
       "default": true
-    },
-    {"path": "unpackaged"}
+    }
   ],
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
   "sourceApiVersion": "48.0"
 }
-
