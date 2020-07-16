@@ -170,6 +170,24 @@ public without sharing class ReferringRemote {
 
             ParticipantService.createParticipantAndUpdatePE(participant, participantDelegate, enrollment, language);
             String participantId = !String.isBlank(participant.Id) ? participant.Id : enrollment.Participant__c;
+            if(participantId != null){
+                Participant__c newpartcipant = [SELECT Id, Contact__c,Phone__c FROM Participant__c WHERE Id = :participantId];
+            if (newpartcipant.Contact__c != null) {
+                Contact participantCon = new Contact(Id = newpartcipant.Contact__c);
+
+                if (participant.Phone_Type__c == 'Home') {
+                    participantCon.HomePhone = participant.Phone__c;
+                } if (participant.Phone_Type__c == 'Mobile') {
+                    participantCon.MobilePhone = participant.Phone__c;
+                } else {
+                    participantCon.Phone = participant.Phone__c;
+                }
+                update participantCon;
+            }
+
+                
+            }
+             
             Boolean createDelegateuser = true;
             if (participantDelegate != null && !String.isEmpty(participantDelegate.Last_Name__c) &&
                     !String.isEmpty(participantDelegate.Email__c)) {
