@@ -56,8 +56,8 @@
 }
 
 .state-ico-wrapper .rr-icon-default {
-    width: 14px;
-    height: 16px;
+    width: 16px;
+    height: 14px;
 }
 
 .width-basis {
@@ -244,7 +244,7 @@
 }
 
 
-@media only screen and (min-width: 765px) and (max-width: 800px) and (orientation : portrait) {
+@media only screen and (min-width: 650px) and (max-width: 800px) and (orientation : portrait) {
     .path-section {
         padding: 30px 5px 25px;
         max-width: 750px;
@@ -268,8 +268,9 @@
 
     .rr-icon-default[c-webIcon_webIcon],
     .state-ico-wrapper .rr-icon-default {
-        width: 18px;
-        height: 20px;
+        width: 20px;
+        height: 18px;
+        margin-bottom: 2px;
     }
 
 
