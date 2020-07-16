@@ -14365,7 +14365,7 @@ communications using the toggles below.</value>
         <shortDescription>PP_Withdraw_Delegate</shortDescription>
         <value>You  may  choose  to  withdraw  from  your  delegate  appointment  at  any  time.  
  Doing  so  will  prevent  you  from  seeing  any  more  information  associated  with 
- Hermione.  If  you  withdraw  in  error , kindly  contact  your  patient  to  be 
+ ##PatientFirstName.  If  you  withdraw  in  error , kindly  contact  your  patient  to  be 
  reappointed  as  a  delegate.</value>
     </labels>
     <labels>
@@ -17892,6 +17892,41 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Visit Patient Portal Name</shortDescription>
         <value>PP Name</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Result_Group_Biomarkers</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit Result Group Biomarkers</shortDescription>
+        <value>Biomarkers</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Result_Group_FastingLipidProfile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit Result Group FastingLipidProfile</shortDescription>
+        <value>Fasting Lipid Profile</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Result_Group_Hematology</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit Result Group Hematology</shortDescription>
+        <value>Hematology</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Result_Group_MetabolicPanel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit Result Group MetabolicPanel</shortDescription>
+        <value>Metabolic Panel</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Result_Group_Vitals</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit Result Group Vitals</shortDescription>
+        <value>Vitals</value>
     </labels>
     <labels>
         <fullName>Visit_Result_Report_No_Data</fullName>
