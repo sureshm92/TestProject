@@ -37,7 +37,7 @@ public without sharing class IntegrationSiteStaffTriggerHandler {
             for (Integration_Site_Staff__c iss : newList) {
                 ctpAndSiteNumber = iss.protocolId__c;
                 StudyNumber =  ctpAndSiteNumber.substringBefore('_');
-                //studySiteNumber =  ctpAndSiteNumber.substringAfter('_');
+                studySiteNumber =  ctpAndSiteNumber.substringAfter('_');
                 protocolIds.add(StudyNumber);
                 ssNumbersList.add(studySiteNumber);
                 newMap.put(iss.Site_Email_Key__c, iss);
