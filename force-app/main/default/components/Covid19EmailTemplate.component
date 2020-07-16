@@ -1,3 +1,48 @@
-<apex:component id="EmailTemplate" access="global">
-    <!-- tobedone!!! -->    
+<apex:component id="Covid19EmailTemplate" access="global" controller="CovidEmailTemplateController" >
+    
+    <!-- attributes: -->
+    <apex:attribute name="file" description="File Name to Render" assignTo="{!fileName}" type="String" />
+    <apex:attribute name="firstName" type="String" description=""/>
+    <apex:attribute name="deligateFirstName" type="String" description=""/>
+    <apex:attribute name="ParticipantVsDeligate" type="String" description=""/>
+
+    <!-- component body: -->
+    <div style="max-width:600px;background-color:#f3f3f3;;padding:20px;font-family:Arial">
+        <div style="margin: auto;margin-top: 20px;background: #ffffff;">
+            <div style="background-color: #1AA0D9;padding: 1px!important;">
+                <p style="height: 36px;width: 540px;color: #FFFFFF;font-family: Arial;font-size: 28px;font-weight: bold;letter-spacing: 0;line-height: 36px;padding-left: 30px">
+                    {!$Label.Email_Header_Covid_19}
+                </p>
+            </div>
+            <br/>
+            <apex:outputPanel rendered="{!(imageUrl !=null)}">
+                <div style="text-align: center;">
+                    <img  width="260px" height="19px" src="{!imageUrl}"/>
+                </div>
+            </apex:outputPanel>
+            <br/><br/>
+            <div style="height: 360px;width: 540px;color: #000000;font-family: Arial;font-size: 16px;letter-spacing: 0;line-height: 24px;padding-left: 25px;">
+                <apex:outputPanel rendered="{!(ParticipantVsDeligate =='Participant')}">
+                    <apex:outputText value="{!$Label.Email_Greeting}" escape="false"/>&nbsp;{!firstName},
+                </apex:outputPanel>
+
+                <apex:outputPanel rendered="{!(ParticipantVsDeligate =='Deligate')}">
+                    <apex:outputText value="{!$Label.Email_Greeting}" escape="false"/>&nbsp;{!deligateFirstName},
+                </apex:outputPanel>
+                
+                <apex:outputText value="{!$Label.Email_Body_Initial_Patient_Covid_19}" escape="false"/><br/>
+                <apex:outputText value="{!$Label.Covid19_Sincerely}" escape="false"/><br/>
+                <apex:outputText value="{!$Label.Covid19_Plasma_Donation_Team}" escape="false"/>
+            </div>  
+            <br/><br/>
+        </div>
+        <br/>
+        <div style="text-align: center;">
+            <img src="{!$Label.CommunityEmailLogo}"/>
+        </div>
+        <br/>
+        <div style="color: #000000;border-top: 1px solid #979797; border-bottom: 1px solid #979797; padding-top: 10px; padding-bottom: 10px;font-family: Proxima Nova;font-size: 14px;letter-spacing: 0;line-height: 24px;">
+            {!$Label.Email_Footer_Address} |&nbsp;<a style="color: #0060A6;" href="{!$Label.CommunityURL + '/s/privacy-policy'}">{!$Label.Email_Footer_Privacy_Policy}</a>
+        </div>
+    </div>  
 </apex:component>

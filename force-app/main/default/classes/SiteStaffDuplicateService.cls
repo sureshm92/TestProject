@@ -26,16 +26,6 @@ public without sharing class SiteStaffDuplicateService {
             return ((Contact)duplicate).FirstName;
         }
         
-        /*
-        public Integer getYearOfBirth(){
-            if(isParticipant()){
-                Participant__c participant = (Participant__c)duplicate;
-                return getYearOfBirthForParticipant(participant);
-            }
-            return null;
-        }
-        */
-        
         public Site_Staff__c getSiteStaff(){
             if(isSiteStaff()) return (Site_Staff__c)duplicate;
             return null;
@@ -48,43 +38,49 @@ public without sharing class SiteStaffDuplicateService {
 
     }
     
-    public SiteStaffDuplicateService(Site_Staff__c study_staff){
-        this(new List<Site_Staff__c>{study_staff});
-    }
-    
-    public SiteStaffDuplicateService(List<Site_Staff__c> newSiteStaff){
+    public SiteStaffDuplicateService(Map<String, Site_Staff__c> newSiteStaff){
         System.debug('Inside SiteStaffDuplicateService');
         System.debug('newSiteStaff-->' + newSiteStaff);
 
         List<String> emails = new List<String>();
         List<String> phones = new List<String>();
-        for(Site_Staff__c ss : newSiteStaff){
-            if(!String.isEmpty(ss.Phone__c)) phones.add(ss.Phone__c);
-            if(!String.isEmpty(ss.Email__c)) emails.add(ss.Email__c);
+        List<String> epkeys = new List<String>();
+        for(String ss : newSiteStaff.keySet()){
+            epkeys.add(ss);
+            if(newSiteStaff.get(ss).Phone__c != Null) 
+                phones.add(newSiteStaff.get(ss).Phone__c);
+            if(newSiteStaff.get(ss).Email__c != Null) 
+                emails.add(newSiteStaff.get(ss).Email__c);
         }
         System.debug('phones-->' + phones);
         System.debug('emails-->' + emails);
+        System.debug('epkeys-->' + epkeys);
 
         //Find Study Staff
-        List<Site_Staff__c> existedSiteStaff = [
-                SELECT Id, Email__c, Phone__c
-                FROM Site_Staff__c
-                WHERE Email__c IN: emails OR Phone__c IN: phones
-        ];
-        System.debug('existedSiteStaff--->' + existedSiteStaff);
-
-        Map<String, Site_Staff__c> studyStaffByEmailMap = new Map<String, Site_Staff__c>();
-        Map<String, Site_Staff__c> studyStaffByPhoneMap = new Map<String, Site_Staff__c>();
-        for(Site_Staff__c ss : existedSiteStaff){
-            if(ss.Email__c != null) studyStaffByEmailMap.put(ss.Email__c.toLowerCase(), ss);
-            if(ss.Phone__c != null) studyStaffByPhoneMap.put(ss.Phone__c, ss);
+        Map<String, Site_Staff__c> studyStaffByKeyMap = new Map<String, Site_Staff__c>();
+        
+        for(Site_Staff__c ss : [SELECT Id, Email__c, Phone__c, Site_Number__c, Roles__c, Site_Contact__c, Site_Email_Key__c, Study_Site__r.Study_Site_Number__c 
+                                FROM Site_Staff__c
+                                WHERE Email__c IN: emails AND Phone__c IN: phones]){
+            DuplicateContainer duplicate;
+            if(newSiteStaff != null){
+                for(String epkey : newSiteStaff.keySet()){
+                    if(epkey!= null && epkey == ss.Site_Email_Key__c){
+                        studyStaffByKeyMap.put(epkey, ss);
+                        duplicate = new DuplicateContainer(studyStaffByKeyMap.get(epkey)); 
+                        system.debug('site staff duplicate ' + duplicate);
+                        if(duplicate != null){
+                            setDuplicate(newSiteStaff.get(epkey), duplicate);
+                    	}   
+                    }                        
+                }
+            }              
         }
-        System.debug('studyStaffByEmailMap----> ' + studyStaffByEmailMap);
-        System.debug('studyStaffByPhoneMap----> ' + studyStaffByPhoneMap);
-
+        
+        
         //Find contacts:
         List<Contact> existedContacts = [
-                SELECT Id, FirstName, Email, Phone, Birthdate
+                SELECT Id, FirstName, LastName, Email, Phone, Birthdate
                 FROM Contact
                 WHERE Email IN: emails OR Phone IN: phones
         ];
@@ -95,13 +91,9 @@ public without sharing class SiteStaffDuplicateService {
             if(contact.Phone != null) contactsByPhoneMap.put(contact.Phone, contact);
         }
     
-        for(Site_Staff__c ss : newSiteStaff){
+        for(Site_Staff__c ss : newSiteStaff.values()){
             DuplicateContainer duplicate;
-            if(ss.Email__c != null && studyStaffByEmailMap.get(ss.Email__c.toLowerCase()) != null){
-                duplicate = new DuplicateContainer(studyStaffByEmailMap.get(ss.Email__c.toLowerCase()));
-            }else if(ss.Phone__c != null && studyStaffByPhoneMap.get(ss.Phone__c) != null){
-                duplicate = new DuplicateContainer(studyStaffByPhoneMap.get(ss.Phone__c));
-            }else if(ss.Site_Contact__r.Email != null && contactsByEmailMap.get(ss.Site_Contact__r.Email.toLowerCase()) != null){
+            if(ss.Site_Contact__r.Email != null && contactsByEmailMap.get(ss.Site_Contact__r.Email.toLowerCase()) != null){
                 duplicate = new DuplicateContainer(contactsByEmailMap.get(ss.Site_Contact__r.Email.toLowerCase()));
             }else if(ss.Site_Contact__r.Phone != null && contactsByPhoneMap.get(ss.Site_Contact__r.Phone) != null){
                 duplicate = new DuplicateContainer(contactsByPhoneMap.get(ss.Site_Contact__r.Phone));
@@ -190,15 +182,10 @@ public without sharing class SiteStaffDuplicateService {
     
     private static void mergeStudyStaff(Site_Staff__c sourceSiteStaff, Site_Staff__c newSiteStaff){
         if(sourceSiteStaff == null || newSiteStaff == null) return;
-        //if(newParticipant.Phone__c != null) sourceParticipant.Phone__c = newParticipant.Phone__c;
-        //if(newParticipant.Email__c == null) sourceParticipant.Email__c = newParticipant.Email__c;
-        //if(newSiteStaff.Mailing_Country_Code__c != null) sourceSiteStaff.Mailing_Country_Code__c = newParticipant.Mailing_Country_Code__c;
-        //if(newSiteStaff.Mailing_State_Code__c != null) sourceSiteStaff.Mailing_State_Code__c = newParticipant.Mailing_State_Code__c;
-        //if(newSiteStaff.Mailing_Zip_Postal_Code__c != null) sourceSiteStaff.Mailing_Zip_Postal_Code__c = newParticipant.Mailing_Zip_Postal_Code__c;
-        //if(newParticipant.Last_Name__c != null) sourceParticipant.Last_Name__c = newParticipant.Last_Name__c;
-        //if(newSiteStaff.Middle_Name__c != null) sourceSiteStaff.Middle_Name__c = newParticipant.Middle_Name__c;
-        //if(newSiteStaff.Date_of_Birth__c != null) sourceSiteStaff.Date_of_Birth__c = newParticipant.Date_of_Birth__c;
-        //if(newSiteStaff.Birth_Year__c != null) sourceSiteStaff.Birth_Year__c = newParticipant.Birth_Year__c;
+        if(newSiteStaff.Phone__c != null) sourceSiteStaff.Phone__c = newSiteStaff.Phone__c;
+        if(newSiteStaff.Email__c == null) sourceSiteStaff.Email__c = newSiteStaff.Email__c;
+        //if(newSiteStaff.Site_Number__c == null) sourceSiteStaff.Email__c = newSiteStaff.Site_Number__c;
+        
     }
     
 

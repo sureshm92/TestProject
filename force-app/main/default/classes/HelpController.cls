@@ -1,4 +1,7 @@
-/**Created by D.Yasinskyi on 23.05.2018*/
+/**Created by D.Yasinskyi on 23.05.2018
+Updated by Sumit Surve on 13.07.2020
+*/
+
 public without sharing class HelpController {
 
 
@@ -22,9 +25,7 @@ public without sharing class HelpController {
             userContact.currentContact = CommunityService.getUserContact();
             userContact.isDelegate = ParticipantContext.isCurrentDelegate();
             peList = getParticipants(userContact.currentContact);
-            system.debug('peList----> ' + peList); 
             ssList = getSites();
-            system.debug('ssList----> ' + ssList);
             HelpInitData initData = new HelpInitData();
             initData.participantEnrollList = peList;
             initData.siteList = ssList;
@@ -98,16 +99,14 @@ public without sharing class HelpController {
                 initData.participantEnrollOptions.add(new LabelValueItem('None', Null));
             }
             
-            system.debug('initData.participantEnrollOptions---> ' + initData.participantEnrollOptions);
             if(initData.siteList.size() > 0 &&  initData.siteList != Null){
                 for(Study_Site__c ss : initData.siteList){
-                    initData.siteOptions.add(new LabelValueItem(ss.Name, String.valueOf(ss.Id)));
+                    initData.siteOptions.add(new LabelValueItem(ss.Name, ss.Name));
                 }
             }
             else{
                 initData.siteOptions.add(new LabelValueItem('None', Null));
             }
-            system.debug('initData.siteOptions---> ' + initData.siteOptions);
             return JSON.serialize(initData);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
@@ -170,7 +169,7 @@ public without sharing class HelpController {
                 PI_Contact__c,
                 Clinical_Trial_Profile__r.Protocol_ID__c
                 FROM Participant_Enrollment__c
-                WHERE Clinical_Trial_Profile__r.Protocol_ID__c = 'C19NYBC' AND PI_Contact__c =: cnt.Id];
+                WHERE Clinical_Trial_Profile__r.Protocol_ID__c = 'C19NYBC'];
         
         return peList;
     } 
@@ -183,7 +182,8 @@ public without sharing class HelpController {
                 Override_PI_Referral_Status__c,
                 Clinical_Trial_Profile__r.Protocol_ID__c
                 FROM Study_Site__c
-                WHERE Clinical_Trial_Profile__r.Protocol_ID__c = 'C19NYBC' AND Override_PI_Referral_Status__c = 'Accepted'];
+                WHERE Clinical_Trial_Profile__r.Protocol_ID__c = 'C19NYBC' 
+                AND (Override_PI_Referral_Status__c = 'Accepted' OR Override_PI_Referral_Status__c = 'Accepted (Admin)')];
         
         return ssList;
     } 

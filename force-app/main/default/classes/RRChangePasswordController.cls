@@ -342,10 +342,13 @@ public without sharing class RRChangePasswordController {
         }
     }
 
-    public void upload() {
+    public PageReference upload() {
         ConnectApi.BinaryInput photoFileInput = new ConnectApi.BinaryInput(blobValue, contentType, filename);
         ConnectApi.UserProfiles.setPhoto(Network.getNetworkId(), userVal.Id, photoFileInput);
         photolink = ConnectApi.UserProfiles.getPhoto(Network.getNetworkId(), userVal.Id).fullEmailPhotoUrl;
+        PageReference pg = ApexPages.currentPage();
+        pg.setRedirect(true);
+        return pg;
     }
 
     public void updateTranslations(){

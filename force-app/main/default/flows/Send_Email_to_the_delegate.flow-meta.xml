@@ -13,6 +13,29 @@
         <locationY>200</locationY>
         <actionName>Integration_Patient_Referral__c.Send_email_to_delegate</actionName>
         <actionType>emailAlert</actionType>
+        <connector>
+            <targetReference>myRule_1_A2</targetReference>
+        </connector>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <processMetadataValues>
+            <name>emailAlertSelection</name>
+            <value>
+                <stringValue>Send_email_to_participant</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_1_A2</name>
+        <label>Send email to participant</label>
+        <locationX>100</locationX>
+        <locationY>300</locationY>
+        <actionName>Integration_Patient_Referral__c.Send_email_to_participant</actionName>
+        <actionType>emailAlert</actionType>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -240,7 +263,7 @@
             <label>send email to participant</label>
         </rules>
     </decisions>
-    <interviewLabel>Send_Email_to_the_delegate-2_InterviewLabel</interviewLabel>
+    <interviewLabel>Send_Email_to_the_delegate-3_InterviewLabel</interviewLabel>
     <label>Send Email to the delegate</label>
     <processMetadataValues>
         <name>ObjectType</name>

@@ -1462,6 +1462,14 @@
         <shortDescription>Case_Owner_Email_For_User_Lockout</shortDescription>
         <value>rajesh.r@quintiles.com</value>
     </labels>
+    <labels>
+        <fullName>Case_sub_transfer_to_new_site</fullName>
+        <categories>Case</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Case_sub_transfer_to_new_site</shortDescription>
+        <value>Transfer a participant to new site</value>
+    </labels>
 	<labels>
         <fullName>CC_Day_Ago</fullName>
         <language>en_US</language>
@@ -1689,6 +1697,22 @@
         <value>This site uses cookies for the essential functioning of the site, to improve user experience, and for analytical purposes. By using this site you are consenting to our use of cookies.</value>
     </labels>
     <labels>
+        <fullName>Covid19_Plasma_Donation_Team</fullName>
+        <categories>Covid19</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Covid19 Plasma Donation Team</shortDescription>
+        <value>The NYBC Convalescent Plasma Donation Team</value>
+    </labels>
+    <labels>
+        <fullName>Covid19_Sincerely</fullName>
+        <categories>Covid19</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Covid19 Sincerely</shortDescription>
+        <value>Sincerely,</value>
+    </labels>
+    <labels>
         <fullName>CPD_About_you</fullName>
         <categories>Covid19</categories>
         <language>en_US</language>
@@ -1871,6 +1895,14 @@
         <protected>false</protected>
         <shortDescription>CPD_First name label</shortDescription>
         <value>First name</value>
+    </labels>
+    <labels>
+        <fullName>CPD_File_Type_Error</fullName>
+        <categories>Covid19</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPD File Type Error</shortDescription>
+        <value>Only acceptable file types are .pdf, .png, .jpg, and .jpeg</value>
     </labels>
     <labels>
         <fullName>CPD_Help_treat_patients_with_life_threatening</fullName>
@@ -2892,7 +2924,7 @@ Please share our site on social media to encourage others to assist us as we wor
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Covid19 NYBC Email Logo</shortDescription>
-        <value>https://quintilesimscmo--infohotfix--c.documentforce.com/servlet/servlet.ImageServer?id=0150E0000012Jl0&amp;oid=00D0E0000002F9W&amp;lastMod=1594043869000</value>
+        <value>https://quintilesimscmo--informal42--c.documentforce.com/servlet/servlet.ImageServer?id=0150Q000000F8nQ&amp;oid=00D0Q0000008faR&amp;lastMod=1594130438000</value>
     </labels>
     <labels>
         <fullName>Cp_Agree_Checkbox</fullName>
@@ -4923,7 +4955,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Greeting</shortDescription>
-        <value>Dear Participant,</value>
+        <value>Dear</value>
     </labels>
     <labels>
         <fullName>Email_Header_Covid_19</fullName>
@@ -6582,6 +6614,23 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <protected>false</protected>
         <shortDescription>Help_Study_Site:</shortDescription>
         <value>Study Site</value>
+    </labels>
+    <labels>
+        <fullName>Help_referralId_incorrect</fullName>
+        <categories>Help</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Help_referralId_incorrect</shortDescription>
+        <value>The Referral ID is in the incorrect format.
+The expected format is REF#####</value>
+    </labels>
+    <labels>
+        <fullName>Help_referralId_missing</fullName>
+        <categories>Help</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Help_referralId_missing</shortDescription>
+        <value>Please enter the Referral ID</value>
     </labels>
     <labels>
         <fullName>Haematocrit</fullName>
@@ -14316,7 +14365,7 @@ communications using the toggles below.</value>
         <shortDescription>PP_Withdraw_Delegate</shortDescription>
         <value>You  may  choose  to  withdraw  from  your  delegate  appointment  at  any  time.  
  Doing  so  will  prevent  you  from  seeing  any  more  information  associated  with 
- Hermione.  If  you  withdraw  in  error , kindly  contact  your  patient  to  be 
+ ##PatientFirstName.  If  you  withdraw  in  error , kindly  contact  your  patient  to  be 
  reappointed  as  a  delegate.</value>
     </labels>
     <labels>
