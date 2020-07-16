@@ -83,8 +83,8 @@ public without sharing class TaskEditRemote {
 
             if (String.isEmpty(taskToUpsert.Originator__c)) taskToUpsert.Originator__c = ParticipantContext.isCurrentDelegate() ? 'Delegate' : 'Participant';
             if (taskToUpsert.Visible_For__c == null) taskToUpsert.Visible_For__c = 'Owner;Delegates';
-            //Don't update WhatId for catalog task
-            if (String.isEmpty(taskToUpsert.Task_Code__c)) {
+            //Don't update WhatId for catalog and manual creation panel task
+            if (String.isEmpty(taskToUpsert.Task_Code__c) && !taskWrapper.createdByAdmin) {
                 if (String.isNotBlank(taskToUpsert.Task_Type__c) && taskToUpsert.Task_Type__c != TaskService.TASK_TYPE_NOT_SELECTED ) {
                     taskToUpsert.WhatId = ParticipantContext.getCurrentPEId();
                 } else {
