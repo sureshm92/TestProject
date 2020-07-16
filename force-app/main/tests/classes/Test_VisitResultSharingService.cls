@@ -113,7 +113,6 @@ private class Test_VisitResultSharingService {
         update pe;
 
         System.runAs(testData.participantUser) {
-            VisitResultSharingService.isVisitResultAvailable();
             VisitResultSharingService.getCTP(testData.ctp.Id);
             VisitResultSharingService.disableShareback(testData.ctp);
             VisitResultSharingService.getTypeVRSharingMap(testData.ctp);

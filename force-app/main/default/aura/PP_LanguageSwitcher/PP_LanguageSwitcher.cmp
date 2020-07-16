@@ -148,8 +148,14 @@
         </aura:if>
     
     <div class="slds-col slds-size_1-of-1 as-buttons-footer">
-		<lightning:button variant="brand" label="{!$Label.c.PP_Save_Changes}" title="" onclick="{!c.doChangeLanguage}" class="slds-button slds-button_brand apollo-btn primary" disabled="{!or(and(not(empty(v.statesLVList)),empty(v.personWrapper.mailingSC)) ,v.isDisabled)}"/>       
-    </div>
+        <aura:if isTrue="{!v.userMode == 'Participant'}"> 
+            <lightning:button variant="brand" label="{!$Label.c.PP_Save_Changes}" title="" onclick="{!c.doChangeLanguage}" class="slds-button slds-button_brand apollo-btn primary" disabled="{!or(and(not(empty(v.statesLVList)),empty(v.personWrapper.mailingSC)) ,v.isDisabled)}"/>       
+        </aura:if>
+        <aura:if isTrue="{!v.userMode != 'Participant'}"> 
+            <lightning:button variant="brand" label="{!$Label.c.PP_Save_Changes}" title="" onclick="{!c.doChangeLanguage}" class="slds-button slds-button_brand apollo-btn primary" 
+                              disabled="{!v.isDisabled}"/>       
+        </aura:if>   
+     </div>
 
     </div>
 	 </div>

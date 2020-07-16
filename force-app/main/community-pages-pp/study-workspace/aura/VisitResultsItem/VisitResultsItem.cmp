@@ -4,7 +4,7 @@
 <aura:component description="VisitResultsItem">
 
     <!-- ATTRIBUTES -->
-    <aura:attribute name="displayedValue" type="Double" default="0" required="true"/>
+    <aura:attribute name="displayedValue" type="String"/>
     <aura:attribute name="wrapper" type="VisitResultsService.VisitResultWrapper"/>
     <aura:attribute name="visitResultType" type="String" default="Vitals"/>
 
