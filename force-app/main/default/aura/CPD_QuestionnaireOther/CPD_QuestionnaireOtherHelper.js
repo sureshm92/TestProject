@@ -21,18 +21,28 @@
     },
 
     fileChange: function (component, event) {
-        var data = event.getSource().get("v.files"),
-            fileName, self = this, fileList;
-        if (data.length > 0) {
-            fileList = event.getSource().get("v.files")[0];
-            fileName = event.getSource().get("v.files")[0]['name'];
-            component.set('v.attachmentErrorShow', false);
-            component.set('v.isfileAttached', true);            
-        }        
-        component.set("v.fileList", fileList);
-        component.set("v.fileLabel", fileName);
-        self.inputValidationOnChange(component, event);
-        self.fileLimititationException(component, event);
+        var typeList =['application/pdf','image/png','image/jpg','image/jpeg'];
+        var type = event.getSource().get("v.files")[0]['type'];
+        if(typeList.indexOf(type) > -1 )
+        {
+            var data = event.getSource().get("v.files"),
+                fileName, self = this, fileList;
+            if (data.length > 0) {
+                fileList = event.getSource().get("v.files")[0];
+                fileName = event.getSource().get("v.files")[0]['name'];
+                component.set('v.attachmentErrorShow', false);
+                component.set('v.isfileAttached', true);            
+            }        
+            component.set("v.fileList", fileList);
+            component.set("v.fileLabel", fileName);
+            self.inputValidationOnChange(component, event);
+            self.fileLimititationException(component, event);
+        }
+        else
+        {
+            console.log(type);
+            component.set("v.isModalOpen", true);
+        }
     },
 
     deleteFile : function(component, event){

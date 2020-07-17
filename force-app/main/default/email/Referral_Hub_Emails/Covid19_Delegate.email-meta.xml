@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>48.0</apiVersion>
+    <apiVersion>47.0</apiVersion>
     <available>true</available>
+    <description>New Covid19 Email Participant</description>
     <encodingKey>UTF-8</encodingKey>
-    <name>PI RP New Referral</name>
+    <name>Covid19 Delegate</name>
     <style>none</style>
-    <subject>You have participants awaiting your action</subject>
+    <subject>CP COVID-19 Donor Registration Confirmation</subject>
     <type>visualforce</type>
     <uiType>Aloha</uiType>
 </EmailTemplate>
