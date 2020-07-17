@@ -5,6 +5,7 @@
                         width: auto;
                         overflow: hidden;
                         border: 1px solid #F2F2F2;
+                        font-family: Arial Unicode MS;
                         border-radius: 5px;
                         background-color: #FFFFFF;
                         box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
@@ -20,7 +21,6 @@
                     <div style=" white-space: nowrap;
                                 overflow: hidden;
                                 text-overflow: ellipsis;
-                                font-family: Arial Unicode MS;
                                 color: #000000;
                                 float:left;
                                 font-size: 14px;
@@ -31,8 +31,6 @@
                     <div style="font-size: 14px;
                                 float:right;
                                 color: #000000;
-                                font-family: Arial Unicode MS;
-                                font-weight: 600;
                                 line-height: 21px;">
                         {!trialMatch.EnrollingCTP}
                     </div>
@@ -45,11 +43,9 @@
                 </div>
                 
                 <div style="padding: 15px;">
-                    <div style="font-family: Arial Unicode MS;
-                                color: #000000;
+                    <div style="color: #000000;
                                 float:left;
-                                font-weight: 600;
-                                font-size: 20px;
+                                font-size: 17px;
                                 line-height: 21px;
                                 width: 70%
                                 ">
@@ -58,8 +54,6 @@
                     <div style="font-size: 14px;
                                 float:right;
                                 color: #000000;
-                                font-family: Arial Unicode MS;
-                                font-weight: 500;
                                 line-height: 21px;">
                         {!$Label.Matched_of}&nbsp;{!trialMatch.matchDate}
                     </div>
@@ -67,8 +61,8 @@
                 <div style="padding: 15px;">
                     <div style="color: #000000;
                                 float:left;
-                                font-family: Arial Unicode MS;
-                                font-size: 16px;
+                                font-size: 13px;
+                                padding-top: 15px;
                                 line-height: 24px;
                                ">
                         {!trialMatch.OfficialTitle}
