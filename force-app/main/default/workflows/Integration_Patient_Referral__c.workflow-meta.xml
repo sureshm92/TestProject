@@ -8,8 +8,7 @@
             <field>Delegate_Email_Address__c</field>
             <type>email</type>
         </recipients>
-        <senderAddress>updates@mail.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/Covid19_Delegate</template>
     </alerts>
     <alerts>
@@ -20,8 +19,7 @@
             <field>email__c</field>
             <type>email</type>
         </recipients>
-        <senderAddress>updates@mail.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/Covid19_New_Study</template>
     </alerts>
 </Workflow>

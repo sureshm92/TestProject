@@ -100,5 +100,17 @@
         height: 15rem;
         border-radius: 2px;
     }
+
+    .THIS .select-as-my-preferr {
+        line-height: 2.8rem!important;
+        color: #1AA0D9!important;
+        font-family: "Muli", sans-serif!important;
+        font-size: 16px!important;
+        font-weight: bold!important;
+        border: 2px solid #1AA0D9!important;
+        border-radius: 5px!important;
+        background-color: #FFFFFF!important;
+        width: 100%!important;
+    }
     
 }
