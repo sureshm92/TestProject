@@ -9,6 +9,7 @@ trigger StudySiteTrigger on Study_Site__c (before insert, before update, before 
     TriggerHandlerExecutor.execute(StudySiteTriggerHandler.SwitchContactUserModeHandler.class);
     TriggerHandlerExecutor.execute(StudySiteTriggerHandler.CreateStatusHistoryHandler.class);
     TriggerHandlerExecutor.execute(StudySiteTriggerHandler.CreateHCPEnrollmentsForRPInWhiteListHandler.class);
+    TriggerHandlerExecutor.execute(StudySiteTriggerHandler.SetSuppressEmailsFieldAccordingToStudy.class);
 
     // TODO: FIX FOR TRIGGER CONVENTIONS!
     if (Trigger.isAfter && Trigger.isUpdate) {
