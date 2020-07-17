@@ -85,7 +85,12 @@
 }
 
 @media screen and (max-width: 480px){
+
+    .con-title {
+        flex-direction: column;
+    }
+
     .con-name {
-        max-width: 172px;
+        max-width: 240px;
     }
 }
