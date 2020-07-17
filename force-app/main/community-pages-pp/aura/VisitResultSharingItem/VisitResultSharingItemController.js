@@ -3,21 +3,12 @@
  */
 
 ({
-    doInit: function (component, event, helper) {
-        let visitResult = component.get('v.visitResult');
-        component.set('v.previousType', visitResult.type);
-    },
-
     doUpdateValue: function (component, event, helper) {
-        let previousType = component.get('v.previousType');
+        component.set('v.renderLookup', false);
         let visitResult = component.get('v.visitResult');
-        if(previousType !== visitResult.type) {
-            component.set('v.renderLookup', false);
-            component.set('v.previousType', visitResult.type);
-            component.set('v.renderLookup', true);
-        }
-
         component.set('v.showResult', visitResult.type !== 'Disabled');
+
+        component.set('v.renderLookup', true);
     },
 
     doChangedByUser: function (component, event, helper) {
@@ -40,7 +31,7 @@
 
     doCountryChanged: function (component, event, helper) {
         let visitResult = component.get('v.visitResult');
-        if(!visitResult.countryCodes){
+        if (!visitResult.countryCodes) {
             visitResult.type = 'All';
             component.set('v.visitResult', visitResult);
         }
@@ -48,7 +39,7 @@
 
     doTypeChanged: function (component, event, helper) {
         let visitResult = component.get('v.visitResult');
-        if(visitResult.type === 'Countries' || visitResult.type === 'Countries_Disabled') {
+        if (visitResult.type === 'Countries' || visitResult.type === 'Countries_Disabled') {
             component.find('countryLookup').focus();
         }
     },
