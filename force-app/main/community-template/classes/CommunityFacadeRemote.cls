@@ -262,7 +262,7 @@ public without sharing class CommunityFacadeRemote {
                 WHERE UsersId =: UserContext.getUserId() AND IsCurrent = TRUE
                 ORDER BY LastModifiedDate DESC LIMIT 1
         ];
-        if (!sessions.isEmpty()) {
+        if (!sessions.isEmpty() && sessions[0].LoginHistory != null) {
             LoginHistory history = sessions[0].LoginHistory;
             if (history.Browser != null && history.Application != null){
                 isMobileApp = (!history.Application.equals('Browser') 
