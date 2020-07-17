@@ -1,19 +1,19 @@
 @IsTest
 public class Test_CC_ParticipantSupportRemote {
-    @TestSetup
-    static void setup() {
-        Test.startTest();
-        TestData.loadTestData();
-        Test.stopTest();
-    }
-    
+  
     @IsTest
     static void testfetchParticipantEnrollment() {
-        TestData testData = new TestData();
-        testData.participant.Phone__c ='123456789';
-        string searchKey = '123456789';
+     
+        contact cont = new contact();
+        cont.Email='test@iqvia.com';
+        cont.LastName='NewContact';
+        insert cont;
+        
         Test.startTest();
-        CC_ParticipantSupportRemote.fetchParticipantEnrollment(searchKey);
+          try {
+             CC_ParticipantSupportRemote.getInvitedDetails(cont.id);
+            } catch (exception e) {}
+        
         Test.stopTest();
     }
     
