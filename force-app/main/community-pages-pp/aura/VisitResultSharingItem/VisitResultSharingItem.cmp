@@ -11,7 +11,6 @@
     <aura:attribute name="globalType" type="String" default=""/>
     <aura:attribute name="typeSelectLVList" type="List"/>
 
-    <aura:attribute name="previousType" type="String" access="private"/>
     <aura:attribute name="renderLookup" type="Boolean" default="true" access="private"/>
     <aura:attribute name="showResult" type="Boolean" default="true" access="private"/>
 
@@ -19,7 +18,7 @@
     <aura:registerEvent name="onChange" type="c:uiEvent"/>
 
     <!-- handlers: -->
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doUpdateValue}"/>
     <aura:handler name="change" value="{!v.visitResult}" action="{!c.doUpdateValue}"/>
 
     <!-- component body: -->
