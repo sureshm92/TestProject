@@ -4,3 +4,6 @@ force-app/unpackaged
 
 # Contact record types
 force-app/main/default/objects/Contact/recordTypes/*
+
+# Exclude community
+force-app/communities

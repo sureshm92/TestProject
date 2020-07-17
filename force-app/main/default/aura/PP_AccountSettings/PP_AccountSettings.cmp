@@ -32,16 +32,17 @@
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     
+    
     <div class="as-container">
         <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
         <c:Action_RemoveDelegate aura:id="actionRemoveDelegate"/>
         
         <aura:if isTrue="{!v.isInitialized}">
-            <div class="NavContainer">
-                <div class="NavContainer1" id="NavContainer1">
+            <div class="NavContainer" id="NavContainer" >
+                <div class="NavContainer1" id="NavContainer1" >
                     <h2 class="title"> {!$Label.c.PP_Account_Settings}</h2>
                     <div class="navBar" id="navbar">
-                        <ul onclick="{!c.onClick}" id="selectOption">
+                        <ul onclick="{!c.onClick}" id="selectOption" onmouseout="{!c.removeFocus}">
 
                             <li id="1" aura:id="1" class="{!(v.compId=='1') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="1" onclick="{!c.selectProfile}">{!$Label.c.PP_Profile_Information}</a></li>
                             <li id="2" aura:id="2" class="{!(v.compId=='2') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="2" onclick="{!c.selectPassword}">{!$Label.c.PP_Password_Management}</a></li>
