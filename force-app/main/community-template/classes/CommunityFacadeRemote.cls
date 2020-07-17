@@ -262,10 +262,13 @@ public without sharing class CommunityFacadeRemote {
                 WHERE UsersId =: UserContext.getUserId() AND IsCurrent = TRUE
                 ORDER BY LastModifiedDate DESC LIMIT 1
         ];
-        if(!sessions.isEmpty() && sessions[0].LoginHistory.Browser != null && sessions[0].LoginHistory.Application != null) {
-            isMobileApp = (!sessions[0].LoginHistory.Application.equals('Browser')
-                    || sessions[0].LoginHistory.Browser.equals('Unknown Mobile Browser')
-                    || sessions[0].LoginHistory.Browser.equals('Unknown Webkit Mobile'));
+        if (!sessions.isEmpty()) {
+            LoginHistory history = sessions[0].LoginHistory;
+            if (history.Browser != null && history.Application != null){
+                isMobileApp = (!history.Application.equals('Browser') 
+                        || history.Browser.equals('Unknown Mobile Browser')
+                        || history.Browser.equals('Unknown Webkit Mobile'));
+            }
         }
         return isMobileApp;
     }
