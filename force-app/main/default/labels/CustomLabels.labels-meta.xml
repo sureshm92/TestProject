@@ -5297,7 +5297,7 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject FollowUp Reminder</shortDescription>
-        <value>Reminder : Your enrollment is pending</value>
+        <value>Reminder: Your enrollment is pending</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Follow_up_on_a_Study</fullName>

@@ -3,8 +3,20 @@
  */
 
 ({
-    doUpdateValue: function (component, event, helper) {
+    doInit: function (component, event, helper) {
         let visitResult = component.get('v.visitResult');
+        component.set('v.previousType', visitResult.type);
+    },
+
+    doUpdateValue: function (component, event, helper) {
+        let previousType = component.get('v.previousType');
+        let visitResult = component.get('v.visitResult');
+        if(previousType !== visitResult.type) {
+            component.set('v.renderLookup', false);
+            component.set('v.previousType', visitResult.type);
+            component.set('v.renderLookup', true);
+        }
+
         component.set('v.showResult', visitResult.type !== 'Disabled');
     },
 
