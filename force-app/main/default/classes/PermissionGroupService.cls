@@ -41,33 +41,46 @@ public with sharing class PermissionGroupService {
             PROFILE_PRODUCT_OWNER
     };
 
-    private Map<String, PermissionSetGroup> permissionGroupIdByName = new Map<String, PermissionSetGroup>();
+    private Map<String, PermissionSetGroup> permissionGroupByName = new Map<String, PermissionSetGroup>();
     public PermissionGroupService() {
         List<PermissionSetGroup> permissionSetGroups = [
                 SELECT Id, MasterLabel
                 FROM PermissionSetGroup
                 WHERE MasterLabel IN: permissionGroupList
         ];
-        for(PermissionSetGroup perGr: permissionSetGroups) permissionGroupIdByName.put(perGr.MasterLabel, perGr);
+        for(PermissionSetGroup perGr: permissionSetGroups) permissionGroupByName.put(perGr.MasterLabel, perGr);
     }
 
     public Map<Id, PermissionSetGroup> getPermissionGroupIdByUserId(List<User> users) {
         Map<Id, PermissionSetGroup> permissionGrByUserId = new Map<Id, PermissionSetGroup>();
         String profileName;
         PermissionSetGroup permGroup;
+        List<Id> userIds = new List<Id>();
+        for (User u: users) userIds.add(u.Id);
+
+        List<PermissionSetAssignment> permissionSetAssignments = [
+                SELECT Id, AssigneeId, PermissionSetGroupId
+                FROM PermissionSetAssignment
+                WHERE PermissionSetGroupId != NULL
+                AND AssigneeId IN : userIds
+        ];
+
+        Map<Id, Id> permGrIdByUserId = new Map<Id, Id>();
+        for(PermissionSetAssignment psa : permissionSetAssignments) permGrIdByUserId.put(psa.AssigneeId, psa.PermissionSetGroupId);
 
         for (User u : users) {
 
             profileName = u.Profile.Name;
-            if (profilesSPNL.contains(profileName)) permGroup = permissionGroupIdByName.get(PERMISSION_GR_SPNL);
-            if (profileName == PROFILE_BUSINESS_ADMINISTRATOR) permGroup = permissionGroupIdByName.get(PERMISSION_GR_BUSINESS_ADMINISTRATOR);
-            if (profileName == PROFILE_BUSINESS_LEAD) permGroup = permissionGroupIdByName.get(PERMISSION_GR_BUSINESS_LEAD);
-            if (profileName == PROFILE_PRDB) permGroup = permissionGroupIdByName.get(PERMISSION_GR_PRDB);
-            if (profileName == PROFILE_PRODUCT_OWNER) permGroup = permissionGroupIdByName.get(PERMISSION_GR_PRODUCT_OWNER);
+            if (profilesSPNL.contains(profileName)) permGroup = permissionGroupByName.get(PERMISSION_GR_SPNL);
+            if (profileName == PROFILE_BUSINESS_ADMINISTRATOR) permGroup = permissionGroupByName.get(PERMISSION_GR_BUSINESS_ADMINISTRATOR);
+            if (profileName == PROFILE_BUSINESS_LEAD) permGroup = permissionGroupByName.get(PERMISSION_GR_BUSINESS_LEAD);
+            if (profileName == PROFILE_PRDB) permGroup = permissionGroupByName.get(PERMISSION_GR_PRDB);
+            if (profileName == PROFILE_PRODUCT_OWNER) permGroup = permissionGroupByName.get(PERMISSION_GR_PRODUCT_OWNER);
 
-            permissionGrByUserId.put(u.Id, permGroup);
+            if(permGrIdByUserId.containsKey(u.Id) && permGrIdByUserId.get(u.Id) == permGroup.Id) permissionGrByUserId.put(u.Id, permGroup);
         }
 
         return permissionGrByUserId;
     }
+
 }

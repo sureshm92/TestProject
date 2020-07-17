@@ -83,14 +83,18 @@ public without sharing class TaskEditRemote {
 
             if (String.isEmpty(taskToUpsert.Originator__c)) taskToUpsert.Originator__c = ParticipantContext.isCurrentDelegate() ? 'Delegate' : 'Participant';
             if (taskToUpsert.Visible_For__c == null) taskToUpsert.Visible_For__c = 'Owner;Delegates';
-            //Don't update WhatId for catalog task
-            if (String.isEmpty(taskToUpsert.Task_Code__c)) {
-                if (taskToUpsert.Task_Type__c != TaskService.TASK_TYPE_NOT_SELECTED && String.isNotBlank(taskToUpsert.Task_Type__c)) {
+            //Don't update WhatId for catalog and manual creation panel task
+            if (String.isEmpty(taskToUpsert.Task_Code__c) && !taskWrapper.createdByAdmin) {
+                if (String.isNotBlank(taskToUpsert.Task_Type__c) && taskToUpsert.Task_Type__c != TaskService.TASK_TYPE_NOT_SELECTED ) {
                     taskToUpsert.WhatId = ParticipantContext.getCurrentPEId();
                 } else {
                     taskToUpsert.WhatId = ParticipantContext.getCurrentParticipantId();
                 }
             } 
+            //Set WhatId to NULL for Survey
+            if (String.isNotBlank(taskToUpsert.Task_Type__c) && taskToUpsert.Task_Type__c.equals(TaskService.TASK_TYPE_SURVEY)){
+                taskToUpsert.WhatId = null;
+            }
             //Set Task_Type__c as 'Not Selected' for COMPLETE_YOUR_PROFILE task
             if (String.isNotBlank(taskToUpsert.Task_Code__c) && taskToUpsert.Task_Code__c.equals(TaskService.TASK_CODE_COMPLETE_YOUR_PROFILE) && String.isBlank(taskToUpsert.Task_Type__c)) {
                 taskToUpsert.Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED;

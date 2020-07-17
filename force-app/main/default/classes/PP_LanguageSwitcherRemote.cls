@@ -47,9 +47,9 @@ public without sharing class PP_LanguageSwitcherRemote {
 				}
 			}			
 			system.debug('@@ in if '+isMinor);
-						
-			
-			User userdetail = [
+						User userdetail;
+			if(!isMinor){
+			userdetail = [
                     SELECT  ContactId,
 							LocaleSidKey,
 							LanguageLocaleKey,
@@ -61,20 +61,24 @@ public without sharing class PP_LanguageSwitcherRemote {
 							Contact.MailingState
                     FROM    User
                     WHERE  contactId=:myContact.Id];
-    
-            //initData.languageKey   = UserInfo.getLanguage();
-			initData.languageKey   = userdetail.LanguageLocaleKey;
-            initData.secondLangKey = userdetail.Contact.Second_Choice_Language__c;
-            initData.thirdLangKey  = userdetail.Contact.Third_Choice_Language__c;
+			}
+            //
+			
             //initData.localeKey     = UserInfo.getLocale();
 					
 			if(isMinor){				
+				initData.languageKey   = UserInfo.getLanguage();
+				initData.secondLangKey = myContact.Second_Choice_Language__c;
+				initData.thirdLangKey  = myContact.Third_Choice_Language__c;
 				initData.localeKey     = UserInfo.getLocale();
 				initData.timezoneKey   = String.ValueOf(UserInfo.getTimeZone());				
             }
 			else{
-			initData.localeKey     = userdetail.LocaleSidKey;           
-			initData.timezoneKey = userdetail.TimeZoneSidKey;		
+				initData.localeKey     = userdetail.LocaleSidKey;           
+				initData.timezoneKey = userdetail.TimeZoneSidKey;		
+				initData.languageKey   = userdetail.LanguageLocaleKey;
+				initData.secondLangKey = userdetail.Contact.Second_Choice_Language__c;
+				initData.thirdLangKey  = userdetail.Contact.Third_Choice_Language__c;
 			}
             List<PicklistEntry> listPLE = Translation__c.Language__c.getDescribe().getPicklistValues();
             initData.optionalLanguages.add(new LabelValueItem('--' + Label.None + '--', null));
@@ -125,9 +129,9 @@ public without sharing class PP_LanguageSwitcherRemote {
 					isMinor = true;
 			}
 			system.debug('@@ isMinor'+isMinor);
-						
-			
-			User userdetail = [SELECT id,LanguageLocaleKey,LocaleSidKey,Timezonesidkey,ContactId FROM User WHERE ContactId = :myContact.Id];
+						User userdetail;			
+			if(!isMinor)
+			 userdetail = [SELECT id,LanguageLocaleKey,LocaleSidKey,Timezonesidkey,ContactId FROM User WHERE ContactId = :myContact.Id];
 				if(isMinor){									
 					update new User(
                     Id = userinfo.getUserId(),
@@ -213,7 +217,10 @@ public without sharing class PP_LanguageSwitcherRemote {
             Salutation,
             userCommunityDelegateId__c,
 			userCommunytyType__c,
-            Phone_Type__c
+            Phone_Type__c,
+			Second_Choice_Language__c,
+			Third_Choice_Language__c
+			
             FROM Contact
             WHERE Id IN (
                 SELECT ContactId
