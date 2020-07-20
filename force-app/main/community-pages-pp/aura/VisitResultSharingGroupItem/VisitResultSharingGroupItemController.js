@@ -9,17 +9,13 @@
     },
 
     doGlobalCountryChanged: function (component, event, helper) {
-        let showGroup = component.get('v.showGroup');
         let globalType = component.get('v.globalType');
-
-        let visitResults = component.get('v.visitResults');
         let globalCountries = component.get('v.globalCountries');
 
+        let visitResults = component.get('v.visitResults');
         for (const visitResult of visitResults) {
-            if (visitResult.type !== 'Disabled') {
-                visitResult.countryCodes = globalCountries;
-                visitResult.type = globalType;
-            }
+            visitResult.countryCodes = globalCountries;
+            visitResult.type = globalType;
         }
         component.set('v.visitResults', visitResults);
     },

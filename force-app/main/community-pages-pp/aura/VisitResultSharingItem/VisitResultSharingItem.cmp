@@ -11,6 +11,7 @@
     <aura:attribute name="globalType" type="String" default=""/>
     <aura:attribute name="typeSelectLVList" type="List"/>
 
+    <aura:attribute name="renderLookup" type="Boolean" default="true" access="private"/>
     <aura:attribute name="showResult" type="Boolean" default="true" access="private"/>
 
     <!-- events: -->
@@ -42,14 +43,16 @@
                 </lightning:select>
             </aura:if>
             <aura:if isTrue="{!or(v.visitResult.type == 'Countries', v.visitResult.type == 'Countries_Disabled')}">
-                <c:VisitResultSharingCountryLookup aura:id="countryLookup" value="{!v.visitResult.countryCodes}"
-                                                   isMultiEntry="true"
-                                                   onchange="{!c.doCountryChanged}" onblur="{!c.doCountryChanged}"
-                                                   placeholder="Select country"
-                                                   placeholderSelected="Select another country"
-                                                   ctpId="{!v.ctpId}" includeStates="false"
-                                                   isInclude="{!v.visitResult.type == 'Countries'}"
-                                                   selectedCountries="{!v.globalCountries}"/>
+                <aura:if isTrue="{!v.renderLookup}">
+                    <c:VisitResultSharingCountryLookup aura:id="countryLookup" value="{!v.visitResult.countryCodes}"
+                                                       isMultiEntry="true"
+                                                       onchange="{!c.doCountryChanged}" onblur="{!c.doCountryChanged}"
+                                                       placeholder="Select country"
+                                                       placeholderSelected="Select another country"
+                                                       ctpId="{!v.ctpId}" includeStates="false"
+                                                       isInclude="{!v.visitResult.type == 'Countries'}"
+                                                       selectedCountries="{!v.globalCountries}"/>
+                </aura:if>
             </aura:if>
         </div>
     </div>

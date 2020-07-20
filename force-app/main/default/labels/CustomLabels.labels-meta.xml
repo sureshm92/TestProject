@@ -2025,6 +2025,30 @@
         <value>Please Upload Documentation</value>
     </labels>
     <labels>
+        <fullName>CPD_Popup_Cancel</fullName>
+        <categories>Covid19</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPD Popup Cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>CPD_Popup_Error</fullName>
+        <categories>Covid19</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPD Popup Error</shortDescription>
+        <value>Error</value>
+    </labels>
+    <labels>
+        <fullName>CPD_Popup_Ok</fullName>
+        <categories>Covid19</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPD Popup Ok</shortDescription>
+        <value>Ok</value>
+    </labels>
+    <labels>
         <fullName>CPD_Primary_phone_label</fullName>
         <categories>Covid19</categories>
         <language>en_US</language>
@@ -5297,7 +5321,7 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject FollowUp Reminder</shortDescription>
-        <value>Reminder : Your enrollment is pending</value>
+        <value>Reminder: Your enrollment is pending</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Follow_up_on_a_Study</fullName>
