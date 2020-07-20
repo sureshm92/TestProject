@@ -11,7 +11,7 @@
     },
 
     onClick: function (component, event) {
-        if(component.get('v.hasIdentifier')){
+        if(component.get('v.identifier')){
             if (!component.get('v.page')){
                 component.set('v.page', ' ');
             }
