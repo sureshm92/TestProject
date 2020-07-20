@@ -1536,3 +1536,9 @@ input[type=password]::-ms-clear
         display: none!important;
     }
 }
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .slds-scope .cp-information-container .slds-input {
+        padding: 0;
+    }
+}
