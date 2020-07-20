@@ -19,7 +19,44 @@
                 <processMetadataValues>
                     <name>inputDataType</name>
                     <value>
+                        <stringValue>Boolean</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>leftHandSideReferenceTo</name>
+                    <value>
+                        <stringValue>Study_Site__c</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>leftHandSideType</name>
+                    <value>
                         <stringValue>ID</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>operatorDataType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>rightHandSideType</name>
+                    <value>
+                        <stringValue>Boolean</stringValue>
+                    </value>
+                </processMetadataValues>
+                <leftValueReference>myVariable_current.Study_Name__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <processMetadataValues>
+                    <name>inputDataType</name>
+                    <value>
+                        <stringValue>Boolean</stringValue>
                     </value>
                 </processMetadataValues>
                 <processMetadataValues>
@@ -43,11 +80,14 @@
                 <processMetadataValues>
                     <name>rightHandSideType</name>
                     <value>
-                        <stringValue>GlobalConstant</stringValue>
+                        <stringValue>Boolean</stringValue>
                     </value>
                 </processMetadataValues>
                 <leftValueReference>myVariable_current.Study_Name__r.Clinical_Trial_Profile__r.Media_outreach_Provider__c</leftValueReference>
-                <operator>NotEqualTo</operator>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
             </conditions>
             <connector>
                 <targetReference>myRule_1_A1</targetReference>
@@ -63,7 +103,7 @@
                 <stringValue>TODAY()+3</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_2_myRule_1_A1_6191787634</name>
+        <name>formula_2_myRule_1_A1_9351393658</name>
         <dataType>Date</dataType>
         <expression>TODAY()+3</expression>
     </formulas>
@@ -74,11 +114,11 @@
                 <stringValue>&apos;New media outreach request from PI&apos; + &apos;  &apos; +[Media_Outreach__c].Study_Name__c.Principal_Investigator__c.FirstName + &apos; &apos; + [Media_Outreach__c].Study_Name__c.Principal_Investigator__c.LastName </stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_3_myRule_1_A1_9131393263</name>
+        <name>formula_3_myRule_1_A1_1274933391</name>
         <dataType>String</dataType>
         <expression>&apos;New media outreach request from PI&apos; + &apos;  &apos; +{!myVariable_current.Study_Name__r.Principal_Investigator__r.FirstName} + &apos; &apos; + {!myVariable_current.Study_Name__r.Principal_Investigator__r.LastName}</expression>
     </formulas>
-    <interviewLabel>Create_Task_For_OutReach_User-2_InterviewLabel</interviewLabel>
+    <interviewLabel>Create_Task_For_OutReach_User-3_InterviewLabel</interviewLabel>
     <label>Create Task For OutReach User</label>
     <processMetadataValues>
         <name>ObjectType</name>
@@ -143,7 +183,7 @@
             </processMetadataValues>
             <field>ActivityDate</field>
             <value>
-                <elementReference>formula_2_myRule_1_A1_6191787634</elementReference>
+                <elementReference>formula_2_myRule_1_A1_9351393658</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -281,7 +321,7 @@
             </processMetadataValues>
             <field>Subject</field>
             <value>
-                <elementReference>formula_3_myRule_1_A1_9131393263</elementReference>
+                <elementReference>formula_3_myRule_1_A1_1274933391</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -323,7 +363,7 @@
         <object>Task</object>
     </recordCreates>
     <startElementReference>myDecision</startElementReference>
-    <status>Active</status>
+    <status>Obsolete</status>
     <variables>
         <name>myVariable_current</name>
         <dataType>SObject</dataType>
