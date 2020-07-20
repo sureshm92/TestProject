@@ -42,7 +42,7 @@
                 <div class="NavContainer1" id="NavContainer1" >
                     <h2 class="title"> {!$Label.c.PP_Account_Settings}</h2>
                     <div class="navBar" id="navbar">
-                        <ul onclick="{!c.onClick}" id="selectOption" onmouseout="{!c.removeFocus}">
+                        <ul onclick="{!c.onClick}" id="selectOption" onmouseleave="{!c.removeFocus}">
 
                             <li id="1" aura:id="1" class="{!(v.compId=='1') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="1" onclick="{!c.selectProfile}">{!$Label.c.PP_Profile_Information}</a></li>
                             <li id="2" aura:id="2" class="{!(v.compId=='2') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="2" onclick="{!c.selectPassword}">{!$Label.c.PP_Password_Management}</a></li>
