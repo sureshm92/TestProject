@@ -43,7 +43,7 @@ public without sharing class PaymentsRemote {
     * @return:   Strings  
     * ───────────────────────────────────────────────────────────────────────────────────────────────┘
     **/
-    @auraEnabled
+    @AuraEnabled
     public static String getCommunityName(){
 		String communityName=FindCommunityName.getCommunityName();
         return communityName;

@@ -279,7 +279,11 @@
 }
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-    .THIS .slide-body{
-        max-width: 70vw;
+    .THIS .tour-slides-body{
+        flex: none;
+    }
+
+    .THIS .fit-image {
+        max-height: 350px;
     }
 }
