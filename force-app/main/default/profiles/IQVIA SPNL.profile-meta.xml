@@ -6762,6 +6762,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Trial_Survey__c.Survey__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>User.First_Logon__c</field>
         <readable>false</readable>
