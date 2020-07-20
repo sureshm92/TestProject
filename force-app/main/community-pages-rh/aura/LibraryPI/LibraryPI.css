@@ -246,3 +246,13 @@
         height: 20px;
     }
 }
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .THIS .language-filter .header-menu-link{
+        justify-content: flex-start;
+    }
+
+    .THIS > .slds-coll:first-child {
+        max-width: 30%;
+    }
+}
