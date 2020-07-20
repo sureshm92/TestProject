@@ -44,6 +44,10 @@
     font-weight: bold;
 }
 
+.THIS .selected-sub-title{
+    color: #0768FD;
+}
+
 .THIS .overflow{
     max-width: 80%;
     white-space: nowrap;
