@@ -43,6 +43,11 @@
             component.find('spinner').hide();
         })
     },
+    
+    removeFocus : function(component, event, helper) {
+      document.getElementById('selectOption').style = "box-shadow:none";
+    },
+    
 	onClick : function(component, event, helper) {
         var y = document.getElementById("selectOption");
         var toglNavg = component.get('v.toglNavg');
@@ -53,7 +58,7 @@
         var device = $A.get("$Browser.formFactor");
        var id = event.target.dataset.menuItemId;
        component.set("v.compId",id);
-       if(device=='PHONE'){
+       if(device=='PHONE' || device=='TABLET'){
           for (var i = 1; i < 7; i++) {
               var x = document.getElementById(i);
               

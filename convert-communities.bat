@@ -1,1 +1,1 @@
-sfdx force:source:convert -d output -p unpackaged/communities
+sfdx force:source:convert -d output -p force-app/communities
