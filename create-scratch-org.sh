@@ -22,6 +22,9 @@ mv ./communities ./force-app/
 
 if [ $? = 0 ] ; then
     echo "Post setup in progress..."
+
+    sfdx force:source:push -f
+
     sfdx force:apex:execute -f scripts/apex/SFDX_Setup_UpdateUserRole.apex
 
     sfdx force:data:tree:import -p data/import-plan.json
