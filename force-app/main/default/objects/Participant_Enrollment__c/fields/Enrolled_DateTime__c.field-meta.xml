@@ -7,7 +7,7 @@
     <summaryFilterItems>
         <field>Participant_Enrollment_Status_History__c.Status__c</field>
         <operation>equals</operation>
-        <value>Enrollment Success</value>
+        <value>Enrollment Success, Randomization Success</value>
     </summaryFilterItems>
     <summaryForeignKey>Participant_Enrollment_Status_History__c.ParticipantEnrollment__c</summaryForeignKey>
     <summaryOperation>max</summaryOperation>
