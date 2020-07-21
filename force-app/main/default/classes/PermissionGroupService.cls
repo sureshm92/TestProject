@@ -67,7 +67,7 @@ public with sharing class PermissionGroupService {
 
         Map<Id, Id> permGrIdByUserId = new Map<Id, Id>();
         for(PermissionSetAssignment psa : permissionSetAssignments) permGrIdByUserId.put(psa.AssigneeId, psa.PermissionSetGroupId);
-
+        Boolean checkNew = true;
         for (User u : users) {
 
             profileName = u.Profile.Name;
@@ -77,7 +77,9 @@ public with sharing class PermissionGroupService {
             if (profileName == PROFILE_PRDB) permGroup = permissionGroupByName.get(PERMISSION_GR_PRDB);
             if (profileName == PROFILE_PRODUCT_OWNER) permGroup = permissionGroupByName.get(PERMISSION_GR_PRODUCT_OWNER);
 
-            if(permGrIdByUserId.containsKey(u.Id) && permGrIdByUserId.get(u.Id) == permGroup.Id) permissionGrByUserId.put(u.Id, permGroup);
+            if (permGrIdByUserId.containsKey(u.Id) && permGrIdByUserId.get(u.Id) == permGroup.Id) checkNew = false;
+
+            if(checkNew) permissionGrByUserId.put(u.Id, permGroup);
         }
 
         return permissionGrByUserId;

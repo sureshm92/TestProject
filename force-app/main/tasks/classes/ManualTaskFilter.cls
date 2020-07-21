@@ -2,7 +2,7 @@
  * Created by Igor Malyuta on 07.03.2019.
  */
 
-public with sharing class ManualTaskFilter {
+public without sharing class ManualTaskFilter {
 
     private static final String PE_QUERY =
             'SELECT Id, Clinical_Trial_Profile__r.CommunityTemplate__c, Participant__c, ' +

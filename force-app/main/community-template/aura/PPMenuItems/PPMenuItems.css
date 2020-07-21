@@ -22,7 +22,7 @@
     letter-spacing: 0;
     font-weight: 600;
     line-height: 28px;
-    margin-top: 10px;
+    margin-top: 5px;
     display: flex;
     justify-content: space-between;
 }
@@ -32,7 +32,7 @@
     color: #797979;
     font-size: 14px;
     line-height: 28px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .THIS .contain li.pp-item:hover{
@@ -42,6 +42,10 @@
 .THIS .selected{
     color: #0768FD;
     font-weight: bold;
+}
+
+.THIS .selected-sub-title{
+    color: #0768FD;
 }
 
 .THIS .overflow{

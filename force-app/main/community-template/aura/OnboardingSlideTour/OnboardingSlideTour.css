@@ -49,7 +49,6 @@
 
 .THIS .tour-slides-container{
     width: 100%;
-    height: 67vh;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -99,7 +98,6 @@
 
 .THIS .tour-slides-body{
     flex: 1;
-    overflow: hidden;
     width: 100%;
     margin-top: 1rem;
 }
@@ -143,7 +141,7 @@
 
 .THIS .fit-image{
     max-width: 100%;
-    max-height: 100%;
+    max-height: 40vh;
     object-fit: contain;
     flex-shrink: 0;
 }
@@ -268,16 +266,24 @@
 @media all and (max-height: 500px) and (orientation: landscape) {
     .THIS .tour-slides-container {
         min-height: auto;
-        height: 100vh;
+        max-height: 82vh;
     }
 
     .THIS .tour-slides-body {
         margin-top: 15px;
     }
+
+    .THIS .fit-image {
+        max-height: 50vh;
+    }
 }
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-    .THIS .slide-body{
-        max-width: 70vw;
+    .THIS .tour-slides-body{
+        flex: none;
+    }
+
+    .THIS .fit-image {
+        max-height: 350px;
     }
 }
