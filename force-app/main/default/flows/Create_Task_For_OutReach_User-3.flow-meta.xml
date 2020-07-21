@@ -267,7 +267,7 @@
             </processMetadataValues>
             <processMetadataValues>
                 <name>isRequired</name>
-                <value>
+                <value>  
                     <booleanValue>false</booleanValue>
                 </value>
             </processMetadataValues>
