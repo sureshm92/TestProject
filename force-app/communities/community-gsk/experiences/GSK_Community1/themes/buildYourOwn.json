@@ -14,6 +14,7 @@
   },
   "type" : "theme",
   "views" : [ {
+    "componentAttributes" : { },
     "componentName" : "salesforceIdentity:loginBody2",
     "id" : "4bb95762-a851-4bd0-b2d2-27a1a895ceaa",
     "label" : "LoginB2",
@@ -32,6 +33,7 @@
     } ],
     "type" : "view"
   }, {
+    "componentAttributes" : { },
     "componentName" : "siteforce:starterBody",
     "id" : "e787be03-e060-4779-a40e-8cd7013524fe",
     "label" : "DefaultSB",
@@ -98,6 +100,7 @@
     } ],
     "type" : "view"
   }, {
+    "componentAttributes" : { },
     "componentName" : "c:CustomThemeLayout",
     "id" : "f251d38b-a35e-4ea2-96dd-36ca5648ae52",
     "label" : "Default",
@@ -168,6 +171,7 @@
     } ],
     "type" : "view"
   }, {
+    "componentAttributes" : { },
     "componentName" : "c:GSK_LoginThemeLayout",
     "id" : "ee99e783-d45e-4f91-96c7-7a4159257c3c",
     "label" : "Login",
@@ -238,6 +242,7 @@
     } ],
     "type" : "view"
   }, {
+    "componentAttributes" : { },
     "componentName" : "c:LoginThemeLayout",
     "id" : "8c63d43d-0fb3-465a-acae-ae7a5ffb5bed",
     "label" : "Email_Sent",
@@ -308,6 +313,7 @@
     } ],
     "type" : "view"
   }, {
+    "componentAttributes" : { },
     "componentName" : "c:EmtpyTheme",
     "id" : "31b51fd7-785e-4e7f-a465-1a0517ab0f77",
     "label" : "Empty",
@@ -378,6 +384,7 @@
     } ],
     "type" : "view"
   }, {
+    "componentAttributes" : { },
     "componentName" : "c:LoginThemeLayout",
     "id" : "3851aa1c-66bb-4766-8867-0d5142bd7595",
     "label" : "Forgot_Password",
@@ -448,6 +455,7 @@
     } ],
     "type" : "view"
   }, {
+    "componentAttributes" : { },
     "componentName" : "c:CustomThemLayoutNoNavigation",
     "id" : "a3bdb15f-93e2-4da0-984d-923b3845b9bd",
     "label" : "Brand_No_Navigation",
@@ -518,6 +526,7 @@
     } ],
     "type" : "view"
   }, {
+    "componentAttributes" : { },
     "componentName" : "c:GSK_LoginThemeLayout",
     "id" : "b31f9c2f-a650-4b43-8b75-29d6e7199422",
     "label" : "Forgot Password",
@@ -588,6 +597,7 @@
     } ],
     "type" : "view"
   }, {
+    "componentAttributes" : { },
     "componentName" : "c:GSK_LoginThemeLayout",
     "id" : "a461dae1-a757-466e-839a-f6bfbd72bf81",
     "label" : "Email Sent",

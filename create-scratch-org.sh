@@ -3,6 +3,9 @@
 echo "Clean up previous scratch org"
 sfdx force:org:delete -p
 
+echo "Move communities"
+mv ./force-app/communities ./
+
 echo "Creating scratch org..."
 sfdx force:org:create -f config/project-scratch-def.json -d 30 -s -a $1
 
@@ -13,6 +16,9 @@ echo "Pushing project in progress..."
 sfdx force:org:open -p 'lightning/setup/DeployStatus/home'
 
 sfdx force:source:push -f
+
+echo "Return communities"
+mv ./communities ./force-app/
 
 if [ $? = 0 ] ; then
     echo "Post setup in progress..."
