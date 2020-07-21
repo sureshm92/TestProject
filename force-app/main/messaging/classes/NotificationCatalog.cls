@@ -72,6 +72,7 @@ public without sharing class NotificationCatalog {
 /**
  *  MESSAGE TO HCP
  */
+    //check 5.1 commit
     public static final String MESSAGE_TO_HCP_PATIENT_ACCEPTED_TYPE = 'Message_to_HCP_Patient_Accepted_Type';
     public static final String MESSAGE_TO_HCP_PATIENT_DECLINED_TYPE = 'Message_to_HCP_Patient_Declined_Type';
     public static final String MESSAGE_TO_HCP_PATIENT_ON_HOLD_TYPE = 'Message_to_HCP_Patient_On_Hold_Type';
