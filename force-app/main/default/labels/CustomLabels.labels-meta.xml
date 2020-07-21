@@ -6630,7 +6630,7 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Help_Participant_Name</shortDescription>
-        <value>Participant Name:</value>
+        <value>Referral ID:</value>
     </labels>
     <labels>
         <fullName>Help_Study_Site</fullName>
