@@ -2566,11 +2566,6 @@
         <field>Clinical_Trial_Profile__c.Study_Documents_Are_Available__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Clinical_Trial_Profile__c.Suppress_PI_Emails__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
 	<fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Media_outreach_Provider__c</field>
@@ -6389,11 +6384,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.Suppress_Participant_Emails__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Study_Site__c.Suppress_Study_Site_PI_Emails__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
