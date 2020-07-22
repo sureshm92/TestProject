@@ -45,31 +45,30 @@
     },
     
     removeFocus : function(component, event, helper) {
-      document.getElementById('selectOption').style = "box-shadow:none";
+      var y = document.getElementById("selectOption");
+      y.style.boxShadow = "none";
+      component.set("v.toglNavg",false);
     },
-    
 	onClick : function(component, event, helper) {
         var y = document.getElementById("selectOption");
         var toglNavg = component.get('v.toglNavg');
         toglNavg = !toglNavg;
         component.set("v.toglNavg",toglNavg);
-        
         var isOpen = false;
         var device = $A.get("$Browser.formFactor");
        var id = event.target.dataset.menuItemId;
        component.set("v.compId",id);
-       if(device=='PHONE' || device=='TABLET'){
+       if(device=='PHONE' || device=='TABLET'){           
           for (var i = 1; i < 7; i++) {
               var x = document.getElementById(i);
-              
             if(id != i && !toglNavg){
                 x.style.visibility = "hidden";
                 y.style.boxShadow = "none";
-                y.style.background = "Transparent";
+              	y.style.background = "Transparent"; 
             } else if(toglNavg){
                 x.style.visibility = "visible";
                 y.style.boxShadow = "0 4px 24px 0 rgba(0, 0, 0, 0.16)";
-        		y.style.background = "#fff";
+        		y.style.background = "#fff"; 
             }
         }             
        }

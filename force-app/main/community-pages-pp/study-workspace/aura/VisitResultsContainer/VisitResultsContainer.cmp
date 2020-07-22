@@ -7,6 +7,7 @@
 
     <aura:attribute name="labResultsMode" type="String" default="Vitals"/>
     <aura:attribute name="resultModeLabel" type="String" default="{!$Label.c.Visit_Results_Tab_Vitals}"/>
+    <aura:attribute name="disclaimerLabel" type="String" default="{!$Label.c.Visit_Results_Tab_Vit_Disclaimer}"/>
     <aura:attribute name="visitResultSharings" type="Map" />
 
     <aura:attribute name="initData" type="VisitResultsRemote.InitDataWrapper" access="private"/>
@@ -27,7 +28,7 @@
         <aura:if isTrue="{!v.initialized}">
 
             <div class="visit-results-disclaimer">
-                {!v.resultModeLabel=='Vitals'?$Label.c.Visit_Results_Tab_Vit_Disclaimer:v.resultModeLabel=='Biomarkers'?$Label.c.Visit_Results_Tab_Bio_Disclaimer:$Label.c.Visit_Results_Tab_Lab_Disclaimer}
+                {!v.disclaimerLabel}
             </div>
             <div class="slds-grid slds-wrap slds-gutters">
                 <div class="slds-col slds-m-top--small slds-m-bottom--medium slds-size_1-of-4">

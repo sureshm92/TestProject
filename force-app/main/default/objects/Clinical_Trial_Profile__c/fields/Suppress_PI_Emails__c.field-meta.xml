@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>T_C_Text__c</fullName>
+    <fullName>Suppress_PI_Emails__c</fullName>
+    <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>T&amp;C Text</label>
-    <length>65536</length>
+    <label>Suppress PI Emails</label>
+    <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Html</type>
-    <visibleLines>10</visibleLines>
+    <type>Checkbox</type>
 </CustomField>
