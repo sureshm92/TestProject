@@ -17,3 +17,15 @@
     . ./scripts/ci/deploy-manual.sh orgAlias
     ```
 4) Discard changes in repository after script complete
+
+#### Get Authentication URL for set in Gitlab variables:
+
+1) Login to target org and define your own alias instead 'sandBoxAlias':
+    ```
+    sfdx force:auth:web:login -a sandBoxAlias -r https://test.salesforce.com
+    ```
+2) Output sandbox credentials:
+    ```
+    sfdx force:org:display -u sandBoxAlias --verbose
+    ```
+3) Copy to clipboard 'Sfdx Auth Url' value and set new variable in Gitlab
