@@ -1,13 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
     <flexiPageRegions>
-        <componentInstances>
-            <componentName>runtime_sales_activities:todayTaskContainer</componentName>
-        </componentInstances>
         <mode>Replace</mode>
         <name>top</name>
         <type>Region</type>
-    </flexiPageRegions>
+    <itemInstances><componentInstance>
+            <componentName>runtime_sales_activities:todayTaskContainer</componentName>
+        </componentInstance></itemInstances></flexiPageRegions>
     <flexiPageRegions>
         <mode>Replace</mode>
         <name>bottomLeft</name>
@@ -19,7 +17,10 @@
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <componentInstances>
+        <mode>Replace</mode>
+        <name>sidebar</name>
+        <type>Region</type>
+    <itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>cacheAge</name>
                 <value>1440</value>
@@ -33,14 +34,9 @@
                 <value>true</value>
             </componentInstanceProperties>
             <componentName>flexipage:reportChart</componentName>
-        </componentInstances>
-        <componentInstances>
+        </componentInstance></itemInstances><itemInstances><componentInstance>
             <componentName>home:eventContainer</componentName>
-        </componentInstances>
-        <mode>Replace</mode>
-        <name>sidebar</name>
-        <type>Region</type>
-    </flexiPageRegions>
+        </componentInstance></itemInstances></flexiPageRegions>
     <masterLabel>IQVIA CRCP CRM</masterLabel>
     <parentFlexiPage>home__desktopDefault</parentFlexiPage>
     <template>
