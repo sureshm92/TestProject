@@ -237,6 +237,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant_Enrollment__c.Permit_IQVIA_to_contact_about_study__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant_Enrollment__c.Pre_Eligibility_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -397,6 +402,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Participant__c.Alternative_Phone_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Participant__c.Condition_of_Interest_s__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -443,6 +453,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant__c.Gender__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant__c.HighRisk_Indicator__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

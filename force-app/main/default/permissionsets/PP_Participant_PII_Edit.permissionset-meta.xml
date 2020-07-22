@@ -516,7 +516,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+     <editable>false</editable>
         <field>Integration_Patient_Referral__c.Atid__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -977,6 +977,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant__c.Alternative_Phone_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant__c.Condition_of_Interest_s__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1023,6 +1028,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Gender__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.HighRisk_Indicator__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

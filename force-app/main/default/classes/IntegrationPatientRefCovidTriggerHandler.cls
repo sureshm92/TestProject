@@ -195,7 +195,9 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler
                 Mailing_Street__c = ipr.Address_AddressLine1__c,
                 Gender__c = ipr.sex__c,
                 Secondary_Source__c = ipr.Data_Source__c,
-                Suffix__c = ipr.Suffix__c
+                Suffix__c = ipr.Suffix__c,
+                HighRisk_Indicator__c = ipr.HighRisk_Indicator__c,
+            	Alternative_Phone_Number__c = ipr.Participant_MobileNumber__c
         );
         participant.Adult__c = !Boolean.valueOf(ReferringRemote.checkNeedsGuardian(JSON.serialize(participant)));
 
