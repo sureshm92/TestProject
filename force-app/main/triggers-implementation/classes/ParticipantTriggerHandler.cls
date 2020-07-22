@@ -120,7 +120,7 @@ public without sharing class ParticipantTriggerHandler {
     @Future
     private static void changeUserEmailOnParticipantEmailChangeAsync(String newListJSON, String oldMapJSON) {
         List<Participant__c> newList = (List<Participant__c>) JSON.deserialize(newListJSON, List<Participant__c>.class);
-        Map<Id, Participant__c> oldMap = (Map<Id, Participant__c>) JSON.deserialize(oldMapJSON, Map<Id, Participant__c>.class);;
+        Map<Id, Participant__c> oldMap = (Map<Id, Participant__c>) JSON.deserialize(oldMapJSON, Map<Id, Participant__c>.class);
         changeUserEmailOnParticipantEmailChange(newList, oldMap);
     }
 
