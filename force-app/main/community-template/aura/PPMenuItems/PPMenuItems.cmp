@@ -2,7 +2,7 @@
  - Created by Olga Skrynnikova on 6/10/2020.
  -->
 
-<aura:component description="PPMenuItems">
+ <aura:component description="PPMenuItems">
 
     <!-- attributes: -->
     <aura:attribute name="allModes" type="Object"/>
@@ -10,7 +10,7 @@
     <!-- events: -->
     <aura:registerEvent access="global" name="onclick" type="c:uiEvent"/>
 
-    <div class="{!if(equals(v.allModes.type, 'PP_Only'), 'all-container', '')}">
+    <div>
         <aura:iteration var="item" items="{!v.allModes.ppModeItems}">
             <ul class="contain">
                 <aura:iteration items="{!item.subItems}" var="subItem">
@@ -36,7 +36,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="{!'menu-sub-item ' + if(subItem.isSelected, 'selected ', '') + 'overflow'}">
+                            <div class="{!'menu-sub-item ' + if(subItem.isSelected, 'selected-sub-title ', '') + 'overflow'}">
                                 {!subItem.subTitle}
                             </div>
                         </div>

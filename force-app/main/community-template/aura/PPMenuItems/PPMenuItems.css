@@ -2,13 +2,13 @@
  * Created by Olga Skrynnikova on 6/10/2020.
  */
 
+.THIS{
+    width: 100%;
+}
+
 .THIS .pp-item:first-child .main-box .menu-item-box .icon-settings-box .icon-cog{
     visibility: visible;
     opacity: 1;
-}
-
-.THIS{
-    width: 100%;
 }
 
 .THIS .contain:first-child .pp-item:first-child .main-box .menu-item-box .icon-settings-box .icon-delegate-box .icon-delegate{
@@ -22,7 +22,7 @@
     letter-spacing: 0;
     font-weight: 600;
     line-height: 28px;
-    margin-top: 10px;
+    margin-top: 5px;
     display: flex;
     justify-content: space-between;
 }
@@ -32,23 +32,20 @@
     color: #797979;
     font-size: 14px;
     line-height: 28px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .THIS .contain li.pp-item:hover{
     cursor: pointer;
 }
 
-.THIS.all-container{
-    max-height: 370px;
-    width: 100%;
-    overflow-y: auto;
-    -ms-overflow-y: scroll;
-}
-
 .THIS .selected{
     color: #0768FD;
     font-weight: bold;
+}
+
+.THIS .selected-sub-title{
+    color: #0768FD;
 }
 
 .THIS .overflow{

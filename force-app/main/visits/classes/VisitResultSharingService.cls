@@ -113,7 +113,8 @@ public without sharing class VisitResultSharingService {
                         Boolean isCountryEnabled = false;
                         if (resultTypeSharing != null) {
                             isCountryEnabled = resultTypeSharing.Sharing_Countries__c == 'All' ||
-                                    (resultTypeSharing.Include_Countries__c && resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode));
+                                    (resultTypeSharing.Include_Countries__c && resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode)) ||
+                                    (!resultTypeSharing.Include_Countries__c && !resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode));
                         }
                         resultWithAvailableSign.add(new VisitResultWithAvailableSign(
                                 result, isCountryEnabled

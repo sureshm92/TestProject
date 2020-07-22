@@ -1,5 +1,6 @@
 <!--
  - Created by Kryvolap on 21.09.2019.
+ - Updated by Sumit Surve on 13.07.2020
  -->
 
 <aura:component description="HelpTopics" controller="HelpController">
@@ -15,13 +16,13 @@
     <aura:attribute type="Object" name="selectedTopicSettings"  access="private"/>
     <aura:attribute type="String" name="didThisHelp" access="private" default="true"/>
     <aura:attribute name="didSolveOptions" type="List" default="[]"/>
-	<aura:attribute type="Boolean" name="isInitialized" access="private" default="false"/>
-    
+    <aura:attribute type="Boolean" name="isInitialized" access="private" default="false"/>
+
     <aura:attribute type="String" name="currentParticipant" default="" access="private" />
     <aura:attribute type="String" name="currentSite" default="" access="private" />
     <aura:attribute type="List" name="participantPicklistvalues" default="[]" />
     <aura:attribute type="List" name="sitePicklistvalues" default="[]"/>
-    
+
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.didThisHelp}" action="{!c.doResponseReceived}"/>
@@ -29,123 +30,130 @@
 
     <c:RRSpinner aura:id="spinner" fixed="true" size="medium" showSpinner="true"/>
 
-	<aura:if isTrue="{!v.isInitialized}">
-    <div class="slds-grid slds-grid_align-center">
-        <div class="h-body slds-col slds-col slds-size_1-of-1">
-            <div class="ht-panel">
-                <div class="h-body-title ht-sub-label">
+    <aura:if isTrue="{!v.isInitialized}">
+        <div class="slds-grid slds-grid_align-center">
+            <div class="h-body slds-col slds-col slds-size_1-of-1">
+                <div class="ht-panel">
+                    <div class="h-body-title ht-sub-label">
                         {!$Label.c.PG_HLP_T_What_happened}
+                    </div>
+                    <div class="h-type-select ht-label">
+                        <c:rrSelect value="{!v.selectedTopic}" options="{!v.helpTopicOptions}" placeholder="{!$Label.c.PG_HLP_F_Placeholder_Help_Topic}" useSentenceFont="false"/>
+                    </div>
                 </div>
-                <div class="h-type-select ht-label">
-                    <c:rrSelect value="{!v.selectedTopic}" options="{!v.helpTopicOptions}" placeholder="{!$Label.c.PG_HLP_F_Placeholder_Help_Topic}" useSentenceFont="false"/>
-                </div>
-            </div>
-            <div class="ht-panel">
-                <div class="h-body-solution-text ht-label">
-                    <aura:unescapedHtml value="{!v.selectedTopicSettings.displaySolution}"/>
-                </div>
-            </div>
-            <aura:if isTrue="{!(!v.selectedTopicSettings.submitRequired &amp;&amp; !empty(v.selectedTopic) &amp;&amp; (v.userMode == 'PI' || v.userMode == 'HCP'))}">
                 <div class="ht-panel">
+                    <div class="h-body-solution-text ht-label">
+                        <aura:unescapedHtml value="{!v.selectedTopicSettings.displaySolution}"/>
+                    </div>
+                </div>
+                <aura:if isTrue="{!(!v.selectedTopicSettings.submitRequired &amp;&amp; !empty(v.selectedTopic) &amp;&amp; (v.userMode == 'PI' || v.userMode == 'HCP'))}">
+                    <div class="ht-panel">
 
-                    <lightning:radioGroup name="didSolveRG"
-                                          label="{!$Label.c.PG_HLP_T_Did_this_solve_your_problem}"
-                                          options="{! v.didSolveOptions }"
-                                          value="{! v.didThisHelp }"
-                                          type="radio"
-                                          required="false"
-                                          class="ht-sub-label"/>
-                </div>
-            </aura:if>
-            <aura:if isTrue="{!(v.selectedTopicSettings.submitRequired || v.didThisHelp=='No') &amp;&amp; (v.selectedTopicSettings.displayName != $Label.c.HT_02_CPD)}">
-                <div class="ht-panel">
-                    
-                    <aura:if isTrue="{!v.selectedTopicSettings.userDescriptionRequired}">
-                        <div class="h-body-text-area ht-label">
-                            <lightning:textArea value="{!v.textValueProblem}" name="description" label=""
-                                                variant="label-hidden"
-                                                placeholder="{!if(!empty(v.selectedTopicSettings.descriptionPlaceholder),
+                        <lightning:radioGroup name="didSolveRG" 
+                                              label="{!$Label.c.PG_HLP_T_Did_this_solve_your_problem}"
+                                              options="{! v.didSolveOptions }" 
+                                              value="{! v.didThisHelp }" 
+                                              type="radio" 
+                                              required="false"
+                                             class="ht-sub-label"/>
+                    </div>
+                </aura:if>
+                <aura:if isTrue="{!(v.selectedTopicSettings.submitRequired || v.didThisHelp=='No') &amp;&amp; (v.selectedTopicSettings.displayName != $Label.c.HT_02_CPD)}">
+                    <div class="ht-panel">
+
+                        <aura:if isTrue="{!v.selectedTopicSettings.userDescriptionRequired}">
+                            <div class="h-body-text-area ht-label">
+                                <lightning:textArea value="{!v.textValueProblem}" name="description" label=""
+                                    variant="label-hidden"
+                                    placeholder="{!if(!empty(v.selectedTopicSettings.descriptionPlaceholder),
                                                         v.selectedTopicSettings.descriptionPlaceholder,$Label.c.PG_HLP_F_Placeholder_Briefly_Explain)}"/>
-                        </div>
-                    </aura:if>
+                            </div>
+                        </aura:if>
 
-                    <div class="slds-grid slds-wrap">
-                        <div class="h-body-label slds-col slds-size_1-of-2 slds-medium-size 12-of-12 ht-sub-label">
+                        <div class="slds-grid slds-wrap">
+                            <div class="h-body-label slds-col slds-size_1-of-2 slds-medium-size 12-of-12 ht-sub-label">
                                 {!$Label.c.PG_HLP_F_Screenshot_optional}
-                        </div>
-                        <div id="h-body-file-upload ht-label"
-                             class="slds-col slds-size_1-of-2 slds-medium-size 12-of-12 slds-text-align right slds-form-element">
-                            <div ondragover="{!c.onDragOver}" ondrop="{!c.onDrop}" class="slds-form-element__control">
-                                <div class="slds-file-selector slds-file-selector_files">
-                                    <div class="slds-file-selector__dropzone">
-                                        <input onchange="{!c.onFileSelect}" id="file-upload-input-01"
-                                               type="file"
-                                               multiple="multiple"
-                                               class="slds-file-selector__input slds-assistive-text"/>
-                                        <label class="slds-file-selector__body" for="file-upload-input-01">
-                                                        <span class="slds-file-selector__button apollo-btn tertiary file-btn"
-                                                              style="display: inline-block">{!$Label.c.BTN_Browse}</span>
-                                            <span class="slds-file-selector__text slds-medium-show">
+                            </div>
+                            <div id="h-body-file-upload ht-label"
+                                class="slds-col slds-size_1-of-2 slds-medium-size 12-of-12 slds-text-align right slds-form-element">
+                                <div ondragover="{!c.onDragOver}" ondrop="{!c.onDrop}" class="slds-form-element__control">
+                                    <div class="slds-file-selector slds-file-selector_files">
+                                        <div class="slds-file-selector__dropzone">
+                                            <input onchange="{!c.onFileSelect}" id="file-upload-input-01"
+                                            type="file"
+                                                multiple="multiple"
+                                                class="slds-file-selector__input slds-assistive-text"/>
+                                            <label class="slds-file-selector__body" for="file-upload-input-01">
+                                                <span class="slds-file-selector__button apollo-btn tertiary file-btn"
+                                                    style="display: inline-block">{!$Label.c.BTN_Browse}</span>
+                                                <span class="slds-file-selector__text slds-medium-show">
                                                     <p>{!' ' + $Label.c.PG_HLP_F_Placeholder_Drug_Here}</p>
                                                 </span>
-                                        </label>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="h-body-file-upload-pills slds-col slds-size_1-of-1 slds-medium-size 12-of-12 slds-grid slds-wrap ht-label">
-                            <aura:iteration items="{!v.fileList}" var="file">
-                                <lightning:pill
+                            <div class="h-body-file-upload-pills slds-col slds-size_1-of-1 slds-medium-size 12-of-12 slds-grid slds-wrap ht-label">
+                                <aura:iteration items="{!v.fileList}" var="file">
+                                    <lightning:pill
                                         class="h-file-pill slds-col slds-size_1-of-2 slds-medium-size 1-of-5"
                                         name="{!file.tmpId}" label="{!file.fileName}"
                                         onremove="{!c.handleRemoveFile}">
-                                    <aura:set attribute="media">
-                                        <c:RRIcon iconName="icon-image"/>
-                                    </aura:set>
-                                </lightning:pill>
-                            </aura:iteration>
+                                        <aura:set attribute="media">
+                                            <c:RRIcon iconName="icon-image"/>
+                                        </aura:set>
+                                    </lightning:pill>
+                                </aura:iteration>
+                            </div>
+                        </div>
+                        <div class="h-body-button ht-label">
+                            <button class="apollo-btn primary" tabindex="1" onclick="{!c.submitRequest}">
+                                {!$Label.c.PG_HLP_BTN_Submit_Your_Problem}
+                            </button>
                         </div>
                     </div>
-                    <div class="h-body-button ht-label">
-                        <button class="apollo-btn primary" tabindex="1" onclick="{!c.submitRequest}">
-                                {!$Label.c.PG_HLP_BTN_Submit_Your_Problem}      
-                        </button>
-                    </div>
-                </div>
-            </aura:if>
-            <!--Participant transfer-->
-            
-         	<div class="ht-panel">
-                <div class="pi-picklist-container slds-grid slds-gutters" data-gtm="DDL_Pi_Picker">
-                    <aura:if isTrue="{!v.selectedTopicSettings.displayName == $Label.c.HT_02_CPD}">
-                    <div class="slds-align_absolute-center">    
-                        <!--<span class="picklist-block">
+                </aura:if>
+                <!--Participant transfer-->
+
+                <div class="ht-panel">
+                    <div class="pi-picklist-container slds-grid slds-gutters" data-gtm="DDL_Pi_Picker">
+                        <aura:if isTrue="{!v.selectedTopicSettings.displayName == $Label.c.HT_02_CPD}">
+                            <div class="slds-align_absolute-center">
+                                <!--<span class="picklist-block">
                             <c:rrSelect value="{!v.currentParticipant}" options="{!v.participantPicklistvalues}" label="{!$Label.c.Help_Participant_Name}" useSentenceFont="false"/>
                         </span>-->
 
-                        <span class="picklist-block slds-p-right_medium">
-                        	<lightning:input label="{!$Label.c.Help_Participant_Name}" value="{!v.currentParticipant}"/>
-                        </span>
-                        
-                        <span>
-                            <c:rrSelect value="{!v.currentSite}" options="{!v.sitePicklistvalues}" setValueAsSelected="true" label="{!$Label.c.Help_Study_Site}" useSentenceFont="false"/>
-                        </span>
-                    </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12">
+                                        <lightning:input required="true" aura:id="participant"
+                                            label="{!$Label.c.Help_Participant_Name}" value="{!v.currentParticipant}"
+                                            messageWhenValueMissing="{!$Label.c.Help_referralId_missing}"
+                                            messageWhenPatternMismatch="{!$Label.c.Help_referralId_incorrect}"
+                                            pattern="([REF]{3}[0-9]{5})" class="sld-input-margin" />
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12">
+                                        <c:rrSelect value="{!v.currentSite}" options="{!v.sitePicklistvalues}"
+                                            setValueAsSelected="true" label="{!$Label.c.Help_Study_Site}"
+                                            useSentenceFont="false" />
+                                    </div>
+                                </div>
+                            </div>
 
-                    </aura:if>
-                </div>
-                <div class="slds-p-top_large">
-                    <aura:if isTrue="{!v.selectedTopicSettings.displayName == $Label.c.HT_02_CPD}">    
-                        <div class="h-body-button ht-label">
-                            <button class="apollo-btn primary" tabindex="1" onclick="{!c.submitRequest}">   
+                        </aura:if>
+                    </div>
+                    <div class="slds-p-top_xx-large">
+                        <aura:if isTrue="{!v.selectedTopicSettings.displayName == $Label.c.HT_02_CPD}">
+                            <div class="h-body-button ht-label">
+                                <button class="apollo-btn primary" tabindex="1" onclick="{!c.submitRequest}">
                                     {!$Label.c.PG_HLP_BTN_Submit_Your_Request}
-                            </button>
-                        </div>
-                    </aura:if>
+                                </button>
+                            </div>
+                        </aura:if>
+                    </div>
                 </div>
+                <!--Participant transfer-->
             </div>
-               <!--Participant transfer-->
-    </div>
-    </div>
+        </div>
     </aura:if>
 </aura:component>

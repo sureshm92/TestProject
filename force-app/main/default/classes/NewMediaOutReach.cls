@@ -185,10 +185,10 @@ public with sharing class NewMediaOutReach {
             Study_Site__c siteId;
             Account accLst;
             if(study != '' || study != null){
-                ctpLstdata =[SELECT id,Study_Code_Name__c,Name from Clinical_Trial_Profile__c WHERE Study_Code_Name__c =:study LIMIT 1];
+                ctpLstdata =[SELECT id,Study_Code_Name__c,Name,Media_outreach_Provider__c from Clinical_Trial_Profile__c WHERE Study_Code_Name__c =:study LIMIT 1];
                 }
                  if(ctpLstdata != null && (site != '' || site != null)){
-                siteId =[SELECT id,Site__c,Name,Principal_Investigator__c from Study_Site__c WHERE Clinical_Trial_Profile__c =:ctpLstdata.Id AND Name =:site LIMIT 1];
+                siteId =[SELECT id,Site__c,Name,Principal_Investigator__c,Principal_Investigator__r.FirstName,Principal_Investigator__r.LastName from Study_Site__c WHERE Clinical_Trial_Profile__c =:ctpLstdata.Id AND Name =:site LIMIT 1];
                  }
             if(siteId.Site__c != null){
                 accLst =[SELECT id,name FROM Account where Id =:siteId.Site__c LIMIT 1];
@@ -223,6 +223,22 @@ public with sharing class NewMediaOutReach {
             
             if(medialst.size()>0){
                 insert medialst;
+            }
+            //Task Creation
+            if(medialst.size()>0)
+            {
+              if(ctpLstdata.Media_outreach_Provider__c !=null )
+              {
+                Task tsk = new Task();
+                tsk.ActivityDate=System.today().addDays(3);
+                tsk.OwnerId =ctpLstdata.Media_outreach_Provider__c;
+                tsk.Priority ='Normal';
+                tsk.Status ='Open';
+                tsk.WhatId=medialst[0].Id;
+                tsk.Subject='New media outreach request from PI' + '  ' +siteId.Principal_Investigator__r.FirstName + ' ' + siteId.Principal_Investigator__r.LastName;
+                Insert tsk;
+              } 
+                   
             }
             if(String.isNotBlank(notes)) {
                 

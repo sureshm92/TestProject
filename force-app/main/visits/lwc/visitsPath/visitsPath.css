@@ -43,7 +43,7 @@
 }
 
 .vis-path {
-    max-width: 600px;
+    max-width: 630px;
     overflow-x: scroll;
     -ms-overflow-style: none;
     scroll-behavior: smooth;
@@ -53,6 +53,11 @@
 
 .vis-path::-webkit-scrollbar {
     display: none;
+}
+
+.state-ico-wrapper .rr-icon-default {
+    width: 16px;
+    height: 14px;
 }
 
 .width-basis {
@@ -194,7 +199,7 @@
 
 @media screen and (max-width: 600px) {
     .vis-path {
-        max-width: 310px;
+     /*   max-width: 310px; */
         overflow-x: scroll;
         -ms-overflow-style: none;
         scroll-behavior: smooth;
@@ -202,7 +207,7 @@
     }
 
     .state {
-        min-width: 250px;
+        min-width: 245px;
     }
 
     .state .state-label {
@@ -218,22 +223,34 @@
     }
 
     .arrow-left {
-        padding-top: 5px;
+        padding-left: 8px;
     }
 
-    .arrow-right {
-        padding-top: 5px;
+    .state-ico-wrapper .rr-icon-default {
+        width: 18px;
+        height: 20px;
+    }
+
+}
+
+@media only screen  and (max-device-width : 1024px) and (orientation : landscape) {
+    .slds-grid .line-div .state-ico-wrapper {
+        width: 30px;
+        height: 30px;
+        top: -16px;
+        left: -14px;
     }
 }
 
-@media only screen and (min-width: 765px) and (max-width: 800px) and (orientation : portrait) {
+
+@media only screen and (min-width: 650px) and (max-width: 800px) and (orientation : portrait) {
     .path-section {
         padding: 30px 5px 25px;
         max-width: 750px;
     }
 
     .vis-path {
-        max-width: 600px;
+        max-width: 630px;
         overflow-x: scroll;
         -ms-overflow-style: none;
         scroll-behavior: smooth;
@@ -248,15 +265,29 @@
         display: block;
     }
 
+    .rr-icon-default[c-webIcon_webIcon],
+    .state-ico-wrapper .rr-icon-default {
+        width: 20px;
+        height: 18px;
+        margin-bottom: 2px;
+    }
+
+
     .width-basis {
         flex-basis: 0;
     }
 
     .state .state-ico-wrapper {
         width: 32px;
-        height: 33px;
+        height: 32px;
         top: -17px;
         left: -14px;
+    }
+
+    .arrow-left,
+    .arrow-right {
+        padding-left: 30px;
+        margin-left: 0;
     }
 }
 
@@ -270,7 +301,7 @@
         overflow-x: scroll;
         -ms-overflow-style: none;
         scroll-behavior: smooth;
-        padding-top: 16px;
+        padding-top: 25px;
     }
 
     .state {
@@ -279,6 +310,11 @@
 
     .state-label {
         display: block;
+    }
+
+    .state-ico-wrapper .rr-icon-default {
+        width: 18px;
+        height: 20px;
     }
 
     .width-basis {
@@ -291,4 +327,10 @@
         top: -17px;
         left: -14px;
     }
+    .arrow-left,
+    .arrow-right {
+        padding-top: 6px;
+        margin-left: 0;
+    }
+
 }
