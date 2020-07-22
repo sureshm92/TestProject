@@ -50,10 +50,20 @@
             base64Data:encodeURIComponent(base64Data), 
             contentType: file.type
         }, function (returnValue) {
+            component.set('v.hasProfilePic',true);
+            communityService.executeAction(component, 'getProfilePicture', {
+            parentId: component.get('v.recordId')
+        }, function (returnValue1) {
+             var attachment1=returnValue1;
+            component.set('v.pictureSrc',attachment1);
+
+        });
             var attachment = returnValue;
-            component.set('v.pictureSrc',attachment);
+            //component.set('v.pictureSrc',attachment);
             component.set("v.message", "Image uploaded");
-            component.set("v.pictureSrc",returnValue);
+            //component.set("v.pictureSrc",returnValue);
+            console.log('returnValue-->'+returnValue);
+            
             var appEvent = $A.get("e.c:RefreshProfile");
             appEvent.setParams({
             "refreshFlag" : "true" });
