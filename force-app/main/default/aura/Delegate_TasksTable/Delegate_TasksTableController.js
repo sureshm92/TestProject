@@ -157,6 +157,9 @@
         toggleSection : function(component, event, helper) {
         // dynamically get aura:id name from 'data-auraId' attribute
         var sectionAuraId = event.target.getAttribute("data-auraId");
+        if(sectionAuraId === null ){
+            sectionAuraId =  'tasksSection'; 
+          }
         // get section Div element using aura:id
         var sectionDiv = component.find(sectionAuraId).getElement();
         /* The search() method searches for 'slds-is-open' class, and returns the position of the match.

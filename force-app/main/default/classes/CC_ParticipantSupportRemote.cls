@@ -8,7 +8,10 @@ public without sharing class CC_ParticipantSupportRemote {
     @AuraEnabled
     public static string fetchParticipantEnrollment(String searchKeyWord) {
         try {
-            
+            searchKeyWord = searchKeyWord.replaceAll('[^a-zA-Z0-9\\s+]', '');
+            if(searchKeyWord.length()>10){
+                searchKeyWord = searchKeyWord.right(10);
+            }
             List < Participant_Enrollment__c > returnList = new List < Participant_Enrollment__c > ();
             string query;
            if(!Test.isRunningTest())
