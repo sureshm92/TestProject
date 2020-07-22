@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
     <flexiPageRegions>
-        <componentInstances>
+        <name>header</name>
+        <type>Region</type>
+    <itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>collapsed</name>
                 <value>false</value>
@@ -15,47 +16,41 @@
                 <value>3</value>
             </componentInstanceProperties>
             <componentName>force:highlightsPanel</componentName>
-        </componentInstances>
-        <name>header</name>
-        <type>Region</type>
-    </flexiPageRegions>
+        </componentInstance></itemInstances></flexiPageRegions>
     <flexiPageRegions>
-        <componentInstances>
-            <componentName>force:detailPanel</componentName>
-        </componentInstances>
         <name>Facet-71f78859-04bd-4226-8ba8-4ace3aa5ec77</name>
         <type>Facet</type>
-    </flexiPageRegions>
+    <itemInstances><componentInstance>
+            <componentName>force:detailPanel</componentName>
+        </componentInstance></itemInstances></flexiPageRegions>
     <flexiPageRegions>
-        <componentInstances>
-            <componentName>StudyConfiguration</componentName>
-        </componentInstances>
         <name>Facet-uvza5rqjjcc</name>
         <type>Facet</type>
-    </flexiPageRegions>
+    <itemInstances><componentInstance>
+            <componentName>StudyConfiguration</componentName>
+        </componentInstance></itemInstances></flexiPageRegions>
     <flexiPageRegions>
-        <componentInstances>
-            <componentName>VisitResultSharingPanel</componentName>
-        </componentInstances>
         <name>Facet-d7d2eebb-1596-432e-9b7d-1ce0193cd73d</name>
         <type>Facet</type>
-    </flexiPageRegions>
+    <itemInstances><componentInstance>
+            <componentName>VisitResultSharingPanel</componentName>
+        </componentInstance></itemInstances></flexiPageRegions>
     <flexiPageRegions>
-        <componentInstances>
-            <componentName>StudySiteVisitConfig</componentName>
-        </componentInstances>
         <name>Facet-e7b91726-63ab-4a68-b98f-a1f8810be2c5</name>
         <type>Facet</type>
-    </flexiPageRegions>
+    <itemInstances><componentInstance>
+            <componentName>StudySiteVisitConfig</componentName>
+        </componentInstance></itemInstances></flexiPageRegions>
     <flexiPageRegions>
-        <componentInstances>
-            <componentName>IncentivePlanConfiguration</componentName>
-        </componentInstances>
         <name>Facet-93522e4d-fbfc-4c44-af80-a911a4b1ea6b</name>
         <type>Facet</type>
-    </flexiPageRegions>
+    <itemInstances><componentInstance>
+            <componentName>IncentivePlanConfiguration</componentName>
+        </componentInstance></itemInstances></flexiPageRegions>
     <flexiPageRegions>
-        <componentInstances>
+        <name>Facet-c3fbf587-d0ce-4805-a8ed-0e5ab2b44e13</name>
+        <type>Facet</type>
+    <itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>parentFieldApiName</name>
                 <value>Clinical_Trial_Profile__c.Id</value>
@@ -84,47 +79,41 @@
                     <rightValue>true</rightValue>
                 </criteria>
             </visibilityRule>
-        </componentInstances>
-        <componentInstances>
+        </componentInstance></itemInstances><itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>featureName</name>
                 <value>Trial_Surveys</value>
             </componentInstanceProperties>
             <componentName>EmptyPage</componentName>
-        </componentInstances>
-        <name>Facet-c3fbf587-d0ce-4805-a8ed-0e5ab2b44e13</name>
-        <type>Facet</type>
-    </flexiPageRegions>
+        </componentInstance></itemInstances></flexiPageRegions>
     <flexiPageRegions>
-        <componentInstances>
-            <componentName>TravelVendorPanel</componentName>
-        </componentInstances>
         <name>Facet-ed68fcf3-f525-4f5f-83c8-60897f3503cc</name>
         <type>Facet</type>
-    </flexiPageRegions>
+    <itemInstances><componentInstance>
+            <componentName>TravelVendorPanel</componentName>
+        </componentInstance></itemInstances></flexiPageRegions>
     <flexiPageRegions>
-        <componentInstances>
-            <componentName>PaymentVendorPanel</componentName>
-        </componentInstances>
         <name>Facet-7d2de0ae-6cd0-4cf9-88f6-8a463d4fb83b</name>
         <type>Facet</type>
-    </flexiPageRegions>
+    <itemInstances><componentInstance>
+            <componentName>PaymentVendorPanel</componentName>
+        </componentInstance></itemInstances></flexiPageRegions>
     <flexiPageRegions>
-        <componentInstances>
-            <componentName>ApproveLanguageIRB</componentName>
-        </componentInstances>
         <name>Facet-46216db2-7a89-4163-9dfd-a02ee2c6dd12</name>
         <type>Facet</type>
-    </flexiPageRegions>
+    <itemInstances><componentInstance>
+            <componentName>ApproveLanguageIRB</componentName>
+        </componentInstance></itemInstances></flexiPageRegions>
     <flexiPageRegions>
-        <componentInstances>
-            <componentName>MessageConfigurationPanel</componentName>
-        </componentInstances>
         <name>Facet-73cec6da-858c-4a63-aac7-db5320c39a9e</name>
         <type>Facet</type>
-    </flexiPageRegions>
+    <itemInstances><componentInstance>
+            <componentName>MessageConfigurationPanel</componentName>
+        </componentInstance></itemInstances></flexiPageRegions>
     <flexiPageRegions>
-        <componentInstances>
+        <name>Facet-7b7172a8-7e78-491e-984a-de54a5f1bf30</name>
+        <type>Facet</type>
+    <itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>parentFieldApiName</name>
                 <value>Clinical_Trial_Profile__c.Id</value>
@@ -146,19 +135,17 @@
                 <value>true</value>
             </componentInstanceProperties>
             <componentName>force:relatedListSingleContainer</componentName>
-        </componentInstances>
-        <componentInstances>
+        </componentInstance></itemInstances><itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>featureName</name>
                 <value>Motivational_Messages</value>
             </componentInstanceProperties>
             <componentName>EmptyPage</componentName>
-        </componentInstances>
-        <name>Facet-7b7172a8-7e78-491e-984a-de54a5f1bf30</name>
-        <type>Facet</type>
-    </flexiPageRegions>
+        </componentInstance></itemInstances></flexiPageRegions>
     <flexiPageRegions>
-        <componentInstances>
+        <name>Facet-e2f2fc6b-f10c-4ef7-a488-63ddedbe118d</name>
+        <type>Facet</type>
+    <itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>body</name>
                 <value>Facet-71f78859-04bd-4226-8ba8-4ace3aa5ec77</value>
@@ -168,8 +155,7 @@
                 <value>Standard.Tab.detail</value>
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
-        </componentInstances>
-        <componentInstances>
+        </componentInstance></itemInstances><itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>body</name>
                 <value>Facet-uvza5rqjjcc</value>
@@ -179,8 +165,7 @@
                 <value>Study Configuration</value>
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
-        </componentInstances>
-        <componentInstances>
+        </componentInstance></itemInstances><itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>body</name>
                 <value>Facet-d7d2eebb-1596-432e-9b7d-1ce0193cd73d</value>
@@ -190,8 +175,7 @@
                 <value>Visit Results Sharing</value>
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
-        </componentInstances>
-        <componentInstances>
+        </componentInstance></itemInstances><itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>body</name>
                 <value>Facet-e7b91726-63ab-4a68-b98f-a1f8810be2c5</value>
@@ -201,8 +185,7 @@
                 <value>Visits configuration</value>
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
-        </componentInstances>
-        <componentInstances>
+        </componentInstance></itemInstances><itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>body</name>
                 <value>Facet-93522e4d-fbfc-4c44-af80-a911a4b1ea6b</value>
@@ -212,8 +195,7 @@
                 <value>Incentive Program</value>
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
-        </componentInstances>
-        <componentInstances>
+        </componentInstance></itemInstances><itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>body</name>
                 <value>Facet-c3fbf587-d0ce-4805-a8ed-0e5ab2b44e13</value>
@@ -223,8 +205,7 @@
                 <value>Trial Survey</value>
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
-        </componentInstances>
-        <componentInstances>
+        </componentInstance></itemInstances><itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>body</name>
                 <value>Facet-ed68fcf3-f525-4f5f-83c8-60897f3503cc</value>
@@ -234,8 +215,7 @@
                 <value>Travel Vendor Configuration</value>
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
-        </componentInstances>
-        <componentInstances>
+        </componentInstance></itemInstances><itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>body</name>
                 <value>Facet-7d2de0ae-6cd0-4cf9-88f6-8a463d4fb83b</value>
@@ -245,8 +225,7 @@
                 <value>Payment Vendor Configuration</value>
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
-        </componentInstances>
-        <componentInstances>
+        </componentInstance></itemInstances><itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>body</name>
                 <value>Facet-46216db2-7a89-4163-9dfd-a02ee2c6dd12</value>
@@ -256,8 +235,7 @@
                 <value>Approved Languages</value>
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
-        </componentInstances>
-        <componentInstances>
+        </componentInstance></itemInstances><itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>body</name>
                 <value>Facet-73cec6da-858c-4a63-aac7-db5320c39a9e</value>
@@ -267,8 +245,7 @@
                 <value>Messages</value>
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
-        </componentInstances>
-        <componentInstances>
+        </componentInstance></itemInstances><itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>body</name>
                 <value>Facet-7b7172a8-7e78-491e-984a-de54a5f1bf30</value>
@@ -278,26 +255,23 @@
                 <value>Motivational Messages</value>
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
-        </componentInstances>
-        <name>Facet-e2f2fc6b-f10c-4ef7-a488-63ddedbe118d</name>
-        <type>Facet</type>
-    </flexiPageRegions>
+        </componentInstance></itemInstances></flexiPageRegions>
     <flexiPageRegions>
-        <componentInstances>
+        <name>main</name>
+        <type>Region</type>
+    <itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>tabs</name>
                 <value>Facet-e2f2fc6b-f10c-4ef7-a488-63ddedbe118d</value>
             </componentInstanceProperties>
             <componentName>flexipage:tabset</componentName>
-        </componentInstances>
-        <name>main</name>
-        <type>Region</type>
-    </flexiPageRegions>
+        </componentInstance></itemInstances></flexiPageRegions>
     <flexiPageRegions>
-        <componentInstances>
+        <name>Facet-969260cd-881c-4201-844f-889287951623</name>
+        <type>Facet</type>
+    <itemInstances><componentInstance>
             <componentName>StudyLogo</componentName>
-        </componentInstances>
-        <componentInstances>
+        </componentInstance></itemInstances><itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>parentFieldApiName</name>
                 <value>Clinical_Trial_Profile__c.Id</value>
@@ -319,8 +293,7 @@
                 <value>true</value>
             </componentInstanceProperties>
             <componentName>force:relatedListSingleContainer</componentName>
-        </componentInstances>
-        <componentInstances>
+        </componentInstance></itemInstances><itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>parentFieldApiName</name>
                 <value>Clinical_Trial_Profile__c.Id</value>
@@ -342,8 +315,7 @@
                 <value>true</value>
             </componentInstanceProperties>
             <componentName>force:relatedListSingleContainer</componentName>
-        </componentInstances>
-        <componentInstances>
+        </componentInstance></itemInstances><itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>parentFieldApiName</name>
                 <value>Clinical_Trial_Profile__c.Id</value>
@@ -365,8 +337,7 @@
                 <value>true</value>
             </componentInstanceProperties>
             <componentName>force:relatedListSingleContainer</componentName>
-        </componentInstances>
-        <componentInstances>
+        </componentInstance></itemInstances><itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>parentFieldApiName</name>
                 <value>Clinical_Trial_Profile__c.Id</value>
@@ -388,8 +359,7 @@
                 <value>true</value>
             </componentInstanceProperties>
             <componentName>force:relatedListSingleContainer</componentName>
-        </componentInstances>
-        <componentInstances>
+        </componentInstance></itemInstances><itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>parentFieldApiName</name>
                 <value>Clinical_Trial_Profile__c.Id</value>
@@ -411,12 +381,11 @@
                 <value>true</value>
             </componentInstanceProperties>
             <componentName>force:relatedListSingleContainer</componentName>
-        </componentInstances>
-        <name>Facet-969260cd-881c-4201-844f-889287951623</name>
-        <type>Facet</type>
-    </flexiPageRegions>
+        </componentInstance></itemInstances></flexiPageRegions>
     <flexiPageRegions>
-        <componentInstances>
+        <name>Facet-3b450426-369a-407b-9c0a-18315fca6275</name>
+        <type>Facet</type>
+    <itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>active</name>
                 <value>false</value>
@@ -430,21 +399,17 @@
                 <value>Related</value>
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
-        </componentInstances>
-        <name>Facet-3b450426-369a-407b-9c0a-18315fca6275</name>
-        <type>Facet</type>
-    </flexiPageRegions>
+        </componentInstance></itemInstances></flexiPageRegions>
     <flexiPageRegions>
-        <componentInstances>
+        <name>sidebar</name>
+        <type>Region</type>
+    <itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>tabs</name>
                 <value>Facet-3b450426-369a-407b-9c0a-18315fca6275</value>
             </componentInstanceProperties>
             <componentName>flexipage:tabset</componentName>
-        </componentInstances>
-        <name>sidebar</name>
-        <type>Region</type>
-    </flexiPageRegions>
+        </componentInstance></itemInstances></flexiPageRegions>
     <masterLabel>Clinical Trial Profile</masterLabel>
     <sobjectType>Clinical_Trial_Profile__c</sobjectType>
     <template>
