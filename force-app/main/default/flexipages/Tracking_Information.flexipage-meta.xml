@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
     <flexiPageRegions>
-        <componentInstances>
+        <name>main</name>
+        <type>Region</type>
+    <itemInstances><componentInstance>
             <componentInstanceProperties>
                 <name>collapsed</name>
                 <value>false</value>
@@ -11,13 +12,9 @@
                 <value>3</value>
             </componentInstanceProperties>
             <componentName>force:highlightsPanel</componentName>
-        </componentInstances>
-        <componentInstances>
+        </componentInstance></itemInstances><itemInstances><componentInstance>
             <componentName>force:detailPanel</componentName>
-        </componentInstances>
-        <name>main</name>
-        <type>Region</type>
-    </flexiPageRegions>
+        </componentInstance></itemInstances></flexiPageRegions>
     <masterLabel>Tracking Information</masterLabel>
     <sobjectType>Tracking_Information__c</sobjectType>
     <template>
