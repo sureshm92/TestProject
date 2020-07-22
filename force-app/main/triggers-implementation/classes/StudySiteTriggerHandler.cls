@@ -309,18 +309,19 @@ public without sharing class StudySiteTriggerHandler {
         }
         if(!enrollmentsList.isEmpty()) insert enrollmentsList;
     }
+
     @TestVisible
-    private static void setSuppressField(List<Study_Site__c> newList){
+    private static void setSuppressField(List<Study_Site__c> newList) {
         Set<Id> studyIds = new Set<Id>();
         for (Study_Site__c site: newList){
             studyIds.add(site.Clinical_Trial_Profile__c);
         }
         Map<Id, Clinical_Trial_Profile__c> ctpsMap = new Map<Id, Clinical_Trial_Profile__c>();
-        for ( Clinical_Trial_Profile__c ctp :[SELECT Id, Suppress_PI_Emails__c FROM Clinical_Trial_Profile__c WHERE Id IN :studyIds]){
+        for (Clinical_Trial_Profile__c ctp : [SELECT Id, Suppress_PI_Emails__c FROM Clinical_Trial_Profile__c WHERE Id IN :studyIds]) {
             ctpsMap.put(ctp.Id, ctp);
         }
-        for (Study_Site__c site: newList){
-            site.Suppress_Study_Site_PI_Emails__c = ctpsMap.get(site.Clinical_Trial_Profile__c).Suppress_PI_Emails__c;
+        for (Study_Site__c site: newList) {
+            if (!site.Suppress_Study_Site_PI_Emails__c) site.Suppress_Study_Site_PI_Emails__c = ctpsMap.get(site.Clinical_Trial_Profile__c).Suppress_PI_Emails__c;
         }
     }
 }
