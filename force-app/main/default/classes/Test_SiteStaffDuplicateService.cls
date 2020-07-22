@@ -14,11 +14,11 @@ public class Test_SiteStaffDuplicateService {
                 MailingCountry = 'United States',
                 AccountId = piAccount.Id
         );
-		insert piContact;
-		        Therapeutic_Area__c area = new Therapeutic_Area__c(Name = 'Test TA TD');
+        insert piContact;
+                Therapeutic_Area__c area = new Therapeutic_Area__c(Name = 'Test TA TD');
         insert area;
 	Terms_And_Conditions__c	studyTC = new Terms_And_Conditions__c();
-	insert studyTC;
+    insert studyTC;
         Clinical_Trial_Profile__c study = new Clinical_Trial_Profile__c(
                 Protocol_ID__c = 'CTP1',
                 Override_Recruitment_Status__c = 'Actively Enrolling',
