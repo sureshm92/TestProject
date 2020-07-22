@@ -54,7 +54,11 @@
             component.set('v.pictureSrc',attachment);
             component.set("v.message", "Image uploaded");
             component.set("v.pictureSrc",returnValue);
-            $A.get('e.force:refreshView').fire();
+            var appEvent = $A.get("e.c:RefreshProfile");
+            appEvent.setParams({
+            "refreshFlag" : "true" });
+            appEvent.fire();
+           // $A.get('e.force:refreshView').fire();
             
             component.find('spinner').hide();
         });
