@@ -11,6 +11,11 @@ stages:
   - DeployINF5.0
   - RunTestINF5.0
 
+  #5.0 INT
+  - DeployINT5.1
+  - RunTestINT5.1
+
+
 
 cache:
   paths:
@@ -84,5 +89,31 @@ RunTestINF5.0:
   stage: RunTestINF5.0
   script:
     - . ./scripts/ci/run-tests.sh INF5_0
+
+# 5.1 INT: ---------------------------------------------------------------------
+DeployINT5.1:
+  tags:
+    - shell
+  only:
+    - INT5.1
+  except:
+    - merge_requests
+
+  stage: DeployINT5.1
+  script:
+    - . ./scripts/ci/deploy.sh INT5_1
+
+RunTestINT5.1:
+  tags:
+    - shell
+  only:
+    - INT5.1
+  except:
+    - merge_requests
+
+  stage: RunTestINT5.1
+  script:
+    - . ./scripts/ci/run-tests.sh INT5_1
+
 
 
