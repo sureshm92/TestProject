@@ -43,6 +43,12 @@ public without sharing class HCPEnrollmentTriggerHandler {
         }
     }
 
+    public class SendNotificationForDeclinedHCPEHandler extends TriggerHandler {
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            sendNotificationForDeclinedHCPE(newList, (Map<Id, HCP_Enrollment__c>) oldMap);
+        }
+    }
+
     public class SwitchContactUserModeHandler extends TriggerHandler {
 
         public override void afterInsert(List<SObject> newList) {
@@ -320,5 +326,36 @@ public without sharing class HCPEnrollmentTriggerHandler {
             }
             if (!listNotificationsToSend.isEmpty()) insert listNotificationsToSend;
         }
+    }
+
+    @TestVisible
+    private static void sendNotificationForDeclinedHCPE(List<HCP_Enrollment__c> newList, Map<Id, HCP_Enrollment__c> oldMap) {
+        List<Notification__c> listNotificationToSend = new List<Notification__c>();
+        Set<Id> declinedApprovalHcpeIds = new Set<Id>();
+        for (HCP_Enrollment__c hcpe : newList) {
+            if ((hcpe.Status__c == HCPEnrollmentService.HCP_S_DECLINE_ACTIVATION || hcpe.Status__c == HCPEnrollmentService.HCP_S_DECLINED_APPROVAL) && hcpe.Status__c != oldMap.get(hcpe.Id).Status__c) {
+                if (hcpe.Status__c == HCPEnrollmentService.HCP_S_DECLINED_APPROVAL) {
+                    declinedApprovalHcpeIds.add(hcpe.Id);
+                } else {
+                    listNotificationToSend.add(new Notification__c(Recipient__c = hcpe.HCP_Contact__c,
+                            WhatId__c = hcpe.Id,
+                            Notification_Type__c = 'Message_to_HCP_Declined_HCPE'));
+                }
+            }
+        }
+        for (HCP_Enrollment__c hcpEnrollment : [
+                SELECT Id,
+                        HCP_Contact__c,
+                        HCP_Contact__r.HCP_Opt_In_Referral_Status_Emails__c
+                FROM HCP_Enrollment__c
+                WHERE Id IN :declinedApprovalHcpeIds
+        ]) {
+            if (hcpEnrollment.HCP_Contact__r.HCP_Opt_In_Referral_Status_Emails__c == true) {
+                listNotificationToSend.add(new Notification__c(Recipient__c = hcpEnrollment.HCP_Contact__c,
+                        WhatId__c = hcpEnrollment.Id,
+                        Notification_Type__c = 'Message_to_HCP_Declined_HCPE'));
+            }
+        }
+        if (!listNotificationToSend.isEmpty()) insert listNotificationToSend;
     }
 }

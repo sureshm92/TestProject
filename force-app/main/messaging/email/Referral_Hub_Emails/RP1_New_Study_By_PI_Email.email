@@ -1,5 +1,5 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_PI1}"
-                         recipientType="User"
+                         recipientType="Contact"
                          relatedToType="HCP_Enrollment__c"
                          language="{!relatedTo.HCP_Contact__r.Language__c}">
 
