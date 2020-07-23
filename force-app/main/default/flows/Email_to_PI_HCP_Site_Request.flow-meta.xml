@@ -326,7 +326,7 @@
                         <stringValue>Boolean</stringValue>
                     </value>
                 </processMetadataValues>
-                <leftValueReference>myVariable_current.Study_Site__r.Suppress_Participant_Emails__c</leftValueReference>
+                <leftValueReference>myVariable_current.Study_Site__r.Suppress_Study_Site_PI_Emails__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -452,7 +452,7 @@
                         <stringValue>Boolean</stringValue>
                     </value>
                 </processMetadataValues>
-                <leftValueReference>myVariable_old.Study_Site__r.Suppress_Participant_Emails__c</leftValueReference>
+                <leftValueReference>myVariable_old.Study_Site__r.Suppress_Study_Site_PI_Emails__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
