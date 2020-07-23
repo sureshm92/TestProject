@@ -339,7 +339,7 @@ public without sharing class HCPEnrollmentTriggerHandler {
                 } else {
                     listNotificationToSend.add(new Notification__c(Recipient__c = hcpe.HCP_Contact__c,
                             WhatId__c = hcpe.Id,
-                            Notification_Type__c = 'Message_to_HCP_Declined_HCPE'));
+                            Notification_Type__c = 'Message_to_HCP_Declined_Enrollment_Type'));
                 }
             }
         }
@@ -353,7 +353,7 @@ public without sharing class HCPEnrollmentTriggerHandler {
             if (hcpEnrollment.HCP_Contact__r.HCP_Opt_In_Referral_Status_Emails__c == true) {
                 listNotificationToSend.add(new Notification__c(Recipient__c = hcpEnrollment.HCP_Contact__c,
                         WhatId__c = hcpEnrollment.Id,
-                        Notification_Type__c = 'Message_to_HCP_Declined_HCPE'));
+                        Notification_Type__c = 'Message_to_HCP_Declined_Enrollment_Type'));
             }
         }
         if (!listNotificationToSend.isEmpty()) insert listNotificationToSend;
