@@ -14,11 +14,11 @@ public class Test_SiteStaffDuplicateService {
                 MailingCountry = 'United States',
                 AccountId = piAccount.Id
         );
-		insert piContact;
-		        Therapeutic_Area__c area = new Therapeutic_Area__c(Name = 'Test TA TD');
+        insert piContact;
+                Therapeutic_Area__c area = new Therapeutic_Area__c(Name = 'Test TA TD');
         insert area;
 	Terms_And_Conditions__c	studyTC = new Terms_And_Conditions__c();
-	insert studyTC;
+    insert studyTC;
         Clinical_Trial_Profile__c study = new Clinical_Trial_Profile__c(
                 Protocol_ID__c = 'CTP1',
                 Override_Recruitment_Status__c = 'Actively Enrolling',
@@ -98,11 +98,11 @@ public class Test_SiteStaffDuplicateService {
         SiteStaffDuplicateService.DuplicateContainer dc = new SiteStaffDuplicateService.DuplicateContainer(siteStaffSamePhonesSameEmails);
         dc.getFirstName();
         dc.getContact();
-        SiteStaffDuplicateService duplicateService = new SiteStaffDuplicateService(new List<Site_Staff__c>{
-                siteStaffWithBY,
-                siteStaffWithoutBY,
-                siteStaffDiffPhonesSameEmails,
-                    siteStaffSamePhonesSameEmails
+        SiteStaffDuplicateService duplicateService = new SiteStaffDuplicateService(new Map<String, Site_Staff__c>{
+                '7969_7777777_diffphones@mail.com'=>siteStaffWithBY,
+                '7960_7777777_diffphones@mail.com'=> siteStaffWithoutBY,
+                '7969_7777777_diffphones@mail.com' =>siteStaffDiffPhonesSameEmails,
+                '7925_7777777_diffphones@mail.com' =>siteStaffSamePhonesSameEmails
         });
         duplicateService.findDuplicate(siteStaffSamePhonesSameEmails);
         duplicateService.findDuplicateContact(siteStaffSamePhonesSameEmails);

@@ -180,7 +180,8 @@ public without sharing class ContactService {
             Set<String> peHistoryStatuses = historyStatusesByPEIdMap.get(pe.Id);
             resources = ResourceService.sortResourcesByCOI(resources);
             resources = ResourceService.removeTranslations(resources);
-            Boolean hadEnrolmentSuccess = peHistoryStatuses != null && peHistoryStatuses.contains(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS);
+            Boolean hadEnrolmentSuccess = peHistoryStatuses != null && (peHistoryStatuses.contains(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS)
+                    || peHistoryStatuses.contains(PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS));
             pastWrappersList.add(new PastStudyWrapper(ctpMap.get(pe.Clinical_Trial_Profile__c), pe, resources, hadEnrolmentSuccess));
 
         }

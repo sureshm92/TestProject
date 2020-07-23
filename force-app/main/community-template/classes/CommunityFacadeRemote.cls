@@ -257,12 +257,19 @@ public without sharing class CommunityFacadeRemote {
     public static Boolean isCurrentSessionMobileApp(){
         Boolean isMobileApp = false;
         List<AuthSession> sessions = [
-                SELECT Id, IsCurrent, LoginHistory.Application, LastModifiedDate
+                SELECT Id, IsCurrent, LoginHistory.Browser, LoginHistory.Application, LastModifiedDate
                 FROM AuthSession
                 WHERE UsersId =: UserContext.getUserId() AND IsCurrent = TRUE
                 ORDER BY LastModifiedDate DESC LIMIT 1
         ];
-        if(!sessions.isEmpty() && sessions[0].LoginHistory.Application != null) isMobileApp = !sessions[0].LoginHistory.Application.equals('Browser');
+        if (!sessions.isEmpty() && sessions[0].LoginHistory != null) {
+            LoginHistory history = sessions[0].LoginHistory;
+            if (history.Browser != null && history.Application != null){
+                isMobileApp = (!history.Application.equals('Browser') 
+                        || history.Browser.equals('Unknown Mobile Browser')
+                        || history.Browser.equals('Unknown Webkit Mobile'));
+            }
+        }
         return isMobileApp;
     }
 }

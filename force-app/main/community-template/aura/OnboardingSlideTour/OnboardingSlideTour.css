@@ -49,12 +49,11 @@
 
 .THIS .tour-slides-container{
     width: 100%;
-    height: 70%;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     text-overflow: ellipsis;
-    min-height: 400px;
+    margin-top: 10px;
 }
 
 .THIS .tour-info-container{
@@ -99,8 +98,8 @@
 
 .THIS .tour-slides-body{
     flex: 1;
-    overflow: hidden;
     width: 100%;
+    margin-top: 1rem;
 }
 
 .THIS .tour-slides-carousel{
@@ -142,7 +141,7 @@
 
 .THIS .fit-image{
     max-width: 100%;
-    max-height: 100%;
+    max-height: 40vh;
     object-fit: contain;
     flex-shrink: 0;
 }
@@ -187,9 +186,19 @@
     height: 100%;
 }
 
+@media all and (max-width: 768px) and (orientation: portrait) {
+    .THIS .tour-slides-container {
+        height: 60vh;
+    }
+}
 
+@media all and (max-width: 1340px) and (orientation: landscape) {
+    .THIS .tour-slides-container {
+        height: 57vh;
+    }
+}
 
-@media all and (max-width: 478px){
+@media all and (max-width: 500px){
     .THIS .tour-title{
         font-size: 1.25rem;
         line-height: 1.5rem;
@@ -224,14 +233,15 @@
 
     .THIS .tour-panel{
         width: calc(100% - 10px);
-        height: 85vh;
+        height: 90vh;
         margin: 20px auto 0;
     }
 
     .THIS .wt-scroller {
         height: 90vh;
         overflow-y: scroll;
-        padding: 1rem;
+        padding: .5rem;
+        margin: 0 .5rem;
     }
 
     .THIS .tour-pages{
@@ -241,9 +251,39 @@
     .THIS.tour-fixed-overlay{
         height: 100vh;
     }
+
+    .THIS .tour-slides-container {
+        min-height: auto;
+        height: auto;
+        margin-top: 0;
+    }
+
+    .THIS .tour-slides-body {
+        margin-top: 15px;
+    }
 }
+
+@media all and (max-height: 500px) and (orientation: landscape) {
+    .THIS .tour-slides-container {
+        min-height: auto;
+        max-height: 82vh;
+    }
+
+    .THIS .tour-slides-body {
+        margin-top: 15px;
+    }
+
+    .THIS .fit-image {
+        max-height: 50vh;
+    }
+}
+
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-    .THIS .slide-body{
-        max-width: 70vw;
+    .THIS .tour-slides-body{
+        flex: none;
+    }
+
+    .THIS .fit-image {
+        max-height: 350px;
     }
 }

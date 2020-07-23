@@ -8,12 +8,8 @@
             <field>Delegate_Email_Address__c</field>
             <type>email</type>
         </recipients>
-        <recipients>
-            <field>email__c</field>
-            <type>email</type>
-        </recipients>
         <senderType>CurrentUser</senderType>
-        <template>Referral_Hub_Emails/Covid19_New_Study</template>
+        <template>Referral_Hub_Emails/Covid19_Delegate</template>
     </alerts>
     <alerts>
         <fullName>Send_email_to_participant</fullName>

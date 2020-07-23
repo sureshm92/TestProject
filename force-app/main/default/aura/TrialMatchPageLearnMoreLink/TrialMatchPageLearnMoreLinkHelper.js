@@ -53,12 +53,10 @@
         let helper = this;
         helper.uploadFontForUtf8();
         var doc = new jsPDF('l', 'pt', 'A4', true);
-        let textFooter = $A.get('$Label.c.Report_Visits_Result_Text_Footer');
         let numberPageForTable = 0;
         doc.setFont('Roboto-Regular', 'normal');
         doc.setFontSize(8);
         doc.setTextColor('#6e6e6e');
-        let splitTextFooter = doc.splitTextToSize(textFooter, 650);
         helper.generateFirstPage(ctpRecord, doc, helper);
 		doc.setFontSize(16);
         doc.setTextColor('#000096');
@@ -66,7 +64,7 @@
         doc.setFontType('normal');
         for (let i = 1; i <= doc.internal.getNumberOfPages(); i++) {
             doc.setPage(i);
-            helper.addBorder(ctpRecord, doc, iqviaLogo, splitTextFooter, i === 1);
+            helper.addBorder(ctpRecord, doc, iqviaLogo, i === 1);
         }
         if (isSave) {
             window.navigator.msSaveBlob(doc.output('blob'), $A.get('$Label.c.Learn_More_Report_Document_Name') + '.pdf');
@@ -77,7 +75,7 @@
         }
     },
 
-      addBorder: function (reportData, doc, logo, splitTextFooter, isFirstPage) {
+      addBorder: function (reportData, doc, logo, isFirstPage) {
         const helper = this;
         doc.setDrawColor(216, 216, 216);
         doc.setLineWidth(8);
@@ -88,11 +86,6 @@
         if (logo) {
             doc.addImage(logo, 'PNG', 95, 20, 100, 25);
         }
-        splitTextFooter.forEach(function (el, ind) {
-            doc.setFontSize(8);
-            doc.setTextColor('#6e6e6e');
-            helper.centeredText(el, (565 + ind * doc.internal.getLineHeight()), doc);
-        });
     },
 
     centeredText: function (text, y, doc) {

@@ -5,7 +5,6 @@
 public without sharing class VisitResultSharingService {
 
     private static ParticipantService.ParticipantState state;
-    private static Boolean onStudy;
     private static Map<Id, Map<String, Visit_Result_Type_Sharing__c>> visitResultTypeSharingMapByCTP =
             new Map<Id, Map<String, Visit_Result_Type_Sharing__c>>();
     private static Set<String> notAccessResultType = new Set<String>();
@@ -14,21 +13,11 @@ public without sharing class VisitResultSharingService {
         //TODO split context and service methods!!!:
         if ([SELECT Id, ContactId FROM User WHERE Id = :UserInfo.getUserId()].ContactId != null) {
             state = ParticipantService.getParticipantState();
-            onStudy = PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(state.pe.Participant_Status__c) ||
-                    PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(state.pe.Participant_Status__c);
         }
     }
 
-    public static Boolean isVisitResultAvailable() {
-        if (!onStudy) return false;
-
-        return state.pe.Clinical_Trial_Profile__r.Visit_Data_Shareback__c &&
-                state.ctp.Patient_Portal_Enabled__c &&
-                state.pe.Study_Site__r.Visit_Results_Sharing__c;
-    }
-
     public static List<Visit_Result__c> processResults() {
-        if (!onStudy) return new List<Visit_Result__c>();
+        if (!VisitResultsRemote.isOnStudy()) return new List<Visit_Result__c>();
         Map<Id, Clinical_Trial_Profile__c> ctpById = new Map<Id, Clinical_Trial_Profile__c>();
         List<Patient_Visit__c> patientVisits = [
                 SELECT
@@ -62,8 +51,8 @@ public without sharing class VisitResultSharingService {
         try {
             String mailingCountryCode = '';
             Integer timeSharing = 0;
-            if(!isBatch){
-                if (!isVisitResultAvailable()) return filteredResults;
+            if (!isBatch) {
+                if (!VisitResultsRemote.isVisitResultAvailable()) return filteredResults;
 
                 Clinical_Trial_Profile__c ctp = getCTP(state.ctp.Id);
                 visitResultTypeSharingByType = getResultTypeSharingsByType(ctp);
@@ -71,15 +60,15 @@ public without sharing class VisitResultSharingService {
                 timeSharing = patientVisits.size() - (ctp.Shareback_Availability_Timing__c.intValue());
             }
 
-            for(Integer i = patientVisits.size() - 1; i >= 0; i--) {
-                if(isBatch){
+            for (Integer i = patientVisits.size() - 1; i >= 0; i--) {
+                if (isBatch) {
                     timeSharing = patientVisits.size() - patientVisits.get(i).Participant_Enrollment__r.Clinical_Trial_Profile__r.Shareback_Availability_Timing__c.intValue();
                     visitResultTypeSharingByType = getResultTypeSharingsByType(ctpById.get(patientVisits.get(i).Participant_Enrollment__r.Clinical_Trial_Profile__c));
                     mailingCountryCode = patientVisits.get(i).Participant_Enrollment__r.Participant__r.Mailing_Country_Code__c;
                 }
                 if ((i + 1) <= timeSharing) {
                     Patient_Visit__c patientVisit = patientVisits.get(i);
-                    if(patientVisit.Visit_Results__r != null && !patientVisit.Visit_Results__r.isEmpty()) {
+                    if (patientVisit.Visit_Results__r != null && !patientVisit.Visit_Results__r.isEmpty()) {
                         for (Visit_Result__c result : patientVisit.Visit_Results__r) {
                             if (visitResultTypeSharingByType.containsKey(result.Result_Type__c)) {
                                 Visit_Result_Type_Sharing__c resultTypeSharing =
@@ -90,7 +79,7 @@ public without sharing class VisitResultSharingService {
                                 }
                             }
                         }
-                        if(!isBatch) break;
+                        if (!isBatch) break;
                     }
                 }
             }
@@ -101,7 +90,46 @@ public without sharing class VisitResultSharingService {
         return filteredResults;
     }
 
-    public  Map<Id, Map<String, Visit_Result__c>> getAvailableVisitResultsByPatientVisitIds(Participant_Enrollment__c pe, List<Patient_Visit__c> patientVisits) {
+    public static List<VisitResultWithAvailableSign> getVisitResultsWithAvailableCountry(List<Patient_Visit__c> patientVisits, Id ctpId, String participantMailingCC) {
+        List<VisitResultWithAvailableSign> resultWithAvailableSign = new List<VisitResultWithAvailableSign>();
+        Map<String, Visit_Result_Type_Sharing__c> visitResultTypeSharingByType = new Map<String, Visit_Result_Type_Sharing__c>();
+
+        try {
+            String mailingCountryCode = String.isNotEmpty(participantMailingCC) ? participantMailingCC : '';
+            Integer timeSharing = 0;
+            if (!VisitResultsRemote.isVisitResultAvailable()) return resultWithAvailableSign;
+
+            Clinical_Trial_Profile__c ctp = getCTP(ctpId);
+            visitResultTypeSharingByType = getResultTypeSharingsByType(ctp);
+            timeSharing = patientVisits.size() - (ctp.Shareback_Availability_Timing__c.intValue());
+
+            for (Integer i = patientVisits.size() - 1; i >= 0; i--) {
+                if ((i + 1) <= timeSharing) {
+                    Patient_Visit__c patientVisit = patientVisits.get(i);
+                    if (patientVisit.Visit_Results__r == null || patientVisit.Visit_Results__r.isEmpty()) continue;
+
+                    for (Visit_Result__c result : patientVisit.Visit_Results__r) {
+                        Visit_Result_Type_Sharing__c resultTypeSharing = visitResultTypeSharingByType.get(result.Result_Type__c);
+                        Boolean isCountryEnabled = false;
+                        if (resultTypeSharing != null) {
+                            isCountryEnabled = resultTypeSharing.Sharing_Countries__c == 'All' ||
+                                    (resultTypeSharing.Include_Countries__c && resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode)) ||
+                                    (!resultTypeSharing.Include_Countries__c && !resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode));
+                        }
+                        resultWithAvailableSign.add(new VisitResultWithAvailableSign(
+                                result, isCountryEnabled
+                        ));
+                    }
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            return resultWithAvailableSign;
+        }
+        return resultWithAvailableSign;
+    }
+
+    public Map<Id, Map<String, Visit_Result__c>> getAvailableVisitResultsByPatientVisitIds(Participant_Enrollment__c pe, List<Patient_Visit__c> patientVisits) {
         Map<Id, Map<String, Visit_Result__c>> resultMap = new Map<Id, Map<String, Visit_Result__c>>();
         Map<String, Visit_Result_Type_Sharing__c> visitResultTypeSharingByType =
                 getResultTypeSharingsByType(getCTP(pe.Clinical_Trial_Profile__c));
@@ -180,16 +208,16 @@ public without sharing class VisitResultSharingService {
 
         if (!studySites.isEmpty()) {
             for (Study_Site__c ss : studySites) {
-                if(allEnabled || (ssIds.isEmpty() && selectionType)) {
+                if (allEnabled || (ssIds.isEmpty() && selectionType)) {
                     ss.Visit_Results_Sharing__c = true;
-                } else if(!selectionType && ssIds.isEmpty()) {
+                } else if (!selectionType && ssIds.isEmpty()) {
                     ss.Visit_Results_Sharing__c = false;
                 } else if (ssIds.contains(ss.Id)) {
                     ss.Visit_Results_Sharing__c = selectionType;
                 } else {
-                    if(selectionType && ss.Visit_Results_Sharing__c) {
+                    if (selectionType && ss.Visit_Results_Sharing__c) {
                         ss.Visit_Results_Sharing__c = false;
-                    } else if(!selectionType) {
+                    } else if (!selectionType) {
                         ss.Visit_Results_Sharing__c = true;
                     }
                 }
@@ -240,30 +268,40 @@ public without sharing class VisitResultSharingService {
         return typeVRSharingMap;
     }
 
-    public static Map<String,Map<String,List<String>>> visitResultSharingByGroupAndMode() {
+    public static Map<String, Map<String, List<String>>> visitResultSharingByGroupAndMode() {
         VisitResultMService visitResultMService = new VisitResultMService();
         List<Visit_Result_Type_Sharing__c> visitResultTypeSharings = [
                 SELECT Id,
                         Type__c
                 FROM Visit_Result_Type_Sharing__c
-                WHERE Clinical_Trial_Profile__c =:state.ctp.Id
+                WHERE Clinical_Trial_Profile__c = :state.ctp.Id
         ];
         List<String> visitResultTypeSharingNames = new List<String>();
         for (Visit_Result_Type_Sharing__c visitResultTypeSharing : visitResultTypeSharings) {
             visitResultTypeSharingNames.add(visitResultTypeSharing.Type__c);
         }
-        Map<String,Map<String,List<String>>> visitResultSharingByGroupAndMode = new Map<String, Map<String, List<String>>>();
+        Map<String, Map<String, List<String>>> visitResultSharingByGroupAndMode = new Map<String, Map<String, List<String>>>();
         for (String resultType : visitResultTypeSharingNames) {
             String visitResultGroup = visitResultMService.getVisitResultGroupByTypeName(resultType);
             String visitResultMode = visitResultMService.getVisitResultModeByGroupName(visitResultGroup);
-            if(visitResultSharingByGroupAndMode.get(visitResultMode)==null) {
-                visitResultSharingByGroupAndMode.put(visitResultMode,new Map <String,List<String>>());
+            if (visitResultSharingByGroupAndMode.get(visitResultMode) == null) {
+                visitResultSharingByGroupAndMode.put(visitResultMode, new Map <String, List<String>>());
             }
-            if(visitResultSharingByGroupAndMode.get(visitResultMode).get(visitResultGroup)==null) {
+            if (visitResultSharingByGroupAndMode.get(visitResultMode).get(visitResultGroup) == null) {
                 visitResultSharingByGroupAndMode.get(visitResultMode).put(visitResultGroup, new List<String>());
             }
             visitResultSharingByGroupAndMode.get(visitResultMode).get(visitResultGroup).add(resultType);
         }
         return visitResultSharingByGroupAndMode;
+    }
+
+    public class VisitResultWithAvailableSign {
+        public Visit_Result__c visitResult;
+        public Boolean isCountryEnabled;
+
+        public VisitResultWithAvailableSign(Visit_Result__c visitResult, Boolean isCountryEnabled) {
+            this.visitResult = visitResult;
+            this.isCountryEnabled = isCountryEnabled;
+        }
     }
 }

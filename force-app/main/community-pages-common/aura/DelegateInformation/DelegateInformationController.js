@@ -5,13 +5,16 @@
     doInit : function (component, event, helper) {
         var infoText = $A.get('$Label.c.PG_PST_L_Delegates_Designed_Text');
         var delegateInfoHeader = $A.get('$Label.c.PP_Delegate_Header'); 
+        var withdrawInfoHeader = $A.get('$Label.c.PP_Withdraw_Delegate');
         communityService.executeAction(component, 'getYourPatientFirstName', null,
             function (returnValue) {
                 infoText = infoText.replace('##PatientFirstName', returnValue);
-                infoText = infoText.replace('##PatientFirstName', returnValue);
                 delegateInfoHeader = delegateInfoHeader.replace('##PatientFirstName', returnValue);
+                withdrawInfoHeader = withdrawInfoHeader.replace('##PatientFirstName', returnValue);
                 component.set('v.infoText', infoText);
                 component.set('v.delegateInfoHeader', delegateInfoHeader);
+                component.set('v.withdrawInfoHeader', withdrawInfoHeader);
+             
 
             });
     },

@@ -11,19 +11,32 @@
     letter-spacing: 0;
     line-height: 24px;
 }
-.THIS .single-avatar-minor {
-     height: 24px;
-    width: 21px;
-    margin-top: 27%;
-    margin-left: 31%;
-}
+
 .THIS .avatar-icon-minor{
     background-color: #DF216D;
     height: 55px;
-    width: 55px;
-    margin: 18px;
+    min-width: 55px;
     border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+.THIS .single-avatar-minor {
+    height: 24px;
+    width: 21px;
+}
+
+.THIS .profileImg {
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.THIS .profileImg > .profileEmail {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-left: 15px;
 }
 
 .THIS.as-container {

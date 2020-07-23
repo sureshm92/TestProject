@@ -6,9 +6,12 @@ public without sharing class VisitResultsRemote {
     @AuraEnabled
     public static InitDataWrapper getInitData(String visitResultsMode, Map<String, Map<String, List<String>>> visitResultSharings) {
         try {
-            List<Visit_Result__c> visitResultsForMode = VisitResultSharingService.processResults();
+            List<Visit_Result__c> visitResultsForMode = VisitResultsService.getVisitResults(
+                    ParticipantContext.getCurrentPE().Clinical_Trial_Profile__c,
+                    ParticipantContext.getCurrentPE().Participant__r.Mailing_Country_Code__c
+            );
             InitDataWrapper wrapper = (InitDataWrapper) ClassFactory.newInstance(InitDataWrapper.class);
-            wrapper.isVisitResultsAvailable = VisitResultSharingService.isVisitResultAvailable();
+            wrapper.isVisitResultsAvailable = isVisitResultAvailable();
             wrapper.contact = ParticipantContext.getCurrentContact();
             wrapper.isResultsExist = existForModeAndAvailableByCTP(visitResultSharings.get(visitResultsMode), visitResultsForMode);
             wrapper.visitResultsGroupNames = notEmptyVisitResultsGroupName(visitResultsMode, visitResultSharings, visitResultsForMode);
@@ -36,7 +39,10 @@ public without sharing class VisitResultsRemote {
     @AuraEnabled
     public static VisitResultsService.VisitResultsContainer getVisitResultsContainer(String visitResultGroupName, String visitResultsShares) {
         try {
-            return ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class)).getVisitResultsContainer(visitResultGroupName, convertJSONtoMap(visitResultsShares));
+            return ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class)).getVisitResultsContainer(
+                    visitResultGroupName, convertJSONtoMap(visitResultsShares), ParticipantContext.getCurrentPE().Clinical_Trial_Profile__c,
+                    ParticipantContext.getCurrentPE().Participant__r.Mailing_Country_Code__c
+            );
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -156,5 +162,49 @@ public without sharing class VisitResultsRemote {
         public Map<String, List<String>> visitResultsShares;
         @AuraEnabled
         public Boolean toggleState;
+    }
+
+    public static List<Patient_Visit__c> getPatientVisits() {
+        if (!isOnStudy()) return new List<Patient_Visit__c>();
+
+        return [
+                SELECT
+                        Id,
+                        Completed_Date__c,
+                        Visit_Number__c, (
+                        SELECT
+                                Id,
+                                Actual_Value__c,
+                                Max_Value__c,
+                                Measurement__c,
+                                Min_Value__c,
+                                Patient_Visit__r.Completed_Date__c,
+                                Result_Type__c,
+                                RecordType.DeveloperName
+                        FROM Visit_Results__r
+                )
+                FROM Patient_Visit__c
+                WHERE Participant_Enrollment__c = :ParticipantContext.getCurrentPEId()
+                AND Status__c = 'Completed'
+                ORDER BY Visit_Number__c, Completed_Date__c
+        ];
+    }
+
+    public static Boolean isVisitResultAvailable() {
+        if(!isOnStudy()) return false;
+
+        ParticipantService.ParticipantState participantState = ParticipantService.getParticipantState();
+        return participantState.pe.Clinical_Trial_Profile__r.Visit_Data_Shareback__c &&
+                participantState.ctp.Patient_Portal_Enabled__c &&
+                participantState.pe.Study_Site__r.Visit_Results_Sharing__c;
+    }
+
+    public static Boolean isOnStudy() {
+        ParticipantService.ParticipantState participantState = ParticipantService.getParticipantState();
+        if (PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(participantState.pe.Participant_Status__c) ||
+                PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(participantState.pe.Participant_Status__c)) {
+            return true;
+        }
+        return false;
     }
 }
