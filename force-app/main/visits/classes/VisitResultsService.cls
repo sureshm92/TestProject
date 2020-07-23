@@ -135,6 +135,19 @@ public inherited sharing class VisitResultsService {
                 );
     }
 
+    public static List<Visit_Result__c> getVisitResults(Id ctpId, String mailingCC) {
+        List<VisitResultSharingService.VisitResultWithAvailableSign> resultsWithAvailableSing =
+                VisitResultSharingService.getVisitResultsWithAvailableCountry(
+                        VisitResultsRemote.getPatientVisits(), ctpId, mailingCC
+                );
+
+        List<Visit_Result__c> visitResults = new List<Visit_Result__c>();
+        for (VisitResultSharingService.VisitResultWithAvailableSign visitResultWithAvailableSign : resultsWithAvailableSing) {
+            visitResults.add(visitResultWithAvailableSign.visitResult);
+        }
+
+        return visitResults;
+    }
 
     private List<VisitResultWrapper> getVisitResultWrappers(
             List<VisitResultSharingService.VisitResultWithAvailableSign> resultsWithAvailableSign,

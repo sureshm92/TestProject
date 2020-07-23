@@ -6,7 +6,10 @@ public without sharing class VisitResultsRemote {
     @AuraEnabled
     public static InitDataWrapper getInitData(String visitResultsMode, Map<String, Map<String, List<String>>> visitResultSharings) {
         try {
-            List<Visit_Result__c> visitResultsForMode = VisitResultSharingService.processResults();
+            List<Visit_Result__c> visitResultsForMode = VisitResultsService.getVisitResults(
+                    ParticipantContext.getCurrentPE().Clinical_Trial_Profile__c,
+                    ParticipantContext.getCurrentPE().Participant__r.Mailing_Country_Code__c
+            );
             InitDataWrapper wrapper = (InitDataWrapper) ClassFactory.newInstance(InitDataWrapper.class);
             wrapper.isVisitResultsAvailable = isVisitResultAvailable();
             wrapper.contact = ParticipantContext.getCurrentContact();
