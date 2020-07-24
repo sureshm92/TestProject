@@ -143,7 +143,7 @@ window.communityService = (function () {
             return showPastStudies;
         },
 
-        getSubDomain: function(){
+        getSubDomain: function(){с
             return subDomain;
         },
 
