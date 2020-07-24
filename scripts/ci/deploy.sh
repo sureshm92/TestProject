@@ -19,6 +19,10 @@ sed -i 's/IQVIA_Referral_Hub1/IQVIA_Referral_Hub_C/g' 'force-app/communities/com
 mv force-app/communities/community-iqvia/experiences/IQVIA_Referral_Hub1.site-meta.xml force-app/communities/community-iqvia/experiences/IQVIA_Referral_Hub_C.site-meta.xml
 mv force-app/communities/community-iqvia/experiences/IQVIA_Referral_Hub1 force-app/communities/community-iqvia/experiences/IQVIA_Referral_Hub_C
 
+sed -i 's/Janssen_Community1/Janssen_Community_C/g' 'force-app/communities/community-janssen/networks/Janssen Community.network-meta.xml'
+mv force-app/communities/community-janssen/experiences/Janssen_Community1.site-meta.xml force-app/communities/community-janssen/experiences/Janssen_Community_C.site-meta.xml
+mv force-app/communities/community-janssen/experiences/Janssen_Community1 force-app/communities/community-janssen/experiences/Janssen_Community_C
+
 # Deploy project
 sfdx force:source:deploy -p force-app -u TargetOrg  -w 60
 
