@@ -1,13 +1,13 @@
 /**
  * Created by Kryvolap on 21.09.2019.
  */
- .THIS .ht-panel{
+.THIS .ht-panel{
     margin-bottom: 20px;
 }
 
 .THIS .slds-has-error .slds-form-element__help {
     position: absolute;
-    width: 100;
+    width: 100%;
     margin-bottom: 18px;
     z-index: 0;
     display: flex;
