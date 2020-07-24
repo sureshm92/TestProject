@@ -22,7 +22,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Terms_And_Conditions__c.Communit_Name__c</field>
+        <field>Terms_And_Conditions__c.Community_Name__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
