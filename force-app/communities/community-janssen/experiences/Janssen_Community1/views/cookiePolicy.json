@@ -1,0 +1,41 @@
+{
+  "appPageId" : "5bf37374-2b32-4433-ad3c-73208f1ef38a",
+  "componentName" : "c:EmptyLayout",
+  "id" : "20c23fb7-291c-44a9-b15c-a41516973d58",
+  "label" : "Cookie Policy",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : {
+        "isPortalTC" : true,
+        "privacyPolicyId" : "",
+        "titleCode" : "CookiePolicy"
+      },
+      "componentName" : "c:TermsAndConditions",
+      "id" : "b7702dba-20b1-4283-bdcb-297f2fe1a301",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "5a9f4076-6e03-4939-bb01-a970a15bb8d5",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Cookie Policy"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "8c735f4d-8897-4b32-a8cf-92c80d0b0d27",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "0fa2f12d-4bf7-4236-8736-4c020127cf82",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "3b5DAJUgiAZ3F5DXH2AeYD8xPz8J71",
+  "type" : "view",
+  "viewType" : "custom-cookie-policy"
+}

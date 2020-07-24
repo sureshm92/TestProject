@@ -1,0 +1,37 @@
+{
+  "appPageId" : "5bf37374-2b32-4433-ad3c-73208f1ef38a",
+  "componentName" : "c:EmptyLayout",
+  "id" : "d95ed08a-970d-4702-b304-7050fbfcecc9",
+  "label" : "Referral Profile",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:Referring",
+      "id" : "de0b0855-a5bc-4f65-96c6-e0ae0e153b39",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "0812332b-4596-4329-b7a9-639fa03a9076",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Referral Profile"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "fc3858a0-a30f-4552-b2da-4f1810cfe35e",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "393d9464-a96f-4ea7-800f-f6155fb962c5",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "NZR1UhOZspfbvAVwe08BYrCR69UwDc",
+  "type" : "view",
+  "viewType" : "custom-referral-profile"
+}
