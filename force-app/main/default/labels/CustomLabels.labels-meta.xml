@@ -5827,6 +5827,54 @@ The NYBC Convalescent Plasma Donation Team</value>
         <value>Investigator Name</value>
     </labels>
     <labels>
+        <fullName>Export_Excel_Last_Status_Changed_Notes</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Last Status Changed Notes</shortDescription>
+        <value>Last Status Changed Notes</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_MRN</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel MRN</shortDescription>
+        <value>MRN Id</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Name</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Name</shortDescription>
+        <value>Participant Profile Name</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Participant_Status</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Participant Status</shortDescription>
+        <value>Participant Status</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Participant_Status_Last_Changed_Date</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Participant Status Last Changed Date</shortDescription>
+        <value>Participant Status Last Changed Date</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Patient_ID</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Patient ID</shortDescription>
+        <value>Patient ID</value>
+    </labels>
+    <labels>
         <fullName>Export_Excel_Pre_screening_1_Completed_by</fullName>
         <categories>excel export</categories>
         <language>en_US</language>
@@ -5866,11 +5914,51 @@ The NYBC Convalescent Plasma Donation Team</value>
         <value>Pre-screening Date</value>
     </labels>
     <labels>
+        <fullName>Export_Excel_Referral_Completed_by</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Referral Completed by</shortDescription>
+        <value>Referral Completed by</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Referral_Source</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Referral Source</shortDescription>
+        <value>Referral Source</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Referred_Date</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Referred Date</shortDescription>
+        <value>Referred Date</value>
+    </labels>
+    <labels>
         <fullName>Export_Excel_Status_Change_Reason</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Export Excel Status Change Reason</shortDescription>
         <value>Status Change Reason</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Study_Code_Name</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Study Code Name</shortDescription>
+        <value>Study Code Name</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Study_Site_Name</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Study Site Name</shortDescription>
+        <value>Study Site Name</value>
     </labels>
     <labels>
         <fullName>FD_PE_Field_Arm_Cohort</fullName>
