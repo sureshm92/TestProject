@@ -518,6 +518,10 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Integration_Patient_Referral__c.Atid__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
         <field>Integration_Patient_Referral__c.HighRisk_Indicator__c</field>
         <readable>false</readable>
     </fieldPermissions>
