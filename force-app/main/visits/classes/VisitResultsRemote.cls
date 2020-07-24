@@ -6,7 +6,10 @@ public without sharing class VisitResultsRemote {
     @AuraEnabled
     public static InitDataWrapper getInitData(String visitResultsMode, Map<String, Map<String, List<String>>> visitResultSharings) {
         try {
-            List<Visit_Result__c> visitResultsForMode = VisitResultSharingService.processResults();
+            List<Visit_Result__c> visitResultsForMode = VisitResultsService.getVisitResults(
+                    ParticipantContext.getCurrentPE().Clinical_Trial_Profile__c,
+                    ParticipantContext.getCurrentPE().Participant__r.Mailing_Country_Code__c
+            );
             InitDataWrapper wrapper = (InitDataWrapper) ClassFactory.newInstance(InitDataWrapper.class);
             wrapper.isVisitResultsAvailable = isVisitResultAvailable();
             wrapper.contact = ParticipantContext.getCurrentContact();
@@ -90,7 +93,7 @@ public without sharing class VisitResultsRemote {
         VisitResultMService visitResultMService = new VisitResultMService();
         List<String> existingVisitResultGroups = new List<String>();
 
-        if (visitResultsForMode!=null) {
+        if (visitResultsForMode != null) {
             for (Visit_Result__c visitResult : visitResultsForMode) {
                 existingVisitResultGroups.add(
                         visitResultMService.getVisitResultGroupByTypeName(visitResult.Result_Type__c));
@@ -103,7 +106,7 @@ public without sharing class VisitResultsRemote {
 
         if (visitResultGroupNamesWithTypes != null) {
             for (String groupName : visitResultGroupNamesWithTypes.keySet()) {
-                if (existingVisitResultGroups.contains(groupName)){
+                if (existingVisitResultGroups.contains(groupName)) {
                     notEmptyVisitResultsGroupName.add(groupName);
                 }
             }
@@ -113,7 +116,7 @@ public without sharing class VisitResultsRemote {
 
     public static Boolean existForModeAndAvailableByCTP(Map<String, List<String>> availableVisitResults,
             List<Visit_Result__c> visitResultsForMode) {
-        if (availableVisitResults!=null) {
+        if (availableVisitResults != null) {
             List<String> availableAndExistResults = new List<String>();
             for (Visit_Result__c visitResult : visitResultsForMode) {
                 availableAndExistResults.add(visitResult.Result_Type__c);
@@ -188,7 +191,7 @@ public without sharing class VisitResultsRemote {
     }
 
     public static Boolean isVisitResultAvailable() {
-        if(!isOnStudy()) return false;
+        if (!isOnStudy()) return false;
 
         ParticipantService.ParticipantState participantState = ParticipantService.getParticipantState();
         return participantState.pe.Clinical_Trial_Profile__r.Visit_Data_Shareback__c &&

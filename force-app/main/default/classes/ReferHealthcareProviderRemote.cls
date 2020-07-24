@@ -419,7 +419,8 @@ global without sharing class ReferHealthcareProviderRemote {
             }
             List<Study_Site__c> studySites = new List<Study_Site__c>();
             if (piIds != null && !piIds.isEmpty()) {
-                String filter = ' Principal_Investigator__c IN (\'' + String.join(piIds, '\',\'') + '\')';
+                piIds.add(CommunityService.getUserContact().Id);
+                String filter = ' Principal_Investigator__c IN (\'' + String.join(piIds, '\',\'') + '\' )';
                 studySites = StudySiteService.getStudySitesCommon(filter);
             } else {
                 studySites = StudySiteService.getStudySitesForPI();
