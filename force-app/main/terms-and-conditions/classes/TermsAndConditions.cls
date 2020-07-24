@@ -31,6 +31,9 @@ global without sharing class TermsAndConditions {
         }else{
             query += ' Active__c = TRUE ';
         }
+        if(UserContext.getCurrentCommunityName() == CommunityTemplateService.TEMPLATE_JANSSEN_COMM_NAME){
+            query += 'AND Community_Name__c =\'' + UserContext.getCurrentCommunityName() +'\'';
+        }
         query += ' ORDER BY Name DESC LIMIT 1';
         System.debug('QUERY: ' + query);
         Terms_And_Conditions__c [] tcList = Database.query(query);

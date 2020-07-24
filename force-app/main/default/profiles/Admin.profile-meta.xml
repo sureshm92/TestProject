@@ -6894,6 +6894,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Terms_And_Conditions__c.Community_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Terms_And_Conditions__c.Language__c</field>
         <readable>true</readable>
     </fieldPermissions>
