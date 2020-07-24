@@ -74,7 +74,7 @@ public without sharing class VisitResultSharingService {
                                 Visit_Result_Type_Sharing__c resultTypeSharing =
                                         visitResultTypeSharingByType.get(result.Result_Type__c);
                                 if (resultTypeSharing.Sharing_Countries__c == 'All' || (resultTypeSharing.Include_Countries__c &&
-                                        resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode))) {
+                                        resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode)) || (!resultTypeSharing.Include_Countries__c && !resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode))) {
                                     filteredResults.add(result);
                                 }
                             }
