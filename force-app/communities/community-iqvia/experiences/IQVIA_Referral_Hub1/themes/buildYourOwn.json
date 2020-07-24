@@ -14,6 +14,7 @@
   },
   "type" : "theme",
   "views" : [ {
+    "componentAttributes" : { },
     "componentName" : "c:EmtpyTheme",
     "id" : "ec1e8f70-ad63-4ff3-9426-f816f8bddd0a",
     "label" : "Empty",
@@ -84,6 +85,7 @@
     } ],
     "type" : "view"
   }, {
+    "componentAttributes" : { },
     "componentName" : "c:CustomThemLayoutNoNavigation",
     "id" : "a242dcfa-b9cd-43f3-98d7-4895b2a32570",
     "label" : "Brand_No_Navigation",
@@ -154,6 +156,7 @@
     } ],
     "type" : "view"
   }, {
+    "componentAttributes" : { },
     "componentName" : "c:LoginThemeLayout",
     "id" : "e9a43fa6-2f53-46aa-80ac-bcb666182629",
     "label" : "Email_Sent",
@@ -224,6 +227,7 @@
     } ],
     "type" : "view"
   }, {
+    "componentAttributes" : { },
     "componentName" : "c:LoginThemeLayout",
     "id" : "358b080f-2a9f-46db-9862-b5490c3660c0",
     "label" : "Forgot_Password",
@@ -294,6 +298,7 @@
     } ],
     "type" : "view"
   }, {
+    "componentAttributes" : { },
     "componentName" : "c:CustomThemeLayout",
     "id" : "08e9ee51-e380-424d-ae96-5e152206f4b1",
     "label" : "Default",
@@ -364,6 +369,7 @@
     } ],
     "type" : "view"
   }, {
+    "componentAttributes" : { },
     "componentName" : "c:LoginThemeLayout",
     "id" : "9084f5cd-d942-4cf7-81b3-1b9940fdd76b",
     "label" : "Login",

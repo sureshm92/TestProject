@@ -13,7 +13,7 @@
         <aura:set attribute="else">
             <div class="slds-align_absolute-center" style="height:10em"></div>
             <div class="slds-align_absolute-center">
-                <c:RRIcon iconName="clinical-trial"/>
+                <c:RRIcon iconName="empty-trialmatch"/>
             </div>
             <div class="slds-align_absolute-center">
                 {!$Label.c.Trial_Match_Error}
