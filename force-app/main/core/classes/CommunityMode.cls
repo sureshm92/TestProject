@@ -7,6 +7,7 @@ public without sharing class CommunityMode {
     @AuraEnabled public String key;
     @AuraEnabled public String groupKey;
     @AuraEnabled public String userMode;
+    @AuraEnabled public String sponsorName;
     @AuraEnabled public Id currentHCPDelegate;
     @AuraEnabled public Id currentPE;
     @AuraEnabled public Id currentDelegateId;
