@@ -23,6 +23,11 @@
                 <default>false</default>
                 <label>Gather Share Know Participant Hub</label>
             </value>
+            <value>
+                <fullName>Janssen Community</fullName>
+                <default>false</default>
+                <label>Janssen Community</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

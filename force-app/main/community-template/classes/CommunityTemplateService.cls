@@ -15,9 +15,12 @@ public without sharing class CommunityTemplateService {
     public static final String PERMISSION_COMMUNITY_DEFAULT_NAME = 'Community_Default';
     public static final String PERMISSION_COMMUNITY_COVID19_NAME = 'Community_Covid19';
     public static final String PERMISSION_COMMUNITY_GSK_NAME = 'Community_GSK_Pan_Oncology';
+    public static final String PERMISSION_COMMUNITY_JANSSEN_NAME = 'Community_Janssen';
 
     public static final String TEMPLATE_DEFAULT = 'Default';
     public static final String TEMPLATE_GSK = 'GSK';
+    public static final String TEMPLATE_JANSSEN = 'Janssen';
+    public static final String TEMPLATE_JANSSEN_COMM_NAME = 'Janssen_Community';
     public static final Map<String, String> RESOURCES_URL_MAP = getResourcesURLMap();
     public static final Map<String, Network> NETWORKS_MAP = getNetworksMap();
     public static final Map<String, CommunityTemplate> TEMPLATES_MAP = getTemplatesMap();

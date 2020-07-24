@@ -1,0 +1,41 @@
+{
+  "appPageId" : "5bf37374-2b32-4433-ad3c-73208f1ef38a",
+  "componentName" : "c:EmptyLayout",
+  "id" : "1419af3d-49bd-446a-b1d6-b61cf6c47549",
+  "label" : "Privacy Policy",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : {
+        "isPortalTC" : false,
+        "privacyPolicyId" : "",
+        "titleCode" : "PrivacyPolicy"
+      },
+      "componentName" : "c:TermsAndConditions",
+      "id" : "350f7946-b905-4522-8ffd-7cf9cc3f0ead",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "f1ac1396-120a-4094-9d87-7fc6e0d38b7d",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Privacy Policy"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "748e3660-426a-470b-8adc-ce9cce83da92",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "40169f0b-af97-4d1e-9d5c-384370ab9427",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "3b5DAJUgiAZ3F5DXH2AeYD8xPz8J71",
+  "type" : "view",
+  "viewType" : "custom-privacy-policy"
+}

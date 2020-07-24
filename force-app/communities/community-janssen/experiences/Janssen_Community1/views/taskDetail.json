@@ -1,0 +1,37 @@
+{
+  "appPageId" : "5bf37374-2b32-4433-ad3c-73208f1ef38a",
+  "componentName" : "c:EmptyLayout",
+  "id" : "75908d68-0bb6-40ce-aff1-c843a4063219",
+  "label" : "Task Detail",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:TaskEdit",
+      "id" : "b8177166-92b6-49eb-a20e-3c268a1dd381",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "eb00726b-cc72-4ec6-9f27-0c0da5719b06",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Task Detail"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "bc10546a-eaf7-4903-8f9b-edadc859ff3e",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "0ec1bc79-ea3a-4d73-937d-ab339ee36d12",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "NZR1UhOZspfbvAVwe08BYrCR69UwDc",
+  "type" : "view",
+  "viewType" : "custom-task-detail"
+}
