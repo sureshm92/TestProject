@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Integration_Patient_Referral__c.HighRisk_Indicator__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Integration_Patient_Referral__c.Participant_MobileNumber__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.HighRisk_Indicator__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Alternative_Phone_Number__c</field>
         <readable>true</readable>
@@ -38,11 +53,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Gender__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Participant__c.HighRisk_Indicator__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

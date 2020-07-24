@@ -88,25 +88,17 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
 
         private void upsertParticipantAndPE() {
             Map<String, Participant__c> newParticipantsMap = new Map<String, Participant__c>();
-            Map<String, Participant__c> newDelegateContactsMap = new Map<String, Participant__c>();
-            List<ParticipantDuplicateService.ParticipantWithDelegate> allParticipantsWithDelegates = new List<ParticipantDuplicateService.ParticipantWithDelegate>();
+            Map<String, Contact> newDelegateContactsMap = new Map<String, Contact>();
+            Account participantAccount = [SELECT Id FROM Account WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE ];
             for (Integration_Patient_Referral__c ipr : newList) {
-                ParticipantDuplicateService.ParticipantWithDelegate participantWithDelegate = new ParticipantDuplicateService.ParticipantWithDelegate();
-                participantWithDelegate.participant = convertToParticipant(ipr);
-                newParticipantsMap.put(ipr.referralID__c, participantWithDelegate.participant);
+                newParticipantsMap.put(ipr.referralID__c, convertToParticipant(ipr));
                 if (!String.isBlank(ipr.Delegate_First_Name__c) && !String.isBlank(ipr.Delegate_Last_Name__c)) {
-                    participantWithDelegate.delegate = convertToDelegateContact(ipr);
-                    ParticipantDuplicateService.ParticipantWithDelegate participantDelegate = new ParticipantDuplicateService.ParticipantWithDelegate();
-                    participantDelegate.participant = participantWithDelegate.delegate;
-                    allParticipantsWithDelegates.add(participantDelegate);
-                    newDelegateContactsMap.put(ipr.referralID__c, participantWithDelegate.delegate);
+                    newDelegateContactsMap.put(ipr.referralID__c, convertToDelegateContact(ipr, participantAccount));
                 }
-                allParticipantsWithDelegates.add(participantWithDelegate);
             }
 
             //Duplicates check and upsert participant
-            Set<Id> existingDelegates = new Set<Id>();
-            ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(allParticipantsWithDelegates);
+            ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(newParticipantsMap.values());
             for (Integration_Patient_Referral__c ipr : newList) {
                 Participant__c participant = newParticipantsMap.get(ipr.referralID__c);
                 Participant__c participantDuplicate = duplicateService.findDuplicate(participant);
@@ -122,48 +114,26 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                     if (contactDuplicate != null) participant.Contact__c = contactDuplicate.Id;
                     newParticipantsMap.put(ipr.referralID__c, participant);
                 }
-                Participant__c delegate = newDelegateContactsMap.get(ipr.referralID__c);
-                if (delegate != null) {
-                    Participant__c delegateDuplicate = duplicateService.findDuplicateDelegate(delegate);
-                    if (delegateDuplicate != null) {
-                        String refSourceStr = delegateDuplicate.Secondary_Source__c;
-                        if (refSourceStr == null) refSourceStr = '';
-                        Set<String> refSources = new Set<String>(refSourceStr.split(';'));
-                        refSources.add(ipr.Data_Source__c);
-                        delegateDuplicate.Secondary_Source__c = String.join(new List<String>(refSources), ';');
-                        newDelegateContactsMap.put(ipr.referralID__c, delegateDuplicate);
-                        existingDelegates.add(delegateDuplicate.Id);
-                    } else {
-                        Contact delegateContactDuplicate = duplicateService.findDuplicateDelegateContact(delegate);
-                        if (delegateContactDuplicate != null) {
-                            delegate.Contact__c = delegateContactDuplicate.Id;
-                            existingDelegates.add(delegateContactDuplicate.Id);
-                        }
-                        newDelegateContactsMap.put(ipr.referralID__c, delegate);
-                    }
-                }
             }
 
-            Map<Id, Participant__c> delegatesById = new Map<Id, Participant__c>();
             upsert newParticipantsMap.values();
             if (!newDelegateContactsMap.isEmpty()) {
-                upsert newDelegateContactsMap.values();
-
-                delegatesById = new Map<Id, Participant__c>(newDelegateContactsMap.values());
-                delegatesById = new Map<Id, Participant__c>([SELECT Id, Contact__c FROM Participant__c WHERE Id IN :delegatesById.keySet()]);
+                insert newDelegateContactsMap.values();
             }
 
             //Insert PE
             List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
-            Map<Id, Id> participantIdByParticipantDelegateId = new Map<Id, Id>();
+            Map<Id, Id> participantIdByParticipantDelegateContactId = new Map<Id, Id>();
+            Set<Id> delegateIds = new Set<Id>();
             for (Integration_Patient_Referral__c ipr : newList) {
                 Participant__c participant = newParticipantsMap.get(ipr.referralID__c);
                 Study_Site__c ss = ssByPrimaryKeyEPRMap.get(getSitePrimaryKeyEPR(ipr));
                 if (ss != null) peList.add(createPE(ipr, participant.Id, ss.Id));
 
-                Participant__c participantDelegate = newDelegateContactsMap.get(ipr.referralID__c);
-                if (participantDelegate != null && delegatesById.containsKey(participantDelegate.Id)) {
-                    participantIdByParticipantDelegateId.put(participantDelegate.Id, participant.Id);
+                Contact participantDelegateContact = newDelegateContactsMap.get(ipr.referralID__c);
+                if (participantDelegateContact != null) {
+                    participantIdByParticipantDelegateContactId.put(participantDelegateContact.Id, participant.Id);
+                    delegateIds.add(participantDelegateContact.Id);
                 }
             }
             List<Database.SaveResult> saveResults = Database.insert(peList, false);
@@ -179,34 +149,24 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                         ipr.Participant_Enrollment__c = sr.getId();
                     } else {
                         ipr.Success__c = false;
-                        ipr.Error_Message__c = 'Participant Enrollment Duplicate Error\n';
-                        for(Database.Error err : sr.getErrors()) {
-                            ipr.Error_Message__c = ipr.Error_Message__c + '\n' + err.getMessage();
-                        }
+                        ipr.Error_Message__C = 'Participant Enrollment Duplicate Error';
                     }
                 }
             }
 
-            if (!participantIdByParticipantDelegateId.isEmpty()) {
+            if (!delegateIds.isEmpty()) {
                 List<Patient_Delegate__c> ptDelegateRefs = new List<Patient_Delegate__c>();
-                List<Contact> delegateContacts = new List<Contact>();
                 Map<Id, Id> delegateUsersToCreate = new Map<Id, Id>();
-                for (Participant__c participantDelegate : newDelegateContactsMap.values()) {
+                for (Contact participantDelegateContact : newDelegateContactsMap.values()) {
                     Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
-                    if (delegatesById.containsKey(participantDelegate.Id)) {
-                        ptDelegateRef.Participant__c = participantIdByParticipantDelegateId.get(participantDelegate.Id);
-                        ptDelegateRef.Contact__c = delegatesById.get(participantDelegate.Id).Contact__c;
-                        if (participantsWithoutErrors.contains(ptDelegateRef.Participant__c)) {
-                            ptDelegateRefs.add(ptDelegateRef);
-                            delegateContacts.add(new Contact(Id = ptDelegateRef.Contact__c, UserCommunityIsDelegate__c = true));
-                            if (!existingDelegates.contains(participantDelegate.Id) && !existingDelegates.contains(ptDelegateRef.Contact__c)) {
-                                delegateUsersToCreate.put(ptDelegateRef.Contact__c, null);
-                            }
-                        }
+                    ptDelegateRef.Participant__c = participantIdByParticipantDelegateContactId.get(participantDelegateContact.Id);
+                    ptDelegateRef.Contact__c = participantDelegateContact.Id;
+                    if (participantsWithoutErrors.contains(ptDelegateRef.Participant__c)) {
+                        ptDelegateRefs.add(ptDelegateRef);
+                        delegateUsersToCreate.put(participantDelegateContact.Id, null);
                     }
                 }
                 if (!ptDelegateRefs.isEmpty()) {
-                    update delegateContacts;
                     insert ptDelegateRefs;
                 }
                 if (!delegateUsersToCreate.isEmpty()) {
@@ -233,35 +193,38 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 Mailing_Street__c = ipr.Address_AddressLine1__c,
                 Gender__c = ipr.sex__c,
                 Secondary_Source__c = ipr.Data_Source__c,
-                HighRisk_Indicator__c = ipr.HighRisk_Indicator__c,
             	Alternative_Phone_Number__c = ipr.Participant_MobileNumber__c
+
         );
         participant.Adult__c = !Boolean.valueOf(ReferringRemote.checkNeedsGuardian(JSON.serialize(participant)));
 
         return participant;
     }
 
-    private static Participant__c convertToDelegateContact(Integration_Patient_Referral__c ipr) {
-        Participant__c delegateParticipant = new Participant__c(
-                First_Name__c = ipr.Delegate_First_Name__c,
-                Middle_Name__c = ipr.Delegate_Middle_Name__c,
-                Last_Name__c = ipr.Delegate_Last_Name__c,
-                Email__c = ipr.Delegate_Email_Address__c,
-                Phone__c = ipr.Delegate_Daytime_Phone_Number__c,
-                Phone_Type__c = ipr.Delegate_Phone_Number_Type__c,
-                Alternative_Phone_Number__c = ipr.Delegate_Alternative_Phone_Number__c,
-                Alternative_Phone_Type__c = ipr.Delegate_Phone_Number_Type__c,
-                Mailing_Country_Code__c = ipr.Address_Country__c,
-                Mailing_State__c = ipr.Delegate_Mailing_State__c,
-                Mailing_City__c = ipr.Delegate_Mailing_City__c,
-                Mailing_Zip_Postal_Code__c = ipr.Delegate_Zip_Postal_Code__c,
-                Mailing_Street__c = ipr.Address_AddressLine1__c,
-                Secondary_Source__c = ipr.Data_Source__c,
-                HighRisk_Indicator__c = ipr.HighRisk_Indicator__c,
-                Adult__c = true
+    private static Contact convertToDelegateContact(Integration_Patient_Referral__c ipr, Account participantAccount) {
+        Contact newContact = new Contact(
+                FirstName = ipr.Delegate_First_Name__c,
+                MiddleName = ipr.Delegate_Middle_Name__c,
+                LastName = ipr.Delegate_Last_Name__c,
+                Email = ipr.Delegate_Email_Address__c,
+                MailingCountryCode = ipr.Address_Country__c,
+                MailingState = ipr.Delegate_Mailing_State__c,
+                MailingCity = ipr.Delegate_Mailing_City__c,
+                MailingPostalCode = ipr.Delegate_Zip_Postal_Code__c,
+                AccountId = participantAccount.Id
         );
+        if ('Home' == ipr.Delegate_Phone_Number_Type__c) {
+            newContact.HomePhone = ipr.Delegate_Daytime_Phone_Number__c;
+            newContact.MobilePhone = ipr.Delegate_Alternative_Phone_Number__c;
+        } if ('Mobile' == ipr.Delegate_Phone_Number_Type__c) {
+            newContact.MobilePhone = ipr.Delegate_Daytime_Phone_Number__c;
+            newContact.HomePhone = ipr.Delegate_Alternative_Phone_Number__c;
+        } else {
+            newContact.Phone = ipr.Delegate_Daytime_Phone_Number__c;
+            newContact.MobilePhone = ipr.Delegate_Alternative_Phone_Number__c;
+        }
 
-        return delegateParticipant;
+        return newContact;
     }
 
     private static Participant_Enrollment__c createPE(Integration_Patient_Referral__c ipr, Id participantId, Id ssId) {
@@ -284,7 +247,8 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 utm_term__c = ipr.UTM_campaignTerm__c,
                 utmz__c = ipr.UTM_campaignCookie__c,
                 gclid__c = ipr.UTM_GCLID__c,
-                Atid__c = ipr.Atid__c
+                Atid__c = ipr.Atid__c,
+                HighRisk_Indicator__c = ipr.HighRisk_Indicator__c
         );
     }
     

@@ -3,9 +3,8 @@
     <fullName>HighRisk_Indicator__c</fullName>
     <externalId>false</externalId>
     <label>HighRisk Indicator</label>
-    <length>1</length>
+    <length>5</length>
     <required>false</required>
-    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>
