@@ -732,7 +732,6 @@ public without sharing class ParticipantEnrollmentService {
 
     public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, String delegateId, String sponsorName, String userMode){
         //prepare filter string:
-        String janssen = 'Janssen';
         String filterStr = ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join(filter.trialIds, '\',\'') + '\') ';
         if (!String.isEmpty(filter.additionalFilter)) filterStr += ' AND ' + filter.additionalFilter + ' ';
         if (filter.searchText != null) filter.searchText = filter.searchText.trim();
@@ -823,10 +822,10 @@ public without sharing class ParticipantEnrollmentService {
     public static List<Participant_Enrollment__c> filterByJanssen (List<Participant_Enrollment__c> listPe, String sponsorName) {
         List<Participant_Enrollment__c> resultPeList = new List<Participant_Enrollment__c>();
         for (Participant_Enrollment__c pe : listPe) {
-            if (sponsorName == 'Janssen' && pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c == 'Janssen') {
+            if (sponsorName == CommunityService.JANSSEN_NETWORK_NAME && pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c == CommunityService.JANSSEN_NETWORK_NAME) {
                 resultPeList.add(pe);
             }
-            if (sponsorName != 'Janssen' && pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c != 'Janssen') {
+            if (sponsorName != CommunityService.JANSSEN_NETWORK_NAME && pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c != CommunityService.JANSSEN_NETWORK_NAME) {
                 resultPeList.add(pe);
             }
 
