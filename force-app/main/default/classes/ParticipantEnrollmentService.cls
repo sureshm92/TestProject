@@ -605,13 +605,11 @@ public without sharing class ParticipantEnrollmentService {
         public String acceptenceStatus;
         public String referringClinic;
         public String dateField;
-        public String studyJanssen;
 
         public PEFilter(PEFilterData filterData) {
             mode = filterData.mode;
             trialIds = filterData.trialIds;
             dateField = filterData.dateField;
-            studyJanssen = getCurrentSponsorName();
         }
     }
 
@@ -729,10 +727,10 @@ public without sharing class ParticipantEnrollmentService {
         return peFilterData;
     }
     public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, PaginationData paginationData) {
-        return getParticipantEnrollments(filter, paginationData, null);
+        return getParticipantEnrollments(filter, paginationData, null, null, null);
     }
 
-    public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, String delegateId){
+    public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, String delegateId, String sponsorName, String userMode){
         //prepare filter string:
         String janssen = 'Janssen';
         String filterStr = ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join(filter.trialIds, '\',\'') + '\') ';
@@ -740,11 +738,6 @@ public without sharing class ParticipantEnrollmentService {
         if (filter.searchText != null) filter.searchText = filter.searchText.trim();
         if (String.isEmpty(filter.searchText)) {
             if (!String.isEmpty(filter.study)) filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__c = \'' + filter.study + '\' ';
-            if (filter.studyJanssen == 'Janssen') {
-                filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = \'' + filter.studyJanssen + '\' ';
-            } else {
-                filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != \'' + janssen + '\' ';
-            }
             if (!String.isEmpty(filter.studySite)) filterStr += ' AND Study_Site__c = \'' + filter.studySite + '\' ';
             if (!String.isEmpty(filter.referringStatus)) filterStr += 'AND Participant_Status__c IN ' + filter.referringStatus + ' ';
             //if(!String.isEmpty(filter.enrollmentStatus)) filterStr += ' AND Participant_Status__c IN ' + filter.enrollmentStatus + ' ';
@@ -787,7 +780,13 @@ public without sharing class ParticipantEnrollmentService {
                 }
                 if (isFound) filteredPEList.add(pe);
             }
-            peList = filteredPEList;
+            if (userMode == 'PI') {
+                peList = filterByJanssen(filteredPEList, sponsorName);
+            } else {
+                peList = filteredPEList;
+            }
+        } else {
+            if (userMode == 'PI') peList = filterByJanssen(peList, sponsorName);
         }
 
         //sort
@@ -821,9 +820,22 @@ public without sharing class ParticipantEnrollmentService {
 
         return peList;
     }
+    public static List<Participant_Enrollment__c> filterByJanssen (List<Participant_Enrollment__c> listPe, String sponsorName) {
+        List<Participant_Enrollment__c> resultPeList = new List<Participant_Enrollment__c>();
+        for (Participant_Enrollment__c pe : listPe) {
+            if (sponsorName == 'Janssen' && pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c == 'Janssen') {
+                resultPeList.add(pe);
+            }
+            if (sponsorName != 'Janssen' && pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c != 'Janssen') {
+                resultPeList.add(pe);
+            }
 
-    public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, PaginationData paginationData, String delegateId) {
-        List<Participant_Enrollment__c> peList = getParticipantEnrollments(filter, delegateId);
+        }
+        return resultPeList;
+    }
+
+    public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, PaginationData paginationData, String delegateId, String sponsorName, String userMode) {
+        List<Participant_Enrollment__c> peList = getParticipantEnrollments(filter, delegateId, sponsorName, userMode);
         return getParticipantEnrollmentsPaginated(peList, paginationData);
     }
 
