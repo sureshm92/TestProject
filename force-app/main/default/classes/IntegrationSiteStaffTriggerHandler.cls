@@ -68,7 +68,6 @@ public without sharing class IntegrationSiteStaffTriggerHandler {
             for (Integration_Site_Staff__c iss : newList) {
                 List<String> errorsLog = new List<String>();
                 //Required fields check:
-                //if (String.isEmpty(iss.studysite__c)) errorsLog.add('Required field is missing: siteSelected;');
                 if (String.isEmpty(iss.protocolId__c)) errorsLog.add('Required field is missing: protocolId;');
                 if (String.isEmpty(iss.First_Name__c)) errorsLog.add('Required field is missing: firstName__c;');
                 if (String.isEmpty(iss.Last_Name__c)) errorsLog.add('Required field is missing: lastName__c;');
@@ -118,26 +117,17 @@ public without sharing class IntegrationSiteStaffTriggerHandler {
                 Study_Site__c ss = siteMap.get(iss.Study_Site_Number__c);
                 newSiteStaffMap.put(iss.Site_Email_Key__c, convertToSiteStaff(iss, ss, cntList));
             }
-            
-            
+                        
             //Duplicates check and upsert site staff
-            //SiteStaffDuplicateService duplicateService = new SiteStaffDuplicateService(newSiteStaffMap.values());
-            SiteStaffDuplicateService duplicateService = new SiteStaffDuplicateService(newSiteStaffMap);
+            SiteStaffDuplicateService duplicateService = new SiteStaffDuplicateService(newSiteStaffMap.values());
             for (Integration_Site_Staff__c iss : newList) {
-                System.debug('iss.Site_Email_Key__c1---> ' + iss.Site_Email_Key__c);
                 Site_Staff__c site_Staff = newSiteStaffMap.get(iss.Site_Email_Key__c);
-                System.debug('####newSiteStaffMap.get -site_Staff ---->' + site_Staff);
-                Site_Staff__c siteStaffDuplicate = duplicateService.findDuplicate(site_Staff);
-                System.debug('####siteStaffDuplicate ---->' + siteStaffDuplicate);
-               
+                Site_Staff__c siteStaffDuplicate = duplicateService.findDuplicate(site_Staff);               
                 if(siteStaffDuplicate != null)
                 {
-                    if(siteStaffDuplicate.Site_Number__c == iss.Study_Site_Number__c)
+                    if(siteStaffDuplicate.Site_Number2__c == iss.Study_Site_Number__c)
                     {
-                        System.debug('iss.Site_Email_Key__c2---> ' + iss.Site_Email_Key__c);
-                        System.debug('after for ---> '+ siteStaffDuplicate.Site_Number__c+ '_' +iss.Study_Site_Number__c);
                         String rolesStr = siteStaffDuplicate.Roles__c;
-    
                         Set<String> roles = new Set<String>(rolesStr.split(';'));
                         String rolesStr2 = iss.Roles__c;
                         Set<String> roles2 = new Set<String>(rolesStr2.split(';'));
@@ -165,7 +155,6 @@ public without sharing class IntegrationSiteStaffTriggerHandler {
                 }else if(siteStaffDuplicate == null){
                     Contact contactDuplicate = duplicateService.findDuplicateContact(site_Staff);
                     if (contactDuplicate != null) {
-                            system.debug('inside contact duplicate '+ contactDuplicate);
                             site_Staff.Site_Contact__c = contactDuplicate.Id;
                         	newSiteStaffMap.put(iss.Site_Email_Key__c, site_Staff);
                     }
@@ -227,7 +216,7 @@ public without sharing class IntegrationSiteStaffTriggerHandler {
                }     
         newSiteStaff.Phone__c = iss.Phone__c;
         newSiteStaff.Email__c = iss.Email__c;
-        
+        newSiteStaff.Site_Number2__c = iss.Study_Site_Number__c;        
         return newSiteStaff;
     }
     
