@@ -20,6 +20,7 @@
 
             communityService.executeAction(component, 'getInitData', {
                 userMode: communityService.getUserMode(),
+                sponsorName: communityService.getCurrentSponsorName(),
                 delegateId: communityService.getDelegateId(),
                 piId: piId,
                 ctpId: ctpId,
