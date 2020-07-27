@@ -65,15 +65,17 @@ public class StudyActionsPI extends StudyActions{
                         manageReferralsStatusesReason
                 }
         ));
-        actions.put(ACT_MANAGE_REFERRING_CLINICS, new Action(
-                ACT_MANAGE_REFERRING_CLINICS,
-                LABEL_MANAGE_REFERRING_CLINICS,
-                'referring-clinic',
-                new List<DisableReason>{
-                        studyNoLongerEnrollingReason,
-                        manageReferralsStatusesReason
-                }
-        ));
+        if (CommunityService.JANSSEN_NETWORK_NAME != study.Study_Sponsor__c) {
+            actions.put(ACT_MANAGE_REFERRING_CLINICS, new Action(
+                    ACT_MANAGE_REFERRING_CLINICS,
+                    LABEL_MANAGE_REFERRING_CLINICS,
+                    'referring-clinic',
+                    new List<DisableReason>{
+                            studyNoLongerEnrollingReason,
+                            manageReferralsStatusesReason
+                    }
+            ));
+        }
         actions.put(ACT_CHANGE_PE_STATUS_BY_PI, new Action(
                 ACT_CHANGE_PE_STATUS_BY_PI,
                 null,
@@ -280,17 +282,19 @@ public class StudyActionsPI extends StudyActions{
                 }
         ));
 
-        actions.put(ACT_MANAGE_REFERRING_CLINICS_BY_SS, new Action(
-                ACT_MANAGE_REFERRING_CLINICS_BY_SS,
-                LABEL_MANAGE_REFERRING_CLINICS_BY_SS,
-                null,
-                new List<DisableReason>{
-                        studySiteOnHoldReason,
-                        studyNoLongerEnrollingReason,
-                        manageReferralsStatusesReason,
-                        tcAcceptanceRequiredReason
-                }
-        ));
+        if (CommunityService.JANSSEN_NETWORK_NAME != study.Study_Sponsor__c) {
+            actions.put(ACT_MANAGE_REFERRING_CLINICS_BY_SS, new Action(
+                    ACT_MANAGE_REFERRING_CLINICS_BY_SS,
+                    LABEL_MANAGE_REFERRING_CLINICS_BY_SS,
+                    null,
+                    new List<DisableReason>{
+                            studySiteOnHoldReason,
+                            studyNoLongerEnrollingReason,
+                            manageReferralsStatusesReason,
+                            tcAcceptanceRequiredReason
+                    }
+            ));
+        }
         
         //init study item actions list
 

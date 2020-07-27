@@ -13,14 +13,14 @@ public without sharing class PIStudiesFilter implements SearchFilter {
         sortData = new SortData();
     }
 
-    public PIStudiesFilter(String piId, String trialId) {
-        this.filterData = new FilterData(trialId,piId, 'Actively Enrolling','');
+    public PIStudiesFilter(String piId, String trialId, String sponsorName) {
+        this.filterData = new FilterData(trialId, piId, sponsorName, 'Actively Enrolling','');
         this.sortData = new SortData();
     }
 
     public PIStudiesFilter(FilterData filterData, SortData sortData) {
 
-        this.filterData = new FilterData(filterData.trialId, filterData.piId, filterData.statusFilter, filterData.searchText);
+        this.filterData = new FilterData(filterData.trialId, filterData.piId, filterData.sponsorName, filterData.statusFilter, filterData.searchText);
         this.sortData = sortData;
     }
 
@@ -155,6 +155,9 @@ public without sharing class PIStudiesFilter implements SearchFilter {
         if (filterData.trialId != null && filterData.trialId != '') {
             filterString += ' AND ' + DatabaseService.fieldEqual('Id', filterData.trialId);
         }
+        if (!String.isBlank(filterData.sponsorName) && CommunityService.JANSSEN_NETWORK_NAME == filterData.sponsorName) {
+            filterString += ' AND ' + DatabaseService.fieldEqual('Clinical_Trial_Profile__r.Study_Sponsor__c', filterData.sponsorName);
+        }
 
         if (filterData.searchText != '') {
             filterString += ' AND ' + DatabaseService.searchFields(STUDY_SEARCH_FIELDS, filterData.searchText);
@@ -185,17 +188,19 @@ public without sharing class PIStudiesFilter implements SearchFilter {
         public String statusFilter = 'Actively Enrolling';
         public String trialId;
         public String piId;
+        public String sponsorName;
         public String searchTextPlaceholder = Label.PG_MS_L_Search_for_Study_PI;
         public List<LabelValueItem> statusOptions = new List<LabelValueItem>();
         public List<LabelValueItem> PIPickList;
         public List<LabelValueItem> studyPickList;
         public FilterData(){
-            this('','','Actively Enrolling','');
+            this('','','','Actively Enrolling','');
         }
 
-        public FilterData(String trialId, String piId, String statusFilter, String searchText) {
+        public FilterData(String trialId, String piId, String sponsorName, String statusFilter, String searchText) {
             this.trialId = trialId;
             this.piId = piId;
+            this.sponsorName = sponsorName;
             this.statusFilter = statusFilter;
             this.searchText = searchText;
             statusOptions = getInitStatusOptions();
@@ -208,32 +213,37 @@ public without sharing class PIStudiesFilter implements SearchFilter {
             Set<Id> studyIds = new Set<Id>();
             Set<Id> piIds = new Set<Id>();
             List<Study_Site__c> studySites = StudySiteService.getStudySitesForPI();
+            if (CommunityService.JANSSEN_NETWORK_NAME == sponsorName) {
+                List<Study_Site__c> finalStudySites = new List<Study_Site__c>();
+                for (Study_Site__c studySite : studySites) {
+                    if (CommunityService.JANSSEN_NETWORK_NAME == studySite.Clinical_Trial_Profile__r.Study_Sponsor__c) {
+                        finalStudySites.add(studySite);
+                    }
+                }
+                studySites = finalStudySites;
+            }
             for (Study_Site__c site : studySites) {
                 if (!piIds.contains(site.Principal_Investigator__c)) {
-                    if(site.Principal_Investigator__c == CommunityService.getUserContact().Id){
+                    if (site.Principal_Investigator__c == CommunityService.getUserContact().Id) {
                         PIPickList.add(new LabelValueItem(Label.PG_MS_L_Self, site.Principal_Investigator__c));
-                    }
-                    else{
+                    } else{
                         PIPickList.add(new LabelValueItem(site.Principal_Investigator__r.Full_Name__c, site.Principal_Investigator__c));
                     }
 
                     piIds.add(site.Principal_Investigator__c);
                 }
-                if (piId != null && piId != ''){
-                    if(site.Principal_Investigator__c == piId
+                if (piId != null && piId != '') {
+                    if (site.Principal_Investigator__c == piId
                         && !studyIds.contains(site.Clinical_Trial_Profile__c)) {
                         studyPickList.add(new LabelValueItem(site.Clinical_Trial_Profile__r.Study_Code_Name__c, site.Clinical_Trial_Profile__c));
                         studyIds.add(site.Clinical_Trial_Profile__c);
                     }
-                }
-                else if(!studyIds.contains(site.Clinical_Trial_Profile__c)){
+                } else if (!studyIds.contains(site.Clinical_Trial_Profile__c)) {
                     studyPickList.add(new LabelValueItem(site.Clinical_Trial_Profile__r.Study_Code_Name__c, site.Clinical_Trial_Profile__c));
                     studyIds.add(site.Clinical_Trial_Profile__c);
                 }
-
             }
         }
-
     }
 
     public class SortData {

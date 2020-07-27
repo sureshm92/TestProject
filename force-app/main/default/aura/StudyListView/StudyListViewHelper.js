@@ -30,7 +30,9 @@
                 }), 1);
             });
         } else if (userMode === 'PI') {
-            communityService.executeAction(component, 'getPIInitData', null, function (returnValue) {
+            communityService.executeAction(component, 'getPIInitData', {
+                    sponsorName: communityService.getCurrentSponsorName()
+                }, function (returnValue) {
                 let initData = JSON.parse(returnValue);
                 helper.addCheckNoLongerAttributes(initData.currentPITrials);
                 component.set("v.paginationData", initData.paginationData);
@@ -80,6 +82,9 @@
         if (fromFirstPage === true) {
             paginationData.currentPage = 1;
         }
+        if ('PI' === communityService.getUserMode()) {
+            filter.sponsorName = communityService.getCurrentSponsorName();
+        }
         let filterJSON = JSON.stringify(filter);
         let paginationJSON = JSON.stringify(paginationData);
         let sortJSON = JSON.stringify(cmp.get('v.sortData'));
@@ -123,6 +128,7 @@
         if(filter.piId !== piId){
             filter.trialId = '';
         }
+        filter.sponsorName = communityService.getCurrentSponsorName();
         let searchText = filter.searchText;
         let paginationData = cmp.get('v.paginationData');
         let filterJSON = JSON.stringify(filter);
