@@ -93,7 +93,7 @@ public without sharing class VisitResultsRemote {
         VisitResultMService visitResultMService = new VisitResultMService();
         List<String> existingVisitResultGroups = new List<String>();
 
-        if (visitResultsForMode!=null) {
+        if (visitResultsForMode != null) {
             for (Visit_Result__c visitResult : visitResultsForMode) {
                 existingVisitResultGroups.add(
                         visitResultMService.getVisitResultGroupByTypeName(visitResult.Result_Type__c));
@@ -106,7 +106,7 @@ public without sharing class VisitResultsRemote {
 
         if (visitResultGroupNamesWithTypes != null) {
             for (String groupName : visitResultGroupNamesWithTypes.keySet()) {
-                if (existingVisitResultGroups.contains(groupName)){
+                if (existingVisitResultGroups.contains(groupName)) {
                     notEmptyVisitResultsGroupName.add(groupName);
                 }
             }
@@ -116,7 +116,7 @@ public without sharing class VisitResultsRemote {
 
     public static Boolean existForModeAndAvailableByCTP(Map<String, List<String>> availableVisitResults,
             List<Visit_Result__c> visitResultsForMode) {
-        if (availableVisitResults!=null) {
+        if (availableVisitResults != null) {
             List<String> availableAndExistResults = new List<String>();
             for (Visit_Result__c visitResult : visitResultsForMode) {
                 availableAndExistResults.add(visitResult.Result_Type__c);
@@ -191,7 +191,7 @@ public without sharing class VisitResultsRemote {
     }
 
     public static Boolean isVisitResultAvailable() {
-        if(!isOnStudy()) return false;
+        if (!isOnStudy()) return false;
 
         ParticipantService.ParticipantState participantState = ParticipantService.getParticipantState();
         return participantState.pe.Clinical_Trial_Profile__r.Visit_Data_Shareback__c &&
