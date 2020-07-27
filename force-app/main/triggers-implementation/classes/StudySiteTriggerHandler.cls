@@ -66,6 +66,12 @@ public without sharing class StudySiteTriggerHandler {
             createHCPEnrollmentsForRPInWhiteList(newList, (Map<Id, Study_Site__c>)oldMap);
         }
     }
+
+    public class AssignCommunityPermissionsForUser extends TriggerHandler{
+        public override void afterInsert(List<SObject> newList) {
+            assignCommunityPermissions(newList);
+        }
+    }
     
     
     // Logic: ----------------------------------------------------------------------------------------------------------
@@ -301,5 +307,73 @@ public without sharing class StudySiteTriggerHandler {
             }
         }
         if(!enrollmentsList.isEmpty()) insert enrollmentsList;
+    }
+
+    @TestVisible
+    private static void assignCommunityPermissions(List<Study_Site__c> newList) {
+        Set<Id> piIds = new Set<Id>();
+        Set<Id> ctpIds = new Set<Id>();
+        List<PermissionSetAssignment> psaList = new List<PermissionSetAssignment>();
+        Map<Id, Set<Id>> piIdsByCtpIdsMap = new Map<Id, Set<Id>>();
+        for (Integer i = 0, j = newList.size(); i < j; i++) {
+            ctpIds.add(newList[i].Clinical_Trial_Profile__c);
+            if (piIdsByCtpIdsMap.containsKey(newList[i].Clinical_Trial_Profile__c)) {
+                piIdsByCtpIdsMap.get(newList[i].Clinical_Trial_Profile__c).add(newList[i].Principal_Investigator__c);
+            } else {
+                piIdsByCtpIdsMap.put(newList[i].Clinical_Trial_Profile__c, new Set<Id>{
+                        newList[i].Principal_Investigator__c
+                });
+            }
+        }
+        if (!ctpIds.isEmpty()) {
+            for (Clinical_Trial_Profile__c ctp : [
+                    SELECT Id
+                    FROM Clinical_Trial_Profile__c
+                    WHERE CommunityTemplate__c = 'Janssen' AND Id IN :ctpIds
+            ]) {
+                piIds.addAll(piIdsByCtpIdsMap.get(ctp.Id));
+            }
+        }
+        if (!piIds.isEmpty()) {
+            List<User> users = [
+                    SELECT Id, (
+                            SELECT Id,
+                                    PermissionSet.Name
+                            FROM PermissionSetAssignments
+                    )
+                    FROM User
+                    WHERE ContactId IN:piIds AND IsActive = TRUE
+            ];
+            Set<Id> usersToAddPermissions = new Set<Id>();
+            Id permissionSetId = [
+                    SELECT Id,
+                            Name
+                    FROM PermissionSet
+                    WHERE Name = 'Community_Janssen'
+                    LIMIT 1
+            ].Id;
+            for (User u : users) {
+                Boolean permissionAdded = false;
+                for (PermissionSetAssignment psa : u.PermissionSetAssignments) {
+                    if (psa.Id == permissionSetId) permissionAdded = true;
+                    break;
+                }
+                if (permissionAdded == false) usersToAddPermissions.add(u.Id);
+            }
+            if (!usersToAddPermissions.isEmpty()) {
+                for (Id userId : usersToAddPermissions) {
+                    psaList.add(new PermissionSetAssignment(
+                            AssigneeId = userId,
+                            PermissionSetId = permissionSetId
+                    ));
+                }
+            }
+        }
+        if(!psaList.isEmpty()) insertPsa(JSON.serialize(psaList));
+    }
+
+    @Future
+    private static void insertPsa(String psaToInsert){
+        insert (List<PermissionSetAssignment>) JSON.deserialize(psaToInsert, List<PermissionSetAssignment>.class);
     }
 }

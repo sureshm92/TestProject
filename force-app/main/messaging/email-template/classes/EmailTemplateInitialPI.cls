@@ -3,7 +3,7 @@
  */
 public without sharing class EmailTemplateInitialPI extends EmailTemplateInitial {
 
-    public EmailTemplateInitialPI(Id recipientContactId, String outputMode) {
+    public EmailTemplateInitialPI(Id recipientContactId, String outputMode, String communityTemplateName) {
         super(recipientContactId, outputMode, null);
         userMode = 'PI';
 
@@ -11,6 +11,7 @@ public without sharing class EmailTemplateInitialPI extends EmailTemplateInitial
                 SELECT Id
                 FROM Study_Site__c
                 WHERE Principal_Investigator__c =: recipientContactId
+                AND Clinical_Trial_Profile__r.CommunityTemplate__c =: communityTemplateName
                 ORDER BY CreatedDate DESC
         ];
         if(!studySites.isEmpty()) {

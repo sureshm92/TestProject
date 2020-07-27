@@ -19,7 +19,7 @@ global without sharing class InitialWireframeController {
     }
 
     public String getTitleLabel() {
-        return commTemplate == 'Default' ? Label.Email_Title_Initial_All_IQVIA : Label.Email_Title_Initial_All_GSK;
+        return commTemplate == 'Default' ? Label.Email_Title_Initial_All_IQVIA : commTemplate == 'Janssen' ? Label.Email_Title_Initial_All_Janssen : Label.Email_Title_Initial_All_GSK;
     }
 
     public String getSpecificProvider() {
