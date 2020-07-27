@@ -10,6 +10,7 @@
     <authorizationRequiredPage>CommunitiesLogin</authorizationRequiredPage>
     <bandwidthExceededPage>BandwidthExceeded</bandwidthExceededPage>
     <browserXssProtection>true</browserXssProtection>
+    <changePasswordPage>RRChangePassword</changePasswordPage>
     <clickjackProtectionLevel>SameOriginOnly</clickjackProtectionLevel>
     <contentSniffingProtection>true</contentSniffingProtection>
     <cspUpgradeInsecureRequests>true</cspUpgradeInsecureRequests>
@@ -23,9 +24,7 @@
     <requireHttps>true</requireHttps>
     <requireInsecurePortalAccess>false</requireInsecurePortalAccess>
     <selfRegPage>CommunitiesSelfReg</selfRegPage>
-    <siteAdmin>test-3mwp6u0y7etg@example.com</siteAdmin>
-    <siteGuestRecordDefaultOwner>test-3mwp6u0y7etg@example.com</siteGuestRecordDefaultOwner>
     <siteType>ChatterNetwork</siteType>
-    <subdomain>ruby-platform-4646-dev-ed-173377cca20</subdomain>
+    <subdomain>iqviaconnect</subdomain>
     <urlPathPrefix>janssen</urlPathPrefix>
 </CustomSite>
