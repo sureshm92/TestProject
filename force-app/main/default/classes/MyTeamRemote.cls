@@ -508,6 +508,8 @@ public without sharing class MyTeamRemote {
 
             } else if (!CommunityService.isUserInCommunity(contactDelegate.Id)) {
                 contactDelegate.UserCommunityIsDelegate__c = true;
+                Boolean check = contactDelegate.userCommunytyType__c.contains('PI') || contactDelegate.userCommunytyType__c.contains('HCP');
+                if(check) contactDelegate.userCommunytyType__c = contactDelegate.userCommunytyType__c + ';' + CommunityService.USER_MODE_DELEGATEPI;
                 update contactDelegate;
                 CommunityService.setUserToCommunity(contactDelegate.Id);
                 sendEmailNotification(contactDelegate, CommunityService.USER_MODE_PARTICIPANT);
