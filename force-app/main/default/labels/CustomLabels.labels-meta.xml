@@ -1414,63 +1414,6 @@
         <value>Submit Your Question</value>
     </labels>
     <labels>
-        <fullName>Calcium</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Calcium</shortDescription>
-        <value>Calcium</value>
-    </labels>
-    <labels>
-        <fullName>Calcium_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Calcium Description</shortDescription>
-        <value>Calcium is an electrolyte (a mineral) that is important for the functioning of your muscles, including your heart, and nerves. Calcium is also needed for blood clotting and for creating and keeping your bones and teeth healthy. This test measures the amount of calcium in your blood sample. Calcium is measured to check your general health and can be used to check for a range of conditions.</value>
-    </labels>
-    <labels>
-        <fullName>Can_Not_Edit_Mapping</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Can Not Edit Mapping</shortDescription>
-        <value>You can not edit this object. Delete and create a new one instead.</value>
-    </labels>
-    <labels>
-        <fullName>Cancel</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Cancel</shortDescription>
-        <value>Cancel</value>
-    </labels>
-    <labels>
-        <fullName>Cancel_Request</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Cancel Request</shortDescription>
-        <value>Cancel Request</value>
-    </labels>
-    <labels>
-        <fullName>Cancel_request_warning_message</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Cancel request warning message</shortDescription>
-        <value>Are you sure you want to cancel the request?</value>
-    </labels>
-    <labels>
-        <fullName>Case_Owner_Email_For_User_Lockout</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Case_Owner_Email_For_User_Lockout</shortDescription>
-        <value>rajesh.r@quintiles.com</value>
-    </labels>
-    <labels>
-        <fullName>Case_sub_transfer_to_new_site</fullName>
-        <categories>Case</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Case_sub_transfer_to_new_site</shortDescription>
-        <value>Transfer a participant to new site</value>
-    </labels>
-	<labels>
         <fullName>CC_Day_Ago</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1484,7 +1427,7 @@
         <shortDescription>CC_Days_Ago</shortDescription>
         <value>days ago</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>CC_HomePageLabel</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1567,150 +1510,6 @@
         <protected>true</protected>
         <shortDescription>CC_search_for_a_participant</shortDescription>
         <value>Search for a phone number</value>
-    </labels>
-    <labels>
-        <fullName>CTL_L_CC_MODE</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>CTL_L_CC_MODE</shortDescription>
-        <value>View as Call Center</value>
-    </labels>
-    <labels>
-        <fullName>CTL_L_HCP_DELEGATE_MODE</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>CTL L HCP DELEGATE MODE</shortDescription>
-        <value>View as ##RPName</value>
-    </labels>
-    <labels>
-        <fullName>CTL_L_HCP_MODE</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CTL L HCP MODE</shortDescription>
-        <value>View as Referring Provider</value>
-    </labels>
-    <labels>
-        <fullName>CTL_L_PI_MODE</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CTL L PI MODE</shortDescription>
-        <value>View as Investigative Site</value>
-    </labels>
-    <labels>
-        <fullName>CTL_L_Patricipant_MODE</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CTL L Patricipant MODE</shortDescription>
-        <value>View as a Participant</value>
-    </labels>
-    <labels>
-        <fullName>Closed_Requests</fullName>
-        <categories>Media OutReach</categories>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Closed_Requests</shortDescription>
-        <value>Fulfilled,Cancelled</value>
-    </labels>
-    <labels>
-        <fullName>CommunityEmailLogo</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Community Email Logo</shortDescription>
-        <value>https://quintilesimscmo--c.documentforce.com/servlet/servlet.ImageServer?id=0152o0000077c8Y&amp;oid=00D1I000001V1t1&amp;lastMod=1590660593000</value>
-    </labels>
-    <labels>
-        <fullName>CommunityPrivatePolicyLink</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Community Private Policy Link</shortDescription>
-        <value>https://infohotfix-iqviaconnect.CS84.force.com/s/privacy-policy</value>
-    </labels>
-    <labels>
-        <fullName>CommunityURL</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CommunityURL</shortDescription>
-        <value>https://formal-iqviaconnect.cs129.force.com</value>
-    </labels>
-    <labels>
-        <fullName>Community_GSK</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Community GSK</shortDescription>
-        <value>Gather &lt;i&gt;Share&lt;/i&gt; Know Participant Hub</value>
-    </labels>
-    <labels>
-        <fullName>Community_GSK_Short</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Community GSK Short</shortDescription>
-        <value>Gather &lt;i&gt;Share&lt;/i&gt; Know</value>
-    </labels>
-    <labels>
-        <fullName>Community_IQVIA_PP</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Community IQVIA PP</shortDescription>
-        <value>IQVIA™ Patient Portal</value>
-    </labels>
-    <labels>
-        <fullName>Community_IQVIA_RH_Help</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Community IQVIA RH Help</shortDescription>
-        <value>IQVIA about Referral Hub</value>
-    </labels>
-    <labels>
-        <fullName>Community_PP</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Community PP</shortDescription>
-        <value>Patient Portal</value>
-    </labels>
-    <labels>
-        <fullName>Complete_By_Date</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Complete By Date</shortDescription>
-        <value>Complete By</value>
-    </labels>
-    <labels>
-        <fullName>Continue</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Continue</shortDescription>
-        <value>Continue</value>
-    </labels>
-    <labels>
-        <fullName>Cookies_Info_Text</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Cookies Info Text</shortDescription>
-        <value>This site uses ##cookiesURL for the essential functioning of the site and for analytical purposes. For more information about these cookies, please view our ##privacyPolicyURL.
-            By clicking through to our website, you are accepting use of cookies.</value>
-    </labels>
-    <labels>
-        <fullName>Cookies_Info_Text_First_Logon</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Cookies Info Text First Logon</shortDescription>
-        <value>This site uses cookies for the essential functioning of the site, to improve user experience, and for analytical purposes. By using this site you are consenting to our use of cookies.</value>
-    </labels>
-    <labels>
-        <fullName>Covid19_Plasma_Donation_Team</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Covid19 Plasma Donation Team</shortDescription>
-        <value>The NYBC Convalescent Plasma Donation Team</value>
-    </labels>
-    <labels>
-        <fullName>Covid19_Sincerely</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Covid19 Sincerely</shortDescription>
-        <value>Sincerely,</value>
     </labels>
     <labels>
         <fullName>CPD_About_you</fullName>
@@ -1889,20 +1688,20 @@
         <value>Email address</value>
     </labels>
     <labels>
-        <fullName>CPD_First_name_label</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_First name label</shortDescription>
-        <value>First name</value>
-    </labels>
-    <labels>
         <fullName>CPD_File_Type_Error</fullName>
         <categories>Covid19</categories>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CPD File Type Error</shortDescription>
         <value>Only acceptable file types are .pdf, .png, .jpg, and .jpeg</value>
+    </labels>
+    <labels>
+        <fullName>CPD_First_name_label</fullName>
+        <categories>Covid19</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPD_First name label</shortDescription>
+        <value>First name</value>
     </labels>
     <labels>
         <fullName>CPD_Help_treat_patients_with_life_threatening</fullName>
@@ -2089,14 +1888,6 @@
         <value>Referring organization (optional)</value>
     </labels>
     <labels>
-        <fullName>CPD_SitemapError</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CPD_SitemapError</shortDescription>
-        <value>Please select a study site to submit</value>
-    </labels>
-    <labels>
         <fullName>CPD_Search_for_the_study</fullName>
         <categories>Covid19</categories>
         <language>en_US</language>
@@ -2127,6 +1918,14 @@
         <protected>false</protected>
         <shortDescription>CPD_Site Selection</shortDescription>
         <value>Site Selection</value>
+    </labels>
+    <labels>
+        <fullName>CPD_SitemapError</fullName>
+        <categories>Covid19</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPD_SitemapError</shortDescription>
+        <value>Please select a study site to submit</value>
     </labels>
     <labels>
         <fullName>CPD_State</fullName>
@@ -2345,7 +2144,7 @@ We are asking all eligible donors to come forward so we can treat as many patien
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CP Date of Birth Age Error</shortDescription>
-        <value>Your age is below 16 so you can&#39;t complete this survey</value>
+        <value>Your age is below 16 so you can&apos;t complete this survey</value>
     </labels>
     <labels>
         <fullName>CP_Date_of_Birth_Error</fullName>
@@ -2935,6 +2734,134 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>Thank you for your interest in convalescent plasma donation and &lt;b&gt;joining our fight to save lives.&lt;/b&gt; While COVID-19 has no proven treatment, it is possible that plasma taken from those who have recovered (convalescent plasma), which has antibodies against the virus, could help.</value>
     </labels>
     <labels>
+        <fullName>CTL_L_CC_MODE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CTL_L_CC_MODE</shortDescription>
+        <value>View as Call Center</value>
+    </labels>
+    <labels>
+        <fullName>CTL_L_HCP_DELEGATE_MODE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CTL L HCP DELEGATE MODE</shortDescription>
+        <value>View as ##RPName</value>
+    </labels>
+    <labels>
+        <fullName>CTL_L_HCP_MODE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CTL L HCP MODE</shortDescription>
+        <value>View as Referring Provider</value>
+    </labels>
+    <labels>
+        <fullName>CTL_L_PI_MODE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CTL L PI MODE</shortDescription>
+        <value>View as Investigative Site</value>
+    </labels>
+    <labels>
+        <fullName>CTL_L_Patricipant_MODE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CTL L Patricipant MODE</shortDescription>
+        <value>View as a Participant</value>
+    </labels>
+    <labels>
+        <fullName>Calcium</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Calcium</shortDescription>
+        <value>Calcium</value>
+    </labels>
+    <labels>
+        <fullName>Calcium_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Calcium Description</shortDescription>
+        <value>Calcium is an electrolyte (a mineral) that is important for the functioning of your muscles, including your heart, and nerves. Calcium is also needed for blood clotting and for creating and keeping your bones and teeth healthy. This test measures the amount of calcium in your blood sample. Calcium is measured to check your general health and can be used to check for a range of conditions.</value>
+    </labels>
+    <labels>
+        <fullName>Can_Not_Edit_Mapping</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Can Not Edit Mapping</shortDescription>
+        <value>You can not edit this object. Delete and create a new one instead.</value>
+    </labels>
+    <labels>
+        <fullName>Cancel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>Cancel_Request</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Cancel Request</shortDescription>
+        <value>Cancel Request</value>
+    </labels>
+    <labels>
+        <fullName>Cancel_request_warning_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cancel request warning message</shortDescription>
+        <value>Are you sure you want to cancel the request?</value>
+    </labels>
+    <labels>
+        <fullName>Case_Owner_Email_For_User_Lockout</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Case_Owner_Email_For_User_Lockout</shortDescription>
+        <value>rajesh.r@quintiles.com</value>
+    </labels>
+    <labels>
+        <fullName>Case_sub_transfer_to_new_site</fullName>
+        <categories>Case</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Case_sub_transfer_to_new_site</shortDescription>
+        <value>Transfer a participant to new site</value>
+    </labels>
+    <labels>
+        <fullName>Closed_Requests</fullName>
+        <categories>Media OutReach</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Closed_Requests</shortDescription>
+        <value>Fulfilled,Cancelled</value>
+    </labels>
+    <labels>
+        <fullName>CommunityEmailLogo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community Email Logo</shortDescription>
+        <value>https://quintilesimscmo--c.documentforce.com/servlet/servlet.ImageServer?id=0152o0000077c8Y&amp;oid=00D1I000001V1t1&amp;lastMod=1590660593000</value>
+    </labels>
+    <labels>
+        <fullName>CommunityJanssenURL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CommunityJanssenURL</shortDescription>
+        <value>http://sandbox-inspiration-customer-6910-de-17375dcfde7.cs26.force.com/janssen</value>
+    </labels>
+    <labels>
+        <fullName>CommunityPrivatePolicyLink</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community Private Policy Link</shortDescription>
+        <value>https://infohotfix-iqviaconnect.CS84.force.com/s/privacy-policy</value>
+    </labels>
+    <labels>
+        <fullName>CommunityURL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CommunityURL</shortDescription>
+        <value>https://formal-iqviaconnect.cs129.force.com</value>
+    </labels>
+    <labels>
         <fullName>Community_Covid19</fullName>
         <categories>Covid19</categories>
         <language>en_US</language>
@@ -2943,12 +2870,92 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>NYBC COVID-19 Convalescent Plasma Registry</value>
     </labels>
     <labels>
+        <fullName>Community_GSK</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community GSK</shortDescription>
+        <value>Gather &lt;i&gt;Share&lt;/i&gt; Know Participant Hub</value>
+    </labels>
+    <labels>
+        <fullName>Community_GSK_Short</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community GSK Short</shortDescription>
+        <value>Gather &lt;i&gt;Share&lt;/i&gt; Know</value>
+    </labels>
+    <labels>
+        <fullName>Community_IQVIA_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community IQVIA PP</shortDescription>
+        <value>IQVIA™ Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>Community_IQVIA_RH_Help</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Community IQVIA RH Help</shortDescription>
+        <value>IQVIA about Referral Hub</value>
+    </labels>
+    <labels>
+        <fullName>Community_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community PP</shortDescription>
+        <value>Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>Complete_By_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Complete By Date</shortDescription>
+        <value>Complete By</value>
+    </labels>
+    <labels>
+        <fullName>Continue</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Continue</shortDescription>
+        <value>Continue</value>
+    </labels>
+    <labels>
+        <fullName>Cookies_Info_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Cookies Info Text</shortDescription>
+        <value>This site uses ##cookiesURL for the essential functioning of the site and for analytical purposes. For more information about these cookies, please view our ##privacyPolicyURL.
+            By clicking through to our website, you are accepting use of cookies.</value>
+    </labels>
+    <labels>
+        <fullName>Cookies_Info_Text_First_Logon</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Cookies Info Text First Logon</shortDescription>
+        <value>This site uses cookies for the essential functioning of the site, to improve user experience, and for analytical purposes. By using this site you are consenting to our use of cookies.</value>
+    </labels>
+    <labels>
         <fullName>Covid19_NYBC_Email_Logo</fullName>
         <categories>Covid19</categories>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Covid19 NYBC Email Logo</shortDescription>
         <value>https://quintilesimscmo--informal42--c.documentforce.com/servlet/servlet.ImageServer?id=0150Q000000F8nQ&amp;oid=00D0Q0000008faR&amp;lastMod=1594130438000</value>
+    </labels>
+    <labels>
+        <fullName>Covid19_Plasma_Donation_Team</fullName>
+        <categories>Covid19</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Covid19 Plasma Donation Team</shortDescription>
+        <value>The NYBC Convalescent Plasma Donation Team</value>
+    </labels>
+    <labels>
+        <fullName>Covid19_Sincerely</fullName>
+        <categories>Covid19</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Covid19 Sincerely</shortDescription>
+        <value>Sincerely,</value>
     </labels>
     <labels>
         <fullName>Cp_Agree_Checkbox</fullName>
@@ -3819,6 +3826,14 @@ Please share our site on social media to encourage others to assist us as we wor
             Your username is ##UserName.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Initial_Patient_Covid_19</fullName>
+        <categories>Covid19</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Initial Patient Covid 19</shortDescription>
+        <value>&lt;p&gt;We have received your information and will contact you soon to schedule your first donation appointment.&lt;/p&gt;&lt;p&gt;How to prepare for your appointment:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Eat and hydrate&lt;/li&gt;&lt;li&gt;Get a good night’s sleep&lt;/li&gt;&lt;li&gt;Bring your face covering with you &lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Thank you for your interest in COVID-19 convalescent plasma donation.&lt;/p&gt;</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Initial_Patient_Created_By_PI</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3865,6 +3880,13 @@ Please share our site on social media to encourage others to assist us as we wor
             Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.
 
             Your username is ##UserName.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Janssen_Initial_PI</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Janssen Initial PI</shortDescription>
+        <value>Please take a moment to enroll in the Janssen IQVIA Referral Hub. This will allow you to use Referral Hub&amp;apos;s participant contact and status tracking capabilities. For studies with Patient Portal capabilities available, this will also allow your patients to track their status throughout their participation with the study, without calling your office for updates.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Medication_Task_Reminder</fullName>
@@ -4554,6 +4576,13 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <value>Privacy Policy</value>
     </labels>
     <labels>
+        <fullName>Email_Greeting</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Greeting</shortDescription>
+        <value>Dear</value>
+    </labels>
+    <labels>
         <fullName>Email_Guest</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4587,6 +4616,14 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <protected>true</protected>
         <shortDescription>Email Header Complete Baseline Survey</shortDescription>
         <value>Please provide feedback</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Covid_19</fullName>
+        <categories>Covid19</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email header Covid 19</shortDescription>
+        <value>Thanks for joining the fight to save lives</value>
     </labels>
     <labels>
         <fullName>Email_Header_Created_Date</fullName>
@@ -4967,45 +5004,6 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <value>Your patient has been enrolled to a clinical research study</value>
     </labels>
     <labels>
-        <fullName>Email_Body_Initial_Patient_Covid_19</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Initial Patient Covid 19</shortDescription>
-        <value>&lt;p&gt;We have received your information and will contact you soon to schedule your first donation appointment.&lt;/p&gt;&lt;p&gt;How to prepare for your appointment:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Eat and hydrate&lt;/li&gt;&lt;li&gt;Get a good night’s sleep&lt;/li&gt;&lt;li&gt;Bring your face covering with you &lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Thank you for your interest in COVID-19 convalescent plasma donation.&lt;/p&gt;</value>
-    </labels>
-    <labels>
-        <fullName>Email_Greeting</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Greeting</shortDescription>
-        <value>Dear</value>
-    </labels>
-    <labels>
-        <fullName>Email_Header_Covid_19</fullName>
-        <categories>Covid19</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email header Covid 19</shortDescription>
-        <value>Thanks for joining the fight to save lives</value>
-    </labels>
-    <labels>
-        <fullName>Email_Signature_Participant_Covid_19</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Signature Participant Covid 19</shortDescription>
-        <value>Sincerely,
-
-The NYBC Convalescent Plasma Donation Team</value>
-    </labels>
-    <labels>
-        <fullName>Email_Subject_COVID19_Participant</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Subject COVID19 Participant</shortDescription>
-        <value>CP COVID-19 Donor Registration Confirmation</value>
-    </labels>
-    <labels>
         <fullName>Email_Header_You_Have_Been_Assigned_As_a_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -5177,6 +5175,15 @@ The NYBC Convalescent Plasma Donation Team</value>
             ##SignatureShortCommunityName</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_Participant_Covid_19</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature Participant Covid 19</shortDescription>
+        <value>Sincerely,
+
+The NYBC Convalescent Plasma Donation Team</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_Patient</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5303,6 +5310,13 @@ The NYBC Convalescent Plasma Donation Team</value>
             ##SignatureShortCommunityName</value>
     </labels>
     <labels>
+        <fullName>Email_Subject_COVID19_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject COVID19 Participant</shortDescription>
+        <value>CP COVID-19 Donor Registration Confirmation</value>
+    </labels>
+    <labels>
         <fullName>Email_Subject_Case</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5350,6 +5364,13 @@ The NYBC Convalescent Plasma Donation Team</value>
         <protected>false</protected>
         <shortDescription>Email Subject Initial</shortDescription>
         <value>Please enroll in the Gather Share Know Participant Hub</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Initial_Janssen</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Initial Janssen</shortDescription>
+        <value>Please enroll in the Janssen IQVIA Referral Hub and Patient Portal</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Initial_Patient</fullName>
@@ -5721,6 +5742,13 @@ The NYBC Convalescent Plasma Donation Team</value>
         <protected>false</protected>
         <shortDescription>Email Title Initial All IQVIA</shortDescription>
         <value>IQVIA™ Referral Hub and Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>Email_Title_Initial_All_Janssen</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Title Initial All Janssen</shortDescription>
+        <value>Janssen IQVIA™ Referral Hub and Patient Portal</value>
     </labels>
     <labels>
         <fullName>Email_Title_PH</fullName>
@@ -6131,6 +6159,20 @@ The NYBC Convalescent Plasma Donation Team</value>
         <protected>true</protected>
         <shortDescription>HT 02 B RP Patient</shortDescription>
         <value>Please go to Account Settings -&gt; Contact Information -&gt; Edit your contact information accordingly -&gt; Save</value>
+    </labels>
+    <labels>
+        <fullName>HT_02_CPD</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT_02_CPD</shortDescription>
+        <value>I need to transfer a participant to another site.</value>
+    </labels>
+    <labels>
+        <fullName>HT_02_CPD_SL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT_02_CPD_SL</shortDescription>
+        <value>Please select  the participant and the study site you would like the participant transferred to.</value>
     </labels>
     <labels>
         <fullName>HT_02_H</fullName>
@@ -6595,7 +6637,7 @@ The NYBC Convalescent Plasma Donation Team</value>
         <shortDescription>HT 19 B Participant</shortDescription>
         <value>How do I update my contact information?</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>HT_20_B</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6610,51 +6652,6 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <protected>true</protected>
         <shortDescription>HT 20 H</shortDescription>
         <value>How do you use my personal information?</value>
-    </labels>
-    <labels>
-        <fullName>HT_02_CPD</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>HT_02_CPD</shortDescription>
-        <value>I need to transfer a participant to another site.</value>
-    </labels>
-    <labels>
-        <fullName>HT_02_CPD_SL</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>HT_02_CPD_SL</shortDescription>
-        <value>Please select  the participant and the study site you would like the participant transferred to.</value>
-    </labels>
-    <labels>
-        <fullName>Help_Participant_Name</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Help_Participant_Name</shortDescription>
-        <value>Referral ID:</value>
-    </labels>
-    <labels>
-        <fullName>Help_Study_Site</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Help_Study_Site:</shortDescription>
-        <value>Study Site</value>
-    </labels>
-    <labels>
-        <fullName>Help_referralId_incorrect</fullName>
-        <categories>Help</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Help_referralId_incorrect</shortDescription>
-        <value>The Referral ID is in the incorrect format.
-The expected format is REF#####</value>
-    </labels>
-    <labels>
-        <fullName>Help_referralId_missing</fullName>
-        <categories>Help</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Help_referralId_missing</shortDescription>
-        <value>Please enter the Referral ID</value>
     </labels>
     <labels>
         <fullName>Haematocrit</fullName>
@@ -6788,6 +6785,37 @@ The expected format is REF#####</value>
         <protected>false</protected>
         <shortDescription>Height Description</shortDescription>
         <value>Your height is the measurement of your body from head to foot in centimeters (cm) or feet and inches.</value>
+    </labels>
+    <labels>
+        <fullName>Help_Participant_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Help_Participant_Name</shortDescription>
+        <value>Referral ID:</value>
+    </labels>
+    <labels>
+        <fullName>Help_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Help_Study_Site:</shortDescription>
+        <value>Study Site</value>
+    </labels>
+    <labels>
+        <fullName>Help_referralId_incorrect</fullName>
+        <categories>Help</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Help_referralId_incorrect</shortDescription>
+        <value>The Referral ID is in the incorrect format.
+The expected format is REF#####</value>
+    </labels>
+    <labels>
+        <fullName>Help_referralId_missing</fullName>
+        <categories>Help</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Help_referralId_missing</shortDescription>
+        <value>Please enter the Referral ID</value>
     </labels>
     <labels>
         <fullName>Hematocrit</fullName>
@@ -7398,7 +7426,7 @@ The expected format is REF#####</value>
         <shortDescription>Learn More</shortDescription>
         <value>Learn More</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>Learn_More_Report_Document_Name</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7420,7 +7448,7 @@ The expected format is REF#####</value>
         <shortDescription>Library_General_Resources</shortDescription>
         <value>General Resources</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>Library_Items</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -9985,7 +10013,7 @@ The expected format is REF#####</value>
         <shortDescription>PG_AS_F_Preferred_Timezone</shortDescription>
         <value>Preferred timezone</value>
     </labels>
-   <labels>
+    <labels>
         <fullName>PG_AS_F_Re_enter_new_password</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -10174,7 +10202,7 @@ The expected format is REF#####</value>
         <shortDescription>PG AS L Select conditions</shortDescription>
         <value>Select up to 5 medical conditions related to your diagnosis, to help us prioritize the content we display to you.</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>PG_AS_NickName</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -10859,6 +10887,13 @@ The expected format is REF#####</value>
         <protected>false</protected>
         <shortDescription>PG HLP BTN Submit Your Problem</shortDescription>
         <value>Submit Your Problem</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_BTN_Submit_Your_Request</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_HLP_BTN_Submit_Your_Request</shortDescription>
+        <value>Submit Your Request</value>
     </labels>
     <labels>
         <fullName>PG_HLP_BTN_View_Knowledge_Article</fullName>
@@ -13616,13 +13651,6 @@ The expected format is REF#####</value>
         <value>Inclusion/Exclusion Criteria</value>
     </labels>
     <labels>
-        <fullName>PG_HLP_BTN_Submit_Your_Request</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG_HLP_BTN_Submit_Your_Request</shortDescription>
-        <value>Submit Your Request</value>
-    </labels>
-    <labels>
         <fullName>PG_SW_T_1</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -13783,7 +13811,7 @@ The expected format is REF#####</value>
         <shortDescription>PG Task Tab No Tasks Delegate</shortDescription>
         <value>##ParticipantFirstName does not currently have any tasks created or assigned at this time.</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PG_Unable_To_Login</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -13823,7 +13851,7 @@ The expected format is REF#####</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG_Unable_To_Login_L4</shortDescription>
-        <value>Didn&#39;t receive your password reset email?</value>
+        <value>Didn&apos;t receive your password reset email?</value>
     </labels>
     <labels>
         <fullName>PG_Unable_To_Login_L5</fullName>
@@ -14055,7 +14083,7 @@ The expected format is REF#####</value>
         <shortDescription>PP Cookie Settings</shortDescription>
         <value>Cookie Settings</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>PP_Create_Task_Reminder</fullName>
         <categories>c:StudyVisitReminder</categories>
         <language>en_US</language>
@@ -14227,14 +14255,14 @@ The expected format is REF#####</value>
         <shortDescription>PP Password Management</shortDescription>
         <value>Password Management</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PP_Phone_Mandatory</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Phone_Mandatory</shortDescription>
         <value>Phone number is mandatory.</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PP_Phone_Numeric</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14314,20 +14342,20 @@ The expected format is REF#####</value>
         <value>Email</value>
     </labels>
     <labels>
-        <fullName>PP_Remind_Using_SMS</fullName>
-        <categories>c:StudyVisitReminder</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PP_Remind_Using_SMS</shortDescription>
-        <value>SMS</value>
-    </labels>
-    <labels>
         <fullName>PP_Remind_Using_Required</fullName>
         <categories>c:StudyVisitReminder</categories>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_Remind_Using_Required</shortDescription>
         <value>Please an option to send reminder.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Remind_Using_SMS</fullName>
+        <categories>c:StudyVisitReminder</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Remind_Using_SMS</shortDescription>
+        <value>SMS</value>
     </labels>
     <labels>
         <fullName>PP_Reminder_Overflow</fullName>
@@ -14352,7 +14380,7 @@ The expected format is REF#####</value>
         <shortDescription>PP_Save_Changes</shortDescription>
         <value>Save Changes</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>PP_Task_Success_Toast</fullName>
         <categories>c:StudyVisitReminder</categories>
         <language>en_US</language>
@@ -14679,7 +14707,7 @@ communications using the toggles below.</value>
         <shortDescription>PWS Withdrew Conscent Disclaimer</shortDescription>
         <value>On Initial Visit tab, update informed consent date (add a note if date is same as initial date of consent) and save to proceed with screening.</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>Participant</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -17974,27 +18002,6 @@ communications using the toggles below.</value>
         <value>Please select atleast one data point(Vitals/Labs or Biomarkers) to show in My Results card</value>
     </labels>
     <labels>
-        <fullName>Visit_Results_Tab_Biomarkers</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Visit Results Tab Biomarkers</shortDescription>
-        <value>Biomarkers</value>
-    </labels>
-    <labels>
-        <fullName>Visit_Results_Tab_Vit_Disclaimer</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Visit Results Tab Disclaimer</shortDescription>
-        <value>This data is being provided as part of your participation in a clinical research study. It is for research purposes only. Values are only available for vitals recorded for the visit date displayed. If you have questions or concerns about this data, please contact the Principal Investigator at your study center.</value>
-    </labels>
-    <labels>
-        <fullName>Visit_Results_Tab_Disclaimer</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Visit Results Tab Disclaimer</shortDescription>
-        <value>This data is being provided as part of your participation in a clinical research study. It is for research purposes only. Values are only available for vitals recorded for the visit date displayed. If you have questions or concerns about this data, please contact the Principal Investigator at your study center.</value>
-    </labels>
-    <labels>
         <fullName>Visit_Results_Tab_Bio_Disclaimer</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18002,11 +18009,18 @@ communications using the toggles below.</value>
         <value>This data is being provided as part of your participation in a clinical research study. It is for research purposes only. Values are only available for biomarkers recorded for the visit date displayed. If you have questions or concerns about this data, please contact the Principal Investigator at your study center.</value>
     </labels>
     <labels>
-        <fullName>Visit_Results_Tab_Lab_Disclaimer</fullName>
+        <fullName>Visit_Results_Tab_Biomarkers</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Biomarkers</shortDescription>
+        <value>Biomarkers</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Disclaimer</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit Results Tab Disclaimer</shortDescription>
-        <value>This data is being provided as part of your participation in a clinical research study. It is for research purposes only. Values are only available for labs recorded for the visit date displayed. If you have questions or concerns about this data, please contact the Principal Investigator at your study center.</value>
+        <value>This data is being provided as part of your participation in a clinical research study. It is for research purposes only. Values are only available for vitals recorded for the visit date displayed. If you have questions or concerns about this data, please contact the Principal Investigator at your study center.</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_Expected_Range</fullName>
@@ -18050,6 +18064,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In_1</shortDescription>
         <value>Visit assessment information is not available for this clinical study.</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Lab_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Disclaimer</shortDescription>
+        <value>This data is being provided as part of your participation in a clinical research study. It is for research purposes only. Values are only available for labs recorded for the visit date displayed. If you have questions or concerns about this data, please contact the Principal Investigator at your study center.</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_Labs</fullName>
@@ -18099,6 +18120,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Visit Results Tab Result Date</shortDescription>
         <value>Results from</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Vit_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Disclaimer</shortDescription>
+        <value>This data is being provided as part of your participation in a clinical research study. It is for research purposes only. Values are only available for vitals recorded for the visit date displayed. If you have questions or concerns about this data, please contact the Principal Investigator at your study center.</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_Vitals</fullName>
@@ -18251,4 +18279,4 @@ communications using the toggles below.</value>
         <shortDescription>configuation table</shortDescription>
         <value>Name</value>
     </labels>
-</CustomLabels>	
+</CustomLabels>
