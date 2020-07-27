@@ -1512,6 +1512,150 @@
         <value>Search for a phone number</value>
     </labels>
     <labels>
+        <fullName>CTL_L_CC_MODE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CTL_L_CC_MODE</shortDescription>
+        <value>View as Call Center</value>
+    </labels>
+    <labels>
+        <fullName>CTL_L_HCP_DELEGATE_MODE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CTL L HCP DELEGATE MODE</shortDescription>
+        <value>View as ##RPName</value>
+    </labels>
+    <labels>
+        <fullName>CTL_L_HCP_MODE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CTL L HCP MODE</shortDescription>
+        <value>Referring Provider</value>
+    </labels>
+    <labels>
+        <fullName>CTL_L_PI_MODE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CTL L PI MODE</shortDescription>
+        <value>Investigative Site</value>
+    </labels>
+    <labels>
+        <fullName>CTL_L_Patricipant_MODE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CTL L Patricipant MODE</shortDescription>
+        <value>View as a Participant</value>
+    </labels>
+    <labels>
+        <fullName>Closed_Requests</fullName>
+        <categories>Media OutReach</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Closed_Requests</shortDescription>
+        <value>Fulfilled,Cancelled</value>
+    </labels>
+    <labels>
+        <fullName>CommunityEmailLogo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community Email Logo</shortDescription>
+        <value>https://quintilesimscmo--c.documentforce.com/servlet/servlet.ImageServer?id=0152o0000077c8Y&amp;oid=00D1I000001V1t1&amp;lastMod=1590660593000</value>
+    </labels>
+    <labels>
+        <fullName>CommunityPrivatePolicyLink</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community Private Policy Link</shortDescription>
+        <value>https://infohotfix-iqviaconnect.CS84.force.com/s/privacy-policy</value>
+    </labels>
+    <labels>
+        <fullName>CommunityURL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CommunityURL</shortDescription>
+        <value>https://formal-iqviaconnect.cs129.force.com</value>
+    </labels>
+    <labels>
+        <fullName>Community_GSK</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community GSK</shortDescription>
+        <value>Gather &lt;i&gt;Share&lt;/i&gt; Know Participant Hub</value>
+    </labels>
+    <labels>
+        <fullName>Community_GSK_Short</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community GSK Short</shortDescription>
+        <value>Gather &lt;i&gt;Share&lt;/i&gt; Know</value>
+    </labels>
+    <labels>
+        <fullName>Community_IQVIA_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community IQVIA PP</shortDescription>
+        <value>IQVIA™ Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>Community_IQVIA_RH_Help</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Community IQVIA RH Help</shortDescription>
+        <value>IQVIA about Referral Hub</value>
+    </labels>
+    <labels>
+        <fullName>Community_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community PP</shortDescription>
+        <value>Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>Complete_By_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Complete By Date</shortDescription>
+        <value>Complete By</value>
+    </labels>
+    <labels>
+        <fullName>Continue</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Continue</shortDescription>
+        <value>Continue</value>
+    </labels>
+    <labels>
+        <fullName>Cookies_Info_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Cookies Info Text</shortDescription>
+        <value>This site uses ##cookiesURL for the essential functioning of the site and for analytical purposes. For more information about these cookies, please view our ##privacyPolicyURL.
+            By clicking through to our website, you are accepting use of cookies.</value>
+    </labels>
+    <labels>
+        <fullName>Cookies_Info_Text_First_Logon</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Cookies Info Text First Logon</shortDescription>
+        <value>This site uses cookies for the essential functioning of the site, to improve user experience, and for analytical purposes. By using this site you are consenting to our use of cookies.</value>
+    </labels>
+    <labels>
+        <fullName>Covid19_Plasma_Donation_Team</fullName>
+        <categories>Covid19</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Covid19 Plasma Donation Team</shortDescription>
+        <value>The NYBC Convalescent Plasma Donation Team</value>
+    </labels>
+    <labels>
+        <fullName>Covid19_Sincerely</fullName>
+        <categories>Covid19</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Covid19 Sincerely</shortDescription>
+        <value>Sincerely,</value>
+    </labels>
+    <labels>
         <fullName>CPD_About_you</fullName>
         <categories>Covid19</categories>
         <language>en_US</language>
@@ -17878,6 +18022,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>VR Weight</shortDescription>
         <value>Weight</value>
+    </labels>
+    <labels>
+        <fullName>View_Mode</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>View Mode</shortDescription>
+        <value>View as </value>
     </labels>
     <labels>
         <fullName>View_Visit_Legend</fullName>

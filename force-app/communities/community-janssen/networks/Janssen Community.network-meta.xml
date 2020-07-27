@@ -5,17 +5,17 @@
     <changePasswordTemplate>Referral_Hub_Emails/Forgot_Password_Email</changePasswordTemplate>
     <communityRoles/>
     <disableReputationRecordConversations>true</disableReputationRecordConversations>
-    <emailSenderAddress>leonid.bartenev@customertimes.com</emailSenderAddress>
-    <emailSenderName>Janssen IQVIA Referral Hub and Patient Portal</emailSenderName>
+    <emailSenderAddress>updates@cp.clinicalresearch.com</emailSenderAddress>
+    <emailSenderName>Janssen Community</emailSenderName>
     <enableCustomVFErrorPageOverrides>false</enableCustomVFErrorPageOverrides>
-    <enableDirectMessages>true</enableDirectMessages>
+    <enableDirectMessages>false</enableDirectMessages>
     <enableGuestChatter>false</enableGuestChatter>
-    <enableGuestFileAccess>false</enableGuestFileAccess>
-    <enableGuestMemberVisibility>false</enableGuestMemberVisibility>
+    <enableGuestFileAccess>true</enableGuestFileAccess>
+    <enableGuestMemberVisibility>true</enableGuestMemberVisibility>
     <enableInvitation>false</enableInvitation>
     <enableKnowledgeable>false</enableKnowledgeable>
-    <enableMemberVisibility>false</enableMemberVisibility>
-    <enableNicknameDisplay>true</enableNicknameDisplay>
+    <enableMemberVisibility>true</enableMemberVisibility>
+    <enableNicknameDisplay>false</enableNicknameDisplay>
     <enablePrivateMessages>false</enablePrivateMessages>
     <enableReputation>false</enableReputation>
     <enableShowAllNetworkSettings>false</enableShowAllNetworkSettings>
@@ -48,5 +48,5 @@
         <standardTab>Chatter</standardTab>
     </tabs>
     <urlPathPrefix>janssen</urlPathPrefix>
-    <welcomeTemplate>Referral_Hub_Emails/Initial_Email_Janssen</welcomeTemplate>
+    <welcomeTemplate>Referral_Hub_Emails/Initial_Email</welcomeTemplate>
 </Network>
