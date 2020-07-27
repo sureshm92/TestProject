@@ -408,7 +408,8 @@
                 component.find('spinner').hide();
                 communityService.navigateToPage('account-settings'); 
                 communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'),100);
-                
+                window.location.reload(true);
+
             });
             component.set('v.showSpinner', true);
             var inst = component.get('v.institute');
