@@ -605,11 +605,13 @@ public without sharing class ParticipantEnrollmentService {
         public String acceptenceStatus;
         public String referringClinic;
         public String dateField;
+        public String studyJanssen;
 
         public PEFilter(PEFilterData filterData) {
             mode = filterData.mode;
             trialIds = filterData.trialIds;
             dateField = filterData.dateField;
+            studyJanssen = getCurrentSponsorName();
         }
     }
 
@@ -732,11 +734,17 @@ public without sharing class ParticipantEnrollmentService {
 
     public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, String delegateId){
         //prepare filter string:
+        String janssen = 'Janssen';
         String filterStr = ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join(filter.trialIds, '\',\'') + '\') ';
         if (!String.isEmpty(filter.additionalFilter)) filterStr += ' AND ' + filter.additionalFilter + ' ';
         if (filter.searchText != null) filter.searchText = filter.searchText.trim();
         if (String.isEmpty(filter.searchText)) {
             if (!String.isEmpty(filter.study)) filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__c = \'' + filter.study + '\' ';
+            if (filter.studyJanssen == 'Janssen') {
+                filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = \'' + filter.studyJanssen + '\' ';
+            } else {
+                filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != \'' + janssen + '\' ';
+            }
             if (!String.isEmpty(filter.studySite)) filterStr += ' AND Study_Site__c = \'' + filter.studySite + '\' ';
             if (!String.isEmpty(filter.referringStatus)) filterStr += 'AND Participant_Status__c IN ' + filter.referringStatus + ' ';
             //if(!String.isEmpty(filter.enrollmentStatus)) filterStr += ' AND Participant_Status__c IN ' + filter.enrollmentStatus + ' ';
