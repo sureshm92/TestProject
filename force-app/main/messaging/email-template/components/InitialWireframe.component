@@ -65,6 +65,20 @@
         <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframe>
 
+    <c:EmailWireframe rendered="{!userMode == 'DelegatePI'}"
+                      recipientId="{!recordId}"
+                      sourceId="{!sourceId}"
+                      header="{!$Label.Email_Header_Initial_Patient_Delegate}"
+                      title="{!titleLabel}"
+                      greeting="{!$Label.Email_User_Greeting_FirstName}"
+                      signature="{!$Label.Email_Signature_New}"
+                      communityTemplate="{!communityTemplate}">
+        <!-- Inner body -->
+        <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate}"/>
+        <c:EmailTemplateDelegateParticipant/>
+        <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
+    </c:EmailWireframe>
+
     <!-- PI -->
     <c:EmailWireframe rendered="{!userMode == 'PI'}"
                       recipientId="{!recordId}"
