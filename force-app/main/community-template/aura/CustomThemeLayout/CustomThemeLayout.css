@@ -265,6 +265,10 @@
         width: 40px!important;
         height: 40px!important;
     }
+
+    .THIS .vis-path.slds-grid .line-div.width-basis .state-ico-wrapper-middle {
+        width: 5px;
+    }
     
      .THIS .arrow-border span {
 		margin-top: 9px;
