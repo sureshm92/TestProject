@@ -257,7 +257,9 @@ public without sharing class PatientDelegateService {
             throw new PatientDelegateServiceException('Wrong contact: ' + CommunityService.getUserContact().Id);
         }
 
-        Contact newDelegateContact = [SELECT Id, UserCommunityIsDelegate__c FROM Contact WHERE Id = :newDelegate.Id];
+        Contact newDelegateContact = [SELECT Id, UserCommunityIsDelegate__c, userCommunytyType__c FROM Contact WHERE Id = :newDelegate.Id];
+        Boolean check = newDelegateContact.userCommunytyType__c.contains('PI') || newDelegateContact.userCommunytyType__c.contains('HCP');
+        if(check) newDelegateContact.userCommunytyType__c = newDelegateContact.userCommunytyType__c + ';' + CommunityService.USER_MODE_DELEGATEPI;
         newDelegateContact.UserCommunityIsDelegate__c = true;
         update newDelegateContact;
 
