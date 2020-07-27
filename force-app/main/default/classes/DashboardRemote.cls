@@ -313,8 +313,6 @@ public without sharing class DashboardRemote {
                 //START added by Sumit Surve
                 List<Clinical_Trial_Profile__c> related_CTP = new List<Clinical_Trial_Profile__c>();
 
-                // START REF-1903 by Evgenii Prytkov
-                //List<Study_Site__c> related_site_sites = [Select Id, Name, Clinical_Trial_Profile__r.Id, Clinical_Trial_Profile__r.Name, Principal_Investigator__c from Study_Site__c WHERE  Principal_Investigator__c =: pi_Id];
                 List<Study_Site__c> related_site_sites = [Select Id,
                                                                 Name,
                                                                 Clinical_Trial_Profile__r.Id,
@@ -323,19 +321,15 @@ public without sharing class DashboardRemote {
                                                                 Principal_Investigator__c
                                                         from Study_Site__c
                                                         WHERE  Principal_Investigator__c =: pi_Id];
-                // END REF-1903 by Evgenii Prytkov
 
                 Set<Id> related_StudyIds = new set<Id>();
 
                 for(Study_Site__c ss : related_site_sites){
-                    // START REF-1903 by Evgenii Prytkov
-//                    related_StudyIds.add(ss.Clinical_Trial_Profile__r.Id);
                     if(sponsorName == 'Janssen') {
                         if(ss.Clinical_Trial_Profile__r.Study_Sponsor__c == 'Janssen') related_StudyIds.add(ss.Clinical_Trial_Profile__r.Id);
                     } else {
                         if(ss.Clinical_Trial_Profile__r.Study_Sponsor__c != 'Janssen') related_StudyIds.add(ss.Clinical_Trial_Profile__r.Id);
                     }
-                    // END REF-1903 by Evgenii Prytkov
                 }
                 Map<Id, String> piCTPMap = new Map<Id, String>();
 
@@ -351,7 +345,6 @@ public without sharing class DashboardRemote {
                     piData.delegatePIsPicklist.add(new LabelValueItem(delegatePIsMap.get(pId), pId));
                 }
 
-                // REF-1903 by Evgenii Prytkov: Added related_StudyIds.size() check
                 if (related_StudyIds.size() > 0) {
                     if (ctpId == Null) {
                         piData.selectedCTP = new List<Id>(piCTPMap.keySet())[0];
