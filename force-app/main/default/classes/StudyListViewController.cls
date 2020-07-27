@@ -56,8 +56,8 @@ public without sharing class StudyListViewController {
             paginationData = new PaginationData();
             currentPITrials = new List<StudyDetailItem>();
         }
-        public PIInitData(String piId, String studyId){
-            piStudiesFilter = new PIStudiesFilter(piId, studyId);
+        public PIInitData(String piId, String studyId, String sponsorName){
+            piStudiesFilter = new PIStudiesFilter(piId, studyId, sponsorName);
             paginationData = new PaginationData();
             currentPITrials = new List<StudyDetailItem>();
         }
@@ -158,7 +158,7 @@ public without sharing class StudyListViewController {
     }
 
     @AuraEnabled
-    public static String getPIInitData() {
+    public static String getPIInitData(String sponsorName) {
         try {
             String PIMyStudiesFilterSettings = CommunityService.getUserContact().PI_My_Studies_Filters__c;
             PIInitData initData;
@@ -168,10 +168,10 @@ public without sharing class StudyListViewController {
             else{
                 List<String> filters = PIMyStudiesFilterSettings.split(';');
                 if(filters.size() == 2){
-                    initData =  new PIInitData(filters[0],filters[1]);
+                    initData =  new PIInitData(filters[0],filters[1], sponsorName);
                 }
                 else if(filters.size() == 1){
-                    initData =  new PIInitData(filters[0],'');
+                    initData =  new PIInitData(filters[0],'', sponsorName);
                 }
                 else{
                     initData = new PIInitData();

@@ -324,11 +324,11 @@ public without sharing class DashboardRemote {
 
                 Set<Id> related_StudyIds = new set<Id>();
 
-                for(Study_Site__c ss : related_site_sites){
-                    if(sponsorName == 'Janssen') {
-                        if(ss.Clinical_Trial_Profile__r.Study_Sponsor__c == 'Janssen') related_StudyIds.add(ss.Clinical_Trial_Profile__r.Id);
+                for (Study_Site__c ss : related_site_sites){
+                    if (CommunityService.JANSSEN_NETWORK_NAME == sponsorName) {
+                        if (CommunityService.JANSSEN_NETWORK_NAME == ss.Clinical_Trial_Profile__r.Study_Sponsor__c) related_StudyIds.add(ss.Clinical_Trial_Profile__r.Id);
                     } else {
-                        if(ss.Clinical_Trial_Profile__r.Study_Sponsor__c != 'Janssen') related_StudyIds.add(ss.Clinical_Trial_Profile__r.Id);
+                        if (CommunityService.JANSSEN_NETWORK_NAME != ss.Clinical_Trial_Profile__r.Study_Sponsor__c) related_StudyIds.add(ss.Clinical_Trial_Profile__r.Id);
                     }
                 }
                 Map<Id, String> piCTPMap = new Map<Id, String>();
