@@ -62,6 +62,7 @@
         let currentDataSet = event.currentTarget.dataset;
         let index = event.currentTarget.dataset.index;
         let taskData = component.get('v.openTasks')[index];
+        if(taskData.openTask.Reminder_Schedule__c) return;
         console.log('doTaskClick taskData: '+taskData.openTask.Task_Type__c);
         let taskId = taskData.openTask.Id;
         let firstLoad = component.get('v.firstLoad');
