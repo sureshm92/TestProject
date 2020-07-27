@@ -1,0 +1,37 @@
+{
+  "appPageId" : "5bf37374-2b32-4433-ad3c-73208f1ef38a",
+  "componentName" : "c:OneColumnLayout",
+  "id" : "849a1c61-3dac-402a-8191-63d7dfbeea16",
+  "label" : "My Trials",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:StudyListView",
+      "id" : "b08748bd-7760-4196-afe0-c19e0c699941",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "1ad4275d-7523-4fad-8132-4567b0331411",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "My Trials"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "74d36554-cfb6-4706-8b00-60016483c985",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "2d787f26-399c-4221-be7e-8feab8a04801",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-my-trials"
+}
