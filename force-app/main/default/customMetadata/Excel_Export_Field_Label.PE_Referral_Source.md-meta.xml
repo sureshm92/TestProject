@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>PE Referral Source</label>
+    <protected>false</protected>
+    <values>
+        <field>Field_Name__c</field>
+        <value xsi:type="xsd:string">Referral_Source__c</value>
+    </values>
+    <values>
+        <field>Label_Name__c</field>
+        <value xsi:type="xsd:string">Export_Excel_Referral_Source</value>
+    </values>
+    <values>
+        <field>SObject_Name__c</field>
+        <value xsi:type="xsd:string">Participant_Enrollment__c</value>
+    </values>
+</CustomMetadata>
