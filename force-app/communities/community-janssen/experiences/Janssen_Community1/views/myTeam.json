@@ -1,0 +1,37 @@
+{
+  "appPageId" : "5bf37374-2b32-4433-ad3c-73208f1ef38a",
+  "componentName" : "c:OneColumnLayout",
+  "id" : "f78495c9-252a-4d1e-97ce-ea0a05daded2",
+  "label" : "My Team",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:Page_MyTeam",
+      "id" : "3784a712-88ad-4417-9d04-ad56c80b9f98",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "4d388478-03e1-452f-9d25-024b1f8c028b",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "My Team"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "f70a55ec-f6eb-4dc7-bdf2-67247f58f34b",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "036c378f-4b4a-45c5-90e1-f13e0f562437",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-my-team"
+}

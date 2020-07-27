@@ -1,7 +1,8 @@
 ({
-    callServerMethod:function(component, mthdName, usermode, delegateID, selectedPI, selectedCTP, piaction,helper){
+    callServerMethod:function(component, mthdName, usermode, sponsorname, delegateID, selectedPI, selectedCTP, piaction,helper){
         communityService.executeAction(component, mthdName, {
             userMode:usermode,
+            sponsorName: sponsorname,
             delegateId:delegateID,
             piId: selectedPI,
             ctpId: selectedCTP,
