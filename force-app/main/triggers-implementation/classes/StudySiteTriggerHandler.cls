@@ -329,7 +329,7 @@ public without sharing class StudySiteTriggerHandler {
             for (Clinical_Trial_Profile__c ctp : [
                     SELECT Id
                     FROM Clinical_Trial_Profile__c
-                    WHERE CommunityTemplate__c = 'Janssen' AND Id IN :ctpIds
+                    WHERE CommunityTemplate__c = : CommunityTemplateService.TEMPLATE_JANSSEN AND Id IN :ctpIds
             ]) {
                 piIds.addAll(piIdsByCtpIdsMap.get(ctp.Id));
             }
@@ -338,7 +338,8 @@ public without sharing class StudySiteTriggerHandler {
             List<User> users = [
                     SELECT Id, (
                             SELECT Id,
-                                    PermissionSet.Name
+                                    PermissionSet.Name,
+                                    PermissionSetId
                             FROM PermissionSetAssignments
                     )
                     FROM User
@@ -349,13 +350,13 @@ public without sharing class StudySiteTriggerHandler {
                     SELECT Id,
                             Name
                     FROM PermissionSet
-                    WHERE Name = 'Community_Janssen'
+                    WHERE Name = : CommunityTemplateService.PERMISSION_COMMUNITY_JANSSEN_NAME
                     LIMIT 1
             ].Id;
             for (User u : users) {
                 Boolean permissionAdded = false;
                 for (PermissionSetAssignment psa : u.PermissionSetAssignments) {
-                    if (psa.Id == permissionSetId) permissionAdded = true;
+                    if (psa.PermissionSetId == permissionSetId) permissionAdded = true;
                     break;
                 }
                 if (permissionAdded == false) usersToAddPermissions.add(u.Id);

@@ -135,14 +135,51 @@ public without sharing class UserTriggerHandler {
         Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
         if(rhUsers != null)
         {
+            Set<Id> piIds = new Set<Id>();
             for (User user : rhUsers) {
-                actionAssignContactPermissions.addPermission(
-                        user.ContactId, CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME
-                );
-            }
+                if (user.Contact.userCommunityMode__c == 'PI') {
+                    piIds.add(user.ContactId);
+                } else {
+                    actionAssignContactPermissions.addPermission(
+                            user.ContactId, CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME
+                    );
+                }
 
-            if (!actionAssignContactPermissions.isEmpty()) {
-            ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+                if (!actionAssignContactPermissions.isEmpty()) {
+                    ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+                }
+            }
+            if(!piIds.isEmpty()){
+                Map<String, Set<Id>> commUserPermission = new Map<String, Set<Id>>();
+                for(Study_Site__c ssList : [
+                        SELECT Id,
+                               Clinical_Trial_Profile__r.CommunityTemplate__c,
+                                Principal_Investigator__c
+                        FROM Study_Site__c
+                        WHERE Principal_Investigator__c IN : piIds
+                ]){
+                    if(ssList.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_DEFAULT){
+                        if(commUserPermission.containsKey(CommunityTemplateService.TEMPLATE_DEFAULT)) commUserPermission.get(CommunityTemplateService.TEMPLATE_DEFAULT).add(ssList.Principal_Investigator__c);
+                        else commUserPermission.put(CommunityTemplateService.TEMPLATE_DEFAULT, new Set<Id>{ssList.Principal_Investigator__c});
+                    } else {
+                        if(commUserPermission.containsKey(CommunityTemplateService.TEMPLATE_JANSSEN)) commUserPermission.get(CommunityTemplateService.TEMPLATE_JANSSEN).add(ssList.Principal_Investigator__c);
+                        else commUserPermission.put(CommunityTemplateService.TEMPLATE_JANSSEN, new Set<Id>{ssList.Principal_Investigator__c});
+                    }
+                }
+                for (Id contId : commUserPermission.get(CommunityTemplateService.TEMPLATE_DEFAULT)) {
+                    actionAssignContactPermissions.addPermission(
+                            contId, CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME);
+                    if (!actionAssignContactPermissions.isEmpty()) {
+                        ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+                    }
+                }
+                for (Id contId : commUserPermission.get(CommunityTemplateService.TEMPLATE_JANSSEN)) {
+                    actionAssignContactPermissions.addPermission(
+                            contId, CommunityTemplateService.PERMISSION_COMMUNITY_JANSSEN_NAME);
+                    if (!actionAssignContactPermissions.isEmpty()) {
+                        ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+                    }
+                }
             }
         }
         else
