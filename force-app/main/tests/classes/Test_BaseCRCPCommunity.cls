@@ -338,7 +338,7 @@ private class Test_BaseCRCPCommunity {
             AccountSettingsController.changePassword('Dd231324d13', 'Dd231324d13', '11111');
             ClinicProfileRemote.getClinicProfileData(hcpAccount.Id);
             CommunityFacadeRemote.getCommunityData();
-            CommunityFacadeRemote.changeMode(CommunityService.USER_MODE_PI, null, null);
+            CommunityFacadeRemote.changeMode(CommunityService.USER_MODE_PI, null, null, null);
         }
         Test.stopTest();
     }
@@ -382,7 +382,7 @@ private class Test_BaseCRCPCommunity {
         Id shareStudyEmailTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName = :templateName LIMIT 1].Id;
         Test.startTest();
         System.runAs(testData.piUser) {
-            String initDataString = StudyListViewController.getPIInitData();
+            String initDataString = StudyListViewController.getPIInitData('');
             StudyListViewController.PIInitData initData = (StudyListViewController.PIInitData) JSON.deserializeStrict( initDataString, StudyListViewController.PIInitData.class);
             StudyListViewController.searchStudiesPI(JSON.serialize(initData.piStudiesFilter.filterData),JSON.serialize(initData.piStudiesFilter.sortData), JSON.serialize(initData.paginationData));
         }

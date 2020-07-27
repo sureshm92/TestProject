@@ -18,14 +18,16 @@ public without sharing class CommunityModes {
         public Boolean isSelected;
         public String title; //for group can be 'View as Investigative Site' or 'View as Referring Provider', for non contains user name for RP mode
         public String itemType; //PI/RP
+        public String sponsor;
         public String mode;
         public Id itemId; //Id of RP for RP delegate mode
         public List<RHCommunityModeItem> subItems; //only for group items
 
-        public RHCommunityModeItem(String mode, String title, String itemType, Id itemId, Boolean isGroup, Boolean isCollapsed) {
+        public RHCommunityModeItem(String mode, String title, String itemType, String sponsor, Id itemId, Boolean isGroup, Boolean isCollapsed) {
             this.mode = mode;
             this.title = title;
             this.itemType = itemType;
+            this.sponsor = sponsor;
             this.itemId = itemId;
             this.isGroup = isGroup;
             this.isCollapsed = isCollapsed;

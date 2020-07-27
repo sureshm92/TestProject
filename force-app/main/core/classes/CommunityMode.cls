@@ -43,7 +43,15 @@ public without sharing class CommunityMode {
         this.currentHCPDelegate = delegateId;
         init();
     }
-    
+
+    public CommunityMode(String userMode, String label, Id delegateId, String sponsorName) {
+        this.userMode = userMode;
+        this.label = label;
+        this.groupLabel = label;
+        this.sponsorName = sponsorName;
+        init();
+    }
+
     public CommunityMode(String userMode, String label, Id delegateId, Participant_Enrollment__c pe, CommunityTemplate template) {
         this.userMode = userMode;
         this.label = label;
@@ -96,7 +104,7 @@ public without sharing class CommunityMode {
     
     private void init(){
         Id currentDelId = currentDelegateId;
-        Id whatId;
+        String whatId;
         if(userMode == CommunityService.USER_MODE_HCP) {
             currentDelId = currentHCPDelegate;
             isDelegate = currentHCPDelegate != null;
@@ -106,7 +114,8 @@ public without sharing class CommunityMode {
             isDelegate = currentDelegateId != null;
         }
         if(userMode == CommunityService.USER_MODE_PI) {
-            template = CommunityTemplateService.getTemplateByPrefix(Site.getPathPrefix());
+            whatId = sponsorName;
+            template = CommunityTemplateService.getTemplate(CommunityModeService.rhCommunitiesBySponsor.get(sponsorName));
         }
         
         key = CommunityModeService.generateModeKey(userMode, currentDelId, whatId);
