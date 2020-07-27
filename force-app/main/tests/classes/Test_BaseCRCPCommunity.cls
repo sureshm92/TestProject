@@ -338,7 +338,7 @@ private class Test_BaseCRCPCommunity {
             AccountSettingsController.changePassword('Dd231324d13', 'Dd231324d13', '11111');
             ClinicProfileRemote.getClinicProfileData(hcpAccount.Id);
             CommunityFacadeRemote.getCommunityData();
-            CommunityFacadeRemote.changeMode(CommunityService.USER_MODE_PI, null, null);
+            CommunityFacadeRemote.changeMode(CommunityService.USER_MODE_PI, null, null, null);
         }
         Test.stopTest();
     }
