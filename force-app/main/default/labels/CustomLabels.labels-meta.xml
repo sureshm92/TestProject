@@ -1587,14 +1587,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CTL L HCP MODE</shortDescription>
-        <value>View as Referring Provider</value>
+        <value>Referring Provider</value>
     </labels>
     <labels>
         <fullName>CTL_L_PI_MODE</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CTL L PI MODE</shortDescription>
-        <value>View as Investigative Site</value>
+        <value>Investigative Site</value>
     </labels>
     <labels>
         <fullName>CTL_L_Patricipant_MODE</fullName>
@@ -17850,6 +17850,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>VR Weight</shortDescription>
         <value>Weight</value>
+    </labels>
+    <labels>
+        <fullName>View_Mode</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>View Mode</shortDescription>
+        <value>View as </value>
     </labels>
     <labels>
         <fullName>View_Visit_Legend</fullName>
