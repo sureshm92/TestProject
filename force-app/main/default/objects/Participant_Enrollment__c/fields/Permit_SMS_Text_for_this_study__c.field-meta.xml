@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Permit_IQVIA_to_contact_about_study__c</fullName>
-    <defaultValue>true</defaultValue>
+    <fullName>Permit_SMS_Text_for_this_study__c</fullName>
+    <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Permit IQVIA to contact about study</label>
+    <label>Permit SMS/Text for this study</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

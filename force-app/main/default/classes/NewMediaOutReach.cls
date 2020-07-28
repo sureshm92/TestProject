@@ -9,6 +9,7 @@ load the data from logged in community
 public with sharing class NewMediaOutReach {
     
     public static String REQUESTED_VAL = Label.Requested;
+    public static String REQUESTED_STATUS = 'Requested' ;
     
     public  static Id studyContactId;
     public  static String lstvalsite;
@@ -166,7 +167,8 @@ public with sharing class NewMediaOutReach {
         
         for(PicklistEntry ent:plistvalues.getpicklistvalues())
         {
-            options.put(ent.getValue(),ent.getLabel());
+            //update as per REF-1966
+           options.put(TranslateHelper.getPickListLabel(Media_Outreach__c.Media_Type__c,ent.getLabel()),ent.getLabel());
         }
         return options;
     }
@@ -212,7 +214,7 @@ public with sharing class NewMediaOutReach {
             mediaOut.Media_Type__c =  typeval;
             mediaOut.Preferred_contact_method__c = prefferedtype;
             mediaOut.Alternate_Email_Phone_Number__c = actualemailPhone;
-            mediaOut.Status__c = REQUESTED_VAL;
+            mediaOut.Status__c = REQUESTED_STATUS; //Update as per 1966
             if(startdt!= ''){
                 mediaOut.Requested_Start_Date__c = Date.valueOf(startdt);
             }
