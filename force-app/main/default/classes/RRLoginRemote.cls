@@ -17,10 +17,12 @@ global without sharing class RRLoginRemote {
                               Contact.userCommunityDelegateId__c, Contact.UserCommunityIsDelegate__c, 
                               Contact.Landing_Community__c
                               FROM User WHERE UserName =: username limit 1];
-            List<Participant_Enrollment__c> loginUserPEs = [SELECT Id FROM Participant_Enrollment__c WHERE Participant_Contact__c = : loginUser.ContactId ];
+            Integer counter=0;
+            List<Participant_Enrollment__c> loginUserPEs = [SELECT Id,Participant_Status__c FROM Participant_Enrollment__c WHERE Participant_Contact__c = : loginUser.ContactId ];
+            for(Participant_Enrollment__c eachpe :loginUserPEs){if(PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(eachpe.Participant_Status__c)){counter++;}}
             //No participant enrollment and UserCommunityIsDelegate__c to ensure the 
             //contact is a prospect and delegate of a certain contact
-            if(loginUserPEs.isEmpty() && loginUser.Contact.UserCommunityIsDelegate__c){
+            if((loginUserPEs.isEmpty() && loginUser.Contact.UserCommunityIsDelegate__c)||(counter==loginUserPEs.size())){
                 Contact c= new Contact(Id = loginUser.ContactId, 
                                        Current_Participant_Enrollment__c = null, 
                                        userCommunityDelegateId__c = null,
