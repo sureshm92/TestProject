@@ -4,6 +4,18 @@
   "id" : "d4e731d2-5a40-4581-b76b-f9b05d8f45e8",
   "label" : "Trial Terms And Conditions",
   "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : {
+        "isPortalTC" : true,
+        "privacyPolicyId" : "",
+        "titleCode" : ""
+      },
+      "componentName" : "c:TermsAndConditions",
+      "id" : "b25ab44f-6848-4386-af43-d40add3fd17d",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
     "id" : "1b3b8b70-2358-42fc-bda4-aa97f90c3b0e",
     "regionName" : "column1",
     "type" : "region"
