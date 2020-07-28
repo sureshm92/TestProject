@@ -13,7 +13,7 @@
     <ul class="main-container">
         <aura:iteration items="{!v.communityModes.rhModeItems}" var="modeGroup">
             <c:uiMenuItem onclick="{!c.doOnclick}" itemValue="{!modeGroup}">
-                <div class="main-box">
+                <div class="main-box" onclick="{!c.doToggleGroup}" data-group-id="{!modeGroup.itemType}">
                     <aura:if isTrue="{!modeGroup.isCollapsed}">
                         <div class="{!'icon-box ' + if(modeGroup.isGroup, 'icon-unset','')}">
                             <c:RRIcon iconName="icon-chevron-right"
@@ -26,9 +26,7 @@
                             </div>
                         </aura:set>
                     </aura:if>
-                    <div data-group-id="{!modeGroup.itemType}"
-                         class="{!'mode-group ' + if(modeGroup.isSelected, 'selected', '')}"
-                         onclick="{!c.doToggleGroup}">
+                    <div class="{!'mode-group ' + if(modeGroup.isSelected, 'selected', '')}">
                         {!modeGroup.title}
                         <aura:if isTrue="{!and(!modeGroup.isGroup, modeGroup.isSelected)}">
                             <c:RRIcon iconName="icon-check" class="icon-check"/>
@@ -41,7 +39,7 @@
                             <c:uiMenuItem onclick="{!c.doOnclick}" itemValue="{!subItem}">
                                 <div data-group-id="{!subItem.itemType}" data-delegate-id="{!subItem.itemId}"
                                      class="{!'mode-sub-item ' + if(subItem.isSelected,'selected','')}">
-                                    {!subItem.title}
+                                    <div class="item-title">{!subItem.title}</div>
                                     <aura:if isTrue="{!subItem.isSelected}">
                                         <c:RRIcon iconName="icon-check" class="icon-check"/>
                                     </aura:if>
