@@ -69,6 +69,5 @@ public class Test_NoteSection {
             GetNotes.getNotesdata(MO_inprogress.ID);
         } catch (exception e) {}
         Test.stopTest();
-
     }
 }
