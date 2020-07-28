@@ -125,7 +125,9 @@ public without sharing class UserTriggerHandler {
     private static void assignCommunityPermissionSetToUser(List<User> insertedUsers) 
     {
         List<User> rhUsers = [
-                SELECT Id, ContactId
+                SELECT Id,
+                       ContactId,
+                       Contact.userCommunityMode__c
                 FROM User
                 WHERE Id IN:insertedUsers
                 AND ContactId != NULL
