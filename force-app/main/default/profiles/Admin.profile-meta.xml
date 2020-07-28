@@ -5131,6 +5131,21 @@
         <field>Participant_Enrollment__c.Patient_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Permit_Mail_Email_contact_for_this_study__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Permit_SMS_Text_for_this_study__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Permit_Voice_Text_contact_for_this_study__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Pre_Eligibility_Date__c</field>
