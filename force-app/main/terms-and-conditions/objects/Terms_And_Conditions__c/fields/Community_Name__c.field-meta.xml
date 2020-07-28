@@ -12,17 +12,17 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>IQVIA_Referral_Hub</fullName>
+                <fullName>IQVIA Referral Hub</fullName>
                 <default>true</default>
                 <label>IQVIA Referral Hub</label>
             </value>
             <value>
-                <fullName>GSK_Community</fullName>
+                <fullName>GSK Community</fullName>
                 <default>false</default>
                 <label>GSK Community</label>
             </value>
             <value>
-                <fullName>Janssen_Community</fullName>
+                <fullName>Janssen Community</fullName>
                 <default>false</default>
                 <label>Janssen Community</label>
             </value>
