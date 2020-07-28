@@ -67,6 +67,10 @@
                 <behavior>Edit</behavior>
                 <field>Permit_IQVIA_to_contact_about_study__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>HighRisk_Indicator__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
