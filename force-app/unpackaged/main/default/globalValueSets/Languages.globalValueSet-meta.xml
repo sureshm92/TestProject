@@ -16,40 +16,14 @@
         <label>English (UK)</label>
     </customValue>
     <customValue>
-        <fullName>zh_CN</fullName>
+        <fullName>ur</fullName>
         <default>false</default>
-        <isActive>false</isActive>
-        <label>zh_CN</label>
+        <label>Urdu</label>
     </customValue>
     <customValue>
-        <fullName>ja</fullName>
+        <fullName>ar</fullName>
         <default>false</default>
-        <isActive>false</isActive>
-        <label>ja</label>
-    </customValue>
-    <customValue>
-        <fullName>Arabic_Saudi</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>Arabic_Saudi</label>
-    </customValue>
-    <customValue>
-        <fullName>es_MX</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>es_MX</label>
-    </customValue>
-    <customValue>
-        <fullName>el</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>el</label>
-    </customValue>
-    <customValue>
-        <fullName>tr</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>tr</label>
+        <label>Arabic</label>
     </customValue>
     <customValue>
         <fullName>de</fullName>
@@ -68,12 +42,6 @@
         <default>false</default>
         <isActive>false</isActive>
         <label>Australian English</label>
-    </customValue>
-    <customValue>
-        <fullName>ur</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>Urdu</label>
     </customValue>
     <customValue>
         <fullName>bn</fullName>
@@ -136,10 +104,40 @@
         <label>Ukranian</label>
     </customValue>
     <customValue>
-        <fullName>ar</fullName>
+        <fullName>tr</fullName>
         <default>false</default>
         <isActive>false</isActive>
-        <label>Arabic</label>
+        <label>tr</label>
+    </customValue>
+    <customValue>
+        <fullName>el</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>el</label>
+    </customValue>
+    <customValue>
+        <fullName>es_MX</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>es_MX</label>
+    </customValue>
+    <customValue>
+        <fullName>Arabic_Saudi</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Arabic_Saudi</label>
+    </customValue>
+    <customValue>
+        <fullName>zh_CN</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>zh_CN</label>
+    </customValue>
+    <customValue>
+        <fullName>ja</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>ja</label>
     </customValue>
     <masterLabel>Languages</masterLabel>
     <sorted>false</sorted>
