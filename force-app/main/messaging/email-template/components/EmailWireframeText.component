@@ -36,5 +36,5 @@
 
     {!signatureText}
 
-    {!$Label.Email_Footer_Address} | {!$Label.Email_Footer_Privacy_Policy}: {!$Label.CommunityURL + '/s/privacy-policy'}
+    {!$Label.Email_Footer_Address} | {!$Label.Email_Footer_Privacy_Policy}: {!IF(communityTemplate == 'Janssen', $Label.CommunityJanssenURL + '/s/privacy-policy', $Label.CommunityURL + '/s/privacy-policy')}
 </apex:component>
