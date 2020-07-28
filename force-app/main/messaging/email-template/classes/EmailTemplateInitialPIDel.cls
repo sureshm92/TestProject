@@ -4,7 +4,7 @@
 public with sharing class EmailTemplateInitialPIDel extends EmailTemplateInitial {
 
     public EmailTemplateInitialPIDel(Id recipientContactId, String outputMode, String communityTemplateName) {
-        super(recipientContactId, outputMode, null);
+        super(recipientContactId, outputMode, communityTemplateName);
         userMode = 'PI Delegate';
 
         List<Site_Staff__c> siteStaffs = [

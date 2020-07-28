@@ -4,7 +4,7 @@
 public without sharing class EmailTemplateInitialPI extends EmailTemplateInitial {
 
     public EmailTemplateInitialPI(Id recipientContactId, String outputMode, String communityTemplateName) {
-        super(recipientContactId, outputMode, null);
+        super(recipientContactId, outputMode, communityTemplateName);
         userMode = 'PI';
 
         List<Study_Site__c> studySites = [
