@@ -17880,6 +17880,13 @@ communications using the toggles below.</value>
         <value>Weight</value>
     </labels>
     <labels>
+        <fullName>View_Mode</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>View Mode</shortDescription>
+        <value>View as </value>
+    </labels>
+    <labels>
         <fullName>View_Visit_Legend</fullName>
         <language>en_US</language>
         <protected>true</protected>
