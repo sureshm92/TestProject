@@ -22,7 +22,7 @@ public without sharing class CommunityTemplateService {
     public static final String TEMPLATE_DEFAULT = 'Default';
     public static final String TEMPLATE_GSK = 'GSK';
     public static final String TEMPLATE_JANSSEN = 'Janssen';
-    public static final String TEMPLATE_JANSSEN_COMM_NAME = 'Janssen_Community';
+    public static final String TEMPLATE_JANSSEN_COMM_NAME = 'Janssen Community';
     public static final Map<String, String> RESOURCES_URL_MAP = getResourcesURLMap();
     public static final Map<String, Network> NETWORKS_MAP = getNetworksMap();
     public static final Map<String, CommunityTemplate> TEMPLATES_MAP = getTemplatesMap();
