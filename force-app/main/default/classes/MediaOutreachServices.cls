@@ -130,7 +130,15 @@ public class MediaOutreachServices {
             Media_Outreach__c.getSObjectType(),
             defaultFilter
         );
-        return mList;
+        //Update as per REF-1966
+        List<Media_Outreach__c> lstMediaFinal = new List<Media_Outreach__c> ();
+        for(Media_Outreach__c objMedia : mList)
+        {
+            objMedia.Status__c = TranslateHelper.getPickListLabel(Media_Outreach__c.Status__c,objMedia.Status__c);
+            lstMediaFinal.add(objMedia);
+        }
+        return lstMediaFinal;
+      //  return mList;
     }
     
     //default filter on the Principal Investigator
