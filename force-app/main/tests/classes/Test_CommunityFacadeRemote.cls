@@ -44,7 +44,7 @@ private class Test_CommunityFacadeRemote {
             CommunityFacadeRemote.acceptTerms();
             CommunityFacadeRemote.urlExists('test_url');
             CommunityFacadeRemote.getLocalizedURL('https://login.salesforce.com/');
-            CommunityFacadeRemote.changeMode('HCP', null, null);
+            CommunityFacadeRemote.changeMode('HCP', null, null, null);
             CommunityFacadeRemote.isTCAccepted();
             CommunityFacadeRemote.getCommunityData();
             try {

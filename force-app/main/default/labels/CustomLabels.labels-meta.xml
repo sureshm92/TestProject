@@ -1587,14 +1587,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CTL L HCP MODE</shortDescription>
-        <value>View as Referring Provider</value>
+        <value>Referring Provider</value>
     </labels>
     <labels>
         <fullName>CTL_L_PI_MODE</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CTL L PI MODE</shortDescription>
-        <value>View as Investigative Site</value>
+        <value>Investigative Site</value>
     </labels>
     <labels>
         <fullName>CTL_L_Patricipant_MODE</fullName>
@@ -6630,7 +6630,7 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&qu
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Help_Participant_Name</shortDescription>
-        <value>Participant Name:</value>
+        <value>Referral ID:</value>
     </labels>
     <labels>
         <fullName>Help_Study_Site</fullName>
@@ -14389,7 +14389,7 @@ communications using the toggles below.</value>
         <shortDescription>PP_Withdraw_Delegate</shortDescription>
         <value>You  may  choose  to  withdraw  from  your  delegate  appointment  at  any  time.  
  Doing  so  will  prevent  you  from  seeing  any  more  information  associated  with 
- ##PatientFirstName.  If  you  withdraw  in  error , kindly  contact  your  patient  to  be 
+ ##PatientFirstName.  If  you  withdraw  in  error, kindly  contact  your  patient  to  be 
  reappointed  as  a  delegate.</value>
     </labels>
     <labels>
@@ -17850,6 +17850,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>VR Weight</shortDescription>
         <value>Weight</value>
+    </labels>
+    <labels>
+        <fullName>View_Mode</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>View Mode</shortDescription>
+        <value>View as </value>
     </labels>
     <labels>
         <fullName>View_Visit_Legend</fullName>

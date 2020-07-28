@@ -31,7 +31,7 @@
         <div class="step-form">
             <aura:if isTrue="{!and(!empty(v.stepWrapper.outcomeList),v.stepWrapper.editable)}">
                 <div class="slds-wrap slds-grid slds-gutters">
-                    <div class="slds-col slds-size--1-of-2 slds-small-size_1-of-1 outcome-form-element">
+                    <div class="slds-col slds-size--1-of-2 outcome-form-element">
                         <div class="label2">{!$Label.c.PG_ACPE_L_Outcome}</div>
                         <!--<c:rrSelect aura:id="outcome-select" options="{!v.stepWrapper.outcomeList}" value="{!v.stepWrapper.outcome}"
                                     placeholder="{!v.stepWrapper.outcomePlaceholder}" setValueAsSelected="true"
@@ -55,7 +55,7 @@
                             <div class="{!'rr-error-message' + if(v.stepWrapper.outcomeDisclaimer == '', ' slds-hide','')}">{!v.stepWrapper.outcomeDisclaimer}</div>
                         </div>
                     </div>
-                    <div class="slds-col slds-size--1-of-2 slds-small-size_1-of-1 outcome-form-element">
+                    <div class="slds-col slds-size--1-of-2 outcome-form-element">
                         <div class="label2">{!$Label.c.PG_ACPE_L_Reason}</div>
                         <!--<c:rrSelect options="{!v.reasonList}" value="{!v.stepWrapper.reason}"
                                     placeholder="{!if(empty(v.reasonList),'',$Label.c.PG_RP_L_Not_selected)}"
