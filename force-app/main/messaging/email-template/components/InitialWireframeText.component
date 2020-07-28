@@ -68,9 +68,10 @@
                           header="{!$Label.Email_Header_Initial_PI}"
                           title="{!titleLabel}"
                           greeting="{!$Label.Email_User_Greeting}"
-                          signature="{!$Label.Email_Signature}">
+                          signature="{!$Label.Email_Signature}"
+                          communityTemplate = "{!communityTemplate}">
         <!-- Inner body -->
-        <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_PI}"/>
+        <c:ParagraphText emailLabel="{!IF(commTemplate == 'Janssen',$Label.Email_Body_Janssen_Initial_PI,$Label.Email_Body_Initial_PI)}"/>
         <c:EmailActionBtnText buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframeText>
 
