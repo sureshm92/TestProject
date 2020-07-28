@@ -397,7 +397,6 @@ public without sharing class ParticipantEnrollmentService {
             'HCP__r.Orientation_Date__c',
             'Days_After_Enrolled__c',
             'Informed_Consent__c',
-            'Permit_IQVIA_to_contact_about_study__c',
             'Is_Virtual_Study_Site__c',
             'IsSubjectIDverifiedInSDH__c',
             'Medical_Record_Review_Status__c',
