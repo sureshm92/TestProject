@@ -12864,8 +12864,8 @@ The expected format is REF#####</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L Health care proxy is needed</shortDescription>
-        <value>My patient would like to create a delegate user at this point.
-            (Required if patient is under age of majority or unable to make legal decisions.)</value>
+        <value>Create a delegate for this participant
+            (Required if the participant is unable to legally make their own medical decisions)</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_IQVIA_may_also_contact_your_patient_to_ensure_that_your_patient_has_con</fullName>
@@ -12873,6 +12873,20 @@ The expected format is REF#####</value>
         <protected>false</protected>
         <shortDescription>PG Ref L IQVIA may also contact your patient to ensure that your patient has con</shortDescription>
         <value>IQVIA may also contact your patient to ensure that your patient has connected with the study site.</value>
+    </labels>
+	<labels>
+        <fullName>PG_Ref_L_Information_Sharing</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Information_Sharing</shortDescription>
+        <value>Information Sharing</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Invitation_To_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Invitation_To_PP</shortDescription>
+        <value>Invitation to Patient Portal</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Is_the_patient_still_interested_in_participating_in_this_study</fullName>
@@ -12965,12 +12979,54 @@ The expected format is REF#####</value>
         <shortDescription>PG Ref L Participant require guardian</shortDescription>
         <value>Receive information about clinical study opportunities.</value>
     </labels>
+	<labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_Confirmation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_Confirmation</shortDescription>
+        <value>I confirm that the patient, and/or patient&apos;s legal guardian if applicable,agrees</value>
+    </labels>
     <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_To_Contact</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG Ref L Permit IQVIA To Contact</shortDescription>
         <value>IQVIA cannot contact regarding this study</value>
+    </labels>
+	<labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_Email</shortDescription>
+        <value>that IQVIA or its affiliates may contact the patient or his/her legal guardians</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_Phone</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_Phone</shortDescription>
+        <value>that IQVIA or its affiliates may contact the patient via phone (voice) regarding this study</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_SMS</shortDescription>
+        <value>that IQVIA or its affiliates may contact the patient via SMS/text messaging regarding this study</value>
+    </labels>
+	<labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_ShareInformation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_ShareInformation</shortDescription>
+        <value>to share the above information with IQVIA and its affiliates</value>
+    </labels>
+	<labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal</shortDescription>
+        <value>Invite the patient to join Patient Portal</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Please_complete_Medical_Record_Review_first</fullName>
