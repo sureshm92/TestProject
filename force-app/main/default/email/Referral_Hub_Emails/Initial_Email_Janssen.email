@@ -1,0 +1,21 @@
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Initial_Janssen}"
+                         recipientType="User"
+                         language="{!recipient.LanguageLocaleKey}">
+
+    <messaging:htmlEmailBody >
+        <c:InitialWireframe userId="{!recipient.Id}"
+                            communityTemplate="Janssen"
+                            buttonLabel="{!$Label.Email_Action_Enroll_Now}"
+                            buttonURL="{!$Network.NetworkUrlForUserEmails}">
+        </c:InitialWireframe>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody >
+        <c:InitialWireframeText userId="{!recipient.Id}"
+                                communityTemplate="Janssen"
+                                buttonLabel="{!$Label.Email_Action_Enroll_Now}"
+                                buttonURL="{!$Network.NetworkUrlForUserEmails}">
+        </c:InitialWireframeText>
+    </messaging:plainTextEmailBody>
+
+</messaging:emailTemplate>
