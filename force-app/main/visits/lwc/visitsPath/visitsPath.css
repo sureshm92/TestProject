@@ -335,28 +335,15 @@
         height: 38px;
     }
 
-    .slds-grid .line-div .state-ico-wrapper {
-        width: 30px;
-        height: 30px;
-        top: -18px;
-        left: -16px;
-    }
-
-    .state-ico-wrapper .rr-icon-default {
-        width: 20px;
-        height: 22px;
-    }
-
     .width-basis {
         flex-basis: 0;
     }
 
-    .state .state-ico-wrapper {
-        width: 32px;
-        height: 33px;
-        top: -17px;
-        left: -14px;
+    .state .state-ico-wrapper .rr-icon-default {
+        width: 20px;
+        height: 22px;
     }
+
     .arrow-left,
     .arrow-right {
         padding-top: 20px;
