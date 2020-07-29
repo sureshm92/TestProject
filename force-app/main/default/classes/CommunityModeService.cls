@@ -29,22 +29,28 @@ public without sharing class CommunityModeService {
         List<String> availableModes = userContact.userCommunytyType__c == null ? new List<String>() : userContact.userCommunytyType__c.split(';');
 
         if (availableModes.contains(USER_MODE_PI) || !DelegateService.getPIDelegateParents().isEmpty()) {
-            Map<String, List<Study_Site__c>> ssBySponsor = new Map<String, List<Study_Site__c>>();
-            List<Study_Site__c> studySites = [
-                    SELECT Id, Principal_Investigator__c, Clinical_Trial_Profile__r.Study_Sponsor__c
-                    FROM Study_Site__c
-                    WHERE Principal_Investigator__c =: contactId
+            Map<String, List<Site_Staff__c>> ssBySponsor = new Map<String, List<Site_Staff__c>>();
+            List<Site_Staff__c> siteStaffs = [
+                    SELECT Id, Study_Site__c,
+                            Study_Site__r.Principal_Investigator__c,
+                            Study_Site__r.Clinical_Trial_Profile__c,
+                            Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c,
+                            Delegate_Level__c,
+                            Clinical_Trial_Profile__c,
+                            Site_Contact__c
+                    FROM Site_Staff__c
+                    WHERE Site_Contact__c =: contactId OR Study_Site__r.Principal_Investigator__c =: contactId
             ];
 
-            for(Study_Site__c ss : studySites) {
-                if (rhCommunitiesBySponsor.containsKey(ss.Clinical_Trial_Profile__r.Study_Sponsor__c)) {
-                    if (!ssBySponsor.containsKey(ss.Clinical_Trial_Profile__r.Study_Sponsor__c)) {
-                        ssBySponsor.put(ss.Clinical_Trial_Profile__r.Study_Sponsor__c, new List<Study_Site__c>());
+            for (Site_Staff__c ss : siteStaffs) {
+                if (rhCommunitiesBySponsor.containsKey(ss.Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c)) {
+                    if (!ssBySponsor.containsKey(ss.Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c)) {
+                        ssBySponsor.put(ss.Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c, new List<Site_Staff__c>());
                     }
-                    ssBySponsor.get(ss.Clinical_Trial_Profile__r.Study_Sponsor__c).add(ss);
+                    ssBySponsor.get(ss.Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c).add(ss);
                 } else {
                     if (!ssBySponsor.containsKey(CommunityTemplateService.TEMPLATE_DEFAULT)) {
-                        ssBySponsor.put(CommunityTemplateService.TEMPLATE_DEFAULT, new List<Study_Site__c>());
+                        ssBySponsor.put(CommunityTemplateService.TEMPLATE_DEFAULT, new List<Site_Staff__c>());
                     }
                     ssBySponsor.get(CommunityTemplateService.TEMPLATE_DEFAULT).add(ss);
                 }
@@ -272,22 +278,29 @@ public without sharing class CommunityModeService {
         String availableModes = userContact.userCommunytyType__c == null ? '' : userContact.userCommunytyType__c;
         if ((availableModes != null && availableModes.contains(USER_MODE_PI))
                 || !DelegateService.getPIDelegateParents().isEmpty()) {
-            Map<String, List<Study_Site__c>> ssBySponsor = new Map<String, List<Study_Site__c>>();
-            List<Study_Site__c> studySites = [
-                    SELECT Id, Principal_Investigator__c, Clinical_Trial_Profile__r.Study_Sponsor__c
-                    FROM Study_Site__c
-                    WHERE Principal_Investigator__c = :contactId
+            Map<String, List<Site_Staff__c>> ssBySponsor = new Map<String, List<Site_Staff__c>>();
+
+            List<Site_Staff__c> siteStaffs = [
+                    SELECT Id, Study_Site__c,
+                            Study_Site__r.Principal_Investigator__c,
+                            Study_Site__r.Clinical_Trial_Profile__c,
+                            Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c,
+                            Delegate_Level__c,
+                            Clinical_Trial_Profile__c,
+                            Site_Contact__c
+                    FROM Site_Staff__c
+                    WHERE Site_Contact__c =: contactId OR Study_Site__r.Principal_Investigator__c =: contactId
             ];
 
-            for (Study_Site__c ss : studySites) {
-                if (rhCommunitiesBySponsor.containsKey(ss.Clinical_Trial_Profile__r.Study_Sponsor__c)) {
-                    if (!ssBySponsor.containsKey(ss.Clinical_Trial_Profile__r.Study_Sponsor__c)) {
-                        ssBySponsor.put(ss.Clinical_Trial_Profile__r.Study_Sponsor__c, new List<Study_Site__c>());
+            for (Site_Staff__c ss : siteStaffs) {
+                if (rhCommunitiesBySponsor.containsKey(ss.Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c)) {
+                    if (!ssBySponsor.containsKey(ss.Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c)) {
+                        ssBySponsor.put(ss.Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c, new List<Site_Staff__c>());
                     }
-                    ssBySponsor.get(ss.Clinical_Trial_Profile__r.Study_Sponsor__c).add(ss);
+                    ssBySponsor.get(ss.Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c).add(ss);
                 } else {
                     if (!ssBySponsor.containsKey(CommunityTemplateService.TEMPLATE_DEFAULT)) {
-                        ssBySponsor.put(CommunityTemplateService.TEMPLATE_DEFAULT, new List<Study_Site__c>());
+                        ssBySponsor.put(CommunityTemplateService.TEMPLATE_DEFAULT, new List<Site_Staff__c>());
                     }
                     ssBySponsor.get(CommunityTemplateService.TEMPLATE_DEFAULT).add(ss);
                 }
