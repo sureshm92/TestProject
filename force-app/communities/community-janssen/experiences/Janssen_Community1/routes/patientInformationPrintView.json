@@ -6,5 +6,5 @@
   "pageAccess" : "UseParent",
   "routeType" : "custom-patient-information-printview",
   "type" : "route",
-  "urlPrefix" : "patient-information-printview"
+  "urlPrefix" : "patient-info-pv"
 }
