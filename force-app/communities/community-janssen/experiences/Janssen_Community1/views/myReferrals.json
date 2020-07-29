@@ -1,18 +1,18 @@
 {
   "appPageId" : "5bf37374-2b32-4433-ad3c-73208f1ef38a",
   "componentName" : "c:OneColumnLayout",
-  "id" : "27199a4b-8a9a-4e0a-8f6c-59199327df07",
-  "label" : "Account Settings",
+  "id" : "70bbf488-4424-44b2-88b9-511b201de8ac",
+  "label" : "My Referrals",
   "regions" : [ {
     "components" : [ {
       "componentAttributes" : { },
-      "componentName" : "c:Page_AccountSettings",
-      "id" : "65e1c05f-b753-412e-97d4-ded484d89468",
+      "componentName" : "c:ViewPatients",
+      "id" : "1b30a827-ece0-4225-8a66-3d00bd3c90dd",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "7a1da20f-ea85-4bfb-843b-a92b30419d23",
+    "id" : "877ddc05-baca-435f-8dca-a5e59e469303",
     "regionName" : "column1",
     "type" : "region"
   }, {
@@ -20,18 +20,18 @@
       "componentAttributes" : {
         "description" : "",
         "metaTags" : "",
-        "title" : "Account Settings"
+        "title" : "My Referrals"
       },
       "componentName" : "forceCommunity:seoAssistant",
-      "id" : "f011da99-4ea7-4f42-b435-19a2609dbe7e",
+      "id" : "96e53513-a2e9-4bc4-8d80-67f394115584",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "7a5bf6f2-a14e-4009-9268-023677c870cb",
+    "id" : "b433500a-2326-4949-9b7b-e8fc76596c41",
     "regionName" : "sfdcHiddenRegion",
     "type" : "region"
   } ],
   "themeLayoutType" : "Inner",
   "type" : "view",
-  "viewType" : "custom-account-settings"
+  "viewType" : "custom-my-referrals"
 }
