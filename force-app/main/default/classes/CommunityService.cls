@@ -6,6 +6,7 @@ public without sharing class CommunityService {
     public static final String IQVIA_NETWORK_NAME = 'IQVIA Referral Hub';
     public static final String GSK_NETWORK_NAME = 'GSK Community';
     public static final String JANSSEN_NETWORK_NAME = 'Janssen Community';
+    public static final String JANSSEN_COMMUNITY_TEMPLATE = 'Janssen';
 
     public static final String COMMUNITY_USER_PROFILE_NAME = 'IQVIA Customer Community Plus Login User';
     public static final Id COMMUNITY_USER_PROFILE_ID = [SELECT Id FROM Profile WHERE Name = :COMMUNITY_USER_PROFILE_NAME].Id;
