@@ -96,9 +96,9 @@
         pe.Permit_Mail_Email_contact_for_this_study__c = component.get('v.isEmail');
         pe.Permit_Voice_Text_contact_for_this_study__c = component.get('v.isPhone');
         pe.Permit_SMS_Text_for_this_study__c = component.get('v.isSMS');
-        if(component.get('v.sendEmails')&& component.get('v.doContact')){
+        /*if(component.get('v.sendEmails')&& component.get('v.doContact')){
             helper.createUserForPatient(component,event,helper);
-        }
+        }*/
         var userInfo = component.get('v.userInfo');
         pe.Participant__r = participant;
         if (!pe.sObjectType) {
@@ -163,9 +163,9 @@
         pe.Permit_Mail_Email_contact_for_this_study__c = component.get('v.isEmail');
         pe.Permit_Voice_Text_contact_for_this_study__c = component.get('v.isPhone');
         pe.Permit_SMS_Text_for_this_study__c = component.get('v.isSMS');
-        if(component.get('v.sendEmails')&& component.get('v.doContact')){
+        /*if(component.get('v.sendEmails')&& component.get('v.doContact')){
             helper.createUserForPatient(component,event,helper);
-        }
+        }*/
         var pathWrapper = component.get('v.participantPath');
         var statusDetailValid = component.get('v.statusDetailValid');
         var isStatusChanged = component.get('v.isStatusChanged');
@@ -245,9 +245,9 @@
         pe.Permit_Mail_Email_contact_for_this_study__c = component.get('v.isEmail');
         pe.Permit_Voice_Text_contact_for_this_study__c = component.get('v.isPhone');
         pe.Permit_SMS_Text_for_this_study__c = component.get('v.isSMS');
-        if(component.get('v.sendEmails')&& component.get('v.doContact')){
+        /*if(component.get('v.sendEmails')&& component.get('v.doContact')){
             helper.createUserForPatient(component,event,helper);
-        }
+        }*/
         let statusDetailValid = component.get('v.statusDetailValid');
         var isStatusChanged = component.get('v.isStatusChanged');
         console.log('##isStatusChanged1: '+ isStatusChanged);
@@ -297,6 +297,26 @@
             });
         }
         
+    },
+    createUserForPatient: function(component, event, helper){
+        var sendEmails = component.get('v.sendEmails');
+        var pe = component.get('v.pe');
+        component.find('spinner').show();
+        communityService.executeAction(component, 'createUserForPatientProtal', {
+            peJSON: JSON.stringify(pe),
+            sendEmails: sendEmails
+        }, function (returnvalue) {
+            returnvalue = JSON.parse(JSON.stringify(returnvalue[0]));
+            component.set('v.isInvited', true);
+            component.set('v.userInfo', returnvalue);
+            communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
+            var callback = component.get('v.callback');
+            if(callback){
+                callback(pe);
+            }
+        }, null, function () {
+            component.find('spinner').hide();
+        });
     },
     doCheckStatusDetailValidity : function (component, event, helper) {
         let steps = component.get('v.participantPath.steps');
