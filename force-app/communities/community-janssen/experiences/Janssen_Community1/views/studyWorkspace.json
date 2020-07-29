@@ -4,6 +4,14 @@
   "id" : "af5a3de0-eb63-4e2b-9014-20f34872d347",
   "label" : "Study Workspace",
   "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:StudyDetailView",
+      "id" : "6f928d74-885b-4e0f-b07a-e3b64551e7de",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
     "id" : "9767d3a3-0dc1-451c-9893-16cf3513fbe3",
     "regionName" : "column1",
     "type" : "region"
