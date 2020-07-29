@@ -143,7 +143,7 @@
                                 <aura:if isTrue="{!!v.useThisDelegate}">
                                     <div class="slds-col slds-size--1-of-1 rr-form-element">
                                         <c:DuplicateDelegateMessage delegateDuplicateInfo="{!v.delegateDuplicateInfo}"/>
-                                        </div>
+                                    </div>
                                 </aura:if>
                             </aura:if>
                             <div class="slds-col slds-size--1-of-3 rr-form-element">
