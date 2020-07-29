@@ -1,0 +1,40 @@
+<aura:component description="OptOutAndTechnicalSupport" implements="forceCommunity:availableForAllPageTypes" controller="OptOutAndTechnicalSupportRemote">
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+	
+    <!--Attributes-->
+    <aura:attribute name="optOutSubCategoryList" type="List" />
+    <aura:attribute name="techSupportSubCategoryList" type="List"/>
+    <aura:attribute name="optOutTranslatedTitle" type="String"/>
+    <aura:attribute name="techSupportTranslatedTitle" type="String"/>
+    <aura:attribute name="selectedOptOutSubCategory" type="String" default=""/>
+    <aura:attribute name="selectedTechSupportSubCategory" type="String" default=""/>
+    <aura:attribute name="disabled" type="Boolean" default="true"/>
+    <aura:attribute name="showSuccessMessage" type="Boolean" default="false" access="private"/>
+	<aura:attribute name="showSpinner" type="Boolean" default="false" access="private"/>
+    
+    <!--Component Body-->
+    	<div class="{!v.showSuccessMessage?'slds-hide':'slds-show main-content-div'}">
+            
+            <lightning:checkboxGroup name="{!v.optOutTranslatedTitle}"
+                                     label="{!v.optOutTranslatedTitle}"
+                                     options="{!v.optOutSubCategoryList}"
+                                     value="{!v.selectedOptOutSubCategory}"
+                                     onchange="{!c.handleChange}">
+            </lightning:checkboxGroup>
+            <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
+            <lightning:checkboxGroup name="{!v.techSupportTranslatedTitle}"
+                                     label="{!v.techSupportTranslatedTitle}"
+                                     options="{!v.techSupportSubCategoryList}"
+                                     value="{!v.selectedTechSupportSubCategory}" class="padding-for-techSupportGroup" 
+                                     onchange="{!c.handleChange}">
+            </lightning:checkboxGroup>
+            
+        </div>
+        <div class="{!v.showSuccessMessage?'slds-hide':'slds-show submit-button-div'}">
+            <button class="apollo-btn primary submit" disabled="{!v.disabled}" onclick="{!c.handleSubmit}">{!$Label.c.CP_Submit_Button}</button>    	
+        </div>
+        <div class="{!v.showSuccessMessage?'slds-show success-message-text':'slds-hide'}">
+            <img src="{!$Resource.rr_community_icons + '/check.svg'}" class="checkLogo"/>
+            <p class="success-message-padding">{!$Label.c.Opt_Out_Success_Message}</p>
+    	</div>
+</aura:component>
