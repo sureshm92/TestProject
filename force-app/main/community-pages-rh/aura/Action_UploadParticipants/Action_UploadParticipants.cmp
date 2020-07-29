@@ -132,8 +132,8 @@
             </div>
             
             <aura:set attribute="footerButtons">
-                <div class="slds-grid slds-wrap">
-                    <div class="slds-col slds-size--5-of-12" style="margin-left: 60%;">
+                <div class="slds-float_right">
+                    <div class="slds-col slds-size--1-of-1" style="margin-left: 60%;">
                         <button class="apollo-btn tertiary slds-button__icon_right" data-gtm="btn_UploadNewParticipants_cancel"
                                 onclick="{!c.doCancel}">
                             {!$Label.c.BTN_Cancel}
