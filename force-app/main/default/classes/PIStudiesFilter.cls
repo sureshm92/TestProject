@@ -158,7 +158,7 @@ public without sharing class PIStudiesFilter implements SearchFilter {
             filterString += ' AND ' + DatabaseService.fieldEqual('Id', filterData.trialId);
         }
         if (!String.isBlank(filterData.communityName) && CommunityService.JANSSEN_NETWORK_NAME == filterData.communityName) {
-            filterString += ' AND ' + DatabaseService.fieldEqual('Clinical_Trial_Profile__r.CommunityTemplate__c', filterData.communityName);
+            filterString += ' AND ' + DatabaseService.fieldEqual('CommunityTemplate__c', filterData.communityName);
         }
 
         if (filterData.searchText != '') {
