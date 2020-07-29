@@ -25,9 +25,12 @@ public without sharing class SendEmailToParticipant {
         Id whatId = task.Id;
 
         if (task.Task_Type__c.equals(TaskService.TASK_TYPE_SURVEY) && task.Survey_Invitation__c != null) {
-            if (task.Reminder_Schedule__c == null) return notifications;
+            if (task.Reminder_Schedule__c == null && task.Reminder_Date__c != null) {
+                patientNotificationType = NotificationCatalog.MESSAGE_TO_PT_SURVEY_REMINDER_TYPE;
+            } else {
+                patientNotificationType = getNotificationTypeForSurvey(task);
+            }
             whatId = task.Survey_Invitation__c;
-            patientNotificationType = getNotificationTypeForSurvey(task);
             delegateNotificationType = patientNotificationType;
         }
         if (task.Task_Type__c.equals(TaskService.TASK_TYPE_MEDICATION) || task.Task_Type__c.equals(TaskService.TASK_TYPE_VISIT)) {
