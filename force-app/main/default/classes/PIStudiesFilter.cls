@@ -214,16 +214,7 @@ public without sharing class PIStudiesFilter implements SearchFilter {
             };
             Set<Id> studyIds = new Set<Id>();
             Set<Id> piIds = new Set<Id>();
-            List<Study_Site__c> studySites = StudySiteService.getStudySitesForPI();
-            if (CommunityService.JANSSEN_NETWORK_NAME == communityName) {
-                List<Study_Site__c> finalStudySites = new List<Study_Site__c>();
-                for (Study_Site__c studySite : studySites) {
-                    if (CommunityService.JANSSEN_NETWORK_NAME == studySite.Clinical_Trial_Profile__r.CommunityTemplate__c) {
-                        finalStudySites.add(studySite);
-                    }
-                }
-                studySites = finalStudySites;
-            }
+            List<Study_Site__c> studySites = filterStudySitesByCurrentCommunity(StudySiteService.getStudySitesForPI());
             for (Study_Site__c site : studySites) {
                 if (!piIds.contains(site.Principal_Investigator__c)) {
                     if (site.Principal_Investigator__c == CommunityService.getUserContact().Id) {
@@ -260,5 +251,21 @@ public without sharing class PIStudiesFilter implements SearchFilter {
             };
             sortType = 'CreatedDate DESC';
         }
+    }
+    
+    private static List<Study_Site__c> filterStudySitesByCurrentCommunity(List<Study_Site__c> inputList){
+        List<Study_Site__c> outList = new List<Study_Site__c>();
+        String currentCommunityName = UserContext.getCurrentCommunityName();
+        CommunityTemplate currentCommunityTemplate = CommunityTemplateService.getTemplateByCommunityName(currentCommunityName);
+        for(Study_Site__c ss : inputList){
+            if(currentCommunityTemplate.templateName == CommunityTemplateService.TEMPLATE_JANSSEN){
+                //if current is Janssen then add only Janssen
+                if(ss.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN) outList.add(ss);
+            }else{
+                //if current not Jenssen then add only not Janssen
+                if(ss.Clinical_Trial_Profile__r.CommunityTemplate__c != CommunityTemplateService.TEMPLATE_JANSSEN) outList.add(ss);
+            }
+        }
+        return outList;
     }
 }
