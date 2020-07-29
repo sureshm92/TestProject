@@ -29,32 +29,7 @@ public without sharing class CommunityModeService {
         List<String> availableModes = userContact.userCommunytyType__c == null ? new List<String>() : userContact.userCommunytyType__c.split(';');
 
         if (availableModes.contains(USER_MODE_PI) || !DelegateService.getPIDelegateParents().isEmpty()) {
-            Map<String, List<Site_Staff__c>> ssByCommunity = new Map<String, List<Site_Staff__c>>();
-            List<Site_Staff__c> siteStaffs = [
-                    SELECT Id, Study_Site__c,
-                            Study_Site__r.Principal_Investigator__c,
-                            Study_Site__r.Clinical_Trial_Profile__c,
-                            Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
-                            Delegate_Level__c,
-                            Clinical_Trial_Profile__c,
-                            Site_Contact__c
-                    FROM Site_Staff__c
-                    WHERE Site_Contact__c =: contactId OR Study_Site__r.Principal_Investigator__c =: contactId
-            ];
-
-            for (Site_Staff__c ss : siteStaffs) {
-                if (rhSponsorsByCommunity.containsKey(ss.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c)) {
-                    if (!ssByCommunity.containsKey(ss.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c)) {
-                        ssByCommunity.put(ss.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, new List<Site_Staff__c>());
-                    }
-                    ssByCommunity.get(ss.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c).add(ss);
-                } else {
-                    if (!ssByCommunity.containsKey(CommunityTemplateService.TEMPLATE_DEFAULT)) {
-                        ssByCommunity.put(CommunityTemplateService.TEMPLATE_DEFAULT, new List<Site_Staff__c>());
-                    }
-                    ssByCommunity.get(CommunityTemplateService.TEMPLATE_DEFAULT).add(ss);
-                }
-            }
+            Map<String, List<Study_Site__c>> ssByCommunity = getStudySitesByCommunityName(contactId);
 
             for(String commName : ssByCommunity.keySet()) {
                 if(rhSponsorsByCommunity.containsKey(commName)) {
@@ -276,35 +251,8 @@ public without sharing class CommunityModeService {
         List<CommunityMode> modes = new List<CommunityMode>();
         Contact userContact = ContactService.getContact(contactId);
         String availableModes = userContact.userCommunytyType__c == null ? '' : userContact.userCommunytyType__c;
-        if ((availableModes != null && availableModes.contains(USER_MODE_PI))
-                || !DelegateService.getPIDelegateParents().isEmpty()) {
-            Map<String, List<Site_Staff__c>> ssByCommunity = new Map<String, List<Site_Staff__c>>();
-
-            List<Site_Staff__c> siteStaffs = [
-                    SELECT Id, Study_Site__c,
-                            Study_Site__r.Principal_Investigator__c,
-                            Study_Site__r.Clinical_Trial_Profile__c,
-                            Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
-                            Delegate_Level__c,
-                            Clinical_Trial_Profile__c,
-                            Site_Contact__c
-                    FROM Site_Staff__c
-                    WHERE Site_Contact__c =: contactId OR Study_Site__r.Principal_Investigator__c =: contactId
-            ];
-
-            for (Site_Staff__c ss : siteStaffs) {
-                if (rhSponsorsByCommunity.containsKey(ss.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c)) {
-                    if (!ssByCommunity.containsKey(ss.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c)) {
-                        ssByCommunity.put(ss.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, new List<Site_Staff__c>());
-                    }
-                    ssByCommunity.get(ss.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c).add(ss);
-                } else {
-                    if (!ssByCommunity.containsKey(CommunityTemplateService.TEMPLATE_DEFAULT)) {
-                        ssByCommunity.put(CommunityTemplateService.TEMPLATE_DEFAULT, new List<Site_Staff__c>());
-                    }
-                    ssByCommunity.get(CommunityTemplateService.TEMPLATE_DEFAULT).add(ss);
-                }
-            }
+        if ((availableModes != null && availableModes.contains(USER_MODE_PI)) || !DelegateService.getPIDelegateParents().isEmpty()) {
+            Map<String, List<Study_Site__c>> ssByCommunity = getStudySitesByCommunityName(contactId);
 
             for (String commName : ssByCommunity.keySet()) {
                 if (rhSponsorsByCommunity.containsKey(commName)) modes.add(new CommunityMode(USER_MODE_PI, Label.CTL_L_PI_MODE, null, commName));
@@ -536,6 +484,39 @@ public without sharing class CommunityModeService {
             }
         }
         return resMap;
+    }
+
+    private static Map<String, List<Study_Site__c>> getStudySitesByCommunityName(Id contactId){
+        Map<String, List<Study_Site__c>> ssByCommunity = new Map<String, List<Study_Site__c>>();
+        List<Id> ssDelegateIds = new List<Id>();
+
+        List<Site_Staff__c> siteStaffs = [
+                SELECT Id, Study_Site__c
+                FROM Site_Staff__c
+                WHERE Site_Contact__c =: contactId
+        ];
+        for(Site_Staff__c staff : siteStaffs) ssDelegateIds.add(staff.Study_Site__c);
+
+        List<Study_Site__c> studySites = [
+                SELECT Id, Principal_Investigator__c, Clinical_Trial_Profile__r.CommunityTemplate__c
+                FROM Study_Site__c
+                WHERE Principal_Investigator__c =: contactId OR Id IN: ssDelegateIds
+        ];
+
+        for (Study_Site__c ss : studySites) {
+            if (rhSponsorsByCommunity.containsKey(ss.Clinical_Trial_Profile__r.CommunityTemplate__c)) {
+                if (!ssByCommunity.containsKey(ss.Clinical_Trial_Profile__r.CommunityTemplate__c)) {
+                    ssByCommunity.put(ss.Clinical_Trial_Profile__r.CommunityTemplate__c, new List<Study_Site__c>());
+                }
+                ssByCommunity.get(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).add(ss);
+            } else {
+                if (!ssByCommunity.containsKey(CommunityTemplateService.TEMPLATE_DEFAULT)) {
+                    ssByCommunity.put(CommunityTemplateService.TEMPLATE_DEFAULT, new List<Study_Site__c>());
+                }
+                ssByCommunity.get(CommunityTemplateService.TEMPLATE_DEFAULT).add(ss);
+            }
+        }
+        return ssByCommunity;
     }
 
     private static String getRPName(Contact rpContact, Map<Id, Participant__c> participantsByContactIdsMap){
