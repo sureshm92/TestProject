@@ -26,7 +26,7 @@ public without sharing class SendEmailToParticipant {
 
         if (task.Task_Type__c.equals(TaskService.TASK_TYPE_SURVEY) && task.Survey_Invitation__c != null) {
             if (task.Reminder_Schedule__c == null && task.Reminder_Date__c != null) {
-                patientNotificationType = NotificationCatalog.MESSAGE_TO_PT_SURVEY_FINAL_REMINDER_TYPE;
+                patientNotificationType = NotificationCatalog.MESSAGE_TO_PT_SURVEY_REMINDER_TYPE;
             } else {
                 patientNotificationType = getNotificationTypeForSurvey(task);
             }
