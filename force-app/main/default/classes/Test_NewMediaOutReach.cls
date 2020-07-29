@@ -22,7 +22,10 @@ private  class Test_NewMediaOutReach {
             AccountId = studySiteAccount.Id
         );
         insert piContact;
-       
+       UserRole userRole_1 = [SELECT Id FROM UserRole WHERE Name = 'View All' LIMIT 1];
+        Profile profile_1 = [SELECT Id FROM Profile WHERE Name = 'IQVIA Customer Community Plus Login User' LIMIT 1];
+        ID admin = [SELECT Id, Username, UserRoleId FROM User WHERE Profile.Name = 'System Administrator' AND UserRoleId = :userRole_1.Id LIMIT 1].id;
+      
         Clinical_Trial_Profile__c testStudy = new Clinical_Trial_Profile__c(
             Protocol_ID__c = 'tt123456790',
             Override_Recruitment_Status__c = 'Actively Enrolling',
@@ -30,7 +33,8 @@ private  class Test_NewMediaOutReach {
             Link_to_Pre_screening__c = 'some link',
             Study_Title__c = 'Some Title',
             Study_Code_Name__c = 'Some Code Name',
-            Suppress_Participant_Emails__c = false
+            Suppress_Participant_Emails__c = false,
+            Media_outreach_Provider__c = admin
         );
         insert testStudy;
         
