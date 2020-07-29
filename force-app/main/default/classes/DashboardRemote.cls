@@ -260,7 +260,7 @@ public without sharing class DashboardRemote {
     
     //TODO Review
     @AuraEnabled
-    public static String getInitData(String userMode, String sponsorName, String delegateId, Id piId, Id ctpId, String action) {
+    public static String getInitData(String userMode, String communityName, String delegateId, Id piId, Id ctpId, String action) {
         try {
             System.debug('userMode---> :' + userMode + ' delegateId---> : ' + delegateId  + ' piId----> : ' + piId + ' ctpId---> : ' + ctpId);
             if (userMode == CommunityService.USER_MODE_PI) {
@@ -313,23 +313,39 @@ public without sharing class DashboardRemote {
                 //START added by Sumit Surve
                 List<Clinical_Trial_Profile__c> related_CTP = new List<Clinical_Trial_Profile__c>();
 
-                List<Study_Site__c> related_site_sites = [Select Id,
-                                                                Name,
-                                                                Clinical_Trial_Profile__r.Id,
-                                                                Clinical_Trial_Profile__r.Name,
-                                                                Clinical_Trial_Profile__r.Study_Sponsor__c,
-                                                                Principal_Investigator__c
-                                                        from Study_Site__c
-                                                        WHERE  Principal_Investigator__c =: pi_Id];
+                List<Study_Site__c> related_site_sites;
+                if (CommunityService.JANSSEN_NETWORK_NAME == communityName) {
+                    related_site_sites = [
+                            SELECT Id,
+                                    Name,
+                                    Clinical_Trial_Profile__r.Id,
+                                    Clinical_Trial_Profile__r.Name,
+                                    Clinical_Trial_Profile__r.Study_Sponsor__c,
+                                    Clinical_Trial_Profile__r.CommunityTemplate__c,
+                                    Principal_Investigator__c
+                            FROM Study_Site__c
+                            WHERE Principal_Investigator__c = :pi_Id
+                            AND Clinical_Trial_Profile__r.CommunityTemplate__c = :CommunityService.JANSSEN_NETWORK_NAME
+                    ];
+                } else {
+                    related_site_sites = [
+                            SELECT Id,
+                                    Name,
+                                    Clinical_Trial_Profile__r.Id,
+                                    Clinical_Trial_Profile__r.Name,
+                                    Clinical_Trial_Profile__r.Study_Sponsor__c,
+                                    Clinical_Trial_Profile__r.CommunityTemplate__c,
+                                    Principal_Investigator__c
+                            FROM Study_Site__c
+                            WHERE Principal_Investigator__c = :pi_Id
+                            AND Clinical_Trial_Profile__r.CommunityTemplate__c != :CommunityService.JANSSEN_NETWORK_NAME
+                    ];
+                }
 
                 Set<Id> related_StudyIds = new set<Id>();
 
-                for (Study_Site__c ss : related_site_sites){
-                    if (CommunityService.JANSSEN_NETWORK_NAME == sponsorName) {
-                        if (CommunityService.JANSSEN_NETWORK_NAME == ss.Clinical_Trial_Profile__r.Study_Sponsor__c) related_StudyIds.add(ss.Clinical_Trial_Profile__r.Id);
-                    } else {
-                        if (CommunityService.JANSSEN_NETWORK_NAME != ss.Clinical_Trial_Profile__r.Study_Sponsor__c) related_StudyIds.add(ss.Clinical_Trial_Profile__r.Id);
-                    }
+                for (Study_Site__c ss : related_site_sites) {
+                    related_StudyIds.add(ss.Clinical_Trial_Profile__r.Id);
                 }
                 Map<Id, String> piCTPMap = new Map<Id, String>();
 
