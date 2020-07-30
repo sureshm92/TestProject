@@ -51,16 +51,13 @@ public without sharing class StudyListViewController {
         Map<String, List<LabelValueItem>> statesByCountryMap;
         Map<String, String> countriesMap;
         Map<String, String> countryCodesMap;
+        
         public PIInitData(){
             piStudiesFilter = new PIStudiesFilter();
             paginationData = new PaginationData();
             currentPITrials = new List<StudyDetailItem>();
         }
-        public PIInitData(String piId, String studyId, String communityName){
-            piStudiesFilter = new PIStudiesFilter(piId, studyId, communityName);
-            paginationData = new PaginationData();
-            currentPITrials = new List<StudyDetailItem>();
-        }
+        
         public PIInitData(PIStudiesFilter.FilterData filterData, PIStudiesFilter.SortData sortData,  PaginationData paginationData){
             piStudiesFilter = new PIStudiesFilter(filterData, sortData);
             this.paginationData = paginationData;
@@ -120,7 +117,7 @@ public without sharing class StudyListViewController {
             getStudiesForPI(initData);
             Contact updateUserContact = new Contact();
             updateUserContact.Id = CommunityService.getUserContact().Id;
-            updateUserContact.PI_My_Studies_Filters__c = (filterData.piId == null?'':filterData.piId) + ';' + (filterData.trialId==null?'':filterData.trialId);
+            filterData.save();
             update updateUserContact;
             return JSON.serialize(initData);
         } catch (Exception e) {
@@ -160,24 +157,7 @@ public without sharing class StudyListViewController {
     @AuraEnabled
     public static String getPIInitData(String communityName) {
         try {
-            String PIMyStudiesFilterSettings = CommunityService.getUserContact().PI_My_Studies_Filters__c;
-            PIInitData initData;
-            if( PIMyStudiesFilterSettings == null || PIMyStudiesFilterSettings == ''){
-                initData = new PIInitData();
-            }
-            else{
-                List<String> filters = PIMyStudiesFilterSettings.split(';');
-                if(filters.size() == 2){
-                    initData =  new PIInitData(filters[0],filters[1], communityName);
-                }
-                else if(filters.size() == 1){
-                    initData =  new PIInitData(filters[0],'', communityName);
-                }
-                else{
-                    initData = new PIInitData();
-                }
-            }
-
+            PIInitData initData = new PIInitData();
             getStudiesForPI(initData);
             initData.countries.addAll(CountryStateUtil.getCountries());
             initData.statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
@@ -218,7 +198,7 @@ public without sharing class StudyListViewController {
     public static void getStudiesForPI(PIInitData initData) {
         // prepare map trialId -> StudySite
         Map<Id, List<Study_Site__c>> trialStudySiteMap = new Map<Id, List<Study_Site__c>>();
-        List<Clinical_Trial_Profile__c> piTrials = SearchService.search(initData.PIStudiesFilter,initData.paginationData );
+        List<Clinical_Trial_Profile__c> piTrials = SearchService.search(initData.piStudiesFilter,initData.paginationData );
         System.debug('piTRIALS'+ piTrials);
         List<Study_Site__c> piStudySites = new List<Study_Site__c>();
         Set<Id> ssIds = new Set<Id>();
