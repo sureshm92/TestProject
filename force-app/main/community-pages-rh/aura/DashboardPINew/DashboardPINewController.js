@@ -18,7 +18,7 @@
         piData.selectedCTP = component.get('v.currentStudy');
         var spinner = component.find('mainSpinner');
         spinner.show();
-        helper.callServerMethod(component, 'getInitData', communityService.getUserMode(), communityService.getCurrentCommunityName(), communityService.getDelegateId(), piData.selectedPi, piData.selectedCTP, 'PIChange',helper);
+        helper.callServerMethod(component, 'getInitData', communityService.getUserMode(), communityService.getCurrentCommunityTemplateName(), communityService.getDelegateId(), piData.selectedPi, piData.selectedCTP, 'PIChange',helper);
         var currentData = component.get('v.piData');
         component.set('v.currentStudy', currentData.selectedCTP);
     },
@@ -28,7 +28,7 @@
         piData.selectedPi = component.get('v.currentPi');
         var spinner = component.find('mainSpinner');
         spinner.show();
-        helper.callServerMethod(component, 'getInitData', communityService.getUserMode(), communityService.getCurrentCommunityName(), communityService.getDelegateId(), piData.selectedPi, null, 'PIChange',helper);
+        helper.callServerMethod(component, 'getInitData', communityService.getUserMode(), communityService.getCurrentCommunityTemplateName(), communityService.getDelegateId(), piData.selectedPi, null, 'PIChange',helper);
     }
 
 })

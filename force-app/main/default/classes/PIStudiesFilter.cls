@@ -294,7 +294,8 @@ public without sharing class PIStudiesFilter implements SearchFilter {
         List<Study_Site__c> outList = new List<Study_Site__c>();
         CommunityTemplate currentCommunityTemplate = CommunityTemplateService.getTemplateByCommunityName(communityName);
         for(Study_Site__c ss : inputList){
-            if(currentCommunityTemplate.templateName == CommunityTemplateService.TEMPLATE_JANSSEN){
+            if(currentCommunityTemplate.templateName == CommunityTemplateService.TEMPLATE_JANSSEN ||
+                    communityName == CommunityTemplateService.TEMPLATE_JANSSEN){
                 //if current is Janssen then add only Janssen
                 if(ss.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN) outList.add(ss);
             }else{
