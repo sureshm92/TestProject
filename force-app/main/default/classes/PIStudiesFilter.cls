@@ -157,8 +157,16 @@ public without sharing class PIStudiesFilter implements SearchFilter {
         if (filterData.trialId != null && filterData.trialId != '') {
             filterString += ' AND ' + DatabaseService.fieldEqual('Id', filterData.trialId);
         }
+        CommunityTemplate currentCommunityTemplate = CommunityTemplateService.getTemplateByCommunityName(UserContext.getCurrentCommunityName());
+        if(currentCommunityTemplate.templateName == CommunityTemplateService.TEMPLATE_JANSSEN){
+            //if current is Janssen then add only Janssen
+            filterString += ' AND ' + DatabaseService.fieldEqual('CommunityTemplate__c', currentCommunityTemplate.templateName);
+        }else{
+            //if current not Jenssen then add only not Janssen
+            filterString += ' AND ' + DatabaseService.fieldNotEqual('CommunityTemplate__c', currentCommunityTemplate.templateName);
+        }
+    
         if (!String.isBlank(filterData.communityName) && CommunityService.JANSSEN_NETWORK_NAME == filterData.communityName) {
-            filterString += ' AND ' + DatabaseService.fieldEqual('CommunityTemplate__c', filterData.communityName);
         }
 
         if (filterData.searchText != '') {
@@ -255,8 +263,7 @@ public without sharing class PIStudiesFilter implements SearchFilter {
     
     private static List<Study_Site__c> filterStudySitesByCurrentCommunity(List<Study_Site__c> inputList){
         List<Study_Site__c> outList = new List<Study_Site__c>();
-        String currentCommunityName = UserContext.getCurrentCommunityName();
-        CommunityTemplate currentCommunityTemplate = CommunityTemplateService.getTemplateByCommunityName(currentCommunityName);
+        CommunityTemplate currentCommunityTemplate = CommunityTemplateService.getTemplateByCommunityName(UserContext.getCurrentCommunityName());
         for(Study_Site__c ss : inputList){
             if(currentCommunityTemplate.templateName == CommunityTemplateService.TEMPLATE_JANSSEN){
                 //if current is Janssen then add only Janssen
