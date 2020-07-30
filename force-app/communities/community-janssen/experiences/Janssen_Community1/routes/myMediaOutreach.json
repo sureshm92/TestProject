@@ -4,7 +4,7 @@
   "id" : "ffcb3462-dfe6-4666-b3ee-4dd38a589469",
   "label" : "My Media Outreach",
   "pageAccess" : "UseParent",
-  "routeType" : "custom-my-media-outreach",
+  "routeType" : "custom-my-mediaoutreach",
   "type" : "route",
-  "urlPrefix" : "my-media-outreach"
+  "urlPrefix" : "my-mediaoutreach"
 }
