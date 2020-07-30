@@ -325,7 +325,7 @@ public without sharing class DashboardRemote {
                                     Principal_Investigator__c
                             FROM Study_Site__c
                             WHERE Principal_Investigator__c = :pi_Id
-                            AND Clinical_Trial_Profile__r.CommunityTemplate__c = :CommunityService.JANSSEN_NETWORK_NAME
+                            AND Clinical_Trial_Profile__r.CommunityTemplate__c = :CommunityService.JANSSEN_COMMUNITY_TEMPLATE
                     ];
                 } else {
                     related_site_sites = [
@@ -338,7 +338,7 @@ public without sharing class DashboardRemote {
                                     Principal_Investigator__c
                             FROM Study_Site__c
                             WHERE Principal_Investigator__c = :pi_Id
-                            AND Clinical_Trial_Profile__r.CommunityTemplate__c != :CommunityService.JANSSEN_NETWORK_NAME
+                            AND Clinical_Trial_Profile__r.CommunityTemplate__c != :CommunityService.JANSSEN_COMMUNITY_TEMPLATE
                     ];
                 }
 
