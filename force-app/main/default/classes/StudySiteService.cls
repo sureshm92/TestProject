@@ -177,6 +177,10 @@ public without sharing class StudySiteService {
         }
     }
 
+    public static List<Study_Site__c> getStudySitesForPIBySponsor(String communityTemplate) {
+        return getStudySitesCommon(CommunityService.USER_MODE_PI, 'AND Clinical_Trial_Profile__r.CommunityTemplate__c = \'' + communityTemplate + '\'', false);
+    }
+
     public static List<Study_Site__c> getStudySitesForPI() {
         return getStudySitesCommon(CommunityService.USER_MODE_PI, null, false);
     }
