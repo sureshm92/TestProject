@@ -17,7 +17,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     private Account participantAccount;
     private Id uploaderContactId;
     private Boolean createUsers;
-    //private Boolean doNotContactParticipants;
+    private Boolean doContact;
     private Boolean allowEmail;
     private Boolean allowPhone;
     private Boolean allowSMS;    
@@ -35,14 +35,14 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     private Set<String> laguageLVSet = new Set<String>();
     
     
-    public UploadParticipantsBatch(List<List<String>> csvFileLines, String header, String studySiteId, String selectedStatus, Boolean headerFailed, Map<String, Integer> headerIndexes, Boolean createUsers,Boolean allowEmail,Boolean allowPhone,Boolean allowSMS) {
+    public UploadParticipantsBatch(List<List<String>> csvFileLines, String header, String studySiteId, String selectedStatus, Boolean headerFailed, Map<String, Integer> headerIndexes, Boolean createUsers,Boolean doContact,Boolean allowEmail,Boolean allowPhone,Boolean allowSMS) {
         uploadTime = DateTime.now();
         Integer totalRowCount = csvFileLines.size();
         this.headerIndexes = headerIndexes;
         this.selectedStatus = selectedStatus;
         this.createUsers = createUsers;
         //this.doNotContactParticipants = doNotContactParticipants;
-        //
+        this.doContact = doContact;
         this.allowEmail = allowEmail;
         this.allowPhone = allowPhone;
         this.allowSMS = allowSMS;
@@ -101,7 +101,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
         TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class);
         TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.CreateContactsForParticipantsHandler.class);
-        //TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class);
         TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class);
         
         if (!valid) {
@@ -443,6 +443,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             participantEnrollment.Permit_Mail_Email_contact_for_this_study__c = allowEmail;
                             participantEnrollment.Permit_Voice_Text_contact_for_this_study__c = allowPhone;
                             participantEnrollment.Permit_SMS_Text_for_this_study__c = allowSMS;
+                            participantEnrollment.Permit_IQVIA_to_contact_about_study__c = doContact;
                             //
                             
                             Database.SaveResult saveRes = Database.insert(participantEnrollment, false);
