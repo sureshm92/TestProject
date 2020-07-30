@@ -56,6 +56,14 @@
                 <behavior>Edit</behavior>
                 <field>Participant_Opt_In_Status_Emails__c</field>
             </layoutItems>
+             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Participant_Phone_Opt_In_Permit_Phone__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Participant_Opt_In_Status_SMS__c</field>
+            </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>HCP_Opt_In_Patient_Status_Emails__c</field>
@@ -95,14 +103,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>PI_My_Studies_Filters__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Participant_Phone_Opt_In_Permit_Phone__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Participant_Opt_In_Status_SMS__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

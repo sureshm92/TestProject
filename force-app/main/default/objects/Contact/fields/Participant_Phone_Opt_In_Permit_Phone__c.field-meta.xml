@@ -3,7 +3,7 @@
     <fullName>Participant_Phone_Opt_In_Permit_Phone__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Participant Phone Opt In - Permit Phone</label>
+    <label>Opt In Phone(Voice Call)</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>
