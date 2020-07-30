@@ -157,7 +157,7 @@ public without sharing class PIStudiesFilter implements SearchFilter {
         if (filterData.trialId != null && filterData.trialId != '') {
             filterString += ' AND ' + DatabaseService.fieldEqual('Id', filterData.trialId);
         }
-        if (!String.isBlank(filterData.communityName) && CommunityTemplateService.TEMPLATE_JANSSEN == filterData.communityName) {
+        if (!String.isBlank(filterData.communityName) && CommunityService.JANSSEN_NETWORK_NAME == filterData.communityName) {
             filterString += ' AND ' + DatabaseService.fieldEqual('CommunityTemplate__c', filterData.communityName);
         }
 
@@ -214,19 +214,15 @@ public without sharing class PIStudiesFilter implements SearchFilter {
             };
             Set<Id> studyIds = new Set<Id>();
             Set<Id> piIds = new Set<Id>();
-            List<Study_Site__c> studySites;
-            if (CommunityTemplateService.TEMPLATE_JANSSEN == communityName) {
-                studySites = StudySiteService.getStudySitesForPIBySponsor(communityName);
-
-                /*List<Study_Site__c> finalStudySites = new List<Study_Site__c>();
+            List<Study_Site__c> studySites = StudySiteService.getStudySitesForPI();
+            if (CommunityService.JANSSEN_NETWORK_NAME == communityName) {
+                List<Study_Site__c> finalStudySites = new List<Study_Site__c>();
                 for (Study_Site__c studySite : studySites) {
-                    if (CommunityTemplateService.TEMPLATE_JANSSEN == studySite.Clinical_Trial_Profile__r.CommunityTemplate__c) {
+                    if (CommunityService.JANSSEN_NETWORK_NAME == studySite.Clinical_Trial_Profile__r.CommunityTemplate__c) {
                         finalStudySites.add(studySite);
                     }
                 }
-                studySites = finalStudySites;*/
-            } else {
-                studySites = StudySiteService.getStudySitesForPI();
+                studySites = finalStudySites;
             }
             for (Study_Site__c site : studySites) {
                 if (!piIds.contains(site.Principal_Investigator__c)) {

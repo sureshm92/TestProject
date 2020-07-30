@@ -65,7 +65,7 @@ public class StudyActionsPI extends StudyActions{
                         manageReferralsStatusesReason
                 }
         ));
-        if (CommunityTemplateService.TEMPLATE_JANSSEN != study.CommunityTemplate__c) {
+        if (CommunityService.JANSSEN_NETWORK_NAME != study.CommunityTemplate__c) {
             actions.put(ACT_MANAGE_REFERRING_CLINICS, new Action(
                     ACT_MANAGE_REFERRING_CLINICS,
                     LABEL_MANAGE_REFERRING_CLINICS,
@@ -282,7 +282,7 @@ public class StudyActionsPI extends StudyActions{
                 }
         ));
 
-        if (CommunityTemplateService.TEMPLATE_JANSSEN != study.CommunityTemplate__c) {
+        if (CommunityService.JANSSEN_NETWORK_NAME != study.CommunityTemplate__c) {
             actions.put(ACT_MANAGE_REFERRING_CLINICS_BY_SS, new Action(
                     ACT_MANAGE_REFERRING_CLINICS_BY_SS,
                     LABEL_MANAGE_REFERRING_CLINICS_BY_SS,

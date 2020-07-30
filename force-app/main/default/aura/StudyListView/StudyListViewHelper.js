@@ -30,9 +30,9 @@
                 }), 1);
             });
         } else if (userMode === 'PI') {
-            console.log('COMMUNITY NAME: ' + communityService.getCurrentCommunityTemplateName());
+            console.log('COMMUNITY NAME: ' + communityService.getCurrentCommunityName());
             communityService.executeAction(component, 'getPIInitData', {
-                    communityName: communityService.getCurrentCommunityTemplateName()
+                    communityName: communityService.getCurrentCommunityName()
                 }, function (returnValue) {
                 let initData = JSON.parse(returnValue);
                 helper.addCheckNoLongerAttributes(initData.currentPITrials);
@@ -84,8 +84,8 @@
             paginationData.currentPage = 1;
         }
         if ('PI' === communityService.getUserMode()) {
-            console.log('COMMUNITY NAME: ' + communityService.getCurrentCommunityTemplateName());
-            filter.communityName = communityService.getCurrentCommunityTemplateName();
+            console.log('COMMUNITY NAME: ' + communityService.getCurrentCommunityName());
+            filter.communityName = communityService.getCurrentCommunityName();
         }
         let filterJSON = JSON.stringify(filter);
         let paginationJSON = JSON.stringify(paginationData);
@@ -130,8 +130,8 @@
         if(filter.piId !== piId){
             filter.trialId = '';
         }
-        console.log('COMMUNITY NAME: ' + communityService.getCurrentCommunityTemplateName());
-        filter.communityName = communityService.getCurrentCommunityTemplateName();
+        console.log('COMMUNITY NAME: ' + communityService.getCurrentCommunityName());
+        filter.communityName = communityService.getCurrentCommunityName();
         let searchText = filter.searchText;
         let paginationData = cmp.get('v.paginationData');
         let filterJSON = JSON.stringify(filter);
