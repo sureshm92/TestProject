@@ -1,18 +1,18 @@
 {
   "appPageId" : "5bf37374-2b32-4433-ad3c-73208f1ef38a",
-  "componentName" : "c:EmptyLayout",
-  "id" : "af5a3de0-eb63-4e2b-9014-20f34872d347",
-  "label" : "Study Workspace",
+  "componentName" : "c:OneColumnLayout",
+  "id" : "70bbf488-4424-44b2-88b9-511b201de8ac",
+  "label" : "My Referrals",
   "regions" : [ {
     "components" : [ {
       "componentAttributes" : { },
-      "componentName" : "c:StudyDetailView",
-      "id" : "6f928d74-885b-4e0f-b07a-e3b64551e7de",
+      "componentName" : "c:ViewPatients",
+      "id" : "1b30a827-ece0-4225-8a66-3d00bd3c90dd",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "9767d3a3-0dc1-451c-9893-16cf3513fbe3",
+    "id" : "877ddc05-baca-435f-8dca-a5e59e469303",
     "regionName" : "column1",
     "type" : "region"
   }, {
@@ -20,18 +20,18 @@
       "componentAttributes" : {
         "description" : "",
         "metaTags" : "",
-        "title" : "Study Workspace"
+        "title" : "My Referrals"
       },
       "componentName" : "forceCommunity:seoAssistant",
-      "id" : "3f4c2c75-6404-4628-9356-60aaa265b033",
+      "id" : "96e53513-a2e9-4bc4-8d80-67f394115584",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "7f16708d-2021-4e29-ac7f-23528a465c2a",
+    "id" : "b433500a-2326-4949-9b7b-e8fc76596c41",
     "regionName" : "sfdcHiddenRegion",
     "type" : "region"
   } ],
   "themeLayoutType" : "Inner",
   "type" : "view",
-  "viewType" : "custom-study-workspace"
+  "viewType" : "custom-my-referrals"
 }

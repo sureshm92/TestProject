@@ -7,7 +7,7 @@ public without sharing class CommunityMode {
     @AuraEnabled public String key;
     @AuraEnabled public String groupKey;
     @AuraEnabled public String userMode;
-    @AuraEnabled public String sponsorName;
+    @AuraEnabled public String communityName;
     @AuraEnabled public Id currentHCPDelegate;
     @AuraEnabled public Id currentPE;
     @AuraEnabled public Id currentDelegateId;
@@ -44,11 +44,11 @@ public without sharing class CommunityMode {
         init();
     }
 
-    public CommunityMode(String userMode, String label, Id delegateId, String sponsorName) {
+    public CommunityMode(String userMode, String label, Id delegateId, String communityName) {
         this.userMode = userMode;
         this.label = label;
         this.groupLabel = label;
-        this.sponsorName = sponsorName;
+        this.communityName = communityName;
         init();
     }
 
@@ -114,8 +114,8 @@ public without sharing class CommunityMode {
             isDelegate = currentDelegateId != null;
         }
         if(userMode == CommunityService.USER_MODE_PI) {
-            whatId = sponsorName;
-            template = CommunityTemplateService.getTemplate(CommunityModeService.rhCommunitiesBySponsor.get(sponsorName));
+            whatId = communityName;
+            template = CommunityTemplateService.getTemplate(communityName);
         }
         
         key = CommunityModeService.generateModeKey(userMode, currentDelId, whatId);
