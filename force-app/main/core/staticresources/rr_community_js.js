@@ -160,6 +160,14 @@ window.communityService = (function () {
             return currentUserMode.sponsorName;
         },
 
+        getCurrentCommunityName: function(){
+            return currentUserMode.template.communityName;
+        },
+
+        getCurrentCommunityTemplateName: function(){
+            return currentUserMode.template.templateName;
+        },
+
         setCurrentCommunityMode: function(mode, page){
             currentUserMode = mode;
             service.setThemeCSS();

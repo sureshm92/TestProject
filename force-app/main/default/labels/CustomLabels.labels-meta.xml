@@ -2752,14 +2752,14 @@ Please share our site on social media to encourage others to assist us as we wor
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CTL L HCP MODE</shortDescription>
-        <value>View as Referring Provider</value>
+        <value>Referring Provider</value>
     </labels>
     <labels>
         <fullName>CTL_L_PI_MODE</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CTL L PI MODE</shortDescription>
-        <value>View as Investigative Site</value>
+        <value>Investigative Site</value>
     </labels>
     <labels>
         <fullName>CTL_L_Patricipant_MODE</fullName>

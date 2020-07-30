@@ -28,20 +28,20 @@
             if (itemValue.subItems.length === 0) {
                 let currentDelegateId,
                     currentEnrollmentId,
-                    sponsorName;
+                    communityName;
                 if (itemValue.mode === 'Participant') {
                     currentDelegateId = itemValue.delegateId;
                     currentEnrollmentId = itemValue.peId;
                 } else if (itemValue.mode === 'HCP') {
                     currentDelegateId = itemValue.itemId;
                 } else {
-                    sponsorName = itemValue.sponsor;
+                    communityName = itemValue.communityName;
                 }
                 communityService.executeAction(component, 'changeMode', {
                     mode: itemValue.mode,
                     delegateId: currentDelegateId,
                     peId: currentEnrollmentId,
-                    sponsorName: sponsorName,
+                    communityName: communityName,
                     communityModes: JSON.stringify(comModes)
                 }, function (returnValue) {
                     const comData = JSON.parse(returnValue);
