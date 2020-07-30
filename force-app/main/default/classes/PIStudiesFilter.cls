@@ -157,10 +157,15 @@ public without sharing class PIStudiesFilter implements SearchFilter {
         if (filterData.trialId != null && filterData.trialId != '') {
             filterString += ' AND ' + DatabaseService.fieldEqual('Id', filterData.trialId);
         }
-        if (!String.isBlank(filterData.communityName) && CommunityTemplateService.TEMPLATE_JANSSEN == filterData.communityName) {
-            filterString += ' AND ' + DatabaseService.fieldEqual('CommunityTemplate__c', filterData.communityName);
+        CommunityTemplate currentCommunityTemplate = CommunityTemplateService.getTemplateByCommunityName(filterData.communityName);
+        if(currentCommunityTemplate.templateName == CommunityTemplateService.TEMPLATE_JANSSEN){
+            //if current is Janssen then add only Janssen
+            filterString += ' AND ' + DatabaseService.fieldEqual('CommunityTemplate__c', currentCommunityTemplate.templateName);
+        }else{
+            //if current not Jenssen then add only not Janssen
+            filterString += ' AND ' + DatabaseService.fieldNotEqual('CommunityTemplate__c', currentCommunityTemplate.templateName);
         }
-
+        
         if (filterData.searchText != '') {
             filterString += ' AND ' + DatabaseService.searchFields(STUDY_SEARCH_FIELDS, filterData.searchText);
         }
@@ -214,20 +219,7 @@ public without sharing class PIStudiesFilter implements SearchFilter {
             };
             Set<Id> studyIds = new Set<Id>();
             Set<Id> piIds = new Set<Id>();
-            List<Study_Site__c> studySites;
-            if (CommunityTemplateService.TEMPLATE_JANSSEN == communityName) {
-                studySites = StudySiteService.getStudySitesForPIBySponsor(communityName);
-
-                /*List<Study_Site__c> finalStudySites = new List<Study_Site__c>();
-                for (Study_Site__c studySite : studySites) {
-                    if (CommunityTemplateService.TEMPLATE_JANSSEN == studySite.Clinical_Trial_Profile__r.CommunityTemplate__c) {
-                        finalStudySites.add(studySite);
-                    }
-                }
-                studySites = finalStudySites;*/
-            } else {
-                studySites = StudySiteService.getStudySitesForPI();
-            }
+            List<Study_Site__c> studySites = filterStudySitesByCurrentCommunity(StudySiteService.getStudySitesForPI(), communityName);
             for (Study_Site__c site : studySites) {
                 if (!piIds.contains(site.Principal_Investigator__c)) {
                     if (site.Principal_Investigator__c == CommunityService.getUserContact().Id) {
@@ -264,5 +256,20 @@ public without sharing class PIStudiesFilter implements SearchFilter {
             };
             sortType = 'CreatedDate DESC';
         }
+    }
+    
+    private static List<Study_Site__c> filterStudySitesByCurrentCommunity(List<Study_Site__c> inputList, String communityName){
+        List<Study_Site__c> outList = new List<Study_Site__c>();
+        CommunityTemplate currentCommunityTemplate = CommunityTemplateService.getTemplateByCommunityName(communityName);
+        for(Study_Site__c ss : inputList){
+            if(currentCommunityTemplate.templateName == CommunityTemplateService.TEMPLATE_JANSSEN){
+                //if current is Janssen then add only Janssen
+                if(ss.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN) outList.add(ss);
+            }else{
+                //if current not Jenssen then add only not Janssen
+                if(ss.Clinical_Trial_Profile__r.CommunityTemplate__c != CommunityTemplateService.TEMPLATE_JANSSEN) outList.add(ss);
+            }
+        }
+        return outList;
     }
 }

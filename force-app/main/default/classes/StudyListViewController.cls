@@ -218,7 +218,7 @@ public without sharing class StudyListViewController {
     public static void getStudiesForPI(PIInitData initData) {
         // prepare map trialId -> StudySite
         Map<Id, List<Study_Site__c>> trialStudySiteMap = new Map<Id, List<Study_Site__c>>();
-        List<Clinical_Trial_Profile__c> piTrials = SearchService.search(initData.PIStudiesFilter,initData.paginationData );
+        List<Clinical_Trial_Profile__c> piTrials = SearchService.search(initData.piStudiesFilter,initData.paginationData );
         System.debug('piTRIALS'+ piTrials);
         List<Study_Site__c> piStudySites = new List<Study_Site__c>();
         Set<Id> ssIds = new Set<Id>();

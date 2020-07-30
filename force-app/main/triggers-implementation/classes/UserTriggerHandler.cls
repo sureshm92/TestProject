@@ -152,20 +152,41 @@ public without sharing class UserTriggerHandler {
                 }
             }
             if(!piIds.isEmpty()){
-                Map<String, Set<Id>> commUserPermission = new Map<String, Set<Id>>();
-                for(Study_Site__c ssList : [
+                Map<String, Set<Id>> commUserPermission = new Map<String, Set<Id>>{
+                        CommunityTemplateService.TEMPLATE_DEFAULT => new Set<Id>(),
+                        CommunityTemplateService.TEMPLATE_JANSSEN => new Set<Id>()
+                };
+                List<Study_Site__c> ssList = [
                         SELECT Id,
                                Clinical_Trial_Profile__r.CommunityTemplate__c,
                                 Principal_Investigator__c
                         FROM Study_Site__c
                         WHERE Principal_Investigator__c IN : piIds
-                ]){
-                    if(ssList.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_DEFAULT){
-                        if(commUserPermission.containsKey(CommunityTemplateService.TEMPLATE_DEFAULT)) commUserPermission.get(CommunityTemplateService.TEMPLATE_DEFAULT).add(ssList.Principal_Investigator__c);
-                        else commUserPermission.put(CommunityTemplateService.TEMPLATE_DEFAULT, new Set<Id>{ssList.Principal_Investigator__c});
-                    } else {
-                        if(commUserPermission.containsKey(CommunityTemplateService.TEMPLATE_JANSSEN)) commUserPermission.get(CommunityTemplateService.TEMPLATE_JANSSEN).add(ssList.Principal_Investigator__c);
-                        else commUserPermission.put(CommunityTemplateService.TEMPLATE_JANSSEN, new Set<Id>{ssList.Principal_Investigator__c});
+                ];
+                if (!ssList.isEmpty()) {
+                    for(Integer i = 0, j = ssList.size(); i < j; i++) {
+                        if (ssList[i].Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_DEFAULT) {
+                                commUserPermission.get(CommunityTemplateService.TEMPLATE_DEFAULT).add(ssList[i].Principal_Investigator__c);
+                        } else {
+                                commUserPermission.get(CommunityTemplateService.TEMPLATE_JANSSEN).add(ssList[i].Principal_Investigator__c);
+                        }
+                    }
+                } else {
+                    List<Site_Staff__c> delegatesSS = [
+                            SELECT Id,
+                                    Site_Contact__c,
+                                    Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+                            FROM Site_Staff__c
+                            WHERE Site_Contact__c IN :piIds
+                    ];
+                    if(!delegatesSS.isEmpty()) {
+                        for (Integer i = 0, j = delegatesSS.size(); i < j; i++) {
+                            if (delegatesSS[i].Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_DEFAULT) {
+                                    commUserPermission.get(CommunityTemplateService.TEMPLATE_DEFAULT).add(delegatesSS[i].Site_Contact__c);
+                            } else {
+                                    commUserPermission.get(CommunityTemplateService.TEMPLATE_JANSSEN).add(delegatesSS[i].Site_Contact__c);
+                            }
+                        }
                     }
                 }
                 for (Id contId : commUserPermission.get(CommunityTemplateService.TEMPLATE_DEFAULT)) {
