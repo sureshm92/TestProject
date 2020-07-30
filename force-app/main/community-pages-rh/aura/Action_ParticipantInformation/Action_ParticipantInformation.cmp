@@ -39,7 +39,6 @@
     <aura:attribute name="isPhone" type="Boolean" default="false"/>
     <aura:attribute name="isSMS" type="Boolean" default="false"/>
     <aura:attribute name="doContact" type="Boolean" default="false"/>
-    <aura:attribute name="isShared" type="Boolean" default="false"/>
     
     <!--<aura:attribute name="isDetailsChanged" type="Boolean" default="false"/>-->
     <aura:attribute name="isStatusChanged" type="Boolean" default="false"/>
@@ -69,10 +68,10 @@
         
         <aura:if isTrue="{!!v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp;
                          !v.pe.Participant__r.Marketing_Flag__c &amp;&amp; v.pe.Participant__r.Email__c &amp;&amp;
-                         v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &amp;&amp; v.init}">
+                         v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &amp;&amp; v.init &amp;&amp; v.pe.Permit_IQVIA_to_contact_about_study__c}">
             <div class="invite-patient-container slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap">
                 <button class="slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center"
-                        onclick="{!c.createUserForPatient}" disabled="{!!v.doContact || v.isShared}"
+                        onclick="{!c.createUserForPatient}"
                         data-gtm="BTN_Invite_To_PP">{!$Label.c.BTN_Create_User_on_PE_Info}</button>
             </div>
         </aura:if>
@@ -93,6 +92,46 @@
                                                     formData="{!v.formData}"
                                                     updateMode="true"
                                                     isValid="{!v.isValid}"/>
+                            
+                            <!--1936-->
+                            
+                            <aura:if isTrue="{!(or(!v.pe.Permit_Mail_Email_contact_for_this_study__c,!v.pe.Permit_Voice_Text_contact_for_this_study__c,!v.pe.Permit_SMS_Text_for_this_study__c))&amp;&amp; v.init}">
+                                <div class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center" style="margin-bottom: 5px;">
+                                    <div class="slds-size_1-of-1 slds-item_label">
+                                        <Strong>{!$Label.c.PG_Ref_L_Information_Sharing}</Strong>
+                                    </div>
+                                </div>
+                                <div class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center" >
+                                    <div class="slds-size_1-of-1 slds-item_label">{!$Label.c.PG_Ref_L_Permit_IQVIA_Confirmation}</div>
+                                </div>
+                            </aura:if>
+                            <aura:if isTrue="{!v.pe.Permit_IQVIA_to_contact_about_study__c}">
+                                <aura:if isTrue= "{!!v.pe.Permit_Mail_Email_contact_for_this_study__c &amp;&amp; v.init}">
+                                    <div class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap" >
+                                        <div class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
+                                            <lightning:input type="checkbox" class="IQVIA_contact-patient-checkbox" onchange="{!c.doContactEmail}"/>
+                                            <div class="slds-size--10-of-12">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact_Email}</div>
+                                        </div>
+                                    </div>
+                                </aura:if>
+                                <aura:if isTrue= "{!!v.pe.Permit_Voice_Text_contact_for_this_study__c &amp;&amp; v.init}">
+                                    <div class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap">
+                                        <div class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
+                                            <lightning:input type="checkbox" class="IQVIA_contact-patient-checkbox" onchange="{!c.doContactPhone}"/>
+                                            <div class="slds-size--10-of-12">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact_Phone}</div>
+                                        </div>
+                                    </div>
+                                </aura:if>
+                                <aura:if isTrue= "{!!v.pe.Permit_SMS_Text_for_this_study__c &amp;&amp; v.init}">
+                                    <div class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap" style= "padding-bottom:10px;">
+                                        <div class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
+                                            <lightning:input type="checkbox" class="IQVIA_contact-patient-checkbox" onchange="{!c.doContactSMS}"/>
+                                            <div class="slds-size--10-of-12">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact_SMS}</div>
+                                        </div>
+                                    </div>
+                                </aura:if>
+                            </aura:if>
+                            <!--End-->
                         </div>
                     </lightning:tab>
                     <lightning:tab aura:id="Status" label="{!$Label.c.BTN_Status_Details}" onactive="{!c.checkTabs}">
@@ -140,51 +179,6 @@
         </aura:set>
         <aura:set attribute="footerButtons">
             
-            
-            <!--1936-->
-            
-            <aura:if isTrue="{!(or(!v.pe.Permit_Mail_Email_contact_for_this_study__c,!v.pe.Permit_Voice_Text_contact_for_this_study__c,!v.pe.Permit_SMS_Text_for_this_study__c))&amp;&amp; v.init}">
-                <div class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center" style="margin-bottom: 5px;font-size:12px;">
-                    <div class="slds-size_1-of-1 slds-item_label">
-                        <Strong>{!$Label.c.PG_Ref_L_Information_Sharing}</Strong>
-                    </div>
-                </div>
-                <div class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center" style= "font-size:12px;">
-                    <div class="slds-size_1-of-1 slds-item_label">{!$Label.c.PG_Ref_L_Permit_IQVIA_Confirmation}</div>
-                </div>
-                <div class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap" style= "font-size:12px;">
-                    <div class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
-                        <lightning:input type="checkbox" class="IQVIA_contact-patient-checkbox" onchange="{!c.doContact}"/>
-                        <div class="slds-size--10-of-12">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_ShareInformation}</div>
-                    </div>
-                </div>
-            </aura:if>
-            <aura:if isTrue="{!v.doContact}">
-                <aura:if isTrue= "{!!v.pe.Permit_Mail_Email_contact_for_this_study__c &amp;&amp; v.init}">
-                    <div class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap" style= "font-size:12px;">
-                        <div class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
-                            <lightning:input type="checkbox" class="IQVIA_contact-patient-checkbox" onchange="{!c.doContactEmail}"/>
-                            <div class="slds-size--10-of-12">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact_Email}</div>
-                        </div>
-                    </div>
-                </aura:if>
-                <aura:if isTrue= "{!!v.pe.Permit_Voice_Text_contact_for_this_study__c &amp;&amp; v.init}">
-                    <div class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap" style= "font-size:12px;">
-                        <div class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
-                            <lightning:input type="checkbox" class="IQVIA_contact-patient-checkbox" onchange="{!c.doContactPhone}"/>
-                            <div class="slds-size--10-of-12">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact_Phone}</div>
-                        </div>
-                    </div>
-                </aura:if>
-                <aura:if isTrue= "{!!v.pe.Permit_SMS_Text_for_this_study__c &amp;&amp; v.init}">
-                    <div class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap" style= "padding-bottom:10px;font-size:12px;">
-                        <div class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
-                            <lightning:input type="checkbox" class="IQVIA_contact-patient-checkbox" onchange="{!c.doContactSMS}"/>
-                            <div class="slds-size--10-of-12">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact_SMS}</div>
-                        </div>
-                    </div>
-                </aura:if>
-            </aura:if>
             
             <!--End-->
             <div class="partinfo-footer-buttons" data-gtm="BTNS_Popup_Save_Cancel">

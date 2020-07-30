@@ -59,12 +59,8 @@
                     component.set('v.isEmail', pe.Permit_Mail_Email_contact_for_this_study__c);
                     component.set('v.isPhone', pe.Permit_Voice_Text_contact_for_this_study__c);
                     component.set('v.isSMS', pe.Permit_SMS_Text_for_this_study__c);
-                    if(pe.Permit_Mail_Email_contact_for_this_study__c &&
-                       pe.Permit_Voice_Text_contact_for_this_study__c &&
-                       pe.Permit_SMS_Text_for_this_study__c){
-                        component.set('v.isShared',false);
-                    }
-                    //component.set('v.doNotContact', !pe.Permit_IQVIA_to_contact_about_study__c);
+                    
+                    component.set('v.doContact', !pe.Permit_IQVIA_to_contact_about_study__c);
                     component.set('v.participantDelegate', returnValue.participantDelegate);
                     component.set('v.participant', pe.Participant__r);
                     component.set('v.userInfo', returnValue.userInfo);
