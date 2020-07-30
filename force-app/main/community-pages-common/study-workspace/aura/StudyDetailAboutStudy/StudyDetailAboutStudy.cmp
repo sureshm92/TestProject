@@ -221,16 +221,16 @@
                     <div class="sdas-main-info" style="position: relative;">
                         <c:RRSpinner aura:id="mainSpinner" size="medium"/>
 
-                        <aura:if isTrue="{!v.userMode != 'Participant'}">
-                            <div class="title">{!$Label.c.PG_SW_F_Study_Documents}</div>
-                            <div class="docs-conteiner">
-                                <aura:iteration items="{!v.studyDetail.resources}" var="resourceWrapper">
-                                    <div class="doc-item">
-                                        <c:ResourceLink resourceWrapper="{!resourceWrapper}"/>
-                                    </div>
-                                </aura:iteration>
-                            </div>
-                        </aura:if>
+<!--                        <aura:if isTrue="{!v.userMode != 'Participant'}">-->
+<!--                            <div class="title">{!$Label.c.PG_SW_F_Study_Documents}</div>-->
+<!--                            <div class="docs-conteiner">-->
+<!--                                <aura:iteration items="{!v.studyDetail.resources}" var="resourceWrapper">-->
+<!--                                    <div class="doc-item">-->
+<!--                                        <c:ResourceLink resourceWrapper="{!resourceWrapper}"/>-->
+<!--                                    </div>-->
+<!--                                </aura:iteration>-->
+<!--                            </div>-->
+<!--                        </aura:if>-->
 
                         <div class="title">{!$Label.c.PG_SW_F_Official_Title}</div>
                         <div class="text">{!v.studyDetail.trial.Official_Title__c}</div>
