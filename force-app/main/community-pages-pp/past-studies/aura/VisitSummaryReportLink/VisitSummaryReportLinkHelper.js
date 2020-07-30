@@ -7,7 +7,7 @@
         let reportData = component.get('v.reportData');
         if(reportData.notAvailableMessage){
             var template = reportData.notAvailableMessage + ' {0}';
-            var accUrl = 'account-settings';
+            var accUrl = 'account-settings?langloc';
             var urlLabel = $A.get('$Label.c.PP_IRB_Button_Review');
 
             var toastEvent = $A.get('e.force:showToast');
