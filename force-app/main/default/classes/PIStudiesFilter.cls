@@ -29,6 +29,7 @@ public without sharing class PIStudiesFilter implements SearchFilter {
             'Id',
             'Name',
             'Study_Sponsor__c',
+            'CommunityTemplate__c',
             'Detailed_Description__c',
             'Override_Recruitment_Status__c',
             'Terms_And_Conditions_ID__c',
@@ -78,6 +79,7 @@ public without sharing class PIStudiesFilter implements SearchFilter {
             'Clinical_Trial_Profile__r.Study_Code_Name__c',
             'Clinical_Trial_Profile__r.Official_Title__c',
             'Clinical_Trial_Profile__r.Study_Sponsor__c',
+            'Clinical_Trial_Profile__r.CommunityTemplate__c',
             'Clinical_Trial_Profile__r.Override_Recruitment_Status__c',
             'Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c',
             'Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
@@ -216,7 +218,7 @@ public without sharing class PIStudiesFilter implements SearchFilter {
             if (CommunityService.JANSSEN_NETWORK_NAME == sponsorName) {
                 List<Study_Site__c> finalStudySites = new List<Study_Site__c>();
                 for (Study_Site__c studySite : studySites) {
-                    if (CommunityService.JANSSEN_NETWORK_NAME == studySite.Clinical_Trial_Profile__r.Study_Sponsor__c) {
+                    if (CommunityService.JANSSEN_NETWORK_NAME == studySite.Clinical_Trial_Profile__r.CommunityTemplate__c) {
                         finalStudySites.add(studySite);
                     }
                 }
