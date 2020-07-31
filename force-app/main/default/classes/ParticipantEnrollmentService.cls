@@ -731,12 +731,19 @@ public without sharing class ParticipantEnrollmentService {
     }
 
     public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, String delegateId, String sponsorName, String userMode){
+        System.debug('SPONSOR' + sponsorName);
         //prepare filter string:
         String filterStr = ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join(filter.trialIds, '\',\'') + '\') ';
         if (!String.isEmpty(filter.additionalFilter)) filterStr += ' AND ' + filter.additionalFilter + ' ';
         if (filter.searchText != null) filter.searchText = filter.searchText.trim();
         if (String.isEmpty(filter.searchText)) {
             if (!String.isEmpty(filter.study)) filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__c = \'' + filter.study + '\' ';
+            if (userMode == 'PI' && sponsorName == CommunityTemplateService.TEMPLATE_JANSSEN) {
+                filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
+            }
+            if (userMode == 'PI' && sponsorName != CommunityTemplateService.TEMPLATE_JANSSEN) {
+                filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
+            }
             if (!String.isEmpty(filter.studySite)) filterStr += ' AND Study_Site__c = \'' + filter.studySite + '\' ';
             if (!String.isEmpty(filter.referringStatus)) filterStr += 'AND Participant_Status__c IN ' + filter.referringStatus + ' ';
             //if(!String.isEmpty(filter.enrollmentStatus)) filterStr += ' AND Participant_Status__c IN ' + filter.enrollmentStatus + ' ';
@@ -779,13 +786,7 @@ public without sharing class ParticipantEnrollmentService {
                 }
                 if (isFound) filteredPEList.add(pe);
             }
-            if (userMode == 'PI') {
-                peList = filterByJanssen(filteredPEList, sponsorName);
-            } else {
                 peList = filteredPEList;
-            }
-        } else {
-            if (userMode == 'PI') peList = filterByJanssen(peList, sponsorName);
         }
 
         //sort
@@ -818,20 +819,6 @@ public without sharing class ParticipantEnrollmentService {
         }
 
         return peList;
-    }
-    public static List<Participant_Enrollment__c> filterByJanssen (List<Participant_Enrollment__c> listPe, String sponsorName) {
-        List<Participant_Enrollment__c> resultPeList = new List<Participant_Enrollment__c>();
-        for (Participant_Enrollment__c pe : listPe) {
-            if (sponsorName == CommunityTemplateService.TEMPLATE_JANSSEN && pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN) {
-                resultPeList.add(pe);
-            }
-            if (sponsorName != CommunityTemplateService.TEMPLATE_JANSSEN && pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != CommunityTemplateService.TEMPLATE_JANSSEN) {
-                resultPeList.add(pe);
-            }
-
-        }
-        return resultPeList;
-
     }
 
     public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, PaginationData paginationData, String delegateId, String sponsorName, String userMode) {
