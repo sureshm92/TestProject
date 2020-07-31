@@ -23,7 +23,7 @@ public without sharing class ViewPatientsRemote {
     };
 
     @AuraEnabled
-    public static String getInitData(Id trialId, Id siteId, String userMode, String delegateId) {
+    public static String getInitData(Id trialId, Id siteId, String userMode, String delegateId, String sponsorName) {
         try{
             InitData initData = new InitData();
             String additionalFilter = getAdditionalFilter(userMode, false, null);
@@ -40,7 +40,7 @@ public without sharing class ViewPatientsRemote {
                     'Name'
             };
             initData.peFilter.additionalFilter = additionalFilter;
-            List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollments(initData.peFilter, delegateId, null, userMode);
+            List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollments(initData.peFilter, delegateId, sponsorName, userMode);
             initData.hasEmancipatedParticipants = checkHasEmancipatedParticipants(peList);
             peList = ParticipantEnrollmentService.getParticipantEnrollmentsPaginated(peList, initData.paginationData);
             initData.currentPageList = convertToPEWrapperList(

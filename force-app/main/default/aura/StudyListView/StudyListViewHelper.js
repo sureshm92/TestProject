@@ -130,8 +130,6 @@
         if(filter.piId !== piId){
             filter.trialId = '';
         }
-        console.log('COMMUNITY NAME: ' + communityService.getCurrentCommunityTemplateName());
-        filter.communityName = communityService.getCurrentCommunityTemplateName();
         let searchText = filter.searchText;
         let paginationData = cmp.get('v.paginationData');
         let filterJSON = JSON.stringify(filter);
