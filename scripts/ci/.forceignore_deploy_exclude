@@ -23,3 +23,5 @@ force-app/communities/community-iqvia/networkBranding
 force-app/communities/community-iqvia/networks
 force-app/communities/community-iqvia/sites
 force-app/communities/community-iqvia
+#temprary remove community from deployment
+force-app/communities
