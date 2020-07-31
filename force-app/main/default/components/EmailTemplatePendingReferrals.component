@@ -1,3 +1,13 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 07-31-2020
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   07-31-2020   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
 <apex:component id="EmailTemplatePendingReferrals" controller="EmailWireframeController" access="global" language="{!userLanguageCode}">
 
     <!-- Records info -->
@@ -43,12 +53,10 @@
                                   rendered="{!preSignatureText != null}">
                     <apex:outputText value="{!preSignatureText}" escape="false"/>
                 </apex:outputPanel>
-                </div>    
+                </div>   
+                <apex:outputText value="{!signatureText}" escape="false"/> <!-- Added by Krisha Mahto- REF-1596 -->
                 <table style="margin: 0 0 0 0;">
-                    <tr>
-                        <td style="width: 90%;">
-                            <apex:outputText value="{!signatureText}" escape="false"/>
-                        </td>
+                    <tr>   
                         <td style="width: 10%;">
                             <img style="{!templateMap['emailTemplateBrandLogoCSS']}"
                                  src="{!templateMap['emailTemplateBrandLogo']}"/>
