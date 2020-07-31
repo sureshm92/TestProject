@@ -65,7 +65,6 @@
         let allSelectedIPs = component.get('v.allSelectedIPs');
         let ssItems = component.get('v.ssItems');
         for (const incenitvePlan in allSelectedIPs) {
-            // haveSelecteAll = haveSelecteAll || allSelectedIPs[incenitvePlan] && allSelectedIPs[incenitvePlan].size && incenitvePlan !== ipId;
             for (const ssItem of ssItems) {
                 for (const assignment of ssItem.assignments) {
                     if (assignment.state && assignment.value !== incenitvePlan) haveSelecteAll = true;
