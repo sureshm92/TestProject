@@ -158,6 +158,7 @@ public without sharing class StudyListViewController {
     public static String getPIInitData(String communityName) {
         try {
             PIInitData initData = new PIInitData();
+            initData.piStudiesFilter.filterData.communityName = communityName;
             getStudiesForPI(initData);
             initData.countries.addAll(CountryStateUtil.getCountries());
             initData.statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
