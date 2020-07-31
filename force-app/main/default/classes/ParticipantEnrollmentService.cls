@@ -822,15 +822,16 @@ public without sharing class ParticipantEnrollmentService {
     public static List<Participant_Enrollment__c> filterByJanssen (List<Participant_Enrollment__c> listPe, String sponsorName) {
         List<Participant_Enrollment__c> resultPeList = new List<Participant_Enrollment__c>();
         for (Participant_Enrollment__c pe : listPe) {
-            if (sponsorName == CommunityService.JANSSEN_NETWORK_NAME && pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c == CommunityService.JANSSEN_NETWORK_NAME) {
+            if (sponsorName == CommunityTemplateService.TEMPLATE_JANSSEN && pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN) {
                 resultPeList.add(pe);
             }
-            if (sponsorName != CommunityService.JANSSEN_NETWORK_NAME && pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c != CommunityService.JANSSEN_NETWORK_NAME) {
+            if (sponsorName != CommunityTemplateService.TEMPLATE_JANSSEN && pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != CommunityTemplateService.TEMPLATE_JANSSEN) {
                 resultPeList.add(pe);
             }
 
         }
         return resultPeList;
+
     }
 
     public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, PaginationData paginationData, String delegateId, String sponsorName, String userMode) {
