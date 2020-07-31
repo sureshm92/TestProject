@@ -2,7 +2,7 @@
  - Created by Igor Malyuta on 24.04.2020.
  -->
 
-<apex:component id="EmailWireframe" controller="EmailWireframeController" access="global" language="{!userLanguageCode}">
+ <apex:component id="EmailWireframe" controller="EmailWireframeController" access="global" language="{!userLanguageCode}">
 
     <!-- Records info -->
     <apex:attribute name="recipientId" type="Id" assignTo="{!emailRecipientId}" description="" access="global"/>
@@ -46,12 +46,10 @@
                                   rendered="{!preSignatureText != null}">
                     <apex:outputText value="{!preSignatureText}" escape="false"/>
                 </apex:outputPanel>
-
+                
+                <apex:outputText value="{!signatureText}" escape="false"/>  <!-- Added by Krisha Mahto- REF-1596 -->
                 <table>
                     <tr>
-                        <td style="width: 90%;">
-                            <apex:outputText value="{!signatureText}" escape="false"/>
-                        </td>
                         <td style="width: 10%;">
                             <img style="{!templateMap['emailTemplateBrandLogoCSS']}"
                                  src="{!templateMap['emailTemplateBrandLogo']}"/>
