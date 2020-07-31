@@ -84,18 +84,62 @@ public without sharing class StudySiteTriggerHandler {
         for (User user : CommunityService.getCommunityUsersByContactIds(piContactIds)) contactIdsWithCreatedUser.add(user.ContactId);
         Set<Id> contactIdsForCreateUsers = new Set<Id>();
         List<Notification__c> notifications = new List<Notification__c>();
-        for(Study_Site__c ss : newList){
-            if(ss.Override_PI_Referral_Status__c == StudySiteService.PI_S_INVITATION_SENT && ss.Principal_Investigator__c != null
-                    && ss.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN &&
-                    (oldMap == null || (oldMap != null && ss.Override_PI_Referral_Status__c != oldMap.get(ss.Id).Override_PI_Referral_Status__c))){
-                if(contactIdsWithCreatedUser.contains(ss.Principal_Investigator__c)){
-                    notifications.add(new Notification__c(
-                            Recipient__c = ss.Principal_Investigator__c,
-                            WhatId__c = ss.Id,
-                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_ACCEPT_NEW_STUDY_TYPE
-                    ));
-                }else{
-                    contactIdsForCreateUsers.add(ss.Principal_Investigator__c);
+        Set<Id> ssIDs = new Set<Id>();
+        Set<Id> pisWithUser = new Set<Id>();
+        for(Study_Site__c ss : newList) {
+            if (ss.Override_PI_Referral_Status__c == StudySiteService.PI_S_INVITATION_SENT && ss.Principal_Investigator__c != null
+                    && (oldMap == null || (oldMap != null && ss.Override_PI_Referral_Status__c != oldMap.get(ss.Id).Override_PI_Referral_Status__c))) {
+                if(!contactIdsWithCreatedUser.contains(ss.Principal_Investigator__c)) contactIdsForCreateUsers.add(ss.Principal_Investigator__c);
+                else {
+                    ssIDs.add(ss.Id);
+                    pisWithUser.add(ss.Principal_Investigator__c);
+                }
+            }
+        }
+        if(!ssIDs.isEmpty()) {
+            Map<Id, Map<String, List<Id>>> piCommunitySS = new Map<Id, Map<String, List<Id>>>();
+            for(Study_Site__c notificationSS : [
+                    SELECT Id,
+                            Principal_Investigator__c,
+                            Clinical_Trial_Profile__c,
+                            Clinical_Trial_Profile__r.CommunityTemplate__c
+                    FROM Study_Site__c
+                    WHERE Principal_Investigator__c IN :pisWithUser]){
+                if(piCommunitySS.containsKey(notificationSS.Principal_Investigator__c)) {
+                    piCommunitySS.get(notificationSS.Principal_Investigator__c).get(notificationSS.Clinical_Trial_Profile__r.CommunityTemplate__c).add(notificationSS.Id);
+                } else {
+                    piCommunitySS.put(notificationSS.Principal_Investigator__c, new Map<String, List<Id>>{
+                            CommunityTemplateService.TEMPLATE_DEFAULT => new List<Id>(),
+                            CommunityTemplateService.TEMPLATE_JANSSEN => new List<Id>(),
+                            CommunityTemplateService.TEMPLATE_GSK => new List<Id>()
+                    });
+                }
+            }
+            for (Id piId : piCommunitySS.keySet()) {
+                for (String community : piCommunitySS.get(piId).keySet()) {
+                    if (community == CommunityTemplateService.TEMPLATE_JANSSEN) {
+                        if (piCommunitySS.get(piId).get(community).size() > 1) {
+                            for (Id ss : piCommunitySS.get(piId).get(community)) {
+                                if (ssIDs.contains(ss)) {
+                                    notifications.add(new Notification__c(
+                                            Recipient__c = piId,
+                                            WhatId__c = ss,
+                                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_ACCEPT_NEW_STUDY_TYPE
+                                    ));
+                                }
+                            }
+                        }
+                    } else {
+                        for (Id ss : piCommunitySS.get(piId).get(community)) {
+                            if (ssIDs.contains(ss)) {
+                                notifications.add(new Notification__c(
+                                        Recipient__c = piId,
+                                        WhatId__c = ss,
+                                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_ACCEPT_NEW_STUDY_TYPE
+                                ));
+                            }
+                        }
+                    }
                 }
             }
         }
