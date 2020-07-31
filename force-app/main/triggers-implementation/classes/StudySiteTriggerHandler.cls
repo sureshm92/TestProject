@@ -85,7 +85,8 @@ public without sharing class StudySiteTriggerHandler {
         Set<Id> contactIdsForCreateUsers = new Set<Id>();
         List<Notification__c> notifications = new List<Notification__c>();
         for(Study_Site__c ss : newList){
-            if(ss.Override_PI_Referral_Status__c == StudySiteService.PI_S_INVITATION_SENT && ss.Principal_Investigator__c != null &&
+            if(ss.Override_PI_Referral_Status__c == StudySiteService.PI_S_INVITATION_SENT && ss.Principal_Investigator__c != null
+                    && ss.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN &&
                     (oldMap == null || (oldMap != null && ss.Override_PI_Referral_Status__c != oldMap.get(ss.Id).Override_PI_Referral_Status__c))){
                 if(contactIdsWithCreatedUser.contains(ss.Principal_Investigator__c)){
                     notifications.add(new Notification__c(
