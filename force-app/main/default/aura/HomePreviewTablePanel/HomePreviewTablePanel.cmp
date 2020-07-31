@@ -7,7 +7,7 @@
     <aura:attribute name="title" type="String"/>
     <aura:attribute name="footer" type="Aura.Component[]"/>
 
-    <div class="{!'rr-white-panel hptp-panel ' + if(v.isArabic, 'rtl', 'ltr')}">
+    <div class="{!'rr-white-panel hptp-panel ' + if(v.isRTL, 'rtl', 'ltr')}">
         <div class="hptp-title">{!v.title}</div>
         <div class="hptp-body">{!v.body}</div>
         <div class="hptp-footer">{!v.footer}</div>

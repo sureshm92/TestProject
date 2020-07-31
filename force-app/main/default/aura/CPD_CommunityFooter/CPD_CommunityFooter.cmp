@@ -2,9 +2,9 @@
    
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
     afterScriptsLoaded="{!c.doInit}"/>
-    <aura:attribute name="isArabic" type="Boolean" default="false"/>
+    <aura:attribute name="isRTL" type="Boolean" default="false"/>
 
-    <div class="{!'rrc-footer ' + if(v.isArabic, 'rtl', '')}">
+    <div class="{!'rrc-footer ' + if(v.isRTL, 'rtl', '')}">
         <div class="footer-content-algin">
             <div class="slds-grid slds-wrap slds-gutters slds-gutters_x-small slds-grid_pull-padded-x-small bg-content">
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">

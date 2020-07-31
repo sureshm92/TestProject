@@ -15301,6 +15301,13 @@ communications using the toggles below.</value>
         <value>Your permissions do not permit this action</value>
     </labels>
     <labels>
+        <fullName>RTL_Languages</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RTL Languages</shortDescription>
+        <value>ar, ur</value>
+    </labels>
+    <labels>
         <fullName>Received</fullName>
         <language>en_US</language>
         <protected>true</protected>

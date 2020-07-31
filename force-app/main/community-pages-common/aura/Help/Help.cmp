@@ -16,9 +16,9 @@
 
     <!--Tab Application Help-->
     <aura:if isTrue="{!v.isInitialized}">
-        <div class="{!v.isArabic? 'arabic':'english'}">
+        <div class="{!v.isRTL? 'arabic':'english'}">
             <div class="slds-grid slds-grid_align-center">
-                <div aura:id="borderLine" class="{!v.isArabic? 'slds-col slds-size_2-of-3 slds-p-right_large h-right-col':'slds-col slds-size_2-of-3 slds-p-right_large h-left-col'}">
+                <div aura:id="borderLine" class="{!v.isRTL? 'slds-col slds-size_2-of-3 slds-p-right_large h-right-col':'slds-col slds-size_2-of-3 slds-p-right_large h-left-col'}">
                     <div class="h-title">{!$Label.c.PG_HLP_H_Help}</div>
                     <div class="h-header">
                         <aura:if isTrue="{!v.userMode == 'HCP'}">

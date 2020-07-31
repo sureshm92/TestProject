@@ -17,7 +17,6 @@
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
     <aura:attribute name="isDummy" type="Boolean" default="false"/>
     <aura:attribute name="isMobileApp" type="Boolean" default="false"/>
-    <aura:attribute name="isArabic" type="Boolean"/>
     <aura:attribute name="template" type="String"/>
 
     <aura:attribute name="allModes" type="Object[]"/>
@@ -37,7 +36,7 @@
         <div class="{!'rr-all-content ' + $Browser.formFactor + ' ' + if(v.showSideMenu, ' bodyShift ', ' ') + if(v.availableModes.length > 1, ' with-selector ', '')}">
             <div class="{!'rr-header-content ' + if(v.showModeSwitcher, ' multi-mode ', ' ') + if(v.isInitialized, 'main-header-brand', 'main-header-neutral')}">
                 <aura:if isTrue="{!v.isInitialized}">
-                    <div class="{!'layout-header rr-width-limiter side-padding ' + if(v.isArabic, 'rtl', '')}">
+                    <div class="{!'layout-header rr-width-limiter side-padding ' + if(v.isRTL, 'rtl', '')}">
                         <div class="menu-btn" onclick="{!c.switchSideMenu}">
                             <img src="{!$Resource.icon_hamburgerMenu}" class="chevron" style="height: 32px; width: 32px"/>
                         </div>
