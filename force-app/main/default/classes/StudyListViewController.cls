@@ -158,13 +158,11 @@ public without sharing class StudyListViewController {
     public static String getPIInitData(String communityName) {
         try {
             PIInitData initData = new PIInitData();
-            initData.piStudiesFilter.filterData.communityName = communityName;
             getStudiesForPI(initData);
             initData.countries.addAll(CountryStateUtil.getCountries());
             initData.statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
             initData.countriesMap = CountryStateUtil.COUNTRY_MAP;
             initData.countryCodesMap = CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP;
-
             return JSON.serialize(initData);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
