@@ -26,19 +26,22 @@
             component.set('v.reset', false);
         } else if (itemValue) {
             if (itemValue.subItems.length === 0) {
-                let currentDelegateId;
-                let currentEnrollmentId;
+                let currentDelegateId,
+                    currentEnrollmentId,
+                    communityName;
                 if (itemValue.mode === 'Participant') {
                     currentDelegateId = itemValue.delegateId;
                     currentEnrollmentId = itemValue.peId;
-                } else {
+                } else if (itemValue.mode === 'HCP') {
                     currentDelegateId = itemValue.itemId;
-                    currentEnrollmentId = null;
+                } else {
+                    communityName = itemValue.communityName;
                 }
                 communityService.executeAction(component, 'changeMode', {
                     mode: itemValue.mode,
                     delegateId: currentDelegateId,
                     peId: currentEnrollmentId,
+                    communityName: communityName,
                     communityModes: JSON.stringify(comModes)
                 }, function (returnValue) {
                     const comData = JSON.parse(returnValue);

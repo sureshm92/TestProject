@@ -53,9 +53,9 @@ public without sharing class CommunityModeSwitcherRemote {
     }
 
     @AuraEnabled
-    public static String changeMode(String mode, Id delegateId, Id peId, String communityModes) {
+    public static String changeMode(String mode, Id delegateId, Id peId, String communityModes, String communityName) {
         CommunityModesWrapper result = new CommunityModesWrapper();
-        Contact resContact = CommunityFacadeRemote.changeMode(mode, delegateId, peId);
+        Contact resContact = CommunityFacadeRemote.changeMode(mode, delegateId, peId, communityName);
         List<CommunityMode> allModes = CommunityModeService.getUserCommunityModes(resContact.Id);
         result.currentMode = CommunityModeService.findMode(CommunityModeService.generateModeKey(resContact), allModes);
         result.communityModes = (CommunityModes) JSON.deserialize(communityModes, CommunityModes.class);

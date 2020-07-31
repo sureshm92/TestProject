@@ -15,7 +15,8 @@
             communityService.executeAction(component, 'getInitDataForPatientProfile', {
                 participantId: participantId,
                 mode: communityService.getUserMode(),
-                delegateId: communityService.getDelegateId()
+                delegateId: communityService.getDelegateId(),
+                sponsorName: communityService.getCurrentCommunityTemplateName()
             }, function (response) {
                 if (!response) communityService.navigateToPage('');
                 let initData = JSON.parse(response);

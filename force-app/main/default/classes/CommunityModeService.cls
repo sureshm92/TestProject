@@ -8,32 +8,46 @@ public without sharing class CommunityModeService {
     public static final String USER_MODE_PI = 'PI';
     public static final String USER_MODE_PARTICIPANT = 'Participant';
 	public static final String USER_MODE_CC = 'CC';
-    
-    
 
     public static final Map<String, String> labelByMode = new Map<String, String>{
             USER_MODE_HCP => Label.CTL_L_HCP_MODE,
             USER_MODE_PI => Label.CTL_L_PI_MODE
     };
+
     public static final Map<String, String> itemTypeByMode = new Map<String, String>{
             USER_MODE_HCP => CommunityModes.RH_ITEM_TYPE_RP,
             USER_MODE_PI => CommunityModes.RH_ITEM_TYPE_PI
+    };
+
+    public static final Map<String, String> rhSponsorsByCommunity = new Map<String, String>{
+            CommunityTemplateService.TEMPLATE_JANSSEN => CommunityTemplateService.SPONSOR_JANSSEN
     };
 
     public static List<CommunityModes.RHCommunityModeItem> getReferralModeItems(Id contactId) {
         List<CommunityModes.RHCommunityModeItem> modes = new List<CommunityModes.RHCommunityModeItem>();
         Contact userContact = ContactService.getContact(contactId);
         List<String> availableModes = userContact.userCommunytyType__c == null ? new List<String>() : userContact.userCommunytyType__c.split(';');
+
         if (availableModes.contains(USER_MODE_PI) || !DelegateService.getPIDelegateParents().isEmpty()) {
-            modes.add(new CommunityModes.RHCommunityModeItem(
-                    USER_MODE_PI, labelByMode.get(USER_MODE_PI), itemTypeByMode.get(USER_MODE_PI),
-                    null, false, false));
+            Map<String, List<Study_Site__c>> ssByCommunity = getStudySitesByCommunityName(contactId);
+
+            for(String commName : ssByCommunity.keySet()) {
+                if(rhSponsorsByCommunity.containsKey(commName)) {
+                    modes.add(new CommunityModes.RHCommunityModeItem(
+                            USER_MODE_PI, Label.View_Mode + ' ' + rhSponsorsByCommunity.get(commName) + ' ' + labelByMode.get(USER_MODE_PI),
+                            itemTypeByMode.get(USER_MODE_PI), commName, null, false, false));
+                } else {
+                    modes.add(new CommunityModes.RHCommunityModeItem(
+                            USER_MODE_PI, Label.View_Mode + ' ' + labelByMode.get(USER_MODE_PI), itemTypeByMode.get(USER_MODE_PI),
+                            null, null, false, false));
+                }
+            }
         }
         List<RP_Delegate_Relationship__c> rpDelegates = DelegateService.getHCPDelegates();
         if (availableModes.contains(USER_MODE_HCP) && rpDelegates.isEmpty()) {
             modes.add(new CommunityModes.RHCommunityModeItem(
-                    USER_MODE_HCP, labelByMode.get(USER_MODE_HCP), itemTypeByMode.get(USER_MODE_HCP),
-                    null, false, false));
+                    USER_MODE_HCP, Label.View_Mode + ' ' + labelByMode.get(USER_MODE_HCP), itemTypeByMode.get(USER_MODE_HCP),
+                    null, null, false, false));
         } else if (!rpDelegates.isEmpty()) {
             Set<Id> contactIds = new Set<Id>{userContact.Id};
             for (RP_Delegate_Relationship__c delegate : rpDelegates){
@@ -49,19 +63,19 @@ public without sharing class CommunityModeService {
                 participantByContactMap.put(participantRecord.Contact__c, participantRecord);
             }
             CommunityModes.RHCommunityModeItem modeItem = new CommunityModes.RHCommunityModeItem(
-                    USER_MODE_HCP, labelByMode.get(USER_MODE_HCP), itemTypeByMode.get(USER_MODE_HCP),
-                    null, true, true);
+                    USER_MODE_HCP, Label.View_Mode + ' ' + labelByMode.get(USER_MODE_HCP), itemTypeByMode.get(USER_MODE_HCP),
+                    null, null, true, true);
             if (availableModes.contains(USER_MODE_HCP)) {
                 String rpName = getRPName(userContact, participantByContactMap);
                 modeItem.subItems.add(new CommunityModes.RHCommunityModeItem(
                         USER_MODE_HCP, rpName, itemTypeByMode.get(USER_MODE_HCP),
-                        null, false, false));
+                        null, null, false, false));
             }
             for (RP_Delegate_Relationship__c delegate : rpDelegates) {
                 String rpName = getRPName(delegate.Referring_Provider__r, participantByContactMap);
                 modeItem.subItems.add(new CommunityModes.RHCommunityModeItem(
                         USER_MODE_HCP, rpName, itemTypeByMode.get(USER_MODE_HCP),
-                        delegate.Referring_Provider__c, false, false));
+                        null, delegate.Referring_Provider__c, false, false));
             }
             modes.add(modeItem);
         }
@@ -181,8 +195,18 @@ public without sharing class CommunityModeService {
                             subItem.isSelected = true;
                         }
                     }
-                    item.isSelected = true;
-                    item.isCollapsed = false;
+                    if (contact.userCommunityMode__c.equals(USER_MODE_PI)){
+                        if(contact.Current_Sponsor_Name__c != null && contact.Current_Sponsor_Name__c.equals(item.communityName)) {
+                            item.isSelected = true;
+                            item.isCollapsed = false;
+                        } else if (contact.Current_Sponsor_Name__c == null && item.communityName == null) {
+                            item.isSelected = true;
+                            item.isCollapsed = false;
+                        }
+                    } else {
+                        item.isSelected = true;
+                        item.isCollapsed = false;
+                    }
                     communityModes.isRHItemsCollapsed = false;
                     communityModes.isRHItemsSelected = true;
                 }
@@ -227,9 +251,13 @@ public without sharing class CommunityModeService {
         List<CommunityMode> modes = new List<CommunityMode>();
         Contact userContact = ContactService.getContact(contactId);
         String availableModes = userContact.userCommunytyType__c == null ? '' : userContact.userCommunytyType__c;
-        if ((availableModes != null && availableModes.contains(USER_MODE_PI))
-                || !DelegateService.getPIDelegateParents().isEmpty()) {
-            modes.add(new CommunityMode(USER_MODE_PI, Label.CTL_L_PI_MODE, null));
+        if ((availableModes != null && availableModes.contains(USER_MODE_PI)) || !DelegateService.getPIDelegateParents().isEmpty()) {
+            Map<String, List<Study_Site__c>> ssByCommunity = getStudySitesByCommunityName(contactId);
+
+            for (String commName : ssByCommunity.keySet()) {
+                if (rhSponsorsByCommunity.containsKey(commName)) modes.add(new CommunityMode(USER_MODE_PI, Label.CTL_L_PI_MODE, null, commName));
+                else modes.add(new CommunityMode(USER_MODE_PI, Label.CTL_L_PI_MODE, null));
+            }
         }
 
         if (availableModes != null && availableModes.contains(USER_MODE_HCP)) {
@@ -414,13 +442,14 @@ public without sharing class CommunityModeService {
         return peMap;
     }
 
-    public static String generateModeKey(String userMode, Id currentDelegateId, Id currentWhatId){
+    public static String generateModeKey(String userMode, Id currentDelegateId, String currentWhatId){
         return userMode + '_' + currentDelegateId + '_' + currentWhatId;
     }
 
     public static String generateModeKey(Contact contact){
-        Id currentWhatId;
+        String currentWhatId;
         if(contact.userCommunityMode__c == USER_MODE_PARTICIPANT) currentWhatId = contact.Current_Participant_Enrollment__c;
+        if(contact.userCommunityMode__c == USER_MODE_PI) currentWhatId = contact.Current_Sponsor_Name__c;
         return generateModeKey(contact.userCommunityMode__c, contact.userCommunityDelegateId__c, currentWhatId);
     }
 
@@ -455,6 +484,39 @@ public without sharing class CommunityModeService {
             }
         }
         return resMap;
+    }
+
+    private static Map<String, List<Study_Site__c>> getStudySitesByCommunityName(Id contactId){
+        Map<String, List<Study_Site__c>> ssByCommunity = new Map<String, List<Study_Site__c>>();
+        List<Id> ssDelegateIds = new List<Id>();
+
+        List<Site_Staff__c> siteStaffs = [
+                SELECT Id, Study_Site__c
+                FROM Site_Staff__c
+                WHERE Site_Contact__c =: contactId
+        ];
+        for(Site_Staff__c staff : siteStaffs) ssDelegateIds.add(staff.Study_Site__c);
+
+        List<Study_Site__c> studySites = [
+                SELECT Id, Principal_Investigator__c, Clinical_Trial_Profile__r.CommunityTemplate__c
+                FROM Study_Site__c
+                WHERE Principal_Investigator__c =: contactId OR Id IN: ssDelegateIds
+        ];
+
+        for (Study_Site__c ss : studySites) {
+            if (rhSponsorsByCommunity.containsKey(ss.Clinical_Trial_Profile__r.CommunityTemplate__c)) {
+                if (!ssByCommunity.containsKey(ss.Clinical_Trial_Profile__r.CommunityTemplate__c)) {
+                    ssByCommunity.put(ss.Clinical_Trial_Profile__r.CommunityTemplate__c, new List<Study_Site__c>());
+                }
+                ssByCommunity.get(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).add(ss);
+            } else {
+                if (!ssByCommunity.containsKey(CommunityTemplateService.TEMPLATE_DEFAULT)) {
+                    ssByCommunity.put(CommunityTemplateService.TEMPLATE_DEFAULT, new List<Study_Site__c>());
+                }
+                ssByCommunity.get(CommunityTemplateService.TEMPLATE_DEFAULT).add(ss);
+            }
+        }
+        return ssByCommunity;
     }
 
     private static String getRPName(Contact rpContact, Map<Id, Participant__c> participantsByContactIdsMap){

@@ -11,9 +11,13 @@ stages:
   - DeployINF5.0
   - RunTestINF5.0
 
-  #5.0 INT
+  #5.1 INT
   - DeployINT5.1
   - RunTestINT5.1
+  
+  #5.1 INF
+  - DeployINF5.1
+  - RunTestINF5.1
 
 
 
@@ -114,6 +118,31 @@ RunTestINT5.1:
   stage: RunTestINT5.1
   script:
     - . ./scripts/ci/run-tests.sh INT5_1
+    
+    # 5.1 INF: ---------------------------------------------------------------------
+DeployINF5.1:
+  tags:
+    - shell
+  only:
+    - INF5.1
+  except:
+    - merge_requests
+
+  stage: DeployINF5.1
+  script:
+    - . ./scripts/ci/deploy.sh INF5_1
+
+RunTestINF5.1:
+  tags:
+    - shell
+  only:
+    - INF5.1
+  except:
+    - merge_requests
+
+  stage: RunTestINF5.1
+  script:
+    - . ./scripts/ci/run-tests.sh INF5_1
 
 
 

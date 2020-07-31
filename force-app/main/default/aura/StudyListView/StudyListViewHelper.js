@@ -30,7 +30,10 @@
                 }), 1);
             });
         } else if (userMode === 'PI') {
-            communityService.executeAction(component, 'getPIInitData', null, function (returnValue) {
+            console.log('COMMUNITY NAME: ' + communityService.getCurrentCommunityTemplateName());
+            communityService.executeAction(component, 'getPIInitData', {
+                    communityName: communityService.getCurrentCommunityTemplateName()
+                }, function (returnValue) {
                 let initData = JSON.parse(returnValue);
                 helper.addCheckNoLongerAttributes(initData.currentPITrials);
                 component.set("v.paginationData", initData.paginationData);
@@ -80,6 +83,10 @@
         if (fromFirstPage === true) {
             paginationData.currentPage = 1;
         }
+        if ('PI' === communityService.getUserMode()) {
+            console.log('COMMUNITY NAME: ' + communityService.getCurrentCommunityTemplateName());
+            filter.communityName = communityService.getCurrentCommunityTemplateName();
+        }
         let filterJSON = JSON.stringify(filter);
         let paginationJSON = JSON.stringify(paginationData);
         let sortJSON = JSON.stringify(cmp.get('v.sortData'));
@@ -123,6 +130,8 @@
         if(filter.piId !== piId){
             filter.trialId = '';
         }
+        console.log('COMMUNITY NAME: ' + communityService.getCurrentCommunityTemplateName());
+        filter.communityName = communityService.getCurrentCommunityTemplateName();
         let searchText = filter.searchText;
         let paginationData = cmp.get('v.paginationData');
         let filterJSON = JSON.stringify(filter);

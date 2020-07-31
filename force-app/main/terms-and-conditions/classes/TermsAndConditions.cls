@@ -2,11 +2,13 @@ global without sharing class TermsAndConditions {
 
     public static final String COOKIE_TC_ID_SETTING = 'COOKIE_TC_ID_SETTING';
     public static final String PRIVACY_TC_ID_SETTING = 'PRIVACY_TC_ID_SETTING';
+    public static final String PRIVACY_POLICY = 'Privacy Policy';
+    public static final String TERMS_AND_CONDITIONS = 'Terms and Conditions';
 
     public static Terms_And_Conditions__c getPortalTC(){
         return getTC(null, null);
     }
-    
+
     public static Terms_And_Conditions__c getTrialTC(Id ctpId){
         Clinical_Trial_Profile__c [] ctpList = [
                 SELECT Terms_And_Conditions_ID__c
@@ -18,21 +20,10 @@ global without sharing class TermsAndConditions {
         }
         return null;
     }
-    
+
     public static Terms_And_Conditions__c getTC(Id tcId, String languageCode){
         if(String.isEmpty(languageCode)) languageCode = UserInfo.getLanguage();
-        String query =
-                ' SELECT Id, T_C_Text__c, ' +
-                '   (SELECT Id, T_C_Text__c FROM Terms_And_Conditions__r WHERE Language__c = \'' + languageCode  + '\') ' +
-                ' FROM Terms_And_Conditions__c' +
-                ' WHERE ';
-        if(tcId != null) {
-            query += ' Id =\'' + tcId + '\' ';
-        }else{
-            query += ' Active__c = TRUE ';
-        }
-        query += ' ORDER BY Name DESC LIMIT 1';
-        System.debug('QUERY: ' + query);
+        String query = getTCQuery(tcId, languageCode, TERMS_AND_CONDITIONS);
         Terms_And_Conditions__c [] tcList = Database.query(query);
         if(tcList.size() > 0) {
             Terms_And_Conditions__c tc = tcList[0];
@@ -41,7 +32,29 @@ global without sharing class TermsAndConditions {
         }
         return null;
     }
-    
+
+    public static String getTCQuery(Id tcId, String languageCode, String tcType) {
+        String query =
+                ' SELECT Id, T_C_Text__c, ' +
+                        '   (SELECT Id, T_C_Text__c FROM Terms_And_Conditions__r WHERE Language__c = \'' + languageCode  + '\') ' +
+                        ' FROM Terms_And_Conditions__c' +
+                        ' WHERE ';
+        if(tcId != null) {
+            query += ' Id =\'' + tcId + '\' ';
+        }else{
+            query += ' Active__c = TRUE ';
+        }
+        if(UserContext.getCurrentCommunityName() == CommunityTemplateService.TEMPLATE_JANSSEN_COMM_NAME){
+            query += 'AND Community_Name__c =\'' + UserContext.getCurrentCommunityName() +'\'';
+        }
+        if(tcType != null){
+            query += 'AND T_C_Type__c =\'' + tcType +'\'';
+        }
+        query += ' ORDER BY Name DESC LIMIT 1';
+        System.debug('>>>QUERY: ' + query);
+        return query;
+    }
+
     @AuraEnabled
     public static Boolean isTCAccepted(Id tcId){
         return getTCA(tcId) != null;
@@ -97,7 +110,6 @@ global without sharing class TermsAndConditions {
 
     public static Id getOrgDefaultTCbyCode(String code) {
         if(code.equals('CookiePolicy')) return getOrgDefaultCookieTC();
-        if(code.equals('PrivacyPolicy')) return getOrgDefaultPrivacyTC();
         return null;
     }
 
@@ -109,8 +121,15 @@ global without sharing class TermsAndConditions {
         SettingStoreService.saveOrgDefault(COOKIE_TC_ID_SETTING, termsAndConditions, Id.class);
     }
 
-    public static Id getOrgDefaultPrivacyTC() {
-        return (Id) SettingStoreService.getOrgDefault(PRIVACY_TC_ID_SETTING);
+    public static Terms_And_Conditions__c getOrgDefaultPrivacyTC() {
+        String query = getTCQuery(null, null, PRIVACY_POLICY);
+        Terms_And_Conditions__c [] tcList = Database.query(query);
+        if(tcList.size() > 0) {
+            Terms_And_Conditions__c tc = tcList[0];
+            if(tc.Terms_And_Conditions__r.size() > 0) tc.T_C_Text__c = tc.Terms_And_Conditions__r[0].T_C_Text__c;
+            return tc;
+        }
+        return null;
     }
 
     public static void setOrgDefaultPrivacyTC(Id termsAndConditions) {

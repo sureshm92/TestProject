@@ -1,0 +1,10 @@
+{
+  "activeViewId" : "226747e5-9d1a-46b9-8cdf-f9cb11038a9f",
+  "appPageId" : "5bf37374-2b32-4433-ad3c-73208f1ef38a",
+  "id" : "a8c19794-bd20-4c68-9395-d93b4a0e87e3",
+  "label" : "Help",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-help",
+  "type" : "route",
+  "urlPrefix" : "help"
+}

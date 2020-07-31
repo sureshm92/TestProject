@@ -17,9 +17,13 @@ public without sharing class TermsAndConditionsTriggerHandler {
 
         public void resetCheckBox(List<Terms_And_Conditions__c> newList, Map<Id, Terms_And_Conditions__c> oldMap) {
             List<Terms_And_Conditions__c> activeTCList = new List<Terms_And_Conditions__c>();
+            List<String> commNames = new List<String>();
+            List<String> tcTypes = new List<String>();
             for(Terms_And_Conditions__c tc : newList) {
                 if(tc.Active__c == true && (oldMap == null || (oldMap != null && !oldMap.get(tc.Id).Active__c)) ) {
                     activeTCList.add(tc);
+                    commNames.add(tc.Community_Name__c);
+                    tcTypes.add(tc.T_C_Type__c);
                 }
             }
             if(activeTCList.size() > 1) throw new TCTriggerHandlerException('Only one Terms and Conditions can be active');
@@ -29,6 +33,8 @@ public without sharing class TermsAndConditionsTriggerHandler {
                         SELECT Id, Active__c
                         FROM Terms_And_Conditions__c
                         WHERE Active__c = TRUE AND Id NOT IN :activeTCList
+                        AND Community_Name__c IN :commNames
+                        AND T_C_Type__c IN :tcTypes
                 ];
                 for(Terms_And_Conditions__c tc : termsAndConditions) tc.Active__c = false;
                 update termsAndConditions;

@@ -1,0 +1,10 @@
+{
+  "activeViewId" : "9ba6366b-4cce-48c4-b1b3-01ac7334352a",
+  "appPageId" : "5bf37374-2b32-4433-ad3c-73208f1ef38a",
+  "id" : "ecd206dd-5363-41ff-87a6-ba07b828e2a7",
+  "label" : "Patient Information PrintView",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-patient-information-printview",
+  "type" : "route",
+  "urlPrefix" : "patient-info-pv"
+}

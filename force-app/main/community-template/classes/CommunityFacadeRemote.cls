@@ -201,12 +201,13 @@ public without sharing class CommunityFacadeRemote {
     }
 
     @AuraEnabled
-    public static Contact changeMode(String mode, Id delegateId, Id peId) {
+    public static Contact changeMode(String mode, Id delegateId, Id peId, String communityName) {
         try {
             Contact userContact = CommunityService.getUserContact();
             userContact.userCommunityMode__c = mode;
             userContact.userCommunityDelegateId__c = delegateId;
             if (mode == CommunityService.USER_MODE_PARTICIPANT) userContact.Current_Participant_Enrollment__c = peId;
+            if (mode == CommunityService.USER_MODE_PI) userContact.Current_Sponsor_Name__c = communityName;
             update userContact;
             return userContact;
         } catch (Exception e) {
