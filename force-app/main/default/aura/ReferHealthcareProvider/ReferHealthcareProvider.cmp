@@ -12,6 +12,7 @@
     <aura:attribute name="refProvider" type="Contact"/>
     <aura:attribute name="showReferringProvider" type="Boolean"/>
     <aura:attribute name="delegates" type="List"/>
+    <aura:attribute name="communitySponsor" type="String"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.pe}" action="{!c.doInit}"/>
 
@@ -68,6 +69,7 @@
                                                    printMode="{!v.printMode}"/>
                 </div>
             </aura:if>
+            <aura:if isTrue="{!v.communitySponsor != 'Janssen'}">
             <div class="referring">{!!v.fromEmancipParticipant ? $Label.c.Other_Providers : ''}</div>
             <div class="healthcare-info">{!!v.fromEmancipParticipant ? $Label.c.Message_For_Providers : ''}</div>
             <div class="slds-grid slds-wrap slds-size--1-of-1">
@@ -81,6 +83,7 @@
                                                    printMode="{!v.printMode}"/>
                 </aura:iteration>
             </div>
+            </aura:if>
             <aura:if isTrue="{!!v.actionDisabled}">
                 <div>
                     <button data-gtm="BTN_AddProvider_mngmt" class="apollo-btn secondary slds-box"

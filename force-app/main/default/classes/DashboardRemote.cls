@@ -314,7 +314,7 @@ public without sharing class DashboardRemote {
                 List<Clinical_Trial_Profile__c> related_CTP = new List<Clinical_Trial_Profile__c>();
 
                 List<Study_Site__c> related_site_sites;
-                if (CommunityService.JANSSEN_NETWORK_NAME == communityName) {
+                if (CommunityTemplateService.TEMPLATE_JANSSEN == communityName) {
                     related_site_sites = [
                             SELECT Id,
                                     Name,
@@ -325,7 +325,7 @@ public without sharing class DashboardRemote {
                                     Principal_Investigator__c
                             FROM Study_Site__c
                             WHERE Principal_Investigator__c = :pi_Id
-                            AND Clinical_Trial_Profile__r.CommunityTemplate__c = :CommunityService.JANSSEN_COMMUNITY_TEMPLATE
+                            AND Clinical_Trial_Profile__r.CommunityTemplate__c = :CommunityTemplateService.TEMPLATE_JANSSEN
                     ];
                 } else {
                     related_site_sites = [
@@ -338,7 +338,7 @@ public without sharing class DashboardRemote {
                                     Principal_Investigator__c
                             FROM Study_Site__c
                             WHERE Principal_Investigator__c = :pi_Id
-                            AND Clinical_Trial_Profile__r.CommunityTemplate__c != :CommunityService.JANSSEN_COMMUNITY_TEMPLATE
+                            AND Clinical_Trial_Profile__r.CommunityTemplate__c != :CommunityTemplateService.TEMPLATE_JANSSEN
                     ];
                 }
 

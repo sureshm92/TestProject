@@ -215,7 +215,13 @@
                 </aura:set>
             </aura:if> 
     	<!-- Added By Krishna for PEH-1910 :End  --> 
-
+            <!-- Added By Krishna for PEH-2451 :Start  --> 
+            <br/>
+            <div id="sfdc_forgot" class="slds-align_absolute-center"> 
+                <span style="float:right" ><a  onclick = "{!c.openPrivacyPolicy}">{!$Label.c.Email_Footer_Privacy_Policy}</a></span>
+            </div>
+            <br/>
+			<!-- Added By Krishna for PEH-2451 :End  --> 
             <div class="rr-login-info-title" style="margin-top: 40px">{!$Label.c.PG_Login_T_This_Site_Optimized_For}</div>
 
         </aura:renderIf>

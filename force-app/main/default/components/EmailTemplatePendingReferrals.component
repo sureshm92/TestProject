@@ -43,12 +43,10 @@
                                   rendered="{!preSignatureText != null}">
                     <apex:outputText value="{!preSignatureText}" escape="false"/>
                 </apex:outputPanel>
-                </div>    
+                </div>   
+                <apex:outputText value="{!signatureText}" escape="false"/> <!-- Added by Krisha Mahto- REF-1596 -->
                 <table style="margin: 0 0 0 0;">
-                    <tr>
-                        <td style="width: 90%;">
-                            <apex:outputText value="{!signatureText}" escape="false"/>
-                        </td>
+                    <tr>   
                         <td style="width: 10%;">
                             <img style="{!templateMap['emailTemplateBrandLogoCSS']}"
                                  src="{!templateMap['emailTemplateBrandLogo']}"/>
