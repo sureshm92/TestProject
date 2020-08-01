@@ -55,7 +55,7 @@ public without sharing class ViewPatientsRemote {
     }
 
     @AuraEnabled
-    public static String getRecords(String filterJSON, String paginationJSON, String userMode, String changedItem, String delegateId, Boolean emancipatedPE) {
+    public static String getRecords(String filterJSON, String paginationJSON, String userMode, String changedItem, String delegateId, Boolean emancipatedPE, String sponsorName) {
         try {
         SearchResult result = new SearchResult();
             result.peFilter = (ParticipantEnrollmentService.PEFilter) JSON.deserialize(filterJSON, ParticipantEnrollmentService.PEFilter.class);
@@ -63,7 +63,7 @@ public without sharing class ViewPatientsRemote {
             result.peFilter.additionalFilter = getAdditionalFilter(userMode, emancipatedPE, null);
             updateSearchResultAccordingItemChanged(result, changedItem);
             result.peFilterData = createPEFilterData(result.peFilter.activePE, result.peFilter.study,result.peFilter.studySite, userMode, true, delegateId, result.peFilter.additionalFilter, userMode);
-            List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollments(result.peFilter, delegateId, null, userMode);
+            List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollments(result.peFilter, delegateId, sponsorName, userMode);
             peList = ParticipantEnrollmentService.getParticipantEnrollmentsPaginated(peList, result.paginationData);
             result.peList = convertToPEWrapperList(peList, userMode, delegateId);
             return JSON.serialize(result);
