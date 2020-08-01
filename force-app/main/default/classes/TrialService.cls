@@ -168,4 +168,17 @@ public without sharing class TrialService {
         return getAvailableTrialIds(userMode, delegateId).contains(trialId);
     }
 
+    public static List<Clinical_Trial_Profile__c> filterStudyForCurrentCommunity(List<Clinical_Trial_Profile__c> studies){
+        List<Clinical_Trial_Profile__c> filteredStudies = new List<Clinical_Trial_Profile__c>();
+        CommunityTemplate currentCommunityTemplate = UserContext.getCurrentCommunityTemplate();
+        for(Clinical_Trial_Profile__c study : studies){
+            if(currentCommunityTemplate.templateName == CommunityTemplateService.TEMPLATE_JANSSEN){
+                if(study.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN) filteredStudies.add(study);
+            }else{
+                if(study.CommunityTemplate__c != CommunityTemplateService.TEMPLATE_JANSSEN) filteredStudies.add(study);
+            }
+        }
+        return filteredStudies;
+    }
+
 }

@@ -667,7 +667,7 @@ public without sharing class ParticipantEnrollmentService {
 
     public static PEFilterData getPEFilterDataWithExistingPERecords(String activePE, Id trialId, String mode, Boolean restrictTrial, String delegateId, String additionalFilters) {
         //init trials
-        Map<Id, Clinical_Trial_Profile__c> trialsMap = new Map<Id, Clinical_Trial_Profile__c>(TrialService.getAvailableTrialsWithPE(activePE, mode, delegateId, additionalFilters));
+        Map<Id, Clinical_Trial_Profile__c> trialsMap = new Map<Id, Clinical_Trial_Profile__c>(TrialService.filterStudyForCurrentCommunity(TrialService.getAvailableTrialsWithPE(activePE, mode, delegateId, additionalFilters)));
         //init study sites:
         List<Study_Site__c> studySites;
         if (mode == CommunityService.USER_MODE_HCP) {

@@ -352,7 +352,7 @@ private class Test_BaseCRCPCommunity {
             String vpResultJSON = ViewPatientsRemote.getInitData(testData.ctp.Id, testData.ss.Id, CommunityService.USER_MODE_PI, null, '');
             ViewPatientsRemote.InitData vpResult = (ViewPatientsRemote.InitData) JSON.deserialize(vpResultJSON, ViewPatientsRemote.InitData.class);
             ViewPatientsRemote.getInitDataForPatientProfile(testData.participant.Id, CommunityService.USER_MODE_PI, null, null);
-            ViewPatientsRemote.getRecords(JSON.serialize(vpResult.peFilter), JSON.serialize(vpResult.paginationData), CommunityService.USER_MODE_PI, 'site', null, false);
+            ViewPatientsRemote.getRecords(JSON.serialize(vpResult.peFilter), JSON.serialize(vpResult.paginationData), CommunityService.USER_MODE_PI, 'site', null, false, CommunityTemplateService.TEMPLATE_DEFAULT);
             StudyClinicDashboardRemote.getInitData(testData.ctp.Id, studySiteAccount.Id);
         }
         Test.stopTest();
