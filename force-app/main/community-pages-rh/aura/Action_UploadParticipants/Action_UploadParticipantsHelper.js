@@ -3,7 +3,7 @@
  */
 ({
 
-    uploadPaticipants: function(component, csvData, fileName, studySiteId, selectedStatus, createUsers, doNotContact,isEmail,isPhone,isSMS,helper) {
+    uploadPaticipants: function(component, csvData, fileName, studySiteId, selectedStatus, createUsers, doContact,isEmail,isPhone,isSMS,helper) {
         component.find('upModalSpinner').show();
         communityService.executeAction(component, 'uploadParticipants', {
             csvFileLines: csvData,
@@ -11,6 +11,7 @@
             studySiteId: studySiteId,
             selectedStatus: selectedStatus,
             createUsers: createUsers,
+            doContact: doContact,
             allowEmail: isEmail,
             allowPhone: isPhone,
             allowSMS: isSMS

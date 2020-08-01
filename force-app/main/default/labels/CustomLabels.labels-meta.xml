@@ -13064,7 +13064,7 @@ The expected format is REF#####</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_IQVIA_Confirmation</shortDescription>
-        <value>I confirm that the patient, and/or patient&apos;s legal guardian if applicable,agrees</value>
+        <value>I confirm that the patient, and/or patient&apos;s legal guardian if applicable, agrees</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_To_Contact</fullName>
@@ -13078,7 +13078,7 @@ The expected format is REF#####</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_Email</shortDescription>
-        <value>that IQVIA or its affiliates may contact the patient or his/her legal guardians</value>
+        <value>that IQVIA or its affiliates may contact the patient or his/her legal guardians regarding this study</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_Phone</fullName>
