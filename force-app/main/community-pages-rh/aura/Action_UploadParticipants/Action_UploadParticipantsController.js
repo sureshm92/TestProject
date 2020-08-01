@@ -45,7 +45,7 @@
                                  component.get('v.studySiteId'),
                                  component.get('v.selectedStatus'),
                                  component.get('v.createUsers'),
-                                 component.get('v.doNotContactParticipants'),
+                                 component.get('v.doContact'),
                                  component.get('v.isEmail'),
                                  component.get('v.isPhone'),
                                  component.get('v.isSMS'),

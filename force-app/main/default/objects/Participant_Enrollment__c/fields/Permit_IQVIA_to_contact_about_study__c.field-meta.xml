@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Suppress_Study_Site_PI_Emails__c</fullName>
+    <fullName>Permit_IQVIA_to_contact_about_study__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <inlineHelpText>Checking this box will stop study related emails for PI and site staff</inlineHelpText>
-    <label>Suppress Study Site PI Emails</label>
+    <inlineHelpText>Checked when share the above information with IQVIA and its affiliates checkbox is checked in the front end</inlineHelpText>
+    <label>Permit IQVIA to contact about study</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
