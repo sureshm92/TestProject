@@ -95,7 +95,7 @@
                             
                             <!--1936-->
                             
-                            <aura:if isTrue="{!(or(!v.pe.Permit_Mail_Email_contact_for_this_study__c,!v.pe.Permit_Voice_Text_contact_for_this_study__c,!v.pe.Permit_SMS_Text_for_this_study__c))&amp;&amp; v.init}">
+                            <aura:if isTrue="{!v.init}">
                                 <div class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center" style="margin-bottom: 5px;">
                                     <div class="slds-size_1-of-1 slds-item_label">
                                         <Strong>{!$Label.c.PG_Ref_L_Information_Sharing}</Strong>
@@ -106,7 +106,7 @@
                                 </div>
                             </aura:if>
                             <aura:if isTrue="{!v.pe.Permit_IQVIA_to_contact_about_study__c}">
-                                <aura:if isTrue= "{!!v.pe.Permit_Mail_Email_contact_for_this_study__c &amp;&amp; v.init}">
+                                <aura:if isTrue= "{!v.init}">
                                     <div class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap" >
                                         <div class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
                                             <lightning:input type="checkbox" class="IQVIA_contact-patient-checkbox" onchange="{!c.doContactEmail}"/>
@@ -114,7 +114,7 @@
                                         </div>
                                     </div>
                                 </aura:if>
-                                <aura:if isTrue= "{!!v.pe.Permit_Voice_Text_contact_for_this_study__c &amp;&amp; v.init}">
+                                <aura:if isTrue= "{!v.init}">
                                     <div class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap">
                                         <div class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
                                             <lightning:input type="checkbox" class="IQVIA_contact-patient-checkbox" onchange="{!c.doContactPhone}"/>
@@ -122,7 +122,7 @@
                                         </div>
                                     </div>
                                 </aura:if>
-                                <aura:if isTrue= "{!!v.pe.Permit_SMS_Text_for_this_study__c &amp;&amp; v.init}">
+                                <aura:if isTrue= "{!v.init}">
                                     <div class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap" style= "padding-bottom:10px;">
                                         <div class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
                                             <lightning:input type="checkbox" class="IQVIA_contact-patient-checkbox" onchange="{!c.doContactSMS}"/>
