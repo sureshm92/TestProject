@@ -11,16 +11,16 @@
     <aura:attribute name="isInvited" type="Boolean" default="false"/>
 
     <!-- component body: -->
-    <div class="{!if(v.isArabic, 'rtl', '')}" style="position: relative">
+    <div class="{!if(v.isRTL, 'rtl', '')}" style="position: relative">
         <aura:if isTrue="{!v.pe.Participant__c}">
             <aura:if isTrue="{!v.userMode == 'Participant'}">
                 <div>
                     <div class="vpi-tile-title">{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</div>
                         <div class="objective-link">
                         <c:RRLink page="{!'study-workspace?id=' + v.pe.Study_Site__r.Clinical_Trial_Profile__c}">
-                            <aura:if isTrue="{!v.isArabic}"><c:RRIcon iconName="icon-chevron-left"/></aura:if>
+                            <aura:if isTrue="{!v.isRTL}"><c:RRIcon iconName="icon-chevron-left"/></aura:if>
                             {!$Label.c.BTN_Learn_More}
-                            <aura:if isTrue="{!!v.isArabic}"><c:RRIcon iconName="icon-chevron-right"/></aura:if>
+                            <aura:if isTrue="{!!v.isRTL}"><c:RRIcon iconName="icon-chevron-right"/></aura:if>
                         </c:RRLink>
                     </div>
                 </div>

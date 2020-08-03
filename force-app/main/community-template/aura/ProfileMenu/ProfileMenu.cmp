@@ -17,7 +17,7 @@
     <aura:method name="refresh" action="{!c.doRefresh}" access="public"/>
 
     <!-- component body: -->
-    <c:uiHeaderMenu aura:id="menu" class="{!'menu-block ' + if(v.isArabic, 'rtl ', '')}">
+    <c:uiHeaderMenu aura:id="menu" class="{!'menu-block ' + if(v.isRTL, 'rtl ', '')}">
         <aura:set attribute="title">
             <lightning:avatar src="{!v.user.SmallPhotoUrl}"
                               alternativeText="{!if(and(v.userMode=='Participant', !v.isDelegate), v.participantName, v.user.Contact.FirstName + ' ' + v.user.Contact.LastName)}"

@@ -33,10 +33,10 @@
                     <div class="sv-footer">
                         <c:RRLink href="{!v.href}" dataGTM="LNK_ManagePayments" target="_blank">
                             {!$Label.c.Manage_My_Payments}
-                            <aura:if isTrue="{!v.isArabic}">
+                            <aura:if isTrue="{!v.isRTL}">
                                 <c:RRIcon iconName="icon-chevron-left"/>
                             </aura:if>
-                            <aura:if isTrue="{!!v.isArabic}">
+                            <aura:if isTrue="{!!v.isRTL}">
                                 <c:RRIcon iconName="icon-chevron-right"/>
                             </aura:if>
                         </c:RRLink>

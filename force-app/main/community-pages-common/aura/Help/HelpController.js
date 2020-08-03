@@ -2,7 +2,7 @@
     doInit: function (component, event, helper) {
         if (!communityService.isInitialized()) return;
         var cmpTarget = component.find('borderLine');
-        if(component.get("v.isArabic")){
+        if(component.get("v.isRTL")){
         	$A.util.addClass(cmpTarget, 'h-right-col');
             $A.util.removeClass(cmpTarget, 'h-left-col');
         }else{

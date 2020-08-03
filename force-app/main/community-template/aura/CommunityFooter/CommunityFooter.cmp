@@ -3,7 +3,7 @@
  -->
 
 <aura:component description="CommunityFooter" extends="c:CommunityContext">
-    <div class="{!'rrc-footer ' + if(v.isArabic, 'rtl', '')}">
+    <div class="{!'rrc-footer ' + if(v.isRTL, 'rtl', '')}">
         <div class="cf-margin-cutter">
             <div class="cf-links">
                 <div class="cf-link">

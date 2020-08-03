@@ -15,7 +15,7 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     -->
     <!-- component body: -->
-    <div class="{!'vpi-clip-item-borders ' + if(v.isArabic, 'rtl', '')}">
+    <div class="{!'vpi-clip-item-borders ' + if(v.isRTL, 'rtl', '')}">
         <div class="vpi-fields">
 
             <!-- PI fields: -->

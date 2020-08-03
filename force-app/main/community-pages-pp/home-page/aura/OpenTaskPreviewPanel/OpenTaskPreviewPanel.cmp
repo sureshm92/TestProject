@@ -62,10 +62,10 @@
         <aura:set attribute="footer">
             <c:RRLink page="study-workspace?tab=tab-tasks">
                 {!$Label.c.PG_L_See_All}
-                <aura:if isTrue="{!v.isArabic}">
+                <aura:if isTrue="{!v.isRTL}">
                     <c:RRIcon iconName="icon-chevron-left"/>
                 </aura:if>
-                <aura:if isTrue="{!!v.isArabic}">
+                <aura:if isTrue="{!!v.isRTL}">
                     <c:RRIcon iconName="icon-chevron-right"/>
                 </aura:if>
             </c:RRLink>

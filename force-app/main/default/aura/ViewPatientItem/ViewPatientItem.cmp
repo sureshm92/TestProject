@@ -28,7 +28,7 @@
     <aura:handler name="change" value="{!v.pe}" action="{!c.doInit}"/>
 
     <!-- component body: -->
-    <div class="{!'rr-white-panel padding ' + if(v.isArabic, ' rtl', '')}" style="position: relative">
+    <div class="{!'rr-white-panel padding ' + if(v.isRTL, ' rtl', '')}" style="position: relative">
         <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
         <aura:if isTrue="{!empty(v.pe)}">
             <div style="height: 250px"></div>
