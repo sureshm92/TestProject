@@ -25,6 +25,12 @@
 
 /*-----------------------------------------------------------------------*/
 
+.THIS .item-title{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 85%;
+}
+
 @media all and (max-width: 550px) {
     .THIS .header-menu-link {
         padding: 0 8px 0 1rem;
