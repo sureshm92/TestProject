@@ -113,13 +113,13 @@ public without sharing class StudyListViewController {
             PIStudiesFilter.FilterData filterData = (PIStudiesFilter.FilterData) JSON.deserialize(filterDataJSON, PIStudiesFilter.FilterData.class);
             PIStudiesFilter.SortData sortData = (PIStudiesFilter.SortData) JSON.deserialize(sortDataJSON, PIStudiesFilter.SortData.class);
             PaginationData paginationData = (PaginationData) JSON.deserialize(paginationDataJSON, PaginationData.class);
-            PIInitData initData = new PIInitData(filterData, sortData, paginationData);
-            getStudiesForPI(initData);
+            PIInitData initDataInstance = new PIInitData(filterData, sortData, paginationData);
+            getStudiesForPI(initDataInstance);
             Contact updateUserContact = new Contact();
             updateUserContact.Id = CommunityService.getUserContact().Id;
             filterData.save();
             update updateUserContact;
-            return JSON.serialize(initData);
+            return JSON.serialize(initDataInstance);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
@@ -163,7 +163,6 @@ public without sharing class StudyListViewController {
             initData.statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
             initData.countriesMap = CountryStateUtil.COUNTRY_MAP;
             initData.countryCodesMap = CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP;
-
             return JSON.serialize(initData);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
