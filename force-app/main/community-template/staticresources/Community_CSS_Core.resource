@@ -803,6 +803,7 @@ select.rr-select-error,
     color: #FFFFFF;
     font-size: 1rem;
     padding: 6px 16px;
+    margin-top: 0.5px;
 }
 
 .apollo-btn.primary:hover, .apollo-btn.primary:focus, .apollo-btn.primary:active {
