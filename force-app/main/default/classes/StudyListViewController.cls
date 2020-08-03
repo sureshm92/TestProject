@@ -271,7 +271,13 @@ public without sharing class StudyListViewController {
     @AuraEnabled
     public static void saveSSChanges(String studySiteInfo) {
         try {
-            update (Study_Site__c) JSON.deserialize(studySiteInfo, Study_Site__c.class);
+            Study_Site__c study = new Study_Site__c();
+            Study_Site__c response = (Study_Site__c) JSON.deserialize(studySiteInfo, Study_Site__c.class);
+            study.Id = response.Id;
+            study.Study_Site_Phone__c = response.Study_Site_Phone__c;
+            study.Site_Staff__c = response.Site_Staff__c;
+            study.Study_Site_Email__c = response.Study_Site_Email__c;
+            update study;
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }

@@ -29,7 +29,7 @@
                     <div data-group-id="{!modeGroup.itemType}"
                          class="{!'mode-group ' + if(modeGroup.isSelected, 'selected', '')}"
                          onclick="{!c.doToggleGroup}">
-                        {!modeGroup.title}
+                        <div class="item-title">{!modeGroup.title}</div>
                         <aura:if isTrue="{!and(!modeGroup.isGroup, modeGroup.isSelected)}">
                             <c:RRIcon iconName="icon-check" class="icon-check"/>
                         </aura:if>
@@ -41,7 +41,7 @@
                             <c:uiMenuItem onclick="{!c.doOnclick}" itemValue="{!subItem}">
                                 <div data-group-id="{!subItem.itemType}" data-delegate-id="{!subItem.itemId}"
                                      class="{!'mode-sub-item ' + if(subItem.isSelected,'selected','')}">
-                                    {!subItem.title}
+                                    <div class="item-title">{!subItem.title}</div>
                                     <aura:if isTrue="{!subItem.isSelected}">
                                         <c:RRIcon iconName="icon-check" class="icon-check"/>
                                     </aura:if>
