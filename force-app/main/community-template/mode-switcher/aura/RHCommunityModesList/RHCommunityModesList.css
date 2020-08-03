@@ -4,7 +4,11 @@
 
 .THIS .mode-group{
     width: 300px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
+
 .THIS .mode-group:hover,
 .THIS .mode-sub-item:hover{
     cursor: pointer;
