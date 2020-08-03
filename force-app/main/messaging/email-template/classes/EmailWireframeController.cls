@@ -8,7 +8,7 @@ global without sharing class EmailWireframeController {
     global String greetingValue { get; set; }
     global String preSignatureValue { get; set; }
     global String signatureValue { get; set; }
-
+	global String shareTemplate { get; set; }
     global Id sourceRecordId { get; set; }
     global String emailRecipientName { get; set; }
     global String emailRecipientId { get; set; }
@@ -49,11 +49,14 @@ global without sharing class EmailWireframeController {
     }
 	global Id recipientcntId {
       		 get{
+                 
         		try {
+                	if(shareTemplate=='Yes')recipientcntId=null;
+                    else{
                         if (recipientcntId == null) recipientcntId = getProvider().getRecipientId();
                         if(recipientcntId == null) recipientcntId = getProvider().getParameters().get('RecipientContactId');
+                    	}
                         return recipientcntId;
-                    
             		}
                	catch (Exception e) {
                         EmailService.sendException(e, null);
