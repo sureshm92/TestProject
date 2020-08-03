@@ -17,8 +17,8 @@ public inherited sharing class VisitResultsService {
     public List<VisitResultWrapper> getVisitResultWrappersForDashboard() {
         Participant_Enrollment__c objCurrParEnroll = ParticipantContext.getCurrentPE();
         String strCountryCode = '';
-        if (objCurrParEnroll.Study_Site__c != null && objCurrParEnroll.Study_Site__r.Site__c != null) {
-            strCountryCode = objCurrParEnroll.Study_Site__r.Site__r.BillingCountryCode;
+        if (objCurrParEnroll.Participant__c != null) {
+            strCountryCode = objCurrParEnroll.Participant__r.Mailing_Country_Code__c;
         }
 
         Id currentCTP = objCurrParEnroll.Clinical_Trial_Profile__c;
