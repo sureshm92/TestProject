@@ -46,7 +46,7 @@
                 </div>   
                 <table style="margin: 0 0 0 0;">
                     <tr>
-						<td style="width: 90%;"> 
+						<td style="width: 90%; color: #333333; font-size: 16px;font-family: Arial;"> 
                             <apex:outputText value="{!signatureText}" escape="false"/>
                         </td>
                         <td style="width: 10%;">
