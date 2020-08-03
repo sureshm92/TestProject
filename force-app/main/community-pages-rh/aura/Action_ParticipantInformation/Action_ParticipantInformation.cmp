@@ -105,7 +105,7 @@
                                     <div class="slds-size_1-of-1 slds-item_label">{!$Label.c.PG_Ref_L_Permit_IQVIA_Confirmation}</div>
                                 </div>
                             </aura:if>
-                            <aura:if isTrue="{!v.pe.Permit_IQVIA_to_contact_about_study__c}">
+                            <!--<aura:if isTrue="{!v.pe.Permit_IQVIA_to_contact_about_study__c}">-->
                                 <aura:if isTrue= "{!v.init}">
                                     <div class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap" >
                                         <div class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
@@ -130,7 +130,7 @@
                                         </div>
                                     </div>
                                 </aura:if>
-                            </aura:if>
+                            <!--</aura:if>-->
                             <!--End-->
                         </div>
                     </lightning:tab>
