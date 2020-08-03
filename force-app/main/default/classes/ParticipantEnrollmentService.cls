@@ -513,7 +513,8 @@ public without sharing class ParticipantEnrollmentService {
             'Last_Status_Changed_Notes__c',
             'Permit_SMS_Text_for_this_study__c',
             'Permit_Voice_Text_contact_for_this_study__c',
-            'Permit_Mail_Email_contact_for_this_study__c'
+            'Permit_Mail_Email_contact_for_this_study__c',
+            'Permit_IQVIA_to_contact_about_study__c'
             };
                 
                 public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter) {
