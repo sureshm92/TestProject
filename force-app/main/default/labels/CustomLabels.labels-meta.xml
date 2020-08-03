@@ -2958,6 +2958,22 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>This site uses cookies for the essential functioning of the site, to improve user experience, and for analytical purposes. By using this site you are consenting to our use of cookies.</value>
     </labels>
     <labels>
+        <fullName>Copy_of_my_personal_information</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Copy of my personal information</shortDescription>
+        <value>I would like to request a copy of my personal information</value>
+    </labels>
+    <labels>
+        <fullName>Correction_of_my_personal_information</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Correction of my personal information</shortDescription>
+        <value>I would like to request a correction or deletion of my personal information</value>
+    </labels>
+    <labels>
         <fullName>Covid19_NYBC_Email_Logo</fullName>
         <categories>Covid19</categories>
         <language>en_US</language>
@@ -3578,6 +3594,14 @@ Please share our site on social media to encourage others to assist us as we wor
         <protected>true</protected>
         <shortDescription>Don&apos;t want to be contacted</shortDescription>
         <value>I do not want to be contacted via phone(voice call)</value>
+    </labels>
+    <labels>
+        <fullName>Don_t_want_to_be_contacted_via_SMS</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Don_t_want_to_be_contacted_via_SMS</shortDescription>
+        <value>I do not want to be contacted via SMS/text messages</value>
     </labels>
     <labels>
         <fullName>Don_t_want_to_receive</fullName>
