@@ -36,7 +36,15 @@
 
     OpenQuickReference : function (component, event, helper) {
         var quickReference = component.get('v.quickReference');
-        window.open($A.get('$Resource.' + quickReference), '_blank');
+        var navUrl = $A.get('$Resource.' + quickReference);
+        var urlString = window.location.href;
+        var baseURL = urlString.substring(0, urlString.indexOf("/s/help"));
+        var finalUrl = baseURL + navUrl;
+        var urlEvent = $A.get("e.force:navigateToURL");
+        urlEvent.setParams({
+        "url": finalUrl
+        });
+        urlEvent.fire();
     },
 
     OpenGuide : function (component, event, helper) {
