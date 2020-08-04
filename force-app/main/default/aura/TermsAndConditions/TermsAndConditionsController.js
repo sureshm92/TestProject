@@ -56,12 +56,19 @@
         helper.hideOkButton(component, event, helper); // @Krishna Mahto - PEH-2450 
     },
 
+    // console.log(`: ${}`);
     doAccept: function (component, event, helper) {
         let tcData = component.get('v.tcData');
         let isPortalTC = component.get('v.isPortalTC');
+
+        console.log(`tcData: ${JSON.stringify(tcData)}`);
+        console.log(`tcData.tc.Id: ${tcData.tc}`);
+        console.log(`isPortalTC: ${isPortalTC}`);
+
         communityService.executeAction(component, 'acceptTC', {
             tcId: tcData.tc.Id
         }, function (returnValue) {
+            console.log(`returnValue: ${returnValue}`);
             communityService.setTCAccepted();
             helper.goBack(component);
             if(!isPortalTC){
