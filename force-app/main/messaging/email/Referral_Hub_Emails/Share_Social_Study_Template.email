@@ -3,10 +3,11 @@
                          relatedToType="Clinical_Trial_Profile__c"
                          language="{!recipient.LanguageLocaleKey}">
 
-    <messaging:htmlEmailBody>
+    <messaging:htmlEmailBody >
         <c:EmailWireframe recipientId="{!recipient.Id}"
                           recipientName="{!$Label.Email_Guest}"
                           recipientLanguage="{!recipient.LanguageLocaleKey}"
+                          shareEmailTemplate="Yes"
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_Share}"
                           title="{!$Label.Email_Title}"
@@ -18,10 +19,11 @@
         </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody>
+    <messaging:plainTextEmailBody >
         <c:EmailWireframeText recipientId="{!recipient.Id}"
                               recipientName="{!$Label.Email_Guest}"
                               recipientLanguage="{!recipient.LanguageLocaleKey}"
+                              shareEmailTemplate="Yes"
                               sourceId="{!relatedTo.Id}"
                               header="{!$Label.Email_Header_Share}"
                               title="{!$Label.Email_Title}"

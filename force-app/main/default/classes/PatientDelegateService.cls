@@ -258,7 +258,7 @@ public without sharing class PatientDelegateService {
         }
 
         Contact newDelegateContact = [SELECT Id, UserCommunityIsDelegate__c, userCommunytyType__c, userCommunityMode__c FROM Contact WHERE Id = :newDelegate.Id];
-        Boolean check = newDelegateContact.userCommunytyType__c.contains('PI') || newDelegateContact.userCommunytyType__c.contains('HCP');
+        Boolean check = String.isBlank(newDelegateContact.userCommunytyType__c) || newDelegateContact.userCommunytyType__c.contains('PI') || newDelegateContact.userCommunytyType__c.contains('HCP');
         if(check) newDelegateContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
 
         newDelegateContact.UserCommunityIsDelegate__c = true;

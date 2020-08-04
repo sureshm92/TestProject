@@ -5,6 +5,7 @@
     <messaging:htmlEmailBody >    
         <c:Covid19EmailTemplate ParticipantVsDeligate="Deligate" 
                                relatedtoId="{!relatedTo.Id}"
-                              deligateFirstName="{!relatedTo.Delegate_First_Name__c}"/>
+                               delegateMail="Yes"
+                               deligateFirstName="{!relatedTo.Delegate_First_Name__c}"/>
     </messaging:htmlEmailBody>
 </messaging:emailTemplate>
