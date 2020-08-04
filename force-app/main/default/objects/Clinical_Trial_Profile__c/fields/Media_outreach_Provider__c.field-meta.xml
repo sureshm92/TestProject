@@ -3,7 +3,7 @@
     <fullName>Media_outreach_Provider__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
-    <label>Media outreach Provider</label>
+    <label>Media Outreach Contact</label>
     <referenceTo>User</referenceTo>
     <relationshipName>Clinical_Trial_Profiles</relationshipName>
     <required>false</required>
