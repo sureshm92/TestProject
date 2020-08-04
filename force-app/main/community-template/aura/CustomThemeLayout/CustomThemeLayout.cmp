@@ -25,6 +25,7 @@
     <aura:attribute name="showModeSwitcher" type="Boolean" default="false"/>
     <aura:attribute name="logoURL" type="String"/>
     <aura:attribute name="communityName" type="String"/>
+    <aura:attribute name="isRTL" type="Boolean"/>
 
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized"/>
