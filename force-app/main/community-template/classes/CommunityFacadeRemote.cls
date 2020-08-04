@@ -217,6 +217,7 @@ public without sharing class CommunityFacadeRemote {
     @AuraEnabled
     public static String getPreferredLanguageCode(String browserLanguages) {
         try {
+            if(UserInfo.getUserType() != 'Guest') return 'Skip';
             return TranslateHelper.convertBrowserLanguage((List<String>) JSON.deserialize(browserLanguages, List<String>.class));
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
