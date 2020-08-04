@@ -52,14 +52,14 @@
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>IF(BEGINS([Case].OwnerId, &quot;00G&quot;) , IF([Case].Owner:Queue.DeveloperName==&apos;Tech_Support_Case_Queue&apos;,true,false ), false) </stringValue>
+                <stringValue>IF(BEGINS([Case].OwnerId, &quot;00G&quot;) , IF(ISPICKVAL([Case].Origin, &apos;Opt Out&apos;)  ,true,false ), false) </stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_1</name>
         <dataType>Boolean</dataType>
-        <expression>IF(BEGINS({!myVariable_current.OwnerId}, &quot;00G&quot;) , IF({!myVariable_current.Owner:Queue.DeveloperName}==&apos;Tech_Support_Case_Queue&apos;,true,false ), false)</expression>
+        <expression>IF(BEGINS({!myVariable_current.OwnerId}, &quot;00G&quot;) , IF(ISPICKVAL({!myVariable_current.Origin}, &apos;Opt Out&apos;)  ,true,false ), false)</expression>
     </formulas>
-    <interviewLabel>Email_to_Technical_Support_for_Optout_option-1_InterviewLabel</interviewLabel>
+    <interviewLabel>Email_to_Technical_Support_for_Optout_option-2_InterviewLabel</interviewLabel>
     <label>Email to Technical Support for Optout option</label>
     <processMetadataValues>
         <name>ObjectType</name>
