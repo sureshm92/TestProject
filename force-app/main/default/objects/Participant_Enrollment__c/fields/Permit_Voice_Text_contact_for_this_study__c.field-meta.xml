@@ -3,7 +3,7 @@
     <fullName>Permit_Voice_Text_contact_for_this_study__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Permit Voice-Text contact for this study</label>
+    <label>Permit voice call for this study</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
