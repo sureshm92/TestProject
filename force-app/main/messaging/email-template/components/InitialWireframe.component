@@ -86,10 +86,11 @@
                       header="{!$Label.Email_Header_Initial_Delegate}"
                       title="{!titleLabel}"
                       greeting="{!$Label.Email_User_Greeting_FirstName}"
-                      signature="{!$Label.Email_Signature}">
+                      signature="{!$Label.Email_Signature}"
+                      communityTemplate = "{!communityTemplate}">
         <!-- Inner body -->
-        <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Delegate}"/>
-        <c:EmailTemplateDelegate/>
+        <c:Paragraph emailLabel="{!IF(commTemplate == 'Janssen',$Label.Email_Body_Initial_Delegate_Janssen, $Label.Email_Body_Initial_Delegate)}"/>
+        <c:EmailTemplateDelegate commTemplate="{!communityTemplate}"/>
         <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframe>
 
