@@ -14,15 +14,15 @@ global without sharing class RRLoginRemote {
             //set userCommunityDelegateId__c to null 
             //set Current_Participant_Enrollment__c to null 
             User loginUser = [SELECT Id, ContactId, Contact.Email, Contact.Current_Participant_Enrollment__c,
-                              Contact.userCommunityDelegateId__c, Contact.UserCommunityIsDelegate__c, 
+                              Contact.userCommunityDelegateId__c, Contact.UserCommunityIsDelegate__c, Contact.userCommunityMode__c,
                               Contact.Landing_Community__c
                               FROM User WHERE UserName =: username limit 1];
-            Integer counter=0;
-            List<Participant_Enrollment__c> loginUserPEs = [SELECT Id,Participant_Status__c FROM Participant_Enrollment__c WHERE Participant_Contact__c = : loginUser.ContactId ];
-            for(Participant_Enrollment__c eachpe :loginUserPEs){if(PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(eachpe.Participant_Status__c)){counter++;}}
+          //  Integer counter=0;
+          //  List<Participant_Enrollment__c> loginUserPEs = [SELECT Id,Participant_Status__c FROM Participant_Enrollment__c WHERE Participant_Contact__c = : loginUser.ContactId ];
+         //   for(Participant_Enrollment__c eachpe :loginUserPEs){if(PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(eachpe.Participant_Status__c)){counter++;}}
             //No participant enrollment and UserCommunityIsDelegate__c to ensure the 
             //contact is a prospect and delegate of a certain contact
-            if((loginUserPEs.isEmpty() && loginUser.Contact.UserCommunityIsDelegate__c)||(counter==loginUserPEs.size()) || (loginUser.Contact.userCommunityMode__c=='Participant')){  
+           if(/**(loginUserPEs.isEmpty() && loginUser.Contact.UserCommunityIsDelegate__c)||(counter==loginUserPEs.size()) ||**/ (loginUser.Contact.userCommunityMode__c=='Participant')){ 
                 Contact c= new Contact(Id = loginUser.ContactId, 
                                        Current_Participant_Enrollment__c = null, 
                                        userCommunityDelegateId__c = null,
