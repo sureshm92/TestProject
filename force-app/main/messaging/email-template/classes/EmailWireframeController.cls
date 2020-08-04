@@ -8,7 +8,7 @@ global without sharing class EmailWireframeController {
     global String greetingValue { get; set; }
     global String preSignatureValue { get; set; }
     global String signatureValue { get; set; }
-
+	global String shareTemplate { get; set; }
     global Id sourceRecordId { get; set; }
     global String emailRecipientName { get; set; }
     global String emailRecipientId { get; set; }
@@ -22,6 +22,50 @@ global without sharing class EmailWireframeController {
     global String getUserLanguageCode() {
         return getProvider().getUserLanguage();
     }
+    
+    
+     global string communityTypeURL {
+       get{
+            if (communityTemplateValue == 'GSK') communityTypeURL ='/gsk';
+            else if (communityTemplateValue =='Default')communityTypeURL ='';
+            else if(getProvider().getCommunityName().contains('Gather')) communityTypeURL ='/gsk' ;
+            else communityTypeURL='';
+            return communityTypeURL;
+         
+        }
+         set;
+    }
+ 	global String userMode {//+
+        get{
+                try {
+                    if (userMode == null) userMode = getProvider().getUserMode();
+                    return userMode;
+                } catch (Exception e) {
+                    EmailService.sendException(e, null);
+                    return null;
+                }
+       		}
+        set;
+    }
+	global Id recipientcntId {
+      		 get{
+                 
+        		try {
+                	if(shareTemplate=='Yes')recipientcntId=null;
+                    else{
+                        if (recipientcntId == null) recipientcntId = getProvider().getRecipientId();
+                        if(recipientcntId == null) recipientcntId = getProvider().getParameters().get('RecipientContactId');
+                    	}
+                        return recipientcntId;
+            		}
+               	catch (Exception e) {
+                        EmailService.sendException(e, null);
+                        return e.getMessage();
+                    }
+        		}
+         	set;
+    }
+
 
     public Map<String, String> getTemplateMap() {
         return getProvider().getParameters();

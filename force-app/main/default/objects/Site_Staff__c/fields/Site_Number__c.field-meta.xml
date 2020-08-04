@@ -3,6 +3,7 @@
     <fullName>Site_Number__c</fullName>
     <externalId>false</externalId>
     <formula>Study_Site__r.Study_Site_Number__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Site Number</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

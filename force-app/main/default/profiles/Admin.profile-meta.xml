@@ -3098,6 +3098,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Participant_Phone_Opt_In_Permit_Phone__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.Preferred_Reimbursement_Currency__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4051,6 +4056,11 @@
         <field>Integration_Patient_Referral__c.Error_Message__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.HighRisk_Indicator__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Integration_Patient_Referral__c.MRR_Survey_Results_URL__c</field>
@@ -4064,6 +4074,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Patient_Referral__c.Participant_Enrollment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Participant_MobileNumber__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4881,6 +4896,11 @@
         <field>Participant_Enrollment__c.HCP__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	 <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.HighRisk_Indicator__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.IVRS_IWRS__c</field>
@@ -5114,6 +5134,26 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Patient_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Permit_IQVIA_to_contact_about_study__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Permit_Mail_Email_contact_for_this_study__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Permit_SMS_Text_for_this_study__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Permit_Voice_Text_contact_for_this_study__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

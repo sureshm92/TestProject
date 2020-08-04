@@ -3,10 +3,11 @@
                          relatedToType="Resource__c"
                          language="{!recipient.Language__c}">
 
-    <messaging:htmlEmailBody>
+    <messaging:htmlEmailBody >
         <c:EmailWireframe recipientId="{!recipient.Id}"
                           recipientName="{!$Label.Email_Guest}"
                           recipientLanguage="{!recipient.Language__c}"
+                          shareEmailTemplate="Yes"
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_Share_PH}"
                           title="{!$Label.Email_Title_PH}"
@@ -18,9 +19,10 @@
         </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody>
+    <messaging:plainTextEmailBody >
         <c:EmailWireframeText recipientId="{!recipient.Id}"
                               recipientName="{!$Label.Email_Guest}"
+                              shareEmailTemplate="Yes"
                               recipientLanguage="{!recipient.Language__c}"
                               sourceId="{!relatedTo.Id}"
                               header="{!$Label.Email_Header_Share_PH}"

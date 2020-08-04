@@ -25,6 +25,12 @@
 
 /*-----------------------------------------------------------------------*/
 
+.THIS .item-title{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 85%;
+}
+
 @media all and (max-width: 550px) {
     .THIS .header-menu-link {
         padding: 0 8px 0 1rem;
@@ -41,8 +47,6 @@
         position: static;
     }
 }
-
-
 
 @media all and (orientation:landscape) and (max-height: 450px) {
     .THIS .menu-popup-panel.popupTargetContainer {
@@ -68,6 +72,5 @@
         border: 2px solid white; /* should match background, can't be transparent */
         background-color: rgba(0, 0, 0, .5);
     }
-
 }
 

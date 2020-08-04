@@ -186,6 +186,14 @@
     display: flex;
 }
 
+.THIS .helpNavigationCSS {
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 5px;
+    margin-left: 11px;
+}
+
 .THIS .helpNavigationCSS .cRRIcon.rr-icon-default {
     height: 20px;
     width: 20px;
@@ -194,7 +202,7 @@
 .THIS .helpNavigationCSS:hover{
         background-color: rgba(255, 255, 255, 0.16);
         cursor:pointer;
-    }
+}
 
 .THIS.bodyShift, .THIS .bodyShift{
     position: fixed;
@@ -234,54 +242,13 @@
     }
     
     .THIS .slds-grid.vis-path .line-div .state-ico-wrapper-middle {
-        top: -21px!important;
-        left: -18px!important;
-        width: 40px!important;
-        height: 40px!important;
+        top: -20px!important;
+        left: -17px!important;
+        width: 38px!important;
+        height: 38px!important;
     }
 }
 
-@media screen and (max-width: 600px) {
-
-     .THIS .vis-path.slds-grid {
-        padding-top: 25px;
-    }
-    
-    .THIS .vis-path.slds-grid .line-div .state-ico-wrapper {
-        width: 30px;
-        height: 30px;
-        top: -16px;
-        left: -14px;
-    }
-    
-    .THIS .vis-path.slds-grid .line-div .state-ico-wrapper-large {
-        top: -25px!important;
-        left: -22px!important;
-    }
-    
-    .THIS .vis-path.slds-grid .line-div .state-ico-wrapper-middle {
-        top: -21px!important;
-        left: -18px!important;
-        width: 40px!important;
-        height: 40px!important;
-    }
-
-    .THIS .vis-path.slds-grid .line-div.width-basis .state-ico-wrapper-middle {
-        width: 5px;
-    }
-    
-     .THIS .arrow-border span {
-		margin-top: 9px;
-    	margin-right: -2px;
-    }
-    
-    .THIS .arrow-border span.arrow-borders-right {
-		margin-top: 9px;
-    	margin-left: -2px;
-    }
-
-   
-}
 @media screen and (max-width: 768px){
     .THIS {padding-bottom: 50px}
     .THIS .menu-btn {display: none}
@@ -342,8 +309,57 @@
     .THIS .cAccountSettings.as-container .as-info + div {
         max-height: 25px;
     }
+
+    .THIS .state-ico-wrapper .rr-icon-default {
+        width: 22px;
+        height: 20px;
+    }
     
     
+}
+
+
+@media screen and (max-width: 600px) {
+
+    .THIS .vis-path.slds-grid {
+        padding-top: 25px;
+    }
+
+    .THIS .vis-path.slds-grid .line-div .state-ico-wrapper {
+        width: 30px;
+        height: 30px;
+        top: -16px;
+        left: -14px;
+    }
+
+    .THIS .vis-path.slds-grid .line-div .state-ico-wrapper-large {
+        top: -25px!important;
+        left: -22px!important;
+    }
+
+    .THIS .vis-path.slds-grid .line-div .state-ico-wrapper-middle {
+        top: -21px!important;
+        left: -18px!important;
+        width: 40px!important;
+        height: 40px!important;
+    }
+
+
+    .THIS .arrow-border span {
+        margin-top: 9px;
+        margin-right: -2px;
+    }
+
+    .THIS .arrow-border span.arrow-borders-right {
+        margin-top: 9px;
+        margin-left: -2px;
+    }
+
+    .THIS .arrow-left + .slds-col > .vis-path.slds-grid > .slds-col:nth-of-type(n+2) .state-label {
+        padding-right: 36px
+    }
+
+
 }
 
 @media screen and (max-width: 550px){

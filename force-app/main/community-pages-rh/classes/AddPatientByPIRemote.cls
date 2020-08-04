@@ -39,7 +39,7 @@ public without sharing class AddPatientByPIRemote {
 
     //TODO:Review
     @AuraEnabled
-    public static void saveParticipant(String participantJSON, String peJSON, String userLanguage, String ssId, Boolean createUser, Boolean doNotContact, String participantDelegateJSON, String delegateDuplicateInfo){
+    public static void saveParticipant(String participantJSON, String peJSON, String userLanguage, String ssId, Boolean createUser, String participantDelegateJSON, String delegateDuplicateInfo, Boolean allowEmail,Boolean allowPhone,Boolean allowSMS,Boolean allowContact){
         try {
             TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.CreateUserForCCContactHandler.class);
 
@@ -57,7 +57,10 @@ public without sharing class AddPatientByPIRemote {
             Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
             participant.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI;
             pe.Referral_Source__c = 'PI';
-            pe.Permit_IQVIA_to_contact_about_study__c = !doNotContact;
+            pe.Permit_IQVIA_to_contact_about_study__c = allowContact;
+            pe.Permit_Mail_Email_contact_for_this_study__c = allowEmail;
+            pe.Permit_Voice_Text_contact_for_this_study__c = allowPhone;
+            pe.Permit_SMS_Text_for_this_study__c = allowSMS;
 
             Participant__c participantDelegate;
             if (!String.isBlank(participantDelegateJSON)) {
