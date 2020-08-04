@@ -4,6 +4,7 @@ global without sharing class OptOutAndTechnicalSupport{
     public static final String CASE_TYPE_Priority='Privacy';
     public static final String CASE_TYPE_TECHSUPPORT='Technical Support';
     public static final String TECH_SUPPORT_QUEUE_NAME='Tech_Support_Case_Queue';
+    public static final String CASE_ORIGIN_OPT_OUT='Opt Out';
     
      public static List<InitDataWrapper> getOptoutAndTechnicalSupportData(String strlanguage){
     
@@ -45,11 +46,11 @@ global without sharing class OptOutAndTechnicalSupport{
                 List<Group> groupList=[SELECT Id,Name FROM Group WHERE developerName=:TECH_SUPPORT_QUEUE_NAME LIMIT 1];
                 if(!conList.isEmpty() && !groupList.isEmpty()){
                     if(!String.isBlank(strOptOutValue)){
-                        Case objOptOutCase=new Case(subject=CASE_TYPE_Priority,ContactId=conList[0].Id,Description=strOptOutValue,ownerId=groupList[0].Id,Type=CASE_TYPE_Priority);
+                        Case objOptOutCase=new Case(subject=CASE_TYPE_Priority,ContactId=conList[0].Id,Description=strOptOutValue,ownerId=groupList[0].Id,Type=CASE_TYPE_Priority,Origin=CASE_ORIGIN_OPT_OUT);
                         caseList.add(objOptOutCase);
                     }
                     if(!String.isBlank(strTechSupportValue)){
-                        Case objTechSupportCase=new Case(subject=CASE_TYPE_TECHSUPPORT,ContactId=conList[0].Id,Description=strTechSupportValue,ownerId=groupList[0].Id,Type=CASE_TYPE_TECHSUPPORT);
+                        Case objTechSupportCase=new Case(subject=CASE_TYPE_TECHSUPPORT,ContactId=conList[0].Id,Description=strTechSupportValue,ownerId=groupList[0].Id,Type=CASE_TYPE_TECHSUPPORT,Origin=CASE_ORIGIN_OPT_OUT);
                         caseList.add(objTechSupportCase);
                     }
                     insert caseList;
