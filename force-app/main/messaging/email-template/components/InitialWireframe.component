@@ -75,7 +75,7 @@
                       signature="{!$Label.Email_Signature}"
                       communityTemplate = "{!communityTemplate}">
         <!-- Inner body -->
-        <c:Paragraph emailLabel="{!IF(commTemplate == 'Janssen',$Label.Email_Body_Janssen_Initial_PI,$Label.Email_Body_Initial_PI)}"/>
+        <c:Paragraph emailLabel="{!IF(communityTemplate == 'Janssen',$Label.Email_Body_Janssen_Initial_PI,$Label.Email_Body_Initial_PI)}"/>
         <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframe>
 
@@ -86,11 +86,11 @@
                       header="{!$Label.Email_Header_Initial_Delegate}"
                       title="{!titleLabel}"
                       greeting="{!$Label.Email_User_Greeting_FirstName}"
-                      signature="{!$Label.Email_Signature}"
+                      signature="{!IF(communityTemplate == 'Janssen',$Label.Email_Signature_Janssen, $Label.Email_Signature)}"
                       communityTemplate = "{!communityTemplate}">
         <!-- Inner body -->
-        <c:Paragraph emailLabel="{!IF(commTemplate == 'Janssen',$Label.Email_Body_Initial_Delegate_Janssen, $Label.Email_Body_Initial_Delegate)}"/>
-        <c:EmailTemplateDelegate commTemplate="{!communityTemplate}"/>
+        <c:Paragraph emailLabel="{!IF(communityTemplate == 'Janssen',$Label.Email_Body_Initial_Delegate_Janssen, $Label.Email_Body_Initial_Delegate)}"/>
+        <c:EmailTemplateDelegate communityTemplate="{!communityTemplate}"/>
         <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframe>
 
