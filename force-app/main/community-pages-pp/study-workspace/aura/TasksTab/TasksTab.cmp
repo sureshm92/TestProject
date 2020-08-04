@@ -55,14 +55,16 @@
                                               page="{!if(empty(taskWrapper.openTask.Action_URL__c), 'task-detail?id=' + taskWrapper.openTask.Id, taskWrapper.openTask.Action_URL__c)}"
                                               onclick="{!c.doTaskClick}"/>
 									-->
+                                    <span class="taskLabel">{!$Label.c.Task_Tab_Table_Col_Name}:</span>
                                     <div class="rr-link limit-width"
                                          data-index="{!index}"
                                          onclick="{!c.doTaskClick}">{!taskWrapper.openTask.Subject}</div>
                                 </td>
                                 <td>
-                                        {!taskWrapper.originator}
-                                    </td>
+                                    <span class="taskLabel">{!$Label.c.Originator}:</span> {!taskWrapper.originator}
+                                </td>
                                 <td>
+                                    <span class="taskLabel">{!$Label.c.Due_Date}:</span>
                                     <aura:if isTrue="{!taskWrapper.openTask.Status == 'In Progress'}">
                                             {!$Label.c.Task_Tab_Table_Status_In_Progress}
                                         </aura:if>
@@ -76,6 +78,7 @@
                                     </aura:if>
                                 </td>
                                 <td>
+                                    <span class="taskLabel">{!$Label.c.Reminder_Date}:</span>
                                     <aura:if isTrue="{!taskWrapper.reminder != null}">
                                          <div class="rr-link limit-width"
                                          data-index="{!index}"
