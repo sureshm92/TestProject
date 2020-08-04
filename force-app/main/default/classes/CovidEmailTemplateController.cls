@@ -6,24 +6,29 @@ public without sharing class CovidEmailTemplateController
     public String emailRelatedtoId { get; set; }
     public String CommunityURL{ get; set;}
     public String userMode;
-    public String userLanguageCode;
+	public String userLanguageCode;
+    public String delegateMailCheck { get; set; }
     public Map<String,String> contactDetails = new Map<String,String>();
     public Map<String,String> getContactDetails() {
         try{
             if(contactDetails.isEmpty())
             {
-            Integration_Patient_Referral__c IPR = [Select Participant_Enrollment__r.Participant_Contact__r.Language__c,Participant_Enrollment__r.Participant_Contact__r.userCommunityMode__c,Participant_Enrollment__r.Participant_Contact__c from Integration_Patient_Referral__c where id=:emailRelatedtoId limit 1];
+            Integration_Patient_Referral__c IPR = [Select Participant_Enrollment__r.Participant_Contact__r.Language__c,Participant_Enrollment__r.Participant_Contact__r.userCommunityMode__c,Participant_Enrollment__r.Participant_Contact__c,Participant_Enrollment__r.Participant__c from Integration_Patient_Referral__c where id=:emailRelatedtoId limit 1];
+            List <Patient_Delegate__c> PD =[Select Contact__c from Patient_Delegate__c where Participant__c =:IPR.Participant_Enrollment__r.Participant__c limit 1];
             contactDetails.put('ContactId',IPR.Participant_Enrollment__r.Participant_Contact__c );
             contactDetails.put('UserMode',IPR.Participant_Enrollment__r.Participant_Contact__r.userCommunityMode__c);
             contactDetails.put('Language',IPR.Participant_Enrollment__r.Participant_Contact__r.Language__c);
-            }     
+            if(!PD.isEmpty())
+            {
+            contactDetails.put('DelegateContact',PD.get(0).Contact__c);
+            }
+            }
         }
-        catch(exception e)
-        {
+        catch (Exception e) {
             EmailService.sendException(e, null);
         }
         return contactDetails;
-    }
+    } 
     
     public String getUserLanguageCode() {//+
         try {
@@ -35,10 +40,11 @@ public without sharing class CovidEmailTemplateController
         }
     }
     
-     public Id recipientcntId {
+    public Id recipientcntId {
        get{
         try {
-            if (recipientcntId == null) recipientcntId = getContactDetails().get('ContactId');
+            if(delegateMailCheck =='Yes') recipientcntId = getContactDetails().get('DelegateContact');
+            else if (recipientcntId == null) recipientcntId = getContactDetails().get('ContactId');
             return recipientcntId;
             }
          catch (Exception e) {
@@ -49,7 +55,8 @@ public without sharing class CovidEmailTemplateController
         }
          set;
     }
-     public String getuserMode() {//+
+
+    public String getuserMode() {//+
         try {
             if (userMode == null) userMode = getContactDetails().get('UserMode');
             return userMode;
@@ -72,4 +79,5 @@ public without sharing class CovidEmailTemplateController
                 '&oid='+UserInfo.getOrganizationId();
         }  
     }
+
 }
