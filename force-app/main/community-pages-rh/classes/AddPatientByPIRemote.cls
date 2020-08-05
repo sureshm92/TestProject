@@ -268,4 +268,13 @@ public without sharing class AddPatientByPIRemote {
         return ReferHealthcareProviderRemote.checkDuplicate(null,email, firstName, lastName, null);
     }
 
+    @AuraEnabled
+    public static Boolean communityWithPPInv(String communityName) {
+        try {
+            return communityName != CommunityTemplateService.TEMPLATE_JANSSEN;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+
 }

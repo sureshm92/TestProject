@@ -187,4 +187,12 @@
         });
     },
 
+    checkCommunity: function (component, event, helper) {
+        communityService.executeAction(component, 'communityWithPPInv', {
+            communityName: communityService.getCurrentCommunityTemplateName(),
+        }, function (returnValue) {
+            component.set('v.communityWithPPInv', returnValue);
+        });
+    }
+
 })

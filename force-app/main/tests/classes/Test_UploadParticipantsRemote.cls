@@ -57,4 +57,14 @@ public class Test_UploadParticipantsRemote {
         System.assert(!participants.isEmpty());
     }
 
+    @IsTest
+    public static void testUpdateParticipantsRemote3() {
+        TestData tstData = new TestData();
+        Test.startTest();
+        System.runAs(tstData.piUser) {
+            Action_UploadParticipantsRemote.communityWithPPInv(null);
+        }
+        Test.stopTest();
+    }
+
 }
