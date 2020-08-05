@@ -12,7 +12,7 @@
     <aura:attribute name="refProvider" type="Contact"/>
     <aura:attribute name="showReferringProvider" type="Boolean"/>
     <aura:attribute name="delegates" type="List"/>
-    <aura:attribute name="communitySponsor" type="String"/>
+    <aura:attribute name="communitySponsor" type="String"/>StudyListView
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.pe}" action="{!c.doInit}"/>
 
@@ -84,7 +84,7 @@
                 </aura:iteration>
             </div>
             </aura:if>
-            <aura:if isTrue="{!!v.actionDisabled}">
+            <aura:if isTrue="{!!v.actionDisabled &amp;&amp; v.communitySponsor != 'Janssen'}">
                 <div>
                     <button data-gtm="BTN_AddProvider_mngmt" class="apollo-btn secondary slds-box"
                             onclick="{!c.doAddProvider}">

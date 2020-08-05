@@ -600,7 +600,8 @@ public without sharing class StudySiteService {
             filterString += ' AND Study_Site_Type__c = \'' + filter.siteType + '\' ';
         }
         /*filterString += 'AND Principal_Investigator__r.Account.BillingCountry = \'' + userCountry+'\' ';*/
-        filterString += 'AND Site__r.BillingCountry = \'' + userCountry+'\' ';
+        filterString += 'AND Site__r.BillingCountry = \'' + userCountry +'\' ';
+        filterString += 'AND Clinical_Trial_Profile__r.CommunityTemplate__c != \'' + CommunityTemplateService.TEMPLATE_JANSSEN+'\' ';
 
         System.debug('filterString SSDW ' + filterString);
         return getStudySitesCommon(filterString);
