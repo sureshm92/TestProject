@@ -148,6 +148,7 @@ public without sharing class StudyListViewController {
             initData.filterData = StudyTrialService.getStudyFilterData();
             
             initData.delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel(delegateId);
+            ContactService.updateVisitedCommunity(UserContext.getUserContact(), UserContext.getCurrentCommunityTemplate());
             return JSON.serialize(initData);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
@@ -163,6 +164,7 @@ public without sharing class StudyListViewController {
             initData.statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
             initData.countriesMap = CountryStateUtil.COUNTRY_MAP;
             initData.countryCodesMap = CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP;
+            ContactService.updateVisitedCommunity(UserContext.getUserContact(), UserContext.getCurrentCommunityTemplate());
             return JSON.serialize(initData);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
