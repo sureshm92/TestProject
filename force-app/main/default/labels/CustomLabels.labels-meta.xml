@@ -5057,17 +5057,6 @@ Please log in to ##CommunityName to view your clinical research trial matches an
             ##SignatureFullCommunityName</value>
     </labels>
     <labels>
-        <fullName>Email_Signature_Janssen</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Signature</shortDescription>
-        <value>Thank you.
-
-            Sincerely,
-
-            The Janssen IQVIA Referral Hub Support Team</value>
-    </labels>
-    <labels>
         <fullName>Email_Signature_1</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5125,6 +5114,17 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <value>Sincerely,
 
             The GSK Participant Hub team</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_Janssen</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature</shortDescription>
+        <value>Thank you.
+
+            Sincerely,
+
+            The Janssen IQVIA Referral Hub Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_New</fullName>
@@ -7443,6 +7443,13 @@ The expected format is REF#####</value>
         <protected>true</protected>
         <shortDescription>contact has user</shortDescription>
         <value>Invited</value>
+    </labels>
+    <labels>
+        <fullName>Janssen_Community_Template_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Janssen_Community_Template_Name</shortDescription>
+        <value>Janssen</value>
     </labels>
     <labels>
         <fullName>Learn_More</fullName>
@@ -17909,7 +17916,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>View Mode</shortDescription>
-        <value>View as </value>
+        <value>View as</value>
     </labels>
     <labels>
         <fullName>View_Visit_Legend</fullName>

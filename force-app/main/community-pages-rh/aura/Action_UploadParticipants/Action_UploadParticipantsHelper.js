@@ -34,11 +34,7 @@
     },
 
     checkCommunity: function (component, event, helper) {
-        communityService.executeAction(component, 'communityWithPPInv', {
-            communityName: communityService.getCurrentCommunityTemplateName(),
-        }, function (returnValue) {
-            component.set('v.communityWithPPInv', returnValue);
-        });
+        component.set('v.communityWithPPInv', communityService.getCurrentCommunityTemplateName() != $A.get("$Label.c.Janssen_Community_Template_Name"));
     }
 
 })
