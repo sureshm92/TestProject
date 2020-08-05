@@ -45,9 +45,18 @@ global without sharing class EmailWireframeController {
                 titleLabelValue = getLabelValue(titleValue);
             }
         } else {
-            titleLabelValue = getProvider().getUserMode() == CommunityService.USER_MODE_PARTICIPANT ?
-                    getProvider().getParameters().get(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_LABEL)
-                    : getProvider().getParameters().get(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_NEW_TM);
+            if (communityTemplateValue != CommunityTemplateService.TEMPLATE_JANSSEN) {
+                if (getProvider().getUserMode() == CommunityService.USER_MODE_PARTICIPANT) {
+                    titleLabelValue = getProvider().getParameters().get(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_LABEL);
+                } else if (getProvider().getUserMode() == CommunityService.USER_MODE_PI) {
+                    titleLabelValue = getProvider().getParameters().get(TemplatePropertiesCatalog.TEMPLATE_PROP_TEAM_RH);
+                } else {
+                    getProvider().getParameters().get(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_NEW_TM);
+                }
+            } else {
+                titleLabelValue = getProvider().getParameters().get(TemplatePropertiesCatalog.TEMPLATE_PROP_TEAM_RH);
+            }
+
         }
 
         return titleLabelValue;
