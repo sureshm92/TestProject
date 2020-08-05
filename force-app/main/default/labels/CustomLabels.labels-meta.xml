@@ -4583,6 +4583,13 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <value>Privacy Policy</value>
     </labels>
     <labels>
+        <fullName>Email_Footer_Privacy_Policy_Janssen</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Footer Privacy Policy Janssen</shortDescription>
+        <value>Janssen Privacy Policy</value>
+    </labels>
+    <labels>
         <fullName>Email_Greeting</fullName>
         <language>en_US</language>
         <protected>false</protected>

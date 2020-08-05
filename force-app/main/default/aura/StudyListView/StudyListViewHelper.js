@@ -97,7 +97,8 @@
             sortData: sortJSON,
             paginationData: paginationJSON,
             isSearchResume: isSearch,
-            delegateId: communityService.getDelegateId()
+            delegateId: communityService.getDelegateId(),
+            userMode: communityService.getUserMode()
         }, function (returnValue) {
             if (cmp.get('v.filterData').searchText !== searchText) return;
             let result = JSON.parse(returnValue);
