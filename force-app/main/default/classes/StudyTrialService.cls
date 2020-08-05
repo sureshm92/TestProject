@@ -132,10 +132,10 @@ public without sharing class StudyTrialService {
     }
 
     public static String getStudiesJSON(String filterDataJSON, String sortDataJSON, String paginationDataJSON, Boolean isSearchResume) {
-        return getStudiesJSON(filterDataJSON, sortDataJSON, paginationDataJSON, isSearchResume, null);
+        return getStudiesJSON(filterDataJSON, sortDataJSON, paginationDataJSON, isSearchResume, null, null);
     }
 
-    public static String getStudiesJSON(String filterDataJSON, String sortDataJSON, String paginationDataJSON, Boolean isSearchResume, String delegateId) {
+    public static String getStudiesJSON(String filterDataJSON, String sortDataJSON, String paginationDataJSON, Boolean isSearchResume, String delegateId, String userMode) {
         StudyFilterData filterData = (StudyFilterData) JSON.deserialize(filterDataJSON, StudyFilterData.class);
         StudySortData sortData = (StudySortData) JSON.deserialize(sortDataJSON, StudySortData.class);
         PaginationData paginationData = (PaginationData) JSON.deserialize(paginationDataJSON, PaginationData.class);
@@ -143,7 +143,7 @@ public without sharing class StudyTrialService {
         List<StudyDetailItem> studies = new List<StudyDetailItem>();
         System.debug('IS SEARCH RESUME>>>>>' + isSearchResume);
         if (isSearchResume) {
-            studies = searchStudiesGlobal(filterData, sortData, paginationData, delegateId);
+            studies = searchStudiesGlobal(filterData, sortData, paginationData, delegateId, userMode);
         } else {
             studies = getStudies(filterData, sortData, paginationData, delegateId);
         }
@@ -167,7 +167,7 @@ public without sharing class StudyTrialService {
         return res;
     }
 
-    public static List<StudyDetailItem> searchStudiesGlobal(StudyFilterData filterData, StudySortData sortData, PaginationData paginationData, String delegateId) {
+    public static List<StudyDetailItem> searchStudiesGlobal(StudyFilterData filterData, StudySortData sortData, PaginationData paginationData, String delegateId, String userMode) {
         Location userLocation = DistanceHelper.getUserLocation();
         Contact userContact = CommunityService.getUserContact();
         String userCountry;
@@ -178,11 +178,20 @@ public without sharing class StudyTrialService {
             userCountry='United States';
         }
         String query = 'SELECT ' + String.join(transformToStudySiteFields(TRIAL_FIELDS), ', ') + ', Name, Principal_Investigator__r.Account.BillingLatitude, Principal_Investigator__r.Account.BillingLongitude, Principal_Investigator__r.Account.BillingGeocodeAccuracy, Site__c, Study_Site_Type__c FROM Study_Site__c WHERE ';
+        if (userMode == 'HCP') {
         query += '(Clinical_Trial_Profile__r.Override_Recruitment_Status__c = \'' + ACTIVELY_ENROLLING_STATUS + '\' AND Clinical_Trial_Profile__r.Include_in_RP_trial_search__c = TRUE'+
                 '  AND Override_PI_Referral_Status__c != NULL ' +
+                '  AND Clinical_Trial_Profile__r.CommunityTemplate__c != \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ' +
                 '  AND Override_PI_Referral_Status__c IN (\'' + String.join(StudySiteService.STATUS_GROUP_ACCEPTED, '\',\'') + '\')'+
                 '  AND Principal_Investigator__r.Account.BillingCountry = :userCountry '+
                 ') ';
+        } else {
+            query += '(Clinical_Trial_Profile__r.Override_Recruitment_Status__c = \'' + ACTIVELY_ENROLLING_STATUS + '\' AND Clinical_Trial_Profile__r.Include_in_RP_trial_search__c = TRUE'+
+                    '  AND Override_PI_Referral_Status__c != NULL ' +
+                    '  AND Override_PI_Referral_Status__c IN (\'' + String.join(StudySiteService.STATUS_GROUP_ACCEPTED, '\',\'') + '\')'+
+                    '  AND Principal_Investigator__r.Account.BillingCountry = :userCountry '+
+                    ') ';
+        }
 
         if (sortData.sortType == 'CreatedDate DESC') {
             query += 'ORDER BY CreatedDate DESC ';
