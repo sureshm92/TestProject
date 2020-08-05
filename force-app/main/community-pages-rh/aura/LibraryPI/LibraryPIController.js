@@ -5,7 +5,8 @@
         communityService.executeAction(component, 'getInitData', {
             isDelegate: isDelegate,
             language: null,
-            Searchstr: null
+            Searchstr: null,
+            communityTemplate: communityService.getCurrentCommunityTemplateName()
         }, function(response) {
             component.set('v.resourceStructureList', response.resources);
             component.set('v.resourceLanguages', response.languages);
@@ -39,7 +40,8 @@
         communityService.executeAction(component, 'getInitData', {
             isDelegate: isDelegate,
             language: event.getSource().get('v.itemValue'),
-            Searchstr: srchtxt
+            Searchstr: srchtxt,
+            communityTemplate: communityService.getCurrentCommunityTemplateName()
         }, function(response) {
             component.set('v.resourceStructureList', response.resources);
             component.find('mainSpinner').hide();
