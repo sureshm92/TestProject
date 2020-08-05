@@ -7,9 +7,9 @@
         <c:EmailWireframe recipientId="{!recipient.Id}"
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_PI5}"
-                          title="{!$Label.Email_Title}"
                           greeting="{!$Label.Email_User_Greeting}"
-                          signature="{!$Label.Email_Signature_RH}">
+                          signature="{!$Label.Email_Signature_RH}"
+                          communityTemplate="{!relatedTo.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c}">
             <c:Paragraph emailLabel="{!$Label.Email_Body_PI5}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_My_Referrals}"
                               buttonURL="/s/my-referrals"/>
@@ -20,9 +20,9 @@
         <c:EmailWireframeText recipientId="{!recipient.Id}"
                               sourceId="{!relatedTo.Id}"
                               header="{!$Label.Email_Header_PI5}"
-                              title="{!$Label.Email_Title}"
                               greeting="{!$Label.Email_User_Greeting}"
-                              signature="{!$Label.Email_Signature_RH}">
+                              signature="{!$Label.Email_Signature_RH}"
+                              communityTemplate="{!relatedTo.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c}">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_PI5}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_My_Referrals}"
                                   buttonURL="/s/my-referrals"/>
