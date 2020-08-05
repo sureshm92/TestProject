@@ -53,7 +53,7 @@ public without sharing class LibraryPIRemote {
     }
     
     @AuraEnabled
-    public static ResourceInitData getInitData(Boolean isDelegate, String language, String Searchstr) {
+    public static ResourceInitData getInitData(Boolean isDelegate, String language, String Searchstr, String communityTemplate) {
         
         string searchstring = '%' + Searchstr + '%';
         
@@ -89,7 +89,8 @@ public without sharing class LibraryPIRemote {
             SELECT Clinical_Trial_Profile__c,
             Clinical_Trial_Profile__r.Study_Code_Name__c
             FROM Study_Site__c
-            WHERE Principal_Investigator__c = :CommunityService.getUserContact().Id OR Id IN :ssIds
+            WHERE (Principal_Investigator__c = :CommunityService.getUserContact().Id OR Id IN :ssIds)
+            AND Clinical_Trial_Profile__r.CommunityTemplate__c =: communityTemplate
         ]) {
             ctpIds.add(ss.Clinical_Trial_Profile__c);
             if (!initDataMap.containsKey(ss.Clinical_Trial_Profile__r.Study_Code_Name__c)) {
@@ -174,7 +175,7 @@ public without sharing class LibraryPIRemote {
             }
         }
         else {
-            for (Res_study__c rs: [
+                for (Res_study__c rs: [
                 SELECT Id,
                 Resource__c,
                 toLabel(Resource__r.RecordType.Name),
@@ -188,7 +189,8 @@ public without sharing class LibraryPIRemote {
                 Resource__r.URL__c,
                 Clinical_Trial_Profile__r.Study_Code_Name__c
                 FROM Res_study__c
-                WHERE(Clinical_Trial_Profile__c IN: ctpIds) AND Visible_To_PI__c = true AND(Resource__r.Title__c Like: searchstring OR Resource__r.RecordType.Name Like: searchstring OR Resource__r.Resource_Type__c Like: searchstring)
+                WHERE (Clinical_Trial_Profile__c IN: ctpIds) AND Visible_To_PI__c = true
+                AND(Resource__r.Title__c Like: searchstring OR Resource__r.RecordType.Name Like: searchstring OR Resource__r.Resource_Type__c Like: searchstring)
             ]) {
                 resIds.add(rs.Resource__c);
                 Set < String > rlLanguages = new Set < String > ();
