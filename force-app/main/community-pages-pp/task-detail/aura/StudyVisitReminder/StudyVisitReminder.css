@@ -71,7 +71,7 @@
     align-items: center;
 }
 
-.THIS .slds-checkbox{
+.THIS .slds-checkbox {
     padding-bottom :10px;
 }
 
@@ -80,24 +80,23 @@
     font-family: "Proxima Nova";
 }
 
-.THIS .p-content{
+.THIS .p-content {
     overflow-y: hidden;
 }
 
-.THIS .p-content.with-scroll{
+.THIS .p-content.with-scroll {
     overflow-y: auto;
 }
 
-.THIS .disabledVisit .slds-input{
-    background-color: #d9d9d9;
-    color: #444;
+.THIS .disabledVisit .slds-input,
+.THIS .disabledVisit .slds-select {
+    background: #f2f2f2;
+    color: #999;
     opacity: 1;
 }
 
-.THIS .disabledVisit .slds-select {
-    background-color: #d9d9d9;
-    color: #444;
-    opacity: 1;
+.THIS .disabledVisit .slds-form-element__label {
+    opacity: .4;
 }
 
 @media only screen and (max-width: 500px)  and (orientation : portrait) {

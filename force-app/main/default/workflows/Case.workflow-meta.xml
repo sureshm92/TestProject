@@ -34,13 +34,24 @@
         <template>Referral_Hub_Emails/Request_For_Information</template>
     </alerts>
     <rules>
+        <fullName>Email to Case Owner and Support %28for Problem case type%29</fullName>
+        <actions>
+            <name>Email_regarding_a_Problem</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <description>Send a notification to Product Owners, Business Admins, and Support team when a ticket is created with &quot;Problem&quot; type.</description>
+        <formula>AND ( OR(ISPICKVAL( Type , &quot;Problem&quot;),ISPICKVAL( Type , &quot;Privacy&quot;)) , NOT(ISPICKVAL( Owner:User.Profile.UserType, &quot;IQVIA Customer Community Plus&quot;)),TEXT( Origin)!=&apos;Opt Out&apos; )</formula>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
         <fullName>New Case notification</fullName>
         <actions>
             <name>New_Case_created_for_IQVIA</name>
             <type>Alert</type>
         </actions>
         <active>true</active>
-        <formula>AND(NOT(ISBLANK(CreatedById) ), Owner:Queue.DeveloperName!=&apos;Tech_Support_Case_Queue&apos;)</formula>
+        <formula>AND(NOT(ISBLANK(CreatedById) ),  TEXT(Origin)!=&apos;Opt Out&apos; )</formula>
         <triggerType>onCreateOnly</triggerType>
     </rules>
     <rules>
