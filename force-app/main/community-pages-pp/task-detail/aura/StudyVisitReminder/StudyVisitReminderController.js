@@ -26,7 +26,6 @@
     },
 
     doSave: function (component, event, helper) {
-        debugger;
         var task = component.get('v.task');
         task.Task_Type__c = $A.util.isEmpty(task.Task_Type__c) &&
             !component.get('v.initData.createdByAdmin') ? 'Not Selected' : task.Task_Type__c;
@@ -35,8 +34,6 @@
         var smsPeferenceSelected = component.get('v.task.Remind_Using_SMS__c');
         var emailOptIn = component.get('v.emailOptIn');
         var smsOptIn = component.get('v.smsOptIn');
-        console.log('smsPeferenceSelected: ' + smsPeferenceSelected + '  smsOptIn' + smsOptIn);
-        console.log('emailPeferenceSelected: ' + emailPeferenceSelected + '  emailOptIn' + emailOptIn);
 
         if (!task.Subject) {
             communityService.showErrorToast('', $A.get('$Label.c.Empty_TaskName'), 3000);
@@ -64,9 +61,6 @@
         }
 
         var message = helper.setSuccessToast(component);
-
-        console.log('#task: '+ JSON.stringify(task));
-
         component.find('spinner').show();
 
         communityService.executeAction(component, 'upsertTask', {
@@ -108,6 +102,27 @@
         //communityService.navigateToPage('account-settings');
         window.open('account-settings', '_blank');
         window.focus();
+        //Using event
+        /*let urlEvent = $A.get('e.force:navigateToURL');
+        let absoluteURL = window.location.origin;
+        urlEvent.setParams({
+            url: absoluteURL +  communityService.getCommunityURLPathPrefix() + '/account-settings'
+        });
+        urlEvent.fire(); */
+
+        //Using API
+        /*let navService = component.find('navService');
+        let pageRef = {
+            type: 'standard__webPage',
+            attributes: {
+                url: window.location.origin + communityService.getCommunityURLPathPrefix() + '/account-settings'
+            }
+        }
+        navService.generateUrl(pageRef).then($A.getCallback(function(url){
+            console.log(url);
+            //event.preventDefault();
+            navService.navigate(pageRef);
+        }));*/
         helper.hideModal(component);
     },
 
