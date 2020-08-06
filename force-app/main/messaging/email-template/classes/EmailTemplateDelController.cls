@@ -5,6 +5,8 @@ global without sharing class EmailTemplateDelController {
 
     global Id recipId { get; set; }
     global String contactLanguage { get; set; }
+    global String commTemplateStr{get;set;}    
+    
     
     public List<DelegateLevelWrapper> getPiDelegateLevels() {
         List<Site_Staff__c> siteStaffs = [
