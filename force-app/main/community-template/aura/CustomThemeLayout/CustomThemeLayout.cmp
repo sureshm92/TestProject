@@ -66,8 +66,8 @@
                                <!-- Ending of REF-1343 -->
                             <c:CommunityModeSwitcherMenu currentMode="{!v.currentMode}" onModeChange="{!c.doRefresh}"/>
                             <aura:if isTrue="{!v.currentMode.userMode == 'PI'}">
-                                <div style="height:100%" title="Incentive Points">
-                                <c:navIncentiveCounter onnavigatetoincentives="{!c.doNavigate}" currentPage="{!v.currentPage}"/>
+                                <div style="height:100%" title="Incentive Points">    
+                                    <c:navIncentiveCounter onnavigatetoincentives="{!c.doNavigate}" currentPage="{!v.currentPage}"/>
                                 </div>
                             </aura:if>
                         </div>
