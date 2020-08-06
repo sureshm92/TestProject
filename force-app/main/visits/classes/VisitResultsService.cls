@@ -22,8 +22,12 @@ public inherited sharing class VisitResultsService {
         }
 
         Id currentCTP = objCurrParEnroll.Clinical_Trial_Profile__c;
-        Clinical_Trial_Profile__c ctpObject = [SELECT Id,Participant_Visit_Result_Group__c FROM Clinical_Trial_Profile__c WHERE Id = :currentCTP];
+        Clinical_Trial_Profile__c ctpObject = [SELECT Id,Participant_Visit_Result_Group__c,Shareback_Settings_On_Country_Level__c,Shareback_Settings_Countries__c FROM Clinical_Trial_Profile__c WHERE Id = :currentCTP];
         String currentCTPVisitResultGroup = ctpObject.Participant_Visit_Result_Group__c;
+        String strShareBackCountries='';
+        if(!String.isBlank(ctpObject.Shareback_Settings_Countries__c)){
+            strShareBackCountries=ctpObject.Shareback_Settings_Countries__c;
+        }
         List<String> ctpAvailableNames = new List<String>();
         List<Visit_Result_Type_Sharing__c> ctpAvailable = [
                 SELECT Id,Include_Countries__c,Sharing_Countries__c,
@@ -34,7 +38,7 @@ public inherited sharing class VisitResultsService {
         ];
         for (Visit_Result_Type_Sharing__c visitResultTypeSharing : ctpAvailable) {
             if (!visitResultTypeSharing.Include_Countries__c) {
-                if (String.isBlank(strCountryCode) || String.isBlank(visitResultTypeSharing.Sharing_Countries__c) || visitResultTypeSharing.Sharing_Countries__c.equals(ALL_COUNTRIES) || (!visitResultTypeSharing.Sharing_Countries__c.contains(strCountryCode))) {
+                if (String.isBlank(strCountryCode) || String.isBlank(visitResultTypeSharing.Sharing_Countries__c) || visitResultTypeSharing.Sharing_Countries__c.equals(ALL_COUNTRIES) || (!visitResultTypeSharing.Sharing_Countries__c.contains(strCountryCode) && !String.isBlank(strShareBackCountries) &&  strShareBackCountries.contains(strCountryCode))) {
                     ctpAvailableNames.add(visitResultTypeSharing.Type__c);
                 }
             } else {
