@@ -65,7 +65,7 @@
                             </aura:if>
                                <!-- Ending of REF-1343 -->
                             <c:CommunityModeSwitcherMenu currentMode="{!v.currentMode}" onModeChange="{!c.doRefresh}"/>
-                            <aura:if isTrue="{!v.currentMode.userMode == 'PI'}">
+                            <aura:if isTrue="{!and(v.currentMode.userMode == 'PI',v.template != $Label.c.Janssen_Community_Template_Name )}">
                                 <c:navIncentiveCounter onnavigatetoincentives="{!c.doNavigate}" currentPage="{!v.currentPage}"/>
                             </aura:if>
                         </div>
