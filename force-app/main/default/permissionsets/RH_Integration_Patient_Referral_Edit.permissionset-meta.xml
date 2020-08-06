@@ -3,12 +3,32 @@
     <description>For giving the Edit access for Integration Patient Referral</description>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Atid__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Integration_Patient_Referral__c.HighRisk_Indicator__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Patient_Referral__c.Participant_MobileNumber__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Alternative_Phone_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Alternative_Phone_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Atid__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
