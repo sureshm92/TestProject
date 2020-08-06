@@ -14,6 +14,9 @@
             </div>
         </aura:set>
         <c:uiMenuItem label="{!$Label.c.Navigation_Library}" onclick="{!c.onClickResource}"/>
-        <c:uiMenuItem label="{!$Label.c.Navigation_Media_Outreach}" onclick="{!c.onClickMediaOutreach}"/>
+        <aura:if isTrue="{!v.communityTemplate != $Label.c.Janssen_Community_Template_Name}">
+            <c:uiMenuItem label="{!$Label.c.Navigation_Media_Outreach}" onclick="{!c.onClickMediaOutreach}"/>
+        </aura:if>
+
     </c:uiHeaderMenu>
 </aura:component>

@@ -146,7 +146,7 @@ public with sharing class NewMediaOutReach {
           }
         }
         if(!ctpIds.isEmpty()){
-           clinicalTrialLst =[SELECT id,Study_Code_Name__c,Name from Clinical_Trial_Profile__c WHERE Id =:ctpIds LIMIT :limitRows];
+           clinicalTrialLst =[SELECT id,Study_Code_Name__c,Name from Clinical_Trial_Profile__c WHERE Id =:ctpIds AND CommunityTemplate__c NOT IN :MediaOutreachServices.RESTRICTED_COMMUNITY_TEMPLATES LIMIT :limitRows];
         }
         
         return clinicalTrialLst;
