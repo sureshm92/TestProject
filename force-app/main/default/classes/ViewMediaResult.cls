@@ -11,6 +11,7 @@ public Without sharing class ViewMediaResult {
         public MediaOutreachServices.moFilterData moFilterData;
         public List<Media_Outreach__c> currentPageList;
         public PaginationData paginationData;
+        public List<Clinical_Trial_Profile__c>clinicalList;
     }
      public class CommunityPreferred {
        @AuraEnabled public Boolean MOEmail;
@@ -51,14 +52,53 @@ public Without sharing class ViewMediaResult {
         
         try{
         initData.currentPageList = mList;
-        
+        initData.clinicalList = checkMediaProvider();
         initData.moFilterData.studies = trialFilterData;
         return JSON.serialize(initData);
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-    
+        @AuraEnabled
+      public static List<Clinical_Trial_Profile__c> checkMediaProvider() {
+        Integer limitRows = Limits.getLimitQueryRows() - Limits.getQueryRows();
+        Id studyContactId;
+        List<Clinical_Trial_Profile__c> clinicalTrialLst = new List<Clinical_Trial_Profile__c>(); 
+        List<Study_Site__c> studylst = new List<Study_Site__c>(); 
+        List<Site_Staff__c> siteStaff = new List<Site_Staff__c>();
+        Contact con;
+        set<Id> ctpIds = new set<Id>();
+        Contact userContact = CommunityService.getUserContact();
+        
+        studyContactId = userContact.Id;
+        system.System.debug('studyContactId??'+studyContactId);
+        con =[SELECT id,UserCommunityIsDelegate__c FROM Contact WHERE Id =:studyContactId LIMIT 1];
+       
+        if(studyContactId != null && con.UserCommunityIsDelegate__c == false){
+        studylst =[SELECT id,Name,Clinical_Trial_Profile__r.Media_outreach_Provider__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Principal_Investigator__c FROM Study_Site__c WHERE Principal_Investigator__c =:studyContactId AND Clinical_Trial_Profile__r.Media_outreach_Provider__c != null LIMIT :limitRows];
+        }
+
+        if(studyContactId != null && con.UserCommunityIsDelegate__c == true ){
+       siteStaff =[SELECT id,Delegate_Level__c,Study_Site__r.Clinical_Trial_Profile__c,Study_Site__r.Clinical_Trial_Profile__r.Media_outreach_Provider__c,Study_Site__c,Site_Contact__c FROM Site_Staff__c where Site_Contact__c =:studyContactId AND Study_Site__r.Clinical_Trial_Profile__r.Media_outreach_Provider__c != null LIMIT :limitRows];
+        }
+
+        if(studylst.size()>0){
+          for(Study_Site__c st: studylst){
+              ctpIds.add(st.Clinical_Trial_Profile__c);
+          }
+        }
+        if(siteStaff.size()>0){
+          for(Site_Staff__c ss: siteStaff){
+              ctpIds.add(ss.Study_Site__r.Clinical_Trial_Profile__c);
+          }
+        }
+        if(!ctpIds.isEmpty()){
+           clinicalTrialLst =[SELECT id,Study_Code_Name__c,Name from Clinical_Trial_Profile__c WHERE Id =:ctpIds LIMIT :limitRows];
+        }
+        
+        return clinicalTrialLst;
+        
+    }
      @AuraEnabled
     public static string PreferredContactsandNotes(Id studysiteId,Id MediaRecordId) {
       try{  
