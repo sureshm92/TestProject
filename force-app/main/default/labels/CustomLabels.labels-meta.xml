@@ -7445,6 +7445,13 @@ The expected format is REF#####</value>
         <value>Invited</value>
     </labels>
     <labels>
+        <fullName>Janssen_Community_Template_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Janssen_Community_Template_Name</shortDescription>
+        <value>Janssen</value>
+    </labels>
+    <labels>
         <fullName>Learn_More</fullName>
         <language>en_US</language>
         <protected>false</protected>

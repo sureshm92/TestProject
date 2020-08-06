@@ -127,7 +127,8 @@ public without sharing class UserTriggerHandler {
         List<User> rhUsers = [
                 SELECT Id,
                        ContactId,
-                       Contact.userCommunityMode__c
+                       Contact.userCommunityMode__c,
+                       Contact.userCommunytyType__c
                 FROM User
                 WHERE Id IN:insertedUsers
                 AND ContactId != NULL
@@ -139,7 +140,7 @@ public without sharing class UserTriggerHandler {
         {
             Set<Id> piIds = new Set<Id>();
             for (User user : rhUsers) {
-                if (user.Contact.userCommunityMode__c == 'PI') {
+                if (user.Contact.userCommunytyType__c.contains('PI')) {
                     piIds.add(user.ContactId);
                 } else {
                     actionAssignContactPermissions.addPermission(

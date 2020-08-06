@@ -31,6 +31,10 @@
         component.set("v.fileType", '');
         component.set("v.fileBody", '');
         component.set("v.selectedStatus", '');
+    },
+
+    checkCommunity: function (component, event, helper) {
+        component.set('v.communityWithPPInv', communityService.getCurrentCommunityTemplateName() != $A.get("$Label.c.Janssen_Community_Template_Name"));
     }
 
 })
