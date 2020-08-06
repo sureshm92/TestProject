@@ -9,6 +9,7 @@
             let ssId = communityService.getUrlParameter('ssId');
 
             component.find('spinner').show();
+            helper.checkCommunity(component, event, helper);
             communityService.executeAction(component, 'getInitData', {
                 ssId: ssId
             }, function (formData) {

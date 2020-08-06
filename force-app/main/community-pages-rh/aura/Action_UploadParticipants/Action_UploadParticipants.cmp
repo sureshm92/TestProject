@@ -17,6 +17,7 @@
     <aura:attribute name="fileBody" type="String"/>
     <aura:attribute name="fullFileName" type="String"/>
     <aura:attribute name="createUsers" type="Boolean" default="false"/>
+    <aura:attribute name="communityWithPPInv" type="Boolean" default="true"/>
     <aura:attribute name="doNotContactParticipants" type="Boolean" default="true"/>
 
     <!-- methods:-->
@@ -87,7 +88,7 @@
                 <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.doNotContactParticipants}" onchange="{!c.resetCreateUsers}"/>
                 <div class="slds-size_1-of-1 slds-item_label">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact}</div>
             </div>
-            <aura:if isTrue="{!!v.doNotContactParticipants}">
+            <aura:if isTrue="{!and(!v.doNotContactParticipants, v.communityWithPPInv)}">
             <div class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
                 <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.createUsers}"/>
                 <div class="slds-size_1-of-1 slds-item_label">{!$Label.c.Create_Users_Checkbox_on_Import}</div>
