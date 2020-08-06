@@ -43,9 +43,9 @@ global without sharing class TermsAndConditions {
             query += ' Id =\'' + tcId + '\' ';
         }else{
             query += ' Active__c = TRUE ';
-        }
-        if(UserContext.getCurrentCommunityName() == CommunityTemplateService.TEMPLATE_JANSSEN_COMM_NAME){
-            query += 'AND Community_Name__c =\'' + UserContext.getCurrentCommunityName() +'\'';
+            if(UserContext.getCurrentCommunityName() == CommunityTemplateService.TEMPLATE_JANSSEN_COMM_NAME){
+                query += 'AND Community_Name__c =\'' + UserContext.getCurrentCommunityName() +'\'';
+            }
         }
         if(tcType != null){
             query += 'AND T_C_Type__c =\'' + tcType +'\'';
