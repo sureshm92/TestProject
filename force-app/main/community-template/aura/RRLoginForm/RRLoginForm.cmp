@@ -77,10 +77,18 @@
 									iconName="{!v.showpassword ? 'utility:hide':'utility:preview'}" 
 									alternativeText="{!v.coborrowerSSNCB ? 'Hide':'Show'}" 
 									onclick="{!c.togglePassword}"/> -->
-                     <lightning:helptext class="input sfdc_usernameinput sfdc eyeIcon"
-						iconName="{!v.showpassword ? 'utility:hide':'utility:preview'}" 
-        				content="{!v.showpassword ? 'Hide':'Show'}"
-                        onclick="{!c.togglePassword}"/>               
+                    <aura:if isTrue="{!v.showpassword}">
+					<lightning:buttonIcon class="input sfdc_usernameinput sfdc eyeIcon" 
+									iconName="utility:hide" 
+									alternativeText="Hide" 
+									onclick="{!c.togglePassword}"/>
+                   </aura:if>
+                    <aura:if isTrue="{!v.showpassword==false}">
+                   			<lightning:buttonIcon class="input sfdc_usernameinput sfdc eyeIcon" 
+									iconName="utility:preview" 
+									alternativeText="Show" 
+									onclick="{!c.togglePassword}"/>
+                    </aura:if>             
 				</div>
             </div>
 
