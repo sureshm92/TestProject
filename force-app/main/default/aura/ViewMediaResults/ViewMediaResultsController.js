@@ -19,7 +19,7 @@
             var initData = JSON.parse(returnValue);
             var studyData = initData.clinicalList;
             var accessRecord;
-            var noAccessRecord;
+            var noAccessRecord; 
             if(initData.clinicalList != '' || initData.clinicalList != undefined){
                accessRecord = true;
                }else{

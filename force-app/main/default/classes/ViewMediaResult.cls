@@ -52,6 +52,7 @@ public Without sharing class ViewMediaResult {
         
         try{
         initData.currentPageList = mList;
+        
         initData.clinicalList = checkMediaProvider();
         initData.moFilterData.studies = trialFilterData;
         return JSON.serialize(initData);

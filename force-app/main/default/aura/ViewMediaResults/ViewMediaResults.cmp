@@ -62,7 +62,7 @@
                                     setValueAsSelected="true"/>
                         
                     </div>
-                    <!--new Media-->
+                    <!--new Media--> 
                     <div class="rr-summary-panel slds-grid slds-wrap slds-grid_vertical-stretch slds-gutters_medium">
                         <div class="slds-col slds-size_1-of-1 mrc-invite-btn-container">
                              <aura:if isTrue="{!v.NewOutreaachcmp}">
