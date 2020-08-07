@@ -41,15 +41,15 @@
                 <div style="margin-top: -30px; margin-bottom: 30px;">
                     <apex:componentBody rendered="{!isInitialized}"/>
                 </div>
-
                 <apex:outputPanel style="display:block; margin: 25px 0"
                                   rendered="{!preSignatureText != null}">
                     <apex:outputText value="{!preSignatureText}" escape="false"/>
                 </apex:outputPanel>
-                
-                <apex:outputText value="{!signatureText}" escape="false"/>  <!-- Added by Krisha Mahto- REF-1596 -->
                 <table>
                     <tr>
+                         <td style="width: 90%; color: #333333; font-size: 16px;font-family: Arial;">
+                            <apex:outputText value="{!signatureText}" escape="false"/> 
+                        </td>
                         <td style="width: 10%;">
                             <img style="{!templateMap['emailTemplateBrandLogoCSS']}"
                                  src="{!templateMap['emailTemplateBrandLogo']}"/>
@@ -66,7 +66,8 @@
         <div style="color: #999999; font-size: 13px; line-height: 16px;">
             <div style="border-top: 2px solid #CCCCCC; border-bottom: 2px solid #CCCCCC; padding-top: 10px; padding-bottom: 10px;">
                 {!$Label.Email_Footer_Address} |&nbsp; <a
-                        href="{!IF(communityTemplate == 'Janssen', $Label.CommunityJanssenURL + '/s/privacy-policy', $Label.CommunityURL + '/s/privacy-policy')}">{!$Label.Email_Footer_Privacy_Policy}</a>
+                        href="{!emailCommunityURL + '/s/privacy-policy'}">{!IF(communityTemplate == 'Janssen',
+                    $Label.Email_Footer_Privacy_Policy_Janssen, $Label.Email_Footer_Privacy_Policy)}</a>
             </div>
         </div>
     </div>

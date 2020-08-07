@@ -7,9 +7,9 @@
         <c:EmailWireframe recipientId="{!recipient.Id}"
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_Import_Participants_Completed}"
-                          title="{!$Label.Email_Title}"
                           greeting="{!$Label.Email_User_Greeting}"
-                          signature="{!$Label.Email_Signature_RH}">
+                          signature="{!$Label.Email_Signature_RH}"
+                          communityTemplate="{!relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c}">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Participant_Import_Completed}"/>
         </c:EmailWireframe>
     </messaging:htmlEmailBody>
@@ -18,9 +18,9 @@
         <c:EmailWireframeText recipientId="{!recipient.Id}"
                               sourceId="{!relatedTo.Id}"
                               header="{!$Label.Email_Header_Import_Participants_Completed}"
-                              title="{!$Label.Email_Title}"
                               greeting="{!$Label.Email_User_Greeting}"
-                              signature="{!$Label.Email_Signature_RH}">
+                              signature="{!$Label.Email_Signature_RH}"
+                              communityTemplate="{!relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c}">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_Participant_Import_Completed}"/>
         </c:EmailWireframeText>
     </messaging:plainTextEmailBody>

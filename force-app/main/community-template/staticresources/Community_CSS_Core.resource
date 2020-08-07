@@ -803,6 +803,7 @@ select.rr-select-error,
     color: #FFFFFF;
     font-size: 1rem;
     padding: 6px 16px;
+    margin-top: 0.5px;
 }
 
 .apollo-btn.primary:hover, .apollo-btn.primary:focus, .apollo-btn.primary:active {
@@ -1303,10 +1304,10 @@ input[type=password]::-ms-clear
 }
 
 .rr-min-body-height{
-    min-height: 800px;
+    min-height: 90vh;
 }
 .rr-min-body-height .rr-min-body-height{
-    min-height: 0px!important;
+    min-height: 800px!important;
 }
 .rr-header-content{
     position: fixed;
@@ -1331,7 +1332,6 @@ input[type=password]::-ms-clear
 .rr-all-content{
     width: 100%;
     font-family: "Proxima Nova";
-    max-width: 1440px;
     margin: auto;
     overflow-x: hidden;
     display: block;
@@ -1380,7 +1380,6 @@ input[type=password]::-ms-clear
 
 .rr-bottom-bar{
     height: 100%;
-    max-width: 1440px;
     margin: auto;
     background-color: #f8f9fb;
     color: #7F888D;
@@ -1405,7 +1404,6 @@ input[type=password]::-ms-clear
 
 @media all and (min-width: 1440px) {
     .rr-header-content{
-        width: 1440px;
         left: auto;
     }
 

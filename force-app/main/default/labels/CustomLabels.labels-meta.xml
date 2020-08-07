@@ -3163,6 +3163,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>Update referring provider status</value>
     </labels>
     <labels>
+        <fullName>DLIT_L_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DLIT L Disclaimer</shortDescription>
+        <value>*Permissions may not be applicable for all studies</value>
+    </labels>
+    <labels>
         <fullName>DLIT_L_Manage_study_site_details</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3773,6 +3780,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>You have been given permission to access one or more studies in Referral Hub. Please enroll so that you can access Referral Hub and perform referral tasks.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Initial_Delegate_Janssen</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Initial Delegate</shortDescription>
+        <value>You have been given permission to access one or more studies in Janssen Referral Hub. Please enroll so that you can access Janssen Referral Hub and perform referral tasks.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Initial_HCP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3937,9 +3951,9 @@ Please share our site on social media to encourage others to assist us as we wor
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body PI1</shortDescription>
-        <value>A new clinical research study has been added to your account on the IQVIA Referral Hub:  ##StudyName
+        <value>A new clinical research study has been added to your account on the ##SignatureCommunityName:  ##StudyName
 
-            Please take a moment to log into the IQVIA Referral Hub to review and accept the study.</value>
+            Please take a moment to log into the ##SignatureCommunityName to review and accept the study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI2</fullName>
@@ -3966,7 +3980,7 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <shortDescription>Email Body PI5</shortDescription>
         <value>This is a reminder that you accepted one or more referrals over 5 days ago, but contact has not yet been made with the potential study participant(s).
 
-            To review the referral(s), log in to the IQVIA Referral Hub and navigate to &quot;My Referrals.&quot;</value>
+            To review the referral(s), log in to the ##ShortCommName and navigate to &quot;My Referrals.&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI6</fullName>
@@ -4576,6 +4590,13 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <value>Privacy Policy</value>
     </labels>
     <labels>
+        <fullName>Email_Footer_Privacy_Policy_Janssen</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Footer Privacy Policy Janssen</shortDescription>
+        <value>Janssen Privacy Policy</value>
+    </labels>
+    <labels>
         <fullName>Email_Greeting</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5043,6 +5064,17 @@ Please log in to ##CommunityName to view your clinical research trial matches an
             ##SignatureFullCommunityName</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_Janssen</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature</shortDescription>
+        <value>Thank you.
+
+            Sincerely,
+
+            The Janssen IQVIA Referral Hub Support Team</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_1</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5232,11 +5264,11 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature RH</shortDescription>
-        <value>Thank you for participating in the IQVIA Referral Hub.
+        <value>Thank you for participating in the ##SignatureCommunityName.
 
             Sincerely,
 
-            The IQVIA Referral Hub Support Team</value>
+            ##SignatureTeam</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Resource</fullName>
@@ -7418,6 +7450,13 @@ The expected format is REF#####</value>
         <protected>true</protected>
         <shortDescription>contact has user</shortDescription>
         <value>Invited</value>
+    </labels>
+    <labels>
+        <fullName>Janssen_Community_Template_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Janssen_Community_Template_Name</shortDescription>
+        <value>Janssen</value>
     </labels>
     <labels>
         <fullName>Learn_More</fullName>

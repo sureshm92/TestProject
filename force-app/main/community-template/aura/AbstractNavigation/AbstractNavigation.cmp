@@ -9,6 +9,7 @@
     <aura:attribute name="menuItems" type="List" access="public"/>
     <aura:attribute name="currentPage" type="String" access="public"/>
     <aura:attribute name="mode" type="String" access="public"/>
+    <aura:attribute name="communityTemplate" type="String" access="public" default=""/>
     <aura:attribute name="scrollRequired" type="Boolean" access="public" default="false"/>
     <aura:attribute name="scrollDirection" type="String" access="public" default="left"/>
 
