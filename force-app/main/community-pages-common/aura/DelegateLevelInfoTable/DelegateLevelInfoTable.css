@@ -43,3 +43,10 @@
         font-size: 1rem;
     }
 }
+
+.THIS .dlit-disclaimer {
+    font-size: .875rem!important;
+    font-weight: 400!important;
+    line-height: 17px;
+    font-style: italic;
+}
