@@ -100,14 +100,18 @@ public without sharing class CommunityModeService {
                 FROM Participant__c
                 WHERE Id IN:delegatedParticipantIds
         ]);
+
+        List<String> rhCommunityNames = new List<String>();
+        rhCommunityNames.addAll(rhSponsorsByCommunity.keySet());
         Map<Id, List<Participant_Enrollment__c>> peListByParticipantIdMap = getPEMap(
                 userParticipant, delegatedParticipantIds,
-                DatabaseService.fieldNotInValues('Participant_Status__c', PEStatusState.PE_STATUS_GROUP_ALUMNI)
+                DatabaseService.fieldNotInValues('Participant_Status__c', PEStatusState.PE_STATUS_GROUP_ALUMNI) + ' AND ' +
+                        DatabaseService.fieldNotInValues('Clinical_Trial_Profile__r.CommunityTemplate__c', rhCommunityNames)
         );
         Map<Id, List<Participant_Enrollment__c>> pePastMap = getPEMap(
-                userParticipant,
-                delegatedParticipantIds,
-                DatabaseService.fieldInValues('Participant_Status__c', PEStatusState.PE_STATUS_GROUP_ALUMNI)
+                userParticipant, delegatedParticipantIds,
+                DatabaseService.fieldInValues('Participant_Status__c', PEStatusState.PE_STATUS_GROUP_ALUMNI) + ' AND ' +
+                        DatabaseService.fieldNotInValues('Clinical_Trial_Profile__r.CommunityTemplate__c', rhCommunityNames)
         );
 
         if (!userParticipants.isEmpty()) {
@@ -138,6 +142,7 @@ public without sharing class CommunityModeService {
         for (Id participantId : delegatedParticipantIds) {
             Participant__c participant = participantsMap.get(participantId);
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(participantId);
+            List<Participant_Enrollment__c> pePastList = pePastMap.get(participantId);
             CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(
                     false, false
             );
@@ -150,7 +155,7 @@ public without sharing class CommunityModeService {
                             pe.Id, participant.Contact__c, true
                     ));
                 }
-            } else {
+            } else if (pePastList != null) {
                 String participantName = participant.First_Name__c + ' ' + participant.Last_Name__c;
                 modeItem.subItems.add(new CommunityModes.PPCommunityModeItem(
                         USER_MODE_PARTICIPANT, participantName, Label.No_active_studies,
@@ -310,15 +315,18 @@ public without sharing class CommunityModeService {
                 SELECT Id, First_Name__c, Last_Name__c, Contact__c
                 FROM Participant__c WHERE Id IN: delegatedParticipantIds
         ]);
+
+        List<String> rhCommunityNames = new List<String>();
+        rhCommunityNames.addAll(rhSponsorsByCommunity.keySet());
         Map<Id, List<Participant_Enrollment__c>> peListByParticipantIdMap = getPEMap(
-                userParticipant,
-                delegatedParticipantIds,
-                DatabaseService.fieldNotInValues('Participant_Status__c', PEStatusState.PE_STATUS_GROUP_ALUMNI)
+                userParticipant, delegatedParticipantIds,
+                DatabaseService.fieldNotInValues('Participant_Status__c', PEStatusState.PE_STATUS_GROUP_ALUMNI) + ' AND ' +
+                        DatabaseService.fieldNotInValues('Clinical_Trial_Profile__r.CommunityTemplate__c', rhCommunityNames)
         );
         Map<Id, List<Participant_Enrollment__c>> pePastMap = getPEMap(
-                userParticipant,
-                delegatedParticipantIds,
-                DatabaseService.fieldInValues('Participant_Status__c', PEStatusState.PE_STATUS_GROUP_ALUMNI)
+                userParticipant, delegatedParticipantIds,
+                DatabaseService.fieldInValues('Participant_Status__c', PEStatusState.PE_STATUS_GROUP_ALUMNI) + ' AND ' +
+                        DatabaseService.fieldNotInValues('Clinical_Trial_Profile__r.CommunityTemplate__c', rhCommunityNames)
         );
         //user studies:
         if(userParticipant != null){

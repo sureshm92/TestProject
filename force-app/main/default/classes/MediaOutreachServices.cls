@@ -10,6 +10,10 @@ public class MediaOutreachServices {
             'Study_Name__r.Clinical_Trial_Profile__c' => 'Study_Name__r.Clinical_Trial_Profile__r.Study_Code_Name__c'
                 }
     };
+
+    public static final List<String> RESTRICTED_COMMUNITY_TEMPLATES = new List<String>{
+            CommunityTemplateService.TEMPLATE_JANSSEN
+    };
         
         public class moFilter{
             public List<Id> trialIds;
@@ -89,7 +93,8 @@ public class MediaOutreachServices {
                 //filter criteria - existing filter on study
                 public static List<Media_Outreach__c> getMediaOutreach(moFilter filter, String delegateId){
                     //get all the media outreach assigned to a PI
-                    String filterStr = ' AND Study_Name__r.Clinical_Trial_Profile__c IN (\'' + String.join(filter.trialIds, '\',\'') + '\') ';
+                    String filterStr = ' AND Study_Name__r.Clinical_Trial_Profile__c IN (\'' + String.join(filter.trialIds, '\',\'') + '\') ' +
+                            'AND Study_Name__r.Clinical_Trial_Profile__r.CommunityTemplate__c NOT IN (\'' + String.join(RESTRICTED_COMMUNITY_TEMPLATES, '\',\'') + '\') ';
                     if (filter.searchText != null) filter.searchText = filter.searchText.trim();
                     
                     //If a filter is selected

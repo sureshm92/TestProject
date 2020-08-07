@@ -47,7 +47,7 @@
                         </div>
 
                         <div class="navigation-block">
-                            <c:CommunityNavigation aura:id="navigation" mode="{!v.currentMode.userMode}" currentPage="{!v.currentPage}"/>
+                            <c:CommunityNavigation aura:id="navigation" mode="{!v.currentMode.userMode}" currentPage="{!v.currentPage}" communityTemplate="{!v.template}"/>
                         </div>
                         <div class="right-block" data-gtm="community_mode_switcher">
                             <aura:if isTrue="{!v.currentMode.userMode != 'CC'}">
@@ -65,7 +65,7 @@
                             </aura:if>
                                <!-- Ending of REF-1343 -->
                             <c:CommunityModeSwitcherMenu currentMode="{!v.currentMode}" onModeChange="{!c.doRefresh}"/>
-                            <aura:if isTrue="{!v.currentMode.userMode == 'PI'}">
+                            <aura:if isTrue="{!and(v.currentMode.userMode == 'PI',v.template != $Label.c.Janssen_Community_Template_Name )}">
                                 <c:navIncentiveCounter onnavigatetoincentives="{!c.doNavigate}" currentPage="{!v.currentPage}"/>
                             </aura:if>
                         </div>
