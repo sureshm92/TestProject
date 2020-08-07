@@ -73,10 +73,14 @@
 							class="input sfdc_usernameinput sfdc" type="{!v.showpassword ? 'text' : 'password'}" 
 							value=""/> 
 					</span>
-					 <lightning:buttonIcon class="input sfdc_usernameinput sfdc eyeIcon" 
+					<!-- <lightning:buttonIcon class="input sfdc_usernameinput sfdc eyeIcon" 
 									iconName="{!v.showpassword ? 'utility:hide':'utility:preview'}" 
 									alternativeText="{!v.coborrowerSSNCB ? 'Hide':'Show'}" 
-									onclick="{!c.togglePassword}"/>
+									onclick="{!c.togglePassword}"/> -->
+                     <lightning:helptext class="input sfdc_usernameinput sfdc eyeIcon"
+						iconName="{!v.showpassword ? 'utility:hide':'utility:preview'}" 
+        				content="{!v.showpassword ? 'Hide':'Show'}"
+                        onclick="{!c.togglePassword}"/>               
 				</div>
             </div>
 
