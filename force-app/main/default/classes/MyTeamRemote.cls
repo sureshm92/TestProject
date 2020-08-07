@@ -553,7 +553,7 @@ public without sharing class MyTeamRemote {
         else{
             for (MyTeamRemote.TrialDelegateWrapper t : dlw) {
                 for (MyTeamRemote.DelegateLevelWrapper d : t.siteLevels) {
-                    if (d.ReferralStatus == 'Accepted' &&  String.isNotBlank(d.delegateLevel)) {
+                    if ((d.ReferralStatus == StudySiteService.PI_S_ACCEPTED || d.ReferralStatus == StudySiteService.PI_S_ACCEPTED_A) &&  String.isNotBlank(d.delegateLevel)) {
                         return true;
                     }
                 }
