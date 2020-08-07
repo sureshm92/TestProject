@@ -69,6 +69,7 @@
                     },
                 ];
                 component.set("v.capList",capList);
+                component.set("v.disclaimer", $A.get("$Label.c.DLIT_L_Disclaimer"));
                 break;
 
             case 'HCP':
