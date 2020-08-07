@@ -34,6 +34,10 @@ global without sharing class TermsAndConditions {
     }
 
     public static String getTCQuery(Id tcId, String languageCode, String tcType) {
+        System.debug('>>>tcId: ' + tcId);
+        System.debug('>>>tcType: ' + tcType);
+        System.debug('>>>languageCode: ' + languageCode);
+        System.debug('>>>UserContext.getCurrentCommunityName(): ' + UserContext.getCurrentCommunityName());
         String query =
                 ' SELECT Id, T_C_Text__c, ' +
                         '   (SELECT Id, T_C_Text__c FROM Terms_And_Conditions__r WHERE Language__c = \'' + languageCode  + '\') ' +
@@ -43,9 +47,7 @@ global without sharing class TermsAndConditions {
             query += ' Id =\'' + tcId + '\' ';
         }else{
             query += ' Active__c = TRUE ';
-            if(UserContext.getCurrentCommunityName() == CommunityTemplateService.TEMPLATE_JANSSEN_COMM_NAME){
-                query += 'AND Community_Name__c =\'' + UserContext.getCurrentCommunityName() +'\'';
-            }
+            query += 'AND Community_Name__c =\'' + UserContext.getCurrentCommunityName() +'\'';
         }
         if(tcType != null){
             query += 'AND T_C_Type__c =\'' + tcType +'\'';
