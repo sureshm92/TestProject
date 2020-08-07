@@ -14,7 +14,8 @@
     <aura:attribute name="piCTPPicklist" type="LabelValueItem[]"/>
     <aura:attribute name="totalSSCount" type="String"/>
     <aura:attribute name="usermode" type="String"/>
-     <aura:attribute name="isParticipantDisplay" type="boolean" default="false"/>
+    <aura:attribute name="communityTemplate" type="String"/>
+    <aura:attribute name="isParticipantDisplay" type="boolean" default="false"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.doinit}"/>
     <!--<aura:registerEvent name="leaderboardEvent" type="c:EventLeaderboardRefreshed"/>-->
@@ -51,6 +52,7 @@
         <div class="slds-col slds-large-size_2-of-3 slds-small-size_1-of-1 slds-medium-size_1-of-1">
             <c:FunnelChart funnelData = "{!v.piData.funnelData}"/>
         </div>
+        <aura:if isTrue="{!v.communityTemplate != 'Janssen'}">
         <div class="slds-col slds-large-size_1-of-3 slds-small-size_1-of-1 slds-medium-size_1-of-1">
             <div class="{!v.isParticipantDisplay? 'db-quick-actions-container-participant' : 'db-quick-actions-container'}">
                 <c:DashboardQuickActionList
@@ -63,6 +65,7 @@
                         isParticipantDisplay="{!v.isParticipantDisplay}" />
             </div>
         </div>
+        </aura:if>
 
         <div class="slds-col slds-size1-of-1  slds-medium-size_1-of-1 slds-p-top_large">
     		<c:DB_LeaderboardSelectedSSDetails dashboardTitle="{!$Label.c.Dashboard_Leaderboard}" piData="{!v.piData}"/>

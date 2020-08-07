@@ -4,6 +4,7 @@
 ({
     doinit:function(component, event, helper){
         var piData = component.get('v.piData');
+        component.set('v.communityTemplate', communityService.getCurrentCommunityTemplateName());
         component.set('v.delegatePIPicklistvalues',piData.delegatePIsPicklist);
         component.set('v.piCTPPicklist', piData.piCTPPicklist);
         component.set('v.currentPi', piData.selectedPi);
