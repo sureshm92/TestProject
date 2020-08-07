@@ -3163,6 +3163,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>Update referring provider status</value>
     </labels>
     <labels>
+        <fullName>DLIT_L_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DLIT L Disclaimer</shortDescription>
+        <value>*Permissions may not be applicable for all studies</value>
+    </labels>
+    <labels>
         <fullName>DLIT_L_Manage_study_site_details</fullName>
         <language>en_US</language>
         <protected>false</protected>
