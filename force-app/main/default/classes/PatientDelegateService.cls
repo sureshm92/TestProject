@@ -564,7 +564,8 @@ public without sharing class PatientDelegateService {
                         Participant_Contact__c,
                         Clinical_Trial_Profile__r.CommunityTemplate__c
                 FROM Participant_Enrollment__c
-                WHERE Participant__c IN:allDelegatedParticipantIds OR Participant_Contact__c IN:contactIds
+                WHERE (Participant__c IN:allDelegatedParticipantIds OR Participant_Contact__c IN:contactIds)
+                AND Clinical_Trial_Profile__r.CommunityTemplate__c NOT IN: CommunityModeService.rhSponsorsByCommunity.keySet()
         ];
         Map<Id, Set<String>> participantPermissions = new Map<Id, Set<String>>();
         Map<Id, Id> participantIdByContactIdMap = new Map<Id, Id>();

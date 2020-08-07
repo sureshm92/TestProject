@@ -75,6 +75,10 @@ global without sharing class EmailWireframeController {
         return prepareLineBreaks(signatureLabelValue);
     }
 
+    public String getEmailCommunityURL() {
+        return CommunityTemplateService.getCommunityURL(EmailTemplateProviderService.getProvider().getCommunityName());
+    }
+
     public Boolean getIsInitialized() {
         return getProvider().isInitialized();
     }
