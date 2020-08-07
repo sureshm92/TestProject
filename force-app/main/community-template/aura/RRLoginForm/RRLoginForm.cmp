@@ -215,7 +215,7 @@
                 </aura:set>
             </aura:if> 
     	<!-- Added By Krishna for PEH-1910 :End  --> 
-            <!-- Added By Krishna for PEH-2451 :Start  --> 
+            <!-- Added By Krishna for PEH-2451 :Start --> 
             <br/>
             <div id="sfdc_forgot" class="slds-align_absolute-center"> 
                 <a class="forgot-password-link" onclick = "{!c.openPrivacyPolicy}">{!$Label.c.Email_Footer_Privacy_Policy}</a>
