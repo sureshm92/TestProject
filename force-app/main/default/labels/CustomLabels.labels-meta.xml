@@ -1246,6 +1246,13 @@
         <value>Import Participant File</value>
     </labels>
     <labels>
+        <fullName>BTN_Use_Entered_Email_Address</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN Use Entered Email Address</shortDescription>
+        <value>Use Entered Email Address</value>
+    </labels>
+    <labels>
         <fullName>BTN_Verify</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2752,14 +2759,14 @@ Please share our site on social media to encourage others to assist us as we wor
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CTL L HCP MODE</shortDescription>
-        <value>Referring Provider</value>
+        <value>View as Referring Provider</value>
     </labels>
     <labels>
         <fullName>CTL_L_PI_MODE</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CTL L PI MODE</shortDescription>
-        <value>Investigative Site</value>
+        <value>View as Investigative Site</value>
     </labels>
     <labels>
         <fullName>CTL_L_Patricipant_MODE</fullName>
@@ -2788,6 +2795,14 @@ Please share our site on social media to encourage others to assist us as we wor
         <protected>false</protected>
         <shortDescription>Can Not Edit Mapping</shortDescription>
         <value>You can not edit this object. Delete and create a new one instead.</value>
+    </labels>
+    <labels>
+        <fullName>Can_t_rembeber_my_username</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Can&apos;t rembeber my username</shortDescription>
+        <value>I cannot remember my user name</value>
     </labels>
     <labels>
         <fullName>Cancel</fullName>
@@ -2932,6 +2947,22 @@ Please share our site on social media to encourage others to assist us as we wor
         <protected>false</protected>
         <shortDescription>Cookies Info Text First Logon</shortDescription>
         <value>This site uses cookies for the essential functioning of the site, to improve user experience, and for analytical purposes. By using this site you are consenting to our use of cookies.</value>
+    </labels>
+    <labels>
+        <fullName>Copy_of_my_personal_information</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Copy of my personal information</shortDescription>
+        <value>I would like to request a copy of my personal information</value>
+    </labels>
+    <labels>
+        <fullName>Correction_of_my_personal_information</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Correction of my personal information</shortDescription>
+        <value>I would like to request a correction or deletion of my personal information</value>
     </labels>
     <labels>
         <fullName>Covid19_NYBC_Email_Logo</fullName>
@@ -3546,6 +3577,30 @@ Please share our site on social media to encourage others to assist us as we wor
         <protected>false</protected>
         <shortDescription>Doc L Oh no, there are no items here.</shortDescription>
         <value>Oh no, there are no items here.</value>
+    </labels>
+    <labels>
+        <fullName>Don_t_want_to_be_contacted</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Don&apos;t want to be contacted</shortDescription>
+        <value>I do not want to be contacted via phone(voice call)</value>
+    </labels>
+    <labels>
+        <fullName>Don_t_want_to_be_contacted_via_SMS</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Don_t_want_to_be_contacted_via_SMS</shortDescription>
+        <value>I do not want to be contacted via SMS/text messages</value>
+    </labels>
+    <labels>
+        <fullName>Don_t_want_to_receive</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Don&apos;t want to receive email</shortDescription>
+        <value>I do not want to receive emails (not applicable to system emails or messages sent in response to a specific user request, e.g. password reset email)</value>
     </labels>
     <labels>
         <fullName>Download_Trial_Match</fullName>
@@ -5046,6 +5101,30 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <value>Dear ##FirstName,</value>
     </labels>
     <labels>
+        <fullName>Email_Opt_Out_footer</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Opt Out footer</shortDescription>
+        <value>To request technical support or opt out of optional email communications,</value>
+    </labels>
+    <labels>
+        <fullName>Email_Opt_Out_footer_here</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Opt Out footer here</shortDescription>
+        <value>click here</value>
+    </labels>
+    <labels>
+        <fullName>Email_Opt_Out_footer_medical_emergency</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Opt Out footer medical emergency</shortDescription>
+        <value>If you have a medical emergency, please contact your local emergency medical services.</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5880,6 +5959,54 @@ The NYBC Convalescent Plasma Donation Team</value>
         <value>Investigator Name</value>
     </labels>
     <labels>
+        <fullName>Export_Excel_Last_Status_Changed_Notes</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Last Status Changed Notes</shortDescription>
+        <value>Last Status Changed Notes</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_MRN</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel MRN</shortDescription>
+        <value>MRN Id</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Name</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Name</shortDescription>
+        <value>Participant Profile Name</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Participant_Status</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Participant Status</shortDescription>
+        <value>Participant Status</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Participant_Status_Last_Changed_Date</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Participant Status Last Changed Date</shortDescription>
+        <value>Participant Status Last Changed Date</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Patient_ID</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Patient ID</shortDescription>
+        <value>Patient ID</value>
+    </labels>
+    <labels>
         <fullName>Export_Excel_Pre_screening_1_Completed_by</fullName>
         <categories>excel export</categories>
         <language>en_US</language>
@@ -5919,11 +6046,51 @@ The NYBC Convalescent Plasma Donation Team</value>
         <value>Pre-screening Date</value>
     </labels>
     <labels>
+        <fullName>Export_Excel_Referral_Completed_by</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Referral Completed by</shortDescription>
+        <value>Referral Completed by</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Referral_Source</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Referral Source</shortDescription>
+        <value>Referral Source</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Referred_Date</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Referred Date</shortDescription>
+        <value>Referred Date</value>
+    </labels>
+    <labels>
         <fullName>Export_Excel_Status_Change_Reason</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Export Excel Status Change Reason</shortDescription>
         <value>Status Change Reason</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Study_Code_Name</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Study Code Name</shortDescription>
+        <value>Study Code Name</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Study_Site_Name</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Study Site Name</shortDescription>
+        <value>Study Site Name</value>
     </labels>
     <labels>
         <fullName>FD_PE_Field_Arm_Cohort</fullName>
@@ -8990,6 +9157,22 @@ The expected format is REF#####</value>
         <protected>false</protected>
         <shortDescription>One or more Participants reached Majority</shortDescription>
         <value>One or more participants has reached the age of legal majority. Please confirm privacy preferences with participant(s).</value>
+    </labels>
+    <labels>
+        <fullName>Opt_Out</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opt Out</shortDescription>
+        <value>Opt Out of communication by IQVIA and its affiliates</value>
+    </labels>
+    <labels>
+        <fullName>Opt_Out_Success_Message</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opt Out Success Message</shortDescription>
+        <value>Your request has been sent successfully.</value>
     </labels>
     <labels>
         <fullName>Originator</fullName>
@@ -12840,6 +13023,20 @@ The expected format is REF#####</value>
         <value>IQVIA may also contact your patient to ensure that your patient has connected with the study site.</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_Information_Sharing</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Information_Sharing</shortDescription>
+        <value>Information Sharing</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Invitation_To_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Invitation_To_PP</shortDescription>
+        <value>Invitation to Patient Portal</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_Is_the_patient_still_interested_in_participating_in_this_study</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12931,11 +13128,53 @@ The expected format is REF#####</value>
         <value>Receive information about clinical study opportunities.</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_Confirmation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_Confirmation</shortDescription>
+        <value>I confirm that the patient, and/or patient&apos;s legal guardian if applicable, agrees</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_To_Contact</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG Ref L Permit IQVIA To Contact</shortDescription>
         <value>IQVIA cannot contact regarding this study</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_Email</shortDescription>
+        <value>that IQVIA or its affiliates may contact the patient or his/her legal guardians regarding this study</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_Phone</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_Phone</shortDescription>
+        <value>that IQVIA or its affiliates may contact the patient via phone (voice) regarding this study</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_SMS</shortDescription>
+        <value>that IQVIA or its affiliates may contact the patient via SMS/text messaging regarding this study</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal</shortDescription>
+        <value>Invite the patient to join Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_ShareInformation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_ShareInformation</shortDescription>
+        <value>to share the above information with IQVIA and its affiliates</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Please_complete_Medical_Record_Review_first</fullName>
@@ -17328,6 +17567,14 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Task Type Visit</shortDescription>
         <value>Visit</value>
+    </labels>
+    <labels>
+        <fullName>Technical_Support</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Technical Support</shortDescription>
+        <value>Get Technical Support</value>
     </labels>
     <labels>
         <fullName>Test_Label</fullName>

@@ -1,7 +1,6 @@
 ({
     createStudyVisitReminder: function (component, title, taskData, isReminderOnly) {
         component.find('spinner').show();
-        console.log('TasksTabHelper: '+JSON.stringify(taskData));
         var task;
         if(taskData.openTask){            
             task = taskData.openTask;

@@ -258,6 +258,7 @@ public class StudyActionsPI extends StudyActions{
                 ACT_SCREENER_RESPONSES,
                 null,
                 null, new List<DisableReason>{
+                        //level2AndLowReason,
                         supportLevelReason
                 }
         ));

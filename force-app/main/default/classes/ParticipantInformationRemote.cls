@@ -394,7 +394,8 @@ public without sharing class ParticipantInformationRemote {
             Participant_Enrollment_Status_History__c pesh = ParticipantWorkflowService.createPESHFromPathWrapper(pathWrapper, pe, ctp, oldParticipantEnrollment);
             if(pesh != null && historyToUpdate){
                 if (oldParticipantEnrollment.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED
-                        && (pesh.Status__c == PEStatusState.PE_STATUS_CONTACT_ATTEMPTED || pesh.Status__c == PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED)
+                        && (pesh.Status__c == PEStatusState.PE_STATUS_CONTACT_ATTEMPTED || pesh.Status__c == PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED
+                        || pesh.Status__c == PEStatusState.PE_STATUS_CONTACTED_NOT_SUITABLE || pesh.Status__c == PEStatusState.PE_STATUS_UNABLE_TO_REACH)
                         && oldParticipantEnrollment.Participant_Status_Last_Changed_Date__c.date().daysBetween(Date.today()) <= 1) {
                     IncentiveProgramService.completeIncentiveTaskCurrentContact(IncentiveTaskCatalog.INCENTIVE_TASK_MADE_CONTACT_ATTEMPT_WITHIN_1_DAY, oldParticipantEnrollment.Study_Site__c, oldParticipantEnrollment.Name);
                 }
