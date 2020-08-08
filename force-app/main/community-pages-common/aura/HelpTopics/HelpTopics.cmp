@@ -108,7 +108,7 @@
                             </div>
                         </div>
                         <div class="h-body-button ht-label">
-                            <button class="apollo-btn primary" tabindex="1" onclick="{!c.submitRequest}">
+                            <button class="apollo-btn primary" aura:id="needhelp" id="needhelp" tabindex="1" onclick="{!c.submitRequest}">
                                 {!$Label.c.PG_HLP_BTN_Submit_Your_Problem}
                             </button>
                         </div>
@@ -145,7 +145,7 @@
                     <div class="slds-p-top_xx-large">
                         <aura:if isTrue="{!v.selectedTopicSettings.displayName == $Label.c.HT_02_CPD}">
                             <div class="h-body-button ht-label">
-                                <button class="apollo-btn primary" tabindex="1" onclick="{!c.submitRequest}">
+                                <button class="apollo-btn primary" aura:id="sitetransfer" id="sitetransfer" tabindex="1" onclick="{!c.submitRequest}">
                                     {!$Label.c.PG_HLP_BTN_Submit_Your_Request}
                                 </button>
                             </div>
