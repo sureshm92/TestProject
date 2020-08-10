@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Site_Email_Key__c</fullName>
     <externalId>false</externalId>
-    <formula>Site_Number2__c+&apos;_&apos;+Phone__c +&apos;_&apos;+ Email__c</formula>
+    <formula>&apos;TEMP&apos;</formula>
     <inlineHelpText>Site Email Key</inlineHelpText>
     <label>Site_Email_Key</label>
     <required>false</required>
