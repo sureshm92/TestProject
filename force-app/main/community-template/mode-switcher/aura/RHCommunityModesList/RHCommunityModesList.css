@@ -8,8 +8,8 @@
     flex-direction: row;
     align-items: center;
 }
+
 .THIS .main-box:hover,
-.THIS .mode-group:hover,
 .THIS .mode-sub-item:hover{
     cursor: pointer;
 }
