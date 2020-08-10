@@ -15215,6 +15215,20 @@ communications using the toggles below.</value>
         <shortDescription>Pswd_ValidationMsg4</shortDescription>
         <value>Your password must be at least 8 characters long.</value>
     </labels>
+	<labels>
+        <fullName>Pswd_ValidationMsg5</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pswd_ValidationMsg5</shortDescription>
+        <value>The passwords do not match</value>
+    </labels>
+	<labels>
+        <fullName>Pswd_ValidationMsg6</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pswd_ValidationMsg6</shortDescription>
+        <value>The passwords do not match</value>
+    </labels>
     <labels>
         <fullName>Pswd_Your_Pswd_Include</fullName>
         <language>en_US</language>
