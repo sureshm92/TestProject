@@ -1311,7 +1311,7 @@ select.rr-select-error,
 .uiPanel.open, .uiPanel.transitioning {
     margin: 0% 3% 2% 4% !important;
     position: absolute !important;
-    top: 7% !important;
+    top: 3.1rem !important;
     border-radius: 0 !important;
 	z-index: 1 !important;
 }	
@@ -1645,7 +1645,7 @@ input[type=password]::-ms-clear
 @media only screen and (min-width: 768px) and (max-width: 1023px){
 	.uiPanel.open, .uiPanel.transitioning {
 		margin: 0% 3% 2% 2% !important;
-		top: 5% !important;
+		top: 4.8% !important;
 		border-radius: 0 !important;
 		z-index: 1 !important;
   }	
