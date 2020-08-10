@@ -105,14 +105,11 @@ public without sharing class StudySiteTriggerHandler {
                             Clinical_Trial_Profile__r.CommunityTemplate__c
                     FROM Study_Site__c
                     WHERE Principal_Investigator__c IN :pisWithUser]){
-                if(!piCommunitySS.containsKey(notificationSS.Principal_Investigator__c)) {
                     piCommunitySS.put(notificationSS.Principal_Investigator__c, new Map<String, List<Id>>{
                             CommunityTemplateService.TEMPLATE_DEFAULT => new List<Id>(),
                             CommunityTemplateService.TEMPLATE_JANSSEN => new List<Id>(),
                             CommunityTemplateService.TEMPLATE_GSK => new List<Id>()
                     });
-                    piCommunitySS.get(notificationSS.Principal_Investigator__c).get(notificationSS.Clinical_Trial_Profile__r.CommunityTemplate__c).add(notificationSS.Id);
-                }
             }
             for (Id piId : piCommunitySS.keySet()) {
                 for (String community : piCommunitySS.get(piId).keySet()) {
