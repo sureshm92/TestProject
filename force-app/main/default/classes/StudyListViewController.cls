@@ -94,13 +94,13 @@ public without sharing class StudyListViewController {
     
     @AuraEnabled
     public static String searchStudies(String filterData, String sortData, String paginationData, Boolean isSearchResume) {
-        return searchStudies(filterData, sortData, paginationData, isSearchResume, null);
+        return searchStudies(filterData, sortData, paginationData, isSearchResume, null, null);
     }
     
     @AuraEnabled
-    public static String searchStudies(String filterData, String sortData, String paginationData, Boolean isSearchResume, String delegateId) {
+    public static String searchStudies(String filterData, String sortData, String paginationData, Boolean isSearchResume, String delegateId, String userMode) {
         try {
-            String studiesJSON = StudyTrialService.getStudiesJSON(filterData, sortData, paginationData, isSearchResume, delegateId);
+            String studiesJSON = StudyTrialService.getStudiesJSON(filterData, sortData, paginationData, isSearchResume, delegateId, userMode);
             return studiesJSON;
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
@@ -148,6 +148,7 @@ public without sharing class StudyListViewController {
             initData.filterData = StudyTrialService.getStudyFilterData();
             
             initData.delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel(delegateId);
+            ContactService.updateVisitedCommunity(UserContext.getUserContact(), UserContext.getCurrentCommunityTemplate());
             return JSON.serialize(initData);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
@@ -163,6 +164,7 @@ public without sharing class StudyListViewController {
             initData.statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
             initData.countriesMap = CountryStateUtil.COUNTRY_MAP;
             initData.countryCodesMap = CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP;
+            ContactService.updateVisitedCommunity(UserContext.getUserContact(), UserContext.getCurrentCommunityTemplate());
             return JSON.serialize(initData);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);

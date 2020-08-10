@@ -24,6 +24,7 @@
     <aura:attribute name="callback" type="Object" access="private"/>
     <aura:attribute name="delegateDuplicateInfo" type="Object"/>
     <aura:attribute name="useThisDelegate" type="Boolean" default="true"/>
+    <aura:attribute name="communityWithPPInv" type="Boolean" default="true"/>
     <aura:attribute name="emailInstance" type="String"/>
 
     <!-- methods: -->
@@ -182,6 +183,7 @@
                             </div>
                         </div>
                     </div>
+                    <aura:if isTrue="{!v.communityWithPPInv}">
                     <aura:if isTrue="{!and(!v.doNotContact, v.ss.Study_Site_Type__c != 'Virtual')}">
                     <aura:if isTrue="{!(v.participant.Email__c &amp;&amp; v.participant.Adult__c) || (v.needsGuardian &amp;&amp; v.participant.Health_care_proxy_is_needed__c)}">
                         <div class="slds-grid slds-gutters slds-wrap">
@@ -198,6 +200,7 @@
                             </div>
                         </div>
                         </div>
+                    </aura:if>
                     </aura:if>
                     </aura:if>
                 </div>

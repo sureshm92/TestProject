@@ -13,6 +13,7 @@
         component.set('v.studySiteId', studySiteId);
         if (params.callback) component.set('v.callback', $A.getCallback(params.callback));
         helper.clearFields(component, event, helper);
+        helper.checkCommunity(component, event, helper);
 
         communityService.executeAction(component, 'getParticipantsStatuses', {
             studySiteId : studySiteId

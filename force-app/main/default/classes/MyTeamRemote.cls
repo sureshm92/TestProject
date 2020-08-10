@@ -151,7 +151,7 @@ public without sharing class MyTeamRemote {
                 SELECT Contact__c, Status__c
                 FROM Patient_Delegate__c
                 WHERE Contact__c IN:delegateContactsMap.keySet()
-                AND Participant__c =: ParticipantContext.getCurrentParticipant().Id
+                AND Participant__c = :ParticipantContext.getCurrentParticipant().Id
         ];
         List<DelegateWrapper> delegates = new List<DelegateWrapper>();
         for (Patient_Delegate__c pd : patientDelegates) {
@@ -364,28 +364,47 @@ public without sharing class MyTeamRemote {
     }
     private static void sendEmailNotification(Contact delegateContact, String userMode) {
 
-        Notification__c notification;
+        List<Notification__c> notifications = new List<Notification__c>();
         if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
-            notification = new Notification__c(
+            notifications.add(new Notification__c(
                     Recipient__c = delegateContact.Id,
                     WhatId__c = delegateContact.Id,
                     Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_ACCESS_LEVEL_CHANGED_TYPE
-            );
+            ));
         } else if (userMode == CommunityService.USER_MODE_PI) {
-            notification = new Notification__c(
-                    Recipient__c = delegateContact.Id,
-                    WhatId__c = delegateContact.Id,
-                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_ACCESS_LEVEL_CHANGED_TYPE
-            );
+
+            List<Site_Staff__c> ssList = [
+                    SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, Site_Contact__c
+                    FROM Site_Staff__c
+                    WHERE Site_Contact__c =: delegateContact.Id
+            ];
+            List<String> comTemplates = new List<String>();
+            for(Site_Staff__c ss: ssList) {
+                String commTemplate = ss.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                if (!comTemplates.contains(commTemplate) && commTemplate != 'GSK') comTemplates.add(commTemplate);
+            }
+            String whatId;
+            for(String cmTp: comTemplates){
+                for(Site_Staff__c ss: ssList) {
+                    if(ss.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c == cmTp) whatId = ss.Study_Site__c;
+                }
+                notifications.add(new Notification__c(
+                        Recipient__c = delegateContact.Id,
+                        WhatId__c = whatId,
+                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_ACCESS_LEVEL_CHANGED_TYPE
+                ));
+            }
+
+
         } else if (userMode == CommunityService.USER_MODE_HCP) {
-            notification = new Notification__c(
+            notifications.add(new Notification__c(
                     Recipient__c = delegateContact.Id,
                     WhatId__c = delegateContact.Id,
                     Notification_Type__c = NotificationCatalog.MESSAGE_TO_HCP_ACCESS_LEVEL_CHANGED_TYPE
-            );
+            ));
         }
-        if (notification != null) {
-            insert notification;
+        if (notifications != null) {
+            insert notifications;
         }
     }
 
@@ -545,13 +564,12 @@ public without sharing class MyTeamRemote {
     }
 
     public static Boolean doCreateUser(List<TrialDelegateWrapper> dlw, String userMode) {
-        if(userMode != CommunityService.USER_MODE_PI){
-          return true;
-        }
-        else{
+        if (userMode != CommunityService.USER_MODE_PI) {
+            return true;
+        } else {
             for (MyTeamRemote.TrialDelegateWrapper t : dlw) {
                 for (MyTeamRemote.DelegateLevelWrapper d : t.siteLevels) {
-                    if (d.ReferralStatus == 'Accepted' &&  String.isNotBlank(d.delegateLevel)) {
+                    if (d.ReferralStatus == 'Accepted' && String.isNotBlank(d.delegateLevel)) {
                         return true;
                     }
                 }
@@ -571,7 +589,8 @@ public without sharing class MyTeamRemote {
                         Contact.MailingCountry,
                         Contact.MailingState,
                         Contact.MailingStreet,
-                        Contact.MailingPostalCode
+                        Contact.MailingPostalCode,
+                        Contact.userCommunytyType__c
                 FROM User
                 WHERE Id = :UserInfo.getUserId()
         ];
@@ -582,6 +601,7 @@ public without sharing class MyTeamRemote {
         delegateContact.userCommunityIsDelegate__c = true;
         delegateContact.Current_Participant_Enrollment__c = ParticipantContext.getCurrentPEId();
         delegateContact.Language__c = UserInfo.getLanguage();
+        delegateContact.userCommunytyType__c = delegateContact.userCommunytyType__c+';'+userMode;
         delegateContact.MailingCity = currentUser.Contact.MailingCity;
         delegateContact.MailingCountry = currentUser.Contact.MailingCountry;
         delegateContact.MailingState = currentUser.Contact.MailingState;
