@@ -72,3 +72,9 @@
 8. **PEH-2202** Go to Developer Console > Debug > Open execute Anonymous > Insert Batch_UpdateCTPShortCommNameField.run(); > Execute
 
 9. **PEH-2201** Add Batch_FollowUpReminder to the Batch Control Panel
+
+10.**REF-1955 REF-1956** Change custom labels according Community URL
+
+     10.1 Go to Setup > All Communities > copy link address for Iqvia Default community
+     10.2 Go to Setup > Custom labels > find 'CommunityURL' custom label and change value with copied in previous step link address
+     10.3 Make the same for Janssen Community (custom label - 'CommunityJanssenURL')

@@ -67,13 +67,23 @@ public without sharing class StudySiteTriggerHandler {
         }
     }
 
+    public class SetSuppressEmailsFieldAccordingToStudy extends TriggerHandler{
+
+        public override void beforeInsert(List<SObject> newList) {
+            setSuppressField(newList);
+        }
+    }
+    
     public class AssignCommunityPermissionsForUser extends TriggerHandler{
         public override void afterInsert(List<SObject> newList) {
             assignCommunityPermissions(newList);
+
         }
     }
 
-
+    
+    
+    
     // Logic: ----------------------------------------------------------------------------------------------------------
 
     @TestVisible
@@ -350,6 +360,21 @@ public without sharing class StudySiteTriggerHandler {
         if(!enrollmentsList.isEmpty()) insert enrollmentsList;
     }
 
+    @TestVisible
+    private static void setSuppressField(List<Study_Site__c> newList) {
+        Set<Id> studyIds = new Set<Id>();
+        for (Study_Site__c site: newList){
+            studyIds.add(site.Clinical_Trial_Profile__c);
+        }
+        Map<Id, Clinical_Trial_Profile__c> ctpsMap = new Map<Id, Clinical_Trial_Profile__c>();
+        for (Clinical_Trial_Profile__c ctp : [SELECT Id, Suppress_PI_Emails__c FROM Clinical_Trial_Profile__c WHERE Id IN :studyIds]) {
+            ctpsMap.put(ctp.Id, ctp);
+        }
+        for (Study_Site__c site: newList) {
+            if (!site.Suppress_Study_Site_PI_Emails__c) site.Suppress_Study_Site_PI_Emails__c = ctpsMap.get(site.Clinical_Trial_Profile__c).Suppress_PI_Emails__c;
+        }
+    }
+    
     @TestVisible
     private static void assignCommunityPermissions(List<Study_Site__c> newList) {
         Set<Id> piIds = new Set<Id>();

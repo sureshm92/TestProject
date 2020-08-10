@@ -27,7 +27,11 @@
                 <behavior>Readonly</behavior>
                 <field>CommunityTemplate__c</field>
             </layoutItems>
-			 <layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Suppress_PI_Emails__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Block_Outreach__c</field>
             </layoutItems>

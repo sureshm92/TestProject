@@ -13,7 +13,7 @@
     <ul class="main-container">
         <aura:iteration items="{!v.communityModes.rhModeItems}" var="modeGroup">
             <c:uiMenuItem onclick="{!c.doOnclick}" itemValue="{!modeGroup}">
-                <div class="main-box">
+                <div class="main-box" onclick="{!c.doToggleGroup}" data-group-id="{!modeGroup.itemType}">
                     <aura:if isTrue="{!modeGroup.isCollapsed}">
                         <div class="{!'icon-box ' + if(modeGroup.isGroup, 'icon-unset','')}">
                             <c:RRIcon iconName="icon-chevron-right"
