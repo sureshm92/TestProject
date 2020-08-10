@@ -47,7 +47,7 @@
     </c:RRTopBar>
 
     <aura:if isTrue="{!v.initialized}">
-        <div class="rr-width-limiter side-padding">
+        <div class="rr-width-limiter side-padding add-patient-form">
             <div class="ap-top-info">{! '* ' +  $Label.c.PG_AP_T_Indicate_Req_Fields}</div>
             <div class="rr-white-panel padding">
                 <c:Form_EditPatientInfo aura:id="editForm"

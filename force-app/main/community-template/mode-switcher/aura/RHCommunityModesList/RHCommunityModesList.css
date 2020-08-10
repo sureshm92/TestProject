@@ -19,6 +19,8 @@
 }
 
 .THIS .mode-sub-item{
+    display: flex;
+    align-items: center;
     color: #444444;
     font-size: 16px;
     font-weight: normal;
