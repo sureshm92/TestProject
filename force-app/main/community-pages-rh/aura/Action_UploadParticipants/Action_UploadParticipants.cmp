@@ -97,7 +97,7 @@
                 <div class="slds-size_1-of-1 slds-item_label">{!$Label.c.PG_Ref_L_Permit_IQVIA_Confirmation}</div>
             </div>
             <div class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
-                <lightning:input type="checkbox" class="invite-patient-checkbox" onchange="{!c.doContact}"/>
+                <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.doContact}" onchange="{!c.doContactParticipant}"/>
                 <div class="slds-size_1-of-1 slds-item_label">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_ShareInformation}</div>
             </div>
             <aura:if isTrue="{!v.doContact}">

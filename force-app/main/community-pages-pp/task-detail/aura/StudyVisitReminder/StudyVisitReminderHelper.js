@@ -1,6 +1,5 @@
 ({
     initialize: function (component, helper) {
-        debugger;
         var taskId = component.get('v.taskId');
         var isNewTask = component.get('v.isNewTask');
         var visitId = component.get('v.visitId');
@@ -129,7 +128,6 @@
 
     doValidateReminder: function (component) {
         var reminderValid = component.find('reminderDate');
-        console.log('reminderValid: ' + JSON.stringify(reminderValid));
         var isReminderValid = true;
         if (!$A.util.isUndefinedOrNull(reminderValid)) {
             //reminderValid.reportValidity();
@@ -143,7 +141,6 @@
 
     doValidateDueDate: function (component, helper) {
         var fieldValid = component.find('field');
-        console.log('fieldValid: ' + JSON.stringify(fieldValid));
         var isFieldValid = true;
         if (!$A.util.isUndefinedOrNull(fieldValid)) {
             fieldValid.reportValidity();

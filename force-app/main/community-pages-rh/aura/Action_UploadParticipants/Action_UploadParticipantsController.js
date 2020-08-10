@@ -6,6 +6,10 @@
     doExecute: function (component, event, helper) {
         component.find('upModalSpinner').show();
         component.set('v.createUsers', false);
+        component.set('v.isEmail',false);
+        component.set('v.isPhone',false);
+        component.set('v.isSMS',false);
+        component.set('v.doContact',false);
         var params = event.getParam('arguments');
         component.find('uploadParticipantsDialog').show();
         var studySiteId = params["studySiteId"];
@@ -22,6 +26,11 @@
     },
     
     doCancel: function (component, event, helper) {
+        
+        component.set('v.isEmail',false);
+        component.set('v.isPhone',false);
+        component.set('v.isSMS',false);
+        component.set('v.doContact',false);
         helper.clearFields(component, event, helper);
         component.find('uploadParticipantsDialog').cancel();
     },
@@ -99,8 +108,7 @@
         
         reader.readAsArrayBuffer(file);
     },
-    doContact : function (component){
-        component.set('v.doContact', !component.get('v.doContact'));
+    doContactParticipant : function (component){
         if(!component.get('v.doContact')){
             component.set('v.createUsers',false);
         }
