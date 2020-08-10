@@ -527,6 +527,8 @@ public without sharing class MyTeamRemote {
 
             } else if (!CommunityService.isUserInCommunity(contactDelegate.Id)) {
                 contactDelegate.UserCommunityIsDelegate__c = true;
+                Boolean check = contactDelegate.userCommunytyType__c.contains('PI') || contactDelegate.userCommunytyType__c.contains('HCP');
+                if(check) contactDelegate.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
                 update contactDelegate;
                 CommunityService.setUserToCommunity(contactDelegate.Id);
                 sendEmailNotification(contactDelegate, CommunityService.USER_MODE_PARTICIPANT);
@@ -601,7 +603,7 @@ public without sharing class MyTeamRemote {
         delegateContact.userCommunityIsDelegate__c = true;
         delegateContact.Current_Participant_Enrollment__c = ParticipantContext.getCurrentPEId();
         delegateContact.Language__c = UserInfo.getLanguage();
-        delegateContact.userCommunytyType__c = delegateContact.userCommunytyType__c+';'+userMode;
+        delegateContact.userCommunytyType__c = userMode;
         delegateContact.MailingCity = currentUser.Contact.MailingCity;
         delegateContact.MailingCountry = currentUser.Contact.MailingCountry;
         delegateContact.MailingState = currentUser.Contact.MailingState;

@@ -9,7 +9,7 @@
     align-items: center;
 }
 
-.THIS .mode-group:hover,
+.THIS .main-box:hover,
 .THIS .mode-sub-item:hover{
     cursor: pointer;
 }
@@ -19,6 +19,9 @@
 }
 
 .THIS .mode-sub-item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     color: #444444;
     font-size: 16px;
     font-weight: normal;

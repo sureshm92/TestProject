@@ -38,7 +38,8 @@
     }
 
     .THIS .state-ico-wrapper .rr-icon-default{
-        width: 16px;
+        width: 18px;
+        height: 20px;
     }
 
     .THIS .state.missed .state-ico-wrapper .rr-icon-default{

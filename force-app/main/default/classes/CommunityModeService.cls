@@ -10,8 +10,8 @@ public without sharing class CommunityModeService {
 	public static final String USER_MODE_CC = 'CC';
 
     public static final Map<String, String> labelByMode = new Map<String, String>{
-            USER_MODE_HCP => Label.CTL_L_HCP_MODE,
-            USER_MODE_PI => Label.CTL_L_PI_MODE
+            USER_MODE_HCP => Label.HCP_Mode,
+            USER_MODE_PI => Label.PI_Mode
     };
 
     public static final Map<String, String> itemTypeByMode = new Map<String, String>{
@@ -288,8 +288,9 @@ public without sharing class CommunityModeService {
 
     public static CommunityMode getCurrentCommunityMode(Contact contact, List<CommunityMode> allModes){
         CommunityMode resMode = findMode(generateModeKey(contact), allModes);
-        List<String> availableModes = contact.userCommunytyType__c == null ? new List<String>() : contact.userCommunytyType__c.split(';');
-        if((resMode == null || (resMode.template.communityName != UserContext.getCurrentCommunityName() && !resMode.isDelegate && !availableModes.contains('PI') && !availableModes.contains('RP') )) && allModes.size() > 0){
+        //List<String> availableModes = contact.userCommunytyType__c == null ? new List<String>() : contact.userCommunytyType__c.split(';');
+       // List<Participant_Enrollment__c> loginUserPEs = [SELECT Id FROM Participant_Enrollment__c WHERE Participant_Contact__c = : contact.Id ];
+        if((resMode == null /*|| resMode.template.communityName != UserContext.getCurrentCommunityName()*/) && allModes.size() > 0){
             resMode = getFirstMode(allModes);
             if(resMode != null){
                 resMode.setAsCurrentMode(contact);
