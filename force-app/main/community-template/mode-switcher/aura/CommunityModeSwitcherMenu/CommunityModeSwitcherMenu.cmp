@@ -19,6 +19,8 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="onblur" event="c:uiEvent" action="{!c.handleBlur}"/>
     <aura:handler name="onshow" event="c:uiEvent" action="{!c.handleShow}"/>
+    <aura:handler event="c:RefreshProfile" action="{!c.handleApplicationEvent}"/>
+
 
     <aura:if isTrue="{!not(v.reset)}">
         <c:ModeHeaderMenu class="menu-block">
@@ -40,7 +42,7 @@
                     <c:UnifiedStructurePP_RH onclick="{!c.doSelectItem}" communityModes="{!v.communityModes}"/>
                 </aura:if>
                 <aura:if isTrue="{!equals(v.communityModes.type, 'RH_Single_View')}">
-                    <c:CommunityModeSwitcherMenuButtons type="{!v.communityModes.type}"/>
+                    <c:CommunityModeSwitcherMenuButtons type="{!v.communityModes.type}" reset="{!v.reset}"/>
                 </aura:if>
             </li>
             <li class="lo-button">

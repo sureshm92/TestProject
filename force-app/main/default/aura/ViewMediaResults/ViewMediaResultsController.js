@@ -7,7 +7,7 @@
         var spinner = component.find('mainSpinner');
         spinner.show();
         var paramFilter = communityService.getUrlParameter("filter");
-
+         
         communityService.executeAction(component, 'getInitData', {
             trialId: trialId,
             siteId: siteId,
@@ -17,6 +17,27 @@
             delegateId: communityService.getDelegateId()
         }, function (returnValue) {
             var initData = JSON.parse(returnValue);
+            var studyData = initData.clinicalList;
+            var accessRecord;
+            var noAccessRecord; 
+            if(initData.clinicalList != '' || initData.clinicalList != undefined){
+               accessRecord = true;
+               }else{
+               accessRecord = false;
+               }
+               if(initData.clinicalList == '' || initData.clinicalList == undefined){
+               noAccessRecord = true;
+            }else{
+                noAccessRecord = false;
+            }
+            if(studyData == '' || studyData == undefined &&!noAccessRecord &&accessRecord){
+                component.set('v.NewOutreaachcmp', false);
+                component.set('v.NoOutreachAccess', true);
+         }
+            if(studyData != '' || studyData != undefined &&noAccessRecord &&!accessRecord){
+             component.set('v.NewOutreaachcmp', true);
+             component.set('v.NoOutreachAccess', false);
+         }
             component.set('v.piBtnFilter', paramFilter);
             component.set('v.skipUpdate', true);
             component.set('v.pageList', initData.currentPageList);
@@ -30,6 +51,7 @@
             spinner.hide();
 
         });
+        
     },
     
      doUpdateRecords: function (component, event) {

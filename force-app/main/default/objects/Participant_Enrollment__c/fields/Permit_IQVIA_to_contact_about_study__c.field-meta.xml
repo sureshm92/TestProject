@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Permit_IQVIA_to_contact_about_study__c</fullName>
-    <defaultValue>true</defaultValue>
+    <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Permit IQVIA to contact about study</label>
-    <trackFeedHistory>false</trackFeedHistory>
+    <inlineHelpText>Checked when share the above information with IQVIA and its affiliates checkbox is checked in the front end</inlineHelpText>
+    <label>Permit personal information storage</label>
+    <trackFeedHistory>true</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

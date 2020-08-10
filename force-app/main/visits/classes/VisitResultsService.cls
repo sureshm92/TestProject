@@ -17,13 +17,17 @@ public inherited sharing class VisitResultsService {
     public List<VisitResultWrapper> getVisitResultWrappersForDashboard() {
         Participant_Enrollment__c objCurrParEnroll = ParticipantContext.getCurrentPE();
         String strCountryCode = '';
-        if (objCurrParEnroll.Study_Site__c != null && objCurrParEnroll.Study_Site__r.Site__c != null) {
-            strCountryCode = objCurrParEnroll.Study_Site__r.Site__r.BillingCountryCode;
+        if (objCurrParEnroll.Participant__c != null) {
+            strCountryCode = objCurrParEnroll.Participant__r.Mailing_Country_Code__c;
         }
 
         Id currentCTP = objCurrParEnroll.Clinical_Trial_Profile__c;
-        Clinical_Trial_Profile__c ctpObject = [SELECT Id,Participant_Visit_Result_Group__c FROM Clinical_Trial_Profile__c WHERE Id = :currentCTP];
+        Clinical_Trial_Profile__c ctpObject = [SELECT Id,Participant_Visit_Result_Group__c,Shareback_Settings_On_Country_Level__c,Shareback_Settings_Countries__c FROM Clinical_Trial_Profile__c WHERE Id = :currentCTP];
         String currentCTPVisitResultGroup = ctpObject.Participant_Visit_Result_Group__c;
+        String strShareBackCountries='';
+        if(!String.isBlank(ctpObject.Shareback_Settings_Countries__c)){
+            strShareBackCountries=ctpObject.Shareback_Settings_Countries__c;
+        }
         List<String> ctpAvailableNames = new List<String>();
         List<Visit_Result_Type_Sharing__c> ctpAvailable = [
                 SELECT Id,Include_Countries__c,Sharing_Countries__c,
@@ -34,7 +38,7 @@ public inherited sharing class VisitResultsService {
         ];
         for (Visit_Result_Type_Sharing__c visitResultTypeSharing : ctpAvailable) {
             if (!visitResultTypeSharing.Include_Countries__c) {
-                if (String.isBlank(strCountryCode) || String.isBlank(visitResultTypeSharing.Sharing_Countries__c) || visitResultTypeSharing.Sharing_Countries__c.equals(ALL_COUNTRIES) || (!visitResultTypeSharing.Sharing_Countries__c.contains(strCountryCode))) {
+                if (String.isBlank(strCountryCode) || String.isBlank(visitResultTypeSharing.Sharing_Countries__c) || visitResultTypeSharing.Sharing_Countries__c.equals(ALL_COUNTRIES) || (!visitResultTypeSharing.Sharing_Countries__c.contains(strCountryCode) && !String.isBlank(strShareBackCountries) &&  strShareBackCountries.contains(strCountryCode))) {
                     ctpAvailableNames.add(visitResultTypeSharing.Type__c);
                 }
             } else {
@@ -126,15 +130,36 @@ public inherited sharing class VisitResultsService {
                         VisitResultsRemote.getPatientVisits(), ctpId, mailingCC
                 );
 
-        return resultsWithAvailableSing.isEmpty()
-                ? null
-                : new VisitResultsContainer(
-                        resultsWithAvailableSing.get(0).visitResult.Patient_Visit__r,
-                        getVisitResultWrappers(resultsWithAvailableSing, filteredVisitResultTypesIfAvailable),
-                        TranslateHelper.getLabelValue('Visit_Result_Group_' + visitResultsGroupName)
-                );
+        if(!resultsWithAvailableSing.isEmpty()) {
+            Patient_Visit__c patientVisit;
+            for (VisitResultSharingService.VisitResultWithAvailableSign resultWithAvailableSign : resultsWithAvailableSing) {
+                if(resultWithAvailableSign.visitResult != null) {
+                    patientVisit = resultWithAvailableSign.visitResult.Patient_Visit__r;
+                    break;
+                }
+            }
+            return new VisitResultsContainer(
+                    patientVisit,
+                    getVisitResultWrappers(resultsWithAvailableSing, filteredVisitResultTypesIfAvailable),
+                    TranslateHelper.getLabelValue('Visit_Result_Group_' + visitResultsGroupName)
+            );
+        }
+        return null;
     }
 
+    public static List<Visit_Result__c> getVisitResults(Id ctpId, String mailingCC) {
+        List<VisitResultSharingService.VisitResultWithAvailableSign> resultsWithAvailableSing =
+                VisitResultSharingService.getVisitResultsWithAvailableCountry(
+                        VisitResultsRemote.getPatientVisits(), ctpId, mailingCC
+                );
+
+        List<Visit_Result__c> visitResults = new List<Visit_Result__c>();
+        for (VisitResultSharingService.VisitResultWithAvailableSign visitResultWithAvailableSign : resultsWithAvailableSing) {
+            if(visitResultWithAvailableSign.visitResult != null) visitResults.add(visitResultWithAvailableSign.visitResult);
+        }
+
+        return visitResults;
+    }
 
     private List<VisitResultWrapper> getVisitResultWrappers(
             List<VisitResultSharingService.VisitResultWithAvailableSign> resultsWithAvailableSign,
@@ -142,13 +167,14 @@ public inherited sharing class VisitResultsService {
     ) {
         Map<String, VisitResultSharingService.VisitResultWithAvailableSign> visitResultsByType =
                 getVisitResultsByTypeDeveloperNames(resultsWithAvailableSign);
+
         List<VisitResultWrapper> wrappers = new List<VisitResultWrapper>();
         for (Visit_Result_TypeM__mdt singleVRT : visitResultTypes) {
             VisitResultSharingService.VisitResultWithAvailableSign resultWithAvailableSign = visitResultsByType.get(singleVRT.DeveloperName);
-            if(resultWithAvailableSign != null && !resultWithAvailableSign.isCountryEnabled) continue;
+            if (resultWithAvailableSign == null || !resultWithAvailableSign.isCountryEnabled) continue;
 
             wrappers.add(new VisitResultWrapper(
-                    resultWithAvailableSign != null ? resultWithAvailableSign.visitResult : null,
+                    resultWithAvailableSign.visitResult,
                     TranslateHelper.getLabelValue(singleVRT.DeveloperName),
                     TranslateHelper.getLabelValue(singleVRT.Description_Label_Api_Name__c),
                     this.visitResultsMeasurementNamesMap
@@ -160,7 +186,8 @@ public inherited sharing class VisitResultsService {
     private Map<String, VisitResultSharingService.VisitResultWithAvailableSign> getVisitResultsByTypeDeveloperNames(List<VisitResultSharingService.VisitResultWithAvailableSign> resultWithAvailableCountries) {
         Map<String, VisitResultSharingService.VisitResultWithAvailableSign> result = new Map<String, VisitResultSharingService.VisitResultWithAvailableSign>();
         for (VisitResultSharingService.VisitResultWithAvailableSign singleResult : resultWithAvailableCountries) {
-            result.put(singleResult.visitResult.Result_Type__c, singleResult);
+            String resultType = singleResult.visitResult != null ? singleResult.visitResult.Result_Type__c : singleResult.resultType;
+            result.put(resultType, singleResult);
         }
         return result;
     }
@@ -176,7 +203,7 @@ public inherited sharing class VisitResultsService {
 
         public VisitResultsContainer(Patient_Visit__c visit, List<VisitResultWrapper> wrappers, String groupName) {
             this.wrappers = wrappers;
-            if (visit.Completed_Date__c != null) {
+            if (visit != null && visit.Completed_Date__c != null) {
                 Datetime dt = Datetime.newInstance(visit.Completed_Date__c.year(), visit.Completed_Date__c.month(), visit.Completed_Date__c.day(), 0, 0, 0);
                 this.visitDate = dt.format('dd-MMM-yyyy');
             } else {
