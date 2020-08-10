@@ -444,6 +444,10 @@
     .THIS .footer{
         display: none!important;
     }
+    
+    
+    
+}
 
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
     .THIS .uiPanel.open {
@@ -568,6 +572,5 @@
     .THIS .sdv-top-bar {
         z-index: 0 !important;
     }
-}
     
 }
