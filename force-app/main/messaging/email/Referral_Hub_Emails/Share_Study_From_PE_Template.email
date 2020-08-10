@@ -3,9 +3,10 @@
                          relatedToType="Participant_Enrollment__c"
                          language="{!relatedTo.HCP__r.HCP_Contact__r.Language__c}">
 
-    <messaging:htmlEmailBody>
+    <messaging:htmlEmailBody >
         <c:EmailWireframe recipientId="{!relatedTo.Participant__r.Contact__c}"
                           recipientLanguage="{!relatedTo.HCP__r.HCP_Contact__r.Language__c}"
+                          shareEmailTemplate="Yes"
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_Share}"
                           greeting="{!$Label.Email_Ext_User_Greeting}"
@@ -16,10 +17,11 @@
         </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody>
+    <messaging:plainTextEmailBody >
         <c:EmailWireframeText recipientId="{!relatedTo.Participant__r.Contact__c}"
                               recipientName="{!$Label.Email_Guest}"
                               recipientLanguage="{!relatedTo.HCP__r.HCP_Contact__r.Language__c}"
+                              shareEmailTemplate="Yes"
                               sourceId="{!relatedTo.Id}"
                               header="{!$Label.Email_Header_Share}"
                               greeting="{!$Label.Email_User_Greeting}"

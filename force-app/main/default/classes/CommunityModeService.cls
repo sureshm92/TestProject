@@ -288,8 +288,9 @@ public without sharing class CommunityModeService {
 
     public static CommunityMode getCurrentCommunityMode(Contact contact, List<CommunityMode> allModes){
         CommunityMode resMode = findMode(generateModeKey(contact), allModes);
-        List<String> availableModes = contact.userCommunytyType__c == null ? new List<String>() : contact.userCommunytyType__c.split(';');
-        if((resMode == null || (resMode.template.communityName != UserContext.getCurrentCommunityName() && !resMode.isDelegate && !availableModes.contains('PI') && !availableModes.contains('RP') )) && allModes.size() > 0){
+        //List<String> availableModes = contact.userCommunytyType__c == null ? new List<String>() : contact.userCommunytyType__c.split(';');
+       // List<Participant_Enrollment__c> loginUserPEs = [SELECT Id FROM Participant_Enrollment__c WHERE Participant_Contact__c = : contact.Id ];
+        if((resMode == null /*|| resMode.template.communityName != UserContext.getCurrentCommunityName()*/) && allModes.size() > 0){
             resMode = getFirstMode(allModes);
             if(resMode != null){
                 resMode.setAsCurrentMode(contact);
