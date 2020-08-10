@@ -121,8 +121,8 @@ public without sharing class StudySiteTriggerHandler {
                             CommunityTemplateService.TEMPLATE_JANSSEN => new List<Id>(),
                             CommunityTemplateService.TEMPLATE_GSK => new List<Id>()
                     });
-                    piCommunitySS.get(notificationSS.Principal_Investigator__c).get(notificationSS.Clinical_Trial_Profile__r.CommunityTemplate__c).add(notificationSS.Id);
                 }
+                piCommunitySS.get(notificationSS.Principal_Investigator__c).get(notificationSS.Clinical_Trial_Profile__r.CommunityTemplate__c).add(notificationSS.Id);
             }
             for (Id piId : piCommunitySS.keySet()) {
                 for (String community : piCommunitySS.get(piId).keySet()) {
