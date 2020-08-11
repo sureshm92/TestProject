@@ -17,7 +17,7 @@
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="userLanguage" type="String"/>
     <aura:attribute name="createUsers" type="Boolean" default="false"/>
-    <aura:attribute name="doContact" type="Boolean" default="false"/>
+    <aura:attribute name="doContact" type="Boolean" default="true"/>
     <aura:attribute name="isEmail" type="Boolean" default="false"/>
     <aura:attribute name="isPhone" type="Boolean" default="false"/>
     <aura:attribute name="isSMS" type="Boolean" default="false"/>
