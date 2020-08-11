@@ -79,7 +79,7 @@
                     <c:CommunityNavigationMobile aura:id="navigationMobile"
                                                  showSideMenu="{!v.showSideMenu}"
                                                  mode="{!v.currentMode.userMode}"
-                                                 class="{!if(v.availableModes.length > 1, ' multi-mode', '')}"/>
+                                                 class="{!if(v.availableModes.length > 1, ' multi-mode', '')}" communityTemplate="{!v.template}"/>
                 </aura:if>
                 {!v.body}
             </div>

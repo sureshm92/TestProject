@@ -39,7 +39,8 @@
     <aura:attribute name="isPhone" type="Boolean" default="false"/>
     <aura:attribute name="isSMS" type="Boolean" default="false"/>
     <aura:attribute name="doContact" type="Boolean" default="false"/>
-    
+    <aura:attribute name="isIQVIA" type="Boolean" default="false"/>
+
     <!--<aura:attribute name="isDetailsChanged" type="Boolean" default="false"/>-->
     <aura:attribute name="isStatusChanged" type="Boolean" default="false"/>
     <!-- Event handler -->
@@ -66,7 +67,7 @@
     <c:Popup aura:id="dialog" title="{!v.popUpTitle}" size="large" showScroll="true" showHeader="true"
              showFooter="true">
         
-        <aura:if isTrue="{!!v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp;
+        <aura:if isTrue="{!v.isIQVIA &amp;&amp; !v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp;
                          !v.pe.Participant__r.Marketing_Flag__c &amp;&amp; v.pe.Participant__r.Email__c &amp;&amp;
                          v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &amp;&amp; v.init &amp;&amp; v.pe.Permit_IQVIA_to_contact_about_study__c}">
             <div class="invite-patient-container slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap">
@@ -109,7 +110,7 @@
                                 <aura:if isTrue= "{!v.init}">
                                     <div class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap" >
                                         <div class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
-                                            <lightning:input type="checkbox" class="IQVIA_contact-patient-checkbox" onchange="{!c.doContactEmail}"/>
+                                            <lightning:input type="checkbox" class="IQVIA_contact-patient-checkbox" onchange="{!c.doContactEmail}" checked="{!v.pe.Permit_Mail_Email_contact_for_this_study__c}"/>
                                             <div class="slds-size--10-of-12">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact_Email}</div>
                                         </div>
                                     </div>
@@ -117,7 +118,7 @@
                                 <aura:if isTrue= "{!v.init}">
                                     <div class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap">
                                         <div class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
-                                            <lightning:input type="checkbox" class="IQVIA_contact-patient-checkbox" onchange="{!c.doContactPhone}"/>
+                                            <lightning:input type="checkbox" class="IQVIA_contact-patient-checkbox" onchange="{!c.doContactPhone}" checked="{!v.pe.Permit_Voice_Text_contact_for_this_study__c}"/>
                                             <div class="slds-size--10-of-12">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact_Phone}</div>
                                         </div>
                                     </div>
@@ -125,7 +126,7 @@
                                 <aura:if isTrue= "{!v.init}">
                                     <div class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap" style= "padding-bottom:10px;">
                                         <div class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
-                                            <lightning:input type="checkbox" class="IQVIA_contact-patient-checkbox" onchange="{!c.doContactSMS}"/>
+                                            <lightning:input type="checkbox" class="IQVIA_contact-patient-checkbox" onchange="{!c.doContactSMS}" checked="{!v.pe.Permit_SMS_Text_for_this_study__c}"/>
                                             <div class="slds-size--10-of-12">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact_SMS}</div>
                                         </div>
                                     </div>

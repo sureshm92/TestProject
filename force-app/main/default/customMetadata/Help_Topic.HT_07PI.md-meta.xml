@@ -55,6 +55,10 @@
         <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
+        <field>User_Communities__c</field>
+        <value xsi:type="xsd:string">Default;Janssen</value>
+    </values>
+    <values>
         <field>User_Description_Required__c</field>
         <value xsi:type="xsd:boolean">true</value>
     </values>
