@@ -2,7 +2,7 @@
  * Created by Kryvolap on 15.10.2018.
  */
 ({
-    doAfterScriptsLoaded : function(component, event, helper) {
+    doAfterScriptsLoaded: function (component, event, helper) {
         svg4everybody();
     },
 
@@ -20,31 +20,39 @@
         });
     },
 
-    showVideo : function (component, event, helper) {
+    showVideo: function (component, event, helper) {
         component.find('videoModal').show();
     },
 
-    setTour : function (component, event, helper) {
+    setTour: function (component, event, helper) {
         var showOnLogin = component.get('v.showTour');
         var action = component.find('switchShowOnLoginModeAction');
         action.execute(showOnLogin);
     },
 
-    showTour : function (component, event, helper) {
+    showTour: function (component, event, helper) {
         communityService.showTour();
     },
 
-    OpenQuickReference : function (component, event, helper) {
+    OpenQuickReference: function (component, event, helper) {
         var quickReference = component.get('v.quickReference');
-        window.open($A.get('$Resource.' + quickReference), '_blank');
+        var navUrl = $A.get('$Resource.' + quickReference);
+        //var urlString = window.location.href;
+        //var baseURL = urlString.substring(0, urlString.indexOf("/s/help"));
+        //var finalUrl = baseURL + navUrl;
+        var urlEvent = $A.get("e.force:navigateToURL");
+        urlEvent.setParams({
+            "url": window.location.origin + navUrl
+        });
+        urlEvent.fire();
     },
 
-    OpenGuide : function (component, event, helper) {
+    OpenGuide: function (component, event, helper) {
         var userManual = component.get('v.userManual');
         window.open($A.get('$Resource.' + userManual), '_blank');
     },
 
-    stopVideo : function (component, event, helper) {
+    stopVideo: function (component, event, helper) {
         var video = document.getElementById('video-tour');
         video.pause();
     }

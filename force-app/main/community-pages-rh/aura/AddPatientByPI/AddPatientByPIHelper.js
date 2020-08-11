@@ -21,7 +21,6 @@
         component.set('v.isValid', false);
         component.set('v.isDelegateValid', false);
         component.set('v.needsGuardian', false);
-        component.set('v.doNotContact', true);
         component.set('v.emailInstance', '');
         component.find('checkbox-delegate').getElement().checked = false;
         component.find('checkbox-doContact').getElement().checked = true;
@@ -33,16 +32,19 @@
         var participant = component.get('v.participant');
         var userLanguage = component.get('v.userLanguage');
         console.log('component.get(\'v.delegateDuplicateInfo\')>>>>>>',component.get('v.delegateDuplicateInfo'));
-        var ssId = communityService.getUrlParameter('ssId');
+        var ssId = communityService.getUrlParameter('ssId');   
         communityService.executeAction(component, 'saveParticipant', {
             participantJSON: JSON.stringify(participant),
             peJSON: JSON.stringify(pe),
             userLanguage: userLanguage,
             ssId: (ssId ? ssId : component.get('v.ss').Id),
             createUser: component.get('v.createUsers'),
-            doNotContact: component.get('v.doNotContact'),
             participantDelegateJSON: JSON.stringify(component.get('v.participantDelegate')),
-            delegateDuplicateInfo: JSON.stringify(component.get('v.delegateDuplicateInfo'))
+            delegateDuplicateInfo: JSON.stringify(component.get('v.delegateDuplicateInfo')),
+            allowEmail : component.get('v.isEmail'),
+            allowPhone : component.get('v.isPhone'),
+            allowSMS : component.get('v.isSMS'),
+            allowContact : component.get('v.doContact')
         }, function (createdPE) {
             communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
             callback();
@@ -186,5 +188,9 @@
             spinner.hide();
         });
     },
+
+    checkCommunity: function (component, event, helper) {
+        component.set('v.communityWithPPInv', communityService.getCurrentCommunityTemplateName() != $A.get("$Label.c.Janssen_Community_Template_Name"));
+    }
 
 })

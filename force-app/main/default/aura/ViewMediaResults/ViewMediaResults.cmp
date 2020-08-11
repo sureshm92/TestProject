@@ -28,7 +28,8 @@
     <aura:attribute name="ssId" type="String"/>
     <aura:attribute name="isInvited" type="Boolean"/>
     <aura:attribute name="NewOutreaachcmp" type="Boolean" default="false" />
-    
+    <aura:attribute name="NoOutreachAccess" type="Boolean" default="false" />
+
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.peFilter}" action="{!c.doUpdateRecords}"/>
@@ -61,12 +62,19 @@
                                     setValueAsSelected="true"/>
                         
                     </div>
-                    <!--new Media-->
+                    <!--new Media--> 
                     <div class="rr-summary-panel slds-grid slds-wrap slds-grid_vertical-stretch slds-gutters_medium">
                         <div class="slds-col slds-size_1-of-1 mrc-invite-btn-container">
-                            <button class="apollo-btn primary mrc-invite-btn" data-gtm="BTN_InviteRP" onclick="{!c.doShowInviteRP}" >
+                             <aura:if isTrue="{!v.NewOutreaachcmp}">
+                            <button class="apollo-btn primary mrc-invite-btn" data-gtm="BTN_InviteRP" onclick="{!c.doShowInviteRP}">
                                 {!$Label.c.New_OutReach}
                             </button>
+                            </aura:if>
+                            <aura:if isTrue="{!v.NoOutreachAccess}">
+                            <button class="apollo-btn primary mrc-invite-btn" data-gtm="BTN_InviteRP" onclick="{!c.doShowInviteRP}" disabled="true">
+                                {!$Label.c.New_OutReach}
+                            </button>
+                            </aura:if>
                         </div>
                     </div>
                     

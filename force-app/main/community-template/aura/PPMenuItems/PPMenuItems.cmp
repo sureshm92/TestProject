@@ -17,8 +17,8 @@
                     <c:uiMenuItem onclick="{!c.doOnClick}" itemValue="{!subItem}" class="pp-item">
                         <div class="main-box">
                             <div class="menu-item-box">
-                                <div class="{!subItem.isSelected ? 'selected ' : ''}">
-                                    {!subItem.title}
+                                <div class="{!'item-line' + if(subItem.isSelected, ' selected ', '')}">
+                                    <div class="item-title">{!subItem.title}</div>
                                     <aura:if isTrue="{!subItem.isSelected}">
                                         <c:RRIcon iconName="icon-check" class="icon-check"/>
                                     </aura:if>

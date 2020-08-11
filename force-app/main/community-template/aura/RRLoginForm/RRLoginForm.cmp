@@ -73,10 +73,22 @@
 							class="input sfdc_usernameinput sfdc" type="{!v.showpassword ? 'text' : 'password'}" 
 							value=""/> 
 					</span>
-					 <lightning:buttonIcon class="input sfdc_usernameinput sfdc eyeIcon" 
+					<!-- <lightning:buttonIcon class="input sfdc_usernameinput sfdc eyeIcon" 
 									iconName="{!v.showpassword ? 'utility:hide':'utility:preview'}" 
 									alternativeText="{!v.coborrowerSSNCB ? 'Hide':'Show'}" 
+									onclick="{!c.togglePassword}"/> -->
+                    <aura:if isTrue="{!v.showpassword}">
+					<lightning:buttonIcon class="input sfdc_usernameinput sfdc eyeIcon" 
+									iconName="utility:hide" 
+									alternativeText="Hide" 
 									onclick="{!c.togglePassword}"/>
+                   </aura:if>
+                    <aura:if isTrue="{!v.showpassword==false}">
+                   			<lightning:buttonIcon class="input sfdc_usernameinput sfdc eyeIcon" 
+									iconName="utility:preview" 
+									alternativeText="Show" 
+									onclick="{!c.togglePassword}"/>
+                    </aura:if>             
 				</div>
             </div>
 
@@ -215,10 +227,10 @@
                 </aura:set>
             </aura:if> 
     	<!-- Added By Krishna for PEH-1910 :End  --> 
-            <!-- Added By Krishna for PEH-2451 :Start  --> 
+            <!-- Added By Krishna for PEH-2451 :Start --> 
             <br/>
             <div id="sfdc_forgot" class="slds-align_absolute-center"> 
-                <span style="float:right" ><a  href="{!$Label.c.CommunityURL + '/s/privacy-policy'}">{!$Label.c.Email_Footer_Privacy_Policy}</a></span>
+                <a class="forgot-password-link" onclick = "{!c.openPrivacyPolicy}">{!$Label.c.Email_Footer_Privacy_Policy}</a>
             </div>
             <br/>
 			<!-- Added By Krishna for PEH-2451 :End  --> 

@@ -2,7 +2,7 @@
  - Created by Igor Malyuta on 24.04.2020.
  -->
 
-<apex:component id="EmailWireframe" controller="EmailWireframeController" access="global" language="{!userLanguageCode}">
+ <apex:component id="EmailWireframe" controller="EmailWireframeController" access="global" language="{!userLanguageCode}">
 
     <!-- Records info -->
     <apex:attribute name="recipientId" type="Id" assignTo="{!emailRecipientId}" description="" access="global"/>
@@ -24,7 +24,7 @@
                     description="Community template name"/>
     <apex:attribute name="specificEmailProvider" type="String" assignTo="{!specificEmailProviderValue}"
                     description="If you need specific instance of EmailTemplateProvider set this here"/>
-
+    <apex:attribute name="shareEmailTemplate" assignTo="{!shareTemplate}" type="String" description="" default="No" access="global"/>   
     <div style="{!templateMap['emailTemplateBackground']}">
         <div style="{!templateMap['emailTemplateTextBackground']}">
             <div style="{!templateMap['emailTemplateHeaderBackground']}">
@@ -41,16 +41,14 @@
                 <div style="margin-top: -30px; margin-bottom: 30px;">
                     <apex:componentBody rendered="{!isInitialized}"/>
                 </div>
-
                 <apex:outputPanel style="display:block; margin: 25px 0"
                                   rendered="{!preSignatureText != null}">
                     <apex:outputText value="{!preSignatureText}" escape="false"/>
                 </apex:outputPanel>
-
                 <table>
                     <tr>
-                        <td style="width: 90%;">
-                            <apex:outputText value="{!signatureText}" escape="false"/>
+                         <td style="width: 90%; color: #333333; font-size: 16px;font-family: Arial;">
+                            <apex:outputText value="{!signatureText}" escape="false"/> 
                         </td>
                         <td style="width: 10%;">
                             <img style="{!templateMap['emailTemplateBrandLogoCSS']}"
@@ -68,9 +66,20 @@
         <div style="color: #999999; font-size: 13px; line-height: 16px;">
             <div style="border-top: 2px solid #CCCCCC; border-bottom: 2px solid #CCCCCC; padding-top: 10px; padding-bottom: 10px;">
                 {!$Label.Email_Footer_Address} |&nbsp; <a
-                        href="{!IF(communityTemplate == 'Janssen', $Label.CommunityJanssenURL + '/s/privacy-policy', $Label.CommunityURL + '/s/privacy-policy')}">{!$Label.Email_Footer_Privacy_Policy}</a>
+                        href="{!emailCommunityURL + '/s/privacy-policy'}">{!IF(communityTemplate == 'Janssen',
+                    $Label.Email_Footer_Privacy_Policy_Janssen, $Label.Email_Footer_Privacy_Policy)}</a>
             </div>
         </div>
+         <div style="border:2px solid #999999;height:50px;line-height:20px;background-color:#f3f3f3">
+            <div style="display:block;font-size: 14px;font-weight: 600;color: black;padding-top:5px;float:left;">
+                    {!$Label.Email_Opt_Out_footer} <a
+                                                      href="{!$Label.CommunityURL+communityTypeURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}">{!$Label.Email_Opt_Out_footer_here}</a>
+            </div> 
+                      <div style="font-style:italic;font-size:12px;font-weight:600;color:black;float:left;">
+                    {!$Label.Email_Opt_Out_footer_medical_emergency}        
+           </div>
+   
+        </div>    
     </div>
 
 </apex:component>

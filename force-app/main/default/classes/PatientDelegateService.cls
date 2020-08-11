@@ -257,7 +257,10 @@ public without sharing class PatientDelegateService {
             throw new PatientDelegateServiceException('Wrong contact: ' + CommunityService.getUserContact().Id);
         }
 
-        Contact newDelegateContact = [SELECT Id, UserCommunityIsDelegate__c FROM Contact WHERE Id = :newDelegate.Id];
+        Contact newDelegateContact = [SELECT Id, UserCommunityIsDelegate__c, userCommunytyType__c, userCommunityMode__c FROM Contact WHERE Id = :newDelegate.Id];
+        Boolean check = String.isBlank(newDelegateContact.userCommunytyType__c) || newDelegateContact.userCommunytyType__c.contains('PI') || newDelegateContact.userCommunytyType__c.contains('HCP');
+        if(check) newDelegateContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
+
         newDelegateContact.UserCommunityIsDelegate__c = true;
         update newDelegateContact;
 
@@ -564,7 +567,8 @@ public without sharing class PatientDelegateService {
                         Participant_Contact__c,
                         Clinical_Trial_Profile__r.CommunityTemplate__c
                 FROM Participant_Enrollment__c
-                WHERE Participant__c IN:allDelegatedParticipantIds OR Participant_Contact__c IN:contactIds
+                WHERE (Participant__c IN:allDelegatedParticipantIds OR Participant_Contact__c IN:contactIds)
+                AND Clinical_Trial_Profile__r.CommunityTemplate__c NOT IN: CommunityModeService.rhSponsorsByCommunity.keySet()
         ];
         Map<Id, Set<String>> participantPermissions = new Map<Id, Set<String>>();
         Map<Id, Id> participantIdByContactIdMap = new Map<Id, Id>();

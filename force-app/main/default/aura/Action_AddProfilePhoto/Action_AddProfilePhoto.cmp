@@ -26,15 +26,16 @@
     <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
     
     <aura:handler name="change" value="{!v.pictureSrc}" action="{!c.onInit}" />
-    
+    <aura:registerEvent name="appEvent" type="c:RefreshProfile"/>
+
     <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
     
     <div class="slds-grid">
         <div class="{!if(v.hasProfilePic,'noAvatar-icon','avatar-icon')}">
             <aura:if isTrue="{!v.hasProfilePic}">
-                <img src="{!v.pictureSrc}"  class="slds-avatar slds-avatar_circle slds-avatar_large" />
+                <!--<img src="{!v.pictureSrc}"  class="slds-avatar slds-avatar_circle slds-avatar_large" />-->
 
-               <!--<lightning:avatar src="{!v.pictureSrc}" variant="circle" size="medium"  fallbackIconName="standard:avatar"/>-->
+               <lightning:avatar src="{!v.pictureSrc}" variant="circle" size="medium"  fallbackIconName="standard:avatar"/>
                         <aura:set attribute="else">
                             <c:RRIcon color="white" class="single-avatar"
                                       iconName="single-neutral"/>

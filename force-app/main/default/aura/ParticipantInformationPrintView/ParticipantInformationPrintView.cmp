@@ -142,11 +142,6 @@
                                 <lightning:input type="text" value="{!v.pe.Referred_By__c}" disabled="true"/>
                             </div>
                             <div class="rr-form-element slds-col slds-size--1-of-3">
-                                <div class="label">{!$Label.c.PG_AP_F_Screening_Subject_Id}</div>
-                                <lightning:input aura:id="screeningId" type="text" value="{!v.pe.Screening_ID__c}"
-                                                 disabled="true"/>
-                            </div>
-                            <div class="rr-form-element slds-col slds-size--1-of-3">
                                 <div class="label">{!$Label.c.MRN_Internal_Id}</div>
                                 <lightning:input type="text" value="{!v.pe.MRN_Id__c}" disabled="true"/>
                             </div>

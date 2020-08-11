@@ -61,8 +61,13 @@ public without sharing class CommunityTemplateService {
     
     public static Map<String, CommunityTemplate> getTemplatesMap(){
         List<Community_Template__mdt> templates = [
-                SELECT Id, Community_Name__c, Label, Permission_Set_Developer_Name__c, ShortCommunityName__c,
-                (SELECT Id, Label, Value__c FROM CommunityTemplate_Properties__r)
+                SELECT Id,
+                        DeveloperName,
+                        Community_Name__c,
+                        Label,
+                        Permission_Set_Developer_Name__c,
+                        ShortCommunityName__c,
+                        (SELECT Id, Label, Value__c FROM CommunityTemplate_Properties__r)
                 FROM Community_Template__mdt
         ];
         Map<String, CommunityTemplate> templatesMap = new Map<String, CommunityTemplate>();

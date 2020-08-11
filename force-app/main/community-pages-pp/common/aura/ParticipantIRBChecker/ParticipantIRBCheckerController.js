@@ -26,7 +26,7 @@
     },
 
     navigateToSettings : function (component, event, helper) {
-        communityService.navigateToPage('account-settings');
+        communityService.navigateToPage('account-settings?langloc');
     },
 
     doLogOut: function (component, event, helper) {

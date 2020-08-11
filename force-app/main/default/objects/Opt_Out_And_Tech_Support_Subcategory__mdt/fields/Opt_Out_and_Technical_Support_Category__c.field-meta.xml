@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Opt_Out_and_Technical_Support_Category__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Opt Out and Technical Support Category</label>
+    <referenceTo>Opt_Out_and_Technical_Support_Category__mdt</referenceTo>
+    <relationshipLabel>Opt Out And Tech Support Subcategories</relationshipLabel>
+    <relationshipName>Opt_Out_And_Tech_Support_Subcategories</relationshipName>
+    <required>false</required>
+    <type>MetadataRelationship</type>
+    <unique>false</unique>
+</CustomField>

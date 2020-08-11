@@ -6,14 +6,16 @@ load the data from logged in community
 *  @created  2020-05-22
 * @version 48.0   
 */
-public with sharing class NewMediaOutReach {
+public without sharing class NewMediaOutReach {
     
     public static String REQUESTED_VAL = Label.Requested;
+    public static String REQUESTED_STATUS = 'Requested' ;
     
     public  static Id studyContactId;
     public  static String lstvalsite;
     public  static string lstvalstudy;
     public  static  List<Study_Site__c> studyDataLast;
+    //public static User usrLst;
    
     public class CommunityPreferred {
         @AuraEnabled public string preEmail;
@@ -146,7 +148,7 @@ public with sharing class NewMediaOutReach {
           }
         }
         if(!ctpIds.isEmpty()){
-           clinicalTrialLst =[SELECT id,Study_Code_Name__c,Name from Clinical_Trial_Profile__c WHERE Id =:ctpIds LIMIT :limitRows];
+           clinicalTrialLst =[SELECT id,Study_Code_Name__c,Name from Clinical_Trial_Profile__c WHERE Id =:ctpIds AND CommunityTemplate__c NOT IN :MediaOutreachServices.RESTRICTED_COMMUNITY_TEMPLATES LIMIT :limitRows];
         }
         
         return clinicalTrialLst;
@@ -166,7 +168,8 @@ public with sharing class NewMediaOutReach {
         
         for(PicklistEntry ent:plistvalues.getpicklistvalues())
         {
-            options.put(ent.getValue(),ent.getLabel());
+            //options.put(ent.getValue(),ent.getLabel());
+            options.put(TranslateHelper.getPickListLabel(Media_Outreach__c.Media_Type__c,ent.getLabel()),ent.getLabel());
         }
         return options;
     }
@@ -182,17 +185,36 @@ public with sharing class NewMediaOutReach {
     public static void inviteNewMedia(string study,string site,String prefferedtype,string actualemailPhone, List<String> media,string startdt,string enddt,string notes){
        try{
             Clinical_Trial_Profile__c ctpLstdata;
+           User usrLst;
+           UserRecordAccess usrAccess;
+           ObjectPermissions objPermission;
+           string ctpprofileId;
+           string mediaAccessId;
             Study_Site__c siteId;
-            Account accLst;
+            
             if(study != '' || study != null){
-                ctpLstdata =[SELECT id,Study_Code_Name__c,Name,Media_outreach_Provider__c from Clinical_Trial_Profile__c WHERE Study_Code_Name__c =:study LIMIT 1];
+                ctpLstdata =[SELECT id,Study_Code_Name__c,Name,Media_outreach_Provider__c,Media_outreach_Provider__r.Id FROM Clinical_Trial_Profile__c WHERE Study_Code_Name__c =:study LIMIT 1];
                 }
                  if(ctpLstdata != null && (site != '' || site != null)){
                 siteId =[SELECT id,Site__c,Name,Principal_Investigator__c,Principal_Investigator__r.FirstName,Principal_Investigator__r.LastName from Study_Site__c WHERE Clinical_Trial_Profile__c =:ctpLstdata.Id AND Name =:site LIMIT 1];
                  }
-            if(siteId.Site__c != null){
-                accLst =[SELECT id,name FROM Account where Id =:siteId.Site__c LIMIT 1];
+           //system.debug('ctpLstdata.Media_outreach_Provider__cLINE198>>'+ctpLstdata.Media_outreach_Provider__c);
+           if(ctpLstdata != null){
+           mediaAccessId = ctpLstdata.Media_outreach_Provider__c;
+               }
+           //system.debug('mediaAccessIdLINE200>>'+mediaAccessId);
+            if(mediaAccessId != null){
+                //system.debug('mediaAccessId>>'+mediaAccessId);
+             usrLst= [SELECT id,profileId FROM User WHERE Id=:mediaAccessId LIMIT 1];
+                system.debug('usrLst>>'+usrLst);
             }
+             ctpprofileId = usrLst.profileId;
+           //system.debug('ctpprofileId>>'+ctpprofileId);
+           if(ctpprofileId != null){ 
+            objPermission = [SELECT Id,SObjectType,PermissionsRead,PermissionsCreate FROM ObjectPermissions WHERE SObjectType = 'Media_Outreach__c' AND
+            parentid in (SELECT id FROM permissionset WHERE PermissionSet.Profile.Id=:ctpprofileId) LIMIT 1];
+           }
+          
             List<Media_Outreach__c> medialst = new List<Media_Outreach__c>();
             string typeval;
             Media_Outreach__c mediaOut = new Media_Outreach__c();
@@ -208,11 +230,10 @@ public with sharing class NewMediaOutReach {
             }
             mediaOut.Clinical_Trial_Profile__c = ctpLstdata.Study_Code_Name__c;
             mediaOut.Study_Name__c = siteId.Id;
-           // mediaOut.Study_Site__c = accLst.Id;
             mediaOut.Media_Type__c =  typeval;
             mediaOut.Preferred_contact_method__c = prefferedtype;
             mediaOut.Alternate_Email_Phone_Number__c = actualemailPhone;
-            mediaOut.Status__c = REQUESTED_VAL;
+            mediaOut.Status__c = REQUESTED_STATUS;
             if(startdt!= ''){
                 mediaOut.Requested_Start_Date__c = Date.valueOf(startdt);
             }
@@ -224,10 +245,10 @@ public with sharing class NewMediaOutReach {
             if(medialst.size()>0){
                 insert medialst;
             }
+           usrAccess = [SELECT RecordId, HasEditAccess FROM UserRecordAccess WHERE UserId =:mediaAccessId AND RecordId =:medialst[0].Id];
             //Task Creation
-            if(medialst.size()>0)
-            {
-              if(ctpLstdata.Media_outreach_Provider__c !=null )
+           if(medialst.size()>0){
+                if(ctpLstdata.Media_outreach_Provider__c !=null  && usrAccess.HasEditAccess == true)
               {
                 Task tsk = new Task();
                 tsk.ActivityDate=System.today().addDays(3);
@@ -240,7 +261,7 @@ public with sharing class NewMediaOutReach {
               } 
                    
             }
-            if(String.isNotBlank(notes)) {
+            if(String.isNotBlank(notes) && usrAccess.HasEditAccess == true) {
                 
                 ContentNote objCntNote = new ContentNote();
                 objCntNote.Title = notes;

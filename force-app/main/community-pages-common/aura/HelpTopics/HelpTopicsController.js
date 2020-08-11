@@ -21,8 +21,15 @@
     },
 
     submitRequest: function (component, event, helper) {
-        var participant = component.find('participant'),
+        var participant, buttonId = event.target.id,
+            isValid = false;
+
+        if (buttonId == 'sitetransfer') {
+            participant = component.find('participant')
             isValid = participant.get('v.validity').valid;
+        } else if (buttonId == 'needhelp') {
+            isValid = true;
+        }
 		
         if(isValid){
             var text;

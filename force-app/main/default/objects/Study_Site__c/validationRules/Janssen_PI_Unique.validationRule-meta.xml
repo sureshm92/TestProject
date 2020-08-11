@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Janssen_PI_Unique</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(Principal_Investigator__r.Jenssen_unique__c,
+        NOT(ISPICKVAL(Clinical_Trial_Profile__r.CommunityTemplate__c, &quot;Janssen&quot;)))</errorConditionFormula>
+    <errorMessage>This PI is Janssen unique and cannot be added on IQVIA Study Site.</errorMessage>
+</ValidationRule>

@@ -34,7 +34,8 @@
             "MailingCity": "New York",
             "MailingState": "New York",
             "MailingLatitude": 40.766594,
-            "MailingLongitude": -73.991509
+            "MailingLongitude": -73.991509,
+            "userCommunytyType__c": "PI"
         },
         {
             "attributes": {

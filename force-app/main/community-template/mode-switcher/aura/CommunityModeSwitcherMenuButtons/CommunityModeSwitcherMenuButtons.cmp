@@ -12,6 +12,7 @@
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doRefresh}"/>
     <aura:handler name="change" value="{!v.type}" action="{!c.doRefresh}"/>
+
     <!-- methods: -->
     <aura:method name="refresh" action="{!c.doRefresh}" access="public"/>
 

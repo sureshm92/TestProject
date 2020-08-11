@@ -8,6 +8,6 @@
     </values>
     <values>
         <field>Value__c</field>
-        <value xsi:type="xsd:string">The IQVIA Referral Hub and Patient Portal Support Teams</value>
+        <value xsi:type="xsd:string">The Janssen IQVIA Referral Hub and Patient Portal Support Teams</value>
     </values>
 </CustomMetadata>
