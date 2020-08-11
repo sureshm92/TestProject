@@ -141,6 +141,7 @@ public without sharing virtual class EmailTemplateProvider {
         parameters.put(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_LABEL, templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_LABEL));
         parameters.put(TemplatePropertiesCatalog.TEMPLATE_PROP_TEAM_RH, templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_TEAM_RH));
         parameters.put(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_NEW_TM, templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_NEW_TM));
+        parameters.put(TemplatePropertiesCatalog.COMM_TEMPLATE_URL, templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.COMM_TEMPLATE_URL));
     }
 
     private void initCRCommunityUrl() {
