@@ -210,7 +210,7 @@
                             <div class="slds-form-element" style="margin-left: 10px;">
                                 <div class="slds-form-element__control">
                                     <div class="slds-checkbox" data-gtm="checkbox_Permit_IQVIA_Connect">
-                                        <input aura:id="checkbox-doContact" type="checkbox" name="options" id="checkbox-unique-id-77"
+                                        <input aura:id="checkbox-doContactEmail" type="checkbox" name="options" id="checkbox-unique-id-77"
                                                value="checkbox-unique-id-77" onclick="{!c.doContactEmail}"/>
                                         <label class="slds-checkbox__label" for="checkbox-unique-id-77">
                                             <span class="slds-checkbox_faux"></span>
@@ -224,7 +224,7 @@
                             <div class="slds-form-element" style="margin-left: 10px;">
                                 <div class="slds-form-element__control">
                                     <div class="slds-checkbox" data-gtm="checkbox_Permit_IQVIA_Connect">
-                                        <input aura:id="checkbox-doContact" type="checkbox" name="options" id="checkbox-unique-id-78"
+                                        <input aura:id="checkbox-doContactPhone" type="checkbox" name="options" id="checkbox-unique-id-78"
                                                value="checkbox-unique-id-78" onclick="{!c.doContactPhone}"/>
                                         <label class="slds-checkbox__label" for="checkbox-unique-id-78">
                                             <span class="slds-checkbox_faux"></span>
@@ -239,7 +239,7 @@
                             <div class="slds-form-element" style="margin-left: 10px;">
                                 <div class="slds-form-element__control">
                                     <div class="slds-checkbox" data-gtm="checkbox_Permit_IQVIA_Connect">
-                                        <input aura:id="checkbox-doContact" type="checkbox" name="options" id="checkbox-unique-id-79"
+                                        <input aura:id="checkbox-doContactSMS" type="checkbox" name="options" id="checkbox-unique-id-79"
                                                value="checkbox-unique-id-79" onclick="{!c.doContactSMS}"/>
                                         <label class="slds-checkbox__label" for="checkbox-unique-id-79">
                                             <span class="slds-checkbox_faux"></span>
