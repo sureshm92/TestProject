@@ -6325,6 +6325,13 @@ The NYBC Convalescent Plasma Donation Team</value>
         <value>Glucose is a sugar, also called &quot;blood sugar&quot;. When your body digests food, carbohydrates are broken down to make glucose. Your small intestine then absorbs the glucose to release it into the blood. Glucose is the most important source of energy for cells in your body and the only source of energy for your brain, spinal cord, and nerves. Blood glucose is measured to check your general health and to check for a range of conditions.</value>
     </labels>
     <labels>
+        <fullName>HCP_Mode</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HCP Mode</shortDescription>
+        <value>Referring Provider</value>
+    </labels>
+    <labels>
         <fullName>HLA_Description</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14307,6 +14314,13 @@ The expected format is REF#####</value>
         <value>Recipent will be approved to refer participants to the following investigators</value>
     </labels>
     <labels>
+        <fullName>PI_Mode</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PI Mode</shortDescription>
+        <value>Investigative Site</value>
+    </labels>
+    <labels>
         <fullName>PP_Account_Settings</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18170,7 +18184,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>View Mode</shortDescription>
-        <value>View as </value>
+        <value>View as</value>
     </labels>
     <labels>
         <fullName>View_Visit_Legend</fullName>

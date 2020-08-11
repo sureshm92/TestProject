@@ -10,8 +10,8 @@ public without sharing class CommunityModeService {
 	public static final String USER_MODE_CC = 'CC';
 
     public static final Map<String, String> labelByMode = new Map<String, String>{
-            USER_MODE_HCP => Label.CTL_L_HCP_MODE,
-            USER_MODE_PI => Label.CTL_L_PI_MODE
+            USER_MODE_HCP => Label.HCP_Mode,
+            USER_MODE_PI => Label.PI_Mode
     };
 
     public static final Map<String, String> itemTypeByMode = new Map<String, String>{
