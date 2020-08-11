@@ -18,7 +18,6 @@
     <aura:attribute name="fullFileName" type="String"/>
     <aura:attribute name="createUsers" type="Boolean" default="false"/>
     <aura:attribute name="communityWithPPInv" type="Boolean" default="true"/>
-    <aura:attribute name="doNotContactParticipants" type="Boolean" default="true"/>
      <aura:attribute name="doContact" type="Boolean" default="false"/>
      <aura:attribute name="isEmail" type="Boolean" default="false"/>
      <aura:attribute name="isPhone" type="Boolean" default="false"/>
