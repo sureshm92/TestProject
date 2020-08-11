@@ -46,7 +46,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Jenssen_unique__c</field>
+                <field>Janssen_unique__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
