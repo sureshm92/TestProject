@@ -196,10 +196,12 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler
                 Gender__c = ipr.sex__c,
                 Secondary_Source__c = ipr.Data_Source__c,
                 Suffix__c = ipr.Suffix__c,
-            	Alternative_Phone_Number__c = ipr.Participant_MobileNumber__c,
-                Alternative_Phone_Type__c = 'Mobile'
+            	Alternative_Phone_Number__c = ipr.Participant_MobileNumber__c 
+              //  Alternative_Phone_Type__c = 'Mobile'
 
         );
+         if(ipr.Participant_MobileNumber__c != Null)
+          participant.Alternative_Phone_Type__c = 'Mobile';  
         participant.Adult__c = !Boolean.valueOf(ReferringRemote.checkNeedsGuardian(JSON.serialize(participant)));
 
         return participant;
