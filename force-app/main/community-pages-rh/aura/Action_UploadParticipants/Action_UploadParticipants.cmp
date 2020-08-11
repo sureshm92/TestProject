@@ -2,11 +2,11 @@
  - Created by alekseymoseev on 12/10/19.
  -->
 
-<aura:component description="Action_UploadParticipants" controller="Action_UploadParticipantsRemote">
-
+ <aura:component description="Action_UploadParticipants" controller="Action_UploadParticipantsRemote">
+    
     <ltng:require scripts="{!$Resource.jszip}"/>
     <ltng:require scripts="{!$Resource.xlsxmin}"/>
-
+    
     <aura:attribute name="FileList" type="Object"/>
     <aura:attribute name="participantStatuses" type="List"/>
     <aura:attribute name="selectedStatus" type="String"/>
@@ -19,14 +19,18 @@
     <aura:attribute name="createUsers" type="Boolean" default="false"/>
     <aura:attribute name="communityWithPPInv" type="Boolean" default="true"/>
     <aura:attribute name="doNotContactParticipants" type="Boolean" default="true"/>
+     <aura:attribute name="doContact" type="Boolean" default="false"/>
+     <aura:attribute name="isEmail" type="Boolean" default="false"/>
+     <aura:attribute name="isPhone" type="Boolean" default="false"/>
+     <aura:attribute name="isSMS" type="Boolean" default="false"/>
 
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
         <aura:attribute name="studySiteId" type="String"/>
         <aura:attribute name="callback" type="Function"/>
     </aura:method>
-
-
+    
+    
     <div class="mrc-invite-popup uploadParticipants">
         <c:Popup aura:id="uploadParticipantsDialog" title="{!$Label.c.SS_Upload_Participants}" size="medium">
             <c:RRSpinner aura:id="upModalSpinner" size="medium" showSpinner="false"/>
@@ -36,10 +40,10 @@
                         <div class="slds-m-around--small">
                             <div class="input-fields-labels">                             
                                 <b>{!$Label.c.FU_Add_File}<abbr class="slds-required" title="required">* </abbr></b>
-                               
+                                
                                 <span style="float: right;">
                                     <ui:outputURL aura:id="oURL" value="{!$Resource.PARTICIPANTS_TEMPLATE}" label="{!$Label.c.FU_Download_Template}"/>
-                                     <c:RRIcon iconName="icon-download-brand-new" class="icon-download-brand-new"/>
+                                    <c:RRIcon iconName="icon-download-brand-new" class="icon-download-brand-new"/>
                                 </span>
                             </div>
                         </div>
@@ -48,10 +52,10 @@
                 <div class="slds-grid slds-wrap slds-scrollable">
                     <div class="slds-size_2-of-2 slds-p-horizontal_x-medium">
                         <div class="slds-m-around--small uploadFiles" data-gtm="pnl_UploadNewParticipants_importFile">
-                           
+                            
                             <lightning:input aura:id="file-input" type="file" files="{!v.FileList}" accept=".xls, .xlsx, .csv"
                                              name="file" multiple="false" onchange="{!c.upload}"/>
-                             <div class="input-fields-labels">
+                            <div class="input-fields-labels">
                                 {!v.fullFileName}
                                 <aura:if isTrue="{!!empty(v.fullFileName)}">
                                     <a href="javascript:void(0)" onclick="{!c.doClearFile}">
@@ -84,21 +88,52 @@
                     </div>
                 </div>
             </div>
-            <div data-gtm="checkbox_Permit_IQVIA_Connect" class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center" style="margin-bottom: 15px; margin-top: 15px">
-                <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.doNotContactParticipants}" onchange="{!c.resetCreateUsers}"/>
-                <div class="slds-size_1-of-1 slds-item_label">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact}</div>
+            
+            <!--1936-->
+            <div class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center" style="margin-bottom: 10px; margin-top: 10px;">
+                <div class="slds-size_1-of-1 slds-item_label">
+                    <Strong>{!$Label.c.PG_Ref_L_Information_Sharing}</Strong>
+                </div>
             </div>
-            <aura:if isTrue="{!and(!v.doNotContactParticipants, v.communityWithPPInv)}">
             <div class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
-                <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.createUsers}"/>
-                <div class="slds-size_1-of-1 slds-item_label">{!$Label.c.Create_Users_Checkbox_on_Import}</div>
+                <div class="slds-size_1-of-1 slds-item_label">{!$Label.c.PG_Ref_L_Permit_IQVIA_Confirmation}</div>
             </div>
+            <div class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
+                <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.doContact}" onchange="{!c.doContactParticipant}"/>
+                <div class="slds-size_1-of-1 slds-item_label">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_ShareInformation}</div>
+            </div>
+            <aura:if isTrue="{!v.doContact}">
+                <div class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
+                    <lightning:input type="checkbox" class="invite-patient-checkbox" onchange="{!c.doContactEmail}"/>
+                    <div class="slds-size_1-of-1 slds-item_label">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact_Email}</div>
+                </div>
+                <div class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
+                    <lightning:input type="checkbox" class="invite-patient-checkbox" onchange="{!c.doContactPhone}"/>
+                    <div class="slds-size_1-of-1 slds-item_label">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact_Phone}</div>
+                </div>
+                <div class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
+                    <lightning:input type="checkbox" class="invite-patient-checkbox" onchange="{!c.doContactSMS}"/>
+                    <div class="slds-size_1-of-1 slds-item_label">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact_SMS}</div>
+                </div>
+                <aura:if isTrue="{!v.communityWithPPInv}">
+                    <div class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center" style="margin-bottom: 15px; margin-top: 15px">
+                        <div class="slds-size_1-of-1 slds-item_label">
+                            <Strong>{!$Label.c.PG_Ref_L_Invitation_To_PP}</Strong>
+                        </div>
+                    </div>
+
+                    <div class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
+                        <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.createUsers}" disabled="{!!v.doContact}"/>
+                        <div class="slds-size_1-of-1 slds-item_label">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal}</div>
+                    </div>
+                </aura:if>
             </aura:if>
+
 
             <div class="slds-col slds-size--1-of-1 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center slds-textInfo-label" style="margin-top: 15px;">
                 {!$Label.c.Create_Users_Allow_Several_Minutes}
             </div>
-
+            
             <aura:set attribute="footerButtons">
                 <div class="slds-grid slds-wrap">
                     <div class="slds-col slds-size--5-of-12" style="margin-left: 60%;">
@@ -108,15 +143,15 @@
                         </button>
                         <button class="apollo-btn primary slds-button__icon_right" onclick="{!c.doImport}"
                                 data-gtm="btn_UploadNewParticipants_import"
-                                disabled="{!!v.selectedStatus || !v.fileName}"
+                                disabled="{!or(!v.doContact,(!v.selectedStatus || !v.fileName))}"
                                 title="{!(!v.selectedStatus || !v.fileName) ? $Label.c.PG_MRC_RF_Not_all_Req_Fields : ''}">
                             {!$Label.c.BTN_Import}
                         </button>
                     </div>
                 </div>
             </aura:set>
-
+            
         </c:Popup>
     </div>
-
+    
 </aura:component>
