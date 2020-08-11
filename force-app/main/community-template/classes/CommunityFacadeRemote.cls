@@ -40,6 +40,7 @@ public without sharing class CommunityFacadeRemote {
         String communityName;
         Boolean messagesVisible;
         Boolean trialMatchVisible;
+        Boolean isMobileApp;
     }
 
     private class CommunityType {
@@ -84,7 +85,7 @@ public without sharing class CommunityFacadeRemote {
             cd.pathPrefix = Site.getPathPrefix();
             cd.isTCAccepted = cd.isDummy || isTCAccepted();
             cd.language = UserInfo.getLanguage();
-            
+            cd.isMobileApp = isCurrentSessionMobileApp();
 
             return JSON.serialize(cd);
         } catch (Exception e) {

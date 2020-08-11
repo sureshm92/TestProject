@@ -29,13 +29,13 @@ window.communityService = (function () {
     let trialMatchVisible;
     let currentCSSTheme = 'Community_CSS_Stub';
     let isDummy;
+    let isMobileApp;
 
     //community service functions:
     let service = {
         initialize: function (component) {
             if(service.isInitialized()) return;
             service.executeAction(component, 'getCommunityData', null, function (returnValue) {
-                console.log('Mode data: ' + returnValue);
                 let communityData = JSON.parse(returnValue);
                 preventedCookies = communityData.preventedCookies;
                 isDummy = communityData.isDummy;
@@ -57,11 +57,13 @@ window.communityService = (function () {
                 isInitializedFlag = true;
                 allUserModes = communityData.allUserModes;
                 showPastStudies = communityData.showPastStudies;
+                isMobileApp = communityData.isMobileApp;
                 service.setCurrentCommunityMode(communityData.currentUserMode);
                 service.setCookie('RRLanguage', communityData.language, 365);
                 console.log('CommunityService initialized:');
                 console.log('is TC accepted: ' + isTCAcceptedFlag);
                 console.log('URL path prefix: ' + communityURLPathPrefix);
+                console.log('isMobileApp: '+isMobileApp);
                 component.init();
                 if (!service.isTCAccepted() && service.getPageName() !== 'terms-and-conditions') {
                     service.navigateToPage('terms-and-conditions?ret=' + service.createRetString());
@@ -502,6 +504,10 @@ window.communityService = (function () {
             paramsJSON = paramsJSON.replace(/</g, "&lt;").replace(/>/g, "&gt;");
             return JSON.parse(paramsJSON);
         },
+
+        isCurrentSessionMobileApp: function() {
+            return isMobileApp;
+        }
     };
 
     window.onscroll = function () {
