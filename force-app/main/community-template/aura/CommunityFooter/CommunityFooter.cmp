@@ -3,6 +3,10 @@
  -->
 
 <aura:component description="CommunityFooter" extends="c:CommunityContext">
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <aura:attribute name="sponsor" type="String"/>
+
     <div class="{!'rrc-footer ' + if(v.isArabic, 'rtl', '')}">
         <div class="cf-margin-cutter">
             <div class="cf-links">
@@ -10,7 +14,7 @@
                     <c:FooterLink label="{!$Label.c.Footer_Link_About_IQVIA}" link="https://www.iqvia.com/"/>
                 </div>
                 <div class="cf-link">
-                    <c:FooterLink label="{!$Label.c.Footer_Link_Privacy_Policy}" page="privacy-policy"/>
+                    <c:FooterLink label="{!if(empty(v.sponsor), '', v.sponsor + ' ') + $Label.c.Footer_Link_Privacy_Policy}" page="privacy-policy"/>
                 </div>
                 <div class="cf-link">
                     <c:FooterLink label="{!$Label.c.Footer_Link_Terms_Of_Use}" page="terms-and-conditions"/>

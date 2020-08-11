@@ -185,7 +185,7 @@
                                          messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"/>
                     </div>
                     <div class="slds-col rr-medium-up-hide" style="height: 20px"></div>
-                    <div class="slds-col slds-size--1-of-4 rr-form-element">
+                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
                         <div class="label">
                             <abbr title="required"
                                   class="slds-required">{!!v.needsGuardian || v.participant.Email__c ? '*' : ''}</abbr>{!$Label.c.PG_Ref_L_Re_enter_email_address}
@@ -340,7 +340,7 @@
                     <div class="ap-section-title">{!v.fromAddParticipantPage ? $Label.c.PG_AP_H_Participation_Details : $Label.c.PG_AP_H_Referral_Information}</div>
                     <div class="slds-grid slds-gutters slds-wrap">
                         <aura:if isTrue="{!!v.updateMode}">
-                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-small-size_1-of-5">
+                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-5">
                                 <div class="label"><abbr title="required"
                                                          class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Patient_Status}
                                 </div>
@@ -349,7 +349,7 @@
                                             useSentenceFont="false" onchange="{!c.doCheckFields}"/>
                             </div>
                         </aura:if>
-                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-small-size_1-of-5">
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-5">
                             <div class="label">
                                 <aura:if isTrue="{!!v.updateMode}">
                                     <abbr title="required"
@@ -360,7 +360,7 @@
                                         placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"
                                         onchange="{!c.doCheckFields}"/>
                         </div>
-                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-small-size_1-of-5">
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-5">
                             <div class="label">
                                 <aura:if isTrue="{!v.screeningRequired}">
                                     <abbr title="required" class="slds-required">*</abbr>
@@ -372,7 +372,7 @@
                                              required="{!v.screeningRequired}"/>
                         </div>
                         <aura:if isTrue="{!v.visitPlanAvailable}">
-                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-small-size_1-of-5">
+                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-5">
                                 <div class="label">
                                     <aura:if isTrue="{!v.visitPlanRequired}">
                                         <abbr title="required" class="slds-required">*</abbr>
@@ -385,7 +385,7 @@
                                             useSentenceFont="false" onchange="{!c.doCheckFields}"
                                             setValueAsSelected="true"/>
                             </div>
-                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-small-size_1-of-5"/>
+                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-5"/>
                         </aura:if>
                         <!--<aura:if isTrue="{!!v.visitPlanAvailable}">
                             <div class="rr-form-element slds-col slds-size&#45;&#45;1-of-1 slds-large-size&#45;&#45;1-of-3"></div>
