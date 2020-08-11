@@ -158,10 +158,10 @@ private class Test_BaseCRCPCommunity {
             StudyListViewController.getStudyTrialList(CommunityService.USER_MODE_HCP);
             StudyDetailViewController.getTrialDetail(testData.ctp.Id, CommunityService.USER_MODE_HCP);
             AccountSettingsController.getInitData(CommunityService.USER_MODE_PI);
-            TermsAndConditionsRemote.getPortalTcData();
+            TermsAndConditionsRemote.getPortalTcData(false);
             TermsAndConditionsRemote.getTrialTcData(testData.ctp.Id);
             TermsAndConditionsRemote.acceptTC(studyTC.Id);
-            TermsAndConditionsRemote.getTC('CookiePolicy', 'en_US');//TODO: check code
+            TermsAndConditionsRemote.getTC('CookiePolicy', 'en_US', false);//TODO: check code
             List<HelpController.FileContainer> files = new List<HelpController.FileContainer>();
             HelpController.FileContainer file = new HelpController.FileContainer();
             file.base64Data = EncodingUtil.base64Encode(Blob.valueOf('Test file'));
