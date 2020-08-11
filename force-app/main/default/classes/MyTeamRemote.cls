@@ -375,24 +375,34 @@ public without sharing class MyTeamRemote {
                     Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_ACCESS_LEVEL_CHANGED_TYPE
             ));
         } else if (userMode == CommunityService.USER_MODE_PI) {
-
-            List<Site_Staff__c> ssList = [
-                    SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, Site_Contact__c
-                    FROM Site_Staff__c
-                    WHERE Site_Contact__c =: delegateContact.Id
-            ];
+            String whatId;
+            List<Site_Staff__c> ssList = new List<Site_Staff__c>();
+            List<Site_Staff__c> ssListWithSSId = new List<Site_Staff__c>();
+            if (hasDelegateLevelsPI != HAS_DELEGATE_LEVELS) whatId = Id.valueOf(hasDelegateLevelsPI);
+            if (whatId == null) {
+                ssList = [
+                        SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, Site_Contact__c
+                        FROM Site_Staff__c
+                        WHERE Site_Contact__c = :delegateContact.Id
+                ];
+            } else {
+                ssListWithSSId = [
+                        SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, Site_Contact__c
+                        FROM Site_Staff__c
+                        WHERE Site_Contact__c = :delegateContact.Id
+                        AND Study_Site__c =: whatId
+                ];
+            }
+            if(ssList.isEmpty()) ssList.addAll(ssListWithSSId);
             List<String> comTemplates = new List<String>();
-            for(Site_Staff__c ss: ssList) {
+            for (Site_Staff__c ss : ssList) {
                 String commTemplate = ss.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
                 if (!comTemplates.contains(commTemplate) && commTemplate != CommunityTemplateService.TEMPLATE_GSK)
-                    if(hasDelegateLevelsPI == HAS_DELEGATE_LEVELS
-                            || hasDelegateLevelsPI == OLD_VALUES_DELEGATE_LEVELS && commTemplate != CommunityTemplateService.TEMPLATE_JANSSEN)
                         comTemplates.add(commTemplate);
             }
-            String whatId;
-            for(String cmTp: comTemplates){
-                for(Site_Staff__c ss: ssList) {
-                    if(ss.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c == cmTp) whatId = ss.Study_Site__c;
+            for (String cmTp : comTemplates) {
+                for (Site_Staff__c ss : ssList) {
+                    if (ss.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c == cmTp) whatId = ss.Study_Site__c;
                 }
                 notifications.add(new Notification__c(
                         Recipient__c = delegateContact.Id,
@@ -460,12 +470,13 @@ public without sharing class MyTeamRemote {
             DelegateService.addConversationSharesForPITeam(delegateRecordsToInsert);
         }
         if (!delegateRecordsToUpdate.isEmpty()) {
-            hasDelegateLevels = OLD_VALUES_DELEGATE_LEVELS;
+            hasDelegateLevels = (String) delegateRecordsToUpdate[0].Study_Site__c;
             update delegateRecordsToUpdate;
         }
         if (!delegateRecordsToDelete.isEmpty()) {
             delete delegateRecordsToDelete;
         }
+        System.debug('>>>> ' + hasDelegateLevels);
         return hasDelegateLevels;
     }
 
@@ -536,7 +547,7 @@ public without sharing class MyTeamRemote {
             } else if (!CommunityService.isUserInCommunity(contactDelegate.Id)) {
                 contactDelegate.UserCommunityIsDelegate__c = true;
                 Boolean check = contactDelegate.userCommunytyType__c.contains('PI') || contactDelegate.userCommunytyType__c.contains('HCP');
-                if(check) contactDelegate.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
+                if (check) contactDelegate.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
                 update contactDelegate;
                 CommunityService.setUserToCommunity(contactDelegate.Id);
                 sendEmailNotification(contactDelegate, CommunityService.USER_MODE_PARTICIPANT, null);
