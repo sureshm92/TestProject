@@ -6,6 +6,10 @@
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
     <aura:attribute name="sponsor" type="String"/>
+    <aura:attribute name="retUrl" type="String" default=""/>
+    <aura:attribute name="defaultTC" type="Boolean" default="false"/>
+
+    <aura:handler event="forceCommunity:routeChange" action="{!c.doInit}"/>
 
     <div class="{!'rrc-footer ' + if(v.isArabic, 'rtl', '')}">
         <div class="cf-margin-cutter">
@@ -14,10 +18,10 @@
                     <c:FooterLink label="{!$Label.c.Footer_Link_About_IQVIA}" link="https://www.iqvia.com/"/>
                 </div>
                 <div class="cf-link">
-                    <c:FooterLink label="{!if(empty(v.sponsor), '', v.sponsor + ' ') + $Label.c.Footer_Link_Privacy_Policy}" page="privacy-policy"/>
+                    <c:FooterLink label="{!if(or(empty(v.sponsor),v.defaultTC), '', v.sponsor + ' ') + $Label.c.Footer_Link_Privacy_Policy}" link="{!'/privacy-policy?ret='+ v.retUrl + if(v.defaultTC,'&amp;'+'default=true','')}"/>
                 </div>
                 <div class="cf-link">
-                    <c:FooterLink label="{!$Label.c.Footer_Link_Terms_Of_Use}" page="terms-and-conditions"/>
+                    <c:FooterLink label="{!$Label.c.Footer_Link_Terms_Of_Use}" link="{!'/terms-and-conditions?ret='+ v.retUrl + if(v.defaultTC,'&amp;'+'default=true','')}"/>
                 </div>
             </div>
             <div class="cf-copyright">{!$Label.c.Footer_T_Copyright}</div>
