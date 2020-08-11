@@ -7,6 +7,7 @@
     <columns>CasePriority__c</columns>
     <columns>CaseReason__c</columns>
     <columns>CaseType__c</columns>
+    <columns>User_Communities__c</columns>
     <columns>User_Types__c</columns>
     <columns>DeveloperName</columns>
     <columns>Display_Name_Label__c</columns>
