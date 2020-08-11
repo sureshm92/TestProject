@@ -38,6 +38,7 @@ public without sharing class CommunityFacadeRemote {
         CommunityMode currentUserMode;
         Boolean isDummy;
         String communityName;
+        String sponsorName;
         Boolean messagesVisible;
         Boolean trialMatchVisible;
         Boolean isMobileApp;
@@ -81,7 +82,7 @@ public without sharing class CommunityFacadeRemote {
             cd.currentUserMode = UserContext.getCurrentUserMode();
             cd.subDomain = Site.getPathPrefix().replace('/s', '');
             cd.communityName = Site.getName();
-            cd.baseUrl = Site.getBaseUrl();
+            cd.sponsorName = getSponsorName(cd.currentUserMode.template.templateName);            cd.baseUrl = Site.getBaseUrl();
             cd.pathPrefix = Site.getPathPrefix();
             cd.isTCAccepted = cd.isDummy || isTCAccepted();
             cd.language = UserInfo.getLanguage();
@@ -199,6 +200,15 @@ public without sharing class CommunityFacadeRemote {
                     && ParticipantService.getParticipantState().value == ParticipantService.ParticipantStates.PARTICIPANT;
         }
         return false;
+    }
+
+    private static String getSponsorName(String communityName){
+        String sponsorName = null;
+        Map<String, String> rhSponsorsByCommunity = CommunityModeService.rhSponsorsByCommunity;
+        if(rhSponsorsByCommunity.containsKey(communityName)) {
+            sponsorName = rhSponsorsByCommunity.get(communityName);
+        }
+        return sponsorName;
     }
 
     @AuraEnabled

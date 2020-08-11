@@ -29,6 +29,7 @@ window.communityService = (function () {
     let trialMatchVisible;
     let currentCSSTheme = 'Community_CSS_Stub';
     let isDummy;
+    let sponsorName;
     let isMobileApp;
 
     //community service functions:
@@ -57,6 +58,7 @@ window.communityService = (function () {
                 isInitializedFlag = true;
                 allUserModes = communityData.allUserModes;
                 showPastStudies = communityData.showPastStudies;
+                sponsorName = communityData.sponsorName;
                 isMobileApp = communityData.isMobileApp;
                 service.setCurrentCommunityMode(communityData.currentUserMode);
                 service.setCookie('RRLanguage', communityData.language, 365);
@@ -159,7 +161,7 @@ window.communityService = (function () {
         },
 
         getCurrentSponsorName: function(){
-            return currentUserMode.sponsorName;
+            return sponsorName;
         },
 
         getCurrentCommunityName: function(){
