@@ -11,6 +11,14 @@
     margin-bottom: 0;
 }
 
+.THIS .icon-trash {
+    margin: 0 0 3px 8px;
+    fill: black;
+    height: 14px;
+    width: 14px;
+    display: inline-block;
+}
+
 .THIS .slds-grid .slds-m-around--small.uploadFiles {
     margin-top: 0;
     margin-bottom: 20px;
@@ -21,6 +29,14 @@
     color: #297dfd;
 }
 
+.THIS .icon-download-brand-new {
+    fill: #297dfd;
+    margin: 0 0 3px 8px;
+    height: 16px;
+    width: 16px;
+    display: inline-block;
+}
+
 .THIS .uploadFiles .input-fields-labels .upload-close,
 .THIS .upload-icon{
 	margin: 0 0 3px 8px;
@@ -28,6 +44,30 @@
 
 .THIS .slds-scrollable {
     max-height: 500px;
+}
+
+.THIS .upload-icon {
+    height: 16px;
+    width: 16px;
+}
+
+.THIS .upload-close {
+    height: 14px;
+    width: 14px;
+}
+
+.THIS .slds-item_label {
+    width: 497px;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 28px;
+}
+
+.THIS .slds-textInfo-label {
+    background-color: #F2F2F2;
 }
 
 @media screen and (max-width: 500px) {

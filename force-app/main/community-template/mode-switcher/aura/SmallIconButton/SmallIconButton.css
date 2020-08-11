@@ -1,0 +1,20 @@
+/**
+ * Created by Nargiz Mamedova on 6/10/2020.
+ */
+
+.THIS .slds-icon-standard-avatar {
+    background-color: inherit;
+}
+
+.THIS.arrow-down{
+    height: 8px;
+    width: 8px;
+    cursor: pointer;
+    margin-left: 4px;
+    margin-top: 4px;
+}
+
+.THIS .small-avatar{
+    height: 30px;
+    width: 18px;
+}

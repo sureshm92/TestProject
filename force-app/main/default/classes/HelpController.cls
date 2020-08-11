@@ -1,4 +1,7 @@
-/**Created by D.Yasinskyi on 23.05.2018*/
+/**Created by D.Yasinskyi on 23.05.2018
+Updated by Sumit Surve on 13.07.2020
+*/
+
 public without sharing class HelpController {
 
 
@@ -16,10 +19,19 @@ public without sharing class HelpController {
     @AuraEnabled
     public static String getHelpInitData(String userMode) {
         try {
+            List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
+            List<Study_Site__c> ssList = new List<Study_Site__c>();
             UserContact userContact = new UserContact();
             userContact.currentContact = CommunityService.getUserContact();
             userContact.isDelegate = ParticipantContext.isCurrentDelegate();
+            peList = getParticipants(userContact.currentContact);
+            ssList = getSites();
             HelpInitData initData = new HelpInitData();
+            initData.participantEnrollList = peList;
+            initData.siteList = ssList;
+            initData.participantEnrollOptions = new List<LabelValueItem>();
+            initData.siteOptions = new List<LabelValueItem>(); 
+            
             initData.userContact = userContact;
             initData.helpTopicSettings = new List<HelpController.HelpTopicWrapper>();
             initData.helpTopicOptions = new List<LabelValueItem>();
@@ -78,6 +90,23 @@ public without sharing class HelpController {
                 initData.helpTopicOptions.add(new LabelValueItem(initData.helpTopicSettings[i].displayName, String.valueOf(i)));
             }
 
+            if((initData.participantEnrollList.size()) > 0 &&  (initData.participantEnrollList != Null)){
+                for(Participant_Enrollment__c pe : initData.participantEnrollList){
+                    initData.participantEnrollOptions.add(new LabelValueItem(pe.Participant_Name__c+' '+pe.Participant_Surname__c+' '+pe.Name, String.valueOf(pe.Id)));
+                }
+            }
+            else{
+                initData.participantEnrollOptions.add(new LabelValueItem('None', Null));
+            }
+            
+            if(initData.siteList.size() > 0 &&  initData.siteList != Null){
+                for(Study_Site__c ss : initData.siteList){
+                    initData.siteOptions.add(new LabelValueItem(ss.Name, ss.Name));
+                }
+            }
+            else{
+                initData.siteOptions.add(new LabelValueItem('None', Null));
+            }
             return JSON.serialize(initData);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
@@ -131,6 +160,34 @@ public without sharing class HelpController {
         ];
     }
 
+    private static List<Participant_Enrollment__c> getParticipants(Contact cnt){
+                 
+        List<Participant_Enrollment__c> peList = [SELECT Id, 
+                Name, 
+                Participant_Name__c, 
+                Participant_Surname__c,
+                PI_Contact__c,
+                Clinical_Trial_Profile__r.Protocol_ID__c
+                FROM Participant_Enrollment__c
+                WHERE Clinical_Trial_Profile__r.Protocol_ID__c = 'C19NYBC'];
+        
+        return peList;
+    } 
+    
+    private static List<Study_Site__c> getSites(){
+                 
+        List<Study_Site__c> ssList = [SELECT Id, 
+                Name,
+                Study_Site_Number__c, 
+                Override_PI_Referral_Status__c,
+                Clinical_Trial_Profile__r.Protocol_ID__c
+                FROM Study_Site__c
+                WHERE Clinical_Trial_Profile__r.Protocol_ID__c = 'C19NYBC' 
+                AND (Override_PI_Referral_Status__c = 'Accepted' OR Override_PI_Referral_Status__c = 'Accepted (Admin)')];
+        
+        return ssList;
+    } 
+    
     /*private static void addAttachments(Id parentId, List<HelpController.FileContainer> filecontainers) {
 
         List<Attachment> attachments = new List<Attachment>();
@@ -194,7 +251,11 @@ public without sharing class HelpController {
     }
 
     public class HelpInitData {
-        UserContact userContact;
+        UserContact userContact; 
+        List<Participant_Enrollment__c> participantEnrollList;
+        List<LabelValueItem> participantEnrollOptions;
+        List<Study_Site__c> siteList;
+        List<LabelValueItem> siteOptions;
         List<HelpTopicWrapper> helpTopicSettings;
         List<LabelValueItem> helpTopicOptions;
     }

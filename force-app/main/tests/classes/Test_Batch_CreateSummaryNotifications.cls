@@ -15,6 +15,18 @@ private class Test_Batch_CreateSummaryNotifications {
     @IsTest
     static void testBehavior() {
         TriggerHandlerExecutor.bypassHandler(NotificationTriggerHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class);
+
+        ContentVersion contentVersion = new ContentVersion(
+                LanguageCode__c = 'en_US',
+                Title = 'en_US',
+                PathOnClient = 'Irregular verbs.pdf',
+                VersionData = EncodingUtil.base64Decode('fdsgg5465w')
+        );
+        insert contentVersion;
+
         Resource__c resource = new Resource__c(
                 Content_Type__c = 'Study_Document',
                 Description__c = 'testBehavior',
@@ -22,25 +34,12 @@ private class Test_Batch_CreateSummaryNotifications {
                 Title__c = 'TestRes'
         );
         insert resource;
-
-        ContentVersion contentVersion = new ContentVersion(
-                Title = 'en_US',
-                PathOnClient = 'Irregular verbs.pdf',
-                VersionData = EncodingUtil.base64Decode('fdsgg5465w')
-        );
-        insert contentVersion;
         Id docId = [SELECT Id, ContentDocumentId FROM ContentVersion LIMIT 1].ContentDocumentId;
-
         ContentDocumentLink contentDocumentLink = new ContentDocumentLink(
                 ContentDocumentId = docId,
                 LinkedEntityId = resource.Id
         );
         insert contentDocumentLink;
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateWelcomeToStudyAlertHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
 
         TestData testData = new TestData();
         Res_study__c resStudy = new Res_study__c(

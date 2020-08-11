@@ -147,6 +147,81 @@
     width: 6px; /* 46px */
     fill: rgba(255, 255, 255, 0.5);
 }
+.THIS.cAction_ParticipantInformation #p-modal .p-container.large {
+    height: 655px;
+}
+
+.THIS.cAction_ParticipantInformation .p-container .slds-tabs_default__link {
+    line-height: 1.75;
+}
+
+.THIS.cAction_ParticipantInformation .p-container .slds-tabs_default__link[tabindex="0"]:focus {
+    text-decoration: none;
+}
+
+
+.THIS.cAction_ParticipantInformation .p-container .slds-tabs_default__item.slds-is-active::after,
+.THIS.cAction_ParticipantInformation .p-container .slds-tabs_default__item.slds-is-active:hover::after{
+    background-color: #297dfd;
+    border-radius: 3px;
+    bottom: -2px;
+    width: 85%;
+    margin-left: 8%;
+}
+
+.THIS.cAction_ParticipantInformation .p-container .slds-tabs_default__item:not(.slds-is-active):hover::after {
+    background-color: #297dfd;
+    height: 2px;
+    transition: none;
+    width: 85%;
+    margin-left: 8%;
+}
+
+.THIS.cAction_ParticipantInformation .p-container .slds-tabs_default__content {
+    padding-bottom: 3rem;
+}
+
+.THIS.cAction_ParticipantInformation .p-container .p-footer {
+    position: absolute;
+    right: .5rem;
+    bottom: -3px;
+    padding: 15px 15px 15px 24px;
+    width: 98%;
+    z-index: 100;
+}
+
+.THIS.cAction_ParticipantInformation .p-container .p-header + div {
+    height: 89%;
+}
+@media screen and (max-width: 768px){
+
+    .THIS .cPopup .p-container .p-content {
+        max-height: 90vh;
+    }
+
+    .THIS.cAction_ParticipantInformation #p-modal .p-container.large {
+        height: 90vh;
+    }
+
+     .THIS.cAction_ParticipantInformation .p-container .p-header {
+		max-height: 30vh;
+    }
+
+	.THIS.cAction_ParticipantInformation .p-container .p-header .invite-patient-container > div:nth-of-type(1) {
+        max-width: 65%;
+    }
+
+    .THIS.cAction_ParticipantInformation .p-container .p-header .invite-patient-container > div:nth-of-type(1) .slds-size--10-of-12 {
+        max-width: 85%;
+    }
+     .THIS.cAction_ParticipantInformation .p-container .p-header .invite-patient-container > div:nth-of-type(2) {
+        max-width: 35%;
+    }
+
+    .THIS .p-container .p-footer {
+        border-top: 1px solid #efefef;
+    }
+}
 
 @media all and (max-width: 767px){
      .THIS.cAction_ParticipantInformation .p-container .p-header {
@@ -168,5 +243,39 @@
 @media all and (min-width: 1024px){
     .THIS #p-modal .p-container.large {
         width: 800px;
+    }
+}
+@media all and (max-width: 500px) {
+    .THIS #p-modal .p-container {
+     /*   height: 95%; */
+        max-height: 95%;
+        top: 50%;
+    }
+
+     .THIS.cAction_ParticipantInformation .p-container .p-footer {
+        right: 0;
+        bottom: 15px;
+        padding: 15px;
+        max-height: 190px;
+        width: 100%;
+        border-top: 1px solid #efefef;
+    }
+
+}
+@media all and (orientation:landscape){
+    .THIS.cAction_ParticipantInformation #p-modal .p-container.large {
+        min-height: auto;
+        overflow: hidden;
+    }
+
+    .THIS.cAction_ParticipantInformation #p-modal .p-container.large .form-content {
+        padding-bottom: 50px;
+    }
+}
+
+
+@media all and (orientation:landscape) and (max-height: 450px) {
+    .THIS.cAction_ParticipantInformation .p-container .p-footer {
+        bottom: 35px;
     }
 }

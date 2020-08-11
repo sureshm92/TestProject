@@ -62,6 +62,9 @@ private class Test_BaseCRCPCommunity {
             newRecordRN.Id = recordsRN[0].Id;
             newRecordRN.isSelected = true;
             SubscribeToReferralNetworkRemote.saveReferralNetworks(JSON.serialize(newRecordRN));
+            List<SubscribeToReferralNetworkRemote.ReferralNetworkWrapper> newRecRNs = new  List<SubscribeToReferralNetworkRemote.ReferralNetworkWrapper>();
+            newRecRNs.add(newRecordRN);
+            SearchConditionsOfInterestRemote.saveReferralNetworksNew(JSON.serialize(newRecRNs));
             
             List<SubscribeToReferralNetworkRemote.ReferralNetworkWrapper> recordsTA = SubscribeToReferralNetworkRemote.getReferralNetworkRecords('Therapeutic_Area__c');
             SubscribeToReferralNetworkRemote.searchForReferralNetworks(recordsTA[0].Name, 'Therapeutic_Area__c');
@@ -69,10 +72,18 @@ private class Test_BaseCRCPCommunity {
                     recordsTA[0].Id
             });
             
+            List<SubscribeToReferralNetworkRemote.ReferralNetworkWrapper> newRecTAs = new  List<SubscribeToReferralNetworkRemote.ReferralNetworkWrapper>();
             SubscribeToReferralNetworkRemote.ReferralNetworkWrapper newRecordTA = new SubscribeToReferralNetworkRemote.ReferralNetworkWrapper();
             newRecordTA.Id = recordsTA[0].Id;
             newRecordTA.isSelected = true;
+            newRecTAs.add(newRecordTA);
+         
             SubscribeToReferralNetworkRemote.saveReferralNetworks(JSON.serialize(newRecordTA));
+            SearchConditionsOfInterestRemote.saveReferralNetworksNew(JSON.serialize(newRecTAs));
+         
+            
+            
+           // SubscribeToReferralNetworkRemote.saveReferralNetworksNew(JSON.serialize(newRecTAs));
         }
         Test.stopTest();
     }
@@ -150,7 +161,7 @@ private class Test_BaseCRCPCommunity {
             TermsAndConditionsRemote.getPortalTcData();
             TermsAndConditionsRemote.getTrialTcData(testData.ctp.Id);
             TermsAndConditionsRemote.acceptTC(studyTC.Id);
-            TermsAndConditionsRemote.getTC(studyTC.Id, 'en_US');//TODO: check code
+            TermsAndConditionsRemote.getTC('CookiePolicy', 'en_US');//TODO: check code
             List<HelpController.FileContainer> files = new List<HelpController.FileContainer>();
             HelpController.FileContainer file = new HelpController.FileContainer();
             file.base64Data = EncodingUtil.base64Encode(Blob.valueOf('Test file'));
@@ -338,10 +349,10 @@ private class Test_BaseCRCPCommunity {
         Account studySiteAccount = [SELECT Id FROM Account WHERE Name = 'Study Site Account'];
         Test.startTest();
         System.runAs(testData.piUser) {
-            String vpResultJSON = ViewPatientsRemote.getInitData(testData.ctp.Id, testData.ss.Id, CommunityService.USER_MODE_PI, null, CommunityService.USER_MODE_PI, null);
+            String vpResultJSON = ViewPatientsRemote.getInitData(testData.ctp.Id, testData.ss.Id, CommunityService.USER_MODE_PI, null);
             ViewPatientsRemote.InitData vpResult = (ViewPatientsRemote.InitData) JSON.deserialize(vpResultJSON, ViewPatientsRemote.InitData.class);
             ViewPatientsRemote.getInitDataForPatientProfile(testData.participant.Id, CommunityService.USER_MODE_PI, null);
-            ViewPatientsRemote.getRecords(JSON.serialize(vpResult.peFilter), JSON.serialize(vpResult.paginationData), 'Pending', CommunityService.USER_MODE_PI, false, null, false);
+            ViewPatientsRemote.getRecords(JSON.serialize(vpResult.peFilter), JSON.serialize(vpResult.paginationData), CommunityService.USER_MODE_PI, 'site', null, false);
             StudyClinicDashboardRemote.getInitData(testData.ctp.Id, studySiteAccount.Id);
         }
         Test.stopTest();
@@ -408,15 +419,15 @@ private class Test_BaseCRCPCommunity {
             Healthcare_Provider__c hp = ReferHealthcareProviderRemote.inviteHP(testData.pe.Id, JSON.serialize(provider))[0];
             hp.Status__c = ReferHealthcareProviderRemote.HP_S_NOSHARING;
             Healthcare_Provider__c hp2 = ReferHealthcareProviderRemote.inviteHP(testData.pe.Id, JSON.serialize(hp))[0];
-            ReferHealthcareProviderRemote.checkDuplicate(testData.pe.Id, 'testHP@mail.com.fake');
+            ReferHealthcareProviderRemote.checkDuplicate(testData.pe.Id, 'testHP@mail.com.fake',null,null,null);
             ReferHealthcareProviderRemote.stopSharing(hp.Id, null);
-            ReferHealthcareProviderRemote.invitePatientDelegate(JSON.serialize(testData.participant), JSON.serialize(new Contact(Email = 'testdelegate@testdelegate.testdelegate', FirstName = 'TestDelegate', LastName = 'TestDelegate')), null);
+            ReferHealthcareProviderRemote.invitePatientDelegate(JSON.serialize(testData.participant), JSON.serialize(new Contact(Email = 'testdelegate@testdelegate.testdelegate', FirstName = 'TestDelegate', LastName = 'TestDelegate')), null, null);
             //Id patientDelegateId = [SELECT ID, Contact__r.Email FROM Patient_Delegate__c WHERE Contact__r.Email='testdelegate@testdelegate.testdelegate'].Id;
         }
         Id patientDelegateId = [SELECT ID, Contact__r.Email FROM Patient_Delegate__c WHERE Contact__r.Email='testdelegate@testdelegate.testdelegate'].Id;
         System.runAs(testData.piUser) {
              ReferHealthcareProviderRemote.stopSharing(null,patientDelegateId);
-             ReferHealthcareProviderRemote.invitePatientDelegate(JSON.serialize(testData.participant),JSON.serialize(new Contact(Email='testdelegate@testdelegate.testdelegate',FirstName='TestDelegate',LastName='TestDelegate')), patientDelegateId);
+             ReferHealthcareProviderRemote.invitePatientDelegate(JSON.serialize(testData.participant),JSON.serialize(new Contact(Email='testdelegate@testdelegate.testdelegate',FirstName='TestDelegate',LastName='TestDelegate')), patientDelegateId, null);
         }
         Test.stopTest();
     }
@@ -463,7 +474,6 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
-    
     @IsTest
     static void mrrAndReferringTest1() {
         TestData testData = new TestData();
@@ -473,8 +483,16 @@ private class Test_BaseCRCPCommunity {
             MedicalRecordReviewRemote.SearchPEResult searchPEResult = (MedicalRecordReviewRemote.SearchPEResult) JSON.deserialize(jsonResult, MedicalRecordReviewRemote.SearchPEResult.class);
             String peJSON = JSON.serialize(searchPEResult.pe);
             MedicalRecordReviewRemote.setMRRStatus(peJSON, ParticipantEnrollmentService.PES_STATUS_PASS, 'https://link.test');
-            Participant_Enrollment__c pe = [SELECT Id FROM Participant_Enrollment__c LIMIT 1];
-            String refInitDataJSON = ReferringRemote.getInitData(testData.ctp.Id, pe.Id, testData.hcpEnrollment.Id, CommunityService.USER_MODE_HCP, null);
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void mrrAndReferringTest2() {
+        TestData testData = new TestData();
+        Test.startTest();
+        System.runAs(testData.hcpUser) {
+            String refInitDataJSON = ReferringRemote.getInitData(testData.ctp.Id, testData.pe.Id, testData.hcpEnrollment.Id, CommunityService.USER_MODE_HCP, null);
             ReferringRemote.InitData refInitData = (ReferringRemote.InitData) JSON.deserialize(refInitDataJSON, ReferringRemote.InitData.class);
             insert new Participant__c(First_Name__c = 'FN1',
                     Last_Name__c = 'LN1',
@@ -486,15 +504,15 @@ private class Test_BaseCRCPCommunity {
                     Phone__c = '12123123',
                     Email__c = 'NewTestPart@email.com'
             );
-            ReferringRemote.saveParticipant(testData.hcpEnrollment.Id, JSON.serialize(refInitData.participantEnrollment), JSON.serialize(participant2), null, null);
+            ReferringRemote.saveParticipant(testData.hcpEnrollment.Id, JSON.serialize(refInitData.participantEnrollment), JSON.serialize(participant2), null, null, null);
         }
         Test.stopTest();
-        String vpResultJSON = ViewPatientsRemote.getInitData(testData.ctp.Id, testData.ss.Id, CommunityService.USER_MODE_HCP, null, CommunityService.USER_MODE_HCP, null);
+        String vpResultJSON = ViewPatientsRemote.getInitData(testData.ctp.Id, testData.ss.Id, CommunityService.USER_MODE_HCP, null);
         ViewPatientsRemote.InitData vpResult = (ViewPatientsRemote.InitData) JSON.deserialize(vpResultJSON, ViewPatientsRemote.InitData.class);
     }
     
     @IsTest
-    static void mrrAndReferringTest2() {
+    static void mrrAndReferringTest3() {
         TestData testData = new TestData();
         TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
         Test.startTest();

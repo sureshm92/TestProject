@@ -1,5 +1,11 @@
 #!/bin/sh
 
+echo "Clean up previous scratch org"
+sfdx force:org:delete -p
+
+echo "Move communities"
+mv ./force-app/communities ./
+
 echo "Creating scratch org..."
 sfdx force:org:create -f config/project-scratch-def.json -d 30 -s -a $1
 
@@ -11,14 +17,27 @@ sfdx force:org:open -p 'lightning/setup/DeployStatus/home'
 
 sfdx force:source:push -f
 
+echo "Return communities"
+mv ./communities ./force-app/
+
 if [ $? = 0 ] ; then
     echo "Post setup in progress..."
+
+    sfdx force:source:push -f
+
     sfdx force:apex:execute -f scripts/apex/SFDX_Setup_UpdateUserRole.apex
 
     sfdx force:data:tree:import -p data/import-plan.json
 
     sfdx force:apex:execute -f scripts/apex/SFDX_Setup_UpdateSSAndHCPEStatuses.apex
 
+    sfdx force:apex:execute -f scripts/apex/PostSetupBatches.apex
+
+#    echo "Publish communities..."
+#    sfdx force:community:publish --name "IQVIA Referral Hub"
+#    sfdx force:community:publish --name "GSK Community"
+
+    echo "Assign permissions to admin user..."
     sfdx force:user:permset:assign --permsetname PP_Approved_Languages_Edit
     sfdx force:user:permset:assign --permsetname PP_Batch_Control_Panel
     sfdx force:user:permset:assign --permsetname PP_CTP_Edit

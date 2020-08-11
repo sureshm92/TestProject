@@ -1,0 +1,33 @@
+<!--
+ - Created by Nargiz Mamedova on 6/10/2020.
+ -->
+
+<aura:component description="HeaderViewInformation">
+
+    <!-- attributes: -->
+    <aura:attribute name="user" type="User"/>
+    <aura:attribute name="currentMode" type="Object"/>
+    <aura:attribute name="reset" type="Boolean" default="true"/>
+    <aura:attribute name="hasProfilePic" type="Boolean"/>
+    <aura:attribute name="viewMode" type="String"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <aura:if isTrue="{!not(v.reset)}">
+        <div class="header-container">
+            <div class="avatar-icon">
+                <aura:if isTrue="{!v.hasProfilePic}">
+                    <lightning:avatar src="{!v.user.SmallPhotoUrl}" variant="circle" size="large"
+                                      alternativeText="" fallbackIconName="standard:avatar"/>
+                    <aura:set attribute="else">
+                        <c:RRIcon color="white" class="{!if(v.currentMode.isDelegate, 'delegate-avatar', 'single-avatar')}"
+                                  iconName="{!if(v.currentMode.isDelegate, 'multiple-neutral-circle', 'single-neutral')}"/>
+                    </aura:set>
+                </aura:if>
+            </div>
+            <div class="user-name">{!v.user.Contact.FirstName + ' ' + v.user.Contact.LastName}</div>
+            <div class="user-mode">{!v.viewMode}</div>
+        </div>
+    </aura:if>
+</aura:component>

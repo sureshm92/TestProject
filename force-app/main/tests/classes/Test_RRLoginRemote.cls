@@ -7,7 +7,7 @@ private class Test_RRLoginRemote {
 
     @IsTest
     static void testLoginWithInvalidCredentials() {
-        System.assertEquals('Argument 1 cannot be null', RRLoginRemote.login('testUser', 'fakepwd', null));
+        System.assertEquals('List has no rows for assignment to SObject', RRLoginRemote.login('testUser', 'fakepwd', null));
     }
 
     @IsTest

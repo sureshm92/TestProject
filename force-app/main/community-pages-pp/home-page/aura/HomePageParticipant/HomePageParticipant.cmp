@@ -21,8 +21,8 @@
                 <c:RRNPathItem label="{!$Label.c.Navigation_Home}"/>
             </c:RRNavigationPath>
         </div>
-        <div style="display: flex;">
-            <div class="hp-welcome-msg" style="width: 110%"><aura:unescapedHtml value="{!v.participantState.welcomeMessage}"/></div>
+        <div class="hp-welcome-line">
+            <div class="hp-welcome-msg"><aura:unescapedHtml value="{!v.participantState.welcomeMessage}"/></div>
             <aura:if isTrue="{!v.showTrialSearch}">
                 <div style="@media screen and (max-width: 600px) {width: 20%;}">
                     <button class="{!'apollo-btn primary dark'}" onclick="{!c.navigateToTrialSearchPage}">
@@ -84,7 +84,8 @@
                     <aura:if isTrue="{!and(v.participantState.isPremium, v.participantState.showVisits)}">
                             <c:UpcomingVisitsPreviewPanel/>
                     </aura:if>
-                    <aura:if isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Payment_Is_Available__c, v.participantState.value != 'ALUMNI')}">
+                    <aura:if isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Payment_Is_Available__c, and(v.participantState.value != 'ALUMNI',
+                    v.participantState.payCardLink != null))}">
                             <c:PaymentsPanel/>
                     </aura:if>
                     <aura:if

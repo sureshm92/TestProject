@@ -1,0 +1,144 @@
+.THIS .te-task-panel{
+    min-height: 400px;
+    max-width: 1140px;   
+    margin: 25px auto -80px;
+
+}
+
+.THIS .rr-white-panel {
+    overflow: visible;
+    margin-top: -65px;
+    font-family: "Proxima Nova";
+    border:none;
+    box-shadow: none;
+}
+
+.THIS .rr-body-content {
+    display: none;
+}
+
+.THIS .te-col {
+    margin-bottom: 10px;
+}
+
+.THIS .te-col-horizontal {
+    margin-bottom: 10px;
+    max-width: 360px;
+}
+
+.THIS .te-col-header {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-family: "Proxima Nova";
+    height: 32px;
+    width: 216px;
+    color: #000000;
+    letter-spacing: 0;
+    line-height: 32px;
+}
+
+.THIS .te-col-header-info {
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    font-family: "Proxima Nova";
+}
+
+.THIS .p-header.normal {
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 20px;
+    font-weight: 600;
+
+}
+
+.THIS .rr-white-panel > .slds-grid.slds-wrap > .slds-col:first-child {
+    margin-bottom: .75rem;
+}
+
+.THIS .slds-form-element__label{
+    font-size: 14px;
+    color: #444;
+    font-family: "Proxima Nova";
+}
+
+.THIS .slds-select, .THIS .slds-input{
+    font-size: 14px;
+    color: #444;
+    font-family: "Proxima Nova";
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.THIS .slds-checkbox {
+    padding-bottom :10px;
+}
+
+.THIS .te-col-changeNotif {
+    font-size: 14px;
+    font-family: "Proxima Nova";
+}
+
+.THIS .p-content {
+    overflow-y: hidden;
+}
+
+.THIS .p-content.with-scroll {
+    overflow-y: auto;
+}
+
+.THIS .disabledVisit .slds-input,
+.THIS .disabledVisit .slds-select {
+    background: #f2f2f2;
+    color: #999;
+    opacity: 1;
+}
+
+.THIS .disabledVisit .slds-form-element__label {
+    opacity: .4;
+}
+
+@media only screen and (max-width: 500px)  and (orientation : portrait) {
+
+    .THIS .rr-white-panel {
+        padding: 20px 0;
+    }
+
+    .THIS.cPopup .p-container .p-footer {
+        padding: 15px 1rem;
+    }
+
+    .THIS .slds-select,
+    .THIS .slds-input {
+        min-width: 95%;
+    }
+
+    .THIS .p-buttons-container > div {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .THIS .p-buttons-container .slds-button:nth-of-type(1) {
+        order: 4;
+        margin-left: 10px;
+        width: 45%;
+    }
+    .THIS .p-buttons-container .slds-button:nth-of-type(2) {
+        order: 1;
+        width: 36%;
+        margin-left: 0;
+    }
+    .THIS .p-buttons-container .slds-button:nth-of-type(3) {
+        order: 2;
+        width: 60%;
+        margin-bottom: 1rem;
+        margin-left: 10px;
+    }
+    .THIS .p-buttons-container .slds-button:nth-of-type(4) {
+        order: 3;
+        width: 51%;
+        margin-bottom: 1rem;
+        margin-left: 0;
+    }
+}

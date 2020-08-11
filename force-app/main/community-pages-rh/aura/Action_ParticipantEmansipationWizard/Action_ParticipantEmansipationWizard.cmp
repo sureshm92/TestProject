@@ -120,7 +120,7 @@
                                     <div class="label">{!$Label.c.PG_AS_F_Date_of_Birth}<abbr title="required"
                                                              class="slds-required">*</abbr>
                                     </div>
-                                    <lightning:input max="{!v.todayDate}" type="date" value="{!v.participant.Date_of_Birth__c}"
+                                    <lightning:input max="{!v.todayDate}" min="1900-01-01" type="date" value="{!v.participant.Date_of_Birth__c}"
                                                      required="true"
                                                      onblur="{!c.doCheckfields}" onchange="{!c.doCheckFields}"/>
                                 </div>
@@ -247,7 +247,7 @@
                                         </aura:if>
 
                                         <aura:if isTrue="{!!delegateItem.isConnected || !delegateItem.fromStart}">
-                                            <c:EmancipationWizardDelegate delegateItem="{!delegateItem}" index="{!ind}" parent="{!this}" isDuplicate="{!delegateItem.isDuplicate}"/>
+                                            <c:EmancipationWizardDelegate delegateItem="{!delegateItem}" index="{!ind}" parent="{!this}" aura:id="delegateWizard"/>
                                         </aura:if>
                                     </div>
                                 </div>

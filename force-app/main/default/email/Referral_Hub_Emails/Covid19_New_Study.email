@@ -1,0 +1,11 @@
+<messaging:emailTemplate renderUsingSystemContextWithoutSharing="true" subject="{!$Label.Email_Subject_COVID19_Participant}"
+                         recipientType="User"
+                         relatedToType="Integration_Patient_Referral__c">
+
+    <messaging:htmlEmailBody >    
+        <c:Covid19EmailTemplate ParticipantVsDeligate="Participant" 
+                                relatedtoId="{!relatedTo.Id}"
+                                firstName="{!relatedTo.firstName__c}"/>
+
+    </messaging:htmlEmailBody>
+</messaging:emailTemplate>

@@ -3,7 +3,7 @@
     <fullName>Participant_Opt_In_Status_SMS__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Participant Opt In Status SMS</label>
+    <label>Opt In SMS/text</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

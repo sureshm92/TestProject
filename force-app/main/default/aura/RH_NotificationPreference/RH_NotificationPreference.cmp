@@ -1,0 +1,60 @@
+<!-- Created by Vikrant Sharma as per REF-194
+This component is only for the HCP User Mode -->
+
+<aura:component controller="AccountSettingsController" description="RH_NotificationPreference">
+    
+    <aura:attribute name="initData" type="Object" access="private" />
+    
+    <aura:attribute name="optInEmail" type="Boolean"/>
+    
+    <aura:attribute name="isInitialized" type="Boolean" default="false" access="private"  />
+    
+    <aura:attribute name="userMode" type="String" required="true" />
+    
+    <aura:attribute name="personWrapper" type="Object" />
+    <aura:attribute name="contact" type="Contact" />
+    <aura:attribute name="showSpinner" type="Boolean" default="true" access="private" />
+    
+    <aura:attribute name="showEmailPrefSpinner" type="Boolean" default="false" access="private" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    
+    <div class="as-container">
+        <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true" />
+        <aura:if isTrue="{!v.isInitialized}">
+            
+            <div class="as-title">
+                {!$Label.c.PG_AS_H_Email_Preferences}
+            </div>
+            <div class="as-sub-title cookieDesc">
+                {!$Label.c.PG_AS_T_HCP_Email_Preferences}<br/>
+            </div>
+            <div class="slds-grid slds-wrap slds-gutters">
+                
+                <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}"
+                                 variant="label-hidden"
+                                 messageToggleInactive="{!$Label.c.BTN_Off}"
+                                 class="slds-col ah-toggle slds-m-top--large"
+                                 checked="{!v.contact.HCP_Opt_In_Patient_Status_Emails__c}"
+                                 onchange="{!c.doSwitchOptInEmail}"/>
+                <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-m-top--large">
+                    
+                    {!$Label.c.PG_AS_L_Opt_In_HCP_Patient_Status_Emails}</div>
+            </div>
+            <div class="slds-grid slds-wrap slds-gutters">
+                <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}"
+                                 variant="label-hidden"
+                                 messageToggleInactive="{!$Label.c.BTN_Off}"
+                                 class="slds-col ah-toggle slds-m-top--large"
+                                 checked="{!v.contact.HCP_Opt_In_Referral_Status_Emails__c}"
+                                 onchange="{!c.doSwitchOptInEmail}"/>
+                
+                <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-m-top--large">
+                    {!$Label.c.PG_AS_L_Opt_In_HCP_Referral_Status_Emails}</div>
+            </div>
+            
+        </aura:if>
+    </div>
+    
+</aura:component>

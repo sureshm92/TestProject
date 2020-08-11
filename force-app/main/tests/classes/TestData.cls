@@ -10,6 +10,7 @@ public class TestData {
     public User participantUser;
     public User hcpDelUser;
     public User piDelUser;
+    public User ccUser;
     public Participant__c referral;
     public Participant__c participant;
     public Clinical_Trial_Profile__c ctp;
@@ -36,7 +37,8 @@ public class TestData {
                 'HCPTD',
                 'PITD',
                 'HCPDelTD',
-                'PIDelTD'
+                'PIDelTD',
+                    'CCID'
         };
         List<User> users = [
                 SELECT Id, ContactId, LastName
@@ -49,10 +51,12 @@ public class TestData {
             if (user.LastName == 'PIDelTD') piDelUser = user;
             if (user.LastName == 'HCPDelTD') hcpDelUser = user;
             if (user.LastName == participant.Name) participantUser = user;
+            if(user.LastName == 'CCID')ccUser = user;
         }
         ctp = [
                 SELECT Id, Therapeutic_Area__c,
                         Study_Code_Name__c,
+                        Study_Title__c,
                         Protocol_ID__c,
                         Patient_Portal_Enabled__c,
                         Terms_and_Conditions__c,
@@ -87,7 +91,7 @@ public class TestData {
                 WHERE Participant__c = :participant.Id
         ];
         hcpEnrollment = [
-                SELECT Id, Orientation_Date__c, HCP_Contact__c
+                SELECT Id, Orientation_Date__c, HCP_Contact__c, Study_Site__c
                 FROM HCP_Enrollment__c
                 WHERE HCP_Contact__r.LastName = 'HCPTD'
                 LIMIT 1
@@ -241,6 +245,16 @@ public class TestData {
 
 
         contacts.add(hcpContact);
+        Contact ccContact = new Contact(
+                FirstName = 'CCTD',
+                LastName = 'CCTD',
+                Email = 'cc@emil.com',
+                AccountId = hcpAccount.Id,
+            userCommunytyType__c = CommunityService.USER_MODE_CC,
+            userCommunityMode__c = CommunityService.USER_MODE_CC
+        );
+        
+        contacts.add(ccContact);
         insert contacts;
 
         Therapeutic_Area__c area = new Therapeutic_Area__c(Name = 'Test TA TD');
@@ -480,8 +494,10 @@ public class TestData {
     }
 
     public static void createIncentiveProgram(){
+        Study_Site__c studySite = [SELECT Id, Clinical_Trial_Profile__c FROM Study_Site__c WHERE Study_Site_Number__c = 'SS1' LIMIT 1];
         Incentive_Plan__c plan = new Incentive_Plan__c();
         plan.Plan_Name__c = 'Test IP1';
+        plan.Clinical_Trial_Profile__c = studySite.Clinical_Trial_Profile__c;
         insert plan;
         Incentive_Plan_Task__c task = new Incentive_Plan_Task__c();
         task.Incentive_Task_Catalog__c = IncentiveTaskCatalog.INCENTIVE_TASK_PRE_SCREENING;
@@ -492,7 +508,6 @@ public class TestData {
         insert task;
         Study_Incentive_Plan__c sip = new Study_Incentive_Plan__c();
         sip.Incentive_Plan__c = plan.Id;
-        Study_Site__c studySite = [SELECT Id FROM Study_Site__c WHERE Study_Site_Number__c = 'SS1' LIMIT 1];
         sip.Study_Site__c = studySite.Id;
         insert sip;
 

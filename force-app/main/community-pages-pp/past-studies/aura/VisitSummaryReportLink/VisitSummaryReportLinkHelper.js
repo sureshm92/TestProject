@@ -7,7 +7,7 @@
         let reportData = component.get('v.reportData');
         if(reportData.notAvailableMessage){
             var template = reportData.notAvailableMessage + ' {0}';
-            var accUrl = 'account-settings';
+            var accUrl = 'account-settings?langloc';
             var urlLabel = $A.get('$Label.c.PP_IRB_Button_Review');
 
             var toastEvent = $A.get('e.force:showToast');
@@ -38,7 +38,8 @@
     getLogo: function (component, reportData, isSave) {
         const helper = this;
         const url = window.location.hostname;
-        const resourceRelPath = $A.get('$Resource.IQVIA');
+        let filepath = '/'+reportData.communityTemplate +'.png';
+        const resourceRelPath = $A.get('$Resource.ReportBrandingLogos') + filepath;
         const resourceUrl = 'https://'.concat(url).concat(resourceRelPath);
         window.fetch(resourceUrl).then($A.getCallback(function (response) {
                 console.log(response);
@@ -61,7 +62,7 @@
 
     getLogoFromIE: function (component, reportData, isSave) {
         const helper = this;
-        helper.enqueue(component, 'c.getLogoFromStatic', {}).then(function (iqviaLogo) {
+        helper.enqueue(component, 'c.getLogoFromStatic', {communityname:reportData.communityTemplate}).then(function (iqviaLogo) {
                 helper.fillData(component, reportData, iqviaLogo, isSave);
             }, function (err) {
                 if (err && err[0].message) {
@@ -72,6 +73,7 @@
     },
 
     fillData: function (component, reportData, iqviaLogo, isSave) {
+        //let navService = component.find('navService');
         let helper = this;
         helper.uploadFontForUtf8();
         var doc = new jsPDF('l', 'pt', 'A4', true);
@@ -89,7 +91,7 @@
         doc.text(reportData.participantFullName, 80, 120);
         doc.text($A.get('$Label.c.Report_Enrollment_Date') + ' ' + reportData.enrollmentDate, 80, 140);
 
-        if(reportData.participantStatus){
+        if(!$A.util.isUndefinedOrNull(reportData.participantStatus)){
             doc.text($A.get('$Label.c.Report_Participant_Status') + ': ' + reportData.participantStatus, 80, 160);
             doc.text($A.get('$Label.c.Report_Study_Site') + ': ' + reportData.studySiteName, 80, 180);
         }else{
@@ -107,7 +109,13 @@
         } else {
             let urlPDF = doc.output('bloburi');
             let urlViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
-            window.open(urlViewer + '?file=' + urlPDF + '&fileName=' + encodeURIComponent($A.get('$Label.c.Report_Document_Name')));
+            //window.open(urlViewer + '?file=' + urlPDF + '&fileName=' + encodeURIComponent($A.get('$Label.c.Report_Document_Name')));
+            let urlEvent = $A.get('e.force:navigateToURL');
+            let absoluteURL = window.location.origin;
+            urlEvent.setParams({
+                url: absoluteURL + urlViewer + '?file=' + urlPDF + '&fileName=' + encodeURIComponent($A.get('$Label.c.Report_Document_Name'))
+            });
+            urlEvent.fire();
         }
     },
 
@@ -187,7 +195,7 @@
             }
             doc.text(reportData.participantLastName, 600, 24);
         }
-        doc.setDrawColor(0, 0, 100);
+        doc.setDrawColor(216, 216, 216);
         doc.setLineWidth(8);
         doc.line(35, 35, 35, 550);
         doc.line(30.8, 35, 97, 35);
@@ -196,7 +204,7 @@
         //TO-DO: Add right border and align table
         //doc.line(808, 35, 808, 550);
         if (logo) {
-            doc.addImage(logo, 'PNG', 100, 12, 90, 35);
+            doc.addImage(logo, 'PNG', 95, 20, 100, 25);
         }
         splitTextFooter.forEach(function (el, ind) {
             doc.setFontSize(8);

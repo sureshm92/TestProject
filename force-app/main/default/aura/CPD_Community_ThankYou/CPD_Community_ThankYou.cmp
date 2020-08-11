@@ -1,0 +1,35 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,lightning:isUrlAddressable" access="global">
+    <!--variable-->
+    <aura:attribute name="showUnderAge" type="Boolean" default="false" />
+    <!-- Handler-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <div class="slds-top-contnet">
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 col-height">
+                <div class="thank-you-rect1">
+                    <div class="thankyou-icon">                            
+                        <img src="{!$Resource.CPD_Covid_Registry_Images + '/thank-you.svg'}" class="nybc-logo" /><br />
+                    </div>
+                    <p class="thank-you-rect-1-p">{!$Label.c.CPD_Thank_you_for_your_interest}</p>
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 col-height">
+                <div class="thankyou-screen-2">
+                    <p class="thank-you-rect-2-p">{!$Label.c.CPD_Thank_you_for_your_time}</p>
+                    <aura:if isTrue="{!v.showUnderAge}">
+                        <p class="thank-you-rect-2-unfortunately">{!$Label.c.CPD_Unfortunately_you_are_not_eligible}</p>
+                        <aura:set attribute="else">
+                            <p class="thank-you-rect-2-unfortunately">{!$Label.c.CP_Thank_For_After_Submit}</p>
+                        </aura:set>
+                    </aura:if>
+                    <a href="https://c19trials.com/#!/" target="_blank">
+                        <div class="thank-you-search-button">
+                            <span class="thank-you-search-button-label">{!$Label.c.CPD_Search_for_the_study}</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

@@ -16,10 +16,10 @@ public without sharing class AddPatientByPIRemote {
         @AuraEnabled public Clinical_Trial_Profile__c ctp;
         @AuraEnabled public Study_Site__c ss;
         @AuraEnabled public String userLanguage;
-        
+
         public FormData() {}
     }
-    
+
     @AuraEnabled
     public static FormData getInitData(Id ssId) {
         try {
@@ -39,11 +39,17 @@ public without sharing class AddPatientByPIRemote {
 
     //TODO:Review
     @AuraEnabled
-    public static void saveParticipant(String participantJSON, String peJSON, String userLanguage, String ssId, Boolean createUser, String participantDelegateJSON){
+    public static void saveParticipant(String participantJSON, String peJSON, String userLanguage, String ssId, Boolean createUser, String participantDelegateJSON, String delegateDuplicateInfo, Boolean allowEmail,Boolean allowPhone,Boolean allowSMS,Boolean allowContact){
         try {
+            TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.CreateUserForCCContactHandler.class);
+
             if (!createUser) {
                 TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
                 TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class);
+            } else {
+                if (ReferringRemote.checkNeedsGuardian(participantJSON) == 'true') {
+                    TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
+                }
             }
 
             Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
@@ -51,19 +57,10 @@ public without sharing class AddPatientByPIRemote {
             Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
             participant.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI;
             pe.Referral_Source__c = 'PI';
-            ParticipantService.createParticipantAndUpdatePE(participant, pe, userLanguage);
-
-            String participantId = !String.isBlank(participant.Id) ? participant.Id : pe.Participant__c;
-            Participant__c newParticipant = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participantId];
-            if (createUser && newParticipant != null && !String.isBlank(newParticipant.Contact__c) && !String.isBlank(ssId)) {
-                Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
-                Study_Site__c ss = StudySiteService.getStudySiteForPIById(ssId);
-                String permissionSetName = CommunityTemplateService.getTemplate(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
-                actionAssignContactPermissions.addPermission(newParticipant.Contact__c, permissionSetName);
-                if (!actionAssignContactPermissions.isEmpty()) {
-                    ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
-                }
-            }
+            pe.Permit_IQVIA_to_contact_about_study__c = allowContact;
+            pe.Permit_Mail_Email_contact_for_this_study__c = allowEmail;
+            pe.Permit_Voice_Text_contact_for_this_study__c = allowPhone;
+            pe.Permit_SMS_Text_for_this_study__c = allowSMS;
 
             Participant__c participantDelegate;
             if (!String.isBlank(participantDelegateJSON)) {
@@ -73,13 +70,106 @@ public without sharing class AddPatientByPIRemote {
                 }
             }
 
-            if (participantDelegate != null && !String.isEmpty(participantDelegate.Last_Name__c) &&
-                    !String.isEmpty(participantDelegate.Email__c)) {
-                Contact newContact = new Contact();
+            ParticipantService.createParticipantAndUpdatePE(participant, participantDelegate, pe, userLanguage);
+
+            String participantId = !String.isBlank(participant.Id) ? participant.Id : pe.Participant__c;
+            Participant__c newParticipant = [SELECT Id, Contact__c,Phone__c FROM Participant__c WHERE Id = :participantId];
+            if (newParticipant.Contact__c != null) {
+                Contact participantCon = new Contact(Id = newParticipant.Contact__c);
+
+                if (participant.Phone_Type__c == 'Home') {
+                    participantCon.HomePhone = participant.Phone__c;
+                } if (participant.Phone_Type__c == 'Mobile') {
+                    participantCon.MobilePhone = participant.Phone__c;
+                } else {
+                    participantCon.Phone = participant.Phone__c;
+                }
+                update participantCon;
+            }
+
+            if (createUser && newParticipant != null && !String.isBlank(newParticipant.Contact__c) && !String.isBlank(ssId)) {
+                assignParticipantPermissions(ssId, newParticipant.Contact__c);
+            }
+
+            updateParticipant(JSON.serialize(participant));
+            createParticipantDelegate(participantDelegateJSON, delegateDuplicateInfo, participantId, participantJSON);
+            //Moved history Creation to Trigger
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
+
+    @Future
+    private static void assignParticipantPermissions(String ssId, String contactId) {
+        Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
+        Study_Site__c ss = StudySiteService.getStudySiteForPIById(ssId);
+        String permissionSetName = CommunityTemplateService.getTemplate(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
+        actionAssignContactPermissions.addPermission(contactId, permissionSetName);
+        if (!actionAssignContactPermissions.isEmpty()) {
+            ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+        }
+    }
+
+    @Future
+    private static void updateParticipant(String participantJSON) {
+        Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
+
+        if (participant.Email__c != null && participant.First_Name__c != null && participant.Last_Name__c != null) {
+            List<Participant__c> newPartcipantObjs =
+                [SELECT Id , First_Name__c , Last_Name__c , Suffix__c , Middle_Name__c , Nickname__c , Date_of_Birth__c , Gender__c , Email__c , Phone_Type__c , Phone__c , Mailing_Zip_Postal_Code__c , Mailing_Country_Code__c , Mailing_State_Code__c
+                 FROM Participant__c
+                 WHERE  Email__c =: participant.Email__c AND First_Name__c =: participant.First_Name__c AND Last_Name__c =: participant.Last_Name__c];
+            if (!newPartcipantObjs.isEmpty()) {
+                Participant__c newPartcipantObj = newPartcipantObjs[0];
+                newPartcipantObj.First_Name__c = participant.First_Name__c;
+                newPartcipantObj.Last_Name__c = participant.Last_Name__c;
+                newPartcipantObj.Suffix__c = participant.Suffix__c;
+                newPartcipantObj.Middle_Name__c = participant.Middle_Name__c;
+                newPartcipantObj.Nickname__c = participant.Nickname__c;
+                newPartcipantObj.Date_of_Birth__c = participant.Date_of_Birth__c;
+                newPartcipantObj.Gender__c = participant.Gender__c;
+                newPartcipantObj.Email__c = participant.Email__c;
+                newPartcipantObj.Phone__c = participant.Phone__c;
+                newPartcipantObj.Phone_Type__c = participant.Phone_Type__c;
+                newPartcipantObj.Mailing_Country_Code__c = participant.Mailing_Country_Code__c;
+                newPartcipantObj.Mailing_Zip_Postal_Code__c = participant.Mailing_Zip_Postal_Code__c;
+                newPartcipantObj.Mailing_State_Code__c = participant.Mailing_State_Code__c;
+
+                update newPartcipantObj;
+            }
+        }
+    }
+
+    @Future
+    private static void createParticipantDelegate(String participantDelegateJSON, String delegateDuplicateInfo, String participantId, String participantJSON) {
+        Participant__c participant = (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);
+        Participant__c participantDelegate;
+        if (!String.isBlank(participantDelegateJSON)) {
+            participantDelegate = (Participant__c) JSON.deserialize(participantDelegateJSON, Participant__c.class);
+            if (participantDelegate != null) {
+                participantDelegate.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
+            }
+        }
+
+        ReferHealthcareProviderRemote.HealthcareProvider ddInfo;
+        if (delegateDuplicateInfo != null) ddInfo = (ReferHealthcareProviderRemote.HealthcareProvider) JSON.deserialize(delegateDuplicateInfo, ReferHealthcareProviderRemote.HealthcareProvider.class);
+
+        Boolean createDelegateuser = true;
+        if (participantDelegate != null && !String.isEmpty(participantDelegate.Last_Name__c) &&
+                !String.isEmpty(participantDelegate.Email__c)) {
+            Contact newContact;
+            if (ddInfo == null || String.isBlank(ddInfo.contactId)) {
+                newContact = new Contact();
                 newContact.FirstName = participantDelegate.First_Name__c;
                 newContact.LastName = participantDelegate.Last_Name__c;
                 newContact.Email = participantDelegate.Email__c;
-                newContact.AccountId = [SELECT Id FROM Account WHERE Name =: CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE ].Id;
+                newContact.AccountId = [
+                        SELECT Id
+                        FROM Account
+                        WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
+                        LIMIT 1
+                        FOR UPDATE
+                ].Id;
                 newContact.Language__c = UserInfo.getLanguage();
                 newContact.Second_Choice_Language__c = '';
                 newContact.Third_Choice_Language__c = '';
@@ -98,24 +188,48 @@ public without sharing class AddPatientByPIRemote {
                     newContact.Phone = participantDelegate.Phone__c;
                 }
                 insert newContact;
-
+            } else{
+                newContact = [
+                        SELECT Id,
+                                FirstName,
+                                LastName,
+                                Email,
+                                MailingCity,
+                                MailingCountryCode,
+                                MailingStateCode
+                        FROM Contact
+                        WHERE Id = :ddInfo.contactId
+                ];
+                createDelegateuser = false;
+            }
+            if (ddInfo == null || ddInfo.participantId == null) {
                 participantDelegate.Contact__c = newContact.Id;
                 if (String.isBlank(participantDelegate.Phone__c) && !String.isBlank(participant.Phone__c)) {
                     participantDelegate.Phone__c = participant.Phone__c;
                     participantDelegate.Phone_Type__c = participant.Phone_Type__c;
                 }
                 insert participantDelegate;
-
-                Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
-                ptDelegateRef.Participant__c = participant.Id;
-                ptDelegateRef.Contact__c = newContact.Id;
-                insert ptDelegateRef;
-
-                ReferringRemote.createParticipantUsers(new Map<Id, Id> { newContact.Id => null});
             }
-            //Moved history Creation to Trigger
-        } catch (Exception e) {
-            AuraHelper.throwException(e);
+            //if(ddInfo == null || !ddInfo.isDuplicateDelegate) {
+            if (participantId != null && newContact.Id != null) {
+                List<Patient_Delegate__c> checkPDel = [SELECT Id FROM Patient_Delegate__c WHERE Participant__c =:participantId AND Contact__c =:newContact.Id];
+                if (checkPDel.isEmpty()) {
+                    Participant__c mainParticipant = [SELECT Id FROM Participant__c WHERE Id = :participantId FOR UPDATE];
+                    Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
+                    ptDelegateRef.Participant__c = mainParticipant.Id;
+                    ptDelegateRef.Contact__c = newContact.Id;
+                    insert ptDelegateRef;
+                }
+            }
+            // }
+            if (createDelegateuser) {
+                /*ReferringRemote.createParticipantUsers(new Map<Id, Id>{
+                        newContact.Id => null
+                });*/
+                ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id>{
+                        newContact.Id => null
+                });
+            }
         }
     }
 
@@ -150,6 +264,11 @@ public without sharing class AddPatientByPIRemote {
     @AuraEnabled
     public static String checkNeedsGuardian(String participantJSON) {
         return ReferringRemote.checkNeedsGuardian(participantJSON);
+    }
+
+    @AuraEnabled
+    public static ReferHealthcareProviderRemote.HealthcareProvider checkDuplicateDelegate(String email, String firstName, String lastName){
+        return ReferHealthcareProviderRemote.checkDuplicate(null,email, firstName, lastName, null);
     }
 
 }

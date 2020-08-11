@@ -31,6 +31,10 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>Participant_Quick_Reference_GSK__c</field>
+        <value xsi:type="xsd:string">Participant_quick_reference_GSK</value>
+    </values>
+    <values>
         <field>Participant_Quick_Reference__c</field>
         <value xsi:type="xsd:string">Participant_quick_reference</value>
     </values>

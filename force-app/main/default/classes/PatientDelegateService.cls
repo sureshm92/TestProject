@@ -29,9 +29,12 @@ public without sharing class PatientDelegateService {
                         'Participant__r.Full_Name__c',
                         'Participant__r.Contact__c',
                         'Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c',
+                        'Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c',
                         'Participant__r.First_Name__c',
                         'Participant__r.Last_Name__c',
-                        'Contact__c'
+                        'Contact__c',
+                        'Contact__r.Participant_Opt_In_Status_Emails__c',
+                        'Contact__r.Participant_Opt_In_Status_SMS__c'
                 },
                 Patient_Delegate__c.getSObjectType(),
                 DatabaseService.fieldEqual('Contact__c', CommunityService.getInstance().getCurrentContactId())
@@ -40,6 +43,9 @@ public without sharing class PatientDelegateService {
         participant = ParticipantContext.getCurrentParticipant();
         if (participant != null) {
             List<Patient_Delegate__c> delegatesPDList = getPDelegates(UserContext.getUserContact().Id);
+            if (isDelegate) {
+                delegatesPDList.addAll(getPDelegates(participant.Contact__c));
+            }
             for (Patient_Delegate__c pd : delegatesPDList) delegates.add(pd.Contact__r);
         }
     }
@@ -95,6 +101,7 @@ public without sharing class PatientDelegateService {
                         'Contact__r.Language__c',
                         'Contact__r.Email',
                         'Contact__r.Participant_Opt_In_Status_Emails__c',
+                        'Contact__r.Participant_Opt_In_Status_SMS__c',
                         'Contact__r.HCP_Opt_In_Patient_Status_Emails__c',
                         'Contact__r.HCP_Opt_In_Study_Emails__c',
                         'Contact__r.HCP_Opt_In_Referral_Status_Emails__c',
@@ -122,13 +129,16 @@ public without sharing class PatientDelegateService {
                         'Contact__r.Language__c',
                         'Contact__r.Email',
                         'Contact__r.Participant_Opt_In_Status_Emails__c',
+                        'Contact__r.Participant_Opt_In_Status_SMS__c',
                         'Contact__r.HCP_Opt_In_Patient_Status_Emails__c',
                         'Contact__r.HCP_Opt_In_Study_Emails__c',
                         'Contact__r.HCP_Opt_In_Referral_Status_Emails__c',
                         'Contact__r.Resource_Notifications__c',
                         'Contact__r.userCommunityMode__c',
                         'Contact__r.Next_Notify_Date__c',
-                        'Status__c'
+                        'Status__c',
+                        'Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c',
+                        'Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c'
                 },
                 Patient_Delegate__c.getSObjectType(),
                 DatabaseService.fieldInValues('Participant__r.Contact__c', participantContactIds)
@@ -247,7 +257,10 @@ public without sharing class PatientDelegateService {
             throw new PatientDelegateServiceException('Wrong contact: ' + CommunityService.getUserContact().Id);
         }
 
-        Contact newDelegateContact = [SELECT Id, UserCommunityIsDelegate__c FROM Contact WHERE Id = :newDelegate.Id];
+        Contact newDelegateContact = [SELECT Id, UserCommunityIsDelegate__c, userCommunytyType__c, userCommunityMode__c FROM Contact WHERE Id = :newDelegate.Id];
+        Boolean check = String.isBlank(newDelegateContact.userCommunytyType__c) || newDelegateContact.userCommunytyType__c.contains('PI') || newDelegateContact.userCommunytyType__c.contains('HCP');
+        if(check) newDelegateContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
+
         newDelegateContact.UserCommunityIsDelegate__c = true;
         update newDelegateContact;
 
@@ -284,9 +297,9 @@ public without sharing class PatientDelegateService {
                 SELECT Id, Status__c
                 FROM Patient_Delegate__c
                 WHERE Contact__c = :contactId
-                AND Participant__c =: ParticipantContext.getCurrentParticipantId()
+                AND Participant__c = :ParticipantContext.getCurrentParticipantId()
         ];
-        if(!patientDelegate.isEmpty()) {
+        if (!patientDelegate.isEmpty()) {
             patientDelegate.get(0).Status__c = newStatus;
             update patientDelegate;
         }
@@ -544,7 +557,7 @@ public without sharing class PatientDelegateService {
             delegatedParticipantsMap.put(pd.Contact__c, delegatedParticipants);
             allDelegatedParticipantIds.add(pd.Participant__c);
             delegatedContacts.add(pd.Participant__r.Contact__c);
-            if(!delegatedContactsMap.containsKey(pd.Contact__c)) delegatedContactsMap.put(pd.Contact__c, new Set<Id>());
+            if (!delegatedContactsMap.containsKey(pd.Contact__c)) delegatedContactsMap.put(pd.Contact__c, new Set<Id>());
             delegatedContactsMap.get(pd.Contact__c).add(pd.Participant__r.Contact__c);
         }
 
@@ -565,28 +578,27 @@ public without sharing class PatientDelegateService {
             permissions.add(CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet);
             participantPermissions.put(pe.Participant__c, permissions);
         }
-        
+
         Set<String> communityPermissionSets = CommunityTemplateService.getAllPermissionSets();
-        
+
         //get permission sets for delegated contacts
         Map<Id, Set<String>> delegatedContactPermissionsMap = new Map<Id, Set<String>>();
         List<User> delegatedUsers = [
                 SELECT Id, ContactId, (SELECT Id, PermissionSet.Name FROM PermissionSetAssignments)
                 FROM User
-                WHERE ContactId IN: delegatedContacts
+                WHERE ContactId IN:delegatedContacts
         ];
-        for(User usr : delegatedUsers){
+        for (User usr : delegatedUsers) {
             Set<String> permSets = new Set<String>();
-            for(PermissionSetAssignment psa : usr.PermissionSetAssignments){
-                if (communityPermissionSets.contains(psa.PermissionSet.Name)){
+            for (PermissionSetAssignment psa : usr.PermissionSetAssignments) {
+                if (communityPermissionSets.contains(psa.PermissionSet.Name)) {
                     permSets.add(psa.PermissionSet.Name);
                 }
             }
             delegatedContactPermissionsMap.put(usr.ContactId, permSets);
         }
 
-        
-        
+
         for (Id contactId : contactIds) {
             //assign own permission sets:
             Id ownParticipantId = participantIdByContactIdMap.get(contactId);
@@ -607,10 +619,10 @@ public without sharing class PatientDelegateService {
                 }
             }
             //assign permissions from delegated contacts
-            if(delegatedContactsMap.get(contactId) != null && delegatedContactsMap.get(contactId).size() > 0){
-                for(Id delegatedContact : delegatedContactsMap.get(contactId)){
+            if (delegatedContactsMap.get(contactId) != null && delegatedContactsMap.get(contactId).size() > 0) {
+                for (Id delegatedContact : delegatedContactsMap.get(contactId)) {
                     Set<String> permissions = delegatedContactPermissionsMap.get(delegatedContact);
-                    if(permissions != null && permissions.size() > 0){
+                    if (permissions != null && permissions.size() > 0) {
                         actionAssignContactPermissions.addPermissions(contactId, permissions);
                     }
                 }
@@ -623,12 +635,12 @@ public without sharing class PatientDelegateService {
             ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
         }
     }
-    
-    public static void updateContactPermSetsWithDelegates(Set<Id> participantContactIds){
+
+    public static void updateContactPermSetsWithDelegates(Set<Id> participantContactIds) {
         Map<Id, List<Id>> delegatesByParticipant = PatientDelegateService.getDelegateContactIdsByPAContactIs(new List<Id>(participantContactIds));
         Set<Id> allContactIds = new Set<Id>(participantContactIds);
-        for(Id partKey : delegatesByParticipant.keySet()) {
-            for(Id delConId : delegatesByParticipant.get(partKey)) {
+        for (Id partKey : delegatesByParticipant.keySet()) {
+            for (Id delConId : delegatesByParticipant.get(partKey)) {
                 allContactIds.add(delConId);
             }
         }

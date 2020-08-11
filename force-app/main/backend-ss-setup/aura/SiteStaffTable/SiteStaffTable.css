@@ -1,0 +1,22 @@
+/**
+ * Created by Andrii Kryvolap.
+ */
+
+.THIS.sst-container{
+    min-height: 300px;
+    position: relative;
+}
+.THIS .invite-col{
+    text-align: center;
+}
+.THIS .sst-title{
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px;
+}
+.THIS td{
+    white-space: normal!important;
+}
+.THIS td.email-column{
+    word-break: break-all;
+}

@@ -24,9 +24,7 @@
                      sharingObject="{!v.delegates}"
                      printMode="{!v.printMode}"
                      actionDisabled = "{!v.actionDisabled}"
-                     buttonTitle="{!!v.healthCareProvider.Id &amp;&amp; v.actionDisabled ?
-                                    $Label.c.RSN_Your_permissions_do_not_permit_this_action : v.isDuplicate ?
-                                    $Label.c.HealCare_Provider_Already_Connected : ''}"
+                     buttonTitle="{!v.actionDisabled ? $Label.c.RSN_Your_permissions_do_not_permit_this_action : ''}"
                      buttonLabel="{!v.delegates.delegateId &amp;&amp; v.delegates.status != 'Disconnected' ? $Label.c.HealthCare_Provider_Stop_Sharing : $Label.c.HealthCare_Provider_Connect}"
                      pe="{!v.pe}"
                      mainComponent="{!v.parent}"
@@ -38,9 +36,7 @@
                      sharingObject="{!v.refProvider}"
                      printMode="{!v.printMode}"
                      actionDisabled = "{!v.actionDisabled}"
-                     buttonTitle="{!!v.healthCareProvider.Id &amp;&amp; v.actionDisabled ?
-                                     $Label.c.RSN_Your_permissions_do_not_permit_this_action : v.isDuplicate ?
-                                     $Label.c.HealCare_Provider_Already_Connected : ''}"
+                     buttonTitle="{!v.actionDisabled ?  $Label.c.RSN_Your_permissions_do_not_permit_this_action : ''}"
                      buttonLabel="{!v.showReferringProvider ? $Label.c.HealthCare_Provider_Stop_Sharing : $Label.c.HealthCare_Provider_Connect}"
                      pe="{!v.pe}"
                      mainComponent="{!v.parent}"
@@ -52,9 +48,7 @@
                      sharingObject="{!v.healthCareProvider}"
                      printMode="{!v.printMode}"
                      actionDisabled = "{!v.actionDisabled}"
-                     buttonTitle="{!!v.healthCareProvider.Id &amp;&amp; v.actionDisabled ?
-                                    $Label.c.RSN_Your_permissions_do_not_permit_this_action : v.isDuplicate ?
-                                    $Label.c.HealCare_Provider_Already_Connected : ''}"
+                     buttonTitle="{!v.actionDisabled ? $Label.c.RSN_Your_permissions_do_not_permit_this_action : ''}"
                      buttonLabel="{!v.healthCareProvider.Id &amp;&amp; v.healthCareProvider.Status__c != 'No Sharing' ?
                                     $Label.c.HealthCare_Provider_Stop_Sharing : $Label.c.HealthCare_Provider_Connect}"
                      pe="{!v.pe}"

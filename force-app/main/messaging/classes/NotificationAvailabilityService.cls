@@ -20,6 +20,9 @@ public without sharing class NotificationAvailabilityService {
 
     private Map<Id, SObject> objectsByIds;
 
+    private Map<Id, Boolean> piHasSiteWithEnabledEmailMap;
+    private Map<Id, Boolean> piDelegateHasSiteWithEnabledEmailMap;
+
     public NotificationAvailabilityService(List<Id> recipientIds, List<String> whatIds) {
         contactByIdMap = new Map<Id, Contact>();
         List<Contact> contacts = [
@@ -98,6 +101,7 @@ public without sharing class NotificationAvailabilityService {
                 List<Clinical_Trial_Profile__c> listCTP = [
                         SELECT Id,
                                 Suppress_Participant_Emails__c,
+                                Suppress_PI_Emails__c,
                                 CommunityTemplate__c
                         FROM Clinical_Trial_Profile__c
                         WHERE Id IN:objectsByStrings.get(objType)
@@ -139,7 +143,8 @@ public without sharing class NotificationAvailabilityService {
             if (objType == HCP_ENROLLMENT_OBJ_NAME) {
                 List<HCP_Enrollment__c> hcpeList = [
                         SELECT Id,
-                                HCP_Contact__r.HCP_Opt_In_Referral_Status_Emails__c
+                                HCP_Contact__r.HCP_Opt_In_Referral_Status_Emails__c,
+                                Study_Site__r.Suppress_Study_Site_PI_Emails__c
                         FROM HCP_Enrollment__c
                         WHERE Id IN:objectsByStrings.get(objType)
                 ];
@@ -169,7 +174,8 @@ public without sharing class NotificationAvailabilityService {
             }
             if (objType == STUDY_SITE_OBJ_NAME) {
                 List<Study_Site__c> studySites = [
-                        SELECT Id
+                        SELECT Id,
+                                Suppress_Study_Site_PI_Emails__c
                         FROM Study_Site__c
                         WHERE Id IN:objectsByStrings.get(objType)
                 ];
@@ -180,6 +186,8 @@ public without sharing class NotificationAvailabilityService {
 
             //TODO for other objects passing in WhatID
         }
+        piHasSiteWithEnabledEmailMap = checkIfPIContactsHaveSitesWithEnabledEmails(recipientIds);
+        piDelegateHasSiteWithEnabledEmailMap = checkIfPIContactsHasDelegatedSitesWithEnabledEmails(recipientIds);
     }
 
     public Boolean isAvailable(String whatId, String recipientType, String notificationTarget, Id contactId) {
@@ -235,7 +243,7 @@ public without sharing class NotificationAvailabilityService {
                 if (hcpe.HCP_Contact__r.HCP_Opt_In_Referral_Status_Emails__c) {
                     checkForNotification = true;
                 }
-            } else if (objType == CONTACT) {
+            } else if (objType == CONTACT || objType == STUDY_SITE_OBJ_NAME) {
                 checkForNotification = true;
             }
 
@@ -243,13 +251,22 @@ public without sharing class NotificationAvailabilityService {
         if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_PI) {
             if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
                 Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
-                if (pe == null || pe.Study_Site__r == null || pe.Study_Site__r.Principal_Investigator__r == null) {
+                if (pe == null || pe.Study_Site__r == null || pe.Study_Site__r.Principal_Investigator__r == null || pe.Study_Site__r.Suppress_Study_Site_PI_Emails__c) {
                     checkForNotification = false;
                 } else{
                     checkForNotification = true;
                 }
-            } else if (objType == CONTACT || objType == STUDY_SITE_OBJ_NAME) {
-                checkForNotification = true;
+            } else if (objType == STUDY_SITE_OBJ_NAME) {
+                Study_Site__c site = (Study_Site__c) objectsByIds.get(Id.valueOf(whatId));
+                if (site.Suppress_Study_Site_PI_Emails__c) {
+                    checkForNotification = false;
+                } else{
+                    checkForNotification = true;
+                }
+            } else if (objType == CONTACT) {
+                    checkForNotification = (piDelegateHasSiteWithEnabledEmailMap.containsKey(contactId) && piDelegateHasSiteWithEnabledEmailMap.get(contactId))
+                            || (piHasSiteWithEnabledEmailMap.containsKey(contactId) && piHasSiteWithEnabledEmailMap.get(contactId));
+
             }
         }
         return checkForNotification;
@@ -265,6 +282,11 @@ public without sharing class NotificationAvailabilityService {
             isAvailable = isAvailable && pe.Study_Site__r.SMS_Are_Available__c;
         }
         return isAvailable;
+    }
+    
+    public Boolean isAvailableForPush(Id contactId, String whatId){
+        //TODO
+        return true;
     }
 
     public Boolean isDeferNotification(Id contactId, String whatId){
@@ -326,11 +348,34 @@ public without sharing class NotificationAvailabilityService {
                         Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                         Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
                         Study_Site__r.SMS_Are_Available__c,
+                        Study_Site__r.Suppress_Study_Site_PI_Emails__c,
                         Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
                         HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c
                 FROM Participant_Enrollment__c
                 WHERE Id IN:peIds
         ];
+    }
+
+    private Map<Id,Boolean> checkIfPIContactsHaveSitesWithEnabledEmails(List<Id> contactIds){
+        Map<Id, Boolean> resultMap = new Map<Id, Boolean>();
+        for (Id contactId : contactIds) {
+            resultMap.put(contactId, false);
+        }
+        for (Study_Site__c site : [SELECT Id, Principal_Investigator__c FROM Study_Site__c WHERE Suppress_Study_Site_PI_Emails__c = FALSE AND Principal_Investigator__c IN :contactIds]){
+            resultMap.put(site.Principal_Investigator__c, true);
+        }
+        return resultMap;
+    }
+
+    private Map<Id,Boolean> checkIfPIContactsHasDelegatedSitesWithEnabledEmails(List<Id> contactIds){
+        Map<Id, Boolean> resultMap = new Map<Id, Boolean>();
+        for (Id contactId : contactIds) {
+            resultMap.put(contactId, false);
+        }
+        for (Site_Staff__c staff : [SELECT Id, Site_Contact__c FROM Site_Staff__c WHERE Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE AND Site_Contact__c IN :contactIds]){
+            resultMap.put(staff.Site_Contact__c, true);
+        }
+        return resultMap;
     }
 
 }

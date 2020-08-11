@@ -15,6 +15,7 @@
     border-radius: 5px;
     min-height: 200px;
     box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.15);
+    margin-top: 1rem;
 }
 
 .THIS .visit-results-title {
@@ -42,7 +43,7 @@
 
 .THIS .visit-result-item-value {
     color: #000000;
-    font-size: 34px;
+    font-size: 28px;
     width: 100%;
     line-height: 34px;
     height: 34px;
@@ -110,4 +111,14 @@
     margin-left: 3px;
     font-size: 13px;
     flex-shrink: 0;
+}
+
+@media all and (max-width: 500px) {
+    .THIS .visit-results-container {
+        flex-wrap: wrap;
+    }
+
+    .THIS .visit-results-item {
+        min-width: 150px;
+    }
 }

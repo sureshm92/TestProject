@@ -1,72 +1,274 @@
 .THIS .resource-container {
     background-color: white !important;
-    margin-left: 50px;
+    margin-left: 25px;
+    margin-top: 13px;
+    margin-bottom: 9px;
+}
+
+.THIS.cLibrary.rr-white-panel {
+    border: 1px solid #e9e9e9;
+    border-width: 0 1px 1px 1px;
+    border-radius: 0 5px 5px 0;
 }
 
 .THIS .slds-accordion__summary-heading > button > span {
-    order: 1;
-}
-
-.THIS .slds-accordion__summary-heading > button > lightning-primitive-icon {
-    margin-left: 5px;
     order: 2;
 }
 
-.THIS .hide-arrow  button{
+.THIS .slds-dropdown__item>a {
+    padding: 0 .75rem;
+}
+
+.THIS.resource-headers {
+    height: 30px;
+    padding-right: 27px;
+    background-color: #f8f9fb;
+    border-left: 1px solid #e9e9e9;
+    border-right: 1px solid #e9e9e9;
+}
+
+.THIS .slds-accordion__summary-heading > button > lightning-primitive-icon {
+    order: 1;
+    color: #000;
+}
+
+.THIS .slds-is-open .slds-accordion__summary-heading > button > lightning-primitive-icon {
+    color: #297dfd;
+}
+
+.THIS .slds-accordion__section {
+    background-color: #fff;
+    padding: 14px 12px;
+}
+
+.THIS .slds-accordion__section.slds-is-open .slds-truncate {
+    font-weight: 600;
+}
+
+.THIS .slds-accordion__section.slds-is-open{
+    background-color: #fff;
+}
+
+.THIS .slds-border_bottom {
+    height: 1px;
+    width: 1157px;
+    background-color: #F8F9FB;
+    margin-bottom: -1px;
+    opacity: 0.2;
+}
+
+.THIS .hide-arrow button {
     cursor: not-allowed;
     pointer-events: none;
 }
 
-.THIS .hide-arrow  button > lightning-primitive-icon {
+.THIS .hide-arrow button > lightning-primitive-icon {
     display: none;
 }
 
-.THIS lightning-primitive-icon > svg {
-    fill: black;
-}
-
-.THIS .slds-button{
-    color: black;
+.THIS .slds-button {
+    color: #000;
     text-decoration: none;
     font-size: 16px;
+    font-weight: 500;
 }
 
-.THIS .slds-accordion__summary-heading .slds-button:focus{
+.THIS .slds-is-open .slds-button {
+    color: #297dfd;
+}
+
+.THIS .slds-is-open .slds-icon-text-default {
+    fill: #297dfd;
+}
+
+.THIS .slds-accordion__list-item {
+    border-top: 1px solid #e9e9e9;
+}
+
+.THIS .slds-accordion__list-item:first-child {
+    border-top: none;
+}
+
+.THIS .slds-accordion__summary-heading .slds-button:focus {
     text-decoration: none;
-}
-
-.THIS .slds-truncate {
-    font-weight: 600;
-}
-
-.THIS .resource-links {
-    color: black !important;
-    margin: 0px !important;
-    padding: 0px !important;
 }
 
 .THIS .resource-links:focus {
     text-decoration: none;
 }
 
-.THIS .language-filter-icon svg{
-    fill: #297dfd;
+.THIS .language-filter-icon svg {
+    fill: #808080;
 }
 
-.THIS .language-title{
+.THIS .language-title {
     color: black;
-    font-size: 13px;
+    font-size: 16px;
+    padding-right: 5px;
 }
 
-.THIS .language-filter .header-menu-link{
+.THIS .language-filter .header-menu-link {
     justify-content: unset;
     padding: 0px;
 }
 
+.THIS .resourceLinkHover:hover {
+    text-decoration: none;
+    background-color: #eef5ff;
+    transition: .25s;
+}
+
 .THIS .language-filter .menu-popup-panel.popupTargetContainer {
     left: -10px;
+    top: -50px;
     width: 130px;
 }
 
+.THIS img.language-filter-icon {
+    height: 14px;
+    width: 14px;
+}
 
+.THIS .slds-icon:hover {
+    cursor: pointer;
+    title: 'download';
+}
 
+.THIS .downloadBtnCSS:hover {
+    cursor: pointer;
+}
+
+.THIS .libLabel {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+
+    .THIS .formatForMobile {
+        margin-left: -18px;
+    }
+
+    .THIS .libraryTypeForMobile {
+        margin-left: -29px;
+    }
+
+    .THIS .versionForMobile {
+        width: 11%;
+    }
+
+    .THIS .slds-scrollable_y::-webkit-scrollbar {
+        -webkit-appearance: none;
+    }
+
+    .THIS .slds-scrollable_y::-webkit-scrollbar:vertical {
+        width: 1rem;
+    }
+
+    .THIS .slds-scrollable_y::-webkit-scrollbar-thumb {
+        border-radius: 8px;
+        border: 2px solid white;
+        background-color: #999;
+        min-height: 25px;
+    }
+
+}
+
+@media screen and (max-width: 500px) {
+
+    .cLibraryPI.resource-headers {
+        background-color: #fff;
+    }
+
+    .THIS.resource-headers.slds-grid {
+        min-height: 50px;
+        padding-left: 1rem;
+    }
+
+    .THIS .slds-accordion__section {
+        padding: 14px 1rem;
+    }
+
+    .THIS.resource-headers > div:first-child,
+    .THIS.resource-headers > div:nth-of-type(n+3) {
+        display: none;
+    }
+
+    .THIS.resource-headers > .slds-coll:nth-of-type(2) {
+        width: 100%;
+    }
+
+    .THIS .language-title {
+        color: #297dfd;
+    }
+
+    .THIS .language-filter-icon svg {
+        fill: #297dfd;
+    }
+
+    .THIS .libraryTypeForMobile {
+        margin-left: 0;
+    }
+
+    .THIS .libLabel {
+        display: inline-block;
+        padding-right: 5px;
+        color: #595959;
+    }
+
+    .THIS .libLabel.dld {
+        color: #297dfd;
+        padding-right: 10px;
+    }
+
+    .THIS.rr-white-panel .resource-container {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        padding: 1rem 0 1rem 25px;
+    }
+
+    .THIS.rr-white-panel .resource-container:first-child {
+        padding-top: 0;
+    }
+
+    .THIS.rr-white-panel .resource-container > .slds-coll {
+        min-width: 100%;
+        color: #000;
+        margin-bottom: 12px;
+    }
+
+    .THIS.rr-white-panel .resource-container a.slds-coll {
+        color: #297dfd;
+    }
+
+    .THIS lightning-primitive-icon > svg {
+        fill: #000;
+    }
+
+    .THIS .slds-is-open lightning-primitive-icon > svg {
+        fill: #297dfd;
+    }
+
+    .THIS .slds-align_absolute-center.slds-icon-utility-download {
+        justify-content: flex-start;
+    }
+
+    .THIS .slds-align_absolute-center {
+        display: inline-flex;
+    }
+
+    .THIS .slds-icon-utility-download .slds-icon_xx-small {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .THIS .language-filter .header-menu-link{
+        justify-content: flex-start;
+    }
+
+    .THIS > .slds-coll:first-child {
+        max-width: 30%;
+    }
+}

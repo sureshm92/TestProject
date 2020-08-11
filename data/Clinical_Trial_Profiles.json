@@ -271,6 +271,7 @@
             "Age__c": "Age__c",
             "Brief_Summary__c": "Brief_Summary__c",
             "Co_morbidity__c": "",
+            "CommunityTemplate__c": "GSK",
             "Condition_s_Therapeutic_Area__c": "Intubation, Intratracheal",
             "Currency_for_Below_Amounts__c": "USD",
             "Demographic__c": "Demographic__c",
@@ -311,6 +312,7 @@
             "Suppress_Participant_Emails__c": false,
             "US_FDA_Regulated_Product__c": false,
             "Therapeutic_Area__c": "@Therapeutic_Area__cRef92",
+            "Trial_Match_Is_Available__c": true,
             "Synch_with_TMDH__c": true
         }
     ]

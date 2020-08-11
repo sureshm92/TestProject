@@ -4,7 +4,7 @@
 
 public without sharing class MyTeamRemote {
     //TODO:get only active Studies
-    private static final String ACTIVE_STUDY_SITES_FILTER = 'AND (Override_PI_Referral_Status__c IN (\'Accepted\',\'Accepted (Admin)\'))';
+    private static final String ACTIVE_STUDY_SITES_FILTER = 'AND (Override_PI_Referral_Status__c IN (\'Accepted\',\'Invitation Sent\',\'Accepted (Admin)\'))';
     private static final String ACTIVE_HCP_ENROLLMENTS_FILTER = 'AND (Status__c IN (\'Activated\',\'Activated (Admin)\'))';
     @AuraEnabled
     public static String getInitData(String userMode, String parentId) {
@@ -56,6 +56,7 @@ public without sharing class MyTeamRemote {
                         SELECT Id, FirstName, LastName, Name, Email
                         FROM Contact
                         WHERE Email = :contactEmail
+                        AND userCommunityMode__c != 'CC'
                 ];
             }
 
@@ -264,6 +265,7 @@ public without sharing class MyTeamRemote {
                         DelegateLevelWrapper siteLevel = new DelegateLevelWrapper();
                         siteLevel.entityName = site.Name;
                         siteLevel.enrollmentOrStudySiteId = site.Id;
+                        siteLevel.ReferralStatus = site.Override_PI_Referral_Status__c;
                         siteLevel.delegateLevel = '';
                         siteLevel.readOnly = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getPIStudySitesAccessLevelMap().get(site.Id))
                                 || delegateContact.Id == CommunityService.getUserContact().Id;
@@ -477,17 +479,15 @@ public without sharing class MyTeamRemote {
                 ];
                 Participant__c participant = ParticipantService.getInstance().getState().participant;
                 contactDelegate.AccountId = user.Contact.AccountId;
-                contactDelegate.Current_Participant_Enrollment__c = participant.Contact__r.Current_Participant_Enrollment__c;
+                contactDelegate.Current_Participant_Enrollment__c = null;
                 contactDelegate.Language__c = UserInfo.getLanguage();
                 contactDelegate.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
                 contactDelegate.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
                 contactDelegate.UserCommunityIsDelegate__c = true;
                 contactDelegate.MailingCountryCode = participant.Mailing_Country_Code__c;
                 contactDelegate.MailingStateCode = participant.Mailing_State_Code__c;
+                contactDelegate.Landing_Community__c = Site.getMasterLabel() == 'IQVIA RH' ? CommunityService.IQVIA_NETWORK_NAME : Site.getMasterLabel();
                 insert contactDelegate;
-
-                User delegateUser = CommunityService.createUser(contactDelegate, null, null, null);
-                insert delegateUser;
 
                 Participant__c participantDelegate = new Participant__c(
                         Adult__c = true,
@@ -503,8 +503,13 @@ public without sharing class MyTeamRemote {
                 );
                 insert participantDelegate;
 
+                User delegateUser = CommunityService.createUser(contactDelegate, null, null, null);
+                insert delegateUser;
+
             } else if (!CommunityService.isUserInCommunity(contactDelegate.Id)) {
                 contactDelegate.UserCommunityIsDelegate__c = true;
+                Boolean check = contactDelegate.userCommunytyType__c.contains('PI') || contactDelegate.userCommunytyType__c.contains('HCP');
+                if(check) contactDelegate.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
                 update contactDelegate;
                 CommunityService.setUserToCommunity(contactDelegate.Id);
                 sendEmailNotification(contactDelegate, CommunityService.USER_MODE_PARTICIPANT);
@@ -518,6 +523,8 @@ public without sharing class MyTeamRemote {
     private static void createDelegate(DelegateWrapper delegate, String userMode, String parentId) {
         Contact delegateContact = createDelegateContact(delegate, userMode);
         List<Site_Staff__c> piDelegates = new List<Site_Staff__c>();
+        List<TrialDelegateWrapper> dlw = delegate.delegateTrials;
+        Boolean createUser = doCreateUser(dlw, userMode);
         if (userMode == CommunityService.USER_MODE_PI) {
             piDelegates = createPIDelegationRecord(delegate, delegateContact);
         }
@@ -529,12 +536,29 @@ public without sharing class MyTeamRemote {
         if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
             delegate.delegateContact = delegateContact;
         }
-
-        ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id>{
-                delegateContact.Id
-        });
+        if (createUser) {
+            ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id>{
+                    delegateContact.Id
+            });
+        }
         if (!piDelegates.isEmpty()) {
             DelegateService.addConversationSharesForPITeam(piDelegates);
+        }
+    }
+
+    public static Boolean doCreateUser(List<TrialDelegateWrapper> dlw, String userMode) {
+        if(userMode != CommunityService.USER_MODE_PI){
+          return true;
+        }
+        else{
+            for (MyTeamRemote.TrialDelegateWrapper t : dlw) {
+                for (MyTeamRemote.DelegateLevelWrapper d : t.siteLevels) {
+                    if ((d.ReferralStatus == StudySiteService.PI_S_ACCEPTED || d.ReferralStatus == StudySiteService.PI_S_ACCEPTED_A) &&  String.isNotBlank(d.delegateLevel)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 
@@ -637,6 +661,7 @@ public without sharing class MyTeamRemote {
         public String entityName;
         public String enrollmentOrStudySiteId;
         public Boolean readOnly;
+        public String ReferralStatus;
 
         public Integer compareTo(Object compareTo) {
             if (entityName > ((DelegateLevelWrapper) compareTo).entityName) {

@@ -58,6 +58,7 @@ public abstract class Batch_ScheduledAbstract implements Database.Batchable<SObj
             Batch_Detail__c detail = batchDetails.get(0);
             Integer minutes = getMinutesByMode(detail.Interval_Mode__c, detail.Relaunch_Interval__c.intValue());
             Integer scopeSize = detail.Scope_Size__c.intValue();
+            System.debug('Next Scope Size: ' + scopeSize);
             System.scheduleBatch(
                     (Database.Batchable<SObject>) getType().newInstance(), getType().getName(), minutes, scopeSize);
         }

@@ -38,12 +38,12 @@ window.communityService = (function () {
                 console.log('Mode data: ' + returnValue);
                 let communityData = JSON.parse(returnValue);
                 preventedCookies = communityData.preventedCookies;
+                isDummy = communityData.isDummy;
                 if(!isDummy) {
                     service.deleteCookies(preventedCookies);
                     console.log('preventedCookies: ' + JSON.stringify(preventedCookies));
                 }
                 subDomain = communityData.subDomain;
-                isDummy = communityData.isDummy;
                 communityMode = isDummy ? 'PI' : communityData.communityMode;
                 communityDelegateId = communityData.communityDelegateId;
                 isDelegate = communityData.isDelegate;
@@ -74,7 +74,14 @@ window.communityService = (function () {
         executeAction: function (component, actionName, params, successCallback, errorCallback, finalCallback) {
             service.logError(function () {
                 let action = component.get('c.' + actionName);
-                if (params) action.setParams(params);
+                if (params) {
+                    if (service.parametersHaveValidInputs(params)) {
+                        service.showErrorToast('Error', $A.get('$Label.c.TST_JS_Injection_Error'));
+                        if (errorCallback) errorCallback();
+                        if (finalCallback) finalCallback();
+                    }
+                    action.setParams(params);
+                }
                 action.setCallback(this, function (response) {
                     try {
                         if (response.getState() === "SUCCESS") {
@@ -149,10 +156,12 @@ window.communityService = (function () {
             return currentUserMode;
         },
 
-        setCurrentCommunityMode: function(mode){
+        setCurrentCommunityMode: function(mode, page){
             currentUserMode = mode;
             service.setThemeCSS();
-            if(!isDummy && mode.template.needRedirect) document.location.href = mode.template.redirectURL;
+            let redirectURL = mode.template.redirectURL;
+            if(page) redirectURL += '/s/' + page;
+            if(!isDummy && mode.template.needRedirect) document.location.href = redirectURL;
         },
 
         getMessagesVisible : function () {
@@ -468,7 +477,19 @@ window.communityService = (function () {
 
         logOut: function () {
             window.location.replace(baseUrl + '/secur/logout.jsp');
-        }
+        },
+
+        parametersHaveValidInputs: function (params) {
+            let paramsJSON = JSON.stringify(params);
+            let re = /javascript|<.*>/gm;
+            return re.test(String(paramsJSON).toLowerCase());
+        },
+
+        parametersEscapeHTML: function (params) {
+            let paramsJSON = JSON.stringify(params);
+            paramsJSON = paramsJSON.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            return JSON.parse(paramsJSON);
+        },
     };
 
     window.onscroll = function () {

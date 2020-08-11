@@ -10,9 +10,10 @@
             component.set('v.initialized', true);
         });
     },
-
+    
     doExecute: function (component, event, helper) {
         try {
+            component.set('v.init', false);
             component.find('spinner').show();
             component.set('v.initialized', false);
             component.set('v.sendEmails', false);
@@ -49,7 +50,17 @@
                     if (returnValue.isEnrolled) formComponent.set('v.isFinalUpdate', true);
                     component.find('spinner').hide();
                     component.set('v.anchor', params.anchorScroll);
+                    if (returnValue.enrollment.HCP__r){
+                        component.set('v.refProvider', returnValue.enrollment.HCP__r.HCP_Contact__r);
+                        returnValue.enrollment.HCP__r.HCP_Contact__r = undefined;
+                    }
                     component.set('v.pe', returnValue.enrollment);
+                    component.set('v.init', true);
+                    component.set('v.isEmail', pe.Permit_Mail_Email_contact_for_this_study__c);
+                    component.set('v.isPhone', pe.Permit_Voice_Text_contact_for_this_study__c);
+                    component.set('v.isSMS', pe.Permit_SMS_Text_for_this_study__c);
+                    
+                    component.set('v.doContact', !pe.Permit_IQVIA_to_contact_about_study__c);
                     component.set('v.participantDelegate', returnValue.participantDelegate);
                     component.set('v.participant', pe.Participant__r);
                     component.set('v.userInfo', returnValue.userInfo);
@@ -63,7 +74,7 @@
             console.error(e);
         }
     },
-
+    
     checkParticipant: function (component, event, helper) {
         let newPhone = component.get('v.pe.Participant__r.Phone__c');
         let oldPhone = component.get('v.participant.Phone__c');
@@ -71,11 +82,19 @@
             component.set('v.participant.Phone__c', newPhone);
         }
     },    
-
-
+    
+    
     doUpdate: function (component, event, helper) {
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
+        var usermode = communityService.getUserMode();
+        //pe.Permit_IQVIA_to_contact_about_study__c = !component.get('v.doNotContact');
+        pe.Permit_Mail_Email_contact_for_this_study__c = component.get('v.isEmail');
+        pe.Permit_Voice_Text_contact_for_this_study__c = component.get('v.isPhone');
+        pe.Permit_SMS_Text_for_this_study__c = component.get('v.isSMS');
+        /*if(component.get('v.sendEmails')&& component.get('v.doContact')){
+            helper.createUserForPatient(component,event,helper);
+        }*/
         var userInfo = component.get('v.userInfo');
         pe.Participant__r = participant;
         if (!pe.sObjectType) {
@@ -93,7 +112,7 @@
         }, function (returnvalue) {
             if (component.get('v.saveAndChangeStep')) {
                 component.set('v.saveAndChangeStep', false);
-
+                
             }
             var callback = component.get('v.callback');
             if(callback){
@@ -101,11 +120,16 @@
             }
             component.set('v.pe', returnvalue);
             component.set('v.participant', returnvalue.Participant__r);
+            if(usermode === 'CC'){
+                var cmpEvent = component.getEvent("callcenter"); 
+                cmpEvent.setParams({"searchKey" : component.get("v.searchKey")}); 
+                cmpEvent.fire(); 
+            }
         }, null, function () {
             component.find('spinner').hide();
         });
     },
-
+    
     doCallback: function (component, event, helper) {
         var pe = component.get('v.pe');
         var callback = component.get('v.callback');
@@ -128,19 +152,43 @@
     },
     doUpdateCancel: function (component, event, helper) {
         var userInfo = component.get('v.userInfo');
+        var usermode = communityService.getUserMode();
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
+        //pe.Permit_IQVIA_to_contact_about_study__c = !component.get('v.doNotContact');
+        pe.Permit_Mail_Email_contact_for_this_study__c = component.get('v.isEmail');
+        pe.Permit_Voice_Text_contact_for_this_study__c = component.get('v.isPhone');
+        pe.Permit_SMS_Text_for_this_study__c = component.get('v.isSMS');
+        /*if(component.get('v.sendEmails')&& component.get('v.doContact')){
+            helper.createUserForPatient(component,event,helper);
+        }*/
         var pathWrapper = component.get('v.participantPath');
         var statusDetailValid = component.get('v.statusDetailValid');
         var isStatusChanged = component.get('v.isStatusChanged');
-        console.log('#isStatusChanged: '+ isStatusChanged);
-        console.log('##statusDetailValid: '+statusDetailValid);
+        console.log('##Save isStatusChanged1: '+ isStatusChanged);
+        console.log('##Save statusDetailValid: '+statusDetailValid);
+        let steps = component.get('v.participantPath.steps');
+        for (let ind = 0; ind < steps.length; ind++) {
+            if (steps[ind].title == $A.get('$Label.c.PWS_Initial_Visit_Name') 
+                && steps[ind].isCurrentStepValid 
+                && steps[ind].isCurrentStep) {
+                isStatusChanged = true;
+                break;
+            }
+        }
+        console.log('##Save isStatusChanged2: '+ isStatusChanged);
         pe.Participant__r = participant;
         if (!pe.sObjectType) {
             pe.sObjectType = 'Participant_Enrollment__c';
         }        
         component.find('spinner').show();
-        var actionName = 'updatePatientInfoWithDelegate';
+        var actionName;
+        if(usermode == 'CC'){
+            actionName = 'updatePatientInfoWithDelegateCC';
+        }
+        else{
+            actionName = 'updatePatientInfoWithDelegate';
+        }
         var actionParams = {
             participantJSON: JSON.stringify(participant),
             peJSON: JSON.stringify(pe),
@@ -148,7 +196,12 @@
             userInfoJSON: JSON.stringify(userInfo)
         };
         if(statusDetailValid){
-            actionName = 'updatePatientInfoAndStatusWithDelegate';
+            if(usermode == 'CC'){
+                actionName = 'updatePatientInfoAndStatusWithDelegateCC';
+            }
+            else{
+                actionName = 'updatePatientInfoAndStatusWithDelegate';
+            }
             actionParams = {
                 participantJSON: JSON.stringify(participant),
                 peJSON: JSON.stringify(pe),
@@ -166,16 +219,84 @@
             }
             component.find('spinner').hide();
             var comp = component.find('dialog');
+            if(usermode === 'CC')
+            {
+                var cmpEvent = component.getEvent("callcenter"); 
+                cmpEvent.setParams({"searchKey" : component.get("v.searchKey")}); 
+                cmpEvent.fire(); 
+            }
             comp.hide();
         }, null, function () {
             component.set('v.isStatusChanged', false);
             component.find('spinner').hide();
         });
     },
-
+    
+    
+    doUpdatePatientStatus: function (component, event, helper) {
+        let pathWrapper = component.get('v.participantPath');
+        var usermode = communityService.getUserMode();
+        let pe = component.get('v.pe');
+        //pe.Permit_IQVIA_to_contact_about_study__c = !component.get('v.doNotContact');
+        pe.Permit_Mail_Email_contact_for_this_study__c = component.get('v.isEmail');
+        pe.Permit_Voice_Text_contact_for_this_study__c = component.get('v.isPhone');
+        pe.Permit_SMS_Text_for_this_study__c = component.get('v.isSMS');
+        /*if(component.get('v.sendEmails')&& component.get('v.doContact')){
+            helper.createUserForPatient(component,event,helper);
+        }*/
+        let statusDetailValid = component.get('v.statusDetailValid');
+        var isStatusChanged = component.get('v.isStatusChanged');
+        console.log('##isStatusChanged1: '+ isStatusChanged);
+        let steps = component.get('v.participantPath.steps');
+        for (let ind = 0; ind < steps.length; ind++) {
+            if (steps[ind].title == $A.get('$Label.c.PWS_Initial_Visit_Name') 
+                && steps[ind].isCurrentStepValid 
+                && steps[ind].isCurrentStep) {
+                isStatusChanged = true;
+                break;
+            }
+        }
+        console.log('##isStatusChanged2: '+ isStatusChanged);
+        if(statusDetailValid){
+            component.find('spinner').show();
+            var actionName;
+            if(usermode == 'CC'){
+                actionName= 'updatePatientStatusCC';
+            }
+            else {
+                actionName= 'updatePatientStatus';
+            }
+            console.log(JSON.stringify(pathWrapper));
+            communityService.executeAction(component, actionName, {
+                pathWrapperJSON: JSON.stringify(pathWrapper),
+                peId: pe.Id,
+                historyToUpdate: isStatusChanged
+            }, function (returnValueJSON) {
+                var returnValue = JSON.parse(returnValueJSON);
+                component.set('v.updateInProgress', true);
+                component.set('v.participantPath',returnValue.participantPath);
+                
+                component.set('v.pe', returnValue.pe);
+                var callback = component.get('v.callback');
+                if(callback){
+                    callback(pe);
+                }
+                if(usermode === 'CC'){
+                    var cmpEvent = component.getEvent("callcenter"); 
+                    cmpEvent.setParams({"searchKey" : component.get("v.searchKey")}); 
+                    cmpEvent.fire(); 
+                }
+            }, null, function () {
+                component.set('v.updateInProgress', false);                
+                component.set('v.isStatusChanged', false);
+                component.find('spinner').hide();
+            });
+        }
+        
+    },
     createUserForPatient: function(component, event, helper){
-    	var sendEmails = component.get('v.sendEmails');
-    	var pe = component.get('v.pe');
+        var sendEmails = component.get('v.sendEmails');
+        var pe = component.get('v.pe');
         component.find('spinner').show();
         communityService.executeAction(component, 'createUserForPatientProtal', {
             peJSON: JSON.stringify(pe),
@@ -193,38 +314,6 @@
             component.find('spinner').hide();
         });
     },
-
-    doUpdatePatientStatus: function (component, event, helper) {
-        let pathWrapper = component.get('v.participantPath');
-        let pe = component.get('v.pe');
-        let statusDetailValid = component.get('v.statusDetailValid');
-        var isStatusChanged = component.get('v.isStatusChanged');
-        console.log('#isStatusChanged: '+ isStatusChanged);
-        if(statusDetailValid){
-            component.find('spinner').show();
-            console.log(JSON.stringify(pathWrapper));
-            communityService.executeAction(component, 'updatePatientStatus', {
-                pathWrapperJSON: JSON.stringify(pathWrapper),
-                peId: pe.Id,
-                historyToUpdate: isStatusChanged
-            }, function (returnValueJSON) {
-                var returnValue = JSON.parse(returnValueJSON);
-                component.set('v.updateInProgress', true);
-                component.set('v.participantPath',returnValue.participantPath);
-
-                component.set('v.pe', returnValue.pe);
-                var callback = component.get('v.callback');
-                if(callback){
-                    callback(pe);
-                }
-            }, null, function () {
-                component.set('v.updateInProgress', false);                
-                component.set('v.isStatusChanged', false);
-                component.find('spinner').hide();
-            });
-        }
-
-    },
     doCheckStatusDetailValidity : function (component, event, helper) {
         let steps = component.get('v.participantPath.steps');
         let isValid = true;
@@ -236,7 +325,7 @@
         }
         component.set('v.statusDetailValid', isValid);
     },
-
+    
     checkChildChanges: function(component, event, helper){
         var isChangedPatientInfo = event.getParam("isChangedPatientInfo");
         var isChangedStatus = event.getParam("isChangedStatus");
@@ -246,5 +335,23 @@
             component.set('v.isStatusChanged', true);
         }
         
+    },
+    doContact : function (component){
+        console.log('hi')
+        component.set('v.doContact', !component.get('v.doContact'));
+        if(!component.get('v.doContact')){
+            component.set('v.sendEmails',false);
+        }
+    },
+    doContactEmail : function (component){
+        component.set('v.isEmail', !component.get('v.isEmail'));
+    },
+    
+    doContactPhone : function (component){
+        component.set('v.isPhone', !component.get('v.isPhone'));
+    },
+    
+    doContactSMS : function(component){
+        component.set('v.isSMS',!component.get('v.isSMS'));
     }
 });

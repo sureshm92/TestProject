@@ -1,0 +1,49 @@
+<!--
+ - Created by Deeksha on 09.07.2020.
+ -->
+
+ <aura:component description="DelegateLevelInfoTable">
+    <!-- attributes: -->
+    <aura:attribute name="activeSections" type="List" default="['A','C']" />
+    
+    <aura:attribute name="userMode" required="true" type="String"/>
+    <aura:attribute name="capList" required="false" access="private" type="Object[]"/>
+    <aura:attribute name="header" required="false" access="private" type="Object"/>
+    
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!-- component body-->
+       <aura:if isTrue="{!(v.userMode == 'Participant')}" >
+       
+            <div class="slds-section slds-is-close" aura:id="tasksSection">
+        <!--section header-->
+        <h6 class="slds-section__title">
+            <a aria-controls="tasksList" class="button_color">
+                <span onclick="{!c.toggleSection}" data-auraId="tasksSection">
+                    <lightning:icon iconName="utility:switch"
+                                    size="x-small"
+                                    class="slds-section__title-action-icon slds-button__icon_left"
+                                    alternativeText="button icon" 
+                                    />
+                </span>
+                <span class="button_color"  title="{!$Label.c.PP_DelegateTasks}"  style="font-weight:600;text-decoration:none;color:#0768FD;">{!$Label.c.PP_DelegateTasks}</span>
+            </a>
+            
+
+        </h6>
+        <!--section body-->
+        <div class="slds-section__content" id="tasksList" style="margin-left: 20px;">
+            <aura:iteration items="{!v.capList}" var="capability">
+                <span>
+                <ul>
+                            <li style="list-style-type:disc;list-style:disc;color: #000000;">{!capability.text}</li>
+                        </ul>
+                </span>
+                        
+                    </aura:iteration>
+        </div>
+    </div>
+        
+    </aura:if>
+</aura:component>

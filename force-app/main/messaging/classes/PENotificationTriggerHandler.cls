@@ -26,6 +26,7 @@ public without sharing class PENotificationTriggerHandler {
 
     // Logic: ----------------------------------------------------------------------------------------------------------
 
+
     @TestVisible
     private static void createNotificationByStatus(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         List<String> peStatusesSuccess = new List<String>{
@@ -43,7 +44,9 @@ public without sharing class PENotificationTriggerHandler {
                         HCP_Contact_HCPEnroll__c,
                         Participant__c,
                         Participant__r.Contact__c,
+                        Participant__r.Contact__r.Visited_Communities__c,
                         Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+                        Clinical_Trial_Profile__r.CommunityTemplate__c,
                         Study_Site__r.Principal_Investigator__r.Id,
                         Participant_Status__c,
                         Is_Virtual_Study_Site__c,
@@ -56,6 +59,7 @@ public without sharing class PENotificationTriggerHandler {
 
         for (Participant_Enrollment__c pe : PEs) {
             String notifyHCPType, notifyPTType;
+
             //Forming list notifications for HCPs and Patients
             Boolean notContainsForPT = false, notContainsForHCP = false;
             if (oldMap != null && pe.Participant_Status__c != (oldMap.get(pe.Id)).Participant_Status__c) {
@@ -64,7 +68,7 @@ public without sharing class PENotificationTriggerHandler {
             }
             if (pe.HCP_Contact_HCPEnroll__c != null) notifyHCPType = NotificationService.checkHCPNotificationType(pe, notContainsForHCP);
             notifyPTType = pe.Is_Virtual_Study_Site__c ? NotificationService.checkPatientNotificationVTType(pe)
-                            : NotificationService.checkPatientNotificationType(pe, notContainsForPT);
+                    : NotificationService.checkPatientNotificationType(pe, notContainsForPT);
 
             String recipient;
             if (notifyHCPType != null) {
@@ -81,9 +85,17 @@ public without sharing class PENotificationTriggerHandler {
                 String notificationTypePT;
                 //Forming additional notification for Enrollment Success
                 if (peStatusesSuccess.contains(pe.Participant_Status__c) && pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c) {
-                    participantConIds.add(pe.Participant__r.Contact__c);
-                    notificationTypePT = NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE;
+                    String visitedCommunities = pe.Participant__r.Contact__r.Visited_Communities__c;
+                    String currentCommunityName = CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).templateName;
+                    Boolean checkVisitedCommunity = false;
+                    if (currentCommunityName != null
+                            && visitedCommunities != null) checkVisitedCommunity = visitedCommunities.contains(currentCommunityName);
+                    if (checkVisitedCommunity) {
+                        participantConIds.add(pe.Participant__r.Contact__c);
+                        notificationTypePT = NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE;
+                    }
                 }
+
                 //Forming additional notification for Drop Out
                 if (pe.Participant_Status__c == PEStatusState.PE_STATUS_DROP_OUT) {
                     notificationTypePT = NotificationCatalog.MESSAGE_TO_PT_DROP_OUT_TYPE;
@@ -97,33 +109,14 @@ public without sharing class PENotificationTriggerHandler {
                     ));
                 }
             }
-            if (oldMap == null || pe.Participant_Status__c != (oldMap.get(pe.Id)).Participant_Status__c) {
-                //Forming additional notification for PI
-                if (pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED && pe.Source_Type__c != ParticipantEnrollmentService.PE_SOURCE_TYPE_PI) {
-                    notifications.add(new Notification__c(
-                            Recipient__c = pe.Study_Site__r.Principal_Investigator__r.Id,
-                            WhatId__c = pe.Id,
-                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE
-                    ));
-                    for (Site_Staff__c delegate : [
-                            SELECT Id, Site_Contact__c
-                            FROM Site_Staff__c
-                            WHERE Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
-                            AND Study_Site__c = :pe.Study_Site__c
-                    ]) {
-                        notifications.add(new Notification__c(
-                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE,
-                                Recipient__c = delegate.Site_Contact__c,
-                                WhatId__c = pe.Id));
-                    }
-                }
-            }
         }
 
         //get Delegates for Participant
         List<Notification__c> delegateNotifications = new List<Notification__c>();
         Map<Id, List<Contact>> delegateContactsByPartCnt = PatientDelegateService.getDelegatedCntsByParticipantCnt(
-                participantConIds, new List<String>{'Id'}
+                participantConIds, new List<String>{
+                        'Id'
+                }
         );
         for (Notification__c n : notifications) {
             if (!skipNotifyTypesDel.contains(n.Notification_Type__c) && delegateContactsByPartCnt.containsKey(n.Recipient__c)) {
@@ -142,6 +135,7 @@ public without sharing class PENotificationTriggerHandler {
         insert notifications;
     }
 
+
     @TestVisible
     private static void referredToNewStudyDelegateNotifications(List<Participant_Enrollment__c> newList) {
         List<Id> participantConIds = new List<Id>();
@@ -149,7 +143,7 @@ public without sharing class PENotificationTriggerHandler {
         Map<String, Map<Id, List<Participant_Enrollment__c>>> pesByCommunityName = new Map<String, Map<Id, List<Participant_Enrollment__c>>>();
 
         for (Participant_Enrollment__c pe : newList) {
-            if(pe.Participant_Contact__c != null) participantConIds.add(pe.Participant_Contact__c);
+            if (pe.Participant_Contact__c != null) participantConIds.add(pe.Participant_Contact__c);
         }
 
         List<Participant_Enrollment__c> allPEs = [
@@ -173,12 +167,20 @@ public without sharing class PENotificationTriggerHandler {
         }
 
         Map<Id, List<Contact>> delegateContactsByPartCnt = PatientDelegateService.getDelegatedCntsByParticipantCnt(
-                participantConIds, new List<String>{'Id'}
+                participantConIds, new List<String>{
+                        'Id'
+                }
         );
 
+        Boolean isFutureContext = System.isFuture() || System.isBatch();
         for (Participant_Enrollment__c pe : newList) {
-            String communityName = ((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).CommunityTemplate__c;
-            if(pesByCommunityName.get(communityName) != null) {
+            String communityName;
+            if (!isFutureContext) {
+                communityName = ((Clinical_Trial_Profile__c) PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).CommunityTemplate__c;
+            } else if (pe.Clinical_Trial_Profile__r != null) {
+                communityName = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
+            }
+            if (pesByCommunityName.get(communityName) != null) {
                 Map<Id, List<Participant_Enrollment__c>> pesByPartCont = pesByCommunityName.get(communityName);
                 if (pesByPartCont.get(pe.Participant_Contact__c).size() > 1 && delegateContactsByPartCnt.keySet().contains(pe.Participant_Contact__c)) {
                     for (Contact delegate : delegateContactsByPartCnt.get(pe.Participant_Contact__c)) {
@@ -200,7 +202,9 @@ public without sharing class PENotificationTriggerHandler {
         List<Notification__c> notificationList = new List<Notification__c>();
         List<Id> peIds = new List<Id>();
         for (Participant_Enrollment__c pe : newList) {
-            if (pe.Study_Site__c != oldMap.get(pe.Id).Study_Site__c && oldMap.get(pe.Id).Study_Site__c != null) {
+            if (pe.Study_Site__c != oldMap.get(pe.Id).Study_Site__c && oldMap.get(pe.Id).Study_Site__c != null
+               && !(oldMap.get(pe.Id).Participant_Status__c == 'Pending Referral' 
+                && (pe.Participant_Status__c == 'Received'||pe.Participant_Status__c == 'Eligibility Passed'))) {
                 peIds.add(pe.Id);
             }
         }

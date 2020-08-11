@@ -10,7 +10,7 @@
 
             communityService.executeAction(component, 'getMatchCTPs', null, function (data) {
                 component.set('v.trialmatchCTPs', data.trialmatchctps);
-                component.set('v.initializedTrms', true);
+                component.set('v.partid', data.partid);
                 component.set('v.initialized', true);
 
                 if (!String.format) {
@@ -27,5 +27,14 @@
         } else {
             component.find('builderStub').setPageName(component.getName());
         }
+    },
+
+    doGenerateReport: function (component, event, helper) {
+        var partid = component.get('v.partid');
+        var pageurl = window.location.href;
+        if(pageurl.includes("gsk"))
+            window.open('/gsk/apex/TrialMatchData?id=' + partid, '_blank');
+        else
+        	window.open('/apex/TrialMatchData?id=' + partid, '_blank');
     }
 });

@@ -23,7 +23,7 @@
         </div>
         <aura:if isTrue="{!v.showStudyName}">
             <div class="slds-col slds-size_3-of-5 slds-medium-size_4-of-5">
-                <span class="{!'sdli-label ' + if(equals(v.studyLevel.delegateLevel, v.prevValue),'','changed')}">{!v.studyLevel.entityName}</span>
+                <span class="{!'sdli-label ' + if(equals(v.studyLevel.delegateLevel, v.prevValue),'','changed')}">{!v.studyLevel.entityName} {!v.studyLevel.ReferralStatus ? ' (' : ''}{!v.studyLevel.ReferralStatus}{!v.studyLevel.ReferralStatus ? ')' : ''}</span>
             </div>
         </aura:if>
     </div>

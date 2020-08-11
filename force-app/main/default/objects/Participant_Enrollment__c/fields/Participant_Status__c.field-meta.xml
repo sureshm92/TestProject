@@ -119,11 +119,6 @@
                 <label>Screening Passed</label>
             </value>
             <value>
-                <fullName>Screening Passed - Wash Out Period</fullName>
-                <default>false</default>
-                <label>Screening Passed - Wash Out Period</label>
-            </value>
-            <value>
                 <fullName>Unable to Screen</fullName>
                 <default>false</default>
                 <label>Unable to Screen</label>
@@ -137,6 +132,36 @@
                 <fullName>Randomization Failed</fullName>
                 <default>false</default>
                 <label>Randomization Failed</label>
+            </value>
+            <value>
+                <fullName>Screening In Progress - Wash Out Period</fullName>
+                <default>false</default>
+                <label>In Wash Out Period</label>
+            </value>
+            <value>
+                <fullName>Ready to Screen</fullName>
+                <default>false</default>
+                <label>Ready to Screen</label>
+            </value>
+            <value>
+                <fullName>Withdrew Consent</fullName>
+                <default>false</default>
+                <label>Withdrew Consent</label>
+            </value>
+            <value>
+                <fullName>Declined Consent</fullName>
+                <default>false</default>
+                <label>Declined Consent</label>
+            </value>
+            <value>
+                <fullName>Withdrew Consent After Screening</fullName>
+                <default>false</default>
+                <label>Withdrew Consent After Screening</label>
+            </value>
+            <value>
+                <fullName>Declined Final Consent</fullName>
+                <default>false</default>
+                <label>Declined Final Consent</label>
             </value>
         </valueSetDefinition>
     </valueSet>

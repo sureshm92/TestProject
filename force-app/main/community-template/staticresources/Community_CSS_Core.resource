@@ -16,6 +16,7 @@ h1, h2, h3, h4, h5, h6{
 
 body{
     font-size: 13px;
+    overflow: visible!important;
 }
 
  a,
@@ -84,9 +85,9 @@ a:hover {
     padding: 4px 0 6px 0;
     margin-top: 3px;
     width: 100%;
-    border: none;
-    background: none;
-    color: #FFFFFF;
+    border: none ! important;
+    background: none ! important;
+    color: #FFFFFF ! important;
     font-size: 15px;
     font-weight: 300;
     line-height: 21px;
@@ -586,9 +587,10 @@ lightning-datepicker lightning-button-icon .slds-button svg {
     right: 4px;
 }
 
+.slds-datepicker tbody>tr>td,
 .slds-datepicker td,
 .slds-datepicker th{
-    font-size: .875rem;
+    font-size: 1rem;
 }
 
 .slds-datepicker td:not(.slds-disabled-text),
@@ -603,8 +605,8 @@ lightning-datepicker lightning-button-icon .slds-button svg {
 }
 
 .slds-datepicker td.slds-is-today>.slds-day {
-    background-color: #297dfd;
-    color: #fff;
+    background-color: #297dfd!important;
+    color: #fff!important;
 }
 
 .slds-datepicker td.slds-is-today>.slds-day:hover {
@@ -1255,7 +1257,82 @@ select.rr-select-error,
 
 /*-------------------------------------------------------- Common -------------------------------------------------------------*/
 .comm-panels-container.uiContainerManager.siteforcePanelsContainer{
+    display: block;
+	margin-top:-10px !important;
+}
+.unsNotificationsListRow .notification-avatar {
+    margin-right: .75rem;
+    float: left;
     display: none;
+}
+.unsNotificationsListRow .notification-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+     display: block !important;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.unsNotificationsListRow .assistive-unread-mark {
+    color: blue;
+}
+.assistive-unread-mark {
+    color: blue;
+}
+.uiPanel .uiButton.closeBtn {
+    position: absolute;
+    right: 0;
+    font-family: Arial;
+    font-size: 25px;
+    overflow: visible;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    top: 0;
+    z-index: 9001;
+    color: grey;
+}
+.unsNotificationsPanel .titleAction a {
+    min-width: 20%;
+    padding: .5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.unsNotificationsPanel .titleName {
+    min-width: 20% !important;
+    font-weight: 600 !important;
+    font-size: 1rem;
+    color: #333 !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.uiPanel.open, .uiPanel.transitioning {
+    margin: 0% 3% 2% 4% !important;
+    position: absolute !important;
+    top: 3.1rem !important;
+    border-radius: 0 !important;
+	z-index: 1 !important;
+}	
+
+/*.uiPanel .container {
+    position: relative;
+    z-index: 9002;
+	margin-top:-15px !important;
+}*/
+.unsNotificationsListRow.notification-unread {
+	
+background-color: rgba(41,125,253,0.08) !important;
+}
+.uiPanel>.pointer {
+	display:none !important;
+
+}
+.unsNotificationsListRow .assistive-unread-mark {
+    color: blue !important;
+}
+.unsNotificationsPanel>div {
+    width: 310px !important;
 }
 
 .brand-gradient-background{
@@ -1311,7 +1388,7 @@ input[type=password]::-ms-clear
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 2100;
+    z-index: 8700;
 }
 
 @media not print {
@@ -1453,6 +1530,8 @@ input[type=password]::-ms-clear
         padding-left: 1rem;
         padding-right: 1rem;
     }
+	
+	
     
     .slds-p-horizontal_medium, 
     .slds-p-horizontal--medium {
@@ -1462,9 +1541,73 @@ input[type=password]::-ms-clear
      .slds-p-horizontal_medium > .slds-col, 
     .slds-p-horizontal--medium > .slds col {
      	 padding: 0 10px;
-    }
+    }	
 
 }
+
+
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+.uiPanel.open, .uiPanel.transitioning {
+    margin: 0% 3% 2% 4% !important;
+    position: absolute !important;
+    top: 7% !important;
+    border-radius: 0 !important;
+	z-index: 1 !important;
+}	
+
+
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1366px){
+.uiPanel.open, .uiPanel.transitioning {
+    margin: 0% 3% 2% 4% !important;
+    position: absolute !important;
+    top: 6% !important;
+    border-radius: 0 !important;
+	z-index: 1 !important;
+}	
+
+
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px){
+.uiPanel.open, .uiPanel.transitioning {
+    margin: 0% 3% 2% 4% !important;
+    position: absolute !important;
+    top: 7% !important;
+    border-radius: 0 !important;
+	z-index: 1 !important;
+}	
+
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px){
+.uiPanel.open, .uiPanel.transitioning {
+    margin: 0% 3% 2% 4% !important;
+    position: absolute !important;
+    top: 7% !important;
+    border-radius: 0 !important;
+	z-index: 1 !important;
+}
+
+}
+
+@media only screen and (min-width: 0px) and (max-width: 479px){
+.uiPanel.open, .uiPanel.transitioning {
+    margin: 0% 3% 2% 4% !important;
+    position: absolute !important;
+    /*top: 6% !important;*/
+    border-radius: 0 !important;
+	z-index: 1 !important;
+}	
+
+}
+
+
+
+
+
 
 @media all and (max-width: 768px){
  	.slds-radio .slds-radio_faux, 
@@ -1483,13 +1626,32 @@ input[type=password]::-ms-clear
         height: .9rem;
     }
 }
-
+@media all and (min-width: 1024px) {
+.uiPanel.open, .uiPanel.transitioning {
+	margin: 0% 3% 2% 1% !important;
+    position: absolute !important;
+    top: 3% !important;
+    border-radius: 0 !important;
+    z-index: 1 !important;
+}
+}
 
 /* small 480 */
 @media all and (min-width: 480px){
     .rr-small-up-hide{
         display: none!important;
     }
+	
+	
+}
+@media only screen and (min-width: 768px) and (max-width: 1023px){
+	.uiPanel.open, .uiPanel.transitioning {
+		margin: 0% 3% 2% 2% !important;
+		top: 4.8% !important;
+		border-radius: 0 !important;
+		z-index: 1 !important;
+  }	
+
 }
 /*
 @media all and (max-width: 479px){
@@ -1532,5 +1694,11 @@ input[type=password]::-ms-clear
 }@media all and (max-width: 1279px){
     .rr-x_large-down-hide{
         display: none!important;
+    }
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .slds-scope .cp-information-container .slds-input {
+        padding: 0;
     }
 }

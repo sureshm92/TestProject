@@ -1,0 +1,18 @@
+<aura:component description="TrialMatchPageLearnMoreLink"  controller="TrialMatchLearnMoreLinkPDF" extends="c:LightningService" implements="flexipage:availableForAllPageTypes">
+       <ltng:require scripts="{!join(',', $Resource.jsPDF + '/jspdf.js', $Resource.jsPDF + '/jspdf.plugin.autotable.min.js',
+                    $Resource.pdfjs_dist + '/build/pdf.js', $Resource.rr_community_js)}"  afterScriptsLoaded="{!c.doInit}"/>
+        <!-- attributes: -->
+    <aura:attribute name="ctpId" type="String" />
+    <aura:attribute name="ctpRecord" type="Object"/>
+    <aura:attribute name="initialized" type="Boolean" default="false"/>   
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <!-- component body -->
+    <aura:if isTrue="{!v.initialized}">
+        <div>
+            <a onclick="{!c.doGenerateReport}">
+                {!$Label.c.Learn_More}
+            </a>
+        </div>
+    </aura:if>
+    <c:RRSpinner aura:id="spinner" size="medium" fixed="true"/>
+</aura:component>

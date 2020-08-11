@@ -21,22 +21,33 @@ public without sharing class PaymentsRemote {
             initData.informationAvailable = false;
             initData.href = 'none';
 
-            List<PaymentVendorSettings__c> pvs = [
-                    SELECT Id, Study_Site__c, Payment_Vendor__r.Link_Vendor__c
-                    FROM PaymentVendorSettings__c
-                    WHERE Study_Site__c =: ps.pe.Study_Site__c
-            ];
-
             if(remoteCallGetCardDetails.log.Success__c) {
                 initData.cards = result;
                 if(!result.isEmpty()) initData.informationAvailable = true;
             }
 
-            if(!pvs.isEmpty()) initData.href = pvs[0].Payment_Vendor__r.Link_Vendor__c;
+            initData.href = PaymentService.getPaymentVendorLink(ps.pe.Study_Site__c);
 
             return initData;
         } catch (Exception e) {
             return (InitData) AuraHelper.throwException(e);
         }
     }
+    //@Krishna Mahto - PEH-2179 - Start 
+    /**
+    * ───────────────────────────────────────────────────────────────────────────────────────────────┐
+    * This method will return the current communityName
+    * ────────────────────────────────────────────────────────────────────────────────────────────────
+    * @Method:   getCommunityName
+    * @param:    NA   
+    * @return:   Strings  
+    * ───────────────────────────────────────────────────────────────────────────────────────────────┘
+    **/
+    @AuraEnabled
+    public static String getCommunityName(){
+		String communityName=FindCommunityName.getCommunityName();
+        return communityName;
+    }
+    
+    //@Krishna Mahto - PEH-2179 - End
 }

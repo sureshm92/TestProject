@@ -4,6 +4,7 @@
 
 ({
     doInit: function (component, event, helper) {
+        console.log('DOINIT');
         component.find('spinner').show();
         communityService.executeAction(component, 'getInitData', {
             ctpId: component.get('v.recordId')
@@ -40,19 +41,37 @@
             if (ipIds) ipIds += ';' + ipId;
             component.set('v.filter.pageFeatureIds', ipIds);
             helper.updateItems(component);
+            component.set('v.initilizedMap', false)
+            $A.enqueueAction(component.get('c.doInit'));
         }, 'create');
     },
 
 
     //Incentive Plan column actions: ---------------------------------------------------------------------------------------
-    columnCheckboxStateChange: function (component, event, helper) {
+
+    doCheckboxChange: function (component, event, helper){
         let ipId = event.target.dataset.ip;
         let state = event.target.dataset.state === 'Enabled';
+        component.set('v.ipId', ipId);
+        component.set('v.state', state);
+        component.find('warningModal').show(($A.get('$Label.c.PG_Ref_L_One_Incentive_Many_Incentives')).replace('{0}', ('' + component.get('v.ssItems').length)), true);
+    },
+
+    columnCheckboxStateChange: function (component, event, helper) {
+        let ipId = component.get('v.ipId');
+        let state = component.get('v.state');
+
         let haveSelecteAll = false;
         let allSelectedIPs = component.get('v.allSelectedIPs');
-        for (const incenitvePlan in allSelectedIPs) {
-            haveSelecteAll = haveSelecteAll || (allSelectedIPs[incenitvePlan] && allSelectedIPs[incenitvePlan].size);
+        let ssItems = component.get('v.ssItems');
+        for (const ssItem of ssItems) {
+            for (const assignment of ssItem.assignments) {
+                for (const incenitvePlan in allSelectedIPs) {
+                    if (assignment.value != ipId && assignment.value == incenitvePlan && assignment.state) haveSelecteAll = true;
+                }
+            }
         }
+
         if (!haveSelecteAll || !state) {
             component.find('spinner').show();
             communityService.executeAction(component, 'setIncentivePlanForAll', {
@@ -64,19 +83,18 @@
             }, function (searchResponse) {
                 helper.setSearchResponse(component, searchResponse);
                 if (state) {
-                    component.set('v.selectedIP', ipId);
-                    allSelectedIPs[ipId] = component.get('v.setOfSS');
+                    let setOfSS = component.get('v.setOfSS');
+                    allSelectedIPs[ipId] = new Set(Array.from(setOfSS));
                     component.set('v.allSelectedIPs', allSelectedIPs);
                 } else {
-                    component.set('v.selectedIP', '');
                     allSelectedIPs[ipId].clear();
                     component.set('v.allSelectedIPs', allSelectedIPs);
                 }
-                communityService.showWarningToast('Warning!', ($A.get('$Label.c.PG_Ref_L_One_Incentive_Many_Incentives')).replace('{0}', ('' + component.get('v.ssItems').length)), 6000);
-                console.log('SELECTED IPs: ' + JSON.stringify(component.get('v.allSelectedIPs')));
+                component.find('warningModal').hide();
             });
         } else if (state && haveSelecteAll) {
             communityService.showWarningToast('Warning!', $A.get('$Label.c.PG_Ref_L_One_Incentive_Plan'), 5000);
+            component.find('warningModal').hide();
         }
     },
 
@@ -98,7 +116,44 @@
         let menuCmp = event.getSource();
         component.find('actionIP').execute(menuCmp.get('v.plan').value, function () {
             helper.updateItems(component);
+            component.set('v.initilizedMap', false)
+            $A.enqueueAction(component.get('c.doInit'));
         }, 'clone');
+    },
+
+    doWarningModal: function (component, event, helper) {
+        let menuCmp = event.getSource();
+        let planId = menuCmp.get('v.plan').value;
+        communityService.executeAction(component, 'getNumberStudySites', {
+            planId: planId
+        }, function (returnvalue) {
+            component.set('v.planIdForDelete', planId);
+            component.find('warningModal').show(($A.get('$Label.c.PG_Ref_L_Text_To_Delete_Plan')).replace('{0}', ('' + returnvalue)), false);
+        });
+    },
+    doColumnIPDelete: function (component, event, helper) {
+        let planId = component.get('v.planIdForDelete');
+        let ipIds = component.get('v.filter.pageFeatureIds');
+        let allSelectedIPs = component.get('v.allSelectedIPs');
+        if (ipIds) {
+            let items = ipIds.split(';');
+            let resItems = [];
+            for (let i = 0; i < items.length; i++) {
+                if (items[i] !== planId) resItems.push(items[i]);
+            }
+            component.set('v.filter.pageFeatureIds', resItems.join(';'));
+        }
+        component.find('spinner').show();
+        allSelectedIPs[planId].clear();
+        component.set('v.allSelectedIPs', allSelectedIPs);
+        communityService.executeAction(component, 'deleteIncentivePlan', {
+            planId: planId,
+            filterJSON: JSON.stringify(component.get('v.filter')),
+            paginationJSON: JSON.stringify(component.get('v.pagination'))
+        }, function (searchResponse) {
+            helper.setSearchResponse(component, searchResponse);
+            component.find('warningModal').hide();
+        });
     }
 
 });

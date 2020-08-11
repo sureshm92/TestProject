@@ -190,7 +190,10 @@ public without sharing class BatchControlPanelRemote {
                             jobWrapper.detail.Scope_Size__c.intValue()
                     );
                 } else {
-                    Database.executeBatch((Database.Batchable<SObject>) Type.forName(jobWrapper.detail.Name).newInstance());
+                    Database.executeBatch(
+                            (Database.Batchable<SObject>) Type.forName(jobWrapper.detail.Name).newInstance(),
+                            jobWrapper.detail.Scope_Size__c.intValue()
+                    );
                 }
             }
             return true;

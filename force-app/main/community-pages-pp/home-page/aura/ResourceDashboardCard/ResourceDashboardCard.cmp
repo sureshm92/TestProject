@@ -1,16 +1,18 @@
 <aura:component controller="ResourceRemote" description="ResourceDashboardCard"
-                implements="forceCommunity:availableForAllPageTypes" extends="c:CommunityContext">
+                implements="forceCommunity:availableForAllPageTypes,lightning:hasPageReference,lightning:isUrlAddressable" extends="c:CommunityContext">
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
-
+    <lightning:navigation aura:id="navService"/>
     <!--ATTRIBUTES-->
     <aura:attribute name="videoResource" type="Object"/>
     <aura:attribute name="articleResource" type="Object"/>
     <aura:attribute name="trialId" type="String"/>
     <aura:attribute name="noTAMessage" type="String"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
-
+    
     <!--COMPONENT BODY-->
-    <c:HomePreviewTablePanel title="{!$Label.c.PG_L_Resources}">
+
+    <c:HomePreviewTablePanel title="{!$Label.c.PG_L_Resources}" >
+    <div><a onclick="{!c.navigateToCoi}" class="change-pref" >{!$Label.c.PP_Change_Preferences_Resource}</a></div>
         <c:RRSpinner aura:id="mainSpinner" showSpinner="true" size="small"/>
         <aura:if isTrue="{!v.initialized}">
             <aura:if isTrue="{!!empty(v.noTAMessage)}">

@@ -27,18 +27,18 @@ public without sharing class CommunityFacadeRemote {
         String communityDelegateId;
         Boolean isDelegate;
         String state;
-        String pathPrefix;
         Boolean isTCAccepted;
-        Boolean messagesVisible;
         String language;
         List<String> preventedCookies;
         Boolean isNewSession;
         String baseUrl;
+        String pathPrefix;
+        String subDomain;
         List<CommunityMode> allUserModes;
         CommunityMode currentUserMode;
         Boolean isDummy;
         String communityName;
-        String subDomain;
+        Boolean messagesVisible;
         Boolean trialMatchVisible;
     }
 
@@ -68,10 +68,10 @@ public without sharing class CommunityFacadeRemote {
             cd.isDummy = UserContext.isDummyContact();
             if (!cd.isDummy) {
                 Contact userContact = CommunityService.getUserContact();
-                cd.allUserModes = UserContext.getAllUserModes();
                 cd.communityMode = userContact.userCommunityMode__c;
                 cd.communityDelegateId = userContact.userCommunityDelegateId__c != null ? userContact.userCommunityDelegateId__c : '';
                 cd.isDelegate = userContact.UserCommunityIsDelegate__c;
+                cd.allUserModes = UserContext.getAllUserModes();
                 cd.state = ParticipantService.getParticipantState().value.name();
                 cd.preventedCookies = getPreventedCookies(userContact.Id);
                 cd.messagesVisible = getMessagesVisibility();
@@ -84,10 +84,11 @@ public without sharing class CommunityFacadeRemote {
             cd.pathPrefix = Site.getPathPrefix();
             cd.isTCAccepted = cd.isDummy || isTCAccepted();
             cd.language = UserInfo.getLanguage();
+            
 
             return JSON.serialize(cd);
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            return (String) AuraHelper.throwException(e);
         }
     }
 
@@ -204,11 +205,8 @@ public without sharing class CommunityFacadeRemote {
         try {
             Contact userContact = CommunityService.getUserContact();
             userContact.userCommunityMode__c = mode;
-            if (mode == CommunityService.USER_MODE_HCP) userContact.userCommunityDelegateId__c = delegateId;
-            if (mode == CommunityService.USER_MODE_PARTICIPANT) {
-                userContact.Current_Participant_Enrollment__c = peId;
-                userContact.userCommunityDelegateId__c = delegateId;
-            }
+            userContact.userCommunityDelegateId__c = delegateId;
+            if (mode == CommunityService.USER_MODE_PARTICIPANT) userContact.Current_Participant_Enrollment__c = peId;
             update userContact;
             return userContact;
         } catch (Exception e) {
@@ -219,6 +217,7 @@ public without sharing class CommunityFacadeRemote {
     @AuraEnabled
     public static String getPreferredLanguageCode(String browserLanguages) {
         try {
+            if(UserInfo.getUserType() != 'Guest') return 'Skip';
             return TranslateHelper.convertBrowserLanguage((List<String>) JSON.deserialize(browserLanguages, List<String>.class));
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
@@ -255,4 +254,23 @@ public without sharing class CommunityFacadeRemote {
         }
     }
 
+    @AuraEnabled
+    public static Boolean isCurrentSessionMobileApp(){
+        Boolean isMobileApp = false;
+        List<AuthSession> sessions = [
+                SELECT Id, IsCurrent, LoginHistory.Browser, LoginHistory.Application, LastModifiedDate
+                FROM AuthSession
+                WHERE UsersId =: UserContext.getUserId() AND IsCurrent = TRUE
+                ORDER BY LastModifiedDate DESC LIMIT 1
+        ];
+        if (!sessions.isEmpty() && sessions[0].LoginHistory != null) {
+            LoginHistory history = sessions[0].LoginHistory;
+            if (history.Browser != null && history.Application != null){
+                isMobileApp = (!history.Application.equals('Browser') 
+                        || history.Browser.equals('Unknown Mobile Browser')
+                        || history.Browser.equals('Unknown Webkit Mobile'));
+            }
+        }
+        return isMobileApp;
+    }
 }

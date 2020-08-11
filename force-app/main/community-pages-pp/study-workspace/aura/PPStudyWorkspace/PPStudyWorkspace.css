@@ -18,7 +18,7 @@
     border-radius: 4px 4px 0 0;
     border: 1px solid #e9e9e9;
     border-width: 1px 1px 0 1px;
-    box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.04); 
+    box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.04);
 }
 
 /*=============================TABS=============================*/
@@ -42,12 +42,14 @@
     font-weight: 400;
 }
 
-.THIS .links .apollo-btn:nth-child(n+2) {border-left: none}
+.THIS .links .apollo-btn:nth-child(n+2) {
+    border-left: none
+}
 
-.THIS .apollo-btn.current{
+.THIS .apollo-btn.current {
     color: #000;
     background: none;
-    transition: color .4s, background .4s; 
+    transition: color .4s, background .4s;
 }
 
 .THIS .sd-tab-container {
@@ -69,11 +71,12 @@
     display: flex;
     min-height: 62px;
 }
+
 .THIS .sd-tab-container .sd-tab-right {
     float: right;
 }
 
-.THIS .sd-tab-container .sd-tab-right .sd-tub-button{
+.THIS .sd-tab-container .sd-tab-right .sd-tub-button {
     display: grid;
     width: 62px;
     padding-top: 10px;
@@ -101,14 +104,15 @@
     line-height: 12px;
     text-align: center;
 }
+
 .THIS .sd-tab-container .sd-tab:not(.selected):hover {
-    background-color: rgba(41,125,253,0.1);
+    background-color: rgba(41, 125, 253, 0.1);
     box-shadow: inset 0 -3px 0 0 #297DFD;
     opacity: 0.5;
 }
 
 .THIS .sd-tab-container .sd-tub-button:hover {
-    background-color: rgba(41,125,253,0.1);
+    background-color: rgba(41, 125, 253, 0.1);
     opacity: 0.5;
 }
 
@@ -116,26 +120,27 @@
     margin: auto;
 }
 
-.THIS .sd-tab.selected{
+.THIS .sd-tab.selected {
     opacity: 1;
     pointer-events: none;
-    background-color: rgba(41,125,253,0.1);
+    background-color: rgba(41, 125, 253, 0.1);
     box-shadow: inset 0 -3px 0 0 #297DFD;
     font-weight: bold;
 }
 
-.THIS .share-btn-label{
+.THIS .share-btn-label {
     color: #297DFD;
     text-align: center;
 }
 
-.THIS .sd-tab.disabled{
+.THIS .sd-tab.disabled {
     background-color: #FFFFFF;
     pointer-events: none;
     -moz-user-select: none;
     -khtml-user-select: none;
     user-select: none;
 }
+
 .THIS .sd-tub-button.disabled {
     opacity: 0.6;
     pointer-events: none;
@@ -144,19 +149,19 @@
     user-select: none;
 }
 
-.THIS .sdv-top-bar{
+.THIS .sdv-top-bar {
     padding-top: 30px;
     z-index: 1250;
     position: relative;
 }
 
-.THIS .sdv-top-bar .navigation{
+.THIS .sdv-top-bar .navigation {
     font-size: 13px;
     font-weight: 500;
     line-height: 16px;
 }
 
-.THIS .sdv-top-bar .title{
+.THIS .sdv-top-bar .title {
     font-size: 24px;
     font-weight: 600;
     line-height: 36px;
@@ -164,7 +169,7 @@
     padding-bottom: 10px;
 }
 
-.THIS .sdv-top-bar .links{
+.THIS .sdv-top-bar .links {
     padding-top: 25px;
     padding-bottom: 10px;
     transition: 0.4s;
@@ -176,22 +181,33 @@
     border-width: 0 1px;
 }
 
-.THIS .sdv-top-bar .links.collapsed{
+.THIS .change-pref {
+    color: #297DFD;
+    padding: 4px 8px;
+    align-items: center;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 16px;
+    float: right;
+    margin-right: 10px;
+}
+
+.THIS .sdv-top-bar .links.collapsed {
     padding-top: 0;
     padding-bottom: 0;
     height: 0;
 }
 
-.THIS .sdv-top-bar .links.collapsed button{
+.THIS .sdv-top-bar .links.collapsed button {
     opacity: 0;
     transition: 0.4s;
 }
 
-.THIS .sdv-top-bar .height-stub{
+.THIS .sdv-top-bar .height-stub {
     display: none;
 }
 
-.THIS .sdv-top-bar.sticky .height-stub{
+.THIS .sdv-top-bar.sticky .height-stub {
     display: block;
 }
 
@@ -199,25 +215,27 @@
     display: none;
 }
 
-.THIS .sdv-btn{
+.THIS .sdv-btn {
     margin-left: 20px;
     white-space: nowrap;
 }
 
-.THIS .sdv-btn:last-child{
+.THIS .sdv-btn:last-child {
     margin-right: 20px;
 }
 
-.THIS .visible-tab{
+.THIS .visible-tab {
     display: block;
 }
 
-.THIS .invisible-tab{
+.THIS .invisible-tab {
     display: none;
 }
+
 .THIS .resources-icon-social {
     margin-left: 0.5rem;
 }
+
 .THIS .share-social-buttons {
     display: inline-flex;
     justify-content: end;
@@ -226,6 +244,7 @@
     float: right;
     margin-right: 65px;
 }
+
 .THIS .share-social-icon {
     margin-right: 0.5rem;
     display: inline-block;
@@ -238,57 +257,32 @@
     margin: 10px 0;
 }
 
-.THIS .hidden-button{
+.THIS .hidden-button {
     visibility: hidden;
 }
 
-.THIS .share-icons{
+.THIS .share-icons {
     display: flex;
 }
 
-.THIS .share-ico{
+.THIS .share-ico {
     margin: 0 8px;
     cursor: pointer;
 
 }
 
-.THIS .share-ico .rr-icon-default{
-    width: 20px!important;
-    height: 20px!important;
+.THIS .share-ico .rr-icon-default {
+    width: 20px !important;
+    height: 20px !important;
 }
 
-@media (max-width: 768px){
-    .THIS .sdv-top-bar .links .apollo-btn.text{
-        font-size: 1rem;
-    }
-    .THIS  .share-social-buttons {
-        margin-right: 0;
-    }
-    .THIS .sdv-top-bar > .rr-all-content .rr-width-limiter {
-        margin: 0 1rem;
-    }
-    
-    .THIS .share-ico .rr-icon-default{
-        width: 20px;
-        height: 20px;
-    }
-     .THIS .share-ico {
-        margin: 0 1rem;
-    }
 
-}
-
-@media (max-width: 550px){
-    .THIS .sdv-top-bar.sticky.multi-mode .sticky-bar{
-        top: 80px;
-    }
-}
 .THIS .contrast-logo {
     max-width: 136px;
     margin: 10px 0;
 }
 
-.THIS .actions-buttons{
+.THIS .actions-buttons {
     margin-top: 4px;
     display: flex;
     justify-content: flex-end;
@@ -304,46 +298,95 @@
     transition: all ease 0.3s;
 
 }
-.THIS #shares:hover ~ .button-share-icon{
+
+.THIS #shares:hover ~ .button-share-icon {
     /*display: block !important;*/
     visibility: visible !important;
 }
+
 .THIS .button-share-icon:hover {
     /*display: block !important;*/
     visibility: visible !important;
 }
-.THIS .resource-item{
+
+.THIS .resource-item {
     margin-right: 15px;
     display: inherit;
     float: right;
 }
+
+@media (max-width: 768px) {
+    .THIS .sdv-top-bar .links .apollo-btn.text {
+        font-size: 1rem;
+    }
+
+    .THIS .share-social-buttons {
+        margin-right: 0;
+    }
+
+    .THIS .sdv-top-bar > .rr-all-content .rr-width-limiter {
+        margin: 0 1rem;
+    }
+
+    .THIS .share-ico .rr-icon-default {
+        width: 20px;
+        height: 20px;
+    }
+
+    .THIS .share-ico {
+        margin: 0 1rem;
+    }
+
+    .THIS .sdv-top-bar .links .apollo-btn.text {
+        margin-left: 0 !important;
+    }
+
+
+    .THIS #sd-selected-tab-container {
+        padding: 0 6px;
+    }
+
+}
+
+@media (max-width: 550px) {
+    .THIS .sdv-top-bar.sticky.multi-mode .sticky-bar {
+        top: 80px;
+    }
+}
+
+
 @media all and (max-width: 500px) {
     .THIS .cRRTabSet.ts-tab-container {
         width: 90%
     }
-    
+
     .THIS .cRRTabSet.ts-tab-container .ts-tab-left {
         min-width: 500px;
-        overflow-x: auto;        
+        overflow-x: auto;
     }
-    
-   .THIS  .cRRTabSet.ts-tab-container:after {
+
+    .THIS .cRRTabSet.ts-tab-container:after {
         width: 500px;
     }
-    
+
     .THIS .navigation .cRRNavigationPath.navigation-path {
         font-size: .875rem;
         margin-bottom: .5rem;
         margin-left: 1rem;
     }
-    
+
     .THIS .links .apollo-btn {
         font-weight: 400;
         width: 100%;
         margin-bottom: 15px;
     }
-    
+
     .THIS .links .apollo-btn:nth-child(n+2) {
         border-left: 1px solid #d9d9d9;
     }
+
+    .THIS #sd-selected-tab-container {
+        padding: 0;
+    }
+
 }

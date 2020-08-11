@@ -8,6 +8,7 @@
     <aura:attribute name="visitResultWrappers" type="Object[]" access="private"/>
     <aura:attribute name="VisitResultPage" type="String" access="private"/>
     <aura:attribute name="toggleVitalsIsOn" type="Boolean" access="private"/>
+    <aura:attribute name="visitReportHeader" type="String" />
 
     <!-- HANDLERS -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -25,11 +26,11 @@
             </div>
 
             <div class="visit-results-body">
-                <div class="visit-results-title">{!$Label.c.Visit_Results_Tab_Vitals}</div>
+                <div class="visit-results-title">{!v.visitReportHeader=='Vitals'?$Label.c.Visit_Results_Tab_Vitals:v.visitReportHeader=='Biomarkers'?$Label.c.Visit_Results_Tab_Biomarkers:$Label.c.Visit_Results_Tab_Labs}</div>
                 <div class="visit-results-container">
                     <aura:iteration items="{!v.visitResultWrappers}" var="visitResultWrapper">
                         <div class="visit-results-item">
-                            <span class="visit-result-item-value">{!visitResultWrapper.value == null ? '-' : visitResultWrapper.value}</span>
+                            <span class="visit-result-item-value">{!visitResultWrapper.value == null ? '-' : visitResultWrapper.recordtype =='Biomarker' ? visitResultWrapper.value==1.0 ?$Label.c.Biomarkers_Positive:visitResultWrapper.value==-1.0 ?$Label.c.Biomarkers_Negative:visitResultWrapper.value==0.0?$Label.c.Biomarkers_Unknown:'':visitResultWrapper.value}</span>
                             <span class="visit-result-item-name">{!visitResultWrapper.name}</span>
                             <span class="{!visitResultWrapper.measurement != null ? 'visit-result-item-measurement' : 'hidden'}">
                                     <aura:unescapedHtml value="{!'(' + visitResultWrapper.measurement + ')'}"/>

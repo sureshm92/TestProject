@@ -1,0 +1,32 @@
+<!--
+ - Created by user on 28-May-20.
+ -->
+
+<aura:component controller="IncentivePlanConfigurationRemote" description="WarningModal">
+
+    <!-- attributes: -->
+    <aura:attribute name="parent" type="Aura.Component" required="true"/>
+    <aura:attribute name="shareModalTitle" type="String" default="Warning"/>
+    <aura:attribute name="textBody" type="String" access="public"/>
+    <aura:attribute name="changeCheckBox" type="Boolean" default="false"/>
+    <!-- methods: -->
+    <aura:method name="show" action="{!c.doShow}">
+        <aura:attribute name="textBody" type="String" access="public"/>
+        <aura:attribute name="changeCheckBox" type="Boolean" default="false"/>
+    </aura:method>
+    <aura:method name="hide" action="{!c.doHide}"/>
+
+
+
+    <!-- component body: -->
+    <c:Popup aura:id="shareModal" title="{!v.shareModalTitle}" size="small">
+        <div class="modal-dialog-body">
+            {!v.textBody}
+        </div>
+        <aura:set attribute="footerButtons">
+            <c:RRSpinner aura:id="spinner"/>
+            <button class="apollo-btn primary" onclick="{!v.changeCheckBox ? c.doCheckBoxChanges : c.doDelete}">{!$Label.c.BTN_Yes}</button>
+            <button class="apollo-btn tertiary" onclick="{!c.doCancel}">{!$Label.c.BTN_No}</button>
+        </aura:set>
+    </c:Popup>
+</aura:component>

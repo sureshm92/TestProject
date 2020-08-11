@@ -1,0 +1,197 @@
+/**
+ * Created by Yehor Dobrovolskyi
+ */
+.THIS {
+    padding: 1.5rem;
+}
+
+.THIS .button.slds-pill {
+    background-color: #297DFD;
+    border: none;
+    color: white;
+    padding: 0 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 14px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 8px 0 rgba(41, 125, 253, 0.16), 0 4px 4px 0 rgba(0, 0, 0, 0.04), 0 8px 16px 0 rgba(41, 125, 253, 0.32)
+}
+
+.THIS .slds-input {
+    height: 40px;
+}
+
+.THIS .button.slds-pill:hover {
+    border: none;
+}
+
+.THIS .slds-pill__action {
+    border: 0;
+    padding-top: 0;
+}
+
+.THIS .slds-badge__icon_right {
+    margin-left: 0;
+}
+
+.THIS .slds-pill__remove svg {
+    color: #297dfd;
+    width: .5rem;
+    height: .5rem;
+}
+
+.THIS .slds-pill__label {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.THIS .slds-pill {
+    padding-top: 3px;
+}
+
+.THIS .slds-pill__remove {
+    top: 50%;
+    position: absolute;
+    margin-right: 10px;
+    z-index: 1;
+    background: #fff;
+    border-radius: 50%;
+    height: .75rem;
+    width: .75rem;
+    line-height: 0;
+}
+
+.THIS .title-desc {
+    color: #595959;
+}
+
+.THIS .as-title {
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1;
+    margin-bottom: 10px;
+    margin-top:10px;
+}
+
+
+.THIS .section-description {
+    color: #444;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    width: 80%;
+}
+
+
+.THIS .slds-form-element {
+    width: 50%;
+}
+
+.THIS .alert-count-condition {
+    height: 17px;
+    width: auto;
+    color: #595959;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    line-height: 17px;
+    text-align: left;
+    padding-top: 5px;
+    margin-bottom: 12px;
+}
+
+.THIS .alert-count-condition1 {
+    height: 17px;
+    width: 50rem;
+    color: #595959;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    line-height: 17px;
+    text-align: left;
+    padding-bottom: 5px;
+    margin-bottom: 7px;
+}
+
+.THIS table {
+    border-top: 0;
+    border-collapse: collapse;
+}
+
+.THIS .table-scroll {
+    height: 170px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin-top: 5px;
+}
+
+.THIS .as-buttons-footer {
+    margin-top: 20px;
+}
+
+@media all and (max-width: 768px) {
+
+    .THIS  {
+        padding: 14px 1.5rem 1.5rem;
+    }
+
+    .THIS .as-title {
+        line-height: 19px;
+    }
+
+    .THIS .table-scroll {
+        overflow-x: auto;
+        overflow-y: auto;
+    }
+
+    .THIS .section-description {
+        width: 100%;
+    }
+}
+
+@media all and (max-width: 500px) {
+    .THIS .slds-table_edit .slds-truncate {
+        font-size: 1rem;
+    }
+
+    .THIS .slds-form-element,
+    .THIS .apollo-btn.primary {
+        width: 100%;
+    }
+
+    .THIS .table-scroll {
+        height: 250px;
+        margin-top: 1rem;
+    }
+
+    .THIS .slds-table th,
+    .THIS .slds-table td {
+        padding: .75rem .5rem;
+    }
+
+    .THIS .p-footer.p-variant- {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .THIS .p-footer .apollo-btn.primary {
+        margin-top: 1rem;
+        margin-left: 0;
+    }
+
+    .THIS .button.slds-pill {
+        max-width: 290px;
+    }
+
+    .THIS .slds-m-top_xx-large {
+        margin-top: 1rem;
+    }
+}

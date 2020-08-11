@@ -1,5 +1,6 @@
 /**
  * Created by Kryvolap on 21.09.2019.
+ * Updated by Sumit Surve on 13.07.2020
  */
 ({
     doInit: function (component, event, helper) {
@@ -10,6 +11,8 @@
             component.set('v.userContact', initData.userContact.currentContact);
             component.set('v.helpTopicOptions', initData.helpTopicOptions);
             component.set('v.helpTopicSettings', initData.helpTopicSettings);
+            component.set('v.participantPicklistvalues', initData.participantEnrollOptions);
+            component.set('v.sitePicklistvalues', initData.siteOptions);
             helper.initRGOptions(component);
             component.set('v.isInitialized', true);
             var spinner = component.find('spinner');
@@ -18,28 +21,46 @@
     },
 
     submitRequest: function (component, event, helper) {
-        var text;
-        var type;
-        var subject;
-        var priority;
-        var reason;
-        var escalated;
-        var textRequired = component.get('v.userDescriptionRequired');
-        var helpTopicSettings = component.get('v.helpTopicSettings');
-        var selectedTopic = component.get('v.selectedTopic');
-        type = helpTopicSettings[selectedTopic].type;
-        text = helpTopicSettings[selectedTopic].userDescriptionRequired ? component.get('v.textValueProblem') : helpTopicSettings[selectedTopic].description;
-        subject = helpTopicSettings[selectedTopic].subject;
-        priority = helpTopicSettings[selectedTopic].priority;
-        reason = helpTopicSettings[selectedTopic].reason;
-        escalated = helpTopicSettings[selectedTopic].escalated;
-        helper.clearFieldAfterSubmit('textValueProblem', component);
+        var participant, buttonId = event.target.id,
+            isValid = false;
 
-        if (textRequired && !text) {
-            communityService.showWarningToast(null, $A.get('$Label.c.TST_Complete_description'));
-            return;
+        if (buttonId == 'sitetransfer') {
+            participant = component.find('participant')
+            isValid = participant.get('v.validity').valid;
+        } else if (buttonId == 'needhelp') {
+            isValid = true;
         }
-        helper.createNewCase(component, subject, text, type, priority, reason, false, escalated);
+		
+        if(isValid){
+            var text;
+            var type;
+            var subject;
+            var priority;
+            var reason;
+            var escalated;
+            var newSite = component.get('v.currentSite');
+            var currentParticipant = component.get('v.currentParticipant');
+            var textRequired = component.get('v.userDescriptionRequired');
+            var helpTopicSettings = component.get('v.helpTopicSettings');
+            var selectedTopic = component.get('v.selectedTopic');
+            type = helpTopicSettings[selectedTopic].type;
+            subject = helpTopicSettings[selectedTopic].subject;
+            if(subject == $A.get('$Label.c.Case_sub_transfer_to_new_site')){
+                text = 'Please transfer '+ currentParticipant +' to '+ newSite
+            }else{
+                text = helpTopicSettings[selectedTopic].userDescriptionRequired ? component.get('v.textValueProblem') : helpTopicSettings[selectedTopic].description;
+            }
+            priority = helpTopicSettings[selectedTopic].priority;
+            reason = helpTopicSettings[selectedTopic].reason;
+            escalated = helpTopicSettings[selectedTopic].escalated;
+            helper.clearFieldAfterSubmit('textValueProblem', component);
+    
+            if (textRequired && !text) {
+                communityService.showWarningToast(null, $A.get('$Label.c.TST_Complete_description'));
+                return;
+            }
+            helper.createNewCase(component, subject, text, type, priority, reason, false, escalated);
+        }        
     },
 
     onFileSelect: function (component, event, helper) {

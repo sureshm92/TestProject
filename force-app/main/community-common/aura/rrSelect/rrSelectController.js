@@ -31,6 +31,7 @@
     doValueChange: function (component) {
         var selectList = component.find('selectList');
         component.set('v.validity', component.find('selectList').get('v.validity'));
+        component.set('v.isValueChanged',false);
         var changeAction = component.get('v.onchange');
         if(changeAction) $A.enqueueAction(changeAction);
     },

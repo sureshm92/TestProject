@@ -3,7 +3,6 @@
  */
 
 import {LightningElement, api, track} from 'lwc';
-import {loadStyle} from 'lightning/platformResourceLoader';
 
 export default class WebPopup extends LightningElement {
 
@@ -41,9 +40,6 @@ export default class WebPopup extends LightningElement {
     }
 
     //Inner methods-----------------------------------------------------------------------------------------------------
-    connectedCallback() {
-    }
-
     clickedPrimary() {
         this.hide();
     }
@@ -64,10 +60,6 @@ export default class WebPopup extends LightningElement {
 
     get containerSizeClass() {
         return 'p-container ' + this.size;
-    }
-
-    get iconClose() {
-        return rrIcons + '/icons.svg#icon-close';
     }
 
     get iconButtonClass() {

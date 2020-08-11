@@ -10,8 +10,10 @@ public without sharing class CommunityTemplateService {
     public static final String PROPERTY_ORG_WIDE_EMAIL_ADDRESS = 'OrgWideEmailAddress';
     public static final String PROPERTY_RESET_PASS_LOGO = 'ResetPassLogo';
     public static final String PROPERTY_TEMPLATE_NAME = 'TemplateName';
+    public static final String PROPERTY_PATH_PREFIX = 'PathPrefix';
 
     public static final String PERMISSION_COMMUNITY_DEFAULT_NAME = 'Community_Default';
+    public static final String PERMISSION_COMMUNITY_COVID19_NAME = 'Community_Covid19';
     public static final String PERMISSION_COMMUNITY_GSK_NAME = 'Community_GSK_Pan_Oncology';
 
     public static final String TEMPLATE_DEFAULT = 'Default';
@@ -40,6 +42,13 @@ public without sharing class CommunityTemplateService {
         }
         return getDefaultTemplate();
     }
+
+    public static CommunityTemplate getTemplateByPrefix(String pathPrefix) {
+        for(CommunityTemplate template : TEMPLATES_MAP.values()){
+            if(template.pathPrefix == pathPrefix) return template;
+        }
+        return getDefaultTemplate();
+    }
     
     public static CommunityTemplate getDefaultTemplate(){
         return getTemplate(TEMPLATE_DEFAULT);
@@ -47,7 +56,7 @@ public without sharing class CommunityTemplateService {
     
     public static Map<String, CommunityTemplate> getTemplatesMap(){
         List<Community_Template__mdt> templates = [
-                SELECT Id, Community_Name__c, Label, Permission_Set_Developer_Name__c,
+                SELECT Id, Community_Name__c, Label, Permission_Set_Developer_Name__c, ShortCommunityName__c,
                 (SELECT Id, Label, Value__c FROM CommunityTemplate_Properties__r)
                 FROM Community_Template__mdt
         ];

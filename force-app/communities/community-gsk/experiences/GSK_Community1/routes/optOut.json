@@ -1,0 +1,10 @@
+{
+  "activeViewId" : "9d9cde9c-78d0-4dc6-a140-6f7258ae725f",
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "id" : "b509a207-5c21-4169-accb-d722297c02db",
+  "label" : "Opt Out",
+  "pageAccess" : "Public",
+  "routeType" : "custom-opt-out",
+  "type" : "route",
+  "urlPrefix" : "opt-out"
+}

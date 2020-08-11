@@ -1,0 +1,88 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,lightning:isUrlAddressable" controller="AccountSettingsController" description="AccountSettings" extends="forceCommunity:navigationMenuBase">
+    
+    <!-- attributes: -->
+    <aura:attribute name="initData" type="Object" access="private"/>
+    <aura:attribute name="userMode" type="String" required="true"/>
+    <aura:attribute name="isDelegate" type="Boolean"/>
+     <aura:attribute name="userTypeHCP_PI" type="Boolean" default="false"/>
+    
+    <aura:attribute name="contactSectionData" type="Object"/>
+    <aura:attribute name="personWrapper" type="Object"/>
+    <aura:attribute name="contact" type="Contact"/>
+    
+    <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
+    <aura:attribute name="isInitialized" type="Boolean" default="false" access="private"/>
+    
+    <aura:attribute name="isUpdated" type="Boolean"/>
+    <aura:attribute name="toglNavg" type="Boolean" default="false"/>
+    <aura:attribute name="showEditProfile" type="Boolean" default="true"/>
+    <aura:attribute name="changePswd" type="Boolean"/>
+    <aura:attribute name="notPref" type="Boolean"/>
+    <aura:attribute name="langReg" type="Boolean"/>
+    <aura:attribute name="custExp" type="Boolean"/>
+    <aura:attribute name="cookSet" type="Boolean"/>
+    <aura:attribute name="conditionOfInterestList" type="Object[]"/>
+    <aura:attribute name="isSaveList" type="Boolean"/>
+    <aura:handler name="change" value="{!v.isSaveList}" action="{!c.doSaveSortCOIs}"/>
+    <aura:attribute name="selectedItem" type="String" />
+    <aura:attribute name="coibool" type="Boolean" default="false"/>
+    <aura:attribute name="custep" type="Boolean" default="false"/>
+    <aura:attribute name="compId" type="string" default="1"/>
+    <aura:attribute name="hoverId" type="string" />
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    
+    <div class="as-container">
+        <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
+        <c:Action_RemoveDelegate aura:id="actionRemoveDelegate"/>
+        
+        <aura:if isTrue="{!v.isInitialized}">
+            <div class="NavContainer" id="NavContainer" >
+                <div class="NavContainer1" id="NavContainer1" >
+                    <h2 class="title"> {!$Label.c.PP_Account_Settings}</h2>
+                    <div class="navBar" id="navbar">
+                        <ul onclick="{!c.onClick}" id="selectOption" onmouseleave="{!c.removeFocus}">
+
+                            <li id="1" aura:id="1" class="{!(v.compId=='1') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="1" onclick="{!c.selectProfile}">{!$Label.c.PP_Profile_Information}</a></li>
+                            <li id="2" aura:id="2" class="{!(v.compId=='2') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="2" onclick="{!c.selectPassword}">{!$Label.c.PP_Password_Management}</a></li>
+                            <li id="3" aura:id="3" class="{!(v.compId=='3') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="3" onclick="{!c.selectLanguage}">{!$Label.c.PP_Language_and_Location}</a></li>
+                             <aura:if isTrue="{!(v.userMode == 'HCP' || v.userTypeHCP_PI)}"> 
+                            <li id="6" aura:id="6" class="{!(v.compId=='6') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="6" onclick="{!c.selectLanguage}">{!$Label.c.RH_Notification}</a></li>
+                            </aura:if>
+                              <aura:if isTrue="{!(v.userMode == 'HCP' || v.userMode == 'Participant' || v.userTypeHCP_PI)}">
+                                 <li id="4" aura:id="4" class="{!(v.compId=='4') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="4" onclick="{!c.selectCoi}">{!$Label.c.PP_Customize_Experience}</a></li>
+                            </aura:if>
+                                 <aura:if isTrue="{!!v.isDelegate}">
+                                <li id="5" aura:id="5" class="{!(v.compId=='5') ? 'navItem mouse-hover group-6' : 'navItem' }"><a class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset" data-menu-item-id="5" onclick="{!c.selectCookie}">{!$Label.c.PP_Cookie_Settings}</a></li>
+                            </aura:if>
+                        </ul>
+                    </div>
+                </div>
+                <div class="NavComponent">
+                    <aura:if isTrue="{!(v.compId=='1')}">
+                        <c:AccountSettings_EditProfile userMode="{!v.userMode}"></c:AccountSettings_EditProfile>
+                    </aura:if>
+                    <aura:if isTrue="{!(v.compId=='2')}">
+                        <c:ChangePassword userMode="{!v.userMode}"/>
+                    </aura:if>
+                    <aura:if isTrue="{!(v.compId=='3')}">
+                        <c:PP_LanguageSwitcher personWrapper="{!v.personWrapper}"
+                                               contactSectionData="{!v.contactSectionData}" onEdit="{!c.onEditPerson}"
+                                               isDelegate="{!v.isDelegate}" userMode="{!v.userMode}"/>                    
+                    </aura:if>
+                    <aura:if isTrue="{!(v.compId=='4')}">
+                            <c:CustomizeExperience userMode="{!v.userMode}"/>
+                    </aura:if>
+                     <aura:if isTrue="{!(v.compId=='6')}">
+                            <c:RH_NotificationPreference />
+                    </aura:if>
+                    <aura:if isTrue="{!(v.compId=='5')}">
+                        <c:CookieSettings userMode="{!v.userMode}"/>
+                    </aura:if>
+                </div>
+            </div>
+        </aura:if>
+    </div>
+    
+</aura:component>

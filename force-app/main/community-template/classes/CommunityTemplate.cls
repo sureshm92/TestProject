@@ -8,8 +8,10 @@ public without sharing class CommunityTemplate {
     @AuraEnabled public String templateName;
     @AuraEnabled public String currentCommunityURL;
     @AuraEnabled public String redirectURL;
+    @AuraEnabled public String pathPrefix;
     @AuraEnabled public Boolean needRedirect;
     @AuraEnabled public String communityName;
+    @AuraEnabled public String shortCommunityName;
     @AuraEnabled public String permissionSet;
 
     public CommunityTemplate(Community_Template__mdt templateMdt, Map<String, String> properties) {
@@ -19,7 +21,9 @@ public without sharing class CommunityTemplate {
         this.templateName = properties.get(CommunityTemplateService.PROPERTY_TEMPLATE_NAME);
         this.currentCommunityURL = Site.getBaseUrl();
         this.redirectURL = CommunityTemplateService.getCommunityURL(templateMdt.Community_Name__c);
+        this.pathPrefix = properties.get(CommunityTemplateService.PROPERTY_PATH_PREFIX);
         this.needRedirect = communityName != UserContext.getCurrentCommunityName();
+        this.shortCommunityName = templateMdt.ShortCommunityName__c;
     }
 
 }

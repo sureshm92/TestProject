@@ -16,7 +16,7 @@
 }
 
 .THIS .header-menu-link {
-    height: 100%;
+    height: 0%; /* height: 100%; @Krishna Mahto- REF-1600  */
     width: 100%;
     color: #ffffff;
     font-size: 12pt;
@@ -30,8 +30,7 @@
 
 .THIS .header-menu-link:hover,
 .THIS.popup-visible .header-menu-link{
-    background-color: rgba(255, 255, 255, 0.05);
-    transition: 0.3s;
+    background-color: rgba(255, 255, 255, 0.16);
 }
 
 .THIS .header-menu-link:hover,
@@ -103,9 +102,17 @@
     height: 40px;
 }
 
-@media all and (max-width: 767px) {
-    .THIS .menu-popup-panel.popupTargetContainer{
+@media all and (max-width: 768px) {
+
+    .cUiHeaderMenu .menu-popup-panel.popupTargetContainer {
         left: auto;
-        right: 0;
+        right: -40px;
+        top: -82px;
+    }
+}
+
+@media all and (max-width: 550px) {
+    .cUiHeaderMenu .menu-popup-panel.popupTargetContainer {
+        right: 6px;
     }
 }

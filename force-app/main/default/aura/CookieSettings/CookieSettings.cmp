@@ -1,0 +1,121 @@
+<aura:component controller="AccountSettingsController">
+	<!-- attributes: -->
+    <aura:attribute name="initData" type="Object" access="private"/>
+    <aura:attribute name="userMode" type="String" required="true"/>
+    <aura:attribute name="isDelegate" type="Boolean"/>
+    <aura:attribute name="disableToggle" type="Boolean"/>
+
+    <aura:attribute name="institute" type="Object"/>
+    <aura:attribute name="previousCC" type="String"/>
+
+    <aura:attribute name="personSnapshot" type="String"/>
+    <aura:attribute name="isStateChanged" type="Boolean"/>
+    <aura:attribute name="isAllFieldsValid" type="Boolean"/>
+    <aura:attribute name="participantHasUpdateTasks" type="Boolean"/>
+
+    <aura:attribute name="todayDate" type="Date"/>
+    <aura:attribute name="gendersLVList" type="List"/>
+    <aura:attribute name="countriesLVList" type="LabelValueItem[]"/>
+    <aura:attribute name="statesLVList" type="LabelValueItem[]"/>
+    <aura:attribute name="statesByCountryMap" type="Map"/>
+    <aura:attribute name="phonePattern" type="String"/>
+    <aura:attribute name="phonePlaceholder" type="String"/>
+    <aura:attribute name="reRender" type="Boolean" default="true"/>
+
+    <aura:attribute name="contactSectionData" type="Object"/>
+    <aura:attribute name="personWrapper" type="Object"/>
+    <aura:attribute name="contact" type="Contact"/>
+    <aura:attribute name="optInEmail" type="Boolean"/>
+    <aura:attribute name="optInSMS" type="Boolean"/>
+    <aura:attribute name="phoneTypeList" type="List"/>
+
+    <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
+    <aura:attribute name="showEmailPrefSpinner" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="privacyFormText" type="String" access="private"/>
+    <aura:attribute name="isInitialized" type="Boolean" default="false" access="private"/>
+
+    <aura:attribute name="isUpdated" type="Boolean"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+     <!-- Methods: -->
+     <aura:method name="scrollOnMobileField" action="{!c.doScrollInto}" access="public">
+        <aura:attribute name="smsOptIn" type="Boolean"/>
+    </aura:method>
+    <aura:method name="showHelpMessageIfInvalid" action="{!c.doShowHelpMessageIfInvalid}"/>
+    
+    <div>
+    	<div class="as-container">
+    	<c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
+            <aura:if isTrue="{!v.isInitialized}">
+                <div class="">
+                	<!-- Cookies settings -->
+                <div class="as-email-preference">
+                    
+                    <div class="as-title">{!$Label.c.AccountSettings_Cookie_Settings}</div>
+                    <div class="as-sub-title cookieDesc"><aura:unescapedHtml value="{!v.initData.cookieDescription}"/>
+                    </div>
+                    <div class="collapse-section slds-m-top--large">
+                        <c:RRCollapse label="{!$Label.c.AccountSettings_Strictly_Necessary_Cookies}" isCollapsed="true">
+                                <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
+                                    <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-section">
+                                        <aura:iteration var="cookieItem" items="{!v.initData.cookieSettings}">
+                                            <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel">
+                                                <div class="slds-col slds-size--2-of-3 slds-medium-size--6-of-7">
+                                                    <div class="ah-item-label">{!cookieItem.cookieName}</div>
+                                                    <div class="ah-item-sublabel">{!cookieItem.cookieDescription}</div>
+                                                </div>
+                                            </div>
+                                        </aura:iteration>
+                                    </div>
+                                </div>
+                        </c:RRCollapse>
+                    </div>
+
+                    <div class="collapse-section slds-m-top--large">
+                        <c:RRCollapse label="{!$Label.c.AccountSettings_Functional_Cookies}" isCollapsed="true">
+                                <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
+                                    <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-section">
+                                        <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel">
+                                            <div class="slds-col slds-size--2-of-3 slds-medium-size--6-of-7">
+                                                <div class="ah-item-label">{!$Label.c.AccountSettings_Functional_RRCookies}</div>
+                                                <div class="ah-item-sublabel">{!$Label.c.AccountSettings_RRCookies_Description}
+                                                </div>
+                                            </div>
+                                            <div class="slds-col slds-size--1-of-3 slds-medium-size--1-of-7 ah-toggle-container">
+                                                <lightning:input type="toggle" label=""
+                                                                 messageToggleActive="{!$Label.c.BTN_On}"
+                                                                 variant="label-hidden"
+                                                                 messageToggleInactive="{!$Label.c.BTN_Off}"
+                                                                 class="slds-col ah-toggle"
+                                                                 checked="{!v.contact.RRCookiesAllowedCookie__c}"
+                                                                 onchange="{!c.doSwitchOptInCookies}"/>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel">
+                                            <div class="slds-col slds-size--2-of-3 slds-medium-size--6-of-7">
+                                                <div class="ah-item-label">{!$Label.c.AccountSettings_Cookies_RRLanguage}</div>
+                                                <div class="ah-item-sublabel">{!$Label.c.AccountSettings_Cookies_RRLanguage_Description}
+                                                </div>
+                                            </div>
+                                            <div class="slds-col slds-size--1-of-3 slds-medium-size--1-of-7 ah-toggle-container">
+                                                <lightning:input type="toggle" label=""
+                                                                 messageToggleActive="{!$Label.c.BTN_On}"
+                                                                 variant="label-hidden"
+                                                                 messageToggleInactive="{!$Label.c.BTN_Off}"
+                                                                 class="slds-col ah-toggle"
+                                                                 checked="{!v.contact.RRLanguageAllowedCookie__c}"
+                                                                 onchange="{!c.doSwitchOptInCookies}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </c:RRCollapse>
+                    </div>
+                </div>
+                <!--  </div> -->
+                </div>     
+            </aura:if>
+        </div>
+    </div>
+</aura:component>

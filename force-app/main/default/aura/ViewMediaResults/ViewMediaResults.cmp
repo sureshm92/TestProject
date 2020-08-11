@@ -1,0 +1,103 @@
+<!--
+ - Created by Akanksha on 20.05.2020.
+ -->
+<aura:component description="ViewMediaResults" implements="forceCommunity:availableForAllPageTypes"
+                controller="ViewMediaResult">
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
+    
+    <!-- attributes: -->
+    <aura:attribute name="trialId" type="String"/>
+    <aura:attribute name="talentType" type="String[]" default="Individual"/>
+    <aura:attribute name="siteId" type="String"/>
+    <aura:attribute name="userMode" type="String"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="peFilterData" type="Object"/>
+    <aura:attribute name="paginationData" type="Object"/>
+    <aura:attribute name="peFilter" type="Object"/>
+    <aura:attribute name="pageList" type="List"/>
+    <aura:attribute name="statistics" type="Object"/>
+    <aura:attribute name="isInitialized" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="skipUpdate" type="Boolean" default="true" access="private"/>
+    <aura:attribute name="emptyListMessage" type="String" access="private" default="{!$Label.c.PG_VP_L_No_Items}"/>
+    <aura:attribute name="changeStatusBtnList" type="List"/>
+    <aura:attribute name="piBtnFilter" type="String"/>
+    <aura:attribute name="showStatistics" type="Boolean" default="false"/>
+    <aura:attribute name="header" type="String" default="" access="public"/>
+    <aura:attribute name="studyFilterEnabled" type="Boolean" default="false" access="public"/>
+    <aura:attribute name="ssId" type="String"/>
+    <aura:attribute name="isInvited" type="Boolean"/>
+    <aura:attribute name="NewOutreaachcmp" type="Boolean" default="false" />
+    <aura:attribute name="NoOutreachAccess" type="Boolean" default="false" />
+
+    <!-- handlers: -->
+    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.peFilter}" action="{!c.doUpdateRecords}"/>
+    <aura:handler name="cmpRefEvent" event="c:MediaOutreachRefreshtable" action="{!c.doInit}"/>
+    <!-- methods: -->
+    <aura:method name="refresh" action="{!c.doInit}" access="public"/>
+    
+    <!-- component body: -->
+    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
+    
+    
+    <div class="rr-min-body-height">
+        <aura:if isTrue="{!v.isInitialized}">
+            <aura:if isTrue="{!!empty(v.header)}">
+                <div class="vpr-header">
+                    {!v.header}
+                </div>
+            </aura:if>
+            
+            <!-- filter panel -->
+            <div class="fp-filter-block">
+                <div class="fp-filters-label rr-large-down-hide slds-col">{!$Label.c.MO_Show_Study}
+                    
+                </div>
+                <div class="fp-main-filter-block">
+                    <div class="fp-filters-container">
+                        <c:rrSelect value="{!v.peFilter.study}" options="{!v.peFilterData.studies}"
+                                    placeholder="{!$Label.c.MO_All_Studies}" useSentenceFont="false"
+                                    disabled="{!not(empty(v.peFilter.searchText))}" class="fp-study-filter-container"
+                                    setValueAsSelected="true"/>
+                        
+                    </div>
+                    <!--new Media--> 
+                    <div class="rr-summary-panel slds-grid slds-wrap slds-grid_vertical-stretch slds-gutters_medium">
+                        <div class="slds-col slds-size_1-of-1 mrc-invite-btn-container">
+                             <aura:if isTrue="{!v.NewOutreaachcmp}">
+                            <button class="apollo-btn primary mrc-invite-btn" data-gtm="BTN_InviteRP" onclick="{!c.doShowInviteRP}">
+                                {!$Label.c.New_OutReach}
+                            </button>
+                            </aura:if>
+                            <aura:if isTrue="{!v.NoOutreachAccess}">
+                            <button class="apollo-btn primary mrc-invite-btn" data-gtm="BTN_InviteRP" onclick="{!c.doShowInviteRP}" disabled="true">
+                                {!$Label.c.New_OutReach}
+                            </button>
+                            </aura:if>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+                
+            </div>
+            
+            <!--Media List-->
+            <div style="position: relative; min-height: 100px; padding-bottom: 1px" class="slds-gutters_">
+                <c:RRSpinner aura:id="recordsSpinner" size="medium" showSpinner="false"/>
+                <aura:if isTrue="{!(empty(v.pageList))}">
+                    <c:EmptyListStub targetList="{!v.pageList}"/>
+                    <aura:set attribute = "else">
+                        <c:MediaOutreach mediaList = "{!v.pageList}"/>
+                    </aura:set>
+                </aura:if>
+            </div>
+            
+            <!--existing Media-->
+            <aura:if isTrue="{!v.NewOutreaachcmp}">
+                <c:newOutReach aura:id="inviteRPAction"/>
+            </aura:if>
+        </aura:if>
+    </div>
+</aura:component>

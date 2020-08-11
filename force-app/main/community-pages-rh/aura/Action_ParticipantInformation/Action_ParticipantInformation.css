@@ -174,8 +174,23 @@
     box-shadow: 0 4px 16px 0 rgba(0,0,0,0.08);
 }
 
+.THIS .IQVIA_contact-patient-container {
+    margin-top: -30px;
+    margin-bottom: 30px;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #d9d9d9;
+    padding: 2%;
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.08);
+}
+
 .THIS .invite-patient-checkbox{
     display: inline-block;
+}
+
+.THIS .IQVIA_contact-patient-checkbox{
+    display: inline-block;
+    margin-bottom: 3px;
 }
 
 .THIS .invite-patient-info-container{
@@ -370,6 +385,10 @@
     }
     .THIS .partinfo-footer-buttons > span .slds-button_neutral {
     	width: 47%;
+    }
+
+    .THIS .IQVIA_contact-patient-container {
+        margin-top: 0;
     }
 
 }

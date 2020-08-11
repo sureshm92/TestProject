@@ -131,7 +131,7 @@ public without sharing class ContactService {
         List<ContentDocumentLink> contentDocumentLinks = new List<ContentDocumentLink>();
         if (resStudyResourceIds.size() > 0) {
             contentDocumentLinks = [
-                    SELECT Id, ContentDocument.Title, LinkedEntityId
+                    SELECT Id, ContentDocument.Title, LinkedEntityId,ContentDocument.LatestPublishedVersion.LanguageCode__c
                     FROM ContentDocumentLink
                     WHERE LinkedEntityId IN:resStudyResourceIds
             ];
@@ -142,7 +142,12 @@ public without sharing class ContactService {
             if (!contentLangByResId.containsKey(content.LinkedEntityId)) {
                 contentLangByResId.put(content.LinkedEntityId, new List<String>());
             }
+            if( content.ContentDocument.LatestPublishedVersion.LanguageCode__c !='' && content.ContentDocument.LatestPublishedVersion.LanguageCode__c != null) {
+                contentLangByResId.get(content.LinkedEntityId).add(content.ContentDocument.LatestPublishedVersion.LanguageCode__c);
+            }
+            else {
             contentLangByResId.get(content.LinkedEntityId).add(content.ContentDocument.Title);
+            }
         }
         
         List<Participant_Enrollment_Status_History__c> peshList = [
@@ -175,7 +180,8 @@ public without sharing class ContactService {
             Set<String> peHistoryStatuses = historyStatusesByPEIdMap.get(pe.Id);
             resources = ResourceService.sortResourcesByCOI(resources);
             resources = ResourceService.removeTranslations(resources);
-            Boolean hadEnrolmentSuccess = peHistoryStatuses != null && peHistoryStatuses.contains(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS);
+            Boolean hadEnrolmentSuccess = peHistoryStatuses != null && (peHistoryStatuses.contains(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS)
+                    || peHistoryStatuses.contains(PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS));
             pastWrappersList.add(new PastStudyWrapper(ctpMap.get(pe.Clinical_Trial_Profile__c), pe, resources, hadEnrolmentSuccess));
 
         }
@@ -224,6 +230,7 @@ public without sharing class ContactService {
                         MiddleName,
                         LastName,
                         Suffix,
+                        Fax,
                         primaryContact__c,
                         userCommunityMode__c,
                         userCommunityDelegateId__c,
@@ -238,6 +245,8 @@ public without sharing class ContactService {
                         Language__c,
                         Second_Choice_Language__c,
                         MailingLatitude,
+                        MailingCountryCode,
+                        MailingStateCode,
                         MailingLongitude,
                         MailingCountry,
                         MailingCity,
@@ -247,7 +256,10 @@ public without sharing class ContactService {
                         PI_My_Studies_Filters__c,
                         Third_Choice_Language__c,
                         Participant_Opt_In_Status_Emails__c,
+                        Participant_Opt_In_Status_SMS__c,
                         Visit_Results_OptIn__c,
+                        Visited_Communities__c,
+                        Email,
                         Account.OwnerId,
                         Account.Name,
                         Account.Phone,
@@ -258,9 +270,29 @@ public without sharing class ContactService {
                         Account.BillingCountry,
                         Account.BillingPostalCode,
                         Account.BillingCountryCode,
-                        Phone
+                        Phone,
+                        MobilePhone,
+                        Phone_Type__c,
+                        HCP_Opt_In_Patient_Status_Emails__c,
+                        HCP_Opt_In_Referral_Status_Emails__c,
+                        HCP_Opt_In_Study_Emails__c
                 FROM Contact
                 WHERE Id = :contactId
         ];
+    }
+    public static void updateVisitedCommunity(Contact contact, CommunityTemplate template) {
+        List<String> communities = new List<String>();
+        String commStr = contact.Visited_Communities__c;
+        if(String.isNotEmpty(commStr)) communities.addAll(commStr.split(';'));
+        if (!communities.contains(template.templateName)) {
+            communities.add(template.templateName);
+            commStr = String.join(communities, ';');
+            update new Contact(Id = contact.Id, Visited_Communities__c = commStr);
+        }
+    }
+
+    public static Boolean checkVisitedCommunity(Id conId) {
+        Contact con = [SELECT Id, Visited_Communities__c FROM Contact WHERE Id =: conId];
+        return String.isNotEmpty(con.Visited_Communities__c);
     }
 }

@@ -4,6 +4,23 @@
  .THIS {
 }
 
+.THIS .resource-link-container {
+    display: flex;
+    align-items: center;
+}
+
+.THIS .resource-icon{
+    margin-right: 12px;
+    flex-shrink: 0;
+    height:20px;
+}
+
+.THIS .tm-title{
+    font-weight: 600;
+    font-size: 24px;
+    color: #000000;
+}
+
 .THIS .filter-side {
     padding-left: 4%;
     padding-top: 70px;
@@ -12,49 +29,16 @@
 
 .THIS .resource-name{
     max-width: 250px;
+    font-size: 16px;
     overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;
     display: inline-block;
-}
-.THIS .side-padding {
-    padding-left: 5%;
-    padding-right: 4%;
+    padding-right: 20px;
 }
 
-.THIS.width-limiter {
-    max-width: 1120px;
-    margin: -20px 0 0 0;
-    height: 100%;
-    min-height: 800px;
-
-}
 .THIS .trials-container{
     padding-top: 20px;
-}
-
-.THIS .trials-side{
-    border-right: 1px solid #d9d9d9;
-}
-
-@media (max-width: 1020px) {
-    .THIS.width-limiter {
-        display: block;
-        height: auto;
-    }
-    .THIS .trials-container{
-        padding-left: 4%;
-        margin: 5% 0 0 0 !important;
-    }
-    .THIS .filter-side{
-        padding-left: 4%;
-        padding-top: 20px;
-        margin: 5% 0 0 0 !important;
-        position: relative;
-    }
-    .THIS .trials-side{
-        border-right: 0;
-    }
+    position: relative;
 }
 
 .THIS .sdv-top-bar{

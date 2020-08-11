@@ -12,6 +12,26 @@
     margin: 16px;
 }
 
+.THIS .rr-link{
+    color: #297DFD;
+    padding: 4px 8px;
+    align-items: center;
+    border-radius: 4px;
+    margin-right:1.2%;
+}
+
+.THIS .change-pref{
+    color: #297DFD;
+    padding: 4px 8px;
+    align-items: center;
+    border-radius: 4px;
+    margin-top: -32px;
+    font-weight: 600;
+    float:right;
+    margin-right:7px;
+}
+
+
 .THIS.rtl .resource-card-title{
     direction: rtl;
 }

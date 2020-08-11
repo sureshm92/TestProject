@@ -33,7 +33,7 @@ public without sharing class FileUploadController {
     }
 
     @AuraEnabled
-    public static FilesWrapper deleteContentDocument(String documentId, String resourceId){
+    public static FilesWrapper deleteContentDocument(String documentId,String fileName, String resourceId){
         try {
             delete [SELECT Id FROM ContentDocument WHERE Id =: documentId ];
             return createFilesWrapper(resourceId);
@@ -43,15 +43,19 @@ public without sharing class FileUploadController {
     }
 
     @AuraEnabled
-    public static FilesWrapper updateContentDocument(String documentId, String codeValue, String resourceId){
+    public static FilesWrapper updateContentDocument(String documentId, String codeValue, String resourceId){//String codeValue
         try{
             ContentDocument contentDoc = [
-                    SELECT Id
+                    SELECT Id,LatestPublishedVersionId
                     FROM ContentDocument
                     WHERE Id =: documentId
             ];
-            contentDoc.Title = codeValue;
-            update contentDoc;
+            //contentDoc.Title = codeValue;
+            ////update contentDoc;
+            ContentVersion conversion=  [SELECT Id,LanguageCode__c
+                    FROM ContentVersion where Id=: contentDoc.LatestPublishedVersionId limit 1];
+            conversion.LanguageCode__c=codeValue;
+            update conversion;
             return createFilesWrapper(resourceId);
         }catch (Exception e){
             return (FilesWrapper) AuraHelper.throwException(e);
@@ -65,7 +69,8 @@ public without sharing class FileUploadController {
         if(resourceId != null){
             listOfFiles = [
                     SELECT ContentDocument.Title,
-                            ContentDocument.FileType
+                           ContentDocument.FileType,
+                           ContentDocument.LatestPublishedVersion.LanguageCode__c
                     FROM ContentDocumentLink
                     WHERE LinkedEntityId = :resourceId
             ];
@@ -73,7 +78,12 @@ public without sharing class FileUploadController {
         Set<String> usedLanguages = new Set<String>();
         List<LabelValueItem> availableLanguagesLVList = new List<LabelValueItem>();
         for(ContentDocumentLink contentLink : listOfFiles) {
+            if(contentLink.ContentDocument.LatestPublishedVersion.LanguageCode__c !='' && contentLink.ContentDocument.LatestPublishedVersion.LanguageCode__c != null){
+              usedLanguages.add(contentLink.ContentDocument.LatestPublishedVersion.LanguageCode__c);
+            }
+            else{
             usedLanguages.add(contentLink.ContentDocument.Title);
+            }
             listOfFileWrappers.add(new FileWrapper(
                     contentLink.ContentDocument,
                     TranslateHelper.getPickListLabel(Contact.Language__c, contentLink.ContentDocument.Title)

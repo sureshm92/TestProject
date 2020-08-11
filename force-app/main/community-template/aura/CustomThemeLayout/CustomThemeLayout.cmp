@@ -16,6 +16,7 @@
     <aura:attribute name="showSideMenu" type="Boolean" default="false"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
     <aura:attribute name="isDummy" type="Boolean" default="false"/>
+    <aura:attribute name="isMobileApp" type="Boolean" default="false"/>
     <aura:attribute name="isArabic" type="Boolean"/>
     <aura:attribute name="template" type="String"/>
 
@@ -38,8 +39,7 @@
                 <aura:if isTrue="{!v.isInitialized}">
                     <div class="{!'layout-header rr-width-limiter side-padding ' + if(v.isArabic, 'rtl', '')}">
                         <div class="menu-btn" onclick="{!c.switchSideMenu}">
-                            <img src="{!$Resource.rr_community_icons + '/menu_btn.png'}" class="chevron"
-                                 style="height: 32px; width: 32px"/>
+                            <img src="{!$Resource.icon_hamburgerMenu}" class="chevron" style="height: 32px; width: 32px"/>
                         </div>
                         <div class="logo-container">
                             <img src="{!if(v.currentMode.userMode == 'Participant', v.logoURL, $Resource.rr_community_icons + '/Referral_Hub_Logo.svg')}"
@@ -50,20 +50,25 @@
                             <c:CommunityNavigation aura:id="navigation" mode="{!v.currentMode.userMode}" currentPage="{!v.currentPage}"/>
                         </div>
                         <div class="right-block" data-gtm="community_mode_switcher">
-                            <aura:if isTrue="{!v.showModeSwitcher}">
-                                <c:CommunityModeSwitcher allModes="{!v.allModes}" currentMode="{!v.currentMode}"
-                                                         onModeChange="{!c.doRefresh}"/>
+                            <aura:if isTrue="{!v.currentMode.userMode != 'CC'}">
+                                <aura:if isTrue="{!v.isMobileApp}">
+                                    <div class="bell-container">
+                                        <forceCommunity:notifications/>
+                                    </div>
+                                </aura:if>
+                                <!-- Added as per REF-1343 by Vikrant Sharma for Help icon adjacent to User Profile for PI and HCP -->
+                                <aura:if isTrue="{!v.currentMode.userMode != 'Participant'}">
+                                    <div onclick="{!c.onClickHelp}" class="helpNavigationCSS" title="Help">
+                                        <c:RRIcon iconName="help" color="white" class="navigation-icon"/>
+                                    </div>
+                                </aura:if>
                             </aura:if>
-                             <!-- Added as per REF-1343 by Vikrant Sharma for Help icon adjacent to User Profile for PI and HCP -->
-                             <aura:if isTrue="{!v.currentMode.userMode != 'Participant'}">
-                                <div onclick="{!c.onClickHelp}" style="display:inline;margin-left: 11px;" class="helpNavigationCSS" title="help">
-                                <c:RRIcon iconName="help" color="white" class="navigation-icon"/>
-                                </div>
-                                 </aura:if>
                                <!-- Ending of REF-1343 -->
-                            <c:ProfileMenu aura:id="profileMenu" userMode="{!v.currentMode.userMode}"/>
+                            <c:CommunityModeSwitcherMenu currentMode="{!v.currentMode}" onModeChange="{!c.doRefresh}"/>
                             <aura:if isTrue="{!v.currentMode.userMode == 'PI'}">
-                                <c:navIncentiveCounter onnavigatetoincentives="{!c.doNavigate}" currentPage="{!v.currentPage}"/>
+                                <div style="height:100%" title="Incentive Points">    
+                                    <c:navIncentiveCounter onnavigatetoincentives="{!c.doNavigate}" currentPage="{!v.currentPage}"/>
+                                </div>
                             </aura:if>
                         </div>
                     </div>

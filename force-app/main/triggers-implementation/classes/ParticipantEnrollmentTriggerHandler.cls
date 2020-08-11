@@ -160,6 +160,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     pe.Participant_Contact__c = participant.Contact__c;
                     if (oldMap == null && pe.Participant_Contact__c != null) {
                         participant.Contact__r.Visit_Results_OptIn__c = visitOpt ? 'Vitals;Labs;Biomarkers' : null;
+                        participant.Contact__r.UserCommunityIsDelegate__c = false;
                         participantContacts.add(participant.Contact__r);
                     }
                     participantName = participant.Name;
@@ -175,7 +176,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 pe.Referred_Date__c = Date.today();
             }
 
-            pe.Initial_visit_scheduled_flag__c = pe.Initial_visit_scheduled_date__c != null || pe.Initial_visit_occurred_flag__c;
+            pe.Initial_visit_scheduled_flag__c = (pe.Initial_visit_scheduled_date__c != null && pe.Initial_visit_scheduled_time__c != null) || pe.Initial_visit_occurred_flag__c; // @Krishna Mahto: Changes for REF-1390- added Initial_visit_scheduled_time__c 
         }
 
         if (!participantContacts.isEmpty()) update participantContacts;
@@ -424,6 +425,18 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         for (Participant_Enrollment__c pe : enrollments) {
             if (pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED) {
                 if (oldMap == null || (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != PEStatusState.PE_STATUS_RECEIVED)) {
+                    histories.add(new Participant_Enrollment_Status_History__c(
+                            Date__c = pe.Participant_Status_Last_Changed_Date__c,
+                            Status__c = pe.Participant_Status__c,
+                            Notes__c = pe.Non_Referral_Notes__c,
+                            ParticipantEnrollment__c = pe.Id,
+                            Reason__c = pe.Non_Referral_Reason__c
+                    ));
+                    peListForTaskCreation.add(pe);
+                    if (pe.Participant_Contact__c != null) participantContactIds.add(pe.Participant_Contact__c);
+                }
+            }else if (pe.Participant_Status__c == PEStatusState.PE_STATUS_ELIGIBILITY_PASSED) {
+                if (oldMap == null || (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != PEStatusState.PE_STATUS_ELIGIBILITY_PASSED)) {
                     histories.add(new Participant_Enrollment_Status_History__c(
                             Date__c = pe.Participant_Status_Last_Changed_Date__c,
                             Status__c = pe.Participant_Status__c,

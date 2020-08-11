@@ -1,6 +1,6 @@
 /**
- * Created by D.Yasinskyi on 21.02.2018
- */
+* Created by D.Yasinskyi on 21.02.2018
+*/
 public without sharing class CommunityService {
 
     public static final String IQVIA_NETWORK_NAME = 'IQVIA Referral Hub';
@@ -32,7 +32,8 @@ public without sharing class CommunityService {
     public static final String USER_MODE_HCP = 'HCP';
     public static final String USER_MODE_PI = 'PI';
     public static final String USER_MODE_PARTICIPANT = 'Participant';
-
+    public static final String USER_MODE_CC = 'CC';
+    public static final String USER_MODE_DELEGATEPI = 'DelegatePI';
     //Exception messages
     public static String ERROR_MISSING_STUDY = 'Unexpected error occurred. Contact administrator.';
     private static String ERROR_MISSING_CONTACT_ON_USER = 'User Contact can not be NULL';
@@ -42,18 +43,18 @@ public without sharing class CommunityService {
     //hold contact instance:
     private static Contact userContact;
     private static Id userId = UserInfo.getUserId();
-    
+
     private static CommunityService instance;
-    
+
     public static CommunityService getInstance(){
         if(instance == null) instance = new CommunityService();
         return instance;
     }
-    
+
     public static void setMock(StubProvider stubProvider){
         instance = (CommunityService) Test.createStub(CommunityService.class, stubProvider);
     }
-    
+
     public Id getCurrentContactId(){
         return UserContext.getUserContactId();
     }
@@ -63,8 +64,8 @@ public without sharing class CommunityService {
         try {
             Id currentContactId = CommunityService.getInstance().getCurrentContactId();
             accessLevel = [ SELECT Delegate_Access_Level__c
-                            FROM RP_Delegate_Relationship__c
-                            WHERE Delegate__c = :currentContactId AND Referring_Provider__c = :delegateId LIMIT 1].Delegate_Access_Level__c;
+            FROM RP_Delegate_Relationship__c
+            WHERE Delegate__c = :currentContactId AND Referring_Provider__c = :delegateId LIMIT 1].Delegate_Access_Level__c;
         } catch (Exception ex){
             accessLevel=null;
         }
@@ -72,11 +73,11 @@ public without sharing class CommunityService {
     }
 
     //Old static logic: ------------------------------------------------------------------------------------------------
-    
+
     public static Contact getUserContact() {
         return UserContext.getUserContact();
     }
-    
+
     public static Id getUserId(){
         return UserContext.getUserId();
     }
@@ -105,7 +106,7 @@ public without sharing class CommunityService {
                 WHERE Id IN :userContactIds
         ];
     }
-    
+
     public static List<User> getCommunityUsersByContactIds(Set<Id> contactIds) {
         return [
                 SELECT Id, Name, FirstName, LastName, ContactId, Email, IsActive,
@@ -149,9 +150,9 @@ public without sharing class CommunityService {
         System.debug('ParticipantContactId -> HCPContactId MAP: ' + contactIdsMap);
         List<Contact> contacts = getContacts(contactIdsMap.keySet());
         List<User> hcpUsers = [
-                SELECT Id, ContactId, LocaleSidKey, TimeZoneSidKey, LanguageLocaleKey
-                FROM User
-                WHERE ContactId IN: contactIdsMap.values() AND LocaleSidKey != NULL
+            SELECT Id, ContactId, LocaleSidKey, TimeZoneSidKey, LanguageLocaleKey
+            FROM User
+            WHERE ContactId IN: contactIdsMap.values() AND LocaleSidKey != NULL
         ];
         Map<Id, User> hcpUsersMap = new Map<Id, User>();
         for(User hcp : hcpUsers) hcpUsersMap.put(hcp.ContactId, hcp);
@@ -211,11 +212,24 @@ public without sharing class CommunityService {
                 Alias = 'test', //todo
                 IsActive = true
         );
+
         Database.DMLOptions dlo=new Database.DMLOptions();
         dlo.EmailHeader.triggerUserEmail =true;
         dlo.EmailHeader.triggerAutoResponseEmail=true;
         newUser.setOptions(dlo);
         return newUser;
+    }
+
+    //for activating CC Users
+    @Future
+    public static void ActivateUsers(Set<Id> contactIds) {
+        List<User> users = [
+                SELECT Id, IsActive
+                FROM User
+                WHERE ContactId IN :contactIds
+        ];
+        for (User u : users) u.IsActive = true;
+        update users;
     }
 
     @Future
@@ -234,6 +248,7 @@ public without sharing class CommunityService {
                 SELECT Id, Email, FirstName, LastName, Name, Language__c, Library_Primary_Language__c, Full_Name__c, Salutation, Suffix
                 FROM Contact
                 WHERE Id = :contactIds
+                FOR UPDATE
                 //ORDER BY Name
         ];
     }
@@ -265,9 +280,9 @@ public without sharing class CommunityService {
 
     public static Boolean isUserInCommunity(Id contactId) {
         return ![SELECT Id
-                    FROM User
-                    WHERE ContactId =: contactId
-                        AND Profile.Name =: COMMUNITY_USER_PROFILE_NAME
+        FROM User
+        WHERE ContactId =: contactId
+        AND Profile.Name =: COMMUNITY_USER_PROFILE_NAME
         ].isEmpty();
     }
 

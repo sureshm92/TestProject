@@ -11,8 +11,22 @@
         component.set('v.reasonList', stepWrapper.reasonMap[stepWrapper.outcome]);
         component.set('v.previousSelectedOutcome', stepWrapper.outcome);
         component.set('v.disableReason', true);
+        component.set('v.stepWrapper.reason', '');
         
         helper.checkValidity(component, event, helper, stepWrapper);
+        //@krishna Mahto - For REF-1390- start
+        // Display the error message when current step is contact Attemp
+        console.log('********stepWrapper.cardTitle '+stepWrapper.cardTitle)
+        console.log('********stepWrapper.Status '+stepWrapper.status)
+        if(stepWrapper.cardTitle!=null && 
+           stepWrapper.cardTitle== "Contact Attempt" &&
+           stepWrapper.isCurrentStep==true &&
+           component.get('v.isDateTimeFieldsAvailable')==true){
+            component.set('v.isSuccessfullyContacted',true)
+        } else{
+            component.set('v.isSuccessfullyContacted',false)
+        }
+        //@krishna Mahto - For REF-1390- end
     },
     updateReasonList : function (component, event, helper) {
         let stepWrapper = component.get('v.stepWrapper');
@@ -27,8 +41,11 @@
             let reasonList = stepWrapper.reasonMap[stepWrapper.outcome];
             component.set('v.reasonList', reasonList);
             component.set('v.disableReason', false);
-            component.set('v.stepWrapper.reason',reasonList === undefined || reasonList.length==0?"":reasonList[0].value);
+            let reasonValue = reasonList === undefined || reasonList.length==0?"":reasonList[0].value;
+            component.set('v.stepWrapper.reason',reasonValue);
+            component.find('reasonList').set('v.value', reasonValue);
             component.set('v.previousSelectedOutcome', stepWrapper.outcome);
+            component.set('v.notesRequired', stepWrapper.notesRequiredMap[selectedOutcome+';'+reasonValue]);
             var changesMap = {title : 'outcome',
                               type : 'picklist',
                               isChanged : true};
@@ -39,6 +56,8 @@
     },
     updateNotesRequired : function (component, event, helper) {
         let stepWrapper = component.get('v.stepWrapper');
+        let selectedReason = component.find('reasonList').get('v.value');
+        component.set('v.stepWrapper.reason', selectedReason);
         component.set('v.notesRequired', stepWrapper.notesRequiredMap[stepWrapper.outcome+';'+stepWrapper.reason]);
         helper.checkValidity(component, event, helper, stepWrapper);
     },

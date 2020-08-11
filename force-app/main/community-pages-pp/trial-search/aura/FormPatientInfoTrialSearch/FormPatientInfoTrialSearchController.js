@@ -11,23 +11,65 @@
     },
 
     doCheckFields: function (component, event, hepler) {
+        
         var participant = component.get('v.participantInfo');
-        var stateRequired = component.get('v.statesLVList')[0];
+        // var stateRequired = component.get('v.statesLVList')[0];
+        var numbers=/^[0-9]*$/;
+        var phoneField=component.find('pField2');
         let isValid =
             participant.First_Name__c &&
             participant.Last_Name__c &&
             participant.Date_of_Birth__c &&
             participant.Gender__c &&
             participant.Phone__c &&
+            numbers.test(participant.Phone__c) &&
             participant.Email__c &&
             component.get('v.sendFor') !== '' &&
             component.find('emailInput').get('v.validity').valid;
-        console.log(isValid);
         if (isValid) {
             component.set('v.isValid', true);
+            if ((numbers.test(participant.Phone__c)  && participant.Phone__c)) {
+                phoneField.setCustomValidity(""); 
+                phoneField.reportValidity();
+            }
         } else {
+            if ((!numbers.test(participant.Phone__c)  || !participant.Phone__c)) {
+                if(!participant.Phone__c){
+                    phoneField.setCustomValidity("Phone number is mandatory");
+                    phoneField.reportValidity();
+                }
+                else{
+                    phoneField.setCustomValidity("Phone number must be numeric");
+                    phoneField.reportValidity();
+                }
+                
+            } else {
+                phoneField.setCustomValidity(""); 
+                phoneField.reportValidity();
+            }
             component.set('v.isValid', false);
         }
+        
+        
+        
+    },
+    handleHomePhoneValidation:function(component,event) {
+        var inputValue = event.getSource().get("v.value");
+        var phoneField=component.find('pField2');
+        var numbers=/^[0-9]*$/;
+        if(inputValue===""){
+            phoneField.setCustomValidity("");  
+        }
+       if ((!numbers.test(inputValue)  && inputValue!=="")) {
+        phoneField.setCustomValidity("Phone number must be numeric");
+        component.set('v.isValid', false);
+
+        } else {
+            phoneField.setCustomValidity(""); // reset custom error 
+            component.set('v.isValid', true);
+
+        }
+        phoneField.reportValidity();
     },
 
     doCountryCodeChanged: function (component, event, helper) {

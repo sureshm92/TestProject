@@ -19,10 +19,18 @@
     <aura:attribute name="recordId" type="String"/>
     <aura:attribute name="tasks" type="List"/>
     <aura:attribute name="studyInfo" type="Object"/>
+    <aura:attribute name="planIdForDelete" type="String"/>
+    <aura:attribute name="ipId" type="String"/>
+    <aura:attribute name="state" type="Boolean"/>
+    <aura:attribute name="initilizedMap" type="Boolean" default="false"/>
 
-    <aura:attribute name="selectedIP" type="String"/>
     <aura:attribute name="allSelectedIPs" type="Object"/>
     <aura:attribute name="setOfSS" type="Object"/>
+
+    <aura:method name="doDeletePlan" action="{!c.doColumnIPDelete}" access="public"/>
+    <aura:method name="doCheckBoxChange" action="{!c.columnCheckboxStateChange}" access="public"/>
+    <aura:method name="doSave" action="{!c.doSaveAndUpdate}" access="public"/>
+    <aura:method name="refresh" action="{!c.doInit}" access="public"/>
 
 
     <!-- component body: -->
@@ -34,7 +42,6 @@
             <c:RRSpinner aura:id="spinner"/>
             <lightning:navigation aura:id="navLink"/>
             <aura:if isTrue="{!v.initialized}">
-                <aura:if isTrue="{!not(empty(v.ssItems))}">
                     <!--Filters-->
                     <div class="slds-m-bottom--small">
                         <div class="slds-grid slds-gutters">
@@ -43,6 +50,7 @@
                                 <c:IncentivePlansLookup aura:id="ipLookup"
                                                         value="{!v.filter.pageFeatureIds}"
                                                         isMultiEntry="true"
+                                                        ctpId="{!v.recordId}"
                                                         onchange="{!c.doUpdate}"
                                                         placeholder="Select Incentive Program"
                                                         placeholderSelected="Select another Incentive Plan"/>
@@ -73,10 +81,9 @@
                             <!--Save changes button-->
                             <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
                                 <div class="slds-col slds-size--1-of-2">
-                                    <div class="save-btn">
+                                    <div class="addIP-btn">
                                         <lightning:button variant="neutral" label="Add Incentive Program"
                                                           onclick="{!c.doAddIP}"/>
-                                        <lightning:button variant="brand" label="Save" onclick="{!c.doSaveAndUpdate}"/>
                                     </div>
                                 </div>
                             </aura:if>
@@ -95,14 +102,15 @@
                                                     <c:IncentivePlanColumnMenu plan="{!ip}"
                                                                            onEdit="{!if(equals(v.viewModePage, 'Edit'), c.doColumnIPEdit, c.doColumnIPView)}"
                                                                            onClone="{!c.doColumnIPClone}"
+                                                                           onDelete="{!c.doWarningModal}"
                                                                            isVisible="{!equals(v.viewModePage, 'Edit')}"/>
                                                     <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
                                                         <div class="column-btn">
                                                             <a data-state="Enabled" data-ip="{!ip.value}"
-                                                               onclick="{!c.columnCheckboxStateChange}">Select All</a>
+                                                               onclick="{!c.doCheckboxChange}">Select All</a>
                                                             <span style="padding: 0 3px; color: #006DCC; ">|</span>
                                                             <a data-state="Disabled" data-ip="{!ip.value}"
-                                                               onclick="{!c.columnCheckboxStateChange}">Clear All</a>
+                                                               onclick="{!c.doCheckboxChange}">Clear All</a>
                                                         </div>
                                                     </aura:if>
                                                 </c:uiCol>
@@ -119,6 +127,9 @@
                             </c:uiFixedTable>
                         </div>
 
+                        <!--WarningModal-->
+                        <c:WarningModal aura:id="warningModal" parent="{!this}"/>
+
 
                         <!--Pagination-->
                         <div>
@@ -133,10 +144,6 @@
                             </div>
                         </div>
                     </div>
-                </aura:if>
-                <aura:if isTrue="{!empty(v.ssItems)}">
-                    <c:EmptyListStub message="{!$Label.c.PG_VP_L_No_Items_display}"/>
-                </aura:if>
             </aura:if>
         </div>
         <c:Action_AddIncentivePlan aura:id="actionIP" studyInfo="{!v.studyInfo}" tasks="{!v.tasks}" recordId="{!v.recordId}"/>

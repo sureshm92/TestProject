@@ -26,8 +26,9 @@ public without sharing virtual class EmailTemplateProvider {
     protected Boolean isHTML = true;
     protected String recipientFirstName;
     protected Id recipientContactId;
-    protected Boolean isDelegate;
-    protected String userMode;
+    protected Boolean isDelegate = false;
+    protected String userMode = 'Guest';
+    protected Id whatId;
 
     private Boolean initialized = false;
 
@@ -39,7 +40,7 @@ public without sharing virtual class EmailTemplateProvider {
         this.recipientId = recipientId;
         this.recipientName = recipientName;
         this.recipientLanguage = recipientLanguage;
-        if(!String.isNotEmpty(outputMode)) this.isHTML = outputMode.equals('HTML');
+        if (String.isNotEmpty(outputMode)) this.isHTML = outputMode.equals('HTML');
 
         updateRecipientName();
 
@@ -51,20 +52,24 @@ public without sharing virtual class EmailTemplateProvider {
         parameters.put('RecipientName', getUserName());
         parameters.put('RecipientFirstName', recipientFirstName);
         parameters.put('GuestName', TranslateHelper.getLabelValue(Label.Email_Guest_User_Name));
-        if (isDelegate && userMode == 'Participant') initYourParticipantFirstName();
 
         initCRCommunityUrl();
 
-        if(whatId != null) {
+        if (whatId != null) {
+            this.whatId = whatId;
             String parametersProvider = PARAM_PROVIDER_BY_TYPE.get(whatId.getSobjectType().getDescribe().getName());
             if (!String.isEmpty(parametersProvider)) {
-                parameters.putAll(CatalogParametersHelper.getParamsValueMap(
-                        whatId,
-                        CatalogParametersHelper.getParametersProviderMetadata(parametersProvider),
-                        this.recipientLanguage
-                ));
+                List<SObject> sObjects = ParametersProviderService.queryRecords(new List<Id>{
+                        whatId
+                }, parametersProvider);
+                if(!sObjects.isEmpty()) {
+                    parameters.putAll(ParametersProviderService.getValueMap(
+                            parametersProvider, sObjects.get(0), this.recipientLanguage
+                    ));
+                }
             }
         }
+        if (isDelegate && userMode == 'Participant') initYourParticipantFirstName();
 
         initialized = true;
     }
@@ -106,7 +111,7 @@ public without sharing virtual class EmailTemplateProvider {
     }
 
     public String getDelegateBottomTxt() {
-        if(recipientId.getSobjectType() != User.getSObjectType()) return '';
+        if (recipientId.getSobjectType() != User.getSObjectType()) return '';
         return TranslateHelper.replaceParams(
                 TranslateHelper.getLabelValue(Label.Email_Body_Initial_Patient_Delegate_AfterText, recipientLanguage),
                 PARAM_PREFIX, parameters
@@ -151,6 +156,7 @@ public without sharing virtual class EmailTemplateProvider {
                     SELECT Id,
                             ContactId,
                             Contact.FirstName,
+                            Contact.Salutation,
                             Contact.Salutation_With_Name__c,
                             Contact.Language__c,
                             Contact.UserCommunityIsDelegate__c,
@@ -160,9 +166,11 @@ public without sharing virtual class EmailTemplateProvider {
                     WHERE Id = :recipientId
             ];
             recipientContact = recipientUser.Contact;
+            if (recipientContact == null) return;
         } else {
             recipientContact = [
                     SELECT Id,
+                            Salutation,
                             FirstName,
                             Language__c,
                             Salutation_With_Name__c,
@@ -173,29 +181,29 @@ public without sharing virtual class EmailTemplateProvider {
             ];
         }
         recipientContactId = recipientContact.Id;
-
         userMode = recipientContact.userCommunityMode__c;
+        isDelegate = recipientContact.UserCommunityIsDelegate__c;
+
         recipientFirstName = recipientContact.FirstName;
+        List<Participant__c> participants = [
+                SELECT First_Name__c, Last_Name__c
+                FROM Participant__c
+                WHERE Contact__c = :recipientContactId
+        ];
+        if (!participants.isEmpty()) {
+            recipientFirstName = participants.get(0).First_Name__c;
+            recipientName = (recipientContact.Salutation == null ? '' : recipientContact.Salutation) + ' ' +  participants.get(0).First_Name__c + ' ' + participants.get(0).Last_Name__c;
+        }
 
         if (String.isEmpty(recipientName)) recipientName = recipientContact.Salutation_With_Name__c;
         parameters.put(userMode + 'Name', recipientName);
+        parameters.put('UserName', getCommunityUserName());
 
         if (String.isEmpty(recipientLanguage)) recipientLanguage = recipientContact.Language__c;
-
-        isDelegate = recipientContact.UserCommunityIsDelegate__c;
-        if (isDelegate) parameters.put('UserName', getCommunityUserName(recipientContactId));
-        if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
-            List<Participant__c> participants = [
-                    SELECT First_Name__c, Last_Name__c
-                    FROM Participant__c
-                    WHERE Contact__c = :recipientContactId
-            ];
-            if (!participants.isEmpty()) recipientFirstName = participants.get(0).First_Name__c;
-        }
     }
 
-    private String getCommunityUserName(String contactId) {
-        List<User> userList = [SELECT Username FROM User WHERE ContactId = :contactId];
+    private String getCommunityUserName() {
+        List<User> userList = [SELECT Username FROM User WHERE ContactId = :recipientContactId];
         return !userList.isEmpty() ? userList.get(0).Username : '';
     }
 
@@ -207,7 +215,9 @@ public without sharing virtual class EmailTemplateProvider {
         return name;
     }
 
-    private void initYourParticipantFirstName() {
+    protected virtual void initYourParticipantFirstName() {
+        if (parameters.containsKey('ParticipantFirstName')) return;
+
         Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(recipientContactId);
         if (participant != null) parameters.put('ParticipantFirstName', participant.First_Name__c);
     }

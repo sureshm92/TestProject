@@ -12,7 +12,7 @@
     border-radius: 5px;
     background-color: #FFFFFF;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
-    margin: 15px 15px 0 0;
+    margin: 18px 18px 18px 0;
 }
 
 .THIS .top-line {
@@ -21,6 +21,13 @@
     border-radius: 5px 5px 0 0;
     background-color: #00C221;
     box-shadow: 0 1px 2px 0 rgba(85, 85, 85, 0.15);
+}
+
+.THIS .seperator {
+    height: 1px;
+    width: auto;
+    border-radius: 5px 5px 0 0;
+    background: #e9e9e9;
 }
 
 .THIS .button-ctp {
@@ -48,7 +55,7 @@
     font-weight: 600;
     font-size: 20px;
     line-height: 30px;
-    width: 90%
+    width: 60ch
 }
 
 .THIS .ctp-recruitment-status {
@@ -57,13 +64,13 @@
     text-align: right;
     color: #000000;
     font-family: "Proxima Nova";
-    font-weight: 800;
+    font-weight: 600;
     line-height: 21px;
 }
 
 .THIS .ctp-date-status {
     font-size: 14px;
-    width: 20%;
+    width: 45%;
     text-align: right;
     color: #000000;
     font-family: "Proxima Nova";
@@ -76,11 +83,11 @@
     font-family: "Proxima Nova";
     font-size: 16px;
     line-height: 24px;
-    width: 90%
+    width: 60ch
 }
 
 .THIS .ctp-padding {
-    padding: 5px 10px 5px 15px;
+    padding: 15px;
 }
 
 .THIS .modal-pop {

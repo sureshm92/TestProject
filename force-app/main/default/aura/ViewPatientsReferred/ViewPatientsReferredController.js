@@ -9,18 +9,14 @@
         var siteId = component.get('v.siteId');
         var spinner = component.find('mainSpinner');
         spinner.show();
-        var paramFilter = communityService.getUrlParameter("filter");
 
         communityService.executeAction(component, 'getInitData', {
             trialId: trialId,
             siteId: siteId,
-            mode: communityService.getUserMode(),
-            btnFilter: paramFilter,
-            userMode: component.get('v.userMode'),
+            userMode: communityService.getUserMode(),
             delegateId: communityService.getDelegateId()
         }, function (returnValue) {
             var initData = JSON.parse(returnValue);
-            component.set('v.piBtnFilter', paramFilter);
             component.set('v.skipUpdate', true);
             component.set('v.pageList', initData.currentPageList);
             component.set('v.peFilterData', initData.peFilterData);
@@ -44,73 +40,26 @@
         });
     },
 
-    doUpdateRecords: function (component, event) {
-        if (component.get('v.skipUpdate')) return;
-        var spinner = component.find('recordsSpinner');
-        spinner.show();
-        var filter = component.get('v.peFilter');
-        var searchText = filter.searchText;
-        for (var key in filter) {
-            if (key != 'searchText' && filter[key] == '') {
-                filter[key] = null;
-            }
-        }
-        var filterJSON = JSON.stringify(filter);
-        var paginationJSON = JSON.stringify(component.get('v.paginationData'));
-        var piBtnFilter = component.get('v.piBtnFilter');
-        var action = component.get('c.getRecords');
-        var trialId = component.get('v.trialId');
-        var studyWasChanged = "false";
-        if (trialId && trialId !== filter.study) {
-            studyWasChanged = "true"
-        }
-        communityService.executeAction(component, 'getRecords', {
-            filterJSON: filterJSON,
-            paginationJSON: paginationJSON,
-            piBtnFilter: piBtnFilter,
-            userMode: communityService.getUserMode(),
-            studyChanged: studyWasChanged,
-            delegateId: communityService.getDelegateId(),
-            emancipatedPE: component.get('v.showEmancipatedOnly')
-        }, function (returnValue) {
-            if (component.get('v.peFilter').searchText !== searchText) return;
-            var result = JSON.parse(returnValue);
-            component.set('v.skipUpdate', true);
-            component.set('v.pageList', result.peList);
-            component.set('v.peFilter', result.peFilter);
-            component.set('v.peFilterData', result.peFilterData);
-            if (trialId != filter.study) {
-                component.set('v.trialId', filter.study)
-            }
-            component.set('v.paginationData.allRecordsCount', result.paginationData.allRecordsCount);
-            component.set('v.paginationData.currentPage', result.paginationData.currentPage);
-            component.set('v.paginationData.currentPageCount', result.paginationData.currentPageCount);
-            component.set('v.skipUpdate', false);
-            /*if (communityService.getUserMode() != 'Participant' && result.peList) {
-                for (let pItem in result.peList) {
-                    var hasEmancipatedParticipants = false;
-                    if (result.peList[pItem].hasEmancipatedParticipants) {
-                        hasEmancipatedParticipants = true;
-                        break;
-                    }
-                }
-                component.set('v.hasEmancipatedParticipants', hasEmancipatedParticipants);
-                component.getEvent('onInit').fire();
-            }*/
-            spinner.hide();
-        })
+    doStudyChanged: function (component, event, helper) {
+        helper.doUpdateRecords(component, event, helper, 'study');
     },
-
-    doPIBtnFilterChanged: function (component) {
-        var btnFilter = component.get('v.piBtnFilter');
-        var filterMap = component.get('v.peFilterData').peBtnFilterItemsMap;
-        var filter = component.get('v.peFilter');
-        if (btnFilter) {
-            filter.peBtnFilter = filterMap[btnFilter];
-        } else {
-            filter.peBtnFilter = null;
-        }
-        component.set('v.peFilter', filter);
+    doSiteChanged: function (component, event, helper) {
+        helper.doUpdateRecords(component, event, helper, 'site');
+    },
+    doFilterChanged: function (component, event, helper) {
+        helper.doUpdateRecords(component, event, helper, 'filter');
+    },
+    doPaginationChanged: function (component, event, helper) {
+        helper.doUpdateRecords(component, event, helper, 'pagination');
+    },
+    doActiveChanged: function (component, event, helper) {
+        helper.doUpdateRecords(component, event, helper, 'active');
+    },
+    doSortChanged: function (component, event, helper) {
+        helper.doUpdateRecords(component, event, helper, 'sort');
+    },
+    doEmancipatedChanged: function (component, event, helper) {
+        helper.doUpdateRecords(component, event, helper, 'emancipation');
     },
 
     filterEmancipations: function(component, event, helper){

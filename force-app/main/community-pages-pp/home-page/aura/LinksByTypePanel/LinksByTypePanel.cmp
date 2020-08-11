@@ -2,21 +2,24 @@
  - Created by Nargiz Mamedova on 2/13/2020.
  -->
 
-<aura:component description="LinksByTypePanel">
+<aura:component description="LinksByTypePanel" controller="FindCommunityName"><!-- @Krishna Mahto - PEH-2179 -added controller -->
     <aura:attribute name="linksWrapper" type="Object"/>
     <aura:attribute name="height" type="String"/>
     <aura:attribute name="size" type="Integer" default="5"/>
+    <aura:attribute name="externalLinkDisclaimer" type="String"/> <!-- @Krishna Mahto - PEH-2179 -->
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-
     <div class="sv-panel rr-white-panel" data-gtm="PNL_RelevantLinks">
         <div class="sv-header">
-            <div class="sv-title">{!v.linksWrapper.type.label}</div>
+            <div class="sv-title">{!v.linksWrapper.type.label} &nbsp;
+              <lightning:helptext content="{!v.externalLinkDisclaimer}"/>  <!-- Added by Krishna Mahto - PEH-2179 --> 
+            </div>
         </div>
         <div aura:id="svb" class="sv-body" style="{!v.height}">
             <aura:iteration var="link" items="{!v.linksWrapper.resources}" end="{!v.size}">
                 <div class="link-container">
-                    <c:RRLink href="{!link.resource.URL__c}" label="{!link.resource.Title__c}" target="_blank" class="link" dataGTM="LNK_Resource"/>
+                    <c:RRLink href="{!link.resource.URL__c}" label="{!link.resource.Title__c}"
+                              target="_blank" class="link" dataGTM="LNK_Resource"/>
                 </div>
             </aura:iteration>
             <c:EmptyListStub targetList="{!v.linksWrapper.resources}" iconName="none" message="{!$Label.c.No_Relevant_Links_to_display}"/>

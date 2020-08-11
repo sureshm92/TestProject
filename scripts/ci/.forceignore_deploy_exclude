@@ -1,5 +1,6 @@
 # Add excluded metadata for deployment here!
 
+force-app/unpackaged
 
 # Resource record types:
 force-app/main/resources/objects/Resource__c/recordTypes/*
@@ -13,3 +14,12 @@ force-app/main/default/reports/unfiled$public/Escalation_report_vBd*
 
 # Contact record types (TODO check this):
 force-app/main/default/objects/Contact/recordTypes/*
+
+# Exclude community settings
+force-app/communities/community-gsk/networkBranding
+force-app/communities/community-gsk/networks
+force-app/communities/community-gsk/sites
+force-app/communities/community-iqvia/networkBranding
+force-app/communities/community-iqvia/networks
+force-app/communities/community-iqvia/sites
+force-app/communities/community-iqvia

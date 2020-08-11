@@ -24,8 +24,10 @@
                     description="Community template name"/>
     <apex:attribute name="specificEmailProvider" type="String" assignTo="{!specificEmailProviderValue}"
                     description="If you need specific instance of EmailTemplateProvider set this here"/>
-
+    <apex:attribute name="shareEmailTemplate" assignTo="{!shareTemplate}" type="String" description="" default="No" access="global"/>  
+   
     {!headerText}
+    
     {!titleText}
 
     {!greetingText}
@@ -37,4 +39,6 @@
     {!signatureText}
 
     {!$Label.Email_Footer_Address} | {!$Label.Email_Footer_Privacy_Policy}: {!$Label.CommunityURL + '/s/privacy-policy'}
+    {!$Label.Email_Opt_Out_footer} {!$Label.Email_Opt_Out_footer_here} : {!$Label.CommunityURL+communityTypeURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}
+
 </apex:component>

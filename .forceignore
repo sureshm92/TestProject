@@ -20,10 +20,26 @@ force-app/main/default/profiles/IQVIA RH Profile.profile-meta.xml
 #flows
 force-app/main/default/flows/net_promoter_score.flow-meta.xml
 force-app/main/default/flows/customer_satisfaction.flow-meta.xml
+force-app/main/default/flows/Send_Email_to_the_delegate.flow-meta.xml
+force-app/main/default/flows/Create_Task_For_OutReach_User-3.flow-meta.xml
+force-app/main/default/flows/Create_Task_For_OutReach_User.flow-meta.xml
+#force-app/main/default/flows/Email_to_Technical_Support_for_Optout_option.flow-meta.xml
 
-#images
-force-app/main/user-communications/images
+force-app/main/default/workflows/Integration_Patient_Referral__c.workflow-meta.xml
+#force-app/main/default/workflows/Case.workflow-meta.xml
 
 #ignore all onboarding slides, comment line for include
 */staticresources/*os_pi*
 */staticresources/*os_hcp*
+**/onboarding-tour/staticresources
+
+**/jsconfig.json
+**/.eslintrc.json
+
+#Staic resources to stay within SFDX governor limit. Will free ~5MB
+#Feel free to add more static resources as required. DO NOT commit uncommented file to team branch.
+#Uncomment the below lines when necessary.
+#force-app/main/default/staticresources/Flags.svg
+#force-app/main/default/staticresources/Flags.resource-meta.xml
+#force-app/main/default/staticresources/pdf_worker_js.js
+#force-app/main/default/staticresources/Participant_quick_reference_GSK.pdf

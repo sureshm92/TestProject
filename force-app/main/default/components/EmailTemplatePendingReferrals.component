@@ -1,0 +1,83 @@
+<apex:component id="EmailTemplatePendingReferrals" controller="EmailWireframeController" access="global" language="{!userLanguageCode}">
+
+    <!-- Records info -->
+    <apex:attribute name="recipientId" type="Id" assignTo="{!emailRecipientId}" description="" access="global"/>
+    <apex:attribute name="recipientName" type="String" assignTo="{!emailRecipientName}" description="" access="global"/>
+    <apex:attribute name="recipientLanguage" type="String" assignTo="{!emailRecipientLanguage}" description=""
+                    access="global"/>
+    <apex:attribute name="sourceId" assignTo="{!sourceRecordId}" type="Id" description="" access="global"/>
+
+    <!-- Templates labels -->
+    <apex:attribute name="header" assignTo="{!headerValue}" type="String" description=""/>
+    <apex:attribute name="title" assignTo="{!titleValue}" type="String" description=""/>
+    <apex:attribute name="greeting" assignTo="{!greetingValue}" type="String" description=""/>
+    <apex:attribute name="signature" assignTo="{!signatureValue}" type="String" description=""/>
+    <apex:attribute name="preSignature" assignTo="{!preSignatureValue}" type="String" description=""/>
+
+    <!-- Other -->
+    <apex:attribute name="outputType" assignTo="{!outputMode}" type="String" description="" default="HTML"/>
+    <apex:attribute name="communityTemplate" type="String" assignTo="{!communityTemplateValue}"
+                    description="Community template name"/>
+    <apex:attribute name="specificEmailProvider" type="String" assignTo="{!specificEmailProviderValue}"
+                    description="If you need specific instance of EmailTemplateProvider set this here"/>
+
+    <div style="{!templateMap['emailTemplateBackground']}">
+        <div style="{!templateMap['emailTemplateTextBackground']}">
+            <div style="{!templateMap['emailTemplateHeaderBackground']}">
+                <div style="{!templateMap['emailTemplateHeader']}">
+                    <apex:outputText value="{!headerText}" escape="false"/>
+                </div>
+                <div style="{!templateMap['emailTemplateTitle']}">
+                    <apex:outputText value="{!titleText}" escape="false"/>
+                </div>
+            </div>
+            <div style="padding: 20px; color: #333333; font-size: 16px; line-height: 20px;">
+                <div style="padding: 3px;margin: 0 0 0 0;">
+                <apex:outputText value="{!greetingText}" escape="false"/>
+                <br/>
+                <div style="margin-top: -30px; margin-bottom: 30px;">
+                    <apex:componentBody rendered="{!isInitialized}"/>
+                </div>
+
+                <apex:outputPanel style="display:block; margin: 25px 0"
+                                  rendered="{!preSignatureText != null}">
+                    <apex:outputText value="{!preSignatureText}" escape="false"/>
+                </apex:outputPanel>
+                </div>    
+                <table style="margin: 0 0 0 0;">
+                    <tr>
+                        <td style="width: 90%;">
+                            <apex:outputText value="{!signatureText}" escape="false"/>
+                        </td>
+                        <td style="width: 10%;">
+                            <img style="{!templateMap['emailTemplateBrandLogoCSS']}"
+                                 src="{!templateMap['emailTemplateBrandLogo']}"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div style="{!templateMap['emailTemplateBottomLogo']}">
+            <img src="{!$Label.CommunityEmailLogo}"/>
+        </div>
+
+        <div style="color: #999999; font-size: 13px; line-height: 16px;">
+            <div style="border-top: 2px solid #CCCCCC; border-bottom: 2px solid #CCCCCC; padding-top: 10px; padding-bottom: 10px;">
+                {!$Label.Email_Footer_Address} |&nbsp; <a
+                        href="{!$Label.CommunityURL + '/s/privacy-policy'}">{!$Label.Email_Footer_Privacy_Policy}</a>
+            </div>
+        </div>
+         <div style="border:2px solid #999999;height:50px;line-height:20px;background-color:#f3f3f3">
+            <div style="display:block;font-size: 14px;font-weight: 600;color: black;padding-top:5px;float:left;">
+                    {!$Label.Email_Opt_Out_footer} <a
+                                                      href="{!$Label.CommunityURL+communityTypeURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}">{!$Label.Email_Opt_Out_footer_here}</a>
+            </div> 
+                      <div style="font-style:italic;font-size:12px;font-weight:600;color:black;float:left;">
+                    {!$Label.Email_Opt_Out_footer_medical_emergency}        
+           </div>
+   
+        </div>    
+    </div>
+
+</apex:component>

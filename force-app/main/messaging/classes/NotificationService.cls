@@ -23,7 +23,8 @@ public without sharing class NotificationService {
             NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_TYPE,
             NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_GSK_TYPE,
             NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_TYPE,
-            NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE
+            NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE,
+            NotificationCatalog.MESSAGE_TO_PT_FOLLOWUP
     };
 
     static public String NOTIFICATION_STATUS_PENDING = 'Pending';
@@ -48,8 +49,13 @@ public without sharing class NotificationService {
                         Parameters_Provider__r.Source_Object_Type__c,
                         Parameters_Provider__r.Parameters__c,
                         Parameters_Provider__r.DeveloperName, (
-                        SELECT Id, Email_Template__c, Email_Template_Delegate__c, Target_Type__c,
-                                Message_Body__c, Org_Wide_Email_Address__c
+                        SELECT Id,
+                                Email_Template__c,
+                                Email_Template_Delegate__c,
+                                Target_Type__c,
+                                Title__c,
+                                Message_Body__c,
+                                Org_Wide_Email_Address__c
                         FROM Notification_Targets__r
                 )
                 FROM Notification_Type__mdt
@@ -264,17 +270,27 @@ public without sharing class NotificationService {
                         sendResultService.setSkipped(n.Id, nt.Target_Type__c);
                     }
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_PUSH) {
-                    pushNotifications.add(n);
-                    //TODO
+                    if(availabilityService.isAvailableForPush(n.Id, n.WhatId__c)){
+                        sendResultService.setInProgress(n.Id, nt.Target_Type__c);
+                        pushNotifications.add(n);
+                    }else{
+                        sendResultService.setSkipped(n.Id, nt.Target_Type__c);
+                    }
                 } else if (nt.Target_Type__c == NOTIFICATION_RECIPIENT_TYPE_EXTERNAL_EMAIL) {
                     //TODO
                 }
             }
         }
+    
         sendResultService.updateResults();
-
+        //Send emails:
         if (!emailNotifications.isEmpty()) EmailService.send(emailNotifications, orgWideEmailByNotifyMap);
-        if (!smsNotifications.isEmpty()) SMSService.sendQueueable(smsNotifications);
+        
+        //Async send SMS and Push
+        ActionStack actionStack = new ActionStack();
+        if(smsNotifications.size() > 0) actionStack.add(new Action_SendSMS(smsNotifications));
+        if(pushNotifications.size() > 0) actionStack.add(new Action_SendPush(pushNotifications));
+        actionStack.run();
     }
 
 }

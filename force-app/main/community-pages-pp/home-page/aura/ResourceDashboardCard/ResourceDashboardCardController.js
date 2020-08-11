@@ -14,5 +14,9 @@
                 });
             });
         }
-    }
+    },
+    navigateToCoi: function(component, event, helper){
+    communityService.navigateToPage('account-settings?changePref');
+}
+   
 })

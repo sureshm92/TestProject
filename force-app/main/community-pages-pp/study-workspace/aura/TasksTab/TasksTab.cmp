@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev  
  -->
 
-<aura:component description="TasksTab" controller="TasksRemote">
+ <aura:component description="TasksTab" controller="TasksRemote">
 
     <!-- attributes: -->
     <aura:attribute name="taskMode" type="String" default="{!$Label.c.Task_Tab_Open_Tasks}"/>
@@ -15,9 +15,17 @@
     <aura:attribute name="tasksAvailable" type="Boolean" default="true"/>
     <aura:attribute name="emptyTrial" type="Boolean" default="true"/>
     <aura:attribute name="showCreateTaskButton" type="Boolean" default="false"/>
+    <aura:attribute name="firstLoad" type="Boolean" default="false" />
+	<aura:attribute name="cmpDef" type="Aura.Component" default="{!this}" />
+
+    <!--dependency-->
+    <aura:dependency resource="markup://c:StudyVisitReminder" type="COMPONENT"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!--METHOD-->
+    <aura:method name="reload" access="public" action="{!c.doInit}" />
 
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" size="medium" fixed="true" showSpinner="true"/>
@@ -39,17 +47,24 @@
                             <th class="completed-by">{!$Label.c.Due_Date}</th>
                             <th class="completed-by">{!$Label.c.Reminder_Date}</th>
                         </tr>
-                        <aura:iteration items="{!v.openTasks}" var="taskWrapper">
+                        <aura:iteration items="{!v.openTasks}" var="taskWrapper" indexVar="index">
                             <tr>
                                 <td>
+                                    <!--
                                     <c:RRLink label="{!taskWrapper.openTask.Subject}" identifier="{!taskWrapper.openTask.Id}"
                                               page="{!if(empty(taskWrapper.openTask.Action_URL__c), 'task-detail?id=' + taskWrapper.openTask.Id, taskWrapper.openTask.Action_URL__c)}"
                                               onclick="{!c.doTaskClick}"/>
+									-->
+                                    <span class="taskLabel">{!$Label.c.Task_Tab_Table_Col_Name}:</span>
+                                    <div class="rr-link limit-width"
+                                         data-index="{!index}"
+                                         onclick="{!c.doTaskClick}">{!taskWrapper.openTask.Subject}</div>
                                 </td>
                                 <td>
-                                        {!taskWrapper.originator}
-                                    </td>
+                                    <span class="taskLabel">{!$Label.c.Originator}:</span> {!taskWrapper.originator}
+                                </td>
                                 <td>
+                                    <span class="taskLabel">{!$Label.c.Due_Date}:</span>
                                     <aura:if isTrue="{!taskWrapper.openTask.Status == 'In Progress'}">
                                             {!$Label.c.Task_Tab_Table_Status_In_Progress}
                                         </aura:if>
@@ -63,11 +78,18 @@
                                     </aura:if>
                                 </td>
                                 <td>
+                                    <span class="taskLabel">{!$Label.c.Reminder_Date}:</span>
                                     <aura:if isTrue="{!taskWrapper.reminder != null}">
-                                        <ui:outputDate value="{!taskWrapper.reminder}"/>
+                                         <div class="rr-link limit-width"
+                                         data-index="{!index}"
+                                         data-reminder="{!taskWrapper.reminder}"
+                                         onclick="{!c.onReminderDateClick}"><ui:outputDate value="{!taskWrapper.reminder}"/></div>
+                                       
                                         <aura:set attribute="else">
-                                                {!$Label.c.None}
-                                            </aura:set>
+                                        	<div class="rr-link limit-width"
+                                         		 data-index="{!index}"
+                                                 onclick="{!c.onReminderDateClick}">{!$Label.c.Create}</div>
+                                        </aura:set>
                                     </aura:if>
                                 </td>
                             </tr>
@@ -91,12 +113,15 @@
                             <th>{!$Label.c.Task_Tab_Table_Col_Name}</th>
                             <th>{!$Label.c.Task_Tab_Table_Col_Completed}</th>
                         </tr>
-                        <aura:iteration items="{!v.completedTasks}" var="taskWrapper">
+                        <aura:iteration items="{!v.completedTasks}" var="taskWrapper" indexVar="index">
                             <tr class="{!if(taskWrapper.task.Status == 'Ignored', 'ignored', '')}">
                                 <td>
                                     <aura:if isTrue="{!taskWrapper.task.Status == 'Ignored'}">
-                                        <c:RRLink label="{!taskWrapper.task.Subject}"
-                                                  page="{!'task-detail?id=' + taskWrapper.task.Id}"/>
+                                        <!--<c:RRLink label="{!taskWrapper.task.Subject}"
+                                                  page="{!'task-detail?id=' + taskWrapper.task.Id}"/>-->
+                                        <div class="rr-link limit-width"
+                                         	 data-index="{!index}"
+                                             onclick="{!c.onClickIgnored}">{!taskWrapper.task.Subject}</div>
                                     </aura:if>
                                     <aura:if
                                             isTrue="{!taskWrapper.task.Status == 'Completed' || taskWrapper.task.Status == 'Expired'}">
@@ -122,6 +147,7 @@
                     </aura:if>
                 </div>
             </aura:if>
+            <div aura:id ="visitReminder"/>
         </div>
     </aura:if>
 </aura:component>

@@ -135,6 +135,11 @@
                 page: 'trial-match',
                 label: $A.get('$Label.c.Trial_Match'),
                 icon: 'trial-match-mob'
+            },
+
+            'participant-support':{
+                page: '',
+                label: $A.get('$Label.c.CC_Participant_Support')
             }
         };
 
@@ -150,14 +155,13 @@
         if (communityService.getMessagesVisible()) {
             participantTabs.push(this.allPagesMap['messages']);
         }
-
-        if (communityService.getTemplateProperty('CommunityBrandName') === 'Community_GSK') {
-            if (communityService.getTrialMatchVisible()) {
-                if (communityService.getParticipantState() === 'PARTICIPANT') {
+        if (communityService.getTrialMatchVisible()) {
+            //PEH-2288: Check from the currentCommunityMode
+                if (communityService.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
                     participantTabs.push(this.allPagesMap['trial-match']);
                 }
-            }
         }
+        
         participantTabs.push(this.allPagesMap['help']);
 
         this.itemsMap = {
@@ -182,6 +186,10 @@
                 // this.allPagesMap['my-study-sites'],
                 this.allPagesMap['reports']
                // this.allPagesMap['help'] //Comment as we are using help text from CustomThemeLayout Component as per REF-1343 for PI and Referral Provider
+            ],
+
+            CC: [
+                this.allPagesMap['participant-support']
             ]
         }
     },
@@ -190,6 +198,9 @@
         if (!this.itemsMap) this.initItemsMap();
         let page = this.allPagesMap[pageName];
         if (page) document.title = page.label;
+        //for CC mode 
+        if(communityService.getCurrentCommunityMode().userMode ==='CC' && page.page == '')
+            document.title = $A.get('$Label.c.CC_Participant_Support');
     },
 
     updateCurrentPage: function (component) {

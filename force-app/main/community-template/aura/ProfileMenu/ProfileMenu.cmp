@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="ProfileMenu" controller="RRProfileController" extends="c:CommunityContext">
+ <aura:component description="ProfileMenu" controller="RRProfileController" extends="c:CommunityContext">
 
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String"/>
@@ -31,7 +31,9 @@
         <aura:if isTrue="{!and(v.userMode == 'Participant', !v.isDelegate)}">
             <c:uiMenuItem label="{!$Label.c.PG_PST_L_Delegates}" onclick="{!c.doSelectItem}" itemValue="my-team" />
         </aura:if>
-        <c:uiMenuItem label="{!$Label.c.Profile_Menu_Account_Settings}" onclick="{!c.doSelectItem}" itemValue="account-settings" />
+        <aura:if isTrue="{!v.userMode != 'CC'}">
+            <c:uiMenuItem label="{!$Label.c.Profile_Menu_Account_Settings}" onclick="{!c.doSelectItem}" itemValue="account-settings" />
+        </aura:if>
         <c:uiMenuItem label="{!$Label.c.Profile_Menu_Log_Out}" onclick="{!c.doSelectItem}" itemValue="logout" />
     </c:uiHeaderMenu>
 

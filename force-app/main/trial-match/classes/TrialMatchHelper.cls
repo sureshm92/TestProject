@@ -17,14 +17,14 @@ public without sharing class TrialMatchHelper {
         private set;
     }
 
-    public TrialMatchPageRemote.TrialMatchContainer getInitTrialMatchContainer() {
-        TrialMatchPageRemote.TrialMatchContainer trialMatchContainer = this.getTrialMatchContainer(null, true, true);
+    public TrialMatchPageRemote.TrialMatchContainer getInitTrialMatchContainer(Id participantid) {
+        TrialMatchPageRemote.TrialMatchContainer trialMatchContainer = this.getTrialMatchContainer(participantid, null, true, true);
         return trialMatchContainer;
     }
 
-    public TrialMatchPageRemote.TrialMatchContainer getTrialMatchContainer(List<Trial_Match__c> trms, Boolean isEnrolling, Boolean isNotYetEnrolling) {
+    public TrialMatchPageRemote.TrialMatchContainer getTrialMatchContainer(Id participantid, List<Trial_Match__c> trms, Boolean isEnrolling, Boolean isNotYetEnrolling) {
         TrialMatchPageRemote.TrialMatchContainer trialMatchContainer = new TrialMatchPageRemote.TrialMatchContainer();
-        List<Trial_Match__c> trialMatchs = trms != null ? trms : this.getTrialMatches();
+        List<Trial_Match__c> trialMatchs = trms != null ? trms : this.getTrialMatches(participantid);
         Set<Id> ctpId = new Set<Id>();
         Map<Id, Trial_Match__c> trialmatchesforCTP = new Map<Id, Trial_Match__c>();
         if (!trialMatchs.isEmpty()) {
@@ -60,7 +60,14 @@ public without sharing class TrialMatchHelper {
         List<TrialMatchPageRemote.TrialMatchCTP> trialmatchCTPS = new List<TrialMatchPageRemote.TrialMatchCTP>();
         for (Clinical_Trial_Profile__c ctp : CTPs) {
             TrialMatchPageRemote.TrialMatchCTP tmctp = new TrialMatchPageRemote.TrialMatchCTP();
-            Date matdate = trialmatches.get(ctp.id).Matched_Date__c;
+            if(trialmatches.get(ctp.id).Matched_Date__c != null){
+                Date matdate = trialmatches.get(ctp.id).Matched_Date__c;
+                String day = String.valueOf(matdate.day()).length()==1?'0'+String.valueOf(matdate.day()):String.valueOf(matdate.day());
+                tmctp.matchDate = day+'-'+ getMonth(matdate)+'-'+matdate.year();
+            }
+            else{
+                tmctp.matchDate = '';
+            }
             tmctp.ctp = ctp;
             tmctp.trm = trialmatches.get(ctp.id);
             tmctp.isEnrollingCTP = isCtpEnrolling(ctp);
@@ -68,8 +75,6 @@ public without sharing class TrialMatchHelper {
             tmctp.TherapeuticArea = trialmatches.get(ctp.id).Therapeutic_Area__c;
             tmctp.StudyCodeName = ctp.Study_Code_Name__c;
             tmctp.OfficialTitle = ctp.Official_Title__c;
-            String day = String.valueOf(matdate.day()).length()==1?'0'+String.valueOf(matdate.day()):String.valueOf(matdate.day());
-            tmctp.matchDate = day+'-'+ getMonth(matdate)+'-'+matdate.year();
             trialmatchCTPS.add(tmctp);
         }
         return trialmatchCTPS;
@@ -79,10 +84,7 @@ public without sharing class TrialMatchHelper {
     private List<Clinical_Trial_Profile__c> getCtps(Set<Id> ctpIds, String objfield, Boolean isEnrolling, Boolean isNotYetEnrolling) {
         TrialSearchWhereClauseFactory factory = (TrialSearchWhereClauseFactory) ClassFactory.newInstance(TrialSearchWhereClauseFactory.class);
         String whereClause = factory.getInstance(new List<Id>(ctpIds), objfield, isEnrolling, isNotYetEnrolling, null).getWhereClause();
-        if(String.isEmpty(whereClause))
-            whereClause = 'where CommunityTemplate__c=\'GSK\' AND Trial_Match_Is_Available__c = true';
-        else
-            whereClause+=' AND CommunityTemplate__c=\'GSK\' AND Trial_Match_Is_Available__c = true';
+        String orderBy = ' ORDER BY Override_Recruitment_Status__c';
         String queryCTP = 'SELECT id, ' +
             	'Trial_Match_Is_Available__c, '+
                 'Therapeutic_Area__c, ' +
@@ -97,15 +99,22 @@ public without sharing class TrialMatchHelper {
                 'FROM Clinical_Trial_Profile__c ';
 
         queryCTP += whereClause;
-
+        queryCTP += orderBy;
         List<Clinical_Trial_Profile__c> ctps = (List<Clinical_Trial_Profile__c>) proxy.query(queryCTP, true);
+        if(ctps.size() > 0){
+        String language = UserInfo.getLanguage();
+            if(CommunityService.getUserContact().userCommunityMode__c.equals(CommunityService.USER_MODE_PARTICIPANT)) {
+                language = IRBParticipantService.getSuitableLanguageForIRBTranslation(ParticipantService.getParticipantState().pe.Id);
+            }
+        TranslateHelper.translate(ctps, language);
+        }
         return ctps;
     }
 
 	@TestVisible
-    private List<Trial_Match__c> getTrialMatches() {
+    private List<Trial_Match__c> getTrialMatches(Id participantid) {
         String filter = 'Is_Eligible__c = TRUE AND' +
-                DatabaseService.fieldEqual('Participant_Enrollment__r.Participant__c', ParticipantContext.getCurrentParticipantId());
+                DatabaseService.fieldEqual('Participant_Enrollment__r.Participant__c', participantid);
 
         return (List<Trial_Match__c>) DatabaseService.query(
                 new List<String>{
@@ -115,7 +124,7 @@ public without sharing class TrialMatchHelper {
         );
     }
 
-    //To Sravani Dasari, this variant is better, agree?!
+    @TestVisible
     private String getMonth(Date matchDate){
         Datetime dt = Datetime.newInstanceGmt(matchDate.year(), matchDate.month(), matchDate.day());
         return dt.format('MMM');

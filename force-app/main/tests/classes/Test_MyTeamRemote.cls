@@ -65,4 +65,41 @@ private class Test_MyTeamRemote {
         }
         Test.stopTest();
     }
+
+    @IsTest
+    static void testDoCreateUserOn() {
+        List<MyTeamRemote.TrialDelegateWrapper> dlw = new List<MyTeamRemote.TrialDelegateWrapper>();
+        MyTeamRemote.TrialDelegateWrapper wrap = new MyTeamRemote.TrialDelegateWrapper();
+        MyTeamRemote.DelegateLevelWrapper wrap2 = new MyTeamRemote.DelegateLevelWrapper();
+
+        wrap.trialName = 'Test01';
+        wrap2.delegateLevel = 'Level 1';
+        wrap2.ReferralStatus = 'Accepted';
+        wrap.siteLevels.add(wrap2);
+
+        dlw.add(wrap);
+        Boolean result = false;
+        Test.startTest();
+            result = MyTeamRemote.doCreateUser(dlw, 'PI');
+        Test.stopTest();
+        System.assertEquals(true, result);
+    }
+    @IsTest
+    static void testDoCreateUserOff() {
+        List<MyTeamRemote.TrialDelegateWrapper> dlw = new List<MyTeamRemote.TrialDelegateWrapper>();
+        MyTeamRemote.TrialDelegateWrapper wrap = new MyTeamRemote.TrialDelegateWrapper();
+        MyTeamRemote.DelegateLevelWrapper wrap2 = new MyTeamRemote.DelegateLevelWrapper();
+
+        wrap.trialName = 'Test01';
+        wrap2.delegateLevel = 'Level 1';
+        wrap2.ReferralStatus = 'Invitation Sent';
+        wrap.siteLevels.add(wrap2);
+
+        dlw.add(wrap);
+        Boolean result = false;
+        Test.startTest();
+        result = MyTeamRemote.doCreateUser(dlw, 'PI');
+        Test.stopTest();
+        System.assertEquals(false, result);
+    }
 }

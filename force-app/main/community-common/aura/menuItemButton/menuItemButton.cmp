@@ -1,0 +1,21 @@
+<!--
+ - Created by Nargiz Mamedova on 6/19/2020.
+ -->
+
+<aura:component description="menuItemButton" extends="ui:menuItem">
+
+    <!-- attributes: -->
+    <aura:attribute name="iconName" type="String"/>
+    <aura:attribute name="navigateTo" type="String" access="public"/>
+    <aura:attribute name="class" type="String"/>
+    <aura:attribute name="closeAfterClick" type="Boolean" default="true"/>
+    <aura:attribute name="itemValue" type="Object" access="public"/>
+    <aura:attribute name="modes" type="List" access="public"/>
+
+    <!-- events: -->
+    <aura:registerEvent access="global" name="onclick" type="c:uiEvent"/>
+
+    <div onclick="{!c.doOnClick}">
+        <c:RRIcon class="{!v.class}" iconName="{!v.iconName}"/>
+    </div>
+</aura:component>

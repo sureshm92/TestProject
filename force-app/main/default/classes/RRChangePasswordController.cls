@@ -22,6 +22,7 @@ public without sharing class RRChangePasswordController {
     public String oldPassword {get; set;}
     public String newPassword {get; set;}
     public String verifyNewPassword {get; set;}
+    public String failingPageResponse {get; set;}
 
     public Boolean isPaswordsEquals {get; set;}
     public Account account {get; set;}
@@ -68,7 +69,7 @@ public without sharing class RRChangePasswordController {
     private Map<String, String> countryCodeByName = new Map<String, String>();
     private Map<String, String> stateCodeByName = new Map<String, String>();
     private String oldAccountName;
-
+    
     public RRChangePasswordController() {
         translation = new Translation__c();
         init();
@@ -175,13 +176,28 @@ public without sharing class RRChangePasswordController {
     public PageReference changePassword() {
         try{
             PageReference pr = Site.changePassword(newPassword, verifyNewPassword, oldPassword);
+            contact.Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH') ? CommunityService.IQVIA_NETWORK_NAME : Site.getMasterLabel();
             contact.Is_First_Logon__c = false;
             update contact;
 //            if(translation.Language__c != null) {
 //                userVal.LanguageLocaleKey = translation.Language__c;
             update userVal;
 //            }
-
+            for (ApexPages.Message m : ApexPages.getMessages()) {
+                if(m.getDetail().contains(System.Label.Pswd_ValidationMsg5)){
+                    m = new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.Pswd_ValidationMsg6);
+                    failingPageResponse = m.getDetail();
+                    
+                }
+                else if(m.getDetail().contains(System.Label.Pswd_Val_strng1) || m.getDetail().contains(System.Label.Pswd_Val_strng2) || m.getDetail().contains(System.Label.Pswd_ValidationMsg4))
+                {
+                    m = new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.Pswd_ValidationMsg3);
+                    failingPageResponse = m.getDetail();
+                }else{
+                    failingPageResponse = Null;
+                }
+            }
+            
             if (tcId!=null) {
                 Terms_And_Conditions_Acceptance__c tca = new Terms_And_Conditions_Acceptance__c();
                 tca.Accepted_Date__c = Datetime.now();
@@ -193,7 +209,6 @@ public without sharing class RRChangePasswordController {
             return pr;
         }catch (Exception e){
             isProfileView = true;
-            ApexPages.addMessages(e);
             return null;
         }
     }
@@ -243,9 +258,13 @@ public without sharing class RRChangePasswordController {
                 try {
                     contact.MailingCountryCode = (noCountry ? null : contact.MailingCountryCode);
                     contact.MailingStateCode = (noState ? null : contact.MailingStateCode);
-            
+                    List<Participant_Enrollment__c> loginUserPEs = [SELECT Id FROM Participant_Enrollment__c WHERE Participant_Contact__c = : contact.Id ];
+                    if(loginUserPEs.isEmpty() && contact.UserCommunityIsDelegate__c){
+                        contact.Current_Participant_Enrollment__c = null;
+                        contact.userCommunityDelegateId__c = null;
+                        contact.Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH') ? CommunityService.IQVIA_NETWORK_NAME : Site.getMasterLabel();
+                    }
                     update contact;
-            
                     country = contact.MailingCountryCode;
                     state = contact.MailingStateCode;
                 } catch (Exception exp) {
@@ -274,7 +293,26 @@ public without sharing class RRChangePasswordController {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Institute Name' + ERROR_SUFFIX));
             }
             try {
-                if (!Test.isRunningTest()) Site.validatePassword(userVal, newPassword, verifyNewPassword);
+                if (!Test.isRunningTest()){ 
+                    Site.validatePassword(userVal, newPassword, verifyNewPassword);
+                
+              		for (ApexPages.Message m : ApexPages.getMessages()) 
+                    {
+					   if(m.getDetail().contains(System.Label.Pswd_ValidationMsg5)){
+						    m = new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.Pswd_ValidationMsg6);
+                            failingPageResponse = m.getDetail();
+						   
+					   }
+                       else if(m.getDetail().contains(System.Label.Pswd_Val_strng1) || m.getDetail().contains(System.Label.Pswd_Val_strng2) || m.getDetail().contains(System.Label.Pswd_ValidationMsg4))
+                        {
+                            m = new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.Pswd_ValidationMsg3);
+                            failingPageResponse = m.getDetail();
+                        }else{
+                            failingPageResponse = Null;
+                        }
+                	}
+            	}
+                
             } catch (Exception e) {
                 ApexPages.addMessages(e);
             }
@@ -292,7 +330,7 @@ public without sharing class RRChangePasswordController {
     @Future
     private static void updateHCPStatus(Id contactId){
         List<HCP_Enrollment__c> hcpEnrollments = [
-                SELECT Id,
+                SELECT Id,//
                         HCP_Contact__c,
                         Status__c
                 FROM HCP_Enrollment__c
@@ -318,6 +356,7 @@ public without sharing class RRChangePasswordController {
         ConnectApi.BinaryInput photoFileInput = new ConnectApi.BinaryInput(blobValue, contentType, filename);
         ConnectApi.UserProfiles.setPhoto(Network.getNetworkId(), userVal.Id, photoFileInput);
         photolink = ConnectApi.UserProfiles.getPhoto(Network.getNetworkId(), userVal.Id).fullEmailPhotoUrl;
+        
     }
 
     public void updateTranslations(){

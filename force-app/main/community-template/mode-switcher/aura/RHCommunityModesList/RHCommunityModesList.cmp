@@ -1,0 +1,54 @@
+<!--
+ - Created by Andrii Kryvolap.
+ -->
+
+<aura:component description="RHCommunityModesList">
+
+    <!-- attributes: -->
+    <aura:attribute name="communityModes" type="Object"/>
+
+    <!-- events: -->
+    <aura:registerEvent access="global" name="onclick" type="c:uiEvent"/>
+
+    <ul class="main-container">
+        <aura:iteration items="{!v.communityModes.rhModeItems}" var="modeGroup">
+            <c:uiMenuItem onclick="{!c.doOnclick}" itemValue="{!modeGroup}">
+                <div class="main-box" onclick="{!c.doToggleGroup}" data-group-id="{!modeGroup.itemType}">
+                    <aura:if isTrue="{!modeGroup.isCollapsed}">
+                        <div class="{!'icon-box ' + if(modeGroup.isGroup, 'icon-unset','')}">
+                            <c:RRIcon iconName="icon-chevron-right"
+                                      class="{!'mode-icon ' + if(modeGroup.isSelected,'selected ','')}"/>
+                        </div>
+                        <aura:set attribute="else">
+                            <div class="{!'icon-box ' + if(modeGroup.isGroup, 'icon-unset','')}">
+                                <c:RRIcon iconName="icon-chevron-down"
+                                          class="{!'mode-icon ' + if(modeGroup.isSelected,'selected ','')}"/>
+                            </div>
+                        </aura:set>
+                    </aura:if>
+                    <div class="{!'mode-group ' + if(modeGroup.isSelected, 'selected', '')}">
+                        {!modeGroup.title}
+                        <aura:if isTrue="{!and(!modeGroup.isGroup, modeGroup.isSelected)}">
+                            <c:RRIcon iconName="icon-check" class="icon-check"/>
+                        </aura:if>
+                    </div>
+                </div>
+                <aura:if isTrue="{!!modeGroup.isCollapsed}">
+                    <ul>
+                        <aura:iteration items="{!modeGroup.subItems}" var="subItem">
+                            <c:uiMenuItem onclick="{!c.doOnclick}" itemValue="{!subItem}">
+                                <div data-group-id="{!subItem.itemType}" data-delegate-id="{!subItem.itemId}"
+                                     class="{!'mode-sub-item ' + if(subItem.isSelected,'selected','')}">
+                                    <div class="item-title">{!subItem.title}</div>
+                                    <aura:if isTrue="{!subItem.isSelected}">
+                                        <c:RRIcon iconName="icon-check" class="icon-check"/>
+                                    </aura:if>
+                                </div>
+                            </c:uiMenuItem>
+                        </aura:iteration>
+                    </ul>
+                </aura:if>
+            </c:uiMenuItem>
+        </aura:iteration>
+    </ul>
+</aura:component>

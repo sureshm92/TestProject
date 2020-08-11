@@ -336,10 +336,6 @@ export default class MessageBoard extends LightningElement {
             + '; pointer-events: ' + (this.isSendEnable && this.isAttachEnable ? 'all' : 'none');
     }
 
-    get sendPAStyle() {
-        return (navigator.userAgent.match(/Trident/) ? 'margin-bottom: 5px;' : '');
-    }
-
     checkSendBTNAvailability() {
         let sendBtn = this.template.querySelector('.ms-send-button');
         if (this.messageText && this.isRecipientSelected() && !this.isHoldMode) {

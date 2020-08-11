@@ -9,12 +9,14 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
         public override void beforeInsert(List<SObject> newList){
             overrideStatusChangedBy(newList, null);
             populateOverrideFields(newList);
+            updateShortCommunityName(newList, null);
         }
 
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap){
             overrideStatusChangedBy(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
             populateOverrideFields(newList);
             populateDateOnTrialComplete(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
+            updateShortCommunityName(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
         }
 
         public override void afterInsert(List<SObject> newList) {
@@ -25,6 +27,7 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
             updateClinicalTrialProfile(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
             deleteTravelVendors(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
             updateNextNotifyDateByCTP((List<Clinical_Trial_Profile__c>)newList);
+            updateStudySitesSuppressPIEmails(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
         }
 
         public override void beforeDelete(List<SObject> oldList) {
@@ -164,6 +167,36 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
                 && oldMap.get(ctp.Id).Status__c != ctp.Status__c) {
                 ctp.Trial_Complete__c = Date.today();
             }
+        }
+    }
+
+    private static void updateShortCommunityName(List<SObject> newList, Map<Id, Clinical_Trial_Profile__c> oldMap) {
+        for(Clinical_Trial_Profile__c ctp : (List<Clinical_Trial_Profile__c>)newList){
+            if((oldMap == null && String.isEmpty(ctp.ShortCommunityName__c) && String.isNotEmpty(ctp.CommunityTemplate__c)) ||
+                    (oldMap != null && oldMap.get(ctp.Id).CommunityTemplate__c != ctp.CommunityTemplate__c)) {
+                CommunityTemplate template = CommunityTemplateService.getTemplate(ctp.CommunityTemplate__c);
+                ctp.ShortCommunityName__c = template.shortCommunityName;
+            }
+        }
+    }
+
+    private static void updateStudySitesSuppressPIEmails(List<Clinical_Trial_Profile__c> newList, Map<Id, Clinical_Trial_Profile__c> oldMap){
+        Map<Id, Clinical_Trial_Profile__c> ctpIdsWithSitesToUpdateMap = new Map<Id,Clinical_Trial_Profile__c>();
+        for(Clinical_Trial_Profile__c ctp : newList){
+            if(oldMap != null && ctp.Suppress_PI_Emails__c != oldMap.get(ctp.Id).Suppress_PI_Emails__c) {
+                ctpIdsWithSitesToUpdateMap.put(ctp.Id, ctp);
+            }
+        }
+        List<Study_Site__c> sitesToUpdate = [
+                SELECT Id, Suppress_Study_Site_PI_Emails__c, Clinical_Trial_Profile__c
+                FROM Study_Site__c
+                WHERE Clinical_Trial_Profile__c IN :ctpIdsWithSitesToUpdateMap.keySet()
+        ];
+        for (Study_Site__c site : sitesToUpdate){
+            site.Suppress_Study_Site_PI_Emails__c = ctpIdsWithSitesToUpdateMap.get(site.Clinical_Trial_Profile__c).Suppress_PI_Emails__c;
+        }
+        if (!sitesToUpdate.isEmpty()) {
+            update sitesToUpdate;
         }
     }
 }

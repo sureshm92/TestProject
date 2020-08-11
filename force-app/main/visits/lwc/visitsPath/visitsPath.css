@@ -28,8 +28,8 @@
     justify-content: space-around;
 }
 
-.arrow-border span i {
-    font-size: 20px;
+.arrow-border i span {
+    font-size: 13px;
     align-self: center;
     color: #979797;
     transition: all 0.4s;
@@ -37,13 +37,13 @@
     margin: 0 auto;
 }
 
-.arrow-border span i::before {
+.arrow-border i span::before {
     display: inline-block;
     text-decoration: none;
 }
 
 .vis-path {
-    max-width: 600px;
+    max-width: 630px;
     overflow-x: scroll;
     -ms-overflow-style: none;
     scroll-behavior: smooth;
@@ -53,6 +53,11 @@
 
 .vis-path::-webkit-scrollbar {
     display: none;
+}
+
+.state-ico-wrapper .rr-icon-default {
+    width: 16px;
+    height: 14px;
 }
 
 .width-basis {
@@ -113,10 +118,10 @@
 }
 
 .state .state-ico-wrapper {
-    width: 24px;
-    height: 24px;
-    top: -15px;
-    left: -14px;
+    width: 30px;
+    height: 30px;
+    top: -18px;
+    left: -16px;
 }
 
 .state.planned .state-ico-wrapper-middle {
@@ -124,10 +129,10 @@
     position: absolute;
     line-height: 1;
     justify-content: center;
-    top: -19px;
-    left: -18px;
-    width: 32px;
-    height: 32px;
+    top: -22px;
+    left: -20px;
+    width: 38px;
+    height: 38px;
     opacity: .25;
     background-color: #005ff1;
 }
@@ -141,7 +146,7 @@
     justify-content: center;
     background-color: #005ff1;
     top: -27px;
-    left: -26px;
+    left: -24px;
     width: 48px;
     height: 48px;
     opacity: 0.1;
@@ -192,9 +197,26 @@
     color: #297dfd;
 }
 
+@media only screen and (min-width: 1000px) and (orientation: portrait) {
+    .state .state-ico-wrapper {
+        width: 30px;
+        height: 30px;
+        top: -16px;
+        left: -13px;
+    }
+
+    .arrow-left {
+        margin-right: 4px;
+    }
+
+    .arrow-left + .slds-col > .vis-path.slds-grid > .slds-col:nth-of-type(n+2) .state-label {
+        padding-right: 36px
+    }
+}
+
 @media screen and (max-width: 600px) {
     .vis-path {
-        max-width: 310px;
+     /*   max-width: 310px; */
         overflow-x: scroll;
         -ms-overflow-style: none;
         scroll-behavior: smooth;
@@ -202,7 +224,7 @@
     }
 
     .state {
-        min-width: 250px;
+        min-width: 225px;
     }
 
     .state .state-label {
@@ -218,22 +240,24 @@
     }
 
     .arrow-left {
-        padding-top: 5px;
+        padding-left: 8px;
     }
 
-    .arrow-right {
-        padding-top: 5px;
+    .state-ico-wrapper .rr-icon-default {
+        width: 18px;
+        height: 20px;
     }
+
 }
 
-@media only screen and (min-width: 765px) and (max-width: 800px) and (orientation : portrait) {
+@media only screen and (min-width: 650px) and (max-width: 800px) and (orientation : portrait) {
     .path-section {
         padding: 30px 5px 25px;
         max-width: 750px;
     }
 
     .vis-path {
-        max-width: 600px;
+        max-width: 630px;
         overflow-x: scroll;
         -ms-overflow-style: none;
         scroll-behavior: smooth;
@@ -248,15 +272,34 @@
         display: block;
     }
 
+    .state-ico-wrapper .rr-icon-default {
+        width: 20px;
+        height: 18px;
+        margin-bottom: 2px;
+    }
+
+
     .width-basis {
         flex-basis: 0;
     }
 
     .state .state-ico-wrapper {
         width: 32px;
-        height: 33px;
+        height: 32px;
         top: -17px;
         left: -14px;
+    }
+
+    .arrow-left,
+    .arrow-right {
+        padding-left: 30px;
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-device-width : 800px) and (max-device-width : 1000px) and (orientation : landscape) {
+    .arrow-left {
+        margin-right: 5px;
     }
 }
 
@@ -270,7 +313,7 @@
         overflow-x: scroll;
         -ms-overflow-style: none;
         scroll-behavior: smooth;
-        padding-top: 16px;
+        padding-top: 30px;
     }
 
     .state {
@@ -281,14 +324,30 @@
         display: block;
     }
 
+    .state.planned .state-ico-wrapper-large {
+        left: -25px;
+    }
+
+    .state.planned .state-ico-wrapper-middle {
+        top: -22px;
+        left: -21px;
+        width: 39px;
+        height: 38px;
+    }
+
     .width-basis {
         flex-basis: 0;
     }
 
-    .state .state-ico-wrapper {
-        width: 32px;
-        height: 33px;
-        top: -17px;
-        left: -14px;
+    .state .state-ico-wrapper .rr-icon-default {
+        width: 20px;
+        height: 22px;
     }
+
+    .arrow-left,
+    .arrow-right {
+        padding-top: 20px;
+        margin-left: 0;
+    }
+
 }

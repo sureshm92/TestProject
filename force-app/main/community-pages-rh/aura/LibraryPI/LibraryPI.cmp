@@ -1,24 +1,32 @@
 <!--
  - Created by Nikita Abrazhevitch on 06-May-20.
  -->
-<aura:component description="LibraryPI" controller="LibraryPIRemote">
+ <aura:component description="LibraryPI" controller="LibraryPIRemote">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
-
+    
     <aura:attribute name="resourceStructureList" type="List"/>
     <aura:attribute name="resourceLanguages" type="List"/>
-
-    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
-
-    <div class="slds-grid slds-wrap resource-headers slds-grid--vertical-align-center">
+    <aura:attribute name="sectionOpen" type="Boolean"/>
+    <aura:attribute name="count" type="integer"/>
+    
+    <aura:attribute name="searchstring" type="string" access="public" />
+    <aura:attribute name="langSelected" type="string" default="" access="public" />
+    <aura:method name="LibraryPIMethod" action="{!c.doSearch}" access="public" />
+    
+    
+    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>    
+    
+    <div class="slds-grid slds-wrap resource-headers slds-grid--vertical-align-center" style="height:31px;padding-right:27px;">
         <div class="slds-coll slds-size--4-of-12"></div>
         <div class="slds-coll slds-size--2-of-12">
             <c:uiHeaderMenu aura:id="menuId" class="language-filter">
                 <aura:set attribute="title">
                     <span class="language-title">{!$Label.c.Library_Language}</span>
-                    <lightning:icon iconName="utility:filterList" size="xx-small" class="language-filter-icon"/>
-                    <!--
-                                        <lightning:buttonIcon variant="bare-inverse" class="language-filter-icon" iconName="utility:filterList"/>
-                    -->
+                    <img class="language-filter-icon" src="{!$Resource.icon_filterBlue}" width="16" height="16"/>
+                    <!--   <lightning:icon iconName="utility:filterList" size="xx-small" class="language-filter-icon"/>
+
+        <lightning:buttonIcon variant="bare-inverse" class="language-filter-icon" iconName="utility:filterList"/>
+                      -->
                 </aura:set>
                 <aura:iteration items="{!v.resourceLanguages}" var="language">
                     <c:uiMenuItem label="{!language.label}" itemValue="{!language.value}"
@@ -27,34 +35,68 @@
             </c:uiHeaderMenu>
         </div>
         <div class="slds-coll slds-size--2-of-12">{!$Label.c.Library_Type}</div>
-        <div class="slds-coll slds-size--2-of-12">{!$Label.c.Library_Format}</div>
+        <div class="slds-coll slds-size--2-of-12 formatForMobile">{!$Label.c.Library_Format}</div>
         <div class="slds-coll slds-size--2-of-12">{!$Label.c.Library_Version_Date}</div>
     </div>
     <div class="rr-white-panel" style="margin-top: 0px">
-        <lightning:accordion aura:id="accordion" allowMultipleSectionsOpen="true">
+        <lightning:accordion aura:id="accordion" allowMultipleSectionsOpen="true" onsectiontoggle="{! c.handleSectionToggle }" class="">
             <aura:iteration items="{!v.resourceStructureList}" var="resourceStructure" indexVar="key">
                 <lightning:accordionSection
-                        label="{!resourceStructure.structureName + ' (' + resourceStructure.resources.length + ') '}"
-                        class="{!resourceStructure.resources.length &lt; 1 ? 'hide-arrow' : ''}">
-                    <aura:set attribute="body">
-                        <aura:iteration items="{!resourceStructure.resources}" var="resource" indexVar="resourceIndex">
-                            <div class="slds-grid slds-wrap resource-container">
-                                <aura:if isTrue="{!!empty(resource.videoLink || resource.link)}">
-                                    <c:RRLink href="{!resource.videoLink ? resource.videoLink : resource.link}"
-                                              class="resource-links slds-col slds-size--4-of-12"
-                                              label="{!resource.name}" target="blank"/>
-                                    <aura:set attribute="else">
-                                        <a class="slds-coll slds-size--4-of-12 resource-links"
-                                           onclick="{!c.doNavigate}"
-                                           data-attributeVal="{!key + ',' + resourceIndex}">{!resource.name}</a>
-                                    </aura:set>
-                                </aura:if>
-                                <div class="slds-coll slds-size--2-of-12">{!resource.language}</div>
-                                <div class="slds-coll slds-size--2-of-12">{!resource.type}</div>
-                                <div class="slds-coll slds-size--2-of-12">{!resource.format}</div>
-                                <div class="slds-coll slds-size--2-of-12">{!resource.versionDate}</div>
-                            </div>
-                        </aura:iteration>
+                                            label="{!resourceStructure.structureName}"
+                                            class="{!resourceStructure.resources.length &lt; 1 ? 'hide-arrow' : ''}"  
+                                            name="{!resourceStructure.structureName+key}">
+                    <aura:set attribute="actions">
+                        <aura:if isTrue="{!v.sectionOpen}">
+                            <lightning:menuItem value="{!resourceStructure.resources.length+' ' + $Label.c.Library_Items}" label="{!resourceStructure.resources.length+ ' ' + $Label.c.Library_Items}"/>
+                            <aura:set attribute="else">
+                                <lightning:menuItem value="{!resourceStructure.resources.length+ ' ' + $Label.c.Library_Items}" label="{!resourceStructure.resources.length+ ' ' + $Label.c.Library_Items}" class="slds-hide"/>
+                            </aura:set>
+                        </aura:if>                  	
+                        
+                    </aura:set>
+                    <aura:set attribute="body"> 
+                        <div class="slds-scrollable_y" 
+                             style="{!if(resourceStructure.resources.length > 12 , 'height :10rem')}">
+                            <aura:iteration items="{!resourceStructure.resources}" var="resource" indexVar="resourceIndex">
+                                <div class="slds-grid slds-wrap resource-container">
+                                    
+                                    <aura:if isTrue="{!!empty(resource.videoLink || resource.link) || resource.format == 'Article'}">
+                                       <a class="slds-coll slds-size--4-of-12 resource-links resourceLinkHover"
+                                                   onclick="{!c.doNavigate}"
+                                                   data-attributeVal="{!key + ',' + resourceIndex}">{!resource.name}</a>
+                                        <aura:set attribute="else">
+                                            <aura:if isTrue="{!and(resource.format == 'Study Document',!empty(resource.fileID))}">
+                                                
+                                                <a class="slds-coll slds-size--4-of-12 resource-links resourceLinkHover"
+                                                   onclick="{!c.doNavigate}"
+                                                   data-attributeVal="{!key + ',' + resourceIndex}">{!resource.name}</a>
+                                                <aura:set attribute="else">
+                                                    <div class="slds-coll slds-size--4-of-12">
+                                                        {!resource.name}
+                                                    </div>
+                                                </aura:set>
+                                            </aura:if>
+                                        </aura:set>
+                                    </aura:if>
+                                    
+                                    <div class="slds-coll slds-size--2-of-12"><span class="libLabel">Language:</span>{!resource.language}</div>
+                                    <div class="slds-coll slds-size--2-of-12 libraryTypeForMobile"><span class="libLabel">Type:</span>{!resource.type}</div>
+                                    <div class="slds-coll slds-size--2-of-12"><span class="libLabel">Format:</span>{!resource.format}</div>
+                                    <div class="slds-coll slds-size--1-of-12 versionForMobile"><span class="libLabel">Version Date:</span>{!resource.versionDate}</div>
+                                    <div  data-attributeVal="{!key + ',' + resourceIndex}" class="slds-coll slds-size--1-of-12 " onclick="{!c.downloadResource}" >
+
+                                        <aura:if isTrue="{!!empty(resource.fileID)}">
+                                            <span class="libLabel dld">Download</span>
+                                            <!-- <lightning:icon iconName="utility:download" size="xx-small" alternativeText="Download" title="Download"
+                                                            variant="inverse" class="slds-align_absolute-center" /> -->
+                                             <img class="slds-align_absolute-center" src="{!$Resource.icon_download}" width="16" height="16"/>
+                                        </aura:if>    
+                                    </div>
+                                </div>
+                                <div class="slds-border_bottom"/>
+                                
+                            </aura:iteration>  
+                        </div>
                     </aura:set>
                 </lightning:accordionSection>
             </aura:iteration>

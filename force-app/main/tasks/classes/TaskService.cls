@@ -52,6 +52,10 @@ public without sharing class TaskService {
             'Reminder_Date__c',
             'Originator__c',
             'Patient_Visit__c',
+            'Remind_Me__c',
+            'Reminder_Schedule__c',
+            'Remind_Using_Email__c',
+            'Remind_Using_SMS__c',
             'Is_Reminder_Sent__c',
             'Survey_Invitation__c',
             'Survey_Invitation__r.Is_Expired__c',
@@ -146,7 +150,8 @@ public without sharing class TaskService {
             Boolean skipTask = false;
             Id curPEId = ParticipantContext.getCurrentPEId();
             if(t.WhatId != null && t.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()){
-                skipTask = skipPEIds.contains(t.WhatId) || (curPEId != null && t.WhatId != curPEId);
+               //Visit Task to be displayed in Task Tab panel
+                skipTask = (skipPEIds.contains(t.WhatId) && t.Task_Type__c != 'Visit') || (curPEId != null && t.WhatId != curPEId);
             } else if(t.Survey_Invitation__c != null){
                 skipTask = skipSurveyInvIds.contains(t.Survey_Invitation__c) || (curPEId != null && t.Survey_Invitation__r.Participant_Enrollment__c != curPEId);
             }
@@ -276,7 +281,9 @@ public without sharing class TaskService {
                     for (Id pdId : patientDelContactIds) {
                         if (delContactUser.get(pdId) == null) continue;
 
-                        tmpConfigs.add(new TaskConfig(delContactUser.get(pdId)));
+                        Id userId = userTimezoneMap.get(delContactUser.get(pdId)) != null
+                                ? delContactUser.get(pdId) : null;
+                        tmpConfigs.add(new TaskConfig(userId, pdId));
                         userContact.put(delContactUser.get(pdId), pdId);
                     }
                 }
@@ -285,7 +292,9 @@ public without sharing class TaskService {
                     for (Id pdId : patientDelContactIds) {
                         if (delContactUser.get(pdId) == null) continue;
 
-                        tmpConfigs.add(new TaskConfig(delContactUser.get(pdId)));
+                        Id userId = userTimezoneMap.get(delContactUser.get(pdId)) != null
+                                ? delContactUser.get(pdId) : null;
+                        tmpConfigs.add(new TaskConfig(userId, pdId));
                         userContact.put(delContactUser.get(pdId), pdId);
                     }
                 }
@@ -303,6 +312,8 @@ public without sharing class TaskService {
 
                 if(tsc.ownerId != null) {
                     TimeZone userTZ = userTimezoneMap.get(tsc.ownerId);
+                    if(userTZ == null) continue;
+
                     Datetime userDatetime =
                             DateTimeConverterUtil.getUserDT(Datetime.now().date(), Datetime.now().time(), userTZ);
 
@@ -375,7 +386,8 @@ public without sharing class TaskService {
                 Priority = TASK_PRIORITY_CRITICAL,
                 WhatId = participantId,
                 WhoId = participantContactId,
-                Visible_For__c = TASK_VISIBILITY_OWNER
+                Visible_For__c = TASK_VISIBILITY_OWNER,
+                Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED
         );
     }
     
@@ -390,15 +402,12 @@ public without sharing class TaskService {
     
     public Map<Id, Id> getContactUserIdsMap(Set<Id> contactIds) {
         List<User> users = [
-                SELECT Id, ContactId, IsActive
+                SELECT Id, ContactId
                 FROM User
                 WHERE ContactId IN:contactIds
         ];
         Map<Id, Id> contactUserMap = new Map<Id, Id>();
-        for (User u : users) {
-            System.debug('>>> Is Active: ' + u.IsActive);
-            contactUserMap.put(u.ContactId, u.Id);
-        }
+        for (User u : users) contactUserMap.put(u.ContactId, u.Id);
 
         return contactUserMap;
     }

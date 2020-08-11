@@ -3,14 +3,18 @@
  */
 ({
 
-    uploadPaticipants: function(component, csvData, fileName, studySiteId, selectedStatus, createUsers, helper) {
+    uploadPaticipants: function(component, csvData, fileName, studySiteId, selectedStatus, createUsers, doContact,isEmail,isPhone,isSMS,helper) {
         component.find('upModalSpinner').show();
         communityService.executeAction(component, 'uploadParticipants', {
             csvFileLines: csvData,
             fileName: fileName,
             studySiteId: studySiteId,
             selectedStatus: selectedStatus,
-            createUsers: createUsers
+            createUsers: createUsers,
+            doContact: doContact,
+            allowEmail: isEmail,
+            allowPhone: isPhone,
+            allowSMS: isSMS
         }, function (returnValue) {
             component.find('upModalSpinner').hide();
             communityService.showSuccessToast('',  $A.get("$Label.c.PG_EMN_MSG_Participant_record_import_is_processing"));

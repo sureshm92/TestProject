@@ -1,0 +1,1247 @@
+@font-face {
+    font-family: Muli;
+    src: url(/resource/CPD_CommunityFont);
+}
+
+@media screen and (min-width: 1024px) {
+    .THIS .partnership-with-align {
+        /*margin-top: -5rem;
+        margin-left: 18rem;
+        margin-top: 4rem;
+        margin-left: -7rem;*/
+    }
+
+    .THIS .in-partnership-with {
+        color: #006293;
+        font-family: "Muli", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 30px;
+    }
+
+    .THIS .nybc-logo {
+        height: 25px;
+        width: 343.55px;
+    }
+
+    .THIS .heart-image-align {
+        margin-top: 5%;
+    }
+
+    .THIS .heart-image {
+        height: 495px;
+        width: 525px;
+    }
+
+    .THIS .slds-top-contnet {
+        margin-left: 14%;
+        margin-top: 10%;
+    }
+
+    .THIS .slds-information-position {
+        margin-top: 5%;
+        margin-left: 5%;
+    }
+
+    .THIS .content-top {
+        margin-top: 5%;
+    }
+
+    .THIS .slds-top-contnet-rectangle-2 {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    .THIS .icon-checkmark {
+        height: 36px;
+        width: 36px;
+    }
+
+    .THIS .convalescent-plasma-titile {
+        color: #005587;
+        font-family: "Muli", sans-serif;
+        font-size: 45px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 56px;
+    }
+
+    .THIS .sld-join-the-fight {
+        color: #005587;
+        font-family: "Muli", sans-serif;
+        font-size: 32px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 56px;
+    }
+
+    .THIS .sld_background_img {
+        background-color: #F2F2F2;
+        margin: 2% -1% 0% -1%;
+    }
+
+    .THIS .sld-first-paragraph {
+        color: #006F9E;
+        font-family: "Muli", sans-serif;
+        font-size: 21px;
+        letter-spacing: 0;
+        line-height: 30px;
+        width: 94%;
+    }
+
+    .THIS .button-section {
+        margin-top: 4rem;
+    }
+
+    .THIS .button-align {
+       /* margin-top: 4rem;*/
+    }
+
+    .THIS div.button {
+        -webkit-appearance: button;
+        -moz-appearance: button;
+        height: 90px;
+        width: 270px;
+        padding: 1em 1em;
+        display: inline-block;
+        border: 2px solid #019FDB;
+        margin: 0 0.2em 0.2em 0;
+        border-radius: 0.12em;
+        box-sizing: border-box;
+        text-decoration: none;
+        font-family: "Muli", sans-serif;
+        font-weight: bold;
+        font-size: 28px;
+        color: #FFFFFF;
+        text-shadow: 0 0.04em 0.04em rgba(0, 0, 0, 0.35);
+        background-color: #1AA0D9;
+        text-align: center;
+        letter-spacing: 0;
+        line-height: 20px;
+        transition: all 0.15s;
+
+    }
+
+    .THIS div.button:hover {
+        text-shadow: 0 0 2em rgba(255, 255, 255, 1);
+        color:  #1AA0D9;
+        border-color: #019FDB;
+        background-color: #FFFFFF;
+    }
+
+    /*
+    .THIS div.button {
+        -webkit-appearance: button;
+        -moz-appearance: button;
+        appearance: button;
+        text-decoration: none;
+        background-color: #1AA0D9;
+        border: 2px solid #019FDB;
+        height: 90px;
+        width: 270px;
+        box-shadow: 0 5px 5px 0 grey;
+        border-radius: 5px;
+        font-family: "Muli", sans-serif;
+        padding-left: 3.5rem;
+        padding-top: 2rem;
+        cursor: pointer;
+        position: relative;
+        z-index: 9;
+    }
+
+    .THIS .sld-get-started-label {
+        color: #FFFFFF;
+        font-family: "Muli", sans-serif;
+        font-size: 28px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 20px;
+        text-align: center;
+    }*/
+
+    .THIS .who-take-part {
+        margin-left: -1%;
+        margin-right: -1%;
+    }
+
+    .THIS .sld-initial-you-p {
+        /*154px;*/
+        height: 104px;
+        width: 100%;
+        color: #333333;
+        font-family: "Muli", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 20px;
+    }
+
+    .THIS .sld-document-instructions-p {
+        height: 200px;
+        width: 94%;
+        color: #333333;
+        font-family: "Muli", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 20px;
+    }
+
+    .THIS .sld-eligibility-criteria-rectangle-1 {
+        box-sizing: border-box;
+        height: 19.8rem;
+        /*317px;*/
+        width: 100%;
+        border: 2px solid #1AA0D9;
+        background-color: #1AA0D9;
+        padding: 5%;
+    }
+
+    .THIS .sld-eligibility-criteria-1-p {
+        height: 112px;
+        width: 283px;
+        color: #ffffff;
+        font-family: "Muli", sans-serif;
+        font-size: 48px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 56px;
+        margin-right: 1.28em;
+        margin-top: 1em;
+        float: right;
+        z-index: 3;
+        position: relative;
+    }
+
+    .THIS .sld-eligibility-criteria-rectangle-2-p {
+        height: 22px;
+        width: 370px;
+        color: #005587;
+        font-family: "Muli", sans-serif;
+        font-size: 18px;
+        letter-spacing: 0;
+        line-height: 22px;
+        font-weight: bolder;
+    }
+
+    .THIS .sld-eligibility-criteria-rectangle-2 {
+        box-sizing: border-box;
+        height: 19.8rem;
+        /*317px;*/
+        width: 100%;
+        border: 1px solid #005587;
+        background-color: #FAFAFA;
+        border-right: 0px;
+        border-left: 0px;
+        padding: 2.5rem;
+    }
+
+    .THIS .sld-rect-content-with-image {
+        margin-top: 2%;
+    }
+}
+
+
+/* 
+  ##Device = Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+*/
+/*
+@media (min-width: 1024px) and (max-width: 1280px) {
+  
+    .THIS .partnership-with-align {
+        margin-top: -5rem;
+        margin-left: 18rem;
+    }
+
+    .THIS .in-partnership-with {
+        color: #006293;
+        font-family: "Muli", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 30px;
+    }
+
+    .THIS .nybc-logo {
+        height: 25px;
+        width: 343.55px;
+    }
+
+    .THIS .heart-image-align {
+        margin-top: 5%;
+    }
+
+    .THIS .heart-image {
+        height: 495px;
+        width: 525px;
+    }
+
+    .THIS .slds-top-contnet {
+        margin-left: 14%;
+        margin-top: 10%;
+    }
+
+    .THIS .slds-information-position {
+        margin-top: 5%;
+        margin-left: 5%;
+    }
+
+    .THIS .content-top {
+        margin-top: 5%;
+    }
+
+    .THIS .slds-top-contnet-rectangle-2 {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    .THIS .icon-checkmark {
+        height: 36px;
+        width: 36px;
+    }
+
+    .THIS .convalescent-plasma-titile {
+        color: #005587;
+        font-family: "Muli", sans-serif;
+        font-size: 45px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 56px;
+    }
+
+    .THIS .sld-join-the-fight {
+        color: #005587;
+        font-family: "Muli", sans-serif;
+        font-size: 32px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 56px;
+    }
+
+    .THIS .sld_background_img {
+        background-color: #F2F2F2;
+        margin: 2% -1% 0% -1%;
+    }
+
+    .THIS .sld-first-paragraph {
+        color: #006F9E;
+        font-family: "Muli", sans-serif;
+        font-size: 21px;
+        letter-spacing: 0;
+        line-height: 30px;
+        width: 94%;
+    }
+
+    .THIS .button-align {
+        margin-top: 4rem;
+    }
+
+    .THIS div.button {
+        -webkit-appearance: button;
+        -moz-appearance: button;
+        appearance: button;
+        text-decoration: none;
+        background-color: #1AA0D9;
+        border: 2px solid #019FDB;
+        height: 90px;
+        width: 270px;
+        box-shadow: 0 5px 5px 0 grey;
+        border-radius: 5px;
+        font-family: "Muli", sans-serif;
+        padding-left: 3.5rem;
+        padding-top: 2rem;
+        cursor: pointer;
+        position: relative;
+        z-index: 9;
+    }
+
+    .THIS .sld-get-started-label {
+        color: #FFFFFF;
+        font-family: "Muli", sans-serif;
+        font-size: 28px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 20px;
+        text-align: center;
+    }
+
+    .THIS .who-take-part {
+        margin-left: -1%;
+        margin-right: -1%;
+    }
+
+    .THIS .sld-initial-you-p {
+        height: 104px;
+        width: 100%;
+        color: #333333;
+        font-family: "Muli", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 20px;
+    }
+
+    .THIS .sld-document-instructions-p {
+        height: 200px;
+        width: 94%;
+        color: #333333;
+        font-family: "Muli", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 20px;
+    }
+
+    .THIS .sld-eligibility-criteria-rectangle-1 {
+        box-sizing: border-box;
+        height: 19.8rem;
+        width: 100%;
+        border: 2px solid #1AA0D9;
+        background-color: #1AA0D9;
+        padding: 5%;
+    }
+
+    .THIS .sld-eligibility-criteria-1-p {
+        height: 112px;
+        width: 283px;
+        color: #ffffff;
+        font-family: "Muli", sans-serif;
+        font-size: 48px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 56px;
+        margin-right: 1.28em;
+        margin-top: 1em;
+        float: right;
+        z-index: 3;
+        position: relative;
+    }
+
+    .THIS .sld-eligibility-criteria-rectangle-2-p {
+        height: 22px;
+        width: 370px;
+        color: #005587;
+        font-family: "Muli", sans-serif;
+        font-size: 18px;
+        letter-spacing: 0;
+        line-height: 22px;
+        font-weight: bolder;
+    }
+
+    .THIS .sld-eligibility-criteria-rectangle-2 {
+        box-sizing: border-box;
+        height: 19.8rem;
+        width: 100%;
+        border: 1px solid #005587;
+        background-color: #FAFAFA;
+        border-right: 0px;
+        border-left: 0px;
+        padding: 2.5rem;
+    }
+
+    .THIS .sld-rect-content-with-image {
+        margin-top: 2%;
+    }
+    
+  }
+  
+*/
+
+/* 
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+*/
+@media (min-width: 768px) and (max-width: 1024px) {
+
+    .THIS .partnership-with-align {
+       /* margin-top: -4rem;
+        margin-left: 18rem;*/
+        margin-top: 1rem;
+        margin-left: 1rem;
+    }
+
+    .THIS .in-partnership-with {
+        color: #006293;
+        font-family: "Muli", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 30px;
+    }
+
+    .THIS .nybc-logo {
+        height: 25px;
+        width: 343.55px;
+    }
+
+    .THIS .heart-image-align {
+        margin-top: 5%;
+    }
+
+    .THIS .heart-image {
+        height: 495px;
+        width: 525px;
+    }
+
+
+    .THIS .slds-top-contnet {
+        margin-left: 10%;
+        margin-top: 5%;
+    }
+
+    .THIS .slds-information-position {
+        margin-top: 5%;
+        margin-left: 5%;
+    }
+
+    .THIS .content-top {
+        margin-top: 5%;
+    }
+
+    .THIS .slds-top-contnet-rectangle-2 {
+        margin: 10% 20% -3% 5%;
+    }
+
+    .THIS .icon-checkmark {
+        height: 36px;
+        width: 36px;
+    }
+
+    .THIS .convalescent-plasma-titile {
+        color: #005587;
+        font-family: "Muli", sans-serif;
+        font-size: 45px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 56px;
+    }
+
+    .THIS .sld-join-the-fight {
+        color: #005587;
+        font-family: "Muli", sans-serif;
+        font-size: 32px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 56px;
+    }
+
+    .THIS .sld_background_img {
+        background-color: #F2F2F2;
+        margin: 2% -1% 0% -1%;
+    }
+
+    .THIS .sld-first-paragraph {
+        color: #006F9E;
+        font-family: "Muli", sans-serif;
+        font-size: 21px;
+        letter-spacing: 0;
+        line-height: 30px;
+        width: 94%;
+    }
+
+    .THIS .button-align {
+        margin-top: 9%;
+    }
+
+    /* .THIS div.button {
+        -webkit-appearance: button;
+        -moz-appearance: button;
+        appearance: button;
+        text-decoration: none;
+        background-color: #1AA0D9;
+        border: 2px solid #019FDB;
+        height: 90px;
+        width: 270px;
+        box-shadow: 0 5px 5px 0 grey;
+        border-radius: 5px;
+        font-family: "Muli", sans-serif;
+        padding-left: 3.5rem;
+        padding-top: 2rem;
+        cursor: pointer;
+        position: relative;
+        z-index: 9;
+    }*/
+
+    .THIS div.button {
+        -webkit-appearance: button;
+        -moz-appearance: button;
+        padding: 1em 1em;
+        display: block;
+        margin: 0.4em auto;
+        border: 2px solid #019FDB;
+        border-radius: 0.12em;
+        box-sizing: border-box;
+        text-decoration: none;
+        font-family: "Muli", sans-serif;
+        font-weight: bold;
+        font-size: 22px;
+        color: #FFFFFF;
+        text-shadow: 0 0.04em 0.04em rgba(0, 0, 0, 0.35);
+        background-color: #1AA0D9;
+        text-align: center;
+        letter-spacing: 0;
+        line-height: 20px;
+        transition: all 0.15s;
+    }
+
+    .THIS .sld-get-started-label1 {
+        color: #FFFFFF;
+        font-family: "Muli", sans-serif;
+        font-size: 28px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 20px;
+        text-align: center;
+    }
+
+    .THIS .who-take-part {
+        margin-left: -1%;
+        margin-right: -1%;
+    }
+
+    .THIS .sld-initial-you-p {
+        /*154px;*/
+        height: 104px;
+        width: 100%;
+        color: #333333;
+        font-family: "Muli", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 20px;
+    }
+
+    .THIS .sld-document-instructions-p {
+        height: 200px;
+        width: 94%;
+        color: #333333;
+        font-family: "Muli", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 20px;
+    }
+
+    .THIS .sld-eligibility-criteria-rectangle-1 {
+        box-sizing: border-box;
+        height: 317px;
+        width: 100%;
+        border: 2px solid #1AA0D9;
+        background-color: #1AA0D9;
+    }
+
+    .THIS .sld-eligibility-criteria-1-p {
+        height: 112px;
+        width: 283px;
+        color: #ffffff;
+        font-family: "Muli", sans-serif;
+        font-size: 48px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 56px;
+        margin-right: 1.28em;
+        margin-top: 1em;
+        float: right;
+        z-index: 3;
+        position: relative;
+    }
+
+    .THIS .sld-eligibility-criteria-rectangle-2-p {
+        height: 22px;
+        width: 370px;
+        color: #005587;
+        font-family: "Muli", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 22px;
+        font-weight: bolder;
+    }
+
+    .THIS .sld-eligibility-criteria-rectangle-2 {
+        box-sizing: border-box;
+        height: 317px;
+        width: 100%;
+        border: 1px solid #005587;
+        background-color: #FAFAFA;
+        border-right: 0px;
+        border-left: 0px;
+        padding: 0.5rem;
+    }
+
+    .THIS .sld-rect-content-with-image {
+        margin-top: 1%;
+    }
+
+}
+
+/* 
+    ##Device = Tablets, Ipads (landscape)
+    ##Screen = B/w 768px to 1024px
+  */
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+
+    .THIS .partnership-with-align {
+        /*margin-top: -4rem;
+        margin-left: 18rem;*/
+        margin-top: 3rem;
+        margin-left: 1rem;
+    }
+
+    .THIS .in-partnership-with {
+        color: #006293;
+        font-family: "Muli", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 30px;
+    }
+
+    .THIS .nybc-logo {
+        height: 25px;
+        width: 343.55px;
+    }
+
+    .THIS .heart-image-align {
+        margin-top: 5%;
+    }
+
+    .THIS .heart-image {
+        height: 495px;
+        width: 525px;
+    }
+
+
+    .THIS .slds-top-contnet {
+        margin-left: 10%;
+        margin-top: 5%;
+    }
+
+    .THIS .slds-information-position {
+        margin-top: 5%;
+        margin-left: 5%;
+    }
+
+    .THIS .content-top {
+        margin-top: 5%;
+    }
+
+    .THIS .slds-top-contnet-rectangle-2 {
+        margin: 3% 20% -3% 5%;
+    }
+
+    .THIS .icon-checkmark {
+        height: 36px;
+        width: 36px;
+    }
+
+    .THIS .convalescent-plasma-titile {
+        color: #005587;
+        font-family: "Muli", sans-serif;
+        font-size: 45px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 56px;
+    }
+
+    .THIS .sld-join-the-fight {
+        color: #005587;
+        font-family: "Muli", sans-serif;
+        font-size: 32px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 56px;
+    }
+
+    .THIS .sld_background_img {
+        background-color: #F2F2F2;
+        margin: 2% -1% 0% -1%;
+    }
+
+    .THIS .sld-first-paragraph {
+        color: #006F9E;
+        font-family: "Muli", sans-serif;
+        font-size: 21px;
+        letter-spacing: 0;
+        line-height: 30px;
+        width: 94%;
+    }
+
+    .THIS .button-align {
+        margin-top: 9%;
+    }
+
+    .THIS div.button {
+        -webkit-appearance: button;
+        -moz-appearance: button;
+        appearance: button;
+        text-decoration: none;
+        background-color: #1AA0D9;
+        border: 2px solid #019FDB;
+        
+        box-shadow: 0 5px 5px 0 grey;
+        border-radius: 5px;
+        font-family: "Muli", sans-serif;
+        /*padding-left: 3.5rem;
+        padding-top: 2rem;*/
+        cursor: pointer;
+        position: relative;
+        z-index: 9;
+        font-size: 24px;
+
+    }
+
+    .THIS .sld-get-started-label {
+        color: #FFFFFF;
+        font-family: "Muli", sans-serif;
+        font-size: 28px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 20px;
+        text-align: center;
+    }
+
+    .THIS .who-take-part {
+        margin-left: -1%;
+        margin-right: -1%;
+    }
+
+    .THIS .sld-initial-you-p {
+        /*154px;*/
+        height: 104px;
+        width: 100%;
+        color: #333333;
+        font-family: "Muli", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 20px;
+    }
+
+    .THIS .sld-document-instructions-p {
+        height: 200px;
+        width: 94%;
+        color: #333333;
+        font-family: "Muli", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 20px;
+    }
+
+    .THIS .sld-eligibility-criteria-rectangle-1 {
+        box-sizing: border-box;
+        height: 317px;
+        width: 100%;
+        border: 2px solid #1AA0D9;
+        background-color: #1AA0D9;
+    }
+
+    .THIS .sld-eligibility-criteria-1-p {
+        height: 112px;
+        width: 283px;
+        color: #ffffff;
+        font-family: "Muli", sans-serif;
+        font-size: 48px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 56px;
+        margin-right: 1.28em;
+        margin-top: 1em;
+        float: right;
+        z-index: 3;
+        position: relative;
+    }
+
+    .THIS .sld-eligibility-criteria-rectangle-2-p {
+        height: 22px;
+        width: 370px;
+        color: #005587;
+        font-family: "Muli", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 22px;
+        font-weight: bolder;
+    }
+
+    .THIS .sld-eligibility-criteria-rectangle-2 {
+        box-sizing: border-box;
+        height: 317px;
+        width: 100%;
+        border: 1px solid #005587;
+        background-color: #FAFAFA;
+        border-right: 0px;
+        border-left: 0px;
+        padding: 0.5rem;
+    }
+
+    .THIS .sld-rect-content-with-image {
+        margin-top: 1%;
+    }
+
+}
+
+
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media (min-width: 481px) and (max-width: 767px) {
+
+    .THIS .slds-top-contnet {
+        margin-top: 5em;
+        margin-left: 2em;
+    }
+
+    .THIS .nybc-logo {
+        margin-bottom: 10%;
+    }
+
+    .THIS .slds-information-position {
+        margin-top: 5em;
+        margin-left: 0em;
+    }
+
+    .THIS .in-partnership-with {
+        color: #006293;
+        font-family: "Muli", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 30px;
+    }
+
+    .THIS .content-top {
+        margin-top: 5%;
+    }
+
+    .THIS .slds-top-contnet-rectangle-2 {
+        margin-top: 3em;
+        margin-left: 3em;
+    }
+
+    .THIS .sld_background_img {
+        /*height: 100vh;*/
+    }
+
+    .THIS .convalescent-plasma-titile {
+        color: #005587;
+        font-family: "Muli", sans-serif;
+        font-size: 45px;
+        font-weight: bold;
+        letter-spacing: 0;
+        letter-spacing: 0;
+        line-height: 56px;
+        margin-top: 3%;
+    }
+
+    .THIS .sld-join-the-fight {
+        color: #005587;
+        font-family: "Muli", sans-serif;
+        height: 72px;
+        width: 80%;
+        font-size: 24px;
+        font-weight: bold;
+        letter-spacing: -0.1px;
+        line-height: 28px;
+    }
+
+    .THIS .sld_background_img {
+        background-color: #F2F2F2;
+        margin: 2% -1% 0% -1%;
+    }
+
+    .THIS .sld-first-paragraph {
+        color: #005587;
+        font-family: "Muli", sans-serif;
+        font-size: 24px;
+        letter-spacing: 0;
+        line-height: 30px;
+        margin-bottom: 10%;
+    }
+
+
+    .THIS div.button {
+        text-decoration: none;
+        background-color: #1AA0D9;
+        border: 2px solid #019FDB;
+        height: 80px;
+        width: 100%;
+        font-family: "Muli", sans-serif;
+        font-size: 30px;
+        padding-top: 1rem;
+        cursor: pointer;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        text-align: center;
+        padding-left: inherit;
+        z-index: 9;
+    }
+
+    .THIS .sld-get-started-label {
+        color: #FFFFFF;
+        font-family: "Muli", sans-serif;
+        font-size: 28px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 20px;
+        text-align: center;
+        /*margin-left: 35%;*/
+    }
+
+    .THIS .sld-rect-content-with-image {
+        margin-top: 0em;
+        margin-left: 1em;
+    }
+
+    .THIS .sld-document-instructions-p {
+        color: #333333;
+        font-family: "Muli", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 20px;
+    }
+
+    .THIS .sld-initial-you-p {
+        color: #333333;
+        font-family: "Muli", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 20px;
+    }
+
+    .THIS .sld-eligibility-criteria-rectangle-1 {
+        box-sizing: border-box;
+        height: 61px;
+        width: 100%;
+        border: 2px solid #1AA0D9;
+        background-color: #1AA0D9;
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        right: 0;
+    }
+
+    .THIS .sld-eligibility-criteria-rectangle-2 {
+        box-sizing: border-box;
+        height: 400px;
+        width: 100%;
+        border: 1px solid #005587;
+        background-color: #FAFAFA;
+        position: inherit;
+        z-index: 1;
+        border-right: 0px;
+        border-left: 0px;
+        left: 0;
+        right: 0;
+        margin-top: 15%;
+    }
+
+    .THIS .sld-eligibility-criteria-1-p {
+        color: #ffffff;
+        font-family: "Muli", sans-serif;
+        font-size: 21px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 36px;
+        margin-top: 0.5em;
+        z-index: 3;
+        position: relative;
+        text-align: center;
+    }
+
+
+    .THIS .sld-eligibility-criteria-rectangle-2-p {
+        height: 22px;
+        width: 203px;
+        color: #005587;
+        font-family: "Muli", sans-serif;
+        font-size: 18px;
+        letter-spacing: 0;
+        line-height: 22px;
+        font-weight: bolder;
+    }
+
+}
+
+/* 
+    ##Device = Most of the Smartphones Mobiles (Portrait)
+    ##Screen = B/w 320px to 479px
+  */
+
+@media (min-width: 320px) and (max-width: 480px) {
+
+    .THIS .slds-top-contnet {
+        margin-top: 5em;
+        margin-left: 2em;
+    }
+
+    .THIS .nybc-logo {
+        margin-bottom: 10%;
+    }
+
+    .THIS .slds-information-position {
+        margin-top: 5em;
+        margin-left: 0em;
+    }
+
+    .THIS .in-partnership-with {
+        color: #006293;
+        font-family: "Muli", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 30px;
+    }
+
+    .THIS .content-top {
+        margin-top: 5%;
+    }
+
+    .THIS .slds-top-contnet-rectangle-2 {
+        margin-top: 3em;
+        margin-left: 3em;
+    }
+
+    .THIS .sld_background_img {
+        /*height: 100vh;*/
+    }
+
+    .THIS .convalescent-plasma-titile {
+        color: #005587;
+        font-family: "Muli", sans-serif;
+        font-size: 45px;
+        font-weight: bold;
+        letter-spacing: 0;
+        letter-spacing: 0;
+        line-height: 56px;
+        margin-top: 3%;
+        /*width: 70%;*/
+    }
+
+    .THIS .sld-join-the-fight {
+        color: #005587;
+        font-family: "Muli", sans-serif;
+        height: 72px;
+        width: 80%;
+        font-size: 24px;
+        font-weight: bold;
+        letter-spacing: -0.1px;
+        line-height: 28px;
+    }
+
+    .THIS .sld_background_img {
+        background-color: #F2F2F2;
+        margin: 2% -1% 0% -1%;
+    }
+
+    .THIS .sld-first-paragraph {
+        color: #005587;
+        font-family: "Muli", sans-serif;
+        font-size: 24px;
+        letter-spacing: 0;
+        line-height: 30px;
+        margin-bottom: 10%;
+    }
+
+
+    .THIS div.button {
+        text-decoration: none;
+        background-color: #1AA0D9;
+        border: 2px solid #019FDB;
+        height: 80px;
+        width: 100%;
+        font-family: "Muli", sans-serif;
+        font-size: 30px;
+        padding-top: 1rem;
+        cursor: pointer;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        text-align: center;
+        padding-left: inherit;
+        z-index: 9;
+    }
+
+    .THIS .sld-get-started-label {
+        color: #FFFFFF;
+        font-family: "Muli", sans-serif;
+        font-size: 28px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 20px;
+        text-align: center;
+        /*margin-left: 35%;*/
+    }
+
+    .THIS .sld-rect-content-with-image {
+        margin-top: 0em;
+        margin-left: 1em;
+    }
+
+    .THIS .sld-document-instructions-p {
+        color: #333333;
+        font-family: "Muli", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 20px;
+    }
+
+    .THIS .sld-initial-you-p {
+        color: #333333;
+        font-family: "Muli", sans-serif;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: 20px;
+    }
+
+    .THIS .sld-eligibility-criteria-rectangle-1 {
+        box-sizing: border-box;
+        height: 61px;
+        width: 100%;
+        border: 2px solid #1AA0D9;
+        background-color: #1AA0D9;
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        right: 0;
+    }
+
+    .THIS .sld-eligibility-criteria-rectangle-2 {
+        box-sizing: border-box;
+        height: 400px;
+        width: 100%;
+        border: 1px solid #005587;
+        background-color: #FAFAFA;
+        position: inherit;
+        z-index: 1;
+        border-right: 0px;
+        border-left: 0px;
+        left: 0;
+        right: 0;
+        margin-top: 15%;
+    }
+
+    .THIS .sld-eligibility-criteria-1-p {
+        color: #ffffff;
+        font-family: "Muli", sans-serif;
+        font-size: 21px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 36px;
+        margin-top: 0.5em;
+        z-index: 3;
+        position: relative;
+        text-align: center;
+    }
+
+
+    .THIS .sld-eligibility-criteria-rectangle-2-p {
+        height: 22px;
+        width: 203px;
+        color: #005587;
+        font-family: "Muli", sans-serif;
+        font-size: 18px;
+        letter-spacing: 0;
+        line-height: 22px;
+        font-weight: bolder;
+    }
+
+}

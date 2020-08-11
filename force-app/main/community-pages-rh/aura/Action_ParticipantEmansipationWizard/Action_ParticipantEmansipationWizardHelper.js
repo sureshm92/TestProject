@@ -87,9 +87,9 @@
             delete delegateItems[ind].statesDelegateLVList;
             delete delegateItems[ind].continueDelegateMsg;
             delete delegateItems[ind].isConnected;
-            delete delegateItems[ind].fromStart;
             delete delegateItems[ind].isDuplicate;
             if (delegateItems[ind].fromStart) {
+                delete delegateItems[ind].fromStart;
                 delegateToProceedItems.push(delegateItems[ind]);
             }
         }
@@ -120,11 +120,15 @@
     checkFields: function (component, event, helper) {
         var participant = component.get('v.participant');
         var states = component.get('v.statesLVList');
+        var today = new Date();
+        var inDate = new Date(participant.Date_of_Birth__c);
+        var currentDate = today.setHours(0, 0, 0, 0);
+        var inputDate = inDate.setHours(0, 0, 0, 0);
 
         let isValid =
             (participant.First_Name__c && participant.First_Name__c.trim()) &&
             (participant.Last_Name__c && participant.Last_Name__c.trim()) &&
-            participant.Date_of_Birth__c &&
+            (participant.Date_of_Birth__c && inputDate <= currentDate) &&
             participant.Gender__c &&
             participant.Phone__c && participant.Phone__c.trim() &&
             participant.Phone_Type__c &&

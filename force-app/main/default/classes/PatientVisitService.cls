@@ -72,29 +72,21 @@ public inherited sharing class PatientVisitService {
     private List<VisitWrapper> getVisitWrappers(List<Patient_Visit__c> visits) {
         List<VisitWrapper> visitWrappers = new List<VisitWrapper>();
         if (visits == null || visits.isEmpty()) return visitWrappers;
-    
-        List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();        
-        List<Icon_Details__c> visitPlans = [SELECT Visit_Plan__c FROM Icon_Details__c 
-                                            WHERE Visit_Plan__c !=NULL LIMIT 1];
-        if(visitPlans.size()>0){
-            iconDetails = [
-                SELECT Id, Name, Label__c
-                FROM Icon_Details__c
-                WHERE Visit_Plan__c = :visitPlans[0].Visit_Plan__c
-            ];
-        }else{
-            iconDetails = [
-                SELECT Id, Name, Label__c
-                FROM Icon_Details__c];
+        Id visitPlanId;
+        List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
+        for(Patient_Visit__c visit: visits){
+            if(visit.Visit__c!=null && visit.Visit__r.Visit_Plan__c !=null){
+                visitPlanId = visit.Visit__r.Visit_Plan__c;   
+                break;
+            }
         }
-        
-        /*
- 		List<Icon_Details__c> iconDetails = [
+        if(visitPlanId !=null){
+            iconDetails = [
                 SELECT Id, Name, Label__c
                 FROM Icon_Details__c
-                WHERE Visit_Plan__c = :visits[0].Visit__r.Visit_Plan__c
-        ];
-		*/
+                WHERE Visit_Plan__c = :visitPlanId
+            ];
+        }
         TranslateHelper.translate(iconDetails);
         Map<String, Icon_Details__c> iconDetailsMap = new Map<String, Icon_Details__c>();
         for(Icon_Details__c iconDetail : iconDetails) iconDetailsMap.put(iconDetail.Name, iconDetail);
@@ -110,11 +102,7 @@ public inherited sharing class PatientVisitService {
         Set<Id> uniqueId = new Set<Id>();
         for (Patient_Visit__c singleVisit : visits) {
             if (singleVisit.Completed_Date__c != null) {
-                singleVisit.Completed_Date__c = DateTimeConverterUtil.getUserDT(
-                        singleVisit.Completed_Date__c,
-                        Time.newInstance(0, 0, 0, 0),
-                        timeZone
-                ).date();
+                singleVisit.Completed_Date__c = singleVisit.Completed_Date__c;
             }
 
             if (uniqueId.add(singleVisit.Id)) {
@@ -160,15 +148,19 @@ public inherited sharing class PatientVisitService {
         @AuraEnabled public Task task;
         @AuraEnabled public Date reminderDate;
         @AuraEnabled public Patient_Visit__c visit;
+        @AuraEnabled public String visitStatus;
 
         public VisitWrapper(Patient_Visit__c visit, Task task, Map<String, Icon_Details__c> iconDetailsMap) {
             this.visit = visit;
+            this.visitStatus = TranslateHelper.getPickListLabel(Patient_Visit__c.Status__c, visit.Status__c);
             iconDetails = new List<Icon_Details__c>();
             if (visit.Visit__c != null) {
                 icons = visit.Visit__r.Icons__c;
-                List<String> iconNames = new List<String>();
+                
+				List<String> iconNames = new List<String>();
                 if(visit.Visit__r !=null && visit.Visit__r.Icons__c !=null)
                     iconNames = visit.Visit__r.Icons__c.split(';');
+
                 if (!iconNames.isEmpty()) {
                     for(String iconName : iconNames) {
                         if(iconDetailsMap.containsKey(iconName)) {
@@ -180,11 +172,7 @@ public inherited sharing class PatientVisitService {
 
             this.task = task;
             if (task != null && task.ReminderDateTime != null) {
-                this.reminderDate = DateTimeConverterUtil.getUserDT(
-                        this.task.ReminderDateTime.date(),
-                        this.task.ReminderDateTime.time(),
-                        TimeZone.getTimeZone(CURRENT_USER.TimeZoneSidKey)
-                ).date();
+                this.reminderDate = task.ReminderDateTime.date();
             }
             completedOrPlannedDate = visit.Completed_Date__c != null ?
                     String.valueOf(visit.Completed_Date__c)

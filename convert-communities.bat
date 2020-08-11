@@ -1,0 +1,1 @@
+sfdx force:source:convert -d output -p force-app/communities

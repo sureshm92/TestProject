@@ -92,7 +92,7 @@
                 communityService.showToast('error', 'error', $A.get('$Label.c.TST_You_cannot_add_referring_provider_as_a_delegate'));
             } else if(userMode === 'PI' && parentId !== undefined && contactData.delegates[0].delegateContact.Id === parentId){
                 communityService.showToast('error', 'error', $A.get('$Label.c.TST_You_cannot_add_primary_investigator_as_a_delegate'));
-            } else if (contactData.delegates[0].delegateContact.Id === undefined) {
+            } else if (contactData.delegates[0].delegateContact.Id === undefined && delegate.delegateContact.Id === undefined) {
                 // component.set('v.currentTab','all-same');
                 console.log('delegateContact.Id===undefined');
                 component.find('firstNameInput').set('v.value', oldFirstName);

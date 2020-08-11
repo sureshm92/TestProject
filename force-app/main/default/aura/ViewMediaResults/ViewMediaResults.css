@@ -1,0 +1,187 @@
+.THIS .fp-filter-block .rrs-container select option:first-child{
+    background-color: gray;
+    color: white;
+    text-align: center;
+    font-weight: 600;
+}
+
+.THIS .fp-search-input .rri-container{
+    display: inline-block;
+    width: inherit;
+    width: 250px;
+    margin-top: 3px;
+}
+
+.THIS .fp-search .rri-container .slds-input,
+.THIS .fp-search-input .rri-container .slds-input  {
+	padding-left: 25px;   
+    background: #fff url(/resource/1570111512000/searchIcon) no-repeat 7px 9px;
+	background-size: 14px 14px;
+	padding-left: 25px;
+	position: relative;
+	top: 0;
+	left: 0;
+}
+
+.THIS .fp-pagination-block{
+    padding-top: 20px;
+    border-top: 1px solid #d9d9d9;
+}
+
+.THIS .fp-form-element{
+    display: inline-block;
+    white-space: nowrap;
+    text-align: left;
+}
+
+.THIS .fp-form-element + .fp-form-element{
+    margin-left: 15px;
+}
+
+.THIS .fp-form-element > label{
+    display: block;
+    margin-right: 5px;
+}
+
+.THIS .fp-page-control{
+    text-align: right;
+    white-space: nowrap;
+    margin-bottom: 15px;
+}
+
+.THIS .fp-page-info > div{
+    display: inline-block;
+    height: 40px;
+    vertical-align: middle;
+    margin-top: 10px;
+}
+
+.THIS .fp-collapse-label{
+    display: inline-block;
+    cursor: pointer;
+    padding: 12px 0;
+}
+
+.THIS .fp-collapse-label .rr-icon-default{
+    width: 16px;
+    height: 16px;
+    fill: #999999;
+    position: relative;
+    top: -1px;
+    margin-left: 5px;
+}
+
+.THIS .rr-summary-panel .slds-col {
+    margin-top: 2px;
+}
+
+.THIS .slds-truncate {
+    white-space: normal;
+    overflow: visible;
+}
+
+.THIS .fp-mobile .fp-header {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.THIS .fp-mobile .fp-search{
+    display: inline-block;
+}
+
+.THIS .fp-mobile .fp-search, 
+.THIS .fp-mobile .fp-search-input {
+  	text-align: right;
+    margin-bottom: 10px;
+    width: 100%;
+    margin-top: 3px;
+}
+
+.THIS .fp-main-filter-block{
+    display: flex;
+    justify-content: space-between;
+}
+
+.THIS .fp-filters-container{
+    margin: -5px;
+    overflow: hidden;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-right: 5px;
+}
+
+.THIS .fp-filters-label{
+    white-space: nowrap;
+    margin-right: 10px;
+    line-height: 40px;
+}
+
+
+.THIS .fp-filters-container .rrs-container{
+    display: inline-block;
+    max-width: 245px;
+    margin: 5px;
+}
+
+@media all and (min-width: 1024px){
+    .THIS.collapsed .fp-collapsible{
+        opacity: 1;
+        max-height: 300px;
+    }
+}
+
+@media all and (min-width: 768px){
+    .THIS .fp-form-element > label{
+        display: inline-block;
+    }
+
+}
+
+@media all and (max-width: 767px){
+    .THIS .fp-page-control {
+        text-align: left;
+    }
+    .THIS {
+        margin: 0 15px;
+    }
+     .THIS .fp-page-control .fp-form-element:nth-child(2) {
+        margin-left: 0;
+    }
+
+}
+
+
+.THIS .show-more {
+    margin-left: 14px;
+    font-size: 13px;
+}
+
+.THIS .show-more a {
+    padding: 4px 8px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 4px;
+    margin: -4px 0 0 -8px;
+}
+
+.THIS .show-more a:hover {
+    background-color: #eef5ff;
+    transition: .25s;
+}
+
+@media all and (max-width: 500px){
+    .THIS .fp-filters-container {
+        margin-bottom: 15px;
+    }
+
+    .THIS .fp-main-filter-block {
+        flex-direction: column;
+    }
+
+    .THIS .fp-filters-container .rrs-container {
+        max-width: 100%;
+        width: 100%;
+    }
+
+}

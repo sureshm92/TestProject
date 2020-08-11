@@ -45,9 +45,17 @@
         event.preventDefault();
     },
 
-    doCancel : function (component) {
+    doCancel : function (component,event) {
         component.hide();
         var closeCallback = component.get('v.closeCallback');
         if(closeCallback) closeCallback();
+        if(component.get("v.childpopup"))
+        {
+             var cmpEvent = component.getEvent("cmpEvent");
+             cmpEvent.setParams({
+            "closeAllPopup": "closewarningpopup"
+          });
+            cmpEvent.fire();
+        }
     }
 })

@@ -1,0 +1,70 @@
+.THIS {
+    padding: 1.5rem;
+}
+
+.THIS.as-container .as-email-preference {
+    margin-top: 30px;
+}
+
+.THIS .as-title{
+    color: #000000;
+    font-size: 18px;
+    line-height: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.THIS.as-container .as-sub-title {
+    color: #333333;
+    font-size: 14px;
+    line-height: 24px;   
+    width: 70%;
+}
+
+.THIS .cookieDesc{
+  color: #646464;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+
+.THIS .ah-toggle{
+    flex: inherit;
+}
+
+.THIS .rr-form-element {
+    min-width: 80%;
+}
+
+@media (max-width: 768px) {
+
+    .THIS {
+        padding: 12px 1.5rem 1.5rem;
+    }
+
+    .THIS.as-container .as-sub-title {
+        width: 100%;
+    }
+
+}
+
+@media (max-width: 500px) {
+
+    .THIS .slds-grid.slds-wrap {
+        margin: 0;
+    }
+
+    .THIS .ah-toggle {
+        padding-left: 0;
+    }
+
+    .THIS .rr-form-element {
+        width: 75%;
+        min-width: 75%;
+        margin-top: 1rem;
+        padding: 0;
+    }
+
+
+}

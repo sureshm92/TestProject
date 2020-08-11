@@ -4,6 +4,7 @@
 public inherited sharing class VisitReportService {
 
     public static final String VISIT_RECORD_TYPE_LABS = 'Labs';
+    public static final String VISIT_RES_RECORD_TYPE_BIO = 'Biomarker';
 
     public VisitReportContainerRemote.ReportDataWrapper getReportDataWrapper(Id peId) {
         Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, CommunityService.USER_MODE_PARTICIPANT);
@@ -43,10 +44,11 @@ public inherited sharing class VisitReportService {
                         List<VisitReportContainerRemote.VisitDataWrapper> reportRowWrappers = new List<VisitReportContainerRemote.VisitDataWrapper>();
                         List<VisitReportContainerRemote.VisitDataWrapper> reportHeaderWrappers = new List<VisitReportContainerRemote.VisitDataWrapper>();
                         List<VisitReportContainerRemote.LabsNameDescriptionWrapper> labsDescription = new List<VisitReportContainerRemote.LabsNameDescriptionWrapper>();
-
+                        //PEH-2374: Added logic to avoid null pointer exception
                         reportHeaderWrappers.add(new VisitReportContainerRemote.VisitHeaderWrapper('Report_Dates'));
-                        reportRowWrappers.add(new VisitReportContainerRemote.VisitDateColumnWrapper(patientVisit.Completed_Date__c));
-
+                        reportRowWrappers.add(patientVisit.Completed_Date__c != null ? 
+                                new VisitReportContainerRemote.VisitDateColumnWrapper(patientVisit.Completed_Date__c) :
+                                new VisitReportContainerRemote.VisitDateColumnWrapper('______'));
                         Boolean isResult = false;
                         for (VisitResultWrapper visitResultWrapper : availableVisitResultSortWrappers) {
                             if (!notAccessResultType.contains(visitResultWrapper.visitResultTypeM.DeveloperName)) {
@@ -106,6 +108,7 @@ public inherited sharing class VisitReportService {
 
         result.dataTables = sortReportDataTableWrappers;
         result.studyCodeName = pe.Clinical_Trial_Profile__r.Study_Code_Name__c;
+        result.communityTemplate = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
         result.studyTitle = pe.Clinical_Trial_Profile__r.Study_Title__c;
         result.profilePicture = pe.Clinical_Trial_Profile__r.Profile_Picture__c;
         result.participantFullName = pe.Participant__r.Full_Name__c;
@@ -117,8 +120,8 @@ public inherited sharing class VisitReportService {
             Date myDate = Date.newInstance(dT.year(), dT.month(), dT.day());
             result.enrollmentDate = myDate.format();
         }
-        //PEH-1986: Show status if only a PARTICIPANT
-        if(ParticipantService.getInstance().getState().value == ParticipantService.ParticipantStates.PARTICIPANT){
+        //PEH-1986: Show status if Trial is not yet completed
+        if(!PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)){
             result.participantStatus = pe.Participant_Status__c;
         }
         result.studySiteName = pe.Study_Site__r.Name;
@@ -158,7 +161,21 @@ public inherited sharing class VisitReportService {
         } else {
             reportHeaderWrappers.add(new VisitReportContainerRemote.VisitHeaderWrapper(visitResult.Result_Type__c, visitResult.Measurement__c));
         }
-        reportRowWrappers.add(new VisitReportContainerRemote.VisitValueWrapper(visitResult.Actual_Value__c, visitResult.Measurement__c));
+    //PEH-2256: Report should display +Positive/ -Negative/ Unknown
+        if(visitResult.RecordType.DeveloperName.equalsIgnoreCase(VisitReportService.VISIT_RES_RECORD_TYPE_BIO)){
+            String biomarkerValue = '';
+            if(visitResult.Actual_Value__c == -1.0){
+                biomarkerValue =  System.Label.Biomarkers_Negative;
+            } else if(visitResult.Actual_Value__c == 1.0){
+                biomarkerValue =  System.Label.Biomarkers_Positive;
+            }else if(visitResult.Actual_Value__c == 0.0){
+                biomarkerValue = System.Label.Biomarkers_Unknown;
+            }
+            reportRowWrappers.add(new VisitReportContainerRemote.VisitValueWrapper(biomarkerValue));
+        } else{
+            reportRowWrappers.add(new VisitReportContainerRemote.VisitValueWrapper(visitResult.Actual_Value__c, visitResult.Measurement__c));
+        }
+        
     }
 
     private List<VisitReportContainerRemote.ReportDataTableWrapper> getSortedReportDataTableWrappers(

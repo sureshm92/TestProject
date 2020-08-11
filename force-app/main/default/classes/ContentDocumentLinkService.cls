@@ -50,6 +50,7 @@ public with sharing class ContentDocumentLinkService {
         List<Resource__c> resources = [
                 SELECT Id, (
                         SELECT Id, ContentDocument.LatestPublishedVersion.Title,
+                                ContentDocument.LatestPublishedVersion.LanguageCode__c,
                                 ContentDocument.LatestPublishedVersionId
                         FROM ContentDocumentLinks
                 )
@@ -63,8 +64,13 @@ public with sharing class ContentDocumentLinkService {
             List<TranslatedContentItem> items = resourceTranslationContentsMap.get(resource.Id);
             if(items == null) items = new List<ContentDocumentLinkService.TranslatedContentItem>();
             for(ContentDocumentLink cdl : resource.ContentDocumentLinks){
-                if(availableLanguageCodes.contains(cdl.ContentDocument.LatestPublishedVersion.Title)){
-                    items.add(new TranslatedContentItem(cdl.ContentDocument.LatestPublishedVersionId, cdl.ContentDocument.LatestPublishedVersion.Title));
+                if((availableLanguageCodes.contains(cdl.ContentDocument.LatestPublishedVersion.Title)) || (availableLanguageCodes.contains(cdl.ContentDocument.LatestPublishedVersion.LanguageCode__c))){
+                    if( availableLanguageCodes.contains(cdl.ContentDocument.LatestPublishedVersion.Title) ) {
+                        items.add(new TranslatedContentItem(cdl.ContentDocument.LatestPublishedVersionId, cdl.ContentDocument.LatestPublishedVersion.Title));
+                    }
+                    if( availableLanguageCodes.contains(cdl.ContentDocument.LatestPublishedVersion.LanguageCode__c) ) {
+                         items.add(new TranslatedContentItem(cdl.ContentDocument.LatestPublishedVersionId, cdl.ContentDocument.LatestPublishedVersion.LanguageCode__c));
+                    }
                 }
             }
             resourceTranslationContentsMap.put(resource.Id, items);
@@ -75,12 +81,17 @@ public with sharing class ContentDocumentLinkService {
     public ContentDocumentLink getCDLForResource(Id resourceId, String languageCode){
         List<ContentDocumentLink> cdlList = [
                 SELECT ContentDocument.LatestPublishedVersion.Title,
-                        ContentDocument.LatestPublishedVersion.VersionData
+                        ContentDocument.LatestPublishedVersion.VersionData,
+                         ContentDocument.LatestPublishedVersion.LanguageCode__c
                 FROM ContentDocumentLink
                 WHERE LinkedEntityId = :resourceId
         ];
         for(ContentDocumentLink cdl : cdlList){
-            if(cdl.ContentDocument.LatestPublishedVersion.Title == languageCode) return cdl;
+            if(cdl.ContentDocument.LatestPublishedVersion.LanguageCode__c !='' && cdl.ContentDocument.LatestPublishedVersion.LanguageCode__c != null){
+               if( cdl.ContentDocument.LatestPublishedVersion.LanguageCode__c  == languageCode ) return cdl;
+            } else {
+            if( cdl.ContentDocument.LatestPublishedVersion.Title == languageCode ) return cdl;
+            }
         }
         if(cdlList.size() > 0) return cdlList[0];
         return null;

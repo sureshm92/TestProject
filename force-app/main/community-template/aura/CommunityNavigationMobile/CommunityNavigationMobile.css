@@ -50,14 +50,14 @@
 }
 
 .THIS.cnm-z-order, .THIS .cnm-z-order{
-    z-index: 10000;
+    z-index: 8500;
 }
 
-.THIS .navigation-icon {
+.THIS .navigation-icon.cRRIcon.rr-icon-default {
     margin-right: 12px;
     margin-left: 10px;
- /*   pointer-events: none; 
-    width: 18px;*/
+    height: 32px;
+    width: 26px;
     flex-shrink: 0;
     max-height: 28px;
 }
@@ -78,25 +78,38 @@
     }
 
     .THIS .nav-menu{
-       display: flex;
-       width: 100%;
-       height: 60px;
-       position: absolute;
-       bottom: 0;
-       transition: none;
-       left: 0;
+        display: flex;
+        width: 100%;
+        height: 60px;
+        position: absolute;
+        bottom: 0;
+        transition: none;
+        left: 0;
     }
-    
+
     .THIS .nav-menu .nav-item {
-        padding: 7px 5px 0;
-    	flex-grow: 1;
+        padding: 0 5px 0;
+        flex: 1 1 0;
     }
-    
+
     .THIS .nav-menu-item-content {
-        justify-content: center;
+        padding: 3px 5px 0;
+        flex: 1 1 0;
+        position: relative;
+        justify-content: flex-start;
         flex-direction: column;
+        margin-top: 3px;
     }
-    
+
+    .THIS .nav-menu > .nav-menu-item-content {
+        padding: 0 5px;
+        margin-top: 0;
+    }
+
+    .THIS .nav-menu > .nav-menu-item-content > .navigation-icon {
+        margin: 7px 17px 7px 0;
+    }
+
     .THIS .nav-menu .nav-menu-item-content > span {
         font-size: .875rem;
         line-height: 1.25rem;
@@ -105,13 +118,31 @@
 
 
 @media screen and (max-width: 550px) {
+
+    .THIS + .rr-width-limiter.side-padding {
+        padding-top: .25rem!important;
+    }
+
+    .THIS .nav-menu {
+        height: 65px;
+    }
+
     .THIS.overlay.multi-mode{
         top: 80px;
     }
-    .THIS .nav-menu .nav-menu-item-content > span {display: none}
-    .THIS .nav-menu .nav-item {
-        padding: 15px 5px 0;
+
+    .THIS .nav-menu .nav-menu-item-content > span {
+        display: none;
     }
+
+    .THIS .nav-menu .nav-item {
+        padding: 5px 5px 0;
+    }
+
+    .THIS .nav-menu > .nav-menu-item-content > .navigation-icon {
+        margin-top: 11px;
+    }
+
     .THIS .navigation-icon {
         max-height: 32px;
     }

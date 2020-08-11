@@ -7,15 +7,17 @@
     <!-- attributes: -->
     <aura:attribute name="groupLabel" type="String"/>
     <aura:attribute name="visitResults" type="List"/>
+    <aura:attribute name="ctpId" type="String"/>
+    <aura:attribute name="typeSelectLVList" type="List"/>
     <aura:attribute name="showGroup" type="Boolean" default="false"/>
     <aura:attribute name="globalCountries" type="String" default=""/>
     <aura:attribute name="globalType" type="String" default=""/>
-
+    <aura:attribute name="showOnMyResultCard" type="Boolean" default="false"/>
     <aura:attribute name="previousGlobalType" type="String" default="" access="private"/>
 
     <!-- events: -->
     <aura:registerEvent name="onChange" type="c:uiEvent"/>
-
+    <aura:registerEvent name="onChangeShowOnMyResultCard" type="c:VisitResultGroupSelectionEvent"/>
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.previousGlobalType}" action="{!c.doUpdateGroupDisplay}"/>
@@ -34,12 +36,23 @@
                                   change="{!c.doUpdateGroupItems}"/>
                 <span class="slds-form-element__label">{!v.groupLabel}</span>
             </label>
+            <label class="uiInput--checkbox showMyResult--checkbox">
+                <ui:inputCheckbox aura:id="ShowMyResult"
+                                  label=""
+                                  value="{!v.showOnMyResultCard}"
+                                  disabled="{!v.showGroup == false}"
+                                  change="{!c.doUpdateGroupSelection}"
+                                  />
+                <span class="slds-form-element__label">Show In My Results</span>
+            </label>
         </div>
         <aura:if isTrue="{!v.showGroup}">
             <div class="group-body slds-grid slds-wrap slds-gutters_direct-xxx-small">
                 <aura:iteration items="{!v.visitResults}" var="vResult">
-                    <div class="slds-col slds-small-size_1-of-2 slds-large-size_1-of-3">
+                    <div class="slds-col slds-size_1-of-1">
                         <c:VisitResultSharingItem visitResult="{!vResult}"
+                                                  ctpId="{!v.ctpId}"
+                                                  typeSelectLVList="{!v.typeSelectLVList}"
                                                   globalCountries="{!v.globalCountries}"
                                                   globalType="{!v.globalType}"
                                                   onChange="{!c.doUpdateGroupDisplay}"/>

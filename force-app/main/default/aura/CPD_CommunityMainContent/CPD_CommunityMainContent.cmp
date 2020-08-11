@@ -1,0 +1,126 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global"
+    controller="CPDonorReferralFormController">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <!--ltng:require styles="{!$Resource.CPD_CommunityFont + '/muli-font.css'}"/-->
+    <!--Variales-->
+    <aura:attribute name="isVisible" type="Boolean" default="true" />
+    <!--Variales-->
+
+    <div style="background-color: white !important;">
+        <aura:if isTrue="{!v.isVisible}">
+
+            <!--COVID-19 Convesalescent contnet Start-->
+            <div class="sld_background_img">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_7-of-12">
+                        <div class="slds-top-contnet">
+                            <div class="convalescent-plasma-titile">{!$Label.c.CP_Join_the_fight_save_lives}</div>
+                            <br />
+                            <div class="sld-join-the-fight">{!$Label.c.CP_Covid_Header}</div>
+                            <div class="content-top">
+                                <p class="sld-first-paragraph">{!$Label.c.CPD_Help_treat_patients_with_life_threatening}
+                                </p>
+                            </div>
+                            <div class="slds-grid slds-wrap button-section">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                                    <div class="button-align">
+                                        <!-- href="#registryForm"-->
+                                        <a onclick="{!c.clickGetStarted}">
+                                            <div class="button"><span
+                                                    class="sld-get-started-label">{!$Label.c.CP_Get_Started_Button}</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-align-middle">
+                                    <div class="partnership-with-align">
+                                        <p class="in-partnership-with">{!$Label.c.CPD_In_partnership_with}</p>
+                                        <div>
+                                            <img src="{!$Resource.CPD_Covid_Registry_Images + '/nybc-logo.svg'}"
+                                                class="nybc-logo" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_5-of-12">
+                        <div class="heart-image-align">
+                            <img src="{!$Resource.CPD_Covid_Registry_Images + '/heart-graphic.svg'}"
+                                class="heart-image" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="who-take-part">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                        <div class="sld-eligibility-criteria-rectangle-1">
+                            <div class="sld-eligibility-criteria-rectangle-11">
+                                <p class="sld-eligibility-criteria-1-p">{!$Label.c.CPD_Who_can_take_part}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                        <div class="sld-eligibility-criteria-rectangle-2">
+
+                            <div class="slds-grid slds-wrap slds-top-contnet-rectangle-2">
+                                <div class="slds-col slds-size_2-of-12">
+                                    <img src="{!$Resource.CPD_Covid_Registry_Images + '/tick-who-rect.svg'}"
+                                        class="icon-checkmark" />
+                                </div>
+                                <div class="slds-col slds-size_5-of-12 sld-rect-content-with-image">
+                                    <p class="sld-eligibility-criteria-rectangle-2-p">
+                                        {!$Label.c.CPD_Lab_confirmed_positive}</p>
+                                </div>
+                            </div>
+
+                            <div class="slds-grid slds-wrap slds-top-contnet-rectangle-2">
+                                <div class="slds-col slds-size_2-of-12">
+                                    <img src="{!$Resource.CPD_Covid_Registry_Images + '/calender-who-rect.svg'}"
+                                        class="icon-checkmark" />
+                                </div>
+                                <div class="slds-col slds-size_5-of-12 sld-rect-content-with-image">
+                                    <p class="sld-eligibility-criteria-rectangle-2-p">
+                                        {!$Label.c.CPD_Symptom_free_for_14_days}</p>
+                                </div>
+                            </div>
+
+                            <div class="slds-grid slds-wrap slds-top-contnet-rectangle-2">
+                                <div class="slds-col slds-size_2-of-12">
+                                    <img src="{!$Resource.CPD_Covid_Registry_Images + '/blood-drop-who-rect.svg'}"
+                                        class="icon-checkmark" />
+                                </div>
+                                <div class="slds-col slds-size_5-of-12 sld-rect-content-with-image">
+                                    <p class="sld-eligibility-criteria-rectangle-2-p">
+                                        {!$Label.c.CPD_Willing_to_donate_plasma}</p>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-wrap slds-top-contnet-rectangle-2">
+                                <div class="slds-col slds-size_2-of-12">
+                                    <img src="{!$Resource.CPD_Covid_Registry_Images + '/icon-facemask.svg'}"
+                                        class="icon-checkmark" />
+                                </div>
+                                <div class="slds-col slds-size_5-of-12 sld-rect-content-with-image">
+                                    <p class="sld-eligibility-criteria-rectangle-2-p">
+                                        {!$Label.c.CPD_Wear_a_face_mask_during_appointments}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aura:if>
+        <!--COVID-19 Convesalescent contnet Start-->
+        <div class="registry-form-section">
+            <c:CPD_ReferralForm isVisible="{!v.isVisible}" />
+        </div>
+        <aura:if isTrue="{!v.isVisible}">
+            <div class="slds-information-position">
+                <c:CPD_InformationContent />
+            </div>
+        </aura:if>
+    </div>
+
+
+</aura:component>

@@ -170,12 +170,12 @@
     },
 
     doCheckfields: function (component, event, helper) {
-        helper.checkFields(component);
+        helper.checkFields(component,event,helper);
     },
 
     doCheckDateOfBith: function (component, event, helper) {
         helper.checkParticipantNeedsGuardian(component, helper);
-        helper.checkFields(component);
+        helper.checkFields(component, event, helper);
     },
 
     doNeedsGuardian: function (component, event, helper) {
@@ -183,6 +183,7 @@
         if (participant.Health_care_proxy_is_needed__c) {
             helper.setDelegate(component);
         } else {
+            component.set('v.useThisDelegate', true);
             component.set('v.emailDelegateRepeat', '');
         }
         component.set('v.needsGuardian', participant.Health_care_proxy_is_needed__c);
@@ -204,7 +205,8 @@
             pEnrollmentJSON: JSON.stringify(pEnrollment),
             participantJSON: JSON.stringify(participant),
             participantDelegateJSON: JSON.stringify(delegateParticipant),
-            delegateId: communityService.getDelegateId()
+            delegateId: communityService.getDelegateId(),
+            ddInfo: JSON.stringify(component.get('v.delegateDuplicateInfo'))
         }, function (returnValue) {
             component.set('v.currentState', 'Refer Success');
         }, null, function () {
@@ -264,8 +266,17 @@
         }
 
         component.set('v.selectedCountry', participant.Mailing_Country_Code__c);
-        helper.checkFields(component);
-    }
+        helper.checkFields(component, event, helper);
+    },
 
-
+    approveDelegate:function(component, event, helper){
+        var ddi = component.get('v.delegateDuplicateInfo');
+        var partDel = component.get('v.delegateParticipant');
+        if(ddi.contactPhoneType) partDel.Phone_Type__c = ddi.contactPhoneType;
+        if(ddi.contactPhoneNumber) partDel.Phone__c = ddi.contactPhoneNumber;
+        component.set('v.delegateParticipant', partDel);
+        component.find('delegate-phone').focus();
+        component.find('delegate-phone').blur();
+        component.set('v.useThisDelegate', true);
+    },
 })

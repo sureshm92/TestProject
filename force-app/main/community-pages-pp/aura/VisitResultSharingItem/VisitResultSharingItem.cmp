@@ -6,9 +6,12 @@
 
     <!-- attributes: -->
     <aura:attribute name="visitResult" type="Object"/>
+    <aura:attribute name="ctpId" type="String"/>
     <aura:attribute name="globalCountries" type="String" default=""/>
     <aura:attribute name="globalType" type="String" default=""/>
+    <aura:attribute name="typeSelectLVList" type="List"/>
 
+    <aura:attribute name="renderLookup" type="Boolean" default="true" access="private"/>
     <aura:attribute name="showResult" type="Boolean" default="true" access="private"/>
 
     <!-- events: -->
@@ -19,14 +22,39 @@
     <aura:handler name="change" value="{!v.visitResult}" action="{!c.doUpdateValue}"/>
 
     <!-- component body: -->
-    <div class="{!'vr-item'}">
-        <label class="uiInput--checkbox">
+    <div class="{!'slds-grid vr-row ' + if(v.visitResult.type == 'Disabled', 'disabled', '')}">
+        <div class="slds-col slds-size_4-of-12 row-label">
             <ui:inputCheckbox aura:id="shareResult"
                               label=""
                               value="{!v.showResult}"
                               disabled="{!v.globalType == 'Disabled'}"
                               change="{!c.doChangedByUser}"/>
-            <span class="slds-form-element__label">{!v.visitResult.label}</span>
-        </label>
+            <span class="slds-p-left_small">{!v.visitResult.label}</span>
+        </div>
+        <div class="slds-col slds-size_8-of-12 type-cell">
+            <aura:if isTrue="{!or(v.visitResult.type == 'Disabled', v.visitResult.type == 'All')}">
+                <lightning:select aura:id="visitType" name="Visit type" label="Hidden" variant="label-hidden"
+                                  class="type-picklist"
+                                  value="{!v.visitResult.type}" onchange="{!c.doTypeChanged}"
+                                  disabled="{!v.globalType == 'Disabled'}">
+                    <aura:iteration items="{!v.typeSelectLVList}" var="option">
+                        <option value="{!option.value}">{!option.label}</option>
+                    </aura:iteration>
+                </lightning:select>
+            </aura:if>
+            <aura:if isTrue="{!or(v.visitResult.type == 'Countries', v.visitResult.type == 'Countries_Disabled')}">
+                <aura:if isTrue="{!v.renderLookup}">
+                    <c:VisitResultSharingCountryLookup aura:id="countryLookup" value="{!v.visitResult.countryCodes}"
+                                                       isMultiEntry="true"
+                                                       onchange="{!c.doCountryChanged}" onblur="{!c.doCountryChanged}"
+                                                       placeholder="Select country"
+                                                       placeholderSelected="Select another country"
+                                                       ctpId="{!v.ctpId}" includeStates="false"
+                                                       isInclude="{!v.visitResult.type == 'Countries'}"
+                                                       selectedCountries="{!v.globalCountries}"/>
+                </aura:if>
+            </aura:if>
+        </div>
     </div>
+
 </aura:component>

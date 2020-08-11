@@ -49,7 +49,7 @@ public with sharing class Test_VisitResultsRemote {
         System.runAs(testData.participantUser) {
             Map<String, Map<String, List<String>>> visitResultSharings = new Map<String, Map<String, List<String>>>();
             visitResultSharings.put('Vitals', new Map<String, List<String>>());
-            VisitResultsRemote.InitDataWrapper wrapper = VisitResultsRemote.getInitData('Vitals',visitResultSharings);
+            VisitResultsRemote.InitDataWrapper wrapper = VisitResultsRemote.getInitData('Vitals', visitResultSharings);
             System.assert(wrapper != null);
         }
         Test.stopTest();
@@ -91,7 +91,11 @@ public with sharing class Test_VisitResultsRemote {
         Test.startTest();
         Map<String, List<String>> visitResultSharings = new Map<String, List<String>>();
         visitResultSharings.put('Vitals', new List<String>());
-        VisitResultsService.VisitResultsContainer tesContainer = VisitResultsRemote.getVisitResultsContainer('Vitals', JSON.serialize(visitResultSharings));
+        TestData testData = new TestData();
+        VisitResultsService.VisitResultsContainer tesContainer;
+        System.runAs(testData.participantUser) {
+            tesContainer = VisitResultsRemote.getVisitResultsContainer('Vitals', JSON.serialize(visitResultSharings));
+        }
         Test.stopTest();
 
         System.assert(tesContainer.groupName.equals('Vitals'));
@@ -175,7 +179,7 @@ public with sharing class Test_VisitResultsRemote {
 
         Test.startTest();
         try {
-            VisitResultsRemote.getVisitResultsContainer(null,null);
+            VisitResultsRemote.getVisitResultsContainer(null, null);
 
         } catch (Exception e) {
             isExceptionThrown = true;

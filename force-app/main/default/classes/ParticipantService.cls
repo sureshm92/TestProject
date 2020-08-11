@@ -1,7 +1,3 @@
-/**
- * Created by Leonid Bartenev
- */
-
 public without sharing class ParticipantService {
     public class ParticipantServiceException extends Exception {
     }
@@ -24,6 +20,7 @@ public without sharing class ParticipantService {
         @AuraEnabled public Boolean showResults;
         @AuraEnabled public Boolean isPremium;
         @AuraEnabled public String communityName;
+        @AuraEnabled public String payCardLink;
 
         public ParticipantState() {
             value = ParticipantStates.ALUMNI;
@@ -66,6 +63,7 @@ public without sharing class ParticipantService {
                 TranslateHelper.translate(participantState.pe, IRBParticipantService.getSuitableLanguageForIRBTranslation(pe.Id));
                 participantState.showTerms = showTerms();
                 participantState.isPremium = participantState.ctp.Patient_Portal_Enabled__c;
+                participantState.payCardLink = PaymentService.getPaymentVendorLink(participantState.pe.Study_Site__c);
                 if (PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)) {
                     participantState.value = ParticipantStates.PARTICIPANT;
                     participantState.showVisits = showVisits();
@@ -179,18 +177,32 @@ public without sharing class ParticipantService {
         return participantState;
     }
 
-    public void createParticipantAndUpdatePEImpl(Participant__c participant, Participant_Enrollment__c pe, String userLanguage) {
+    public void createParticipantAndUpdatePEImpl(Participant__c participant, Participant__c participantDelegate, Participant_Enrollment__c pe, String userLanguage) {
         participant.Preferred_Language__c = userLanguage;
-        ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(participant);
+        ParticipantDuplicateService.ParticipantWithDelegate participantWithDelegate = new ParticipantDuplicateService.ParticipantWithDelegate();
+        participantWithDelegate.participant = participant;
+        participantWithDelegate.delegate = participantDelegate;
+
+        ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(participantWithDelegate);
         Participant__c participantFromDatabase = duplicateService.findDuplicate(participant);
         if (participantFromDatabase != null) {
             participant = participantFromDatabase;
         } else {
             //check contact duplicate:
             if (duplicateService.findDuplicateContact(participant) != null) {
-                participant.Contact__c = duplicateService.findDuplicateContact(participant).Id;
+                Contact existingContact = duplicateService.findDuplicateContact(participant);
+                participant.Contact__c = existingContact.Id;
+                 if ('Home' == participant.Phone_Type__c) {
+                        existingContact.HomePhone = participant.Phone__c;
+                    } if ('Mobile' == participant.Phone_Type__c) {
+                        existingContact.MobilePhone = participant.Phone__c;
+                    } else {
+                        existingContact.Phone = participant.Phone__c;
+                    }
+                update existingContact;
             }
             insert participant;
+
         }
         if (pe != null) {
             pe.Participant__c = participant.Id;
@@ -215,8 +227,8 @@ public without sharing class ParticipantService {
         return getInstance().getState();
     }
 
-    public static void createParticipantAndUpdatePE(Participant__c participant, Participant_Enrollment__c pe, String userLanguage) {
-        getInstance().createParticipantAndUpdatePEImpl(participant, pe, userLanguage);
+    public static void createParticipantAndUpdatePE(Participant__c participant, Participant__c participantDelegate, Participant_Enrollment__c pe, String userLanguage) {
+        getInstance().createParticipantAndUpdatePEImpl(participant, participantDelegate, pe, userLanguage);
     }
 
     public static List<LabelValueItem> getGenderLVList() {
@@ -232,6 +244,16 @@ public without sharing class ParticipantService {
         phoneTypes.add(new LabelValueItem(Label.Phone_Type_Work, 'Work'));
         phoneTypes.add(new LabelValueItem(Label.Phone_Type_Mobile, 'Mobile'));
         return phoneTypes;
+    }
+	
+	public static List<LabelValueItem> getPrefixList() {
+        List<LabelValueItem> prefix = new List<LabelValueItem>();
+        prefix.add(new LabelValueItem(Label.PP_Prefix_Mr, 'Mr.'));
+        prefix.add(new LabelValueItem(Label.PP_Prefix_Ms, 'Ms.'));
+        prefix.add(new LabelValueItem(Label.PP_Prefix_Mrs, 'Mrs.'));
+        prefix.add(new LabelValueItem(Label.PP_Prefix_Dr, 'Dr.'));
+        prefix.add(new LabelValueItem(Label.PP_Prefix_Prof, 'Prof.'));
+        return prefix;
     }
 
     public static Map<Id, Integer> getNearestLogOutNotification(List<Id> participantContIds) {

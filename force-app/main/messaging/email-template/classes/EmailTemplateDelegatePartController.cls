@@ -4,11 +4,12 @@
 
 global without sharing class EmailTemplateDelegatePartController {
 
-    global String commTemplateStr { get; set; }
     global Id sourceIdValue { get; set; }
 
     //DEPRECATED
     global String delegateUserId { get; set; }
+    global String commTemplateStr { get; set; }
+
 
     public List<String> getDelegateStudyNames() {
         List<Id> participantIds = new List<Id>();
@@ -34,13 +35,11 @@ global without sharing class EmailTemplateDelegatePartController {
         List<String> delegateStudyNames = new List<String>();
         if (participantIds.isEmpty()) return delegateStudyNames;
 
-        String communityTemplate = String.isNotEmpty(commTemplateStr) ?
-                commTemplateStr : EmailTemplateProviderService.getProvider().getCommunityTemplateName();
         List<Participant_Enrollment__c> delegatePE = [
                 SELECT  Clinical_Trial_Profile__r.Study_Code_Name__c
                 FROM Participant_Enrollment__c
                 WHERE Participant__c IN:participantIds
-                AND Clinical_Trial_Profile__r.CommunityTemplate__c = :communityTemplate
+                AND Clinical_Trial_Profile__r.CommunityTemplate__c = :EmailTemplateProviderService.getProvider().getCommunityTemplateName()
                 ORDER BY CreatedDate
         ];
         for (Participant_Enrollment__c pe : delegatePE) delegateStudyNames.add(pe.Clinical_Trial_Profile__r.Study_Code_Name__c);

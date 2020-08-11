@@ -1,11 +1,11 @@
 <!--
  - Created by Leonid Bartenev
- -->
+-->
 
 <aura:component description="AddPatientByPI" implements="forceCommunity:availableForAllPageTypes"
                 controller="AddPatientByPIRemote">
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
-
+    
     <!-- private attributes: -->
     <aura:attribute name="pe" type="Participant_Enrollment__c"/>
     <aura:attribute name="participant" type="Participant__c"/>
@@ -17,16 +17,30 @@
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="userLanguage" type="String"/>
     <aura:attribute name="createUsers" type="Boolean" default="false"/>
+    <!--<aura:attribute name="doNotContact" type="Boolean" default="false"/>-->
+    <aura:attribute name="doContact" type="Boolean" default="false"/>
+    <aura:attribute name="isEmail" type="Boolean" default="false"/>
+    <aura:attribute name="isPhone" type="Boolean" default="false"/>
+    <aura:attribute name="isSMS" type="Boolean" default="false"/>
     <aura:attribute name="emailDelegateRepeat" type="String"/>
     <aura:attribute name="needsGuardian" type="Boolean" default="false"/>
     <aura:attribute name="isDelegateValid" type="Boolean" default="false"/>
-
+    <aura:attribute name="callback" type="Object" access="private"/>
+    <aura:attribute name="delegateDuplicateInfo" type="Object"/>
+    <aura:attribute name="useThisDelegate" type="Boolean" default="true"/>
+    <aura:attribute name="emailInstance" type="String"/>
+    
     <!-- methods: -->
-    <aura:method name="checkDateOfBith" action="{!c.doCheckDateOfBith}" access="public"/>
-
+    <aura:method name="checkDateOfBith" action="{!c.doCheckDateOfBith}" access="public">
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    <aura:method name="refreshParticipant" action="{!c.doRefreshParticipant}" access="public"/>
+    
+    
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
-
+    <aura:handler name="ddMessageButtonClick" event="c:DDMessageEvent" action="{!c.approveDelegate}"/>
+    
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" fixed="true" size="medium"/>
     <c:RRTopBar backLabel="{!$Label.c.PG_TOP_Bar_Back_To_My_Referrals}"
@@ -34,7 +48,7 @@
                 smallTitle="{!v.ctp.Study_Code_Name__c}"
                 bigTitle="{!$Label.c.PG_Add_Patient_Header}">
     </c:RRTopBar>
-
+    
     <aura:if isTrue="{!v.initialized}">
         <div class="rr-width-limiter side-padding">
             <div class="ap-top-info">{! '* ' +  $Label.c.PG_AP_T_Indicate_Req_Fields}</div>
@@ -48,8 +62,9 @@
                                         isValid="{!v.isValid}"
                                         createUsers="{!v.createUsers}"
                                         needsGuardian="{!v.needsGuardian}"
+                                        haveDelegate="{!v.isDelegateValid}"
                                         parentComponent="{!this}"/>
-
+                
                 <div class="ap-section">
                     <div class="slds-grid slds-gutters slds-wrap">
                         <div class="slds-form-element" style="margin-top: 30px; margin-left: 10px;">
@@ -58,23 +73,22 @@
                                     <input aura:id="checkbox-delegate" type="checkbox" name="options" id="checkbox-unique-id-74" value="checkbox-unique-id-74" onclick="{!c.doNeedsGuardian}"/>
                                     <label class="slds-checkbox__label" for="checkbox-unique-id-74">
                                         <span class="slds-checkbox_faux"></span>
-                                        <span class="slds-form-element__label">{!$Label.c.PG_Ref_L_Health_care_proxy_is_needed}</span>
+                                        <span class="slds-form-element__label-for-checkbox">{!$Label.c.PG_Ref_L_Health_care_proxy_is_needed}</span>
                                     </label>
                                 </div>
                             </div>
                         </div>
-
+                        
                         <aura:if isTrue="{!v.needsGuardian}">
-                            <div class="slds-col slds-size--1-of-2 ap-section-title" style="size: 16px; margin-top: 15px">
+                            <div class="slds-col slds-size--2-of-2 ap-section-title" style="size: 16px; margin-top: 15px">
                                 <label>{!$Label.c.PG_Ref_L_Delegate_Information}</label>
                             </div>
-                            <div class="slds-col slds-size--1-of-2"></div>
-
+                            
                             <div class="slds-col slds-size--1-of-3 rr-form-element">
                                 <div class="label">
                                     <abbr title="required" class="slds-required">{!v.needsGuardian ? '*' : ''}</abbr>{!$Label.c.PG_AS_F_First_name}
                                 </div>
-                                <lightning:input type="text" value="{!v.participantDelegate.First_Name__c}"
+                                <lightning:input aura:id="inputDelegateName" type="text" value="{!v.participantDelegate.First_Name__c}"
                                                  required="{!v.needsGuardian}" onblur="{!c.doCheckfields}"/>
                             </div>
                             <div class="slds-col rr-medium-up-hide" style="height: 20px"></div>
@@ -88,7 +102,7 @@
                             <div class="slds-col slds-size--1-of-3 rr-form-element">
                                 <div class="label"></div>
                             </div>
-
+                            
                             <div class="slds-col slds-size--1-of-3 rr-form-element">
                                 <div class="label">
                                     <abbr title="required" class="slds-required">{!v.needsGuardian ? '*' : ''}</abbr>{!$Label.c.PG_AS_F_Email_address}
@@ -109,12 +123,34 @@
                             <div class="slds-col slds-size--1-of-3 rr-form-element">
                                 <div class="label"></div>
                             </div>
-
+                            
+                            <aura:if isTrue="{!v.delegateDuplicateInfo.isDuplicateDelegate || v.delegateDuplicateInfo.contactId || v.delegateDuplicateInfo.participantId}">
+                                <!--<aura:if isTrue="{!true}">-->
+                                <!--<div class="slds-grid slds-wrap delegate-alert-message slds-grid&#45;&#45;vertical-align-center">
+                                    <div style="margin-right: 16px">
+                                        <img src="{!$Resource.icon_statusAlertOrange}" class="status-alert-icon"/>
+                                    </div>
+                                    <div class="slds-col slds-size&#45;&#45;11-of-12">
+                                        <div class="slds-grid slds-wrap">
+                                            <div class="slds-col slds-size_12-of-12 alert-text">
+                                                <span>{!v.delegateDuplicateInfo.email}</span>
+                                                <span>{!' is already associated with ' + v.delegateDuplicateInfo.firstName + ' ' + v.delegateDuplicateInfo.lastName + '. We only allow one user per email address. Please confirm that this is the correct email address. If this is not '+v.delegateDuplicateInfo.firstName +', please enter the new delegate’s unique email address.'}</span>
+                                            </div>
+                                            <lightning:button class="slds-col slds-size&#45;&#45;3-of-12 status-alert-action-button">Use Entered Email Address</lightning:button>
+                                        </div>
+                                    </div>
+                                </div>-->
+                                <aura:if isTrue="{!!v.useThisDelegate}">
+                                    <div class="slds-col slds-size--1-of-1 rr-form-element">
+                                        <c:DuplicateDelegateMessage delegateDuplicateInfo="{!v.delegateDuplicateInfo}"/>
+                                    </div>
+                                </aura:if>
+                            </aura:if>
                             <div class="slds-col slds-size--1-of-3 rr-form-element">
                                 <div class="label">
-                                    <abbr title="required" class="slds-required">{!v.needsGuardian ? '*' : ''}</abbr>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
+                                    <abbr title="required" class="slds-required">{!v.needsGuardian ? '*' : ''}</abbr>{!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}
                                 </div>
-                                <lightning:input type="text" value="{!v.participantDelegate.Phone__c}"
+                                <lightning:input aura:id="delegate-phone" type="text" value="{!v.participantDelegate.Phone__c}"
                                                  required="{!v.needsGuardian}"  onblur="{!c.doCheckfields}"/>
                             </div>
                             <div class="slds-col rr-medium-up-hide" style="height: 20px"></div>
@@ -127,19 +163,148 @@
                             <div class="slds-col slds-size--1-of-3 rr-form-element">
                                 <div class="label"></div>
                             </div>
+                            
+                            <!--<div class="slds-grid slds-wrap slds-size&#45;&#45;7-of-12 slds-large-size&#45;&#45;1-of-1 slds-grid_vertical-align-end healthcare-form-container provider-found-section">
+                                    <div class="slds-col slds-size&#45;&#45;4-of-12">
+                                        {!$Label.c.Delegate_Found}
+                                    </div>
+                                    <div class="slds-col slds-size&#45;&#45;8-of-12">
+                                        <c:RRLink label="{!$Label.c.Different_Delegate}" page="{!'help'}"/>
+                                    </div>
+                                </div>-->
                         </aura:if>
                     </div>
+                    <!--<div class="slds-grid slds-gutters slds-wrap">
+                        <div class="slds-form-element" style="margin-top: 30px; margin-left: 10px;">
+                            <div class="slds-form-element__control">
+                                <div class="slds-checkbox" data-gtm="checkbox_Permit_IQVIA_Connect">
+                                    <input aura:id="checkbox-doContact" type="checkbox" name="options" id="checkbox-unique-id-75"
+                                           value="checkbox-unique-id-75" onclick="{!c.doNotContact}"/>
+                                    <label class="slds-checkbox__label" for="checkbox-unique-id-75">
+                                        <span class="slds-checkbox_faux"></span>
+                                        <span class="slds-form-element__label-for-checkbox">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact}</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+                    
+                    <!-- Added for 1936-->
+                    <div class="slds-grid slds-gutters slds-wrap">
+                        <div class="slds-form-element" style="margin-top: 20px; margin-left: 10px;">
+                            <div class="slds-form-element__control">
+                                <span class="slds-form-element__label-for-checkbox">
+                                    <Strong>{!$Label.c.PG_Ref_L_Information_Sharing}</Strong></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-gutters slds-wrap">
+                        <div class="slds-form-element" style="margin-top: 20px; margin-left: 10px;">
+                            <div class="slds-form-element__control">
+                                <span class="slds-form-element__label-for-checkbox">{!$Label.c.PG_Ref_L_Permit_IQVIA_Confirmation}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-gutters slds-wrap">
+                        <div class="slds-form-element" style="margin-left: 10px;">
+                            <div class="slds-form-element__control">
+                                <div class="slds-checkbox" data-gtm="checkbox_Permit_IQVIA_Connect">
+                                    <input aura:id="checkbox-Contact" type="checkbox" name="options" id="checkbox-unique-id-76"
+                                           value="checkbox-unique-id-76" onclick="{!c.doContact}"/>
+                                    <label class="slds-checkbox__label" for="checkbox-unique-id-76">
+                                        <span class="slds-checkbox_faux"></span>
+                                        <span class="slds-form-element__label-for-checkbox">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_ShareInformation}</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <aura:if isTrue="{!v.doContact}">
+                        <div class="slds-grid slds-gutters slds-wrap">
+                            <div class="slds-form-element" style="margin-left: 10px;">
+                                <div class="slds-form-element__control">
+                                    <div class="slds-checkbox" data-gtm="checkbox_Permit_IQVIA_Connect">
+                                        <input aura:id="checkbox-doContact" type="checkbox" name="options" id="checkbox-unique-id-77"
+                                               value="checkbox-unique-id-77" onclick="{!c.doContactEmail}"/>
+                                        <label class="slds-checkbox__label" for="checkbox-unique-id-77">
+                                            <span class="slds-checkbox_faux"></span>
+                                            <span class="slds-form-element__label-for-checkbox">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact_Email}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-gutters slds-wrap">
+                            <div class="slds-form-element" style="margin-left: 10px;">
+                                <div class="slds-form-element__control">
+                                    <div class="slds-checkbox" data-gtm="checkbox_Permit_IQVIA_Connect">
+                                        <input aura:id="checkbox-doContact" type="checkbox" name="options" id="checkbox-unique-id-78"
+                                               value="checkbox-unique-id-78" onclick="{!c.doContactPhone}"/>
+                                        <label class="slds-checkbox__label" for="checkbox-unique-id-78">
+                                            <span class="slds-checkbox_faux"></span>
+                                            <span class="slds-form-element__label-for-checkbox">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact_Phone}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="slds-grid slds-gutters slds-wrap">
+                            <div class="slds-form-element" style="margin-left: 10px;">
+                                <div class="slds-form-element__control">
+                                    <div class="slds-checkbox" data-gtm="checkbox_Permit_IQVIA_Connect">
+                                        <input aura:id="checkbox-doContact" type="checkbox" name="options" id="checkbox-unique-id-79"
+                                               value="checkbox-unique-id-79" onclick="{!c.doContactSMS}"/>
+                                        <label class="slds-checkbox__label" for="checkbox-unique-id-79">
+                                            <span class="slds-checkbox_faux"></span>
+                                            <span class="slds-form-element__label-for-checkbox">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact_SMS}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </aura:if>
+                    
+                    
+                    <div class="slds-grid slds-gutters slds-wrap">
+                        <div class="slds-form-element" style="margin-top: 20px; margin-left: 10px;">
+                            <div class="slds-form-element__control">
+                                <span class="slds-form-element__label-for-checkbox">
+                                    <Strong>{!$Label.c.PG_Ref_L_Invitation_To_PP}</Strong></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End-->
+                    
+                    <!--<aura:if isTrue="{!and(!v.doNotContact, v.ss.Study_Site_Type__c != 'Virtual')}">
+                        <aura:if isTrue="{!(v.participant.Email__c &amp;&amp; v.participant.Adult__c) || (v.needsGuardian &amp;&amp; v.participant.Health_care_proxy_is_needed__c)}">-->
+                    <div class="slds-grid slds-gutters slds-wrap">
+                        <div class="slds-form-element" style="margin-top: 20px; margin-left: 10px;">
+                            <div class="slds-form-element__control">
+                                <div class="slds-checkbox">
+                                    <input type="checkbox" name="options" id="checkbox-unique-id-73"
+                                           value="checkbox-unique-id-73" checked="{!v.createUsers}" onclick="{!c.doCreateUserInv}" disabled="{!!v.doContact}"/>
+                                    <label class="slds-checkbox__label" for="checkbox-unique-id-73">
+                                        <span class="slds-checkbox_faux"></span>
+                                        <span class="slds-form-element__label-for-checkbox">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal}</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--</aura:if>
+                   </aura:if>-->
                 </div>
             </div>
             <div class="ap-bottom-info">
-
+                
             </div>
             <div class="ap-buttons">
                 <button class="apollo-btn tertiary custom-cancel"
                         onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
-                <button class="apollo-btn secondary" disabled="{!!v.isValid || (v.needsGuardian &amp;&amp; !v.isDelegateValid)}"
+                <button class="apollo-btn secondary" disabled="{!or(!v.doContact,(!v.isValid || (v.needsGuardian &amp;&amp; !v.isDelegateValid || !v.useThisDelegate)))}"
                         onclick="{!c.doSaveAndNew}">{!$Label.c.BTN_Send_and_Add_Another}</button>
-                <button class="apollo-btn primary" disabled="{!!v.isValid || (v.needsGuardian &amp;&amp; !v.isDelegateValid)}"
+                <button class="apollo-btn primary" disabled="{!or(!v.doContact,(!v.isValid ||(v.needsGuardian &amp;&amp; !v.isDelegateValid || !v.useThisDelegate)))}"
                         onclick="{!c.doSaveAndExit}">{!$Label.c.BTN_Save_and_Exit}</button>
             </div>
         </div>
@@ -147,6 +312,6 @@
             <c:CommunityFooter/>
         </div>
     </aura:if>
-
+    
     <c:builderStub aura:id="builderStub"/>
 </aura:component>

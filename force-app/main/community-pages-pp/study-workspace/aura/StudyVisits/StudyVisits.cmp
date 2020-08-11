@@ -2,11 +2,11 @@
  - Created by Igor Malyuta on 12.04.2019.
  -->
 
-<aura:component description="StudyVisits" controller="ParticipantVisitsRemote">
+ <aura:component description="StudyVisits" controller="ParticipantVisitsRemote">
 
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
-    <!--attributes-->
+    <!--ATTRIBUTES-->
     <aura:attribute name="visitWrappers" type="PatientVisitService.VisitWrapper[]"/>
     <aura:attribute name="currentVisits" type="PatientVisitService.VisitWrapper[]"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
@@ -15,10 +15,15 @@
     <aura:attribute name="options" type="List"/>
     <aura:attribute name="iconNames" type="String" default=""/>
     <aura:attribute name="isHasVisits" type="Boolean" default="true"/>
-
-    <!--HANDLERS-->
+    <aura:attribute name="firstLoad" type="Boolean" default="false" />
+    <aura:attribute name="cmpDef" type="Aura.Component" default="{!this}" />
+    <!--DEPENDENCY-->
+    <aura:dependency resource="markup://c:StudyVisitReminder" type="COMPONENT"/>
+    <!--HANDLER-->
     <aura:handler name="change" value="{!v.visitMode}" action="{!c.getVisits}"/>
-
+    <!--METHOD-->
+    <aura:method name="reload" access="public" action="{!c.doInit}" />
+    
     <c:RRSpinner aura:id="spinner" size="medium" showSpinner="true" fixed="true"/>
 
     <div class="{!'sv-body ' + if(v.initialized, '', 'hidden')}">
@@ -29,64 +34,76 @@
             <c:rrSelect value="{!v.visitMode}" options="{!v.options}" setValueAsSelected="All" class="select-list"
                         iconColor="#666666"/>
         </div>
-
         <ui:scrollerWrapper>
-                <aura:if isTrue="{!!empty(v.visitWrappers)}">
-                    <c:RRTable>
+            <aura:if isTrue="{!!empty(v.visitWrappers)}">
+                <c:RRTable>
+                    <tr>
+                        <th class="sv-t-name">{!$Label.c.Home_Page_StudyVisit_Visit}</th>
+                        <th class="sv-t-time">{!$Label.c.Home_Page_StudyVisit_Schedule}</th>
+                        <th class="sv-t-icons">{!$Label.c.Home_Page_StudyVisit_WhToEx}</th>
+                        <th class="sv-t-status">{!$Label.c.Home_Page_StudyVisit_Status}</th>
+                        <th>{!$Label.c.Home_Page_StudyVisit_Reminder}</th>
+                        <th class="sv-t-completed-date">{!$Label.c.Home_Page_StudyVisit_Completed_On}</th>
+                    </tr>
+                    <aura:iteration var="visitWrapper" items="{!v.currentVisits}" indexVar="index">
                         <tr>
-                            <th class="sv-t-name">{!$Label.c.Home_Page_StudyVisit_Visit}</th>
-                            <th class="sv-t-time">{!$Label.c.Home_Page_StudyVisit_Schedule}</th>
-                            <th class="sv-t-icons">{!$Label.c.Home_Page_StudyVisit_WhToEx}</th>
-                            <th class="sv-t-status">{!$Label.c.Home_Page_StudyVisit_Status}</th>
-                            <th >{!$Label.c.Home_Page_StudyVisit_Reminder}</th>
-                            <th class="sv-t-completed-date">{!$Label.c.Home_Page_StudyVisit_Completed_On}</th>
-                        </tr>
-                        <aura:iteration var="visitWrapper" items="{!v.currentVisits}">
-                            <tr>
-                                <td class="sv-t-name">{!(visitWrapper.visit.Is_Adhoc__c
-                                    ? $Label.c.StudyVisit_Unscheduled_Visit
-                                    : visitWrapper.visit.Visit__r.Patient_Portal_Name__c)}</td>
-                                <td class="sv-t-time">{!(visitWrapper.visit.Is_Adhoc__c ? $Label.c.StudyVisit_Ad_hoc_Visit : visitWrapper.visit.Visit__r.Visit_Schedule__c)}</td>
-                                <td class="{!visitWrapper.visit.Is_Adhoc__c ? 'invisible' : 'sv-t-icons'}">
-                                    <c:RRIconSplitter class="svl-icon" icons="{!visitWrapper.iconDetails}"/>
-                                </td>
-                                <td class="{!visitWrapper.visit.Is_Adhoc__c ? 'sv-t-icons' : 'invisible'}">{!$Label.c.StudyVisit_Variable}</td>
-                                <td class="sv-t-status">{!if(visitWrapper.visit.Status__c == 'Missed', $Label.c.Study_Visit_Unavailable, visitWrapper.visit.Status__c)}</td>
-                                <td class="sv-t-reminder"
-                                    data-visit-id="{!visitWrapper.visit.Id}"
-                                    data-task-id="{!visitWrapper.task.Id}"
-                                    onclick="{!c.createEditTask}">
-                                    <aura:if isTrue="{!visitWrapper.visit.Status__c == 'Pending'}">
+                            <td class="sv-t-name">{!(visitWrapper.visit.Is_Adhoc__c
+                                ? $Label.c.StudyVisit_Unscheduled_Visit
+                                : visitWrapper.visit.Visit__r.Patient_Portal_Name__c)}</td>
+                            <td class="sv-t-time">{!(visitWrapper.visit.Is_Adhoc__c ? $Label.c.StudyVisit_Ad_hoc_Visit : visitWrapper.visit.Visit__r.Visit_Schedule__c)}</td>
+                            <td class="{!visitWrapper.visit.Is_Adhoc__c ? 'invisible' : 'sv-t-icons'}">
+                                <c:RRIconSplitter class="svl-icon" icons="{!visitWrapper.iconDetails}"/>
+                            </td>
+                            <td class="{!visitWrapper.visit.Is_Adhoc__c ? 'sv-t-icons' : 'invisible'}">{!$Label.c.StudyVisit_Variable}</td>
+                            <td class="sv-t-status">{!if(visitWrapper.visit.Status__c == 'Missed', $Label.c.Study_Visit_Unavailable, visitWrapper.visitStatus)}</td>
+                            <td>
+                                <aura:if isTrue="{!visitWrapper.visit.Status__c == 'Pending'}">
+                                    <div class="sv-t-reminder">
                                         <aura:if isTrue="{!visitWrapper.task == null}">
-                                            {!$Label.c.Create}
+                                            <lightning:button variant="base" value="{!index}" label="{!$Label.c.Create}" onclick="{! c.createEditTask}"/>
                                             <aura:set attribute="else">
-                                                <aura:if isTrue="{!visitWrapper.task.ReminderDateTime == null}">
+                                               <!-- <aura:if isTrue="{!visitWrapper.task.ReminderDateTime == null}">
                                                     {!$Label.c.Home_Page_StudyVisit_No_Reminder_Date}
-                                                    <aura:set attribute="else">
-                                                        <ui:outputDate value="{!visitWrapper.reminderDate}"/>
-                                                    </aura:set>
-                                                </aura:if>
+                                                    <aura:set attribute="else">-->
+                                                       <!-- <lightning:button variant="base" value="{!index}" label="{!visitWrapper.reminderDate}" onclick="{!c.createEditTask}"/> -->
+                                                       <lightning:button variant="base" value="{!index}"  onclick="{!c.createEditTask}"> 
+                                                            <aura:if isTrue="{!visitWrapper.task.ReminderDateTime == null}">
+                                                                {!$Label.c.Create}
+                                                            <aura:set attribute="else">
+                                                                <ui:outputDate value="{!visitWrapper.reminderDate}"/>
+                                                            </aura:set>
+                                                            </aura:if> 
+                                                       </lightning:button>
+                                                      <!-- <a onclick="{!c.createEditTask}"><ui:outputDate value="{!visitWrapper.reminderDate}"/></a> -->
+                                                  	<!--</aura:set>
+                                                </aura:if>-->
                                             </aura:set>
                                         </aura:if>
-                                    </aura:if>
-                                </td>
-                                <td class="">{!visitWrapper.completedOrPlannedDate}</td>
-                            </tr>
-                        </aura:iteration>
-                    </c:RRTable>
-                    <div class="pagination">
-                        <c:rrPagination allObjects="{!v.visitWrappers}" currentObjects="{!v.currentVisits}"
-                                        entriesOnPage="4"/>
-                    </div>
-                </aura:if>
-
-                <c:EmptyListStub class="no-visits-message" targetList="{!v.visitWrappers}" iconName="none"
-                                 message="{!$Label.c.PG_VP_L_No_Items_display}"/>
-            </ui:scrollerWrapper>
-
-
-            <aura:if isTrue="{!v.initialized}">
-                <c:StudyVisitsLegend iconNames="{!v.iconNames}"/>
+                                    </div>
+                                </aura:if>
+                            </td>
+                           <!-- <td class="">{!visitWrapper.completedOrPlannedDate}</td>-->
+                           <td class=""><ui:outputDate value="{!visitWrapper.completedOrPlannedDate}"/></td>
+                            
+                        </tr>
+                    </aura:iteration>
+                </c:RRTable>
+                <div class="pagination">
+                    <c:rrPagination allObjects="{!v.visitWrappers}" currentObjects="{!v.currentVisits}"
+                                    entriesOnPage="4"/>
+                </div>
             </aura:if>
+
+            <c:EmptyListStub class="no-visits-message" targetList="{!v.visitWrappers}" iconName="none"
+                             message="{!$Label.c.PG_VP_L_No_Items_display}"/>
+        </ui:scrollerWrapper>
+
+
+        <aura:if isTrue="{!v.initialized}">
+            <c:StudyVisitsLegend iconNames="{!v.iconNames}"/>
+        </aura:if>
     </div>
+
+    <div aura:id ="visitReminder"/>
+    
 </aura:component>

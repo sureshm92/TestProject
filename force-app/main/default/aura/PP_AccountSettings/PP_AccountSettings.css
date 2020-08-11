@@ -1,0 +1,203 @@
+.THIS.as-container {
+    padding-bottom: 50px;
+}
+
+.THIS .NavContainer {
+    display: flex;
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04);
+    border: 1px solid #e9e9e9;
+    border-radius: 4px;
+    background: #fff;
+    min-height: 1000px;
+}
+
+.THIS .cRrSelect.rrs-container select,
+.THIS .rr-form-element input[type='text'],
+.THIS .rr-form-element input[type='password'],
+.THIS .rr-form-element input[type='email']{
+    height: 40px;
+}
+
+.THIS .apollo-btn {
+    height: 40px;
+}
+
+.THIS .cRrSelect .slds-select_container:after {
+    top: 16px;
+}
+
+.THIS.container1 {
+}
+
+.THIS .slds-vertical-tabs__nav {
+}
+
+.THIS .container-white-normal {
+}
+
+.THIS .title {
+}
+
+.THIS .navBar {
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    color: #444444;
+    margin-top: 1.75rem;
+}
+
+.THIS .NavContainer1 {
+    min-width: 300px
+}
+
+.THIS .NavContainer1 h2 {
+    font-size: 24px;
+    white-space: nowrap;
+    font-weight: 600;
+    padding: 1.5rem 0 0 1.5rem;
+}
+
+.THIS .navItem {
+    border-bottom: 1px solid #E9E9E9;
+    height: 48px;
+}
+
+.THIS .rr-white-panel {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.THIS .navItem1 {
+    height: 48px;
+}
+
+.THIS .hoverColor {
+    background-color: yellow;
+}
+
+.THIS .mouse-hover.navItem {
+    background: #297dfd;
+    color: white;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.THIS .slds-navigation-list-vertical__action:active,
+.THIS .slds-navigation-list--vertical__action:active {
+    background: #297dfd;
+    color: #fff;
+}
+
+.THIS .NavComponent {
+    border-left: 1px solid #e9e9e9;
+}
+
+@media all and (max-width: 768px) {
+
+    .THIS .NavContainer {
+        flex-direction: column;
+    }
+
+    .THIS .NavContainer1,
+    .THIS .NavComponent {
+        width: 100%;
+    }
+
+    .THIS .navBar {
+        position: relative;
+        height: 38px;
+        margin-top: 0;
+    }
+
+    .THIS .navBar ul {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        width: 225px;
+        z-index: 100;
+    }
+
+
+    .THIS .navBar .navItem {
+        order: 2;
+        display: none;
+        border: none;
+        background: #fff;
+    }
+
+    .THIS .navBar .navItem.mouse-hover {
+        order: 1;
+        display: block;
+        font-size: 1rem;
+        padding-left: 20px;
+    }
+
+    .THIS .navBar .navItem.mouse-hover .navItem1 {
+        padding: .75rem 5px 0 .25rem;
+        display: inline-block;
+        border: none;
+        width: 100%;
+    }
+
+    .THIS .navBar .navItem .navItem1 {
+        padding-left: 1.25rem;
+    }
+
+    .THIS .mouse-hover.navItem,
+    .THIS .slds-navigation-list-vertical__action:active,
+    .THIS .slds-navigation-list--vertical__action:active {
+        background: none;
+        border: none;
+        color: #444;
+        position: relative;
+        color: #297dfd;
+    }
+
+    .THIS .mouse-hover.navItem .navItem1:after {
+        content: '';
+        background: url(/resource/1593008431000/IconTriangleDownBlue);
+        top: 5px;
+        background-repeat: no-repeat;
+        background-size: 20px 20px;
+        width: 20px;
+        height: 20px;
+        position: relative;
+        display: inline-block;
+    }
+    /*
+
+     .THIS .navBar .navItem.mouse-hover .navItem1:hover {
+        background-color: transparent;
+    }
+
+
+    .THIS .navBar ul:hover {
+        box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.16);
+    }
+
+ */
+
+    .THIS .slds-navigation-list-vertical__action:hover,
+    .THIS .slds-navigation-list-vertical__action:focus,
+    .THIS .slds-navigation-list--vertical__action:hover,
+    .THIS .slds-navigation-list--vertical__action:focus {
+        background: transparent;
+    }
+
+
+    .THIS .navBar ul:hover .navItem {
+        display: block;
+    }
+}
+
+@media all and (max-width: 500px) {
+    .THIS .NavContainer {
+        min-height: auto;
+    }
+
+}
