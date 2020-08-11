@@ -120,7 +120,7 @@ global without sharing class EmailWireframeController {
     }
 
     public String getEmailCommunityURL() {
-        return CommunityTemplateService.getCommunityURL(EmailTemplateProviderService.getProvider().getCommunityName());
+        return CommunityTemplateService.getCommunityURL(getProvider().getParameters().get(TemplatePropertiesCatalog.COMM_TEMPLATE_URL));
     }
 
     public Boolean getIsInitialized() {

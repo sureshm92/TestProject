@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Jenssen_unique__c</fullName>
+    <fullName>Janssen_unique__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
     <label>Janssen unique</label>

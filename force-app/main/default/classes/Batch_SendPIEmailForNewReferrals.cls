@@ -9,7 +9,7 @@ public class Batch_SendPIEmailForNewReferrals extends Batch_ScheduledAbstract {
             SELECT Id,ContactId,timezonesidkey,Time_To_Send_Mail__c,TimeOfRun__c FROM User WHERE ContactId IN (
                 SELECT PI_Contact__c     
                 FROM Participant_Enrollment__c
-                WHERE  Participant_Status__c = 'Received' 
+                WHERE  Participant_Status__c = 'Received' AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = false
             )
         ]);
     }
