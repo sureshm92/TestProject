@@ -4,42 +4,42 @@
  */
 
 public without sharing class StudySiteTriggerHandler {
-    
+
     // Handlers: -------------------------------------------------------------------------------------------------------
-    
+
     public class DeleteStatusHistoryOnDeleteHandler extends TriggerHandler{
-        
+
         public override void beforeDelete(List<SObject> oldList) {
             deleteStatusHistory(oldList);
         }
     }
-    
+
     public class CreatePIOrSendNotificationHandler extends TriggerHandler{
-        
+
         public override void afterInsert(List<SObject> newList) {
             createPIUserOrSendNotification(newList, null);
         }
-        
+
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             createPIUserOrSendNotification(newList, (Map<Id, Study_Site__c>)oldMap);
         }
     }
-    
+
     public class SwitchContactUserModeHandler extends TriggerHandler{
-        
+
         public override void afterInsert(List<SObject> newList) {
             switchContactUserMode(newList);
         }
-        
+
     }
-    
+
     public class CreateStatusHistoryHandler extends TriggerHandler{
-    
+
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             createStatusHistory(newList, (Map<Id, Study_Site__c>)oldMap);
         }
     }
-    
+
     public class PrepareAdditionalFieldsHandler extends TriggerHandler {
 
         public override void beforeInsert(List<SObject> newList) {
@@ -85,7 +85,7 @@ public without sharing class StudySiteTriggerHandler {
     
     
     // Logic: ----------------------------------------------------------------------------------------------------------
-    
+
     @TestVisible
     private static void createPIUserOrSendNotification(List<Study_Site__c> newList, Map<Id, Study_Site__c> oldMap) {
         Set<Id> piContactIds = new Set<Id>();
@@ -115,15 +115,14 @@ public without sharing class StudySiteTriggerHandler {
                             Clinical_Trial_Profile__r.CommunityTemplate__c
                     FROM Study_Site__c
                     WHERE Principal_Investigator__c IN :pisWithUser]){
-                if(piCommunitySS.containsKey(notificationSS.Principal_Investigator__c)) {
-                    piCommunitySS.get(notificationSS.Principal_Investigator__c).get(notificationSS.Clinical_Trial_Profile__r.CommunityTemplate__c).add(notificationSS.Id);
-                } else {
+                if(!piCommunitySS.containsKey(notificationSS.Principal_Investigator__c)) {
                     piCommunitySS.put(notificationSS.Principal_Investigator__c, new Map<String, List<Id>>{
                             CommunityTemplateService.TEMPLATE_DEFAULT => new List<Id>(),
                             CommunityTemplateService.TEMPLATE_JANSSEN => new List<Id>(),
                             CommunityTemplateService.TEMPLATE_GSK => new List<Id>()
                     });
                 }
+                piCommunitySS.get(notificationSS.Principal_Investigator__c).get(notificationSS.Clinical_Trial_Profile__r.CommunityTemplate__c).add(notificationSS.Id);
             }
             for (Id piId : piCommunitySS.keySet()) {
                 for (String community : piCommunitySS.get(piId).keySet()) {
@@ -156,7 +155,7 @@ public without sharing class StudySiteTriggerHandler {
         if(contactIdsForCreateUsers.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(contactIdsForCreateUsers);
         insert notifications;
     }
-    
+
     @TestVisible
     private static void switchContactUserMode(List<Study_Site__c> studySites) {
         Set<Id> piContactIds = new Set<Id>();
@@ -167,7 +166,7 @@ public without sharing class StudySiteTriggerHandler {
 
 // these changes are being on hold
 // Map<Id, Participant__c> participants = CommunityService.getParticipantsByContactIds(piContactIds);
-        
+
         List<Contact> contactsForUpdate = new List<Contact>();
         for (Contact piContact : CommunityService.getContactsByUserContactIds(piContactIds)) {
             piContact.userCommunityMode__c = CommunityService.USER_MODE_PI;
@@ -184,12 +183,12 @@ public without sharing class StudySiteTriggerHandler {
 //    piContact.LastName  = participant.Last_Name__c;
 //    System.debug('-----------> StudySiteTriggerHandler.switchContactUserMode(): Contact names replaced to: ' + piContact.FirstName + ' ' + piContact.LastName);
 //}
-            
+
             contactsForUpdate.add(piContact);
         }
         update contactsForUpdate;
     }
-    
+
     @TestVisible
     private static void createStatusHistory(List<Study_Site__c> newList, Map<Id, Study_Site__c> oldMap) {
         List<Status_History__c> historyList = new List<Status_History__c>();
@@ -204,12 +203,12 @@ public without sharing class StudySiteTriggerHandler {
         }
         insert historyList;
     }
-    
+
     @TestVisible
     private static void deleteStatusHistory(List<Study_Site__c> oldList) {
         delete [SELECT Id FROM Status_History__c WHERE StudySite__c IN: oldList];
     }
-    
+
     private static void prepareAdditionalFields(List<Study_Site__c> newList){
         List<Id> ctpIds = new List<Id>();
         List<Id> siteAccountIds = new List<Id>();
@@ -231,7 +230,7 @@ public without sharing class StudySiteTriggerHandler {
                 FROM Contact
                 WHERE Id IN: piIds
         ]);
-    
+
         for(Study_Site__c ss : newList){
             Clinical_Trial_Profile__c ctp;
             if(ss.Protocol_ID__c != null) ctp = ctpMap.get(ss.Clinical_Trial_Profile__c);

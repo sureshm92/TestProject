@@ -15,21 +15,25 @@ public without sharing class ApplicationHelpRemote {
         try {
             InitData initData = new InitData();
             String userLanguage = UserInfo.getLanguage();
-            ParticipantService ps = new ParticipantService();
-            ParticipantService.ParticipantState pState =ps.getState();
+            String communityTemplateName = UserContext.getCurrentCommunityTemplate().templateName;
             List<Guides_Setting__mdt> guidesSettings = [
-                    SELECT Language__c, HCP_Quick_Reference__c, HCP_User_Manual__c, HCP_Video_Guide__c,
+                    SELECT Language__c, Community_Template__c, HCP_Quick_Reference__c, HCP_User_Manual__c, HCP_Video_Guide__c,
                             PI_Quick_Reference__c, PI_User_Manual__c, PI_Video_Guide__c,
                             Participant_Quick_Reference__c,Participant_Quick_Reference_GSK__c,Participant_User_Manual__c, Participant_Video_Guide__c
                     FROM Guides_Setting__mdt
-                    WHERE Language__c = :userLanguage OR Language__c = 'en_US'
+                    WHERE (Language__c = :userLanguage OR Language__c = 'en_US' )
+                    AND (Community_Template__c = :CommunityTemplateService.TEMPLATE_DEFAULT OR Community_Template__c = :communityTemplateName)
+
             ];
             if (!guidesSettings.isEmpty()) {
                 Guides_Setting__mdt setting = guidesSettings[0];
                 for (Guides_Setting__mdt gs : guidesSettings) {
-                    if (gs.Language__c == userLanguage) {
+                    if (gs.Language__c == userLanguage && gs.Community_Template__c == communityTemplateName) {
                         setting = gs;
                         break;
+                    }
+                    else if (gs.Community_Template__c == communityTemplateName) {
+                        setting = gs;
                     }
                 }
                 if (userMode == 'HCP') {
@@ -41,11 +45,6 @@ public without sharing class ApplicationHelpRemote {
                     initData.userManual = setting.PI_User_Manual__c;
                     initData.quickReference = setting.PI_Quick_Reference__c;
                 }
-                else if (pState.communityName == 'GSK Community') {
-                    initData.videoLink = setting.Participant_Video_Guide__c;
-                    initData.userManual = setting.Participant_User_Manual__c;
-                    initData.quickReference = setting.Participant_Quick_Reference_GSK__c;
-                } 
                 else {
                     initData.videoLink = setting.Participant_Video_Guide__c;
                     initData.userManual = setting.Participant_User_Manual__c;

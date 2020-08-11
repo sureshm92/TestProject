@@ -61,7 +61,8 @@
         communityService.executeAction(component, 'getInitData', {
             isDelegate: isDelegate,
             language: lang,
-            Searchstr: srchtxt
+            Searchstr: srchtxt,
+            communityTemplate: communityService.getCurrentCommunityTemplateName()
         }, function(response) {
             component.set('v.resourceStructureList', response.resources);
         });

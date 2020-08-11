@@ -26,9 +26,7 @@
                             </div>
                         </aura:set>
                     </aura:if>
-                    <div data-group-id="{!modeGroup.itemType}"
-                         class="{!'mode-group ' + if(modeGroup.isSelected, 'selected', '')}"
-                         onclick="{!c.doToggleGroup}">
+                    <div class="{!'mode-group ' + if(modeGroup.isSelected, 'selected', '')}">
                         <div class="item-title">{!modeGroup.title}</div>
                         <aura:if isTrue="{!and(!modeGroup.isGroup, modeGroup.isSelected)}">
                             <c:RRIcon iconName="icon-check" class="icon-check"/>
