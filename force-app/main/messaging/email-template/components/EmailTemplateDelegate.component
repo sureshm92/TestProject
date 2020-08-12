@@ -7,7 +7,7 @@
     <!-- attributes: -->
     <apex:attribute name="recipientId" type="Id" assignTo="{!recipId}" description=""/>
     <apex:attribute name="recipientLanguage" type="String" assignTo="{!contactLanguage}" description=""/>
-    <apex:attribute name="communityName" type="String" assignTo="{!commTemplateStr}" description="" access="global"/>
+    <apex:attribute name="communityTemplate" type="String" assignTo="{!commTemplateStr}" description="" access="global"/>
 
     <!-- component body -->
     <c:EmailTemplateDelegateTable rendered="{!piDelegateLevels.size > 0}"
