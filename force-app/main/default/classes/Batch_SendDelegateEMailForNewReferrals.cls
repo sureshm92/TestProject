@@ -17,7 +17,7 @@ public class Batch_SendDelegateEMailForNewReferrals extends Batch_ScheduledAbstr
             AND Study_Site__c IN(
                 SELECT Study_Site__c     
                 FROM Participant_Enrollment__c
-                WHERE  Participant_Status__c = 'Received' 
+                WHERE  Participant_Status__c = 'Received' AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = false
             )
         ]);
     }
