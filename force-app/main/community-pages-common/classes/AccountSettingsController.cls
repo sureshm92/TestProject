@@ -23,7 +23,7 @@ public without sharing class AccountSettingsController {
                             SELECT Id, First_Name__c, Middle_Name__c, Last_Name__c, Phone__c,
                             Mailing_Zip_Postal_Code__c, Mailing_State__c, Mailing_Country__c,
                             Mailing_Country_Code__c, Mailing_State_Code__c,Adult__c,
-                            Gender__c, Date_of_Birth__c, Initials__c,Suffix__c,Salutation__c,Nickname__c,Phone_Type__c
+                            Gender__c, Date_of_Birth__c, Initials__c,Suffix__c,Salutation__c,Nickname__c,Phone_Type__c,Alternative_Phone_Number__c,Alternative_Phone_Type__c
                             FROM Participant__c
                             WHERE Contact__c = :initData.myContact.Id
                         ][0];
@@ -222,7 +222,9 @@ public without sharing class AccountSettingsController {
             Date_of_Birth__c,
             Nickname__c,
             Suffix__c,
-            Phone_Type__c  
+            Phone_Type__c,
+            Alternative_Phone_Number__c,
+            Alternative_Phone_Type__c
             FROM Participant__c
             WHERE Contact__c = :pContact.Id
         ];
@@ -440,7 +442,9 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             lastName = isParticipant ? participant.Last_Name__c : contact.LastName;
             homePhone = isParticipant ? participant.Phone__c : contact.Phone;
            //mobilePhone = (contact.Phone_Type__c == 'Mobile' || (isParticipant ? participant.Phone_Type__c == 'Mobile':false)) ? homePhone : contact.MobilePhone;
-            mobilePhone = contact.MobilePhone;
+           // mobilePhone = contact.MobilePhone;
+           mobilePhone = participant.Alternative_Phone_Type__c == 'Mobile' ? participant.Alternative_Phone_Number__c : '';
+
             fax = contact.Fax;
             optInEmail = contact.Participant_Opt_In_Status_Emails__c;
             optInSMS = contact.Participant_Opt_In_Status_SMS__c;
@@ -498,7 +502,11 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             personParticipant.Phone__c = homePhone;
             personParticipant.Mailing_Country_Code__c = mailingCC;
             personParticipant.Mailing_State_Code__c = mailingSC;
-            
+            personParticipant.Alternative_Phone_Number__c = mobilePhone;
+            if(mobilePhone != Null){
+            personParticipant.Alternative_Phone_Type__c = 'Mobile';
+            }
+
             personParticipant.Date_of_Birth__c = dateBirth;
             personParticipant.Gender__c = gender;
             personParticipant.Mailing_Zip_Postal_Code__c = zip;
