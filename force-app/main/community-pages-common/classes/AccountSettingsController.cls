@@ -443,7 +443,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             homePhone = isParticipant ? participant.Phone__c : contact.Phone;
            //mobilePhone = (contact.Phone_Type__c == 'Mobile' || (isParticipant ? participant.Phone_Type__c == 'Mobile':false)) ? homePhone : contact.MobilePhone;
            // mobilePhone = contact.MobilePhone;
-           mobilePhone = participant.Alternative_Phone_Type__c == 'Mobile' ? participant.Alternative_Phone_Number__c : '';
+           mobilePhone = participant.Alternative_Phone_Type__c == 'Mobile' ? participant.Alternative_Phone_Number__c : contact.MobilePhone;
 
             fax = contact.Fax;
             optInEmail = contact.Participant_Opt_In_Status_Emails__c;
