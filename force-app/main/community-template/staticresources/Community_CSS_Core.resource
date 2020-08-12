@@ -1273,10 +1273,10 @@ select.rr-select-error,
     -webkit-box-orient: vertical;
 }
 .unsNotificationsListRow .assistive-unread-mark {
-    color: blue;
+    color: #DF216D !important;
 }
 .assistive-unread-mark {
-    color: blue;
+    color: #DF216D !important;
 }
 .uiPanel .uiButton.closeBtn {
     position: absolute;
@@ -1301,11 +1301,13 @@ select.rr-select-error,
 .unsNotificationsPanel .titleName {
     min-width: 20% !important;
     font-weight: 600 !important;
-    font-size: 1rem;
+    font-size: 18px !important;
     color: #333 !important;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-family: "Proxima Nova";
+
 }
 .uiPanel.open, .uiPanel.transitioning {
     margin: 0% 3% 2% 4% !important;
@@ -1313,23 +1315,50 @@ select.rr-select-error,
     top: 3.1rem !important;
     border-radius: 0 !important;
 	z-index: 1 !important;
-}	
+    border-bottom-color: #e4e4e4 !important;
+    border-bottom-style: solid !important;
+    border-bottom-width: medium !important;
+    box-shadow: 0px 4px 22px 7px rgb(217, 219, 221) !important;
+    /*box-shadow :0px 4px 9px 6px rgb(217, 219, 221) !important;*/
+}
 
-/*.uiPanel .container {
-    position: relative;
-    z-index: 9002;
-	margin-top:-15px !important;
-}*/
 .unsNotificationsListRow.notification-unread {
-	
 background-color: rgba(41,125,253,0.08) !important;
+}
+.unsNotificationsListRow.notification-row {
+    height: 100%;
+    border-color: #e4e4e4 !important;
 }
 .uiPanel>.pointer {
 	display:none !important;
 
 }
 .unsNotificationsListRow .assistive-unread-mark {
-    color: blue !important;
+    color: #DF216D !important;
+}
+.unsNotificationsListRow .notification-age {
+    color: #696969;
+    font-size: 16px !important;
+    font-family: "Proxima Nova";
+
+}
+.unsNotificationsListRow .notification-text-title {
+    display: block;
+    color: #333;
+    font-weight: 600 !important;
+    font-size: 16px !important;
+    font-family: "Proxima Nova";
+
+}
+.unsNotificationsListRow .notification-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    font-size : 16px !important;
+    font-family: "Proxima Nova";
+
 }
 .unsNotificationsPanel>div {
     width: 310px !important;
