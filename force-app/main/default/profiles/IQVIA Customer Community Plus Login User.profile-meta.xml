@@ -2972,7 +2972,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Contact.Jenssen_unique__c</field>
+        <field>Contact.Janssen_unique__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

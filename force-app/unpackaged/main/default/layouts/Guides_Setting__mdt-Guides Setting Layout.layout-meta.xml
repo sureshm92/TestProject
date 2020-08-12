@@ -58,6 +58,10 @@
                 <behavior>Edit</behavior>
                 <field>Participant_Quick_Reference_GSK__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Community_Template__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

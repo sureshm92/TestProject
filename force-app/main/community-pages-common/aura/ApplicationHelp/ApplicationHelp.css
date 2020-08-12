@@ -52,6 +52,7 @@
     padding: 0!important;
     max-height: none!important;
 }
+
 .THIS .p-container{
     box-sizing: content-box;
 }
@@ -72,21 +73,12 @@
     }
     
     .THIS .ah-video-iframe{
-
         width: 360px;
-    }
-    
-    .THIS .ah-button {
-        width: 50%
     }
 
 }
 
 @media all and (max-width: 500px) {
-	.THIS .ah-button {
-        width: 100%
-    }
-    
     .THIS.ah-main-container {
         margin-top: 0;
         padding-top: 0;
