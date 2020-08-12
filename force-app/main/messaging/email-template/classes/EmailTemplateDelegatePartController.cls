@@ -8,8 +8,7 @@ global without sharing class EmailTemplateDelegatePartController {
 
     //DEPRECATED
     global String delegateUserId { get; set; }
-    global String commTemplateStr { get; set; }
-
+    //global String commTemplateStr { get; set; }
 
     public List<String> getDelegateStudyNames() {
         List<Id> participantIds = new List<Id>();

@@ -256,9 +256,7 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler
                 gclid__c = ipr.UTM_GCLID__c,
                 Atid__c = ipr.Atid__c,
 
-                HighRisk_Indicator__c = ipr.HighRisk_Indicator__c,
-                Permit_Mail_Email_contact_for_this_study__c = True,
-                Permit_IQVIA_to_contact_about_study__c = True
+                HighRisk_Indicator__c = ipr.HighRisk_Indicator__c
 
         );
     }
