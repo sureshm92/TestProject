@@ -90,7 +90,7 @@
                       communityTemplate = "{!communityTemplate}">
         <!-- Inner body -->
         <c:Paragraph emailLabel="{!IF(communityTemplate == 'Janssen',$Label.Email_Body_Initial_Delegate_Janssen, $Label.Email_Body_Initial_Delegate)}"/>
-        <c:EmailTemplateDelegate communityTemplate="{!communityTemplate}"/>
+        <c:EmailTemplateDelegate communityName="{!communityTemplate}"/>
         <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframe>
 
