@@ -102,7 +102,7 @@
     doCreateUserInv: function (component) {
         component.set('v.createUsers', !component.get('v.createUsers'));   
     },
-
+    
     doContact : function (component){
         component.set('v.doContact', !component.get('v.doContact'));
         if(!component.get('v.doContact')){
