@@ -78,7 +78,8 @@
     color: #fff;
     border-radius: 0;
     height: 50px;
-    width: 50px;
+    width: auto;
+    padding: 0 8px;
 }
 
 .THIS .bell-container .slds-button.activated {
