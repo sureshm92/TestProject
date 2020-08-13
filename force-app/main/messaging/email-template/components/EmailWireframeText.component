@@ -38,8 +38,8 @@
 
     {!signatureText}
 
-    {!$Label.Email_Footer_Address} | {!$Label.Email_Footer_Privacy_Policy}: {!$Label.CommunityURL + '/s/privacy-policy'}
-     <apex:componentBody rendered="{!displayOptOut!='No'}">
+    {!$Label.Email_Footer_Address} | {!$Label.Email_Footer_Privacy_Policy}: {!IF(communityTemplate == 'Janssen', $Label.CommunityJanssenURL + '/s/privacy-policy', $Label.CommunityURL + '/s/privacy-policy')}
+    <apex:componentBody rendered="{!displayOptOut!='No'}">
     {!$Label.Email_Opt_Out_footer} {!$Label.Email_Opt_Out_footer_here} : {!$Label.CommunityURL+communityTypeURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}
      </apex:componentBody> 
 </apex:component>
