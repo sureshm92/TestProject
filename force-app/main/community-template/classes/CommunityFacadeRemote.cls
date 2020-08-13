@@ -79,12 +79,13 @@ public without sharing class CommunityFacadeRemote {
                 cd.preventedCookies = getPreventedCookies(userContact.Id);
                 cd.messagesVisible = getMessagesVisibility();
                 cd.trialMatchVisible = getTrialMatchVisibility();
-                cd.hasIQVIAStudiesPI = getHasIQVIAStudiesPI();
             }
+            cd.hasIQVIAStudiesPI = getHasIQVIAStudiesPI();
             cd.currentUserMode = UserContext.getCurrentUserMode();
             cd.subDomain = Site.getPathPrefix().replace('/s', '');
             cd.communityName = Site.getName();
-            cd.sponsorName = getSponsorName(cd.currentUserMode.template.templateName);            cd.baseUrl = Site.getBaseUrl();
+            cd.sponsorName = getSponsorName(cd.currentUserMode.template.templateName);
+            cd.baseUrl = Site.getBaseUrl();
             cd.pathPrefix = Site.getPathPrefix();
             cd.isTCAccepted = cd.isDummy || isTCAccepted();
             cd.language = UserInfo.getLanguage();
