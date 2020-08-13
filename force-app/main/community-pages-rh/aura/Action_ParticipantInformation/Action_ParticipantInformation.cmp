@@ -148,7 +148,7 @@
                                                                refProvider="{!v.refProvider}"
                                                                showReferringProvider="{#v.pe.Show_Referring_Provider__c}"
                                                                fromActionParticipant="true"
-                                                               actionDisabled="{!v.actions.screenerResponses.disabled}"/>
+                                                               actionDisabled="{!v.actions.addPatient.disabled}"/>
                                 </div>
                             </aura:if>
                         </lightning:tab>  
