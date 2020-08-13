@@ -7634,6 +7634,13 @@ The expected format is REF#####</value>
         <value>Invited</value>
     </labels>
     <labels>
+        <fullName>Janssen_Community_Login_Page</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Janssen Community Login Page</shortDescription>
+        <value>Janssen Investigator Community</value>
+    </labels>
+    <labels>
         <fullName>Janssen_Community_Template_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
