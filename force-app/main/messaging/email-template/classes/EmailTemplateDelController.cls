@@ -7,6 +7,7 @@ global without sharing class EmailTemplateDelController {
     global String contactLanguage { get; set; }
     global String commTemplateStr{get;set;}    
     
+    
     public List<DelegateLevelWrapper> getPiDelegateLevels() {
         List<Site_Staff__c> siteStaffs = [
                 SELECT toLabel(Delegate_Level__c),
