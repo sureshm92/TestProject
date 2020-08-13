@@ -84,7 +84,7 @@
                 </aura:iteration>
             </div>
             </aura:if>
-            <aura:if isTrue="{!!v.actionDisabled &amp;&amp; v.communitySponsor != 'Janssen'}">
+            <aura:if isTrue="{!!v.actionDisabled || v.communitySponsor != 'Janssen'}">
                 <div>
                     <button data-gtm="BTN_AddProvider_mngmt" class="apollo-btn secondary slds-box"
                             onclick="{!c.doAddProvider}">
