@@ -23,7 +23,8 @@
         component.set('v.needsGuardian', false);
         component.set('v.emailInstance', '');
         component.find('checkbox-delegate').getElement().checked = false;
-        component.find('checkbox-doContact').getElement().checked = true;
+        component.find('checkbox-Contact').getElement().checked = true;
+        component.set('v.doContact', true);
     },
 
     createParticipant: function (component, callback) {
@@ -38,7 +39,7 @@
             peJSON: JSON.stringify(pe),
             userLanguage: userLanguage,
             ssId: (ssId ? ssId : component.get('v.ss').Id),
-            createUser: component.get('v.createUsers'),
+            createUser: component.get('v.createUsers') && component.get('v.communityWithPPInv'),
             participantDelegateJSON: JSON.stringify(component.get('v.participantDelegate')),
             delegateDuplicateInfo: JSON.stringify(component.get('v.delegateDuplicateInfo')),
             allowEmail : component.get('v.isEmail'),

@@ -16,7 +16,7 @@
                 <aura:if isTrue="{!equals(item.page, 'resources-pi')}">
                     <div class="nav-menu-item-content">
                         <c:RRIcon iconName="{!item.icon}" color="white" class="navigation-icon"/>
-                    <c:CommunityResourcesNavigation itemResource="{!v.item}"/>
+                    <c:CommunityResourcesNavigation itemResource="{!v.item}" communityTemplate="{!v.communityTemplate}"/>
                     </div>
                     <aura:set attribute="else">
                 <li class="{!item.page == v.currentPage ? 'nav-item active' : 'nav-item'}" data-page-name="{!item.page}" onclick="{!c.onClick}">
