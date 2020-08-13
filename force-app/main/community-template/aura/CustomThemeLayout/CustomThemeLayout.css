@@ -78,7 +78,8 @@
     color: #fff;
     border-radius: 0;
     height: 50px;
-    width: 50px;
+    width: auto;
+    padding: 0 8px;
 }
 
 .THIS .bell-container .slds-button.activated {
@@ -418,6 +419,20 @@
      /*Added to overcome mobile view issue*/
     .THIS .sdv-top-bar {
         z-index: 0 !important;
+    }
+
+    .THIS .logo-container {
+        margin-right: 10px;
+    }
+
+    .THIS .right-block{
+        margin-left: 0;
+        justify-content: flex-end;
+        flex-grow: 1;
+    }
+
+    .THIS .helpNavigationCSS {
+        padding: 0 8px;
     }
 }
 

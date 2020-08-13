@@ -33,7 +33,7 @@
 :host {
     display: inline-flex;
     height: 100%;
-    width: 50px;
+    width: auto;
 }
 .nic-points{
     padding-left: 5px;
