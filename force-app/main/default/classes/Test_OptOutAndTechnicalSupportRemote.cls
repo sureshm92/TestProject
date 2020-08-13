@@ -23,7 +23,22 @@ private class Test_OptOutAndTechnicalSupportRemote {
         Test.startTest();
         TestData testData=new TestData();
         String strContactId=testData.piContact.Id;
-        OptOutAndTechnicalSupportRemote.createSupportCases('I do not want to receive optional emails','I need addtional techincal support',strContactId);    
+        List<OptOutAndTechnicalSupport.InitDataWrapper> intitDataWrapperList=OptOutAndTechnicalSupportRemote.getInitData('en_us');
+        List<String> optOutValueList=new List<String>();
+        List<String> techSupportValueList=new List<String>();
+        for(OptOutAndTechnicalSupport.InitDataWrapper objInitDataWrapper:intitDataWrapperList){
+            if(objInitDataWrapper.strCategoryValue=='Opt_Out'){
+                for(LabelValueItem objLabelValueItem:objInitDataWrapper.labelValueItemList){
+                    optOutValueList.add(objLabelValueItem.value) ;   
+                }
+            }
+            else{
+                for(LabelValueItem objLabelValueItem:objInitDataWrapper.labelValueItemList){
+                    techSupportValueList.add(objLabelValueItem.value) ;   
+                }
+            }
+        }
+        OptOutAndTechnicalSupportRemote.createSupportCases(optOutValueList,techSupportValueList,strContactId);    
         List<Group> groupList=[SELECT Id FROM Group WHERE developerName=:TECH_SUPPORT_QUEUE_NAME];
         List<Case> caseList=[SELECT ID,ownerId From Case WHERE  OwnerId=:groupList[0].Id];
         System.assert(caseList.size()>0);

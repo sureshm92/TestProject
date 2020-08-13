@@ -42,6 +42,9 @@
     .THIS .arrow-down {
         transform: scaleY(-1);
     }
+    .THIS.cUiHeaderMenu.resources-popup-Janssen .menu-popup-panel.popupTargetContainer {
+        top: -42px;
+    }
 }
 
 @media screen and (max-width: 550px) {
