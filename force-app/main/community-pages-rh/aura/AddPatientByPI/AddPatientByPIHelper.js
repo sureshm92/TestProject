@@ -23,8 +23,7 @@
         component.set('v.needsGuardian', false);
         component.set('v.emailInstance', '');
         component.find('checkbox-delegate').getElement().checked = false;
-        component.find('checkbox-Contact').getElement().checked = true;
-        component.set('v.doContact', true);
+        component.find('checkbox-doContact').getElement().checked = true;
     },
 
     createParticipant: function (component, callback) {
@@ -39,7 +38,7 @@
             peJSON: JSON.stringify(pe),
             userLanguage: userLanguage,
             ssId: (ssId ? ssId : component.get('v.ss').Id),
-            createUser: component.get('v.createUsers'),
+            createUser: component.get('v.createUsers') && component.get('v.communityWithPPInv'),
             participantDelegateJSON: JSON.stringify(component.get('v.participantDelegate')),
             delegateDuplicateInfo: JSON.stringify(component.get('v.delegateDuplicateInfo')),
             allowEmail : component.get('v.isEmail'),
@@ -189,7 +188,6 @@
             spinner.hide();
         });
     },
-
     checkCommunity: function (component, event, helper) {
         component.set('v.communityWithPPInv', communityService.getCurrentCommunityTemplateName() != $A.get("$Label.c.Janssen_Community_Template_Name"));
     }
