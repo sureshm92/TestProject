@@ -19,7 +19,7 @@
     <aura:attribute type="Boolean" name="isInitialized" access="private" default="false"/>
 
     <aura:attribute type="String" name="currentParticipant" default="" access="private" />
-    <aura:attribute type="String" name="currentSite" default="" access="private" />
+    <aura:attribute type="String" name="currentSite" access="private" />
     <aura:attribute type="List" name="participantPicklistvalues" default="[]" />
     <aura:attribute type="List" name="sitePicklistvalues" default="[]"/>
 

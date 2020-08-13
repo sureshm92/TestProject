@@ -42,6 +42,7 @@ public without sharing class CommunityFacadeRemote {
         Boolean messagesVisible;
         Boolean trialMatchVisible;
         Boolean isMobileApp;
+        Boolean hasIQVIAStudiesPI;
     }
 
     private class CommunityType {
@@ -79,10 +80,12 @@ public without sharing class CommunityFacadeRemote {
                 cd.messagesVisible = getMessagesVisibility();
                 cd.trialMatchVisible = getTrialMatchVisibility();
             }
+            cd.hasIQVIAStudiesPI = getHasIQVIAStudiesPI();
             cd.currentUserMode = UserContext.getCurrentUserMode();
             cd.subDomain = Site.getPathPrefix().replace('/s', '');
             cd.communityName = Site.getName();
-            cd.sponsorName = getSponsorName(cd.currentUserMode.template.templateName);            cd.baseUrl = Site.getBaseUrl();
+            cd.sponsorName = getSponsorName(cd.currentUserMode.template.templateName);
+            cd.baseUrl = Site.getBaseUrl();
             cd.pathPrefix = Site.getPathPrefix();
             cd.isTCAccepted = cd.isDummy || isTCAccepted();
             cd.language = UserInfo.getLanguage();
@@ -157,7 +160,7 @@ public without sharing class CommunityFacadeRemote {
     }
 
     public static Boolean isTCAccepted() {
-        Terms_And_Conditions__c portalTC = TermsAndConditions.getPortalTC();
+        Terms_And_Conditions__c portalTC = TermsAndConditions.getPortalTC(false);
         if (portalTC != null) return TermsAndConditions.isTCAccepted(portalTC.Id);
         return true;
     }
@@ -284,5 +287,13 @@ public without sharing class CommunityFacadeRemote {
             }
         }
         return isMobileApp;
+    }
+
+    private static Boolean getHasIQVIAStudiesPI(){
+        if (CommunityService.getUserContact() == null) {
+            return false;
+        }
+        List<Id> delegatedSites = DelegateService.getDelegatedStudySiteIds();
+        return [SELECT Id FROM Study_Site__c WHERE Clinical_Trial_Profile__r.CommunityTemplate__c = :CommunityTemplateService.TEMPLATE_DEFAULT AND (Id IN :delegatedSites OR Principal_Investigator__c = :UserContext.getUserContactId()) ].size() > 0;
     }
 }

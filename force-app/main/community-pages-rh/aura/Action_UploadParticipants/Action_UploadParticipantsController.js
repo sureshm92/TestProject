@@ -50,7 +50,7 @@
                                  component.get('v.fileName'),
                                  component.get('v.studySiteId'),
                                  component.get('v.selectedStatus'),
-                                 component.get('v.createUsers'),
+                                 component.get('v.createUsers') && component.get('v.communityWithPPInv'),
                                  component.get('v.doContact'),
                                  component.get('v.isEmail'),
                                  component.get('v.isPhone'),

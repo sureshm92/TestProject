@@ -15,7 +15,14 @@ public class ExcelController {
             CommunityService.USER_MODE_PI,
             CommunityService.USER_MODE_HCP
     };
-    
+    private static final List<String> COMMUNITY_TEMPLATES_NON_JANSSEN = new List<String>{
+            CommunityTemplateService.TEMPLATE_DEFAULT,
+            CommunityTemplateService.TEMPLATE_GSK
+    };
+
+    private static final String EXPORTED_SOBJECT_PE = 'PE';
+    private static final String EXPORTED_SOBJECT_HCPE = 'HCPPE';
+
     public ExcelController() {
         //userMode = CommunityService.USER_MODE_HCP;
         //CommunityService.setDummyUserContact('0030n00000d8PgE');
@@ -47,7 +54,12 @@ public class ExcelController {
         if(userMode == CommunityService.USER_MODE_PI){
             filters.add(DatabaseService.fieldInValues('Participant_Status__c', PEStatusState.PE_STATUS_GROUP_PI_VISIBLE));
         }
-        if (!String.isBlank(study)) filters.add(' Study_Site__r.Clinical_Trial_Profile__c = \'' + study + '\' ');
+        if (!String.isBlank(study)) {
+            filters.add(' Study_Site__r.Clinical_Trial_Profile__c = \'' + study + '\' ');
+        }
+        else {
+            filters.add(getCommunityFilter(EXPORTED_SOBJECT_PE));
+        }
         if (!String.isBlank(referringClinic)) filters.add(' HCP__r.HCP_Contact__r.AccountId = \'' + referringClinic + '\' ');
         if (!String.isEmpty(dateRange)) filters.add(' CreatedDate ' + EncodingUtil.urlDecode(dateRange, 'UTF-8'));
         if (!filters.isEmpty()) filter = 'AND ' + String.join(filters, ' AND ');
@@ -88,13 +100,27 @@ public class ExcelController {
         String filter;
         List<String> filters = new List<String>();
         filters.add('Study_Site__r.Clinical_Trial_Profile__r.Orientation_Required__c = true');
-        if (!String.isEmpty(study)) filters.add(' Study_Site__r.Clinical_Trial_Profile__c = \'' + study + '\' ');
+        if (!String.isEmpty(study)) {
+            filters.add(' Study_Site__r.Clinical_Trial_Profile__c = \'' + study + '\' ');
+        }
+        else {
+            filters.add(getCommunityFilter(EXPORTED_SOBJECT_HCPE));
+        }
         if (!String.isEmpty(referringClinic)) filters.add(' HCP_Contact__r.AccountId = \'' + referringClinic + '\' ');
         if (!String.isEmpty(dateRange)) filters.add(' CreatedDate ' + EncodingUtil.urlDecode(dateRange, 'UTF-8'));
         if (!filters.isEmpty()) filter = 'AND ' + String.join(filters, ' AND ');
         
         System.debug('FILTER: ' + filter);
         return HCPEnrollmentService.getHCPEnrollmentsCommonCustomFields(userMode, delegateId, hcpeFields, filter, false);
+    }
+
+    public String getCommunityFilter(String exportedSObject){
+        if (UserContext.getCurrentCommunityTemplate().templateName == CommunityTemplateService.TEMPLATE_JANSSEN) {
+            return ' Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c NOT IN (\'' + String.join(COMMUNITY_TEMPLATES_NON_JANSSEN, '\',\'') + '\') ';
+        }
+        else{
+            return ' Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c IN (\'' + String.join(COMMUNITY_TEMPLATES_NON_JANSSEN, '\',\'') + '\') ';
+        }
     }
 
     public class FieldWrapper{
