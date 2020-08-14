@@ -530,6 +530,14 @@
         <value>Additional Notes</value>
     </labels>
     <labels>
+        <fullName>Additional_Technical_Support</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Additional Technical Support</shortDescription>
+        <value>I need additional technical support</value>
+    </labels>
+    <labels>
         <fullName>Admin</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3955,7 +3963,7 @@ Please share our site on social media to encourage others to assist us as we wor
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Janssen Initial PI</shortDescription>
-        <value>Please take a moment to enroll in the Janssen IQVIA Referral Hub. This will allow you to use Referral Hub&amp;apos;s participant contact and status tracking capabilities. For studies with Patient Portal capabilities available, this will also allow your patients to track their status throughout their participation with the study, without calling your office for updates.</value>
+        <value>Please take a moment to enroll in the IQVIA Referral Hub. This will allow you to use Referral Hub&amp;apos;s participant contact and status tracking capabilities. For studies with Patient Portal capabilities available, this will also allow your patients to track their status throughout their participation with the study, without calling your office for updates.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Medication_Task_Reminder</fullName>
@@ -5143,17 +5151,6 @@ Please log in to ##CommunityName to view your clinical research trial matches an
             ##SignatureFullCommunityName</value>
     </labels>
     <labels>
-        <fullName>Email_Signature_Janssen</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Signature</shortDescription>
-        <value>Thank you.
-
-            Sincerely,
-
-            The Janssen IQVIA Referral Hub Support Team</value>
-    </labels>
-    <labels>
         <fullName>Email_Signature_1</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5211,6 +5208,17 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <value>Sincerely,
 
             The GSK Participant Hub team</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_Janssen</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature</shortDescription>
+        <value>Thank you.
+
+            Sincerely,
+
+            The Janssen IQVIA Referral Hub Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_New</fullName>
@@ -5859,7 +5867,7 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Title Initial All Janssen</shortDescription>
-        <value>Janssen IQVIA™ Referral Hub and Patient Portal</value>
+        <value>IQVIA™ Referral Hub</value>
     </labels>
     <labels>
         <fullName>Email_Title_PH</fullName>
@@ -7624,6 +7632,13 @@ The expected format is REF#####</value>
         <protected>true</protected>
         <shortDescription>contact has user</shortDescription>
         <value>Invited</value>
+    </labels>
+    <labels>
+        <fullName>Janssen_Community_Login_Page</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Janssen Community Login Page</shortDescription>
+        <value>Janssen Investigator Community</value>
     </labels>
     <labels>
         <fullName>Janssen_Community_Template_Name</fullName>
@@ -15280,14 +15295,14 @@ communications using the toggles below.</value>
         <shortDescription>Pswd_ValidationMsg4</shortDescription>
         <value>Your password must be at least 8 characters long.</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>Pswd_ValidationMsg5</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Pswd_ValidationMsg5</shortDescription>
         <value>The passwords do not match</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>Pswd_ValidationMsg6</fullName>
         <language>en_US</language>
         <protected>false</protected>

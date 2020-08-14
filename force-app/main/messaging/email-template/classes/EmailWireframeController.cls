@@ -16,7 +16,8 @@ global without sharing class EmailWireframeController {
     global String communityTemplateValue { get; set; }
     global String specificEmailProviderValue { get; set; }
     global String outputMode { get; set; }
-
+    global String recipientCntNameShare {get;set;}
+    global String displayOptOut {get;set;}
     private EmailTemplateProvider templateProvider;
 
     global String getUserLanguageCode() {
@@ -24,11 +25,11 @@ global without sharing class EmailWireframeController {
     }
     
     
-     global string communityTypeURL {
+  global string communityTypeURL {
        get{
             if (communityTemplateValue == 'GSK') communityTypeURL ='/gsk';
             else if (communityTemplateValue =='Default')communityTypeURL ='';
-            else if(getProvider().getCommunityName().contains('Gather')) communityTypeURL ='/gsk' ;
+            else if(getProvider().getParameters().get('FullCommunityName').contains('Gather')) communityTypeURL ='/gsk' ;
             else communityTypeURL='';
             return communityTypeURL;
          
@@ -49,13 +50,9 @@ global without sharing class EmailWireframeController {
     }
 	global Id recipientcntId {
       		 get{
-                 
         		try {
-                	if(shareTemplate=='Yes')recipientcntId=null;
-                    else{
                         if (recipientcntId == null) recipientcntId = getProvider().getRecipientId();
                         if(recipientcntId == null) recipientcntId = getProvider().getParameters().get('RecipientContactId');
-                    	}
                         return recipientcntId;
             		}
                	catch (Exception e) {
@@ -107,6 +104,7 @@ global without sharing class EmailWireframeController {
     }
 
     public String getGreetingText() {
+        if(shareTemplate=='Yes') return prepareLineBreaks(replaceParams(getLabelValue(System.Label.Email_Greeting)) +' '+recipientCntNameShare+ '\n');
         return prepareLineBreaks(replaceParams(getLabelValue(greetingValue)) + '\n');
     }
 

@@ -24,7 +24,9 @@
                     description="Community template name"/>
     <apex:attribute name="specificEmailProvider" type="String" assignTo="{!specificEmailProviderValue}"
                     description="If you need specific instance of EmailTemplateProvider set this here"/>
-    <apex:attribute name="shareEmailTemplate" assignTo="{!shareTemplate}" type="String" description="" default="No" access="global"/>   
+    <apex:attribute name="shareEmailTemplate" assignTo="{!shareTemplate}" type="String" description="" default="No" access="global"/>
+    <apex:attribute name="OptOut" assignTo="{!displayOptOut}" type="String" description="" default="Yes" access="global"/>
+    <apex:attribute name="recipientcontactName" assignTo="{!recipientCntNameShare}" type="String" description="" access="global"/>  
     <div style="{!templateMap['emailTemplateBackground']}">
         <div style="{!templateMap['emailTemplateTextBackground']}">
             <div style="{!templateMap['emailTemplateHeaderBackground']}">
@@ -70,16 +72,18 @@
                     $Label.Email_Footer_Privacy_Policy_Janssen, $Label.Email_Footer_Privacy_Policy)}</a>
             </div>
         </div>
-         <div style="border:2px solid #999999;height:50px;line-height:20px;background-color:#f3f3f3">
-            <div style="display:block;font-size: 14px;font-weight: 600;color: black;padding-top:5px;float:left;">
+        <apex:outputPanel rendered="{!displayOptOut!='No'}">
+         <div style="border-bottom:1px solid #cecccc;height:50px;line-height:20px;background-color:#f3f3f3">
+            <div style="display:block;font-size: 13px;font-weight: 500;color: #333333;padding-top:5px;float:left;">
                     {!$Label.Email_Opt_Out_footer} <a
                                                       href="{!$Label.CommunityURL+communityTypeURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}">{!$Label.Email_Opt_Out_footer_here}</a>
             </div> 
-                      <div style="font-style:italic;font-size:12px;font-weight:600;color:black;float:left;">
+                      <div style="font-style:italic;font-size:13px;font-weight:500;color:#585858;float:left;">
                     {!$Label.Email_Opt_Out_footer_medical_emergency}        
            </div>
    
-        </div>    
+        </div>  
+		</apex:outputPanel>
     </div>
 
 </apex:component>
