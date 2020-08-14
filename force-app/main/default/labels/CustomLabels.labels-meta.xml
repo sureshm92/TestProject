@@ -6269,6 +6269,13 @@ The NYBC Convalescent Plasma Donation Team</value>
         <value>Privacy Policy</value>
     </labels>
     <labels>
+        <fullName>Footer_Link_Privacy_Policy_Janssen</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Footer Link Privacy Policy</shortDescription>
+        <value>Janssen Privacy Policy</value>
+    </labels>
+    <labels>
         <fullName>Footer_Link_Terms_Of_Use</fullName>
         <language>en_US</language>
         <protected>false</protected>
