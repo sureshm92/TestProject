@@ -8,7 +8,7 @@
                           recipientcontactName="{!recipient.Name}"
                           recipientName="{!$Label.Email_Guest}"
                           recipientLanguage="{!recipient.Language__c}"
-                          shareEmailTemplate="Yes"
+                          OptOut="No"
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_Share_PH}"
                           title="{!$Label.Email_Title_PH}"
@@ -22,8 +22,9 @@
 
     <messaging:plainTextEmailBody >
         <c:EmailWireframeText recipientId="{!recipient.Id}"
+                              recipientcontactName="{!recipient.Name}"
                               recipientName="{!$Label.Email_Guest}"
-                              shareEmailTemplate="Yes"
+                              OptOut="No"
                               recipientLanguage="{!recipient.Language__c}"
                               sourceId="{!relatedTo.Id}"
                               header="{!$Label.Email_Header_Share_PH}"

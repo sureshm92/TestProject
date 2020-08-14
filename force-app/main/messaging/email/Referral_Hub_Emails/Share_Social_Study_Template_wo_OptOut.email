@@ -1,14 +1,14 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_Share_By_RP}"
                          recipientType="Contact"
-                         relatedToType="HCP_Enrollment__c"
-                         language="{!relatedTo.HCP_Contact__r.Language__c}">
+                         relatedToType="Clinical_Trial_Profile__c"
+                         language="{!recipient.Language__c}">
 
     <messaging:htmlEmailBody >
         <c:EmailWireframe recipientId="{!recipient.Id}"
-                          recipientcontactName="{!recipient.Name}"   
+                          recipientcontactName="{!recipient.Name}"  
                           recipientName="{!$Label.Email_Guest}"
-                          recipientLanguage="{!relatedTo.HCP_Contact__r.Language__c}"
-                          shareEmailTemplate="Yes"
+                          recipientLanguage="{!recipient.Language__c}"
+                          OptOut="No"
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_Share}"
                           title="{!$Label.Email_Title}"
@@ -16,15 +16,16 @@
                           signature="{!$Label.Email_Signature_RH}">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Share}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_Trial_Details}"
-                              buttonURL="{!relatedTo.Study_Site__r.Clinical_Trial_Profile__r.Share_URL__c}"/>
+                              buttonURL="{!relatedTo.Share_URL__c}"/>
         </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
         <c:EmailWireframeText recipientId="{!recipient.Id}"
+                              recipientcontactName="{!recipient.Name}"  
                               recipientName="{!$Label.Email_Guest}"
-                              recipientLanguage="{!relatedTo.HCP_Contact__r.Language__c}"
-                              shareEmailTemplate="Yes"
+                              recipientLanguage="{!recipient.Language__c}"
+                              OptOut="No"
                               sourceId="{!relatedTo.Id}"
                               header="{!$Label.Email_Header_Share}"
                               title="{!$Label.Email_Title}"
@@ -32,7 +33,7 @@
                               signature="{!$Label.Email_Signature_RH}">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_Share}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_Trial_Details}"
-                                  buttonURL="{!relatedTo.Study_Site__r.Clinical_Trial_Profile__r.Share_URL__c}"/>
+                                  buttonURL="{!relatedTo.Share_URL__c}"/>
         </c:EmailWireframeText>
     </messaging:plainTextEmailBody>
 
