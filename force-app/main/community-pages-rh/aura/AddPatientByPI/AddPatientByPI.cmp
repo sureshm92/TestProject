@@ -5,7 +5,7 @@
 <aura:component description="AddPatientByPI" implements="forceCommunity:availableForAllPageTypes"
                 controller="AddPatientByPIRemote">
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
-
+    
     <!-- private attributes: -->
     <aura:attribute name="pe" type="Participant_Enrollment__c"/>
     <aura:attribute name="participant" type="Participant__c"/>
@@ -17,7 +17,7 @@
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="userLanguage" type="String"/>
     <aura:attribute name="createUsers" type="Boolean" default="false"/>
-    <aura:attribute name="doContact" type="Boolean" default="true"/>
+    <aura:attribute name="doContact" type="Boolean" default="false"/>
     <aura:attribute name="isEmail" type="Boolean" default="false"/>
     <aura:attribute name="isPhone" type="Boolean" default="false"/>
     <aura:attribute name="isSMS" type="Boolean" default="false"/>
@@ -29,18 +29,18 @@
     <aura:attribute name="useThisDelegate" type="Boolean" default="true"/>
     <aura:attribute name="communityWithPPInv" type="Boolean" default="true"/>
     <aura:attribute name="emailInstance" type="String"/>
-
+    
     <!-- methods: -->
     <aura:method name="checkDateOfBith" action="{!c.doCheckDateOfBith}" access="public">
         <aura:attribute name="callback" type="Function"/>
     </aura:method>
     <aura:method name="refreshParticipant" action="{!c.doRefreshParticipant}" access="public"/>
-
-
+    
+    
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
     <aura:handler name="ddMessageButtonClick" event="c:DDMessageEvent" action="{!c.approveDelegate}"/>
-
+    
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" fixed="true" size="medium"/>
     <c:RRTopBar backLabel="{!$Label.c.PG_TOP_Bar_Back_To_My_Referrals}"
@@ -48,7 +48,7 @@
                 smallTitle="{!v.ctp.Study_Code_Name__c}"
                 bigTitle="{!$Label.c.PG_Add_Patient_Header}">
     </c:RRTopBar>
-
+    
     <aura:if isTrue="{!v.initialized}">
         <div class="rr-width-limiter side-padding add-patient-form">
             <div class="ap-top-info">{! '* ' +  $Label.c.PG_AP_T_Indicate_Req_Fields}</div>
@@ -64,7 +64,7 @@
                                         needsGuardian="{!v.needsGuardian}"
                                         haveDelegate="{!v.isDelegateValid}"
                                         parentComponent="{!this}"/>
-
+                
                 <div class="ap-section">
                     <div class="slds-grid slds-gutters slds-wrap">
                         <div class="slds-form-element" style="margin-top: 30px; margin-left: 10px;">
@@ -78,12 +78,12 @@
                                 </div>
                             </div>
                         </div>
-
+                        
                         <aura:if isTrue="{!v.needsGuardian}">
                             <div class="slds-col slds-size--2-of-2 ap-section-title" style="size: 16px; margin-top: 15px">
                                 <label>{!$Label.c.PG_Ref_L_Delegate_Information}</label>
                             </div>
-
+                            
                             <div class="slds-col slds-size--1-of-3 rr-form-element">
                                 <div class="label">
                                     <abbr title="required" class="slds-required">{!v.needsGuardian ? '*' : ''}</abbr>{!$Label.c.PG_AS_F_First_name}
@@ -102,7 +102,7 @@
                             <div class="slds-col slds-size--1-of-3 rr-form-element">
                                 <div class="label"></div>
                             </div>
-
+                            
                             <div class="slds-col slds-size--1-of-3 rr-form-element">
                                 <div class="label">
                                     <abbr title="required" class="slds-required">{!v.needsGuardian ? '*' : ''}</abbr>{!$Label.c.PG_AS_F_Email_address}
@@ -123,9 +123,9 @@
                             <div class="slds-col slds-size--1-of-3 rr-form-element">
                                 <div class="label"></div>
                             </div>
-
+                            
                             <aura:if isTrue="{!v.delegateDuplicateInfo.isDuplicateDelegate || v.delegateDuplicateInfo.contactId || v.delegateDuplicateInfo.participantId}">
-                            <!--<aura:if isTrue="{!true}">-->
+                                <!--<aura:if isTrue="{!true}">-->
                                 <!--<div class="slds-grid slds-wrap delegate-alert-message slds-grid&#45;&#45;vertical-align-center">
                                     <div style="margin-right: 16px">
                                         <img src="{!$Resource.icon_statusAlertOrange}" class="status-alert-icon"/>
@@ -142,7 +142,7 @@
                                 </div>-->
                                 <aura:if isTrue="{!!v.useThisDelegate}">
                                     <div class="slds-col slds-size--1-of-1 rr-form-element">
-                                     <c:DuplicateDelegateMessage delegateDuplicateInfo="{!v.delegateDuplicateInfo}"/>
+                                        <c:DuplicateDelegateMessage delegateDuplicateInfo="{!v.delegateDuplicateInfo}"/>
                                     </div>
                                 </aura:if>
                             </aura:if>
@@ -163,8 +163,8 @@
                             <div class="slds-col slds-size--1-of-3 rr-form-element">
                                 <div class="label"></div>
                             </div>
-
-                                <!--<div class="slds-grid slds-wrap slds-size&#45;&#45;7-of-12 slds-large-size&#45;&#45;1-of-1 slds-grid_vertical-align-end healthcare-form-container provider-found-section">
+                            
+                            <!--<div class="slds-grid slds-wrap slds-size&#45;&#45;7-of-12 slds-large-size&#45;&#45;1-of-1 slds-grid_vertical-align-end healthcare-form-container provider-found-section">
                                     <div class="slds-col slds-size&#45;&#45;4-of-12">
                                         {!$Label.c.Delegate_Found}
                                     </div>
@@ -174,7 +174,7 @@
                                 </div>-->
                         </aura:if>
                     </div>
-
+                    
                     <!-- Added for 1936-->
                     <div class="slds-grid slds-gutters slds-wrap">
                         <div class="slds-form-element" style="margin-top: 20px; margin-left: 10px;">
@@ -234,7 +234,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        
                         <div class="slds-grid slds-gutters slds-wrap">
                             <div class="slds-form-element" style="margin-left: 10px;">
                                 <div class="slds-form-element__control">
@@ -250,42 +250,36 @@
                             </div>
                         </div>
                     </aura:if>
-
-
-
-                    <!--End-->
-                    <aura:if isTrue="{!v.communityWithPPInv}">
-                        <aura:if isTrue="{!and(v.doContact, v.ss.Study_Site_Type__c != 'Virtual')}">
-                            <aura:if isTrue="{!(v.participant.Email__c &amp;&amp; v.participant.Adult__c) || (v.needsGuardian &amp;&amp; v.participant.Health_care_proxy_is_needed__c)}">
-                                <div class="slds-grid slds-gutters slds-wrap">
-                                    <div class="slds-form-element" style="margin-top: 20px; margin-left: 10px;">
-                                        <div class="slds-form-element__control">
+                    
+                    <aura:if isTrue="{!v.communityWithPPInv}">                    
+                        <div class="slds-grid slds-gutters slds-wrap">
+                        <div class="slds-form-element" style="margin-top: 20px; margin-left: 10px;">
+                            <div class="slds-form-element__control">
                                 <span class="slds-form-element__label-for-checkbox">
                                     <Strong>{!$Label.c.PG_Ref_L_Invitation_To_PP}</Strong></span>
-                                        </div>
-                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End-->
+                    <div class="slds-grid slds-gutters slds-wrap">
+                        <div class="slds-form-element" style="margin-top: 20px; margin-left: 10px;">
+                            <div class="slds-form-element__control">
+                                <div class="slds-checkbox">
+                                    <input type="checkbox" name="options" id="checkbox-unique-id-73"
+                                           value="checkbox-unique-id-73" checked="{!v.createUsers}" onclick="{!c.doCreateUserInv}" disabled="{!!v.doContact}"/>
+                                    <label class="slds-checkbox__label" for="checkbox-unique-id-73">
+                                        <span class="slds-checkbox_faux"></span>
+                                        <span class="slds-form-element__label-for-checkbox">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal}</span>
+                                    </label>
                                 </div>
-                                <div class="slds-grid slds-gutters slds-wrap">
-                                <div class="slds-form-element" style="margin-top: 30px; margin-left: 10px;">
-                                        <div class="slds-form-element__control">
-                                        <div class="slds-checkbox">
-                                            <input type="checkbox" name="options" id="checkbox-unique-id-73"
-                                                   value="checkbox-unique-id-73" checked="{!v.createUsers}" onclick="{!c.doCreateUserInv}" disabled="{!!v.doContact}"/>
-                                            <label class="slds-checkbox__label" for="checkbox-unique-id-73">
-                                                <span class="slds-checkbox_faux"></span>
-                                                <span class="slds-form-element__label-for-checkbox">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal}</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                </div>
-                            </aura:if>
-                        </aura:if>
-                    </aura:if>
+                            </div>
+                        </div>
+                    </div>
+                   </aura:if>
                 </div>
             </div>
             <div class="ap-bottom-info">
-
+                
             </div>
             <div class="ap-buttons">
                 <button class="apollo-btn tertiary custom-cancel"
@@ -300,6 +294,6 @@
             <c:CommunityFooter/>
         </div>
     </aura:if>
-
+    
     <c:builderStub aura:id="builderStub"/>
 </aura:component>
