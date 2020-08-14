@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Message to NoCnt Share Social Study Type</label>
+    <protected>false</protected>
+    <values>
+        <field>Description__c</field>
+        <value xsi:type="xsd:string">Someone requested that we share a link with you for the following clinical research study</value>
+    </values>
+    <values>
+        <field>Parameters_Provider__c</field>
+        <value xsi:type="xsd:string">Email_Template_Parameters_From_CTP</value>
+    </values>
+    <values>
+        <field>Recipient_Type__c</field>
+        <value xsi:type="xsd:string">External Email</value>
+    </values>
+</CustomMetadata>

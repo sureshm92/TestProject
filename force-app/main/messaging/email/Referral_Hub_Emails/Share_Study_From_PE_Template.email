@@ -4,9 +4,10 @@
                          language="{!relatedTo.HCP__r.HCP_Contact__r.Language__c}">
 
     <messaging:htmlEmailBody >
-        <c:EmailWireframe recipientId="{!relatedTo.Participant__r.Contact__c}"
-                          recipientLanguage="{!relatedTo.HCP__r.HCP_Contact__r.Language__c}"
-                          shareEmailTemplate="Yes"
+        <c:EmailWireframe recipientId="{!recipient.Id}"
+                          recipientcontactName="{!recipient.Name}"
+                          shareEmailTemplate="Yes" 
+                          recipientLanguage="{!recipient.Language__c}"
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_Share}"
                           greeting="{!$Label.Email_Ext_User_Greeting}"
@@ -18,10 +19,11 @@
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
-        <c:EmailWireframeText recipientId="{!relatedTo.Participant__r.Contact__c}"
+        <c:EmailWireframeText recipientId="{!recipient.Id}"
+                              recipientcontactName="{!recipient.Name}"  
                               recipientName="{!$Label.Email_Guest}"
-                              recipientLanguage="{!relatedTo.HCP__r.HCP_Contact__r.Language__c}"
-                              shareEmailTemplate="Yes"
+                              recipientLanguage="{!recipient.Language__c}"
+                              shareEmailTemplate="Yes" 
                               sourceId="{!relatedTo.Id}"
                               header="{!$Label.Email_Header_Share}"
                               greeting="{!$Label.Email_User_Greeting}"

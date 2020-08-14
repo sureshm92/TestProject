@@ -21,7 +21,7 @@
                     <c:FooterLink label="{!if(or(empty(v.sponsor),v.defaultTC), '', v.sponsor + ' ') + $Label.c.Footer_Link_Privacy_Policy}" link="{!'/privacy-policy?ret='+ v.retUrl + if(v.defaultTC,'&amp;'+'default=true','')}"/>
                 </div>
                 <div class="cf-link">
-                    <c:FooterLink label="{!$Label.c.Footer_Link_Terms_Of_Use}" link="{!'/terms-and-conditions?ret='+ v.retUrl + if(v.defaultTC,'&amp;'+'default=true','')}"/>
+                    <c:FooterLink label="{!if(or(empty(v.sponsor),v.defaultTC), '', v.sponsor + ' ') + $Label.c.Footer_Link_Terms_Of_Use}" link="{!'/terms-and-conditions?ret='+ v.retUrl + if(v.defaultTC,'&amp;'+'default=true','')}"/>
                 </div>
             </div>
             <div class="cf-copyright">{!$Label.c.Footer_T_Copyright}</div>
