@@ -380,62 +380,67 @@ public without sharing class StudySiteTriggerHandler {
     
     @TestVisible
     private static void assignCommunityPermissions(List<Study_Site__c> newList) {
-        Set<Id> piIds = new Set<Id>();
-        Set<Id> ctpIds = new Set<Id>();
+        Map<Id, Set<String>> permNamesByPiIds = new Map<Id, Set<String>>();
+        Map<User, Set<Id>> permSetIdsByUsers = new Map<User, Set<Id>>();
+        Map<Id, Set<Id>> permissionsForUser = new Map<Id, Set<Id>>();
         List<PermissionSetAssignment> psaList = new List<PermissionSetAssignment>();
-        Map<Id, Set<Id>> piIdsByCtpIdsMap = new Map<Id, Set<Id>>();
-        for (Integer i = 0, j = newList.size(); i < j; i++) {
-            ctpIds.add(newList[i].Clinical_Trial_Profile__c);
-            if (piIdsByCtpIdsMap.containsKey(newList[i].Clinical_Trial_Profile__c)) {
-                piIdsByCtpIdsMap.get(newList[i].Clinical_Trial_Profile__c).add(newList[i].Principal_Investigator__c);
+
+        Map<Id, Study_Site__c> ssByIds = new Map<Id, Study_Site__c>([
+                SELECT Id, Clinical_Trial_Profile__r.CommunityTemplate__c
+                FROM Study_Site__c
+                WHERE Id IN: newList
+        ]);
+
+        for (Study_Site__c ss : newList) {
+            if (!permNamesByPiIds.containsKey(ss.Principal_Investigator__c)) {
+                permNamesByPiIds.put(ss.Principal_Investigator__c, new Set<String>());
+            }
+            String commTemplate = ssByIds.get(ss.Id).Clinical_Trial_Profile__r.CommunityTemplate__c;
+            if (commTemplate.equals(CommunityTemplateService.TEMPLATE_JANSSEN)) {
+                permNamesByPiIds.get(ss.Principal_Investigator__c).add(CommunityTemplateService.PERMISSION_COMMUNITY_JANSSEN_NAME);
             } else {
-                piIdsByCtpIdsMap.put(newList[i].Clinical_Trial_Profile__c, new Set<Id>{
-                        newList[i].Principal_Investigator__c
-                });
+                permNamesByPiIds.get(ss.Principal_Investigator__c).add(CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME);
             }
         }
-        if (!ctpIds.isEmpty()) {
-            for (Clinical_Trial_Profile__c ctp : [
-                    SELECT Id
-                    FROM Clinical_Trial_Profile__c
-                    WHERE CommunityTemplate__c = : CommunityTemplateService.TEMPLATE_JANSSEN AND Id IN :ctpIds
-            ]) {
-                piIds.addAll(piIdsByCtpIdsMap.get(ctp.Id));
-            }
-        }
-        if (!piIds.isEmpty()) {
+
+        if (!permNamesByPiIds.isEmpty()) {
             List<User> users = [
-                    SELECT Id, (
-                            SELECT Id,
-                                    PermissionSet.Name,
-                                    PermissionSetId
-                            FROM PermissionSetAssignments
-                    )
+                    SELECT Id, ContactId, (
+                            SELECT Id, PermissionSet.Name, PermissionSetId
+                            FROM PermissionSetAssignments)
                     FROM User
-                    WHERE ContactId IN:piIds AND IsActive = TRUE
+                    WHERE ContactId IN:permNamesByPiIds.keySet() AND IsActive = TRUE
             ];
-            Set<Id> usersToAddPermissions = new Set<Id>();
-            Id permissionSetId = [
-                    SELECT Id,
-                            Name
-                    FROM PermissionSet
-                    WHERE Name = : CommunityTemplateService.PERMISSION_COMMUNITY_JANSSEN_NAME
-                    LIMIT 1
-            ].Id;
-            for (User u : users) {
-                Boolean permissionAdded = false;
-                for (PermissionSetAssignment psa : u.PermissionSetAssignments) {
-                    if (psa.PermissionSetId == permissionSetId) permissionAdded = true;
-                    break;
+
+            for (User user : users) {
+                if(!permSetIdsByUsers.containsKey(user)) permSetIdsByUsers.put(user, new Set<Id>());
+                for (PermissionSetAssignment psa : user.PermissionSetAssignments) {
+                    permSetIdsByUsers.get(user).add(psa.PermissionSetId);
                 }
-                if (permissionAdded == false) usersToAddPermissions.add(u.Id);
             }
-            if (!usersToAddPermissions.isEmpty()) {
-                for (Id userId : usersToAddPermissions) {
-                    psaList.add(new PermissionSetAssignment(
-                            AssigneeId = userId,
-                            PermissionSetId = permissionSetId
-                    ));
+
+            List<PermissionSet> permissionSets = [
+                    SELECT Id, Name
+                    FROM PermissionSet
+                    WHERE Name IN :(new List<String>{CommunityTemplateService.PERMISSION_COMMUNITY_JANSSEN_NAME, CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME})
+            ];
+            for (User u : users) {
+                for (PermissionSet ps : permissionSets) {
+                    if (!permSetIdsByUsers.get(u).contains(ps.Id) && permNamesByPiIds.get(u.ContactId).contains(ps.Name)) {
+                        if(!permissionsForUser.containsKey(u.Id)) permissionsForUser.put(u.Id, new Set<Id>());
+                        permissionsForUser.get(u.Id).add(ps.Id);
+                    }
+                }
+            }
+
+            if (!permissionsForUser.isEmpty()) {
+                for (Id userId : permissionsForUser.keySet()) {
+                    for (Id permId : permissionsForUser.get(userId)) {
+                        psaList.add(new PermissionSetAssignment(
+                                AssigneeId = userId,
+                                PermissionSetId = permId
+                        ));
+                    }
                 }
             }
         }
