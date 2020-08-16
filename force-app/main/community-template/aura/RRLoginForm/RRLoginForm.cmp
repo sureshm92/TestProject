@@ -231,7 +231,7 @@
             <!-- Added By Krishna for PEH-2451 :Start --> 
             <br/>
             <div id="sfdc_forgot" class="slds-align_absolute-center"> 
-                <a class="forgot-password-link" onclick = "{!c.openPrivacyPolicy}">{!isJanssen ? $Label.c.Email_Footer_Privacy_Policy_Janssen : $Label.c.Email_Footer_Privacy_Policy}</a>
+                <a class="forgot-password-link" onclick = "{!c.openPrivacyPolicy}">{!v.isJanssen ? $Label.c.Email_Footer_Privacy_Policy_Janssen : $Label.c.Email_Footer_Privacy_Policy}</a>
             </div>
             <br/>
 			<!-- Added By Krishna for PEH-2451 :End  --> 
