@@ -24,9 +24,11 @@
     position: relative;
     display: inline;
 }
+
 .nic-container:hover{
     cursor: default;
 }
+
 .nic-container:focus{
     outline: none;
 }
