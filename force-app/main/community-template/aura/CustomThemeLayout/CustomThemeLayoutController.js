@@ -7,7 +7,6 @@
         if (communityService.isInitialized()) {
             communityService.executeAction(component, 'checkStudyMessage', null,
                 function (returnValue) {
-                    console.log('ZAZAZA', returnValue);
                     component.set('v.hasMessage', returnValue);
                 });
             setTimeout(
