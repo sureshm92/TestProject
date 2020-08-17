@@ -1274,10 +1274,10 @@ select.rr-select-error,
     -webkit-box-orient: vertical;
 }
 .unsNotificationsListRow .assistive-unread-mark {
-    color: #DF216D !important;
+    color: blue !important;
 }
 .assistive-unread-mark {
-    color: #DF216D !important;
+    color: blue !important;
 }
 .uiPanel .uiButton.closeBtn {
     position: absolute;
@@ -1312,7 +1312,7 @@ select.rr-select-error,
 }
 .uiPanel.open, .uiPanel.transitioning {
     margin: 0% 3% 2% 4% !important;
-    position: absolute !important;
+    position: fixed !important;
     top: 3.1rem !important;
 	border-radius: 0 0 4px 4px !important;
 	z-index: 1000000 !important;
@@ -1338,7 +1338,7 @@ background-color: rgba(41,125,253,0.08) !important;
 
 }
 .unsNotificationsListRow .assistive-unread-mark {
-    color: #DF216D !important;
+    color: blue !important;
 }
 .unsNotificationsListRow .notification-age {
     color: #696969;
@@ -1580,7 +1580,7 @@ input[type=password]::-ms-clear
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
 .uiPanel.open, .uiPanel.transitioning {
     margin: 0% 3% 2% 4% !important;
-    position: absolute !important;
+    position: fixed !important;
     top: 7% !important;
 	border-radius: 0 0 4px 4px !important;
 	z-index: 100000 !important;
@@ -1592,7 +1592,7 @@ input[type=password]::-ms-clear
 @media only screen and (min-width: 1024px) and (max-width: 1366px){
 .uiPanel.open, .uiPanel.transitioning {
     margin: 0% 3% 2% 4% !important;
-    position: absolute !important;
+    position: fixed !important;
     top: 6% !important;
 	border-radius: 0 0 4px 4px !important;
 	z-index: 100000 !important;
@@ -1604,7 +1604,7 @@ input[type=password]::-ms-clear
 @media only screen and (min-width: 768px) and (max-width: 1023px){
 .uiPanel.open, .uiPanel.transitioning {
     margin: 0% 3% 2% 4% !important;
-    position: absolute !important;
+    position: fixed !important;
     top: 7% !important;
 	border-radius: 0 0 4px 4px !important;
 	z-index: 100000 !important;
@@ -1615,7 +1615,7 @@ input[type=password]::-ms-clear
 @media only screen and (min-width: 480px) and (max-width: 767px){
 .uiPanel.open, .uiPanel.transitioning {
     margin: 0% 3% 2% 4% !important;
-    position: absolute !important;
+    position: fixed !important;
     top: 7% !important;
 	border-radius: 0 0 4px 4px !important;
 	z-index: 100000 !important;
@@ -1626,7 +1626,7 @@ input[type=password]::-ms-clear
 @media only screen and (min-width: 0px) and (max-width: 479px){
 .uiPanel.open, .uiPanel.transitioning {
     margin: 0% 3% 2% 4% !important;
-    position: absolute !important;
+    position: fixed !important;
     /*top: 6% !important;*/
     border-radius: 0 0 4px 4px !important;
 	z-index: 100000 !important;
@@ -1656,10 +1656,23 @@ input[type=password]::-ms-clear
         height: .9rem;
     }
 }
+.unsNotificationsListRow:first-child {
+     border-top-left-radius: 0 !important; 
+     border-top-right-radius: 0 !important; 
+     border-top : none !important;
+}
+.unsNotificationsCounter .countDot {
+    position: absolute;
+    top: -.5rem;
+    right: -.25rem;
+    border-radius: .5rem;
+    background-color: #DF216D !important;
+}
+
 @media all and (min-width: 1024px) {
 .uiPanel.open, .uiPanel.transitioning {
 	margin: 0% 3% 2% 1% !important;
-    position: absolute !important;
+    position: fixed !important;
     top: 3% !important;
     border-radius: 0 0 4px 4px !important;
     z-index: 1 !important;

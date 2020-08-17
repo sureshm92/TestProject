@@ -8,11 +8,53 @@
             </value>
         </processMetadataValues>
         <name>myRule_1_A1</name>
-        <label>Create a Case</label>
+        <label>Create Case</label>
         <locationX>100</locationX>
         <locationY>200</locationY>
         <actionName>CaseCreator</actionName>
         <actionType>apex</actionType>
+        <inputParameters>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>ID</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>contactIds</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>maxOccurs</name>
+                <value>
+                    <numberValue>1.0</numberValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>objectType</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Reference</stringValue>
+                </value>
+            </processMetadataValues>
+            <name>contactIds</name>
+            <value>
+                <elementReference>myVariable_current.ContactId</elementReference>
+            </value>
+        </inputParameters>
     </actionCalls>
     <decisions>
         <processMetadataValues>
@@ -251,7 +293,7 @@
             <label>Previously Met - Prev</label>
         </rules>
     </decisions>
-    <interviewLabel>Create_a_Case_if_User_is_Locked_out-1_InterviewLabel</interviewLabel>
+    <interviewLabel>Create_a_Case_if_User_is_Locked_out-2_InterviewLabel</interviewLabel>
     <label>Create a Case if User is Locked out</label>
     <processMetadataValues>
         <name>ObjectType</name>
