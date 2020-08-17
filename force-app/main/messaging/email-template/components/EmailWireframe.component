@@ -78,7 +78,7 @@
                     {!$Label.Email_Opt_Out_footer} <a
                                                       href="{!$Label.CommunityURL+communityTypeURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}">{!$Label.Email_Opt_Out_footer_here}</a>
             </div> 
-                      <div style="font-style:italic;font-size:13px;font-weight:500;color:#585858;float:left;">
+                      <div style="font-style:italic;font-size:13px;font-weight:500;color:#333333;float:left;">
                     {!$Label.Email_Opt_Out_footer_medical_emergency}        
            </div>
    

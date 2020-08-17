@@ -23,7 +23,7 @@ public class Test_ViewMediaResult {
             LIMIT 1
         ];
         User admin = [SELECT Id, Username, UserRoleId FROM User WHERE Profile.Name = 'System Administrator'
-            AND UserRoleId =: userRole_1.Id LIMIT 1
+            AND UserRoleId =: userRole_1.Id AND IsActive = TRUE LIMIT 1
         ];
         User user_1;
         System.runAs(admin) {

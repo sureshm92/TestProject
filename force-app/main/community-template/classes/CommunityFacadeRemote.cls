@@ -105,6 +105,48 @@ public without sharing class CommunityFacadeRemote {
             return (Boolean) AuraHelper.throwException(e);
         }
     }
+    @AuraEnabled
+    public static Boolean checkStudyMessage() {
+        Id id = UserContext.getUserContactId();
+        String sponsorName = UserContext.getCurrentCommunityTemplate().templateName;
+        String query = 'SELECT Id, Messages_Are_Available__c, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Study_Site__c WHERE  Principal_Investigator__c =: id AND ';
+        if (sponsorName == CommunityTemplateService.TEMPLATE_JANSSEN) {
+            query += 'Clinical_Trial_Profile__r.CommunityTemplate__c = \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
+
+        } else {
+            query += 'Clinical_Trial_Profile__r.CommunityTemplate__c != \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
+        }
+        List<Study_Site__c> studies = new List<Study_Site__c>();
+        studies = Database.query(query);
+        for (Study_Site__c study: studies) {
+            if (study.Messages_Are_Available__c) return true;
+        }
+        return false;
+
+        /*if (sponsorName == CommunityTemplateService.TEMPLATE_JANSSEN) {
+            List<Study_Site__c> studies = new List<Study_Site__c>([SELECT Id,
+                                                                          Messages_Are_Available__c,
+                                                                          Clinical_Trial_Profile__r.CommunityTemplate__c
+                                                                   FROM   Study_Site__c
+                                                                   WHERE  Principal_Investigator__c =: id
+                                                                   AND    Clinical_Trial_Profile__r.CommunityTemplate__c =: CommunityTemplateService.TEMPLATE_JANSSEN ]);
+            for (Study_Site__c study: studies) {
+                if (study.Messages_Are_Available__c) return false;
+            }
+            return false;
+        } else {
+            List<Study_Site__c> studies = new List<Study_Site__c>([SELECT Id,
+                                                                          Messages_Are_Available__c,
+                                                                          Clinical_Trial_Profile__r.CommunityTemplate__c
+                                                                   FROM   Study_Site__c
+                                                                   WHERE  Principal_Investigator__c =: id
+                                                                   AND    Clinical_Trial_Profile__r.CommunityTemplate__c !=: CommunityTemplateService.TEMPLATE_JANSSEN ]);
+            for (Study_Site__c study : studies) {
+                if (study.Messages_Are_Available__c) return true;
+            }
+            return true;
+        }*/
+    }
 
     @AuraEnabled
     public static CommunityUserVisibility getCommunityUserVisibility() {
