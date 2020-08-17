@@ -111,7 +111,7 @@ public without sharing class AddPatientByPIRemote {
     }
 
     @Future
-    private static void updateParticipant(String participantJSON) {
+    @TestVisible private static void updateParticipant(String participantJSON) {
         Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
 
         if (participant.Email__c != null && participant.First_Name__c != null && participant.Last_Name__c != null) {
@@ -141,7 +141,7 @@ public without sharing class AddPatientByPIRemote {
     }
 
     @Future
-    private static void createParticipantDelegate(String participantDelegateJSON, String delegateDuplicateInfo, String participantId, String participantJSON) {
+    @TestVisible private static void createParticipantDelegate(String participantDelegateJSON, String delegateDuplicateInfo, String participantId, String participantJSON) {
         Participant__c participant = (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);
         Participant__c participantDelegate;
         if (!String.isBlank(participantDelegateJSON)) {
