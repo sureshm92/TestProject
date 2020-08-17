@@ -10,7 +10,7 @@
                           recipientLanguage="{!relatedTo.HCP__r.HCP_Contact__r.Language__c}"
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_Share}"
-                          greeting="{!$Label.Email_Ext_User_Greeting}"
+                          greeting="{!$Label.Email_User_Greeting}"
                           signature="{!$Label.Email_Signature_PT}">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Share}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_Trial_Details}"
