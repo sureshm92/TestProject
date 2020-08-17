@@ -6269,6 +6269,13 @@ The NYBC Convalescent Plasma Donation Team</value>
         <value>Privacy Policy</value>
     </labels>
     <labels>
+        <fullName>Footer_Link_Privacy_Policy_Janssen</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Footer Link Privacy Policy</shortDescription>
+        <value>Janssen Privacy Policy</value>
+    </labels>
+    <labels>
         <fullName>Footer_Link_Terms_Of_Use</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7632,6 +7639,13 @@ The expected format is REF#####</value>
         <protected>true</protected>
         <shortDescription>contact has user</shortDescription>
         <value>Invited</value>
+    </labels>
+    <labels>
+        <fullName>Janssen_Community_Login_Page</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Janssen Community Login Page</shortDescription>
+        <value>Janssen Investigator Community</value>
     </labels>
     <labels>
         <fullName>Janssen_Community_Template_Name</fullName>

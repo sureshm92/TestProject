@@ -1,10 +1,11 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_Share_By_RP}"
-                         recipientType="User"
+                         recipientType="Contact"
                          relatedToType="HCP_Enrollment__c"
                          language="{!relatedTo.HCP_Contact__r.Language__c}">
 
     <messaging:htmlEmailBody >
         <c:EmailWireframe recipientId="{!recipient.Id}"
+                          recipientcontactName="{!recipient.Name}"   
                           recipientName="{!$Label.Email_Guest}"
                           recipientLanguage="{!relatedTo.HCP_Contact__r.Language__c}"
                           shareEmailTemplate="Yes"

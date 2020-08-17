@@ -3,13 +3,10 @@
  -->
 
 <aura:component description="CookiesInfo">
-
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
     <!-- attributes: -->
     <aura:attribute name="resultInfoText" type="String"/>
     <aura:attribute name="visible" type="Boolean" default="false"/>
-
-    <!-- handlers: -->
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     <aura:registerEvent name="cmpEvent" type="c:TCCookieClassesRemove"/>
 

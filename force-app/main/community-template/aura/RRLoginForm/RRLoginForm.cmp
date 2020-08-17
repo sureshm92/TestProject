@@ -30,6 +30,7 @@
     <aura:attribute name="paddingTop" type="String" access="private" default="40px"/>
     <aura:attribute name="isOpen" type="boolean" default="false"/> <!-- Added by Krishna Mahto - PEH-1910 -->
     <aura:attribute name="isGSKCommunity" type="boolean" default="false"/> <!-- Added by Krishna Mahto - PEH-1910 -->
+    <aura:attribute name="isJanssen" type="boolean" default="false"/>
     <aura:attribute name="ieClass" type="String" access="private" default=""/>
 
     <aura:registerevent name="sitePropagatedStartUrl" type="c:setStartUrl"/>
@@ -230,7 +231,7 @@
             <!-- Added By Krishna for PEH-2451 :Start --> 
             <br/>
             <div id="sfdc_forgot" class="slds-align_absolute-center"> 
-                <a class="forgot-password-link" onclick = "{!c.openPrivacyPolicy}">{!$Label.c.Email_Footer_Privacy_Policy}</a>
+                <a class="forgot-password-link" onclick = "{!c.openPrivacyPolicy}">{!v.isJanssen ? $Label.c.Email_Footer_Privacy_Policy_Janssen : $Label.c.Email_Footer_Privacy_Policy}</a>
             </div>
             <br/>
 			<!-- Added By Krishna for PEH-2451 :End  --> 

@@ -5,6 +5,7 @@
 
     <messaging:htmlEmailBody >
         <c:EmailWireframe recipientId="{!recipient.Id}"
+                          recipientcontactName="{!recipient.Name}"
                           recipientName="{!$Label.Email_Guest}"
                           recipientLanguage="{!recipient.Language__c}"
                           shareEmailTemplate="Yes"

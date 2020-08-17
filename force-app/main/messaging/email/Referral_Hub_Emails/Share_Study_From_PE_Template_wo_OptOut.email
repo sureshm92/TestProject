@@ -1,0 +1,37 @@
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Share_By_RP}"
+                         recipientType="Contact"
+                         relatedToType="Participant_Enrollment__c"
+                         language="{!relatedTo.HCP__r.HCP_Contact__r.Language__c}">
+
+    <messaging:htmlEmailBody >
+        <c:EmailWireframe recipientId="{!recipient.Id}"
+                          recipientcontactName="{!recipient.Name}"
+                          OptOut="No" 
+                          recipientLanguage="{!relatedTo.HCP__r.HCP_Contact__r.Language__c}"
+                          sourceId="{!relatedTo.Id}"
+                          header="{!$Label.Email_Header_Share}"
+                          greeting="{!$Label.Email_Ext_User_Greeting}"
+                          signature="{!$Label.Email_Signature_PT}">
+            <c:Paragraph emailLabel="{!$Label.Email_Body_Share}"/>
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_Trial_Details}"
+                              buttonURL="{!relatedTo.Study_Site__r.Clinical_Trial_Profile__r.Share_URL__c}"/>
+        </c:EmailWireframe>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody >
+        <c:EmailWireframeText recipientId="{!recipient.Id}"
+                              recipientName="{!$Label.Email_Guest}"
+                              recipientcontactName="{!recipient.Name}"
+                              recipientLanguage="{!relatedTo.HCP__r.HCP_Contact__r.Language__c}"
+                              OptOut="No" 
+                              sourceId="{!relatedTo.Id}"
+                              header="{!$Label.Email_Header_Share}"
+                              greeting="{!$Label.Email_User_Greeting}"
+                              signature="{!$Label.Email_Signature_PT}">
+            <c:ParagraphText emailLabel="{!$Label.Email_Body_Share}"/>
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_Trial_Details}"
+                                  buttonURL="{!relatedTo.Study_Site__r.Clinical_Trial_Profile__r.Share_URL__c}"/>
+        </c:EmailWireframeText>
+    </messaging:plainTextEmailBody>
+
+</messaging:emailTemplate>
