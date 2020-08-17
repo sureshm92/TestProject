@@ -115,6 +115,25 @@ public without sharing class Action_InviteRPRemote {
         return result;
     }
 
+    public static List<PIOptionWrapper> getPIForInvetation(String communityTemplateName){
+        List<PIOptionWrapper> result = new List<PIOptionWrapper>();
+        Map<Id,String> piOtions = new Map<Id,String>();
+        for (Site_Staff__c sstaff : [
+                SELECT Study_Site__r.Principal_Investigator__c,
+                        Study_Site__r.Principal_Investigator__r.Name
+                FROM Site_Staff__c
+                WHERE Site_Contact__c = :CommunityService.getUserContact().Id AND Delegate_Level__c = 'Level 1'
+                AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c =: communityTemplateName
+        ]){
+            piOtions.put(sstaff.Study_Site__r.Principal_Investigator__c, sstaff.Study_Site__r.Principal_Investigator__r.Name);
+            //inviteDetail.PIForInvetation.add(new PIOptionWrapper(sstaff.Study_Site__r.Principal_Investigator__c, sstaff.Study_Site__r.Principal_Investigator__r.Name));
+        }
+        for(Id i : piOtions.keySet()){
+            result.add(new PIOptionWrapper(piOtions.get(i), i));
+        }
+        return result;
+    }
+
     public class InviteDetail {
         public  List<SiteWrapper> studySitesForInvitation;
         @AuraEnabled public List<PIOptionWrapper> PIForInvetation;

@@ -24,7 +24,7 @@ private  class Test_NewMediaOutReach {
         insert piContact;
        UserRole userRole_1 = [SELECT Id FROM UserRole WHERE Name = 'View All' LIMIT 1];
         Profile profile_1 = [SELECT Id FROM Profile WHERE Name = 'IQVIA Customer Community Plus Login User' LIMIT 1];
-        ID admin = [SELECT Id, Username, UserRoleId FROM User WHERE Profile.Name = 'System Administrator' AND UserRoleId = :userRole_1.Id LIMIT 1].id;
+        ID admin = [SELECT Id, Username, UserRoleId FROM User WHERE Profile.Name = 'System Administrator' AND UserRoleId = :userRole_1.Id AND IsActive = TRUE LIMIT 1].id;
       
         Clinical_Trial_Profile__c testStudy = new Clinical_Trial_Profile__c(
             Protocol_ID__c = 'tt123456790',
@@ -82,7 +82,7 @@ private  class Test_NewMediaOutReach {
         
         UserRole userRole_1 = [SELECT Id FROM UserRole WHERE Name = 'View All' LIMIT 1];
         Profile profile_1 = [SELECT Id FROM Profile WHERE Name = 'IQVIA Customer Community Plus Login User' LIMIT 1];
-        User admin = [SELECT Id, Username, UserRoleId FROM User WHERE Profile.Name = 'System Administrator' AND UserRoleId = :userRole_1.Id LIMIT 1];
+        User admin = [SELECT Id, Username, UserRoleId FROM User WHERE Profile.Name = 'System Administrator' AND UserRoleId = :userRole_1.Id AND IsActive = TRUE LIMIT 1];
         User user_1;
         System.runAs(admin) {
             Account usraccount = new Account( Name = 'Community');

@@ -3,13 +3,13 @@
  */
 public without sharing class MyReferringClinicsController {
     @AuraEnabled
-    public static String getInitData(String trialId, String ssId) {
+    public static String getInitData(String trialId, String ssId, String communityTemplateName) {
         InitData initData;
         try {
             initData = new InitData(trialId, ssId);
             getInitDataEnrollments(initData);
             if(CommunityService.getUserContact().UserCommunityIsDelegate__c) {
-                initData.isButtonDisabled = Action_InviteRPRemote.getPIForInvetation().isEmpty();
+                initData.isButtonDisabled = Action_InviteRPRemote.getPIForInvetation(communityTemplateName).isEmpty();
             } else {
                 initData.isButtonDisabled = false;
             }
