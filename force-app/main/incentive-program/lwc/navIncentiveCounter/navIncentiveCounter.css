@@ -24,17 +24,21 @@
     position: relative;
     display: inline;
 }
+
 .nic-container:hover{
     cursor: default;
 }
+
 .nic-container:focus{
     outline: none;
 }
+
 :host {
     display: inline-flex;
     height: 100%;
-    width: 50px;
+    width: auto;
 }
+
 .nic-points{
     padding-left: 5px;
     display: inline-block;

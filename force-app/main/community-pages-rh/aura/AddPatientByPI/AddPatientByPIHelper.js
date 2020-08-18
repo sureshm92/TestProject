@@ -23,8 +23,8 @@
         component.set('v.needsGuardian', false);
         component.set('v.emailInstance', '');
         component.find('checkbox-delegate').getElement().checked = false;
-        component.find('checkbox-Contact').getElement().checked = true;
-        component.set('v.doContact', true);
+        component.find('checkbox-doContact').getElement().checked = true;
+        //component.set('v.doContact', true);
     },
 
     createParticipant: function (component, callback) {
