@@ -59,4 +59,10 @@ public without sharing class ApplicationHelpRemote {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
+    @AuraEnabled
+    public static String getPdfDonload(String titleName) {
+        Id recId =[Select Id FROM Resource__c WHERE Title__c=: titleName].Id;
+        Id docId =[SELECT ContentDocumentId,LinkedEntityId  FROM ContentDocumentLink where LinkedEntityId =:recId].ContentDocumentId;
+        return docId;
+    }
 }

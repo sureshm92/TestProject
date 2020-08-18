@@ -1,0 +1,31 @@
+<!--
+ - Created by Anshuman Mishra
+ -->
+
+<apex:component id="EmailTemplatePendingParticipants" controller="EmailTemplatePendingPartController" access="global" >
+
+    <!-- attributes: -->
+    <apex:attribute name="sourceId" type="Id" assignTo="{!sourceIdValue}" description="" access="global"/>
+    <!-- component body:--> 
+    
+    <apex:outputPanel >
+    <br/><br/>
+    <table style="width: 100%;table-layout: fixed; border-collapse: collapse;">
+        <apex:repeat value="{!participants}" var="studyLevel">
+            <tr>
+                <td style="font-weight: bold;border-bottom: 0.5px solid #979797;border-top: 0.5px solid #979797; width: 80%;padding: 10px 0 10px 0">
+                        {!studyLevel.studyName}
+                </td>
+                <td style="border-bottom: 0.5px solid #979797;border-top: 0.5px solid #979797; width: 20%; padding: 10px 0 10px 0">
+                    {!studyLevel.refId}
+                </td>
+                <td style="border-bottom: 0.5px solid #979797;border-top: 0.5px solid #979797; width: 20%; padding: 10px 0 10px 0">
+                    {!studyLevel.lastRecievedDate}
+                </td>
+            </tr>
+        </apex:repeat>
+    </table>
+    </apex:outputPanel>
+    <br/><br/>
+
+</apex:component>
