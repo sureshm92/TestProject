@@ -261,6 +261,8 @@ public with sharing class TrialSearchHelper {
         Set<Id> ssIds = this.getUsersQCareSiteIds();
         TrialSearchWhereClauseFactory factory = (TrialSearchWhereClauseFactory) ClassFactory.newInstance(TrialSearchWhereClauseFactory.class);
         String whereClause = factory.getInstance(new List<Id>(taId), isEnrolling, isNotYetEnrolling, ssIds).getWhereClause();
+        
+        whereClause += ' and CommunityTemplate__c != \''+ CommunityTemplateService.TEMPLATE_JANSSEN +'\'';
         String orderBy = ' ORDER BY Enrollment_Start_Date__c';
         String queryCTP = 'SELECT ' +
                 'Therapeutic_Area__c, ' +
