@@ -12,10 +12,10 @@
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_Share_PH}"
                           title="{!$Label.Email_Title_PH}"
-                          greeting="{!$Label.Email_User_Greeting}"
+                          greeting="{!$Label.Email_Ext_User_Greeting}"
                           signature="{!$Label.Email_Signature_Resource}">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Share_Resource}"/>
-            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_Resource}"
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Label_View_Information}"
                               buttonURL="{!relatedTo.article_external_link__c }"/>
         </c:EmailWireframe>
     </messaging:htmlEmailBody>
@@ -29,10 +29,10 @@
                               sourceId="{!relatedTo.Id}"
                               header="{!$Label.Email_Header_Share_PH}"
                               title="{!$Label.Email_Title_PH}"
-                              greeting="{!$Label.Email_User_Greeting}"
+                              greeting="{!$Label.Email_Ext_User_Greeting}"
                               signature="{!$Label.Email_Signature_Resource}">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_Share_Resource}"/>
-            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_Resource}"
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Label_View_Information}"
                                   buttonURL="{!relatedTo.article_external_link__c }"/>
         </c:EmailWireframeText>
     </messaging:plainTextEmailBody>

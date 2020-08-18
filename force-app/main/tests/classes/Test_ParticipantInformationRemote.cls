@@ -56,7 +56,40 @@ private class Test_ParticipantInformationRemote {
         }
         Test.stopTest();
     }
-    
+
+    @IsTest
+    static void testUpdateParticipant() {
+        Participant__c participant = new Participant__c();
+        participant.Email__c = 'Test01@mail.ru';
+        participant.First_Name__c = 'testName';
+        participant.Last_Name__c = 'testLastName';
+        participant.Suffix__c = 'S';
+        participant.Middle_Name__c = 'Mr';
+        insert participant;
+        Test.startTest();
+        AddPatientByPIRemote.updateParticipant(JSON.serialize(participant));
+        Test.stopTest();
+    }
+    @IsTest
+    static void testCreateParticipantDelegate() {
+        Participant__c participant = new Participant__c();
+        participant.Email__c = 'Test01@mail.ru';
+        participant.First_Name__c = 'testName';
+        participant.Last_Name__c = 'testLastName';
+        participant.Suffix__c = 'S';
+        participant.Middle_Name__c = 'Mr';
+
+        Participant__c participantDel = new Participant__c();
+        participantDel.Email__c = 'Test01@mail.ru';
+        participantDel.First_Name__c = 'testName';
+        participantDel.Last_Name__c = 'testLastName';
+        participantDel.Phone__c = '141241';
+        participantDel.Phone_Type__c = 'Home';
+        Test.startTest();
+        AddPatientByPIRemote.createParticipantDelegate(JSON.serialize(participantDel), null, participant.Id, JSON.serialize(participant));
+        Test.stopTest();
+    }
+
     @IsTest
     static void updateStateCC() {
         TestData testData = new TestData();

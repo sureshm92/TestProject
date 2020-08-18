@@ -25,7 +25,6 @@ private class Test_AccountSettingsController {
 
     @IsTest
     static void getInitData() {
-        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class);
         TestData testData = new TestData();
         Contact con = [
                 SELECT Id, AccountId, MailingCountryCode, Participant_Opt_In_Status_SMS__c
@@ -58,7 +57,7 @@ private class Test_AccountSettingsController {
             AccountSettingsController.PersonWrapper personWrapper = initData.contactSectionData.personWrapper;
             AccountSettingsController.changeOptInSMS(personWrapper.isOptInSMS());
             AccountSettingsController.updatePerson(JSON.serialize(personWrapper));
-            personWrapper = new AccountSettingsController.PersonWrapper(initData.myContact, null);
+            personWrapper = new AccountSettingsController.PersonWrapper(initData.myContact, new Participant__c());
             AccountSettingsController.updatePerson(JSON.serialize(personWrapper));
         }
         Test.stopTest();
