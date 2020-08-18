@@ -12,7 +12,7 @@
     <aura:attribute name="refProvider" type="Contact"/>
     <aura:attribute name="showReferringProvider" type="Boolean"/>
     <aura:attribute name="delegates" type="List"/>
-    <aura:attribute name="communitySponsor" type="String"/>StudyListView
+    <aura:attribute name="communitySponsor" type="String"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.pe}" action="{!c.doInit}"/>
 

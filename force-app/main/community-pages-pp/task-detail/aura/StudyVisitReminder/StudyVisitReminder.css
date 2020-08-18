@@ -52,8 +52,11 @@
 
 }
 
+.THIS .rr-white-panel > .slds-grid.slds-wrap > .slds-col:first-child {
+    margin-bottom: .75rem;
+}
+
 .THIS .slds-form-element__label{
-    padding-bottom: 5px;
     font-size: 14px;
     color: #444;
     font-family: "Proxima Nova";
@@ -63,9 +66,12 @@
     font-size: 14px;
     color: #444;
     font-family: "Proxima Nova";
+    height: 40px;
+    display: flex;
+    align-items: center;
 }
 
-.THIS .slds-checkbox{
+.THIS .slds-checkbox {
     padding-bottom :10px;
 }
 
@@ -74,18 +80,65 @@
     font-family: "Proxima Nova";
 }
 
-.THIS .p-content{
+.THIS .p-content {
     overflow-y: hidden;
 }
 
-.THIS .p-content.with-scroll{
+.THIS .p-content.with-scroll {
     overflow-y: auto;
 }
 
-.THIS .disabledVisit .slds-input{
-    background-color: #d9d9d9;
+.THIS .disabledVisit .slds-input,
+.THIS .disabledVisit .slds-select {
+    background: #f2f2f2;
+    color: #999;
+    opacity: 1;
 }
 
-.THIS .disabledVisit .slds-select {
-    background-color: #d9d9d9;
+.THIS .disabledVisit .slds-form-element__label {
+    opacity: .4;
+}
+
+@media only screen and (max-width: 500px)  and (orientation : portrait) {
+
+    .THIS .rr-white-panel {
+        padding: 20px 0;
+    }
+
+    .THIS.cPopup .p-container .p-footer {
+        padding: 15px 1rem;
+    }
+
+    .THIS .slds-select,
+    .THIS .slds-input {
+        min-width: 95%;
+    }
+
+    .THIS .p-buttons-container > div {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .THIS .p-buttons-container .slds-button:nth-of-type(1) {
+        order: 4;
+        margin-left: 10px;
+        width: 45%;
+    }
+    .THIS .p-buttons-container .slds-button:nth-of-type(2) {
+        order: 1;
+        width: 36%;
+        margin-left: 0;
+    }
+    .THIS .p-buttons-container .slds-button:nth-of-type(3) {
+        order: 2;
+        width: 60%;
+        margin-bottom: 1rem;
+        margin-left: 10px;
+    }
+    .THIS .p-buttons-container .slds-button:nth-of-type(4) {
+        order: 3;
+        width: 51%;
+        margin-bottom: 1rem;
+        margin-left: 0;
+    }
 }

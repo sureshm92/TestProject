@@ -4,6 +4,16 @@
         <apexClass>SiteStaffTableRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Suppress_PI_Emails__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Suppress_Study_Site_PI_Emails__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>PP: Site Staff Invitation Edit</label>
     <license>Salesforce</license>

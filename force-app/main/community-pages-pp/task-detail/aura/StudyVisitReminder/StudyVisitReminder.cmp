@@ -44,7 +44,9 @@
     <aura:handler name="change" value="{!v.initData.activityDate}" action="{!c.doValidateFields}" />
     <aura:handler name="change" value="{!v.initData.reminderDate}" action="{!c.doValidateFields}" />
     <aura:handler name="change" value="{!v.task.Remind_Me__c}" action="{!c.doValidateFields}" />
-
+    <!-- navigation 
+    <lightning:navigation aura:id="navService"/>
+    -->
     <!-- methods -->
     <aura:method name="reloadPopup" action="{!c.doInit}" description="Reload the popup in the parent component">
         <aura:attribute name="relaodAttributes" type="Object" />

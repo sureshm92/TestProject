@@ -140,7 +140,7 @@ public without sharing class UserTriggerHandler {
         {
             Set<Id> piIds = new Set<Id>();
             for (User user : rhUsers) {
-                if (user.Contact.userCommunytyType__c.contains('PI')) {
+                if (!String.isBlank(user.Contact.userCommunytyType__c) && user.Contact.userCommunytyType__c.contains('PI')) {
                     piIds.add(user.ContactId);
                 } else {
                     actionAssignContactPermissions.addPermission(

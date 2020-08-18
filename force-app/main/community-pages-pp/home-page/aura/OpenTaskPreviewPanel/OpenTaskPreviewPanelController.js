@@ -12,11 +12,8 @@
     },
 
     doTaskClick: function (component, event, helper) {
-        debugger;
-        console.log(JSON.stringify(event.currentTarget.dataset));
         let index = event.currentTarget.dataset.index;
         let taskData = component.get('v.tasks')[index];        
-        console.log('doTaskClick taskData: '+JSON.stringify(taskData));
         let taskId = taskData.Id;
         let actionURL = taskData.Action_URL__c;
         let firstLoad = component.get('v.firstLoad');

@@ -1258,7 +1258,115 @@ select.rr-select-error,
 
 /*-------------------------------------------------------- Common -------------------------------------------------------------*/
 .comm-panels-container.uiContainerManager.siteforcePanelsContainer{
+    display: block;
+	margin-top:-10px !important;
+}
+.unsNotificationsListRow .notification-avatar {
+    margin-right: .75rem;
+    float: left;
     display: none;
+}
+.unsNotificationsListRow .notification-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+     display: block !important;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.unsNotificationsListRow .assistive-unread-mark {
+    color: #0768FD !important;
+}
+.assistive-unread-mark {
+    color: #0768FD !important;
+}
+.uiPanel .uiButton.closeBtn {
+    position: absolute;
+    right: 0;
+    font-family: Arial;
+    font-size: 25px;
+    overflow: visible;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    top: 0;
+    z-index: 9001;
+    color: grey;
+}
+.unsNotificationsPanel .titleAction a {
+    min-width: 20%;
+    padding: .5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.unsNotificationsPanel .titleName {
+    min-width: 20% !important;
+    font-weight: 600 !important;
+    font-size: 18px !important;
+    color: #333 !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: "Proxima Nova";
+
+}
+.uiPanel.open, .uiPanel.transitioning {
+    margin: 0% 3% 2% 4% !important;
+    position: fixed !important;
+    top: 3.1rem !important;
+	border-radius: 0 0 4px 4px !important;
+	z-index: 1000000 !important;
+    border-top : none !important;
+    border-bottom-color: #D9D9D9 !important;
+    border-bottom-style: solid !important;
+   /* border-bottom-width: medium !important;*/
+   /* box-shadow: 0px 4px 22px 7px rgb(217, 219, 221) !important;*/
+         box-shadow: -3px 10px 25px rgb(171, 173, 176) !important;
+
+    /*box-shadow :0px 4px 9px 6px rgb(217, 219, 221) !important;*/
+}
+
+.unsNotificationsListRow.notification-unread {
+background-color: rgba(41,125,253,0.08) !important;
+}
+.unsNotificationsListRow.notification-row {
+    height: 100%;
+    border-color: #D9D9D9 !important;
+    border-width: 1px !important;
+}
+.uiPanel>.pointer {
+	display:none !important;
+
+}
+.unsNotificationsListRow .assistive-unread-mark {
+    color: #0768FD !important;
+}
+.unsNotificationsListRow .notification-age {
+    color: #696969;
+    font-size: 16px !important;
+    font-family: "Proxima Nova";
+
+}
+.unsNotificationsListRow .notification-text-title {
+    display: block;
+    color: #333;
+    font-weight: 600 !important;
+    font-size: 16px !important;
+    font-family: "Proxima Nova";
+
+}
+.unsNotificationsListRow .notification-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    font-size : 16px !important;
+    font-family: "Proxima Nova";
+
+}
+.unsNotificationsPanel>div {
+    width: 310px !important;
 }
 
 .brand-gradient-background{
@@ -1453,6 +1561,8 @@ input[type=password]::-ms-clear
         padding-left: 1rem;
         padding-right: 1rem;
     }
+	
+	
     
     .slds-p-horizontal_medium, 
     .slds-p-horizontal--medium {
@@ -1462,9 +1572,79 @@ input[type=password]::-ms-clear
      .slds-p-horizontal_medium > .slds-col, 
     .slds-p-horizontal--medium > .slds col {
      	 padding: 0 10px;
-    }
+    }	
 
 }
+
+
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+.uiPanel.open, .uiPanel.transitioning {
+    margin: 0% 3% 2% 4% !important;
+    position: fixed !important;
+    top: 7% !important;
+	border-radius: 0 0 4px 4px !important;
+    border-top : none !important;
+	z-index: 100000 !important;
+}	
+
+
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1366px){
+.uiPanel.open, .uiPanel.transitioning {
+    margin: 0% 3% 2% 4% !important;
+    position: fixed !important;
+    top: 6% !important;
+	border-radius: 0 0 4px 4px !important;
+    border-top : none !important;
+	z-index: 100000 !important;
+}	
+
+
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px){
+.uiPanel.open, .uiPanel.transitioning {
+    margin: 0% 3% 2% 4% !important;
+    position: fixed !important;
+    top: 7% !important;
+	border-radius: 0 0 4px 4px !important;
+	z-index: 100000 !important;
+    border-top : none !important;
+
+}	
+
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px){
+.uiPanel.open, .uiPanel.transitioning {
+    margin: 0% 3% 2% 4% !important;
+    position: fixed !important;
+    top: 7% !important;
+	border-radius: 0 0 4px 4px !important;
+    border-top : none !important;
+	z-index: 100000 !important;
+}
+
+}
+
+@media only screen and (min-width: 0px) and (max-width: 479px){
+.uiPanel.open, .uiPanel.transitioning {
+    margin: 0% 3% 2% 4% !important;
+    position: fixed !important;
+    /*top: 6% !important;*/
+    border-radius: 0 0 4px 4px !important;
+    border-top : none !important;
+	z-index: 100000 !important;
+}	
+
+}
+
+
+
+
+
 
 @media all and (max-width: 768px){
  	.slds-radio .slds-radio_faux, 
@@ -1483,13 +1663,47 @@ input[type=password]::-ms-clear
         height: .9rem;
     }
 }
+.unsNotificationsListRow:first-child {
+     border-top-left-radius: 0 !important; 
+     border-top-right-radius: 0 !important; 
+     border-top : none !important;
+}
+.unsNotificationsCounter .countDot {
+    position: absolute;
+    top: -.5rem;
+    right: -.25rem;
+    border-radius: .5rem;
+    background-color: #DF216D !important;
+}
 
+@media all and (min-width: 1024px) {
+.uiPanel.open, .uiPanel.transitioning {
+	margin: 0% 3% 2% 1% !important;
+    position: fixed !important;
+    top: 3% !important;
+    border-radius: 0 0 4px 4px !important;
+    border-top : none !important;
+    z-index: 10000 !important;
+}
+}
 
 /* small 480 */
 @media all and (min-width: 480px){
     .rr-small-up-hide{
         display: none!important;
     }
+	
+	
+}
+@media only screen and (min-width: 768px) and (max-width: 1023px){
+	.uiPanel.open, .uiPanel.transitioning {
+		margin: 0% 3% 2% 2% !important;
+		top: 4.8% !important;
+		border-radius: 0 0 4px 4px !important;
+        border-top : none !important;
+		z-index: 10000 !important;
+  }	
+
 }
 /*
 @media all and (max-width: 479px){

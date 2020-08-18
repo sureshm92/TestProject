@@ -56,6 +56,14 @@
                 <behavior>Edit</behavior>
                 <field>Participant_Opt_In_Status_Emails__c</field>
             </layoutItems>
+             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Participant_Phone_Opt_In_Permit_Phone__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Participant_Opt_In_Status_SMS__c</field>
+            </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>HCP_Opt_In_Patient_Status_Emails__c</field>
@@ -98,11 +106,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Participant_Opt_In_Status_SMS__c</field>
+                <field>Consent_To_Inform_About_Study__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Consent_To_Inform_About_Study__c</field>
+                <field>Janssen_unique__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

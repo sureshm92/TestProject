@@ -1,12 +1,14 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_Share_By_RP}"
-                         recipientType="User"
+                         recipientType="Contact"
                          relatedToType="Clinical_Trial_Profile__c"
-                         language="{!recipient.LanguageLocaleKey}">
+                         language="{!recipient.Language__c}">
 
-    <messaging:htmlEmailBody>
+    <messaging:htmlEmailBody >
         <c:EmailWireframe recipientId="{!recipient.Id}"
+                          recipientcontactName="{!recipient.Name}"  
                           recipientName="{!$Label.Email_Guest}"
-                          recipientLanguage="{!recipient.LanguageLocaleKey}"
+                          recipientLanguage="{!recipient.Language__c}"
+                          shareEmailTemplate="Yes"
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_Share}"
                           title="{!$Label.Email_Title}"
@@ -18,10 +20,12 @@
         </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody>
+    <messaging:plainTextEmailBody >
         <c:EmailWireframeText recipientId="{!recipient.Id}"
+                              recipientcontactName="{!recipient.Name}"  
                               recipientName="{!$Label.Email_Guest}"
-                              recipientLanguage="{!recipient.LanguageLocaleKey}"
+                              recipientLanguage="{!recipient.Language__c}"
+                              shareEmailTemplate="Yes"
                               sourceId="{!relatedTo.Id}"
                               header="{!$Label.Email_Header_Share}"
                               title="{!$Label.Email_Title}"

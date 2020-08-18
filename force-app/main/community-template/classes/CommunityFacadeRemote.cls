@@ -38,8 +38,11 @@ public without sharing class CommunityFacadeRemote {
         CommunityMode currentUserMode;
         Boolean isDummy;
         String communityName;
+        String sponsorName;
         Boolean messagesVisible;
         Boolean trialMatchVisible;
+        Boolean isMobileApp;
+        Boolean hasIQVIAStudiesPI;
     }
 
     private class CommunityType {
@@ -77,14 +80,16 @@ public without sharing class CommunityFacadeRemote {
                 cd.messagesVisible = getMessagesVisibility();
                 cd.trialMatchVisible = getTrialMatchVisibility();
             }
+            cd.hasIQVIAStudiesPI = getHasIQVIAStudiesPI();
             cd.currentUserMode = UserContext.getCurrentUserMode();
             cd.subDomain = Site.getPathPrefix().replace('/s', '');
             cd.communityName = Site.getName();
+            cd.sponsorName = getSponsorName(cd.currentUserMode.template.templateName);
             cd.baseUrl = Site.getBaseUrl();
             cd.pathPrefix = Site.getPathPrefix();
             cd.isTCAccepted = cd.isDummy || isTCAccepted();
             cd.language = UserInfo.getLanguage();
-            
+            cd.isMobileApp = isCurrentSessionMobileApp();
 
             return JSON.serialize(cd);
         } catch (Exception e) {
@@ -99,6 +104,48 @@ public without sharing class CommunityFacadeRemote {
         } catch (Exception e) {
             return (Boolean) AuraHelper.throwException(e);
         }
+    }
+    @AuraEnabled
+    public static Boolean checkStudyMessage() {
+        Id id = UserContext.getUserContactId();
+        String sponsorName = UserContext.getCurrentCommunityTemplate().templateName;
+        String query = 'SELECT Id, Messages_Are_Available__c, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Study_Site__c WHERE  Principal_Investigator__c =: id AND ';
+        if (sponsorName == CommunityTemplateService.TEMPLATE_JANSSEN) {
+            query += 'Clinical_Trial_Profile__r.CommunityTemplate__c = \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
+
+        } else {
+            query += 'Clinical_Trial_Profile__r.CommunityTemplate__c != \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
+        }
+        List<Study_Site__c> studies = new List<Study_Site__c>();
+        studies = Database.query(query);
+        for (Study_Site__c study: studies) {
+            if (study.Messages_Are_Available__c) return true;
+        }
+        return false;
+
+        /*if (sponsorName == CommunityTemplateService.TEMPLATE_JANSSEN) {
+            List<Study_Site__c> studies = new List<Study_Site__c>([SELECT Id,
+                                                                          Messages_Are_Available__c,
+                                                                          Clinical_Trial_Profile__r.CommunityTemplate__c
+                                                                   FROM   Study_Site__c
+                                                                   WHERE  Principal_Investigator__c =: id
+                                                                   AND    Clinical_Trial_Profile__r.CommunityTemplate__c =: CommunityTemplateService.TEMPLATE_JANSSEN ]);
+            for (Study_Site__c study: studies) {
+                if (study.Messages_Are_Available__c) return false;
+            }
+            return false;
+        } else {
+            List<Study_Site__c> studies = new List<Study_Site__c>([SELECT Id,
+                                                                          Messages_Are_Available__c,
+                                                                          Clinical_Trial_Profile__r.CommunityTemplate__c
+                                                                   FROM   Study_Site__c
+                                                                   WHERE  Principal_Investigator__c =: id
+                                                                   AND    Clinical_Trial_Profile__r.CommunityTemplate__c !=: CommunityTemplateService.TEMPLATE_JANSSEN ]);
+            for (Study_Site__c study : studies) {
+                if (study.Messages_Are_Available__c) return true;
+            }
+            return true;
+        }*/
     }
 
     @AuraEnabled
@@ -155,7 +202,7 @@ public without sharing class CommunityFacadeRemote {
     }
 
     public static Boolean isTCAccepted() {
-        Terms_And_Conditions__c portalTC = TermsAndConditions.getPortalTC();
+        Terms_And_Conditions__c portalTC = TermsAndConditions.getPortalTC(false);
         if (portalTC != null) return TermsAndConditions.isTCAccepted(portalTC.Id);
         return true;
     }
@@ -200,6 +247,15 @@ public without sharing class CommunityFacadeRemote {
         return false;
     }
 
+    private static String getSponsorName(String communityName){
+        String sponsorName = null;
+        Map<String, String> rhSponsorsByCommunity = CommunityModeService.rhSponsorsByCommunity;
+        if(rhSponsorsByCommunity.containsKey(communityName)) {
+            sponsorName = rhSponsorsByCommunity.get(communityName);
+        }
+        return sponsorName;
+    }
+
     @AuraEnabled
     public static Contact changeMode(String mode, Id delegateId, Id peId, String communityName) {
         try {
@@ -218,6 +274,7 @@ public without sharing class CommunityFacadeRemote {
     @AuraEnabled
     public static String getPreferredLanguageCode(String browserLanguages) {
         try {
+            if(UserInfo.getUserType() != 'Guest') return 'Skip';
             return TranslateHelper.convertBrowserLanguage((List<String>) JSON.deserialize(browserLanguages, List<String>.class));
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
@@ -272,5 +329,13 @@ public without sharing class CommunityFacadeRemote {
             }
         }
         return isMobileApp;
+    }
+
+    private static Boolean getHasIQVIAStudiesPI(){
+        if (CommunityService.getUserContact() == null) {
+            return false;
+        }
+        List<Id> delegatedSites = DelegateService.getDelegatedStudySiteIds();
+        return [SELECT Id FROM Study_Site__c WHERE Clinical_Trial_Profile__r.CommunityTemplate__c = :CommunityTemplateService.TEMPLATE_DEFAULT AND (Id IN :delegatedSites OR Principal_Investigator__c = :UserContext.getUserContactId()) ].size() > 0;
     }
 }
