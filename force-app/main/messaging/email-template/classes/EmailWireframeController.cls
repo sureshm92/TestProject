@@ -16,7 +16,6 @@ global without sharing class EmailWireframeController {
     global String communityTemplateValue { get; set; }
     global String specificEmailProviderValue { get; set; }
     global String outputMode { get; set; }
-    global String recipientCntNameShare {get;set;}
     global String displayOptOut {get;set;}
     private EmailTemplateProvider templateProvider;
 
@@ -104,7 +103,6 @@ global without sharing class EmailWireframeController {
     }
 
     public String getGreetingText() {
-        if(shareTemplate=='Yes') return prepareLineBreaks(replaceParams(getLabelValue(System.Label.Email_Greeting)) +' '+recipientCntNameShare+ '\n');
         return prepareLineBreaks(replaceParams(getLabelValue(greetingValue)) + '\n');
     }
 
