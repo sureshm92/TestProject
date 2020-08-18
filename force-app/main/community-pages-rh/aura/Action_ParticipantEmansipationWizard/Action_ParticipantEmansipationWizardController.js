@@ -7,6 +7,7 @@
     doInit: function (component, event, helper) {
         var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
         component.set('v.todayDate', todayDate);
+        component.set('v.communityTemplate', communityService.getCurrentCommunityTemplateName())
 
         helper.preparePathItems(component);
     },
