@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
         <fullName>ALT</fullName>
@@ -4068,7 +4068,14 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_PI_Delegate_Referrals</shortDescription>
-        <value>One or more referrals are awaiting your response. Please access these participants on My Participants to manage their pre-enrollment status.</value>
+        <value>There are ##TotalStudies referrals awaiting your response. For the studies below, please access these participants on...</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_PI_Delegate_Unsuppressed_Referrals</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Body_PI_Delegate_Unsuppressed_Referrals</shortDescription>
+        <value>Below participants are unsuppressed.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI_New_Mess</fullName>
@@ -18622,7 +18629,7 @@ communications using the toggles below.</value>
         <shortDescription>configuation table</shortDescription>
         <value>Name</value>
     </labels>
-       <labels>
+    <labels>
         <fullName>Email_Label_View_Information</fullName>
         <language>en_US</language>
         <protected>false</protected>
