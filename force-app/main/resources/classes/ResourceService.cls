@@ -231,7 +231,9 @@ public virtual without sharing class ResourceService {
         Set<Resource__c> resourcesSet = new Set<Resource__c>();
         for (Resource__c singleResource : resources) {
             if (resourcesSet.add(singleResource)) {
-                wrappers.add(new ResourceService.ResourceWrapper(singleResource, translatedItemsMap.get(singleResource.Id)));
+                if(translatedItemsMap.containsKey(singleResource.Id)){
+                    wrappers.add(new ResourceService.ResourceWrapper(singleResource, translatedItemsMap.get(singleResource.Id)));
+                }
             }
         }
         return wrappers;
