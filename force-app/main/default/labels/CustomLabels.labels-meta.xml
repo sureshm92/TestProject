@@ -15064,6 +15064,13 @@ communications using the toggles below.</value>
         <value>New visit data is available</value>
     </labels>
     <labels>
+        <fullName>Participant_quick_reference</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Participant_quick_reference</shortDescription>
+        <value>Participant_quick_reference</value>
+    </labels>
+    <labels>
         <fullName>Participants_Referred_Label</fullName>
         <language>en_US</language>
         <protected>true</protected>
