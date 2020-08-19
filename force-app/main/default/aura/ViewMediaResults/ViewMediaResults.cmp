@@ -28,7 +28,7 @@
     <aura:attribute name="ssId" type="String"/>
     <aura:attribute name="isInvited" type="Boolean"/>
     <aura:attribute name="NewOutreaachcmp" type="Boolean" default="false" />
-    <aura:attribute name="HaveAccessCMP" type="Boolean" default="false" />
+    <aura:attribute name="HaveAccessrecCMP" type="Boolean" default="false" /> 
     <aura:attribute name="NoOutreachAccess" type="Boolean" default="false" />
 
     <!-- handlers: -->
@@ -66,7 +66,7 @@
                     <!--new Media--> 
                     <div class="rr-summary-panel slds-grid slds-wrap slds-grid_vertical-stretch slds-gutters_medium">
                         <div class="slds-col slds-size_1-of-1 mrc-invite-btn-container">
-                             <aura:if isTrue="{!v.HaveAccessCMP}">
+                             <aura:if isTrue="{!v.HaveAccessrecCMP}">
                             <button class="apollo-btn primary mrc-invite-btn" data-gtm="BTN_InviteRP" onclick="{!c.doShowInviteRP}">
                                 {!$Label.c.New_OutReach}
                             </button>
