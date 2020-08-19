@@ -12,7 +12,7 @@
     <aura:attribute name="communityTemplate" type="String" access="public" default=""/>
     <aura:attribute name="scrollRequired" type="Boolean" access="public" default="false"/>
     <aura:attribute name="scrollDirection" type="String" access="public" default="left"/>
-    <aura:attribute name="hasMessage" type="Boolean" access="public" default="false"/>
+    <aura:attribute name="hasMessage" type="Boolean" access="public"/>
 
     <!-- handlers: -->
     <aura:handler event="forceCommunity:routeChange" action="{!c.doCurrentPageChange}"/>
