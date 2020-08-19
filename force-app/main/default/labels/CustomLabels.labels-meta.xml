@@ -5116,6 +5116,13 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <value>Your access level has changed</value>
     </labels>
     <labels>
+        <fullName>Email_Label_View_Information</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Label View Information</shortDescription>
+        <value>View Information</value>
+    </labels>
+    <labels>
         <fullName>Email_Notification_Greeting</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -5225,7 +5232,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
 
             Sincerely,
 
-            The Janssen IQVIA Referral Hub Support Team</value>
+            The IQVIA Referral Hub Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_New</fullName>
@@ -5496,7 +5503,7 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Initial Janssen</shortDescription>
-        <value>Please enroll in the Janssen IQVIA Referral Hub and Patient Portal</value>
+        <value>Please enroll in the IQVIA Referral Hub</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Initial_Patient</fullName>
@@ -18635,12 +18642,5 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>configuation table</shortDescription>
         <value>Name</value>
-    </labels>
-    <labels>
-        <fullName>Email_Label_View_Information</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Label View Information</shortDescription>
-        <value>View Information</value>
     </labels>
 </CustomLabels>
