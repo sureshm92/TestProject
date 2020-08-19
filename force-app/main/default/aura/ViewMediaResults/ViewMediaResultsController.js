@@ -31,11 +31,11 @@
                 noAccessRecord = false;
             }
             if(studyData == '' || studyData == undefined &&!noAccessRecord &&accessRecord){
-                component.set('v.NewOutreaachcmp', false);
+                component.set('v.HaveAccessCMP', false);
                 component.set('v.NoOutreachAccess', true);
          }
             if(studyData != '' || studyData != undefined &&noAccessRecord &&!accessRecord){
-             component.set('v.NewOutreaachcmp', true);
+             component.set('v.HaveAccessCMP', true);
              component.set('v.NoOutreachAccess', false);
          }
             component.set('v.piBtnFilter', paramFilter);
