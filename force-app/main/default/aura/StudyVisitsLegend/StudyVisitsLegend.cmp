@@ -12,7 +12,7 @@
     <aura:if isTrue="{!v.legends.length != 0}">
         <div class="rr-white-panel">
             <p class="title">{!$Label.c.Home_Page_StudyVisit_WhToEx}</p>
-            <div class="inner-panel slds-scrollable_y" style="height:260px;">
+            <div class="inner-panel slds-scrollable_y">
                 <div class="svl-table">
                     <aura:iteration items="{!v.legends}" var="legend">
                         <div class="svl-row">
