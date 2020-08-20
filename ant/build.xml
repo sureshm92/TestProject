@@ -112,7 +112,7 @@
         <copy file="../.forceignore" todir="."/>
         <concat destfile="../.forceignore_res">
             <fileset file="../.forceignore" />
-            <fileset file="../scripts/ci/.forceignore_deploy_exclude" />
+            <fileset file="../scripts/ci/.forceignore_community_exclude" />
         </concat>
         <copy file="../.forceignore_res" tofile="../.forceignore"/>
         <delete file="../.forceignore_res"/>

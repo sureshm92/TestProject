@@ -104,3 +104,14 @@
         margin-left: 2%;
     }
 }
+
+@media (max-width: 500px) {
+    .THIS .change-pref {
+        width: 100%;
+        display: block;
+        float: none;
+        text-align: right;
+        margin-bottom: 1rem;
+        margin-top: 0;
+    }
+}
