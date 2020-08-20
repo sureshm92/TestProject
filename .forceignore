@@ -32,10 +32,10 @@ force-app/main/default/workflows/Integration_Patient_Referral__c.workflow-meta.x
 */staticresources/*os_pislide*
 */staticresources/*os_hcp*
 */staticresources/*os_part*
-**/onboarding-tour/staticresources/*os_pislide*
-**/onboarding-tour/staticresources/*os_pislide*
-**/onboarding-tour/staticresources/*os_hcp*
-**/onboarding-tour/staticresources/*os_part*
+**/onboarding-tour/staticresources/
+#**/onboarding-tour/staticresources/*os_pislide*
+#**/onboarding-tour/staticresources/*os_hcp*
+#**/onboarding-tour/staticresources/*os_part*
 
 **/jsconfig.json
 **/.eslintrc.json
