@@ -32,7 +32,7 @@ window.communityService = (function () {
     let sponsorName;
     let isMobileApp;
     let hasIQVIAStudiesPI;
-    const pagesWithSharedPrivacyPolicy = new Set(['my-team','new-team-member'])
+    const pagesWithSharedPrivacyPolicy = new Set(['my-team','new-team-member','account-settings'])
 
     //community service functions:
     let service = {
