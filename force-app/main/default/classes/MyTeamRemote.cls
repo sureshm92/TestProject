@@ -390,27 +390,31 @@ public without sharing class MyTeamRemote {
                         SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, Site_Contact__c
                         FROM Site_Staff__c
                         WHERE Site_Contact__c = :delegateContact.Id
-                        AND Study_Site__c =: whatId
+                        AND Study_Site__c = :whatId
                 ];
             }
-            if(ssList.isEmpty()) ssList.addAll(ssListWithSSId);
+            if (ssList.isEmpty()) ssList.addAll(ssListWithSSId);
             List<String> comTemplates = new List<String>();
             for (Site_Staff__c ss : ssList) {
                 String commTemplate = ss.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
-                if (!comTemplates.contains(commTemplate) && commTemplate != CommunityTemplateService.TEMPLATE_GSK)
-                        comTemplates.add(commTemplate);
+                if (!comTemplates.contains(commTemplate))
+                    comTemplates.add(commTemplate);
             }
             for (String cmTp : comTemplates) {
                 for (Site_Staff__c ss : ssList) {
-                    if (ss.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c == cmTp) whatId = ss.Study_Site__c;
+                    if (ss.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c == cmTp && cmTp == CommunityTemplateService.TEMPLATE_JANSSEN) {
+                        whatId = ss.Study_Site__c;
+                    }
                 }
-                notifications.add(new Notification__c(
-                        Recipient__c = delegateContact.Id,
-                        WhatId__c = whatId,
-                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_ACCESS_LEVEL_CHANGED_TYPE
-                ));
+                if (cmTp == CommunityTemplateService.TEMPLATE_GSK && !comTemplates.contains(CommunityTemplateService.TEMPLATE_DEFAULT)
+                        || cmTp != CommunityTemplateService.TEMPLATE_GSK) {
+                    notifications.add(new Notification__c(
+                            Recipient__c = delegateContact.Id,
+                            WhatId__c = whatId,
+                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_ACCESS_LEVEL_CHANGED_TYPE
+                    ));
+                }
             }
-
 
         } else if (userMode == CommunityService.USER_MODE_HCP) {
             notifications.add(new Notification__c(
@@ -590,7 +594,7 @@ public without sharing class MyTeamRemote {
         } else {
             for (MyTeamRemote.TrialDelegateWrapper t : dlw) {
                 for (MyTeamRemote.DelegateLevelWrapper d : t.siteLevels) {
-                    if ((d.ReferralStatus == StudySiteService.PI_S_ACCEPTED || d.ReferralStatus == StudySiteService.PI_S_ACCEPTED_A) &&  String.isNotBlank(d.delegateLevel)) {
+                    if ((d.ReferralStatus == StudySiteService.PI_S_ACCEPTED || d.ReferralStatus == StudySiteService.PI_S_ACCEPTED_A) && String.isNotBlank(d.delegateLevel)) {
                         return true;
                     }
                 }
