@@ -32,10 +32,18 @@
     position: relative;
 }
 
+.THIS .visitIcons {
+    max-width: 180px
+}
+
 .THIS .svl-icon{
     height: 32px;
     width: 32px;
     cursor: pointer;
+}
+
+.THIS .cRRIconSplitter .dots {
+    display: none;
 }
 
 .THIS .sv-footer{
@@ -63,6 +71,8 @@
     width: 14px;
     top: 10px;
     right: 0px;
+    opacity: .7;
+
 }
 
 .THIS .main-container .message {
@@ -96,24 +106,116 @@
     text-overflow: ellipsis;
 }
 
-@media all and (max-width: 500px) {
+
+.THIS .cRRIconSplitter .icon:nth-of-type(n+6) {
+    display: none;
+}
+
+.THIS .cRRIconSplitter .icons-row {
+    position: relative;
+    padding-right: 20px;
+    height: 40px;
+}
+
+.THIS .cRRIconSplitter .icons-row:after {
+    content: "...";
+    position: absolute;
+    right: 0;
+    bottom: -5px;
+    color: #444;
+    font-size: 1.5rem;
+}
+
+
+
+@media all and (max-width: 768px) {
 
     .THIS .sv-body {
-        overflow-x: scroll;
         padding-bottom: 1rem;
     }
 
+    .THIS .sv-header {
+        padding: 10px 1rem;
+    }
+
+    .THIS .rr-table.cRRTable {
+        margin: 0 1rem;
+    }
+
+    .THIS tr:first-child {
+        display: none;
+    }
+
+    .THIS tr {
+        display: flex;
+        flex-direction: column;
+        border-bottom: 1px solid #e9e9e9;
+    }
+
+    .THIS tr td:first-child {
+        padding-top: 12px;
+    }
+
+    .THIS tr:last-child {
+        border-bottom: none
+    }
+
+    .THIS .cRRTable.rr-table td {
+        display: flex;
+        margin-bottom: 12px;
+        color: #000;
+        padding: 0;
+        height: auto;
+        max-width: 100%;
+    }
+
+    .THIS .cRRTable.rr-table td:last-child {
+        margin-bottom: 1rem;
+    }
+
+}
+
+@media (any-pointer: coarse) {
+
     .THIS .rr-table {
-        width: 425px
+        font-size: 1rem;
     }
 
-    .THIS .rr-table th:nth-of-type(2),
-    .THIS .rr-table td:nth-of-type(2) {
-        width: 100px;
+    .THIS .icons-container.cRRIconSplitter {
+        overflow: visible;
     }
 
-    .THIS .rr-table .cRRIconSplitter .icons-row {
-        flex-wrap: nowrap;
+    .THIS .cRRTable.rr-table tr td .icon {
+        position: relative;
+        overflow: visible;
+    }
+
+    .THIS .cRRIconSplitter .icon:first-child .icon-item {
+        margin-left: 0;
+    }
+
+    .THIS .cRRIconSplitter .icon-item {
+        padding-left: 5px;
+        margin: 8px;
+    }
+
+    .THIS .cRRTable.rr-table tr td .icon:hover:after {
+        content: attr(title);
+        position: absolute;
+        bottom: 100%;
+        left: -25%;
+        color: #444;
+        background-color: #fff;
+        border: 1px solid #d9d9d9;
+        border-radius: 4px;
+        padding: 5px 8px;
+        z-index: 1000;
+        box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04);
+        min-width: 95px;
+    }
+
+    .THIS .sv-footer .cRRLink.rr-link:after {
+        top: 7px;
     }
 
 }
