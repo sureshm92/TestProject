@@ -400,15 +400,12 @@ public without sharing class MyTeamRemote {
                 if (!comTemplates.contains(commTemplate))
                     comTemplates.add(commTemplate);
             }
-            System.debug('>>>>>> ' + comTemplates);
             for (String cmTp : comTemplates) {
                 for (Site_Staff__c ss : ssList) {
                     if (ss.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c == cmTp && cmTp == CommunityTemplateService.TEMPLATE_JANSSEN) {
                         whatId = ss.Study_Site__c;
                     }
                 }
-                System.debug('>>>>>>cmTp ' + cmTp);
-                System.debug('>>>>>>whatId ' + whatId);
                 if (cmTp == CommunityTemplateService.TEMPLATE_GSK && !comTemplates.contains(CommunityTemplateService.TEMPLATE_DEFAULT)
                         || cmTp != CommunityTemplateService.TEMPLATE_GSK) {
                     notifications.add(new Notification__c(
@@ -417,7 +414,6 @@ public without sharing class MyTeamRemote {
                             Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_ACCESS_LEVEL_CHANGED_TYPE
                     ));
                 }
-                System.debug('>>>>>>notifications ' + notifications);
             }
 
         } else if (userMode == CommunityService.USER_MODE_HCP) {
