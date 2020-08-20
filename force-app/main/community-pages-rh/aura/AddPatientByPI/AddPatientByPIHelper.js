@@ -22,9 +22,12 @@
         component.set('v.isDelegateValid', false);
         component.set('v.needsGuardian', false);
         component.set('v.emailInstance', '');
-        component.find('checkbox-delegate').getElement().checked = false;
-        component.find('checkbox-doContact').getElement().checked = true;
-        //component.set('v.doContact', true);
+        if (component.find('checkbox-delegate')) {
+            component.find('checkbox-delegate').getElement().checked = false;
+        }
+        if (component.find('checkbox-doContact')) {
+            component.find('checkbox-doContact').getElement().checked = true;
+        }
     },
 
     createParticipant: function (component, callback) {
@@ -149,7 +152,9 @@
                 let editForm = component.find('editForm');
                 editForm.checkFields();
 
-                component.find('checkbox-delegate').getElement().checked = isNeedGuardian;
+                if (component.find('checkbox-delegate')) {
+                    component.find('checkbox-delegate').getElement().checked = isNeedGuardian;
+                }
 
                 if (isNeedGuardian) {
                     helper.setDelegate(component);
