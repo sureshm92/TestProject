@@ -18,7 +18,7 @@
                     component.set("v.isGSKCommunity",false);
                 }else if(returnValue==='GSK Community'){
                     component.set("v.isGSKCommunity",true);
-                } else if(returnValue==='Janssen'){
+                } else if(returnValue==='Janssen Community'){
                     component.set('v.isJanssen',true);
                 }
             }
