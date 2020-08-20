@@ -108,8 +108,9 @@ public without sharing class CommunityFacadeRemote {
     @AuraEnabled
     public static Boolean checkStudyMessage() {
         Id id = UserContext.getUserContactId();
+        List<Id> idDel = DelegateService.getDelegatedStudySiteIds();
         String sponsorName = UserContext.getCurrentCommunityTemplate().templateName;
-        String query = 'SELECT Id, Messages_Are_Available__c, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Study_Site__c WHERE  Principal_Investigator__c =: id AND ';
+        String query = 'SELECT Id, Messages_Are_Available__c, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Study_Site__c WHERE  (Principal_Investigator__c =: id OR Id IN :idDel) AND ';
         if (sponsorName == CommunityTemplateService.TEMPLATE_JANSSEN) {
             query += 'Clinical_Trial_Profile__r.CommunityTemplate__c = \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
 
