@@ -50,6 +50,7 @@
             });
 
             component.set('v.participantMsgWithName', $A.get("$Label.c.PG_Ref_L_Participant_require_invitation").replace('##participantName', pe.Participant__r.First_Name__c + ' ' + pe.Participant__r.Last_Name__c));
+            component.set('v.communityTemplate', communityService.getCurrentCommunityTemplateName());
 
             component.find('dialog').show();
         } catch (e) {

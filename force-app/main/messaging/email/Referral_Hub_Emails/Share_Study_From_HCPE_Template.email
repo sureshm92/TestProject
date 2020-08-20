@@ -5,9 +5,7 @@
 
     <messaging:htmlEmailBody >
         <c:EmailWireframe recipientId="{!recipient.Id}"
-                          recipientcontactName="{!recipient.Name}"   
-                          recipientName="{!$Label.Email_Guest}"
-                          recipientLanguage="{!relatedTo.HCP_Contact__r.Language__c}"
+                          recipientLanguage="{!recipient.Language__c}"
                           shareEmailTemplate="Yes"
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_Share}"
@@ -22,8 +20,7 @@
 
     <messaging:plainTextEmailBody >
         <c:EmailWireframeText recipientId="{!recipient.Id}"
-                              recipientName="{!$Label.Email_Guest}"
-                              recipientLanguage="{!relatedTo.HCP_Contact__r.Language__c}"
+                              recipientLanguage="{!recipient.Language__c}"
                               shareEmailTemplate="Yes"
                               sourceId="{!relatedTo.Id}"
                               header="{!$Label.Email_Header_Share}"

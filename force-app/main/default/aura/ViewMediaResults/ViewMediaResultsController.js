@@ -6,7 +6,7 @@
         var siteId = component.get('v.siteId');
         var spinner = component.find('mainSpinner');
         spinner.show();
-        var paramFilter = communityService.getUrlParameter("filter");
+        var paramFilter = communityService.getUrlParameter("filter"); 
          
         communityService.executeAction(component, 'getInitData', {
             trialId: trialId,
@@ -31,11 +31,11 @@
                 noAccessRecord = false;
             }
             if(studyData == '' || studyData == undefined &&!noAccessRecord &&accessRecord){
-                component.set('v.NewOutreaachcmp', false);
+                component.set('v.HaveAccessrecCMP', false);
                 component.set('v.NoOutreachAccess', true);
          }
             if(studyData != '' || studyData != undefined &&noAccessRecord &&!accessRecord){
-             component.set('v.NewOutreaachcmp', true);
+             component.set('v.HaveAccessrecCMP', true);
              component.set('v.NoOutreachAccess', false);
          }
             component.set('v.piBtnFilter', paramFilter);

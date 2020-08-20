@@ -1274,10 +1274,10 @@ select.rr-select-error,
     -webkit-box-orient: vertical;
 }
 .unsNotificationsListRow .assistive-unread-mark {
-    color: blue !important;
+    color: #0768FD !important;
 }
 .assistive-unread-mark {
-    color: blue !important;
+    color: #0768FD !important;
 }
 .uiPanel .uiButton.closeBtn {
     position: absolute;
@@ -1298,6 +1298,8 @@ select.rr-select-error,
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color:#0768FD;
+
 }
 .unsNotificationsPanel .titleName {
     min-width: 20% !important;
@@ -1316,9 +1318,10 @@ select.rr-select-error,
     top: 3.1rem !important;
 	border-radius: 0 0 4px 4px !important;
 	z-index: 1000000 !important;
+    border-top : none !important;
     border-bottom-color: #D9D9D9 !important;
     border-bottom-style: solid !important;
-    border-bottom-width: medium !important;
+   /* border-bottom-width: medium !important;*/
    /* box-shadow: 0px 4px 22px 7px rgb(217, 219, 221) !important;*/
          box-shadow: -3px 10px 25px rgb(171, 173, 176) !important;
 
@@ -1338,7 +1341,7 @@ background-color: rgba(41,125,253,0.08) !important;
 
 }
 .unsNotificationsListRow .assistive-unread-mark {
-    color: blue !important;
+    color: #0768FD !important;
 }
 .unsNotificationsListRow .notification-age {
     color: #696969;
@@ -1583,6 +1586,7 @@ input[type=password]::-ms-clear
     position: fixed !important;
     top: 7% !important;
 	border-radius: 0 0 4px 4px !important;
+    border-top : none !important;
 	z-index: 100000 !important;
 }	
 
@@ -1595,6 +1599,7 @@ input[type=password]::-ms-clear
     position: fixed !important;
     top: 6% !important;
 	border-radius: 0 0 4px 4px !important;
+    border-top : none !important;
 	z-index: 100000 !important;
 }	
 
@@ -1608,6 +1613,8 @@ input[type=password]::-ms-clear
     top: 7% !important;
 	border-radius: 0 0 4px 4px !important;
 	z-index: 100000 !important;
+    border-top : none !important;
+
 }	
 
 }
@@ -1618,6 +1625,7 @@ input[type=password]::-ms-clear
     position: fixed !important;
     top: 7% !important;
 	border-radius: 0 0 4px 4px !important;
+    border-top : none !important;
 	z-index: 100000 !important;
 }
 
@@ -1629,6 +1637,7 @@ input[type=password]::-ms-clear
     position: fixed !important;
     /*top: 6% !important;*/
     border-radius: 0 0 4px 4px !important;
+    border-top : none !important;
 	z-index: 100000 !important;
 }	
 
@@ -1675,7 +1684,8 @@ input[type=password]::-ms-clear
     position: fixed !important;
     top: 3% !important;
     border-radius: 0 0 4px 4px !important;
-    z-index: 1 !important;
+    border-top : none !important;
+    z-index: 10000 !important;
 }
 }
 
@@ -1692,7 +1702,8 @@ input[type=password]::-ms-clear
 		margin: 0% 3% 2% 2% !important;
 		top: 4.8% !important;
 		border-radius: 0 0 4px 4px !important;
-		z-index: 1 !important;
+        border-top : none !important;
+		z-index: 10000 !important;
   }	
 
 }
