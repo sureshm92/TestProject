@@ -276,6 +276,7 @@ public without sharing class StudyListViewController {
             Study_Site__c study = new Study_Site__c();
             Study_Site__c response = (Study_Site__c) JSON.deserialize(studySiteInfo, Study_Site__c.class);
             study.Id = response.Id;
+            study.Name = response.Name;
             study.Study_Site_Phone__c = response.Study_Site_Phone__c;
             study.Site_Staff__c = response.Site_Staff__c;
             study.Study_Site_Email__c = response.Study_Site_Email__c;

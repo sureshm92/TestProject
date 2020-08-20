@@ -229,7 +229,7 @@ private class Test_BaseCRCPCommunity {
         TestData testData = new TestData();
         Test.startTest();
         System.runAs(testData.hcpUser) {
-            String initDataString = MyReferringClinicsController.getInitData(testData.ctp.Id, testData.ss.Id);
+            String initDataString = MyReferringClinicsController.getInitData(testData.ctp.Id, testData.ss.Id, CommunityTemplateService.TEMPLATE_DEFAULT);
             MyReferringClinicsController.InitData initData= (MyReferringClinicsController.InitData)JSON.deserializeStrict(initDataString, MyReferringClinicsController.InitData.class);
             MyReferringClinicsController.searchReferringClinics(JSON.serialize(initData.referringClinicsFilter.filterValues),JSON.serialize(initData.referringClinicsFilter.sortData),JSON.serialize(initData.paginationData), false);
             MyReferringClinicsController.searchReferringClinics(JSON.serialize(initData.referringClinicsFilter.filterValues),JSON.serialize(initData.referringClinicsFilter.sortData),JSON.serialize(initData.paginationData), true);

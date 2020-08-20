@@ -5,12 +5,11 @@
 
     <messaging:htmlEmailBody >
         <c:EmailWireframe recipientId="{!recipient.Id}"
-                          recipientcontactName="{!recipient.Name}"
                           shareEmailTemplate="Yes" 
                           recipientLanguage="{!recipient.Language__c}"
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_Share}"
-                          greeting="{!$Label.Email_Ext_User_Greeting}"
+                          greeting="{!$Label.Email_User_Greeting_FirstName}"
                           signature="{!$Label.Email_Signature_PT}">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Share}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_Trial_Details}"
@@ -20,13 +19,11 @@
 
     <messaging:plainTextEmailBody >
         <c:EmailWireframeText recipientId="{!recipient.Id}"
-                              recipientcontactName="{!recipient.Name}"  
-                              recipientName="{!$Label.Email_Guest}"
                               recipientLanguage="{!recipient.Language__c}"
                               shareEmailTemplate="Yes" 
                               sourceId="{!relatedTo.Id}"
                               header="{!$Label.Email_Header_Share}"
-                              greeting="{!$Label.Email_User_Greeting}"
+                              greeting="{!$Label.Email_User_Greeting_FirstName}"
                               signature="{!$Label.Email_Signature_PT}">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_Share}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_Trial_Details}"

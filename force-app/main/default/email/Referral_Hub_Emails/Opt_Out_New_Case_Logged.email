@@ -1,9 +1,9 @@
 <html>
-A new case has been entered into the IQVIA<sup>TM</sup> Referral Hub.<br><br>
+A new case has been entered into the IQVIA™ Referral Hub.<br><br>
 Case Number: <a href=' {!Case.Link}'>{!Case.CaseNumber}</a> <br>
 Case Type: {!Case.Type} <br>
 Description: {!Case.Description} <br>
-Case Date: {!Case.CreatedDate + 0} GMT <br>
+Case Date: {!DATETIMEVALUE(Case.CreatedDate)} EST <br>
 Case Logged By: {!Contact.Name}<br>
 Case Logged By Email: <a href="  " >{!Contact.Email}</a>
 </html>

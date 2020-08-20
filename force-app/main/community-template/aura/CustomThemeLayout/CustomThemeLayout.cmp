@@ -19,6 +19,7 @@
     <aura:attribute name="isMobileApp" type="Boolean" default="false"/>
     <aura:attribute name="isArabic" type="Boolean"/>
     <aura:attribute name="template" type="String"/>
+    <aura:attribute name="hasMessage" type="Boolean" access="public"/>
 
     <aura:attribute name="allModes" type="Object[]"/>
     <aura:attribute name="currentMode" type="Object"/>
@@ -47,7 +48,7 @@
                         </div>
 
                         <div class="navigation-block">
-                            <c:CommunityNavigation aura:id="navigation" mode="{!v.currentMode.userMode}" currentPage="{!v.currentPage}" communityTemplate="{!v.template}"/>
+                            <c:CommunityNavigation aura:id="navigation" mode="{!v.currentMode.userMode}" currentPage="{!v.currentPage}" communityTemplate="{!v.template}" hasMessage="{!v.hasMessage}"/>
                         </div>
                         <div class="right-block" data-gtm="community_mode_switcher">
                             <aura:if isTrue="{!v.currentMode.userMode != 'CC'}">

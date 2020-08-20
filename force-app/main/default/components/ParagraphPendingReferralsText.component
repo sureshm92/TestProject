@@ -1,0 +1,11 @@
+<!--
+ - Created by Anshuman Mishra on 08.07.2020.
+ -->
+
+<apex:component id="ParagraphPendingReferralsText" controller="ParagraphController" access="global">
+    <apex:attribute name="emailLabel" type="String" assignTo="{!labelName}" description="" access="global"/>
+    <apex:attribute name="filterrequired" type="Boolean" assignTo="{!isFilterRequired}" description="" access="global"/>
+    <apex:attribute name="outputType" assignTo="{!outputMode}" type="String" description="" default="Text"/>
+
+    {!labelValue}
+</apex:component>

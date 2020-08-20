@@ -138,7 +138,7 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Alternative_Phone_Type__c</field>
-            </layoutItems>
+            </layoutItems> 
         </layoutColumns>
         <layoutColumns/>
         <style>TwoColumnsTopToBottom</style>

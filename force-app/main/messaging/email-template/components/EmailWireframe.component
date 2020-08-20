@@ -26,7 +26,6 @@
                     description="If you need specific instance of EmailTemplateProvider set this here"/>
     <apex:attribute name="shareEmailTemplate" assignTo="{!shareTemplate}" type="String" description="" default="No" access="global"/>
     <apex:attribute name="OptOut" assignTo="{!displayOptOut}" type="String" description="" default="Yes" access="global"/>
-    <apex:attribute name="recipientcontactName" assignTo="{!recipientCntNameShare}" type="String" description="" access="global"/>  
     <div style="{!templateMap['emailTemplateBackground']}">
         <div style="{!templateMap['emailTemplateTextBackground']}">
             <div style="{!templateMap['emailTemplateHeaderBackground']}">

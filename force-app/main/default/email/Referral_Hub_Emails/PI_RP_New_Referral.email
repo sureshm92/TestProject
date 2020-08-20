@@ -9,7 +9,9 @@
                           title="{!$Label.Email_Title}"
                           greeting="{!$Label.Email_User_Greeting}"
                           signature="{!$Label.Email_Signature_RH}">
-            <c:ParagraphPendingReferrals emailLabel="{!$Label.Email_Body_PI_Delegate_Referrals}"/>
+            <c:ParagraphPendingReferrals emailLabel="{!$Label.Email_Body_PI_Delegate_Referrals}"
+                                         filterrequired="true"/>
+            <c:EmailTemplatePendingParticipants sourceId="{!relatedTo.Id}"/>
         </c:EmailTemplatePendingReferrals>
     </messaging:htmlEmailBody>
 
@@ -20,7 +22,9 @@
                               title="{!$Label.Email_Title}"
                               greeting="{!$Label.Email_User_Greeting}"
                               signature="{!$Label.Email_Signature_RH}">
-            <c:ParagraphText emailLabel="{!$Label.Email_Body_PI_Delegate_Referrals}"/>
+            <c:ParagraphPendingReferralsText emailLabel="{!$Label.Email_Body_PI_Delegate_Referrals}"
+                                             filterrequired="true"/>
+            <c:EmailTemplatePendingParticipantsText sourceId="{!relatedTo.Id}"/>
         </c:EmailTemplateTextPendingReferrals>
     </messaging:plainTextEmailBody>
 

@@ -70,7 +70,7 @@ public without sharing virtual class EmailTemplateProvider {
             }
         }
         if (isDelegate && userMode == 'Participant') initYourParticipantFirstName();
-
+        
         initialized = true;
     }
 
@@ -224,5 +224,25 @@ public without sharing virtual class EmailTemplateProvider {
 
         Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(recipientContactId);
         if (participant != null) parameters.put('ParticipantFirstName', participant.First_Name__c);
+    }
+    
+    public void addStudySiteNumber(){
+        List<Participant_Enrollment__c> receivedPEs = new List<Participant_Enrollment__c>();
+        List<Id> studySites = new List<Id>();
+        if(whatId !=null){
+            
+            if(isDelegate){
+                for(Site_Staff__c ss:[SELECT Study_Site__c FROM Site_Staff__c 
+                                      WHERE Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
+                                      AND Site_Contact__c =:whatId]){
+                   studySites.add(ss.Study_Site__c);   
+                }
+            }
+            receivedPEs.addAll([SELECT Id FROM Participant_Enrollment__c
+                                WHERE  Participant_Status__c = 'Received' 
+                                AND (Study_Site__c IN :studySites OR PI_Contact__c=:whatId)]);
+            
+        }
+        parameters.put('TotalStudies',String.valueOf(receivedPEs.size()));
     }
 }

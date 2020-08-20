@@ -117,52 +117,56 @@ public without sharing class CommunityModeService {
         if (!userParticipants.isEmpty()) {
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(userParticipant.Id);
             List<Participant_Enrollment__c> pePastList = pePastMap.get(userParticipant.Id);
-            CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(
-                    false, peList != null || pePastList != null
-            );
+            if (peList != null || pePastList != null) {
+                CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(
+                        false, peList != null || pePastList != null
+                );
 
-            if (peList != null) {
-                for (Participant_Enrollment__c pe : peList) {
+                if (peList != null) {
+                    for (Participant_Enrollment__c pe : peList) {
+                        String participantName = userParticipant.First_Name__c + ' ' + userParticipant.Last_Name__c;
+                        modeItem.subItems.add(new CommunityModes.PPCommunityModeItem(
+                                USER_MODE_PARTICIPANT, participantName, pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                                pe.Id, null, false
+                        ));
+                    }
+                } else if (pePastList != null) {
                     String participantName = userParticipant.First_Name__c + ' ' + userParticipant.Last_Name__c;
                     modeItem.subItems.add(new CommunityModes.PPCommunityModeItem(
-                            USER_MODE_PARTICIPANT, participantName, pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                            pe.Id, null, false
+                            USER_MODE_PARTICIPANT, participantName, Label.No_active_studies,
+                            null, null, false
                     ));
                 }
-            } else {
-                String participantName = userParticipant.First_Name__c + ' ' + userParticipant.Last_Name__c;
-                modeItem.subItems.add(new CommunityModes.PPCommunityModeItem(
-                        USER_MODE_PARTICIPANT, participantName, Label.No_active_studies,
-                        null, null, false
-                ));
+                modes.add(modeItem);
             }
-            modes.add(modeItem);
         }
 
         for (Id participantId : delegatedParticipantIds) {
             Participant__c participant = participantsMap.get(participantId);
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(participantId);
             List<Participant_Enrollment__c> pePastList = pePastMap.get(participantId);
-            CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(
-                    false, false
-            );
+            if(peList != null || pePastList != null) {
+                CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(
+                        false, false
+                );
 
-            if (peList != null) {
-                for (Participant_Enrollment__c pe : peList) {
+                if (peList != null) {
+                    for (Participant_Enrollment__c pe : peList) {
+                        String participantName = participant.First_Name__c + ' ' + participant.Last_Name__c;
+                        modeItem.subItems.add(new CommunityModes.PPCommunityModeItem(
+                                USER_MODE_PARTICIPANT, participantName, pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                                pe.Id, participant.Contact__c, true
+                        ));
+                    }
+                } else if (pePastList != null) {
                     String participantName = participant.First_Name__c + ' ' + participant.Last_Name__c;
                     modeItem.subItems.add(new CommunityModes.PPCommunityModeItem(
-                            USER_MODE_PARTICIPANT, participantName, pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                            pe.Id, participant.Contact__c, true
+                            USER_MODE_PARTICIPANT, participantName, Label.No_active_studies,
+                            null, participant.Contact__c, true
                     ));
                 }
-            } else if (pePastList != null) {
-                String participantName = participant.First_Name__c + ' ' + participant.Last_Name__c;
-                modeItem.subItems.add(new CommunityModes.PPCommunityModeItem(
-                        USER_MODE_PARTICIPANT, participantName, Label.No_active_studies,
-                        null, participant.Contact__c, true
-                ));
+                modes.add(modeItem);
             }
-            modes.add(modeItem);
         }
         return modes;
     }

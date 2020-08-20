@@ -52,14 +52,16 @@
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>IF(BEGINS([Case].OwnerId, &quot;00G&quot;) , IF(ISPICKVAL([Case].Origin, &apos;Opt Out&apos;)  ,true,false ), false) </stringValue>
+                <stringValue>OR(IF(BEGINS([Case].OwnerId, &quot;00G&quot;) , IF(ISPICKVAL([Case].Origin, &apos;Opt Out&apos;),true,false ), false),
+ IF([Case].Subject==&apos;Lockout - unable to login&apos;,true,false ))</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_1</name>
         <dataType>Boolean</dataType>
-        <expression>IF(BEGINS({!myVariable_current.OwnerId}, &quot;00G&quot;) , IF(ISPICKVAL({!myVariable_current.Origin}, &apos;Opt Out&apos;)  ,true,false ), false)</expression>
+        <expression>OR(IF(BEGINS({!myVariable_current.OwnerId}, &quot;00G&quot;) , IF(ISPICKVAL({!myVariable_current.Origin}, &apos;Opt Out&apos;),true,false ), false),
+ IF({!myVariable_current.Subject}==&apos;Lockout - unable to login&apos;,true,false ))</expression>
     </formulas>
-    <interviewLabel>Email_to_Technical_Support_for_Optout_option-2_InterviewLabel</interviewLabel>
+    <interviewLabel>Email_to_Technical_Support_for_Optout_option-6_InterviewLabel</interviewLabel>
     <label>Email to Technical Support for Optout option</label>
     <processMetadataValues>
         <name>ObjectType</name>

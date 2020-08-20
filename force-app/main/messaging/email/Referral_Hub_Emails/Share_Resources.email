@@ -5,33 +5,30 @@
 
     <messaging:htmlEmailBody >
         <c:EmailWireframe recipientId="{!recipient.Id}"
-                          recipientcontactName="{!recipient.Name}"
-                          recipientName="{!$Label.Email_Guest}"
                           recipientLanguage="{!recipient.Language__c}"
                           shareEmailTemplate="Yes"
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_Share_PH}"
                           title="{!$Label.Email_Title_PH}"
-                          greeting="{!$Label.Email_User_Greeting}"
+                          greeting="{!$Label.Email_User_Greeting_FirstName}"
                           signature="{!$Label.Email_Signature_Resource}">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Share_Resource}"/>
-            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_Resource}"
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Label_View_Information}"
                               buttonURL="{!relatedTo.article_external_link__c }"/>
         </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
         <c:EmailWireframeText recipientId="{!recipient.Id}"
-                              recipientName="{!$Label.Email_Guest}"
                               shareEmailTemplate="Yes"
                               recipientLanguage="{!recipient.Language__c}"
                               sourceId="{!relatedTo.Id}"
                               header="{!$Label.Email_Header_Share_PH}"
                               title="{!$Label.Email_Title_PH}"
-                              greeting="{!$Label.Email_User_Greeting}"
+                              greeting="{!$Label.Email_User_Greeting_FirstName}"
                               signature="{!$Label.Email_Signature_Resource}">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_Share_Resource}"/>
-            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_Resource}"
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Label_View_Information}"
                                   buttonURL="{!relatedTo.article_external_link__c }"/>
         </c:EmailWireframeText>
     </messaging:plainTextEmailBody>

@@ -5,12 +5,12 @@
     <name>Opt Out New Case Logged</name>
     <style>none</style>
     <subject>{!Case.Type} - New Case Logged - {!Case.CaseNumber}</subject>
-    <textOnly>A new case has been entered into the IQVIATM Referral Hub.
+    <textOnly>A new case has been entered into the IQVIA™ Referral Hub.
 
 Case Number: {!Case.CaseNumber}
 Case Type: {!Case.Type}
 Description: {!Case.Description}
-Case Date: {!Case.CreatedDate + 0} GMT
+Case Date: {!DATETIMEVALUE(Case.CreatedDate)} EST
 Case Logged By: {!Contact.Name}
 Case Logged By Email: {!Contact.Email}</textOnly>
     <type>custom</type>

@@ -1,5 +1,6 @@
 <apex:component id="ParagraphPendingReferrals" controller="ParagraphController" access="global">
     <apex:attribute name="emailLabel" type="String" assignTo="{!labelName}" description="" access="global"/>
+    <apex:attribute name="filterrequired" type="Boolean" assignTo="{!isFilterRequired}" description="" access="global"/>
     <apex:attribute name="outputType" type="String" assignTo="{!outputMode}" description="" default="HTML"/>
     <div style="margin-top: 15px; margin-bottom: 15px;">
         <apex:outputText escape="false" value="{!labelValue}"/>

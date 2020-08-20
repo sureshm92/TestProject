@@ -10,16 +10,19 @@
             let communityPrefix = communityService.getCommunityURLPathPrefix();
             let check = communityPrefix.includes('janssen');
             let linkPPUrl;
+            let linkCP;
             let linkPP = $A.get('$Label.c.Footer_Link_Privacy_Policy');
             let linkIAB = $A.get('$Label.c.Link_Interactive_Advertising_Bureau');
             let urlIAB = $A.get('$Label.c.URL_Interactive_Advertising_Bureau');
             if (check) {
                 linkPPUrl = '<a class="ci-link" href="/janssen/s/privacy-policy">';
                 linkPP = $A.get('$Label.c.Footer_Link_Privacy_Policy_Janssen');
+                linkCP = '<a class="ci-link" href="/janssen/s/cookie-policy">';
             } else {
                 linkPPUrl = '<a class="ci-link" href="/s/privacy-policy">';
+                linkCP = '<a class="ci-link" href="/s/cookie-policy">';
             }
-            infoText = infoText.replace('##cookiesURL', '<a class="ci-link" href="/s/cookie-policy">' + linkCookies + '</a>');
+            infoText = infoText.replace('##cookiesURL', linkCP + linkCookies + '</a>');
             infoText = infoText.replace('##privacyPolicyURL', linkPPUrl + linkPP + '</a>');
             infoText = infoText.replace('##interactiveAdvertisingBureauURL', '<a class="ci-link" href="' + urlIAB + '">' + linkIAB + '</a>');
             component.set('v.resultInfoText', infoText);

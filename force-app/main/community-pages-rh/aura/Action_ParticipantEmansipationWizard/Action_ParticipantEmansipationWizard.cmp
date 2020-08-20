@@ -25,6 +25,7 @@
     <aura:attribute name="finalAgree" type="Boolean" default="false"/>
     <aura:attribute name="delegateItemsDisabled" type="Boolean" default="false"/>
     <aura:attribute name="actions" type="Object"/>
+    <aura:attribute name="communityTemplate" type="String"/>
 
     <aura:attribute name="todayDate" type="Date" access="private"/>
     <aura:attribute name="statesLVList" type="LabelValueItem[]" access="private"/>
@@ -74,6 +75,7 @@
                         <div class="ap-section">
                             <div class="ap-section-title">{!$Label.c.BTN_Participant_Information}</div>
                             <div class="slds-grid slds-gutters slds-wrap">
+                                <aura:if isTrue="{!v.communityTemplate != 'Janssen'}">
                                 <div class="rr-form-element slds-col slds-size--1-of-1" style="margin-top: 5px;">
                                     {!v.participantMsgWithName}
                                 </div>
@@ -81,6 +83,7 @@
                                     <lightning:input type="radio" label="{!$Label.c.BTN_Invite}" name="options" value="1" checked="{!v.selectedOption == '1'}" onchange="{!c.doHandleRadioClick}"/>
                                     <lightning:input type="radio" label="{!$Label.c.Do_Not_Invite}" name="options" value="2" checked="{!v.selectedOption == '2'}" onchange="{!c.doHandleRadioClick}"/>
                                 </div>
+                                </aura:if>
                                 <div class="rr-form-element slds-col slds-size--1-of-1" style="margin-top: 30px;">
                                     {!$Label.c.PG_EMN_MSG_Update_Participant_Info}
                                 </div>
