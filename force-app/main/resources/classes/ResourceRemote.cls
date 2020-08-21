@@ -28,16 +28,26 @@ public with sharing class ResourceRemote {
     @AuraEnabled
     public static void setResourceAction(String resourceId, Boolean isFavorite, Boolean isVoted) {
         try {
-            String participantId = ParticipantService.getInstance().getState().participant.Id;
-            String resourceActionQuery =
+            Participant__c participant = ParticipantService.getInstance().getState().participant;
+            String resourceActionQuery;
+            if (participant != null && participant.Id != null) {
+                resourceActionQuery =
                     'SELECT Id, ' +
-                            'IsFavorite__c, ' +
-                            'IsVoted__c ' +
-                            'FROM Resource_Action__c ' +
-                            'WHERE Resource__c = \'' + resourceId + '\'' + ' AND Participant__c = \'' + participantId + '\'';
+                    'IsFavorite__c, ' +
+                    'IsVoted__c ' +
+                    'FROM Resource_Action__c ' +
+                    'WHERE Resource__c = \'' + resourceId + '\'' + ' AND Participant__c = \'' + participant.Id + '\'';
+            } else {
+                resourceActionQuery =
+                    'SELECT Id, ' +
+                    'IsFavorite__c, ' +
+                    'IsVoted__c ' +
+                    'FROM Resource_Action__c ' +
+                    'WHERE Resource__c = \'' + resourceId + '\'';
+            }
             DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
             List<Resource_Action__c> actions = (List<Resource_Action__c>) databaseProxy.query(resourceActionQuery, true);
-            Resource_Action__c action = !actions.isEmpty() ? actions[0] : new Resource_Action__c(Resource__c = resourceId, Participant__c = participantId);
+            Resource_Action__c action = !actions.isEmpty() ? actions[0] : new Resource_Action__c(Resource__c = resourceId, Participant__c = participant.Id);
             action.IsFavorite__c = isFavorite;
             action.IsVoted__c = isVoted;
             databaseProxy.upsertRecord(action, true);

@@ -59,6 +59,7 @@
     width: 14px;
     top: 10px;
     right: 0;
+    opacity: .7;
 }
 
 .THIS .travel-cell {
@@ -100,4 +101,10 @@
 .THIS .cRRTable.rr-table td{
     padding: 4px 13px;
     font-size: 16px;
+}
+
+@media (any-pointer: coarse) {
+    .THIS .sv-footer .cRRLink.rr-link:after {
+        top: 7px;
+    }
 }

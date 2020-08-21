@@ -1298,6 +1298,8 @@ select.rr-select-error,
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color:#0768FD;
+
 }
 .unsNotificationsPanel .titleName {
     min-width: 20% !important;

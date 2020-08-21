@@ -129,18 +129,26 @@ public without sharing class OnboardingSlideTourRemote {
         Boolean isHCP = hcpListWithoutDelegates.size() > 0;
         Boolean isHCPDelegate = hcpListWithDelegates.size() > hcpListWithoutDelegates.size();
         String piTourName;
+        String tempTourTemplateName;
         if(isPI){
-            piTourName = 'PI';
+            tempTourTemplateName = UserContext.getTemplateProperty('SlideTourPI');
+            piTourName = String.isBlank(tempTourTemplateName)?'PI':tempTourTemplateName;
         }else if(isPIDelegate){
-            piTourName = 'PI_Delegate';
+            tempTourTemplateName = UserContext.getTemplateProperty('SlideTourPIDelegate');
+            piTourName = String.isBlank(tempTourTemplateName)?'PI_Delegate':tempTourTemplateName;
         }
 
-        String hcpTourName = 'HCP';
+        String hcpTourName;
         if(isHCPDelegate){
-            hcpTourName = 'HCP_Delegate';
+            tempTourTemplateName = UserContext.getTemplateProperty('SlideTourHCPDelegate');
+            hcpTourName = String.isBlank(tempTourTemplateName)?'HCP_Delegate':tempTourTemplateName;
+        }else{
+            tempTourTemplateName = UserContext.getTemplateProperty('SlideTourHCP');
+            hcpTourName = String.isBlank(tempTourTemplateName) ?'HCP':tempTourTemplateName;
         }
 
-        String participantTourName = UserContext.getTemplateProperty('SlideTour');
+
+        String participantTourName = UserContext.getTemplateProperty('SlideTourParticipant');
 
         return new Map<String, String>{
                 CommunityService.USER_MODE_PARTICIPANT => participantTourName,

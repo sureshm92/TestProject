@@ -126,19 +126,6 @@ public without sharing class StudySiteTriggerHandler {
             }
             for (Id piId : piCommunitySS.keySet()) {
                 for (String community : piCommunitySS.get(piId).keySet()) {
-                    if (community == CommunityTemplateService.TEMPLATE_JANSSEN) {
-                        if (piCommunitySS.get(piId).get(community).size() > 1) {
-                            for (Id ss : piCommunitySS.get(piId).get(community)) {
-                                if (ssIDs.contains(ss)) {
-                                    notifications.add(new Notification__c(
-                                            Recipient__c = piId,
-                                            WhatId__c = ss,
-                                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_ACCEPT_NEW_STUDY_TYPE
-                                    ));
-                                }
-                            }
-                        }
-                    } else {
                         for (Id ss : piCommunitySS.get(piId).get(community)) {
                             if (ssIDs.contains(ss)) {
                                 notifications.add(new Notification__c(
@@ -148,7 +135,6 @@ public without sharing class StudySiteTriggerHandler {
                                 ));
                             }
                         }
-                    }
                 }
             }
         }
