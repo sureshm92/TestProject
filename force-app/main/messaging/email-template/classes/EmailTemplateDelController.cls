@@ -34,6 +34,7 @@ global without sharing class EmailTemplateDelController {
                             Study_Site__r.Name
                     FROM Site_Staff__c
                     WHERE Site_Contact__c = :EmailTemplateProviderService.getProvider().getRecipientId()
+                    AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != :CommunityTemplateService.TEMPLATE_JANSSEN
             ];
         }
         TranslateHelper.translate(siteStaffs, EmailTemplateProviderService.getProvider().getUserLanguage());
