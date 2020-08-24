@@ -177,6 +177,10 @@ public without sharing class StudySiteService {
         }
     }
 
+    public static List<Study_Site__c> getStudySitesForPIBySponsor(String communityTemplate) {
+        return getStudySitesCommon(CommunityService.USER_MODE_PI, 'AND Clinical_Trial_Profile__r.CommunityTemplate__c = \'' + communityTemplate + '\'', false);
+    }
+
     public static List<Study_Site__c> getStudySitesForPI() {
         return getStudySitesCommon(CommunityService.USER_MODE_PI, null, false);
     }
@@ -596,7 +600,8 @@ public without sharing class StudySiteService {
             filterString += ' AND Study_Site_Type__c = \'' + filter.siteType + '\' ';
         }
         /*filterString += 'AND Principal_Investigator__r.Account.BillingCountry = \'' + userCountry+'\' ';*/
-        filterString += 'AND Site__r.BillingCountry = \'' + userCountry+'\' ';
+        filterString += 'AND Site__r.BillingCountry = \'' + userCountry +'\' ';
+        filterString += 'AND Clinical_Trial_Profile__r.CommunityTemplate__c != \'' + CommunityTemplateService.TEMPLATE_JANSSEN+'\' ';
 
         System.debug('filterString SSDW ' + filterString);
         return getStudySitesCommon(filterString);

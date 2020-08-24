@@ -47,8 +47,8 @@
         <ui:scrollerWrapper>
             <aura:if isTrue="{!!empty(v.travelWrapper)}">
                 <c:RRTable>
-                    <tr>
-                        <th class="sv-t-visit" style="width: 10%">{!$Label.c.Home_Page_StudyVisit_Visit}</th>
+                    <tr class="tableHeader">
+                        <th class="sv-t-visit">{!$Label.c.Home_Page_StudyVisit_Visit}</th>
                         <th class="sv-t-icons">{!$Label.c.Home_Page_Travel_Support_Bookings_Col}</th>
                         <th class="sv-t-status">{!$Label.c.Home_Page_Travel_Support_Booking_Status_Col}</th>
                         <th class="sv-t-date">{!$Label.c.Home_Page_Travel_Support_Booking_Date_Col}</th>
@@ -57,12 +57,17 @@
                     </tr>
                     <aura:iteration var="travelWrapper" items="{!v.currentTravels}">
                         <tr>
-                            <td class="sv-t-visit">{!empty(travelWrapper.visitName)
+                            <td class="sv-t-visit">
+                                <span class="travelLabel">{!$Label.c.Home_Page_StudyVisit_Visit}: </span>
+
+                                {!empty(travelWrapper.visitName)
                                 ? $Label.c.StudyVisit_Unscheduled_Visit
                                 : travelWrapper.visitName}</td>
                             <td class="sv-t-icons">
                                 <div class="booking-cell">
+                                    <span class="travelLabel">{!$Label.c.Home_Page_Travel_Support_Bookings_Col}: </span>
                                     <div class="icon-item">
+
                                         <c:RRIcon class="icon-item svl-icon" iconName="{!travelWrapper.icon}"/>
                                     </div>
                                     <div style="padding-left: 3px">{!travelWrapper.title}</div>
@@ -70,6 +75,7 @@
                             </td>
                             <td class="sv-t-status">
                                 <div class="booking-cell">
+                                    <span class="travelLabel">{!$Label.c.Home_Page_Travel_Support_Booking_Status_Col}: </span>
                                     <c:RRIcon class="icon-item svl-icon"
                                               iconName="{!travelWrapper.statusIcon}"
                                               color="{!travelWrapper.bgc}"/>
@@ -77,14 +83,17 @@
                                 </div>
                             </td>
                             <td class="sv-t-date">
+                                <span class="travelLabel">{!$Label.c.Home_Page_Travel_Support_Booking_Date_Col}: </span>
                                 <lightning:formattedDateTime value="{!travelWrapper.dateAndTime}"
                                                              year="numeric" month="2-digit" day="2-digit"/>
                             </td>
                             <td class="sv-t-time">
+                                <span class="travelLabel">{!$Label.c.Home_Page_Travel_Support_Booking_Time_Col}: </span>
                                     <lightning:formattedDateTime value="{!travelWrapper.dateAndTime}"
                                                                  hour="2-digit" minute="2-digit"/>
                             </td>
                             <td class="sv-t-reminder">
+                                <span class="travelLabel">{!$Label.c.Home_Page_Travel_Support_Action_Col} &nbsp; <lightning:helptext content="{!v.externalLinkDisclaimer}"/>: </span>
                                 <lightning:formattedUrl value="{!travelWrapper.link}" label="{!$Label.c.Study_Workspace_Travel_Support_View_Booking}"/>
                             </td>
                         </tr>

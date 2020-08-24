@@ -22,8 +22,11 @@
             component.set('v.title', $A.get('$Label.c.PG_TC_H_Terms_And_Conditions'));
         }
         component.find('mainSpinner').show();
+        let userDefalutTC = communityService.getUrlParameter('default') ? true: false;
         if(isPortalTC){
-            communityService.executeAction(component, 'getPortalTcData', null, function (returnValue) {
+            communityService.executeAction(component, 'getPortalTcData', {
+                useDefaultCommunity: communityService.getHasIQVIAStudiesPI() && userDefalutTC
+            }, function (returnValue) {
                 component.set('v.tcData', JSON.parse(returnValue));
             }, null, function () {
                 component.find('mainSpinner').hide();
@@ -32,7 +35,8 @@
             if(titleCode === 'CookiePolicy' || titleCode === 'PrivacyPolicy'){
                 communityService.executeAction(component, 'getTC', {
                     code: titleCode,
-                    languageCode: communityService.getUrlParameter('language')
+                    languageCode: communityService.getUrlParameter('language'),
+                    useDefaultCommunity: communityService.getHasIQVIAStudiesPI() && userDefalutTC
                 }, function (returnValue) {
                     let tcData = JSON.parse(returnValue);
                     component.set('v.tcData', tcData);

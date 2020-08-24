@@ -8,7 +8,7 @@ global without sharing class EmailWireframeController {
     global String greetingValue { get; set; }
     global String preSignatureValue { get; set; }
     global String signatureValue { get; set; }
-
+	global String shareTemplate { get; set; }
     global Id sourceRecordId { get; set; }
     global String emailRecipientName { get; set; }
     global String emailRecipientId { get; set; }
@@ -16,12 +16,52 @@ global without sharing class EmailWireframeController {
     global String communityTemplateValue { get; set; }
     global String specificEmailProviderValue { get; set; }
     global String outputMode { get; set; }
-
+    global String displayOptOut {get;set;}
     private EmailTemplateProvider templateProvider;
 
     global String getUserLanguageCode() {
         return getProvider().getUserLanguage();
     }
+    
+    
+  global string communityTypeURL {
+       get{
+            if (communityTemplateValue == 'GSK') communityTypeURL ='/gsk';
+            else if (communityTemplateValue =='Default')communityTypeURL ='';
+            else if(getProvider().getParameters().get('FullCommunityName').contains('Gather')) communityTypeURL ='/gsk' ;
+            else communityTypeURL='';
+            return communityTypeURL;
+         
+        }
+         set;
+    }
+ 	global String userMode {//+
+        get{
+                try {
+                    if (userMode == null) userMode = getProvider().getUserMode();
+                    return userMode;
+                } catch (Exception e) {
+                    EmailService.sendException(e, null);
+                    return null;
+                }
+       		}
+        set;
+    }
+	global Id recipientcntId {
+      		 get{
+        		try {
+                        if (recipientcntId == null) recipientcntId = getProvider().getRecipientId();
+                        if(recipientcntId == null) recipientcntId = getProvider().getParameters().get('RecipientContactId');
+                        return recipientcntId;
+            		}
+               	catch (Exception e) {
+                        EmailService.sendException(e, null);
+                        return e.getMessage();
+                    }
+        		}
+         	set;
+    }
+
 
     public Map<String, String> getTemplateMap() {
         return getProvider().getParameters();
@@ -45,9 +85,18 @@ global without sharing class EmailWireframeController {
                 titleLabelValue = getLabelValue(titleValue);
             }
         } else {
-            titleLabelValue = getProvider().getUserMode() == CommunityService.USER_MODE_PARTICIPANT ?
-                    getProvider().getParameters().get(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_LABEL)
-                    : getProvider().getParameters().get(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_NEW_TM);
+            if (communityTemplateValue != CommunityTemplateService.TEMPLATE_JANSSEN) {
+                if (getProvider().getUserMode() == CommunityService.USER_MODE_PARTICIPANT) {
+                    titleLabelValue = getProvider().getParameters().get(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_LABEL);
+                } else if (getProvider().getUserMode() == CommunityService.USER_MODE_PI) {
+                    titleLabelValue = getProvider().getParameters().get(TemplatePropertiesCatalog.TEMPLATE_PROP_TEAM_RH);
+                } else {
+                    getProvider().getParameters().get(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_NEW_TM);
+                }
+            } else {
+                titleLabelValue = getProvider().getParameters().get(TemplatePropertiesCatalog.TEMPLATE_PROP_TEAM_RH);
+            }
+
         }
 
         return titleLabelValue;
@@ -64,6 +113,10 @@ global without sharing class EmailWireframeController {
     public String getSignatureText() {
         String signatureLabelValue = replaceParams(getLabelValue(signatureValue));
         return prepareLineBreaks(signatureLabelValue);
+    }
+
+    public String getEmailCommunityURL() {
+        return CommunityTemplateService.getCommunityURL(getProvider().getParameters().get(TemplatePropertiesCatalog.COMM_TEMPLATE_URL));
     }
 
     public Boolean getIsInitialized() {

@@ -430,7 +430,7 @@ global without sharing class ReferHealthcareProviderRemote {
                 Set<Id> studyIds = new Set<Id>();
                 for (Study_Site__c site : studySites) {
                     if (!studyIds.contains(site.Id) && StudySiteService.STATUS_GROUP_ACCEPTED.contains(site.Override_PI_Referral_Status__c) &&
-                            !hcpEnrollmentByStudySiteId.containsKey(site.Id)) {
+                            !hcpEnrollmentByStudySiteId.containsKey(site.Id) && site.Clinical_Trial_Profile__r.CommunityTemplate__c != CommunityTemplateService.TEMPLATE_JANSSEN) {
                         studySitesForInvitation.add(site);
                         studyIds.add(site.Id);
                     }

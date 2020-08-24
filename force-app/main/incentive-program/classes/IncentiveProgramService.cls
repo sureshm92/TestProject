@@ -33,7 +33,7 @@ public without sharing class IncentiveProgramService {
             tasksMapByPlanIds.get(enabledTask.Incentive_Plan__c).add(enabledTask);
         }
 
-        for(Study_Incentive_Plan__c sip: [SELECT Id, Incentive_Plan__c, Study_Site__c FROM Study_Incentive_Plan__c WHERE Incentive_Plan__c IN :tasksMapByPlanIds.keySet()]){
+        for(Study_Incentive_Plan__c sip: [SELECT Id, Incentive_Plan__c, Study_Site__c FROM Study_Incentive_Plan__c WHERE Incentive_Plan__c IN :tasksMapByPlanIds.keySet() AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != :CommunityTemplateService.TEMPLATE_JANSSEN]){
             if (!studySiteEnabledTasksMap.containsKey(sip.Study_Site__c)) {
                 studySiteEnabledTasksMap.put(sip.Study_Site__c, new List<Incentive_Plan_Task__c>());
             }
@@ -101,7 +101,7 @@ public without sharing class IncentiveProgramService {
         for (Study_Incentive_Plan__c studyIncentivePlan : [
                 SELECT Id, Incentive_Plan__c, Clinical_Trial_Profile__c, Study_Site__c
                 FROM Study_Incentive_Plan__c
-                WHERE Study_Site__c = :ssId
+                WHERE Study_Site__c = :ssId AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != :CommunityTemplateService.TEMPLATE_JANSSEN
         ]){
             planIds.add(studyIncentivePlan.Incentive_Plan__c);
         }

@@ -175,7 +175,8 @@ public without sharing class NotificationAvailabilityService {
             if (objType == STUDY_SITE_OBJ_NAME) {
                 List<Study_Site__c> studySites = [
                         SELECT Id,
-                                Suppress_Study_Site_PI_Emails__c
+                                Suppress_Study_Site_PI_Emails__c,
+                                Clinical_Trial_Profile__r.CommunityTemplate__c
                         FROM Study_Site__c
                         WHERE Id IN:objectsByStrings.get(objType)
                 ];
@@ -312,6 +313,9 @@ public without sharing class NotificationAvailabilityService {
         } else if (objType == CLINICAL_TRIAL_PROFILE_OBJ_NAME) {
             Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) objectsByIds.get(Id.valueOf(whatId));
             communityTemplate = CommunityTemplateService.getTemplate(ctp.CommunityTemplate__c);
+        } else if (objType == STUDY_SITE_OBJ_NAME) {
+            Study_Site__c ss = (Study_Site__c) objectsByIds.get(Id.valueOf(whatId));
+            communityTemplate = CommunityTemplateService.getTemplate(ss.Clinical_Trial_Profile__r.CommunityTemplate__c);
         } else if (objType == TASK_OBJ_NAME) {
             Task task = (Task) objectsByIds.get(Id.valueOf(whatId));
             if(task.Community_Template_Name__c != null) {

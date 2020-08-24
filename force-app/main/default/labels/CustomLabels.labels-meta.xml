@@ -530,6 +530,14 @@
         <value>Additional Notes</value>
     </labels>
     <labels>
+        <fullName>Additional_Technical_Support</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Additional Technical Support</shortDescription>
+        <value>I need additional technical support</value>
+    </labels>
+    <labels>
         <fullName>Admin</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2797,6 +2805,14 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>You can not edit this object. Delete and create a new one instead.</value>
     </labels>
     <labels>
+        <fullName>Can_t_rembeber_my_username</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Can&apos;t rembeber my username</shortDescription>
+        <value>I cannot remember my user name</value>
+    </labels>
+    <labels>
         <fullName>Cancel</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2846,6 +2862,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <protected>false</protected>
         <shortDescription>Community Email Logo</shortDescription>
         <value>https://quintilesimscmo--c.documentforce.com/servlet/servlet.ImageServer?id=0152o0000077c8Y&amp;oid=00D1I000001V1t1&amp;lastMod=1590660593000</value>
+    </labels>
+    <labels>
+        <fullName>CommunityJanssenURL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CommunityJanssenURL</shortDescription>
+        <value>http://sandbox-inspiration-customer-6910-de-17375dcfde7.cs26.force.com/janssen</value>
     </labels>
     <labels>
         <fullName>CommunityPrivatePolicyLink</fullName>
@@ -2932,6 +2955,22 @@ Please share our site on social media to encourage others to assist us as we wor
         <protected>false</protected>
         <shortDescription>Cookies Info Text First Logon</shortDescription>
         <value>This site uses cookies for the essential functioning of the site, to improve user experience, and for analytical purposes. By using this site you are consenting to our use of cookies.</value>
+    </labels>
+    <labels>
+        <fullName>Copy_of_my_personal_information</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Copy of my personal information</shortDescription>
+        <value>I would like to request a copy of my personal information</value>
+    </labels>
+    <labels>
+        <fullName>Correction_of_my_personal_information</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Correction of my personal information</shortDescription>
+        <value>I would like to request a correction or deletion of my personal information</value>
     </labels>
     <labels>
         <fullName>Covid19_NYBC_Email_Logo</fullName>
@@ -3161,6 +3200,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <protected>false</protected>
         <shortDescription>DLIT L Decline or place on hold a referring HCP</shortDescription>
         <value>Update referring provider status</value>
+    </labels>
+    <labels>
+        <fullName>DLIT_L_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DLIT L Disclaimer</shortDescription>
+        <value>*Permissions may not be applicable for all studies</value>
     </labels>
     <labels>
         <fullName>DLIT_L_Manage_study_site_details</fullName>
@@ -3548,6 +3594,30 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>Oh no, there are no items here.</value>
     </labels>
     <labels>
+        <fullName>Don_t_want_to_be_contacted</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Don&apos;t want to be contacted</shortDescription>
+        <value>I do not want to be contacted via phone(voice call)</value>
+    </labels>
+    <labels>
+        <fullName>Don_t_want_to_be_contacted_via_SMS</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Don_t_want_to_be_contacted_via_SMS</shortDescription>
+        <value>I do not want to be contacted via SMS/text messages</value>
+    </labels>
+    <labels>
+        <fullName>Don_t_want_to_receive</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Don&apos;t want to receive email</shortDescription>
+        <value>I do not want to receive emails (not applicable to system emails or messages sent in response to a specific user request, e.g. password reset email)</value>
+    </labels>
+    <labels>
         <fullName>Download_Trial_Match</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3773,6 +3843,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>You have been given permission to access one or more studies in Referral Hub. Please enroll so that you can access Referral Hub and perform referral tasks.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Initial_Delegate_Janssen</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Initial Delegate</shortDescription>
+        <value>You have been given permission to access one or more studies in Janssen Referral Hub. Please enroll so that you can access Janssen Referral Hub and perform referral tasks.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Initial_HCP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3882,6 +3959,13 @@ Please share our site on social media to encourage others to assist us as we wor
             Your username is ##UserName.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Janssen_Initial_PI</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Janssen Initial PI</shortDescription>
+        <value>Please take a moment to enroll in the IQVIA Referral Hub. This will allow you to use Referral Hub&amp;apos;s participant contact and status tracking capabilities. For studies with Patient Portal capabilities available, this will also allow your patients to track their status throughout their participation with the study, without calling your office for updates.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Medication_Task_Reminder</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3930,9 +4014,9 @@ Please share our site on social media to encourage others to assist us as we wor
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body PI1</shortDescription>
-        <value>A new clinical research study has been added to your account on the IQVIA Referral Hub:  ##StudyName
+        <value>A new clinical research study has been added to your account on the ##SignatureCommunityName:  ##StudyName
 
-            Please take a moment to log into the IQVIA Referral Hub to review and accept the study.</value>
+            Please take a moment to log into the ##SignatureCommunityName to review and accept the study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI2</fullName>
@@ -3959,7 +4043,7 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <shortDescription>Email Body PI5</shortDescription>
         <value>This is a reminder that you accepted one or more referrals over 5 days ago, but contact has not yet been made with the potential study participant(s).
 
-            To review the referral(s), log in to the IQVIA Referral Hub and navigate to &quot;My Referrals.&quot;</value>
+            To review the referral(s), log in to the ##ShortCommName and navigate to &quot;My Referrals.&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI6</fullName>
@@ -3984,7 +4068,14 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_PI_Delegate_Referrals</shortDescription>
-        <value>One or more referrals are awaiting your response. Please access these participants on My Participants to manage their pre-enrollment status.</value>
+        <value>There are ##TotalStudies referrals awaiting your response. For the studies below, please access these participants on...</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_PI_Delegate_Unsuppressed_Referrals</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Body_PI_Delegate_Unsuppressed_Referrals</shortDescription>
+        <value>Below participants are unsuppressed.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI_New_Mess</fullName>
@@ -4569,6 +4660,13 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <value>Privacy Policy</value>
     </labels>
     <labels>
+        <fullName>Email_Footer_Privacy_Policy_Janssen</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Footer Privacy Policy Janssen</shortDescription>
+        <value>Janssen Privacy Policy</value>
+    </labels>
+    <labels>
         <fullName>Email_Greeting</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5018,11 +5116,42 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <value>Your access level has changed</value>
     </labels>
     <labels>
+        <fullName>Email_Label_View_Information</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Label View Information</shortDescription>
+        <value>View Information</value>
+    </labels>
+    <labels>
         <fullName>Email_Notification_Greeting</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Notification Greeting</shortDescription>
         <value>Dear ##FirstName,</value>
+    </labels>
+    <labels>
+        <fullName>Email_Opt_Out_footer</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Opt Out footer</shortDescription>
+        <value>To request technical support or opt out of optional email communications,</value>
+    </labels>
+    <labels>
+        <fullName>Email_Opt_Out_footer_here</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Opt Out footer here</shortDescription>
+        <value>click here</value>
+    </labels>
+    <labels>
+        <fullName>Email_Opt_Out_footer_medical_emergency</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Opt Out footer medical emergency</shortDescription>
+        <value>If you have a medical emergency, please contact your local emergency medical services.</value>
     </labels>
     <labels>
         <fullName>Email_Signature</fullName>
@@ -5093,6 +5222,17 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <value>Sincerely,
 
             The GSK Participant Hub team</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_Janssen</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature</shortDescription>
+        <value>Thank you.
+
+            Sincerely,
+
+            The IQVIA Referral Hub Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_New</fullName>
@@ -5225,11 +5365,11 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature RH</shortDescription>
-        <value>Thank you for participating in the IQVIA Referral Hub.
+        <value>Thank you for participating in the ##SignatureCommunityName.
 
             Sincerely,
 
-            The IQVIA Referral Hub Support Team</value>
+            ##SignatureTeam</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Resource</fullName>
@@ -5357,6 +5497,13 @@ The NYBC Convalescent Plasma Donation Team</value>
         <protected>false</protected>
         <shortDescription>Email Subject Initial</shortDescription>
         <value>Please enroll in the Gather Share Know Participant Hub</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Initial_Janssen</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Initial Janssen</shortDescription>
+        <value>Please enroll in the IQVIA Referral Hub</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Initial_Patient</fullName>
@@ -5728,6 +5875,13 @@ The NYBC Convalescent Plasma Donation Team</value>
         <protected>false</protected>
         <shortDescription>Email Title Initial All IQVIA</shortDescription>
         <value>IQVIA™ Referral Hub and Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>Email_Title_Initial_All_Janssen</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Title Initial All Janssen</shortDescription>
+        <value>IQVIA™ Referral Hub</value>
     </labels>
     <labels>
         <fullName>Email_Title_PH</fullName>
@@ -6129,6 +6283,13 @@ The NYBC Convalescent Plasma Donation Team</value>
         <value>Privacy Policy</value>
     </labels>
     <labels>
+        <fullName>Footer_Link_Privacy_Policy_Janssen</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Footer Link Privacy Policy</shortDescription>
+        <value>Janssen Privacy Policy</value>
+    </labels>
+    <labels>
         <fullName>Footer_Link_Terms_Of_Use</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6191,6 +6352,13 @@ The NYBC Convalescent Plasma Donation Team</value>
         <protected>false</protected>
         <shortDescription>Glucose Description</shortDescription>
         <value>Glucose is a sugar, also called &quot;blood sugar&quot;. When your body digests food, carbohydrates are broken down to make glucose. Your small intestine then absorbs the glucose to release it into the blood. Glucose is the most important source of energy for cells in your body and the only source of energy for your brain, spinal cord, and nerves. Blood glucose is measured to check your general health and to check for a range of conditions.</value>
+    </labels>
+    <labels>
+        <fullName>HCP_Mode</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HCP Mode</shortDescription>
+        <value>Referring Provider</value>
     </labels>
     <labels>
         <fullName>HLA_Description</fullName>
@@ -6710,8 +6878,8 @@ The NYBC Convalescent Plasma Donation Team</value>
         <protected>true</protected>
         <shortDescription>HT 20 B</shortDescription>
         <value>We acquire, hold, use, and process your personal information based on legal grounds, your explicit consent and for the legitimate business purposes outlined in the &lt;a href=privacy-policy?ret=help&gt;Privacy Policy&lt;/a&gt; .
-If you wish to access, correct, update or request removal of any of your information you provided to us or if you have any questions regarding this Privacy Policy or would like more information on our privacy practices, please contact
-IQVIA’s Privacy Office at &lt;a href=&quot;mailto:PrivacyOfficer@iqvia.com&quot;&gt;PrivacyOfficer@iqvia.com&lt;/a&gt;</value>
+If you wish to access, correct, update or request removal of any of your information you provided to us or if you have any questions regarding this Privacy Policy or would like more information on our privacy practices, please contact 
+IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&quot;&gt;data.protection@iqvia.com&lt;/a&gt;</value>
     </labels>
     <labels>
         <fullName>HT_20_H</fullName>
@@ -7485,6 +7653,20 @@ The expected format is REF#####</value>
         <protected>true</protected>
         <shortDescription>contact has user</shortDescription>
         <value>Invited</value>
+    </labels>
+    <labels>
+        <fullName>Janssen_Community_Login_Page</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Janssen Community Login Page</shortDescription>
+        <value>Janssen Investigator Community</value>
+    </labels>
+    <labels>
+        <fullName>Janssen_Community_Template_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Janssen_Community_Template_Name</shortDescription>
+        <value>Janssen</value>
     </labels>
     <labels>
         <fullName>Learn_More</fullName>
@@ -9025,6 +9207,22 @@ The expected format is REF#####</value>
         <protected>false</protected>
         <shortDescription>One or more Participants reached Majority</shortDescription>
         <value>One or more participants has reached the age of legal majority. Please confirm privacy preferences with participant(s).</value>
+    </labels>
+    <labels>
+        <fullName>Opt_Out</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opt Out</shortDescription>
+        <value>Opt Out of communication by IQVIA and its affiliates</value>
+    </labels>
+    <labels>
+        <fullName>Opt_Out_Success_Message</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opt Out Success Message</shortDescription>
+        <value>Your request has been sent successfully.</value>
     </labels>
     <labels>
         <fullName>Originator</fullName>
@@ -12875,6 +13073,20 @@ The expected format is REF#####</value>
         <value>IQVIA may also contact your patient to ensure that your patient has connected with the study site.</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_Information_Sharing</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Information_Sharing</shortDescription>
+        <value>Information Sharing</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Invitation_To_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Invitation_To_PP</shortDescription>
+        <value>Invitation to Patient Portal</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_Is_the_patient_still_interested_in_participating_in_this_study</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12966,11 +13178,53 @@ The expected format is REF#####</value>
         <value>Receive information about clinical study opportunities.</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_Confirmation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_Confirmation</shortDescription>
+        <value>I confirm that the patient, and/or patient&apos;s legal guardian if applicable, agrees</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_To_Contact</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG Ref L Permit IQVIA To Contact</shortDescription>
         <value>IQVIA cannot contact regarding this study</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_Email</shortDescription>
+        <value>that IQVIA or its affiliates may contact the patient or his/her legal guardians regarding this study</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_Phone</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_Phone</shortDescription>
+        <value>that IQVIA or its affiliates may contact the patient via phone (voice) regarding this study</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_SMS</shortDescription>
+        <value>that IQVIA or its affiliates may contact the patient via SMS/text messaging regarding this study</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal</shortDescription>
+        <value>Invite the patient to join Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_ShareInformation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_ShareInformation</shortDescription>
+        <value>to share the above information with IQVIA and its affiliates</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Please_complete_Medical_Record_Review_first</fullName>
@@ -14096,6 +14350,13 @@ The expected format is REF#####</value>
         <value>Recipent will be approved to refer participants to the following investigators</value>
     </labels>
     <labels>
+        <fullName>PI_Mode</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PI Mode</shortDescription>
+        <value>Investigative Site</value>
+    </labels>
+    <labels>
         <fullName>PP_Account_Settings</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14810,6 +15071,13 @@ communications using the toggles below.</value>
         <value>New visit data is available</value>
     </labels>
     <labels>
+        <fullName>Participant_quick_reference</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Participant_quick_reference</shortDescription>
+        <value>Participant_quick_reference</value>
+    </labels>
+    <labels>
         <fullName>Participants_Referred_Label</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15054,6 +15322,20 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Pswd_ValidationMsg4</shortDescription>
         <value>Your password must be at least 8 characters long.</value>
+    </labels>
+    <labels>
+        <fullName>Pswd_ValidationMsg5</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pswd_ValidationMsg5</shortDescription>
+        <value>The passwords do not match</value>
+    </labels>
+    <labels>
+        <fullName>Pswd_ValidationMsg6</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pswd_ValidationMsg6</shortDescription>
+        <value>The passwords do not match</value>
     </labels>
     <labels>
         <fullName>Pswd_Your_Pswd_Include</fullName>
@@ -17372,6 +17654,14 @@ communications using the toggles below.</value>
         <value>Visit</value>
     </labels>
     <labels>
+        <fullName>Technical_Support</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Technical Support</shortDescription>
+        <value>Get Technical Support</value>
+    </labels>
+    <labels>
         <fullName>Test_Label</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -17952,6 +18242,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>VR Weight</shortDescription>
         <value>Weight</value>
+    </labels>
+    <labels>
+        <fullName>View_Mode</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>View Mode</shortDescription>
+        <value>View as</value>
     </labels>
     <labels>
         <fullName>View_Visit_Legend</fullName>

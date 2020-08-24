@@ -93,6 +93,10 @@
     background-color: #213e7e;
 }
 
+.THIS .janssen-logo {
+    font-weight: 600;
+}
+
 @media (max-width: 500px) {
     .THIS .logo-block{
         margin-top: 10px;

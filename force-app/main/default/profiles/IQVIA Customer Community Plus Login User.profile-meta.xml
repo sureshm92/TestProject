@@ -2972,6 +2972,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Janssen_unique__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.Landing_Community__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3043,6 +3048,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Participant_Opt_In_Status_SMS__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Participant_Phone_Opt_In_Permit_Phone__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6692,6 +6702,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Terms_And_Conditions__c.Community_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Terms_And_Conditions__c.Language__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6703,6 +6718,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Terms_And_Conditions__c.T_C_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Terms_And_Conditions__c.T_C_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

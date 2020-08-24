@@ -5,11 +5,10 @@
 
     <messaging:htmlEmailBody>
         <c:EmailWireframe recipientId="{!recipient.Id}"
-                         sourceId="{!relatedTo.Id}"
-                         header="{!$Label.Email_Header_Once_at_Trial_Completion}"
-                         title="{!$Label.Email_Title_PH}"
-                         greeting="{!$Label.Email_User_Greeting_FirstName}"
-                         signature="{!$Label.Email_Signature_Trial_Completed}">
+                          sourceId="{!relatedTo.Id}"
+                          header="{!$Label.Email_Header_Once_at_Trial_Completion}"
+                          greeting="{!$Label.Email_User_Greeting_FirstName}"
+                          signature="{!$Label.Email_Signature_Trial_Completed}">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Once_at_Trial_Completion_DGT}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:EmailWireframe>

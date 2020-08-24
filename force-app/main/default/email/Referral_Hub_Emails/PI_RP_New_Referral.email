@@ -1,15 +1,18 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_PI_Referral_Pending}"
                          recipientType="Contact"
-                         relatedToType="Contact"
-                         language="{!relatedTo.Language__c}">
+                         relatedToType="Study_Site__c"
+                         language="{!recipient.Language__c}">
     <messaging:htmlEmailBody >
         <c:EmailTemplatePendingReferrals recipientId="{!recipient.Id}"
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Subject_PI_Referral_Pending}"
                           title="{!$Label.Email_Title}"
                           greeting="{!$Label.Email_User_Greeting}"
-                          signature="{!$Label.Email_Signature_RH}">
-            <c:ParagraphPendingReferrals emailLabel="{!$Label.Email_Body_PI_Delegate_Referrals}"/>
+                          signature="{!$Label.Email_Signature_RH}"
+                          communityTemplate="{!relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c}">
+            <c:ParagraphPendingReferrals emailLabel="{!$Label.Email_Body_PI_Delegate_Referrals}"
+                                         filterrequired="true"/>
+            <c:EmailTemplatePendingParticipants sourceId="{!relatedTo.Id}"/>
         </c:EmailTemplatePendingReferrals>
     </messaging:htmlEmailBody>
 
@@ -19,8 +22,11 @@
                               header="{!$Label.Email_Subject_PI_Referral_Pending}"
                               title="{!$Label.Email_Title}"
                               greeting="{!$Label.Email_User_Greeting}"
-                              signature="{!$Label.Email_Signature_RH}">
-            <c:ParagraphText emailLabel="{!$Label.Email_Body_PI_Delegate_Referrals}"/>
+                              signature="{!$Label.Email_Signature_RH}"
+                              communityTemplate="{!relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c}">
+            <c:ParagraphPendingReferralsText emailLabel="{!$Label.Email_Body_PI_Delegate_Referrals}"
+                                             filterrequired="true"/>
+            <c:EmailTemplatePendingParticipantsText sourceId="{!relatedTo.Id}"/>
         </c:EmailTemplateTextPendingReferrals>
     </messaging:plainTextEmailBody>
 

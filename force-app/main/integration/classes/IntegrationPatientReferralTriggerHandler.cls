@@ -194,8 +194,11 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 Gender__c = ipr.sex__c,
                 Secondary_Source__c = ipr.Data_Source__c,
             	Alternative_Phone_Number__c = ipr.Participant_MobileNumber__c
+              //  Alternative_Phone_Type__c = 'Mobile'
 
         );
+        if(ipr.Participant_MobileNumber__c != Null)
+          participant.Alternative_Phone_Type__c = 'Mobile';  
         participant.Adult__c = !Boolean.valueOf(ReferringRemote.checkNeedsGuardian(JSON.serialize(participant)));
 
         return participant;
@@ -248,7 +251,9 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 utmz__c = ipr.UTM_campaignCookie__c,
                 gclid__c = ipr.UTM_GCLID__c,
                 Atid__c = ipr.Atid__c,
-                HighRisk_Indicator__c = ipr.HighRisk_Indicator__c
+                HighRisk_Indicator__c = ipr.HighRisk_Indicator__c,
+                Permit_Mail_Email_contact_for_this_study__c = True,
+                Permit_IQVIA_to_contact_about_study__c = True
         );
     }
     

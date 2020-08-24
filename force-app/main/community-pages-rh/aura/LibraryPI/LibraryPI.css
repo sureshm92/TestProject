@@ -155,6 +155,22 @@
     .THIS .versionForMobile {
         width: 11%;
     }
+
+    .THIS .slds-scrollable_y::-webkit-scrollbar {
+        -webkit-appearance: none;
+    }
+
+    .THIS .slds-scrollable_y::-webkit-scrollbar:vertical {
+        width: 1rem;
+    }
+
+    .THIS .slds-scrollable_y::-webkit-scrollbar-thumb {
+        border-radius: 8px;
+        border: 2px solid white;
+        background-color: #999;
+        min-height: 25px;
+    }
+
 }
 
 @media screen and (max-width: 500px) {

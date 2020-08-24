@@ -6,6 +6,7 @@
   "label" : "Build Your Own",
   "layouts" : {
     "5ezawfCZC6iP2oohE3SgskLH52ZF72" : "a242dcfa-b9cd-43f3-98d7-4895b2a32570",
+    "CmZT4c9EIs8W3PUtok2PgfcbUDm7qp" : "e500410d-38fc-4755-bc17-5d030dd7e8e2",
     "Inner" : "08e9ee51-e380-424d-ae96-5e152206f4b1",
     "Login" : "9084f5cd-d942-4cf7-81b3-1b9940fdd76b",
     "OoPK6S0erFtEyweyKxkJhnM5iY2u2F" : "ec1e8f70-ad63-4ff3-9426-f816f8bddd0a",
@@ -435,6 +436,77 @@
       "type" : "region"
     }, {
       "id" : "5143c1b6-28cf-462c-a3c8-1f2e3651da15",
+      "regionName" : "sidebarFooter",
+      "type" : "region"
+    } ],
+    "type" : "view"
+  }, {
+    "componentAttributes" : { },
+    "componentName" : "c:BlankThemeLayout",
+    "id" : "e500410d-38fc-4755-bc17-5d030dd7e8e2",
+    "label" : "Brand_Based_No_Navigation",
+    "regions" : [ {
+      "components" : [ {
+        "componentAttributes" : {
+          "maxAutoCompleteResults" : 5,
+          "searchLabel" : "Search...",
+          "searchObjects" : [ {
+            "name" : "Account",
+            "isPublic" : true
+          } ]
+        },
+        "componentName" : "forceCommunity:globalSearchInput",
+        "id" : "faafb212-8845-4049-9233-9ec3b6c04caf",
+        "renditionMap" : { },
+        "type" : "component"
+      } ],
+      "id" : "e85cfecd-ae95-4872-8cce-9e9d5ec8063c",
+      "regionName" : "search",
+      "type" : "region"
+    }, {
+      "components" : [ {
+        "componentAttributes" : {
+          "accountManagementLabel" : "Account Management",
+          "communityBuilderLabel" : "Community Builder",
+          "communitySetupLabel" : "Community Setup",
+          "contactSupportLabel" : "Contact Support",
+          "filterName" : "MyCases",
+          "homeLabel" : "Home",
+          "includeContactSupport" : true,
+          "includeMessages" : false,
+          "loginLabel" : "Login",
+          "logoutLabel" : "Logout",
+          "myAccountLabel" : "My Account",
+          "showAccountManagement" : false,
+          "showUserSettings" : true,
+          "userSettingsLabel" : "My Settings",
+          "viewProfileLabel" : "My Profile"
+        },
+        "componentName" : "selfService:userProfileMenu",
+        "id" : "88f61cfe-c9d8-4572-93d8-171f2a7044e2",
+        "renditionMap" : { },
+        "type" : "component"
+      } ],
+      "id" : "b806e766-be6f-4bcd-b175-59783292b78f",
+      "regionName" : "profileMenu",
+      "type" : "region"
+    }, {
+      "components" : [ {
+        "componentAttributes" : {
+          "NavigationMenuEditorRefresh" : "",
+          "hideAppLauncher" : true,
+          "hideHomeText" : true
+        },
+        "componentName" : "forceCommunity:globalNavigation",
+        "id" : "8dbd56fe-0b33-4d70-9862-752b89ac21b9",
+        "renditionMap" : { },
+        "type" : "component"
+      } ],
+      "id" : "ad1e6365-f575-49b4-9eca-42c5e15ef09b",
+      "regionName" : "navBar",
+      "type" : "region"
+    }, {
+      "id" : "bb0c7453-dea4-47d7-aab3-764e8196df3f",
       "regionName" : "sidebarFooter",
       "type" : "region"
     } ],

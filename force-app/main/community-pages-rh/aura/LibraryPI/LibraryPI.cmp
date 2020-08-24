@@ -60,13 +60,12 @@
                             <aura:iteration items="{!resourceStructure.resources}" var="resource" indexVar="resourceIndex">
                                 <div class="slds-grid slds-wrap resource-container">
                                     
-                                    <aura:if isTrue="{!!empty(resource.videoLink || resource.link)}">
+                                    <aura:if isTrue="{!!empty(resource.videoLink || resource.link) || resource.format == 'Article'}">
                                        <a class="slds-coll slds-size--4-of-12 resource-links resourceLinkHover"
                                                    onclick="{!c.doNavigate}"
                                                    data-attributeVal="{!key + ',' + resourceIndex}">{!resource.name}</a>
                                         <aura:set attribute="else">
                                             <aura:if isTrue="{!and(resource.format == 'Study Document',!empty(resource.fileID))}">
-                                                
                                                 <a class="slds-coll slds-size--4-of-12 resource-links resourceLinkHover"
                                                    onclick="{!c.doNavigate}"
                                                    data-attributeVal="{!key + ',' + resourceIndex}">{!resource.name}</a>

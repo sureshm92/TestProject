@@ -21,6 +21,11 @@
                 <default>false</default>
                 <label>GSK</label>
             </value>
+            <value>
+                <fullName>Janssen</fullName>
+                <default>false</default>
+                <label>Janssen</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
     <visibleLines>4</visibleLines>

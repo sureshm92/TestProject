@@ -240,6 +240,7 @@ public without sharing class ContactService {
                         PI_DelegateAccessLevel__c,
                         userCommunity_ShowTour__c,
                         Current_Participant_Enrollment__c,
+                        Current_Sponsor_Name__c,
                         Next_Notify_Date__c,
                         Last_Session_Id__c,
                         Language__c,

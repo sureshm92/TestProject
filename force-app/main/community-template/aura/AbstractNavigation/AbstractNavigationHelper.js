@@ -3,7 +3,7 @@
  */
 ({
 
-    initItemsMap: function () {
+    initItemsMap: function (component, event) {
         //define navigation items:
         this.allPagesMap = {
             '': {
@@ -164,33 +164,65 @@
         
         participantTabs.push(this.allPagesMap['help']);
 
-        this.itemsMap = {
+        if (component.get('v.hasMessage')) {
 
-            Participant: participantTabs,
+            this.itemsMap = {
 
-            PI: [
-                this.allPagesMap[''],
-                this.allPagesMap['dashboard'],
-                this.allPagesMap['my-referrals'],
-                this.allPagesMap['resources-pi'],
-                //this.allPagesMap['my-referring-clinics'],
-                //this.allPagesMap['reports'],
-                this.allPagesMap['messages']
-               // this.allPagesMap['help'] //Comment as we are using help text from CustomThemeLayout Component as per REF-1343 for PI and Referral Provider
-            ],
-            
-            HCP: [
-                this.allPagesMap[''],
-                this.allPagesMap['my-patients'],
-                // this.allPagesMap['medical-record-review-log'],
-                // this.allPagesMap['my-study-sites'],
-                this.allPagesMap['reports']
-               // this.allPagesMap['help'] //Comment as we are using help text from CustomThemeLayout Component as per REF-1343 for PI and Referral Provider
-            ],
+                Participant: participantTabs,
 
-            CC: [
-                this.allPagesMap['participant-support']
-            ]
+                PI: [
+                    this.allPagesMap[''],
+                    this.allPagesMap['dashboard'],
+                    this.allPagesMap['my-referrals'],
+                    this.allPagesMap['resources-pi'],
+                    //this.allPagesMap['my-referring-clinics'],
+                    //this.allPagesMap['reports'],
+                     this.allPagesMap['messages']
+                    // this.allPagesMap['help'] //Comment as we are using help text from CustomThemeLayout Component as per REF-1343 for PI and Referral Provider
+                ],
+
+                HCP: [
+                    this.allPagesMap[''],
+                    this.allPagesMap['my-patients'],
+                    // this.allPagesMap['medical-record-review-log'],
+                    // this.allPagesMap['my-study-sites'],
+                    this.allPagesMap['reports']
+                    // this.allPagesMap['help'] //Comment as we are using help text from CustomThemeLayout Component as per REF-1343 for PI and Referral Provider
+                ],
+
+                CC: [
+                    this.allPagesMap['participant-support']
+                ]
+            }
+        } else {
+            this.itemsMap = {
+
+                Participant: participantTabs,
+
+                PI: [
+                    this.allPagesMap[''],
+                    this.allPagesMap['dashboard'],
+                    this.allPagesMap['my-referrals'],
+                    this.allPagesMap['resources-pi'],
+                    //this.allPagesMap['my-referring-clinics'],
+                    //this.allPagesMap['reports'],
+                    //this.allPagesMap['messages']
+                    // this.allPagesMap['help'] //Comment as we are using help text from CustomThemeLayout Component as per REF-1343 for PI and Referral Provider
+                ],
+
+                HCP: [
+                    this.allPagesMap[''],
+                    this.allPagesMap['my-patients'],
+                    // this.allPagesMap['medical-record-review-log'],
+                    // this.allPagesMap['my-study-sites'],
+                    this.allPagesMap['reports']
+                    // this.allPagesMap['help'] //Comment as we are using help text from CustomThemeLayout Component as per REF-1343 for PI and Referral Provider
+                ],
+
+                CC: [
+                    this.allPagesMap['participant-support']
+                ]
+            }
         }
     },
 

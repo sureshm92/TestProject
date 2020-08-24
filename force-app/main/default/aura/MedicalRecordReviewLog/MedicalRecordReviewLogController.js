@@ -47,7 +47,8 @@
             filterJSON: JSON.stringify(filter),
             paginationJSON: (showMore?'':(JSON.stringify(component.get('v.paginationData')))),
             applyPendingFilter: component.get('v.filterInfo') ? component.get('v.filterInfo').isActive : false,
-            delegateId: communityService.getDelegateId()
+            delegateId: communityService.getDelegateId(),
+            userMode: component.get('v.userMode')
         }, function (returnValue) {
 
             if(component.get('v.peFilter').searchText !== searchText) return;

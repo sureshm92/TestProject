@@ -30,8 +30,7 @@
 
 .THIS .header-menu-link:hover,
 .THIS.popup-visible .header-menu-link{
-    background-color: rgba(255, 255, 255, 0.05);
-    transition: 0.3s;
+    background-color: rgba(255, 255, 255, 0.16);
 }
 
 .THIS .header-menu-link:hover,

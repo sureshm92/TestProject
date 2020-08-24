@@ -53,6 +53,7 @@ public without sharing class TaskService {
             'Originator__c',
             'Patient_Visit__c',
             'Remind_Me__c',
+            'Reminder_Schedule__c',
             'Remind_Using_Email__c',
             'Remind_Using_SMS__c',
             'Is_Reminder_Sent__c',

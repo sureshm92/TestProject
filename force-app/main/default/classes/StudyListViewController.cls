@@ -51,16 +51,13 @@ public without sharing class StudyListViewController {
         Map<String, List<LabelValueItem>> statesByCountryMap;
         Map<String, String> countriesMap;
         Map<String, String> countryCodesMap;
+        
         public PIInitData(){
             piStudiesFilter = new PIStudiesFilter();
             paginationData = new PaginationData();
             currentPITrials = new List<StudyDetailItem>();
         }
-        public PIInitData(String piId, String studyId){
-            piStudiesFilter = new PIStudiesFilter(piId, studyId);
-            paginationData = new PaginationData();
-            currentPITrials = new List<StudyDetailItem>();
-        }
+        
         public PIInitData(PIStudiesFilter.FilterData filterData, PIStudiesFilter.SortData sortData,  PaginationData paginationData){
             piStudiesFilter = new PIStudiesFilter(filterData, sortData);
             this.paginationData = paginationData;
@@ -97,13 +94,13 @@ public without sharing class StudyListViewController {
     
     @AuraEnabled
     public static String searchStudies(String filterData, String sortData, String paginationData, Boolean isSearchResume) {
-        return searchStudies(filterData, sortData, paginationData, isSearchResume, null);
+        return searchStudies(filterData, sortData, paginationData, isSearchResume, null, null);
     }
     
     @AuraEnabled
-    public static String searchStudies(String filterData, String sortData, String paginationData, Boolean isSearchResume, String delegateId) {
+    public static String searchStudies(String filterData, String sortData, String paginationData, Boolean isSearchResume, String delegateId, String userMode) {
         try {
-            String studiesJSON = StudyTrialService.getStudiesJSON(filterData, sortData, paginationData, isSearchResume, delegateId);
+            String studiesJSON = StudyTrialService.getStudiesJSON(filterData, sortData, paginationData, isSearchResume, delegateId, userMode);
             return studiesJSON;
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
@@ -116,13 +113,13 @@ public without sharing class StudyListViewController {
             PIStudiesFilter.FilterData filterData = (PIStudiesFilter.FilterData) JSON.deserialize(filterDataJSON, PIStudiesFilter.FilterData.class);
             PIStudiesFilter.SortData sortData = (PIStudiesFilter.SortData) JSON.deserialize(sortDataJSON, PIStudiesFilter.SortData.class);
             PaginationData paginationData = (PaginationData) JSON.deserialize(paginationDataJSON, PaginationData.class);
-            PIInitData initData = new PIInitData(filterData, sortData, paginationData);
-            getStudiesForPI(initData);
+            PIInitData initDataInstance = new PIInitData(filterData, sortData, paginationData);
+            getStudiesForPI(initDataInstance);
             Contact updateUserContact = new Contact();
             updateUserContact.Id = CommunityService.getUserContact().Id;
-            updateUserContact.PI_My_Studies_Filters__c = (filterData.piId == null?'':filterData.piId) + ';' + (filterData.trialId==null?'':filterData.trialId);
+            filterData.save();
             update updateUserContact;
-            return JSON.serialize(initData);
+            return JSON.serialize(initDataInstance);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
@@ -151,6 +148,7 @@ public without sharing class StudyListViewController {
             initData.filterData = StudyTrialService.getStudyFilterData();
             
             initData.delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel(delegateId);
+            ContactService.updateVisitedCommunity(UserContext.getUserContact(), UserContext.getCurrentCommunityTemplate());
             return JSON.serialize(initData);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
@@ -158,32 +156,15 @@ public without sharing class StudyListViewController {
     }
 
     @AuraEnabled
-    public static String getPIInitData() {
+    public static String getPIInitData(String communityName) {
         try {
-            String PIMyStudiesFilterSettings = CommunityService.getUserContact().PI_My_Studies_Filters__c;
-            PIInitData initData;
-            if( PIMyStudiesFilterSettings == null || PIMyStudiesFilterSettings == ''){
-                initData = new PIInitData();
-            }
-            else{
-                List<String> filters = PIMyStudiesFilterSettings.split(';');
-                if(filters.size() == 2){
-                    initData =  new PIInitData(filters[0],filters[1]);
-                }
-                else if(filters.size() == 1){
-                    initData =  new PIInitData(filters[0],'');
-                }
-                else{
-                    initData = new PIInitData();
-                }
-            }
-
+            PIInitData initData = new PIInitData();
             getStudiesForPI(initData);
             initData.countries.addAll(CountryStateUtil.getCountries());
             initData.statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
             initData.countriesMap = CountryStateUtil.COUNTRY_MAP;
             initData.countryCodesMap = CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP;
-
+            ContactService.updateVisitedCommunity(UserContext.getUserContact(), UserContext.getCurrentCommunityTemplate());
             return JSON.serialize(initData);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
@@ -218,7 +199,7 @@ public without sharing class StudyListViewController {
     public static void getStudiesForPI(PIInitData initData) {
         // prepare map trialId -> StudySite
         Map<Id, List<Study_Site__c>> trialStudySiteMap = new Map<Id, List<Study_Site__c>>();
-        List<Clinical_Trial_Profile__c> piTrials = SearchService.search(initData.PIStudiesFilter,initData.paginationData );
+        List<Clinical_Trial_Profile__c> piTrials = SearchService.search(initData.piStudiesFilter,initData.paginationData );
         System.debug('piTRIALS'+ piTrials);
         List<Study_Site__c> piStudySites = new List<Study_Site__c>();
         Set<Id> ssIds = new Set<Id>();
@@ -292,7 +273,14 @@ public without sharing class StudyListViewController {
     @AuraEnabled
     public static void saveSSChanges(String studySiteInfo) {
         try {
-            update (Study_Site__c) JSON.deserialize(studySiteInfo, Study_Site__c.class);
+            Study_Site__c study = new Study_Site__c();
+            Study_Site__c response = (Study_Site__c) JSON.deserialize(studySiteInfo, Study_Site__c.class);
+            study.Id = response.Id;
+            study.Name = response.Name;
+            study.Study_Site_Phone__c = response.Study_Site_Phone__c;
+            study.Site_Staff__c = response.Site_Staff__c;
+            study.Study_Site_Email__c = response.Study_Site_Email__c;
+            update study;
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }

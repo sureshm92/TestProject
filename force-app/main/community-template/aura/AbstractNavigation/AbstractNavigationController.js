@@ -7,7 +7,7 @@
 
     doChangeItemsList: function (component, event, helper) {
         try {
-            helper.initItemsMap();
+            helper.initItemsMap(component);
             let userMode = component.get('v.mode');
             let menuItems = helper.itemsMap[userMode];
             component.set('v.menuItems', menuItems);
