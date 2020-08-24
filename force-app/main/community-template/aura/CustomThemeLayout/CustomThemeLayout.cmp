@@ -80,6 +80,7 @@
                     <c:CommunityNavigationMobile aura:id="navigationMobile"
                                                  showSideMenu="{!v.showSideMenu}"
                                                  mode="{!v.currentMode.userMode}"
+                                                 hasMessage="{!v.hasMessage}"
                                                  class="{!if(v.availableModes.length > 1, ' multi-mode', '')}" communityTemplate="{!v.template}"/>
                 </aura:if>
                 {!v.body}
