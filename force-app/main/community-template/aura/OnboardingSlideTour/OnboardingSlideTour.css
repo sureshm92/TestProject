@@ -194,7 +194,7 @@
 
 @media all and (max-width: 1340px) and (orientation: landscape) {
     .THIS .tour-slides-container {
-        height: 57vh;
+        height: auto;
     }
 }
 

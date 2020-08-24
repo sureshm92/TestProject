@@ -65,7 +65,23 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>HighRisk_Indicator__c</field>
+            </layoutItems>
+			<layoutItems>
+                <behavior>Edit</behavior>
                 <field>Permit_IQVIA_to_contact_about_study__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Permit_Mail_Email_contact_for_this_study__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Permit_Voice_Text_contact_for_this_study__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Permit_SMS_Text_for_this_study__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

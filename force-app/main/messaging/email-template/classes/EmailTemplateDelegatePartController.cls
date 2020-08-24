@@ -10,6 +10,7 @@ global without sharing class EmailTemplateDelegatePartController {
     global String delegateUserId { get; set; }
     global String commTemplateStr { get; set; }
 
+
     public List<String> getDelegateStudyNames() {
         List<Id> participantIds = new List<Id>();
         if(sourceIdValue != null) {

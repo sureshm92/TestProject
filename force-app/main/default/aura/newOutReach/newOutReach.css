@@ -24,8 +24,11 @@
 }
 
 .THIS .slds-select,
-.THIS .slds-input,
-.THIS .uiInputSelect {
+.THIS .uiInput--select.select:not([multiple]),
+.THIS .uiInput--select .select:not([multiple]),
+.THIS .rr-form-element input[type='text'],
+.THIS .rr-form-element input[type='password'],
+.THIS .rr-form-element input[type='email']{
     height: 40px;
 }
 

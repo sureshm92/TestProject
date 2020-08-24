@@ -183,11 +183,13 @@ public without sharing class IntegrationSiteStaffTriggerHandler {
                               MailingCountryCode = iss.Address_Country__c,
                               MailingState = iss.Mailing_State__c,
                               MailingCity = iss.Mailing_City__c,
-                              MailingPostalCode = iss.Zip_Postal_Code__c);
+                              MailingPostalCode = iss.Zip_Postal_Code__c,
+            				  userCommunityMode__c = CommunityService.USER_MODE_PI,
+							  userCommunityIsDelegate__c = true);
             insert cnt;                                    
             
-            User usr = CommunityService.createUser(cnt, null, null, null);
-            insert usr;
+            //User usr = CommunityService.createUser(cnt, null, null, null);
+            //insert usr;
         }
         
         Site_Staff__c newSiteStaff =  new Site_Staff__c();

@@ -124,7 +124,7 @@
                     <div class="slds-col slds-size_1-of-1">
                         <div class="slds-col slds-grid slds-size_1-of-1 slds-medium-size_7-of-7 slds-grid--align-end ss-info-buttons">
                             <aura:iteration items="{!v.siteWrapper.actions}" var="action">
-                                <aura:if isTrue="{!action.id != 'openToReceiveReferrals' &amp;&amp; (action.id != 'noThanks' &amp;&amp; action.id != 'addPatient' &amp;&amp; action.id != 'uploadPatient') || (action.id == 'addPatient' &amp;&amp; action.disabled == true)}">
+                                <aura:if isTrue="{!action.id &amp;&amp; action.id != 'openToReceiveReferrals' &amp;&amp; (action.id != 'noThanks' &amp;&amp; action.id != 'addPatient' &amp;&amp; action.id != 'uploadPatient') || (action.id == 'addPatient' &amp;&amp; action.disabled == true)}">
                                     <button id="{!action.id}"
                                             data-gtm="{!'btn_' + action.id + '_study'}"
                                             value="{!siteWrappIndx}"

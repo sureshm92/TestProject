@@ -5,6 +5,8 @@ public without sharing class CommunityService {
 
     public static final String IQVIA_NETWORK_NAME = 'IQVIA Referral Hub';
     public static final String GSK_NETWORK_NAME = 'GSK Community';
+    public static final String JANSSEN_NETWORK_NAME = 'Janssen Community';
+    public static final String JANSSEN_COMMUNITY_TEMPLATE = 'Janssen';
 
     public static final String COMMUNITY_USER_PROFILE_NAME = 'IQVIA Customer Community Plus Login User';
     public static final Id COMMUNITY_USER_PROFILE_ID = [SELECT Id FROM Profile WHERE Name = :COMMUNITY_USER_PROFILE_NAME].Id;
@@ -33,6 +35,7 @@ public without sharing class CommunityService {
     public static final String USER_MODE_PI = 'PI';
     public static final String USER_MODE_PARTICIPANT = 'Participant';
     public static final String USER_MODE_CC = 'CC';
+    public static final String USER_MODE_DELEGATEPI = 'DelegatePI';
     //Exception messages
     public static String ERROR_MISSING_STUDY = 'Unexpected error occurred. Contact administrator.';
     private static String ERROR_MISSING_CONTACT_ON_USER = 'User Contact can not be NULL';

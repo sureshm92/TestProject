@@ -21,6 +21,7 @@
             component.set('v.refProvider',rp);
             component.set('v.healthCareProviders', hcp);
             component.set('v.delegates', del);
+            component.set('v.communitySponsor', communityService.getCurrentCommunityTemplateName());
         });
     },
 

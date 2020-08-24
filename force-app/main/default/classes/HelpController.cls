@@ -36,6 +36,7 @@ public without sharing class HelpController {
             initData.helpTopicSettings = new List<HelpController.HelpTopicWrapper>();
             initData.helpTopicOptions = new List<LabelValueItem>();
             String userModefilter = '%' + userMode + '%';
+            String communityTemplateFilter = '%' + UserContext.getCurrentCommunityTemplate().templateName + '%';
             List<Help_Topic__mdt> helpTopics = [
                     SELECT CaseType__c, CaseDescription__c,CaseSubject__c,
                             CasePriority__c, CaseReason__c,
@@ -47,6 +48,7 @@ public without sharing class HelpController {
                             User_Description_Required__c, User_Types__c
                     FROM Help_Topic__mdt
                     WHERE User_Types__c LIKE :userModefilter
+                    AND User_Communities__c LIKE :communityTemplateFilter
                     AND Is_Active__c = TRUE
                     ORDER BY Order__c
             ];

@@ -7,17 +7,38 @@ public without sharing class ShareModalController {
     public static void sendEmail(String whatId, String fromId, String email, String emailType) {
         try {
             if (fromId == null) fromId = CommunityService.getUserContact().Id;
-
+			List<Contact> CntList = [Select Id from Contact where Email=:email limit 1];	
             Id sourceId = whatId;
             String type;
             if (sourceId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
-                type = NotificationCatalog.MESSAGE_TO_EXUS_SHARED_STUDY_BY_PE_TYPE;
+                if(!CntList.isEmpty())
+                	{
+                	fromId=CntList.get(0).Id;
+                	type = NotificationCatalog.MESSAGE_TO_EXUS_SHARED_STUDY_BY_PE_TYPE;
+                	}
+                else type = NotificationCatalog.MESSAGE_TO_EXUS_SHARED_STUDY_BY_PE_TYPE_NO_CNT;
             } else if (sourceId.getSobjectType() == HCP_Enrollment__c.getSObjectType()) {
-                type = NotificationCatalog.MESSAGE_TO_EXUS_SHARE_STUDY_BY_HCP_TYPE;
+                if(!CntList.isEmpty())
+                	{
+                	fromId=CntList.get(0).Id;
+                	type = NotificationCatalog.MESSAGE_TO_EXUS_SHARE_STUDY_BY_HCP_TYPE;
+                	}    
+                else type = NotificationCatalog.MESSAGE_TO_EXUS_SHARE_STUDY_BY_HCP_TYPE_NO_CNT;
             } else if (sourceId.getSobjectType() == Clinical_Trial_Profile__c.getSObjectType()) {
-                type = NotificationCatalog.MESSAGE_TO_EXUS_SHARE_SOCIAL_STUDY_TYPE;
+                if(!CntList.isEmpty())
+                	{
+                    fromId=CntList.get(0).Id;
+                    type = NotificationCatalog.MESSAGE_TO_EXUS_SHARE_SOCIAL_STUDY_TYPE;
+                	}
+                else type = NotificationCatalog.MESSAGE_TO_EXUS_SHARE_SOCIAL_STUDY_TYPE_NO_CNT;
             } else if (sourceId.getSobjectType() == Resource__c.getSObjectType()) {
-                type = NotificationCatalog.MESSAGE_TO_EXUS_SHARE_RESOURCES_TYPE;
+                if(!CntList.isEmpty())
+                	{
+                    fromId=CntList.get(0).Id;
+                    type = NotificationCatalog.MESSAGE_TO_EXUS_SHARE_RESOURCES_TYPE;
+                	}
+                else type = NotificationCatalog.MESSAGE_TO_EXUS_SHARE_RESOURCES_TYPE_NO_CNT;
+
             }
 
             insert new Notification__c(

@@ -8,7 +8,8 @@
             let ssId = communityService.getUrlParameter('ssId');
             communityService.executeAction(component, 'getInitData', {
                 trialId: trialId ? trialId : null,
-                ssId : ssId ? ssId : null
+                ssId : ssId ? ssId : null,
+                communityTemplateName : communityService.getCurrentCommunityTemplateName()
             }, function (returnValue) {
                 let initData = JSON.parse(returnValue);
                 component.set('v.skipUpdate', true);

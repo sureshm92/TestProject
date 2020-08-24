@@ -175,7 +175,7 @@
 
 .THIS .sdv-top-bar .links {
     padding-top: 25px;
-    padding-bottom: 10px;
+    padding-bottom: 20px;
     transition: 0.4s;
     overflow: hidden;
     background: #fff;
@@ -191,6 +191,7 @@
     align-items: center;
     border-radius: 4px;
     font-weight: 600;
+    font-size: 16px;
     float: right;
     margin-right: 10px;
 }
@@ -318,6 +319,12 @@
     float: right;
 }
 
+@media (max-width: 1180px) {
+    .THIS .sdv-top-bar .rr-all-content {
+        padding: 0 10px;
+    }
+}
+
 @media (max-width: 768px) {
     .THIS .sdv-top-bar .links .apollo-btn.text {
         font-size: 1rem;
@@ -328,7 +335,7 @@
     }
 
     .THIS .sdv-top-bar > .rr-all-content .rr-width-limiter {
-        margin: 0 1rem;
+        margin: 0 6px;
     }
 
     .THIS .share-ico .rr-icon-default {

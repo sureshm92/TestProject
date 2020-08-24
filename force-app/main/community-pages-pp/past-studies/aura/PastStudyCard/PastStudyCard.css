@@ -37,3 +37,8 @@
 .THIS .rr-output-field > .value {
     font-size: 1rem;
 }
+
+.THIS .profile-pic {
+    max-width: 200px;
+    height: auto;
+}

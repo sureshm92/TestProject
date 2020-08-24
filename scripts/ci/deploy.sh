@@ -27,5 +27,5 @@ cp .forceignoreTMP .forceignore
 rm .forceignoreTMP
 
 # Deploy communities
-sfdx force:source:deploy -p force-app/communities -u TargetOrg  -w 60
+#sfdx force:source:deploy -p force-app/communities -u TargetOrg  -w 60
 echo "Deploy success!"

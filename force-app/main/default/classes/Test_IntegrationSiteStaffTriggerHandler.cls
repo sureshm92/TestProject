@@ -70,11 +70,12 @@ private class Test_IntegrationSiteStaffTriggerHandler {
                 Site__c = acc.Id,
                 Study_Site_Type__c = 'Traditional',
                 Suppress_Participant_Emails__c = false,
-                Billable_Code_CRM_Number__c = 'Test_Billable_Code'
+                Billable_Code_CRM_Number__c = 'Test_Billable_Code',
+                Study_Site_Number__c = '71234'
         );
         insert studySite;
-        studySite.Study_Site_Number__c = studySite.Id;
-        update studySite;
+        //studySite.Study_Site_Number__c = studySite.Id;
+        //update studySite;
                Account a = (Account) TestDataFactory.getSObject(Account.getSObjectType());
         Contact delegateContact = (Contact) TestDataFactory.getSObject(Contact.getSObjectType(), new Map<String, Object>{
             'AccountId' => a.Id,
@@ -87,7 +88,8 @@ private class Test_IntegrationSiteStaffTriggerHandler {
         externalSiteStaff.Last_Name__c = 'Last_Name_Site';
         externalSiteStaff.Email__c = 'Dummy@fake.com';
         externalSiteStaff.Phone__c = '8200222';
-        externalSiteStaff.Study_Site_Number__c = studySite.Id;
+        //externalSiteStaff.Study_Site_Number__c = studySite.Id;
+        externalSiteStaff.Study_Site_Number__c = studySite.Study_Site_Number__c;
         externalSiteStaff.Site_Email_Key__c ='Dummy@fake1.com';
         externalSiteStaff.Roles__c = 'PRIMARY';
         // externalSiteStaff.Subject_Date__c = Date.today().addDays(1);
@@ -105,7 +107,7 @@ private class Test_IntegrationSiteStaffTriggerHandler {
         externalSiteStaffDup.Last_Name__c = 'Last_Name_Site';
         externalSiteStaffDup.Email__c = 'Dummy@fake.com';
         externalSiteStaffDup.Phone__c = '8200222';
-        externalSiteStaffDup.Study_Site_Number__c = studySite.Id;
+        externalSiteStaffDup.Study_Site_Number__c = studySite.Study_Site_Number__c;
         externalSiteStaffDup.Site_Email_Key__c ='Dummy@fake1.com';
         externalSiteStaffDup.Roles__c = 'PRIMARY';
         Site_Staff__c siteStaffnew = new Site_Staff__c();

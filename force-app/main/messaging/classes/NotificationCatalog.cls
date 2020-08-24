@@ -72,6 +72,7 @@ public without sharing class NotificationCatalog {
 /**
  *  MESSAGE TO HCP
  */
+    //check 5.1 commit
     public static final String MESSAGE_TO_HCP_PATIENT_ACCEPTED_TYPE = 'Message_to_HCP_Patient_Accepted_Type';
     public static final String MESSAGE_TO_HCP_PATIENT_DECLINED_TYPE = 'Message_to_HCP_Patient_Declined_Type';
     public static final String MESSAGE_TO_HCP_PATIENT_ON_HOLD_TYPE = 'Message_to_HCP_Patient_On_Hold_Type';
@@ -94,4 +95,8 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_EXUS_SHARE_STUDY_BY_HCP_TYPE = 'Message_to_ExUs_Share_Study_By_HCP_Type';
     public static final String MESSAGE_TO_EXUS_SHARE_SOCIAL_STUDY_TYPE = 'Message_to_ExUs_Share_Social_Study_Type';
     public static final String MESSAGE_TO_EXUS_SHARE_RESOURCES_TYPE = 'Message_to_ExUs_Share_Resources_Type';
+    public static final String MESSAGE_TO_EXUS_SHARED_STUDY_BY_PE_TYPE_NO_CNT='Message_to_NoCnt_Shared_Study_By_PE_Type';
+    public static final String MESSAGE_TO_EXUS_SHARE_STUDY_BY_HCP_TYPE_NO_CNT='Message_to_NoCnt_Share_Study_By_HCP_Type';
+    public static final String MESSAGE_TO_EXUS_SHARE_SOCIAL_STUDY_TYPE_NO_CNT = 'Message_to_NoCnt_Share_Social_Study_Type';
+    public static final String MESSAGE_TO_EXUS_SHARE_RESOURCES_TYPE_NO_CNT = 'Message_to_NoCnt_Share_Resources_Type';
 }

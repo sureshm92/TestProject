@@ -14,7 +14,7 @@
             <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate}"/>
             <c:EmailTemplateDelegateParticipant sourceId="{!relatedTo.Id}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
-                              buttonURL="/gsk/s/"/>
+                              buttonURL="/s/"/>
         </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
@@ -29,7 +29,7 @@
             <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate}"/>
             <c:EmailTemplateDelegateParticipantText sourceId="{!relatedTo.Id}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
-                                  buttonURL="/gsk/s/"/>
+                                  buttonURL="/s/"/>
         </c:EmailWireframeText>
     </messaging:plainTextEmailBody>
 

@@ -63,7 +63,7 @@ public without sharing class MedicalRecordReviewLogController {
             }
             //records for current filter and pagination
             pDetail.currentPageList = convertToPEWrapperList(
-                    ParticipantEnrollmentService.getParticipantEnrollments(pDetail.peFilter, pDetail.paginationData, delegateId),
+                    ParticipantEnrollmentService.getParticipantEnrollments(pDetail.peFilter, pDetail.paginationData, delegateId, null, userMode),
                     delegateId
             );
         } catch (Exception e) {
@@ -73,7 +73,7 @@ public without sharing class MedicalRecordReviewLogController {
     }
 
     @AuraEnabled
-    public static String getRecords(String filterJSON, String paginationJSON, Boolean applyPendingFilter, String delegateId){
+    public static String getRecords(String filterJSON, String paginationJSON, Boolean applyPendingFilter, String delegateId, String userMode){
         ParticipantEnrollmentService.PEFilter filter = (ParticipantEnrollmentService.PEFilter)JSON.deserialize(filterJSON, ParticipantEnrollmentService.PEFilter.class);
         PaginationData pagination;
         if(paginationJSON != ''){
@@ -104,7 +104,7 @@ public without sharing class MedicalRecordReviewLogController {
                     ' OR Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW + '\'' +
                     ' OR Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL + '\')';
             resultDetail.currentPageList = convertToPEWrapperList(
-                    ParticipantEnrollmentService.getParticipantEnrollments(filter, pagination, delegateId),
+                    ParticipantEnrollmentService.getParticipantEnrollments(filter, pagination, delegateId, null, userMode),
                     delegateId
             );
             if(pagination!=null){

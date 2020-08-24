@@ -36,12 +36,12 @@ public class Test_ParticipantEnrollmentService {
             ParticipantEnrollmentService.PEFilterData filterData =
                     ParticipantEnrollmentService.getPEFilterData(ctpId, userMode, false);
             ParticipantEnrollmentService.PEFilter filter = new ParticipantEnrollmentService.PEFilter(filterData);
-            ParticipantEnrollmentService.getParticipantEnrollments(filter, delegateId);
+            ParticipantEnrollmentService.getParticipantEnrollments(filter, delegateId, null, userMode);
 
             filter.searchFields = new List<String> {'Participant__r.Email__c', 'Screening_ID__c'};
             filter.searchText = 'PESCR1';
             filter.sortType = 'Alphabetical_DESC';
-            ParticipantEnrollmentService.getParticipantEnrollments(filter, delegateId);
+            ParticipantEnrollmentService.getParticipantEnrollments(filter, delegateId, null, userMode);
 
             ParticipantEnrollmentService.getPendingParticipantEnrollments(ctpId, testData.hcpEnrollment.Id);
             ParticipantEnrollmentService.updateParticipantStateById(new List<Id> {testData.participant.Id});

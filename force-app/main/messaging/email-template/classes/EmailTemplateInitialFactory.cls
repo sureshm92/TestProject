@@ -19,9 +19,9 @@ public without sharing class EmailTemplateInitialFactory {
         switch on userMode {
             when 'PI' {
                 if (isDelegate) {
-                    emailTemplateInitial = new EmailTemplateInitialPIDel(user.ContactId, outputMode);
+                    emailTemplateInitial = new EmailTemplateInitialPIDel(user.ContactId, outputMode, communityTemplateName);
                 } else {
-                    emailTemplateInitial = new EmailTemplateInitialPI(user.ContactId, outputMode);
+                    emailTemplateInitial = new EmailTemplateInitialPI(user.ContactId, outputMode, communityTemplateName);
                 }
             }
             when 'HCP' {

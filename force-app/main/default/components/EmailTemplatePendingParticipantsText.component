@@ -1,0 +1,14 @@
+<!--
+ - Created by Anshuman Mishra on 8/18/2020.
+ -->
+
+<apex:component id="EmailTemplateDelegateParticipantText" controller="EmailTemplatePendingPartController" access="global">
+    <!-- attributes: -->
+    <apex:attribute name="sourceId" type="Id" assignTo="{!sourceIdValue}" description="" access="global"/>
+    <!-- component body -->
+    --------------------------------------------------------------------------
+    <apex:repeat value="{!participants}" var="studyLevel">
+        Study Name: {!studyLevel.studyName} - REF ID: {!studyLevel.refId} - REF ID: {!studyLevel.lastRecievedDate}
+    </apex:repeat>
+    --------------------------------------------------------------------------
+</apex:component>

@@ -155,6 +155,8 @@ public without sharing class ReferringRemote {
                     JSON.deserialize(pEnrollmentJSON, Participant_Enrollment__c.class);
             enrollment.Participant_Status__c = PEStatusState.PE_STATUS_RECEIVED;
             enrollment.Referral_Completed_by__c = CommunityService.getInstance().getCurrentContactId();
+            enrollment.Permit_Mail_Email_contact_for_this_study__c = True;
+            enrollment.Permit_IQVIA_to_contact_about_study__c = True;
             if (enrollment.Pre_screening_Status__c == ParticipantEnrollmentService.PES_STATUS_PENDING) {
                 enrollment.Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_PASS;
             }

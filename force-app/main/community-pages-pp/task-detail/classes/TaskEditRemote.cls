@@ -91,9 +91,10 @@ public without sharing class TaskEditRemote {
                     taskToUpsert.WhatId = ParticipantContext.getCurrentParticipantId();
                 }
             } 
-            //Set WhatId to NULL for Survey
+            //Set WhatId and Reminder_Schedule__c to NULL for Survey
             if (String.isNotBlank(taskToUpsert.Task_Type__c) && taskToUpsert.Task_Type__c.equals(TaskService.TASK_TYPE_SURVEY)){
                 taskToUpsert.WhatId = null;
+                taskToUpsert.Reminder_Schedule__c = null;
             }
             //Set Task_Type__c as 'Not Selected' for COMPLETE_YOUR_PROFILE task
             if (String.isNotBlank(taskToUpsert.Task_Code__c) && taskToUpsert.Task_Code__c.equals(TaskService.TASK_CODE_COMPLETE_YOUR_PROFILE) && String.isBlank(taskToUpsert.Task_Type__c)) {

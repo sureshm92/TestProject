@@ -26,7 +26,6 @@
     },
 
     doSave: function (component, event, helper) {
-        debugger;
         var task = component.get('v.task');
         task.Task_Type__c = $A.util.isEmpty(task.Task_Type__c) &&
             !component.get('v.initData.createdByAdmin') ? 'Not Selected' : task.Task_Type__c;
@@ -35,8 +34,6 @@
         var smsPeferenceSelected = component.get('v.task.Remind_Using_SMS__c');
         var emailOptIn = component.get('v.emailOptIn');
         var smsOptIn = component.get('v.smsOptIn');
-        console.log('smsPeferenceSelected: ' + smsPeferenceSelected + '  smsOptIn' + smsOptIn);
-        console.log('emailPeferenceSelected: ' + emailPeferenceSelected + '  emailOptIn' + emailOptIn);
 
         if (!task.Subject) {
             communityService.showErrorToast('', $A.get('$Label.c.Empty_TaskName'), 3000);
@@ -64,9 +61,6 @@
         }
 
         var message = helper.setSuccessToast(component);
-
-        console.log('#task: '+ JSON.stringify(task));
-
         component.find('spinner').show();
 
         communityService.executeAction(component, 'upsertTask', {
@@ -99,13 +93,10 @@
     doValidateFields: function (component, event, helper) {
         var isValidFields = helper.doValidateDueDate(component, helper) &&
             helper.doValidateReminder(component);
-        //helper.doValidateDueDateOnFreqChange(component);
-
         component.set('v.isValidFields', isValidFields);
     },
 
     doNavigateToAccountSettings: function (component, event, helper) {
-        //communityService.navigateToPage('account-settings');
         window.open('account-settings', '_blank');
         window.focus();
         helper.hideModal(component);

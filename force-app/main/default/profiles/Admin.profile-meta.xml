@@ -3023,6 +3023,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Janssen_unique__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.Landing_Community__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3094,6 +3099,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Participant_Opt_In_Status_SMS__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Participant_Phone_Opt_In_Permit_Phone__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5131,6 +5141,26 @@
         <field>Participant_Enrollment__c.Patient_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Permit_IQVIA_to_contact_about_study__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Permit_Mail_Email_contact_for_this_study__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Permit_SMS_Text_for_this_study__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Permit_Voice_Text_contact_for_this_study__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Pre_Eligibility_Date__c</field>
@@ -6919,6 +6949,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Terms_And_Conditions__c.Community_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Terms_And_Conditions__c.Language__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6930,6 +6965,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Terms_And_Conditions__c.T_C_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Terms_And_Conditions__c.T_C_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7420,7 +7460,7 @@
         <layout>Completed_Incentive_Task__c-Completed Incentive Task Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Contact-Contact Layout</layout>
+        <layout>Contact-IQVIA Contact Layout</layout>
         <recordType>Contact.MASTER</recordType>
     </layoutAssignments>
     <layoutAssignments>
