@@ -73,7 +73,7 @@ private class Test_Dashboard {
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_SCREENING_PASSED);
         Test.startTest();
         System.runAs(testDataInst.piUser) {
-            DashboardRemote.getInitData(CommunityService.USER_MODE_PI, null, null, testDataInst.piContact.Id,testDataInst.ctp.Id,null);
+            DashboardRemote.getInitData(CommunityService.USER_MODE_PI, CommunityTemplateService.TEMPLATE_DEFAULT, null, testDataInst.piContact.Id,testDataInst.ctp.Id,'Init');
             DashboardRemote.getParticipantData(CommunityService.USER_MODE_PI, null,testDataInst.participant.Id);
         }
         Test.stopTest();
@@ -85,7 +85,7 @@ private class Test_Dashboard {
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_CONTACT_ATTEMPTED);
         Test.startTest();
         System.runAs(testDataInst.piUser) {
-            DashboardRemote.getInitData(CommunityService.USER_MODE_PI, null,null,testDataInst.piContact.Id,testDataInst.ctp.Id,null);
+            DashboardRemote.getInitData(CommunityService.USER_MODE_PI, CommunityTemplateService.TEMPLATE_DEFAULT,null,testDataInst.piContact.Id,testDataInst.ctp.Id,'Init');
         }
         Test.stopTest();
     }
@@ -118,7 +118,7 @@ private class Test_Dashboard {
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_SCREENING_PASSED);
         Test.startTest();
         System.runAs(testDataInst.piDelUser) {
-            DashboardRemote.getInitData(CommunityService.USER_MODE_PI, null, testDataInst.ss.Principal_Investigator__c,testDataInst.ss.Principal_Investigator__c,testDataInst.ctp.Id,null);
+            DashboardRemote.getInitData(CommunityService.USER_MODE_PI, CommunityTemplateService.TEMPLATE_DEFAULT, testDataInst.ss.Principal_Investigator__c,testDataInst.ss.Principal_Investigator__c,testDataInst.ctp.Id,'Init');
             DashboardRemote.getParticipantData(CommunityService.USER_MODE_PI, testDataInst.ss.Principal_Investigator__c,testDataInst.participant.Id);
         }
         Test.stopTest();
@@ -152,7 +152,7 @@ private class Test_Dashboard {
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_SCREENING_PASSED);
         Test.startTest();
         System.runAs(testDataInst.piDelUser) {
-            DashboardRemote.getInitData(CommunityService.USER_MODE_PI, 'Janssen', testDataInst.ss.Principal_Investigator__c,testDataInst.ss.Principal_Investigator__c,testDataInst.ctp.Id,null);
+            DashboardRemote.getInitData(CommunityService.USER_MODE_PI, CommunityTemplateService.TEMPLATE_DEFAULT, testDataInst.ss.Principal_Investigator__c,testDataInst.ss.Principal_Investigator__c,testDataInst.ctp.Id,'Init');
             DashboardRemote.getParticipantData(CommunityService.USER_MODE_PI, testDataInst.ss.Principal_Investigator__c,testDataInst.participant.Id);
         }
         Test.stopTest();
@@ -185,7 +185,7 @@ private class Test_Dashboard {
 //        testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_DECEASED);
         Test.startTest();
         System.runAs(testDataInst.piUser) {
-            DashboardRemote.getInitData(CommunityService.USER_MODE_PI, null,null,null,testDataInst.ctp.Id,'init');
+            DashboardRemote.getInitData(CommunityService.USER_MODE_PI, CommunityTemplateService.TEMPLATE_DEFAULT,null,null,testDataInst.ctp.Id,'Init');
         }
         Test.stopTest();
     }

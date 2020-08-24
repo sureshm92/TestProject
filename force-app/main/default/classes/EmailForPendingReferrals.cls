@@ -12,7 +12,8 @@ public class EmailForPendingReferrals {
             NotificationAvailabilityService availabilityService = new NotificationAvailabilityService(contactIds, contactIds);
 
             List<Participant_Enrollment__c> pes = [
-                    SELECT Study_Site__c
+                    SELECT Study_Site__c,
+                           Study_Site__r.Principal_Investigator__c
                     FROM Participant_Enrollment__c
                     WHERE Participant_Status__c = 'Received'
                     AND Clinical_Trial_Profile__c IN (
