@@ -10,7 +10,7 @@
 Case Number: {!Case.CaseNumber}
 Case Type: {!Case.Type}
 Description: {!Case.Description}
-Case Date: {!DATETIMEVALUE(Case.CreatedDate)} EST
+Case Date: {!DATETIMEVALUE(Case.CreatedDate)} GMT
 Case Logged By: {!Contact.Name}
 Case Logged By Email: {!Contact.Email}</textOnly>
     <type>custom</type>

@@ -1,7 +1,7 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_PI1}"
                          recipientType="Contact"
                          relatedToType="Study_Site__c"
-                         language="{!relatedTo.Principal_Investigator__r.Language__c}">
+                         language="{!recipient.Language__c}">
 
     <messaging:htmlEmailBody>
         <c:EmailWireframe recipientId="{!recipient.Id}"
@@ -9,7 +9,8 @@
                           header="{!$Label.Email_Header_Review_and_accept_a_new_study}"
                           greeting="{!$Label.Email_User_Greeting}"
                           signature="{!$Label.Email_Signature_RH}"
-                          communityTemplate="{!relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c}">
+                          communityTemplate="{!IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'GSK',
+                                                 'Default', relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
             <c:Paragraph emailLabel="{!$Label.Email_Body_PI1}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"
                               buttonURL="/s/"/>

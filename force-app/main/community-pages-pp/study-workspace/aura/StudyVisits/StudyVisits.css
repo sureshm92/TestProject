@@ -29,7 +29,7 @@
     justify-content: space-between;
 }
 
-.THIS td{
+.THIS .cRRTable.rr-table td {
     border-bottom: 1px solid #eaeaea;
     min-height: 45px;
 }
@@ -39,15 +39,25 @@
     line-height: 21px;
 }
 
-.THIS .sv-t-name{
-    padding-left: 34px !important;
+.THIS .cRRIconSplitter.icons-container {
+    min-height: 32px;
+    flex-wrap: wrap;
+    overflow: visible;
+    height: auto;
+}
+
+.THIS .cRRTable.rr-table tr td.sv-t-name{
     width: 30%;
 }
 
-.THIS .sv-t-reminder {
-    color: #297DFD !important;
+.THIS .cRRTable.rr-table tr td.sv-t-reminder {
+    color: #297DFD;
     cursor: pointer;
     width: max-content;
+}
+
+.THIS .cRRIconSplitter .icon-item:first-child {
+    margin-left: 0;
 }
 
 .THIS .sv-t-status {
@@ -65,6 +75,15 @@
 .THIS .sv-t-icons{
     width: 30%;
 }
+
+.THIS .cRRIconSplitter .dots {
+    display: none;
+}
+
+.THIS .cRRIconSplitter .icons-row {
+    margin-right: 1rem;
+}
+
 .THIS .svl-icon{
     height: 20px;
     width: 32px;
@@ -96,10 +115,108 @@
     margin-left: 1%;
     height: max-content;
 }
-@media all and (max-width: 500px) {
 
-    .THIS .rr-table .cRRIconSplitter .icons-row {
-        flex-wrap: nowrap;
+.THIS .visitsLabel {
+    display: none;
+}
+
+@media (max-width: 768px){
+
+    .THIS .rr-table .tableHeader{
+        display: none;
+    }
+
+    .THIS .rr-table {
+        margin: 1rem 1rem 0;
+    }
+
+    .THIS .rr-table tr {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .THIS .cRRTable.rr-table tr td {
+        width: 100%;
+        border-bottom: none;
+        color: #000;
+    }
+
+
+    .THIS .cRRTable.rr-table tr td.sv-t-name {
+        padding-left: 10px;
+        width: 100%;
+    }
+
+    .THIS .cRRTable.rr-table tr td.sv-t-icons {
+        height: auto;
+        padding-bottom: 1rem;
+    }
+
+    .THIS .cRRTable.rr-table tr td .sv-t-reminder {
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .THIS .cRRTable.rr-table tr td .sv-t-reminder .slds-button {
+        margin-top: -6px;
+    }
+
+    .THIS .visitsLabel {
+        display: inline-block;
+        padding-right: 5px;
+        color: #595959;
+        position: relative;
+    }
+
+    .THIS .cRRTable.rr-table tr td:last-child {
+        border-bottom: 1px solid #d9d9d9;
+        margin-bottom: 1.5rem;
+        padding-top: 0;
+    }
+
+    .THIS .cRRIconSplitter.icons-container {
+        overflow: visible;
+    }
+}
+
+@media (any-pointer: coarse) {
+
+    .THIS .uiScrollerWrapper.scrollable {
+        overflow: hidden;
+    }
+
+    .THIS .rr-table {
+        font-size: 1rem;
+        padding: 2px 1.5rem;
+    }
+
+    .THIS .cRRIconSplitter.icons-container {
+        overflow: visible;
+    }
+
+    .THIS .cRRTable.rr-table tr td .icon {
+        position: relative;
+        overflow: visible;
+    }
+
+    .THIS .cRRIconSplitter .icon-item {
+        padding-left: 5px;
+        margin: 8px;
+    }
+
+    .THIS .cRRTable.rr-table tr td .icon:hover:after {
+        content: attr(title);
+        position: absolute;
+        bottom: 100%;
+        left: -25%;
+        color: #444;
+        background-color: #fff;
+        border: 1px solid #d9d9d9;
+        border-radius: 4px;
+        padding: 5px 8px;
+        z-index: 1000;
+        box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04);
+        min-width: 95px;
     }
 
 }
