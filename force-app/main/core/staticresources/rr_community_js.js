@@ -171,7 +171,7 @@ window.communityService = (function () {
             return hasIQVIAStudiesPI;
         },
 
-        getPagesWithSharedPrivacyPolicy(){
+        getPagesWithSharedPrivacyPolicy: function(){
             return pagesWithSharedPrivacyPolicy;
         },
 
