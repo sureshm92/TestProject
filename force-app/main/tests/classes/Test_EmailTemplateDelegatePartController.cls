@@ -29,7 +29,7 @@ private class Test_EmailTemplateDelegatePartController {
         update patientDelegate;
 
         EmailTemplateProviderService.setProviderType('', delegate.Id, delegate.Name,
-                'en_US', 'Default', delegate.Id, '');
+                'en_US', 'Default', delegate.Id, '','');
         EmailTemplateDelegatePartController controller = new EmailTemplateDelegatePartController();
         controller.getBottomText();
         Test.stopTest();
@@ -54,7 +54,7 @@ private class Test_EmailTemplateDelegatePartController {
         update patientDelegate;
 
         EmailTemplateProviderService.setProviderType('', delegate.Id, delegate.Name,
-                'en_US', 'Default', delegate.Id, 'HTML');
+                'en_US', 'Default', delegate.Id, 'HTML','');
         EmailTemplateDelegatePartController controller = new EmailTemplateDelegatePartController();
         controller.sourceIdValue = td.pe.Id;
         Test.stopTest();

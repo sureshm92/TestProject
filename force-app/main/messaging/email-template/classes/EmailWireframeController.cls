@@ -123,11 +123,11 @@ global without sharing class EmailWireframeController {
         return getProvider().isInitialized();
     }
 
-    private EmailTemplateProvider getProvider() {
+   private EmailTemplateProvider getProvider() {
         if (templateProvider == null) {
             EmailTemplateProviderService.setProviderType(
                     specificEmailProviderValue, emailRecipientId, emailRecipientName, emailRecipientLanguage,
-                    communityTemplateValue, sourceRecordId, outputMode
+                    communityTemplateValue, sourceRecordId, outputMode, shareTemplate
             );
             templateProvider = EmailTemplateProviderService.getProvider();
         }

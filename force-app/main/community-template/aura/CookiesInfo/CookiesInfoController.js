@@ -18,7 +18,12 @@
                 linkPPUrl = '<a class="ci-link" href="/janssen/s/privacy-policy">';
                 linkPP = $A.get('$Label.c.Footer_Link_Privacy_Policy_Janssen');
                 linkCP = '<a class="ci-link" href="/janssen/s/cookie-policy">';
-            } else {
+            }
+            else if(communityPrefix.includes('gsk')){
+                linkPPUrl = '<a class="ci-link" href="/gsk/s/privacy-policy">';
+                linkCP = '<a class="ci-link" href="/gsk/s/cookie-policy">';
+            } 
+            else {
                 linkPPUrl = '<a class="ci-link" href="/s/privacy-policy">';
                 linkCP = '<a class="ci-link" href="/s/cookie-policy">';
             }
