@@ -114,13 +114,13 @@ public without sharing class CommunityModeService {
                         DatabaseService.fieldNotInValues('Clinical_Trial_Profile__r.CommunityTemplate__c', rhCommunityNames)
         );
 
+        Boolean hasBeenActive = false;
         if (!userParticipants.isEmpty()) {
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(userParticipant.Id);
             List<Participant_Enrollment__c> pePastList = pePastMap.get(userParticipant.Id);
-            if (peList != null || pePastList != null) {
-                CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(
-                        false, peList != null || pePastList != null
-                );
+            hasBeenActive = peList != null || pePastList != null;
+            if (hasBeenActive) {
+                CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(false, hasBeenActive);
 
                 if (peList != null) {
                     for (Participant_Enrollment__c pe : peList) {
@@ -149,6 +149,14 @@ public without sharing class CommunityModeService {
                 CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(
                         false, false
                 );
+
+                if (!hasBeenActive && !userParticipants.isEmpty()) {
+                    String participantName = userParticipant.First_Name__c + ' ' + userParticipant.Last_Name__c;
+                    modeItem.subItems.add(new CommunityModes.PPCommunityModeItem(
+                            USER_MODE_PARTICIPANT, participantName, Label.No_active_studies,
+                            null, null, false
+                    ));
+                }
 
                 if (peList != null) {
                     for (Participant_Enrollment__c pe : peList) {
