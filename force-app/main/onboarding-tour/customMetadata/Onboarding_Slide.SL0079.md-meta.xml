@@ -7,12 +7,16 @@
         <value xsi:type="xsd:string">OT_PI_S9_T</value>
     </values>
     <values>
+        <field>Disclaimer__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Multimode_Only__c</field>
         <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Static_Resource__c</field>
-        <value xsi:type="xsd:string">os_pislide9</value>
+        <value xsi:type="xsd:string">os_pislide11</value>
     </values>
     <values>
         <field>Sub_Title__c</field>
