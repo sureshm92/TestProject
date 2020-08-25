@@ -522,10 +522,12 @@ global without sharing class ReferHealthcareProviderRemote {
         List<User> usrs = CommunityService.getCommunityUsersByContactIds(new Set<Id>{
                 cntList[0].Id
         });
-        CommunityTemplate currentCommunityTemplate = UserContext.getCurrentCommunityTemplate();
-        PermissionSet permissionSets = [SELECT Id, Name FROM PermissionSet WHERE Name =: currentCommunityTemplate.permissionSet];
-        PermissionSetAssignment psa = new PermissionSetAssignment(PermissionSetId = permissionSets.Id, AssigneeId = usrs[0].Id);
-        insert psa;
+        String permissionSetName = UserContext.getCurrentCommunityTemplate().permissionSet;
+        actionAssignContactPermissions.addPermission(usrs[0].ContactId, permissionSetName);
+        if (!actionAssignContactPermissions.isEmpty()) {
+            ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+        }
+
         if (usrs.isEmpty()) {
             isNewUser = true;
             ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id>{
