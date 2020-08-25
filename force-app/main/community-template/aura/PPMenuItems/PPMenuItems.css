@@ -48,6 +48,7 @@
 .THIS .selected{
     color: #0768FD;
     font-weight: bold;
+    align-items: center;
 }
 
 .THIS .selected-sub-title{

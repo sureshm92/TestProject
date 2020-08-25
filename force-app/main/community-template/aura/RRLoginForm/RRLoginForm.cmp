@@ -32,6 +32,7 @@
     <aura:attribute name="isGSKCommunity" type="boolean" default="false"/> <!-- Added by Krishna Mahto - PEH-1910 -->
     <aura:attribute name="isJanssen" type="boolean" default="false"/>
     <aura:attribute name="ieClass" type="String" access="private" default=""/>
+    <aura:attribute name="urlCommunity" type="String" access="private" default=""/>
 
     <aura:registerevent name="sitePropagatedStartUrl" type="c:setStartUrl"/>
     <aura:dependency resource="c:setStartUrl" type="EVENT"/>

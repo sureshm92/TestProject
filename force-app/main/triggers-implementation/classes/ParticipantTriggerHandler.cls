@@ -27,7 +27,7 @@ public without sharing class ParticipantTriggerHandler {
     public class ChangeUserEmailOnParticipantEmailChangeHandler extends TriggerHandler{
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            if (System.isFuture() || System.isBatch()) {
+            if (System.isFuture() || System.isBatch() || test.isRunningTest()) {
                 changeUserEmailOnParticipantEmailChange(newList, (Map<Id, Participant__c>) oldMap);
             } else {
                 changeUserEmailOnParticipantEmailChangeAsync(JSON.serialize(newList), JSON.serialize((Map<Id, Participant__c>) oldMap));
