@@ -368,7 +368,6 @@ public without sharing class MyTeamRemote {
         }
     }
     private static void sendEmailNotification(Contact delegateContact, String userMode, Map<String, List<Id>> hasDelegateLevelsPIMap) {
-        System.debug('>>>>hasDelegateLevelsPIMap ' + JSON.serializePretty(hasDelegateLevelsPIMap));
         List<Notification__c> notifications = new List<Notification__c>();
         if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
             notifications.add(new Notification__c(
@@ -377,7 +376,6 @@ public without sharing class MyTeamRemote {
                     Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_ACCESS_LEVEL_CHANGED_TYPE
             ));
         } else if (userMode == CommunityService.USER_MODE_PI) {
-            System.debug('>>>>userMode ' + JSON.serializePretty(userMode));
             String whatId;
             List<Site_Staff__c> ssList = new List<Site_Staff__c>();
             List<Site_Staff__c> ssListWithSSId = new List<Site_Staff__c>();
@@ -388,7 +386,6 @@ public without sharing class MyTeamRemote {
                         WHERE Site_Contact__c = :delegateContact.Id
                         AND Study_Site__c IN:hasDelegateLevelsPIMap.get(OLD_VALUES_DELEGATE_LEVELS)
                 ];
-                System.debug('>>>>ssListWithSSId ' + JSON.serializePretty(ssListWithSSId));
             } else {
                 ssList = [
                         SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, Site_Contact__c
@@ -402,11 +399,9 @@ public without sharing class MyTeamRemote {
 
             for (Site_Staff__c ss : ssList) {
                 String commTemplate = ss.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
-                System.debug('>>>>commTemplate ' + JSON.serializePretty(commTemplate));
                 if (!comTemplates.contains(commTemplate))
                     comTemplates.add(commTemplate);
             }
-            System.debug('>>>>commTemplate ' + JSON.serializePretty(comTemplates));
             for (String cmTp : comTemplates) {
                 for (Site_Staff__c ss : ssList) {
                     if (ss.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c == cmTp) whatId = ss.Study_Site__c;
@@ -418,7 +413,6 @@ public without sharing class MyTeamRemote {
                 ));
             }
 
-            System.debug('>>>>notifications ' + JSON.serializePretty(notifications));
         } else if (userMode == CommunityService.USER_MODE_HCP) {
             notifications.add(new Notification__c(
                     Recipient__c = delegateContact.Id,
