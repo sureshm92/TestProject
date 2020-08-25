@@ -94,7 +94,6 @@
          communityService.executeAction(component, 'deletePicture', {
                          parentId: component.get('v.recordId')
         }, function (returnValue) {
-            alert('inside deletePhoto-->');
             window.location.reload(true);
 
 
