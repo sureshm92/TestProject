@@ -4,9 +4,9 @@
 public without sharing class EmailTemplateProviderHCPMultiPI extends EmailTemplateProvider {
 
     public override void initState(Id recipientId, String recipientName, String recipientLanguage,
-            String communityTemplateName, Id whatId, String outputMode
+            String communityTemplateName, Id whatId, String outputMode,String shareTemplate
     ) {
-        super.initState(recipientId, recipientName, recipientLanguage, communityTemplateName, whatId, outputMode);
+        super.initState(recipientId, recipientName, recipientLanguage, communityTemplateName, whatId, outputMode, shareTemplate);
         parameters.put('PIName', getMultiplePINames(recipientContactId));
     }
 
