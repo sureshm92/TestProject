@@ -44,8 +44,8 @@
             <aura:set attribute="footer">
                 <c:RRLink page="{!v.VisitResultPage}">
                     {!$Label.c.PG_L_See_All}
-                    <aura:if isTrue="{!v.isArabic}"><c:RRIcon iconName="icon-chevron-left"/></aura:if>
-                    <aura:if isTrue="{!!v.isArabic}"><c:RRIcon iconName="icon-chevron-right"/></aura:if>
+                    <aura:if isTrue="{!v.isRTL}"><c:RRIcon iconName="icon-chevron-left"/></aura:if>
+                    <aura:if isTrue="{!!v.isRTL}"><c:RRIcon iconName="icon-chevron-right"/></aura:if>
                 </c:RRLink>
             </aura:set>
         </c:HomePreviewTablePanel>
