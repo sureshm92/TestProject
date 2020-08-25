@@ -120,10 +120,28 @@ public without sharing class HCPEnrollmentTriggerHandler {
         }
         List<Notification__c> notifications = new List<Notification__c>();
         String notificationType;
+        List<PermissionSet> permissionSets = [SELECT Id, Name FROM PermissionSet];
         for (HCP_Enrollment__c hcpe : newList) {
             if (hcpe.Status__c == HCPEnrollmentService.HCP_S_INVITATION_SENT && hcpe.HCP_Contact__c != null &&
                     ((oldMap == null) || (oldMap != null && hcpe.Status__c != oldMap.get(hcpe.Id).Status__c))) {
                 if (contactIdsWithCreatedUser.contains(hcpe.HCP_Contact__c)) {
+                    String communtityTemplate = hcpe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                    String permissionSet;
+                    Id permId;
+                    if (communtityTemplate == CommunityTemplateService.TEMPLATE_JANSSEN) permissionSet = CommunityTemplateService.PERMISSION_COMMUNITY_JANSSEN_NAME;
+                    if (communtityTemplate == CommunityTemplateService.TEMPLATE_DEFAULT) permissionSet = CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME;
+                    if (communtityTemplate == CommunityTemplateService.TEMPLATE_GSK) permissionSet = CommunityTemplateService.PERMISSION_COMMUNITY_GSK_NAME;
+                    if (String.isNotBlank(permissionSet)) {
+                        for (PermissionSet perm : permissionSets) {
+                            if (perm.Name == permissionSet) {
+                                permId = perm.Id;
+                                break;
+                            }
+
+                        }
+                        PermissionSetAssignment psa = new PermissionSetAssignment(PermissionSetId = permId, AssigneeId = hcpe.HCP_Contact__c);
+                        insert psa;
+                    }
                     if (hpsByHCPE.get(hcpe.Id) != null || alreadyCreatedContactsMap.containsKey(hcpe.HCP_Contact__c)) {
                         notificationType = NotificationCatalog.MESSAGE_TO_HCP_NEW_STUDY_BY_PI_TYPE;
                     }

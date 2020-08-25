@@ -458,6 +458,7 @@ global without sharing class ReferHealthcareProviderRemote {
         Boolean isNewUser = false;
         List<HCP_Enrollment__c> hcpes = new List<HCP_Enrollment__c>();
         List<Study_Site__c> studySitesToInvite = new List<Study_Site__c>();
+        Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
 
         List<Contact> cntList = new List<Contact>();
         if (!String.isBlank(hcpContactId)) {
@@ -521,6 +522,10 @@ global without sharing class ReferHealthcareProviderRemote {
         List<User> usrs = CommunityService.getCommunityUsersByContactIds(new Set<Id>{
                 cntList[0].Id
         });
+        CommunityTemplate currentCommunityTemplate = UserContext.getCurrentCommunityTemplate();
+        PermissionSet permissionSets = [SELECT Id, Name FROM PermissionSet WHERE Name =: currentCommunityTemplate.permissionSet];
+        PermissionSetAssignment psa = new PermissionSetAssignment(PermissionSetId = permissionSets.Id, AssigneeId = usrs[0].Id);
+        insert psa;
         if (usrs.isEmpty()) {
             isNewUser = true;
             ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id>{
