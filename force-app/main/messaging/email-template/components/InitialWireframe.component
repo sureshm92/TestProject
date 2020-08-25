@@ -144,7 +144,7 @@
                       signature="{!$Label.Email_Signature}">
         <!-- Inner body -->
         <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Delegate}"/>
-        <c:EmailTemplateDelegate/>
+        <c:EmailTemplateDelegateHCPLvl/>
         <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframe>
     
