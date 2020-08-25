@@ -63,7 +63,7 @@ window.communityService = (function () {
                 sponsorName = communityData.sponsorName;
                 isMobileApp = communityData.isMobileApp;
                 hasIQVIAStudiesPI = communityData.hasIQVIAStudiesPI;
-                service.setCurrentCommunityMode(communityData.currentUserMode);
+                service.setCurrentCommunityMode(communityData.currentUserMode, null, true);
                 service.setCookie('RRLanguage', communityData.language, 365);
                 console.log('CommunityService initialized:');
                 console.log('is TC accepted: ' + isTCAcceptedFlag);
@@ -171,7 +171,7 @@ window.communityService = (function () {
             return hasIQVIAStudiesPI;
         },
 
-        getPagesWithSharedPrivacyPolicy(){
+        getPagesWithSharedPrivacyPolicy: function(){
             return pagesWithSharedPrivacyPolicy;
         },
 
@@ -183,12 +183,12 @@ window.communityService = (function () {
             return currentUserMode.template.templateName;
         },
 
-        setCurrentCommunityMode: function(mode, page){
+        setCurrentCommunityMode: function(mode, page, init){
             currentUserMode = mode;
             service.setThemeCSS();
             let redirectURL = mode.template.redirectURL;
             if(page) redirectURL += '/s/' + page;
-            if(!isDummy && mode.template.needRedirect) document.location.href = redirectURL;
+            if(!init && !isDummy && mode.template.needRedirect) document.location.href = redirectURL;
         },
 
         getMessagesVisible : function () {

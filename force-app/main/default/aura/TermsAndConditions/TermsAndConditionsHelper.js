@@ -25,7 +25,11 @@
         }else{
             if(!isPortalTC && component.get('v.ctpId')){
                 component.set("v.isUserLoggedIn", true);
-            }else{
+            }
+            else if(!communityService.isDummy()){
+                component.set("v.isUserLoggedIn", true);
+            }
+            else{
                 component.set("v.isUserLoggedIn", false);
             }
         }
