@@ -10,7 +10,7 @@ public with sharing class Test_EmailActionBtnController {
         Contact recipient = new Contact(FirstName = 'John', LastName = 'Doe', Email = 'johndoe@mail.com');
         insert recipient;
         EmailTemplateProviderService.setProviderType('', recipient.Id, recipient.Name,
-                'en_US', 'Default', recipient.Id, '');
+                'en_US', 'Default', recipient.Id, '','');
         EmailActionBtnController emailActionBtnController = new EmailActionBtnController();
         emailActionBtnController.getResultURL();
     }
