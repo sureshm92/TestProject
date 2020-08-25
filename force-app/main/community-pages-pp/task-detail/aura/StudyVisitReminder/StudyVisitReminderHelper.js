@@ -148,46 +148,6 @@
             if (isFieldValid) component.set('v.dayAfterDueDate', helper.addADay(component, fieldValid.get('v.value')));
         }
         return isFieldValid;
-    },
-
-    doValidateDueDateOnFreqChange: function (component) {
-        /*debugger;
-        var reminderCmp = [].concat(component.find('reminderDate'));
-        var freq = component.get('v.task.Remind_Me__c');
-        var reminderDate = moment(component.get('v.initData.reminderDate'), 'YYYY-MM-DD');
-        var dayAfterDueDate = moment(component.get('v.dayAfterDueDate'), 'YYYY-MM-DD');
-        var tomorrow = moment(component.get('v.tomorrow'), 'YYYY-MM-DD');
-        var isFieldValid = true;
-        if (freq == $A.get('$Label.c.One_day_before')
-            && reminderDate.isValid()) {
-            if (tomorrow.isSameOrAfter(reminderDate)) {
-                isFieldValid = reminderCmp.reduce(function (validSoFar, inputCmp) {
-                    inputCmp.setCustomValidity('');
-                    return validSoFar && true;
-                }, true);
-            } else if (dayAfterDueDate.isValid() && dayAfterDueDate.isSameOrAfter(reminderDate)) {
-                isFieldValid = reminderCmp.reduce(function (validSoFar, inputCmp) {
-                    inputCmp.setCustomValidity('');
-                    return validSoFar && true;
-                }, true);
-            } else {
-                isFieldValid = reminderCmp.reduce(function (validSoFar, inputCmp) {
-                    inputCmp.setCustomValidity('Please enter a valid date');
-                    return validSoFar && false;
-                }, true);
-            }
-
-        } else {
-            isFieldValid = reminderCmp.reduce(function (validSoFar, inputCmp) {
-                inputCmp.setCustomValidity('');
-                return validSoFar && true;
-            }, true);
-        }
-        reminderCmp.forEach(function (inputCmp) {
-            inputCmp.reportValidity();
-        });
-
-        return isFieldValid;
-        */
     }
+
 })
