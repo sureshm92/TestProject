@@ -7,6 +7,10 @@
         <value xsi:type="xsd:string">OT_DPI_S3_T</value>
     </values>
     <values>
+        <field>Disclaimer__c</field>
+        <value xsi:type="xsd:string">OT_Disclaimer_T</value>
+    </values>
+    <values>
         <field>Multimode_Only__c</field>
         <value xsi:type="xsd:boolean">false</value>
     </values>
