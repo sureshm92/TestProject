@@ -29,17 +29,19 @@ public without sharing virtual class EmailTemplateProvider {
     protected Boolean isDelegate = false;
     protected String userMode = 'Guest';
     protected Id whatId;
-
+	protected Boolean isShareTemplate = false;
     private Boolean initialized = false;
 
     protected TemplatePropertiesService templatePropertiesService;
     protected Map<String, String> parameters = new Map<String, String>();
 
     public virtual void initState(Id recipientId, String recipientName, String recipientLanguage,
-            String communityTemplateName, Id whatId, String outputMode) {
+            String communityTemplateName, Id whatId, String outputMode, String shareTemplate) {
         this.recipientId = recipientId;
         this.recipientName = recipientName;
         this.recipientLanguage = recipientLanguage;
+        if(shareTemplate=='Yes')        
+        this.isShareTemplate = true;       
         if (String.isNotEmpty(outputMode)) this.isHTML = outputMode.equals('HTML');
 
         updateRecipientName();
@@ -204,6 +206,8 @@ public without sharing virtual class EmailTemplateProvider {
         parameters.put('UserName', getCommunityUserName());
 
         if (String.isEmpty(recipientLanguage)) recipientLanguage = recipientContact.Language__c;
+        if(isShareTemplate) userMode=CommunityModeService.USER_MODE_PARTICIPANT;
+
     }
 
     private String getCommunityUserName() {
