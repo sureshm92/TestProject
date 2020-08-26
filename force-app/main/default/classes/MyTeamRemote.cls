@@ -338,18 +338,19 @@ public without sharing class MyTeamRemote {
             if (dw.delegateContact.Id == null) {
                 createDelegate(dw, userMode, parentId);
             } else {
-                String hasDelegateLevelsPI = HAS_NOT_DELEGATE_LEVELS;
+                Map<String, LIst<Id>> hasDelegateLevelsPIMap = new Map<String, List<Id>>();
+                hasDelegateLevelsPIMap.put(HAS_NOT_DELEGATE_LEVELS, new List <Id>());
                 Boolean hasDelegateLevels = false;
 
                 if (userMode == CommunityService.USER_MODE_PI) {
-                    hasDelegateLevelsPI = savePIDelegate(dw);
+                    hasDelegateLevelsPIMap = savePIDelegate(dw);
                 } else if (userMode == CommunityService.USER_MODE_HCP) {
                     hasDelegateLevels = saveHCPDelegate(dw, parentId);
 
                 }
                 //Contact delegateContact = [SELECT Id, HasOptedOutOfEmail FROM Contact WHERE Id =:dw.delegateContact.Id LIMIT 1];
-                if (hasDelegateLevels || hasDelegateLevelsPI != HAS_NOT_DELEGATE_LEVELS/*&& delegateContact != null && !delegateContact.HasOptedOutOfEmail*/) {
-                    sendEmailNotification(dw.delegateContact, userMode, hasDelegateLevelsPI);
+                if (hasDelegateLevels || !hasDelegateLevelsPIMap.isEmpty()/*&& delegateContact != null && !delegateContact.HasOptedOutOfEmail*/) {
+                    sendEmailNotification(dw.delegateContact, userMode, hasDelegateLevelsPIMap);
                 }
                 List<User> delegateUsers = CommunityService.getCommunityUsersByContactIds(new Set<Id>{
                         dw.delegateContact.Id
@@ -366,7 +367,7 @@ public without sharing class MyTeamRemote {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-    private static void sendEmailNotification(Contact delegateContact, String userMode, String hasDelegateLevelsPI) {
+    private static void sendEmailNotification(Contact delegateContact, String userMode, Map<String, List<Id>> hasDelegateLevelsPIMap) {
         List<Notification__c> notifications = new List<Notification__c>();
         if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
             notifications.add(new Notification__c(
@@ -378,27 +379,28 @@ public without sharing class MyTeamRemote {
             String whatId;
             List<Site_Staff__c> ssList = new List<Site_Staff__c>();
             List<Site_Staff__c> ssListWithSSId = new List<Site_Staff__c>();
-            if (hasDelegateLevelsPI != HAS_DELEGATE_LEVELS) whatId = Id.valueOf(hasDelegateLevelsPI);
-            if (whatId == null) {
+            if (!hasDelegateLevelsPIMap.get(OLD_VALUES_DELEGATE_LEVELS).isEmpty()) {
+                ssListWithSSId = [
+                        SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, Site_Contact__c
+                        FROM Site_Staff__c
+                        WHERE Site_Contact__c = :delegateContact.Id
+                        AND Study_Site__c IN:hasDelegateLevelsPIMap.get(OLD_VALUES_DELEGATE_LEVELS)
+                ];
+            } else {
                 ssList = [
                         SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, Site_Contact__c
                         FROM Site_Staff__c
                         WHERE Site_Contact__c = :delegateContact.Id
                 ];
-            } else {
-                ssListWithSSId = [
-                        SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, Site_Contact__c
-                        FROM Site_Staff__c
-                        WHERE Site_Contact__c = :delegateContact.Id
-                        AND Study_Site__c =: whatId
-                ];
             }
-            if(ssList.isEmpty()) ssList.addAll(ssListWithSSId);
+
+            if (ssList.isEmpty()) ssList.addAll(ssListWithSSId);
             List<String> comTemplates = new List<String>();
+
             for (Site_Staff__c ss : ssList) {
                 String commTemplate = ss.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
-                if (!comTemplates.contains(commTemplate) && commTemplate != CommunityTemplateService.TEMPLATE_GSK)
-                        comTemplates.add(commTemplate);
+                if (!comTemplates.contains(commTemplate))
+                    comTemplates.add(commTemplate);
             }
             for (String cmTp : comTemplates) {
                 for (Site_Staff__c ss : ssList) {
@@ -410,7 +412,6 @@ public without sharing class MyTeamRemote {
                         Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_ACCESS_LEVEL_CHANGED_TYPE
                 ));
             }
-
 
         } else if (userMode == CommunityService.USER_MODE_HCP) {
             notifications.add(new Notification__c(
@@ -431,8 +432,8 @@ public without sharing class MyTeamRemote {
         SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_DELEGATE_WELCOME, toSendNotificationMap);
     }
 
-    private static String savePIDelegate(DelegateWrapper dw) {
-        String hasDelegateLevels = HAS_NOT_DELEGATE_LEVELS;
+    private static Map<String, List<Id>> savePIDelegate(DelegateWrapper dw) {
+        Map<String, List<Id>> hasDelegateLevelsMap = new Map<String, List<Id>>();
         Map<Id, Site_Staff__c> delegateSiteStaffMap =
                 DelegateService.getPITeamStaffTrialMap().get(dw.delegateContact.Id);
         List<Site_Staff__c> delegateRecordsToInsert = new List<Site_Staff__c>();
@@ -440,9 +441,8 @@ public without sharing class MyTeamRemote {
         List<Site_Staff__c> delegateRecordsToDelete = new List<Site_Staff__c>();
         for (TrialDelegateWrapper delegateTrialRecord : dw.delegateTrials) {
             for (DelegateLevelWrapper delegateRecord : delegateTrialRecord.siteLevels) {
-
                 if (delegateRecord.delegateLevel != '') {
-                    hasDelegateLevels = HAS_DELEGATE_LEVELS;
+                    hasDelegateLevelsMap.put(HAS_DELEGATE_LEVELS, new List <Id>());
                 }
                 if (delegateSiteStaffMap == null ||
                         delegateSiteStaffMap.get(delegateRecord.enrollmentOrStudySiteId) == null) {
@@ -470,14 +470,26 @@ public without sharing class MyTeamRemote {
             DelegateService.addConversationSharesForPITeam(delegateRecordsToInsert);
         }
         if (!delegateRecordsToUpdate.isEmpty()) {
-            hasDelegateLevels = (String) delegateRecordsToUpdate[0].Study_Site__c;
+            List<Id> ssIds = new List<Id>();
+            for (Site_Staff__c ss : delegateRecordsToUpdate) ssIds.add(ss.Study_Site__c);
+            List<Study_Site__c> listSS = [SELECT Id, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Study_Site__c WHERE Id IN:ssIds];
+            List<Id> ssIdsForNotification = new List<Id>();
+            List<String> communityNames = new List<String>();
+            for (Study_Site__c ss : listSS) if (!communityNames.contains(ss.Clinical_Trial_Profile__r.CommunityTemplate__c)) communityNames.add(ss.Clinical_Trial_Profile__r.CommunityTemplate__c);
+
+            for (String cmN : communityNames) {
+                for (Study_Site__c ss : listSS) {
+                    if (ss.Clinical_Trial_Profile__r.CommunityTemplate__c == cmN) ssIdsForNotification.add(ss.Id);
+                }
+            }
+            hasDelegateLevelsMap.put(OLD_VALUES_DELEGATE_LEVELS, ssIdsForNotification);
             update delegateRecordsToUpdate;
         }
         if (!delegateRecordsToDelete.isEmpty()) {
             delete delegateRecordsToDelete;
         }
-        System.debug('>>>> ' + hasDelegateLevels);
-        return hasDelegateLevels;
+        System.debug('>>>>hasDelegateLevelsMap ' + JSON.serializePretty(hasDelegateLevelsMap));
+        return hasDelegateLevelsMap;
     }
 
     private static Boolean saveHCPDelegate(DelegateWrapper dw, String parentId) {
@@ -590,7 +602,7 @@ public without sharing class MyTeamRemote {
         } else {
             for (MyTeamRemote.TrialDelegateWrapper t : dlw) {
                 for (MyTeamRemote.DelegateLevelWrapper d : t.siteLevels) {
-                    if ((d.ReferralStatus == StudySiteService.PI_S_ACCEPTED || d.ReferralStatus == StudySiteService.PI_S_ACCEPTED_A) &&  String.isNotBlank(d.delegateLevel)) {
+                    if (d.ReferralStatus == 'Accepted' && String.isNotBlank(d.delegateLevel)) {
                         return true;
                     }
                 }

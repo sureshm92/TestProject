@@ -57,7 +57,7 @@ private class Test_AccountSettingsController {
             AccountSettingsController.PersonWrapper personWrapper = initData.contactSectionData.personWrapper;
             AccountSettingsController.changeOptInSMS(personWrapper.isOptInSMS());
             AccountSettingsController.updatePerson(JSON.serialize(personWrapper));
-            personWrapper = new AccountSettingsController.PersonWrapper(initData.myContact, new Participant__c());
+            personWrapper = new AccountSettingsController.PersonWrapper(initData.myContact, null);
             AccountSettingsController.updatePerson(JSON.serialize(personWrapper));
         }
         Test.stopTest();

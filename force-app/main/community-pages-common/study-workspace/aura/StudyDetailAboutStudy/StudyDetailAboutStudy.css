@@ -2,6 +2,10 @@
     padding-bottom: 32px;
 }
 
+.THIS.rtl {
+    direction: rtl;
+}
+
 .THIS.sdas-sub-tab {
     height: 40px;
     width: 100%;

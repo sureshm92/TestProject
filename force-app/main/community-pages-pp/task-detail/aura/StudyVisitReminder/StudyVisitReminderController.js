@@ -93,36 +93,12 @@
     doValidateFields: function (component, event, helper) {
         var isValidFields = helper.doValidateDueDate(component, helper) &&
             helper.doValidateReminder(component);
-        //helper.doValidateDueDateOnFreqChange(component);
-
         component.set('v.isValidFields', isValidFields);
     },
 
     doNavigateToAccountSettings: function (component, event, helper) {
-        //communityService.navigateToPage('account-settings');
         window.open('account-settings', '_blank');
         window.focus();
-        //Using event
-        /*let urlEvent = $A.get('e.force:navigateToURL');
-        let absoluteURL = window.location.origin;
-        urlEvent.setParams({
-            url: absoluteURL +  communityService.getCommunityURLPathPrefix() + '/account-settings'
-        });
-        urlEvent.fire(); */
-
-        //Using API
-        /*let navService = component.find('navService');
-        let pageRef = {
-            type: 'standard__webPage',
-            attributes: {
-                url: window.location.origin + communityService.getCommunityURLPathPrefix() + '/account-settings'
-            }
-        }
-        navService.generateUrl(pageRef).then($A.getCallback(function(url){
-            console.log(url);
-            //event.preventDefault();
-            navService.navigate(pageRef);
-        }));*/
         helper.hideModal(component);
     },
 
