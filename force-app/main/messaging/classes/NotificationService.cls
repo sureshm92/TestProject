@@ -14,6 +14,10 @@ public without sharing class NotificationService {
             PEStatusState.PE_STATUS_RECEIVED
     };
 
+    static public List<String> notificationWithoutPermissions = new List<String>{
+            NotificationCatalog.MESSAGE_TO_PI_ACCESS_LEVEL_CHANGED_TYPE
+    };
+
     static public List<String> notificationTypeFirstEmail = new List<String>{
             NotificationCatalog.MESSAGE_TO_PT_SOURCE_HCP_TYPE,
             NotificationCatalog.MESSAGE_TO_PT_SOURCE_PI_TYPE,
@@ -245,7 +249,7 @@ public without sharing class NotificationService {
             for (Notification_Target__mdt nt : notificationType.Notification_Targets__r) {
                 if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_EMAIL) {
                     if (n.Recipient__c != null) {
-                        if (availabilityService.isDeferNotification(n.Recipient__c, n.WhatId__c)) continue;
+                        if (!notificationWithoutPermissions.contains(n.Notification_Type__c) && availabilityService.isDeferNotification(n.Recipient__c, n.WhatId__c)) continue;
                         if (!notificationTypeFirstEmail.contains(n.Notification_Type__c)) {
                             if (availabilityService.isAvailable(n.WhatId__c, notificationType.Recipient_Type__c, nt.Target_Type__c, n.Recipient__c)) {
                                 emailNotifications.add(n);
