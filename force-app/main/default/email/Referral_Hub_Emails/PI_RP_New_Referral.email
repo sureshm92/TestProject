@@ -12,7 +12,7 @@
                           communityTemplate="{!relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c}">
             <c:ParagraphPendingReferrals emailLabel="{!$Label.Email_Body_PI_Delegate_Referrals}"
                                          filterrequired="true"/>
-            <c:EmailTemplatePendingParticipants sourceId="{!relatedTo.Id}"/>
+            <c:EmailTemplatePendingParticipants sourceId="{!recipient.Id}"/>
         </c:EmailTemplatePendingReferrals>
     </messaging:htmlEmailBody>
 
@@ -26,7 +26,7 @@
                               communityTemplate="{!relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c}">
             <c:ParagraphPendingReferralsText emailLabel="{!$Label.Email_Body_PI_Delegate_Referrals}"
                                              filterrequired="true"/>
-            <c:EmailTemplatePendingParticipantsText sourceId="{!relatedTo.Id}"/>
+            <c:EmailTemplatePendingParticipantsText sourceId="{!recipient.Id}"/>
         </c:EmailTemplateTextPendingReferrals>
     </messaging:plainTextEmailBody>
 
