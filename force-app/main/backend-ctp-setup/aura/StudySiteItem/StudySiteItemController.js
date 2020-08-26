@@ -83,6 +83,8 @@
         var item = component.get('v.item');
         var asgCount = 0;
         var assignments = item.assignments;
+
+        let parent = component.get('v.parent');
         console.log(selected);
         console.log(JSON.stringify(assignments));
         for (var j = 0; j < assignments.length; j++) {
@@ -91,5 +93,9 @@
         }
         item.emptyAssignments = asgCount === 0;
         component.set('v.item', item);
+
+        if (parent && parent.doSave) {
+            parent.doSave();
+        }
     }
 });

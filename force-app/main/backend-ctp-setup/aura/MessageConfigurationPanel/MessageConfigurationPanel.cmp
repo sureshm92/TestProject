@@ -3,7 +3,7 @@
  -->
 
 <aura:component description="MessageConfigurationPanel" controller="MessageConfigurationPanelRemote"
-                implements="force:hasRecordId, flexipage:availableForAllPageTypes" extends="c:LightningService">
+                implements="force:hasRecordId,flexipage:availableForAllPageTypes" extends="c:LightningService">
 
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
@@ -15,6 +15,8 @@
     <aura:attribute name="haveEmptyAssigment" type="Boolean"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="scrollLeft" type="Integer" default="0"/>
+
+    <aura:method name="doSave" action="{!c.doSaveAndUpdate}" access="public"/>
 
     <div class="panel">
         <c:RRSpinner aura:id="spinner"/>
@@ -39,27 +41,15 @@
                                                                ctpId="{!v.recordId}"
                                                                isInclude="true"/>
                         </div>
-                        <div class="slds-col slds-size--1-of-2"/>
                         <!--Study Site Filter-->
                         <div class="slds-col slds-size--1-of-2">
-                            <c:IRBStudySitesLookup aura:id="ssLookup"
-                                                   value="{!v.filter.selectedSSIds}"
-                                                   ctpId="{!v.recordId}"
-                                                   selectedCountries="{!v.filter.countryCodes}"
-                                                   onchange="{!c.doUpdate}"
-                                                   placeholder="Select Study Site"/>
+                                <c:IRBStudySitesLookup aura:id="ssLookup"
+                                value="{!v.filter.selectedSSIds}"
+                                ctpId="{!v.recordId}"
+                                selectedCountries="{!v.filter.countryCodes}"
+                                onchange="{!c.doUpdate}"
+                                placeholder="Select Study Site"/>
                         </div>
-                        <!-- buttons -->
-                        <aura:if isTrue="{! v.viewMode == 'Edit'}">
-                            <div class="slds-col slds-size--1-of-2">
-                                <div class="save-btn">
-                                    <!--Save changes button-->
-                                    <lightning:button variant="brand"
-                                                      class="" label="{!$Label.c.BTN_Save}"
-                                                      onclick="{!c.doSaveAndUpdate}" aura:id="saveButton"/>
-                                </div>
-                            </div>
-                        </aura:if>
                     </div>
                 </div>
 
