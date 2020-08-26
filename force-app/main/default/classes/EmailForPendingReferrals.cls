@@ -50,7 +50,7 @@ public class EmailForPendingReferrals {
         }
 
         List<HCP_Enrollment__c> hpes = [
-                SELECT Study_Site__c
+                SELECT Study_Site__c,HCP_Contact__c
                 FROM HCP_Enrollment__c
                 WHERE Study_Site__c IN (
                         SELECT Study_Site__c

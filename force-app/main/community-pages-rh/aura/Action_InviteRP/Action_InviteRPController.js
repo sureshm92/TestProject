@@ -4,12 +4,11 @@
 ({
     doInit: function (component, event, helper) {
         component.find('modalSpinner').show();
-        communityService.executeAction(component, 'getInviteDetail', {
-        }, function (returnValue) {
+        communityService.executeAction(component, 'getInviteDetail', {}, function (returnValue) {
             var initData = JSON.parse(returnValue);
             helper.clearInviteFields(component, event, helper);
-            component.set("v.studySitesForInvitation",initData.studySitesForInvitation);
-            component.set("v.PIForInvetation",initData.PIForInvetation);
+            component.set("v.studySitesForInvitation", initData.studySitesForInvitation);
+            component.set("v.PIForInvetation", initData.PIForInvetation);
             component.find('modalSpinner').hide();
         })
     },
@@ -20,7 +19,7 @@
         component.set('v.refreshView', false);
         component.set('v.isDuplicate', false);
         component.set('v.providerFound', false);
-        component.checkfields(component,event,helper);
+        component.checkfields(component, event, helper);
         component.find('inviteRPDialog').show();
     },
     doInviteRP: function (component, event, helper) {
@@ -63,27 +62,29 @@
                     component.find('inviteRPDialog').hide();
                     communityService.showToast("success", "success", $A.get("$Label.c.TST_Request_to_invite_a_referring_provider"));
                 } else {
-                    communityService.showSuccessToast('',  $A.get('$Label.c.RP_Is_Already_Invited'));
+                    communityService.showSuccessToast('', $A.get('$Label.c.RP_Is_Already_Invited'));
                 }
             });
         }
+        component.set('v.checkboxGroupValues', []);
+        component.set('v.isSelectAllChecked', false);
     },
     doSelectStudy: function (component, event, helper) {
         var siteId = event.getSource().get('v.value');
         component.set('v.studySiteId', siteId.Id);
         component.set('v.protocolId', siteId.protocolId);
     },
-    checkReqFields : function (component, event, helper) {
-        helper.checkFields(component,event,helper);
+    checkReqFields: function (component, event, helper) {
+        helper.checkFields(component, event, helper);
     },
     doClearInviteAndHide: function (component, event, helper) {
         helper.clearInviteFields(component, event, helper)
         component.find('inviteRPDialog').hide();
     },
 
-    checkContact: function(component, event, helper){
+    checkContact: function (component, event, helper) {
         var email = event.getSource().get('v.value');
-        if(email && communityService.isValidEmail(email)) {
+        if (email && communityService.isValidEmail(email)) {
             event.getSource().setCustomValidity('');
             event.getSource().reportValidity();
             component.find('modalSpinner').show();
@@ -98,7 +99,7 @@
                     component.set('v.hcpContactId', returnValue.hcpContactId);
                     component.find('modalSpinner').hide();
                 } else {
-                    if(component.get('v.providerFound')) {
+                    if (component.get('v.providerFound')) {
                         component.set('v.firstName', '');
                         component.set('v.lastName', '');
                     }
@@ -109,7 +110,7 @@
                 }
             });
         } else {
-            if(email && !communityService.isValidEmail(email)){
+            if (email && !communityService.isValidEmail(email)) {
                 event.getSource().setCustomValidity($A.get('$Label.c.TST_Invalid_email_address'));
                 event.getSource().reportValidity();
             }
@@ -128,20 +129,20 @@
         } else {
             component.set('v.checkboxGroupValues', val);
         }
-        helper.checkFields(component,event,helper);
+        helper.checkFields(component, event, helper);
     },
 
-    checkSelectAll: function(component, event, helper){
+    checkSelectAll: function (component, event, helper) {
         var values = component.get('v.checkboxGroupValues');
         var pi = component.get('v.PIForInvetation');
         var cmp = component.find('selectAllCheckbox');
-        if(values.length == pi.length){
-            if(cmp.length) cmp[0].set('v.checked', true);
+        if (values.length == pi.length) {
+            if (cmp.length) cmp[0].set('v.checked', true);
             else cmp.set('v.checked', true);
         } else {
-            if(cmp.length) cmp[0].set('v.checked', false);
+            if (cmp.length) cmp[0].set('v.checked', false);
             else cmp.set('v.checked', false);
         }
-        helper.checkFields(component,event,helper);
+        helper.checkFields(component, event, helper);
     },
 })

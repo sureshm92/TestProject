@@ -4,6 +4,7 @@
 ({
         doInit : function (component, event, helper) {
             component.set('v.subDomain', communityService.getSubDomain());
+            component.set('v.userMode', communityService.getUserMode());
         },
 
         doLike : function (component, event, helper) {

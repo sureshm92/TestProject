@@ -379,7 +379,7 @@ public without sharing class MyTeamRemote {
             String whatId;
             List<Site_Staff__c> ssList = new List<Site_Staff__c>();
             List<Site_Staff__c> ssListWithSSId = new List<Site_Staff__c>();
-            if (!hasDelegateLevelsPIMap.get(OLD_VALUES_DELEGATE_LEVELS).isEmpty()) {
+            if (hasDelegateLevelsPIMap.containsKey(OLD_VALUES_DELEGATE_LEVELS) && !hasDelegateLevelsPIMap.get(OLD_VALUES_DELEGATE_LEVELS).isEmpty()) {
                 ssListWithSSId = [
                         SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, Site_Contact__c
                         FROM Site_Staff__c
@@ -488,7 +488,6 @@ public without sharing class MyTeamRemote {
         if (!delegateRecordsToDelete.isEmpty()) {
             delete delegateRecordsToDelete;
         }
-        System.debug('>>>>hasDelegateLevelsMap ' + JSON.serializePretty(hasDelegateLevelsMap));
         return hasDelegateLevelsMap;
     }
 

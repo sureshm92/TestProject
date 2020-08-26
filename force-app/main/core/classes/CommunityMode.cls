@@ -83,7 +83,9 @@ public without sharing class CommunityMode {
         userContact.userCommunityMode__c = userMode;
         if(userMode == CommunityService.USER_MODE_HCP){
             userContact.userCommunityDelegateId__c = currentHCPDelegate;
-        }else if (userContact.userCommunityMode__c == CommunityService.USER_MODE_PARTICIPANT){
+        } else if (userMode == CommunityService.USER_MODE_PI) {
+            userContact.Current_Sponsor_Name__c = CommunityModeService.rhSponsorsByCommunity.get(communityName);
+        } else if (userContact.userCommunityMode__c == CommunityService.USER_MODE_PARTICIPANT){
             userContact.userCommunityDelegateId__c = currentDelegateId;
             userContact.Current_Participant_Enrollment__c = currentPE;
         }

@@ -50,7 +50,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
         }
         if (!System.isBatch() && !System.isFuture()) {
             IntegrationService.sendPESHToEPRAsync(ids);
-        } else {
+        } else if(UploadParticipantsBatch.isCalloutFromUploadParticipantsBatch!=true)  { //Added By Krishna For REF-2183
             IntegrationService.sendPESHToEPR(ids);
         }
     }
@@ -137,7 +137,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
         for (Id peId : peIds) {
             if (System.IsBatch() == false && System.isFuture() == false) {
                 IntegrationService.sendPEToStudyHubAsync(peId);
-            } else {
+            } else if(UploadParticipantsBatch.isCalloutFromUploadParticipantsBatch!=true) { //Added By Krishna For REF-2183
                 IntegrationService.sendPEToStudyHub(peId);
             }
         }
