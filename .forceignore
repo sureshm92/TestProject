@@ -27,10 +27,7 @@ force-app/main/default/flows/Create_Task_For_OutReach_User.flow-meta.xml
 
 force-app/main/default/workflows/Integration_Patient_Referral__c.workflow-meta.xml
 #force-app/main/default/workflows/Case.workflow-meta.xml
-force-app/main/default/customMetadata/Guides_Setting.English_USA_Janssen.md-meta.xml 
-force-app/main/default/customMetadata/Guides_Setting.English_USA_GSK.md-meta.xml 
-force-app/main/default/flows/Email_to_Technical_Support_for_Optout_option.flow-meta.xml
-force-app/main/default/workflows/Email_to_Technical_Support_Team_Opt_Out.workflow-meta.xml
+
 #ignore all onboarding slides, comment line for include
 */staticresources/*os_pislide*
 */staticresources/*os_hcp*
