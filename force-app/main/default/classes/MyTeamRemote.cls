@@ -488,7 +488,6 @@ public without sharing class MyTeamRemote {
         if (!delegateRecordsToDelete.isEmpty()) {
             delete delegateRecordsToDelete;
         }
-        System.debug('>>>>hasDelegateLevelsMap ' + JSON.serializePretty(hasDelegateLevelsMap));
         return hasDelegateLevelsMap;
     }
 
