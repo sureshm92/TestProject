@@ -16,6 +16,8 @@
     <!-- Id of the Record the page hosting this component is showing -->
     <aura:attribute name="recordId" type="Id"/>
     <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
+    <aura:attribute name="toggleButton" type="Boolean" default="false"/>
+
     <aura:attribute name="username" type="String" />
     <aura:attribute name="pictureSrc" type="String"/>
     <aura:attribute name="isDelegate" type="Boolean" default="false"/>
@@ -46,14 +48,34 @@
         <div class="photo-label">
             <p class="username">{!v.username}</p>
             <aura:if isTrue="{!!v.isDelegate}">
-                <label for="file-upload" class="custom-file-upload">
+              <!--  <label for="file-upload" class="custom-file-upload">
                     <span  class="profileLabel"> {!$Label.c.PP_AddProfilePhoto}</span>
+                </label>-->
+
+               <div aura:id="dropdown" class="dropdown">
+  <div class="edit" onclick="{!c.myFunction}"><button class="dropbtn" >{!$Label.c.PP_AddProfilePhoto}<lightning:icon iconName="utility:down" size="small"/>
+      </button></div>
+  <div id="myDropdown" class="dropdown-content" aura:id="myDropdown">
+     <label for="file-upload" class="custom-file-upload">
+                    <span  class="profileLabel">{!$Label.c.PP_Upload_Photo}</span>
                 </label>
+            <aura:if isTrue="{!v.hasProfilePic}">
+                <span class="remove" onclick="{!c.removePhoto}">{!$Label.c.PP_Remove_Photo}</span>
+                <aura:set attribute="else">
+                  <span class="noProfile">{!$Label.c.PP_Remove_Photo}</span>
+
+                </aura:set>
+
+      </aura:if>
+  </div>
+</div>
             </aura:if>
+            
 
             <div class="prfile-btn-container">
                 <div class="btn-upload-photo">
-                    <input id="file-upload" type="file" aura:id="file" onchange="{!c.onDrop}" class="inputFile"/>
+                   
+                <input id="file-upload" type="file" aura:id="file" onchange="{!c.onDrop}" class="inputFile"/>
                 </div>
             </div>
         </div>
