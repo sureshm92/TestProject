@@ -44,7 +44,7 @@
                         <div class="slds-col slds-size_1-of-1 slds-p-around_medium">
                             <lightning:textarea value="{!v.notes}"
                                                 placeholder="{!$Label.c.Type_notes_here}"
-                                                disabled="{!v.buttonDisable}" Required="true" aura:id="notesId" />
+                                                disabled="{!v.buttonDisable}" maxlength="255" Required="true" aura:id="notesId" />
                         </div>
                     </div>
                 </div>
