@@ -522,11 +522,6 @@ global without sharing class ReferHealthcareProviderRemote {
         List<User> usrs = CommunityService.getCommunityUsersByContactIds(new Set<Id>{
                 cntList[0].Id
         });
-        String permissionSetName = UserContext.getCurrentCommunityTemplate().permissionSet;
-        actionAssignContactPermissions.addPermission(usrs[0].ContactId, permissionSetName);
-        if (!actionAssignContactPermissions.isEmpty()) {
-            ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
-        }
 
         if (usrs.isEmpty()) {
             isNewUser = true;
@@ -553,6 +548,11 @@ global without sharing class ReferHealthcareProviderRemote {
         }
         if (hp != null) {
             if (!isNewUser) {
+                String permissionSetName = UserContext.getCurrentCommunityTemplate().permissionSet;
+                actionAssignContactPermissions.addPermission(usrs[0].ContactId, permissionSetName);
+                if (!actionAssignContactPermissions.isEmpty()) {
+                    ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+                }
                 hcpes[0].Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
                 insert hcpes[0];
                 hcpes[0].Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
