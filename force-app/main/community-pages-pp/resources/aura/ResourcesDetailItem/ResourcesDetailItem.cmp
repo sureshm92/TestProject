@@ -9,6 +9,7 @@
                     description="constant variable" access="private"/>
     <aura:attribute name="lang" type="String"/>
     <aura:attribute name="subDomain" type="String"/>
+    <aura:attribute name="userMode" type="String"/>
 
     <aura:handler name="init" value="this" action="{!c.doInit}"/>
     <aura:handler name="render" value="{!this}" action="{!c.doRender}"/>
@@ -54,23 +55,26 @@
                 </aura:if>
             </div>
             <div class="{!v.resourceWrapper.resource.RecordType.DeveloperName == v.StudyDocumentRecordTypeName ? 'display-none' : 'resource-description-footer'}">
-                <div class="resources-icon icon-like" onclick="{!c.doLike}">
-                    <aura:if isTrue="{!v.resourceWrapper.isVoted}">
-                        <c:RRIcon iconName="icon-like-brand-new" color="blue" class="resources-icon-like"/>
-                        <aura:set attribute="else">
-                            <c:RRIcon iconName="icon-like-brand-new" class="resources-icon-like"/>
-                        </aura:set>
-                    </aura:if>
-                </div>
 
-                <div class="resources-icon" onclick="{!c.doFavorite}">
-                    <aura:if isTrue="{!v.resourceWrapper.isFavorite}">
-                        <c:RRIcon iconName="icon-star-brand-new" color="blue" class="resources-icon-star"/>
-                        <aura:set attribute="else">
-                            <c:RRIcon iconName="icon-star" class="resources-icon-star"/>
-                        </aura:set>
-                    </aura:if>
-                </div>
+                <aura:if isTrue="{!v.userMode == 'Participant'}">
+                    <div class="resources-icon icon-like" onclick="{!c.doLike}">
+                        <aura:if isTrue="{!v.resourceWrapper.isVoted}">
+                            <c:RRIcon iconName="icon-like-brand-new" color="blue" class="resources-icon-like"/>
+                            <aura:set attribute="else">
+                                <c:RRIcon iconName="icon-like-brand-new" class="resources-icon-like"/>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                    <div class="resources-icon" onclick="{!c.doFavorite}">
+                        <aura:if isTrue="{!v.resourceWrapper.isFavorite}">
+                            <c:RRIcon iconName="icon-star-brand-new" color="blue" class="resources-icon-star"/>
+                            <aura:set attribute="else">
+                                <c:RRIcon iconName="icon-star" class="resources-icon-star"/>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                </aura:if>
+
                 <aura:if isTrue="{!v.resourceWrapper.isShareable}">
                     <div class="resources-icon-social">
                         <c:SocialSharing
