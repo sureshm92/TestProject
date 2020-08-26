@@ -55,13 +55,13 @@
         <div class="slds-grid slds-grid_vertical">
             <div class="slds-col slds-grid slds-size_1-of-1">
                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
-                    <div class="rr-form-element">
+                    <div class="rr-form-element" style="overflow-wrap: break-word;">
                         <div class="label slds-text-align_left">{!$Label.c.MO_Study_Name}</div>
                         <span> {!v.ViewRecord[0].Study_Name__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span>
                     </div>
                 </div>
                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
-                    <div class="rr-form-element">
+                    <div class="rr-form-element" style="overflow-wrap: break-word;">
                         <div class="label slds-text-align_left">{!$Label.c.MO_Study_Site}</div>
                         <span> {!v.ViewRecord[0].Study_Name__r.Name}</span>
                     </div>
@@ -123,7 +123,7 @@
                     <div class="slds-col slds-size_1-of-1 slds-p-around_medium">
                         <lightning:textarea label="{!$Label.c.Additional_Notes_optional}" value="{!v.notes}"
                                             placeholder="{!$Label.c.Type_notes_here}"
-                                            disabled="{!v.buttonDisable}" aura:id="notesId" onblur="{!c.doEnablebutton}" />
+                                            disabled="{!v.buttonDisable}" maxlength="255" aura:id="notesId" onblur="{!c.doEnablebutton}" />
                     </div>
                 </div>
             </aura:if>
