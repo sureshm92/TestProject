@@ -15,6 +15,11 @@ stages:
   - DeployINT5.1
   - RunTestINT5.1
   
+  #6.0 INT
+  - DeployINT6.0
+  - RunTestINT6.0
+
+  
   #5.1 INF
   - DeployINF5.1
   - RunTestINF5.1
@@ -118,6 +123,31 @@ RunTestINT5.1:
   stage: RunTestINT5.1
   script:
     - . ./scripts/ci/run-tests.sh INT5_1
+    
+    # 5.1 INT: ---------------------------------------------------------------------
+DeployINT6.0:
+  tags:
+    - shell
+  only:
+    - INT6.0
+  except:
+    - merge_requests
+
+  stage: DeployINT6.0
+  script:
+    - . ./scripts/ci/deploy.sh INT60
+
+RunTestINT6.0:
+  tags:
+    - shell
+  only:
+    - INT6.0
+  except:
+    - merge_requests
+
+  stage: RunTestINT6.0
+  script:
+    - . ./scripts/ci/run-tests.sh INT60
     
     # 5.1 INF: ---------------------------------------------------------------------
 DeployINF5.1:
