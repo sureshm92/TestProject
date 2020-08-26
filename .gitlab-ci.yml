@@ -19,7 +19,7 @@ stages:
   - DeployINT6.0
   - RunTestINT6.0
   
-  #6.0 INT
+  #6.0 INF
   - DeployINF6.0
   - RunTestINF6.0
 
