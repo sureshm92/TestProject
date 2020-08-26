@@ -154,7 +154,7 @@ RunTestINT6.0:
     - . ./scripts/ci/run-tests.sh INT60
     
      # 6.0 INF: ---------------------------------------------------------------------
-DeployINT6.0:
+DeployINF6.0:
   tags:
     - shell
   only:
