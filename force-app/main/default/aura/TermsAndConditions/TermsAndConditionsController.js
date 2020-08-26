@@ -4,12 +4,12 @@
         if(currentCommunityMode) component.set('v.userMode', currentCommunityMode.userMode);
         let elem = document.getElementById('cookiePanel');
         //let rrCookies = communityService.getCookie('RRCookies');
-        if(elem){
+        /*if(elem){
            let bottomLine =  document.getElementsByClassName('rr-bottom-bar-area');
            $A.util.addClass(bottomLine[0],'bottom-line-with-cookie');
            let paddingForCookie = document.getElementsByClassName('rr-body-content');
            $A.util.addClass(paddingForCookie[0],'padding-for-cookie-policy');
-        }
+        }*/
         let ctpId = communityService.getUrlParameter('id');
         let isPortalTC = ctpId ? false : component.get('v.isPortalTC');
 

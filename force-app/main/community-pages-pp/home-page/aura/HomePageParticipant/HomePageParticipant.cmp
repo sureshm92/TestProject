@@ -15,7 +15,7 @@
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" size="medium" fixed="true" showSpinner="true"/>
 
-    <div class="{!if(v.isArabic, ' rtl ', '')}">
+    <div class="{!if(v.isRTL, ' rtl ', '')}">
         <div style="margin-bottom: 8px">
             <c:RRNavigationPath>
                 <c:RRNPathItem label="{!$Label.c.Navigation_Home}"/>

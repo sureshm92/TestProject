@@ -50,6 +50,11 @@
     cursor: pointer;
 }
 
+.THIS .menu-popup-panel.rtl.popupTargetContainer {
+    left: 0;
+    right: auto;
+}
+
 .THIS .menu-popup-panel.popupTargetContainer{
     visibility: hidden;
     display: flex;
@@ -73,7 +78,7 @@
     z-index: 10010;
 }
 
-.THIS .menu-popup-panel.popupTargetContainer.visible{
+.THIS .menu-popup-panel.popupTargetContainer.visible {
     display: block;
     visibility: visible;
     opacity: 1;

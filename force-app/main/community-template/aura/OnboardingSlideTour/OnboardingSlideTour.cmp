@@ -73,6 +73,7 @@
                             <div class="slide-title">{!v.currentSlide.title}</div>
                             <div class="slide-sub-title">{!v.currentSlide.subTitle}</div>
                             <div class="slide-body">{!v.currentSlide.body}</div>
+                            <div class="slide-disclaimer">{!v.currentSlide.disclaimer}</div> <!-- Added by Krishna for REF-2162 -->
                         </div>
                     </aura:if>
                 </div>
