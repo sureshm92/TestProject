@@ -31,8 +31,8 @@ force-app/main/default/workflows/Integration_Patient_Referral__c.workflow-meta.x
 #ignore all onboarding slides, comment line for include
 */staticresources/*os_pislide*
 */staticresources/*os_hcp*
-#*/staticresources/*os_part*
-#**/onboarding-tour/staticresources/
+*/staticresources/*os_part*
+**/onboarding-tour/staticresources/
 #**/onboarding-tour/staticresources/*os_pislide*
 #**/onboarding-tour/staticresources/*os_hcp*
 #**/onboarding-tour/staticresources/*os_part*
