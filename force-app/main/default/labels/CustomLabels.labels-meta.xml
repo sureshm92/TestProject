@@ -14381,7 +14381,7 @@ The expected format is REF#####</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_AddProfilePhoto</shortDescription>
-        <value>Add Profile Photo</value>
+        <value>Edit Profile Photo</value>
     </labels>
     <labels>
         <fullName>PP_Change_Notification</fullName>
@@ -14702,6 +14702,13 @@ The expected format is REF#####</value>
         <value>Reminder date cannot be set in the past.</value>
     </labels>
     <labels>
+        <fullName>PP_Remove_Photo</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Remove_Photo</shortDescription>
+        <value>Remove</value>
+    </labels>
+    <labels>
         <fullName>PP_Save_Changes</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14723,6 +14730,13 @@ The expected format is REF#####</value>
         <shortDescription>PP_Toggle_Information</shortDescription>
         <value>Emails that notify you of required action, allow you to reset your password or inform you of important system updates will always be sent. Additionally you can choose to receive optional
 communications using the toggles below.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Upload_Photo</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Upload_Photo</shortDescription>
+        <value>Upload Photo</value>
     </labels>
     <labels>
         <fullName>PP_VPC_SS_Empty_VP</fullName>
