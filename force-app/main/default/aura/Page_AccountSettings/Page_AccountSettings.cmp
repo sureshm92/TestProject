@@ -2,7 +2,7 @@
  - Created by Kryvolap on 03.09.2019.
  -->
 
-<aura:component description="Page_AccountSettings" implements="forceCommunity:availableForAllPageTypes">
+<aura:component description="Page_AccountSettings" implements="forceCommunity:availableForAllPageTypes" extends="c:CommunityContext">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
 
@@ -19,7 +19,7 @@
         <div class="ps-container">
             <div class="ps-body">
                <!-- <aura:if isTrue="{!v.userMode == 'Participant'}"> -->
-                   <c:PP_AccountSettings userMode="{!v.userMode}"/> 
+                   <c:PP_AccountSettings userMode="{!v.userMode}" isRTLLanguage="{!v.isRTL}"/> 
                    <!-- <aura:set attribute="else">
                     <c:AccountSettings userMode="{!v.userMode}"/>
                 </aura:set> 
