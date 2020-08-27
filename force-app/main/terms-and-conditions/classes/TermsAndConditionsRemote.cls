@@ -39,9 +39,13 @@ public without sharing class TermsAndConditionsRemote {
             if (code == 'PrivacyPolicy') {
                 tcData.tc = TermsAndConditions.getOrgDefaultPrivacyTC(useDefaultCommunity);
                 return JSON.serialize(tcData);
+            } else if (code == 'CookiePolicy') {
+                tcData.tc = TermsAndConditions.getCookieTC(useDefaultCommunity);
+                return JSON.serialize(tcData);
+            } else {
+                tcData.tc = TermsAndConditions.getTC(TermsAndConditions.getOrgDefaultTCbyCode(code), languageCode, useDefaultCommunity);
+                return JSON.serialize(tcData);
             }
-            tcData.tc = TermsAndConditions.getTC(TermsAndConditions.getOrgDefaultTCbyCode(code), languageCode, useDefaultCommunity);
-            return JSON.serialize(tcData);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
