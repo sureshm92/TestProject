@@ -3,7 +3,7 @@
 	
      <aura:attribute name="selectedRecord" type="Object" access="public" default="" description="selected Record Details" />
    
-  
+  <!-- Attributes  -->
     
     <lightning:card title="Service Resource">
       <div class="slds-col--padded-large slds-large-size--1-of-2 slds-medium-size--1-of-2 slds-small-size--1-of-1 slds-x-small-size--1-of-1 slds-m-bottom--medium">
