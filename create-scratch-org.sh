@@ -1,7 +1,7 @@
 #!/bin/sh
 
-#echo "Clean up previous scratch org"
-#sfdx force:org:delete -p
+echo "Clean up previous scratch org"
+sfdx force:org:delete -p
 
 echo "Move communities"
 mv ./force-app/communities ./
