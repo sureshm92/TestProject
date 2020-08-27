@@ -115,6 +115,7 @@ public without sharing class CommunityModeService {
         );
 
         Boolean hasBeenActive = false;
+        Boolean hasProspectView = false;
         if (!userParticipants.isEmpty()) {
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(userParticipant.Id);
             List<Participant_Enrollment__c> pePastList = pePastMap.get(userParticipant.Id);
@@ -150,12 +151,17 @@ public without sharing class CommunityModeService {
                         false, false
                 );
 
-                if (!hasBeenActive && !userParticipants.isEmpty()) {
+                if (!hasBeenActive && !userParticipants.isEmpty() && !hasProspectView) {
                     String participantName = userParticipant.First_Name__c + ' ' + userParticipant.Last_Name__c;
-                    modeItem.subItems.add(new CommunityModes.PPCommunityModeItem(
+                    CommunityModes.PPCommunityModeItem prospectModeItem = new CommunityModes.PPCommunityModeItem(
+                            false, hasBeenActive
+                    );
+                    prospectModeItem.subItems.add(new CommunityModes.PPCommunityModeItem(
                             USER_MODE_PARTICIPANT, participantName, Label.No_active_studies,
                             null, null, false
                     ));
+                    modes.add(prospectModeItem);
+                    hasProspectView = true;
                 }
 
                 if (peList != null) {
