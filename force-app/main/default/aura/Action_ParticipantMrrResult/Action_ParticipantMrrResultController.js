@@ -2,6 +2,7 @@
     doExecute: function (component, event, helper) {
         component.set('v.mrrResult', 'Update');
         component.set('v.mrrResult', undefined);
+        component.set('v.communityTemplate', communityService.getCurrentCommunityTemplateName());
         try {
             component.find('spinner').show();
             component.set('v.initialized', false);
