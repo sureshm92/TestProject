@@ -51,63 +51,63 @@
             <assignToReference>ServiceAppointment.AdditionalInformation</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <stringValue/>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>ServiceAppointment.Comments</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <stringValue/>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>ServiceAppointment.AppointmentType</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <stringValue/>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>ServiceAppointment.Street</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <stringValue/>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>ServiceAppointment.City</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <stringValue/>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>ServiceAppointment.State</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <stringValue/>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>ServiceAppointment.PostalCode</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <stringValue/>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>ServiceAppointment.Country</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <stringValue/>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>ServiceAppointment.ServiceTerritoryId</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <stringValue/>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -122,28 +122,28 @@
             <assignToReference>OptionalAttendees</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <stringValue/>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>ServiceAppointmentFields</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <stringValue/>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>ValidationErrors</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <stringValue/>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>WorkTypeGroupId</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <stringValue/>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -168,7 +168,7 @@
             <assignToReference>serviceResources</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <stringValue/>
             </value>
         </assignmentItems>
         <connector>
