@@ -48,7 +48,7 @@ VALIDATE:
 
   stage: VALIDATE
   script:
-    - . ./scripts/ci/validate.sh INF4
+    - . ./scripts/ci/validate.sh INF4_1_HotFix
 
 
 # 5.0 INT: ---------------------------------------------------------------------
