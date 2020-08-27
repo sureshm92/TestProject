@@ -466,7 +466,6 @@ public without sharing class MyTeamRemote {
             }
         }
         if (!delegateRecordsToInsert.isEmpty()) {
-            System.debug('>>>>usersToCreate: ' + JSON.serializePretty(delegateRecordsToInsert));
             insert delegateRecordsToInsert;
             DelegateService.addConversationSharesForPITeam(delegateRecordsToInsert);
         }
