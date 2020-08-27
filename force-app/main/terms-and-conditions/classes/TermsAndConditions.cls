@@ -4,6 +4,7 @@ global without sharing class TermsAndConditions {
     public static final String PRIVACY_TC_ID_SETTING = 'PRIVACY_TC_ID_SETTING';
     public static final String PRIVACY_POLICY = 'Privacy Policy';
     public static final String TERMS_AND_CONDITIONS = 'Terms and Conditions';
+    public static final String COOKIE_POLICY = 'Cookie Policy';
 
     public static Terms_And_Conditions__c getPortalTC(Boolean useDefaultCommunity){
         return getTC(null, null, useDefaultCommunity);
@@ -44,7 +45,6 @@ global without sharing class TermsAndConditions {
             query += ' Id =\'' + tcId + '\' ';
         }else{
             query += ' Active__c = TRUE ';
-
             query += 'AND Community_Name__c =\'' + communityName +'\'';
         }
         if(tcType != null){
@@ -115,6 +115,17 @@ global without sharing class TermsAndConditions {
 
     public static Id getOrgDefaultCookieTC() {
         return (Id) SettingStoreService.getOrgDefault(COOKIE_TC_ID_SETTING);
+    }
+
+    public static Terms_And_Conditions__c getCookieTC(Boolean useDefaultCommunity) {
+        String query = getTCQuery(null, null, COOKIE_POLICY, useDefaultCommunity);
+        Terms_And_Conditions__c [] tcList = Database.query(query);
+        if(tcList.size() > 0) {
+            Terms_And_Conditions__c tc = tcList[0];
+            if(tc.Terms_And_Conditions__r.size() > 0) tc.T_C_Text__c = tc.Terms_And_Conditions__r[0].T_C_Text__c;
+            return tc;
+        }
+        return null;
     }
 
     public static void setOrgDefaultCookieTC(Id termsAndConditions) {

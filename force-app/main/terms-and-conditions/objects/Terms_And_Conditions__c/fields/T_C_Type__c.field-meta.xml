@@ -21,6 +21,11 @@
                 <default>true</default>
                 <label>Terms and Conditions</label>
             </value>
+            <value>
+                <fullName>Cookie Policy</fullName>
+                <default>false</default>
+                <label>Cookie Policy</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
