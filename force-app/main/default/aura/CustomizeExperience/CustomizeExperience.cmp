@@ -37,6 +37,7 @@
  
     <!--    <aura:attribute name="displayFooter" type="Boolean" default=""/>-->
     <aura:attribute name="bypass" type="Boolean" default=""/>
+    <aura:attribute name="isRTL" type="Boolean" default="false"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <!--<aura:handler name="change" value="{!v.displayedItems}" action="{!c.doInit}"/>-->
@@ -49,10 +50,10 @@
 		
         <div class="section-description">  {!$Label.c.PP_Customize_Exp_Description}</div>
         <br/>
-        <div class="alert-count-condition1">{!$Label.c.PP_Condition_of_Interest_title}</div>
+        <div class="{!v.isRTL?'alert-count-condition1 RTL-Text-align':'alert-count-condition1 LTR-Text-align'}">{!$Label.c.PP_Condition_of_Interest_title}</div>
         <lightning:input onchange="{!c.bulkSearch}" aura:id="searchInput" type="search" name="search" label=""
                          variant="label-hidden" placeholder="{!$Label.c.PP_Customize_search_text}"/>
-        <div class="alert-count-condition">
+        <div class="{!v.isRTL?'alert-count-condition RTL-Text-align':'alert-count-condition LTR-Text-align '}">
             {!$Label.c.PP_Customize_footer_message}
         </div>
         <br/>

@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="PPStudyWorkspace" controller="StudyDetailViewController">
+ <aura:component description="PPStudyWorkspace" controller="StudyDetailViewController" extends="c:CommunityContext">
 
     <!-- attributes: -->
     <aura:attribute name="parent" type="Aura.Component" required="true"/>
@@ -48,7 +48,7 @@
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
 
     <!-- component body -->
-    <div>
+    <div class="{!v.isRTL? 'rtl' :''}">
         <aura:if isTrue="{!v.isInitialized}">
             <!-- Share dialog -->
             <c:ShareModal aura:id="shareModal" parent="{!this}" needRefresh="false"/>

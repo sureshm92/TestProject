@@ -21,6 +21,11 @@
                 } else if(returnValue==='Janssen Community'){
                     component.set('v.isJanssen',true);
                 }
+                communityService.executeAction(component, 'getCommunityURL', {
+                    communityName: returnValue
+                    }, function (urlValue){
+                    component.set("v.urlCommunity", urlValue);
+                })
             }
         });
         //@Krishna mahto- PEH-1910- Prod Isseu Fix- End 
@@ -113,7 +118,7 @@
    //@Krishna mahto- PEH-1910- end
    //@Krishna mahto- PEH-2451- Start
    openPrivacyPolicy: function(component, event, helper) {
-      var PrivacyPolicyURL = $A.get("$Label.c.CommunityURL") + '/s/privacy-policy'
+      var PrivacyPolicyURL = component.get("v.urlCommunity") + '/s/privacy-policy'
       window.open(PrivacyPolicyURL,'_blank');
    },
    //@Krishna mahto- PEH-2451- End

@@ -6878,8 +6878,8 @@ The NYBC Convalescent Plasma Donation Team</value>
         <protected>true</protected>
         <shortDescription>HT 20 B</shortDescription>
         <value>We acquire, hold, use, and process your personal information based on legal grounds, your explicit consent and for the legitimate business purposes outlined in the &lt;a href=privacy-policy?ret=help&gt;Privacy Policy&lt;/a&gt; .
-If you wish to access, correct, update or request removal of any of your information you provided to us or if you have any questions regarding this Privacy Policy or would like more information on our privacy practices, please contact 
-IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&quot;&gt;data.protection@iqvia.com&lt;/a&gt;</value>
+If you wish to access, correct, update or request removal of any of your information you provided to us or if you have any questions regarding this Privacy Policy or would like more information on our privacy practices, please contact
+IQVIA’s Privacy Office at &lt;a href=&quot;mailto:PrivacyOfficer@iqvia.com&quot;&gt;PrivacyOfficer@iqvia.com&lt;/a&gt;</value>
     </labels>
     <labels>
         <fullName>HT_20_H</fullName>
@@ -14381,7 +14381,7 @@ The expected format is REF#####</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_AddProfilePhoto</shortDescription>
-        <value>Add Profile Photo</value>
+        <value>Edit Profile Photo</value>
     </labels>
     <labels>
         <fullName>PP_Change_Notification</fullName>
@@ -14702,6 +14702,13 @@ The expected format is REF#####</value>
         <value>Reminder date cannot be set in the past.</value>
     </labels>
     <labels>
+        <fullName>PP_Remove_Photo</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Remove_Photo</shortDescription>
+        <value>Remove</value>
+    </labels>
+    <labels>
         <fullName>PP_Save_Changes</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14723,6 +14730,13 @@ The expected format is REF#####</value>
         <shortDescription>PP_Toggle_Information</shortDescription>
         <value>Emails that notify you of required action, allow you to reset your password or inform you of important system updates will always be sent. Additionally you can choose to receive optional
 communications using the toggles below.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Upload_Photo</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Upload_Photo</shortDescription>
+        <value>Upload Photo</value>
     </labels>
     <labels>
         <fullName>PP_VPC_SS_Empty_VP</fullName>
@@ -15581,6 +15595,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>RSN Your permissions do not permit this action</shortDescription>
         <value>Your permissions do not permit this action</value>
+    </labels>
+    <labels>
+        <fullName>RTL_Languages</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RTL Languages</shortDescription>
+        <value>ar, ur</value>
     </labels>
     <labels>
         <fullName>Received</fullName>
