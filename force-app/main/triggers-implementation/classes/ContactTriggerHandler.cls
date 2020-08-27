@@ -99,6 +99,7 @@ public without sharing class ContactTriggerHandler {
 
     @TestVisible
     private static void createUserForDelegateContact(List<Contact> newList) {
+        System.debug('>>>>createUser: ' + JSON.serializePretty(newList));
         Map<Id, Contact> filteredContactsByIds = new Map<Id, Contact>();
 
         for (Contact cont : newList) {
@@ -123,6 +124,7 @@ public without sharing class ContactTriggerHandler {
         for (Id contactId : filteredContactsByIds.keySet()) {
             if (!communityUsers.containsKey(contactId)) toCreateUser.add(contactId);
         }
+        System.debug('>>>>usersToCreate: ' + JSON.serializePretty(toCreateUser));
         if (!toCreateUser.isEmpty()) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(toCreateUser);
 
     }

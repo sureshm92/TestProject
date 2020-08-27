@@ -55,15 +55,15 @@
         <div class="slds-grid slds-grid_vertical">
             <div class="slds-col slds-grid slds-size_1-of-1">
                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
-                    <div class="rr-form-element" style="overflow-wrap: break-word;">
+                    <div class="rr-form-element">
                         <div class="label slds-text-align_left">{!$Label.c.MO_Study_Name}</div>
-                        <span> {!v.ViewRecord[0].Study_Name__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span>
+                        <span class="truncateTitle" title="{!v.ViewRecord[0].Study_Name__r.Clinical_Trial_Profile__r.Study_Code_Name__c}"> {!v.ViewRecord[0].Study_Name__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span>
                     </div>
                 </div>
                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
-                    <div class="rr-form-element" style="overflow-wrap: break-word;">
+                    <div class="rr-form-element">
                         <div class="label slds-text-align_left">{!$Label.c.MO_Study_Site}</div>
-                        <span> {!v.ViewRecord[0].Study_Name__r.Name}</span>
+                        <span class="truncateTitle" title="{!v.ViewRecord[0].Study_Name__r.Name}"> {!v.ViewRecord[0].Study_Name__r.Name}</span>
                     </div>
                 </div>
             </div>
@@ -71,7 +71,7 @@
                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                     <div class="rr-form-element">
                         <div class="label slds-text-align_left">{!$Label.c.MO_Media_Type}</div>
-                        <span> {!v.ViewRecord[0].fMediaType__c} </span>
+                        <span class="truncateTitle" title="{!v.ViewRecord[0].fMediaType__c}"> {!v.ViewRecord[0].fMediaType__c} </span>
                     </div>
                 </div>
                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
