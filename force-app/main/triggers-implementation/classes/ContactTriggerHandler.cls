@@ -104,17 +104,14 @@ public without sharing class ContactTriggerHandler {
         for (Contact cont : newList) {
             if (cont.Email != null && cont.primaryContact__c != null) {
                 filteredContactsByIds.put(cont.Id, cont);
-
             }
         }
-
         if (filteredContactsByIds.isEmpty()) return;
 
         //get users if exist
         Map<Id, User> communityUsers = new Map<Id, User>();
         for (User usr : CommunityService.getCommunityUsersByContactIds(filteredContactsByIds.keySet())) {
             if (communityUsers.containsKey(usr.ContactId)) {
-                System.debug('Several users for contact Id= ' + usr.Id);
             } else {
                 communityUsers.put(usr.ContactId, usr);
             }
