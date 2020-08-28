@@ -24,7 +24,7 @@
         component.find('mainSpinner').show();
         let userDefalutTC = communityService.getUrlParameter('default') ? true : false;
         if (isPortalTC) {
-            if(titleCode === 'CookiePolicy' || titleCode === 'PrivacyPolicy') {
+            if (titleCode === 'CookiePolicy' || titleCode === 'PrivacyPolicy') {
                 communityService.executeAction(component, 'getTC', {
                     code: titleCode,
                     languageCode: communityService.getUrlParameter('language'),
@@ -36,7 +36,7 @@
                 }, null, function () {
                     component.find('mainSpinner').hide();
                 });
-            }else {
+            } else {
                 communityService.executeAction(component, 'getPortalTcData', {
                     useDefaultCommunity: communityService.getHasIQVIAStudiesPI() && userDefalutTC
                 }, function (returnValue) {
@@ -46,17 +46,30 @@
                 });
             }
         } else {
-            if (!component.get('v.ctpId')) {
-                component.set('v.ctpId', ctpId);
+            if (titleCode === 'PrivacyPolicy') {
+                communityService.executeAction(component, 'getTC', {
+                    code: titleCode,
+                    languageCode: communityService.getUrlParameter('language'),
+                    useDefaultCommunity: communityService.getHasIQVIAStudiesPI() && userDefalutTC
+                }, function (returnValue) {
+                    let tcData = JSON.parse(returnValue);
+                    component.set('v.tcData', tcData);
+                    //if(tcData.tc) component.set('v.privacyPolicyId', tcData.tc);
+                }, null, function () {
+                    component.find('mainSpinner').hide();
+                });
+            } else {
+                if (!component.get('v.ctpId')) {
+                    component.set('v.ctpId', ctpId);
+                }
+                communityService.executeAction(component, 'getTrialTcData', {
+                    ctpId: component.get('v.ctpId')
+                }, function (returnValue) {
+                    component.set('v.tcData', JSON.parse(returnValue));
+                }, null, function () {
+                    component.find('mainSpinner').hide();
+                });
             }
-            communityService.executeAction(component, 'getTrialTcData', {
-                ctpId: component.get('v.ctpId')
-            }, function (returnValue) {
-                component.set('v.tcData', JSON.parse(returnValue));
-            }, null, function () {
-                component.find('mainSpinner').hide();
-            });
-
         }
         helper.hideOkButton(component, event, helper); // @Krishna Mahto - PEH-2450 
     },
