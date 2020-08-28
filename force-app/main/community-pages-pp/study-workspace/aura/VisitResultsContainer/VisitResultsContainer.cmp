@@ -43,12 +43,12 @@
                 <div class="slds-col slds-size_3-of-4"></div>
             </div>
 
-            <aura:if isTrue="{!and(v.togglePosition, and(v.initData.isVisitResultsAvailable, v.initData.isResultsExist))}">
+            <aura:if isTrue="{!and(v.togglePosition, and(v.initData.isVisitResultsAvailable, v.initData.isCountryWiseResultExist))}">
                 <aura:iteration items="{!v.initData.visitResultsGroupNames}" var="visitResultsGroupName">
                     <c:VisitResultsPanel visitResultGroupName="{!visitResultsGroupName}" initData="{!v.initData}"/>
                 </aura:iteration>
                 <aura:set attribute="else">
-                    <c:VisitsCompliance contactId="{!v.initData.contact.Id}" isVisitResultsExist="{!v.initData.isResultsExist}"
+                    <c:VisitsCompliance contactId="{!v.initData.contact.Id}" isVisitResultsExist="{!v.initData.isCountryWiseResultExist}"
                                         isDelegate="{!v.initData.isDelegate}"
                                         isVisitResultsAvailable="{!v.initData.isVisitResultsAvailable}"
                                         isOptIn="{!v.togglePosition}" labResultsMode="{!v.resultModeLabel}"/>

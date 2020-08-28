@@ -46,7 +46,7 @@
                 });
             }
         } else {
-            if (titleCode === 'PrivacyPolicy') {
+            if (titleCode === 'CookiePolicy' || titleCode === 'PrivacyPolicy') {
                 communityService.executeAction(component, 'getTC', {
                     code: titleCode,
                     languageCode: communityService.getUrlParameter('language'),
