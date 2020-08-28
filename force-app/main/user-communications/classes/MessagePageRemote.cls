@@ -12,7 +12,7 @@ public without sharing class MessagePageRemote {
         @AuraEnabled public Map<Id, Boolean> statusByPeMap;
         @AuraEnabled public Boolean isPageEnabled;
     }
-
+    List<Id> delegatedSites = DelegateService.getDelegatedStudySiteIds();
     public class ConversationWrapper {
         @AuraEnabled public Conversation__c conversation;
         @AuraEnabled public Boolean isPastStudy = false;
@@ -63,10 +63,11 @@ public without sharing class MessagePageRemote {
             pageData.userMode = UserContext.getCurrentUserMode().userMode;
             String communityTemplate = UserContext.getCurrentCommunityTemplate().templateName;
             String piId = UserContext.getUserContactId();
+            List<Id> delegatedSites = DelegateService.getDelegatedStudySiteIds();
             List<Study_Site__c> allStudies = new List<Study_Site__c>([SELECT Id
                                                                       FROM   Study_Site__c
                                                                       WHERE  Clinical_Trial_Profile__r.CommunityTemplate__c =: communityTemplate
-                                                                      AND    Principal_Investigator__c =: piId
+                                                                      AND    (Id IN :delegatedSites OR Principal_Investigator__c =: piId)
                                                                       AND    Messages_Are_Available__c = TRUE]);
 
             pageData.isPageEnabled = pageData.userMode.equals(CommunityService.USER_MODE_PI) && allStudies.size() > 0 ?
