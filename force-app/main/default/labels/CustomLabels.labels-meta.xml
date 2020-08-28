@@ -8366,14 +8366,14 @@ The expected format is REF#####</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Navigation_MediaOutreach</shortDescription>
-        <value>Media Outreach</value>
+        <value>Media Outreach Requests</value>
     </labels>
     <labels>
         <fullName>Navigation_Media_Outreach</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Navigation Media Outreach</shortDescription>
-        <value>Media Outreach</value>
+        <value>Media Outreach Requests</value>
     </labels>
     <labels>
         <fullName>Navigation_Medical_Record_Review_Log</fullName>
@@ -8486,7 +8486,7 @@ The expected format is REF#####</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>New OutReach</shortDescription>
-        <value>New Outreach</value>
+        <value>New Request</value>
     </labels>
     <labels>
         <fullName>New_York_carcinoma</fullName>
