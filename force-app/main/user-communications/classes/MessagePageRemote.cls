@@ -12,7 +12,6 @@ public without sharing class MessagePageRemote {
         @AuraEnabled public Map<Id, Boolean> statusByPeMap;
         @AuraEnabled public Boolean isPageEnabled;
     }
-    List<Id> delegatedSites = DelegateService.getDelegatedStudySiteIds();
     public class ConversationWrapper {
         @AuraEnabled public Conversation__c conversation;
         @AuraEnabled public Boolean isPastStudy = false;
