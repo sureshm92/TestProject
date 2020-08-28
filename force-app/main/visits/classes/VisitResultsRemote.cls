@@ -15,7 +15,6 @@ public without sharing class VisitResultsRemote {
             wrapper.contact = ParticipantContext.getCurrentContact();
             wrapper.isResultsExist = existForModeAndAvailableByCTP(visitResultSharings.get(visitResultsMode), visitResultsForMode);
             wrapper.isCountryWiseResultExist=existResultForCountry(visitResultsMode,ParticipantContext.getCurrentPE().Participant__r.Mailing_Country_Code__c,visitResultsForMode);
-            System.debug('wrapper.isResultsExist--'+wrapper.isResultsExist);
             wrapper.visitResultsGroupNames = notEmptyVisitResultsGroupName(visitResultsMode, visitResultSharings, visitResultsForMode);
             wrapper.visitResultsShares = visitResultSharings.get(visitResultsMode);
             wrapper.isDelegate = ParticipantContext.isCurrentDelegate();
