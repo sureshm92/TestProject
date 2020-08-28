@@ -14,7 +14,7 @@
         let isPortalTC = ctpId ? false : component.get('v.isPortalTC');
 
         let titleCode = component.get('v.titleCode');
-        if (titleCode === 'CookiePolicy' || titleCode === 'PrivacyPolicy') {
+        if (titleCode === 'PrivacyPolicy') {
             component.set('v.title', $A.get('$Label.c.PG_TC_H_Privacy_Policy'));
         } else if (titleCode === 'CookiePolicy') {
             component.set('v.title', $A.get('$Label.c.PG_TC_H_Cookie_Policy'));
@@ -46,7 +46,7 @@
                 });
             }
         } else {
-            if (titleCode === 'PrivacyPolicy') {
+            if (titleCode === 'CookiePolicy' || titleCode === 'PrivacyPolicy') {
                 communityService.executeAction(component, 'getTC', {
                     code: titleCode,
                     languageCode: communityService.getUrlParameter('language'),
