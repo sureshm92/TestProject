@@ -3766,6 +3766,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>View Study Details</value>
     </labels>
     <labels>
+        <fullName>Email_Body2_PI_Delegate_Referrals</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Body2_PI_Delegate_Referrals</shortDescription>
+        <value>To access all your participants, log in to the IQVIA Referral Hub and navigate to &quot;My Participants.&quot;</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Available</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4068,7 +4075,7 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_PI_Delegate_Referrals</shortDescription>
-        <value>There are ##TotalStudies referrals awaiting your response. For the studies below, please access these participants on...</value>
+        <value>There are ##TotalStudies potential participants, including those listed below, awaiting your response.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI_Delegate_Unsuppressed_Referrals</fullName>
@@ -8862,8 +8869,8 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>OT H Dashboard</shortDescription>
         <value>Dashboard</value>
     </labels>
-    <labels>
-        <fullName>OT_H_Incentive_Program</fullName>
+    <labels>  
+    <fullName>OT_H_Incentive_Program</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT_H_Incentive_Program</shortDescription>

@@ -10,7 +10,7 @@ global without sharing class EmailTemplatePendingPartController {
             List<ParticipantInfoWrapper> delegateStudyNames = new List<ParticipantInfoWrapper>();
             if(sourceIdValue != null && sourceIdValue.getSobjectType() == Contact.getSObjectType()) {
                 List<User> user = [SELECT Id,timezonesidkey,Contact.UserCommunityIsDelegate__c FROM User WHERE ContactId=:sourceIdValue];
-                
+                Integer size = 0;
                 if(user.size()>0){
                     List<Id> studySites = new List<Id>();
                     if(user[0].Contact.UserCommunityIsDelegate__c){
@@ -25,7 +25,11 @@ global without sharing class EmailTemplatePendingPartController {
                                                   WHERE Participant_Status__c = 'Received' 
                                                   AND (Study_Site__c IN:studySites OR PI_Contact__c =: sourceIdValue)
                                                   AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = false]){                                   
-                   delegateStudyNames.add(new ParticipantInfoWrapper(pe.Name,pe.Clinical_Trial_Profile__r.Study_Code_Name__c,pe.Participant_Status_Last_Changed_Date__c,user[0].timezonesidkey));
+                   size = size + 1;
+                    if(size < 12)                                   
+                   		delegateStudyNames.add(new ParticipantInfoWrapper(pe.Name,pe.Clinical_Trial_Profile__r.Study_Code_Name__c,pe.Participant_Status_Last_Changed_Date__c,user[0].timezonesidkey));
+                   else
+                      	break; 
                    }
                 }
             }
