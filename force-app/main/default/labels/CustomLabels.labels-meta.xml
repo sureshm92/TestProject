@@ -8366,7 +8366,7 @@ The expected format is REF#####</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Navigation_MediaOutreach</shortDescription>
-        <value>Media Outreach</value>
+        <value>Media Outreach Requests</value>
     </labels>
     <labels>
         <fullName>Navigation_Media_Outreach</fullName>
