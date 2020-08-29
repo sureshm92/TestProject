@@ -2,7 +2,7 @@
  * Created by Olga Skrynnikova on 6/10/2020.
  */
 
-.THIS{
+ .THIS{
     width: 100%;
 }
 
@@ -48,7 +48,6 @@
 .THIS .selected{
     color: #0768FD;
     font-weight: bold;
-    align-items: center;
 }
 
 .THIS .selected-sub-title{
@@ -91,4 +90,36 @@
 
 .THIS .icon-box{
     margin-left: 21px;
+}
+
+ .THIS.toggle {
+   display: none;
+ }
+.THIS.container {
+  height: 30px;
+  width: 81px;
+  border-radius: 4px;
+  background-color: #444444;
+  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.16);  
+}
+.THIS.tooltip{
+    position:absolute;
+    top:40%;
+    left:68%;
+    width:25%;
+}
+.THIS.tooltipAS{
+    position:absolute;
+    top:40%;
+    left:76%;
+    width:33%;
+}
+.THIS.tooltipSubTitle{    
+    position:absolute;
+    top:75%;
+    left:10%;
+    width:80%;
+    height:20%;
+    word-break: break-all;
+    white-space:normal;    
 }
