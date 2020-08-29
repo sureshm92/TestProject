@@ -120,7 +120,6 @@ public without sharing class HCPEnrollmentTriggerHandler {
         }
         List<Notification__c> notifications = new List<Notification__c>();
         String notificationType;
-        List<PermissionSet> permissionSets = [SELECT Id, Name FROM PermissionSet];
         for (HCP_Enrollment__c hcpe : newList) {
             if (hcpe.Status__c == HCPEnrollmentService.HCP_S_INVITATION_SENT && hcpe.HCP_Contact__c != null &&
                     ((oldMap == null) || (oldMap != null && hcpe.Status__c != oldMap.get(hcpe.Id).Status__c))) {

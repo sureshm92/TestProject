@@ -4,7 +4,7 @@
         <apexClass>AccountSettingsController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-		<classAccesses>
+    <classAccesses>
         <apexClass>Test_NewMediaOutReach</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2906,9 +2906,14 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Contact.Current_Participant_Enrollment__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Current_Sponsor_Name__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>

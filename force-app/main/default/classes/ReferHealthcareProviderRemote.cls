@@ -513,6 +513,11 @@ global without sharing class ReferHealthcareProviderRemote {
             insert cntList;
         } else {
             cntList[0].RP_Invited_By_PI__c = true;
+            if (cntList[0].userCommunityMode__c != CommunityService.USER_MODE_HCP) {
+                cntList[0].userCommunityMode__c = CommunityService.USER_MODE_HCP;
+                cntList[0].userCommunytyType__c = CommunityService.USER_MODE_HCP;
+                update cntList;
+            }
         }
         if (String.isBlank(studySiteId)) {
             studySitesToInvite = getStudySitesForMatchedRP(cntList[0].Id, piIds);
