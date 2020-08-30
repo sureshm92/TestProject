@@ -91,7 +91,7 @@
         <!-- Inner body -->
         <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Delegate}"/>
         <c:EmailTemplateDelegate communityName="{!communityTemplate}"/>
-        <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
+        <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframe>
 
     <!-- HCP -->
@@ -105,7 +105,7 @@
                       specificEmailProvider="{!specificProvider}">
         <!-- Inner body -->
         <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_HCP}"/>
-        <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
+        <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframe>
 
     <c:EmailWireframe rendered="{!userMode == 'HCP Health Care Provider'}"
@@ -118,7 +118,7 @@
                       specificEmailProvider="{!specificProvider}">
         <!-- Inner body -->
         <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_PI_PT_HCP}"/>
-        <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
+        <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframe>
 
     <c:EmailWireframe rendered="{!userMode == 'HCP has enrollments'}"
@@ -131,7 +131,7 @@
                       specificEmailProvider="{!specificProvider}">
         <!-- Inner body -->
         <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_PI_HCP}"/>
-        <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
+        <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframe>
 
     <!-- HCP Delegate -->
@@ -145,7 +145,7 @@
         <!-- Inner body -->
         <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Delegate}"/>
         <c:EmailTemplateDelegateHCPLvl/>
-        <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
+        <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframe>
     
     <!-- CC -->
