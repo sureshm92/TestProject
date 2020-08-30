@@ -39,7 +39,7 @@ public without sharing class CommunityModeService {
                 } else {
                     modes.add(new CommunityModes.RHCommunityModeItem(
                             USER_MODE_PI, Label.View_Mode + ' ' + labelByMode.get(USER_MODE_PI), itemTypeByMode.get(USER_MODE_PI),
-                            null, null, false, false));
+                            CommunityTemplateService.TEMPLATE_DEFAULT, null, false, false));
                 }
             }
         }
@@ -222,7 +222,7 @@ public without sharing class CommunityModeService {
                         if(contact.Current_Sponsor_Name__c != null && contact.Current_Sponsor_Name__c.equals(item.communityName)) {
                             item.isSelected = true;
                             item.isCollapsed = false;
-                        } else if (contact.Current_Sponsor_Name__c == null && item.communityName == null) {
+                        } else if (contact.Current_Sponsor_Name__c == null && item.communityName == UserContext.getCurrentCommunityTemplate().templateName) {
                             item.isSelected = true;
                             item.isCollapsed = false;
                         }
@@ -279,7 +279,7 @@ public without sharing class CommunityModeService {
 
             for (String commName : ssByCommunity.keySet()) {
                 if (rhSponsorsByCommunity.containsKey(commName)) modes.add(new CommunityMode(USER_MODE_PI, Label.CTL_L_PI_MODE, null, commName));
-                else modes.add(new CommunityMode(USER_MODE_PI, Label.CTL_L_PI_MODE, null));
+                else modes.add(new CommunityMode(USER_MODE_PI, Label.CTL_L_PI_MODE, null, CommunityTemplateService.TEMPLATE_DEFAULT));
             }
         }
 
@@ -308,7 +308,7 @@ public without sharing class CommunityModeService {
         CommunityMode resMode = findMode(generateModeKey(contact), allModes);
         //List<String> availableModes = contact.userCommunytyType__c == null ? new List<String>() : contact.userCommunytyType__c.split(';');
        // List<Participant_Enrollment__c> loginUserPEs = [SELECT Id FROM Participant_Enrollment__c WHERE Participant_Contact__c = : contact.Id ];
-        if((resMode == null || (resMode.userMode == USER_MODE_PI && resMode.communityName != UserContext.getCurrentCommunityName())) && allModes.size() > 0){
+        if((resMode == null || (resMode.userMode == USER_MODE_PI && resMode.communityName != UserContext.getCurrentCommunityTemplate().templateName)) && allModes.size() > 0){
             resMode = getFirstMode(allModes);
             if(resMode != null){
                 resMode.setAsCurrentMode(contact);
