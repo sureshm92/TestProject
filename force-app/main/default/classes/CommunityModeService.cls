@@ -222,7 +222,7 @@ public without sharing class CommunityModeService {
                         if(contact.Current_Sponsor_Name__c != null && contact.Current_Sponsor_Name__c.equals(item.communityName)) {
                             item.isSelected = true;
                             item.isCollapsed = false;
-                        } else if (contact.Current_Sponsor_Name__c == null && item.communityName == UserContext.getCurrentCommunityTemplate()) {
+                        } else if (contact.Current_Sponsor_Name__c == null && item.communityName == UserContext.getCurrentCommunityTemplate().templateName) {
                             item.isSelected = true;
                             item.isCollapsed = false;
                         }
