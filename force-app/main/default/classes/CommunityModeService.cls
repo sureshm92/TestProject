@@ -279,7 +279,7 @@ public without sharing class CommunityModeService {
 
             for (String commName : ssByCommunity.keySet()) {
                 if (rhSponsorsByCommunity.containsKey(commName)) modes.add(new CommunityMode(USER_MODE_PI, Label.CTL_L_PI_MODE, null, commName));
-                else modes.add(new CommunityMode(USER_MODE_PI, Label.CTL_L_PI_MODE, null));
+                else modes.add(new CommunityMode(USER_MODE_PI, Label.CTL_L_PI_MODE, null, CommunityTemplateService.TEMPLATE_DEFAULT));
             }
         }
 
