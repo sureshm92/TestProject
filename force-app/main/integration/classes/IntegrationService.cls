@@ -5,6 +5,7 @@
 public without sharing class  IntegrationService {
     
     public class IntegrationServiceException extends Exception{}
+    public static List<Integration_Log__c> intLogList;// Added by Krishna Mahto for REF-2183
     
     public class IntegrationMessage{
         public String protocolId;
@@ -126,6 +127,26 @@ public without sharing class  IntegrationService {
         );
     }
     
+    //Added by Krishna for REF-2183 - Start
+    //Added to be called from UploadParticipantsBatch class
+    public static Integration_Log__c sendPEToStudyHubBatch(Id participantEnrollmentId){
+        IntegrationMessage integrationMessage = createIntegrationMessage(participantEnrollmentId, true);
+        System.debug('PE: ' + integrationMessage);
+        if(integrationMessage == null){
+            return null;}
+        String integrationMessageString = JSON.serializePretty(integrationMessage, true);
+        ResponseResult result = sendIntegrationMessageBatch(END_POINT_URL, participantEnrollmentId, integrationMessageString);
+        Integer logListLength = intLogList.size();
+        //Removing The latest log from the List intLogList as latest log is getting returned in this method.
+        if(logListLength>0){
+            logListLength = logListLength-1;
+            intLogList.Remove(logListLength);
+        }
+        return result.log;
+                
+    }
+    //Added by Krishna for REF-2183 - End
+    
     public static void sendPESHToEPR(List<Id> participantEnrollmentSHIds){
         Map<String, String> integrationMessagesMap = createStatusIntegrationMessage(participantEnrollmentSHIds) ;
         System.debug('PESH: ' + integrationMessagesMap);
@@ -135,6 +156,19 @@ public without sharing class  IntegrationService {
         }
 
     }
+    
+    //Added by Krishna for REF-2183 - Start
+    //Added to be called from UploadParticipantsBatch class
+    public static void sendPESHToEPRBatch(List<Id> participantEnrollmentSHIds){
+        Map<String, String> integrationMessagesMap = createStatusIntegrationMessage(participantEnrollmentSHIds) ;
+        System.debug('PESH: ' + integrationMessagesMap);
+        if(integrationMessagesMap == null) return;
+        for(String endpoint: integrationMessagesMap.keySet()){
+            ResponseResult result = sendIntegrationMessageBatch('callout:'+ endpoint, String.join(participantEnrollmentSHIds,','), integrationMessagesMap.get(endpoint));
+        }
+
+    }
+   //Added by Krishna for REF-2183 - End
 
     public static ResponseResult sendIntegrationMessage(String endpointURl, String sourceId, String integrationMessage){
 
@@ -155,6 +189,27 @@ public without sharing class  IntegrationService {
         insert logs;
         return responseResult;
     }
+    
+    //Added by Krishna for REF-2183 - Start
+    public static ResponseResult sendIntegrationMessageBatch(String endpointURl, String sourceId, String integrationMessage){
+        ResponseResult responseResult;
+        Integer currentAttempt = 1;
+        Integer attemptsCount = 3;
+        List<Integration_Log__c> logs = new List<Integration_Log__c>();
+        while(true){
+            responseResult = send(endpointURl, 'POST', TIMEOUT, sourceId, integrationMessage, currentAttempt);
+            logs.add(responseResult.log);
+            if((responseResult.httpResponse != null && responseResult.httpResponse.getStatusCode() == 500) && currentAttempt < attemptsCount){
+                currentAttempt ++;
+                sleep(10000);
+                continue;
+            }
+            break;
+        }
+        intLogList.AddAll(logs);
+        return responseResult;
+    }
+    //Added by Krishna for REF-2183 - End
     
     public static ResponseResult send(String url, String method, Integer timeout,String sourceId, String requestBody, Integer attemptNumber){
         //init request:
