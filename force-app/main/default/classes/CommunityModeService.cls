@@ -39,7 +39,7 @@ public without sharing class CommunityModeService {
                 } else {
                     modes.add(new CommunityModes.RHCommunityModeItem(
                             USER_MODE_PI, Label.View_Mode + ' ' + labelByMode.get(USER_MODE_PI), itemTypeByMode.get(USER_MODE_PI),
-                            null, null, false, false));
+                            CommunityTemplateService.TEMPLATE_DEFAULT, null, false, false));
                 }
             }
         }
@@ -222,7 +222,7 @@ public without sharing class CommunityModeService {
                         if(contact.Current_Sponsor_Name__c != null && contact.Current_Sponsor_Name__c.equals(item.communityName)) {
                             item.isSelected = true;
                             item.isCollapsed = false;
-                        } else if (contact.Current_Sponsor_Name__c == null && item.communityName == null) {
+                        } else if (contact.Current_Sponsor_Name__c == null && item.communityName == UserContext.getCurrentCommunityTemplate()) {
                             item.isSelected = true;
                             item.isCollapsed = false;
                         }
