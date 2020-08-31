@@ -579,6 +579,11 @@ global without sharing class ReferHealthcareProviderRemote {
                 insert new PI_RP_Relationship__c(PI_Contact__c = studySitesToInvite[0].Principal_Investigator__c, RP_Contact__c = cntList[0].Id);
             }
             if (!isNewUser) {
+                String permissionSetName = UserContext.getCurrentCommunityTemplate().permissionSet;
+                actionAssignContactPermissions.addPermission(usrs[0].ContactId, permissionSetName);
+                if (!actionAssignContactPermissions.isEmpty()) {
+                    ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+                }
                 if (!hcpes.isEmpty()) {
                     insert hcpes;
                     sendNotificationForRPInvite(hcpes[0].Id, cntList[0].Id, piIds);
