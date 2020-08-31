@@ -513,11 +513,6 @@ global without sharing class ReferHealthcareProviderRemote {
             insert cntList;
         } else {
             cntList[0].RP_Invited_By_PI__c = true;
-            if (cntList[0].userCommunityMode__c != CommunityService.USER_MODE_HCP) {
-                cntList[0].userCommunityMode__c = CommunityService.USER_MODE_HCP;
-                cntList[0].userCommunytyType__c = CommunityService.USER_MODE_HCP;
-                update cntList;
-            }
         }
         if (String.isBlank(studySiteId)) {
             studySitesToInvite = getStudySitesForMatchedRP(cntList[0].Id, piIds);
@@ -527,13 +522,6 @@ global without sharing class ReferHealthcareProviderRemote {
         List<User> usrs = CommunityService.getCommunityUsersByContactIds(new Set<Id>{
                 cntList[0].Id
         });
-
-        if (usrs.isEmpty()) {
-            isNewUser = true;
-            ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id>{
-                    cntList[0].Id
-            });
-        }
         if (cntList[0].userCommunytyType__c == null) {
             cntList[0].userCommunytyType__c = CommunityService.USER_MODE_HCP;
         } else if (!cntList[0].userCommunytyType__c.contains(CommunityService.USER_MODE_HCP)) {
@@ -543,6 +531,14 @@ global without sharing class ReferHealthcareProviderRemote {
             cntList[0].userCommunityMode__c = CommunityService.USER_MODE_HCP;
         }
         update cntList[0];
+
+        if (usrs.isEmpty()) {
+            isNewUser = true;
+            ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id>{
+                    cntList[0].Id
+            });
+        }
+
         for (Study_Site__c stdSite : studySitesToInvite) {
             hcpes.add(new HCP_Enrollment__c(
                     HCP_Contact__c = cntList[0].Id,
