@@ -44,7 +44,6 @@
 @media (pointer: coarse) {
 
     .THIS.cPopup .truncateTitle {
-        position: relative;
         display: flex;
         flex-wrap: wrap;
     }
@@ -52,7 +51,7 @@
     .THIS.cPopup .truncateTitle:hover:after {
         content: attr(title);
         position: absolute;
-        top: 0;
+        top: -10px;
         left: 10%;
         color: #444;
         background-color: #fff;
@@ -66,12 +65,12 @@
         font-size: .875rem;
     }
 
-    .THIS.cPopup .with-scroll > .slds-grid_vertical > .slds-col {
-        position: relative;
-    }
-
     .THIS .p-buttons-container > .apollo-btn {
         background: #f2f2f2;
+    }
+
+    .THIS.cPopup .with-scroll > .slds-grid_vertical > .slds-col > .slds-col > .rr-form-element {
+        position: relative;
     }
 
 }
