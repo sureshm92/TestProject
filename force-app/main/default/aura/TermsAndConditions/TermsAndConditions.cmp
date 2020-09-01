@@ -26,6 +26,7 @@
                     </aura:if>
                 </aura:if>
             </div>
+            <aura:if isTrue="{!v.isUserLoggedIn}">
             <c:RRBottomBar contentClass="tc-bottom-bar-content">
                 <div class="tc-accept-text">
                     <aura:if isTrue="{!empty(v.privacyPolicyId)}">
@@ -51,6 +52,7 @@
                     </aura:set>
                 </aura:if>
             </c:RRBottomBar>
+            </aura:if>
         </div>
     </div>
 </aura:component>
