@@ -90,14 +90,16 @@ public without sharing class VisitResultsRemote {
     public static List<String> notEmptyVisitResultsGroupName(String visitResultsMode,
             Map<String, Map<String, List<String>>> visitResultSharingByGroupAndMode,
             List<Visit_Result__c> visitResultsForMode) {
-
+        List<String> availableCTPNames=getCountryWiseVisitResult(visitResultsMode,ParticipantContext.getCurrentPE().Participant__r.Mailing_Country_Code__c);        
         VisitResultMService visitResultMService = new VisitResultMService();
         List<String> existingVisitResultGroups = new List<String>();
 
         if (visitResultsForMode != null) {
             for (Visit_Result__c visitResult : visitResultsForMode) {
-                existingVisitResultGroups.add(
+                if(availableCTPNames.contains(visitResult.Result_Type__c)){
+                    existingVisitResultGroups.add(
                         visitResultMService.getVisitResultGroupByTypeName(visitResult.Result_Type__c));
+                }
             }
         }
 
@@ -133,6 +135,19 @@ public without sharing class VisitResultsRemote {
     }
     public static Boolean existResultForCountry(String visitResultsMode,String strCountryCode,List<Visit_Result__c> visitResultsForMode)
     {
+        List<String> ctpAvailableNames=getCountryWiseVisitResult(visitResultsMode,strCountryCode);
+        List<String> availableAndExistResults = new List<String>();
+        for (Visit_Result__c visitResult : visitResultsForMode) {
+            availableAndExistResults.add(visitResult.Result_Type__c);
+        }
+        for(String strResultType:ctpAvailableNames){
+            if(availableAndExistResults.contains(strResultType)){
+                return true;
+            }
+        }
+        return false;
+    }
+    private static List<String> getCountryWiseVisitResult(String visitResultsMode,String strCountryCode){
         List<String> visitResultTypes=new List<String>();
         String ALL_COUNTRIES = 'All';
         String strShareBackCountries='';
@@ -165,19 +180,8 @@ public without sharing class VisitResultsRemote {
                 }
             }
         }
-        
-        List<String> availableAndExistResults = new List<String>();
-        for (Visit_Result__c visitResult : visitResultsForMode) {
-            availableAndExistResults.add(visitResult.Result_Type__c);
-        }
-        for(String strResultType:ctpAvailableNames){
-            if(availableAndExistResults.contains(strResultType)){
-                return true;
-            }
-        }
-        return false;
+        return ctpAvailableNames;
     }
-
     private static Map<String, List<String>> convertJSONtoMap(String visitResultsShares) {
         Map<String, Object> visitResultsSharesFirstStageDeserialize = (Map<String, Object>) JSON.deserializeUntyped(visitResultsShares);
         Map<String, List<String>> visitResultSharings = new Map<String, List<String>>();
