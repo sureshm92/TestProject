@@ -22,6 +22,7 @@
             $A.util.removeClass(cmpTarget, 'tooltipAS');
             $A.util.removeClass(cmpTarget, 'tooltipSubTitle');
             $A.util.removeClass(cmpTarget,'slds-nubbin--top');
+            $A.util.removeClass(cmpTarget,'tooltipNotActive');
         }
        else if(dataVal=='Account Settings'){
            $A.util.addClass(cmpTarget, 'tooltipAS');
@@ -29,15 +30,24 @@
            $A.util.removeClass(cmpTarget, 'tooltip');
            $A.util.removeClass(cmpTarget, 'tooltipSubTitle');
            $A.util.removeClass(cmpTarget,'slds-nubbin--top');
+           $A.util.removeClass(cmpTarget,'tooltipNotActive');
+        }     
+        else if(dataVal=='No active studies'){
+            $A.util.addClass(cmpTarget, 'tooltipNotActive');
         }
         else{
             $A.util.addClass(cmpTarget, 'tooltipSubTitle'); 
             $A.util.addClass(cmpTarget,'slds-nubbin--top');
             $A.util.removeClass(cmpTarget, 'tooltip');
             $A.util.removeClass(cmpTarget, 'tooltipAS');
-            $A.util.removeClass(cmpTarget,'slds-nubbin--bottom');	
+            $A.util.removeClass(cmpTarget,'slds-nubbin--bottom');
+            $A.util.removeClass(cmpTarget,'tooltipNotActive');
         }
+        
+        $A.util.addClass(cmpTarget, 'tooltip');
+        if(dataVal!='No active studies'){
         helper.toggleHelper(component, event);
+        }
     },    
     displayOut : function(component, event, helper) {
        helper.toggleHelper(component, event);
