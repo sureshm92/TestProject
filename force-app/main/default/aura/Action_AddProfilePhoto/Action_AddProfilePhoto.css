@@ -42,13 +42,20 @@
 }
 
 .THIS .profileLabel {
-    color: #0768FD;
+    color: #444;
     font-family: "Proxima Nova";
     font-size: 16px;
-    font-weight: 600;
+    /*font-weight: 600;*/
     letter-spacing: 0;
     line-height: 24px;
     text-align: center;
+    
+}
+.THIS .profileLabel-ltr{
+    margin-left:-14px;
+}
+.THIS .profileLabel-rtl{
+    margin-right:20px;
 }
 
 .THIS .btn-upload-photo {
@@ -223,3 +230,108 @@
     text-align: left;
     width: 100%;
 }
+.THIS .photo-label-rtl{
+    text-align: right;
+    width: 100%;
+    margin-right:17px;
+
+}
+.THIS .edit{
+    /*color : blue;*/
+}
+/* Dropdown Button */
+.THIS .dropbtn {
+  background-color: white;
+  color: #0065ff;
+ /* padding: 16px;*/
+  border: none;
+  cursor: pointer;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 24px;
+  text-align: center;
+  padding-left:17px;
+
+}
+.THIS .remove{
+    font-size:16px;
+    color: #444;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+    /*padding: 20px;*/
+    /*margin-left:-12px;*/
+    display: inline-block;
+    padding: 6px 0 0 8px;
+    cursor: pointer;
+
+}
+.THIS .noProfile{
+    font-size:16px;
+    padding: 20px;
+    color:grey;
+    margin-left:-12px;
+
+    
+}
+.THIS .slds-icon-text-default {
+    fill: rgb(21, 137, 238);
+}
+.THIS .slds-icon_small {
+    width: .75rem;
+    height: .75rem;
+    line-height: 1;
+    margin-left:8px;
+}
+
+/* Dropdown button on hover & focus */
+.THIS .dropbtn:hover  {
+    background-color: #F6F7FB;
+    border:none;
+}
+.THIS .dropbtn:focus {
+  background-color: white;
+    border:none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.THIS .dropdown {
+  position: relative;
+  display: inline-block;
+    padding-left:5px;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.THIS .dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 170px;
+  width:170px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  padding-left:17px;  
+  border:1px solid #d4d4d4;  
+    border-radius:4px;
+}
+
+/* Links inside the dropdown */
+.THIS .dropdown-content a {
+  color: #444;
+ /* padding: 12px 16px;*/
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.THIS .dropdown-content a:hover {background-color: white;}
+
+
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.THIS .show {display:block;}
+.THIS .hide {display:none;}

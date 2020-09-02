@@ -6,16 +6,17 @@
 
     <!-- attributes: -->
     <aura:attribute name="allModes" type="Object"/>
-
+	<aura:attribute name="hovertext" type="String"/>
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <!-- events: -->
     <aura:registerEvent access="global" name="onclick" type="c:uiEvent"/>
 
-    <div>
+    <div  class="slds-form-element">
         <aura:iteration var="item" items="{!v.allModes.ppModeItems}">
             <ul class="contain">
                 <aura:iteration items="{!item.subItems}" var="subItem">
                     <c:uiMenuItem onclick="{!c.doOnClick}" itemValue="{!subItem}" class="pp-item">
-                        <div class="main-box">
+                        <div class="main-box" >
                             <div class="menu-item-box">
                                 <div class="{!'item-line' + if(subItem.isSelected, ' selected ', '')}">
                                     <div class="item-title">{!subItem.title}</div>
@@ -25,18 +26,23 @@
                                 </div>
                                 <div class="icon-settings-box">
                                     <aura:if isTrue="{!and(not(item.isDelegate), item.hasBeenActive)}">
-                                        <div class="icon-delegate-box">
+                                        <div  data-id="{!$Label.c.Delegates}" aura:id="Delegates" data-value="Delegates" class="icon-delegate-box"  onmouseover="{!c.display}" onmouseout="{!c.displayOut}" style="position:relative">
+                                                
+									<!--	 <lightning:helptext
+											content="Click the icon to log in to Salesforce"> -->
+                                             
                                             <c:menuItemButton class="icon-delegate" iconName="delegate" navigateTo="my-team"
                                                               itemValue="{!subItem}" onclick="{!c.doOnClick}"/>
+									<!--						   </lightning:helptext>-->
                                         </div>
                                     </aura:if>
-                                    <div class="icon-box">
+                                    <div data-id="{!$Label.c.PP_Account_Settings}" aura:id="Account Settings" class="icon-box" onmouseover="{!c.display}" onmouseout="{!c.displayOut}">
                                         <c:menuItemButton class="icon-cog" iconName="cog" navigateTo="account-settings"
                                                           itemValue="{!subItem}" onclick="{!c.doOnClick}"/>
                                     </div>
                                 </div>
                             </div>
-                            <div class="{!'menu-sub-item ' + if(subItem.isSelected, 'selected-sub-title ', '') + 'overflow'}">
+                            <div data-id="{!subItem.subTitle}" aura:id="{!subItem.subTitle}" class="{!'menu-sub-item ' + if(subItem.isSelected, 'selected-sub-title ', '') + 'overflow'}" onmouseover="{!c.display}" onmouseout="{!c.displayOut}">
                                 {!subItem.subTitle}
                             </div>
                         </div>
@@ -44,6 +50,13 @@
                 </aura:iteration>
             </ul>
         </aura:iteration>
+        
+      <!--<div class="slds-popover slds-popover-tooltip slds-nubbin-bottom-left " role="tooltip" id="help" style="position:relative;" aura:id="tooltip">
+                                                <div class="slds-popover__body">Delegates</div>
+                                             </div> -->
     </div>
-
+     <div class="slds-popover slds-popover--tooltip  toggle container tooltip" role="tooltip" id="help" aura:id="tooltip">
+                                                <div class="slds-popover__body word-wrap: break-word;">{!v.hovertext}</div>
+                                             </div>  
+	
 </aura:component>

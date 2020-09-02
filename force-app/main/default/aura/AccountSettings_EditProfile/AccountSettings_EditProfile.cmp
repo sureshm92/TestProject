@@ -47,6 +47,7 @@
     <aura:attribute name="isUpdated" type="Boolean"/>
     <aura:attribute name="isAdult" type="Boolean"/>
     <aura:attribute name="minorUserName" type="String"/>
+    <aura:attribute name="isRTL" type="Boolean" default="false"/>
     
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -76,7 +77,7 @@
                             <div class="slds-col slds-size_1-of-1">
                                 <aura:if isTrue="{!v.userMode == 'Participant'}">
                                     <aura:if isTrue="{!v.isAdult}">
-                                        <c:Action_AddProfilePhoto username="{!v.userEmail}" recordId="{!v.userId}" isDelegate="{!v.isDelegate}" hasProfilePic="{!v.hasProfilePic}"></c:Action_AddProfilePhoto>
+                                        <c:Action_AddProfilePhoto username="{!v.userEmail}" recordId="{!v.userId}" isDelegate="{!v.isDelegate}" hasProfilePic="{!v.hasProfilePic}" isRTLLanguage="{!v.isRTL}"></c:Action_AddProfilePhoto>
                                         <aura:set attribute="else">
                                             <div class="slds-grid profileImg">
                                                 <div class="avatar-icon-minor">
@@ -307,7 +308,7 @@
                                                  value="{!v.personWrapper.mobilePhone}"
                                                  required="{!and(v.personWrapper.optInSMS, equals(v.personWrapper.mailingCC, 'US'))}"
                                                  disabled="{!notequals(v.personWrapper.mailingCC, 'US')}"
-                                                 onblur="{!c.doCheckFieldsValidity}" /> 
+                                                 onblur="{!c.doCheckFieldsValidity}"/> 
                                 
                             </div>
                             <aura:if isTrue="{!v.userMode == 'Participant'}">  
