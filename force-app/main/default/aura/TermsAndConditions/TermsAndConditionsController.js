@@ -82,7 +82,7 @@
         }, function (returnValue) {
             communityService.setTCAccepted();
             helper.goBack(component);
-            if (!isPortalTC) {
+            if (!isPortalTC && tcData.trial.Study_Code_Name__c) {
                 communityService.showSuccessToast('Success', $A.get('$Label.c.PG_TC_H_Accept_Success') + ' ' + tcData.trial.Study_Code_Name__c + '.');
             } else {
                 $A.get('e.c:EventCommunityInitialized').fire();
