@@ -8,7 +8,7 @@
     <aura:attribute name="resourceLanguages" type="List"/>
     <aura:attribute name="sectionOpen" type="Boolean"/>
     <aura:attribute name="count" type="integer"/>
-    <aura:attribute name="OrgDomainUrl" type="string"/>
+    <aura:attribute name="OrgDomainUrl" type="string"/>  
     <aura:attribute name="searchstring" type="string" access="public" />
     <aura:attribute name="langSelected" type="string" default="" access="public" />
     <aura:method name="LibraryPIMethod" action="{!c.doSearch}" access="public" />

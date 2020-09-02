@@ -97,7 +97,7 @@
             var urls = BaseUrl+'/sfc/servlet.shepherd/document/download/'+resource.fileID; 
             let urlEvent = $A.get("e.force:navigateToURL");
             urlEvent.setParams({url: urls});
-            urlEvent.fire();    
+            urlEvent.fire();
         }
     },
     
