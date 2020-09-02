@@ -9,10 +9,13 @@ public without sharing class LibraryPIRemote {
     public class ResourceInitData {
         @AuraEnabled public List<LabelValueItem> languages;
         @AuraEnabled public List<ResourceWrapper> resources;
-        
-        public ResourceInitData(List<LabelValueItem> languages, List<ResourceWrapper> resources) {
+         @AuraEnabled public string OrgBaseurl;
+
+
+        public ResourceInitData(List<LabelValueItem> languages, List<ResourceWrapper> resources, string OrgBaseurl) {
             this.languages = languages;
             this.resources = resources;
+            this.OrgBaseurl=OrgBaseurl;
         }
     }
     
@@ -261,7 +264,8 @@ public without sharing class LibraryPIRemote {
         for (String key : initDataMap.keySet()) {
             initData.add(new ResourceWrapper(key, initDataMap.get(key)));
         }
-        return new ResourceInitData(languages, initData);
+        String BaseUrl = System.URL.getOrgDomainUrl().tostring();
+      return new ResourceInitData(languages, initData, BaseUrl);
     }
     
     private static String getResourceLanguage(String languageCode) {
