@@ -32,7 +32,7 @@
                 }, function (returnValue) {
                     let tcData = JSON.parse(returnValue);
                     component.set('v.tcData', tcData);
-                    //if(tcData.tc) component.set('v.privacyPolicyId', tcData.tc);
+                    if(tcData.tc) component.set('v.privacyPolicyId', tcData.tc);
                 }, null, function () {
                     component.find('mainSpinner').hide();
                 });
@@ -54,7 +54,7 @@
                 }, function (returnValue) {
                     let tcData = JSON.parse(returnValue);
                     component.set('v.tcData', tcData);
-                    //if(tcData.tc) component.set('v.privacyPolicyId', tcData.tc);
+                    if(tcData.tc) component.set('v.privacyPolicyId', tcData.tc);
                 }, null, function () {
                     component.find('mainSpinner').hide();
                 });
