@@ -9,8 +9,22 @@
     align-items: center;
 }
 
+.THIS .arabic{
+    direction: rtl !important;
+    padding-bottom: 100px;
+}
+.THIS.english{
+    padding-bottom: 100px;
+}
+
+
 .THIS .resource-icon{
     margin-right: 12px;
+    flex-shrink: 0;
+    height:20px;
+}
+.THIS .resource-icon-rtl{
+    margin-left: -220px;
     flex-shrink: 0;
     height:20px;
 }
@@ -104,4 +118,15 @@
 
 .THIS .sdv-top-bar.sticky .height-stub{
     display: block;
+}
+.THIS .sidepadding-rtl{
+    padding-right: 10px;
+}
+
+.THIS .sidepaddingleft-rtl{
+    padding-left: 20px;
+}
+
+.THIS .navigation-path.rtl{
+    padding-right: 10px;
 }

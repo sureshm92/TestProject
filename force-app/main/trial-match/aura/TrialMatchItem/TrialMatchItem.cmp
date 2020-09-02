@@ -13,8 +13,8 @@
             <div class="tap-class">
                 {!$Label.c.TrialSearch_Therapeutic_area} : {!v.trialMatch.TherapeuticArea}
             </div>
-            <div class="ctp-recruitment-status">
-                    {!v.trialMatch.isEnrollingCTP ? $Label.c.TrialSearch_Enrolling : $Label.c.TrialSearch_Not_Yet_Enrolling}
+            <div class="{!v.isRTL? 'ctp-recruitment-status-rtl':'ctp-recruitment-status'}">
+                {!v.trialMatch.isEnrollingCTP ? $Label.c.TrialSearch_Enrolling : $Label.c.TrialSearch_Not_Yet_Enrolling}
             </div>
         </div>
         <div class="seperator"></div>
@@ -22,7 +22,7 @@
             <div class="ctp-study-code-name">
                 {!v.trialMatch.StudyCodeName}
             </div>
-            <div class="ctp-date-status">
+            <div class="{!v.isRTL? 'ctp-date-status-rtl':'ctp-date-status'}">
                 {!$Label.c.Matched_of}&nbsp;{!v.trialMatch.matchDate}
             </div>
         </div>
@@ -31,8 +31,8 @@
                 {!v.trialMatch.OfficialTitle}
             </div>
             <aura:if isTrue="{!v.islearnmore}">
-                <div class="ctp-date-status">
-                  <c:TrialMatchPageLearnMoreLink ctpId="{!v.trialMatch.ctpid}"/> 
+                <div class="{!v.isRTL? 'ctp-date-status-rtl':'ctp-date-status'}">
+                    <c:TrialMatchPageLearnMoreLink ctpId="{!v.trialMatch.ctpid}"/> 
                 </div>
             </aura:if>
         </div>

@@ -1,8 +1,12 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS {
+ .THIS {
     padding-bottom: 25px;
+}
+
+.THIS.rtl {
+    direction: rtl;
 }
 
 .THIS .sd-study-name {

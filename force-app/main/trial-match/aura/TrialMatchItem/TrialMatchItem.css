@@ -68,6 +68,26 @@
     line-height: 21px;
 }
 
+.THIS .ctp-recruitment-status-rtl {
+    font-size: 14px;
+    width: 20%;
+    text-align: left;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-weight: 600;
+    line-height: 21px;
+}
+
+.THIS .ctp-date-status-rtl {
+    font-size: 14px;
+    width: 45%;
+    text-align: left;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-weight: 500;
+    line-height: 21px;
+}
+
 .THIS .ctp-date-status {
     font-size: 14px;
     width: 45%;

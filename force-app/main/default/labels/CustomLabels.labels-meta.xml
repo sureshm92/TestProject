@@ -14475,7 +14475,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_AddProfilePhoto</shortDescription>
-        <value>Add Profile Photo</value>
+        <value>Edit Profile Photo</value>
     </labels>
     <labels>
         <fullName>PP_Change_Notification</fullName>
@@ -14796,6 +14796,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Reminder date cannot be set in the past.</value>
     </labels>
     <labels>
+        <fullName>PP_Remove_Photo</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Remove_Photo</shortDescription>
+        <value>Remove</value>
+    </labels>
+    <labels>
         <fullName>PP_Save_Changes</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14817,6 +14824,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_Toggle_Information</shortDescription>
         <value>Emails that notify you of required action, allow you to reset your password or inform you of important system updates will always be sent. Additionally you can choose to receive optional
 communications using the toggles below.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Upload_Photo</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Upload_Photo</shortDescription>
+        <value>Upload Photo</value>
     </labels>
     <labels>
         <fullName>PP_VPC_SS_Empty_VP</fullName>
@@ -15675,6 +15689,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>RSN Your permissions do not permit this action</shortDescription>
         <value>Your permissions do not permit this action</value>
+    </labels>
+    <labels>
+        <fullName>RTL_Languages</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RTL Languages</shortDescription>
+        <value>ar, ur</value>
     </labels>
     <labels>
         <fullName>Received</fullName>

@@ -2,7 +2,7 @@
  - Created by Nargiz Mamedova on 6/25/2020.
  -->
 
-<aura:component description="ModeHeaderMenu" implements="forceCommunity:profileMenuInterface">
+<aura:component description="ModeHeaderMenu" implements="forceCommunity:profileMenuInterface" extends="c:CommunityContext">
 
     <!-- attributes: -->
     <aura:attribute name="title" type="Aura.Component[]"/>
@@ -18,11 +18,11 @@
     <aura:registerEvent access="global" name="onshow" type="c:uiEvent"/>
 
     <!-- component body: -->
-    <ui:menu class="{!if(v.isOpened, 'popup-visible ', ' ') +  v.class}">
+    <ui:menu class="{!if(v.isOpened, 'popup-visible ', ' ') + v.class}">
         <ui:menuTriggerLink aura:id="trigger" class="header-menu-link">
             {!v.title}
         </ui:menuTriggerLink>
-        <ui:menuList class="menu-popup-panel" menuExpand="{!c.doMenuExpand}" menuCollapse="{!c.doMenuCollapse}" visible="false">
+        <ui:menuList class="{!if(v.isRTL, 'menu-popup-panel rtl ', 'menu-popup-panel ')}" menuExpand="{!c.doMenuExpand}" menuCollapse="{!c.doMenuCollapse}" visible="false">
             {!v.body}
         </ui:menuList>
     </ui:menu>
