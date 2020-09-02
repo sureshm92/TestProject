@@ -63,7 +63,6 @@ public without sharing class ViewPatientsRemote {
             result.peFilter.additionalFilter = getAdditionalFilter(userMode, emancipatedPE, null, sponsorName);
             updateSearchResultAccordingItemChanged(result, changedItem);
             result.peFilterData = createPEFilterData(result.peFilter.activePE, result.peFilter.study,result.peFilter.studySite, userMode, true, delegateId, result.peFilter.additionalFilter, userMode, sponsorName);
-            result.peFilter.trialIds = result.peFilterData.trialIds;
             List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollments(result.peFilter, delegateId, sponsorName, userMode);
             peList = ParticipantEnrollmentService.getParticipantEnrollmentsPaginated(peList, result.paginationData);
             result.peList = convertToPEWrapperList(peList, userMode, delegateId);
