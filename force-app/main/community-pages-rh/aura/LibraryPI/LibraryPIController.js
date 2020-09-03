@@ -5,10 +5,12 @@
         communityService.executeAction(component, 'getInitData', {
             isDelegate: isDelegate,
             language: null,
-            Searchstr: null
+            Searchstr: null,
+            communityTemplate: communityService.getCurrentCommunityTemplateName()
         }, function(response) {
             component.set('v.resourceStructureList', response.resources);
             component.set('v.resourceLanguages', response.languages);
+            component.set('v.OrgDomainUrl', response.OrgBaseurl);
             component.find('mainSpinner').hide();
         });
     },
@@ -39,7 +41,8 @@
         communityService.executeAction(component, 'getInitData', {
             isDelegate: isDelegate,
             language: event.getSource().get('v.itemValue'),
-            Searchstr: srchtxt
+            Searchstr: srchtxt,
+            communityTemplate: communityService.getCurrentCommunityTemplateName()
         }, function(response) {
             component.set('v.resourceStructureList', response.resources);
             component.find('mainSpinner').hide();
@@ -59,7 +62,8 @@
         communityService.executeAction(component, 'getInitData', {
             isDelegate: isDelegate,
             language: lang,
-            Searchstr: srchtxt
+            Searchstr: srchtxt,
+            communityTemplate: communityService.getCurrentCommunityTemplateName()
         }, function(response) {
             component.set('v.resourceStructureList', response.resources);
         });
@@ -68,11 +72,32 @@
     downloadResource: function(component, event, helper){
         var resourceInd = event.currentTarget.getAttribute('data-attributeVal').split(',');
         var resource = component.get('v.resourceStructureList')[resourceInd[0]].resources[resourceInd[1]];
+        var x;
+
+       var y;
+
+       var z;
+
+       var d = component.get('v.OrgDomainUrl');
+
+       x = d.indexOf(".com");
+
+       x=x+4;
+
+       y = d.indexOf("=");
+
+      y=y+1;
+
+     z=d.substring(y,x);
+
+     var BaseUrl= z;
         if(resource.format=='Study Document'){
-            var urls = window.location.origin+'/sfc/servlet.shepherd/document/download/'+resource.fileID;            
+           // var urls = window.location.origin+'/sfc/servlet.shepherd/document/download/'+resource.fileID;  
+           
+            var urls = BaseUrl+'/sfc/servlet.shepherd/document/download/'+resource.fileID; 
             let urlEvent = $A.get("e.force:navigateToURL");
             urlEvent.setParams({url: urls});
-            urlEvent.fire();    
+            urlEvent.fire();
         }
     },
     

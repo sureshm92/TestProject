@@ -22,10 +22,10 @@ private  class Test_NewMediaOutReach {
             AccountId = studySiteAccount.Id
         );
         insert piContact;
-        UserRole userRole_1 = [SELECT Id FROM UserRole WHERE Name = 'View All' LIMIT 1];
+       UserRole userRole_1 = [SELECT Id FROM UserRole WHERE Name = 'View All' LIMIT 1];
         Profile profile_1 = [SELECT Id FROM Profile WHERE Name = 'IQVIA Customer Community Plus Login User' LIMIT 1];
         ID admin = [SELECT Id, Username, UserRoleId FROM User WHERE Profile.Name = 'System Administrator' AND UserRoleId = :userRole_1.Id AND IsActive = TRUE LIMIT 1].id;
-        
+      
         Clinical_Trial_Profile__c testStudy = new Clinical_Trial_Profile__c(
             Protocol_ID__c = 'tt123456790',
             Override_Recruitment_Status__c = 'Actively Enrolling',
@@ -73,12 +73,7 @@ private  class Test_NewMediaOutReach {
         string enddt = string.valueof(Date.parse('5/29/2020'));
         Test.startTest();
         newMediaOutReach.getPickListValues('Media_Outreach__c','Media_Type__c');
-        try
-        {
-            newMediaOutReach.inviteNewMedia('Some Code Name','Test','test@gmail.com', 'nks11@gmail.com',lsstng,start,enddt,'Test notes');
-        }
-        catch(exception e)
-        {}     
+        newMediaOutReach.inviteNewMedia('Some Code Name','Test','test@gmail.com', 'nks11@gmail.com',lsstng,start,enddt,'Test notes');
         Test.stopTest();
     }
     
@@ -114,7 +109,7 @@ private  class Test_NewMediaOutReach {
         }
         Test.startTest();
         System.runAs(user_1) {
-            Account SiteAccount = new Account(
+               Account SiteAccount = new Account(
                 Name = 'Study Site Account',
                 BillingCountry = 'United States'
             );

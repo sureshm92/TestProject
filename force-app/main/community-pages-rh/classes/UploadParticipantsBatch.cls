@@ -33,6 +33,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     private Set<String> genderLVSet = new Set<String> { 'Female', 'Male' };
         private Set<String> phoneTypeLVSet = new Set<String>();
     private Set<String> laguageLVSet = new Set<String>();
+    public static boolean isCalloutFromUploadParticipantsBatch = true; //Added By Krishna For REF-2183
+    Global List<Id>  PERecIds = new List<Id>(); //Added By Krishna For REF-2183
     
     
     public UploadParticipantsBatch(List<List<String>> csvFileLines, String header, String studySiteId, String selectedStatus, Boolean headerFailed, Map<String, Integer> headerIndexes, Boolean createUsers,Boolean doContact,Boolean allowEmail,Boolean allowPhone,Boolean allowSMS) {
@@ -103,7 +105,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.CreateContactsForParticipantsHandler.class);
         TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class);
         TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class);
-        
+        isCalloutFromUploadParticipantsBatch=true; //Added By Krishna For REF-2183
         if (!valid) {
             return;
         }
@@ -453,6 +455,11 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                 listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
                                 system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
                             }
+                            // Added By Krishna For REF-2183 -Start 
+                            else{
+                             PERecIds.Add(saveRes.Id);
+                            // Added By Krishna For REF-2183 -End
+                            }
                             
                             actionAssignContactPermissions.addPermission(participantContact.Id, permissionSetName);
                         } else {
@@ -515,6 +522,12 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     }
     
     global void finish(Database.BatchableContext BC) {
+       // Added By Krishna For REF-2183 -Start
+       if(PERecIds!=null && !PERecIds.IsEmpty()){
+           UploadParticipantsBatchHelper obj = new UploadParticipantsBatchHelper(PERecIds);
+           Database.executeBatch(obj,5);
+       }
+       // Added By Krishna For REF-2183 -End
         try {
             List<String> finalEmails = null;
             

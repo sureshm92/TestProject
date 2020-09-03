@@ -5,6 +5,7 @@
     doInit: function (component, event, helper) {
         console.log(component.get('v.userMode'));
         console.log(component.get('v.studyDetail').trial.Id);
+        component.set('v.communityName', communityService.getCurrentCommunityTemplateName())
         communityService.executeAction(component, 'getDocuments', {
             'role': component.get('v.userMode'),
             'ctpId': component.get('v.studyDetail').trial.Id,

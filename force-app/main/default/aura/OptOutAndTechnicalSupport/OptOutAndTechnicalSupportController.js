@@ -35,8 +35,8 @@
         var recipientId=communityService.getUrlParameter('recipientId');
         component.set("v.showSpinner",true);
         communityService.executeAction(component, 'createSupportCases', {
-                strOptOutValue:  String(component.get("v.selectedOptOutSubCategory")),
-            	strTechSupportValue: String(component.get("v.selectedTechSupportSubCategory")),
+                optOutValueList:  component.get("v.selectedOptOutSubCategory"),
+            	techSupportValueList: component.get("v.selectedTechSupportSubCategory"),
             	strContactId:recipientId
             },
             function () {

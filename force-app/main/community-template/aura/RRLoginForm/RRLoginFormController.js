@@ -18,7 +18,14 @@
                     component.set("v.isGSKCommunity",false);
                 }else if(returnValue==='GSK Community'){
                     component.set("v.isGSKCommunity",true);
+                } else if(returnValue==='Janssen Community'){
+                    component.set('v.isJanssen',true);
                 }
+                communityService.executeAction(component, 'getCommunityURL', {
+                    communityName: returnValue
+                    }, function (urlValue){
+                    component.set("v.urlCommunity", urlValue);
+                })
             }
         });
         //@Krishna mahto- PEH-1910- Prod Isseu Fix- End 
@@ -107,8 +114,14 @@
    closeModel: function(component, event, helper) {
       // for Hide/Close Model,set the "isOpen" attribute to "Fasle"  
       component.set("v.isOpen", false);
-   }
+   },
    //@Krishna mahto- PEH-1910- end
+   //@Krishna mahto- PEH-2451- Start
+   openPrivacyPolicy: function(component, event, helper) {
+      var PrivacyPolicyURL = component.get("v.urlCommunity") + '/s/privacy-policy'
+      window.open(PrivacyPolicyURL,'_blank');
+   },
+   //@Krishna mahto- PEH-2451- End
  
  
 })

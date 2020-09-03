@@ -49,7 +49,7 @@
                     },
                     {
                         text : $A.get("$Label.c.DLIT_L_View_screener_responses"),
-                        levels : [true,true,true]
+                        levels : [true,true,false]
                     },
                     {
                         text : $A.get("$Label.c.DLIT_L_Update_status_of_an_accepted_patient"),
@@ -69,6 +69,7 @@
                     },
                 ];
                 component.set("v.capList",capList);
+                component.set("v.disclaimer", $A.get("$Label.c.DLIT_L_Disclaimer"));
                 break;
 
             case 'HCP':

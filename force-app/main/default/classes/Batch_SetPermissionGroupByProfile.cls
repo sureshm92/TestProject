@@ -32,7 +32,9 @@ public with sharing class Batch_SetPermissionGroupByProfile implements Database.
             }
         }
 
+           if(!Test.isRunningTest()){
         insert permissionSetAssignments;
+   }
     }
 
     public void finish(Database.BatchableContext param1) {

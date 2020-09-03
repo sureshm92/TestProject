@@ -8,7 +8,7 @@
     <aura:attribute name="resourceLanguages" type="List"/>
     <aura:attribute name="sectionOpen" type="Boolean"/>
     <aura:attribute name="count" type="integer"/>
-    
+    <aura:attribute name="OrgDomainUrl" type="string"/>  
     <aura:attribute name="searchstring" type="string" access="public" />
     <aura:attribute name="langSelected" type="string" default="" access="public" />
     <aura:method name="LibraryPIMethod" action="{!c.doSearch}" access="public" />
@@ -66,7 +66,6 @@
                                                    data-attributeVal="{!key + ',' + resourceIndex}">{!resource.name}</a>
                                         <aura:set attribute="else">
                                             <aura:if isTrue="{!and(resource.format == 'Study Document',!empty(resource.fileID))}">
-                                                
                                                 <a class="slds-coll slds-size--4-of-12 resource-links resourceLinkHover"
                                                    onclick="{!c.doNavigate}"
                                                    data-attributeVal="{!key + ',' + resourceIndex}">{!resource.name}</a>

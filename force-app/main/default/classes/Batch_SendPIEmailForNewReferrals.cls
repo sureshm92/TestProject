@@ -14,7 +14,6 @@ public class Batch_SendPIEmailForNewReferrals extends Batch_ScheduledAbstract {
         ]);
     }
     public void execute(Database.BatchableContext bc, List<User> users) {
-        // List<PendingReferral__e> pendingReferrals = new List<PendingReferral__e>();
         Map<String,Batch_Notification__c> notifications = new Map<String,Batch_Notification__c>();
         List<User> qualifiedUsers = new List<User>();
         List<Id> contactIds = new List<Id>();
@@ -23,7 +22,7 @@ public class Batch_SendPIEmailForNewReferrals extends Batch_ScheduledAbstract {
             contactIds.add(usr.ContactId);
         }
 
-        for(User u: users){ 
+        for(User u: users){
             DateTime timeToSendMail;
             Timezone tz = Timezone.getTimeZone(u.timezonesidkey);
             Integer offset = tz.getOffset(timestarted);
@@ -35,9 +34,9 @@ public class Batch_SendPIEmailForNewReferrals extends Batch_ScheduledAbstract {
             
             if(((userlocaltime.hourgmt() == 7 && userlocaltime.minutegmt()<45)||userlocaltime.hourgmt()==6) && 
                ((userlocaltime.hourgmt()+1 == 7 && userlocaltime.minutegmt()>45)||userlocaltime.hourgmt()+1 == 8)  
-               && u.TimeOfRun__c != 'AM'){// && validContacts.contains(u.ContactId)){
+               && u.TimeOfRun__c != String.valueOf(timestarted).subStringBefore(' ')) {
                 //finalPIs.add(u);   
-                u.TimeOfRun__c = 'AM';
+                //u.TimeOfRun__c = 'AM';
                 DateTime currentTime = DateTime.now();
                 offset = tz.getOffset(currentTime);
                 DateTime currentLocalTime = currentTime.addSeconds(offset/1000);
@@ -64,33 +63,7 @@ public class Batch_SendPIEmailForNewReferrals extends Batch_ScheduledAbstract {
                 isQualified = true;
                 u.Time_To_Send_Mail__c = timeToSendMail;
                 system.debug('u.Time_To_Send_Mail__c'+u.Time_To_Send_Mail__c);
-                qualifiedUsers.add(u);
-                
-                
-            }else if(((userlocaltime.hourgmt() == 12 && userlocaltime.minutegmt()<45)||userlocaltime.hourgmt()==11)&& 
-                     ((userlocaltime.hourgmt()+1 == 12 && userlocaltime.minutegmt()>45)||userlocaltime.hourgmt()+1 == 13) 
-                     && u.TimeOfRun__c != 'PM'){// && validContacts.contains(u.ContactId)){
-                //finalPIs.add(u);
-                
-                u.TimeOfRun__c = 'PM';
-                DateTime currentTime = DateTime.now();
-                offset = tz.getOffset(currentTime);
-                DateTime currentLocalTime = currentTime.addSeconds(offset/1000);   
-                         
-                if((currentLocalTime.hourgmt() == 12 && currentLocalTime.minutegmt()<40)|| currentLocalTime.hourgmt()<12){
-                    hours = 12-currentLocalTime.hourgmt();
-                    if(hours == 0){
-                        minutes = 45 - currentLocalTime.minutegmt();
-                        timeToSendMail = currentTime.addMinutes(minutes);
-                    }else{
-                        minutes = 45 + 60 - currentLocalTime.minutegmt();
-                        timeToSendMail = currentTime.addMinutes(minutes);
-                    }
-                }else{
-                    timeToSendMail = currentTime.addMinutes(2);
-                }
-                isQualified = true;
-                u.Time_To_Send_Mail__c = timeToSendMail;
+                u.TimeOfRun__c = String.valueOf(timestarted).subStringBefore(' '); 
                 qualifiedUsers.add(u);
             }
             system.debug('isQualified'+isQualified);

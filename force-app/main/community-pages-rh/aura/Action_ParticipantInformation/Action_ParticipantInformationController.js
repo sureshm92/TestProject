@@ -13,6 +13,7 @@
     
     doExecute: function (component, event, helper) {
         try {
+            component.set('v.isIQVIA', communityService.getCurrentCommunityTemplateName() !== $A.get("$Label.c.Janssen_Community_Template_Name"));
             component.set('v.init', false);
             component.find('spinner').show();
             component.set('v.initialized', false);

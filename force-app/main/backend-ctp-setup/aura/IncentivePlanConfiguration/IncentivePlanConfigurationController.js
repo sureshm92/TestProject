@@ -64,6 +64,7 @@
         let haveSelecteAll = false;
         let allSelectedIPs = component.get('v.allSelectedIPs');
         let ssItems = component.get('v.ssItems');
+
         for (const ssItem of ssItems) {
             for (const assignment of ssItem.assignments) {
                 for (const incenitvePlan in allSelectedIPs) {

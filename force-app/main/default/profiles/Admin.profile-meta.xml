@@ -2958,6 +2958,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Current_Sponsor_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.Degree__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3019,6 +3024,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Is_FollowUp_Sent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Janssen_unique__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6944,6 +6954,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Terms_And_Conditions__c.Community_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Terms_And_Conditions__c.Language__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6955,6 +6970,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Terms_And_Conditions__c.T_C_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Terms_And_Conditions__c.T_C_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7445,7 +7465,7 @@
         <layout>Completed_Incentive_Task__c-Completed Incentive Task Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Contact-Contact Layout</layout>
+        <layout>Contact-IQVIA Contact Layout</layout>
         <recordType>Contact.MASTER</recordType>
     </layoutAssignments>
     <layoutAssignments>

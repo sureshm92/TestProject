@@ -7,6 +7,10 @@
         <value xsi:type="xsd:double">1.0</value>
     </values>
     <values>
+        <field>Opt_Out_and_Tech_Support_UI_Category__c</field>
+        <value xsi:type="xsd:string">Technical_Support_Category</value>
+    </values>
+    <values>
         <field>Opt_Out_and_Technical_Support_Category__c</field>
         <value xsi:type="xsd:string">Technical_Support_Category</value>
     </values>

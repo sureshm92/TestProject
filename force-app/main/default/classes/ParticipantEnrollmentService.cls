@@ -670,7 +670,7 @@ public without sharing class ParticipantEnrollmentService {
     
     public static PEFilterData getPEFilterDataWithExistingPERecords(String activePE, Id trialId, String mode, Boolean restrictTrial, String delegateId, String additionalFilters) {
         //init trials
-        Map<Id, Clinical_Trial_Profile__c> trialsMap = new Map<Id, Clinical_Trial_Profile__c>(TrialService.getAvailableTrialsWithPE(activePE, mode, delegateId, additionalFilters));
+        Map<Id, Clinical_Trial_Profile__c> trialsMap = new Map<Id, Clinical_Trial_Profile__c>(TrialService.filterStudyForCurrentCommunity(TrialService.getAvailableTrialsWithPE(activePE, mode, delegateId, additionalFilters)));
         //init study sites:
         List<Study_Site__c> studySites;
         if (mode == CommunityService.USER_MODE_HCP) {
@@ -730,95 +730,105 @@ public without sharing class ParticipantEnrollmentService {
         return peFilterData;
     }
     public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, PaginationData paginationData) {
-        return getParticipantEnrollments(filter, paginationData, null);
+        return getParticipantEnrollments(filter, paginationData, null, null, null);
     }
-    
-    public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, String delegateId){
+
+    public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, String delegateId, String sponsorName, String userMode){
+        System.debug('SPONSOR' + sponsorName);
         //prepare filter string:
-        String filterStr = ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join(filter.trialIds, '\',\'') + '\') ';
-        if (!String.isEmpty(filter.additionalFilter)) filterStr += ' AND ' + filter.additionalFilter + ' ';
-        if (filter.searchText != null) filter.searchText = filter.searchText.trim();
-        if (String.isEmpty(filter.searchText)) {
-            if (!String.isEmpty(filter.study)) filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__c = \'' + filter.study + '\' ';
-            if (!String.isEmpty(filter.studySite)) filterStr += ' AND Study_Site__c = \'' + filter.studySite + '\' ';
-            if (!String.isEmpty(filter.referringStatus)) filterStr += 'AND Participant_Status__c IN ' + filter.referringStatus + ' ';
-            //if(!String.isEmpty(filter.enrollmentStatus)) filterStr += ' AND Participant_Status__c IN ' + filter.enrollmentStatus + ' ';
-            //if(!String.isEmpty(filter.acceptenceStatus)) filterStr += ' AND Participant_Status__c IN ' + filter.acceptenceStatus + ' ';
-            if (!String.isEmpty(filter.referringClinic)) filterStr += ' AND HCP__r.HCP_Contact__r.AccountId = \'' + filter.referringClinic + '\' ';
-            if (!String.isEmpty(filter.source)) filterStr += ' AND Referral_Source_ID__c = \'' + filter.source + '\' ';
-            if (!String.isEmpty(filter.participantStatus)) filterStr += ' AND Participant_Status__c = \'' + filter.participantStatus + '\' ';
-            if (!String.isEmpty(filter.activePE) && String.isEmpty(filter.participantStatus)) {
-                if (filter.activePE == PEStatusState.PE_STATUSES_ACTIVE) {
-                    filterStr += ' AND Participant_Status__c  IN (\'' + String.join(PEStatusState.PE_STATUS_GROUP_ACTIVE, '\',\'') + '\') ';
-                } else {
-                    filterStr += ' AND Participant_Status__c  IN (\'' + String.join(PEStatusState.PE_STATUS_GROUP_INACTIVE, '\',\'') + '\') ';
+        List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
+        if(filter.trialIds != null) {
+            String filterStr = ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join(filter.trialIds, '\',\'') + '\') ';
+            if (!String.isEmpty(filter.additionalFilter)) filterStr += ' AND ' + filter.additionalFilter + ' ';
+            if (filter.searchText != null) filter.searchText = filter.searchText.trim();
+            if (String.isEmpty(filter.searchText)) {
+                if (!String.isEmpty(filter.study)) filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__c = \'' + filter.study + '\' ';
+                if (userMode == 'PI' && sponsorName == CommunityTemplateService.TEMPLATE_JANSSEN) {
+                    filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
                 }
-            }
-            if (filter.startDate != null && filter.endDate != null && filter.startDate < filter.endDate) {
-                //TODO
-            }
-        }
-        if (!String.isEmpty(filter.dateRange)) {
-            filterStr += ' AND ' + filter.dateField + ' ' + filter.dateRange + ' ';
-        }
-        if (!filter.sortType.contains('Alphabetical')) filterStr += ' ORDER BY ' + filter.sortType;
-        System.debug('FILTER STRING: ' + filterStr);
-        
-        //get PE List:
-        List<Participant_Enrollment__c> peList = getPEnrolmentsCommon(filter.mode, filterStr, delegateId);
-        List<Participant_Enrollment__c> filteredPEList = new List<Participant_Enrollment__c>();
-        //Filter by search string:
-        if (filter != null && !String.isEmpty(filter.searchText)) {
-            for (Participant_Enrollment__c pe : peList) {
-                Boolean isFound = false;
-                for (String searchField : filter.searchFields) {
-                    String searchFieldValue = SObjectHelper.getSObjectFieldValue(pe, searchField) + '';
-                    for (String searchWord : filter.searchText.split(' ')) {
-                        if (searchFieldValue.containsIgnoreCase(searchWord)) {
-                            isFound = true;
-                            break;
-                        }
+                if (userMode == 'PI' && sponsorName != CommunityTemplateService.TEMPLATE_JANSSEN) {
+                    filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
+                }
+                if (!String.isEmpty(filter.studySite)) filterStr += ' AND Study_Site__c = \'' + filter.studySite + '\' ';
+                if (!String.isEmpty(filter.referringStatus)) filterStr += 'AND Participant_Status__c IN ' + filter.referringStatus + ' ';
+                //if(!String.isEmpty(filter.enrollmentStatus)) filterStr += ' AND Participant_Status__c IN ' + filter.enrollmentStatus + ' ';
+                //if(!String.isEmpty(filter.acceptenceStatus)) filterStr += ' AND Participant_Status__c IN ' + filter.acceptenceStatus + ' ';
+                if (!String.isEmpty(filter.referringClinic)) filterStr += ' AND HCP__r.HCP_Contact__r.AccountId = \'' + filter.referringClinic + '\' ';
+                if (!String.isEmpty(filter.source)) filterStr += ' AND Referral_Source_ID__c = \'' + filter.source + '\' ';
+                if (!String.isEmpty(filter.participantStatus)) filterStr += ' AND Participant_Status__c = \'' + filter.participantStatus + '\' ';
+                if (!String.isEmpty(filter.activePE) && String.isEmpty(filter.participantStatus)) {
+                    if (filter.activePE == PEStatusState.PE_STATUSES_ACTIVE) {
+                        filterStr += ' AND Participant_Status__c  IN (\'' + String.join(PEStatusState.PE_STATUS_GROUP_ACTIVE, '\',\'') + '\') ';
+                    } else {
+                        filterStr += ' AND Participant_Status__c  IN (\'' + String.join(PEStatusState.PE_STATUS_GROUP_INACTIVE, '\',\'') + '\') ';
                     }
                 }
-                if (isFound) filteredPEList.add(pe);
-            }
-            peList = filteredPEList;
-        }
-        
-        //sort
-        if (filter != null && filter.sortType.contains('Alphabetical')) {
-            List<String> fields = filter.sortType.split(',');
-            String type = fields[0];
-            List<String> orderList = new List<String>();
-            Map<String, Participant_Enrollment__c> peMap = new Map<String, Participant_Enrollment__c>();
-            for (Participant_Enrollment__c pe : peList) {
-                String key = '';
-                for (String field : fields) {
-                    if (!field.contains('Alphabetical')) key += ' ' + SObjectHelper.getSObjectFieldValue(pe, field.trim());
+                if (filter.startDate != null && filter.endDate != null && filter.startDate < filter.endDate) {
+                    //TODO
                 }
-                key += pe.Id;
-                orderList.add(key.toLowerCase());
-                peMap.put(key.toLowerCase(), pe);
             }
-            orderList.sort();
-            
-            if (type.equalsIgnoreCase('Alphabetical_DESC')) {
-                List<String> reversed = new List<String>();
-                for (Integer i = orderList.size() - 1; i >= 0; i--) {
-                    reversed.add(orderList[i]);
+            if (!String.isEmpty(filter.dateRange)) {
+                filterStr += ' AND ' + filter.dateField + ' ' + filter.dateRange + ' ';
+            }
+            if (!filter.sortType.contains('Alphabetical')) filterStr += ' ORDER BY ' + filter.sortType;
+            System.debug('FILTER STRING: ' + filterStr);
+
+            //get PE List:
+            peList = getPEnrolmentsCommon(filter.mode, filterStr, delegateId);
+            List<Participant_Enrollment__c> filteredPEList = new List<Participant_Enrollment__c>();
+            //Filter by search string:
+            if (filter != null && !String.isEmpty(filter.searchText)) {
+                for (Participant_Enrollment__c pe : peList) {
+                    Boolean isFound = false;
+                    for (String searchField : filter.searchFields) {
+                        String searchFieldValue = SObjectHelper.getSObjectFieldValue(pe, searchField) + '';
+                        for (String searchWord : filter.searchText.split(' ')) {
+                            if (searchFieldValue.containsIgnoreCase(searchWord)) {
+                                isFound = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (isFound) filteredPEList.add(pe);
                 }
-                orderList = reversed;
+                peList = filteredPEList;
             }
-            List<Participant_Enrollment__c> sortedList = new List<Participant_Enrollment__c>();
-            for (String key : orderList) sortedList.add(peMap.get(key));
-            peList = sortedList;
+
+            //sort
+            if (filter != null && filter.sortType.contains('Alphabetical')) {
+                List<String> fields = filter.sortType.split(',');
+                String type = fields[0];
+                List<String> orderList = new List<String>();
+                Map<String, Participant_Enrollment__c> peMap = new Map<String, Participant_Enrollment__c>();
+                for (Participant_Enrollment__c pe : peList) {
+                    String key = '';
+                    for (String field : fields) {
+                        if (!field.contains('Alphabetical')) key += ' ' + SObjectHelper.getSObjectFieldValue(pe, field.trim());
+                    }
+                    key += pe.Id;
+                    orderList.add(key.toLowerCase());
+                    peMap.put(key.toLowerCase(), pe);
+                }
+                orderList.sort();
+
+                if (type.equalsIgnoreCase('Alphabetical_DESC')) {
+                    List<String> reversed = new List<String>();
+                    for (Integer i = orderList.size() - 1; i >= 0; i--) {
+                        reversed.add(orderList[i]);
+                    }
+                    orderList = reversed;
+                }
+                List<Participant_Enrollment__c> sortedList = new List<Participant_Enrollment__c>();
+                for (String key : orderList) sortedList.add(peMap.get(key));
+                peList = sortedList;
+            }
         }
         
         return peList;
     }
-    
-    public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, PaginationData paginationData, String delegateId) {
-        List<Participant_Enrollment__c> peList = getParticipantEnrollments(filter, delegateId);
+
+    public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, PaginationData paginationData, String delegateId, String sponsorName, String userMode) {
+        List<Participant_Enrollment__c> peList = getParticipantEnrollments(filter, delegateId, sponsorName, userMode);
         return getParticipantEnrollmentsPaginated(peList, paginationData);
     }
     

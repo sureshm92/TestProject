@@ -17,7 +17,6 @@
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="userLanguage" type="String"/>
     <aura:attribute name="createUsers" type="Boolean" default="false"/>
-    <!--<aura:attribute name="doNotContact" type="Boolean" default="false"/>-->
     <aura:attribute name="doContact" type="Boolean" default="false"/>
     <aura:attribute name="isEmail" type="Boolean" default="false"/>
     <aura:attribute name="isPhone" type="Boolean" default="false"/>
@@ -28,6 +27,7 @@
     <aura:attribute name="callback" type="Object" access="private"/>
     <aura:attribute name="delegateDuplicateInfo" type="Object"/>
     <aura:attribute name="useThisDelegate" type="Boolean" default="true"/>
+    <aura:attribute name="communityWithPPInv" type="Boolean" default="true"/>
     <aura:attribute name="emailInstance" type="String"/>
     
     <!-- methods: -->
@@ -50,7 +50,7 @@
     </c:RRTopBar>
     
     <aura:if isTrue="{!v.initialized}">
-        <div class="rr-width-limiter side-padding">
+        <div class="rr-width-limiter side-padding add-patient-form">
             <div class="ap-top-info">{! '* ' +  $Label.c.PG_AP_T_Indicate_Req_Fields}</div>
             <div class="rr-white-panel padding">
                 <c:Form_EditPatientInfo aura:id="editForm"
@@ -174,20 +174,6 @@
                                 </div>-->
                         </aura:if>
                     </div>
-                    <!--<div class="slds-grid slds-gutters slds-wrap">
-                        <div class="slds-form-element" style="margin-top: 30px; margin-left: 10px;">
-                            <div class="slds-form-element__control">
-                                <div class="slds-checkbox" data-gtm="checkbox_Permit_IQVIA_Connect">
-                                    <input aura:id="checkbox-doContact" type="checkbox" name="options" id="checkbox-unique-id-75"
-                                           value="checkbox-unique-id-75" onclick="{!c.doNotContact}"/>
-                                    <label class="slds-checkbox__label" for="checkbox-unique-id-75">
-                                        <span class="slds-checkbox_faux"></span>
-                                        <span class="slds-form-element__label-for-checkbox">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact}</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>-->
                     
                     <!-- Added for 1936-->
                     <div class="slds-grid slds-gutters slds-wrap">
@@ -224,7 +210,7 @@
                             <div class="slds-form-element" style="margin-left: 10px;">
                                 <div class="slds-form-element__control">
                                     <div class="slds-checkbox" data-gtm="checkbox_Permit_IQVIA_Connect">
-                                        <input aura:id="checkbox-doContact" type="checkbox" name="options" id="checkbox-unique-id-77"
+                                        <input aura:id="checkbox-doContactEmail" type="checkbox" name="options" id="checkbox-unique-id-77"
                                                value="checkbox-unique-id-77" onclick="{!c.doContactEmail}"/>
                                         <label class="slds-checkbox__label" for="checkbox-unique-id-77">
                                             <span class="slds-checkbox_faux"></span>
@@ -238,7 +224,7 @@
                             <div class="slds-form-element" style="margin-left: 10px;">
                                 <div class="slds-form-element__control">
                                     <div class="slds-checkbox" data-gtm="checkbox_Permit_IQVIA_Connect">
-                                        <input aura:id="checkbox-doContact" type="checkbox" name="options" id="checkbox-unique-id-78"
+                                        <input aura:id="checkbox-doContactPhone" type="checkbox" name="options" id="checkbox-unique-id-78"
                                                value="checkbox-unique-id-78" onclick="{!c.doContactPhone}"/>
                                         <label class="slds-checkbox__label" for="checkbox-unique-id-78">
                                             <span class="slds-checkbox_faux"></span>
@@ -253,7 +239,7 @@
                             <div class="slds-form-element" style="margin-left: 10px;">
                                 <div class="slds-form-element__control">
                                     <div class="slds-checkbox" data-gtm="checkbox_Permit_IQVIA_Connect">
-                                        <input aura:id="checkbox-doContact" type="checkbox" name="options" id="checkbox-unique-id-79"
+                                        <input aura:id="checkbox-doContactSMS" type="checkbox" name="options" id="checkbox-unique-id-79"
                                                value="checkbox-unique-id-79" onclick="{!c.doContactSMS}"/>
                                         <label class="slds-checkbox__label" for="checkbox-unique-id-79">
                                             <span class="slds-checkbox_faux"></span>
@@ -265,8 +251,8 @@
                         </div>
                     </aura:if>
                     
-                    
-                    <div class="slds-grid slds-gutters slds-wrap">
+                    <aura:if isTrue="{!v.communityWithPPInv}">                    
+                        <div class="slds-grid slds-gutters slds-wrap">
                         <div class="slds-form-element" style="margin-top: 20px; margin-left: 10px;">
                             <div class="slds-form-element__control">
                                 <span class="slds-form-element__label-for-checkbox">
@@ -275,9 +261,6 @@
                         </div>
                     </div>
                     <!--End-->
-                    
-                    <!--<aura:if isTrue="{!and(!v.doNotContact, v.ss.Study_Site_Type__c != 'Virtual')}">
-                        <aura:if isTrue="{!(v.participant.Email__c &amp;&amp; v.participant.Adult__c) || (v.needsGuardian &amp;&amp; v.participant.Health_care_proxy_is_needed__c)}">-->
                     <div class="slds-grid slds-gutters slds-wrap">
                         <div class="slds-form-element" style="margin-top: 20px; margin-left: 10px;">
                             <div class="slds-form-element__control">
@@ -292,8 +275,7 @@
                             </div>
                         </div>
                     </div>
-                    <!--</aura:if>
-                   </aura:if>-->
+                   </aura:if>
                 </div>
             </div>
             <div class="ap-bottom-info">

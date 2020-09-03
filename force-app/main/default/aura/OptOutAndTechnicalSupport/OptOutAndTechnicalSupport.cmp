@@ -6,8 +6,8 @@
     <aura:attribute name="techSupportSubCategoryList" type="List"/>
     <aura:attribute name="optOutTranslatedTitle" type="String"/>
     <aura:attribute name="techSupportTranslatedTitle" type="String"/>
-    <aura:attribute name="selectedOptOutSubCategory" type="String" default=""/>
-    <aura:attribute name="selectedTechSupportSubCategory" type="String" default=""/>
+    <aura:attribute name="selectedOptOutSubCategory" type="List" />
+    <aura:attribute name="selectedTechSupportSubCategory" type="List"/>
     <aura:attribute name="disabled" type="Boolean" default="true"/>
     <aura:attribute name="showSuccessMessage" type="Boolean" default="false" access="private"/>
 	<aura:attribute name="showSpinner" type="Boolean" default="false" access="private"/>

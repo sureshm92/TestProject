@@ -9,6 +9,7 @@
     <aura:attribute name="userMode" type="String" description="HCP / PI / Participant" required="true"/>
     <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="documents" type="Object[]"/>
+    <aura:attribute name="communityName" type="String"/>
 
     <!-- actions: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -82,7 +83,7 @@
                     </aura:if>
 
                     <!-- for PI: -->
-                    <aura:if isTrue="{!v.userMode == 'PI'}">
+                    <aura:if isTrue="{!v.userMode == 'PI' &amp;&amp; v.communityName != 'Janssen'}">
                         <div class="sdas-sub-category">{!$Label.c.PG_SRP_L_Referring_Providers}</div>
                         <c:RRAnchor aura:id="referringClinicsAnchor" offset="-160"/>
                         <!--                        <div id="anchor-clinics" class="sdas-category"><c:RRIcon iconName="referring-clinic"/>{!$Label.c.PG_DBPI_L_Referring_clinics}</div>-->

@@ -23,7 +23,8 @@
             userMode: communityService.getUserMode(),
             changedItem: changedItem,
             delegateId: communityService.getDelegateId(),
-            emancipatedPE: component.get('v.showEmancipatedOnly')
+            emancipatedPE: component.get('v.showEmancipatedOnly'),
+            sponsorName: communityService.getCurrentCommunityTemplateName()
         }, function (returnValue) {
             if (component.get('v.peFilter').searchText !== searchText) return;
             var result = JSON.parse(returnValue);

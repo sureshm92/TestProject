@@ -5,6 +5,7 @@
 <aura:component description="DelegateLevelInfoTable">
     <!-- attributes: -->
     <aura:attribute name="userMode" required="true" type="String"/>
+    <aura:attribute name="disclaimer" required="false" type="String" default=""/>
     <aura:attribute name="capList" required="false" access="private" type="Object[]"/>
     <aura:attribute name="header" required="false" access="private" type="Object"/>
 
@@ -14,18 +15,43 @@
     <!-- component body-->
     <div class="dlit-container">
         <table class="dlit-table">
-            <tr>
-                <th>
-                    <span>
-                        {!v.header.text}
-                    </span>
-                </th>
-                <aura:iteration items="{!v.header.levels}" var="level">
-                    <th>
-                        <span>{!level}</span>
+            <aura:if isTrue="{!!empty(v.disclaimer)}">
+                <tr >
+                    <th colspan="{!v.header.levels.length+1}">
+                        <span>
+                            <div>
+                                {!v.header.text}
+                            </div>
+                            <div class="dlit-disclaimer">
+                                {!v.disclaimer}
+                            </div>
+                        </span>
                     </th>
-                </aura:iteration>
-            </tr>
+                </tr>
+                <tr>
+                    <th>
+
+                    </th>
+                    <aura:iteration items="{!v.header.levels}" var="level">
+                        <th>
+                            <span>{!level}</span>
+                        </th>
+                    </aura:iteration>
+                </tr>
+                <aura:set attribute="else">
+                    <tr>
+                        <th>
+                            {!v.header.text}
+                        </th>
+                        <aura:iteration items="{!v.header.levels}" var="level">
+                            <th>
+                                <span>{!level}</span>
+                            </th>
+                        </aura:iteration>
+                    </tr>
+                </aura:set>
+            </aura:if>
+
             <aura:iteration items="{!v.capList}" var="capability">
                 <tr>
                     <td>

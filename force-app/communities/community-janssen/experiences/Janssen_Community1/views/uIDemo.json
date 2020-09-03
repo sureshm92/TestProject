@@ -1,0 +1,37 @@
+{
+  "appPageId" : "5bf37374-2b32-4433-ad3c-73208f1ef38a",
+  "componentName" : "c:EmptyLayout",
+  "id" : "d5710972-aa73-4c91-85b6-46f5a3d15ee4",
+  "label" : "UI Demo",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:RRIconTable",
+      "id" : "a953d41e-da19-47f0-89ff-113251e2f9d3",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "4fad1194-cc97-4ba2-b49b-5215e2c25733",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "UI Demo"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "24257b71-53e4-42bf-8ade-1a1e1f071f96",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "fa2411cf-6b37-44dc-ad2a-a109b568bdc2",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-ui-demo"
+}

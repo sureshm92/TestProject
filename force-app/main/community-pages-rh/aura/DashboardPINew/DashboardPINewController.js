@@ -4,11 +4,12 @@
 ({
     doinit:function(component, event, helper){
         var piData = component.get('v.piData');
+        component.set('v.communityTemplate', communityService.getCurrentCommunityTemplateName());
         component.set('v.delegatePIPicklistvalues',piData.delegatePIsPicklist);
         component.set('v.piCTPPicklist', piData.piCTPPicklist);
         component.set('v.currentPi', piData.selectedPi);
         component.set('v.currentStudy', piData.selectedCTP);
-        helper.showParticipantsContactedDashboard(component,helper,piData); 
+        helper.showParticipantsContactedDashboard(component,helper,piData);
 
     },
     
@@ -18,7 +19,7 @@
         piData.selectedCTP = component.get('v.currentStudy');
         var spinner = component.find('mainSpinner');
         spinner.show();
-        helper.callServerMethod(component, 'getInitData', communityService.getUserMode(), communityService.getDelegateId(), piData.selectedPi, piData.selectedCTP, 'PIChange',helper);  
+        helper.callServerMethod(component, 'getInitData', communityService.getUserMode(), communityService.getCurrentCommunityTemplateName(), communityService.getDelegateId(), piData.selectedPi, piData.selectedCTP, 'PIChange',helper);
         var currentData = component.get('v.piData');
         component.set('v.currentStudy', currentData.selectedCTP);
     },
@@ -28,7 +29,7 @@
         piData.selectedPi = component.get('v.currentPi');
         var spinner = component.find('mainSpinner');
         spinner.show();
-        helper.callServerMethod(component, 'getInitData', communityService.getUserMode(), communityService.getDelegateId(), piData.selectedPi, null, 'PIChange',helper); 
+        helper.callServerMethod(component, 'getInitData', communityService.getUserMode(), communityService.getCurrentCommunityTemplateName(), communityService.getDelegateId(), piData.selectedPi, null, 'PIChange',helper);
     }
-    
+
 })

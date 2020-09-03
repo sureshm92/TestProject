@@ -26,6 +26,10 @@
                 <behavior>Edit</behavior>
                 <field>Opt_Out_and_Technical_Support_Category__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Opt_Out_and_Tech_Support_UI_Category__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

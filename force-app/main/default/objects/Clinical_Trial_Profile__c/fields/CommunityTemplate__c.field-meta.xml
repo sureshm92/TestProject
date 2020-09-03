@@ -27,6 +27,11 @@
                 <default>false</default>
                 <label>COVID-19 Plasma Donor Registry</label>
             </value>
+            <value>
+                <fullName>Janssen</fullName>
+                <default>false</default>
+                <label>Janssen Community</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

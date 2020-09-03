@@ -51,12 +51,14 @@ public without sharing class ReferringClinicsFilter implements SearchFilter{
             'Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c',
+            'Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c',
             'Study_Site__r.Clinical_Trial_Profile__c',
             'Study_Site__r.Override_PI_Referral_Status__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Override_Recruitment_Status__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Override_Status_Updated_By__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
+            'Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c',
             'Study_Site__r.Site__r.Name',
             'Study_Site__r.Principal_Investigator__r.Name',
@@ -75,6 +77,10 @@ public without sharing class ReferringClinicsFilter implements SearchFilter{
             'HCP_Contact__r.Full_Name__c'
             //'Study_Site__r.Name',
             //'Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c'
+    };
+
+    private static final List<String> COMMUNITIES_WITHOUT_REFERRING_CLINICS = new List<String>{
+            CommunityTemplateService.TEMPLATE_JANSSEN
     };
 
     public String getQueryType(){
@@ -179,6 +185,7 @@ public without sharing class ReferringClinicsFilter implements SearchFilter{
             List<Study_Site__c> studySites = StudySiteService.getStudySitesForPI();
             Set<Id> studyIds = new Set<Id>();
             for (Study_Site__c site : studySites) {
+                if (COMMUNITIES_WITHOUT_REFERRING_CLINICS.contains(site.Clinical_Trial_Profile__r.CommunityTemplate__c)) continue;
                 if (!studyIds.contains(site.Clinical_Trial_Profile__c)) {
                     studyPickList.add(new LabelValueItem(site.Clinical_Trial_Profile__r.Study_Code_Name__c, site.Clinical_Trial_Profile__c));
                     studyIds.add(site.Clinical_Trial_Profile__c);

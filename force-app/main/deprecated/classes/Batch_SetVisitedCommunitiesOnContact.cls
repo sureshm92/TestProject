@@ -14,7 +14,7 @@ public with sharing class Batch_SetVisitedCommunitiesOnContact implements Databa
                 WHERE IsActive = TRUE
                 AND Contact.Visited_Communities__c = NULL
                 AND LastLoginDate != NULL
-                AND Contact.userCommunityMode__c = :CommunityModeService.USER_MODE_PARTICIPANT
+                AND (Contact.userCommunityMode__c = :CommunityModeService.USER_MODE_PARTICIPANT  OR Contact.userCommunityMode__c = :CommunityModeService.USER_MODE_PI)
         ]);
     }
 

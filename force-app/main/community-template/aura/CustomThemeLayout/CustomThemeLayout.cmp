@@ -19,6 +19,7 @@
     <aura:attribute name="isMobileApp" type="Boolean" default="false"/>
     <aura:attribute name="isArabic" type="Boolean"/>
     <aura:attribute name="template" type="String"/>
+    <aura:attribute name="hasMessage" type="Boolean" access="public"/>
 
     <aura:attribute name="allModes" type="Object[]"/>
     <aura:attribute name="currentMode" type="Object"/>
@@ -47,7 +48,7 @@
                         </div>
 
                         <div class="navigation-block">
-                            <c:CommunityNavigation aura:id="navigation" mode="{!v.currentMode.userMode}" currentPage="{!v.currentPage}"/>
+                            <c:CommunityNavigation aura:id="navigation" mode="{!v.currentMode.userMode}" currentPage="{!v.currentPage}" communityTemplate="{!v.template}" hasMessage="{!v.hasMessage}"/>
                         </div>
                         <div class="right-block" data-gtm="community_mode_switcher">
                             <aura:if isTrue="{!v.currentMode.userMode != 'CC'}">
@@ -65,10 +66,8 @@
                             </aura:if>
                                <!-- Ending of REF-1343 -->
                             <c:CommunityModeSwitcherMenu currentMode="{!v.currentMode}" onModeChange="{!c.doRefresh}"/>
-                            <aura:if isTrue="{!v.currentMode.userMode == 'PI'}">
-                                <div style="height:100%" title="Incentive Points">    
-                                    <c:navIncentiveCounter onnavigatetoincentives="{!c.doNavigate}" currentPage="{!v.currentPage}"/>
-                                </div>
+                            <aura:if isTrue="{!and(v.currentMode.userMode == 'PI',v.template != $Label.c.Janssen_Community_Template_Name )}">
+                                <c:navIncentiveCounter onnavigatetoincentives="{!c.doNavigate}" currentPage="{!v.currentPage}"/>
                             </aura:if>
                         </div>
                     </div>
@@ -81,7 +80,8 @@
                     <c:CommunityNavigationMobile aura:id="navigationMobile"
                                                  showSideMenu="{!v.showSideMenu}"
                                                  mode="{!v.currentMode.userMode}"
-                                                 class="{!if(v.availableModes.length > 1, ' multi-mode', '')}"/>
+                                                 hasMessage="{!v.hasMessage}"
+                                                 class="{!if(v.availableModes.length > 1, ' multi-mode', '')}" communityTemplate="{!v.template}"/>
                 </aura:if>
                 {!v.body}
             </div>

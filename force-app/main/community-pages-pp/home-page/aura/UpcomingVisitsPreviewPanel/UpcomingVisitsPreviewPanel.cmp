@@ -26,7 +26,7 @@
                                         {!visitWrapper.visit.Visit__r.Patient_Portal_Name__c}</p></td>
                                 <td><p class="visit-schedule slds-hyphenate">
                                         {!visitWrapper.visit.Visit__r.Visit_Schedule__c}</p></td>
-                                <td style="max-width: 130px">
+                                <td class="visitIcons">
                                     <c:RRIconSplitter class="svl-icon" icons="{!visitWrapper.iconDetails}"/>
                                 </td>
                             </tr>

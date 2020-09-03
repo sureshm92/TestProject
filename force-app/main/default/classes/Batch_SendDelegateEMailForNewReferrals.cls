@@ -46,10 +46,9 @@ public class Batch_SendDelegateEMailForNewReferrals extends Batch_ScheduledAbstr
             system.debug('userlocaltime'+userlocaltime);
             if(((userlocaltime.hourgmt() == 7 && userlocaltime.minutegmt()<45)||userlocaltime.hourgmt()==6) 
                && ((userlocaltime.hourgmt()+1 == 7 && userlocaltime.minutegmt()>45)||userlocaltime.hourgmt()+1 == 8) 
-               && u.TimeOfRun__c != 'AM'){//  && !finalDelegateIds.contains(u.Id)){// && validContacts.contains(u.ContactId)){
-                //finalPIs.add(u);   
+               && u.TimeOfRun__c != String.valueOf(lastbatchstart).subStringBefore(' ')){
                 
-                u.TimeOfRun__c = 'AM';
+                //u.TimeOfRun__c = 'AM';
                 DateTime currentTime = DateTime.now();
                 offset = tz.getOffset(currentTime);
                 DateTime currentLocalTime = currentTime.addSeconds(offset/1000);                
@@ -67,32 +66,8 @@ public class Batch_SendDelegateEMailForNewReferrals extends Batch_ScheduledAbstr
                 }
                    system.debug('timeToSendMail'+timeToSendMail);
                 u.Time_To_Send_Mail__c = timeToSendMail;
-                isQualified = true;
-                qualifiedUsers.add(u);
-                finalDelegateIds.add(u.Id);
-            }else if(((userlocaltime.hourgmt() == 12 && userlocaltime.minute()<45)||userlocaltime.hourgmt()==11) 
-                     && ((userlocaltime.hourgmt()+1 == 12 && userlocaltime.minute()>45)||userlocaltime.hourgmt()+1 == 13) 
-                     && u.TimeOfRun__c != 'PM'){//  && !finalDelegateIds.contains(u.Id)){// && validContacts.contains(u.ContactId)){
-                //finalPIs.add(u);
-                
-                u.TimeOfRun__c = 'PM';
-                DateTime currentTime = DateTime.now();
-                offset = tz.getOffset(currentTime);
-                DateTime currentLocalTime = currentTime.addSeconds(offset/1000);                   
-                if((currentLocalTime.hourgmt() == 12 && currentLocalTime.minute()<40)|| currentLocalTime.hourgmt()<12){
-                    hours = 12-currentLocalTime.hourgmt();
-                    if(hours == 0){
-                        minutes = 45 - currentLocalTime.minute();
-                        timeToSendMail = currentTime.addMinutes(minutes);
-                    }else{
-                        minutes = 45 + 60 - currentLocalTime.minute();
-                        timeToSendMail = currentTime.addMinutes(minutes);
-                    }
-                }else{
-                    timeToSendMail = currentTime.addMinutes(2);
-                }
-                u.Time_To_Send_Mail__c = timeToSendMail;
-                isQualified = true;
+                u.TimeOfRun__c = String.valueOf(lastbatchstart).subStringBefore(' '); 
+                   isQualified = true;
                 qualifiedUsers.add(u);
                 finalDelegateIds.add(u.Id);
             }

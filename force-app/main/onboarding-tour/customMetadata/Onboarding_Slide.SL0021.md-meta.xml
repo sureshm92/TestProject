@@ -7,6 +7,10 @@
         <value xsi:type="xsd:string">OT_DPI_S5_T</value>
     </values>
     <values>
+        <field>Disclaimer__c</field>
+        <value xsi:type="xsd:string">OT_Disclaimer_T</value>
+    </values>
+    <values>
         <field>Multimode_Only__c</field>
         <value xsi:type="xsd:boolean">false</value>
     </values>
@@ -16,7 +20,7 @@
     </values>
     <values>
         <field>Sub_Title__c</field>
-        <value xsi:type="xsd:string"></value>
+         <value xsi:type="xsd:string"></value>
     </values>
     <values>
         <field>Title__c</field>

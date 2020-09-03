@@ -131,6 +131,18 @@ public without sharing class VisitResultSharingService {
                 getResultTypeSharingsByType(getCTP(pe.Clinical_Trial_Profile__c));
 
         String mailingCountryCode = pe.Participant__r.Mailing_Country_Code__c;
+        //Create Set notAccessResultType which must be independent of Visit_Result__c
+        for (Visit_Result_Type_Sharing__c resultTypeSharing : visitResultTypeSharingByType.values()){
+            if (!(resultTypeSharing.Sharing_Countries__c == 'All' ||
+                    (resultTypeSharing.Include_Countries__c &&
+                            resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode)) ||
+                    (!resultTypeSharing.Include_Countries__c &&
+                            !resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode))
+                    )) {
+                notAccessResultType.add(resultTypeSharing.Type__c);
+            }
+        }
+        //Populate filteredResultsByType with patient accessible Visit_Result__c based on country
         for (Patient_Visit__c patientVisit : patientVisits) {
             Map<String, Visit_Result__c> filteredResultsByType = new Map<String, Visit_Result__c>();
             if (!patientVisit.Visit_Results__r.isEmpty()) {
@@ -144,9 +156,9 @@ public without sharing class VisitResultSharingService {
                                         !resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode))
                                 ) {
                             filteredResultsByType.put(result.Result_Type__c, result);
-                        } else {
-                            notAccessResultType.add(result.Result_Type__c);
-                        }
+                        } //else {
+                            //notAccessResultType.add(result.Result_Type__c);
+                        //}
                     }
                 }
             }

@@ -16,7 +16,8 @@
         component.set('v.studySiteId', studySiteId);
         if (params.callback) component.set('v.callback', $A.getCallback(params.callback));
         helper.clearFields(component, event, helper);
-        
+        helper.checkCommunity(component, event, helper);
+
         communityService.executeAction(component, 'getParticipantsStatuses', {
             studySiteId : studySiteId
         }, function (returnValue) {
@@ -26,7 +27,7 @@
     },
     
     doCancel: function (component, event, helper) {
-        
+
         component.set('v.isEmail',false);
         component.set('v.isPhone',false);
         component.set('v.isSMS',false);
@@ -34,11 +35,7 @@
         helper.clearFields(component, event, helper);
         component.find('uploadParticipantsDialog').cancel();
     },
-    
-    resetCreateUsers: function (component, event, helper) {
-        if(component.get('v.doNotContactParticipants')) component.set('v.createUsers', false);
-    },
-    
+
     doClearFile: function (component, event, helper) {
         component.set("v.FileList", []);
         component.set("v.fullFileName", '');
@@ -53,7 +50,7 @@
                                  component.get('v.fileName'),
                                  component.get('v.studySiteId'),
                                  component.get('v.selectedStatus'),
-                                 component.get('v.createUsers'),
+                                 component.get('v.createUsers') && component.get('v.communityWithPPInv'),
                                  component.get('v.doContact'),
                                  component.get('v.isEmail'),
                                  component.get('v.isPhone'),

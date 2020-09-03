@@ -5,11 +5,11 @@
     doAfterScriptsLoaded: function (component, event, helper) {
         svg4everybody();
     },
-
     doInit: function (component, event, helper) {
         var showTour = communityService.showTourOnLogin();
         component.set('v.showTour', showTour);
         var userMode = component.get('v.userMode');
+        
         communityService.executeAction(component, 'getInitData', {
             userMode: userMode
         }, function (returnValue) {
@@ -17,7 +17,18 @@
             component.set('v.videoLink', initData.videoLink);
             component.set('v.userManual', initData.userManual);
             component.set('v.quickReference', initData.quickReference);
+
         });
+        let isMobileApp = communityService.isCurrentSessionMobileApp();
+        let pdfName = $A.get("$Label.c.Participant_quick_reference");
+        component.set("v.isMobApp",isMobileApp);
+        communityService.executeAction(component, 'getPdfDonload', {
+            titleName: pdfName
+        }, function (returnValue) {
+            component.set("v.pdfUrl", returnValue);
+        }, null, function () {
+            //component.set('v.showSpinner', false);
+        })
     },
 
     showVideo: function (component, event, helper) {
@@ -35,16 +46,21 @@
     },
 
     OpenQuickReference: function (component, event, helper) {
-        var quickReference = component.get('v.quickReference');
-        var navUrl = $A.get('$Resource.' + quickReference);
-        //var urlString = window.location.href;
-        //var baseURL = urlString.substring(0, urlString.indexOf("/s/help"));
-        //var finalUrl = baseURL + navUrl;
-        var urlEvent = $A.get("e.force:navigateToURL");
-        urlEvent.setParams({
-            "url": window.location.origin + navUrl
-        });
-        urlEvent.fire();
+        if(component.get("v.isMobApp")){
+            var recId = component.get("v.pdfUrl");
+            var urls = window.location.origin+'/sfc/servlet.shepherd/document/download/'+recId;            
+            let urlEvent = $A.get("e.force:navigateToURL");
+            urlEvent.setParams({url: urls});
+            urlEvent.fire();
+        }else{
+            var quickReference = component.get('v.quickReference');
+            var navUrl = $A.get('$Resource.' + quickReference);
+            var urlEvent = $A.get("e.force:navigateToURL");
+            urlEvent.setParams({
+                "url": window.location.origin + navUrl
+            });
+            urlEvent.fire();
+        }        
     },
 
     OpenGuide: function (component, event, helper) {

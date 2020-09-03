@@ -39,7 +39,8 @@
     <aura:attribute name="isPhone" type="Boolean" default="false"/>
     <aura:attribute name="isSMS" type="Boolean" default="false"/>
     <aura:attribute name="doContact" type="Boolean" default="false"/>
-    
+    <aura:attribute name="isIQVIA" type="Boolean" default="false"/>
+
     <!--<aura:attribute name="isDetailsChanged" type="Boolean" default="false"/>-->
     <aura:attribute name="isStatusChanged" type="Boolean" default="false"/>
     <!-- Event handler -->
@@ -66,7 +67,7 @@
     <c:Popup aura:id="dialog" title="{!v.popUpTitle}" size="large" showScroll="true" showHeader="true"
              showFooter="true">
         
-        <aura:if isTrue="{!!v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp;
+        <aura:if isTrue="{!v.isIQVIA &amp;&amp; !v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp;
                          !v.pe.Participant__r.Marketing_Flag__c &amp;&amp; v.pe.Participant__r.Email__c &amp;&amp;
                          v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &amp;&amp; v.init &amp;&amp; v.pe.Permit_IQVIA_to_contact_about_study__c}">
             <div class="invite-patient-container slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap">

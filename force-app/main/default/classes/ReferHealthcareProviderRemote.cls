@@ -430,7 +430,7 @@ global without sharing class ReferHealthcareProviderRemote {
                 Set<Id> studyIds = new Set<Id>();
                 for (Study_Site__c site : studySites) {
                     if (!studyIds.contains(site.Id) && StudySiteService.STATUS_GROUP_ACCEPTED.contains(site.Override_PI_Referral_Status__c) &&
-                            !hcpEnrollmentByStudySiteId.containsKey(site.Id)) {
+                            !hcpEnrollmentByStudySiteId.containsKey(site.Id) && site.Clinical_Trial_Profile__r.CommunityTemplate__c != CommunityTemplateService.TEMPLATE_JANSSEN) {
                         studySitesForInvitation.add(site);
                         studyIds.add(site.Id);
                     }
@@ -458,6 +458,7 @@ global without sharing class ReferHealthcareProviderRemote {
         Boolean isNewUser = false;
         List<HCP_Enrollment__c> hcpes = new List<HCP_Enrollment__c>();
         List<Study_Site__c> studySitesToInvite = new List<Study_Site__c>();
+        Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
 
         List<Contact> cntList = new List<Contact>();
         if (!String.isBlank(hcpContactId)) {
@@ -521,12 +522,6 @@ global without sharing class ReferHealthcareProviderRemote {
         List<User> usrs = CommunityService.getCommunityUsersByContactIds(new Set<Id>{
                 cntList[0].Id
         });
-        if (usrs.isEmpty()) {
-            isNewUser = true;
-            ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id>{
-                    cntList[0].Id
-            });
-        }
         if (cntList[0].userCommunytyType__c == null) {
             cntList[0].userCommunytyType__c = CommunityService.USER_MODE_HCP;
         } else if (!cntList[0].userCommunytyType__c.contains(CommunityService.USER_MODE_HCP)) {
@@ -536,6 +531,14 @@ global without sharing class ReferHealthcareProviderRemote {
             cntList[0].userCommunityMode__c = CommunityService.USER_MODE_HCP;
         }
         update cntList[0];
+
+        if (usrs.isEmpty()) {
+            isNewUser = true;
+            ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id>{
+                    cntList[0].Id
+            });
+        }
+
         for (Study_Site__c stdSite : studySitesToInvite) {
             hcpes.add(new HCP_Enrollment__c(
                     HCP_Contact__c = cntList[0].Id,
@@ -546,6 +549,11 @@ global without sharing class ReferHealthcareProviderRemote {
         }
         if (hp != null) {
             if (!isNewUser) {
+                String permissionSetName = UserContext.getCurrentCommunityTemplate().permissionSet;
+                actionAssignContactPermissions.addPermission(usrs[0].ContactId, permissionSetName);
+                if (!actionAssignContactPermissions.isEmpty()) {
+                    ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+                }
                 hcpes[0].Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
                 insert hcpes[0];
                 hcpes[0].Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
@@ -567,6 +575,11 @@ global without sharing class ReferHealthcareProviderRemote {
                 insert new PI_RP_Relationship__c(PI_Contact__c = studySitesToInvite[0].Principal_Investigator__c, RP_Contact__c = cntList[0].Id);
             }
             if (!isNewUser) {
+                String permissionSetName = UserContext.getCurrentCommunityTemplate().permissionSet;
+                actionAssignContactPermissions.addPermission(usrs[0].ContactId, permissionSetName);
+                if (!actionAssignContactPermissions.isEmpty()) {
+                    ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+                }
                 if (!hcpes.isEmpty()) {
                     insert hcpes;
                     sendNotificationForRPInvite(hcpes[0].Id, cntList[0].Id, piIds);

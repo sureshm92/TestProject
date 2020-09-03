@@ -124,6 +124,13 @@ public without sharing class HCPEnrollmentTriggerHandler {
             if (hcpe.Status__c == HCPEnrollmentService.HCP_S_INVITATION_SENT && hcpe.HCP_Contact__c != null &&
                     ((oldMap == null) || (oldMap != null && hcpe.Status__c != oldMap.get(hcpe.Id).Status__c))) {
                 if (contactIdsWithCreatedUser.contains(hcpe.HCP_Contact__c)) {
+                    Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
+                    String permissionSetName = CommunityTemplateService.getTemplate(hcpe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
+                    actionAssignContactPermissions.addPermission(hcpe.HCP_Contact__c, permissionSetName);
+                    if (!actionAssignContactPermissions.isEmpty()) {
+                        ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+                    }
+
                     if (hpsByHCPE.get(hcpe.Id) != null || alreadyCreatedContactsMap.containsKey(hcpe.HCP_Contact__c)) {
                         notificationType = NotificationCatalog.MESSAGE_TO_HCP_NEW_STUDY_BY_PI_TYPE;
                     }

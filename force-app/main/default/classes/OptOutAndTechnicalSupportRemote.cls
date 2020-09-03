@@ -10,9 +10,9 @@ public class OptOutAndTechnicalSupportRemote{
         
     }
     @AuraEnabled
-    public static void createSupportCases(String strOptOutValue,String strTechSupportValue,String strContactId){
+    public static void createSupportCases(List<String> optOutValueList,List<String> techSupportValueList,String strContactId){
         try{
-            OptOutAndTechnicalSupport.createSupportCases(strOptOutValue,strTechSupportValue,strContactId);
+            OptOutAndTechnicalSupport.createSupportCases(optOutValueList,techSupportValueList,strContactId);
         }
         catch(Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());

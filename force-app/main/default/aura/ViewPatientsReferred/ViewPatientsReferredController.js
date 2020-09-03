@@ -14,7 +14,8 @@
             trialId: trialId,
             siteId: siteId,
             userMode: communityService.getUserMode(),
-            delegateId: communityService.getDelegateId()
+            delegateId: communityService.getDelegateId(),
+            sponsorName: communityService.getCurrentCommunityTemplateName()
         }, function (returnValue) {
             var initData = JSON.parse(returnValue);
             component.set('v.skipUpdate', true);

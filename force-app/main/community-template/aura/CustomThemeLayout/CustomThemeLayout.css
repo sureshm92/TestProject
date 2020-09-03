@@ -393,18 +393,11 @@
     .THIS .sdv-top-bar {
         z-index: 0 !important;
     }
-    
-    
+
+
 }
 
 @media screen and (max-width: 550px){
-   /* .THIS .rr-header-content.multi-mode{
-        height: 90px;
-    }
-
-    .THIS .rr-header-margin.multi-mode{
-        height: 90px;
-    } */
     
     .THIS .slvi-top-container-hcp .slds-wrap div:last-child {
         display: flex;
@@ -420,6 +413,7 @@
     .THIS .sdv-top-bar {
         z-index: 0 !important;
     }
+
 }
 
 @media screen and (max-width: 480px) {

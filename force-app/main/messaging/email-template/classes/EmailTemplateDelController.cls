@@ -5,20 +5,38 @@ global without sharing class EmailTemplateDelController {
 
     global Id recipId { get; set; }
     global String contactLanguage { get; set; }
-    global String commTemplateStr{get;set;}    
+    global String commTemplateStr { get ;set; }
     
     
     public List<DelegateLevelWrapper> getPiDelegateLevels() {
-        List<Site_Staff__c> siteStaffs = [
-                SELECT toLabel(Delegate_Level__c),
-                        Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
-                        Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                        Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c,
-                        Study_Site__r.Principal_Investigator__r.Full_Name__c,
-                        Study_Site__r.Name
-                FROM Site_Staff__c
-                WHERE Site_Contact__c = :EmailTemplateProviderService.getProvider().getRecipientId()
-        ];
+        List<Site_Staff__c> siteStaffs;
+        if(commTemplateStr == CommunityTemplateService.TEMPLATE_JANSSEN){
+            siteStaffs = [
+                    SELECT toLabel(Delegate_Level__c),
+                            Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                            Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
+                            Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                            Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c,
+                            Study_Site__r.Principal_Investigator__r.Full_Name__c,
+                            Study_Site__r.Name
+                    FROM Site_Staff__c
+                    WHERE Site_Contact__c = :EmailTemplateProviderService.getProvider().getRecipientId()
+                    AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = :commTemplateStr
+            ];
+        } else{
+            siteStaffs = [
+                    SELECT toLabel(Delegate_Level__c),
+                            Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                            Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
+                            Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                            Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c,
+                            Study_Site__r.Principal_Investigator__r.Full_Name__c,
+                            Study_Site__r.Name
+                    FROM Site_Staff__c
+                    WHERE Site_Contact__c = :EmailTemplateProviderService.getProvider().getRecipientId()
+                    AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != :CommunityTemplateService.TEMPLATE_JANSSEN
+            ];
+        }
         TranslateHelper.translate(siteStaffs, EmailTemplateProviderService.getProvider().getUserLanguage());
 
         List<DelegateLevelWrapper> piDelegateLevels = new List<DelegateLevelWrapper>();

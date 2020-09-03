@@ -141,7 +141,7 @@ public without sharing class RRChangePasswordController {
         isPaswordsEquals = true;
 
         tcText = '';
-        Terms_And_Conditions__c portalTC = TermsAndConditions.getPortalTC();
+        Terms_And_Conditions__c portalTC = TermsAndConditions.getPortalTC(false);
         if(portalTC != null){
             tcText = portalTC.T_C_Text__c;
             tcId = portalTC.Id;

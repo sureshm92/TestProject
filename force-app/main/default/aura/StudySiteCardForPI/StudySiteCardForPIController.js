@@ -6,7 +6,7 @@
     doInit: function (component, event, helper) {
         var actions = component.get("v.siteWrapper").actions;
         actions.forEach(function(action, index) {
-            if ('addPatient' == action.id) {
+            if (action != null && 'addPatient' == action.id) {
                 console.log(action);
                 component.set("v.addParticipantInfo", action);
             }

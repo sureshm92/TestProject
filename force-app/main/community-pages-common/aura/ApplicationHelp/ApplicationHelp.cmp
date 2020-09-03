@@ -3,9 +3,11 @@
  -->
 
 <aura:component description="ApplicationHelp" controller="ApplicationHelpRemote">
-    <ltng:require scripts="{!$Resource.svg4everybody}" afterScriptsLoaded="{!c.doAfterScriptsLoaded}"/>
-
+    <ltng:require scripts="{!join(',',$Resource.rr_community_js,$Resource.svg4everybody)}" afterScriptsLoaded="{!c.doAfterScriptsLoaded}"/>
+    
     <!-- attributes: -->
+    <aura:attribute name="pdfUrl" type="String"/>
+    <aura:attribute name="isMobApp" type="Boolean"/>
     <aura:attribute name="userMode" type="String" required="true"/>
     <aura:attribute name="videoLink" type="String"  access="private" default=""/>
     <aura:attribute name="userManual" type="String" access="private" default=""/>

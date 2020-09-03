@@ -37,4 +37,8 @@ public without sharing class IncentiveProgramRemote {
             return (IncentiveProgramService.IncentivePlanResultWrapper) AuraHelper.throwException(e);
         }
     }
+    @AuraEnabled
+    public static Boolean getIncentivesPageEnabled(){
+        return UserContext.getCurrentCommunityTemplate().templateName != CommunityTemplateService.TEMPLATE_JANSSEN;
+    }
 }

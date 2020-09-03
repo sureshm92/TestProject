@@ -163,7 +163,7 @@ public without sharing class HCPEnrollmentService {
             Map<String, Study_Site__c> ssMap = new Map<String, Study_Site__c>();
             Set<Id> trailIds = new Set<Id>();
             for(Study_Site__c ss : ssList){
-                if(StudySiteService.STATUS_GROUP_ACCEPTED.contains(ss.Override_PI_Referral_Status__c)) {
+                if(StudySiteService.STATUS_GROUP_ACCEPTED.contains(ss.Override_PI_Referral_Status__c) && ss.Clinical_Trial_Profile__r.CommunityTemplate__c != CommunityTemplateService.TEMPLATE_JANSSEN) {
                     trailIds.add(ss.Clinical_Trial_Profile__c);
                     ssMap.put(ss.Id, ss);
                 }
@@ -241,6 +241,8 @@ public without sharing class HCPEnrollmentService {
             'Study_Site__r.Clinical_Trial_Profile__r.Override_Status_Updated_By__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
+            'Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c',
+            'Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c',
             'Study_Site__r.Site__r.Name',
             'Study_Site__r.Principal_Investigator__r.Name',

@@ -9,6 +9,7 @@
             let ssId = communityService.getUrlParameter('ssId');
             
             component.find('spinner').show();
+            helper.checkCommunity(component, event, helper);
             communityService.executeAction(component, 'getInitData', {
                 ssId: ssId
             }, function (formData) {
@@ -100,11 +101,6 @@
     
     doCreateUserInv: function (component) {
         component.set('v.createUsers', !component.get('v.createUsers'));   
-    },
-    
-    doNotContact: function (component) {
-        component.set('v.doNotContact', !component.get('v.doNotContact'));
-        if (component.get('v.doNotContact')) component.set('v.createUsers', false);
     },
     
     doContact : function (component){

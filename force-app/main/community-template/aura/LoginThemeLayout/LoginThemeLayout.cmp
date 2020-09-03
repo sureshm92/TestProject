@@ -8,6 +8,7 @@
     <!-- attributes: -->
     <aura:attribute name="title" type="String"/>
     <aura:attribute name="subTitle" type="String"/>
+    <aura:attribute name="communityType" type="String"/>
     <aura:attribute name="translatedTitle" type="String"/>
     <aura:attribute name="translatedSubTitle" type="String"/>
 
@@ -27,6 +28,11 @@
                         <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-2">
                             <img src="{!$Resource.PH_logo + '/pp_logo_subt.svg'}" class="main-logo"/>
                         </div>
+                        <aura:if isTrue="{!v.communityType == 'Janssen'}">
+                            <div class="slds-col slds-size--1-of-1">
+                                <span class="main-logo janssen-logo">{!$Label.c.Janssen_Community_Login_Page}</span>
+                            </div>
+                        </aura:if>
                     </div>
                 </div>
                 <div class="body-content">
