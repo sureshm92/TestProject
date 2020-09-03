@@ -8,6 +8,10 @@
         .ci-hidden{
             display: none;
         }
+         .ci-panel{
+        	max-width: 1127px;
+        }
+
     </style>
 
     <div class="ci-bottom-aria ci-hidden">
