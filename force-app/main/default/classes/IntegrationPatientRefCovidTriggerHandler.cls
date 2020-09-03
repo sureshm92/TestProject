@@ -171,7 +171,10 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler
                     }
                 }
                 if(!delegateParticipants.isEmpty()){
-                    insert delegateParticipants;
+                    TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.CreateContactsForParticipantsHandler.class);
+                    TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class);
+                    TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.CheckBecomesAdultHandler.class);
+                     insert delegateParticipants;
                 }                
                 if (!ptDelegateRefs.isEmpty()) {
                     insert ptDelegateRefs;
