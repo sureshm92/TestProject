@@ -62,7 +62,7 @@
                 </div>
                 <div class="{!v.isRTLLanguage?'NavComponentRTL':'NavComponent'}">
                     <aura:if isTrue="{!(v.compId=='1')}">
-                        <c:AccountSettings_EditProfile userMode="{!v.userMode}"></c:AccountSettings_EditProfile>
+                        <c:AccountSettings_EditProfile userMode="{!v.userMode}" isRTL="{!v.isRTLLanguage}"></c:AccountSettings_EditProfile>
                     </aura:if>
                     <aura:if isTrue="{!(v.compId=='2')}">
                         <c:ChangePassword userMode="{!v.userMode}" isRTL="{!v.isRTLLanguage}"/>
