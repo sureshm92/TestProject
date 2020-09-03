@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="ParticipantCard">
+ <aura:component description="ParticipantCard">
 
     <!-- attributes: -->
     <aura:attribute name="participantItem" type="ParticipantItem"/>
@@ -16,11 +16,12 @@
 
     <!-- component body: -->
     <aura:if isTrue="{!v.participantItem.showParticipationSteps}">
+       
         <c:PSECard pe="{!v.participantItem.pe}" steps="{!v.participantItem.participationFlowSteps}" parent="{!v.parent}"
                    userMode="{!v.userMode}" peStatusesPathList="{!v.participantItem.peStatusesPathList}"
                    peStatusStateMap="{!v.participantItem.peStatusStateMap}" actions="{!v.actions}" isInvited="{!v.isInvited}"
                    showVisits="{!v.participantItem.showVisits}"/>
-        <aura:set attribute="else">
+        <aura:set attribute="else">            
             <c:ViewPatientItem pe="{!v.participantItem.pe}"
                                actions="{!v.actions}"
                                pathItems="{!v.participantItem.pathItems}"

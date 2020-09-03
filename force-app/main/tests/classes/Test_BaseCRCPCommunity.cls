@@ -349,10 +349,10 @@ private class Test_BaseCRCPCommunity {
         Account studySiteAccount = [SELECT Id FROM Account WHERE Name = 'Study Site Account'];
         Test.startTest();
         System.runAs(testData.piUser) {
-            String vpResultJSON = ViewPatientsRemote.getInitData(testData.ctp.Id, testData.ss.Id, CommunityService.USER_MODE_PI, null, '');
+            String vpResultJSON = ViewPatientsRemote.getInitData(testData.ctp.Id, testData.ss.Id, CommunityService.USER_MODE_PI, null);
             ViewPatientsRemote.InitData vpResult = (ViewPatientsRemote.InitData) JSON.deserialize(vpResultJSON, ViewPatientsRemote.InitData.class);
-            ViewPatientsRemote.getInitDataForPatientProfile(testData.participant.Id, CommunityService.USER_MODE_PI, null, null);
-            ViewPatientsRemote.getRecords(JSON.serialize(vpResult.peFilter), JSON.serialize(vpResult.paginationData), CommunityService.USER_MODE_PI, 'site', null, false, CommunityTemplateService.TEMPLATE_DEFAULT);
+            ViewPatientsRemote.getInitDataForPatientProfile(testData.participant.Id, CommunityService.USER_MODE_PI, null);
+            ViewPatientsRemote.getRecords(JSON.serialize(vpResult.peFilter), JSON.serialize(vpResult.paginationData), CommunityService.USER_MODE_PI, 'site', null, false);
             StudyClinicDashboardRemote.getInitData(testData.ctp.Id, studySiteAccount.Id);
         }
         Test.stopTest();
@@ -507,7 +507,7 @@ private class Test_BaseCRCPCommunity {
             ReferringRemote.saveParticipant(testData.hcpEnrollment.Id, JSON.serialize(refInitData.participantEnrollment), JSON.serialize(participant2), null, null, null);
         }
         Test.stopTest();
-        String vpResultJSON = ViewPatientsRemote.getInitData(testData.ctp.Id, testData.ss.Id, CommunityService.USER_MODE_HCP, null, '');
+        String vpResultJSON = ViewPatientsRemote.getInitData(testData.ctp.Id, testData.ss.Id, CommunityService.USER_MODE_HCP, null);
         ViewPatientsRemote.InitData vpResult = (ViewPatientsRemote.InitData) JSON.deserialize(vpResultJSON, ViewPatientsRemote.InitData.class);
     }
     
@@ -517,7 +517,7 @@ private class Test_BaseCRCPCommunity {
         TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
         Test.startTest();
         System.runAs(testData.hcpUser) {
-            ViewPatientsRemote.getInitDataForPatientProfile(testData.participant.Id, CommunityService.USER_MODE_HCP, null, null);
+            ViewPatientsRemote.getInitDataForPatientProfile(testData.participant.Id, CommunityService.USER_MODE_HCP, null);
             String mrrLogResStr = MedicalRecordReviewLogController.getParticipantDetail(testData.ctp.Id, CommunityService.USER_MODE_HCP, false, null);
             mrrLogResStr = MedicalRecordReviewLogController.getParticipantDetail(null, CommunityService.USER_MODE_HCP, false,null);
             MedicalRecordReviewLogController.ParticipantDetail participantDetail = (MedicalRecordReviewLogController.ParticipantDetail) JSON.deserialize(mrrLogResStr, MedicalRecordReviewLogController.ParticipantDetail.class);

@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="ViewPatientItem" controller="ReferralProfileRemote" extends="c:CommunityContext">
+ <aura:component description="ViewPatientItem" controller="ReferralProfileRemote" extends="c:CommunityContext">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"/>
 
     <!-- attributes: -->
@@ -29,12 +29,15 @@
 
     <!-- component body: -->
     <div class="{!'rr-white-panel padding ' + if(v.isArabic, ' rtl', '')}" style="position: relative">
-        <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
+        <!--c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/-->
         <aura:if isTrue="{!empty(v.pe)}">
             <div style="height: 250px"></div>
         </aura:if>
-        <aura:if isTrue="{!!empty(v.pe)}">
-            <c:ParticipantCardHeader userMode="{!v.userMode}" pe="{!v.pe}" isReferral="false" isInvited="{!v.isInvited}"/>
+        <aura:if isTrue="{!!empty(v.pe)}">  
+            <div class="panel-heading"></div>          
+            <a href="javascript:void(0);" class="slds-text-link_reset" onclick="{!c.onclick}" >                    
+                <c:ParticipantCardHeader userMode="{!v.userMode}" pe="{!v.pe}" isReferral="false" isInvited="{!v.isInvited}"/>
+            </a>
             <c:ParticipantCardIsEmansipated pe="{!v.pe}" parent="{!v.parent}" userMode="{!v.userMode}" actions="{!v.actions}"/>
             <c:ParticipantCardFields userMode="{!v.userMode}" isInvited="{!v.isInvited}" pe="{!v.pe}" minorDelegate="{!v.participantDelegate}" showParticipationSteps="false"/>
             <aura:if isTrue="{!(v.userMode == 'Participant' || (v.showPath &amp;&amp; v.userMode == 'PI') || (v.userMode == 'HCP' &amp;&amp; v.pe.Show_Referring_Provider__c == true &amp;&amp; v.showPath &amp;&amp;
@@ -64,13 +67,13 @@
 					</div>
                 </aura:if>
 
-                <aura:if
-                        isTrue="{!!v.showPath}">
+                <aura:if isTrue="{!!v.showPath}">
                     <div>
                         <c:ParticipantStatus pEnrollment="{!v.pe}"/>
                     </div>
                 </aura:if>
             </aura:if>
+       
         </aura:if>
     </div>
 </aura:component>

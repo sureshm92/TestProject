@@ -3,6 +3,12 @@
  */
 ({
     doInit: function (component, event, helper) {
+        /*(if (component.get('v.pe')) {
+            helper.preparePathItems(component, event);
+        }*/
+    },
+
+    onclick : function(component, event, helper){
         if (component.get('v.pe')) {
             helper.preparePathItems(component, event);
         }

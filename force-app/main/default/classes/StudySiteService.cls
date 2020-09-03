@@ -639,7 +639,8 @@ public without sharing class StudySiteService {
 
     public static List<Study_Site__c> filterStudySitesWithPE(List<Study_Site__c> studySites, String activePE, String mode, String delegateId, String additionalFilters){
         Set<Id> ssIds = new Set<Id>();
-        for (Participant_Enrollment__c pe : ParticipantEnrollmentService.getParticipantEnrollmentsActiveFilter(activePE, mode, delegateId, additionalFilters)){
+        //for (Participant_Enrollment__c pe : ParticipantEnrollmentService.getParticipantEnrollmentsActiveFilter(activePE, mode, delegateId, additionalFilters)){
+        for (Participant_Enrollment__c pe : ParticipantEnrollmentService.getParticipantEnrollmentsActiveFilterOptimized(activePE, mode, delegateId, additionalFilters, ParticipantEnrollmentService.ACTIVE_PE_FIELDS_FOR_CTP_SS)){
             ssIds.add(pe.Study_Site__c);
         }
         return (List<Study_Site__c>)SObjectHelper.filterSObjectsByIds(studySites, ssIds);
