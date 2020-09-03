@@ -3,6 +3,14 @@
  */
 ({
     initialize: function(component, event, helper) {
+        var isMobileApp =  document.referrer;
+        console.log('isMobileApp'+isMobileApp);
+        if(isMobileApp.includes("startURL")){
+                  component.set("v.isMobileApp",true);
+        }
+        else{
+               component.set("v.isMobileApp",false);
+        }
         $A.get("e.siteforce:registerQueryEventMap").setParams({"qsToEvent" : helper.qsToEventMap}).fire();
         $A.get("e.siteforce:registerQueryEventMap").setParams({"qsToEvent" : helper.qsToEventMap2}).fire();
         component.set('v.isUsernamePasswordEnabled', helper.getIsUsernamePasswordEnabled(component, event, helper));
