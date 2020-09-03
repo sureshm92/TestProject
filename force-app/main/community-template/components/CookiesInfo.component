@@ -16,7 +16,7 @@
 
     <div class="ci-bottom-aria ci-hidden">
         <div class="ci-panel">
-            <span class="ci-content-container">{!$Label.Cookies_Info_Text_First_Logon}</span>
+            <span class="ci-content-container">{!$Label.Cookies_Info_Text_Registration_Page}</span>
         </div>
         <div class="ci-icon" onclick="closeCookiesInfo()">
             <svg aria-hidden="true">
