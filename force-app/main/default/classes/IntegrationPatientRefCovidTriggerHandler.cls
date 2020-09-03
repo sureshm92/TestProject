@@ -171,7 +171,7 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler
                     }
                 }
                 if(!delegateParticipants.isEmpty()){
-                    TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.CreateContactsForParticipantsHandler.class);
+                    TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.CreateContactsForParticipantsHandler.class); // REF -1914 fix
                     TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class);
                     TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.CheckBecomesAdultHandler.class);
                      insert delegateParticipants;
