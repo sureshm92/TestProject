@@ -22,8 +22,14 @@
     .THIS .db-quick-actions-container-participant{
         margin-top: 24px;
     }
-
 }
+
+@media all and (max-width: 768px) {
+    .THIS.db-section > .slds-col:nth-child(-n+2){
+        min-width: 100%;
+    }
+}
+
 
 @media all and (max-width: 500px){
     .THIS.pi-picklist-container{
