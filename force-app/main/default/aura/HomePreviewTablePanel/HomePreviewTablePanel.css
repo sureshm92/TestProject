@@ -63,3 +63,12 @@
     position: relative;
     font-size: 1rem;
 }
+
+.THIS .hptp-footer .cRRLink.rr-link:focus {
+    text-decoration: none;
+}
+
+.THIS .cRRLink.rr-link svg {
+    margin-bottom: 3px;
+    margin-left: 2px;
+}

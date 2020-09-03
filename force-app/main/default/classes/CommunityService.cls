@@ -35,6 +35,7 @@ public without sharing class CommunityService {
     public static final String USER_MODE_PI = 'PI';
     public static final String USER_MODE_PARTICIPANT = 'Participant';
     public static final String USER_MODE_CC = 'CC';
+    public static final String USER_MODE_DELEGATEPI = 'DelegatePI';
     //Exception messages
     public static String ERROR_MISSING_STUDY = 'Unexpected error occurred. Contact administrator.';
     private static String ERROR_MISSING_CONTACT_ON_USER = 'User Contact can not be NULL';

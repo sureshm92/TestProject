@@ -45,13 +45,13 @@
     line-height: 21px;
 }
 
-.THIS .sv-t-visit{
-    padding-left: 34px !important;
+.THIS .cRRTable.rr-table .sv-t-visit{
+    padding-left: 34px;
     width: 18%;
 }
 
-.THIS .sv-t-name{
-    padding-left: 34px !important;
+.THIS .cRRTable.rr-table .sv-t-name{
+    padding-left: 34px;
     width: 20%;
 }
 
@@ -128,8 +128,56 @@
     margin-bottom: 1.5em;
 }
 
+.THIS .travelLabel {
+    display: none;
+}
+
 @media all and (max-width: 500px) {
-    .THIS .rr-table {
-        width: 635px;
+    .THIS .rr-table .tableHeader{
+        display: none;
     }
+
+    .THIS .rr-table {
+        margin-top: 1rem;
+    }
+
+    .THIS .rr-table tr {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .THIS .cRRTable.rr-table tr td,
+    .THIS .cRRTable.rr-table .sv-t-visit,
+    .THIS .cRRTable.rr-table .sv-t-name {
+        width: 100%;
+        border-bottom: none;
+        color: #000;
+    }
+
+    .THIS .travelLabel {
+        display: inline-block;
+        padding-right: 5px;
+        color: #595959;
+        position: relative;
+    }
+
+    .THIS .cRRTable.rr-table .sv-t-visit,
+    .THIS .cRRTable.rr-table .sv-t-name{
+        padding-left: 10px;
+    }
+
+    .THIS .cRRTable .slds-form-element__icon {
+        right: 0;
+    }
+
+    .THIS .cRRTable.rr-table a  {
+        padding-left: 1rem;
+    }
+
+    .THIS .cRRTable.rr-table tr td:last-child {
+        border-bottom: 1px solid #d9d9d9;
+        margin-bottom: 1.5rem;
+        padding-top: 0;
+    }
+
 }

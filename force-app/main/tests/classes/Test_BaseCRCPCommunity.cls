@@ -158,10 +158,10 @@ private class Test_BaseCRCPCommunity {
             StudyListViewController.getStudyTrialList(CommunityService.USER_MODE_HCP);
             StudyDetailViewController.getTrialDetail(testData.ctp.Id, CommunityService.USER_MODE_HCP);
             AccountSettingsController.getInitData(CommunityService.USER_MODE_PI);
-            TermsAndConditionsRemote.getPortalTcData();
+            TermsAndConditionsRemote.getPortalTcData(false);
             TermsAndConditionsRemote.getTrialTcData(testData.ctp.Id);
             TermsAndConditionsRemote.acceptTC(studyTC.Id);
-            TermsAndConditionsRemote.getTC('CookiePolicy', 'en_US');//TODO: check code
+            TermsAndConditionsRemote.getTC('CookiePolicy', 'en_US', false);//TODO: check code
             List<HelpController.FileContainer> files = new List<HelpController.FileContainer>();
             HelpController.FileContainer file = new HelpController.FileContainer();
             file.base64Data = EncodingUtil.base64Encode(Blob.valueOf('Test file'));
@@ -229,7 +229,7 @@ private class Test_BaseCRCPCommunity {
         TestData testData = new TestData();
         Test.startTest();
         System.runAs(testData.hcpUser) {
-            String initDataString = MyReferringClinicsController.getInitData(testData.ctp.Id, testData.ss.Id);
+            String initDataString = MyReferringClinicsController.getInitData(testData.ctp.Id, testData.ss.Id, CommunityTemplateService.TEMPLATE_DEFAULT);
             MyReferringClinicsController.InitData initData= (MyReferringClinicsController.InitData)JSON.deserializeStrict(initDataString, MyReferringClinicsController.InitData.class);
             MyReferringClinicsController.searchReferringClinics(JSON.serialize(initData.referringClinicsFilter.filterValues),JSON.serialize(initData.referringClinicsFilter.sortData),JSON.serialize(initData.paginationData), false);
             MyReferringClinicsController.searchReferringClinics(JSON.serialize(initData.referringClinicsFilter.filterValues),JSON.serialize(initData.referringClinicsFilter.sortData),JSON.serialize(initData.paginationData), true);

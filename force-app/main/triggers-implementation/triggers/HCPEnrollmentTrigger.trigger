@@ -11,4 +11,5 @@ trigger HCPEnrollmentTrigger on HCP_Enrollment__c (before insert, before update,
     TriggerHandlerExecutor.execute(HCPEnrollmentTriggerHandler.CreateRecruitingHCPStaffModeHandler.class);
     TriggerHandlerExecutor.execute(HCPEnrollmentTriggerHandler.CheckReimbursableActivities.class);
     TriggerHandlerExecutor.execute(HCPEnrollmentTriggerHandler.SendNotificationForActivatedHCPEHandler.class);
+    TriggerHandlerExecutor.execute(HCPEnrollmentTriggerHandler.SendNotificationForDeclinedHCPEHandler.class);
 }

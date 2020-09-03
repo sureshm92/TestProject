@@ -95,4 +95,8 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_EXUS_SHARE_STUDY_BY_HCP_TYPE = 'Message_to_ExUs_Share_Study_By_HCP_Type';
     public static final String MESSAGE_TO_EXUS_SHARE_SOCIAL_STUDY_TYPE = 'Message_to_ExUs_Share_Social_Study_Type';
     public static final String MESSAGE_TO_EXUS_SHARE_RESOURCES_TYPE = 'Message_to_ExUs_Share_Resources_Type';
+    public static final String MESSAGE_TO_EXUS_SHARED_STUDY_BY_PE_TYPE_NO_CNT='Message_to_NoCnt_Shared_Study_By_PE_Type';
+    public static final String MESSAGE_TO_EXUS_SHARE_STUDY_BY_HCP_TYPE_NO_CNT='Message_to_NoCnt_Share_Study_By_HCP_Type';
+    public static final String MESSAGE_TO_EXUS_SHARE_SOCIAL_STUDY_TYPE_NO_CNT = 'Message_to_NoCnt_Share_Social_Study_Type';
+    public static final String MESSAGE_TO_EXUS_SHARE_RESOURCES_TYPE_NO_CNT = 'Message_to_NoCnt_Share_Resources_Type';
 }

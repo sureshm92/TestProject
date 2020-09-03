@@ -43,6 +43,12 @@ public without sharing class HCPEnrollmentTriggerHandler {
         }
     }
 
+    public class SendNotificationForDeclinedHCPEHandler extends TriggerHandler {
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            sendNotificationForDeclinedHCPE(newList, (Map<Id, HCP_Enrollment__c>) oldMap);
+        }
+    }
+
     public class SwitchContactUserModeHandler extends TriggerHandler {
 
         public override void afterInsert(List<SObject> newList) {
@@ -118,6 +124,13 @@ public without sharing class HCPEnrollmentTriggerHandler {
             if (hcpe.Status__c == HCPEnrollmentService.HCP_S_INVITATION_SENT && hcpe.HCP_Contact__c != null &&
                     ((oldMap == null) || (oldMap != null && hcpe.Status__c != oldMap.get(hcpe.Id).Status__c))) {
                 if (contactIdsWithCreatedUser.contains(hcpe.HCP_Contact__c)) {
+                    Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
+                    String permissionSetName = CommunityTemplateService.getTemplate(hcpe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
+                    actionAssignContactPermissions.addPermission(hcpe.HCP_Contact__c, permissionSetName);
+                    if (!actionAssignContactPermissions.isEmpty()) {
+                        ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+                    }
+
                     if (hpsByHCPE.get(hcpe.Id) != null || alreadyCreatedContactsMap.containsKey(hcpe.HCP_Contact__c)) {
                         notificationType = NotificationCatalog.MESSAGE_TO_HCP_NEW_STUDY_BY_PI_TYPE;
                     }
@@ -320,5 +333,36 @@ public without sharing class HCPEnrollmentTriggerHandler {
             }
             if (!listNotificationsToSend.isEmpty()) insert listNotificationsToSend;
         }
+    }
+
+    @TestVisible
+    private static void sendNotificationForDeclinedHCPE(List<HCP_Enrollment__c> newList, Map<Id, HCP_Enrollment__c> oldMap) {
+        List<Notification__c> listNotificationToSend = new List<Notification__c>();
+        Set<Id> declinedApprovalHcpeIds = new Set<Id>();
+        for (HCP_Enrollment__c hcpe : newList) {
+            if ((hcpe.Status__c == HCPEnrollmentService.HCP_S_DECLINE_ACTIVATION || hcpe.Status__c == HCPEnrollmentService.HCP_S_DECLINED_APPROVAL) && hcpe.Status__c != oldMap.get(hcpe.Id).Status__c) {
+                if (hcpe.Status__c == HCPEnrollmentService.HCP_S_DECLINED_APPROVAL) {
+                    declinedApprovalHcpeIds.add(hcpe.Id);
+                } else {
+                    listNotificationToSend.add(new Notification__c(Recipient__c = hcpe.HCP_Contact__c,
+                            WhatId__c = hcpe.Id,
+                            Notification_Type__c = 'Message_to_HCP_Declined_Enrollment_Type'));
+                }
+            }
+        }
+        for (HCP_Enrollment__c hcpEnrollment : [
+                SELECT Id,
+                        HCP_Contact__c,
+                        HCP_Contact__r.HCP_Opt_In_Referral_Status_Emails__c
+                FROM HCP_Enrollment__c
+                WHERE Id IN :declinedApprovalHcpeIds
+        ]) {
+            if (hcpEnrollment.HCP_Contact__r.HCP_Opt_In_Referral_Status_Emails__c == true) {
+                listNotificationToSend.add(new Notification__c(Recipient__c = hcpEnrollment.HCP_Contact__c,
+                        WhatId__c = hcpEnrollment.Id,
+                        Notification_Type__c = 'Message_to_HCP_Declined_Enrollment_Type'));
+            }
+        }
+        if (!listNotificationToSend.isEmpty()) insert listNotificationToSend;
     }
 }

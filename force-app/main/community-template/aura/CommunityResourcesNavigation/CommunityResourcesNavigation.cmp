@@ -6,7 +6,7 @@
 
     <aura:attribute name="itemResource" type="Object" access="public"/>
 
-    <c:uiHeaderMenu aura:id="menuId">
+    <c:uiHeaderMenu aura:id="menuId" class="{!'resources-popup-' + v.communityTemplate}">
         <aura:set attribute="title">
             <div class="slds-header-link">
                 <span>{!$Label.c.Navigation_Resources}</span>

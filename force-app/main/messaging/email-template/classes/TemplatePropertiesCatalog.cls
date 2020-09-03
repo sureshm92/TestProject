@@ -23,4 +23,5 @@ public without sharing class TemplatePropertiesCatalog {
     public static final String TEMPLATE_SIGN_COMM_NAME = 'EmailTemplateShortSignCommName';
     public static final String TEMPLATE_SIGN_TEAM = 'EmailTemplateSignTeam';
     public static final String TEMPLATE_PROP_TEAM_RH = 'EmailTemplateTitleLabelRH';
+    public static final String COMM_TEMPLATE_URL = 'CommTemplateNameURL';
 }

@@ -9,8 +9,9 @@
     font-size:1rem;
 }
 .THIS.cPopup .p-container .p-content{
-    padding: 0px 10px 20px 10px;
+    padding: 0 10px 20px 10px;
 }
+
 .THIS .startenddate{
     font-size:0.75rem;
 }
@@ -20,6 +21,7 @@
     font-weight: 400;
 }
 
+.THIS .rr-form-element input[type='text'],
 .THIS .slds-select {
     height: 40px;
 }
@@ -27,6 +29,54 @@
 .THIS .p-buttons-container .slds-float_right {
     display: flex;
 }
+
+.THIS.cPopup .with-scroll > .slds-grid_vertical > .slds-col > .slds-col > .rr-form-element {
+    min-width: 100%;
+}
+
+.THIS .truncateTitle {
+    max-width: 100%;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (pointer: coarse) {
+
+    .THIS.cPopup .truncateTitle {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .THIS.cPopup .truncateTitle:hover:after {
+        content: attr(title);
+        position: absolute;
+        top: -10px;
+        left: 10%;
+        color: #444;
+        background-color: #fff;
+        border: 1px solid #d9d9d9;
+        border-radius: 4px;
+        padding: 5px 8px;
+        z-index: 1000;
+        box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04);
+        max-width: 80%;
+        word-break: break-all;
+        font-size: .875rem;
+    }
+
+    .THIS .p-buttons-container > .apollo-btn {
+        background: #f2f2f2;
+    }
+
+    .THIS.cPopup .with-scroll > .slds-grid_vertical > .slds-col > .slds-col > .rr-form-element {
+        position: relative;
+    }
+
+}
+
+
+
 
 @media (max-width: 500px) {
 
@@ -56,6 +106,16 @@
 
     .THIS .p-buttons-container .slds-float_right .apollo-btn {
         flex-grow: 1;
+    }
+
+    .THIS.cPopup .with-scroll > .slds-grid_vertical > .slds-col > .slds-col {
+        display: flex;
+        flex-wrap: wrap;
+        min-width: 100%;
+    }
+
+    .THIS.cPopup .with-scroll > .slds-grid_vertical > .slds-col.contactType + .slds-col .slds-form-element {
+        width: 100%;
     }
 
 }

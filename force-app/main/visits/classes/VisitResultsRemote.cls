@@ -6,11 +6,15 @@ public without sharing class VisitResultsRemote {
     @AuraEnabled
     public static InitDataWrapper getInitData(String visitResultsMode, Map<String, Map<String, List<String>>> visitResultSharings) {
         try {
-            List<Visit_Result__c> visitResultsForMode = VisitResultSharingService.processResults();
+            List<Visit_Result__c> visitResultsForMode = VisitResultsService.getVisitResults(
+                    ParticipantContext.getCurrentPE().Clinical_Trial_Profile__c,
+                    ParticipantContext.getCurrentPE().Participant__r.Mailing_Country_Code__c
+            );
             InitDataWrapper wrapper = (InitDataWrapper) ClassFactory.newInstance(InitDataWrapper.class);
             wrapper.isVisitResultsAvailable = isVisitResultAvailable();
             wrapper.contact = ParticipantContext.getCurrentContact();
             wrapper.isResultsExist = existForModeAndAvailableByCTP(visitResultSharings.get(visitResultsMode), visitResultsForMode);
+            wrapper.isCountryWiseResultExist=existResultForCountry(visitResultsMode,ParticipantContext.getCurrentPE().Participant__r.Mailing_Country_Code__c,visitResultsForMode);
             wrapper.visitResultsGroupNames = notEmptyVisitResultsGroupName(visitResultsMode, visitResultSharings, visitResultsForMode);
             wrapper.visitResultsShares = visitResultSharings.get(visitResultsMode);
             wrapper.isDelegate = ParticipantContext.isCurrentDelegate();
@@ -86,14 +90,16 @@ public without sharing class VisitResultsRemote {
     public static List<String> notEmptyVisitResultsGroupName(String visitResultsMode,
             Map<String, Map<String, List<String>>> visitResultSharingByGroupAndMode,
             List<Visit_Result__c> visitResultsForMode) {
-
+        List<String> availableCTPNames=getCountryWiseVisitResult(visitResultsMode,ParticipantContext.getCurrentPE().Participant__r.Mailing_Country_Code__c);        
         VisitResultMService visitResultMService = new VisitResultMService();
         List<String> existingVisitResultGroups = new List<String>();
 
-        if (visitResultsForMode!=null) {
+        if (visitResultsForMode != null) {
             for (Visit_Result__c visitResult : visitResultsForMode) {
-                existingVisitResultGroups.add(
+                if(availableCTPNames.contains(visitResult.Result_Type__c)){
+                    existingVisitResultGroups.add(
                         visitResultMService.getVisitResultGroupByTypeName(visitResult.Result_Type__c));
+                }
             }
         }
 
@@ -103,7 +109,7 @@ public without sharing class VisitResultsRemote {
 
         if (visitResultGroupNamesWithTypes != null) {
             for (String groupName : visitResultGroupNamesWithTypes.keySet()) {
-                if (existingVisitResultGroups.contains(groupName)){
+                if (existingVisitResultGroups.contains(groupName)) {
                     notEmptyVisitResultsGroupName.add(groupName);
                 }
             }
@@ -113,7 +119,7 @@ public without sharing class VisitResultsRemote {
 
     public static Boolean existForModeAndAvailableByCTP(Map<String, List<String>> availableVisitResults,
             List<Visit_Result__c> visitResultsForMode) {
-        if (availableVisitResults!=null) {
+        if (availableVisitResults != null) {
             List<String> availableAndExistResults = new List<String>();
             for (Visit_Result__c visitResult : visitResultsForMode) {
                 availableAndExistResults.add(visitResult.Result_Type__c);
@@ -127,7 +133,55 @@ public without sharing class VisitResultsRemote {
         }
         return false;
     }
-
+    public static Boolean existResultForCountry(String visitResultsMode,String strCountryCode,List<Visit_Result__c> visitResultsForMode)
+    {
+        List<String> ctpAvailableNames=getCountryWiseVisitResult(visitResultsMode,strCountryCode);
+        List<String> availableAndExistResults = new List<String>();
+        for (Visit_Result__c visitResult : visitResultsForMode) {
+            availableAndExistResults.add(visitResult.Result_Type__c);
+        }
+        for(String strResultType:ctpAvailableNames){
+            if(availableAndExistResults.contains(strResultType)){
+                return true;
+            }
+        }
+        return false;
+    }
+    private static List<String> getCountryWiseVisitResult(String visitResultsMode,String strCountryCode){
+        List<String> visitResultTypes=new List<String>();
+        String ALL_COUNTRIES = 'All';
+        String strShareBackCountries='';
+        Id currentCTPId=ParticipantContext.getCurrentPE().Clinical_Trial_Profile__c;
+        Clinical_Trial_Profile__c ctpObject = [SELECT Id,Participant_Visit_Result_Group__c,Shareback_Settings_On_Country_Level__c,Shareback_Settings_Countries__c FROM Clinical_Trial_Profile__c WHERE Id = :currentCTPId];
+        List<String> ctpAvailableNames = new List<String>();
+        if(!String.isBlank(ctpObject.Shareback_Settings_Countries__c)){
+            strShareBackCountries=ctpObject.Shareback_Settings_Countries__c;
+        }
+        List<Visit_Result_GroupM__mdt> resultGroups = [
+            SELECT Id, Label,Visit_Results_Mode__c, (SELECT Id, DeveloperName, Label, Visit_Result_Code__c FROM Visit_Result_Types__r)
+            FROM Visit_Result_GroupM__mdt where  Visit_Results_Mode__c=: visitResultsMode
+        ];
+        
+        for (Visit_Result_GroupM__mdt resultGroup : resultGroups) {
+            for(Visit_Result_TypeM__mdt visitResultType : resultGroup.Visit_Result_Types__r) {
+                visitResultTypes.add(visitResultType.DeveloperName);
+            }
+        }
+        
+        List<Visit_Result_Type_Sharing__c> resultTypeSharingList = [Select Id,Include_Countries__c,Sharing_Countries__c,Type__c  from Visit_Result_Type_Sharing__c where Clinical_Trial_Profile__c =:currentCTPId and Type__c in:visitResultTypes];
+        for (Visit_Result_Type_Sharing__c visitResultTypeSharing : resultTypeSharingList) {
+            if (!visitResultTypeSharing.Include_Countries__c) {
+                if (String.isBlank(strCountryCode) || String.isBlank(visitResultTypeSharing.Sharing_Countries__c) || visitResultTypeSharing.Sharing_Countries__c.equals(ALL_COUNTRIES) || (!visitResultTypeSharing.Sharing_Countries__c.contains(strCountryCode) && !String.isBlank(strShareBackCountries) &&  strShareBackCountries.contains(strCountryCode))) {
+                    ctpAvailableNames.add(visitResultTypeSharing.Type__c);
+                }
+            } else {
+                if (String.isBlank(strCountryCode) || String.isBlank(visitResultTypeSharing.Sharing_Countries__c) || (!String.isBlank(strCountryCode) && visitResultTypeSharing.Sharing_Countries__c.contains(strCountryCode))) {
+                    ctpAvailableNames.add(visitResultTypeSharing.Type__c);
+                }
+            }
+        }
+        return ctpAvailableNames;
+    }
     private static Map<String, List<String>> convertJSONtoMap(String visitResultsShares) {
         Map<String, Object> visitResultsSharesFirstStageDeserialize = (Map<String, Object>) JSON.deserializeUntyped(visitResultsShares);
         Map<String, List<String>> visitResultSharings = new Map<String, List<String>>();
@@ -153,6 +207,8 @@ public without sharing class VisitResultsRemote {
         public Boolean isVisitResultsAvailable;
         @AuraEnabled
         public Boolean isResultsExist;
+        @AuraEnabled
+        public Boolean isCountryWiseResultExist;
         @AuraEnabled
         public List<String> visitResultsGroupNames;
         @AuraEnabled
@@ -188,7 +244,7 @@ public without sharing class VisitResultsRemote {
     }
 
     public static Boolean isVisitResultAvailable() {
-        if(!isOnStudy()) return false;
+        if (!isOnStudy()) return false;
 
         ParticipantService.ParticipantState participantState = ParticipantService.getParticipantState();
         return participantState.pe.Clinical_Trial_Profile__r.Visit_Data_Shareback__c &&

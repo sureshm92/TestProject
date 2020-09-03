@@ -25,7 +25,7 @@ public without sharing class HelpController {
             userContact.currentContact = CommunityService.getUserContact();
             userContact.isDelegate = ParticipantContext.isCurrentDelegate();
             peList = getParticipants(userContact.currentContact);
-            ssList = getSites();
+            ssList = getSites(userContact.currentContact);
             HelpInitData initData = new HelpInitData();
             initData.participantEnrollList = peList;
             initData.siteList = ssList;
@@ -36,6 +36,7 @@ public without sharing class HelpController {
             initData.helpTopicSettings = new List<HelpController.HelpTopicWrapper>();
             initData.helpTopicOptions = new List<LabelValueItem>();
             String userModefilter = '%' + userMode + '%';
+            String communityTemplateFilter = '%' + UserContext.getCurrentCommunityTemplate().templateName + '%';
             List<Help_Topic__mdt> helpTopics = [
                     SELECT CaseType__c, CaseDescription__c,CaseSubject__c,
                             CasePriority__c, CaseReason__c,
@@ -47,6 +48,7 @@ public without sharing class HelpController {
                             User_Description_Required__c, User_Types__c
                     FROM Help_Topic__mdt
                     WHERE User_Types__c LIKE :userModefilter
+                    AND User_Communities__c LIKE :communityTemplateFilter
                     AND Is_Active__c = TRUE
                     ORDER BY Order__c
             ];
@@ -174,16 +176,29 @@ public without sharing class HelpController {
         return peList;
     } 
     
-    private static List<Study_Site__c> getSites(){
-                 
-        List<Study_Site__c> ssList = [SELECT Id, 
+    private static List<Study_Site__c> getSites(Contact cnt){
+        
+        Set<Id> siteIdList = new Set<Id>();
+        for (Site_Staff__c sStaff : [SELECT Id,
+                                    Study_Site__c
+                                    FROM Site_Staff__c
+                                    WHERE Site_Contact__c = : cnt.Id]) 
+            {
+                siteIdList.add(sStaff.Study_Site__c);
+            }
+        
+           List<Study_Site__c> ssList = [SELECT Id, 
                 Name,
                 Study_Site_Number__c, 
                 Override_PI_Referral_Status__c,
-                Clinical_Trial_Profile__r.Protocol_ID__c
+                Clinical_Trial_Profile__r.Protocol_ID__c,
+                Principal_Investigator__c
                 FROM Study_Site__c
-                WHERE Clinical_Trial_Profile__r.Protocol_ID__c = 'C19NYBC' 
+                WHERE
+                (Principal_Investigator__c =: cnt.Id OR Id IN : siteIdList)
                 AND (Override_PI_Referral_Status__c = 'Accepted' OR Override_PI_Referral_Status__c = 'Accepted (Admin)')];
+        
+				
         
         return ssList;
     } 

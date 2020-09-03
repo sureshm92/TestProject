@@ -79,6 +79,10 @@ public without sharing class ReferringClinicsFilter implements SearchFilter{
             //'Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c'
     };
 
+    private static final List<String> COMMUNITIES_WITHOUT_REFERRING_CLINICS = new List<String>{
+            CommunityTemplateService.TEMPLATE_JANSSEN
+    };
+
     public String getQueryType(){
         return SearchService.QUERY_TYPE_SOQL;
     }
@@ -181,6 +185,7 @@ public without sharing class ReferringClinicsFilter implements SearchFilter{
             List<Study_Site__c> studySites = StudySiteService.getStudySitesForPI();
             Set<Id> studyIds = new Set<Id>();
             for (Study_Site__c site : studySites) {
+                if (COMMUNITIES_WITHOUT_REFERRING_CLINICS.contains(site.Clinical_Trial_Profile__r.CommunityTemplate__c)) continue;
                 if (!studyIds.contains(site.Clinical_Trial_Profile__c)) {
                     studyPickList.add(new LabelValueItem(site.Clinical_Trial_Profile__r.Study_Code_Name__c, site.Clinical_Trial_Profile__c));
                     studyIds.add(site.Clinical_Trial_Profile__c);

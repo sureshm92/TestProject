@@ -16,6 +16,12 @@
     opacity: 1;
 }
 
+.THIS .item-line{
+    display: flex;
+    flex-direction: row;
+    width: 75%;
+}
+
 .THIS .menu-item-box{
     color: #000000;
     font-size: 16px;
@@ -42,6 +48,7 @@
 .THIS .selected{
     color: #0768FD;
     font-weight: bold;
+    align-items: center;
 }
 
 .THIS .selected-sub-title{

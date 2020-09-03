@@ -46,6 +46,10 @@
                 <behavior>Edit</behavior>
                 <field>Is_Escalated__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>User_Communities__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

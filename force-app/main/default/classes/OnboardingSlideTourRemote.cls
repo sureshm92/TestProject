@@ -9,11 +9,13 @@ public without sharing class OnboardingSlideTourRemote {
         public String subTitle;
         public String body;
         public String imageURL;
+        public String disclaimer; //Added by Krishna for REF-2162 
 
         public SlideData(Onboarding_Slide__mdt slide, StaticResource staticResource){
             title = slide.Title__c;
             subTitle = slide.Sub_Title__c;
             body = slide.Body__c;
+            disclaimer=slide.Disclaimer__c; //Added by Krishna for REF-2162 
             if(staticResource != null) imageURL = '/resource/' + staticResource.SystemModStamp.getTime() + '/' + staticResource.Name;
         }
     }
@@ -44,7 +46,8 @@ public without sharing class OnboardingSlideTourRemote {
                             Onboarding_Slide__r.Title__c,
                             Onboarding_Slide__r.Sub_Title__c,
                             Onboarding_Slide__r.Body__c,
-                            Onboarding_Slide__r.Static_Resource__c
+                            Onboarding_Slide__r.Static_Resource__c,
+                			Onboarding_Slide__r.Disclaimer__c //Added by Krishna for REF-2162 
                     FROM Onboarding_Tour_Slides__mdt
                     WHERE Onboarding_Tour__r.DeveloperName =: tourName
                     AND (Onboarding_Slide__r.Multimode_Only__c = FALSE OR Onboarding_Slide__r.Multimode_Only__c =: multimode)
@@ -74,7 +77,8 @@ public without sharing class OnboardingSlideTourRemote {
                 TranslateHelper.prepareLabelFields(tourItem.Onboarding_Slide__r, new Set<String>{
                         'Title__c',
                         'Sub_Title__c',
-                        'Body__c'
+                        'Body__c',
+                        'Disclaimer__c'  //Added by Krishna for REF-2162 
                 });
                 outputSlides.add(new SlideData(
                         tourItem.Onboarding_Slide__r,
@@ -129,18 +133,26 @@ public without sharing class OnboardingSlideTourRemote {
         Boolean isHCP = hcpListWithoutDelegates.size() > 0;
         Boolean isHCPDelegate = hcpListWithDelegates.size() > hcpListWithoutDelegates.size();
         String piTourName;
+        String tempTourTemplateName;
         if(isPI){
-            piTourName = 'PI';
+            tempTourTemplateName = UserContext.getTemplateProperty('SlideTourPI');
+            piTourName = String.isBlank(tempTourTemplateName)?'PI':tempTourTemplateName;
         }else if(isPIDelegate){
-            piTourName = 'PI_Delegate';
+            tempTourTemplateName = UserContext.getTemplateProperty('SlideTourPIDelegate');
+            piTourName = String.isBlank(tempTourTemplateName)?'PI_Delegate':tempTourTemplateName;
         }
 
-        String hcpTourName = 'HCP';
+        String hcpTourName;
         if(isHCPDelegate){
-            hcpTourName = 'HCP_Delegate';
+            tempTourTemplateName = UserContext.getTemplateProperty('SlideTourHCPDelegate');
+            hcpTourName = String.isBlank(tempTourTemplateName)?'HCP_Delegate':tempTourTemplateName;
+        }else{
+            tempTourTemplateName = UserContext.getTemplateProperty('SlideTourHCP');
+            hcpTourName = String.isBlank(tempTourTemplateName) ?'HCP':tempTourTemplateName;
         }
 
-        String participantTourName = UserContext.getTemplateProperty('SlideTour');
+
+        String participantTourName = UserContext.getTemplateProperty('SlideTourParticipant');
 
         return new Map<String, String>{
                 CommunityService.USER_MODE_PARTICIPANT => participantTourName,

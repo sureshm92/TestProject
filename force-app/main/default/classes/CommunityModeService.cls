@@ -10,8 +10,8 @@ public without sharing class CommunityModeService {
 	public static final String USER_MODE_CC = 'CC';
 
     public static final Map<String, String> labelByMode = new Map<String, String>{
-            USER_MODE_HCP => Label.CTL_L_HCP_MODE,
-            USER_MODE_PI => Label.CTL_L_PI_MODE
+            USER_MODE_HCP => Label.HCP_Mode,
+            USER_MODE_PI => Label.PI_Mode
     };
 
     public static final Map<String, String> itemTypeByMode = new Map<String, String>{
@@ -39,7 +39,7 @@ public without sharing class CommunityModeService {
                 } else {
                     modes.add(new CommunityModes.RHCommunityModeItem(
                             USER_MODE_PI, Label.View_Mode + ' ' + labelByMode.get(USER_MODE_PI), itemTypeByMode.get(USER_MODE_PI),
-                            null, null, false, false));
+                            CommunityTemplateService.TEMPLATE_DEFAULT, null, false, false));
                 }
             }
         }
@@ -114,55 +114,73 @@ public without sharing class CommunityModeService {
                         DatabaseService.fieldNotInValues('Clinical_Trial_Profile__r.CommunityTemplate__c', rhCommunityNames)
         );
 
+        Boolean hasBeenActive = false;
+        Boolean hasProspectView = false;
         if (!userParticipants.isEmpty()) {
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(userParticipant.Id);
             List<Participant_Enrollment__c> pePastList = pePastMap.get(userParticipant.Id);
-            CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(
-                    false, peList != null || pePastList != null
-            );
+            hasBeenActive = peList != null || pePastList != null;
+            if (hasBeenActive) {
+                CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(false, hasBeenActive);
 
-            if (peList != null) {
-                for (Participant_Enrollment__c pe : peList) {
+                if (peList != null) {
+                    for (Participant_Enrollment__c pe : peList) {
+                        String participantName = userParticipant.First_Name__c + ' ' + userParticipant.Last_Name__c;
+                        modeItem.subItems.add(new CommunityModes.PPCommunityModeItem(
+                                USER_MODE_PARTICIPANT, participantName, pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                                pe.Id, null, false
+                        ));
+                    }
+                } else if (pePastList != null) {
                     String participantName = userParticipant.First_Name__c + ' ' + userParticipant.Last_Name__c;
                     modeItem.subItems.add(new CommunityModes.PPCommunityModeItem(
-                            USER_MODE_PARTICIPANT, participantName, pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                            pe.Id, null, false
+                            USER_MODE_PARTICIPANT, participantName, Label.No_active_studies,
+                            null, null, false
                     ));
                 }
-            } else {
-                String participantName = userParticipant.First_Name__c + ' ' + userParticipant.Last_Name__c;
-                modeItem.subItems.add(new CommunityModes.PPCommunityModeItem(
-                        USER_MODE_PARTICIPANT, participantName, Label.No_active_studies,
-                        null, null, false
-                ));
+                modes.add(modeItem);
             }
-            modes.add(modeItem);
         }
 
         for (Id participantId : delegatedParticipantIds) {
             Participant__c participant = participantsMap.get(participantId);
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(participantId);
             List<Participant_Enrollment__c> pePastList = pePastMap.get(participantId);
-            CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(
-                    false, false
-            );
+            if(peList != null || pePastList != null) {
+                CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(
+                        false, false
+                );
 
-            if (peList != null) {
-                for (Participant_Enrollment__c pe : peList) {
+                if (!hasBeenActive && !userParticipants.isEmpty() && !hasProspectView) {
+                    String participantName = userParticipant.First_Name__c + ' ' + userParticipant.Last_Name__c;
+                    CommunityModes.PPCommunityModeItem prospectModeItem = new CommunityModes.PPCommunityModeItem(
+                            false, hasBeenActive
+                    );
+                    prospectModeItem.subItems.add(new CommunityModes.PPCommunityModeItem(
+                            USER_MODE_PARTICIPANT, participantName, Label.No_active_studies,
+                            null, null, false
+                    ));
+                    modes.add(prospectModeItem);
+                    hasProspectView = true;
+                }
+
+                if (peList != null) {
+                    for (Participant_Enrollment__c pe : peList) {
+                        String participantName = participant.First_Name__c + ' ' + participant.Last_Name__c;
+                        modeItem.subItems.add(new CommunityModes.PPCommunityModeItem(
+                                USER_MODE_PARTICIPANT, participantName, pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                                pe.Id, participant.Contact__c, true
+                        ));
+                    }
+                } else if (pePastList != null) {
                     String participantName = participant.First_Name__c + ' ' + participant.Last_Name__c;
                     modeItem.subItems.add(new CommunityModes.PPCommunityModeItem(
-                            USER_MODE_PARTICIPANT, participantName, pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                            pe.Id, participant.Contact__c, true
+                            USER_MODE_PARTICIPANT, participantName, Label.No_active_studies,
+                            null, participant.Contact__c, true
                     ));
                 }
-            } else if (pePastList != null) {
-                String participantName = participant.First_Name__c + ' ' + participant.Last_Name__c;
-                modeItem.subItems.add(new CommunityModes.PPCommunityModeItem(
-                        USER_MODE_PARTICIPANT, participantName, Label.No_active_studies,
-                        null, participant.Contact__c, true
-                ));
+                modes.add(modeItem);
             }
-            modes.add(modeItem);
         }
         return modes;
     }
@@ -201,10 +219,7 @@ public without sharing class CommunityModeService {
                         }
                     }
                     if (contact.userCommunityMode__c.equals(USER_MODE_PI)){
-                        if(contact.Current_Sponsor_Name__c != null && contact.Current_Sponsor_Name__c.equals(item.communityName)) {
-                            item.isSelected = true;
-                            item.isCollapsed = false;
-                        } else if (contact.Current_Sponsor_Name__c == null && item.communityName == null) {
+                        if (item.communityName == UserContext.getCurrentCommunityTemplate().templateName) {
                             item.isSelected = true;
                             item.isCollapsed = false;
                         }
@@ -261,7 +276,7 @@ public without sharing class CommunityModeService {
 
             for (String commName : ssByCommunity.keySet()) {
                 if (rhSponsorsByCommunity.containsKey(commName)) modes.add(new CommunityMode(USER_MODE_PI, Label.CTL_L_PI_MODE, null, commName));
-                else modes.add(new CommunityMode(USER_MODE_PI, Label.CTL_L_PI_MODE, null));
+                else modes.add(new CommunityMode(USER_MODE_PI, Label.CTL_L_PI_MODE, null, CommunityTemplateService.TEMPLATE_DEFAULT));
             }
         }
 
@@ -288,8 +303,9 @@ public without sharing class CommunityModeService {
 
     public static CommunityMode getCurrentCommunityMode(Contact contact, List<CommunityMode> allModes){
         CommunityMode resMode = findMode(generateModeKey(contact), allModes);
-        List<String> availableModes = contact.userCommunytyType__c == null ? new List<String>() : contact.userCommunytyType__c.split(';');
-        if((resMode == null || (resMode.template.communityName != UserContext.getCurrentCommunityName() && !resMode.isDelegate && !availableModes.contains('PI') && !availableModes.contains('RP') )) && allModes.size() > 0){
+        //List<String> availableModes = contact.userCommunytyType__c == null ? new List<String>() : contact.userCommunytyType__c.split(';');
+       // List<Participant_Enrollment__c> loginUserPEs = [SELECT Id FROM Participant_Enrollment__c WHERE Participant_Contact__c = : contact.Id ];
+        if((resMode == null || (resMode.userMode == USER_MODE_PI && resMode.communityName != UserContext.getCurrentCommunityTemplate().templateName)) && allModes.size() > 0){
             resMode = getFirstMode(allModes);
             if(resMode != null){
                 resMode.setAsCurrentMode(contact);

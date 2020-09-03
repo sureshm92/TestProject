@@ -265,6 +265,7 @@ public without sharing class DashboardRemote {
             System.debug('userMode---> :' + userMode + ' delegateId---> : ' + delegateId  + ' piId----> : ' + piId + ' ctpId---> : ' + ctpId);
             if (userMode == CommunityService.USER_MODE_PI) {
                 List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
+                Set<Id> delegateSSIds = new Set<Id>();
                 Contact currentContact = CommunityService.getUserContact();
                 System.debug('currentContact---> : '+ currentContact);
                 Id currentContactId = currentContact.Id;
@@ -285,15 +286,17 @@ public without sharing class DashboardRemote {
                         piId = currentContactId;
                     }
                 }
-                
+
 				for (Site_Staff__c sStaff : [
                         SELECT Id,
                                 Study_Site__r.Principal_Investigator__c,
-                                Study_Site__r.Principal_Investigator__r.Name
+                                Study_Site__r.Principal_Investigator__r.Name,
+                                Study_Site__c
                         FROM Site_Staff__c
                         WHERE Site_Contact__c = :currentContactId
                 ]) {
                     delegatePIsMap.put(sStaff.Study_Site__r.Principal_Investigator__c, sStaff.Study_Site__r.Principal_Investigator__r.Name);
+                    delegateSSIds.add(sStaff.Study_Site__c);
                 }
                 System.debug('delegatePIsMap----> ' + delegatePIsMap);
 				
@@ -314,8 +317,11 @@ public without sharing class DashboardRemote {
                 List<Clinical_Trial_Profile__c> related_CTP = new List<Clinical_Trial_Profile__c>();
 
                 List<Study_Site__c> related_site_sites;
+                String ssQuery = 'SELECT Id, Name, Clinical_Trial_Profile__r.Id,  Clinical_Trial_Profile__r.Name, Clinical_Trial_Profile__r.Study_Sponsor__c,'+
+                        +'Clinical_Trial_Profile__r.CommunityTemplate__c, Principal_Investigator__c FROM Study_Site__c WHERE Principal_Investigator__c =\''+pi_Id+'\'';
                 if (CommunityTemplateService.TEMPLATE_JANSSEN == communityName) {
-                    related_site_sites = [
+                    ssQuery += ' AND Clinical_Trial_Profile__r.CommunityTemplate__c = \'' +CommunityTemplateService.TEMPLATE_JANSSEN +'\'';
+                    /*related_site_sites = [
                             SELECT Id,
                                     Name,
                                     Clinical_Trial_Profile__r.Id,
@@ -326,9 +332,10 @@ public without sharing class DashboardRemote {
                             FROM Study_Site__c
                             WHERE Principal_Investigator__c = :pi_Id
                             AND Clinical_Trial_Profile__r.CommunityTemplate__c = :CommunityTemplateService.TEMPLATE_JANSSEN
-                    ];
+                    ];*/
                 } else {
-                    related_site_sites = [
+                    ssQuery += ' AND Clinical_Trial_Profile__r.CommunityTemplate__c != \'' +CommunityTemplateService.TEMPLATE_JANSSEN +'\'';
+                    /*related_site_sites = [
                             SELECT Id,
                                     Name,
                                     Clinical_Trial_Profile__r.Id,
@@ -339,8 +346,11 @@ public without sharing class DashboardRemote {
                             FROM Study_Site__c
                             WHERE Principal_Investigator__c = :pi_Id
                             AND Clinical_Trial_Profile__r.CommunityTemplate__c != :CommunityTemplateService.TEMPLATE_JANSSEN
-                    ];
+                    ];*/
                 }
+                if(!delegateSSIds.isEmpty() && currentContactId != pi_Id) ssQuery += ' AND Id  IN (\'' + String.join(new List<Id>(delegateSSIds), '\',\'') + '\')';
+
+                related_site_sites = Database.query(ssQuery);
 
                 Set<Id> related_StudyIds = new set<Id>();
 

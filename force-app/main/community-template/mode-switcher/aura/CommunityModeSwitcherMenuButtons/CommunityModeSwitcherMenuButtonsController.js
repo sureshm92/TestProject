@@ -8,6 +8,7 @@
         let buttonItems = helper.buttonsMap[switcherType];
         component.set('v.buttonItems', buttonItems);
     },
+
     doNavigateToItem: function (component, event, helper) {
         const item = event.getSource();
         const itemValue = item.get('v.itemValue');

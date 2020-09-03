@@ -13,9 +13,9 @@ public without sharing class TermsAndConditionsRemote {
     }
 
     @AuraEnabled
-    public static String getPortalTcData() {
+    public static String getPortalTcData(Boolean useDefaultCommunity) {
         try {
-            return JSON.serialize(getTCData(TermsAndConditions.getPortalTC()));
+            return JSON.serialize(getTCData(TermsAndConditions.getPortalTC(useDefaultCommunity)));
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
@@ -33,14 +33,16 @@ public without sharing class TermsAndConditionsRemote {
     }
 
     @AuraEnabled
-    public static String getTC(String code, String languageCode) {
+    public static String getTC(String code, String languageCode, Boolean useDefaultCommunity) {
         try {
             TCData tcData = new TCData();
             if (code == 'PrivacyPolicy') {
-                tcData.tc = TermsAndConditions.getOrgDefaultPrivacyTC();
-                return JSON.serialize(tcData);
+                tcData.tc = TermsAndConditions.getOrgDefaultPrivacyTC(useDefaultCommunity);
+            } else if (code == 'CookiePolicy') {
+                tcData.tc = TermsAndConditions.getCookieTC(useDefaultCommunity);
+            } else {
+                tcData.tc = TermsAndConditions.getTC(TermsAndConditions.getOrgDefaultTCbyCode(code), languageCode, useDefaultCommunity);
             }
-            tcData.tc = TermsAndConditions.getTC(TermsAndConditions.getOrgDefaultTCbyCode(code), languageCode);
             return JSON.serialize(tcData);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());

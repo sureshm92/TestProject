@@ -1,0 +1,52 @@
+.THIS.main-content-div{
+    padding-left:24px;
+    padding-right:24px;
+}
+.THIS .padding-for-techSupportGroup{
+    padding-top:50px;
+}
+.THIS .slds-checkbox{
+    margin-top:16px;
+    line-height:1;
+}
+.THIS .slds-form-element__legend{
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.25px;
+    color:#444444;
+    margin-bottom:17px;
+    
+}
+.THIS.success-message-text{
+    font-size: 20px;
+    font-weight: 600;
+    color:#444444;
+    text-align:center;
+}
+.THIS .slds-checkbox .slds-checkbox__label .slds-form-element__label{
+	color: #444444;
+    font-size: 16px;
+    letter-spacing: 0;
+}
+.THIS .submit{
+    min-width:80px;
+    height:40px;
+    margin-bottom:20px;
+}
+.THIS.submit-button-div{
+    margin-top:45px;
+    margin-left:80%;
+}
+.THIS .checkLogo{
+    height:25px;
+    width:30px
+}
+.THIS .success-message-padding{
+    padding-top:25px;
+}
+@media (max-width: 500px) {
+    .THIS.submit-button-div{
+    	margin-left:0%;
+        text-align:center;
+    }
+}

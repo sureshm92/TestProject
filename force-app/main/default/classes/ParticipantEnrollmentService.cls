@@ -354,7 +354,7 @@ public without sharing class ParticipantEnrollmentService {
     }
     
     public static final List<String> PE_COMMON_FIELDS = new List<String>{
-            'Id',
+        'Id',
             'Clinical_Trial_Profile__c',
             'Clinical_Trial_Profile__r.Profile_Picture__c',
             'Clinical_Trial_Profile__r.Patient_Portal_Enabled__c',
@@ -781,8 +781,8 @@ public without sharing class ParticipantEnrollmentService {
                     filterStr += ' AND Participant_Status__c  IN (\'' + String.join(PEStatusState.PE_STATUS_GROUP_INACTIVE, '\',\'') + '\') ';
                 }
             }
-            if (filter.startDate != null && filter.endDate != null && filter.startDate < filter.endDate) {
-                //TODO
+            if (!String.isEmpty(filter.dateRange)) {
+                filterStr += ' AND ' + filter.dateField + ' ' + filter.dateRange + ' ';
             }
         }
         if (!String.isEmpty(filter.dateRange)) {
@@ -807,6 +807,7 @@ public without sharing class ParticipantEnrollmentService {
                             break;
                         }
                     }
+                    if (isFound) filteredPEList.add(pe);
                 }
                 if (isFound) filteredPEList.add(pe);
             }
@@ -835,11 +836,10 @@ public without sharing class ParticipantEnrollmentService {
                 for (Integer i = orderList.size() - 1; i >= 0; i--) {
                     reversed.add(orderList[i]);
                 }
-                orderList = reversed;
+                List<Participant_Enrollment__c> sortedList = new List<Participant_Enrollment__c>();
+                for (String key : orderList) sortedList.add(peMap.get(key));
+                peList = sortedList;
             }
-            List<Participant_Enrollment__c> sortedList = new List<Participant_Enrollment__c>();
-            for (String key : orderList) sortedList.add(peMap.get(key));
-            peList = sortedList;
         }
          System.debug('**peList 3:'+peList.size());
         return peList;
@@ -985,7 +985,7 @@ public without sharing class ParticipantEnrollmentService {
         List<Participant_Enrollment__c> peList = getParticipantEnrollmentsCustomFields(fieldsList, filter, delegateId);
         return getParticipantEnrollmentsPaginated(peList, paginationData);
     }
-
+    
     public static List<Participant_Enrollment__c> getParticipantEnrollmentsPaginated(List<Participant_Enrollment__c> peList, PaginationData paginationData) {
         //Pagination:
         if (paginationData != null) {

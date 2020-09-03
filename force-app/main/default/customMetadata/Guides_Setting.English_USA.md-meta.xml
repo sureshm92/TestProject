@@ -3,6 +3,10 @@
     <label>English USA</label>
     <protected>false</protected>
     <values>
+        <field>Community_Template__c</field>
+        <value xsi:type="xsd:string">Default</value>
+    </values>
+    <values>
         <field>HCP_Quick_Reference__c</field>
         <value xsi:type="xsd:string">RP_quick_reference</value>
     </values>

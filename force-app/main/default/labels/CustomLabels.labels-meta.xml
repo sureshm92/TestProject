@@ -530,6 +530,14 @@
         <value>Additional Notes</value>
     </labels>
     <labels>
+        <fullName>Additional_Technical_Support</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Additional Technical Support</shortDescription>
+        <value>I need additional technical support</value>
+    </labels>
+    <labels>
         <fullName>Admin</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1244,6 +1252,13 @@
         <protected>true</protected>
         <shortDescription>BTN Upload Patient</shortDescription>
         <value>Import Participant File</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Use_Entered_Email_Address</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN Use Entered Email Address</shortDescription>
+        <value>Use Entered Email Address</value>
     </labels>
     <labels>
         <fullName>BTN_Verify</fullName>
@@ -2752,14 +2767,14 @@ Please share our site on social media to encourage others to assist us as we wor
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CTL L HCP MODE</shortDescription>
-        <value>Referring Provider</value>
+        <value>View as Referring Provider</value>
     </labels>
     <labels>
         <fullName>CTL_L_PI_MODE</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CTL L PI MODE</shortDescription>
-        <value>Investigative Site</value>
+        <value>View as Investigative Site</value>
     </labels>
     <labels>
         <fullName>CTL_L_Patricipant_MODE</fullName>
@@ -2788,6 +2803,14 @@ Please share our site on social media to encourage others to assist us as we wor
         <protected>false</protected>
         <shortDescription>Can Not Edit Mapping</shortDescription>
         <value>You can not edit this object. Delete and create a new one instead.</value>
+    </labels>
+    <labels>
+        <fullName>Can_t_rembeber_my_username</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Can&apos;t rembeber my username</shortDescription>
+        <value>I cannot remember my user name</value>
     </labels>
     <labels>
         <fullName>Cancel</fullName>
@@ -2932,6 +2955,22 @@ Please share our site on social media to encourage others to assist us as we wor
         <protected>false</protected>
         <shortDescription>Cookies Info Text First Logon</shortDescription>
         <value>This site uses cookies for the essential functioning of the site, to improve user experience, and for analytical purposes. By using this site you are consenting to our use of cookies.</value>
+    </labels>
+    <labels>
+        <fullName>Copy_of_my_personal_information</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Copy of my personal information</shortDescription>
+        <value>I would like to request a copy of my personal information</value>
+    </labels>
+    <labels>
+        <fullName>Correction_of_my_personal_information</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Correction of my personal information</shortDescription>
+        <value>I would like to request a correction or deletion of my personal information</value>
     </labels>
     <labels>
         <fullName>Covid19_NYBC_Email_Logo</fullName>
@@ -3555,6 +3594,30 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>Oh no, there are no items here.</value>
     </labels>
     <labels>
+        <fullName>Don_t_want_to_be_contacted</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Don&apos;t want to be contacted</shortDescription>
+        <value>I do not want to be contacted via phone(voice call)</value>
+    </labels>
+    <labels>
+        <fullName>Don_t_want_to_be_contacted_via_SMS</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Don_t_want_to_be_contacted_via_SMS</shortDescription>
+        <value>I do not want to be contacted via SMS/text messages</value>
+    </labels>
+    <labels>
+        <fullName>Don_t_want_to_receive</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Don&apos;t want to receive email</shortDescription>
+        <value>I do not want to receive emails (not applicable to system emails or messages sent in response to a specific user request, e.g. password reset email)</value>
+    </labels>
+    <labels>
         <fullName>Download_Trial_Match</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3701,6 +3764,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <protected>false</protected>
         <shortDescription>Email Action View Study Details</shortDescription>
         <value>View Study Details</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body2_PI_Delegate_Referrals</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Body2_PI_Delegate_Referrals</shortDescription>
+        <value>To access all your participants, log in to the IQVIA Referral Hub and navigate to &quot;My Participants.&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Available</fullName>
@@ -3900,7 +3970,7 @@ Please share our site on social media to encourage others to assist us as we wor
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Janssen Initial PI</shortDescription>
-        <value>Please take a moment to enroll in the Janssen IQVIA Referral Hub. This will allow you to use Referral Hub&amp;apos;s participant contact and status tracking capabilities. For studies with Patient Portal capabilities available, this will also allow your patients to track their status throughout their participation with the study, without calling your office for updates.</value>
+        <value>Please take a moment to enroll in the IQVIA Referral Hub. This will allow you to use Referral Hub&amp;apos;s participant contact and status tracking capabilities. For studies with Patient Portal capabilities available, this will also allow your patients to track their status throughout their participation with the study, without calling your office for updates.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Medication_Task_Reminder</fullName>
@@ -4005,7 +4075,14 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_PI_Delegate_Referrals</shortDescription>
-        <value>One or more referrals are awaiting your response. Please access these participants on My Participants to manage their pre-enrollment status.</value>
+        <value>There are ##TotalStudies potential participants, including those listed below, awaiting your response.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_PI_Delegate_Unsuppressed_Referrals</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Body_PI_Delegate_Unsuppressed_Referrals</shortDescription>
+        <value>Below participants are unsuppressed.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI_New_Mess</fullName>
@@ -5046,11 +5123,42 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <value>Your access level has changed</value>
     </labels>
     <labels>
+        <fullName>Email_Label_View_Information</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Label View Information</shortDescription>
+        <value>View Information</value>
+    </labels>
+    <labels>
         <fullName>Email_Notification_Greeting</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Notification Greeting</shortDescription>
         <value>Dear ##FirstName,</value>
+    </labels>
+    <labels>
+        <fullName>Email_Opt_Out_footer</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Opt Out footer</shortDescription>
+        <value>To request technical support or opt out of optional email communications,</value>
+    </labels>
+    <labels>
+        <fullName>Email_Opt_Out_footer_here</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Opt Out footer here</shortDescription>
+        <value>click here</value>
+    </labels>
+    <labels>
+        <fullName>Email_Opt_Out_footer_medical_emergency</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Opt Out footer medical emergency</shortDescription>
+        <value>If you have a medical emergency, please contact your local emergency medical services.</value>
     </labels>
     <labels>
         <fullName>Email_Signature</fullName>
@@ -5062,17 +5170,6 @@ Please log in to ##CommunityName to view your clinical research trial matches an
             Sincerely,
 
             ##SignatureFullCommunityName</value>
-    </labels>
-    <labels>
-        <fullName>Email_Signature_Janssen</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Signature</shortDescription>
-        <value>Thank you.
-
-            Sincerely,
-
-            The Janssen IQVIA Referral Hub Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_1</fullName>
@@ -5132,6 +5229,17 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <value>Sincerely,
 
             The GSK Participant Hub team</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_Janssen</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature</shortDescription>
+        <value>Thank you.
+
+            Sincerely,
+
+            The IQVIA Referral Hub Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_New</fullName>
@@ -5402,7 +5510,7 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Initial Janssen</shortDescription>
-        <value>Please enroll in the Janssen IQVIA Referral Hub and Patient Portal</value>
+        <value>Please enroll in the IQVIA Referral Hub</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Initial_Patient</fullName>
@@ -5615,6 +5723,13 @@ The NYBC Convalescent Plasma Donation Team</value>
         <value>A clinical research study that may interest you</value>
     </labels>
     <labels>
+        <fullName>Email_Subject_Share_Content</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Share Content</shortDescription>
+        <value>Content that may interest you</value>
+    </labels>
+    <labels>
         <fullName>Email_Subject_Status_Has_Changed</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5780,7 +5895,7 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Title Initial All Janssen</shortDescription>
-        <value>Janssen IQVIA™ Referral Hub and Patient Portal</value>
+        <value>IQVIA™ Referral Hub</value>
     </labels>
     <labels>
         <fullName>Email_Title_PH</fullName>
@@ -5887,6 +6002,54 @@ The NYBC Convalescent Plasma Donation Team</value>
         <value>Investigator Name</value>
     </labels>
     <labels>
+        <fullName>Export_Excel_Last_Status_Changed_Notes</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Last Status Changed Notes</shortDescription>
+        <value>Last Status Changed Notes</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_MRN</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel MRN</shortDescription>
+        <value>MRN Id</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Name</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Name</shortDescription>
+        <value>Participant Profile Name</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Participant_Status</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Participant Status</shortDescription>
+        <value>Participant Status</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Participant_Status_Last_Changed_Date</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Participant Status Last Changed Date</shortDescription>
+        <value>Participant Status Last Changed Date</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Patient_ID</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Patient ID</shortDescription>
+        <value>Patient ID</value>
+    </labels>
+    <labels>
         <fullName>Export_Excel_Pre_screening_1_Completed_by</fullName>
         <categories>excel export</categories>
         <language>en_US</language>
@@ -5926,11 +6089,51 @@ The NYBC Convalescent Plasma Donation Team</value>
         <value>Pre-screening Date</value>
     </labels>
     <labels>
+        <fullName>Export_Excel_Referral_Completed_by</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Referral Completed by</shortDescription>
+        <value>Referral Completed by</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Referral_Source</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Referral Source</shortDescription>
+        <value>Referral Source</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Referred_Date</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Referred Date</shortDescription>
+        <value>Referred Date</value>
+    </labels>
+    <labels>
         <fullName>Export_Excel_Status_Change_Reason</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Export Excel Status Change Reason</shortDescription>
         <value>Status Change Reason</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Study_Code_Name</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Study Code Name</shortDescription>
+        <value>Study Code Name</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Study_Site_Name</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Study Site Name</shortDescription>
+        <value>Study Site Name</value>
     </labels>
     <labels>
         <fullName>FD_PE_Field_Arm_Cohort</fullName>
@@ -6094,6 +6297,13 @@ The NYBC Convalescent Plasma Donation Team</value>
         <value>Privacy Policy</value>
     </labels>
     <labels>
+        <fullName>Footer_Link_Privacy_Policy_Janssen</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Footer Link Privacy Policy</shortDescription>
+        <value>Janssen Privacy Policy</value>
+    </labels>
+    <labels>
         <fullName>Footer_Link_Terms_Of_Use</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6156,6 +6366,13 @@ The NYBC Convalescent Plasma Donation Team</value>
         <protected>false</protected>
         <shortDescription>Glucose Description</shortDescription>
         <value>Glucose is a sugar, also called &quot;blood sugar&quot;. When your body digests food, carbohydrates are broken down to make glucose. Your small intestine then absorbs the glucose to release it into the blood. Glucose is the most important source of energy for cells in your body and the only source of energy for your brain, spinal cord, and nerves. Blood glucose is measured to check your general health and to check for a range of conditions.</value>
+    </labels>
+    <labels>
+        <fullName>HCP_Mode</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HCP Mode</shortDescription>
+        <value>Referring Provider</value>
     </labels>
     <labels>
         <fullName>HLA_Description</fullName>
@@ -6675,8 +6892,8 @@ The NYBC Convalescent Plasma Donation Team</value>
         <protected>true</protected>
         <shortDescription>HT 20 B</shortDescription>
         <value>We acquire, hold, use, and process your personal information based on legal grounds, your explicit consent and for the legitimate business purposes outlined in the &lt;a href=privacy-policy?ret=help&gt;Privacy Policy&lt;/a&gt; .
-If you wish to access, correct, update or request removal of any of your information you provided to us or if you have any questions regarding this Privacy Policy or would like more information on our privacy practices, please contact 
-IQVIA’s Privacy Office at &lt;a href=&quot;mailto:data.protection@iqvia.com&quot;&gt;data.protection@iqvia.com&lt;/a&gt;</value>
+If you wish to access, correct, update or request removal of any of your information you provided to us or if you have any questions regarding this Privacy Policy or would like more information on our privacy practices, please contact
+IQVIA’s Privacy Office at &lt;a href=&quot;mailto:PrivacyOfficer@iqvia.com&quot;&gt;PrivacyOfficer@iqvia.com&lt;/a&gt;</value>
     </labels>
     <labels>
         <fullName>HT_20_H</fullName>
@@ -7452,6 +7669,13 @@ The expected format is REF#####</value>
         <value>Invited</value>
     </labels>
     <labels>
+        <fullName>Janssen_Community_Login_Page</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Janssen Community Login Page</shortDescription>
+        <value>Janssen Investigator Community</value>
+    </labels>
+    <labels>
         <fullName>Janssen_Community_Template_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8156,14 +8380,14 @@ The expected format is REF#####</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Navigation_MediaOutreach</shortDescription>
-        <value>Media Outreach</value>
+        <value>Media Outreach Requests</value>
     </labels>
     <labels>
         <fullName>Navigation_Media_Outreach</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Navigation Media Outreach</shortDescription>
-        <value>Media Outreach</value>
+        <value>Media Outreach Requests</value>
     </labels>
     <labels>
         <fullName>Navigation_Medical_Record_Review_Log</fullName>
@@ -8276,7 +8500,7 @@ The expected format is REF#####</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>New OutReach</shortDescription>
-        <value>New Outreach</value>
+        <value>New Request</value>
     </labels>
     <labels>
         <fullName>New_York_carcinoma</fullName>
@@ -8370,6 +8594,33 @@ The expected format is REF#####</value>
         <value>Access platform help resources including this features tour, reference guides, and common questions and answers. You may also request additional technical support.</value>
     </labels>
     <labels>
+        <fullName>OT_DPI_S11_T</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT_DPI_S11_T</shortDescription>
+        <value>Request and track media outreach campaigns for your studies.
+
+Click on New Outreach to place recruitment campaigns across various media outlets.</value>
+    </labels>
+    <labels>
+        <fullName>OT_DPI_S12_T</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT_DPI_S12_T</shortDescription>
+        <value>Access general resources related to study conduct, as well as information specific to studies in which you are involved. 
+
+Click on the resources title to view content or download (if applicable). Information can be shared with participants and delegates as appropriate.</value>
+    </labels>
+    <labels>
+        <fullName>OT_DPI_S13_T</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT_DPI_S13_T</shortDescription>
+        <value>Earn rewards for completing key trial activities (when applicable for your study)
+
+Track and learn about rewards that you could claim for completing tasks toward study enrollment goals.</value>
+    </labels>
+    <labels>
         <fullName>OT_DPI_S1_H</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8395,7 +8646,7 @@ The expected format is REF#####</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT DPI S2 T</shortDescription>
-        <value>Manage individual referral statuses. Click on the patient name to access fields for recording contacts, changing referral status, and making notes.</value>
+        <value>Click on your user profile icon to access My Team. Manage existing team members’ permission levels by clicking the drop-down arrow next to the study name on the member’s card. Add new members by clicking the Add New Team Member button and completing the brief form to grant access immediately.</value>
     </labels>
     <labels>
         <fullName>OT_DPI_S3_H</fullName>
@@ -8409,7 +8660,7 @@ The expected format is REF#####</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT DPI S3 T</shortDescription>
-        <value>Manage the status of Referring Providers who have requested to refer to your study site. Click Invite Referring Provider to enter contact information for colleagues from whom you would like to receive referrals through Referral Hub so that we can invite them to the platform.</value>
+        <value>Click on Study Name or Learn More link to see more details about the study, such as inclusion and exclusion criteria, and access other functions associated with the study. Manage your study site name, study site primary contact, and location details, including driving directions and other guidance to share with participants in the Patient Portal. Click Manage Participants to view and update existing participants or referrals. Click Manage Referring Providers to invite or update existing external providers from whom you would like to receive referrals.*</value>
     </labels>
     <labels>
         <fullName>OT_DPI_S4_H</fullName>
@@ -8432,7 +8683,7 @@ The expected format is REF#####</value>
         <shortDescription>OT DPI S5 T</shortDescription>
         <value>Click Invite Referring Provider to invite physicians from whom you would like to receive referrals.
 
-            Activate, place on hold, or decline Referring Provider requests to refer to your study site(s). You are able to activate a provider for a single study or for all current and future studies for which you are recruiting.</value>
+Activate, place on hold, or decline Referring Provider requests to refer to your study site(s). You are able to activate a provider for a single study or for all current and future studies for which you are recruiting.</value>
     </labels>
     <labels>
         <fullName>OT_DPI_S6_T</fullName>
@@ -8483,7 +8734,7 @@ The expected format is REF#####</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT DRP S1 T</shortDescription>
-        <value>If you have more than one role in the Referral Hub, you can easily switch between roles using the dropdown selector at the top right corner of the screen.</value>
+        <value>If you have more than one role in Referral Hub, you can easily switch between roles by using the switcher located under the Profile icon.</value>
     </labels>
     <labels>
         <fullName>OT_DRP_S2_H</fullName>
@@ -8598,6 +8849,13 @@ The expected format is REF#####</value>
         <value>Click on your user profile icon to access Account Settings. In addition to managing your contact information, date and language preferences, and cookie settings, you can also choose the type of email notifications you want to receive. In the Email Preferences section, use the toggles to switch on or off the type of emails you want to receive. In the Referral Networks section, click Select Referral Networks to search and subscribe to institution-based and/or topic-based networks to be notified when a related study site or clinical study becomes available or to be contacted occasionally about related news or events.</value>
     </labels>
     <labels>
+        <fullName>OT_Disclaimer_T</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT_Disclaimer_T</shortDescription>
+        <value>*This feature may not be available for all studies.</value>
+    </labels>
+    <labels>
         <fullName>OT_H_Account_Settings</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8610,6 +8868,13 @@ The expected format is REF#####</value>
         <protected>false</protected>
         <shortDescription>OT H Dashboard</shortDescription>
         <value>Dashboard</value>
+    </labels>
+    <labels>  
+    <fullName>OT_H_Incentive_Program</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT_H_Incentive_Program</shortDescription>
+        <value>Incentive Program*</value>
     </labels>
     <labels>
         <fullName>OT_H_Help</fullName>
@@ -8626,6 +8891,13 @@ The expected format is REF#####</value>
         <value>Home</value>
     </labels>
     <labels>
+        <fullName>OT_H_Library</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT_H_Library</shortDescription>
+        <value>Library</value>
+    </labels>
+    <labels>
         <fullName>OT_H_MRR_Log</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8638,6 +8910,13 @@ The expected format is REF#####</value>
         <protected>false</protected>
         <shortDescription>OT H Messages</shortDescription>
         <value>Messages</value>
+    </labels>
+    <labels>
+        <fullName>OT_H_Media_Request</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT_H_Media_Request</shortDescription>
+        <value>Media Request*</value>
     </labels>
     <labels>
         <fullName>OT_H_My_Participants</fullName>
@@ -8658,7 +8937,7 @@ The expected format is REF#####</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT H My Referring Clinics</shortDescription>
-        <value>My Referring Clinics</value>
+        <value>Manage Referring Providers*</value>
     </labels>
     <labels>
         <fullName>OT_H_My_Studies</fullName>
@@ -8731,6 +9010,33 @@ The expected format is REF#####</value>
         <value>Access platform help resources including this features tour, reference guides, and common questions and answers. You may also request additional technical support.</value>
     </labels>
     <labels>
+        <fullName>OT_PI_S11_T</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT_PI_S11_T</shortDescription>
+        <value>Request and track media outreach campaigns for your studies.
+
+Click on New Request to place recruitment campaigns across various media outlets.</value>
+    </labels>
+    <labels>
+        <fullName>OT_PI_S12_T</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT_PI_S12_T</shortDescription>
+        <value>Access general resources related to study conduct, as well as information specific to studies in which you are involved. 
+
+Click on the resources title to view content or download (if applicable). Information can be shared with participants and delegates as appropriate.</value>
+    </labels>
+    <labels>
+        <fullName>OT_PI_S13_T</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT_PI_S13_T</shortDescription>
+        <value>Earn rewards for completing key trial activities (when applicable for your study)
+
+Track and learn about rewards that you could claim for completing tasks toward study enrollment goals.</value>
+    </labels>
+    <labels>
         <fullName>OT_PI_S1_H</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8749,16 +9055,14 @@ The expected format is REF#####</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT PI S2 T</shortDescription>
-        <value>Accept both Referrals and Referring Clinics directly on this page.</value>
+        <value>Click on your user profile icon to access My Team. Manage existing team members’ permission levels by clicking the drop-down arrow next to the study name on the member’s card. Add new members by clicking the Add New Team Member button and completing the brief form to grant access immediately.</value>
     </labels>
     <labels>
         <fullName>OT_PI_S3_T</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT PI S3 T</shortDescription>
-        <value>Click on Study Name or Learn More link to see more details about the study, such as inclusion and exclusion criteria, and access other functions associated with the study.
-            Manage your study site name, study site primary contact, and location details, including driving directions and other guidance to share with participants in the Patient Portal.
-            Click Manage Participants to view and update existing participants or referrals. Click Manage Referring Providers to invite or update existing external providers from whom you would like to receive referrals.</value>
+        <value>Click on Study Name or Learn More link to see more details about the study, such as inclusion and exclusion criteria, and access other functions associated with the study. Manage your study site name, study site primary contact, and location details, including driving directions and other guidance to share with participants in the Patient Portal. Click Manage Participants to view and update existing participants or referrals. Click Manage Referring Providers to invite or update existing external providers from whom you would like to receive referrals.*</value>
     </labels>
     <labels>
         <fullName>OT_PI_S4_H</fullName>
@@ -8779,9 +9083,9 @@ The expected format is REF#####</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT PI S5 T</shortDescription>
-        <value>Click Invite Referring Provider to invite physicians from whom you would like to receive referrals.
+        <value>Click Invite Referring Provider to invite physicians from whom you would like to receive referrals. 
 
-            Activate, place on hold, or decline Referring Provider requests to refer to your study site(s). You are able to activate a provider for a single study or for all current and future studies for which you are recruiting.</value>
+Activate, place on hold, or decline Referring Provider requests to refer to your study site(s). You are able to activate a provider for a single study or for all current and future studies for which you are recruiting.</value>
     </labels>
     <labels>
         <fullName>OT_PI_S6_T</fullName>
@@ -8926,7 +9230,7 @@ The expected format is REF#####</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT RP S1 T</shortDescription>
-        <value>If you have more than one role in the Referral Hub, you can easily switch between roles using the dropdown selector at the top right corner of the screen.</value>
+        <value>If you have more than one role in Referral Hub, you can easily switch between roles by using the switcher located under the Profile icon.</value>
     </labels>
     <labels>
         <fullName>OT_RP_S2_H</fullName>
@@ -8997,6 +9301,22 @@ The expected format is REF#####</value>
         <protected>false</protected>
         <shortDescription>One or more Participants reached Majority</shortDescription>
         <value>One or more participants has reached the age of legal majority. Please confirm privacy preferences with participant(s).</value>
+    </labels>
+    <labels>
+        <fullName>Opt_Out</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opt Out</shortDescription>
+        <value>Opt Out of communication by IQVIA and its affiliates</value>
+    </labels>
+    <labels>
+        <fullName>Opt_Out_Success_Message</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Opt Out Success Message</shortDescription>
+        <value>Your request has been sent successfully.</value>
     </labels>
     <labels>
         <fullName>Originator</fullName>
@@ -12847,6 +13167,20 @@ The expected format is REF#####</value>
         <value>IQVIA may also contact your patient to ensure that your patient has connected with the study site.</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_Information_Sharing</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Information_Sharing</shortDescription>
+        <value>Information Sharing</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Invitation_To_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Invitation_To_PP</shortDescription>
+        <value>Invitation to Patient Portal</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_Is_the_patient_still_interested_in_participating_in_this_study</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12938,11 +13272,53 @@ The expected format is REF#####</value>
         <value>Receive information about clinical study opportunities.</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_Confirmation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_Confirmation</shortDescription>
+        <value>I confirm that the patient, and/or patient&apos;s legal guardian if applicable, agrees</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_To_Contact</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG Ref L Permit IQVIA To Contact</shortDescription>
         <value>IQVIA cannot contact regarding this study</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_Email</shortDescription>
+        <value>that IQVIA or its affiliates may contact the patient or his/her legal guardians regarding this study</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_Phone</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_Phone</shortDescription>
+        <value>that IQVIA or its affiliates may contact the patient via phone (voice) regarding this study</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_SMS</shortDescription>
+        <value>that IQVIA or its affiliates may contact the patient via SMS/text messaging regarding this study</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal</shortDescription>
+        <value>Invite the patient to join Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Permit_IQVIA_To_ShareInformation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Permit_IQVIA_To_ShareInformation</shortDescription>
+        <value>to share the above information with IQVIA and its affiliates</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Please_complete_Medical_Record_Review_first</fullName>
@@ -13717,6 +14093,14 @@ The expected format is REF#####</value>
         <shortDescription>PG SW Tab Medical Record Review Log</shortDescription>
         <value>Medical Record Review Log</value>
     </labels>
+     <labels>
+        <fullName>Cookies_Info_Text_Registration_Page</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cookies Info Text Registration Page</shortDescription>
+        <value>We use cookies to allow our website to function correctly and to improve and customize your experience. Session-based cookies exist only during one session and disappear from your computer when you close your browser or turn off your computer. Persistent cookies remain on your computer or device after you close your browser or turn off your computer. Disabling the use of cookies at the individual browser level may limit or prevent your use of certain features or functions on our website.&lt;br/&gt;
+By using our website, you are accepting our use of cookies.</value>
+    </labels>
     <labels>
         <fullName>PG_SW_Tab_Referrals</fullName>
         <language>en_US</language>
@@ -14066,6 +14450,13 @@ The expected format is REF#####</value>
         <protected>false</protected>
         <shortDescription>PI Delegate PI More Info</shortDescription>
         <value>Recipent will be approved to refer participants to the following investigators</value>
+    </labels>
+    <labels>
+        <fullName>PI_Mode</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PI Mode</shortDescription>
+        <value>Investigative Site</value>
     </labels>
     <labels>
         <fullName>PP_Account_Settings</fullName>
@@ -14782,6 +15173,13 @@ communications using the toggles below.</value>
         <value>New visit data is available</value>
     </labels>
     <labels>
+        <fullName>Participant_quick_reference</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Participant_quick_reference</shortDescription>
+        <value>Participant_quick_reference</value>
+    </labels>
+    <labels>
         <fullName>Participants_Referred_Label</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15026,6 +15424,20 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Pswd_ValidationMsg4</shortDescription>
         <value>Your password must be at least 8 characters long.</value>
+    </labels>
+    <labels>
+        <fullName>Pswd_ValidationMsg5</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pswd_ValidationMsg5</shortDescription>
+        <value>The passwords do not match</value>
+    </labels>
+    <labels>
+        <fullName>Pswd_ValidationMsg6</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pswd_ValidationMsg6</shortDescription>
+        <value>The passwords do not match</value>
     </labels>
     <labels>
         <fullName>Pswd_Your_Pswd_Include</fullName>
@@ -17337,6 +17749,14 @@ communications using the toggles below.</value>
         <value>Visit</value>
     </labels>
     <labels>
+        <fullName>Technical_Support</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Technical Support</shortDescription>
+        <value>Get Technical Support</value>
+    </labels>
+    <labels>
         <fullName>Test_Label</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -17923,7 +18343,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>View Mode</shortDescription>
-        <value>View as </value>
+        <value>View as</value>
     </labels>
     <labels>
         <fullName>View_Visit_Legend</fullName>

@@ -112,17 +112,17 @@
         <copy file="../.forceignore" todir="."/>
         <concat destfile="../.forceignore_res">
             <fileset file="../.forceignore" />
-            <fileset file="../scripts/ci/.forceignore_deploy_exclude" />
+            <fileset file="../scripts/ci/.forceignore_community_exclude" />
         </concat>
         <copy file="../.forceignore_res" tofile="../.forceignore"/>
         <delete file="../.forceignore_res"/>
 
         <!-- convertation: -->
         <exec dir=".." executable="cmd" osfamily="windows">
-            <arg value="/c convert-communities.bat"/>
+            <arg value="/c convert-separate-communities.sh"/>
         </exec>
         <exec dir=".." executable="pwsh" osfamily="mac">
-            <arg path="../convert-communities.bat"/>
+            <arg path="../convert-separate-communities.sh"/>
         </exec>
 
         <!--move todir="${source.dir}/experiences/IQVIA_Referral_Hub_C">
@@ -133,8 +133,14 @@
             <include name="**/*.*"/>
         </replace-->
 
-        <zip destfile="${dist.dir}/${dist.name}-communities.zip">
-            <zipfileset dir="${source.dir}" prefix="${release.version}" includes="**/*.*" />
+        <zip destfile="${dist.dir}/${dist.name}-communities-iqvia.zip">
+            <zipfileset dir="${source.dir}/iqvia" prefix="${release.version}" includes="**/*.*" />
+        </zip>
+        <zip destfile="${dist.dir}/${dist.name}-communities-gsk.zip">
+            <zipfileset dir="${source.dir}/gsk" prefix="${release.version}" includes="**/*.*" />
+        </zip>
+        <zip destfile="${dist.dir}/${dist.name}-communities-janssen.zip">
+            <zipfileset dir="${source.dir}/janssen" prefix="${release.version}" includes="**/*.*" />
         </zip>
 
         <!-- restore forceignore: -->

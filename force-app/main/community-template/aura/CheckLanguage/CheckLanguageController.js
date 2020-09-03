@@ -23,8 +23,12 @@
             }, function () {
                 language = defaultLanguage;
             }, function () {
-                communityService.setCookie('RRLanguage', language);
-                document.location.href = communityService.replaceUrlParameter('language', language);
+                if(language !== 'Skip'){ //Skip redirect for logged in users
+                    communityService.setCookie('RRLanguage', language);
+                    document.location.href = communityService.replaceUrlParameter('language', language);
+                }else{
+                    component.set('v.languageChecked', true);
+                }
             });
             return;
         }

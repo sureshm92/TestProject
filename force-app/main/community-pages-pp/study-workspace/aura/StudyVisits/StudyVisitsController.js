@@ -45,7 +45,6 @@
     },
     
     createEditTask: function (component, event, helper) {
-        debugger;
         var currentVisits = component.get('v.currentVisits');
         var indexVar = event.getSource().get('v.value');
         var visitWrapper = currentVisits[indexVar];

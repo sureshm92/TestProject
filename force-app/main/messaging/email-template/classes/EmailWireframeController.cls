@@ -8,7 +8,7 @@ global without sharing class EmailWireframeController {
     global String greetingValue { get; set; }
     global String preSignatureValue { get; set; }
     global String signatureValue { get; set; }
-
+	global String shareTemplate { get; set; }
     global Id sourceRecordId { get; set; }
     global String emailRecipientName { get; set; }
     global String emailRecipientId { get; set; }
@@ -16,12 +16,52 @@ global without sharing class EmailWireframeController {
     global String communityTemplateValue { get; set; }
     global String specificEmailProviderValue { get; set; }
     global String outputMode { get; set; }
-
+    global String displayOptOut {get;set;}
     private EmailTemplateProvider templateProvider;
 
     global String getUserLanguageCode() {
         return getProvider().getUserLanguage();
     }
+    
+    
+  global string communityTypeURL {
+       get{
+            if (communityTemplateValue == 'GSK') communityTypeURL ='/gsk';
+            else if (communityTemplateValue =='Default')communityTypeURL ='';
+            else if(getProvider().getParameters().get('FullCommunityName').contains('Gather')) communityTypeURL ='/gsk' ;
+            else communityTypeURL='';
+            return communityTypeURL;
+         
+        }
+         set;
+    }
+ 	global String userMode {//+
+        get{
+                try {
+                    if (userMode == null) userMode = getProvider().getUserMode();
+                    return userMode;
+                } catch (Exception e) {
+                    EmailService.sendException(e, null);
+                    return null;
+                }
+       		}
+        set;
+    }
+	global Id recipientcntId {
+      		 get{
+        		try {
+                        if (recipientcntId == null) recipientcntId = getProvider().getRecipientId();
+                        if(recipientcntId == null) recipientcntId = getProvider().getParameters().get('RecipientContactId');
+                        return recipientcntId;
+            		}
+               	catch (Exception e) {
+                        EmailService.sendException(e, null);
+                        return e.getMessage();
+                    }
+        		}
+         	set;
+    }
+
 
     public Map<String, String> getTemplateMap() {
         return getProvider().getParameters();
@@ -76,18 +116,18 @@ global without sharing class EmailWireframeController {
     }
 
     public String getEmailCommunityURL() {
-        return CommunityTemplateService.getCommunityURL(EmailTemplateProviderService.getProvider().getCommunityName());
+        return CommunityTemplateService.getCommunityURL(getProvider().getParameters().get(TemplatePropertiesCatalog.COMM_TEMPLATE_URL));
     }
 
     public Boolean getIsInitialized() {
         return getProvider().isInitialized();
     }
 
-    private EmailTemplateProvider getProvider() {
+   private EmailTemplateProvider getProvider() {
         if (templateProvider == null) {
             EmailTemplateProviderService.setProviderType(
                     specificEmailProviderValue, emailRecipientId, emailRecipientName, emailRecipientLanguage,
-                    communityTemplateValue, sourceRecordId, outputMode
+                    communityTemplateValue, sourceRecordId, outputMode, shareTemplate
             );
             templateProvider = EmailTemplateProviderService.getProvider();
         }

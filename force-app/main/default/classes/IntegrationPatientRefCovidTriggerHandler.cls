@@ -127,6 +127,7 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler
             List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
             Map<Id, Id> participantIdByParticipantDelegateContactId = new Map<Id, Id>();
             Set<Id> delegateIds = new Set<Id>();
+            List<Participant__c> delegateParticipants = new List<Participant__c>();
             for (Integration_Patient_Referral__c ipr : newList) {
                 Participant__c participant = newParticipantsMap.get(ipr.referralID__c);
                 Study_Site__c ss = ssByPrimaryKeyEPRMap.get(getSitePrimaryKeyEPR(ipr));
@@ -134,6 +135,7 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler
 
                 Contact participantDelegateContact = newDelegateContactsMap.get(ipr.referralID__c);
                 if (participantDelegateContact != null) {
+                    delegateParticipants.add(createDelegateParticipant(participantDelegateContact,ipr.Delegate_Phone_Number_Type__c)); 
                     participantIdByParticipantDelegateContactId.put(participantDelegateContact.Id, participant.Id);
                     delegateIds.add(participantDelegateContact.Id);
                 }
@@ -168,6 +170,12 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler
                         delegateUsersToCreate.put(participantDelegateContact.Id, null);
                     }
                 }
+                if(!delegateParticipants.isEmpty()){
+                     TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.CreateContactsForParticipantsHandler.class);//REF- 1914
+                     TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class);
+                     TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.CheckBecomesAdultHandler.class);
+                     insert delegateParticipants;
+                }                
                 if (!ptDelegateRefs.isEmpty()) {
                     insert ptDelegateRefs;
                 }
@@ -178,6 +186,33 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler
         }
     }
 
+    private static Participant__c createDelegateParticipant(Contact contactDelegate, String phoneType){
+        
+        Participant__c participantDelegate = new Participant__c(
+            Adult__c = true,
+            Contact__c = contactDelegate.Id,
+            First_Name__c = contactDelegate.FirstName,
+            Last_Name__c = contactDelegate.LastName,
+            Email__c = contactDelegate.Email,
+            Phone__c = contactDelegate.Phone,
+            Mailing_City__c = contactDelegate.MailingCity,
+            Mailing_Country_Code__c = contactDelegate.MailingCountryCode,
+            Mailing_State_Code__c = contactDelegate.MailingStateCode,
+            Phone_Type__c = phoneType
+        );
+        if (phoneType == 'Home') {
+            participantDelegate.Phone__c = contactDelegate.HomePhone;
+            participantDelegate.Alternative_Phone_Number__c = contactDelegate.MobilePhone;
+        } if (phoneType == 'Mobile') {
+            participantDelegate.Phone__c = contactDelegate.MobilePhone;
+            participantDelegate.Alternative_Phone_Number__c = contactDelegate.HomePhone;
+        } else {
+            participantDelegate.Phone__c = contactDelegate.Phone;
+            participantDelegate.Alternative_Phone_Number__c = contactDelegate.MobilePhone;
+        }
+        return participantDelegate;
+    }     
+    
     private static Participant__c convertToParticipant(Integration_Patient_Referral__c ipr) {
         Participant__c participant = new Participant__c(
                 First_Name__c = ipr.firstName__c,
@@ -195,8 +230,13 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler
                 Mailing_Street__c = ipr.Address_AddressLine1__c,
                 Gender__c = ipr.sex__c,
                 Secondary_Source__c = ipr.Data_Source__c,
-                Suffix__c = ipr.Suffix__c
+                Suffix__c = ipr.Suffix__c,
+            	Alternative_Phone_Number__c = ipr.Participant_MobileNumber__c 
+              //  Alternative_Phone_Type__c = 'Mobile'
+
         );
+         if(ipr.Participant_MobileNumber__c != Null)
+          participant.Alternative_Phone_Type__c = 'Mobile';  
         participant.Adult__c = !Boolean.valueOf(ReferringRemote.checkNeedsGuardian(JSON.serialize(participant)));
 
         return participant;
@@ -248,7 +288,12 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler
                 utm_source__c = ipr.UTM_campaignSource__c,
                 utm_term__c = ipr.UTM_campaignTerm__c,
                 utmz__c = ipr.UTM_campaignCookie__c,
-                gclid__c = ipr.UTM_GCLID__c
+                gclid__c = ipr.UTM_GCLID__c,
+                Atid__c = ipr.Atid__c,
+
+                HighRisk_Indicator__c = ipr.HighRisk_Indicator__c,
+                Permit_Mail_Email_contact_for_this_study__c = True,
+                Permit_IQVIA_to_contact_about_study__c = True
 
         );
     }

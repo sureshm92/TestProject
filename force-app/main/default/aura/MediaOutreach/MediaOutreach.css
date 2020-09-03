@@ -31,6 +31,27 @@
     cursor: pointer;
 }
 
+.THIS .slds-table thead th,
+.THIS .slds-table_bordered tbody th,
+.THIS .slds-table_bordered tbody td {
+    width: 10%;
+}
+
+.THIS .slds-table thead th:nth-of-type(2),
+.THIS .slds-table_bordered tbody td:nth-of-type(2),
+.THIS .slds-table thead th:nth-of-type(3),
+.THIS .slds-table_bordered tbody td:nth-of-type(3) {
+    width: 20%;
+}
+
+.THIS .slds-table thead th:first-child,
+.THIS .slds-table_bordered tbody th,
+.THIS .slds-table thead th:nth-of-type(4),
+.THIS .slds-table_bordered tbody td:nth-of-type(4) {
+    width: 15%;
+}
+
+
 .THIS .slds-table_bordered tbody th:hover,
 .THIS .slds-table_bordered tbody td:hover,
 .THIS .slds-table_bordered tbody tr:hover,
@@ -123,7 +144,7 @@
 .THIS .slds-table_bordered tbody td {
     box-shadow: none;
     border-top: 1px solid transparent;
-    border-bottom: 1px solid #f8f9fb;
+    border-bottom: 1px solid #d9d9d9;
 }
 
 .THIS .slds-table_striped tbody tr:nth-of-type(2n) > td,
@@ -169,6 +190,18 @@
         display: flex;
     }
 
+    .THIS .slds-max-medium-table_stacked-horizontal tr:last-child {
+        border-bottom: none;
+    }
+
+    .THIS .slds-table_bordered tbody tr:hover {
+        border: none;
+    }
+
+    .THIS .db-qal-items {
+        max-height: 100%;
+    }
+
     .THIS .outreachTitle {
         color: #595959;
         padding-right: 5px;
@@ -184,9 +217,11 @@
         color: #000;
     }
 
+    .THIS .slds-table thead th,
     .THIS .slds-table_bordered tbody th,
     .THIS .slds-table_bordered tbody td {
         border: none;
+        min-width: 100%;
     }
 
     .THIS .slds-max-medium-table_stacked-horizontal td,
@@ -201,7 +236,12 @@
     .THIS .slds-max-medium-table_stacked-horizontal tr,
     .THIS .slds-max-medium-table--stacked-horizontal tr {
         border-top: none;
-        border-bottom: 1px solid #f8f9fb;
+        border-bottom: 1px solid #d9d9d9;
+    }
+
+    .THIS .slds-max-medium-table_stacked-horizontal tr:last-child,
+    .THIS .slds-max-medium-table--stacked-horizontal tr:last-child {
+        border-bottom: none;
     }
 
 }

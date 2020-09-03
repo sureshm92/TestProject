@@ -29,17 +29,19 @@ public without sharing virtual class EmailTemplateProvider {
     protected Boolean isDelegate = false;
     protected String userMode = 'Guest';
     protected Id whatId;
-
+    protected Boolean isShareTemplate = false;
     private Boolean initialized = false;
 
     protected TemplatePropertiesService templatePropertiesService;
     protected Map<String, String> parameters = new Map<String, String>();
 
     public virtual void initState(Id recipientId, String recipientName, String recipientLanguage,
-            String communityTemplateName, Id whatId, String outputMode) {
+            String communityTemplateName, Id whatId, String outputMode, String shareTemplate) {
         this.recipientId = recipientId;
         this.recipientName = recipientName;
         this.recipientLanguage = recipientLanguage;
+        if(shareTemplate=='Yes')        
+        this.isShareTemplate = true;       
         if (String.isNotEmpty(outputMode)) this.isHTML = outputMode.equals('HTML');
 
         updateRecipientName();
@@ -70,7 +72,7 @@ public without sharing virtual class EmailTemplateProvider {
             }
         }
         if (isDelegate && userMode == 'Participant') initYourParticipantFirstName();
-
+        
         initialized = true;
     }
 
@@ -141,6 +143,7 @@ public without sharing virtual class EmailTemplateProvider {
         parameters.put(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_LABEL, templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_LABEL));
         parameters.put(TemplatePropertiesCatalog.TEMPLATE_PROP_TEAM_RH, templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_TEAM_RH));
         parameters.put(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_NEW_TM, templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_NEW_TM));
+        parameters.put(TemplatePropertiesCatalog.COMM_TEMPLATE_URL, templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.COMM_TEMPLATE_URL));
     }
 
     private void initCRCommunityUrl() {
@@ -203,6 +206,8 @@ public without sharing virtual class EmailTemplateProvider {
         parameters.put('UserName', getCommunityUserName());
 
         if (String.isEmpty(recipientLanguage)) recipientLanguage = recipientContact.Language__c;
+        if(isShareTemplate) userMode=CommunityModeService.USER_MODE_PARTICIPANT;
+
     }
 
     private String getCommunityUserName() {
@@ -223,5 +228,25 @@ public without sharing virtual class EmailTemplateProvider {
 
         Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(recipientContactId);
         if (participant != null) parameters.put('ParticipantFirstName', participant.First_Name__c);
+    }
+    
+    public void addStudySiteNumber(){
+        List<Participant_Enrollment__c> receivedPEs = new List<Participant_Enrollment__c>();
+        List<Id> studySites = new List<Id>();
+        if(recipientId !=null){
+            
+            
+                for(Site_Staff__c ss:[SELECT Study_Site__c FROM Site_Staff__c 
+                                      WHERE Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
+                                      AND Site_Contact__c =:recipientId]){
+                   studySites.add(ss.Study_Site__c);   
+                }
+            
+            receivedPEs.addAll([SELECT Id FROM Participant_Enrollment__c
+                                WHERE  Participant_Status__c = 'Received' 
+                                AND (Study_Site__c IN :studySites OR PI_Contact__c=:recipientId)]);
+            
+        }
+        parameters.put('TotalStudies',String.valueOf(receivedPEs.size()));
     }
 }

@@ -49,7 +49,7 @@
                     },
                     {
                         text : $A.get("$Label.c.DLIT_L_View_screener_responses"),
-                        levels : [true,true,true]
+                        levels : [true,true,false]
                     },
                     {
                         text : $A.get("$Label.c.DLIT_L_Update_status_of_an_accepted_patient"),

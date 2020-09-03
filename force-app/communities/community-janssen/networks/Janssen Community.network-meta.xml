@@ -2,11 +2,11 @@
 <Network xmlns="http://soap.sforce.com/2006/04/metadata">
     <allowInternalUserLogin>false</allowInternalUserLogin>
     <allowMembersToFlag>false</allowMembersToFlag>
-    <changePasswordTemplate>Referral_Hub_Emails/Forgot_Password_Email</changePasswordTemplate>
+    <changePasswordTemplate>Referral_Hub_Emails/Forgot_Password_Email_Janssen</changePasswordTemplate>
     <communityRoles/>
     <disableReputationRecordConversations>true</disableReputationRecordConversations>
     <emailSenderAddress>updates@cp.clinicalresearch.com</emailSenderAddress>
-    <emailSenderName>Janssen Community</emailSenderName>
+    <emailSenderName>IQVIA Referral Hub</emailSenderName>
     <enableCustomVFErrorPageOverrides>false</enableCustomVFErrorPageOverrides>
     <enableDirectMessages>false</enableDirectMessages>
     <enableGuestChatter>false</enableGuestChatter>
@@ -24,7 +24,7 @@
     <enableTopicAssignmentRules>true</enableTopicAssignmentRules>
     <enableTopicSuggestions>false</enableTopicSuggestions>
     <enableUpDownVote>false</enableUpDownVote>
-    <forgotPasswordTemplate>Referral_Hub_Emails/Forgot_Password_Email</forgotPasswordTemplate>
+    <forgotPasswordTemplate>Referral_Hub_Emails/Forgot_Password_Email_Janssen</forgotPasswordTemplate>
     <gatherCustomerSentimentData>false</gatherCustomerSentimentData>
     <networkMemberGroups>
         <permissionSet>Community_Janssen</permissionSet>

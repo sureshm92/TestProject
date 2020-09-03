@@ -1834,7 +1834,7 @@
             <value>
                 <fullName>es_US</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
+                <isActive>true</isActive>
                 <label>es_US</label>
             </value>
             <value>

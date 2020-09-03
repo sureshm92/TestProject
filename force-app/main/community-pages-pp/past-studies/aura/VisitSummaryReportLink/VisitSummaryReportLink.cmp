@@ -12,6 +12,7 @@
     <aura:attribute name="reportData" type="Object"/>
     <aura:attribute name="inTrialSummaryReport" type="Boolean" default="false"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
+    <!--<lightning:navigation aura:id="navService" />-->
 
     <!-- component body -->
     <c:RRSpinner aura:id="spinner" size="medium" fixed="true"/>

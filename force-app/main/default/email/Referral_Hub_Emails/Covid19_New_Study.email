@@ -4,7 +4,8 @@
 
     <messaging:htmlEmailBody >    
         <c:Covid19EmailTemplate ParticipantVsDeligate="Participant" 
-                              firstName="{!relatedTo.firstName__c}"/>
-                              
+                                relatedtoId="{!relatedTo.Id}"
+                                firstName="{!relatedTo.firstName__c}"/>
+
     </messaging:htmlEmailBody>
 </messaging:emailTemplate>

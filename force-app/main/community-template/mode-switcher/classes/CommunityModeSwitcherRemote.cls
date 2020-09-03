@@ -37,14 +37,10 @@ public without sharing class CommunityModeSwitcherRemote {
 
     @AuraEnabled
     public static String getLogoutURL() {
-        List<LoginHistory> userLoginHistory = [
-                SELECT Id, UserId, LoginTime, LoginUrl
-                FROM LoginHistory
-                WHERE UserId = :UserInfo.getUserId()
-                ORDER BY LoginTime DESC
-                LIMIT 1
-        ];
-        return userLoginHistory.isEmpty() ? Site.getBaseUrl() : 'https://' + userLoginHistory.get(0).LoginUrl.substringAfter('https://').substringBefore('/s').trim();
+        Contact userContact =  UserContext.getUserContact();
+        userContact.Current_Participant_Enrollment__c = null;
+        update userContact;
+        return Site.getBaseUrl();
     }
 
     @AuraEnabled

@@ -13,15 +13,18 @@ global without sharing class RRLoginRemote {
             //set the Landing_Community__c based on the Site
             //set userCommunityDelegateId__c to null 
             //set Current_Participant_Enrollment__c to null 
-            User loginUser = [SELECT Id, ContactId, Contact.Email, Contact.Current_Participant_Enrollment__c,
-                              Contact.userCommunityDelegateId__c, Contact.UserCommunityIsDelegate__c, 
+            List<User> loginUser = [SELECT Id, ContactId, Contact.Email, Contact.Current_Participant_Enrollment__c,
+                              Contact.userCommunityDelegateId__c, Contact.UserCommunityIsDelegate__c, Contact.userCommunityMode__c,
                               Contact.Landing_Community__c
                               FROM User WHERE UserName =: username limit 1];
-            List<Participant_Enrollment__c> loginUserPEs = [SELECT Id FROM Participant_Enrollment__c WHERE Participant_Contact__c = : loginUser.ContactId ];
+          //  Integer counter=0;
+          //  List<Participant_Enrollment__c> loginUserPEs = [SELECT Id,Participant_Status__c FROM Participant_Enrollment__c WHERE Participant_Contact__c = : loginUser.ContactId ];
+         //   for(Participant_Enrollment__c eachpe :loginUserPEs){if(PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(eachpe.Participant_Status__c)){counter++;}}
             //No participant enrollment and UserCommunityIsDelegate__c to ensure the 
             //contact is a prospect and delegate of a certain contact
-            if(loginUserPEs.isEmpty() && loginUser.Contact.UserCommunityIsDelegate__c){
-                Contact c= new Contact(Id = loginUser.ContactId, 
+
+            if(/**(loginUserPEs.isEmpty() && loginUser.Contact.UserCommunityIsDelegate__c)||(counter==loginUserPEs.size()) ||**/ (!loginUser.isEmpty() && loginUser[0].Contact.userCommunityMode__c=='Participant')){
+               Contact c = new Contact(Id = loginUser[0].ContactId,
                                        Current_Participant_Enrollment__c = null, 
                                        userCommunityDelegateId__c = null,
                                        Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH') ? CommunityService.IQVIA_NETWORK_NAME : Site.getMasterLabel());
@@ -130,6 +133,11 @@ global without sharing class RRLoginRemote {
     public static String getForgotPasswordUrl() {
         Auth.AuthConfiguration authConfig = getAuthConfig();
         return authConfig.getForgotPasswordUrl();
+    }
+
+    @AuraEnabled
+    public static String getCommunityURL(String communityName) {
+        return CommunityTemplateService.getCommunityURL(communityName);
     }
 
     @TestVisible

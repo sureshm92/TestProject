@@ -60,7 +60,14 @@ public without sharing class TrialMatchHelper {
         List<TrialMatchPageRemote.TrialMatchCTP> trialmatchCTPS = new List<TrialMatchPageRemote.TrialMatchCTP>();
         for (Clinical_Trial_Profile__c ctp : CTPs) {
             TrialMatchPageRemote.TrialMatchCTP tmctp = new TrialMatchPageRemote.TrialMatchCTP();
-            Date matdate = trialmatches.get(ctp.id).Matched_Date__c;
+            if(trialmatches.get(ctp.id).Matched_Date__c != null){
+                Date matdate = trialmatches.get(ctp.id).Matched_Date__c;
+                String day = String.valueOf(matdate.day()).length()==1?'0'+String.valueOf(matdate.day()):String.valueOf(matdate.day());
+                tmctp.matchDate = day+'-'+ getMonth(matdate)+'-'+matdate.year();
+            }
+            else{
+                tmctp.matchDate = '';
+            }
             tmctp.ctp = ctp;
             tmctp.trm = trialmatches.get(ctp.id);
             tmctp.isEnrollingCTP = isCtpEnrolling(ctp);
@@ -68,8 +75,6 @@ public without sharing class TrialMatchHelper {
             tmctp.TherapeuticArea = trialmatches.get(ctp.id).Therapeutic_Area__c;
             tmctp.StudyCodeName = ctp.Study_Code_Name__c;
             tmctp.OfficialTitle = ctp.Official_Title__c;
-            String day = String.valueOf(matdate.day()).length()==1?'0'+String.valueOf(matdate.day()):String.valueOf(matdate.day());
-            tmctp.matchDate = day+'-'+ getMonth(matdate)+'-'+matdate.year();
             trialmatchCTPS.add(tmctp);
         }
         return trialmatchCTPS;

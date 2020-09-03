@@ -3,6 +3,14 @@
  */
 ({
     initialize: function(component, event, helper) {
+        var isMobileApp =  document.referrer;
+        console.log('isMobileApp'+isMobileApp);
+        if(isMobileApp.includes("startURL")){
+                  component.set("v.isMobileApp",true);
+        }
+        else{
+               component.set("v.isMobileApp",false);
+        }
         $A.get("e.siteforce:registerQueryEventMap").setParams({"qsToEvent" : helper.qsToEventMap}).fire();
         $A.get("e.siteforce:registerQueryEventMap").setParams({"qsToEvent" : helper.qsToEventMap2}).fire();
         component.set('v.isUsernamePasswordEnabled', helper.getIsUsernamePasswordEnabled(component, event, helper));
@@ -18,7 +26,14 @@
                     component.set("v.isGSKCommunity",false);
                 }else if(returnValue==='GSK Community'){
                     component.set("v.isGSKCommunity",true);
+                } else if(returnValue==='Janssen Community'){
+                    component.set('v.isJanssen',true);
                 }
+                communityService.executeAction(component, 'getCommunityURL', {
+                    communityName: returnValue
+                    }, function (urlValue){
+                    component.set("v.urlCommunity", urlValue);
+                })
             }
         });
         //@Krishna mahto- PEH-1910- Prod Isseu Fix- End 
@@ -111,7 +126,7 @@
    //@Krishna mahto- PEH-1910- end
    //@Krishna mahto- PEH-2451- Start
    openPrivacyPolicy: function(component, event, helper) {
-      var PrivacyPolicyURL = $A.get("$Label.c.CommunityURL") + '/s/privacy-policy'
+      var PrivacyPolicyURL = component.get("v.urlCommunity") + '/s/privacy-policy'
       window.open(PrivacyPolicyURL,'_blank');
    },
    //@Krishna mahto- PEH-2451- End

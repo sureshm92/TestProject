@@ -28,7 +28,7 @@
                 </div>
                 <aura:if isTrue="{!!v.delegateDuplicateInfo.isDuplicateDelegate}">
                     <div data-gtm="BTN_DDMessage">
-                        <lightning:button   class="status-alert-action-button" onclick="{!c.doOnClick}">Use Entered Email Address</lightning:button>
+                        <lightning:button   class="status-alert-action-button" onclick="{!c.doOnClick}">{!$Label.c.BTN_Use_Entered_Email_Address}</lightning:button>
                     </div>
                 </aura:if>
             </div>

@@ -300,7 +300,7 @@
     </rules>
     <rules>
         <fullName>Email to PI- Participant Accepted%2E Needs Contact</fullName>
-        <active>true</active>
+        <active>false</active>
         <description>PI receives reminder email to contact referral after 5 days of accepting a referral but made no contact</description>
         <formula>ISPICKVAL( Participant_Status__c , &quot;Received&quot;)</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
@@ -433,7 +433,7 @@
             <type>FieldUpdate</type>
         </actions>
         <active>true</active>
-        <formula>AND(Study_Site__r.Skip_to_Eligibility_Passed__c,  ISPICKVAL(Participant_Status__c , &#39;Received&#39;))</formula>
+        <formula>AND(Study_Site__r.Skip_to_Eligibility_Passed__c,  ISPICKVAL(Participant_Status__c , &apos;Received&apos;))</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>
 </Workflow>

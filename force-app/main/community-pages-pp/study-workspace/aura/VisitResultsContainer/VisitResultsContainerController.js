@@ -13,6 +13,13 @@
             };
             component.set('v.resultModeLabel', resultLabelByValue[resultMode]);
 
+            const disclaimerByLabel = {
+                'Biomarkers': $A.get('$Label.c.Visit_Results_Tab_Bio_Disclaimer'),
+                'Labs': $A.get('$Label.c.Visit_Results_Tab_Lab_Disclaimer'),
+                'Vitals': $A.get('$Label.c.Visit_Results_Tab_Vit_Disclaimer')
+            };
+            component.set('v.disclaimerLabel', disclaimerByLabel[resultMode]);
+
             if (communityService.isInitialized()) {
                 communityService.executeAction(component, 'getInitData', {
                     visitResultsMode: resultMode,
