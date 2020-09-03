@@ -35,6 +35,7 @@ global without sharing class TermsAndConditions {
     }
 
     public static String getTCQuery(Id tcId, String languageCode, String tcType, Boolean useDefaultCommunity) {
+        if(String.isEmpty(languageCode)) languageCode = UserInfo.getLanguage();
         String query =
                 ' SELECT Id, T_C_Text__c, ' +
                         '   (SELECT Id, T_C_Text__c FROM Terms_And_Conditions__r WHERE Language__c = \'' + languageCode  + '\') ' +
