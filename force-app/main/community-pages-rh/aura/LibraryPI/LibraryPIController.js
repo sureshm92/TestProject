@@ -89,12 +89,16 @@
       y=y+1;
 
      z=d.substring(y,x);
-
+	 
      var BaseUrl= z;
         if(resource.format=='Study Document'){
-           // var urls = window.location.origin+'/sfc/servlet.shepherd/document/download/'+resource.fileID;  
-           
-            var urls = BaseUrl+'/sfc/servlet.shepherd/document/download/'+resource.fileID; 
+            var strUrlParam = window.location.href;
+            if(strUrlParam.includes('janssen'))
+            	var urls = window.location.origin+'/janssen'+'/sfc/servlet.shepherd/document/download/'+resource.fileID;  
+           else if(!strUrlParam.includes('janssen'))
+                var urls = window.location.origin+'/sfc/servlet.shepherd/document/download/'+resource.fileID;  
+                
+          //  var urls = BaseUrl+'/sfc/servlet.shepherd/document/download/'+resource.fileID; 
             let urlEvent = $A.get("e.force:navigateToURL");
             urlEvent.setParams({url: urls});
             urlEvent.fire();
