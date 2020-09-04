@@ -1,5 +1,5 @@
 public without sharing class CustomLookupController {
-
+// custom look up
     @AuraEnabled
     public static List<RecordsData> fetchRecords(String objectName, String filterField, String searchString, String value) {
         try {
