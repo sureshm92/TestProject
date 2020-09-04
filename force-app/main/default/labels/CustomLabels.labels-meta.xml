@@ -14086,14 +14086,6 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>Lab Results tab</shortDescription>
         <value>Results</value>
     </labels>
-     <labels>
-        <fullName>Cookies_Info_Text_Registration_Page</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Cookies Info Text Registration Page</shortDescription>
-        <value>We use cookies to allow our website to function correctly and to improve and customize your experience. Session-based cookies exist only during one session and disappear from your computer when you close your browser or turn off your computer. Persistent cookies remain on your computer or device after you close your browser or turn off your computer. Disabling the use of cookies at the individual browser level may limit or prevent your use of certain features or functions on our website.&lt;br/&gt;
-By using our website, you are accepting our use of cookies.</value>
-    </labels>
     <labels>
         <fullName>PG_SW_Tab_Medical_Record_Review_Log</fullName>
         <language>en_US</language>
