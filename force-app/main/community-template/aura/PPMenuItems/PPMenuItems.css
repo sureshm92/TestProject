@@ -104,22 +104,25 @@
 }
 .THIS.tooltip{
     position:absolute;
-    top:40%;
+    top:33%;
     left:68%;
     width:25%;
 }
 .THIS.tooltipAS{
     position:absolute;
-    top:40%;
+    top:32%;
     left:76%;
     width:33%;
 }
 .THIS.tooltipSubTitle{    
-    position:absolute;
-    top:75%;
-    left:10%;
-    width:80%;
+    position:relative;
+    top:80%;
+    left:5%;
+    width:90%;
     height:20%;
     word-break: break-all;
     white-space:normal;    
+}
+.THIS.tooltipNotActive{  
+	display:none;
 }

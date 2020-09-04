@@ -58,7 +58,7 @@
         <!-- Inner body -->
         <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate}"/>
         <c:EmailTemplateDelegateParticipantText/>
-        <c:EmailActionBtnText buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
+        <c:EmailActionBtnText buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframeText>
 
     <!-- PI -->
@@ -72,7 +72,7 @@
                           communityTemplate = "{!communityTemplate}">
         <!-- Inner body -->
         <c:ParagraphText emailLabel="{!IF(commTemplate == 'Janssen',$Label.Email_Body_Janssen_Initial_PI,$Label.Email_Body_Initial_PI)}"/>
-        <c:EmailActionBtnText buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
+        <c:EmailActionBtnText buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframeText>
 
     <!-- PI Delegate -->
@@ -86,7 +86,7 @@
         <!-- Inner body -->
         <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_Delegate}"/>
         <c:EmailTemplateDelegateText/>
-        <c:EmailActionBtnText buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
+        <c:EmailActionBtnText buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframeText>
 
     <!-- HCP -->
@@ -100,7 +100,7 @@
                           specificEmailProvider="{!specificProvider}">
         <!-- Inner body -->
         <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_HCP}"/>
-        <c:EmailActionBtnText buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
+        <c:EmailActionBtnText buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframeText>
 
     <c:EmailWireframeText rendered="{!userMode == 'HCP Health Care Provider'}"
@@ -113,7 +113,7 @@
                           specificEmailProvider="{!specificProvider}">
         <!-- Inner body -->
         <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_PI_PT_HCP}"/>
-        <c:EmailActionBtnText buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
+        <c:EmailActionBtnText buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframeText>
 
     <c:EmailWireframeText rendered="{!userMode == 'HCP has enrollments'}"
@@ -126,7 +126,7 @@
                           specificEmailProvider="{!specificProvider}">
         <!-- Inner body -->
         <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_PI_HCP}"/>
-        <c:EmailActionBtnText buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
+        <c:EmailActionBtnText buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframeText>
 
     <!-- HCP Delegate -->
@@ -140,7 +140,7 @@
         <!-- Inner body -->
         <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_Delegate}"/>
         <c:EmailTemplateDelegateText/>
-        <c:EmailActionBtnText buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>
+        <c:EmailActionBtnText buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframeText>
 
 </apex:component>

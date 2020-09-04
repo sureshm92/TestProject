@@ -12,7 +12,9 @@
                           communityTemplate="{!relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c}">
             <c:ParagraphPendingReferrals emailLabel="{!$Label.Email_Body_PI_Delegate_Referrals}"
                                          filterrequired="true"/>
-            <c:EmailTemplatePendingParticipants sourceId="{!relatedTo.Id}"/>
+            <c:EmailTemplatePendingParticipants sourceId="{!recipient.Id}"/>
+            <c:Paragraph emailLabel="{!$Label.Email_Body2_PI_Delegate_Referrals}"/>
+             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:EmailTemplatePendingReferrals>
     </messaging:htmlEmailBody>
 
@@ -25,8 +27,10 @@
                               signature="{!$Label.Email_Signature_RH}"
                               communityTemplate="{!relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c}">
             <c:ParagraphPendingReferralsText emailLabel="{!$Label.Email_Body_PI_Delegate_Referrals}"
-                                             filterrequired="true"/>
-            <c:EmailTemplatePendingParticipantsText sourceId="{!relatedTo.Id}"/>
+                                             filterrequired="true"/>                                             
+            <c:EmailTemplatePendingParticipantsText sourceId="{!recipient.Id}"/>
+                        <c:ParagraphText emailLabel="{!$Label.Email_Body2_PI_Delegate_Referrals}"/>
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:EmailTemplateTextPendingReferrals>
     </messaging:plainTextEmailBody>
 

@@ -39,7 +39,7 @@ public without sharing class CommunityModeService {
                 } else {
                     modes.add(new CommunityModes.RHCommunityModeItem(
                             USER_MODE_PI, Label.View_Mode + ' ' + labelByMode.get(USER_MODE_PI), itemTypeByMode.get(USER_MODE_PI),
-                            null, null, false, false));
+                            CommunityTemplateService.TEMPLATE_DEFAULT, null, false, false));
                 }
             }
         }
@@ -115,6 +115,7 @@ public without sharing class CommunityModeService {
         );
 
         Boolean hasBeenActive = false;
+        Boolean hasProspectView = false;
         if (!userParticipants.isEmpty()) {
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(userParticipant.Id);
             List<Participant_Enrollment__c> pePastList = pePastMap.get(userParticipant.Id);
@@ -150,12 +151,17 @@ public without sharing class CommunityModeService {
                         false, false
                 );
 
-                if (!hasBeenActive && !userParticipants.isEmpty()) {
+                if (!hasBeenActive && !userParticipants.isEmpty() && !hasProspectView) {
                     String participantName = userParticipant.First_Name__c + ' ' + userParticipant.Last_Name__c;
-                    modeItem.subItems.add(new CommunityModes.PPCommunityModeItem(
+                    CommunityModes.PPCommunityModeItem prospectModeItem = new CommunityModes.PPCommunityModeItem(
+                            false, hasBeenActive
+                    );
+                    prospectModeItem.subItems.add(new CommunityModes.PPCommunityModeItem(
                             USER_MODE_PARTICIPANT, participantName, Label.No_active_studies,
                             null, null, false
                     ));
+                    modes.add(prospectModeItem);
+                    hasProspectView = true;
                 }
 
                 if (peList != null) {
@@ -213,10 +219,7 @@ public without sharing class CommunityModeService {
                         }
                     }
                     if (contact.userCommunityMode__c.equals(USER_MODE_PI)){
-                        if(contact.Current_Sponsor_Name__c != null && contact.Current_Sponsor_Name__c.equals(item.communityName)) {
-                            item.isSelected = true;
-                            item.isCollapsed = false;
-                        } else if (contact.Current_Sponsor_Name__c == null && item.communityName == null) {
+                        if (item.communityName == UserContext.getCurrentCommunityTemplate().templateName) {
                             item.isSelected = true;
                             item.isCollapsed = false;
                         }
@@ -273,7 +276,7 @@ public without sharing class CommunityModeService {
 
             for (String commName : ssByCommunity.keySet()) {
                 if (rhSponsorsByCommunity.containsKey(commName)) modes.add(new CommunityMode(USER_MODE_PI, Label.CTL_L_PI_MODE, null, commName));
-                else modes.add(new CommunityMode(USER_MODE_PI, Label.CTL_L_PI_MODE, null));
+                else modes.add(new CommunityMode(USER_MODE_PI, Label.CTL_L_PI_MODE, null, CommunityTemplateService.TEMPLATE_DEFAULT));
             }
         }
 
@@ -302,7 +305,7 @@ public without sharing class CommunityModeService {
         CommunityMode resMode = findMode(generateModeKey(contact), allModes);
         //List<String> availableModes = contact.userCommunytyType__c == null ? new List<String>() : contact.userCommunytyType__c.split(';');
        // List<Participant_Enrollment__c> loginUserPEs = [SELECT Id FROM Participant_Enrollment__c WHERE Participant_Contact__c = : contact.Id ];
-        if((resMode == null /*|| resMode.template.communityName != UserContext.getCurrentCommunityName()*/) && allModes.size() > 0){
+        if((resMode == null || (resMode.userMode == USER_MODE_PI && resMode.communityName != UserContext.getCurrentCommunityTemplate().templateName)) && allModes.size() > 0){
             resMode = getFirstMode(allModes);
             if(resMode != null){
                 resMode.setAsCurrentMode(contact);

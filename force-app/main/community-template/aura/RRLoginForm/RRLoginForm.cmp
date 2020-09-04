@@ -15,7 +15,9 @@
     <aura:attribute name="loginButtonLabel" type="String" required="false" default="{!$Label.c.BTN_Log_In}"/>
     <aura:attribute name="expid" type="String" required="false" description="The branding experience ID" />
 	<!-- added by Sumit S REF-510-->
-	<aura:attribute name="showpassword" type="Boolean" default="false" />
+    <aura:attribute name="showpassword" type="Boolean" default="false" />
+    <aura:attribute name="isMobileApp" type="Boolean"/>
+
 
     <aura:attribute name="forgotPasswordLabel" type="String" required="false" default="{!$Label.c.PG_Login_L_Forgot_your_password}"/>
     <aura:attribute name="selfRegisterLabel" type="String" required="false" default="{!$Label.c.PG_Login_L_Not_a_member}"/>
@@ -235,8 +237,13 @@
                 <a class="forgot-password-link" onclick = "{!c.openPrivacyPolicy}">{!v.isJanssen ? $Label.c.Email_Footer_Privacy_Policy_Janssen : $Label.c.Email_Footer_Privacy_Policy}</a>
             </div>
             <br/>
-			<!-- Added By Krishna for PEH-2451 :End  --> 
-            <div class="rr-login-info-title" style="margin-top: 40px">{!$Label.c.PG_Login_T_This_Site_Optimized_For}</div>
+            <!-- Added By Krishna for PEH-2451 :End  --> 
+            <!-- Added By Deeksha for PEH-2738 :End  --> 
+
+            <aura:if isTrue="{!not(v.isMobileApp)}">
+                <div class="rr-login-info-title" style="margin-top: 40px">{!$Label.c.PG_Login_T_This_Site_Optimized_For}</div>
+
+            </aura:if>
 
         </aura:renderIf>
     </div>

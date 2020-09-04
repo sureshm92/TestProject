@@ -11,12 +11,12 @@ public without sharing class EmailTemplateProviderService {
 
     public static void setProviderType(
             String providerTypeName, Id recipientId, String recipientName, String recipientLanguage,
-            String communityTemplateName, Id whatId, String outputMode
+            String communityTemplateName, Id whatId, String outputMode, String shareTemplate
     ) {
         String clsName = String.isNotEmpty(providerTypeName) ? providerTypeName : DEFAULT_PROVIDER_TYPE;
         try {
             provider = (EmailTemplateProvider) Type.forName(clsName).newInstance();
-            provider.initState(recipientId, recipientName, recipientLanguage, communityTemplateName, whatId, outputMode);
+            provider.initState(recipientId, recipientName, recipientLanguage, communityTemplateName, whatId, outputMode, shareTemplate);
         } catch (Exception e) {
             throw new EmailTemplateProviderServiceException(e.getCause() + '\n' + e.getMessage());
         }

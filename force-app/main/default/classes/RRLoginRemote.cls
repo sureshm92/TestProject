@@ -135,6 +135,11 @@ global without sharing class RRLoginRemote {
         return authConfig.getForgotPasswordUrl();
     }
 
+    @AuraEnabled
+    public static String getCommunityURL(String communityName) {
+        return CommunityTemplateService.getCommunityURL(communityName);
+    }
+
     @TestVisible
     private static Auth.AuthConfiguration getAuthConfig(){
         Id networkId = Network.getNetworkId();

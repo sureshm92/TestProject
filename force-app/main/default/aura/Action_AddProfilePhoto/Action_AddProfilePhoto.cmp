@@ -22,7 +22,8 @@
     <aura:attribute name="pictureSrc" type="String"/>
     <aura:attribute name="isDelegate" type="Boolean" default="false"/>
     <aura:attribute name="hasProfilePic" type="Boolean"/>
-
+    <aura:attribute name="isRTLLanguage" type="Boolean" default="false"/>
+    
     <aura:attribute name="message" type="String" default="Drag profile picture here"/>
     
     <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
@@ -45,7 +46,7 @@
                 </aura:if>   
                 </div>     
 
-        <div class="photo-label">
+        <div class="{!v.isRTLLanguage?'photo-label-rtl':'photo-label'}">
             <p class="username">{!v.username}</p>
             <aura:if isTrue="{!!v.isDelegate}">
               <!--  <label for="file-upload" class="custom-file-upload">
@@ -57,7 +58,7 @@
       </button></div>
   <div id="myDropdown" class="dropdown-content" aura:id="myDropdown">
      <label for="file-upload" class="custom-file-upload">
-                    <span  class="profileLabel">{!$Label.c.PP_Upload_Photo}</span>
+                    <span  class="{!v.isRTLLanguage?'profileLabel profileLabel-rtl':'profileLabel profileLabel-ltr'}">{!$Label.c.PP_Upload_Photo}</span>
                 </label>
             <aura:if isTrue="{!v.hasProfilePic}">
                 <span class="remove" onclick="{!c.removePhoto}">{!$Label.c.PP_Remove_Photo}</span>

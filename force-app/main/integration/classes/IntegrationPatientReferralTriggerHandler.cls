@@ -125,6 +125,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
             Map<Id, Id> participantIdByParticipantDelegateContactId = new Map<Id, Id>();
             Set<Id> delegateIds = new Set<Id>();
+            List<Participant__c> delegateParticipants = new List<Participant__c>();
             for (Integration_Patient_Referral__c ipr : newList) {
                 Participant__c participant = newParticipantsMap.get(ipr.referralID__c);
                 Study_Site__c ss = ssByPrimaryKeyEPRMap.get(getSitePrimaryKeyEPR(ipr));
@@ -132,6 +133,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
 
                 Contact participantDelegateContact = newDelegateContactsMap.get(ipr.referralID__c);
                 if (participantDelegateContact != null) {
+                    delegateParticipants.add(createDelegateParticipant(participantDelegateContact,ipr.Delegate_Phone_Number_Type__c)); 
                     participantIdByParticipantDelegateContactId.put(participantDelegateContact.Id, participant.Id);
                     delegateIds.add(participantDelegateContact.Id);
                 }
@@ -166,6 +168,9 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                         delegateUsersToCreate.put(participantDelegateContact.Id, null);
                     }
                 }
+                if(!delegateParticipants.isEmpty()){
+                    insert delegateParticipants;
+                }   
                 if (!ptDelegateRefs.isEmpty()) {
                     insert ptDelegateRefs;
                 }
@@ -176,6 +181,33 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
         }
     }
 
+    private static Participant__c createDelegateParticipant(Contact contactDelegate, String phoneType){
+        
+        Participant__c participantDelegate = new Participant__c(
+            Adult__c = true,
+            Contact__c = contactDelegate.Id,
+            First_Name__c = contactDelegate.FirstName,
+            Last_Name__c = contactDelegate.LastName,
+            Email__c = contactDelegate.Email,
+            Phone__c = contactDelegate.Phone,
+            Mailing_City__c = contactDelegate.MailingCity,
+            Mailing_Country_Code__c = contactDelegate.MailingCountryCode,
+            Mailing_State_Code__c = contactDelegate.MailingStateCode,
+            Phone_Type__c = phoneType
+        );
+        if (phoneType == 'Home') {
+            participantDelegate.Phone__c = contactDelegate.HomePhone;
+            participantDelegate.Alternative_Phone_Number__c = contactDelegate.MobilePhone;
+        } if (phoneType == 'Mobile') {
+            participantDelegate.Phone__c = contactDelegate.MobilePhone;
+            participantDelegate.Alternative_Phone_Number__c = contactDelegate.HomePhone;
+        } else {
+            participantDelegate.Phone__c = contactDelegate.Phone;
+            participantDelegate.Alternative_Phone_Number__c = contactDelegate.MobilePhone;
+        }
+        return participantDelegate;
+    }    
+    
     private static Participant__c convertToParticipant(Integration_Patient_Referral__c ipr) {
         Participant__c participant = new Participant__c(
                 First_Name__c = ipr.firstName__c,

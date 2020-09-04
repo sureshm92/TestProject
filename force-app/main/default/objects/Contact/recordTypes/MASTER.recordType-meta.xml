@@ -725,6 +725,21 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Visited_Communities__c</picklist>
+        <values>
+            <fullName>Default</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GSK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Janssen</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>userCommunityMode__c</picklist>
         <values>
             <fullName>HCP</fullName>

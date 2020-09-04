@@ -522,18 +522,6 @@ global without sharing class ReferHealthcareProviderRemote {
         List<User> usrs = CommunityService.getCommunityUsersByContactIds(new Set<Id>{
                 cntList[0].Id
         });
-        String permissionSetName = UserContext.getCurrentCommunityTemplate().permissionSet;
-        actionAssignContactPermissions.addPermission(usrs[0].ContactId, permissionSetName);
-        if (!actionAssignContactPermissions.isEmpty()) {
-            ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
-        }
-
-        if (usrs.isEmpty()) {
-            isNewUser = true;
-            ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id>{
-                    cntList[0].Id
-            });
-        }
         if (cntList[0].userCommunytyType__c == null) {
             cntList[0].userCommunytyType__c = CommunityService.USER_MODE_HCP;
         } else if (!cntList[0].userCommunytyType__c.contains(CommunityService.USER_MODE_HCP)) {
@@ -543,6 +531,14 @@ global without sharing class ReferHealthcareProviderRemote {
             cntList[0].userCommunityMode__c = CommunityService.USER_MODE_HCP;
         }
         update cntList[0];
+
+        if (usrs.isEmpty()) {
+            isNewUser = true;
+            ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id>{
+                    cntList[0].Id
+            });
+        }
+
         for (Study_Site__c stdSite : studySitesToInvite) {
             hcpes.add(new HCP_Enrollment__c(
                     HCP_Contact__c = cntList[0].Id,
@@ -553,6 +549,11 @@ global without sharing class ReferHealthcareProviderRemote {
         }
         if (hp != null) {
             if (!isNewUser) {
+                String permissionSetName = UserContext.getCurrentCommunityTemplate().permissionSet;
+                actionAssignContactPermissions.addPermission(usrs[0].ContactId, permissionSetName);
+                if (!actionAssignContactPermissions.isEmpty()) {
+                    ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+                }
                 hcpes[0].Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
                 insert hcpes[0];
                 hcpes[0].Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
@@ -574,6 +575,11 @@ global without sharing class ReferHealthcareProviderRemote {
                 insert new PI_RP_Relationship__c(PI_Contact__c = studySitesToInvite[0].Principal_Investigator__c, RP_Contact__c = cntList[0].Id);
             }
             if (!isNewUser) {
+                String permissionSetName = UserContext.getCurrentCommunityTemplate().permissionSet;
+                actionAssignContactPermissions.addPermission(usrs[0].ContactId, permissionSetName);
+                if (!actionAssignContactPermissions.isEmpty()) {
+                    ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+                }
                 if (!hcpes.isEmpty()) {
                     insert hcpes;
                     sendNotificationForRPInvite(hcpes[0].Id, cntList[0].Id, piIds);
