@@ -41,7 +41,7 @@
     <aura:handler name="change" value="{!v.peFilter.studySite}" action="{!c.doSiteChanged}"/>
     <aura:handler name="change" value="{!v.peFilter.study}" action="{!c.doStudyChanged}"/>
     <aura:handler name="change" value="{!v.peFilter.activePE}" action="{!c.doActiveChanged}"/>
-    <aura:handler name="change" value="{!v.peFilter.searchText}" action="{!c.doFilterChanged}"/>
+    <aura:handler name="change" value="{!v.peFilter.searchText}" action="{!c.doSeachTextChanged}"/>
     <aura:handler name="change" value="{!v.peFilter.referringStatus}" action="{!c.doFilterChanged}"/>
     <aura:handler name="change" value="{!v.peFilter.dateRange}" action="{!c.doFilterChanged}"/>
     <aura:handler name="change" value="{!v.peFilter.source}" action="{!c.doFilterChanged}"/>

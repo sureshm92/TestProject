@@ -520,16 +520,16 @@ public without sharing class ParticipantEnrollmentService {
             'Permit_Voice_Text_contact_for_this_study__c',
             'Permit_Mail_Email_contact_for_this_study__c',
             'Permit_IQVIA_to_contact_about_study__c'
-    };
+            };
     public static final List<String> ACTIVE_PE_FIELDS_FOR_CTP_SS = new List<String>{
             'Id',
             'Clinical_Trial_Profile__c',
             'Study_Site__c'
     };
                 
-    public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter) {
-        return getPEnrolmentsCommonCustomFields(userMode, customFields, filter, null);
-    }
+                public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter) {
+                    return getPEnrolmentsCommonCustomFields(userMode, customFields, filter, null);
+                }
     
     public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter, String delegateId) {
         return getInstance().getPEnrolmentsCommonCustomFieldsImpl(userMode, customFields, filter, delegateId);
@@ -781,8 +781,8 @@ public without sharing class ParticipantEnrollmentService {
                     filterStr += ' AND Participant_Status__c  IN (\'' + String.join(PEStatusState.PE_STATUS_GROUP_INACTIVE, '\',\'') + '\') ';
                 }
             }
-            if (!String.isEmpty(filter.dateRange)) {
-                filterStr += ' AND ' + filter.dateField + ' ' + filter.dateRange + ' ';
+            if (filter.startDate != null && filter.endDate != null && filter.startDate < filter.endDate) {
+                //TODO
             }
         }
         if (!String.isEmpty(filter.dateRange)) {
@@ -807,7 +807,6 @@ public without sharing class ParticipantEnrollmentService {
                             break;
                         }
                     }
-                    if (isFound) filteredPEList.add(pe);
                 }
                 if (isFound) filteredPEList.add(pe);
             }
@@ -836,12 +835,13 @@ public without sharing class ParticipantEnrollmentService {
                 for (Integer i = orderList.size() - 1; i >= 0; i--) {
                     reversed.add(orderList[i]);
                 }
-                List<Participant_Enrollment__c> sortedList = new List<Participant_Enrollment__c>();
-                for (String key : orderList) sortedList.add(peMap.get(key));
-                peList = sortedList;
+                orderList = reversed;
             }
+            List<Participant_Enrollment__c> sortedList = new List<Participant_Enrollment__c>();
+            for (String key : orderList) sortedList.add(peMap.get(key));
+            peList = sortedList;
         }
-         System.debug('**peList 3:'+peList.size());
+        System.debug('**peList 3:'+peList.size());
         return peList;
     }
     //Sabir
@@ -857,7 +857,10 @@ public without sharing class ParticipantEnrollmentService {
             //if(!String.isEmpty(filter.enrollmentStatus)) filterStr += ' AND Participant_Status__c IN ' + filter.enrollmentStatus + ' ';
             //if(!String.isEmpty(filter.acceptenceStatus)) filterStr += ' AND Participant_Status__c IN ' + filter.acceptenceStatus + ' ';
             if (!String.isEmpty(filter.referringClinic)) filterStr += ' AND HCP__r.HCP_Contact__r.AccountId = \'' + filter.referringClinic + '\' ';
-            if (!String.isEmpty(filter.source)) filterStr += ' AND Referral_Source_ID__c = \'' + filter.source + '\' ';
+            // modifed for performance tuning
+            // Sabir & velu 09/04/2020
+            if (!String.isEmpty(filter.source)) filterStr += ' AND Source_Type__c = \'' + filter.source + '\' ';
+            //if (!String.isEmpty(filter.source)) filterStr += ' AND Referral_Source_ID__c = \'' + filter.source + '\' ';
             if (!String.isEmpty(filter.participantStatus)) filterStr += ' AND Participant_Status__c = \'' + filter.participantStatus + '\' ';
             if (!String.isEmpty(filter.activePE) && String.isEmpty(filter.participantStatus)) {
                 if (filter.activePE == PEStatusState.PE_STATUSES_ACTIVE) {
@@ -875,13 +878,19 @@ public without sharing class ParticipantEnrollmentService {
             filterStr += ' AND ' + filter.dateField + ' ' + filter.dateRange + ' ';
         }
         //if (!filter.sortType.contains('Alphabetical')) filterStr += ' ORDER BY ' + filter.sortType;
-
-        System.debug('FILTER STRING: ' + filterStr);
-        
+		if (filter != null && !String.isEmpty(filter.searchText)) {
+            String searchFilter = '';
+            for (String searchField : filter.searchFields) {
+                searchFilter += ((searchField.equalsIgnoreCase('Participant__r.First_Name__c') ||  searchField.equalsIgnoreCase('Participant__r.Last_Name__c')) ?  searchField + ' = \'' + String.escapeSingleQuotes(filter.searchText) + '\'' 
+                                 : searchField + ' LIKE ' + '\'%' + String.escapeSingleQuotes(filter.searchText) + '%\'') + ' OR ';
+            }
+            searchFilter = searchFilter.trim().removeEnd('OR');
+            filterStr += ' AND (' + searchFilter + ')';
+        }        
         //Modified for performance tuning
         //get PE List:
         List<Participant_Enrollment__c> peList = getPEnrolmentsCommonCustomFields(filter.mode, fieldsList, filterStr, delegateId, translationNeeded, paginationData);
-        List<Participant_Enrollment__c> filteredPEList = new List<Participant_Enrollment__c>();
+        /*List<Participant_Enrollment__c> filteredPEList = new List<Participant_Enrollment__c>();
         //Filter by search string:
         if (filter != null && !String.isEmpty(filter.searchText)) {
             for (Participant_Enrollment__c pe : peList) {
@@ -898,7 +907,7 @@ public without sharing class ParticipantEnrollmentService {
                 if (isFound) filteredPEList.add(pe);
             }
             peList = filteredPEList;
-        }
+        }*/
         
         //sort
         if (filter != null && filter.sortType.contains('Alphabetical')) {
@@ -951,9 +960,20 @@ public without sharing class ParticipantEnrollmentService {
             if (filter != null) defaultFilter += ' ' + filter;
         }
 
-        Integer  count = database.countQuery('SELECT COUNT() FROM Participant_Enrollment__c WHERE ' + defaultFilter);     
-        paginationData.setRecordsCount(count);
+        String replaceStr = '';
+        Integer replaceStrIndext1 = defaultFilter.Indexof('ORDER BY CreatedDate DESC');
+        Integer replaceStrIndext2 = defaultFilter.Indexof('ORDER BY LastModifiedDate DESC');
 
+        if(replaceStrIndext1 >-1) {
+            replaceStr = defaultFilter.replace('ORDER BY CreatedDate DESC', ' '); 
+        } else if(replaceStrIndext2 >-1) {
+            replaceStr = defaultFilter.replace('ORDER BY LastModifiedDate DESC', ' '); 
+        } else {
+            replaceStr = defaultFilter;
+        }
+        
+        Integer count = Database.countQuery('SELECT COUNT(Id) FROM Participant_Enrollment__c WHERE ' + replaceStr);
+        paginationData.setRecordsCount(count);
         //defaultFilter += ' LIMIT :' + paginationData.endOffset;
         //defaultFilter += ' OFFSET :' + paginationData.offset;
         //if(filter != null) defaultFilter += ' ' + filter;
@@ -985,7 +1005,7 @@ public without sharing class ParticipantEnrollmentService {
         List<Participant_Enrollment__c> peList = getParticipantEnrollmentsCustomFields(fieldsList, filter, delegateId);
         return getParticipantEnrollmentsPaginated(peList, paginationData);
     }
-    
+
     public static List<Participant_Enrollment__c> getParticipantEnrollmentsPaginated(List<Participant_Enrollment__c> peList, PaginationData paginationData) {
         //Pagination:
         if (paginationData != null) {

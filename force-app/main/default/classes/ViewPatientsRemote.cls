@@ -163,7 +163,7 @@ public without sharing class ViewPatientsRemote {
                 peList = ParticipantEnrollmentService.getParticipantEnrollmentsCustomFields(PE_MY_PARTICIPANTS_FIELDS, initData.peFilter, delegateId, false,initData.paginationData);
                 System.debug('ELSE - peList:'+peList.size());            
             }
-             System.debug('**peList 4:'+peList.size());
+            System.debug('**peList 4:'+peList.size());
             initData.hasEmancipatedParticipants = false;
             //peList = ParticipantEnrollmentService.getParticipantEnrollmentsPaginated(peList, initData.paginationData);
             if (userMode == CommunityService.USER_MODE_PI) {
@@ -174,7 +174,7 @@ public without sharing class ViewPatientsRemote {
                     userMode,
                     delegateId
             );
-            System.debug('**JSON Serialize 5:'+JSON.serialize(initData));
+            //System.debug('**JSON Serialize 5:'+JSON.serialize(initData));
             return JSON.serialize(initData);
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
@@ -363,6 +363,8 @@ public without sharing class ViewPatientsRemote {
         return filter;
     }
 
+    // Modified for performance tuning
+    // Sabir & velu 09/04/2020
     private static ParticipantEnrollmentService.PEFilterData createPEFilterData(String activePE, Id trialId, Id siteId, String mode, Boolean restrictTrial, String delegateId, String additionalFilter, PaginationData paginationData) {
         ParticipantEnrollmentService.PEFilterData filterData = ParticipantEnrollmentService.getPEFilterDataWithExistingPERecords(activePE, trialId, mode, restrictTrial, delegateId, additionalFilter);
         ParticipantEnrollmentService.PEFilter filter = new ParticipantEnrollmentService.PEFilter(filterData);
@@ -371,59 +373,48 @@ public without sharing class ViewPatientsRemote {
         filter.studySite = siteId;
         filter.additionalFilter = additionalFilter;
         filterData.dateField = 'Referred_Date__c';
-        filterData.sortVariants.addAll(new List<LabelValueItem>{
+        filterData.sortVariants.addAll(new List<LabelValueItem> {
                 new LabelValueItem(SortOrder.ORDER_A_Z, 'Alphabetical_ASC,Participant__r.First_Name__c,Participant__r.Last_Name__c'),
                 new LabelValueItem(SortOrder.ORDER_Z_A, 'Alphabetical_DESC,Participant__r.First_Name__c,Participant__r.Last_Name__c')
         });
-        List<LabelValueItem> peSource = new List<LabelValueItem>{
-                new LabelValueItem(Label.PG_MRR_L_All_Sources, null)
+        List<LabelValueItem> peSource = new List<LabelValueItem> {
+                new LabelValueItem(Label.PG_MRR_L_All_Sources, null),
+                new LabelValueItem(Label.Referring_Provider,'Referring Provider'),
+                new LabelValueItem(Label.Principal_Investigator,'Principal Investigator'),
+                new LabelValueItem(Label.Digital_Recruitment,'Digital Recruitment')
         };
-        Map<String, String> sourceMap = new Map<String, String>();
-//        List<LabelValueItem> trialFilterData = new List<LabelValueItem>{
-//                new LabelValueItem(Label.PG_MRRL_L_All_studies, null)
-//        };
-//        List<LabelValueItem> ssFilterData = new List<LabelValueItem>{
-//                new LabelValueItem(Label.PG_Report_L_All_study_sites, null)
-//        };
-        List<LabelValueItem> statusFilterData = new List<LabelValueItem>{
-                new LabelValueItem(Label.PG_MRR_L_All_Statuses, null)
-        };
-        Map<String, Map<String, String>> fieldMap = ParticipantEnrollmentService.FILTER_FIELD_MAP;
-		List<Participant_Enrollment__c> peList;
-		if(mode != CommunityService.USER_MODE_PI){
-            peList = ParticipantEnrollmentService.getParticipantEnrollments(filter, delegateId);
-        }
-        else{
-            peList = ParticipantEnrollmentService.getParticipantEnrollmentsCustomFields(PE_MY_PARTICIPANTS_FIELDS, filter, delegateId, false,paginationData);
-        }
-        if (!peList.isEmpty()) {
-            Map<String, List<LabelValueItem>> filterDataMap = getInterdependentFilterData(peList, fieldMap);
-//            trialFilterData.addAll(filterDataMap.get(ParticipantEnrollmentService.STUDIES_FILTER_DATA_FIELD));
-//            ssFilterData.addAll(filterDataMap.get(ParticipantEnrollmentService.STUDY_SITES_FILTER_DATA_FIELD));
-            statusFilterData.addAll(filterDataMap.get(ParticipantEnrollmentService.STATUSES_FILTER_DATA_FIELD));
-            for (Integer i = 0, j = peList.size(); i < j; i++) {
-                if (peList[i].Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP) {
-                    sourceMap.put(peList[i].HCP_Contact_HCPEnroll__c, peList[i].HCP_Contact_HCPEnroll__r.Name);
-                } else if (peList[i].Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI) {
-                    sourceMap.put(peList[i].PI_Contact__c, peList[i].PI_Contact__r.Name);
-                } else {
-                    sourceMap.put(ParticipantEnrollmentService.PE_REFERRAL_SOURCE_DIGITAL_RECRUITMENT, ParticipantEnrollmentService.PE_REFERRAL_SOURCE_DIGITAL_RECRUITMENT);
-                }
-            }
-            for (String key : sourceMap.keySet()) {
-                peSource.add(new LabelValueItem(sourceMap.get(key), key));
-            }
-        }
-//        filterData.studies = trialFilterData;
-//        filterData.studySites = ssFilterData;
-        filterData.statuses = new List<LabelValueItem>();
-        for (LabelValueItem statusItem : statusFilterData) {
-            if (statusItem.value == null) {
-                filterData.statuses.add(new LabelValueItem(TranslateHelper.getLabelValue(Label.PG_MRR_L_All_Statuses), statusItem.value));
-            } else {
-                filterData.statuses.add(new LabelValueItem(TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, statusItem.value), statusItem.value));
-            }
-        }
+
+        List<LabelValueItem> statusFilterData ;
+        if(activePE == 'Active') {
+            statusFilterData = new List<LabelValueItem>{
+                    new LabelValueItem(Label.PG_MRR_L_All_Statuses, null),
+                    new LabelValueItem(Label.Received, 'Received'),
+                    new LabelValueItem(Label.Contact_Attempted, 'Contact Attempted'),
+                    new LabelValueItem(Label.Successfully_Contacted, 'Successfully Contacted'),
+                    new LabelValueItem(Label.Screening_In_Progress, 'Screening In Progress'),
+                    new LabelValueItem(Label.In_Wash_Out_Period, 'Screening In Progress - Wash Out Period'),
+                    new LabelValueItem(Label.Screening_Passed, 'Screening Passed'),
+                    new LabelValueItem(Label.Enrollment_Success, 'Enrollment Success'),
+                    new LabelValueItem(Label.Eligibility_Passed, 'Eligibility Passed'),
+                    new LabelValueItem(Label.Ready_to_Screen, 'Ready to Screen'),
+                    new LabelValueItem(Label.Randomization_Success, 'Randomization Success')
+            };
+        } else {
+            statusFilterData = new List<LabelValueItem>{
+                new LabelValueItem(Label.PG_MRR_L_All_Statuses, null),
+                new LabelValueItem(Label.Unable_to_Reach, 'Unable to Reach'),
+                new LabelValueItem(Label.Contacted_Not_Suitable, 'Contacted - Not Suitable'),
+                new LabelValueItem(Label.Eligibility_Failed, 'Eligibility Failed'),
+                new LabelValueItem(Label.Declined_Consent, 'Declined Consent'),
+                new LabelValueItem(Label.Unable_to_Screen, 'Unable to Screen'),
+                new LabelValueItem(Label.Withdrew_Consent, 'Withdrew Consent'),
+                new LabelValueItem(Label.Screening_Failed, 'Screening Failed'),
+                new LabelValueItem(Label.Withdrew_Consent_After_Screening, 'Withdrew Consent After Screening'),
+                new LabelValueItem(Label.Enrollment_Failed, 'Enrollment Failed'),
+                new LabelValueItem(Label.Randomization_Failed, 'Randomization Failed')
+            };
+        } 
+        filterData.statuses = statusFilterData;
         filterData.source = peSource;
         return filterData;
     }
