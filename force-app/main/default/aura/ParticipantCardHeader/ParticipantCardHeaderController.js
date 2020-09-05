@@ -3,7 +3,7 @@
  */
 
 ({
-    openCard: function (component, event, helper) {
+    /*openCard: function (component, event, helper) {
         var p = component.get("v.parent"),
             pse =component.get("v.parentSE");
 
@@ -14,5 +14,5 @@
         
         
         event.target.style.display = 'none';
-    },
+    },*/
 });

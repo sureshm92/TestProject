@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
- .THIS {
+.THIS {
     padding: 0 16px;
 }
 
@@ -137,7 +137,7 @@
      	right: 0;   
     }
 
-    .THIS .custom-plus {
+    /*.THIS .custom-plus {
        display: block;
        position: fixed;
        top: 10px;
@@ -146,11 +146,11 @@
        text-align: center;
        left: 0;
        right: 0;
-   }
+   }*/
     
 }
 
-/*Added for performance improvement view more link*/
+/*Added for performance improvement view more link
 .THIS .custom-plus{
     display: block;
     position: absolute;
@@ -186,4 +186,4 @@
 .THIS .chevron.left:before {
 	left: 0.25em;
 	transform: rotate(-135deg);
-}
+}*/

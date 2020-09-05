@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
- .THIS .vpi-fields{
+.THIS .vpi-fields{
     padding: 0 0 20px 0;
     display: flex;
     justify-content: space-between;
@@ -63,6 +63,13 @@
      .THIS .vpi-fields .vpi-field {
         flex: 0 0 50%;
     }
+
+    .THIS .custom-plus {
+        display: block;
+        position: absolute;
+        bottom: 15px;
+        padding: 5px;
+    }
     
 }
 @media all and (max-width: 500px){
@@ -75,4 +82,20 @@
     .THIS.vpi-clip-item-borders {
         padding: 0 0 1rem;
     }
+
+    .THIS .custom-plus{
+        position: absolute !important;
+        bottom: 5px !important;
+        padding: 5px !important;
+        z-index: 1 !important;
+        left: 0;
+        right: 0;
+        text-align: center;
+    }
+}
+.THIS .custom-plus{
+    display: block;
+    position: absolute;
+    bottom: 15px;
+    padding: 5px;
 }
