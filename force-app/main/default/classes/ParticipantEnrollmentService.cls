@@ -972,7 +972,7 @@ public without sharing class ParticipantEnrollmentService {
             replaceStr = defaultFilter;
         }
         
-        Integer count = Database.countQuery('SELECT COUNT(Id) FROM Participant_Enrollment__c WHERE ' + replaceStr);
+        Integer count = Database.countQuery('SELECT COUNT() FROM Participant_Enrollment__c WHERE ' + replaceStr);
         paginationData.setRecordsCount(count);
         //defaultFilter += ' LIMIT :' + paginationData.endOffset;
         //defaultFilter += ' OFFSET :' + paginationData.offset;
