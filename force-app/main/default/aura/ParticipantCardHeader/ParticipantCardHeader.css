@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-.THIS {
+ .THIS {
     padding: 0 16px;
 }
 
@@ -136,5 +136,54 @@
     .THIS .slds-has-block-links--space3 {
      	right: 0;   
     }
+
+    .THIS .custom-plus {
+       display: block;
+       position: fixed;
+       top: 10px;
+       font-size: 16px !important;
+       margin-top: 78% !important;
+       text-align: center;
+       left: 0;
+       right: 0;
+   }
     
+}
+
+/*Added for performance improvement view more link*/
+.THIS .custom-plus{
+    display: block;
+    position: absolute;
+    top: 130px;
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+.THIS .chevron::before {
+	border-style: solid;
+	border-width: 0.25em 0.25em 0 0;
+	content: '';
+	display: inline-block;
+	height: 0.45em;
+	left: 0.15em;
+	position: relative;
+	top: 0.15em;
+	transform: rotate(-45deg);
+	vertical-align: top;
+	width: 0.45em;
+}
+
+.THIS .chevron.right:before {
+	left: 0;
+	transform: rotate(45deg);
+}
+
+.THIS .chevron.bottom:before {
+	top: 0;
+	transform: rotate(135deg);
+}
+
+.THIS .chevron.left:before {
+	left: 0.25em;
+	transform: rotate(-135deg);
 }

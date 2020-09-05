@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="ParticipantCardFields" extends="c:CommunityContext" controller="ReferralProfileRemote">
+ <aura:component description="ParticipantCardFields" extends="c:CommunityContext" controller="ReferralProfileRemote">
 
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String"/>
@@ -144,7 +144,7 @@
             </aura:if>
 
             <!-- Participant fields: -->
-            <aura:if isTrue="{!v.userMode == 'Participant'}">
+            <aura:if isTrue="{!v.userMode == 'Participant'}">       
                 <div class="vpi-field">
                     <div class="label">{!$Label.c.PE_Investigator_Name}</div>
                     <div class="value">{!v.pe.PI_Contact__r.Name}</div>

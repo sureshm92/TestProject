@@ -14,8 +14,8 @@
             trialId: trialId,
             siteId: siteId,
             userMode: communityService.getUserMode(),
-            delegateId: communityService.getDelegateId(),
-            sponsorName: communityService.getCurrentCommunityTemplateName()
+            delegateId: communityService.getDelegateId()
+            //sponsorName: communityService.getCurrentCommunityTemplateName()
         }, function (returnValue) {
             var initData = JSON.parse(returnValue);
             component.set('v.skipUpdate', true);
@@ -40,7 +40,13 @@
             }
         });
     },
-
+	doSeachTextChanged: function (component, event, helper) {
+        let searchText = component.get('v.peFilter.searchText');
+        if( searchText && searchText.length <= 2 ) return;
+        else{
+            helper.doUpdateRecords(component, event, helper, 'filter');
+        }
+    },
     doStudyChanged: function (component, event, helper) {
         helper.doUpdateRecords(component, event, helper, 'study');
     },

@@ -2,14 +2,28 @@
  * Created by Leonid Bartenev
  */
 ({
+    prepareCardFields : function(component, event){
+        if (component.get('v.pe')) {
+            component.set('v.userMode', communityService.getUserMode());
+            var pe = component.get('v.pe');
+            var additionalName = [];
+            if (pe.Participant_Name__c) additionalName.push(pe.Participant_Name__c);
+            if (pe.Participant_Surname__c) additionalName.push(pe.Participant_Surname__c);
+            if (additionalName.length > 0) component.set('v.peAdditionalName', additionalName.join(' '));
+        }        
+    },
+
     preparePathItems: function (component, event) {
-        var pe = component.get('v.pe');
+       // var pe = component.get('v.pe');
+        component.set('v.showSpinner',true);
+        var isAdult = component.get('v.pe.Participant__r.Adult__c');
+        
         // var currentPEState = statusesMap[pe.Participant_Status__c];
-        component.set('v.userMode', communityService.getUserMode());
-        var additionalName = [];
-        if (pe.Participant_Name__c) additionalName.push(pe.Participant_Name__c);
-        if (pe.Participant_Surname__c) additionalName.push(pe.Participant_Surname__c);
-        if (additionalName.length > 0) component.set('v.peAdditionalName', additionalName.join(' '));
+        //component.set('v.userMode', communityService.getUserMode());
+       // var additionalName = [];
+       // if (pe.Participant_Name__c) additionalName.push(pe.Participant_Name__c);
+       // if (pe.Participant_Surname__c) additionalName.push(pe.Participant_Surname__c);
+       // if (additionalName.length > 0) component.set('v.peAdditionalName', additionalName.join(' '));
         // var pathList = [];
         // var iconMap = {
         //     success: 'icon-check',
@@ -46,16 +60,22 @@
         //Make the server call here 
         //We will pass the delegate information to the component child
         //So that relevant information can be displayed in the UI
-        communityService.executeAction(component, 'getDelegateAndContactId', {
-            peId: component.get('v.pe.Id'),
-            userMode: communityService.getUserMode(),
-            delegateId: communityService.getDelegateId(),
-        },function (returnValue) {
-            component.set('v.userContactId', returnValue.userContactId);
-            if(!$A.util.isUndefinedOrNull(returnValue.participantDelegate))
-                component.set('v.participantDelegate', returnValue.participantDelegate);
-        }, null, function(){
-            component.find('spinner').hide();
-        });
+        //if(!isAdult){}
+            communityService.executeAction(component, 'getDelegateAndContactId', {
+                peId: component.get('v.pe.Id'),
+                userMode: communityService.getUserMode(),
+                delegateId: communityService.getDelegateId(),
+            },function (returnValue) {
+                component.set('v.userContactId', returnValue.userContactId);
+                component.set('v.isHidden', true);
+                component.set('v.showSpinner',false);
+                if(!$A.util.isUndefinedOrNull(returnValue.participantDelegate)){
+                    component.set('v.participantDelegate', returnValue.participantDelegate);              
+                }
+            }, null, function(){
+                component.find('spinner').hide();
+            });
+        
+       
     }
 });

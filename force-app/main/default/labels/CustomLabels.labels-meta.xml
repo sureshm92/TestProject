@@ -2935,6 +2935,20 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>Complete By</value>
     </labels>
     <labels>
+        <fullName>Contact_Attempted</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Contact Attempted</shortDescription>
+        <value>Contact Attempted</value>
+    </labels>
+    <labels>
+        <fullName>Contacted_Not_Suitable</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Contacted - Not Suitable</shortDescription>
+        <value>Contacted - Not Suitable</value>
+    </labels>
+    <labels>
         <fullName>Continue</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3503,6 +3517,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>Initial Visits Completed</value>
     </labels>
     <labels>
+        <fullName>Declined_Consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Declined Consent</shortDescription>
+        <value>Declined Consent</value>
+    </labels>
+    <labels>
         <fullName>Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3557,6 +3578,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <protected>true</protected>
         <shortDescription>Different HealthCare Provider</shortDescription>
         <value>Did you expect a different provider? Let us know.</value>
+    </labels>
+    <labels>
+        <fullName>Digital_Recruitment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Digital Recruitment</shortDescription>
+        <value>Digital Recruitment</value>
     </labels>
     <labels>
         <fullName>Disabled</fullName>
@@ -3659,6 +3687,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <protected>true</protected>
         <shortDescription>Eligibility_Passed</shortDescription>
         <value>Eligibility Passed</value>
+    </labels>
+    <labels>
+        <fullName>Eligibility_Failed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Eligibility Failed</shortDescription>
+        <value>Eligibility Failed</value>
     </labels>
     <labels>
         <fullName>Email</fullName>
@@ -5973,6 +6008,20 @@ The NYBC Convalescent Plasma Donation Team</value>
         <value>Enrolled or Randomized</value>
     </labels>
     <labels>
+        <fullName>Enrollment_Failed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Enrollment Failed</shortDescription>
+        <value>Enrollment Failed</value>
+    </labels>
+    <labels>
+        <fullName>Enrollment_Success</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Enrollment Success</shortDescription>
+        <value>Enrollment Success</value>
+    </labels>
+    <labels>
         <fullName>Error_Message_Can_Not_Create_Participant</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -7402,6 +7451,13 @@ The expected format is REF#####</value>
         <protected>false</protected>
         <shortDescription>In Progress</shortDescription>
         <value>In Progress</value>
+    </labels>
+    <labels>
+        <fullName>In_Wash_Out_Period</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>In Wash Out Period</shortDescription>
+        <value>In Wash Out Period</value>
     </labels>
     <labels>
         <fullName>IncTask_01_D</fullName>
@@ -14093,6 +14149,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG SW Tab Medical Record Review Log</shortDescription>
         <value>Medical Record Review Log</value>
     </labels>
+     <labels>
+        <fullName>Cookies_Info_Text_Registration_Page</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cookies Info Text Registration Page</shortDescription>
+        <value>We use cookies to allow our website to function correctly and to improve and customize your experience. Session-based cookies exist only during one session and disappear from your computer when you close your browser or turn off your computer. Persistent cookies remain on your computer or device after you close your browser or turn off your computer. Disabling the use of cookies at the individual browser level may limit or prevent your use of certain features or functions on our website.&lt;br/&gt;
+By using our website, you are accepting our use of cookies.</value>
+    </labels>
     <labels>
         <fullName>PG_SW_Tab_Referrals</fullName>
         <language>en_US</language>
@@ -15446,6 +15510,20 @@ communications using the toggles below.</value>
         <value>Pulse</value>
     </labels>
     <labels>
+        <fullName>Randomization_Failed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Randomization Failed</shortDescription>
+        <value>Randomization Failed</value>
+    </labels>
+    <labels>
+        <fullName>Randomization_Success</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Randomization Success</shortDescription>
+        <value>Randomization Success</value>
+    </labels>
+    <labels>
         <fullName>RBC_Count</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -15465,6 +15543,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RCEI Site</shortDescription>
         <value>Site</value>
+    </labels>
+    <labels>
+        <fullName>Ready_to_Screen</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Ready to Screen</shortDescription>
+        <value>Ready to Screen</value>
     </labels>
     <labels>
         <fullName>RH_Address_Line_1</fullName>
@@ -16714,6 +16799,20 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Save</shortDescription>
         <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>Screening_Failed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Screening Failed</shortDescription>
+        <value>Screening Failed</value>
+    </labels>
+    <labels>
+        <fullName>Screening_In_Progress</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Screening In Progress</shortDescription>
+        <value>Screening In Progress</value>
     </labels>
     <labels>
         <fullName>Screening_Passed</fullName>
@@ -18079,6 +18178,20 @@ communications using the toggles below.</value>
         <value>Type notes here</value>
     </labels>
     <labels>
+        <fullName>Unable_to_Reach</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Unable to Reach</shortDescription>
+        <value>Unable to Reach</value>
+    </labels>
+    <labels>
+        <fullName>Unable_to_Screen</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Unable to Screen</shortDescription>
+        <value>Unable to Screen</value>
+    </labels>
+    <labels>
         <fullName>UOM_Kilometers</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18336,6 +18449,14 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>View Mode</shortDescription>
         <value>View as</value>
+    </labels>
+    <labels>
+        <fullName>View_More</fullName>
+        <categories>My Referrals</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>View_More</shortDescription>
+        <value>View More</value>
     </labels>
     <labels>
         <fullName>View_Visit_Legend</fullName>
@@ -18684,6 +18805,20 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Weight Description</shortDescription>
         <value>Your weight is the measurement of your body mass in kilograms (kg) or in pounds.</value>
+    </labels>
+    <labels>
+        <fullName>Withdrew_Consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Withdrew Consent</shortDescription>
+        <value>Withdrew Consent</value>
+    </labels>
+    <labels>
+        <fullName>Withdrew_Consent_After_Screening</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Withdrew Consent After Screening</shortDescription>
+        <value>Withdrew Consent After Screening</value>
     </labels>
     <labels>
         <fullName>Yes</fullName>

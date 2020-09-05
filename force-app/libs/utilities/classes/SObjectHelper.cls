@@ -19,6 +19,41 @@ public class SObjectHelper {
         sObjects.add(sobj);
         return sObjects;
     }
+
+    public static List<SObject> getAllSObjects(List<SObject> sobjList){
+        Set<Id> processedIds = new Set<Id>();
+        return getAllSobjectsExcept(sobjList, processedIds);
+    }
+
+    private static List<SObject> getAllSobjectsExcept(List<SObject> sobjList, Set<Id> processedObjects){
+        List<SObject> sObjects = new List<SObject>();
+        List<SObject> nestedObjects = new List<SObject>();
+        Map<String, Object> populatedFields;
+        System.debug(Logginglevel.ERROR , '***CPU time 92--' + Limits.getCPUTime());
+        for (SObject sobj: sobjList){
+            populatedFields = sobj.getPopulatedFieldsAsMap();
+            for(String fieldName : populatedFields.keySet()){
+                if(fieldName.endsWithIgnoreCase('__c') || fieldName.endsWithIgnoreCase('Id')) continue;
+                try{
+                    SObject nestedSObj = sobj.getSObject(fieldName);
+                    if (!processedObjects.contains(nestedSObj.Id)) {
+                        nestedObjects.add(nestedSObj);
+                        if(nestedSObj.Id != null){
+                            processedObjects.add(nestedSObj.Id);
+                        }
+                    }
+                }catch (Exception e){
+                }
+            }
+        }
+        System.debug(Logginglevel.ERROR , '***CPU time 92--' + Limits.getCPUTime());
+        if(!nestedObjects.isEmpty()){
+            sObjects.addAll(getAllSobjectsExcept(nestedObjects, processedObjects));
+        }
+        sObjects.addAll(sobjList);
+        System.debug(Logginglevel.ERROR , '***CPU time 93--' + Limits.getCPUTime());
+        return sObjects;
+    }
     
     public static Object getSObjectFieldValue(SObject sObj, String fieldPath){
         List<String> pathItems = fieldPath.split('\\.');

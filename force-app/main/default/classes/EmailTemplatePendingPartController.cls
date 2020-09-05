@@ -13,13 +13,13 @@ global without sharing class EmailTemplatePendingPartController {
                 Integer size = 0;
                 if(user.size()>0){
                     List<Id> studySites = new List<Id>();
-                    if(user[0].Contact.UserCommunityIsDelegate__c){
+                    
                     for(Site_Staff__c ss : [SELECT Study_Site__c FROM Site_Staff__c 
                                           WHERE Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1 
                                           AND Site_Contact__c =:sourceIdValue]){
                                               studySites.add(ss.Study_Site__c);
                                           }
-                    }
+                    
                 for(Participant_Enrollment__c pe:[SELECT Name,Clinical_Trial_Profile__r.Study_Code_Name__c,
                                                   Participant_Status_Last_Changed_Date__c FROM Participant_Enrollment__c
                                                   WHERE Participant_Status__c = 'Received' 
