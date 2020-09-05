@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
- <aura:component description="ParticipantCardHeader" extends="c:CommunityContext">
+<aura:component description="ParticipantCardHeader" extends="c:CommunityContext">
 
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String"/>
@@ -11,8 +11,8 @@
     <aura:attribute name="isInvited" type="Boolean"/>
 
     <!--added for the performance issue-->
-    <aura:attribute name="parent" type="Aura.Component" required="true"/>
-    <aura:attribute name="parentSE" type="Aura.Component" required="true"/>
+    <!--aura:attribute name="parent" type="Aura.Component" required="true"/>
+    <aura:attribute name="parentSE" type="Aura.Component" required="true"/-->
 
     <!-- component body: -->
     <div class="{!if(v.isArabic, 'rtl', '')}" style="position:relative;">
@@ -61,8 +61,8 @@
                     </aura:set>
                 </aura:if>
             </aura:if>
-            <!--Added for performance tuning -->
-            <a aura:id="show" class="slds-show custom-plus" onclick="{!c.openCard}"><span>{!$Label.c.View_More}&nbsp;&gt;</span></a>  
+        <!--Added for performance tuning -->
+        <!--a aura:id="show" class="slds-show custom-plus" onclick="{!c.openCard}"><span>{!$Label.c.View_More}&nbsp;&gt;</span></a-->  
         </aura:if>       
     </div>
 
