@@ -43,11 +43,6 @@ public without sharing class TermsAndConditionsRemote {
             } else {
                 tcData.tc = TermsAndConditions.getTC(TermsAndConditions.getOrgDefaultTCbyCode(code), languageCode, useDefaultCommunity);
             }
-            if (tcData.tc != null) {
-                Terms_And_Conditions_Acceptance__c tca = TermsAndConditions.getTCA(tcData.tc.Id);
-                tcData.isAccepted = tca != null;
-                if (tca != null) tcData.acceptedDate = tca.Accepted_Date__c;
-            }
             return JSON.serialize(tcData);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
