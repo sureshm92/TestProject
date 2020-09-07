@@ -877,7 +877,7 @@ public without sharing class ParticipantEnrollmentService {
         if (!String.isEmpty(filter.dateRange)) {
             filterStr += ' AND ' + filter.dateField + ' ' + filter.dateRange + ' ';
         }
-        //if (!filter.sortType.contains('Alphabetical')) filterStr += ' ORDER BY ' + filter.sortType;
+        //Add search filter if applicable
 		if (filter != null && !String.isEmpty(filter.searchText)) {
             String searchFilter = '';
             for (String searchField : filter.searchFields) {
@@ -887,29 +887,11 @@ public without sharing class ParticipantEnrollmentService {
             searchFilter = searchFilter.trim().removeEnd('OR');
             filterStr += ' AND (' + searchFilter + ')';
         }        
-        //Modified for performance tuning
-        //get PE List:
+        //Use ORDER BY clause for sorting based on created/ modified date
+        if (!filter.sortType.contains('Alphabetical')) filterStr += ' ORDER BY ' + filter.sortType;
+        //Modified for performance tuning - get PE List based on the offset
         List<Participant_Enrollment__c> peList = getPEnrolmentsCommonCustomFields(filter.mode, fieldsList, filterStr, delegateId, translationNeeded, paginationData);
-        /*List<Participant_Enrollment__c> filteredPEList = new List<Participant_Enrollment__c>();
-        //Filter by search string:
-        if (filter != null && !String.isEmpty(filter.searchText)) {
-            for (Participant_Enrollment__c pe : peList) {
-                Boolean isFound = false;
-                for (String searchField : filter.searchFields) {
-                    String searchFieldValue = SObjectHelper.getSObjectFieldValue(pe, searchField) + '';
-                    for (String searchWord : filter.searchText.split(' ')) {
-                        if (searchFieldValue.containsIgnoreCase(searchWord)) {
-                            isFound = true;
-                            break;
-                        }
-                    }
-                }
-                if (isFound) filteredPEList.add(pe);
-            }
-            peList = filteredPEList;
-        }*/
-        
-        //sort
+        //Sort the name fields alphabetically through iteration because of encryption
         if (filter != null && filter.sortType.contains('Alphabetical')) {
             List<String> fields = filter.sortType.split(',');
             String type = fields[0];
@@ -974,23 +956,21 @@ public without sharing class ParticipantEnrollmentService {
         
         Integer count = Database.countQuery('SELECT COUNT() FROM Participant_Enrollment__c WHERE ' + replaceStr);
         paginationData.setRecordsCount(count);
-        //defaultFilter += ' LIMIT :' + paginationData.endOffset;
-        //defaultFilter += ' OFFSET :' + paginationData.offset;
-        //if(filter != null) defaultFilter += ' ' + filter;
-        System.debug('**defaultFilter'+defaultFilter);
-        /*List<Participant_Enrollment__c> peList = DatabaseService.query(
+		
+		Integer limitvalue = paginationData.pageRecordsCount;
+        Integer currentpage = paginationData.currentPage;
+        Integer  size = currentpage -1;
+        Integer offsetvalue = size  * currentpage;
+        
+        List<Participant_Enrollment__c> peList = DatabaseService.query(
             customFields,
             Participant_Enrollment__c.getSObjectType(),
-            defaultFilter
-        );*/
-        List<Participant_Enrollment__c> peList = DatabaseService.query(
-            customFields, // field list
-            Participant_Enrollment__c.getSObjectType(), // sObject
-            defaultFilter, // filters
-            null, // orderby
-            paginationData.endOffset, // limit ie 10000
-            paginationData.offset // offset ie 10 
+            defaultFilter,
+            null,
+            limitvalue,
+            offsetvalue 
         );
+		
         System.debug('**peList 1:'+peList.size());
         if (userMode != CommunityService.USER_MODE_PARTICIPANT && translationNeeded) TranslateHelper.translate(peList);
         return peList;

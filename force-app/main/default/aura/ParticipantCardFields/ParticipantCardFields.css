@@ -16,7 +16,7 @@
 .THIS.vpi-clip-item-borders{
     overflow: hidden;
     padding: 0 16px 15px 5px;
-    border-bottom: 1px solid #d9d9d9;
+    /*border-bottom: 1px solid #d9d9d9;*/
 }
 
 .THIS .vpi-field{
