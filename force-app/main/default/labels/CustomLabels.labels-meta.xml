@@ -14484,7 +14484,7 @@ By using our website, you are accepting our use of cookies.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_AddProfilePhoto</shortDescription>
-        <value>Edit Profile Photo</value>
+        <value>Edit Photo</value>
     </labels>
     <labels>
         <fullName>PP_Change_Notification</fullName>
@@ -14809,7 +14809,7 @@ By using our website, you are accepting our use of cookies.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Remove_Photo</shortDescription>
-        <value>Remove</value>
+        <value>Remove Photo</value>
     </labels>
     <labels>
         <fullName>PP_Save_Changes</fullName>

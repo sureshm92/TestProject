@@ -49,11 +49,25 @@
         <div class="{!v.isRTLLanguage?'photo-label-rtl':'photo-label'}">
             <p class="username">{!v.username}</p>
             <aura:if isTrue="{!!v.isDelegate}">
-              <!--  <label for="file-upload" class="custom-file-upload">
+                <label for="file-upload" class="custom-file-upload">
                     <span  class="profileLabel"> {!$Label.c.PP_AddProfilePhoto}</span>
-                </label>-->
+                </label>
+                <span class="divider-vertical-standard-line">
+                |
+                </span>
+                            <aura:if isTrue="{!v.hasProfilePic}">
+                <span class="remove" onclick="{!c.removePhoto}">{!$Label.c.PP_Remove_Photo}</span>
+                <aura:set attribute="else">  
+                  <span class="remove-photo-disabled">
+                    {!$Label.c.PP_Remove_Photo}                    
+                    </span>
 
-               <div aura:id="dropdown" class="dropdown">
+                </aura:set>
+
+      </aura:if>
+
+
+             <!--  <div aura:id="dropdown" class="dropdown">
   <div class="edit" onclick="{!c.myFunction}"><button class="dropbtn" >{!$Label.c.PP_AddProfilePhoto}<lightning:icon iconName="utility:down" size="small"/>
       </button></div>
   <div id="myDropdown" class="dropdown-content" aura:id="myDropdown">
@@ -69,7 +83,7 @@
 
       </aura:if>
   </div>
-</div>
+</div>-->
             </aura:if>
             
 
