@@ -148,8 +148,9 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler
                 Study_Site__c ss = ssByPrimaryKeyEPRMap.get(getSitePrimaryKeyEPR(ipr));
                 if (ss != null) peList.add(createPE(ipr, participant.Id, ss.Id));
 
-                Contact participantDelegateContact = newDelegateContactsMap.get(ipr.referralID__c).contactObj;
-                if (participantDelegateContact != null) {
+                ContactAndSiteType participantDelegateContactAndSiteType = newDelegateContactsMap.get(ipr.referralID__c);
+                if (participantDelegateContactAndSiteType != null) {
+                    Contact participantDelegateContact = participantDelegateContactAndSiteType.contactObj;
                     delegateParticipants.add(createDelegateParticipant(participantDelegateContact,ipr.Delegate_Phone_Number_Type__c)); 
                     participantIdByParticipantDelegateContactId.put(participantDelegateContact.Id, participant.Id);
                     delegateIds.add(participantDelegateContact.Id);
