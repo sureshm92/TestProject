@@ -526,10 +526,18 @@ public without sharing class ParticipantEnrollmentService {
             'Clinical_Trial_Profile__c',
             'Study_Site__c'
     };
+    public static final List<String> CTP_FIELDS_FOR_FILTER = new List<String>{
+            'Id',
+            'Study_Code_Name__c'
+    };
+    public static final List<String> SS_FIELDS_FOR_FILTER = new List<String>{
+            'Id',
+            'Name'
+    };
                 
-                public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter) {
-                    return getPEnrolmentsCommonCustomFields(userMode, customFields, filter, null);
-                }
+    public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter) {
+        return getPEnrolmentsCommonCustomFields(userMode, customFields, filter, null);
+    }
     
     public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter, String delegateId) {
         return getInstance().getPEnrolmentsCommonCustomFieldsImpl(userMode, customFields, filter, delegateId);
@@ -544,7 +552,6 @@ public without sharing class ParticipantEnrollmentService {
     }
     
     public static List<Participant_Enrollment__c> getPEnrolmentsCommon(String userMode, String filter, String delegateId) {
-
         return getPEnrolmentsCommonCustomFieldsWithTranslation(userMode, PE_COMMON_FIELDS, filter, delegateId);
     }
 
@@ -686,10 +693,11 @@ public without sharing class ParticipantEnrollmentService {
         }
         return createPEFilterDataForTrials(trialsMap, studySites, mode);
     }
-    
+    //Modified for performance tuning. Study Site and CTP filters are going to be static
     public static PEFilterData getPEFilterDataWithExistingPERecords(String activePE, Id trialId, String mode, Boolean restrictTrial, String delegateId, String additionalFilters) {
-        //init trials
-        Map<Id, Clinical_Trial_Profile__c> trialsMap = new Map<Id, Clinical_Trial_Profile__c>(TrialService.getAvailableTrialsWithPE(activePE, mode, delegateId, additionalFilters));
+        //init trials - removed filtration based on PE
+        //Map<Id, Clinical_Trial_Profile__c> trialsMap = new Map<Id, Clinical_Trial_Profile__c>(TrialService.getAvailableTrialsWithPE(activePE, mode, delegateId, additionalFilters));
+        Map<Id, Clinical_Trial_Profile__c> trialsMap = new Map<Id, Clinical_Trial_Profile__c>(TrialService.getAvailableTrials(mode,delegateId));
         //init study sites:
         List<Study_Site__c> studySites;
         if (mode == CommunityService.USER_MODE_HCP) {
@@ -706,7 +714,8 @@ public without sharing class ParticipantEnrollmentService {
                 studySites = StudySiteService.getStudySitesForPI();
             }
         }
-        studySites = StudySiteService.filterStudySitesWithPE(studySites, activePE, mode, delegateId, additionalFilters);
+        //Removed filtration based on PE
+        //studySites = StudySiteService.filterStudySitesWithPE(studySites, activePE, mode, delegateId, additionalFilters);
         return createPEFilterDataForTrials(trialsMap, studySites, mode);
     }
     
@@ -737,8 +746,8 @@ public without sharing class ParticipantEnrollmentService {
         }
         peFilterData.activePE = new List<LabelValueItem>{
             new LabelValueItem(TranslateHelper.getLabelValue('PG_VP_L_Active'), PEStatusState.PE_STATUSES_ACTIVE), new LabelValueItem(TranslateHelper.getLabelValue('PG_VP_L_Inactive'), PEStatusState.PE_STATUSES_INACTIVE)
-                };
-                    peFilterData.activeParticipantStatus = new List<LabelValueItem>();
+        };
+        peFilterData.activeParticipantStatus = new List<LabelValueItem>();
         for (Integer i = 0, j = PEStatusState.PE_STATUS_GROUP_ACTIVE.size(); i < j; i++) {
             peFilterData.activeParticipantStatus.add(new LabelValueItem(TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,PEStatusState.PE_STATUS_GROUP_ACTIVE[i]), PEStatusState.PE_STATUS_GROUP_ACTIVE[i]));
         }

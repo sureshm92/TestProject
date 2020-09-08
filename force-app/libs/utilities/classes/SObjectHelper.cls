@@ -29,7 +29,6 @@ public class SObjectHelper {
         List<SObject> sObjects = new List<SObject>();
         List<SObject> nestedObjects = new List<SObject>();
         Map<String, Object> populatedFields;
-        System.debug(Logginglevel.ERROR , '***CPU time 92--' + Limits.getCPUTime());
         for (SObject sobj: sobjList){
             populatedFields = sobj.getPopulatedFieldsAsMap();
             for(String fieldName : populatedFields.keySet()){
@@ -46,12 +45,10 @@ public class SObjectHelper {
                 }
             }
         }
-        System.debug(Logginglevel.ERROR , '***CPU time 92--' + Limits.getCPUTime());
         if(!nestedObjects.isEmpty()){
             sObjects.addAll(getAllSobjectsExcept(nestedObjects, processedObjects));
         }
         sObjects.addAll(sobjList);
-        System.debug(Logginglevel.ERROR , '***CPU time 93--' + Limits.getCPUTime());
         return sObjects;
     }
     
