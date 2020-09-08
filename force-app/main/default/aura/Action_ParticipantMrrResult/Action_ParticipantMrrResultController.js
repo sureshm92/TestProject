@@ -26,7 +26,7 @@
         var pe = component.get('v.pe');
         communityService.executeAction(component, 'createUser', {
             peId: pe.Id,
-            pcId: pe.Participant_Contact__r.Id
+            pcId: pe.Participant_Contact__c
         }, function (returnValue) {
             communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
         });
