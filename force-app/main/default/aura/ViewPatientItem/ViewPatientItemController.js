@@ -4,15 +4,14 @@
 ({
     doInit: function (component, event, helper) {
         helper.prepareCardFields(component, event);
-       // if (component.get('v.pe')) {
-        // helper.preparePathItems(component, event);
-        //}
     },
+    
     //Added for the performance tuning
     preparePathItems : function(component, event, helper){
-        if (component.get('v.pe')) {
-             helper.preparePathItems(component, event);
-         }
+        if (component.get('v.pe')) {          
+            helper.toggleBubbleMap(component, event);
+            //helper.preparePathItems(component, event);
+        }
     },
 
     doChangeStatus: function (component, event, helper) {
