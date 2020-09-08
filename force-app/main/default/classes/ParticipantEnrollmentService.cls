@@ -960,7 +960,7 @@ public without sharing class ParticipantEnrollmentService {
 		Integer limitvalue = paginationData.pageRecordsCount;
         Integer currentpage = paginationData.currentPage;
         Integer  size = currentpage -1;
-        Integer offsetvalue = size  * currentpage;
+        Integer offsetvalue = size  * limitvalue;
         
         List<Participant_Enrollment__c> peList = DatabaseService.query(
             customFields,
