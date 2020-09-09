@@ -155,15 +155,12 @@ public without sharing class ViewPatientsRemote {
             };
             initData.peFilter.additionalFilter = additionalFilter;
 			List<Participant_Enrollment__c> peList;
-			if(userMode != CommunityService.USER_MODE_PI){
-                peList = ParticipantEnrollmentService.getParticipantEnrollments(initData.peFilter, delegateId);
-                System.debug('IF - peList:'+peList.size());               
+			if(userMode != CommunityService.USER_MODE_PI) {
+                peList = ParticipantEnrollmentService.getParticipantEnrollments(initData.peFilter, delegateId);              
             }
-            else{
-                peList = ParticipantEnrollmentService.getParticipantEnrollmentsCustomFields(PE_MY_PARTICIPANTS_FIELDS, initData.peFilter, delegateId, false,initData.paginationData);
-                System.debug('ELSE - peList:'+peList.size());            
+            else {
+                peList = ParticipantEnrollmentService.getParticipantEnrollmentsCustomFields(PE_MY_PARTICIPANTS_FIELDS, initData.peFilter, delegateId, false,initData.paginationData);           
             }
-            System.debug('**peList 4:'+peList.size());
             initData.hasEmancipatedParticipants = false;
             //peList = ParticipantEnrollmentService.getParticipantEnrollmentsPaginated(peList, initData.paginationData);
             if (userMode == CommunityService.USER_MODE_PI) {
@@ -174,7 +171,6 @@ public without sharing class ViewPatientsRemote {
                     userMode,
                     delegateId
             );
-            //System.debug('**JSON Serialize 5:'+JSON.serialize(initData));
             return JSON.serialize(initData);
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
