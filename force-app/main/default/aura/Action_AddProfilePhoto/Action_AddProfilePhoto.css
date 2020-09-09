@@ -42,13 +42,18 @@
 }
 
 .THIS .profileLabel {
-    color: #444;
+    color: #0768FD;
     font-family: "Proxima Nova";
     font-size: 16px;
-    /*font-weight: 600;*/
+    font-weight: 500;
     letter-spacing: 0;
     line-height: 24px;
     text-align: center;
+    margin-right:3px;
+    
+}
+.THIS .profileLabel:hover{
+    background-color:#eef5ff;
     
 }
 .THIS .profileLabel-ltr{
@@ -257,12 +262,15 @@
 }
 .THIS .remove{
     font-size:16px;
-    color: #444;
+    color: #0768FD;
     font-family: "Proxima Nova";
     font-size: 16px;
     letter-spacing: 0;
     line-height: 24px;
     text-align: center;
+    font-weight:500;
+    margin-left: -6px;
+
     /*padding: 20px;*/
     /*margin-left:-12px;*/
     display: inline-block;
@@ -274,10 +282,20 @@
     font-size:16px;
     padding: 20px;
     color:grey;
+    font-weight:600;
     margin-left:-12px;
-
-    
 }
+.THIS .remove-photo-disabled{
+  opacity: 0.4;
+  color: #0768FD;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 24px;
+  text-align: center;
+  margin-left:1px;
+    }
 .THIS .slds-icon-text-default {
     fill: rgb(21, 137, 238);
 }
@@ -329,6 +347,16 @@
 
 /* Change color of dropdown links on hover */
 .THIS .dropdown-content a:hover {background-color: white;}
+.THIS .divider-vertical-standard-line {
+    margin-right: 2px;
+    color: rgb(212, 212, 212);
+    height: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: rgb(255 255 255);
+    width: 1px;
+    margin-top: 6px;
+}
 
 
 
