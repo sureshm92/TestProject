@@ -132,12 +132,14 @@
             </c:FilterPanel>
 
              <!-- pagination -->
-             <c:RRPaginationRemote entriesOnPage="{!v.paginationData.pageRecordsCount}"
-             currentPage="{!v.paginationData.currentPage}"
-             allRecordsCount="{!v.paginationData.allRecordsCount}"/>
+             <div class="pagination-position">
+                 <c:RRPaginationRemote entriesOnPage="{!v.paginationData.pageRecordsCount}"
+                 currentPage="{!v.paginationData.currentPage}"
+                 allRecordsCount="{!v.paginationData.allRecordsCount}"/>
+             </div>
 
             <!-- list of items: -->
-            <div style="position: relative; min-height: 100px; padding-bottom: 1px" class="slds-gutters_">
+            <div class="participantcard-position slds-gutters_">
                 <c:RRSpinner aura:id="recordsSpinner" size="medium" showSpinner="false"/>
                 <c:EmptyListStub targetList="{!v.pageList}"/>
                 <aura:iteration items="{!v.pageList}" var="item">
