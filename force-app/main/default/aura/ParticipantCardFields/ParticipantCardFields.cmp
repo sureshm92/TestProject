@@ -84,7 +84,7 @@
                         <div class="label">{!$Label.c.PE_Patient_Id}</div>
                         <div class="value">{!v.pe.Patient_ID__c}</div>
                     </div>-->
-                    <aura:if isTrue="{!v.pe.Participant__r.Adult__c}">
+                    <!--aura:if isTrue="{!v.pe.Participant__r.Adult__c}">
                         <div class="vpi-field">
                             <div class="label">{!$Label.c.PE_Participant_Phone}</div>
                             <div class="value"><lightning:formattedPhone value="{!v.pe.Participant__r.Phone__c}"></lightning:formattedPhone></div>
@@ -95,7 +95,11 @@
                                     <div class="value"><lightning:formattedPhone value="{!v.minorDelegate.Phone__c}"></lightning:formattedPhone></div>
                                 </div>
                         </aura:set>
-                    </aura:if>
+                    </aura:if-->
+                    <div class="vpi-field">
+                        <div class="label">{!$Label.c.Participant_Status}</div>
+                        <div class="value">{!v.pe.Participant_Status__c}</div>
+                    </div>
                 </aura:if>
             </aura:if>
 
