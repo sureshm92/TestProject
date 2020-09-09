@@ -3,7 +3,9 @@
  -->
 
  <aura:component description="PPMenuItems">
-
+     <aura:attribute name="tooltipTop" type="Integer" />
+     <aura:attribute name="tooltipLeft" type="Integer" />
+	
     <!-- attributes: -->
     <aura:attribute name="allModes" type="Object"/>
 	<aura:attribute name="hovertext" type="String"/>
@@ -55,8 +57,10 @@
                                                 <div class="slds-popover__body">Delegates</div>
                                              </div> -->
     </div>
-     <div class="slds-popover slds-popover--tooltip  toggle container tooltip" role="tooltip" id="help" aura:id="tooltip">
-                                                <div class="slds-popover__body word-wrap: break-word;">{!v.hovertext}</div>
+     <div class="slds-popover slds-popover--tooltip slds-nubbin_bottom  toggle container tooltip" role="tooltip" id="help" aura:id="tooltip" style="{!'top:'+v.tooltipTop}">
+      
+         <div class="slds-popover__body word-wrap: break-word;" >{!v.hovertext}</div>
                                              </div>  
+         
 	
 </aura:component>
