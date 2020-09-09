@@ -1,19 +1,20 @@
-<messaging:emailTemplate subject="{!$Label.Email_Subject_Initial}"
-                         recipientType="User"
+<messaging:emailTemplate recipientType="User"
+                         subject="{!IF(recipient.Contact.userCommunityMode__c=='Participant' && !recipient.Contact.UserCommunityIsDelegate__c, $Label.Email_Subject_Initial_New, $Label.Email_Subject_Initial)}"
+                         
                          language="{!recipient.LanguageLocaleKey}">
 
-    <messaging:htmlEmailBody>
+    <messaging:htmlEmailBody >
         <c:InitialWireframe userId="{!recipient.Id}"
                             communityTemplate="Default"
-                            buttonLabel="{!$Label.Email_Action_Enroll_Now}"
+                            buttonLabel="{!IF(recipient.Contact.userCommunityMode__c=='Participant'  && !recipient.Contact.UserCommunityIsDelegate__c,$Label.Email_Action_Register,$Label.Email_Action_Enroll_Now)}"
                             buttonURL="{!$Network.NetworkUrlForUserEmails}">
         </c:InitialWireframe>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody>
+    <messaging:plainTextEmailBody >
         <c:InitialWireframeText userId="{!recipient.Id}"
                                 communityTemplate="Default"
-                                buttonLabel="{!$Label.Email_Action_Enroll_Now}"
+                                buttonLabel="{!IF(recipient.Contact.userCommunityMode__c=='Participant'  && !recipient.Contact.UserCommunityIsDelegate__c,$Label.Email_Action_Register,$Label.Email_Action_Enroll_Now)}"
                                 buttonURL="{!$Network.NetworkUrlForUserEmails}">
         </c:InitialWireframeText>
     </messaging:plainTextEmailBody>

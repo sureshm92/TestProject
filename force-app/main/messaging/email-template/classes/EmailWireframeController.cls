@@ -17,6 +17,7 @@ global without sharing class EmailWireframeController {
     global String specificEmailProviderValue { get; set; }
     global String outputMode { get; set; }
     global String displayOptOut {get;set;}
+    global String userModeValue {get;set;}
     private EmailTemplateProvider templateProvider;
 
     global String getUserLanguageCode() {
@@ -123,11 +124,11 @@ global without sharing class EmailWireframeController {
         return getProvider().isInitialized();
     }
 
-   private EmailTemplateProvider getProvider() {
+    private EmailTemplateProvider getProvider() {
         if (templateProvider == null) {
             EmailTemplateProviderService.setProviderType(
                     specificEmailProviderValue, emailRecipientId, emailRecipientName, emailRecipientLanguage,
-                    communityTemplateValue, sourceRecordId, outputMode, shareTemplate
+                    communityTemplateValue, sourceRecordId, outputMode
             );
             templateProvider = EmailTemplateProviderService.getProvider();
         }
