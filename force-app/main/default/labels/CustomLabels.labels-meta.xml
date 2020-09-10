@@ -8965,7 +8965,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT H Messages</shortDescription>
-        <value>Messages</value>
+        <value>Messages*</value>
     </labels>
     <labels>
         <fullName>OT_H_Media_Request</fullName>
@@ -15207,6 +15207,13 @@ communications using the toggles below.</value>
         <shortDescription>PWS Withdrew Conscent Disclaimer</shortDescription>
         <value>On Initial Visit tab, update informed consent date (add a note if date is same as initial date of consent) and save to proceed with screening.</value>
     </labels>
+	<labels>
+        <fullName>Page</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Page</shortDescription>
+        <value>Page</value>
+    </labels>
     <labels>
         <fullName>Participant</fullName>
         <language>en_US</language>
@@ -15234,6 +15241,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Participant SMS Preferences are blocked from SS</shortDescription>
         <value>SMS that notify you are bloked from Study Site. For Additional information contact our support team.</value>
+    </labels>
+	<labels>
+        <fullName>Participant_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Participant Status</shortDescription>
+        <value>Participant Status</value>
     </labels>
     <labels>
         <fullName>Participant_Visits_Available</fullName>
