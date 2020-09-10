@@ -16,7 +16,7 @@
         var dataVal = event.currentTarget.dataset.id;       
         component.set("v.hovertext",dataVal);
         var cmpTarget = component.find('tooltip');
-        if(dataVal=='Delegates'){
+      if(dataVal=='Delegates'){
             $A.util.addClass(cmpTarget, 'tooltip');
             $A.util.addClass(cmpTarget,'slds-nubbin--bottom');
             $A.util.removeClass(cmpTarget, 'tooltipAS');
@@ -46,8 +46,8 @@
         
         $A.util.addClass(cmpTarget, 'tooltip');
         if(dataVal!='No active studies'){
-        helper.toggleHelper(component, event);
-        }
+        	helper.toggleHelper(component, event);
+        }        
     },    
     displayOut : function(component, event, helper) {
        helper.toggleHelper(component, event);

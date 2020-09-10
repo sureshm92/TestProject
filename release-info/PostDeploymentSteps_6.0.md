@@ -23,3 +23,12 @@ Click Activate - Janssen value
 
 ## 4. Change CustomMetadata value
 Open Setup - Custom Metadata Types > find Guides Setting and click on Manage Records > Edit 	English USA GSK  and change Language to 'en_US' and save.> Edit English USA Janssen and change Language to 'en_US' and save.
+
+## 5. Favicon Configuration for Community Pages
+Open Setup - All Communities - 
+Go to Workspaces | Administration | Pages | Force.com
+Click Edit | Add "iqvia_favicon" static resource to the 'Sites Favourite Icon.' Save
+Open Setup - All Communities - 
+Go to Community Builder | Go to Settings | Advanced | Edit Head Markup. 
+Add the following: <link rel="shortcut icon" href="/favicon.ico?v=2" type="image/icon"/>
+Save | Publish the changes in Community Builder  
