@@ -177,7 +177,8 @@ public without sharing class DashboardRemote {
     {
         String filter = ' Participant__c = \'' + eId + '\'';
         List<Participant_Enrollment__c> peList = DatabaseService.query(
-                ParticipantEnrollmentService.PE_COMMON_FIELDS,
+                //ParticipantEnrollmentService.PE_COMMON_FIELDS,
+            	ParticipantEnrollmentService.PE_COMMON_CUSTOM_FIELDS,
                 Participant_Enrollment__c.getSObjectType(),
                 filter
         );
@@ -286,7 +287,7 @@ public without sharing class DashboardRemote {
                         piId = currentContactId;
                     }
                 }
-
+                /* commented by sumit s
 				for (Site_Staff__c sStaff : [
                         SELECT Id,
                                 Study_Site__r.Principal_Investigator__c,
@@ -299,7 +300,7 @@ public without sharing class DashboardRemote {
                     delegateSSIds.add(sStaff.Study_Site__c);
                 }
                 System.debug('delegatePIsMap----> ' + delegatePIsMap);
-				
+				*/
 				Id pi_Id;
                 if(action == 'Init'){
                     if(!delegatePIsMap.isEmpty()){
@@ -354,17 +355,32 @@ public without sharing class DashboardRemote {
 
                 Set<Id> related_StudyIds = new set<Id>();
 
-                for (Study_Site__c ss : related_site_sites) {
-                    related_StudyIds.add(ss.Clinical_Trial_Profile__r.Id);
+                //for (Study_Site__c ss : related_site_sites) {
+                // Added by Sumit S
+                for(Study_Site__c ss : [Select 
+                                        Id, 
+                                        Name, 
+                                        Clinical_Trial_Profile__r.Id 
+                                        FROM Study_Site__c 
+                                        WHERE  Principal_Investigator__c =: pi_Id]){                    
+                                    related_StudyIds.add(ss.Clinical_Trial_Profile__r.Id);
                 }
-                Map<Id, String> piCTPMap = new Map<Id, String>();
+                
+                
+                /*Map<Id, String> piCTPMap = new Map<Id, String>();
 
                 for(Clinical_Trial_Profile__c ctp : [Select Id, Name, Study_Code_Name__c  From Clinical_Trial_Profile__c WHERE Id IN : related_StudyIds ORDER BY Study_Code_Name__c ASC]){
                     piCTPMap.put(ctp.Id, ctp.Study_Code_Name__c);
-                } 
+                } */
+                //Added by Sumit S
+                Map<Id, Clinical_Trial_Profile__c> piCTPMap = new Map<Id, Clinical_Trial_Profile__c>([Select 
+                                                                Id, 
+                                                                Study_Code_Name__c  
+                                                                From Clinical_Trial_Profile__c 
+                                                                WHERE Id IN : related_StudyIds ORDER BY Study_Code_Name__c ASC]);
                 System.debug('piCTPMap : ' +piCTPMap);
                 for (Id ctp_Id : piCTPMap.keySet()) {
-                    piData.piCTPPicklist.add(new LabelValueItem(piCTPMap.get(ctp_Id), ctp_Id));
+                    piData.piCTPPicklist.add(new LabelValueItem(piCTPMap.get(ctp_Id).Study_Code_Name__c, ctp_Id));
                 }
 
                 for (Id pId : delegatePIsMap.keySet()) {
@@ -418,20 +434,51 @@ public without sharing class DashboardRemote {
                             WHERE Clinical_Trial_Profile__r.Id = :ctpId
                     ];
 
-                    peList = ParticipantEnrollmentService.getPEEnrollmentsByPI(userMode, currentContactId);
+                    //peList = ParticipantEnrollmentService.getPEEnrollmentsByPI(userMode, currentContactId);
 
                     if (peList.isEmpty() && !delegatePIsMap.isEmpty()) {
                         if (piId == null) {
-                            peList = ParticipantEnrollmentService.getPEEnrollmentsByPI(userMode, new List<Id>(delegatePIsMap.keySet())[0]);
-                            piData.selectedPi = new List<Id>(delegatePIsMap.keySet())[0];
+                            //peList = ParticipantEnrollmentService.getPEEnrollmentsByPI(userMode, new List<Id>(delegatePIsMap.keySet())[0]);
+                       /* peList = (List<Participant_Enrollment__c>) DatabaseService.query(
+                        ParticipantEnrollmentService.PE_COMMON_CUSTOM_FIELDS,
+                        Participant_Enrollment__c.getSObjectType(),
+                        ' Study_Site__c != NULL AND Study_Site__r.Principal_Investigator__c = \'' + new List<Id>(delegatePIsMap.keySet())[0] + '\' AND Clinical_Trial_Profile__c = \'' + ctpId + '\''
+                        );  */      
+                        peList = (List<Participant_Enrollment__c>) DatabaseService.query(
+                            ParticipantEnrollmentService.PE_COMMON_CUSTOM_FIELDS,
+                            Participant_Enrollment__c.getSObjectType(), 
+                            ' Study_Site__c != NULL AND Study_Site__r.Principal_Investigator__c = \'' + new List<Id>(delegatePIsMap.keySet())[0] + '\' AND Clinical_Trial_Profile__c = \'' + ctpId + '\'', 
+                            null, // Order by
+                            10, // Offset
+                            1000); // Limit      
+                                        
+                        piData.selectedPi = new List<Id>(delegatePIsMap.keySet())[0];
                             piId = piData.selectedPi;
                         } else {
-                            peList = ParticipantEnrollmentService.getPEEnrollmentsByPI(userMode, piId);
-                            piData.selectedPi = piId;
+                            //peList = ParticipantEnrollmentService.getPEEnrollmentsByPI(userMode, piId);
+                       /* peList = (List<Participant_Enrollment__c>) DatabaseService.query(
+                        ParticipantEnrollmentService.PE_COMMON_CUSTOM_FIELDS,
+                        Participant_Enrollment__c.getSObjectType(),
+                        ' Study_Site__c != NULL AND Study_Site__r.Principal_Investigator__c = \'' + piId + '\' AND Clinical_Trial_Profile__c = \'' + ctpId + '\''
+                        ); */                           
+                        peList = (List<Participant_Enrollment__c>) DatabaseService.query(
+                        ParticipantEnrollmentService.PE_COMMON_CUSTOM_FIELDS,
+                        Participant_Enrollment__c.getSObjectType(),
+                        ' Study_Site__c != NULL AND Study_Site__r.Principal_Investigator__c = \'' + piId + '\' AND Clinical_Trial_Profile__c = \'' + ctpId + '\'',
+                        null,
+                        10,
+                        10
+                        );                            
+                        piData.selectedPi = piId;
                         }
                     } else {
                         if (piId != null) {
-                            peList = ParticipantEnrollmentService.getPEEnrollmentsByPI(userMode, piId);
+                            //peList = ParticipantEnrollmentService.getPEEnrollmentsByPI(userMode, piId);
+                            peList = (List<Participant_Enrollment__c>) DatabaseService.query(
+                        ParticipantEnrollmentService.PE_COMMON_CUSTOM_FIELDS,
+                        Participant_Enrollment__c.getSObjectType(),
+                        ' Study_Site__c != NULL AND Study_Site__r.Principal_Investigator__c = \'' + piId + '\' AND Clinical_Trial_Profile__c = \'' + ctpId + '\''
+                        );
                             piData.selectedPi = piId;
                         } else {
                             piData.selectedPi = currentContactId;
@@ -541,14 +588,15 @@ public without sharing class DashboardRemote {
                             new DonutItem(Label.DI_L_Pending_approval_activation, phPending, DonutItem.Type.PENDING)
                     });
 
-                    // waiting contact in days
+                    // waiting contact in days <--- Removed for performance
                     piData.waitingTimeToContact = prepareWaitingList(userMode, delegateId, piId, ctpId);
 
                     // awaiting contact
                     piData.awaitingToContact = prepareAwaitingContactList(userMode, delegateId, contactAtemptedList, piId, ctpId);
                     piData.participantsWaitingContact = piData.awaitingToContact.size();
-
-                    piData.funnelData = prepareDataForFunnelChart(piId, ctpId);
+                    
+                    // Commented for performance tuning
+                    //piData.funnelData = prepareDataForFunnelChart(piId, ctpId);
 
                 } else {
                     piData.selectedCTP = null;
@@ -722,6 +770,10 @@ public without sharing class DashboardRemote {
                         null,
                         delegateId);*/
         //Map<Id, Participant_Enrollment__c> peById = new Map<Id, Participant_Enrollment__c>(receivedPE);
+        List<Participant_Enrollment__c> participantEnrollmentList = [ SELECT Id
+                        FROM Participant_Enrollment__c
+                        WHERE (Study_Site__r.Principal_Investigator__c = :piId
+                        AND  Clinical_Trial_Profile__c =: ctpId)]; //<--- Added limit
 
         List<Participant_Enrollment_Status_History__c> peSHs = [
                 SELECT Id,
@@ -730,17 +782,12 @@ public without sharing class DashboardRemote {
                         ParticipantEnrollment__c,
                         Status__c
                 FROM Participant_Enrollment_Status_History__c
-                WHERE ParticipantEnrollment__c IN (
-                        SELECT Id
-                        FROM Participant_Enrollment__c
-                        WHERE(Study_Site__r.Principal_Investigator__c = :piId
-                        AND  Clinical_Trial_Profile__c =: ctpId)
-                ) AND
+                WHERE ParticipantEnrollment__c IN : participantEnrollmentList AND
                 Status__c IN :(new List<String>{
                         PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED,
                         PEStatusState.PE_STATUS_RECEIVED
                 })
-                ORDER BY CreatedDate DESC
+                ORDER BY CreatedDate DESC //<--- Added limit
         ];
         Map<Id, Participant_Enrollment_Status_History__c> receivedPESHsByPIId = new Map<Id, Participant_Enrollment_Status_History__c>();
         Map<Id, Participant_Enrollment_Status_History__c> contactedPESHsByPIId = new Map<Id, Participant_Enrollment_Status_History__c>();
@@ -812,28 +859,45 @@ public without sharing class DashboardRemote {
         return resList;
     }
 
-    private static List<FunnelData> prepareDataForFunnelChart(Id piId, Id ctpId) {
+    @AuraEnabled
+    public static List<FunnelData> prepareDataForFunnelChart(Id piId, Id ctpId) {
         List<FunnelData> returnData = new List<FunnelData>();
+        //Added by Sumit S
+        Map<Id, Participant_Enrollment__c> peMap = new Map<Id, Participant_Enrollment__c>([SELECT Id,
+                                                                                           Participant_Status__c, 
+                                                                                           Study_Site__r.Principal_Investigator__r.Name, 
+                                                                                           Study_Site__r.Study_Site_Type__c, 
+                                                                                           Initial_visit_scheduled_flag__c, 
+                                                                                           Initial_visit_occurred_flag__c
+                                                                                           FROM Participant_Enrollment__c
+                                                                                           WHERE Study_Site__c != NULL AND 
+                                                                                           Study_Site__r.Principal_Investigator__c =: piId AND  
+                                                                                           Clinical_Trial_Profile__c =: ctpId LIMIT 1000]); //<--- Added limit
+        // Added limit ------>
+        /*commented by Sumit S
         Map<Id, Participant_Enrollment__c> peMap = new Map<Id, Participant_Enrollment__c>();
         List<Participant_Enrollment__c> peList = (List<Participant_Enrollment__c>) DatabaseService.query(
                 ParticipantEnrollmentService.PE_COMMON_FIELDS,
                 Participant_Enrollment__c.getSObjectType(),
                 ' Study_Site__c != NULL AND Study_Site__r.Principal_Investigator__c = \'' + piId + '\' AND Clinical_Trial_Profile__c = \'' + ctpId + '\''
         );
+        */
         /*for(Participant_Enrollment__c pe : (List<Participant_Enrollment__c>) DatabaseService.query(
                 ParticipantEnrollmentService.PE_COMMON_FIELDS,
                 Participant_Enrollment__c.getSObjectType(),
                 ' Study_Site__c != NULL AND PI_Contact__c = \'' + CommunityService.getInstance().getCurrentContactId() +'\''
         )){*/
+        /*
         for (Participant_Enrollment__c pe : peList) {
             peMap.put(pe.Id, pe);
         }
+        */
         List<Participant_Enrollment_Status_History__c> peHostoryList = [
                 Select Id,
                         Status__c,
                         ParticipantEnrollment__c
                 FROM Participant_Enrollment_Status_History__c
-                WHERE ParticipantEnrollment__c IN :peMap.keySet()
+                WHERE ParticipantEnrollment__c IN :peMap.keySet() LIMIT 1000//<--- Added limit
         ];
         if (!peHostoryList.isEmpty()) {
             Set<Id> receivedStatusSet = new Set<Id>();
