@@ -3696,6 +3696,14 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>Login Now</value>
     </labels>
     <labels>
+        <fullName>Email_Action_Register</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Action Register</shortDescription>
+        <value>Register</value>
+    </labels>
+
+    <labels>
         <fullName>Email_Action_Review_Cases</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3909,6 +3917,7 @@ Please share our site on social media to encourage others to assist us as we wor
 
             Your username is ##UserName.</value>
     </labels>
+
     <labels>
         <fullName>Email_Body_Initial_Patient_Covid_19</fullName>
         <categories>Covid19</categories>
@@ -3933,6 +3942,23 @@ Please share our site on social media to encourage others to assist us as we wor
             Your username is ##UserName.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Initial_Patient_Created_By_PI_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Initial Patient Created By PI New</shortDescription>
+        <value>Thank you for your interest in the ##StudyName.    
+ 
+We are reaching out to you to confirm we received your referral from ##PITitle ##PIName. A member of the study team will contact you regarding the next steps in the referral process. 
+
+The IQVIA Patient Portal will allow you to:
+•	track the progress of your referral 
+•	learn more about this study 
+•	find out about future clinical research studies.
+
+Your user name is ##UserName.</value>
+    </labels>
+
+    <labels>
         <fullName>Email_Body_Initial_Patient_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3951,6 +3977,23 @@ Please share our site on social media to encourage others to assist us as we wor
             Please note that enrollment in ##FullCommunityName is not a requirement for ##ParticipantFirstName to be enrolled into the clinical research study.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Initial_Patient_New</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Initial Patient New</shortDescription>
+        <value>Thank you for your interest in the ##StudyName.    
+ 
+We are reaching out to you to confirm we received your referral from ##HCPTitle ##HCPName. A member of the study team will contact you regarding the next steps in the referral process. 
+
+The IQVIA Patient Portal will allow you to:
+•            track the progress of your referral 
+•	     learn more about this study 
+•	     find out about future clinical research studies.
+
+Your user name is ##UserName.</value>
+    </labels>
+
+    <labels>
         <fullName>Email_Body_Initial_Patient_Virtual</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3965,6 +4008,23 @@ Please share our site on social media to encourage others to assist us as we wor
 
             Your username is ##UserName.</value>
     </labels>
+    <labels>
+        <fullName>Email_Body_Initial_Patient_Virtual_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Initial Patient Virtual New</shortDescription>
+        <value>Thank you for your interest in the ##StudyName.    
+ 
+We are reaching out to you to confirm we received your information. A member of the study team will contact you regarding the next steps in the study process. 
+
+The Patient Portal will help you:
+• learn more about the ##StudyName
+• track your study progress, through enrollment and beyond 
+• find out more about future clinical research studies.  
+
+Your user name is ##UserName.</value>
+    </labels>
+
     <labels>
         <fullName>Email_Body_Janssen_Initial_PI</fullName>
         <language>en_US</language>
@@ -4660,6 +4720,14 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <value>Powered by IQVIA, 4820 Emperor Blvd, Durham, North Carolina 27703, USA</value>
     </labels>
     <labels>
+        <fullName>Email_Footer_Address_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Footer Address New</shortDescription>
+        <value>IQVIA, 4820 Emperor Blvd, Durham, North Carolina 27703, USA</value>
+    </labels>
+
+    <labels>
         <fullName>Email_Footer_Privacy_Policy</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5335,6 +5403,18 @@ The NYBC Convalescent Plasma Donation Team</value>
             ##SignatureFullCommunityName</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_Patient_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature Patient New</shortDescription>
+        <value>Please note that your decision to register for the IQVIA Patient Portal will not affect whether you can take part in the study.
+
+Sincerely,
+
+##SignatureFullCommunityNewName</value>
+    </labels>
+
+    <labels>
         <fullName>Email_Signature_Patient_Short</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5506,12 +5586,28 @@ The NYBC Convalescent Plasma Donation Team</value>
         <value>Please enroll in the Gather Share Know Participant Hub</value>
     </labels>
     <labels>
+        <fullName>Email_Subject_Initial_GSK_New</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Initial GSK New</shortDescription>
+        <value>Please register for the Gather Share Know Participant Hub</value>
+    </labels>
+
+    <labels>
         <fullName>Email_Subject_Initial_Janssen</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Initial Janssen</shortDescription>
         <value>Please enroll in the IQVIA Referral Hub</value>
     </labels>
+     <labels>
+        <fullName>Email_Subject_Initial_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject Initial New</shortDescription>
+        <value>Please register for the IQVIA Patient Portal</value>
+    </labels>
+
     <labels>
         <fullName>Email_Subject_Initial_Patient</fullName>
         <language>en_US</language>
