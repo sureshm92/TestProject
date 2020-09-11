@@ -25,7 +25,7 @@
             <div class="db-qal-title">
                 {!v.dashboardTitle}
             </div>
-            <div class="db-qal-items slds-grid slds-wrap slds-scrollable" style="height: 200px; margin-top: 15px;">
+            <div class="db-qal-items slds-grid slds-wrap slds-scrollable">
                 <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
                     <thead>
                     <tr class="slds-line-height_reset">
@@ -51,12 +51,14 @@
                     <aura:iteration items="{!v.peList}" var="item" indexVar="ind">
                         <tr class="slds-hint-parent">
                             <th scope="row">
+
                                 <div class="slds-truncate">
+                                    <span class="contactTitle">{!$Label.c.PI_DB_PAC_Name_Header}:</span>
                                     <aura:if isTrue="{!item.isAbleToEdit}">
-                                        <div data-gtm="LNK_View_Participants_Details">
+                                        <span data-gtm="LNK_View_Participants_Details">
                                             <a id="{!item.Id}" onclick="{!c.showEditParticipantInformation}"
                                                href="javascript:void(0);">{!item.name}</a>
-                                        </div>
+                                        </span>
                                         <aura:set attribute="else">
                                             <span>{!item.name}</span>
                                         </aura:set>
@@ -64,15 +66,19 @@
                                 </div>
                             </th>
                             <td>
-                                <div class="slds-truncate">{!item.source}</div>
+                                <div class="slds-truncate">
+                                    <span class="contactTitle">{!$Label.c.PI_DB_PAC_Source_Header}:</span>
+                                    {!item.source}
+                                </div>
                             </td>
                             <td>
                                 <div class="slds-truncate">
+                                    <span class="contactTitle">{!$Label.c.PI_DB_PAC_Study_Header}:</span>
                                     <aura:if isTrue="{!item.isAbleToEdit}">
-                                        <div data-gtm="LNK_View_CTP_Details">
+                                        <span data-gtm="LNK_View_CTP_Details">
                                             <c:RRLink label="{!item.studyName}"
                                                       page="{!'study-workspace?id=' + item.studyId}"/>
-                                        </div>
+                                        </span>
                                         <aura:set attribute="else">
                                             <span>{!item.studyName}</span>
                                         </aura:set>
@@ -80,7 +86,10 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="slds-truncate">{!'' + item.daysAdded + ' ' + $Label.c.DA_Days_Ago}</div>
+                                <div class="slds-truncate">
+                                    <span class="contactTitle">{!$Label.c.PI_DB_PAC_Added_Header}:</span>
+                                    {!'' + item.daysAdded + ' ' + $Label.c.DA_Days_Ago}
+                                </div>
                             </td>
                         </tr>
                     </aura:iteration>
@@ -92,5 +101,4 @@
             <c:RRLink page="my-referrals" class="apollo-btn text">{!$Label.c.BTN_View_all}</c:RRLink>
         </div>
     </div>
-
 </aura:component>
