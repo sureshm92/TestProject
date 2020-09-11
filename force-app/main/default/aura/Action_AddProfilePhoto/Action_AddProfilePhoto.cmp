@@ -50,7 +50,14 @@
             <p class="username">{!v.username}</p>
             <aura:if isTrue="{!!v.isDelegate}">
                 <label for="file-upload" class="custom-file-upload">
+                    <aura:if isTrue="{!v.hasProfilePic}">
                     <span  class="profileLabel"> {!$Label.c.PP_AddProfilePhoto}</span>
+
+                      <aura:set attribute="else"> 
+                       <span  class="profileLabel">{!$Label.c.PP_EditProfilePhoto}</span>
+
+                        </aura:set>
+                    </aura:if>
                 </label>
                 <span class="divider-vertical-standard-line">
                 |

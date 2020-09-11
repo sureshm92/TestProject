@@ -14689,6 +14689,13 @@ By using our website, you are accepting our use of cookies.</value>
         <shortDescription>PP_Delegate_Header</shortDescription>
         <value>##PatientFirstName has designated you as their delegate.</value>
     </labels>
+     <labels>
+        <fullName>PP_EditProfilePhoto</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EditProfilePhoto</shortDescription>
+        <value>Add Photo</value>
+    </labels>
     <labels>
         <fullName>PP_Edit_Task_Reminder</fullName>
         <categories>c:StudyVisitReminder</categories>
