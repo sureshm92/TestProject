@@ -30,6 +30,6 @@ Open Setup - Custom Metadata Types > find Guides Setting and click on Manage Rec
    Click Edit | Add "iqvia_favicon" static resource to the 'Sites Favourite Icon.' Save
 3. Open Setup - All Communities - 
     Go to Community Builder | Go to Settings | Advanced | Edit Head Markup. 
-4. Add the following: 
-    '<link rel="shortcut icon" href="/favicon.ico?v=2" type="image/icon"/>'
+4. Add the following line as first: 
+    \<link rel="shortcut icon" href="/favicon.ico?v=2" type="image/icon"/\>
 5. Save | Publish the changes in Community Builder  
