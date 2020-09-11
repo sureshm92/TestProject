@@ -133,16 +133,16 @@ public without sharing class ViewPatientsRemote {
             'Last_Status_Changed_Notes__c',
             'HCP_Contact_HCPEnroll__c',
             'HCP_Contact_HCPEnroll__r.Name',
-			'HCP__r.Status__c'
+            'HCP__r.Status__c'
     };
 
     @AuraEnabled
-    public static String getInitData(Id trialId, Id siteId, String userMode, String delegateId) {
+    public static String getInitData(Id trialId, Id siteId, String userMode, String delegateId,String sponsorName) {
         try{
             InitData initData = new InitData();
-            String additionalFilter = getAdditionalFilter(userMode, false, null);
+            String additionalFilter = getAdditionalFilter(userMode, false, null,sponsorName);
             initData.paginationData = new PaginationData();
-            initData.peFilterData = createPEFilterData(userMode == 'PI' ? 'Active' : null, trialId, siteId, userMode, true, delegateId, additionalFilter,initData.paginationData);
+            initData.peFilterData = createPEFilterData(userMode == 'PI' ? 'Active' : null, trialId, siteId, userMode, true, delegateId, additionalFilter,initData.paginationData, sponsorName);
             initData.peFilter = new ParticipantEnrollmentService.PEFilter(initData.peFilterData);
             initData.peFilter.studySite = siteId;
             initData.peFilter.study = trialId;
@@ -154,12 +154,12 @@ public without sharing class ViewPatientsRemote {
                     'Name'
             };
             initData.peFilter.additionalFilter = additionalFilter;
-			List<Participant_Enrollment__c> peList;
-			if(userMode != CommunityService.USER_MODE_PI) {
-                peList = ParticipantEnrollmentService.getParticipantEnrollments(initData.peFilter, delegateId);              
+            List<Participant_Enrollment__c> peList;
+            if(userMode != CommunityService.USER_MODE_PI) {
+                peList = ParticipantEnrollmentService.getParticipantEnrollments(initData.peFilter, delegateId,sponsorName);              
             }
             else {
-                peList = ParticipantEnrollmentService.getParticipantEnrollmentsCustomFields(PE_MY_PARTICIPANTS_FIELDS, initData.peFilter, delegateId, false,initData.paginationData);           
+                peList = ParticipantEnrollmentService.getParticipantEnrollmentsCustomFields(PE_MY_PARTICIPANTS_FIELDS, initData.peFilter, delegateId, false,initData.paginationData, sponsorName);           
             }
             initData.hasEmancipatedParticipants = false;
             //peList = ParticipantEnrollmentService.getParticipantEnrollmentsPaginated(peList, initData.paginationData);
@@ -178,20 +178,20 @@ public without sharing class ViewPatientsRemote {
     }
 
     @AuraEnabled
-    public static String getRecords(String filterJSON, String paginationJSON, String userMode, String changedItem, String delegateId, Boolean emancipatedPE) {
+    public static String getRecords(String filterJSON, String paginationJSON, String userMode, String changedItem, String delegateId, Boolean emancipatedPE,String sponsorName) {
         try {
         SearchResult result = new SearchResult();
             result.peFilter = (ParticipantEnrollmentService.PEFilter) JSON.deserialize(filterJSON, ParticipantEnrollmentService.PEFilter.class);
             result.paginationData = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
-            result.peFilter.additionalFilter = getAdditionalFilter(userMode, emancipatedPE, null);
+            result.peFilter.additionalFilter = getAdditionalFilter(userMode, emancipatedPE, null,sponsorName);
             updateSearchResultAccordingItemChanged(result, changedItem);
-            result.peFilterData = createPEFilterData(result.peFilter.activePE, result.peFilter.study,result.peFilter.studySite, userMode, true, delegateId, result.peFilter.additionalFilter,result.paginationData);
+            result.peFilterData = createPEFilterData(result.peFilter.activePE, result.peFilter.study,result.peFilter.studySite, userMode, true, delegateId, result.peFilter.additionalFilter,result.paginationData, sponsorName);
             List<Participant_Enrollment__c> peList;
-			if(userMode != CommunityService.USER_MODE_PI){
-                peList = ParticipantEnrollmentService.getParticipantEnrollments(result.peFilter, delegateId);
+            if(userMode != CommunityService.USER_MODE_PI){
+                peList = ParticipantEnrollmentService.getParticipantEnrollments(result.peFilter, delegateId,sponsorName);
             }
             else{
-                peList = ParticipantEnrollmentService.getParticipantEnrollmentsCustomFields(PE_MY_PARTICIPANTS_FIELDS, result.peFilter, delegateId, false,result.paginationData);
+                peList = ParticipantEnrollmentService.getParticipantEnrollmentsCustomFields(PE_MY_PARTICIPANTS_FIELDS, result.peFilter, delegateId, false,result.paginationData,sponsorName);
             }
             //peList = ParticipantEnrollmentService.getParticipantEnrollmentsPaginated(peList, result.paginationData);
             if (userMode == CommunityService.USER_MODE_PI) {
@@ -205,16 +205,16 @@ public without sharing class ViewPatientsRemote {
     }
 
     @AuraEnabled
-    public static String getInitDataForPatientProfile(Id participantId, String mode, String delegateId){
+    public static String getInitDataForPatientProfile(Id participantId, String mode, String delegateId,String sponsorName){
         try{
             InitDataForPatientProfile initData = new InitDataForPatientProfile();
             //filters data:
             ParticipantEnrollmentService.PEFilterData peFilterData = ParticipantEnrollmentService.getPEFilterData(null, mode, false, delegateId);
             //init filters:
             ParticipantEnrollmentService.PEFilter peFilter = new ParticipantEnrollmentService.PEFilter(peFilterData);
-            peFilter.additionalFilter = getAdditionalFilter(mode, false, participantId);
+            peFilter.additionalFilter = getAdditionalFilter(mode, false, participantId,sponsorName);
             //retrieve records:
-            initData.peList = ParticipantEnrollmentService.getParticipantEnrollments(peFilter, null, delegateId);
+            initData.peList = ParticipantEnrollmentService.getParticipantEnrollments(peFilter, null, delegateId,sponsorName);
             if(initData.peList == null) return null;
             initData.participant = [
                     SELECT Id, First_Name__c, Last_Name__c, Email__c, Phone__c
@@ -343,7 +343,7 @@ public without sharing class ViewPatientsRemote {
         }
     }
 
-    private static String getAdditionalFilter(String mode, Boolean emancipatedPE, Id participantId) {
+    private static String getAdditionalFilter(String mode, Boolean emancipatedPE, Id participantId,String sponsorName) {
 
         String filter = ' Participant_Status__c NOT IN ' + DatabaseService.listToString((mode != CommunityService.USER_MODE_PI || participantId != null) ? EXCLUDED_STATUSES_COMMON : EXCLUDED_STATUSES_PI);
         if (mode == CommunityService.USER_MODE_HCP && participantId == null) {
@@ -355,14 +355,20 @@ public without sharing class ViewPatientsRemote {
         if (participantId != null) {
             filter += ' AND Participant__c=\'' + participantId + '\'' ;
         }
+        //Added filter janssen
+         if (sponsorName == CommunityTemplateService.TEMPLATE_JANSSEN) {
+            filter += ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
+        } else {
+            filter += ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
+        }
 
         return filter;
     }
 
     // Modified for performance tuning
     // Sabir & velu 09/04/2020
-    private static ParticipantEnrollmentService.PEFilterData createPEFilterData(String activePE, Id trialId, Id siteId, String mode, Boolean restrictTrial, String delegateId, String additionalFilter, PaginationData paginationData) {
-        ParticipantEnrollmentService.PEFilterData filterData = ParticipantEnrollmentService.getPEFilterDataWithExistingPERecords(activePE, trialId, mode, restrictTrial, delegateId, additionalFilter);
+    private static ParticipantEnrollmentService.PEFilterData createPEFilterData(String activePE, Id trialId, Id siteId, String mode, Boolean restrictTrial, String delegateId, String additionalFilter, PaginationData paginationData,String sponsorName) {
+        ParticipantEnrollmentService.PEFilterData filterData = ParticipantEnrollmentService.getPEFilterDataWithExistingPERecords(activePE, trialId, mode, restrictTrial, delegateId, additionalFilter,sponsorName);
         ParticipantEnrollmentService.PEFilter filter = new ParticipantEnrollmentService.PEFilter(filterData);
         filter.activePE = activePE;
         filter.study = trialId;
