@@ -340,7 +340,7 @@ public without sharing class ParticipantEnrollmentService {
     public static List<Participant_Enrollment__c> getPEEnrollmentsByPI(String userMode, Id piId) {
         String filter = ' Study_Site__c != NULL AND Study_Site__r.Principal_Investigator__c = \'' + piId + '\'';
         List<Participant_Enrollment__c> peList = DatabaseService.query(
-            //PE_COMMON_FIELDS, commented by sumit s
+            //PE_COMMON_FIELDS, //commented by sumit s
             PE_COMMON_CUSTOM_FIELDS, // added by sumits dashboard
             Participant_Enrollment__c.getSObjectType(),
             filter
@@ -522,12 +522,13 @@ public without sharing class ParticipantEnrollmentService {
             'Permit_Mail_Email_contact_for_this_study__c',
             'Permit_IQVIA_to_contact_about_study__c'
             };
-    public static final List<String> ACTIVE_PE_FIELDS_FOR_CTP_SS = new List<String>{
+        public static final List<String> ACTIVE_PE_FIELDS_FOR_CTP_SS = new List<String>{
             'Id',
             'Clinical_Trial_Profile__c',
             'Study_Site__c'
     };
-    // Added by Sumit S Dashboard
+
+     // Added by Sumit S Dashboard
     public static final List<String> PE_COMMON_CUSTOM_FIELDS = new List<String>{
             'Id',
             'CreatedDate',
@@ -549,9 +550,9 @@ public without sharing class ParticipantEnrollmentService {
             'Study_Site__r.Override_PI_Referral_Status__c',
             'Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c',           
             'HCP__r.Id'           
-    	}; 
-            
-        public static final List<String> PE_COMMON_FUNNEL_FIELDS = new List<String>{
+    };
+
+    public static final List<String> PE_COMMON_FUNNEL_FIELDS = new List<String>{
             'Id',
             'Participant_Status__c',
             'Study_Site__r.Principal_Investigator__r.Name',
@@ -560,11 +561,21 @@ public without sharing class ParticipantEnrollmentService {
             'Initial_visit_occurred_flag__c',
             'Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c'
             
-    	};
+    };
 
-                public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter) {
-                    return getPEnrolmentsCommonCustomFields(userMode, customFields, filter, null);
-                }
+    public static final List<String> CTP_FIELDS_FOR_FILTER = new List<String>{
+            'Id',
+            'Study_Code_Name__c'
+    };
+
+    public static final List<String> SS_FIELDS_FOR_FILTER = new List<String>{
+            'Id',
+            'Name'
+    };
+                
+    public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter) {
+        return getPEnrolmentsCommonCustomFields(userMode, customFields, filter, null);
+    }
     
     public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter, String delegateId) {
         return getInstance().getPEnrolmentsCommonCustomFieldsImpl(userMode, customFields, filter, delegateId);
@@ -579,7 +590,6 @@ public without sharing class ParticipantEnrollmentService {
     }
     
     public static List<Participant_Enrollment__c> getPEnrolmentsCommon(String userMode, String filter, String delegateId) {
-
         return getPEnrolmentsCommonCustomFieldsWithTranslation(userMode, PE_COMMON_FIELDS, filter, delegateId);
     }
 
@@ -721,10 +731,11 @@ public without sharing class ParticipantEnrollmentService {
         }
         return createPEFilterDataForTrials(trialsMap, studySites, mode);
     }
-    
+    //Modified for performance tuning. Study Site and CTP filters are going to be static
     public static PEFilterData getPEFilterDataWithExistingPERecords(String activePE, Id trialId, String mode, Boolean restrictTrial, String delegateId, String additionalFilters) {
-        //init trials
-        Map<Id, Clinical_Trial_Profile__c> trialsMap = new Map<Id, Clinical_Trial_Profile__c>(TrialService.getAvailableTrialsWithPE(activePE, mode, delegateId, additionalFilters));
+        //init trials - removed filtration based on PE
+        //Map<Id, Clinical_Trial_Profile__c> trialsMap = new Map<Id, Clinical_Trial_Profile__c>(TrialService.getAvailableTrialsWithPE(activePE, mode, delegateId, additionalFilters));
+        Map<Id, Clinical_Trial_Profile__c> trialsMap = new Map<Id, Clinical_Trial_Profile__c>(TrialService.getAvailableTrials(mode,delegateId));
         //init study sites:
         List<Study_Site__c> studySites;
         if (mode == CommunityService.USER_MODE_HCP) {
@@ -741,7 +752,8 @@ public without sharing class ParticipantEnrollmentService {
                 studySites = StudySiteService.getStudySitesForPI();
             }
         }
-        studySites = StudySiteService.filterStudySitesWithPE(studySites, activePE, mode, delegateId, additionalFilters);
+        //Removed filtration based on PE
+        //studySites = StudySiteService.filterStudySitesWithPE(studySites, activePE, mode, delegateId, additionalFilters);
         return createPEFilterDataForTrials(trialsMap, studySites, mode);
     }
     
@@ -772,8 +784,8 @@ public without sharing class ParticipantEnrollmentService {
         }
         peFilterData.activePE = new List<LabelValueItem>{
             new LabelValueItem(TranslateHelper.getLabelValue('PG_VP_L_Active'), PEStatusState.PE_STATUSES_ACTIVE), new LabelValueItem(TranslateHelper.getLabelValue('PG_VP_L_Inactive'), PEStatusState.PE_STATUSES_INACTIVE)
-                };
-                    peFilterData.activeParticipantStatus = new List<LabelValueItem>();
+        };
+        peFilterData.activeParticipantStatus = new List<LabelValueItem>();
         for (Integer i = 0, j = PEStatusState.PE_STATUS_GROUP_ACTIVE.size(); i < j; i++) {
             peFilterData.activeParticipantStatus.add(new LabelValueItem(TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,PEStatusState.PE_STATUS_GROUP_ACTIVE[i]), PEStatusState.PE_STATUS_GROUP_ACTIVE[i]));
         }
