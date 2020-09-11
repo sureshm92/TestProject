@@ -74,10 +74,10 @@ public without sharing class DashboardRemote {
         Map<String,Map<Id,String>> ContactedParticipantDataList = new Map<String,Map<Id,String>>();
     }
 
-    class FunnelData {
-        String statusLabel;
-        Integer peInStatus;
-        String funnelColor;
+    public class FunnelData {
+        @AuraEnabled public String statusLabel;
+        @AuraEnabled public Integer peInStatus;
+        @AuraEnabled public String funnelColor;
 
         FunnelData(String statusLabel, Integer peInStatus, String funnelColor) {
             this.statusLabel = statusLabel;
@@ -200,7 +200,7 @@ public without sharing class DashboardRemote {
                                                                                          FROM Participant_Enrollment_Status_History__r 
                                                                                          ORDER BY Name DESC),
                                               Participant_Status__c,PI_Contact__c,Clinical_Trial_Profile__r.Study_Title__c,Participant__c, Participant__r.Full_Name__c
-                                              FROM Participant_Enrollment__c WHERE PI_Contact__c = :principalInvestigatorId AND Clinical_Trial_Profile__c =:studyId];
+                                              FROM Participant_Enrollment__c WHERE PI_Contact__c = :principalInvestigatorId AND Clinical_Trial_Profile__c =:studyId LIMIT 5000]; // <---Limit added
         
             String FROM_1_TO_3_DAYS = '1-3 Days';
             String FROM_4_TO_7_DAYS = '4-7 Days';
@@ -438,19 +438,19 @@ public without sharing class DashboardRemote {
 
                     if (peList.isEmpty() && !delegatePIsMap.isEmpty()) {
                         if (piId == null) {
-                            //peList = ParticipantEnrollmentService.getPEEnrollmentsByPI(userMode, new List<Id>(delegatePIsMap.keySet())[0]);
-                       /* peList = (List<Participant_Enrollment__c>) DatabaseService.query(
+                        //peList = ParticipantEnrollmentService.getPEEnrollmentsByPI(userMode, new List<Id>(delegatePIsMap.keySet())[0]);
+                        /*peList = (List<Participant_Enrollment__c>) DatabaseService.query(
                         ParticipantEnrollmentService.PE_COMMON_CUSTOM_FIELDS,
                         Participant_Enrollment__c.getSObjectType(),
                         ' Study_Site__c != NULL AND Study_Site__r.Principal_Investigator__c = \'' + new List<Id>(delegatePIsMap.keySet())[0] + '\' AND Clinical_Trial_Profile__c = \'' + ctpId + '\''
-                        );  */      
+                        );  */     
                         peList = (List<Participant_Enrollment__c>) DatabaseService.query(
                             ParticipantEnrollmentService.PE_COMMON_CUSTOM_FIELDS,
                             Participant_Enrollment__c.getSObjectType(), 
                             ' Study_Site__c != NULL AND Study_Site__r.Principal_Investigator__c = \'' + new List<Id>(delegatePIsMap.keySet())[0] + '\' AND Clinical_Trial_Profile__c = \'' + ctpId + '\'', 
                             null, // Order by
                             10, // Offset
-                            1000); // Limit      
+                            2000); // Limit commented     
                                         
                         piData.selectedPi = new List<Id>(delegatePIsMap.keySet())[0];
                             piId = piData.selectedPi;
@@ -460,24 +460,32 @@ public without sharing class DashboardRemote {
                         ParticipantEnrollmentService.PE_COMMON_CUSTOM_FIELDS,
                         Participant_Enrollment__c.getSObjectType(),
                         ' Study_Site__c != NULL AND Study_Site__r.Principal_Investigator__c = \'' + piId + '\' AND Clinical_Trial_Profile__c = \'' + ctpId + '\''
-                        ); */                           
+                        ); */                         
                         peList = (List<Participant_Enrollment__c>) DatabaseService.query(
                         ParticipantEnrollmentService.PE_COMMON_CUSTOM_FIELDS,
                         Participant_Enrollment__c.getSObjectType(),
                         ' Study_Site__c != NULL AND Study_Site__r.Principal_Investigator__c = \'' + piId + '\' AND Clinical_Trial_Profile__c = \'' + ctpId + '\'',
                         null,
-                        10,
-                        10
+                        10, // offset
+                        2000 // Limit <-- Added
                         );                            
                         piData.selectedPi = piId;
                         }
                     } else {
                         if (piId != null) {
                             //peList = ParticipantEnrollmentService.getPEEnrollmentsByPI(userMode, piId);
-                            peList = (List<Participant_Enrollment__c>) DatabaseService.query(
+                           /* peList = (List<Participant_Enrollment__c>) DatabaseService.query(
                         ParticipantEnrollmentService.PE_COMMON_CUSTOM_FIELDS,
                         Participant_Enrollment__c.getSObjectType(),
                         ' Study_Site__c != NULL AND Study_Site__r.Principal_Investigator__c = \'' + piId + '\' AND Clinical_Trial_Profile__c = \'' + ctpId + '\''
+                            );*/
+                            peList = (List<Participant_Enrollment__c>) DatabaseService.query(
+                        ParticipantEnrollmentService.PE_COMMON_CUSTOM_FIELDS,
+                        Participant_Enrollment__c.getSObjectType(),
+                        ' Study_Site__c != NULL AND Study_Site__r.Principal_Investigator__c = \'' + piId + '\' AND Clinical_Trial_Profile__c = \'' + ctpId + '\'',
+                        null,
+                        10, // Limit <-- Added
+                        2000
                         );
                             piData.selectedPi = piId;
                         } else {
@@ -516,9 +524,9 @@ public without sharing class DashboardRemote {
                         }
                     }
 //                Integer piPending = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[0].states.get(PEStatusState.STATUS_STATE_SUCCESS));
-                    //Integer piAccepted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[0].states.get(PEStatusState.STATUS_STATE_SUCCESS));
-//                Integer piOnHold = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_IN_PROGRESS));
-//                Integer piDeclined = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_FAILURE));
+//                Integer piAccepted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[0].states.get(PEStatusState.STATUS_STATE_SUCCESS));
+                //Integer piOnHold = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_IN_PROGRESS));
+                //Integer piDeclined = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_FAILURE));
                     piData.referralsReceived.addAll(new List<DonutItem>{
                             new DonutItem(Label.DI_L_Accepted, piAccepted, DonutItem.Type.SUCCSESS)/*,
                         new DonutItem(Label.DI_L_On_hold, piOnHold , DonutItem.Type.ON_HOLD),
@@ -589,14 +597,14 @@ public without sharing class DashboardRemote {
                     });
 
                     // waiting contact in days <--- Removed for performance
-                    piData.waitingTimeToContact = prepareWaitingList(userMode, delegateId, piId, ctpId);
+                     piData.waitingTimeToContact = prepareWaitingList(userMode, delegateId, piId, ctpId);
 
                     // awaiting contact
                     piData.awaitingToContact = prepareAwaitingContactList(userMode, delegateId, contactAtemptedList, piId, ctpId);
                     piData.participantsWaitingContact = piData.awaitingToContact.size();
                     
                     // Commented for performance tuning
-                    //piData.funnelData = prepareDataForFunnelChart(piId, ctpId);
+                     piData.funnelData = prepareDataForFunnelChart(piId, ctpId);
 
                 } else {
                     piData.selectedCTP = null;
@@ -773,7 +781,7 @@ public without sharing class DashboardRemote {
         List<Participant_Enrollment__c> participantEnrollmentList = [ SELECT Id
                         FROM Participant_Enrollment__c
                         WHERE (Study_Site__r.Principal_Investigator__c = :piId
-                        AND  Clinical_Trial_Profile__c =: ctpId)]; //<--- Added limit
+                        AND  Clinical_Trial_Profile__c =: ctpId)LIMIT 2000 ]; //<--- Added limit
 
         List<Participant_Enrollment_Status_History__c> peSHs = [
                 SELECT Id,
@@ -787,7 +795,7 @@ public without sharing class DashboardRemote {
                         PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED,
                         PEStatusState.PE_STATUS_RECEIVED
                 })
-                ORDER BY CreatedDate DESC //<--- Added limit
+                ORDER BY CreatedDate DESC LIMIT 2000 //<--- Added limit
         ];
         Map<Id, Participant_Enrollment_Status_History__c> receivedPESHsByPIId = new Map<Id, Participant_Enrollment_Status_History__c>();
         Map<Id, Participant_Enrollment_Status_History__c> contactedPESHsByPIId = new Map<Id, Participant_Enrollment_Status_History__c>();
@@ -858,8 +866,12 @@ public without sharing class DashboardRemote {
 
         return resList;
     }
-
     @AuraEnabled
+    public static String prepareForFunnelChart(Id pIid, Id studyid){
+      List<FunnelData> flist = prepareDataForFunnelChart(pIid, studyid);
+      return JSON.serialize(flist);
+    }
+
     public static List<FunnelData> prepareDataForFunnelChart(Id piId, Id ctpId) {
         List<FunnelData> returnData = new List<FunnelData>();
         //Added by Sumit S
@@ -872,7 +884,10 @@ public without sharing class DashboardRemote {
                                                                                            FROM Participant_Enrollment__c
                                                                                            WHERE Study_Site__c != NULL AND 
                                                                                            Study_Site__r.Principal_Investigator__c =: piId AND  
-                                                                                           Clinical_Trial_Profile__c =: ctpId LIMIT 1000]); //<--- Added limit
+                                                                                           Clinical_Trial_Profile__c =: ctpId LIMIT 2000] ); //<--- Added limit
+        System.debug('peMap :_'+peMap);
+        System.debug('peMap :_'+peMap.size());
+        System.debug('peMap :_'+peMap.keySet());
         // Added limit ------>
         /*commented by Sumit S
         Map<Id, Participant_Enrollment__c> peMap = new Map<Id, Participant_Enrollment__c>();
@@ -897,8 +912,11 @@ public without sharing class DashboardRemote {
                         Status__c,
                         ParticipantEnrollment__c
                 FROM Participant_Enrollment_Status_History__c
-                WHERE ParticipantEnrollment__c IN :peMap.keySet() LIMIT 1000//<--- Added limit
+                WHERE ParticipantEnrollment__c IN :peMap.keySet() LIMIT 2000 //<--- Added limit
         ];
+        System.debug('peMap :_'+peHostoryList);
+        System.debug('peMap :_'+peHostoryList.size());
+
         if (!peHostoryList.isEmpty()) {
             Set<Id> receivedStatusSet = new Set<Id>();
             Set<Id> successfullyContactedSet = new Set<Id>();
@@ -928,17 +946,160 @@ public without sharing class DashboardRemote {
             }
             returnData.add(new FunnelData(Label.Received, receivedStatusSet.size(), '#3DC2FA'));
             returnData.add(new FunnelData(Label.Successfully_Contacted, successfullyContactedSet.size(), '#9914E6'));
-            returnData.add(new FunnelData(peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c != 'Virtual' ?
-                    Label.Initial_Visit_Scheduled : Label.Eligibility_Passed,
-                    peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c != 'Virtual' ?
-                            initialVisitScheduledSet.size() : eligibilityPassedSet.size(), '#D892FF'));
+            returnData.add(new FunnelData(peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c != 'Virtual' ? Label.Initial_Visit_Scheduled : Label.Eligibility_Passed, peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c != 'Virtual' ? initialVisitScheduledSet.size() : eligibilityPassedSet.size(), '#D892FF'));
             returnData.add(new FunnelData(Label.Screening_Passed, screeningPassedSet.size(), '#139458'));
             returnData.add(new FunnelData(Label.Enrolled_Or_Randomized, enrolledOrRandomizedSet.size(), '#7AFFD3'));
         }
-
+        System.debug('returnData :_'+returnData);
+        System.debug('returnData serialize :_'+ JSON.serialize(returnData));
         return returnData;
     }
+    /*
+    public static List<FunnelData> prepareDataForFunnelChart(Id pIid, Id studyid) {
+        List<FunnelData> returnData = new List<FunnelData>();
+		Integer totalReceived;
+		Integer totalContacted;
+		Integer totalInitialVisitScheduled;
+		Integer totalScreeningPassed;
+		Integer totalEnrolledRandomized;
+		
+        List<Study_Site__c> studySites = [SELECT Id, Study_Site_Number__c, Name, Site__r.BillingCountry, Principal_Investigator__c, Clinical_Trial_Profile__r.Id, Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c FROM Study_Site__c WHERE Clinical_Trial_Profile__r.Id =: studyid ORDER BY Study_Site_Number__c ASC NULLS LAST];
+        List<Participant_Enrollment__c> peList =  [SELECT Id, Initial_visit_scheduled_date__c, Participant_Status__c,Name, Initial_visit_scheduled_flag__c, Initial_visit_occurred_flag__c, Study_Site__r.Id, Study_Site__r.Name, Randomized__c, Enrolled__c FROM Participant_Enrollment__c WHERE Study_Site__r.Id IN : studySites];
+        
+		
+		try{
+            if(studySites!=null && !studySites.isEmpty()){
+				
+                for(Study_Site__c ss : studySites){
+                    Integer rank = 1;
+                    String site_Number;
+                    String site_Name;
+                    String location;
+                    Integer initial_Visits_Completed = 0;
+                    Integer contacted = 0;
+                    Integer scheduled = 0;
+                    Integer screened = 0;
+                    Integer enrolled_randomized = 0;
+                    String is_enrolled_randomized;
+                    Integer received = 0;
+                    //String piName;
+                    Id pi_Id;
+                    //String studyName;
+                    
+                    site_Number = ss.Study_Site_Number__c;
+                    site_Name = ss.Name;
 
+                    //piName = getPIName(pIid);
+                    pi_Id = ss.Principal_Investigator__c;
+                    //studyName = getStudyName(studyid);
+                    location = ss.Site__r.BillingCountry;
+                    if(peList != null && !peList.isEmpty()){
+                        for(Participant_Enrollment__c pe : peList){
+                            if(pe.Study_Site__c == ss.Id){
+                                if(ss.Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c == PARTICIPANT_WORKFLOW_FINAL_STEP_ENROLLMENT){
+                                    is_enrolled_randomized = PE_STATUS_ENROLLED;
+                                }
+                                if(ss.Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c == PARTICIPANT_WORKFLOW_FINAL_STEP_RANDOMIZATION){
+                                    is_enrolled_randomized = PE_STATUS_RANDOMIZED;
+                                }
+                                
+                                if(pe.Initial_visit_scheduled_date__c == null &&
+                                (pe.Participant_Status__c == PE_STATUS_SUCCESSFULLY_CONTACTED ||
+                                pe.Participant_Status__c == STATUS_CONTACTED_NOT_SUITABLE)){
+                                    contacted++;
+                                }else if(pe.Initial_visit_scheduled_date__c != null &&
+                                pe.Initial_visit_occurred_flag__c == FALSE &&
+                                (pe.Participant_Status__c == PE_STATUS_SUCCESSFULLY_CONTACTED ||
+                                pe.Participant_Status__c == STATUS_CONTACT_ATTEMPTED ||
+                                pe.Participant_Status__c == PE_STATUS_SCREENING_FAILED ||
+                                pe.Participant_Status__c == STATUS_SCREENING_IN_PROGRESS ||
+                                pe.Participant_Status__c == STATUS_UNABLE_TO_SCREEN
+                                )){
+                                    contacted++;
+                                    scheduled++;
+                                }
+                                
+                                if(pe.Initial_visit_occurred_flag__c == TRUE)
+                                {
+                                    if(pe.Participant_Status__c == PE_STATUS_SUCCESSFULLY_CONTACTED ||
+                                        pe.Participant_Status__c == STATUS_CONTACT_ATTEMPTED){
+                                        contacted++;
+                                        scheduled++;
+                                        initial_Visits_Completed++;
+                                    }else if(pe.Participant_Status__c == PE_STATUS_SCREENING_FAILED ||
+                                        pe.Participant_Status__c == STATUS_SCREENING_IN_PROGRESS ||
+                                        pe.Participant_Status__c == STATUS_UNABLE_TO_SCREEN ||
+                                        pe.Participant_Status__c == STATUS_READY_TO_SCREEN ||
+                                        pe.Participant_Status__c == PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD ||
+                                        pe.Participant_Status__c == STATUS_IN_WASH_OUT_PERIOD ||
+                                        pe.Participant_Status__c == STATUS_SCREENING_IN_PROGRESS_WASH_OUT ||
+                                        pe.Participant_Status__c == STATUS_DECLINED_CONSENT ||
+                                        pe.Participant_Status__c == STATUS_WITHDREW_CONSENT){
+                                            contacted++;
+                                            scheduled++;
+                                            initial_Visits_Completed++;
+                                    }else if(
+                                        pe.Participant_Status__c == STATUS_SCREENING_PASSED ||
+                                        pe.Participant_Status__c == STATUS_DECLINED_FINAL_CONSENT ||
+                                        pe.Participant_Status__c == STATUS_WITHDREW_CONSENT_AFTER_SCREENING){
+                                        contacted++;
+                                        scheduled++;
+                                        screened++;
+                                        initial_Visits_Completed++;
+                                    }
+                                }
+                                
+                                if(pe.Participant_Status__c == STATUS_ENROLLMENT_SUCCESS ||
+                                pe.Participant_Status__c == STATUS_RANDOMIZATION_SUCCESS ||
+                                pe.Participant_Status__c == STATUS_TREATMENT_PERIOD_STARTED ||
+                                pe.Participant_Status__c == STATUS_FOLLOW_UP_PERIOD_STARTED ||
+                                pe.Participant_Status__c == STATUS_PARTICIPATION_COMPLETE ||
+                                pe.Participant_Status__c == STATUS_TRIAL_COMPLETE ||
+                                pe.Participant_Status__c == STATUS_DROP_OUT ||
+                                pe.Participant_Status__c == STATUS_DECEASED){
+                                    contacted++;
+                                    scheduled++;
+                                    screened++;
+                                    initial_Visits_Completed++;
+                                    enrolled_randomized++;
+                                }else if(pe.Participant_Status__c == STATUS_ENROLLMENT_FAILED ||
+                                        pe.Participant_Status__c == STATUS_RANDOMIZATION_FAILED){
+                                    contacted++;
+                                    scheduled++;
+                                    screened++;
+                                    initial_Visits_Completed++;
+                                }
+                                
+                                
+                                if(pe.Participant_Status__c == STATUS_RECEIVED ||
+                                pe.Participant_Status__c == STATUS_REFERRAL_ACCEPTED ||
+                                pe.Participant_Status__c == STATUS_REFERRAL_ON_HOLD ||
+                                pe.Participant_Status__c == STATUS_REFERRAL_DECLINED){
+                                    received++;
+                                }
+                            }    
+                        }
+						totalReceived =+ received;
+						totalContacted =+ contacted;
+						totalInitialVisitScheduled =0;
+						totalScreeningPassed =0;
+						totalEnrolledRandomized =0;
+                    }   
+                }
+            } 
+			returnData.add(new FunnelData(Label.Received, totalReceived, '#3DC2FA'));
+			returnData.add(new FunnelData(Label.Successfully_Contacted, totalContacted, '#9914E6'));
+			returnData.add(new FunnelData(Label.Initial_Visit_Scheduled, totalInitialVisitScheduled, '#D892FF'));
+			returnData.add(new FunnelData(Label.Screening_Passed, totalScreeningPassed, '#139458'));
+			returnData.add(new FunnelData(Label.Enrolled_Or_Randomized, totalEnrolledRandomized, '#7AFFD3'));
+
+		}catch(Exception e)
+        {
+            System.debug('The following exception has occurred: ' + e.getMessage());
+        }  	
+        return returnData;
+    }
+    */
     private static BarItem prepareBarItem(String color, String title, Integer count, Integer maxPInD, String maxD) {
         String width = title == maxD ? '70%' : count != 0 ? '' + Math.Round(70 / Math.Round(maxPInD / count)) + '%' : '1%';
         return new BarItem(color, width, TranslateHelper.getLabelValue(BarTitleLabelsMap.get(title)), '' + count);
@@ -1086,19 +1247,29 @@ SSRankWrapper - Inner class */
     }
     
     //This method is used to fetch study site details
-    private static List<SSRankWrapper> getStudySiteDetails(Id pIid, Id studyid)
-    {
+    private static List<SSRankWrapper> getStudySiteDetails(Id pIid, Id studyid){
+
         List<SSRankWrapper> ssRankWrapperlist = new List<SSRankWrapper>();
         List<SSRankWrapper> result = new List<SSRankWrapper>();
         String piName = getPIName(pIid);
         String studyName = getStudyName(studyid);
 
-        List<Study_Site__c> studySites = [SELECT Id, Study_Site_Number__c, Name, Site__r.BillingCountry, Principal_Investigator__c, Clinical_Trial_Profile__r.Id, Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c FROM Study_Site__c WHERE Clinical_Trial_Profile__r.Id =: studyid ORDER BY Study_Site_Number__c ASC NULLS LAST];
-        List<Participant_Enrollment__c> peList =  [SELECT Id, Initial_visit_scheduled_date__c, Participant_Status__c,Name, Initial_visit_scheduled_flag__c, Initial_visit_occurred_flag__c, Study_Site__r.Id, Study_Site__r.Name, Randomized__c, Enrolled__c FROM Participant_Enrollment__c WHERE Study_Site__r.Id IN : studySites];
+        Set<String> studySites = new Set<String>();
+        for(Study_Site__c studyS : [SELECT Id FROM Study_Site__c WHERE Clinical_Trial_Profile__r.Id =: studyid ORDER BY Study_Site_Number__c ASC NULLS LAST]){
+            studySites.add(studyS.Id);
+        }
+        List<Participant_Enrollment__c> peList =  [SELECT Id, 
+        Study_Site__r.Study_Site_Number__c,
+        Study_Site__r.Name, 
+        Study_Site__r.Site__r.BillingCountry, 
+        Study_Site__r.Principal_Investigator__c, 
+        Study_Site__r.Clinical_Trial_Profile__r.Id, 
+        Study_Site__r.Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c,
+        Initial_visit_scheduled_date__c, Participant_Status__c,Name, Initial_visit_scheduled_flag__c, Initial_visit_occurred_flag__c, Study_Site__r.Id, Randomized__c, Enrolled__c FROM Participant_Enrollment__c WHERE Study_Site__r.Id IN : studySites];
         
+
         try{
-            if(studySites!=null && !studySites.isEmpty()){
-                for(Study_Site__c ss : studySites){
+            if( studySites!=null && !studySites.isEmpty() && peList != null && !peList.isEmpty()){
                     Integer rank = 1;
                     String site_Number;
                     String site_Name;
@@ -1113,21 +1284,19 @@ SSRankWrapper - Inner class */
                     //String piName;
                     Id pi_Id;
                     //String studyName;
+                for(Participant_Enrollment__c pe : peList){                   
                     
-                    site_Number = ss.Study_Site_Number__c;
-                    site_Name = ss.Name;
-
-                    //piName = getPIName(pIid);
-                    pi_Id = ss.Principal_Investigator__c;
-                    //studyName = getStudyName(studyid);
-                    location = ss.Site__r.BillingCountry;
-                    if(peList != null && !peList.isEmpty()){
-                        for(Participant_Enrollment__c pe : peList){
-                            if(pe.Study_Site__c == ss.Id){
-                                if(ss.Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c == PARTICIPANT_WORKFLOW_FINAL_STEP_ENROLLMENT){
+                    site_Number = pe.Study_Site__r.Study_Site_Number__c;
+                    site_Name = pe.Study_Site__r.Name;
+                    pi_Id = pe.Study_Site__r.Principal_Investigator__c;
+                    location = pe.Study_Site__r.Site__r.BillingCountry;
+                    
+                        if(studySites.contains(pe.Study_Site__r.Id)){
+                                  
+                                if(pe.Study_Site__r.Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c == PARTICIPANT_WORKFLOW_FINAL_STEP_ENROLLMENT){
                                     is_enrolled_randomized = PE_STATUS_ENROLLED;
-                                }
-                                if(ss.Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c == PARTICIPANT_WORKFLOW_FINAL_STEP_RANDOMIZATION){
+                                } 
+                                if(pe.Study_Site__r.Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c == PARTICIPANT_WORKFLOW_FINAL_STEP_RANDOMIZATION){
                                     is_enrolled_randomized = PE_STATUS_RANDOMIZED;
                                 }
                                 
@@ -1204,63 +1373,10 @@ SSRankWrapper - Inner class */
                                 pe.Participant_Status__c == STATUS_REFERRAL_ON_HOLD ||
                                 pe.Participant_Status__c == STATUS_REFERRAL_DECLINED){
                                     received++;
-                                }
-
-                                /*
-                                //Contacted
-                                if((pe.Initial_visit_scheduled_flag__c == TRUE &&
-                                pe.Initial_visit_occurred_flag__c == TRUE) &&
-                                (pehstatus.contains(PE_STATUS_SUCCESSFULLY_CONTACTED) ||
-                                pehstatus.contains(STATUS_SCREENING_PASSED) ||
-                                pehstatus.contains(PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD) ||
-                                pehstatus.contains(PE_STATUS_SCREENING_FAILED) ||
-                                (pehstatus.contains(STATUS_ENROLLMENT_SUCCESS) ||
-                                pehstatus.contains(STATUS_RANDOMIZATION_SUCCESS)))){
-                                    contacted++;
-                                }
-                                //Scheduled
-                                if((pe.Initial_visit_scheduled_flag__c == TRUE &&
-                                pe.Initial_visit_occurred_flag__c == TRUE) &&(
-                                pehstatus.contains(STATUS_SCREENING_PASSED) ||
-                                pehstatus.contains(PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD) ||
-                                pehstatus.contains(PE_STATUS_SCREENING_FAILED) ||
-                                (pehstatus.contains(STATUS_ENROLLMENT_SUCCESS) ||
-                                pehstatus.contains(STATUS_RANDOMIZATION_SUCCESS)))){
-                                    scheduled++;
-                                }
-
-                                //Initial Visits Completed
-                                if((pe.Initial_visit_occurred_flag__c == TRUE) &&
-                                (pehstatus.contains(STATUS_SCREENING_PASSED) ||
-                                pehstatus.contains(PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD) ||
-                                pehstatus.contains(PE_STATUS_SCREENING_FAILED) ||
-                                (pehstatus.contains(STATUS_ENROLLMENT_SUCCESS) ||
-                                pehstatus.contains(STATUS_RANDOMIZATION_SUCCESS)))){
-                                    initial_Visits_Completed++;
-                                    System.debug('completed--->' + initial_Visits_Completed);
-                                    System.debug('Referal ID---> ' + pe.Name);
-                                }
-
-                                //Screened
-                                if(pehstatus.contains(STATUS_SCREENING_PASSED) ||
-                                pehstatus.contains(PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD) ||
-                                pehstatus.contains(PE_STATUS_SCREENING_FAILED) ||
-                                (pehstatus.contains(STATUS_ENROLLMENT_SUCCESS) ||
-                                pehstatus.contains(STATUS_RANDOMIZATION_SUCCESS))){
-                                    screened++;
-                                }
-
-                                //Enrolled/Randomized
-                                if(pehstatus.contains(STATUS_ENROLLMENT_SUCCESS) ||
-                                pehstatus.contains(STATUS_RANDOMIZATION_SUCCESS)){
-                                    enrolled_randomized++;
-                                }
-                                */
-                            }    
+                                }                            
                         }
-                    }   
-                    ssRankWrapperlist.add(new SSRankWrapper(site_Number, site_Name, location, initial_Visits_Completed, contacted, scheduled, screened, enrolled_randomized, is_enrolled_randomized, piName, pi_Id, studyName));
                 }
+                    ssRankWrapperlist.add(new SSRankWrapper(site_Number, site_Name, location, initial_Visits_Completed, contacted, scheduled, screened, enrolled_randomized, is_enrolled_randomized, piName, pi_Id, studyName));
             }    
             ssRankWrapperlist.sort();
             result = setRank(ssRankWrapperlist);
