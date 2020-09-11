@@ -9290,7 +9290,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT Participant S30 Text</shortDescription>
-        <value>Click &quot;My Study&quot; to view the Study Workspace which includes information about the study in which you are taking part, such as inclusion and exclusion criteria and study site details. The expanded Tasks and Resources pages are also accessible from this area.</value>
+        <value>Click &quot;My Study&quot; to view the Study Workspace, which includes information about the study in which you are taking part, such as inclusion and exclusion criteria and study site details. The expanded Tasks and Resources pages are also accessible from this area.</value>
     </labels>
     <labels>
         <fullName>OT_Participant_S31_Text</fullName>
