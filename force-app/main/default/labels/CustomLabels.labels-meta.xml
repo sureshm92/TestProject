@@ -9008,6 +9008,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Messages</value>
     </labels>
     <labels>
+		<fullName>OT_H_Messaging</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT_H_Messaging</shortDescription>
+        <value>Messages</value>
+    </labels>
+    <labels>
 	<fullName>OT_H_Media_Request</fullName>
         <language>en_US</language>
         <protected>false</protected>
