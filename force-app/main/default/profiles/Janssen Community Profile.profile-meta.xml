@@ -593,10 +593,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>CustomLookupController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>DMLService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1606,10 +1602,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SendEmailToParticipant</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ServiceLookupController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
