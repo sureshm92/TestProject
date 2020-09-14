@@ -16,6 +16,7 @@
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="scrollLeft" type="Integer" default="0"/>
 
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <div class="panel">
         <c:RRSpinner aura:id="spinner"/>
         <aura:if isTrue="{!v.viewMode != 'Disabled'}">

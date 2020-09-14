@@ -14,6 +14,7 @@
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
 
     <!--Tab Application Help-->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <aura:if isTrue="{!v.isInitialized}">
         <div class="h-container">
             <div class="slds-grid slds-grid_align-center">

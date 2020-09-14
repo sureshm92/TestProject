@@ -8,6 +8,7 @@
     <aura:attribute name="records" type="Object[]"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <div class="slds-size--1-of-2 slds-max-small-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-2 slds-p-right--small">
         <div class="slds-grid slds-wrap">
             <aura:if isTrue="{!!empty(v.records)}">

@@ -25,6 +25,7 @@
     </aura:method>
 
     <!-- component body -->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <lightning:card class="main-panel">
         <c:RRSpinner aura:id="spinner" size="medium"/>
         <aura:if isTrue="{!not(v.initialized)}">

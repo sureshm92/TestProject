@@ -10,7 +10,7 @@
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     
     <!--COMPONENT BODY-->
-
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <c:HomePreviewTablePanel title="{!$Label.c.PG_L_Resources}" >
     <div><a onclick="{!c.navigateToCoi}" class="change-pref" >{!$Label.c.PP_Change_Preferences_Resource}</a></div>
         <c:RRSpinner aura:id="mainSpinner" showSpinner="true" size="small"/>

@@ -31,8 +31,8 @@
     <aura:attribute name="hoverId" type="string" />
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    
-    
+
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <div class="as-container">
         <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
         <c:Action_RemoveDelegate aura:id="actionRemoveDelegate"/>
