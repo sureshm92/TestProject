@@ -51,26 +51,30 @@
             contentType: file.type
         }, function (returnValue) {
             component.set('v.hasProfilePic',true);
+            console.log('inside function1');
             communityService.executeAction(component, 'getProfilePicture', {
             parentId: component.get('v.recordId')
         }, function (returnValue1) {
              var attachment1=returnValue1;
-            component.set('v.pictureSrc',attachment1);
+                        console.log('inside function2');
 
+            component.set('v.pictureSrc',attachment1);
         });
+                        console.log('inside function3');
+
             var attachment = returnValue;
-            //component.set('v.pictureSrc',attachment);
             component.set("v.message", "Image uploaded");
-            //component.set("v.pictureSrc",returnValue);
             console.log('returnValue-->'+returnValue);
-            
-            var appEvent = $A.get("e.c:RefreshProfile");
+            component.find('spinner').hide();
+             communityService.navigateToPage('account-settings'); 
+            window.location.reload(true);
+            /*var appEvent = $A.get("e.c:RefreshProfile");
             appEvent.setParams({
             "refreshFlag" : "true" });
-            appEvent.fire();
+            appEvent.fire();*/
            // $A.get('e.force:refreshView').fire();
             
-            component.find('spinner').hide();
+
         });
       
 

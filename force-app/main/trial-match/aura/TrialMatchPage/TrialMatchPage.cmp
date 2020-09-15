@@ -5,7 +5,7 @@
                 controller="TrialMatchPageRemote" extends="c:LightningService">
 
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
-
+    <aura:attribute name="isRTL" type="Boolean"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="trialmatchCTPs" type="List"/>
     <aura:attribute name="partid" type="Id"/>
@@ -26,18 +26,19 @@
             </div>
 
             <aura:if isTrue="{!v.initialized}">
-                <div class="trials-container side-padding">
+                <div class="{!v.isRTL? 'arabic':'english'}">
+                    <div class="trials-container side-padding">
                     <aura:if isTrue="{!!empty(v.trialmatchCTPs)}">
-                        <div class="slds-clearfix">
+                        <div class="{!v.isRTL? 'slds-clearfix sidepadding-rtl':'slds-clearfix'}">
                             <div class="slds-page-header__title tm-title">
                                 <lightning:formattedText value="{!$Label.c.Trial_Match}"/>
                             </div>
                         </div>
                         <div class="slds-clearfix">
-                            <div class="slds-float_left">
+                            <div class="{!v.isRTL? 'slds-float_right sidepadding-rtl':'slds-float_left'}">
                                 <lightning:formattedText value="{!$Label.c.search_results}"/>
                             </div>
-                            <div class="resource-link-container slds-float_right">
+                            <div class="{!v.isRTL? 'resource-link-container slds-float_left sidepaddingleft-rtl':'resource-link-container slds-float_right'}">
                                 <c:RRIcon iconName="icon-pdf" color="#0768FD" class="resource-icon"/>
                                     <a class="resource-name" onclick="{!c.doGenerateReport}">
                                         {!$Label.c.Download_Trial_Match}
@@ -46,6 +47,7 @@
                         </div>
                     </aura:if>
                     <c:TrialMatchContainer trialmatchCTPs="{!v.trialmatchCTPs}"/>
+                </div>
                 </div>
             </aura:if>
 

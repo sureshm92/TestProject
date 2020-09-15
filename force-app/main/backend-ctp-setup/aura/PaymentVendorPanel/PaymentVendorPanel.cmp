@@ -3,7 +3,7 @@
  -->
 
 <aura:component description="PaymentVendorPanel" controller="PaymentVendorPanelRemote"
-                implements="force:hasRecordId, flexipage:availableForAllPageTypes" extends="c:LightningService">
+                implements="force:hasRecordId,flexipage:availableForAllPageTypes" extends="c:LightningService">
 
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
@@ -16,6 +16,8 @@
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="scrollLeft" type="Integer" default="0"/>
 
+    <aura:method name="doSave" action="{!c.doSaveAndUpdate}" access="public"/>
+    
     <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <div class="panel">
         <c:RRSpinner aura:id="spinner"/>
@@ -67,10 +69,6 @@
                                                       class="slds-theme_neutral slds-m-left--medium"
                                                       variant="neutral"
                                                       label="{!$Label.c.TS_Add_Vendor}"/>
-                                    <!--Save changes button-->
-                                    <lightning:button variant="brand"
-                                                      class="" label="{!$Label.c.BTN_Save}"
-                                                      onclick="{!c.doSaveAndUpdate}" aura:id="saveButton"/>
                                 </div>
                             </div>
                         </aura:if>

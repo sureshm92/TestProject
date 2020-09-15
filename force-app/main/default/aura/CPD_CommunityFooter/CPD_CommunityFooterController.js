@@ -1,6 +1,6 @@
 ({
     doInit :  function(component, event, helper){
-        component.set('v.isArabic',true);
+        component.set('v.isRTL',true);
     },
     clicktoRedirect : function(component, event, helper) {
         event.preventDefault();

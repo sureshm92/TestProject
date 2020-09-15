@@ -8,7 +8,7 @@
         .ci-hidden{
             display: none;
         }
-         .ci-panel{
+        .ci-panel{
         	max-width: 1127px;
         }
 

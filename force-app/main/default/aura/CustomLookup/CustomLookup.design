@@ -1,0 +1,7 @@
+<design:component>
+	<design:attribute name="objectName" label="Choose Object" />
+    <design:attribute name="fieldName" 	label="Choose Field" />
+    <design:attribute name="label" 	label="Enter Label" />
+    <design:attribute name="value" 	label="SelectedId" />
+    <design:attribute name="iconName" 	label="Icon" />
+</design:component>

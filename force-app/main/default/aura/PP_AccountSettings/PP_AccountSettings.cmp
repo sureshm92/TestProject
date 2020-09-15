@@ -4,7 +4,8 @@
     <aura:attribute name="initData" type="Object" access="private"/>
     <aura:attribute name="userMode" type="String" required="true"/>
     <aura:attribute name="isDelegate" type="Boolean"/>
-     <aura:attribute name="userTypeHCP_PI" type="Boolean" default="false"/>
+    <aura:attribute name="userTypeHCP_PI" type="Boolean" default="false"/>
+    <aura:attribute name="isRTLLanguage" type="Boolean" default="false"/>
     
     <aura:attribute name="contactSectionData" type="Object"/>
     <aura:attribute name="personWrapper" type="Object"/>
@@ -38,9 +39,9 @@
         <c:Action_RemoveDelegate aura:id="actionRemoveDelegate"/>
         
         <aura:if isTrue="{!v.isInitialized}">
-            <div class="NavContainer" id="NavContainer" >
+            <div class="{!v.isRTLLanguage?'NavContainer RTL':'NavContainer'}" id="NavContainer">
                 <div class="NavContainer1" id="NavContainer1" >
-                    <h2 class="title"> {!$Label.c.PP_Account_Settings}</h2>
+                    <h2 class="{!v.isRTLLanguage?'RTL title':'LTR title'}"> {!$Label.c.PP_Account_Settings}</h2>
                     <div class="navBar" id="navbar">
                         <ul onclick="{!c.onClick}" id="selectOption" onmouseleave="{!c.removeFocus}">
 
@@ -59,12 +60,12 @@
                         </ul>
                     </div>
                 </div>
-                <div class="NavComponent">
+                <div class="{!v.isRTLLanguage?'NavComponentRTL':'NavComponent'}">
                     <aura:if isTrue="{!(v.compId=='1')}">
-                        <c:AccountSettings_EditProfile userMode="{!v.userMode}"></c:AccountSettings_EditProfile>
+                        <c:AccountSettings_EditProfile userMode="{!v.userMode}" isRTL="{!v.isRTLLanguage}"></c:AccountSettings_EditProfile>
                     </aura:if>
                     <aura:if isTrue="{!(v.compId=='2')}">
-                        <c:ChangePassword userMode="{!v.userMode}"/>
+                        <c:ChangePassword userMode="{!v.userMode}" isRTL="{!v.isRTLLanguage}"/>
                     </aura:if>
                     <aura:if isTrue="{!(v.compId=='3')}">
                         <c:PP_LanguageSwitcher personWrapper="{!v.personWrapper}"
@@ -72,7 +73,7 @@
                                                isDelegate="{!v.isDelegate}" userMode="{!v.userMode}"/>                    
                     </aura:if>
                     <aura:if isTrue="{!(v.compId=='4')}">
-                            <c:CustomizeExperience userMode="{!v.userMode}"/>
+                            <c:CustomizeExperience userMode="{!v.userMode}" isRTL="{!v.isRTLLanguage}"/>
                     </aura:if>
                      <aura:if isTrue="{!(v.compId=='6')}">
                             <c:RH_NotificationPreference />

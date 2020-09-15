@@ -2,7 +2,7 @@
  - Created by Igor Malyuta on 18.09.2019.
  -->
 <aura:component description="StudySiteVisitConfig" controller="StudySiteVisitConfigRemote"
-                implements="force:hasRecordId, flexipage:availableForAllPageTypes">
+                implements="force:hasRecordId,flexipage:availableForAllPageTypes">
 
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
@@ -15,6 +15,8 @@
     <aura:attribute name="haveEmptyAssigment" type="Boolean"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="scrollLeft" type="Integer" default="0"/>
+
+    <aura:method name="doSave" action="{!c.doSaveAndUpdate}" access="public"/>
 
     <!-- component body: -->
     <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
@@ -67,7 +69,6 @@
                                     <div class="save-btn">
                                         <lightning:button variant="neutral" label="Add Visit Plan"
                                                           onclick="{!c.doAddVP}"/>
-                                        <lightning:button variant="brand" label="Save" onclick="{!c.doSaveAndUpdate}"/>
                                     </div>
                                 </div>
                             </aura:if>
