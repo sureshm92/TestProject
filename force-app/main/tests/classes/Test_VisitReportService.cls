@@ -97,18 +97,19 @@ private class Test_VisitReportService {
 
         testData.pe.Participant_Status__c = PEStatusState.PE_STATUS_TRIAL_COMPLETE;
         update testData.pe;
-      
+
+        VisitReportContainerRemote.ReportDataWrapper testReportDataWrapper;
+
         System.runAs(testData.participantUser){
-            VisitReportContainerRemote.getReportDataWrappers(testData.pe.Id);
-            try{
+            testReportDataWrapper = VisitReportContainerRemote.getReportDataWrappers(testData.pe.Id);
+            try {
                 VisitReportContainerRemote.getLogoFromStatic('GSK');
-            }
-            catch(Exception e){
+            } catch (Exception e) {
                 System.debug('Exception Handled');
             }
         }
-        
         Test.stopTest();
+        System.assertEquals(3, testReportDataWrapper.dataTables[0].visitResultsWrapper.size());
     }
     
 }
