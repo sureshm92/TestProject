@@ -20,6 +20,7 @@
     <aura:method name="hide" action="{!c.doHide}"/>
 
     <!-- component body: -->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <c:Popup aura:id="shareModal" title="{!v.shareModalTitle}" size="small">
         <div class="modal-dialog-body">
             {!v.modalDialogBody}

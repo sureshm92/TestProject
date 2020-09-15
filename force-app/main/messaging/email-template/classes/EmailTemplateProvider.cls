@@ -236,13 +236,13 @@ public without sharing virtual class EmailTemplateProvider {
         List<Id> studySites = new List<Id>();
         if(recipientId !=null){
             
-            if(isDelegate){
+            
                 for(Site_Staff__c ss:[SELECT Study_Site__c FROM Site_Staff__c 
                                       WHERE Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
                                       AND Site_Contact__c =:recipientId]){
                    studySites.add(ss.Study_Site__c);   
                 }
-            }
+            
             receivedPEs.addAll([SELECT Id FROM Participant_Enrollment__c
                                 WHERE  Participant_Status__c = 'Received' 
                                 AND (Study_Site__c IN :studySites OR PI_Contact__c=:recipientId)]);

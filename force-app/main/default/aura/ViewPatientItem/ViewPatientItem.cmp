@@ -29,6 +29,7 @@
 
     <!-- component body: -->
     <div class="{!'rr-white-panel padding ' + if(v.isRTL, ' rtl', '')}" style="position: relative">
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
         <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
         <aura:if isTrue="{!empty(v.pe)}">
             <div style="height: 250px"></div>

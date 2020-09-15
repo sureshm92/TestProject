@@ -17,6 +17,7 @@
     <aura:registerEvent name="appEvent" type="c:TaskToggleEvent"/>
 
     <!-- component body: -->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <aura:if isTrue="{!v.user_has_permission != 'Disabled'}">
         <aura:set attribute="else">
             <c:EmptyListStub message="{!$Label.c.No_permission_Visits_tab}"/>

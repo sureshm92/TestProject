@@ -32,6 +32,7 @@
 
     <aura:method name="refresh" action="{!c.doUpdate}" access="public"/>
 
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <c:RRSpinner aura:id="spinner" size="medium" fixed="true"/>
 
     <aura:if isTrue="{!v.isInitialized}">
