@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="FilterPanel">
+ <aura:component description="FilterPanel">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"/>
 
     <!-- attributes: -->

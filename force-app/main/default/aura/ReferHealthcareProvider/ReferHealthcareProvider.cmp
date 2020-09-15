@@ -2,7 +2,7 @@
  - Created by Nikita Abrazhevitch on 19-Sep-19.
  -->
 
-<aura:component description="ReferHealthcareProvider" controller="ReferHealthcareProviderRemote">
+ <aura:component description="ReferHealthcareProvider" controller="ReferHealthcareProviderRemote">
     <aura:attribute name="pe" type="Object"/>
     <aura:attribute name="healthCareProviders" type="List"/>
     <aura:attribute name="actionDisabled" type="Boolean" default="false"/>
@@ -34,7 +34,12 @@
 
             <aura:if isTrue="{!!v.fromEmancipParticipant &amp;&amp; v.delegates != null}">
                 <div class="referring">{!$Label.c.Delegates}</div>
-                <div class="healthcare-info">{!!v.fromEmancipParticipant ? $Label.c.Message_For_Delegates : ''}</div>
+                <aura:if isTrue="{!v.communitySponsor != 'Janssen'}">
+                	<div class="healthcare-info">{!!v.fromEmancipParticipant ? $Label.c.Message_For_Delegates : ''}</div>
+                </aura:if>
+                <aura:if isTrue="{!v.communitySponsor == 'Janssen'}">
+                    <div class="healthcare-info">{!!v.fromEmancipParticipant ? $Label.c.Message_For_Delegates_Jansen : ''}</div>
+                </aura:if>
                 <div class="slds-grid slds-wrap slds-size--1-of-1">
                     <aura:iteration items="{!v.delegates}" var="delegate" indexVar="index">
                         <c:ReferHealthcareProviderForm forThisProvider="isDelegates"
