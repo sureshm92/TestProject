@@ -239,6 +239,10 @@
             <br/>
             <!-- Added By Krishna for PEH-2451 :End  --> 
             <!-- Added By Deeksha for PEH-2738 :End  --> 
+<<<<<<< HEAD
+=======
+
+>>>>>>> MyParticipantOptimization5.1_Backup_Sep15
             <aura:if isTrue="{!not(v.isMobileApp)}">
                 <div class="rr-login-info-title" style="margin-top: 40px">{!$Label.c.PG_Login_T_This_Site_Optimized_For}</div>
 

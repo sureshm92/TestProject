@@ -9,6 +9,16 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler
             StudySiteService.PI_S_ACCEPTED_A,
             StudySiteService.PI_S_INVITATION_SENT
     };
+       
+        public class ContactAndSiteType{
+            Contact contactObj;
+            String siteType;
+            ContactAndSiteType(){}
+            ContactAndSiteType(Contact incon, String inSiteType){
+                this.contactObj = incon;
+                this.siteType = inSiteType;
+            }    
+        }        
      
     public without sharing class CheckRequiredFieldsAndUpsertParticipantAndPEHandler extends TriggerHandler {
         
@@ -35,7 +45,7 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler
             }
             //SS Map
             List<Study_Site__c> ssList = [
-                    SELECT Id, Protocol_ID__c, Primary_Key_ePR__c,
+                    SELECT Id, Protocol_ID__c, Primary_Key_ePR__c,Study_Site_Type__c,
                             Override_PI_Referral_Status__c
                     FROM Study_Site__c
                     WHERE Primary_Key_ePR__c IN: ssNumbersList
@@ -88,12 +98,13 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler
 
         private void upsertParticipantAndPE() {
             Map<String, Participant__c> newParticipantsMap = new Map<String, Participant__c>();
-            Map<String, Contact> newDelegateContactsMap = new Map<String, Contact>();
+            Map<String, ContactAndSiteType> newDelegateContactsMap = new Map<String, ContactAndSiteType>();
             Account participantAccount = [SELECT Id FROM Account WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE ];
             for (Integration_Patient_Referral__c ipr : newList) {
                 newParticipantsMap.put(ipr.referralID__c, convertToParticipant(ipr));
+                Study_Site__c ss = ssByPrimaryKeyEPRMap.get(getSitePrimaryKeyEPR(ipr));
                 if (!String.isBlank(ipr.Delegate_First_Name__c) && !String.isBlank(ipr.Delegate_Last_Name__c)) {
-                    newDelegateContactsMap.put(ipr.referralID__c, convertToDelegateContact(ipr, participantAccount));
+                    newDelegateContactsMap.put(ipr.referralID__c, convertToDelegateContact(ipr, participantAccount, ss.Study_Site_Type__c));
                 }
             }
 
@@ -119,8 +130,12 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler
             }
 
             upsert newParticipantsMap.values();
+            List<Contact> newDelegateContacts = new List<Contact>();
             if (!newDelegateContactsMap.isEmpty()) {
-                insert newDelegateContactsMap.values();
+                for(ContactAndSiteType newDelCon : newDelegateContactsMap.values())
+                newDelegateContacts.add(newDelCon.contactObj);
+                //insert newDelegateContactsMap.values();
+                insert newDelegateContacts;
             }
 
             //Insert PE
@@ -133,8 +148,9 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler
                 Study_Site__c ss = ssByPrimaryKeyEPRMap.get(getSitePrimaryKeyEPR(ipr));
                 if (ss != null) peList.add(createPE(ipr, participant.Id, ss.Id));
 
-                Contact participantDelegateContact = newDelegateContactsMap.get(ipr.referralID__c);
-                if (participantDelegateContact != null) {
+                ContactAndSiteType participantDelegateContactAndSiteType = newDelegateContactsMap.get(ipr.referralID__c);
+                if (participantDelegateContactAndSiteType != null) {
+                    Contact participantDelegateContact = participantDelegateContactAndSiteType.contactObj;
                     delegateParticipants.add(createDelegateParticipant(participantDelegateContact,ipr.Delegate_Phone_Number_Type__c)); 
                     participantIdByParticipantDelegateContactId.put(participantDelegateContact.Id, participant.Id);
                     delegateIds.add(participantDelegateContact.Id);
@@ -161,17 +177,23 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler
             if (!delegateIds.isEmpty()) {
                 List<Patient_Delegate__c> ptDelegateRefs = new List<Patient_Delegate__c>();
                 Map<Id, Id> delegateUsersToCreate = new Map<Id, Id>();
-                for (Contact participantDelegateContact : newDelegateContactsMap.values()) {
+				for (ContactAndSiteType ndc : newDelegateContactsMap.values()) {
+                    Contact participantDelegateContact = ndc.contactObj;
                     Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
                     ptDelegateRef.Participant__c = participantIdByParticipantDelegateContactId.get(participantDelegateContact.Id);
                     ptDelegateRef.Contact__c = participantDelegateContact.Id;
                     if (participantsWithoutErrors.contains(ptDelegateRef.Participant__c)) {
                         ptDelegateRefs.add(ptDelegateRef);
-                        delegateUsersToCreate.put(participantDelegateContact.Id, null);
+                        if(ndc!=null && ndc.siteType != 'Virtual' && ndc.siteType != 'Hybrid'){
+                            delegateUsersToCreate.put(participantDelegateContact.Id, null);
+                        }
                     }
                 }
                 if(!delegateParticipants.isEmpty()){
-                    insert delegateParticipants;
+                     TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.CreateContactsForParticipantsHandler.class);//REF- 1914
+                     TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class);
+                     TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.CheckBecomesAdultHandler.class);
+                     insert delegateParticipants;
                 }                
                 if (!ptDelegateRefs.isEmpty()) {
                     insert ptDelegateRefs;
@@ -239,7 +261,7 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler
         return participant;
     }
 
-    public static Contact convertToDelegateContact(Integration_Patient_Referral__c ipr, Account participantAccount) {
+    public static ContactAndSiteType convertToDelegateContact(Integration_Patient_Referral__c ipr, Account participantAccount, String studySiteType) {
         Contact newContact = new Contact(
                 FirstName = ipr.Delegate_First_Name__c,
                 MiddleName = ipr.Delegate_Middle_Name__c,
@@ -249,7 +271,7 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler
                 MailingState = ipr.Delegate_Mailing_State__c,
                 MailingCity = ipr.Delegate_Mailing_City__c,
                 MailingPostalCode = ipr.Delegate_Zip_Postal_Code__c,
-                Current_Participant_Enrollment__c = ipr.Participant_Enrollment__c,
+                 Current_Participant_Enrollment__c = ipr.Participant_Enrollment__c,
                 AccountId = participantAccount.Id
         );
         if ('Home' == ipr.Delegate_Phone_Number_Type__c) {
@@ -262,8 +284,8 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler
             newContact.Phone = ipr.Delegate_Daytime_Phone_Number__c;
             newContact.MobilePhone = ipr.Delegate_Alternative_Phone_Number__c;
         }
-
-        return newContact;
+        ContactAndSiteType conAndSt = new ContactAndSiteType(newContact, studySiteType);
+        return conAndSt;
     }
 
     private static Participant_Enrollment__c createPE(Integration_Patient_Referral__c ipr, Id participantId, Id ssId) {

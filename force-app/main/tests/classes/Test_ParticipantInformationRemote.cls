@@ -86,7 +86,7 @@ private class Test_ParticipantInformationRemote {
         participantDel.Phone__c = '141241';
         participantDel.Phone_Type__c = 'Home';
         Test.startTest();
-        AddPatientByPIRemote.createParticipantDelegate(JSON.serialize(participantDel), null, participant.Id, JSON.serialize(participant));
+        AddPatientByPIRemote.createParticipantDelegate(JSON.serialize(participantDel), null, participant.Id, JSON.serialize(participant),true);
         Test.stopTest();
     }
 
