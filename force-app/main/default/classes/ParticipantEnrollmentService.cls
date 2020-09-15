@@ -563,7 +563,7 @@ public without sharing class ParticipantEnrollmentService {
             
     };*/
 
-    public static final List<String> CTP_FIELDS_FOR_FILTER = new List<String>{
+    /*public static final List<String> CTP_FIELDS_FOR_FILTER = new List<String>{
             'Id',
             'Study_Code_Name__c'
     };
@@ -571,7 +571,7 @@ public without sharing class ParticipantEnrollmentService {
     public static final List<String> SS_FIELDS_FOR_FILTER = new List<String>{
             'Id',
             'Name'
-    };
+    };*/
                 
     public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter) {
         return getPEnrolmentsCommonCustomFields(userMode, customFields, filter, null);
@@ -731,7 +731,10 @@ public without sharing class ParticipantEnrollmentService {
         }
         return createPEFilterDataForTrials(trialsMap, studySites, mode);
     }
-    //Modified for performance tuning. Study Site and CTP filters are going to be static
+    /*
+    @Depricated - use getPEFilterDataWithSponsor instead
+    Modified for performance tuning. Study Site and CTP filters are going to be static
+    
     public static PEFilterData getPEFilterDataWithExistingPERecords(String activePE, Id trialId, String mode, Boolean restrictTrial, String delegateId, String additionalFilters, String sponsorName) {
         //init trials - removed filtration based on PE
         //Map<Id, Clinical_Trial_Profile__c> trialsMap = new Map<Id, Clinical_Trial_Profile__c>(TrialService.getAvailableTrialsWithPE(activePE, mode, delegateId, additionalFilters));
@@ -757,8 +760,48 @@ public without sharing class ParticipantEnrollmentService {
         //Removed filtration based on PE
         //studySites = StudySiteService.filterStudySitesWithPE(studySites, activePE, mode, delegateId, additionalFilters);
         return createPEFilterDataForTrials(filterTrialsMap, studySites, mode);
+    }*/
+
+    /*
+    * Get the trials and study in a single query for a particular community.
+    * Replaces getPEFilterDataWithExistingPERecords
+    * @param mode community user mode eg. PI/HCP/CC
+    * @param trialId CTP Id
+    * @param restrictTrial in Boolean
+    * @param delegateId for the PI if any
+    * @param communityTemplate logged in community name eg. Default for IQVIA
+    * @return PEFilterData wrapper that forms the filter dropdown in UI 
+    */
+    public static PEFilterData getPEFilterDataWithSponsor(String mode, Id trialId, Boolean restrictTrial, String delegateId , String communityTemplate) {
+        Map<Id, Clinical_Trial_Profile__c> trialsMap = new Map<Id, Clinical_Trial_Profile__c>();
+        List<Clinical_Trial_Profile__c> trials = new List<Clinical_Trial_Profile__c>();
+        List<Study_Site__c> studySites = new List<Study_Site__c>();
+        String hcpFilter = 'AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = \'' + communityTemplate + '\'';
+        if (mode == CommunityService.USER_MODE_HCP) {
+            List<HCP_Enrollment__c> hcpEnrollments = HCPEnrollmentService.getHCPEnrollmentsCommon(mode, delegateId, hcpFilter, false);
+            System.debug('hcpCommon' + hcpEnrollments);
+            for(HCP_Enrollment__c hcpEnrollment : hcpEnrollments) {
+                if(hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r != null) trials.add(hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r);
+            }
+            trialsMap.putAll(trials);
+            if (restrictTrial && trialId != null && trialsMap.containsKey(trialId)) {
+                studySites = StudySiteService.getStudySitesForHCPByTrialId(trialId);
+            } else {
+                studySites = StudySiteService.getStudySitesForHCP(new List<Id>(trialsMap.keySet()), delegateId);
+            }
+        }
+        if (mode == CommunityService.USER_MODE_PI) {
+            List<Study_Site__c> studySitesTmp = StudySiteService.getStudySitesForPIBySponsor(communityTemplate);
+            for(Study_Site__c ss : studySitesTmp) trials.add(ss.Clinical_Trial_Profile__r);
+            trialsMap.putAll(trials);
+            if (restrictTrial && trialId != null && trialsMap.containsKey(trialId)) {
+                studySites = StudySiteService.getStudySiteForPIByTrialId(trialId);
+            } else {
+                studySites.addAll(studySitesTmp);
+            }
+        }
+        return createPEFilterDataForTrials(trialsMap, studySites, mode);
     }
-    
     
     private static PEFilterData createPEFilterDataForTrials( Map<Id, Clinical_Trial_Profile__c> trialsMap, List<Study_Site__c> studySites,String mode) {
         
@@ -945,7 +988,7 @@ public without sharing class ParticipantEnrollmentService {
             filterStr += ' AND ' + filter.dateField + ' ' + filter.dateRange + ' ';
         }
         //Add search filter if applicable
-        if (filter != null && !String.isEmpty(filter.searchText)) {
+        /*if (filter != null && !String.isEmpty(filter.searchText)) {
             String searchFilter = '';
             for (String searchField : filter.searchFields) {
                 searchFilter += ((searchField.equalsIgnoreCase('Participant__r.First_Name__c') ||  searchField.equalsIgnoreCase('Participant__r.Last_Name__c')) ?  searchField + ' = \'' + String.escapeSingleQuotes(filter.searchText) + '\'' 
@@ -953,7 +996,38 @@ public without sharing class ParticipantEnrollmentService {
             }
             searchFilter = searchFilter.trim().removeEnd('OR');
             filterStr += ' AND (' + searchFilter + ')';
-        }        
+        }*/
+
+        if (filter != null && !String.isEmpty(filter.searchText)) {
+            String soslSearchQuery = '(';
+            for(String word : filter.searchText.split(' ')){
+                soslSearchQuery += word + '*' + '  AND ';
+            }
+            soslSearchQuery = soslSearchQuery.trim().removeEnd('AND') + ')';
+            List<List<sObject>> searchResult = [ FIND :soslSearchQuery 
+                                                    RETURNING 
+                                                    Participant__c,
+                                                    Participant_Enrollment__c 
+                                                    LIMIT 2000];
+            if(!searchResult.isEmpty()) {
+                String participantIdFilter = '';
+                String enrollmentIdFilter = '';
+                filterStr += ' AND (';
+                if(!searchResult[0].isEmpty()){
+                    List<Id> partIds = new List<Id>(new Map<Id, Participant__c>((List<Participant__c>)searchResult[0]).keySet());
+                    participantIdFilter = DatabaseService.fieldInValues('Participant__c', partIds);
+                    filterStr += participantIdFilter;
+                }
+                if(!searchResult[1].isEmpty()){
+                    List<Id> enrollmentIds = new List<Id>(new Map<Id, Participant_Enrollment__c>((List<Participant_Enrollment__c>)searchResult[1]).keySet());
+                    enrollmentIdFilter = DatabaseService.fieldInValues('Id', enrollmentIds);
+                    filterStr += String.isEmpty(participantIdFilter) ? enrollmentIdFilter : ' OR ' + enrollmentIdFilter;
+                }
+
+                filterStr += ')';
+            }
+        }
+
         //Use ORDER BY clause for sorting based on created/ modified date
         if (!filter.sortType.contains('Alphabetical')) filterStr += ' ORDER BY ' + filter.sortType;
         //Modified for performance tuning - get PE List based on the offset
