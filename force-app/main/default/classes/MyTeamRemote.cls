@@ -338,6 +338,7 @@ public without sharing class MyTeamRemote {
             if (dw.delegateContact.Id == null) {
                 createDelegate(dw, userMode, parentId);
             } else {
+                checkAndCreateDelegateUser(dw.delegateContact, dw.delegateTrials, userMode);
                 Map<String, LIst<Id>> hasDelegateLevelsPIMap = new Map<String, List<Id>>();
                 hasDelegateLevelsPIMap.put(HAS_NOT_DELEGATE_LEVELS, new List <Id>());
                 Boolean hasDelegateLevels = false;
@@ -573,7 +574,7 @@ public without sharing class MyTeamRemote {
         Contact delegateContact = createDelegateContact(delegate, userMode);
         List<Site_Staff__c> piDelegates = new List<Site_Staff__c>();
         List<TrialDelegateWrapper> dlw = delegate.delegateTrials;
-        Boolean createUser = doCreateUser(dlw, userMode);
+
         if (userMode == CommunityService.USER_MODE_PI) {
             piDelegates = createPIDelegationRecord(delegate, delegateContact);
         }
@@ -585,13 +586,23 @@ public without sharing class MyTeamRemote {
         if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
             delegate.delegateContact = delegateContact;
         }
+        checkAndCreateDelegateUser(delegateContact, dlw, userMode);
+        if (!piDelegates.isEmpty()) {
+            DelegateService.addConversationSharesForPITeam(piDelegates);
+        }
+    }
+
+    public static void checkAndCreateDelegateUser(Contact delegateContact, List<TrialDelegateWrapper> dlw, String userMode){
+        if (CommunityService.getCommunityUsersByContactIds(new Set<Id>{
+                delegateContact.Id
+        }).size() > 0) {
+            return;
+        }
+        Boolean createUser = doCreateUser(dlw, userMode);
         if (createUser) {
             ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id>{
                     delegateContact.Id
             });
-        }
-        if (!piDelegates.isEmpty()) {
-            DelegateService.addConversationSharesForPITeam(piDelegates);
         }
     }
 
@@ -601,7 +612,7 @@ public without sharing class MyTeamRemote {
         } else {
             for (MyTeamRemote.TrialDelegateWrapper t : dlw) {
                 for (MyTeamRemote.DelegateLevelWrapper d : t.siteLevels) {
-                    if (d.ReferralStatus == 'Accepted' && String.isNotBlank(d.delegateLevel)) {
+                    if ((d.ReferralStatus == StudySiteService.PI_S_ACCEPTED || d.ReferralStatus == StudySiteService.PI_S_ACCEPTED_A) && String.isNotBlank(d.delegateLevel)) {
                         return true;
                     }
                 }
