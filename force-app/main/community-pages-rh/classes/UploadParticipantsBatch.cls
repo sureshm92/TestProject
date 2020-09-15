@@ -88,7 +88,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             for (LabelValueItem lb : phoneTypeLVList) {
                 phoneTypeLVSet.add(lb.value);
             }
-            List<LabelValueItem> languageLVList = SObjectHelper.getPicklistLabelValueList(Participant__c.Language_Preference_Code__c);
+            List<LabelValueItem> languageLVList = SObjectHelper.getPicklistLabelValueList(Participant__c.Preferred_Language__c);
             for (LabelValueItem lb : languageLVList) {
                 laguageLVSet.add(lb.value);
             }
@@ -305,7 +305,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                            Phone_Type__c = PhoneType,
                                            Alternative_Phone_Number__c = Phone2,
                                            Alternative_Phone_Type__c = PhoneType2,
-                                           Language_Preference_Code__c = (String.isBlank(Language) ? uploadUser.Contact.Language__c : Language),
+                                           Preferred_Language__c = (String.isBlank(Language) ? uploadUser.Contact.Language__c : Language),
                                            Mailing_State__c = State,
                                            Mailing_Country__c = uploadUser.Contact.MailingCountry,
                                            Mailing_Zip_Postal_Code__c = PostalCode);

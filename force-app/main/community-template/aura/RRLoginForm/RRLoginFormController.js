@@ -4,6 +4,10 @@
 ({
     initialize: function(component, event, helper) {
         var isMobileApp =  document.referrer;
+<<<<<<< HEAD
+=======
+        console.log('isMobileApp'+isMobileApp);
+>>>>>>> MyParticipantOptimization5.1_Backup_Sep15
         if(isMobileApp.includes("startURL")){
                   component.set("v.isMobileApp",true);
         }

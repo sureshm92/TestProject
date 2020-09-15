@@ -41,7 +41,7 @@
     <aura:handler name="change" value="{!v.peFilter.studySite}" action="{!c.doSiteChanged}"/>
     <aura:handler name="change" value="{!v.peFilter.study}" action="{!c.doStudyChanged}"/>
     <aura:handler name="change" value="{!v.peFilter.activePE}" action="{!c.doActiveChanged}"/>
-    <aura:handler name="change" value="{!v.peFilter.searchText}" action="{!c.doFilterChanged}"/>
+    <aura:handler name="change" value="{!v.peFilter.searchText}" action="{!c.doSeachTextChanged}"/>
     <aura:handler name="change" value="{!v.peFilter.referringStatus}" action="{!c.doFilterChanged}"/>
     <aura:handler name="change" value="{!v.peFilter.dateRange}" action="{!c.doFilterChanged}"/>
     <aura:handler name="change" value="{!v.peFilter.source}" action="{!c.doFilterChanged}"/>
@@ -131,8 +131,15 @@
                 </aura:set-->
             </c:FilterPanel>
 
+             <!-- pagination -->
+             <div class="pagination-position">
+                 <c:RRPaginationRemote entriesOnPage="{!v.paginationData.pageRecordsCount}"
+                 currentPage="{!v.paginationData.currentPage}"
+                 allRecordsCount="{!v.paginationData.allRecordsCount}"/>
+             </div>
+
             <!-- list of items: -->
-            <div style="position: relative; min-height: 100px; padding-bottom: 1px" class="slds-gutters_">
+            <div class="participantcard-position slds-gutters_">
                 <c:RRSpinner aura:id="recordsSpinner" size="medium" showSpinner="false"/>
                 <c:EmptyListStub targetList="{!v.pageList}"/>
                 <aura:iteration items="{!v.pageList}" var="item">

@@ -72,6 +72,7 @@
     doAction: function (component, event) {
         var siteWrapper = component.get('v.siteWrapper');
         var studySiteId = siteWrapper.studySite.Id;
+        var studySiteType = siteWrapper.studySite.Study_Site_Type__c;
         var trialId = siteWrapper.studySite.Clinical_Trial_Profile__c;
         var trial = siteWrapper.studySite.Clinical_Trial_Profile__r;
         var studyListViewComponent = component.get('v.studyListViewComponent');
@@ -101,7 +102,7 @@
                 communityService.navigateToPage('add-patient?id=' + trialId + '&ssId=' + studySiteId);
                 break;
             case 'uploadPatient':
-                studyListViewComponent.find('actionUploadParticipants').execute(studySiteId, function(studySiteId) {});
+                studyListViewComponent.find('actionUploadParticipants').execute(studySiteId,studySiteType, function(studySiteId,studySiteType) {});
                 break;
         }
     },

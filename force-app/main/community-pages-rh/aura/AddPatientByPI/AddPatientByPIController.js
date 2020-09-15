@@ -18,6 +18,12 @@
                 component.set('v.formData', formData);
                 component.set('v.initialized', true);
                 component.set('v.userLanguage', formData.userLanguage);
+                if(formData.ss.Study_Site_Type__c == 'Hybrid'||formData.ss.Study_Site_Type__c == 'Virtual'){
+                    component.set('v.createUserForDelegate',false);   
+                }else{
+                    component.set('v.createUserForDelegate',true);
+                }
+
                 console.log('LANGUAGE', component.get('v.userLanguage'));
                 window.setTimeout(
                     $A.getCallback(function () {
