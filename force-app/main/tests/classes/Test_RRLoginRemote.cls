@@ -39,7 +39,7 @@ private class Test_RRLoginRemote {
     
     @IsTest
     static void testExpId(){
-        RRLoginRemote.setExperienceId('111'); 
+        String testSetting = RRLoginRemote.setExperienceId('111');
+        System.assertEquals('This method can be invoked only from within a community.', testSetting);
     }
-
 }
