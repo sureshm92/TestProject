@@ -345,6 +345,7 @@ public without sharing class MyTeamRemote {
 
                 if (userMode == CommunityService.USER_MODE_PI) {
                     hasDelegateLevelsPIMap = savePIDelegate(dw);
+                    DelegateService.updateDelegatePermissionSetsPI(dw.delegateContact);
                 } else if (userMode == CommunityService.USER_MODE_HCP) {
                     hasDelegateLevels = saveHCPDelegate(dw, parentId);
 
