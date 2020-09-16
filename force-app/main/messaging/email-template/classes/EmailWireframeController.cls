@@ -17,7 +17,7 @@ global without sharing class EmailWireframeController {
     global String specificEmailProviderValue { get; set; }
     global String outputMode { get; set; }
     global String displayOptOut {get;set;}
-    //global String userModeValue {get;set;}
+    global String userModeValue {get;set;}
     private EmailTemplateProvider templateProvider;
 
     global String getUserLanguageCode() {
