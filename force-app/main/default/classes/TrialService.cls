@@ -81,7 +81,8 @@ public without sharing class TrialService {
     public List<Clinical_Trial_Profile__c> getAvailableTrialsWithPEImpl(String activePE, String mode, String delegateId, String additionalFilter){
         List<Clinical_Trial_Profile__c> trials= getAvailableTrials(mode,delegateId);
         Set<Id> trialIds = new Set<Id>();
-        for (Participant_Enrollment__c pe : ParticipantEnrollmentService.getParticipantEnrollmentsActiveFilter(activePE, mode, delegateId, additionalFilter)){
+        //for (Participant_Enrollment__c pe : ParticipantEnrollmentService.getParticipantEnrollmentsActiveFilter(activePE, mode, delegateId, additionalFilter)){
+        for (Participant_Enrollment__c pe : ParticipantEnrollmentService.getParticipantEnrollmentsActiveFilterOptimized(activePE, mode, delegateId, additionalFilter, ParticipantEnrollmentService.ACTIVE_PE_FIELDS_FOR_CTP_SS)){        
             trialIds.add(pe.Clinical_Trial_Profile__c);
         }
         return (List<Clinical_Trial_Profile__c>)SObjectHelper.filterSObjectsByIds(trials, trialIds);

@@ -48,7 +48,8 @@
             allowEmail : component.get('v.isEmail'),
             allowPhone : component.get('v.isPhone'),
             allowSMS : component.get('v.isSMS'),
-            allowContact : component.get('v.doContact')
+            allowContact : component.get('v.doContact'),
+            allowDelegateContact : component.get('v.createUserForDelegate')
         }, function (createdPE) {
             communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
             callback();

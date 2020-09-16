@@ -14,6 +14,8 @@
         component.find('uploadParticipantsDialog').show();
         var studySiteId = params["studySiteId"];
         component.set('v.studySiteId', studySiteId);
+        var studySiteType = params["studySiteType"];
+        component.set('v.studySiteType', studySiteType);        
         if (params.callback) component.set('v.callback', $A.getCallback(params.callback));
         helper.clearFields(component, event, helper);
         helper.checkCommunity(component, event, helper);

@@ -19,6 +19,7 @@
     <apex:attribute name="preSignature" assignTo="{!preSignatureValue}" type="String" description=""/>
 
     <!-- Other -->
+    <apex:attribute name="communityMode" assignTo="{!userModeValue}" type="String" description=""/>
     <apex:attribute name="outputType" assignTo="{!outputMode}" type="String" description="" default="HTML"/>
     <apex:attribute name="communityMode" type="String" description=""/>
     <apex:attribute name="communityTemplate" type="String" assignTo="{!communityTemplateValue}"
