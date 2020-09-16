@@ -67,8 +67,10 @@ public class EmailForPendingReferrals {
         }
 
         for (Id contactId : ssByContactIdMap.keySet())
+        if(allContactIds.contains(contactId)) {
             emailMessages.add(EmailService.createEmail(EmailService.getEmailTemplateId('PI_RP_New_Referral'), contactId, ssByContactIdMap.get(contactId),
                     availabilityService.getOrgWideEmail(contactId, ssByContactIdMap.get(contactId), nt.Org_Wide_Email_Address__c)));
+    	}
         List<Messaging.SendEmailResult> resultList = Messaging.sendEmail(emailMessages, false);
     }
 }
