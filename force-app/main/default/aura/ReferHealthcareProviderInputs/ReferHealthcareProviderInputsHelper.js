@@ -36,11 +36,18 @@
                 parent.find('spinner').hide();
             })
         } else {
+            var isDelegateInvited = false;
+            if(pe.Study_Site__r != undefined && pe.Study_Site__r != null &&
+               pe.Study_Site__r.Study_Site_Type__c != 'Virtual' 
+               && pe.Study_Site__r.Study_Site_Type__c != 'Hybrid'){
+                isDelegateInvited = true;
+            }
             communityService.executeAction(component, 'invitePatientDelegate', {
                 participant: JSON.stringify(pe.Participant__r),
                 delegateContact: JSON.stringify(sharingObject),
                 delegateId: sharingObject.delegateId ? sharingObject.delegateId : null,
-                ddInfo: JSON.stringify(component.get('v.duplicateDelegateInfo'))
+                ddInfo: JSON.stringify(component.get('v.duplicateDelegateInfo')),
+                createUser: isDelegateInvited
             }, function (returnValue) {
                 var mainComponent = component.get('v.mainComponent');
                 mainComponent.refresh();

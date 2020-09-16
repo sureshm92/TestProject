@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Disclaimer__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">OT_Disclaimer_T</value>
     </values>
     <values>
         <field>Multimode_Only__c</field>

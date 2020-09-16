@@ -24,7 +24,8 @@ public class Test_ParticipantEnrollmentService {
             String userMode = CommunityService.USER_MODE_PARTICIPANT;
             String status = ParticipantEnrollmentService.PART_STATUS_RECEIVED;
             String reason = ParticipantEnrollmentService.NON_REF_REASON_STATUS_NOT_INTERESTED;
-
+            String sponsorName = 'Janssen';
+             
             ParticipantEnrollmentService.getPEnrolmentsCount(new List<Id> {ctpId}, userMode, new List<String> {status});
             ParticipantEnrollmentService.getPEnrolmentsCount(new List<Id> {ctpId}, userMode, new List<String> {status}, delegateId);
             ParticipantEnrollmentService.getPEnrolmentsCount(userMode, status);
@@ -36,12 +37,12 @@ public class Test_ParticipantEnrollmentService {
             ParticipantEnrollmentService.PEFilterData filterData =
                     ParticipantEnrollmentService.getPEFilterData(ctpId, userMode, false);
             ParticipantEnrollmentService.PEFilter filter = new ParticipantEnrollmentService.PEFilter(filterData);
-            ParticipantEnrollmentService.getParticipantEnrollments(filter, delegateId, null, userMode);
+            ParticipantEnrollmentService.getParticipantEnrollments(filter, delegateId, sponsorName);
 
             filter.searchFields = new List<String> {'Participant__r.Email__c', 'Screening_ID__c'};
             filter.searchText = 'PESCR1';
             filter.sortType = 'Alphabetical_DESC';
-            ParticipantEnrollmentService.getParticipantEnrollments(filter, delegateId, null, userMode);
+            ParticipantEnrollmentService.getParticipantEnrollments(filter, delegateId,sponsorName);
 
             ParticipantEnrollmentService.getPendingParticipantEnrollments(ctpId, testData.hcpEnrollment.Id);
             ParticipantEnrollmentService.updateParticipantStateById(new List<Id> {testData.participant.Id});
