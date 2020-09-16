@@ -20,7 +20,8 @@ public class Test_MyTemRemote {
             MyTeamRemote.savePatientDelegate(JSON.serialize(delegateContact));
         }
         Test.stopTest();
-    
+        List<Participant__c> partDelegates = [SELECT Id FROM Participant__c WHERE Email__c = 'del@del.com'];
+        System.assert(!partDelegates.isEmpty());
     }
     
 }
