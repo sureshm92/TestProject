@@ -1,7 +1,7 @@
 {
   "cmsSettings" : { },
   "currentThemeId" : "37d690e8-7961-4185-a561-0357d5988365",
-  "headMarkup" : "<link rel=\"shortcut icon\" href=\"/favicon.ico?v=2\" />",
+  "headMarkup" : "<link rel=\"shortcut icon\" href=\"/favicon.ico?v=2\" type=\"image/icon\"/>",
   "id" : "5bf37374-2b32-4433-ad3c-73208f1ef38a",
   "isRelaxedCSPLevel" : false,
   "label" : "main",

@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS{
+ .THIS{
     font-size: 13px;
     padding-bottom: 0;
 }
@@ -139,7 +139,8 @@
 
 .THIS .fp-filters-container .rrs-container{
     display: inline-block;
-    max-width: 245px;
+    /*max-width: 245px;*/
+    max-width: 210px;
     margin: 5px;
 }
 

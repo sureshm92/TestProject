@@ -18,10 +18,11 @@
                       header="{!$Label.Email_Header_Initial_Patient}"
                       title="{!titleLabel}"
                       greeting="{!$Label.Email_User_Greeting_FirstName}"
-                      signature="{!$Label.Email_Signature_Patient}"
-                      communityTemplate="{!communityTemplate}">
+                      signature="{!$Label.Email_Signature_Patient_New}"
+                      communityTemplate="{!communityTemplate}"
+                      communityMode="Participant" >
         <!-- Inner body -->
-        <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Virtual}"/>
+        <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Virtual_New}"/> 
     </c:EmailWireframe>
 
     <c:EmailWireframe rendered="{!userMode == 'Participant referred by PI'}"
@@ -30,10 +31,13 @@
                       header="{!$Label.Email_Header_Initial_Patient}"
                       title="{!titleLabel}"
                       greeting="{!$Label.Email_User_Greeting_FirstName}"
-                      signature="{!$Label.Email_Signature_Patient}"
-                      communityTemplate="{!communityTemplate}">
+                      signature="{!$Label.Email_Signature_Patient_New}"
+                      communityTemplate="{!communityTemplate}"
+                      communityMode="Participant">
         <!-- Inner body -->
-        <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Created_By_PI}"/>
+       
+        <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Created_By_PI_New}"/>
+
         <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframe>
 
@@ -43,10 +47,13 @@
                       header="{!$Label.Email_Header_Initial_Patient}"
                       title="{!titleLabel}"
                       greeting="{!$Label.Email_User_Greeting_FirstName}"
-                      signature="{!$Label.Email_Signature_Patient}"
-                      communityTemplate="{!communityTemplate}">
+                      signature="{!$Label.Email_Signature_Patient_New}"
+                      communityTemplate="{!communityTemplate}"
+                      communityMode="Participant">
         <!-- Inner body -->
-        <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient}"/>
+        <!--<c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient}"/>  -->
+        <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_New}"/>
+
         <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframe>
 
@@ -58,7 +65,8 @@
                       title="{!titleLabel}"
                       greeting="{!$Label.Email_User_Greeting_FirstName}"
                       signature="{!$Label.Email_Signature_New}"
-                      communityTemplate="{!communityTemplate}">
+                      communityTemplate="{!communityTemplate}"
+                      communityMode="">
         <!-- Inner body -->
         <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate}"/>
         <c:EmailTemplateDelegateParticipant/>
@@ -73,7 +81,8 @@
                       title="{!titleLabel}"
                       greeting="{!$Label.Email_User_Greeting}"
                       signature="{!$Label.Email_Signature}"
-                      communityTemplate = "{!communityTemplate}">
+                      communityTemplate = "{!communityTemplate}"
+                      communityMode="">
         <!-- Inner body -->
         <c:Paragraph emailLabel="{!IF(communityTemplate == 'Janssen',$Label.Email_Body_Janssen_Initial_PI,$Label.Email_Body_Initial_PI)}"/>
         <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
@@ -87,7 +96,8 @@
                       title="{!titleLabel}"
                       greeting="{!$Label.Email_User_Greeting_FirstName}"
                       signature="{!$Label.Email_Signature}"
-                      communityTemplate = "{!communityTemplate}">
+                      communityTemplate = "{!communityTemplate}"
+                      communityMode="">
         <!-- Inner body -->
         <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Delegate}"/>
         <c:EmailTemplateDelegate communityName="{!communityTemplate}"/>
@@ -102,7 +112,8 @@
                       title="{!titleLabel}"
                       greeting="{!$Label.Email_User_Greeting}"
                       signature="{!$Label.Email_Signature}"
-                      specificEmailProvider="{!specificProvider}">
+                      specificEmailProvider="{!specificProvider}"
+                      communityMode="">
         <!-- Inner body -->
         <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_HCP}"/>
         <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
@@ -115,7 +126,9 @@
                       title="{!titleLabel}"
                       greeting="{!$Label.Email_User_Greeting}"
                       signature="{!$Label.Email_Signature}"
-                      specificEmailProvider="{!specificProvider}">
+                      specificEmailProvider="{!specificProvider}"
+                      communityMode="">
+                      
         <!-- Inner body -->
         <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_PI_PT_HCP}"/>
         <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
@@ -128,7 +141,8 @@
                       title="{!titleLabel}"
                       greeting="{!$Label.Email_User_Greeting}"
                       signature="{!$Label.Email_Signature}"
-                      specificEmailProvider="{!specificProvider}">
+                      specificEmailProvider="{!specificProvider}"
+                      communityMode="">
         <!-- Inner body -->
         <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_PI_HCP}"/>
         <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
@@ -141,7 +155,8 @@
                       header="{!$Label.Email_Header_Initial_Delegate}"
                       title="{!titleLabel}"
                       greeting="{!$Label.Email_User_Greeting_FirstName}"
-                      signature="{!$Label.Email_Signature}">
+                      signature="{!$Label.Email_Signature}"
+                      communityMode="">
         <!-- Inner body -->
         <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Delegate}"/>
         <c:EmailTemplateDelegateHCPLvl/>
@@ -154,7 +169,8 @@
                       header="{!$Label.Email_Header_Initial_PI}"
                       title="{!titleLabel}"
                       greeting="{!$Label.Email_User_Greeting}"
-                      signature="{!$Label.Email_Signature}">
+                      signature="{!$Label.Email_Signature}"
+                      communityMode="">
         <!-- Inner body -->
         <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_CC}"/>
         <c:EmailActionBtn buttonLabel="{!buttonLabel}" buttonURL="{!buttonURL}"/>

@@ -17,9 +17,19 @@ Go to Settings - Theme - Configure (tab)
 Press"Edit Properties" near LoginThemeLayout and add Community Type - Janssen
 Publish Community
 
-## 3. Configuration field
+## 4. Configuration field
 Open Setup - Object Manager - Contact - Fileds and relationships - Visited Communities
 Click Activate - Janssen value
 
-## 4. Change CustomMetadata value
+## 5. Change CustomMetadata value
 Open Setup - Custom Metadata Types > find Guides Setting and click on Manage Records > Edit 	English USA GSK  and change Language to 'en_US' and save.> Edit English USA Janssen and change Language to 'en_US' and save.
+
+## 6. Favicon Configuration for Community Pages
+1. Open Setup - All Communities - For 'IQVIA Referral Hub' Community
+2. Go to Workspaces | Administration | Pages | Force.com
+   Click Edit | Add "iqvia_favicon" static resource to the 'Sites Favourite Icon.' Save
+3. Open Setup - All Communities - 
+    Go to Community Builder | Go to Settings | Advanced | Edit Head Markup. 
+4. Add the following line as first: 
+    \<link rel="shortcut icon" href="/favicon.ico?v=2" type="image/icon"/\>
+5. Save | Publish the changes in Community Builder  

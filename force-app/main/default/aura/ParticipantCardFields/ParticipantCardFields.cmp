@@ -11,6 +11,10 @@
     <aura:attribute name="showParticipationSteps" type="boolean" default="true"/>
     <aura:attribute name="minorDelegate" type="Participant__c" />
 
+     <!--added for the performance issue-->
+     <aura:attribute name="parent" type="Aura.Component" required="true"/>
+     <aura:attribute name="parentSE" type="Aura.Component" required="true"/>
+
     <!-- handlers: 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     -->
@@ -80,7 +84,7 @@
                         <div class="label">{!$Label.c.PE_Patient_Id}</div>
                         <div class="value">{!v.pe.Patient_ID__c}</div>
                     </div>-->
-                    <aura:if isTrue="{!v.pe.Participant__r.Adult__c}">
+                    <!--aura:if isTrue="{!v.pe.Participant__r.Adult__c}">
                         <div class="vpi-field">
                             <div class="label">{!$Label.c.PE_Participant_Phone}</div>
                             <div class="value"><lightning:formattedPhone value="{!v.pe.Participant__r.Phone__c}"></lightning:formattedPhone></div>
@@ -91,7 +95,11 @@
                                     <div class="value"><lightning:formattedPhone value="{!v.minorDelegate.Phone__c}"></lightning:formattedPhone></div>
                                 </div>
                         </aura:set>
-                    </aura:if>
+                    </aura:if-->
+                    <div class="vpi-field">
+                        <div class="label">{!$Label.c.Participant_Status}</div>
+                        <div class="value">{!v.pe.Participant_Status__c}</div>
+                    </div>
                 </aura:if>
             </aura:if>
 
@@ -145,6 +153,7 @@
 
             <!-- Participant fields: -->
             <aura:if isTrue="{!v.userMode == 'Participant'}">
+                   
                 <div class="vpi-field">
                     <div class="label">{!$Label.c.PE_Investigator_Name}</div>
                     <div class="value">{!v.pe.PI_Contact__r.Name}</div>
@@ -219,9 +228,9 @@
                 </aura:if>
                 -->
             </aura:if>
-
         </div>
     </div>
+    <a aura:id="show" class="slds-show custom-plus" onclick="{!c.openCard}"><span>{!$Label.c.View_More}&nbsp;&gt;</span></a>  
 
 
 </aura:component>
