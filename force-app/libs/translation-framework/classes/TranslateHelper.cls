@@ -18,9 +18,9 @@ public class TranslateHelper {
         translate(inputRecords, UserInfo.getLanguage());
     }
     public static void translate(List<SObject> inputRecords, String language){
-        if(inputRecords == null || inputRecords.size() == 0 ) return;
-        List<SObject> recordsList = new List<SObject>();
-        for(SObject sobj : inputRecords) recordsList.addAll(SObjectHelper.getAllSObjects(sobj));
+        if(inputRecords == null || inputRecords.size() == 0 ) return;       
+        List<SObject> recordsList = SObjectHelper.getAllSObjects(inputRecords);
+        //for(SObject sobj : inputRecords) recordsList.addAll(SObjectHelper.getAllSObjects(sobj));
         
         List<Id> recordIds = new List<Id>();
         for(SObject so : recordsList) {

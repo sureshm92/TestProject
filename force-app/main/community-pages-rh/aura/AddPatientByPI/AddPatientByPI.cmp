@@ -29,6 +29,7 @@
     <aura:attribute name="useThisDelegate" type="Boolean" default="true"/>
     <aura:attribute name="communityWithPPInv" type="Boolean" default="true"/>
     <aura:attribute name="emailInstance" type="String"/>
+    <aura:attribute name="createUserForDelegate" type="Boolean" default="false"/>
     
     <!-- methods: -->
     <aura:method name="checkDateOfBith" action="{!c.doCheckDateOfBith}" access="public">
@@ -251,7 +252,7 @@
                         </div>
                     </aura:if>
                     
-                    <aura:if isTrue="{!v.communityWithPPInv}">                    
+                    <aura:if isTrue="{!v.communityWithPPInv &amp;&amp;v.ss.Study_Site_Type__c!='Virtual'&amp;&amp;v.ss.Study_Site_Type__c!='Hybrid'}">                    
                         <div class="slds-grid slds-gutters slds-wrap">
                         <div class="slds-form-element" style="margin-top: 20px; margin-left: 10px;">
                             <div class="slds-form-element__control">

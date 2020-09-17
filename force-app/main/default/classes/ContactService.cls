@@ -33,10 +33,11 @@ public without sharing class ContactService {
     public static void applyRelevantNames(List<SObject> objects) {
         try {
             // collecting all related objects including all nested ones
-            List<SObject> aggregateObjects = new List<SObject>();
-            for (SObject obj : objects) {
+            List<SObject> aggregateObjects = SObjectHelper.getAllSObjects(objects);
+            
+           /* for (SObject obj : objects) {
                 aggregateObjects.addAll(SObjectHelper.getAllSObjects(obj));
-            }
+            }*/
 
             // select SObjects only of type Contact
             SObjectType contactType = Schema.getGlobalDescribe().get('Contact');
