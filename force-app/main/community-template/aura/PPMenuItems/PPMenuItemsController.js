@@ -4,14 +4,23 @@
 
 ({
     doInit: function(component,event,helper){
-       //helper.toggleHelper(component, event);
+       //helper.toggleHelper(component, event);       
     },
-    doOnClick: function (component, event) {
+    doOnClick: function (component, event) {        
         let onclickEvent = component.getEvent('onclick');
         onclickEvent.setParam('source', event.getSource());
         onclickEvent.fire();
     },
     display : function(component, event, helper) { 
+    window.onblur = function() {
+  			console.log('Got focus');
+            var toggleText = component.find("tooltip");
+       		$A.util.addClass(toggleText, 'tooltipNotActive');
+		}
+     /* if(event.getParams().keyCode==18){
+            var toggleText = component.find("tooltip");
+       		$A.util.addClass(toggleText, 'tooltipNotActive');
+        }*/
         var dataVal = event.currentTarget.dataset.id;       
         component.set("v.hovertext",dataVal);
         var cmpTarget = component.find('tooltip');
@@ -63,6 +72,6 @@
         }        
     },    
     displayOut : function(component, event, helper) {
-       helper.toggleHelper(component, event);
-    }
+       helper.toggleHelperOut(component, event);      
+    },
 });

@@ -13,7 +13,7 @@
     <!-- events: -->
     <aura:registerEvent access="global" name="onclick" type="c:uiEvent"/>
 
-    <div  class="slds-form-element">
+    <div  class="slds-form-element" >
         <aura:iteration var="item" items="{!v.allModes.ppModeItems}">
             <ul class="{!'contain ' + if(v.isRTL, 'rtlMain', '')}">
                 <aura:iteration items="{!item.subItems}" var="subItem">
@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="icon-settings-box">
                                     <aura:if isTrue="{!and(not(item.isDelegate), item.hasBeenActive)}">
-                                        <div  data-id="{!$Label.c.Delegates}" aura:id="Delegates" data-value="Delegates" class="icon-delegate-box"  onmouseover="{!c.display}" onmouseout="{!c.displayOut}" style="position:relative">
+                                        <div  data-id="{!$Label.c.Delegates}" aura:id="Delegates" data-value="Delegates" class="icon-delegate-box"  onmouseover="{!c.display}" onmouseout="{!c.displayOut}" >
                                                 
 									<!--	 <lightning:helptext
 											content="Click the icon to log in to Salesforce"> -->
