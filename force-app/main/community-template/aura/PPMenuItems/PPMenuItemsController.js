@@ -25,17 +25,31 @@
         component.set("v.hovertext",dataVal);
         var cmpTarget = component.find('tooltip');
       if(dataVal=='Delegates'){
+          if(component.get("v.isRTL")){
+            $A.util.addClass(cmpTarget, 'tooltipRTL');
+            $A.util.removeClass(cmpTarget, 'tooltip');
+          }else{
             $A.util.addClass(cmpTarget, 'tooltip');
+            $A.util.removeClass(cmpTarget, 'tooltipRTL');
+          }
             $A.util.addClass(cmpTarget,'slds-nubbin--bottom');
             $A.util.removeClass(cmpTarget, 'tooltipAS');
+            $A.util.removeClass(cmpTarget, 'tooltipASRTL');
             $A.util.removeClass(cmpTarget, 'tooltipSubTitle');
             $A.util.removeClass(cmpTarget,'slds-nubbin--top');
             $A.util.removeClass(cmpTarget,'tooltipNotActive');
         }
        else if(dataVal=='Account Settings'){
-           $A.util.addClass(cmpTarget, 'tooltipAS');
+        if(component.get("v.isRTL")){
+            $A.util.addClass(cmpTarget, 'tooltipASRTL');
+            $A.util.removeClass(cmpTarget, 'tooltipAS');
+          }else{
+            $A.util.addClass(cmpTarget, 'tooltipAS');
+            $A.util.removeClass(cmpTarget, 'tooltipASRTL');
+          }
            $A.util.addClass(cmpTarget,'slds-nubbin--bottom');
            $A.util.removeClass(cmpTarget, 'tooltip');
+           $A.util.removeClass(cmpTarget, 'tooltipRTL');
            $A.util.removeClass(cmpTarget, 'tooltipSubTitle');
            $A.util.removeClass(cmpTarget,'slds-nubbin--top');
            $A.util.removeClass(cmpTarget,'tooltipNotActive');

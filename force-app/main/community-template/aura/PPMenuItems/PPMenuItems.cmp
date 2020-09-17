@@ -2,10 +2,10 @@
  - Created by Olga Skrynnikova on 6/10/2020.
  -->
 
- <aura:component description="PPMenuItems">
-     <aura:attribute name="tooltipTop" type="Integer" />
-     <aura:attribute name="tooltipLeft" type="Integer" />
-	
+ <aura:component description="PPMenuItems" extends="c:CommunityContext">
+    <aura:attribute name="tooltipTop" type="Integer" />
+    <aura:attribute name="tooltipLeft" type="Integer" />													 
+ 
     <!-- attributes: -->
     <aura:attribute name="allModes" type="Object"/>
 	<aura:attribute name="hovertext" type="String"/>
@@ -15,7 +15,7 @@
 
     <div  class="slds-form-element" >
         <aura:iteration var="item" items="{!v.allModes.ppModeItems}">
-            <ul class="contain">
+            <ul class="{!'contain ' + if(v.isRTL, 'rtlMain', '')}">
                 <aura:iteration items="{!item.subItems}" var="subItem">
                     <c:uiMenuItem onclick="{!c.doOnClick}" itemValue="{!subItem}" class="pp-item">
                         <div class="main-box" >
@@ -38,13 +38,13 @@
 									<!--						   </lightning:helptext>-->
                                         </div>
                                     </aura:if>
-                                    <div data-id="{!$Label.c.PP_Account_Settings}" aura:id="Account Settings" class="icon-box" onmouseover="{!c.display}" onmouseout="{!c.displayOut}">
+                                    <div data-id="{!$Label.c.PP_Account_Settings}" aura:id="Account Settings" class="{!if(v.isRTL, 'icon-boxRTL', 'icon-box')}" onmouseover="{!c.display}" onmouseout="{!c.displayOut}">
                                         <c:menuItemButton class="icon-cog" iconName="cog" navigateTo="account-settings"
                                                           itemValue="{!subItem}" onclick="{!c.doOnClick}"/>
                                     </div>
                                 </div>
                             </div>
-                            <div data-id="{!subItem.subTitle}" aura:id="{!subItem.subTitle}" class="{!'menu-sub-item ' + if(subItem.isSelected, 'selected-sub-title ', '') + 'overflow'}" onmouseover="{!c.display}" onmouseout="{!c.displayOut}">
+                            <div data-id="{!subItem.subTitle}" aura:id="{!subItem.subTitle}" class="{!'menu-sub-item ' + if(subItem.isSelected, 'selected-sub-title ', '') + if(v.isRTL, 'subtitleRTL ', '') + 'overflow'}" onmouseover="{!c.display}" onmouseout="{!c.displayOut}">
                                 {!subItem.subTitle}
                             </div>
                         </div>
@@ -58,9 +58,9 @@
                                              </div> -->
     </div>
      <div class="slds-popover slds-popover--tooltip slds-nubbin_bottom  toggle container tooltip" role="tooltip" id="help" aura:id="tooltip" style="{!'top:'+v.tooltipTop}">
-      
-         <div class="slds-popover__body word-wrap: break-word;" >{!v.hovertext}</div>
+	  
+                                                <div class="slds-popover__body word-wrap: break-word;">{!v.hovertext}</div>
                                              </div>  
-         
+		 
 	
 </aura:component>
