@@ -997,7 +997,7 @@ public without sharing class ParticipantEnrollmentService {
             searchFilter = searchFilter.trim().removeEnd('OR');
             filterStr += ' AND (' + searchFilter + ')';
         }*/
-
+        Boolean noSearchResult = false;
         if (filter != null && !String.isEmpty(filter.searchText)) {
             String soslSearchQuery = '(';
             for(String word : filter.searchText.split(' ')){
@@ -1009,7 +1009,8 @@ public without sharing class ParticipantEnrollmentService {
                                                     Participant__c,
                                                     Participant_Enrollment__c 
                                                     LIMIT 2000];
-            if(!searchResult.isEmpty()) {
+
+            if(!searchResult[0].isEmpty() || !searchResult[1].isEmpty()) {
                 String participantIdFilter = '';
                 String enrollmentIdFilter = '';
                 filterStr += ' AND (';
@@ -1025,13 +1026,20 @@ public without sharing class ParticipantEnrollmentService {
                 }
 
                 filterStr += ')';
+            } else {
+                noSearchResult = true;
             }
         }
-
         //Use ORDER BY clause for sorting based on created/ modified date
         if (!filter.sortType.contains('Alphabetical')) filterStr += ' ORDER BY ' + filter.sortType;
         //Modified for performance tuning - get PE List based on the offset
-        List<Participant_Enrollment__c> peList = getPEnrolmentsCommonCustomFields(filter.mode, fieldsList, filterStr, delegateId, translationNeeded, paginationData);
+        List<Participant_Enrollment__c> peList;
+        if(noSearchResult) {
+            peList = new List<Participant_Enrollment__c>();
+            paginationData.setRecordsCount(0);
+        } else {
+            peList = getPEnrolmentsCommonCustomFields(filter.mode, fieldsList, filterStr, delegateId, translationNeeded, paginationData);
+        } 
         //Sort the name fields alphabetically through iteration because of encryption
         if (filter != null && filter.sortType.contains('Alphabetical')) {
             List<String> fields = filter.sortType.split(',');
