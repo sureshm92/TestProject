@@ -16,6 +16,15 @@
     opacity: 1;
 }
 
+.THIS .rtlMain{
+    direction: rtl;
+    padding-right: 30px;
+}
+
+.THIS .rtlHover{
+    direction: rtl;
+}
+
 .THIS .item-line{
     display: flex;
     flex-direction: row;
@@ -52,6 +61,9 @@
 
 .THIS .selected-sub-title{
     color: #0768FD;
+}
+.THIS .subtitleRTL{
+    text-align: right;
 }
 
 .THIS .overflow{
@@ -91,6 +103,9 @@
 .THIS .icon-box{
     margin-left: 21px;
 }
+.THIS .icon-boxRTL{
+    padding-right: 25px;
+}
 
  .THIS.toggle {
    display: none;
@@ -108,20 +123,32 @@
     left:68%;
     width:25%;
 }
+.THIS.tooltipRTL{
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 25%;
+}
 .THIS.tooltipAS{
     position:absolute;
     top:32%;
     left:76%;
     width:33%;
 }
-.THIS.tooltipSubTitle{  
+.THIS.tooltipASRTL{
+    position: absolute;
+    top: 36%;
+    left: -5%;
+    width: 33%;
+}
+.THIS.tooltipSubTitle{    
     position:absolute;
     top:-60%;
     left:5%;
     width:150%;
-    height:30%;
+    height:33%;
     word-break: break-all;
-    white-space:normal;  
+    white-space:normal;     
 }
 .THIS.tooltipNotActive{  
 	display:none;

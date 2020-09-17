@@ -11,7 +11,7 @@
 
     <aura:handler event="forceCommunity:routeChange" action="{!c.doInit}"/>
 
-    <div class="{!'rrc-footer ' + if(v.isArabic, 'rtl', '')}">
+    <div class="{!'rrc-footer ' + if(v.isRTL, 'rtl', '')}">
         <div class="cf-margin-cutter">
             <div class="cf-links">
                 <div class="cf-link">
