@@ -26,6 +26,7 @@
     <c:Action_RemoveDelegate aura:id="actionRemoveDelegate"/>
 
     <!--component body-->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <div class="mt-container">
         <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}"/>
         <c:Action_SaveDelegateLevelChanges aura:id="saveDelegateLevelChanges"

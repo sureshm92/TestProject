@@ -42,6 +42,7 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <!--<aura:handler name="change" value="{!v.displayedItems}" action="{!c.doInit}"/>-->
    <!--<aura:handler name="change" value="{!v.showmenu}" action="{!c.doInit}"/>-->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <div>
 	
     <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>

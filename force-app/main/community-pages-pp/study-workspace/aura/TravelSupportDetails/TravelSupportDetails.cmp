@@ -15,7 +15,7 @@
      <aura:attribute name="externalLinkDisclaimer" type="String"/> <!-- @Krishna Mahto - PEH-2179 -->
 
     <!--    <aura:handler name="change" value="{!v.travelMode}" action="{!c.getTravels}"/>-->
-
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <c:RRSpinner aura:id="spinner" size="medium" showSpinner="true" fixed="true"/>
     <div class="{!'sv-body ' + if(v.initialized, '', 'hidden')}" data-gtm="PNL_Travel_Support_Details">
         <div class="tt-title">

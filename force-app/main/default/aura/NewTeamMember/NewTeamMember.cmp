@@ -33,6 +33,7 @@
 
     <!-- component body-->
     <c:RRSpinner aura:id="mainSpinner" size="medium"/>
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <c:Action_SaveDelegateLevelChanges aura:id="saveDelegateLevelChanges"
                                        userMode="{!v.userMode}"/>
     <aura:if isTrue="{!v.isInitialized}">

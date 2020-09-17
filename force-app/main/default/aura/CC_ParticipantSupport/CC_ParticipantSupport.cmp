@@ -15,7 +15,8 @@
     
     <!-- Event handler -->
     <aura:handler name="callcenter" event="c:CallCenterRefresh" action="{!c.doRefreshtable}"/>
-    
+
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <div class="vp-navigation" style="margin-top:10px;">
         <c:RRNavigationPath>
             <c:RRNPathItem label="{!$Label.c.CC_Participant_Support}"/>

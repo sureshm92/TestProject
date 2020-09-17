@@ -17,7 +17,7 @@
     <aura:attribute name="scrollLeft" type="Integer" default="0"/>
 
     <aura:method name="doSave" action="{!c.doSaveAndUpdate}" access="public"/>
-
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <div class="panel">
         <c:RRSpinner aura:id="spinner"/>
         <aura:if isTrue="{!v.viewMode != 'Disabled'}">
