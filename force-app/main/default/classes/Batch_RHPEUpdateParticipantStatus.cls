@@ -6,14 +6,15 @@ global without sharing class Batch_RHPEUpdateParticipantStatus extends Batch_Sch
         @TestVisible String str= label.PERHStudyId;
         @TestVisible String lmt= label.RHPElimit15;
         @TestVisible String ctp;
+        @TestVisible String pecreateddate;
         @TestVisible String Status;
         lmt= label.RHPElimit15;
         String query;
         Status= '(\''+label.PERHParticipantStatusExclude+'\')';
         ctp = '(\''+label.PERHStudyId+'\')';
-        
+        pecreateddate = ''+label.RHPECreatedDate+'';
         if(!Test.isRunningTest()){
-        query = 'SELECT Id,Participant_Status__c FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN '+ctp+' AND Participant_Status__c NOT IN '+Status+' AND Is_Virtual_Study_Site__c=true order by CreatedDate Asc LIMIT '+lmt;
+        query = 'SELECT Id,Participant_Status__c FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN '+ctp+' AND Participant_Status__c NOT IN '+Status+' AND Is_Virtual_Study_Site__c=true AND CreatedDate >= '+pecreateddate+' order by CreatedDate Asc LIMIT '+lmt;
         }else{
         query = 'SELECT Id,Participant_Status__c FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN '+ctp+' AND Participant_Status__c NOT IN '+Status+' AND Is_Virtual_Study_Site__c=true LIMIT 1';
         }
@@ -49,14 +50,14 @@ global without sharing class Batch_RHPEUpdateParticipantStatus extends Batch_Sch
        if(PEIDList!=null && !PEIDList.IsEmpty()){
             UploadParticipantsBatchHelper obj = new UploadParticipantsBatchHelper(PEIDList);
             Database.executeBatch(obj,20);
-        }   
+        }  
     }
     public override Type getType() {
         return Batch_RHPEUpdateParticipantStatus.class;
     }
 
     public override String getBatchDescription() {
-        return 'This job send participant record from RH to SH 15 records every hour';
+        return 'This job send participant record from RH to SH 100 records every hour';
     }
 
     public override String getRecommendedIntervalMode() {
