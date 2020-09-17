@@ -264,18 +264,22 @@
     font-size:16px;
     color: #0768FD;
     font-family: "Proxima Nova";
-    font-size: 16px;
     letter-spacing: 0;
     line-height: 24px;
     text-align: center;
     font-weight:500;
-    margin-left: -6px;
+    margin-left: 3px;
 
     /*padding: 20px;*/
     /*margin-left:-12px;*/
-    display: inline-block;
-    padding: 6px 0 0 8px;
+    /*display: inline-block;*/
+    /*padding: 6px 0 0 8px;*/
     cursor: pointer;
+
+}
+.THIS .remove:hover{
+        background-color:#eef5ff;
+
 
 }
 .THIS .noProfile{
