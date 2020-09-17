@@ -3731,6 +3731,14 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>Login Now</value>
     </labels>
     <labels>
+												  
+								  
+									
+																  
+							   
+			 
+
+			
         <fullName>Email_Action_Review_Cases</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3944,6 +3952,7 @@ Please share our site on social media to encourage others to assist us as we wor
 
             Your username is ##UserName.</value>
     </labels>
+
     <labels>
         <fullName>Email_Body_Initial_Patient_Covid_19</fullName>
         <categories>Covid19</categories>
@@ -3968,6 +3977,23 @@ Please share our site on social media to encourage others to assist us as we wor
             Your username is ##UserName.</value>
     </labels>
     <labels>
+																		 
+								  
+									
+																						 
+																  
+ 
+																																													   
+
+										   
+										
+								
+													
+
+									 
+			 
+
+			
         <fullName>Email_Body_Initial_Patient_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3985,6 +4011,23 @@ Please share our site on social media to encourage others to assist us as we wor
 
             Please note that enrollment in ##FullCommunityName is not a requirement for ##ParticipantFirstName to be enrolled into the clinical research study.</value>
     </labels>
+			
+														   
+								  
+								   
+																		   
+																  
+ 
+																																														 
+
+										   
+												   
+									 
+														 
+
+									 
+			 
+
     <labels>
         <fullName>Email_Body_Initial_Patient_Virtual</fullName>
         <language>en_US</language>
@@ -4001,6 +4044,23 @@ Please share our site on social media to encourage others to assist us as we wor
             Your username is ##UserName.</value>
     </labels>
     <labels>
+																   
+								  
+									
+																				   
+																  
+ 
+																																							   
+
+								 
+									
+															 
+														   
+
+									 
+			 
+
+			
         <fullName>Email_Body_Janssen_Initial_PI</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4694,6 +4754,14 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <shortDescription>Email Footer Address</shortDescription>
         <value>Powered by IQVIA, 4820 Emperor Blvd, Durham, North Carolina 27703, USA</value>
     </labels>
+			
+													 
+								  
+									
+																	 
+																				  
+			 
+
     <labels>
         <fullName>Email_Footer_Privacy_Policy</fullName>
         <language>en_US</language>
@@ -5369,6 +5437,18 @@ The NYBC Convalescent Plasma Donation Team</value>
 
             ##SignatureFullCommunityName</value>
     </labels>
+			
+														
+								  
+									
+																		
+																																			  
+
+		  
+
+									   
+			 
+
     <labels>
         <fullName>Email_Signature_Patient_Short</fullName>
         <language>en_US</language>
@@ -5541,12 +5621,28 @@ The NYBC Convalescent Plasma Donation Team</value>
         <value>Please enroll in the Gather Share Know Participant Hub</value>
     </labels>
     <labels>
+														  
+								  
+								   
+																		  
+																				
+			 
+
+			
         <fullName>Email_Subject_Initial_Janssen</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Initial Janssen</shortDescription>
         <value>Please enroll in the IQVIA Referral Hub</value>
     </labels>
+			 
+													  
+								  
+									
+																	  
+																   
+			 
+
     <labels>
         <fullName>Email_Subject_Initial_Patient</fullName>
         <language>en_US</language>
@@ -8975,9 +9071,16 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Messages*</value>
     </labels>
     <labels>
-        <fullName>OT_H_Media_Request</fullName>
+        <fullName>OT_H_Messaging</fullName>
         <language>en_US</language>
         <protected>false</protected>
+		<shortDescription>OT_H_Messaging</shortDescription>
+        <value>Messages</value>
+    </labels>
+    <labels>
+	<fullName>OT_H_Media_Request</fullName>
+        <language>en_US</language>
+        <protected>false</protected>							
         <shortDescription>OT_H_Media_Request</shortDescription>
         <value>Media Request*</value>
     </labels>
@@ -9007,7 +9110,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT H My Studies</shortDescription>
-        <value>My Studies</value>
+        <value>My Study</value>
     </labels>
     <labels>
         <fullName>OT_H_My_Team</fullName>
@@ -9203,11 +9306,18 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
             View study documents and other resources including articles and videos related to the study or the condition being studied from Resources.</value>
     </labels>
     <labels>
+		<fullName>OT_Participant_S1_Dis</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT_Participant_S1_Dis</shortDescription>
+        <value>*This feature may not be available for some studies (i.e. My Results)</value>
+    </labels>
+    <labels>
         <fullName>OT_Participant_S1_H</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT Participant S1 H</shortDescription>
-        <value>My Study, Tasks and Resources</value>
+        <value>My Study, Tasks, Resources, My Results*</value>
     </labels>
     <labels>
         <fullName>OT_Participant_S1_T</fullName>
@@ -9221,9 +9331,8 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT Participant S29 Text</shortDescription>
-        <value>Click &quot;DETAILS&quot; on the Status Card to view your status activity history.
-            Take action on tasks that have been assigned to you or created by you or your delegate using the Open Task List.
-            View study documents and other resources including articles and videos related to the study or the condition being studied from Resources.</value>
+        <value>Take action on tasks that have been assigned to you or created by you or your delegate in the Open Task List.
+	View Study Documents including relevant links, articles and videos related to the study or the condition being studied in My Resources.</value>
     </labels>
     <labels>
         <fullName>OT_Participant_S2_H</fullName>
@@ -9244,14 +9353,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT Participant S30 Text</shortDescription>
-        <value>Click &quot;My Study&quot; to view the Study Workspace which includes information about the study in which you are taking part, such as inclusion and exclusion criteria and study site details. The expanded Tasks and Resources pages are also accessible from this area.</value>
+        <value>Click &quot;My Study&quot; to view the Study Workspace, which includes information about the study in which you are taking part, such as inclusion and exclusion criteria and study site details. The expanded Tasks and Resources pages are also accessible from this area.</value>
     </labels>
     <labels>
         <fullName>OT_Participant_S31_Text</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT Participant S31 Text</shortDescription>
-        <value>Click &quot;Help&quot; to access resources for guidance on using the portal.</value>
+        <value>Click Help for guidance on using the Portal.</value>
     </labels>
     <labels>
         <fullName>OT_Participant_S3_H</fullName>
@@ -9282,6 +9391,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Click on the &quot;profile&quot; icon on the top right of the page to manage your Account Settings including password and contact information, personal preferences, as well as Delegates.</value>
     </labels>
     <labels>
+		<fullName>OT_Participant_S89_T</fullName>
+        <categories>OT</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT_Participant_S89_T</shortDescription>
+        <value>If your study center has opted to use the messaging feature, then Messages will be accessible from the top navigation bar. This option allows you ask questions or make requests to your study team.</value>
+    </labels>
+    <labels>	 
         <fullName>OT_RP_S1_H</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -14179,6 +14296,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
 By using our website, you are accepting our use of cookies.</value>
     </labels>
     <labels>
+																
+								  
+									
+																				
+												
+			 
+			
         <fullName>PG_SW_Tab_Referrals</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -14256,6 +14380,7 @@ By using our website, you are accepting our use of cookies.</value>
         <value>Cookie Policy</value>
     </labels>
     <labels>
+	
         <fullName>PG_TC_H_Do_You_Accept</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -14648,6 +14773,13 @@ By using our website, you are accepting our use of cookies.</value>
         <shortDescription>PP_Delegate_Header</shortDescription>
         <value>##PatientFirstName has designated you as their delegate.</value>
     </labels>
+			 
+												
+								  
+								   
+																
+								
+			 
     <labels>
         <fullName>PP_Edit_Task_Reminder</fullName>
         <categories>c:StudyVisitReminder</categories>
@@ -14881,6 +15013,13 @@ By using our website, you are accepting our use of cookies.</value>
         <value>Reminder date cannot be set in the past.</value>
     </labels>
     <labels>
+											
+								  
+								   
+															
+								   
+			 
+			
         <fullName>PP_Save_Changes</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14904,6 +15043,13 @@ By using our website, you are accepting our use of cookies.</value>
 communications using the toggles below.</value>
     </labels>
     <labels>
+											
+								  
+								   
+															
+								   
+			 
+			
         <fullName>PP_VPC_SS_Empty_VP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -15818,6 +15964,13 @@ communications using the toggles below.</value>
         <value>Your permissions do not permit this action</value>
     </labels>
     <labels>
+										  
+								  
+								   
+														  
+							 
+			 
+			
         <fullName>Received</fullName>
         <language>en_US</language>
         <protected>true</protected>
