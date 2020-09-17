@@ -60,7 +60,4 @@
     displayOut : function(component, event, helper) {
        helper.toggleHelperOut(component, event);      
     },
-    displayOutOnkeypress : function(component, event, helper) {
-    if (event.which === 13) alert("Hi");
-    },
 });
