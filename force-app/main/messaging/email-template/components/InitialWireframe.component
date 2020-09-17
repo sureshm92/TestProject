@@ -36,7 +36,7 @@
                       communityMode="Participant">
         <!-- Inner body -->
        
-        <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Created_By_PI_New}"/>
+      <!--  <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Created_By_PI_New}"/>  -->
 
         <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframe>
