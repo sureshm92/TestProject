@@ -18,7 +18,7 @@
     toggleHelperOut : function(component,event) {  
         
         var toggleText = component.find("tooltip");
-       $A.util.addClass(toggleText, 'tooltipNotActive');
+       $A.util.addClass(toggleText, 'toggle');
         var tooltipdiv = document.getElementById("tooltip");                      
        // $A.util.toggleClass(toggleText, "toggle");
         
