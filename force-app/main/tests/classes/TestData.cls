@@ -62,7 +62,8 @@ public class TestData {
                         Terms_and_Conditions__c,
                         Initial_Visit_Required__c,
                         Participant_Workflow_Final_Step__c,
-                        Final_Consent_Required__c
+                        Final_Consent_Required__c,
+                        Visit_Plan__c
                 FROM Clinical_Trial_Profile__c
                 WHERE NCT_Number__c = 'NCT99999999'
         ];
@@ -113,6 +114,15 @@ public class TestData {
                 UserCommunityIsDelegate__c = true
         );
         insert delegate;
+
+        Participant__c participantForDelegate = new Participant__c(
+                First_Name__c = delegate.FirstName,
+                Last_Name__c = delegate.LastName,
+                Email__c = delegate.Email,
+                Adult__c = true,
+                Contact__c = delegate.Id
+        );
+        insert participantForDelegate;
 
         Patient_Delegate__c patientDelegate = new Patient_Delegate__c(
                 Contact__c = delegate.Id,
