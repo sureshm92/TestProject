@@ -45,7 +45,6 @@ private class Test_Batch_PSECreateInvitation {
                 FROM Participant_Enrollment__c
                 WHERE Id =: testData.pe.Id
         ];
-
         new Batch_PSECreateInvitation().execute(null, enrollments);
         Test.stopTest();
     }

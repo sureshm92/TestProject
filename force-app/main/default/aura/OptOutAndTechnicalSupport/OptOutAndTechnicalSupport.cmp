@@ -13,6 +13,7 @@
 	<aura:attribute name="showSpinner" type="Boolean" default="false" access="private"/>
     
     <!--Component Body-->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     	<div class="{!v.showSuccessMessage?'slds-hide':'slds-show main-content-div'}">
             
             <lightning:checkboxGroup name="{!v.optOutTranslatedTitle}"

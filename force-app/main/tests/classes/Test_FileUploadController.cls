@@ -9,10 +9,12 @@ private class Test_FileUploadController {
     static void test_createFilesWrapper() {
         Id accountId = getAccountId();
         Id documentId = createDocumentLinkAndGetId(accountId);
+        FileUploadController.FilesWrapper filesWrapper;
 
         Test.startTest();
-        FileUploadController.getResourceFiles(accountId);
+        filesWrapper = FileUploadController.getResourceFiles(accountId);
         Test.stopTest();
+        System.assertEquals('Penguins', filesWrapper.listOfFiles[0].fileName);
     }
 
     @IsTest
@@ -25,7 +27,8 @@ private class Test_FileUploadController {
         Test.stopTest();
 
         ContentDocument updatedDocument = [SELECT Id, Title, LatestPublishedVersionId FROM ContentDocument WHERE Id = :documentId];
-       // System.assertEquals('Code Value', updatedDocument.Title);
+        ContentVersion conversion=  [SELECT Id, LanguageCode__c FROM ContentVersion WHERE Id=: updatedDocument.LatestPublishedVersionId];
+        System.assertEquals('Code Value', conversion.LanguageCode__c);
     } 
 
     @IsTest

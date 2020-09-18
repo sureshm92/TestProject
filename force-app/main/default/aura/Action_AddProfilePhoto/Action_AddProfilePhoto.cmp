@@ -31,6 +31,7 @@
     <aura:handler name="change" value="{!v.pictureSrc}" action="{!c.onInit}" />
     <aura:registerEvent name="appEvent" type="c:RefreshProfile"/>
 
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
     
     <div class="slds-grid">

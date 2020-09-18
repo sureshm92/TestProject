@@ -60,6 +60,7 @@
     
     
     <!-- component body: -->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <div>
         <div class="as-container">
             

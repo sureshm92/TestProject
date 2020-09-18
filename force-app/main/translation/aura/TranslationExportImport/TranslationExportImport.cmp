@@ -22,6 +22,7 @@
     <aura:handler name="change" value="{!v.fileContent}" action="{!c.doResetImportResult}"/>
 
     <!-- component body: -->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <div>
         <div class="slds-page-header__title" style="padding: 10px;">Translation Export/Import</div>
         <div class="slds-grid slds-wrap" style="position: relative">

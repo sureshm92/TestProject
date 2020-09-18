@@ -9,6 +9,7 @@
     <aura:method name="show" action="{!c.doShow}"/>
     <aura:method name="hide" action="{!c.doHide}"/>
     <!--=============================================================================================================-->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <c:Popup aura:id="noTanksModal" title="Confirmation" size="medium">
         <div class="modal-dialog-body">
             {!$Label.c.PG_NOTM_L_Sure}

@@ -64,6 +64,12 @@ private class Test_VisitResultSharingPanelRemote {
         initData = VisitResultSharingPanelRemote.getInitData(testData.ctp.Id);
         VisitResultSharingPanelRemote.saveSharingRules(JSON.serialize(initData.options), JSON.serialize(initData.groups), testData.ctp.Id);
         Test.stopTest();
+
+        Clinical_Trial_Profile__c testCTP = [SELECT Id, Visit_Data_Shareback__c FROM Clinical_Trial_Profile__c WHERE Id =: testData.ctp.Id];
+        Study_Site__c testSS = [SELECT Id, Visit_Results_Sharing__c FROM Study_Site__c WHERE Id =: testData.ss.Id];
+
+        System.assertEquals(false, testCTP.Visit_Data_Shareback__c);
+        System.assertEquals(false, testSS.Visit_Results_Sharing__c);
     }
 
     @IsTest

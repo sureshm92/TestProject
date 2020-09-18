@@ -43,7 +43,8 @@
         <aura:attribute name="smsOptIn" type="Boolean"/>
     </aura:method>
     <aura:method name="showHelpMessageIfInvalid" action="{!c.doShowHelpMessageIfInvalid}"/>
-    
+
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <div>
     	<div class="as-container">
     	<c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>

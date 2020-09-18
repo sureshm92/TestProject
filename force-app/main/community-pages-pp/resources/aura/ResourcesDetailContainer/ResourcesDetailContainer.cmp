@@ -19,6 +19,7 @@
 
     <c:RRSpinner aura:id="details-spinner" fixed="true" size="medium"/>
 
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <aura:if isTrue="{!v.initialized}">
         <div>
             <c:RRTopBar backLabel="{!v.backStudy == '' ? $Label.c.Link_Back_To_Home : $Label.c.Link_Back_To_Resources}"
