@@ -18,7 +18,7 @@ private class Test_RRChangePasswordController {
         );
         insert hcpEnrollment;
 
-        System.runAs(testData.participantUser){
+        System.runAs(testData.participantUser) {
             // Instantiate a new controller with all parameters in the page
             RRChangePasswordController controller = new RRChangePasswordController();
             controller.oldPassword = '123456';
@@ -31,7 +31,7 @@ private class Test_RRChangePasswordController {
             controller.newPassword = 'NewPas1234';
             controller.verifyNewPassword = 'NewPas1234';
             controller.browserLanguage = '["en_US","ru-ru",""]';
-            controller.changePassword();
+            System.assertEquals(null, controller.changePassword());
 
             controller.updateBrowserLanguageAction();
             controller.updateLanguageAction();
@@ -46,8 +46,13 @@ private class Test_RRChangePasswordController {
             /* Check with empty fields */
             controller.contact.LastName = null;
             controller.account.Name = null;
-            controller.checkPasswords();
-
+            Boolean checkPasswordSuccess = true;
+            try {
+                controller.checkPasswords();
+            } catch (Exception e) {
+                checkPasswordSuccess = false;
+            }
+            System.assertEquals(true, checkPasswordSuccess);
             Test.clearApexPageMessages();
 
             /* Check with full fields */
@@ -60,7 +65,12 @@ private class Test_RRChangePasswordController {
             controller.contact.MailingPostalCode = '123000';
             controller.contact.Phone = '(999)555-0000';
             controller.account.Name = 'TestAccountName';
-            controller.checkPasswords();
+            try {
+                controller.checkPasswords();
+            } catch (Exception e) {
+                checkPasswordSuccess = false;
+            }
+            System.assertEquals(true, checkPasswordSuccess);
 
             controller.translateFieldsAction();
             controller.updateStatesAction();
