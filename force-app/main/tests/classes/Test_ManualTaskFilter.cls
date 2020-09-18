@@ -20,24 +20,29 @@ public class Test_ManualTaskFilter {
         testIds.add('0011F00000PfTijQAF');
     
         TestData.loadTestData();
+        TestData td = new TestData();
+
+        List<Participant_Enrollment__c> testPEs;
+        String filterResult;
+        List<String> filteredCountryCodes;
 
         Test.startTest();
-        
         ManualTaskFilter manualTaskFilter = new ManualTaskFilter();
         System.assertEquals(FIELD_JOIN_EXPECTED, DatabaseService.fieldInValues('Account', testIds));
 
         manualTaskFilter.countries.add(new LookupSearchResult(
                 'US', 'Participant_Status__c', 'icon', 'title', 'subtitle')
         );
-    
         manualTaskFilter.statuses.add('Enrolled');
         manualTaskFilter.statuses.add('Referred');
-        
-        manualTaskFilter.getContactsWithPE();
-        
-        manualTaskFilter.filterTherapeutic();
-        manualTaskFilter.getCountryCode();
 
+        testPEs = manualTaskFilter.getContactsWithPE().get(td.participant.Contact__c);
+        filterResult = manualTaskFilter.filterTherapeutic();
+        filteredCountryCodes = manualTaskFilter.getCountryCode();
         Test.stopTest();
+
+        System.assertEquals('US', testPEs[0].Participant__r.Mailing_Country_Code__c);
+        System.assert(filterResult.contains('Participant__c'));
+        System.assert(filteredCountryCodes.contains('US'));
     }
 }

@@ -1,6 +1,6 @@
 @IsTest
 public with sharing class Test_VisitConfigurationRemote {
-//
+//    DEPRECATED
 //    @IsTest
 //    static void getRelatedPlannedVisitsWithVisit_test() {
 //        List<Clinical_Trial_Profile__c> ctp = new List<Clinical_Trial_Profile__c>{

@@ -32,7 +32,7 @@
             <div class="mrr-alert fail" id="anchor">
                 <c:RRIcon iconName="icon-close-circle"/>
                 <div class="main-title">{!v.pe.Participant__r.Full_Name__c}&nbsp;{!$Label.c.PG_MRR_R_Failed}</div>
-                <aura:if isTrue="{!!v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c}">
+                <aura:if isTrue="{!!v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp; !v.pe.Is_Virtual_Study_Site__c}">
                     <aura:if isTrue="{!v.communityTemplate != 'Janssen'}">
                 <button class="apollo-btn primary"
                         title="{!v.pe.Participant__r.Email__c ? '' : $Label.c.PG_MT_T_Email_Required_For_Insert}"
@@ -53,7 +53,7 @@
             <div class="mrr-alert pass" id="anchor">
                 <c:RRIcon iconName="icon-check-circle"/>
                 <div class="main-title">{!v.pe.Participant__r.Full_Name__c}&nbsp;{!$Label.c.PG_MRR_R_Passed}</div>
-                <aura:if isTrue="{!!v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c}">
+                <aura:if isTrue="{!!v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp; !v.pe.Is_Virtual_Study_Site__c}">
                     <aura:if isTrue="{!v.communityTemplate != 'Janssen'}">
                     <button class="apollo-btn primary"
                             title="{!v.pe.Participant__r.Email__c ? '' : $Label.c.PG_MT_T_Email_Required_For_Insert}"

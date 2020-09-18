@@ -11,6 +11,7 @@
     <aura:attribute name="participantStatuses" type="List"/>
     <aura:attribute name="selectedStatus" type="String"/>
     <aura:attribute name="studySiteId" type="String"/>
+	<aura:attribute name="studySiteType" type="String"/>     
     <aura:attribute name="reqFieldsFilled" type="Boolean"/>
     <aura:attribute name="fileName" type="String"/>
     <aura:attribute name="fileType" type="String"/>
@@ -21,11 +22,12 @@
     <aura:attribute name="doContact" type="Boolean" default="false"/>
     <aura:attribute name="isEmail" type="Boolean" default="false"/>
     <aura:attribute name="isPhone" type="Boolean" default="false"/>
-    <aura:attribute name="isSMS" type="Boolean" default="false"/>
+    <aura:attribute name="isSMS" type="Boolean" default="false"/>       
     
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
         <aura:attribute name="studySiteId" type="String"/>
+        <aura:attribute name="studySiteType" type="String"/>
         <aura:attribute name="callback" type="Function"/>
     </aura:method>
     
@@ -128,7 +130,7 @@
                     </div>
                 </div>
             </aura:if>
-            <aura:if isTrue="{!v.communityWithPPInv}">
+            <aura:if isTrue="{!v.communityWithPPInv &amp;&amp;v.studySiteType != 'Hybrid' &amp;&amp;v.studySiteType != 'Virtual'}">
                 <div class="slds-grid slds-wrap">
                     <div class="slds-size_1-of-1 slds-p-horizontal_x-medium">
                         <div class="slds-m-around--small">

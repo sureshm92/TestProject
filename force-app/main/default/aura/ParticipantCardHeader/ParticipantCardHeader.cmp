@@ -8,13 +8,17 @@
     <aura:attribute name="userMode" type="String"/>
     <aura:attribute name="pe" type="Object"/>
     <aura:attribute name="isReferral" type="Boolean"/>
-    <aura:attribute name="isInvited" type="Boolean" default="false"/>
+    <aura:attribute name="isInvited" type="Boolean"/>
+
+    <!--added for the performance issue-->
+    <!--aura:attribute name="parent" type="Aura.Component" required="true"/>
+    <aura:attribute name="parentSE" type="Aura.Component" required="true"/-->
 
     <!-- component body: -->
-    <div class="{!if(v.isRTL, 'rtl', '')}" style="position: relative">
+    <div class="{!if(v.isArabic, 'rtl', '')}" style="position:relative;">
         <aura:if isTrue="{!v.pe.Participant__c}">
             <aura:if isTrue="{!v.userMode == 'Participant'}">
-                <div>
+                <div>                  
                     <div class="vpi-tile-title">{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</div>
                         <div class="objective-link">
                         <c:RRLink page="{!'study-workspace?id=' + v.pe.Study_Site__r.Clinical_Trial_Profile__c}">
@@ -27,11 +31,10 @@
                 <div class="sponsor-name">{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c}</div>
                 <div class="objective-section">
                     <div class="objective-text">{!v.pe.Clinical_Trial_Profile__r.Brief_Summary__c}</div>
-
                 </div>
                 <aura:set attribute="else">
                     <aura:if isTrue="{!not(v.isReferral)}">
-                        <div class="vpi-title">{!v.pe.Participant__r.First_Name__c + ' ' + v.pe.Participant__r.Last_Name__c}</div>
+                        <div class="vpi-title" style="margin-bottom: 20px;">{!v.pe.Participant__r.First_Name__c + ' ' + v.pe.Participant__r.Last_Name__c}</div>
                         <aura:set attribute="else">
                             <aura:if isTrue="{!v.userMode == 'HCP'}">
                                 <c:RRLink class="vpi-title" page="{!'patient-profile?id=' + v.pe.Participant__c}">{!v.pe.Participant__r.First_Name__c + ' ' + v.pe.Participant__r.Last_Name__c}</c:RRLink>
@@ -43,8 +46,8 @@
                     </aura:if>
                 </aura:set>
             </aura:if>
-            <aura:set attribute="else">
-                <div class="vpi-title">{!v.pe.Patient_ID__c + if(v.peAdditionalName, ' (' + v.peAdditionalName + ')', '')}</div>
+            <aura:set attribute="else">                             
+                <div class="vpi-title" style="margin-bottom: 20px;">{!v.pe.Patient_ID__c + if(v.peAdditionalName, ' (' + v.peAdditionalName + ')', '')}</div>
             </aura:set>
             <aura:if isTrue="{!v.userMode == 'PI'}">
                 <aura:if isTrue="{!v.pe.Participant__r.Emancipation_in_progress__c}">
@@ -58,7 +61,9 @@
                     </aura:set>
                 </aura:if>
             </aura:if>
-        </aura:if>
+        <!--Added for performance tuning -->
+        <!--a aura:id="show" class="slds-show custom-plus" onclick="{!c.openCard}"><span>{!$Label.c.View_More}&nbsp;&gt;</span></a-->  
+        </aura:if>       
     </div>
 
 </aura:component>

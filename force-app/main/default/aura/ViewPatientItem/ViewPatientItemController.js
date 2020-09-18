@@ -3,8 +3,14 @@
  */
 ({
     doInit: function (component, event, helper) {
-        if (component.get('v.pe')) {
-            helper.preparePathItems(component, event);
+        helper.prepareCardFields(component, event);
+    },
+    
+    //Added for the performance tuning
+    preparePathItems : function(component, event, helper){
+        if (component.get('v.pe')) {          
+            helper.toggleBubbleMap(component, event);
+            //helper.preparePathItems(component, event);
         }
     },
 
@@ -40,7 +46,7 @@
         var pe = component.get('v.pe');
         var frameHeight = component.get('v.frameHeight');
         var isInvited = component.get('v.isInvited');
-        component.set('v.showSpinner', true);
+        //component.set('v.showSpinner', true);
         rootComponent.find('openSearch').execute(pe, rootComponent, frameHeight, isInvited, function (enrollment) {
             component.set('v.pe', enrollment);
             rootComponent.refresh();

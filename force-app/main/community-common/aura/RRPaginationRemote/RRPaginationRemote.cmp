@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="RRPaginationRemote">
+ <aura:component description="RRPaginationRemote">
     <aura:attribute name="entriesOnPage" type="Integer"/>
     <aura:attribute name="currentPage" type="Integer"/>
     <aura:attribute name="allRecordsCount" type="Integer"/>
@@ -26,7 +26,7 @@
                 </button>
             </div>
             <div class="info">
-            {!v.currentPage + ' ' + $Label.c.PG_FP_L_of + ' ' + v.totalPages}
+           {! $Label.c.Page+' '+ v.currentPage + ' ' + $Label.c.PG_FP_L_of + ' ' + v.totalPages}
             </div>
         </div>
     </aura:if>

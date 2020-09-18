@@ -278,10 +278,9 @@ global without sharing class ReferHealthcareProviderRemote {
     }
 
     @AuraEnabled
-    public static void invitePatientDelegate(String participant, String delegateContact, String delegateId, String ddInfo) {
+    public static void invitePatientDelegate(String participant, String delegateContact, String delegateId, String ddInfo, Boolean createUser) {
         try {
             HealthcareProvider delegateDuplicate;
-            Boolean createUser = true;
             if (ddInfo != null) delegateDuplicate = (HealthcareProvider) JSON.deserialize(ddInfo, HealthcareProvider.class);
             System.debug('delegateDuplicate>>>>>>>' + delegateDuplicate);
             Participant__c participantObj = (Participant__c) JSON.deserialize(participant, Participant__c.class);

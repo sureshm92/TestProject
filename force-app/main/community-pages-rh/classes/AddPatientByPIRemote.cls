@@ -39,7 +39,7 @@ public without sharing class AddPatientByPIRemote {
 
     //TODO:Review
     @AuraEnabled
-    public static void saveParticipant(String participantJSON, String peJSON, String userLanguage, String ssId, Boolean createUser, String participantDelegateJSON, String delegateDuplicateInfo, Boolean allowEmail,Boolean allowPhone,Boolean allowSMS,Boolean allowContact){
+    public static void saveParticipant(String participantJSON, String peJSON, String userLanguage, String ssId, Boolean createUser, String participantDelegateJSON, String delegateDuplicateInfo, Boolean allowEmail,Boolean allowPhone,Boolean allowSMS,Boolean allowContact,Boolean allowDelegateContact){
         try {
             TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.CreateUserForCCContactHandler.class);
 
@@ -92,7 +92,7 @@ public without sharing class AddPatientByPIRemote {
             }
 
             updateParticipant(JSON.serialize(participant));
-            createParticipantDelegate(participantDelegateJSON, delegateDuplicateInfo, participantId, participantJSON);
+            createParticipantDelegate(participantDelegateJSON, delegateDuplicateInfo, participantId, participantJSON, allowDelegateContact);
             //Moved history Creation to Trigger
         } catch (Exception e) {
             AuraHelper.throwException(e);
@@ -141,7 +141,7 @@ public without sharing class AddPatientByPIRemote {
     }
 
     @Future
-    @TestVisible private static void createParticipantDelegate(String participantDelegateJSON, String delegateDuplicateInfo, String participantId, String participantJSON) {
+    @TestVisible private static void createParticipantDelegate(String participantDelegateJSON, String delegateDuplicateInfo, String participantId, String participantJSON, Boolean createDelegateuser) {
         Participant__c participant = (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);
         Participant__c participantDelegate;
         if (!String.isBlank(participantDelegateJSON)) {
@@ -154,7 +154,6 @@ public without sharing class AddPatientByPIRemote {
         ReferHealthcareProviderRemote.HealthcareProvider ddInfo;
         if (delegateDuplicateInfo != null) ddInfo = (ReferHealthcareProviderRemote.HealthcareProvider) JSON.deserialize(delegateDuplicateInfo, ReferHealthcareProviderRemote.HealthcareProvider.class);
 
-        Boolean createDelegateuser = true;
         if (participantDelegate != null && !String.isEmpty(participantDelegate.Last_Name__c) &&
                 !String.isEmpty(participantDelegate.Email__c)) {
             Contact newContact;
