@@ -180,7 +180,7 @@ public without sharing class ViewPatientsRemote {
     @AuraEnabled
     public static String getRecords(String filterJSON, String paginationJSON, String userMode, String changedItem, String delegateId, Boolean emancipatedPE,String sponsorName) {
         try {
-        SearchResult result = new SearchResult();
+            SearchResult result = new SearchResult();
             result.peFilter = (ParticipantEnrollmentService.PEFilter) JSON.deserialize(filterJSON, ParticipantEnrollmentService.PEFilter.class);
             result.paginationData = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
             result.peFilter.additionalFilter = getAdditionalFilter(userMode, emancipatedPE, null,sponsorName);
@@ -366,9 +366,10 @@ public without sharing class ViewPatientsRemote {
     }
 
     // Modified for performance tuning
-    // Sabir & velu 09/04/2020
+    // Sabir & Velu 09/04/2020
     private static ParticipantEnrollmentService.PEFilterData createPEFilterData(String activePE, Id trialId, Id siteId, String mode, Boolean restrictTrial, String delegateId, String additionalFilter, PaginationData paginationData,String sponsorName) {
-        ParticipantEnrollmentService.PEFilterData filterData = ParticipantEnrollmentService.getPEFilterDataWithExistingPERecords(activePE, trialId, mode, restrictTrial, delegateId, additionalFilter,sponsorName);
+        //ParticipantEnrollmentService.PEFilterData filterData = ParticipantEnrollmentService.getPEFilterDataWithExistingPERecords(activePE, trialId, mode, restrictTrial, delegateId, additionalFilter,sponsorName);
+        ParticipantEnrollmentService.PEFilterData filterData = ParticipantEnrollmentService.getPEFilterDataWithSponsor(mode, trialId, restrictTrial, delegateId , sponsorName);
         ParticipantEnrollmentService.PEFilter filter = new ParticipantEnrollmentService.PEFilter(filterData);
         filter.activePE = activePE;
         filter.study = trialId;
