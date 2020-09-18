@@ -4,30 +4,52 @@
 
 ({
     doInit: function(component,event,helper){
-       //helper.toggleHelper(component, event);
+       //helper.toggleHelper(component, event);       
     },
-    doOnClick: function (component, event) {
+    doOnClick: function (component, event) {        
         let onclickEvent = component.getEvent('onclick');
         onclickEvent.setParam('source', event.getSource());
         onclickEvent.fire();
     },
     display : function(component, event, helper) { 
-        
+    window.onblur = function() {
+  			console.log('Got focus');
+            var toggleText = component.find("tooltip");
+       		$A.util.addClass(toggleText, 'tooltipNotActive');
+		}
+     /* if(event.getParams().keyCode==18){
+            var toggleText = component.find("tooltip");
+       		$A.util.addClass(toggleText, 'tooltipNotActive');
+        }*/
         var dataVal = event.currentTarget.dataset.id;       
         component.set("v.hovertext",dataVal);
         var cmpTarget = component.find('tooltip');
       if(dataVal=='Delegates'){
+          if(component.get("v.isRTL")){
+            $A.util.addClass(cmpTarget, 'tooltipRTL');
+            $A.util.removeClass(cmpTarget, 'tooltip');
+          }else{
             $A.util.addClass(cmpTarget, 'tooltip');
+            $A.util.removeClass(cmpTarget, 'tooltipRTL');
+          }
             $A.util.addClass(cmpTarget,'slds-nubbin--bottom');
             $A.util.removeClass(cmpTarget, 'tooltipAS');
+            $A.util.removeClass(cmpTarget, 'tooltipASRTL');
             $A.util.removeClass(cmpTarget, 'tooltipSubTitle');
             $A.util.removeClass(cmpTarget,'slds-nubbin--top');
             $A.util.removeClass(cmpTarget,'tooltipNotActive');
         }
        else if(dataVal=='Account Settings'){
-           $A.util.addClass(cmpTarget, 'tooltipAS');
+        if(component.get("v.isRTL")){
+            $A.util.addClass(cmpTarget, 'tooltipASRTL');
+            $A.util.removeClass(cmpTarget, 'tooltipAS');
+          }else{
+            $A.util.addClass(cmpTarget, 'tooltipAS');
+            $A.util.removeClass(cmpTarget, 'tooltipASRTL');
+          }
            $A.util.addClass(cmpTarget,'slds-nubbin--bottom');
            $A.util.removeClass(cmpTarget, 'tooltip');
+           $A.util.removeClass(cmpTarget, 'tooltipRTL');
            $A.util.removeClass(cmpTarget, 'tooltipSubTitle');
            $A.util.removeClass(cmpTarget,'slds-nubbin--top');
            $A.util.removeClass(cmpTarget,'tooltipNotActive');
@@ -50,6 +72,6 @@
         }        
     },    
     displayOut : function(component, event, helper) {
-       helper.toggleHelper(component, event);
-    }
+       helper.toggleHelperOut(component, event);      
+    },
 });

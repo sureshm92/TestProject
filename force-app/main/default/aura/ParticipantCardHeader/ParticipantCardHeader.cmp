@@ -15,7 +15,7 @@
     <aura:attribute name="parentSE" type="Aura.Component" required="true"/-->
 
     <!-- component body: -->
-    <div class="{!if(v.isArabic, 'rtl', '')}" style="position:relative;">
+    <div class="{!if(v.isRTL, 'rtl', '')}" style="position:relative;">
         <aura:if isTrue="{!v.pe.Participant__c}">
             <aura:if isTrue="{!v.userMode == 'Participant'}">
                 <div>                  

@@ -3985,7 +3985,7 @@ Please share our site on social media to encourage others to assist us as we wor
  
 We are reaching out to you to confirm we received your referral from ##PITitle ##PIName. A member of the study team will contact you regarding the next steps in the referral process. 
 
-The IQVIA Patient Portal will allow you to:
+The ##ShortCommunityName will allow you to:
 •	track the progress of your referral 
 •	learn more about this study 
 •	find out about future clinical research studies.
@@ -4020,10 +4020,10 @@ Your user name is ##UserName.</value>
  
 We are reaching out to you to confirm we received your referral from ##HCPTitle ##HCPName. A member of the study team will contact you regarding the next steps in the referral process. 
 
-The IQVIA Patient Portal will allow you to:
-•            track the progress of your referral 
-•	     learn more about this study 
-•	     find out about future clinical research studies.
+The ##ShortCommunityName will allow you to:
+•	track the progress of your referral 
+•	learn more about this study 
+•	find out about future clinical research studies.
 
 Your user name is ##UserName.</value>
     </labels>
@@ -4052,10 +4052,10 @@ Your user name is ##UserName.</value>
  
 We are reaching out to you to confirm we received your information. A member of the study team will contact you regarding the next steps in the study process. 
 
-The Patient Portal will help you:
-• learn more about the ##StudyName
-• track your study progress, through enrollment and beyond 
-• find out more about future clinical research studies.  
+The ##ShortCommunityName will help you:
+•	track the progress of your referral 
+•	learn more about this study 
+•	find out about future clinical research studies.  
 
 Your user name is ##UserName.</value>
     </labels>
@@ -5442,7 +5442,7 @@ The NYBC Convalescent Plasma Donation Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature Patient New</shortDescription>
-        <value>Please note that your decision to register for the IQVIA Patient Portal will not affect whether you can take part in the study.
+        <value>Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the study.
 
 Sincerely,
 

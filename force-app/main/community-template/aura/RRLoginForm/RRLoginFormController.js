@@ -4,6 +4,7 @@
 ({
     initialize: function(component, event, helper) {
         var isMobileApp =  document.referrer;
+        console.log('isMobileApp'+isMobileApp);
         if(isMobileApp.includes("startURL")){
                   component.set("v.isMobileApp",true);
         }
