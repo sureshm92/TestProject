@@ -3,6 +3,6 @@
     <fullName>Validate_Language_Field</fullName>
     <active>true</active>
     <errorConditionFormula>Master_Terms_And_Conditions__c != null &amp;&amp;   
-ISPICKVAL( Language__c , &#39;&#39;)</errorConditionFormula>
+ISPICKVAL( Language__c , &apos;&apos;)</errorConditionFormula>
     <errorMessage>Language field required</errorMessage>
 </ValidationRule>

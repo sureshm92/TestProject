@@ -17,6 +17,7 @@
     <aura:method name="refresh" action="{!c.doRefresh}" access="public"/>
 
     <!-- component body: -->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <c:uiHeaderMenu aura:id="menu" class="{!'menu-block ' + if(v.isRTL, 'rtl ', '')}">
         <aura:set attribute="title">
             <lightning:avatar src="{!v.user.SmallPhotoUrl}"

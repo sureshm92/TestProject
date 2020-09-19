@@ -9,7 +9,8 @@
     <aura:attribute name="isOpen" type="boolean" default="false"/>
     <aura:attribute name="notes" type="string" default=""/>
     <aura:attribute name="validated" type="boolean" default="false"/>
-    
+
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <lightning:card title="{!$Label.c.Recent_Notes}">
         <aura:set attribute="actions">
             <lightning:button label="{!$Label.c.New}" onclick="{!c.openModel }"/>

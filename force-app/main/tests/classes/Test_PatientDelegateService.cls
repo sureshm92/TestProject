@@ -81,7 +81,9 @@ public class Test_PatientDelegateService {
                     return firstDelegateContact;
                 }
                 when 'getDelegatedContactIds' {
-                    return new List<Id>{firstDelegateContact.Id};
+                    return new List<Id>{
+                            firstDelegateContact.Id
+                    };
                 }
                 when 'resetDelegate' {
                     Id contactId = firstDelegateContact.Id;
@@ -94,7 +96,7 @@ public class Test_PatientDelegateService {
                     List<Patient_Delegate__c> patientDelegate = [
                             SELECT Id
                             FROM Patient_Delegate__c
-                            WHERE Contact__c =: contactId
+                            WHERE Contact__c = :contactId
                     ];
                     delete patientDelegate;
                 }
@@ -114,24 +116,48 @@ public class Test_PatientDelegateService {
     @IsTest
     static void patientDelegateServiceTest() {
         refreshTestData();
-        DatabaseService.setMock(new DatabaseServiceMock());
-        PatientDelegateService.setMock(new PatientDelegateServiceMock());
-        CommunityService.setMock(new CommunityServiceMock());
-
+        TestData testData = new TestData();
+        List<Contact> delegateContacts;
+        Participant__c participant;
+        Boolean isDelegate;
+        Id userId;
+        List<Id> delUserIds;
+        List<Id> delConIds;
+        List<Id> delConIds2;
+        List<Patient_Delegate__c> patientDelegates;
+        Contact delCon;
+        List<Contact> delCons;
+        User delegateUser = testData.createPatientDelegate();
+        insert delegateUser;
+        List<Contact> conDel = [SELECT Id, userCommunityDelegateId__c FROM Contact WHERE Email = 'jsmith@somemail.com'];
         Test.startTest();
-        PatientDelegateService.getInstance().getDelegates();
-        PatientDelegateService.getInstance().getParticipant();
-        PatientDelegateService.getInstance().isDelegate();
-        PatientDelegateService.getInstance().getParticipantUserId();
-        PatientDelegateService.getInstance().getDelegatedUsersIds();
-        PatientDelegateService.getInstance().getDelegatedContactIds();
-        PatientDelegateService.getInstance().getPDelegates();
-        PatientDelegateService.getInstance().getDelegateContact(patientDelegate.Contact__c);
-        PatientDelegateService.getDelegateContacts(firstParticipantContact.Id);
-        PatientDelegateService.getDelegatedContactIds(firstParticipantContact.Id);
-        PatientDelegateService.getDelegatedContactIdsEmailOptIn(firstParticipantContact.Id);
-        PatientDelegateService.getParticipantIdsByDelegatedContactIdMap(new List<Id> {firstDelegateContact.Id, secondDelegateContact.Id});
+        System.runAs(testData.participantUser) {
+            delegateContacts = PatientDelegateService.getInstance().getDelegates();
+            participant = PatientDelegateService.getInstance().getParticipant();
+            isDelegate = PatientDelegateService.getInstance().isDelegate();
+            userId = PatientDelegateService.getInstance().getParticipantUserId();
+            delUserIds = PatientDelegateService.getInstance().getDelegatedUsersIds();
+            delConIds = PatientDelegateService.getInstance().getDelegatedContactIds();
+            patientDelegates = PatientDelegateService.getInstance().getPDelegates();
+            delCon = PatientDelegateService.getInstance().getDelegateContact(conDel[0].Id);
+            delCons = PatientDelegateService.getDelegateContacts(firstParticipantContact.Id);
+            delConIds2 = PatientDelegateService.getDelegatedContactIds(firstParticipantContact.Id);
+            PatientDelegateService.getDelegatedContactIdsEmailOptIn(firstParticipantContact.Id);
+            PatientDelegateService.getParticipantIdsByDelegatedContactIdMap(new List<Id>{
+                    firstDelegateContact.Id, secondDelegateContact.Id
+            });
+        }
         Test.stopTest();
+        System.assertEquals(1, delegateContacts.size());
+        System.assertEquals(true, participant != null ? true : false);
+        System.assertEquals(true, userId != null ? true : false);
+        System.assertEquals(false, isDelegate);
+        System.assertEquals(1, delUserIds.size());
+        System.assertEquals(1, delConIds.size());
+        System.assertEquals(true, patientDelegates != null ? true : false);
+        System.assertEquals(true, delCon != null ? true : false);
+        System.assertEquals(1, delCons.size());
+        System.assertEquals(true, delConIds2 != null ? true : false);
     }
 
     /* Used full test instead: Test_MyTeamRemote.testCreatePatientDelegate()
@@ -177,7 +203,7 @@ public class Test_PatientDelegateService {
         );
         upsert patientDelegate;
 
-        System.runAs(testData.participantUser){
+        System.runAs(testData.participantUser) {
             Test.startTest();
             PatientDelegateService.getInstance().getParticipant();
             PatientDelegateService.getInstance().isDelegate();
@@ -185,7 +211,9 @@ public class Test_PatientDelegateService {
             PatientDelegateService.getInstance().getPDelegates();
             PatientDelegateService.getInstance().getDelegateContact(delegateContact.Id);
             PatientDelegateService.getInstance().getDelegatedUsersIds();
-            PatientDelegateService.getPEIdsListByContactIdMap(new List<Id> {testData.participant.Contact__c}, '', true);
+            PatientDelegateService.getPEIdsListByContactIdMap(new List<Id>{
+                    testData.participant.Contact__c
+            }, '', true);
             PatientDelegateService.getForExclStatusPEIdsForContact(testData.participant.Contact__c, PEStatusState.PE_STATUS_GROUP_ACTIVE);
             PatientDelegateService.getInstance().resetDelegate(delegateContact.Id, false);
             Test.stopTest();

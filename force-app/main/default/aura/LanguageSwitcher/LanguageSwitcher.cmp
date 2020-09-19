@@ -21,6 +21,7 @@
     <!--<aura:handler name="change" value="{!v.languageKey}" action="{!c.doChangeLanguage}"/>-->
 
     <!-- component body -->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <div style="padding-top: 10px">
         <c:RRSpinner size="medium" aura:id="spinner" fixed="true"/>
         <div class="as-title">{!$Label.c.PG_Login_H_Language_Options}</div>

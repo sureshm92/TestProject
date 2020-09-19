@@ -30,7 +30,7 @@
     </aura:method>
 
     <!--<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
-
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <c:uiModal aura:id="createIncentiveTask" size="medium" headerText="{!if(v.mode == 'edit','Edit Incentive Program',
                                                                      if(v.mode == 'clone', 'Clone Incentive Program',
                                                                      if(v.mode == 'view', 'View Incentive Program', 'Create Incentive Program')))}">

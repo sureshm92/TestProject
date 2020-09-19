@@ -22,7 +22,7 @@ public class Test_RelevantLinksRemote {
             initData = RelevantLinksRemote.getInitData();
         }
         Test.stopTest();
-        System.assertEquals(1, initData.linksWrappers.size());
+        System.assertEquals('Relevant Links', initData.linksWrappers[0].type.value);
     }
 
     @IsTest
@@ -46,20 +46,12 @@ public class Test_RelevantLinksRemote {
         );
         insert resStudy;
 
-        Therapeutic_Area__c ta = new Therapeutic_Area__c(
-                Name = 'TestCOI'
-        );
-        List<Therapeutic_Area__c> therapeuticAreas = [SELECT Id FROM Therapeutic_Area__c WHERE Name = 'TestCOI'];
-        Therapeutic_Area_Assignment__c taa = new Therapeutic_Area_Assignment__c(
-
-        );
-
         Test.startTest();
         System.runAs(td.participantUser) {
             initData = RelevantLinksRemote.getInitData();
         }
         Test.stopTest();
-        System.assertEquals(1, initData.linksWrappers.size());
+        System.assertEquals('Test', initData.linksWrappers[0].resources[0].resource.Title__c);
     }
 
     @IsTest
@@ -97,7 +89,7 @@ public class Test_RelevantLinksRemote {
             initData = RelevantLinksRemote.getInitData();
         }
         Test.stopTest();
-        System.assertEquals(1, initData.linksWrappers.size());
+        System.assertEquals('Test', initData.linksWrappers[0].resources[0].resource.Title__c);
     }
 
     @IsTest

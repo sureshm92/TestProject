@@ -11,6 +11,7 @@
     <aura:attribute name="parentComponent" type="Aura.Component"/>
 
     <!-- component body:-->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <div class="rr-white-panel mti-container">
         <div class="mti-name">
             {!if(v.contact.FirstName == null, '', v.contact.FirstName) + ' ' + v.contact.LastName}

@@ -12,6 +12,7 @@ public with sharing class Test_EmailActionBtnController {
         EmailTemplateProviderService.setProviderType('', recipient.Id, recipient.Name,
                 'en_US', 'Default', recipient.Id, '','');
         EmailActionBtnController emailActionBtnController = new EmailActionBtnController();
-        emailActionBtnController.getResultURL();
+        String resultURL = emailActionBtnController.getResultURL();
+        System.assert(resultURL.length() > 0);
     }
 }

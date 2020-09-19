@@ -24,6 +24,7 @@
     </aura:method>
 
     <!-- component body: -->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <c:Popup aura:id="dialog" title="{!$Label.c.PG_EPP_Header}" size="large" showScroll="true">
         <c:RRSpinner aura:id="spinner" fixed="true" size="medium"/>
         <aura:if isTrue="{!v.initialized}">
