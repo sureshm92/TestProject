@@ -776,9 +776,11 @@ public without sharing class ParticipantEnrollmentService {
         Map<Id, Clinical_Trial_Profile__c> trialsMap = new Map<Id, Clinical_Trial_Profile__c>();
         List<Clinical_Trial_Profile__c> trials = new List<Clinical_Trial_Profile__c>();
         List<Study_Site__c> studySites = new List<Study_Site__c>();
-        String hcpFilter = 'AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = \'' + communityTemplate + '\'';
         if (mode == CommunityService.USER_MODE_HCP) {
-            List<HCP_Enrollment__c> hcpEnrollments = HCPEnrollmentService.getHCPEnrollmentsCommon(mode, delegateId, hcpFilter, false);
+            String communityFilter = communityTemplate.equalsIgnoreCase(CommunityTemplateService.TEMPLATE_JANSSEN) ? 
+                                    'AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\'' :
+                                    'AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\'';
+            List<HCP_Enrollment__c> hcpEnrollments = HCPEnrollmentService.getHCPEnrollmentsCommon(mode, delegateId, communityFilter, false);
             System.debug('hcpCommon' + hcpEnrollments);
             for(HCP_Enrollment__c hcpEnrollment : hcpEnrollments) {
                 if(hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r != null) trials.add(hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r);
@@ -791,7 +793,11 @@ public without sharing class ParticipantEnrollmentService {
             }
         }
         if (mode == CommunityService.USER_MODE_PI) {
-            List<Study_Site__c> studySitesTmp = StudySiteService.getStudySitesForPIBySponsor(communityTemplate);
+            String communityFilter = communityTemplate.equalsIgnoreCase(CommunityTemplateService.TEMPLATE_JANSSEN) ? 
+                                    'AND Clinical_Trial_Profile__r.CommunityTemplate__c = \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\'' :
+                                    'AND Clinical_Trial_Profile__r.CommunityTemplate__c != \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\'';
+            //List<Study_Site__c> studySitesTmp = StudySiteService.getStudySitesForPIBySponsor(communityTemplate);
+            List<Study_Site__c> studySitesTmp = StudySiteService.getStudySitesCommon(CommunityService.USER_MODE_PI, communityFilter, false);
             for(Study_Site__c ss : studySitesTmp) trials.add(ss.Clinical_Trial_Profile__r);
             trialsMap.putAll(trials);
             if (restrictTrial && trialId != null && trialsMap.containsKey(trialId)) {
@@ -862,12 +868,12 @@ public without sharing class ParticipantEnrollmentService {
             if (!String.isEmpty(filter.study)) filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__c = \'' + filter.study + '\' ';
             
               //Added janssen filter
-              if (sponsorName == CommunityTemplateService.TEMPLATE_JANSSEN) {
-                    filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
-                }
-                if (sponsorName != CommunityTemplateService.TEMPLATE_JANSSEN) {
-                    filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
-                }
+            if (sponsorName == CommunityTemplateService.TEMPLATE_JANSSEN) {
+                filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
+            }
+            if (sponsorName != CommunityTemplateService.TEMPLATE_JANSSEN) {
+                filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
+            }
             
             if (!String.isEmpty(filter.studySite)) filterStr += ' AND Study_Site__c = \'' + filter.studySite + '\' ';
             if (!String.isEmpty(filter.referringStatus)) filterStr += 'AND Participant_Status__c IN ' + filter.referringStatus + ' ';
@@ -946,31 +952,30 @@ public without sharing class ParticipantEnrollmentService {
         System.debug('**peList 3:'+peList.size());
         return peList;
     }
-    //Sabir
+    /*
+    * Modifed for performance tuning - Implemented offset
+    * Sabir & Velu 
+    * 04-Sept-2020
+    */
     public static List<Participant_Enrollment__c> getParticipantEnrollmentsCustomFields(List<String> fieldsList, PEFilter filter, String delegateId, Boolean translationNeeded,PaginationData paginationData, String sponsorName){
         //prepare filter string:
         String filterStr = ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join(filter.trialIds, '\',\'') + '\') ';
         if (!String.isEmpty(filter.additionalFilter)) filterStr += ' AND ' + filter.additionalFilter + ' ';
-        if (filter.searchText != null) filter.searchText = filter.searchText.trim();
-        //if (String.isEmpty(filter.searchText)) {
-            if (!String.isEmpty(filter.study)) filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__c = \'' + filter.study + '\' ';
-              //Added janssen filter
-              if (sponsorName == CommunityTemplateService.TEMPLATE_JANSSEN) {
-                    filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
-                }
-                if (sponsorName != CommunityTemplateService.TEMPLATE_JANSSEN) {
-                    filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
-                }
-                
+        //Added Janssen filter
+        filterStr += sponsorName.equalsIgnoreCase(CommunityTemplateService.TEMPLATE_JANSSEN) ?
+                        ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ' :
+                        ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
+        if (!String.isEmpty(filter.searchText)) filter.searchText = filter.searchText.trim();
+        //Search on all the enrollments and not based on the applied filters
+        if (String.isEmpty(filter.searchText)) {
+            if (!String.isEmpty(filter.study)) filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__c = \'' + filter.study + '\' ';                       
             if (!String.isEmpty(filter.studySite)) filterStr += ' AND Study_Site__c = \'' + filter.studySite + '\' ';
             if (!String.isEmpty(filter.referringStatus)) filterStr += 'AND Participant_Status__c IN ' + filter.referringStatus + ' ';
             //if(!String.isEmpty(filter.enrollmentStatus)) filterStr += ' AND Participant_Status__c IN ' + filter.enrollmentStatus + ' ';
             //if(!String.isEmpty(filter.acceptenceStatus)) filterStr += ' AND Participant_Status__c IN ' + filter.acceptenceStatus + ' ';
             if (!String.isEmpty(filter.referringClinic)) filterStr += ' AND HCP__r.HCP_Contact__r.AccountId = \'' + filter.referringClinic + '\' ';
-            // modifed for performance tuning
-            // Sabir & velu 09/04/2020
-            if (!String.isEmpty(filter.source)) filterStr += ' AND Source_Type__c = \'' + filter.source + '\' ';
             //if (!String.isEmpty(filter.source)) filterStr += ' AND Referral_Source_ID__c = \'' + filter.source + '\' ';
+            if (!String.isEmpty(filter.source)) filterStr += ' AND Source_Type__c = \'' + filter.source + '\' ';
             if (!String.isEmpty(filter.participantStatus)) filterStr += ' AND Participant_Status__c = \'' + filter.participantStatus + '\' ';
             if (!String.isEmpty(filter.activePE) && String.isEmpty(filter.participantStatus)) {
                 if (filter.activePE == PEStatusState.PE_STATUSES_ACTIVE) {
@@ -981,9 +986,8 @@ public without sharing class ParticipantEnrollmentService {
             }
             if (filter.startDate != null && filter.endDate != null && filter.startDate < filter.endDate) {
                 //TODO
-            }
-            
-        //}
+            }    
+        }
         if (!String.isEmpty(filter.dateRange)) {
             filterStr += ' AND ' + filter.dateField + ' ' + filter.dateRange + ' ';
         }

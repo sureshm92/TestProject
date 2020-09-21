@@ -357,7 +357,7 @@ public without sharing class ViewPatientsRemote {
             filter += ' AND Participant__c=\'' + participantId + '\'' ;
         }
         //Added filter janssen
-         if (sponsorName == CommunityTemplateService.TEMPLATE_JANSSEN) {
+        if (sponsorName == CommunityTemplateService.TEMPLATE_JANSSEN) {
             filter += ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
         } else {
             filter += ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
