@@ -17,6 +17,7 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     <!-- component body: -->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <div class="mrrli-container slds-grid slds-wrap slds-grid_align-spread slds-is-relative">
         <c:RRSpinner size="medium" showSpinner="{!v.showSpinner}"/>
         <div class="mrrli-info slds-col slds-medium-size_1-of-2 slds-size_1-of-1">

@@ -25,7 +25,7 @@
     <aura:attribute name="isValid" type="Boolean" default="false"/>
 
 
-
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <div class="card-ctp">
         <div class="{!v.trialTDO.isEnrollingCTP ? ' top-line' : ''}"></div>
         <div class="tap-class ctp-padding">

@@ -1,10 +1,10 @@
 /**
  * Created by AlexKetch on 4/16/2019.
  */
-@IsTest(IsParallel=true)
+@IsTest(IsParallel=false)
 public with sharing class Test_SchemaUtil {
 
-    @isTest
+    @IsTest
     public static void positiveTest() {
         Resource__c r = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType());
         r.RecordTypeId = SchemaUtil.getRecordTypeIdByName('Article', Resource__c.getSObjectType());

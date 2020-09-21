@@ -18,6 +18,7 @@
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
 
     <!-- component body-->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <aura:if isTrue="{!v.currentAlert}">
         <c:Popup aura:id="alertsDialog" title="{!if(v.currentAlert, v.currentAlert.title, '')}" size="medium" closeButtonClicked="{!v.closeBtnClicked}">
             <aura:if isTrue="{!v.currentAlert}">

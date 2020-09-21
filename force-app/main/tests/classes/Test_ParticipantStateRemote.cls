@@ -18,7 +18,8 @@ private class Test_ParticipantStateRemote {
         System.runAs(testData.participantUser){
             ParticipantEnrollmentService.getParticipantEnrollment(testData.pe.Id, CommunityService.USER_MODE_PARTICIPANT);
         }
-        ParticipantStateRemote.getInitData();
+        ParticipantItem initData = (ParticipantItem) JSON.deserialize(ParticipantStateRemote.getInitData(), ParticipantItem.class);
+        System.assertEquals(testData.pe.Name, initData.pe.Name);
     }
 
     @IsTest
@@ -27,7 +28,9 @@ private class Test_ParticipantStateRemote {
         System.runAs(testData.participantUser){
             ParticipantEnrollmentService.getParticipantEnrollment(testData.pe.Id, CommunityService.USER_MODE_PARTICIPANT);
         }
-
-        ParticipantStateRemote.getParticipantName();
+        System.assertEquals(
+                testData.participant.First_Name__c + ' ' + testData.participant.Last_Name__c,
+                ParticipantStateRemote.getParticipantName()
+        );
     }
 }

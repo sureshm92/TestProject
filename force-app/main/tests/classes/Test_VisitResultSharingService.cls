@@ -111,16 +111,22 @@ private class Test_VisitResultSharingService {
         Participant_Enrollment__c pe = testData.pe;
         pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
         update pe;
+        Clinical_Trial_Profile__c testCtp;
+        Map<String, Visit_Result_Type_Sharing__c> testVRTP;
 
         System.runAs(testData.participantUser) {
             VisitResultSharingService.getCTP(testData.ctp.Id);
-            VisitResultSharingService.disableShareback(testData.ctp);
-            VisitResultSharingService.getTypeVRSharingMap(testData.ctp);
+            testCtp = VisitResultSharingService.disableShareback(testData.ctp);
+            testVRTP = VisitResultSharingService.getTypeVRSharingMap(testData.ctp);
             VisitResultSharingService.updateStudySitesSharing(testData.ctp.Id, new List<Id>{
                     testData.ss.Id
             }, true, true);
         }
 
         Test.stopTest();
+        Study_Site__c testSS = [SELECT Id, Visit_Results_Sharing__c FROM Study_Site__c WHERE Id =: testData.ss.Id];
+        System.assertEquals(false, testCtp.Shareback_Settings_On_Participant_Level__c);
+        System.assertEquals(true, testSS.Visit_Results_Sharing__c);
+        System.assert(testVRTP.isEmpty());
     }
 }

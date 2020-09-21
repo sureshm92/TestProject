@@ -9,6 +9,7 @@ public without sharing class Test_SearchConditionsOfInterestRemote {
         TestData.loadTestData();
         Test.stopTest();
     }
+
     @IsTest
     public static void searchConditionOfInterest_Test() {
         ClassFactory.clearStubTypesByClassNamesMap();
@@ -163,23 +164,24 @@ public without sharing class Test_SearchConditionsOfInterestRemote {
         System.assert(isExceptionThrown);
     }
     
-    @isTest
+    @IsTest
     public static void getConditionsOfInterest() {
         TestData testDataInstance = new TestData();
         Therapeutic_Area__c area = new Therapeutic_Area__c(Name = 'Test TA TD1');
         insert area;
         Therapeutic_Area_Patient__c tap = new Therapeutic_Area_Patient__c();
-        tap.Condition_Of_Interest_Order__c=1;
+        tap.Condition_Of_Interest_Order__c = 1;
         tap.Participant__c = testDataInstance.participant.Id;
-        tap.Therapeutic_Area__c=area.id;
+        tap.Therapeutic_Area__c = area.Id;
         insert tap;
+        List<TherapeuticAreaService.CAWrapper> testCAWrapper;
+
         Test.startTest();
-        
-        
-       System.runAs(testDataInstance.participantUser) {
-           SearchConditionsOfInterestRemote.getConditionOfInterest();
+        System.runAs(testDataInstance.participantUser) {
+            testCAWrapper = SearchConditionsOfInterestRemote.getConditionOfInterest();
         }
         Test.stopTest();
+        System.assertEquals('Test TA TD1', testCAWrapper[0].coi.Therapeutic_Area__r.Name);
     }
     
 }

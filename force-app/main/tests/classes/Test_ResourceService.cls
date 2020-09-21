@@ -21,7 +21,6 @@ public class Test_ResourceService {
 
     @IsTest
     public static void getParticipant_Test() {
-
         List<Participant__c> participants = [SELECT Id, First_Name__c FROM Participant__c];
         System.assertEquals(1, participants.size());
         ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
@@ -33,9 +32,9 @@ public class Test_ResourceService {
                 .build()
        );
         Test.startTest();
-        //Participant__c participant = new ResourceService().getParticipant();
+        Participant__c participant = new ResourceService().getParticipant('Video');
+        System.assertEquals(participants[0].Id, participant.Id);
         Test.stopTest();
-        //System.assertEquals(participants[0].Id, participant.Id);
     }
 
     @IsTest

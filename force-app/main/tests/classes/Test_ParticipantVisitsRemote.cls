@@ -42,13 +42,21 @@ private class Test_ParticipantVisitsRemote {
         TestData testData = new TestData();
 
         Test.startTest();
+        Boolean ssHasVisit;
+        List<PatientVisitService.VisitWrapper> visitsPreview;
+        List<PatientVisitService.VisitWrapper> participantVisits;
+        List<Patient_Visit__c> cardPatientVisits;
         System.runAs(testData.participantUser) {
-            ParticipantVisitsRemote.isStudySiteHasVisits();
-            ParticipantVisitsRemote.getVisitsPreview();
-            ParticipantVisitsRemote.getParticipantVisits('Current');
-            ParticipantVisitsRemote.getCardPatientVisits();
+            ssHasVisit = ParticipantVisitsRemote.isStudySiteHasVisits();
+            visitsPreview = ParticipantVisitsRemote.getVisitsPreview();
+            participantVisits = ParticipantVisitsRemote.getParticipantVisits('Current');
+            cardPatientVisits = ParticipantVisitsRemote.getCardPatientVisits();
         }
         Test.stopTest();
+        System.assert(ssHasVisit);
+        System.assertEquals('Pending', visitsPreview[0].visitStatus);
+        System.assertEquals('TestVisit1', participantVisits[0].visit.Name);
+        System.assertEquals('TestVisit1', cardPatientVisits[0].Name);
     }
 
     @IsTest
@@ -57,11 +65,14 @@ private class Test_ParticipantVisitsRemote {
 
         Test.startTest();
         Patient_Visit__c patientVisit = [SELECT Id, Planned_Date__c FROM Patient_Visit__c LIMIT 1];
+        Date newPlannedDate = Date.newInstance(2020, 3, 17);
         System.runAs(testData.participantUser) {
-            patientVisit.Planned_Date__c = Date.newInstance(2020, 3, 17);
+            patientVisit.Planned_Date__c = newPlannedDate;
             ParticipantVisitsRemote.updatePatientVisit(JSON.serialize(patientVisit));
         }
         Test.stopTest();
+        patientVisit = [SELECT Id, Planned_Date__c FROM Patient_Visit__c LIMIT 1];
+        System.assertEquals(newPlannedDate, patientVisit.Planned_Date__c);
     }
 
     @IsTest

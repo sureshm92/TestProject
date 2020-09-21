@@ -38,8 +38,8 @@ cache:
 
 # Validation: ------------------------------------------------------------------
 VALIDATE:
-  tags:
-    - shell
+  #tags:
+   # - shell
   only:
     - merge_requests
   except:
@@ -53,8 +53,8 @@ VALIDATE:
 
 # 5.0 INT: ---------------------------------------------------------------------
 DeployINT5.0:
-  tags:
-    - shell
+ # tags:
+  #  - shell
   only:
     - INT5.0
   except:
@@ -65,8 +65,8 @@ DeployINT5.0:
     - . ./scripts/ci/deploy.sh INT5_0
 
 RunTestINT5.0:
-  tags:
-    - shell
+  #tags:
+   # - shell
   only:
     - INT5.0
   except:
@@ -80,8 +80,8 @@ RunTestINT5.0:
 
 # 5.0 INF: ---------------------------------------------------------------------
 DeployINF5.0:
-  tags:
-    - shell
+  #tags:
+   # - shell
   only:
     - INF5.0
   except:
@@ -92,8 +92,8 @@ DeployINF5.0:
     - . ./scripts/ci/deploy.sh INF5_0
 
 RunTestINF5.0:
-  tags:
-    - shell
+  #tags:
+   # - shell
   only:
     - INF5.0
   except:
@@ -105,8 +105,8 @@ RunTestINF5.0:
 
 # 5.1 INT: ---------------------------------------------------------------------
 DeployINT5.1:
-  tags:
-    - shell
+  #tags:
+   # - shell
   only:
     - INT5.1
   except:
@@ -117,8 +117,8 @@ DeployINT5.1:
     - . ./scripts/ci/deploy.sh INT5_1
 
 RunTestINT5.1:
-  tags:
-    - shell
+  #tags:
+   # - shell
   only:
     - INT5.1
   except:
@@ -130,8 +130,8 @@ RunTestINT5.1:
     
     # 6.0 INT: ---------------------------------------------------------------------
 DeployINT6.0:
-  tags:
-    - shell
+  #tags:
+   # - shell
   only:
     - INT6.0
   except:
@@ -142,8 +142,8 @@ DeployINT6.0:
     - . ./scripts/ci/deploy.sh INT60
 
 RunTestINT6.0:
-  tags:
-    - shell
+  #tags:
+   # - shell
   only:
     - INT6.0
   except:
@@ -155,8 +155,8 @@ RunTestINT6.0:
     
      # 6.0 INF: ---------------------------------------------------------------------
 DeployINF6.0:
-  tags:
-    - shell
+  #tags:
+   # - shell
   only:
     - INF6.0
   except:
@@ -167,8 +167,8 @@ DeployINF6.0:
     - . ./scripts/ci/deploy.sh INF60
 
 RunTestINF6.0:
-  tags:
-    - shell
+  #tags:
+   # - shell
   only:
     - INF6.0
   except:
@@ -180,8 +180,8 @@ RunTestINF6.0:
     
     # 5.1 INF: ---------------------------------------------------------------------
 DeployINF5.1:
-  tags:
-    - shell
+  #tags:
+   # - shell
   only:
     - INF5.1
   except:
@@ -192,8 +192,8 @@ DeployINF5.1:
     - . ./scripts/ci/deploy.sh INF5_1
 
 RunTestINF5.1:
-  tags:
-    - shell
+  #tags:
+   # - shell
   only:
     - INF5.1
   except:
@@ -202,6 +202,43 @@ RunTestINF5.1:
   stage: RunTestINF5.1
   script:
     - . ./scripts/ci/run-tests.sh INF5_1
+    
+
+.sfdx_helpers: &sfdx_helpers |
+
+  # Function to authenticate to Salesforce.
+  # Don't expose the auth url to the logs.
+  # Arguments:
+  #     $1 = alias to set
+  #     $2 = Sfdx Auth URL
+  #     $3 = SFDX AUth URL to use if the previous one isn't set (optional)
+
+  function authenticate() {
+
+    local alias_to_set=$1
+    local org_auth_url=$2
+    local org_auth_url_backup=$3
+
+    local file=$(mktemp)
+    echo $org_auth_url > $file
+    local cmd="sfdx force:auth:sfdxurl:store --sfdxurlfile $file --setalias $alias_to_set -d --json" && (echo $cmd >&2)
+    local output=$($cmd)
+
+    sfdx force:config:set defaultusername=$alias_to_set
+    sfdx force:config:set defaultdevhubusername=$alias_to_set
+
+    rm $file
+  }
 
 
 
+image: salesforce/salesforcedx:latest-full
+
+before_script:
+    - apt-get update -y
+    - apt-get install nodejs -y
+    - npm update -y
+    - npm install sfdx-cli@7.63.0 --global -y
+    #- sfdx update
+    - *sfdx_helpers
+     
