@@ -156,6 +156,7 @@ public without sharing class ViewPatientsRemote {
             initData.peFilter.additionalFilter = additionalFilter;
             List<Participant_Enrollment__c> peList;
             if(userMode != CommunityService.USER_MODE_PI) {
+                //Needs review
                 peList = ParticipantEnrollmentService.getParticipantEnrollments(initData.peFilter, delegateId,sponsorName);              
             }
             else {
