@@ -310,7 +310,7 @@
                                                  required="{!and(v.personWrapper.optInSMS, equals(v.personWrapper.mailingCC, 'US'))}"
                                                  disabled="{!notequals(v.personWrapper.mailingCC, 'US')}"
                                                  onblur="{!c.doCheckFieldsValidity}"
-                                                 class="rightAlign"/> 
+                                                 class="{!v.isRTL?'rightAlign':''}"/> 
                                 
                             </div>
                             <aura:if isTrue="{!v.userMode == 'Participant'}">  
@@ -337,7 +337,7 @@
                                 <aura:if isTrue="{!v.userMode == 'Participant'}">
                                     <lightning:input aura:id="pField2" type="tel" label="{!$Label.c.PG_AS_F_Phone_number}"
                                                      value="{!v.personWrapper.homePhone}" 
-                                                     onblur="{!c.doCheckFieldsValidity}" required="true" class="rightAlign"/>
+                                                     onblur="{!c.doCheckFieldsValidity}" required="true" class="{!v.isRTL?'rightAlign':''}"/>
                                 </aura:if>
                                 <aura:if isTrue="{!v.userMode != 'Participant'}">
                                     <lightning:input aura:id="pField2" type="tel" label="{!$Label.c.PG_AS_F_Phone_number}"
