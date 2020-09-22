@@ -19,7 +19,12 @@
 
     initialize: function(component, event, helper) {
         $A.get("e.siteforce:registerQueryEventMap").setParams({"qsToEvent" : helper.qsToEventMap}).fire();
-        var community = window.location.pathname.startsWith('/gsk/') ? '/gsk/s/login' : '/s/login';
-        component.set('v.backPage', community);
+        var community = window.location.pathname.startsWith('/gsk/') ? '/gsk/s/login' : window.location.pathname.startsWith('/janssen/') ? '/janssen/s/login' :'/s/login';
+        component.set('v.backPage', community);   
+    },
+       
+    goBack: function(component, event, helper) {
+        var community = window.location.pathname.startsWith('/gsk/') ? '/gsk/s/login' : window.location.pathname.startsWith('/janssen/') ? '/janssen/s/login' :'/s/login';
+        window.location.href = community;
     }
 })

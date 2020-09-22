@@ -4011,6 +4011,23 @@ Your user name is ##UserName.</value>
 
             Please note that enrollment in ##FullCommunityName is not a requirement for ##ParticipantFirstName to be enrolled into the clinical research study.</value>
     </labels>
+			
+														   
+								  
+								   
+																		   
+																  
+ 
+																																														 
+
+										   
+												   
+									 
+														 
+
+									 
+			 
+
     <labels>
         <fullName>Email_Body_Initial_Patient_New</fullName>
         <language>en_US</language>
@@ -4754,6 +4771,14 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <shortDescription>Email Footer Address</shortDescription>
         <value>Powered by IQVIA, 4820 Emperor Blvd, Durham, North Carolina 27703, USA</value>
     </labels>
+			
+													 
+								  
+									
+																	 
+																				  
+			 
+
     <labels>
         <fullName>Email_Footer_Address_New</fullName>
         <language>en_US</language>
@@ -5437,6 +5462,18 @@ The NYBC Convalescent Plasma Donation Team</value>
 
             ##SignatureFullCommunityName</value>
     </labels>
+			
+														
+								  
+									
+																		
+																																			  
+
+		  
+
+									   
+			 
+
     <labels>
         <fullName>Email_Signature_Patient_New</fullName>
         <language>en_US</language>
@@ -9081,6 +9118,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
 	<fullName>OT_H_Media_Request</fullName>
         <language>en_US</language>
         <protected>false</protected>
+		<shortDescription>OT_H_Messaging</shortDescription>
+        <value>Messages</value>
+    </labels>
+    <labels>
+	<fullName>OT_H_Media_Request</fullName>
+        <language>en_US</language>
+        <protected>false</protected>							
         <shortDescription>OT_H_Media_Request</shortDescription>
         <value>Media Request*</value>
     </labels>
@@ -14288,6 +14332,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Medical Record Review Log</value>
     </labels>
     <labels>
+																
+								  
+									
+																				
+												
+			 
+			
         <fullName>PG_SW_Tab_Referrals</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -15709,6 +15760,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RCEI Site</shortDescription>
         <value>Site</value>
+    </labels>
+    <labels>
+        <fullName>RHPECreatedDate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RHPECreatedDate</shortDescription>
+        <value>2020-09-09T00:00:00Z</value>
     </labels>
     <labels>
         <fullName>Ready_to_Screen</fullName>
