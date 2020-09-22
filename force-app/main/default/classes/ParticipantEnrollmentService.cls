@@ -967,7 +967,7 @@ public without sharing class ParticipantEnrollmentService {
                         ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
         if (!String.isEmpty(filter.searchText)) filter.searchText = filter.searchText.trim();
         //Search on all the enrollments and not based on the applied filters
-        if (String.isEmpty(filter.searchText)) {
+        //if (String.isEmpty(filter.searchText)) {
             if (!String.isEmpty(filter.study)) filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__c = \'' + filter.study + '\' ';                       
             if (!String.isEmpty(filter.studySite)) filterStr += ' AND Study_Site__c = \'' + filter.studySite + '\' ';
             if (!String.isEmpty(filter.referringStatus)) filterStr += 'AND Participant_Status__c IN ' + filter.referringStatus + ' ';
@@ -987,7 +987,7 @@ public without sharing class ParticipantEnrollmentService {
             if (filter.startDate != null && filter.endDate != null && filter.startDate < filter.endDate) {
                 //TODO
             }    
-        }
+        //}
         if (!String.isEmpty(filter.dateRange)) {
             filterStr += ' AND ' + filter.dateField + ' ' + filter.dateRange + ' ';
         }
