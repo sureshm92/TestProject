@@ -22,6 +22,7 @@
                       communityTemplate="{!communityTemplate}">
         <!-- Inner body -->
         <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Virtual}"/>
+        <c:EmailActionBtn rendered="{!studySiteType == 'Traditional'}" buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframe>
 
     <c:EmailWireframe rendered="{!userMode == 'Participant referred by PI'}"
