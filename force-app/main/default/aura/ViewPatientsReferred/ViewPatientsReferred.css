@@ -38,11 +38,12 @@
 }
 
 .THIS .participantcard-position{
-    position: relative; 
-    min-height: 100px; 
-    padding-bottom: 1px; 
-    top:-35px
-}
+    /* position: relative;  */
+     position: unset;
+     min-height: 100px;
+     padding-bottom: 1px;
+     top:-35px
+ }
 
 /*.THIS .rrs-container:first-child{
      max-width: 100px !important;
