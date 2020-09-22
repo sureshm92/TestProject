@@ -78,7 +78,7 @@
     
                         </td>
                         <th class="" data-label="Account Name" scope="row">
-                            <div class="slds-truncate">{!coiWrapper.coi.Therapeutic_Area__r.Name}</div>
+                            <div class="{!v.isRTL?'RTL-Text-align slds-truncate':'slds-truncate'}">{!coiWrapper.coi.Therapeutic_Area__r.Name}</div>
                         </th>
                     </tr>
                 </aura:iteration>
