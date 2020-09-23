@@ -573,21 +573,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Phone_Type__c</picklist>
-        <values>
-            <fullName>Home</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Mobile</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Work</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Preferred_Reimbursement_Currency__c</picklist>
         <values>
             <fullName>EUR</fullName>
@@ -740,21 +725,6 @@
         </values>
         <values>
             <fullName>Work place Wellness</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Visit_Results_OptIn__c</picklist>
-        <values>
-            <fullName>Biomarkers</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Labs</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Vitals</fullName>
             <default>false</default>
         </values>
     </picklistValues>
