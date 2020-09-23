@@ -26,7 +26,15 @@
 .THIS .slds-input {
     height: 40px;
 }
+.THIS .rightAlign > .slds-pill__action{
+    padding-right:0px!important;
+    padding-left:calc(1rem + 0.25rem + 2px);
+}
 
+.THIS .rightAlign button{
+    left: .125rem;
+    right:auto!important;
+}
 .THIS .button.slds-pill:hover {
     border: none;
 }
