@@ -95,7 +95,7 @@
                         <ul class="slds-list_horizontal">
                             <li>
                                 <lightning:pill name = "{!showCoi.coi.Therapeutic_Area__r.Name}" 
-                                label="{!showCoi.coi.Therapeutic_Area__r.Name}"  onremove="{! c.handleRemoveOnly }" class="slds-pill slds-pill--bare slds-pill__action button"/>
+                                label="{!showCoi.coi.Therapeutic_Area__r.Name}"  onremove="{! c.handleRemoveOnly }"  class="{!v.isRTL?'rightAlign slds-pill slds-pill--bare slds-pill__action button':'slds-pill slds-pill--bare slds-pill__action button'}"/>
                      
                             </li>
                         </ul>
