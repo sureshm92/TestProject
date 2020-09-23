@@ -22,3 +22,6 @@
 	color: #646464;
 	min-width: 85px;
 }
+.THIS .slds-checkbox_faux_container{
+    padding-right: 8px;
+}
