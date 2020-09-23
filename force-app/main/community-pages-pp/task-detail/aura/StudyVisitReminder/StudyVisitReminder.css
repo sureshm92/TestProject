@@ -5,6 +5,13 @@
 
 }
 
+.THIS .task-rtl-remind{
+    
+    direction:rtl !important;
+    text-align:right; 
+    margin-left:416px;
+}
+
 .THIS .rr-white-panel {
     overflow: visible;
     margin-top: -65px;
@@ -24,6 +31,14 @@
 .THIS .te-col-horizontal {
     margin-bottom: 10px;
     max-width: 360px;
+}
+
+.THIS .buttons-right{
+    align-items:left;
+}
+
+.THIS .margin_20{
+    margin-left:20px;
 }
 
 .THIS .te-col-header {
@@ -60,7 +75,13 @@
     font-size: 14px;
     color: #444;
     font-family: "Proxima Nova";
+   
 }
+
+.THIS h2{
+    margin-right:-53%;
+}
+
 
 .THIS .slds-select, .THIS .slds-input{
     font-size: 14px;
@@ -69,6 +90,11 @@
     height: 40px;
     display: flex;
     align-items: center;
+}
+
+.THIS .task-rtl > .slds-form-element {
+    direction:rtl !important;
+    text-align:right;
 }
 
 .THIS .slds-checkbox {
