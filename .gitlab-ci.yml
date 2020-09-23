@@ -202,8 +202,37 @@ RunTestINF5.1:
   stage: RunTestINF5.1
   script:
     - . ./scripts/ci/run-tests.sh INF5_1
+    
+
+.sfdx_helpers: &sfdx_helpers |
+
+  # Function to authenticate to Salesforce.
+  # Don't expose the auth url to the logs.
+  # Arguments:
+  #     $1 = alias to set
+  #     $2 = Sfdx Auth URL
+  #     $3 = SFDX AUth URL to use if the previous one isn't set (optional)
+
+  function authenticate() {
+
+    local alias_to_set=$1
+    local org_auth_url=$2
+    local org_auth_url_backup=$3
+
+    local file=$(mktemp)
+    echo $org_auth_url > $file
+    local cmd="sfdx force:auth:sfdxurl:store --sfdxurlfile $file --setalias $alias_to_set -d --json" && (echo $cmd >&2)
+    local output=$($cmd)
+
+    sfdx force:config:set defaultusername=$alias_to_set
+    sfdx force:config:set defaultdevhubusername=$alias_to_set
+
+    rm $file
+  }
 
 
+
+image: salesforce/salesforcedx:latest-full
 
 .sfdx_helpers: &sfdx_helpers |
 

@@ -64,6 +64,7 @@ public class Test_CovidEmailTemplateController {
             controller.emailRelatedtoId=i.id;
             controller.getContactDetails();
             controller.getImageUrl();
+            controller.getEmailCommunityURL();
         }
            Account a = new Account (Name='test');
              Contact delegate = new Contact(

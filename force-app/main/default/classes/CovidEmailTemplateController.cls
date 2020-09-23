@@ -1,12 +1,13 @@
 public without sharing class CovidEmailTemplateController 
 {
     public static final String nybcLogoDocument = 'Nybc_logo';
+    public static final String covid19CommunityName='Covid-19';
     public String fileName { get; set; }
     public String emailRecipientId { get; set; }
     public String emailRelatedtoId { get; set; }
     public String CommunityURL{ get; set;}
     public String userMode;
-	public String userLanguageCode;
+    public String userLanguageCode;
     public String delegateMailCheck { get; set; }
     public Map<String,String> contactDetails = new Map<String,String>();
     public Map<String,String> getContactDetails() {
@@ -78,6 +79,9 @@ public without sharing class CovidEmailTemplateController
             return Url.getSalesforceBaseUrl().toExternalForm()+'/servlet/servlet.ImageServer?id='+doc[0].Id+
                 '&oid='+UserInfo.getOrganizationId();
         }  
+    }
+    public String getEmailCommunityURL() {
+        return CommunityTemplateService.getCommunityURL(covid19CommunityName);
     }
 
 }

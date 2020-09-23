@@ -280,6 +280,26 @@ public without sharing class DelegateService {
         if (!conversationShares.isEmpty()) delete conversationShares;
     }
 
+    public static void updateDelegatePermissionSetsPI(Contact delegateContact){
+        Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
+        String permissionSetName;
+        for (Study_Site__c studySite : [SELECT Id, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Study_Site__c WHERE Principal_Investigator__c = :delegateContact.Id]) {
+            permissionSetName = CommunityTemplateService.getTemplate(studySite.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
+            actionAssignContactPermissions.addPermission(delegateContact.Id,
+                    permissionSetName == CommunityTemplateService.PERMISSION_COMMUNITY_GSK_NAME ? CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME: permissionSetName);
+        }
+        for (Site_Staff__c siteStaff : [SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c FROM Site_Staff__c WHERE Site_Contact__c = : delegateContact.Id]) {
+            permissionSetName = CommunityTemplateService.getTemplate(siteStaff.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
+            actionAssignContactPermissions.addPermission(delegateContact.Id,
+                    permissionSetName == CommunityTemplateService.PERMISSION_COMMUNITY_GSK_NAME ? CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME: permissionSetName);
+        }
+        if (!actionAssignContactPermissions.isEmpty()) {
+            ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+        }
+    }
+
+
+
 
     
     // Static facade: --------------------------------------------------------------------------------------------------
