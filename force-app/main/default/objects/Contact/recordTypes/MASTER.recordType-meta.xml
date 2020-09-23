@@ -503,6 +503,10 @@
     <picklistValues>
         <picklist>Language__c</picklist>
         <values>
+            <fullName>ar</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>en_US</fullName>
             <default>false</default>
         </values>
@@ -565,6 +569,21 @@
         </values>
         <values>
             <fullName>Support Level</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Phone_Type__c</picklist>
+        <values>
+            <fullName>Home</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mobile</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Work</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -721,6 +740,21 @@
         </values>
         <values>
             <fullName>Work place Wellness</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Visit_Results_OptIn__c</picklist>
+        <values>
+            <fullName>Biomarkers</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Labs</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Vitals</fullName>
             <default>false</default>
         </values>
     </picklistValues>
