@@ -2,7 +2,7 @@
   - Created by Sravani Dasari
  -->
 <aura:component description="TrialMatchPage" implements="forceCommunity:availableForAllPageTypes"
-                controller="TrialMatchPageRemote" extends="c:LightningService">
+                controller="TrialMatchPageRemote" extends="c:CommunityContext">
 
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
     <aura:attribute name="isRTL" type="Boolean"/>

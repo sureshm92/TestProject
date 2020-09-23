@@ -4,8 +4,6 @@
 ({
     doInit: function (component, event, helper) {
         if (!communityService.isInitialized()) return;
-        var rtl_language = $A.get("$Label.c.RTL_Languages");
-        component.set('v.isRTL', rtl_language.includes(communityService.getLanguage()));
 
         if(!communityService.isDummy()) {
             component.find('mainSpinner').show();
