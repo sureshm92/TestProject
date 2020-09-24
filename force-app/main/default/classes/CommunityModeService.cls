@@ -120,8 +120,10 @@ public without sharing class CommunityModeService {
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(userParticipant.Id);
             List<Participant_Enrollment__c> pePastList = pePastMap.get(userParticipant.Id);
             hasBeenActive = peList != null || pePastList != null;
+             CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(false, hasBeenActive);
+
             if (hasBeenActive) {
-                CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(false, hasBeenActive);
+               // CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(false, hasBeenActive);
 
                 if (peList != null) {
                     for (Participant_Enrollment__c pe : peList) {
@@ -138,9 +140,24 @@ public without sharing class CommunityModeService {
                             null, null, false
                     ));
                 }
-                modes.add(modeItem);
+                                        modes.add(modeItem);
+
             }
-        }
+            else if(delegatedParticipantIds.isEmpty() && peList == null && pePastList == null){
+               //CommunityModes.PPCommunityModeItem modeItem = new CommunityModes.PPCommunityModeItem(false, false);
+
+                 String participantName = userParticipant.First_Name__c + ' ' + userParticipant.Last_Name__c;
+                  modeItem.subItems.add(new CommunityModes.PPCommunityModeItem(
+                        USER_MODE_PARTICIPANT, participantName, Label.No_active_studies,
+                        null, null, false
+                ));
+                                        modes.add(modeItem); 
+
+            
+            }
+            
+
+        } 
 
         for (Id participantId : delegatedParticipantIds) {
             Participant__c participant = participantsMap.get(participantId);
@@ -182,8 +199,12 @@ public without sharing class CommunityModeService {
                 modes.add(modeItem);
             }
         }
+              
+               
+
         return modes;
     }
+
 
     public static String getSwitcherType(List<CommunityModes.RHCommunityModeItem> rhModes, List<CommunityModes.PPCommunityModeItem> ppModes) {
         if (rhModes.isEmpty()) {
