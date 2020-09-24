@@ -27,6 +27,7 @@
 }
 
 .THIS .resource-name{
+    padding-right :8px;
     max-width: 250px;
     overflow: hidden;
     white-space: nowrap;
