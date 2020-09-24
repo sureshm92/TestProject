@@ -59,6 +59,13 @@ public without sharing class ParticipantTriggerHandler {
             checkBecomesAdult(newList, (Map<Id, Participant__c>)oldMap);
         }
     }
+
+    public class UpdateNameOnPE extends TriggerHandler {
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            copyNameToPE((List<Participant__c>)newList, (Map<Id, Participant__c>)oldMap);
+        }
+    }
     
     
     // Logic: ----------------------------------------------------------------------------------------------------------
@@ -100,6 +107,7 @@ public without sharing class ParticipantTriggerHandler {
     @TestVisible
     private static void updatePEAndContactLastName(List<Participant__c> newList){
         List<Contact> contacts = new List<Contact>();
+        Map<Id, Participant__c> participantMap = new Map<Id, Participant__c>(newList);
         for(Participant__c participant : newList){
             if(participant.Contact__c != null){
                 contacts.add(new Contact(
@@ -113,7 +121,47 @@ public without sharing class ParticipantTriggerHandler {
         if(!contacts.isEmpty()){
             update contacts;
         }
-        update [SELECT Id FROM Participant_Enrollment__c WHERE Participant__c IN: newList];
+        List<Participant_Enrollment__c> peList = [SELECT Id,  
+                                                    Participant__c,
+                                                    Participant_Name__c,
+                                                    Participant_Surname__c
+                                                    FROM Participant_Enrollment__c 
+                                                    WHERE Participant__c 
+                                                    IN: newList];
+        if(!peList.isEmpty()) {
+            for( Participant_Enrollment__c pe : peList ) {
+                pe.Participant_Name__c = participantMap.get(pe.Participant__c).First_Name__c;
+                pe.Participant_Surname__c = participantMap.get(pe.Participant__c).Last_Name__c;
+            }
+            update peList;
+        }
+    }
+
+    @TestVisible
+    private static void copyNameToPE(List<Participant__c> newList, Map<Id, Participant__c> oldMap) {
+        Map<Id, Participant_Enrollment__c> partcipantIdEnrollmentMap = new Map<Id, Participant_Enrollment__c>();
+        for(Participant_Enrollment__c pe : [SELECT Id,  
+                                                    Participant__c,
+                                                    Participant_Name__c,
+                                                    Participant_Surname__c
+                                                    FROM Participant_Enrollment__c 
+                                                    WHERE Participant__c 
+                                                    IN: newList]) {
+            partcipantIdEnrollmentMap.put(pe.Participant__c, pe);
+        }
+        for(Participant__c part : newList) {
+            if((part.First_Name__c != oldMap.get(part.Id).First_Name__c || 
+                    part.Last_Name__c != oldMap.get(part.Id).Last_Name__c) && 
+                        partcipantIdEnrollmentMap.containsKey(part.Id)) {
+                partcipantIdEnrollmentMap.get(part.Id).Participant_Name__c = part.First_Name__c;
+                partcipantIdEnrollmentMap.get(part.Id).Participant_Surname__c = part.Last_Name__c;
+            }
+        }
+
+        if(!partcipantIdEnrollmentMap.isEmpty()) {
+            update partcipantIdEnrollmentMap.values();
+        }
+        
     }
 
     @TestVisible
