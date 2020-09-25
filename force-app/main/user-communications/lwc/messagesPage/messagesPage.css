@@ -1,7 +1,7 @@
 /**
  * Created by Igor Malyuta on 21.12.2019.
  */
-.ms-disc-place {
+ .ms-disc-place {
     min-height: 40px;
 }
 
@@ -162,6 +162,21 @@
     text-align: center;
     width: 75%;
     padding-top: 24px;
+}
+
+.rtl{
+    direction: rtl;
+}
+.msgrtl{
+    border-left: 1px solid #e6e5e5;
+
+}
+.headertitle
+{
+    margin-right: 3px;
+}
+.newMsgLabel{
+padding-right: 25px;
 }
 
 @media all and (max-width: 480px) {
