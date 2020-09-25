@@ -51,8 +51,6 @@ public without sharing class ViewPatientsRemote {
             'Patient_ID__c',
             'Participant_Status__c',
             'Participant_Status_Last_Changed_Date__c',
-            'Participant_Name__c',
-            'Participant_Surname__c',
             'Participant__c',
             'Participant__r.Adult__c',
             'Participant__r.Marketing_Flag__c',

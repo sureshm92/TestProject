@@ -149,16 +149,18 @@ public without sharing class ParticipantTriggerHandler {
                                                     IN: newList]) {
             partcipantIdEnrollmentMap.put(pe.Participant__c, pe);
         }
+        Boolean updateRecords = false;
         for(Participant__c part : newList) {
             if((part.First_Name__c != oldMap.get(part.Id).First_Name__c || 
                     part.Last_Name__c != oldMap.get(part.Id).Last_Name__c) && 
                         partcipantIdEnrollmentMap.containsKey(part.Id)) {
                 partcipantIdEnrollmentMap.get(part.Id).Participant_Name__c = part.First_Name__c;
                 partcipantIdEnrollmentMap.get(part.Id).Participant_Surname__c = part.Last_Name__c;
+                updateRecords = true;
             }
         }
 
-        if(!partcipantIdEnrollmentMap.isEmpty()) {
+        if(!partcipantIdEnrollmentMap.isEmpty() && updateRecords) {
             update partcipantIdEnrollmentMap.values();
         }
         
