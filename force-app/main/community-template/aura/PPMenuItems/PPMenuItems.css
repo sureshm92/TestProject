@@ -144,11 +144,13 @@
 .THIS.tooltipSubTitle{    
     position:absolute;
     top:-60%;
-    left:5%;
-    width:150%;
-    height:33%;
+    left:15%;
+    min-width:10%;
+    min-height:10%;
+    width:auto;
+    height:auto;
     word-break: break-all;
-    white-space:normal;     
+    white-space:normal;  
 }
 .THIS.tooltipNotActive{  
 	display:none;
