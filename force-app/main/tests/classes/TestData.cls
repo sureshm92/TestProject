@@ -339,7 +339,9 @@ public class TestData {
         );
         insert rpDelegate;
 
-
+		List<Participant__c> partList = new List<Participant__c>();
+        List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
+        
         Participant__c participant = new Participant__c(
                 First_Name__c = 'ParticipantTD',
                 Last_Name__c = 'ParticipantTD',
@@ -349,8 +351,65 @@ public class TestData {
                 Mailing_State_Code__c = 'AL',
                 Adult__c = true
         );
-        insert participant;
+        Participant__c participant2 = new Participant__c(
+                First_Name__c = 'ParticipantTD1',
+                Last_Name__c = 'ParticipantTD1',
+                Phone__c = '55313538',
+                Email__c = 'part2@email.com',
+                Mailing_Country_Code__c = 'US',
+                Mailing_State_Code__c = 'AL',
+                Adult__c = true
+        );
+        
+        Participant__c participant3 = new Participant__c(
+                First_Name__c = 'ParticipantTD3',
+                Last_Name__c = 'ParticipantTD3',
+                Phone__c = '55313530',
+                Email__c = 'part3@email.com',
+                Mailing_Country_Code__c = 'US',
+                Mailing_State_Code__c = 'AL',
+                Adult__c = true
+        );
+        
+        Participant__c participant4 = new Participant__c(
+                First_Name__c = 'ParticipantTD4',
+                Last_Name__c = 'ParticipantTD4',
+                Phone__c = '55313538',
+                Email__c = 'part4@email.com',
+                Mailing_Country_Code__c = 'US',
+                Mailing_State_Code__c = 'AL',
+                Adult__c = true
+        );
+        
+        Participant__c participant5 = new Participant__c(
+                First_Name__c = 'ParticipantTD5',
+                Last_Name__c = 'ParticipantTD5',
+                Phone__c = '55313535',
+                Email__c = 'part5@email.com',
+                Mailing_Country_Code__c = 'US',
+                Mailing_State_Code__c = 'AL',
+                Adult__c = true
+        );
+        
+        		Participant__c participant6 = new Participant__c(
+                First_Name__c = 'ParticipantTD6',
+                Last_Name__c = 'ParticipantTD6',
+                Phone__c = '55313536',
+                Email__c = 'part6@email.com',
+                Mailing_Country_Code__c = 'US',
+                Mailing_State_Code__c = 'AL',
+                Adult__c = true
+        );
 
+        
+        partList.add(participant);
+        partList.add(participant2);
+        partList.add(participant3);
+        partList.add(participant4);
+        partList.add(participant5);
+        partList.add(participant6);
+        
+        insert(partList); 
         Participant_Enrollment__c pe = new Participant_Enrollment__c(
                 HCP__c = hcpEnrollment.Id,
                 Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
@@ -363,9 +422,91 @@ public class TestData {
                 Participant__c = participant.Id,
                 Screening_ID__c = 'PESCR1'
         );
-        insert pe;
 
+        peList.add(pe);
+        Participant_Enrollment__c pe2 = new Participant_Enrollment__c(
+            //HCP__c = hcpEnrollment.Id,
+            Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
+            Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
+            PI_Contact__c = piContact.Id,
+            Study_Site__c = studySite.Id,
+            Patient_ID__c = 'SomePatientId2',
+            Referral_Source__c = 'PI',
+            Initial_visit_scheduled_date__c = Date.today(),
+            //Initial_visit_occurred_flag__c = true,            
+            Participant_Status__c = DashboardRemoteNew.PE_STATUS_SUCCESSFULLY_CONTACTED,
+            Participant__c = participant2.Id,
+            Screening_ID__c = 'PESCR2'
+        );
 
+        peList.add(pe2);
+       
+        Participant_Enrollment__c pe3 = new Participant_Enrollment__c(
+            //HCP__c = hcpEnrollment.Id,
+            Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
+            Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
+            PI_Contact__c = piContact.Id,
+            Study_Site__c = studySite.Id,
+            Patient_ID__c = 'SomePatientId3',
+            Referral_Source__c = 'PI',
+            //Initial_visit_scheduled_date__c = Date.today()+1,
+            Initial_visit_occurred_flag__c = true,            
+            Participant_Status__c = DashboardRemoteNew.STATUS_SCREENING_IN_PROGRESS,
+            Participant__c = participant3.Id,
+            Screening_ID__c = 'PESCR3'
+        );
+
+        peList.add(pe3);
+        
+        Participant_Enrollment__c pe4 = new Participant_Enrollment__c(
+            //HCP__c = hcpEnrollment.Id,
+            //Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
+            //Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
+            PI_Contact__c = piContact.Id,
+            Study_Site__c = studySite.Id,
+            Patient_ID__c = 'SomePatientId4',
+            Referral_Source__c = 'PI',
+            //Initial_visit_scheduled_date__c = Date.today()-1,
+            //Initial_visit_occurred_flag__c = true,            
+            Participant_Status__c = DashboardRemoteNew.STATUS_SCREENING_IN_PROGRESS,
+            Participant__c = participant4.Id,
+            Screening_ID__c = 'PESCR4'
+        );
+		peList.add(pe4);		
+        
+        Participant_Enrollment__c pe5 = new Participant_Enrollment__c(
+            //HCP__c = hcpEnrollment.Id,
+            Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
+            Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
+            PI_Contact__c = piContact.Id,
+            Study_Site__c = studySite.Id,
+            Patient_ID__c = 'SomePatientId5',
+            Referral_Source__c = 'PI',
+            Initial_visit_scheduled_date__c = Date.today()-1,
+            Initial_visit_occurred_flag__c = true,            
+            Participant_Status__c = DashboardRemoteNew.STATUS_UNABLE_TO_SCREEN,
+            Participant__c = participant5.Id,
+            Screening_ID__c = 'PESCR5'
+        );
+		peList.add(pe5);
+        
+        Participant_Enrollment__c pe6 = new Participant_Enrollment__c(
+            //HCP__c = hcpEnrollment.Id,
+            Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
+            Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
+            PI_Contact__c = piContact.Id,
+            Study_Site__c = studySite.Id,
+            Patient_ID__c = 'SomePatientId6',
+            Referral_Source__c = 'PI',
+            Initial_visit_scheduled_date__c = Date.today(),
+            Initial_visit_occurred_flag__c = true,            
+            Participant_Status__c = DashboardRemoteNew.STATUS_SCREENING_PASSED,
+            Participant__c = participant6.Id,
+            Screening_ID__c = 'PESCR6'
+        );
+        peList.add(pe6);
+        insert peList;
+		
         Referral_Network__c referralNetwork = new Referral_Network__c(
                 Name = 'Test Referral Network'
         );
