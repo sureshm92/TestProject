@@ -103,6 +103,12 @@ public without sharing class ParticipantEnrollmentService {
         if (peList.size() > 0) return peList[0];
         return null;
     }
+
+    public Participant_Enrollment__c getParticipantEnrollmentImpl(Id peId, String userMode, String delegateId, List<String> fieldNames) {
+        List<Participant_Enrollment__c> peList = getPEnrolmentsCommonCustomFieldsWithTranslation(userMode, fieldNames, ' AND Id=\'' + peId + '\'', delegateId);
+        if (peList.size() > 0) return peList[0];
+        return null;
+    }
     
     public Participant_Enrollment__c createParticipantEnrollmentImpl(Clinical_Trial_Profile__c trial, HCP_Enrollment__c hcpEnrollment, String participantId) {
         String mrrStatus = MRR_STATUS_NOT_REQUIRED;
@@ -169,10 +175,13 @@ public without sharing class ParticipantEnrollmentService {
     }
     
     public static Participant_Enrollment__c getParticipantEnrollment(Id peId, String userMode) {
-
         return getParticipantEnrollment(peId, userMode, null);
     }
     
+    public static Participant_Enrollment__c getParticipantEnrollment(Id peId, String userMode, String delegateId, List<String> fieldNames) {
+        return getInstance().getParticipantEnrollmentImpl(peId, userMode, delegateId, fieldNames);
+    }
+
     public static Participant_Enrollment__c getParticipantEnrollment(Id peId, String userMode, String delegateId) {
         return getInstance().getParticipantEnrollmentImpl(peId, userMode, delegateId);
     }
