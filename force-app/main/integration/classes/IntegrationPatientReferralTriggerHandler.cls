@@ -191,6 +191,12 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                     insert delegateParticipants;
                 }   
                 if (!ptDelegateRefs.isEmpty()) {
+                    List<Participant_Enrollment__c> particpantEnrollList = [Select Id ,Study_Site__r.Study_Site_Type__c,Study_Site__r.Suppress_Participant_Emails__c,Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c , Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c from Participant_Enrollment__c where Participant__c =: ptDelegateRefs[0].Participant__c];
+
+                    if(particpantEnrollList.size() > 0 && particpantEnrollList[0].Study_Site__r.Study_Site_Type__c == StudySiteService.SS_TYPE_TRADITIONAL && (particpantEnrollList[0].Study_Site__r.Suppress_Participant_Emails__c || particpantEnrollList[0].Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c || particpantEnrollList[0].Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN_COMM_NAME )){
+                        TriggerHandlerExecutor.bypassHandler(PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class); 
+                    }
+
                     insert ptDelegateRefs;
                 }
                 if (!delegateUsersToCreate.isEmpty()) {
