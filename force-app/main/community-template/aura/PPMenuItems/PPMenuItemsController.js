@@ -28,6 +28,7 @@
           if(component.get("v.isRTL")){
             $A.util.addClass(cmpTarget, 'tooltipRTL');
             $A.util.removeClass(cmpTarget, 'tooltip');
+            $A.util.removeClass(cmpTarget,'slds-nubbin--top-right');
           }else{
             $A.util.addClass(cmpTarget, 'tooltip');
             $A.util.removeClass(cmpTarget, 'tooltipRTL');
@@ -36,13 +37,14 @@
             $A.util.removeClass(cmpTarget, 'tooltipAS');
             $A.util.removeClass(cmpTarget, 'tooltipASRTL');
             $A.util.removeClass(cmpTarget, 'tooltipSubTitle');
-            $A.util.removeClass(cmpTarget,'slds-nubbin--top');
+            $A.util.removeClass(cmpTarget,'slds-nubbin--top-left');
             $A.util.removeClass(cmpTarget,'tooltipNotActive');
         }
        else if(dataVal=='Account Settings'){
         if(component.get("v.isRTL")){
             $A.util.addClass(cmpTarget, 'tooltipASRTL');
             $A.util.removeClass(cmpTarget, 'tooltipAS');
+            $A.util.removeClass(cmpTarget,'slds-nubbin--top-right');
           }else{
             $A.util.addClass(cmpTarget, 'tooltipAS');
             $A.util.removeClass(cmpTarget, 'tooltipASRTL');
@@ -51,15 +53,22 @@
            $A.util.removeClass(cmpTarget, 'tooltip');
            $A.util.removeClass(cmpTarget, 'tooltipRTL');
            $A.util.removeClass(cmpTarget, 'tooltipSubTitle');
-           $A.util.removeClass(cmpTarget,'slds-nubbin--top');
+           $A.util.removeClass(cmpTarget,'slds-nubbin--top-left');
            $A.util.removeClass(cmpTarget,'tooltipNotActive');
         }     
         else if(dataVal=='No active studies'){
             $A.util.addClass(cmpTarget, 'tooltipNotActive');
         }
         else{
+          if(component.get("v.isRTL"))
+              {
+                $A.util.addClass(cmpTarget,'slds-nubbin--top-right');
+              }
+            else
+              {
+                $A.util.addClass(cmpTarget,'slds-nubbin--top-left');
+              }
             $A.util.addClass(cmpTarget, 'tooltipSubTitle'); 
-            $A.util.addClass(cmpTarget,'slds-nubbin--top');
             $A.util.removeClass(cmpTarget, 'tooltip');
             $A.util.removeClass(cmpTarget, 'tooltipAS');
             $A.util.removeClass(cmpTarget,'slds-nubbin--bottom');

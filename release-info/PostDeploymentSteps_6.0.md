@@ -32,4 +32,9 @@ Open Setup - Custom Metadata Types > find Guides Setting and click on Manage Rec
     Go to Community Builder | Go to Settings | Advanced | Edit Head Markup. 
 4. Add the following line as first: 
     \<link rel="shortcut icon" href="/favicon.ico?v=2" type="image/icon"/\>
-5. Save | Publish the changes in Community Builder  
+5. Save | Publish the changes in Community Builder
+
+## 6. RTL configurations
+1. Go to Setup - Language Settings - check Enable end user languages - add Arabic to displayed          languages.
+2. Go to Setup - Object Manager - Contact - fields - Language__c - Make picklist value Arabic(ar)       active.
+3. Go to Community Builder(IQVIA Referall Hub) - Go to Settings - Languages - Click Add Languages -     Add Arabic to  community Languages

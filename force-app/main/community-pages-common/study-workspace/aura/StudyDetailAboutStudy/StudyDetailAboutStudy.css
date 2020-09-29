@@ -55,6 +55,13 @@
     display: block;
 }
 
+.THIS .hideborder.slds-grid.slds-wrap:before{
+   
+    display: none;
+    
+    
+}
+
 .THIS .cTasksTab {
     border-top: none;
     border-radius: 0 0 4px 4px;

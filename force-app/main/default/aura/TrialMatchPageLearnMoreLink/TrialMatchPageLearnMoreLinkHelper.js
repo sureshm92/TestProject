@@ -62,9 +62,10 @@
         doc.setTextColor('#000096');
         doc.setFontType('bold');
         doc.setFontType('normal');
+        var RTL = component.get('v.isRTL');
         for (let i = 1; i <= doc.internal.getNumberOfPages(); i++) {
             doc.setPage(i);
-            helper.addBorder(ctpRecord, doc, iqviaLogo, i === 1);
+            helper.addBorder(ctpRecord, doc, iqviaLogo, i === 1,RTL);
         }
         if (isSave) {
             window.navigator.msSaveBlob(doc.output('blob'), $A.get('$Label.c.Learn_More_Report_Document_Name') + '.pdf');
@@ -75,17 +76,34 @@
         }
     },
 
-      addBorder: function (reportData, doc, logo, isFirstPage) {
+      addBorder: function (reportData, doc, logo, isFirstPage,RTL) {
         const helper = this;
         doc.setDrawColor(216, 216, 216);
         doc.setLineWidth(8);
-        doc.line(35, 35, 35, 550);
-        doc.line(30.8, 35, 97, 35);
-        doc.line(193, 35, 841, 35);
-        doc.line(30.8, 550, 841, 550);
-        if (logo) {
-            doc.addImage(logo, 'PNG', 95, 20, 100, 25);
+        if(RTL)
+        {
+            doc.line(1, 35, 300, 35);
+            doc.line(193, 35, 790, 35);
+            doc.line(1, 550, 790, 550);
+            doc.line(790, 30.8, 790, 554);
         }
+    else
+        {
+            doc.line(35, 35, 35, 550);
+            doc.line(30.8, 35, 97, 35);
+            doc.line(193, 35, 841, 35);
+            doc.line(30.8, 550, 841, 550);
+        }
+    if (logo) {
+        if(RTL)
+            {
+                doc.addImage(logo,'PNG',595, 20, 100, 25);
+            }
+            else
+            {
+                doc.addImage(logo,'PNG',95,20,100,25);
+            }
+    }
     },
 
     centeredText: function (text, y, doc) {

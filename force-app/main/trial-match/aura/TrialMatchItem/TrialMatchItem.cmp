@@ -10,9 +10,16 @@
     <div class="card-ctp">
         <div class="{!v.trialMatch.isEnrollingCTP ? ' top-line' : ''}"></div>
         <div class="ctp-info-block ctp-padding">
-            <div class="tap-class">
-                {!$Label.c.TrialSearch_Therapeutic_area} : {!v.trialMatch.TherapeuticArea}
-            </div>
+            <aura:if isTrue="{!v.isRTL}">
+                <div class="tap-class">
+                    {!v.trialMatch.TherapeuticArea} : {!$Label.c.TrialSearch_Therapeutic_area} 
+                </div>
+                <aura:set attribute="else">
+                 <div class="tap-class">
+                    {!$Label.c.TrialSearch_Therapeutic_area} : {!v.trialMatch.TherapeuticArea}
+                </div>
+                </aura:set> 
+            </aura:if> 
             <div class="{!v.isRTL? 'ctp-recruitment-status-rtl':'ctp-recruitment-status'}">
                 {!v.trialMatch.isEnrollingCTP ? $Label.c.TrialSearch_Enrolling : $Label.c.TrialSearch_Not_Yet_Enrolling}
             </div>
@@ -22,9 +29,16 @@
             <div class="ctp-study-code-name">
                 {!v.trialMatch.StudyCodeName}
             </div>
-            <div class="{!v.isRTL? 'ctp-date-status-rtl':'ctp-date-status'}">
-                {!$Label.c.Matched_of}&nbsp;{!v.trialMatch.matchDate}
-            </div>
+            <aura:if isTrue="{!v.isRTL}">
+            	<div class="{!v.isRTL? 'ctp-date-status-rtl':'ctp-date-status'}">
+                	{!v.trialMatch.matchDate} &nbsp;{!$Label.c.Matched_of}
+            	</div>
+        	<aura:set attribute="else">
+ 				<div class="{!v.isRTL? 'ctp-date-status-rtl':'ctp-date-status'}">
+                	{!$Label.c.Matched_of}&nbsp;{!v.trialMatch.matchDate}
+            	</div>            
+        	</aura:set>
+            </aura:if>    
         </div>
         <div class="ctp-info-block ctp-padding">
             <div class="cpt-official-title">
