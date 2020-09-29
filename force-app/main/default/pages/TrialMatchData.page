@@ -1,6 +1,8 @@
-<apex:page controller="TrialMatchDataController" renderAs="PDF">
+<apex:page controller="TrialMatchDataController" renderAs="pdf">
     <apex:form >
         <apex:repeat value="{!tm_list}" var="trialMatch">
+            <div style="{!if(RTL == true, 'direction:rtl;','')}">
+                
             <div style="height: auto;
                         width: auto;
                         overflow: hidden;
@@ -9,7 +11,8 @@
                         border-radius: 5px;
                         background-color: #FFFFFF;
                         box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
-                        margin: 18px 18px 0 0;">
+                        margin: 18px 18px 0 0;
+                        ">
                 <apex:outputPanel rendered="{!if(trialMatch.isEnrollingCTP , true ,false)}"> 
                 <div style="height: 5px;
                             width: auto;
@@ -22,16 +25,24 @@
                                 overflow: hidden;
                                 text-overflow: ellipsis;
                                 color: #000000;
-                                float:left;
                                 font-size: 14px;
                                 line-height: 21px;
-                                width: 70%">
+                                {!if(RTL == true, 'float:right;width: 70%;display:none;', 'float:left;width: 70%;')}">
                         {!$Label.TrialSearch_Therapeutic_area} : {!trialMatch.TherapeuticArea}
                     </div>
-                    <div style="font-size: 14px;
-                                float:right;
+                    <div style=" white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
                                 color: #000000;
-                                line-height: 21px;">
+                                font-size: 14px;
+                                line-height: 21px;
+                                {!if(RTL == true, 'float:right;width: 40%;', 'float:left;width: 70%;display:none;')}">
+                        {!trialMatch.TherapeuticArea} : {!$Label.TrialSearch_Therapeutic_area} 
+                    </div>
+
+                    <div style="font-size: 14px;
+                                color: #000000;
+                                line-height: 21px;{!if(RTL == true , 'float:left;', 'float:right;')}">
                         {!trialMatch.EnrollingCTP}
                     </div>
                 </div>
@@ -44,18 +55,23 @@
                 
                 <div style="padding: 15px;">
                     <div style="color: #000000;
-                                float:left;
                                 font-size: 17px;
                                 line-height: 21px;
-                                width: 70%
+                                {!if(RTL == true, 'float:right;width: 37%', 'float:left;width: 70%;')}
                                 ">
                         {!trialMatch.StudyCodeName}
                     </div>
                     <div style="font-size: 14px;
                                 float:right;
                                 color: #000000;
-                                line-height: 21px;">
+                                line-height: 21px;{!if(RTL == true, 'float:left;display:none;', 'float:right;')}">
                         {!$Label.Matched_of}&nbsp;{!trialMatch.matchDate}
+                    </div>
+                    <div style="font-size: 14px;
+                                float:right;
+                                color: #000000;
+                                line-height: 21px;{!if(RTL == true, 'float:left;', 'float:right;display:none;')}">
+                        {!trialMatch.matchDate}&nbsp;{!$Label.Matched_of}
                     </div>
                 </div>
                 <div style="padding: 15px;">
@@ -64,11 +80,12 @@
                                 font-size: 13px;
                                 padding-top: 15px;
                                 line-height: 24px;
-                               ">
+                               {!if(RTL == true, 'float:left;', 'float:right;')}">
                         {!trialMatch.OfficialTitle}
                     </div>
                 </div>
             </div>
+                        </div>
         </apex:repeat>
     </apex:form>
 </apex:page>

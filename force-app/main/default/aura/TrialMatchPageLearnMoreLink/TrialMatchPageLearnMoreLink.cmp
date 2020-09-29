@@ -1,4 +1,4 @@
-<aura:component description="TrialMatchPageLearnMoreLink"  controller="TrialMatchLearnMoreLinkPDF" extends="c:LightningService" implements="flexipage:availableForAllPageTypes">
+<aura:component description="TrialMatchPageLearnMoreLink"  controller="TrialMatchLearnMoreLinkPDF" extends="c:CommunityContext" implements="flexipage:availableForAllPageTypes">
        <ltng:require scripts="{!join(',', $Resource.jsPDF + '/jspdf.js', $Resource.jsPDF + '/jspdf.plugin.autotable.min.js',
                     $Resource.pdfjs_dist + '/build/pdf.js', $Resource.rr_community_js)}"  afterScriptsLoaded="{!c.doInit}"/>
         <!-- attributes: -->
