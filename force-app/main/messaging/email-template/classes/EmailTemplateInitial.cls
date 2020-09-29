@@ -13,6 +13,7 @@ public abstract without sharing class EmailTemplateInitial {
     public String outputMode;
     public String communityTemplateName;
     public String parametersProviderName;
+    public String studySiteType;
 
     public EmailTemplateInitial(Id recipientId, String outputMode, String communityTemplateName) {
         this.recipientId = recipientId;

@@ -2,19 +2,29 @@
  - Created by Alexey Moseev.
  -->
 
-<aura:component description="DashboardTimeWaitingContact">
+<aura:component description="DashboardTimeWaitingContact"  controller="DashboardRemoteNew">
 
     <!-- attributes:-->
     <aura:attribute name="peList" type="List"/>
     <aura:attribute name="dashboardTitle" type="String"/>
     <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="currentPi" type="String"/>
+    <aura:attribute name="currentStudy" type="String"/>
+    <aura:attribute name="childLoad" type="String"/>
+    <aura:attribute name="recordChanged" type="String" default="" access="public"/>
+    <aura:attribute name="recordLength" type="String" default="0"/>
+
+    <!-- handler -->
+    <!--<aura:handler name="change" value="{!v.currentStudy}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.currentPi}" action="{!c.doInit}"/>-->
+    <aura:handler name="change" value="{!v.childLoad}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.recordChanged}" action="{!c.doInit}"/>
 
     <!-- component body -->
-
     <div class="rr-white-panel db-qal-container">
         <div class="db-qal-main">
             <div class="db-qal-title">
-                {!v.dashboardTitle}
+             {!v.recordLength}&nbsp;{!v.dashboardTitle}
             </div>
             <div class="db-qal-items slds-grid slds-wrap db-section"  style="height: 200px; margin-top: 15px;">
                 <aura:iteration items="{!v.peList}" var="item" indexVar="ind">

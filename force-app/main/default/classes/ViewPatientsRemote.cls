@@ -392,6 +392,7 @@ public without sharing class ViewPatientsRemote {
             statusFilterData = new List<LabelValueItem>{
                     new LabelValueItem(Label.PG_MRR_L_All_Statuses, null),
                     new LabelValueItem(Label.Received, 'Received'),
+                    new LabelValueItem(Label.Pre_review_Passed, 'Pre-review Passed'),
                     new LabelValueItem(Label.Contact_Attempted, 'Contact Attempted'),
                     new LabelValueItem(Label.Successfully_Contacted, 'Successfully Contacted'),
                     new LabelValueItem(Label.Screening_In_Progress, 'Screening In Progress'),
@@ -405,6 +406,7 @@ public without sharing class ViewPatientsRemote {
         } else {
             statusFilterData = new List<LabelValueItem>{
                 new LabelValueItem(Label.PG_MRR_L_All_Statuses, null),
+                new LabelValueItem(Label.Pre_review_Failed, 'Pre-review Failed'),
                 new LabelValueItem(Label.Unable_to_Reach, 'Unable to Reach'),
                 new LabelValueItem(Label.Contacted_Not_Suitable, 'Contacted - Not Suitable'),
                 new LabelValueItem(Label.Eligibility_Failed, 'Eligibility Failed'),
