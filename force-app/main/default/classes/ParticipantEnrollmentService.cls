@@ -83,17 +83,7 @@ public without sharing class ParticipantEnrollmentService {
     }
 
     public List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFieldsImpl(String userMode, List<String> customFields, String filter, String delegateId, Boolean translationNeeded) {
-        String defaultFilter = ' Study_Site__c != NULL ';// AND ' + getUserModeFilter(userMode, delegateId);
-        if (userMode == CommunityService.USER_MODE_HCP && !(filter != null && filter.contains(' AND Id='))) {
-            defaultFilter += '  AND (' + getUserModeFilter(userMode, delegateId) + getHealthcareProviderFilter() + ') ';
-            defaultFilter += filter != null ? filter : '';
-        } else if(userMode == CommunityService.USER_MODE_CC){
-            defaultFilter +=''+filter;
-        }
-        else {
-            defaultFilter += ' AND ' + getUserModeFilter(userMode, delegateId);
-            if (filter != null) defaultFilter += ' ' + filter;
-        }
+        String defaultFilter = getDefaultFilter(userMode, delegateId, filter);
         //if(filter != null) defaultFilter += ' ' + filter;
         List<Participant_Enrollment__c> peList = DatabaseService.query(
             customFields,
@@ -110,6 +100,12 @@ public without sharing class ParticipantEnrollmentService {
     
     public Participant_Enrollment__c getParticipantEnrollmentImpl(Id peId, String userMode, String delegateId) {
         List<Participant_Enrollment__c> peList = getPEnrolmentsCommon(userMode, ' AND Id=\'' + peId + '\'', delegateId);
+        if (peList.size() > 0) return peList[0];
+        return null;
+    }
+
+    public Participant_Enrollment__c getParticipantEnrollmentImpl(Id peId, String userMode, String delegateId, List<String> fieldNames) {
+        List<Participant_Enrollment__c> peList = getPEnrolmentsCommonCustomFieldsWithTranslation(userMode, fieldNames, ' AND Id=\'' + peId + '\'', delegateId);
         if (peList.size() > 0) return peList[0];
         return null;
     }
@@ -179,10 +175,13 @@ public without sharing class ParticipantEnrollmentService {
     }
     
     public static Participant_Enrollment__c getParticipantEnrollment(Id peId, String userMode) {
-
         return getParticipantEnrollment(peId, userMode, null);
     }
     
+    public static Participant_Enrollment__c getParticipantEnrollment(Id peId, String userMode, String delegateId, List<String> fieldNames) {
+        return getInstance().getParticipantEnrollmentImpl(peId, userMode, delegateId, fieldNames);
+    }
+
     public static Participant_Enrollment__c getParticipantEnrollment(Id peId, String userMode, String delegateId) {
         return getInstance().getParticipantEnrollmentImpl(peId, userMode, delegateId);
     }
@@ -610,7 +609,48 @@ public without sharing class ParticipantEnrollmentService {
         }
         return peList;
     }
+
+    private static String getDefaultFilter(String userMode, String delegateId, String filterStr) {
+        String defaultFilter = ' Study_Site__c != NULL ';// AND ' + getUserModeFilter(userMode, delegateId);
+        if (userMode == CommunityService.USER_MODE_HCP && !(filterStr != null && filterStr.contains(' AND Id='))) {
+            defaultFilter += '  AND (' + getUserModeFilter(userMode, delegateId) + getHealthcareProviderFilter() + ') ';
+            defaultFilter += filterStr != null ? filterStr : '';
+        } else if(userMode == CommunityService.USER_MODE_CC){
+            defaultFilter +=''+filterStr;
+        } else {
+            defaultFilter += ' AND ' + getUserModeFilter(userMode, delegateId);
+            if (filterStr != null) defaultFilter += ' ' + filterStr;
+        }
+        return defaultFilter;
+    }
     
+    private static Map<String, Object> getSearchResult(String mode, String delegateId, String filterStr, String searchText) {
+        Map<String, Object> returnMap = new Map<String, Object>();
+        String soslSearchTerm = '\'(';
+        for(String word : searchText.split(' ')){
+            soslSearchTerm += '\"'+ word + '*\"' + ' AND ';
+        }
+        soslSearchTerm = soslSearchTerm.trim().removeEnd('AND') + ')\'';
+
+        String defaultFilter = getDefaultFilter(mode, delegateId, filterStr);
+        String soslSearchQuery = 'FIND ' + soslSearchTerm + ' RETURNING Participant_Enrollment__c ( Id WHERE ' + defaultFilter + ' ) LIMIT 2000';
+        System.debug('##soslSearchQuery: '+ soslSearchQuery);
+        Map<Id, Participant_Enrollment__c> enrollmentSearchResult = 
+                            new Map<Id, Participant_Enrollment__c>((List<Participant_Enrollment__c>)Search.query(soslSearchQuery)[0]);
+        if(!enrollmentSearchResult.isEmpty()) {
+            filterStr += ' AND (';
+            List<Id> enrollmentIds = new List<Id>(enrollmentSearchResult.keySet());
+            filterStr += DatabaseService.fieldInValues('Id', enrollmentIds);
+            filterStr += ')';
+            returnMap.put('filter', filterStr);
+            returnMap.put('searchResult', true);
+        } else {
+            returnMap.put('filter', filterStr);
+            returnMap.put('searchResult', false);
+        }
+        return returnMap;
+    }
+
     private static String getUserModeFilter(String userMode) {
         return getUserModeFilter(userMode, null);
     }
@@ -962,12 +1002,12 @@ public without sharing class ParticipantEnrollmentService {
         String filterStr = ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join(filter.trialIds, '\',\'') + '\') ';
         if (!String.isEmpty(filter.additionalFilter)) filterStr += ' AND ' + filter.additionalFilter + ' ';
         //Added Janssen filter
-        filterStr += sponsorName.equalsIgnoreCase(CommunityTemplateService.TEMPLATE_JANSSEN) ?
-                        ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ' :
-                        ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
+        if(!filterStr.contains('CommunityTemplate__c')) filterStr += sponsorName.equalsIgnoreCase(CommunityTemplateService.TEMPLATE_JANSSEN) ?
+                                                                            ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ' :
+                                                                            ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
         if (!String.isEmpty(filter.searchText)) filter.searchText = filter.searchText.trim();
         //Search on all the enrollments and not based on the applied filters
-        //if (String.isEmpty(filter.searchText)) {
+        if (String.isEmpty(filter.searchText)) {
             if (!String.isEmpty(filter.study)) filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__c = \'' + filter.study + '\' ';                       
             if (!String.isEmpty(filter.studySite)) filterStr += ' AND Study_Site__c = \'' + filter.studySite + '\' ';
             if (!String.isEmpty(filter.referringStatus)) filterStr += 'AND Participant_Status__c IN ' + filter.referringStatus + ' ';
@@ -987,7 +1027,7 @@ public without sharing class ParticipantEnrollmentService {
             if (filter.startDate != null && filter.endDate != null && filter.startDate < filter.endDate) {
                 //TODO
             }    
-        //}
+        }
         if (!String.isEmpty(filter.dateRange)) {
             filterStr += ' AND ' + filter.dateField + ' ' + filter.dateRange + ' ';
         }
@@ -1003,33 +1043,9 @@ public without sharing class ParticipantEnrollmentService {
         }*/
         Boolean noSearchResult = false;
         if (filter != null && !String.isEmpty(filter.searchText)) {
-            String soslSearchQuery = '(';
-            for(String word : filter.searchText.split(' ')){
-                soslSearchQuery += word + '*' + '  AND ';
-            }
-            soslSearchQuery = soslSearchQuery.trim().removeEnd('AND') + ')';
-            List<List<sObject>> searchResult = [ FIND :soslSearchQuery 
-                                                    RETURNING 
-                                                    Participant__c,
-                                                    Participant_Enrollment__c 
-                                                    LIMIT 2000];
-
-            if(!searchResult[0].isEmpty() || !searchResult[1].isEmpty()) {
-                String participantIdFilter = '';
-                String enrollmentIdFilter = '';
-                filterStr += ' AND (';
-                if(!searchResult[0].isEmpty()){
-                    List<Id> partIds = new List<Id>(new Map<Id, Participant__c>((List<Participant__c>)searchResult[0]).keySet());
-                    participantIdFilter = DatabaseService.fieldInValues('Participant__c', partIds);
-                    filterStr += participantIdFilter;
-                }
-                if(!searchResult[1].isEmpty()){
-                    List<Id> enrollmentIds = new List<Id>(new Map<Id, Participant_Enrollment__c>((List<Participant_Enrollment__c>)searchResult[1]).keySet());
-                    enrollmentIdFilter = DatabaseService.fieldInValues('Id', enrollmentIds);
-                    filterStr += String.isEmpty(participantIdFilter) ? enrollmentIdFilter : ' OR ' + enrollmentIdFilter;
-                }
-
-                filterStr += ')';
+            Map<String, Object> searchResultMap = getSearchResult(filter.mode, delegateId, filterStr, filter.searchText);
+            if(searchResultMap.containsKey('searchResult') && (Boolean)searchResultMap.get('searchResult')) {
+                filterStr = (String)searchResultMap.get('filter');
             } else {
                 noSearchResult = true;
             }
@@ -1083,17 +1099,7 @@ public without sharing class ParticipantEnrollmentService {
 
     // Added for the performance tuning
     public List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFieldsImpl(String userMode, List<String> customFields, String filter, String delegateId, Boolean translationNeeded, PaginationData paginationData) {
-        String defaultFilter = ' Study_Site__c != NULL ';// AND ' + getUserModeFilter(userMode, delegateId);
-        if (userMode == CommunityService.USER_MODE_HCP && !(filter != null && filter.contains(' AND Id='))) {
-            defaultFilter += '  AND (' + getUserModeFilter(userMode, delegateId) + getHealthcareProviderFilter() + ') ';
-            defaultFilter += filter != null ? filter : '';
-        } else if(userMode == CommunityService.USER_MODE_CC){
-            defaultFilter +=''+filter;
-        }
-        else {
-            defaultFilter += ' AND ' + getUserModeFilter(userMode, delegateId);
-            if (filter != null) defaultFilter += ' ' + filter;
-        }
+        String defaultFilter = getDefaultFilter(userMode, delegateId, filter);
 
         String replaceStr = '';
         Integer replaceStrIndext1 = defaultFilter.Indexof('ORDER BY CreatedDate DESC');
@@ -1123,8 +1129,7 @@ public without sharing class ParticipantEnrollmentService {
             limitvalue,
             offsetvalue 
         );
-        
-        System.debug('**peList 1:'+peList.size());
+
         if (userMode != CommunityService.USER_MODE_PARTICIPANT && translationNeeded) TranslateHelper.translate(peList);
         return peList;
     }
