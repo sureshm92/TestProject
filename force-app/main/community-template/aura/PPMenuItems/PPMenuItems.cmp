@@ -53,7 +53,7 @@
             </ul>
         </aura:iteration>
     </div>
-     <div class="slds-popover slds-popover--tooltip slds-nubbin_bottom  toggle container tooltip" role="tooltip" id="help" aura:id="tooltip" style="{!'top:'+v.tooltipTop}">
+     <div class="slds-popover slds-popover--tooltip  toggle container tooltip" role="tooltip" id="help" aura:id="tooltip" style="{!'top:'+v.tooltipTop}">
 	  
                                                 <div class="slds-popover__body word-wrap: break-word;">{!v.hovertext}</div>
                                              </div>  
