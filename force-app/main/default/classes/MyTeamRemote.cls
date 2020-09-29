@@ -565,6 +565,20 @@ public without sharing class MyTeamRemote {
                 CommunityService.setUserToCommunity(contactDelegate.Id);
                 sendEmailNotification(contactDelegate, CommunityService.USER_MODE_PARTICIPANT, null);
             }
+            String ParticipantContactId = UserContext.getUserContactId();
+            List<Contact> participantCons = [Select Id , Current_Participant_Enrollment__c, Current_Participant_Enrollment__r.Study_Site__r.Study_Site_Type__c ,Current_Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,Current_Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c  from Contact where Id =: ParticipantContactId];
+                /*List<Participant_Enrollment__c> particpantEnrollList = [Select Id ,Study_Site__r.Study_Site_Type__c,Study_Site__r.Suppress_Participant_Emails__c,Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c from Participant_Enrollment__c where Participant_Contact__c =: ParticipantContactId];
+                Boolean isSuppressed = false;
+                for(Participant_Enrollment__c objPE:particpantEnrollList){
+                    if(objPE.Study_Site__r.Study_Site_Type__c == StudySiteService.SS_TYPE_TRADITIONAL && (objPE.Study_Site__r.Suppress_Participant_Emails__c || objPE.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c )){
+                       isSuppressed = true; 
+                        break;
+                    }
+                }*/
+
+             if(participantCons.size() > 0 && participantCons[0].Current_Participant_Enrollment__r.Study_Site__r.Study_Site_Type__c == StudySiteService.SS_TYPE_TRADITIONAL && (participantCons[0].Current_Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c || participantCons[0].Current_Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c )){
+                                 TriggerHandlerExecutor.bypassHandler(PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class); 
+                }
             PatientDelegateService.getInstance().createPatientDelegate(contactDelegate);
         } catch (Exception e) {
             AuraHelper.throwException(e);
