@@ -29,7 +29,8 @@
     <div class="{!if(v.isRTL, 'rtl ', ' ')}">
         <div class="sdas-main-container">
             <div class="sdas-about">
-                <div class="slds-grid slds-wrap">
+                
+                <div class="{!if(v.isRTL, 'hideborder slds-grid slds-wrap ', 'slds-grid slds-wrap')}">
                     <div id="info-left" class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-order_1 slds-medium-order_1">
                         <!-- about title -->
                         <c:RRAnchor aura:id="aboutAnchor" offset="-160"/>

@@ -1,6 +1,6 @@
 <!--Created by D.Yasinskyi on 11.04.2018-->
 
-<aura:component controller="ShareModalController" description="ShareModal">
+<aura:component controller="ShareModalController" description="ShareModal" extends="c:CommunityContext">
 
     <!-- attributes: -->
     <aura:attribute name="whatId" type="String"/>
@@ -26,15 +26,27 @@
             {!v.modalDialogBody}
         </div>
         <div class="s-input">
-            <div class="rr-form-element">
+            <div class="{!if(v.isRTL,'rr-form-element rtl-email','rr-form-element')}">
                 <div class="label">{!$Label.c.PG_AS_F_Email_address}</div>
                 <c:rrInput valueString="{!v.targetEmail}"/>
             </div>
         </div>
         <aura:set attribute="footerButtons">
             <c:RRSpinner aura:id="spinner"/>
-            <button class="apollo-btn tertiary" id="cancel" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
+             <aura:if isTrue="{!v.isRTL}">
+    <div align="left" style="margin-left:-20px;">
+            <button class="{!if(v.isRTL,'apollo-btn tertiary btn-mar_20','apollo-btn tertiary')}" id="cancel" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
             <button class="apollo-btn primary" id="share" onclick="{!c.doShare}">{!$Label.c.BTN_Share}</button>
+            </div>
+    <aura:set attribute="else">
+      <div align="right">
+            <button class="{!if(v.isRTL,'apollo-btn tertiary btn-mar_20','apollo-btn tertiary')}" id="cancel" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
+            <button class="apollo-btn primary" id="share" onclick="{!c.doShare}">{!$Label.c.BTN_Share}</button>
+            </div>
+    </aura:set>
+  </aura:if> 
+            
+            
         </aura:set>
     </c:Popup>
 </aura:component>
