@@ -2,15 +2,26 @@
  - Created by Nikita Abrazhevitch on 13-Feb-20.
  -->
 
-<aura:component description="FunnelChart">
+<aura:component description="FunnelChart" controller="DashboardRemoteNew">
     <ltng:require styles="{!$Resource.funnel_library_css}"/>
     <ltng:require styles="{!$Resource.funnel_library_theme_css}"/>
     <ltng:require scripts="{!$Resource.funnel_library_js}" afterScriptsLoaded="{!c.doInit}"/>
 
     <aura:attribute name="funnelData" type="Object"/>
     <aura:attribute name="invitedParticipants" type="Integer"/>
+    <aura:attribute name="currentPi" type="String"/>
+    <aura:attribute name="currentStudy" type="String"/>
+    <aura:attribute name="childLoad" type="String"/> 
+    <aura:attribute name="recordChanged" type="String" default="" access="public"/> 
+    
 
-    <aura:handler value="{!v.funnelData}" name="change" action="{!c.doInit}"/>
+    <!-- handler -->
+    <!--<aura:handler value="{!v.currentStudy}" name="change" action="{!c.doInit}"/>
+    <aura:handler  value="{!v.currentPi}" name="change" action="{!c.doInit}"/>-->
+   <!-- <aura:handler value="{!v.funnelData}" name="change" action="{!c.doInit}"/>-->
+    <aura:handler name="change" value="{!v.childLoad}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.recordChanged}" action="{!c.doInit}"/>
+
 
     <div class="funnel-dashborad-container">
         <div class="funnel-dashboard-name">

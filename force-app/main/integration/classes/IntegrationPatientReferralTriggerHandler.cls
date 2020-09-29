@@ -277,6 +277,10 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             newContact.Phone = ipr.Delegate_Daytime_Phone_Number__c;
             newContact.MobilePhone = ipr.Delegate_Alternative_Phone_Number__c;
         }
+        newContact.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
+        newContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
+        newContact.UserCommunityIsDelegate__c = true;
+
         ContactAndSiteType conAndSt = new ContactAndSiteType(newContact, studySiteType);
         return conAndSt;
     }
