@@ -14,6 +14,7 @@ public without sharing class  IntegrationService {
         public ReferralDetails referralDetails;
         public AuditLog auditLog;
         public string  One_Key_ID;
+        
     }
     
     public class CommunicationPreferences {
@@ -34,6 +35,7 @@ public without sharing class  IntegrationService {
         public String ReferralId;
         public Date ReferralDate;
         public Date AcceptedDate;
+        public boolean PriorityFlag;
     }
     
     public class SubjectDetails {
@@ -41,6 +43,8 @@ public without sharing class  IntegrationService {
         public String LastName;
         public Address Address;
         public Contact Contact;
+        Public String DateOfBirth;
+        Public String Gender;
     }
     
     public class AuditLog {
@@ -274,8 +278,11 @@ public without sharing class  IntegrationService {
                         Participant__r.Country__c,
                         Participant__r.Mailing_Street__c,
                         Participant__r.Preferred_Language__c,
+            			Participant__r.Date_of_Birth__c,
+            			Participant__r.Gender__c,
                         Referral_ID__c,
                         Referred_Date__c,
+                        High_Priority__c,
                         Study_Site__r.Protocol_ID__c,
                         Study_Site__r.Study_Site_Type__c,
                         Study_Site__r.Principal_Investigator__r.OneKeyID__c
@@ -305,6 +312,7 @@ public without sharing class  IntegrationService {
         ReferralDetails referralDetails = new ReferralDetails();
         referralDetails.ReferralId = pe.Name;
         referralDetails.ReferralDate =  pe.Referred_Date__c;
+        referralDetails.PriorityFlag = pe.High_Priority__c;  //Added by vicky REF-2293
         if(setAcceptedDate) referralDetails.AcceptedDate = Date.today();
         
         SubjectDetails subjectDetails = new SubjectDetails();
@@ -312,6 +320,8 @@ public without sharing class  IntegrationService {
         subjectDetails.LastName = pe.Participant__r.Last_Name__c;
         subjectDetails.Address = addr;
         subjectDetails.Contact = contact; 
+        subjectDetails.DateOfBirth = pe.Participant__r.Date_of_Birth__c; //Added by vicky REF-2293
+        subjectDetails.Gender = pe.Participant__r.Gender__c; //Added by vicky REF-2293
     
         AuditLog auditLog = new AuditLog();
         auditLog.UserId = UserInfo.getUserId();

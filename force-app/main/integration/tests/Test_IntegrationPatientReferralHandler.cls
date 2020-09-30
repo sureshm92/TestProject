@@ -118,7 +118,9 @@ private class Test_IntegrationPatientReferralHandler {
                 siteSelected__c = 'SS1',
                 Referred_Date__c  = '2019-10-02T10:00:00-05:00',
                 referralID__c = '1234343242',
-                acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00'
+                acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00',
+            	Ethnicity__c = '0;1;2' 
+           
         );
         Integration_Patient_Referral__c ipr2 = new Integration_Patient_Referral__c(
                 Address_Country__c = 'US',
@@ -136,7 +138,10 @@ private class Test_IntegrationPatientReferralHandler {
                 siteSelected__c = 'SS1',
                 Referred_Date__c  = '2019-10-02T10:00:00-05:00',
                 referralID__c = '1232141212',
-                acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00'
+                acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00',
+            	Ethnicity__c = '0',
+
+           Participant_MobileNumber__c = '1212134567'
         );
         Integration_Patient_Referral__c ipr3 = new Integration_Patient_Referral__c(
                 Address_Country__c = 'US',

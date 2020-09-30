@@ -7,5 +7,8 @@
     },
     doSwitchShowMore: function (component) {
         component.set('v.showMore', !component.get('v.showMore'));
+    },
+      onClickListView: function (component, event, helper){
+        communityService.navigateToPage('listviewparticipant');
     }
 })

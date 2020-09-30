@@ -39,6 +39,10 @@
                 <behavior>Edit</behavior>
                 <field>Block_Outreach__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Promote_to_SH__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
