@@ -13,6 +13,8 @@
                 new: '',
                 reNew: ''
             };
+            var compId = component.get("v.compId");
+            console.log('compId-->'+compId);
             const queryString = window.location.href;
             if(queryString.includes('changePref')){
             component.set( "v.compId", '4' );    
@@ -20,8 +22,15 @@
             else if(queryString.includes('langloc')){
                 component.set( "v.compId", '3' );
             }
-            else{
-                component.set( "v.compId", '1' ); 
+             else if(queryString.includes('profileInformation')){
+                component.set( "v.compId", '1' );
+            }
+            
+            else if(queryString.includes('passwordchange')){
+                component.set( "v.compId", '2' ); 
+            }
+            else if(queryString.includes('cookiesSettings')){
+                component.set( "v.compId", '5' ); 
             }
             component.set('v.initData', initData);
             component.set('v.contactChanged', initData.contactChanged);
@@ -56,8 +65,26 @@
         component.set("v.toglNavg",toglNavg);
         var isOpen = false;
         var device = $A.get("$Browser.formFactor");
-       var id = event.target.dataset.menuItemId;
-       component.set("v.compId",id);
+        var id = event.target.dataset.menuItemId;
+        component.set("v.compId",id);
+        var compId = component.get("v.compId");
+        var queryString = window.location.href;
+        if(compId == '1'){
+             communityService.navigateToPage('account-settings?profileInformation'); 
+        }
+        else if(compId == '3'){
+            communityService.navigateToPage('account-settings?langloc'); 
+        }
+        else if(compId == '4'){
+            communityService.navigateToPage('account-settings?changePref'); 
+        }
+         else if(compId == '2'){
+            communityService.navigateToPage('account-settings?passwordchange'); 
+        }
+        else if(compId == '5'){
+                communityService.navigateToPage('account-settings?cookiesSettings'); 
+             }
+        
        if(device=='PHONE' || device=='TABLET'){           
           for (var i = 1; i < 7; i++) {
               var x = document.getElementById(i);

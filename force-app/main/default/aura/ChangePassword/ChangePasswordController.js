@@ -144,6 +144,8 @@
             });
         }, null, function () {
             component.set('v.showSpinner', false);
+           communityService.navigateToPage('account-settings?passwordchange'); 
+
         });
     },
 })
