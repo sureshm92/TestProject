@@ -9684,20 +9684,6 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Maximum of 40 participants can be selected</value>
     </labels>
     <labels>
-        <fullName>Pre_review_Failed</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Pre-review Failed</shortDescription>
-        <value>Pre-review Failed</value>
-    </labels>
-    <labels>
-        <fullName>Pre_review_Passed</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Pre-review Passed</shortDescription>
-        <value>Pre-review Passed</value>
-    </labels>
-    <labels>
         <fullName>Prefer_not_to_say</fullName>
         <language>en_US</language>
         <protected>true</protected>
