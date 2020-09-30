@@ -1,0 +1,412 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+                access="global" 
+                controller="ListViewParticipantController">
+    <!-- <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> -->
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
+    <aura:attribute name="peFilterData" type="Object"/>
+    <aura:attribute name="filterList" type="List"/> 
+    <aura:attribute name="oldfilterList" type="List"/> 
+     <aura:attribute name="showspinner" type="Boolean" default="false"/>
+    <aura:attribute name="PageNumber" type="integer" default="1"/>
+    <aura:attribute name="TotalPages" type="integer" default="0"/>
+    <aura:attribute name="TotalRecords" type="integer" default="0"/>
+    <aura:attribute name="RecordStart" type="integer" default="0"/>
+    <aura:attribute name="RecordEnd" type="integer" default="0"/>
+    <aura:attribute name="pageSize" type="Integer" default="5"/>
+    <aura:attribute name="SelectedIds" type="list"/>
+    <aura:attribute name="DeSelectedIds" type="list"/>
+    <aura:attribute name="SelectedRecord" type="list" />
+    <aura:attribute name="PaginationList" type="list"/>
+    <aura:attribute name="count" type="integer" default="0"/>
+    <aura:attribute name="SelectAll" type="Boolean" default="false"/>
+    <aura:attribute name="PromoteToSH" type="Boolean" default="false"/>
+    <aura:attribute name="enablePromoteToSH" type="Boolean" default="true"/>
+    <aura:attribute name="SortBydefault" type="string" default="Received Date(Oldest First)"/>
+    <aura:attribute name="lstPR_yes" type="list"/>
+    <aura:attribute name="lstPR_no" type="list"/>
+    <aura:attribute name="psIfActive" type="list"/>
+    <aura:attribute name="spinner" type="boolean" default="FALSE"/>
+    <aura:attribute name="optionEthnicity" type="List" />                                                         
+    <aura:attribute name="isFromDoinit" type="boolean" default="FALSE" /> 
+    
+    <aura:attribute name="oStatus" type="String" />
+    <aura:attribute name="oStudy" type="String" /> 
+    <aura:attribute name="oStudySites" type="String" /> 
+    <aura:attribute name="oSource" type="String" /> 
+    <aura:attribute name="oParticipantStatus" type="String" /> 
+    <aura:attribute name="oAgeFrom" type="String" /> 
+    <aura:attribute name="oAgeTo" type="String" /> 
+    <aura:attribute name="oEthnicity" type="String" /> 
+    <aura:attribute name="oSex" type="String" /> 
+    <aura:attribute name="oisHighRiskOccupation" type="String" /> 
+    <aura:attribute name="oisComorbidities" type="String" /> 
+    <aura:attribute name="oisInitialVisitScheduled" type="String" /> 
+    <aura:attribute name="IsPromoteToSHLimit" type="Decimal" /> 
+    <aura:attribute name="actStatus" type="List" /> 
+    
+    
+    <aura:attribute name="optionSex" type="List" default="[
+                                                          {'label': 'All', 'value': 'All'},
+                                                          {'label': 'Male', 'value': 'M'},
+                                                          {'label': 'Female', 'value': 'F'},
+                                                          ]"/>
+    <aura:attribute name="SortBy" type="List" default="[
+                                                       {'label': 'Received Date (Oldest First)', 'value': 'Received Date(Oldest First)'},
+                                                       {'label': 'Received Date (Newest First)', 'value': 'Received Date(Newest First)'},
+                                                       {'label': 'ID (Descending)', 'value': 'Descending'},
+                                                       {'label': 'ID (Ascending)', 'value': 'Ascending'},
+                                                       ]"/>
+    <aura:attribute name="ShowEntries" type="List" default="[
+                                                            {'label': '5', 'value': '5'},
+                                                            {'label': '10', 'value': '10'},
+                                                            {'label': '25', 'value': '25'},
+                                                            {'label': '40', 'value': '40'},
+                                                            ]"/>
+    <aura:attribute name="PriorityReferral" type="List" default="[
+                                                                 {'label': 'No', 'value': 'No'},
+                                                                 {'label': 'Yes', 'value': 'Yes'},
+                                                                 ]"/>
+    
+    <aura:handler name="change" value="{!v.filterList[0].Status}" action="{!c.handleChangeActive}"/>
+    <aura:handler name="change" value="{!v.filterList[0].Study}" action="{!c.doStudyChanged}"/>
+    <aura:handler name="change" value="{!v.filterList[0].StudySites}" action="{!c.handleChangeSites}"/>
+    <aura:handler name="change" value="{!v.filterList[0].ParticipantStatus}" action="{!c.handleChangePartStatus}"/>
+    <aura:handler name="change" value="{!v.filterList[0].Source}" action="{!c.handleChangeSource}"/>
+    <aura:handler name="change" value="{!v.filterList[0].Sex}" action="{!c.handleChangeSex}"/>
+    <aura:handler name="change" value="{!v.filterList[0].Ethnicity}" action="{!c.handleChangeEthnicity}"/>
+    <aura:handler name="change" value="{!v.pageSize}" action="{!c.handleTable}"/>
+    <aura:handler name="change" value="{!v.SortBydefault}" action="{!c.handleTable}"/>
+    <aura:method name="refreshTable" action="{!c.handleTable}" />
+       
+    <div class="slds-card">
+         
+        <div class="filter-card slds-grid slds-wrap"> 
+			<div class="slds-size_1-of-1 slds-large-size_5-of-6">
+				<div class="demo-only demo-only--sizing slds-grid slds-wrap filterby">
+					<div class="slds-size_6-of-6">
+						<span class="filterTitle">{!$Label.c.RH_FilterBy}</span>
+					</div>
+					<input type="checkbox" class="accordionCheck" name="panel" id="panel-3"/>
+                    <label for="panel-3" class="slds-size_1-of-3 study-Info">{!$Label.c.RH_StudyInfo}</label>
+                    <div class="accordionContent">
+                        <div class="slds-size_1-of-6 activePE">
+                            <c:rrSelect value="{!v.filterList[0].Status}" options="{!v.peFilterData.activePE}"
+                                        placeholder="{!$Label.c.PG_VP_L_Active}" useSentenceFont="false"
+                                        class="fp-ss-filter-container"
+                                        setValueAsSelected="true"/>
+                        </div>
+                        <div class="slds-size_1-of-6 studies">
+                            <c:rrSelect value="{!v.filterList[0].Study}" options="{!v.peFilterData.studies}"
+                                        placeholder="{!$Label.c.PG_MRRL_L_Studies}" useSentenceFont="false"
+                                        class="fp-study-filter-container"
+                                        setValueAsSelected="true"/>
+                        </div>
+                        <div class="slds-size_1-of-6 studySites">
+                            <c:rrSelect value="{!v.filterList[0].StudySites}" options="{!v.peFilterData.studySites}"
+                                        placeholder="{!$Label.c.PG_VP_L_Study_sites}" useSentenceFont="false"
+                                        class="fp-ss-filter-container"
+                                        setValueAsSelected="true"/>
+                        </div>
+                        <div class="slds-size_1-of-6 source">
+                            <c:rrSelect value="{!v.filterList[0].Source}" options="{!v.peFilterData.source}"
+                                        placeholder="{!$Label.c.PG_VP_L_Source}" useSentenceFont="false"
+                                        class="fp-ss-filter-container"
+                                        setValueAsSelected="true"/>
+                        </div>
+                        <div class="slds-size_1-of-6 statuses">
+                            <c:rrSelect value="{!v.filterList[0].ParticipantStatus}" options="{!v.peFilterData.statuses}"
+                                        placeholder="{!$Label.c.PG_VP_L_Participant_Status}" useSentenceFont="false"
+                                        class="fp-ss-filter-container"
+                                        setValueAsSelected="true"/>
+                        </div>
+                    </div>
+				</div>
+				<div class="demo-only demo-only--sizing slds-grid slds-wrap filterby">
+					<input type="checkbox" class="accordionCheck" name="panel" id="panel-2"/>
+                    <label for="panel-2" class="slds-size_1-of-3 demographics">
+                        {!$Label.c.RH_Demographics}
+                    </label>
+					<div class="accordionContent">
+                        <span class="age slds-size_1-of-3">
+                            <div class="slds-size_1-of-4 ageBetween">
+                                <span>{!$Label.c.RH_AgeIsBetween}</span>
+                            </div>                        
+                            <div class="slds-size_1-of-4 ageFromHead">
+                                <span class="slds-col">
+                                    <lightning:input class="ageFrom" aura:id="AgeFrom" type="number" name="input8" placeholder="{!$Label.c.RH_AgeFrom}" value="{!v.filterList[0].AgeFrom}" label="" min="0" max="100" messageWhenRangeOverflow="Age Range 0-100" messageWhenRangeUnderflow="Age Range 0-100" onchange="{! c.handleAgeFrom }"/>
+                                </span>
+                            </div>
+                            <div class="slds-size_1-of-4 andHead">
+                                <span class="slds-col and">{!$Label.c.RH_And}</span>
+                            </div>
+                            <div class="slds-size_1-of-4 ageToHead">
+                                <lightning:input class="andTo" aura:id="AgeTo" type="number" name="input8" placeholder="{!$Label.c.RH_AgeTo}" value="{!v.filterList[0].AgeTo}" label="" min="0" max="100" messageWhenRangeOverflow="Age Range 0-100" messageWhenRangeUnderflow="Age Range 0-100" onchange="{! c.handleAgeTo }"/>
+                            </div>
+                        </span>
+                        <div class="slds-size_1-of-3 ethnicity">
+                            <c:rrSelect value="{!v.filterList[0].Ethnicity}" options="{!v.peFilterData.ethnicity}"
+                                        placeholder="{!$Label.c.RH_Ethnicity}" useSentenceFont="false"
+                                        class="fp-ss-filter-container"
+                                        setValueAsSelected="true"/>
+                        </div>
+                        <div class="slds-size_1-of-3 sex">
+                            <c:rrSelect value="{!v.filterList[0].Sex}" options="{! v.optionSex }"
+                                        placeholder="{!$Label.c.RH_Sex}" useSentenceFont="false"
+                                        class="fp-ss-filter-container"
+                                        setValueAsSelected="true"/>
+                        </div>
+                    </div>
+				</div>
+				<div class="demo-only demo-only--sizing slds-grid slds-wrap filterby">
+                    <input type="checkbox" class="accordionCheck" name="panel" id="panel-1"/>
+                    <label for="panel-1" class="slds-size_1-of-4 others">
+                        
+                        {!$Label.c.RH_Others}
+                    </label>
+                    <div class="accordionContent">
+                        <div class="slds-size_1-of-4 hro">
+                            <lightning:input type="checkbox" checked="{!v.filterList[0].isHighRiskOccupation}" label="{!$Label.c.RH_HighRiskOccupation}" name="input1" onchange="{! c.handleCheckboxHRO }"/>
+                        </div>
+                        <div class="slds-size_1-of-4 cbd">
+                            <lightning:input type="checkbox" checked="{!v.filterList[0].isComorbidities}" label="{!$Label.c.RH_Comorbidities}" name="input2" onchange="{! c.handleCheckboxCBD }"/>
+                        </div>
+                        <div class="slds-size_1-of-4 iv">
+                            <lightning:input type="checkbox" checked="{!v.filterList[0].isInitialVisitScheduled}" label="{!$Label.c.RH_InitialVisitScheduled}" name="input3" onchange="{! c.handleCheckboxIVS }"/>
+                        </div>
+					</div>
+				</div>
+			</div>
+			<div class="slds-size_1-of-1 slds-large-size_1-of-6">
+				<!-- Button Area -->
+				<div class="demo-only demo-only--sizing slds-grid slds-wrap button-grid">				
+					 <div class="searchHead">
+						<button class="apollo-btn primary mrc-invite-btn search" data-gtm="BTN_InviteRP" onclick="{!c.handleSearch}">
+							{!$Label.c.RH_ApplyFilters}
+						</button>
+						<!-- <lightning:button variant="Brand" label="Promote to Study Hub" title="Promote to Study Hub" onclick="{! c.handlePromoteSH }" />-->
+					</div>			
+					 <div class="export">
+						<lightning:button variant="Neutral" label="{!$Label.c.RH_ExportFilteredList}" title="{!$Label.c.RH_ExportFilteredList}" onclick="{! c.handleExport }" />
+					</div>			
+					<div class="resetHead">
+						<lightning:button variant="base" label="{!$Label.c.RH_Reset}" title="{!$Label.c.RH_Reset}" onclick="{! c.reset }" />
+					</div>
+				</div>
+			</div>	
+        </div>
+    </div>
+    <div class="slds-text-body_regular">
+        
+        
+        <!-- Table -->
+        
+        <!-- data table start-->  
+        
+        <div class="slds-grid slds-wrap changeBtns">
+            <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-col_bump-left">
+                <span><a style="font-size: 16px;font-weight: 600;"
+                         onclick="{!c.onClickCardView}">
+                    {!$Label.c.BTN_Naviagte_Card} 
+                    </a></span>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 searchHead">
+                <span><button class="apollo-btn secondary mrc-invite-btn" disabled="{!v.enablePromoteToSH}" data-gtm="BTN_InviteRP" onclick="{!c.handlePromoteSH}">
+                    {!$Label.c.Send_to_Study_Hub} 
+                    </button></span>
+            </div>
+        </div>
+        <div class="slds-grid slds-wrap tableSettings">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12 slds-col_bump-right">
+                <span>{!$Label.c.Showing}&nbsp;{!v.RecordStart}-{!v.RecordEnd}&nbsp;{!$Label.c.of}&nbsp;{!v.TotalRecords}&nbsp;{!$Label.c.patients}&nbsp;({!v.count}&nbsp;{!$Label.c.selected_max_50})</span>
+            	<div class="fp-form-element">
+                    <label style="padding-right: 5px;">{!$Label.c.PG_FP_L_Sort_by}</label>
+                    <c:rrSelect useSentenceFont="false" value="{!v.SortBydefault}" aura:id="sortby" options="{!v.SortBy}" setValueAsSelected="true"/>
+                </div>
+            </div>
+
+            <div class="slds-col  slds-size_1-of-1 slds-medium-size_3-of-12  slds-col_bump-left" style="text-align:end;">
+                <div class="fp-form-element">
+                    <label style="padding-right: 5px;">{!$Label.c.PG_FP_L_Show_entries}</label>
+                    <c:rrSelect value="{!v.pageSize}"  aura:id="pageSize" options="{!v.ShowEntries}" setValueAsSelected="true"/>
+                </div>
+            </div>
+        </div>
+
+         <c:RRSpinner aura:id="Spinnerpopup" size="medium" showSpinner="false"/>
+		<div class="table-border">
+            <table class="slds-table slds-table_cell-buffer">
+                <thead>
+                    <tr>
+                        <!--header checkbox for select all-->
+                        <th style="width:2rem;" class="slds-text-align_right">
+                            <div class="slds-form-element">
+                                <div class="slds-form-element__control">
+                                    <label class="slds-checkbox">
+                                        <ui:inputCheckbox disabled="{!v.totalRecordsCount == 0}"
+                                                          aura:id="selectAllId"
+                                                          change="{!c.selectAllCheckbox}"
+                                                          value="{!v.SelectAll}"/>
+                                        <span class="slds-checkbox_faux"></span>
+                                        <span class="slds-form-element__label"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate h_font" title="Name" Style="text-align:center;">{!$Label.c.ID}</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate h_font" title="Phone">{!$Label.c.Received_Date}</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate h_font" title="Phone" Style="text-align:center;">{!$Label.c.Source_ID}</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate h_font" title="Phone">{!$Label.c.Sex}</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate h_font" title="Phone">{!$Label.c.Age}</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate h_font" title="Phone">{!$Label.c.Ethnicity}</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate h_font" title="Type">{!$Label.c.Comorbidities}</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate h_font" title="Type">{!$Label.c.BMI}</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate h_font" title="Type">{!$Label.c.High_Risk}</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate h_font" title="Type">{!$Label.c.Initial_Visit_Date}</div>
+                        </th>
+                        <th scope="col">
+                            <div class="h_font" title="Type">{!$Label.c.Participant_Status}</div>
+                        </th>
+                        <th scope="col">
+                            <div class="h_font" title="Type">{!$Label.c.High_Priority}</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.PaginationList}" var="obj" indexVar="key">
+                        <tr>
+                            <th scope="row" class="slds-text-align_right" style="width:3.25rem;">
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__control">
+                                        <label class="slds-checkbox">
+                                            <ui:inputCheckbox text="{!obj.pe.Id}"
+                                                              value="{!obj.isCheckedlatest}"
+                                                              change="{!c.checkboxSelected}"
+                                                              name="{!key}"
+                                                              disabled="{!obj.selectionlock}"
+                                                             />
+                                            <span class="slds-checkbox_faux"></span>
+                                            <span class="slds-form-element__label text"></span>
+                                        </label>                  
+                                    </div>
+                                </div>
+                            </th>
+                            <th scope="row">
+                                <div class="slds-truncate wraptext" >
+                                    <lightning:button class="align-left"
+                                                      variant="base" name="{!key}"
+                                                      value="{!obj.pe.Participant__r.Id}" 
+                                                      label="{!obj.pe.Name}" 
+                                                      onclick="{!c.showEditParticipantInformation}"/>
+                                </div>
+                            </th> 
+                            <th scope="row">
+                                <div class="slds-truncate">                                    
+                                    <lightning:formattedDateTime value="{!obj.pe.CreatedDate}" month="short" day="numeric" year="numeric"/>
+                                </div>
+                            </th>
+                            <th scope="row">
+                                <div class="slds-truncate" style="white-space:pre-wrap;text-align:center;">                                    
+                                    <aura:if isTrue="{!obj.pe.Referral_Source__c == 'PI'}">
+                                        {!obj.pe.MRN_Id__c}
+                                    </aura:if>
+                                    <aura:if isTrue="{!obj.pe.Referral_Source__c == 'HCP'}">
+                                        {!obj.pe.Patient_ID__c}
+                                    </aura:if>
+                                    <aura:if isTrue="{!obj.pe.Referral_Source__c != 'PI' &amp;&amp; obj.pe.Referral_Source__c != 'HCP'}">
+                                         {!obj.pe.Patient_ID__c}
+                                    </aura:if>
+                                </div>
+                            </th>
+                            <th scope="row">
+                                <div class="slds-truncate">                                  
+                                    {!obj.pe.Participant__r.Gender_Technical__c}     
+                                </div>
+                            </th>
+                            <th scope="row">
+                                <div class="slds-truncate">                                    
+                                    {!obj.pe.Participant__r.Present_Age__c}
+                                </div>
+                            </th>
+                            <th scope="row">
+                                <div style="text-align:center;">                                    
+                                    {!obj.Ethnicity}
+                                </div>
+                            </th>
+                            <th scope="row">
+                                <div class="slds-truncate" style="text-align:center;">                                    
+                                    {!obj.pe.Comorbidities__c}
+                                </div>
+                            </th>
+                            <th scope="row">
+                                <div class="slds-truncate">                                    
+                                    {!obj.pe.Participant__r.BMI__c}
+                                </div>
+                            </th>
+                            <th scope="row">
+                                <div class="slds-truncate" style="text-align:center;">                                    
+                                    {!obj.pe.HighRisk_Indicator__c}
+                                </div>
+                            </th>
+                            <th scope="row">
+                                <div class="slds-truncate" style="text-align:center;">
+                                    <lightning:formattedDateTime value="{!obj.pe.Initial_visit_scheduled_date__c}" month="short" day="numeric" year="numeric"/>
+                                </div>
+                            </th>
+                            <th scope="row">
+                                <div class="slds-truncate" style="text-align:center;">
+                                    {!obj.pe.Participant_Status__c}
+                                </div>
+                            </th>
+                            <th scope="row">
+                                <div class="slds-truncate" style="width:fit-content;">
+                                    <!--<c:rrSelect value="{!obj.priorityReferral}" id="{!obj.pe.Id}" onchange="{!c.handlePriorityReferral}" disabled="{!obj.selectionlock}" options="{!v.PriorityReferral}" setValueAsSelected="true"/>-->
+                                    <lightning:select name="{!obj.pe.Id}" value="{!obj.priorityReferral}" onchange="{!c.handlePriorityReferral}">
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </lightning:select>
+                                </div>
+                            </th>               
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+    	</div>
+        <c:Action_ParticipantInformation aura:id="OpenPatientInfoAction" parent="{! this }" NotCCMode="true"  isValid="true" isInvited="true" isListView="true"/>
+        
+        <!-- DataTable End -->
+        <br/>
+        <!--  Pagination Buttons Start -->
+        <div class="slds-clearfix">
+            <div class="slds-page-header" role="banner">
+                <div class="slds-align_absolute-center">         
+                    <lightning:button disabled="{!v.PageNumber == 1}" variant="brand-outline" aura:id="prevPage" label="{!$Label.c.BTN_Previous}" onclick="{!c.handlePrev}" />            
+                    <lightning:button disabled="{!v.RecordEnd == v.TotalRecords}" variant="brand-outline" aura:id="nextPage" label="{!$Label.c.BTN_Next}" onclick="{!c.handleNext}"/>
+                    <!--<button disabled="{!v.PageNumber == v.TotalPages}" aura:id="nextPage" label="Next" onclick="{!c.handleNext}"/>-->
+                </div>
+                <!--<p class="slds-page-header__title">Showing {!v.RecordStart}-{!v.RecordEnd} of {!v.TotalRecords} patients </p>-->
+            </div>
+        </div>
+        
+        
+    </div>
+</aura:component>

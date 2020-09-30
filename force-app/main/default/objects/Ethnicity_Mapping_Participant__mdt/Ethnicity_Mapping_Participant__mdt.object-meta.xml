@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This Metadata will be used in IntegrationPatientReferralHandler for mapping the Ethnicity field</description>
+    <label>Ethnicity_Mapping_Participant</label>
+    <pluralLabel>Ethnicity_Mapping_Participants</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

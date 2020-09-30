@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ethnicity_Description__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Ethnicity Description</label>
+    <required>true</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>0- Prefer not to say</fullName>
+                <default>true</default>
+                <label>0- Prefer not to say</label>
+            </value>
+            <value>
+                <fullName>1- Hispanic/Latino</fullName>
+                <default>false</default>
+                <label>1- Hispanic/Latino</label>
+            </value>
+            <value>
+                <fullName>2- American Indian/Alaskan Native</fullName>
+                <default>false</default>
+                <label>2- American Indian/Alaskan Native</label>
+            </value>
+            <value>
+                <fullName>3- Asian</fullName>
+                <default>false</default>
+                <label>3- Asian</label>
+            </value>
+            <value>
+                <fullName>4- African-American/Black</fullName>
+                <default>false</default>
+                <label>4- African-American/Black</label>
+            </value>
+            <value>
+                <fullName>5- Native Hawaiian/Other Pacific Islander</fullName>
+                <default>false</default>
+                <label>5- Native Hawaiian/Other Pacific Islander</label>
+            </value>
+            <value>
+                <fullName>6- Caucasian/White</fullName>
+                <default>false</default>
+                <label>6- Caucasian/White</label>
+            </value>
+            <value>
+                <fullName>7- Two or more races</fullName>
+                <default>false</default>
+                <label>7- Two or more races</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
