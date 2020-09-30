@@ -57,7 +57,8 @@
 
 .THIS .hideborder.slds-grid.slds-wrap:before{
    
-    display: none;
+    /*display: none;*/
+    margin-left:-279px;
     
     
 }
