@@ -12,7 +12,7 @@
         }else if(filterValue[0].AgeFrom == "" && filterValue[0].AgeTo != ""){
             component.set('v.filterList[0].AgeFrom', 0);
             component.set('v.filterList[0].AgeTo', filterValue[0].AgeTo);
-        }else if((filterValue[0].AgeFrom != "" && filterValue[0].AgeTo != "" && parseInt(filterValue[0].AgeFrom) >= parseInt(filterValue[0].AgeTo))){
+        }else if((filterValue[0].AgeFrom != "" && filterValue[0].AgeTo != "" && parseInt(filterValue[0].AgeFrom) > parseInt(filterValue[0].AgeTo))){
             AgeTo.setCustomValidity("Invalid Age Range");
             AgeFrom.setCustomValidity("Invalid Age Range");
         }else{

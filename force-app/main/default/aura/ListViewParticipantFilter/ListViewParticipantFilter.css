@@ -190,16 +190,16 @@
 }
 
 .THIS .tableSettings {
-    margin-bottom: .5rem;
-    align-items: flex-end;
+    margin-bottom: 1rem;
+    align-items: center;
 }
 
 .THIS .tableSettings span {
     padding: 0 2rem 0 1rem;
 }
 
-.THIS .tableSettings > div:first-child .fp-form-element {
-    margin-top: .5rem;
+.THIS .tableSettings > div:last-child .fp-form-element:first-child {
+    margin-right: 1rem;
 }
 
 .THIS .tableSettings > div:last-child {
@@ -329,6 +329,10 @@
     
     .THIS .study-Info {
         margin-bottom: .5rem;
+    }
+    
+    .THIS .tableSettings > div:first-child {
+        margin-bottom: 1rem;   
     }
 }
 
@@ -483,6 +487,11 @@
     }
     
     .THIS .tableSettings > div:last-child {
-        margin-top: 1.5rem;
+        display: flex;
+    	flex-direction: column;
+    }
+    
+    .THIS .tableSettings > div:last-child > div:first-child {
+        margin-bottom: 1rem;   
     }
 }

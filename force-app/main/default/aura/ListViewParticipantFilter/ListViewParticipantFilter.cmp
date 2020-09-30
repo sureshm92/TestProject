@@ -82,12 +82,12 @@
     <div class="slds-card">
          
         <div class="filter-card slds-grid slds-wrap"> 
-			<div class="slds-size_1-of-1 slds-large-size_5-of-6">
+			<div class="slds-size_1-of-1 slds-large-size_10-of-12">
 				<div class="demo-only demo-only--sizing slds-grid slds-wrap filterby">
 					<div class="slds-size_6-of-6">
 						<span class="filterTitle">{!$Label.c.RH_FilterBy}</span>
 					</div>
-					<input type="checkbox" class="accordionCheck" name="panel" id="panel-3"/>
+					<input type="checkbox" checked="checked" class="accordionCheck" name="panel" id="panel-3" />
                     <label for="panel-3" class="slds-size_1-of-3 study-Info">{!$Label.c.RH_StudyInfo}</label>
                     <div class="accordionContent">
                         <div class="slds-size_1-of-6 activePE">
@@ -177,7 +177,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="slds-size_1-of-1 slds-large-size_1-of-6">
+			<div class="slds-size_1-of-1 slds-large-size_2-of-12">
 				<!-- Button Area -->
 				<div class="demo-only demo-only--sizing slds-grid slds-wrap button-grid">				
 					 <div class="searchHead">
@@ -211,21 +211,22 @@
                     </a></span>
             </div>
             <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 searchHead">
-                <span><button class="apollo-btn secondary mrc-invite-btn" disabled="{!v.enablePromoteToSH}" data-gtm="BTN_InviteRP" onclick="{!c.handlePromoteSH}">
+                <span><button class="apollo-btn primary mrc-invite-btn" disabled="{!v.enablePromoteToSH}" data-gtm="BTN_InviteRP" onclick="{!c.handlePromoteSH}">
                     {!$Label.c.Send_to_Study_Hub} 
                     </button></span>
             </div>
         </div>
         <div class="slds-grid slds-wrap tableSettings">
-            <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12 slds-col_bump-right">
+            <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-3 slds-col_bump-right">
                 <span>{!$Label.c.Showing}&nbsp;{!v.RecordStart}-{!v.RecordEnd}&nbsp;{!$Label.c.of}&nbsp;{!v.TotalRecords}&nbsp;{!$Label.c.patients}&nbsp;({!v.count}&nbsp;{!$Label.c.selected_max_50})</span>
-            	<div class="fp-form-element">
+            	
+            </div>
+
+            <div class="slds-col  slds-size_1-of-1 slds-large-size_2-of-3 slds-col_bump-left" style="text-align:end;">
+                <div class="fp-form-element">
                     <label style="padding-right: 5px;">{!$Label.c.PG_FP_L_Sort_by}</label>
                     <c:rrSelect useSentenceFont="false" value="{!v.SortBydefault}" aura:id="sortby" options="{!v.SortBy}" setValueAsSelected="true"/>
                 </div>
-            </div>
-
-            <div class="slds-col  slds-size_1-of-1 slds-medium-size_3-of-12  slds-col_bump-left" style="text-align:end;">
                 <div class="fp-form-element">
                     <label style="padding-right: 5px;">{!$Label.c.PG_FP_L_Show_entries}</label>
                     <c:rrSelect value="{!v.pageSize}"  aura:id="pageSize" options="{!v.ShowEntries}" setValueAsSelected="true"/>
