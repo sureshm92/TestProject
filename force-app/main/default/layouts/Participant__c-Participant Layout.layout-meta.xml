@@ -69,10 +69,6 @@
                 <behavior>Edit</behavior>
                 <field>Emancipation_in_progress__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Fphone__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
