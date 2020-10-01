@@ -3538,6 +3538,20 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>Participant Delegate Found!</value>
     </labels>
     <labels>
+        <fullName>Delegate_learnmore</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Delegate learnmore</shortDescription>
+        <value>Learn more about this study.</value>
+    </labels>
+    <labels>
+        <fullName>Delegate_roadmap_Content</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Delegate roadmap Content</shortDescription>
+        <value>Track the progress of ##ParticipantFirstName on the study</value>
+    </labels>
+    <labels>
         <fullName>Delegates</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3592,6 +3606,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <protected>true</protected>
         <shortDescription>Disabled</shortDescription>
         <value>Disabled</value>
+    </labels>
+    <labels>
+        <fullName>Discover_future_Clinical</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Discover future Clinical</shortDescription>
+        <value>information about   ##StudyName visits and assessments.</value>
     </labels>
     <labels>
         <fullName>Distolic_Blood_Pr</fullName>
@@ -3981,14 +4002,8 @@ Please share our site on social media to encourage others to assist us as we wor
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial Patient Created By PI New</shortDescription>
-        <value>Thank you for your interest in the ##StudyName.    
- 
-We are reaching out to you to confirm we received your referral from ##PITitle ##PIName. A member of the study team will contact you regarding the next steps in the referral process. 
-
-The ##ShortCommunityName will allow you to:
-•	track the progress of your referral 
-•	learn more about this study 
-•	find out about future clinical research studies.
+        <value>&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Thank you for your interest in the ##StudyName. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the study team will contact you regarding the next steps in the enrollment process. &lt;/p&gt;&lt;/div&gt;
+Further information on the ##ShortCommunityName can be found in the Informed Consent Form from your study center.
 
 Your user name is ##UserName.</value>
     </labels>
@@ -4010,41 +4025,31 @@ Your user name is ##UserName.</value>
             Your username is ##UserName. Please click the Enroll Now button to create your password.
 
             Please note that enrollment in ##FullCommunityName is not a requirement for ##ParticipantFirstName to be enrolled into the clinical research study.</value>
+    </labels>				   
+	<labels>
+        <fullName>Email_Body_Initial_Patient_Delegate_New</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Initial Patient Delegate New</shortDescription>
+        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more studies listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.</value>
     </labels>
-			
-														   
-								  
-								   
-																		   
-																  
- 
-																																														 
-
-										   
-												   
-									 
-														 
-
-									 
-			 
-
     <labels>
+        <fullName>Email_Body_Initial_Patient_Delegate_New2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Initial Patient Delegate New2</shortDescription>
+        <value>Please register for the IQVIA Patient Portal. 
+Your username is ##UserName.</value>
+    </labels>
+	<labels>
         <fullName>Email_Body_Initial_Patient_New</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Initial Patient New</shortDescription>
-        <value>Thank you for your interest in the ##StudyName.    
- 
-We are reaching out to you to confirm we received your referral from ##HCPTitle ##HCPName. A member of the study team will contact you regarding the next steps in the referral process. 
-
-The ##ShortCommunityName will allow you to:
-•	track the progress of your referral 
-•	learn more about this study 
-•	find out about future clinical research studies.
+        <value>&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Thank you for your interest in the ##StudyName. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;We are reaching out to you to confirm we received your referral from ##HCPTitle ##HCPName. A member of the study team will contact you regarding the next steps in the referral process. &lt;/p&gt;&lt;/div&gt;
 
 Your user name is ##UserName.</value>
     </labels>
-
     <labels>
         <fullName>Email_Body_Initial_Patient_Virtual</fullName>
         <language>en_US</language>
@@ -4065,18 +4070,10 @@ Your user name is ##UserName.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial Patient Virtual New</shortDescription>
-        <value>Thank you for your interest in the ##StudyName.    
- 
-We are reaching out to you to confirm we received your information. A member of the study team will contact you regarding the next steps in the study process. 
+        <value>&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Thank you for your interest in the ##StudyName. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;We are reaching out to you to confirm we received your information. A member of the study team will contact you regarding the next steps in the study process.&lt;/p&gt;&lt;/div&gt;
 
-The ##ShortCommunityName will help you:
-•	track the progress of your referral 
-•	learn more about this study 
-•	find out about future clinical research studies.  
-
-Your user name is ##UserName.</value>
+Your username is ##UserName.</value>
     </labels>
-
     <labels>
         <fullName>Email_Body_Janssen_Initial_PI</fullName>
         <language>en_US</language>
@@ -4333,6 +4330,17 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
             Thank you for participating. Your contribution to the clinical research study has been very important.
 
             Please login to the ##ShortCommunityName for the latest clinical research information and for future updates on the clinical research study.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Patient1_New</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Patient1 New</shortDescription>
+        <value>&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Thank you for your interest in the ##StudyName. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the study team will contact you regarding the next steps in the enrollment process. &lt;/p&gt;
+Further information on the ##ShortCommunityName can be found in the Informed Consent Form from your study center.
+
+Your user name is ##UserName.
+&lt;/div&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient2</fullName>
@@ -5450,6 +5458,17 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <value>Sincerely,
 
 The NYBC Convalescent Plasma Donation Team</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_Participant_Delegate_New</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Signature Participant Delegate New</shortDescription>
+        <value>We are excited to be on this journey with you. 
+
+Sincerely,
+
+##SignatureFullCommunityNewName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Patient</fullName>
@@ -7884,6 +7903,13 @@ The expected format is REF#####</value>
         <protected>false</protected>
         <shortDescription>Learn More Report Document Name</shortDescription>
         <value>Study Detailed Description Report</value>
+    </labels>
+    <labels>
+        <fullName>Learn_more_about_study</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Learn more about study</shortDescription>
+        <value>interesting articles and additional information about clinical trials.</value>
     </labels>
     <labels>
         <fullName>Library_Format</fullName>
@@ -18107,6 +18133,20 @@ communications using the toggles below.</value>
         <value>Thank you for your interest in {0}. We will contact you when the clinical research study would be created for this.</value>
     </labels>
     <labels>
+        <fullName>The_Delegate_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>The Delegate Header</shortDescription>
+        <value>The ##ShortCommunityName will allow you to:</value>
+    </labels>
+    <labels>
+        <fullName>The_Patient_Portal_Help</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>The Patient Portal Help</shortDescription>
+        <value>The ##ShortCommunityName includes:</value>
+    </labels>
+    <labels>
         <fullName>This_Participant_has_reached_legal_age_of_emancipation</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18210,6 +18250,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Total protein Description</shortDescription>
         <value>Proteins are important for growth and development of the body by helping to make tissues and cells. The total protein test measures the total amount of two types of protein, albumin and globulin, in your blood sample. Total protein is measured to check the health of your liver and kidneys.</value>
+    </labels>
+    <labels>
+        <fullName>Track_your_study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Track your study</shortDescription>
+        <value>your study timeline to help you keep track of your progress.</value>
     </labels>
     <labels>
         <fullName>Travel_Support_Link</fullName>
@@ -19043,6 +19090,34 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Weight Description</shortDescription>
         <value>Your weight is the measurement of your body mass in kilograms (kg) or in pounds.</value>
+    </labels>
+    <labels>
+        <fullName>WelcomeEmail_DiscoverLogo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>WelcomeEmail_DiscoverLogo</shortDescription>
+        <value>https://ruby-flow-1689-dev-ed--c.documentforce.com/servlet/servlet.ImageServer?id=01517000001aB58&amp;oid=00D17000000IZC4&amp;lastMod=1600679311000</value>
+    </labels>
+    <labels>
+        <fullName>WelcomeEmail_LearnLogo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>WelcomeEmail_LearnLogo</shortDescription>
+        <value>https://ruby-flow-1689-dev-ed--c.documentforce.com/servlet/servlet.ImageServer?id=01517000001aB53&amp;oid=00D17000000IZC4&amp;lastMod=1600679244000</value>
+    </labels>
+	 <labels>
+        <fullName>WelcomeEmail_PPHeaderLogo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>WelcomeEmail_PPHeaderLogo</shortDescription>
+        <value>https://ruby-flow-1689-dev-ed--c.documentforce.com/servlet/servlet.ImageServer?id=01517000001aWFe&amp;oid=00D17000000IZC4&amp;lastMod=1601450144000</value>
+    </labels>
+    <labels>
+        <fullName>WelcomeEmail_TrackLogo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>WelcomeEmail_TrackLogo</shortDescription>
+        <value>https://ruby-flow-1689-dev-ed--c.documentforce.com/servlet/servlet.ImageServer?id=01517000001aB5D&amp;oid=00D17000000IZC4&amp;lastMod=1600679391000</value>
     </labels>
     <labels>
         <fullName>Withdrew_Consent</fullName>
