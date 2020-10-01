@@ -234,12 +234,12 @@
                                     <lightning:input aura:id="pField" type="date" label="{!$Label.c.PG_AS_F_Date_of_Birth}"
                                                      max="{!v.todayDate}"
                                                      value="{!v.personWrapper.dateBirth}" required="true"
-                                                     onblur="{!c.doCheckFieldsValidity}" class="mar_dob"/></aura:if>
+                                                     onblur="{!c.doCheckFieldsValidity}" class="{!v.isRTL?'mar_dob rightAlign':'mar_dob'}"/></aura:if>
                                 <aura:if isTrue="{!(v.isDelegate)}">
                                     <lightning:input aura:id="pField" type="date" label="{!$Label.c.PG_AS_F_Date_of_Birth}"
                                                      max="{!v.todayDate}"
                                                      value="{!v.personWrapper.dateBirth}" required="true"
-                                                     onblur="{!c.doCheckFieldsValidity}" disabled="true" class="mar_dob"/>                                                  
+                                                     onblur="{!c.doCheckFieldsValidity}" disabled="true" class="{!v.isRTL?'mar_dob rightAlign':'mar_dob'}"/>                                                  
                                 </aura:if>
                             </div>
                         </div>
