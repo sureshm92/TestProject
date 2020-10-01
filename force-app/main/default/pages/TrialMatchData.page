@@ -80,7 +80,7 @@
                                 font-size: 13px;
                                 padding-top: 15px;
                                 line-height: 24px;
-                               {!if(RTL == true, 'float:left;', 'float:right;')}">
+                               {!if(RTL == true, 'float:right;', 'float:left;')}">
                         {!trialMatch.OfficialTitle}
                     </div>
                 </div>
