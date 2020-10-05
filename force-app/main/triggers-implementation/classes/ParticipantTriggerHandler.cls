@@ -334,8 +334,10 @@ public without sharing class ParticipantTriggerHandler {
                 p.Age__c = decParticipantAge;
                 If(p.Gender__c == 'Male')
                     p.Gender_Technical__c = 'M';
-                else 
+                else if(p.Gender__c == 'Female')
                     p.Gender_Technical__c = 'F';
+                else
+                    p.Gender_Technical__c = '';
                 pList.add(p);
             }
         }
