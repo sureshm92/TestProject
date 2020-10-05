@@ -86,6 +86,7 @@
     font-family: "Proxima Nova";
     font-weight: 500;
     line-height: 21px;
+    direction: ltr;
 }
 
 .THIS .ctp-date-status {
