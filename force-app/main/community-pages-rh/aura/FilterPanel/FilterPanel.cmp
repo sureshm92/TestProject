@@ -20,6 +20,8 @@
     <aura:attribute name="showMoreEnabled" type="Boolean" default="false"/>
     <aura:attribute name="showEntriesVisble" type="Boolean" default="true"/>
     <aura:attribute name="setValueAsSelected" type="Boolean" default="false"/>
+     <aura:attribute name="isCalledFromViewPatient" type="Boolean" default="false" />
+     <aura:attribute name="userMode" type="String" />
     <aura:attribute name="itemTitle" type="String" default="{!$Label.c.PG_DB_L_patients}"/>
 
     <!--compoenent body -->
@@ -97,6 +99,16 @@
                             <c:rrSelect value="{!v.recordsPerPage}" options="{!v.recordsPerPageVariants}"/>
                         </div>
                     </aura:if>
+                      
+                    <aura:if isTrue="{!and(v.isCalledFromViewPatient , v.userMode == 'PI') }">
+                        <div class="slds-text-align_right vp-navigate-btn" >
+                            <a style="font-size: 1rem;font-weight: 700;"
+                                    onclick="{!c.onClickListView}">
+                                {!$Label.c.BTN_Naviagte}
+                            </a>
+                        </div>
+                    </aura:if>
+                    
                 </div>
             </aura:if>
         </div>

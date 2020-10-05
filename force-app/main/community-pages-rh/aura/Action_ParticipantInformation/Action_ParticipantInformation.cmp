@@ -40,11 +40,13 @@
     <aura:attribute name="isSMS" type="Boolean" default="false"/>
     <aura:attribute name="doContact" type="Boolean" default="false"/>
     <aura:attribute name="isIQVIA" type="Boolean" default="false"/>
-
+    <aura:attribute name="isListView" type="Boolean" default="false"/>
+    <aura:attribute name="parent" type="Aura.Component" />
     <!--<aura:attribute name="isDetailsChanged" type="Boolean" default="false"/>-->
     <aura:attribute name="isStatusChanged" type="Boolean" default="false"/>
     <!-- Event handler -->
     <aura:registerEvent name="callcenter" type="c:CallCenterRefresh" />
+    
     <aura:handler name="detectChildChanges" event="c:DetectChildChanges" action="{!c.checkChildChanges}"/>
     
     <aura:handler name="change" value="{!v.pe}" action="{!c.checkParticipant}"/>

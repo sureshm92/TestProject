@@ -15,6 +15,7 @@ public without sharing class NewMediaOutReach {
     public  static String lstvalsite;
     public  static string lstvalstudy;
     public  static  List<Study_Site__c> studyDataLast;
+    public  static  List<Study_Site__c> piAsDelagted;
     //public static User usrLst;
    
     public class CommunityPreferred {
@@ -85,6 +86,21 @@ public without sharing class NewMediaOutReach {
                     studyPoistion.studyName = sc.Name;
                     result.add(studyPoistion);
                 }
+                //PI as delegated starts from here
+                List<id> piAsDelStudSiteIds = new List<Id>();
+                List<Site_Staff__c> PiAsDelsitestaff = [SELECT id,Delegate_Level__c,Study_Site__r.Clinical_Trial_Profile__c,Study_Site__r.Clinical_Trial_Profile__r.Media_outreach_Provider__c,Study_Site__c,Site_Contact__c FROM Site_Staff__c where Site_Contact__c =:studyContactId AND Study_Site__r.Clinical_Trial_Profile__r.Media_outreach_Provider__c != null  AND Study_Site__r.Clinical_Trial_Profile__c =:ctpdata.id LIMIT :limitRows];
+                for(Site_Staff__c piAsdel: PiAsDelsitestaff) {
+                    piAsDelStudSiteIds.add(piAsdel.Study_Site__c);
+                } 
+                if(!piAsDelStudSiteIds.isEmpty()){
+                    piAsDelagted =[SELECT id,Site__r.Name,Clinical_Trial_Profile__r.Study_Code_Name__c,Name FROM Study_Site__c WHERE id in: piAsDelStudSiteIds LIMIT :limitRows];
+                    for(Study_Site__c sc: piAsDelagted){
+                        studyPoistion = new NewMediaOutReach.CommunityPreferred();
+                        studyPoistion.studyName = sc.Name;
+                        result.add(studyPoistion);
+                    }
+                }
+             //PI as delegated End from here
             }
         }
         //for PI staff
@@ -131,6 +147,7 @@ public without sharing class NewMediaOutReach {
        
         if(studyContactId != null && con.UserCommunityIsDelegate__c == false){
         studylst =[SELECT id,Name,Clinical_Trial_Profile__r.Media_outreach_Provider__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Principal_Investigator__c FROM Study_Site__c WHERE Principal_Investigator__c =:studyContactId AND Clinical_Trial_Profile__r.Media_outreach_Provider__c != null LIMIT :limitRows];
+        siteStaff =[SELECT id,Delegate_Level__c,Study_Site__r.Clinical_Trial_Profile__c,Study_Site__r.Clinical_Trial_Profile__r.Media_outreach_Provider__c,Study_Site__c,Site_Contact__c FROM Site_Staff__c where Site_Contact__c =:studyContactId AND Study_Site__r.Clinical_Trial_Profile__r.Media_outreach_Provider__c != null LIMIT :limitRows];
         }
 
         if(studyContactId != null && con.UserCommunityIsDelegate__c == true ){

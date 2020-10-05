@@ -72,14 +72,14 @@ public Without sharing class ViewMediaResult {
         Contact userContact = CommunityService.getUserContact();
         
         studyContactId = userContact.Id;
-        system.System.debug('studyContactId??'+studyContactId);
+        //System.debug('studyContactId??'+studyContactId);
         con =[SELECT id,UserCommunityIsDelegate__c FROM Contact WHERE Id =:studyContactId LIMIT 1];
        
-        if(studyContactId != null && con.UserCommunityIsDelegate__c == false){
+        if(studyContactId != null){
         studylst =[SELECT id,Name,Clinical_Trial_Profile__r.Media_outreach_Provider__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Principal_Investigator__c FROM Study_Site__c WHERE Principal_Investigator__c =:studyContactId AND Clinical_Trial_Profile__r.Media_outreach_Provider__c != null LIMIT :limitRows];
         }
 
-        if(studyContactId != null && con.UserCommunityIsDelegate__c == true ){
+        if(studyContactId != null){
        siteStaff =[SELECT id,Delegate_Level__c,Study_Site__r.Clinical_Trial_Profile__c,Study_Site__r.Clinical_Trial_Profile__r.Media_outreach_Provider__c,Study_Site__c,Site_Contact__c FROM Site_Staff__c where Site_Contact__c =:studyContactId AND Study_Site__r.Clinical_Trial_Profile__r.Media_outreach_Provider__c != null LIMIT :limitRows];
         }
 

@@ -1,5 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+	<labels>
+        <fullName>African_American_Black</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>African-American/Black</shortDescription>
+        <value>4- African-American/Black</value>
+    </labels>
+    <labels>
+        <fullName>Age</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Age</shortDescription>
+        <value>Age</value>
+    </labels>
+    <labels>
+        <fullName>All_Ethnicities</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>All_Ethnicities</shortDescription>
+        <value>All</value>
+    </labels>
+    <labels>
+        <fullName>American_Indian_Alaskan_Native</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>American Indian/Alaskan Native</shortDescription>
+        <value>2- American Indian/Alaskan Native</value>
+    </labels>
+    <labels>
+        <fullName>Asian</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Asian</shortDescription>
+        <value>3- Asian</value>
+    </labels>
     <labels>
         <fullName>ALT</fullName>
         <language>en_US</language>
@@ -594,6 +629,27 @@
         <protected>true</protected>
         <shortDescription>Avaliable Icons</shortDescription>
         <value>Avaliable Icons</value>
+    </labels>
+	<labels>
+        <fullName>BMI</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BMI</shortDescription>
+        <value>BMI</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Naviagte</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN_Naviagte</shortDescription>
+        <value>Go to List View</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Naviagte_Card</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN_Naviagte_Card</shortDescription>
+        <value>Go to Card View</value>
     </labels>
     <labels>
         <fullName>BTN_Accept</fullName>
@@ -1427,6 +1483,20 @@
         <protected>false</protected>
         <shortDescription>Submit Your Question</shortDescription>
         <value>Submit Your Question</value>
+    </labels>
+	<labels>
+        <fullName>Caucasian_White</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Caucasian/White</shortDescription>
+        <value>6- Caucasian/White</value>
+    </labels>
+    <labels>
+        <fullName>Comorbidities</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Comorbidities</shortDescription>
+        <value>Comorbidities</value>
     </labels>
     <labels>
         <fullName>CC_Day_Ago</fullName>
@@ -3665,6 +3735,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <protected>true</protected>
         <shortDescription>Duplicate Delegate Message</shortDescription>
         <value>is already associated with ##firstName ##lastName. We only allow one user per email address. Please confirm that this is the correct email address. If this is not ##firstName, please enter the new delegate’s unique email address.</value>
+    </labels>
+	<labels>
+        <fullName>Ethnicity</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Ethnicity</shortDescription>
+        <value>Ethnicity</value>
     </labels>
     <labels>
         <fullName>Eamil_Action_View_My_Studies</fullName>
@@ -6512,6 +6589,27 @@ The NYBC Convalescent Plasma Donation Team</value>
         <shortDescription>Glucose Description</shortDescription>
         <value>Glucose is a sugar, also called &quot;blood sugar&quot;. When your body digests food, carbohydrates are broken down to make glucose. Your small intestine then absorbs the glucose to release it into the blood. Glucose is the most important source of energy for cells in your body and the only source of energy for your brain, spinal cord, and nerves. Blood glucose is measured to check your general health and to check for a range of conditions.</value>
     </labels>
+	<labels>
+        <fullName>High_Priority</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>High Priority</shortDescription>
+        <value>High Priority</value>
+    </labels>
+    <labels>
+        <fullName>High_Risk</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>High Risk</shortDescription>
+        <value>High Risk</value>
+    </labels>
+    <labels>
+        <fullName>Hispanic_Latino</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Hispanic/Latino</shortDescription>
+        <value>1- Hispanic/Latino</value>
+    </labels>
     <labels>
         <fullName>HCP_Mode</fullName>
         <language>en_US</language>
@@ -7513,6 +7611,20 @@ The expected format is REF#####</value>
         <shortDescription>Human leukocyte antigen</shortDescription>
         <value>Human leukocyte antigen</value>
     </labels>
+	<labels>
+        <fullName>ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ID</shortDescription>
+        <value>ID</value>
+    </labels>
+    <labels>
+        <fullName>Initial_Visit_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Initial Visit Date</shortDescription>
+        <value>Initial Visit Date</value>
+    </labels>
     <labels>
         <fullName>ICOS_Description</fullName>
         <language>en_US</language>
@@ -7946,6 +8058,13 @@ The expected format is REF#####</value>
         <protected>false</protected>
         <shortDescription>Low-density Lipoprotein Description</shortDescription>
         <value>Lipoproteins are made of a combination of lipids (fats) and proteins. Low-density lipoproteins (LDL) are produced by the liver and move cholesterol from the liver to other body parts. LDL cholesterol is also known as &quot;bad&quot; cholesterol. When your LDL cholesterol is high, it means it can build up in the walls of your blood vessels and block the blood flow.</value>
+    </labels>
+	<labels>
+        <fullName>My_Participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>My_Participant</shortDescription>
+        <value>My Participants</value>
     </labels>
     <labels>
         <fullName>MO_Active</fullName>
@@ -8498,6 +8617,13 @@ The expected format is REF#####</value>
         <protected>false</protected>
         <shortDescription>You are already associated with this study.</shortDescription>
         <value>You are already associated with this study.</value>
+    </labels>
+	<labels>
+        <fullName>Native_Hawaiian_Other_Pacific_Islander</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Native Hawaiian/Other Pacific Islander</shortDescription>
+        <value>5- Native Hawaiian/Other Pacific Islander</value>
     </labels>
     <labels>
         <fullName>NYESO_Description</fullName>
@@ -9536,6 +9662,34 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>Outreach Message</shortDescription>
         <value>New Outreach Created Successfully !</value>
     </labels>
+	<labels>
+        <fullName>of</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>of</shortDescription>
+        <value>of</value>
+    </labels>
+    <labels>
+        <fullName>patients</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>patients</shortDescription>
+        <value>patients</value>
+    </labels>
+	<labels>
+        <fullName>ParticipantLimit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ParticipantLimit</shortDescription>
+        <value>Maximum of 40 participants can be selected</value>
+    </labels>
+    <labels>
+        <fullName>Prefer_not_to_say</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Prefer not to say</shortDescription>
+        <value>0- Prefer not to say</value>
+    </labels>
     <labels>
         <fullName>PD_Description</fullName>
         <language>en_US</language>
@@ -9695,7 +9849,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PE Referral Id</shortDescription>
-        <value>Referral Id</value>
+        <value>ID</value>
     </labels>
     <labels>
         <fullName>PE_Referred_Date</fullName>
@@ -10606,7 +10760,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_AS_F_Source_ID_Help_Text</shortDescription>
-        <value>Use MRN field if source is PI Patient ID if source is HCP, ReferralID and Data_Source (separated by semicolon) if source is Dig Recruitment</value>
+        <value>Source ID field cannot be edited once populated with an initial value</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Suffix</fullName>
@@ -15704,6 +15858,139 @@ communications using the toggles below.</value>
         <shortDescription>Pulse</shortDescription>
         <value>Pulse</value>
     </labels>
+	<labels>
+        <fullName>RH_AgeFrom</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Age From</shortDescription>
+        <value>Age From</value>
+    </labels>
+    <labels>
+        <fullName>RH_AgeIsBetween</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Age is between</shortDescription>
+        <value>Age is between</value>
+    </labels>
+    <labels>
+        <fullName>RH_AgeTo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Age To</shortDescription>
+        <value>Age To</value>
+    </labels>
+    <labels>
+        <fullName>RH_And</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>and</shortDescription>
+        <value>and</value>
+    </labels>
+    <labels>
+        <fullName>RH_ApplyFilters</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Apply Filters</shortDescription>
+        <value>Apply Filters</value>
+    </labels>
+    <labels>
+        <fullName>RH_Comorbidities</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Comorbidities</shortDescription>
+        <value>Comorbidities</value>
+    </labels>
+    <labels>
+        <fullName>RH_Demographics</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Demographics</shortDescription>
+        <value>Demographics</value>
+    </labels>
+    <labels>
+        <fullName>RH_Ethnicity</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Ethnicity</shortDescription>
+        <value>Ethnicity</value>
+    </labels>
+    <labels>
+        <fullName>RH_ExportFilteredList</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Export Filtered List</shortDescription>
+        <value>Export Filtered List</value>
+    </labels>
+    <labels>
+        <fullName>RH_FilterBy</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Filter by:</shortDescription>
+        <value>Filter by:</value>
+    </labels>
+    <labels>
+        <fullName>RH_HighRiskOccupation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>High Risk</shortDescription>
+        <value>High Risk</value>
+    </labels>
+    <labels>
+        <fullName>RH_InitialVisitScheduled</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Initial Visit Scheduled</shortDescription>
+        <value>Initial Visit Scheduled</value>
+    </labels>
+    <labels>
+        <fullName>RH_MyPartiCipantListView</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>My Participants (List View)</shortDescription>
+        <value>My Participants (List View)</value>
+    </labels>
+    <labels>
+        <fullName>RH_Others</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Others</shortDescription>
+        <value>Others</value>
+    </labels>
+    <labels>
+        <fullName>RH_Reset</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Reset</shortDescription>
+        <value>Reset</value>
+    </labels>
+    <labels>
+        <fullName>RH_Sex</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sex</shortDescription>
+        <value>Sex</value>
+    </labels>
+    <labels>
+        <fullName>RH_StudyInfo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Info</shortDescription>
+        <value>Study Info</value>
+    </labels>
+    <labels>
+        <fullName>Received_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Received Date</shortDescription>
+        <value>Received Date</value>
+    </labels>
+    <labels>
+        <fullName>Records_sent_to_SH</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Records sent to SH</shortDescription>
+        <value>Records have been sent successfully</value>
+    </labels>
     <labels>
         <fullName>Randomization_Failed</fullName>
         <language>en_US</language>
@@ -16546,6 +16833,20 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Respiratory Rate Description</shortDescription>
         <value>Respiratory rate is a measurement of how many breaths you take per minute.</value>
+    </labels>
+	<labels>
+        <fullName>Send_to_Study_Hub</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Send to Study Hub</shortDescription>
+        <value>Send to Study Hub</value>
+    </labels>
+    <labels>
+        <fullName>Sex</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sex</shortDescription>
+        <value>Sex</value>
     </labels>
     <labels>
         <fullName>SDC_List_View</fullName>
@@ -17515,6 +17816,20 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Systolic Blood Pr Description</shortDescription>
         <value>Systolic blood pressure is a measure of how hard your blood is pushed against the walls of the arteries when the heart is beating and pushing out blood.</value>
+    </labels>
+	<labels>
+        <fullName>selected_max_50</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Send to SH selection limit</shortDescription>
+        <value>selected, max.40</value>
+    </labels>
+	<labels>
+        <fullName>Two_or_more_races</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Two or more races</shortDescription>
+        <value>7- Two or more races</value>
     </labels>
     <labels>
         <fullName>TST_Complete_Your_Question</fullName>

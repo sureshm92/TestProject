@@ -1,0 +1,10 @@
+.THIS .h_font{
+    color: #595959;
+}
+
+.THIS.myPart{
+    color: black;
+	font-weight: 600; 
+	font-size: 14px; 
+	padding-bottom: 15px;
+}
