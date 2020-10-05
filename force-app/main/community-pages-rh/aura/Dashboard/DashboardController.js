@@ -27,7 +27,9 @@
                 action: 'Init'
             }, function (returnValue) {
                 if (!returnValue) communityService.navigateToPage('');
+
                 let responseData = JSON.parse(returnValue);
+                console.log(responseData);
                 if (communityService.getUserMode() === 'PI') {
                     component.set('v.piData', responseData);
                 } else {

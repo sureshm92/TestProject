@@ -2,11 +2,53 @@
  * Created by Leonid Bartenev
  */
 ({
+    // Method Name : callServerMethod
+    // Parameters  : component, event, helper
+    // Description : Calling the server apex method for 
+    // 				initiating records while loading the components and load the data.
+    callServerMethod : function(component, event){
+         var rootComponent = component.get('v.parent');
+        communityService.executeAction(component, 'prepareAwaitingContactList', {
+            userMode:communityService.getUserMode(),
+            delegateId:communityService.getDelegateId(),
+            piId:component.get('v.currentPi'),
+            ctpId:component.get('v.currentStudy')
+        }, function (returnValue) {
+            returnValue = JSON.parse(returnValue);
+            component.set('v.peList', returnValue);
+            component.set('v.recordLength', returnValue.length);
+        });        
+    },
+    // Method Name : callServerMethod
+    // Parameters  : component, event, helper
+    // Description : This method is used to open the actionparticipantinformation component,
+    // 				 It will open the model and user can save participant record.
+    showEditParticipantInformation : function(component, event, helper){
+        var rootComponent = component.get('v.parent');
+        rootComponent.find('mainSpinner').show();
+        communityService.executeAction(component, 'getParticipantData', {
+            userMode:communityService.getUserMode(),
+            delegateId:communityService.getDelegateId(),
+            participantId:event.currentTarget.id
+        }, function (returnValue) {
+            returnValue = JSON.parse(returnValue);
+            component.set('v.peStatusesPathList', returnValue.peStatusesPathList);
+            component.set('v.pe', returnValue.currentPageList[0].pItem.pe);
+            component.set('v.peStatusStateMap', returnValue.peStatusStateMap);
+           // helper.preparePathItems(component);
+            rootComponent.find('mainSpinner').hide();
+            rootComponent.find('updatePatientInfoAction').execute(returnValue.currentPageList[0].pItem.pe,  returnValue.currentPageList[0].actions, rootComponent, returnValue.isInvited, function (enrollment) {
+                rootComponent.refresh();
+               	component.set('v.recordChanged','Record changed'); 
+                helper.callServerMethod(component, event);
+            });
+            component.set('v.recordChanged',''); 
+        });    
+	},
+    
     preparePathItems: function (component) {
-        console.log('init');
         var statuses = component.get('v.peStatusesPathList');
         var pe = component.get('v.pe');
-        console.log(pe);
         var statusesMap = component.get('v.peStatusStateMap');
         var currentPEState = statusesMap[pe.Participant_Status__c];
         component.set('v.showPath', currentPEState !== undefined );

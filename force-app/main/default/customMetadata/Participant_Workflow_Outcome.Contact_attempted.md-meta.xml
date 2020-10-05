@@ -3,12 +3,32 @@
     <label>Contact attempted</label>
     <protected>false</protected>
     <values>
+        <field>Condition__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Condition_for_Auto_Update__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Disclaimer_if_Current__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Order__c</field>
-        <value xsi:type="xsd:double">1.0</value>
+        <value xsi:type="xsd:double">2.0</value>
+    </values>
+    <values>
+        <field>Readonly_if_Current__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Reasons_List__c</field>
         <value xsi:type="xsd:string">;Left a Message</value>
+    </values>
+    <values>
+        <field>Show_Only_If_Selected__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>State__c</field>
@@ -21,5 +41,9 @@
     <values>
         <field>Step__c</field>
         <value xsi:type="xsd:string">Contact</value>
+    </values>
+    <values>
+        <field>Suppress_Multiple__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
 </CustomMetadata>

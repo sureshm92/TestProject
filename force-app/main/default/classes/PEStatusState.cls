@@ -54,6 +54,8 @@ public without sharing class PEStatusState {
     //Received Step
     public static final String PE_STATUS_RECEIVED = 'Received'; //TODO:check
     //Contact Step
+    public static final String PE_STATUS_PRE_REVIEW_PASSED = 'Pre-review Passed';//REF-1827 Added by Sumit S
+    public static final String PE_STATUS_PRE_REVIEW_FAILED = 'Pre-review Failed';//REF-1827 Added by Sumit S
     public static final String PE_STATUS_SUCCESSFULLY_CONTACTED = 'Successfully Contacted';//TODO:check
     public static final String PE_STATUS_CONTACT_ATTEMPTED = 'Contact Attempted';//TODO:check
     public static final String PE_STATUS_CONTACTED_NOT_SUITABLE = 'Contacted - Not Suitable';//TODO:check
@@ -104,6 +106,7 @@ public without sharing class PEStatusState {
     //status groups:
     public static final List<String> PE_STATUS_GROUP_FAILED = new List<String>{
             PE_STATUS_REFERRAL_DECLINED,
+            PE_STATUS_PRE_REVIEW_FAILED,
             PE_STATUS_CONTACTED_NOT_SUITABLE,
             PE_STATUS_UNABLE_TO_REACH,
             PE_STATUS_ELIGIBILITY_FAILED,
@@ -120,23 +123,23 @@ public without sharing class PEStatusState {
             PE_STATUS_DECLINED_FINAL_CONSENT
     };
     
-    public static final List<String> PE_STATUS_GROUP_ALUMNI = new List<String>{
-            PE_STATUS_FAILED_REVIEW,
-            PE_STATUS_FAILED_REFERRAL,
-            PE_STATUS_EXCLUDED_FROM_REFERRING,
-            PE_STATUS_REFERRAL_DECLINED,
-            PE_STATUS_UNABLE_TO_REACH,
-            PE_STATUS_ELIGIBILITY_FAILED,
-            PE_STATUS_DECLINED_CONSENT,
-            PE_STATUS_WITHDREW_CONSENT,
-            PE_STATUS_SCREENING_FAILED,
-            PE_STATUS_UNABLE_TO_SCREEN,
-            PE_STATUS_ENROLLMENT_FAILED,
-            PE_STATUS_RANDOMIZATION_FAILED,
-            PE_STATUS_WITHDREW_CONSENT_AFTER_SCREENING,
-            PE_STATUS_DROP_OUT,
-            PE_STATUS_PARTICIPATION_COMPLETE,
-            PE_STATUS_TRIAL_COMPLETE
+    public static final List<String> PE_STATUS_GROUP_ALUMNI = new List<String>{ 
+            PE_STATUS_FAILED_REVIEW,    
+            PE_STATUS_FAILED_REFERRAL,  
+            PE_STATUS_EXCLUDED_FROM_REFERRING,  
+            PE_STATUS_REFERRAL_DECLINED,    
+            PE_STATUS_UNABLE_TO_REACH,  
+            PE_STATUS_ELIGIBILITY_FAILED,   
+            PE_STATUS_DECLINED_CONSENT, 
+            PE_STATUS_WITHDREW_CONSENT, 
+            PE_STATUS_SCREENING_FAILED, 
+            PE_STATUS_UNABLE_TO_SCREEN, 
+            PE_STATUS_ENROLLMENT_FAILED,    
+            PE_STATUS_RANDOMIZATION_FAILED, 
+            PE_STATUS_WITHDREW_CONSENT_AFTER_SCREENING, 
+            PE_STATUS_DROP_OUT, 
+            PE_STATUS_PARTICIPATION_COMPLETE,   
+            PE_STATUS_TRIAL_COMPLETE    
     };
     
     public static final List<String> PE_STATUS_GROUP_IN_PROGRESS = new List<String>{
@@ -145,6 +148,7 @@ public without sharing class PEStatusState {
             PE_STATUS_REFERRAL_ON_HOLD,
             PE_STATUS_RECEIVED,
             PE_STATUS_SUCCESSFULLY_CONTACTED,
+            PE_STATUS_PRE_REVIEW_PASSED,   
             PE_STATUS_CONTACT_ATTEMPTED,
             PE_STATUS_ELIGIBILITY_PASSED,
             PE_STATUS_SCREENING_PASSED,
@@ -158,6 +162,7 @@ public without sharing class PEStatusState {
             PE_STATUS_REFERRAL_ACCEPTED,
             PE_STATUS_RECEIVED,
             PE_STATUS_SUCCESSFULLY_CONTACTED,
+            PE_STATUS_PRE_REVIEW_PASSED,
             PE_STATUS_CONTACT_ATTEMPTED,
             PE_STATUS_ELIGIBILITY_PASSED,
             PE_STATUS_SCREENING_PASSED,
@@ -196,6 +201,7 @@ public without sharing class PEStatusState {
             PE_STATUS_REFERRAL_ON_HOLD,
             PE_STATUS_RECEIVED,
             PE_STATUS_SUCCESSFULLY_CONTACTED,
+            PE_STATUS_PRE_REVIEW_PASSED,
             PE_STATUS_CONTACT_ATTEMPTED,
             PE_STATUS_ELIGIBILITY_PASSED,
             PE_STATUS_SCREENING_PASSED,
@@ -212,6 +218,7 @@ public without sharing class PEStatusState {
     public static final List<String> PE_STATUS_GROUP_INACTIVE = new List<String>{
             PE_STATUS_REFERRAL_DECLINED,
             PE_STATUS_CONTACTED_NOT_SUITABLE,
+            PE_STATUS_PRE_REVIEW_FAILED,
             PE_STATUS_UNABLE_TO_REACH,
             PE_STATUS_ELIGIBILITY_FAILED,
             PE_STATUS_SCREENING_FAILED,
@@ -237,6 +244,8 @@ public without sharing class PEStatusState {
             PE_STATUS_REFERRAL_DECLINED,
             PE_STATUS_RECEIVED,
             PE_STATUS_EXCLUDED_FROM_REFERRING,
+            PE_STATUS_PRE_REVIEW_PASSED,
+            PE_STATUS_PRE_REVIEW_FAILED,
             PE_STATUS_SUCCESSFULLY_CONTACTED,
             PE_STATUS_CONTACT_ATTEMPTED,
             PE_STATUS_CONTACTED_NOT_SUITABLE,
@@ -278,8 +287,8 @@ public without sharing class PEStatusState {
             new StatusStep(PE_ST_CONTACT_ATTEMPTS,
                     new Map<String, List<String>>{
                             STATUS_STATE_SUCCESS => new List<String>{PE_STATUS_SUCCESSFULLY_CONTACTED},
-                            STATUS_STATE_IN_PROGRESS => new List<String>{PE_STATUS_CONTACT_ATTEMPTED},
-                            STATUS_STATE_FAILURE => new List<String>{PE_STATUS_UNABLE_TO_REACH, PE_STATUS_CONTACTED_NOT_SUITABLE}
+                            STATUS_STATE_IN_PROGRESS => new List<String>{PE_STATUS_CONTACT_ATTEMPTED, PE_STATUS_PRE_REVIEW_PASSED},
+                            STATUS_STATE_FAILURE => new List<String>{PE_STATUS_PRE_REVIEW_FAILED, PE_STATUS_UNABLE_TO_REACH, PE_STATUS_CONTACTED_NOT_SUITABLE}
                     }),
             new StatusStep(PE_ST_INITIAL_VISIT_ELIGIBILITY,
                     new Map<String, List<String>>{
@@ -321,6 +330,8 @@ public without sharing class PEStatusState {
             PE_STATUS_REFERRAL_ON_HOLD => 1,
             PE_STATUS_REFERRAL_DECLINED => 1,
             PE_STATUS_RECEIVED => 1,
+            PE_STATUS_PRE_REVIEW_PASSED => 2,
+            PE_STATUS_PRE_REVIEW_FAILED => 2,
             PE_STATUS_CONTACT_ATTEMPTED => 2,
             PE_STATUS_SUCCESSFULLY_CONTACTED => 2,
             PE_STATUS_CONTACTED_NOT_SUITABLE => 2,

@@ -37,6 +37,15 @@ public without sharing class ParticipantInformationRemote {
         }
     }
 
+    @AuraEnabled
+    public static Participant__c getDelegates(String participantId) {
+        List<Participant__c> delegates = [SELECT Id, First_Name__c, Last_Name__c, Phone__c FROM Participant__c WHERE Contact__c IN (SELECT Contact__c FROM Patient_Delegate__c WHERE Participant__c = :participantId AND Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS)];
+        if (!delegates.isEmpty()) {
+            return delegates[0];
+        } else {
+            return null;
+        }
+    }
 
     /**
    * This method is created to accomodate the requirements of REF-1192
@@ -50,16 +59,6 @@ public without sharing class ParticipantInformationRemote {
    * @exception AuraHandledException to community UI
    * @see AuraHandledException
    */
-
-    @AuraEnabled
-    public static Participant__c getDelegates(String participantId) {
-        List<Participant__c> delegates = [SELECT Id, First_Name__c, Last_Name__c, Phone__c FROM Participant__c WHERE Contact__c IN (SELECT Contact__c FROM Patient_Delegate__c WHERE Participant__c = :participantId AND Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS)];
-        if (!delegates.isEmpty()) {
-            return delegates[0];
-        } else {
-            return null;
-        }
-    }
     @AuraEnabled
     public static String getPrintInfoWithSteps(String peId, String userMode, String delegateId){
         try{    
@@ -382,7 +381,8 @@ public without sharing class ParticipantInformationRemote {
         try {
             ParticipantWorkflowService.ParticipantWorkflowWrapper pathWrapper =
                 (ParticipantWorkflowService.ParticipantWorkflowWrapper)JSON.deserialize(pathWrapperJSON, ParticipantWorkflowService.ParticipantWorkflowWrapper.class);
-            Participant_Enrollment__c oldParticipantEnrollment = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityModeService.USER_MODE_PI, null);
+            //Participant_Enrollment__c oldParticipantEnrollment = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityModeService.USER_MODE_PI, null);
+            Participant_Enrollment__c oldParticipantEnrollment = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityModeService.USER_MODE_PI, null, ViewPatientsRemote.PE_MY_PARTICIPANTS_FIELDS);
             Clinical_Trial_Profile__c ctp = StudyTrialService.getFullTrial(oldParticipantEnrollment.Clinical_Trial_Profile__c);
             ParticipantWorkflowService.populatePEFromWorkflowWrapper(pathWrapper, pe, ctp, oldParticipantEnrollment);
             update pe;
@@ -390,7 +390,8 @@ public without sharing class ParticipantInformationRemote {
                     &&(pe.Initial_visit_scheduled_date__c != null && pe.Initial_visit_scheduled_time__c != null)) {
                 IncentiveProgramService.completeIncentiveTaskCurrentContact(IncentiveTaskCatalog.INCENTIVE_TASK_ENTERED_INITIAL_VISIT_SCHEDULED_TIME, oldParticipantEnrollment.Study_Site__c, oldParticipantEnrollment.Name);
             }
-            pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_PI);            
+            //pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_PI); 
+            pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityModeService.USER_MODE_PI, null, ViewPatientsRemote.PE_MY_PARTICIPANTS_FIELDS);           
             Participant_Enrollment_Status_History__c pesh = ParticipantWorkflowService.createPESHFromPathWrapper(pathWrapper, pe, ctp, oldParticipantEnrollment);
             if(pesh != null && historyToUpdate){
                 if (oldParticipantEnrollment.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED
@@ -401,7 +402,8 @@ public without sharing class ParticipantInformationRemote {
                 }
                 insert pesh;
             }
-            pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_PI);
+            //pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_PI);
+            pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityModeService.USER_MODE_PI, null, ViewPatientsRemote.PE_MY_PARTICIPANTS_FIELDS);
             if (pe == null) throw new CommunityServiceException('Participant enrollment not found');
             return JSON.serialize( new UpdateResponse(pe, ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe)));
         } catch (Exception e) {
@@ -416,7 +418,8 @@ public without sharing class ParticipantInformationRemote {
             ParticipantWorkflowService.ParticipantWorkflowWrapper pathWrapper =
                 (ParticipantWorkflowService.ParticipantWorkflowWrapper)JSON.deserialize(pathWrapperJSON, ParticipantWorkflowService.ParticipantWorkflowWrapper.class);
 
-            Participant_Enrollment__c oldParticipantEnrollment = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityModeService.USER_MODE_CC, null);
+            //Participant_Enrollment__c oldParticipantEnrollment = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityModeService.USER_MODE_CC, null);
+            Participant_Enrollment__c oldParticipantEnrollment = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityModeService.USER_MODE_CC, null, ViewPatientsRemote.PE_MY_PARTICIPANTS_FIELDS);
             Clinical_Trial_Profile__c ctp = StudyTrialService.getFullTrial(oldParticipantEnrollment.Clinical_Trial_Profile__c);
             ParticipantWorkflowService.populatePEFromWorkflowWrapper(pathWrapper, pe, ctp, oldParticipantEnrollment);
             update pe;
@@ -424,7 +427,8 @@ public without sharing class ParticipantInformationRemote {
                     &&(pe.Initial_visit_scheduled_date__c != null && pe.Initial_visit_scheduled_time__c != null)) {
                 IncentiveProgramService.completeIncentiveTaskCurrentContact(IncentiveTaskCatalog.INCENTIVE_TASK_ENTERED_INITIAL_VISIT_SCHEDULED_TIME, oldParticipantEnrollment.Study_Site__c, oldParticipantEnrollment.Name);
             }
-            pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_CC);            
+            //pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_CC); 
+            pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityModeService.USER_MODE_CC, null, ViewPatientsRemote.PE_MY_PARTICIPANTS_FIELDS);        
             Participant_Enrollment_Status_History__c pesh = ParticipantWorkflowService.createPESHFromPathWrapper(pathWrapper, pe, ctp, oldParticipantEnrollment);
             if(pesh != null && historyToUpdate){
                 if (oldParticipantEnrollment.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED
@@ -434,14 +438,14 @@ public without sharing class ParticipantInformationRemote {
                 }
                 insert pesh;
             }
-            pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_CC);
+            //pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_CC);
+            pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityModeService.USER_MODE_CC, null, ViewPatientsRemote.PE_MY_PARTICIPANTS_FIELDS);
             if (pe == null) throw new CommunityServiceException('Participant enrollment not found');
             return JSON.serialize( new UpdateResponse(pe, ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe)));
         } catch (Exception e) {
             System.debug('ERROR: ' + e.getMessage() + '\n' + e.getStackTraceString());
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());        }
     }
-    //
     
     
     @AuraEnabled

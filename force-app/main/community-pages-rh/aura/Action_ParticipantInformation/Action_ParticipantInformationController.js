@@ -86,10 +86,10 @@
     
     
     doUpdate: function (component, event, helper) {
-        var participant = component.get('v.participant');
+           var participant = component.get('v.participant');
         var pe = component.get('v.pe');
         var usermode = communityService.getUserMode();
-        //pe.Permit_IQVIA_to_contact_about_study__c = !component.get('v.doNotContact');
+         //pe.Permit_IQVIA_to_contact_about_study__c = !component.get('v.doNotContact');
         pe.Permit_Mail_Email_contact_for_this_study__c = component.get('v.isEmail');
         pe.Permit_Voice_Text_contact_for_this_study__c = component.get('v.isPhone');
         pe.Permit_SMS_Text_for_this_study__c = component.get('v.isSMS');
@@ -105,7 +105,7 @@
         // if(component.get('v.isInvited')){
         //     communityService.executeAction(component, 'updateUserLanguage', {userJSON: JSON.stringify(userInfo)})
         // }
-        communityService.executeAction(component, 'updatePatientInfoWithDelegate', {
+                communityService.executeAction(component, 'updatePatientInfoWithDelegate', {
             participantJSON: JSON.stringify(participant),
             peJSON: JSON.stringify(pe),
             delegateJSON: JSON.stringify(component.get('v.participantDelegate')),
@@ -126,9 +126,16 @@
                 cmpEvent.setParams({"searchKey" : component.get("v.searchKey")}); 
                 cmpEvent.fire(); 
             }
-        }, null, function () {
+            if(component.get('v.isListView') == true)
+            {
+                var p = component.get("v.parent");
+                p.refreshTable();
+            }
+        },
+        null, function () {
             component.find('spinner').hide();
         });
+ 
     },
     
     doCallback: function (component, event, helper) {
@@ -226,6 +233,11 @@
                 cmpEvent.setParams({"searchKey" : component.get("v.searchKey")}); 
                 cmpEvent.fire(); 
             }
+             if(component.get('v.isListView') == true)
+            {
+                var p = component.get("v.parent");
+                p.refreshTable();
+            }
             comp.hide();
         }, null, function () {
             component.set('v.isStatusChanged', false);
@@ -286,6 +298,11 @@
                     var cmpEvent = component.getEvent("callcenter"); 
                     cmpEvent.setParams({"searchKey" : component.get("v.searchKey")}); 
                     cmpEvent.fire(); 
+                }
+                if(component.get('v.isListView') == true)
+                {
+                    var p = component.get("v.parent");
+                    p.refreshTable();
                 }
             }, null, function () {
                 component.set('v.updateInProgress', false);                

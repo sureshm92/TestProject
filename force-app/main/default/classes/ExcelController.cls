@@ -116,10 +116,10 @@ public class ExcelController {
 
     public String getCommunityFilter(String exportedSObject){
         if (UserContext.getCurrentCommunityTemplate().templateName == CommunityTemplateService.TEMPLATE_JANSSEN) {
-            return ' Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c NOT IN (\'' + String.join(COMMUNITY_TEMPLATES_NON_JANSSEN, '\',\'') + '\') ';
+            return ' Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\'';
         }
         else{
-            return ' Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c IN (\'' + String.join(COMMUNITY_TEMPLATES_NON_JANSSEN, '\',\'') + '\') ';
+            return ' Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\'';
         }
     }
 

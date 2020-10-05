@@ -250,10 +250,16 @@ public without sharing class ReferringRemote {
 
                 if(participantId != null && newContact.Id != null){
                     List<Patient_Delegate__c> checkPDel = [SELECT Id FROM Patient_Delegate__c WHERE Participant__c =:participantId AND Contact__c =:newContact.Id];
+                    List<Participant_Enrollment__c> particpantEnrollList = [Select Id ,Study_Site__r.Study_Site_Type__c,Study_Site__r.Suppress_Participant_Emails__c,Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c from Participant_Enrollment__c where Participant__c =:participantId];
                     if(checkPDel.isEmpty()){
                         Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
                         ptDelegateRef.Participant__c = participantId;
                         ptDelegateRef.Contact__c = newContact.Id;
+                        String communityTemplateName = UserContext.getCurrentCommunityTemplate().templateName;
+                        if(particpantEnrollList.size() > 0 && particpantEnrollList[0].Study_Site__r.Study_Site_Type__c == StudySiteService.SS_TYPE_TRADITIONAL && (particpantEnrollList[0].Study_Site__r.Suppress_Participant_Emails__c || particpantEnrollList[0].Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c ) && communityTemplateName == CommunityTemplateService.TEMPLATE_DEFAULT){
+                            TriggerHandlerExecutor.bypassHandler(PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class); 
+                        }
+
                         insert ptDelegateRef;
                     }
                 }

@@ -163,6 +163,16 @@
                 <default>false</default>
                 <label>Declined Final Consent</label>
             </value>
+            <value>
+                <fullName>Pre-review Passed</fullName>
+                <default>false</default>
+                <label>Pre-review Passed</label>
+            </value>
+            <value>
+                <fullName>Pre-review Failed</fullName>
+                <default>false</default>
+                <label>Pre-review Failed</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

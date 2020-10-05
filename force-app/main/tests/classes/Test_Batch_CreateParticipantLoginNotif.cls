@@ -24,7 +24,7 @@ public with sharing class Test_Batch_CreateParticipantLoginNotif {
         );
         insert contact;
 
-        testData.participant = [SELECT Id, Contact__c, Status__c FROM Participant__c];
+        testData.participant = [SELECT Id, Contact__c, Status__c FROM Participant__c limit 1];
         testData.participant.Contact__c = contact.Id;
         testData.participant.Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
         update testData.participant;

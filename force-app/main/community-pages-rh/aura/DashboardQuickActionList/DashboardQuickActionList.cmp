@@ -2,7 +2,7 @@
  - Created by Andrii Kryvolap.
  -->
 
-<aura:component description="DashboardQuickActionList">
+<aura:component description="DashboardQuickActionList" controller="DashboardRemoteNew">
 
     <!-- attributes: -->
     <aura:attribute name="itemsList" type="List"/>
@@ -11,12 +11,26 @@
     <aura:attribute name="title" type="String"/>
     <aura:attribute name="viewMoreLink" type="String"/>
     <aura:attribute name="viewMoreTag" type="String"/>
-    <aura:attribute name="isParticipantDisplay" type="boolean"/>  
+    <aura:attribute name="isParticipantDisplay" type="boolean" default="true"/>
+    <aura:attribute name="piData" type="Object"/>
 
+    <aura:attribute name="currentPi" type="String"/>
+	<aura:attribute name="currentStudy" type="String"/>
+    <aura:attribute name="childLoad" type="String"/> 
+    <aura:attribute name="recordChanged" type="String" default="" access="public"/>	
+    <aura:attribute name="recordCount" type="String" default="0"/>	
+
+    <!--<aura:handler name="init" value="{!this}" action="{! c.doInit }"/>
+    <aura:handler name="change" value="{!v.piData}" action="{!c.doInit}"/>-->
+
+    <aura:handler name="change" value="{!v.childLoad}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.recordChanged}" action="{!c.doInit}"/>
+
+    <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true"/>
     <div class="rr-white-panel db-qal-container">
         <div class="{!v.isParticipantDisplay? 'db-qal-main-participant' : 'db-qal-main'}">
             <div class="db-qal-title">
-                {!v.title}
+                {!v.recordCount}&nbsp;{!v.title}
             </div>
             <div class="{!v.isParticipantDisplay? 'db-qal-items-participant' : 'db-qal-items'}">
                 <aura:iteration items="{!v.itemsList}" var="item">

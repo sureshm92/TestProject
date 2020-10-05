@@ -2,7 +2,7 @@
  - Created by Alexey Moseev.
  -->
 
-<aura:component description="DashboardWaitingContact" controller="DashboardRemote">
+<aura:component description="DashboardWaitingContact" controller="DashboardRemoteNew">
 
     <!-- attributes:-->
     <aura:attribute name="pe" type="Object" description="Participant enrollment item"/>
@@ -15,15 +15,24 @@
     <aura:attribute name="peStatusStateMap" type="Map"/>
     <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="defaultSorting" type="Boolean" default="{!true}"/>
+    <aura:attribute name="currentPi" type="String"/>
+    <aura:attribute name="currentStudy" type="String"/> 
+    <aura:attribute name="childLoad" type="String"/> 
+    <aura:attribute name="recordChanged" type="String" default="" access="public"/>
+    <aura:attribute name="recordLength" type="String" default="0"/>
 
     <!-- handlers: -->
-    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
+    <!--<aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>-->
+	<!-- <aura:handler name="init" value="{!this}" action="{!c.doinit}"/>-->
+    <aura:handler name="change" value="{!v.childLoad}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.recordChanged}" action="{!c.doInit}"/>
+
 
     <!-- component body -->
     <div class="rr-white-panel db-qal-container">
         <div class="db-qal-main">
             <div class="db-qal-title">
-                {!v.dashboardTitle}
+               {!v.recordLength}&nbsp;{!v.dashboardTitle}
             </div>
             <div class="db-qal-items slds-grid slds-wrap slds-scrollable">
                 <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
