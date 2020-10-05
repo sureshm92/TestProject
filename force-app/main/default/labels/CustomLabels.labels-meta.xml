@@ -19433,28 +19433,28 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>WelcomeEmail_DiscoverLogo</shortDescription>
-        <value>https://ruby-flow-1689-dev-ed--c.documentforce.com/servlet/servlet.ImageServer?id=01517000001aB58&amp;oid=00D17000000IZC4&amp;lastMod=1600679311000</value>
+        <value>https://customer-business-9908-dev-ed--c.documentforce.com/servlet/servlet.ImageServer?id=015J0000001htvp&amp;oid=00DJ0000003YwGT&amp;lastMod=1601904892000</value>
     </labels>
     <labels>
         <fullName>WelcomeEmail_LearnLogo</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>WelcomeEmail_LearnLogo</shortDescription>
-        <value>https://ruby-flow-1689-dev-ed--c.documentforce.com/servlet/servlet.ImageServer?id=01517000001aB53&amp;oid=00D17000000IZC4&amp;lastMod=1600679244000</value>
+        <value>https://customer-business-9908-dev-ed--c.documentforce.com/servlet/servlet.ImageServer?id=015J0000001htvu&amp;oid=00DJ0000003YwGT&amp;lastMod=1601904922000</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>WelcomeEmail_PPHeaderLogo</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>WelcomeEmail_PPHeaderLogo</shortDescription>
-        <value>https://ruby-flow-1689-dev-ed--c.documentforce.com/servlet/servlet.ImageServer?id=01517000001aWFe&amp;oid=00D17000000IZC4&amp;lastMod=1601450144000</value>
+        <value>https://customer-business-9908-dev-ed--c.documentforce.com/servlet/servlet.ImageServer?id=015J0000001htvz&amp;oid=00DJ0000003YwGT&amp;lastMod=1601904956000</value>
     </labels>
     <labels>
         <fullName>WelcomeEmail_TrackLogo</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>WelcomeEmail_TrackLogo</shortDescription>
-        <value>https://ruby-flow-1689-dev-ed--c.documentforce.com/servlet/servlet.ImageServer?id=01517000001aB5D&amp;oid=00D17000000IZC4&amp;lastMod=1600679391000</value>
+        <value>https://customer-business-9908-dev-ed--c.documentforce.com/servlet/servlet.ImageServer?id=015J0000001htw4&amp;oid=00DJ0000003YwGT&amp;lastMod=1601904990000</value>
     </labels>
     <labels>
         <fullName>Withdrew_Consent</fullName>
