@@ -1,0 +1,27 @@
+<!--
+ - Created by Olga Skrynnikova on 9/10/2020.
+ -->
+
+<aura:component description="ExceptionHandlerPopup">
+    <!-- attributes:-->
+    <aura:attribute name="messageText" type="String"/>
+    <aura:attribute name="titleText" type="String"/>
+    <aura:attribute name="errorText" type="String"/>
+    <aura:attribute name="isCollapsed" type="Boolean" default="true" access="private"/>
+
+    <!-- methods:-->
+    <aura:method name="execute" action="{!c.doExecute}" access="public">
+        <aura:attribute name="errorText" type="String"/>
+    </aura:method>
+
+    <!-- component body:-->
+    <c:Popup aura:id="exceptionHandler" title="{!v.titleText}" size="small">
+        <c:RRSpinner aura:id="spinner"/>
+        {!v.messageText}
+        <aura:set attribute="footerButtons">
+            <c:RRCollapse label="{!$Label.c.MS_Show_More}" isCollapsed="{!v.isCollapsed}">
+                {!v.errorText}
+            </c:RRCollapse>
+        </aura:set>
+    </c:Popup>
+</aura:component>

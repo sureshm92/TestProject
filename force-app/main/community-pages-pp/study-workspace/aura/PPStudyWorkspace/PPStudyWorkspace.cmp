@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="PPStudyWorkspace" controller="StudyDetailViewController">
+ <aura:component description="PPStudyWorkspace" controller="StudyDetailViewController" extends="c:CommunityContext">
 
     <!-- attributes: -->
     <aura:attribute name="parent" type="Aura.Component" required="true"/>
@@ -48,7 +48,7 @@
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
 
     <!-- component body -->
-    <div>
+    <div class="{!v.isRTL? 'rtl' :''}">
         <aura:if isTrue="{!v.isInitialized}">
             <!-- Share dialog -->
             <c:ShareModal aura:id="shareModal" parent="{!this}" needRefresh="false"/>
@@ -202,12 +202,12 @@
                         </aura:if>
                         <aura:if isTrue="{!v.displayLabsButton}">
                         <button id="changeLabResultsMode" data-gtm="BTN_Visit_Results_Labs" data-lab-results-mode="Labs"
-                                class="{!'apollo-btn text ' + if(v.labResultsMode == 'Labs', ' current', '')}"
+                                class="{!'apollo-btn text ' + if(v.labResultsMode == 'Labs', ' current', '')}" style="{!if(v.isRTL == true, 'border-left: 1px solid #d9d9d9;border-right: none;', '')}"
                                 onclick="{!c.doAction}">{!$Label.c.Visit_Results_Tab_Labs}</button>
                         </aura:if>
                         <aura:if isTrue="{!v.displayBiomarkersButton}">
                         <button id="changeLabResultsMode" data-gtm="BTN_Visit_Results_Biomarkers" data-lab-results-mode="Biomarkers"
-                                class="{!'apollo-btn text ' + if(v.labResultsMode == 'Biomarkers', ' current', '')}"
+                                class="{!'apollo-btn text ' + if(v.labResultsMode == 'Biomarkers', ' current', '')}" style="{!if(v.isRTL == true, 'border-left: 1px solid #d9d9d9;border-right: none;', '')}"
                                 onclick="{!c.doAction}">{!$Label.c.Visit_Results_Tab_Biomarkers}</button>
                             </aura:if>
                         <!-- PEH-1986: In-trial Summary Report -->

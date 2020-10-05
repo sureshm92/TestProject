@@ -15,6 +15,7 @@
     <aura:handler event="c:TCCookieClassesRemove" action="{!c.removeClasses}"/>
 
     <!-- component body: -->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <div>
         <c:RRSpinner size="medium" aura:id="mainSpinner"/>
         <div class="rr-body-content rr-min-body-height">

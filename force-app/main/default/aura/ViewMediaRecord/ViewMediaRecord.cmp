@@ -49,6 +49,7 @@
                   />
     
     <!-- component body:-->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <c:Popup aura:id="ShowPoP_Up" title="{!$Label.c.Request+' '+v.ViewRecord[0].Name}" showClose="true" size="medium"
              showScroll="true" childpopup="true">
         <c:RRSpinner aura:id="modalSpinnerpopup" size="medium" showSpinner="false" />

@@ -13,6 +13,7 @@
     </aura:method>
     <aura:method name="hide" action="{!c.doHide}"/>
 
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <c:Popup aura:id="reimbursmentModal" title="Reimbursement Configuration" size="medium" showFooter="true">
         <div class="modal-dialog-body success">
             <c:RRIcon iconName="icon-check-circle"/>

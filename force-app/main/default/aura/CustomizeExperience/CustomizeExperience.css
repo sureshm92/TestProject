@@ -1,7 +1,7 @@
 /**
  * Created by Yehor Dobrovolskyi
  */
-.THIS {
+ .THIS {
     padding: 1.5rem;
 }
 
@@ -20,13 +20,22 @@
     align-items: center;
     margin-right: 1rem;
     margin-bottom: 1rem;
+    width:120px;
     box-shadow: 0 4px 8px 0 rgba(41, 125, 253, 0.16), 0 4px 4px 0 rgba(0, 0, 0, 0.04), 0 8px 16px 0 rgba(41, 125, 253, 0.32)
 }
 
 .THIS .slds-input {
     height: 40px;
 }
+.THIS .rightAlign > .slds-pill__action{
+    padding-right:0px!important;
+    padding-left:calc(1rem + 0.25rem + 2px);
+}
 
+.THIS .rightAlign button{
+    left: .125rem;
+    right:auto!important;
+}
 .THIS .button.slds-pill:hover {
     border: none;
 }
@@ -48,7 +57,9 @@
 
 .THIS .slds-pill__label {
     text-align: center;
-    margin-bottom: 10px;
+    /*margin-bottom: 10px;
+    margin-top: 6%;*/
+
 }
 
 .THIS .slds-pill {
@@ -65,6 +76,10 @@
     height: .75rem;
     width: .75rem;
     line-height: 0;
+    left: 85%;
+    top: 22%;
+
+
 }
 
 .THIS .title-desc {
@@ -104,7 +119,6 @@
     font-family: "Proxima Nova";
     font-size: 14px;
     line-height: 17px;
-    text-align: left;
     padding-top: 5px;
     margin-bottom: 12px;
 }
@@ -116,11 +130,15 @@
     font-family: "Proxima Nova";
     font-size: 14px;
     line-height: 17px;
-    text-align: left;
     padding-bottom: 5px;
     margin-bottom: 7px;
 }
-
+.THIS .LTR-Text-align{	
+    text-align: left;	
+}	
+.THIS .RTL-Text-align{	
+    text-align: right;	
+}
 .THIS table {
     border-top: 0;
     border-collapse: collapse;

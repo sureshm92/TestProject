@@ -20,6 +20,7 @@
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
 
     <!-- component body: -->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true"/>
     <aura:if isTrue="{!v.isInitialized}">
         <aura:if isTrue="{!and(v.userMode == 'PI',v.showDashboardforPI)}">

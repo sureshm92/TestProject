@@ -47,6 +47,7 @@
     <aura:attribute name="isUpdated" type="Boolean"/>
     <aura:attribute name="isAdult" type="Boolean"/>
     <aura:attribute name="minorUserName" type="String"/>
+    <aura:attribute name="isRTL" type="Boolean" default="false"/>
     
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -59,6 +60,7 @@
     
     
     <!-- component body: -->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <div>
         <div class="as-container">
             
@@ -76,7 +78,7 @@
                             <div class="slds-col slds-size_1-of-1">
                                 <aura:if isTrue="{!v.userMode == 'Participant'}">
                                     <aura:if isTrue="{!v.isAdult}">
-                                        <c:Action_AddProfilePhoto username="{!v.userEmail}" recordId="{!v.userId}" isDelegate="{!v.isDelegate}" hasProfilePic="{!v.hasProfilePic}"></c:Action_AddProfilePhoto>
+                                        <c:Action_AddProfilePhoto username="{!v.userEmail}" recordId="{!v.userId}" isDelegate="{!v.isDelegate}" hasProfilePic="{!v.hasProfilePic}" isRTLLanguage="{!v.isRTL}"></c:Action_AddProfilePhoto>
                                         <aura:set attribute="else">
                                             <div class="slds-grid profileImg">
                                                 <div class="avatar-icon-minor">
@@ -232,12 +234,12 @@
                                     <lightning:input aura:id="pField" type="date" label="{!$Label.c.PG_AS_F_Date_of_Birth}"
                                                      max="{!v.todayDate}"
                                                      value="{!v.personWrapper.dateBirth}" required="true"
-                                                     onblur="{!c.doCheckFieldsValidity}" class="mar_dob"/></aura:if>
+                                                     onblur="{!c.doCheckFieldsValidity}" class="{!v.isRTL?'mar_dob rightAlign':'mar_dob'}"/></aura:if>
                                 <aura:if isTrue="{!(v.isDelegate)}">
                                     <lightning:input aura:id="pField" type="date" label="{!$Label.c.PG_AS_F_Date_of_Birth}"
                                                      max="{!v.todayDate}"
                                                      value="{!v.personWrapper.dateBirth}" required="true"
-                                                     onblur="{!c.doCheckFieldsValidity}" disabled="true" class="mar_dob"/>                                                  
+                                                     onblur="{!c.doCheckFieldsValidity}" disabled="true" class="{!v.isRTL?'mar_dob rightAlign':'mar_dob'}"/>                                                  
                                 </aura:if>
                             </div>
                         </div>
@@ -307,7 +309,8 @@
                                                  value="{!v.personWrapper.mobilePhone}"
                                                  required="{!and(v.personWrapper.optInSMS, equals(v.personWrapper.mailingCC, 'US'))}"
                                                  disabled="{!notequals(v.personWrapper.mailingCC, 'US')}"
-                                                 onblur="{!c.doCheckFieldsValidity}" /> 
+                                                 onblur="{!c.doCheckFieldsValidity}"
+                                                 class="{!v.isRTL?'rightAlign':''}"/> 
                                 
                             </div>
                             <aura:if isTrue="{!v.userMode == 'Participant'}">  
@@ -334,7 +337,7 @@
                                 <aura:if isTrue="{!v.userMode == 'Participant'}">
                                     <lightning:input aura:id="pField2" type="tel" label="{!$Label.c.PG_AS_F_Phone_number}"
                                                      value="{!v.personWrapper.homePhone}" 
-                                                     onblur="{!c.doCheckFieldsValidity}" required="true"/>
+                                                     onblur="{!c.doCheckFieldsValidity}" required="true" class="{!v.isRTL?'rightAlign':''}"/>
                                 </aura:if>
                                 <aura:if isTrue="{!v.userMode != 'Participant'}">
                                     <lightning:input aura:id="pField2" type="tel" label="{!$Label.c.PG_AS_F_Phone_number}"

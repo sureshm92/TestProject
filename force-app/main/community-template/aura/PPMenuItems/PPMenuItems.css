@@ -2,7 +2,7 @@
  * Created by Olga Skrynnikova on 6/10/2020.
  */
 
-.THIS{
+ .THIS{
     width: 100%;
 }
 
@@ -14,6 +14,15 @@
 .THIS .contain:first-child .pp-item:first-child .main-box .menu-item-box .icon-settings-box .icon-delegate-box .icon-delegate{
     visibility: visible;
     opacity: 1;
+}
+
+.THIS .rtlMain{
+    direction: rtl;
+    padding-right: 30px;
+}
+
+.THIS .rtlHover{
+    direction: rtl;
 }
 
 .THIS .item-line{
@@ -48,11 +57,13 @@
 .THIS .selected{
     color: #0768FD;
     font-weight: bold;
-    align-items: center;
 }
 
 .THIS .selected-sub-title{
     color: #0768FD;
+}
+.THIS .subtitleRTL{
+    text-align: right;
 }
 
 .THIS .overflow{
@@ -91,4 +102,56 @@
 
 .THIS .icon-box{
     margin-left: 21px;
+}
+.THIS .icon-boxRTL{
+    padding-right: 25px;
+}
+
+ .THIS.toggle {
+   display: none;
+ }
+.THIS.container {
+  height: 30px;
+  width: 81px;
+  border-radius: 4px;
+  background-color: #444444;
+  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.16);  
+}
+.THIS.tooltip{
+    position:absolute;
+    top:33%;
+    left:68%;
+    width:25%;
+}
+.THIS.tooltipRTL{
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 25%;
+}
+.THIS.tooltipAS{
+    position:absolute;
+    top:32%;
+    left:76%;
+    width:33%;
+}
+.THIS.tooltipASRTL{
+    position: absolute;
+    top: 36%;
+    left: -5%;
+    width: 33%;
+}
+.THIS.tooltipSubTitle{    
+    position:absolute;
+    top:-60%;
+    left:15%;
+    min-width:10%;
+    min-height:10%;
+    width:auto;
+    height:auto;
+    word-break: break-all;
+    white-space:normal;  
+}
+.THIS.tooltipNotActive{  
+	display:none;
 }

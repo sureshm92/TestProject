@@ -153,5 +153,9 @@ private class Test_Batch_UpdateNotifyDateOldUsers {
         Test.startTest();
         Database.executeBatch(new Batch_UpdateNotifyDateOldUsers(ctps));
         Test.stopTest();
+
+        List<Contact> contacts = [SELECT Id, Next_Notify_Date__c FROM Contact WHERE Next_Notify_Date__c != NULL];
+        System.assertEquals(1, contacts.size());
+        System.assertEquals(Date.today().addDays(5), (Date) contacts[0].Next_Notify_Date__c);
     }
 }

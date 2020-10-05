@@ -2,7 +2,16 @@
     min-width:50rem;
     padding: 1.5rem;
 }
-
+.THIS .rightAlign .slds-datepicker table {
+    table-layout: fixed;
+    width: 300px;
+}
+.THIS .rightAlign .slds-datepicker .slds-day{
+    width: auto !important;
+    min-width: auto !important;
+    height: auto !important;
+    line-height: inherit !important;
+}
 .THIS .emails-that-notify-y {
     height: 72px;
     color: #444444;
@@ -129,7 +138,9 @@
 .THIS.as-container .as-password .as-password-button {
     margin-top: 20px;
 }
-
+.THIS .rightAlign input { 
+    text-align: right;
+}
 .THIS .as-email-input.slds-gutters,
 .THIS .as-password-input {
 }

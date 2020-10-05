@@ -8,8 +8,13 @@ private class Test_EmptyPagePanelRemote {
     static void testBehavior() {
         TestData.loadTestData();
         TestData testData = new TestData();
+        testData.ctp.Tasks_Are_Available__c = true;
+        update testData.ctp;
+        Boolean hasAccess;
+
         Test.startTest();
-        EmptyPagePanelRemote.getPermission(testData.ctp.Id, 'Trial_Surveys');
+        hasAccess = EmptyPagePanelRemote.getPermission(testData.ctp.Id, 'Trial_Surveys');
         Test.stopTest();
+        System.assert(hasAccess);
     }
 }

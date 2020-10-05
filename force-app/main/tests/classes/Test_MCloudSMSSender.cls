@@ -26,20 +26,26 @@ private class Test_MCloudSMSSender {
         Test.setMock(HttpCalloutMock.class, new SMSServiceMock());
         List<String> mobileNumbers = new List<String>{'19111111111', '19222222222'};
         String message = 'Test SMS';
-
+        Boolean isStatusCode202 = false;
         try {
             MCloudSMSSender.getInstance().sendSMS(mobileNumbers, message);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            isStatusCode202 = e.getMessage().contains('Error1') ? true : false;
+        }
+        System.assertEquals(true, isStatusCode202);
     }
 
     @IsTest
     static void testSendSMSEmptyNumbers() {
         List<String> mobileNumbers = new List<String>();
         String message = 'Test SMS';
-
+        Boolean isExceptionThrown = false;
         try {
             MCloudSMSSender.getInstance().sendSMS(mobileNumbers, message);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            isExceptionThrown = e.getMessage().contains('Mobile numbers not specified') ? true : false;
+        }
+        System.assertEquals(true, isExceptionThrown);
     }
 
     @IsTest
@@ -48,19 +54,25 @@ private class Test_MCloudSMSSender {
         String message = 'Test SMS';
 
         for (Integer i = 0; i < 300; i++) mobileNumbers.add(String.valueOf(i));
-
+        Boolean isExceptionThrown = false;
         try {
             MCloudSMSSender.getInstance().sendSMS(mobileNumbers, message);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            isExceptionThrown = e.getMessage().contains('Mobile number list size exceeds 250') ? true : false;
+        }
+        System.assertEquals(true, isExceptionThrown);
     }
 
     @IsTest
     static void testSendSMSInvalidNumbers() {
         List<String> mobileNumbers = new List<String>{'19111111111', '', '19222222222'};
         String message = 'Test SMS';
-
+        Boolean isExceptionThrown = false;
         try {
             MCloudSMSSender.getInstance().sendSMS(mobileNumbers, message);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            isExceptionThrown = e.getMessage().contains('Specified phone list has invalid numbers') ? true : false;
+        }
+        System.assertEquals(true, isExceptionThrown);
     }
 }

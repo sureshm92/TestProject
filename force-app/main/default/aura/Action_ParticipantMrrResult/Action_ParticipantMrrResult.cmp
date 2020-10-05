@@ -18,6 +18,7 @@
         <aura:attribute name="callback" type="Function"/>
     </aura:method>
 
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <c:Popup aura:id="dialog" size="large" showScroll="true" showFooter="false">
         <c:RRSpinner aura:id="spinner" size="medium"/>
         <aura:if isTrue="{!!v.mrrResult}">

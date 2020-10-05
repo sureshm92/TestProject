@@ -11,7 +11,9 @@ public without sharing class MessagePageRemote {
         @AuraEnabled public List<Participant_Enrollment__c> enrollments;
         @AuraEnabled public Map<Id, Boolean> statusByPeMap;
         @AuraEnabled public Boolean isPageEnabled;
+		@AuraEnabled public Boolean isRTL;								  
     }
+
     public class ConversationWrapper {
         @AuraEnabled public Conversation__c conversation;
         @AuraEnabled public Boolean isPastStudy = false;
@@ -71,7 +73,7 @@ public without sharing class MessagePageRemote {
 
             pageData.isPageEnabled = pageData.userMode.equals(CommunityService.USER_MODE_PI) && allStudies.size() > 0 ?
                     true : CommunityFacadeRemote.getMessagesVisibility();
-
+			pageData.isRTL = (System.Label.RTL_Languages).contains(UserInfo.getLanguage());
             List<Conversation__c> sharedConversations = ConversationService.getSharedConversations(UserInfo.getUserId());
             List<Conversation__c> conversations = new List<Conversation__c>();
             if (pageData.userMode == CommunityService.USER_MODE_PARTICIPANT) {

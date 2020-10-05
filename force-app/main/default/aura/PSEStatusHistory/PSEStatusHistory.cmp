@@ -12,6 +12,7 @@
     <aura:method name="loadHistory" action="{!c.doLoadHistory}"/>
 
     <!-- component body: -->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <div>
         <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
         <aura:if isTrue="{!!empty(v.pathItems)}">

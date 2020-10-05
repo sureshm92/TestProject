@@ -9,7 +9,7 @@ private class Test_AccountSettingsController {
 
         public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
                 List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs) {
-            if(stubbedMethodName == 'getState'){
+            if (stubbedMethodName == 'getState') {
                 return new ParticipantService.ParticipantState();
             }
             return null;
@@ -28,14 +28,18 @@ private class Test_AccountSettingsController {
         TestData testData = new TestData();
         Contact con = [
                 SELECT Id, AccountId, MailingCountryCode, Participant_Opt_In_Status_SMS__c
-                FROM Contact WHERE Id =: testData.participant.Contact__c];
+                FROM Contact
+                WHERE Id = :testData.participant.Contact__c
+        ];
         System.debug(JSON.serializePretty(con));
         con.MailingCountryCode = 'US';
         update con;
 
-        Account acc1 = [SELECT Id FROM Account WHERE Id =: con.AccountId];
+        Account acc1 = [SELECT Id FROM Account WHERE Id = :con.AccountId];
         acc1.Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME;
         update acc1;
+        Account acc;
+        List<AccountSettingsController.CookieSettings> cookieList = new List<AccountSettingsController.CookieSettings>();
         System.debug(JSON.serializePretty(acc1));
         //run test:
         Test.startTest();
@@ -49,8 +53,8 @@ private class Test_AccountSettingsController {
             AccountSettingsController.changeOptInCookies(false, false);
             AccountSettingsController.fillParticipantContact(con);
             AccountSettingsController.createCase('description', 'type');
-            AccountSettingsController.getInstituteById(acc1.Id);
-            AccountSettingsController.getCookieSettings();
+            acc = AccountSettingsController.getInstituteById(acc1.Id);
+            cookieList = AccountSettingsController.getCookieSettings();
 
             AccountSettingsController.AccountData initData =
                     (AccountSettingsController.AccountData) JSON.deserialize(rawInitData, AccountSettingsController.AccountData.class);
@@ -61,6 +65,30 @@ private class Test_AccountSettingsController {
             AccountSettingsController.updatePerson(JSON.serialize(personWrapper));
         }
         Test.stopTest();
+        List<Contact> contacts = [
+                SELECT Id, HCP_Opt_In_Patient_Status_Emails__c,
+                        HCP_Opt_In_Referral_Status_Emails__c,
+                        HCP_Opt_In_Study_Emails__c,
+                        Participant_Opt_In_Status_Emails__c,
+                        RRCookiesAllowedCookie__c,
+                        RRLanguageAllowedCookie__c,
+                        FirstName, LastName,
+                        Participant_Opt_In_Status_SMS__c
+                FROM Contact WHERE Email = 'aaa@bbb.com'];
+        Participant__c participant = [SELECT Id, First_Name__c, Last_Name__c FROM Participant__c WHERE Contact__c =: contacts[0].Id];
+        List<Case> cases = [SELECT Id FROM Case Where Contact.Id =: contacts[0].Id AND Status = 'New'];
+        System.assertEquals(1, contacts.size());
+        System.assertEquals(true, contacts[0].HCP_Opt_In_Patient_Status_Emails__c);
+        System.assertEquals(true, contacts[0].HCP_Opt_In_Referral_Status_Emails__c);
+        System.assertEquals(true, contacts[0].HCP_Opt_In_Study_Emails__c);
+        System.assertEquals(false, contacts[0].RRCookiesAllowedCookie__c);
+        System.assertEquals(false, contacts[0].RRLanguageAllowedCookie__c);
+        System.assertEquals(contacts[0].FirstName, participant.First_Name__c);
+        System.assertEquals(contacts[0].LastName, participant.Last_Name__c);
+        System.assertEquals(1, cases.size());
+        System.assertEquals(acc1.Id, acc.Id);
+        System.assertEquals(12, cookieList.size());
+        System.assertEquals(true, contacts[0].Participant_Opt_In_Status_SMS__c);
     }
 
 }

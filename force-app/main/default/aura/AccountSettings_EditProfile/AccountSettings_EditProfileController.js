@@ -406,7 +406,7 @@
                 component.set('v.participantHasUpdateTasks', false);
                 helper.setPersonSnapshot(component);
                 component.find('spinner').hide();
-                communityService.navigateToPage('account-settings'); 
+                communityService.navigateToPage('account-settings?profileInformation'); 
                 communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'),100);
                 window.location.reload(true);
 

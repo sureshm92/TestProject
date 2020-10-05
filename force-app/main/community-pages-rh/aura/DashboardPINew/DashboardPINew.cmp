@@ -10,7 +10,7 @@
     <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="delegatePIPicklistvalues" type="List"/>
     <aura:attribute name="currentPi" type="String"/>
-	<aura:attribute name="currentStudy" type="String"/>
+    <aura:attribute name="currentStudy" type="String"/>
     <aura:attribute name="piCTPPicklist" type="LabelValueItem[]"/>
     <aura:attribute name="totalSSCount" type="String"/>
     <aura:attribute name="usermode" type="String"/>
@@ -64,12 +64,10 @@
                         isParticipantDisplay="{!v.isParticipantDisplay}" 
                         childLoad="{!v.currentStudy+v.currentPi}" currentStudy ="{!v.currentStudy}" currentPi ="{!v.currentPi}" recordChanged="{!v.isRecordChanged}"/>
             </div>
-        </div>
         </aura:if>
-
         <div class="slds-col slds-size1-of-1  slds-medium-size_1-of-1 slds-p-top_large">
     		<c:DB_LeaderboardSelectedSSDetails dashboardTitle="{!$Label.c.Dashboard_Leaderboard}" piData="{!v.piData}" childLoad="{!v.currentStudy+v.currentPi}" currentStudy ="{!v.currentStudy}" currentPi ="{!v.currentPi}" recordChanged="{!v.isRecordChanged}"/>
         </div>
     </div>
-     <c:Action_ParticipantInformation aura:id="updatePatientInfoAction"/>
+    <c:Action_ParticipantInformation aura:id="updatePatientInfoAction"/>
 </aura:component>

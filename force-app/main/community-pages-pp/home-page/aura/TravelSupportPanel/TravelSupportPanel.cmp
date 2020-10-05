@@ -9,7 +9,7 @@
     <aura:attribute name="travelWrapper" type="TravelSupportRemote.TravelWrapper[]"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
 
-
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <div class="sv-panel rr-white-panel" data-gtm="PNL_TravelSupportPanel">
         <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
         <aura:if isTrue="{!v.initialized}">
