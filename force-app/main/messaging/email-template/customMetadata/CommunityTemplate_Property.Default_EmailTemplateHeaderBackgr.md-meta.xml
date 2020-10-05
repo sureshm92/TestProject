@@ -8,6 +8,6 @@
     </values>
     <values>
         <field>Value__c</field>
-        <value xsi:type="xsd:string">/**background-color: #250056;**/ color: #FFFFFF; padding: 20px;    background-image: url(https://ruby-flow-1689-dev-ed--c.documentforce.com/servlet/servlet.ImageServer?id=01517000001aBLc&amp;oid=00D17000000IZC4&amp;lastMod=1600686067000);background-size: auto;height: 163px;padding: 25px 0 0 25px;</value>
+        <value xsi:type="xsd:string">/**background-color: #250056;**/ color: #FFFFFF; padding: 20px;    background-image: url({!$Label.WelcomeEmail_PPHeaderLogo});background-size: auto;height: 163px;padding: 25px 0 0 25px;</value>
     </values>
 </CustomMetadata>
