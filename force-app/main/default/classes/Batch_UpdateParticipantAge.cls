@@ -28,8 +28,10 @@ global without sharing class Batch_UpdateParticipantAge implements Database.Batc
                 p.Age__c = participantAge;
                 If(p.Gender__c == 'Male')
                     p.Gender_Technical__c = 'M';
-                else 
+                else if(p.Gender__c == 'Female')
                     p.Gender_Technical__c = 'F';
+                else
+                    p.Gender_Technical__c = '';
                 pList.add(p);
             }           
         }
