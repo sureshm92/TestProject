@@ -46,21 +46,8 @@
     },
 
     OpenQuickReference: function (component, event, helper) {
-        if(component.get("v.isMobApp")){
-            var recId = component.get("v.pdfUrl");
-            var urls = window.location.origin+'/sfc/servlet.shepherd/document/download/'+recId;            
-            let urlEvent = $A.get("e.force:navigateToURL");
-            urlEvent.setParams({url: urls});
-            urlEvent.fire();
-        }else{
-            var quickReference = component.get('v.quickReference');
-            var navUrl = $A.get('$Resource.' + quickReference);
-            var urlEvent = $A.get("e.force:navigateToURL");
-            urlEvent.setParams({
-                "url": window.location.origin + navUrl
-            });
-            urlEvent.fire();
-        }        
+        var quickReference = component.get('v.quickReference');
+        window.open($A.get('$Resource.' + quickReference), '_blank');        
     },
 
     OpenGuide: function (component, event, helper) {
