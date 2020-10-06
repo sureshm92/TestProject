@@ -213,6 +213,10 @@
     width: 100%;
 }
 
+.THIS .PHONE .rr-header-content {
+    z-index: 10001;
+}
+
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
      .THIS .helpNavigationCSS:hover {
         background-color: rgba(255, 255, 255, 0);
