@@ -9,6 +9,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             StudySiteService.PI_S_ACCEPTED_A,
             StudySiteService.PI_S_INVITATION_SENT
     };
+        
 
         public class ContactAndSiteType{
             Contact contactObj;
@@ -19,6 +20,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 this.siteType = inSiteType;
             }    
         }
+     public static Map<String,String> mapEthinicCodeToDescription = new Map<String,String> ();
     
     public class CheckRequiredFieldsAndUpsertParticipantAndPEHandler extends TriggerHandler {
         
@@ -46,7 +48,8 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             //SS Map
             List<Study_Site__c> ssList = [
                     SELECT Id, Protocol_ID__c, Primary_Key_ePR__c,Study_Site_Type__c,
-                            Override_PI_Referral_Status__c
+                            Override_PI_Referral_Status__c,Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                Suppress_Participant_Emails__c
                     FROM Study_Site__c
                     WHERE Primary_Key_ePR__c IN: ssNumbersList
             ];
@@ -100,6 +103,13 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             Map<String, Participant__c> newParticipantsMap = new Map<String, Participant__c>();
             Map<String, ContactAndSiteType> newDelegateContactsMap = new Map<String, ContactAndSiteType>();
             Account participantAccount = [SELECT Id FROM Account WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE ];
+            
+            for(Ethnicity_Mapping_Participant__mdt objMT : [SELECT Ethnicity_Code__c,Ethnicity_Description__c 
+                                                            FROM Ethnicity_Mapping_Participant__mdt])
+            {
+                mapEthinicCodeToDescription.put(objMT.Ethnicity_Code__c, objMT.Ethnicity_Description__c);
+            }
+            
             for (Integration_Patient_Referral__c ipr : newList) {
                 newParticipantsMap.put(ipr.referralID__c, convertToParticipant(ipr));
                 Study_Site__c ss = ssByPrimaryKeyEPRMap.get(getSitePrimaryKeyEPR(ipr));
@@ -191,6 +201,12 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                     insert delegateParticipants;
                 }   
                 if (!ptDelegateRefs.isEmpty()) {
+                    List<Participant_Enrollment__c> particpantEnrollList = [Select Id ,Study_Site__r.Study_Site_Type__c,Study_Site__r.Suppress_Participant_Emails__c,Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c , Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c from Participant_Enrollment__c where Participant__c =: ptDelegateRefs[0].Participant__c];
+
+                    if(particpantEnrollList.size() > 0 && particpantEnrollList[0].Study_Site__r.Study_Site_Type__c == StudySiteService.SS_TYPE_TRADITIONAL && (particpantEnrollList[0].Study_Site__r.Suppress_Participant_Emails__c || particpantEnrollList[0].Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c || particpantEnrollList[0].Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN )){
+                        TriggerHandlerExecutor.bypassHandler(PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class); 
+                    }
+
                     insert ptDelegateRefs;
                 }
                 if (!delegateUsersToCreate.isEmpty()) {
@@ -228,6 +244,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
     }    
     
     private static Participant__c convertToParticipant(Integration_Patient_Referral__c ipr) {
+        String strEthnicityDescr = '';
         Participant__c participant = new Participant__c(
                 First_Name__c = ipr.firstName__c,
                 Middle_Name__c = ipr.Middle_Initial__c,
@@ -244,14 +261,28 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 Mailing_Street__c = ipr.Address_AddressLine1__c,
                 Gender__c = ipr.sex__c,
                 Secondary_Source__c = ipr.Data_Source__c,
-            	Alternative_Phone_Number__c = ipr.Participant_MobileNumber__c
+            	Alternative_Phone_Number__c = ipr.Participant_MobileNumber__c,
+            	Language_Preference_Code__c = ipr.Language_Preference__c,
+                Preferred_Language__c = ipr.Language_Preference__c,
+            	BMI__c = ipr.BMI__c
               //  Alternative_Phone_Type__c = 'Mobile'
 
         );
+        List<String> lstStringEthnicity_temp = new List<String> ();
+        if(ipr.Ethnicity__c != Null){
+            lstStringEthnicity_temp =  ipr.Ethnicity__c.split(';');
+            for(String intEthinictyCode : lstStringEthnicity_temp)
+            {
+                if(mapEthinicCodeToDescription.get(intEthinictyCode) != Null)
+                	strEthnicityDescr += mapEthinicCodeToDescription.get(intEthinictyCode) + ';';
+            }
+            strEthnicityDescr.removeEnd(';');
+            participant.Ethnicity__c =  strEthnicityDescr;  
+        }
         if(ipr.Participant_MobileNumber__c != Null)
           participant.Alternative_Phone_Type__c = 'Mobile';  
         participant.Adult__c = !Boolean.valueOf(ReferringRemote.checkNeedsGuardian(JSON.serialize(participant)));
-
+		system.debug('>>return particpant is>>'+participant);
         return participant;
     }
 
@@ -277,12 +308,15 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             newContact.Phone = ipr.Delegate_Daytime_Phone_Number__c;
             newContact.MobilePhone = ipr.Delegate_Alternative_Phone_Number__c;
         }
+        newContact.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
+        newContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
+        newContact.UserCommunityIsDelegate__c = true;
         ContactAndSiteType conAndSt = new ContactAndSiteType(newContact, studySiteType);
         return conAndSt;
     }
 
     private static Participant_Enrollment__c createPE(Integration_Patient_Referral__c ipr, Id participantId, Id ssId) {
-        return new Participant_Enrollment__c(
+         Participant_Enrollment__c objPE = new Participant_Enrollment__c(
                 Participant__c = participantId,
                 Study_Site__c = ssId,
                 Pre_Eligibility__c = ipr.Pass_Fail__c,
@@ -306,6 +340,14 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 Permit_Mail_Email_contact_for_this_study__c = True,
                 Permit_IQVIA_to_contact_about_study__c = True
         );
+        if(ipr.Comorbidities__c == 'True')
+            objPE.Comorbidities__c = 'Yes';
+        else if(ipr.Comorbidities__c == 'False')
+            objPE.Comorbidities__c = 'No';
+        else
+             objPE.Comorbidities__c = '';
+        return objPE ; 
+        
     }
     
     private static String getSitePrimaryKeyEPR(Integration_Patient_Referral__c ipr){

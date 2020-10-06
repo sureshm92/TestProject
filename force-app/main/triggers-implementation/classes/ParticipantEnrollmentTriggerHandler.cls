@@ -157,6 +157,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             if (pe.Participant__c != null) {
                 Participant__c participant = (Participant__c) PETriggerBuffer.getSObject(pe.Participant__c);
                 if (participant != null) {
+                    //Copy Participant Name to Enrollment before insert
+                    if(oldMap == null) {
+                        pe.Participant_Name__c = participant.First_Name__c;
+                        pe.Participant_Surname__c = participant.Last_Name__c;
+                    }
                     pe.Participant_Contact__c = participant.Contact__c;
                     if (oldMap == null && pe.Participant_Contact__c != null) {
                         participant.Contact__r.Visit_Results_OptIn__c = visitOpt ? 'Vitals;Labs;Biomarkers' : null;

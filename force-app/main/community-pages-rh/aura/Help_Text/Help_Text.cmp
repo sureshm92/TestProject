@@ -12,7 +12,7 @@
                 <span class="slds-assistive-text">Help</span>
             </a>
             <div aura:id="divHelp" class="slds-popover slds-popover_tooltip slds-nubbin_left-top ms-help-popup-in-header slds-hide"
-                 role="tooltip" aria-live="polite">
+                 role="tooltip" aria-live="polite" style="max-width: 27rem;">
                 <div class="slds-popover__body ms-help-popup-body">
                     <ui:outputText value="{!v.text}"/>
                 </div>

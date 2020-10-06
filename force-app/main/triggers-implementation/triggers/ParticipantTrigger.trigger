@@ -9,4 +9,6 @@ trigger ParticipantTrigger on Participant__c (before insert, before update, befo
     TriggerHandlerExecutor.execute(ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class);
     TriggerHandlerExecutor.execute(ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class);
     TriggerHandlerExecutor.execute(ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class);
+    TriggerHandlerExecutor.execute(ParticipantTriggerHandler.UpdateNameOnPE.class);
+    TriggerHandlerExecutor.execute(ParticipantTriggerHandler.UpdateParticipantAge.class);
 }

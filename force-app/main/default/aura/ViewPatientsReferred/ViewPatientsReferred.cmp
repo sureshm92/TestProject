@@ -74,7 +74,9 @@
                            sortVariants="{!v.peFilterData.sortVariants}"
                            allRecordsCount="{!v.paginationData.allRecordsCount}"
                            currentPageCount="{!v.paginationData.currentPageCount}"
-                           setValueAsSelected="true">
+                           setValueAsSelected="true"
+                           isCalledFromViewPatient="true"
+                           userMode = "{!v.userMode}">
                 <aura:if isTrue="{!v.userMode == 'PI'}">
                     <c:rrSelect value="{!v.peFilter.activePE}" options="{!v.peFilterData.activePE}"
                                 placeholder="{!$Label.c.PG_VP_L_Active}" useSentenceFont="false"

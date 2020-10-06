@@ -91,7 +91,8 @@ public without sharing class ReferralProfileRemote {
     public static String getReferralProfileDetail(String peId, String userMode, String delegateId) {
         try {
             InitData initData = new InitData();
-            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode, delegateId);
+            //Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode, delegateId);
+            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode, delegateId, ViewPatientsRemote.PE_MY_PARTICIPANTS_FIELDS);
             Clinical_Trial_Profile__c ctp = StudyTrialService.getFullTrial(pe.Clinical_Trial_Profile__c);
             List<User> participantUsers = [SELECT Id, LanguageLocaleKey FROM User WHERE ContactId =: pe.Participant_Contact__c];
             initData.userInfo =  participantUsers.isEmpty()?null:participantUsers[0];

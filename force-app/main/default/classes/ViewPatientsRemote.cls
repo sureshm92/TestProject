@@ -51,8 +51,6 @@ public without sharing class ViewPatientsRemote {
             'Patient_ID__c',
             'Participant_Status__c',
             'Participant_Status_Last_Changed_Date__c',
-            'Participant_Name__c',
-            'Participant_Surname__c',
             'Participant__c',
             'Participant__r.Adult__c',
             'Participant__r.Marketing_Flag__c',
@@ -118,6 +116,7 @@ public without sharing class ViewPatientsRemote {
             'Study_Site__r.Messages_Are_Available__c',
             'Study_Site__r.SMS_Are_Available__c',
             'Screening_ID__c',
+            'Visit_Plan__c',
             'Washout_Run_In_Applies__c',
             'Final_Consent_Date__c',
             'Informed_Consent_Date__c',
@@ -392,6 +391,7 @@ public without sharing class ViewPatientsRemote {
             statusFilterData = new List<LabelValueItem>{
                     new LabelValueItem(Label.PG_MRR_L_All_Statuses, null),
                     new LabelValueItem(Label.Received, 'Received'),
+                    new LabelValueItem(Label.Pre_review_Passed, 'Pre-review Passed'),
                     new LabelValueItem(Label.Contact_Attempted, 'Contact Attempted'),
                     new LabelValueItem(Label.Successfully_Contacted, 'Successfully Contacted'),
                     new LabelValueItem(Label.Screening_In_Progress, 'Screening In Progress'),
@@ -405,6 +405,7 @@ public without sharing class ViewPatientsRemote {
         } else {
             statusFilterData = new List<LabelValueItem>{
                 new LabelValueItem(Label.PG_MRR_L_All_Statuses, null),
+                new LabelValueItem(Label.Pre_review_Failed, 'Pre-review Failed'),
                 new LabelValueItem(Label.Unable_to_Reach, 'Unable to Reach'),
                 new LabelValueItem(Label.Contacted_Not_Suitable, 'Contacted - Not Suitable'),
                 new LabelValueItem(Label.Eligibility_Failed, 'Eligibility Failed'),

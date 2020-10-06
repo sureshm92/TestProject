@@ -68,6 +68,9 @@ global without sharing class EmailWireframeController {
         return getProvider().getParameters();
     }
 
+	public Boolean getisRTL(){
+        return (System.Label.RTL_Languages).contains(UserInfo.getLanguage());
+    }
     //Labels: ----------------------------------------------------------------------------------------------------------
     public String getHeaderText() {
         String headerLabelValue = getLabelValue(headerValue);
