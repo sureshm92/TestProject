@@ -123,6 +123,7 @@ public without sharing virtual class EmailTemplateProvider {
     //Template Specific Properties:-------------------------------------------------------------------------------------
     private void fillTemplateParams() {
         parameters.put('emailTemplateBackground', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_BACKGROUND));
+		parameters.put('emailTemplateBackgroundRTL', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_BACKGROUND_RTL));																																				 
         parameters.put('emailTemplateTextBackground', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_TEXT_BACKGROUND));
         parameters.put('emailTemplateHeaderBackground', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_HEADER_BACKGROUND));
         parameters.put('emailTemplateHeader', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_HEADER));
