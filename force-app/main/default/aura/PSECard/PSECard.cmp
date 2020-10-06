@@ -17,6 +17,9 @@
     <!-- Added for performance tuning -->
     <aura:attribute name="isHidden" type="Boolean" default="fasle" />
     
+    <!-- Added for performance tuning modified for performance tuning-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
     <!-- Added for performance tuning -->
     <aura:method name="showCard" action="{!c.showPSE}" />
 
