@@ -23,11 +23,13 @@
     <aura:attribute name="isEmail" type="Boolean" default="false"/>
     <aura:attribute name="isPhone" type="Boolean" default="false"/>
     <aura:attribute name="isSMS" type="Boolean" default="false"/>       
-    
+    <aura:attribute name="isSuppressed" type="Boolean" default="false"/>
+
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
         <aura:attribute name="studySiteId" type="String"/>
         <aura:attribute name="studySiteType" type="String"/>
+        <aura:attribute name="isSuppressed" type="Boolean" default="false"/>
         <aura:attribute name="callback" type="Function"/>
     </aura:method>
     
@@ -130,7 +132,23 @@
                     </div>
                 </div>
             </aura:if>
-            <aura:if isTrue="{!v.communityWithPPInv &amp;&amp;v.studySiteType != 'Hybrid' &amp;&amp;v.studySiteType != 'Virtual'}">
+            <aura:if isTrue="{!and(v.studySiteType == 'Traditional' , v.isSuppressed)}">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-size_1-of-1 slds-p-horizontal_x-medium">
+                        <div class="slds-m-around--small">
+                            <div class="input-fields-labels"><b>{!$Label.c.PG_Ref_L_Invitation_To_PP}</b></div>
+                        </div>
+                    </div>
+                </div>
+                <!--<aura:if isTrue="{!!v.doNotContactParticipants}">-->
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size--11-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center slds-m-around--small">
+                        <lightning:input type="checkbox" checked="false" disabled="true"/>
+                        <div class="slds-size--11-of-12">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal}</div>
+                    </div>
+                </div>
+            <aura:set attribute="else">
+                <aura:if isTrue="{!v.communityWithPPInv &amp;&amp;v.studySiteType != 'Hybrid' &amp;&amp;v.studySiteType != 'Virtual'}">
                 <div class="slds-grid slds-wrap">
                     <div class="slds-size_1-of-1 slds-p-horizontal_x-medium">
                         <div class="slds-m-around--small">
@@ -148,6 +166,8 @@
                     </div>
                 </div>
             </aura:if>
+           </aura:set>
+          </aura:if>
             
             <div class="slds-col slds-size--1-of-1 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center slds-textInfo-label" style="margin-top: 15px;">
                 {!$Label.c.Create_Users_Allow_Several_Minutes}
