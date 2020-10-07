@@ -115,6 +115,8 @@ public without sharing class ViewPatientsRemote {
             'Study_Site__r.Visit_Results_Sharing__c',
             'Study_Site__r.Messages_Are_Available__c',
             'Study_Site__r.SMS_Are_Available__c',
+            'Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c',
+            'Study_Site__r.Suppress_Participant_Emails__c',
             'Screening_ID__c',
             'Visit_Plan__c',
             'Washout_Run_In_Applies__c',
