@@ -69,7 +69,7 @@ global without sharing class EmailWireframeController {
     }
 
 	public Boolean getisRTL(){
-        return (System.Label.RTL_Languages).contains(UserInfo.getLanguage());
+        return ((System.Label.RTL_Languages).contains(UserInfo.getLanguage())||(System.Label.RTL_Languages).contains(getUserLanguageCode()));
     }
     //Labels: ----------------------------------------------------------------------------------------------------------
     public String getHeaderText() {
