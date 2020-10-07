@@ -9,6 +9,10 @@
         let sentPath = path && (path.indexOf('/s/login/CheckPasswordResetEmail') > -1);
         let loginPath = !forgotPath && !sentPath && path && (path.indexOf('/s/login') > -1);
 
+        var rtl_language = $A.get("$Label.c.RTL_Languages");
+        var paramLanguage = communityService.getUrlParameter('language');
+		component.set('v.isRTL', rtl_language.includes(paramLanguage));
+
         if(title === 'Login' || loginPath){
             component.set('v.translatedTitle', $A.get('$Label.c.PG_Login_Title'));
             component.set('v.translatedSubTitle', $A.get('$Label.c.PG_Login_Sub_Title'));
