@@ -9,7 +9,7 @@
         var siteId = component.get('v.siteId');
         var spinner = component.find('mainSpinner');
         spinner.show();
-
+        
         communityService.executeAction(component, 'getInitData', {
             trialId: trialId,
             siteId: siteId,
@@ -21,6 +21,7 @@
             component.set('v.skipUpdate', true);
             component.set('v.pageList', initData.currentPageList);
             component.set('v.peFilterData', initData.peFilterData);
+            component.set('v.peFilterDataBackup', initData.peFilterData);
             component.set('v.paginationData', initData.paginationData);
             component.set('v.peFilter', initData.peFilter);
             component.set('v.trialIds', initData.trialIds);
@@ -31,7 +32,7 @@
             component.set('v.isInitialized', true);
             component.set('v.skipUpdate', false);
             spinner.hide();
-
+            
             if (communityService.getUserMode() != 'Participant' && initData.currentPageList) {
                 if (initData.hasEmancipatedParticipants) {
                     component.set('v.hasEmancipatedParticipants', initData.hasEmancipatedParticipants);
@@ -40,7 +41,7 @@
             }
         });
     },
-	doSeachTextChanged: function (component, event, helper) {
+    doSeachTextChanged: function (component, event, helper) {
         let searchText = component.get('v.peFilter.searchText');
         if( searchText && searchText.length <= 2 ) return;
         else{
@@ -68,9 +69,20 @@
     doEmancipatedChanged: function (component, event, helper) {
         helper.doUpdateRecords(component, event, helper, 'emancipation');
     },
-
+    
     filterEmancipations: function(component, event, helper){
-        console.log('aaaaa');
-    	component.set('v.showEmancipatedOnly', true);
+        // console.log('aaaaa');
+        component.set('v.showEmancipatedOnly', true);
     },
+    
+    exportAll: function (component, event, helper) {
+      //  component.set('v.CsvList','');
+        component.set("v.startPos", 1);
+        component.set("v.endPos", 45000);
+        component.set("v.totalCount", 45000);
+        component.set("v.counterLimit", 45000);
+        component.set("v.isFirstTime", true);
+        helper.exportAllHelper(component, event, helper);
+    },
+    
 })
