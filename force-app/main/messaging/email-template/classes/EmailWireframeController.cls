@@ -17,7 +17,7 @@ global without sharing class EmailWireframeController {
     global String specificEmailProviderValue { get; set; }
     global String outputMode { get; set; }
     global String displayOptOut {get;set;}
-    
+    global String userModeValue {get;set;}
     private EmailTemplateProvider templateProvider;
 
     global String getUserLanguageCode() {
@@ -68,6 +68,9 @@ global without sharing class EmailWireframeController {
         return getProvider().getParameters();
     }
 
+	public Boolean getisRTL(){
+        return ((System.Label.RTL_Languages).contains(UserInfo.getLanguage())||(System.Label.RTL_Languages).contains(getUserLanguageCode()));
+    }
     //Labels: ----------------------------------------------------------------------------------------------------------
     public String getHeaderText() {
         String headerLabelValue = getLabelValue(headerValue);

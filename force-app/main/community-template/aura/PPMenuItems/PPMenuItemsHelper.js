@@ -6,10 +6,15 @@
             var x = event.clientX,
                 y = event.clientY;     
             component.set("v.tooltipTop",(y-100) + 'px');
-            component.set("v.tooltipLeft",(x+100) + 'px');
+            component.set("v.tooltipLeft",'none;');
             var dataVal = component.get("v.hovertext");
             if(dataVal!='Delegates' && dataVal!='Account Settings'){
-                component.set("v.tooltipTop",(y-15) + 'px');
+                component.set("v.tooltipTop",(y-30) + 'px');
+            	component.set("v.tooltipLeft",'30px');
+                if(component.get("v.isRTL"))
+                {
+            	component.set("v.tooltipLeft",'235px');
+                }
             }
         };
         
