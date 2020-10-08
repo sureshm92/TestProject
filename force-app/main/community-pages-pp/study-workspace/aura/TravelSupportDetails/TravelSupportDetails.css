@@ -133,9 +133,10 @@
 }
 
 @media (max-width: 768px) {
- .THIS .cUiHeaderMenu .menu-popup-panel.popupTargetContainer {
-    left: unset;
-    top: unset;
+    .THIS .cUiHeaderMenu .menu-popup-panel.popupTargetContainer {
+        left: unset;
+        top: unset;
+    }
 }
 
 @media all and (max-width: 500px) {
