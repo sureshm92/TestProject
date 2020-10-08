@@ -376,6 +376,7 @@
                             <th scope="row">
                                 <div class="slds-truncate" style="text-align:center;">
                                     <lightning:formattedDateTime value="{!obj.pe.Initial_visit_scheduled_date__c}" month="short" day="numeric" year="numeric"/>
+                                    <ui:outputDate value="{​​!obj.pe.Initial_visit_scheduled_date__c}​​"/>
                                 </div>
                             </th>
                             <th scope="row">
