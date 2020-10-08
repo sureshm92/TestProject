@@ -319,10 +319,20 @@ public without sharing class ParticipantInformationRemote {
                 }
             }
 
-            if (!delegates.isEmpty()) {
+           if (!delegates.isEmpty() && needsInvite == true) {
                 update delegates;
             }
-            if (!delegatesToUpdate.isEmpty()) {
+            if (!delegatesToUpdate.isEmpty() && needsInvite == true) {
+                update delegatesToUpdate;
+            }
+            if (!delegates.isEmpty() && needsInvite == false) {
+                TriggerHandlerExecutor.bypassHandler(PatientDelegateTriggerHandler.CreateReactivatedNotification.class);
+                TriggerHandlerExecutor.bypassHandler(PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class);
+                update delegates;
+            }
+            if (!delegatesToUpdate.isEmpty() && needsInvite == false) {
+                TriggerHandlerExecutor.bypassHandler(PatientDelegateTriggerHandler.CreateReactivatedNotification.class);
+                TriggerHandlerExecutor.bypassHandler(PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class);
                 update delegatesToUpdate;
             }
 
