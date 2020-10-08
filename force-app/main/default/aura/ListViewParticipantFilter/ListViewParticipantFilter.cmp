@@ -44,6 +44,11 @@
     <aura:attribute name="oisInitialVisitScheduled" type="String" /> 
     <aura:attribute name="IsPromoteToSHLimit" type="Decimal" /> 
     <aura:attribute name="actStatus" type="List" /> 
+	<aura:attribute name="CsvList" type="List" />
+    <aura:attribute name="counterLimit" type="Integer"/> 
+    <aura:attribute name="startPos" type="Integer"/>
+    <aura:attribute name="endPos" type="Integer"/>
+    
     
     
     <aura:attribute name="optionSex" type="List" default="[
