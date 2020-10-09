@@ -229,8 +229,9 @@
                 -->
             </aura:if>
         </div>
-    </div>
-    <a aura:id="show" class="slds-show custom-plus" onclick="{!c.openCard}"><span>{!$Label.c.View_More}&nbsp;&gt;</span></a>  
-
-
+    </div>   
+ 	<aura:if isTrue="{!v.userMode != 'Participant'}">
+         <a aura:id="show" class="slds-show custom-plus" onclick="{!c.openCard}"><span>{!$Label.c.View_More}&nbsp;&gt;</span></a>  
+    </aura:if>
+   
 </aura:component>

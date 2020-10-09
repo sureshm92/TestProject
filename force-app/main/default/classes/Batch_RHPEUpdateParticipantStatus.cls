@@ -14,7 +14,7 @@ global without sharing class Batch_RHPEUpdateParticipantStatus extends Batch_Sch
         ctp = '(\''+label.PERHStudyId+'\')';
         pecreateddate = ''+label.RHPECreatedDate+'';
         if(!Test.isRunningTest()){
-        query = 'SELECT Id,Participant_Status__c FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN '+ctp+' AND Participant_Status__c NOT IN '+Status+' AND Is_Virtual_Study_Site__c=true AND CreatedDate >= '+pecreateddate+' order by CreatedDate Asc LIMIT '+lmt;
+        query = 'SELECT Id,Participant_Status__c FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN '+ctp+' AND Participant_Status__c NOT IN '+Status+' AND Is_Virtual_Study_Site__c=true AND Study_Hub_Log__r.Response_Status_Code__c!=201 AND CreatedDate >= '+pecreateddate+' order by CreatedDate Asc LIMIT '+lmt;
         }else{
         query = 'SELECT Id,Participant_Status__c FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN '+ctp+' AND Participant_Status__c NOT IN '+Status+' AND Is_Virtual_Study_Site__c=true LIMIT 1';
         }
@@ -26,7 +26,7 @@ global without sharing class Batch_RHPEUpdateParticipantStatus extends Batch_Sch
         if(label.RHPEUpdateParticipantStatus_Flag =='1'){
             UploadParticipantsBatch.isCalloutFromUploadParticipantsBatch=true;
             for(Participant_Enrollment__c pe : peList){          
-                pe.Participant_Status__c ='Eligibility Passed'; 
+                pe.Participant_Status__c ='Eligibility Passed';
                 PEUpdateList.add(pe);
             }        
             if(PEUpdateList!=null && !PEUpdateList.isEmpty()){

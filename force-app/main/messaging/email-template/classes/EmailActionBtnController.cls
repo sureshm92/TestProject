@@ -16,6 +16,10 @@ global without sharing class EmailActionBtnController {
         return TranslateHelper.getLabelValue(buttonLabelName, EmailTemplateProviderService.getProvider().getUserLanguage());
     }
 
+    public String getCommunityName(){
+        return EmailTemplateProviderService.getProvider().getCommunityName();
+    }
+
     public String getResultURL() {
         String result = buttonURLString;
         String invitationString = surveyIdString;
