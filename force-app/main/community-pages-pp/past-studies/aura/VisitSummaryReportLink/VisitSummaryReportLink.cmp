@@ -33,8 +33,8 @@
                     <thead>
                     <tr>
                         <aura:iteration items="{!tableReport.tHead}" var="tableHead">
-                            <th style="text-align: center;">
-                                <div style="text-transform: none; font-size: 8px; display: block"> {!tableHead.value}</div>
+                            <th style="text-align: center;padding-left:2px;padding-right:2px">
+                                <div style="text-transform: none; font-size: 8px; display: block;"> {!tableHead.value}</div>
                                 <aura:if isTrue="{!tableHead.isShowRange}">
                                     <div style="text-transform: none; font-size:4px; font-weight: normal"> {!'\n ' + $Label.c.Report_Expected_Range + ' ' + tableHead.minValue + ' - ' + tableHead.maxValue}</div>
                                 </aura:if>
