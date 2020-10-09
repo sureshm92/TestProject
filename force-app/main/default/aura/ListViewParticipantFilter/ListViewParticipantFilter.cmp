@@ -44,6 +44,11 @@
     <aura:attribute name="oisInitialVisitScheduled" type="String" /> 
     <aura:attribute name="IsPromoteToSHLimit" type="Decimal" /> 
     <aura:attribute name="actStatus" type="List" /> 
+	<aura:attribute name="CsvList" type="List" />
+    <aura:attribute name="counterLimit" type="Integer"/> 
+    <aura:attribute name="startPos" type="Integer"/>
+    <aura:attribute name="endPos" type="Integer"/>
+    
     
     
     <aura:attribute name="optionSex" type="List" default="[
@@ -371,6 +376,7 @@
                             <th scope="row">
                                 <div class="slds-truncate" style="text-align:center;">
                                     <lightning:formattedDateTime value="{!obj.pe.Initial_visit_scheduled_date__c}" month="short" day="numeric" year="numeric"/>
+                                    <ui:outputDate value="{​​!obj.pe.Initial_visit_scheduled_date__c}​​"/>
                                 </div>
                             </th>
                             <th scope="row">

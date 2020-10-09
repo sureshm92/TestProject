@@ -20,7 +20,6 @@
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
     <aura:handler event="c:uiEvent" name="onInit" action="{!c.doNeedsGuardian}"/>
 
-
     <!--component body:-->
     <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true"/>
 
@@ -54,7 +53,7 @@
                 <aura:if isTrue="{!v.userMode != 'HCP'}">
                     <div class="vp-export-btn">
                         <button class="apollo-btn secondary" data-gtm="BTN_My_Participants_Export_All"
-                                onclick="{!c.doExport}">
+                                onclick="{!c.doExportFull}">
                             {!$Label.c.BTN_Export_All}
                         </button>
                     </div>
@@ -64,7 +63,7 @@
                 <c:MedicalRecordReviewLog showStatistics="false" studyFilterEnabled="true" trialId="{!v.trialId}"
                                           header="{!$Label.c.PG_MPS_L_NOT_YET_REFERRED}"/>
             </aura:if>
-            <c:ViewPatientsReferred showStatistics="{!v.userMode=='PI'}" studyFilterEnabled="true"
+            <c:ViewPatientsReferred aura:id="childCmp" showStatistics="{!v.userMode=='PI'}" studyFilterEnabled="true"
                                     trialId="{!v.trialId}" siteId="{!v.siteId}"
                                     header="{!if(v.userMode == 'HCP',$Label.c.PG_MPS_L_REFERRED,'')}"
                                     parent="{!v.parent}"/>

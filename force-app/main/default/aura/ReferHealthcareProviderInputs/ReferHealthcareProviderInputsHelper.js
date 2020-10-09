@@ -39,7 +39,9 @@
             var isDelegateInvited = false;
             if(pe.Study_Site__r != undefined && pe.Study_Site__r != null &&
                pe.Study_Site__r.Study_Site_Type__c != 'Virtual' 
-               && pe.Study_Site__r.Study_Site_Type__c != 'Hybrid'){
+               && pe.Study_Site__r.Study_Site_Type__c != 'Hybrid'
+               && pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c == false
+               && pe.Study_Site__r.Suppress_Participant_Emails__c == false){
                 isDelegateInvited = true;
             }
             communityService.executeAction(component, 'invitePatientDelegate', {
