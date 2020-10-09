@@ -58,7 +58,7 @@
         <!-- Task Panel -->
         <aura:if isTrue="{!not(v.isReminderOnly)}">
             <div class="te-task-panel">
-                <div class="rr-white-panel padding slds-col" style="min-height: 250px;">
+                <div class="{!if(v.isRTL,'rr-white-panelRTL padding slds-col','rr-white-panel padding slds-col')}" style="min-height: 250px;">
                     <!-- Task Details Section -->
                     <div class="te-col-header">
                         {!$Label.c.Task_Details}
@@ -82,8 +82,8 @@
                     <div class="slds-p-top_small"></div>
                     <div class="slds-grid slds-gutters slds-wrap">
                         <!-- Due Date -->
-                           <div class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl', '')}">
-                            <lightning:input aura:id="field" type="date" min="{!v.initData.today}"
+                           <div class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl rightAlign', '')}">
+                               <lightning:input aura:id="field" type="date" min="{!v.initData.today}"
                                 label="{!$Label.c.Due_Date}" value="{!v.initData.activityDate}"
                                 disabled="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit'}"
                                 class="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit' ? 'disabledVisit' : ''}" />
@@ -129,7 +129,7 @@
                             </lightning:select>
                         </div>
                         <!--Reminder Date-->
-                           <div class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl', '')}">
+                           <div class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl rightAlign', '')}">
                             <lightning:input aura:id="reminderDate" type="date"
                                 label="{!$Label.c.Home_Page_StudyVisit_Completed_On}" value="{!v.initData.reminderDate}"
                                 min="{!if(v.task.Remind_Me__c == $Label.c.One_day_before, v.tomorrow , v.initData.today)}"
