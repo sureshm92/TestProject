@@ -21,6 +21,7 @@
             actionId: actionId,
             value: date ? date : reason
         }, function (returnValue) {
+            $A.get('e.force:refreshView').fire();
             communityService.showToast('', 'success', returnValue);
         }, null, function () {
             spinner.hide();
