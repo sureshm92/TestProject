@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>First_Name__c</fullName>
     <description>Participant&#39;s First Name can be removed from layout for PI compliance purposes</description>
-    <encryptionScheme>CaseSensitiveDeterministicEncryption</encryptionScheme>
+    <encryptionScheme>CaseInsensitiveDeterministicEncryption</encryptionScheme>
     <externalId>false</externalId>
     <inlineHelpText>Participant&#39;s First Name</inlineHelpText>
     <label>First Name</label>

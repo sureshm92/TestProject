@@ -15,7 +15,10 @@
     <aura:attribute name="isInvited" type="Boolean" access="public"/>
     <aura:attribute name="showVisits" type="Boolean" default="false" access="public"/>
     <!-- Added for performance tuning -->
-    <aura:attribute name="isHidden" type="Boolean" default="fasle" />
+    <aura:attribute name="isHidden" type="Boolean" default="false" />
+    
+    <!-- Added for performance tuning modified for performance tuning-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     
     <!-- Added for performance tuning -->
     <aura:method name="showCard" action="{!c.showPSE}" />

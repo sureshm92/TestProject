@@ -20,6 +20,8 @@
         }, function(returnValue){
             var res = JSON.parse(returnValue);
             if(component.get('v.callback')) component.get('v.callback')(res.enrollment, res.steps);
+            
+            $A.get('e.force:refreshView').fire();
         }, null, function () {
             helper.cancel(component);
         });
