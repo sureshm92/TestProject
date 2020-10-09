@@ -246,7 +246,7 @@
         <description>Patient receives email that they have been referred to a clinical research study by PI - RP refers a participant</description>
         <formula>ISPICKVAL( Participant_Status__c , &quot;Received&quot;) &amp;&amp;
 
-(ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Virtual&quot;) || ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Hybrid&quot;) || ) &amp;&amp; ISPICKVAL( Referral_Source__c , &quot;PI&quot;) &amp;&amp;
+(ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Virtual&quot;) || ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Hybrid&quot;) || Is_Virtual_Study_Site__c = True) &amp;&amp; ISPICKVAL( Referral_Source__c , &quot;PI&quot;) &amp;&amp;
  NOT(Study_Site__r.Suppress_Participant_Emails__c) &amp;&amp;
 NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c)</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
