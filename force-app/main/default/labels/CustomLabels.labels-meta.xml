@@ -7673,7 +7673,7 @@ The expected format is REF#####</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Human leukocyte antigen</shortDescription>
-        <value>Human leukocyte antigen</value>
+        <value>Human leukocyte antigen(HLA)</value>
     </labels>
 	<labels>
         <fullName>ID</fullName>
@@ -7951,7 +7951,7 @@ The expected format is REF#####</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Inducible co-stimulator</shortDescription>
-        <value>Inducible co-stimulator</value>
+        <value>Inducible co-stimulator(ICOS)</value>
     </labels>
     <labels>
         <fullName>Initial_Visit_Scheduled</fullName>
@@ -8863,7 +8863,7 @@ The expected format is REF#####</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>New York carcinoma</shortDescription>
-        <value>New York esophageal squamous cell carcinoma-1</value>
+        <value>New York esophageal squamous cell carcinoma-1(NYESO-1)</value>
     </labels>
     <labels>
         <fullName>No</fullName>
@@ -15800,7 +15800,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Programmed death ligand 1</shortDescription>
-        <value>Programmed death ligand 1</value>
+        <value>Programmed death ligand 1(PD-L1)</value>
     </labels>
     <labels>
         <fullName>Pswd_8_Characters</fullName>
@@ -19180,6 +19180,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Visit Result Group Vitals</shortDescription>
         <value>Vitals</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Result_No_Data</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit Result No Data</shortDescription>
+        <value>No data</value>
     </labels>
     <labels>
         <fullName>Visit_Result_Report_No_Data</fullName>

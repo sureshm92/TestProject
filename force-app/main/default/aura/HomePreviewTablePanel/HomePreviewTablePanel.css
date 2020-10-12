@@ -14,16 +14,19 @@
 .THIS .hptp-title{
     font-size: 18px;
     font-weight: 600;
-    line-height: 27px;
+    line-height: 22px;
     padding-left: 16px;
     padding-right: 16px;
-    padding-top:16px;
-    padding-bottom:none;
+    padding-top:22px;
+    font-family: "Proxima Nova";
+    letter-spacing: 0;
+    color: #000000;
 }
 
 .THIS .hptp-body{
     min-height: 220px;
     position: relative;
+    margin-top:18px;
 }
 
 .THIS .main-container .message {
