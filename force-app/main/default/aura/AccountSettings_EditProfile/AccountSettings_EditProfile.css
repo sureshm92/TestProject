@@ -331,6 +331,15 @@
         min-width: 100%;
     }
 
+    .THIS.cPopup .p-container .p-footer {
+        padding: 15px 15px 30px;
+    }
+
+    .THIS .apollo-btn + .apollo-btn {
+        margin-left: 0;
+        margin-top: 1rem;
+    }
+
     .THIS .nickname,
     .THIS .longName,
     .THIS .smallName{
