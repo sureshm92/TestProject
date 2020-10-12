@@ -1,11 +1,19 @@
 /**
  * Created by Yehor Dobrovolskyi
  */
-.THIS {
+ .THIS {
 }
 
+.THIS.arabic{
+   direction:rtl !important;
+}
 .THIS .filter-side {
     padding-left: 4%;
+    padding-top: 70px;
+    position: fixed;
+}
+.THIS .filter-sideRTL {
+    padding-right: 4%;
     padding-top: 70px;
     position: fixed;
 }
@@ -23,6 +31,9 @@
 
 .THIS .trials-side{
     border-right: 1px solid #d9d9d9;
+}
+.THIS .trials-sideRTL{
+    border-left: 1px solid #d9d9d9;
 }
 
 @media (max-width: 1020px) {
