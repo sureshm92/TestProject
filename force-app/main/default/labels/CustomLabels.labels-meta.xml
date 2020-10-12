@@ -5443,6 +5443,15 @@ Please log in to ##CommunityName to view your clinical research trial matches an
             To keep your account secure, please don&apos;t forward this email to anyone.</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_FullName_New</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Signature FullName New</shortDescription>
+        <value>Sincerely,
+
+##SignatureFullCommunityNewName</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_GSK</fullName>
         <language>en_US</language>
         <protected>false</protected>
