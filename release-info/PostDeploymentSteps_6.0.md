@@ -28,11 +28,12 @@ Open Setup - Custom Metadata Types > find Guides Setting and click on Manage Rec
 1. Open Setup - All Communities - For 'IQVIA Referral Hub' Community
 2. Go to Workspaces | Administration | Pages | Force.com
    Click Edit | Add "iqvia_favicon" static resource to the 'Sites Favourite Icon.' Save
-3. Open Setup - All Communities - 
+3. Open Setup - All Communities - For 'IQVIA Referral Hub' Community
     Go to Community Builder | Go to Settings | Advanced | Edit Head Markup. 
 4. Add the following line as first: 
     \<link rel="shortcut icon" href="/favicon.ico?v=2" type="image/icon"/\>
 5. Save | Publish the changes in Community Builder
+6. Repeat the same steps from 1 to 5 to covid-19 community.
 
 ## 6. RTL configurations
 1. Go to Setup - Language Settings - check Enable end user languages - add Arabic to displayed          languages.
