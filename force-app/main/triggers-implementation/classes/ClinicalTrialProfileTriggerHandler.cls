@@ -20,13 +20,13 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
         }
 
         public override void afterInsert(List<SObject> newList) {
-            updateNextNotifyDateByCTP((List<Clinical_Trial_Profile__c>)newList);
+            updateNextNotifyDateByCTP((List<Clinical_Trial_Profile__c>)newList,null);
         }
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap){
             updateClinicalTrialProfile(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
             deleteTravelVendors(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
-            updateNextNotifyDateByCTP((List<Clinical_Trial_Profile__c>)newList);
+            updateNextNotifyDateByCTP((List<Clinical_Trial_Profile__c>)newList,(Map<Id, Clinical_Trial_Profile__c>)oldMap);
             updateStudySitesSuppressPIEmails(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
         }
 
@@ -91,15 +91,26 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
         SettingStoreService.deleteSettings('TravelVendorSetupFilter' , ctpIdsForUpdate);
     }
 
-    private static void updateNextNotifyDateByCTP(List<Clinical_Trial_Profile__c> trialProfiles){
-        List<Participant_Enrollment__c> enrollments = [
+    private static void updateNextNotifyDateByCTP(List<Clinical_Trial_Profile__c> trialProfiles,Map<Id, Clinical_Trial_Profile__c> oldMap){
+        List<Clinical_Trial_Profile__c> trialProfilesList=new List<Clinical_Trial_Profile__c>();
+        for(Clinical_Trial_Profile__c objCTP:trialProfiles){
+            if(objCTP.Logged_Out_Days_Notification__c!=null){
+                if(oldMap==null || (oldMap!=null && oldMap.containsKey(objCTP.Id) && oldMap.get(objCTP.Id).Logged_Out_Days_Notification__c!=objCTP.Logged_Out_Days_Notification__c)){
+                    trialProfilesList.add(objCTP);
+                }
+            }
+            
+        }
+        List<Participant_Enrollment__c> enrollments = new List<Participant_Enrollment__c>();
+        if(trialProfilesList.size()>0){
+            enrollments = [
                 SELECT Participant__r.Contact__c
                 FROM Participant_Enrollment__c
-                WHERE Clinical_Trial_Profile__c IN:trialProfiles
+                WHERE Clinical_Trial_Profile__c IN:trialProfilesList
                 AND Participant_Status__c IN: PEStatusState.PE_STATUS_GROUP_IN_PROGRESS_ALL
                 AND Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c != NULL
-        ];
-
+            ];
+        }
         List<Id> allContactsIds = new List<Id>();
         List<Id> participantContIds = new List<Id>();
         for(Participant_Enrollment__c pe : enrollments) {
@@ -150,7 +161,7 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
             }
 
             if(daysToNotify == null) continue;
-            Date nextNotifyDate = user.LastLoginDate.addDays(daysToNotify).dateGmt();
+            Date nextNotifyDate = System.now().addDays(daysToNotify).dateGmt();
             forUpdateContacts.add(new Contact(
                     Id = user.ContactId,
                     Next_Notify_Date__c = nextNotifyDate
