@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="VisitSummaryReportLink"  controller="VisitReportContainerRemote" extends="c:LightningService">
+<aura:component description="VisitSummaryReportLink"  controller="VisitReportContainerRemote" extends="c:CommunityContext">
     <ltng:require scripts="{!join(',', $Resource.jsPDF + '/jspdf.js', $Resource.jsPDF + '/jspdf.plugin.autotable.min.js',
                     $Resource.pdfjs_dist + '/build/pdf.js', $Resource.rr_community_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
@@ -12,6 +12,7 @@
     <aura:attribute name="reportData" type="Object"/>
     <aura:attribute name="inTrialSummaryReport" type="Boolean" default="false"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
+    <aura:attribute name="isRTL" type="Boolean"/>
     <!--<lightning:navigation aura:id="navService" />-->
 
     <!-- component body -->
