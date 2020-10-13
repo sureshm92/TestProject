@@ -4,10 +4,6 @@
 
 		if (!communityService.isDummy()) {
 			component.find('spinner').show();
-			component.set(
-				'v.isMobileApp',
-				communityService.isCurrentSessionMobileApp()
-			);
 			communityService.executeAction(
 				component,
 				'getPastStudyRecords',

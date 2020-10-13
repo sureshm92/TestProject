@@ -34,10 +34,6 @@
 			component.set('v.taskMode', taskMode);
 			component.set('v.resourceMode', resourceMode);
 			component.set('v.visitMode', visitMode);
-			component.set(
-				'v.isMobileApp',
-				communityService.isCurrentSessionMobileApp()
-			);
 
 			if (component.get('v.state') !== 'ALUMNI') {
 				communityService.executeAction(

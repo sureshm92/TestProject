@@ -13,10 +13,9 @@
 	<aura:attribute name="ctpId" type="String" />
 	<aura:attribute name="ctpRecord" type="Object" />
 	<aura:attribute name="initialized" type="Boolean" default="false" />
-	<aura:attribute name="isMobileApp" type="Boolean" default="false" />
 	<!--<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
 	<!-- component body -->
-	<aura:if isTrue="{!and( v.initialized, not( v.isMobileApp))}">
+	<aura:if isTrue="{!v.initialized}">
 		<div>
 			<a onclick="{!c.doGenerateReport}">{!$Label.c.Learn_More}</a>
 		</div>

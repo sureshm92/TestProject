@@ -4,7 +4,6 @@
 	<aura:attribute name="pe" type="Participant_Enrollment__c" />
 	<aura:attribute name="resources" type="ResourceService.ResourceWrapper[]" />
 	<aura:attribute name="showReport" type="Boolean" />
-	<aura:attribute name="isMobileApp" type="Boolean" />
 
 	<!-- component body: -->
 	<div class="rr-white-panel padding">
@@ -52,7 +51,7 @@
 				</div>
 			</div>
 			<div class="slds-col slds-size--1-of-1 slds-large-size_1-of-3 db-charts">
-				<aura:if isTrue="{!and( v.showReport, not( v.isMobileApp))}">
+				<aura:if isTrue="{!v.showReport}">
 					<div class="resource-item">
 						<c:VisitSummaryReportLink peId="{!v.pe.Id}" />
 					</div>

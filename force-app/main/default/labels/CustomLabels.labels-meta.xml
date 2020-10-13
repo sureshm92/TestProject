@@ -9762,6 +9762,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>0- Prefer not to say</value>
     </labels>
     <labels>
+        <fullName>Pdf_Not_Available</fullName>
+        <categories>MobileApp</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pdf Not Available</shortDescription>
+        <value>Opening this link is only supported using the web browser experience</value>
+    </labels>
+    <labels>
         <fullName>PD_Description</fullName>
         <language>en_US</language>
         <protected>true</protected>

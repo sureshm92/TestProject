@@ -41,7 +41,6 @@
 		type="Boolean"
 		default="false"
 	/>
-	<aura:attribute name="isMobileApp" type="Boolean" default="false" />
 
 	<aura:attribute name="isReportsTabInitialized" type="Boolean" />
 	<aura:attribute name="isReferralsTabInitialized" type="Boolean" />
@@ -369,7 +368,7 @@
 						</aura:if>
 						<!-- PEH-1986: In-trial Summary Report -->
 						<aura:if
-							isTrue="{!and( and( v.state != 'ALUMNI', not( v.isDelegateMode)), not( v.isMobileApp))}"
+							isTrue="{!and( v.state != 'ALUMNI', not( v.isDelegateMode))}"
 						>
 							<div class="resource-item">
 								<c:VisitSummaryReportLink
