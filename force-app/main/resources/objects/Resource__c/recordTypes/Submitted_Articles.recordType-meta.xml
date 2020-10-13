@@ -29,10 +29,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Relevant_Link</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Study_Document</fullName>
             <default>false</default>
         </values>
@@ -1138,72 +1134,18 @@
     <picklistValues>
         <picklist>Language__c</picklist>
         <values>
-            <fullName>ar</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en_UK</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>en_US</fullName>
-            <default>true</default>
-        </values>
-        <values>
-            <fullName>ru</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ur</fullName>
             <default>false</default>
         </values>
     </picklistValues>
     <picklistValues>
         <picklist>Languages__c</picklist>
         <values>
-            <fullName>ar</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en_UK</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>en_US</fullName>
-            <default>true</default>
+            <default>false</default>
         </values>
         <values>
             <fullName>ru</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ur</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Resource_Type__c</picklist>
-        <values>
-            <fullName>Study Document</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Training</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Resource_Visibility__c</picklist>
-        <values>
-            <fullName>PI</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Participant</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>RP</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1214,23 +1156,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>For Caregivers and Families</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Helpful Links</fullName>
-            <default>true</default>
-        </values>
-        <values>
             <fullName>None</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Patient advocacy groups</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Relevant Links</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1251,10 +1181,6 @@
     </picklistValues>
     <picklistValues>
         <picklist>document_type__c</picklist>
-        <values>
-            <fullName>Certificate</fullName>
-            <default>false</default>
-        </values>
         <values>
             <fullName>Document</fullName>
             <default>false</default>
