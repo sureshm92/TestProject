@@ -12,6 +12,10 @@
     overflow: hidden;
 }
 
+.THIS.rtl {
+    direction: rtl;
+}
+
 .THIS .resource-image-container > img {
     display: block;
     position: relative;

@@ -1,10 +1,11 @@
-<aura:component controller="ResourceRemote" description="ResourceItem">
+<aura:component controller="ResourceRemote" description="ResourceItem" extends="c:CommunityContext">
 
     <!--ATTRIBUTES-->
     <aura:attribute name="resourceWrapper" type="ResourceService.ResourceWrapper"/>
     <aura:attribute name="class" type="String" default="" description="css class"/>
 
     <!--COMPONENT BODY-->
+	 <div class="{!v.isRTL? 'rtl' :''}">
     <div class="{!'resource-container ' + (v.class.length > 0 ? v.class : '')}">
 
         <div class="resource-image-container resource-pointer" onclick="{!c.navigateToPage}">
@@ -46,6 +47,6 @@
                 </div>
             </div>
         </div>
-
+     </div>
     </div>
 </aura:component>
