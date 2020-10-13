@@ -46,9 +46,9 @@
     font-weight: 400;
 }
 
-.THIS .links .apollo-btn:nth-child(n+2) {
+/*.THIS .links .apollo-btn:nth-child(n+2) {
     border-left: none
-}
+}*/
 
 .THIS .apollo-btn.current {
     color: #000;

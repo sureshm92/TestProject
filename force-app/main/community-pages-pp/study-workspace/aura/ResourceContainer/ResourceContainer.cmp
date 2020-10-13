@@ -1,4 +1,4 @@
-<aura:component controller="ResourceRemote" description="ResourceContainer" implements="forceCommunity:availableForAllPageTypes">
+<aura:component controller="ResourceRemote" description="ResourceContainer" implements="forceCommunity:availableForAllPageTypes" extends="c:CommunityContext">
 
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"/>
 
@@ -15,8 +15,9 @@
     <aura:handler name="init" value="this" action="{!c.doInit}"/>
 
     <!--COMPONENT BODY-->
-
+    
     <aura:if isTrue="{!and(v.resourceMode != v.documentsResourceMode, v.videoArticlesAvailable)}">
+        
         <aura:if isTrue="{!v.noTAMessage != null}">
             <div class="resource-noTAMessage">
                 <aura:unescapedHtml value="{!v.noTAMessage}"/>
@@ -39,5 +40,5 @@
             <c:StudyDocumentContainer isAvailable="{!v.studyDocumentsAvailable}"/>
         </aura:set>
     </aura:if>
-
+   
 </aura:component>

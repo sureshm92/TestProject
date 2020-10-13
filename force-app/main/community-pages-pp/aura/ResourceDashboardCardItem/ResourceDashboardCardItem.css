@@ -13,6 +13,11 @@
     text-align: center;
 }
 
+
+.THIS.rtl {
+    direction: rtl;
+}
+
 .THIS .resource-image-container {
     display: block;
     max-height: 123px;
