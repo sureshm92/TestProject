@@ -50,7 +50,7 @@
 																						<v:textbox inset="0,0,0,0">
 																					  <![endif]-->
 																					  
-																					<p style="color: #ffffff; font-size: 18px;">	<apex:outputText value="{!headerText}" escape="false"/>
+																					<p style="color: #ffffff; font-size: 18px;line-height: 1;">	<apex:outputText value="{!headerText}" escape="false"/>
 																					</p>
 																					<p style="color: #ffffff; font-size: 24px;">
 																					  <apex:outputText value="{!titleText}" escape="false"/>
