@@ -66,13 +66,14 @@
             console.log('delegateS: ' + JSON.stringify(delegateS));
             console.log('studySiteId: ' + parent.get('v.pe.Study_Site__c'));
             console.log('isConnected: ' + isConnected);
-
+            console.log('NoInviteline69REFRESH>>:' + component.get('v.NoInvite'));
             communityService.executeAction(component, 'connectDelegateToPatient', {
                 participantS: JSON.stringify(parent.get('v.participant')),
                 delegateS: JSON.stringify(delegateS),
                 studySiteId: parent.get('v.pe.Study_Site__c'),
                 isConnected: isConnected,
-                duplicateDelegateInfo: JSON.stringify(component.get('v.duplicateDelegateInfo'))
+                duplicateDelegateInfo: JSON.stringify(component.get('v.duplicateDelegateInfo')),
+                NoInvite: component.get('v.NoInvite')
             }, function (returnValue) {
                 component.set('v.delegateItem.isConnected', returnValue.isConnected);
                 component.set('v.delegateItem.Contact__c', returnValue.contactId);

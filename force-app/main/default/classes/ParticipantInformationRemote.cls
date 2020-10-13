@@ -143,7 +143,7 @@ public without sharing class ParticipantInformationRemote {
     }
 
     @AuraEnabled
-    public static DelegateConnectedInfo connectDelegateToPatient(String participantS, String delegateS, String studySiteId, Boolean isConnected, String duplicateDelegateInfo) {
+    public static DelegateConnectedInfo connectDelegateToPatient(String participantS, String delegateS, String studySiteId, Boolean isConnected, String duplicateDelegateInfo,Boolean NoInvite) {
         DelegateConnectedInfo isConnectedRes = new DelegateConnectedInfo();
         isConnectedRes.isConnected = isConnected;
 
@@ -236,7 +236,9 @@ public without sharing class ParticipantInformationRemote {
             if (!patientDelegatesToInsert.isEmpty()) {
                 upsert patientDelegatesToInsert;
             }
-            if(String.isBlank(ddi.contactId))  createCommunityUser(toCreateUser, userNotExists);
+            if(String.isBlank(ddi.contactId) && NoInvite == false){
+               createCommunityUser(toCreateUser, userNotExists); 
+            }
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
@@ -318,8 +320,7 @@ public without sharing class ParticipantInformationRemote {
                     );
                 }
             }
-
-           if (!delegates.isEmpty() && needsInvite == true) {
+             if (!delegates.isEmpty() && needsInvite == true) {
                 update delegates;
             }
             if (!delegatesToUpdate.isEmpty() && needsInvite == true) {
@@ -335,12 +336,25 @@ public without sharing class ParticipantInformationRemote {
                 TriggerHandlerExecutor.bypassHandler(PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class);
                 update delegatesToUpdate;
             }
-
+           
             system.debug('toCreateUser: ' + toCreateUser);
-            if (!toCreateUser.isEmpty()) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
-            if (!actionAssignContactPermissions.isEmpty()) {
+            if (!toCreateUser.isEmpty() && needsInvite == true){
+               ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser); 
+            } 
+            if (!toCreateUser.isEmpty() && needsInvite == false){
+             ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id>{
+                        participantContact.Id => null
+                            });
+            } 
+            if (!actionAssignContactPermissions.isEmpty() && needsInvite == true) {
                 ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
             }
+            if (!actionAssignContactPermissions.isEmpty() && needsInvite == false) {
+             TriggerHandlerExecutor.bypassHandler(PatientDelegateTriggerHandler.CreateReactivatedNotification.class);
+             TriggerHandlerExecutor.bypassHandler(PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class);
+                ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+            }
+      
         } catch (Exception exp) {
             throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
         }
