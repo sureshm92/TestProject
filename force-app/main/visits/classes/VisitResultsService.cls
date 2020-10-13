@@ -82,9 +82,7 @@ public inherited sharing class VisitResultsService {
                 listIsNotEmpty = true;
             }
             VisitResultWrapper objVisitResultWrapper=new VisitResultWrapper(visitResult, TranslateHelper.getLabelValue(selectedVisitGroup), this.visitResultsMeasurementNamesMap);
-            if(visitResult!=null && visitResultTypeDescriptionMap.containsKey(visitResult.Result_Type__c)){
-                objVisitResultWrapper.description=TranslateHelper.getLabelValue(visitResultTypeDescriptionMap.get(visitResult.Result_Type__c));
-            }
+            objVisitResultWrapper.description=TranslateHelper.getLabelValue(visitResultTypeDescriptionMap.get(selectedVisitGroup));
             wrappers.add(objVisitResultWrapper);
         }
         List<VisitResultWrapper> resultWrappers = new List<VisitResultWrapper>();
