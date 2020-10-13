@@ -6,6 +6,7 @@
         helper.prepareCardFields(component, event); 
         // added for differntiate PP & RH portals view more button.
         if(component.get('v.userMode') && component.get('v.userMode') =='Participant') component.set('v.isHidden', true);
+        component.find('spinner').hide();
     },
     
     //Added for the performance tuning
