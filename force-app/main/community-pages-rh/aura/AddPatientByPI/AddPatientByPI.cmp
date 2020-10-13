@@ -30,7 +30,7 @@
     <aura:attribute name="communityWithPPInv" type="Boolean" default="true"/>
     <aura:attribute name="emailInstance" type="String"/>
     <aura:attribute name="createUserForDelegate" type="Boolean" default="false"/>
-    
+   
     <!-- methods: -->
     <aura:method name="checkDateOfBith" action="{!c.doCheckDateOfBith}" access="public">
         <aura:attribute name="callback" type="Function"/>
@@ -197,7 +197,7 @@
                             <div class="slds-form-element__control">
                                 <div class="slds-checkbox" data-gtm="checkbox_Permit_IQVIA_Connect">
                                     <input aura:id="checkbox-Contact" type="checkbox" name="options" id="checkbox-unique-id-76"
-                                           value="checkbox-unique-id-76" onclick="{!c.doContact}"/>
+                                           value="checkbox-unique-id-76" onclick="{!c.doContact}" checked="false" />
                                     <label class="slds-checkbox__label" for="checkbox-unique-id-76">
                                         <span class="slds-checkbox_faux"></span>
                                         <span class="slds-form-element__label-for-checkbox">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_ShareInformation}</span>

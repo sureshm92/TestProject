@@ -25,7 +25,7 @@
             'isComorbidities': false,
             'isInitialVisitScheduled': false,
             'AgeFrom': '0',
-            'AgeTo': '100',
+            'AgeTo': '150',
             'Ethnicity': '',
             'Sex': '',
             'pageNumber':'',
@@ -64,6 +64,7 @@
                 }
                 //  alert(component.get('v.filterList[0].ParticipantStatus'));
                 if(selectedOptionValue == 'Active' && !component.get('v.isFromDoinit')){
+					
                     component.set('v.filterList[0].ParticipantStatus', returnValue[1].value);
                 }
                 if(selectedOptionValue == 'Active'){

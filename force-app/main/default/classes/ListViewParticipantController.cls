@@ -230,8 +230,15 @@ public without sharing class ListViewParticipantController {
             if(String.isEmpty(FilterList[0].AgeFrom))
                 FilterList[0].AgeFrom = '0';
             if(String.isEmpty(FilterList[0].AgeTo))
-                FilterList[0].AgeTo = '100';
+                FilterList[0].AgeTo = '150';
+            if(FilterList[0].AgeFrom == '0' && FilterList[0].AgeTo == '150'){
+                filter+=' AND ((Participant__r.Present_Age__c >='+ FilterList[0].AgeFrom + ' AND Participant__r.Present_Age__c <='+FilterList[0].AgeTo + ') ' ;
+                String universal = ' OR Participant__r.Present_Age__c = null ) ';
+                filter = filter + universal;
+            }else{
                 filter+=' AND (Participant__r.Present_Age__c >='+ FilterList[0].AgeFrom + ' AND Participant__r.Present_Age__c <='+FilterList[0].AgeTo + ')' ;
+            }
+                
             //}
             if (!String.isEmpty(FilterList[0].Sex) && FilterList[0].Sex != 'All'){
                 filter+=' AND Participant__r.Gender_Technical__c='+'\''+ FilterList[0].Sex+ '\'';
@@ -683,6 +690,7 @@ public without sharing class ListViewParticipantController {
         public Decimal IsPromoteToSHLimit{get;set;}
         @AuraEnabled
        	public ListWrapper retainFilter {get;set;}
+		
     }
     public class WrapPageWithSelection
     {
