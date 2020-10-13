@@ -320,8 +320,7 @@ public without sharing class ParticipantInformationRemote {
                     );
                 }
             }
-
-            if (!delegates.isEmpty() && needsInvite == true) {
+             if (!delegates.isEmpty() && needsInvite == true) {
                 update delegates;
             }
             if (!delegatesToUpdate.isEmpty() && needsInvite == true) {
@@ -355,6 +354,7 @@ public without sharing class ParticipantInformationRemote {
              TriggerHandlerExecutor.bypassHandler(PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class);
                 ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
             }
+      
         } catch (Exception exp) {
             throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
         }

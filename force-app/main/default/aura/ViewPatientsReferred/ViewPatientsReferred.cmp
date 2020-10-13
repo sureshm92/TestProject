@@ -6,8 +6,19 @@
                 controller="ViewPatientsRemote">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
-
+    
+    <aura:method name="childMethod" action="{!c.exportAll}" access="public">
+    </aura:method>
     <!-- attributes: -->
+    <aura:attribute name="exportWrap" type="List"/> 
+    <aura:attribute name="peFilterDataBackup" type="Object"/>
+    <aura:attribute name="totalCount" type="Integer"/>
+    <aura:attribute name="counterLimit" type="Integer"/>
+    <aura:attribute name="startPos" type="Integer"/>
+    <aura:attribute name="endPos" type="Integer"/>
+    <aura:attribute name="CsvList" type="List" /> 
+    <aura:attribute name="isFirstTime" type="Boolean" default="false" /> 
+    
     <aura:attribute name="trialId" type="String"/>
     <aura:attribute name="siteId" type="String"/>
     <aura:attribute name="userMode" type="String"/>
@@ -56,7 +67,7 @@
 
     <!-- component body: -->
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
-
+	<c:RRSpinner aura:id="Spinnerpopup" size="medium" showSpinner="false"/>
     <div class="rr-min-body-height">
         <aura:if isTrue="{!v.isInitialized}">
             <aura:if isTrue="{!!empty(v.header)}">

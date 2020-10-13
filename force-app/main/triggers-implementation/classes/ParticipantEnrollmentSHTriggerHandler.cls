@@ -89,9 +89,13 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             for (Participant_Enrollment_Status_History__c history : peToHistories.get(pe.Id)) {
                 Integer headStatusValue = PEStatusState.PE_ORDERED_STATUSES.get(headHistory.Status__c);
                 Integer currentStatusValue = PEStatusState.PE_ORDERED_STATUSES.get(history.Status__c);
-
+                Boolean maxCheck=false;
+                if(headStatusValue!=null && currentStatusValue!=null){
+                   maxCheck = headStatusValue != Math.max(headStatusValue, currentStatusValue);
+  
+                }
                 if ((headStatusValue == currentStatusValue && headHistory.Date__c < history.Date__c)
-                        || headStatusValue != Math.max(headStatusValue, currentStatusValue)) {
+                        || maxCheck) {
                     headHistory = history;
                 }
             }

@@ -7,6 +7,7 @@
         component.set('v.DeSelectedIds','');
         component.set('v.count',0);
         component.set('v.enablePromoteToSH',true);
+        var perRecordCount = component.get('v.TotalRecords');
         //var spinner = component.find('recordsSpinner');
         //spinner.show();
         var RowItemList = component.get('v.filterList');
@@ -34,7 +35,10 @@
             'isExport': '',
             'Sortby': '',
             'highPrioritySelected_YesIds': '',
-            'highPrioritySelected_NoIds': ''
+            'highPrioritySelected_NoIds': '',
+            'startPos': 1,
+            'endPos': 45000,
+            'perRecordCount':perRecordCount
         });
         component.set('v.filterList', RowItemList);
         helper.handleSearchHelper(component, event, helper);
@@ -60,7 +64,6 @@
                 }
                 //  alert(component.get('v.filterList[0].ParticipantStatus'));
                 if(selectedOptionValue == 'Active' && !component.get('v.isFromDoinit')){
-                    
                     component.set('v.filterList[0].ParticipantStatus', returnValue[1].value);
                 }
                 if(selectedOptionValue == 'Active'){
@@ -91,7 +94,7 @@
         //spinner.show();
         var selectedOptionValue = component.get("v.filterList[0].ParticipantStatus");
         //  alert(selectedOptionValue);
-        component.set('v.filterList[0].ParticipantStatus', selectedOptionValue);
+        component.set('v.filterList[0].ParticipantStatus', selectedOptionValue); 
         //spinner.hide();
     },
     handleChangeSource : function(component, event, helper) {
@@ -227,6 +230,7 @@
             component.set('v.PaginationList',result.FilterImpacts);
             component.set("v.PageNumber", result.pageNumber);
             component.set("v.TotalRecords", result.totalRecords);
+            component.set("v.filterList[0].perRecordCount",  result.totalRecords);
             component.set("v.RecordStart", result.recordStart);
             component.set("v.RecordEnd", result.recordEnd);
             component.set("v.TotalPages", Math.ceil(result.totalRecords / pageSize));
@@ -478,6 +482,7 @@
             component.set('v.PaginationList',result.FilterImpacts);
             component.set("v.PageNumber", result.pageNumber);
             component.set("v.TotalRecords", result.totalRecords);
+            component.set("v.filterList[0].perRecordCount",  result.totalRecords);
             component.set("v.RecordStart", result.recordStart);
             component.set("v.RecordEnd", result.recordEnd);
             component.set("v.TotalPages", Math.ceil(result.totalRecords / pageSize));
@@ -578,6 +583,7 @@
          component.set('v.PaginationList',result.FilterImpacts);
          component.set("v.PageNumber", result.pageNumber);
          component.set("v.TotalRecords", result.totalRecords);
+         component.set("v.filterList[0].perRecordCount",  result.totalRecords);
          component.set("v.RecordStart", result.recordStart);
          component.set("v.RecordEnd", result.recordEnd);
          component.set("v.TotalPages", Math.ceil(result.totalRecords / pageSize));
@@ -723,6 +729,9 @@
     {
         //var spinner = component.find('recordsSpinner');
         //spinner.show();
+        component.set("v.startPos", 1);
+        component.set("v.endPos", 45000);
+        component.set("v.counterLimit", 45000);
         helper.getAllFilteredList(component, event, helper); 
         //spinner.hide();
     },

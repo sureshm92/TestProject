@@ -136,6 +136,7 @@ public without sharing virtual class EmailTemplateProvider {
         parameters.put('ShortCommunityName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_NAME_SHORT));
         parameters.put('SignatureFullCommunityName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_SIGNATURE));
         parameters.put('SignatureShortCommunityName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_SIGNATURE_SHORT));
+         parameters.put('SignatureShortCommunityVTName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_SIGNATURE_VT_SHORT));
         parameters.put('CommunityName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_NAME));
         parameters.put('SignatureCommunityName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_SIGN_COMM_NAME));
         parameters.put('SignatureTeam', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_SIGN_TEAM));
