@@ -1,6 +1,7 @@
 <aura:component
 	controller="PastStudiesController"
 	description="Past Studies"
+	extends="c:CommunityContext"
 	implements="forceCommunity:availableForAllPageTypes"
 >
 	<ltng:require
@@ -28,7 +29,7 @@
 		</c:RRNavigationPath>
 	</div>
 
-	<div style="padding-bottom: 30px">
+	<div class="{!if(v.isRTL,'cardRTL','')}" style="padding-bottom: 30px">
 		<aura:if isTrue="{!v.initialized}">
 			<aura:iteration items="{!v.pastStudiesList}" var="pastStudy">
 				<c:PastStudyCard

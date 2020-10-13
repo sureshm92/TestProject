@@ -286,46 +286,57 @@
 							{!$Label.c.Task_Tab_Completed_Tasks}
 						</button>
 					</div>
-
-					<div
-						class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-resources', '', ' collapsed')}"
-					>
-						<aura:if
-							isTrue="{!and(v.studyDetail.trial.Study_Documents_Are_Available__c, v.state != 'ALUMNI')}"
+					<div class="{!v.isRTL? 'rtl' :''}">
+						<div
+							class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-resources', '', ' collapsed')}"
 						>
-							<button
-								id="changeResourceMode"
-								data-resource-mode="Documents"
-								class="{!'apollo-btn text ' + if(v.resourceMode == 'Documents', ' current', '')}"
-								onclick="{!c.doAction}"
-								style="margin-left: 160px"
+							<aura:if
+								isTrue="{!and(v.studyDetail.trial.Study_Documents_Are_Available__c, v.state != 'ALUMNI')}"
 							>
-								{!$Label.c.Resource_Tab_Study_Documents}
-							</button>
-						</aura:if>
-						<aura:if
-							isTrue="{!or(v.state == 'ALUMNI', v.studyDetail.trial.Video_And_Articles_Are_Available__c)}"
-						>
-							<button
-								id="changeResourceMode"
-								data-resource-mode="Default"
-								class="{!'apollo-btn text ' + if(v.resourceMode == 'Default', ' current', '')}"
-								onclick="{!c.doAction}"
+								<button
+									id="changeResourceMode"
+									data-resource-mode="Documents"
+									class="{!'apollo-btn text ' + if(v.resourceMode == 'Documents', ' current', '')}"
+									onclick="{!c.doAction}"
+								>
+									{!$Label.c.Resource_Tab_Study_Documents}
+								</button>
+							</aura:if>
+							<aura:if
+								isTrue="{!or(v.state == 'ALUMNI', v.studyDetail.trial.Video_And_Articles_Are_Available__c)}"
 							>
-								{!$Label.c.Resource_Tab_Study_Video_And_Articles}
-							</button>
-							<button
-								id="changeResourceMode"
-								data-resource-mode="Favorite"
-								class="{!'apollo-btn text ' + if(v.resourceMode == 'Favorite', ' current', '')}"
-								onclick="{!c.doAction}"
-							>
-								{!$Label.c.Resource_Tab_Favorites}
-							</button>
-						</aura:if>
-						<a onclick="{!c.navigateToCoi}" class="change-pref">
-							{!$Label.c.PP_Change_Preferences_Resource}
-						</a>
+								<button
+									id="changeResourceMode"
+									data-resource-mode="Default"
+									class="{!'apollo-btn text ' + if(v.resourceMode == 'Default', ' current', '')}"
+									onclick="{!c.doAction}"
+								>
+									{!$Label.c.Resource_Tab_Study_Video_And_Articles}
+								</button>
+								<button
+									id="changeResourceMode"
+									data-resource-mode="Favorite"
+									class="{!'apollo-btn text ' + if(v.resourceMode == 'Favorite', ' current', '')}"
+									onclick="{!c.doAction}"
+								>
+									{!$Label.c.Resource_Tab_Favorites}
+								</button>
+							</aura:if>
+							<aura:if isTrue="{!v.isRTL}">
+								<a
+									onclick="{!c.navigateToCoi}"
+									class="change-pref"
+									style="float: left"
+								>
+									{!$Label.c.PP_Change_Preferences_Resource}
+								</a>
+								<aura:set attribute="else">
+									<a onclick="{!c.navigateToCoi}" class="change-pref">
+										{!$Label.c.PP_Change_Preferences_Resource}
+									</a>
+								</aura:set>
+							</aura:if>
+						</div>
 					</div>
 
 					<div

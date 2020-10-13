@@ -1,7 +1,7 @@
 /**
  * Created by Yehor Dobrovolskyi
  */
-.THIS {
+ .THIS {
 }
 
 .THIS.card-ctp {
@@ -14,6 +14,16 @@
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
     margin: 15px 20px 0 0;
 }
+.THIS.card-ctpRTL {
+    height: auto;
+    width: auto;
+    border: 1px solid #F2F2F2;
+    box-sizing: border-box;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
+    margin: 15px 0px 0 20px;
+}
 
 .THIS .top-line {
     height: 5px;
@@ -25,6 +35,9 @@
 
 .THIS .button-ctp {
     margin: 10px 0 15px 15px;
+}
+.THIS .button-ctpRTL {
+    margin: 10px 15px 15px 0px;
 }
 
 .THIS .tap-class {
@@ -54,6 +67,15 @@
     font-size: 14px;
     width: 20%;
     text-align: right;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-weight: 500;
+    line-height: 21px;
+}
+.THIS .ctp-recruitment-statusRTL {
+    font-size: 14px;
+    width: 20%;
+    text-align: left;
     color: #000000;
     font-family: "Proxima Nova";
     font-weight: 500;
