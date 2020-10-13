@@ -5,6 +5,16 @@
     generateReport: function (component) {
         const helper = this;
         let reportData = component.get('v.reportData');
+        var RTL = component.get('v.isRTL');
+        if(RTL)
+        {
+            for(i=0;i<reportData.dataTables.length;i++)
+            {
+                reportData.dataTables[i].tHead=reportData.dataTables[i].tHead.reverse();
+                reportData.dataTables[i].visitResultsWrapper[0]=reportData.dataTables[i].visitResultsWrapper[0].reverse();
+            }
+        component.set('v.reportData',reportData);
+        }
         if(reportData.notAvailableMessage){
             var template = reportData.notAvailableMessage + ' {0}';
             var accUrl = 'account-settings?langloc';
@@ -76,6 +86,7 @@
         //let navService = component.find('navService');
         let helper = this;
         helper.uploadFontForUtf8();
+        var RTL = component.get('v.isRTL');
         var doc = new jsPDF('l', 'pt', 'A4', true);
         let textFooter = $A.get('$Label.c.Report_Visits_Result_Text_Footer');
         let numberPageForTable = 0;
@@ -88,21 +99,35 @@
         doc.setFontSize(16);
         doc.setTextColor('#000096');
         doc.setFontType('bold');
-        doc.text(reportData.participantFullName, 80, 120);
-        doc.text($A.get('$Label.c.Report_Enrollment_Date') + ' ' + reportData.enrollmentDate, 80, 140);
-
-        if(!$A.util.isUndefinedOrNull(reportData.participantStatus)){
-            doc.text($A.get('$Label.c.Report_Participant_Status') + ': ' + reportData.participantStatus, 80, 160);
-            doc.text($A.get('$Label.c.Report_Study_Site') + ': ' + reportData.studySiteName, 80, 180);
-        }else{
-            doc.text($A.get('$Label.c.Report_Study_Site') + ': ' + reportData.studySiteName, 80, 160);
+        if(RTL)
+        {    
+            doc.text(reportData.participantFullName,740,120,{ align: 'right'});
+            doc.text($A.get('$Label.c.Report_Enrollment_Date') + ' ' + reportData.enrollmentDate,740,140,{ align: 'right'});
+    
+            if(!$A.util.isUndefinedOrNull(reportData.participantStatus)){
+                doc.text($A.get('$Label.c.Report_Participant_Status') + ': ' + reportData.participantStatus,740,160,{ align: 'right'});
+                doc.text($A.get('$Label.c.Report_Study_Site') + ': ' + reportData.studySiteName,740,180,{ align: 'right'});
+            }else{
+                doc.text($A.get('$Label.c.Report_Study_Site') + ': ' + reportData.studySiteName,740,160,{ align: 'right'});
+            }
         }
+        else
+        {
+                doc.text(reportData.participantFullName, 80, 120);
+                doc.text($A.get('$Label.c.Report_Enrollment_Date') + ' ' + reportData.enrollmentDate, 80, 140);
 
+                if(!$A.util.isUndefinedOrNull(reportData.participantStatus)){
+                    doc.text($A.get('$Label.c.Report_Participant_Status') + ': ' + reportData.participantStatus, 80, 160);
+                    doc.text($A.get('$Label.c.Report_Study_Site') + ': ' + reportData.studySiteName, 80, 180);
+                }else{
+                    doc.text($A.get('$Label.c.Report_Study_Site') + ': ' + reportData.studySiteName, 80, 160);
+                }
+        }
         doc.setFontType('normal');
-        numberPageForTable = helper.generateTable(reportData, doc);
+        numberPageForTable = helper.generateTable(reportData, doc, RTL);
         for (let i = 1; i <= doc.internal.getNumberOfPages(); i++) {
             doc.setPage(i);
-            helper.addBorder(reportData, doc, iqviaLogo, splitTextFooter, i === 1);
+            helper.addBorder(reportData, doc, iqviaLogo, splitTextFooter, i === 1, RTL);
         }
         if (isSave) {
             window.navigator.msSaveBlob(doc.output('blob'), $A.get('$Label.c.Report_Document_Name') + '.pdf');
@@ -133,24 +158,85 @@
             doc.setFontSize(16);
             doc.setTextColor('#545454');
             heightY = helper.validationEndPage(doc, heightY + 50, 100);
-            doc.text(tableResult.tableName, 90, heightY);
+            if(RTL)
+            {    
+                doc.text(tableResult.tableName,750,heightY, { align: 'right'});
+            }
+            else
+            {
+                doc.text(tableResult.tableName, 90, heightY);
+            }
             heightY += doc.internal.getLineHeight();
             tableResult.labsDescription.forEach(function (lab) {
                 doc.setFontType('bold');
                 doc.setFontSize(11);
                 doc.setTextColor('#000000');
                 heightY = helper.validationEndPage(doc, heightY + 10, 75);
-                doc.text(lab.nameLabs, 90, heightY);
+                if(RTL)
+            	{    
+                	doc.text(lab.nameLabs,750,heightY,{ align: 'right'});
+                }
+                else
+                {
+                    doc.text(lab.nameLabs, 90, heightY);
+                }
                 doc.setFontType('normal');
                 doc.setFontSize(11);
                 doc.setTextColor('#000000');
                 let splitTextResult = doc.splitTextToSize(lab.descriptionLab, 720);
                 splitTextResult.forEach(function (el, ind) {
                     heightY = helper.validationEndPage(doc, heightY + doc.internal.getLineHeight());
-                    doc.text(el, 90, heightY);
+                    if(RTL)
+                    {
+                    	doc.text(el,750,heightY,{ align: 'right'});
+                    }
+                    else
+                    {
+                        doc.text(el, 90, heightY);
+                    }
                 });
                 heightY = helper.validationEndPage(doc, heightY + doc.internal.getLineHeight());
             });
+            if(RTL)
+            {
+        		doc.autoTable({
+                theme: 'plain',
+                html: '#tbl' + ind,
+                styles: {
+                    cellPadding: 2,
+                    halign: 'center',
+                    valign: 'middle',
+                    lineColor: 0,
+                    lineWidth: 1,
+                    font: 'Roboto-Regular',
+                    fontStyle: 'normal',
+                    minCellWidth: 63,
+                },
+                columnStyles: {
+                    0: {
+                        cellWidth: 60,
+                        cellPadding: 0
+                    }
+                },
+                head: {
+                    fontStyle: 'normal',
+                    fontSize: 8,
+                    halign: 'center',
+                    valign: 'middle',
+                },
+                startY: heightY + 30,
+                margin: {
+                    right: 50,
+                    left: 10,
+                    top: 60,
+                    bottom: 60
+                },
+                useCss: true
+            });
+           
+           }
+           else
+           {
             doc.autoTable({
                 theme: 'plain',
                 html: '#tbl' + ind,
@@ -185,6 +271,7 @@
                 },
                 useCss: true
             });
+            }
             heightY = doc.autoTable.previous.finalY
         });
         return numberPageForTable;
@@ -196,20 +283,43 @@
             doc.setFontSize(10);
             doc.setTextColor('#6e6e6e');
             if (reportData.studyCodeName) {
+                if(RTL)
+                doc.text(reportData.studyCodeName, 400, 12, { align: 'right'});
+                else
                 doc.text(reportData.studyCodeName, 600, 12);
             }
+            if(RTL)
+            doc.text(reportData.participantLastName, 400, 24, { align: 'right'});
+            else
             doc.text(reportData.participantLastName, 600, 24);
         }
         doc.setDrawColor(216, 216, 216);
         doc.setLineWidth(8);
-        doc.line(35, 35, 35, 550);
-        doc.line(30.8, 35, 97, 35);
-        doc.line(193, 35, 841, 35);
-        doc.line(30.8, 550, 841, 550);
-        //TO-DO: Add right border and align table
+        if(RTL)
+        {
+            doc.line(1, 35, 300, 35);
+            doc.line(193, 35, 800, 35);
+            doc.line(1, 550, 800, 550);
+            doc.line(800, 30.8, 800, 554);
+        }
+    else
+        {
+            doc.line(35, 35, 35, 550);
+            doc.line(30.8, 35, 97, 35);
+            doc.line(193, 35, 841, 35);
+            doc.line(30.8, 550, 841, 550);
+        }
+    //TO-DO: Add right border and align table
         //doc.line(808, 35, 808, 550);
         if (logo) {
-            doc.addImage(logo, 'PNG', 95, 20, 100, 25);
+            if(RTL)
+            	{
+            		doc.addImage(logo,'PNG',595, 20, 100, 25);
+            	}
+            	else
+            	{
+                	doc.addImage(logo,'PNG',95,20,100,25);
+            	}
         }
         splitTextFooter.forEach(function (el, ind) {
             doc.setFontSize(8);
