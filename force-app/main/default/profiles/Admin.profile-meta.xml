@@ -6266,6 +6266,11 @@
         <field>Resource__c.Sponsor__c</field>
         <readable>true</readable>
     </fieldPermissions>
+   <fieldPermissions>
+        <editable>true</editable>
+        <field>Resource__c.Submitted_By__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Resource__c.Subtitle__c</field>
@@ -7705,6 +7710,10 @@
         <recordType>Resource__c.Video</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Resource__c-Submitted_Articles</layout>
+        <recordType>Resource__c.Submitted_Articles</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>SDH_Status__mdt-SDH Status Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -8683,6 +8692,11 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+     <recordTypeVisibilities
+        <default>false</default>
+        <recordType>Resource__c.Submitted_Articles</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
         <default>false</default>
         <recordType>Therapeutic_Area__c.Condition_of_Interests</recordType>
         <visible>true</visible>
