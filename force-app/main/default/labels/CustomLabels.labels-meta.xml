@@ -3690,7 +3690,7 @@ Please share our site on social media to encourage others to assist us as we wor
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Discover future Clinical</shortDescription>
-        <value>information about   ##StudyName visits and assessments.</value>
+        <value>information about   ##StudyName visits and assessments</value>
     </labels>
     <labels>
         <fullName>Distolic_Blood_Pr</fullName>
@@ -18602,7 +18602,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Track your study</shortDescription>
-        <value>your study timeline to help you keep track of your progress.</value>
+        <value>your study timeline to help you keep track of your progress</value>
     </labels>
     <labels>
         <fullName>Travel_Support_Link</fullName>
