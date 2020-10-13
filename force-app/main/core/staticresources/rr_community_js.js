@@ -229,6 +229,11 @@ window.communityService = (function () {
         getLanguage: function(){
             return language;
         },
+
+        getBaseUrl: function() {
+            return baseUrl;
+        },
+        
         isTCAccepted: function () {
             return isTCAcceptedFlag;
         },
