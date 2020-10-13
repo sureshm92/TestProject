@@ -167,6 +167,9 @@ public class Test_ListViewParticipantController {
           lw.isInitialVisitScheduled = 'true';
           lw.Sex = '';
           lw.isExport = 'true';
+          lw.startPos = 1;
+          lw.endPos = 45000;
+
           
           
            System.runAs(u) {
@@ -231,6 +234,8 @@ public class Test_ListViewParticipantController {
           lw.isInitialVisitScheduled = 'true';
           lw.Sex = '';
           lw.isExport = 'true';
+          lw.startPos = 1;
+          lw.endPos = 45000;
           
           
            System.runAs(u) {

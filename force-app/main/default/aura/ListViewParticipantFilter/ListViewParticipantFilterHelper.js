@@ -8,7 +8,7 @@
         AgeFrom.setCustomValidity("");
         if(filterValue[0].AgeFrom != "" && filterValue[0].AgeTo == ""){
             component.set('v.filterList[0].AgeFrom',  filterValue[0].AgeFrom);
-            component.set('v.filterList[0].AgeTo', 100);
+            component.set('v.filterList[0].AgeTo', 150);
         }else if(filterValue[0].AgeFrom == "" && filterValue[0].AgeTo != ""){
             component.set('v.filterList[0].AgeFrom', 0);
             component.set('v.filterList[0].AgeTo', filterValue[0].AgeTo);
@@ -360,7 +360,7 @@
     doinitHelper : function(component, event, helper) {
         component.find('Spinnerpopup').show();
         component.set('v.filterList[0].AgeFrom',  0);
-        component.set('v.filterList[0].AgeTo', 100);
+        component.set('v.filterList[0].AgeTo', 150);
         component.set('v.lstPR_no','');
         component.set('v.lstPR_yes','');
         component.set('v.SelectedIds','');
@@ -393,7 +393,7 @@
             'isComorbidities': false,
             'isInitialVisitScheduled': false,
             'AgeFrom': '0',
-            'AgeTo': '100',
+            'AgeTo': '150',
             'Ethnicity': '',
             'Sex': '',
             'pageNumber':'',
@@ -425,7 +425,7 @@
         component.set('v.oSource','');
         component.set('v.oParticipantStatus',psIfActive[1].value);
         component.set('v.oAgeFrom','0');
-        component.set('v.oAgeTo','100');
+        component.set('v.oAgeTo','150');
         component.set('v.oEthnicity','');
         component.set('v.oSex','');
         component.set('v.oisHighRiskOccupation','false');
