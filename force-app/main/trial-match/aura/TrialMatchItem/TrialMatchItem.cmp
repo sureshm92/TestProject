@@ -28,6 +28,7 @@
         <div class="ctp-info-block ctp-padding">
             <div class="ctp-study-code-name">
                 {!v.trialMatch.StudyCodeName}
+                <div class="{!v.trialMatch.NCTId!=null?'slds-show ctp-nct-Id':'slds-hide'}">&nbsp;&nbsp;<a href="{! 'https://clinicaltrials.gov/ct2/show/'+v.trialMatch.NCTId}" target="_blank">{!v.trialMatch.NCTId}</a></div>
             </div>
             <aura:if isTrue="{!v.isRTL}">
             	<div class="{!v.isRTL? 'ctp-date-status-rtl':'ctp-date-status'}">
