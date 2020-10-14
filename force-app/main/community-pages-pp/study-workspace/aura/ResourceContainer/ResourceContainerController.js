@@ -5,7 +5,19 @@
                 communityService.executeAction(component, 'getNoTAMessage', {}, function (returnValue) {
                     component.set("v.noTAMessage", returnValue);
                 });
+                
+                communityService.executeAction(component, 'hasCois', {}, function (returnValue) {
+                    component.set("v.hascois", returnValue);
+                });
+
             }
+
+           if (communityService.getCurrentCommunityMode().currentDelegateId){
+            component.set('v.isDelegate', true);}
+           else{
+            component.set('v.isDelegate', false);
+            
+        }
         },
         
         createArticles : function (component, event, helper) {
