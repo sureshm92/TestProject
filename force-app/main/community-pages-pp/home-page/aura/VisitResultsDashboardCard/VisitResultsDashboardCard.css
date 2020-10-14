@@ -67,7 +67,7 @@
 
 .THIS .visit-result-item-value {
     color: #000000;
-    font-size: 28px;
+    font-size: 20px;
     width: 100%;
     line-height: 24px;
     height: 24px;
@@ -76,10 +76,9 @@
 
 .THIS .visit-result-item-name {
     color: #595959;
-    font-size: 18px;
+    font-size: 16px;
     width: 100%;
     line-height: 24px;
-    height:48px;
     margin-top: 7px;
     display: inline-block;
     text-overflow: ellipsis;

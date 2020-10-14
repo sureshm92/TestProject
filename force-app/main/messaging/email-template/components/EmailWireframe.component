@@ -50,7 +50,7 @@
 																						<v:textbox inset="0,0,0,0">
 																					  <![endif]-->
 																					  
-																					<p style="color: #ffffff; font-size: 18px;">	<apex:outputText value="{!headerText}" escape="false"/>
+                                                                                      <p style="color: #ffffff; font-size: 18px;line-height: 1;">	<apex:outputText value="{!headerText}" escape="false"/>
 																					</p>
 																					<p style="color: #ffffff; font-size: 24px;">
 																					  <apex:outputText value="{!titleText}" escape="false"/>
@@ -95,10 +95,17 @@
 
         <div style="color: #999999; font-size: 13px; line-height: 16px;">
             <div style="border-top: 2px solid #CCCCCC; border-bottom: 2px solid #CCCCCC; padding-top: 10px; padding-bottom: 10px;">
+                <div style="{!IF(isRTL=true,'display:block', 'display:none')}">
+                    <a
+                        href="{!emailCommunityURL + '/s/privacy-policy'}">{!IF(communityTemplate == 'Janssen',
+                    $Label.Email_Footer_Privacy_Policy_Janssen, $Label.Email_Footer_Privacy_Policy)}</a>|&nbsp;{!$Label.Email_Footer_Address}
+                </div>
+                <div style="{!IF(isRTL=false,'display:block', 'display:none')}">
                 {!$Label.Email_Footer_Address} 
-|&nbsp; <a
+                |&nbsp;<a
                         href="{!emailCommunityURL + '/s/privacy-policy'}">{!IF(communityTemplate == 'Janssen',
                     $Label.Email_Footer_Privacy_Policy_Janssen, $Label.Email_Footer_Privacy_Policy)}</a>
+                </div>
             </div>
         </div>
         <apex:outputPanel rendered="{!displayOptOut!='No'}">

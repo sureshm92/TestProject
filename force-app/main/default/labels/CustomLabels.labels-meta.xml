@@ -3690,7 +3690,7 @@ Please share our site on social media to encourage others to assist us as we wor
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Discover future Clinical</shortDescription>
-        <value>information about   ##StudyName visits and assessments.</value>
+        <value>information about   ##StudyName visits and assessments</value>
     </labels>
     <labels>
         <fullName>Distolic_Blood_Pr</fullName>
@@ -9769,6 +9769,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>Prefer not to say</shortDescription>
         <value>0- Prefer not to say</value>
+    </labels>
+    <labels>
+        <fullName>Pdf_Not_Available</fullName>
+        <categories>MobileApp</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pdf Not Available</shortDescription>
+        <value>Opening this link is only supported using the web browser experience</value>
     </labels>
     <labels>
         <fullName>PD_Description</fullName>
@@ -18602,7 +18610,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Track your study</shortDescription>
-        <value>your study timeline to help you keep track of your progress.</value>
+        <value>your study timeline to help you keep track of your progress</value>
     </labels>
     <labels>
         <fullName>Travel_Support_Link</fullName>

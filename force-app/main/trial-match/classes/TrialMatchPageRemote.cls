@@ -37,5 +37,6 @@ public without sharing class TrialMatchPageRemote {
         @AuraEnabled public String StudyCodeName;
         @AuraEnabled public String OfficialTitle;
         @AuraEnabled public String matchDate;
+        @AuraEnabled public String NCTId;
     }
 }
