@@ -7165,7 +7165,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Resource__c.article_external_link__c</field>
         <readable>true</readable>
     </fieldPermissions>
