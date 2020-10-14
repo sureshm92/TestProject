@@ -28,6 +28,13 @@
         <shortDescription>American Indian/Alaskan Native</shortDescription>
         <value>2- American Indian/Alaskan Native</value>
     </labels>
+        <labels>
+        <fullName>Article_Submitted</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Article Submitted</shortDescription>
+        <value>Thank you for your suggestion, this will help our future recommendations for you and other clinical trial participants.</value>
+    </labels>
     <labels>
         <fullName>Asian</fullName>
         <language>en_US</language>
@@ -15031,6 +15038,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Edit Visit Reminder</value>
     </labels>
     <labels>
+        <fullName>PP_Emergency</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Emergency</shortDescription>
+        <value>If you have a medical emergency,please contact your local emergency services.</value>
+    </labels>
+    <labels>
         <fullName>PP_File_Size_Exceeded</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15261,6 +15275,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Save Changes</value>
     </labels>
     <labels>
+        <fullName>PP_Share_Article</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Share Article</shortDescription>
+        <value>Have an article or a video that you found supportive during your clinical trial experience? Share it with us!</value>
+    </labels>
+    <labels>
+        <fullName>PP_Submit_Button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Submit Button</shortDescription>
+        <value>Submit</value>
+    </labels>
+    <labels>
+        <fullName>PP_Submit_Video</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Submit Video</shortDescription>
+        <value>Please submit your article or video as a website link.</value>
+    </labels>
+    <labels>
         <fullName>PP_Task_Success_Toast</fullName>
         <categories>c:StudyVisitReminder</categories>
         <language>en_US</language>
@@ -15275,6 +15310,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_Toggle_Information</shortDescription>
         <value>Emails that notify you of required action, allow you to reset your password or inform you of important system updates will always be sent. Additionally you can choose to receive optional
 communications using the toggles below.</value>
+    </labels>
+    <labels>
+        <fullName>PP_URL_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP URL Error</shortDescription>
+        <value>Invalid URL</value>
     </labels>
     <labels>
         <fullName>PP_Upload_Photo</fullName>

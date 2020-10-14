@@ -5953,6 +5953,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Resource__c.Submitted_By__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Resource__c.Subtitle__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7259,7 +7264,7 @@
     <layoutAssignments>
         <layout>Resource__c-Video</layout>
         <recordType>Resource__c.Video</recordType>
-    </layoutAssignments>
+    </layoutAssignments> 
     <layoutAssignments>
         <layout>SDH_Status__mdt-SDH Status Layout</layout>
     </layoutAssignments>
@@ -7693,6 +7698,11 @@
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Resource__c.Video</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+     <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Resource__c.Submitted_Articles</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
