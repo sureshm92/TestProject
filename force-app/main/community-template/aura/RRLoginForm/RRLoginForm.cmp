@@ -17,6 +17,7 @@
 	<!-- added by Sumit S REF-510-->
     <aura:attribute name="showpassword" type="Boolean" default="false" />
     <aura:attribute name="isMobileApp" type="Boolean"/>
+    <aura:attribute name="isRTL" type="Boolean" default="true"/>
 
 
     <aura:attribute name="forgotPasswordLabel" type="String" required="false" default="{!$Label.c.PG_Login_L_Forgot_your_password}"/>
@@ -44,7 +45,7 @@
     <aura:handler event="c:setStartUrl" action="{!c.setStartUrl}"/>
     <aura:handler event="c:setExpId" action="{!c.setExpId}"/>
     <aura:dependency resource="c:setExpId" type="EVENT"/>
-
+    
     <div style="{!'padding-top: ' + v.paddingTop}">
         <aura:renderIf isTrue="{!v.isUsernamePasswordEnabled}">
             <span>
@@ -54,7 +55,9 @@
                     </div>
                 </aura:renderIf>
             </span>
+            
             <div class="{!'lg-form-element ' + v.ieClass}">
+            <div style="{!v.isRTL? 'direction:rtl' :''}">
                 <label>{!$Label.c.PG_Login_F_User_Name}</label>
                 <!--<ui:inputText value="" aura:id="username" keyup="{!c.onKeyUp}" class="input sfdc_usernameinput sfdc" label="{!v.usernameLabel}" labelClass="assistiveText"/>-->
 					<span onkeyup="{!c.onKeyUp}" id="username">
@@ -64,8 +67,9 @@
 							value=""/> 
 					</span>
             </div>
-
+        </div>
             <div class="{!'lg-form-element ' + v.ieClass}">
+                    <div style="{!v.isRTL? 'direction:rtl' :''}">
                 <label>{!$Label.c.PG_Login_F_Password}</label>
                 <!--<ui:inputSecret value="" aura:id="password" keyup="{!c.onKeyUp}" class="input sfdc_passwordinput sfdc" label="{!v.passwordLabel}" labelClass="assistiveText"/>-->
 				<!-- added by Sumit S REF-510-->
@@ -85,17 +89,19 @@
 					<lightning:buttonIcon class="input sfdc_usernameinput sfdc eyeIcon" 
 									iconName="utility:hide" 
 									alternativeText="Hide" 
-									onclick="{!c.togglePassword}"/>
+									onclick="{!c.togglePassword}" />
                    </aura:if>
                     <aura:if isTrue="{!v.showpassword==false}">
+					 <div style="{!v.isRTL? 'margin-right:260px' :''}">
                    			<lightning:buttonIcon class="input sfdc_usernameinput sfdc eyeIcon" 
 									iconName="utility:preview" 
 									alternativeText="Show" 
 									onclick="{!c.togglePassword}"/>
+									</div>
                     </aura:if>             
 				</div>
             </div>
-
+       </div>
             <div style="height: 50px; margin-top: 30px">
                 <button class="apollo-btn primary login" onclick="{!c.handleLogin}" style="width: 100%">{!$Label.c.BTN_Log_In}</button>
             </div>
