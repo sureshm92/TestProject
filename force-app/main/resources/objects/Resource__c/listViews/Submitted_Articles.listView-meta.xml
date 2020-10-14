@@ -6,10 +6,5 @@
     <columns>Submitted_By__c</columns>
     <columns>CREATED_DATE</columns>
     <filterScope>Everything</filterScope>
-    <filters>
-        <field>RECORDTYPE</field>
-        <operation>equals</operation>
-        <value>Resource__c.Submitted_Articles</value>
-    </filters>
     <label>Submitted Articles</label>
 </ListView>
