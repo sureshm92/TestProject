@@ -2,6 +2,18 @@
     padding-bottom: 100px;
 }
 
+.THIS .arabic{
+    direction: rtl !important;
+    padding-bottom: 100px;
+}
+.THIS.english{
+    padding-bottom: 100px;
+}
+.THIS.slds-text-longform-rtl
+{
+    direction : rtl!important;
+}
+
 .THIS .main-header {
     font-size: 24px;
     font-weight: 600;
@@ -14,6 +26,10 @@
 .THIS .tc-accept-text {
     color: #444;
     margin-right: auto;
+}
+.THIS .tc-accept-text-rtl {
+    float: right!important;
+    margin-right: 5px!important;
 }
 
 .THIS .rr-bottom-bar .bar-content{
