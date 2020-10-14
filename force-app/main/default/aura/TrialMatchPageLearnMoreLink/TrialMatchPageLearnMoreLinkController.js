@@ -4,29 +4,26 @@
  */
 
 ({
-	doInit: function (component, event, helper) {
-		if (!communityService.isInitialized()) return;
-		component.set('v.initialized', true);
-	},
-	doGenerateReport: function (component, event, helper) {
-		if (
-			component.get('v.initialized') &&
-			communityService.isCurrentSessionMobileApp()
-		) {
-			communityService.showInfoToast(
-				'Info!',
-				$A.get('$Label.c.Pdf_Not_Available'),
-				5000
-			);
-			return;
-		}
-		helper.uploadReportData(component, function () {
-			window.setTimeout(
-				$A.getCallback(function () {
-					helper.generateLearnMorePDF(component);
-				}),
-				100
-			);
-		});
-	}
+    doInit: function (component, event, helper) {
+        component.set('v.initialized', true);
+    },
+
+    doGenerateReport: function (component, event, helper) {
+        if (component.get('v.initialized') && component.get('v.isMobileApp')) {
+            communityService.showInfoToast(
+                'Info!',
+                $A.get('$Label.c.Pdf_Not_Available'),
+                100
+            );
+            return;
+        }
+        helper.uploadReportData(component, function () {
+            window.setTimeout(
+                $A.getCallback(function () {
+                    helper.generateLearnMorePDF(component);
+                }),
+                100
+            );
+        });
+    }
 });
