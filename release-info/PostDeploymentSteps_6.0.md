@@ -39,3 +39,11 @@ Open Setup - Custom Metadata Types > find Guides Setting and click on Manage Rec
 1. Go to Setup - Language Settings - check Enable end user languages - add Arabic to displayed          languages.
 2. Go to Setup - Object Manager - Contact - fields - Language__c - Make picklist value Arabic(ar)       active.
 3. Go to Community Builder(IQVIA Referall Hub) - Go to Settings - Languages - Click Add Languages -     Add Arabic to  community Languages
+
+## 7. Profile Permissions
+1. Go to Setup - Object Manager - Click on Resource object - Click on Fields and Relationships - Click on Submitted By Field - Click on Set Field Level Security  - For Profiles (Business Lead,Business Admin,Product Owner) ,check Visible
+2. Go to Setup - Object Manager - Click on Resource object - Click on Fields and Relationships - Click on Article External Link	 Field - Click on Set Field Level Security  - For Profiles (Business Lead,Business Admin,Product Owner) ,check Visible   
+3. Go to Setup - Object Manager - Click on Resource object - Click on Fields and Relationships - Click on Article External Link	 Field - Click on Set Field Level Security  - For Profile PRDB ,check Read-Only. 
+4. Go to Setup - Object Manager - Click on Resource object - Click on Fields and Relationships - Click on Submitted By Field - Click on Set Field Level Security  - For Profile PRDB ,check Read-Only. 
+
+
