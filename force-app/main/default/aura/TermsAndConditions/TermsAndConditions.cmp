@@ -1,5 +1,5 @@
 <aura:component description="TermsAndConditions" implements="forceCommunity:availableForAllPageTypes"
-                controller="TermsAndConditionsRemote">
+                controller="TermsAndConditionsRemote" extends="c:CommunityContext">
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
@@ -16,20 +16,20 @@
 
     <!-- component body: -->
     <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
-    <div>
+    <div class="{!v.isRTL? 'arabic':'english'}">
         <c:RRSpinner size="medium" aura:id="mainSpinner"/>
         <div class="rr-body-content rr-min-body-height">
             <div class="rr-width-limiter side-padding">
                 <div class="main-header">{!v.title}</div>
                 <aura:if isTrue="{!v.tcData}">
                     <aura:if isTrue="{!v.tcData.tc}">
-                        <ui:outputRichText class="slds-text-longform" value="{!v.tcData.tc.T_C_Text__c}"/>
+                        <ui:outputRichText class="{!if(v.isRTL == true, 'slds-text-longform slds-text-longform-rtl', 'slds-text-longform')}" value="{!v.tcData.tc.T_C_Text__c}"/>
                     </aura:if>
                 </aura:if>
             </div>
             <aura:if isTrue="{!v.isUserLoggedIn}">
             <c:RRBottomBar contentClass="tc-bottom-bar-content">
-                <div class="tc-accept-text">
+                <div class="{!if(v.isRTL == true, 'tc-accept-text tc-accept-text-rtl', 'tc-accept-text')}">
                     <aura:if isTrue="{!empty(v.privacyPolicyId)}">
                         <aura:if isTrue="{!v.tcData.isAccepted}">
                             {!$Label.c.PG_TC_Terms_and_Conditions_accepted + ' '} <ui:outputDateTime value="{!v.tcData.acceptedDate}"/>

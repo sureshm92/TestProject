@@ -1249,6 +1249,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ParticipantParagraphController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ParticipantService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -7105,6 +7109,11 @@
         <field>Resource__c.Sponsor__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Resource__c.Submitted_By__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Resource__c.Subtitle__c</field>
@@ -7156,7 +7165,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Resource__c.article_external_link__c</field>
         <readable>true</readable>
     </fieldPermissions>

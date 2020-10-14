@@ -9,15 +9,18 @@
     <aura:attribute name="documentsResourceMode" type="String" default="Documents" access="private" description="constant variable"/>
     <aura:attribute name="studyDocumentsAvailable" type="Boolean" default="true"/>
     <aura:attribute name="videoArticlesAvailable" type="Boolean" default="true"/>
+    <aura:attribute name="submittedArticlesURL" type="String" />
+    <aura:attribute name="disableSave" type="Boolean" default="true"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false" access="private"/>
 
     <!--HANDLERS-->
 
     <aura:handler name="init" value="this" action="{!c.doInit}"/>
 
     <!--COMPONENT BODY-->
-    
+    <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
+
     <aura:if isTrue="{!and(v.resourceMode != v.documentsResourceMode, v.videoArticlesAvailable)}">
-        
         <aura:if isTrue="{!v.noTAMessage != null}">
             <div class="resource-noTAMessage">
                 <aura:unescapedHtml value="{!v.noTAMessage}"/>
@@ -31,14 +34,36 @@
                         <c:Resource resourceType="Article" resourceMode="{!v.resourceMode}" isAvailable="{!v.videoArticlesAvailable}"/>
                     </lightning:layoutItem>
                 </lightning:layout>
-                <div class="resource-disclaimer">
+                <aura:if isTrue="{!v.resourceMode == 'Default'}">
+                     <div style="background:#fff;margin-top:-21px;border: 1px solid #e9e9e9;border-width: 1px;border-top: none;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);border-radius:4px;">
+                <div class="url-disclaimer">
+                 {!$Label.c.PP_Share_Article}<br></br>
+                 {!$Label.c.PP_Submit_Video}    
+                </div>    
+                 <div class="slds-grid" style="padding:30px;margin-top:-40px;">
+                     <div class="slds-col slds-size_1-of-2">
+                    <lightning:input type="text" aura:id="urlField" placeholder="Paste URL here" value="{!v.submittedArticlesURL}" onblur="{!c.handleUrlValidation}"></lightning:input>
+                     </div>
+                    <div  class="slds-col slds-size_1-of-2" style="margin-top:20px;margin-left:-85px;">
+                    <lightning:button label="{!$Label.c.PP_Submit_Button}" onclick="{!c.createArticles}" class="{!v.disableSave ? 'btn slds-button disabled' : 'btn slds-button'}" disabled="{!v.disableSave}"></lightning:button>
+                    
+                     </div>
+                      <span style="margin-left:-989px;margin-top:56px;font-style:italic;color:#999999;font-size:12px;">
+                          {!$Label.c.PP_Emergency}
+                    </span>
+                    </div>
+                    <div class="resource-disclaimer">
                     {!$Label.c.Resources_Expiration_Date_Disclaimer}
                 </div>
-            </aura:set>
+                </div>
+
+                </aura:if>
+                </aura:set>
         </aura:if>
         <aura:set attribute="else">
             <c:StudyDocumentContainer isAvailable="{!v.studyDocumentsAvailable}"/>
         </aura:set>
     </aura:if>
-   
+                   
+
 </aura:component>

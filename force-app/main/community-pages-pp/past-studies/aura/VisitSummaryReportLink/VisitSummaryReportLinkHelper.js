@@ -233,7 +233,7 @@
 		}
 	},
 
-	generateTable: function (reportData, doc) {
+	generateTable: function (reportData, doc, RTL) {
 		let helper = this;
 		let numberPageForTable = 0;
 		let heightY = 160;
@@ -354,7 +354,7 @@
 		return numberPageForTable;
 	},
 
-	addBorder: function (reportData, doc, logo, splitTextFooter, isFirstPage) {
+	addBorder: function (reportData, doc, logo, splitTextFooter, isFirstPage, RTL) {
 		const helper = this;
 		if (!isFirstPage) {
 			doc.setFontSize(10);

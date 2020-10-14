@@ -1,6 +1,7 @@
 ({
     doInit: function (component, event, helper) {
         let currentCommunityMode = communityService.getCurrentCommunityMode();
+        var RTL = component.get('v.isRTL');
         if (currentCommunityMode) component.set('v.userMode', currentCommunityMode.userMode);
         let elem = document.getElementById('cookiePanel');
         //let rrCookies = communityService.getCookie('RRCookies');
