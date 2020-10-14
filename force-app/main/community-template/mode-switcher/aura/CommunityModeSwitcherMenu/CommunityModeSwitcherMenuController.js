@@ -65,11 +65,7 @@
 
                     if (comData.currentMode.template.needRedirect) return;
                     if (!navigateTo) {
-                        if (communityService.getUserMode() === 'Participant') {
-                            navigateTo = communityService.getFullPageName();
-                        } else {
                             navigateTo = '';
-                        }
                     }
                     communityService.navigateToPage(navigateTo);
 
