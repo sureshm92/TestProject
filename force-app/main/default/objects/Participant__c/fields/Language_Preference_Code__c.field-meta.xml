@@ -157,9 +157,9 @@
                 <label>uk</label>
             </value>
             <value>
-                <fullName>vi</fullName>
+                <fullName>vi_US</fullName>
                 <default>false</default>
-                <label>vi</label>
+                <label>vi_US</label>
             </value>
             <value>
                 <fullName>sq</fullName>
