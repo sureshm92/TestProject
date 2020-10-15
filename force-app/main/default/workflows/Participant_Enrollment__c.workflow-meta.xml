@@ -254,7 +254,7 @@ NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c)</for
     <rules>
         <fullName>Email to VT Participant- Self referral Via ePR</fullName>
         <actions>
-            <name>Patient3_VT_ePR_New_C_S_Referral</name>
+            <name>email_to_VT_ePR_Patient_New_Study</name>
             <type>Alert</type>
         </actions>
         <active>true</active>
