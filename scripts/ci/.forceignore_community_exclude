@@ -4,7 +4,7 @@ force-app/unpackaged
 
 # Resource record types:
 #force-app/main/resources/objects/Resource__c/recordTypes/*
-force-app/main/resources/objects/Resource__c/fields/Type__c
+#force-app/main/resources/objects/Resource__c/fields/Type__c
 
 
 # Escalation report:
