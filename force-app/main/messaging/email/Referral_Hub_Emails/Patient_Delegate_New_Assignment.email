@@ -13,7 +13,7 @@
                           communityTemplate="Default">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate}"/>
             <c:EmailTemplateDelegateParticipant sourceId="{!relatedTo.Id}"/>
-            <c:ParticipantEmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
                               buttonURL="/s/"/>
         </c:EmailWireframe>
     </messaging:htmlEmailBody>

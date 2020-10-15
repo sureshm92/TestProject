@@ -85,6 +85,17 @@ public without sharing class ResourceRemote {
         }
         return null;
     }
+    @AuraEnabled
+    public static Boolean hasCois() {
+        Boolean hasCoi = true;
+        ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
+        Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(CommunityService.getUserContact().Id);
+            if (state.participant.Conditions__c == 0 && participant!=null) {
+                hasCoi = false;
+                return hasCoi;
+            }
+        return hasCoi;
+    }
      @AuraEnabled
     public static void createArticlesSubmitted(String url) {
           ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
