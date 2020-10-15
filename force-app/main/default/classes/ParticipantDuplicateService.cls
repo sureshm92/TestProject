@@ -193,6 +193,7 @@ public without sharing class ParticipantDuplicateService {
         List<Contact> existedContacts = [
                 SELECT Id,
                         FirstName,
+                        LastName,
                         Email,
                         Phone,
                         Birthdate,
