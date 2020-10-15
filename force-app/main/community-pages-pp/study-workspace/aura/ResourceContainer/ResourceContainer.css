@@ -39,6 +39,7 @@
     border-radius:4px !important;
 }
 
+
 /*.THIS .slds-form-element {
   box-sizing: border-box;
   height: 40px;
@@ -60,7 +61,6 @@
   /*text-align: center;*/
   margin-top:20px !important;
   padding-left:30px !important;
-  font-weight : 600;
 }
 
 .THIS .mar_grid{
@@ -73,7 +73,6 @@
 }
 
 .THIS .slds-input{
-    
   box-sizing: border-box;
   height: 40px;
   width: 440px;
@@ -81,10 +80,11 @@
   border-radius: 4px;
   background-color: #FFFFFF;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0);
-  font-size:16px;
-  font-weight:600;
-  font-style:"Proxima Nova"; 
-  color:#444;  
+  color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 24px;
 }
 .THIS .slds-form-element__help {
     position:absolute;
@@ -128,7 +128,7 @@
 .THIS .slds-col:first-child:after {
     position: absolute;
     content: '';
-   /* width: 1px;*/
+    /*width: 1px;*/
     height: 100%;
     background: #e9e9e9;
     right: 10px;
