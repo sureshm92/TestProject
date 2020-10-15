@@ -15142,6 +15142,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP Password Management</shortDescription>
         <value>Password Management</value>
     </labels>
+	<labels>
+        <fullName>PP_Paste_URL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Paste URL</shortDescription>
+        <value>Paste URL here</value>
+    </labels>
     <labels>
         <fullName>PP_Phone_Mandatory</fullName>
         <language>en_US</language>
