@@ -12,7 +12,7 @@
                           signature="{!$Label.Email_Signature_Participant_Delegate_New}">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Participant_Delegate_New_Study}"/>
             <c:EmailTemplateDelegateParticipant sourceId="{!relatedTo.Id}"/>
-            <c:ParticipantEmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
