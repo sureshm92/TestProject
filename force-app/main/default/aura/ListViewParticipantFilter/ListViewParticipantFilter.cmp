@@ -378,7 +378,7 @@
                             </th>
                             <th scope="row">
                                 <div class="slds-truncate" style="text-align:center;">
-                                    <ui:outputDate value="{​​!obj.pe.Initial_visit_scheduled_date__c}​​"/>
+                                    <ui:outputDate value="{!obj.pe.Initial_visit_scheduled_date__c}"/>
                                 </div>
                             </th>
                             <th scope="row">
