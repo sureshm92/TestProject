@@ -1,7 +1,7 @@
 <!--
  - Created by Igor Malyuta on 22.03.2019.
  -->
-<aura:component controller="PatientDelegateRemote" description="PatientDelegateItem">
+<aura:component controller="PatientDelegateRemote" description="PatientDelegateItem" extends="c:CommunityContext">
 
     <ltng:require scripts="{!$Resource.rr_community_js}"/>
 
@@ -20,7 +20,7 @@
             {!v.contact.Email}
         </div>
         <div class="mti-button-container">
-            <button class="apollo-btn tertiary" onclick="{!c.handleClick}"
+            <button class="apollo-btn tertiary" style="{!v.isRTL? 'margin-right: 600px;' :''}" onclick="{!c.handleClick}"
                     title="{!if(v.isActive, $Label.c.BTN_Deactivate, $Label.c.BTN_Main_Activate)}">
                 {!if(v.isActive, $Label.c.BTN_Deactivate, $Label.c.BTN_Main_Activate)}
             </button>
