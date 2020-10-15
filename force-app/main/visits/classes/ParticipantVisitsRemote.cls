@@ -36,6 +36,16 @@ public without sharing class ParticipantVisitsRemote {
     }
 
     @AuraEnabled
+    public static Boolean getIsRTL() {
+        try {
+            return (System.Label.RTL_Languages).contains(UserInfo.getLanguage());
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return null;
+    }
+
+    @AuraEnabled
     public static List<Patient_Visit__c> getCardPatientVisits() {
         try {
             return PatientVisitService.getPatientCardVisits(ParticipantService.getParticipantState().pe.Id);

@@ -20,11 +20,11 @@
             <aura:if isTrue="{!v.userMode == 'Participant'}">
                 <div>                  
                     <div class="vpi-tile-title">{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</div>
-                        <div class="objective-link">
+                        <div class="{! if(v.isRTL, 'objective-linkRTL' , 'objective-link')}">
                         <c:RRLink page="{!'study-workspace?id=' + v.pe.Study_Site__r.Clinical_Trial_Profile__c}">
-                            <aura:if isTrue="{!v.isRTL}"><c:RRIcon iconName="icon-chevron-left"/></aura:if>
-                            {!$Label.c.BTN_Learn_More}
-                            <aura:if isTrue="{!!v.isRTL}"><c:RRIcon iconName="icon-chevron-right"/></aura:if>
+                            <aura:if isTrue="{!v.isRTL}">{!$Label.c.BTN_Learn_More}<c:RRIcon iconName="icon-chevron-left"/></aura:if>
+                            
+                            <aura:if isTrue="{!!v.isRTL}">{!$Label.c.BTN_Learn_More}<c:RRIcon iconName="icon-chevron-right"/></aura:if>
                         </c:RRLink>
                     </div>
                 </div>

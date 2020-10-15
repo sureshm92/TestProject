@@ -68,7 +68,7 @@
                         </div>
                         <aura:if isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c, and(v.participantState.isPremium, v.participantState.value == 'PARTICIPANT'))}">
                             <div class="slds-col">
-                                <c:TravelSupportPanel/>
+                                <c:TravelSupportPanel isRTL="{!v.isRTL}"/>
                             </div>
                         </aura:if>
                         <div class="slds-col">
@@ -83,7 +83,7 @@
                                 ctpId="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__c}"/>
                     </aura:if>
                     <aura:if isTrue="{!and(v.participantState.isPremium, v.participantState.showVisits)}">
-                            <c:UpcomingVisitsPreviewPanel/>
+                            <c:UpcomingVisitsPreviewPanel isRTL="{!v.isRTL}"/>
                     </aura:if>
                     <aura:if isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Payment_Is_Available__c, and(v.participantState.value != 'ALUMNI',
                     v.participantState.payCardLink != null))}">

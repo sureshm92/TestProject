@@ -13,7 +13,7 @@
             	component.set("v.tooltipLeft",'30px');
                 if(component.get("v.isRTL"))
                 {
-            	component.set("v.tooltipLeft",'235px');
+            	component.set("v.tooltipRight",'30px');
                 }
             }
         };

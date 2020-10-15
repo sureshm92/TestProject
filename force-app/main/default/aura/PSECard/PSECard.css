@@ -41,8 +41,16 @@
         width: 18px;
         height: 20px;
     }
+    .THIS .state-ico-wrapperRTL .rr-icon-default{
+        width: 18px;
+        height: 20px;
+    }
 
     .THIS .state.missed .state-ico-wrapper .rr-icon-default{
+        width: 24px;
+        padding: 1px;
+    }
+    .THIS .state.missed .state-ico-wrapperRTL .rr-icon-default{
         width: 24px;
         padding: 1px;
     }
