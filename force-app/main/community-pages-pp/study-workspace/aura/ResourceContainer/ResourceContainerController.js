@@ -26,8 +26,9 @@
                 url: component.get("v.submittedArticlesURL")
             }, function () {
                component.find('spinner').hide();
-               communityService.showToast('success', 'success',$A.get('$Label.c.Article_Submitted'));
+               communityService.showToast('success', 'success',$A.get('$Label.c.Article_Submitted'),10000);
                 component.set('v.submittedArticlesURL',null);
+                component.set('v.disableSave',true);
               // window.location.reload(true);
             });
             }
