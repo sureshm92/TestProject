@@ -43,6 +43,19 @@
     height: 49px;
     background-color: #f8f9fb;
 }
+.THIS .leftIcon{
+    display: inline-block;
+    margin-bottom: 5px;
+}
+.THIS .sv-footerRTL{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    flex-grow: 1;
+    height: 49px;
+    background-color: #f8f9fb;
+}
 
 .THIS .sv-footer .cRRLink.rr-link {
     padding-right: 16px;
