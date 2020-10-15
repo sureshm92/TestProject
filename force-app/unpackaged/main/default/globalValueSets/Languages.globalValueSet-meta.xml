@@ -136,6 +136,11 @@
         <label>Ukranian</label>
     </customValue>
     <customValue>
+        <fullName>vi_US</fullName>
+        <default>false</default>
+        <label>Vietnamese</label>
+    </customValue>    
+    <customValue>
         <fullName>ar</fullName>
         <default>false</default>
         <isActive>false</isActive>
