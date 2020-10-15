@@ -33,7 +33,7 @@
     <!-- actions: -->
     <c:Action_SwitchShowOnLoginMode aura:id="switchShowOnLoginModeAction"/>
 
-    <div aura:id="tourContainer" class="slds-scope tour-fixed-overlay">
+    <div aura:id="tourContainer" class="slds-scope tour-fixed-overlay hidden">
 	
         <div class="tour-panel rr-width-limiter">
                
