@@ -43,7 +43,7 @@
         </aura:set>
          <aura:if isTrue="{!and(v.resourceMode == 'Default',!v.isDelegate)}">
                 <div class="{! v.hascois ? 'mainCard' : 'mainCardCoi' }">
-                <div class="url-disclaimer">
+                <div class="url-disclaimer" style="{!if(v.isRTL == true, 'padding-right:33px', '')}">
                  {!$Label.c.PP_Share_Article}<br></br>
                  {!$Label.c.PP_Submit_Video}    
                 </div>    
@@ -55,7 +55,7 @@
                     <lightning:button label="{!$Label.c.PP_Submit_Button}" onclick="{!c.createArticles}" class="{!v.disableSave ? 'btn slds-button disabled' : 'btn slds-button'}" disabled="{!v.disableSave}"></lightning:button>
                     
                      </div>
-                      <span class="emergency-disclaimer">
+                      <span class="emergency-disclaimer" style="{!if(v.isRTL == true, 'margin-right: -989px!important;', '')}">
                           {!$Label.c.PP_Emergency}
                     </span>
                     </div>
