@@ -40,7 +40,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="{!v.isRTLLanguage?'rr-output-field no-border':'rr-output-field'}"></div>
+						<div class="{!v.isRTLLanguage?'rr-output-field no-border':'rr-output-field'}">
 							<div class="label">{!$Label.c.PS_Site_Location}</div>
 							<div class="value">
 								<div class="rp-max-length">
