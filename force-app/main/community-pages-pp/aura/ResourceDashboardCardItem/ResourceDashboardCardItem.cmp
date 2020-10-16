@@ -41,8 +41,10 @@
                         <div class="resource-description">
                             <div class="resource-description-title resource-pointer"
                                  data-type="{!v.resourceWrappers[0].resource.RecordType.DeveloperName}"
-                                 data-id="{!v.resourceWrappers[0].resource.Id}" onclick="{!c.navigateToPage}">
+                                 data-id="{!v.resourceWrappers[0].resource.Id}" onclick="{!c.navigateToPage}"
+                                 style="{!if(v.isRTL == true, 'padding-right:63px', '')}">
                                 {!v.resourceWrappers[0].resource.Title__c}
+                                
                             </div>
                             <div class="resource-description-text resource-pointer"
                                  data-type="{!v.resourceWrappers[0].resource.RecordType.DeveloperName}"

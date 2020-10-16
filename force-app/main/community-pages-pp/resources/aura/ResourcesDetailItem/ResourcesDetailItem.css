@@ -6,6 +6,9 @@
     max-width: 1000px;
     margin: auto;
 }
+.THIS.arabic{
+    direction: rtl;
+}
 
 .THIS .bitmap {
     width: 100%;
