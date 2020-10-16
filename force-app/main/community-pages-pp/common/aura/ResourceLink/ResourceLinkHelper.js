@@ -3,9 +3,21 @@
  */
 ({
     viewResource: function (resource, languageCode) {
-        var url = 'resources?resourceType=' + resource.RecordType.DeveloperName + '&resId=' + resource.Id;
-        if(languageCode) url += '&lang=' + languageCode;
+        if (communityService.isCurrentSessionMobileApp()) {
+            communityService.showInfoToast(
+                'Info!',
+                $A.get('$Label.c.Pdf_Not_Available'),
+                100
+            );
+            return;
+        }
+        var url =
+            'resources?resourceType=' +
+            resource.RecordType.DeveloperName +
+            '&resId=' +
+            resource.Id;
+        if (languageCode) url += '&lang=' + languageCode;
         url += '&ret=' + communityService.createRetString();
         communityService.navigateToPage(url);
     }
-})
+});
