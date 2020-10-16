@@ -7553,7 +7553,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Study_Site_Phone__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
