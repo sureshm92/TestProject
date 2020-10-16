@@ -18,7 +18,7 @@
     <aura:attribute name="showpassword" type="Boolean" default="false" />
     <aura:attribute name="isMobileApp" type="Boolean"/>
     <aura:attribute name="isRTL" type="Boolean" default="true"/>
-
+    <aura:attribute name="UserLanguage" type="String"/>
 
     <aura:attribute name="forgotPasswordLabel" type="String" required="false" default="{!$Label.c.PG_Login_L_Forgot_your_password}"/>
     <aura:attribute name="selfRegisterLabel" type="String" required="false" default="{!$Label.c.PG_Login_L_Not_a_member}"/>
@@ -69,7 +69,7 @@
             </div>
         </div>
             <div class="{!'lg-form-element ' + v.ieClass}">
-                <div style="{!v.isRTL? 'direction:rtl' :''}">
+                    <div style="{!v.isRTL? 'direction:rtl' :''}">
                 <label>{!$Label.c.PG_Login_F_Password}</label>
                 <!--<ui:inputSecret value="" aura:id="password" keyup="{!c.onKeyUp}" class="input sfdc_passwordinput sfdc" label="{!v.passwordLabel}" labelClass="assistiveText"/>-->
 				<!-- added by Sumit S REF-510-->
@@ -97,11 +97,11 @@
 									iconName="utility:preview" 
 									alternativeText="Show" 
 									onclick="{!c.togglePassword}"/>
-                    </aura:if>  
-                    </div>           
+                    </aura:if>             
 				</div>
             </div>
        </div>
+     </div>
             <div style="height: 50px; margin-top: 30px">
                 <button class="apollo-btn primary login" onclick="{!c.handleLogin}" style="width: 100%">{!$Label.c.BTN_Log_In}</button>
             </div>
@@ -236,8 +236,8 @@
                         </aura:if>  
                     </div>
                 </aura:set>
-            </aura:if>
-             </div> 
+            </aura:if> 
+             </div>
     	<!-- Added By Krishna for PEH-1910 :End  --> 
             <!-- Added By Krishna for PEH-2451 :Start --> 
             <br/>
