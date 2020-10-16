@@ -4,6 +4,7 @@
 	<aura:attribute name="pe" type="Participant_Enrollment__c" />
 	<aura:attribute name="resources" type="ResourceService.ResourceWrapper[]" />
 	<aura:attribute name="showReport" type="Boolean" />
+	<aura:attribute name="isRTLLanguage" type="Boolean"/>
 
 	<!-- component body: -->
 	<div class="rr-white-panel padding">
@@ -39,7 +40,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="rr-output-field">
+						<div class="{!v.isRTLLanguage?'rr-output-field no-border':'rr-output-field'}">
 							<div class="label">{!$Label.c.PS_Site_Location}</div>
 							<div class="value">
 								<div class="rp-max-length">

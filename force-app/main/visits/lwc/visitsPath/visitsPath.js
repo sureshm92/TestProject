@@ -74,7 +74,8 @@ export default class VisitsPath extends LightningElement {
 
             getisRTL()
             .then(function (data) {
-                context.isRTL = JSON.stringify(data);
+                console.log('rtl : ' +data);
+                context.isRTL = data;
             })
             .catch(function (error) {
                 console.error('Error: ' + JSON.stringify(error));
