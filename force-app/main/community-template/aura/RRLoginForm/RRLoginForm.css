@@ -62,7 +62,7 @@
 /* @Krishna Mahto for PEH-1910 - start */
 .THIS .bg-color-rh{
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     background: linear-gradient(135deg, #25095b 0%,#176ba4 100%);
     font-family: "Proxima Nova";
@@ -72,7 +72,7 @@
 
 .THIS .bg-color-gsk{
    display: flex;
-   align-items: center;
+   align-items: flex-start
    justify-content: center;
    font-family: "Proxima Nova";
    color: black;
