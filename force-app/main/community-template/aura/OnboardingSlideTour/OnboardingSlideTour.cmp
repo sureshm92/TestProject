@@ -94,7 +94,7 @@
                                      checked="{!v.showOnLogin}" onchange="{!c.doSwitchShowOnLoginMode}"/>
                 </div>
                 <div class="tour-btn-group">
-                    <button class="apollo-btn tertiary" onclick="{!c.doHide}">{!$Label.c.BTN_Close}</button>
+                    <button class="apollo-btn tertiary" style="{!v.isRTL? 'margin-left: 16px;' :''}" onclick="{!c.doHide}">{!$Label.c.BTN_Close}</button>
                     <button class="apollo-btn secondary" onclick="{!c.handleClickPrevious}">{!$Label.c.	BTN_Previous}</button>
                     <button class="apollo-btn primary" onclick="{!c.handleClickNext}">{!if(v.currentPage == (v.slides.length - 1), $Label.c.BTN_Stat_Over,  $Label.c.BTN_Next)}</button>
                 </div>
