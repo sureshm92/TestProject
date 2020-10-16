@@ -59,9 +59,10 @@
                           {!$Label.c.PP_Emergency}
                     </span>
                     </div>
+                    <aura:if isTrue="{!v.hascois }">
                     <div class="resource-disclaimer">
                     {!$Label.c.Resources_Expiration_Date_Disclaimer}
-                </div>
+                   </div></aura:if>
                 </div>
              </aura:if>
 
