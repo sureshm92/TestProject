@@ -37,6 +37,7 @@
 					pe="{!pastStudy.pe}"
 					resources="{!pastStudy.resourceWrappers}"
 					showReport="{!and(pastStudy.showReport, !v.isDelegateMode)}"
+					isRTLLanguage="{!v.isRTL}" 
 				/>
 			</aura:iteration>
 		</aura:if>
