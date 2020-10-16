@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="PSEStatusHistory" controller="PSEStatusHistoryRemote">
+<aura:component description="PSEStatusHistory" controller="PSEStatusHistoryRemote" extends="c:CommunityContext">
 
     <!--attributes: -->
     <aura:attribute name="pathItems" type="List"/>
@@ -20,7 +20,7 @@
                 <aura:iteration items="{!v.pathItems}" var="pathItem">
                     <div class="slds-col slds-grid pe-state-row" >
                         <div class="{!'slds-col line-div ' + pathItem.state}">
-                            <div class="{!'state-ico-wrapper ' + pathItem.state}">
+                            <div class="{! if(v.isRTL , 'state-ico-wrapperRTL ' , 'state-ico-wrapper ') + pathItem.state}">
                                 <c:RRIcon iconName="{!pathItem.iconName}"/>
                             </div>
                         </div>
