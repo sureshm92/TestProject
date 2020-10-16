@@ -7261,6 +7261,10 @@
         <layout>Resource__c-Study Document</layout>
         <recordType>Resource__c.Study_Document</recordType>
     </layoutAssignments>
+     <layoutAssignments>
+        <layout>Resource__c-Submitted Articles</layout>
+        <recordType>Resource__c.Submitted_Articles</recordType>
+    </layoutAssignments>
     <layoutAssignments>
         <layout>Resource__c-Video</layout>
         <recordType>Resource__c.Video</recordType>
@@ -7693,6 +7697,11 @@
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Resource__c.Study_Document</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+	<recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Resource__c.Submitted_Articles</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>

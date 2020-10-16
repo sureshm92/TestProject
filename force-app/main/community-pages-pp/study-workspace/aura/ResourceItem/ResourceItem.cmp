@@ -12,7 +12,7 @@
             <img alt="{!$Label.c.Resources_Image_Unavailable}" src="{!v.resourceWrapper.resource.Image__c}"/>
         </div>
 
-        <div class="resource-description">
+        <div class="resource-description" style="{!if(v.isRTL == true, 'padding-right:10px', '')}">
             <div class="resource-description-title resource-pointer" onclick="{!c.navigateToPage}">
                 {!v.resourceWrapper.resource.Title__c}
             </div>

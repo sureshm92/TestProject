@@ -15323,7 +15323,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP URL Error</shortDescription>
-        <value>Invalid URL</value>
+        <value>Please enter a valid URL.</value>
     </labels>
     <labels>
         <fullName>PP_Upload_Photo</fullName>

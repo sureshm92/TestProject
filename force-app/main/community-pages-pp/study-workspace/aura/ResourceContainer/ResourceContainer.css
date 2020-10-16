@@ -88,7 +88,7 @@
 }
 .THIS .slds-form-element__help {
     position:absolute;
-    margin-top:20px;
+    margin-top:13px;
 }
 .THIS .disabled{
     
@@ -146,7 +146,7 @@
 }
 
 .THIS .resource-disclaimer {
-	margin-top: -20px !important;
+	margin-top: -9px !important;
 	color: #999999 !important;
 	font-family: "Proxima Nova" !important;
 	font-size: 12px !important;
