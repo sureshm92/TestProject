@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+ <alerts>
+        <fullName>Email_to_VT_ePR_Patient_Clinical_study_referral_NEW</fullName>
+        <description>Email_to_VT_ePR_Patient_Clinical_study_referral_NEW</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Participant_Contact__c</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderAddress>updates@mail.clinicalresearch.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>Emails_to_Patients/Email_to_VT_ePR_Patient_Clinical_study_referral_NEW</template>
+    </alerts>
     <alerts>
         <fullName>Email_to_HCP_Patient_Accepted</fullName>
         <description>Email to HCP- Patient Accepted</description>
@@ -224,6 +236,53 @@
         <operation>Literal</operation>
         <protected>false</protected>
     </fieldUpdates>
+     <rules>
+        <fullName>Email to VT PI Patient- New Study - NEW</fullName>
+        <actions>
+            <name>Email_to_VT_PI_Patient_New_Study</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <description>Patient receives email that they have been referred to a clinical research study by PI - RP refers a participant</description>
+        <formula>ISPICKVAL( Participant_Status__c , &quot;Received&quot;) &amp;&amp;
+
+(ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Virtual&quot;) || ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Hybrid&quot;)) &amp;&amp; (ISPICKVAL( Referral_Source__c , &quot;PI&quot;) || ISPICKVAL( Referral_Source__c , &quot;HCP&quot;)) &amp;&amp;
+ NOT(Study_Site__r.Suppress_Participant_Emails__c) &amp;&amp;
+NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c)</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Email to VT Participant- Self referral Via ePR</fullName>
+        <actions>
+            <name>email_to_VT_ePR_Patient_New_Study</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <description>Participant  (VT) --	New and returning participant self-referral --	Self referral- participant comes in/returns via ePR</description>
+        <formula>(
+ISPICKVAL( Source_Type__c , &quot;Digital Recruitment&quot;) &amp;&amp; ISPICKVAL( Participant_Status__c , &quot;Received&quot;) &amp;&amp;
+(ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Virtual&quot;) || ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Hybrid&quot;))) &amp;&amp; NOT(Study_Site__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c)</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Email to VT Patient- Referral Declined- NEW</fullName>
+        <actions>
+            <name>Email_to_VT_Patient_Clinical_research_study_referral_declined</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <description>Patient receives email that they have been declined from trial-- this is not valid. Valid Scenario is - send this email for 2 conditions:
+ 
+Contacted- not Suitable
+Eligibility Failed</description>
+        <formula>(ISPICKVAL( Participant_Status__c , &quot;Contacted - Not Suitable&quot;) || ISPICKVAL( Participant_Status__c , &quot;Eligibility Failed&quot;)) &amp;&amp; 
+
+(ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Virtual&quot;) || ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Hybrid&quot;))
+  &amp;&amp;  NOT(Study_Site__r.Suppress_Participant_Emails__c)  &amp;&amp;  
+ NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp;  
+ NOT(Participant__r.IsCountry_NOT_Eligible_for_Emails__c)</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
     <rules>
         <fullName>Email to HCP- Patient Accepted</fullName>
         <actions>

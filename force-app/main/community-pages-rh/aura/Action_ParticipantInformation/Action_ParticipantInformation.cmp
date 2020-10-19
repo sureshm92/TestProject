@@ -68,8 +68,13 @@
     <!-- component body: -->
     <c:Popup aura:id="dialog" title="{!v.popUpTitle}" size="large" showScroll="true" showHeader="true"
              showFooter="true">
-        
-        <aura:if isTrue="{!v.isIQVIA &amp;&amp; !v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp;
+        <aura:if isTrue="{!and(v.pe.Study_Site__r.Study_Site_Type__c == 'Traditional' , or(v.pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c , v.pe.Study_Site__r.Suppress_Participant_Emails__c))}">
+                        <div class="invite-patient-container slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap">
+
+            <lightning:button disabled="true" label="{!$Label.c.BTN_Create_User_on_PE_Info}" class="slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center"/>
+            </div>
+                            <aura:set attribute="else">
+              <aura:if isTrue="{!v.isIQVIA &amp;&amp; !v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp;
                          !v.pe.Participant__r.Marketing_Flag__c &amp;&amp; v.pe.Participant__r.Email__c &amp;&amp;
                          v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Hybrid' &amp;&amp; !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &amp;&amp; v.init &amp;&amp; v.pe.Permit_IQVIA_to_contact_about_study__c}">
             <div class="invite-patient-container slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap">
@@ -77,6 +82,9 @@
                         onclick="{!c.createUserForPatient}"
                         data-gtm="BTN_Invite_To_PP">{!$Label.c.BTN_Create_User_on_PE_Info}</button>
             </div>
+        </aura:if>
+
+    </aura:set>
         </aura:if>
         
         <c:RRSpinner aura:id="spinner" size="medium"/>

@@ -5712,6 +5712,15 @@ Sincerely,
 
             ##SignatureShortCommunityName</value>
     </labels>
+     <labels>
+        <fullName>Email_Signature_VT_Patients</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature VT Patients</shortDescription>
+        <value>Sincerely,
+
+            ##SignatureShortCommunityVTName</value>
+    </labels>
     <labels>
         <fullName>Email_Signature_drop_out</fullName>
         <language>en_US</language>
