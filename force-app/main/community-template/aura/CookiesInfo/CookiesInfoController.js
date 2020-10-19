@@ -4,6 +4,7 @@
 ({
     doInit: function (component, event, helper) {
         let rrCookies = communityService.getCookie('RRCookies');
+        var paramLanguage = communityService.getUrlParameter('lanCode');
         if (!rrCookies) {
             let infoText = $A.get('$Label.c.Cookies_Info_Text');
             let linkCookies = $A.get('$Label.c.Link_Cookies');
@@ -15,17 +16,17 @@
             let linkIAB = $A.get('$Label.c.Link_Interactive_Advertising_Bureau');
             let urlIAB = $A.get('$Label.c.URL_Interactive_Advertising_Bureau');
             if (check) {
-                linkPPUrl = '<a class="ci-link" href="/janssen/s/privacy-policy">';
+                linkPPUrl = '<a class="ci-link" href="/janssen/s/privacy-policy?lanCode='+paramLanguage+'\">';
                 linkPP = $A.get('$Label.c.Footer_Link_Privacy_Policy_Janssen');
-                linkCP = '<a class="ci-link" href="/janssen/s/cookie-policy">';
+                linkCP = '<a class="ci-link" href="/janssen/s/cookie-policy?lanCode='+paramLanguage+'\">';
             }
             else if(communityPrefix.includes('gsk')){
-                linkPPUrl = '<a class="ci-link" href="/gsk/s/privacy-policy">';
-                linkCP = '<a class="ci-link" href="/gsk/s/cookie-policy">';
+                linkPPUrl = '<a class="ci-link" href="/gsk/s/privacy-policy?lanCode='+paramLanguage+'\">';
+                linkCP = '<a class="ci-link" href="/gsk/s/cookie-policy?lanCode='+paramLanguage+'\">';
             } 
             else {
-                linkPPUrl = '<a class="ci-link" href="/s/privacy-policy">';
-                linkCP = '<a class="ci-link" href="/s/cookie-policy">';
+                linkPPUrl = '<a class="ci-link" href="/s/privacy-policy?lanCode='+paramLanguage+'\">';
+                linkCP = '<a class="ci-link" href="/s/cookie-policy?lanCode='+paramLanguage+'\">';
             }
             infoText = infoText.replace('##cookiesURL', linkCP + linkCookies + '</a>');
             infoText = infoText.replace('##privacyPolicyURL', linkPPUrl + linkPP + '</a>');
