@@ -388,13 +388,13 @@
             doc.setTextColor('#6e6e6e');
             if (reportData.studyCodeName) {
                 if (RTL)
-                    doc.text(reportData.studyCodeName, 400, 12, {
+                    doc.text(reportData.studyCodeName, 180, 12, {
                         align: 'right'
                     });
                 else doc.text(reportData.studyCodeName, 600, 12);
             }
             if (RTL)
-                doc.text(reportData.participantLastName, 400, 24, {
+                doc.text(reportData.participantLastName, 180, 24, {
                     align: 'right'
                 });
             else doc.text(reportData.participantLastName, 600, 24);
