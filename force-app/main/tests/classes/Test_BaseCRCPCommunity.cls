@@ -608,4 +608,27 @@ private class Test_BaseCRCPCommunity {
         System.assertEquals(testData.ss.Study_Site_Phone__c, updatedSS.Study_Site_Phone__c);
         Test.stopTest();
     }
+
+    @IsTest
+    static void testgetExportAllList() {
+        TestData testData = new TestData();
+        // String vpResultJSON = ViewPatientsRemote.getInitData(testData.ctp.Id, testData.ss.Id, CommunityService.USER_MODE_HCP, null,'Janssen');
+        //     ViewPatientsRemote.InitData vpResult = (ViewPatientsRemote.InitData) JSON.deserialize(vpResultJSON, ViewPatientsRemote.InitData.class);
+            List<Id> studies = new List<Id>();
+            List<Id> studySites = new List<Id>();
+
+            // for(LabelValueItem li : vpResult.peFilterData.studies){
+            //     studies.add(li.value);
+            // }
+            // for(LabelValueItem lit : vpResult.peFilterData.studySites){
+            //     studySites.add(lit.value);
+            // }
+            Test.startTest();
+        ViewPatientsRemote.CsvWrapper  wrap = new   ViewPatientsRemote.CsvWrapper();
+        studies.add(testData.ctp.Id);
+        studySites.add(testData.ss.Id);
+        wrap = ViewPatientsRemote.getExportAllList(studies,studySites,1,4500);
+        System.assertEquals(1, wrap.startPos);
+        Test.stopTest();
+    }
 }

@@ -53,6 +53,11 @@
         }, function (createdPE) {
             communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
             callback();
+            component.set('v.doContact', false); 
+            if(!component.get('v.doContact')){
+                component.set('v.createUsers',false);
+            }  
+            component.find('checkbox-Contact').set("v.checked", false);  
         }, null, function () {
             component.find('spinner').hide();
         });

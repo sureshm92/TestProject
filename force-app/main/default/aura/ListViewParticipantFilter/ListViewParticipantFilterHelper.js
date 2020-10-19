@@ -8,7 +8,7 @@
         AgeFrom.setCustomValidity("");
         if(filterValue[0].AgeFrom != "" && filterValue[0].AgeTo == ""){
             component.set('v.filterList[0].AgeFrom',  filterValue[0].AgeFrom);
-            component.set('v.filterList[0].AgeTo', 100);
+            component.set('v.filterList[0].AgeTo', 150);
         }else if(filterValue[0].AgeFrom == "" && filterValue[0].AgeTo != ""){
             component.set('v.filterList[0].AgeFrom', 0);
             component.set('v.filterList[0].AgeTo', filterValue[0].AgeTo);
@@ -47,7 +47,7 @@
         var RowItemList = component.get('v.filterList');
         var pageNumber = component.get("v.PageNumber");  
         var pageSize = component.find("pageSize").get("v.value");
-      /**  alert('status-->'+RowItemList[0].Status);
+        /**  alert('status-->'+RowItemList[0].Status);
         alert('study-->'+RowItemList[0].Study);
         alert('site--->'+RowItemList[0].StudySites);
         alert('source-->'+RowItemList[0].Source);
@@ -82,13 +82,13 @@
         RowItemList[0].Sortby = component.find("sortby").get("v.value");
         RowItemList[0].highPrioritySelected_YesIds = component.get('v.lstPR_yes');
         RowItemList[0].highPrioritySelected_NoIds = component.get('v.lstPR_no');
-         
+        
         component.set('v.count',0);
         var filterValue = RowItemList;
         
         var bol = helper.validateAge(component, event, helper);
         filterValue = JSON.stringify(filterValue);
-        //  console.log('########Search ' +filterValue);
+         //console.log('########Search ' +filterValue);
         if(bol){
             
             if (!communityService.isInitialized()) return;
@@ -99,9 +99,10 @@
                 var result = returnValue;
                 //alert(JSON.stringify(result));
                 // console.log(JSON.stringify(result));
-               component.set('v.PaginationList',result.FilterImpacts);
+                component.set('v.PaginationList',result.FilterImpacts);
                 component.set("v.PageNumber", result.pageNumber);
                 component.set("v.TotalRecords", result.totalRecords);
+                component.set("v.filterList[0].perRecordCount",  result.totalRecords);
                 component.set("v.RecordStart", result.recordStart);
                 component.set("v.RecordEnd", result.recordEnd);
                 component.set("v.TotalPages", Math.ceil(result.totalRecords / pageSize));
@@ -124,12 +125,56 @@
         }
     },
     
+    getchunkdataforCSV : function(component, event, helper) {
+        var filterValue = component.get("v.filterList");
+        filterValue[0].startPos = filterValue[0].endPos + 1;
+        filterValue[0].endPos = filterValue[0].endPos + 45000;
+        communityService.executeAction(component, 'fetchData', {
+            filterJSON: JSON.stringify(filterValue)
+        }, function (returnValue1) {
+            console.log('length2 ' +returnValue1.FilterImpacts.length);
+            var csvtemp = component.get("v.CsvList");
+            var newarr = csvtemp.concat(returnValue1.FilterImpacts);
+            console.log('newarr-Length ' +newarr.length);
+            //var result = JSON.stringify(returnValue);
+            component.set('v.CsvList',newarr);
+            var currentCount = newarr.length;
+          //  console.log('@@startPos helper ' +filterValue[0].startPos);
+          //  console.log('@@endPos helper ' +filterValue[0].endPos);
+          //  console.log('@@perRecordCount helper ' +filterValue[0].perRecordCount);
+          var counterLimit = component.get('v.counterLimit');
+          var finaltotalCount = component.get('v.TotalRecords');
+          if(finaltotalCount > 100000){
+              finaltotalCount = 100000;
+          }
+          console.log('currentCount ' +currentCount);
+          console.log('finaltotalCount ' +finaltotalCount);
+          console.log('counterLimit ' +counterLimit);
+          if(currentCount < finaltotalCount){
+              counterLimit = counterLimit + 45000;
+              component.set('v.counterLimit', counterLimit);
+          }
+          console.log('counterLimit new ' +counterLimit);
+            if(filterValue[0].endPos < (counterLimit + 45000) && currentCount < finaltotalCount){
+                    helper.getchunkdataforCSV(component, event, helper);
+            }else{
+               // console.log('filterValue ' +JSON.stringify(filterValue));
+                component.set("v.filterList",  filterValue);
+                component.set("v.filterList[0].isExport",  false);
+                component.set("v.filterList[0].startPos",  1);
+                component.set("v.filterList[0].endPos",  45000);
+                helper.convertArrayOfObjectsToCSV(component, event, helper,newarr);
+            }
+            
+        }); 
+    },
+    
     getAllFilteredList : function(component, event, helper) {
         component.find('Spinnerpopup').show();
         var RowItemList = component.get('v.filterList');
         RowItemList[0].isExport = true;
         component.set('v.filterList', RowItemList);  
-        
+        var perRecordCount = component.get('v.TotalRecords');
         var filterValue = component.get("v.filterList");
         //alert(filterValue);
         var bol = helper.validateAge(component, event, helper);
@@ -142,168 +187,180 @@
             communityService.executeAction(component, 'fetchData', {
                 filterJSON: filterValue
             }, function (returnValue) {
-                //var result = JSON.parse(returnValue);
                 var result = returnValue;
-                //var result = JSON.stringify(returnValue);
-                component.set('v.CsvList',result.FilterImpacts);
-                //component.set("v.SelectedRecord", result.isChecked );
-                //alert(component.get('v.PaginationList').length);
-                //alert('Result'+result);
-                if(result.FilterImpacts.length > 0){
-                    helper.convertArrayOfObjectsToCSV(component, event, helper,result.FilterImpacts);
-                }else{
-                    component.find('Spinnerpopup').hide();
-                    var toastEvent = $A.get("e.force:showToast");
-                    toastEvent.setParams({
-                        "duration" :400,
-                        "type": "error",
-                        "message": "No record found for Export"
-                    });
-                    toastEvent.fire();
-                }
-            }); 
+                console.log('length1 ' +result.FilterImpacts.length);
+                var csvFinalList = result.FilterImpacts;
+                component.set('v.CsvList',csvFinalList);
+                filterValue = component.get("v.filterList");
+              //  console.log('@@startPos ' +result.retainFilter.startPos);
+              //  console.log('@@endPos ' +result.retainFilter.endPos);
+              //  console.log('@@perRecordCount ' +perRecordCount);
+                //  console.log('@@filterValue ' +JSON.stringify(filterValue));
+                if(filterValue[0].endPos < 200000 && filterValue[0].perRecordCount < 200000){
+                    helper.getchunkdataforCSV(component, event, helper);
+            }else{
+                                           //var result = JSON.stringify(returnValue);
+                                           component.set('v.CsvList',result.FilterImpacts);
+            if(result.FilterImpacts.length > 0){
+                helper.convertArrayOfObjectsToCSV(component, event, helper,result.FilterImpacts);
+            }else{
+                component.find('Spinnerpopup').hide();
+                var toastEvent = $A.get("e.force:showToast");
+                toastEvent.setParams({
+                    "duration" :400,
+                    "type": "error",
+                    "message": "No record found for Export"
+                });
+                toastEvent.fire();
+            }
         }
-        //spinner.hide();
-    },
+        
+    }); 
+}
+ //spinner.hide();
+ },
+ 
+ convertArrayOfObjectsToCSV : function(component, event, helper,objectRecords){
+     console.time('advf');
+     component.set('v.CsvList','');
+    // var spinner = component.find('recordsSpinner');
+    //spinner.show();
+    // console.log('@@@@@@@@@@@@ '+JSON.stringify(objectRecords));
+    console.log('@@@@@@@@@@@@ '+objectRecords.length);
+    var csvStringResult, counter, keys, columnDivider, lineDivider;
+    if (objectRecords == null || !objectRecords.length) {
+        return null;
+    }
+    columnDivider = ',';
+    lineDivider =  '\n';
+    // var header = ['Participant Profile Name','Study Code Name',	'Study Site Name','Participant_Status__c','isCheckedlatest'];
+    var header = ['ID','Received Date',	'Source ID','Sex','Age','Ethnicity', 'Comorbidities', 'BMI', 'High Risk Occupation', 'Initial Visit Date', 'Participant Status', 'High Priority '];
     
-    convertArrayOfObjectsToCSV : function(component, event, helper,objectRecords){
-       // var spinner = component.find('recordsSpinner');
-        //spinner.show();
-        // console.log('@@@@@@@@@@@@ '+JSON.stringify(objectRecords));
-        var csvStringResult, counter, keys, columnDivider, lineDivider;
-        if (objectRecords == null || !objectRecords.length) {
-            return null;
+    csvStringResult = '';
+    csvStringResult += header.join(columnDivider);
+    csvStringResult += lineDivider;
+    console.log('@@@@@@ '+objectRecords.length);
+    for(var i=0; i < objectRecords.length; i++){   
+        //  console.log('objectRecords[i] ' +(objectRecords[i]["pe"]["Clinical_Trial_Profile__r"]["Study_Code_Name__c"]));
+        
+        if((objectRecords[i]["pe"]["Name"] !== undefined)){
+            csvStringResult += '"'+ objectRecords[i]["pe"]["Name"]+'"' +','; 
+        }else{
+            csvStringResult += '" "'+','; 
         }
-        columnDivider = ',';
-        lineDivider =  '\n';
-        // var header = ['Participant Profile Name','Study Code Name',	'Study Site Name','Participant_Status__c','isCheckedlatest'];
-        var header = ['ID','Received Date',	'Source ID','Sex','Age','Ethnicity', 'Comorbidities', 'BMI', 'High Risk Occupation', 'Initial Visit Date', 'Participant Status', 'High Priority '];
-
-        csvStringResult = '';
-        csvStringResult += header.join(columnDivider);
+        
+        if((objectRecords[i]["pe"]["CreatedDate"] !== undefined)){
+            csvStringResult += '"'+ objectRecords[i]["pe"]["CreatedDate"]+'"' +','; 
+        }else{
+            csvStringResult += '" "'+','; 
+        }
+        
+        if((objectRecords[i]["pe"]["Source_Type__c"] !== undefined)){
+            csvStringResult += '"'+ objectRecords[i]["pe"]["Source_Type__c"]+'"' +','; 
+        }else{
+            csvStringResult += '" "'+','; 
+        }
+        if((objectRecords[i]["pe"]["Participant__r"]["Gender_Technical__c"] !== undefined)){
+            csvStringResult += '"'+ objectRecords[i]["pe"]["Participant__r"]["Gender_Technical__c"]+'"' +','; 
+        }else{
+            csvStringResult += '" "'+','; 
+        }
+        
+        if((objectRecords[i]["pe"]["Participant__r"]["Present_Age__c"] !== undefined)){
+            csvStringResult += '"'+ objectRecords[i]["pe"]["Participant__r"]["Present_Age__c"]+'"' +','; 
+        }else{
+            csvStringResult += '" "'+','; 
+        }
+        
+        if((objectRecords[i]["pe"]["Participant__r"]["Ethnicity__c"] !== undefined)){
+            var val = objectRecords[i]["pe"]["Participant__r"]["Ethnicity__c"];
+            var arr = val.split(';');
+            // var str = [];
+            // var x;
+            // for(x of arr){
+            //     var arrTemp = x.split('-');
+            //     str.push(arrTemp[1]);
+            // }
+            // console.log('@@@@@######## '+ str);
+            // console.log('@@@@@######## '+ str.join());
+            
+            csvStringResult += '"'+  arr.join()+'"' +','; 
+        }else{
+            csvStringResult += '" "'+','; 
+        }
+        
+        if((objectRecords[i]["pe"]["Comorbidities__c"] !== undefined)){
+            csvStringResult += '"'+ objectRecords[i]["pe"]["Comorbidities__c"]+'"' +','; 
+        }else{
+            csvStringResult += '" "'+','; 
+        }
+        
+        if((objectRecords[i]["pe"]["Participant__r"]["BMI__c"] !== undefined)){
+            csvStringResult += '"'+ objectRecords[i]["pe"]["Participant__r"]["BMI__c"]+'"' +','; 
+        }else{
+            csvStringResult += '" "'+','; 
+        }
+        
+        if((objectRecords[i]["pe"]["HighRisk_Indicator__c"] !== undefined)){
+            csvStringResult += '"'+ objectRecords[i]["pe"]["HighRisk_Indicator__c"]+'"' +','; 
+        }else{
+            csvStringResult += '" "'+','; 
+        }
+        
+        if((objectRecords[i]["pe"]["Initial_visit_scheduled_date__c"] !== undefined)){
+            csvStringResult += '"'+ objectRecords[i]["pe"]["Initial_visit_scheduled_date__c"]+'"' +','; 
+        }else{
+            csvStringResult += '" "'+','; 
+        }
+        
+        if((objectRecords[i]["pe"]["Participant_Status__c"] !== undefined)){
+            csvStringResult += '"'+ objectRecords[i]["pe"]["Participant_Status__c"]+'"' +','; 
+        }else{
+            csvStringResult += '" "'+','; 
+        }
+        
+        if((objectRecords[i]["priorityReferral"] !== undefined)){
+            csvStringResult += '"'+ objectRecords[i]["priorityReferral"]+'"' +','; 
+        }else{
+            csvStringResult += '" "'+','; 
+        }
+        
         csvStringResult += lineDivider;
-        console.log('@@@@@@ '+objectRecords.length);
-        // console.log('@@@@@@ '+JSON.stringify(objectRecords));
-        for(var i=0; i < objectRecords.length; i++){   
-            //  console.log('objectRecords[i] ' +(objectRecords[i]["pe"]["Clinical_Trial_Profile__r"]["Study_Code_Name__c"]));
-            
-            if((objectRecords[i]["pe"]["Name"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["pe"]["Name"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
-            }
-
-            if((objectRecords[i]["pe"]["CreatedDate"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["pe"]["CreatedDate"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
-            }
-
-            if((objectRecords[i]["pe"]["Source_Type__c"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["pe"]["Source_Type__c"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
-            }
-            if((objectRecords[i]["pe"]["Participant__r"]["Gender_Technical__c"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["pe"]["Participant__r"]["Gender_Technical__c"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
-            }
-
-            if((objectRecords[i]["pe"]["Participant__r"]["Present_Age__c"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["pe"]["Participant__r"]["Present_Age__c"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
-            }
-
-            if((objectRecords[i]["pe"]["Participant__r"]["Ethnicity__c"] !== undefined)){
-                var val = objectRecords[i]["pe"]["Participant__r"]["Ethnicity__c"];
-                var arr = val.split(';');
-                // var str = [];
-                // var x;
-                // for(x of arr){
-                //     var arrTemp = x.split('-');
-                //     str.push(arrTemp[1]);
-                // }
-                // console.log('@@@@@######## '+ str);
-                // console.log('@@@@@######## '+ str.join());
-
-                csvStringResult += '"'+  arr.join()+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
-            }
-
-            if((objectRecords[i]["pe"]["Comorbidities__c"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["pe"]["Comorbidities__c"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
-            }
-
-            if((objectRecords[i]["pe"]["Participant__r"]["BMI__c"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["pe"]["Participant__r"]["BMI__c"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
-            }
-
-            if((objectRecords[i]["pe"]["HighRisk_Indicator__c"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["pe"]["HighRisk_Indicator__c"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
-            }
-            
-            if((objectRecords[i]["pe"]["Initial_visit_scheduled_date__c"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["pe"]["Initial_visit_scheduled_date__c"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
-            }
-
-            if((objectRecords[i]["pe"]["Participant_Status__c"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["pe"]["Participant_Status__c"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
-            }
-
-            if((objectRecords[i]["priorityReferral"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["priorityReferral"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
-            }
-
-            csvStringResult += lineDivider;
-        }
-        var hiddenElement = document.createElement('a');
-        hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvStringResult);
-        hiddenElement.target = '_self'; // 
-        hiddenElement.download = 'ExportData.csv';  // CSV file Name* you can change it.[only name not .csv] 
-        document.body.appendChild(hiddenElement); // Required for FireFox browser
-        hiddenElement.click(); // using click() js function to download csv file
-        //spinner.hide();
-        component.find('Spinnerpopup').hide();
-    },
+    }
+    var hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvStringResult);
+    hiddenElement.target = '_self'; // 
+    hiddenElement.download = 'ExportData.csv';  // CSV file Name* you can change it.[only name not .csv] 
+    document.body.appendChild(hiddenElement); // Required for FireFox browser
+    hiddenElement.click(); // using click() js function to download csv file
+    //spinner.hide();
+    component.find('Spinnerpopup').hide();
+     console.timeEnd('advf');
+},
     showToast : function(component, event, helper) 
-    {
-        var toastEvent = $A.get("e.force:showToast");
-        toastEvent.setParams({
-            "duration" :400,
-            "type": "success",
-            "message": $A.get("$Label.c.Records_sent_to_SH")
-        });
-        toastEvent.fire();
-    },
+{
+    var toastEvent = $A.get("e.force:showToast");
+    toastEvent.setParams({
+        "duration" :400,
+        "type": "success",
+        "message": $A.get("$Label.c.Records_sent_to_SH")
+    });
+    toastEvent.fire();
+},
     showToastLimit : function(component, event, helper) 
-    {
-        var toastEvent = $A.get("e.force:showToast");
-        toastEvent.setParams({
-            "duration" :400,
-            "type": "error",
-            "message": $A.get("$Label.c.ParticipantLimit")
-        });
-        toastEvent.fire();
-    },
+{
+    var toastEvent = $A.get("e.force:showToast");
+    toastEvent.setParams({
+        "duration" :400,
+        "type": "error",
+        "message": $A.get("$Label.c.ParticipantLimit")
+    });
+    toastEvent.fire();
+},
     doinitHelper : function(component, event, helper) {
-         component.find('Spinnerpopup').show();
+        component.find('Spinnerpopup').show();
         component.set('v.filterList[0].AgeFrom',  0);
-        component.set('v.filterList[0].AgeTo', 100);
+        component.set('v.filterList[0].AgeTo', 150);
         component.set('v.lstPR_no','');
         component.set('v.lstPR_yes','');
         component.set('v.SelectedIds','');
@@ -317,7 +374,7 @@
         component.set('v.RecordEnd',0);
         component.set('v.pageSize',5);
         component.set('v.SortBydefault','Received Date(Oldest First)');
-        
+        var perRecordCount = component.get('v.TotalRecords');
         //var spinner = component.find('recordsSpinner');
         //spinner.show();
         var RowItemList = component.get('v.filterList');
@@ -336,7 +393,7 @@
             'isComorbidities': false,
             'isInitialVisitScheduled': false,
             'AgeFrom': '0',
-            'AgeTo': '100',
+            'AgeTo': '150',
             'Ethnicity': '',
             'Sex': '',
             'pageNumber':'',
@@ -346,26 +403,29 @@
             'isExport': '',
             'Sortby': '',
             'highPrioritySelected_YesIds': '',
-            'highPrioritySelected_NoIds': ''
+            'highPrioritySelected_NoIds': '',
+            'startPos': 1,
+            'endPos': 45000,
+            'perRecordCount':perRecordCount
         });
-         component.set('v.filterList', RowItemList);
+        component.set('v.filterList', RowItemList);
         
-       
+        
         var pageNumber = component.get("v.PageNumber");  
         var pageSize = component.find("pageSize").get("v.value");
         //alert('status-->'+RowItemList[0].Status);
         //alert('study-->'+RowItemList[0].Study);
         //alert('site--->'+RowItemList[0].StudySites);
         //alert('source-->'+RowItemList[0].Source);
-         //alert('pstatus-->'+RowItemList[0].ParticipantStatus);
-       
+        //alert('pstatus-->'+RowItemList[0].ParticipantStatus);
+        
         component.set('v.oStatus',peFilterData.activePE[0].value);
         component.set('v.oStudy',peFilterData.studies[0].value);
         component.set('v.oStudySites','');
         component.set('v.oSource','');
         component.set('v.oParticipantStatus',psIfActive[1].value);
         component.set('v.oAgeFrom','0');
-        component.set('v.oAgeTo','100');
+        component.set('v.oAgeTo','150');
         component.set('v.oEthnicity','');
         component.set('v.oSex','');
         component.set('v.oisHighRiskOccupation','false');
@@ -379,7 +439,7 @@
         RowItemList[0].Sortby = component.find("sortby").get("v.value");
         RowItemList[0].highPrioritySelected_YesIds = component.get('v.lstPR_yes');
         RowItemList[0].highPrioritySelected_NoIds = component.get('v.lstPR_no');
-         
+        
         component.set('v.count',0);
         var filterValue = RowItemList;
         
@@ -388,18 +448,19 @@
         
         if(bol)
         {
-             //component.set('v.oldfilterList',component.get("v.filterList"));
+            //component.set('v.oldfilterList',component.get("v.filterList"));
             if (!communityService.isInitialized()) return;
-           
+            
             communityService.executeAction(component, 'fetchData', {
                 filterJSON: filterValue
             }, function (returnValue) {
                 var result = returnValue;
                 //alert(JSON.stringify(result));
                 // console.log(JSON.stringify(result));
-               component.set('v.PaginationList',result.FilterImpacts);
+                component.set('v.PaginationList',result.FilterImpacts);
                 component.set("v.PageNumber", result.pageNumber);
                 component.set("v.TotalRecords", result.totalRecords);
+                component.set("v.filterList[0].perRecordCount",  result.totalRecords);
                 component.set("v.RecordStart", result.recordStart);
                 component.set("v.RecordEnd", result.recordEnd);
                 component.set("v.TotalPages", Math.ceil(result.totalRecords / pageSize));
