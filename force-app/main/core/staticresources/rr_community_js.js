@@ -525,6 +525,14 @@ window.communityService = (function () {
 
         isCurrentSessionMobileApp: function() {
             return isMobileApp;
+        },
+
+        isMobileSDK: function() {
+            if(/SalesforceMobileSDK/.test( navigator.userAgent)) { 
+                return true;
+            } else {
+                return false;
+            }
         }
     };
 
