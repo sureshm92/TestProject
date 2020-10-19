@@ -2,14 +2,14 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="RRTopBar">
+ <aura:component description="RRTopBar" extends="c:CommunityContext">
     <aura:attribute name="backLabel" type="String"/>
     <aura:attribute name="backPage" type="String"/>
     <aura:attribute name="smallTitle" type="String"/>
     <aura:attribute name="bigTitle" type="String"/>
 
     <!-- top page bar -->
-    <div class="top-bar rr-all-content">
+    <div class="top-bar rr-all-content" style="{!if(v.isRTL == true, 'direction:rtl;', '')}">
         <div class="navigation-bar">
             <div class="rr-width-limiter side-padding tb-back-title">
                 <c:RRLink page="{!v.backPage}"><c:RRIcon iconName="icon-arrow-left"/>{!v.backLabel}</c:RRLink>

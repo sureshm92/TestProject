@@ -65,6 +65,10 @@
                                 '<h1>',
                                 '<h1 style=' + '"direction:rtl">'
                             );
+                            var res = res.replaceAll(
+                                '<ul>',
+                                '<ul style=' + '"direction:rtl">'
+                            );
                             component.set('v.tcData.tc.T_C_Text__c', res);
                         }
                         if (tcData.tc)
@@ -97,6 +101,10 @@
                             var res = res.replaceAll(
                                 '<h1>',
                                 '<h1 style=' + '"direction:rtl">'
+                            );
+                            var res = res.replaceAll(
+                                '<ul>',
+                                '<ul style=' + '"direction:rtl">'
                             );
                             component.set('v.tcData.tc.T_C_Text__c', res);
                         }
@@ -136,10 +144,16 @@
                                 '<h1>',
                                 '<h1 style=' + '"direction:rtl">'
                             );
+                            var res = res.replaceAll(
+                                '<ul>',
+                                '<ul style=' + '"direction:rtl">'
+                            );
                             component.set('v.tcData.tc.T_C_Text__c', res);
                         }
                         if (tcData.tc)
                             component.set('v.privacyPolicyId', tcData.tc);
+                        var test = component.get('v.tcData.tc.T_C_Text__c');
+                        alert(JSON.stringify(test));
                     },
                     null,
                     function () {
@@ -169,6 +183,10 @@
                             var res = res.replaceAll(
                                 '<h1>',
                                 '<h1 style=' + '"direction:rtl">'
+                            );
+                            var res = res.replaceAll(
+                                '<ul>',
+                                '<ul style=' + '"direction:rtl">'
                             );
                             component.set('v.tcData.tc.T_C_Text__c', res);
                         }
