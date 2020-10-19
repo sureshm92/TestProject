@@ -163,10 +163,14 @@ public without sharing class TaskService {
     public List<Task> getCompletedTasks() {
         List<String> statusFilter = new List<String>{
                 TASK_STATUS_IGNORED,
-                TASK_STATUS_COMPLETED
+                TASK_STATUS_COMPLETED,
+                TASK_STATUS_EXPIRED    
         };
-        String completedTaskFilter =  ' (Status IN (\'' + String.join(statusFilter, '\',\'') + '\') ' +
-                ' OR (Status = \'' + TASK_STATUS_EXPIRED + '\' AND Task_Type__c = \'' + TASK_TYPE_SURVEY + '\')) ';
+        //String completedTaskFilter =  ' (Status IN (\'' + String.join(statusFilter, '\',\'') + '\') ' +
+          //      ' OR (Status = \'' + TASK_STATUS_EXPIRED + '\' AND Task_Type__c = \'' + TASK_TYPE_SURVEY + '\')) ';
+        String completedTaskFilter =  ' (Status IN (\'' + String.join(statusFilter, '\',\'') + '\') ) ' ;
+               
+
         return getTasksCommon(completedTaskFilter, ' ORDER BY Completed_Date__c DESC');
     }
 

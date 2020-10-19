@@ -9,7 +9,8 @@
         "Sites",
         "Workflow",
         "DefaultWorkflowUser",
-        "StateAndCountryPicklist"
+        "StateAndCountryPicklist",
+        "FieldAuditTrail"
     ],
     "settings": {
         "apexSettings": {

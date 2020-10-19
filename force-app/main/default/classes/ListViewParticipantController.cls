@@ -134,7 +134,7 @@ public without sharing class ListViewParticipantController {
             Integer recordEnd = pSize * pNumber;
             
             String qCountString = 'SELECT COUNT() FROM Participant_Enrollment__c WHERE'; 
-            String queryString  = 'SELECT Id,Name,Participant_Name__c,Participant_Contact__c,Referral_Source__c,MRN_Id__c,Patient_ID__c,Referral_ID__c,Study_Hub_Log__c,Study_Hub_Log__r.Response_Status_Code__c,'
+            String queryString  = 'SELECT Id,Name,PerCounter__c,Participant_Name__c,Participant_Contact__c,Referral_Source__c,MRN_Id__c,Patient_ID__c,Referral_ID__c,Study_Hub_Log__c,Study_Hub_Log__r.Response_Status_Code__c,'
                 +'Participant__r.Full_Name__c,Participant__r.Present_Age__c,Participant__r.Gender_Technical__c,Participant__r.BMI__c,Study_Site__c,Study_Site__r.Name,Clinical_Trial_Profile__c,'
                 +'Clinical_Trial_Profile__r.Study_Code_Name__c,Clinical_Trial_Profile__r.Promote_to_SH__c,Participant__r.Ethnicity__c,'
                 +'Source_Type__c,Participant_Status__c,HighRisk_Indicator__c,CreatedDate,Referral_Source_ID__c,'
@@ -230,20 +230,30 @@ public without sharing class ListViewParticipantController {
             if(String.isEmpty(FilterList[0].AgeFrom))
                 FilterList[0].AgeFrom = '0';
             if(String.isEmpty(FilterList[0].AgeTo))
-                FilterList[0].AgeTo = '100';
+                FilterList[0].AgeTo = '150';
+            if(FilterList[0].AgeFrom == '0' && FilterList[0].AgeTo == '150'){
+                filter+=' AND ((Participant__r.Present_Age__c >='+ FilterList[0].AgeFrom + ' AND Participant__r.Present_Age__c <='+FilterList[0].AgeTo + ') ' ;
+                String universal = ' OR Participant__r.Present_Age__c = null ) ';
+                filter = filter + universal;
+            }else{
                 filter+=' AND (Participant__r.Present_Age__c >='+ FilterList[0].AgeFrom + ' AND Participant__r.Present_Age__c <='+FilterList[0].AgeTo + ')' ;
+            }
+                
             //}
             if (!String.isEmpty(FilterList[0].Sex) && FilterList[0].Sex != 'All'){
                 filter+=' AND Participant__r.Gender_Technical__c='+'\''+ FilterList[0].Sex+ '\'';
             }
             
-            system.debug('FilterList[0].AgeFrom'+FilterList[0].AgeFrom);
+            
             system.debug('querystringcount-->'+qCountString+filter);
             String QueryCount = qCountString + filter;
             Integer totalRecords = Database.countQuery(QueryCount);
             String OffsetLimit;
             if(Boolean.ValueOf(FilterList[0].isExport)){
-                OffsetLimit = ' LIMIT 50000';
+                String strTemp = ' AND PerCounter__c >=' + Integer.valueOf(FilterList[0].startPos) + ' AND PerCounter__c <=' + Integer.valueOf(FilterList[0].endPos);
+                filter = filter + strTemp;
+                sortBy = ' order by PerCounter__c asc';
+                OffsetLimit = ' LIMIT 49500';
             }else{
                 OffsetLimit = ' LIMIT '+pSize+' OFFSET '+offset;
             }
@@ -343,6 +353,7 @@ public without sharing class ListViewParticipantController {
             objDT.OrginalidSelected =OrgSelectedIds;
             objDT.FilterImpacts=wpws;
             objDT.IsPromoteToSHLimit=pshLimit;
+            objDT.retainFilter = FilterList[0];
             
             return objDT;
             
@@ -647,6 +658,12 @@ public without sharing class ListViewParticipantController {
         public List<id> highPrioritySelected_NoIds { get; set; }    
         @AuraEnabled 
         public String isExport { get; set; }
+        @AuraEnabled
+        public Integer startPos { get; set; }
+        @AuraEnabled
+        public Integer endPos { get; set; }
+        @AuraEnabled
+        public Integer perRecordCount { get; set; }
         
     }
     
@@ -671,9 +688,9 @@ public without sharing class ListViewParticipantController {
         public List<WrapPageWithSelection> FilterImpacts{get;set;}
         @AuraEnabled
         public Decimal IsPromoteToSHLimit{get;set;}
-       
-        
-        
+        @AuraEnabled
+       	public ListWrapper retainFilter {get;set;}
+		
     }
     public class WrapPageWithSelection
     {

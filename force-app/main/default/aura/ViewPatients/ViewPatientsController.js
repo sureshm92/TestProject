@@ -29,6 +29,11 @@
         console.log('Export URL: ' + exportURL);
         window.open(exportURL, '_blank');
     },
+    
+    doExportFull: function (component) {
+        var childComponent = component.find("childCmp");
+        childComponent.childMethod();
+    },
 
     doNeedsGuardian: function (component, event) {
         let childCmp = event.getSource();
@@ -45,5 +50,5 @@
     filterEmancipations: function (component, event, helper) {
         let rootCmp = component.get('v.parent');
         rootCmp.filterEmancipationsOnly();
-    }
+    },
 });

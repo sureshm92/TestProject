@@ -32,7 +32,17 @@
             <div class="mrr-alert fail" id="anchor">
                 <c:RRIcon iconName="icon-close-circle"/>
                 <div class="main-title">{!v.pe.Participant__r.Full_Name__c}&nbsp;{!$Label.c.PG_MRR_R_Failed}</div>
-                <aura:if isTrue="{!!v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp; !v.pe.Is_Virtual_Study_Site__c}">
+                <aura:if isTrue="{!and(v.pe.Study_Site__r.Study_Site_Type__c == 'Traditional' , or(v.pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c , v.pe.Study_Site__r.Suppress_Participant_Emails__c))}">
+                <aura:if isTrue="{!v.communityTemplate != 'Janssen'}">
+                <button class="apollo-btn primary"
+                        title="{!v.pe.Participant__r.Email__c ? '' : $Label.c.PG_MT_T_Email_Required_For_Insert}"
+                        data-gtm="BTN_InviteToPP"
+                        disabled="true">
+                    {!$Label.c.Invite_Participant_To_Portal}
+                </button>
+                    </aura:if>
+                     <aura:set attribute="else">
+                         <aura:if isTrue="{!!v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp; !v.pe.Is_Virtual_Study_Site__c}">
                     <aura:if isTrue="{!v.communityTemplate != 'Janssen'}">
                 <button class="apollo-btn primary"
                         title="{!v.pe.Participant__r.Email__c ? '' : $Label.c.PG_MT_T_Email_Required_For_Insert}"
@@ -42,7 +52,11 @@
                 </button>
                     </aura:if>
                 </aura:if>
-                <button class="apollo-btn tertiary"
+
+                     </aura:set>
+
+                </aura:if>
+                                <button class="apollo-btn tertiary"
                         data-gtm="BTN_BackToParticipant"
                         onclick="{!c.backToParticipant}">{!$Label.c.PG_MRR_BTN_Back_to_My_Participant}</button>
             </div>
@@ -53,7 +67,17 @@
             <div class="mrr-alert pass" id="anchor">
                 <c:RRIcon iconName="icon-check-circle"/>
                 <div class="main-title">{!v.pe.Participant__r.Full_Name__c}&nbsp;{!$Label.c.PG_MRR_R_Passed}</div>
-                <aura:if isTrue="{!!v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp; !v.pe.Is_Virtual_Study_Site__c}">
+               <aura:if isTrue="{!and(v.pe.Study_Site__r.Study_Site_Type__c == 'Traditional' , or(v.pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c , v.pe.Study_Site__r.Suppress_Participant_Emails__c))}">
+                  <aura:if isTrue="{!v.communityTemplate != 'Janssen'}">
+                   <button class="apollo-btn primary"
+                            title="{!v.pe.Participant__r.Email__c ? '' : $Label.c.PG_MT_T_Email_Required_For_Insert}"
+                            data-gtm="BTN_InviteToPP"
+                            disabled="true">
+                        {!$Label.c.Invite_Participant_To_Portal}
+                   </button>
+                   </aura:if>
+                <aura:set attribute="else">
+                    <aura:if isTrue="{!!v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp; !v.pe.Is_Virtual_Study_Site__c}">
                     <aura:if isTrue="{!v.communityTemplate != 'Janssen'}">
                     <button class="apollo-btn primary"
                             title="{!v.pe.Participant__r.Email__c ? '' : $Label.c.PG_MT_T_Email_Required_For_Insert}"
@@ -62,6 +86,9 @@
                         {!$Label.c.Invite_Participant_To_Portal}
                     </button>
                     </aura:if>
+                </aura:if>
+
+                </aura:set>
                 </aura:if>
                 <button class="apollo-btn tertiary"
                         data-gtm="BTN_BackToParticipant"

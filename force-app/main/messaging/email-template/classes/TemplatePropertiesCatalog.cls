@@ -22,6 +22,7 @@ public without sharing class TemplatePropertiesCatalog {
     public static final String TEMPLATE_PROP_COMM_SIGNATURE = 'EmailTemplateCommunitySignature';
     public static final String TEMPLATE_PROP_COMM_SIGNATURE_NEW = 'EmailTemplateCommunitySignatureNew';
     public static final String TEMPLATE_PROP_COMM_SIGNATURE_SHORT = 'EmailTemplateCommunitySignShort';
+      public static final String TEMPLATE_PROP_COMM_SIGNATURE_VT_SHORT = 'EmailTemplateCommunitySignVTShort';
     public static final String TEMPLATE_SIGN_COMM_NAME = 'EmailTemplateShortSignCommName';
     public static final String TEMPLATE_SIGN_TEAM = 'EmailTemplateSignTeam';
     public static final String TEMPLATE_PROP_TEAM_RH = 'EmailTemplateTitleLabelRH';

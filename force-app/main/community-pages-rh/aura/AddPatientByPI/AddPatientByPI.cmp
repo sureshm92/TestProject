@@ -30,7 +30,7 @@
     <aura:attribute name="communityWithPPInv" type="Boolean" default="true"/>
     <aura:attribute name="emailInstance" type="String"/>
     <aura:attribute name="createUserForDelegate" type="Boolean" default="false"/>
-    
+   
     <!-- methods: -->
     <aura:method name="checkDateOfBith" action="{!c.doCheckDateOfBith}" access="public">
         <aura:attribute name="callback" type="Function"/>
@@ -197,7 +197,7 @@
                             <div class="slds-form-element__control">
                                 <div class="slds-checkbox" data-gtm="checkbox_Permit_IQVIA_Connect">
                                     <input aura:id="checkbox-Contact" type="checkbox" name="options" id="checkbox-unique-id-76"
-                                           value="checkbox-unique-id-76" onclick="{!c.doContact}"/>
+                                           value="checkbox-unique-id-76" onclick="{!c.doContact}" checked="false" />
                                     <label class="slds-checkbox__label" for="checkbox-unique-id-76">
                                         <span class="slds-checkbox_faux"></span>
                                         <span class="slds-form-element__label-for-checkbox">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_ShareInformation}</span>
@@ -251,8 +251,33 @@
                             </div>
                         </div>
                     </aura:if>
-                    
-                    <aura:if isTrue="{!v.communityWithPPInv &amp;&amp;v.ss.Study_Site_Type__c!='Virtual'&amp;&amp;v.ss.Study_Site_Type__c!='Hybrid'}">                    
+                    <aura:if isTrue="{!and(v.ss.Study_Site_Type__c == 'Traditional' , or(v.ss.Suppress_Participant_Emails__c,v.ss.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c))}">
+                        <div class="slds-grid slds-gutters slds-wrap">
+                        <div class="slds-form-element" style="margin-top: 20px; margin-left: 10px;">
+                            <div class="slds-form-element__control">
+                                <span class="slds-form-element__label-for-checkbox">
+                                    <Strong>{!$Label.c.PG_Ref_L_Invitation_To_PP}</Strong></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End-->
+                    <div class="slds-grid slds-gutters slds-wrap">
+                        <div class="slds-form-element" style="margin-top: 20px; margin-left: 10px;">
+                            <div class="slds-form-element__control">
+                                <div class="slds-checkbox">
+                                    <input type="checkbox" name="options" id="checkbox-unique-id-73"
+                                           value="checkbox-unique-id-73" checked="false" disabled="true"/>
+                                    <label class="slds-checkbox__label" for="checkbox-unique-id-73">
+                                        <span class="slds-checkbox_faux"></span>
+                                        <span class="slds-form-element__label-for-checkbox">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal}</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <aura:set attribute="else">
+                                            <aura:if isTrue="{!v.communityWithPPInv &amp;&amp;v.ss.Study_Site_Type__c!='Virtual'&amp;&amp;v.ss.Study_Site_Type__c!='Hybrid'}">                    
                         <div class="slds-grid slds-gutters slds-wrap">
                         <div class="slds-form-element" style="margin-top: 20px; margin-left: 10px;">
                             <div class="slds-form-element__control">
@@ -277,6 +302,9 @@
                         </div>
                     </div>
                    </aura:if>
+
+                    </aura:set>
+                    </aura:if>
                 </div>
             </div>
             <div class="ap-bottom-info">
