@@ -2,6 +2,10 @@
     padding-bottom: 32px;
 }
 
+.THIS.rtl {
+    direction: rtl;
+}
+
 .THIS.sdas-sub-tab {
     height: 40px;
     width: 100%;
@@ -49,6 +53,14 @@
     position: absolute;
     left: 62%;
     display: block;
+}
+
+.THIS .hideborder.slds-grid.slds-wrap:before{
+   
+    /*display: none;*/
+    margin-left:-279px;
+    
+    
 }
 
 .THIS .cTasksTab {

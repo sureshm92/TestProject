@@ -2,11 +2,16 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="CommunityContext" extensible="true" abstract="true">
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
-                  afterScriptsLoaded="{!c.doInit}"/>
-
-    <aura:attribute name="isArabic" type="Boolean"/>
-
+<aura:component
+    description="CommunityContext"
+    extensible="true"
+    abstract="true"
+>
+    <ltng:require
+        scripts="{!join(',', $Resource.rr_community_js)}"
+        afterScriptsLoaded="{!c.doInit}"
+    />
+    <aura:attribute name="isRTL" type="Boolean" />
+    <aura:attribute name="isMobileApp" type="Boolean" />
     {!v.body}
 </aura:component>

@@ -73,6 +73,7 @@ public class Test_ParticipantService {
             return null;
         }
     }
+
     public class ParticipantServiceMock implements System.StubProvider {
 
         public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
@@ -86,18 +87,25 @@ public class Test_ParticipantService {
 
     @IsTest
     static void participantServiceTest() {
-        // Set mocks:
-        ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock());
-        CommunityService.setMock(new CommunityServiceMock());
-        ParticipantService.setMock(new ParticipantServiceMock());
-        // Test logic
+        TestData.loadTestData();
+        TestData td = new TestData();
+        String exceptionMessage;
+        ParticipantService.ParticipantState participantState;
+        ParticipantService.ParticipantState ptState;
         Test.startTest();
-        ParticipantService.getParticipantState();
-        ParticipantService.getInstance().getState();
+        System.runAs(td.participantUser) {
+            participantState = ParticipantService.getParticipantState();
+            ptState = ParticipantService.getInstance().getState();
+        }
         try {
             ParticipantService.getParticipantFullName(getPE(null).Participant__r.Contact__c);
-        } catch (ParticipantService.ParticipantServiceException e) {}
+        } catch (ParticipantService.ParticipantServiceException e) {
+            exceptionMessage = e.getMessage();
+        }
         Test.stopTest();
+        System.assertEquals(ParticipantService.ParticipantStates.REFERRAL, participantState.value);
+        System.assertEquals(ParticipantService.ParticipantStates.REFERRAL, ptState.value);
+        System.assertEquals('This contact hasn\'t participant!', exceptionMessage);
     }
 
     @IsTest
@@ -108,8 +116,9 @@ public class Test_ParticipantService {
         ParticipantService.setMock(new ParticipantServiceMock());
         // Test logic
         Test.startTest();
-        ParticipantService.getInstance().getState();
+        ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
         Test.stopTest();
+        System.assertEquals(ParticipantService.ParticipantStates.ALUMNI, participantState.value);
     }
 
     @IsTest
@@ -120,8 +129,9 @@ public class Test_ParticipantService {
         ParticipantService.setMock(new ParticipantServiceMock());
         // Test logic
         Test.startTest();
-        ParticipantService.getInstance().getState();
+        ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
         Test.stopTest();
+        System.assertEquals(ParticipantService.ParticipantStates.ALUMNI, participantState.value);
     }
 
     @IsTest
@@ -155,15 +165,20 @@ public class Test_ParticipantService {
 
     @IsTest
     static void createParticipantAndUpdatePEImplTest() {
-        // Set mocks:
-        ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock());
-        CommunityService.setMock(new CommunityServiceMock());
-        DatabaseService.setMock(new DatabaseServiceMock());
-        ParticipantService.setMock(new ParticipantServiceMock());
+        TestData.loadTestData();
+        TestData td = new TestData();
         String language = 'ru';
+        String exceptionMsg;
         Test.startTest();
-        ParticipantService.createParticipantAndUpdatePE(getParticipant(), getParticipantDelegate(), getPE(null), language);
+        System.runAs(td.participantUser) {
+            try {
+                ParticipantService.createParticipantAndUpdatePE(getParticipant(), getParticipantDelegate(), getPE(null), language);
+            } catch (ParticipantService.ParticipantServiceException e) {
+                exceptionMsg = e.getMessage();
+            }
+        }
         Test.stopTest();
+        System.assert(exceptionMsg.contains('Upsert failed'));
     }
 
     @IsTest
@@ -176,21 +191,24 @@ public class Test_ParticipantService {
 
     @IsTest
     static void isParticipantsAgeOfMajorityTest() {
-        System.debug(JSON.serializePretty(ParticipantService.checkParticipantsAgeOfMajority(new List<Participant__c>{new Participant__c(
-                Last_Name__c = 'Participant',
-                Date_of_Birth__c = '2002-03-10',
-                Mailing_Country_Code__c = 'US',
-                Mailing_State_Code__c = 'MS',
-                Adult__c = true
-        ),
+        List<Participant__c> testAdult = ParticipantService.checkParticipantsAgeOfMajority(new List<Participant__c>{
                 new Participant__c(
-                Last_Name__c = 'Participant',
-                Date_of_Birth__c = '2000-03-10',
-                Mailing_Country_Code__c = 'US',
-                Mailing_State_Code__c = 'AL',
-                Adult__c = false
+                        Last_Name__c = 'Participant',
+                        Date_of_Birth__c = '2000-03-10',
+                        Mailing_Country_Code__c = 'US',
+                        Mailing_State_Code__c = 'AL'
                 )
-        })));
+        });
+        List<Participant__c> testChild = ParticipantService.checkParticipantsAgeOfMajority(new List<Participant__c>{
+                new Participant__c(
+                        Last_Name__c = 'Participant',
+                        Date_of_Birth__c = '2019-03-10',
+                        Mailing_Country_Code__c = 'US',
+                        Mailing_State_Code__c = 'MS'
+                )
+        });
+        System.assert(testAdult[0].Adult__c);
+        System.assert(!testChild[0].Adult__c);
     }
 
     //Mock data: -------------------------------------------------------------------------------------------------------
@@ -259,7 +277,8 @@ public class Test_ParticipantService {
         );
 
         return new Participant__c(
-                First_Name__c = patientContact.FirstName
+                First_Name__c = patientContact.FirstName,
+                Last_Name__c = patientContact.LastName
         );
     }
 

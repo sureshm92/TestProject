@@ -32,7 +32,7 @@ public class Test_PatientDelegateRemote {
                     List<Patient_Delegate__c> patientDelegate = [
                             SELECT Id
                             FROM Patient_Delegate__c
-                            WHERE Contact__c =: contactId
+                            WHERE Contact__c = :contactId
                     ];
                     delete patientDelegate;
                 }
@@ -46,11 +46,17 @@ public class Test_PatientDelegateRemote {
         Test.startTest();
         TestData.loadTestData();
         TestData testData = new TestData();
-
-        System.runAs(testData.participantUser){
-            PatientDelegateRemote.getYourPatientFirstName();
+        User delegateUser = testData.createPatientDelegate();
+        insert delegateUser;
+        List<Contact> conDel = [SELECT Id, userCommunityDelegateId__c FROM Contact WHERE Email = 'jsmith@somemail.com'];
+        conDel[0].userCommunityDelegateId__c = delegateUser.Id;
+        update conDel;
+        String name;
+        System.runAs(delegateUser){
+            name = PatientDelegateRemote.getYourPatientFirstName();
         }
         Test.stopTest();
+        System.assertEquals(true, name != null ? true : false);
     }
 
     @IsTest
@@ -72,9 +78,9 @@ public class Test_PatientDelegateRemote {
 
         Contact jamesContact = [
                 SELECT Id,
-                       FirstName,
-                       LastName,
-                       Email
+                        FirstName,
+                        LastName,
+                        Email
                 FROM Contact
                 WHERE FirstName = 'James'
         ].get(0);
@@ -88,9 +94,9 @@ public class Test_PatientDelegateRemote {
 
         Contact jamesContact2 = [
                 SELECT Id,
-                       FirstName,
-                       LastName,
-                       Email
+                        FirstName,
+                        LastName,
+                        Email
                 FROM Contact
                 WHERE Email = 'jam.smith@gmail.com'
         ].get(0);
@@ -105,11 +111,11 @@ public class Test_PatientDelegateRemote {
 
         Contact jamesContact = [SELECT Id, Email FROM Contact WHERE FirstName = 'James'].get(0);
         jamesContact.Email = 'frank.murphy@gmail.com';
-        try{
+        try {
             Test.startTest();
             PatientDelegateRemote.editPatientDelegateDetail(JSON.serialize(jamesContact));
             Test.stopTest();
-        }catch (Exception e) {
+        } catch (Exception e) {
             // TODO check this
             // System.assertEquals('Script-thrown exception', e.getMessage());
         }
@@ -120,31 +126,38 @@ public class Test_PatientDelegateRemote {
         PatientDelegateService.setMock(new PatientDelegateServiceMock());
 
         Contact fakeDelegateContact = [SELECT Id, Email FROM Contact WHERE FirstName = 'Frank'].get(0);
-        try{
+        try {
             Test.startTest();
             PatientDelegateRemote.editPatientDelegateDetail(JSON.serialize(fakeDelegateContact));
             Test.stopTest();
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.assertEquals('Script-thrown exception', e.getMessage());
         }
     }
 
     @IsTest
     static void changeDelegateStatusTest() {
-        Contact delegateContact = [SELECT Id FROM Contact WHERE Email = 'j.smith@gmail.com'];
         TestData.loadTestData();
-
-        Test.startTest();
         TestData testData = new TestData();
+        User delegateUser = testData.createPatientDelegate();
+        insert delegateUser;
+        List<Contact> conDel = [SELECT Id, userCommunityDelegateId__c FROM Contact WHERE Email = 'jsmith@somemail.com'];
+        Test.startTest();
         System.runAs(testData.participantUser) {
-            PatientDelegateRemote.changeDelegateStatus(delegateContact.Id, false);
+            PatientDelegateRemote.changeDelegateStatus(conDel[0].Id, false);
         }
         Test.stopTest();
+        List<Patient_Delegate__c> patientDelegate = [
+                SELECT Id, Status__c
+                FROM Patient_Delegate__c
+                WHERE Contact__c = :conDel[0].Id
+        ];
+        System.assertEquals(PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS, patientDelegate[0].Status__c);
     }
 
     @IsTest
     static void withdrawDelegateTest() {
-       Contact jamesContact = [
+        Contact jamesContact = [
                 SELECT Id
                 FROM Contact
                 WHERE FirstName = 'James'
@@ -158,7 +171,7 @@ public class Test_PatientDelegateRemote {
 
         Contact delegate = [
                 SELECT Id,
-                       userCommunityMode__c
+                        userCommunityMode__c
                 FROM Contact
                 WHERE FirstName = 'James'
         ].get(0);
@@ -167,7 +180,7 @@ public class Test_PatientDelegateRemote {
         List<Patient_Delegate__c> patientDelegate = [
                 SELECT Id
                 FROM Patient_Delegate__c
-                WHERE Contact__c =: delegate.Id
+                WHERE Contact__c = :delegate.Id
         ];
         System.assertEquals(true, patientDelegate.isEmpty());
     }

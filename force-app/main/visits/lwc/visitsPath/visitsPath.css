@@ -59,6 +59,10 @@
     width: 16px;
     height: 14px;
 }
+.state-ico-wrapperRTL .rr-icon-default {
+    width: 16px;
+    height: 14px;
+}
 
 .width-basis {
     flex-basis: auto;
@@ -116,12 +120,29 @@
     align-items: center;
     justify-content: center;
 }
+.state-ico-wrapperRTL {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    position: absolute;
+    top: -10px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .state .state-ico-wrapper {
     width: 30px;
     height: 30px;
     top: -18px;
     left: -16px;
+}
+.state .state-ico-wrapperRTL {
+    width: 30px;
+    height: 30px;
+    top: -18px;
+    left: 46px;
 }
 
 .state.planned .state-ico-wrapper-middle {
@@ -131,6 +152,18 @@
     justify-content: center;
     top: -22px;
     left: -20px;
+    width: 38px;
+    height: 38px;
+    opacity: .25;
+    background-color: #005ff1;
+}
+.state.planned .state-ico-wrapper-middleRTL {
+    border-radius: 50%;
+    position: absolute;
+    line-height: 1;
+    justify-content: center;
+    top: -22px;
+    left: 42px;
     width: 38px;
     height: 38px;
     opacity: .25;
@@ -151,20 +184,46 @@
     height: 48px;
     opacity: 0.1;
 }
+.state.planned .state-ico-wrapper-largeRTL {
+    border-radius: 50%;
+    position: absolute;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #005ff1;
+    top: -27px;
+    left: 37px;
+    width: 48px;
+    height: 48px;
+    opacity: 0.1;
+}
 
 .state.neutral .state-ico-wrapper {
+    background-color: #b5b5b5 !important;
+}
+.state.neutral .state-ico-wrapperRTL {
     background-color: #b5b5b5 !important;
 }
 
 .state.success .state-ico-wrapper {
     background-color: #00c221 !important;
 }
+.state.success .state-ico-wrapperRTL {
+    background-color: #00c221 !important;
+}
 
 .state.missed .state-ico-wrapper {
     background-color: #99e7a6 !important;
 }
+.state.missed .state-ico-wrapperRTL {
+    background-color: #99e7a6 !important;
+}
 
 .state.planned .state-ico-wrapper {
+    background-color: #005ff1 !important;
+}
+.state.planned .state-ico-wrapperRTL {
     background-color: #005ff1 !important;
 }
 
@@ -182,6 +241,15 @@
     display: flex;
     padding-top: 15px;
 }
+.arrow-leftRTL {
+    opacity: 1;
+    transition: opacity 200ms;
+    -webkit-transition: opacity 200ms;
+    min-width: 30px;
+    margin-left: 0px;
+    display: flex;
+    padding-top: 15px;
+}
 
 .arrow-right {
     opacity: 0;
@@ -189,6 +257,15 @@
     -webkit-transition: opacity 200ms;
     min-width: 30px;
     margin-right: 5px;
+    display: flex;
+    padding-top: 15px;
+}
+.arrow-rightRTL {
+    opacity: 1;
+    transition: opacity 200ms;
+    -webkit-transition: opacity 200ms;
+    min-width: 30px;
+    margin-right: 0px;
     display: flex;
     padding-top: 15px;
 }
@@ -247,6 +324,10 @@
         width: 18px;
         height: 20px;
     }
+    .state-ico-wrapperRTL .rr-icon-default {
+        width: 18px;
+        height: 20px;
+    }
 
 }
 
@@ -273,6 +354,11 @@
     }
 
     .state-ico-wrapper .rr-icon-default {
+        width: 20px;
+        height: 18px;
+        margin-bottom: 2px;
+    }
+    .state-ico-wrapperRTL .rr-icon-default {
         width: 20px;
         height: 18px;
         margin-bottom: 2px;
@@ -340,6 +426,10 @@
     }
 
     .state .state-ico-wrapper .rr-icon-default {
+        width: 20px;
+        height: 22px;
+    }
+    .state .state-ico-wrapperRTL .rr-icon-default {
         width: 20px;
         height: 22px;
     }

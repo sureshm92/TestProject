@@ -29,6 +29,7 @@
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
 
     <!-- component body: -->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true"/>
 
     <div class="rr-min-body-height">

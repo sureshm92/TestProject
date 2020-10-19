@@ -3,6 +3,10 @@
  */
 ({
     initialize: function(component, event, helper) {
+        var rtl_language = $A.get("$Label.c.RTL_Languages");
+        var paramLanguage = communityService.getUrlParameter('language');
+        component.set('v.UserLanguage',paramLanguage);
+		component.set('v.isRTL', rtl_language.includes(paramLanguage));
         var isMobileApp =  document.referrer;
         console.log('isMobileApp'+isMobileApp);
         if(isMobileApp.includes("startURL")){
@@ -126,7 +130,7 @@
    //@Krishna mahto- PEH-1910- end
    //@Krishna mahto- PEH-2451- Start
    openPrivacyPolicy: function(component, event, helper) {
-      var PrivacyPolicyURL = component.get("v.urlCommunity") + '/s/privacy-policy'
+      var PrivacyPolicyURL = component.get("v.urlCommunity") + '/s/privacy-policy?lanCode='+component.get("v.UserLanguage");
       window.open(PrivacyPolicyURL,'_blank');
    },
    //@Krishna mahto- PEH-2451- End

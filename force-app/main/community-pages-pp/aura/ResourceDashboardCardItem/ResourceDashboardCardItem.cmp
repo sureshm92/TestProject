@@ -1,4 +1,4 @@
-<aura:component controller="ResourceRemote" description="ResourceDashboardCardItem">
+<aura:component controller="ResourceRemote" description="ResourceDashboardCardItem" extends="c:CommunityContext">
 
     <!--ATTRIBUTES-->
     <aura:attribute name="trialId" type="String" description="id of the study" required="true"/>
@@ -16,6 +16,7 @@
     <aura:handler name="init" value="this" action="{!c.doInit}"/>
 
     <!--COMPONENT BODY-->
+	<div class="{!v.isRTL? 'rtl' :''}">
     <div class="resource-container">
 
         <c:RRSpinner aura:id="spinner" showSpinner="true" size="small"/>
@@ -40,8 +41,10 @@
                         <div class="resource-description">
                             <div class="resource-description-title resource-pointer"
                                  data-type="{!v.resourceWrappers[0].resource.RecordType.DeveloperName}"
-                                 data-id="{!v.resourceWrappers[0].resource.Id}" onclick="{!c.navigateToPage}">
+                                 data-id="{!v.resourceWrappers[0].resource.Id}" onclick="{!c.navigateToPage}"
+                                 style="{!if(v.isRTL == true, 'padding-right:63px', '')}">
                                 {!v.resourceWrappers[0].resource.Title__c}
+                                
                             </div>
                             <div class="resource-description-text resource-pointer"
                                  data-type="{!v.resourceWrappers[0].resource.RecordType.DeveloperName}"
@@ -55,5 +58,5 @@
             </div>
         </aura:if>
     </div>
-
+	</div>
 </aura:component>

@@ -1,4 +1,4 @@
-<aura:component controller="ResourceRemote" description="ResourceContainer" implements="forceCommunity:availableForAllPageTypes">
+<aura:component controller="ResourceRemote" description="ResourceContainer" implements="forceCommunity:availableForAllPageTypes" extends="c:CommunityContext">
 
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"/>
 
@@ -9,12 +9,18 @@
     <aura:attribute name="documentsResourceMode" type="String" default="Documents" access="private" description="constant variable"/>
     <aura:attribute name="studyDocumentsAvailable" type="Boolean" default="true"/>
     <aura:attribute name="videoArticlesAvailable" type="Boolean" default="true"/>
+    <aura:attribute name="submittedArticlesURL" type="String" />
+    <aura:attribute name="disableSave" type="Boolean" default="true"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="isDelegate" type="Boolean" default="false"/>
+    <aura:attribute name="hascois" type="Boolean" default="false"/>
 
     <!--HANDLERS-->
 
     <aura:handler name="init" value="this" action="{!c.doInit}"/>
 
     <!--COMPONENT BODY-->
+    <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
 
     <aura:if isTrue="{!and(v.resourceMode != v.documentsResourceMode, v.videoArticlesAvailable)}">
         <aura:if isTrue="{!v.noTAMessage != null}">
@@ -30,14 +36,35 @@
                         <c:Resource resourceType="Article" resourceMode="{!v.resourceMode}" isAvailable="{!v.videoArticlesAvailable}"/>
                     </lightning:layoutItem>
                 </lightning:layout>
-                <div class="resource-disclaimer">
-                    {!$Label.c.Resources_Expiration_Date_Disclaimer}
-                </div>
-            </aura:set>
+                </aura:set>
         </aura:if>
         <aura:set attribute="else">
             <c:StudyDocumentContainer isAvailable="{!v.studyDocumentsAvailable}"/>
         </aura:set>
-    </aura:if>
+         <aura:if isTrue="{!and(v.resourceMode == 'Default',!v.isDelegate)}">
+                <div class="{! v.hascois ? 'mainCard' : 'mainCardCoi' }">
+                <div class="url-disclaimer" style="{!if(v.isRTL == true, 'padding-right:33px', '')}">
+                 {!$Label.c.PP_Share_Article}<br></br>
+                 {!$Label.c.PP_Submit_Video}    
+                </div>    
+                 <div class="slds-grid mar_grid">
+                     <div class="slds-col slds-size_1-of-2">
+                    <lightning:input type="text" aura:id="urlField" placeholder="{!$Label.c.PP_Paste_URL}" value="{!v.submittedArticlesURL}" onblur="{!c.handleUrlValidation}"></lightning:input>
+                     </div>
+                    <div  class="slds-col slds-size_1-of-2 mar_btn">
+                    <lightning:button label="{!$Label.c.PP_Submit_Button}" onclick="{!c.createArticles}" class="{!v.disableSave ? 'btn slds-button disabled' : 'btn slds-button'}" disabled="{!v.disableSave}"></lightning:button>
+                    
+                     </div>
+                      <span class="emergency-disclaimer" style="{!if(v.isRTL == true, 'margin-right: -989px!important;', '')}">
+                          {!$Label.c.PP_Emergency}
+                    </span>
+                    </div>
+                    <aura:if isTrue="{!v.hascois }">
+                    <div class="resource-disclaimer">
+                    {!$Label.c.Resources_Expiration_Date_Disclaimer}
+                   </div></aura:if>
+                </div>
+             </aura:if>
 
+    </aura:if>
 </aura:component>

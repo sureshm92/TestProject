@@ -2,7 +2,7 @@
  - Created by Yehor Dobrovolskyi on 20.02.2019.020.
  -->
 
-<aura:component description="ResourcesDetailItem" controller="ResourceRemote">
+ <aura:component description="ResourcesDetailItem" controller="ResourceRemote" extends="c:CommunityContext">
 
     <aura:attribute name="resourceWrapper" type="ResourceService.ResourceWrapper"/>
     <aura:attribute name="StudyDocumentRecordTypeName" type="String" default="Study_Document"
@@ -14,7 +14,7 @@
     <aura:handler name="init" value="this" action="{!c.doInit}"/>
     <aura:handler name="render" value="{!this}" action="{!c.doRender}"/>
 
-    <div class="resource-container">
+    <div class="{!v.isRTL? 'resource-container arabic':'resource-container'}">
 
         <aura:if isTrue="{!v.resourceWrapper.resource.RecordType.DeveloperName == 'Article'}">
             <div class="{!or(v.resourceWrapper.resource.Image__c == null, v.resourceWrapper.resource.Image__c == '') ? 'display-none' : 'bitmap'}">

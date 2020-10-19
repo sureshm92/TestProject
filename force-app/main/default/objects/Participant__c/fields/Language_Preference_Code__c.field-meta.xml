@@ -356,10 +356,40 @@
                 <label>AE</label>
             </value>
             <value>
-                <fullName>AF</fullName>
+                <fullName>af</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
+                <isActive>true</isActive>
                 <label>AF</label>
+            </value>
+            <value>
+                <fullName>es_PE</fullName>
+                <default>false</default>
+                <isActive>true</isActive>
+                <label>es_PE</label>
+            </value>
+            <value>
+                <fullName>es_CO</fullName>
+                <default>false</default>
+                <isActive>true</isActive>
+                <label>es_CO</label>
+            </value>
+            <value>
+                <fullName>es_CL</fullName>
+                <default>false</default>
+                <isActive>true</isActive>
+                <label>es_CL</label>
+            </value>
+            <value>
+                <fullName>es_AR</fullName>
+                <default>false</default>
+                <isActive>true</isActive>
+                <label>es_AR</label>
+            </value>
+            <value>
+                <fullName>en_ZA</fullName>
+                <default>false</default>
+                <isActive>true</isActive>
+                <label>en_ZA</label>
             </value>
             <value>
                 <fullName>AFG</fullName>
@@ -1772,9 +1802,9 @@
                 <label>WS</label>
             </value>
             <value>
-                <fullName>XH</fullName>
+                <fullName>xh</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
+                <isActive>true</isActive>
                 <label>XH</label>
             </value>
             <value>
@@ -1814,9 +1844,9 @@
                 <label>ZM</label>
             </value>
             <value>
-                <fullName>ZU</fullName>
+                <fullName>zu</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
+                <isActive>true</isActive>
                 <label>ZU</label>
             </value>
             <value>

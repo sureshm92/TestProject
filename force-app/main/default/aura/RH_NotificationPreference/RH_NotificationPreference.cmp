@@ -18,8 +18,8 @@ This component is only for the HCP User Mode -->
     <aura:attribute name="showEmailPrefSpinner" type="Boolean" default="false" access="private" />
     
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
-    
-    
+
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <div class="as-container">
         <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true" />
         <aura:if isTrue="{!v.isInitialized}">

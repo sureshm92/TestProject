@@ -3,6 +3,14 @@
  */
 ({
     doInit: function (component, event, helper) {
-        component.set('v.isArabic', communityService.getLanguage() === 'ar');
+        var rtl_language = $A.get('$Label.c.RTL_Languages');
+        component.set(
+            'v.isRTL',
+            rtl_language.includes(communityService.getLanguage())
+        );
+        component.set(
+            'v.isMobileApp',
+            communityService.isCurrentSessionMobileApp()
+        );
     }
-})
+});

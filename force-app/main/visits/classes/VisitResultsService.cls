@@ -48,14 +48,16 @@ public inherited sharing class VisitResultsService {
             }
         }
         List<Visit_Result_GroupM__mdt> visistResultGroupMetaDataTypeList = [
-                SELECT Id, Label, (SELECT Id, DeveloperName, Label, Visit_Result_Code__c FROM Visit_Result_Types__r)
+                SELECT Id, Label, (SELECT Id, DeveloperName, Label, Visit_Result_Code__c,Description_Label_Api_Name__c FROM Visit_Result_Types__r)
                 FROM Visit_Result_GroupM__mdt
                 WHERE Label = :currentCTPVisitResultGroup
         ];
         List<String> attributePerSectionList = new List<String>();
+        Map<String,String> visitResultTypeDescriptionMap=new Map<String,String>();
         for (Visit_Result_GroupM__mdt objMetadata : visistResultGroupMetaDataTypeList) {
             for (Visit_Result_TypeM__mdt objVSR : objMetadata.Visit_Result_Types__r) {
                 attributePerSectionList.add(objVSR.DeveloperName);
+                visitResultTypeDescriptionMap.put(objVSR.DeveloperName,objVSR.Description_Label_Api_Name__c);
             }
         }
         List<String> filteredVisitResults = new List<String>();
@@ -79,7 +81,9 @@ public inherited sharing class VisitResultsService {
             if (visitResult != null && visitResult.Actual_Value__c != null) {
                 listIsNotEmpty = true;
             }
-            wrappers.add(new VisitResultWrapper(visitResult, TranslateHelper.getLabelValue(selectedVisitGroup), this.visitResultsMeasurementNamesMap));
+            VisitResultWrapper objVisitResultWrapper=new VisitResultWrapper(visitResult, TranslateHelper.getLabelValue(selectedVisitGroup), this.visitResultsMeasurementNamesMap);
+            objVisitResultWrapper.description=TranslateHelper.getLabelValue(visitResultTypeDescriptionMap.get(selectedVisitGroup));
+            wrappers.add(objVisitResultWrapper);
         }
         List<VisitResultWrapper> resultWrappers = new List<VisitResultWrapper>();
         List<VisitResultWrapper> emptyWrappers = new List<VisitResultWrapper>();
@@ -229,7 +233,9 @@ public inherited sharing class VisitResultsService {
         public String description;
         @AuraEnabled
         public String recordtype;
-
+        @AuraEnabled
+        public String visitDate;
+        
         public VisitResultWrapper(Visit_Result__c visitResult, String name, String description) {
             this(visitResult, name, description, null);
         }
@@ -269,6 +275,13 @@ public inherited sharing class VisitResultsService {
                     } else {
                         this.measurement = visitResult.Measurement__c.replace('/', ' / ');
                     }
+                }
+                if (visitResult != null && visitResult.Patient_Visit__r.Completed_Date__c != null) {
+                    Datetime dt = Datetime.newInstance(visitResult.Patient_Visit__r.Completed_Date__c.year(), visitResult.Patient_Visit__r.Completed_Date__c.month(), visitResult.Patient_Visit__r.Completed_Date__c.day(), 0, 0, 0);
+                    this.visitDate = dt.format('dd-MMM-yyyy');
+                } 
+                else {
+                    this.visitDate = Label.StudyVisit_Information_Not_Available;
                 }
             }
         }

@@ -26,16 +26,45 @@
                     description="If you need specific instance of EmailTemplateProvider set this here"/>
     <apex:attribute name="shareEmailTemplate" assignTo="{!shareTemplate}" type="String" description="" default="No" access="global"/>
     <apex:attribute name="OptOut" assignTo="{!displayOptOut}" type="String" description="" default="Yes" access="global"/>
-    <div style="{!templateMap['emailTemplateBackground']}">
+    <div style="{!IF(isRTL=true,templateMap['emailTemplateBackgroundRTL'], templateMap['emailTemplateBackground'])}">
         <div style="{!templateMap['emailTemplateTextBackground']}">
-            <div style="{!templateMap['emailTemplateHeaderBackground']}">
+            <apex:outputpanel rendered="{!communityTemplate != 'Default'}">
+           <div style="{!templateMap['emailTemplateHeaderBackground']}" >
                 <div style="{!templateMap['emailTemplateHeader']}">
                     <apex:outputText value="{!headerText}" escape="false"/>
                 </div>
                 <div style="{!templateMap['emailTemplateTitle']}">
                     <apex:outputText value="{!titleText}" escape="false"/>
                 </div>
+            </div> 
+                </apex:outputpanel>
+            <apex:outputpanel rendered="{!communityTemplate == 'Default'}">
+            <div >
+                
+             <table cellpadding="0" cellspacing="0" border="0" class=""  style="width: 601px;line-height: 10px;margin-left: -23px;">
+																				  <tbody><tr>
+																					<td  background="{!$Label.WelcomeEmail_PPHeaderLogo}" valign="top" style="{!IF(isRTL=true,'color: #ffffff; font-size: 16px;padding: 25px 25px 0 0;height: 179px;width: 600px;background-repeat:no-repeat;font-family:Helvetica, Arial, Sans-Serif','color: #ffffff; font-size: 16px;padding: 25px 0 0 25px;height: 179px;width: 600px;background-repeat:no-repeat;font-family:Helvetica, Arial, Sans-Serif')}">
+																					  <!--[if gte mso 9]>
+																					  <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="mso-width-percent:1000;height:290px;width:600px">
+																						<v:fill type="frame" src="{!$Label.WelcomeEmail_PPHeaderLogo}"  />
+																						<v:textbox inset="0,0,0,0">
+																					  <![endif]-->
+																					  
+                                                                                      <p style="color: #ffffff; font-size: 18px;line-height: 1;">	<apex:outputText value="{!headerText}" escape="false"/>
+																					</p>
+																					<p style="color: #ffffff; font-size: 24px;">
+																					  <apex:outputText value="{!titleText}" escape="false"/>
+																					  </p>
+																					  <!--[if gte mso 9]>
+																						</v:textbox>
+																					  </v:rect>
+																					  <![endif]-->
+																					</td>
+																				  </tr>
+																				</tbody></table>
+                
             </div>
+            </apex:outputpanel>
             <div style="padding: 20px; color: #333333; font-size: 16px; line-height: 20px;">
                 <apex:outputText value="{!greetingText}" escape="false"/>
                 <br/>
@@ -66,23 +95,46 @@
 
         <div style="color: #999999; font-size: 13px; line-height: 16px;">
             <div style="border-top: 2px solid #CCCCCC; border-bottom: 2px solid #CCCCCC; padding-top: 10px; padding-bottom: 10px;">
-                {!$Label.Email_Footer_Address} |&nbsp; <a
+                <div style="{!IF(isRTL=true,'display:block', 'display:none')}">
+                    <a
+                        href="{!emailCommunityURL + '/s/privacy-policy?lanCode='+UserLanguageCode}">{!IF(communityTemplate == 'Janssen',
+                    $Label.Email_Footer_Privacy_Policy_Janssen, $Label.Email_Footer_Privacy_Policy)}</a>|&nbsp;{!$Label.Email_Footer_Address}
+                </div>
+                <div style="{!IF(isRTL=false,'display:block', 'display:none')}">
+                {!$Label.Email_Footer_Address} 
+                |&nbsp;<a
                         href="{!emailCommunityURL + '/s/privacy-policy'}">{!IF(communityTemplate == 'Janssen',
                     $Label.Email_Footer_Privacy_Policy_Janssen, $Label.Email_Footer_Privacy_Policy)}</a>
+                </div>
             </div>
         </div>
         <apex:outputPanel rendered="{!displayOptOut!='No'}">
-         <div style="border-bottom:1px solid #cecccc;height:50px;line-height:20px;background-color:#f3f3f3">
-            <div style="display:block;font-size: 13px;font-weight: 500;color: #333333;padding-top:5px;float:left;">
-                    {!$Label.Email_Opt_Out_footer} <a
-                                                      href="{!emailCommunityURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}">{!$Label.Email_Opt_Out_footer_here}</a>
-            </div> 
-                      <div style="font-style:italic;font-size:13px;font-weight:500;color:#333333;float:left;">
-                    {!$Label.Email_Opt_Out_footer_medical_emergency}        
-           </div>
-   
-        </div>  
-        </apex:outputPanel>
+         <div style="{!IF(isRTL=false,'display:block', 'display:none')}">    
+             <div style="border-bottom:1px solid #cecccc;height:50px;line-height:20px;background-color:#f3f3f3">
+                 <div style="display:block;font-size: 13px;font-weight: 500;color: #333333;padding-top:5px;float:left;">
+                     {!$Label.Email_Opt_Out_footer} <a
+                                                       href="{!emailCommunityURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}">{!$Label.Email_Opt_Out_footer_here}</a>
+                 </div> 
+                 <div style="font-style:italic;font-size:13px;font-weight:500;color:#333333;float:left;">
+                     {!$Label.Email_Opt_Out_footer_medical_emergency}        
+                 </div>
+                 
+             </div>
+            </div>
+            <div style="{!IF(isRTL=true,'display:block', 'display:none')}">    
+                <div style="border-bottom:1px solid #cecccc;height:50px;line-height:20px;background-color:#f3f3f3">
+                    <div style="display:block;font-size: 13px;font-weight: 500;color: #333333;padding-top:5px;float:right;">
+                         <a
+                        href="{!emailCommunityURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}">{!$Label.Email_Opt_Out_footer_here}</a>
+                        {!$Label.Email_Opt_Out_footer}
+                    </div> 
+                    <div style="font-style:italic;font-size:13px;font-weight:500;color:#333333;float:right;">
+                        {!$Label.Email_Opt_Out_footer_medical_emergency}        
+                    </div>
+                    
+                </div>
+            </div>  
+		</apex:outputPanel>
     </div>
 
 </apex:component>

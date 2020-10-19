@@ -30,6 +30,7 @@
     <c:RRActionApprove aura:id="actionApprove" message="{!$Label.c.Poput_ICF}" approveBtnName="{!$Label.c.BTN_Confirm}"/>
 
     <!-- component body: -->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <aura:if isTrue="{!v.isInitialized}">
         <!--select referral decline reason dialog: -->
         <c:Popup aura:id="selectReferralDeclineReasonDialog" title="{!$Label.c.PG_ACPE_T_Select_decline_reason}" size="small">

@@ -1,5 +1,7 @@
 {
   "trailingComma": "none",
+  "singleQuote": true,
+  "tabWidth": 4,
   "overrides": [
     {
       "files": "**/lwc/**/*.html",
@@ -7,11 +9,9 @@
     },
     {
       "files": "*.{cmp,page,component}",
-      "options": { "parser": "html", "jsxBracketSameLine": true }
-    },
-    {
-      "files": "*.{cls,trigger,page,component}",
-      "options": { "useTabs": true }
+      "options": {
+        "parser": "html"
+      }
     }
   ]
 }

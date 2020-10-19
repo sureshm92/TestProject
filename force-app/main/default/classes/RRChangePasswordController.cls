@@ -52,6 +52,8 @@ public without sharing class RRChangePasswordController {
     public String templateName {get; set;}
     public String currentCommunityName {get; set;}
     public String siteName {get; set;}
+    public Boolean hasProfilePic {get;set;}
+
 
     private String previousLanguage;
 
@@ -77,6 +79,7 @@ public without sharing class RRChangePasswordController {
     }
 
     private void init(){
+      
         Id userId = UserInfo.getUserId();
         userVal = [
                 SELECT Id, Name, Username, FirstName, LastName, FullPhotoUrl,
@@ -109,6 +112,11 @@ public without sharing class RRChangePasswordController {
                 FROM User WHERE Id =: userId
         ];
         contact = userVal.Contact;
+                system.debug('userVal.FullPhotoUrl'+userVal.FullPhotoUrl);
+
+        hasProfilePic = !userVal.FullPhotoUrl.contains('profilephoto/005/F');
+        system.debug('hasProfilePic-->'+hasProfilePic);
+
         previousLanguage = contact.Language__c;
 
         Map<String, SObjectField> fieldMap = Schema.SObjectType.Contact.fields.getMap();
@@ -352,11 +360,25 @@ public without sharing class RRChangePasswordController {
         }
     }
 
-    public void upload() {
+    public PageReference upload() {
         ConnectApi.BinaryInput photoFileInput = new ConnectApi.BinaryInput(blobValue, contentType, filename);
         ConnectApi.UserProfiles.setPhoto(Network.getNetworkId(), userVal.Id, photoFileInput);
         photolink = ConnectApi.UserProfiles.getPhoto(Network.getNetworkId(), userVal.Id).fullEmailPhotoUrl;
+        PageReference pf = new PageReference('/_ui/system/security/ChangePassword');
+        pf.setRedirect(true);
+        return pf;
         
+    }
+    
+    public PageReference deletePicture() {
+        system.debug('userval.Id'+userVal.Id);
+        
+    ConnectApi.UserProfiles.deletePhoto(Network.getNetworkId(),userVal.Id);
+                photolink = ConnectApi.UserProfiles.getPhoto(Network.getNetworkId(), userVal.Id).fullEmailPhotoUrl;
+PageReference pf = new PageReference('/_ui/system/security/ChangePassword');
+        pf.setRedirect(true);
+        return pf;
+   
     }
 
     public void updateTranslations(){
@@ -451,6 +473,6 @@ public without sharing class RRChangePasswordController {
             }
         }
         isStateRequired = statesByCountry != null && !statesByCountry.isEmpty();
-    }
+    } 
 
 }

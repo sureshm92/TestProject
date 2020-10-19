@@ -28,26 +28,32 @@ private class Test_TranslationExportImportRemote {
     static void test_exportTranslationForStudy() {
         TestData.loadTestData();
         TestData td = new TestData();
+        String translationText;
 
         Test.startTest();
-        TranslationExportImportRemote.export(td.ctp.Id, 'RU', TranslationExportImportRemote.EXPORT_TYPE_BILINGUAL);
+        translationText = TranslationExportImportRemote.export(td.ctp.Id, 'RU', TranslationExportImportRemote.EXPORT_TYPE_BILINGUAL);
         Test.stopTest();
+        System.assert(translationText.contains('target-language="RU"'));
     }
 
     @IsTest
     static void test_exportPlatformData() {
+        String translationText;
         Test.startTest();
-        TranslationExportImportRemote.exportPlatformData('RU', TranslationExportImportRemote.EXPORT_TYPE_BILINGUAL);
+        translationText = TranslationExportImportRemote.exportPlatformData('RU', TranslationExportImportRemote.EXPORT_TYPE_BILINGUAL);
         Test.stopTest();
+        System.assert(translationText.contains('target-language="RU"'));
     }
 
     @IsTest
     static void test_exportTranslationForVisitPlan() {
+        String translationText;
         Test.startTest();
-        TranslationExportImportRemote.exportTranslationForVisitPlan(
+        translationText = TranslationExportImportRemote.exportTranslationForVisitPlan(
                 getVisitPlanId(), 'RU', TranslationExportImportRemote.EXPORT_TYPE_BILINGUAL
         );
         Test.stopTest();
+        System.assert(translationText.length() > 0);
     }
 
     @IsTest
@@ -82,7 +88,8 @@ private class Test_TranslationExportImportRemote {
 
     @IsTest
     static void test_getPlatformLevelTranslatableObjects() {
-        TranslationExportImportRemote.getPlatformLevelTranslatableObjects();
+        List<Platform_Level_Translatable_Objects__mdt> translatableObjects = TranslationExportImportRemote.getPlatformLevelTranslatableObjects();
+        System.assert(!translatableObjects.isEmpty());
     }
 
     @IsTest

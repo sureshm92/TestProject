@@ -1,6 +1,13 @@
 ({
     doInit: function (component, event, helper) {
         let currentCommunityMode = communityService.getCurrentCommunityMode();
+        var rtl_language = $A.get("$Label.c.RTL_Languages");
+        var paramLanguage = communityService.getUrlParameter('lanCode');
+		var RTL=rtl_language.includes(paramLanguage);
+        if(!RTL)
+        {
+        RTL = component.get('v.isRTL');
+        }
         if (currentCommunityMode) component.set('v.userMode', currentCommunityMode.userMode);
         let elem = document.getElementById('cookiePanel');
         //let rrCookies = communityService.getCookie('RRCookies');
@@ -32,6 +39,13 @@
                 }, function (returnValue) {
                     let tcData = JSON.parse(returnValue);
                     component.set('v.tcData', tcData);
+                    if(RTL)
+        			{
+        				var T_Ctext = component.get('v.tcData.tc.T_C_Text__c');
+            			var res = T_Ctext.replaceAll("<p>", '<p style='+"\"direction:rtl\">");
+            			var res = res.replaceAll("<h1>", '<h1 style='+"\"direction:rtl\">");
+            			component.set('v.tcData.tc.T_C_Text__c',res);
+        			}
                     if(tcData.tc) component.set('v.privacyPolicyId', tcData.tc);
                 }, null, function () {
                     component.find('mainSpinner').hide();
@@ -41,6 +55,13 @@
                     useDefaultCommunity: communityService.getHasIQVIAStudiesPI() && userDefalutTC
                 }, function (returnValue) {
                     component.set('v.tcData', JSON.parse(returnValue));
+                    if(RTL)
+        			{
+        			var T_Ctext = component.get('v.tcData.tc.T_C_Text__c');
+		            var res = T_Ctext.replaceAll("<p>", '<p style='+"\"direction:rtl\">");
+            		var res = res.replaceAll("<h1>", '<h1 style='+"\"direction:rtl\">");
+                    component.set('v.tcData.tc.T_C_Text__c',res);
+        			}
                 }, null, function () {
                     component.find('mainSpinner').hide();
                 });
@@ -54,6 +75,13 @@
                 }, function (returnValue) {
                     let tcData = JSON.parse(returnValue);
                     component.set('v.tcData', tcData);
+                    if(RTL)
+        			{
+        			var T_Ctext = component.get('v.tcData.tc.T_C_Text__c');
+            		var res = T_Ctext.replaceAll("<p>", '<p style='+"\"direction:rtl\">");
+            		var res = res.replaceAll("<h1>", '<h1 style='+"\"direction:rtl\">");
+                    component.set('v.tcData.tc.T_C_Text__c',res);
+        			}
                     if(tcData.tc) component.set('v.privacyPolicyId', tcData.tc);
                 }, null, function () {
                     component.find('mainSpinner').hide();
@@ -66,11 +94,20 @@
                     ctpId: component.get('v.ctpId')
                 }, function (returnValue) {
                     component.set('v.tcData', JSON.parse(returnValue));
+                    if(RTL)
+        			{
+        			var T_Ctext = component.get('v.tcData.tc.T_C_Text__c');
+            		var res = T_Ctext.replaceAll("<p>", '<p style='+"\"direction:rtl\">");
+            		var res = res.replaceAll("<h1>", '<h1 style='+"\"direction:rtl\">");
+                    component.set('v.tcData.tc.T_C_Text__c',res);
+        			}
+
                 }, null, function () {
                     component.find('mainSpinner').hide();
                 });
             }
         }
+
         helper.hideOkButton(component, event, helper); // @Krishna Mahto - PEH-2450 
     },
 

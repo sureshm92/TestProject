@@ -3,7 +3,7 @@
     Popup to replace c:TaskEdit
 -->
 
-<aura:component description="StudyVisitReminder" controller="TaskEditRemote">
+<aura:component description="StudyVisitReminder" controller="TaskEditRemote" extends="c:CommunityContext">
 
     <ltng:require scripts="{!$Resource.moment_js}" afterScriptsLoaded="{!c.doInit}" />
 
@@ -51,13 +51,14 @@
     <aura:method name="reloadPopup" action="{!c.doInit}" description="Reload the popup in the parent component">
         <aura:attribute name="relaodAttributes" type="Object" />
     </aura:method>
-
+    
+   
     <c:Popup aura:id="reminderModal" title="{!v.title}" size="medium" showScroll="true">
         <c:RRSpinner aura:id="spinner" fixed="true" size="medium" />
         <!-- Task Panel -->
         <aura:if isTrue="{!not(v.isReminderOnly)}">
             <div class="te-task-panel">
-                <div class="rr-white-panel padding slds-col" style="min-height: 250px;">
+                <div class="{!if(v.isRTL,'rr-white-panelRTL padding slds-col','rr-white-panel padding slds-col')}" style="min-height: 250px;">
                     <!-- Task Details Section -->
                     <div class="te-col-header">
                         {!$Label.c.Task_Details}
@@ -68,19 +69,21 @@
                     </div>
                     <!--Task Name-->
                     <div class="slds-grid te-form slds-gutters slds-wrap">
-                        <div class="slds-col slds-size_1-of-1">
+                        <div class="{!'slds-col slds-size_1-of-1 ' + if(v.isRTL, 'task-rtl', '')}">
+
                             <lightning:input name="taskName" label="{!$Label.c.Task_Name}" value="{!v.task.Subject}"
                                 required="true"
                                 disabled="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit'}"
-                                class="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit' ? 'disabledVisit' : ''}" />
-                        </div>
+                                class="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit' ? 'disabledVisit' : ''}"/>
+                            </div>
+
                     </div>
                     <!--Seperator-->
                     <div class="slds-p-top_small"></div>
                     <div class="slds-grid slds-gutters slds-wrap">
                         <!-- Due Date -->
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                            <lightning:input aura:id="field" type="date" min="{!v.initData.today}"
+                           <div class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl rightAlign', '')}">
+                               <lightning:input aura:id="field" type="date" min="{!v.initData.today}"
                                 label="{!$Label.c.Due_Date}" value="{!v.initData.activityDate}"
                                 disabled="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit'}"
                                 class="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit' ? 'disabledVisit' : ''}" />
@@ -88,7 +91,7 @@
                         <!--Seperator-->
                         <div class="slds-p-top_small"></div>
                         <!-- Task Type -->
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                           <div class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl', '')}">
                             <aura:if isTrue="{!v.task.Task_Type__c != 'Visit'}">
                                 <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type}"
                                     value="{!v.task.Task_Type__c}" disabled="{!or(v.initData.createdByAdmin, not(v.initData.isEnrolled))}"
@@ -117,7 +120,7 @@
                     <!--<aura:if isTrue="{!not(v.initData.createdByAdmin)}"> -->
                     <div class="slds-grid te-form slds-gutters slds-wrap">
                         <!--Reminder Frequency-->
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                           <div class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl', '')}">
                             <lightning:select label="{!$Label.c.Remind_Me}" value="{!v.task.Remind_Me__c}">
                                 <aura:iteration items="{!v.initData.reminderFrequencyList}" var="mode">
                                     <option value="{!mode.value}" selected="{!mode.value == v.task.Remind_Me__c}">
@@ -126,7 +129,7 @@
                             </lightning:select>
                         </div>
                         <!--Reminder Date-->
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                           <div class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl rightAlign', '')}">
                             <lightning:input aura:id="reminderDate" type="date"
                                 label="{!$Label.c.Home_Page_StudyVisit_Completed_On}" value="{!v.initData.reminderDate}"
                                 min="{!if(v.task.Remind_Me__c == $Label.c.One_day_before, v.tomorrow , v.initData.today)}"
@@ -136,7 +139,8 @@
                         </div>
                     </div>
                     <div class="slds-p-top_small"></div>
-                    <div class="slds-form-element__label">{!$Label.c.PP_Remind_Using}</div>
+
+                                                    <div class="{!'slds-form-element__label ' + if(v.isRTL, 'task-rtl-remind', '')}">{!$Label.c.PP_Remind_Using}</div>
                     <div class="slds-grid te-form slds-gutters slds-wrap">
                         <!--Remind Using-->
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
@@ -265,7 +269,19 @@
         </aura:if> <!-- End of Reminder Section -->
 
         <aura:set attribute="footerButtons">
-            <div align="right">
+            <aura:if isTrue="{!v.isRTL}">
+                 <div align="left">
+                <lightning:button class="apollo-btn tertiary margin_20" onclick="{!c.doCancel}" label="{!$Label.c.BTN_Cancel}" />
+                <aura:if isTrue="{!and ( not (v.isNewTask) , not (v.isReminderOnly))}">
+                    <lightning:button class="apollo-btn secondary" onclick="{!c.doIgnore}"
+                        label="{!$Label.c.BTN_Ignore}" />
+                    <lightning:button class="apollo-btn secondary" onclick="{!c.doMarkComplete}"
+                        label="{!$Label.c.BTN_Mark_As_Completed}" />
+                </aura:if>
+                <lightning:button class="apollo-btn primary" onclick="{!c.doSave}" label="{!$Label.c.BTN_Save}" />
+            </div>
+            <aura:set attribute="else">
+                 <div align="right">
                 <lightning:button class="apollo-btn tertiary" onclick="{!c.doCancel}" label="{!$Label.c.BTN_Cancel}" />
                 <aura:if isTrue="{!and ( not (v.isNewTask) , not (v.isReminderOnly))}">
                     <lightning:button class="apollo-btn secondary" onclick="{!c.doIgnore}"
@@ -275,6 +291,11 @@
                 </aura:if>
                 <lightning:button class="apollo-btn primary" onclick="{!c.doSave}" label="{!$Label.c.BTN_Save}" />
             </div>
+                
+                   </aura:set>            
+            
+            </aura:if>
+           
         </aura:set>
 
     </c:Popup>

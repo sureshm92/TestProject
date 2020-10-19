@@ -105,15 +105,15 @@ window.communityService = (function () {
                             let message = e.message;
                             if (!debugMode) message = e.message.split('\n')[0];
                             console.log('ERROR', message);
+                            let exceptionHandler = component.find('exceptionHandler');
                             if(message.includes('INVALID_EMAIL_ADDRESS')) {
-                                service.showErrorToast('ERROR', 'Invalid Email')
+                                message = 'Invalid Email';
                             } else  {
                                 if(message.includes('[LanguageLocaleKey]')) {
-                                    service.showWarningToast('Error', 'This language is not set up on Referral Hub');
-                                } else {
-                                    service.showErrorToast('ERROR', message);
+                                    message = 'This language is not set up on Referral Hub';
                                 }
                             }
+                            exceptionHandler.execute(message);
                         }
                         //throw e;
                     } finally {
@@ -229,6 +229,11 @@ window.communityService = (function () {
         getLanguage: function(){
             return language;
         },
+
+        getBaseUrl: function() {
+            return baseUrl;
+        },
+        
         isTCAccepted: function () {
             return isTCAcceptedFlag;
         },

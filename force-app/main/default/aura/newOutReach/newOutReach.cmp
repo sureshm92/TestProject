@@ -59,8 +59,9 @@
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
     </aura:method>
-    <aura:method name="checkfields" action="{!c.checkReqFields}"></aura:method>  
-    
+    <aura:method name="checkfields" action="{!c.checkReqFields}"></aura:method>
+
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <c:Popup aura:id="inviteRPDialog" showClose="true" size="large"
              showScroll="true">
         <aura:if isTrue="{!!v.refreshView}">

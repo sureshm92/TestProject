@@ -22,6 +22,7 @@
     </aura:method>
     <!--<aura:handler name="change" value="{!v.pe.healthCareProviders}" action="{!c.doLog}"/>-->
 
+   <!-- <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>-->
     <div class="slds-grid slds-wrap healthcare-container">
         <div class="slds-grid slds-wrap slds-size--1-of-1">
             <aura:if isTrue="{!!v.fromActionParticipant &amp;&amp; v.refProvider &amp;&amp; !v.fromEmancipParticipant}">

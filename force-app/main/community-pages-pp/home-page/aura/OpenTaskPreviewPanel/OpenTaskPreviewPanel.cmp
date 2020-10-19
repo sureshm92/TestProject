@@ -20,6 +20,7 @@
     <aura:method name="reload" access="public" action="{!c.doInit}" />
 
     <!-- component body: -->
+     <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <c:HomePreviewTablePanel title="{!$Label.c.PG_L_Open_Task_List}">
         <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
         <aura:if isTrue="{!v.initialized}">
@@ -62,10 +63,10 @@
         <aura:set attribute="footer">
             <c:RRLink page="study-workspace?tab=tab-tasks">
                 {!$Label.c.PG_L_See_All}
-                <aura:if isTrue="{!v.isArabic}">
+                <aura:if isTrue="{!v.isRTL}">
                     <c:RRIcon iconName="icon-chevron-left"/>
                 </aura:if>
-                <aura:if isTrue="{!!v.isArabic}">
+                <aura:if isTrue="{!!v.isRTL}">
                     <c:RRIcon iconName="icon-chevron-right"/>
                 </aura:if>
             </c:RRLink>

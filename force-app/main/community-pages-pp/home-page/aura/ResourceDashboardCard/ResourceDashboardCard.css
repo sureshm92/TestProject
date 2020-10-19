@@ -31,6 +31,15 @@
     margin-right:7px;
 }
 
+.THIS .change-prefRTL{
+    color: #297dfd;
+    padding: 4px 8px;
+    align-items: center;
+    border-radius: 4px;
+    margin-top: -44px;
+    font-weight: 600;
+    float: left;
+}
 
 .THIS.rtl .resource-card-title{
     direction: rtl;

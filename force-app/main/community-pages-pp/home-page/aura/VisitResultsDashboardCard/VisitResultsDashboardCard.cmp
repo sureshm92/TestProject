@@ -1,7 +1,7 @@
 <!--
  - Created by Dmytro Pokutnii
  -->
-<aura:component description="VisitResultsDashboardCard" controller="VisitResultsRemote">
+<aura:component description="VisitResultsDashboardCard" controller="VisitResultsRemote" extends="c:CommunityContext">
 
     <!-- ATTRIBUTES -->
     <aura:attribute name="ctpId" type="String" required="true"/>
@@ -16,25 +16,34 @@
     <!-- COMPONENT BODY -->
     <aura:if isTrue="{!and(and(v.ctpId != null, v.toggleVitalsIsOn), v.visitResultWrappers.length != 0)}">
         <c:HomePreviewTablePanel title="{!$Label.c.Visit_Results_Dashboard_My_Results}">
+            <div class="visit-result-panel-date">
+                {!$Label.c.Visit_Results_Tab_Result_Date + '  ' + v.visitResultWrappers[0].visitDate}
+            </div>
             <div class="objective-link">
                 <div class="objective-section">
                     <div class="visit-results-disclaimer objective-text">{!$Label.c.Visit_Results_Tab_Disclaimer}</div>
                     <div class="objective-link">
-                        <c:RRLink page="{!v.VisitResultPage}">{!$Label.c.BTN_Learn_More}<c:RRIcon iconName="icon-chevron-right"/></c:RRLink>
+                        <c:RRLink page="{!v.VisitResultPage}">
+                                <aura:if isTrue="{!v.isRTL}">{!$Label.c.BTN_Learn_More}<c:RRIcon iconName="icon-chevron-left"/></aura:if>
+                                <aura:if isTrue="{!!v.isRTL}">{!$Label.c.BTN_Learn_More}<c:RRIcon iconName="icon-chevron-right"/></aura:if>
+                        </c:RRLink>
                     </div>
                 </div>
             </div>
 
             <div class="visit-results-body">
-                <div class="visit-results-title">{!v.visitReportHeader=='Vitals'?$Label.c.Visit_Results_Tab_Vitals:v.visitReportHeader=='Biomarkers'?$Label.c.Visit_Results_Tab_Biomarkers:$Label.c.Visit_Results_Tab_Labs}</div>
+                <div class="{! if(v.isRTL, 'visit-results-titleRTL', 'visit-results-title')}">{!v.visitReportHeader=='Vitals'?$Label.c.Visit_Results_Tab_Vitals:v.visitReportHeader=='Biomarkers'?$Label.c.Visit_Results_Tab_Biomarkers:$Label.c.Visit_Results_Tab_Labs}</div>
                 <div class="visit-results-container">
                     <aura:iteration items="{!v.visitResultWrappers}" var="visitResultWrapper">
-                        <div class="visit-results-item">
-                            <span class="visit-result-item-value">{!visitResultWrapper.value == null ? '-' : visitResultWrapper.recordtype =='Biomarker' ? visitResultWrapper.value==1.0 ?$Label.c.Biomarkers_Positive:visitResultWrapper.value==-1.0 ?$Label.c.Biomarkers_Negative:visitResultWrapper.value==0.0?$Label.c.Biomarkers_Unknown:'':visitResultWrapper.value}</span>
-                            <span class="visit-result-item-name">{!visitResultWrapper.name}</span>
+                        <div class="{!if(v.isRTL, 'visit-results-itemRTL', 'visit-results-item')}">
+                            <span class="visit-result-item-value">{!visitResultWrapper.value == null ? v.visitReportHeader=='Biomarkers'?$Label.c.Visit_Result_No_Data:'-':visitResultWrapper.recordtype =='Biomarker' ?visitResultWrapper.value==1.0 ?$Label.c.Biomarkers_Positive:visitResultWrapper.value==-1.0 ?$Label.c.Biomarkers_Negative:visitResultWrapper.value==0.0?$Label.c.Biomarkers_Unknown:'':visitResultWrapper.value}</span>
+                            <span class="visit-result-item-name">
+                                {!visitResultWrapper.name}
+                                <lightning:helptext content="{!visitResultWrapper.description}" class="visit-result-item-description"/>
+                            </span>
                             <span class="{!visitResultWrapper.measurement != null ? 'visit-result-item-measurement' : 'hidden'}">
                                     <aura:unescapedHtml value="{!'(' + visitResultWrapper.measurement + ')'}"/>
-                                </span>
+                            </span>
                         </div>
                     </aura:iteration>
                 </div>
@@ -44,8 +53,8 @@
             <aura:set attribute="footer">
                 <c:RRLink page="{!v.VisitResultPage}">
                     {!$Label.c.PG_L_See_All}
-                    <aura:if isTrue="{!v.isArabic}"><c:RRIcon iconName="icon-chevron-left"/></aura:if>
-                    <aura:if isTrue="{!!v.isArabic}"><c:RRIcon iconName="icon-chevron-right"/></aura:if>
+                    <aura:if isTrue="{!v.isRTL}"><c:RRIcon iconName="icon-chevron-left"/></aura:if>
+                    <aura:if isTrue="{!!v.isRTL}"><c:RRIcon iconName="icon-chevron-right"/></aura:if>
                 </c:RRLink>
             </aura:set>
         </c:HomePreviewTablePanel>

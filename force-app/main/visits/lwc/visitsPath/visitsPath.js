@@ -14,6 +14,7 @@ import visitUnavailable from '@salesforce/label/c.Study_Visit_Unavailable';
 
 import getCardVisits from '@salesforce/apex/ParticipantVisitsRemote.getCardPatientVisits';
 import updatePV from '@salesforce/apex/ParticipantVisitsRemote.updatePatientVisit';
+import getisRTL from '@salesforce/apex/ParticipantVisitsRemote.getIsRTL';
 
 const stateClass = 'slds-col width-basis state ';
 const lineClass = 'slds-col width-basis line-div ';
@@ -38,6 +39,7 @@ export default class VisitsPath extends LightningElement {
     spinner;
 
     @track isVisitsEmpty = false;
+    @track isRTL;
     @track patientVisits;
     @track pathItems = [];
 
@@ -69,6 +71,17 @@ export default class VisitsPath extends LightningElement {
             .catch(function (error) {
                 console.error('Error: ' + JSON.stringify(error));
             });
+
+            getisRTL()
+            .then(function (data) {
+                console.log('rtl : ' +data);
+                context.isRTL = data;
+            })
+            .catch(function (error) {
+                console.error('Error: ' + JSON.stringify(error));
+            });
+        
+        
     }
 
     renderedCallback() {
