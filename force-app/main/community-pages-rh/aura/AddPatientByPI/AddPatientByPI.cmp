@@ -108,7 +108,7 @@
                                 <div class="label">
                                     <abbr title="required" class="slds-required">{!v.needsGuardian ? '*' : ''}</abbr>{!$Label.c.PG_AS_F_Email_address}
                                 </div>
-                                <lightning:input aura:id="emailDelegateField" type="email" 
+                                <lightning:input aura:id="emailDelegateField" type="text" 
                                                  value="{!v.participantDelegate.Email__c}"
                                                  pattern=".+@.+\..+"
                                                  required="{!v.needsGuardian}" onblur="{!c.doCheckfields}"
@@ -119,7 +119,7 @@
                                 <div class="label">
                                     <abbr title="required" class="slds-required">{!v.needsGuardian ? '*' : ''}</abbr>{!$Label.c.PG_Ref_L_Re_enter_email_address}
                                 </div>
-                                <lightning:input aura:id="emailDelegateRepeatField" type="email" 
+                                <lightning:input aura:id="emailDelegateRepeatField" type="text" 
                                                  value="{!v.emailDelegateRepeat}"
                                                  pattern=".+@.+\..+"
                                                  required="{!v.needsGuardian}" onblur="{!c.doCheckfields}"
