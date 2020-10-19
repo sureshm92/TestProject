@@ -39,6 +39,8 @@ cache:
 
 # Validation: ------------------------------------------------------------------
 SonarCheck:
+  tags:
+    - RHPP
   only:
     - merge_requests
   except:
@@ -60,8 +62,8 @@ SonarCheck:
 
 
 VALIDATE:
-  #tags:
-   # - shell
+  tags:
+    - RHPP
   only:
     - merge_requests
   except:
