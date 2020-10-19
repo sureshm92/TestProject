@@ -18,7 +18,7 @@
     <aura:attribute name="showpassword" type="Boolean" default="false" />
     <aura:attribute name="isMobileApp" type="Boolean"/>
     <aura:attribute name="isRTL" type="Boolean" default="true"/>
-
+    <aura:attribute name="UserLanguage" type="String"/>
 
     <aura:attribute name="forgotPasswordLabel" type="String" required="false" default="{!$Label.c.PG_Login_L_Forgot_your_password}"/>
     <aura:attribute name="selfRegisterLabel" type="String" required="false" default="{!$Label.c.PG_Login_L_Not_a_member}"/>
@@ -84,7 +84,8 @@
 					<!-- <lightning:buttonIcon class="input sfdc_usernameinput sfdc eyeIcon" 
 									iconName="{!v.showpassword ? 'utility:hide':'utility:preview'}" 
 									alternativeText="{!v.coborrowerSSNCB ? 'Hide':'Show'}" 
-									onclick="{!c.togglePassword}"/> -->
+                                    onclick="{!c.togglePassword}"/> -->
+                    <div style="{!v.isRTL? 'margin-right:260px' :''}">
                     <aura:if isTrue="{!v.showpassword}">
 					<lightning:buttonIcon class="input sfdc_usernameinput sfdc eyeIcon" 
 									iconName="utility:hide" 
@@ -92,21 +93,20 @@
 									onclick="{!c.togglePassword}" />
                    </aura:if>
                     <aura:if isTrue="{!v.showpassword==false}">
-					 <div style="{!v.isRTL? 'margin-right:260px' :''}">
                    			<lightning:buttonIcon class="input sfdc_usernameinput sfdc eyeIcon" 
 									iconName="utility:preview" 
 									alternativeText="Show" 
 									onclick="{!c.togglePassword}"/>
-									</div>
                     </aura:if>             
 				</div>
             </div>
        </div>
+     </div>
             <div style="height: 50px; margin-top: 30px">
                 <button class="apollo-btn primary login" onclick="{!c.handleLogin}" style="width: 100%">{!$Label.c.BTN_Log_In}</button>
             </div>
 
-            <div id="sfdc_forgot" class="slds-align_absolute-center"> <!-- Added By Krishna for PEH-1910- Aligned to center  -->
+            <div id="sfdc_forgot" class="slds-align_absolute-center" style="{!v.isRTL? 'direction:rtl' :''}"> <!-- Added By Krishna for PEH-1910- Aligned to center  -->
                 <span><a class="forgot-password-link" onclick = "{!c.resetUrl}">{!$Label.c.PG_Login_Link_Forgot}</a></span>
                 <aura:renderIf isTrue="{!v.isSelfRegistrationEnabled}">
                     <span style="float:right" ><a href="{!if(v.communitySelfRegisterUrl == null, v.selfRegisterUrl, v.communitySelfRegisterUrl)}">{!v.selfRegisterLabel}</a></span>
@@ -115,7 +115,8 @@
             <!-- Added By Krishna for PEH-1910 :Start  --> 
             <br/>
              <!--**************************Modal used for unable to Login Help for GSK *************** -->
-            <aura:if isTrue="{!v.isGSKCommunity}">
+             <div style="{!v.isRTL? 'direction:rtl' :''}">
+             <aura:if isTrue="{!v.isGSKCommunity}">
                 <div class="SFDC-Modal">
                     <div id="sfdc_unalbe_to_Login" class="slds-align_absolute-center ">
                         <p><a class="forgot-password-link" onclick="{!c.openModel}">{!$Label.c.PG_Unable_To_Login}</a></p>  
@@ -236,6 +237,7 @@
                     </div>
                 </aura:set>
             </aura:if> 
+             </div>
     	<!-- Added By Krishna for PEH-1910 :End  --> 
             <!-- Added By Krishna for PEH-2451 :Start --> 
             <br/>

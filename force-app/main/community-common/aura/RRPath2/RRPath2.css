@@ -65,8 +65,25 @@
     align-items: center;
     justify-content: center;
 }
+.THIS .state-ico-wrapperRTL{
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    position: absolute;
+    top: -10px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .THIS .state-ico-wrapper .rr-icon-default{
+    width: 14px;
+    height: 14px;
+    padding: 0;
+    fill: white!important;
+}
+.THIS .state-ico-wrapperRTL .rr-icon-default{
     width: 14px;
     height: 14px;
     padding: 0;
@@ -79,8 +96,19 @@
     top: -15px;
     left: -14px;
 }
+.THIS .state.current .state-ico-wrapperRTL{
+    width: 28px;
+    height: 28px;
+    top: -15px;
+    left: 55px;
+}
 
 .THIS .state.current .state-ico-wrapper .rr-icon-default{
+    width: 24px;
+    height: 24px;
+    padding: 1px;
+}
+.THIS .state.current .state-ico-wrapperRTL .rr-icon-default{
     width: 24px;
     height: 24px;
     padding: 1px;
@@ -99,6 +127,21 @@
 }
 
 .THIS .state.failure .state-ico-wrapper{
+    background-color: #E20000!important;
+}
+.THIS .state.neutral .state-ico-wrapperRTL{
+    background-color: #b5b5b5!important;
+}
+
+.THIS .state.success .state-ico-wrapperRTL{
+    background-color: #00c221!important;
+}
+
+.THIS .state.in_progress .state-ico-wrapperRTL{
+    background-color: #005ff1!important;
+}
+
+.THIS .state.failure .state-ico-wrapperRTL{
     background-color: #E20000!important;
 }
 
@@ -197,8 +240,19 @@
         top: -15px;
         left: -14px;
     }
+    .THIS .state-ico-wrapperRTL{
+        width: 28px;
+        height: 28px;
+        top: -15px;
+        left: 55px;
+    }
 
     .THIS .state-ico-wrapper .rr-icon-default{
+        width: 24px;
+        height: 24px;
+        padding: 1px;
+    }
+    .THIS .state-ico-wrapperRTL .rr-icon-default{
         width: 24px;
         height: 24px;
         padding: 1px;

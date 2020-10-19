@@ -43,12 +43,8 @@ Open Setup - Custom Metadata Types > find Guides Setting and click on Manage Rec
 ## 7. Profile Permissions
 1. Go to Setup - Object Manager - Click on Resource object - Click on Fields and Relationships - Click on Submitted By Field - Click on Set Field Level Security  - For Profiles (Business Lead,Business Admin,Product Owner) ,check Visible
 2. Go to Setup - Object Manager - Click on Resource object - Click on Fields and Relationships - Click on Article External Link	 Field - Click on Set Field Level Security  - For Profiles (Business Lead,Business Admin,Product Owner) ,check Visible   
-3. Go to Setup - Object Manager - Click on Resource object - Click on Fields and Relationships - Click on Article External Link	 Field - Click on Set Field Level Security  - For Profile PRDB ,check Read-Only. 
-4. Go to Setup - Object Manager - Click on Resource object - Click on Fields and Relationships - Click on Submitted By Field - Click on Set Field Level Security  - For Profile PRDB ,check Read-Only. 
+3. Go to Setup - Object Manager - Click on Resource object - Click on Fields and Relationships - Click on Article External Link	 Field - Click on Set Field Level Security  - For Profile PRDB , IQVIA SPNL2 ,check Read-Only. 
+4. Go to Setup - Object Manager - Click on Resource object - Click on Fields and Relationships - Click on Submitted By Field - Click on Set Field Level Security  - For Profile PRDB, IQVIA SPNL2  ,check Read-Only. 
 
-## 8. Record Type and Page Layout Assignments
-1. Go to Setup - Object Manager - Click on Resource Object - Click on Record Types - Click New and create new Record Type with Existing Record Type as Master and Record Type Label as 'Submitted Articles'.Make it Active.Check the box Enable for Profile for Profiles(IQVIA SPNL,System Administrator,IQVIA Customer Community Plus Login User).Click Next.Click on Apply a different layout for each profile.
-  For Profiles(System Administrator,IQVIA SPNL,IQVIA Customer Community Plus Login User) ,Select Submitted Articles Page Layout from dropdown next to each profile.Click on Save.
-2. Go to Resources Object from App Launcher - Click on Submitted Articles List view from the dropdown - Click on gear icon -Click on Edit List Filters - Click on Add Filter - In the field select 'Record Type' ,In the operator select equals and in the value  select 'Submitted Articles'.Click on Done.
 
 
