@@ -70,7 +70,7 @@
 
 .THIS .bg-color-gsk{
    display: flex;
-   align-items: flex-start
+   align-items: flex-start;
    justify-content: center;
    font-family: "Proxima Nova";
    color: black;
