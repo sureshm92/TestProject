@@ -37,6 +37,7 @@
 }
 
 .THIS .resource-error-message {
+	margin-top:30%;
 	top: 50%;
 	position: sticky;
 	height: 26px;
