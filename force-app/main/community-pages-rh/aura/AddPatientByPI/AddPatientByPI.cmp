@@ -110,7 +110,7 @@
                                 </div>
                                 <lightning:input aura:id="emailDelegateField" type="text" 
                                                  value="{!v.participantDelegate.Email__c}"
-                                                 pattern=".+@.+\..+"
+                                                 pattern="{!$Label.c.RH_Email_Validation_Pattern}"
                                                  required="{!v.needsGuardian}" onblur="{!c.doCheckfields}"
                                                  messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"/>
                             </div>
@@ -121,7 +121,7 @@
                                 </div>
                                 <lightning:input aura:id="emailDelegateRepeatField" type="text" 
                                                  value="{!v.emailDelegateRepeat}"
-                                                 pattern=".+@.+\..+"
+                                                 pattern="{!$Label.c.RH_Email_Validation_Pattern}"
                                                  required="{!v.needsGuardian}" onblur="{!c.doCheckfields}"
                                                  messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"/>
                             </div>

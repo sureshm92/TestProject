@@ -50,7 +50,7 @@
                                     <div class="label slds-text-align_left"><abbr title="required"
                                                                                   class="slds-required">*</abbr>{!$Label.c.PG_MRC_RF_Email}</div>
                                     <lightning:input value="{!v.emailS}" type="text" onblur="{!c.checkContact}"
-                                                     pattern=".+@.+\..+"
+                                                      pattern="{!$Label.c.RH_Email_Validation_Pattern}"
                                                      aura:id="emailInput"/>
                                 </div>
                             </div>

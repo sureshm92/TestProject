@@ -173,7 +173,7 @@
                                                              class="slds-required">*</abbr>
                                     </div>
                                     <lightning:input  aura:id="emailInput" type="text" 
-                                                      pattern=".+@.+\..+"
+                                                      pattern="{!$Label.c.RH_Email_Validation_Pattern}"
                                                       value="{!v.participant.Email__c}" required="true"
                                                       onblur="{!c.doCheckFields}"/>
                                 </div>
@@ -260,7 +260,7 @@
                                                     {!$Label.c.PG_AS_F_Email_address}<abbr title="required" class="slds-required">*</abbr>
                                                 </div>
                                                 <lightning:input aura:id="{!'emailDInput' + ind}" type="text" value="{!delegateItem.Email__c}"
-                                                                 pattern=".+@.+\..+"
+                                                pattern="{!$Label.c.RH_Email_Validation_Pattern}"
                                                                  required="{!v.currentTab == '2'}" onblur="{!c.doCheckDelegateFields}"/>
                                             </div>
                                         </aura:if>

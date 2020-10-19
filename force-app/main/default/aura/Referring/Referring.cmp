@@ -420,7 +420,7 @@
                                                 <lightning:input aura:id="emailField" type="text" 
                                                                  label="{!$Label.c.PG_AS_F_Email_address}" 
                                                                  value="{!v.participant.Email__c}"
-                                                                 pattern=".+@.+\..+"
+                                                                 pattern="{!$Label.c.RH_Email_Validation_Pattern}"
                                                                  required="{!!v.needsGuardian}" onblur="{!c.doCheckfields}"
                                                                  messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"/>
                                             </div>
@@ -429,7 +429,7 @@
                                                 <lightning:input aura:id="emailRepeatField" type="text" 
                                                                  label="{!$Label.c.PG_Ref_L_Re_enter_email_address}" 
                                                                  value="{!v.emailRepeat}"
-                                                                 pattern=".+@.+\..+"
+                                                                 pattern="{!$Label.c.RH_Email_Validation_Pattern}"
                                                                  required="{!!v.needsGuardian}" onblur="{!c.doCheckfields}"
                                                                  messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"/>
                                             </div>
@@ -500,7 +500,7 @@
                                                     <lightning:input aura:id="emailDelegateField" type="text" 
                                                                      label="{!$Label.c.PG_AS_F_Email_address}"
                                                                      value="{!v.delegateParticipant.Email__c}"
-                                                                     pattern=".+@.+\..+"
+                                                                     pattern="{!$Label.c.RH_Email_Validation_Pattern}"
                                                                      required="{!v.needsGuardian}" onblur="{!c.doCheckfields}"
                                                                      messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"/>
                                                 </div>
@@ -509,7 +509,7 @@
                                                     <lightning:input aura:id="emailDelegateRepeatField" type="text" 
                                                                      label="{!$Label.c.PG_Ref_L_Re_enter_email_address}" 
                                                                      value="{!v.emailDelegateRepeat}"
-                                                                     pattern=".+@.+\..+"
+                                                                     pattern="{!$Label.c.RH_Email_Validation_Pattern}"
                                                                      required="{!v.needsGuardian}" onblur="{!c.doCheckfields}"
                                                                      messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"/>
                                                 </div>
