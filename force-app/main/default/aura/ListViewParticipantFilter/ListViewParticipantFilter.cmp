@@ -43,7 +43,11 @@
     <aura:attribute name="oisComorbidities" type="String" /> 
     <aura:attribute name="oisInitialVisitScheduled" type="String" /> 
     <aura:attribute name="IsPromoteToSHLimit" type="Decimal" /> 
-    <aura:attribute name="actStatus" type="List" /> 
+    <aura:attribute name="actStatus" type="List" />
+    <aura:attribute name="CsvList" type="List" />
+    <aura:attribute name="counterLimit" type="Integer"/> 
+    <aura:attribute name="startPos" type="Integer"/>
+    <aura:attribute name="endPos" type="Integer"/>
     
     
     <aura:attribute name="optionSex" type="List" default="[
@@ -134,14 +138,14 @@
                             </div>                        
                             <div class="slds-size_1-of-4 ageFromHead">
                                 <span class="slds-col">
-                                    <lightning:input class="ageFrom" aura:id="AgeFrom" type="number" name="input8" placeholder="{!$Label.c.RH_AgeFrom}" value="{!v.filterList[0].AgeFrom}" label="" min="0" max="100" messageWhenRangeOverflow="Age Range 0-100" messageWhenRangeUnderflow="Age Range 0-100" onchange="{! c.handleAgeFrom }"/>
+                                    <lightning:input class="andTo" aura:id="AgeFrom" type="number" name="input8" placeholder="{!$Label.c.RH_AgeFrom}" value="{!v.filterList[0].AgeFrom}" label="" min="0" max="150" messageWhenRangeOverflow="Age Range 0-150" messageWhenRangeUnderflow="Age Range 0-150" onchange="{! c.handleAgeFrom }"/>
                                 </span>
                             </div>
                             <div class="slds-size_1-of-4 andHead">
                                 <span class="slds-col and">{!$Label.c.RH_And}</span>
                             </div>
                             <div class="slds-size_1-of-4 ageToHead">
-                                <lightning:input class="andTo" aura:id="AgeTo" type="number" name="input8" placeholder="{!$Label.c.RH_AgeTo}" value="{!v.filterList[0].AgeTo}" label="" min="0" max="100" messageWhenRangeOverflow="Age Range 0-100" messageWhenRangeUnderflow="Age Range 0-100" onchange="{! c.handleAgeTo }"/>
+                                <lightning:input class="andTo" aura:id="AgeTo" type="number" name="input8" placeholder="{!$Label.c.RH_AgeTo}" value="{!v.filterList[0].AgeTo}" label="" min="0" max="150" messageWhenRangeOverflow="Age Range 0-150" messageWhenRangeUnderflow="Age Range 0-150" onchange="{! c.handleAgeTo }"/>
                             </div>
                         </span>
                         <div class="slds-size_1-of-3 ethnicity">
@@ -235,6 +239,10 @@
         </div>
 
          <c:RRSpinner aura:id="Spinnerpopup" size="medium" showSpinner="false"/>
+         <c:EmptyListStub targetList="{!v.PaginationList}"/>
+         <aura:if isTrue="{!(!empty(v.PaginationList))}">
+
+         
 		<div class="table-border">
             <table class="slds-table slds-table_cell-buffer">
                 <thead>
@@ -370,7 +378,7 @@
                             </th>
                             <th scope="row">
                                 <div class="slds-truncate" style="text-align:center;">
-                                    <lightning:formattedDateTime value="{!obj.pe.Initial_visit_scheduled_date__c}" month="short" day="numeric" year="numeric"/>
+                                    <ui:outputDate value="{!obj.pe.Initial_visit_scheduled_date__c}"/>
                                 </div>
                             </th>
                             <th scope="row">
@@ -408,6 +416,6 @@
             </div>
         </div>
         
-        
+    </aura:if>
     </div>
 </aura:component>

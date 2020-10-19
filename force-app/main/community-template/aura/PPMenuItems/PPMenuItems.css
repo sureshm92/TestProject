@@ -151,6 +151,21 @@
     word-break: break-all;
     white-space:normal;  
 }
+.THIS.tooltipSubTitleRTL{    	
+    position:absolute;	
+    top:-60%;	
+    left:-15%;   	
+    margin-left: auto;	
+     min-width:10%;	
+    width:auto;	
+    height:auto;	
+    word-break: break-all;	
+    white-space:normal;  	
+    direction:rtl;	
+    text-align:right;	
+    width: max-content;	
+    float:right;	
+}
 .THIS.tooltipNotActive{  
 	display:none;
 }

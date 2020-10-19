@@ -75,6 +75,10 @@
         var studySiteType = siteWrapper.studySite.Study_Site_Type__c;
         var trialId = siteWrapper.studySite.Clinical_Trial_Profile__c;
         var trial = siteWrapper.studySite.Clinical_Trial_Profile__r;
+        var isSuppressed = false;
+        if(siteWrapper.studySite.Suppress_Participant_Emails__c || siteWrapper.studySite.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c){
+            isSuppressed=true;
+        }
         var studyListViewComponent = component.get('v.studyListViewComponent');
         var actionId = (event.currentTarget && event.currentTarget.id ? event.currentTarget.id : undefined);
         if (!actionId && event.getSource()) {
@@ -102,7 +106,7 @@
                 communityService.navigateToPage('add-patient?id=' + trialId + '&ssId=' + studySiteId);
                 break;
             case 'uploadPatient':
-                studyListViewComponent.find('actionUploadParticipants').execute(studySiteId,studySiteType, function(studySiteId,studySiteType) {});
+                studyListViewComponent.find('actionUploadParticipants').execute(studySiteId,studySiteType,isSuppressed,function(studySiteId,studySiteType) {});
                 break;
         }
     },

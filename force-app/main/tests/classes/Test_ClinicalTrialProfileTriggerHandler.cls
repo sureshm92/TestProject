@@ -278,6 +278,7 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
         insert resStudies;
         t1.Status__c = 'Completed';
         t2.Status__c = 'Completed';
+        t1.Logged_Out_Days_Notification__c =1;
         update profiles;
         List<Resource__c> res = [SELECT Id,Name,Title__c FROM Resource__c];
         System.assertEquals(3, res.size());
