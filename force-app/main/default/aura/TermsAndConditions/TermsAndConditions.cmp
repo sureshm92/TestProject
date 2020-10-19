@@ -92,7 +92,7 @@
                     </aura:if>
                 </c:RRBottomBar>
             </aura:if>
-            <aura:if isTrue="{!and( not(v.isUserLoggedIn), v.isMobileApp}">
+            <aura:if isTrue="{!and( not(v.isUserLoggedIn), v.isMobileApp)}">
                 <c:RRBottomBar contentClass="tc-bottom-bar-content">
                     <div
                         class="{!if(v.isRTL, 'tc-accept-text tc-accept-text-rtl', 'tc-accept-text')}"
