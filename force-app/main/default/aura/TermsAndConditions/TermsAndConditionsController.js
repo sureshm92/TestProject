@@ -44,6 +44,7 @@
         				var T_Ctext = component.get('v.tcData.tc.T_C_Text__c');
             			var res = T_Ctext.replaceAll("<p>", '<p style='+"\"direction:rtl\">");
             			var res = res.replaceAll("<h1>", '<h1 style='+"\"direction:rtl\">");
+            			var res = res.replaceAll("<ul>", '<ul style='+"\"direction:rtl\">");
             			component.set('v.tcData.tc.T_C_Text__c',res);
         			}
                     if(tcData.tc) component.set('v.privacyPolicyId', tcData.tc);
@@ -60,6 +61,7 @@
         			var T_Ctext = component.get('v.tcData.tc.T_C_Text__c');
 		            var res = T_Ctext.replaceAll("<p>", '<p style='+"\"direction:rtl\">");
             		var res = res.replaceAll("<h1>", '<h1 style='+"\"direction:rtl\">");
+            		var res = res.replaceAll("<ul>", '<ul style='+"\"direction:rtl\">");
                     component.set('v.tcData.tc.T_C_Text__c',res);
         			}
                 }, null, function () {
@@ -80,9 +82,13 @@
         			var T_Ctext = component.get('v.tcData.tc.T_C_Text__c');
             		var res = T_Ctext.replaceAll("<p>", '<p style='+"\"direction:rtl\">");
             		var res = res.replaceAll("<h1>", '<h1 style='+"\"direction:rtl\">");
+            		var res = res.replaceAll("<ul>", '<ul style='+"\"direction:rtl\">");
                     component.set('v.tcData.tc.T_C_Text__c',res);
         			}
                     if(tcData.tc) component.set('v.privacyPolicyId', tcData.tc);
+                    var test=component.get('v.tcData.tc.T_C_Text__c');
+        			alert(JSON.stringify(test));
+
                 }, null, function () {
                     component.find('mainSpinner').hide();
                 });
@@ -99,6 +105,7 @@
         			var T_Ctext = component.get('v.tcData.tc.T_C_Text__c');
             		var res = T_Ctext.replaceAll("<p>", '<p style='+"\"direction:rtl\">");
             		var res = res.replaceAll("<h1>", '<h1 style='+"\"direction:rtl\">");
+            		var res = res.replaceAll("<ul>", '<ul style='+"\"direction:rtl\">");
                     component.set('v.tcData.tc.T_C_Text__c',res);
         			}
 
@@ -106,6 +113,7 @@
                     component.find('mainSpinner').hide();
                 });
             }
+
         }
 
         helper.hideOkButton(component, event, helper); // @Krishna Mahto - PEH-2450 
