@@ -37,7 +37,7 @@
           $A.util.removeClass(cmpTarget, 'tooltipAS');
           $A.util.removeClass(cmpTarget, 'tooltipASRTL');
           $A.util.removeClass(cmpTarget, 'tooltipSubTitle');
-          $A.util.removeClass(cmpTarget, 'tooltipSubTitleRTL'); 
+          $A.util.removeClass(cmpTarget, 'tooltipSubTitleRTL');
           $A.util.removeClass(cmpTarget,'slds-nubbin--top-left');
           $A.util.removeClass(cmpTarget,'tooltipNotActive');
       }
@@ -65,15 +65,15 @@
         if(component.get("v.isRTL"))
             {
               $A.util.addClass(cmpTarget,'slds-nubbin--top-right');
-              $A.util.addClass(cmpTarget, 'tooltipSubTitleRTL');
-              $A.util.removeClass(cmpTarget, 'tooltipSubTitle');				
+              $A.util.addClass(cmpTarget, 'tooltipSubTitleRTL'); 
+              $A.util.removeClass(cmpTarget, 'tooltipSubTitle');
             }
           else
             {
               $A.util.addClass(cmpTarget,'slds-nubbin--top-left');
               $A.util.addClass(cmpTarget, 'tooltipSubTitle'); 
               $A.util.removeClass(cmpTarget, 'tooltipSubTitleRTL');
-            } 
+            }
           $A.util.removeClass(cmpTarget, 'tooltip');
           $A.util.removeClass(cmpTarget, 'tooltipAS');
           $A.util.removeClass(cmpTarget,'slds-nubbin--bottom');
