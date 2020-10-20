@@ -11,9 +11,7 @@
         if (component.get('v.initialized') && component.get('v.isMobileApp')) {
             communityService.showInfoToast(
                 'Info!',
-                $A.get('$Label.c.Pdf_Not_Available') +
-                    '\n' +
-                    navigator.userAgent,
+                $A.get('$Label.c.Pdf_Not_Available'),
                 100
             );
             return;
