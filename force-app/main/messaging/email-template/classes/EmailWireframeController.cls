@@ -62,7 +62,14 @@ global without sharing class EmailWireframeController {
         		}
          	set;
     }
-
+ 
+    public Boolean getEnableNewStyle()
+    {
+     List<New_Style_Enablement__mdt> nseList = [Select Id,CommunityName__c from New_Style_Enablement__mdt];
+	 List<String> communitiesList = new List<String>();
+     for(New_Style_Enablement__mdt ns: nseList) communitiesList.add(ns.CommunityName__c);
+     return communitiesList.contains(getProvider().getCommunityName());
+    }
 
     public Map<String, String> getTemplateMap() {
         return getProvider().getParameters();
