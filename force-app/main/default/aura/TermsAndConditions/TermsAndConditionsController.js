@@ -86,8 +86,6 @@
                     component.set('v.tcData.tc.T_C_Text__c',res);
         			}
                     if(tcData.tc) component.set('v.privacyPolicyId', tcData.tc);
-                    var test=component.get('v.tcData.tc.T_C_Text__c');
-        			alert(JSON.stringify(test));
 
                 }, null, function () {
                     component.find('mainSpinner').hide();
