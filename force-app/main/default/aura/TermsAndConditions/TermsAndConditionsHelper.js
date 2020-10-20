@@ -39,6 +39,13 @@
                 component.set('v.isUserLoggedIn', false);
             }
         }
+    }, //@Krishna Mahto - PEH-2450 - End
+
+    setRTL: function (component) {
+        var T_Ctext = component.get('v.tcData.tc.T_C_Text__c');
+        var res = T_Ctext.replaceAll('<p>', '<p style=' + '"direction:rtl">');
+        var res = res.replaceAll('<h1>', '<h1 style=' + '"direction:rtl">');
+        var res = res.replaceAll('<ul>', '<ul style=' + '"direction:rtl">');
+        component.set('v.tcData.tc.T_C_Text__c', res);
     }
-    //@Krishna Mahto - PEH-2450 - End
 });

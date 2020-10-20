@@ -54,25 +54,11 @@
                         let tcData = JSON.parse(returnValue);
                         component.set('v.tcData', tcData);
                         if (RTL) {
-                            var T_Ctext = component.get(
-                                'v.tcData.tc.T_C_Text__c'
-                            );
-                            var res = T_Ctext.replaceAll(
-                                '<p>',
-                                '<p style=' + '"direction:rtl">'
-                            );
-                            var res = res.replaceAll(
-                                '<h1>',
-                                '<h1 style=' + '"direction:rtl">'
-                            );
-                            var res = res.replaceAll(
-                                '<ul>',
-                                '<ul style=' + '"direction:rtl">'
-                            );
-                            component.set('v.tcData.tc.T_C_Text__c', res);
+                            helper.setRTL(component);
                         }
-                        if (tcData.tc)
+                        if (tcData.tc) {
                             component.set('v.privacyPolicyId', tcData.tc);
+                        }
                     },
                     null,
                     function () {
@@ -91,22 +77,7 @@
                     function (returnValue) {
                         component.set('v.tcData', JSON.parse(returnValue));
                         if (RTL) {
-                            var T_Ctext = component.get(
-                                'v.tcData.tc.T_C_Text__c'
-                            );
-                            var res = T_Ctext.replaceAll(
-                                '<p>',
-                                '<p style=' + '"direction:rtl">'
-                            );
-                            var res = res.replaceAll(
-                                '<h1>',
-                                '<h1 style=' + '"direction:rtl">'
-                            );
-                            var res = res.replaceAll(
-                                '<ul>',
-                                '<ul style=' + '"direction:rtl">'
-                            );
-                            component.set('v.tcData.tc.T_C_Text__c', res);
+                            helper.setRTL(component);
                         }
                     },
                     null,
@@ -133,27 +104,11 @@
                         let tcData = JSON.parse(returnValue);
                         component.set('v.tcData', tcData);
                         if (RTL) {
-                            var T_Ctext = component.get(
-                                'v.tcData.tc.T_C_Text__c'
-                            );
-                            var res = T_Ctext.replaceAll(
-                                '<p>',
-                                '<p style=' + '"direction:rtl">'
-                            );
-                            var res = res.replaceAll(
-                                '<h1>',
-                                '<h1 style=' + '"direction:rtl">'
-                            );
-                            var res = res.replaceAll(
-                                '<ul>',
-                                '<ul style=' + '"direction:rtl">'
-                            );
-                            component.set('v.tcData.tc.T_C_Text__c', res);
+                            helper.setRTL(component);
                         }
-                        if (tcData.tc)
+                        if (tcData.tc) {
                             component.set('v.privacyPolicyId', tcData.tc);
-                        var test = component.get('v.tcData.tc.T_C_Text__c');
-                        alert(JSON.stringify(test));
+                        }
                     },
                     null,
                     function () {
@@ -173,22 +128,7 @@
                     function (returnValue) {
                         component.set('v.tcData', JSON.parse(returnValue));
                         if (RTL) {
-                            var T_Ctext = component.get(
-                                'v.tcData.tc.T_C_Text__c'
-                            );
-                            var res = T_Ctext.replaceAll(
-                                '<p>',
-                                '<p style=' + '"direction:rtl">'
-                            );
-                            var res = res.replaceAll(
-                                '<h1>',
-                                '<h1 style=' + '"direction:rtl">'
-                            );
-                            var res = res.replaceAll(
-                                '<ul>',
-                                '<ul style=' + '"direction:rtl">'
-                            );
-                            component.set('v.tcData.tc.T_C_Text__c', res);
+                            helper.setRTL(component);
                         }
                     },
                     null,
