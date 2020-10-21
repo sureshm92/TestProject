@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="Alerts" controller="AlertsRemote">
+ <aura:component description="Alerts" controller="AlertsRemote" extends="c:CommunityContext">
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
@@ -23,16 +23,16 @@
         <c:Popup aura:id="alertsDialog" title="{!if(v.currentAlert, v.currentAlert.title, '')}" size="medium" closeButtonClicked="{!v.closeBtnClicked}">
             <aura:if isTrue="{!v.currentAlert}">
                 <aura:if isTrue="{!!empty(v.currentAlert.params.Logo)}">
-                    <div class="al-logo">
+                    <div class="al-logo" style="{!if(v.isRTL == true, 'float:right', '')}">
                         <img src="{!v.currentAlert.params.Logo}"/>
                     </div>
                 </aura:if>
                 <aura:if isTrue="{!and(empty(v.currentAlert.params.Logo), !empty(v.currentAlert.params.LogoText))}">
-                    <div class="al-logo-text">{!v.currentAlert.params.LogoText}</div>
+                    <div class="al-logo-text" style="{!if(v.isRTL == true, 'float:right', '')}">{!v.currentAlert.params.LogoText}</div>
                 </aura:if>
             </aura:if>
 
-            <div><aura:unescapedHtml value="{!if(v.currentAlert, v.currentAlert.body, '')}"/></div>
+            <div style="{!if(v.isRTL == true, 'float:right', '')}"><aura:unescapedHtml value="{!if(v.currentAlert, v.currentAlert.body, '')}"/></div>
             <aura:set attribute="footerButtons">
                 <button class="apollo-btn primary" onclick="{!c.doShowNext}">OK</button>
             </aura:set>
