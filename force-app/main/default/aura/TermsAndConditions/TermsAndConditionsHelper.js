@@ -5,6 +5,9 @@
     goBack: function (component) {
         var retString = communityService.getUrlParameter('ret');
         var isPortalTC = component.get('v.isPortalTC');
+        if (component.get('v.isMobileApp')) {
+            window.open(window.location.origin);
+        }
         if (
             (retString !== 'terms-and-conditions' && retString) ||
             retString === ''
