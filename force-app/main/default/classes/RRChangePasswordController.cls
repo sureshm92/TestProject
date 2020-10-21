@@ -53,7 +53,7 @@ public without sharing class RRChangePasswordController {
     public String currentCommunityName {get; set;}
     public String siteName {get; set;}
     public Boolean hasProfilePic {get;set;}
-
+    public Boolean isRTL {get;set;}
 
     private String previousLanguage;
 
@@ -73,9 +73,17 @@ public without sharing class RRChangePasswordController {
     private String oldAccountName;
     
     public RRChangePasswordController() {
+        isRTL=false;
         translation = new Translation__c();
         init();
         if(!contact.Is_First_Logon__c) translation.Language__c = userVal.LanguageLocaleKey;
+        List<String> RTLlanguages = System.Label.RTL_Languages.split(',');
+        
+		if(RTLlanguages.contains(previousLanguage)) 
+        {
+            isRTL=true;
+        }
+
     }
 
     private void init(){
