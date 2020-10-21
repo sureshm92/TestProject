@@ -3,7 +3,7 @@
  -->
 
 <apex:component id="CookiesInfo">
-  <apex:attribute name="isRTL" description="" type="Boolean" required="true"/>
+  <apex:attribute name="isRTL" description="" type="Boolean"/>
     <style>
         .ci-hidden{
             display: none;
