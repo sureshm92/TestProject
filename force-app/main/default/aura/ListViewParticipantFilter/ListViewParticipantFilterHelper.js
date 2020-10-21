@@ -41,8 +41,8 @@
         component.set('v.TotalRecords',0);
         component.set('v.RecordStart',0);
         component.set('v.RecordEnd',0);
-        component.set('v.pageSize',5);
-        component.set('v.SortBydefault','Received Date(Oldest First)');
+        component.set('v.pageSize',component.find("pageSize").get("v.value"));
+        component.set('v.SortBydefault',component.find("sortby").get("v.value"));
         
         var RowItemList = component.get('v.filterList');
         var pageNumber = component.get("v.PageNumber");  
