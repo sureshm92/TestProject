@@ -7,8 +7,9 @@
         if (!RTL) {
             RTL = component.get('v.isRTL');
         }
-        if (currentCommunityMode)
+        if (currentCommunityMode) {
             component.set('v.userMode', currentCommunityMode.userMode);
+        }
         component.set('v.isMobileApp', communityService.isMobileSDK());
         //let elem = document.getElementById('cookiePanel');
         //let rrCookies = communityService.getCookie('RRCookies');
