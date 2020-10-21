@@ -7,6 +7,7 @@ public without sharing class TemplatePropertiesCatalog {
     public static final String TEMPLATE_PROP_BACKGROUND = 'EmailTemplateBackgr';
 	public static final String TEMPLATE_PROP_BACKGROUND_RTL = 'EmailTemplateBackgrRTL';																				   
     public static final String TEMPLATE_PROP_HEADER_BACKGROUND = 'EmailTemplateHeaderBackgr';
+    public static final String TEMPLATE_PROP_HEADER_BACKGROUND_RTL = 'EmailTemplateHeaderBackgrRTL';
     public static final String TEMPLATE_PROP_TEXT_BACKGROUND = 'EmailTemplateTextBackgr';
     public static final String TEMPLATE_PROP_HEADER = 'EmailTemplateHeader';
     public static final String TEMPLATE_PROP_HEADER_SHORT_NAME = 'EmailTemplateHeaderShortName';
