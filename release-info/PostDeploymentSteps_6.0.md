@@ -48,3 +48,10 @@ Open Setup - Custom Metadata Types > find Guides Setting and click on Manage Rec
 
 
 
+## 8. GSK Community Configuration
+
+1.Open Setup - All Communities - Click Builder near GSK  Community
+Go to Settings - Security - Clickjack Protection Level-Don't allow framing by any page (Most protection)
+Go to Settings - Security - Security Level -Strict CSP: Block Access to Inline Scripts and All Hosts (Recommended)
+Publish Community
+

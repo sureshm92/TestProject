@@ -12,7 +12,8 @@
     <apex:attribute name="resourceId" type="Id" description="DEPRECATED" access="global" assignTo="{!resourceIdString}"/>
 
     <!-- component body: -->
-    <apex:outputpanel rendered="{!communityName != 'IQVIA Referral Hub'}">
+  <!--  <apex:outputpanel rendered="{!(communityName != 'IQVIA Referral Hub') && !(communityName != 'Janssen Community')}"> -->
+    <apex:outputpanel rendered="{!!enableNewStyle}">
     <apex:outputLink value="{!resultURL}"
                      style="border-radius: 4px; background: #297DFD; color: #FFFFFF; padding: 9px 16px;
                                                 border: 1px; font-size: 14px; letter-spacing: 0; line-height: 20px;
@@ -21,7 +22,8 @@
         {!buttonLabelValue}
     </apex:outputLink>
     </apex:outputpanel>
-     <apex:outputpanel rendered="{!communityName == 'IQVIA Referral Hub'}">
+     <!--<apex:outputpanel rendered="{!(communityName == 'IQVIA Referral Hub') || !(communityName == 'Janssen Community')}">-->
+    <apex:outputpanel rendered="{!enableNewStyle}">
      <!-- component body: -->
     <apex:outputLink value="{!resultURL}"
                      style="border: 1px solid #ffffff;border-radius: 30px;

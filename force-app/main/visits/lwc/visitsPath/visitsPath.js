@@ -100,15 +100,16 @@ export default class VisitsPath extends LightningElement {
         }
 
         this.pathContainer = this.template.querySelector('.vis-path');
+        
         if (this.pathContainer) {
+            
             this.maxScrollValue = this.pathContainer.scrollWidth - this.pathContainer.clientWidth;
             if (this.pathContainer.scrollWidth > this.pathContainer.clientWidth) this.doScrollInto(this.centredIndex);
-
             let context = this;
             setTimeout(function () {
                 if (context.pathItems.length > 0) {
                     context.calculateWidth();
-
+                    
                     window.addEventListener('touchmove', function () {
                         context.changeArrowsStyle();
                     });
@@ -251,8 +252,9 @@ export default class VisitsPath extends LightningElement {
         this.scrollStep = this.elementWidth;
         this.nextScrollLeft = this.scrollStep;
         this.nextScrollRight = this.scrollStep;
-
-        if (this.pathContainer.scrollWidth > this.pathContainer.clientWidth) this.changeArrowsStyle();
+        if (this.pathContainer.scrollWidth > this.pathContainer.clientWidth){
+            this.changeArrowsStyle();
+        } 
     }
 
     isLeftScrollEnd() {
@@ -266,6 +268,8 @@ export default class VisitsPath extends LightningElement {
     changeArrowsStyle() {
         let arrLeft = 1;
         let arrRight = 1;
+        let arrLeftRTL = 1;
+        let arrRightRTL = 1;
 
         if (this.isRightScrollEnd()) {
             arrRight = 0.3;
@@ -275,9 +279,14 @@ export default class VisitsPath extends LightningElement {
             arrLeft = 0.3;
             this.fromLeftCorner = true;
         }
-
-        this.template.querySelector('.arrow-left').style.opacity = arrLeft;
-        this.template.querySelector('.arrow-right').style.opacity = arrRight;
+        
+        if(this.isRTL){
+            this.template.querySelector('.arrow-leftRTL').style.opacity = arrRightRTL;
+            this.template.querySelector('.arrow-rightRTL').style.opacity = arrLeftRTL;
+        }else{
+            this.template.querySelector('.arrow-left').style.opacity = arrLeft;
+            this.template.querySelector('.arrow-right').style.opacity = arrRight;
+        }
     }
 
     checkCloserIsNeeded(context) {
