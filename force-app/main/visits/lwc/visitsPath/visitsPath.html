@@ -36,7 +36,10 @@
                                     </div>
                                     <div class="state-label">{pathItem.visitName}</div>
                                     <div class="state-label">
-                                        <template if:false={pathItem.isPending}>{pathItem.complDate}</template>
+                                        <template if:false={pathItem.isPending}>
+                                            <lightning-formatted-date-time 
+                                            value={pathItem.complDate}></lightning-formatted-date-time>
+                                        </template>
                                         <template if:true={pathItem.isPending}>
                                             <template if:true={pathItem.planDate}>
                                                 <div class="date-edit">
