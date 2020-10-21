@@ -21,7 +21,7 @@ public class Test_ParticipantParagraphController {
         controller.getdiscoverValue();
         controller.getTrackValue();
         controller.getCommunityHelpValue();
-       
+        controller.getisRTL();
     }
 
 }

@@ -33,7 +33,7 @@
                         <td style="width:30%;  text-align: center;padding: 35px 0">
                             <img alt="Track Study Progress" src="{!$Label.WelcomeEmail_TrackLogo}"/>
                         </td>
-                        <td align="left" style="width:70%; font-family: Arial, sans-serif; font-weight: 400; line-height: 28px; text-align: left; color: #595959; font-size: 16px; padding: 10px 50px 15px 0">
+                        <td align="left" style="{!IF(isRTL=true,'text-align: right; padding: 10px 0px 15px 0;','text-align: left; padding: 10px 50px 15px 0;')+ 'width:70%; font-family: Arial, sans-serif; font-weight: 400; line-height: 28px; color: #595959; font-size: 16px'}">
                             <div>
                                 <apex:outputText escape="false" value="{!TrackValue}" />
                             </div>
@@ -43,7 +43,7 @@
                         <td style="width:30%; text-align: center;padding: 35px 0">
                             <img alt="Learn more" src="{!$Label.WelcomeEmail_LearnLogo}"/>
                         </td>
-                        <td align="left" style="width:70%; font-family: Arial, sans-serif; font-weight: 400; line-height: 28px; text-align: left; color: #595959; font-size: 16px;padding: 10px 50px 15px 0">
+                        <td align="left" style="{!IF(isRTL=true,'text-align: right;padding: 10px 0px 15px 0;','text-align: left;padding: 10px 50px 15px 0;') + 'width:70%; font-family: Arial, sans-serif; font-weight: 400; line-height: 28px; color: #595959; font-size: 16px'}">
                             <div>
                                 <apex:outputText escape="false" value="{!LearnValue}" />
                             </div>

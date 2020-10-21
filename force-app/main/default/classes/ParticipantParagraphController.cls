@@ -51,5 +51,9 @@ global without sharing class ParticipantParagraphController {
         bodyLabelValue = outputMode.equals('HTML') ? bodyLabelValue.replaceAll('\n', '<br/>') : bodyLabelValue;
         return bodyLabelValue;
     }
+    public Boolean getisRTL()
+    {
+        return ((System.Label.RTL_Languages).contains(UserInfo.getLanguage())||(System.Label.RTL_Languages).contains(provider.getUserLanguage()));
+    }
 
 }
