@@ -3,10 +3,9 @@
     <fullName>Roles__c</fullName>
     <externalId>false</externalId>
     <label>Roles</label>
-    <length>255</length>
-    <required>false</required>
+    <length>32768</length>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>LongTextArea</type>
+    <visibleLines>10</visibleLines>
 </CustomField>
