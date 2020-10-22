@@ -453,9 +453,6 @@ public without sharing class ParticipantInformationRemote {
                                                     Label.PE_Status_History_On_Date + ' ' + 
                                                     DateTime.now().format() + ' ' + 
                                                     Label.PG_IMI_L_by_user + ' '+ UserInfo.getName() +  '#';
-                                                test__c t = new test__c();
-                                                t.testing__c = '1';
-                                                insert t;
                                                 break;
                                             }else if(peshnotes.Additional_Notes__c != null && !peshnotes.Additional_Notes__c.contains('####')){
                                                 peshnotes.Additional_Notes__c =  '####' + note + ' ' +
@@ -463,9 +460,6 @@ public without sharing class ParticipantInformationRemote {
                                                     DateTime.now().format() + ' ' + 
                                                     Label.PG_IMI_L_by_user + ' '+ UserInfo.getName() +  '#' 
                                                     + peshnotes.Additional_Notes__c;
-                                                test__c t = new test__c();
-                                                t.testing__c = '2';
-                                                insert t;
                                                 break;
                                             }
                                         }
@@ -475,9 +469,6 @@ public without sharing class ParticipantInformationRemote {
                                     Label.PE_Status_History_On_Date + ' ' + 
                                     DateTime.now().format() + ' ' + 
                                     Label.PG_IMI_L_by_user + ' '+ UserInfo.getName() +  '#' ;
-                                test__c t = new test__c();
-                                                t.testing__c = '3';
-                                                insert t;
                                 break;
                             }else{
                                 peshnotes.Additional_Notes__c =   note + ' ' +
@@ -485,9 +476,6 @@ public without sharing class ParticipantInformationRemote {
                                     DateTime.now().format() + ' ' + 
                                     Label.PG_IMI_L_by_user + ' '+ UserInfo.getName() +  '#' 
                                     + peshnotes.Additional_Notes__c;
-                                test__c t = new test__c();
-                                                t.testing__c = '4';
-                                                insert t;
                                 break;
                             }
                         }
@@ -575,9 +563,6 @@ public without sharing class ParticipantInformationRemote {
                                                     Label.PE_Status_History_On_Date + ' ' + 
                                                     DateTime.now().format() + ' ' + 
                                                     Label.PG_IMI_L_by_user + ' '+ UserInfo.getName() +  '#';
-                                                test__c t = new test__c();
-                                                t.testing__c = '1';
-                                                insert t;
                                                 break;
                                             }else if(peshnotes.Additional_Notes__c != null && !peshnotes.Additional_Notes__c.contains('####')){
                                                 peshnotes.Additional_Notes__c =  '####' + note + ' ' +
@@ -585,9 +570,6 @@ public without sharing class ParticipantInformationRemote {
                                                     DateTime.now().format() + ' ' + 
                                                     Label.PG_IMI_L_by_user + ' '+ UserInfo.getName() +  '#' 
                                                     + peshnotes.Additional_Notes__c;
-                                                test__c t = new test__c();
-                                                t.testing__c = '2';
-                                                insert t;
                                                 break;
                                             }
                                         }
@@ -597,9 +579,6 @@ public without sharing class ParticipantInformationRemote {
                                     Label.PE_Status_History_On_Date + ' ' + 
                                     DateTime.now().format() + ' ' + 
                                     Label.PG_IMI_L_by_user + ' '+ UserInfo.getName() +  '#' ;
-                                test__c t = new test__c();
-                                                t.testing__c = '3';
-                                                insert t;
                                 break;
                             }else{
                                 peshnotes.Additional_Notes__c =   note + ' ' +
@@ -607,9 +586,6 @@ public without sharing class ParticipantInformationRemote {
                                     DateTime.now().format() + ' ' + 
                                     Label.PG_IMI_L_by_user + ' '+ UserInfo.getName() +  '#' 
                                     + peshnotes.Additional_Notes__c;
-                                test__c t = new test__c();
-                                                t.testing__c = '4';
-                                                insert t;
                                 break;
                             }
                         }
