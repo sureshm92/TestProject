@@ -1,5 +1,6 @@
 @IsTest
 public class Test_SiteStaffDuplicateService {
+	
     @IsTest
     static void test() {
                 Account piAccount = new Account(
@@ -108,4 +109,5 @@ public class Test_SiteStaffDuplicateService {
         duplicateService.findDuplicateContact(siteStaffSamePhonesSameEmails);
         Test.stopTest();
     }
+	
 }
