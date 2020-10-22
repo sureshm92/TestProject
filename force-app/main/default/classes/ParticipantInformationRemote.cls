@@ -427,66 +427,8 @@ public without sharing class ParticipantInformationRemote {
                     IncentiveProgramService.completeIncentiveTaskCurrentContact(IncentiveTaskCatalog.INCENTIVE_TASK_MADE_CONTACT_ATTEMPT_WITHIN_1_DAY, oldParticipantEnrollment.Study_Site__c, oldParticipantEnrollment.Name);
                 }
                 insert pesh;
-            }else if (notesToBeAdded){
-                Participant_Enrollment_Status_History__c peshnotes;                    
-                    peshnotes = [SELECT Id,Additional_Notes__c,Notes__c,Status__c  
-                                 FROM Participant_Enrollment_Status_History__c 
-                                 WHERE ParticipantEnrollment__c =:pe.Id ORDER BY Date__c DESC LIMIT 1][0];
-
-                if(peshnotes!=null){
-                    for(Integer i =0;i<pathWrapper.steps.size();i=i+1){
-                        ParticipantWorkflowService.ParticipantWorkflowStepWrapper step = pathWrapper.steps[i];
-                        if(step.isCurrentStep == true && step.isCurrentStepValid == true){
-                            String note = step.notes;
-                            if(step.reason != null && step.reason != ''){
-                                note = peshnotes.Status__c + ' - ' +step.reason + ', '+step.notes;
-                            }
-                            if(i + 1 <pathWrapper.steps.size()){
-                                Boolean nextStepStateNew = isStepSuccessfulOrInProgress(pathWrapper.steps[i+1].title, pe, peshnotes.Status__c);
-                                String nextStepStateOld = pathWrapper.steps[i+1].state;
-                                if(nextStepStateNew 
-                                   && !(nextStepStateOld == PEStatusState.STATUS_STATE_SUCCESS || 
-                                        nextStepStateOld == PEStatusState.STATUS_STATE_IN_PROGRESS ||
-                                        nextStepStateOld == PEStatusState.STATUS_STATE_FAILURE) ){
-                                            if(peshnotes.Additional_Notes__c == null){
-                                                peshnotes.Additional_Notes__c =  '####' + note + ' ' +
-                                                    Label.PE_Status_History_On_Date + ' ' + 
-                                                    DateTime.now().format() + ' ' + 
-                                                    Label.PG_IMI_L_by_user + ' '+ UserInfo.getName() +  '#';
-                                                break;
-                                            }else if(peshnotes.Additional_Notes__c != null && !peshnotes.Additional_Notes__c.contains('####')){
-                                                peshnotes.Additional_Notes__c =  '####' + note + ' ' +
-                                                    Label.PE_Status_History_On_Date + ' ' + 
-                                                    DateTime.now().format() + ' ' + 
-                                                    Label.PG_IMI_L_by_user + ' '+ UserInfo.getName() +  '#' 
-                                                    + peshnotes.Additional_Notes__c;
-                                                break;
-                                            }
-                                        }
-                            }
-                            if(peshnotes.Additional_Notes__c == null){
-                                peshnotes.Additional_Notes__c = ' ' + note + ' ' +
-                                    Label.PE_Status_History_On_Date + ' ' + 
-                                    DateTime.now().format() + ' ' + 
-                                    Label.PG_IMI_L_by_user + ' '+ UserInfo.getName() +  '#' ;
-                                break;
-                            }else{
-                                peshnotes.Additional_Notes__c =   note + ' ' +
-                                    Label.PE_Status_History_On_Date + ' ' + 
-                                    DateTime.now().format() + ' ' + 
-                                    Label.PG_IMI_L_by_user + ' '+ UserInfo.getName() +  '#' 
-                                    + peshnotes.Additional_Notes__c;
-                                break;
-                            }
-                        }
-                    }
-                    TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR.class);
-                    TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.UpdatePEHandler.class);
-                    TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandler.class);
-                    TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
-                    TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateWelcomeToStudyAlertHandler.class);
-                    update peshnotes;
-                }
+            }else if (notesToBeAdded && pe!=null && pe.Id!=null){
+                updateNotes(pathWrapper, pe);
             }
             //pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_PI);
             pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityModeService.USER_MODE_PI, null, ViewPatientsRemote.PE_MY_PARTICIPANTS_FIELDS);
@@ -496,17 +438,84 @@ public without sharing class ParticipantInformationRemote {
             System.debug('ERROR: ' + e.getMessage() + '\n' + e.getStackTraceString());
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());        }
     }
+
+    private static void updateNotes(ParticipantWorkflowService.ParticipantWorkflowWrapper pathWrapper, Participant_Enrollment__c pe){
+        Participant_Enrollment_Status_History__c peshnotes;                    
+        peshnotes = [SELECT Id,Additional_Notes__c,Notes__c,Status__c  
+                     FROM Participant_Enrollment_Status_History__c 
+                     WHERE ParticipantEnrollment__c =:pe.Id ORDER BY Date__c DESC LIMIT 1][0];
+        
+        if(peshnotes!=null){
+            Map<String,Participant_Workflow_Step__mdt> stepsWithName = new Map<String,Participant_Workflow_Step__mdt>();
+            for(Participant_Workflow_Step__mdt s : [SELECT Id,MasterLabel,DeveloperName,Additional_Notes_For_Statuses__c, In_Progress_Condition__c, Success_Condition__c 
+                                                    FROM Participant_Workflow_Step__mdt]){
+                                                        stepsWithName.put(s.MasterLabel,s);                                       
+                                                    }
+            for(Integer i =0;i<pathWrapper.steps.size();i=i+1){
+                ParticipantWorkflowService.ParticipantWorkflowStepWrapper step = pathWrapper.steps[i];
+                if(step.isCurrentStep == true && step.isCurrentStepValid == true){
+                    String note = step.notes;
+                    if(step.reason != null && step.reason != ''){
+                        note = peshnotes.Status__c + ' - ' +step.reason + ', '+step.notes;
+                    }
+                    if(i + 1 <pathWrapper.steps.size()){
+                        Boolean nextStepStateNew = isStepSuccessfulOrInProgress(stepsWithName.get(pathWrapper.steps[i+1].title), pe, peshnotes.Status__c);
+                        String nextStepStateOld = pathWrapper.steps[i+1].state;
+                        if(nextStepStateNew 
+                           && !(nextStepStateOld == PEStatusState.STATUS_STATE_SUCCESS || 
+                                nextStepStateOld == PEStatusState.STATUS_STATE_IN_PROGRESS ||
+                                nextStepStateOld == PEStatusState.STATUS_STATE_FAILURE) ){
+                                    if(peshnotes.Additional_Notes__c == null){
+                                        peshnotes.Additional_Notes__c =  '####' + note + ' ' +
+                                            Label.PE_Status_History_On_Date + ' ' + 
+                                            DateTime.now().format() + ' ' + 
+                                            Label.PG_IMI_L_by_user + ' '+ UserInfo.getName() +  '#';
+                                        break;
+                                    }else if(peshnotes.Additional_Notes__c != null && !peshnotes.Additional_Notes__c.contains('####')){
+                                        peshnotes.Additional_Notes__c =  '####' + note + ' ' +
+                                            Label.PE_Status_History_On_Date + ' ' + 
+                                            DateTime.now().format() + ' ' + 
+                                            Label.PG_IMI_L_by_user + ' '+ UserInfo.getName() +  '#' 
+                                            + peshnotes.Additional_Notes__c;
+                                        break;
+                                    }
+                                }
+                    }
+                    if(peshnotes.Additional_Notes__c == null){
+                        peshnotes.Additional_Notes__c = ' ' + note + ' ' +
+                            Label.PE_Status_History_On_Date + ' ' + 
+                            DateTime.now().format() + ' ' + 
+                            Label.PG_IMI_L_by_user + ' '+ UserInfo.getName() +  '#' ;
+                        break;
+                    }else{
+                        peshnotes.Additional_Notes__c =   note + ' ' +
+                            Label.PE_Status_History_On_Date + ' ' + 
+                            DateTime.now().format() + ' ' + 
+                            Label.PG_IMI_L_by_user + ' '+ UserInfo.getName() +  '#' 
+                            + peshnotes.Additional_Notes__c;
+                        break;
+                    }
+                }
+            }
+            TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR.class);
+            TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.UpdatePEHandler.class);
+            TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandler.class);
+            TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
+            TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateWelcomeToStudyAlertHandler.class);
+            update peshnotes;
+        }
+    }   
     
-    
-    private static Boolean isStepSuccessfulOrInProgress(String stepName, Participant_Enrollment__c pe, String Status){
+    private static Boolean isStepSuccessfulOrInProgress(Participant_Workflow_Step__mdt step, Participant_Enrollment__c pe, String Status){
         Boolean stepSuccessful = false;
         Boolean stepInProgress = false;
         Boolean statusPresent = false;    
-        Participant_Workflow_Step__mdt step = [SELECT Id,DeveloperName,Additional_Notes_For_Statuses__c, In_Progress_Condition__c, Success_Condition__c 
-                                                FROM Participant_Workflow_Step__mdt WHERE MasterLabel =:stepName LIMIT 1];
-        stepSuccessful =String.isNotBlank(step.Success_Condition__c) && ConditionCheckerService.checkConditionForObject(step.Success_Condition__c, pe);
-        stepInProgress = String.isBlank(step.In_Progress_Condition__c) || ConditionCheckerService.checkConditionForObject(step.In_Progress_Condition__c, pe);
-        statusPresent = step.Additional_Notes_For_Statuses__c!= null && step.Additional_Notes_For_Statuses__c.contains(';'+Status+';');
+       	
+        if(step !=null){
+            stepSuccessful =String.isNotBlank(step.Success_Condition__c) && ConditionCheckerService.checkConditionForObject(step.Success_Condition__c, pe);
+            stepInProgress = String.isBlank(step.In_Progress_Condition__c) || ConditionCheckerService.checkConditionForObject(step.In_Progress_Condition__c, pe);
+            statusPresent = step.Additional_Notes_For_Statuses__c!= null && step.Additional_Notes_For_Statuses__c.contains(';'+Status+';');
+        }
         Boolean res = (statusPresent && (stepSuccessful || stepInProgress));
         return res;
     }
@@ -537,66 +546,8 @@ public without sharing class ParticipantInformationRemote {
                     IncentiveProgramService.completeIncentiveTaskCurrentContact(IncentiveTaskCatalog.INCENTIVE_TASK_MADE_CONTACT_ATTEMPT_WITHIN_1_DAY, oldParticipantEnrollment.Study_Site__c, oldParticipantEnrollment.Name);
                 }
                 insert pesh;
-            }else if (notesToBeAdded){
-                Participant_Enrollment_Status_History__c peshnotes;
-
-                    peshnotes = [SELECT Id,Additional_Notes__c,Notes__c,Status__c
-                                 FROM Participant_Enrollment_Status_History__c 
-                                 WHERE ParticipantEnrollment__c =:pe.Id ORDER BY Date__c DESC LIMIT 1][0];
-                if(peshnotes!=null){
-                    for(Integer i =0;i<pathWrapper.steps.size();i=i+1){
-                        ParticipantWorkflowService.ParticipantWorkflowStepWrapper step = pathWrapper.steps[i];
-                        if(step.isCurrentStep == true && step.isCurrentStepValid == true){
-                            String note = step.notes;
-                            if(step.reason != null && step.reason != ''){
-                                note = peshnotes.Status__c + ' - ' +step.reason + ', '+step.notes;
-                            }
-                            if(i + 1 <pathWrapper.steps.size()){
-                                Boolean nextStepStateNew = isStepSuccessfulOrInProgress(pathWrapper.steps[i+1].title, pe, peshnotes.Status__c);
-                                String nextStepStateOld = pathWrapper.steps[i+1].state;
-                                if(nextStepStateNew 
-                                   && !(nextStepStateOld == PEStatusState.STATUS_STATE_SUCCESS || 
-                                        nextStepStateOld == PEStatusState.STATUS_STATE_IN_PROGRESS ||
-                                        nextStepStateOld == PEStatusState.STATUS_STATE_FAILURE) ){
-                                            if(peshnotes.Additional_Notes__c == null){
-                                                peshnotes.Additional_Notes__c =  '####' + note + ' ' +
-                                                    Label.PE_Status_History_On_Date + ' ' + 
-                                                    DateTime.now().format() + ' ' + 
-                                                    Label.PG_IMI_L_by_user + ' '+ UserInfo.getName() +  '#';
-                                                break;
-                                            }else if(peshnotes.Additional_Notes__c != null && !peshnotes.Additional_Notes__c.contains('####')){
-                                                peshnotes.Additional_Notes__c =  '####' + note + ' ' +
-                                                    Label.PE_Status_History_On_Date + ' ' + 
-                                                    DateTime.now().format() + ' ' + 
-                                                    Label.PG_IMI_L_by_user + ' '+ UserInfo.getName() +  '#' 
-                                                    + peshnotes.Additional_Notes__c;
-                                                break;
-                                            }
-                                        }
-                            }
-                            if(peshnotes.Additional_Notes__c == null){
-                                peshnotes.Additional_Notes__c = ' ' + note + ' ' +
-                                    Label.PE_Status_History_On_Date + ' ' + 
-                                    DateTime.now().format() + ' ' + 
-                                    Label.PG_IMI_L_by_user + ' '+ UserInfo.getName() +  '#' ;
-                                break;
-                            }else{
-                                peshnotes.Additional_Notes__c =   note + ' ' +
-                                    Label.PE_Status_History_On_Date + ' ' + 
-                                    DateTime.now().format() + ' ' + 
-                                    Label.PG_IMI_L_by_user + ' '+ UserInfo.getName() +  '#' 
-                                    + peshnotes.Additional_Notes__c;
-                                break;
-                            }
-                        }
-                    }
-                    TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR.class);
-                    TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.UpdatePEHandler.class);
-                    TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandler.class);
-                    TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
-                    TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateWelcomeToStudyAlertHandler.class);
-                    update peshnotes;
-                }
+            }else if (notesToBeAdded && pe!=null && pe.Id!=null){
+                updateNotes(pathWrapper, pe);
             }
             //pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_CC);
             pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityModeService.USER_MODE_CC, null, ViewPatientsRemote.PE_MY_PARTICIPANTS_FIELDS);

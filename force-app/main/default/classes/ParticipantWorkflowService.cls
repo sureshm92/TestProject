@@ -140,25 +140,22 @@ public without sharing class ParticipantWorkflowService {
                     + ' ' + peshList[0].Date__c.date().format();
             stepWrapper.outcome = peshList[0].Status__c;
             
-            List<Id> stepList = new List<Id>();
-            for(Participant_Enrollment_Status_History__c pesh: peshList){
-                 stepList.add(pesh.Id);               
-            }
             for(Participant_Enrollment_Status_History__c pesh: peshList){
 
                 Boolean nextStepSuccessful = false;
                 Boolean nextStepInProgress = false;
                 nextStepSuccessful = nextStep!=null && String.isNotBlank(nextStep.Success_Condition__c) && ConditionCheckerService.checkConditionForObject(nextStep.Success_Condition__c, pe);
                 nextStepInProgress = nextStep!=null && (String.isBlank(nextStep.In_Progress_Condition__c) || ConditionCheckerService.checkConditionForObject(nextStep.In_Progress_Condition__c, pe));
-
+                Boolean statusValidForCurrentStep = (step.Additional_Notes_For_Statuses__c!=null 
+                                                     && step.Additional_Notes_For_Statuses__c.contains(';'+pesh.Status__c+';') 
+                                                     && !(nextStep!=null && nextStep.Additional_Notes_For_Statuses__c!=null 
+                                                          && nextStep.Additional_Notes_For_Statuses__c.contains(';'+pesh.Status__c+';')
+                                                         )
+                                                    );
+                Boolean isStatusCommonForSteps = (peshList.indexOf(pesh)==0 && pesh.Additional_Notes__c!=null && pesh.Additional_Notes__c.contains('####')); 
                 if(
                     (peshList.indexOf(pesh)!=0 || (!nextStepSuccessful && !nextStepInProgress)) || 
-                    (step.Additional_Notes_For_Statuses__c!=null 
-                     && step.Additional_Notes_For_Statuses__c.contains(';'+pesh.Status__c+';') 
-                     && !(nextStep!=null && nextStep.Additional_Notes_For_Statuses__c!=null 
-                         && nextStep.Additional_Notes_For_Statuses__c.contains(';'+pesh.Status__c+';')
-                         )
-                    )||(peshList.indexOf(pesh)==0 && pesh.Additional_Notes__c!=null && pesh.Additional_Notes__c.contains('####'))
+                    statusValidForCurrentStep || isStatusCommonForSteps
                 ){
                     if(peshList.indexOf(pesh)==0 && pesh.Additional_Notes__c!=null && pesh.Additional_Notes__c.contains('####')){
                         stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(pesh.Additional_Notes__c.substringAfter('####')));                                  
@@ -171,15 +168,15 @@ public without sharing class ParticipantWorkflowService {
             }
       
             if(previousStep!=null && peshMap.containsKey(previousStep.DeveloperName)){
-                
-                if(peshMap.get(previousStep.DeveloperName)!=null && peshMap.get(previousStep.DeveloperName).size()>0
-                  && step.Additional_Notes_For_Statuses__c!=null && step.Additional_Notes_For_Statuses__c.contains(';'+peshMap.get(previousStep.DeveloperName)[0].Status__c+';')){
-                      if(peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c!=null && peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c.contains('####')){
-                          String addNotes = peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c.substringBefore('####');
-                          stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(addNotes));
-                      }else{
-                          stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c));
-                      }   
+                Boolean notesfromPreviousStepExists = peshMap.get(previousStep.DeveloperName)!=null && peshMap.get(previousStep.DeveloperName).size()>0
+                    && step.Additional_Notes_For_Statuses__c!=null && step.Additional_Notes_For_Statuses__c.contains(';'+peshMap.get(previousStep.DeveloperName)[0].Status__c+';');
+                if(notesfromPreviousStepExists){
+                    if(peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c!=null && peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c.contains('####')){
+                        String addNotes = peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c.substringBefore('####');
+                        stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(addNotes));
+                    }else{
+                        stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c));
+                    }   
                 }
             }
         } else{
@@ -201,17 +198,16 @@ public without sharing class ParticipantWorkflowService {
                 stepWrapper.status = TranslateHelper.getLabelValue(step.No_Outcome_Label__c);
             }
             if(previousStep!=null && peshMap.containsKey(previousStep.DeveloperName)){
-                
-                if(peshMap.get(previousStep.DeveloperName)!=null && peshMap.get(previousStep.DeveloperName).size()>0
-                   && step.Additional_Notes_For_Statuses__c!=null && 
-                   step.Additional_Notes_For_Statuses__c.contains(';'+peshMap.get(previousStep.DeveloperName)[0].Status__c+';')){
-                       
-                       if(peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c!=null && peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c.contains('####')){
-                           stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c.substringBefore('####')));
-                       }else{
-                           stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c));
-                       } 
-                   }
+                Boolean notesfromPreviousStepExists = peshMap.get(previousStep.DeveloperName)!=null && peshMap.get(previousStep.DeveloperName).size()>0
+                    && step.Additional_Notes_For_Statuses__c!=null && 
+                    step.Additional_Notes_For_Statuses__c.contains(';'+peshMap.get(previousStep.DeveloperName)[0].Status__c+';');                
+                if(notesfromPreviousStepExists){
+                    if(peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c!=null && peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c.contains('####')){
+                        stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c.substringBefore('####')));
+                    }else{
+                        stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c));
+                    } 
+                }
             }
         }
         stepWrapper.editable = stepWrapper.state == PEStatusState.STATUS_STATE_IN_PROGRESS
