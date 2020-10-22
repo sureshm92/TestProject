@@ -121,13 +121,14 @@
     position:absolute;
     top:33%;
     left:68%;
-    width:25%;
+    width:22%;
 }
 .THIS.tooltipRTL{
     position: absolute;
     top: 10%;
     left: 10%;
-    width: 25%;
+    width: 23%;
+    margin-top:-70px;
 }
 .THIS.tooltipAS{
     position:absolute;
@@ -136,10 +137,12 @@
     width:33%;
 }
 .THIS.tooltipASRTL{
-    position: absolute;
-    top: 36%;
-    left: -5%;
-    width: 33%;
+    position: absolute;	
+    margin-top:-70px;
+    top: 10%;
+    left: 0%;
+    width: 20%;
+    
 }
 .THIS.tooltipSubTitle{    
     position:absolute;
