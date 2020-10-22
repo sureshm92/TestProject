@@ -39,6 +39,15 @@
             participantWorkflowWrapper = component.get('v.participantWorkflowWrapper');
             for(let j = 0; j < participantWorkflowWrapper.steps.length; j++)
             {
+                if(participantWorkflowWrapper.steps[j].isCurrentStep 
+                   && participantWorkflowWrapper.steps[j].isCurrentStepValid 
+                   && participantWorkflowWrapper.steps[j].title == $A.get('$Label.c.PWS_Initial_Visit_Name')){
+                    if(params.fieldName == 'Notes__c'){
+                    participantWorkflowWrapper.steps[j].notes = params.value;
+                    }else if(params.fieldName == 'Reason__c'){
+                    participantWorkflowWrapper.steps[j].reason = params.value;    
+                    }
+                }
                 helper.checkValidity(component, event, helper, participantWorkflowWrapper.steps[j]);
             }
             component.set('v.participantWorkflowWrapper', participantWorkflowWrapper);

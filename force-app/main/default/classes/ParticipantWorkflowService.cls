@@ -20,8 +20,20 @@ public without sharing class ParticipantWorkflowService {
         Boolean previousStepSuccess = false;
         Integer currentStepInd = 0;
         Boolean nonNeutralStepFound = false;
-        for(Participant_Workflow_Step__mdt step : steps){
-            ParticipantWorkflowStepWrapper stepWrapper = createStepWrapper(step, outcomesMap, peshMapByStep, previousStepSuccess, fieldsMap, pe, ctp, fieldWrappersMap);
+        for(Integer i=0; i<steps.size(); i++){
+            Participant_Workflow_Step__mdt step = steps[i];
+            Participant_Workflow_Step__mdt previousStep;
+            Participant_Workflow_Step__mdt nextStep;
+            if(i>0){
+                previousStep = steps[i-1];
+            }
+             if(i<steps.size() -1){
+                nextStep = steps[i+1];
+            }
+            ParticipantWorkflowStepWrapper stepWrapper = createStepWrapper(step, outcomesMap, 
+                                                                           peshMapByStep, previousStepSuccess, 
+                                                                           fieldsMap, pe, ctp, fieldWrappersMap,
+                                                                           previousStep, nextStep);
             previousStepSuccess = stepWrapper.state == PEStatusState.STATUS_STATE_SUCCESS;
 
             if (stepWrapper.state == PEStatusState.STATUS_STATE_SUCCESS
@@ -50,7 +62,7 @@ public without sharing class ParticipantWorkflowService {
                 SELECT Id, DeveloperName, Condition__c, Name_Label__c, Order__c, History_Label__c,
                         Card_Name_Label__c, No_Outcome_Label__c, Failed_State_Editing_Enabled__c,
                         Outcome_Placeholder_Label__c, History_Item_Title_Template_Label__c,
-                        History_Item_Details_Template_Label__c, Form_Fields__c,In_Progress_Condition__c,
+                        History_Item_Details_Template_Label__c, Form_Fields__c,In_Progress_Condition__c,Additional_Notes_For_Statuses__c,
                         Success_Condition__c, Success_Date_Field__c, In_Progress_Date_Field__c, Success_Checkbox_Field__c
                 FROM Participant_Workflow_Step__mdt ORDER By Order__c ASC]){
             if(String.isBlank(step.Condition__c) || ConditionCheckerService.checkConditionForObject(step.Condition__c, ctp)){
@@ -58,8 +70,8 @@ public without sharing class ParticipantWorkflowService {
             }
         }
         return eligibleSteps;
-    }
-
+    }   
+    
     private static Map<String, Map<String, Participant_Workflow_Outcome__mdt>> getOutcomesMap(List<Participant_Workflow_Step__mdt> workflowSteps, Clinical_Trial_Profile__c ctp){
         Set<String> stepNames = new Set<String>();
         for(Participant_Workflow_Step__mdt step : workflowSteps){
@@ -84,7 +96,7 @@ public without sharing class ParticipantWorkflowService {
             Map<String, Map<String,  Participant_Workflow_Outcome__mdt>> outcomesMap){
         Map<String, List<Participant_Enrollment_Status_History__c>> result = new Map<String, List<Participant_Enrollment_Status_History__c>>();
         for(Participant_Enrollment_Status_History__c pesh: [
-                SELECT Id, Date__c, Status__c, Reason__c, Notes__c, CreatedBy.Name,
+                SELECT Id, Date__c, Status__c, Reason__c, Notes__c, CreatedBy.Name,Additional_Notes__c,
                         ParticipantEnrollment__r.Referral_Source__c, ParticipantEnrollment__r.Referral_Completedby_Name__c,
                         ParticipantEnrollment__r.Source_Type__c, ParticipantEnrollment__r.PI_Contact__r.Name
                 FROM Participant_Enrollment_Status_History__c
@@ -101,14 +113,16 @@ public without sharing class ParticipantWorkflowService {
         }
         return result;
     }
-
+    
     private static ParticipantWorkflowStepWrapper createStepWrapper(Participant_Workflow_Step__mdt step,
             Map<String, Map<String,  Participant_Workflow_Outcome__mdt>> outcomesMap,
             Map<String, List<Participant_Enrollment_Status_History__c>> peshMap, Boolean previousStepSuccess,
             Map<String, Participant_Workflow_Form_Field__mdt> fieldsMap,
             Participant_Enrollment__c pe,
             Clinical_Trial_Profile__c ctp,
-            Map<String, ParticipantWorkflowFieldWrapper> fieldWrappersMap){
+            Map<String, ParticipantWorkflowFieldWrapper> fieldWrappersMap,
+            Participant_Workflow_Step__mdt previousStep,
+            Participant_Workflow_Step__mdt nextStep){
         ParticipantWorkflowStepWrapper stepWrapper = new ParticipantWorkflowStepWrapper();
         stepWrapper.title = TranslateHelper.getLabelValue(step.Name_Label__c);
         stepWrapper.cardTitle = TranslateHelper.getLabelValue(step.Card_Name_Label__c);
@@ -118,7 +132,54 @@ public without sharing class ParticipantWorkflowService {
                 TranslateHelper.getLabelValue(step.Outcome_Placeholder_Label__c);
         stepWrapper.reason =  TranslateHelper.getPickListLabel(Participant_Enrollment__c.Non_Enrollment_Reason__c,pe.Non_Enrollment_Reason__c);
         stepWrapper.stepHistory = new List<ParticipantWorkflowService.ParticipantWorkflowHistoryWrapper>();
-        if(!peshMap.containsKey(step.DeveloperName)){
+
+        if(peshMap.containsKey(step.DeveloperName)){
+            List<Participant_Enrollment_Status_History__c> peshList = peshMap.get(step.DeveloperName);
+            stepWrapper.state = outcomesMap.get(peshList[0].Status__c).get(step.DeveloperName).State__c;
+            stepWrapper.status = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,peshList[0].Status__c)
+                    + ' ' + peshList[0].Date__c.date().format();
+            stepWrapper.outcome = peshList[0].Status__c;
+            
+            for(Participant_Enrollment_Status_History__c pesh: peshList){
+
+                Boolean nextStepSuccessful = false;
+                Boolean nextStepInProgress = false;
+                nextStepSuccessful = nextStep!=null && String.isNotBlank(nextStep.Success_Condition__c) && ConditionCheckerService.checkConditionForObject(nextStep.Success_Condition__c, pe);
+                nextStepInProgress = nextStep!=null && (String.isBlank(nextStep.In_Progress_Condition__c) || ConditionCheckerService.checkConditionForObject(nextStep.In_Progress_Condition__c, pe));
+                Boolean statusValidForCurrentStep = (step.Additional_Notes_For_Statuses__c!=null 
+                                                     && step.Additional_Notes_For_Statuses__c.contains(';'+pesh.Status__c+';') 
+                                                     && !(nextStep!=null && nextStep.Additional_Notes_For_Statuses__c!=null 
+                                                          && nextStep.Additional_Notes_For_Statuses__c.contains(';'+pesh.Status__c+';')
+                                                         )
+                                                    );
+                Boolean isStatusCommonForSteps = (peshList.indexOf(pesh)==0 && pesh.Additional_Notes__c!=null && pesh.Additional_Notes__c.contains('####')); 
+                if(
+                    (peshList.indexOf(pesh)!=0 || (!nextStepSuccessful && !nextStepInProgress)) || 
+                    statusValidForCurrentStep || isStatusCommonForSteps
+                ){
+                    if(peshList.indexOf(pesh)==0 && pesh.Additional_Notes__c!=null && pesh.Additional_Notes__c.contains('####')){
+                        stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(pesh.Additional_Notes__c.substringAfter('####')));                                  
+                    }else{     
+                        stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(pesh.Additional_Notes__c));        
+                    }
+                }
+                ParticipantWorkflowHistoryWrapper historyWrapper = createHistoryWrapper(pesh, step);
+                stepWrapper.stepHistory.add(historyWrapper);
+            }
+      
+            if(previousStep!=null && peshMap.containsKey(previousStep.DeveloperName)){
+                Boolean notesfromPreviousStepExists = peshMap.get(previousStep.DeveloperName)!=null && peshMap.get(previousStep.DeveloperName).size()>0
+                    && step.Additional_Notes_For_Statuses__c!=null && step.Additional_Notes_For_Statuses__c.contains(';'+peshMap.get(previousStep.DeveloperName)[0].Status__c+';');
+                if(notesfromPreviousStepExists){
+                    if(peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c!=null && peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c.contains('####')){
+                        String addNotes = peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c.substringBefore('####');
+                        stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(addNotes));
+                    }else{
+                        stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c));
+                    }   
+                }
+            }
+        } else{
             Boolean stepSuccessful =String.isNotBlank(step.Success_Condition__c) && ConditionCheckerService.checkConditionForObject(step.Success_Condition__c, pe);
 
             Boolean stepInProgress = String.isBlank(step.In_Progress_Condition__c) || ConditionCheckerService.checkConditionForObject(step.In_Progress_Condition__c, pe);
@@ -136,16 +197,17 @@ public without sharing class ParticipantWorkflowService {
             else{
                 stepWrapper.status = TranslateHelper.getLabelValue(step.No_Outcome_Label__c);
             }
-        }
-        else{
-            List<Participant_Enrollment_Status_History__c> peshList = peshMap.get(step.DeveloperName);
-            stepWrapper.state = outcomesMap.get(peshList[0].Status__c).get(step.DeveloperName).State__c;
-            stepWrapper.status = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,peshList[0].Status__c)
-                    + ' ' + peshList[0].Date__c.date().format();
-            stepWrapper.outcome = peshList[0].Status__c;
-            for(Participant_Enrollment_Status_History__c pesh: peshList){
-                ParticipantWorkflowHistoryWrapper historyWrapper = createHistoryWrapper(pesh, step);
-                stepWrapper.stepHistory.add(historyWrapper);
+            if(previousStep!=null && peshMap.containsKey(previousStep.DeveloperName)){
+                Boolean notesfromPreviousStepExists = peshMap.get(previousStep.DeveloperName)!=null && peshMap.get(previousStep.DeveloperName).size()>0
+                    && step.Additional_Notes_For_Statuses__c!=null && 
+                    step.Additional_Notes_For_Statuses__c.contains(';'+peshMap.get(previousStep.DeveloperName)[0].Status__c+';');                
+                if(notesfromPreviousStepExists){
+                    if(peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c!=null && peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c.contains('####')){
+                        stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c.substringBefore('####')));
+                    }else{
+                        stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c));
+                    } 
+                }
             }
         }
         stepWrapper.editable = stepWrapper.state == PEStatusState.STATUS_STATE_IN_PROGRESS
@@ -199,6 +261,24 @@ public without sharing class ParticipantWorkflowService {
         return stepWrapper;
     }
 
+    private static  List<ParticipantWorkflowHistoryWrapper> createOnlyNotesHistoryWrapper(String additionalNotes){
+        List<ParticipantWorkflowHistoryWrapper> historyWrappers = new List<ParticipantWorkflowHistoryWrapper>();
+            List<String> notes = new List<String>();
+            if(additionalNotes !=null)
+                notes = additionalNotes.split('#');
+            for(String note : notes){
+                ParticipantWorkflowHistoryWrapper historyWrapper = new ParticipantWorkflowHistoryWrapper();
+                historyWrapper.title = note.substringBeforeLast(Label.PE_Status_History_On_Date);
+                if(!String.isBlank(note.substringAfterLast(Label.PE_Status_History_On_Date))){
+                    historyWrapper.detail = Label.PE_Status_History_On_Date + note.substringAfterLast(Label.PE_Status_History_On_Date);
+                    historyWrapper.detail.replace(Label.PE_Status_History_On_Date, TranslateHelper.getLabelValue('PE_Status_History_On_Date'));
+                    historyWrapper.detail.replace(Label.PG_IMI_L_by_user, TranslateHelper.getLabelValue('PG_IMI_L_by_user'));
+                }
+                historyWrappers.add(historyWrapper);
+            }
+        return historyWrappers;
+    }
+    
     private static ParticipantWorkflowHistoryWrapper createHistoryWrapper(Participant_Enrollment_Status_History__c pesh, Participant_Workflow_Step__mdt step){
         ParticipantWorkflowHistoryWrapper historyWrapper = new ParticipantWorkflowHistoryWrapper();
         String statusString = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,pesh.Status__c);

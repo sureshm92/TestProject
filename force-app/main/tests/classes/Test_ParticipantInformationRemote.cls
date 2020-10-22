@@ -98,7 +98,7 @@ private class Test_ParticipantInformationRemote {
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(testData.pe.Id, CommunityService.USER_MODE_CC);
             ParticipantWorkflowService.ParticipantWorkflowWrapper path = ParticipantWorkflowService.prepareParticipantWorkflow(testData.ctp, pe);
             path.steps[path.currentStepInd].outcome = PEStatusState.PE_STATUS_CONTACT_ATTEMPTED;
-            ParticipantInformationRemote.updatePatientStatusCC( JSON.serialize(path), testData.pe.Id,false);
+            ParticipantInformationRemote.updatePatientStatusCC( JSON.serialize(path), testData.pe.Id,false,false);
         }
         Test.stopTest();
     }
