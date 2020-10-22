@@ -439,6 +439,7 @@ public without sharing class ParticipantInformationRemote {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());        }
     }
 
+    @testVisible
     private static void updateNotes(ParticipantWorkflowService.ParticipantWorkflowWrapper pathWrapper, Participant_Enrollment__c pe){
         Participant_Enrollment_Status_History__c peshnotes;                    
         peshnotes = [SELECT Id,Additional_Notes__c,Notes__c,Status__c  
