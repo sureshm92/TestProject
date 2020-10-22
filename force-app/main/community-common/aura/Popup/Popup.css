@@ -7,6 +7,10 @@
     visibility: visible;
 }
 
+.THIS .btnRTL{
+    margin-right: 538px!important;
+}
+
 .THIS #p-modal .p-container {
     position: fixed;
     max-height: 100vh;
