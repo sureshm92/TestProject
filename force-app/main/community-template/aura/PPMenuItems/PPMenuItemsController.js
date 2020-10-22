@@ -24,7 +24,7 @@
       var dataVal = event.currentTarget.dataset.id;       
       component.set("v.hovertext",dataVal);
       var cmpTarget = component.find('tooltip');
-    if(dataVal=='Delegates'){
+    if(dataVal==$A.get("$Label.c.Delegates")){
         if(component.get("v.isRTL")){
           $A.util.addClass(cmpTarget, 'tooltipRTL');
           $A.util.removeClass(cmpTarget, 'tooltip');
@@ -41,7 +41,7 @@
           $A.util.removeClass(cmpTarget,'slds-nubbin--top-left');
           $A.util.removeClass(cmpTarget,'tooltipNotActive');
       }
-     else if(dataVal=='Account Settings'){
+     else if(dataVal==$A.get("$Label.c.PP_Account_Settings")){
       if(component.get("v.isRTL")){
           $A.util.addClass(cmpTarget, 'tooltipASRTL');
           $A.util.removeClass(cmpTarget, 'tooltipAS');
@@ -58,7 +58,7 @@
          $A.util.removeClass(cmpTarget,'slds-nubbin--top-left');
          $A.util.removeClass(cmpTarget,'tooltipNotActive');
       }     
-      else if(dataVal=='No active studies'){
+      else if(dataVal==$A.get("$Label.c.No_active_studies")){
           $A.util.addClass(cmpTarget, 'tooltipNotActive');
       }
       else{
@@ -76,12 +76,14 @@
             }
           $A.util.removeClass(cmpTarget, 'tooltip');
           $A.util.removeClass(cmpTarget, 'tooltipAS');
+          $A.util.removeClass(cmpTarget, 'tooltipRTL');
+          $A.util.removeClass(cmpTarget, 'tooltipASRTL');
           $A.util.removeClass(cmpTarget,'slds-nubbin--bottom');
           $A.util.removeClass(cmpTarget,'tooltipNotActive');
       }
       
       $A.util.addClass(cmpTarget, 'tooltip');
-      if(dataVal!='No active studies'){
+      if(dataVal!=$A.get("$Label.c.No_active_studies")){
         helper.toggleHelper(component, event);
       }        
   },    
