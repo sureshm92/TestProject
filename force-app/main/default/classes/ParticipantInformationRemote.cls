@@ -429,7 +429,7 @@ public without sharing class ParticipantInformationRemote {
                 insert pesh;
             }else if (notesToBeAdded){
                 Participant_Enrollment_Status_History__c peshnotes;                    
-                    peshnotes = [SELECT Id,Additional_Notes__c,Notes__c,Status__c //,Step__c 
+                    peshnotes = [SELECT Id,Additional_Notes__c,Notes__c,Status__c  
                                  FROM Participant_Enrollment_Status_History__c 
                                  WHERE ParticipantEnrollment__c =:pe.Id ORDER BY Date__c DESC LIMIT 1][0];
 
@@ -540,7 +540,7 @@ public without sharing class ParticipantInformationRemote {
             }else if (notesToBeAdded){
                 Participant_Enrollment_Status_History__c peshnotes;
 
-                    peshnotes = [SELECT Id,Additional_Notes__c,Notes__c,Status__c,Step__c 
+                    peshnotes = [SELECT Id,Additional_Notes__c,Notes__c,Status__c
                                  FROM Participant_Enrollment_Status_History__c 
                                  WHERE ParticipantEnrollment__c =:pe.Id ORDER BY Date__c DESC LIMIT 1][0];
                 if(peshnotes!=null){
