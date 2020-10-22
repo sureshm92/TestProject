@@ -3,6 +3,10 @@
     <label>Enrolled</label>
     <protected>false</protected>
     <values>
+        <field>Additional_Notes_For_Statuses__c</field>
+        <value xsi:type="xsd:string">;Enrollment Success;Screening Passed;Enrollment Failed;Withdrew Consent After Screening;Declined Final Consent;</value>
+    </values>
+    <values>
         <field>Card_Name_Label__c</field>
         <value xsi:type="xsd:string">PWS_Enrolled_Card_Name</value>
     </values>
