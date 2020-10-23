@@ -90,6 +90,19 @@ private class Test_ParticipantInformationRemote {
         Test.stopTest();
     }
 
+    @IsTest
+    static void updateStateCC() {
+        TestData testData = new TestData();
+        Test.startTest();
+        System.runAs(testData.piUser) {
+            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(testData.pe.Id, CommunityService.USER_MODE_CC);
+            ParticipantWorkflowService.ParticipantWorkflowWrapper path = ParticipantWorkflowService.prepareParticipantWorkflow(testData.ctp, pe);
+            path.steps[path.currentStepInd].outcome = PEStatusState.PE_STATUS_CONTACT_ATTEMPTED;
+            ParticipantInformationRemote.updatePatientStatusCC( JSON.serialize(path), testData.pe.Id,false,false);
+        }
+        Test.stopTest();
+    }
+    
     @isTest
     static void updateNotesTest(){
         TestData testData = new TestData();
