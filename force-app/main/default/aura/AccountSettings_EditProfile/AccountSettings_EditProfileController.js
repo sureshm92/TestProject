@@ -218,9 +218,19 @@
     },
     doCheckFieldsValidity: function(component, event, helper){
         event.preventDefault();
+        debugger;
         var numbers=/^[0-9]*$/;
         let personWrapper = component.get('v.personWrapper');
         var homephoneField=component.find('pField2');
+		var emailField = component.find('emailInput');
+		var emailValue = emailField? emailField.get('v.value'): null;
+        helper.checkValidEmail(emailField,emailValue)
+        /*if(!helper.checkValidEmail(emailField,emailValue)) {
+             emailField.setCustomValidity('You have entered an invalid format'); 
+             emailField.reportValidity();
+             return null;
+            
+        } */
         
         var phoneField=component.find('pField1');
         if(personWrapper.mobilePhone){
