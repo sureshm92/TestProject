@@ -46,3 +46,27 @@
     top: 1px;
 }
 
+@media all and (max-width: 360px){
+    .nic-points{
+        padding-left: 1px;
+        font-size: 13px;
+        line-height: 11px;
+    }
+    .nic-button{
+        flex-direction: column-reverse;
+        padding-bottom: 16px;
+        align-items: center;
+        line-height: 18px;
+    }
+
+    .rr-icon-default {
+        height: 16px;
+        width: 16px;
+    }
+
+    .nic-button .rr-icon-default {
+        height: 18px;
+        width: 18px;
+    }
+
+}

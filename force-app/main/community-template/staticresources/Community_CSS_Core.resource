@@ -28,6 +28,11 @@ a:hover {
     text-decoration: none;
 }
 
+.slds-button:focus {
+    color: #297dfd;
+    box-shadow: none;
+}
+
 .main-header-neutral{
     background: linear-gradient(to right, #e6e6e6 0%, #f5f5f5 100%);
 }
@@ -1539,6 +1544,11 @@ input[type=password]::-ms-clear
 }
 
 @media all and (max-width: 768px){
+
+    .rr-header-margin {
+        height: 0;
+    }
+
     .with-selector .rr-header-content, .with-selector .body-content{
         height: 80px;
     }
@@ -1707,13 +1717,13 @@ input[type=password]::-ms-clear
   }	
 
 }
-/*
-@media all and (max-width: 479px){
-    .rr-small-down-hide{
-        display: none!important;
+
+@media all and (max-width: 360px){
+    .rr-width-limiter.side-padding{
+        padding-left: .25rem;
     }
 }
-*/
+
 /* medium 768 */
 @media all and (min-width: 768px){
     .rr-medium-up-hide{
