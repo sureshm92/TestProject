@@ -1719,7 +1719,7 @@ input[type=password]::-ms-clear
 }
 
 @media all and (max-width: 360px){
-    .rr-width-limiter.side-padding{
+    .rr-header-content .rr-width-limiter.side-padding{
         padding-left: .25rem;
     }
 }
