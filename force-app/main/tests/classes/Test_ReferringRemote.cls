@@ -41,7 +41,7 @@ private without sharing class Test_ReferringRemote {
             ReferringRemote.setfailedReferral(JSON.serialize(pe), ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING);
         }
         Test.stopTest();
-        List<Participant__c> testParticipants = [SELECT Id FROM Participant__c WHERE Email__c IN ('partTest@email.com', 'PTestDelegate@email.com')];
+        List<Participant__c> testParticipants = [SELECT Id FROM Participant__c WHERE Email__c IN ('parttest@email.com', 'ptestdelegate@email.com')];
         System.assertEquals('false', checkNeeds);
         System.assertEquals(2, testParticipants.size());
     }
