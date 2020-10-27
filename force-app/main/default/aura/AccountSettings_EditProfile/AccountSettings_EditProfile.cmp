@@ -273,7 +273,7 @@
                                      <lightning:input aura:id="emailInput" type="text"
                                                       label="{!$Label.c.PG_AS_F_Email_address}"
                                                       value="{!v.contact.Email}"
-                                         			  onblur="{!c.doCheckFieldsValidity}"
+                                         			  onblur="{!c.doCheckEmailFieldValidity}"
                                                       messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
                                                       
                                        />
@@ -287,7 +287,7 @@
                                        <lightning:input aura:id="emailInput1" type="text"
                                                       label="{!$Label.c.PG_AS_F_Email_address}"
                                                       value="{!v.contact.Email}"
-                                         			  onblur="{!c.doCheckFieldsValidity}"
+                                         			  onblur="{!c.doCheckEmailFieldValidity}"
                                                         disabled="true"
                                                       
                                        />

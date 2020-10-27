@@ -216,21 +216,24 @@
         component.set('v.optInSMS', personWrapper.optInSMS);
         component.set('v.personWrapper', personWrapper);
     },
-    doCheckFieldsValidity: function(component, event, helper){
+    
+    doCheckEmailFieldValidity : function(component, event, helper){
+        	var emailField = component.find('emailInput');
+	  	var emailValue = emailField? emailField.get('v.value'): null;
+       var emailValid = helper.checkValidEmail(emailField,emailValue);
+        if(emailValid)
+             component.set('v.disableSave',false);
+        else
+          component.set('v.disableSave',true);  
+        
+    },
+   doCheckFieldsValidity: function(component, event, helper){
         event.preventDefault();
         debugger;
         var numbers=/^[0-9]*$/;
         let personWrapper = component.get('v.personWrapper');
         var homephoneField=component.find('pField2');
-		var emailField = component.find('emailInput');
-		var emailValue = emailField? emailField.get('v.value'): null;
-        helper.checkValidEmail(emailField,emailValue)
-        /*if(!helper.checkValidEmail(emailField,emailValue)) {
-             emailField.setCustomValidity('You have entered an invalid format'); 
-             emailField.reportValidity();
-             return null;
-            
-        } */
+	 
         
         var phoneField=component.find('pField1');
         if(personWrapper.mobilePhone){
@@ -361,14 +364,16 @@
         var fieldName = component.find('pField');
         var homephoneField=component.find('pField2');
         var phoneField=component.find('pField1');
-        var numbers=/^[0-9]*$/ ;
-        if (personWrapper.homePhone && (!numbers.test(personWrapper.homePhone))){
+        var numbers = '((\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4})|\\d' ;
+        if (personWrapper.homePhone)
+            if(!personWrapper.homePhone.match(numbers)){
             homephoneField.setCustomValidity($A.get('$Label.c.PP_Phone_Numeric'));
             component.set('v.disableSave',true);
             homephoneField.reportValidity();
             return;
         }
-        if (personWrapper.mobilePhone && (!numbers.test(personWrapper.mobilePhone))){
+        if (personWrapper.mobilePhone)
+            if(!personWrapper.mobilePhone.match(numbers)){
             phoneField.setCustomValidity($A.get('$Label.c.PP_Phone_Numeric'));
             component.set('v.disableSave',true);
             phoneField.reportValidity();
@@ -402,26 +407,28 @@
                 }  
                 
             }
+             component.set('v.showSpinner', true);
             communityService.executeAction(component, 'changeEmail', {
                 newEmail: newEmail
             }, function (returnValue) {
                 component.set('v.currentEmail', newEmail);
+                communityService.executeAction(component, 'updatePerson', {
+                    wrapperJSON: JSON.stringify(component.get('v.personWrapper'))
+                }, function () {
+                    component.set('v.participantHasUpdateTasks', false);
+                    helper.setPersonSnapshot(component);
+                    component.find('spinner').hide();
+                    communityService.navigateToPage('account-settings'); 
+                    communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'),100);
+                    window.location.reload(true);
+                    
+                });
             }, null, function () {
-                component.set('v.showSpinner', false);
+               // component.set('v.showSpinner', false);
             });
             
-            communityService.executeAction(component, 'updatePerson', {
-                wrapperJSON: JSON.stringify(component.get('v.personWrapper'))
-            }, function () {
-                component.set('v.participantHasUpdateTasks', false);
-                helper.setPersonSnapshot(component);
-                component.find('spinner').hide();
-                communityService.navigateToPage('account-settings'); 
-                communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'),100);
-                window.location.reload(true);
-
-            });
-            component.set('v.showSpinner', true);
+          
+           
             var inst = component.get('v.institute');
             console.log(inst.Name);
             // console.log(v.institute.Name)
