@@ -102,4 +102,21 @@ private class Test_ParticipantInformationRemote {
         }
         Test.stopTest();
     }
+    
+    @isTest
+    static void updateNotesTest(){
+        TestData testData = new TestData();
+        Test.startTest();
+        System.runAs(testData.piUser) {
+            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(testData.pe.Id, CommunityService.USER_MODE_CC);
+            ParticipantWorkflowService.ParticipantWorkflowWrapper path = ParticipantWorkflowService.prepareParticipantWorkflow(testData.ctp, pe);
+            path.steps[path.currentStepInd].notes = 'note';
+            ParticipantInformationRemote.updatePatientStatusCC( JSON.serialize(path), testData.pe.Id,false,true);
+            ParticipantInformationRemote.updatePatientStatus( JSON.serialize(path), testData.pe.Id,false,true);
+            path.steps[path.currentStepInd+1].state = 'neutral';
+            path.steps[path.currentStepInd+1].title = 'Inital Visit';
+            ParticipantInformationRemote.updateNotes(path, testData.pe);
+        }
+        Test.stopTest();
+    }
 }
