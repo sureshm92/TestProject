@@ -296,8 +296,13 @@ public without sharing class ParticipantWorkflowService {
                     replace('##Notes',notesString);
         }
         if(String.isBlank(step.History_Item_Details_Template_Label__c)){
-            historyWrapper.detail = ' '+ TranslateHelper.getLabelValue('PE_Status_History_On_Date') +' ' + pesh.Date__c.format()
+            if(pesh.Date__c != NULL){
+                historyWrapper.detail = ' '+ TranslateHelper.getLabelValue('PE_Status_History_On_Date') +' ' + pesh.Date__c.format()
                     + ' ' + TranslateHelper.getLabelValue('PG_IMI_L_by_user') + ' '+ pesh.CreatedBy.Name;
+            }
+            else{
+                historyWrapper.detail = ' '+ TranslateHelper.getLabelValue('PE_Status_History_On_Date') + ' ' + TranslateHelper.getLabelValue('PG_IMI_L_by_user') + ' '+ pesh.CreatedBy.Name;
+            }
         }
         else{
             String sourceString = String.isBlank(pesh.ParticipantEnrollment__r.Referral_Completedby_Name__c)?
