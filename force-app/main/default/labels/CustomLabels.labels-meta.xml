@@ -13397,11 +13397,11 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>If any information is incorrect, please</value>
     </labels>
     <labels>
-        <fullName>PG_RP_L_My_Referrals</fullName>
+       <fullName>PG_RP_L_My_Referrals</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG RP L My Referrals</shortDescription>
-        <value>My Participants</value>
+        <value>My Participants (Card View)</value>
     </labels>
     <labels>
         <fullName>PG_RP_L_Not_selected</fullName>

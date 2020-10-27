@@ -1,10 +1,30 @@
 .THIS .h_font{
-    color: #595959;
+	color: #595959;
 }
 
 .THIS.myPart{
-    color: black;
-	font-weight: 600; 
-	font-size: 14px; 
+	color: black;
+	font-weight: 600;
+	font-size: 14px;
 	padding-bottom: 15px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.THIS .switchButton {
+	display: inline-block;
+	margin-top: -3px;
+}
+
+.THIS.ListViewHead {
+    display:flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+@media all and (max-width: 360px) {
+    .THIS.ListViewHead  span:first-child {
+        width: 40%
+    }
+    
 }
