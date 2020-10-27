@@ -5527,7 +5527,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Participant_Workflow_Step__mdt.Additional_Notes_For_Statuses__c</field>
         <readable>true</readable>
     </fieldPermissions>
