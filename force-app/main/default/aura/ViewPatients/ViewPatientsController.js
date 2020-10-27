@@ -34,7 +34,9 @@
         var childComponent = component.find("childCmp");
         childComponent.childMethod();
     },
-
+    onClickListView: function (component, event, helper){
+        communityService.navigateToPage('listviewparticipant');
+    },
     doNeedsGuardian: function (component, event) {
         let childCmp = event.getSource();
         let hasEmancipatedParticipants = childCmp.get('v.hasEmancipatedParticipants');
@@ -50,5 +52,5 @@
     filterEmancipations: function (component, event, helper) {
         let rootCmp = component.get('v.parent');
         rootCmp.filterEmancipationsOnly();
-    },
+    }
 });

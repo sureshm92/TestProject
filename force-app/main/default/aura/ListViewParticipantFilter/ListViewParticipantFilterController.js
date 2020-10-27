@@ -730,7 +730,7 @@
     {
         //var spinner = component.find('recordsSpinner');
         //spinner.show();
-        component.set("v.startPos", 1);
+        component.set("v.startPos", 0);
         component.set("v.endPos", 45000);
         component.set("v.counterLimit", 45000);
         helper.getAllFilteredList(component, event, helper); 

@@ -62,7 +62,7 @@
 
     <!-- methods: -->
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
-
+    <aura:method name="export" action="{!c.exportAll}" />
     <aura:method name="filterEmancipationsOnly" action="{!c.filterEmancipations}" access="public"/>
 
     <!-- component body: -->
@@ -87,7 +87,11 @@
                            currentPageCount="{!v.paginationData.currentPageCount}"
                            setValueAsSelected="true"
                            isCalledFromViewPatient="true"
-                           userMode = "{!v.userMode}">
+                           userMode = "{!v.userMode}"
+                           parent="{! this }"
+                           entriesOnPage="{!v.paginationData.pageRecordsCount}"
+                           currentPage="{!v.paginationData.currentPage}"
+                           myParticipantPg="true">
                 <aura:if isTrue="{!v.userMode == 'PI'}">
                     <c:rrSelect value="{!v.peFilter.activePE}" options="{!v.peFilterData.activePE}"
                                 placeholder="{!$Label.c.PG_VP_L_Active}" useSentenceFont="false"
@@ -145,11 +149,11 @@
             </c:FilterPanel>
 
              <!-- pagination -->
-             <div class="pagination-position">
+             <!--<div class="pagination-position">
                  <c:RRPaginationRemote entriesOnPage="{!v.paginationData.pageRecordsCount}"
                  currentPage="{!v.paginationData.currentPage}"
                  allRecordsCount="{!v.paginationData.allRecordsCount}"/>
-             </div>
+             </div>-->
 
             <!-- list of items: -->
             <div class="participantcard-position slds-gutters_">

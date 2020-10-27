@@ -50,14 +50,22 @@
                         </aura:set>
                     </div>
                 </aura:if>
-                <aura:if isTrue="{!v.userMode != 'HCP'}">
+                <!--<aura:if isTrue="{!v.userMode != 'HCP'}">
                     <div class="vp-export-btn">
                         <button class="apollo-btn secondary" data-gtm="BTN_My_Participants_Export_All"
                                 onclick="{!c.doExportFull}">
                             {!$Label.c.BTN_Export_All}
                         </button>
                     </div>
-                </aura:if>
+                </aura:if>-->
+                <aura:if isTrue="{!v.userMode == 'PI' }">
+                        <div class="slds-text-align_right vp-navigate-btn" >
+                            <a style="font-size: 1rem;font-weight: 700;"
+                                    onclick="{!c.onClickListView}">
+                                {!$Label.c.BTN_Naviagte}
+                            </a>
+                        </div>
+                    </aura:if>
             </div>
             <aura:if isTrue="{!v.userMode == 'HCP'}">
                 <c:MedicalRecordReviewLog showStatistics="false" studyFilterEnabled="true" trialId="{!v.trialId}"
