@@ -69,7 +69,7 @@
             email.reportValidity(); 
         return isValid;
     },
-    setFieldsValidity: function(component){
+    setFieldsValidity: function(component,event){
         event.preventDefault();
         let fieldsGroup = 'pField';
         let allValid = component.find(fieldsGroup).reduce(function (validSoFar, inputCmp) {
