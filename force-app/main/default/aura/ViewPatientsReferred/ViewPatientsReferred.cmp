@@ -41,7 +41,7 @@
     <aura:attribute name="isInvited" type="Boolean"/>
     <aura:attribute name="hasEmancipatedParticipants" type="Boolean"/>
     <aura:attribute name="showEmancipatedOnly" type="Boolean" default="false"/>
-
+    <aura:attribute name="entriesOnPage" type="Integer"/>
     <!-- events: -->
     <aura:registerEvent name="onInit" type="c:uiEvent"/>
 
