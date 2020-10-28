@@ -2,6 +2,7 @@
 	  checkValidEmail : function(email,emailValue) {
          debugger;
         var isValid = false;
+        if(email && emailValue) {
         var regexp = $A.get("$Label.c.RH_Email_Validation_Pattern");
             if(emailValue.match(regexp)) {
                 email.setCustomValidity('');
@@ -11,6 +12,7 @@
                 isValid = false;
             }
             email.reportValidity(); 
-        return isValid;
+        }
+                return isValid;
     },
 })
