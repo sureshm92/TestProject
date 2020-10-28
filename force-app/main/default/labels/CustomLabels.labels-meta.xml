@@ -4094,10 +4094,9 @@ Please share our site on social media to encourage others to assist us as we wor
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial Patient Created By PI New</shortDescription>
-        <value>&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Thank you for your interest in the ##StudyName. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the study team will contact you regarding the next steps in the enrollment process. &lt;/p&gt;&lt;/div&gt;
-Further information on the ##ShortCommunityName can be found in the Informed Consent Form from your study center.
+        <value>&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Thank you for your interest in the ##StudyName. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the study team will contact you regarding the next steps in the enrollment process. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Further information on the ##ShortCommunityName can be found in the Informed Consent Form from your study center.
 
-Your user name is ##UserName.</value>
+Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
     </labels>
 
     <labels>
