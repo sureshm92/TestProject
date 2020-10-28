@@ -12,11 +12,43 @@ public without sharing class ParticipantWorkflowService {
     public static ParticipantWorkflowWrapper prepareParticipantWorkflow(Clinical_Trial_Profile__c ctp, Participant_Enrollment__c pe){
         ParticipantWorkflowWrapper wrapper = new ParticipantWorkflowWrapper();
         wrapper.steps = new List<ParticipantWorkflowService.ParticipantWorkflowStepWrapper>();
+        Map<String,String> stepsAndStates = new Map<String,String>();
+        //List<Participant_Workflow_Step__mdt> steps = getWorkflowStepsAndStates(ctp, stepsAndStates);        
         List<Participant_Workflow_Step__mdt> steps = getWorkflowSteps( ctp);
+        Map<String,List<Participant_Enrollment_Status_History__c>> stepsAndStatuses = new Map<String,List<Participant_Enrollment_Status_History__c>>();
+        List<Participant_Enrollment_Status_History__c> peshistories = [
+                SELECT Id, Date__c, Status__c, Reason__c, Notes__c, CreatedBy.Name,Additional_Notes__c,
+                        ParticipantEnrollment__r.Referral_Source__c, ParticipantEnrollment__r.Referral_Completedby_Name__c,
+                        ParticipantEnrollment__r.Source_Type__c, ParticipantEnrollment__r.PI_Contact__r.Name
+                FROM Participant_Enrollment_Status_History__c
+                WHERE ParticipantEnrollment__c = :pe.Id
+                ORDER BY Date__c DESC];
+        Map<String,List<Participant_Enrollment_Status_History__c>> stepsAndPesh = new Map<String,List<Participant_Enrollment_Status_History__c>>();
+        for(Participant_Workflow_Step__mdt step : steps){
+            stepsAndStates.put(step.DeveloperName, step.Additional_Notes_For_Statuses__c);
+        }
+        for(String step : stepsAndStates.keySet()){
+            for(Participant_Enrollment_Status_History__c pesh : peshistories){
+                if(stepsAndStates.get(step)!=null && stepsAndStates.get(step) !='' && stepsAndStates.get(step).contains(';'+pesh.Status__c+';')){
+                    if(stepsAndPesh.containsKey(step)){
+                        List<Participant_Enrollment_Status_History__c> peshs = stepsAndPesh.get(step);
+                        if(peshs == null || peshs.isEmpty()){
+                            peshs = new List<Participant_Enrollment_Status_History__c>{pesh};    
+                                }else{
+                                    peshs.add(pesh);
+                                }
+                    }else{
+                        List<Participant_Enrollment_Status_History__c> peshs = new List<Participant_Enrollment_Status_History__c>{pesh}; 
+                            stepsAndPesh.put(step,peshs);
+                    }
+                }
+            }
+        }
+
         Map<String, Map<String,  Participant_Workflow_Outcome__mdt>> outcomesMap = getOutcomesMap(steps, ctp);
-        Map<String, List<Participant_Enrollment_Status_History__c>> peshMapByStep = getPESHByStep(pe, outcomesMap);
+        Map<String, List<Participant_Enrollment_Status_History__c>> peshMapByStep = getPESHByStep(pe, outcomesMap, peshistories);
         Map<String, Participant_Workflow_Form_Field__mdt> fieldsMap = getFieldsMap(ctp, pe);
-        Map<String, ParticipantWorkflowFieldWrapper> fieldWrappersMap = new Map<String, ParticipantWorkflowService.ParticipantWorkflowFieldWrapper>();
+        Map<String, ParticipantWorkflowFieldWrapper> fieldWrappersMap = new Map<String, ParticipantWorkflowService.ParticipantWorkflowFieldWrapper>();        
         Boolean previousStepSuccess = false;
         Integer currentStepInd = 0;
         Boolean nonNeutralStepFound = false;
@@ -33,7 +65,7 @@ public without sharing class ParticipantWorkflowService {
             ParticipantWorkflowStepWrapper stepWrapper = createStepWrapper(step, outcomesMap, 
                                                                            peshMapByStep, previousStepSuccess, 
                                                                            fieldsMap, pe, ctp, fieldWrappersMap,
-                                                                           previousStep, nextStep);
+                                                                           previousStep, nextStep, stepsAndPesh);
             previousStepSuccess = stepWrapper.state == PEStatusState.STATUS_STATE_SUCCESS;
 
             if (stepWrapper.state == PEStatusState.STATUS_STATE_SUCCESS
@@ -70,7 +102,25 @@ public without sharing class ParticipantWorkflowService {
             }
         }
         return eligibleSteps;
-    }   
+    }
+    
+    private static List<Participant_Workflow_Step__mdt> getWorkflowStepsAndStates(Clinical_Trial_Profile__c ctp,
+                                                                                 Map<String,String> stepsAndStates){
+        List<Participant_Workflow_Step__mdt> eligibleSteps = new List<Participant_Workflow_Step__mdt>();
+        for(Participant_Workflow_Step__mdt step:[
+                SELECT Id, DeveloperName, Condition__c, Name_Label__c, Order__c, History_Label__c,
+                        Card_Name_Label__c, No_Outcome_Label__c, Failed_State_Editing_Enabled__c,
+                        Outcome_Placeholder_Label__c, History_Item_Title_Template_Label__c,
+                        History_Item_Details_Template_Label__c, Form_Fields__c,In_Progress_Condition__c,Additional_Notes_For_Statuses__c,
+                        Success_Condition__c, Success_Date_Field__c, In_Progress_Date_Field__c, Success_Checkbox_Field__c
+                FROM Participant_Workflow_Step__mdt ORDER By Order__c ASC]){
+            if(String.isBlank(step.Condition__c) || ConditionCheckerService.checkConditionForObject(step.Condition__c, ctp)){
+                eligibleSteps.add(step);
+                stepsAndStates.put(step.DeveloperName, step.Additional_Notes_For_Statuses__c);
+            }
+        }
+        return eligibleSteps;
+    }        
     
     private static Map<String, Map<String, Participant_Workflow_Outcome__mdt>> getOutcomesMap(List<Participant_Workflow_Step__mdt> workflowSteps, Clinical_Trial_Profile__c ctp){
         Set<String> stepNames = new Set<String>();
@@ -93,15 +143,9 @@ public without sharing class ParticipantWorkflowService {
     }
 
     private static Map<String, List<Participant_Enrollment_Status_History__c>> getPESHByStep(Participant_Enrollment__c pe,
-            Map<String, Map<String,  Participant_Workflow_Outcome__mdt>> outcomesMap){
+            Map<String, Map<String,  Participant_Workflow_Outcome__mdt>> outcomesMap, List<Participant_Enrollment_Status_History__c> peshs){
         Map<String, List<Participant_Enrollment_Status_History__c>> result = new Map<String, List<Participant_Enrollment_Status_History__c>>();
-        for(Participant_Enrollment_Status_History__c pesh: [
-                SELECT Id, Date__c, Status__c, Reason__c, Notes__c, CreatedBy.Name,Additional_Notes__c,
-                        ParticipantEnrollment__r.Referral_Source__c, ParticipantEnrollment__r.Referral_Completedby_Name__c,
-                        ParticipantEnrollment__r.Source_Type__c, ParticipantEnrollment__r.PI_Contact__r.Name
-                FROM Participant_Enrollment_Status_History__c
-                WHERE ParticipantEnrollment__c = :pe.Id
-                ORDER BY Date__c DESC]){
+        for(Participant_Enrollment_Status_History__c pesh: peshs){
             if(outcomesMap.containsKey(pesh.Status__c)){
                 for (String stepName : outcomesMap.get(pesh.Status__c).keySet()){
                     if(!result.containsKey(stepName)){
@@ -122,7 +166,8 @@ public without sharing class ParticipantWorkflowService {
             Clinical_Trial_Profile__c ctp,
             Map<String, ParticipantWorkflowFieldWrapper> fieldWrappersMap,
             Participant_Workflow_Step__mdt previousStep,
-            Participant_Workflow_Step__mdt nextStep){
+            Participant_Workflow_Step__mdt nextStep,
+            Map<String,List<Participant_Enrollment_Status_History__c>> stepsAndPesh){
         ParticipantWorkflowStepWrapper stepWrapper = new ParticipantWorkflowStepWrapper();
         stepWrapper.title = TranslateHelper.getLabelValue(step.Name_Label__c);
         stepWrapper.cardTitle = TranslateHelper.getLabelValue(step.Card_Name_Label__c);
@@ -139,6 +184,12 @@ public without sharing class ParticipantWorkflowService {
             stepWrapper.status = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,peshList[0].Status__c)
                     + ' ' + peshList[0].Date__c.date().format();
             stepWrapper.outcome = peshList[0].Status__c;
+            List<Id> stepList = new List<Id>();
+            if(peshList!=null)
+            for(Participant_Enrollment_Status_History__c pesh: peshList){
+                 stepList.add(pesh.Id);               
+            }
+            List<Participant_Enrollment_Status_History__c> peshists = stepsAndPesh.get(step.DeveloperName);
             
             for(Participant_Enrollment_Status_History__c pesh: peshList){
 
@@ -152,31 +203,31 @@ public without sharing class ParticipantWorkflowService {
                                                           && nextStep.Additional_Notes_For_Statuses__c.contains(';'+pesh.Status__c+';')
                                                          )
                                                     );
-                Boolean isStatusCommonForSteps = (peshList.indexOf(pesh)==0 && pesh.Additional_Notes__c!=null && pesh.Additional_Notes__c.contains('####')); 
-                if(
-                    (peshList.indexOf(pesh)!=0 || (!nextStepSuccessful && !nextStepInProgress)) || 
-                    statusValidForCurrentStep || isStatusCommonForSteps
-                ){
-                    if(peshList.indexOf(pesh)==0 && pesh.Additional_Notes__c!=null && pesh.Additional_Notes__c.contains('####')){
+                Boolean isStatusCommonForSteps = (stepsAndPesh.containsKey(step.DeveloperName) && stepsAndPesh.get(step.DeveloperName).contains(pesh) 
+                                                  && stepsAndPesh.containsKey(nextStep.DeveloperName) && stepsAndPesh.get(nextStep.DeveloperName).contains(pesh)); 
+                if(stepsAndPesh.containsKey(step.DeveloperName) && stepsAndPesh.get(step.DeveloperName).contains(pesh)){
+                    if(pesh.Additional_Notes__c!=null && pesh.Additional_Notes__c.contains('####')){
                         stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(pesh.Additional_Notes__c.substringAfter('####')));                                  
-                    }else{     
+                    }else if((isStatusCommonForSteps && !(nextStepSuccessful || nextStepInProgress) && (pesh.Additional_Notes__c ==null || !pesh.Additional_Notes__c.contains('####'))) || 
+                             !isStatusCommonForSteps){
                         stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(pesh.Additional_Notes__c));        
                     }
                 }
                 ParticipantWorkflowHistoryWrapper historyWrapper = createHistoryWrapper(pesh, step);
                 stepWrapper.stepHistory.add(historyWrapper);
             }
-      
-            if(previousStep!=null && peshMap.containsKey(previousStep.DeveloperName)){
-                Boolean notesfromPreviousStepExists = peshMap.get(previousStep.DeveloperName)!=null && peshMap.get(previousStep.DeveloperName).size()>0
-                    && step.Additional_Notes_For_Statuses__c!=null && step.Additional_Notes_For_Statuses__c.contains(';'+peshMap.get(previousStep.DeveloperName)[0].Status__c+';');
-                if(notesfromPreviousStepExists){
-                    if(peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c!=null && peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c.contains('####')){
-                        String addNotes = peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c.substringBefore('####');
-                        stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(addNotes));
-                    }else{
-                        stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c));
-                    }   
+
+            
+            if(peshists !=null){
+                for(Participant_Enrollment_Status_History__c peshist: peshists){
+                    if(!stepList.contains(peshist.Id)){
+                        if(peshist.Additional_Notes__c!=null && peshist.Additional_Notes__c.contains('####')){
+                            String addNotes = peshist.Additional_Notes__c.substringBefore('####');
+                            stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(addNotes));
+                        }else{
+                            stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(peshist.Additional_Notes__c));
+                        }
+                    }
                 }
             }
         } else{
@@ -197,16 +248,21 @@ public without sharing class ParticipantWorkflowService {
             else{
                 stepWrapper.status = TranslateHelper.getLabelValue(step.No_Outcome_Label__c);
             }
-            if(previousStep!=null && peshMap.containsKey(previousStep.DeveloperName)){
-                Boolean notesfromPreviousStepExists = peshMap.get(previousStep.DeveloperName)!=null && peshMap.get(previousStep.DeveloperName).size()>0
-                    && step.Additional_Notes_For_Statuses__c!=null && 
-                    step.Additional_Notes_For_Statuses__c.contains(';'+peshMap.get(previousStep.DeveloperName)[0].Status__c+';');                
-                if(notesfromPreviousStepExists){
-                    if(peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c!=null && peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c.contains('####')){
-                        stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c.substringBefore('####')));
-                    }else{
-                        stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(peshMap.get(previousStep.DeveloperName)[0].Additional_Notes__c));
-                    } 
+            List<Participant_Enrollment_Status_History__c> peshList = peshMap.get(step.DeveloperName);
+            List<Id> stepList = new List<Id>();
+            if(peshList!=null)
+            for(Participant_Enrollment_Status_History__c pesh: peshList){
+                stepList.add(pesh.Id);               
+            }
+            List<Participant_Enrollment_Status_History__c> peshists = stepsAndPesh.get(step.DeveloperName);
+            if(peshists !=null){
+                for(Participant_Enrollment_Status_History__c peshist: peshists){
+                        if(peshist.Additional_Notes__c!=null && peshist.Additional_Notes__c.contains('####')){
+                            String addNotes = peshist.Additional_Notes__c.substringBefore('####');
+                            stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(addNotes));
+                        }else{
+                            stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(peshist.Additional_Notes__c));
+                        }   
                 }
             }
         }
@@ -296,8 +352,13 @@ public without sharing class ParticipantWorkflowService {
                     replace('##Notes',notesString);
         }
         if(String.isBlank(step.History_Item_Details_Template_Label__c)){
-            historyWrapper.detail = ' '+ TranslateHelper.getLabelValue('PE_Status_History_On_Date') +' ' + pesh.Date__c.format()
+            if(pesh.Date__c != NULL){
+                historyWrapper.detail = ' '+ TranslateHelper.getLabelValue('PE_Status_History_On_Date') +' ' + pesh.Date__c.format()
                     + ' ' + TranslateHelper.getLabelValue('PG_IMI_L_by_user') + ' '+ pesh.CreatedBy.Name;
+            }
+            else{
+                historyWrapper.detail = ' '+ TranslateHelper.getLabelValue('PE_Status_History_On_Date') + ' ' + TranslateHelper.getLabelValue('PG_IMI_L_by_user') + ' '+ pesh.CreatedBy.Name;
+            }
         }
         else{
             String sourceString = String.isBlank(pesh.ParticipantEnrollment__r.Referral_Completedby_Name__c)?

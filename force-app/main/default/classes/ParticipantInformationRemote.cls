@@ -391,19 +391,19 @@ public without sharing class ParticipantInformationRemote {
     
     @AuraEnabled
     public static String updatePatientStatus(String pathWrapperJSON, String peId, Boolean historyToUpdate, 
-                                             Boolean notesToBeAdded){
+                                             Boolean notesToBeAdded,String outcome){
         Participant_Enrollment__c pe = new Participant_Enrollment__c(Id = peId);
-        return updatePatientStatus(pathWrapperJSON, pe, historyToUpdate,notesToBeAdded);
+        return updatePatientStatus(pathWrapperJSON, pe, historyToUpdate,notesToBeAdded, outcome);
     }
     
     @AuraEnabled
-    public static String updatePatientStatusCC(String pathWrapperJSON, String peId, Boolean historyToUpdate, Boolean notesToBeAdded){
+    public static String updatePatientStatusCC(String pathWrapperJSON, String peId, Boolean historyToUpdate, Boolean notesToBeAdded, String outcome){
         Participant_Enrollment__c pe = new Participant_Enrollment__c(Id = peId);
-        return updatePatientStatusCC(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded);
+        return updatePatientStatusCC(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome);
     }
     
     public static String updatePatientStatus(String pathWrapperJSON, Participant_Enrollment__c pe, 
-                                             Boolean historyToUpdate, Boolean notesToBeAdded){
+                                             Boolean historyToUpdate, Boolean notesToBeAdded, String outcome){
         try {
             ParticipantWorkflowService.ParticipantWorkflowWrapper pathWrapper =
                 (ParticipantWorkflowService.ParticipantWorkflowWrapper)JSON.deserialize(pathWrapperJSON, ParticipantWorkflowService.ParticipantWorkflowWrapper.class);
@@ -428,7 +428,9 @@ public without sharing class ParticipantInformationRemote {
                 }
                 insert pesh;
             }else if (notesToBeAdded && pe!=null && pe.Id!=null){
-                updateNotes(pathWrapper, pe);
+                updateNotes(pathWrapper, pe, outcome);
+            }else if(pe!=null && pe.Id!=null){
+                updateWithDividerWithNotes(pathWrapper, pe, outcome);
             }
             //pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_PI);
             pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityModeService.USER_MODE_PI, null, ViewPatientsRemote.PE_MY_PARTICIPANTS_FIELDS);
@@ -438,12 +440,18 @@ public without sharing class ParticipantInformationRemote {
             System.debug('ERROR: ' + e.getMessage() + '\n' + e.getStackTraceString());
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());        }
     }
-
-    private static void updateNotes(ParticipantWorkflowService.ParticipantWorkflowWrapper pathWrapper, Participant_Enrollment__c pe){
+	@testVisible
+    private static void updateNotes(ParticipantWorkflowService.ParticipantWorkflowWrapper pathWrapper, Participant_Enrollment__c pe, String outcome){
         Participant_Enrollment_Status_History__c peshnotes;                    
-        peshnotes = [SELECT Id,Additional_Notes__c,Notes__c,Status__c  
-                     FROM Participant_Enrollment_Status_History__c 
-                     WHERE ParticipantEnrollment__c =:pe.Id ORDER BY Date__c DESC LIMIT 1][0];
+        if(outcome!=null){
+            peshnotes = [SELECT Id,Additional_Notes__c,Notes__c,Status__c  
+                         FROM Participant_Enrollment_Status_History__c 
+                         WHERE ParticipantEnrollment__c =:pe.Id AND Status__c = :outcome ORDER BY Date__c DESC LIMIT 1][0];
+        }else{
+            peshnotes = [SELECT Id,Additional_Notes__c,Notes__c,Status__c  
+                         FROM Participant_Enrollment_Status_History__c 
+                         WHERE ParticipantEnrollment__c =:pe.Id ORDER BY Date__c DESC LIMIT 1][0];
+        }
         
         if(peshnotes!=null){
             Map<String,Participant_Workflow_Step__mdt> stepsWithName = new Map<String,Participant_Workflow_Step__mdt>();
@@ -505,6 +513,53 @@ public without sharing class ParticipantInformationRemote {
             update peshnotes;
         }
     }   
+
+    @testVisible
+    private static void updateWithDividerWithNotes(ParticipantWorkflowService.ParticipantWorkflowWrapper pathWrapper, Participant_Enrollment__c pe, String outcome){
+        Participant_Enrollment_Status_History__c peshnotes;   
+        if(outcome!=null){
+            peshnotes = [SELECT Id,Additional_Notes__c,Notes__c,Status__c  
+                         FROM Participant_Enrollment_Status_History__c 
+                         WHERE ParticipantEnrollment__c =:pe.Id AND Status__c = :outcome ORDER BY Date__c DESC LIMIT 1][0];
+        }else{
+            peshnotes = [SELECT Id,Additional_Notes__c,Notes__c,Status__c  
+                         FROM Participant_Enrollment_Status_History__c 
+                         WHERE ParticipantEnrollment__c =:pe.Id ORDER BY Date__c DESC LIMIT 1][0];
+        }
+        if(peshnotes!=null){
+            Map<String,Participant_Workflow_Step__mdt> stepsWithName = new Map<String,Participant_Workflow_Step__mdt>();
+            for(Participant_Workflow_Step__mdt s : [SELECT Id,MasterLabel,DeveloperName,Additional_Notes_For_Statuses__c, In_Progress_Condition__c, Success_Condition__c 
+                                                    FROM Participant_Workflow_Step__mdt]){
+                                                        stepsWithName.put(s.MasterLabel,s);                                       
+                                                    }
+            for(Integer i =0;i<pathWrapper.steps.size();i=i+1){
+                ParticipantWorkflowService.ParticipantWorkflowStepWrapper step = pathWrapper.steps[i];
+                if(step.isCurrentStep == true && step.isCurrentStepValid == true){
+                    if(i + 1 <pathWrapper.steps.size()){
+                        Boolean nextStepStateNew = isStepSuccessfulOrInProgress(stepsWithName.get(pathWrapper.steps[i+1].title), pe, peshnotes.Status__c);
+                        String nextStepStateOld = pathWrapper.steps[i+1].state;
+                        if(nextStepStateNew 
+                           && !(nextStepStateOld == PEStatusState.STATUS_STATE_SUCCESS || 
+                                nextStepStateOld == PEStatusState.STATUS_STATE_IN_PROGRESS ||
+                                nextStepStateOld == PEStatusState.STATUS_STATE_FAILURE) ){
+                                    if(peshnotes.Additional_Notes__c != null && !peshnotes.Additional_Notes__c.contains('####')){
+                                        peshnotes.Additional_Notes__c =  '####' + peshnotes.Additional_Notes__c;
+                                        break;
+                                    }
+                                }
+                    }
+                    
+                }
+            }
+            TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR.class);
+            TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.UpdatePEHandler.class);
+            TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandler.class);
+            TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
+            TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateWelcomeToStudyAlertHandler.class);
+            update peshnotes;
+        }
+    }   
+
     
     private static Boolean isStepSuccessfulOrInProgress(Participant_Workflow_Step__mdt step, Participant_Enrollment__c pe, String Status){
         Boolean stepSuccessful = false;
@@ -522,7 +577,7 @@ public without sharing class ParticipantInformationRemote {
 
     //CC
     @AuraEnabled
-    public static String updatePatientStatusCC(String pathWrapperJSON, Participant_Enrollment__c pe, Boolean historyToUpdate,Boolean notesToBeAdded){
+    public static String updatePatientStatusCC(String pathWrapperJSON, Participant_Enrollment__c pe, Boolean historyToUpdate,Boolean notesToBeAdded, String outcome){
         try {
             ParticipantWorkflowService.ParticipantWorkflowWrapper pathWrapper =
                 (ParticipantWorkflowService.ParticipantWorkflowWrapper)JSON.deserialize(pathWrapperJSON, ParticipantWorkflowService.ParticipantWorkflowWrapper.class);
@@ -547,7 +602,9 @@ public without sharing class ParticipantInformationRemote {
                 }
                 insert pesh;
             }else if (notesToBeAdded && pe!=null && pe.Id!=null){
-                updateNotes(pathWrapper, pe);
+                updateNotes(pathWrapper, pe, outcome);
+            }else if(pe!=null && pe.Id!=null){
+                updateWithDividerWithNotes(pathWrapper, pe, outcome);
             }
             //pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_CC);
             pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityModeService.USER_MODE_CC, null, ViewPatientsRemote.PE_MY_PARTICIPANTS_FIELDS);
@@ -564,7 +621,7 @@ public without sharing class ParticipantInformationRemote {
         Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
         Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
         update participant;
-        return updatePatientStatus(pathWrapperJSON, pe, false, false);
+        return updatePatientStatus(pathWrapperJSON, pe, false, false, null);
     }
     
     @AuraEnabled
@@ -575,7 +632,8 @@ public without sharing class ParticipantInformationRemote {
                                                                 String delegateJSON, 
                                                                 String userInfoJSON,
                                                                Boolean historyToUpdate,
-                                                               Boolean notesToBeAdded){
+                                                               Boolean notesToBeAdded,
+                                                               String outcome){
         try{
             Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
             update participant;
@@ -596,7 +654,7 @@ public without sharing class ParticipantInformationRemote {
         }
         updateUserLanguage(userInfoJSON);
         
-        return updatePatientStatus(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded);
+        return updatePatientStatus(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome);
     }
     
     //CC
@@ -608,7 +666,8 @@ public without sharing class ParticipantInformationRemote {
                                                                 String delegateJSON, 
                                                                 String userInfoJSON,
                                                                Boolean historyToUpdate,
-                                                               Boolean notesToBeAdded){
+                                                               Boolean notesToBeAdded,
+                                                               String outcome){
         try{
             Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
             update participant;
@@ -629,7 +688,7 @@ public without sharing class ParticipantInformationRemote {
         }
         updateUserLanguage(userInfoJSON);
         
-        return updatePatientStatusCC(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded);
+        return updatePatientStatusCC(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome);
     }
     //
     
