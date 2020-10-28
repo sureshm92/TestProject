@@ -55,7 +55,21 @@
         
     },
 
-    setFieldsValidity: function(component){
+     checkValidEmail : function(email,emailValue) {
+         debugger;
+        var isValid = false;
+        var regexp = $A.get("$Label.c.RH_Email_Validation_Pattern");
+            if(emailValue.match(regexp)) {
+                email.setCustomValidity('');
+                isValid = true;
+            }else {
+                email.setCustomValidity('You have entered an invalid format'); 
+                isValid = false;
+            }
+            email.reportValidity(); 
+        return isValid;
+    },
+    setFieldsValidity: function(component,event){
         event.preventDefault();
         let fieldsGroup = 'pField';
         let allValid = component.find(fieldsGroup).reduce(function (validSoFar, inputCmp) {

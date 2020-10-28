@@ -119,7 +119,8 @@
     },
     emailFormatType : function(component, event, helper){
         var email = component.get('v.emailS');
-        var regExpEmailformat = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var regExpEmailformat = $A.get("$Label.c.RH_Email_Validation_Pattern")
+       // var regExpEmailformat = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         var emailErrorval = $A.get("$Label.c.TST_Invalid_email_address");
         if (!email.match(regExpEmailformat)) 
         {

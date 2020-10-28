@@ -82,8 +82,8 @@
         let emailDelegateRepeat = component.get('v.emailDelegateRepeat');
         let emailDelegateCmp = component.find('emailDelegateField');
         let emailDelegateRepeatCmp = component.find('emailDelegateRepeatField');
-        let emailDelegateVaild = needsDelegate && emailDelegateCmp && communityService.isValidEmail(delegateParticipant.Email__c);
-        let emailDelegateRepeatValid = needsDelegate && emailDelegateRepeatCmp && communityService.isValidEmail(emailDelegateRepeat);
+        let emailDelegateVaild = needsDelegate && emailDelegateCmp && helper.checkValidEmail(emailDelegateCmp,delegateParticipant.Email__c);
+        let emailDelegateRepeatValid = needsDelegate && emailDelegateRepeatCmp && helper.checkValidEmail(emailDelegateRepeatCmp,emailDelegateRepeat);
 
         let isValid = false;
         if(emailDelegateVaild && emailDelegateRepeatValid &&
@@ -131,6 +131,21 @@
         editForm.checkFields();
     },
 
+   checkValidEmail: function(email,emailValue) {
+        var isValid = false;
+        var regexp = $A.get("$Label.c.RH_Email_Validation_Pattern");
+            if(emailValue.match(regexp)) {
+                email.setCustomValidity('');
+                isValid = true;
+            }else {
+                email.setCustomValidity('You have entered an invalid format'); 
+                isValid = false;
+            }
+            email.reportValidity(); 
+        return isValid;
+    },
+    
+    
     checkParticipantNeedsGuardian: function (component, helper, event) {
         var spinner = component.find('spinner');
         spinner.show();
