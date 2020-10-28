@@ -84,8 +84,8 @@
         let emailDelegateRepeat = component.get('v.emailDelegateRepeat');
         let emailDelegateCmp = component.find('emailDelegateField');
         let emailDelegateRepeatCmp = component.find('emailDelegateRepeatField');
-        let emailDelegateVaild = needsDelegate && emailDelegateCmp && communityService.isValidEmail(delegateParticipant.Email__c);
-        let emailDelegateRepeatValid = needsDelegate && emailDelegateRepeatCmp && communityService.isValidEmail(emailDelegateRepeat);
+        let emailDelegateVaild = needsDelegate && emailDelegateCmp && helper.checkValidEmail(emailCmp,delegateParticipant.Email__c);
+        let emailDelegateRepeatValid = needsDelegate && emailDelegateRepeatCmp && helper.checkValidEmail(emailDelegateRepeatCmp,emailDelegateRepeat);
         //let emailDelegateVaild = needsDelegate && emailDelegateCmp && emailDelegateCmp.get('v.validity') && emailDelegateCmp.get('v.validity').valid;
         //let emailDelegateRepeatValid = needsDelegate && emailDelegateRepeatCmp && emailDelegateRepeatCmp.get('v.validity') && emailDelegateRepeatCmp.get('v.validity').valid;
 
@@ -152,6 +152,19 @@
         console.log('VALIDATION isValid RESULT2: ' + isValid);
     },
 
+     checkValidEmail: function(email,emailValue) {
+        var isValid = false;
+        var regexp = $A.get("$Label.c.RH_Email_Validation_Pattern");
+            if(emailValue.match(regexp)) {
+                email.setCustomValidity('');
+                isValid = true;
+            }else {
+                email.setCustomValidity('You have entered an invalid format'); 
+                isValid = false;
+            }
+            email.reportValidity(); 
+        return isValid;
+    },
     checkDelegateDuplicate: function (component, event, helper, email, firstName, lastName) {
         var spinner = component.find('mainSpinner');
         spinner.show();
