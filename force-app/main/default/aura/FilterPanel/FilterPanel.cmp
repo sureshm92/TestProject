@@ -6,6 +6,8 @@
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"/>
     
     <!-- attributes: -->
+    <aura:attribute name="entriesOnPage" type="Integer" access="global"/>
+    
     <aura:attribute name="searchText" type="String"/>
     <aura:attribute name="searchTextPlaceHolder" type="String"/>
     <aura:attribute name="recordsPerPage" type="String"/>
@@ -23,7 +25,7 @@
     <aura:attribute name="isCalledFromViewPatient" type="Boolean" default="false" />
     <aura:attribute name="userMode" type="String" />
     <aura:attribute name="itemTitle" type="String" default="{!$Label.c.PG_DB_L_patients}"/>
-    <aura:attribute name="entriesOnPage" type="Integer" access="public"/>
+   
     <aura:attribute name="currentPage" type="Integer"/>
     <aura:attribute name="parent" type="Aura.Component" />  
     <aura:attribute name="myParticipantPg" type="Boolean" default="false" />
