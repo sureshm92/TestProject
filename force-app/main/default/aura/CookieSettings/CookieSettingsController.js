@@ -35,8 +35,6 @@
             rrLanguageAllowed: initData.myContact.RRLanguageAllowedCookie__c
         }, function () {
             communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'),100);
-           communityService.navigateToPage('account-settings?cookiesSettings'); 
-
         });
     },
 

@@ -113,6 +113,13 @@ public class TestData {
 			UserCommunityIsDelegate__c = true
 			);
 		insert delegate;
+        Participant__c p= new Participant__c(
+            First_Name__c ='Patient',
+            Last_Name__c='Delegate',
+            Contact__c=delegate.Id
+            
+        );
+       insert p;
 
 		Patient_Delegate__c patientDelegate = new Patient_Delegate__c(
 			Contact__c = delegate.Id,
