@@ -28,13 +28,24 @@
     },
 
     checkValidEmail: function (component, event, helper) {
-        var email = event.getSource().get('v.value');
+        var email = event.getSource();
+        var emailValue = email.get('v.value');
         var el = component.get('v.siteWrapper');
-        if (email) {
-            email = email.trim();
-            var el = component.get('v.siteWrapper');
-            var isValid = communityService.isValidEmail(email);
-            el.studySite.isEmailValid = isValid;
+        if (emailValue) {
+            var regexp = $A.get("$Label.c.RH_Email_Validation_Pattern");
+            if(emailValue.match(regexp)) {
+                email.setCustomValidity('');
+                var el = component.get('v.siteWrapper');
+                el.studySite.isEmailValid = true;
+            }else {
+                email.setCustomValidity('You have entered an invalid format'); 
+                var el = component.get('v.siteWrapper');
+                el.studySite.isEmailValid = false;
+                
+            }
+            email.reportValidity();            
+            // var isValid = communityService.isValidEmail(email);
+            
         } else {
             el.studySite.isEmailValid = true;
         }
@@ -106,7 +117,7 @@
                 communityService.navigateToPage('add-patient?id=' + trialId + '&ssId=' + studySiteId);
                 break;
             case 'uploadPatient':
-                studyListViewComponent.find('actionUploadParticipants').execute(studySiteId,studySiteType,isSuppressed,function(studySiteId,studySiteType) {});
+                 studyListViewComponent.find('actionUploadParticipants').execute(studySiteId,studySiteType,isSuppressed,function(studySiteId,studySiteType) {});
                 break;
         }
     },

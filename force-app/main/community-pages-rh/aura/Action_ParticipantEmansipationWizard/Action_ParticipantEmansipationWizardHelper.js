@@ -124,7 +124,8 @@
         var inDate = new Date(participant.Date_of_Birth__c);
         var currentDate = today.setHours(0, 0, 0, 0);
         var inputDate = inDate.setHours(0, 0, 0, 0);
-
+        helper.checkValidEmail(component.find('emailInput'),participant.Email__c);
+       
         let isValid =
             (participant.First_Name__c && participant.First_Name__c.trim()) &&
             (participant.Last_Name__c && participant.Last_Name__c.trim()) &&
@@ -145,11 +146,30 @@
         component.set('v.isValid', isValid);
     },
 
+    checkValidEmail: function(email,emailValue) {
+        var isValid = false;
+        var regexp = $A.get("$Label.c.RH_Email_Validation_Pattern");
+        if(email) {
+            if(emailValue.match(regexp)) {
+                email.setCustomValidity('');
+                isValid = true;
+            }else {
+                email.setCustomValidity('You have entered an invalid format'); 
+                isValid = false;
+            }
+            email.reportValidity(); 
+        }
+        // return isValid;
+        
+    },
     checkDelegateFields: function (component, event, helper) {
         let delegateItems = component.get('v.delegateItems');
         let isDelegatesValid = true;
-
+		 var emailInput = component.find('emailInput');
+       
+       
         for (let ind = 0; ind < delegateItems.length; ind++) {
+             helper.checkValidEmail(component.find('emailDInput' + ind), delegateItems[ind].Email__c);
             if (delegateItems[ind] && delegateItems[ind].fromStart && (delegateItems[ind].Id ||
                 delegateItems[ind].First_Name__c && delegateItems[ind].First_Name__c.trim() &&
                 delegateItems[ind].Last_Name__c && delegateItems[ind].Last_Name__c.trim())) {

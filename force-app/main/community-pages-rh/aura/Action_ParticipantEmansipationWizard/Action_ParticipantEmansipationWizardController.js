@@ -38,8 +38,8 @@
                                 Consent_To_Inform_About_Study__c: false };
                 component.set('v.contact', contact);
                 
-
-                if ((!pe.Study_Site__r.Suppress_Participant_Emails__c) && (!pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c)) {
+                
+   				if ((!pe.Study_Site__r.Suppress_Participant_Emails__c) && (!pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c)) {
                     component.set('v.Invite', true);
                     component.set('v.NoInvite', false);
                 }
@@ -56,7 +56,7 @@
                     component.set('v.NoInvite', true);
                 }
                 
-
+                
                 helper.initPILevel(component);
                 helper.initDelegates(component, event, helper);
 
