@@ -25,7 +25,7 @@
         console.log('clearValidity end');
     },
 
-    doCheckFields: function (component, event, hepler) {
+    doCheckFields: function (component, event, helper) {
         console.log('pe', JSON.parse(JSON.stringify(component.get('v.pe'))));
         console.log('part', JSON.parse(JSON.stringify(component.get('v.participant'))));
         console.log('doCheckFields');
@@ -56,7 +56,9 @@
         let emailParticipantRepeat = component.get('v.emailParticipantRepeat');
         let emailParticipantReapetCmp = component.find('emailParticipantRepeatField');
         let emailParticipantCmp = component.find('emailInput');
-
+		//let emailValid = false;
+        let emailValue = emailParticipantCmp? emailParticipantCmp.get('v.value'): null;
+        helper.checkValidEmail(emailParticipantCmp,emailValue);
         if (pe.MRN_Id__c) {
             component.set('v.disableSourceId', true);
         } else {
@@ -162,18 +164,25 @@
 
             //(!stateRequired || (stateRequired && (participant.Mailing_State_Code__c !== '' || participant.Mailing_State_Code__c !== undefined || participant.Mailing_State_Code__c !== null)));
         } else if (!updateMode) {
-            if (participant.Email__c && emailParticipantRepeat && participant.Email__c.toLowerCase() !== emailParticipantRepeat.toLowerCase()) {
-                isValid = false;
-                emailParticipantCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
-                emailParticipantReapetCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
-            } else {
+            debugger;
+           
+            isValid = helper.checkValidEmail(emailParticipantCmp,emailValue);
+          
+            // emailParticipantCmp.setCustomValidity('email is not valid');
+            if(isValid) {
+                if (participant.Email__c && emailParticipantRepeat && participant.Email__c.toLowerCase() !== emailParticipantRepeat.toLowerCase()) {
+                    isValid = false;
+                    emailParticipantCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
+                    emailParticipantReapetCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
+                } else {
                     emailParticipantCmp.setCustomValidity("");
                     emailParticipantReapetCmp.setCustomValidity("");
-            }
-            if (participant.Email__c && participant.Email__c !== '' && emailParticipantRepeat && emailParticipantRepeat !== '') {
-                emailParticipantCmp.reportValidity();
-                emailParticipantReapetCmp.reportValidity();
-            }
+                }
+                if (participant.Email__c && participant.Email__c !== '' && emailParticipantRepeat && emailParticipantRepeat !== '') {
+                    emailParticipantCmp.reportValidity();
+                    emailParticipantReapetCmp.reportValidity();
+                }
+             }
             if (!participantDelegate) {
                 console.log('++++');
                 component.set('v.isValid', false);
@@ -206,7 +215,21 @@
                 isValid = false;
             }
         }
+      /*  if(emailValue && emailValue !== '') {
+           // debugger;
+            var regexp = $A.get("$Label.c.RH_Email_Validation_Pattern");
+            if(emailValue.match(regexp)) {
+                emailParticipantCmp.setCustomValidity('');
+                isValid = true;
+            }else {
+                emailParticipantCmp.setCustomValidity('You have entered an invalid format'); 
+                isValid = false;
+            }
+            emailParticipantCmp.reportValidity(); 
+        } */
+        
         if (!component.find('emailInput').get('v.validity').valid){
+         
             console.log('EMAILAIF');
             isValid = false;
         }
@@ -231,6 +254,7 @@
         return isValid;
     },
 
+   
     doCheckDateOfBith: function (component, event, helper) {
         console.log('IN doCheckDateOfBith');
         component.set('v.isAdult', false)

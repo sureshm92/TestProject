@@ -98,7 +98,7 @@ private class Test_ParticipantInformationRemote {
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(testData.pe.Id, CommunityService.USER_MODE_CC);
             ParticipantWorkflowService.ParticipantWorkflowWrapper path = ParticipantWorkflowService.prepareParticipantWorkflow(testData.ctp, pe);
             path.steps[path.currentStepInd].outcome = PEStatusState.PE_STATUS_CONTACT_ATTEMPTED;
-            ParticipantInformationRemote.updatePatientStatusCC( JSON.serialize(path), testData.pe.Id,false,false);
+            ParticipantInformationRemote.updatePatientStatusCC( JSON.serialize(path), testData.pe.Id,false,false,null);
         }
         Test.stopTest();
     }
@@ -111,11 +111,12 @@ private class Test_ParticipantInformationRemote {
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(testData.pe.Id, CommunityService.USER_MODE_CC);
             ParticipantWorkflowService.ParticipantWorkflowWrapper path = ParticipantWorkflowService.prepareParticipantWorkflow(testData.ctp, pe);
             path.steps[path.currentStepInd].notes = 'note';
-            ParticipantInformationRemote.updatePatientStatusCC( JSON.serialize(path), testData.pe.Id,false,true);
-            ParticipantInformationRemote.updatePatientStatus( JSON.serialize(path), testData.pe.Id,false,true);
+            ParticipantInformationRemote.updatePatientStatusCC( JSON.serialize(path), testData.pe.Id,false,true,null);
+            ParticipantInformationRemote.updatePatientStatus( JSON.serialize(path), testData.pe.Id,false,true,null);
             path.steps[path.currentStepInd+1].state = 'neutral';
             path.steps[path.currentStepInd+1].title = 'Inital Visit';
-            ParticipantInformationRemote.updateNotes(path, testData.pe);
+            ParticipantInformationRemote.updateNotes(path, testData.pe,null);
+            ParticipantInformationRemote.updateWithDividerWithNotes(path, testData.pe,null);
         }
         Test.stopTest();
     }

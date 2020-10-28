@@ -30,7 +30,7 @@
     <aura:attribute name="communityWithPPInv" type="Boolean" default="true"/>
     <aura:attribute name="emailInstance" type="String"/>
     <aura:attribute name="createUserForDelegate" type="Boolean" default="false"/>
-   
+    
     <!-- methods: -->
     <aura:method name="checkDateOfBith" action="{!c.doCheckDateOfBith}" access="public">
         <aura:attribute name="callback" type="Function"/>
@@ -110,7 +110,6 @@
                                 </div>
                                 <lightning:input aura:id="emailDelegateField" type="text" 
                                                  value="{!v.participantDelegate.Email__c}"
-                                                 pattern="{!$Label.c.RH_Email_Validation_Pattern}"
                                                  required="{!v.needsGuardian}" onblur="{!c.doCheckfields}"
                                                  messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"/>
                             </div>
@@ -119,9 +118,8 @@
                                 <div class="label">
                                     <abbr title="required" class="slds-required">{!v.needsGuardian ? '*' : ''}</abbr>{!$Label.c.PG_Ref_L_Re_enter_email_address}
                                 </div>
-                                <lightning:input aura:id="emailDelegateRepeatField" type="text" 
+                                <lightning:input aura:id="emailDelegateRepeatField" type="text"
                                                  value="{!v.emailDelegateRepeat}"
-                                                 pattern="{!$Label.c.RH_Email_Validation_Pattern}"
                                                  required="{!v.needsGuardian}" onblur="{!c.doCheckfields}"
                                                  messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"/>
                             </div>
@@ -255,7 +253,7 @@
                             </div>
                         </div>
                     </aura:if>
-                    <aura:if isTrue="{!and(v.ss.Study_Site_Type__c == 'Traditional' , or(v.ss.Suppress_Participant_Emails__c,v.ss.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c))}">
+                     <aura:if isTrue="{!and(v.ss.Study_Site_Type__c == 'Traditional' , or(v.ss.Suppress_Participant_Emails__c,v.ss.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c))}">
                         <div class="slds-grid slds-gutters slds-wrap">
                         <div class="slds-form-element" style="margin-top: 20px; margin-left: 10px;">
                             <div class="slds-form-element__control">
@@ -281,7 +279,7 @@
                     </div>
 
                     <aura:set attribute="else">
-                                            <aura:if isTrue="{!v.communityWithPPInv &amp;&amp;v.ss.Study_Site_Type__c!='Virtual'&amp;&amp;v.ss.Study_Site_Type__c!='Hybrid'}">                    
+                    <aura:if isTrue="{!v.communityWithPPInv &amp;&amp;v.ss.Study_Site_Type__c!='Virtual'&amp;&amp;v.ss.Study_Site_Type__c!='Hybrid'}">                    
                         <div class="slds-grid slds-gutters slds-wrap">
                         <div class="slds-form-element" style="margin-top: 20px; margin-left: 10px;">
                             <div class="slds-form-element__control">
@@ -306,10 +304,10 @@
                         </div>
                     </div>
                    </aura:if>
-
-                    </aura:set>
+                  
+                         </aura:set>
                     </aura:if>
-                </div>
+                         </div>
             </div>
             <div class="ap-bottom-info">
                 
