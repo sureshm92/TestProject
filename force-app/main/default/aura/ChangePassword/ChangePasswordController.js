@@ -143,8 +143,11 @@
                 new: '',
                 reNew: ''
             });
-        }, null, function () {
-            component.set('v.showSpinner', false);
+        },function (error) {
+            console.log('inside error ::::');
+            let errmsg = communityService.getErrorMessage(error).split('\n')[0];
+            communityService.showErrorToast('ERROR', errmsg);
+           	component.set('v.showSpinner', false);
         });
     },
 })
