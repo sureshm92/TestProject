@@ -7,7 +7,7 @@
     
     <!-- attributes: -->
     <aura:attribute name="entriesOnPage" type="Integer" access="global"/>
-    
+      
     <aura:attribute name="searchText" type="String"/>
     <aura:attribute name="searchTextPlaceHolder" type="String"/>
     <aura:attribute name="recordsPerPage" type="String"/>
