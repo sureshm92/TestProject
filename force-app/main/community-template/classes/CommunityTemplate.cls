@@ -13,6 +13,7 @@ public without sharing class CommunityTemplate {
     @AuraEnabled public String communityName;
     @AuraEnabled public String shortCommunityName;
     @AuraEnabled public String permissionSet;
+    @AuraEnabled public String networkId;
 
     public CommunityTemplate(Community_Template__mdt templateMdt, Map<String, String> properties) {
         this.communityName = templateMdt.Community_Name__c;
@@ -23,6 +24,7 @@ public without sharing class CommunityTemplate {
         this.redirectURL = CommunityTemplateService.getCommunityURL(templateMdt.Community_Name__c);
         this.pathPrefix = properties.get(CommunityTemplateService.PROPERTY_PATH_PREFIX);
         this.needRedirect = communityName != UserContext.getCurrentCommunityName();
+        this.networkId=CommunityTemplateService.getNetworkId(templateMdt.Community_Name__c);
         this.shortCommunityName = templateMdt.ShortCommunityName__c;
     }
 
