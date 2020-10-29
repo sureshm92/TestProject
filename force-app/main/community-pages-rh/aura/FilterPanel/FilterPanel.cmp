@@ -4,7 +4,7 @@
 
  <aura:component description="FilterPanel">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"/>
-
+    
     <!-- attributes: -->
     <aura:attribute name="searchText" type="String"/>
     <aura:attribute name="searchTextPlaceHolder" type="String"/>
@@ -20,15 +20,18 @@
     <aura:attribute name="showMoreEnabled" type="Boolean" default="false"/>
     <aura:attribute name="showEntriesVisble" type="Boolean" default="true"/>
     <aura:attribute name="setValueAsSelected" type="Boolean" default="false"/>
-     <aura:attribute name="isCalledFromViewPatient" type="Boolean" default="false" />
-     <aura:attribute name="userMode" type="String" />
+    <aura:attribute name="isCalledFromViewPatient" type="Boolean" default="false" />
+    <aura:attribute name="userMode" type="String" />
     <aura:attribute name="itemTitle" type="String" default="{!$Label.c.PG_DB_L_patients}"/>
-
+    <aura:attribute name="entriesOnPage" type="Integer" access="global"/>
+    <aura:attribute name="currentPage" type="Integer"/>
+    <aura:attribute name="parent" type="Aura.Component" />  
+    <aura:attribute name="myParticipantPg" type="Boolean" default="false" />
     <!--compoenent body -->
     <div class="{!'fp-container' + if(v.isCollapsed, ' collapsed', '')}">
         <div class="fp-collapsed-view"></div>
         <div class="fp-mobile rr-large-up-hide">
-
+            
             <div class="fp-header">
                 <div class="fp-collapse-label" onclick="{!c.doSwitchCollapse}">
                     {!$Label.c.PG_FP_L_Filter_by}
@@ -54,7 +57,7 @@
             <div class="fp-filter-block">
                 <div class="fp-filters-label rr-large-down-hide">{!$Label.c.PG_FP_L_Filter_by}</div>
                 <div class="fp-main-filter-block">
-                   
+                    
                     <div class="fp-search-input rr-large-down-hide">
                         <aura:if isTrue="{!!empty(v.searchTextPlaceHolder)}">
                             <c:rrInput valueString="{!v.searchText}" iconName="icon-search"
@@ -66,26 +69,50 @@
                     </div>       
                     
                     <div class="fp-filters-container">{!v.body}</div>
-                   
+                    
                 </div>
             </div>
         </div>
-
+        
         <div class="fp-pagination-block slds-grid slds-wrap">
-            <aura:if isTrue="{!!empty(v.recordsPerPageVariants)}">
-                <div class="slds-col slds-size--1-of-1 slds-large-size_1-of-2 slds-order_2 slds-large-order_1 fp-page-info">
-                    <div>{!$Label.c.PG_FP_L_Showing + ' ' + if(or(v.recordsPerPage > v.allRecordsCount, v.showMore), v.allRecordsCount, v.currentPageCount) + ' ' +
-                        $Label.c.PG_FP_L_of + ' ' + v.allRecordsCount + ' ' + v.itemTitle}
-                    </div>
-                    <aura:if isTrue="{!v.showMoreEnabled}">
-                        <div class="show-more">
-                            <a onclick="{!c.doSwitchShowMore}">{!if(v.showMore,$Label.c.PG_FP_L_Show_less, $Label.c.PG_FP_L_Show_more)}</a>
+            <div class="slds-col slds-size--7-of-12 slds-max-medium-size_1-of-1 fp-page-info">
+                <div class="filterLeft">
+                    <aura:if isTrue="{!v.myParticipantPg}">
+                            <aura:if isTrue="{!v.userMode != 'HCP'}">
+                                <div class="vp-export-btn">
+                                    <button class="apollo-btn secondary" data-gtm="BTN_My_Participants_Export_All"
+                                            onclick="{!c.doExportFull}">
+                                        {!$Label.c.BTN_Export_All}
+                                    </button>
+                                </div>
+                            </aura:if>                     
+                    </aura:if>
+                    <aura:if isTrue="{!!empty(v.recordsPerPageVariants)}">
+                        <div>{!$Label.c.PG_FP_L_Showing + ' ' + if(or(v.recordsPerPage > v.allRecordsCount, v.showMore), v.allRecordsCount, v.currentPageCount) + ' ' +
+                            $Label.c.PG_FP_L_of + ' ' + v.allRecordsCount + ' ' + v.itemTitle}
                         </div>
+                        <aura:if isTrue="{!v.showMoreEnabled}">
+                            <div class="show-more">
+                                <a onclick="{!c.doSwitchShowMore}">{!if(v.showMore,$Label.c.PG_FP_L_Show_less, $Label.c.PG_FP_L_Show_more)}</a>
+                            </div>
+                        </aura:if>
                     </aura:if>
                 </div>
-                <div class="slds-col slds-size--1-of-1 slds-large-size_1-of-2 slds-order_1 slds-large-order_2 fp-page-control">
+                <aura:if isTrue="{!v.myParticipantPg}">
+                	<div class="pagination-position">
+                    	<c:RRPaginationRemote entriesOnPage="{!v.entriesOnPage}"
+                                              currentPage="{!v.currentPage}"
+                                              allRecordsCount="{!v.allRecordsCount}"/>
+                        </div>
+                </aura:if>
+                
+             </div>
+                
+                
+            <aura:if isTrue="{!!empty(v.recordsPerPageVariants)}">
+                 <div class="slds-col slds-size--5-of-12 slds-max-medium-size_1-of-1 fp-page-control">
                     <div class="fp-form-element">
-                            {!v.buttons}
+                        {!v.buttons}
                     </div>
                     <aura:if isTrue="{!!empty(v.sortVariants)}">
                         <div class="fp-form-element">
@@ -97,15 +124,6 @@
                         <div class="fp-form-element">
                             <label>{!$Label.c.PG_FP_L_Show_entries}</label>
                             <c:rrSelect value="{!v.recordsPerPage}" options="{!v.recordsPerPageVariants}"/>
-                        </div>
-                    </aura:if>
-                      
-                    <aura:if isTrue="{!and(v.isCalledFromViewPatient , v.userMode == 'PI') }">
-                        <div class="slds-text-align_right vp-navigate-btn" >
-                            <a style="font-size: 1rem;font-weight: 700;"
-                                    onclick="{!c.onClickListView}">
-                                {!$Label.c.BTN_Naviagte}
-                            </a>
                         </div>
                     </aura:if>
                     
