@@ -23,7 +23,7 @@
     <div class="rr-min-body-height">
         <aura:if isTrue="{!v.isInitialized}">
 
-                <div class="vp-navigation" style="margin-top: 30px;">
+                <div class="vp-navigation">
                                 <div class="navigation-breadcrumbs">
                                 <c:RRNavigationPath>
                                     

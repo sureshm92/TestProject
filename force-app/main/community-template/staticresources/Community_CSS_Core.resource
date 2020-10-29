@@ -1543,6 +1543,22 @@ input[type=password]::-ms-clear
     }
 }
 
+
+.unsNotificationsListRow:first-child {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-top : none !important;
+}
+.unsNotificationsCounter .countDot {
+    position: absolute;
+    top: -.5rem;
+    right: -.25rem;
+    border-radius: .5rem;
+    background-color: #DF216D !important;
+}
+
+/*----------------------------------------------------- Responsive Common -----------------------------------------------------*/
+
 @media all and (max-width: 768px){
 
     .rr-header-margin {
@@ -1556,13 +1572,30 @@ input[type=password]::-ms-clear
     .rr-top-bar.sticky.multi-mode .sticky-bar{
         top: 50px
     }
-    
+
     .cCommunityNavigationMobile + .rr-width-limiter.side-padding {
         padding-top: 1rem!important;
     }
+
+    .slds-radio .slds-radio_faux,
+    .slds-radio .slds-radio--faux {
+        height: 1.25rem;
+        width: 1.25rem;
+    }
+
+    .slds-radio [type=radio]:checked+.slds-radio_faux:after,
+    .slds-radio [type=radio]:checked+.slds-radio--faux:after,
+    .slds-radio [type=radio]:checked~.slds-radio_faux:after,
+    .slds-radio [type=radio]:checked~.slds-radio--faux:after,
+    .slds-radio [type=radio]:checked+.slds-radio__label .slds-radio_faux:after,
+    .slds-radio [type=radio]:checked+.slds-radio__label .slds-radio--faux:after {
+        width: .9rem;
+        height: .9rem;
+    }
 }
 
-/*----------------------------------------------------- Responsive Common -----------------------------------------------------*/
+
+
 @media all and (max-width: 500px){
     .ci-bottom-aria {
         bottom: 65px;
@@ -1642,51 +1675,16 @@ input[type=password]::-ms-clear
 }
 
 @media only screen and (min-width: 0px) and (max-width: 479px){
-.uiPanel.open, .uiPanel.transitioning {
-    margin: 0% 3% 2% 4% !important;
-    position: fixed !important;
-    /*top: 6% !important;*/
-    border-radius: 0 0 4px 4px !important;
-    border-top : none !important;
-	z-index: 100000 !important;
-}	
-
-}
-
-
-
-
-
-
-@media all and (max-width: 768px){
- 	.slds-radio .slds-radio_faux, 
-    .slds-radio .slds-radio--faux {
-		height: 1.25rem;
-        width: 1.25rem;
-    }
-    
-    .slds-radio [type=radio]:checked+.slds-radio_faux:after, 
-    .slds-radio [type=radio]:checked+.slds-radio--faux:after, 
-    .slds-radio [type=radio]:checked~.slds-radio_faux:after, 
-    .slds-radio [type=radio]:checked~.slds-radio--faux:after, 
-    .slds-radio [type=radio]:checked+.slds-radio__label .slds-radio_faux:after, 
-    .slds-radio [type=radio]:checked+.slds-radio__label .slds-radio--faux:after {
-        width: .9rem;
-        height: .9rem;
+    .uiPanel.open, .uiPanel.transitioning {
+        margin: 0% 3% 2% 4% !important;
+        position: fixed !important;
+        /*top: 6% !important;*/
+        border-radius: 0 0 4px 4px !important;
+        border-top : none !important;
+        z-index: 100000 !important;
     }
 }
-.unsNotificationsListRow:first-child {
-     border-top-left-radius: 0 !important; 
-     border-top-right-radius: 0 !important; 
-     border-top : none !important;
-}
-.unsNotificationsCounter .countDot {
-    position: absolute;
-    top: -.5rem;
-    right: -.25rem;
-    border-radius: .5rem;
-    background-color: #DF216D !important;
-}
+
 
 @media all and (min-width: 1024px) {
 .uiPanel.open, .uiPanel.transitioning {
@@ -1721,7 +1719,7 @@ input[type=password]::-ms-clear
 @media all and (max-width: 360px){
     .rr-header-content .rr-width-limiter.side-padding{
         padding-left: .25rem;
-    }
+	}
 }
 
 /* medium 768 */
