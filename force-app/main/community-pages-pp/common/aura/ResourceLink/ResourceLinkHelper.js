@@ -3,7 +3,7 @@
  */
 ({
     viewResource: function (resource, languageCode) {
-        if (communityService.isCurrentSessionMobileApp()) {
+        if (communityService.isMobileSDK()) {
             communityService.showInfoToast(
                 'Info!',
                 $A.get('$Label.c.Pdf_Not_Available'),

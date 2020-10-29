@@ -68,7 +68,7 @@ window.communityService = (function () {
                 console.log('CommunityService initialized:');
                 console.log('is TC accepted: ' + isTCAcceptedFlag);
                 console.log('URL path prefix: ' + communityURLPathPrefix);
-                console.log('isMobileApp: '+isMobileApp);
+                //console.log('isMobileApp: '+isMobileApp);
                 component.init();
                 if (!service.isTCAccepted() && service.getPageName() !== 'terms-and-conditions') {
                     service.navigateToPage('terms-and-conditions?ret=' + service.createRetString());
@@ -522,7 +522,7 @@ window.communityService = (function () {
             paramsJSON = paramsJSON.replace(/</g, "&lt;").replace(/>/g, "&gt;");
             return JSON.parse(paramsJSON);
         },
-
+        //depricated - use isMobileSDK
         isCurrentSessionMobileApp: function() {
             return isMobileApp;
         },
