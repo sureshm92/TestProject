@@ -222,29 +222,21 @@
                 $A.get('$Label.c.Report_Document_Name') + '.pdf'
             );
         } else {
-            let isMobileApp = communityService.isCurrentSessionMobileApp();
-            if (isMobileApp) {
-                doc.save($A.get('$Label.c.Report_Document_Name') + '.pdf');
-            } else {
-                let urlPDF = doc.output('bloburi');
-                let urlViewer =
-                    $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
-                //window.open(urlViewer + '?file=' + urlPDF + '&fileName=' + encodeURIComponent($A.get('$Label.c.Report_Document_Name')));
-                let urlEvent = $A.get('e.force:navigateToURL');
-                let absoluteURL = window.location.origin;
-                urlEvent.setParams({
-                    url:
-                        absoluteURL +
-                        urlViewer +
-                        '?file=' +
-                        urlPDF +
-                        '&fileName=' +
-                        encodeURIComponent(
-                            $A.get('$Label.c.Report_Document_Name')
-                        )
-                });
-                urlEvent.fire();
-            }
+            let urlPDF = doc.output('bloburi');
+            let urlViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
+            //window.open(urlViewer + '?file=' + urlPDF + '&fileName=' + encodeURIComponent($A.get('$Label.c.Report_Document_Name')));
+            let urlEvent = $A.get('e.force:navigateToURL');
+            let absoluteURL = window.location.origin;
+            urlEvent.setParams({
+                url:
+                    absoluteURL +
+                    urlViewer +
+                    '?file=' +
+                    urlPDF +
+                    '&fileName=' +
+                    encodeURIComponent($A.get('$Label.c.Report_Document_Name'))
+            });
+            urlEvent.fire();
         }
     },
 
