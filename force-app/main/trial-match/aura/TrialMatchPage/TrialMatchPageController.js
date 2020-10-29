@@ -43,8 +43,8 @@
 
     doGenerateReport: function (component, event, helper) {
         if (component.get('v.isMobileApp')) {
-            communityService.showInfoToast(
-                'Info!',
+            communityService.showWarningToast(
+                'Warning!',
                 $A.get('$Label.c.Pdf_Not_Available'),
                 100
             );
