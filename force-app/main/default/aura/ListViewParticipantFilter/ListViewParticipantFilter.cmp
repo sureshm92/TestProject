@@ -7,7 +7,7 @@
     <aura:attribute name="peFilterData" type="Object"/>
     <aura:attribute name="filterList" type="List"/> 
     <aura:attribute name="oldfilterList" type="List"/> 
-     <aura:attribute name="showspinner" type="Boolean" default="false"/>
+    <aura:attribute name="showspinner" type="Boolean" default="false"/>
     <aura:attribute name="PageNumber" type="integer" default="1"/>
     <aura:attribute name="TotalPages" type="integer" default="0"/>
     <aura:attribute name="TotalRecords" type="integer" default="0"/>
@@ -48,29 +48,17 @@
     <aura:attribute name="counterLimit" type="Integer"/> 
     <aura:attribute name="startPos" type="Integer"/>
     <aura:attribute name="endPos" type="Integer"/>
+    <aura:attribute name="flagSet" type="Boolean" default="false"/>
     
-    
-    <aura:attribute name="optionSex" type="List" default="[
-                                                          {'label': 'All', 'value': 'All'},
-                                                          {'label': 'Male', 'value': 'M'},
-                                                          {'label': 'Female', 'value': 'F'},
-                                                          ]"/>
-    <aura:attribute name="SortBy" type="List" default="[
-                                                       {'label': 'Received Date (Oldest First)', 'value': 'Received Date(Oldest First)'},
-                                                       {'label': 'Received Date (Newest First)', 'value': 'Received Date(Newest First)'},
-                                                       {'label': 'ID (Descending)', 'value': 'Descending'},
-                                                       {'label': 'ID (Ascending)', 'value': 'Ascending'},
-                                                       ]"/>
+    <aura:attribute name="optionSex" type="List"/>
+    <aura:attribute name="SortBy" type="List"/>
     <aura:attribute name="ShowEntries" type="List" default="[
                                                             {'label': '5', 'value': '5'},
                                                             {'label': '10', 'value': '10'},
                                                             {'label': '25', 'value': '25'},
                                                             {'label': '40', 'value': '40'},
                                                             ]"/>
-    <aura:attribute name="PriorityReferral" type="List" default="[
-                                                                 {'label': 'No', 'value': 'No'},
-                                                                 {'label': 'Yes', 'value': 'Yes'},
-                                                                 ]"/>
+    <aura:attribute name="PriorityReferral" type="List" />
     
     <aura:handler name="change" value="{!v.filterList[0].Status}" action="{!c.handleChangeActive}"/>
     <aura:handler name="change" value="{!v.filterList[0].Study}" action="{!c.doStudyChanged}"/>
@@ -103,7 +91,7 @@
                         <div class="slds-size_1-of-6 studies">
                             <c:rrSelect value="{!v.filterList[0].Study}" options="{!v.peFilterData.studies}"
                                         placeholder="{!$Label.c.PG_MRRL_L_Studies}" useSentenceFont="false"
-                                        class="fp-study-filter-container"
+                                        class="fp-study-filter-container" onchange="{!c.StudyAction}"
                                         setValueAsSelected="true"/>
                         </div>
                         <div class="slds-size_1-of-6 studySites">
@@ -218,11 +206,11 @@
         <div class="slds-grid slds-wrap tableSettings">
             <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2">
             <!--    <span>{!$Label.c.Showing}&nbsp;{!v.RecordStart}-{!v.RecordEnd}&nbsp;{!$Label.c.of}&nbsp;{!v.TotalRecords}&nbsp;{!$Label.c.patients}&nbsp;({!v.count}&nbsp;{!$Label.c.selected_max_50})</span> -->
-            	 <aura:if isTrue="{!!v.PromoteToSH}">
+                <aura:if isTrue="{!and(!v.PromoteToSH,!v.flagSet)}">
                      <span><button class="apollo-btn primary mrc-invite-btn" disabled="{!v.enablePromoteToSH}" data-gtm="BTN_InviteRP" onclick="{!c.handlePromoteSH}">
                      	{!$Label.c.Send_to_Study_Hub}</button>
                      </span>
-                 </aura:if>
+                    </aura:if>
                  <lightning:button variant="Neutral" label="{!$Label.c.RH_ExportFilteredList}" title="{!$Label.c.RH_ExportFilteredList}" onclick="{! c.handleExport }" />	
             </div>
 

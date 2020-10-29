@@ -69,6 +69,13 @@
     display: inline-block;
 }
 
+.THIS .slds-has-error .slds-form-element__help {
+    position: absolute;
+    bottom: -20px;
+    width: 125px;
+    left: -25px;
+}
+
 .THIS .study-Info {
     width: 106px;
     margin-top: 1rem;
@@ -118,7 +125,7 @@
 }
 
 .THIS .age{
-    width: 285px;
+    width: 315px;
     padding-right: 10px;
     display: flex;
     align-items: center;
@@ -140,12 +147,9 @@
 
 .THIS .andHead{
     padding-top: 8px;
-    width: 35px;
-    padding-right: 10px;
-}
-
-.THIS .and{
-    padding-right: 20px;
+    width: 50px;
+    padding-right: 5px;
+    text-align: center;
 }
 
 .THIS .ageToHead{
@@ -300,6 +304,14 @@
 .THIS .accordionContent {
     display: inline-flex;
     flex-grow: 1;
+}
+
+.THIS .ListViewHead {
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 15px;
 }
 
 
@@ -600,6 +612,15 @@
 
 	.THIS .ageBetween {
         min-width: 104px;
+    }
+    
+    .THIS .age{ 
+     	margin-bottom: 15px;   
+    }
+    
+    .THIS .ListViewHead {
+        flex-direction: column;
+        height: 75px;
     }
     
     

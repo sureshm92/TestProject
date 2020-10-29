@@ -1,5 +1,6 @@
 ({
     doInit : function(component, event, helper) {
+        
         component.set('v.isFromDoinit', true);
         component.set('v.lstPR_no','');
         component.set('v.lstPR_yes','');
@@ -14,6 +15,61 @@
         if(RowItemList.length > 0){
             RowItemList = [];
         }
+          var sexList = [];
+              var obj = {};
+              obj.label = $A.get("$Label.c.AF_All");
+              obj.value = "All";
+              sexList.push(obj);
+              obj = {};
+              
+              obj.label = $A.get("$Label.c.AF_Male");
+              obj.value = "M";
+              sexList.push(obj);
+              obj = {};
+              
+              obj.label = $A.get("$Label.c.AF_Female");
+              obj.value = "F";
+              sexList.push(obj);
+              obj = {};
+              component.set("v.optionSex",sexList);
+        
+           var sortBy = [];
+              var obj1 = {};
+              obj1.label = $A.get("$Label.c.AF_ReceivedDate_OF");
+              obj1.value = "Received Date(Oldest First)";
+              sortBy.push(obj1);
+              obj1 = {};
+              
+              obj1.label = $A.get("$Label.c.AF_ReceivedDate_NF");
+              obj1.value = "Received Date(Newest First)";
+              sortBy.push(obj1);
+              obj1 = {};
+              
+              obj1.label = $A.get("$Label.c.AF_ID_D");
+              obj1.value = "Descending";
+              sortBy.push(obj1);
+              obj1 = {};
+            
+             obj1.label = $A.get("$Label.c.AF_ID_A");
+             obj1.value = "Ascending";
+             sortBy.push(obj1);
+             obj1 = {};
+             component.set("v.SortBy",sortBy);
+        
+              var PR = [];
+              var obj2 = {};
+              obj2.label = $A.get("$Label.c.Yes");
+              obj2.value = "Yes";
+              PR.push(obj2);
+              obj2 = {};
+              
+              obj2.label = $A.get("$Label.c.No");
+              obj2.value = "No";
+              PR.push(obj2);
+              obj2 = {};
+              component.set("v.PriorityReferral",PR);
+          
+            
         var peFilterData = component.get("v.peFilterData");
         RowItemList.push({
             'Status': peFilterData.activePE[0].value,
@@ -622,7 +678,9 @@
          component.find('Spinnerpopup').hide();
      }); 
     },
-    
+    StudyAction : function(component, event, helper) {
+      component.set('v.flagSet',true);
+    },
     doStudyChanged: function (component, event, helper) {
         var studyId = component.get("v.filterList[0].Study");
         component.set('v.filterList[0].Study', studyId); 
@@ -636,9 +694,11 @@
                 function (returnValue) {
                     component.set("v.peFilterData.studySites", returnValue.StudySites);
                     if(returnValue.isPromoteToSH == false)
-                    {
-                        component.set('v.PromoteToSH',true);
-                    }else{component.set('v.PromoteToSH',false);}
+                    {  
+                       component.set('v.PromoteToSH',true);
+                    }else{
+                        component.set('v.PromoteToSH',false);
+                         } 
                     
                 }
             );
