@@ -203,9 +203,9 @@ public without sharing class ParticipantWorkflowService {
                                                           && nextStep.Additional_Notes_For_Statuses__c.contains(';'+pesh.Status__c+';')
                                                          )
                                                     );
-                Boolean isStatusCommonForSteps = (stepsAndPesh.containsKey(step.DeveloperName) && stepsAndPesh.get(step.DeveloperName).contains(pesh) 
-                                                  && stepsAndPesh.containsKey(nextStep.DeveloperName) && stepsAndPesh.get(nextStep.DeveloperName).contains(pesh)); 
-                if(stepsAndPesh.containsKey(step.DeveloperName) && stepsAndPesh.get(step.DeveloperName).contains(pesh)){
+                Boolean isStatusCommonForSteps = (stepsAndPesh.containsKey(step.DeveloperName) && stepsAndPesh.get(step.DeveloperName)!=null && stepsAndPesh.get(step.DeveloperName).contains(pesh) 
+                                                  && nextStep !=null && stepsAndPesh.containsKey(nextStep.DeveloperName) && stepsAndPesh.get(nextStep.DeveloperName)!=null && stepsAndPesh.get(nextStep.DeveloperName).contains(pesh)); 
+                if(stepsAndPesh.containsKey(step.DeveloperName) && stepsAndPesh.get(step.DeveloperName)!=null && stepsAndPesh.get(step.DeveloperName).contains(pesh)){
                     if(pesh.Additional_Notes__c!=null && pesh.Additional_Notes__c.contains('####')){
                         stepWrapper.stepHistory.addAll(createOnlyNotesHistoryWrapper(pesh.Additional_Notes__c.substringAfter('####')));                                  
                     }else if((isStatusCommonForSteps && !(nextStepSuccessful || nextStepInProgress) && (pesh.Additional_Notes__c ==null || !pesh.Additional_Notes__c.contains('####'))) || 
