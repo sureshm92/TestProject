@@ -63,7 +63,9 @@
             currentSS.isEmailValid = true;
             component.set('v.siteWrapper.studySite', currentSS);
             studyListViewComponent.find('mainSpinner').hide();
-        });
+        },  null, function () {
+            studyListViewComponent.find('mainSpinner').hide();
+         });
     },
 
     showManageLocationDetails: function (component, event, helper) {
