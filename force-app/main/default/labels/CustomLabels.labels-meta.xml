@@ -586,6 +586,55 @@
         <shortDescription>Admin Label</shortDescription>
         <value>Admin</value>
     </labels>
+	 <labels>
+        <fullName>AF_All</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AF_All</shortDescription>
+        <value>All</value>
+    </labels>
+	 <labels>
+        <fullName>AF_Female</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AF_Female</shortDescription>
+        <value>Female</value>
+    </labels>
+    <labels>
+        <fullName>AF_ID_A</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AF_ID_A</shortDescription>
+        <value>ID (Ascending)</value>
+    </labels>
+    <labels>
+        <fullName>AF_ID_D</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AF_ID_D</shortDescription>
+        <value>ID (Descending)</value>
+    </labels>
+    <labels>
+        <fullName>AF_Male</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AF_Male</shortDescription>
+        <value>Male</value>
+    </labels>
+    <labels>
+        <fullName>AF_ReceivedDate_NF</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AF_ReceivedDate_NF</shortDescription>
+        <value>Received Date (Newest First)</value>
+    </labels>
+    <labels>
+        <fullName>AF_ReceivedDate_OF</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AF_ReceivedDate_OF</shortDescription>
+        <value>Received Date (Oldest First)</value>
+    </labels>
     <labels>
         <fullName>Albumin</fullName>
         <language>en_US</language>
