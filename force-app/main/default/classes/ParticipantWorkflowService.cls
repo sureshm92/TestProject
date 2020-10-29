@@ -446,7 +446,7 @@ public without sharing class ParticipantWorkflowService {
             newFieldWrapper.title = TranslateHelper.getLabelValue(fieldSetting.Title_Label__c);
             newFieldWrapper.requiredTitle =  TranslateHelper.getLabelValue(fieldSetting.Required_Title_Label__c);
             newFieldWrapper.field = fieldSetting.Field_Name__c;
-            newFieldWrapper.readonly = (newFieldWrapper.readonly != null && newFieldWrapper.readonly)
+            newFieldWrapper.readonly = (newFieldWrapper.readonly != null && newFieldWrapper.readonly)||( fieldSetting.Editable_for_Statuses__c!=null && !fieldSetting.Editable_for_Statuses__c.contains(pe.Participant_Status__c))
                     || fieldSetting.Readonly_for_Steps__c != null && fieldSetting.Readonly_for_Steps__c.contains(step.DeveloperName);
             newFieldWrapper.required = fieldSetting.Required_for_Steps__c != null && fieldSetting.Required_for_Steps__c.contains(step.DeveloperName)
                     && (fieldSetting.Required_Condition__c == null || ConditionCheckerService.checkConditionForObject(fieldSetting.Required_Condition__c, ctp));
@@ -761,7 +761,7 @@ public without sharing class ParticipantWorkflowService {
         for(Participant_Workflow_Form_Field__mdt field: [
                 SELECT Id, Field_Name__c, Type__c, Condition__c, Title_Label__c, Required_Title_Label__c,
                         True_Value_Label__c, False_Value_Label__c,
-                        DeveloperName, Required_for_Steps__c, Readonly_for_Steps__c,
+                        DeveloperName, Required_for_Steps__c,Editable_for_Statuses__c, Readonly_for_Steps__c,
                         Depends_On_Field__c, Depends_On_Values__c, Strict_Dependency__c,
                         Only_Future_Dates__c, Only_Past_Dates__c,
                         Required_Condition__c, Populate_from_Field__c, Populate_Fields_Map__c,
@@ -784,7 +784,7 @@ public without sharing class ParticipantWorkflowService {
         for(Participant_Workflow_Form_Field__mdt field: [
                 SELECT Id, Field_Name__c, Type__c, Condition__c, Title_Label__c, Required_Title_Label__c,
                         True_Value_Label__c, False_Value_Label__c,
-                        DeveloperName, Required_for_Steps__c, Readonly_for_Steps__c,
+                        DeveloperName, Required_for_Steps__c,Editable_for_Statuses__c, Readonly_for_Steps__c,
                         Depends_On_Field__c, Depends_On_Values__c, Strict_Dependency__c,
                         Only_Future_Dates__c, Only_Past_Dates__c,
                         Required_Condition__c, Populate_from_Field__c, Populate_Fields_Map__c,

@@ -180,11 +180,13 @@
         var outcome = null;
         var isIniVisCurrentStep = false;
         var nextStepNeutral = false;
+        var nextOutcome = null;
         for (let ind = 0; ind < steps.length; ind++) {
             if(steps[ind].isCurrentStepValid 
-               && steps[ind].isCurrentStep && steps[ind].notes !=''){
-                notesToBeAdded = true;
-                
+               && steps[ind].isCurrentStep){
+                if(steps[ind].notes !='' && steps[ind].notes!=null){
+                    notesToBeAdded = true;
+                }
                 if(ind >0 && (steps[ind].outcome == undefined || steps[ind].outcome == null)){
                     outcome = steps[ind-1].outcome;
                 }else{
@@ -199,15 +201,21 @@
                 isIniVisCurrentStep = true;
                 if(ind + 1 < steps.length && steps[ind+1].state =='neutral'){ 
                     nextStepNeutral = true;
+                }else if(ind + 1 < steps.length && steps[ind+1].state !='neutral'){ 
+                	nextOutcome = steps[ind+1].outcome;
                 }
                 break;
             }
         }
         if(isStatusChanged && !isIniVisCurrentStep){
             notesToBeAdded = false;
-        }   
+        }
         if(isIniVisCurrentStep && !nextStepNeutral){
-           outcome = null; 
+            if(nextOutcome!=null){
+                outcome = nextOutcome;
+            }else{ 
+                outcome = null; 
+            }
         }
         console.log('##Save isStatusChanged2: '+ isStatusChanged);
         pe.Participant__r = participant;
@@ -264,7 +272,7 @@
             {
                 var p = component.get("v.parent");
                 p.refreshTable();
-            }
+            }            
             comp.hide();
         }, null, function () {
             component.set('v.isStatusChanged', false);
@@ -292,11 +300,13 @@
         var outcome = null;
         var isIniVisCurrentStep = false;
 		var nextStepNeutral = false;
+        var nextOutcome = null;
         for (let ind = 0; ind < steps.length; ind++) {
             if(steps[ind].isCurrentStepValid 
-               && steps[ind].isCurrentStep && steps[ind].notes !=''){
-                notesToBeAdded = true;
-                
+               && steps[ind].isCurrentStep){
+                if(steps[ind].notes !='' && steps[ind].notes!=null){
+                    notesToBeAdded = true;
+                }
                 if(ind >0 && (steps[ind].outcome == undefined || steps[ind].outcome == null)){
                     outcome = steps[ind-1].outcome;
                 }else{
@@ -311,6 +321,8 @@
                 isIniVisCurrentStep = true;
                 if(ind + 1 < steps.length && steps[ind+1].state =='neutral'){ 
                     nextStepNeutral = true;
+                }else if(ind + 1 < steps.length && steps[ind+1].state !='neutral'){ 
+                	nextOutcome = steps[ind+1].outcome;
                 }
                 break;
             }
@@ -319,7 +331,11 @@
             notesToBeAdded = false;
         }
         if(isIniVisCurrentStep && !nextStepNeutral){
-           outcome = null; 
+            if(nextOutcome!=null){
+                outcome = nextOutcome;
+            }else{ 
+                outcome = null; 
+            }
         }
         console.log('##isStatusChanged2: '+ isStatusChanged);
         if(statusDetailValid){
