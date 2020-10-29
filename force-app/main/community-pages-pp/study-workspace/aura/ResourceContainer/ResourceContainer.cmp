@@ -43,20 +43,19 @@
         </aura:set>
          <aura:if isTrue="{!and(v.resourceMode == 'Default',!v.isDelegate)}">
                 <div class="{! v.hascois ? 'mainCard' : 'mainCardCoi' }">
-                <div class="url-disclaimer" style="{!if(v.isRTL == true, 'padding-right:33px', '')}">
-                 {!$Label.c.PP_Share_Article}<br></br>
-                 {!$Label.c.PP_Submit_Video}    
+                <div class="url-disclaimer"> <!-- style="{!if(v.isRTL == true, 'padding-right:33px', '')}" -->
+                 {!$Label.c.PP_Share_Article}
+                    <div class="videoSubmit">{!$Label.c.PP_Submit_Video}</div>
                 </div>    
                  <div class="slds-grid mar_grid">
-                     <div class="slds-col slds-size_1-of-2">
-                    <lightning:input type="text" aura:id="urlField" placeholder="{!$Label.c.PP_Paste_URL}" value="{!v.submittedArticlesURL}" onblur="{!c.handleUrlValidation}"></lightning:input>
+                     <div class="slds-col slds-size_1-of-1 mar_btn">
+                        <lightning:input type="text" aura:id="urlField" placeholder="{!$Label.c.PP_Paste_URL}" value="{!v.submittedArticlesURL}" onblur="{!c.handleUrlValidation}"></lightning:input>
+                         <span style="{!if(v.isRTL == true, 'padding-right:15px', '')}">
+                            <lightning:button label="{!$Label.c.PP_Submit_Button}" onclick="{!c.createArticles}" class="{!v.disableSave ? 'btn slds-button disabled' : 'btn slds-button'}" disabled="{!v.disableSave}"></lightning:button>
+                         </span>
                      </div>
-                    <div  class="slds-col slds-size_1-of-2 mar_btn">
-                    <lightning:button label="{!$Label.c.PP_Submit_Button}" onclick="{!c.createArticles}" class="{!v.disableSave ? 'btn slds-button disabled' : 'btn slds-button'}" disabled="{!v.disableSave}"></lightning:button>
-                    
-                     </div>
-                      <span class="emergency-disclaimer" style="{!if(v.isRTL == true, 'margin-right: -989px!important;', '')}">
-                          {!$Label.c.PP_Emergency}
+                     <span class="emergency-disclaimer"> <!-- style="{!if(v.isRTL == true, 'margin-right: -989px!important;', '')}" -->
+                         {!$Label.c.PP_Emergency}
                     </span>
                     </div>
                     <aura:if isTrue="{!v.hascois }">
