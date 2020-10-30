@@ -3,7 +3,7 @@
  -->
 
 <aura:component description="ViewPatients" implements="forceCommunity:availableForAllPageTypes"
-                controller="ViewPatientsRemote">
+                controller="ViewPatientsRemote" extends="c:CommunityContext">
 
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
