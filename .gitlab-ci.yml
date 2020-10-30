@@ -54,8 +54,7 @@ cache:
 #    key: "${CI_JOB_NAME}"
 #    paths:
 #      - .sonar/cache
- #allow_failure: true
-#  before_script:
+#   before_script:
 #   - echo "Sonar Analysis"
 #  script:
 #   - . ./scripts/ci/sonar-check.sh
