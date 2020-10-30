@@ -62,6 +62,10 @@
                 <behavior>Edit</behavior>
                 <field>Populate_Fields_Map__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Editable_for_Statuses__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

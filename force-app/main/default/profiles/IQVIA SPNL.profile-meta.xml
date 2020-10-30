@@ -4523,6 +4523,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant_Enrollment_Status_History__c.Additional_Notes__c</field>
+        <readable>true</readable>
+    </fieldPermissions>    
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant_Enrollment_Status_History__c.Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5158,6 +5163,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Participant_Workflow_Form_Field__mdt.Editable_for_Statuses__c</field>
+        <readable>false</readable>
+    </fieldPermissions>    
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Participant_Workflow_Form_Field__mdt.False_Value_Label__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -5226,6 +5236,11 @@
         <field>Participant_Workflow_Outcome__mdt.Step__c</field>
         <readable>false</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Step__mdt.Additional_Notes_For_Statuses__c</field>
+        <readable>false</readable>
+    </fieldPermissions>    
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Workflow_Step__mdt.Card_Name_Label__c</field>

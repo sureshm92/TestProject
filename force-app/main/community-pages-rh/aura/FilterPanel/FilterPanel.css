@@ -54,8 +54,21 @@
 }
 
 .THIS .fp-pagination-block{
-    padding-top: 20px;
+    padding-top: 15px;
     border-top: 1px solid #d9d9d9;
+    margin-bottom: 5px;
+    align-items: center;
+}
+
+.THIS .pagination-position {
+    display: inline-flex;
+    width: 25%;
+    justify-content: center;
+    padding-top: 10px;
+}
+
+.THIS .cRRPaginationRemote.rrp-container {
+    padding-top: 0;
 }
 
 .THIS .fp-form-element{
@@ -66,6 +79,7 @@
 
 .THIS .fp-form-element + .fp-form-element{
     margin-left: 15px;
+    margin-bottom: 15px;
 }
 
 .THIS .fp-form-element > label{
@@ -76,14 +90,6 @@
 .THIS .fp-page-control{
     text-align: right;
     white-space: nowrap;
-    margin-bottom: 15px;
-}
-
-.THIS .fp-page-info > div{
-    display: inline-block;
-    height: 40px;
-    vertical-align: middle;
-    margin-top: 10px;
 }
 
 .THIS .fp-collapse-label{
@@ -144,53 +150,26 @@
     margin: 5px;
 }
 
-@media all and (min-width: 1024px){
-    .THIS.collapsed .fp-collapsible{
-        opacity: 1;
-        max-height: 300px;
-    }
+.THIS .fp-page-info {
+    display: flex;
+    justify-content: space-between;
 }
 
-@media all and (min-width: 768px){
-    .THIS .fp-form-element > label{
-        display: inline-block;
-    }
-
+.THIS .filterLeft > div {
+    display: inline-block;
 }
 
-@media all and (max-width: 767px){
-    .THIS .fp-page-control {
-        text-align: left;
-    }
-    .THIS {
-        margin: 0 15px;
-    }
-     .THIS .fp-page-control .fp-form-element:nth-child(2) {
-        margin-left: 0;
-    }
-
+.THIS .filterLeft > .vp-export-btn {
+    margin-right: 2rem;
 }
-.THIS .vp-navigate-btn
-{
+
+.THIS .filterLeft > .vp-export-btn .apollo-btn {
+    height: 40px;
+}
+
+.THIS .vp-navigate-btn {
     display: inline-block;
     margin-left: 13px;
-}
-
-@media all and (max-width: 500px) {
-    .THIS .vp-navigate-btn {
-        margin-top: 15px!important;
-        padding-left: 0;
-        margin-bottom: 15px;
-    }
-    
-}
-@media all and (max-width: 767px) {
-    .THIS .vp-navigate-btn {
-        margin-top: 15px!important;
-        padding-left: 0;
-    	margin-bottom: 15px;
-    }
-    
 }
 
 
@@ -210,4 +189,143 @@
 .THIS .show-more a:hover {
     background-color: #eef5ff;
     transition: .25s;
+}
+
+@media all and (min-width: 1024px){
+    .THIS.collapsed .fp-collapsible{
+        opacity: 1;
+        max-height: 300px;
+    } 
+}
+
+@media all and (max-width: 1024px){
+    .THIS .fp-mobile .fp-search {
+        width: 50%;
+    }   
+}
+
+
+@media all and (min-width: 768px){
+    .THIS .fp-form-element > label{
+        display: inline-block;
+    }
+
+}
+@media all and (max-width: 768px){
+    .THIS .fp-pagination-block {
+        align-items: center;
+    }
+    
+    .THIS .fp-page-control {
+        max-width: 30%;
+        white-space: normal;
+    }
+    
+     .THIS .fp-page-info {
+        max-width: 70%
+    }
+    
+    .THIS .fp-page-control .fp-form-element:nth-child(2){
+       margin-bottom: 1rem;
+    }
+    
+    .THIS {
+        margin: 0 15px;
+    }
+    
+    .THIS .fp-page-info {
+        justify-content: flex-start;
+    }
+    
+    .THIS .fp-mobile .fp-search {
+        width: 50%;
+    }
+
+}
+
+@media all and (max-width: 600px){
+    .THIS .fp-pagination-block {
+        flex-direction: column-reverse;
+    }
+    
+    .THIS .fp-page-control,
+    .THIS .fp-page-info {
+        max-width: unset;
+    }
+}   
+
+
+@media all and (max-width: 500px) {
+    .THIS .vp-navigate-btn {
+        margin-top: 15px!important;
+        padding-left: 0;
+        margin-bottom: 15px;
+    }
+    
+    .THIS .fp-page-control {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .THIS .fp-mobile .fp-search {
+        width: 100%;
+    }
+       
+    .THIS .fp-page-control .fp-form-element {
+        margin-left: 0;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+    }
+    
+     .THIS .fp-page-control .fp-form-element:nth-child(2) .cRrSelect.rrs-container{
+     	display: flex;
+        flex-grow: 1;
+    }
+    
+    .THIS .fp-page-control .fp-form-element:nth-child(2) .cRrSelect.rrs-container .rrs-relative {
+     	width: 100%;
+    }
+    
+    .THIS .fp-page-control .fp-form-element:nth-child(3) {
+        justify-content: space-between;
+    }
+    
+    .THIS .fp-page-control .fp-form-element > label {
+        display: inline-block!important;
+    }
+    
+    .THIS .fp-page-info {
+        flex-direction: column-reverse;
+    }
+    
+    .THIS .filterLeft {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    
+    .THIS .filterLeft > div {
+        text-align: center;
+    }
+    
+    .THIS .pagination-position,
+    .THIS .vp-export-btn .apollo-btn {
+        width: 100%;
+    }
+    
+    .THIS .vp-export-btn {
+        width:100%;
+        margin-top: 1rem;
+        padding: 5px 0;
+    }
+    
+}
+@media all and (max-width: 768px) {
+    .THIS .vp-navigate-btn {
+        margin-top: 15px!important;
+        padding-left: 0;
+    	margin-bottom: 15px;
+    }
+    
+    
 }

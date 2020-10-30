@@ -185,10 +185,10 @@ window.communityService = (function () {
 
         setCurrentCommunityMode: function(mode, page, init){
             currentUserMode = mode;
-            service.setThemeCSS();
             let redirectURL = mode.template.redirectURL;
             if(page) redirectURL += '/s/' + page;
             if(!init && !isDummy && mode.template.needRedirect) document.location.href = redirectURL;
+            service.setThemeCSS();
         },
 
         getMessagesVisible : function () {

@@ -177,22 +177,45 @@
         console.log('##Save statusDetailValid: '+statusDetailValid);
         let steps = component.get('v.participantPath.steps');
         var notesToBeAdded = false;
-        var isIniVisCurrentStep = true;
+        var outcome = null;
+        var isIniVisCurrentStep = false;
+        var nextStepNeutral = false;
+        var nextOutcome = null;
         for (let ind = 0; ind < steps.length; ind++) {
             if(steps[ind].isCurrentStepValid 
-               && steps[ind].isCurrentStep && steps[ind].notes !=''){
-                notesToBeAdded = true;
+               && steps[ind].isCurrentStep){
+                if(steps[ind].notes !='' && steps[ind].notes!=null){
+                    notesToBeAdded = true;
+                }
+                if(ind >0 && (steps[ind].outcome == undefined || steps[ind].outcome == null)){
+                    outcome = steps[ind-1].outcome;
+                }else{
+                outcome = steps[ind].outcome;
+                }
+                
             }
             if (steps[ind].title == $A.get('$Label.c.PWS_Initial_Visit_Name') 
                 && steps[ind].isCurrentStepValid 
                 && steps[ind].isCurrentStep) {
                 isStatusChanged = true;
                 isIniVisCurrentStep = true;
+                if(ind + 1 < steps.length && steps[ind+1].state =='neutral'){ 
+                    nextStepNeutral = true;
+                }else if(ind + 1 < steps.length && steps[ind+1].state !='neutral'){ 
+                	nextOutcome = steps[ind+1].outcome;
+                }
                 break;
             }
         }
         if(isStatusChanged && !isIniVisCurrentStep){
             notesToBeAdded = false;
+        }
+        if(isIniVisCurrentStep && !nextStepNeutral){
+            if(nextOutcome!=null){
+                outcome = nextOutcome;
+            }else{ 
+                outcome = null; 
+            }
         }
         console.log('##Save isStatusChanged2: '+ isStatusChanged);
         pe.Participant__r = participant;
@@ -228,7 +251,8 @@
                 delegateJSON: JSON.stringify(component.get('v.participantDelegate')),
                 userInfoJSON: JSON.stringify(userInfo),
                 historyToUpdate : isStatusChanged,
-                notesToBeAdded: notesToBeAdded
+                notesToBeAdded: notesToBeAdded,
+                outcome:outcome
             };
         }
         communityService.executeAction(component, actionName, actionParams , function () {
@@ -248,7 +272,7 @@
             {
                 var p = component.get("v.parent");
                 p.refreshTable();
-            }
+            }            
             comp.hide();
         }, null, function () {
             component.set('v.isStatusChanged', false);
@@ -273,22 +297,45 @@
         console.log('##isStatusChanged1: '+ isStatusChanged);
         let steps = component.get('v.participantPath.steps');
         var notesToBeAdded = false;
-        var isIniVisCurrentStep = true;
+        var outcome = null;
+        var isIniVisCurrentStep = false;
+		var nextStepNeutral = false;
+        var nextOutcome = null;
         for (let ind = 0; ind < steps.length; ind++) {
             if(steps[ind].isCurrentStepValid 
-               && steps[ind].isCurrentStep && steps[ind].notes !=''){
-                notesToBeAdded = true;
+               && steps[ind].isCurrentStep){
+                if(steps[ind].notes !='' && steps[ind].notes!=null){
+                    notesToBeAdded = true;
+                }
+                if(ind >0 && (steps[ind].outcome == undefined || steps[ind].outcome == null)){
+                    outcome = steps[ind-1].outcome;
+                }else{
+                outcome = steps[ind].outcome;
+                }
+                
             }
             if (steps[ind].title == $A.get('$Label.c.PWS_Initial_Visit_Name') 
                 && steps[ind].isCurrentStepValid 
                 && steps[ind].isCurrentStep) {
                 isStatusChanged = true;
                 isIniVisCurrentStep = true;
+                if(ind + 1 < steps.length && steps[ind+1].state =='neutral'){ 
+                    nextStepNeutral = true;
+                }else if(ind + 1 < steps.length && steps[ind+1].state !='neutral'){ 
+                	nextOutcome = steps[ind+1].outcome;
+                }
                 break;
             }
         }
         if(isStatusChanged && !isIniVisCurrentStep){
             notesToBeAdded = false;
+        }
+        if(isIniVisCurrentStep && !nextStepNeutral){
+            if(nextOutcome!=null){
+                outcome = nextOutcome;
+            }else{ 
+                outcome = null; 
+            }
         }
         console.log('##isStatusChanged2: '+ isStatusChanged);
         if(statusDetailValid){
@@ -305,7 +352,8 @@
                 pathWrapperJSON: JSON.stringify(pathWrapper),
                 peId: pe.Id,
                 historyToUpdate: isStatusChanged,
-                notesToBeAdded: notesToBeAdded
+                notesToBeAdded: notesToBeAdded,
+                outcome:outcome
             }, function (returnValueJSON) {
                 var returnValue = JSON.parse(returnValueJSON);
                 component.set('v.updateInProgress', true);
@@ -325,7 +373,7 @@
                 {
                     var p = component.get("v.parent");
                     p.refreshTable();
-                }                
+                }   
             }, null, function () {
                 component.set('v.updateInProgress', false);                
                 component.set('v.isStatusChanged', false);
