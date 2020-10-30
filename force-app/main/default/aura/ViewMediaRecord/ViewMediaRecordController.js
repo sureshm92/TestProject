@@ -256,15 +256,25 @@
             other = true;
             PC_Newvalue = component.find('alternate').get(
                 "v.value");
-            var regExpEmailformat = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            if (!PC_Newvalue.match(regExpEmailformat)) {
+             var regExpEmailformat = $A.get("$Label.c.RH_Email_Validation_Pattern");
+          //  var regExpEmailformat = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            var regexpInvalid =  new RegExp($A.get("$Label.c.RH_Email_Invalid_Characters"));
+            var invalidCheck = regexpInvalid.test(PC_Newvalue);
+            if(invalidCheck == false) {
+                 component.set("v.ErrorMsg", "");
+                if (!PC_Newvalue.match(regExpEmailformat)) {
+                    component.set("v.ErrorMsg", $A.get('$Label.c.TST_Invalid_email_address'));
+                    component.set("v.Validated", false);
+                    component.set("v.DisableSavebtn", true);
+                } else {
+                    component.set("v.Validated", true);
+                    component.set("v.DisableSavebtn", false);
+                    component.set("v.ErrorMsg", "");
+                }
+            } else {
                 component.set("v.ErrorMsg", $A.get('$Label.c.TST_Invalid_email_address'));
                 component.set("v.Validated", false);
                 component.set("v.DisableSavebtn", true);
-            } else {
-                component.set("v.Validated", true);
-                component.set("v.DisableSavebtn", false);
-                component.set("v.ErrorMsg", "");
             }
             update = true;
         } else if (picklistval == otherPhone) {
