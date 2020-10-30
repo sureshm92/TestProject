@@ -197,7 +197,7 @@
               //  console.log('@@endPos ' +result.retainFilter.endPos);
               //  console.log('@@perRecordCount ' +perRecordCount);
                 //  console.log('@@filterValue ' +JSON.stringify(filterValue));
-                if(filterValue[0].endPos < 200000 && filterValue[0].perRecordCount < 200000){
+                if(filterValue[0].endPos < 200000 && filterValue[0].perRecordCount < 200000 && perRecordCount > 0){
                     helper.getchunkdataforCSV(component, event, helper);
             }else{
                                            //var result = JSON.stringify(returnValue);
