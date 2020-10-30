@@ -139,6 +139,8 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             }
 
             upsert newParticipantsMap.values();
+            set<string> emails = new set<string>();
+            set<string>firstname = new set<string>();
             List<Contact> newDelegateContacts = new List<Contact>();
             if (!newDelegateContactsMap.isEmpty()) {
                 for(ContactAndSiteType newDelCon : newDelegateContactsMap.values())
