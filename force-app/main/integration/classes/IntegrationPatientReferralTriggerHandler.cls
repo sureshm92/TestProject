@@ -102,6 +102,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
         private void upsertParticipantAndPE() {
             Map<String, Participant__c> newParticipantsMap = new Map<String, Participant__c>();
             Map<String, ContactAndSiteType> newDelegateContactsMap = new Map<String, ContactAndSiteType>();
+            Integer limitRows = Limits.getLimitQueryRows() - Limits.getQueryRows();
             Account participantAccount = [SELECT Id FROM Account WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE ];
             
             for(Ethnicity_Mapping_Participant__mdt objMT : [SELECT Ethnicity_Code__c,Ethnicity_Description__c 
@@ -142,10 +143,21 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             if (!newDelegateContactsMap.isEmpty()) {
                 for(ContactAndSiteType newDelCon : newDelegateContactsMap.values())
                 newDelegateContacts.add(newDelCon.contactObj);
-                //insert newDelegateContactsMap.values();
-                insert newDelegateContacts;
+                //insert newDelegateContactsMap.values(); 
             }
-			
+			 for(Contact con: newDelegateContacts){
+                emails.add(con.Email);
+                firstname.add(con.FirstName);
+            }
+             List<String> errorsLog = new List<String>();
+            List<Contact> cntList = new List<Contact>();
+            cntList = [SELECT Id,FirstName,Email,Phone FROM Contact WHERE Email IN :emails LIMIT :limitRows];
+            if(!cntList.isEmpty()){
+                errorsLog.add('Duplicate FirstName or Email;');
+               }
+            if(!newDelegateContacts.isEmpty() && cntList.isEmpty() && errorsLog.isEmpty()){
+              insert newDelegateContacts;
+              }
             //Insert PE
             List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
             Map<Id, Id> participantIdByParticipantDelegateContactId = new Map<Id, Id>();
@@ -197,7 +209,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                         }
                     }
                 }
-                if(!delegateParticipants.isEmpty()){
+                if(!delegateParticipants.isEmpty() && cntList.isEmpty() && errorsLog.isEmpty()){
                     insert delegateParticipants;
                 }   
                 if (!ptDelegateRefs.isEmpty()) {
