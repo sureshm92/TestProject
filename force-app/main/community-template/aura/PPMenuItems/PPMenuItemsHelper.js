@@ -8,12 +8,12 @@
             component.set("v.tooltipTop",(y-100) + 'px');
             component.set("v.tooltipLeft",'none;');
             var dataVal = component.get("v.hovertext");
-            if(dataVal!='Delegates' && dataVal!='Account Settings'){
+            if(dataVal!=$A.get("$Label.c.Delegates") && dataVal!=$A.get("$Label.c.PP_Account_Settings")){
                 component.set("v.tooltipTop",(y-30) + 'px');
-            	component.set("v.tooltipLeft",'30px');
+            	component.set("v.tooltipLeft",'18px');
                 if(component.get("v.isRTL"))
                 {
-            	component.set("v.tooltipRight",'30px');
+            	component.set("v.tooltipRight",'18px');
                 }
             }
         };
