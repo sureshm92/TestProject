@@ -41,8 +41,8 @@
 
     openQuickReference: function (component, event, helper) {
         if (communityService.isMobileSDK()) {
-            communityService.showInfoToast(
-                'Info!',
+            communityService.showWarningToast(
+                'Warning!',
                 $A.get('$Label.c.Pdf_Not_Available'),
                 100
             );
@@ -58,8 +58,8 @@
 
     openGuide: function (component, event, helper) {
         if (communityService.isMobileSDK()) {
-            communityService.showInfoToast(
-                'Info!',
+            communityService.showWarningToast(
+                'Warning!',
                 $A.get('$Label.c.Pdf_Not_Available'),
                 100
             );

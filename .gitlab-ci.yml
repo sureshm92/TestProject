@@ -1,7 +1,7 @@
 stages:
 
   #Validation:
- # - SonarCheck
+  #- SonarCheck
   - VALIDATE
 
   #5.0 INT
@@ -39,31 +39,31 @@ cache:
 
 # Validation: ------------------------------------------------------------------
 #SonarCheck:
- # tags:
-  #  - RHPP
+#  tags:
+#    - RHPP
 #  only:
 #   - merge_requests
 #  except:
 #   - push
-#    - commit
-# stage: SonarCheck
+#   - commit
+#  stage: SonarCheck
 #  image:
 #    name: sonarsource/sonar-scanner-cli:latest
-#     entrypoint: [""]
-# cache:
+#    entrypoint: [""]
+#  cache:
 #    key: "${CI_JOB_NAME}"
 #    paths:
 #      - .sonar/cache
  #allow_failure: true
- # before_script:
- #   - echo "Sonar Analysis"
- # script:
- #   - . ./scripts/ci/sonar-check.sh
+#  before_script:
+#   - echo "Sonar Analysis"
+#  script:
+#   - . ./scripts/ci/sonar-check.sh
 
 
 VALIDATE:
-#  tags:
- #   - RHPP
+  tags:
+    - RHPP
   only:
     - merge_requests
   except:

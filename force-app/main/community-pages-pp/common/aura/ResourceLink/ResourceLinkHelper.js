@@ -4,8 +4,8 @@
 ({
     viewResource: function (resource, languageCode) {
         if (communityService.isMobileSDK()) {
-            communityService.showInfoToast(
-                'Info!',
+            communityService.showWarningToast(
+                'Warning!',
                 $A.get('$Label.c.Pdf_Not_Available'),
                 100
             );
