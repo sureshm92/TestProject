@@ -16850,13 +16850,28 @@ communications using the toggles below.</value>
         <shortDescription>Respiratory Rate Description</shortDescription>
         <value>Respiratory rate is a measurement of how many breaths you take per minute.</value>
     </labels>
-      <labels>
+       </labels>
+    <labels>
+        <fullName>RH_Email_Invalid_Characters</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH Email Invalid Characters</shortDescription>
+        <value>[\^¡¿«»¢£¥€¤›]</value>
+    </labels>
+	  <labels>
+        <fullName>RH_Email_Invalid_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH Email Invalid Error</shortDescription>
+        <value>You have entered an invalid format</value>
+    </labels>
+    <labels>
         <fullName>RH_Email_Validation_Pattern</fullName>
         <categories>RH,PP</categories>
         <language>en_US</language>
-        <protected>true</protected>
+        <protected>false</protected>
         <shortDescription>RH Email Validation Pattern</shortDescription>
-        <value>.+@.+\..+</value>
+        <value>^(([^&lt;&gt;()\[\]\\.,;:\s@&quot;]+(\.[^&lt;&gt;()\[\]\\.,;:\s@&quot;]+)*)|(&quot;.+&quot;))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([A-Za-z0-9a-À-ÖØ-öø-ÿÀÁÂÃÈÉÊÌÑÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưËẾăạảấầẩẫậắằẳẵÇặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+\.)+[A-Za-z0-9a-À-ÖØ-öø-ÿÀÁÂÃÈÉÊÌÑÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưËẾăạảấầẩẫậắằẳẵÇặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]{2,}))$</value>
     </labels>
 	<labels>
         <fullName>Send_to_Study_Hub</fullName>

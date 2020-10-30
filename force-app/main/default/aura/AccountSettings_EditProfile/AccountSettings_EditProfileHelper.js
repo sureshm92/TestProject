@@ -55,10 +55,13 @@
         
     },
 
-     checkValidEmail : function(email,emailValue) {
-         debugger;
+    checkValidEmail : function(email,emailValue) {
+        debugger;
         var isValid = false;
         var regexp = $A.get("$Label.c.RH_Email_Validation_Pattern");
+        var regexpInvalid =  new RegExp($A.get("$Label.c.RH_Email_Invalid_Characters"));
+        var invalidCheck = regexpInvalid.test(emailValue);
+        if(invalidCheck == false) {
             if(emailValue.match(regexp)) {
                 email.setCustomValidity('');
                 isValid = true;
@@ -66,7 +69,11 @@
                 email.setCustomValidity('You have entered an invalid format'); 
                 isValid = false;
             }
-            email.reportValidity(); 
+        } else {
+            email.setCustomValidity('You have entered an invalid format'); 
+            isValid = false;
+        }
+        email.reportValidity(); 
         return isValid;
     },
     setFieldsValidity: function(component,event){
