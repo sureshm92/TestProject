@@ -37,8 +37,8 @@ private without sharing class Test_ContactService {
             CommunityFacadeRemote.getCommunityData();
 
         }
-
-        System.runAs(testData.createPatientDelegate()) {
+        User pdUser=testData.createPatientDelegate();
+        System.runAs(pdUser) {
             CommunityFacadeRemote.isFirstLogon();
             CommunityFacadeRemote.acceptTerms();
             CommunityFacadeRemote.getCommunityData();
@@ -59,7 +59,7 @@ private without sharing class Test_ContactService {
         //case NextNotifyDate
         Datetime dt = Datetime.newInstance(2020, 1, 1);
         ContactService.updateNextNotifyDate(conId, dt);
-        Contact delCon = [SELECT Id, LastName FROM Contact WHERE LastName = 'Delegate'];
+        Contact delCon = [SELECT Id, LastName FROM Contact WHERE Id = :pdUser.ContactId];
         ContactService.updateNextNotifyDate(delCon.Id, dt);
         Test.stopTest();
 

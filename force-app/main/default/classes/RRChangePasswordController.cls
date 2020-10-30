@@ -83,6 +83,11 @@ public without sharing class RRChangePasswordController {
         {
             isRTL=true;
         }
+        if(isRTL)
+        {
+           tcText=tcText.replaceAll('/s/privacy-policy','/s/privacy-policy?lanCode='+previousLanguage);
+           tcText=tcText.replaceAll('/s/cookie-policy','/s/cookie-policy?lanCode='+previousLanguage);
+        }
 
     }
 
