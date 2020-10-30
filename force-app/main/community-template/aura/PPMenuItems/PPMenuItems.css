@@ -9,11 +9,13 @@
 .THIS .pp-item:first-child .main-box .menu-item-box .icon-settings-box .icon-cog{
     visibility: visible;
     opacity: 1;
+    display:block;
 }
 
 .THIS .contain:first-child .pp-item:first-child .main-box .menu-item-box .icon-settings-box .icon-delegate-box .icon-delegate{
     visibility: visible;
     opacity: 1;
+    display:block;
 }
 
 .THIS .rtlMain{
@@ -77,6 +79,7 @@
     width: 16px;
     height: 16px;
     visibility: hidden;
+    display:none;
     opacity: 0;
     fill: #666666!important;
 }
@@ -120,28 +123,44 @@
 .THIS.tooltip{
     position:absolute;
     top:33%;
-    left:68%;
-    width:22%;
+    left:69%;
+    width:auto;
+    height:auto;
+    word-break: break-all;
+    white-space:normal;
+    width: max-content;	
 }
 .THIS.tooltipRTL{
     position: absolute;
     top: 10%;
-    left: 10%;
-    width: 23%;
-    margin-top:-70px;
+    left: 11%;
+    width:auto;
+    height:auto;
+    word-break: break-all;
+    white-space:normal;
+    width: max-content;	
 }
 .THIS.tooltipAS{
     position:absolute;
     top:32%;
     left:76%;
-    width:33%;
+    width:auto;
+    height:auto;
+    word-break: break-all;
+    white-space:normal;
+    width: max-content;	
 }
 .THIS.tooltipASRTL{
     position: absolute;	
-    margin-top:-70px;
     top: 10%;
-    left: 0%;
-    width: 20%;
+    left: -2%;
+    min-width:5%;
+    width:auto;
+    height:auto;
+    word-break: break-all;
+    white-space:normal;
+    width: max-content;	
+    float:right;
     
 }
 .THIS.tooltipSubTitle{    
