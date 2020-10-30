@@ -55,3 +55,15 @@ Go to Settings - Security - Clickjack Protection Level-Don't allow framing by an
 Go to Settings - Security - Security Level -Strict CSP: Block Access to Inline Scripts and All Hosts (Recommended)
 Publish Community
 
+## 9. GSK Community Terms and Condition page configuration(needs to be done only in formal and UAT)
+1.Open Setup - All Communities - Click Builder near GSK  Community
+go to gear icon-->Open Terms and Conditions page-->click on gear icon again-->go to Layout section-->check Override the default theme layout for this page-->select Brand_No_Navigation from 
+Theme Layout dropdown.
+
+## 10.System Administrator profile configuration(needs to be done in fomral and UAT)
+1.setup-->Profiles-->System Administrator-->object Setting-->Visit_Results-->check Biomarker checkbox in Assigned record types column.
+
+## 11.Batch Job(needs to be done only in formal)
+1.open Developer console-->Debug-->Open Execute Anonymous Window-->Run below line of code-->
+ResourceExpBatchScheduler.start();
+-->select this line --->click on execute highlighted
