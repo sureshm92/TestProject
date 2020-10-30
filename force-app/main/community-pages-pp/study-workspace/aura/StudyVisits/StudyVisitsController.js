@@ -44,6 +44,13 @@
         component.find('showVendors').hide();
     },
     
+    reloadTable: function (component, event, helper) {
+        var rrPage=component.find("rrPaginationComponent");
+        component.set('v.pageNumber', rrPage.PageNumer());
+        component.set('v.pageCheck',(rrPage.PageNumer()>1));
+        $A.enqueueAction(component.get('c.doInit'));
+    },
+    
     createEditTask: function (component, event, helper) {
         var currentVisits = component.get('v.currentVisits');
         var indexVar = event.getSource().get('v.value');
@@ -67,4 +74,5 @@
             component.find('studyVisitReminder').reloadPopup(relaodAttributes);
         }
     }
+    
 });
