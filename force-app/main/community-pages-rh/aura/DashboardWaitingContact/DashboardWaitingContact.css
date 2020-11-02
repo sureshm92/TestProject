@@ -77,7 +77,8 @@
 }
 
 .THIS ::-webkit-scrollbar{
-    width: 4px;
+    height: 8px;              
+    width: 8px;
 }
 .THIS ::-webkit-scrollbar-thumb{
     width: 4px;
