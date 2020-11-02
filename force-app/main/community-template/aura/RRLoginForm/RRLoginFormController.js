@@ -27,38 +27,29 @@
             'v.communitySelfRegisterUrl',
             helper.getCommunitySelfRegisterUrl(component, event, helper)
         );
-
-        //@Krishna mahto- PEH-1910- Prod Issue Fix- Start
-        communityService.executeAction(
-            component,
-            'getCommunityName',
-            {},
-            function (returnValue) {
-                if (returnValue !== null) {
-                    if (returnValue === 'IQVIA Referral Hub') {
-                        component.set('v.isGSKCommunity', false);
-                    } else if (returnValue === 'GSK Community') {
-                        component.set('v.isGSKCommunity', true);
-                    } else if (returnValue === 'Janssen Community') {
-                        component.set('v.isJanssen', true);
-                    }
-                    communityService.executeAction(
-                        component,
-                        'getCommunityURL',
-                        {
-                            communityName: returnValue
-                        },
-                        function (urlValue) {
-                            component.set('v.urlCommunity', urlValue);
-                        }
-                    );
+        communityService.executeAction(component, 'getCommunityName', {}, function (returnValue) {
+            if (returnValue !== null) {
+                if (returnValue === 'IQVIA Referral Hub') {
+                    component.set('v.isGSKCommunity', false);
+                } else if (returnValue === 'GSK Community') {
+                    component.set('v.isGSKCommunity', true);
+                } else if (returnValue === 'Janssen Community') {
+                    component.set('v.isJanssen', true);
                 }
+                communityService.executeAction(
+                    component,
+                    'getCommunityURL',
+                    {
+                        communityName: returnValue
+                    },
+                    function (urlValue) {
+                        component.set('v.urlCommunity', urlValue);
+                    }
+                );
             }
-        );
-        //@Krishna mahto- PEH-1910- Prod Isseu Fix- End
+        });
 
-        if (navigator.userAgent.match(/Trident/))
-            component.set('v.ieClass', 'ie-login-rows');
+        if (navigator.userAgent.match(/Trident/)) component.set('v.ieClass', 'ie-login-rows');
     },
 
     resetUrl: function (component, event, helper) {
@@ -70,7 +61,6 @@
 
     handleLogin: function (component, event, helpler) {
         helpler.handleLogin(component, event, helpler);
-        a;
     },
 
     setStartUrl: function (component, event, helpler) {
@@ -89,14 +79,9 @@
     },
 
     onKeyUp: function (component, event, helpler) {
-        //debugger;
-        //var sId = event.getSource();
-        //var id = sId.getLocalId();
-
         var pid = event.target.id;
-        //checks for "enter" key
-
         if (pid == 'username') {
+            //checks for "enter" key
             if (event.which == 13) {
                 helpler.handleLogin(component, event, helpler);
             }
@@ -128,33 +113,36 @@
         $A.get('e.force:navigateToURL').setParams(attributes).fire();
     },
 
-    //Added by Sumit Surve
     togglePassword: function (component, event, helper) {
-        //debugger;
         if (component.get('v.showpassword')) {
             component.set('v.showpassword', false);
         } else {
             component.set('v.showpassword', true);
         }
     },
-    //@Krishna mahto- PEH-1910- Start
     openModel: function (component, event, helper) {
         // for Display Model,set the "isOpen" attribute to "true"
         component.set('v.isOpen', true);
     },
 
     closeModel: function (component, event, helper) {
-        // for Hide/Close Model,set the "isOpen" attribute to "Fasle"
+        // for Hide/Close Model,set the "isOpen" attribute to "false"
         component.set('v.isOpen', false);
     },
-    //@Krishna mahto- PEH-1910- end
-    //@Krishna mahto- PEH-2451- Start
+
     openPrivacyPolicy: function (component, event, helper) {
-        var PrivacyPolicyURL =
-            component.get('v.urlCommunity') +
-            '/s/privacy-policy?lanCode=' +
-            component.get('v.UserLanguage');
-        window.open(PrivacyPolicyURL, '_blank');
+        let privacyPolicyURL = '';
+        if (communityService.isMobileSDK()) {
+            communityService.preLoginPageRedirection(
+                window.location.href,
+                'privacy-policy?lanCode=' + component.get('v.UserLanguage')
+            );
+        } else {
+            privacyPolicyURL =
+                component.get('v.urlCommunity') +
+                '/s/privacy-policy?lanCode=' +
+                component.get('v.UserLanguage');
+            window.open(privacyPolicyURL, '_blank');
+        }
     }
-    //@Krishna mahto- PEH-2451- End
 });

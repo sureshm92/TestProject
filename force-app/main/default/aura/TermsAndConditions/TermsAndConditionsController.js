@@ -28,15 +28,10 @@
         } else if (titleCode === 'CookiePolicy') {
             component.set('v.title', $A.get('$Label.c.PG_TC_H_Cookie_Policy'));
         } else {
-            component.set(
-                'v.title',
-                $A.get('$Label.c.PG_TC_H_Terms_And_Conditions')
-            );
+            component.set('v.title', $A.get('$Label.c.PG_TC_H_Terms_And_Conditions'));
         }
         component.find('mainSpinner').show();
-        let userDefalutTC = communityService.getUrlParameter('default')
-            ? true
-            : false;
+        let userDefalutTC = communityService.getUrlParameter('default') ? true : false;
         if (isPortalTC) {
             if (titleCode === 'CookiePolicy' || titleCode === 'PrivacyPolicy') {
                 communityService.executeAction(
@@ -44,12 +39,9 @@
                     'getTC',
                     {
                         code: titleCode,
-                        languageCode: communityService.getUrlParameter(
-                            'language'
-                        ),
+                        languageCode: communityService.getUrlParameter('language'),
                         useDefaultCommunity:
-                            communityService.getHasIQVIAStudiesPI() &&
-                            userDefalutTC
+                            communityService.getHasIQVIAStudiesPI() && userDefalutTC
                     },
                     function (returnValue) {
                         let tcData = JSON.parse(returnValue);
@@ -72,8 +64,7 @@
                     'getPortalTcData',
                     {
                         useDefaultCommunity:
-                            communityService.getHasIQVIAStudiesPI() &&
-                            userDefalutTC
+                            communityService.getHasIQVIAStudiesPI() && userDefalutTC
                     },
                     function (returnValue) {
                         component.set('v.tcData', JSON.parse(returnValue));
@@ -94,12 +85,9 @@
                     'getTC',
                     {
                         code: titleCode,
-                        languageCode: communityService.getUrlParameter(
-                            'language'
-                        ),
+                        languageCode: communityService.getUrlParameter('language'),
                         useDefaultCommunity:
-                            communityService.getHasIQVIAStudiesPI() &&
-                            userDefalutTC
+                            communityService.getHasIQVIAStudiesPI() && userDefalutTC
                     },
                     function (returnValue) {
                         let tcData = JSON.parse(returnValue);
@@ -175,13 +163,9 @@
     },
 
     removeClasses: function (component, event, helper) {
-        let bottomLine = document.getElementsByClassName(
-            'bottom-line-with-cookie'
-        );
+        let bottomLine = document.getElementsByClassName('bottom-line-with-cookie');
         $A.util.removeClass(bottomLine[0], 'bottom-line-with-cookie');
-        let paddingForCookie = document.getElementsByClassName(
-            'padding-for-cookie-policy'
-        );
+        let paddingForCookie = document.getElementsByClassName('padding-for-cookie-policy');
         $A.util.removeClass(paddingForCookie[0], 'padding-for-cookie-policy');
     }
 });
