@@ -58,7 +58,7 @@
         let emailParticipantCmp = component.find('emailInput');
 		//let emailValid = false;
         let emailValue = emailParticipantCmp? emailParticipantCmp.get('v.value'): null;
-        helper.checkValidEmail(emailParticipantCmp,emailValue);
+        	helper.checkValidEmail(emailParticipantCmp,emailValue);
         if (pe.MRN_Id__c) {
             component.set('v.disableSourceId', true);
         } else {

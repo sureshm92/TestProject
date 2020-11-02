@@ -82,9 +82,10 @@
         let emailDelegateRepeat = component.get('v.emailDelegateRepeat');
         let emailDelegateCmp = component.find('emailDelegateField');
         let emailDelegateRepeatCmp = component.find('emailDelegateRepeatField');
-        let emailDelegateVaild = needsDelegate && emailDelegateCmp && helper.checkValidEmail(emailDelegateCmp,delegateParticipant.Email__c);
-        let emailDelegateRepeatValid = needsDelegate && emailDelegateRepeatCmp && helper.checkValidEmail(emailDelegateRepeatCmp,emailDelegateRepeat);
-
+        let emailDelegateVaild = needsDelegate && emailDelegateCmp && delegateParticipant.Email__c && helper.checkValidEmail(emailDelegateCmp,delegateParticipant.Email__c);
+        let emailDelegateRepeatValid = needsDelegate && emailDelegateRepeatCmp && emailDelegateRepeat && helper.checkValidEmail(emailDelegateRepeatCmp,emailDelegateRepeat);
+		let emailValidCheck = needsDelegate && emailDelegateCmp && delegateParticipant.Email__c && helper.checkValidEmail(emailDelegateCmp,delegateParticipant.Email__c);
+        
         let isValid = false;
         if(emailDelegateVaild && emailDelegateRepeatValid &&
             delegateParticipant.First_Name__c && delegateParticipant.Last_Name__c &&
@@ -101,7 +102,7 @@
                         delegateParticipant.Email__c));
 
         let isEmailValid = emailDelegateVaild && emailDelegateRepeatValid;
-
+		if(emailValidCheck)
         if (needsDelegate && delegateParticipant && emailDelegateCmp && emailDelegateRepeatCmp) {
             if ((delegateParticipant.Email__c && !emailDelegateRepeat) ||
                 (!delegateParticipant.Email__c && emailDelegateRepeat) ||
@@ -132,15 +133,23 @@
     },
 
    checkValidEmail: function(email,emailValue) {
+       debugger;
         var isValid = false;
         var regexp = $A.get("$Label.c.RH_Email_Validation_Pattern");
-            if(emailValue.match(regexp)) {
-                email.setCustomValidity('');
-                isValid = true;
-            }else {
-                email.setCustomValidity('You have entered an invalid format'); 
-                isValid = false;
-            }
+       var regexpInvalid =  new RegExp($A.get("$Label.c.RH_Email_Invalid_Characters"));
+       var invalidCheck = regexpInvalid.test(emailValue);
+       if(invalidCheck == false) {
+                if(emailValue.match(regexp)) {
+                    email.setCustomValidity('');
+                    isValid = true;
+                }else {
+                    email.setCustomValidity('You have entered an invalid format'); 
+                    isValid = false;
+                }
+       } else {
+           email.setCustomValidity('You have entered an invalid format'); 
+           isValid = false;
+       }
             email.reportValidity(); 
         return isValid;
     },
