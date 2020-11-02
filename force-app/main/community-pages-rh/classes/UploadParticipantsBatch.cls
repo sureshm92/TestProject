@@ -127,6 +127,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             String permissionSetName = CommunityTemplateService.getTemplate(studySiteDetails.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
             
             Map<Id, Contact> contactsById = new Map<Id, Contact>();
+            Set<Id> contactsToCreateUsersWith = new Set<Id>();
             Map<Id, Participant__c> participantsByContact = new Map<Id, Participant__c>();
             Map<Id, Participant_Enrollment__c> participantEnrollmentsByContact = new Map<Id, Participant_Enrollment__c>();
             Map<Id, Id> createUsersMap = new Map<Id, Id>();
@@ -158,7 +159,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 String State = '';
                 String PostalCode = '';
                 String Language = '';
-                String CountryCode = '';
                 
                 totalRecordCount++;
                 system.debug('ITERATION #: ' + totalRecordCount);
@@ -178,7 +178,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 State = headerIndexes.get('STATE') != null && csvRecordData[headerIndexes.get('STATE')] != null ? csvRecordData[headerIndexes.get('STATE')].trim() : null;
                 PostalCode = headerIndexes.get('POSTAL CODE') != null && csvRecordData[headerIndexes.get('POSTAL CODE')] != null ? csvRecordData[headerIndexes.get('POSTAL CODE')].trim() : null;
                 Language = headerIndexes.get('LANGUAGE') != null && csvRecordData[headerIndexes.get('LANGUAGE')] != null ? csvRecordData[headerIndexes.get('LANGUAGE')].trim() : null;
-                CountryCode = Language != null? Language.substringAfterLast('_') : null;
                 
                 System.debug('@@@### EmailAddress ' +csvRecordData[headerIndexes.get('EMAIL ADDRESS')]);
 
@@ -236,7 +235,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 }
                 
                 Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
-                Map<String, String> countryCodeByCountryMap = CountryStateUtil.COUNTRY_MAP;
                 if (statesByCountryMap.get(uploadUser.Contact.MailingCountryCode) != null && !statesByCountryMap.get(uploadUser.Contact.MailingCountryCode).isEmpty() && String.isEmpty(State)) {
                     hasErrors = true;
                     system.debug('ERROR: ' + totalRecordCount + ', ' + 'State, mandatory field is empty');
@@ -324,10 +322,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                     Phone = Phone,
                                     MobilePhone = Phone2,
                                     MailingState = State,
-                                   // MailingCountry = uploadUser.Contact.MailingCountry,
-                                    MailingCountry = String.isNotBlank(CountryCode)?  countryCodeByCountryMap.containsKey(CountryCode)?  countryCodeByCountryMap.get(CountryCode) : uploadUser.Contact.MailingCountry : uploadUser.Contact.MailingCountry,
-                                    MailingCountryCode = String.isNotBlank(CountryCode)? CountryCode : uploadUser.Contact.MailingCountryCode,
-                                   // MailingCountryCode = uploadUser.Contact.MailingCountryCode,
+                                    MailingCountry = uploadUser.Contact.MailingCountry,
+                                    MailingCountryCode = uploadUser.Contact.MailingCountryCode,
                                     MailingPostalCode = PostalCode,
                                     userCommunityMode__c = PARTICIPANT_USER_MODE,
                                     Consent_To_Inform_About_Study__c = createUsers,
@@ -347,8 +343,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                            Alternative_Phone_Type__c = PhoneType2,
                                            Preferred_Language__c = (String.isBlank(Language) ? uploadUser.Contact.Language__c : Language),
                                            Mailing_State__c = State,
-                                          // Mailing_Country__c = uploadUser.Contact.MailingCountry,
-                                           Mailing_Country__c = String.isNotBlank(CountryCode)? countryCodeByCountryMap.containsKey(CountryCode)? countryCodeByCountryMap.get(CountryCode) : uploadUser.Contact.MailingCountry : uploadUser.Contact.MailingCountry,
+                                           Mailing_Country__c = uploadUser.Contact.MailingCountry,
                                            Mailing_Zip_Postal_Code__c = PostalCode);
                     participant.Adult__c = ReferringRemote.checkNeedsGuardian(JSON.serialize(participant)) == 'false';
                     
@@ -356,10 +351,12 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     Boolean isDuplicate = false;
                     ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(participant);
                     Participant__c participantDuplicate = duplicateService.findDuplicate(participant);
+                    
                     isDuplicate = participantDuplicate != null;
                     Contact contactDuplicate = duplicateService.findDuplicateContact(participant);
                     System.debug('contact duplicate>>>>'+contactDuplicate);
                     isDuplicate = isDuplicate || contactDuplicate != null;
+                   
                     
                     if (!isDuplicate) {
                         try {
@@ -384,18 +381,24 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     } else {
                         if (contactDuplicate != null) {
                             dupclicateContactIds.add(contactDuplicate.Id);
+                            if(participant.Adult__c){
+                                contactsToCreateUsersWith.add(contactDuplicate.Id);
+                            }
                         } else {
                             dupclicateParticipantstIds.add(participantDuplicate.Id);
                         }
                         
                         if (!dupclicateParticipantstIds.isEmpty()) {
                             for (Participant__c p : [
-                                SELECT Id,
+                                SELECT Id,Adult__c,
                                 Contact__c
                                 FROM Participant__c
                                 WHERE Id IN :dupclicateParticipantstIds
                             ]) {
                                 dupclicateContactIds.add(p.Contact__c);
+                                if(p.Adult__c){
+                                    contactsToCreateUsersWith.add(p.Contact__c);
+                                }
                             }
                         }
                         
@@ -461,7 +464,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                                           PI_Contact__c = studySiteDetails.Principal_Investigator__c);
                         
                         contactsById.put(participantContact.Id, participantContact);
-                        
+                        if(participant.Adult__c){
+                            contactsToCreateUsersWith.add(participantContact.Id);
+                        }
                         try {
                             if (participant.Id == null) {
                                 Database.SaveResult saveRes = Database.insert(participant, false);
@@ -505,6 +510,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             actionAssignContactPermissions.addPermission(participantContact.Id, permissionSetName);
                         } else {
                             contactsById.remove(participantContact.Id);
+                            contactsToCreateUsersWith.remove(participantContact.Id);
                             delete participantContact;
                             listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
                         }
@@ -521,7 +527,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 system.debug('CREATE_USERS: ' + insertedContacts);
                 if (!insertedContacts.isEmpty()) {
                     for (Contact c : contactsById.values()) {
-                        if (insertedContacts.contains(participantsByContact.get(c.Id).Id)) {
+                        if (insertedContacts.contains(participantsByContact.get(c.Id).Id) && contactsToCreateUsersWith.contains(c.Id)) {
                             if (participantEnrollmentsByContact.get(c.Id) != null) {
                                 createUsersMap.put(participantEnrollmentsByContact.get(c.Id).Participant_Contact__c, participantEnrollmentsByContact.get(c.Id).PI_Contact__c);
                             } else {
@@ -532,7 +538,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 }
                 if (!dupclicateContactIds.isEmpty()) {
                     for (Id contId : dupclicateContactIds) {
-                        if (!duplicateContactUsersMap.keySet().contains(contId)) {
+                        if (!duplicateContactUsersMap.keySet().contains(contId) && contactsToCreateUsersWith.contains(contId)) {
                             if (participantEnrollmentsByContact.get(contId) != null) {
                                 createUsersMap.put(participantEnrollmentsByContact.get(contId).Participant_Contact__c, participantEnrollmentsByContact.get(contId).PI_Contact__c);
                             } else {
@@ -588,13 +594,16 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     private static void sendNotificationEmail(Set<String> listOfFailedRecords, Set<String> listOfFailedRecordsWithMsg, String piContactId, DateTime uploadTime, Study_Site__c studySiteDetails, Integer totalRecordCount, Integer errorRecordCount) {
         String formattedDate = uploadTime.format('MM/dd/yyyy hh:mm a', UserInfo.getTimeZone().toString());
         System.debug('ErrorRecordsCount>>>>'+errorRecordCount);
-        User piUser = [SELECT Id, Email, Contact.Email FROM User WHERE ContactId = :piContactId LIMIT 1];
+        //Added by Krisha for REF-2536 to send email to the logged in User- start
+        Id contextUserId = UserInfo.getUserId();
+        User contextUser = [SELECT Id, Email, Contact.Email,contactId FROM User WHERE id=:contextUserId];
+        //Added by Krisha for REF-2536 to send email to the logged in User- End
         OrgWideEmailAddress owea = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName LIKE '%IQVIA Referral Hub' LIMIT 1];
         Id importParticipantsTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName = :SendEmailTemplate.EMAIL_TEMPLATE_PATIENT_IMPORT LIMIT 1].Id;
         
         Messaging.SingleEmailMessage adminEmailToSend = new Messaging.SingleEmailMessage();
         adminEmailToSend.setTemplateId(importParticipantsTemplateId);
-        adminEmailToSend.setTargetObjectId(piContactId);
+        adminEmailToSend.setTargetObjectId(contextUser.contactId); //Added by Krisha for REF-2536 to send email to the logged in User
         adminEmailToSend.setSaveAsActivity(false);
         adminEmailToSend.setOrgWideEmailAddressId(owea.Id);
         adminEmailToSend.setWhatId(studySiteDetails.Id);
@@ -623,15 +632,18 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         }
         Database.rollback(sp);
         
-        String htmlBody = (!Test.isRunningTest() ? adminEmailToSend.getHtmlBody() : 'test');
+       String htmlBody = (!Test.isRunningTest() ? adminEmailToSend.getHtmlBody() : 'test');
         htmlBody = htmlBody.replace('##SucRecCount', '' + (totalRecordCount - errorRecordCount));
         htmlBody = htmlBody.replace('##TotalRecCount', '' + totalRecordCount);
         String plainBody = (!Test.isRunningTest() ? adminEmailToSend.getPlainTextBody() : 'test');
         plainBody = plainBody.replace('##SucRecCount', '' + (totalRecordCount - errorRecordCount));
-        plainBody = plainBody.replace('##TotalRecCount', '' + totalRecordCount);
+        plainBody = plainBody.replace('##TotalRecCount', '' + totalRecordCount); 
+        
+        
+      
         
         Messaging.SingleEmailMessage emailToSend = new Messaging.SingleEmailMessage();
-        emailToSend.setToAddresses(new List<String> { (piUser.Email != null ? piUser.Email : piUser.Contact.Email) });
+       emailToSend.setToAddresses(new List<String> { (contextUser.Email != null ? contextUser.Email : contextUser.Contact.Email) }); //Added by Krisha for REF-2536 to send email to the logged in User
         emailToSend.setPlainTextBody(plainBody);
         emailToSend.setHtmlBody(htmlBody);
         emailToSend.setSubject(adminEmailToSend.getSubject());
