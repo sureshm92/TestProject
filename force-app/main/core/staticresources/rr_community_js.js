@@ -530,9 +530,15 @@ window.communityService = (function () {
         isMobileSDK: function() {
             if(/SalesforceMobileSDK/.test( navigator.userAgent)) { 
                 return true;
-            } else {
-                return false;
             }
+            return false;
+        },
+
+        isMobileOS: function() {
+            if(/android|iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase()) ) {
+                return true;
+            } 
+            return false;
         }
     };
 
