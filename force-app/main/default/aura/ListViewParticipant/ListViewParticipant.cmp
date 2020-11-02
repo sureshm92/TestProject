@@ -10,7 +10,7 @@
     <aura:attribute name="userMode" type="String"/>
     <aura:attribute name="peFilterData" type="Object"/>
     <aura:attribute name="isDataLoaded" type="boolean"/>  
-    
+     
     <!-- <lightning:breadcrumbs>
         <lightning:breadcrumb label="{!$Label.c.My_Participant}"  onclick="{! c.onClickMyReferrals }"/>
         <lightning:breadcrumb label="Population View" href="path/to/place/2" onclick="{! c.navigateToCustomPage2 }"/>
