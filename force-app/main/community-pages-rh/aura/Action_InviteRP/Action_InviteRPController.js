@@ -83,19 +83,29 @@
     },
 
     checkContact: function (component, event, helper) {
+      
         var email = event.getSource();
         var isValid = false;
         var emailValue = email.get('v.value');
          if(emailValue && emailValue !== '') {
             var regexp = $A.get("$Label.c.RH_Email_Validation_Pattern");
-            if(emailValue.match(regexp)) 
-                isValid = true;
-            else 
-                isValid = false;
-        } 
+             var regexpInvalid =  new RegExp($A.get("$Label.c.RH_Email_Invalid_Characters"));
+             var invalidCheck = regexpInvalid.test(emailValue);
+             if(invalidCheck == false) {
+                  email.setCustomValidity('')
+                 if(emailValue.match(regexp)) 
+                     isValid = true;
+                 else 
+                     isValid = false;
+             } else {
+                 email.setCustomValidity('You have entered an invalid format'); 
+                 isValid = false;
+             }
+        }
+      
         if (isValid) {
            email.setCustomValidity(''); 
-           emailParticipantCmp.reportValidity();
+           email.reportValidity();
             component.find('modalSpinner').show();
             communityService.executeAction(component, 'checkDuplicate', {
                 email: emailValue
@@ -120,7 +130,7 @@
             });
         } else {
           email.setCustomValidity('You have entered an invalid format'); 
-           emailParticipantCmp.reportValidity();
+           email.reportValidity();
         } 
     },
 

@@ -56,9 +56,10 @@
         let emailParticipantRepeat = component.get('v.emailParticipantRepeat');
         let emailParticipantReapetCmp = component.find('emailParticipantRepeatField');
         let emailParticipantCmp = component.find('emailInput');
-		//let emailValid = false;
-        let emailValue = emailParticipantCmp? emailParticipantCmp.get('v.value'): null;
-        helper.checkValidEmail(emailParticipantCmp,emailValue);
+	    let emailValueFirst = emailParticipantCmp? emailParticipantCmp.get('v.value'): null;
+        let emailValueRepeat = emailParticipantReapetCmp? emailParticipantReapetCmp.get('v.value'): null;
+        helper.checkValidEmail(emailParticipantCmp,emailValueFirst);
+        helper.checkValidEmail(emailParticipantReapetCmp,emailValueRepeat);
         if (pe.MRN_Id__c) {
             component.set('v.disableSourceId', true);
         } else {
@@ -166,9 +167,7 @@
         } else if (!updateMode) {
             debugger;
            
-            isValid = helper.checkValidEmail(emailParticipantCmp,emailValue);
-          
-            // emailParticipantCmp.setCustomValidity('email is not valid');
+            isValid = helper.checkValidEmail(emailParticipantCmp,participant.Email__c) &&  helper.checkValidEmail(emailParticipantReapetCmp,emailParticipantRepeat);
             if(isValid) {
                 if (participant.Email__c && emailParticipantRepeat && participant.Email__c.toLowerCase() !== emailParticipantRepeat.toLowerCase()) {
                     isValid = false;
@@ -182,7 +181,7 @@
                     emailParticipantCmp.reportValidity();
                     emailParticipantReapetCmp.reportValidity();
                 }
-             }
+            }
             if (!participantDelegate) {
                 console.log('++++');
                 component.set('v.isValid', false);
@@ -215,19 +214,7 @@
                 isValid = false;
             }
         }
-      /*  if(emailValue && emailValue !== '') {
-           // debugger;
-            var regexp = $A.get("$Label.c.RH_Email_Validation_Pattern");
-            if(emailValue.match(regexp)) {
-                emailParticipantCmp.setCustomValidity('');
-                isValid = true;
-            }else {
-                emailParticipantCmp.setCustomValidity('You have entered an invalid format'); 
-                isValid = false;
-            }
-            emailParticipantCmp.reportValidity(); 
-        } */
-        
+    
         if (!component.find('emailInput').get('v.validity').valid){
          
             console.log('EMAILAIF');

@@ -1,7 +1,7 @@
 <!--Created by Deeksha on 27.05.2020-->
 <aura:component controller="AccountSettingsController" description="AccountSettings">
     
-    <!-- attributes: -->
+    <!-- attributes:  -->
     <aura:attribute name="initData" type="Object" access="private"/>
     <aura:attribute name="userMode" type="String" required="true"/>
     <aura:attribute name="isDelegate" type="Boolean"/>
