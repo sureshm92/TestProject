@@ -539,6 +539,24 @@ window.communityService = (function () {
                 return true;
             } 
             return false;
+        },
+
+        preLoginPageRedirection: function(currentUrl, redirectPage){
+            let urlEvent = $A.get('e.force:navigateToURL');
+            let redirectUrl = '';
+            if (currentUrl.includes('janssen')) {
+                redirectUrl = window.location.origin + '/janssen/s/' + redirectPage;
+            } else if (currentUrl.includes('gsk')) {
+                redirectUrl =  window.location.origin + '/gsk/s/' + redirectPage;
+            } else if (currentUrl.includes('Covid19')) {
+                redirectUrl =  window.location.origin + '/Covid19/s/' + redirectPage;
+            } else {
+                redirectUrl =  window.location.origin + '/s/' + redirectPage;
+            }
+            urlEvent.setParams({
+                url: redirectUrl
+            });
+            urlEvent.fire();
         }
     };
 

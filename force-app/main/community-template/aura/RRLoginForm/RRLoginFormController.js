@@ -131,10 +131,18 @@
     },
 
     openPrivacyPolicy: function (component, event, helper) {
-        privacyPolicyURL =
-            component.get('v.urlCommunity') +
-            '/s/privacy-policy?lanCode=' +
-            component.get('v.UserLanguage');
-        window.open(privacyPolicyURL, '_blank');
+        let privacyPolicyURL = '';
+        if (communityService.isMobileSDK()) {
+            communityService.preLoginPageRedirection(
+                window.location.href,
+                'privacy-policy?lanCode=' + component.get('v.UserLanguage')
+            );
+        } else {
+            privacyPolicyURL =
+                component.get('v.urlCommunity') +
+                '/s/privacy-policy?lanCode=' +
+                component.get('v.UserLanguage');
+            window.open(privacyPolicyURL, '_blank');
+        }
     }
 });

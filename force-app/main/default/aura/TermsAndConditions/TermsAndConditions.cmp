@@ -4,10 +4,7 @@
     controller="TermsAndConditionsRemote"
     extends="c:CommunityContext"
 >
-    <ltng:require
-        scripts="{!$Resource.rr_community_js}"
-        afterScriptsLoaded="{!c.doInit}"
-    />
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}" />
 
     <!-- attributes: -->
     <aura:attribute name="tcData" type="Object" />
@@ -18,7 +15,6 @@
     <aura:attribute name="title" type="String" />
     <aura:attribute name="userMode" type="String" />
     <aura:attribute name="isUserLoggedIn" type="Boolean" default="false" />
-    <!-- @Krishna Mahto - PEH-2450 -->
 
     <aura:handler event="c:TCCookieClassesRemove" action="{!c.removeClasses}" />
 
@@ -45,47 +41,31 @@
                     >
                         <aura:if isTrue="{!empty(v.privacyPolicyId)}">
                             <aura:if isTrue="{!v.tcData.isAccepted}">
-                                {!$Label.c.PG_TC_Terms_and_Conditions_accepted +
-                                ' '}
-                                <ui:outputDateTime
-                                    value="{!v.tcData.acceptedDate}"
-                                />
+                                {!$Label.c.PG_TC_Terms_and_Conditions_accepted + ' '}
+                                <ui:outputDateTime value="{!v.tcData.acceptedDate}" />
                                 <aura:set attribute="else">
                                     {!$Label.c.PG_TC_H_Do_You_Accept}
                                 </aura:set>
                             </aura:if>
                         </aura:if>
                     </div>
-                    <aura:if
-                        isTrue="{!v.tcData.isAccepted || !empty(v.privacyPolicyId)}"
-                    >
+                    <aura:if isTrue="{!v.tcData.isAccepted || !empty(v.privacyPolicyId)}">
                         <aura:if isTrue="{!v.isUserLoggedIn}">
-                            <!-- @Krishna Mahto - PEH-2450 -->
-                            <button
-                                class="apollo-btn primary"
-                                onclick="{!c.doGoBack}"
-                            >
+                            <button class="apollo-btn primary" onclick="{!c.doGoBack}">
                                 {!$Label.c.BTN_Close}
                             </button>
                         </aura:if>
-                        <!-- @Krishna Mahto - PEH-2450 -->
                         <aura:set attribute="else">
                             <aura:if isTrue="{!!v.isPortalTC}">
                                 <aura:if
                                     isTrue="{!or(notequals(v.userMode, 'Participant'), and(equals(v.userMode, 'Participant'), v.tcData.isAccepted))}"
                                 >
-                                    <button
-                                        class="apollo-btn secondary"
-                                        onclick="{!c.doGoBack}"
-                                    >
+                                    <button class="apollo-btn secondary" onclick="{!c.doGoBack}">
                                         {!$Label.c.BTN_Back}
                                     </button>
                                 </aura:if>
                             </aura:if>
-                            <button
-                                class="apollo-btn primary"
-                                onclick="{!c.doAccept}"
-                            >
+                            <button class="apollo-btn primary" onclick="{!c.doAccept}">
                                 {!$Label.c.BTN_I_Accept}
                             </button>
                         </aura:set>
