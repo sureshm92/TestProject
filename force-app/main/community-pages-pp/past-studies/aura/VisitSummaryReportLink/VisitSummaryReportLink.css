@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-.THIS .resource-link-container, .THIS.resource-link-container{
+ .THIS .resource-link-container, .THIS.resource-link-container{
     display: flex;
     align-items: center;
 }
@@ -11,7 +11,9 @@
     margin-right: 10px;
     flex-shrink: 0;
 }
-
+.THIS .resource-icon-rtl{
+    margin-left :-173px;
+}
 .THIS .menu-popup{
     left: 31px;
     transform: none;
