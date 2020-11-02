@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Additional_Notes_For_Statuses__c</field>
-        <value xsi:type="xsd:string">;Received;Ready to Contact;Contact Attempted;Contacted - Not Suitable;Unable to Reach;Successfully Contacted;</value>
+        <value xsi:type="xsd:string">;Received;Ready to Contact;Pre-review Passed;Pre-review Failed;Contact Attempted;Contacted - Not Suitable;Unable to Reach;Successfully Contacted;</value>
     </values>
     <values>
         <field>Card_Name_Label__c</field>
