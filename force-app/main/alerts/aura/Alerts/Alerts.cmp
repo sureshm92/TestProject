@@ -28,7 +28,7 @@
                     </div>
                 </aura:if>
                 <aura:if isTrue="{!and(empty(v.currentAlert.params.Logo), !empty(v.currentAlert.params.LogoText))}">
-                    <div class="al-logo-text" style="{!if(v.isRTL == true, 'float:right', '')}">{!v.currentAlert.params.LogoText}</div>
+                    <div class="al-logo-text">{!v.currentAlert.params.LogoText}</div>
                 </aura:if>
             </aura:if>
 
