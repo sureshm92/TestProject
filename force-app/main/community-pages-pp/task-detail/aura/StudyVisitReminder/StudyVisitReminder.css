@@ -18,7 +18,7 @@
     line-height: inherit !important;
 }
 .THIS .rightAlign .slds-input__icon_right{
-    margin-right:14rem;
+    margin-right:12.5rem;
 }
 .THIS .task-rtl-remind{
     
@@ -101,7 +101,7 @@
    
 }
 
-.THIS h2{
+.THIS .p-header{
     margin-right:-53%;
 }
 

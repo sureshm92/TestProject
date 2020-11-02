@@ -89,7 +89,7 @@ public without sharing class CommunityFacadeRemote {
 			cd.pathPrefix = Site.getPathPrefix();
 			cd.isTCAccepted = cd.isDummy || isTCAccepted();
 			cd.language = UserInfo.getLanguage();
-			cd.isMobileApp = false; //isCurrentSessionMobileApp();
+			cd.isMobileApp = false;
 
 			return JSON.serialize(cd);
 		} catch (Exception e) {
