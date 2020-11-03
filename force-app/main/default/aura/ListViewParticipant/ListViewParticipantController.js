@@ -26,5 +26,8 @@
     
      onClickMyReferrals: function (component, event, helper){
         communityService.navigateToPage('my-referrals');
+    },
+     onClickCardView: function(component,event,helper){
+        communityService.navigateToPage('my-referrals');
     }
 })

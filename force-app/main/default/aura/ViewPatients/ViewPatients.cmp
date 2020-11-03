@@ -15,7 +15,8 @@
     <aura:attribute name="emptyListMessage" type="String" access="private" default="{!$Label.c.PG_VP_L_No_Items}"/>
     <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="hasEmancipatedParticipants" type="Boolean" default="false"/>
-     <aura:attribute name="entriesOnPage" type="Integer"/>
+    <aura:attribute name="entriesOnPage" type="Integer" access="global"/>
+
     <!--handlers:-->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
     <aura:handler event="c:uiEvent" name="onInit" action="{!c.doNeedsGuardian}"/>

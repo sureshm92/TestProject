@@ -3,6 +3,10 @@
     <label>Screening</label>
     <protected>false</protected>
     <values>
+        <field>Additional_Notes_For_Statuses__c</field>
+        <value xsi:type="xsd:string">;Ready to Screen;Screening In Progress;Screening In Progress - Wash Out Period;Screening Failed;Unable to Screen;Withdrew Consent;Eligibility Passed;Declined Consent;</value>
+    </values>
+    <values>
         <field>Card_Name_Label__c</field>
         <value xsi:type="xsd:string">PWS_Screening_Card_Name</value>
     </values>

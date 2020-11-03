@@ -15,6 +15,10 @@
         <value xsi:type="xsd:string">Other</value>
     </values>
     <values>
+        <field>Editable_for_Statuses__c</field>
+        <value xsi:type="xsd:string">Successfully Contacted;Withdrew Consent;Declined Consent;Ready to Screen</value>
+    </values>
+    <values>
         <field>False_Value_Label__c</field>
         <value xsi:nil="true"/>
     </values>

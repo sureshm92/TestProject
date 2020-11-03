@@ -49,7 +49,7 @@
                 </lightning:button>
 
                 <!-- title: -->
-                <div class="{!'p-header ' + v.variant + if(empty(v.headerButtons),'',' p-header-buttons')}" style="{!if(v.isRTL,'direction:rtl;text-align:right;')}">
+                <div class="{!'p-header ' + v.variant + if(empty(v.headerButtons),'',' p-header-buttons')}" style="{!if(v.isRTL,'direction:rtl;text-align:right;margin-right:10px;')}">
                     <h2 id="p-header" class="{!if(v.showHeader == false, ' slds-hide', '')}">
                         <aura:unescapedHtml value="{!v.title}"/>
                     </h2>

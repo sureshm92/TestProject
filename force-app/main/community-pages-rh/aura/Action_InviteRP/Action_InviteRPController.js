@@ -83,13 +83,32 @@
     },
 
     checkContact: function (component, event, helper) {
-        var email = event.getSource().get('v.value');
-        if (email && communityService.isValidEmail(email)) {
-            event.getSource().setCustomValidity('');
-            event.getSource().reportValidity();
+      
+        var email = event.getSource();
+        var isValid = false;
+        var emailValue = email.get('v.value');
+         if(emailValue && emailValue !== '') {
+            var regexp = $A.get("$Label.c.RH_Email_Validation_Pattern");
+             var regexpInvalid =  new RegExp($A.get("$Label.c.RH_Email_Invalid_Characters"));
+             var invalidCheck = regexpInvalid.test(emailValue);
+             if(invalidCheck == false) {
+                  email.setCustomValidity('')
+                 if(emailValue.match(regexp)) 
+                     isValid = true;
+                 else 
+                     isValid = false;
+             } else {
+                 email.setCustomValidity('You have entered an invalid format'); 
+                 isValid = false;
+             }
+        }
+      
+        if (isValid) {
+           email.setCustomValidity(''); 
+           email.reportValidity();
             component.find('modalSpinner').show();
             communityService.executeAction(component, 'checkDuplicate', {
-                email: email
+                email: emailValue
             }, function (returnValue) {
                 if (returnValue.firstName) {
                     component.set('v.firstName', returnValue.firstName);
@@ -110,11 +129,9 @@
                 }
             });
         } else {
-            if (email && !communityService.isValidEmail(email)) {
-                event.getSource().setCustomValidity($A.get('$Label.c.TST_Invalid_email_address'));
-                event.getSource().reportValidity();
-            }
-        }
+          email.setCustomValidity('You have entered an invalid format'); 
+           email.reportValidity();
+        } 
     },
 
     doSelectAll: function (component, event, helper) {

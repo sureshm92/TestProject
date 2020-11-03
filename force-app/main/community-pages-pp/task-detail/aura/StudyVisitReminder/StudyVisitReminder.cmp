@@ -174,7 +174,7 @@
         <!-- ============================== Reminder Only Section ===========================================-->
         <aura:if isTrue="{!v.isReminderOnly}">
             <div class="te-task-panel">
-                <div class="rr-white-panel padding slds-col" style="min-height: 220px;">
+                    <div class="{!if(v.isRTL,'rr-white-panelRTL padding slds-col','rr-white-panel padding slds-col')}" style="min-height: 250px;">
                     <!-- Task Header Info -->
                     <div class="te-col-header-info">
                         {!$Label.c.Task_Details_Header_Info}
@@ -182,7 +182,7 @@
                     <div class="slds-p-top_small"></div>
                     <!--Visit Reminder-->
                     <div class="slds-grid te-form slds-gutters slds-wrap slds-form-element__label">
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <div class="{! 'slds-col slds-size_1-of-1 slds-medium-size_1-of-2'+ if(v.isRTL, 'task-rtl', '')}">
                             <lightning:formattedText
                                 value="{!v.task.Task_Type__c == 'Visit' ? $Label.c.Visits_Name : $Label.c.Task_Name}" />
                             <br />
@@ -216,7 +216,7 @@
                     <!--<aura:if isTrue="{!not(v.initData.createdByAdmin-->
                     <div class="slds-grid te-form slds-gutters slds-wrap">
                         <!--Reminder Frequency-->
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <div class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl rightAlign', '')}">
                             <lightning:select label="{!$Label.c.Remind_Me}" required="true"
                                 value="{!v.task.Remind_Me__c}">
                                 <aura:iteration items="{!v.initData.reminderFrequencyList}" var="mode">
@@ -226,7 +226,7 @@
                             </lightning:select>
                         </div>
                         <!--Reminder Date-->
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <div class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl rightAlign', '')}">
                             <lightning:input aura:id="reminderDate" type="date"
                                 label="{!$Label.c.Home_Page_StudyVisit_Completed_On}" value="{!v.initData.reminderDate}"
                                 min="{!if(v.task.Remind_Me__c == $Label.c.One_day_before, v.tomorrow , v.initData.today)}"
