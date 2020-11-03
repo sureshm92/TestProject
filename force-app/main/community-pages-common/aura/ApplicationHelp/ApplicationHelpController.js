@@ -50,10 +50,7 @@
         }
         var quickReference = component.get('v.quickReference');
         var webViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
-        window.open(
-            webViewer + '?file=' + $A.get('$Resource.' + quickReference),
-            '_blank'
-        );
+        window.open(webViewer + '?file=' + $A.get('$Resource.' + quickReference), '_blank');
     },
 
     openGuide: function (component, event, helper) {
@@ -67,10 +64,7 @@
         }
         var userManual = component.get('v.userManual');
         var webViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
-        window.open(
-            webViewer + '?file=' + $A.get('$Resource.' + userManual),
-            '_blank'
-        );
+        window.open(webViewer + '?file=' + $A.get('$Resource.' + userManual), '_blank');
     },
 
     stopVideo: function (component, event, helper) {
