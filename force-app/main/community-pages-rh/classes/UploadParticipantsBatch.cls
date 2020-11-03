@@ -559,13 +559,16 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     private static void sendNotificationEmail(Set<String> listOfFailedRecords, Set<String> listOfFailedRecordsWithMsg, String piContactId, DateTime uploadTime, Study_Site__c studySiteDetails, Integer totalRecordCount, Integer errorRecordCount) {
         String formattedDate = uploadTime.format('MM/dd/yyyy hh:mm a', UserInfo.getTimeZone().toString());
         System.debug('ErrorRecordsCount>>>>'+errorRecordCount);
-        User piUser = [SELECT Id, Email, Contact.Email FROM User WHERE ContactId = :piContactId LIMIT 1];
+        //Added by Krisha for REF-2536 to send email to the logged in User- start
+        Id contextUserId = UserInfo.getUserId();
+        User contextUser = [SELECT Id, Email, Contact.Email,contactId FROM User WHERE id=:contextUserId];
+        //Added by Krisha for REF-2536 to send email to the logged in User- End
         OrgWideEmailAddress owea = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName LIKE '%IQVIA Referral Hub' LIMIT 1];
         Id importParticipantsTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName = :SendEmailTemplate.EMAIL_TEMPLATE_PATIENT_IMPORT LIMIT 1].Id;
         
         Messaging.SingleEmailMessage adminEmailToSend = new Messaging.SingleEmailMessage();
         adminEmailToSend.setTemplateId(importParticipantsTemplateId);
-        adminEmailToSend.setTargetObjectId(piContactId);
+        adminEmailToSend.setTargetObjectId(contextUser.contactId); //Added by Krisha for REF-2536 to send email to the logged in User
         adminEmailToSend.setSaveAsActivity(false);
         adminEmailToSend.setOrgWideEmailAddressId(owea.Id);
         adminEmailToSend.setWhatId(studySiteDetails.Id);
@@ -605,7 +608,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
       
         
         Messaging.SingleEmailMessage emailToSend = new Messaging.SingleEmailMessage();
-        emailToSend.setToAddresses(new List<String> { (piUser.Email != null ? piUser.Email : piUser.Contact.Email) });
+       emailToSend.setToAddresses(new List<String> { (contextUser.Email != null ? contextUser.Email : contextUser.Contact.Email) }); //Added by Krisha for REF-2536 to send email to the logged in User
         emailToSend.setPlainTextBody(plainBody);
         emailToSend.setHtmlBody(htmlBody);
         emailToSend.setSubject(adminEmailToSend.getSubject());

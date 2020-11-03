@@ -601,6 +601,55 @@ By using our website, you are accepting our use of cookies.</value>
         <shortDescription>Admin Label</shortDescription>
         <value>Admin</value>
     </labels>
+	 <labels>
+        <fullName>AF_All</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AF_All</shortDescription>
+        <value>All</value>
+    </labels>
+	 <labels>
+        <fullName>AF_Female</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AF_Female</shortDescription>
+        <value>Female</value>
+    </labels>
+    <labels>
+        <fullName>AF_ID_A</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AF_ID_A</shortDescription>
+        <value>ID (Ascending)</value>
+    </labels>
+    <labels>
+        <fullName>AF_ID_D</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AF_ID_D</shortDescription>
+        <value>ID (Descending)</value>
+    </labels>
+    <labels>
+        <fullName>AF_Male</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AF_Male</shortDescription>
+        <value>Male</value>
+    </labels>
+    <labels>
+        <fullName>AF_ReceivedDate_NF</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AF_ReceivedDate_NF</shortDescription>
+        <value>Received Date (Newest First)</value>
+    </labels>
+    <labels>
+        <fullName>AF_ReceivedDate_OF</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AF_ReceivedDate_OF</shortDescription>
+        <value>Received Date (Oldest First)</value>
+    </labels>
     <labels>
         <fullName>Albumin</fullName>
         <language>en_US</language>
@@ -4137,9 +4186,7 @@ Your username is ##UserName.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Initial Patient New</shortDescription>
-        <value>&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Thank you for your interest in the ##StudyName. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;We are reaching out to you to confirm we received your referral from ##HCPTitle ##HCPName. A member of the study team will contact you regarding the next steps in the referral process. &lt;/p&gt;&lt;/div&gt;
-
-Your user name is ##UserName.</value>
+        <value>&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Thank you for your interest in the ##StudyName. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;We are reaching out to you to confirm we received your referral from ##HCPTitle ##HCPName. A member of the study team will contact you regarding the next steps in the referral process. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Virtual</fullName>
@@ -4161,9 +4208,7 @@ Your user name is ##UserName.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial Patient Virtual New</shortDescription>
-        <value>&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Thank you for your interest in the ##StudyName. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;We are reaching out to you to confirm we received your information. A member of the study team will contact you regarding the next steps in the study process.&lt;/p&gt;&lt;/div&gt;
-
-Your username is ##UserName.</value>
+        <value>&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Thank you for your interest in the ##StudyName. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;We are reaching out to you to confirm we received your information. A member of the study team will contact you regarding the next steps in the study process.&lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Your username is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Janssen_Initial_PI</fullName>
@@ -13491,11 +13536,11 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>If any information is incorrect, please</value>
     </labels>
     <labels>
-        <fullName>PG_RP_L_My_Referrals</fullName>
+       <fullName>PG_RP_L_My_Referrals</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG RP L My Referrals</shortDescription>
-        <value>My Participants</value>
+        <value>My Participants (Card View)</value>
     </labels>
     <labels>
         <fullName>PG_RP_L_Not_selected</fullName>
@@ -15505,6 +15550,13 @@ communications using the toggles below.</value>
         <value>Initial Visit</value>
     </labels>
     <labels>
+        <fullName>PWS_Initial_Visit_History_Title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PWS_Initial_Visit_History_Title</shortDescription>
+        <value>Inital Visit History:</value>
+    </labels>    
+    <labels>
         <fullName>PWS_Initial_Visit_No_Outcome</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16970,6 +17022,28 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Respiratory Rate Description</shortDescription>
         <value>Respiratory rate is a measurement of how many breaths you take per minute.</value>
+    </labels>
+      <labels>
+        <fullName>RH_Email_Invalid_Characters</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH Email Invalid Characters</shortDescription>
+        <value>[\^¡¿«»¢£¥€¤›]</value>
+    </labels>
+	  <labels>
+        <fullName>RH_Email_Invalid_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH Email Invalid Error</shortDescription>
+        <value>You have entered an invalid format</value>
+    </labels>
+    <labels>
+        <fullName>RH_Email_Validation_Pattern</fullName>
+        <categories>RH,PP</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH Email Validation Pattern</shortDescription>
+        <value>^(([^&lt;&gt;()\[\]\\.,;:\s@&quot;]+(\.[^&lt;&gt;()\[\]\\.,;:\s@&quot;]+)*)|(&quot;.+&quot;))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([A-Za-z0-9a-À-ÖØ-öø-ÿÀÁÂÃÈÉÊÌÑÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưËẾăạảấầẩẫậắằẳẵÇặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+\.)+[A-Za-z0-9a-À-ÖØ-öø-ÿÀÁÂÃÈÉÊÌÑÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưËẾăạảấầẩẫậắằẳẵÇặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]{2,}))$</value>
     </labels>
 	<labels>
         <fullName>Send_to_Study_Hub</fullName>
@@ -19514,28 +19588,28 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>WelcomeEmail_DiscoverLogo</shortDescription>
-        <value>https://customer-business-9908-dev-ed--c.documentforce.com/servlet/servlet.ImageServer?id=015J0000001htvp&amp;oid=00DJ0000003YwGT&amp;lastMod=1601904892000</value>
+        <value>https://quintilesimscmo--inf60--c.documentforce.com/servlet/servlet.ImageServer?id=0153O000000CAJa&amp;oid=00D3O0000004pI7&amp;lastMod=1604401449000</value>
     </labels>
     <labels>
         <fullName>WelcomeEmail_LearnLogo</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>WelcomeEmail_LearnLogo</shortDescription>
-        <value>https://customer-business-9908-dev-ed--c.documentforce.com/servlet/servlet.ImageServer?id=015J0000001htvu&amp;oid=00DJ0000003YwGT&amp;lastMod=1601904922000</value>
+        <value>https://quintilesimscmo--inf60--c.documentforce.com/servlet/servlet.ImageServer?id=0153O000000CAJV&amp;oid=00D3O0000004pI7&amp;lastMod=1604400304000</value>
     </labels>
     <labels>
         <fullName>WelcomeEmail_PPHeaderLogo</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>WelcomeEmail_PPHeaderLogo</shortDescription>
-        <value>https://customer-business-9908-dev-ed--c.documentforce.com/servlet/servlet.ImageServer?id=015J0000001htvz&amp;oid=00DJ0000003YwGT&amp;lastMod=1601904956000</value>
+        <value>https://quintilesimscmo--inf60--c.documentforce.com/servlet/servlet.ImageServer?id=0153O000000CAJQ&amp;oid=00D3O0000004pI7&amp;lastMod=1604399794000</value>
     </labels>
     <labels>
         <fullName>WelcomeEmail_TrackLogo</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>WelcomeEmail_TrackLogo</shortDescription>
-        <value>https://customer-business-9908-dev-ed--c.documentforce.com/servlet/servlet.ImageServer?id=015J0000001htw4&amp;oid=00DJ0000003YwGT&amp;lastMod=1601904990000</value>
+        <value>https://quintilesimscmo--inf60--c.documentforce.com/servlet/servlet.ImageServer?id=0153O000000CAJf&amp;oid=00D3O0000004pI7&amp;lastMod=1604401527000</value>
     </labels>
     <labels>
         <fullName>Withdrew_Consent</fullName>

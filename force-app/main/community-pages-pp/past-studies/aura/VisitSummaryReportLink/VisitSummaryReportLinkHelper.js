@@ -6,19 +6,6 @@
         const helper = this;
         let reportData = component.get('v.reportData');
         var RTL = component.get('v.isRTL');
-        if (RTL) {
-            for (i = 0; i < reportData.dataTables.length; i++) {
-                reportData.dataTables[i].tHead = reportData.dataTables[
-                    i
-                ].tHead.reverse();
-                reportData.dataTables[
-                    i
-                ].visitResultsWrapper[0] = reportData.dataTables[
-                    i
-                ].visitResultsWrapper[0].reverse();
-            }
-            component.set('v.reportData', reportData);
-        }
         if (reportData.notAvailableMessage) {
             var template = reportData.notAvailableMessage + ' {0}';
             var accUrl = 'account-settings?langloc';
@@ -512,6 +499,20 @@
             function (reportData) {
                 component.find('spinner').hide();
                 component.set('v.reportData', reportData);
+                var RTL = component.get('v.isRTL');
+                if (RTL) {
+                    for (i = 0; i < reportData.dataTables.length; i++) {
+                        reportData.dataTables[i].tHead = reportData.dataTables[
+                            i
+                        ].tHead.reverse();
+                        reportData.dataTables[
+                            i
+                        ].visitResultsWrapper[0] = reportData.dataTables[
+                            i
+                        ].visitResultsWrapper[0].reverse();
+                    }
+                }
+
                 callback();
             }
         );

@@ -3,6 +3,10 @@
     <label>Randomization</label>
     <protected>false</protected>
     <values>
+        <field>Additional_Notes_For_Statuses__c</field>
+        <value xsi:type="xsd:string">;Randomization Failed;Randomization Success;Screening Passed;Declined Final Consent;Withdrew Consent After Screening;</value>
+    </values>
+    <values>
         <field>Card_Name_Label__c</field>
         <value xsi:type="xsd:string">PWS_Randomization_Card_Name</value>
     </values>

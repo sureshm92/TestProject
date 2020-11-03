@@ -3,6 +3,10 @@
     <label>Initial Visit</label>
     <protected>false</protected>
     <values>
+        <field>Additional_Notes_For_Statuses__c</field>
+        <value xsi:type="xsd:string">;Successfully Contacted;</value>
+    </values>
+    <values>
         <field>Card_Name_Label__c</field>
         <value xsi:type="xsd:string">PWS_Initial_Visit_Card_Name</value>
     </values>
@@ -28,7 +32,7 @@
     </values>
     <values>
         <field>History_Label__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">PWS_Initial_Visit_History_Title</value>
     </values>
     <values>
         <field>In_Progress_Condition__c</field>

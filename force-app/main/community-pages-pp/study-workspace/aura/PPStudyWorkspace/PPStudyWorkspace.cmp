@@ -365,7 +365,10 @@
                         </aura:if>
                         <!-- PEH-1986: In-trial Summary Report -->
                         <aura:if isTrue="{!and( v.state != 'ALUMNI', not( v.isDelegateMode))}">
-                            <div class="resource-item">
+                            <div
+                                class="resource-item"
+                                style="{!if(v.isRTL, 'float:left;padding-left:60px;', '')}"
+                            >
                                 <c:VisitSummaryReportLink
                                     peId="{!v.studyDetail.pe.Id}"
                                     inTrialSummaryReport="true"
