@@ -27,22 +27,13 @@
     white-space: nowrap;
 }
 
-.THIS .pagination-position{
-    display: block;
-    position: relative;
-    z-index: 1;
-    top: -50px;
-    width: 50%;
-    left: 20%;
-    right: -20%;
-}
+
 
 .THIS .participantcard-position{
     /* position: relative;  */
      position: unset;
      min-height: 100px;
      padding-bottom: 1px;
-     top:-35px
  }
 
 /*.THIS .rrs-container:first-child{
@@ -98,14 +89,11 @@
         display: block;
         position: relative;
         z-index: 1;
-        top: -3em;
     }
     
     .THIS .participantcard-position{
         position: relative; 
         min-height: 100px; 
-        padding-bottom: 1px; 
-        top:-3em
     }
     
 }

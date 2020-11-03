@@ -41,8 +41,9 @@
         component.set('v.TotalRecords',0);
         component.set('v.RecordStart',0);
         component.set('v.RecordEnd',0);
-        component.set('v.pageSize',5);
-        component.set('v.SortBydefault','Received Date(Oldest First)');
+        component.set('v.pageSize',component.find("pageSize").get("v.value"));
+        component.set('v.SortBydefault',component.find("sortby").get("v.value"));
+        component.set('v.flagSet',false);
         
         var RowItemList = component.get('v.filterList');
         var pageNumber = component.get("v.PageNumber");  
@@ -113,11 +114,11 @@
                     component.set('v.RecordStart',0);
                 }
                 if(result.IsPromoteToSH == false)
-                {
+                {  
                     component.set('v.PromoteToSH',true);
                 }else{component.set('v.PromoteToSH',false);}   
                 component.find('Spinnerpopup').hide();
-                component.set('v.filterList', RowItemList); 
+                component.set('v.filterList', RowItemList);
             });
             component.set('v.SelectAll',false);
         }else{
@@ -196,7 +197,7 @@
               //  console.log('@@endPos ' +result.retainFilter.endPos);
               //  console.log('@@perRecordCount ' +perRecordCount);
                 //  console.log('@@filterValue ' +JSON.stringify(filterValue));
-                if(filterValue[0].endPos < 200000 && filterValue[0].perRecordCount < 200000){
+                if(filterValue[0].endPos < 200000 && filterValue[0].perRecordCount < 200000 && perRecordCount > 0){
                     helper.getchunkdataforCSV(component, event, helper);
             }else{
                                            //var result = JSON.stringify(returnValue);
@@ -359,6 +360,7 @@
 },
     doinitHelper : function(component, event, helper) {
         component.find('Spinnerpopup').show();
+        component.set('v.flagSet',false);
         component.set('v.filterList[0].AgeFrom',  0);
         component.set('v.filterList[0].AgeTo', 150);
         component.set('v.lstPR_no','');

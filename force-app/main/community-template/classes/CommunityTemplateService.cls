@@ -109,7 +109,10 @@ public without sharing class CommunityTemplateService {
         CommunityTemplate template = getTemplate(templateName);
         return NETWORKS_MAP.get(template.communityName).UrlPathPrefix;
     }
-    
+    public static String getNetworkId(String communityName){
+        Network nw = NETWORKS_MAP.get(communityName);
+        return (String.valueOf(nw.Id)).substring(0, 15);
+    }
     
     public static Map<String, Network> getNetworksMap(){
         List<Network> networks = [

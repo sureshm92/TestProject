@@ -7,7 +7,7 @@
     <aura:attribute name="peFilterData" type="Object"/>
     <aura:attribute name="filterList" type="List"/> 
     <aura:attribute name="oldfilterList" type="List"/> 
-     <aura:attribute name="showspinner" type="Boolean" default="false"/>
+    <aura:attribute name="showspinner" type="Boolean" default="false"/>
     <aura:attribute name="PageNumber" type="integer" default="1"/>
     <aura:attribute name="TotalPages" type="integer" default="0"/>
     <aura:attribute name="TotalRecords" type="integer" default="0"/>
@@ -48,29 +48,17 @@
     <aura:attribute name="counterLimit" type="Integer"/> 
     <aura:attribute name="startPos" type="Integer"/>
     <aura:attribute name="endPos" type="Integer"/>
+    <aura:attribute name="flagSet" type="Boolean" default="false"/>
     
-    
-    <aura:attribute name="optionSex" type="List" default="[
-                                                          {'label': 'All', 'value': 'All'},
-                                                          {'label': 'Male', 'value': 'M'},
-                                                          {'label': 'Female', 'value': 'F'},
-                                                          ]"/>
-    <aura:attribute name="SortBy" type="List" default="[
-                                                       {'label': 'Received Date (Oldest First)', 'value': 'Received Date(Oldest First)'},
-                                                       {'label': 'Received Date (Newest First)', 'value': 'Received Date(Newest First)'},
-                                                       {'label': 'ID (Descending)', 'value': 'Descending'},
-                                                       {'label': 'ID (Ascending)', 'value': 'Ascending'},
-                                                       ]"/>
+    <aura:attribute name="optionSex" type="List"/>
+    <aura:attribute name="SortBy" type="List"/>
     <aura:attribute name="ShowEntries" type="List" default="[
                                                             {'label': '5', 'value': '5'},
                                                             {'label': '10', 'value': '10'},
                                                             {'label': '25', 'value': '25'},
                                                             {'label': '40', 'value': '40'},
                                                             ]"/>
-    <aura:attribute name="PriorityReferral" type="List" default="[
-                                                                 {'label': 'No', 'value': 'No'},
-                                                                 {'label': 'Yes', 'value': 'Yes'},
-                                                                 ]"/>
+    <aura:attribute name="PriorityReferral" type="List" />
     
     <aura:handler name="change" value="{!v.filterList[0].Status}" action="{!c.handleChangeActive}"/>
     <aura:handler name="change" value="{!v.filterList[0].Study}" action="{!c.doStudyChanged}"/>
@@ -86,7 +74,7 @@
     <div class="slds-card">
          
         <div class="filter-card slds-grid slds-wrap"> 
-			<div class="slds-size_1-of-1 slds-large-size_10-of-12">
+			<div class="slds-size_1-of-1 slds-large-size_9-of-12">
 				<div class="demo-only demo-only--sizing slds-grid slds-wrap filterby">
 					<div class="slds-size_6-of-6">
 						<span class="filterTitle">{!$Label.c.RH_FilterBy}</span>
@@ -103,7 +91,7 @@
                         <div class="slds-size_1-of-6 studies">
                             <c:rrSelect value="{!v.filterList[0].Study}" options="{!v.peFilterData.studies}"
                                         placeholder="{!$Label.c.PG_MRRL_L_Studies}" useSentenceFont="false"
-                                        class="fp-study-filter-container"
+                                        class="fp-study-filter-container" onchange="{!c.StudyAction}"
                                         setValueAsSelected="true"/>
                         </div>
                         <div class="slds-size_1-of-6 studySites">
@@ -169,33 +157,32 @@
                         {!$Label.c.RH_Others}
                     </label>
                     <div class="accordionContent">
-                        <div class="slds-size_1-of-4 hro">
+                        <div class="hro">
                             <lightning:input type="checkbox" checked="{!v.filterList[0].isHighRiskOccupation}" label="{!$Label.c.RH_HighRiskOccupation}" name="input1" onchange="{! c.handleCheckboxHRO }"/>
                         </div>
-                        <div class="slds-size_1-of-4 cbd">
+                        <div class="cbd">
                             <lightning:input type="checkbox" checked="{!v.filterList[0].isComorbidities}" label="{!$Label.c.RH_Comorbidities}" name="input2" onchange="{! c.handleCheckboxCBD }"/>
                         </div>
-                        <div class="slds-size_1-of-4 iv">
+                        <div class="iv">
                             <lightning:input type="checkbox" checked="{!v.filterList[0].isInitialVisitScheduled}" label="{!$Label.c.RH_InitialVisitScheduled}" name="input3" onchange="{! c.handleCheckboxIVS }"/>
                         </div>
 					</div>
 				</div>
 			</div>
-			<div class="slds-size_1-of-1 slds-large-size_2-of-12">
+			<div class="slds-size_1-of-1 slds-large-size_3-of-12">
 				<!-- Button Area -->
-				<div class="demo-only demo-only--sizing slds-grid slds-wrap button-grid">				
+				<div class="demo-only demo-only--sizing slds-grid button-grid">	
+                    <div class="resetHead">
+						<lightning:button variant="base" label="{!$Label.c.RH_Reset}" title="{!$Label.c.RH_Reset}" onclick="{! c.reset }" />
+					</div>
 					 <div class="searchHead">
-						<button class="apollo-btn primary mrc-invite-btn search" data-gtm="BTN_InviteRP" onclick="{!c.handleSearch}">
+						<button class="apollo-btn secondary mrc-invite-btn search" data-gtm="BTN_InviteRP" onclick="{!c.handleSearch}">
 							{!$Label.c.RH_ApplyFilters}
 						</button>
 						<!-- <lightning:button variant="Brand" label="Promote to Study Hub" title="Promote to Study Hub" onclick="{! c.handlePromoteSH }" />-->
 					</div>			
-					 <div class="export">
-						<lightning:button variant="Neutral" label="{!$Label.c.RH_ExportFilteredList}" title="{!$Label.c.RH_ExportFilteredList}" onclick="{! c.handleExport }" />
-					</div>			
-					<div class="resetHead">
-						<lightning:button variant="base" label="{!$Label.c.RH_Reset}" title="{!$Label.c.RH_Reset}" onclick="{! c.reset }" />
-					</div>
+							
+				
 				</div>
 			</div>	
         </div>
@@ -208,25 +195,26 @@
         <!-- data table start-->  
         
         <div class="slds-grid slds-wrap changeBtns">
-            <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-col_bump-left">
+            <!--<div class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-col_bump-left">
                 <span><a style="font-size: 16px;font-weight: 600;"
                          onclick="{!c.onClickCardView}">
                     {!$Label.c.BTN_Naviagte_Card} 
                     </a></span>
-            </div>
-            <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 searchHead">
-                <span><button class="apollo-btn primary mrc-invite-btn" disabled="{!v.enablePromoteToSH}" data-gtm="BTN_InviteRP" onclick="{!c.handlePromoteSH}">
-                    {!$Label.c.Send_to_Study_Hub} 
-                    </button></span>
-            </div>
+            </div>-->
+          
         </div>
         <div class="slds-grid slds-wrap tableSettings">
-            <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-3 slds-col_bump-right">
-                <span>{!$Label.c.Showing}&nbsp;{!v.RecordStart}-{!v.RecordEnd}&nbsp;{!$Label.c.of}&nbsp;{!v.TotalRecords}&nbsp;{!$Label.c.patients}&nbsp;({!v.count}&nbsp;{!$Label.c.selected_max_50})</span>
-            	
+            <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2">
+            <!--    <span>{!$Label.c.Showing}&nbsp;{!v.RecordStart}-{!v.RecordEnd}&nbsp;{!$Label.c.of}&nbsp;{!v.TotalRecords}&nbsp;{!$Label.c.patients}&nbsp;({!v.count}&nbsp;{!$Label.c.selected_max_50})</span> -->
+                <aura:if isTrue="{!and(!v.PromoteToSH,!v.flagSet)}">
+                     <span><button class="apollo-btn primary mrc-invite-btn" disabled="{!v.enablePromoteToSH}" data-gtm="BTN_InviteRP" onclick="{!c.handlePromoteSH}">
+                     	{!$Label.c.Send_to_Study_Hub}</button>
+                     </span>
+                    </aura:if>
+                 <lightning:button variant="Neutral" label="{!$Label.c.RH_ExportFilteredList}" title="{!$Label.c.RH_ExportFilteredList}" onclick="{! c.handleExport }" />	
             </div>
 
-            <div class="slds-col  slds-size_1-of-1 slds-large-size_2-of-3 slds-col_bump-left" style="text-align:end;">
+            <div class="slds-col  slds-size_1-of-1 slds-large-size_1-of-2" style="text-align:end;">
                 <div class="fp-form-element">
                     <label style="padding-right: 5px;">{!$Label.c.PG_FP_L_Sort_by}</label>
                     <c:rrSelect useSentenceFont="false" value="{!v.SortBydefault}" aura:id="sortby" options="{!v.SortBy}" setValueAsSelected="true"/>
@@ -378,7 +366,8 @@
                             </th>
                             <th scope="row">
                                 <div class="slds-truncate" style="text-align:center;">
-                                    <ui:outputDate value="{!obj.pe.Initial_visit_scheduled_date__c}"/>
+     
+                                    <ui:outputDate value="{!obj.pe.Initial_visit_scheduled_date__c}" />
                                 </div>
                             </th>
                             <th scope="row">
@@ -405,17 +394,22 @@
         <!-- DataTable End -->
         <br/>
         <!--  Pagination Buttons Start -->
-        <div class="slds-clearfix">
+        <!--<div class="slds-clearfix">
             <div class="slds-page-header" role="banner">
                 <div class="slds-align_absolute-center">         
                     <lightning:button disabled="{!v.PageNumber == 1}" variant="brand-outline" aura:id="prevPage" label="{!$Label.c.BTN_Previous}" onclick="{!c.handlePrev}" />            
                     <lightning:button disabled="{!v.RecordEnd == v.TotalRecords}" variant="brand-outline" aura:id="nextPage" label="{!$Label.c.BTN_Next}" onclick="{!c.handleNext}"/>
-                    <!--<button disabled="{!v.PageNumber == v.TotalPages}" aura:id="nextPage" label="Next" onclick="{!c.handleNext}"/>-->
+                    
                 </div>
-                <!--<p class="slds-page-header__title">Showing {!v.RecordStart}-{!v.RecordEnd} of {!v.TotalRecords} patients </p>-->
+               <span>{!$Label.c.Showing}&nbsp;{!v.RecordStart}-{!v.RecordEnd}&nbsp;{!$Label.c.of}&nbsp;{!v.TotalRecords}&nbsp;{!$Label.c.patients}&nbsp;({!v.count}&nbsp;{!$Label.c.selected_max_50})</span>
             </div>
-        </div>
-        
+        </div>-->
+        <div class="slds-col slds-size_1-of-1 ListViewHead">
+        <span>{!$Label.c.Showing}&nbsp;{!v.RecordStart}-{!v.RecordEnd}&nbsp;{!$Label.c.of}&nbsp;{!v.TotalRecords}&nbsp;{!$Label.c.patients}&nbsp;({!v.count}&nbsp;{!$Label.c.selected_max_50})</span>
+        <div class="slds-float_right"> <span><lightning:button disabled="{!v.PageNumber == 1}" variant="brand-outline" aura:id="prevPage" label="{!$Label.c.BTN_Previous}" onclick="{!c.handlePrev}" />            
+                    <lightning:button disabled="{!v.RecordEnd == v.TotalRecords}" variant="brand-outline" aura:id="nextPage" label="{!$Label.c.BTN_Next}" onclick="{!c.handleNext}"/>
+            </span></div>
+            </div>
     </aura:if>
     </div>
 </aura:component>
