@@ -3,6 +3,10 @@
     <label>Received</label>
     <protected>false</protected>
     <values>
+        <field>Additional_Notes_For_Statuses__c</field>
+        <value xsi:nil="true"/>
+    </values>    
+    <values>
         <field>Card_Name_Label__c</field>
         <value xsi:type="xsd:string">PWS_Received_Card_Name</value>
     </values>

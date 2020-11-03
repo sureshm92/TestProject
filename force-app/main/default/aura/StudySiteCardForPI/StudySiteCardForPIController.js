@@ -28,13 +28,34 @@
     },
 
     checkValidEmail: function (component, event, helper) {
-        var email = event.getSource().get('v.value');
+      
+        var email = event.getSource();
+        var emailValue = email.get('v.value');
+          debugger;
         var el = component.get('v.siteWrapper');
-        if (email) {
-            email = email.trim();
-            var el = component.get('v.siteWrapper');
-            var isValid = communityService.isValidEmail(email);
-            el.studySite.isEmailValid = isValid;
+        if (emailValue) {
+            var regexp = $A.get("$Label.c.RH_Email_Validation_Pattern");
+            var regexpInvalid =  new RegExp($A.get("$Label.c.RH_Email_Invalid_Characters"));
+            var invalidCheck = regexpInvalid.test(emailValue);
+            if(invalidCheck == false) {
+                email.setCustomValidity('');
+                if(emailValue.match(regexp)) {
+                    email.setCustomValidity('');
+                    var el = component.get('v.siteWrapper');
+                    el.studySite.isEmailValid = true;
+                }else {
+                    email.setCustomValidity('You have entered an invalid format'); 
+                    var el = component.get('v.siteWrapper');
+                    el.studySite.isEmailValid = false;
+                    
+                }
+            } else {
+                email.setCustomValidity('You have entered an invalid format');
+                 el.studySite.isEmailValid = false;
+                //isValid = false;
+            }
+            email.reportValidity();            
+            
         } else {
             el.studySite.isEmailValid = true;
         }
@@ -52,7 +73,9 @@
             currentSS.isEmailValid = true;
             component.set('v.siteWrapper.studySite', currentSS);
             studyListViewComponent.find('mainSpinner').hide();
-        });
+        },  null, function () {
+               studyListViewComponent.find('mainSpinner').hide();
+            });
     },
 
     showManageLocationDetails: function (component, event, helper) {
@@ -106,7 +129,7 @@
                 communityService.navigateToPage('add-patient?id=' + trialId + '&ssId=' + studySiteId);
                 break;
             case 'uploadPatient':
-                studyListViewComponent.find('actionUploadParticipants').execute(studySiteId,studySiteType,isSuppressed,function(studySiteId,studySiteType) {});
+                 studyListViewComponent.find('actionUploadParticipants').execute(studySiteId,studySiteType,isSuppressed,function(studySiteId,studySiteType) {});
                 break;
         }
     },

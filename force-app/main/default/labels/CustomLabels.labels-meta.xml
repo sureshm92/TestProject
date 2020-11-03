@@ -601,6 +601,55 @@ By using our website, you are accepting our use of cookies.</value>
         <shortDescription>Admin Label</shortDescription>
         <value>Admin</value>
     </labels>
+	 <labels>
+        <fullName>AF_All</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AF_All</shortDescription>
+        <value>All</value>
+    </labels>
+	 <labels>
+        <fullName>AF_Female</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AF_Female</shortDescription>
+        <value>Female</value>
+    </labels>
+    <labels>
+        <fullName>AF_ID_A</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AF_ID_A</shortDescription>
+        <value>ID (Ascending)</value>
+    </labels>
+    <labels>
+        <fullName>AF_ID_D</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AF_ID_D</shortDescription>
+        <value>ID (Descending)</value>
+    </labels>
+    <labels>
+        <fullName>AF_Male</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AF_Male</shortDescription>
+        <value>Male</value>
+    </labels>
+    <labels>
+        <fullName>AF_ReceivedDate_NF</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AF_ReceivedDate_NF</shortDescription>
+        <value>Received Date (Newest First)</value>
+    </labels>
+    <labels>
+        <fullName>AF_ReceivedDate_OF</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AF_ReceivedDate_OF</shortDescription>
+        <value>Received Date (Oldest First)</value>
+    </labels>
     <labels>
         <fullName>Albumin</fullName>
         <language>en_US</language>
@@ -13491,11 +13540,11 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>If any information is incorrect, please</value>
     </labels>
     <labels>
-        <fullName>PG_RP_L_My_Referrals</fullName>
+       <fullName>PG_RP_L_My_Referrals</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG RP L My Referrals</shortDescription>
-        <value>My Participants</value>
+        <value>My Participants (Card View)</value>
     </labels>
     <labels>
         <fullName>PG_RP_L_Not_selected</fullName>
@@ -15505,6 +15554,13 @@ communications using the toggles below.</value>
         <value>Initial Visit</value>
     </labels>
     <labels>
+        <fullName>PWS_Initial_Visit_History_Title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PWS_Initial_Visit_History_Title</shortDescription>
+        <value>Inital Visit History:</value>
+    </labels>    
+    <labels>
         <fullName>PWS_Initial_Visit_No_Outcome</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16970,6 +17026,28 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Respiratory Rate Description</shortDescription>
         <value>Respiratory rate is a measurement of how many breaths you take per minute.</value>
+    </labels>
+      <labels>
+        <fullName>RH_Email_Invalid_Characters</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH Email Invalid Characters</shortDescription>
+        <value>[\^¡¿«»¢£¥€¤›]</value>
+    </labels>
+	  <labels>
+        <fullName>RH_Email_Invalid_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH Email Invalid Error</shortDescription>
+        <value>You have entered an invalid format</value>
+    </labels>
+    <labels>
+        <fullName>RH_Email_Validation_Pattern</fullName>
+        <categories>RH,PP</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH Email Validation Pattern</shortDescription>
+        <value>^(([^&lt;&gt;()\[\]\\.,;:\s@&quot;]+(\.[^&lt;&gt;()\[\]\\.,;:\s@&quot;]+)*)|(&quot;.+&quot;))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([A-Za-z0-9a-À-ÖØ-öø-ÿÀÁÂÃÈÉÊÌÑÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưËẾăạảấầẩẫậắằẳẵÇặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+\.)+[A-Za-z0-9a-À-ÖØ-öø-ÿÀÁÂÃÈÉÊÌÑÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưËẾăạảấầẩẫậắằẳẵÇặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]{2,}))$</value>
     </labels>
 	<labels>
         <fullName>Send_to_Study_Hub</fullName>
