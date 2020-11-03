@@ -12,6 +12,7 @@
     <aura:attribute name="initialized" type="Boolean" default="false"/>
 
     <!-- component body -->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <div class="sl-panel" ondragover="{!c.onDragOver}" ondrop="{!c.onDrop}">
         <c:RRSpinner aura:id="spinner" size="small"/>
         <aura:if isTrue="{!v.initialized}">

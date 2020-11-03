@@ -40,4 +40,12 @@ public with sharing class ProfilePictureController {
                 WHERE Id=:UserInfo.getUserId()].FullPhotoUrl;
         
     }
+    
+    @AuraEnabled
+    public static void deletePicture(Id parentId) {
+        
+    ConnectApi.UserProfiles.deletePhoto(Network.getNetworkId(), UserInfo.getUserId());
+   
+    }
+
 }

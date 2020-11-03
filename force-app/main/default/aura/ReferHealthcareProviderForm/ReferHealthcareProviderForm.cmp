@@ -16,7 +16,7 @@
     <aura:attribute name="statusesDelegates" type="List"/>
     <aura:attribute name="forThisProvider" type="String"/>
 
-
+   <!-- <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>-->
     <div class="slds-grid slds-wrap slds-size--1-of-1 healthcare-form-container">
         <c:RRSpinner aura:id="spinner" size="medium"/>
         <aura:if isTrue="{!v.forThisProvider == 'isDelegates'}">

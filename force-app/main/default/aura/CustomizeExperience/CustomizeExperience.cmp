@@ -37,10 +37,12 @@
  
     <!--    <aura:attribute name="displayFooter" type="Boolean" default=""/>-->
     <aura:attribute name="bypass" type="Boolean" default=""/>
+    <aura:attribute name="isRTL" type="Boolean" default="false"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <!--<aura:handler name="change" value="{!v.displayedItems}" action="{!c.doInit}"/>-->
    <!--<aura:handler name="change" value="{!v.showmenu}" action="{!c.doInit}"/>-->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <div>
 	
     <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
@@ -49,10 +51,10 @@
 		
         <div class="section-description">  {!$Label.c.PP_Customize_Exp_Description}</div>
         <br/>
-        <div class="alert-count-condition1">{!$Label.c.PP_Condition_of_Interest_title}</div>
+        <div class="{!v.isRTL?'alert-count-condition1 RTL-Text-align':'alert-count-condition1 LTR-Text-align'}">{!$Label.c.PP_Condition_of_Interest_title}</div>
         <lightning:input onchange="{!c.bulkSearch}" aura:id="searchInput" type="search" name="search" label=""
                          variant="label-hidden" placeholder="{!$Label.c.PP_Customize_search_text}"/>
-        <div class="alert-count-condition">
+        <div class="{!v.isRTL?'alert-count-condition RTL-Text-align':'alert-count-condition LTR-Text-align '}">
             {!$Label.c.PP_Customize_footer_message}
         </div>
         <br/>
@@ -76,7 +78,7 @@
     
                         </td>
                         <th class="" data-label="Account Name" scope="row">
-                            <div class="slds-truncate">{!coiWrapper.coi.Therapeutic_Area__r.Name}</div>
+                            <div class="{!v.isRTL?'RTL-Text-align slds-truncate':'slds-truncate'}">{!coiWrapper.coi.Therapeutic_Area__r.Name}</div>
                         </th>
                     </tr>
                 </aura:iteration>
@@ -93,7 +95,7 @@
                         <ul class="slds-list_horizontal">
                             <li>
                                 <lightning:pill name = "{!showCoi.coi.Therapeutic_Area__r.Name}" 
-                                label="{!showCoi.coi.Therapeutic_Area__r.Name}"  onremove="{! c.handleRemoveOnly }" class="slds-pill slds-pill--bare slds-pill__action button"/>
+                                label="{!showCoi.coi.Therapeutic_Area__r.Name}"  onremove="{! c.handleRemoveOnly }"  class="{!v.isRTL?'rightAlign slds-pill slds-pill--bare slds-pill__action button':'slds-pill slds-pill--bare slds-pill__action button'}"/>
                      
                             </li>
                         </ul>

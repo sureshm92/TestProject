@@ -12,6 +12,7 @@
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
     <aura:attribute name="mode" type="String"/>
     <aura:attribute name="logoURL" type="String"/>
+    <aura:attribute name="isRTL" type="Boolean" default="true"/>
 
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized"/>
@@ -26,7 +27,7 @@
                     <div class="rr-width-limiter side-padding header-block">
                         <div class="logo-click" onclick="{!c.doGoHome}">
                             <img src="{!if(v.mode == 'Participant', v.logoURL, $Resource.rr_community_icons + '/Referral_Hub_Logo.svg')}"
-                                 class="logo-block"/>
+                                 class="logo-block" style="{!v.isRTL? 'margin-left: 1000px;' :''}"/>
                         </div>
                     </div>
                 </div>

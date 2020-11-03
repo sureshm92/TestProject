@@ -2,10 +2,10 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="RRBottomBar">
+ <aura:component description="RRBottomBar" extends="c:CommunityContext">
     <aura:attribute name="contentClass" type="String" description="" default=""/>
     <div class="rr-bottom-bar-area">
-        <div class="rr-bottom-bar">
+        <div class="{!if(v.isRTL == true, 'rr-bottom-bar rr-bottom-bar-rtl', 'rr-bottom-bar')}">
             <div class="rr-bottom-bar-line"></div>
             <div class="{!'rr-width-limiter bar-content side-padding ' + v.contentClass}">
                     {!v.body}

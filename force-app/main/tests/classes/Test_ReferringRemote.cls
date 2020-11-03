@@ -10,6 +10,7 @@ private without sharing class Test_ReferringRemote {
         TestData.loadTestData();
         Test.startTest();
         TestData testDataInstance = new TestData();
+        String checkNeeds;
         System.runAs(testDataInstance.hcpUser){
             Participant_Enrollment__c pe = new Participant_Enrollment__c(
                     HCP__c = testDataInstance.hcpEnrollment.Id,
@@ -35,11 +36,14 @@ private without sharing class Test_ReferringRemote {
                     Mailing_Country_Code__c = 'US',
                     Mailing_State_Code__c = 'AL'
             );
-            ReferringRemote.checkNeedsGuardian(JSON.serialize(participant));
+            checkNeeds = ReferringRemote.checkNeedsGuardian(JSON.serialize(participant));
             ReferringRemote.saveParticipant(testDataInstance.hcpEnrollment.Id, JSON.serialize(pe), JSON.serialize(participant), JSON.serialize(participantDelegate), null, null);
             ReferringRemote.setfailedReferral(JSON.serialize(pe), ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING);
         }
         Test.stopTest();
+        List<Participant__c> testParticipants = [SELECT Id FROM Participant__c WHERE Email__c IN ('parttest@email.com', 'ptestdelegate@email.com')];
+        System.assertEquals('false', checkNeeds);
+        System.assertEquals(2, testParticipants.size());
     }
     
     @IsTest
@@ -47,10 +51,13 @@ private without sharing class Test_ReferringRemote {
         TestData.loadTestData();
         Test.startTest();
         TestData testDataInstance = new TestData();
+        String initDataStr;
         System.runAs(testDataInstance.hcpUser){
-            String initDataStr = ReferringRemote.getInitData(testDataInstance.ctp.Id, testDataInstance.pe.Id, testDataInstance.hcpEnrollment.Id, CommunityService.USER_MODE_HCP, null);
+            initDataStr = ReferringRemote.getInitData(testDataInstance.ctp.Id, testDataInstance.pe.Id, testDataInstance.hcpEnrollment.Id, CommunityService.USER_MODE_HCP, null);
         }
         Test.stopTest();
+        ReferringRemote.InitData initData = (ReferringRemote.InitData) JSON.deserialize(initDataStr, ReferringRemote.InitData.class);
+        System.assertEquals(1, initData.studies.size());
     }
 
 }

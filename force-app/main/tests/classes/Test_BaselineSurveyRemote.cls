@@ -13,10 +13,10 @@ private class Test_BaselineSurveyRemote {
             if (stubbedMethodName == 'getSurveyLinkForCTP') {
                 return new SurveyService.SurveyWrapper('some', 'url', 'SCN');
             }
-            if(stubbedMethodName == 'getSurveyInvitationId') {
+            if (stubbedMethodName == 'getSurveyInvitationId') {
                 return TestDataFactory.getFakeId(SurveyInvitation.getSObjectType());
             }
-            if(stubbedMethodName == 'isInvitationExpired') {
+            if (stubbedMethodName == 'isInvitationExpired') {
                 return false;
             }
             return null;
@@ -28,19 +28,19 @@ private class Test_BaselineSurveyRemote {
         SurveyService.setMock(new SurveyServiceMock());
 
         TestData.loadTestData();
-        Test.startTest();
         TestData testDataInstance = new TestData();
+        Id invitationId;
+        Boolean checkId;
 
+        Test.startTest();
         System.runAs(testDataInstance.participantUser){
-            BaselineSurveyRemote.getBaselineSurveyURL(CommunityService.USER_MODE_PARTICIPANT,
-                    SurveyService.getInstance().getSurveyInvitationId('000', '111'));
-    
-            try {
-                BaselineSurveyRemote.getBaselineSurveyURL(null, null);
-            } catch (Exception e) {
-                // expected Exception
-            }
+            invitationId = SurveyService.getInstance().getSurveyInvitationId('000', '111');
+            BaselineSurveyRemote.getBaselineSurveyURL(CommunityService.USER_MODE_PARTICIPANT, invitationId);
+            checkId = invitationId != null ? true : false;
         }
         Test.stopTest();
+
+        System.assertEquals(true, checkId);
+
     }
 }

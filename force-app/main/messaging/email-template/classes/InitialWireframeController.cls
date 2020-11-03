@@ -22,9 +22,10 @@ global without sharing class InitialWireframeController {
         return getTemplateInitial().studySiteType;
     }
     
-    public String getTitleLabel() {
+    public String getTitleLabel() { 
         return commTemplate == CommunityTemplateService.TEMPLATE_DEFAULT ? Label.Email_Title_Initial_All_IQVIA : commTemplate == CommunityTemplateService.TEMPLATE_JANSSEN ? Label.Email_Title_Initial_All_Janssen : Label.Email_Title_Initial_All_GSK;
     }
+
 
     public String getSpecificProvider() {
         return (getTemplateInitial().useAllPINames ? 'EmailTemplateProviderHCPMultiPI' : '');

@@ -132,6 +132,13 @@
     display: none;
 }
 
+@media (max-width: 768px) {
+    .THIS .cUiHeaderMenu .menu-popup-panel.popupTargetContainer {
+        left: unset;
+        top: unset;
+    }
+}
+
 @media all and (max-width: 500px) {
     .THIS .rr-table .tableHeader{
         display: none;

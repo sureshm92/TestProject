@@ -1,10 +1,11 @@
 /**
  * Created by Andrii Kryvolap.
  */
-table{
+table {
     table-layout: fixed;
 }
-thead > tr{
+
+thead > tr {
     background: #F6F7FB;
     color: #595959;
     font-size: 14px;
@@ -12,89 +13,119 @@ thead > tr{
     line-height: 24px;
 }
 
-
-tbody>tr{
+tbody > tr {
     color: #444444;
     font-size: 16px;
     line-height: 30px;
     border-bottom: 2px solid #F8F9FB;
+    display: flex;
 }
-td, th{
-    padding: 10px 20px;
+
+td, th {
+    padding: 10px;
 }
-tbody{
-    display:block;
-    overflow:auto;
+
+tbody {
+    display: block;
+    overflow: auto;
 }
-thead tr{
-    display:block;
+
+thead tr {
+    display: flex;
     height: 2.75rem;
 }
-::-webkit-scrollbar:vertical{
+
+::-webkit-scrollbar:vertical {
     width: 8px;
 }
-::-webkit-scrollbar:horizontal{
+
+::-webkit-scrollbar:horizontal {
     height: 8px;
 }
-::-webkit-scrollbar-thumb:vertical{
+
+::-webkit-scrollbar-thumb:vertical {
     width: 8px;
     height: 100px;
 }
-::-webkit-scrollbar-thumb:horizontal{
+
+::-webkit-scrollbar-thumb:horizontal {
     width: 100px;
     height: 8px;
 }
-::-webkit-scrollbar-thumb{
+
+::-webkit-scrollbar-thumb {
     border-radius: 4px;
     background-color: #999999;
     box-shadow: 0 8px 8px 0 rgba(0,0,0,0.16);
 }
-::-webkit-scrollbar-track{
-    display:none;
+
+::-webkit-scrollbar-track {
+    display: none;
 }
-::-webkit-scrollbar-button{
+
+::-webkit-scrollbar-button {
     height: 0;
 }
 
-@media all and (min-width: 768px) {
-    tr>th:nth-child(3){
-        width:22%;
-        text-align: end;
-    }
-    tr>td:nth-child(3){
-        width:25%;
-        text-align: end;
-    }
-    tr>th:nth-child(1), tr>td:nth-child(1){
-        width:20%;
-    }
-    tr>th:nth-child(2), tr>td:nth-child(2){
-        width:50%;
-    }
+tr>th:nth-child(1),
+tr>td:nth-child(1) {
+    width: 22%
+}
+
+tr>th:nth-child(2),
+tr>td:nth-child(2) {
+    width: 58%;
+}
+
+tr>th:nth-child(3),
+tr>td:nth-child(3) {
+    width: 20%;
+    text-align: end;
+    white-space: nowrap;
+    padding-left: 0;
+}
+
+tbody {
+    width: 100%;
+    height: calc(55vh - 8.5rem);
+}
+
+@media all and (max-width: 1024px) {
     tbody{
-        width: 100%;
-        height:calc(55vh - 8.5rem);
+        max-height: 250px;
+        overflow-y: auto;
+        padding-right: 10px
     }
 }
 
 @media all and (max-width: 767px) {
-    table{
-        width: 750px;
+
+    tr>th:nth-child(1),
+    tr>td:nth-child(1){
+        width: 30%;
     }
-    tr>th:nth-child(3){
-        width:170px;
-        text-align: end;
+
+    tr>th:nth-child(2) {
+        width: 35%;
+        padding-left: 0;
     }
+
+    tr>td:nth-child(2){
+        width: 50%;
+        line-height: 24px;
+        padding-left: 5px;
+        padding-top: 12px;
+    }
+
+    tr>th:nth-child(3) {
+        width: 35%;
+    }
+
     tr>td:nth-child(3){
-        width:190px;
+        width: 25%;
         text-align: end;
     }
-    tr>th:nth-child(1), tr>td:nth-child(1){
-        width:155px;
-    }
-    tr>th:nth-child(2), tr>td:nth-child(2){
-        width:384px;
-    }
+
     .incentives-my-points-table-container{
         overflow: auto;
     }

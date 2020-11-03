@@ -50,6 +50,11 @@
     cursor: pointer;
 }
 
+.THIS .menu-popup-panel.rtl.popupTargetContainer {
+    left: 0;
+    right: auto;
+}
+
 .THIS .menu-popup-panel.popupTargetContainer{
     visibility: hidden;
     display: flex;
@@ -73,7 +78,7 @@
     z-index: 10010;
 }
 
-.THIS .menu-popup-panel.popupTargetContainer.visible{
+.THIS .menu-popup-panel.popupTargetContainer.visible {
     display: block;
     visibility: visible;
     opacity: 1;
@@ -103,7 +108,7 @@
 }
 
 .THIS .menu-popup-panel li:hover:not(.active){
-    color: #000;
+    color: #000000;
 }
 
 @media all and (orientation:landscape) and (max-width: 1024px) {
@@ -115,5 +120,11 @@
 @media all and (orientation:portrait) and (max-width: 1024px) {
     .THIS .menu-popup-panel.popupTargetContainer {
         right: .5rem;
+    }
+}
+
+@media all and (max-width: 360px){
+    .THIS .menu-popup-panel.popupTargetContainer {
+        width: 302px;
     }
 }

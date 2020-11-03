@@ -155,16 +155,15 @@
 }
 
 @media screen and (max-width: 768px){
-   .THIS .db-list-item .rr-small-down-hide {
+    .THIS .db-list-item .rr-small-down-hide {
         display: none;
-    } 
+    }
     .THIS .db-list-item .rr-small-up-hide .apollo-btn {
         width: 100%;
     }
 }
 
 @media screen and (max-width: 500px) {
-
     .THIS .cDashboardPINew.db-section > .slds-col {
         width: 100%;
     }

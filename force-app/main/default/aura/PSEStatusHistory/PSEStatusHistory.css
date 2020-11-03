@@ -18,6 +18,16 @@
     line-height: 1;
 
 }
+.THIS .state-ico-wrapperRTL{
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid;
+    position: absolute;
+    top: -10px;
+    line-height: 1;
+
+}
 
 .THIS .path-item-detail-panel{
     margin-bottom: 20px;
@@ -39,8 +49,21 @@
     top: -15px;
     left: -14px;
 }
+.THIS .line-div .state-ico-wrapperRTL{
+    position: relative;
+    width: 28px;
+    height: 28px;
+    top: -15px;
+    left: 7px;
+}
 
 .THIS .line-div .state-ico-wrapper .rr-icon-default{
+    width: 24px;
+    height: 24px;
+    padding: 1px;
+    fill: white;
+}
+.THIS .line-div .state-ico-wrapperRTL .rr-icon-default{
     width: 24px;
     height: 24px;
     padding: 1px;
@@ -89,6 +112,25 @@
 }
 
 .THIS .state-ico-wrapper.failure{
+    background-color: #E20000;
+    border-color: #E20000;
+}
+.THIS .state-ico-wrapperRTL.neutral{
+    background-color: white;
+    border-color: #999999;
+}
+
+.THIS .state-ico-wrapperRTL.success{
+    background-color: #00c221;
+    border-color: #00c221;
+}
+
+.THIS .state-ico-wrapperRTL.in_progress{
+    background-color: #00c221;
+    border-color:#00c221;
+}
+
+.THIS .state-ico-wrapperRTL.failure{
     background-color: #E20000;
     border-color: #E20000;
 }

@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="Alerts" controller="AlertsRemote">
+ <aura:component description="Alerts" controller="AlertsRemote" extends="c:CommunityContext">
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
@@ -18,11 +18,12 @@
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
 
     <!-- component body-->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <aura:if isTrue="{!v.currentAlert}">
         <c:Popup aura:id="alertsDialog" title="{!if(v.currentAlert, v.currentAlert.title, '')}" size="medium" closeButtonClicked="{!v.closeBtnClicked}">
             <aura:if isTrue="{!v.currentAlert}">
                 <aura:if isTrue="{!!empty(v.currentAlert.params.Logo)}">
-                    <div class="al-logo">
+                    <div class="al-logo" style="{!if(v.isRTL == true, 'float:right', '')}">
                         <img src="{!v.currentAlert.params.Logo}"/>
                     </div>
                 </aura:if>
@@ -31,7 +32,7 @@
                 </aura:if>
             </aura:if>
 
-            <div><aura:unescapedHtml value="{!if(v.currentAlert, v.currentAlert.body, '')}"/></div>
+            <div style="{!if(v.isRTL == true, 'float:right', '')}"><aura:unescapedHtml value="{!if(v.currentAlert, v.currentAlert.body, '')}"/></div>
             <aura:set attribute="footerButtons">
                 <button class="apollo-btn primary" onclick="{!c.doShowNext}">OK</button>
             </aura:set>

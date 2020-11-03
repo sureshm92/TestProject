@@ -1,5 +1,18 @@
+.THIS {
+    border: 1px solid #e9e9e9;
+    border-width: 0 1px 1px 1px;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
+    padding: 1rem;
+    background: #fff;
+}
+
 .THIS.sdas-main-container {
     padding-bottom: 32px;
+}
+
+.THIS.rtl {
+    direction: rtl;
 }
 
 .THIS.sdas-sub-tab {
@@ -49,6 +62,14 @@
     position: absolute;
     left: 62%;
     display: block;
+}
+
+.THIS .hideborder.slds-grid.slds-wrap:before{
+   
+    /*display: none;*/
+    margin-left:-279px;
+    
+    
 }
 
 .THIS .cTasksTab {
@@ -470,17 +491,13 @@
 }
 
 @media all and (max-width: 500px) {
-    
-    .THIS.sdas-main-container {
-        padding: 10px 10px 25px;
+
+    .THIS {
+        padding-top: 0;
     }
-    
+
     .THIS .sdas-main-info {
-        padding: 0;
-    }
-    
-    .THIS .sdas-sub-category {
-        margin-top: 2rem;
+        padding: 15px 0 0;
     }
     
      .THIS .socialnetworks .rri-icon > a {

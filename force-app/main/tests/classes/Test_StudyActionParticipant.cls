@@ -7,12 +7,15 @@ private class Test_StudyActionParticipant {
     
     @IsTest
     static void test1() {
+        StudyActionsParticipant studyActionsParticipant;
+
         TestData.loadTestData();
         Test.startTest();
         TestData testDataInstance = new TestData();
         System.runAs(testDataInstance.participantUser){
-            new StudyActionsParticipant();
+            studyActionsParticipant = new StudyActionsParticipant();
         }
         Test.stopTest();
+        System.assertEquals(3, studyActionsParticipant.studyDetailActions.size());
     }
 }

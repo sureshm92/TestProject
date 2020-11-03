@@ -92,13 +92,13 @@ private class Test_IntegrationPatientReferralHandler {
         );
         insert participantWithBY;
         
-        Contact exitedContact = new Contact(
+      /*  Contact exitedContact = new Contact(
                 FirstName = 'Leo',
                 LastName = 'Win',
                 Email = 'leo@mail.com',
                 AccountId = participantsAccount.Id
         );
-        insert exitedContact;
+        insert exitedContact; */
     
     
         Test.startTest();
@@ -188,7 +188,7 @@ private class Test_IntegrationPatientReferralHandler {
 
         System.assert([SELECT Id, Middle_Name__c FROM Participant__c WHERE Email__c = 'maxjames@mail.com'].Middle_Name__c == 'S');
         System.assert([SELECT Id, Secondary_Source__c FROM Participant__c WHERE Email__c = 'some@dssd.cre'].Secondary_Source__c == 'Autorecruitment');
-        System.assert([SELECT Id, Contact__c FROM Participant__c WHERE Email__c = 'leo@mail.com'].Contact__c == exitedContact.Id);
+       // System.assert([SELECT Id, Contact__c FROM Participant__c WHERE Email__c = 'leo@mail.com'].Contact__c == exitedContact.Id);
         
         String refSource = [SELECT Id, Secondary_Source__c FROM Participant__c WHERE Email__c = 'leo@mail.com'].Secondary_Source__c;
         System.assert(refSource.contains('Autorecruitment'));

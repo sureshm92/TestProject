@@ -9,26 +9,20 @@
         var showTour = communityService.showTourOnLogin();
         component.set('v.showTour', showTour);
         var userMode = component.get('v.userMode');
-        
-        communityService.executeAction(component, 'getInitData', {
-            userMode: userMode
-        }, function (returnValue) {
-            var initData = JSON.parse(returnValue);
-            component.set('v.videoLink', initData.videoLink);
-            component.set('v.userManual', initData.userManual);
-            component.set('v.quickReference', initData.quickReference);
 
-        });
-        let isMobileApp = communityService.isCurrentSessionMobileApp();
-        let pdfName = $A.get("$Label.c.Participant_quick_reference");
-        component.set("v.isMobApp",isMobileApp);
-        communityService.executeAction(component, 'getPdfDonload', {
-            titleName: pdfName
-        }, function (returnValue) {
-            component.set("v.pdfUrl", returnValue);
-        }, null, function () {
-            //component.set('v.showSpinner', false);
-        })
+        communityService.executeAction(
+            component,
+            'getInitData',
+            {
+                userMode: userMode
+            },
+            function (returnValue) {
+                var initData = JSON.parse(returnValue);
+                component.set('v.videoLink', initData.videoLink);
+                component.set('v.userManual', initData.userManual);
+                component.set('v.quickReference', initData.quickReference);
+            }
+        );
     },
 
     showVideo: function (component, event, helper) {
@@ -45,32 +39,42 @@
         communityService.showTour();
     },
 
-    OpenQuickReference: function (component, event, helper) {
-        if(component.get("v.isMobApp")){
-            var recId = component.get("v.pdfUrl");
-            var urls = window.location.origin+'/sfc/servlet.shepherd/document/download/'+recId;            
-            let urlEvent = $A.get("e.force:navigateToURL");
-            urlEvent.setParams({url: urls});
-            urlEvent.fire();
-        }else{
-            var quickReference = component.get('v.quickReference');
-            var navUrl = $A.get('$Resource.' + quickReference);
-            var urlEvent = $A.get("e.force:navigateToURL");
-            urlEvent.setParams({
-                "url": window.location.origin + navUrl
-            });
-            urlEvent.fire();
-        }        
+    openQuickReference: function (component, event, helper) {
+        if (communityService.isMobileSDK()) {
+            communityService.showWarningToast(
+                'Warning!',
+                $A.get('$Label.c.Pdf_Not_Available'),
+                100
+            );
+            return;
+        }
+        var quickReference = component.get('v.quickReference');
+        var webViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
+        window.open(
+            webViewer + '?file=' + $A.get('$Resource.' + quickReference),
+            '_blank'
+        );
     },
 
-    OpenGuide: function (component, event, helper) {
+    openGuide: function (component, event, helper) {
+        if (communityService.isMobileSDK()) {
+            communityService.showWarningToast(
+                'Warning!',
+                $A.get('$Label.c.Pdf_Not_Available'),
+                100
+            );
+            return;
+        }
         var userManual = component.get('v.userManual');
-        window.open($A.get('$Resource.' + userManual), '_blank');
+        var webViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
+        window.open(
+            webViewer + '?file=' + $A.get('$Resource.' + userManual),
+            '_blank'
+        );
     },
 
     stopVideo: function (component, event, helper) {
         var video = document.getElementById('video-tour');
         video.pause();
     }
-
-})
+});

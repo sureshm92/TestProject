@@ -6,24 +6,43 @@
     <aura:attribute name="entriesOnPage"    type="Integer" default="1"        description="amount objects on page"/>
     <aura:attribute name="currentPage"      type="Integer" default="1"/>
     <aura:attribute name="totalPages"       type="Integer" default="1"/>
+    <aura:attribute name="isRTL"            type="Boolean" />
+    <aura:attribute name="studyVisitPageCheck"  type="Boolean" default="false"/>
     <!--=============================================================================================================-->
     <aura:handler name="init"               value="{!this}"                   action="{!c.resetPagination}"/>
     <aura:handler name="change"             value="{!v.allObjects}"           action="{!c.resetPagination}"/>
     <aura:handler name="change"             value="{!v.currentPage}"          action="{!c.setPage}"/>
     <aura:handler name="change"             value="{!v.entriesOnPage}"        action="{!c.resetPagination}"/>
     <!--=============================================================================================================-->
+     <aura:method name="PageNumer"  action="{!c.getPageNumer}"></aura:method>
     <aura:if isTrue="{! !empty(v.currentObjects)}">
         <div class="rrp-container">
             <div class="buttons">
-                <button class="{!'previous-btn slds-button slds-button_neutral' + if(v.currentPage == 1, ' disabled', '') }" onclick="{!c.previousPage}">
-                    <c:RRIcon iconName="icon-chevron-left" color="#333333"/>
-                </button>
-                <button class="{!'next-btn slds-button slds-button_neutral' + if(v.currentPage == if(v.totalPages == 0, 1, v.totalPages), ' disabled', '') }" onclick="{!c.nextPage}">
-                    <c:RRIcon iconName="icon-chevron-right" color="#333333"/>
-                </button>
+                <aura:if isTrue="{!v.isRTL}">
+                        <button class="{!'next-btn slds-button slds-button_neutral' + if(v.currentPage == 1, ' disabled', '') }" onclick="{!c.previousPage}">
+                            <c:RRIcon iconName="icon-chevron-right" color="#333333"/>
+                        </button>
+                        <button class="{!'previous-btn slds-button slds-button_neutral' + if(v.currentPage == if(v.totalPages == 0, 1, v.totalPages), ' disabled', '') }" onclick="{!c.nextPage}">
+                            <c:RRIcon iconName="icon-chevron-left" color="#333333"/>
+                        </button>
+                    <aura:set attribute="else">
+                        <button class="{!'previous-btn slds-button slds-button_neutral' + if(v.currentPage == 1, ' disabled', '') }" onclick="{!c.previousPage}">
+                            <c:RRIcon iconName="icon-chevron-left" color="#333333"/>
+                        </button>
+                        <button class="{!'next-btn slds-button slds-button_neutral' + if(v.currentPage == if(v.totalPages == 0, 1, v.totalPages), ' disabled', '') }" onclick="{!c.nextPage}">
+                            <c:RRIcon iconName="icon-chevron-right" color="#333333"/>
+                        </button>
+                    </aura:set>
+                </aura:if>
             </div>
             <div class="info">
-            {!v.currentPage + ' ' + $Label.c.PG_FP_L_of + ' ' + if(v.totalPages == 0, '1', v.totalPages)}
+            <aura:if isTrue="{!v.isRTL}">
+                {!if(v.totalPages == 0, '1', v.totalPages)+ ' ' + $Label.c.PG_FP_L_of + '  ' + v.currentPage}
+                <aura:set attribute="else">
+                    {!v.currentPage + ' ' + $Label.c.PG_FP_L_of + ' ' + if(v.totalPages == 0, '1', v.totalPages)}
+                </aura:set>
+            </aura:if>    
+            
             </div>
         </div>
     </aura:if>

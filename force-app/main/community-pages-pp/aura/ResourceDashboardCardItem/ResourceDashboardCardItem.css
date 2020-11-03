@@ -1,4 +1,4 @@
-.THIS.resource-container {
+.THIS .resource-container {
     min-height: 225px;
     width: 247px;
     margin: auto;
@@ -11,6 +11,11 @@
     font-weight: 400;
     line-height: 20px;
     text-align: center;
+}
+
+
+.THIS.rtl {
+    direction: rtl;
 }
 
 .THIS .resource-image-container {

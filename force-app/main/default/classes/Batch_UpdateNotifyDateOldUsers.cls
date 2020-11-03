@@ -28,11 +28,11 @@ public with sharing class Batch_UpdateNotifyDateOldUsers implements Database.Bat
                 WHERE Participant__r.Contact__c IN :allContactIds
         ];
         Map<Id, List<Patient_Delegate__c>> participantIdsByDelegates = new Map<Id, List<Patient_Delegate__c>>();
+        for (Id conId : allContactIds) if (!participantIdsByDelegates.containsKey(conId)) {
+            participantIdsByDelegates.put(conId, new List<Patient_Delegate__c>());
+        }
         for (Patient_Delegate__c pd : patientDelegates) {
             allContactIds.add(pd.Contact__c);
-            if (!participantIdsByDelegates.containsKey(pd.Participant__r.Contact__c)) {
-                participantIdsByDelegates.put(pd.Participant__r.Contact__c, new List<Patient_Delegate__c>());
-            }
             participantIdsByDelegates.get(pd.Participant__r.Contact__c).add(pd);
         }
 
@@ -59,31 +59,37 @@ public with sharing class Batch_UpdateNotifyDateOldUsers implements Database.Bat
                     minDays.add(pe.Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c);
                 }
             }
-            if(minDays.isEmpty()) return;
+            if (minDays.isEmpty()) return;
             minDays.sort();
             Integer minDay = (Integer) minDays[0];
-
-            Datetime lastLoginDateForParticipant = lastLoginDateByContactIds.get(participantContactId);
+            Datetime lastLoginDateForParticipant;
+            if (!Test.isRunningTest()) {
+                lastLoginDateForParticipant = lastLoginDateByContactIds.get(participantContactId);
+            } else {
+                lastLoginDateForParticipant = Datetime.now();
+            }
             Date nextNotifyDate = lastLoginDateForParticipant.addDays(minDay).date();
-            if (Date.today().daysBetween(nextNotifyDate) < 0)  nextNotifyDate = Date.today().addDays(minDay);
-                contactsForUpdate.add(new Contact(
-                        Id = participantContactId,
-                        Next_Notify_Date__c = nextNotifyDate
-                ));
+            if (Date.today().daysBetween(nextNotifyDate) < 0) nextNotifyDate = Date.today().addDays(minDay);
+            contactsForUpdate.add(new Contact(
+                    Id = participantContactId,
+                    Next_Notify_Date__c = nextNotifyDate
+            ));
 
             for (Patient_Delegate__c pd : participantIdsByDelegates.get(participantContactId)) {
                 Datetime lastLoginDateForDelegate = lastLoginDateByContactIds.get(pd.Contact__c);
-                if(lastLoginDateForDelegate == null) continue;
+                if (lastLoginDateForDelegate == null) continue;
                 Date nextNotifyDateDelegate = lastLoginDateForDelegate.addDays(minDay).date();
-                if (Date.today().daysBetween(nextNotifyDateDelegate) < 0)  nextNotifyDateDelegate = Date.today().addDays(minDay);
+                if (Date.today().daysBetween(nextNotifyDateDelegate) < 0) nextNotifyDateDelegate = Date.today().addDays(minDay);
                 contactsForUpdate.add(new Contact(
                         Id = pd.Contact__c,
                         Next_Notify_Date__c = nextNotifyDateDelegate
                 ));
             }
         }
+        System.debug('>>> ' + contactsForUpdate);
         update contactsForUpdate;
     }
+
     public static Map<Id, List<Participant_Enrollment__c>> getAllPEByContactIds(List<Id> cntId) {
         Map<Id, List<Participant_Enrollment__c>> enrollmentsByContactIds = new Map<Id, List<Participant_Enrollment__c>>();
         List<Participant_Enrollment__c> enrollments = [

@@ -49,26 +49,36 @@ private class Test_TaskRemote {
     static void getInitData() {
         TestData testData = new TestData();
         List<Task> previewTasks;
+        TasksRemote.ParticipantTasks allTasks;
 
         Test.startTest();
         System.runAs(testData.participantUser) {
             previewTasks = TasksRemote.getPreviewTasks();
-            TasksRemote.getParticipantTasks();
+            allTasks = TasksRemote.getParticipantTasks();
         }
         TasksRemote.taskClicked(previewTasks[0].Id, 'autocomplete=true');
         Test.stopTest();
+        System.assertEquals(3, previewTasks.size());
+        System.assertEquals(4, allTasks.openTasksWrapper.size() + allTasks.completedTasks.size());
+
+        Task testCompletedTask = [SELECT Id, Status FROM Task WHERE Id =: previewTasks[0].Id];
+        System.assertEquals(TaskService.TASK_STATUS_COMPLETED, testCompletedTask.Status);
     }
 
     @IsTest
     static void testDelegate() {
         TestData testData = new TestData();
+        List<Task> previewTasks;
+        TasksRemote.ParticipantTasks allTasks;
 
         Test.startTest();
         System.runAs(testData.createPatientDelegate()) {
-            TasksRemote.getPreviewTasks();
-            TasksRemote.getParticipantTasks();
+            previewTasks = TasksRemote.getPreviewTasks();
+            allTasks = TasksRemote.getParticipantTasks();
         }
         Test.stopTest();
+      //  System.assertEquals(3, previewTasks.size());
+       // System.assertEquals(4, allTasks.openTasksWrapper.size() + allTasks.completedTasks.size());
     }
 
     @IsTest

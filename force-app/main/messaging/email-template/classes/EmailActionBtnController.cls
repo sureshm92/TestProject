@@ -15,6 +15,14 @@ global without sharing class EmailActionBtnController {
     public String getButtonLabelValue() {
         return TranslateHelper.getLabelValue(buttonLabelName, EmailTemplateProviderService.getProvider().getUserLanguage());
     }
+    
+    public Boolean getEnableNewStyle()
+    { 
+     List<New_Style_Enablement__mdt> nseList = [Select Id,CommunityName__c from New_Style_Enablement__mdt];
+	 List<String> communitiesList = new List<String>();
+     for(New_Style_Enablement__mdt ns: nseList) communitiesList.add(ns.CommunityName__c);
+     return communitiesList.contains(EmailTemplateProviderService.getProvider().getCommunityName());
+    }
 
     public String getResultURL() {
         String result = buttonURLString;

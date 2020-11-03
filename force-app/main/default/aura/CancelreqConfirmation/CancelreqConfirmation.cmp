@@ -18,6 +18,7 @@
     <aura:method name="close" action="{!c.closepopup}" access="public" />
     
     <!-- component body:-->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <c:Popup aura:id="Show_WarningPoP_Up" title="{!v.title}" showClose="false" size="small"
         showScroll="false" showFooter="false" >
         

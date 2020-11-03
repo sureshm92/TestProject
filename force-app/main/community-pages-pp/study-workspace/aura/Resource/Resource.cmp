@@ -7,18 +7,26 @@
 	<aura:attribute name="resourceTitle" type="String" default="" access="private"/>
 	<aura:attribute name="errorMessage" type="String" default=""/>
     <aura:attribute name="isAvailable" type="Boolean" default="true"/>
+    <aura:attribute name="isRTL" type="Boolean" default="false"/>
+
 
 	<aura:handler name="init" value="this" action="{!c.doInit}"/>
 	<aura:handler name="change" value="{!v.resourceMode}" action="{!c.doInit}"/>
-
+   
 	<div class="rr-white-panel resource-card">
-
-		<header class="resource-card-title">
-			{!v.resourceTitle}
-		</header>
+            <aura:if isTrue="{!v.isRTL}"> 
+                    <header class="resource-card-title-RTL">
+                            {!v.resourceTitle}
+                        </header>    
+            </aura:if>
+            <aura:if isTrue="{!!v.isRTL}"> 
+                    <header class="resource-card-title">
+                            {!v.resourceTitle}
+                    </header>    
+            </aura:if>
 
 		<c:RRSpinner aura:id="spinner" showSpinner="true" fixed="true" size="medium"/>
-
+        <div class="{!v.isRTL? 'rtl' :''}">
         <aura:if isTrue="{!v.isAvailable}">
             <aura:if isTrue="{!v.errorMessage}">
                 <div class="resource-error-message">{!v.errorMessage}</div>
@@ -45,5 +53,5 @@
             </aura:set>
         </aura:if>
     </div>
-
+</div>
 </aura:component>

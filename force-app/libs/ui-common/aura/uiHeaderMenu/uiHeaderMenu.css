@@ -113,6 +113,6 @@
 
 @media all and (max-width: 550px) {
     .cUiHeaderMenu .menu-popup-panel.popupTargetContainer {
-        right: 6px;
+        right: -10px;
     }
 }

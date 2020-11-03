@@ -1,0 +1,67 @@
+<!--
+ - Created by Igor Malyuta on 17.09.2020.
+ -->
+<apex:component id="ParticipantParagraph" controller="ParticipantParagraphController" access="global">
+    
+    <apex:attribute name="outputType" type="String" assignTo="{!outputMode}" description="" default="HTML"/>
+     <apex:attribute name="learnmoreLabel" type="String" assignTo="{!learnmoreLabelValue}" description="" />
+     <apex:attribute name="discoverLabel" type="String" assignTo="{!discoverLabelValue}" description=""/>
+    <apex:attribute name="trackLabel" type="String" assignTo="{!trackLabelValue}" description=""/>
+    <apex:attribute name="communityNameHelpLabel" type="String" assignTo="{!communityNameHelpLabelValue}"  description=""/>
+    <div>
+
+            <br/>
+    <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+	<tbody>
+		<tr>
+			<td style="vertical-align:top">
+				<table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="background: #f6f7fb;border-bottom:solid 1px #e9e9e9;">
+					<tr>
+						<td colspan="2" height="45" style="padding-top: 25px">
+							<div style="font-family: 'Proxima Nova', Helvetica, Arial, sans-serif; font-weight: 400; line-height: 28px; text-align: center; color: #000000; font-size: 20px;height: 45px">
+                                 <apex:outputText escape="false" value="{!CommunityHelpValue}" />
+							</div>
+						</td>
+					</tr>
+                    <tr>
+						<td style="width:30%; text-align: center;padding: 35px 0">
+							<img alt="Discover" src="{!$Label.WelcomeEmail_DiscoverLogo}"/>
+						</td>
+						<td align="left" style="{!IF(isRTL=true,'text-align: right; padding: 10px 0px 15px 0;','text-align: left; padding: 10px 50px 15px 0;')+ 'width:70%; font-family: Arial, sans-serif; font-weight: 400; line-height: 28px; color: #595959; font-size: 16px'}">
+							<div>
+								<apex:outputText escape="false" value="{!discoverValue}" />
+							</div>
+						</td>
+					</tr>
+                    <tr>
+						<td style="width:30%;  text-align: center;padding: 35px 0">
+							<img alt="Track Study Progress" src="{!$Label.WelcomeEmail_TrackLogo}"/>
+						</td>
+						<td align="left" style="{!IF(isRTL=true,'text-align: right; padding: 10px 0px 15px 0;','text-align: left; padding: 10px 50px 15px 0;')+ 'width:70%; font-family: Arial, sans-serif; font-weight: 400; line-height: 28px; color: #595959; font-size: 16px'}">
+							<div>
+								<apex:outputText escape="false" value="{!TrackValue}" />
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td style="width:30%; text-align: center;padding: 35px 0">
+							<img alt="Learn more" src="{!$Label.WelcomeEmail_LearnLogo}"/>
+						</td>
+						<td align="left" style="{!IF(isRTL=true,'text-align: right; padding: 10px 0px 15px 0;','text-align: left; padding: 10px 50px 15px 0;')+ 'width:70%; font-family: Arial, sans-serif; font-weight: 400; line-height: 28px; color: #595959; font-size: 16px'}">
+							<div>
+								<apex:outputText escape="false" value="{!LearnValue}" />
+							</div>
+						</td>
+					</tr>
+				
+					
+					
+					
+				</table>
+			</td>
+		</tr>
+	</tbody>
+</table>
+          </div>
+    
+</apex:component>
