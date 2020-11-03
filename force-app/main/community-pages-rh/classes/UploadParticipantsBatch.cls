@@ -189,12 +189,12 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     Pattern regexIncludePattern = Pattern.compile(regexInclude);
                     Matcher regexExcludeMatcher = regexExcludePattern.matcher(EmailAddress);
                     Matcher regexIncludeMatcher = regexIncludePattern.matcher(EmailAddress);
-                    if(regexExcludeMatcher.matches()){
+                    if(regexExcludeMatcher.find()){
                         hasErrors = true;
                         system.debug('ERROR:1 ' + totalRecordCount + ', ' + 'Invalid Email field');
                         
                         listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'invalid field - Email');
-                    }else if(!regexIncludeMatcher.matches()){
+                    }else if(!regexIncludeMatcher.find()){
                         hasErrors = true;
                         system.debug('ERROR:2 ' + totalRecordCount + ', ' + 'Invalid Email field');
                         
