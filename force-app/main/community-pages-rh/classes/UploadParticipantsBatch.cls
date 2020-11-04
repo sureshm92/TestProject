@@ -82,7 +82,19 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 uploaderContactId = uploadUser.ContactId;
             }
             participantAccount = [SELECT Id FROM Account WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE];
-            csvLines = csvFileLines;
+            List<List<String>> stringList1 = new List<List<String>>();
+            for(List<String> ss : csvFileLines){
+                List<String> tem = new List<String>();
+                for(String sg : ss){
+                    if(sg.contains(',')){
+                        tem.add('"' + sg + '"');
+                    }else{
+                        tem.add(sg);
+                    }
+                }
+                stringList1.add(tem);
+            }
+            csvLines = stringList1;
             
             List<LabelValueItem> phoneTypeLVList = SObjectHelper.getPicklistLabelValueList(Participant__c.Phone_Type__c);
             for (LabelValueItem lb : phoneTypeLVList) {
@@ -167,6 +179,29 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 PostalCode = headerIndexes.get('POSTAL CODE') != null && csvRecordData[headerIndexes.get('POSTAL CODE')] != null ? csvRecordData[headerIndexes.get('POSTAL CODE')].trim() : null;
                 Language = headerIndexes.get('LANGUAGE') != null && csvRecordData[headerIndexes.get('LANGUAGE')] != null ? csvRecordData[headerIndexes.get('LANGUAGE')].trim() : null;
                 
+                System.debug('@@@### EmailAddress ' +csvRecordData[headerIndexes.get('EMAIL ADDRESS')]);
+
+                if (!String.isEmpty(EmailAddress)) {
+                    String regexExclude  = System.Label.RH_Email_Invalid_Characters;
+                    String regexInclude  = System.Label.RH_Email_Validation_Pattern;
+                    Boolean isValidEmail;
+                    Pattern regexExcludePattern = Pattern.compile(regexExclude);
+                    Pattern regexIncludePattern = Pattern.compile(regexInclude);
+                    Matcher regexExcludeMatcher = regexExcludePattern.matcher(EmailAddress);
+                    Matcher regexIncludeMatcher = regexIncludePattern.matcher(EmailAddress);
+                    if(regexExcludeMatcher.find()){
+                        hasErrors = true;
+                        system.debug('ERROR:1 ' + totalRecordCount + ', ' + 'Invalid Email field');
+                        
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'invalid field - Email');
+                    }else if(!regexIncludeMatcher.find()){
+                        hasErrors = true;
+                        system.debug('ERROR:2 ' + totalRecordCount + ', ' + 'Invalid Email field');
+                        
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'invalid field - Email');
+                    }
+                }
+
                 
                 if (String.isEmpty(FirstName)) {
                     hasErrors = true;

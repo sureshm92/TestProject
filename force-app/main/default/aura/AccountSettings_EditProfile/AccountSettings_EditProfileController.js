@@ -415,16 +415,16 @@
                 communityService.executeAction(component, 'updatePerson', {
                     wrapperJSON: JSON.stringify(component.get('v.personWrapper'))
                 }, function () {
+                    component.find('spinner').hide();
                     component.set('v.participantHasUpdateTasks', false);
                     helper.setPersonSnapshot(component);
-                    component.find('spinner').hide();
                     communityService.navigateToPage('account-settings'); 
                     communityService.showToast('success', 'success', $A.get('$Label.c.PP_Profile_Update_Success'),100);
                     window.location.reload(true);
                     
                 });
             }, null, function () {
-               // component.set('v.showSpinner', false);
+                component.set('v.showSpinner', false);
             });
             
           

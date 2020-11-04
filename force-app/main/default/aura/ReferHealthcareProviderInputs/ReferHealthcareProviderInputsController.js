@@ -6,11 +6,14 @@
         var sharingObject = component.get('v.sharingObject');
         var email = event.getSource().get('v.value');
         var isValid = component.get('v.isValid');
-        if (email && communityService.isValidEmail(email.trim()) && sharingObject.sObjectType != 'Object') {
-            helper.doCheckContact(component, event, helper, null, null, email.trim());
-        }
-        if(isValid && sharingObject.sObjectType == 'Object' && sharingObject.firstName && sharingObject.lastName && sharingObject.email.trim()){
-            helper.doCheckContact(component, event, helper, sharingObject.firstName, sharingObject.lastName, sharingObject.email.trim());
+        var emailIsValid = helper.checkValidEmail(event.getSource(), email);
+        if(emailIsValid) {
+            if (email && communityService.isValidEmail(email.trim()) && sharingObject.sObjectType != 'Object') {
+                helper.doCheckContact(component, event, helper, null, null, email.trim());
+            }
+            if(isValid && sharingObject.sObjectType == 'Object' && sharingObject.firstName && sharingObject.lastName && sharingObject.email.trim()){
+                helper.doCheckContact(component, event, helper, sharingObject.firstName, sharingObject.lastName, sharingObject.email.trim());
+            }
         }
 
     },
