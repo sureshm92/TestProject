@@ -88,3 +88,14 @@ ResourceExpBatchScheduler.start();
 5.Setup-->Custom labels-->WelcomeEmail_DiscoverLogo-->update the value with same copied url address.
 6.Documents --> New-->fill the Document Name & Document Unique Name fields with text "TrackLogo"-->check Externally Available Image-->choose TrackLogo image from images folder-->click on Save-->right click on image--> Open image in new tab -> Copy the url address.
 7.Setup-->Custom labels-->WelcomeEmail_TrackLogo-->update the value with same copied url address.
+
+
+## 15.Language configuration for Resource record types 
+
+setup-->Object Manager-->in quick find search 'Resource'-->open Resource__c object-->Reord Types-->Article-->Picklists Available for Editing-->Language -->Add all languages from Available values to Selected Values-->Save
+
+Repeat this process for all other record types.
+
+
+## 16.Business Lead Profile Configuration
+1.setup-->Profiles-->Business Lead-->System Permissions-->Enable  "Manage Flow"	 permission-->Save 
