@@ -193,12 +193,12 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         hasErrors = true;
                         system.debug('ERROR:1 ' + totalRecordCount + ', ' + 'Invalid Email field');
                         
-                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'invalid field - Email');
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: invalid field - Email');
                     }else if(!regexIncludeMatcher.find()){
                         hasErrors = true;
                         system.debug('ERROR:2 ' + totalRecordCount + ', ' + 'Invalid Email field');
                         
-                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'invalid field - Email');
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: invalid field - Email');
                     }
                 }
 
