@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
- .THIS.tour-fixed-overlay {
+.THIS.tour-fixed-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -10,23 +10,23 @@
     right: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.85);
+    background-color: rgba(0, 0, 0, 0.85);
     display: flex;
     /*justify-content: center;
     align-items: center;*/
     visibility: visible;
     opacity: 1;
-    transition: .3s;
+    transition: 0.3s;
     z-index: 10000;
 }
 
-.THIS.tour-fixed-overlay.hidden{
+.THIS.tour-fixed-overlay.hidden {
     visibility: hidden;
     pointer-events: none;
     opacity: 0;
 }
 
-.THIS .tour-panel{
+.THIS .tour-panel {
     background-color: white;
     width: calc(100% - 20px);
     height: calc(100% - 100px);
@@ -42,12 +42,18 @@
 .THIS .tour-panel:before {
     height: 4px;
     width: 100%;
-    background-image: linear-gradient(to right, #250056 20%, #0076AE 48%, #0076AE 52%, #250056 100%);
+    background-image: linear-gradient(
+        to right,
+        #250056 20%,
+        #0076ae 48%,
+        #0076ae 52%,
+        #250056 100%
+    );
     content: '';
     display: block;
 }
 
-.THIS .tour-slides-container{
+.THIS .tour-slides-container {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -56,7 +62,7 @@
     margin-top: 10px;
 }
 
-.THIS .tour-info-container{
+.THIS .tour-info-container {
     flex-shrink: 0;
 }
 
@@ -65,14 +71,14 @@
     margin: 0 1rem;
 }
 
-.THIS .tour-buttons-continer{
+.THIS .tour-buttons-continer {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 10px;
     justify-content: center;
 }
 
-.THIS .tour-buttons-continer > .left{
+.THIS .tour-buttons-continer > .left {
     flex: 1;
     display: flex;
     align-items: center;
@@ -80,15 +86,15 @@
     white-space: nowrap;
 }
 
-.THIS .tour-btn-group{
-    margin: 10px 0
+.THIS .tour-btn-group {
+    margin: 10px 0;
 }
 
-.THIS .ti-width-limiter{
+.THIS .ti-width-limiter {
     width: 100%;
 }
 
-.THIS .tour-title{
+.THIS .tour-title {
     font-size: 20px;
     line-height: 40px;
     font-weight: 600;
@@ -96,28 +102,27 @@
     background-color: #fff;
 }
 
-.THIS .tour-slides-body{
+.THIS .tour-slides-body {
     flex: 1;
     width: 100%;
     margin-top: 1rem;
 }
 
-.THIS .tour-slides-carousel{
+.THIS .tour-slides-carousel {
     height: 100%;
 }
 
-.THIS .slide-area{
+.THIS .slide-area {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: stretch;
 }
 
-.THIS .slide-info-area{
-
+.THIS .slide-info-area {
 }
 
-.THIS .slide-title{
+.THIS .slide-title {
     font-size: 20px;
     font-weight: 600;
     line-height: 32px;
@@ -125,28 +130,28 @@
     margin-bottom: 10px;
 }
 
-.THIS .slide-sub-title{
+.THIS .slide-sub-title {
     font-size: 16px;
     font-weight: bold;
     line-height: 26px;
     margin-bottom: 10px;
 }
 
-.THIS .slide-body{
+.THIS .slide-body {
     font-size: 14px;
     line-height: 22px;
     min-height: 45px;
     white-space: pre-line;
 }
 
-.THIS .fit-image{
+.THIS .fit-image {
     max-width: 100%;
     max-height: 40vh;
     object-fit: contain;
     flex-shrink: 0;
 }
 
-.THIS .slide-img-content{
+.THIS .slide-img-content {
     width: calc(100% - 20px);
     height: 100%;
     max-width: 800px;
@@ -168,8 +173,8 @@
     border-radius: 8px;
     border: 1px solid #ffffff;
     background: white;
-    opacity: .3;
-    transition: opacity .3s;
+    opacity: 0.3;
+    transition: opacity 0.3s;
 }
 .THIS.slds-scope .sc-pagination__dot_selected {
     opacity: 1;
@@ -198,24 +203,24 @@
     }
 }
 
-@media all and (max-width: 500px){
-    .THIS .tour-title{
+@media all and (max-width: 500px) {
+    .THIS .tour-title {
         font-size: 1.25rem;
         line-height: 1.5rem;
         text-align: center;
         padding: 0;
     }
 
-    .THIS .slide-title{
+    .THIS .slide-title {
         margin-top: 10px;
         margin-bottom: 0;
     }
 
-    .THIS .slide-sub-title{
+    .THIS .slide-sub-title {
         margin-bottom: 0;
     }
 
-    .THIS .slide-body{
+    .THIS .slide-body {
         line-height: 18px;
     }
 
@@ -227,11 +232,11 @@
         margin: 1rem 0 0;
     }
 
-    .THIS .tour-btn-group button{
+    .THIS .tour-btn-group button {
         min-width: 50px;
     }
 
-    .THIS .tour-panel{
+    .THIS .tour-panel {
         width: calc(100% - 10px);
         height: 90vh;
         margin: 20px auto 0;
@@ -240,15 +245,15 @@
     .THIS .wt-scroller {
         height: 90vh;
         overflow-y: scroll;
-        padding: .5rem;
-        margin: 0 .5rem;
+        padding: 0.5rem;
+        margin: 0 0.5rem;
     }
 
-    .THIS .tour-pages{
-        margin: 5px
+    .THIS .tour-pages {
+        margin: 5px;
     }
 
-    .THIS.tour-fixed-overlay{
+    .THIS.tour-fixed-overlay {
         height: 100vh;
     }
 
@@ -279,7 +284,7 @@
 }
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-    .THIS .tour-slides-body{
+    .THIS .tour-slides-body {
         flex: none;
     }
 
@@ -288,8 +293,7 @@
     }
 }
 
-/* Added by krishna Mahto for REF-2162 */
 .THIS .slide-disclaimer {
-        margin-top: 15px;
-    	font-size: 12px;
-    }
+    margin-top: 15px;
+    font-size: 12px;
+}
