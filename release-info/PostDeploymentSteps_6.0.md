@@ -35,10 +35,15 @@ Open Setup - Custom Metadata Types > find Guides Setting and click on Manage Rec
 5. Save | Publish the changes in Community Builder
 6. Repeat the same steps from 1 to 5 to covid-19 community.
 
-## 7. RTL configurations
+## 6. RTL configurations
 1. Go to Setup - Language Settings - check Enable end user languages - add Arabic to displayed          languages.
 2. Go to Setup - Object Manager - Contact - fields - Language__c - Make picklist value Arabic(ar)       active.
-3. Go to Community Builder(IQVIA Referall Hub) - Go to Settings - Languages - Click Add Languages -     Add Arabic to  community Languages
+3. Go to Setup - Object Manager - Contact - fields - Second_Choice_Language__c - Make picklist value    Arabic(ar)  active.
+4. Go to Setup - Object Manager - Contact - fields - Third_Choice_Language__c - Make picklist value     Arabic(ar)  active.
+5. Go to Setup - Object Manager - Contact - Record type - MASTER record type - Language - Add           'Arabic' to selected values.
+6. Go to Setup - Object Manager - Contact - Record type - MASTER record type - 2nd Choice Language -    Add  'Arabic' to selected values.
+7. Go to Setup - Object Manager - Contact - Record type - MASTER record type - 3rd Choice Language -    Add  'Arabic' to selected values.
+8. Go to Community Builder(IQVIA Referall Hub) - Go to Settings - Languages - Click Add Languages -     Add Arabic to  community Languages
 
 ## 8. Profile Permissions
 1. Go to Setup - Object Manager - Click on Resource object - Click on Fields and Relationships - Click on Submitted By Field - Click on Set Field Level Security  - For Profiles (Business Lead,Business Admin,Product Owner) ,check Visible
