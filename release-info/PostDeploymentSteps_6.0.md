@@ -43,7 +43,7 @@ Open Setup - Custom Metadata Types > find Guides Setting and click on Manage Rec
 5. Go to Setup - Object Manager - Contact - Record type - MASTER record type - Language - Add           'Arabic' and 'Hebrew' to selected values.
 6. Go to Setup - Object Manager - Contact - Record type - MASTER record type - 2nd Choice Language -    Add  'Arabic' and 'Hebrew' to selected values.
 7. Go to Setup - Object Manager - Contact - Record type - MASTER record type - 3rd Choice Language -    Add  'Arabic' and 'Hebrew' to selected values.
-8. Go to Community Builder(IQVIA Referall Hub) - Go to Settings - Languages - Click Add Languages -     Add Arabic and Hebrew to community Languages
+8. Go to Community Builder(IQVIA Referall Hub) - Go to Settings - Languages - Click Add Languages -     Add Arabic and Hebrew to community Languages.
 
 ## 8. Profile Permissions
 1. Go to Setup - Object Manager - Click on Resource object - Click on Fields and Relationships - Click on Submitted By Field - Click on Set Field Level Security  - For Profiles (Business Lead,Business Admin,Product Owner) ,check Visible
