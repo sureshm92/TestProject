@@ -238,7 +238,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                         TriggerHandlerExecutor.bypassHandler(PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class); 
                     }
 
-                    system.debug('participantExisting>>'+participantExisting);
+                    system.debug('participantExisting>>'+participantExisting); 
                     if(cntList.isEmpty() || participantExisting == null){
                         insert ptDelegateRefs;
                     }
