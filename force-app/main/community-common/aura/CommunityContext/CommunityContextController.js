@@ -8,9 +8,6 @@
             'v.isRTL',
             rtl_language.includes(communityService.getLanguage())
         );
-        component.set(
-            'v.isMobileApp',
-            communityService.isCurrentSessionMobileApp()
-        );
+        component.set('v.isMobileApp', communityService.isMobileSDK());
     }
 });

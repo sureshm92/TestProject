@@ -391,4 +391,9 @@
         margin-top: 0;
     }
 
+    .THIS .p-header h2 {
+        width: 65%;
+        line-height: 1.25;
+    }
+
 }

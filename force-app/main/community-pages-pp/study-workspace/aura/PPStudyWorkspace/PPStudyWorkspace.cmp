@@ -290,52 +290,66 @@
 						<div
 							class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-resources', '', ' collapsed')}"
 						>
-							<aura:if
-								isTrue="{!and(v.studyDetail.trial.Study_Documents_Are_Available__c, v.state != 'ALUMNI')}"
-							>
-								<button
-									id="changeResourceMode"
-									data-resource-mode="Documents"
-									class="{!'apollo-btn text ' + if(v.resourceMode == 'Documents', ' current', '')}"
-									onclick="{!c.doAction}"
+								<aura:if
+									isTrue="{!and(v.studyDetail.trial.Study_Documents_Are_Available__c, v.state != 'ALUMNI')}"
 								>
-									{!$Label.c.Resource_Tab_Study_Documents}
-								</button>
-							</aura:if>
-							<aura:if
-								isTrue="{!or(v.state == 'ALUMNI', v.studyDetail.trial.Video_And_Articles_Are_Available__c)}"
-							>
-								<button
-									id="changeResourceMode"
-									data-resource-mode="Default"
-									class="{!'apollo-btn text ' + if(v.resourceMode == 'Default', ' current', '')}"
-									onclick="{!c.doAction}"
+									<aura:if isTrue="{!v.isRTL}">
+										<button
+											id="changeResourceMode"
+											data-resource-mode="Documents"
+											class="{!'apollo-btn text ' + if(v.resourceMode == 'Documents', ' current', '')}"
+											onclick="{!c.doAction}"
+											style="margin-right:150px"
+										>
+											{!$Label.c.Resource_Tab_Study_Documents}
+										</button>
+										<aura:set attribute="else">
+											<button
+												id="changeResourceMode"
+												data-resource-mode="Documents"
+												class="{!'apollo-btn text ' + if(v.resourceMode == 'Documents', ' current', '')}"
+												onclick="{!c.doAction}"
+												style="margin-left:160px"
+											>
+												{!$Label.c.Resource_Tab_Study_Documents}
+											</button>
+										</aura:set>
+									</aura:if>
+								</aura:if>
+								<aura:if
+									isTrue="{!or(v.state == 'ALUMNI', v.studyDetail.trial.Video_And_Articles_Are_Available__c)}"
 								>
-									{!$Label.c.Resource_Tab_Study_Video_And_Articles}
-								</button>
-								<button
-									id="changeResourceMode"
-									data-resource-mode="Favorite"
-									class="{!'apollo-btn text ' + if(v.resourceMode == 'Favorite', ' current', '')}"
-									onclick="{!c.doAction}"
-								>
-									{!$Label.c.Resource_Tab_Favorites}
-								</button>
-							</aura:if>
-							<aura:if isTrue="{!v.isRTL}">
-								<a
-									onclick="{!c.navigateToCoi}"
-									class="change-pref"
-									style="float: left"
-								>
-									{!$Label.c.PP_Change_Preferences_Resource}
-								</a>
-								<aura:set attribute="else">
-									<a onclick="{!c.navigateToCoi}" class="change-pref">
+									<button
+										id="changeResourceMode"
+										data-resource-mode="Default"
+										class="{!'apollo-btn text ' + if(v.resourceMode == 'Default', ' current', '')}"
+										onclick="{!c.doAction}"
+									>
+										{!$Label.c.Resource_Tab_Study_Video_And_Articles}
+									</button>
+									<button
+										id="changeResourceMode"
+										data-resource-mode="Favorite"
+										class="{!'apollo-btn text ' + if(v.resourceMode == 'Favorite', ' current', '')}"
+										onclick="{!c.doAction}"
+									>
+										{!$Label.c.Resource_Tab_Favorites}
+									</button>
+								</aura:if>
+								<aura:if isTrue="{!v.isRTL}">
+									<a
+										onclick="{!c.navigateToCoi}"
+										class="change-pref"
+										style="float: left"
+									>
 										{!$Label.c.PP_Change_Preferences_Resource}
 									</a>
-								</aura:set>
-							</aura:if>
+									<aura:set attribute="else">
+										<a onclick="{!c.navigateToCoi}" class="change-pref">
+											{!$Label.c.PP_Change_Preferences_Resource}
+										</a>
+									</aura:set>
+								</aura:if>
 						</div>
 					</div>
 
@@ -381,8 +395,8 @@
 						<aura:if
 							isTrue="{!and( v.state != 'ALUMNI', not( v.isDelegateMode))}"
 						>
-							<div class="resource-item">
-								<c:VisitSummaryReportLink
+						<div class="resource-item" style="{!if(v.isRTL, 'float:left;padding-left:60px;', '')}">
+							<c:VisitSummaryReportLink
 									peId="{!v.studyDetail.pe.Id}"
 									inTrialSummaryReport="true"
 								/>

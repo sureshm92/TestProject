@@ -106,7 +106,7 @@
                 <field>Participant_Status_Last_Changed_Date__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Readonly</behavior>
                 <field>Last_Status_Changed_Notes__c</field>
             </layoutItems>
             <layoutItems>

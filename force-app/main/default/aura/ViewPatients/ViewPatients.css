@@ -6,7 +6,6 @@
 }
 .THIS .vp-navigation{
     margin-bottom: 15px;
-    padding-left: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -57,18 +56,43 @@
     fill: black;
 }
 
+.THIS .vp-navigate-btn {
+    display: inline-block;
+    margin-left: 13px;
+}
 
 @media all and (max-width: 767px) {
+
     .THIS {
         padding-bottom: 0;
     }
+
+    .THIS .vp-navigate-btn {
+        margin-top: 15px!important;
+        padding-left: 0;
+    	margin-bottom: 15px;
+    }
     
+}
+.THIS .vp-navigate-btn
+{
+    display: inline-block;
+    margin-left: 13px;
 }
 
 @media all and (max-width: 500px) {
-    .THIS .vp-navigation {
+    .THIS .vp-navigate-btn {
         margin-top: 15px!important;
         padding-left: 0;
+        margin-bottom: 15px;
+    }
+    
+}
+@media all and (max-width: 767px) {
+    .THIS .vp-navigate-btn {
+        margin-top: 15px!important;
+        padding-left: 0;
+    	margin-bottom: 15px;
     }
     
 }

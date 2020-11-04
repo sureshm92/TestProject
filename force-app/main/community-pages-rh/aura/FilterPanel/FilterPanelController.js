@@ -10,5 +10,9 @@
     },
       onClickListView: function (component, event, helper){
         communityService.navigateToPage('listviewparticipant');
-    }
+    },
+    doExportFull: function (component) {
+        var p = component.get("v.parent");
+        p.export();
+    },
 })

@@ -86,10 +86,10 @@
     
     
     doUpdate: function (component, event, helper) {
-           var participant = component.get('v.participant');
+        var participant = component.get('v.participant');
         var pe = component.get('v.pe');
         var usermode = communityService.getUserMode();
-         //pe.Permit_IQVIA_to_contact_about_study__c = !component.get('v.doNotContact');
+        //pe.Permit_IQVIA_to_contact_about_study__c = !component.get('v.doNotContact');
         pe.Permit_Mail_Email_contact_for_this_study__c = component.get('v.isEmail');
         pe.Permit_Voice_Text_contact_for_this_study__c = component.get('v.isPhone');
         pe.Permit_SMS_Text_for_this_study__c = component.get('v.isSMS');
@@ -105,7 +105,7 @@
         // if(component.get('v.isInvited')){
         //     communityService.executeAction(component, 'updateUserLanguage', {userJSON: JSON.stringify(userInfo)})
         // }
-                communityService.executeAction(component, 'updatePatientInfoWithDelegate', {
+        communityService.executeAction(component, 'updatePatientInfoWithDelegate', {
             participantJSON: JSON.stringify(participant),
             peJSON: JSON.stringify(pe),
             delegateJSON: JSON.stringify(component.get('v.participantDelegate')),
@@ -176,12 +176,45 @@
         console.log('##Save isStatusChanged1: '+ isStatusChanged);
         console.log('##Save statusDetailValid: '+statusDetailValid);
         let steps = component.get('v.participantPath.steps');
+        var notesToBeAdded = false;
+        var outcome = null;
+        var isIniVisCurrentStep = false;
+        var nextStepNeutral = false;
+        var nextOutcome = null;
         for (let ind = 0; ind < steps.length; ind++) {
+            if(steps[ind].isCurrentStepValid 
+               && steps[ind].isCurrentStep){
+                if(steps[ind].notes !='' && steps[ind].notes!=null){
+                    notesToBeAdded = true;
+                }
+                if(ind >0 && (steps[ind].outcome == undefined || steps[ind].outcome == null)){
+                    outcome = steps[ind-1].outcome;
+                }else{
+                outcome = steps[ind].outcome;
+                }
+                
+            }
             if (steps[ind].title == $A.get('$Label.c.PWS_Initial_Visit_Name') 
                 && steps[ind].isCurrentStepValid 
                 && steps[ind].isCurrentStep) {
                 isStatusChanged = true;
+                isIniVisCurrentStep = true;
+                if(ind + 1 < steps.length && steps[ind+1].state =='neutral'){ 
+                    nextStepNeutral = true;
+                }else if(ind + 1 < steps.length && steps[ind+1].state !='neutral'){ 
+                	nextOutcome = steps[ind+1].outcome;
+                }
                 break;
+            }
+        }
+        if(isStatusChanged && !isIniVisCurrentStep){
+            notesToBeAdded = false;
+        }
+        if(isIniVisCurrentStep && !nextStepNeutral){
+            if(nextOutcome!=null){
+                outcome = nextOutcome;
+            }else{ 
+                outcome = null; 
             }
         }
         console.log('##Save isStatusChanged2: '+ isStatusChanged);
@@ -217,7 +250,9 @@
                 peId: pe.Id,
                 delegateJSON: JSON.stringify(component.get('v.participantDelegate')),
                 userInfoJSON: JSON.stringify(userInfo),
-                historyToUpdate : isStatusChanged 
+                historyToUpdate : isStatusChanged,
+                notesToBeAdded: notesToBeAdded,
+                outcome:outcome
             };
         }
         communityService.executeAction(component, actionName, actionParams , function () {
@@ -233,11 +268,11 @@
                 cmpEvent.setParams({"searchKey" : component.get("v.searchKey")}); 
                 cmpEvent.fire(); 
             }
-             if(component.get('v.isListView') == true)
+            if(component.get('v.isListView') == true)
             {
                 var p = component.get("v.parent");
                 p.refreshTable();
-            }
+            }            
             comp.hide();
         }, null, function () {
             component.set('v.isStatusChanged', false);
@@ -261,12 +296,45 @@
         var isStatusChanged = component.get('v.isStatusChanged');
         console.log('##isStatusChanged1: '+ isStatusChanged);
         let steps = component.get('v.participantPath.steps');
+        var notesToBeAdded = false;
+        var outcome = null;
+        var isIniVisCurrentStep = false;
+		var nextStepNeutral = false;
+        var nextOutcome = null;
         for (let ind = 0; ind < steps.length; ind++) {
+            if(steps[ind].isCurrentStepValid 
+               && steps[ind].isCurrentStep){
+                if(steps[ind].notes !='' && steps[ind].notes!=null){
+                    notesToBeAdded = true;
+                }
+                if(ind >0 && (steps[ind].outcome == undefined || steps[ind].outcome == null)){
+                    outcome = steps[ind-1].outcome;
+                }else{
+                outcome = steps[ind].outcome;
+                }
+                
+            }
             if (steps[ind].title == $A.get('$Label.c.PWS_Initial_Visit_Name') 
                 && steps[ind].isCurrentStepValid 
                 && steps[ind].isCurrentStep) {
                 isStatusChanged = true;
+                isIniVisCurrentStep = true;
+                if(ind + 1 < steps.length && steps[ind+1].state =='neutral'){ 
+                    nextStepNeutral = true;
+                }else if(ind + 1 < steps.length && steps[ind+1].state !='neutral'){ 
+                	nextOutcome = steps[ind+1].outcome;
+                }
                 break;
+            }
+        }
+        if(isStatusChanged && !isIniVisCurrentStep){
+            notesToBeAdded = false;
+        }
+        if(isIniVisCurrentStep && !nextStepNeutral){
+            if(nextOutcome!=null){
+                outcome = nextOutcome;
+            }else{ 
+                outcome = null; 
             }
         }
         console.log('##isStatusChanged2: '+ isStatusChanged);
@@ -283,7 +351,9 @@
             communityService.executeAction(component, actionName, {
                 pathWrapperJSON: JSON.stringify(pathWrapper),
                 peId: pe.Id,
-                historyToUpdate: isStatusChanged
+                historyToUpdate: isStatusChanged,
+                notesToBeAdded: notesToBeAdded,
+                outcome:outcome
             }, function (returnValueJSON) {
                 var returnValue = JSON.parse(returnValueJSON);
                 component.set('v.updateInProgress', true);
@@ -303,7 +373,7 @@
                 {
                     var p = component.get("v.parent");
                     p.refreshTable();
-                }
+                }   
             }, null, function () {
                 component.set('v.updateInProgress', false);                
                 component.set('v.isStatusChanged', false);

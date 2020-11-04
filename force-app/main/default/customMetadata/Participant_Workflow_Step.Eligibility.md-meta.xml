@@ -3,6 +3,10 @@
     <label>Eligibility</label>
     <protected>false</protected>
     <values>
+        <field>Additional_Notes_For_Statuses__c</field>
+        <value xsi:type="xsd:string">;Successfully Contacted;Eligibility Failed;</value>
+    </values>
+    <values>
         <field>Card_Name_Label__c</field>
         <value xsi:type="xsd:string">PWS_Eligibility_Card_Name</value>
     </values>

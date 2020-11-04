@@ -77,7 +77,7 @@
     
     exportAll: function (component, event, helper) {
       //  component.set('v.CsvList','');
-        component.set("v.startPos", 1);
+        component.set("v.startPos", 0);
         component.set("v.endPos", 45000);
         component.set("v.totalCount", 45000);
         component.set("v.counterLimit", 45000);

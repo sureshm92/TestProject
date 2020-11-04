@@ -1,7 +1,7 @@
 <!--Created by Deeksha on 27.05.2020-->
 <aura:component controller="AccountSettingsController" description="AccountSettings">
     
-    <!-- attributes: -->
+    <!-- attributes:  -->
     <aura:attribute name="initData" type="Object" access="private"/>
     <aura:attribute name="userMode" type="String" required="true"/>
     <aura:attribute name="isDelegate" type="Boolean"/>
@@ -269,14 +269,34 @@
                         <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-small-size_1-of-2">
                                 <aura:if isTrue="{!not(v.isDelegate)}">
-                                        <lightning:input aura:id="pField" type="email" label="{!$Label.c.PG_AS_F_Email_address}" value="{!v.contact.Email}" onblur="{!c.doCheckFieldsValidity}" placeholder="{!$Label.c.PG_AS_F_Email_address}"/>
+                                    
+                                   <!-- <div class="label">{!$Label.c.PG_AS_F_Email_address}</div> -->
+                                    
+                                     <lightning:input aura:id="emailInput" type="text"
+                                                      label="{!$Label.c.PG_AS_F_Email_address}"
+                                                      value="{!v.contact.Email}"
+                                         			  onblur="{!c.doCheckEmailFieldValidity}"
+                                                      messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
+                                                      
+                                       />
+                                    
+                                   <!-- <c:rrInput valueString="{!v.contact.Email}"
+                                               placeholder="{!$Label.c.PG_AS_F_Email_address}" isSaveBtnDisable="{!v.disableSave}"/> -->
                                 </aura:if>
                                 
                                 <aura:if isTrue="{!(v.isDelegate)}">
                                     <div class="label">{!$Label.c.PG_AS_F_Email_address}</div>
-                                    
-                                    <c:rrInput valueString="{!v.contact.Email}"
-                                               placeholder="{!$Label.c.PG_AS_F_Email_address}" disabled="true"/>          
+                                       <lightning:input aura:id="emailInput1" type="text"
+                                                      label="{!$Label.c.PG_AS_F_Email_address}"
+                                                      value="{!v.contact.Email}"
+                                         			  onblur="{!c.doCheckEmailFieldValidity}"
+                                                        disabled="true"
+                                                      
+                                       />
+                                   <!-- <c:rrInput valueString="{!v.contact.Email}"
+                                               placeholder="{!$Label.c.PG_AS_F_Email_address}" 
+                                               onblur="{!c.doCheckFieldsValidity}"
+                                               disabled="true"/> -->         
                                 </aura:if>
                             </div>
                             

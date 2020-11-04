@@ -68,7 +68,7 @@ window.communityService = (function () {
                 console.log('CommunityService initialized:');
                 console.log('is TC accepted: ' + isTCAcceptedFlag);
                 console.log('URL path prefix: ' + communityURLPathPrefix);
-                console.log('isMobileApp: '+isMobileApp);
+                //console.log('isMobileApp: '+isMobileApp);
                 component.init();
                 if (!service.isTCAccepted() && service.getPageName() !== 'terms-and-conditions') {
                     service.navigateToPage('terms-and-conditions?ret=' + service.createRetString());
@@ -185,10 +185,10 @@ window.communityService = (function () {
 
         setCurrentCommunityMode: function(mode, page, init){
             currentUserMode = mode;
-            service.setThemeCSS();
             let redirectURL = mode.template.redirectURL;
             if(page) redirectURL += '/s/' + page;
             if(!init && !isDummy && mode.template.needRedirect) document.location.href = redirectURL;
+            service.setThemeCSS();
         },
 
         getMessagesVisible : function () {
@@ -522,7 +522,7 @@ window.communityService = (function () {
             paramsJSON = paramsJSON.replace(/</g, "&lt;").replace(/>/g, "&gt;");
             return JSON.parse(paramsJSON);
         },
-
+        //depricated - use isMobileSDK
         isCurrentSessionMobileApp: function() {
             return isMobileApp;
         },
@@ -530,9 +530,33 @@ window.communityService = (function () {
         isMobileSDK: function() {
             if(/SalesforceMobileSDK/.test( navigator.userAgent)) { 
                 return true;
-            } else {
-                return false;
             }
+            return false;
+        },
+
+        isMobileOS: function() {
+            if(/android|iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase()) ) {
+                return true;
+            } 
+            return false;
+        },
+
+        preLoginPageRedirection: function(currentUrl, redirectPage){
+            let urlEvent = $A.get('e.force:navigateToURL');
+            let redirectUrl = '';
+            if (currentUrl.includes('janssen')) {
+                redirectUrl = window.location.origin + '/janssen/s/' + redirectPage;
+            } else if (currentUrl.includes('gsk')) {
+                redirectUrl =  window.location.origin + '/gsk/s/' + redirectPage;
+            } else if (currentUrl.includes('Covid19')) {
+                redirectUrl =  window.location.origin + '/Covid19/s/' + redirectPage;
+            } else {
+                redirectUrl =  window.location.origin + '/s/' + redirectPage;
+            }
+            urlEvent.setParams({
+                url: redirectUrl
+            });
+            urlEvent.fire();
         }
     };
 

@@ -3,7 +3,7 @@
     <aura:attribute name="isRTL" type="Boolean" />
     <!-- component body: -->
     <div class="all-content" style="{!'background-image: linear-gradient(135deg, #25095b 0%,#176ba4 100%);'}">
-        <div class="body-cell" style="{!if(v.isRTL == true, 'direction:rtl', '')}">
+        <div class="body-cell" style="{!if(v.isRTL == true, 'direction:rtl;overflow-x: hidden;', '')}">
             <div class="logo-block">
                 <div class="rr-small-down-hide slds-grid slds-wrap slds-gutters">
                     <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-2">
