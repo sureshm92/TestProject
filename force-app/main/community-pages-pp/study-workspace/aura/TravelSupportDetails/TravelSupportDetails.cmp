@@ -2,7 +2,7 @@
  - Created by Yulia Yakushenkova on 1/20/2020.
  -->
 
-<aura:component description="TravelSupportDetails" controller="TravelSupportRemote">
+ <aura:component description="TravelSupportDetails" controller="TravelSupportRemote" extends="c:CommunityContext">
 
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
@@ -18,7 +18,7 @@
     <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <c:RRSpinner aura:id="spinner" size="medium" showSpinner="true" fixed="true"/>
     <div class="{!'sv-body ' + if(v.initialized, '', 'hidden')}" data-gtm="PNL_Travel_Support_Details">
-        <div class="tt-title">
+        <div class="tt-title" style="{!v.isRTL? 'margin-right:10px':''}">
             {!$Label.c.Home_Page_Travel_Support_Details_Tab}
         </div>
         <div class="select-container">
@@ -70,7 +70,7 @@
 
                                         <c:RRIcon class="icon-item svl-icon" iconName="{!travelWrapper.icon}"/>
                                     </div>
-                                    <div style="padding-left: 3px">{!travelWrapper.title}</div>
+                                    <div style="{!v.isRTL? 'padding-right:3px':'padding-left: 3px'}">{!travelWrapper.title}</div>
                                 </div>
                             </td>
                             <td class="sv-t-status">
@@ -79,7 +79,7 @@
                                     <c:RRIcon class="icon-item svl-icon"
                                               iconName="{!travelWrapper.statusIcon}"
                                               color="{!travelWrapper.bgc}"/>
-                                    <div style="padding-left: 5px"> {!travelWrapper.status} </div>
+                                    <div style="{!v.isRTL? 'padding-right:5px':'padding-left: 5px'}"> {!travelWrapper.status} </div>
                                 </div>
                             </td>
                             <td class="sv-t-date">
