@@ -26,6 +26,11 @@
         <label>Arabic</label>
     </customValue>
     <customValue>
+        <fullName>iw</fullName>
+        <default>false</default>
+        <label>Hebrew</label>
+    </customValue>
+    <customValue>
         <fullName>de</fullName>
         <default>false</default>
         <isActive>false</isActive>
