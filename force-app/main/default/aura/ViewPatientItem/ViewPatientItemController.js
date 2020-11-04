@@ -55,6 +55,11 @@
             rootComponent.refresh();
 
         });
+    },
+    closeCard: function(component, event, helper){
+        component.set("v.isHidden",false);
+        var appEvent = $A.get("e.c:ViewMore");
+        appEvent.fire();
     }
 
 })
