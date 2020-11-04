@@ -103,6 +103,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             Map<String, Participant__c> newParticipantsMap = new Map<String, Participant__c>();
             Map<String, ContactAndSiteType> newDelegateContactsMap = new Map<String, ContactAndSiteType>();
             Integer limitRows = Limits.getLimitQueryRows() - Limits.getQueryRows();
+            Participant__c participantExisting;
             Account participantAccount = [SELECT Id FROM Account WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE ];
             
             for(Ethnicity_Mapping_Participant__mdt objMT : [SELECT Ethnicity_Code__c,Ethnicity_Description__c 
@@ -124,6 +125,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             for (Integration_Patient_Referral__c ipr : newList) {
                 Participant__c participant = newParticipantsMap.get(ipr.referralID__c);
                 Participant__c participantDuplicate = duplicateService.findDuplicate(participant);
+                participantExisting = duplicateService.findDuplicate(participant);
                 if (participantDuplicate != null) {
                     String refSourceStr = participantDuplicate.Secondary_Source__c;
                     if (refSourceStr == null) refSourceStr = '';
@@ -236,7 +238,10 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                         TriggerHandlerExecutor.bypassHandler(PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class); 
                     }
 
-                    insert ptDelegateRefs;
+                    system.debug('participantExisting>>'+participantExisting); 
+                    if(cntList.isEmpty() || participantExisting == null){
+                        insert ptDelegateRefs;
+                    }
                 }
                 if (!delegateUsersToCreate.isEmpty()) {
                     ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(delegateUsersToCreate);
