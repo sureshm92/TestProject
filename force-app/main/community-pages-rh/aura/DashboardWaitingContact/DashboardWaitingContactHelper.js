@@ -2,28 +2,62 @@
  * Created by Leonid Bartenev
  */
 ({
-    // Method Name : callServerMethod
-    // Parameters  : component, event, helper
-    // Description : Calling the server apex method for 
-    // 				initiating records while loading the components and load the data.
-    callServerMethod : function(component, event){
-         var rootComponent = component.get('v.parent');
-        communityService.executeAction(component, 'prepareAwaitingContactList', {
-            userMode:communityService.getUserMode(),
-            delegateId:communityService.getDelegateId(),
+    callServerMethod : function(component, event,helper)
+    {
+        component.set("v.loaded", true);                
+        var action = component.get("c.prepareAwaitingContactList");
+        action.setParams
+        ({
             piId:component.get('v.currentPi'),
-            ctpId:component.get('v.currentStudy')
-        }, function (returnValue) {
-            returnValue = JSON.parse(returnValue);
-            component.set('v.peList', returnValue);
-            component.set('v.recordLength', returnValue.length);
-        });        
+            ctpId:component.get('v.currentStudy'),
+        });
+        action.setCallback(this, function(response) 
+        {
+            var state = response.getState();
+            if (state === "SUCCESS" ) 
+            {
+                component.set('v.peList', response.getReturnValue());
+                component.set("v.loaded", false);                
+            }
+            else
+            {
+                helper.showError(component, event, helper, action.getError()[0].message);
+            }
+        });
+        $A.enqueueAction(action);       
     },
-    // Method Name : callServerMethod
-    // Parameters  : component, event, helper
-    // Description : This method is used to open the actionparticipantinformation component,
-    // 				 It will open the model and user can save participant record.
-    showEditParticipantInformation : function(component, event, helper){
+
+    showError : function(component, event, helper, errorMsg) 
+    {
+        var toastEvent = $A.get("e.force:showToast");
+        toastEvent.setParams({
+            message: errorMsg,
+            duration:'400',
+            type: 'error'
+        });
+        toastEvent.fire();
+    },
+
+    /*totalAwaitingContactedList : function(component) 
+    {
+        var action = component.get("c.totalPrepareAwaitingContacts");
+        action.setParams
+        ({
+            piId:component.get('v.currentPi'),
+            ctpId:component.get('v.currentStudy'),
+        });
+        action.setCallback(this, function(response) {
+            var state = response.getState();
+            if (state === "SUCCESS" ) {
+                var resultData = response.getReturnValue();
+                component.set("v.recordLength", resultData);                
+            }
+        });
+        $A.enqueueAction(action);
+    },*/
+    
+    showEditParticipantInformation : function(component, event, helper)
+    {
         var rootComponent = component.get('v.parent');
         rootComponent.find('mainSpinner').show();
         communityService.executeAction(component, 'getParticipantData', {
@@ -32,10 +66,6 @@
             participantId:event.currentTarget.id
         }, function (returnValue) {
             returnValue = JSON.parse(returnValue);
-            component.set('v.peStatusesPathList', returnValue.peStatusesPathList);
-            component.set('v.pe', returnValue.currentPageList[0].pItem.pe);
-            component.set('v.peStatusStateMap', returnValue.peStatusStateMap);
-           // helper.preparePathItems(component);
             rootComponent.find('mainSpinner').hide();
             rootComponent.find('updatePatientInfoAction').execute(returnValue.currentPageList[0].pItem.pe,  returnValue.currentPageList[0].actions, rootComponent, returnValue.isInvited, function (enrollment) {
                 rootComponent.refresh();
@@ -45,50 +75,4 @@
             component.set('v.recordChanged',''); 
         });    
 	},
-    
-    preparePathItems: function (component) {
-        var statuses = component.get('v.peStatusesPathList');
-        var pe = component.get('v.pe');
-        var statusesMap = component.get('v.peStatusStateMap');
-        var currentPEState = statusesMap[pe.Participant_Status__c];
-        component.set('v.showPath', currentPEState !== undefined );
-        component.set('v.userMode', communityService.getUserMode());
-        var additionalName = [];
-        if (pe.Participant_Name__c) additionalName.push(pe.Participant_Name__c);
-        if (pe.Participant_Surname__c) additionalName.push(pe.Participant_Surname__c);
-        if (additionalName.length > 0) component.set('v.peAdditionalName', additionalName.join(' '));
-        var pathList = [];
-        var iconMap = {
-            success: 'icon-check',
-            failure: 'icon-close',
-            neutral: 'icon-minus',
-            in_progress: 'icon-minus'
-        };
-        for (var i = 0; i < statuses.length; i++) {
-            var num = i + 1;
-            //default values for path item:
-            var pathItem = {
-                name: statuses[i],
-                state: 'neutral',
-                left: 'neutral'
-            };
-            if (currentPEState) {
-                if (num < currentPEState.order) {
-                    pathItem.left = 'success';
-                    pathItem.state = 'success';
-                } else if (num === currentPEState.order) {
-                    pathItem.left = currentPEState.state;
-                    pathItem.state = currentPEState.state;
-                    pathItem.isCurrent = true;
-                }
-            }
-            pathItem.iconName = iconMap[pathItem.state];
-            pathList.push(pathItem);
-            if (i > 0) {
-                pathList[i - 1].right = pathItem.left;
-                pathList[i - 1].nextState = pathItem.state;
-            }
-        }
-        component.set('v.pathItems', pathList);
-    }
 })
