@@ -20,7 +20,7 @@
     </values>
     <values>
         <field>Language__c</field>
-        <value xsi:type="xsd:string">en_US_G</value>
+        <value xsi:type="xsd:string">en_US</value>
     </values>
     <values>
         <field>PI_Quick_Reference__c</field>
