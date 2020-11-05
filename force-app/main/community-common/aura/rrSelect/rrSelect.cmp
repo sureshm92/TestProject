@@ -1,7 +1,7 @@
 <!--
  - Created by D.Yasinsky on 15.03.2018.
  -->
-<aura:component description="rrSelect">
+ <aura:component description="rrSelect" extends="c:CommunityContext">
     
     <!-- attributes: -->
     <aura:attribute name="value" type="String" default="null" required="true"/>
@@ -35,7 +35,7 @@
     </aura:method>
 
     <!-- component body: -->
-    <div id="{!v.id}" class="{!'rrs-container ' + v.class}" title="{!v.title}">
+    <div id="{!v.id}" class="{!'rrs-container ' + v.class}" style="{!v.isRTL? 'margin-right:1%':''}" title="{!v.title}">
 
         <aura:if isTrue="{!!empty(v.label)}">
             <div class="rrs-label">

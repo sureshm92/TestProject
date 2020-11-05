@@ -4472,11 +4472,9 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient1 New</shortDescription>
-        <value>&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Thank you for your interest in the ##StudyName. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the study team will contact you regarding the next steps in the enrollment process. &lt;/p&gt;
-Further information on the ##ShortCommunityName can be found in the Informed Consent Form from your study center.
+        <value>&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Thank you for your interest in the ##StudyName. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the study team will contact you regarding the next steps in the enrollment process. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Further information on the ##ShortCommunityName can be found in the Informed Consent Form from your study center.
 
-Your user name is ##UserName.
-&lt;/div&gt;</value>
+Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient2</fullName>
@@ -15095,7 +15093,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Emergency</shortDescription>
-        <value>If you have a medical emergency,please contact your local emergency services.</value>
+        <value>If you have a medical emergency, please contact your local emergency services.</value>
     </labels>
     <labels>
         <fullName>PP_File_Size_Exceeded</fullName>
@@ -16458,8 +16456,8 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RTL Languages</shortDescription>
-        <value>ar, ur</value>
-    </labels>
+        <value>ar, ur, iw</value>   
+    </labels>   
     <labels>
         <fullName>Received</fullName>
         <language>en_US</language>
