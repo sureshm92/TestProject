@@ -20,11 +20,22 @@
     display:flex;
     justify-content: space-between;
     margin-bottom: 1.5rem;
+	align-items: center;
 }
 
-@media all and (max-width: 360px) {
-    .THIS.ListViewHead  span:first-child {
-        width: 40%
-    }
-    
+.THIS.ListViewHead > span:first-child {
+	font-size: 13px;
+	font-weight: 600;
+	color: #000;
+	line-height: 1;
+}
+
+@media all and (max-width: 500px) {
+	.THIS.ListViewHead {
+		margin-top: 12px;
+	}
+
+	.THIS.ListViewHead span:last-child a {
+		white-space: nowrap;
+	}
 }

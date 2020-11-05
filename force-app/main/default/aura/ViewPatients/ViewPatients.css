@@ -71,6 +71,7 @@
         margin-top: 15px!important;
         padding-left: 0;
     	margin-bottom: 15px;
+        white-space: nowrap;
     }
     
 }
