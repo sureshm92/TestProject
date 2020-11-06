@@ -18,13 +18,29 @@
     line-height: inherit !important;
 }
 .THIS .rightAlign .slds-input__icon_right{
-    margin-right:10.9rem;
+    margin-right:12.5rem;
+}
+.THIS .rightAlign1 .slds-datepicker table {
+    table-layout: fixed;
+    width: 300px;
+}
+.THIS .rightAlign1 .slds-input {
+    padding-right:2px;
+}
+.THIS .rightAlign1 .slds-datepicker .slds-day{
+    width: auto !important;
+    min-width: auto !important;
+    height: auto !important;
+    line-height: inherit !important;
+}
+.THIS .rightAlign1 .slds-input__icon_right{
+    margin-right:10.5rem;
 }
 .THIS .task-rtl-remind{
     
     direction:rtl !important;
     text-align:right; 
-
+    margin-left:416px;
 }
 
 .THIS .rr-white-panel {
