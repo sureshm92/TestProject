@@ -193,7 +193,7 @@
     display: flex;
     justify-content: flex-end;
     padding: 0;
-    margin: 0 .5rem 1rem 0;
+    margin: 1rem .5rem 1rem 0;
 }
 
 .THIS .vpi-status-btns > div {
@@ -209,6 +209,48 @@
     min-width: 100%;
     display: inline-flex;
     justify-content: flex-end;
+}
+
+.THIS .vpi-status-btns span button {
+    margin-left: 15px;
+}
+
+.THIS .vpi-status-btns a.slds-show > span {
+    position: relative;
+    padding-left: 20px;
+}
+
+.THIS .vpi-status-btns a.slds-show > span:before {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-bottom: 2px solid #0768fd;
+    border-left: 2px solid #0768fd;
+    transform: rotate(135deg);
+    left: 2px;
+    top: 8px
+}
+
+.THIS a.cParticipantCardFields > span {
+    position: relative;
+    padding-left: 20px;
+}
+
+.THIS a.cParticipantCardFields > span:before {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-bottom: 2px solid #0768fd;
+    border-left: 2px solid #0768fd;
+    transform: rotate(-45deg);
+    left: 2px;
+    top: 4px
 }
 
 @media all and (min-width: 1024px) {
@@ -271,11 +313,16 @@
 @media all and (max-width: 500px){
     
     .THIS.rr-white-panel {
-    	padding: 1rem 1rem 0;    
+    	padding: 1rem;
     }
     
     .THIS .vpi-status-btns>.slds-small-size_6-of-12 {
-        padding: 0;
+        padding: 15px 0 0;
+        flex-direction: column-reverse;
+    }
+
+    .THIS .vpi-status-btns span button {
+        margin-left: 0;
     }
     
     .THIS .vpi-status-btns {
