@@ -1,4 +1,9 @@
-## I. Post-Deployment steps:
+## I. Pre-Deployment steps:
+
+## 1. Add RTL languages
+Go to Setup - Language Settings - Add Arabic and hebrew to displayed languages.
+
+## II. Post-Deployment steps:
 
 ## 1. Publish Community
 Go to Setup - All communities - Click builder near GSK Community - Click Publish
