@@ -2,6 +2,7 @@
 
 ## 1. Add RTL languages
 Go to Setup - Language Settings - Add Arabic and hebrew to displayed languages.
+Go to Setup - Picklist value sets - languages - New - Add Hebrew and save- edit the api name to 'iw'.
 
 ## II. Post-Deployment steps:
 
