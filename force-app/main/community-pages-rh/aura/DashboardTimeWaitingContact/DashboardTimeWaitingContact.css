@@ -67,6 +67,11 @@
     display: flex;
 }
 
+.THIS .showMore{
+    font-size: 18px;
+    color: #297dfd;
+    font-weight: 600;   
+}
 
 @media all and (max-width: 768px) {
 
@@ -146,4 +151,14 @@
         top: 0;
         right: 1.5rem;
     }
+}
+
+
+.THIS.exampleHolder{
+    position: relative;
+    display: inline-block;
+    margin-left: 15px;
+    width: 55px;
+    vertical-align: middle;
+    white-space: nowrap;    
 }

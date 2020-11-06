@@ -7,7 +7,7 @@
 
         if (!communityService.isDummy()) {
             let spinner = component.find('mainSpinner');
-            spinner.show();
+            // spinner.show();
             if (communityService.getUserMode() === 'Participant') communityService.navigateToPage('');
             component.set('v.userMode', communityService.getUserMode());
 
@@ -36,7 +36,7 @@
                     component.set('v.hcpData', responseData);
                 }
                 component.set('v.isInitialized', true);
-                spinner.hide();
+               //spinner.hide();
             });
         } else {
             component.find('builderStub').setPageName(component.getName());

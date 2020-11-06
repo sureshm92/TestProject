@@ -1,27 +1,25 @@
 <!--
  - Created by Alexey Moseev.
- - Updated by Sumit Surve.
+ - Updated by Sumit/Sabir/Mari.
  -->
 
- <aura:component description="DashboardPINew" controller="DashboardRemoteNew"> 
+ <aura:component description="DashboardPINew" controller="DashboardRemoteNew">  
 
-    <!-- attributes: -->
+    <!-- attributes: -->	
     <aura:attribute name="piData" type="Object"/>
     <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="delegatePIPicklistvalues" type="List"/>
     <aura:attribute name="currentPi" type="String"/>
-    <aura:attribute name="currentStudy" type="String"/>
+	<aura:attribute name="currentStudy" type="String"/>
     <aura:attribute name="piCTPPicklist" type="LabelValueItem[]"/>
     <aura:attribute name="totalSSCount" type="String"/>
     <aura:attribute name="usermode" type="String"/>
     <aura:attribute name="communityTemplate" type="String"/>
     <aura:attribute name="isParticipantDisplay" type="boolean" default="false"/>
     <aura:attribute name="isRecordChanged" type="String" default="" access="public"/>
-     
-
+    
+    <!-- handler -->
     <aura:handler name="init" value="{!this}" action="{!c.doinit}"/>
-    <!--<aura:registerEvent name="leaderboardEvent" type="c:EventLeaderboardRefreshed"/>-->
-
 
     <!-- component body: -->
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="false" fixed="true"/>
@@ -41,13 +39,13 @@
     </div> 
     <div class="slds-grid slds-wrap db-section">
 		<div class="slds-col slds-size--1-of-2">  
-            <c:DashboardWaitingContact childLoad="{!v.currentStudy+v.currentPi}" currentStudy ="{!v.currentStudy}" currentPi ="{!v.currentPi}" dashboardTitle="{!'' + v.piData.participantsWaitingContact + ' ' + $Label.c.PG_DBPI_L_Referrals_waiting_for_contact}" parent="{!v.parent}" recordChanged="{!v.isRecordChanged}" />
+            <c:DashboardWaitingContact childLoad="{!v.currentStudy+v.currentPi}" currentStudy ="{!v.currentStudy}" currentPi ="{!v.currentPi}" dashboardTitle="{!$Label.c.PG_DBPI_L_Referrals_waiting_for_contact}" parent="{!v.parent}" recordChanged="{!v.isRecordChanged}" />
         </div>
         <div class="slds-col slds-size--1-of-2">
-            <c:DashboardTimeWaitingContact childLoad="{!v.currentStudy+v.currentPi}" currentStudy ="{!v.currentStudy}" currentPi ="{!v.currentPi}" dashboardTitle="{!$Label.c.PG_DBPI_L_Referrals_waiting_for_first_contact}" parent="{!v.parent}" recordChanged="{!v.isRecordChanged}" />
+            <c:DashboardTimeWaitingContact childLoad="{!v.currentStudy+v.currentPi}" currentStudy ="{!v.currentStudy}" currentPi ="{!v.currentPi}" dashboardTitle="{!$Label.c.PG_DBPI_L_Referrals_waiting_for_first_contact}" recordChanged="{!v.isRecordChanged}" />
         </div>
         <div class="slds-col slds-large-size_2-of-3 slds-small-size_1-of-1 slds-medium-size_1-of-1">
-              <c:DB_ParticipantsContactedSchedule childLoad="{!v.currentStudy+v.currentPi}" currentStudy ="{!v.currentStudy}" currentPi ="{!v.currentPi}" parent="{!v.parent}" recordChanged="{!v.isRecordChanged}"/>
+             <c:DB_ParticipantsContactedSchedule childLoad="{!v.currentStudy+v.currentPi}" currentStudy ="{!v.currentStudy}" parent="{!v.parent}" currentPi ="{!v.currentPi}" recordChanged="{!v.isRecordChanged}"/>
         </div>
         <div class="slds-col slds-large-size_2-of-3 slds-small-size_1-of-1 slds-medium-size_1-of-1">
             <c:FunnelChart childLoad="{!v.currentStudy+v.currentPi}" currentStudy ="{!v.currentStudy}" currentPi ="{!v.currentPi}" recordChanged="{!v.isRecordChanged}"/>
@@ -64,11 +62,12 @@
                         isParticipantDisplay="{!v.isParticipantDisplay}" 
                         childLoad="{!v.currentStudy+v.currentPi}" currentStudy ="{!v.currentStudy}" currentPi ="{!v.currentPi}" recordChanged="{!v.isRecordChanged}"/>
             </div>
-            </div>
+        </div>
         </aura:if>
+
         <div class="slds-col slds-size1-of-1  slds-medium-size_1-of-1 slds-p-top_large">
     		<c:DB_LeaderboardSelectedSSDetails dashboardTitle="{!$Label.c.Dashboard_Leaderboard}" piData="{!v.piData}" childLoad="{!v.currentStudy+v.currentPi}" currentStudy ="{!v.currentStudy}" currentPi ="{!v.currentPi}" recordChanged="{!v.isRecordChanged}"/>
         </div>
     </div>
-    <c:Action_ParticipantInformation aura:id="updatePatientInfoAction"/>
+     <c:Action_ParticipantInformation aura:id="updatePatientInfoAction"/>
 </aura:component>
