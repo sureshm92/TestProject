@@ -44,11 +44,11 @@ public without sharing class DelegateService {
                         Study_Site__r.Clinical_Trial_Profile__c,
                         Delegate_Level__c,
                         Clinical_Trial_Profile__c,
-                        Site_Contact__c
+                        Site_Contact__c,is_Invited__c
                 FROM Site_Staff__c
-                WHERE Site_Contact__c =: CommunityService.getUserContact().Id
+                WHERE (Site_Contact__c =: CommunityService.getUserContact().Id
                 OR Study_Site__r.Principal_Investigator__c =: CommunityService.getUserContact().Id
-                OR Study_Site__c IN :siteIds
+                OR Study_Site__c IN :siteIds) AND is_Invited__c=True
         ];
         piStudySitesAccessLevelMap = new Map<Id, String>();
         piStudiesAccessLevel = new Map<Id, String>();
