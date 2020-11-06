@@ -216,7 +216,7 @@
                     <!--<aura:if isTrue="{!not(v.initData.createdByAdmin-->
                     <div class="slds-grid te-form slds-gutters slds-wrap">
                         <!--Reminder Frequency-->
-                        <div class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl rightAlign', '')}">
+                        <div class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl rightAlign1', '')}">
                             <lightning:select label="{!$Label.c.Remind_Me}" required="true"
                                 value="{!v.task.Remind_Me__c}">
                                 <aura:iteration items="{!v.initData.reminderFrequencyList}" var="mode">
@@ -226,7 +226,7 @@
                             </lightning:select>
                         </div>
                         <!--Reminder Date-->
-                        <div class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl rightAlign', '')}">
+                        <div class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl rightAlign1', '')}">
                             <lightning:input aura:id="reminderDate" type="date"
                                 label="{!$Label.c.Home_Page_StudyVisit_Completed_On}" value="{!v.initData.reminderDate}"
                                 min="{!if(v.task.Remind_Me__c == $Label.c.One_day_before, v.tomorrow , v.initData.today)}"
