@@ -61,7 +61,7 @@
                 </aura:if>-->
                 <aura:if isTrue="{!v.userMode == 'PI' }">
                         <div class="slds-text-align_right vp-navigate-btn" >
-                            <a style="font-size: 1rem;font-weight: 700;"
+                            <a style="font-size: 1rem;font-weight: 600;"
                                     onclick="{!c.onClickListView}">
                                 {!$Label.c.BTN_Naviagte}
                             </a>

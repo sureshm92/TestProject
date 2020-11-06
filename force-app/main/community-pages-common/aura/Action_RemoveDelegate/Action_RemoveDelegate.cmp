@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="Action_RemoveDelegate">
+ <aura:component description="Action_RemoveDelegate" extends="c:CommunityContext">
 
     <!-- attributes:-->
     <aura:attribute name="callback" type="Object"/>
@@ -22,7 +22,7 @@
         {!v.messageText}
         <aura:set attribute="footerButtons">
             <button class="apollo-btn primary" onclick="{!c.doYes}">{!$Label.c.BTN_Yes}</button>
-            <button class="apollo-btn tertiary" onclick="{!c.doNo}">{!$Label.c.BTN_No}</button>
+            <button class="apollo-btn tertiary" style="{!v.isRTL? 'margin-right:10px':''}" onclick="{!c.doNo}">{!$Label.c.BTN_No}</button>
         </aura:set>
     </c:Popup>
 

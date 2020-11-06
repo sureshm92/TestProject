@@ -337,6 +337,9 @@ public without sharing class CommunityFacadeRemote {
 			return false;
 		}
 		List<Id> delegatedSites = DelegateService.getDelegatedStudySiteIds();
-		return [SELECT Id FROM Study_Site__c WHERE Clinical_Trial_Profile__r.CommunityTemplate__c = : CommunityTemplateService.TEMPLATE_DEFAULT AND (Id IN: delegatedSites OR Principal_Investigator__c = : UserContext.getUserContactId()) ].size() > 0;
+        
+		return [SELECT Id FROM Study_Site__c WHERE (Clinical_Trial_Profile__r.CommunityTemplate__c = : CommunityTemplateService.TEMPLATE_DEFAULT OR
+                                                    Clinical_Trial_Profile__r.CommunityTemplate__c = : CommunityTemplateService.TEMPLATE_GSK)
+                                                    AND (Id IN: delegatedSites OR Principal_Investigator__c = : UserContext.getUserContactId()) ].size() > 0;
 	}
 }
