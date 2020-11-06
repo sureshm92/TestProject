@@ -65,7 +65,7 @@
                             </c:uiCol>
                             <aura:if isTrue="{!v.initData.inInvitationActiveStatus}">
                                 <c:uiCol class="invite-col" scrollLeft="{!v.scrollLeft}" width="{!v.inviteWidth}">
-                                    <aura:if isTrue="{!staffMember.hasUser || staffMember.hasPendingActions}">
+                                    <aura:if isTrue="{!and(or(staffMember.hasUser, staffMember.hasPendingActions),staffMember.isInvited)}">
                                         <aura:set attribute="else">
                                             <button class="slds-button slds-button_brand"
                                                     onclick="{!c.doInviteStaffMember}"
