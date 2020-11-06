@@ -201,8 +201,8 @@ public without sharing virtual class EmailTemplateProvider {
                 WHERE Contact__c = :recipientContactId
         ];
         if (!participants.isEmpty()) {
-            recipientFirstName = participants.get(0).First_Name__c;
-            recipientName = (recipientContact.Salutation == null ? '' : recipientContact.Salutation) + ' ' +  participants.get(0).First_Name__c + ' ' + participants.get(0).Last_Name__c;
+            recipientFirstName = checkMetacharacters(participants.get(0).First_Name__c);
+            recipientName = (recipientContact.Salutation == null ? '' : recipientContact.Salutation) + ' ' + checkMetacharacters( participants.get(0).First_Name__c) + ' ' + checkMetacharacters(participants.get(0).Last_Name__c);
         }
 
         if (String.isEmpty(recipientName)) recipientName = recipientContact.Salutation_With_Name__c;
@@ -212,6 +212,13 @@ public without sharing virtual class EmailTemplateProvider {
         if (String.isEmpty(recipientLanguage)) recipientLanguage = recipientContact.Language__c;
         if(isShareTemplate) userMode=CommunityModeService.USER_MODE_PARTICIPANT;
 
+    }
+    private String checkMetacharacters(String str) {
+        if(String.isNotBlank(str))
+            return Matcher.quoteReplacement(str);
+        else
+            return str;    
+    
     }
 
     private String getCommunityUserName() {
@@ -231,7 +238,8 @@ public without sharing virtual class EmailTemplateProvider {
         if (parameters.containsKey('ParticipantFirstName')) return;
 
         Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(recipientContactId);
-        if (participant != null) parameters.put('ParticipantFirstName', participant.First_Name__c);
+        if (participant != null) parameters.put('ParticipantFirstName', checkMetacharacters(participant.First_Name__c));
+
     }
     
     public void addStudySiteNumber(){
