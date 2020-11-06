@@ -92,10 +92,18 @@ ResourceExpBatchScheduler.start();
 
 ## 15.Language configuration for Resource record types 
 
-setup-->Object Manager-->in quick find search 'Resource'-->open Resource__c object-->Reord Types-->Article-->Picklists Available for Editing-->Language -->Add all languages from Available values to Selected Values-->Save
+1) setup-->Object Manager-->in quick find search 'Resource'-->open Resource__c object-->Reord Types-->Article-->Picklists Available for Editing-->Language(Language__c) -->Add all languages from Available values to Selected Values-->Save
 
 Repeat this process for all other record types.
 
 
+2) setup-->Object Manager-->in quick find search 'Resource'-->open Resource__c object-->Reord Types-->Article-->Picklists Available for Editing-->	
+Languages(Languages__c) -->Add all languages from Available values to Selected Values-->Save
+
+Repeat this process for all other record types.
+
 ## 16.Business Lead Profile Configuration
 1.setup-->Profiles-->Business Lead-->System Permissions-->Enable  "Manage Flow"	 permission-->Save 
+
+##17. followup reminder custom metadata configuration(formal and UAT)
+1.setup-->custom metadata-->FollowUp Reminder-->Manage FolloUp Reminders-->Org Default	-->Edit-->change value of 'Days after Permission gets' from 30 to 2.
