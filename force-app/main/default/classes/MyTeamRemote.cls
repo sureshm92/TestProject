@@ -453,6 +453,7 @@ public without sharing class MyTeamRemote {
                         newDelegateRecord.Delegate_Level__c = delegateRecord.delegateLevel;
                         newDelegateRecord.Study_Site__c = delegateRecord.enrollmentOrStudySiteId;
                         newDelegateRecord.Site_Contact__c = dw.delegateContact.Id;
+                        newDelegateRecord.is_Invited__c = true;
                         delegateRecordsToInsert.add(newDelegateRecord);
                     }
                 } else {
@@ -462,6 +463,7 @@ public without sharing class MyTeamRemote {
                         delegateRecordsToDelete.add(curDelegateRecord);
                     } else if (delegateRecord.delegateLevel != curDelegateRecord.Delegate_Level__c) {
                         curDelegateRecord.Delegate_Level__c = delegateRecord.delegateLevel;
+                        curDelegateRecord.is_Invited__c = true;
                         delegateRecordsToUpdate.add(curDelegateRecord);
                     }
                 }
@@ -676,6 +678,7 @@ public without sharing class MyTeamRemote {
                     newDelegateRecord.Delegate_Level__c = delegateRecord.delegateLevel;
                     newDelegateRecord.Study_Site__c = delegateRecord.enrollmentOrStudySiteId;
                     newDelegateRecord.Site_Contact__c = delegateContact.Id;
+                    newDelegateRecord.is_Invited__c = true;
                     delegateRecordsToInsert.add(newDelegateRecord);
                 }
             }

@@ -80,9 +80,9 @@ public without sharing class LibraryPIRemote {
                 };
                     if (isDelegate) {
                         for (Site_Staff__c siteStaff : [
-                            SELECT Study_Site__c
+                            SELECT Study_Site__c,is_Invited__c
                             FROM Site_Staff__c
-                            WHERE Site_Contact__c = :CommunityService.getUserContact().Id
+                            WHERE Site_Contact__c = :CommunityService.getUserContact().Id AND is_Invited__c=True
                         ]) {
                             ssIds.add(siteStaff.Study_Site__c);
                         }
