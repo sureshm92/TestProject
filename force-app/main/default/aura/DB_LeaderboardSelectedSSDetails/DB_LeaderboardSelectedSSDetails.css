@@ -21,6 +21,11 @@
     height: 24px;
 }
 
+.THIS .showMore{
+    font-size: 18px;
+    color: #297dfd;
+    font-weight: 600;   
+}
 
 .THIS  .totalcount{
     height: 24px;

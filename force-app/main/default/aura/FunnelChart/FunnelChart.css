@@ -53,6 +53,13 @@
     margin-right:2%;
 }
 
+.THIS .showMore{
+    font-size: 18px;
+    color: #297dfd;
+    font-weight: 600;   
+}
+
+
 
 @media screen and (max-width: 1024px) {
     .THIS.funnel-dashborad-container {
@@ -75,4 +82,13 @@
 	 .cFunnelChart .funnel{
      	padding-top: 108px!important;  
     }
+}
+
+.THIS.exampleHolder{
+    position: relative;
+    display: inline-block;
+    margin-left: 15px;
+    width: 55px;
+    vertical-align: middle;
+    white-space: nowrap;    
 }

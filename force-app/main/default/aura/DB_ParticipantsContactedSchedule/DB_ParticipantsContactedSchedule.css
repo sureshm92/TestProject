@@ -22,6 +22,12 @@
     padding-top: 15px;
 }
 
+.THIS .showMore{
+    font-size: 18px;
+    color: #297dfd;
+    font-weight: 600;   
+}
+
 .THIS .text_format {
     color: #000000;
     font-size: 25px;

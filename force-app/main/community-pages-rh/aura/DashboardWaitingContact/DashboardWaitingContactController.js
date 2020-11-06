@@ -2,16 +2,24 @@
  * Created by Alexey Moseev.
  */
 ({
-	
-    doInit:function(component, event, helper){
-       helper.callServerMethod(component, event);
+    doInit:function(component, event, helper)
+    {
+        component.set('v.peList', null);
+        window.setTimeout(
+            $A.getCallback(function() {
+            //helper.totalAwaitingContactedList(component);
+            helper.callServerMethod(component, event,helper);
+        }), 150
+        );
     },
 
-    showEditParticipantInformation: function (component, event, helper) {
+    showEditParticipantInformation: function (component, event, helper)
+    {
         helper.showEditParticipantInformation(component, event, helper);
     },
 
-    sortRecords: function(component){
+    sortRecords: function(component)
+    {
         var peList = component.get('v.peList');
         if(component.get('v.defaultSorting')){
             peList.sort(function (a, b) {
@@ -43,5 +51,4 @@
             component.set('v.defaultSorting',true);
         }
     },
-
 })

@@ -38,7 +38,8 @@ private class Test_DashboardRemoteNew {
             DashboardRemoteNew.getInitData(CommunityService.USER_MODE_HCP, null,null,null,null,null);            
             DashboardRemoteNew.getParticipantData(CommunityService.USER_MODE_HCP, null,testDataInst.participant.Id);
            // Added
-            DashboardRemoteNew.prepareAwaitingContactList(CommunityService.USER_MODE_HCP,testDataInst.ss.Principal_Investigator__c,testDataInst.piContact.Id,testDataInst.ctp.Id);
+            //DashboardRemoteNew.prepareAwaitingContactList(CommunityService.USER_MODE_HCP,testDataInst.ss.Principal_Investigator__c,testDataInst.piContact.Id,testDataInst.ctp.Id);
+             DashboardRemoteNew.prepareAwaitingContactList(testDataInst.piContact.Id,testDataInst.ctp.Id);
             DashboardRemoteNew.prepareWaitingList(CommunityService.USER_MODE_HCP,testDataInst.ss.Principal_Investigator__c,testDataInst.piContact.Id,testDataInst.ctp.Id);
             DashboardRemoteNew.prepareDataForFunnelChart(testDataInst.piContact.Id,testDataInst.ctp.Id);
             DashboardRemoteNew.prepareHCPEList(testDataInst.piContact.Id,testDataInst.ctp.Id);
@@ -83,7 +84,7 @@ private class Test_DashboardRemoteNew {
         System.runAs(testDataInst.piUser) {
             DashboardRemoteNew.getInitData(CommunityService.USER_MODE_PI, CommunityTemplateService.TEMPLATE_DEFAULT, testDataInst.ss.Principal_Investigator__c, testDataInst.piContact.Id,testDataInst.ctp.Id,'Init');
             DashboardRemoteNew.getParticipantData(CommunityService.USER_MODE_PI, null,testDataInst.participant.Id);
-            DashboardRemoteNew.prepareAwaitingContactList(CommunityService.USER_MODE_PI,testDataInst.ss.Principal_Investigator__c,testDataInst.piContact.Id,testDataInst.ctp.Id);
+            DashboardRemoteNew.prepareAwaitingContactList(testDataInst.piContact.Id,testDataInst.ctp.Id);
             DashboardRemoteNew.prepareWaitingList(CommunityService.USER_MODE_PI,testDataInst.ss.Principal_Investigator__c,testDataInst.piContact.Id,testDataInst.ctp.Id);
             DashboardRemoteNew.prepareDataForFunnelChart(testDataInst.piContact.Id,testDataInst.ctp.Id);
             DashboardRemoteNew.prepareHCPEList(testDataInst.piContact.Id,testDataInst.ctp.Id);
@@ -105,7 +106,7 @@ private class Test_DashboardRemoteNew {
         Test.startTest();
         System.runAs(testDataInst.piUser) {
             DashboardRemoteNew.getInitData(CommunityService.USER_MODE_PI, CommunityTemplateService.TEMPLATE_DEFAULT,testDataInst.ss.Principal_Investigator__c,testDataInst.piContact.Id,testDataInst.ctp.Id,'Init');
-            DashboardRemoteNew.prepareAwaitingContactList(CommunityService.USER_MODE_PI,testDataInst.ss.Principal_Investigator__c,testDataInst.piContact.Id,testDataInst.ctp.Id);
+            DashboardRemoteNew.prepareAwaitingContactList(testDataInst.piContact.Id,testDataInst.ctp.Id);
             DashboardRemoteNew.prepareWaitingList(CommunityService.USER_MODE_PI,testDataInst.ss.Principal_Investigator__c,testDataInst.piContact.Id,testDataInst.ctp.Id);
             DashboardRemoteNew.prepareDataForFunnelChart(testDataInst.piContact.Id,testDataInst.ctp.Id);
             DashboardRemoteNew.prepareHCPEList(testDataInst.piContact.Id,testDataInst.ctp.Id);
@@ -149,7 +150,7 @@ private class Test_DashboardRemoteNew {
         System.runAs(testDataInst.piDelUser) {
             //DashboardRemoteNew.getInitData(CommunityService.USER_MODE_PI, CommunityTemplateService.TEMPLATE_DEFAULT, testDataInst.ss.Principal_Investigator__c,testDataInst.ss.Principal_Investigator__c,testDataInst.ctp.Id,'Init');
             DashboardRemoteNew.getParticipantData(CommunityService.USER_MODE_PI, testDataInst.ss.Principal_Investigator__c,testDataInst.participant.Id);
-            DashboardRemoteNew.prepareAwaitingContactList(CommunityService.USER_MODE_PI,testDataInst.ss.Principal_Investigator__c,testDataInst.piContact.Id,testDataInst.ctp.Id);
+            DashboardRemoteNew.prepareAwaitingContactList(testDataInst.piContact.Id,testDataInst.ctp.Id);
             DashboardRemoteNew.prepareWaitingList(CommunityService.USER_MODE_PI,testDataInst.ss.Principal_Investigator__c,testDataInst.piContact.Id,testDataInst.ctp.Id);
             DashboardRemoteNew.prepareDataForFunnelChart(testDataInst.piContact.Id,testDataInst.ctp.Id);
             DashboardRemoteNew.prepareHCPEList(testDataInst.piContact.Id,testDataInst.ctp.Id);
