@@ -80,7 +80,7 @@ public Without sharing class ViewMediaResult {
         }
 
         if(studyContactId != null){
-       siteStaff =[SELECT id,Delegate_Level__c,Study_Site__r.Clinical_Trial_Profile__c,Study_Site__r.Clinical_Trial_Profile__r.Media_outreach_Provider__c,Study_Site__c,Site_Contact__c FROM Site_Staff__c where Site_Contact__c =:studyContactId AND Study_Site__r.Clinical_Trial_Profile__r.Media_outreach_Provider__c != null LIMIT :limitRows];
+       siteStaff =[SELECT id,Delegate_Level__c,Study_Site__r.Clinical_Trial_Profile__c,Study_Site__r.Clinical_Trial_Profile__r.Media_outreach_Provider__c,Study_Site__c,Site_Contact__c,is_Invited__c  FROM Site_Staff__c where Site_Contact__c =:studyContactId AND Study_Site__r.Clinical_Trial_Profile__r.Media_outreach_Provider__c != null AND is_Invited__c=True LIMIT :limitRows];
         }
 
         if(studylst.size()>0){

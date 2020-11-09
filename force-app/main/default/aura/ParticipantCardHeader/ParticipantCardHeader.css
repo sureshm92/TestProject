@@ -140,6 +140,11 @@
     .THIS  {
         padding: 0;
     }
+
+    .THIS .vpi-title {
+        width: 50%;
+        line-height: 1.25;
+    }
     
     .THIS .slds-has-block-links--space,
     .THIS .slds-has-block-links--space2,

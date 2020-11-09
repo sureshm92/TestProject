@@ -61,4 +61,9 @@
     .THIS.rr-white-panel {
         padding: 1rem;
     }
+
+    .THIS .vpi-title {
+        width: 50%;
+        line-height: 1.25;
+    }
 }
