@@ -10,7 +10,7 @@
     <aura:attribute name="isInvited" type="boolean" default="false"/>
     <aura:attribute name="showParticipationSteps" type="boolean" default="true"/>
     <aura:attribute name="minorDelegate" type="Participant__c" />
-    <aura:attribute name="viewMore" type="Boolean" default="true"/>
+    <aura:attribute name="viewMore" type="Boolean"/>
 
      <!--added for the performance issue-->
      <aura:attribute name="parent" type="Aura.Component" required="true"/>
