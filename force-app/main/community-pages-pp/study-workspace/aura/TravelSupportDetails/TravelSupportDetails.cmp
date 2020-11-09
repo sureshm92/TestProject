@@ -26,7 +26,7 @@
             <c:rrSelect value="{!v.travelMode}" options="{!v.options}" setValueAsSelected="All" class="select-list"
                         iconColor="#666666"/>
             <aura:if isTrue="{!!empty(v.vendors)}">
-                <div class="slds-col--bump-left">
+                <div class="{! if(v.isRTL,'slds-col--bump-right','slds-col--bump-left')}">
                     <c:uiHeaderMenu aura:id="menuId" class="mode-block" title="{!$Label.c.Home_Page_StudyVisit_Btn}">
                         <aura:set attribute="title">
                             <div class="apollo-btn primary slds-align-bottom" data-gtm="BTN_Add_New_Booking">

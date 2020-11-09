@@ -2,7 +2,7 @@
  - Created by Olga Skrynnikova on 12/20/2019.
  -->
 
-<aura:component description="PaymentsPanel" controller="PaymentsRemote">
+ <aura:component description="PaymentsPanel" controller="PaymentsRemote" extends="c:CommunityContext">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
     <aura:attribute name="initialized" type="Boolean"/>
     <aura:attribute name="initData" type="Object"/>
@@ -20,12 +20,12 @@
                         <c:RRTable>
                             <tr>
                                 <th>{!$Label.c.Home_Page_Payments_Card_Status}</th>
-                                <th class="amount-of-money">{!$Label.c.Home_Page_Payments_Balance}</th>
+                                <th class="{! if(v.isRTL,'tdRTL','amount-of-money')}">{!$Label.c.Home_Page_Payments_Balance}</th>
                             </tr>
                             <aura:iteration var="card" items="{!v.initData.cards}">
                                 <tr>
                                     <td>{!card.status}</td>
-                                    <td class="amount-of-money">${!card.balance}</td>
+                                    <td class="{! if(v.isRTL,'tdRTL','amount-of-money')}">${!card.balance}</td>
                                 </tr>
                             </aura:iteration>
                         </c:RRTable>
