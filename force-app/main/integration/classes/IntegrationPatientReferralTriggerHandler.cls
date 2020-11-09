@@ -103,6 +103,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             Map<String, Participant__c> newParticipantsMap = new Map<String, Participant__c>();
             Map<String, ContactAndSiteType> newDelegateContactsMap = new Map<String, ContactAndSiteType>();
             Integer limitRows = Limits.getLimitQueryRows() - Limits.getQueryRows();
+            Participant__c participantExisting;
             Account participantAccount = [SELECT Id FROM Account WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE ];
             
             for(Ethnicity_Mapping_Participant__mdt objMT : [SELECT Ethnicity_Code__c,Ethnicity_Description__c 
@@ -124,6 +125,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             for (Integration_Patient_Referral__c ipr : newList) {
                 Participant__c participant = newParticipantsMap.get(ipr.referralID__c);
                 Participant__c participantDuplicate = duplicateService.findDuplicate(participant);
+                participantExisting = duplicateService.findDuplicate(participant);
                 if (participantDuplicate != null) {
                     String refSourceStr = participantDuplicate.Secondary_Source__c;
                     if (refSourceStr == null) refSourceStr = '';
@@ -171,11 +173,18 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 if (ss != null) peList.add(createPE(ipr, participant.Id, ss.Id));
 
                 ContactAndSiteType participantDelegateContactAndSiteType = newDelegateContactsMap.get(ipr.referralID__c);
-                if (participantDelegateContactAndSiteType != null) {
+                if (participantDelegateContactAndSiteType != null && cntList.isEmpty()) {
                     Contact participantDelegateContact = participantDelegateContactAndSiteType.contactObj;
                     delegateParticipants.add(createDelegateParticipant(participantDelegateContact,ipr.Delegate_Phone_Number_Type__c)); 
                     participantIdByParticipantDelegateContactId.put(participantDelegateContact.Id, participant.Id);
                     delegateIds.add(participantDelegateContact.Id);
+                }
+                if (!cntList.isEmpty()) {
+                    for(Contact con : cntList){
+                        Contact participantDelegateContact = participantDelegateContactAndSiteType.contactObj; 
+                        participantIdByParticipantDelegateContactId.put(con.Id, participant.Id);
+                        delegateIds.add(con.Id);
+                    }
                 }
             }
             List<Database.SaveResult> saveResults = Database.insert(peList, false);
@@ -202,11 +211,19 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 for (ContactAndSiteType ndc : newDelegateContactsMap.values()) {
                     Contact participantDelegateContact = ndc.contactObj;
                     Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
-                    ptDelegateRef.Participant__c = participantIdByParticipantDelegateContactId.get(participantDelegateContact.Id);
-                    ptDelegateRef.Contact__c = participantDelegateContact.Id;
+                    if (cntList.isEmpty()) {
+                        ptDelegateRef.Participant__c = participantIdByParticipantDelegateContactId.get(participantDelegateContact.Id);
+                        ptDelegateRef.Contact__c = participantDelegateContact.Id;
+                    }
+                    if (!cntList.isEmpty()) {
+                        for(Contact cnt: cntList){
+                            ptDelegateRef.Participant__c = participantIdByParticipantDelegateContactId.get(cnt.Id);
+                            ptDelegateRef.Contact__c = cnt.Id;
+                        }
+                    }
                     if (participantsWithoutErrors.contains(ptDelegateRef.Participant__c)) {
                         ptDelegateRefs.add(ptDelegateRef);
-                        if(ndc!=null && ndc.siteType != 'Virtual' && ndc.siteType != 'Hybrid'){
+                        if(ndc!=null && ndc.siteType != 'Virtual' && ndc.siteType != 'Hybrid' && cntList.isEmpty()){
                             delegateUsersToCreate.put(participantDelegateContact.Id, null);
                         }
                     }
@@ -221,14 +238,17 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                         TriggerHandlerExecutor.bypassHandler(PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class); 
                     }
 
-                    insert ptDelegateRefs;
+                    system.debug('participantExisting>>'+participantExisting); 
+                    if(cntList.isEmpty() || participantExisting == null){
+                        insert ptDelegateRefs;
+                    }
                 }
                 if (!delegateUsersToCreate.isEmpty()) {
                     ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(delegateUsersToCreate);
                 }
             }
         }
-    }
+    } 
 
     private static Participant__c createDelegateParticipant(Contact contactDelegate, String phoneType){
         
