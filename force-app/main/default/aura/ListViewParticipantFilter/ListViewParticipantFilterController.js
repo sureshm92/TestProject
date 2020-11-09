@@ -1,6 +1,6 @@
 ({
     doInit : function(component, event, helper) {
-        
+      
         component.set('v.isFromDoinit', true);
         component.set('v.lstPR_no','');
         component.set('v.lstPR_yes','');
@@ -788,6 +788,14 @@
     },
     handleExport: function(component, event, helper) 
     {
+        if (communityService.isMobileSDK()) {
+            communityService.showWarningToast(
+                'Warning!',
+                $A.get('$Label.c.Pdf_Not_Available'),
+                100
+            );
+            return;
+        }
         //var spinner = component.find('recordsSpinner');
         //spinner.show();
         component.set("v.startPos", 0);
