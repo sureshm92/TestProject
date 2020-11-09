@@ -234,8 +234,8 @@
         </div>
     </div>   
      
- 	<aura:if isTrue="{!(v.userMode != 'Participant' || v.viewMore)}">
-         <a aura:id="showViewMore" class="slds-show custom-plus" style ="{! v.viewMore ? 'display:block': 'display:none'}" onclick="{!c.openCard}"><span>&#11167;&nbsp;{!$Label.c.View_More}</span></a>  
+ 	<aura:if isTrue="{!v.userMode != 'Participant'}">
+         <a aura:id="showViewMore" class="slds-show custom-plus" style ="{! v.viewMore ? 'display:block': 'display:none'}" onclick="{!c.openCard}"><span>{!$Label.c.View_More}</span></a>
 
         </aura:if>
    

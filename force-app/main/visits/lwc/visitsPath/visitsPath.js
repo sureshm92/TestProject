@@ -61,6 +61,13 @@ export default class VisitsPath extends LightningElement {
 
     connectedCallback() {
         let context = this;
+        getisRTL()
+        .then(function (data) {
+            context.isRTL = data;
+        })
+        .catch(function (error) {
+            console.error('Error: ' + JSON.stringify(error));
+        });
         getCardVisits()
             .then(function (data) {
                 context.patientVisits = data;
@@ -72,14 +79,7 @@ export default class VisitsPath extends LightningElement {
                 console.error('Error: ' + JSON.stringify(error));
             });
 
-            getisRTL()
-            .then(function (data) {
-                console.log('rtl : ' +data);
-                context.isRTL = data;
-            })
-            .catch(function (error) {
-                console.error('Error: ' + JSON.stringify(error));
-            });
+           
         
         
     }
@@ -147,7 +147,12 @@ export default class VisitsPath extends LightningElement {
                 this.pathItems.push(item);
                 if (!firstPending && !isCompleted && !isMissed) {
                     firstPending = item;
-                    this.centredIndex = i;
+                    if(this.isRTL){
+                        this.centredIndex = this.patientVisits.length - i;
+                    }
+                    else{
+                        this.centredIndex = i;
+                    }
                 }
             }
             if (firstPending) {
@@ -262,7 +267,11 @@ export default class VisitsPath extends LightningElement {
     }
 
     isRightScrollEnd() {
-        return (this.maxScrollValue <= (Math.ceil(this.pathContainer.scrollLeft)));
+        if(this.isRTL){
+            return (this.maxScrollValue - Math.abs((Math.ceil(this.pathContainer.scrollLeft))) <= 2);
+        }else{
+            return (this.maxScrollValue <= (Math.ceil(this.pathContainer.scrollLeft)));
+        }
     }
 
     changeArrowsStyle() {
@@ -273,9 +282,11 @@ export default class VisitsPath extends LightningElement {
 
         if (this.isRightScrollEnd()) {
             arrRight = 0.3;
+            arrLeftRTL = 0.3;
             this.fromRightCorner = true;
         }
         if (this.isLeftScrollEnd()) {
+            arrRightRTL = 0.3;
             arrLeft = 0.3;
             this.fromLeftCorner = true;
         }

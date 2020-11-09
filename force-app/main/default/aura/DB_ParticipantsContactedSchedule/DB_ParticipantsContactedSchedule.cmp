@@ -30,11 +30,13 @@
         <lightning:card class="slds-text-heading_small"
             title="{!$Label.c.PG_DBPI_L_Contacted_Participants_Without_Scheduled_Initial_Visit}">
             <!--!v.totalParticipants + ' ' +-->
+            <div class="exampleHolder" style="padding:0%;z-index: 1;">
+                <aura:if isTrue="{! v.loaded }">               
+                    <lightning:spinner alternativeText="Loading" />
+                </aura:if>
+            </div>
             <div class="slds-grid">
-                <div class="exampleHolder" style="padding:0%;z-index: 1;">
-                    <aura:if isTrue="{! v.loaded }">               
-                        <lightning:spinner alternativeText="Loading" />
-                    </aura:if>
+                <div class="slds-col">
                 </div>
                 <div class="slds-col">
                     <div class="text_format_days">

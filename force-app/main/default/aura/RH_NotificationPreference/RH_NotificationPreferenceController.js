@@ -31,5 +31,6 @@
             hcpOptInStudyEmail: initData.myContact.HCP_Opt_In_Study_Emails__c,
             hcpOptInRefStatusEmail: initData.myContact.HCP_Opt_In_Referral_Status_Emails__c
         }, function () {});
+        communityService.navigateToPage('account-settings?notify');
     },
 })

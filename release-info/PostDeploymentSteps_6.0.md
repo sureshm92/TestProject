@@ -2,6 +2,7 @@
 
 ## 1. Add RTL languages
 Go to Setup - Language Settings - Add Arabic and hebrew to displayed languages.
+Go to Setup - Picklist value sets - languages - New - Add Hebrew and save- edit the api name to 'iw'.
 
 ## II. Post-Deployment steps:
 
@@ -107,8 +108,24 @@ Languages(Languages__c) -->Add all languages from Available values to Selected V
 
 Repeat this process for all other record types.
 
+3)setup-->Object Manager-->in quick find search 'Resource'-->open Resource__c object-->Reord Types-->Article-->Picklists Available for Editing-->	
+Type-->Add all values  from Available values to Selected Values-->Save
+
+Repeat this process for all other record types.
+
 ## 16.Business Lead Profile Configuration
 1.setup-->Profiles-->Business Lead-->System Permissions-->Enable  "Manage Flow"	 permission-->Save 
 
 ##17. followup reminder custom metadata configuration(formal and UAT)
 1.setup-->custom metadata-->FollowUp Reminder-->Manage FolloUp Reminders-->Org Default	-->Edit-->change value of 'Days after Permission gets' from 30 to 2.
+
+## 17.BatchJob for SiteStaff
+Execute this step in Production only once:(Only for Dec,2020 Release)
+
+Click setup-> Developer console --> Press Ctrl+E, Remove all code(ctrl+A ,Del) if anything is there.
+Copy & Paste the below code:
+
+Batch_SiteStaff_Invited_Update batchSS = new Batch_SiteStaff_Invited_Update();
+database.executebatch(batchSS, 50);
+
+Click 'Execute' button.

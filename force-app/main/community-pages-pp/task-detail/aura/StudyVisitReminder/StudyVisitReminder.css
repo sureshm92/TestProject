@@ -170,7 +170,7 @@
         padding: 20px 0;
     }
     .THIS.cPopup .p-container .p-footer {
-        padding: 15px 1rem;
+        padding: 5px 1rem;
     }
 
     .THIS .slds-select,
@@ -186,23 +186,32 @@
     .THIS .p-buttons-container .slds-button:nth-of-type(1) {
         order: 4;
         margin-left: 10px;
-        width: 45%;
+        width: 40%;
     }
     .THIS .p-buttons-container .slds-button:nth-of-type(2) {
         order: 1;
-        width: 36%;
+        min-width: 25%;
         margin-left: 0;
     }
     .THIS .p-buttons-container .slds-button:nth-of-type(3) {
         order: 2;
-        width: 60%;
+        width: 70%;
         margin-bottom: 1rem;
         margin-left: 10px;
     }
     .THIS .p-buttons-container .slds-button:nth-of-type(4) {
         order: 3;
-        width: 51%;
+        width: 56%;
         margin-bottom: 1rem;
         margin-left: 0;
+    }
+}
+
+@media only screen and (max-width: 360px)  and (orientation : portrait) {
+    .THIS .p-buttons-container .slds-button:nth-of-type(3) {
+        order: 2;
+        width: 65%;
+        margin-bottom: 1rem;
+        margin-left: 10px;
     }
 }
