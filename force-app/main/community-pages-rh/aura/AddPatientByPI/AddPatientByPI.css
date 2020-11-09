@@ -113,6 +113,18 @@
     background-color: #F2F2F2;
 }
 
+@media all and (max-width: 768px){
+    .THIS .rr-medium-up-hide {
+        display: none;
+    }
+
+    .THIS .rr-white-panel > .ap-section .slds-grid > .rr-form-element:nth-of-type(6),
+    .THIS .rr-white-panel > .ap-section .slds-grid > .rr-form-element:nth-of-type(10) {
+        display: none;
+    }
+
+}
+
 @media all and (max-width: 500px){
      .THIS .ap-buttons{
         flex-direction: column;

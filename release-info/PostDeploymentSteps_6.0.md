@@ -108,6 +108,11 @@ Languages(Languages__c) -->Add all languages from Available values to Selected V
 
 Repeat this process for all other record types.
 
+3)setup-->Object Manager-->in quick find search 'Resource'-->open Resource__c object-->Reord Types-->Article-->Picklists Available for Editing-->	
+Type-->Add all values  from Available values to Selected Values-->Save
+
+Repeat this process for all other record types.
+
 ## 16.Business Lead Profile Configuration
 1.setup-->Profiles-->Business Lead-->System Permissions-->Enable  "Manage Flow"	 permission-->Save 
 

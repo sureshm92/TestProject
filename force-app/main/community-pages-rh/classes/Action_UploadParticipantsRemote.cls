@@ -39,7 +39,8 @@ public without sharing class Action_UploadParticipantsRemote {
             Map<Integer, List<String>> finalCSVLines = new Map<Integer, List<String>>();
             if (csvFileLines.size() != 0 && !headerFailed) {
                 for (Integer rowIndex = 2; rowIndex < csvFileLines.size(); rowIndex++) {
-                    List<String> line = csvFileLines.get(rowIndex).trim().removeEnd(',').trim().removeEnd(',').split(',');
+                    // List<String> line = csvFileLines.get(rowIndex).trim().removeEnd(',').trim().removeEnd(',').split(',');
+                    List<String> line = convertPerLineToList(csvFileLines.get(rowIndex));
                     if (line == null || line.isEmpty() || line.size() == 1) {
                         continue;
                     }
@@ -58,6 +59,41 @@ public without sharing class Action_UploadParticipantsRemote {
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
+    }
+
+    public static List<String> convertPerLineToList(String str){
+        List<String> perLineList = new List<String>();
+        String csvLine = str;
+        String prevLine = csvLine;
+        Integer startIndex;
+        Integer endIndex;
+        
+        while(csvLine.indexOf('"') > -1){
+            
+            if(startIndex == null){
+                startIndex = csvLine.indexOf('"');
+                csvLine = csvLine.substring(0, startIndex) + ':quotes:' + csvLine.substring(startIndex+1, csvLine.length());
+            }else{
+                if(endIndex == null){
+                    endIndex = csvLine.indexOf('"');
+                    csvLine = csvLine.substring(0, endIndex) + ':quotes:' + csvLine.substring(endIndex+1, csvLine.length());
+                }
+            }
+            
+            if(startIndex != null && endIndex != null){
+                String sub = csvLine.substring(startIndex, endIndex);
+                sub = sub.replaceAll(',', ':comma:');
+                csvLine = csvLine.substring(0, startIndex) + sub + csvLine.substring(endIndex, csvLine.length());
+                startIndex = null;
+                endIndex = null;
+            }
+        }
+        
+        for(String column : csvLine.split(',')){
+            column = column.replaceAll(':quotes:', '').replaceAll(':comma:', ',');
+            perLineList.add(column.trim());
+        }
+        return perLineList;
     }
 
 }
