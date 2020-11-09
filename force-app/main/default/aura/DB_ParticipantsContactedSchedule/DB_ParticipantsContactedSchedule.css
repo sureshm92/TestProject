@@ -105,9 +105,19 @@
     .THIS .slds-button_neutral {
         margin-top: 0;
     }
+
+    .THIS .slds-truncate {
+        white-space: pre-wrap !important;
+        text-align: left !important;
+    }
 }
 
 @media all and (max-width: 500px) {
+    .THIS .slds-truncate {
+        white-space: pre-wrap !important;
+        text-align: left !important;
+    }
+
     .THIS .slds-card__body > .slds-grid {
         justify-content: space-between;
     }
