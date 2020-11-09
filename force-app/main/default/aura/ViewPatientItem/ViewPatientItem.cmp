@@ -60,7 +60,7 @@
                                 
                                 <div class="{!!v.pe.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c || v.pe.MRR_Survey_Results_URL__c || v.actions.screenerResponses.disabled ? 'slds-col slds-size_1-of-1 slds-small-size_6-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_6-of-12'}">
                                   
-                                    <a class="slds-show slds-col" style="padding-top:9px;text-align:left;" onclick="{!c.closeCard}"><span>&#11165;&nbsp;View Less</span></a>  
+                                    <a class="slds-show slds-col" style="padding-top:9px;text-align:left;" onclick="{!c.closeCard}"><span>View Less</span></a>
                                    
                                       <button class="{!'apollo-btn secondary'}"
                                             title="{!$Label.c.BTN_View_Participant_Details}"
@@ -70,7 +70,7 @@
                                     </button>
                                 
                                     <aura:if isTrue="{!empty(v.pe.MRR_Survey_Results_URL__c) &amp;&amp; !v.actions.screenerResponses.disabled &amp;&amp; v.pe.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c}">
-                                        <span data-gtm="BTN_Screening" style="padding-left:14px;">
+                                        <span data-gtm="BTN_Screening">
                                             <lightning:button class="slds-button--neutral"
                                                             title="{!$Label.c.BTN_Pre_Screen_Participant}"
                                                             onclick="{!c.doPreScreening}">

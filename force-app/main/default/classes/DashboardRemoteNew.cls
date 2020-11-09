@@ -212,9 +212,9 @@ public without sharing class DashboardRemoteNew {
                 for (Site_Staff__c sStaff : [SELECT Id,
                                              Study_Site__r.Principal_Investigator__c,
                                              Study_Site__r.Principal_Investigator__r.Name,
-                                             Study_Site__c
+                                             Study_Site__c,is_Invited__c
                                              FROM Site_Staff__c
-                                             WHERE Site_Contact__c = :currentContactId])
+                                             WHERE Site_Contact__c = :currentContactId AND is_Invited__c=True])
                 {
                     delegatePIsMap.put(sStaff.Study_Site__r.Principal_Investigator__c, sStaff.Study_Site__r.Principal_Investigator__r.Name);
                     delegateSSIds.add(sStaff.Study_Site__c);
@@ -376,8 +376,8 @@ public without sharing class DashboardRemoteNew {
                 ssId.add(pe.Study_Site__c);
             }
 
-            for (Site_Staff__c sstaff : [SELECT Id,Study_Site__c, Study_Site__r.Clinical_Trial_Profile__c FROM Site_Staff__c
-                                        WHERE Study_Site__c IN :ssId AND Site_Contact__c = :currentContactId])
+            for (Site_Staff__c sstaff : [SELECT Id,Study_Site__c, Study_Site__r.Clinical_Trial_Profile__c,is_Invited__c FROM Site_Staff__c
+                                        WHERE Study_Site__c IN :ssId AND Site_Contact__c = :currentContactId AND is_Invited__c=True])
             {
                 avaliableSS.add(sstaff.Study_Site__c);
             }
