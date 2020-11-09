@@ -146,6 +146,14 @@
         }
     },
     doPrint: function (component, event, helper) {
+         if (communityService.isMobileSDK()) {
+            communityService.showWarningToast(
+                'Warning!',
+                $A.get('$Label.c.Pdf_Not_Available'),
+                100
+            );
+            return;
+        }
         var pe = component.get('v.pe');
         window.open('patient-info-pv?id=' + pe.Id, '_blank');
     },
