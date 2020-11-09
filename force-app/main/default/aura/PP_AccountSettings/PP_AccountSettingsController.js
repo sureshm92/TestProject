@@ -31,6 +31,9 @@
                     component.set('v.compId', '2');
                 } else if (queryString.includes('cookiesSettings')) {
                     component.set('v.compId', '5');
+                }
+                else if (queryString.includes('notify')) {
+                    component.set('v.compId', '6');
                 } else {
                     console.log('URL param not found!');
                 }
@@ -119,6 +122,9 @@
             communityService.navigateToPage('account-settings?passwordchange');
         } else if (compId == '5') {
             communityService.navigateToPage('account-settings?cookiesSettings');
+        }
+        else if (compId == '6') {
+            communityService.navigateToPage('account-settings?notify');
         } else {
             communityService.navigateToPage('account-settings');
         }
