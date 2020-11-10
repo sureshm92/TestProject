@@ -4,11 +4,12 @@
 ({
     doInit: function (component, event, helper) {
         let rrCookies = communityService.getCookie('RRCookies');
-        var paramLanguage = communityService.getUrlParameter('lanCode');
+        let paramLanguage = communityService.getUrlParameter('lanCode');
+        let isMobileApp = communityService.isMobileSDK();
         if (!rrCookies) {
             let infoText = $A.get('$Label.c.Cookies_Info_Text');
             let linkCookies = $A.get('$Label.c.Link_Cookies');
-            let communityUrl = window.location.origin;
+            let communityUrl = window.location.href;
             let linkPPUrl = '';
             let linkCP = '';
             let linkPP = $A.get('$Label.c.Footer_Link_Privacy_Policy');
@@ -18,33 +19,55 @@
                 linkPPUrl =
                     '<a class="ci-link" href="/janssen/s/privacy-policy?lanCode=' +
                     paramLanguage +
-                    '">';
+                    '"' +
+                    (!isMobileApp && communityUrl.includes('login') ? 'target="_blank"' : '') +
+                    '>';
                 linkPP = $A.get('$Label.c.Footer_Link_Privacy_Policy_Janssen');
                 linkCP =
                     '<a class="ci-link" href="/janssen/s/cookie-policy?lanCode=' +
                     paramLanguage +
-                    '">';
+                    '"' +
+                    (!isMobileApp && communityUrl.includes('login') ? 'target="_blank"' : '') +
+                    '>';
             } else if (communityUrl.includes('gsk')) {
                 linkPPUrl =
                     '<a class="ci-link" href="/gsk/s/privacy-policy?lanCode=' +
                     paramLanguage +
-                    '">';
+                    '"' +
+                    (!isMobileApp && communityUrl.includes('login') ? 'target="_blank"' : '') +
+                    '>';
                 linkCP =
-                    '<a class="ci-link" href="/gsk/s/cookie-policy?lanCode=' + paramLanguage + '">';
+                    '<a class="ci-link" href="/gsk/s/cookie-policy?lanCode=' +
+                    paramLanguage +
+                    '"' +
+                    (!isMobileApp && communityUrl.includes('login') ? 'target="_blank"' : '') +
+                    '>';
             } else if (communityUrl.includes('Covid19')) {
                 linkPPUrl =
                     '<a class="ci-link" href="Covid19/s/privacy-policy?lanCode=' +
                     paramLanguage +
-                    '">';
+                    '"' +
+                    (!isMobileApp && communityUrl.includes('login') ? 'target="_blank"' : '') +
+                    '>';
                 linkCP =
                     '<a class="ci-link" href="Covid19/s/cookie-policy?lanCode=' +
                     paramLanguage +
-                    '">';
+                    '"' +
+                    (!isMobileApp && communityUrl.includes('login') ? 'target="_blank"' : '') +
+                    '>';
             } else {
                 linkPPUrl =
-                    '<a class="ci-link" href="/s/privacy-policy?lanCode=' + paramLanguage + '">';
+                    '<a class="ci-link" href="/s/privacy-policy?lanCode=' +
+                    paramLanguage +
+                    '"' +
+                    (!isMobileApp && communityUrl.includes('login') ? 'target="_blank"' : '') +
+                    '>';
                 linkCP =
-                    '<a class="ci-link" href="/s/cookie-policy?lanCode=' + paramLanguage + '">';
+                    '<a class="ci-link" href="/s/cookie-policy?lanCode=' +
+                    paramLanguage +
+                    '"' +
+                    (!isMobileApp && communityUrl.includes('login') ? 'target="_blank"' : '') +
+                    '>';
             }
             infoText = infoText.replace('##cookiesURL', linkCP + linkCookies + '</a>');
             infoText = infoText.replace('##privacyPolicyURL', linkPPUrl + linkPP + '</a>');
