@@ -203,7 +203,7 @@ public without sharing class ListViewParticipantController {
                 }
                 filter+=' AND Study_Site__c IN: siteIds '; 
             }
-            if (!String.isEmpty(FilterList[0].Source) & FilterList[0].Source != 'null'){
+            if (!String.isEmpty(FilterList[0].Source) && FilterList[0].Source != 'null'){
                 filter+='AND Source_Type__c='+'\''+ FilterList[0].Source+ '\'';
             }else{
                 lstSourceType.add('Referring Provider');
@@ -223,7 +223,7 @@ public without sharing class ListViewParticipantController {
             }
             
             //demographic filters//
-            if (!String.isEmpty(FilterList[0].Ethnicity) & FilterList[0].Ethnicity != 'null') {
+            if (!String.isEmpty(FilterList[0].Ethnicity) && FilterList[0].Ethnicity != 'null') {
                 filter+=' AND Participant__r.Ethnicity__c includes ('+'\''+ FilterList[0].Ethnicity+ '\')';
             }
             //if (FilterList[0].AgeFrom != '0' || FilterList[0].AgeTo != '100') {
