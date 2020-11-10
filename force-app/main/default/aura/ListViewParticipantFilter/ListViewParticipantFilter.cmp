@@ -101,7 +101,7 @@
                                         setValueAsSelected="true"/>
                         </div>
                         <div class="slds-size_1-of-6 source">
-                            <c:rrSelect value="{!v.filterList.Source}" options="{!v.peFilterData.source}"
+                            <c:rrSelect value="{!v.filterList[0].Source}" options="{!v.peFilterData.source}"
                                         placeholder="{!$Label.c.PG_VP_L_Source}" useSentenceFont="false"
                                         class="fp-ss-filter-container"
                                         setValueAsSelected="true"/>
