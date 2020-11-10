@@ -1,5 +1,5 @@
 <!--Created by D.Yasinskyi on 16.03.2018-->
-<aura:component description="rrPagination">
+<aura:component description="rrPagination" extends="c:CommunityContext">
     <!--===========================================PAGINATION========================================================-->
     <aura:attribute name="allObjects"       type="List"    required="true"/>
     <aura:attribute name="currentObjects"   type="List"                       description="objects on page"/>

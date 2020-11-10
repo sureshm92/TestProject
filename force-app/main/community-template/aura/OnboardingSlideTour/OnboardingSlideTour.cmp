@@ -42,7 +42,7 @@
             <div class="tour-slides-container brand-gradient-background">
                 
 
-                <div class="tour-title" style="{!v.isRTL? 'direction:rtl' :''}"><aura:unescapedHtml value="{!v.title}"/></div>
+               <!-- <div class="tour-title" style="{!v.isRTL? 'direction:rtl' :''}"><aura:unescapedHtml value="{!v.title}"/></div> -->
 
                 <!-- Carousel Body -->
                 <div class="tour-slides-body">
@@ -57,19 +57,6 @@
                     </div>
                 </div>
 			</div>
-                <!-- Pagination -->
-                
-                <div class="tour-pages slds-m-around_small" style="{!v.isRTL? 'direction:rtl' :''}">
-                    <ul class="sc-pagination">
-                        <aura:iteration items="{!v.slides}" var="page" indexVar="index">
-                            <li><a aura:id="dot" href="javascript:void(0);"
-                                   class="{!'sc-pagination__dot' + if(v.currentPage == index, ' sc-pagination__dot_selected', '')}"
-                                   data-page="{!index}" onclick="{!c.handleClickDot}">
-                                </a>
-                            </li>
-                        </aura:iteration>
-                    </ul>
-                </div>
             
             <!-- slide info: -->
             <div class="tour-info-container ti-width-limiter" style="{!v.isRTL? 'direction:rtl' :''}">
@@ -85,6 +72,20 @@
                 </div>
 
             </div>
+
+                <!-- Pagination -->
+
+                <div class="tour-pages slds-m-around_small" style="{!v.isRTL? 'direction:rtl' :''}">
+                    <ul class="sc-pagination">
+                        <aura:iteration items="{!v.slides}" var="page" indexVar="index">
+                            <li><a aura:id="dot" href="javascript:void(0);"
+                                   class="{!'sc-pagination__dot' + if(v.currentPage == index, ' sc-pagination__dot_selected', '')}"
+                                   data-page="{!index}" onclick="{!c.handleClickDot}">
+                                </a>
+                            </li>
+                        </aura:iteration>
+                    </ul>
+                </div>
 
             <!-- buttons: --> 
                  

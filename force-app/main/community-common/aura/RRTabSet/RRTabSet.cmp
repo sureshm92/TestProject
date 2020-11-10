@@ -6,6 +6,6 @@
     <!--=============================================================================================================-->
     <div class="ts-tab-container">
         <div class="{!v.isRTL? 'ts-tab-right':'ts-tab-left'}">{!v.floatPositionLeft}</div>
-        <div class="ts-tab-right">{!v.floatPositionRight}</div>
+        <div class="{!v.isRTL? 'ts-tab-left':'ts-tab-right'}">{!v.floatPositionRight}</div>
     </div>
 </aura:component>
