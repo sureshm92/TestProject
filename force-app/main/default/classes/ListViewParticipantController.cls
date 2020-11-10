@@ -203,7 +203,7 @@ public without sharing class ListViewParticipantController {
                 }
                 filter+=' AND Study_Site__c IN: siteIds '; 
             }
-            if (!String.isEmpty(FilterList[0].Source)){
+            if (!String.isEmpty(FilterList[0].Source) & FilterList[0].Source != 'null'){
                 filter+='AND Source_Type__c='+'\''+ FilterList[0].Source+ '\'';
             }else{
                 lstSourceType.add('Referring Provider');
@@ -223,7 +223,7 @@ public without sharing class ListViewParticipantController {
             }
             
             //demographic filters//
-            if (!String.isEmpty(FilterList[0].Ethnicity)) {
+            if (!String.isEmpty(FilterList[0].Ethnicity) & FilterList[0].Ethnicity != 'null') {
                 filter+=' AND Participant__r.Ethnicity__c includes ('+'\''+ FilterList[0].Ethnicity+ '\')';
             }
             //if (FilterList[0].AgeFrom != '0' || FilterList[0].AgeTo != '100') {
@@ -398,13 +398,13 @@ public without sharing class ListViewParticipantController {
                 new LabelValueItem(SortOrder.ORDER_Z_A, 'Alphabetical_DESC,Participant__r.First_Name__c,Participant__r.Last_Name__c')
                 });
         List<LabelValueItem> peSource = new List<LabelValueItem> {
-            new LabelValueItem(Label.PG_MRR_L_All_Sources, null),
+            new LabelValueItem(Label.PG_MRR_L_All_Sources, 'null'),
                 new LabelValueItem(Label.Referring_Provider,'Referring Provider'),
                 new LabelValueItem(Label.Principal_Investigator,'Principal Investigator'),
                 new LabelValueItem(Label.Digital_Recruitment,'Digital Recruitment')
                 };
                     List<LabelValueItem> pEthnicity = new List<LabelValueItem> {
-                        new LabelValueItem(Label.All_Ethnicities,null),
+                        new LabelValueItem(Label.All_Ethnicities,'null'),
                             new LabelValueItem(Label.Prefer_not_to_say, '0- Prefer not to say'),
                             new LabelValueItem(Label.Hispanic_Latino,'1- Hispanic/Latino'),
                             new LabelValueItem(Label.American_Indian_Alaskan_Native,'2- American Indian/Alaskan Native'),
