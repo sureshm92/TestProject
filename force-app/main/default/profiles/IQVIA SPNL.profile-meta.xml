@@ -4933,7 +4933,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Participant_Enrollment__c.Last_Status_Changed_Notes__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4983,7 +4983,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Participant_Enrollment__c.Non_Enrollment_Reason__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5063,12 +5063,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Participant_Enrollment__c.Participant_Status_Last_Changed_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Participant_Enrollment__c.Participant_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
