@@ -1,6 +1,9 @@
 ({
     doInit: function (component, event, helper) {
         component.find('spinner').show();
+        let communityPrefix = communityService.getCommunityURLPathPrefix();
+        component.set('v.isJanssen', communityPrefix.includes('janssen'));
+      // component.set('v.isJanssen', true);
         if (communityService.getCurrentCommunityMode().currentDelegateId) component.set('v.isDelegate', true);
 
         communityService.executeAction(component, 'getInitData', {

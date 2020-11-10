@@ -5,7 +5,7 @@
     doInit: function (component, event, helper) {
         let rrCookies = communityService.getCookie('RRCookies');
         if (!rrCookies) {
-            let infoText = $A.get('$Label.c.Cookies_Info_Text');
+            let infoText = (check == true? $A.get('$Label.c.Cookies_Info_Text_Janssen') : $A.get('$Label.c.Cookies_Info_Text'));
             let linkCookies = $A.get('$Label.c.Link_Cookies');
             let communityPrefix = communityService.getCommunityURLPathPrefix();
             let check = communityPrefix.includes('janssen');
