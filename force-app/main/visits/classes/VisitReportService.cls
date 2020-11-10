@@ -5,6 +5,7 @@ public inherited sharing class VisitReportService {
 
     public static final String VISIT_RECORD_TYPE_LABS = 'Labs';
     public static final String VISIT_RES_RECORD_TYPE_BIO = 'Biomarker';
+    public static final String VISIT_RES_BIOMARKER_TYPE= 'Biomarkers';
 
     public VisitReportContainerRemote.ReportDataWrapper getReportDataWrapper(Id peId) {
         Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, CommunityService.USER_MODE_PARTICIPANT);
@@ -62,7 +63,12 @@ public inherited sharing class VisitReportService {
                                     isResult = true;
                                 } else {
                                     reportHeaderWrappers.add(new VisitReportContainerRemote.VisitHeaderWrapper(visitResultWrapper.visitResultTypeM.DeveloperName));
-                                    reportRowWrappers.add(new VisitReportContainerRemote.VisitValueWrapper('______'));
+                                    if(visitResultWrapper.visitResultTypeM.Visit_Result_Type__c==VISIT_RES_BIOMARKER_TYPE){
+                                        reportRowWrappers.add(new VisitReportContainerRemote.VisitValueWrapper(TranslateHelper.getLabelValue(System.Label.Visit_Result_No_Data,language)));
+                                    }
+                                    else{
+                                        reportRowWrappers.add(new VisitReportContainerRemote.VisitValueWrapper('______'));
+                                    }
 
                                 }
                                 labsDescription.add(new VisitReportContainerRemote.LabsNameDescriptionWrapper(visitResultWrapper.visitResultTypeM, language));
