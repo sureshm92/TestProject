@@ -35,12 +35,19 @@
                                                 </div>
                                             </div>
                                         </div>
+<<<<<<< HEAD
                                         <div class="state-label">{pathItem.visitName}</div>
                                         <div class="state-label">
+=======
+                                    </div>
+                                    <div class="state-label">{pathItem.visitName}</div>
+                                    <div class="state-label">
+>>>>>>> e3f925ae4dbcfa580b291552556976c8f39c8dd4
                                         <template if:false={pathItem.isPending}>
                                             <lightning-formatted-date-time 
                                             value={pathItem.complDate}></lightning-formatted-date-time>
                                         </template>
+<<<<<<< HEAD
                                             <template if:true={pathItem.isPending}>
                                                 <template if:true={pathItem.planDate}>
                                                     <div class="date-edit">
@@ -50,6 +57,16 @@
                                                             <c-web-icon icon-name="pencil-2" icon-color="#999" icon-size="small"
                                                                         icon-height="16" icon-width="16" style="margin-left: 4px;cursor: pointer;"></c-web-icon>
                                                         </div>
+=======
+                                        <template if:true={pathItem.isPending}>
+                                            <template if:true={pathItem.planDate}>
+                                                <div class="date-edit">
+                                                    <lightning-formatted-date-time
+                                                            value={pathItem.planDate}></lightning-formatted-date-time>
+                                                    <div data-id={pathItem.id} onclick={handleOpenDialog}>
+                                                        <c-web-icon icon-name="pencil-2" icon-color="#999" icon-size="small"
+                                                                    icon-height="16" icon-width="16" style="margin-left: 4px;cursor: pointer;"></c-web-icon>
+>>>>>>> e3f925ae4dbcfa580b291552556976c8f39c8dd4
                                                     </div>
                                                 </template>
                                                 <template if:false={pathItem.planDate}>
