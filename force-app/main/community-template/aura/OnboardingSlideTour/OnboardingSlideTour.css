@@ -119,9 +119,6 @@
     justify-content: stretch;
 }
 
-.THIS .slide-info-area {
-}
-
 .THIS .slide-title {
     font-size: 20px;
     font-weight: 600;
@@ -177,7 +174,8 @@
 }
 .THIS.slds-scope .sc-pagination__dot_selected {
     opacity: 1;
-    background: #e20000;
+    background: #0078a3;
+    border: 1px solid #0078a3;
 }
 .THIS.slds-scope .sc-pagination li {
     display: inline-block;
@@ -204,7 +202,6 @@
 }
 
 @media all and (max-width: 500px) {
-
     .THIS .tour-title {
         font-size: 1.25rem;
         line-height: 1.5rem;
@@ -290,7 +287,7 @@
         margin-top: 0;
     }
 
-    .THIS .tour-buttons-continer>.left {
+    .THIS .tour-buttons-continer > .left {
         flex: 0;
         margin-right: 0;
     }
@@ -331,5 +328,3 @@
         margin: 15px 0;
     }
 }
-
-
