@@ -12,7 +12,7 @@
     <aura:attribute name="greater_21_days_participantOptions" type="List" default="[]" />
     <aura:attribute name="actions" type="Object" />
     <aura:attribute name="parent" type="Aura.Component" />
-    <aura:attribute name="isInvited" type="Boolean" default="true" />
+    <aura:attribute name="isInvited" type="Boolean" /> <!--Removed default="true" for this REF-2646 issue --> 
     <aura:attribute name="piData" type="Object" />
     <aura:attribute name="ContactedParticipantData" type="Object" />
     <aura:attribute name="currentPi" type="String"/>
