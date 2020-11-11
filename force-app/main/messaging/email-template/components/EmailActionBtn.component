@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<apex:component id="EmailActionBtn" access="global" controller="EmailActionBtnController">
+ <apex:component id="EmailActionBtn" access="global" controller="EmailActionBtnController">
 
     <!-- attributes: -->
     <apex:attribute name="buttonLabel" type="String" description="" access="global" assignTo="{!buttonLabelName}"/>
@@ -10,7 +10,7 @@
     <apex:attribute name="caseId" type="String" description="" access="global" assignTo="{!caseIdString}"/>
     <apex:attribute name="surveyId" type="Id" description="" access="global" assignTo="{!surveyIdString}"/>
     <apex:attribute name="resourceId" type="Id" description="DEPRECATED" access="global" assignTo="{!resourceIdString}"/>
-
+    <apex:attribute name="communityTemplate" type="String" description="" access="global" assignTo="{!communityTemplateValue}"/>
     <!-- component body: -->
   <!--  <apex:outputpanel rendered="{!(communityName != 'IQVIA Referral Hub') && !(communityName != 'Janssen Community')}"> -->
     <apex:outputpanel rendered="{!!enableNewStyle}">
