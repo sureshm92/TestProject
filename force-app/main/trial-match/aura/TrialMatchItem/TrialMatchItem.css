@@ -4,6 +4,10 @@
  .THIS {
 }
 
+.THIS .learn-more{
+    margin-top:59px;
+}
+
 .THIS.card-ctp {
     height: auto;
     width: auto;
@@ -104,7 +108,18 @@
     font-family: "Proxima Nova";
     font-size: 16px;
     line-height: 24px;
-    width: 60ch
+    width: 60ch;
+    margin-top:-20px;
+    margin-left:-4px;
+}
+
+.THIS .nctId-rtl{
+    
+    margin-right:-7px;
+    
+}
+.THIS .nctId{
+    margin-left:-6px;
 }
 .THIS .ctp-nct-Id{
     color: #595959;

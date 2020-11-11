@@ -19,7 +19,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>All_Ethnicities</shortDescription>
-        <value>All</value>
+        <value>All Ethnicity</value>
     </labels>
     <labels>
         <fullName>American_Indian_Alaskan_Native</fullName>
@@ -16726,6 +16726,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Resource In Trial Summary Report</shortDescription>
         <value>In-trial Summary Report</value>
+    </labels>
+    <labels>
+        <fullName>Resource_Language</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resource_Language</shortDescription>
+        <value>Language (Please select language before uploading the file)</value>
     </labels>
     <labels>
         <fullName>Resource_Name</fullName>
