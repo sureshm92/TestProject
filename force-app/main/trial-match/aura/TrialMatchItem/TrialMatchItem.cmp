@@ -1,7 +1,7 @@
 <!--
   - Created by Sravani Dasari
  -->
-<aura:component description="TrialMatchItem" access="global" extends="c:CommunityContext" implements="flexipage:availableForAllPageTypes">
+ <aura:component description="TrialMatchItem" access="global" extends="c:CommunityContext" implements="flexipage:availableForAllPageTypes">
     <lightning:navigation aura:id="navService"/>
     
     <aura:attribute name="trialMatch" type="Object"/>
@@ -28,7 +28,12 @@
         <div class="ctp-info-block ctp-padding">
             <div class="ctp-study-code-name">
                 {!v.trialMatch.StudyCodeName}
-                <div class="{!v.trialMatch.NCTId!=null?'slds-show ctp-nct-Id':'slds-hide'}">&nbsp;&nbsp;<a href="{! 'https://clinicaltrials.gov/ct2/show/'+v.trialMatch.NCTId}" target="_blank">{!v.trialMatch.NCTId}</a></div>
+                <br></br>
+                <div class="{!v.isRTL? 'slds-grid nctId-rtl':'nctId'}">
+                 <div class="{!v.trialMatch.NCTId!=null?'slds-show ctp-nct-Id':'slds-hide'}">&nbsp;&nbsp;<a href="{! 'https://clinicaltrials.gov/ct2/show/'+v.trialMatch.NCTId}" target="_blank">{!v.trialMatch.NCTId}</a>
+                </div>
+                </div>
+               
             </div>
             <aura:if isTrue="{!v.isRTL}">
             	<div class="{!v.isRTL? 'ctp-date-status-rtl':'ctp-date-status'}">
@@ -47,7 +52,9 @@
             </div>
             <aura:if isTrue="{!v.islearnmore}">
                 <div class="{!v.isRTL? 'ctp-date-status-rtl':'ctp-date-status'}">
+                    <div class="learn-more">
                     <c:TrialMatchPageLearnMoreLink ctpId="{!v.trialMatch.ctpid}"/> 
+                    </div>
                 </div>
             </aura:if>
         </div>
