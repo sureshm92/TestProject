@@ -526,7 +526,18 @@ public without sharing class DashboardRemoteNew {
         initData.peStatusStateMap = PEStatusState.STATUSES_MAP;
         initData.peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
         Id participantContactId = [SELECT Contact__c FROM Participant__c WHERE Id = :participantId].Contact__c;
-        initData.isInvited = ![SELECT Id FROM User WHERE ContactId = : participantContactId].isEmpty();
+       // initData.isInvited = ![SELECT Id FROM User WHERE ContactId = : participantContactId].isEmpty();
+
+        List<user> lstUser = new List<user>();
+        lstUser = [SELECT Id FROM User WHERE ContactId = : participantContactId];
+        if(lstUser.size() == 0)
+        {
+            initData.isInvited = false;
+        }
+        else
+        {
+            initData.isInvited = true;
+        }
 
         List<Participant_Enrollment__c> pes = (List<Participant_Enrollment__c>) DatabaseService.query(
             ParticipantEnrollmentService.PE_COMMON_FIELDS,
@@ -751,7 +762,33 @@ public without sharing class DashboardRemoteNew {
         }
         return JSON.serialize(peList[0]);
     }
+    
+    @AuraEnabled
+    public static string getInvitedDetails(string participantId)
+    {
+        try
+        {
+            Boolean Userexist;
+            Id participantContactId = [SELECT Contact__c FROM Participant__c WHERE Id = :participantId].Contact__c;
+            List<user> lstUser = [select id,ContactId from user where ContactId =: participantContactId];
 
+            if(!lstUser.isEmpty())
+            {
+                Userexist = true;
+            }
+            else
+            {
+                Userexist = false;
+            }
+            return JSON.serialize(Userexist);
+        } 
+        catch (Exception e)
+        {
+           throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+
+ 
     //This method is used to set rank for the study sites
     public static List<SSRankWrapper> setRank(List<SSRankWrapper> ssRankWrapperlist) {
         Integer rank = 1;

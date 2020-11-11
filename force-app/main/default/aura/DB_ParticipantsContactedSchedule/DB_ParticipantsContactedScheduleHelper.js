@@ -37,6 +37,15 @@
         toastEvent.fire();
     },
     
+        // added for REF-2646 issue fixing
+        getInviteDetails : function(component, event, participantId){        
+            communityService.executeAction(component, 'getInvitedDetails', {
+                participantId: participantId
+            }, function(returnValue) {
+                component.set('v.isInvited', JSON.parse(returnValue));
+            });        
+        },
+     
     createContactedParticipantDataList : function(component, event, helper, ContactedParticipantData)
     {
         var result = ContactedParticipantData;
