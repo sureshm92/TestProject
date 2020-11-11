@@ -35,6 +35,9 @@
                 </div>
                
             </div>
+            <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-1">
+
             <aura:if isTrue="{!v.isRTL}">
             	<div class="{!v.isRTL? 'ctp-date-status-rtl':'ctp-date-status'}">
                 	{!v.trialMatch.matchDate} &nbsp;{!$Label.c.Matched_of}
@@ -44,19 +47,23 @@
                 	{!$Label.c.Matched_of}&nbsp;{!v.trialMatch.matchDate}
             	</div>            
         	</aura:set>
-            </aura:if>    
-        </div>
-        <div class="ctp-info-block ctp-padding">
-            <div class="cpt-official-title">
-                {!v.trialMatch.OfficialTitle}
-            </div>
+            </aura:if> 
+                </div>
+                            <div class="slds-col slds-size_1-of-1">
+
             <aura:if isTrue="{!v.islearnmore}">
                 <div class="{!v.isRTL? 'ctp-date-status-rtl':'ctp-date-status'}">
-                    <div class="learn-more">
+                    <div>
                     <c:TrialMatchPageLearnMoreLink ctpId="{!v.trialMatch.ctpid}"/> 
                     </div>
                 </div>
-            </aura:if>
+                                </aura:if></div></div>
+
+        </div>
+        <div class="ctp-info-block ctp-padding">
+            <div class="cpt-official-title">
+                {!v.trialMatch.OfficialTitle} 
+            </div>
         </div>
     </div>
     <c:RRSpinner aura:id="mainSpinner" showSpinner="false" size="medium" fixed="true"/>

@@ -39,8 +39,8 @@
                                 <lightning:formattedText value="{!$Label.c.search_results}"/>
                             </div>
                             <div class="{!v.isRTL? 'resource-link-container slds-float_left sidepaddingleft-rtl':'resource-link-container slds-float_right'}">
-                                <c:RRIcon iconName="icon-pdf" color="#0768FD" class="resource-icon"/>
-                                    <a class="resource-name" onclick="{!c.doGenerateReport}">
+                                <c:RRIcon iconName="icon-pdf" color="#0768FD" class="{!v.isRTL? 'resource-icon-rtl':'resource-icon'}"/>
+                                    <a class="{!v.isRTL? 'resource-name-rtl':'resource-name'}" onclick="{!c.doGenerateReport}">
                                         {!$Label.c.Download_Trial_Match}
                                     </a>
                             </div>
