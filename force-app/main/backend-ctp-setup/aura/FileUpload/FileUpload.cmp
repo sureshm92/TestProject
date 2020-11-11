@@ -1,4 +1,4 @@
-<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId, lightning:availableForFlowScreens, force:lightningQuickAction" access="global" controller="FileUploadController">
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId,lightning:availableForFlowScreens,force:lightningQuickAction" access="global" controller="FileUploadController">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
     <!-- attributes -->
@@ -53,7 +53,7 @@
         </aura:if>
         <aura:if isTrue="{!v.fileWrapper.listOfLanguages.length > 0}">
             <footer class="slds-card__footer">
-                <lightning:select name="{!$Label.c.PG_AH_H_Language}" label="{!$Label.c.PG_AH_H_Language}" value="{!v.fileWrapper.currentLanguageCode}" required="true">
+                <lightning:select name="{!$Label.c.PG_AH_H_Language}" label="{!$Label.c.Resource_Language}" value="{!v.fileWrapper.currentLanguageCode}" required="true">
                     <aura:iteration items="{!v.fileWrapper.listOfLanguages}" var="languageItem">
                         <option value="{!languageItem.value}">{!languageItem.label}</option>
                     </aura:iteration>
