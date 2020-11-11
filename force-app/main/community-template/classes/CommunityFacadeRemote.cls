@@ -178,12 +178,12 @@ public without sharing class CommunityFacadeRemote {
             cookieFields.add('RRCookiesAllowedCookie__c');
             cookieFields.add('RRLanguageAllowedCookie__c');
         }
-        for (String currField : fields.keySet()) {
+      /*  for (String currField : fields.keySet()) {
             String fieldName = fields.get(currField).getDescribe().getName();
             if (fieldName.endsWith(COOKIE_FIELD_MARK)) {
                 cookieFields.add(fieldName);
             }
-        }
+        } */
 
         if (!cookieFields.isEmpty()) {
             String query = 'SELECT ' + String.join(cookieFields, ', ') + ' FROM Contact WHERE Id = \'' + contactId + '\'';
