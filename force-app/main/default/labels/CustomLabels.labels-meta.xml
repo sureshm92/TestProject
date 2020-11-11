@@ -16728,6 +16728,13 @@ communications using the toggles below.</value>
         <value>In-trial Summary Report</value>
     </labels>
     <labels>
+        <fullName>Resource_Language</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resource_Language</shortDescription>
+        <value>Language (Please select language before uploading the file)</value>
+    </labels>
+    <labels>
         <fullName>Resource_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
