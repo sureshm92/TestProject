@@ -148,3 +148,29 @@
 .THIS .p-footer {
     text-align: left !important;
 }
+@media (min-width: 320px) and (max-width: 480px) {
+  
+ .THIS .ctp-date-status-rtl {
+    font-size: 14px;
+    text-align: left;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-weight: 500;
+    line-height: 21px;
+    direction: ltr;
+    margin-right:55px;
+    white-space:normal;
+}
+    .THIS .ctp-date-status {
+    font-size: 14px;
+    text-align: right;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-weight: 500;
+    line-height: 21px;
+    white-space:normal;
+    margin-left:55px;
+
+}
+  
+}
