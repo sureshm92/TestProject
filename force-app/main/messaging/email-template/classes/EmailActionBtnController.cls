@@ -26,7 +26,7 @@ global without sharing class EmailActionBtnController {
      {
         return communitiesList.contains('IQVIA Referral Hub');
      }
-     System.debug('EmailTemplateProviderService::::'+EmailTemplateProviderService.getProvider().getCommunityName());   
+     
      return communitiesList.contains(EmailTemplateProviderService.getProvider().getCommunityName());
     }
 
