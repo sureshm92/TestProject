@@ -8,6 +8,7 @@ global without sharing class EmailActionBtnController {
     global String buttonURLString { get; set; }
     global String caseIdString { get; set; }
     global Id surveyIdString { get; set; }
+     global String communityTemplateValue { get; set; }
 
     //DEPRECATED
     global Id resourceIdString { get; set; }
@@ -19,8 +20,13 @@ global without sharing class EmailActionBtnController {
     public Boolean getEnableNewStyle()
     { 
      List<New_Style_Enablement__mdt> nseList = [Select Id,CommunityName__c from New_Style_Enablement__mdt];
-	 List<String> communitiesList = new List<String>();
+     List<String> communitiesList = new List<String>();
      for(New_Style_Enablement__mdt ns: nseList) communitiesList.add(ns.CommunityName__c);
+     if(communityTemplateValue=='Default')
+     {
+        return communitiesList.contains('IQVIA Referral Hub');
+     }
+     
      return communitiesList.contains(EmailTemplateProviderService.getProvider().getCommunityName());
     }
 
@@ -43,6 +49,11 @@ global without sharing class EmailActionBtnController {
     }
 
     private String getCurrentCommunityURL() {
+     if(communityTemplateValue=='Default')
+     {
+        return    CommunityTemplateService.getCommunityURL('IQVIA Referral Hub');
+     }
         return CommunityTemplateService.getCommunityURL(EmailTemplateProviderService.getProvider().getCommunityName());
     }
+    
 }
