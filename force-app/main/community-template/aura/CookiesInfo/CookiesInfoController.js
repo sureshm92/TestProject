@@ -4,11 +4,15 @@
 ({
     doInit: function (component, event, helper) {
         let rrCookies = communityService.getCookie('RRCookies');
-        if (!rrCookies) {
+        var paramLanguage = communityService.getUrlParameter('lanCode');
+        communityService.executeAction(component, 'getCommunityUrl', {
+            
+        }, function (rValue) {
+        if (!rrCookies) {  
+            let communityPrefix = rValue;
+            let check = communityPrefix.includes('janssen');
             let infoText = (check == true? $A.get('$Label.c.Cookies_Info_Text_Janssen') : $A.get('$Label.c.Cookies_Info_Text'));
             let linkCookies = $A.get('$Label.c.Link_Cookies');
-            let communityPrefix = communityService.getCommunityURLPathPrefix();
-            let check = communityPrefix.includes('janssen');
             let linkPPUrl;
             let linkCP;
             let linkPP = $A.get('$Label.c.Footer_Link_Privacy_Policy');
@@ -42,6 +46,7 @@
                 component.cookiesOff();
             }), 10000);
         }
+    });
 
     },
 

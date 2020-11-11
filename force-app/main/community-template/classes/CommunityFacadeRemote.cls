@@ -63,7 +63,12 @@ public without sharing class CommunityFacadeRemote {
         @AuraEnabled public Boolean messagesVisible;
         @AuraEnabled public Boolean trialMatchVisible;
     }
-
+@AuraEnabled
+	public static String getCommunityUrl() {
+        return Site.getPathPrefix();
+        
+    }
+    
     @AuraEnabled
     public static String getCommunityData() {
         try {
@@ -166,12 +171,19 @@ public without sharing class CommunityFacadeRemote {
 
         List<String> cookieFields = new List<String>();
         Map<String, Schema.SObjectField> fields = Contact.getSObjectType().getDescribe().fields.getMap();
-        for (String currField : fields.keySet()) {
+          if(getCommunityUrl().contains('janssen')) {
+            cookieFields.add('RRJanssenCookiesAllowedCookie__c');
+            cookieFields.add('RRJanssenLanguageAllowedCookie__c');
+        } else {
+            cookieFields.add('RRCookiesAllowedCookie__c');
+            cookieFields.add('RRLanguageAllowedCookie__c');
+        }
+      /*  for (String currField : fields.keySet()) {
             String fieldName = fields.get(currField).getDescribe().getName();
             if (fieldName.endsWith(COOKIE_FIELD_MARK)) {
                 cookieFields.add(fieldName);
             }
-        }
+        } */
 
         if (!cookieFields.isEmpty()) {
             String query = 'SELECT ' + String.join(cookieFields, ', ') + ' FROM Contact WHERE Id = \'' + contactId + '\'';

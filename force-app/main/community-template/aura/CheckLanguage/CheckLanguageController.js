@@ -6,14 +6,17 @@
         var defaultLanguage = 'en_US';
         var language = communityService.getCookie('RRLanguage');
         var paramLanguage = communityService.getUrlParameter('language');
-
-        if (language && paramLanguage && paramLanguage !== language) {
-            document.location.href = communityService.replaceUrlParameter('language', language);
+        communityService.executeAction(component, 'getCommunityUrl', {
+            
+        }, function (rValue) {
+            var jCheck = rValue.includes('janssen');
+           if (language && paramLanguage && paramLanguage !== language) {
+               document.location.href = communityService.replaceUrlParameter('language', language);
             return;
         } else if (!language) {
             var multiBrowserLanguage = navigator.language || navigator.userLanguage || navigator.browserLanguage || navigator.systemLanguage || DEFAULT_VALUE;
             var browserLanguages = JSON.stringify([multiBrowserLanguage]);
-            //if supported languages list:
+            //if supported languages  list:
             if(navigator.languages) browserLanguages = JSON.stringify(navigator.languages);
             //load preferred language from server:
             communityService.executeAction(component, 'getPreferredLanguageCode', {
@@ -24,6 +27,7 @@
                 language = defaultLanguage;
             }, function () {
                 if(language !== 'Skip'){ //Skip redirect for logged in users
+                    if(jCheck == false) // no language cookies for janssen
                     communityService.setCookie('RRLanguage', language);
                     document.location.href = communityService.replaceUrlParameter('language', language);
                 }else{
@@ -33,6 +37,8 @@
             return;
         }
         component.set('v.languageChecked', true);
+             
+    });
     }
 
 })
