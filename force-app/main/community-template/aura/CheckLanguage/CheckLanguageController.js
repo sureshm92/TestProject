@@ -16,7 +16,7 @@
         } else if (!language) {
             var multiBrowserLanguage = navigator.language || navigator.userLanguage || navigator.browserLanguage || navigator.systemLanguage || DEFAULT_VALUE;
             var browserLanguages = JSON.stringify([multiBrowserLanguage]);
-            //if supported languages list:
+            //if supported languages  list:
             if(navigator.languages) browserLanguages = JSON.stringify(navigator.languages);
             //load preferred language from server:
             communityService.executeAction(component, 'getPreferredLanguageCode', {
