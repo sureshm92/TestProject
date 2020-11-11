@@ -4135,6 +4135,16 @@
         <field>Contact.RRCookiesAllowedCookie__c</field>
         <readable>false</readable>
     </fieldPermissions>
+      <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.RRJanssenCookiesAllowedCookie__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+      <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.RRJanssenLanguageAllowedCookie__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.RRLanguageAllowedCookie__c</field>

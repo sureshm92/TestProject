@@ -63,7 +63,12 @@ public without sharing class CommunityFacadeRemote {
         @AuraEnabled public Boolean messagesVisible;
         @AuraEnabled public Boolean trialMatchVisible;
     }
-
+@AuraEnabled
+	public static String getCommunityUrl() {
+        return Site.getPathPrefix();
+        
+    }
+    
     @AuraEnabled
     public static String getCommunityData() {
         try {
