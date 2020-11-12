@@ -14,7 +14,15 @@ public class EmailForPendingReferrals {
 
         NotificationAvailabilityService availabilityService = new NotificationAvailabilityService(allContactIds, allContactIds);
 
-        List<Participant_Enrollment__c> pes = [
+        List<Study_Site__c> studySite = new List<Study_Site__c>();
+        
+        studySite =[SELECT Id,Principal_Investigator__c FROM Study_Site__c WHERE Id IN(SELECT Study_Site__c FROM Participant_Enrollment__c
+        WHERE Participant_Status__c = 'Received' AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = false ) AND Principal_Investigator__c IN:allContactIds
+        ORDER By CreatedDate];
+        
+        
+
+     /**   List<Participant_Enrollment__c> pes = [
                 SELECT Study_Site__c,
                         Study_Site__r.Principal_Investigator__c
                 FROM Participant_Enrollment__c
@@ -25,13 +33,22 @@ public class EmailForPendingReferrals {
                         WHERE Principal_Investigator__c IN:allContactIds
                 )
                 ORDER By CreatedDate
-        ];
+        ];  **/
         Map<Id, Id> ssByContactIdMap = new Map<Id, Id>();
-        for (Participant_Enrollment__c pe : pes) {
+        /**   for (Participant_Enrollment__c pe : pes) {
             if (!ssByContactIdMap.containsKey(pe.Study_Site__r.Principal_Investigator__c)) {
                 ssByContactIdMap.put(pe.Study_Site__r.Principal_Investigator__c, pe.Study_Site__c);
             }
+        }  **/
+        
+        for(Study_Site__c ssite: studySite)
+        {
+            if (!ssByContactIdMap.containsKey(ssite.Principal_Investigator__c)) {
+                ssByContactIdMap.put(ssite.Principal_Investigator__c, ssite.Id);
+            }
+        
         }
+        
         List<Site_Staff__c> siteStaffs = [
                 SELECT Id, Site_Contact__c, Study_Site__c
                 FROM Site_Staff__c
@@ -70,7 +87,7 @@ public class EmailForPendingReferrals {
         if(allContactIds.contains(contactId)) {
             emailMessages.add(EmailService.createEmail(EmailService.getEmailTemplateId('PI_RP_New_Referral'), contactId, ssByContactIdMap.get(contactId),
                     availabilityService.getOrgWideEmail(contactId, ssByContactIdMap.get(contactId), nt.Org_Wide_Email_Address__c)));
-    	}
+        }
         List<Messaging.SendEmailResult> resultList = Messaging.sendEmail(emailMessages, false);
     }
 }
