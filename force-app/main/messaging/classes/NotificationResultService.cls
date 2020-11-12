@@ -72,7 +72,9 @@ public without sharing class NotificationResultService {
                     sr.Integration_Log__c = log.Id;
                 }
             }
-            results.addAll(nResults);
+            if(nResults.size()>0){
+                results.addAll(nResults);
+            }
         }
         upsert results;
         updateNotificationsStatus();
