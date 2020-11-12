@@ -44,7 +44,7 @@
             document.body.addEventListener('click', component.cookiesOff, false);
             setTimeout($A.getCallback(function () {
                 component.cookiesOff();
-            }), 10000);
+            }), 20000);
         }
     });
 
