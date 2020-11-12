@@ -254,7 +254,7 @@ export default class VisitsPath extends LightningElement {
     handleScrollLeftRTL() {
         if (this.fromLeftCorner) {
             this.fromLeftCorner = false;
-        }else if(this.fromRightCorner){
+        }else if(this.fromRightCorner ){
             this.nextScrollLeft =this.scrollStep;
             this.pathContainer.scrollLeft -= this.nextScrollLeft;
             this.fromRightCorner = false;
@@ -265,24 +265,20 @@ export default class VisitsPath extends LightningElement {
 
         let context = this;
         setTimeout(function () {
-            context.nextScrollLeft = context.scrollStep;
-            context.checkCloserIsNeeded(context);
             context.changeArrowsStyle();
         }, 450);
     }
 
     handleScrollRightRTL() {
-        this.pathContainer.scrollLeft = 0;
-        this.nextScrollLeft = this.scrollStep;
-
+        
+        this.pathContainer.scrollLeft += this.nextScrollLeft;
+        
         let context = this;
         setTimeout(function () {
             context.nextScrollRight = context.scrollStep;
             context.fromLeftCorner = false;
-            context.nextScrollLeft = context.scrollStep;
-            context.checkCloserIsNeeded(context);
             context.changeArrowsStyle();
-        }, 450);
+        }, 600);
     }
 
     //Scroll logic:-----------------------------------------------------------------------------------------------------
