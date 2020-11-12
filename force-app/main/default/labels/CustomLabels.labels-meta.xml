@@ -7365,7 +7365,7 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:PrivacyOfficer@iqvia.com&quo
         <protected>false</protected>
         <shortDescription>Help_referralId_incorrect</shortDescription>
         <value>The Referral ID is in the incorrect format.
-The expected format is REF#####</value>
+The expected format is REF##### OR REF###### OR REF#######</value>
     </labels>
     <labels>
         <fullName>Help_referralId_missing</fullName>
