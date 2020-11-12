@@ -92,7 +92,7 @@
             'Sortby': '',
             'highPrioritySelected_YesIds': '',
             'highPrioritySelected_NoIds': '',
-            'startPos': 1,
+            'startPos': 0,
             'endPos': 45000,
             'perRecordCount':perRecordCount
         });
