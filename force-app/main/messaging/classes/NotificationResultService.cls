@@ -76,7 +76,10 @@ public without sharing class NotificationResultService {
                 results.addAll(nResults);
             }
         }
-        upsert results;
+        if(results.size()>0){
+            upsert results;
+        }
+        
         updateNotificationsStatus();
     }
     
