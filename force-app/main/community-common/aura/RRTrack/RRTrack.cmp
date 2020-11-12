@@ -8,6 +8,7 @@
     <aura:attribute name="rendered" type="Boolean" default="false" access="private"/>
     <aura:attribute name="wrapper" type="Object"/>
     <aura:attribute name="showPercentage" type="Boolean"/>
+    <aura:attribute name="resultType" type="String"/>
 
     <aura:attribute name="value" type="String" default=""/>
     <aura:attribute name="minValue" type="Double" default="0"/>
@@ -29,6 +30,7 @@
     </div>
     <div style="{!if(v.isRTL == true, 'margin-right:' + v.valueMargin + '%', 'margin-left:' + v.valueMargin + '%')}" aura:id="actValue" class="visit-result-actual-value">
         {!if(!v.value, v.wrapper.value + ' ' + v.wrapper.measurement, v.value)}
+        {!if(and(v.resultType=='Biomarkers',!v.value),$Label.c.Visit_Result_No_Data,'')}
     </div>
 
 </aura:component>

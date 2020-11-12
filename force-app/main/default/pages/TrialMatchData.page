@@ -76,11 +76,10 @@
                 </div>
                 <div style="padding: 15px;">
                     <div style="color: #000000;
-                                float:left;
                                 font-size: 13px;
                                 padding-top: 15px;
                                 line-height: 24px;
-                               {!if(RTL == true, 'float:right;', 'float:left;')}">
+                               {!if(RTL == true, 'float:right;text-align: right;', 'float:left;text-align:left;')}">
                         {!trialMatch.OfficialTitle}
                     </div>
                 </div>

@@ -240,6 +240,7 @@ public without sharing class ReferringRemote {
                 }
                 if(delegateDuplicateInfo == null || delegateDuplicateInfo.participantId == null) {
                     participantDelegate.Contact__c = newContact.Id;
+                    participantDelegate.Adult__c = true;
                     if (String.isBlank(participantDelegate.Phone__c) && !String.isBlank(participant.Phone__c)) {
                         participantDelegate.Phone__c = participant.Phone__c;
                         participantDelegate.Phone_Type__c = participant.Phone_Type__c;

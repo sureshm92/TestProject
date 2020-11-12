@@ -200,7 +200,8 @@ private class Test_DashboardRemoteNew {
             DashboardRemoteNew.prepareHCPEList(testDataInst.piContact.Id,testDataInst.ctp.Id);
             DashboardRemoteNew.getContactedParticipantsData(testDataInst.piContact.Id, testDataInst.ctp.Id);
             DashboardRemoteNew.getPIName(testDataInst.piContact.Id);
-            DashboardRemoteNew.getPEEnrollmentsByPI(testDataInst.Participant.Id);            
+            DashboardRemoteNew.getPEEnrollmentsByPI(testDataInst.Participant.Id);
+            DashboardRemoteNew.getInvitedDetails(testDataInst.Participant.Id);                            
             DashboardRemoteNew.getStudyName(testDataInst.ctp.Id);            
             DashboardRemoteNew.getCurrentStudySitesCount(testDataInst.ctp.Id);
             DashboardRemoteNew.getStudySiteDetails(testDataInst.piContact.Id, testDataInst.ctp.Id);
