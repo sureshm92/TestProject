@@ -1,14 +1,15 @@
 /**
- * Created by Leonid Bartenev
+ * Created by  Leonid Bartenev
  */
 ({
     doInit: function (component, event, helper) {
         let rrCookies = communityService.getCookie('RRCookies');
         var paramLanguage = communityService.getUrlParameter('lanCode');
-        communityService.executeAction(component, 'getCommunityUrl', {
-            
-        }, function (rValue) {
+      
         if (!rrCookies) {  
+            communityService.executeAction(component, 'getCommunityUrl', {
+            
+            }, function (rValue) {
             let communityPrefix = rValue;
             let check = communityPrefix.includes('janssen');
             let infoText = (check == true? $A.get('$Label.c.Cookies_Info_Text_Janssen') : $A.get('$Label.c.Cookies_Info_Text'));
@@ -44,9 +45,10 @@
             document.body.addEventListener('click', component.cookiesOff, false);
             setTimeout($A.getCallback(function () {
                 component.cookiesOff();
-            }), 10000);
+            }), 20000);
+        });
         }
-    });
+  
 
     },
 
