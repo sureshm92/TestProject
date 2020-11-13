@@ -12,6 +12,14 @@
         communityService.navigateToPage('listviewparticipant');
     },
     doExportFull: function (component) {
+        if (communityService.isInitialized() && communityService.isMobileSDK()) {
+            communityService.showInfoToast(
+                'Info!',
+                $A.get('$Label.c.Pdf_Not_Available'),
+                100
+            );
+            return;
+        }
         var p = component.get("v.parent");
         p.export();
     },
