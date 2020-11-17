@@ -352,7 +352,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
 	  // get community name
     @AuraEnabled
     public static String getCommunityUrl() {
-        return Site.getPathPrefix();
+        return site.getMasterLabel();
         
     }
 
