@@ -115,7 +115,8 @@
                 component.set("v.peFilterData.statuses", returnValue);
                 if(selectedOptionValue == 'Inactive' && component.get('v.filterList[0].ParticipantStatus') != 'null' && component.get('v.filterList[0].ParticipantStatus') != 'Received'){
                     component.set('v.filterList[0].ParticipantStatus', component.get('v.filterList[0].ParticipantStatus')); 
-                }else if(selectedOptionValue == 'Inactive' && component.get('v.actStatus').includes(component.get('v.filterList[0].ParticipantStatus'))){
+                }
+                if(selectedOptionValue == 'Inactive' && component.get('v.actStatus').includes(component.get('v.filterList[0].ParticipantStatus'))){
                     component.set('v.filterList[0].ParticipantStatus', 'null'); 
                 }
                 //  alert(component.get('v.filterList[0].ParticipantStatus'));
@@ -130,6 +131,10 @@
                     }
                     component.set('v.actStatus', arr);
                     component.set("v.psIfActive", returnValue);
+                }
+                if(selectedOptionValue == 'Active' && 
+                    !component.get('v.actStatus').includes(component.get('v.filterList[0].ParticipantStatus'))){
+                    component.set('v.filterList[0].ParticipantStatus', 'null'); 
                 }
                 //spinner.hide();
             }
