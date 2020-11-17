@@ -70,6 +70,7 @@ Publish Community
 1.Open Setup - All Communities - Click Builder near GSK  Community
 go to gear icon-->Open Terms and Conditions page-->click on gear icon again-->go to Layout section-->check Override the default theme layout for this page-->select Brand_No_Navigation from 
 Theme Layout dropdown.
+Publish Community 
 
 ## 11.System Administrator profile configuration(needs to be done in fomral and UAT)
 1.setup-->Profiles-->System Administrator-->object Setting-->Visit_Results-->check Biomarker checkbox in Assigned record types column.
@@ -129,3 +130,9 @@ Batch_SiteStaff_Invited_Update batchSS = new Batch_SiteStaff_Invited_Update();
 database.executebatch(batchSS, 50);
 
 Click 'Execute' button.
+
+## 18. GSK Community Cookie Policy page configuration
+1.Open Setup - All Communities - Click Builder near GSK  Community
+go to gear icon-->Open Cookie Policy page-->click on gear icon again-->change Page Access Value 
+Page Access=Public
+Publish Community 
