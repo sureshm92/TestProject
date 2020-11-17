@@ -29,10 +29,9 @@ stages:
   - DeployINF5.1
   - RunTestINF5.1
 
-#5.1 INF
+ #5.1 INF
   - DeployClonedFml
   - RunTestClonedFml
-
 
 
 cache:
@@ -255,7 +254,6 @@ RunTestClonedFml:
   stage: RunTestClonedFml
   script:
     - . ./scripts/ci/run-tests.sh Clonedformal
-
 .sfdx_helpers: &sfdx_helpers |
 
   # Function to authenticate to Salesforce.
