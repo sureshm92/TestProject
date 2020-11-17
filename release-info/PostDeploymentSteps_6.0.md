@@ -141,3 +141,7 @@ Publish Community
 go to gear icon-->Open Cookie Policy page-->click on the center of the page -->pop up on right side will get opened-->
 Set PrivacyPolicy (for Privacy Policy) or CookiePolicy (for Cookie Policy) or leave blank for TC=CookiePolicy
 Publish Community
+
+## 19. Trial Match Learn More Field-Level Security
+1.Go to Setup - Object Manager - Clinical Trial Profile - fields - Study_Content__c - Set Field-Level Security --> please check visible checkbox for following profiles : Business Administrator , Business Lead , IQVIA SPNL2 , Product Owner.
+2.please check both visible and Read-Only checkboxes for profile : PRDBAPI
