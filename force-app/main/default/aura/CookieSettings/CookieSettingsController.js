@@ -2,7 +2,12 @@
     doInit: function (component, event, helper) {
         component.find('spinner').show();
         let communityPrefix = communityService.getCommunityURLPathPrefix();
-        component.set('v.isJanssen', communityPrefix.includes('janssen'));
+		 communityService.executeAction(component, 'getCommunityUrl', {
+               
+            }, function (rValue) {
+                 component.set('v.isJanssen', communityPrefix.includes('Janssen Community'));
+            });
+       // component.set('v.isJanssen', communityPrefix.includes('janssen'));
       // component.set('v.isJanssen', true);
         if (communityService.getCurrentCommunityMode().currentDelegateId) component.set('v.isDelegate', true);
 

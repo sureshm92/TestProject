@@ -11,7 +11,7 @@
             
             }, function (rValue) {
             let communityPrefix = rValue;
-            let check = communityPrefix.includes('janssen');
+            let check = communityPrefix.includes('Janssen Community');
             let infoText = (check == true? $A.get('$Label.c.Cookies_Info_Text_Janssen') : $A.get('$Label.c.Cookies_Info_Text'));
             let linkCookies = $A.get('$Label.c.Link_Cookies');
             let linkPPUrl;

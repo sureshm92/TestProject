@@ -349,6 +349,12 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 WHERE Id = :accountId
         ];
     }
+	  // get community name
+    @AuraEnabled
+    public static String getCommunityUrl() {
+        return site.getMasterLabel();
+        
+    }
 
     public static List<CookieSettings> getCookieSettings() {
         List<CookieSettings> cookieSettings = new List<CookieSettings>();
