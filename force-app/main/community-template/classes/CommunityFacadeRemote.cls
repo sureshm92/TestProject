@@ -167,17 +167,20 @@ public without sharing class CommunityFacadeRemote {
     }
 
     private static List<String> getPreventedCookies(Id contactId) {
-        List<String> preventedCookies = new List<String>();
+       List<String> preventedCookies = new List<String>();
 
         List<String> cookieFields = new List<String>();
-        Map<String, Schema.SObjectField> fields = Contact.getSObjectType().getDescribe().fields.getMap();
-          if(getCommunityUrl().contains('janssen')) {
-            cookieFields.add('RRJanssenCookiesAllowedCookie__c');
-            cookieFields.add('RRJanssenLanguageAllowedCookie__c');
-        } else {
-            cookieFields.add('RRCookiesAllowedCookie__c');
-            cookieFields.add('RRLanguageAllowedCookie__c');
-        }
+        String commUrl = getCommunityUrl();
+        //Map<String, Schema.SObjectField> fields = Contact.getSObjectType().getDescribe().fields.getMap();
+       
+            if(commUrl!=null) 
+            if(commUrl.contains('Janssen Community')) {
+                cookieFields.add('RRJanssenCookiesAllowedCookie__c');
+                cookieFields.add('RRJanssenLanguageAllowedCookie__c');
+                } else {
+                cookieFields.add('RRCookiesAllowedCookie__c');
+                cookieFields.add('RRLanguageAllowedCookie__c');
+           }
       /*  for (String currField : fields.keySet()) {
             String fieldName = fields.get(currField).getDescribe().getName();
             if (fieldName.endsWith(COOKIE_FIELD_MARK)) {
