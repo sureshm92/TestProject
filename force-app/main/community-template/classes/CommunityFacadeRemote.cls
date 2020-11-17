@@ -65,7 +65,7 @@ public without sharing class CommunityFacadeRemote {
     }
 @AuraEnabled
 	public static String getCommunityUrl() {
-        return Site.getPathPrefix();
+         return site.getMasterLabel();
         
     }
     
