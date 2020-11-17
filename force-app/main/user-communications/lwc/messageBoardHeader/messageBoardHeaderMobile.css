@@ -5,6 +5,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+    position: relative;
 }
 
 .header-back {
@@ -67,18 +68,19 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: 100px;
+    width: 100%;
 }
 
 .mob-multi-header-pa {
     align-self: center;
     padding: 40px 5px 10px;
-    width: 320px;
+    width: 100%;
 }
 
 .mob-multi-header-pi {
     align-self: center;
     padding: 40px 10px 10px;
+    width: 100%;
 }
 
 .mob-pi-new-mess {
@@ -88,10 +90,10 @@
 }
 
 .mob-pi-multi-recipient {
-    min-width: 322px;
     border: 1px solid #d4d1d1;
     border-radius: 5px;
     padding: 4px;
+    margin-top: 10px;
 }
 
 .mob-header-patient-name {

@@ -1,7 +1,7 @@
 <!--
   - Created by Sravani Dasari
  -->
-<aura:component description="TrialMatchItem" access="global" extends="c:LightningService" implements="flexipage:availableForAllPageTypes">
+ <aura:component description="TrialMatchItem" access="global" extends="c:CommunityContext" implements="flexipage:availableForAllPageTypes">
     <lightning:navigation aura:id="navService"/>
     
     <aura:attribute name="trialMatch" type="Object"/>
@@ -10,31 +10,60 @@
     <div class="card-ctp">
         <div class="{!v.trialMatch.isEnrollingCTP ? ' top-line' : ''}"></div>
         <div class="ctp-info-block ctp-padding">
-            <div class="tap-class">
-                {!$Label.c.TrialSearch_Therapeutic_area} : {!v.trialMatch.TherapeuticArea}
-            </div>
-            <div class="ctp-recruitment-status">
-                    {!v.trialMatch.isEnrollingCTP ? $Label.c.TrialSearch_Enrolling : $Label.c.TrialSearch_Not_Yet_Enrolling}
+            <aura:if isTrue="{!v.isRTL}">
+                <div class="tap-class">
+                    {!v.trialMatch.TherapeuticArea} : {!$Label.c.TrialSearch_Therapeutic_area} 
+                </div>
+                <aura:set attribute="else">
+                 <div class="tap-class">
+                    {!$Label.c.TrialSearch_Therapeutic_area} : {!v.trialMatch.TherapeuticArea}
+                </div>
+                </aura:set> 
+            </aura:if> 
+            <div class="{!v.isRTL? 'ctp-recruitment-status-rtl':'ctp-recruitment-status'}">
+                {!v.trialMatch.isEnrollingCTP ? $Label.c.TrialSearch_Enrolling : $Label.c.TrialSearch_Not_Yet_Enrolling}
             </div>
         </div>
         <div class="seperator"></div>
         <div class="ctp-info-block ctp-padding">
             <div class="ctp-study-code-name">
                 {!v.trialMatch.StudyCodeName}
+                <br></br>
+                <div class="{!v.isRTL? 'slds-grid nctId-rtl':'nctId'}">
+                 <div class="{!v.trialMatch.NCTId!=null?'slds-show ctp-nct-Id':'slds-hide'}">&nbsp;&nbsp;<a href="{! 'https://clinicaltrials.gov/ct2/show/'+v.trialMatch.NCTId}" target="_blank">{!v.trialMatch.NCTId}</a>
+                </div>
+                </div>
+               
             </div>
-            <div class="ctp-date-status">
-                {!$Label.c.Matched_of}&nbsp;{!v.trialMatch.matchDate}
-            </div>
+            <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-1">
+
+            <aura:if isTrue="{!v.isRTL}">
+            	<div class="{!v.isRTL? 'ctp-date-status-rtl':'ctp-date-status'}">
+                	{!v.trialMatch.matchDate} &nbsp;{!$Label.c.Matched_of}
+            	</div>
+        	<aura:set attribute="else">
+ 				<div class="{!v.isRTL? 'ctp-date-status-rtl':'ctp-date-status'}">
+                	{!$Label.c.Matched_of}&nbsp;{!v.trialMatch.matchDate}
+            	</div>            
+        	</aura:set>
+            </aura:if> 
+                </div>
+                            <div class="slds-col slds-size_1-of-1">
+
+            <aura:if isTrue="{!v.islearnmore}">
+                <div class="{!v.isRTL? 'ctp-date-status-rtl':'ctp-date-status'}">
+                    <div>
+                    <c:TrialMatchPageLearnMoreLink ctpId="{!v.trialMatch.ctpid}"/> 
+                    </div>
+                </div>
+                                </aura:if></div></div>
+
         </div>
         <div class="ctp-info-block ctp-padding">
             <div class="cpt-official-title">
-                {!v.trialMatch.OfficialTitle}
+                {!v.trialMatch.OfficialTitle} 
             </div>
-            <aura:if isTrue="{!v.islearnmore}">
-                <div class="ctp-date-status">
-                  <c:TrialMatchPageLearnMoreLink ctpId="{!v.trialMatch.ctpid}"/> 
-                </div>
-            </aura:if>
         </div>
     </div>
     <c:RRSpinner aura:id="mainSpinner" showSpinner="false" size="medium" fixed="true"/>

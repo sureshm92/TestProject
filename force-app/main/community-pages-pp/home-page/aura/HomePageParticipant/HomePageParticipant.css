@@ -25,7 +25,9 @@
 .THIS.rtl .hp-welcome-msg{
     direction: rtl;
 }
-
+.THIS.rtl {
+    direction: rtl;
+}
 .THIS.rtl .main-layout{
     flex-direction: row-reverse;
 }

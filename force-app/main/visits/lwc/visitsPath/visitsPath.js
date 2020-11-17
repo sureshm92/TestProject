@@ -14,6 +14,7 @@ import visitUnavailable from '@salesforce/label/c.Study_Visit_Unavailable';
 
 import getCardVisits from '@salesforce/apex/ParticipantVisitsRemote.getCardPatientVisits';
 import updatePV from '@salesforce/apex/ParticipantVisitsRemote.updatePatientVisit';
+import getisRTL from '@salesforce/apex/ParticipantVisitsRemote.getIsRTL';
 
 const stateClass = 'slds-col width-basis state ';
 const lineClass = 'slds-col width-basis line-div ';
@@ -38,6 +39,7 @@ export default class VisitsPath extends LightningElement {
     spinner;
 
     @track isVisitsEmpty = false;
+    @track isRTL;
     @track patientVisits;
     @track pathItems = [];
 
@@ -59,6 +61,13 @@ export default class VisitsPath extends LightningElement {
 
     connectedCallback() {
         let context = this;
+        getisRTL()
+        .then(function (data) {
+            context.isRTL = data;
+        })
+        .catch(function (error) {
+            console.error('Error: ' + JSON.stringify(error));
+        });
         getCardVisits()
             .then(function (data) {
                 context.patientVisits = data;
@@ -69,6 +78,10 @@ export default class VisitsPath extends LightningElement {
             .catch(function (error) {
                 console.error('Error: ' + JSON.stringify(error));
             });
+
+           
+        
+        
     }
 
     renderedCallback() {
@@ -87,15 +100,15 @@ export default class VisitsPath extends LightningElement {
         }
 
         this.pathContainer = this.template.querySelector('.vis-path');
+        
         if (this.pathContainer) {
             this.maxScrollValue = this.pathContainer.scrollWidth - this.pathContainer.clientWidth;
             if (this.pathContainer.scrollWidth > this.pathContainer.clientWidth) this.doScrollInto(this.centredIndex);
-
             let context = this;
             setTimeout(function () {
                 if (context.pathItems.length > 0) {
                     context.calculateWidth();
-
+                    
                     window.addEventListener('touchmove', function () {
                         context.changeArrowsStyle();
                     });
@@ -133,7 +146,12 @@ export default class VisitsPath extends LightningElement {
                 this.pathItems.push(item);
                 if (!firstPending && !isCompleted && !isMissed) {
                     firstPending = item;
-                    this.centredIndex = i;
+                    if(this.isRTL){
+                        this.centredIndex = this.patientVisits.length - i;
+                    }
+                    else{
+                        this.centredIndex = i;
+                    }
                 }
             }
             if (firstPending) {
@@ -233,38 +251,86 @@ export default class VisitsPath extends LightningElement {
         }, 450);
     }
 
+    handleScrollLeftRTL() {
+        if (this.fromLeftCorner) {
+            this.fromLeftCorner = false;
+        }else if(this.fromRightCorner ){
+            this.nextScrollLeft =this.scrollStep;
+            this.pathContainer.scrollLeft -= this.nextScrollLeft;
+            this.fromRightCorner = false;
+        } 
+        else {
+            this.pathContainer.scrollLeft -= this.nextScrollLeft;
+        }
+
+        let context = this;
+        setTimeout(function () {
+            context.changeArrowsStyle();
+        }, 450);
+    }
+
+    handleScrollRightRTL() {
+        
+        this.pathContainer.scrollLeft += this.nextScrollLeft;
+        
+        let context = this;
+        setTimeout(function () {
+            context.nextScrollRight = context.scrollStep;
+            context.fromLeftCorner = false;
+            context.changeArrowsStyle();
+        }, 600);
+    }
+
     //Scroll logic:-----------------------------------------------------------------------------------------------------
     calculateWidth() {
         this.scrollStep = this.elementWidth;
         this.nextScrollLeft = this.scrollStep;
         this.nextScrollRight = this.scrollStep;
-
-        if (this.pathContainer.scrollWidth > this.pathContainer.clientWidth) this.changeArrowsStyle();
+        if (this.pathContainer.scrollWidth > this.pathContainer.clientWidth){
+            this.changeArrowsStyle();
+        } 
     }
 
     isLeftScrollEnd() {
-        return this.pathContainer.scrollLeft === 0;
+        if(this.isRTL){
+            return (this.maxScrollValue - Math.abs((Math.ceil(this.pathContainer.scrollLeft))) <= 2);
+        }else{
+            return this.pathContainer.scrollLeft === 0;
+        }
     }
 
     isRightScrollEnd() {
-        return (this.maxScrollValue <= (Math.ceil(this.pathContainer.scrollLeft)));
+        if(this.isRTL){
+            return this.pathContainer.scrollLeft === 0;
+        }else{
+            return (this.maxScrollValue <= (Math.ceil(this.pathContainer.scrollLeft)));
+        }
     }
 
     changeArrowsStyle() {
         let arrLeft = 1;
         let arrRight = 1;
+        let arrLeftRTL = 1;
+        let arrRightRTL = 1;
 
         if (this.isRightScrollEnd()) {
             arrRight = 0.3;
+            arrRightRTL = 0.3;
             this.fromRightCorner = true;
         }
         if (this.isLeftScrollEnd()) {
+            arrLeftRTL = 0.3;
             arrLeft = 0.3;
             this.fromLeftCorner = true;
         }
-
-        this.template.querySelector('.arrow-left').style.opacity = arrLeft;
-        this.template.querySelector('.arrow-right').style.opacity = arrRight;
+        
+        if(this.isRTL){
+            this.template.querySelector('.arrow-leftRTL').style.opacity = arrRightRTL;
+            this.template.querySelector('.arrow-rightRTL').style.opacity = arrLeftRTL;
+        }else{
+            this.template.querySelector('.arrow-left').style.opacity = arrLeft;
+            this.template.querySelector('.arrow-right').style.opacity = arrRight;
+        }
     }
 
     checkCloserIsNeeded(context) {

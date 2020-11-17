@@ -2,7 +2,7 @@
  - Created by Nargiz Mamedova on 6/10/2020.
  -->
 
-<aura:component description="HeaderViewInformation">
+<aura:component description="HeaderViewInformation" extends="c:CommunityContext">
 
     <!-- attributes: -->
     <aura:attribute name="user" type="User"/>
@@ -26,8 +26,8 @@
                     </aura:set>
                 </aura:if>
             </div>
-            <div class="user-name">{!v.user.Contact.FirstName + ' ' + v.user.Contact.LastName}</div>
-            <div class="user-mode">{!v.viewMode}</div>
+            <div class="{!if(v.isRTL, 'user-name rtl' , 'user-name')}">{!v.user.Contact.FirstName + ' ' + v.user.Contact.LastName}</div>
+            <div class="{!if(v.isRTL, 'user-mode rtl' , 'user-mode')}">{!v.viewMode}</div>
         </div>
     </aura:if>
 </aura:component>

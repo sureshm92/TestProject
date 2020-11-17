@@ -5,7 +5,13 @@
 .THIS.h-container .h-title{
     margin-top: 0;
 }
-
+.THIS.arabic{
+    direction: rtl;
+    padding-bottom: 100px;
+}
+.THIS.english{
+    padding-bottom: 100px;
+}
 .THIS.h-container .h-header .h-header-info {
     color: #000000;
     font-size: 16px;
@@ -18,6 +24,10 @@
 
  .THIS .h-left-col {
         border-right: 1px solid #d9d9d9;
+}
+.THIS .h-right-col {
+    border-left: 1px solid #d9d9d9;
+    padding-left: 24px;
 }
 
 .THIS.h-container .h-header{

@@ -136,14 +136,17 @@
             oldPassword: initData.password.old
         }, function (returnValue) {
             communityService.showToast('success', 'success', $A.get('$Label.c.TST_Your_password_has_been_changed_successfully'));
+            communityService.navigateToPage('account-settings?passwordchange');
             let initData = component.get('v.initData');
             component.set('v.initData.password', {
                 old: '',
                 new: '',
                 reNew: ''
             });
-        }, null, function () {
-            component.set('v.showSpinner', false);
+        },function (error) {
+            let errmsg = communityService.getErrorMessage(error).split('\n')[0];
+            communityService.showErrorToast('ERROR', errmsg);
+           	component.set('v.showSpinner', false);
         });
     },
 })

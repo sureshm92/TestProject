@@ -136,14 +136,14 @@
                                 <lightning:input class="andTo" aura:id="AgeTo" type="number" name="input8" placeholder="{!$Label.c.RH_AgeTo}" value="{!v.filterList[0].AgeTo}" label="" min="0" max="150" messageWhenRangeOverflow="Age Range 0-150" messageWhenRangeUnderflow="Age Range 0-150" onchange="{! c.handleAgeTo }"/>
                             </div>
                         </span>
-                        <div class="slds-size_1-of-3 ethnicity">
+                        <div class="slds-size_2-of-3 slds-small-size_1-of-3 ethnicity">
                             <c:rrSelect value="{!v.filterList[0].Ethnicity}" options="{!v.peFilterData.ethnicity}"
                                         placeholder="{!$Label.c.RH_Ethnicity}" useSentenceFont="false"
                                         class="fp-ss-filter-container"
                                         setValueAsSelected="true"/>
                         </div>
-                        <div class="slds-size_1-of-3 sex">
-                            <c:rrSelect value="{!v.filterList[0].Sex}" options="{! v.optionSex }"
+                        <div class="sslds-size_1-of-3 slds-small-size_1-of-3 sex">
+                            <c:rrSelect value="{!v.filterList[0].Sex}" options="{!v.optionSex}"
                                         placeholder="{!$Label.c.RH_Sex}" useSentenceFont="false"
                                         class="fp-ss-filter-container"
                                         setValueAsSelected="true"/>

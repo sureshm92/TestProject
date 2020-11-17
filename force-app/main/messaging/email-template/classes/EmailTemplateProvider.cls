@@ -123,8 +123,10 @@ public without sharing virtual class EmailTemplateProvider {
     //Template Specific Properties:-------------------------------------------------------------------------------------
     private void fillTemplateParams() {
         parameters.put('emailTemplateBackground', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_BACKGROUND));
+		parameters.put('emailTemplateBackgroundRTL', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_BACKGROUND_RTL));																																				 
         parameters.put('emailTemplateTextBackground', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_TEXT_BACKGROUND));
         parameters.put('emailTemplateHeaderBackground', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_HEADER_BACKGROUND));
+        parameters.put('emailTemplateHeaderBackgroundRTL', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_HEADER_BACKGROUND_RTL));
         parameters.put('emailTemplateHeader', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_HEADER));
         parameters.put('emailTemplateTitle', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE));
         parameters.put('emailTemplateBrandLogo', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_BRAND_LOGO));
@@ -135,6 +137,7 @@ public without sharing virtual class EmailTemplateProvider {
         parameters.put('FullCommunityName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_NAME_LABEL));
         parameters.put('ShortCommunityName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_NAME_SHORT));
         parameters.put('SignatureFullCommunityName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_SIGNATURE));
+        parameters.put('SignatureFullCommunityNewName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_SIGNATURE_SHORT));
         parameters.put('SignatureShortCommunityName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_SIGNATURE_SHORT));
          parameters.put('SignatureShortCommunityVTName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_SIGNATURE_VT_SHORT));
         parameters.put('CommunityName', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_COMM_NAME));
@@ -198,8 +201,8 @@ public without sharing virtual class EmailTemplateProvider {
                 WHERE Contact__c = :recipientContactId
         ];
         if (!participants.isEmpty()) {
-            recipientFirstName = participants.get(0).First_Name__c;
-            recipientName = (recipientContact.Salutation == null ? '' : recipientContact.Salutation) + ' ' +  participants.get(0).First_Name__c + ' ' + participants.get(0).Last_Name__c;
+            recipientFirstName = checkMetacharacters(participants.get(0).First_Name__c);
+            recipientName = (recipientContact.Salutation == null ? '' : recipientContact.Salutation) + ' ' + checkMetacharacters( participants.get(0).First_Name__c) + ' ' + checkMetacharacters(participants.get(0).Last_Name__c);
         }
 
         if (String.isEmpty(recipientName)) recipientName = recipientContact.Salutation_With_Name__c;
@@ -209,6 +212,13 @@ public without sharing virtual class EmailTemplateProvider {
         if (String.isEmpty(recipientLanguage)) recipientLanguage = recipientContact.Language__c;
         if(isShareTemplate) userMode=CommunityModeService.USER_MODE_PARTICIPANT;
 
+    }
+    private String checkMetacharacters(String str) {
+        if(String.isNotBlank(str))
+            return Matcher.quoteReplacement(str);
+        else
+            return str;    
+    
     }
 
     private String getCommunityUserName() {
@@ -228,7 +238,8 @@ public without sharing virtual class EmailTemplateProvider {
         if (parameters.containsKey('ParticipantFirstName')) return;
 
         Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(recipientContactId);
-        if (participant != null) parameters.put('ParticipantFirstName', participant.First_Name__c);
+        if (participant != null) parameters.put('ParticipantFirstName', checkMetacharacters(participant.First_Name__c));
+
     }
     
     public void addStudySiteNumber(){

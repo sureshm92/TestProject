@@ -1,4 +1,4 @@
-<aura:component controller="MyTeamRemote" description="MyTeam">
+<aura:component controller="MyTeamRemote" description="MyTeam" extends="c:CommunityContext">
 
     <ltng:require scripts="{!$Resource.rr_community_js}"/>
 
@@ -26,7 +26,8 @@
     <c:Action_RemoveDelegate aura:id="actionRemoveDelegate"/>
 
     <!--component body-->
-    <div class="mt-container">
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
+    <div class="mt-container" style="{!v.isRTL? 'direction:rtl' :''}">
         <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}"/>
         <c:Action_SaveDelegateLevelChanges aura:id="saveDelegateLevelChanges"
                                            userMode="{!v.userMode}"/>

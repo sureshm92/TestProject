@@ -3,7 +3,7 @@
  -->
 
 <aura:component description="ViewPatients" implements="forceCommunity:availableForAllPageTypes"
-                controller="ViewPatientsRemote">
+                controller="ViewPatientsRemote" extends="c:CommunityContext">
 
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
@@ -38,7 +38,7 @@
                 </div>
             </aura:if>
 
-            <div class="vp-navigation" style="margin-top: 30px;">
+            <div class="vp-navigation">
                 <aura:if isTrue="{!v.userMode == 'PI'}">
                     <div class="navigation-breadcrumbs">
                         <c:RRNavigationPath>
@@ -61,7 +61,7 @@
                 </aura:if>-->
                 <aura:if isTrue="{!v.userMode == 'PI' }">
                         <div class="slds-text-align_right vp-navigate-btn" >
-                            <a style="font-size: 1rem;font-weight: 700;"
+                            <a style="font-size: 1rem;font-weight: 600;"
                                     onclick="{!c.onClickListView}">
                                 {!$Label.c.BTN_Naviagte}
                             </a>

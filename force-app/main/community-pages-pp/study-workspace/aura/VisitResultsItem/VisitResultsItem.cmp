@@ -28,7 +28,7 @@
             </div>
             <div class="visit-result-slider">
                 <c:RRTrack showPercentage="{!and(v.visitResultType != 'Biomarkers', v.showExpectedRange)}"
-                           wrapper="{!v.wrapper}" value="{!v.displayedValue}" />
+                           wrapper="{!v.wrapper}" value="{!v.displayedValue}" resultType="{!v.visitResultType}" />
             </div>
         </div>
     </div>

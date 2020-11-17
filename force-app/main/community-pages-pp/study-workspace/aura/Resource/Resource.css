@@ -26,7 +26,18 @@
 	margin: 14px 0 18px 33px;
 }
 
+.THIS .resource-card-title-RTL {
+	height: 27px;
+	color: #000000;
+	font-family: "Proxima Nova";
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 27px;
+	margin: 14px 30px 18px 33px;
+}
+
 .THIS .resource-error-message {
+	margin-top:30%;
 	top: 50%;
 	position: sticky;
 	height: 26px;
@@ -35,6 +46,10 @@
 	font-size: 17px;
 	line-height: 26px;
 	text-align: center;
+}
+
+.THIS.rtl {
+    direction: rtl;
 }
 
 @media (max-width: 1140px) {

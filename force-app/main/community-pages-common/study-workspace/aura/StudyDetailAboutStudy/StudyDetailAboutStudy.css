@@ -1,5 +1,11 @@
+
+
 .THIS.sdas-main-container {
     padding-bottom: 32px;
+}
+
+.THIS.rtl {
+    direction: rtl;
 }
 
 .THIS.sdas-sub-tab {
@@ -49,6 +55,14 @@
     position: absolute;
     left: 62%;
     display: block;
+}
+
+.THIS .hideborder.slds-grid.slds-wrap:before{
+   
+    /*display: none;*/
+    margin-left:-279px;
+    
+    
 }
 
 .THIS .cTasksTab {
@@ -470,17 +484,13 @@
 }
 
 @media all and (max-width: 500px) {
-    
-    .THIS.sdas-main-container {
-        padding: 10px 10px 25px;
+
+    .THIS {
+        padding-top: 0;
     }
-    
+
     .THIS .sdas-main-info {
-        padding: 0;
-    }
-    
-    .THIS .sdas-sub-category {
-        margin-top: 2rem;
+        padding: 15px 0 0;
     }
     
      .THIS .socialnetworks .rri-icon > a {

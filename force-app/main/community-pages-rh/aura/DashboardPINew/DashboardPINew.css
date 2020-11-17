@@ -12,6 +12,8 @@
 .THIS.pi-picklist-container{
     padding-bottom: 2%;
     padding-left: 12px;
+    display: inline-flex; /* added for REF-2611 bug fixing */
+    flex-wrap: wrap; /* added for REF-2611 bug fixing */
 }
 
 .THIS .picklist-block{

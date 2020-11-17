@@ -8,6 +8,7 @@
     <aura:attribute name="conditions" type="String"/>
     <aura:attribute name="recordId" type="String" access="global"/>
 
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <c:uiSObjectLookup pillIcon="custom:custom19"
                        sObjectType="Therapeutic_Area__c"
                        value="{!v.conditions}"

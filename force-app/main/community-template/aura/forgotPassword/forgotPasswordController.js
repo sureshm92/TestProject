@@ -18,6 +18,9 @@
     },
 
     initialize: function(component, event, helper) {
+        var rtl_language = $A.get("$Label.c.RTL_Languages");
+        var paramLanguage = communityService.getUrlParameter('language');
+        component.set('v.isRTL', rtl_language.includes(paramLanguage));
         $A.get("e.siteforce:registerQueryEventMap").setParams({"qsToEvent" : helper.qsToEventMap}).fire();
         var community = window.location.pathname.startsWith('/gsk/') ? '/gsk/s/login' : window.location.pathname.startsWith('/janssen/') ? '/janssen/s/login' :'/s/login';
         component.set('v.backPage', community);   

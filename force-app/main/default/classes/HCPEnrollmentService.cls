@@ -417,12 +417,27 @@ public without sharing class HCPEnrollmentService {
 //        );
 //    }
 
+
+
     public static List<HCP_Enrollment__c> getHCPEnrollmentsByPI(Id piId){
         String query = 'SELECT ' + String.join(HCPE_COMMON_FIELDS, ',') +
                 ' FROM HCP_Enrollment__c ' +
                 ' WHERE Study_Site__r.Principal_Investigator__c = \'' + piId + '\'';
         List<HCP_Enrollment__c> hcpeList = Database.query(query);
         TranslateHelper.translate(hcpeList);
+        return hcpeList;
+    }
+        
+    public static List<HCP_Enrollment__c> getHCPEnrollmentsByPIVSStudy(Id piId, Id ctpId){
+        List<HCP_Enrollment__c> hcpeList = new List<HCP_Enrollment__c>();
+        String query = 'SELECT ' + String.join(HCPE_COMMON_FIELDS, ',') +
+                ' FROM HCP_Enrollment__c ' +
+                ' WHERE Study_Site__r.Principal_Investigator__c = \'' + piId + '\' AND Clinical_Trial_Profile__c = \'' + ctpId + '\'';
+        hcpeList = Database.query(query);
+        if(!hcpeList.isEmpty())
+        {
+            TranslateHelper.translate(hcpeList);
+        }
         return hcpeList;
     }
 //TODO:Refactoring

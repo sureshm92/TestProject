@@ -106,7 +106,7 @@
 }
 
 .THIS .source{
-    width: 120px;
+    width: 130px;
     padding-right: 10px;
     padding-bottom: 10px;
 }
@@ -125,8 +125,7 @@
 }
 
 .THIS .age{
-    width: 315px;
-    padding-right: 10px;
+    width: 300px;
     display: flex;
     align-items: center;
 }
@@ -165,13 +164,13 @@
 
 .THIS .ethnicity{
     width: 115px;
-	display: flex;
+	display: inline-flex;
     align-items: center;
 }
 
 .THIS .sex{
     width: 105px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
 }
 
@@ -418,7 +417,7 @@
         border-right: 2px solid;
         transform: rotate(-45deg);
         left: 10px;
-        top: 20px;
+        top: 21px;
         border-color: #595959;
     }
 
@@ -431,33 +430,15 @@
         color: #000;
         transition: height 0.4s cubic-bezier(0.865, 0.14, 0.095, 0.87);
     }
-
-    .THIS .filterby:first-child .accordionContent > div {
-        min-width: 50%;
-        padding-bottom: 0;
-    }
     
     .THIS .accordionContent label.slds-m-right_xxx-small {display: none}
 
-    .THIS .filterby:first-child .accordionContent > div:last-child {
-        width: 45%;
-    }
-
-    .THIS .filterby:first-child .accordionContent > div:nth-of-type(2n) {
-        padding-right: 0;
-    }
-
-    .THIS .filterby:nth-child(2) .accordionContent .ethnicity {
-        display: inline-block;
-        min-width: 50%;
-        padding-right: 10px;
-        padding-bottom: 0;
-        margin-top: 1rem;
-    }
-
-    .THIS .filterby:nth-child(2) .accordionContent .sex {
-        display: inline-block;
+    .THIS .ethnicity {
         min-width: 50%
+    }
+
+    .THIS .sex {
+        padding-left: 10px;
     }
 
     .THIS .accordionContent .rrs-container {
@@ -468,14 +449,23 @@
         margin-bottom: 0;
     }
 
+    .THIS .age {
+        margin-bottom: 15px;
+    }
+
     .THIS .study-Info {
         margin-bottom: 0;
     }
 
     .THIS input.accordionCheck:checked ~ .study-Info ~ .accordionContent {
-        padding: 0 1rem 1rem;
-        height: 210px;
+        padding: 1rem;
+        height: auto;
         display: flex;
+        flex-grow: 0
+    }
+
+    .THIS input.accordionCheck:checked ~ .study-Info ~ .accordionContent > div {
+        margin-bottom: 15px;
     }
 
     .THIS input.accordionCheck:checked ~ .demographics ~ .accordionContent {
@@ -559,6 +549,10 @@
         margin-top: 1.5rem;
     }
 
+    .THIS .source {
+        padding-bottom: 0;
+    }
+
     .THIS .tableSettings,
     .THIS .tableSettings > div:first-child {
     	flex-direction: column-reverse;
@@ -611,7 +605,7 @@
     }
 
 	.THIS .ageBetween {
-        min-width: 104px;
+        min-width: 88px;
     }
     
     .THIS .age{ 

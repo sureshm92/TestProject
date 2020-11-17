@@ -286,7 +286,6 @@
     
     .THIS .cRRNavigationPath.navigation-path {
         margin-bottom: 1rem;
-        margin-left: 15px;
     }
     
     .THIS .apollo-btn,
@@ -318,7 +317,7 @@
     }
     
     .THIS .cRrSelect .slds-select_container:after {
-        top: 15px;
+        top: 12px;
     }
     
     .THIS cAccountSettings.as-container .as-password {

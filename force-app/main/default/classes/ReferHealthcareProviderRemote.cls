@@ -335,6 +335,7 @@ global without sharing class ReferHealthcareProviderRemote {
                 Participant__c participantDelegate;
                 if (delegateDuplicate == null || delegateDuplicate.participantId == null) {
                     participantDelegate = new Participant__c(
+                            Adult__c = true,
                             Contact__c = newContact.Id,
                             First_Name__c = newContact.FirstName,
                             Last_Name__c = newContact.LastName,

@@ -23,7 +23,16 @@
 
 @media all and (min-width: 768px) {
     .incentives-page-container {
-        height: 70vh;
+        height: 75vh;
         padding-bottom: 15vh;
     }
+
+}
+
+@media all and (max-width: 1024px) {
+    .incentives-page-container .incentive-panel {
+        min-width: 100%;
+        max-height: 400px;
+    }
+
 }

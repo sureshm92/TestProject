@@ -19,7 +19,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>All_Ethnicities</shortDescription>
-        <value>All</value>
+        <value>All Ethnicity</value>
     </labels>
     <labels>
         <fullName>American_Indian_Alaskan_Native</fullName>
@@ -27,6 +27,13 @@
         <protected>false</protected>
         <shortDescription>American Indian/Alaskan Native</shortDescription>
         <value>2- American Indian/Alaskan Native</value>
+    </labels>
+        <labels>
+        <fullName>Article_Submitted</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Article Submitted</shortDescription>
+        <value>Thank you for your suggestion, this will help our future recommendations for you and other clinical trial participants.</value>
     </labels>
     <labels>
         <fullName>Asian</fullName>
@@ -55,6 +62,14 @@
         <protected>true</protected>
         <shortDescription>ALT Name Labs</shortDescription>
         <value>Alanine aminotransferase (ALT)</value>
+    </labels>
+    <labels>
+        <fullName>Cookies_Info_Text_Registration_Page</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cookies Info Text Registration Page</shortDescription>
+        <value>We use cookies to allow our website to function correctly and to improve and customize your experience. Session-based cookies exist only during one session and disappear from your computer when you close your browser or turn off your computer. Persistent cookies remain on your computer or device after you close your browser or turn off your computer. Disabling the use of cookies at the individual browser level may limit or prevent your use of certain features or functions on our website.&lt;br/&gt;
+By using our website, you are accepting our use of cookies.</value>
     </labels>
     <labels>
         <fullName>AL_Body_Assigned_as_Delegate</fullName>
@@ -3665,6 +3680,20 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>Participant Delegate Found!</value>
     </labels>
     <labels>
+        <fullName>Delegate_learnmore</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Delegate learnmore</shortDescription>
+        <value>Learn more about this study.</value>
+    </labels>
+    <labels>
+        <fullName>Delegate_roadmap_Content</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Delegate roadmap Content</shortDescription>
+        <value>Track the progress of ##ParticipantFirstName on the study</value>
+    </labels>
+    <labels>
         <fullName>Delegates</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3719,6 +3748,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <protected>true</protected>
         <shortDescription>Disabled</shortDescription>
         <value>Disabled</value>
+    </labels>
+    <labels>
+        <fullName>Discover_future_Clinical</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Discover future Clinical</shortDescription>
+        <value>information about   ##StudyName visits and assessments</value>
     </labels>
     <labels>
         <fullName>Distolic_Blood_Pr</fullName>
@@ -3865,14 +3901,14 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>Login Now</value>
     </labels>
     <labels>
-												  
-								  
-									
-																  
-							   
-			 
+        <fullName>Email_Action_Register</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Action Register</shortDescription>
+        <value>Register</value>
+    </labels>
 
-			
+    <labels>
         <fullName>Email_Action_Review_Cases</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4111,23 +4147,16 @@ Please share our site on social media to encourage others to assist us as we wor
             Your username is ##UserName.</value>
     </labels>
     <labels>
-																		 
-								  
-									
-																						 
-																  
- 
-																																													   
+        <fullName>Email_Body_Initial_Patient_Created_By_PI_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Initial Patient Created By PI New</shortDescription>
+        <value>&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Thank you for your interest in the ##StudyName. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the study team will contact you regarding the next steps in the enrollment process. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Further information on the ##ShortCommunityName can be found in the Informed Consent Form from your study center.
 
-										   
-										
-								
-													
+Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
+    </labels>
 
-									 
-			 
-
-			
+    <labels>
         <fullName>Email_Body_Initial_Patient_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4144,24 +4173,29 @@ Please share our site on social media to encourage others to assist us as we wor
             Your username is ##UserName. Please click the Enroll Now button to create your password.
 
             Please note that enrollment in ##FullCommunityName is not a requirement for ##ParticipantFirstName to be enrolled into the clinical research study.</value>
+    </labels>				   
+	<labels>
+        <fullName>Email_Body_Initial_Patient_Delegate_New</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Initial Patient Delegate New</shortDescription>
+        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more studies listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.</value>
     </labels>
-			
-														   
-								  
-								   
-																		   
-																  
- 
-																																														 
-
-										   
-												   
-									 
-														 
-
-									 
-			 
-
+    <labels>
+        <fullName>Email_Body_Initial_Patient_Delegate_New2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Initial Patient Delegate New2</shortDescription>
+        <value>Please register for the IQVIA Patient Portal. 
+Your username is ##UserName.</value>
+    </labels>
+	<labels>
+        <fullName>Email_Body_Initial_Patient_New</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Initial Patient New</shortDescription>
+        <value>&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Thank you for your interest in the ##StudyName. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;We are reaching out to you to confirm we received your referral from ##HCPTitle ##HCPName. A member of the study team will contact you regarding the next steps in the referral process. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
+    </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Virtual</fullName>
         <language>en_US</language>
@@ -4178,23 +4212,13 @@ Please share our site on social media to encourage others to assist us as we wor
             Your username is ##UserName.</value>
     </labels>
     <labels>
-																   
-								  
-									
-																				   
-																  
- 
-																																							   
-
-								 
-									
-															 
-														   
-
-									 
-			 
-
-			
+        <fullName>Email_Body_Initial_Patient_Virtual_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Initial Patient Virtual New</shortDescription>
+        <value>&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Thank you for your interest in the ##StudyName. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;We are reaching out to you to confirm we received your information. A member of the study team will contact you regarding the next steps in the study process.&lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Your username is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Janssen_Initial_PI</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4450,6 +4474,15 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
             Thank you for participating. Your contribution to the clinical research study has been very important.
 
             Please login to the ##ShortCommunityName for the latest clinical research information and for future updates on the clinical research study.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Patient1_New</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Patient1 New</shortDescription>
+        <value>&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Thank you for your interest in the ##StudyName. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the study team will contact you regarding the next steps in the enrollment process. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Further information on the ##ShortCommunityName can be found in the Informed Consent Form from your study center.
+
+Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient2</fullName>
@@ -4895,6 +4928,14 @@ Please log in to ##CommunityName to view your clinical research trial matches an
 																	 
 																				  
 			 
+
+    <labels>
+        <fullName>Email_Footer_Address_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Footer Address New</shortDescription>
+        <value>IQVIA, 4820 Emperor Blvd, Durham, North Carolina 27703, USA</value>
+    </labels>
 
     <labels>
         <fullName>Email_Footer_Privacy_Policy</fullName>
@@ -5459,6 +5500,15 @@ Please log in to ##CommunityName to view your clinical research trial matches an
             To keep your account secure, please don&apos;t forward this email to anyone.</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_FullName_New</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Signature FullName New</shortDescription>
+        <value>Sincerely,
+
+##SignatureFullCommunityNewName</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_GSK</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5561,6 +5611,17 @@ Please log in to ##CommunityName to view your clinical research trial matches an
 The NYBC Convalescent Plasma Donation Team</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_Participant_Delegate_New</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Signature Participant Delegate New</shortDescription>
+        <value>We are excited to be on this journey with you. 
+
+Sincerely,
+
+##SignatureFullCommunityNewName</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_Patient</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5582,6 +5643,18 @@ The NYBC Convalescent Plasma Donation Team</value>
 
 									   
 			 
+
+    <labels>
+        <fullName>Email_Signature_Patient_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature Patient New</shortDescription>
+        <value>Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the study.
+
+Sincerely,
+
+##SignatureFullCommunityNewName</value>
+    </labels>
 
     <labels>
         <fullName>Email_Signature_Patient_Short</fullName>
@@ -5764,27 +5837,27 @@ The NYBC Convalescent Plasma Donation Team</value>
         <value>Please enroll in the Gather Share Know Participant Hub</value>
     </labels>
     <labels>
-														  
-								  
-								   
-																		  
-																				
-			 
+        <fullName>Email_Subject_Initial_GSK_New</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Initial GSK New</shortDescription>
+        <value>Please register for the Gather Share Know Participant Hub</value>
+    </labels>
 
-			
+    <labels>
         <fullName>Email_Subject_Initial_Janssen</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Initial Janssen</shortDescription>
         <value>Please enroll in the IQVIA Referral Hub</value>
     </labels>
-			 
-													  
-								  
-									
-																	  
-																   
-			 
+     <labels>
+        <fullName>Email_Subject_Initial_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject Initial New</shortDescription>
+        <value>Please register for the IQVIA Patient Portal</value>
+    </labels>
 
     <labels>
         <fullName>Email_Subject_Initial_Patient</fullName>
@@ -7675,7 +7748,7 @@ The expected format is REF##### OR REF###### OR REF#######</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Human leukocyte antigen</shortDescription>
-        <value>Human leukocyte antigen</value>
+        <value>Human leukocyte antigen (HLA)</value>
     </labels>
 	<labels>
         <fullName>ID</fullName>
@@ -7953,7 +8026,7 @@ The expected format is REF##### OR REF###### OR REF#######</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Inducible co-stimulator</shortDescription>
-        <value>Inducible co-stimulator</value>
+        <value>Inducible co-stimulator (ICOS)</value>
     </labels>
     <labels>
         <fullName>Initial_Visit_Scheduled</fullName>
@@ -8025,6 +8098,13 @@ The expected format is REF##### OR REF###### OR REF#######</value>
         <protected>false</protected>
         <shortDescription>Learn More Report Document Name</shortDescription>
         <value>Study Detailed Description Report</value>
+    </labels>
+    <labels>
+        <fullName>Learn_more_about_study</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Learn more about study</shortDescription>
+        <value>interesting articles and additional information about clinical trials.</value>
     </labels>
     <labels>
         <fullName>Library_Format</fullName>
@@ -8858,7 +8938,7 @@ The expected format is REF##### OR REF###### OR REF#######</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>New York carcinoma</shortDescription>
-        <value>New York esophageal squamous cell carcinoma-1</value>
+        <value>New York esophageal squamous cell carcinoma-1 (NYESO-1)</value>
     </labels>
     <labels>
         <fullName>No</fullName>
@@ -9263,10 +9343,10 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Messages*</value>
     </labels>
     <labels>
-        <fullName>OT_H_Messaging</fullName>
+		<fullName>OT_H_Messaging</fullName>
         <language>en_US</language>
         <protected>false</protected>
-		<shortDescription>OT_H_Messaging</shortDescription>
+        <shortDescription>OT_H_Messaging</shortDescription>
         <value>Messages</value>
     </labels>
     <labels>
@@ -9504,7 +9584,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>OT_Participant_S1_Dis</shortDescription>
         <value>*This feature may not be available for some studies (i.e. My Results)</value>
     </labels>
-    <labels>
+    <labels> 
         <fullName>OT_Participant_S1_H</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9590,7 +9670,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>OT_Participant_S89_T</shortDescription>
         <value>If your study center has opted to use the messaging feature, then Messages will be accessible from the top navigation bar. This option allows you ask questions or make requests to your study team.</value>
     </labels>
-    <labels>	 
+    <labels> 
         <fullName>OT_RP_S1_H</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9755,6 +9835,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>Prefer not to say</shortDescription>
         <value>0- Prefer not to say</value>
+    </labels>
+    <labels>
+        <fullName>Pdf_Not_Available</fullName>
+        <categories>MobileApp</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pdf Not Available</shortDescription>
+        <value>Opening this link is only supported using the web browser experience</value>
     </labels>
     <labels>
         <fullName>PD_Description</fullName>
@@ -14507,14 +14595,6 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG SW Tab Medical Record Review Log</shortDescription>
         <value>Medical Record Review Log</value>
     </labels>
-     <labels>
-        <fullName>Cookies_Info_Text_Registration_Page</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Cookies Info Text Registration Page</shortDescription>
-        <value>We use cookies to allow our website to function correctly and to improve and customize your experience. Session-based cookies exist only during one session and disappear from your computer when you close your browser or turn off your computer. Persistent cookies remain on your computer or device after you close your browser or turn off your computer. Disabling the use of cookies at the individual browser level may limit or prevent your use of certain features or functions on our website.&lt;br/&gt;
-By using our website, you are accepting our use of cookies.</value>
-    </labels>
     <labels>
 																
 								  
@@ -14600,7 +14680,7 @@ By using our website, you are accepting our use of cookies.</value>
         <value>Cookie Policy</value>
     </labels>
     <labels>
-	
+    
         <fullName>PG_TC_H_Do_You_Accept</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -14905,7 +14985,7 @@ By using our website, you are accepting our use of cookies.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_AddProfilePhoto</shortDescription>
-        <value>Add Profile Photo</value>
+        <value>Edit Photo</value>
     </labels>
     <labels>
         <fullName>PP_Change_Notification</fullName>
@@ -14993,13 +15073,13 @@ By using our website, you are accepting our use of cookies.</value>
         <shortDescription>PP_Delegate_Header</shortDescription>
         <value>##PatientFirstName has designated you as their delegate.</value>
     </labels>
-			 
-												
-								  
-								   
-																
-								
-			 
+     <labels>
+        <fullName>PP_EditProfilePhoto</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EditProfilePhoto</shortDescription>
+        <value>Add Photo</value>
+    </labels>
     <labels>
         <fullName>PP_Edit_Task_Reminder</fullName>
         <categories>c:StudyVisitReminder</categories>
@@ -15015,6 +15095,13 @@ By using our website, you are accepting our use of cookies.</value>
         <protected>false</protected>
         <shortDescription>Edit Visit Reminder</shortDescription>
         <value>Edit Visit Reminder</value>
+    </labels>
+    <labels>
+        <fullName>PP_Emergency</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Emergency</shortDescription>
+        <value>If you have a medical emergency, please contact your local emergency services.</value>
     </labels>
     <labels>
         <fullName>PP_File_Size_Exceeded</fullName>
@@ -15113,6 +15200,13 @@ By using our website, you are accepting our use of cookies.</value>
         <protected>true</protected>
         <shortDescription>PP Password Management</shortDescription>
         <value>Password Management</value>
+    </labels>
+	<labels>
+        <fullName>PP_Paste_URL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Paste URL</shortDescription>
+        <value>Paste URL here</value>
     </labels>
     <labels>
         <fullName>PP_Phone_Mandatory</fullName>
@@ -15233,18 +15327,39 @@ By using our website, you are accepting our use of cookies.</value>
         <value>Reminder date cannot be set in the past.</value>
     </labels>
     <labels>
-											
-								  
-								   
-															
-								   
-			 
-			
+        <fullName>PP_Remove_Photo</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Remove_Photo</shortDescription>
+        <value>Remove Photo</value>
+    </labels>
+    <labels>
         <fullName>PP_Save_Changes</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Save_Changes</shortDescription>
         <value>Save Changes</value>
+    </labels>
+    <labels>
+        <fullName>PP_Share_Article</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Share Article</shortDescription>
+        <value>Have an article or a video that you found supportive during your clinical trial experience? Share it with us!</value>
+    </labels>
+    <labels>
+        <fullName>PP_Submit_Button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Submit Button</shortDescription>
+        <value>Submit</value>
+    </labels>
+    <labels>
+        <fullName>PP_Submit_Video</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Submit Video</shortDescription>
+        <value>Please submit your article or video as a website link.</value>
     </labels>
     <labels>
         <fullName>PP_Task_Success_Toast</fullName>
@@ -15263,13 +15378,20 @@ By using our website, you are accepting our use of cookies.</value>
 communications using the toggles below.</value>
     </labels>
     <labels>
-											
-								  
-								   
-															
-								   
-			 
-			
+        <fullName>PP_URL_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP URL Error</shortDescription>
+        <value>Please enter a valid URL.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Upload_Photo</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Upload_Photo</shortDescription>
+        <value>Upload Photo</value>
+    </labels>
+    <labels>
         <fullName>PP_VPC_SS_Empty_VP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -15810,7 +15932,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Programmed death ligand 1</shortDescription>
-        <value>Programmed death ligand 1</value>
+        <value>Programmed death ligand 1 (PD-L1)</value>
     </labels>
     <labels>
         <fullName>Pswd_8_Characters</fullName>
@@ -16338,13 +16460,13 @@ communications using the toggles below.</value>
         <value>Your permissions do not permit this action</value>
     </labels>
     <labels>
-										  
-								  
-								   
-														  
-							 
-			 
-			
+        <fullName>RTL_Languages</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RTL Languages</shortDescription>
+        <value>ar, ur, iw</value>   
+    </labels>   
+    <labels>
         <fullName>Received</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16612,6 +16734,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Resource In Trial Summary Report</shortDescription>
         <value>In-trial Summary Report</value>
+    </labels>
+    <labels>
+        <fullName>Resource_Language</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resource_Language</shortDescription>
+        <value>Language (Please select language before uploading the file)</value>
     </labels>
     <labels>
         <fullName>Resource_Name</fullName>
@@ -16907,8 +17036,7 @@ communications using the toggles below.</value>
         <shortDescription>Respiratory Rate Description</shortDescription>
         <value>Respiratory rate is a measurement of how many breaths you take per minute.</value>
     </labels>
-    
-    <labels>
+      <labels>
         <fullName>RH_Email_Invalid_Characters</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18503,6 +18631,20 @@ communications using the toggles below.</value>
         <value>Thank you for your interest in {0}. We will contact you when the clinical research study would be created for this.</value>
     </labels>
     <labels>
+        <fullName>The_Delegate_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>The Delegate Header</shortDescription>
+        <value>The ##ShortCommunityName will allow you to:</value>
+    </labels>
+    <labels>
+        <fullName>The_Patient_Portal_Help</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>The Patient Portal Help</shortDescription>
+        <value>The ##ShortCommunityName includes:</value>
+    </labels>
+    <labels>
         <fullName>This_Participant_has_reached_legal_age_of_emancipation</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18606,6 +18748,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Total protein Description</shortDescription>
         <value>Proteins are important for growth and development of the body by helping to make tissues and cells. The total protein test measures the total amount of two types of protein, albumin and globulin, in your blood sample. Total protein is measured to check the health of your liver and kidneys.</value>
+    </labels>
+    <labels>
+        <fullName>Track_your_study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Track your study</shortDescription>
+        <value>your study timeline to help you keep track of your progress</value>
     </labels>
     <labels>
         <fullName>Travel_Support_Link</fullName>
@@ -19194,6 +19343,13 @@ communications using the toggles below.</value>
         <value>Vitals</value>
     </labels>
     <labels>
+        <fullName>Visit_Result_No_Data</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visit Result No Data</shortDescription>
+        <value>No data</value>
+    </labels>
+    <labels>
         <fullName>Visit_Result_Report_No_Data</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19439,6 +19595,34 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Weight Description</shortDescription>
         <value>Your weight is the measurement of your body mass in kilograms (kg) or in pounds.</value>
+    </labels>
+    <labels>
+        <fullName>WelcomeEmail_DiscoverLogo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>WelcomeEmail_DiscoverLogo</shortDescription>
+        <value>https://quintilesimscmo--inf60--c.documentforce.com/servlet/servlet.ImageServer?id=0153O000000CAJa&amp;oid=00D3O0000004pI7&amp;lastMod=1604401449000</value>
+    </labels>
+    <labels>
+        <fullName>WelcomeEmail_LearnLogo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>WelcomeEmail_LearnLogo</shortDescription>
+        <value>https://quintilesimscmo--inf60--c.documentforce.com/servlet/servlet.ImageServer?id=0153O000000CAJV&amp;oid=00D3O0000004pI7&amp;lastMod=1604400304000</value>
+    </labels>
+    <labels>
+        <fullName>WelcomeEmail_PPHeaderLogo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>WelcomeEmail_PPHeaderLogo</shortDescription>
+        <value>https://quintilesimscmo--inf60--c.documentforce.com/servlet/servlet.ImageServer?id=0153O000000CAJQ&amp;oid=00D3O0000004pI7&amp;lastMod=1604399794000</value>
+    </labels>
+    <labels>
+        <fullName>WelcomeEmail_TrackLogo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>WelcomeEmail_TrackLogo</shortDescription>
+        <value>https://quintilesimscmo--inf60--c.documentforce.com/servlet/servlet.ImageServer?id=0153O000000CAJf&amp;oid=00D3O0000004pI7&amp;lastMod=1604401527000</value>
     </labels>
     <labels>
         <fullName>Withdrew_Consent</fullName>

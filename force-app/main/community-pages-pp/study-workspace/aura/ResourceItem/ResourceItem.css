@@ -1,4 +1,4 @@
-.THIS.resource-container {
+.THIS .resource-container {
     display: flex;
     margin: 0 11px 48px 18px;
     min-width: 510px;
@@ -10,6 +10,10 @@
     height: 88px;
     margin: 1px 20px 1px 0;
     overflow: hidden;
+}
+
+.THIS.rtl {
+    direction: rtl;
 }
 
 .THIS .resource-image-container > img {

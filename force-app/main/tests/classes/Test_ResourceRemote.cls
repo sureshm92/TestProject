@@ -262,6 +262,40 @@ public class Test_ResourceRemote {
         Test.stopTest();
         System.assert(noTAMessage == null);
     }
+     @IsTest
+    public static void createSubmittedArticles_Test() {
+        TestData testData = new TestData();
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(ResourceService.class, StubBuilder.newInstance(ResourceService.class)
+                .when('getParticipantState')
+                .then(Test_ResourceRemote.getParticipantState())
+                .build()
+       );
+        Test.startTest();
+        System.runAs(testData.participantUser)
+        {
+            ResourceRemote.createArticlesSubmitted('google.com');
+        }
+        Test.stopTest();
+    }
+     @IsTest
+    public static void hasCois_Test() {
+        TestData testData = new TestData();
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(ResourceService.class, StubBuilder.newInstance(ResourceService.class)
+                .when('getParticipantState')
+                .then(Test_ResourceRemote.getParticipantState())
+                .build()
+       );
+        Boolean hasCoi;
+        Test.startTest();
+        System.runAs(testData.participantUser)
+        {
+            hasCoi = ResourceRemote.hasCois();
+        }
+        Test.stopTest();
+    }
+
 
     private static ParticipantService.ParticipantState getAlumniState() {
         Account singleAccount = (Account) TestDataFactory.getSObject(Account.getSObjectType(), new Map<String, Object>{

@@ -19,8 +19,8 @@ public with sharing class ProfilePictureController {
             currentContact = ContactService.getContact(currentContact.userCommunityDelegateId__c);
         }
         
-        return [SELECT Id, Name, FullPhotoUrl FROM User 
-                WHERE ContactId =: currentContact.Id].FullPhotoUrl;
+        return [SELECT Id, Name, FullPhotoUrl,SmallPhotoUrl FROM User 
+                WHERE ContactId =: currentContact.Id].SmallPhotoUrl;
         
              
     }
@@ -40,4 +40,12 @@ public with sharing class ProfilePictureController {
                 WHERE Id=:UserInfo.getUserId()].FullPhotoUrl;
         
     }
+    
+    @AuraEnabled
+    public static void deletePicture(Id parentId) {
+        
+    ConnectApi.UserProfiles.deletePhoto(Network.getNetworkId(), UserInfo.getUserId());
+   
+    }
+
 }

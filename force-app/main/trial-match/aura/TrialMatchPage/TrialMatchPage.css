@@ -9,10 +9,25 @@
     align-items: center;
 }
 
+.THIS .arabic{
+    direction: rtl !important;
+    padding-bottom: 100px;
+}
+.THIS.english{
+    padding-bottom: 100px;
+}
+
+
 .THIS .resource-icon{
     margin-right: 12px;
     flex-shrink: 0;
     height:20px;
+}
+.THIS .resource-icon-rtl{
+    margin-left: -220px;
+    flex-shrink: 0;
+    height:20px;
+    margin-left:-8px;
 }
 
 .THIS .tm-title{
@@ -34,6 +49,16 @@
     white-space: nowrap;
     display: inline-block;
     padding-right: 20px;
+}
+.THIS .resource-name-rtl{
+    max-width: 250px;
+    font-size: 16px;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    padding-right: 20px;
+    margin-left:-15px;
+    
 }
 
 .THIS .trials-container{
@@ -104,4 +129,15 @@
 
 .THIS .sdv-top-bar.sticky .height-stub{
     display: block;
+}
+.THIS .sidepadding-rtl{
+    padding-right: 10px;
+}
+
+.THIS .sidepaddingleft-rtl{
+    padding-left: 20px;
+}
+
+.THIS .navigation-path.rtl{
+    padding-right: 10px;
 }

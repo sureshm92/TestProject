@@ -21,6 +21,7 @@
 
 
     <!-- component body: -->
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
     <div class="sst-container slds-tabs_card">
         <div class="sst-title">
             {!$Label.c.PG_SST_L_Site_Staff}
@@ -64,7 +65,7 @@
                             </c:uiCol>
                             <aura:if isTrue="{!v.initData.inInvitationActiveStatus}">
                                 <c:uiCol class="invite-col" scrollLeft="{!v.scrollLeft}" width="{!v.inviteWidth}">
-                                    <aura:if isTrue="{!staffMember.hasUser || staffMember.hasPendingActions}">
+                                    <aura:if isTrue="{!and(or(staffMember.hasUser, staffMember.hasPendingActions),or(staffMember.isInvited,staffMember.accessLevel =='Principal Investigator'))}">
                                         <aura:set attribute="else">
                                             <button class="slds-button slds-button_brand"
                                                     onclick="{!c.doInviteStaffMember}"

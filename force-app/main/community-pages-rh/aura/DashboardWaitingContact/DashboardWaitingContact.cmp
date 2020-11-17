@@ -2,7 +2,7 @@
  - Created by Alexey Moseev.
  -->
 
-<aura:component description="DashboardWaitingContact" controller="DashboardRemoteNew">
+ <aura:component description="DashboardWaitingContact" controller="DashboardRemoteNew">
 
     <!-- attributes:-->
     <aura:attribute name="pe" type="Object" description="Participant enrollment item"/>
@@ -20,21 +20,29 @@
     <aura:attribute name="childLoad" type="String"/> 
     <aura:attribute name="recordChanged" type="String" default="" access="public"/>
     <aura:attribute name="recordLength" type="String" default="0"/>
+    <aura:attribute name="initRows" type="Integer" default="10" />
+    <aura:attribute name="loaded" type="Boolean" default="false" />
 
     <!-- handlers: -->
-    <!--<aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>-->
-	<!-- <aura:handler name="init" value="{!this}" action="{!c.doinit}"/>-->
     <aura:handler name="change" value="{!v.childLoad}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.recordChanged}" action="{!c.doInit}"/>
 
-
+	
     <!-- component body -->
     <div class="rr-white-panel db-qal-container">
+        <c:RRSpinner aura:id="compSpinner" size="medium" fixed="true" />
         <div class="db-qal-main">
             <div class="db-qal-title">
-               {!v.recordLength}&nbsp;{!v.dashboardTitle}
+              <!-- {!v.recordLength}&nbsp;-->{!v.dashboardTitle}
             </div>
+            <div class="exampleHolder" style="position: relative; padding:0%;z-index: 1;">
+                    <aura:if isTrue="{! v.loaded }">               
+                        <lightning:spinner alternativeText="Loading" />
+                    </aura:if>
+                </div>
+
             <div class="db-qal-items slds-grid slds-wrap slds-scrollable" style="height: 200px; margin-top: 15px;">
+        
                 <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
                     <thead>
                     <tr class="slds-line-height_reset">

@@ -11,8 +11,11 @@
     justify-content: space-between;
 }
 
-.THIS.rtl > div{
+/*.THIS.rtl > div{
     flex-direction: row-reverse;
+}*/
+.THIS.rtl {
+    direction: rtl;
 }
 
 .THIS .psec-title-link{
@@ -57,6 +60,13 @@
     width: 150px;
     display: inline-block;
     text-align: right;
+}
+.THIS .objective-linkRTL {
+    white-space: nowrap;
+    font-size: 1rem;
+    width: 150px;
+    display: inline-block;
+    text-align: left;
 }
 
 .THIS .vpi-title,
@@ -129,6 +139,11 @@
 @media screen and (max-width: 500px){
     .THIS  {
         padding: 0;
+    }
+
+    .THIS .vpi-title {
+        width: 50%;
+        line-height: 1.25;
     }
     
     .THIS .slds-has-block-links--space,

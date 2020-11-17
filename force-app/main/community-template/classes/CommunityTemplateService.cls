@@ -111,7 +111,7 @@ public without sharing class CommunityTemplateService {
     }
     public static String getNetworkId(String communityName){
         Network nw = NETWORKS_MAP.get(communityName);
-        return nw!=NULL? String.valueOf(nw.Id).substring(0, 15) : '';
+        return nw != NULL ? String.valueOf(nw.Id).substring(0, 15) : '';
     }
     
     public static Map<String, Network> getNetworksMap(){

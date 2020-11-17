@@ -3,7 +3,7 @@
  */
 
 public without sharing class CommunityFacadeRemote {
-    public static String COOKIE_FIELD_MARK = 'AllowedCookie__c';
+    public static final String COOKIE_FIELD_MARK = 'AllowedCookie__c';
 
     @AuraEnabled
     public static Boolean isFirstLogon() {
@@ -352,6 +352,8 @@ public without sharing class CommunityFacadeRemote {
             return false;
         }
         List<Id> delegatedSites = DelegateService.getDelegatedStudySiteIds();
-        return [SELECT Id FROM Study_Site__c WHERE Clinical_Trial_Profile__r.CommunityTemplate__c = :CommunityTemplateService.TEMPLATE_DEFAULT AND (Id IN :delegatedSites OR Principal_Investigator__c = :UserContext.getUserContactId()) ].size() > 0;
-    }
+        return [SELECT Id FROM Study_Site__c WHERE (Clinical_Trial_Profile__r.CommunityTemplate__c = : CommunityTemplateService.TEMPLATE_DEFAULT OR
+                                                    Clinical_Trial_Profile__r.CommunityTemplate__c = : CommunityTemplateService.TEMPLATE_GSK)
+                                                    AND (Id IN: delegatedSites OR Principal_Investigator__c = : UserContext.getUserContactId()) ].size() > 0;
+	}
 }

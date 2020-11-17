@@ -3,18 +3,18 @@
  -->
 
 <apex:component id="CookiesInfo">
-
+  <apex:attribute name="isRTL" description="" type="Boolean"/>
     <style>
         .ci-hidden{
             display: none;
         }
-         .ci-panel{
+        .ci-panel{
         	max-width: 1127px;
         }
 
     </style>
 
-    <div class="ci-bottom-aria ci-hidden">
+    <div class="ci-bottom-aria ci-hidden" style="{!if(isRTL == true, 'direction:rtl', '')}">
         <div class="ci-panel">
             <span class="ci-content-container">{!$Label.Cookies_Info_Text_Registration_Page}</span>
         </div>

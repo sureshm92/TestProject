@@ -2,12 +2,13 @@
  - Created by Nargiz Mamedova on 5/18/2020.
  -->
 
-<aura:component description="RRTrack">
+ <aura:component description="RRTrack" extends="c:CommunityContext">
 
     <!-- ATTRIBUTES -->
     <aura:attribute name="rendered" type="Boolean" default="false" access="private"/>
     <aura:attribute name="wrapper" type="Object"/>
     <aura:attribute name="showPercentage" type="Boolean"/>
+    <aura:attribute name="resultType" type="String"/>
 
     <aura:attribute name="value" type="String" default=""/>
     <aura:attribute name="minValue" type="Double" default="0"/>
@@ -24,11 +25,12 @@
 
     <!-- COMPONENT BODY -->
     <div class="rr-slider-bar">
-        <div aura:id="track" class="rr-slider-track"><span style="{!'width:' + v.trackWidth + '%;margin-left:' + v.trackMargin + '%'}" class="{!v.showPercentage ? '' : 'hidden'}"></span></div>
-        <div style="{!'margin-left:' + v.arrowMargin + '%;background-color:' + v.arrowColor}" aura:id="arrDown" class="hidden"></div>
+        <div aura:id="track" class="rr-slider-track"><span style="{!if(v.isRTL == true,'width:' + v.trackWidth + '%;margin-right:' + v.trackMargin + '%','width:' + v.trackWidth + '%;margin-left:' + v.trackMargin + '%')}" class="{!v.showPercentage ? '' : 'hidden'}"></span></div>
+        <div style="{!if(v.isRTL == true, 'margin-right:' + v.arrowMargin + '%;background-color:' + v.arrowColor, 'margin-left:' + v.arrowMargin + '%;background-color:' + v.arrowColor)}" aura:id="arrDown" class="hidden"></div>
     </div>
-    <div style="{!'margin-left:' + v.valueMargin + '%'}" aura:id="actValue" class="visit-result-actual-value">
+    <div style="{!if(v.isRTL == true, 'margin-right:' + v.valueMargin + '%', 'margin-left:' + v.valueMargin + '%')}" aura:id="actValue" class="visit-result-actual-value">
         {!if(!v.value, v.wrapper.value + ' ' + v.wrapper.measurement, v.value)}
+        {!if(and(v.resultType=='Biomarkers',!v.value),$Label.c.Visit_Result_No_Data,'')}
     </div>
 
 </aura:component>

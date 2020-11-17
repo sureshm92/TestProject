@@ -73,3 +73,21 @@
     }
 }
 
+@media all and (max-width: 360px){
+    .THIS .lo-button {
+        padding: 0 10px;
+    }
+
+    .THIS .logout-btn {
+        width: 100%;
+    }
+
+    .THIS.logout-btn {
+        width: 100%;
+    }
+
+    .THIS.menu-block li.body {
+        width: 300px;
+    }
+
+}

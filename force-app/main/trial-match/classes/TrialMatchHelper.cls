@@ -72,6 +72,7 @@ public without sharing class TrialMatchHelper {
             tmctp.trm = trialmatches.get(ctp.id);
             tmctp.isEnrollingCTP = isCtpEnrolling(ctp);
             tmctp.ctpid = ctp.id;
+            tmctp.NCTId=ctp.NCT_Number__c;
             tmctp.TherapeuticArea = trialmatches.get(ctp.id).Therapeutic_Area__c;
             tmctp.StudyCodeName = ctp.Study_Code_Name__c;
             tmctp.OfficialTitle = ctp.Official_Title__c;

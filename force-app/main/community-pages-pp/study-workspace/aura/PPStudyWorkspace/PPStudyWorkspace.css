@@ -1,8 +1,12 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS {
+ .THIS {
     padding-bottom: 25px;
+}
+
+.THIS.rtl {
+    direction: rtl;
 }
 
 .THIS .sd-study-name {
@@ -42,9 +46,9 @@
     font-weight: 400;
 }
 
-.THIS .links .apollo-btn:nth-child(n+2) {
+/*.THIS .links .apollo-btn:nth-child(n+2) {
     border-left: none
-}
+}*/
 
 .THIS .apollo-btn.current {
     color: #000;
@@ -150,7 +154,6 @@
 }
 
 .THIS .sdv-top-bar {
-    padding-top: 30px;
     z-index: 1250;
     position: relative;
 }
@@ -226,6 +229,12 @@
 
 .THIS .visible-tab {
     display: block;
+    border: 1px solid #e9e9e9;
+    border-width: 0 1px 1px 1px;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
+    padding: 1rem;
+    background: #fff;
 }
 
 .THIS .invisible-tab {

@@ -4,6 +4,44 @@
     margin: 25px auto -80px;
 
 }
+.THIS .rightAlign .slds-datepicker table {
+    table-layout: fixed;
+    width: 300px;
+}
+.THIS .rightAlign .slds-input {
+    padding-right:2px;
+}
+.THIS .rightAlign .slds-datepicker .slds-day{
+    width: auto !important;
+    min-width: auto !important;
+    height: auto !important;
+    line-height: inherit !important;
+}
+.THIS .rightAlign .slds-input__icon_right{
+    margin-right:12.5rem;
+}
+.THIS .rightAlign1 .slds-datepicker table {
+    table-layout: fixed;
+    width: 300px;
+}
+.THIS .rightAlign1 .slds-input {
+    padding-right:2px;
+}
+.THIS .rightAlign1 .slds-datepicker .slds-day{
+    width: auto !important;
+    min-width: auto !important;
+    height: auto !important;
+    line-height: inherit !important;
+}
+.THIS .rightAlign1 .slds-input__icon_right{
+    margin-right:10.5rem;
+}
+.THIS .task-rtl-remind{
+    
+    direction:rtl !important;
+    text-align:right; 
+    margin-left:416px;
+}
 
 .THIS .rr-white-panel {
     overflow: visible;
@@ -11,6 +49,14 @@
     font-family: "Proxima Nova";
     border:none;
     box-shadow: none;
+}
+.THIS .rr-white-panelRTL {
+    overflow: visible;
+    margin-top: -57px;
+    font-family: "Proxima Nova";
+    border:none;
+    box-shadow: none;
+    text-align:right;
 }
 
 .THIS .rr-body-content {
@@ -24,6 +70,14 @@
 .THIS .te-col-horizontal {
     margin-bottom: 10px;
     max-width: 360px;
+}
+
+.THIS .buttons-right{
+    align-items:left;
+}
+
+.THIS .margin_20{
+    margin-left:20px;
 }
 
 .THIS .te-col-header {
@@ -60,7 +114,13 @@
     font-size: 14px;
     color: #444;
     font-family: "Proxima Nova";
+   
 }
+
+.THIS .p-header{
+    margin-right:-53%;
+}
+
 
 .THIS .slds-select, .THIS .slds-input{
     font-size: 14px;
@@ -69,6 +129,11 @@
     height: 40px;
     display: flex;
     align-items: center;
+}
+
+.THIS .task-rtl > .slds-form-element {
+    direction:rtl !important;
+    text-align:right;
 }
 
 .THIS .slds-checkbox {
@@ -104,9 +169,8 @@
     .THIS .rr-white-panel {
         padding: 20px 0;
     }
-
     .THIS.cPopup .p-container .p-footer {
-        padding: 15px 1rem;
+        padding: 5px 1rem;
     }
 
     .THIS .slds-select,
@@ -122,23 +186,32 @@
     .THIS .p-buttons-container .slds-button:nth-of-type(1) {
         order: 4;
         margin-left: 10px;
-        width: 45%;
+        width: 40%;
     }
     .THIS .p-buttons-container .slds-button:nth-of-type(2) {
         order: 1;
-        width: 36%;
+        min-width: 25%;
         margin-left: 0;
     }
     .THIS .p-buttons-container .slds-button:nth-of-type(3) {
         order: 2;
-        width: 60%;
+        width: 70%;
         margin-bottom: 1rem;
         margin-left: 10px;
     }
     .THIS .p-buttons-container .slds-button:nth-of-type(4) {
         order: 3;
-        width: 51%;
+        width: 56%;
         margin-bottom: 1rem;
         margin-left: 0;
+    }
+}
+
+@media only screen and (max-width: 360px)  and (orientation : portrait) {
+    .THIS .p-buttons-container .slds-button:nth-of-type(3) {
+        order: 2;
+        width: 65%;
+        margin-bottom: 1rem;
+        margin-left: 10px;
     }
 }

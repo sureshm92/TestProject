@@ -2,12 +2,13 @@
  * Created by Olga Skrynnikova on 12/20/2019.
  */
 
-.THIS.sv-panel {
+ .THIS.sv-panel {
     display: flex;
     flex-direction: column;
     align-items: stretch;
     min-height: 196px;
 }
+
 
 .THIS .sv-header {
     display: flex;
@@ -31,6 +32,9 @@
 
 .THIS .amount-of-money{
     text-align: right;
+}
+.THIS .tdRTL{
+    text-align: left !important;
 }
 
 .THIS .sv-footer{

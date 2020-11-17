@@ -52,7 +52,8 @@ public without sharing class SiteStaffDuplicateService {
         }
         
         //Find Study Staff
-        List<Site_Staff__c> existedSiteStaff = [SELECT Id, Email__c, Phone__c, Site_Number2__c, Roles__c, Site_Contact__c, Site_Email_Key__c
+        //List<Site_Staff__c> existedSiteStaff = [SELECT Id, Email__c, Phone__c, Site_Number2__c, Roles__c, Site_Contact__c, Site_Email_Key__c
+        List<Site_Staff__c> existedSiteStaff = [SELECT Id, Email__c, Phone__c, Site_Number2__c, Site_Contact__c, Site_Email_Key__c
 												FROM Site_Staff__c
 												WHERE Email__c IN: emails OR Phone__c IN: phones];
             
@@ -86,7 +87,7 @@ public without sharing class SiteStaffDuplicateService {
             }
             
             if(duplicate != null){
-                setDuplicate(ss, duplicate);
+                //setDuplicate(ss, duplicate);
                 continue;
             }    
         }
@@ -106,7 +107,7 @@ public without sharing class SiteStaffDuplicateService {
         return null;
     }
     
-    private void setDuplicate(Site_Staff__c newSiteStaff, DuplicateContainer duplicate){
+   /* private void setDuplicate(Site_Staff__c newSiteStaff, DuplicateContainer duplicate){
         Integer studyStaffID = JSON.serialize(newSiteStaff).hashCode();
         if(duplicate.isSiteStaff()){
             mergeStudyStaff(duplicate.getSiteStaff(), newSiteStaff);
@@ -118,7 +119,7 @@ public without sharing class SiteStaffDuplicateService {
         if(sourceSiteStaff == null || newSiteStaff == null) return;
         if(newSiteStaff.Phone__c != null) sourceSiteStaff.Phone__c = newSiteStaff.Phone__c;
         if(newSiteStaff.Email__c != null) sourceSiteStaff.Email__c = newSiteStaff.Email__c;        
-    }
+    }*/
     
 
 

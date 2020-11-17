@@ -1,7 +1,7 @@
 /**
  * Created by Andrii Kryvolap.
  */
-.THIS .vpi-title{
+ .THIS .vpi-title{
     font-size: 18px;
     font-weight: 600;
 }
@@ -66,8 +66,26 @@
     align-items: center;
     justify-content: center;
 }
+.THIS .state-ico-wrapperRTL{
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    position: absolute;
+    top: -10px;
+    left: 56px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .THIS .state-ico-wrapper .rr-icon-default{
+    width: 14px;
+    height: 14px;
+    padding: 0;
+    fill: white!important;
+}
+.THIS .state-ico-wrapperRTL .rr-icon-default{
     width: 14px;
     height: 14px;
     padding: 0;
@@ -80,8 +98,19 @@
     top: -15px;
     left: -14px;
 }
+.THIS .vpi-state.current .state-ico-wrapperRTL{
+    width: 28px;
+    height: 28px;
+    top: -15px;
+    left: 45px;
+}
 
 .THIS .vpi-state.current .state-ico-wrapper .rr-icon-default{
+    width: 24px;
+    height: 24px;
+    padding: 1px;
+}
+.THIS .vpi-state.current .state-ico-wrapperRTL .rr-icon-default{
     width: 24px;
     height: 24px;
     padding: 1px;
@@ -101,6 +130,22 @@
 }
 
 .THIS .vpi-state.failure .state-ico-wrapper{
+    background-color: #E20000!important;
+}
+.THIS .vpi-state.neutral .state-ico-wrapperRTL{
+    background-color: #b5b5b5!important;
+}
+
+
+.THIS .vpi-state.success .state-ico-wrapperRTL{
+    background-color: #00c221!important;
+}
+
+.THIS .vpi-state.in_progress .state-ico-wrapperRTL{
+    background-color: #005ff1!important;
+}
+
+.THIS .vpi-state.failure .state-ico-wrapperRTL{
     background-color: #E20000!important;
 }
 

@@ -129,6 +129,14 @@
                 communityService.navigateToPage('add-patient?id=' + trialId + '&ssId=' + studySiteId);
                 break;
             case 'uploadPatient':
+                if (communityService.isInitialized() && communityService.isMobileSDK()) {
+                    communityService.showInfoToast(
+                        'Info!',
+                        $A.get('$Label.c.Pdf_Not_Available'),
+                        100
+                    );
+                    return;
+                }
                  studyListViewComponent.find('actionUploadParticipants').execute(studySiteId,studySiteType,isSuppressed,function(studySiteId,studySiteType) {});
                 break;
         }

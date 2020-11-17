@@ -1,4 +1,4 @@
-public with sharing class ResourceRemote {
+public without sharing class ResourceRemote {
 
     @AuraEnabled
     public static ResourceService.ResourceWrapperContainer getResources(String resourceType, String resourceMode) {
@@ -84,5 +84,30 @@ public with sharing class ResourceRemote {
             AuraHelper.throwException(e);
         }
         return null;
+    }
+    @AuraEnabled
+    public static Boolean hasCois() {
+        Boolean hasCoi = true;
+        ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
+        Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(CommunityService.getUserContact().Id);
+            if (state.participant.Conditions__c == 0 && participant!=null) {
+                hasCoi = false;
+                return hasCoi;
+            }
+        return hasCoi;
+    }
+     @AuraEnabled
+    public static void createArticlesSubmitted(String url) {
+          ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
+          RecordType rt = [SELECT Id,DeveloperName FROM RecordType WHERE DeveloperName = 'Submitted_Articles'];
+          List<Resource__c> submittedArticles = new List<Resource__c>();
+          Resource__c res = new Resource__c();
+          res.article_external_link__c = url;
+          res.RecordTypeId = rt.Id;
+          res.Submitted_By__c = state.participant.Id;
+          submittedArticles.add(res);
+          if(!submittedArticles.isEmpty())
+          insert submittedArticles;
+        
     }
 }

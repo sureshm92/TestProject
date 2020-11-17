@@ -68,7 +68,7 @@ window.communityService = (function () {
                 console.log('CommunityService initialized:');
                 console.log('is TC accepted: ' + isTCAcceptedFlag);
                 console.log('URL path prefix: ' + communityURLPathPrefix);
-                console.log('isMobileApp: '+isMobileApp);
+                //console.log('isMobileApp: '+isMobileApp);
                 component.init();
                 if (!service.isTCAccepted() && service.getPageName() !== 'terms-and-conditions') {
                     service.navigateToPage('terms-and-conditions?ret=' + service.createRetString());
@@ -105,15 +105,15 @@ window.communityService = (function () {
                             let message = e.message;
                             if (!debugMode) message = e.message.split('\n')[0];
                             console.log('ERROR', message);
+                            let exceptionHandler = component.find('exceptionHandler');
                             if(message.includes('INVALID_EMAIL_ADDRESS')) {
-                                service.showErrorToast('ERROR', 'Invalid Email')
+                                message = 'Invalid Email';
                             } else  {
                                 if(message.includes('[LanguageLocaleKey]')) {
-                                    service.showWarningToast('Error', 'This language is not set up on Referral Hub');
-                                } else {
-                                    service.showErrorToast('ERROR', message);
+                                    message = 'This language is not set up on Referral Hub';
                                 }
                             }
+                            exceptionHandler.execute(message);
                         }
                         //throw e;
                     } finally {
@@ -229,6 +229,11 @@ window.communityService = (function () {
         getLanguage: function(){
             return language;
         },
+
+        getBaseUrl: function() {
+            return baseUrl;
+        },
+        
         isTCAccepted: function () {
             return isTCAcceptedFlag;
         },
@@ -517,9 +522,41 @@ window.communityService = (function () {
             paramsJSON = paramsJSON.replace(/</g, "&lt;").replace(/>/g, "&gt;");
             return JSON.parse(paramsJSON);
         },
-
+        //depricated - use isMobileSDK
         isCurrentSessionMobileApp: function() {
             return isMobileApp;
+        },
+
+        isMobileSDK: function() {
+            if(/SalesforceMobileSDK/.test( navigator.userAgent)) { 
+                return true;
+            }
+            return false;
+        },
+
+        isMobileOS: function() {
+            if(/android|iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase()) ) {
+                return true;
+            } 
+            return false;
+        },
+
+        preLoginPageRedirection: function(currentUrl, redirectPage){
+            let urlEvent = $A.get('e.force:navigateToURL');
+            let redirectUrl = '';
+            if (currentUrl.includes('janssen')) {
+                redirectUrl = window.location.origin + '/janssen/s/' + redirectPage;
+            } else if (currentUrl.includes('gsk')) {
+                redirectUrl =  window.location.origin + '/gsk/s/' + redirectPage;
+            } else if (currentUrl.includes('Covid19')) {
+                redirectUrl =  window.location.origin + '/Covid19/s/' + redirectPage;
+            } else {
+                redirectUrl =  window.location.origin + '/s/' + redirectPage;
+            }
+            urlEvent.setParams({
+                url: redirectUrl
+            });
+            urlEvent.fire();
         }
     };
 

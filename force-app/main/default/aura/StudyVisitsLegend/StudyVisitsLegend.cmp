@@ -2,7 +2,7 @@
  - Created by Igor Malyuta on 13.04.2019.
  -->
 
-<aura:component description="StudyVisitsLegend" controller="ParticipantVisitsRemote">
+ <aura:component description="StudyVisitsLegend" controller="ParticipantVisitsRemote" extends="c:CommunityContext">
 
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
@@ -10,7 +10,7 @@
     <aura:attribute name="iconNames" type="String"/>
 
     <aura:if isTrue="{!v.legends.length != 0}">
-        <div class="rr-white-panel">
+        <div class="rr-white-panel" style="{!v.isRTL? 'margin-right:15px':''}">
             <p class="title">{!$Label.c.Home_Page_StudyVisit_WhToEx}</p>
             <div class="inner-panel slds-scrollable_y">
                 <div class="svl-table">

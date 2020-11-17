@@ -22,6 +22,7 @@ public with sharing class SiteStaffTableRemote {
         @AuraEnabled public String accessLevel;
         @AuraEnabled public Boolean hasUser = false;
         @AuraEnabled public Boolean hasPendingActions = false;
+        @AuraEnabled public Boolean isInvited = false;
     }
 
 
@@ -49,11 +50,18 @@ public with sharing class SiteStaffTableRemote {
         staffContactIds.add(ss.Principal_Investigator__c);
         siteStaffWrapperMap.put(ss.Principal_Investigator__c, piWrapper);
         data.siteStaffMembers.add(piWrapper);
-        for (Site_Staff__c staffMember: [SELECT Id, Delegate_Level__c, Study_Site__c, Site_Contact__r.Id, Site_Contact__r.Name, Site_Contact__r.Email FROM Site_Staff__c WHERE Study_Site__c = :ssId  ORDER BY Delegate_Level__c ASC ]){
+        for (Site_Staff__c staffMember: [SELECT Id, Delegate_Level__c,is_Invited__c, Study_Site__c, Site_Contact__r.Id, Site_Contact__r.Name, Site_Contact__r.Email FROM Site_Staff__c WHERE Study_Site__c = :ssId  ORDER BY Delegate_Level__c ASC ]){
             if (staffContactIds.contains(staffMember.Site_Contact__c)) {
+                if(staffMember.is_Invited__c){
+                    siteStaffWrapperMap.get(staffMember.Site_Contact__c).isInvited = true;
+                }
                 continue;
             }
+            
             SiteStaffWrapper staffMemberWrapper = new SiteStaffWrapper();
+            if(staffMember.is_Invited__c){
+                staffMemberWrapper.isInvited = true;
+            }
             staffMemberWrapper.staffContact = staffMember.Site_Contact__r;
             staffMemberWrapper.accessLevel = staffMember.Delegate_Level__c;
             staffContactIds.add(staffMember.Site_Contact__c);
@@ -84,6 +92,15 @@ public with sharing class SiteStaffTableRemote {
     @AuraEnabled
     public static void inviteStaffMember(String contactId, String ssId){
         try{
+            String filter = DatabaseService.fieldEqual('Study_Site__c', ssId);
+            filter += 'and' +
+                DatabaseService.fieldEqual('Site_Contact__c', contactId);
+
+            List<Site_Staff__c> staffMembers= (List<Site_Staff__c>) DatabaseService.query(
+            new List<String>{
+                'Id', 'Delegate_Level__c','is_Invited__c', 'Study_Site__c', 
+                                'Site_Contact__r.Id', 'Site_Contact__r.Name', 'Site_Contact__r.Email'
+            }, Site_Staff__c.getSObjectType(), filter);
             Study_Site__c ss = [SELECT id, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Study_Site__c WHERE Id = :ssId];
             Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
             if (CommunityService.getCommunityUsersByContactIds(new Set<Id>{contactId}).isEmpty()) {
@@ -95,7 +112,8 @@ public with sharing class SiteStaffTableRemote {
             if (!actionAssignContactPermissions.isEmpty()) {
                 ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
             }
-
+            staffMembers[0].is_Invited__c = true;
+            DMLService.updateRecord(staffMembers[0]);
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
