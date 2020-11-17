@@ -136,3 +136,8 @@ Click 'Execute' button.
 go to gear icon-->Open Cookie Policy page-->click on gear icon again-->change Page Access Value 
 Page Access=Public
 Publish Community 
+
+2.Open Setup - All Communities - Click Builder near GSK  Community
+go to gear icon-->Open Cookie Policy page-->click on the center of the page -->pop up on right side will get opened-->
+Set PrivacyPolicy (for Privacy Policy) or CookiePolicy (for Cookie Policy) or leave blank for TC=CookiePolicy
+Publish Community
