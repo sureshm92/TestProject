@@ -111,6 +111,8 @@ window.communityService = (function () {
                             } else  {
                                 if(message.includes('[LanguageLocaleKey]')) {
                                     message = 'This language is not set up on Referral Hub';
+                                } else {
+                                    service.showErrorToast('ERROR', message);
                                 }
                             }
                             exceptionHandler.execute(message);
