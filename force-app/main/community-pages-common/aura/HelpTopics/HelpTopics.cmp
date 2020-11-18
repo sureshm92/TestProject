@@ -130,7 +130,7 @@
                                             label="{!$Label.c.Help_Participant_Name}" value="{!v.currentParticipant}"
                                             messageWhenValueMissing="{!$Label.c.Help_referralId_missing}"
                                             messageWhenPatternMismatch="{!$Label.c.Help_referralId_incorrect}"
-                                            pattern="([REF]{3}[0-9]{5})" class="sld-input-margin" />
+                                            pattern="([REF]{3}[0-9]{5,8})" class="sld-input-margin" />
                                     </div>
                                     <div class="slds-col slds-size_6-of-12">
                                         <c:rrSelect value="{!v.currentSite}" options="{!v.sitePicklistvalues}"

@@ -3097,6 +3097,14 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>This site uses ##cookiesURL for the essential functioning of the site and for analytical purposes. For more information about these cookies, please view our ##privacyPolicyURL.
             By clicking through to our website, you are accepting use of cookies.</value>
     </labels>
+     <labels>
+        <fullName>Cookies_Info_Text_Janssen</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cookies Info Text Janssen</shortDescription>
+        <value>This site uses ##cookiesURL for the essential functioning of the site. For more information about these cookies, please view our ##privacyPolicyURL.
+            By using our website, you are accepting use of our cookies.</value>
+    </labels>
     <labels>
         <fullName>Cookies_Info_Text_First_Logon</fullName>
         <language>en_US</language>
@@ -7430,7 +7438,7 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:PrivacyOfficer@iqvia.com&quo
         <protected>false</protected>
         <shortDescription>Help_referralId_incorrect</shortDescription>
         <value>The Referral ID is in the incorrect format.
-The expected format is REF#####</value>
+The expected format is REF##### OR REF###### OR REF#######</value>
     </labels>
     <labels>
         <fullName>Help_referralId_missing</fullName>

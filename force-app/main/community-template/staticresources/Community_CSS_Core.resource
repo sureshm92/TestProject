@@ -1262,7 +1262,7 @@ select.rr-select-error,
 }
 
 @media all and (max-width: 500px) {
-    .rr-width-limiter.side-padding.rr-min-body-height.siteforceContentArea {
+    .comm-page-custom-messages .rr-width-limiter.side-padding.rr-min-body-height.siteforceContentArea {
         padding: 0;
     }
 
