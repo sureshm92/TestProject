@@ -91,16 +91,19 @@ public without sharing class StudySiteService {
         for (HCP_Enrollment__c hcpe : enrollments) {
             hcpeMap.put(hcpe.Study_Site__c, hcpe);
         }
-        // for (Participant_Enrollment__c pe : [
-        //         SELECT Id, Study_Site__c
-        //         FROM Participant_Enrollment__c
-        //         WHERE Study_Site__c IN :siteIds
-        //         AND Participant_Status__c NOT IN (:ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW,
-        //                 :ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL,
-        //                 :ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING)
-        // ]) {
-        //     siteWithPatientsIds.add(pe.Study_Site__c);
-        // }
+        //Commenting this because this is nowhere used and this snipet is throwing SOQL 50001 error
+        /*
+        for (Participant_Enrollment__c pe : [
+                SELECT Id, Study_Site__c
+                FROM Participant_Enrollment__c
+                WHERE Study_Site__c IN :siteIds
+                AND Participant_Status__c NOT IN (:ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW,
+                        :ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL,
+                        :ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING)
+        ]) {
+            siteWithPatientsIds.add(pe.Study_Site__c);
+        }
+        */
         for (Study_Site__c site : siteList) {
             if (site.Clinical_Trial_Profile__r != null && (!filterEmptyHCPE || hcpeMap.containsKey(site.Id))) {
                 StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site, hcpeMap.get(site.Id), filter.sortType, delegateId);
