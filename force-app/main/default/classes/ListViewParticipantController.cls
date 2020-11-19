@@ -344,6 +344,9 @@ public without sharing class ListViewParticipantController {
                     Ethnicity=EC;
                 }
                 String initialVisitScheduleTime = String.ValueOf(pe.Initial_visit_scheduled_time__c);
+                if(initialVisitScheduleTime != '' && initialVisitScheduleTime != null){
+                    initialVisitScheduleTime = initialVisitScheduleTime.replace('.000Z', '');
+               }
                 wpws.add(new WrapPageWithSelection(pe,isChekedSelected,isLocked,priorityReferral,Ethnicity, initialVisitScheduleTime)); 
                 PromotetoSH=pe.Clinical_Trial_Profile__r.Promote_to_SH__c;
             }
