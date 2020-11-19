@@ -3097,6 +3097,14 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>This site uses ##cookiesURL for the essential functioning of the site and for analytical purposes. For more information about these cookies, please view our ##privacyPolicyURL.
             By clicking through to our website, you are accepting use of cookies.</value>
     </labels>
+     <labels>
+        <fullName>Cookies_Info_Text_Janssen</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cookies Info Text Janssen</shortDescription>
+        <value>This site uses ##cookiesURL for the essential functioning of the site. For more information about these cookies, please view our ##privacyPolicyURL.
+            By using our website, you are accepting use of our cookies.</value>
+    </labels>
     <labels>
         <fullName>Cookies_Info_Text_First_Logon</fullName>
         <language>en_US</language>
@@ -4028,6 +4036,15 @@ Please share our site on social media to encourage others to assist us as we wor
         <protected>false</protected>
         <shortDescription>Email Body Delegate Permission Changed</shortDescription>
         <value>One or more of your Referral Hub study permissions has changed.</value>
+    </labels>
+	<labels>
+        <fullName>Email_Body_For_Referring_HCP_Backend</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body For Referring HCP Backend</shortDescription>
+        <value>A new clinical research study has been added to your account on the IQVIA Referral Hub: ##StudyName
+
+        Please take a moment to log in to the IQVIA Referral Hub, go to &quot;My Studies&quot; and review and accept this study. You will then be able to manage patient referrals to the study from any IQVIA source.</value>
     </labels>
     <labels>
         <fullName>Email_Body_FollowUp_Reminder</fullName>

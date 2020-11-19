@@ -46,7 +46,7 @@
     top: 1px;
 }
 
-@media all and (max-width: 360px){
+@media all and (max-width: 500px){
     .nic-points{
         padding-left: 1px;
         font-size: 13px;

@@ -87,7 +87,7 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_HCP_REFERRAL_NETWORK_TYPE = 'Message_to_HCP_Referral_Network_Type';
     public static final String MESSAGE_TO_HCP_ACCESS_LEVEL_CHANGED_TYPE = 'Message_to_HCP_Access_Level_Changed_Type';
     public static final String MESSAGE_TO_HCP_HCPE_ON_HOLD_TYPE = 'Message_to_HCP_HCPE_On_Hold_Type';
-
+    public static final String MESSAGE_TO_HCP_NEW_STUDY_BACKEND= 'Message_to_HCP_New_Study_Backend';
 /**
  *  MESSAGE TO EXTERNAL USERS
  */
