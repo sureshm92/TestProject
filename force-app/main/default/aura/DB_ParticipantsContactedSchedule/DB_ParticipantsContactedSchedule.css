@@ -34,6 +34,19 @@
     font-weight: 600;
 }
 
+.THIS .help_text{
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+}
+
+.THIS .help_text_format{ 
+    color: #595959;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 17px;
+}
+
 .THIS .text_format_days {
     color: #000000;
     font-size: 15px;
@@ -110,6 +123,12 @@
         white-space: pre-wrap !important;
         text-align: left !important;
     }
+
+    .THIS .help_text{
+        margin-left: 0;
+        margin-bottom: 1rem;
+    }
+
 }
 
 @media all and (max-width: 500px) {
@@ -125,6 +144,12 @@
     .THIS h2 > .slds-text-heading_small {
         white-space: normal;
     }
+    
+    .THIS .help_text{
+        margin-left: 0;
+        margin-bottom: 1rem;
+    }
+
 }
 
 .THIS .slds-spinner_container{

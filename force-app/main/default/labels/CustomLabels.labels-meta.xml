@@ -3232,6 +3232,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>days ago</value>
     </labels>
     <labels>
+        <fullName>DB_Only_First_800_participants</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DB__Only_First_800_participants</shortDescription>
+        <value>Only first 800 participants will be shown in each dropdown, with the most recently created contact shown first.</value>
+    </labels>
+    <labels>
         <fullName>DI_L_Acceptance_pending</fullName>
         <language>en_US</language>
         <protected>false</protected>
