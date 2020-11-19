@@ -17050,7 +17050,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH Email Invalid Characters</shortDescription>
-        <value>[\^¡¿«»¢£¥€¤›]</value>
+        <value>[\¡¿«»¢£¥€¤›]</value>
     </labels>
 	  <labels>
         <fullName>RH_Email_Invalid_Error</fullName>
