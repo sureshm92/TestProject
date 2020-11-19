@@ -29,6 +29,10 @@ stages:
   - DeployINF5.1
   - RunTestINF5.1
 
+#5.1 INF
+  - DeployClonedFml
+  - RunTestClonedFml
+
 
 
 cache:
@@ -227,6 +231,30 @@ RunTestINF5.1:
   script:
     - . ./scripts/ci/run-tests.sh INF5_1
     
+ # ClonedFml: ---------------------------------------------------------------------
+DeployClonedFml:
+  #tags:
+   # - shell
+  only:
+    - Formal
+  except:
+    - merge_requests
+
+  stage: DeployClonedFml
+  script:
+    - . ./scripts/ci/deploy.sh Clonedformal
+
+RunTestClonedFml:
+  #tags:
+   # - shell
+  only:
+    - Formal
+  except:
+    - merge_requests
+
+  stage: RunTestClonedFml
+  script:
+    - . ./scripts/ci/run-tests.sh Clonedformal
 
 .sfdx_helpers: &sfdx_helpers |
 

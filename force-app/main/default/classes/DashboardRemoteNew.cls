@@ -368,7 +368,7 @@ public without sharing class DashboardRemoteNew {
                                                                 Study_Site__r.Clinical_Trial_Profile__c from Participant_Enrollment__c
                                                                 WHERE (Participant_Status__c =: PEStatusState.PE_STATUS_CONTACT_ATTEMPTED OR Participant_Status__c =: PEStatusState.PE_STATUS_RECEIVED)
                                                                 AND Study_Site__c != NULL AND study_Site__r.Clinical_Trial_Profile__c =: ctpId
-                                                                AND Study_Site__r.Principal_Investigator__c =: piId Limit 50];
+                                                                AND Study_Site__r.Principal_Investigator__c =: piId ORDER BY Createddate DESC Limit 50];
 
 
             for (Participant_Enrollment__c pe : contactAtemptedList)
@@ -424,7 +424,7 @@ public without sharing class DashboardRemoteNew {
                 WHERE Date__c != null AND ParticipantEnrollment__r.Study_Site__r.Principal_Investigator__c = :piId AND ParticipantEnrollment__r.Clinical_Trial_Profile__c =: ctpId AND Status__c IN :(new List<String> {
                 PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED,
                 PEStatusState.PE_STATUS_RECEIVED
-                }) ORDER BY CreatedDate LIMIT 40000
+                }) ORDER BY CreatedDate DESC LIMIT 40000
             ];
             Map<Id, Participant_Enrollment_Status_History__c> receivedPESHsByPIId = new Map<Id, Participant_Enrollment_Status_History__c>();
             Map<Id, Participant_Enrollment_Status_History__c> contactedPESHsByPIId = new Map<Id, Participant_Enrollment_Status_History__c>();
@@ -526,7 +526,18 @@ public without sharing class DashboardRemoteNew {
         initData.peStatusStateMap = PEStatusState.STATUSES_MAP;
         initData.peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
         Id participantContactId = [SELECT Contact__c FROM Participant__c WHERE Id = :participantId].Contact__c;
-        initData.isInvited = ![SELECT Id FROM User WHERE ContactId = : participantContactId].isEmpty();
+       // initData.isInvited = ![SELECT Id FROM User WHERE ContactId = : participantContactId].isEmpty();
+
+        List<user> lstUser = new List<user>();
+        lstUser = [SELECT Id FROM User WHERE ContactId = : participantContactId];
+        if(lstUser.size() == 0)
+        {
+            initData.isInvited = false;
+        }
+        else
+        {
+            initData.isInvited = true;
+        }
 
         List<Participant_Enrollment__c> pes = (List<Participant_Enrollment__c>) DatabaseService.query(
             ParticipantEnrollmentService.PE_COMMON_FIELDS,
@@ -672,7 +683,7 @@ public without sharing class DashboardRemoteNew {
                                                                                             AND ParticipantEnrollment__r.Participant__c != null
                                                                                             AND Date__c != null
                                                                                             AND Status__c IN :(new List<String> {PE_STATUS_SUCCESSFULLY_CONTACTED}) 
-                                                                                            ORDER BY Name DESC LIMIT 40000];
+                                                                                            ORDER BY Createddate DESC LIMIT 40000];
                 for(Participant_Enrollment_Status_History__c pesh : peshList)
                 {
                     daysBetween = Date.valueOf(pesh.Date__c).daysBetween(system.Today());
@@ -751,7 +762,33 @@ public without sharing class DashboardRemoteNew {
         }
         return JSON.serialize(peList[0]);
     }
+    
+    @AuraEnabled
+    public static string getInvitedDetails(string participantId)
+    {
+        try
+        {
+            Boolean Userexist;
+            Id participantContactId = [SELECT Contact__c FROM Participant__c WHERE Id = :participantId].Contact__c;
+            List<user> lstUser = [select id,ContactId from user where ContactId =: participantContactId];
 
+            if(!lstUser.isEmpty())
+            {
+                Userexist = true;
+            }
+            else
+            {
+                Userexist = false;
+            }
+            return JSON.serialize(Userexist);
+        } 
+        catch (Exception e)
+        {
+           throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+
+ 
     //This method is used to set rank for the study sites
     public static List<SSRankWrapper> setRank(List<SSRankWrapper> ssRankWrapperlist) {
         Integer rank = 1;

@@ -1,7 +1,7 @@
 /**
  * Created by Igor Malyuta on 28.11.2019.
  */
-.transition-show .p-container {
+ .transition-show .p-container {
     opacity: 1;
     visibility: visible;
 }
@@ -69,6 +69,13 @@
     font-weight: 500;
     line-height: 30px;
     width: 90%;
+}
+.p-header h2RTL {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 30px;
+    width: 90%;
+    text-align: right;
 }
 
 .p-header.p-header-buttons h2 {

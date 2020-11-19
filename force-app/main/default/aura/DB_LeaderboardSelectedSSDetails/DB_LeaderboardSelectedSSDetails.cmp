@@ -29,11 +29,11 @@
             <span class="slds-float_left slds-p-left_medium slds-p-top_medium leaderboard-title">
                 {!v.dashboardTitle} 
             </span>
-            <aura:if isTrue="{!v.show}">
+            <!--aura:if isTrue="{!v.show}"-->
                 <span class="slds-float_right slds-p-right_medium slds-p-top_medium totalcount">
                     {!$Label.c.Dashboard_Total_Sites}: {!v.totalSSCount}
                 </span>
-            </aura:if>
+            <!--/aura:if-->
         </div>
         <div class="exampleHolder" style="position:relative;padding:0%;z-index: 1;">
             <aura:if isTrue="{! v.loaded }">               

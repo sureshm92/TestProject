@@ -4,7 +4,7 @@
     <aura:attribute name="userMode" type="String" required="true"/>
     <aura:attribute name="isDelegate" type="Boolean"/>
     <aura:attribute name="disableToggle" type="Boolean"/>
-
+    <aura:attribute name="isJanssen" type="Boolean" description="get is janssen login" default="false"/>
     <aura:attribute name="institute" type="Object"/>
     <aura:attribute name="previousCC" type="String"/>
 
@@ -67,12 +67,22 @@
                                                     <div class="ah-item-sublabel">{!cookieItem.cookieDescription}</div>
                                                 </div>
                                             </div>
-                                        </aura:iteration>
-                                    </div>
-                                </div>
+                                        </aura:iteration>  
+                                        <aura:if isTrue="{!v.isJanssen}">
+                                            <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel">
+                                                <div class="slds-col slds-size--2-of-3 slds-medium-size--6-of-7">
+                                                    <div class="ah-item-label">{!$Label.c.AccountSettings_Functional_RRCookies}</div>
+                                                    <div class="ah-item-sublabel">{!$Label.c.AccountSettings_RRCookies_Description}
+                                                    </div>
+                                                </div>
+                                               
+                                            </div>
+                                        </aura:if>
+                                     </div>
+                                </div>                                
                         </c:RRCollapse>
                     </div>
-
+                    <aura:if isTrue="{!!v.isJanssen}">
                     <div class="collapse-section slds-m-top--large">
                         <c:RRCollapse label="{!$Label.c.AccountSettings_Functional_Cookies}" isCollapsed="true">
                                 <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
@@ -113,6 +123,7 @@
                                 </div>
                         </c:RRCollapse>
                     </div>
+                </aura:if>
                 </div>
                 <!--  </div> -->
                 </div>     

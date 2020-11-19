@@ -67,8 +67,12 @@
 }
 
 .THIS .wt-scroller {
-    max-height: 800px;
+    height: 100%;
+    max-height: 100%;
     margin: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .THIS .tour-buttons-continer {
@@ -82,12 +86,12 @@
     flex: 1;
     display: flex;
     align-items: center;
-    margin-right: 20px;
     white-space: nowrap;
 }
 
 .THIS .tour-btn-group {
-    margin: 10px 0;
+    margin: 15px 0 25px;
+    text-align: right;
 }
 
 .THIS .ti-width-limiter {
@@ -106,10 +110,15 @@
     flex: 1;
     width: 100%;
     margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .THIS .tour-slides-carousel {
     height: 100%;
+}
+
+.THIS .tour-pages {
+    margin-top: 25px;
 }
 
 .THIS .slide-area {
@@ -117,9 +126,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: stretch;
-}
-
-.THIS .slide-info-area {
 }
 
 .THIS .slide-title {
@@ -171,13 +177,14 @@
     width: 8px;
     height: 8px;
     border-radius: 8px;
-    border: 1px solid #ffffff;
-    background: white;
+    background: #b5b5b5;
     opacity: 0.3;
     transition: opacity 0.3s;
 }
 .THIS.slds-scope .sc-pagination__dot_selected {
     opacity: 1;
+    background: #0078a3;
+    border: 1px solid #0078a3;
 }
 .THIS.slds-scope .sc-pagination li {
     display: inline-block;
@@ -191,12 +198,6 @@
     height: 100%;
 }
 
-@media all and (max-width: 768px) and (orientation: portrait) {
-    .THIS .tour-slides-container {
-        height: 60vh;
-    }
-}
-
 @media all and (max-width: 1340px) and (orientation: landscape) {
     .THIS .tour-slides-container {
         height: auto;
@@ -204,6 +205,10 @@
 }
 
 @media all and (max-width: 500px) {
+    .THIS .wt-scroller {
+        margin: 0;
+    }
+
     .THIS .tour-title {
         font-size: 1.25rem;
         line-height: 1.5rem;
@@ -211,8 +216,12 @@
         padding: 0;
     }
 
+    .THIS .brand-gradient-background {
+        background: #fff;
+    }
+
     .THIS .slide-title {
-        margin-top: 10px;
+        margin-top: 0;
         margin-bottom: 0;
     }
 
@@ -221,15 +230,18 @@
     }
 
     .THIS .slide-body {
-        line-height: 18px;
+        line-height: 1.5rem;
     }
 
     .THIS .tour-buttons-continer {
-        margin-top: 10px;
+        margin-top: 0;
+        padding: 15px;
+        height: auto;
+        flex-direction: column;
     }
 
     .THIS .tour-btn-group {
-        margin: 1rem 0 0;
+        margin: 15px 15px 25px;
     }
 
     .THIS .tour-btn-group button {
@@ -242,19 +254,17 @@
         margin: 20px auto 0;
     }
 
-    .THIS .wt-scroller {
-        height: 90vh;
-        overflow-y: scroll;
-        padding: 0.5rem;
-        margin: 0 0.5rem;
+    .THIS .slide-img-content {
+        width: 100%;
+        align-items: flex-start;
     }
 
     .THIS .tour-pages {
-        margin: 5px;
+        margin-top: 10px;
     }
 
-    .THIS.tour-fixed-overlay {
-        height: 100vh;
+    .THIS .tour-info-container {
+        padding: 0 15px;
     }
 
     .THIS .tour-slides-container {
@@ -264,24 +274,16 @@
     }
 
     .THIS .tour-slides-body {
-        margin-top: 15px;
+        margin-top: 0;
+    }
+
+    .THIS .tour-buttons-continer > .left {
+        flex: 0;
+        margin-right: 0;
     }
 }
 
-@media all and (max-height: 500px) and (orientation: landscape) {
-    .THIS .tour-slides-container {
-        min-height: auto;
-        max-height: 82vh;
-    }
 
-    .THIS .tour-slides-body {
-        margin-top: 15px;
-    }
-
-    .THIS .fit-image {
-        max-height: 50vh;
-    }
-}
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
     .THIS .tour-slides-body {
@@ -297,3 +299,4 @@
     margin-top: 15px;
     font-size: 12px;
 }
+
