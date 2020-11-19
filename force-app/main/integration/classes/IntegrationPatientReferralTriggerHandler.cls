@@ -75,7 +75,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 if (String.isEmpty(ipr.lastName__c)) errorsLog.add('Required field is missing: lastName__c;');
                 if (String.isEmpty(ipr.email__c) &&  String.isEmpty(ipr.phone__c)) errorsLog.add('Either email or phone number must be provided;');
                 if ((!String.isEmpty(ipr.Delegate_First_Name__c) || !String.isEmpty(ipr.Delegate_Last_Name__c)) && String.isEmpty(ipr.Delegate_Email_Address__c) && String.isEmpty(ipr.Delegate_Daytime_Phone_Number__c)) errorsLog.add('Either email or phone number for delegate must be provided;');
-            
+             
                 //Check SS
                 String studySiteNumber = getSitePrimaryKeyEPR(ipr);
                 Study_Site__c ss = ssByPrimaryKeyEPRMap.get(studySiteNumber);
