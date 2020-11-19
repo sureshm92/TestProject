@@ -3232,6 +3232,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>days ago</value>
     </labels>
     <labels>
+        <fullName>DB_Only_First_800_participants</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DB__Only_First_800_participants</shortDescription>
+        <value>Only first 800 participants will be shown in each dropdown, with the most recently created contact shown first.</value>
+    </labels>
+    <labels>
         <fullName>DI_L_Acceptance_pending</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4036,6 +4043,15 @@ Please share our site on social media to encourage others to assist us as we wor
         <protected>false</protected>
         <shortDescription>Email Body Delegate Permission Changed</shortDescription>
         <value>One or more of your Referral Hub study permissions has changed.</value>
+    </labels>
+	<labels>
+        <fullName>Email_Body_For_Referring_HCP_Backend</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body For Referring HCP Backend</shortDescription>
+        <value>A new clinical research study has been added to your account on the IQVIA Referral Hub: ##StudyName
+
+        Please take a moment to log in to the IQVIA Referral Hub, go to &quot;My Studies&quot; and review and accept this study. You will then be able to manage patient referrals to the study from any IQVIA source.</value>
     </labels>
     <labels>
         <fullName>Email_Body_FollowUp_Reminder</fullName>
@@ -17041,7 +17057,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH Email Invalid Characters</shortDescription>
-        <value>[\^¡¿«»¢£¥€¤›]</value>
+        <value>[\¡¿«»¢£¥€¤›]</value>
     </labels>
 	  <labels>
         <fullName>RH_Email_Invalid_Error</fullName>
