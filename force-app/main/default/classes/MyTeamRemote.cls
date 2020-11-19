@@ -418,6 +418,7 @@ public without sharing class MyTeamRemote {
                         WhatId__c = whatId,
                         Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_ACCESS_LEVEL_CHANGED_TYPE
                 ));
+                 if(comTemplates.size()>1){ break; }
             }
 
         } else if (userMode == CommunityService.USER_MODE_HCP) {
