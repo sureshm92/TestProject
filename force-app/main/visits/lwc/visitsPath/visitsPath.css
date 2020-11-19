@@ -136,7 +136,7 @@
     border-radius: 50%;
     position: absolute;
     top: -10px;
-    left: 55px;
+    right: -9px;;
     line-height: 1;
     display: inline-flex;
     align-items: center;
@@ -153,7 +153,7 @@
     width: 30px;
     height: 30px;
     top: -18px;
-    left: 53px;
+    right: -16px;
 }
 
 .state.planned .state-ico-wrapper-middle {
@@ -174,7 +174,7 @@
     line-height: 1;
     justify-content: center;
     top: -22px;
-    left: 49px;
+    right: -20px;
     width: 38px;
     height: 38px;
     opacity: .25;
@@ -204,7 +204,7 @@
     justify-content: center;
     background-color: #005ff1;
     top: -27px;
-    left: 44px;
+    right: -24px;
     width: 48px;
     height: 48px;
     opacity: 0.1;
@@ -293,6 +293,13 @@
         left: -13px;
     }
 
+    .state .state-ico-wrapperRTL {
+        width: 30px;
+        height: 30px;
+        top: -16px;
+        right: -13px;
+    }
+
     .arrow-left {
         margin-right: 4px;
     }
@@ -328,6 +335,12 @@
         height: 42px;
         top: -22px;
         left: -19px;
+    }
+    .state .state-ico-wrapperRTL {
+        width: 40px;
+        height: 42px;
+        top: -22px;
+        right: -19px;
     }
 
     .arrow-left {
@@ -390,6 +403,13 @@
         left: -14px;
     }
 
+    .state .state-ico-wrapperRTL {
+        width: 32px;
+        height: 32px;
+        top: -17px;
+        right: -14px;
+    }
+
     .arrow-left,
     .arrow-right {
         padding-left: 30px;
@@ -428,9 +448,20 @@
         left: -25px;
     }
 
+    .state.planned .state-ico-wrapper-largeRTL {
+        right: -25px;
+    }
+
     .state.planned .state-ico-wrapper-middle {
         top: -22px;
         left: -21px;
+        width: 39px;
+        height: 38px;
+    }
+
+    .state.planned .state-ico-wrapper-middleRTL {
+        top: -22px;
+        right: -21px;
         width: 39px;
         height: 38px;
     }

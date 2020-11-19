@@ -1,5 +1,5 @@
 /**
-* Created by D.Yasinskyi on 07.05.2018
+* Created by D.Yasinskyi  on 07.05.2018
 */
 public without sharing class AccountSettingsController {
 
@@ -348,6 +348,12 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 FROM Account
                 WHERE Id = :accountId
         ];
+    }
+	  // get community name
+    @AuraEnabled
+    public static String getCommunityUrl() {
+        return site.getMasterLabel();
+        
     }
 
     public static List<CookieSettings> getCookieSettings() {

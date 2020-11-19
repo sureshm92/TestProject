@@ -213,6 +213,10 @@ padding-right: 25px;
         height: 500px;
     }
 
+    .ms-right {
+        width: 100%;
+    }
+
     .ms-title {
         padding-left: 10px;
     }

@@ -131,9 +131,15 @@ public without sharing class HCPEnrollmentTriggerHandler {
                         ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
                     }
 
-                    if (hpsByHCPE.get(hcpe.Id) != null || alreadyCreatedContactsMap.containsKey(hcpe.HCP_Contact__c)) {
-                        notificationType = NotificationCatalog.MESSAGE_TO_HCP_NEW_STUDY_BY_PI_TYPE;
-                    }
+                        if (hpsByHCPE.get(hcpe.Id) != null || alreadyCreatedContactsMap.containsKey(hcpe.HCP_Contact__c)) {
+                            User currentUser = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
+                            if(currentUser.ContactId != null) 
+                            {
+                            notificationType = NotificationCatalog.MESSAGE_TO_HCP_NEW_STUDY_BY_PI_TYPE;
+                            } else{
+                            notificationType = NotificationCatalog.MESSAGE_TO_HCP_NEW_STUDY_BACKEND;
+                              } 
+                            }
                     notifications.add(new Notification__c(
                             Recipient__c = hcpe.HCP_Contact__c,//hcpe.Id,
                             WhatId__c = hcpe.Id,//hcpe.HCP_Contact__c,
