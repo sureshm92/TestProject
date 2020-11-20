@@ -172,8 +172,9 @@
                                             onchange={handleDateChange}></lightning-input>
                                         </div>     
                     <div slot="footerButtons" style="text-align: right;">
-                        <button class="apollo-btn tertiary" onclick={handleHideDialog} style="margin-left: 13px;">{labels.cancelBTNLabel}</button>
-                        <button class="apollo-btn primary" onclick={savePlannedDate} >{labels.saveBTNLabel}</button>
+                            <button class="apollo-btn primary" onclick={savePlannedDate}  style="margin-left: 13px;" >{labels.saveBTNLabel}</button>
+                        <button class="apollo-btn tertiary" onclick={handleHideDialog}>{labels.cancelBTNLabel}</button>
+                        
                     </div>
                </c-web-popup>            
         </template>
