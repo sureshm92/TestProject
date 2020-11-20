@@ -21,7 +21,8 @@ global without sharing class EmailTemplateDelController {
                             Study_Site__r.Name
                     FROM Site_Staff__c
                     WHERE Site_Contact__c = :EmailTemplateProviderService.getProvider().getRecipientId()
-                    AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = :commTemplateStr
+                    AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = :commTemplateStr 
+                	AND is_Invited__c = true
             ];
         } else{
             siteStaffs = [
@@ -34,7 +35,8 @@ global without sharing class EmailTemplateDelController {
                             Study_Site__r.Name
                     FROM Site_Staff__c
                     WHERE Site_Contact__c = :EmailTemplateProviderService.getProvider().getRecipientId()
-                    AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != :CommunityTemplateService.TEMPLATE_JANSSEN
+                    AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != :CommunityTemplateService.TEMPLATE_JANSSEN 
+                	AND is_Invited__c = true
             ];
         }
         TranslateHelper.translate(siteStaffs, EmailTemplateProviderService.getProvider().getUserLanguage());
