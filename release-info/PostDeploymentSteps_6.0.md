@@ -147,3 +147,5 @@ Publish Community
 1.Go to Setup - Object Manager - Clinical Trial Profile - fields - Study_Content__c - Set Field-Level Security --> please check visible checkbox for following profiles : Business Administrator , Business Lead , IQVIA SPNL2 , Product Owner.
 
 2.please check both visible and Read-Only checkboxes for profile : PRDBAPI
+
+3.Go to Setup - Object Manager - Clinical Trial Profile - Page Layouts - Page Layout Assignment - Edit Assignment - hold CTRL button + choose three profiles Business Lead, IQVIA SPNL2,PRDBAPI and then select "Clinical Trial Profile Layout" from Page Layout To Use drop down list - Save. 
