@@ -145,4 +145,5 @@ Publish Community
 
 ## 19. Trial Match Learn More Field-Level Security
 1.Go to Setup - Object Manager - Clinical Trial Profile - fields - Study_Content__c - Set Field-Level Security --> please check visible checkbox for following profiles : Business Administrator , Business Lead , IQVIA SPNL2 , Product Owner.
+
 2.please check both visible and Read-Only checkboxes for profile : PRDBAPI
