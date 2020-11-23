@@ -134,7 +134,7 @@ public without sharing class ListViewParticipantController {
             Integer recordEnd = pSize * pNumber;
             
             String qCountString = 'SELECT COUNT() FROM Participant_Enrollment__c WHERE'; 
-            String queryString  = 'SELECT Id,Name,PerCounter__c,Participant_Name__c,Participant_Contact__c,Referral_Source__c,MRN_Id__c,Patient_ID__c,Referral_ID__c,Study_Hub_Log__c,Study_Hub_Log__r.Response_Status_Code__c,'
+            String queryString  = 'SELECT Id,Name,PerCounter__c, Initial_visit_scheduled_time__c, Participant_Name__c,Participant_Contact__c,Referral_Source__c,MRN_Id__c,Patient_ID__c,Referral_ID__c,Study_Hub_Log__c,Study_Hub_Log__r.Response_Status_Code__c,'
                 +'Participant__r.Full_Name__c,Participant__r.Present_Age__c,Participant__r.Gender_Technical__c,Participant__r.BMI__c,Study_Site__c,Study_Site__r.Name,Clinical_Trial_Profile__c,'
                 +'Clinical_Trial_Profile__r.Study_Code_Name__c,Clinical_Trial_Profile__r.Promote_to_SH__c,Participant__r.Ethnicity__c,'
                 +'Source_Type__c,Participant_Status__c,HighRisk_Indicator__c,CreatedDate,Referral_Source_ID__c,'
@@ -343,8 +343,11 @@ public without sharing class ListViewParticipantController {
                     EC=+EC.removeEnd(',');
                     Ethnicity=EC;
                 }
-                
-                wpws.add(new WrapPageWithSelection(pe,isChekedSelected,isLocked,priorityReferral,Ethnicity)); 
+                String initialVisitScheduleTime = String.ValueOf(pe.Initial_visit_scheduled_time__c);
+                if(initialVisitScheduleTime != '' && initialVisitScheduleTime != null){
+                    initialVisitScheduleTime = initialVisitScheduleTime.replace('.000Z', '');
+               }
+                wpws.add(new WrapPageWithSelection(pe,isChekedSelected,isLocked,priorityReferral,Ethnicity, initialVisitScheduleTime)); 
                 PromotetoSH=pe.Clinical_Trial_Profile__r.Promote_to_SH__c;
             }
             
@@ -695,16 +698,18 @@ public without sharing class ListViewParticipantController {
     public class WrapPageWithSelection
     {
         @AuraEnabled public Participant_Enrollment__c pe{get;set;}
+        @AuraEnabled public String initialVisitScheduleTime{get;set;}
         @AuraEnabled public Boolean isCheckedlatest{get;set;}
         @AuraEnabled public Boolean selectionlock{get;set;}
         @AuraEnabled public String priorityReferral{get;set;}
         @AuraEnabled public String Ethnicity{get;set;}
-        public WrapPageWithSelection(Participant_Enrollment__c pe,Boolean isCheckedlatest,Boolean selectionlock,String priorityReferral,String Ethnicity){
+        public WrapPageWithSelection(Participant_Enrollment__c pe,Boolean isCheckedlatest,Boolean selectionlock,String priorityReferral,String Ethnicity, String initialVisitScheduleTime){
             this.pe=pe;
             this.isCheckedlatest=isCheckedlatest;
             this.selectionlock=selectionlock;
             this.priorityReferral=priorityReferral;
             this.Ethnicity=Ethnicity;
+            this.initialVisitScheduleTime=initialVisitScheduleTime;
         }
     }
     public class WrapStudySiteList
