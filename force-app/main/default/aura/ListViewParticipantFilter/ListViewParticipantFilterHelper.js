@@ -235,7 +235,7 @@
     columnDivider = ',';
     lineDivider =  '\n';
     // var header = ['Participant Profile Name','Study Code Name',	'Study Site Name','Participant_Status__c','isCheckedlatest'];
-    var header = ['ID','Received Date',	'Source ID','Sex','Age','Ethnicity', 'Comorbidities', 'BMI', 'High Risk Occupation', 'Initial Visit Date', 'Participant Status', 'High Priority '];
+    var header = ['ID','Received Date',	'Source ID','Sex','Age','Ethnicity', 'Comorbidities', 'BMI', 'High Risk Occupation', 'Initial Visit Date', 'Initial Visit Time', 'Participant Status', 'High Priority '];
     
     csvStringResult = '';
     csvStringResult += header.join(columnDivider);
@@ -310,6 +310,12 @@
         
         if((objectRecords[i]["pe"]["Initial_visit_scheduled_date__c"] !== undefined)){
             csvStringResult += '"'+ objectRecords[i]["pe"]["Initial_visit_scheduled_date__c"]+'"' +','; 
+        }else{
+            csvStringResult += '" "'+','; 
+        }
+
+        if((objectRecords[i]["initialVisitScheduleTime"] !== undefined)){
+            csvStringResult += '"'+ objectRecords[i]["initialVisitScheduleTime"]+'"' +','; 
         }else{
             csvStringResult += '" "'+','; 
         }
