@@ -7869,6 +7869,11 @@
     <layoutAssignments>
         <layout>XLF_White_List__mdt-XLF White List Layout</layout>
     </layoutAssignments>
+	 <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.SubjectId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <loginIpRanges>
         <description>TEST ONLY</description>
         <endAddress>255.255.255.255</endAddress>
