@@ -3,7 +3,6 @@
  */
 
 public without sharing class StudyDetailAboutStudyRemote {
-    
     /*@AuraEnabled
     public static void changeStudyForHCP(String studySiteId, String hcpeId){
         Savepoint sp = Database.setSavepoint();
@@ -55,32 +54,36 @@ public without sharing class StudyDetailAboutStudyRemote {
     }*/
 
     @AuraEnabled
-    public static void setTrialAcceptedForPI(Id trialId, String piPaysForReferralActivity, String ssId){
+    public static void setTrialAcceptedForPI(
+        Id trialId,
+        String piPaysForReferralActivity,
+        String ssId
+    ) {
         Savepoint sp = Database.setSavepoint();
-        try{
+        try {
             setStatusPI(trialId, 'Accepted', piPaysForReferralActivity, ssId);
-        }catch (Exception e){
+        } catch (Exception e) {
             Database.rollback(sp);
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
 
-//    @AuraEnabled
-//    public static void setPrimaryContactForStudy(Id trialId, String primaryContactId){
-//        if(primaryContactId == '')
-//            primaryContactId = null;
-//        Savepoint sp = Database.setSavepoint();
-//        try{
-//            List<Study_Site__c> sites = StudySiteService.getStudySiteForPIByTrialId(trialId);
-//            for(Study_Site__c site: sites){
-//                site.Primary_Contact__c = primaryContactId;
-//            }
-//            update sites;
-//        }catch (Exception e){
-//            Database.rollback(sp);
-//            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-//        }
-//    }
+    //    @AuraEnabled
+    //    public static void setPrimaryContactForStudy(Id trialId, String primaryContactId){
+    //        if(primaryContactId == '')
+    //            primaryContactId = null;
+    //        Savepoint sp = Database.setSavepoint();
+    //        try{
+    //            List<Study_Site__c> sites = StudySiteService.getStudySiteForPIByTrialId(trialId);
+    //            for(Study_Site__c site: sites){
+    //                site.Primary_Contact__c = primaryContactId;
+    //            }
+    //            update sites;
+    //        }catch (Exception e){
+    //            Database.rollback(sp);
+    //            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+    //        }
+    //    }
 
     /*private static Map<Id, HCP_Enrollment__c> setStatusHCP(Id trialId, String status){
         List<HCP_Enrollment__c> enrollments = [
@@ -98,87 +101,111 @@ public without sharing class StudyDetailAboutStudyRemote {
         return enrollmentsMap;
     }*/
 
-    private static void setStatusPI(Id trialId, String status, String piPaysForReferralActivity, String ssId){
-        System.debug('ssId>>.'+ssId);
-        if(!String.isEmpty(ssId)){
+    private static void setStatusPI(
+        Id trialId,
+        String status,
+        String piPaysForReferralActivity,
+        String ssId
+    ) {
+        System.debug('ssId>>.' + ssId);
+        if (!String.isEmpty(ssId)) {
             Study_Site__c studySites = StudySiteService.getStudySiteForHCPById(ssId);
-            if(studySites == null) throw new AuraHandledException('Data not found');
+            if (studySites == null)
+                throw new AuraHandledException('Data not found');
             studySites.Override_PI_Referral_Status__c = status;
-            if (piPaysForReferralActivity != null) studySites.PI_Pays_for_Referral_Activity__c = piPaysForReferralActivity;
+            if (piPaysForReferralActivity != null)
+                studySites.PI_Pays_for_Referral_Activity__c = piPaysForReferralActivity;
             update studySites;
-        }
-        else {
+        } else {
             List<Study_Site__c> studySites = StudySiteService.getStudySiteForPIByTrialId(trialId);
-            if (studySites.size() == null) throw new AuraHandledException('Data not found');
+            if (studySites.size() == null)
+                throw new AuraHandledException('Data not found');
             for (Integer i = 0; i < studySites.size(); i++) {
-                if(studySites[i].Override_PI_Referral_Status__c != status && studySites[i].Override_PI_Referral_Status__c != StudySiteService.PI_S_DEACTIVATED_A) {
+                if (
+                    studySites[i].Override_PI_Referral_Status__c != status &&
+                    studySites[i].Override_PI_Referral_Status__c !=
+                    StudySiteService.PI_S_DEACTIVATED_A
+                ) {
                     studySites[i].Override_PI_Referral_Status__c = status;
-                    if (piPaysForReferralActivity != null) studySites[i].PI_Pays_for_Referral_Activity__c = piPaysForReferralActivity;
-               }
-             }
+                    if (piPaysForReferralActivity != null)
+                        studySites[i].PI_Pays_for_Referral_Activity__c = piPaysForReferralActivity;
+                }
+            }
             studySites[0].Override_PI_Referral_Status__c = status;
             update studySites;
         }
     }
 
     @AuraEnabled
-    public static List<DocumentWrapper> getDocuments(String role, String ctpId){
+    public static List<DocumentWrapper> getDocuments(String role, String ctpId) {
         List<Res_study__c> resStudies = [
-                SELECT
-                        Id,
-                        Resource__c,
-                        Resource__r.Title__c,
-                        Resource__r.Language__c,
-                        Visible_To_PI__c,
-                        Visible_To_RP__c
-                FROM    Res_study__c
-                WHERE   Clinical_Trial_Profile__c = :ctpId
+            SELECT
+                Id,
+                Resource__c,
+                Resource__r.Title__c,
+                Resource__r.Language__c,
+                Visible_To_PI__c,
+                Visible_To_RP__c
+            FROM Res_study__c
+            WHERE Clinical_Trial_Profile__c = :ctpId
         ];
         System.debug(ctpId);
         System.debug(resStudies);
         Set<Id> resourceIds = new Set<Id>();
         Map<String, Res_study__c> resMap = new Map<String, Res_study__c>();
-        for(Res_study__c res : resStudies){
-            if((role == 'PI' && res.Visible_To_PI__c) || (role == 'HCP' && res.Visible_To_RP__c)) {
+        for (Res_study__c res : resStudies) {
+            if ((role == 'PI' && res.Visible_To_PI__c) || (role == 'HCP' && res.Visible_To_RP__c)) {
                 resourceIds.add(res.Resource__c);
                 resMap.put(res.Resource__c, res);
             }
         }
         System.debug(resourceIds);
-        if(resourceIds.isEmpty())
+        if (resourceIds.isEmpty())
             return null;
         List<ContentDocumentLink> documents = [
-                SELECT  Id,
-                        ContentDocumentId,
-                        ContentDocument.Title,
-                        LinkedEntityId
-                FROM    ContentDocumentLink
-                WHERE   LinkedEntityId IN :resourceIds
+            SELECT Id, ContentDocumentId, ContentDocument.Title, LinkedEntityId
+            FROM ContentDocumentLink
+            WHERE LinkedEntityId IN :resourceIds
         ];
         List<DocumentWrapper> documentsToShow = new List<DocumentWrapper>();
         System.debug(documents);
         Set<String> uniqueDocumentNames = new Set<String>();
         String userLanguage = UserInfo.getLanguage();
-        documentsToShow.addAll(getDefaultLanguageDocuments(documents, uniqueDocumentNames, resMap, userLanguage));
+        documentsToShow.addAll(
+            getDefaultLanguageDocuments(documents, uniqueDocumentNames, resMap, userLanguage)
+        );
         System.debug(documentsToShow);
-        if(userLanguage != 'en_US'){
-            documentsToShow.addAll(getDefaultLanguageDocuments(documents, uniqueDocumentNames, resMap, 'en_US'));
+        if (userLanguage != 'en_US') {
+            documentsToShow.addAll(
+                getDefaultLanguageDocuments(documents, uniqueDocumentNames, resMap, 'en_US')
+            );
         }
         System.debug(documentsToShow);
         return documentsToShow;
     }
 
-    private static List<DocumentWrapper> getDefaultLanguageDocuments(List<ContentDocumentLink> documents, Set<String> uniqueDocumentNames, Map<String, Res_study__c> resMap, String userLanguage){
+    private static List<DocumentWrapper> getDefaultLanguageDocuments(
+        List<ContentDocumentLink> documents,
+        Set<String> uniqueDocumentNames,
+        Map<String, Res_study__c> resMap,
+        String userLanguage
+    ) {
         List<DocumentWrapper> documentsToShow = new List<DocumentWrapper>();
-        for(ContentDocumentLink document : documents){
-            if(!uniqueDocumentNames.contains(resMap.get(document.LinkedEntityId).Resource__r.Title__c)) {
+        for (ContentDocumentLink document : documents) {
+            if (
+                !uniqueDocumentNames.contains(
+                    resMap.get(document.LinkedEntityId).Resource__r.Title__c
+                )
+            ) {
                 if (document.ContentDocument.Title == userLanguage) {
                     DocumentWrapper doc = new DocumentWrapper(
-                            document.LinkedEntityId,
-                            resMap.get(document.LinkedEntityId).Resource__r.Title__c,
-                            resMap.get(document.LinkedEntityId).Resource__r.Language__c
+                        document.LinkedEntityId,
+                        resMap.get(document.LinkedEntityId).Resource__r.Title__c,
+                        resMap.get(document.LinkedEntityId).Resource__r.Language__c
                     );
-                    uniqueDocumentNames.add(resMap.get(document.LinkedEntityId).Resource__r.Title__c);
+                    uniqueDocumentNames.add(
+                        resMap.get(document.LinkedEntityId).Resource__r.Title__c
+                    );
                     documentsToShow.add(doc);
                 }
             }
@@ -186,16 +213,18 @@ public without sharing class StudyDetailAboutStudyRemote {
         return documentsToShow;
     }
 
-    public class DocumentWrapper{
-        @AuraEnabled public Id resourceId;
-        @AuraEnabled public String title;
-        @AuraEnabled public String language;
+    public class DocumentWrapper {
+        @AuraEnabled
+        public Id resourceId;
+        @AuraEnabled
+        public String title;
+        @AuraEnabled
+        public String language;
 
-        public DocumentWrapper(Id resourceId, String title, String language){
+        public DocumentWrapper(Id resourceId, String title, String language) {
             this.resourceId = resourceId;
             this.title = title;
             this.language = language;
         }
     }
-
 }

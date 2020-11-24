@@ -1,7 +1,6 @@
 @IsTest
-public class TestCPDonor
-{
-/* Remove
+public class TestCPDonor {
+    /* Remove
    @IsTest
     static void testAll() {
     
@@ -169,8 +168,8 @@ public class TestCPDonor
                 referralID__c = '4443234231',
                 acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00'
         );*/
-        
-       /* List<Integration_Site_Staff__c> issList = new List<Integration_Site_Staff__c>();
+
+    /* List<Integration_Site_Staff__c> issList = new List<Integration_Site_Staff__c>();
         Integration_Site_Staff__c iss = new Integration_Site_Staff__c(
                 Address_Country__c = 'US',
                 Zip_Postal_Code__c = '12312',
@@ -204,7 +203,7 @@ public class TestCPDonor
         issList.add(iss);
         issList.add(iss2);
         //insert(issList);*/
-/* Remove
+    /* Remove
         test.stopTest();
         CPDonorReferralFormController.getStudySites('Test');
         CPDonorReferralFormController.getPickListValuesIntoList();
@@ -240,7 +239,7 @@ public class TestCPDonor
 
         Test.stopTest();
     }*/
-   /* Remove
+    /* Remove
     private static Integration_Patient_Referral__c createIntegrationPatientReferral()
     {
         Integration_Patient_Referral__c newIntegrationPatientReferral = new Integration_Patient_Referral__c();

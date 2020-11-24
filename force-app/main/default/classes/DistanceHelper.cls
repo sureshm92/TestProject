@@ -3,13 +3,12 @@
  */
 
 public without sharing class DistanceHelper {
-    public static final Set<String> MILE_LOCALES = new Set<String>{
-            'en_US', 'en_GB', 'es_US'
-    };
+    public static final Set<String> MILE_LOCALES = new Set<String>{ 'en_US', 'en_GB', 'es_US' };
     private static String unitsOfMeasurement;
     private static Location userLocation;
     private static User communityUser;
-    @TestVisible private static Boolean alreadyInit = false;
+    @TestVisible
+    private static Boolean alreadyInit = false;
     public static String getUnitsOfMeasurement() {
         if (!alreadyInit) {
             init();
@@ -35,7 +34,12 @@ public without sharing class DistanceHelper {
     }
 
     public static Double calculateDistanceTo(Account site) {
-        if (site == null || site.BillingLatitude == null || site.BillingLongitude == null || getUserLocation() == null) {
+        if (
+            site == null ||
+            site.BillingLatitude == null ||
+            site.BillingLongitude == null ||
+            getUserLocation() == null
+        ) {
             return null;
         }
         Location siteLocation = Location.newInstance(site.BillingLatitude, site.BillingLongitude);
@@ -54,7 +58,10 @@ public without sharing class DistanceHelper {
         }
         Contact communityContact = CommunityService.getUserContact();
         if (communityContact.MailingLatitude != null && communityContact.MailingLongitude != null) {
-            userLocation = Location.newInstance(communityContact.MailingLatitude, communityContact.MailingLongitude);
+            userLocation = Location.newInstance(
+                communityContact.MailingLatitude,
+                communityContact.MailingLongitude
+            );
         }
         alreadyInit = true;
     }

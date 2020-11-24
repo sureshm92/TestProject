@@ -1,115 +1,149 @@
 public without sharing class ListViewParticipantController {
-    
     public static final List<String> EXCLUDED_STATUSES_COMMON = new List<String>{
         ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW,
-            ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL,
-            ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING
-            };
-                public static final List<String> EXCLUDED_STATUSES_PI = new List<String>{
-                    ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW,
-                        ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL,
-                        ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING,
-                        ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL
-                        };
-                            public static final List<String> EXCLUDED_REASONS = new List<String>{
-                                ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED,
-                                    ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING,
-                                    ParticipantEnrollmentService.NON_REF_REASON_STATUS_NOT_INTERESTED
-                                    };
-                                        
-                                        
-                                        @AuraEnabled
-                                        public static String getInitData(Id trialId, Id siteId, String userMode, String delegateId,String sponsorName) {
-                                            try{
-                                                InitData initData = new InitData();
-                                                String additionalFilter = getAdditionalFilter(userMode, false, null,sponsorName);
-                                                initData.paginationData = new PaginationData();
-                                                initData.peFilterData = createPEFilterData(userMode == 'PI' ? 'Active' : null, trialId, siteId, userMode, true, delegateId, additionalFilter,initData.paginationData, sponsorName);
-                                                initData.peFilter = new ListViewParticipantService.PEFilter(initData.peFilterData);
-                                                
-                                                initData.peFilter.studySite = siteId;
-                                                initData.peFilter.study = trialId;
-                                                initData.peFilter.activePE = userMode == 'PI' ? 'Active' : null;
-                                                
-                                                Id ctpId;
-                                                if(!initData.peFilterData.trialIds.isEmpty())
-                                                    ctpId = initData.peFilterData.trialIds[0];
-                                                List<Study_Site__c> studySites = getStudySites(ctpId);
-                                                initData.peFilterData.studySites = new List<LabelValueItem>();
-                                                initData.peFilterData.studySites.add(new LabelValueItem(Label.PG_Report_L_All_study_sites, null));
-                                                for (Study_Site__c ss : studySites) initData.peFilterData.studySites.add(new LabelValueItem(ss.Name, ss.Id));
-                                                
-                                                initData.peFilter.additionalFilter = additionalFilter;
-                                                return JSON.serialize(initData);
-                                            }catch (Exception e){
-                                                throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-                                            }
-                                        }
-    
+        ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL,
+        ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING
+    };
+    public static final List<String> EXCLUDED_STATUSES_PI = new List<String>{
+        ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW,
+        ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL,
+        ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING,
+        ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL
+    };
+    public static final List<String> EXCLUDED_REASONS = new List<String>{
+        ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED,
+        ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING,
+        ParticipantEnrollmentService.NON_REF_REASON_STATUS_NOT_INTERESTED
+    };
+
     @AuraEnabled
-    public static List<Study_Site__c> getStudySites(Id ctpId){
-        String piId = CommunityService.getUserContact().Id;
-        
-        return [SELECT Id, Name,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Promote_to_SH__c,
-                Principal_Investigator__c,Override_PI_Referral_Status__c
-                FROM Study_Site__c 
-                WHERE Clinical_Trial_Profile__c =: ctpId
-                AND Override_PI_Referral_Status__c != NULL
-                AND (Principal_Investigator__c=:piId  
-               OR ID IN: DelegateService.getDelegatedStudySiteIds())]; 
-       
+    public static String getInitData(
+        Id trialId,
+        Id siteId,
+        String userMode,
+        String delegateId,
+        String sponsorName
+    ) {
+        try {
+            InitData initData = new InitData();
+            String additionalFilter = getAdditionalFilter(userMode, false, null, sponsorName);
+            initData.paginationData = new PaginationData();
+            initData.peFilterData = createPEFilterData(
+                userMode == 'PI' ? 'Active' : null,
+                trialId,
+                siteId,
+                userMode,
+                true,
+                delegateId,
+                additionalFilter,
+                initData.paginationData,
+                sponsorName
+            );
+            initData.peFilter = new ListViewParticipantService.PEFilter(initData.peFilterData);
+
+            initData.peFilter.studySite = siteId;
+            initData.peFilter.study = trialId;
+            initData.peFilter.activePE = userMode == 'PI' ? 'Active' : null;
+
+            Id ctpId;
+            if (!initData.peFilterData.trialIds.isEmpty())
+                ctpId = initData.peFilterData.trialIds[0];
+            List<Study_Site__c> studySites = getStudySites(ctpId);
+            initData.peFilterData.studySites = new List<LabelValueItem>();
+            initData.peFilterData.studySites.add(
+                new LabelValueItem(Label.PG_Report_L_All_study_sites, null)
+            );
+            for (Study_Site__c ss : studySites)
+                initData.peFilterData.studySites.add(new LabelValueItem(ss.Name, ss.Id));
+
+            initData.peFilter.additionalFilter = additionalFilter;
+            return JSON.serialize(initData);
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
     }
-    
+
     @AuraEnabled
-    public static WrapStudySiteList getSSList (String studyId){
+    public static List<Study_Site__c> getStudySites(Id ctpId) {
+        String piId = CommunityService.getUserContact().Id;
+
+        return [
+            SELECT
+                Id,
+                Name,
+                Clinical_Trial_Profile__c,
+                Clinical_Trial_Profile__r.Promote_to_SH__c,
+                Principal_Investigator__c,
+                Override_PI_Referral_Status__c
+            FROM Study_Site__c
+            WHERE
+                Clinical_Trial_Profile__c = :ctpId
+                AND Override_PI_Referral_Status__c != NULL
+                AND (Principal_Investigator__c = :piId
+                OR ID IN :DelegateService.getDelegatedStudySiteIds())
+        ];
+    }
+
+    @AuraEnabled
+    public static WrapStudySiteList getSSList(String studyId) {
         Id stdId = Id.valueOf(studyId);
-        Boolean Promote =false;
+        Boolean Promote = false;
         List<Study_Site__c> studySites = getStudySites(stdId);
         WrapStudySiteList SSlist = new WrapStudySiteList();
-        SSlist.StudySites= new List<LabelValueItem>();
-        SSlist.StudySites.add(new LabelValueItem(Label.PG_Report_L_All_study_sites, 'All Study Sites'));
-        for (Study_Site__c ss : studySites) 
-        {
-            SSlist.StudySites.add(new LabelValueItem(ss.Name, ss.Id)); 
-            Promote=ss.Clinical_Trial_Profile__r.Promote_to_SH__c;
+        SSlist.StudySites = new List<LabelValueItem>();
+        SSlist.StudySites.add(
+            new LabelValueItem(Label.PG_Report_L_All_study_sites, 'All Study Sites')
+        );
+        for (Study_Site__c ss : studySites) {
+            SSlist.StudySites.add(new LabelValueItem(ss.Name, ss.Id));
+            Promote = ss.Clinical_Trial_Profile__r.Promote_to_SH__c;
         }
-        SSlist.isPromoteToSH=Promote;
+        SSlist.isPromoteToSH = Promote;
         return SSlist;
-        
     }
-    
+
     @AuraEnabled
-    public static void updateParticipantData(List<string> peIdList,List<string> yesHighPriorityList,List<string> noHighPriorityList){
+    public static void updateParticipantData(
+        List<string> peIdList,
+        List<string> yesHighPriorityList,
+        List<string> noHighPriorityList
+    ) {
         List<Participant_Enrollment__c> PEUpdateList = new List<Participant_Enrollment__c>();
-        for(Participant_Enrollment__c pe :[SELECT Id,Participant_Status__c,High_Priority__c,Initial_visit_scheduled_date__c  FROM Participant_Enrollment__c WHERE Id IN: peIdList]){
-            
-            if(yesHighPriorityList.contains(pe.id))
-            {
-                pe.High_Priority__c =true;
-            }else if(noHighPriorityList.contains(pe.id))
-            {
-                pe.High_Priority__c =false;
-            }else{
-                if(pe.Initial_visit_scheduled_date__c !=null){pe.High_Priority__c =true;}else{pe.High_Priority__c =false;}
+        for (Participant_Enrollment__c pe : [
+            SELECT Id, Participant_Status__c, High_Priority__c, Initial_visit_scheduled_date__c
+            FROM Participant_Enrollment__c
+            WHERE Id IN :peIdList
+        ]) {
+            if (yesHighPriorityList.contains(pe.id)) {
+                pe.High_Priority__c = true;
+            } else if (noHighPriorityList.contains(pe.id)) {
+                pe.High_Priority__c = false;
+            } else {
+                if (pe.Initial_visit_scheduled_date__c != null) {
+                    pe.High_Priority__c = true;
+                } else {
+                    pe.High_Priority__c = false;
+                }
             }
-            pe.Participant_Status__c ='Eligibility Passed';
+            pe.Participant_Status__c = 'Eligibility Passed';
             PEUpdateList.add(pe);
         }
-        if(PEUpdateList!=null && !PEUpdateList.isEmpty()){
+        if (PEUpdateList != null && !PEUpdateList.isEmpty()) {
             update PEUpdateList;
         }
-        
     }
-    
+
     @AuraEnabled
-    public static PeDataTableWrapper fetchData(String filterJSON) {  
+    public static PeDataTableWrapper fetchData(String filterJSON) {
         try {
-            
-            List<ListWrapper> FilterList = (List<ListWrapper>) JSON.deserialize(filterJSON, List<ListWrapper>.class);
+            List<ListWrapper> FilterList = (List<ListWrapper>) JSON.deserialize(
+                filterJSON,
+                List<ListWrapper>.class
+            );
             string res = '';
             string filter = '';
             List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
-            List<WrapPageWithSelection> wpws = new list<WrapPageWithSelection>();
+            List<WrapPageWithSelection> wpws = new List<WrapPageWithSelection>();
             List<Promote_to_SH__mdt> pshList = new List<Promote_to_SH__mdt>();
             List<String> lstSourceType = new List<String>();
             List<String> lstActiveStatus = new List<String>();
@@ -119,47 +153,51 @@ public without sharing class ListViewParticipantController {
             List<Id> siteIds = new List<Id>();
             List<String> lstActive = new List<String>();
             List<String> lstinActive = new List<String>();
-            
-            Boolean isChekedSelected=false;
-            Boolean isLocked=false;
-            Boolean PromotetoSH=false;
-            String priorityReferral='Yes';
+
+            Boolean isChekedSelected = false;
+            Boolean isLocked = false;
+            Boolean PromotetoSH = false;
+            String priorityReferral = 'Yes';
             List<Boolean> PeChecklist = new List<Boolean>();
-            set<id> OrgSelectedIds = new set<id>(FilterList[0].SelectedIds);
+            set<id> OrgSelectedIds = new Set<id>(FilterList[0].SelectedIds);
             //OrgSelectedIds=FilterList[0].SelectedIds;
-            Integer pSize = (Integer)FilterList[0].pageSize;
-            Integer pNumber = (Integer)FilterList[0].pageNumber;
-            
+            Integer pSize = (Integer) FilterList[0].pageSize;
+            Integer pNumber = (Integer) FilterList[0].pageNumber;
+
             Integer offset = (pNumber - 1) * pSize;
             Integer recordEnd = pSize * pNumber;
-            
-            String qCountString = 'SELECT COUNT() FROM Participant_Enrollment__c WHERE'; 
-            String queryString  = 'SELECT Id,Name,PerCounter__c,Participant_Name__c,Participant_Contact__c,Referral_Source__c,MRN_Id__c,Patient_ID__c,Referral_ID__c,Study_Hub_Log__c,Study_Hub_Log__r.Response_Status_Code__c,'
-                +'Participant__r.Full_Name__c,Participant__r.Present_Age__c,Participant__r.Gender_Technical__c,Participant__r.BMI__c,Study_Site__c,Study_Site__r.Name,Clinical_Trial_Profile__c,'
-                +'Clinical_Trial_Profile__r.Study_Code_Name__c,Clinical_Trial_Profile__r.Promote_to_SH__c,Participant__r.Ethnicity__c,'
-                +'Source_Type__c,Participant_Status__c,HighRisk_Indicator__c,CreatedDate,Referral_Source_ID__c,'
-                +'Initial_visit_scheduled_flag__c,Initial_visit_scheduled_date__c,High_Priority__c,Comorbidities__c FROM Participant_Enrollment__c WHERE ';
-            
+
+            String qCountString = 'SELECT COUNT() FROM Participant_Enrollment__c WHERE';
+            String queryString =
+                'SELECT Id,Name,PerCounter__c,Participant_Name__c,Participant_Contact__c,Referral_Source__c,MRN_Id__c,Patient_ID__c,Referral_ID__c,Study_Hub_Log__c,Study_Hub_Log__r.Response_Status_Code__c,' +
+                'Participant__r.Full_Name__c,Participant__r.Present_Age__c,Participant__r.Gender_Technical__c,Participant__r.BMI__c,Study_Site__c,Study_Site__r.Name,Clinical_Trial_Profile__c,' +
+                'Clinical_Trial_Profile__r.Study_Code_Name__c,Clinical_Trial_Profile__r.Promote_to_SH__c,Participant__r.Ethnicity__c,' +
+                'Source_Type__c,Participant_Status__c,HighRisk_Indicator__c,CreatedDate,Referral_Source_ID__c,' +
+                'Initial_visit_scheduled_flag__c,Initial_visit_scheduled_date__c,High_Priority__c,Comorbidities__c FROM Participant_Enrollment__c WHERE ';
+
             String sortBy = ' ORDER BY ';
-            if(FilterList[0].Sortby == 'Ascending')
-            {
-                sortBy+=' Name ASC'; 
-            }else if(FilterList[0].Sortby == 'Received Date(Oldest First)'){
-                sortBy+=' CreatedDate ASC'; 
-            }else if(FilterList[0].Sortby == 'Received Date(Newest First)'){
-                sortBy+=' CreatedDate DESC'; 
-            }else{
-                sortBy+=' Name DESC'; 
+            if (FilterList[0].Sortby == 'Ascending') {
+                sortBy += ' Name ASC';
+            } else if (FilterList[0].Sortby == 'Received Date(Oldest First)') {
+                sortBy += ' CreatedDate ASC';
+            } else if (FilterList[0].Sortby == 'Received Date(Newest First)') {
+                sortBy += ' CreatedDate DESC';
+            } else {
+                sortBy += ' Name DESC';
             }
-            
-            
-            
-            filter+=' Clinical_Trial_Profile__c='+'\''+ FilterList[0].Study+ '\'';
-            if (!String.isEmpty(FilterList[0].ParticipantStatus) && FilterList[0].ParticipantStatus !='null'){
-                filter+='AND Participant_Status__c ='+'\''+ FilterList[0].ParticipantStatus + '\'';
-            }else{
-                if(FilterList[0].Status == 'Active')
-                {
+
+            filter += ' Clinical_Trial_Profile__c=' + '\'' + FilterList[0].Study + '\'';
+            if (
+                !String.isEmpty(FilterList[0].ParticipantStatus) &&
+                FilterList[0].ParticipantStatus != 'null'
+            ) {
+                filter +=
+                    'AND Participant_Status__c =' +
+                    '\'' +
+                    FilterList[0].ParticipantStatus +
+                    '\'';
+            } else {
+                if (FilterList[0].Status == 'Active') {
                     lstActive.add('Received');
                     lstActive.add('Pre-review Passed');
                     lstActive.add('Contact Attempted');
@@ -171,10 +209,8 @@ public without sharing class ListViewParticipantController {
                     lstActive.add('Eligibility Passed');
                     lstActive.add('Ready to Screen');
                     lstActive.add('Randomization Success');
-                    filter+=' AND Participant_Status__c  IN: lstActive '; 
-                    
-                }else
-                {
+                    filter += ' AND Participant_Status__c  IN: lstActive ';
+                } else {
                     lstinActive.add('Pre-review Failed');
                     lstinActive.add('Unable to Reach');
                     lstinActive.add('Contacted - Not Suitable');
@@ -186,329 +222,473 @@ public without sharing class ListViewParticipantController {
                     lstinActive.add('Withdrew Consent After Screening');
                     lstinActive.add('Enrollment Failed');
                     lstinActive.add('Randomization Failed');
-                    filter+=' AND Participant_Status__c  IN: lstinActive  '; 
-                    
-                } 
-                
+                    filter += ' AND Participant_Status__c  IN: lstinActive  ';
+                }
             }
-            if (!String.isEmpty(FilterList[0].StudySites) && FilterList[0].StudySites !='All study sites' ){
-                filter+='AND Study_Site__c ='+'\''+ FilterList[0].StudySites + '\'';
-            }else{
+            if (
+                !String.isEmpty(FilterList[0].StudySites) &&
+                FilterList[0].StudySites != 'All study sites'
+            ) {
+                filter += 'AND Study_Site__c =' + '\'' + FilterList[0].StudySites + '\'';
+            } else {
                 String piId = CommunityService.getUserContact().Id;
-               
-                Studysites =[SELECT Id, Name,Clinical_Trial_Profile__c,Principal_Investigator__c,Override_PI_Referral_Status__c  FROM Study_Site__c WHERE Clinical_Trial_Profile__c =: FilterList[0].Study AND (Principal_Investigator__c =:piId OR ID IN: DelegateService.getDelegatedStudySiteIds())];
-                for(Study_Site__c ss:Studysites)
-                {
+
+                Studysites = [
+                    SELECT
+                        Id,
+                        Name,
+                        Clinical_Trial_Profile__c,
+                        Principal_Investigator__c,
+                        Override_PI_Referral_Status__c
+                    FROM Study_Site__c
+                    WHERE
+                        Clinical_Trial_Profile__c = :FilterList[0].Study
+                        AND (Principal_Investigator__c = :piId
+                        OR ID IN :DelegateService.getDelegatedStudySiteIds())
+                ];
+                for (Study_Site__c ss : Studysites) {
                     siteIds.add(ss.id);
                 }
-                filter+=' AND Study_Site__c IN: siteIds '; 
+                filter += ' AND Study_Site__c IN: siteIds ';
             }
-            if (!String.isEmpty(FilterList[0].Source)){
-                filter+='AND Source_Type__c='+'\''+ FilterList[0].Source+ '\'';
-            }else{
+            if (!String.isEmpty(FilterList[0].Source)) {
+                filter += 'AND Source_Type__c=' + '\'' + FilterList[0].Source + '\'';
+            } else {
                 lstSourceType.add('Referring Provider');
                 lstSourceType.add('Principal Investigator');
                 lstSourceType.add('Digital Recruitment');
-                filter+=' AND Source_Type__c IN: lstSourceType '; 
+                filter += ' AND Source_Type__c IN: lstSourceType ';
             }
-            
-            if (Boolean.valueOf(FilterList[0].isHighRiskOccupation) == TRUE){
-                filter+=' AND HighRisk_Indicator__c= '+'\''+ 'Yes' + '\'';
+
+            if (Boolean.valueOf(FilterList[0].isHighRiskOccupation) == true) {
+                filter += ' AND HighRisk_Indicator__c= ' + '\'' + 'Yes' + '\'';
             }
-            if (Boolean.valueOf(FilterList[0].isComorbidities) == TRUE){
-                filter+=' AND Comorbidities__c= '+'\''+ 'Yes' + '\'';
+            if (Boolean.valueOf(FilterList[0].isComorbidities) == true) {
+                filter += ' AND Comorbidities__c= ' + '\'' + 'Yes' + '\'';
             }
-            if (Boolean.valueOf(FilterList[0].isInitialVisitScheduled) == TRUE) {
-                filter+=' AND Initial_visit_scheduled_date__c !=null ';
+            if (Boolean.valueOf(FilterList[0].isInitialVisitScheduled) == true) {
+                filter += ' AND Initial_visit_scheduled_date__c !=null ';
             }
-            
+
             //demographic filters//
             if (!String.isEmpty(FilterList[0].Ethnicity)) {
-                filter+=' AND Participant__r.Ethnicity__c includes ('+'\''+ FilterList[0].Ethnicity+ '\')';
+                filter +=
+                    ' AND Participant__r.Ethnicity__c includes (' +
+                    '\'' +
+                    FilterList[0].Ethnicity +
+                    '\')';
             }
             //if (FilterList[0].AgeFrom != '0' || FilterList[0].AgeTo != '100') {
-            if(String.isEmpty(FilterList[0].AgeFrom))
+            if (String.isEmpty(FilterList[0].AgeFrom))
                 FilterList[0].AgeFrom = '0';
-            if(String.isEmpty(FilterList[0].AgeTo))
+            if (String.isEmpty(FilterList[0].AgeTo))
                 FilterList[0].AgeTo = '150';
-            if(FilterList[0].AgeFrom == '0' && FilterList[0].AgeTo == '150'){
-                filter+=' AND ((Participant__r.Present_Age__c >='+ FilterList[0].AgeFrom + ' AND Participant__r.Present_Age__c <='+FilterList[0].AgeTo + ') ' ;
+            if (FilterList[0].AgeFrom == '0' && FilterList[0].AgeTo == '150') {
+                filter +=
+                    ' AND ((Participant__r.Present_Age__c >=' +
+                    FilterList[0].AgeFrom +
+                    ' AND Participant__r.Present_Age__c <=' +
+                    FilterList[0].AgeTo +
+                    ') ';
                 String universal = ' OR Participant__r.Present_Age__c = null ) ';
                 filter = filter + universal;
-            }else{
-                filter+=' AND (Participant__r.Present_Age__c >='+ FilterList[0].AgeFrom + ' AND Participant__r.Present_Age__c <='+FilterList[0].AgeTo + ')' ;
+            } else {
+                filter +=
+                    ' AND (Participant__r.Present_Age__c >=' +
+                    FilterList[0].AgeFrom +
+                    ' AND Participant__r.Present_Age__c <=' +
+                    FilterList[0].AgeTo +
+                    ')';
             }
-                
+
             //}
-            if (!String.isEmpty(FilterList[0].Sex) && FilterList[0].Sex != 'All'){
-                filter+=' AND Participant__r.Gender_Technical__c='+'\''+ FilterList[0].Sex+ '\'';
+            if (!String.isEmpty(FilterList[0].Sex) && FilterList[0].Sex != 'All') {
+                filter +=
+                    ' AND Participant__r.Gender_Technical__c=' +
+                    '\'' +
+                    FilterList[0].Sex +
+                    '\'';
             }
-            
-            
-            system.debug('querystringcount-->'+qCountString+filter);
+
+            system.debug('querystringcount-->' + qCountString + filter);
             String QueryCount = qCountString + filter;
             Integer totalRecords = Database.countQuery(QueryCount);
             String OffsetLimit;
-            if(Boolean.ValueOf(FilterList[0].isExport)){
-                String strTemp = ' AND PerCounter__c >=' + Integer.valueOf(FilterList[0].startPos) + ' AND PerCounter__c <=' + Integer.valueOf(FilterList[0].endPos);
+            if (Boolean.ValueOf(FilterList[0].isExport)) {
+                String strTemp =
+                    ' AND PerCounter__c >=' +
+                    Integer.valueOf(FilterList[0].startPos) +
+                    ' AND PerCounter__c <=' +
+                    Integer.valueOf(FilterList[0].endPos);
                 filter = filter + strTemp;
                 sortBy = ' order by PerCounter__c asc';
                 OffsetLimit = ' LIMIT 49500';
-            }else{
-                OffsetLimit = ' LIMIT '+pSize+' OFFSET '+offset;
+            } else {
+                OffsetLimit = ' LIMIT ' + pSize + ' OFFSET ' + offset;
             }
-            String Query = queryString  + filter + sortBy + OffsetLimit ;   
-            system.debug('querystring-->'+Query);
-            system.debug(lstActive+ ';;'+ siteIds + ';;'+ lstSourceType + ';;;');
+            String Query = queryString + filter + sortBy + OffsetLimit;
+            system.debug('querystring-->' + Query);
+            system.debug(lstActive + ';;' + siteIds + ';;' + lstSourceType + ';;;');
             //String Query = queryString  + filter;
-            system.debug('query--> '+ Query);
+            system.debug('query--> ' + Query);
             peList = Database.query(Query);
-            
-            PeDataTableWrapper objDT =  new PeDataTableWrapper();
+
+            PeDataTableWrapper objDT = new PeDataTableWrapper();
             objDT.pageSize = pSize;
             objDT.pageNumber = pNumber;
             objDT.recordStart = offset + 1;
             objDT.recordEnd = totalRecords >= recordEnd ? recordEnd : totalRecords;
             objDT.totalRecords = totalRecords;
-            
-            pshList = [SELECT DeveloperName,status__c FROM Promote_to_SH__mdt];
-            for(Promote_to_SH__mdt psl:pshList)
-            {
+
+            pshList = [SELECT DeveloperName, status__c FROM Promote_to_SH__mdt];
+            for (Promote_to_SH__mdt psl : pshList) {
                 pshStatus.add(psl.status__c);
             }
-            
+
             Decimal pshLimit;
-            pshLimit = [SELECT DeveloperName,Limit__c FROM Promote_to_SH_Limit__mdt limit 1].Limit__c;
-            for(Participant_Enrollment__c pe:peList)
-            {
-                if(OrgSelectedIds.size() > 0)
-                {
-                    if(OrgSelectedIds.contains(pe.id))
-                    {
+            pshLimit = [SELECT DeveloperName, Limit__c FROM Promote_to_SH_Limit__mdt LIMIT 1]
+            .Limit__c;
+            for (Participant_Enrollment__c pe : peList) {
+                if (OrgSelectedIds.size() > 0) {
+                    if (OrgSelectedIds.contains(pe.id)) {
                         //PeChecklist.add(true);
-                        if(pshStatus.contains(pe.Participant_Status__c) && (pe.Study_Hub_Log__c == null  || pe.Study_Hub_Log__c != null && pe.Study_Hub_Log__r.Response_Status_Code__c!=201))
-                        {
-                            isChekedSelected=true;
-                            isLocked=false;
-                            if(pe.Initial_visit_scheduled_date__c !=null){priorityReferral='Yes';}else{priorityReferral='No';}
-                        }else{
-                            isChekedSelected=false;
-                            isLocked=true;
-                            if(pe.High_Priority__c){priorityReferral='Yes';}else{priorityReferral='No';}
+                        if (
+                            pshStatus.contains(pe.Participant_Status__c) &&
+                            (pe.Study_Hub_Log__c == null ||
+                            pe.Study_Hub_Log__c != null &&
+                            pe.Study_Hub_Log__r.Response_Status_Code__c != 201)
+                        ) {
+                            isChekedSelected = true;
+                            isLocked = false;
+                            if (pe.Initial_visit_scheduled_date__c != null) {
+                                priorityReferral = 'Yes';
+                            } else {
+                                priorityReferral = 'No';
+                            }
+                        } else {
+                            isChekedSelected = false;
+                            isLocked = true;
+                            if (pe.High_Priority__c) {
+                                priorityReferral = 'Yes';
+                            } else {
+                                priorityReferral = 'No';
+                            }
                         }
-                    }
-                    else
-                    {
+                    } else {
                         //PeChecklist.add(false);
-                        if(pshStatus.contains(pe.Participant_Status__c) && (pe.Study_Hub_Log__c == null  || pe.Study_Hub_Log__c != null && pe.Study_Hub_Log__r.Response_Status_Code__c!=201))
-                        {
-                            isChekedSelected=false;
-                            isLocked=false;
-                            if(pe.Initial_visit_scheduled_date__c !=null){priorityReferral='Yes';}else{priorityReferral='No';}
-                        }else{
-                            isChekedSelected=false;
-                            isLocked=true;
-                            if(pe.High_Priority__c){priorityReferral='Yes';}else{priorityReferral='No';}
+                        if (
+                            pshStatus.contains(pe.Participant_Status__c) &&
+                            (pe.Study_Hub_Log__c == null ||
+                            pe.Study_Hub_Log__c != null &&
+                            pe.Study_Hub_Log__r.Response_Status_Code__c != 201)
+                        ) {
+                            isChekedSelected = false;
+                            isLocked = false;
+                            if (pe.Initial_visit_scheduled_date__c != null) {
+                                priorityReferral = 'Yes';
+                            } else {
+                                priorityReferral = 'No';
+                            }
+                        } else {
+                            isChekedSelected = false;
+                            isLocked = true;
+                            if (pe.High_Priority__c) {
+                                priorityReferral = 'Yes';
+                            } else {
+                                priorityReferral = 'No';
+                            }
                         }
-                    }       
-                }
-                else{
-                    //PeChecklist.add(false);
-                    if(pshStatus.contains(pe.Participant_Status__c) && (pe.Study_Hub_Log__c == null  || pe.Study_Hub_Log__c != null && pe.Study_Hub_Log__r.Response_Status_Code__c!=201))
-                    {
-                        isChekedSelected=false;
-                        isLocked=false;
-                        if(pe.Initial_visit_scheduled_date__c !=null){priorityReferral='Yes';}else{priorityReferral='No';}
-                    }else{
-                        isChekedSelected=false;
-                        isLocked=true;
-                        if(pe.High_Priority__c){priorityReferral='Yes';}else{priorityReferral='No';}
                     }
-                    
+                } else {
+                    //PeChecklist.add(false);
+                    if (
+                        pshStatus.contains(pe.Participant_Status__c) &&
+                        (pe.Study_Hub_Log__c == null ||
+                        pe.Study_Hub_Log__c != null &&
+                        pe.Study_Hub_Log__r.Response_Status_Code__c != 201)
+                    ) {
+                        isChekedSelected = false;
+                        isLocked = false;
+                        if (pe.Initial_visit_scheduled_date__c != null) {
+                            priorityReferral = 'Yes';
+                        } else {
+                            priorityReferral = 'No';
+                        }
+                    } else {
+                        isChekedSelected = false;
+                        isLocked = true;
+                        if (pe.High_Priority__c) {
+                            priorityReferral = 'Yes';
+                        } else {
+                            priorityReferral = 'No';
+                        }
+                    }
                 }
-                if(FilterList[0].highPrioritySelected_YesIds.contains(pe.id)){priorityReferral='Yes';}
-                if(FilterList[0].highPrioritySelected_NoIds.contains(pe.id)){priorityReferral='No';}
-                
-                
+                if (FilterList[0].highPrioritySelected_YesIds.contains(pe.id)) {
+                    priorityReferral = 'Yes';
+                }
+                if (FilterList[0].highPrioritySelected_NoIds.contains(pe.id)) {
+                    priorityReferral = 'No';
+                }
+
                 String Ethnicity = '';
-                if(pe.Participant__r.Ethnicity__c!=null)
-                {
+                if (pe.Participant__r.Ethnicity__c != null) {
                     Ethnicity = pe.Participant__r.Ethnicity__c;
                     List<String> lstString = Ethnicity.split(';');
-                    string EC='';
-                    for(string s:lstString)
-                    {
-                    EC+=+s.left(1)+',';
+                    string EC = '';
+                    for (string s : lstString) {
+                        EC += +s.left(1) + ',';
                     }
-                    EC=+EC.removeEnd(',');
-                    Ethnicity=EC;
+                    EC = +EC.removeEnd(',');
+                    Ethnicity = EC;
                 }
-                
-                wpws.add(new WrapPageWithSelection(pe,isChekedSelected,isLocked,priorityReferral,Ethnicity)); 
-                PromotetoSH=pe.Clinical_Trial_Profile__r.Promote_to_SH__c;
+
+                wpws.add(
+                    new WrapPageWithSelection(
+                        pe,
+                        isChekedSelected,
+                        isLocked,
+                        priorityReferral,
+                        Ethnicity
+                    )
+                );
+                PromotetoSH = pe.Clinical_Trial_Profile__r.Promote_to_SH__c;
             }
-            
+
             //objDT.isChecked =PeChecklist;
-            objDT.IsPromoteToSH =PromotetoSH;
-            objDT.OrginalidSelected =OrgSelectedIds;
-            objDT.FilterImpacts=wpws;
-            objDT.IsPromoteToSHLimit=pshLimit;
+            objDT.IsPromoteToSH = PromotetoSH;
+            objDT.OrginalidSelected = OrgSelectedIds;
+            objDT.FilterImpacts = wpws;
+            objDT.IsPromoteToSHLimit = pshLimit;
             objDT.retainFilter = FilterList[0];
-            
+
             return objDT;
-            
-       }catch (Exception e){
+        } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-        } 
+        }
     }
-     @TestVisible 
-    private static String getAdditionalFilter(String mode, Boolean emancipatedPE, Id participantId,String sponsorName) {
-        
-        String filter = ' Participant_Status__c NOT IN ' + DatabaseService.listToString((mode != CommunityService.USER_MODE_PI || participantId != null) ? EXCLUDED_STATUSES_COMMON : EXCLUDED_STATUSES_PI);
+    @TestVisible
+    private static String getAdditionalFilter(
+        String mode,
+        Boolean emancipatedPE,
+        Id participantId,
+        String sponsorName
+    ) {
+        String filter =
+            ' Participant_Status__c NOT IN ' +
+            DatabaseService.listToString(
+                (mode != CommunityService.USER_MODE_PI ||
+                    participantId != null)
+                    ? EXCLUDED_STATUSES_COMMON
+                    : EXCLUDED_STATUSES_PI
+            );
         if (mode == CommunityService.USER_MODE_HCP && participantId == null) {
-            filter += ' AND Non_Referral_Reason__c NOT IN ' + DatabaseService.listToString(EXCLUDED_REASONS);
+            filter +=
+                ' AND Non_Referral_Reason__c NOT IN ' +
+                DatabaseService.listToString(EXCLUDED_REASONS);
         }
         if (participantId != null) {
-            filter += ' AND Participant__c=\'' + participantId + '\'' ;
+            filter += ' AND Participant__c=\'' + participantId + '\'';
         }
         //Added filter janssen
         if (sponsorName == CommunityTemplateService.TEMPLATE_JANSSEN) {
-            filter += ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
+            filter +=
+                ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = \'' +
+                CommunityTemplateService.TEMPLATE_JANSSEN +
+                '\' ';
         } else {
-            filter += ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
+            filter +=
+                ' AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != \'' +
+                CommunityTemplateService.TEMPLATE_JANSSEN +
+                '\' ';
         }
-        
+
         return filter;
     }
-    
+
     // Modified for performance tuning
     // Sabir & Velu 09/04/2020
-     @TestVisible 
-    private static ListViewParticipantService.PEFilterData createPEFilterData(String activePE, Id trialId, Id siteId, String mode, Boolean restrictTrial, String delegateId, String additionalFilter, PaginationData paginationData,String sponsorName) {
+    @TestVisible
+    private static ListViewParticipantService.PEFilterData createPEFilterData(
+        String activePE,
+        Id trialId,
+        Id siteId,
+        String mode,
+        Boolean restrictTrial,
+        String delegateId,
+        String additionalFilter,
+        PaginationData paginationData,
+        String sponsorName
+    ) {
         //ParticipantEnrollmentService.PEFilterData filterData = ParticipantEnrollmentService.getPEFilterDataWithExistingPERecords(activePE, trialId, mode, restrictTrial, delegateId, additionalFilter,sponsorName);
-        ListViewParticipantService.PEFilterData filterData = ListViewParticipantService.getPEFilterDataWithSponsor(mode, trialId, restrictTrial, delegateId , sponsorName);
-        ListViewParticipantService.PEFilter filter = new ListViewParticipantService.PEFilter(filterData);
+        ListViewParticipantService.PEFilterData filterData = ListViewParticipantService.getPEFilterDataWithSponsor(
+            mode,
+            trialId,
+            restrictTrial,
+            delegateId,
+            sponsorName
+        );
+        ListViewParticipantService.PEFilter filter = new ListViewParticipantService.PEFilter(
+            filterData
+        );
         filter.activePE = activePE;
         filter.study = trialId;
         filter.studySite = siteId;
         filter.additionalFilter = additionalFilter;
         filterData.dateField = 'Referred_Date__c';
-        filterData.sortVariants.addAll(new List<LabelValueItem> {
-            new LabelValueItem(SortOrder.ORDER_A_Z, 'Alphabetical_ASC,Participant__r.First_Name__c,Participant__r.Last_Name__c'),
-                new LabelValueItem(SortOrder.ORDER_Z_A, 'Alphabetical_DESC,Participant__r.First_Name__c,Participant__r.Last_Name__c')
-                });
-        List<LabelValueItem> peSource = new List<LabelValueItem> {
+        filterData.sortVariants.addAll(
+            new List<LabelValueItem>{
+                new LabelValueItem(
+                    SortOrder.ORDER_A_Z,
+                    'Alphabetical_ASC,Participant__r.First_Name__c,Participant__r.Last_Name__c'
+                ),
+                new LabelValueItem(
+                    SortOrder.ORDER_Z_A,
+                    'Alphabetical_DESC,Participant__r.First_Name__c,Participant__r.Last_Name__c'
+                )
+            }
+        );
+        List<LabelValueItem> peSource = new List<LabelValueItem>{
             new LabelValueItem(Label.PG_MRR_L_All_Sources, null),
-                new LabelValueItem(Label.Referring_Provider,'Referring Provider'),
-                new LabelValueItem(Label.Principal_Investigator,'Principal Investigator'),
-                new LabelValueItem(Label.Digital_Recruitment,'Digital Recruitment')
-                };
-                    List<LabelValueItem> pEthnicity = new List<LabelValueItem> {
-                        new LabelValueItem(Label.All_Ethnicities,null),
-                            new LabelValueItem(Label.Prefer_not_to_say, '0- Prefer not to say'),
-                            new LabelValueItem(Label.Hispanic_Latino,'1- Hispanic/Latino'),
-                            new LabelValueItem(Label.American_Indian_Alaskan_Native,'2- American Indian/Alaskan Native'),
-                            new LabelValueItem(Label.Asian,'3- Asian'),
-                            new LabelValueItem(Label.African_American_Black,'4- African-American/Black'),
-                            new LabelValueItem(Label.Native_Hawaiian_Other_Pacific_Islander,'5- Native Hawaiian/Other Pacific Islander'),
-                            new LabelValueItem(Label.Caucasian_White,'6- Caucasian/White'),
-                            new LabelValueItem(Label.Two_or_more_races,'7- Two or more races')
-                            };
-                                
-                                List<LabelValueItem> statusFilterData ;
-        if(activePE == 'Active') {
+            new LabelValueItem(Label.Referring_Provider, 'Referring Provider'),
+            new LabelValueItem(Label.Principal_Investigator, 'Principal Investigator'),
+            new LabelValueItem(Label.Digital_Recruitment, 'Digital Recruitment')
+        };
+        List<LabelValueItem> pEthnicity = new List<LabelValueItem>{
+            new LabelValueItem(Label.All_Ethnicities, null),
+            new LabelValueItem(Label.Prefer_not_to_say, '0- Prefer not to say'),
+            new LabelValueItem(Label.Hispanic_Latino, '1- Hispanic/Latino'),
+            new LabelValueItem(
+                Label.American_Indian_Alaskan_Native,
+                '2- American Indian/Alaskan Native'
+            ),
+            new LabelValueItem(Label.Asian, '3- Asian'),
+            new LabelValueItem(Label.African_American_Black, '4- African-American/Black'),
+            new LabelValueItem(
+                Label.Native_Hawaiian_Other_Pacific_Islander,
+                '5- Native Hawaiian/Other Pacific Islander'
+            ),
+            new LabelValueItem(Label.Caucasian_White, '6- Caucasian/White'),
+            new LabelValueItem(Label.Two_or_more_races, '7- Two or more races')
+        };
+
+        List<LabelValueItem> statusFilterData;
+        if (activePE == 'Active') {
             statusFilterData = new List<LabelValueItem>{
                 new LabelValueItem(Label.PG_MRR_L_All_Statuses, 'null'),
-                    new LabelValueItem(Label.Received, 'Received'),
-                    new LabelValueItem(Label.Pre_review_Passed, 'Pre-review Passed'),
-                    new LabelValueItem(Label.Contact_Attempted, 'Contact Attempted'),
-                    new LabelValueItem(Label.Successfully_Contacted, 'Successfully Contacted'),
-                    new LabelValueItem(Label.Screening_In_Progress, 'Screening In Progress'),
-                    new LabelValueItem(Label.In_Wash_Out_Period, 'Screening In Progress - Wash Out Period'),
-                    new LabelValueItem(Label.Screening_Passed, 'Screening Passed'),
-                    new LabelValueItem(Label.Enrollment_Success, 'Enrollment Success'),
-                    new LabelValueItem(Label.Eligibility_Passed, 'Eligibility Passed'),
-                    new LabelValueItem(Label.Ready_to_Screen, 'Ready to Screen'),
-                    new LabelValueItem(Label.Randomization_Success, 'Randomization Success')
-                    };
-                        } else {
-                            statusFilterData = new List<LabelValueItem>{
-                                new LabelValueItem(Label.PG_MRR_L_All_Statuses, 'null'),
-                                    new LabelValueItem(Label.Pre_review_Failed, 'Pre-review Failed'),
-                                    new LabelValueItem(Label.Unable_to_Reach, 'Unable to Reach'),
-                                    new LabelValueItem(Label.Contacted_Not_Suitable, 'Contacted - Not Suitable'),
-                                    new LabelValueItem(Label.Eligibility_Failed, 'Eligibility Failed'),
-                                    new LabelValueItem(Label.Declined_Consent, 'Declined Consent'),
-                                    new LabelValueItem(Label.Unable_to_Screen, 'Unable to Screen'),
-                                    new LabelValueItem(Label.Withdrew_Consent, 'Withdrew Consent'),
-                                    new LabelValueItem(Label.Screening_Failed, 'Screening Failed'),
-                                    new LabelValueItem(Label.Withdrew_Consent_After_Screening, 'Withdrew Consent After Screening'),
-                                    new LabelValueItem(Label.Enrollment_Failed, 'Enrollment Failed'),
-                                    new LabelValueItem(Label.Randomization_Failed, 'Randomization Failed')
-                                    };
-                                        } 
+                new LabelValueItem(Label.Received, 'Received'),
+                new LabelValueItem(Label.Pre_review_Passed, 'Pre-review Passed'),
+                new LabelValueItem(Label.Contact_Attempted, 'Contact Attempted'),
+                new LabelValueItem(Label.Successfully_Contacted, 'Successfully Contacted'),
+                new LabelValueItem(Label.Screening_In_Progress, 'Screening In Progress'),
+                new LabelValueItem(
+                    Label.In_Wash_Out_Period,
+                    'Screening In Progress - Wash Out Period'
+                ),
+                new LabelValueItem(Label.Screening_Passed, 'Screening Passed'),
+                new LabelValueItem(Label.Enrollment_Success, 'Enrollment Success'),
+                new LabelValueItem(Label.Eligibility_Passed, 'Eligibility Passed'),
+                new LabelValueItem(Label.Ready_to_Screen, 'Ready to Screen'),
+                new LabelValueItem(Label.Randomization_Success, 'Randomization Success')
+            };
+        } else {
+            statusFilterData = new List<LabelValueItem>{
+                new LabelValueItem(Label.PG_MRR_L_All_Statuses, 'null'),
+                new LabelValueItem(Label.Pre_review_Failed, 'Pre-review Failed'),
+                new LabelValueItem(Label.Unable_to_Reach, 'Unable to Reach'),
+                new LabelValueItem(Label.Contacted_Not_Suitable, 'Contacted - Not Suitable'),
+                new LabelValueItem(Label.Eligibility_Failed, 'Eligibility Failed'),
+                new LabelValueItem(Label.Declined_Consent, 'Declined Consent'),
+                new LabelValueItem(Label.Unable_to_Screen, 'Unable to Screen'),
+                new LabelValueItem(Label.Withdrew_Consent, 'Withdrew Consent'),
+                new LabelValueItem(Label.Screening_Failed, 'Screening Failed'),
+                new LabelValueItem(
+                    Label.Withdrew_Consent_After_Screening,
+                    'Withdrew Consent After Screening'
+                ),
+                new LabelValueItem(Label.Enrollment_Failed, 'Enrollment Failed'),
+                new LabelValueItem(Label.Randomization_Failed, 'Randomization Failed')
+            };
+        }
         filterData.statuses = statusFilterData;
         filterData.source = peSource;
         filterData.ethnicity = pEthnicity;
         return filterData;
     }
-    
+
     @AuraEnabled
     public static List<LabelValueItem> getParticipantStatus(String activePE) {
         // ListViewParticipantService.PEFilterData filterData = new ListViewParticipantService.PEFilterData();
-        List<LabelValueItem> statusFilterData ;
-        if(activePE == 'Active') {
+        List<LabelValueItem> statusFilterData;
+        if (activePE == 'Active') {
             statusFilterData = new List<LabelValueItem>{
                 new LabelValueItem(Label.PG_MRR_L_All_Statuses, 'null'),
-                    new LabelValueItem(Label.Received, 'Received'),
-                    new LabelValueItem(Label.Pre_review_Passed, 'Pre-review Passed'),
-                    new LabelValueItem(Label.Contact_Attempted, 'Contact Attempted'),
-                    new LabelValueItem(Label.Successfully_Contacted, 'Successfully Contacted'),
-                    new LabelValueItem(Label.Screening_In_Progress, 'Screening In Progress'),
-                    new LabelValueItem(Label.In_Wash_Out_Period, 'Screening In Progress - Wash Out Period'),
-                    new LabelValueItem(Label.Screening_Passed, 'Screening Passed'),
-                    new LabelValueItem(Label.Enrollment_Success, 'Enrollment Success'),
-                    new LabelValueItem(Label.Eligibility_Passed, 'Eligibility Passed'),
-                    new LabelValueItem(Label.Ready_to_Screen, 'Ready to Screen'),
-                    new LabelValueItem(Label.Randomization_Success, 'Randomization Success')
-                    };
-                        } else {
-                            statusFilterData = new List<LabelValueItem>{
-                                new LabelValueItem(Label.PG_MRR_L_All_Statuses, 'null'),
-                                    new LabelValueItem(Label.Pre_review_Failed, 'Pre-review Failed'),
-                                    new LabelValueItem(Label.Unable_to_Reach, 'Unable to Reach'),
-                                    new LabelValueItem(Label.Contacted_Not_Suitable, 'Contacted - Not Suitable'),
-                                    new LabelValueItem(Label.Eligibility_Failed, 'Eligibility Failed'),
-                                    new LabelValueItem(Label.Declined_Consent, 'Declined Consent'),
-                                    new LabelValueItem(Label.Unable_to_Screen, 'Unable to Screen'),
-                                    new LabelValueItem(Label.Withdrew_Consent, 'Withdrew Consent'),
-                                    new LabelValueItem(Label.Screening_Failed, 'Screening Failed'),
-                                    new LabelValueItem(Label.Withdrew_Consent_After_Screening, 'Withdrew Consent After Screening'),
-                                    new LabelValueItem(Label.Enrollment_Failed, 'Enrollment Failed'),
-                                    new LabelValueItem(Label.Randomization_Failed, 'Randomization Failed')
-                                    };
-                                        }
+                new LabelValueItem(Label.Received, 'Received'),
+                new LabelValueItem(Label.Pre_review_Passed, 'Pre-review Passed'),
+                new LabelValueItem(Label.Contact_Attempted, 'Contact Attempted'),
+                new LabelValueItem(Label.Successfully_Contacted, 'Successfully Contacted'),
+                new LabelValueItem(Label.Screening_In_Progress, 'Screening In Progress'),
+                new LabelValueItem(
+                    Label.In_Wash_Out_Period,
+                    'Screening In Progress - Wash Out Period'
+                ),
+                new LabelValueItem(Label.Screening_Passed, 'Screening Passed'),
+                new LabelValueItem(Label.Enrollment_Success, 'Enrollment Success'),
+                new LabelValueItem(Label.Eligibility_Passed, 'Eligibility Passed'),
+                new LabelValueItem(Label.Ready_to_Screen, 'Ready to Screen'),
+                new LabelValueItem(Label.Randomization_Success, 'Randomization Success')
+            };
+        } else {
+            statusFilterData = new List<LabelValueItem>{
+                new LabelValueItem(Label.PG_MRR_L_All_Statuses, 'null'),
+                new LabelValueItem(Label.Pre_review_Failed, 'Pre-review Failed'),
+                new LabelValueItem(Label.Unable_to_Reach, 'Unable to Reach'),
+                new LabelValueItem(Label.Contacted_Not_Suitable, 'Contacted - Not Suitable'),
+                new LabelValueItem(Label.Eligibility_Failed, 'Eligibility Failed'),
+                new LabelValueItem(Label.Declined_Consent, 'Declined Consent'),
+                new LabelValueItem(Label.Unable_to_Screen, 'Unable to Screen'),
+                new LabelValueItem(Label.Withdrew_Consent, 'Withdrew Consent'),
+                new LabelValueItem(Label.Screening_Failed, 'Screening Failed'),
+                new LabelValueItem(
+                    Label.Withdrew_Consent_After_Screening,
+                    'Withdrew Consent After Screening'
+                ),
+                new LabelValueItem(Label.Enrollment_Failed, 'Enrollment Failed'),
+                new LabelValueItem(Label.Randomization_Failed, 'Randomization Failed')
+            };
+        }
         // filterData.statuses = statusFilterData;
         return statusFilterData;
     }
-     @TestVisible 
-    private static Boolean labelValueItemsHaveItem(List<LabelValueItem> labelValueItems, String item){
-        for (LabelValueItem lvi : labelValueItems){
-            if(lvi.value == item){
+    @TestVisible
+    private static Boolean labelValueItemsHaveItem(
+        List<LabelValueItem> labelValueItems,
+        String item
+    ) {
+        for (LabelValueItem lvi : labelValueItems) {
+            if (lvi.value == item) {
                 return true;
             }
         }
         return false;
     }
-     @TestVisible 
-    private static void updateSearchResultAccordingItemChanged(SearchResult result, String changedItem){
+    @TestVisible
+    private static void updateSearchResultAccordingItemChanged(
+        SearchResult result,
+        String changedItem
+    ) {
         if (changedItem == 'active' || changedItem == 'emancipation') {
             result.peFilter.study = null;
         }
         if (changedItem == 'active' || changedItem == 'emancipation' || changedItem == 'study') {
             result.peFilter.studySite = null;
         }
-        if (changedItem == 'active' || changedItem == 'emancipation' || changedItem == 'study' || changedItem == 'site') {
+        if (
+            changedItem == 'active' ||
+            changedItem == 'emancipation' ||
+            changedItem == 'study' ||
+            changedItem == 'site'
+        ) {
             result.peFilter.source = null;
             result.peFilter.dateRange = null;
             result.peFilter.participantStatus = null;
@@ -518,50 +698,48 @@ public without sharing class ListViewParticipantController {
             result.paginationData.currentPage = 1;
         }
     }
-    
+
     @AuraEnabled
-    public static String getParticipantData(Id peId , Id contactid){
+    public static String getParticipantData(Id peId, Id contactid) {
         String query;
         //if(!Test.isRunningTest())
-       // {
-            query = 'SELECT Participant__r.Full_Name__c,Days_After_Referred__c, Participant__c,Participant__r.Phone__c,'
-                +' Participant_Contact__c,HCP_Contact_HCPEnroll__c,Participant__r.Phone_Type__c, Clinical_Trial_Profile__r.Study_Code_Name__c,'
-                +' PI_Contact__r.Name, Study_Site__r.Name,Participant_Contact__r.Name, Participant__r.First_Name__c,'
-                +'Participant__r.Last_Name__c,Participant__r.Middle_Name__c,Participant__r.Contact__c,Participant__r.Suffix__c,'
-                +'Participant__r.Nickname__c,Participant__r.Date_of_Birth__c,Participant__r.Gender__c,Participant__r.Email__c,'
-                +'Participant__r.Mailing_Country_Code__c,Participant__r.Adult__c,Participant__r.Mailing_State_Code__c,'
-                +'Participant__r.Emancipation_in_progress__c,Participant__r.Mailing_Zip_Postal_Code__c,'
-                +'Participant__r.Alternative_Phone_Number__c,Participant__r.Alternative_Phone_Type__c,Study_Site__r.Study_Site_Phone__c,'
-                +'Study_Site__c,Participant__r.Marketing_Flag__c,Study_Site__r.Study_Site_Type__c,'
-                +'Participant__r.IsCountry_NOT_Eligible_for_Emails__c, Participant__r.Fphone__c FROM Participant_Enrollment__c'
-                +' where id=: peId';
-            
-        //}  
-        system.debug('>>query is>>'+query);
-        
+        // {
+        query =
+            'SELECT Participant__r.Full_Name__c,Days_After_Referred__c, Participant__c,Participant__r.Phone__c,' +
+            ' Participant_Contact__c,HCP_Contact_HCPEnroll__c,Participant__r.Phone_Type__c, Clinical_Trial_Profile__r.Study_Code_Name__c,' +
+            ' PI_Contact__r.Name, Study_Site__r.Name,Participant_Contact__r.Name, Participant__r.First_Name__c,' +
+            'Participant__r.Last_Name__c,Participant__r.Middle_Name__c,Participant__r.Contact__c,Participant__r.Suffix__c,' +
+            'Participant__r.Nickname__c,Participant__r.Date_of_Birth__c,Participant__r.Gender__c,Participant__r.Email__c,' +
+            'Participant__r.Mailing_Country_Code__c,Participant__r.Adult__c,Participant__r.Mailing_State_Code__c,' +
+            'Participant__r.Emancipation_in_progress__c,Participant__r.Mailing_Zip_Postal_Code__c,' +
+            'Participant__r.Alternative_Phone_Number__c,Participant__r.Alternative_Phone_Type__c,Study_Site__r.Study_Site_Phone__c,' +
+            'Study_Site__c,Participant__r.Marketing_Flag__c,Study_Site__r.Study_Site_Type__c,' +
+            'Participant__r.IsCountry_NOT_Eligible_for_Emails__c, Participant__r.Fphone__c FROM Participant_Enrollment__c' +
+            ' where id=: peId';
+
+        //}
+        system.debug('>>query is>>' + query);
+
         Participant_Enrollment__c pe = Database.query(query);
-        
+
         Boolean Userexist;
         List<user> lstUser = new List<user>();
-        lstUser = [select id,ContactId from user where ContactId=:contactid];
-        if(lstUser.size() == 0)
-        {
-            Userexist=false;
-        }else
-        {
-            Userexist=true;
+        lstUser = [SELECT id, ContactId FROM user WHERE ContactId = :contactid];
+        if (lstUser.size() == 0) {
+            Userexist = false;
+        } else {
+            Userexist = true;
         }
         Particpant_Enrollment_detail objParticpantDetails = new Particpant_Enrollment_detail();
         objParticpantDetails.PE = pe;
         objParticpantDetails.isInvited = Userexist;
-        
+
         return JSON.serialize(objParticpantDetails);
-        
     }
-    
+
     public class InitData {
         public ListViewParticipantService.PEFilter peFilter;
-        public ListViewParticipantService.PEFilterData peFilterData ;
+        public ListViewParticipantService.PEFilterData peFilterData;
         //public List<PEWrapper> currentPageList;
         public PaginationData paginationData;
         public List<Study_Site__c> ssValue;
@@ -570,7 +748,7 @@ public without sharing class ListViewParticipantController {
         public List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
         public Boolean isInvited;
     }
-    
+
     public class SearchResult {
         @TestVisible
         List<PEWrapper> peList;
@@ -581,7 +759,7 @@ public without sharing class ListViewParticipantController {
         @TestVisible
         ListViewParticipantService.PEFilterData peFilterData;
     }
-    
+
     public class PEWrapper {
         public boolean isInvited;
         public Boolean hasEmancipatedParticipants;
@@ -589,26 +767,32 @@ public without sharing class ListViewParticipantController {
         public Map<String, StudyActions.Action> actions;
         public List<StudyActions.Action> participantCardActions;
         public List<StudyActions.Action> healthcareProviderActions;
-        
+
         public PEWrapper(Participant_Enrollment__c pe, Map<String, StudyActions.Action> actions) {
             this.pItem = new ParticipantItem(pe);
             this.actions = actions;
         }
-        public PEWrapper(Participant_Enrollment__c pe, Map<String, StudyActions.Action> actions, Boolean isInvited) {
+        public PEWrapper(
+            Participant_Enrollment__c pe,
+            Map<String, StudyActions.Action> actions,
+            Boolean isInvited
+        ) {
             this.pItem = new ParticipantItem(pe);
             this.actions = actions;
             this.isInvited = isInvited;
-            this.hasEmancipatedParticipants = pe.Participant__r != null ? pe.Participant__r.Emancipation_in_progress__c : false;
+            this.hasEmancipatedParticipants = pe.Participant__r != null
+                ? pe.Participant__r.Emancipation_in_progress__c
+                : false;
         }
     }
-    
-    public class Particpant_Enrollment_detail{
+
+    public class Particpant_Enrollment_detail {
         @AuraEnabled
         public Participant_Enrollment__c PE;
         @AuraEnabled
-        public Boolean isInvited; 
+        public Boolean isInvited;
     }
-    
+
     class InitDataForPatientProfile {
         Participant__c participant;
         List<Participant_Enrollment__c> peList;
@@ -616,47 +800,47 @@ public without sharing class ListViewParticipantController {
         List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
         Boolean alreadyEnrolled = false;
     }
-    
+
     public class ListWrapper {
-        @AuraEnabled 
-        public String Status { get; set; } 
-        @AuraEnabled 
+        @AuraEnabled
+        public String Status { get; set; }
+        @AuraEnabled
         public String Study { get; set; }
-        @AuraEnabled 
+        @AuraEnabled
         public String StudySites { get; set; }
-        @AuraEnabled 
+        @AuraEnabled
         public String Source { get; set; }
         @AuraEnabled
-        public String Sortby {get;set;}
-        @AuraEnabled 
+        public String Sortby { get; set; }
+        @AuraEnabled
         public String ParticipantStatus { get; set; }
-        @AuraEnabled 
+        @AuraEnabled
         public String isHighRiskOccupation { get; set; }
-        @AuraEnabled 
-        public String isComorbidities{ get; set; }
-        @AuraEnabled 
+        @AuraEnabled
+        public String isComorbidities { get; set; }
+        @AuraEnabled
         public String isInitialVisitScheduled { get; set; }
-        @AuraEnabled 
+        @AuraEnabled
         public String AgeFrom { get; set; }
-        @AuraEnabled 
+        @AuraEnabled
         public String AgeTo { get; set; }
-        @AuraEnabled 
+        @AuraEnabled
         public String Ethnicity { get; set; }
-        @AuraEnabled 
-        public String Sex { get; set; }   
-        @AuraEnabled 
-        public Decimal pageNumber { get; set; } 
-        @AuraEnabled 
-        public Decimal pageSize { get; set; } 
-        @AuraEnabled 
-        public List<id> SelectedIds{ get; set; } 
-        @AuraEnabled 
-        public List<id> DeselectedIds { get; set; }   
         @AuraEnabled
-        public List<id> highPrioritySelected_YesIds { get; set; } 
+        public String Sex { get; set; }
         @AuraEnabled
-        public List<id> highPrioritySelected_NoIds { get; set; }    
-        @AuraEnabled 
+        public Decimal pageNumber { get; set; }
+        @AuraEnabled
+        public Decimal pageSize { get; set; }
+        @AuraEnabled
+        public List<id> SelectedIds { get; set; }
+        @AuraEnabled
+        public List<id> DeselectedIds { get; set; }
+        @AuraEnabled
+        public List<id> highPrioritySelected_YesIds { get; set; }
+        @AuraEnabled
+        public List<id> highPrioritySelected_NoIds { get; set; }
+        @AuraEnabled
         public String isExport { get; set; }
         @AuraEnabled
         public Integer startPos { get; set; }
@@ -664,54 +848,61 @@ public without sharing class ListViewParticipantController {
         public Integer endPos { get; set; }
         @AuraEnabled
         public Integer perRecordCount { get; set; }
-        
     }
-    
+
     public class PeDataTableWrapper {
         @AuraEnabled
-        public Integer pageSize {get;set;}
+        public Integer pageSize { get; set; }
         @AuraEnabled
-        public Integer pageNumber {get;set;}
+        public Integer pageNumber { get; set; }
         @AuraEnabled
-        public Integer totalRecords {get;set;}
+        public Integer totalRecords { get; set; }
         @AuraEnabled
-        public Integer recordStart {get;set;}
+        public Integer recordStart { get; set; }
         @AuraEnabled
-        public Integer recordEnd {get;set;}
+        public Integer recordEnd { get; set; }
         @AuraEnabled
-        public List<Boolean> isChecked {get;set;}
+        public List<Boolean> isChecked { get; set; }
         @AuraEnabled
-        public Boolean IsPromoteToSH {get;set;}
+        public Boolean IsPromoteToSH { get; set; }
         @AuraEnabled
-        public set<id> OrginalidSelected {get;set;}
+        public set<id> OrginalidSelected { get; set; }
         @AuraEnabled
-        public List<WrapPageWithSelection> FilterImpacts{get;set;}
+        public List<WrapPageWithSelection> FilterImpacts { get; set; }
         @AuraEnabled
-        public Decimal IsPromoteToSHLimit{get;set;}
+        public Decimal IsPromoteToSHLimit { get; set; }
         @AuraEnabled
-       	public ListWrapper retainFilter {get;set;}
-		
+        public ListWrapper retainFilter { get; set; }
     }
-    public class WrapPageWithSelection
-    {
-        @AuraEnabled public Participant_Enrollment__c pe{get;set;}
-        @AuraEnabled public Boolean isCheckedlatest{get;set;}
-        @AuraEnabled public Boolean selectionlock{get;set;}
-        @AuraEnabled public String priorityReferral{get;set;}
-        @AuraEnabled public String Ethnicity{get;set;}
-        public WrapPageWithSelection(Participant_Enrollment__c pe,Boolean isCheckedlatest,Boolean selectionlock,String priorityReferral,String Ethnicity){
-            this.pe=pe;
-            this.isCheckedlatest=isCheckedlatest;
-            this.selectionlock=selectionlock;
-            this.priorityReferral=priorityReferral;
-            this.Ethnicity=Ethnicity;
+    public class WrapPageWithSelection {
+        @AuraEnabled
+        public Participant_Enrollment__c pe { get; set; }
+        @AuraEnabled
+        public Boolean isCheckedlatest { get; set; }
+        @AuraEnabled
+        public Boolean selectionlock { get; set; }
+        @AuraEnabled
+        public String priorityReferral { get; set; }
+        @AuraEnabled
+        public String Ethnicity { get; set; }
+        public WrapPageWithSelection(
+            Participant_Enrollment__c pe,
+            Boolean isCheckedlatest,
+            Boolean selectionlock,
+            String priorityReferral,
+            String Ethnicity
+        ) {
+            this.pe = pe;
+            this.isCheckedlatest = isCheckedlatest;
+            this.selectionlock = selectionlock;
+            this.priorityReferral = priorityReferral;
+            this.Ethnicity = Ethnicity;
         }
     }
-    public class WrapStudySiteList
-    {
-        @AuraEnabled public List<LabelValueItem> StudySites{get;set;}
-        @AuraEnabled public Boolean isPromoteToSH{get;set;}
-        
+    public class WrapStudySiteList {
+        @AuraEnabled
+        public List<LabelValueItem> StudySites { get; set; }
+        @AuraEnabled
+        public Boolean isPromoteToSH { get; set; }
     }
-    
 }

@@ -1,23 +1,34 @@
 public without sharing class TherapeuticAreaPatientService {
-
-    public Therapeutic_Area_Patient__c getRelatedToStudyTherapeuticAreaPatient(Id participantId, Id tAId) {
+    public Therapeutic_Area_Patient__c getRelatedToStudyTherapeuticAreaPatient(
+        Id participantId,
+        Id tAId
+    ) {
         return new Therapeutic_Area_Patient__c(
-                Participant__c = participantId,
-                Therapeutic_Area__c = tAId,
-                Condition_Of_Interest_Order__c = 0,
-                IsRelatedToStudy__c = true
+            Participant__c = participantId,
+            Therapeutic_Area__c = tAId,
+            Condition_Of_Interest_Order__c = 0,
+            IsRelatedToStudy__c = true
         );
     }
 
-
-    public static void deleteTherapeuticAreaPatientFromPE(List<Participant_Enrollment__c> newPE,
-            Map<Id, Participant_Enrollment__c> oldPEMap) {
-
+    public static void deleteTherapeuticAreaPatientFromPE(
+        List<Participant_Enrollment__c> newPE,
+        Map<Id, Participant_Enrollment__c> oldPEMap
+    ) {
         List<Participant_Enrollment__c> changeList = new List<Participant_Enrollment__c>();
         for (Participant_Enrollment__c participantEnrollment : newPE) {
-            if (participantEnrollment.Participant_Status__c != oldPEMap.get(participantEnrollment.Id).Participant_Status__c) {
-                if (PEStatusState.PE_STATUS_GROUP_IN_PROGRESS_ALL.contains(oldPEMap.get(participantEnrollment.Id).Participant_Status__c) &&
-                        (PEStatusState.PE_STATUS_GROUP_NOT_IN_PROGRESS_ALL.contains(participantEnrollment.Participant_Status__c))) {
+            if (
+                participantEnrollment.Participant_Status__c !=
+                oldPEMap.get(participantEnrollment.Id).Participant_Status__c
+            ) {
+                if (
+                    PEStatusState.PE_STATUS_GROUP_IN_PROGRESS_ALL.contains(
+                        oldPEMap.get(participantEnrollment.Id).Participant_Status__c
+                    ) &&
+                    (PEStatusState.PE_STATUS_GROUP_NOT_IN_PROGRESS_ALL.contains(
+                        participantEnrollment.Participant_Status__c
+                    ))
+                ) {
                     changeList.add(participantEnrollment);
                 }
             }
@@ -33,20 +44,29 @@ public without sharing class TherapeuticAreaPatientService {
         for (Participant_Enrollment__c pe : participantEnrollments) {
             participantIds.add(pe.Participant__c);
         }
-        Map<Id, Participant__c> participantsByIds = TherapeuticAreaPatientService.getParticipantsByIds(participantIds);
-        for (Participant_Enrollment__c pe : TherapeuticAreaPatientService.selectPEnrollmentsByIds(participantEnrollments)) {
+        Map<Id, Participant__c> participantsByIds = TherapeuticAreaPatientService.getParticipantsByIds(
+            participantIds
+        );
+        for (
+            Participant_Enrollment__c pe : TherapeuticAreaPatientService.selectPEnrollmentsByIds(
+                participantEnrollments
+            )
+        ) {
             if (PEStatusState.PE_STATUS_GROUP_IN_PROGRESS_ALL.contains(pe.Participant_Status__c)) {
                 Participant__c participant = participantsByIds.get(pe.Participant__c);
-                if (participant != null
-                        && String.isNotBlank(pe.Clinical_Trial_Profile__r.Therapeutic_Area__c)
-                        && (participant.Therapeutic_Area_Patients__r == null || participant.Therapeutic_Area_Patients__r.isEmpty())) {
+                if (
+                    participant != null &&
+                    String.isNotBlank(pe.Clinical_Trial_Profile__r.Therapeutic_Area__c) &&
+                    (participant.Therapeutic_Area_Patients__r == null ||
+                    participant.Therapeutic_Area_Patients__r.isEmpty())
+                ) {
                     therapeuticAreaPatients.add(
-                            new Therapeutic_Area_Patient__c(
-                                    Participant__c = participant.Id,
-                                    Therapeutic_Area__c = pe.Clinical_Trial_Profile__r.Therapeutic_Area__c,
-                                    Condition_Of_Interest_Order__c = 0,
-                                    IsRelatedToStudy__c = true
-                            )
+                        new Therapeutic_Area_Patient__c(
+                            Participant__c = participant.Id,
+                            Therapeutic_Area__c = pe.Clinical_Trial_Profile__r.Therapeutic_Area__c,
+                            Condition_Of_Interest_Order__c = 0,
+                            IsRelatedToStudy__c = true
+                        )
                     );
                 }
             }
@@ -56,64 +76,83 @@ public without sharing class TherapeuticAreaPatientService {
         }
     }
 
-    private static void deleteTherapeuticAreaPatientFromPE(List<Participant_Enrollment__c> deleteList) {
+    private static void deleteTherapeuticAreaPatientFromPE(
+        List<Participant_Enrollment__c> deleteList
+    ) {
         Set<Id> participantId = new Set<Id>();
         Set<Therapeutic_Area_Patient__c> deleteAreaPatients = new Set<Therapeutic_Area_Patient__c>();
         for (Participant_Enrollment__c enrollment : deleteList) {
             participantId.add(enrollment.Participant__c);
         }
         if (!participantId.isEmpty()) {
-            List<Therapeutic_Area_Patient__c> areaPatients = TherapeuticAreaPatientService.selectTherapeuticAreaPatientsByIds(participantId);
+            List<Therapeutic_Area_Patient__c> areaPatients = TherapeuticAreaPatientService.selectTherapeuticAreaPatientsByIds(
+                participantId
+            );
             if (!areaPatients.isEmpty()) {
-                List<Participant_Enrollment__c> participantEnrollments = TherapeuticAreaPatientService.selectPEnrollmentsByIds(deleteList);
+                List<Participant_Enrollment__c> participantEnrollments = TherapeuticAreaPatientService.selectPEnrollmentsByIds(
+                    deleteList
+                );
                 for (Therapeutic_Area_Patient__c areaPatient : areaPatients) {
                     for (Participant_Enrollment__c participantEnrollment : participantEnrollments) {
-                        if (areaPatient.Therapeutic_Area__c == participantEnrollment.Clinical_Trial_Profile__r.Therapeutic_Area__c) {
+                        if (
+                            areaPatient.Therapeutic_Area__c ==
+                            participantEnrollment.Clinical_Trial_Profile__r.Therapeutic_Area__c
+                        ) {
                             deleteAreaPatients.add(areaPatient);
                         }
                     }
                 }
             }
             if (!deleteAreaPatients.isEmpty()) {
-                try{
+                try {
                     delete new List<Therapeutic_Area_Patient__c>(deleteAreaPatients);
-                }catch (Exception e){
+                } catch (Exception e) {
                     System.debug('Error ' + e.getStackTraceString());
                 }
             }
         }
     }
 
-    private static List<Participant_Enrollment__c> selectPEnrollmentsByIds(List<Participant_Enrollment__c> participantEnrollments) {
+    private static List<Participant_Enrollment__c> selectPEnrollmentsByIds(
+        List<Participant_Enrollment__c> participantEnrollments
+    ) {
         return [
-                SELECT
-                        Participant_Status__c,
-                        Participant__c,
-                        Clinical_Trial_Profile__r.Therapeutic_Area__c
-                FROM Participant_Enrollment__c
-                WHERE Id IN :NEW Map<Id, Participant_Enrollment__c>(participantEnrollments).keySet()
+            SELECT
+                Participant_Status__c,
+                Participant__c,
+                Clinical_Trial_Profile__r.Therapeutic_Area__c
+            FROM Participant_Enrollment__c
+            WHERE Id IN :new Map<Id, Participant_Enrollment__c>(participantEnrollments).keySet()
         ];
     }
 
-    private static List<Therapeutic_Area_Patient__c> selectTherapeuticAreaPatientsByIds(Set<Id> tIds) {
+    private static List<Therapeutic_Area_Patient__c> selectTherapeuticAreaPatientsByIds(
+        Set<Id> tIds
+    ) {
         return [
-                SELECT Id,
-                        Participant__c,
-                        Therapeutic_Area__c
-                FROM Therapeutic_Area_Patient__c
-                WHERE Participant__c IN :tIds
-                AND IsRelatedToStudy__c = TRUE
+            SELECT Id, Participant__c, Therapeutic_Area__c
+            FROM Therapeutic_Area_Patient__c
+            WHERE Participant__c IN :tIds AND IsRelatedToStudy__c = TRUE
         ];
     }
 
     private static Map<Id, Participant__c> getParticipantsByIds(Set<Id> participantIds) {
-        return new Map<Id, Participant__c>([
-                SELECT Id,
-                (SELECT Id, Participant__c, Therapeutic_Area__c FROM Therapeutic_Area_Patients__r WHERE IsRelatedToStudy__c = TRUE),
-                (SELECT Id, Clinical_Trial_Profile__r.Therapeutic_Area__c FROM Participant_Profile__r)
+        return new Map<Id, Participant__c>(
+            [
+                SELECT
+                    Id,
+                    (
+                        SELECT Id, Participant__c, Therapeutic_Area__c
+                        FROM Therapeutic_Area_Patients__r
+                        WHERE IsRelatedToStudy__c = TRUE
+                    ),
+                    (
+                        SELECT Id, Clinical_Trial_Profile__r.Therapeutic_Area__c
+                        FROM Participant_Profile__r
+                    )
                 FROM Participant__c
                 WHERE Id IN :participantIds
-        ]);
+            ]
+        );
     }
-
 }

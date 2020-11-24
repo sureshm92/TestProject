@@ -3,9 +3,7 @@
  */
 
 global without sharing class Batch_UpdateTrialsNewWorkflowFields implements Database.Batchable<SObject> {
-
     global Batch_UpdateTrialsNewWorkflowFields() {
-
     }
 
     global Database.QueryLocator start(Database.BatchableContext BC) {
@@ -19,24 +17,30 @@ global without sharing class Batch_UpdateTrialsNewWorkflowFields implements Data
             ctpIds.add(ctp.Id);
         }
         Set<Id> ctpIdsInitialVisitRequired = new Set<Id>();
-        for(Study_Site__c ss: [SELECT Id, Clinical_Trial_Profile__c
-        FROM Study_Site__c
-        WHERE Clinical_Trial_Profile__c IN :ctpIds
-        AND Study_Site_Type__c != :StudySiteService.SS_TYPE_VIRTUAL]){
+        for (Study_Site__c ss : [
+            SELECT Id, Clinical_Trial_Profile__c
+            FROM Study_Site__c
+            WHERE
+                Clinical_Trial_Profile__c IN :ctpIds
+                AND Study_Site_Type__c != :StudySiteService.SS_TYPE_VIRTUAL
+        ]) {
             ctpIdsInitialVisitRequired.add(ss.Clinical_Trial_Profile__c);
         }
         for (Clinical_Trial_Profile__c ctp : scope) {
             ctp.Participant_Workflow_Final_Step__c = PEStatusState.PW_FINAL_STEP_ENROLLMENT;
-            if(ctpIdsInitialVisitRequired.contains(ctp.Id)){
+            if (ctpIdsInitialVisitRequired.contains(ctp.Id)) {
                 ctp.Initial_Visit_Required__c = true;
             }
         }
-        TriggerHandlerExecutor.bypassHandler(ClinicalTrialProfileTriggerHandler.UpdateClinicalTrialProfile.class);
-        TriggerHandlerExecutor.bypassHandler(CTPNotificationTriggerHandler.CreateNotificationHandler.class);
+        TriggerHandlerExecutor.bypassHandler(
+            ClinicalTrialProfileTriggerHandler.UpdateClinicalTrialProfile.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            CTPNotificationTriggerHandler.CreateNotificationHandler.class
+        );
         update scope;
     }
 
     global void finish(Database.BatchableContext bc) {
-
     }
 }

@@ -8,13 +8,17 @@ private class Test_RRPicklistLookupRemote {
     static void testBehavior() {
         List<LookupSearchResult> lookupSearchResults;
         Test.startTest();
-        lookupSearchResults = RRPicklistLookupRemote.getAllValues('Resource__c', 'Type__c', 'custom:custom31');
+        lookupSearchResults = RRPicklistLookupRemote.getAllValues(
+            'Resource__c',
+            'Type__c',
+            'custom:custom31'
+        );
         Test.stopTest();
         System.assert(lookupSearchResults.size() > 0);
     }
 
     @IsTest
-    static void testException(){
+    static void testException() {
         Boolean isExceptionThrown = false;
         List<LookupSearchResult> lookupSearchResults;
         Test.startTest();

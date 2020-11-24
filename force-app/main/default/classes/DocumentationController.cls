@@ -2,7 +2,7 @@
  * Created by D.Yasinskyi on 06.04.2018
  */
 public without sharing class DocumentationController {
-/*
+    /*
     @AuraEnabled
     public static String getFolderItems(String userMode, String folderId) {
 
