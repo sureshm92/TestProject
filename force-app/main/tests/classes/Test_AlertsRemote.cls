@@ -4,7 +4,6 @@
 
 @IsTest(SeeAllData=false)
 public class Test_AlertsRemote {
-
     @TestSetup
     static void init() {
         try {
@@ -15,12 +14,15 @@ public class Test_AlertsRemote {
         TestData.loadTestData();
     }
     @IsTest
-    public static void testRun () {
+    public static void testRun() {
         List<Alert> alerts = new List<Alert>();
         Test.startTest();
         TestData testDataInstance = new TestData();
-        System.runAs(testDataInstance.participantUser){
-            alerts = (List<Alert>)JSON.deserialize(AlertsRemote.getAlerts(CommunityService.USER_MODE_PARTICIPANT), List<Alert>.class);
+        System.runAs(testDataInstance.participantUser) {
+            alerts = (List<Alert>) JSON.deserialize(
+                AlertsRemote.getAlerts(CommunityService.USER_MODE_PARTICIPANT),
+                List<Alert>.class
+            );
             AlertsRemote.setAlertViewed(alerts[0].id);
         }
         Test.stopTest();
@@ -29,16 +31,15 @@ public class Test_AlertsRemote {
     }
 
     @IsTest
-    public static void testException () {
+    public static void testException() {
         Boolean isExceptionThrown = false;
         Test.startTest();
-            try {
-                AlertsRemote.setAlertViewed(null);
-            } catch (Exception e) {
-                isExceptionThrown = true;
-            }
+        try {
+            AlertsRemote.setAlertViewed(null);
+        } catch (Exception e) {
+            isExceptionThrown = true;
+        }
         Test.stopTest();
         System.assertEquals(true, isExceptionThrown);
     }
-
 }

@@ -3,7 +3,6 @@
  */
 
 public interface Action {
-
     void execute();
     Type getType();
     Boolean isDMLWithSetupObjects();

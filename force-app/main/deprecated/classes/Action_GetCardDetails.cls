@@ -2,9 +2,9 @@
  * Created by Nargiz Mamedova on 1/21/2020.
  */
 
-public with sharing class Action_GetCardDetails implements Action{
-
-    public class Action_GetCardDetails_Exception extends Exception{}
+public with sharing class Action_GetCardDetails implements Action {
+    public class Action_GetCardDetails_Exception extends Exception {
+    }
     private String protocolId;
     private String patientId;
     private Participant__c participant;
@@ -24,11 +24,11 @@ public with sharing class Action_GetCardDetails implements Action{
     public Type getType() {
         return Action_GetCardDetails.class;
     }
-    
+
     public Boolean isDMLWithSetupObjects() {
         return false;
     }
-    
+
     public void postDML(Action__c dbAction, Execution_History__c executionHistory) {
     }
 }

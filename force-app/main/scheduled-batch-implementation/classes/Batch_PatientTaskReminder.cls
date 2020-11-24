@@ -3,30 +3,33 @@
  */
 
 public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAbstract {
-
     public Database.QueryLocator start(Database.BatchableContext param1) {
-        return Database.getQueryLocator([
-                SELECT Id,
-                        OwnerId,
-                        Community_Template_Name__c,
-                        Subject,
-                        Survey_Invitation__c,
-                        Start_Date__c,
-                        Task_Type__c,
-                        ReminderDateTime,
-                        Reminder_Date__c,
-                        Reminder_Schedule__c,
-                        Reminder_Schedule__r.First_Reminder_day__c,
-                        Reminder_Schedule__r.Second_Reminder_day__c,
-                        Reminder_Schedule__r.Use_Final_Template__c,
-                        Visible_For__c,
-                        WhatId,
-                        WhoId
+        return Database.getQueryLocator(
+            [
+                SELECT
+                    Id,
+                    OwnerId,
+                    Community_Template_Name__c,
+                    Subject,
+                    Survey_Invitation__c,
+                    Start_Date__c,
+                    Task_Type__c,
+                    ReminderDateTime,
+                    Reminder_Date__c,
+                    Reminder_Schedule__c,
+                    Reminder_Schedule__r.First_Reminder_day__c,
+                    Reminder_Schedule__r.Second_Reminder_day__c,
+                    Reminder_Schedule__r.Use_Final_Template__c,
+                    Visible_For__c,
+                    WhatId,
+                    WhoId
                 FROM Task
-                WHERE ReminderDateTime <= :Datetime.now()
-                AND Is_Reminder_Sent__c = FALSE
-                AND Status IN:TaskService.TASK_STATUS_GROUP_AVAILABLE
-        ]);
+                WHERE
+                    ReminderDateTime <= :Datetime.now()
+                    AND Is_Reminder_Sent__c = FALSE
+                    AND Status IN :TaskService.TASK_STATUS_GROUP_AVAILABLE
+            ]
+        );
     }
 
     public void execute(Database.BatchableContext param1, List<SObject> tasks) {
@@ -53,38 +56,56 @@ public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAb
 
     private void sendRemindersParticipantTeam(List<Task> tasks) {
         List<Id> allContactsIds = new List<Id>();
-        for(Task t : tasks) allContactsIds.add(t.WhoId);
+        for (Task t : tasks)
+            allContactsIds.add(t.WhoId);
 
-        Map<Id, List<Id>> delConIdsByPACon = PatientDelegateService.getDelegateContactIdsByPAContactIs(allContactsIds);
-        for(Id paKey : delConIdsByPACon.keySet()) allContactsIds.addAll(delConIdsByPACon.get(paKey));
+        Map<Id, List<Id>> delConIdsByPACon = PatientDelegateService.getDelegateContactIdsByPAContactIs(
+            allContactsIds
+        );
+        for (Id paKey : delConIdsByPACon.keySet())
+            allContactsIds.addAll(delConIdsByPACon.get(paKey));
 
-        Map<Id, Contact> contactsMap = new Map<Id, Contact>([
-                SELECT Id, Participant_Opt_In_Status_Emails__c FROM Contact WHERE Id IN:allContactsIds
-        ]);
+        Map<Id, Contact> contactsMap = new Map<Id, Contact>(
+            [
+                SELECT Id, Participant_Opt_In_Status_Emails__c
+                FROM Contact
+                WHERE Id IN :allContactsIds
+            ]
+        );
         Map<Id, List<Contact>> delegatesByPAContact = new Map<Id, List<Contact>>();
-        for(Id paKey : delConIdsByPACon.keySet()) {
+        for (Id paKey : delConIdsByPACon.keySet()) {
             List<Contact> delegateContacts = new List<Contact>();
-            for(Id delId : delConIdsByPACon.get(paKey)) delegateContacts.add(contactsMap.get(delId));
+            for (Id delId : delConIdsByPACon.get(paKey))
+                delegateContacts.add(contactsMap.get(delId));
 
             delegatesByPAContact.put(paKey, delegateContacts);
         }
 
         List<Notification__c> notifications = new List<Notification__c>();
-        for(Task task : tasks) {
+        for (Task task : tasks) {
             Contact paContact = contactsMap.get(task.WhoId);
-            notifications.addAll(SendEmailToParticipant.createTaskReminderEmail(task, paContact, delegatesByPAContact.get(paContact.Id)));
+            notifications.addAll(
+                SendEmailToParticipant.createTaskReminderEmail(
+                    task,
+                    paContact,
+                    delegatesByPAContact.get(paContact.Id)
+                )
+            );
         }
 
-        if(!notifications.isEmpty()) insert notifications;
+        if (!notifications.isEmpty())
+            insert notifications;
     }
 
     private void checkReminder(List<Task> tasks) {
         Set<Id> contactIds = new Set<Id>();
-        for(Task t : tasks) contactIds.add(t.WhoId);
+        for (Task t : tasks)
+            contactIds.add(t.WhoId);
 
         for (Task t : tasks) {
             t.Is_Reminder_Sent__c = true;
-            if (t.Reminder_Schedule__c == null) continue;
+            if (t.Reminder_Schedule__c == null)
+                continue;
 
             Integer secondReminder = (Integer) t.Reminder_Schedule__r.Second_Reminder_day__c;
             if (secondReminder != null) {

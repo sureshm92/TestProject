@@ -3,7 +3,5 @@
  */
 
 public with sharing class TestController {
-
     //DEPRECATED! TODO REMOVE
-
 }

@@ -4,7 +4,6 @@
 
 @IsTest(IsParallel=false)
 private class Test_ProviderPayments {
-
     @TestSetup
     static void init() {
         Test.startTest();
@@ -19,7 +18,11 @@ private class Test_ProviderPayments {
         testData.hcpEnrollment.Orientation_Date__c = Date.today();
         update testData.hcpEnrollment;
         Test.stopTest();
-        List<Provider_Payment__c> providerPayments = [SELECT Id FROM Provider_Payment__c WHERE Activity__c =:ProviderPaymentsService.ACTIVITY_TYPE_ORIENTATION];
+        List<Provider_Payment__c> providerPayments = [
+            SELECT Id
+            FROM Provider_Payment__c
+            WHERE Activity__c = :ProviderPaymentsService.ACTIVITY_TYPE_ORIENTATION
+        ];
         System.assertEquals(1, providerPayments.size());
     }
 
@@ -30,7 +33,11 @@ private class Test_ProviderPayments {
         testData.pe.Medical_Record_Review_Completed_Date__c = Datetime.now();
         update testData.pe;
         Test.stopTest();
-        List<Provider_Payment__c> providerPayments = [SELECT Id FROM Provider_Payment__c WHERE Activity__c =:ProviderPaymentsService.ACTIVITY_TYPE_MRR];
+        List<Provider_Payment__c> providerPayments = [
+            SELECT Id
+            FROM Provider_Payment__c
+            WHERE Activity__c = :ProviderPaymentsService.ACTIVITY_TYPE_MRR
+        ];
         System.assertEquals(1, providerPayments.size());
     }
 }

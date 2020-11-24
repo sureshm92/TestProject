@@ -3,7 +3,6 @@
  */
 
 public abstract without sharing class EmailTemplateInitial {
-
     public Id whatId;
     public Id recipientId;
     public String userMode;

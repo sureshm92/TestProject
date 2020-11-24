@@ -4,7 +4,6 @@
 
 @IsTest
 private class Test_VisitResultCountryLookupRemote {
-
     @IsTest
     static void testAll() {
         List<LookupSearchResult> testCountries;
@@ -14,8 +13,19 @@ private class Test_VisitResultCountryLookupRemote {
 
         Test.startTest();
         TestData testData = new TestData();
-        testCountries = VisitResultSharingCountryLookupRemote.searchCountries('','',true, false, testData.ctp.Id, '');
-        testResultsByValue = VisitResultSharingCountryLookupRemote.searchResultsByValue('US', true, '');
+        testCountries = VisitResultSharingCountryLookupRemote.searchCountries(
+            '',
+            '',
+            true,
+            false,
+            testData.ctp.Id,
+            ''
+        );
+        testResultsByValue = VisitResultSharingCountryLookupRemote.searchResultsByValue(
+            'US',
+            true,
+            ''
+        );
         Test.stopTest();
 
         System.assertEquals('United States', testCountries[0].title);

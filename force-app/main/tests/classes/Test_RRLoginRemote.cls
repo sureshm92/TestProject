@@ -4,15 +4,14 @@
 
 @IsTest(IsParallel=true)
 private class Test_RRLoginRemote {
-
-   @IsTest
+    @IsTest
     static void testLoginWithInvalidCredentials() {
-   // System.assertEquals('Argument 1 cannot be null', RRLoginRemote.login('testUser', 'fakepwd', null));
-      String res = LightningLoginFormController.login('testUser', 'fakepwd', null);
-      if(String.isNotBlank(res))
-          System.assertEquals('Argument 1 cannot be null', res);
-      else
-          System.assertNotEquals('Argument 1 cannot be null', res);
+        // System.assertEquals('Argument 1 cannot be null', RRLoginRemote.login('testUser', 'fakepwd', null));
+        String res = LightningLoginFormController.login('testUser', 'fakepwd', null);
+        if (String.isNotBlank(res))
+            System.assertEquals('Argument 1 cannot be null', res);
+        else
+            System.assertNotEquals('Argument 1 cannot be null', res);
     }
 
     @IsTest
@@ -41,10 +40,13 @@ private class Test_RRLoginRemote {
         Auth.AuthConfiguration authConfig = RRLoginRemote.getAuthConfig();
         System.assertNotEquals(null, authConfig);
     }
-    
+
     @IsTest
-    static void testExpId(){
+    static void testExpId() {
         String testSetting = RRLoginRemote.setExperienceId('111');
-        System.assertEquals('This method can be invoked only from within a community.', testSetting);
+        System.assertEquals(
+            'This method can be invoked only from within a community.',
+            testSetting
+        );
     }
 }

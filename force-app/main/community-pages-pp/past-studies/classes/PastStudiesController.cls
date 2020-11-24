@@ -3,16 +3,15 @@
  */
 
 public without sharing class PastStudiesController {
-
     @AuraEnabled
-    public static List<ContactService.PastStudyWrapper> getPastStudyRecords(){
-        try{
+    public static List<ContactService.PastStudyWrapper> getPastStudyRecords() {
+        try {
             Id contactId = CommunityService.getUserContact().userCommunityDelegateId__c;
-            if(contactId == null) contactId = CommunityService.getUserContact().Id;
+            if (contactId == null)
+                contactId = CommunityService.getUserContact().Id;
             return ContactService.getPastStudyWrappers(contactId);
-        }catch (Exception e){
-            return (List<ContactService.PastStudyWrapper>)AuraHelper.throwException(e);
+        } catch (Exception e) {
+            return (List<ContactService.PastStudyWrapper>) AuraHelper.throwException(e);
         }
     }
-
 }

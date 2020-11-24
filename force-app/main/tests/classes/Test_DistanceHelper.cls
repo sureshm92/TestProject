@@ -4,12 +4,11 @@
 
 @IsTest(SeeAllData=false)
 public class Test_DistanceHelper {
-    
     @IsTest
     public static void runTest1() {
         TestData.loadTestData();
         Test.startTest();
-        
+
         TestData testDataInstance = new TestData();
         System.runAs(testDataInstance.participantUser) {
             DistanceHelper.getUnitsOfMeasurement();
@@ -20,15 +19,14 @@ public class Test_DistanceHelper {
             DistanceHelper.alreadyInit = false;
             DistanceHelper.getUserLocation();
             DistanceHelper.roundDouble(Double.valueOf('1.234'));
-            
+
             Account account = new Account();
-            account.BillingLatitude  = 111.11;
+            account.BillingLatitude = 111.11;
             account.BillingLongitude = 222.22;
-            
+
             DistanceHelper.calculateDistanceTo(account);
         }
-        
+
         Test.stopTest();
     }
-
 }

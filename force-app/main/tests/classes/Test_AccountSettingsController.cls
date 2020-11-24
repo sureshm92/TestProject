@@ -4,11 +4,15 @@
 
 @IsTest(IsParallel=false)
 private class Test_AccountSettingsController {
-
     public class ParticipantServiceMock implements System.StubProvider {
-
-        public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
-                List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs) {
+        public Object handleMethodCall(
+            Object stubbedObject,
+            String stubbedMethodName,
+            Type returnType,
+            List<Type> listOfParamTypes,
+            List<String> listOfParamNames,
+            List<Object> listOfArgs
+        ) {
             if (stubbedMethodName == 'getState') {
                 return new ParticipantService.ParticipantState();
             }
@@ -27,9 +31,9 @@ private class Test_AccountSettingsController {
     static void getInitData() {
         TestData testData = new TestData();
         Contact con = [
-                SELECT Id, AccountId, MailingCountryCode, Participant_Opt_In_Status_SMS__c
-                FROM Contact
-                WHERE Id = :testData.participant.Contact__c
+            SELECT Id, AccountId, MailingCountryCode, Participant_Opt_In_Status_SMS__c
+            FROM Contact
+            WHERE Id = :testData.participant.Contact__c
         ];
         System.debug(JSON.serializePretty(con));
         con.MailingCountryCode = 'US';
@@ -44,8 +48,13 @@ private class Test_AccountSettingsController {
         //run test:
         Test.startTest();
         System.runAs(testData.participantUser) {
-            String rawInitData = AccountSettingsController.getInitData(CommunityService.USER_MODE_PARTICIPANT);
-            AccountSettingsController.updateParticipant(JSON.serialize(con), JSON.serialize(testData.participant));
+            String rawInitData = AccountSettingsController.getInitData(
+                CommunityService.USER_MODE_PARTICIPANT
+            );
+            AccountSettingsController.updateParticipant(
+                JSON.serialize(con),
+                JSON.serialize(testData.participant)
+            );
             AccountSettingsController.updateContact(JSON.serialize(con));
             AccountSettingsController.changeEmail('aaa@bbb.com');
             AccountSettingsController.changePassword('123', '123', '321');
@@ -56,8 +65,10 @@ private class Test_AccountSettingsController {
             acc = AccountSettingsController.getInstituteById(acc1.Id);
             cookieList = AccountSettingsController.getCookieSettings();
 
-            AccountSettingsController.AccountData initData =
-                    (AccountSettingsController.AccountData) JSON.deserialize(rawInitData, AccountSettingsController.AccountData.class);
+            AccountSettingsController.AccountData initData = (AccountSettingsController.AccountData) JSON.deserialize(
+                rawInitData,
+                AccountSettingsController.AccountData.class
+            );
             AccountSettingsController.PersonWrapper personWrapper = initData.contactSectionData.personWrapper;
             AccountSettingsController.changeOptInSMS(personWrapper.isOptInSMS());
             AccountSettingsController.updatePerson(JSON.serialize(personWrapper));
@@ -66,17 +77,30 @@ private class Test_AccountSettingsController {
         }
         Test.stopTest();
         List<Contact> contacts = [
-                SELECT Id, HCP_Opt_In_Patient_Status_Emails__c,
-                        HCP_Opt_In_Referral_Status_Emails__c,
-                        HCP_Opt_In_Study_Emails__c,
-                        Participant_Opt_In_Status_Emails__c,
-                        RRCookiesAllowedCookie__c,
-                        RRLanguageAllowedCookie__c,
-                        FirstName, LastName,
-                        Participant_Opt_In_Status_SMS__c
-                FROM Contact WHERE Email = 'aaa@bbb.com'];
-        Participant__c participant = [SELECT Id, First_Name__c, Last_Name__c FROM Participant__c WHERE Contact__c =: contacts[0].Id];
-        List<Case> cases = [SELECT Id FROM Case Where Contact.Id =: contacts[0].Id AND Status = 'New'];
+            SELECT
+                Id,
+                HCP_Opt_In_Patient_Status_Emails__c,
+                HCP_Opt_In_Referral_Status_Emails__c,
+                HCP_Opt_In_Study_Emails__c,
+                Participant_Opt_In_Status_Emails__c,
+                RRCookiesAllowedCookie__c,
+                RRLanguageAllowedCookie__c,
+                FirstName,
+                LastName,
+                Participant_Opt_In_Status_SMS__c
+            FROM Contact
+            WHERE Email = 'aaa@bbb.com'
+        ];
+        Participant__c participant = [
+            SELECT Id, First_Name__c, Last_Name__c
+            FROM Participant__c
+            WHERE Contact__c = :contacts[0].Id
+        ];
+        List<Case> cases = [
+            SELECT Id
+            FROM Case
+            WHERE Contact.Id = :contacts[0].Id AND Status = 'New'
+        ];
         System.assertEquals(1, contacts.size());
         System.assertEquals(true, contacts[0].HCP_Opt_In_Patient_Status_Emails__c);
         System.assertEquals(true, contacts[0].HCP_Opt_In_Referral_Status_Emails__c);
@@ -90,5 +114,4 @@ private class Test_AccountSettingsController {
         System.assertEquals(12, cookieList.size());
         System.assertEquals(true, contacts[0].Participant_Opt_In_Status_SMS__c);
     }
-
 }

@@ -3,7 +3,5 @@
  */
 
 public with sharing class ParticipantDeduplicationService {
-    
     //TODO DEPRECATED FOR REMOVE
-
 }

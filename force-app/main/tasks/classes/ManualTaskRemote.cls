@@ -3,7 +3,6 @@
  */
 
 public with sharing class ManualTaskRemote {
-
     public static Boolean createTasks(TaskService.TaskConfig taskConfig, ManualTaskFilter filter) {
         try {
             Batch_CreateAdminTasks.launch(filter.getContactsWithWhatIds(), taskConfig);
@@ -14,10 +13,14 @@ public with sharing class ManualTaskRemote {
     }
 
     public class TaskPanelWrapper {
-        @AuraEnabled public TaskService.TaskConfig taskConfig;
-        @AuraEnabled public Date nowDate;
-        @AuraEnabled public List<LabelValueItem> priorities;
-        @AuraEnabled public List<LabelValueItem> visibility;
+        @AuraEnabled
+        public TaskService.TaskConfig taskConfig;
+        @AuraEnabled
+        public Date nowDate;
+        @AuraEnabled
+        public List<LabelValueItem> priorities;
+        @AuraEnabled
+        public List<LabelValueItem> visibility;
 
         public TaskPanelWrapper() {
             taskConfig = new TaskService.TaskConfig();

@@ -4,32 +4,32 @@
 
 public without sharing class NotificationService {
     static public List<String> participantStatusListForHCP = new List<String>{
-            PEStatusState.PE_STATUS_RECEIVED,
-            PEStatusState.PE_STATUS_EXCLUDED_FROM_REFERRING,
-            PEStatusState.PE_STATUS_FAILED_REFERRAL,
-            PEStatusState.PE_STATUS_FAILED_REVIEW
+        PEStatusState.PE_STATUS_RECEIVED,
+        PEStatusState.PE_STATUS_EXCLUDED_FROM_REFERRING,
+        PEStatusState.PE_STATUS_FAILED_REFERRAL,
+        PEStatusState.PE_STATUS_FAILED_REVIEW
     };
 
     static public List<String> participantStatusListForPT = new List<String>{
-            PEStatusState.PE_STATUS_RECEIVED
+        PEStatusState.PE_STATUS_RECEIVED
     };
 
     static public List<String> notificationWithoutPermissions = new List<String>{
-            NotificationCatalog.MESSAGE_TO_PI_ACCESS_LEVEL_CHANGED_TYPE,
-            NotificationCatalog.MESSAGE_TO_PI_ACCEPT_NEW_STUDY_TYPE
+        NotificationCatalog.MESSAGE_TO_PI_ACCESS_LEVEL_CHANGED_TYPE,
+        NotificationCatalog.MESSAGE_TO_PI_ACCEPT_NEW_STUDY_TYPE
     };
 
     static public List<String> notificationTypeFirstEmail = new List<String>{
-            NotificationCatalog.MESSAGE_TO_PT_SOURCE_HCP_TYPE,
-            NotificationCatalog.MESSAGE_TO_PT_SOURCE_PI_TYPE,
-            NotificationCatalog.MESSAGE_TO_PT_SOURCE_ERP_TYPE,
-            NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE,
-            NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE,
-            NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_TYPE,
-            NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_GSK_TYPE,
-            NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_TYPE,
-            NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE,
-            NotificationCatalog.MESSAGE_TO_PT_FOLLOWUP
+        NotificationCatalog.MESSAGE_TO_PT_SOURCE_HCP_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_SOURCE_PI_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_SOURCE_ERP_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_GSK_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_FOLLOWUP
     };
 
     static public String NOTIFICATION_STATUS_PENDING = 'Pending';
@@ -50,41 +50,56 @@ public without sharing class NotificationService {
 
     static {
         List<Notification_Type__mdt> notifTypes = [
-                SELECT Id, DeveloperName, Recipient_Type__c,
-                        Parameters_Provider__r.Source_Object_Type__c,
-                        Parameters_Provider__r.Parameters__c,
-                        Parameters_Provider__r.DeveloperName, (
-                        SELECT Id,
-                                Email_Template__c,
-                                Email_Template_Delegate__c,
-                                Target_Type__c,
-                                Title__c,
-                                Message_Body__c,
-                                Org_Wide_Email_Address__c
-                        FROM Notification_Targets__r
+            SELECT
+                Id,
+                DeveloperName,
+                Recipient_Type__c,
+                Parameters_Provider__r.Source_Object_Type__c,
+                Parameters_Provider__r.Parameters__c,
+                Parameters_Provider__r.DeveloperName,
+                (
+                    SELECT
+                        Id,
+                        Email_Template__c,
+                        Email_Template_Delegate__c,
+                        Target_Type__c,
+                        Title__c,
+                        Message_Body__c,
+                        Org_Wide_Email_Address__c
+                    FROM Notification_Targets__r
                 )
-                FROM Notification_Type__mdt
+            FROM Notification_Type__mdt
         ];
-        for (Notification_Type__mdt noType : notifTypes) notificationTypeByDevNameMap.put(noType.DeveloperName, noType);
+        for (Notification_Type__mdt noType : notifTypes)
+            notificationTypeByDevNameMap.put(noType.DeveloperName, noType);
     }
-
 
     public static Notification_Type__mdt getNotificationType(String notificationType) {
         return notificationTypeByDevNameMap.get(notificationType);
     }
 
-    public static Notification_Target__mdt getNotificationTarget(String notificationType, String notificationTarget) {
-        Notification_Type__mdt notificationTypeMDT = notificationTypeByDevNameMap.get(notificationType);
+    public static Notification_Target__mdt getNotificationTarget(
+        String notificationType,
+        String notificationTarget
+    ) {
+        Notification_Type__mdt notificationTypeMDT = notificationTypeByDevNameMap.get(
+            notificationType
+        );
         if (notificationTypeMDT != null) {
             for (Notification_Target__mdt nt : notificationTypeMDT.Notification_Targets__r) {
-                if (nt.Target_Type__c == notificationTarget) return nt;
+                if (nt.Target_Type__c == notificationTarget)
+                    return nt;
             }
         }
         return null;
     }
 
-    public static String checkHCPNotificationType(Participant_Enrollment__c peForCheck, Boolean notContains) {
-        if (notContains) return NotificationCatalog.MESSAGE_TO_HCP_REFERRAL_STATUS_UPDATE_TYPE;
+    public static String checkHCPNotificationType(
+        Participant_Enrollment__c peForCheck,
+        Boolean notContains
+    ) {
+        if (notContains)
+            return NotificationCatalog.MESSAGE_TO_HCP_REFERRAL_STATUS_UPDATE_TYPE;
         //TODO: remove Declined/On Hold/ Accepted
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ACCEPTED) {
             return NotificationCatalog.MESSAGE_TO_HCP_PATIENT_ACCEPTED_TYPE;
@@ -98,9 +113,12 @@ public without sharing class NotificationService {
         return null;
     }
 
-    public static String checkPatientNotificationType(Participant_Enrollment__c peForCheck, Boolean notContains) {
-
-        if (notContains) return NotificationCatalog.MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE;
+    public static String checkPatientNotificationType(
+        Participant_Enrollment__c peForCheck,
+        Boolean notContains
+    ) {
+        if (notContains)
+            return NotificationCatalog.MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE;
         //TODO: remove Declined/On Hold/ Accepted
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_DECLINED) {
             return NotificationCatalog.MESSAGE_TO_PT_PATIENT_DECLINED_TYPE;
@@ -119,17 +137,24 @@ public without sharing class NotificationService {
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ON_HOLD) {
             return NotificationCatalog.MESSAGE_TO_PT_PATIENT_ON_HOLD_VT_TYPE;
         }
-        if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED
-                && peForCheck.Referral_Source__c == 'HCP') {
+        if (
+            peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED &&
+            peForCheck.Referral_Source__c == 'HCP'
+        ) {
             return NotificationCatalog.MESSAGE_TO_PT_NEW_STUDY_HCP_VT_TYPE;
         }
-        if ((peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
-                || peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS)
-                && peForCheck.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c) {
+        if (
+            (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS ||
+            peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS) &&
+            peForCheck.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
+        ) {
             return NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE;
         }
-        if (peForCheck.Referral_Source__c != 'HCP' && peForCheck.Referral_Source__c != 'PI'
-                && (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED)) {
+        if (
+            peForCheck.Referral_Source__c != 'HCP' &&
+            peForCheck.Referral_Source__c != 'PI' &&
+            (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED)
+        ) {
             return NotificationCatalog.MESSAGE_TO_PT_NEW_STUDY_eRP_VT_TYPE;
         }
         return null;
@@ -147,14 +172,19 @@ public without sharing class NotificationService {
         return topicList[0];
     }
 
-    public static List<Topic__c> getTopicListOrCreateNewByCOI(List<Therapeutic_Area_Patient__c> cois) {
+    public static List<Topic__c> getTopicListOrCreateNewByCOI(
+        List<Therapeutic_Area_Patient__c> cois
+    ) {
         List<Id> taIds = new List<Id>();
-        for (Therapeutic_Area_Patient__c ta : cois) taIds.add(ta.Therapeutic_Area__c);
+        for (Therapeutic_Area_Patient__c ta : cois)
+            taIds.add(ta.Therapeutic_Area__c);
         List<Topic__c> topicList = [SELECT Id, TopicId__c FROM Topic__c WHERE TopicId__c = :taIds];
         List<Id> topicIds = new List<Id>();
-        for (Topic__c t : topicList) topicIds.add(t.TopicId__c);
+        for (Topic__c t : topicList)
+            topicIds.add(t.TopicId__c);
         for (Therapeutic_Area_Patient__c tap : cois) {
-            if (!topicIds.contains(tap.Therapeutic_Area__c)) topicList.add(new Topic__c(TopicId__c = tap.Therapeutic_Area__c));
+            if (!topicIds.contains(tap.Therapeutic_Area__c))
+                topicList.add(new Topic__c(TopicId__c = tap.Therapeutic_Area__c));
         }
         try {
             insert topicList;
@@ -166,12 +196,14 @@ public without sharing class NotificationService {
     public static List<Topic__c> getTopicListOrCreateNew(List<Clinical_Trial_Profile__c> ctpList) {
         List<Id> taIds = new List<Id>();
 
-        for (Clinical_Trial_Profile__c ctp : ctpList) taIds.add(ctp.Therapeutic_Area__c);
+        for (Clinical_Trial_Profile__c ctp : ctpList)
+            taIds.add(ctp.Therapeutic_Area__c);
 
         List<Topic__c> topics = [SELECT Id, TopicId__c FROM Topic__c WHERE TopicId__c = :taIds];
         List<Id> topIds = new List<Id>();
 
-        for (Topic__c top : topics) topIds.add(top.TopicId__c);
+        for (Topic__c top : topics)
+            topIds.add(top.TopicId__c);
 
         List<Topic__c> newTopics = new List<Topic__c>();
 
@@ -189,15 +221,19 @@ public without sharing class NotificationService {
         return topics;
     }
 
-    public static List<Topic__c> getTopicListOrCreateNewByCTPId(List<Clinical_Trial_Profile__c> ctpList) {
+    public static List<Topic__c> getTopicListOrCreateNewByCTPId(
+        List<Clinical_Trial_Profile__c> ctpList
+    ) {
         List<Id> ctpIds = new List<Id>();
 
-        for (Clinical_Trial_Profile__c ctp : ctpList) ctpIds.add(ctp.Id);
+        for (Clinical_Trial_Profile__c ctp : ctpList)
+            ctpIds.add(ctp.Id);
 
         List<Topic__c> topics = [SELECT Id, TopicId__c FROM Topic__c WHERE TopicId__c = :ctpIds];
         List<Id> topIds = new List<Id>();
 
-        for (Topic__c top : topics) topIds.add(top.TopicId__c);
+        for (Topic__c top : topics)
+            topIds.add(top.TopicId__c);
 
         List<Topic__c> newTopics = new List<Topic__c>();
 
@@ -217,7 +253,9 @@ public without sharing class NotificationService {
 
     @Future
     public static void createNotificationsAsync(String notificationsJSON) {
-        createNotifications((List<Notification__c>) JSON.deserialize(notificationsJSON, List<Notification__c>.class));
+        createNotifications(
+            (List<Notification__c>) JSON.deserialize(notificationsJSON, List<Notification__c>.class)
+        );
     }
 
     private static void createNotifications(List<Notification__c> notifications) {
@@ -226,7 +264,9 @@ public without sharing class NotificationService {
 
     @Future(Callout=true)
     public static void sendNotificationsAsync(String notificationsJSON) {
-        sendNotifications((List<Notification__c>) JSON.deserialize(notificationsJSON, List<Notification__c>.class));
+        sendNotifications(
+            (List<Notification__c>) JSON.deserialize(notificationsJSON, List<Notification__c>.class)
+        );
     }
 
     public static void sendNotifications(List<Notification__c> notifications) {
@@ -236,7 +276,10 @@ public without sharing class NotificationService {
             whatIds.add(n.WhatId__c);
             recipientIds.add(n.Recipient__c);
         }
-        NotificationAvailabilityService availabilityService = new NotificationAvailabilityService(recipientIds, whatIds);
+        NotificationAvailabilityService availabilityService = new NotificationAvailabilityService(
+            recipientIds,
+            whatIds
+        );
         Map<Id, String> orgWideEmailByNotifyMap = new Map<Id, String>();
         List<Notification__c> emailNotifications = new List<Notification__c>();
         List<Notification__c> smsNotifications = new List<Notification__c>();
@@ -246,13 +289,26 @@ public without sharing class NotificationService {
         for (Notification__c n : notifications) {
             //TODO add check contact available time, if not available set status to 'Pending', else set 'Processed'
             //TODO Now 'In Progress'
-            Notification_Type__mdt notificationType = NotificationService.getNotificationType(n.Notification_Type__c);
+            Notification_Type__mdt notificationType = NotificationService.getNotificationType(
+                n.Notification_Type__c
+            );
             for (Notification_Target__mdt nt : notificationType.Notification_Targets__r) {
                 if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_EMAIL) {
                     if (n.Recipient__c != null) {
-                        if (!notificationWithoutPermissions.contains(n.Notification_Type__c) && availabilityService.isDeferNotification(n.Recipient__c, n.WhatId__c)) continue;
+                        if (
+                            !notificationWithoutPermissions.contains(n.Notification_Type__c) &&
+                            availabilityService.isDeferNotification(n.Recipient__c, n.WhatId__c)
+                        )
+                            continue;
                         if (!notificationTypeFirstEmail.contains(n.Notification_Type__c)) {
-                            if (availabilityService.isAvailable(n.WhatId__c, notificationType.Recipient_Type__c, nt.Target_Type__c, n.Recipient__c)) {
+                            if (
+                                availabilityService.isAvailable(
+                                    n.WhatId__c,
+                                    notificationType.Recipient_Type__c,
+                                    nt.Target_Type__c,
+                                    n.Recipient__c
+                                )
+                            ) {
                                 emailNotifications.add(n);
                                 sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                             } else {
@@ -262,10 +318,24 @@ public without sharing class NotificationService {
                             emailNotifications.add(n);
                             sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                         }
-                        orgWideEmailByNotifyMap.put(n.Id, availabilityService.getOrgWideEmail(n.Recipient__c, n.WhatId__c, nt.Org_Wide_Email_Address__c));
+                        orgWideEmailByNotifyMap.put(
+                            n.Id,
+                            availabilityService.getOrgWideEmail(
+                                n.Recipient__c,
+                                n.WhatId__c,
+                                nt.Org_Wide_Email_Address__c
+                            )
+                        );
                     } else if (n.Recipient__c == null) {
                         emailNotifications.add(n);
-                        orgWideEmailByNotifyMap.put(n.Id, availabilityService.getOrgWideEmail(n.From__c, n.WhatId__c, nt.Org_Wide_Email_Address__c));
+                        orgWideEmailByNotifyMap.put(
+                            n.Id,
+                            availabilityService.getOrgWideEmail(
+                                n.From__c,
+                                n.WhatId__c,
+                                nt.Org_Wide_Email_Address__c
+                            )
+                        );
                     }
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_SMS) {
                     if (availabilityService.isAvailableForSMS(n.Recipient__c, n.WhatId__c)) {
@@ -275,10 +345,10 @@ public without sharing class NotificationService {
                         sendResultService.setSkipped(n.Id, nt.Target_Type__c);
                     }
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_PUSH) {
-                    if(availabilityService.isAvailableForPush(n.Id, n.WhatId__c)){
+                    if (availabilityService.isAvailableForPush(n.Id, n.WhatId__c)) {
                         sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                         pushNotifications.add(n);
-                    }else{
+                    } else {
                         sendResultService.setSkipped(n.Id, nt.Target_Type__c);
                     }
                 } else if (nt.Target_Type__c == NOTIFICATION_RECIPIENT_TYPE_EXTERNAL_EMAIL) {
@@ -286,16 +356,18 @@ public without sharing class NotificationService {
                 }
             }
         }
-    
+
         sendResultService.updateResults();
         //Send emails:
-        if (!emailNotifications.isEmpty()) EmailService.send(emailNotifications, orgWideEmailByNotifyMap);
-        
+        if (!emailNotifications.isEmpty())
+            EmailService.send(emailNotifications, orgWideEmailByNotifyMap);
+
         //Async send SMS and Push
         ActionStack actionStack = new ActionStack();
-        if(smsNotifications.size() > 0) actionStack.add(new Action_SendSMS(smsNotifications));
-        if(pushNotifications.size() > 0) actionStack.add(new Action_SendPush(pushNotifications));
+        if (smsNotifications.size() > 0)
+            actionStack.add(new Action_SendSMS(smsNotifications));
+        if (pushNotifications.size() > 0)
+            actionStack.add(new Action_SendPush(pushNotifications));
         actionStack.run();
     }
-
 }

@@ -3,6 +3,4 @@
  */
 
 public without sharing class PatientVisitResultTriggerHandler {
-
-
 }

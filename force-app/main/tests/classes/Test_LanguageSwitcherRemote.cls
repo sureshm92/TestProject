@@ -4,11 +4,9 @@
 
 @IsTest
 public class Test_LanguageSwitcherRemote {
-
     @IsTest
-    public static void runTest () {
-    
-       /* LanguageSwitcherRemote.InitData initData = new LanguageSwitcherRemote.InitData();
+    public static void runTest() {
+        /* LanguageSwitcherRemote.InitData initData = new LanguageSwitcherRemote.InitData();
     
         LanguageSwitcherRemote.getInitData();
     
@@ -18,6 +16,5 @@ public class Test_LanguageSwitcherRemote {
         } catch (Exception e) {
             // expected Exception
         }*/
-        
     }
 }

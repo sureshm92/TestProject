@@ -2,7 +2,6 @@
  * Created by Igor Malyuta on 31.03.2020.
  */
 public with sharing class EmailTemplateInitialHCP extends EmailTemplateInitial {
-
     private List<Healthcare_Provider__c> healthcareProviders;
     private List<HCP_Enrollment__c> enrollments;
 
@@ -20,18 +19,20 @@ public with sharing class EmailTemplateInitialHCP extends EmailTemplateInitial {
             parametersProviderName = 'Email_Template_Parameters_From_HCPE';
         }
 
-        if (isSameInvestigator()) useAllPINames = true;
+        if (isSameInvestigator())
+            useAllPINames = true;
     }
 
     private List<Healthcare_Provider__c> getHealthCareProviders() {
         if (healthcareProviders == null) {
             healthcareProviders = [
-                    SELECT Id, HCP_Enrollment__c
-                    FROM Healthcare_Provider__c
-                    WHERE HCP_Enrollment__c IN (
-                            SELECT Id
-                            FROM HCP_Enrollment__c
-                            WHERE HCP_Contact__c = :recipientId
+                SELECT Id, HCP_Enrollment__c
+                FROM Healthcare_Provider__c
+                WHERE
+                    HCP_Enrollment__c IN (
+                        SELECT Id
+                        FROM HCP_Enrollment__c
+                        WHERE HCP_Contact__c = :recipientId
                     )
             ];
         }
@@ -41,12 +42,13 @@ public with sharing class EmailTemplateInitialHCP extends EmailTemplateInitial {
     private List<HCP_Enrollment__c> getEnrollments() {
         if (enrollments == null) {
             enrollments = [
-                    SELECT Id, Study_Site__r.Principal_Investigator__c
-                    FROM HCP_Enrollment__c
-                    WHERE HCP_Contact__c = :recipientId
+                SELECT Id, Study_Site__r.Principal_Investigator__c
+                FROM HCP_Enrollment__c
+                WHERE
+                    HCP_Contact__c = :recipientId
                     AND (Status__c = :HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O
-                    OR Status__c = :HCPEnrollmentService.HCP_S_ACTIVATED )
-                    ORDER BY CreatedDate DESC
+                    OR Status__c = :HCPEnrollmentService.HCP_S_ACTIVATED)
+                ORDER BY CreatedDate DESC
             ];
         }
         return enrollments;
@@ -58,16 +60,21 @@ public with sharing class EmailTemplateInitialHCP extends EmailTemplateInitial {
 
     private Boolean isSameInvestigator() {
         List<HCP_Enrollment__c> hcpEnrollments = getEnrollments();
-        if (!hasEnrollments()) return false;
+        if (!hasEnrollments())
+            return false;
 
         Map<Id, List<HCP_Enrollment__c>> hcpEnrollmentsByPI = new Map<Id, List<HCP_Enrollment__c>>();
         for (HCP_Enrollment__c hcpe : hcpEnrollments) {
             if (!hcpEnrollmentsByPI.containsKey(hcpe.Study_Site__r.Principal_Investigator__c)) {
-                hcpEnrollmentsByPI.put(hcpe.Study_Site__r.Principal_Investigator__c, new List<HCP_Enrollment__c>());
+                hcpEnrollmentsByPI.put(
+                    hcpe.Study_Site__r.Principal_Investigator__c,
+                    new List<HCP_Enrollment__c>()
+                );
             }
             hcpEnrollmentsByPI.get(hcpe.Study_Site__r.Principal_Investigator__c).add(hcpe);
         }
-        if (hcpEnrollmentsByPI.keySet().size() > 1) return true;
+        if (hcpEnrollmentsByPI.keySet().size() > 1)
+            return true;
 
         return false;
     }

@@ -4,11 +4,15 @@
 
 @IsTest(IsParallel=false)
 private class Test_TaskService {
-
     public class ParticipantServiceMock implements System.StubProvider {
-
-        public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
-                List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs) {
+        public Object handleMethodCall(
+            Object stubbedObject,
+            String stubbedMethodName,
+            Type returnType,
+            List<Type> listOfParamTypes,
+            List<String> listOfParamNames,
+            List<Object> listOfArgs
+        ) {
             if (stubbedMethodName == 'getState') {
                 return new ParticipantService.ParticipantState();
             }
@@ -28,7 +32,7 @@ private class Test_TaskService {
         taskIgnore.Subject = 'TestI';
         taskIgnore.OwnerId = testData.participantUser.Id;
         taskIgnore.Visible_For__c = 'Owner';
-        List<Task> tasks = new List<Task>{task, taskIgnore};
+        List<Task> tasks = new List<Task>{ task, taskIgnore };
         insert tasks;
 
         List<Task> testOpenTasks;
@@ -36,8 +40,13 @@ private class Test_TaskService {
         List<Task> testCompletedTasks;
         TaskService.TaskConfig taskConfig;
         Test.startTest();
-        insert TaskService.getInstance().createCompleteYourProfileTask(testData.participantUser.Id, testData.participant.Id, testData.participant.Contact__c);
-        System.runAs(testData.participantUser){
+        insert TaskService.getInstance()
+            .createCompleteYourProfileTask(
+                testData.participantUser.Id,
+                testData.participant.Id,
+                testData.participant.Contact__c
+            );
+        System.runAs(testData.participantUser) {
             testOpenTasks = TaskService.getInstance().getOpenTasks();
             testPreviewTasks = TaskService.getInstance().getPreviewTasks();
 
@@ -46,20 +55,29 @@ private class Test_TaskService {
             TaskService.getInstance().completeCYPTaskForParticipant();
             testCompletedTasks = TaskService.getInstance().getCompletedTasks();
 
-            taskConfig = new TaskService.TaskConfig(task.OwnerId, null, task.Subject, task.Visible_For__c);
+            taskConfig = new TaskService.TaskConfig(
+                task.OwnerId,
+                null,
+                task.Subject,
+                task.Visible_For__c
+            );
         }
         Test.stopTest();
         System.assertEquals(3, testOpenTasks.size());
         System.assertEquals(3, testPreviewTasks.size());
 
-        Task complTask = [SELECT Id, Subject, Status FROM Task WHERE Id =: task.Id];
+        Task complTask = [SELECT Id, Subject, Status FROM Task WHERE Id = :task.Id];
         System.assertEquals(TaskService.TASK_STATUS_COMPLETED, complTask.Status);
         System.assertEquals(complTask.Subject, taskConfig.subject);
 
-        Task ignoreTask = [SELECT Id, Status FROM Task WHERE Id =: taskIgnore.Id];
+        Task ignoreTask = [SELECT Id, Status FROM Task WHERE Id = :taskIgnore.Id];
         System.assertEquals(TaskService.TASK_STATUS_IGNORED, ignoreTask.Status);
 
-        Task cypTask = [SELECT Id, Status FROM Task WHERE Task_Code__c =: TaskService.TASK_CODE_COMPLETE_YOUR_PROFILE];
+        Task cypTask = [
+            SELECT Id, Status
+            FROM Task
+            WHERE Task_Code__c = :TaskService.TASK_CODE_COMPLETE_YOUR_PROFILE
+        ];
         System.assertEquals(TaskService.TASK_STATUS_COMPLETED, cypTask.Status);
         System.assertEquals(3, testCompletedTasks.size());
     }
