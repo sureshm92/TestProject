@@ -2057,6 +2057,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <custom>true</custom>
+	
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Account_Name_2__c</field>
@@ -4710,6 +4711,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Opportunity.Survey_Result__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	 <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.SubjectId__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
