@@ -69,12 +69,13 @@
     display: inline-block;
 }
 
+/* Commented for Fix of REF-2710 
 .THIS .slds-has-error .slds-form-element__help {
     position: absolute;
     bottom: -20px;
     width: 125px;
     left: -25px;
-}
+} */
 
 .THIS .study-Info {
     width: 106px;

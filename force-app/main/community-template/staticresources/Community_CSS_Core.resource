@@ -1261,6 +1261,13 @@ select.rr-select-error,
     }
 }
 
+@media all and (max-width: 500px) {
+    .comm-page-custom-messages .rr-width-limiter.side-padding.rr-min-body-height.siteforceContentArea {
+        padding: 0;
+    }
+
+}
+
 /*-------------------------------------------------------- Common -------------------------------------------------------------*/
 .comm-panels-container.uiContainerManager.siteforcePanelsContainer{
     display: block;

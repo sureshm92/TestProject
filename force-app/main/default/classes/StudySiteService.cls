@@ -95,7 +95,7 @@ public without sharing class StudySiteService {
         List<StudySiteDistanceWrapper> result = new List<StudySiteService.StudySiteDistanceWrapper>();
         Set<Id> quueriedTrials = new Set<Id>();
         Set<Id> siteIds = new Set<Id>();
-        Set<Id> siteWithPatientsIds = new Set<Id>();
+        // Set<Id> siteWithPatientsIds = new Set<Id>();
         for (Study_Site__c site : siteList) {
             quueriedTrials.add(site.Clinical_Trial_Profile__c);
             siteIds.add(site.Id);
@@ -109,6 +109,8 @@ public without sharing class StudySiteService {
         for (HCP_Enrollment__c hcpe : enrollments) {
             hcpeMap.put(hcpe.Study_Site__c, hcpe);
         }
+        //Commenting this because this is nowhere used and this snipet is throwing SOQL 50001 error
+        /*
         for (Participant_Enrollment__c pe : [
             SELECT Id, Study_Site__c
             FROM Participant_Enrollment__c
@@ -122,6 +124,7 @@ public without sharing class StudySiteService {
         ]) {
             siteWithPatientsIds.add(pe.Study_Site__c);
         }
+        */
         for (Study_Site__c site : siteList) {
             if (
                 site.Clinical_Trial_Profile__r != null &&

@@ -1,5 +1,5 @@
 /**
- * Created by Leonid Bartenev
+ * Created by  Leonid Bartenev
  */
 ({
     doInit: function (component, event, helper) {
@@ -7,7 +7,13 @@
         let paramLanguage = communityService.getUrlParameter('lanCode');
         let isMobileApp = communityService.isMobileSDK();
         if (!rrCookies) {
-            let infoText = $A.get('$Label.c.Cookies_Info_Text');
+            communityService.executeAction(component, 'getCommunityUrl', {
+               
+            }, function (rValue) {
+                console.log(rValue);
+                let communityPrefix = rValue;
+                let check = communityPrefix.includes('Janssen Community');
+                let infoText = (check == true? $A.get('$Label.c.Cookies_Info_Text_Janssen') : $A.get('$Label.c.Cookies_Info_Text'));
             let linkCookies = $A.get('$Label.c.Link_Cookies');
             let communityUrl = window.location.href;
             let linkPPUrl = '';
@@ -15,7 +21,7 @@
             let linkPP = $A.get('$Label.c.Footer_Link_Privacy_Policy');
             let linkIAB = $A.get('$Label.c.Link_Interactive_Advertising_Bureau');
             let urlIAB = $A.get('$Label.c.URL_Interactive_Advertising_Bureau');
-            if (communityUrl.includes('janssen')) {
+            if (check) {
                 linkPPUrl =
                     '<a class="ci-link" href="/janssen/s/privacy-policy?lanCode=' +
                     paramLanguage +
@@ -87,8 +93,9 @@
                 $A.getCallback(function () {
                     component.cookiesOff();
                 }),
-                10000
+                20000
             );
+        });
         }
     },
 

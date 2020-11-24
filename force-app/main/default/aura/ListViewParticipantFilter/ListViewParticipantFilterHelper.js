@@ -235,7 +235,7 @@
     columnDivider = ',';
     lineDivider =  '\n';
     // var header = ['Participant Profile Name','Study Code Name',	'Study Site Name','Participant_Status__c','isCheckedlatest'];
-    var header = ['ID','Received Date',	'Source ID','Sex','Age','Ethnicity', 'Comorbidities', 'BMI', 'High Risk Occupation', 'Initial Visit Date', 'Participant Status', 'High Priority '];
+    var header = ['ID','Received Date',	'Source ID','Sex','Age','Ethnicity', 'Comorbidities', 'BMI', 'High Risk Occupation', 'Initial Visit Date', 'Initial Visit Time', 'Participant Status', 'High Priority '];
     
     csvStringResult = '';
     csvStringResult += header.join(columnDivider);
@@ -313,6 +313,12 @@
         }else{
             csvStringResult += '" "'+','; 
         }
+
+        if((objectRecords[i]["initialVisitScheduleTime"] !== undefined)){
+            csvStringResult += '"'+ objectRecords[i]["initialVisitScheduleTime"]+'"' +','; 
+        }else{
+            csvStringResult += '" "'+','; 
+        }
         
         if((objectRecords[i]["pe"]["Participant_Status__c"] !== undefined)){
             csvStringResult += '"'+ objectRecords[i]["pe"]["Participant_Status__c"]+'"' +','; 
@@ -329,7 +335,7 @@
         csvStringResult += lineDivider;
     }
     var hiddenElement = document.createElement('a');
-    hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvStringResult);
+    hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvStringResult);
     hiddenElement.target = '_self'; // 
     hiddenElement.download = 'ExportData.csv';  // CSV file Name* you can change it.[only name not .csv] 
     document.body.appendChild(hiddenElement); // Required for FireFox browser

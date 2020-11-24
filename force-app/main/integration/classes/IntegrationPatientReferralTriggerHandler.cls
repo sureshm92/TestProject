@@ -69,16 +69,13 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             for (Integration_Patient_Referral__c ipr : newList) {
                 List<String> errorsLog = new List<String>();
                 //Required fields check:
-                if (String.isEmpty(ipr.siteSelected__c)) errorsLog.add('Required field is missing: siteSelected;');
+               if (String.isEmpty(ipr.siteSelected__c))errorsLog.add('Required field is missing: siteSelected;');
                 if (String.isEmpty(ipr.protocolId__c)) errorsLog.add('Required field is missing: protocolId;');
                 if (String.isEmpty(ipr.firstName__c)) errorsLog.add('Required field is missing: firstName__c;');
                 if (String.isEmpty(ipr.lastName__c)) errorsLog.add('Required field is missing: lastName__c;');
-                if (String.isEmpty(ipr.email__c) &&
-                        String.isEmpty(ipr.phone__c) &&
-                        String.isEmpty(ipr.Delegate_Daytime_Phone_Number__c) &&
-                        String.isEmpty(ipr.Delegate_Email_Address__c) &&
-                        String.isEmpty(ipr.Delegate_Alternative_Phone_Number__c)) errorsLog.add('Either email or phone number must be provided;');
-            
+                if (String.isEmpty(ipr.email__c) &&  String.isEmpty(ipr.phone__c)) errorsLog.add('Either email or phone number must be provided;');
+                if ((!String.isEmpty(ipr.Delegate_First_Name__c) || !String.isEmpty(ipr.Delegate_Last_Name__c)) && String.isEmpty(ipr.Delegate_Email_Address__c) && String.isEmpty(ipr.Delegate_Daytime_Phone_Number__c)) errorsLog.add('Either email or phone number for delegate must be provided;');
+             
                 //Check SS
                 String studySiteNumber = getSitePrimaryKeyEPR(ipr);
                 Study_Site__c ss = ssByPrimaryKeyEPRMap.get(studySiteNumber);
@@ -115,7 +112,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             for (Integration_Patient_Referral__c ipr : newList) {
                 newParticipantsMap.put(ipr.referralID__c, convertToParticipant(ipr));
                 Study_Site__c ss = ssByPrimaryKeyEPRMap.get(getSitePrimaryKeyEPR(ipr));
-                if (!String.isBlank(ipr.Delegate_First_Name__c) && !String.isBlank(ipr.Delegate_Last_Name__c)) {
+                if (ss != null && !String.isBlank(ipr.Delegate_First_Name__c) && !String.isBlank(ipr.Delegate_Last_Name__c) && !String.isEmpty(ipr.siteSelected__c) && !String.isEmpty(ipr.protocolId__c) && !String.isEmpty(ipr.firstName__c) && !String.isEmpty(ipr.lastName__c) && (!String.isEmpty(ipr.phone__c) && !String.isEmpty(ipr.email__c)) && (!String.isEmpty(ipr.Delegate_Email_Address__c) &&  !String.isEmpty(ipr.Delegate_Daytime_Phone_Number__c))) {
                     newDelegateContactsMap.put(ipr.referralID__c, convertToDelegateContact(ipr, participantAccount, ss.Study_Site_Type__c));
                 }
             }

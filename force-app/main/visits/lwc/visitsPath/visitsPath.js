@@ -102,7 +102,6 @@ export default class VisitsPath extends LightningElement {
         this.pathContainer = this.template.querySelector('.vis-path');
         
         if (this.pathContainer) {
-            
             this.maxScrollValue = this.pathContainer.scrollWidth - this.pathContainer.clientWidth;
             if (this.pathContainer.scrollWidth > this.pathContainer.clientWidth) this.doScrollInto(this.centredIndex);
             let context = this;
@@ -252,6 +251,36 @@ export default class VisitsPath extends LightningElement {
         }, 450);
     }
 
+    handleScrollLeftRTL() {
+        if (this.fromLeftCorner) {
+            this.fromLeftCorner = false;
+        }else if(this.fromRightCorner ){
+            this.nextScrollLeft =this.scrollStep;
+            this.pathContainer.scrollLeft -= this.nextScrollLeft;
+            this.fromRightCorner = false;
+        } 
+        else {
+            this.pathContainer.scrollLeft -= this.nextScrollLeft;
+        }
+
+        let context = this;
+        setTimeout(function () {
+            context.changeArrowsStyle();
+        }, 450);
+    }
+
+    handleScrollRightRTL() {
+        
+        this.pathContainer.scrollLeft += this.nextScrollLeft;
+        
+        let context = this;
+        setTimeout(function () {
+            context.nextScrollRight = context.scrollStep;
+            context.fromLeftCorner = false;
+            context.changeArrowsStyle();
+        }, 600);
+    }
+
     //Scroll logic:-----------------------------------------------------------------------------------------------------
     calculateWidth() {
         this.scrollStep = this.elementWidth;
@@ -263,12 +292,16 @@ export default class VisitsPath extends LightningElement {
     }
 
     isLeftScrollEnd() {
-        return this.pathContainer.scrollLeft === 0;
+        if(this.isRTL){
+            return (this.maxScrollValue - Math.abs((Math.ceil(this.pathContainer.scrollLeft))) <= 2);
+        }else{
+            return this.pathContainer.scrollLeft === 0;
+        }
     }
 
     isRightScrollEnd() {
         if(this.isRTL){
-            return (this.maxScrollValue - Math.abs((Math.ceil(this.pathContainer.scrollLeft))) <= 2);
+            return this.pathContainer.scrollLeft === 0;
         }else{
             return (this.maxScrollValue <= (Math.ceil(this.pathContainer.scrollLeft)));
         }
@@ -282,11 +315,11 @@ export default class VisitsPath extends LightningElement {
 
         if (this.isRightScrollEnd()) {
             arrRight = 0.3;
-            arrLeftRTL = 0.3;
+            arrRightRTL = 0.3;
             this.fromRightCorner = true;
         }
         if (this.isLeftScrollEnd()) {
-            arrRightRTL = 0.3;
+            arrLeftRTL = 0.3;
             arrLeft = 0.3;
             this.fromLeftCorner = true;
         }

@@ -75,14 +75,14 @@
             'Status': peFilterData.activePE[0].value,
             'Study': peFilterData.studies[0].value,
             'StudySites': '',
-            'Source': '',
+            'Source': peFilterData.source[0].value,
             'ParticipantStatus': peFilterData.statuses[1].value,
             'isHighRiskOccupation': false,
             'isComorbidities': false,
             'isInitialVisitScheduled': false,
             'AgeFrom': '0',
             'AgeTo': '150',
-            'Ethnicity': '',
+            'Ethnicity': peFilterData.ethnicity[0].value,
             'Sex': '',
             'pageNumber':'',
             'pageSize':'',
@@ -92,7 +92,7 @@
             'Sortby': '',
             'highPrioritySelected_YesIds': '',
             'highPrioritySelected_NoIds': '',
-            'startPos': 1,
+            'startPos': 0,
             'endPos': 45000,
             'perRecordCount':perRecordCount
         });
@@ -115,7 +115,8 @@
                 component.set("v.peFilterData.statuses", returnValue);
                 if(selectedOptionValue == 'Inactive' && component.get('v.filterList[0].ParticipantStatus') != 'null' && component.get('v.filterList[0].ParticipantStatus') != 'Received'){
                     component.set('v.filterList[0].ParticipantStatus', component.get('v.filterList[0].ParticipantStatus')); 
-                }else if(selectedOptionValue == 'Inactive' && component.get('v.actStatus').includes(component.get('v.filterList[0].ParticipantStatus'))){
+                }
+                if(selectedOptionValue == 'Inactive' && component.get('v.actStatus').includes(component.get('v.filterList[0].ParticipantStatus'))){
                     component.set('v.filterList[0].ParticipantStatus', 'null'); 
                 }
                 //  alert(component.get('v.filterList[0].ParticipantStatus'));
@@ -130,6 +131,10 @@
                     }
                     component.set('v.actStatus', arr);
                     component.set("v.psIfActive", returnValue);
+                }
+                if(selectedOptionValue == 'Active' && 
+                    !component.get('v.actStatus').includes(component.get('v.filterList[0].ParticipantStatus'))){
+                    component.set('v.filterList[0].ParticipantStatus', 'null'); 
                 }
                 //spinner.hide();
             }

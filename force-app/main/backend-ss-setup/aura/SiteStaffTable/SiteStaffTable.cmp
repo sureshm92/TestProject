@@ -65,7 +65,7 @@
                             </c:uiCol>
                             <aura:if isTrue="{!v.initData.inInvitationActiveStatus}">
                                 <c:uiCol class="invite-col" scrollLeft="{!v.scrollLeft}" width="{!v.inviteWidth}">
-                                    <aura:if isTrue="{!and(or(staffMember.hasUser, staffMember.hasPendingActions),staffMember.isInvited)}">
+                                    <aura:if isTrue="{!or((staffMember.accessLevel =='Principal Investigator'),and(or(staffMember.hasUser, staffMember.hasPendingActions),(staffMember.isInvited)))}">
                                         <aura:set attribute="else">
                                             <button class="slds-button slds-button_brand"
                                                     onclick="{!c.doInviteStaffMember}"
@@ -73,7 +73,10 @@
                                                 {!$Label.c.PG_SST_L_Invite}
                                             </button>
                                         </aura:set>
+                                        <aura:if isTrue="{!staffMember.accessLevel =='Principal Investigator'}">
+                                            {!$Label.c.PG_SST_L_Yes}<aura:set attribute="else">
                                         {!staffMember.hasUser?$Label.c.PG_SST_L_Yes:$Label.c.PG_SST_L_Pending}
+                                             </aura:set></aura:if>
                                     </aura:if>
                                 </c:uiCol>
                             </aura:if>

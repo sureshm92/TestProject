@@ -83,31 +83,31 @@
                     <label for="panel-3" class="slds-size_1-of-3 study-Info">{!$Label.c.RH_StudyInfo}</label>
                     <div class="accordionContent">
                         <div class="slds-size_1-of-6 activePE">
-                            <c:rrSelect value="{!v.filterList.Status}" options="{!v.peFilterData.activePE}"
+                            <c:rrSelect value="{!v.filterList[0].Status}" options="{!v.peFilterData.activePE}"
                                         placeholder="{!$Label.c.PG_VP_L_Active}" useSentenceFont="false"
                                         class="fp-ss-filter-container"
                                         setValueAsSelected="true"/>
                         </div>
                         <div class="slds-size_1-of-6 studies">
-                            <c:rrSelect value="{!v.filterList.Study}" options="{!v.peFilterData.studies}"
+                            <c:rrSelect value="{!v.filterList[0].Study}" options="{!v.peFilterData.studies}"
                                         placeholder="{!$Label.c.PG_MRRL_L_Studies}" useSentenceFont="false"
                                         class="fp-study-filter-container" onchange="{!c.StudyAction}"
                                         setValueAsSelected="true"/>
                         </div>
                         <div class="slds-size_1-of-6 studySites">
-                            <c:rrSelect value="{!v.filterList.StudySites}" options="{!v.peFilterData.studySites}"
+                            <c:rrSelect value="{!v.filterList[0].StudySites}" options="{!v.peFilterData.studySites}"
                                         placeholder="{!$Label.c.PG_VP_L_Study_sites}" useSentenceFont="false"
                                         class="fp-ss-filter-container"
                                         setValueAsSelected="true"/>
                         </div>
                         <div class="slds-size_1-of-6 source">
-                            <c:rrSelect value="{!v.filterList.Source}" options="{!v.peFilterData.source}"
+                            <c:rrSelect value="{!v.filterList[0].Source}" options="{!v.peFilterData.source}"
                                         placeholder="{!$Label.c.PG_VP_L_Source}" useSentenceFont="false"
                                         class="fp-ss-filter-container"
                                         setValueAsSelected="true"/>
                         </div>
                         <div class="slds-size_1-of-6 statuses">
-                            <c:rrSelect value="{!v.filterList.ParticipantStatus}" options="{!v.peFilterData.statuses}"
+                            <c:rrSelect value="{!v.filterList[0].ParticipantStatus}" options="{!v.peFilterData.statuses}"
                                         placeholder="{!$Label.c.PG_VP_L_Participant_Status}" useSentenceFont="false"
                                         class="fp-ss-filter-container"
                                         setValueAsSelected="true"/>

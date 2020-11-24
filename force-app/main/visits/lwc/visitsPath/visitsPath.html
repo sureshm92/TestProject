@@ -99,7 +99,7 @@
                         <div class="path-section">
                             <div class="slds-grid">
                                 <div class="slds-col arrow-leftRTL" style="padding-left: 0;">
-                                    <div onclick={handleScrollRight} class="arrow-border">
+                                    <div onclick={handleScrollRightRTL} class="arrow-border">
                                         <i>
                                             <span><c-web-icon icon-name="icon-chevron-right" icon-color="#297DFD" icon-width="18"
                                                     icon-height="18"></c-web-icon></span>
@@ -148,7 +148,7 @@
                                     </div>
                                 </div>
                                 <div class="slds-col arrow-rightRTL" style="padding-right: 0;">
-                                    <div onclick={handleScrollLeft} class="arrow-border">
+                                    <div onclick={handleScrollLeftRTL} class="arrow-border">
                                         <i>
                                             <span class="arrow-borders-right" style="padding-left: 2px">
                                                 <c-web-icon icon-name="icon-chevron-left" icon-color="#297DFD"
@@ -165,16 +165,17 @@
                     </template>
                 </div>
                 <!-- Add/Change Visit Planned Date -->
-                <c-web-popup show-header="true" show-footer="true" custom-buttons="true" title={labels.planDate}>
+                <c-web-popup show-header="true" show-footer="true" custom-buttons="true" title={labels.planDate}>  
                     <div slot="body" class="">
-                        <lightning-input type="date" label={labels.selDate} value={planDate} autocomplete="off"
+                        <span style="margin-left: 287px;display:table-cell;">{labels.selDate}</span>
+                            <lightning-input  type="date" label="" value={planDate} autocomplete="off"
                                             onchange={handleDateChange}></lightning-input>
-                    </div>
-                    <div slot="footerButtons">
+                                        </div>     
+                    <div slot="footerButtons" style="text-align: right;">
+                            <button class="apollo-btn primary" onclick={savePlannedDate}  style="margin-left: 13px;" >{labels.saveBTNLabel}</button>
                         <button class="apollo-btn tertiary" onclick={handleHideDialog}>{labels.cancelBTNLabel}</button>
-                        <button class="apollo-btn primary" onclick={savePlannedDate}>{labels.saveBTNLabel}</button>
+                        
                     </div>
-                </c-web-popup>
+               </c-web-popup>            
         </template>
     </template>
-    

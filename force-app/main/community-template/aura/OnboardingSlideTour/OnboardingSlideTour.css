@@ -67,8 +67,12 @@
 }
 
 .THIS .wt-scroller {
-    max-height: 800px;
+    height: 100%;
+    max-height: 100%;
     margin: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .THIS .tour-buttons-continer {
@@ -82,12 +86,12 @@
     flex: 1;
     display: flex;
     align-items: center;
-    margin-right: 20px;
     white-space: nowrap;
 }
 
 .THIS .tour-btn-group {
-    margin: 10px 0;
+    margin: 15px 0 25px;
+    text-align: right;
 }
 
 .THIS .ti-width-limiter {
@@ -106,10 +110,15 @@
     flex: 1;
     width: 100%;
     margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .THIS .tour-slides-carousel {
     height: 100%;
+}
+
+.THIS .tour-pages {
+    margin-top: 25px;
 }
 
 .THIS .slide-area {
@@ -189,12 +198,6 @@
     height: 100%;
 }
 
-@media all and (max-width: 768px) and (orientation: portrait) {
-    .THIS .tour-slides-container {
-        height: 60vh;
-    }
-}
-
 @media all and (max-width: 1340px) and (orientation: landscape) {
     .THIS .tour-slides-container {
         height: auto;
@@ -202,6 +205,10 @@
 }
 
 @media all and (max-width: 500px) {
+    .THIS .wt-scroller {
+        margin: 0;
+    }
+
     .THIS .tour-title {
         font-size: 1.25rem;
         line-height: 1.5rem;
@@ -228,16 +235,13 @@
 
     .THIS .tour-buttons-continer {
         margin-top: 0;
-        align-items: flex-end;
-        justify-content: flex-end;
         padding: 15px;
         height: auto;
         flex-direction: column;
-        align-self: flex-end;
     }
 
     .THIS .tour-btn-group {
-        margin: 1.5rem 0 0;
+        margin: 15px 15px 25px;
     }
 
     .THIS .tour-btn-group button {
@@ -255,22 +259,8 @@
         align-items: flex-start;
     }
 
-    .THIS .wt-scroller {
-        height: 100%;
-        margin: 0;
-        display: flex;
-        flex-wrap: wrap;
-    }
-
     .THIS .tour-pages {
-        margin: 0;
-        display: flex;
-        justify-content: center;
-        width: 100%;
-    }
-
-    .THIS.tour-fixed-overlay {
-        height: 100vh;
+        margin-top: 10px;
     }
 
     .THIS .tour-info-container {
@@ -293,20 +283,7 @@
     }
 }
 
-@media all and (max-height: 500px) and (orientation: landscape) {
-    .THIS .tour-slides-container {
-        min-height: auto;
-        max-height: 82vh;
-    }
 
-    .THIS .tour-slides-body {
-        margin-top: 15px;
-    }
-
-    .THIS .fit-image {
-        max-height: 50vh;
-    }
-}
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
     .THIS .tour-slides-body {
@@ -323,8 +300,3 @@
     font-size: 12px;
 }
 
-@media all and (max-height: 350px) {
-    .cOnboardingSlideTour .tour-pages {
-        margin: 15px 0;
-    }
-}
