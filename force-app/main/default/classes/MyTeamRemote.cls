@@ -332,8 +332,12 @@ public without sharing class MyTeamRemote {
     public static void saveDelegateLevelChanges(String userMode, String delegate, String parentId) {
         Savepoint sp = Database.setSavepoint();
         Boolean newss=false;
+        
         try {
             DelegateWrapper dw = (DelegateWrapper) JSON.deserialize(delegate, DelegateWrapper.class);
+             List<Id> ConId = new List<Id>();  
+             List<Id> SiteId = new List<Id>();  
+              List<Site_Staff__c> lstss = new List<Site_Staff__c>();  
             if (parentId == null || parentId == '') {
                 parentId = CommunityService.getInstance().getCurrentContactId();
             }
@@ -344,7 +348,14 @@ public without sharing class MyTeamRemote {
                 Map<String, LIst<Id>> hasDelegateLevelsPIMap = new Map<String, List<Id>>();
                 hasDelegateLevelsPIMap.put(HAS_NOT_DELEGATE_LEVELS, new List <Id>());
                 Boolean hasDelegateLevels = false;
-
+            for (TrialDelegateWrapper delegateTrialRecord : dw.delegateTrials) {    
+            for (DelegateLevelWrapper delegateRecord : delegateTrialRecord.siteLevels) {    
+                ConId.add(dw.delegateContact.Id);   
+                SiteId.add(delegateRecord.enrollmentOrStudySiteId); 
+            }   
+            } 
+            //To check existing data present or not
+           lstss = [select id,Site_Contact__c,is_Invited__c,Study_Site__c from Site_Staff__c where Site_Contact__c IN:ConId and is_Invited__c=true limit 5];
                 if (userMode == CommunityService.USER_MODE_PI) {
                     hasDelegatelevelMap hdmp= new hasDelegatelevelMap();
                     hdmp=savePIDelegate(dw);
@@ -355,14 +366,17 @@ public without sharing class MyTeamRemote {
                     hasDelegateLevels = saveHCPDelegate(dw, parentId);
 
                 }
-                //Contact delegateContact = [SELECT Id, HasOptedOutOfEmail FROM Contact WHERE Id =:dw.delegateContact.Id LIMIT 1];
-                if ((hasDelegateLevels || !hasDelegateLevelsPIMap.isEmpty()) && newss==false/*&& delegateContact != null && !delegateContact.HasOptedOutOfEmail*/) {
+            if(lstss.size()>0)
+            {
+             if ((hasDelegateLevels || !hasDelegateLevelsPIMap.isEmpty())/*&& delegateContact != null && !delegateContact.HasOptedOutOfEmail*/){
                     sendEmailNotification(dw.delegateContact, userMode, hasDelegateLevelsPIMap);
+                    system.debug('mailing');
                 }
+            } 
+                //Contact delegateContact = [SELECT Id, HasOptedOutOfEmail FROM Contact WHERE Id =:dw.delegateContact.Id LIMIT 1];
                 List<User> delegateUsers = CommunityService.getCommunityUsersByContactIds(new Set<Id>{
                         dw.delegateContact.Id
                 });
-
                 if (!delegateUsers.isEmpty() && !delegateUsers[0].IsActive) {
                     DelegateService.activateDelegateUsers(new Set<Id>{
                             delegateUsers[0].Id
@@ -388,14 +402,14 @@ public without sharing class MyTeamRemote {
             List<Site_Staff__c> ssListWithSSId = new List<Site_Staff__c>();
             if (hasDelegateLevelsPIMap.containsKey(OLD_VALUES_DELEGATE_LEVELS) && !hasDelegateLevelsPIMap.get(OLD_VALUES_DELEGATE_LEVELS).isEmpty()) {
                 ssListWithSSId = [
-                        SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, Site_Contact__c
+                        SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, Site_Contact__c,is_Invited__c
                         FROM Site_Staff__c
                         WHERE Site_Contact__c = :delegateContact.Id
                         AND Study_Site__c IN:hasDelegateLevelsPIMap.get(OLD_VALUES_DELEGATE_LEVELS)
                 ];
             } else {
                 ssList = [
-                        SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, Site_Contact__c
+                        SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, Site_Contact__c,is_Invited__c 
                         FROM Site_Staff__c
                         WHERE Site_Contact__c = :delegateContact.Id
                 ];
@@ -448,27 +462,30 @@ public without sharing class MyTeamRemote {
         List<Site_Staff__c> delegateRecordsToUpdate = new List<Site_Staff__c>();
         List<Site_Staff__c> delegateRecordsToDelete = new List<Site_Staff__c>();
         Boolean hasNewSS=false;
-		List<Id> ConId = new List<Id>();	
-        List<Id> SiteId = new List<Id>();	
-        Map<String,String> mapDuplicate = new Map<String,String>();	
-        for (TrialDelegateWrapper delegateTrialRecord : dw.delegateTrials) {	
-            for (DelegateLevelWrapper delegateRecord : delegateTrialRecord.siteLevels) {	
-                ConId.add(dw.delegateContact.Id);	
-                SiteId.add(delegateRecord.enrollmentOrStudySiteId);	
-            }	
-          }	
-         List<Site_Staff__c> dupSitestaffLst = new List<Site_Staff__c>();	
-         dupSitestaffLst = [select id,Site_Contact__c,Study_Site__c,Delegate_Level__c from Site_Staff__c where Study_Site__c IN:SiteId and Site_Contact__c IN:ConId];	
-          List<string> dupSiteStaff = new List<string>();	
-            string duplicate='';	
-            system.debug('dupsize'+dupSitestaffLst.size());	
-            for(Site_Staff__c dup:dupSitestaffLst)	
-            {	
-                duplicate=dup.Site_Contact__c+''+dup.Study_Site__c;	
-                dupSiteStaff.add(duplicate);	
-                mapDuplicate.put(duplicate,dup.id);	
-                duplicate='';	
-            }	
+        List<Id> ConId = new List<Id>();    
+        List<Id> SiteId = new List<Id>();   
+        Map<String,String> mapDuplicate = new Map<String,String>(); 
+        for (TrialDelegateWrapper delegateTrialRecord : dw.delegateTrials) {    
+            for (DelegateLevelWrapper delegateRecord : delegateTrialRecord.siteLevels) {    
+                ConId.add(dw.delegateContact.Id);   
+                SiteId.add(delegateRecord.enrollmentOrStudySiteId); 
+            }   
+          } 
+         List<Site_Staff__c> dupSitestaffLst = new List<Site_Staff__c>();   
+         dupSitestaffLst = [select id,Site_Contact__c,Study_Site__c,Delegate_Level__c from Site_Staff__c where Study_Site__c IN:SiteId and Site_Contact__c IN:ConId];   
+          List<string> dupSiteStaff = new List<string>(); 
+          List<Id> lstConId = new List<Id>(); 
+          List<Site_Staff__c> lstss = new List<Site_Staff__c>();   
+            string duplicate='';    
+            system.debug('dupsize'+dupSitestaffLst.size()); 
+            for(Site_Staff__c dup:dupSitestaffLst)  
+            {   
+                duplicate=dup.Site_Contact__c+''+dup.Study_Site__c; 
+                dupSiteStaff.add(duplicate);    
+                mapDuplicate.put(duplicate,dup.id); 
+                lstConId.add(dup.Site_Contact__c);
+                duplicate='';   
+            }   
           string dupChk='';
         for (TrialDelegateWrapper delegateTrialRecord : dw.delegateTrials) {
             for (DelegateLevelWrapper delegateRecord : delegateTrialRecord.siteLevels) {
@@ -477,7 +494,7 @@ public without sharing class MyTeamRemote {
                 }
                 if (delegateSiteStaffMap == null ||
                         delegateSiteStaffMap.get(delegateRecord.enrollmentOrStudySiteId) == null) {
-                   dupChk=dw.delegateContact.Id+''+delegateRecord.enrollmentOrStudySiteId;  	
+                   dupChk=dw.delegateContact.Id+''+delegateRecord.enrollmentOrStudySiteId;      
                     if (delegateRecord.delegateLevel != '' && !dupSiteStaff.contains(dupChk)) {
                         Site_Staff__c newDelegateRecord = new Site_Staff__c();
                         newDelegateRecord.Delegate_Level__c = delegateRecord.delegateLevel;
@@ -485,12 +502,13 @@ public without sharing class MyTeamRemote {
                         newDelegateRecord.Site_Contact__c = dw.delegateContact.Id;
                         newDelegateRecord.is_Invited__c = true;
                         delegateRecordsToInsert.add(newDelegateRecord);
-                        hasNewSS=true;
-                    }else if(delegateRecord.delegateLevel != '' && dupSiteStaff.contains(dupChk)){	
-                          Site_Staff__c curDelegateRecord = new Site_Staff__c();	
-                           curDelegateRecord.id= mapDuplicate.get(dupChk);	
-                           curDelegateRecord.Delegate_Level__c=delegateRecord.delegateLevel;	
-                            delegateRecordsToUpdate.add(curDelegateRecord);	
+                        //hasNewSS=true;
+                    }else if(delegateRecord.delegateLevel != '' && dupSiteStaff.contains(dupChk)){  
+                          Site_Staff__c curDelegateRecord = new Site_Staff__c();    
+                           curDelegateRecord.id= mapDuplicate.get(dupChk);  
+                           curDelegateRecord.Delegate_Level__c=delegateRecord.delegateLevel; 
+                           curDelegateRecord.is_Invited__c = true;   
+                            delegateRecordsToUpdate.add(curDelegateRecord); 
                     }
                 } else {
                     Site_Staff__c curDelegateRecord =
@@ -527,7 +545,7 @@ public without sharing class MyTeamRemote {
         }
         if (!delegateRecordsToDelete.isEmpty()) {
             delete delegateRecordsToDelete;
-        }
+        } system.debug('Final--->'+hasNewSS);
         hasDelegatelevelMap wrphdlmp = new hasDelegatelevelMap();
         wrphdlmp.hasdelegatelevelmp=hasDelegateLevelsMap;
         wrphdlmp.hasCreatedNewSS=hasNewSS;
