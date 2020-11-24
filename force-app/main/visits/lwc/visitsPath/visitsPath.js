@@ -219,9 +219,8 @@ export default class VisitsPath extends LightningElement {
     //Scroll Arrows handlers:-------------------------------------------------------------------------------------------
     handleScrollLeft() {
         if (this.fromRightCorner) {
-            this.doScrollInto(this.pathItems.length - (formFactor === 'Small' ? 1 : 2));
-            this.nextScrollRight = this.scrollStep;
             this.fromRightCorner = false;
+            this.pathContainer.scrollLeft -= this.nextScrollLeft;
         } else {
             this.pathContainer.scrollLeft -= this.nextScrollLeft;
         }
@@ -229,7 +228,6 @@ export default class VisitsPath extends LightningElement {
         let context = this;
         setTimeout(function () {
             context.nextScrollLeft = context.scrollStep;
-            context.checkCloserIsNeeded(context);
             context.changeArrowsStyle();
         }, 450);
     }
@@ -246,7 +244,6 @@ export default class VisitsPath extends LightningElement {
         let context = this;
         setTimeout(function () {
             context.nextScrollRight = context.scrollStep;
-            context.checkCloserIsNeeded(context);
             context.changeArrowsStyle();
         }, 450);
     }
