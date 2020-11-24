@@ -114,7 +114,7 @@
                         </div>
                     </div>
                 </aura:if>
-                <!--Participant transfer-->
+                <!--Participant transfer--> 
 
                 <div class="ht-panel">
                     <div class="pi-picklist-container slds-grid slds-gutters" data-gtm="DDL_Pi_Picker">
