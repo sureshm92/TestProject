@@ -288,7 +288,7 @@ public without sharing class DelegateService {
             actionAssignContactPermissions.addPermission(delegateContact.Id,
                     permissionSetName == CommunityTemplateService.PERMISSION_COMMUNITY_GSK_NAME ? CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME: permissionSetName);
         }
-        for (Site_Staff__c siteStaff : [SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c FROM Site_Staff__c WHERE Site_Contact__c = : delegateContact.Id]) {
+        for (Site_Staff__c siteStaff : [SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c FROM Site_Staff__c WHERE Site_Contact__c = : delegateContact.Id AND is_Invited__c = true]) {
             permissionSetName = CommunityTemplateService.getTemplate(siteStaff.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
             actionAssignContactPermissions.addPermission(delegateContact.Id,
                     permissionSetName == CommunityTemplateService.PERMISSION_COMMUNITY_GSK_NAME ? CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME: permissionSetName);

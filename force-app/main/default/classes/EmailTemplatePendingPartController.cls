@@ -14,8 +14,8 @@ global without sharing class EmailTemplatePendingPartController {
                 if(user.size()>0){
                     List<Id> studySites = new List<Id>();
                     
-                    for(Site_Staff__c ss : [SELECT Study_Site__c FROM Site_Staff__c 
-                                          WHERE Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1 
+                    for(Site_Staff__c ss : [SELECT Study_Site__c,is_Invited__c FROM Site_Staff__c 
+                                          WHERE Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1 AND is_Invited__c=true
                                           AND Site_Contact__c =:sourceIdValue]){
                                               studySites.add(ss.Study_Site__c);
                                           }

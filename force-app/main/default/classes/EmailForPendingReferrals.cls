@@ -50,9 +50,9 @@ public class EmailForPendingReferrals {
         }
         
         List<Site_Staff__c> siteStaffs = [
-                SELECT Id, Site_Contact__c, Study_Site__c
+                SELECT Id, Site_Contact__c, Study_Site__c,is_Invited__c 
                 FROM Site_Staff__c
-                WHERE Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
+                WHERE Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1 AND is_Invited__c=true
                 AND Study_Site__c IN (
                         SELECT Study_Site__c
                         FROM Participant_Enrollment__c

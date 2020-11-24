@@ -136,11 +136,11 @@ public without sharing class SendEmailTemplate {
         if (ccDelegates && userMode == CommunityService.USER_MODE_PI) {
             List<String> delegateAddresses = new List<String>();
             for (Site_Staff__c delegate : [
-                    SELECT Id, Site_Contact__r.Email
+                    SELECT Id, Site_Contact__r.Email,is_Invited__c 
                     FROM Site_Staff__c
                     WHERE
                     Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
-                    AND Study_Site__c = :studyId
+                    AND Study_Site__c = :studyId AND is_Invited__c=true
             ]) {
                 delegateAddresses.add(delegate.Site_Contact__r.Email);
             }
