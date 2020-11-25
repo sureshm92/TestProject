@@ -2,31 +2,48 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="PSEStatusHistory" controller="PSEStatusHistoryRemote" extends="c:CommunityContext">
-
+<aura:component
+    description="PSEStatusHistory"
+    controller="PSEStatusHistoryRemote"
+    extends="c:CommunityContext"
+>
     <!--attributes: -->
-    <aura:attribute name="pathItems" type="List"/>
-    <aura:attribute name="peId" type="String"/>
+    <aura:attribute name="pathItems" type="List" />
+    <aura:attribute name="peId" type="String" />
 
     <!-- methods: -->
-    <aura:method name="loadHistory" action="{!c.doLoadHistory}"/>
+    <aura:method name="loadHistory" action="{!c.doLoadHistory}" />
 
     <!-- component body: -->
-    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     <div>
-        <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
+        <c:RRSpinner aura:id="spinner" size="small" showSpinner="true" />
         <aura:if isTrue="{!!empty(v.pathItems)}">
             <div class="slds-grid slds-grid_vertical">
                 <aura:iteration items="{!v.pathItems}" var="pathItem">
-                    <div class="slds-col slds-grid pe-state-row" >
+                    <div class="slds-col slds-grid pe-state-row">
                         <div class="{!'slds-col line-div ' + pathItem.state}">
-                            <div class="{! if(v.isRTL , 'state-ico-wrapperRTL ' , 'state-ico-wrapper ') + pathItem.state}">
-                                <c:RRIcon iconName="{!pathItem.iconName}"/>
+                            <div
+                                class="{! if(v.isRTL , 'state-ico-wrapperRTL ' , 'state-ico-wrapper ') + pathItem.state}"
+                            >
+                                <c:RRIcon iconName="{!pathItem.iconName}" />
                             </div>
                         </div>
-                        <div class="{!'slds-col path-item-detail-panel ' + pathItem.state}" style="position: relative">
+                        <div
+                            class="{!'slds-col path-item-detail-panel ' + pathItem.state}"
+                            style="position: relative"
+                        >
                             <div class="title">{!pathItem.peSH.Status__c}</div>
-                            <div class="date">{!$Label.c.PE_Status_History_On_Date + ' '} <ui:outputDate value="{!pathItem.peSH.Date__c}"/></div>
+                            <div class="date">
+                                {!$Label.c.PE_Status_History_On_Date + ' '}
+                                <!--<ui:outputDate value="{!pathItem.peSH.Date__c}"/>-->
+                                <lightning:formattedDateTime
+                                    value="{!pathItem.peSH.Date__c}"
+                                    year="numeric"
+                                    month="short"
+                                    day="2-digit"
+                                />
+                            </div>
                         </div>
                     </div>
                 </aura:iteration>
@@ -36,7 +53,5 @@
         <aura:if isTrue="{!empty(v.pathItems)}">
             <div style="height: 80px"></div>
         </aura:if>
-
     </div>
-
 </aura:component>

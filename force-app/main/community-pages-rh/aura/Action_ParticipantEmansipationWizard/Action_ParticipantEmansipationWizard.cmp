@@ -138,7 +138,7 @@
                                     </div>
                                     <lightning:input max="{!v.todayDate}" min="1900-01-01" type="date" value="{!v.participant.Date_of_Birth__c}"
                                                      required="true"
-                                                     onblur="{!c.doCheckfields}" onchange="{!c.doCheckFields}"/>
+                                                     onblur="{!c.doCheckfields}" onchange="{!c.doCheckFields}" dateStyle="medium"/>
                                 </div>
                                 <div class="rr-form-element slds-col slds-size--1-of-3">
                                     <div class="label">{!$Label.c.PG_AS_F_Gender}<abbr title="required"

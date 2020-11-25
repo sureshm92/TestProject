@@ -12,7 +12,12 @@
         </div>
         <div class="con-icon">
             <template if:false={isPIMode}>
-                <c-web-icon icon-name="icon-study-team" icon-color="#ffffff" icon-height="25" icon-width="20"></c-web-icon>
+                <c-web-icon
+                    icon-name="icon-study-team"
+                    icon-color="#ffffff"
+                    icon-height="25"
+                    icon-width="20"
+                ></c-web-icon>
             </template>
             <template if:true={isPIMode}>
                 <p>{initials}</p>
@@ -21,7 +26,14 @@
         <div class="con-content">
             <div class="con-title">
                 <div class="con-name" title={item.title}>{item.title}</div>
-                <div class="con-time">{item.lastUpdate}</div>
+                <div class="con-time">
+                    <lightning-formatted-date-time
+                        value={item.lastUpdate}
+                        year="numeric"
+                        month="short"
+                        day="2-digit"
+                    ></lightning-formatted-date-time>
+                </div>
             </div>
             <div class="con-description">
                 <c-web-limit-text-by-lines max-lines="2" title={item.description}>
@@ -35,7 +47,11 @@
                     </c-web-limit-text-by-lines>
                 </div>
                 <template if:true={item.haveAttachment}>
-                    <c-web-icon icon-name="attachment" icon-color={attachColor} icon-size="small"></c-web-icon>
+                    <c-web-icon
+                        icon-name="attachment"
+                        icon-color={attachColor}
+                        icon-size="small"
+                    ></c-web-icon>
                 </template>
             </div>
         </div>
