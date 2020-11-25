@@ -546,6 +546,7 @@
                                                     type="date"
                                                     value="{!v.participant.Date_of_Birth__c}"
                                                     onblur="{!c.doCheckDateOfBith}"
+                                                    dateStyle="medium"
                                                 />
                                             </div>
                                         </div>

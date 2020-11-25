@@ -1,60 +1,102 @@
 <!--
  - Created by Dmytro Pokutnii
  -->
- <aura:component description="VisitResultsDashboardCard" controller="VisitResultsRemote" extends="c:CommunityContext">
-
+<aura:component
+    description="VisitResultsDashboardCard"
+    controller="VisitResultsRemote"
+    extends="c:CommunityContext"
+>
     <!-- ATTRIBUTES -->
-    <aura:attribute name="ctpId" type="String" required="true"/>
-    <aura:attribute name="visitResultWrappers" type="Object[]" access="private"/>
-    <aura:attribute name="VisitResultPage" type="String" access="private"/>
-    <aura:attribute name="toggleVitalsIsOn" type="Boolean" access="private"/>
+    <aura:attribute name="ctpId" type="String" required="true" />
+    <aura:attribute name="visitResultWrappers" type="Object[]" access="private" />
+    <aura:attribute name="VisitResultPage" type="String" access="private" />
+    <aura:attribute name="toggleVitalsIsOn" type="Boolean" access="private" />
     <aura:attribute name="visitReportHeader" type="String" />
+    <aura:attribute name="isVisitResultAvailable" type="Boolean" default="false" />
 
     <!-- HANDLERS -->
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
     <!-- COMPONENT BODY -->
-    <aura:if isTrue="{!and(and(v.ctpId != null, v.toggleVitalsIsOn), v.visitResultWrappers.length != 0)}">
+    <aura:if
+        isTrue="{!and(and(v.ctpId != null, v.toggleVitalsIsOn), v.visitResultWrappers.length != 0)}"
+    >
         <c:HomePreviewTablePanel title="{!$Label.c.Visit_Results_Dashboard_My_Results}">
             <div class="visit-result-panel-date">
-                {!$Label.c.Visit_Results_Tab_Result_Date + '  ' + v.visitResultWrappers[0].visitDate}
+                {!$Label.c.Visit_Results_Tab_Result_Date + ' ' }
+                <aura:if isTrue="{!v.isVisitResultAvailable}">
+                    <lightning:formattedDateTime
+                        value="{!v.visitResultWrappers[0].dateVisited}"
+                        year="numeric"
+                        month="short"
+                        day="2-digit"
+                    ></lightning:formattedDateTime>
+                    <aura:set attribute="else"> {!v.visitResultWrappers[0].visitDate} </aura:set>
+                </aura:if>
             </div>
             <div class="objective-link">
                 <div class="objective-section">
-                    <div class="visit-results-disclaimer objective-text">{!$Label.c.Visit_Results_Tab_Disclaimer}</div>
+                    <div class="visit-results-disclaimer objective-text">
+                        {!$Label.c.Visit_Results_Tab_Disclaimer}
+                    </div>
                     <div class="objective-link">
                         <c:RRLink page="{!v.VisitResultPage}">
-                                <aura:if isTrue="{!v.isRTL}">{!$Label.c.BTN_Learn_More}<c:RRIcon iconName="icon-chevron-left"/></aura:if>
-                                <aura:if isTrue="{!!v.isRTL}">{!$Label.c.BTN_Learn_More}<c:RRIcon iconName="icon-chevron-right"/></aura:if>
+                            <aura:if isTrue="{!v.isRTL}"
+                                >{!$Label.c.BTN_Learn_More}<c:RRIcon iconName="icon-chevron-left"
+                            /></aura:if>
+                            <aura:if isTrue="{!!v.isRTL}"
+                                >{!$Label.c.BTN_Learn_More}<c:RRIcon iconName="icon-chevron-right"
+                            /></aura:if>
                         </c:RRLink>
                     </div>
                 </div>
             </div>
 
             <div class="visit-results-body">
-                <div class="{! if(v.isRTL, 'visit-results-titleRTL', 'visit-results-title')}">{!v.visitReportHeader=='Vitals'?$Label.c.Visit_Results_Tab_Vitals:v.visitReportHeader=='Biomarkers'?$Label.c.Visit_Results_Tab_Biomarkers:$Label.c.Visit_Results_Tab_Labs}</div>
-                <div class="{!if(v.isRTL, 'visit-results-containerRTL', 'visit-results-container')}">
+                <div class="{! if(v.isRTL, 'visit-results-titleRTL', 'visit-results-title')}">
+                    {!v.visitReportHeader=='Vitals'?$Label.c.Visit_Results_Tab_Vitals:v.visitReportHeader=='Biomarkers'?$Label.c.Visit_Results_Tab_Biomarkers:$Label.c.Visit_Results_Tab_Labs}
+                </div>
+                <div
+                    class="{!if(v.isRTL, 'visit-results-containerRTL', 'visit-results-container')}"
+                >
                     <aura:iteration items="{!v.visitResultWrappers}" var="visitResultWrapper">
                         <div class="{!if(v.isRTL, 'visit-results-itemRTL', 'visit-results-item')}">
-                            <span class="visit-result-item-value">{!visitResultWrapper.value == null ? v.visitReportHeader=='Biomarkers'?$Label.c.Visit_Result_No_Data:'-':visitResultWrapper.recordtype =='Biomarker' ?visitResultWrapper.value==1.0 ?$Label.c.Biomarkers_Positive:visitResultWrapper.value==-1.0 ?$Label.c.Biomarkers_Negative:visitResultWrapper.value==0.0?$Label.c.Biomarkers_Unknown:'':visitResultWrapper.value}</span>
+                            <span class="visit-result-item-value"
+                                >{!visitResultWrapper.value == null ?
+                                v.visitReportHeader=='Biomarkers'?$Label.c.Visit_Result_No_Data:'-':visitResultWrapper.recordtype
+                                =='Biomarker' ?visitResultWrapper.value==1.0
+                                ?$Label.c.Biomarkers_Positive:visitResultWrapper.value==-1.0
+                                ?$Label.c.Biomarkers_Negative:visitResultWrapper.value==0.0?$Label.c.Biomarkers_Unknown:'':visitResultWrapper.value}</span
+                            >
                             <span class="visit-result-item-name">
                                 {!visitResultWrapper.name}
-                                <lightning:helptext content="{!visitResultWrapper.description}" class="visit-result-item-description"/>
+                                <lightning:helptext
+                                    content="{!visitResultWrapper.description}"
+                                    class="visit-result-item-description"
+                                />
                             </span>
-                            <span class="{!visitResultWrapper.measurement != null ? 'visit-result-item-measurement' : 'hidden'}">
-                                    <aura:unescapedHtml value="{!'(' + visitResultWrapper.measurement + ')'}"/>
+                            <span
+                                class="{!visitResultWrapper.measurement != null ? 'visit-result-item-measurement' : 'hidden'}"
+                            >
+                                <aura:unescapedHtml
+                                    value="{!'(' + visitResultWrapper.measurement + ')'}"
+                                />
                             </span>
                         </div>
                     </aura:iteration>
                 </div>
-                <div class="visit-results-panel-disclaimer">{!$Label.c.Visit_Results_Tab_Panel_Disclaimer}</div>
+                <div class="visit-results-panel-disclaimer">
+                    {!$Label.c.Visit_Results_Tab_Panel_Disclaimer}
+                </div>
             </div>
 
             <aura:set attribute="footer">
                 <c:RRLink page="{!v.VisitResultPage}">
                     {!$Label.c.PG_L_See_All}
-                    <aura:if isTrue="{!v.isRTL}"><c:RRIcon iconName="icon-chevron-left"/></aura:if>
-                    <aura:if isTrue="{!!v.isRTL}"><c:RRIcon iconName="icon-chevron-right"/></aura:if>
+                    <aura:if isTrue="{!v.isRTL}"><c:RRIcon iconName="icon-chevron-left" /></aura:if>
+                    <aura:if isTrue="{!!v.isRTL}"
+                        ><c:RRIcon iconName="icon-chevron-right"
+                    /></aura:if>
                 </c:RRLink>
             </aura:set>
         </c:HomePreviewTablePanel>

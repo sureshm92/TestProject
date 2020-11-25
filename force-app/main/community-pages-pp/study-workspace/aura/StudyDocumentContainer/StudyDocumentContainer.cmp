@@ -1,22 +1,23 @@
 <aura:component controller="ResourceRemote" description="StudyDocumentContainer" access="global">
-    <ltng:require scripts="{!join(',', $Resource.pdf_js, $Resource.pdf_worker_js, $Resource.jquery_min_js)}"
-                  afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require
+        scripts="{!join(',', $Resource.pdf_js, $Resource.pdf_worker_js, $Resource.jquery_min_js)}"
+        afterScriptsLoaded="{!c.doInit}"
+    />
 
     <!-- attributes: -->
-    <aura:attribute name="resourceWrappers" type="ResourceService.ResourceWrapper[]"/>
-    <aura:attribute name="resourcesOnPage" type="ResourceService.ResourceWrapper[]"/>
-    <aura:attribute name="itemsPerPage" type="Integer" default="5"/>
-    <aura:attribute name="viewMode" type="String" default="thumbnail"/>
-    <aura:attribute name="errorMessage" type="String" default=""/>
-    <aura:attribute name="isAvailable" type="Boolean" default="true"/>
+    <aura:attribute name="resourceWrappers" type="ResourceService.ResourceWrapper[]" />
+    <aura:attribute name="resourcesOnPage" type="ResourceService.ResourceWrapper[]" />
+    <aura:attribute name="itemsPerPage" type="Integer" default="5" />
+    <aura:attribute name="viewMode" type="String" default="thumbnail" />
+    <aura:attribute name="errorMessage" type="String" default="" />
+    <aura:attribute name="isAvailable" type="Boolean" default="true" />
 
     <!-- component body -->
-    <c:RRSpinner aura:id="spinner" showSpinner="true" fixed="true" size="medium"/>
+    <c:RRSpinner aura:id="spinner" showSpinner="true" fixed="true" size="medium" />
 
     <div>
         <div class="rr-white-panel resources-panel">
             <div class="resource-table">
-
                 <div class="resources-header">
                     <div class="resource-title">{!$Label.c.Resource_Tab_Study_Documents}</div>
                     <lightning:select value="{!v.viewMode}" label="">
@@ -31,21 +32,39 @@
                         <aura:if isTrue="{!v.viewMode == 'list'}">
                             <c:RRTable>
                                 <tr>
-                                    <th class="study-document-title">{!$Label.c.Resources_Study_Document_Table_Col_Title}</th>
-                                    <th class="study-document-summary rr-medium-down-hide">{!$Label.c.Resources_Study_Document_Table_Col_Summary}</th>
-                                    <th class="study-document-version-date">{!$Label.c.Resources_Study_Document_Table_Col_Version_Date}</th>
+                                    <th class="study-document-title">
+                                        {!$Label.c.Resources_Study_Document_Table_Col_Title}
+                                    </th>
+                                    <th class="study-document-summary rr-medium-down-hide">
+                                        {!$Label.c.Resources_Study_Document_Table_Col_Summary}
+                                    </th>
+                                    <th class="study-document-version-date">
+                                        {!$Label.c.Resources_Study_Document_Table_Col_Version_Date}
+                                    </th>
                                 </tr>
                                 <aura:iteration items="{!v.resourcesOnPage}" var="resourceWrapper">
                                     <tr class="study-document-row-data">
-                                        <td class="study-document-column-data study-document-title-data">
-                                            <c:ResourceLink resourceWrapper="{!resourceWrapper}"/>
+                                        <td
+                                            class="study-document-column-data study-document-title-data"
+                                        >
+                                            <c:ResourceLink resourceWrapper="{!resourceWrapper}" />
                                         </td>
-                                        <td class="rr-medium-down-hide study-document-summary study-document-column-data">
+                                        <td
+                                            class="rr-medium-down-hide study-document-summary study-document-column-data"
+                                        >
                                             {!resourceWrapper.resource.Description__c}
                                         </td>
-                                        <td class="study-document-version-date study-document-column-data">
-                                            <ui:outputDate value="{!resourceWrapper.resource.Version_Date__c}"
-                                                           format="DD-MMM-YYYY"/>
+                                        <td
+                                            class="study-document-version-date study-document-column-data"
+                                        >
+                                            <!-- <ui:outputDate value="{!resourceWrapper.resource.Version_Date__c}"
+                                                           format="DD-MMM-YYYY"/>-->
+                                            <lightning:formattedDateTime
+                                                value="{!resourceWrapper.resource.Version_Date__c}"
+                                                year="numeric"
+                                                month="short"
+                                                day="2-digit"
+                                            />
                                         </td>
                                     </tr>
                                 </aura:iteration>
@@ -56,9 +75,11 @@
                         <aura:if isTrue="{!v.viewMode == 'thumbnail'}">
                             <div class="slds-grid slds-gutters slds-wrap">
                                 <aura:iteration items="{!v.resourcesOnPage}" var="resourceWrapper">
-                                    <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3 resource-item-container">
-                                        <c:ResourceThumbnail resourceWrapper="{!resourceWrapper}"/>
-                                        <c:ResourceLink resourceWrapper="{!resourceWrapper}"/>
+                                    <div
+                                        class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3 resource-item-container"
+                                    >
+                                        <c:ResourceThumbnail resourceWrapper="{!resourceWrapper}" />
+                                        <c:ResourceLink resourceWrapper="{!resourceWrapper}" />
                                     </div>
                                 </aura:iteration>
                             </div>
@@ -68,8 +89,11 @@
                     <!-- pagination -->
                     <aura:if isTrue="{!!empty(v.resourceWrappers)}">
                         <footer class="resource-footer">
-                            <c:rrPagination allObjects="{!v.resourceWrappers}" currentObjects="{!v.resourcesOnPage}"
-                                            entriesOnPage="{!v.itemsPerPage}"/>
+                            <c:rrPagination
+                                allObjects="{!v.resourceWrappers}"
+                                currentObjects="{!v.resourcesOnPage}"
+                                entriesOnPage="{!v.itemsPerPage}"
+                            />
                         </footer>
                     </aura:if>
 
@@ -77,11 +101,12 @@
                         <div class="resource-error-message">{!v.errorMessage}</div>
                     </aura:if>
                     <aura:set attribute="else">
-                        <div class="resource-error-message">{!$Label.c.PG_VP_L_No_Items_display}</div>
+                        <div class="resource-error-message">
+                            {!$Label.c.PG_VP_L_No_Items_display}
+                        </div>
                     </aura:set>
                 </aura:if>
             </div>
         </div>
-
     </div>
 </aura:component>
