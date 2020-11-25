@@ -19706,4 +19706,11 @@ communications using the toggles below.</value>
         <shortDescription>configuation table</shortDescription>
         <value>Name</value>
     </labels>
+    <labels>
+        <fullName>Disclaimer_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Disclaimer Text</shortDescription>
+        <value>CONFIDENTIAL AND PROPRIETARY: This report and any information contained herein are proprietary and confidential information of the Sponsor of the clinical trial identified in the report. This report and any information contained herein are intended solely for the purpose of managing the recruitment of potential clinical trial participants by the study team in a manner consistent with the specific clinical trial protocol or the express written instructions of the Sponsor or IQVIA. Any disclosure, dissemination, distribution, copying or any use of this report and any information contained herein other than for the purpose described in this statement is strictly and expressly prohibited.</value>
+    </labels>
 </CustomLabels>
