@@ -235,17 +235,55 @@
     columnDivider = ',';
     lineDivider =  '\n';
     // var header = ['Participant Profile Name','Study Code Name',	'Study Site Name','Participant_Status__c','isCheckedlatest'];
-    var header = ['ID','Received Date',	'Source ID','Sex','Age','Ethnicity', 'Comorbidities', 'BMI', 'High Risk Occupation', 'Initial Visit Date', 'Initial Visit Time', 'Participant Status', 'High Priority '];
-    
+    var disclaimer = '"' + $A.get("$Label.c.Disclaimer_Text") + '"';
+    disclaimer = disclaimer + columnDivider + lineDivider;
+    var header = ['Protocol', 'ID', 'Source ID',	'Source',	'Received Date',	'First Name',	'Last Name',	'Email',	'Phone',	'Phone Type',	'Alternate Phone Number',	'Alternate Phone Type',	'Sex',	'Age',	'Ethnicity',	'Comorbidities',	'BMI',	'High Risk Occupation',	'Initial Visit Date',	'Initial Visit Time',	'Participant Status',	'High Priority' ];
+    header = disclaimer + header;
     csvStringResult = '';
-    csvStringResult += header.join(columnDivider);
+    csvStringResult += header + columnDivider;
     csvStringResult += lineDivider;
     console.log('@@@@@@ '+objectRecords.length);
     for(var i=0; i < objectRecords.length; i++){   
         //  console.log('objectRecords[i] ' +(objectRecords[i]["pe"]["Clinical_Trial_Profile__r"]["Study_Code_Name__c"]));
         
+        if((objectRecords[i]["pe"]["Clinical_Trial_Profile__r"]["Protocol_ID__c"] !== undefined)){
+            csvStringResult += '"'+ objectRecords[i]["pe"]["Clinical_Trial_Profile__r"]["Protocol_ID__c"]+'"' +','; 
+        }else{
+            csvStringResult += '" "'+','; 
+        }
+
         if((objectRecords[i]["pe"]["Name"] !== undefined)){
             csvStringResult += '"'+ objectRecords[i]["pe"]["Name"]+'"' +','; 
+        }else{
+            csvStringResult += '" "'+','; 
+        }
+
+        
+
+        //Logic for Source ID start
+        if(objectRecords[i]["pe"]["Referral_Source__c"] == 'PI'){
+            if((objectRecords[i]["pe"]["MRN_Id__c"] !== undefined)){
+                csvStringResult += '"'+ objectRecords[i]["pe"]["MRN_Id__c"]+'"' +','; 
+            }else{
+                csvStringResult += '" "'+','; 
+            }
+        }else if(objectRecords[i]["pe"]["Referral_Source__c"] == 'HCP'){
+            if((objectRecords[i]["pe"]["Patient_ID__c"] !== undefined)){
+                csvStringResult += '"'+ objectRecords[i]["pe"]["Patient_ID__c"]+'"' +','; 
+            }else{
+                csvStringResult += '" "'+','; 
+            }
+        }else{
+            if((objectRecords[i]["pe"]["Patient_ID__c"] !== undefined)){
+                csvStringResult += '"'+ objectRecords[i]["pe"]["Patient_ID__c"]+'"' +','; 
+            }else{
+                csvStringResult += '" "'+','; 
+            }
+        }
+        //Logic for Source ID end
+
+        if((objectRecords[i]["pe"]["Source_Type__c"] !== undefined)){
+            csvStringResult += '"'+ objectRecords[i]["pe"]["Source_Type__c"]+'"' +','; 
         }else{
             csvStringResult += '" "'+','; 
         }
@@ -255,12 +293,44 @@
         }else{
             csvStringResult += '" "'+','; 
         }
-        
-        if((objectRecords[i]["pe"]["Source_Type__c"] !== undefined)){
-            csvStringResult += '"'+ objectRecords[i]["pe"]["Source_Type__c"]+'"' +','; 
+
+        if((objectRecords[i]["pe"]["Participant__r"]["First_Name__c"] !== undefined)){
+            csvStringResult += '"'+ objectRecords[i]["pe"]["Participant__r"]["First_Name__c"]+'"' +','; 
         }else{
             csvStringResult += '" "'+','; 
         }
+        if((objectRecords[i]["pe"]["Participant__r"]["Last_Name__c"] !== undefined)){
+            csvStringResult += '"'+ objectRecords[i]["pe"]["Participant__r"]["Last_Name__c"]+'"' +','; 
+        }else{
+            csvStringResult += '" "'+','; 
+        }
+        if((objectRecords[i]["pe"]["Participant__r"]["Email__c"] !== undefined)){
+            csvStringResult += '"'+ objectRecords[i]["pe"]["Participant__r"]["Email__c"]+'"' +','; 
+        }else{
+            csvStringResult += '" "'+','; 
+        }
+        if((objectRecords[i]["pe"]["Participant__r"]["Phone__c"] !== undefined)){
+            csvStringResult += '"'+ objectRecords[i]["pe"]["Participant__r"]["Phone__c"]+'"' +','; 
+        }else{
+            csvStringResult += '" "'+','; 
+        }
+        if((objectRecords[i]["pe"]["Participant__r"]["Phone_Type__c"] !== undefined)){
+            csvStringResult += '"'+ objectRecords[i]["pe"]["Participant__r"]["Phone_Type__c"]+'"' +','; 
+        }else{
+            csvStringResult += '" "'+','; 
+        }
+        if((objectRecords[i]["pe"]["Participant__r"]["Alternative_Phone_Number__c"] !== undefined)){
+            csvStringResult += '"'+ objectRecords[i]["pe"]["Participant__r"]["Alternative_Phone_Number__c"]+'"' +','; 
+        }else{
+            csvStringResult += '" "'+','; 
+        }
+        if((objectRecords[i]["pe"]["Participant__r"]["Alternative_Phone_Type__c"] !== undefined)){
+            csvStringResult += '"'+ objectRecords[i]["pe"]["Participant__r"]["Alternative_Phone_Type__c"]+'"' +','; 
+        }else{
+            csvStringResult += '" "'+','; 
+        }
+        
+        
         if((objectRecords[i]["pe"]["Participant__r"]["Gender_Technical__c"] !== undefined)){
             csvStringResult += '"'+ objectRecords[i]["pe"]["Participant__r"]["Gender_Technical__c"]+'"' +','; 
         }else{
