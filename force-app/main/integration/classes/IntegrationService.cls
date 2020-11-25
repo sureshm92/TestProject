@@ -5,7 +5,7 @@
 public without sharing class IntegrationService {
     public class IntegrationServiceException extends Exception {
     }
-    public static List<Integration_Log__c> intLogList; // Added by Krishna Mahto for REF-2183
+    public static List<Integration_Log__c> intLogList;
 
     public class IntegrationMessage {
         public String protocolId;
@@ -38,6 +38,7 @@ public without sharing class IntegrationService {
         public boolean PriorityFlag;
         public Date InitialVisitScheduledDate;
         public Time InitialVisitScheduledTime;
+        public String SubjectId;
     }
 
     public class SubjectDetails {
@@ -176,7 +177,6 @@ public without sharing class IntegrationService {
         }
         return result.log;
     }
-    //Added by Krishna for REF-2183 - End
 
     public static void sendPESHToEPR(List<Id> participantEnrollmentSHIds) {
         Map<String, String> integrationMessagesMap = createStatusIntegrationMessage(
@@ -194,7 +194,6 @@ public without sharing class IntegrationService {
         }
     }
 
-    //Added by Krishna for REF-2183 - Start
     //Added to be called from UploadParticipantsBatch class
     public static void sendPESHToEPRBatch(List<Id> participantEnrollmentSHIds) {
         Map<String, String> integrationMessagesMap = createStatusIntegrationMessage(
@@ -211,7 +210,6 @@ public without sharing class IntegrationService {
             );
         }
     }
-    //Added by Krishna for REF-2183 - End
 
     public static ResponseResult sendIntegrationMessage(
         String endpointURl,
@@ -247,7 +245,6 @@ public without sharing class IntegrationService {
         return responseResult;
     }
 
-    //Added by Krishna for REF-2183 - Start
     public static ResponseResult sendIntegrationMessageBatch(
         String endpointURl,
         String sourceId,
@@ -281,7 +278,6 @@ public without sharing class IntegrationService {
         intLogList.AddAll(logs);
         return responseResult;
     }
-    //Added by Krishna for REF-2183 - End
 
     public static ResponseResult send(
         String url,
@@ -367,6 +363,7 @@ public without sharing class IntegrationService {
                 Referral_ID__c,
                 Referred_Date__c,
                 High_Priority__c,
+                SubjectId__c,
                 Initial_visit_scheduled_date__c,
                 Initial_visit_scheduled_time__c,
                 Study_Site__r.Protocol_ID__c,
@@ -400,9 +397,10 @@ public without sharing class IntegrationService {
         ReferralDetails referralDetails = new ReferralDetails();
         referralDetails.ReferralId = pe.Name;
         referralDetails.ReferralDate = pe.Referred_Date__c;
-        referralDetails.PriorityFlag = pe.High_Priority__c; //Added by vicky REF-2293
+        referralDetails.PriorityFlag = pe.High_Priority__c;
         referralDetails.InitialVisitScheduledDate = pe.Initial_visit_scheduled_date__c;
         referralDetails.InitialVisitScheduledTime = pe.Initial_visit_scheduled_time__c;
+        referralDetails.SubjectId = pe.SubjectId__c;
         if (setAcceptedDate)
             referralDetails.AcceptedDate = Date.today();
 
@@ -411,8 +409,8 @@ public without sharing class IntegrationService {
         subjectDetails.LastName = pe.Participant__r.Last_Name__c;
         subjectDetails.Address = addr;
         subjectDetails.Contact = contact;
-        subjectDetails.DateOfBirth = pe.Participant__r.Date_of_Birth__c; //Added by vicky REF-2293
-        subjectDetails.Gender = pe.Participant__r.Gender__c; //Added by vicky REF-2293
+        subjectDetails.DateOfBirth = pe.Participant__r.Date_of_Birth__c;
+        subjectDetails.Gender = pe.Participant__r.Gender__c;
 
         AuditLog auditLog = new AuditLog();
         auditLog.UserId = UserInfo.getUserId();
@@ -425,7 +423,7 @@ public without sharing class IntegrationService {
         integrationMessage.referralDetails = referralDetails;
         integrationMessage.auditLog = auditLog;
         integrationMessage.One_Key_ID = pe.Study_Site__r.Principal_Investigator__r.OneKeyID__c;
-        integrationMessage.Site_Number = pe.Study_Site__r.Study_Site_Number__c; //Added by vicky REF-2653
+        integrationMessage.Site_Number = pe.Study_Site__r.Study_Site_Number__c;
         return integrationMessage;
     }
 
