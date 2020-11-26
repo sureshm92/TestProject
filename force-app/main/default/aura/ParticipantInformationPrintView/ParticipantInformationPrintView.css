@@ -100,7 +100,7 @@ color: #FF283F;
 }
 
 .THIS .path-panel .path-section {
-    border-bottom: 1px solid #D9D9D9;
+    border-bottom: 1px solid #d9d9d9;
     padding: 10px 10px 30px;
 }
 
@@ -162,21 +162,21 @@ color: #FF283F;
 
 /* CSS for Participant Enrollment Status History */
 
-.THIS .step-card-title{
+.THIS .step-card-title {
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 600;
 }
-.THIS .step-history-title{
+.THIS .step-history-title {
     margin-top: 4px;
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 600;
 }
 
-.THIS .step-history-records{
+.THIS .step-history-records {
     margin-top: 8px;
 }
 
@@ -185,26 +185,25 @@ color: #FF283F;
     color: #595959;
 }
 
-.THIS .history-item-title{
+.THIS .history-item-title {
     color: #595959 !important;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 600;
     word-break: break-all;
 }
-.THIS .history-item-detail{
+.THIS .history-item-detail {
     color: #595959 !important;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
 }
-/* Participant Enrollment Status History */ 
-
+/* Participant Enrollment Status History */
 
 @media all and (max-width: 768px) {
     .THIS .personal-info-container .slds-float_left {
         width: 100%;
     }
-    
+
     .THIS .personal-info-container .apollo-btn {
         width: 100%;
         margin-top: 15px;
@@ -224,12 +223,10 @@ color: #FF283F;
 }
 
 @media all and (max-width: 600px) {
-    
     .THIS .rp-save-btn {
         margin-top: 2%;
     }
 }
-
 
 .THIS .rr-form-element + .rr-form-element {
     margin-top: 0;
@@ -271,21 +268,21 @@ color: #FF283F;
     .THIS div:not(#healthCareProvider):not(.healthcare-container) {
         page-break-inside: avoid;
     }
-    
+
     .THIS #healthCareProvider {
         margin-top: 0 !important;
     }
-    
+
     .THIS button {
         max-height: 34px;
         overflow: hidden;
     }
-    
+
     .THIS .healthcare-form-container {
         margin-bottom: 9px !important;
     }
-    
-    .THIS .healthcare-form-container:nth-child(12n+5) {
+
+    .THIS .healthcare-form-container:nth-child(12n + 5) {
         margin-bottom: 19px !important;
     }
 }

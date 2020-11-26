@@ -2,7 +2,7 @@
  * Created by Andrii Kryvolap
  */
 
-.THIS .mode-group{
+.THIS .mode-group {
     width: 300px;
     display: flex;
     flex-direction: row;
@@ -10,15 +10,15 @@
 }
 
 .THIS .main-box:hover,
-.THIS .mode-sub-item:hover{
+.THIS .mode-sub-item:hover {
     cursor: pointer;
 }
 
-.THIS .selected{
-    color: #0768FD!important;
+.THIS .selected {
+    color: #0768fd !important;
 }
 
-.THIS .mode-sub-item{
+.THIS .mode-sub-item {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -29,11 +29,11 @@
     width: 100%;
     letter-spacing: 0;
     line-height: 48px;
-    border-bottom: 1px solid #F8F9FB;
+    border-bottom: 1px solid #f8f9fb;
     padding-left: 32px;
 }
 
-.THIS .mode-icon{
+.THIS .mode-icon {
     width: 16px;
     height: 16px;
     margin-left: 8px;
@@ -41,7 +41,7 @@
     line-height: 48px;
 }
 
-.THIS .main-box{
+.THIS .main-box {
     height: 48px;
     width: 100%;
     color: #000000;
@@ -51,27 +51,26 @@
     line-height: 48px;
     display: flex;
     justify-content: left;
-    border-bottom: 1px solid #F8F9FB;
-
+    border-bottom: 1px solid #f8f9fb;
 }
-.THIS .icon-box{
+.THIS .icon-box {
     line-height: 48px;
     visibility: hidden;
     opacity: 0;
 }
 
-.THIS .icon-unset{
-    visibility: visible!important;
+.THIS .icon-unset {
+    visibility: visible !important;
     opacity: 1;
 }
 
-.THIS li.unset{
-    display: block!important;
+.THIS li.unset {
+    display: block !important;
 }
 
-.THIS .icon-check{
+.THIS .icon-check {
     width: 20px;
     height: 20px;
-    fill: #0768FD;
+    fill: #0768fd;
     margin-left: 5px;
 }

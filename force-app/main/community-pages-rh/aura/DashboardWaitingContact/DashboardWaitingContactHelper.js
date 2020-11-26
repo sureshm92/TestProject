@@ -12,28 +12,23 @@
             ctpId:component.get('v.currentStudy'),
             communityName:communityService.getCurrentCommunityTemplateName()
         });
-        action.setCallback(this, function(response) 
-        {
+        action.setCallback(this, function (response) {
             var state = response.getState();
-            if (state === "SUCCESS" ) 
-            {
+            if (state === 'SUCCESS') {
                 component.set('v.peList', response.getReturnValue());
-                component.set("v.loaded", false);                
-            }
-            else
-            {
+                component.set('v.loaded', false);
+            } else {
                 helper.showError(component, event, helper, action.getError()[0].message);
             }
         });
-        $A.enqueueAction(action);       
+        $A.enqueueAction(action);
     },
 
-    showError : function(component, event, helper, errorMsg) 
-    {
-        var toastEvent = $A.get("e.force:showToast");
+    showError: function (component, event, helper, errorMsg) {
+        var toastEvent = $A.get('e.force:showToast');
         toastEvent.setParams({
             message: errorMsg,
-            duration:'400',
+            duration: '400',
             type: 'error'
         });
         toastEvent.fire();
@@ -56,24 +51,36 @@
         });
         $A.enqueueAction(action);
     },*/
-    
-    showEditParticipantInformation : function(component, event, helper)
-    {
+
+    showEditParticipantInformation: function (component, event, helper) {
         var rootComponent = component.get('v.parent');
         rootComponent.find('mainSpinner').show();
-        communityService.executeAction(component, 'getParticipantData', {
-            userMode:communityService.getUserMode(),
-            delegateId:communityService.getDelegateId(),
-            participantId:event.currentTarget.id
-        }, function (returnValue) {
-            returnValue = JSON.parse(returnValue);
-            rootComponent.find('mainSpinner').hide();
-            rootComponent.find('updatePatientInfoAction').execute(returnValue.currentPageList[0].pItem.pe,  returnValue.currentPageList[0].actions, rootComponent, returnValue.isInvited, function (enrollment) {
-                rootComponent.refresh();
-               	component.set('v.recordChanged','Record changed'); 
-                helper.callServerMethod(component, event);
-            });
-            component.set('v.recordChanged',''); 
-        });    
-	},
-})
+        communityService.executeAction(
+            component,
+            'getParticipantData',
+            {
+                userMode: communityService.getUserMode(),
+                delegateId: communityService.getDelegateId(),
+                participantId: event.currentTarget.id
+            },
+            function (returnValue) {
+                returnValue = JSON.parse(returnValue);
+                rootComponent.find('mainSpinner').hide();
+                rootComponent
+                    .find('updatePatientInfoAction')
+                    .execute(
+                        returnValue.currentPageList[0].pItem.pe,
+                        returnValue.currentPageList[0].actions,
+                        rootComponent,
+                        returnValue.isInvited,
+                        function (enrollment) {
+                            rootComponent.refresh();
+                            component.set('v.recordChanged', 'Record changed');
+                            helper.callServerMethod(component, event);
+                        }
+                    );
+                component.set('v.recordChanged', '');
+            }
+        );
+    }
+});

@@ -3,18 +3,26 @@
  -->
 
 <aura:component description="CommunityNavigation" extends="c:AbstractNavigation">
-
     <!-- component body: -->
-    <ul class="{!'nav-menu ' + if(v.isRTL, 'rtl ', ' ') + if(v.scrollRequired, v.scrollDirection, '')}" aura:id="navMenu">
+    <ul
+        class="{!'nav-menu ' + if(v.isRTL, 'rtl ', ' ') + if(v.scrollRequired, v.scrollDirection, '')}"
+        aura:id="navMenu"
+    >
         <aura:iteration items="{!v.menuItems}" var="item">
             <aura:if isTrue="{!equals(item.page, 'resources-pi')}">
-                <c:CommunityResourcesNavigation itemResource="{!v.item}" communityTemplate="{!v.communityTemplate}"/>
+                <c:CommunityResourcesNavigation
+                    itemResource="{!v.item}"
+                    communityTemplate="{!v.communityTemplate}"
+                />
                 <aura:set attribute="else">
-                    <li class="{!item.page == v.currentPage ? 'nav-item active' : 'nav-item'}" data-page-name="{!item.page}"
-                        onclick="{!c.onClick}">
+                    <li
+                        class="{!item.page == v.currentPage ? 'nav-item active' : 'nav-item'}"
+                        data-page-name="{!item.page}"
+                        onclick="{!c.onClick}"
+                    >
                         {!item.label}
                         <aura:if isTrue="{!equals(item.page, 'messages')}">
-                            <c:navMessageCounter isOnPage="{!item.page == v.currentPage}"/>
+                            <c:navMessageCounter isOnPage="{!item.page == v.currentPage}" />
                         </aura:if>
                     </li>
                 </aura:set>
@@ -25,13 +33,11 @@
     <aura:if isTrue="{!v.scrollRequired}">
         <div class="{!'scroll-btn-container ' + v.scrollDirection}" onclick="{!c.doScroll}">
             <aura:if isTrue="{!v.scrollDirection =='left'}">
-                <c:RRIcon iconName="icon-chevron-right"/>
+                <c:RRIcon iconName="icon-chevron-right" />
             </aura:if>
             <aura:if isTrue="{!v.scrollDirection =='right'}">
-                <c:RRIcon iconName="icon-chevron-left"/>
+                <c:RRIcon iconName="icon-chevron-left" />
             </aura:if>
         </div>
     </aura:if>
-
-
 </aura:component>

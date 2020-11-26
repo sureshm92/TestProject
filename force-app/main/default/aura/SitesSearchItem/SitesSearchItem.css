@@ -1,7 +1,7 @@
 /**
  * Created by Kryvolap on 25.03.2019.
  */
-.THIS .ssi-site-name{
+.THIS .ssi-site-name {
     color: #000000;
     font-size: 1rem;
     font-weight: 600;
@@ -14,25 +14,25 @@
     color: #444;
     font-size: 14px;
 }
-.THIS .ssi-site-distance{
+.THIS .ssi-site-distance {
     color: #444;
     font-size: 14px;
 }
-.THIS .ssi-address{
+.THIS .ssi-address {
     color: #444;
     font-size: 13px;
 }
 
-.THIS .btn-refer-patient{
-    color: #297DFD;
+.THIS .btn-refer-patient {
+    color: #297dfd;
 }
 
-@media all and (min-width: 768px){
+@media all and (min-width: 768px) {
     .THIS .ssi-site-distance,
-    .THIS .ssi-site-type{
+    .THIS .ssi-site-type {
         text-align: right;
     }
 }
-.THIS .apollo-btn{
+.THIS .apollo-btn {
     width: 100%;
 }

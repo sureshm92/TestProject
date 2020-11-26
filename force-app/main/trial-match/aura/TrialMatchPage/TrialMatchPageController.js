@@ -20,13 +20,8 @@
                     if (!String.format) {
                         String.format = function (format) {
                             var args = Array.prototype.slice.call(arguments, 1);
-                            return format.replace(/{(\d+)}/g, function (
-                                match,
-                                number
-                            ) {
-                                return typeof args[number] != 'undefined'
-                                    ? args[number]
-                                    : match;
+                            return format.replace(/{(\d+)}/g, function (match, number) {
+                                return typeof args[number] != 'undefined' ? args[number] : match;
                             });
                         };
                     }
@@ -52,8 +47,7 @@
         }
         var partid = component.get('v.partid');
         var pageurl = window.location.href;
-        if (pageurl.includes('gsk'))
-            window.open('/gsk/apex/TrialMatchData?id=' + partid, '_blank');
+        if (pageurl.includes('gsk')) window.open('/gsk/apex/TrialMatchData?id=' + partid, '_blank');
         else window.open('/apex/TrialMatchData?id=' + partid, '_blank');
     }
 });

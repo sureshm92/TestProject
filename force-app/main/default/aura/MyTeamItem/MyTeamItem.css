@@ -1,37 +1,36 @@
-.THIS.mti-container{
+.THIS.mti-container {
     padding: 20px;
     position: relative;
 }
-.THIS.mti-container .mti-name{
+.THIS.mti-container .mti-name {
     font-size: 24px;
     color: #000000;
 }
-.THIS.mti-container .mti-email{
+.THIS.mti-container .mti-email {
     font-size: 13px;
-    color: #4A4A4A;
+    color: #4a4a4a;
 }
-.THIS.mti-container .mti-email.mti-hcp{
+.THIS.mti-container .mti-email.mti-hcp {
     padding-bottom: 20px;
-    border-bottom: 1px solid #D9D9D9;
+    border-bottom: 1px solid #d9d9d9;
 }
-.THIS.mti-container .mti-save-button{
+.THIS.mti-container .mti-save-button {
     width: 100%;
 }
-.THIS.mti-container .mti-save-button-container{
+.THIS.mti-container .mti-save-button-container {
     margin-top: 20px;
 }
-@media all and (min-width: 768px){
-    .THIS.mti-container .mti-save-button-container{
+@media all and (min-width: 768px) {
+    .THIS.mti-container .mti-save-button-container {
         position: absolute;
         top: 20px;
         right: 20px;
         margin-top: 0px;
-
     }
 }
 
-@media all and (max-width: 500px){
+@media all and (max-width: 500px) {
     .THIS .mti-name .slds-size--2-of-4 {
-            min-width: 100%;
-        }
+        min-width: 100%;
+    }
 }

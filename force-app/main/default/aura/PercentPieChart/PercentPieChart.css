@@ -1,9 +1,9 @@
-.THIS .disable{
+.THIS .disable {
     display: none;
 }
 
 .THIS .pie-chart {
-    font-family: "Open Sans", Arial;
+    font-family: 'Open Sans', Arial;
 }
 .THIS .pie-chart--wrapper {
     width: 400px;
@@ -21,19 +21,19 @@
     margin: 10px auto 35px;
 }
 .THIS .pie-chart__pie::before {
-    content: "";
+    content: '';
     display: block;
     position: absolute;
     z-index: 1;
     width: 100px;
     height: 100px;
-    background: #EEE;
+    background: #eee;
     border-radius: 50%;
     top: 50px;
     left: 50px;
 }
 .THIS .pie-chart__pie::after {
-    content: "";
+    content: '';
     display: block;
     width: 120px;
     height: 2px;

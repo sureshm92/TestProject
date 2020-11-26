@@ -9,4 +9,4 @@
     doHide: function (component) {
         component.set('v.showSpinner', false);
     }
-})
+});

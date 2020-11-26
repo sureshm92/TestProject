@@ -31,10 +31,18 @@
                                         <slot name="footerButtons"></slot>
                                     </template>
                                     <template if:false={customButtons}>
-                                        <button class="apollo-btn secondary" onclick={clickedSecondary} tabindex="0">
+                                        <button
+                                            class="apollo-btn secondary"
+                                            onclick={clickedSecondary}
+                                            tabindex="0"
+                                        >
                                             {secondaryButtonLabel}
                                         </button>
-                                        <button class="apollo-btn primary" onclick={clickedPrimary} tabindex="-1">
+                                        <button
+                                            class="apollo-btn primary"
+                                            onclick={clickedPrimary}
+                                            tabindex="-1"
+                                        >
                                             {primaryButtonLabel}
                                         </button>
                                     </template>
@@ -57,7 +65,7 @@
                     </div>
                     <!-- title: -->
                     <div class={divHeaderClass}>
-                        <h2 class={h2Class} style="text-align: right;">{title}</h2>
+                        <h2 class={h2Class} style="text-align: right">{title}</h2>
                     </div>
                     <div style="position: relative">
                         <!-- dialog body: -->
@@ -74,10 +82,18 @@
                                         <slot name="footerButtons"></slot>
                                     </template>
                                     <template if:false={customButtons}>
-                                        <button class="apollo-btn secondary" onclick={clickedSecondary} tabindex="0">
+                                        <button
+                                            class="apollo-btn secondary"
+                                            onclick={clickedSecondary}
+                                            tabindex="0"
+                                        >
                                             {secondaryButtonLabel}
                                         </button>
-                                        <button class="apollo-btn primary" onclick={clickedPrimary} tabindex="-1">
+                                        <button
+                                            class="apollo-btn primary"
+                                            onclick={clickedPrimary}
+                                            tabindex="-1"
+                                        >
                                             {primaryButtonLabel}
                                         </button>
                                     </template>
@@ -90,4 +106,4 @@
             <div class={backDropClass}></div>
         </div>
     </template>
-    </template>
+</template>

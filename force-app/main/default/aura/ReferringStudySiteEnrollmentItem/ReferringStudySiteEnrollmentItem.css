@@ -7,8 +7,8 @@
     position: relative;
     box-sizing: border-box;
     min-height: 62px;
-    border-top: 1px solid #F2F2F2;
-    background-color: #FFFFFF;
+    border-top: 1px solid #f2f2f2;
+    background-color: #ffffff;
     padding-top: 11px;
     padding-bottom: 11px;
     padding-left: 17px;
@@ -16,7 +16,7 @@
     overflow-y: hidden;
     -ms-overflow-style: none;
     overflow: -moz-scrollbars-none;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
 }
 
 /*================================body-left===========*/
@@ -34,7 +34,6 @@
     line-height: 18px;
 }
 
-
 /*================================body-right===========*/
 .THIS.rssei-body .rssei-right {
     margin-left: 10px;
@@ -42,7 +41,7 @@
 }
 .THIS .rssei-right .rssei-status {
     display: inline-table;
-    color: #FFFFFF;
+    color: #ffffff;
     font-size: 10px;
     line-height: 10px;
     margin-top: 3px;
@@ -52,7 +51,7 @@
 }
 
 .THIS .rssei-right .rssei-details {
-    color: #297DFD;
+    color: #297dfd;
     font-size: 13px;
     font-weight: 500;
     line-height: 16px;

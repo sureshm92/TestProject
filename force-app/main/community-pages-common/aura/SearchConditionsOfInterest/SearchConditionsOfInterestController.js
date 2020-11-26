@@ -3,7 +3,7 @@
  */
 ({
     doInit: function (component, event, helper) {
-        let copy = Object.assign([],component.get('v.conditionsOfInterest'));
+        let copy = Object.assign([], component.get('v.conditionsOfInterest'));
         component.set('v.conditionsOfInterestTemp', copy);
         helper.valueChange(component, event, helper);
     },
@@ -13,7 +13,7 @@
         component.find('searchModal').show();
     },
 
-    hide: function(component, event, helper) {
+    hide: function (component, event, helper) {
         component.find('searchModal').hide();
     },
 
@@ -26,7 +26,8 @@
             window.setTimeout(
                 $A.getCallback(function () {
                     helper.valueChange(component, event, helper);
-                }), 500
+                }),
+                500
             );
         }
     },
@@ -45,5 +46,4 @@
     doSave: function (component, event, helper) {
         helper.saveElement(component);
     }
-
-})
+});

@@ -2,34 +2,35 @@
  * Created by Leonid Bartenev
  */
 
- .THIS .resource-link-container, .THIS.resource-link-container{
+.THIS .resource-link-container,
+.THIS.resource-link-container {
     display: flex;
     align-items: center;
 }
 
-.THIS .resource-icon{
+.THIS .resource-icon {
     margin-right: 10px;
     flex-shrink: 0;
 }
-.THIS .resource-icon-rtl{
-    margin-left :-173px;
+.THIS .resource-icon-rtl {
+    margin-left: -173px;
 }
-.THIS .menu-popup{
+.THIS .menu-popup {
     left: 31px;
     transform: none;
 }
 
-.THIS .menu-popup li{
+.THIS .menu-popup li {
     padding: 0 5px;
     cursor: pointer;
 }
 
-.THIS .menu-popup li:hover{
+.THIS .menu-popup li:hover {
     background-color: #f2f7ff;
 }
 
-.THIS .resource-name{
-    padding-right :8px;
+.THIS .resource-name {
+    padding-right: 8px;
     max-width: 250px;
     overflow: hidden;
     white-space: nowrap;

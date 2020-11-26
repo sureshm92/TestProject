@@ -14,7 +14,6 @@ import { LightningElement, api, track, wire } from 'lwc';
 // import publishNewMessageEvent from '@salesforce/apex/DirectMessageRemote.publishNewMessageEvent';
 
 export default class DirectMessager extends LightningElement {
-
     // @api userMode;
     // isParticipant = false;
     //

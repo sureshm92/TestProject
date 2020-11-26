@@ -1,4 +1,4 @@
-.THIS .fp-form-element{
+.THIS .fp-form-element {
     display: inline-block;
     white-space: nowrap;
     text-align: left;
@@ -9,7 +9,7 @@
 }
 
 .THIS .filter-card div:first-child .slds-grid {
-    margin-bottom: .75rem;
+    margin-bottom: 0.75rem;
 }
 
 .THIS .filter-card div:first-child .slds-grid:nth-of-type(2) {
@@ -24,7 +24,7 @@
     margin-top: 0;
 }
 
-.THIS .filter-card{
+.THIS .filter-card {
     padding: 15px 15px 10px;
     align-items: stretch;
 }
@@ -58,9 +58,8 @@
 
 .THIS .filterby:nth-child(2) .slds-form-element {
     display: flex;
-    align-items: center;   
+    align-items: center;
 }
-
 
 .THIS .filterby label {
     color: black;
@@ -69,13 +68,12 @@
     display: inline-block;
 }
 
-
 .THIS .slds-has-error .slds-form-element__help {
     position: absolute;
     bottom: -20px;
     width: 125px;
     left: -25px;
-} 
+}
 
 .THIS .study-Info {
     width: 106px;
@@ -91,41 +89,41 @@
     font-size: 1rem;
 }
 
-.THIS .activePE{
+.THIS .activePE {
     width: 100px;
     padding-right: 10px;
 }
 
-.THIS .studies{
+.THIS .studies {
     width: 120px;
     padding-right: 10px;
 }
 
-.THIS .studySites{
+.THIS .studySites {
     width: 125px;
     padding-right: 10px;
 }
 
-.THIS .source{
+.THIS .source {
     width: 130px;
     padding-right: 10px;
     padding-bottom: 10px;
 }
 
-.THIS .statuses{
+.THIS .statuses {
     width: 170px;
     padding-right: 10px;
 }
 
-.THIS .search{
+.THIS .search {
     margin-left: 15px;
 }
 
-.THIS .demographics{
+.THIS .demographics {
     width: 107px;
 }
 
-.THIS .age{
+.THIS .age {
     width: 300px;
     display: flex;
     align-items: center;
@@ -135,51 +133,51 @@
     min-width: 125px;
 }
 
-.THIS .ageFromHead{
+.THIS .ageFromHead {
     width: 60px;
     padding-right: 10px;
 }
 
-.THIS .ageFrom{
+.THIS .ageFrom {
     width: 50px;
     display: grid;
 }
 
-.THIS .andHead{
+.THIS .andHead {
     padding-top: 8px;
     width: 50px;
     padding-right: 5px;
     text-align: center;
 }
 
-.THIS .ageToHead{
+.THIS .ageToHead {
     width: 65px;
     border-right: 1px solid #d9d9d9;
     display: table;
 }
 
-.THIS .andTo{
+.THIS .andTo {
     width: 55px;
     display: grid;
 }
 
-.THIS .ethnicity{
+.THIS .ethnicity {
     width: 115px;
-	display: inline-flex;
+    display: inline-flex;
     align-items: center;
 }
 
-.THIS .sex{
+.THIS .sex {
     width: 105px;
     display: inline-flex;
     align-items: center;
 }
 
-.THIS .othersHead{
+.THIS .othersHead {
     padding-top: 10px;
 }
 
-.THIS .others{
+.THIS .others {
     width: 107px;
 }
 
@@ -236,7 +234,7 @@
     border-radius: 4px;
     background-color: #ffffff;
     padding-top: 10px;
-    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04);
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
 }
 
 .THIS .slds-table thead > tr {
@@ -254,7 +252,7 @@
 .THIS .slds-table thead th {
     color: #595959;
     background: #f6f7fb;
-    font-size: .875rem;
+    font-size: 0.875rem;
 }
 
 .THIS .slds-table thead th:nth-last-child(1),
@@ -263,8 +261,8 @@
 }
 
 .THIS .slds-table tbody th {
-    font-size: .875rem;
-    padding: 1rem .5rem .5rem;
+    font-size: 0.875rem;
+    padding: 1rem 0.5rem 0.5rem;
     vertical-align: top;
 }
 
@@ -272,7 +270,7 @@
     white-space: normal;
 }
 
-.THIS .slds-table tbody th .slds-button{
+.THIS .slds-table tbody th .slds-button {
     line-height: 1;
 }
 
@@ -280,7 +278,7 @@
     display: none;
 }
 
-.THIS .slds-form-element .slds-checkbox [type="checkbox"] + .slds-checkbox_faux {
+.THIS .slds-form-element .slds-checkbox [type='checkbox'] + .slds-checkbox_faux {
     margin-right: 0;
     margin-bottom: 4px;
 }
@@ -290,7 +288,7 @@
 }
 
 .THIS .slds-table_cell-buffer tbody tr > th:last-child {
-    padding-top: .75rem;
+    padding-top: 0.75rem;
 }
 
 .THIS .slds-page-header .slds-button {
@@ -314,9 +312,7 @@
     padding-bottom: 15px;
 }
 
-
-@media all and (max-width: 1024px){
-
+@media all and (max-width: 1024px) {
     .THIS .button-grid {
         padding-top: 10px;
     }
@@ -343,13 +339,13 @@
     .THIS .table-border::-webkit-scrollbar-thumb {
         -webkit-border-radius: 10px;
         border-radius: 10px;
-        background: rgba(0,0,0,0.08);
+        background: rgba(0, 0, 0, 0.08);
     }
 
     .THIS .study-Info {
-        margin-bottom: .5rem;
+        margin-bottom: 0.5rem;
     }
-    
+
     .THIS .tableSettings {
         flex-direction: column-reverse;
     }
@@ -357,17 +353,15 @@
     .THIS .tableSettings > .slds-col:last-child {
         margin-bottom: 1.5rem;
     }
-
 }
 
-@media all and (max-width: 600px){
-
+@media all and (max-width: 600px) {
     .THIS .filter-card div:first-child .slds-grid {
         margin-bottom: 0;
     }
 
     .THIS .filter-card div:last-child > .button-grid {
-        margin: 0 0 .75rem;
+        margin: 0 0 0.75rem;
     }
 
     .THIS .filter-card {
@@ -384,7 +378,7 @@
     }
 
     .THIS .filterby > div {
-        width: 100%
+        width: 100%;
     }
 
     .THIS .accordionCheck + label {
@@ -408,7 +402,7 @@
     }
 
     .THIS .accordionCheck + label:before {
-        content: "";
+        content: '';
         display: block;
         box-sizing: border-box;
         position: absolute;
@@ -431,11 +425,13 @@
         color: #000;
         transition: height 0.4s cubic-bezier(0.865, 0.14, 0.095, 0.87);
     }
-    
-    .THIS .accordionContent label.slds-m-right_xxx-small {display: none}
+
+    .THIS .accordionContent label.slds-m-right_xxx-small {
+        display: none;
+    }
 
     .THIS .ethnicity {
-        min-width: 50%
+        min-width: 50%;
     }
 
     .THIS .sex {
@@ -462,7 +458,7 @@
         padding: 1rem;
         height: auto;
         display: flex;
-        flex-grow: 0
+        flex-grow: 0;
     }
 
     .THIS input.accordionCheck:checked ~ .study-Info ~ .accordionContent > div {
@@ -479,24 +475,23 @@
         height: 130px;
         display: block;
     }
-    
+
     .THIS .hro,
     .THIS .cbd,
     .THIS .iv {
         margin: 0 0 15px;
-    }  
+    }
 
     .THIS input.accordionCheck:checked + label:before {
         transform: rotate(45deg);
         top: 18px;
-        border-color: #000
+        border-color: #000;
     }
 
     .THIS .filterBtns {
         padding: 1rem 1rem 0;
         justify-content: space-between;
     }
-
 
     .THIS .tableSettings > div:last-child > div:first-child .cRrSelect.rrs-container {
         flex-grow: 1;
@@ -517,16 +512,14 @@
     .THIS .demographics {
         padding-top: 0;
     }
-
 }
 
 @media all and (max-width: 500px) {
-
     .THIS .button-grid {
         padding: 0 1rem;
         justify-content: space-between;
     }
-    
+
     .THIS .searchHead .search {
         margin-left: 0;
     }
@@ -556,21 +549,21 @@
 
     .THIS .tableSettings,
     .THIS .tableSettings > div:first-child {
-    	flex-direction: column-reverse;
+        flex-direction: column-reverse;
     }
-    
-     .THIS .tableSettings > div:first-child span {
-    	display: flex;
+
+    .THIS .tableSettings > div:first-child span {
+        display: flex;
         flex-grow: 1;
         padding: 0;
         margin-top: 1.5rem;
     }
-    
-     .THIS .tableSettings > div:first-child button,
-     .THIS .tableSettings .slds-button {
-    	width: 100%;
+
+    .THIS .tableSettings > div:first-child button,
+    .THIS .tableSettings .slds-button {
+        width: 100%;
     }
-    
+
     .THIS .tableSettings > div:last-child {
         display: flex;
         flex-direction: column;
@@ -590,13 +583,12 @@
         width: 100%;
         align-items: center;
         justify-content: space-between;
-
     }
 
     .THIS .sendButtons {
         flex-direction: column-reverse;
         padding: 1rem 0 0;
-        margin-bottom: .5rem;
+        margin-bottom: 0.5rem;
     }
 
     .THIS .tableSettings .sendButtons span {
@@ -605,30 +597,27 @@
         margin-top: 1.25rem;
     }
 
-	.THIS .ageBetween {
+    .THIS .ageBetween {
         min-width: 88px;
     }
-    
-    .THIS .age{ 
-     	margin-bottom: 15px;   
+
+    .THIS .age {
+        margin-bottom: 15px;
     }
-    
+
     .THIS .ListViewHead {
         flex-direction: column;
         height: 75px;
     }
-    
-    
 }
 .THIS.ListViewHead {
-    display:flex;
+    display: flex;
     justify-content: space-between;
     margin-bottom: 1.5rem;
 }
 
 @media all and (max-width: 360px) {
-    .THIS.ListViewHead  span:first-child {
-        width: 40%
+    .THIS.ListViewHead span:first-child {
+        width: 40%;
     }
-    
 }

@@ -4,7 +4,7 @@
 }
 
 .THIS .slvi-section + .slvi-section {
-    border-top: 1px solid #F2F2F2;
+    border-top: 1px solid #f2f2f2;
 }
 
 .THIS .slvi-top-container {
@@ -18,25 +18,24 @@
     padding-right: 17px;
 }
 
-.THIS .slds-spinner{
+.THIS .slds-spinner {
     position: unset;
 }
 
-.THIS .slds-spinner_xx-small{
-    width:10px;
-    margin-top:1.4%;
+.THIS .slds-spinner_xx-small {
+    width: 10px;
+    margin-top: 1.4%;
 }
 
-.THIS .address-indicator-label{
-    margin-left:5px;
+.THIS .address-indicator-label {
+    margin-left: 5px;
 }
 
-.THIS .address-spinner-indicator-container{
+.THIS .address-spinner-indicator-container {
     margin-top: 4%;
     margin-left: 2%;
     position: unset;
 }
-
 
 .THIS .slvi-name-section,
 .THIS .slvi-objective-section {
@@ -59,7 +58,7 @@
 .THIS .study-name a {
     text-decoration: none;
     /*height: 30px;*/
-    color: #297DFD;
+    color: #297dfd;
     font-size: 24px;
     font-weight: 500;
     line-height: 30px;
@@ -94,20 +93,20 @@
 
 .THIS .slvi-objective-sectionxxx .objective-link a {
     text-decoration: none;
-    color: #297DFD;
+    color: #297dfd;
     font-size: 13px;
     font-weight: 500;
     line-height: 16px;
 }
 
 .THIS .objective-link a {
- 	margin-top: 1px;   
+    margin-top: 1px;
 }
 
 .THIS .sponsor-name {
     height: 20px;
     color: #999999;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     margin-bottom: 5px;
     font-size: 12px;
     line-height: 20px;
@@ -138,18 +137,16 @@
 /* --------------------------------------------------------- Buttons: --------------------------------------------------  */
 .THIS .slvi-btn {
     text-align: center;
-    color: #297DFD;
+    color: #297dfd;
     padding-top: 10px;
     padding-bottom: 10px;
     border-collapse: collapse;
     flex-basis: 0;
 }
 
-
 .THIS .slvi-btn + .slvi-btn {
-    border-left: 1px solid #F2F2F2;
+    border-left: 1px solid #f2f2f2;
 }
-
 
 .THIS .slvi-btn.disabled {
     pointer-events: none;
@@ -161,7 +158,7 @@
     height: 24px;
     width: 20px;
     margin: auto;
-    fill: #297DFD;
+    fill: #297dfd;
 }
 
 .THIS .slvi-btn .btn-content {
@@ -175,10 +172,9 @@
     top: 1px;
 }
 
-
 .THIS .slvi-btn:hover {
     cursor: pointer;
-    background-color: #F8F9FB;
+    background-color: #f8f9fb;
 }
 
 .THIS .slvi-btn:active {
@@ -203,7 +199,7 @@
 }
 
 .THIS .rr-link {
-    color: #297DFD;
+    color: #297dfd;
     display: inline-flex;
     align-items: center;
 }
@@ -213,14 +209,14 @@
 }
 
 .THIS .rr-link svg {
-    fill: #297DFD;
+    fill: #297dfd;
     width: 14px;
     height: 14px;
 }
 
 .THIS .clinic-name {
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 15px;
     font-weight: 500;
     line-height: 18px;
@@ -228,143 +224,142 @@
 
 .THIS .clinic-pi-name {
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 15px;
     font-weight: 600;
     display: inline-block;
     padding-right: 5px;
     margin-bottom: 8px;
-    border-right: 1px solid #E9E9E9;
+    border-right: 1px solid #e9e9e9;
 }
 
-.THIS .driving-instructions{
+.THIS .driving-instructions {
     color: #333333;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
 }
 
-.THIS .ss-info-address{
+.THIS .ss-info-address {
     color: #333333;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
 }
 
-.THIS .input-fields-labels{
+.THIS .input-fields-labels {
     height: 21px;
     color: #666666;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 13px;
     font-weight: 500;
     line-height: 21px;
 }
 
-.THIS .slds-form-element__label{
+.THIS .slds-form-element__label {
     padding-top: unset;
 }
 
-.THIS .ss-lightning-input label{
+.THIS .ss-lightning-input label {
     height: 21px;
     color: #666666;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 13px;
     font-weight: 500;
     line-height: 21px;
     margin-bottom: 4px;
 }
 
-.THIS .postal-code-input{
+.THIS .postal-code-input {
     margin-top: 2px;
 }
 
-.THIS .google-map-style{
+.THIS .google-map-style {
     padding: 12% 0% 0% 1%;
 }
 
-.THIS .manage-location-details{
+.THIS .manage-location-details {
     height: 24px;
-    color: #297DFD;
-    font-family: "Proxima Nova";
+    color: #297dfd;
+    font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: 500;
     line-height: 24px;
     text-align: right;
     margin: 24px 0 0 auto;
-    padding:6px 10px 0 0;
+    padding: 6px 10px 0 0;
     background-color: #f8f9fb;
     border-top: 1px solid #d9d9d9;
     border-left: 1px solid #d9d9d9;
     border-right: 1px solid #d9d9d9;
 }
 
-.THIS .manage-location-details span{
+.THIS .manage-location-details span {
     cursor: pointer;
 }
 
-.THIS .ss-info-container{
-     display: inline-block;
-     vertical-align: top;
+.THIS .ss-info-container {
+    display: inline-block;
+    vertical-align: top;
     margin-left: 24px;
- }
-
-.THIS .popup-account-name{
-    width:100%;
-    margin-bottom:1%;
-    padding-left:1%;
 }
 
-.THIS .popup-account-name:first-child{
+.THIS .popup-account-name {
+    width: 100%;
+    margin-bottom: 1%;
+    padding-left: 1%;
+}
+
+.THIS .popup-account-name:first-child {
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 600;
 }
 
-.THIS .ss-info-details{
+.THIS .ss-info-details {
     display: inline-block;
     vertical-align: top;
     margin-top: 8px;
 }
 
-.THIS .other-ss-info-container{
+.THIS .other-ss-info-container {
     display: inline-block;
-    padding-right:5%;
+    padding-right: 5%;
     vertical-align: top;
 }
 
-
-.THIS #contactInformation .ss-info-details:nth-child(4){
-        margin-left: 16px;
+.THIS #contactInformation .ss-info-details:nth-child(4) {
+    margin-left: 16px;
 }
 
-.THIS #contactInformation .ss-info-details:last-child{
+.THIS #contactInformation .ss-info-details:last-child {
     margin-left: 16px;
     padding-top: 24px;
 }
 
-.THIS #ssInformation .ss-info-container:first-child{
+.THIS #ssInformation .ss-info-container:first-child {
     display: inline-block;
     vertical-align: top;
     margin-left: auto;
 }
 
-.THIS .delegate-select{
+.THIS .delegate-select {
     width: 100%;
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
 }
 
-.THIS .input-fields{
-    margin-top:3px;
+.THIS .input-fields {
+    margin-top: 3px;
 }
 
-.THIS .pi-save-btn{
+.THIS .pi-save-btn {
     width: 100%;
     min-width: 100%;
 }
 
-.THIS .ss-info-buttons{
-    margin-top:6%;
+.THIS .ss-info-buttons {
+    margin-top: 6%;
 }
 
 @media (max-width: 925px) {
@@ -372,41 +367,39 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
-    .THIS .ss-info-buttons{
-        margin-top:10%;
+    .THIS .ss-info-buttons {
+        margin-top: 10%;
     }
 }
 
-
-
-.THIS .other-ss-info{
+.THIS .other-ss-info {
     display: inline-block;
     padding-top: 3.3%;
     padding-left: 24px;
 }
 
-.THIS .other-ss-info-height-control{
+.THIS .other-ss-info-height-control {
     min-height: 107px;
 }
 
-.THIS .ss-container-border{
-    border-right: 1px solid #E9E9E9;
+.THIS .ss-container-border {
+    border-right: 1px solid #e9e9e9;
 }
 
 .THIS .ss-info-headers {
     height: 24px;
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: 600;
     line-height: 24px;
-    margin-bottom:5px;
+    margin-bottom: 5px;
     vertical-align: top;
 }
 
-.THIS .clinic-type{
-    color: #4A4A4A;
-    font-family: "Proxima Nova";
+.THIS .clinic-type {
+    color: #4a4a4a;
+    font-family: 'Proxima Nova';
     font-size: 15px;
     display: inline-block;
     padding-left: 16px;
@@ -416,14 +409,14 @@
 
 .THIS .site-sub-header {
     color: #999999;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
     line-height: 17px;
 }
 
 .THIS .site-address {
     color: #333333;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 13px;
     line-height: 16px;
 }
@@ -442,70 +435,69 @@
 }
 
 .THIS .rr-blue-color {
-    color: #297DFD;
+    color: #297dfd;
 }
 
-.THIS #addNewLocation span{
+.THIS #addNewLocation span {
     font-size: 32px;
     vertical-align: middle;
     margin-right: 5px;
 }
 
-.THIS .locationContainer{
+.THIS .locationContainer {
     box-sizing: border-box;
-    border: 1px solid #F2F2F2;
-    background-color: #F2F2F2;
+    border: 1px solid #f2f2f2;
+    background-color: #f2f2f2;
     min-height: 100px;
     margin-top: 14px;
     padding: 8px 11px 13px 0px;
     width: 100%;
 }
 
-.THIS .edit-btn{
-    color: #2E7CEB;
-    font-family: "Proxima Nova";
+.THIS .edit-btn {
+    color: #2e7ceb;
+    font-family: 'Proxima Nova';
     font-size: 14px;
     cursor: pointer;
 }
 
-.THIS .check-icon-style{
+.THIS .check-icon-style {
     width: 16px;
     height: 16px;
-    fill: #00C221;
+    fill: #00c221;
 }
 
-.THIS .close-icon-style{
+.THIS .close-icon-style {
     width: 16px;
     height: 16px;
-    fill: #E20000;
+    fill: #e20000;
 }
 
-.THIS .text-area-height textarea{
+.THIS .text-area-height textarea {
     min-height: 158px;
 }
 
-.THIS  .popup-address-inputs{
+.THIS .popup-address-inputs {
     padding: 16px 8px 0px 8px;
 }
 
 .THIS .edit-address-container .google-map- {
- 	   
 }
 
-.THIS .manage-location-info{
+.THIS .manage-location-info {
     text-align: left;
     font-weight: 500;
-    padding-right:5%;
+    padding-right: 5%;
 }
 
-.THIS .manage-location-details + .p-content{
+.THIS .manage-location-details + .p-content {
     line-height: unset;
     font-weight: unset;
 }
 
-.THIS .my-location-label{
+.THIS .my-location-label {
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 600;
 }
@@ -514,7 +506,7 @@
     /*text-align: right; */
     font-size: 14px;
     color: #666666;
-	display: inline-flex;
+    display: inline-flex;
     align-items: center;
 }
 
@@ -523,29 +515,29 @@
 }
 
 @media (max-width: 768px) {
-    .THIS .ss-info-buttons{
-        margin-top:5%;
+    .THIS .ss-info-buttons {
+        margin-top: 5%;
         display: block;
     }
 
-    .THIS .clinic-type{
+    .THIS .clinic-type {
         padding-left: 0px;
         padding-bottom: 0px;
     }
 
-    .THIS .other-ss-info{
-        padding-left:0px;
+    .THIS .other-ss-info {
+        padding-left: 0px;
     }
 
-    .THIS .ss-container-border{
+    .THIS .ss-container-border {
         border-right: none;
     }
 
-    .THIS #contactInformation .ss-info-details:nth-child(4){
+    .THIS #contactInformation .ss-info-details:nth-child(4) {
         margin-left: 0px;
     }
 
-    .THIS #contactInformation .ss-info-details:last-child{
+    .THIS #contactInformation .ss-info-details:last-child {
         margin-left: 0px;
         padding-top: 24px;
     }
@@ -553,13 +545,13 @@
 
 @media (max-width: 768px) {
     .THIS .slvi-buttons .slvi-btn + .slvi-btn {
-        border-top: 1px solid #F2F2F2;
+        border-top: 1px solid #f2f2f2;
     }
 }
 
 @media (max-width: 768px) {
     .THIS .slvi-buttons .slvi-btn + .slvi-btn {
-        border-top: 1px solid #F2F2F2;
+        border-top: 1px solid #f2f2f2;
     }
 }
 
@@ -568,42 +560,42 @@
 }
 
 .THIS .green-icon {
-    fill: #55C200;
+    fill: #55c200;
 }
 
 .THIS .orange-icon {
-    fill: #FF9301;
+    fill: #ff9301;
 }
 
 .THIS .red-icon {
-    fill: #E20000;
+    fill: #e20000;
 }
 
 .THIS .blue-icon {
     fill: #005587;
 }
 
-.THIS .address-check .popup-address-inputs{
-    width: 40%
+.THIS .address-check .popup-address-inputs {
+    width: 40%;
 }
 
-.THIS .address-check .popup-address-inputs.indicator-containers{
-    width: 60%
+.THIS .address-check .popup-address-inputs.indicator-containers {
+    width: 60%;
 }
 
 .THIS .edit-address-container .cRrSelect .slds-select_container .slds-select {
     padding-right: 0;
 }
 
-.THIS .check-button-container{
+.THIS .check-button-container {
     padding-top: 6%;
 }
 
-.THIS .indicator-containers{
+.THIS .indicator-containers {
     margin-top: 3%;
 }
 
-.THIS .check-address-btn{
+.THIS .check-address-btn {
     padding: 0 7px;
 }
 
@@ -637,18 +629,18 @@
     width: 100%;
 }
 
-.THIS .btn-pi-border{
-    border-right: 1px solid #F2F2F2;
+.THIS .btn-pi-border {
+    border-right: 1px solid #f2f2f2;
 }
 
-.THIS .p-container .p-content{
+.THIS .p-container .p-content {
     line-height: unset;
     text-align: unset;
     font-weight: unset;
 }
 
-.THIS #addNewLocation .plus-location-icon{
-    fill: #297DFD;
+.THIS #addNewLocation .plus-location-icon {
+    fill: #297dfd;
 }
 
 @media all and (max-width: 767px) {
@@ -656,14 +648,14 @@
         margin-top: 16px;
     }
 
-    .THIS .apollo-btn.primary{
-        width:100%;
-        display:block;
-        margin:2% 0 0 0;
+    .THIS .apollo-btn.primary {
+        width: 100%;
+        display: block;
+        margin: 2% 0 0 0;
     }
 
     .THIS .site-distance {
-        margin-top: .5rem;
+        margin-top: 0.5rem;
     }
 
     .THIS .rri-icon svg {
@@ -672,7 +664,7 @@
     }
 
     .THIS .rri-icon span {
-        margin: .125rem !important;
+        margin: 0.125rem !important;
     }
     .THIS .rri-icon-pi svg {
         height: 18px;
@@ -680,28 +672,28 @@
     }
 
     .THIS .rri-icon-pi span {
-        margin: .125rem !important;
+        margin: 0.125rem !important;
     }
 
-    .THIS .edit-address-container .slds-size--4-of-6{
-        width:100%;
+    .THIS .edit-address-container .slds-size--4-of-6 {
+        width: 100%;
     }
-    .THIS .edit-address-container .slds-size--2-of-6{
-        width:100%;
+    .THIS .edit-address-container .slds-size--2-of-6 {
+        width: 100%;
     }
-    .THIS .edit-address-container .slds-size--1-of-2{
-        width:100%
+    .THIS .edit-address-container .slds-size--1-of-2 {
+        width: 100%;
     }
 }
 
 @media all and (max-width: 425px) {
-    .THIS .edit-address-container .slds-map{
-        min-width:15.75rem;
+    .THIS .edit-address-container .slds-map {
+        min-width: 15.75rem;
     }
 }
 
 @media all and (max-width: 600px) {
-    .THIS .ss-info-address{
+    .THIS .ss-info-address {
         word-wrap: break-word;
     }
 }

@@ -2,8 +2,8 @@
   - Created by Sravani Dasari
  -->
 <aura:component description="TrialMatchContainer">
-    <aura:attribute name="trialmatchCTPs" type="List"/>
-    
+    <aura:attribute name="trialmatchCTPs" type="List" />
+
     <aura:if isTrue="{!!empty(v.trialmatchCTPs)}">
         <div class="slds-scrollable">
             <aura:iteration items="{!v.trialmatchCTPs}" var="trial">
@@ -11,16 +11,12 @@
             </aura:iteration>
         </div>
         <aura:set attribute="else">
-            <div class="slds-align_absolute-center" style="height:10em"></div>
+            <div class="slds-align_absolute-center" style="height: 10em"></div>
             <div class="slds-align_absolute-center">
-                <c:RRIcon iconName="empty-trialmatch"/>
+                <c:RRIcon iconName="empty-trialmatch" />
             </div>
-            <div class="slds-align_absolute-center">
-                {!$Label.c.Trial_Match_Error}
-            </div>
-            <div class="slds-align_absolute-center">
-                {!$Label.c.Trial_Match_Error2}
-            </div>
+            <div class="slds-align_absolute-center">{!$Label.c.Trial_Match_Error}</div>
+            <div class="slds-align_absolute-center">{!$Label.c.Trial_Match_Error2}</div>
         </aura:set>
     </aura:if>
 </aura:component>

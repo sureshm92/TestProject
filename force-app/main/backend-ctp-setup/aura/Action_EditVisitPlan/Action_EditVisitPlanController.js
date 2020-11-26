@@ -5,15 +5,14 @@
 ({
     doInit: function (component, event, helper) {
         let service = component.find('iconsService');
-        service.getIconsData(component, event, helper)
-            .then(function (result) {
-                let iconNames = result.iconNames.sort(function (a, b) {
-                    if (a.id < b.id) return -1;
-                    if (a.id > b.id) return 1;
-                    return 0;
-                });
-                component.set('v.icons', iconNames);
+        service.getIconsData(component, event, helper).then(function (result) {
+            let iconNames = result.iconNames.sort(function (a, b) {
+                if (a.id < b.id) return -1;
+                if (a.id > b.id) return 1;
+                return 0;
             });
+            component.set('v.icons', iconNames);
+        });
 
         component.set('v.plan', {
             sobjectType: 'Visit_Plan__c'
@@ -37,9 +36,9 @@
         if (params.mode === 'create') {
             helper.createVPMode(component);
         } else if (vpId !== null) {
-            if(params.mode === 'edit' || params.mode === 'view') {
+            if (params.mode === 'edit' || params.mode === 'view') {
                 helper.callRemote(component, vpId);
-            } else if(params.mode === 'clone') {
+            } else if (params.mode === 'clone') {
                 helper.callRemote(component, vpId, true);
             }
         }
@@ -48,14 +47,16 @@
     },
 
     doEditLegend: function (component, event, helper) {
-        component.find('actionLegend').execute(
-            component.get('v.plan').Id,
-            component.get('v.icons'),
-            component.get('v.iconDetails'),
-            function (iconDetails) {
-                component.set('v.iconDetails', iconDetails);
-            }
-        );
+        component
+            .find('actionLegend')
+            .execute(
+                component.get('v.plan').Id,
+                component.get('v.icons'),
+                component.get('v.iconDetails'),
+                function (iconDetails) {
+                    component.set('v.iconDetails', iconDetails);
+                }
+            );
     },
 
     doAddVisit: function (component, event, helper) {
@@ -81,18 +82,23 @@
                 updatedVisits.push(visit);
             }
         }
-        communityService.executeAction(component, 'upsertVisitPlan', {
-            plan: JSON.stringify(component.get('v.plan')),
-            visits: JSON.stringify(updatedVisits),
-            deletedVisits: JSON.stringify(deletedVisits),
-            details: JSON.stringify(component.get('v.iconDetails'))
-        }, function (vpId) {
-            component.find('spinner').hide();
-            component.find('createVisitPlan').hide();
+        communityService.executeAction(
+            component,
+            'upsertVisitPlan',
+            {
+                plan: JSON.stringify(component.get('v.plan')),
+                visits: JSON.stringify(updatedVisits),
+                deletedVisits: JSON.stringify(deletedVisits),
+                details: JSON.stringify(component.get('v.iconDetails'))
+            },
+            function (vpId) {
+                component.find('spinner').hide();
+                component.find('createVisitPlan').hide();
 
-            let callback = component.get('v.callback');
-            if (callback) callback(vpId);
-        });
+                let callback = component.get('v.callback');
+                if (callback) callback(vpId);
+            }
+        );
     },
 
     cancelClick: function (component, event, helper) {

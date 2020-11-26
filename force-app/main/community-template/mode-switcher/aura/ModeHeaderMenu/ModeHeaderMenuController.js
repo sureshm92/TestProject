@@ -3,7 +3,7 @@
  */
 
 ({
-    doMenuExpand: function(component, event, helper){
+    doMenuExpand: function (component, event, helper) {
         component.set('v.isOpened', true);
         component.getEvent('onshow').fire();
     },
@@ -13,11 +13,11 @@
         component.getEvent('onblur').fire();
     },
 
-    doClose: function(component){
+    doClose: function (component) {
         component.set('v.isOpened', false);
     },
 
-    doOpen: function(component){
+    doOpen: function (component) {
         component.set('v.isOpened', true);
     }
 });

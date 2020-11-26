@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS .study-view-header{
+.THIS .study-view-header {
     color: #000000;
     font-size: 30px;
     font-weight: 500;
@@ -10,7 +10,7 @@
     margin-bottom: 20px;
 }
 
-.THIS .section-header{
+.THIS .section-header {
     font-size: 14px;
     font-weight: 600;
     line-height: 22px;
@@ -18,20 +18,20 @@
     margin-bottom: 10px;
 }
 
-.THIS .referrals-status-section{
+.THIS .referrals-status-section {
     display: inline-block;
     width: 100%;
     vertical-align: top;
 }
 
-.THIS .completions-section{
+.THIS .completions-section {
 }
 
-.THIS .referral-status-panel{
+.THIS .referral-status-panel {
     padding-top: 25px;
 }
 
-.THIS .sources{
+.THIS .sources {
     color: #666666;
     font-size: 14px;
     display: inline-block;
@@ -39,18 +39,18 @@
     padding-left: 17px;
 }
 
-.THIS .tabs-container{
+.THIS .tabs-container {
     display: inline-block;
     width: calc(100% - 60px);
 }
 
-.THIS .tabs{
+.THIS .tabs {
     display: flex;
     padding: 10px;
 }
 
-.THIS .tabs li{
-    color: #297DFD;
+.THIS .tabs li {
+    color: #297dfd;
     font-size: 16px;
     font-weight: 600;
     line-height: 20px;
@@ -60,29 +60,28 @@
     transition: 0.2s;
 }
 
-.THIS .tabs li.active{
+.THIS .tabs li.active {
     font-weight: 600;
     color: #424242;
 }
 
-.THIS .tabs li:not(:last-child){
-    border-right: 2px solid #D9D9D9;
+.THIS .tabs li:not(:last-child) {
+    border-right: 2px solid #d9d9d9;
 }
 
-
-.THIS .export-btn{
+.THIS .export-btn {
     float: right;
-    color: #297DFD;
+    color: #297dfd;
     font-size: 14px;
     font-weight: 500;
     line-height: 18px;
     border: 0.5px solid #999999;
     border-radius: 4px;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     padding: 4px 15px;
 }
 
-.THIS .export-btn svg{
+.THIS .export-btn svg {
     width: 16px;
     margin-right: 10px;
 }

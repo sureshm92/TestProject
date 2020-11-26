@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-.THIS{
+.THIS {
     min-height: 100px;
 }
 
@@ -10,20 +10,20 @@
     min-height: 100px;
 }
 
-.THIS .global-data{
+.THIS .global-data {
     display: flex;
     justify-content: space-between;
 }
 
-.THIS .shareback-settings-container{
+.THIS .shareback-settings-container {
     margin-top: 20px;
 }
 
-.THIS .group-container{
+.THIS .group-container {
     margin-bottom: 20px;
 }
 
-.THIS .group-container .slds-form-element__label{
+.THIS .group-container .slds-form-element__label {
     display: none;
 }
 
@@ -41,60 +41,60 @@
     color: inherit;
 }
 
-.THIS .ss-options{
+.THIS .ss-options {
     align-items: center;
 }
 
-.THIS .ss-options .slds-form-element__control.search-lookup{
+.THIS .ss-options .slds-form-element__control.search-lookup {
     display: flex;
     align-items: center;
 }
 
-.THIS .ss-options .search-lookup .slds-combobox_container{
+.THIS .ss-options .search-lookup .slds-combobox_container {
     margin-right: 10px;
     flex-shrink: 0;
 }
 
-.THIS .ss-type-col{
+.THIS .ss-type-col {
 }
 
-.THIS .close-ss-selection{
+.THIS .close-ss-selection {
     flex-shrink: 0;
 }
 
-.THIS .ss-lookup-container{
+.THIS .ss-lookup-container {
     padding-left: 18px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.THIS .vrs-panel{
-    box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.15);
+.THIS .vrs-panel {
+    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.15);
     border: 1px solid #e4e4e4;
     border-radius: 5px;
     padding: 14px;
 }
 
-.THIS .vrs-panel + .vrs-panel{
+.THIS .vrs-panel + .vrs-panel {
     margin-top: 20px;
 }
 
-.THIS .completed-visits-input{
+.THIS .completed-visits-input {
     display: flex;
     align-items: center;
 }
 
-.THIS .completed-visits-input .slds-input{
+.THIS .completed-visits-input .slds-input {
     width: 55px;
     padding-right: 0px;
 }
 
-.THIS .completed-visits-input .info-text{
+.THIS .completed-visits-input .info-text {
     padding-left: 10px;
 }
 
-.THIS .overlay{
+.THIS .overlay {
     position: absolute;
     width: 100%; /* Full width (cover the whole page) */
     height: 100%; /* Full height (cover the whole page) */

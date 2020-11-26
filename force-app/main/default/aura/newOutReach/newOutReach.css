@@ -27,7 +27,7 @@
 .THIS .uiInput--select .select:not([multiple]),
 .THIS .rr-form-element input[type='text'],
 .THIS .rr-form-element input[type='password'],
-.THIS .rr-form-element input[type='email']{
+.THIS .rr-form-element input[type='email'] {
     height: 40px;
 }
 
@@ -38,13 +38,13 @@
 .THIS .slds-textarea {
     background-color: rgb(255, 255, 255);
     border: 1px solid #d9d9d9;
-    border-radius: .25rem;
+    border-radius: 0.25rem;
     width: 100%;
     height: 110px;
-    transition: border .1s linear, background-color .1s linear;
+    transition: border 0.1s linear, background-color 0.1s linear;
     -webkit-appearance: none;
     resize: vertical;
-    padding: .5rem .75rem;
+    padding: 0.5rem 0.75rem;
 }
 
 .THIS .uibitton {
@@ -77,8 +77,8 @@
 }
 
 .THIS .slds-form-element__help {
-    font-size: .75rem;
-    margin-top: .125rem;
+    font-size: 0.75rem;
+    margin-top: 0.125rem;
     display: none;
 }
 
@@ -90,24 +90,23 @@
 }
 
 .THIS .prefferedcontact {
-    font-size: .875rem;
+    font-size: 0.875rem;
     margin-bottom: 5px;
 }
 
-@media all and (orientation:landscape) and (max-width: 1024px) {
+@media all and (orientation: landscape) and (max-width: 1024px) {
     .THIS .slds-form-element__control .slds-checkbox {
-        margin-bottom: .5rem;
+        margin-bottom: 0.5rem;
     }
 }
 
-@media all and (orientation:portrait) and (max-width: 1024px) {
+@media all and (orientation: portrait) and (max-width: 1024px) {
     .THIS .slds-form-element__control .slds-checkbox {
-        margin-bottom: .5rem;
+        margin-bottom: 0.5rem;
     }
 }
 
 @media all and (max-width: 500px) {
-
     .THIS .p-content > .slds-grid > .slds-grid {
         flex-direction: column;
     }
@@ -120,7 +119,6 @@
     .THIS .slds-checkbox .slds-checkbox__label .slds-form-element__label,
     .THIS .slds-form-element__help,
     .THIS .startenddate {
-        font-size: .875rem;
+        font-size: 0.875rem;
     }
-
 }

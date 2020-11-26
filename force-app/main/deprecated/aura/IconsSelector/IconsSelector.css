@@ -5,7 +5,6 @@
     border-radius: 4px;
     cursor: pointer;
     box-shadow: rgba(0, 68, 135, 1) 0 0 0 1.3px inset;
-
 }
 
 .THIS.slds-visual-picker_medium .slds-visual-picker__figure {
@@ -24,7 +23,6 @@
     cursor: pointer;
     width: fit-content;
     height: fit-content;
-
 }
 
 .THIS.slds-align_absolute-center {

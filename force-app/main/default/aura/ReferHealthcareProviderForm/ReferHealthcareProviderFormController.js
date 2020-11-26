@@ -73,5 +73,4 @@
             component.find('spinner').hide();
         })
     },*/
-
 });

@@ -27,8 +27,10 @@
 
     doSave: function (component, event, helper) {
         var task = component.get('v.task');
-        task.Task_Type__c = $A.util.isEmpty(task.Task_Type__c) &&
-            !component.get('v.initData.createdByAdmin') ? 'Not Selected' : task.Task_Type__c;
+        task.Task_Type__c =
+            $A.util.isEmpty(task.Task_Type__c) && !component.get('v.initData.createdByAdmin')
+                ? 'Not Selected'
+                : task.Task_Type__c;
         var reminderDate = component.get('v.initData.reminderDate');
         var emailPeferenceSelected = component.get('v.task.Remind_Using_Email__c');
         var smsPeferenceSelected = component.get('v.task.Remind_Using_SMS__c');
@@ -39,18 +41,23 @@
             communityService.showErrorToast('', $A.get('$Label.c.Empty_TaskName'), 3000);
             return;
         }
-        if (!$A.util.isUndefinedOrNull(reminderDate)
-            && !(smsPeferenceSelected && smsOptIn)
-            && !(emailPeferenceSelected && emailOptIn)) {
+        if (
+            !$A.util.isUndefinedOrNull(reminderDate) &&
+            !(smsPeferenceSelected && smsOptIn) &&
+            !(emailPeferenceSelected && emailOptIn)
+        ) {
             communityService.showErrorToast('', $A.get('$Label.c.PP_Remind_Using_Required'), 3000);
             return;
         }
-        var isValidFields = helper.doValidateDueDate(component, helper) && helper.doValidateReminder(component);
+        var isValidFields =
+            helper.doValidateDueDate(component, helper) && helper.doValidateReminder(component);
         if (!component.get('v.isValidFields') || !isValidFields) {
             var showToast = true;
             if (!component.get('v.isNewTask')) {
-                if (component.get('v.jsonState') ===
-                    (JSON.stringify(component.get('v.initData'))) + '' + JSON.stringify(task)) {
+                if (
+                    component.get('v.jsonState') ===
+                    JSON.stringify(component.get('v.initData')) + '' + JSON.stringify(task)
+                ) {
                     showToast = false;
                 }
             }
@@ -63,17 +70,24 @@
         var message = helper.setSuccessToast(component);
         component.find('spinner').show();
 
-        communityService.executeAction(component, 'upsertTask', {
-            'wrapper': JSON.stringify(component.get('v.initData')),
-            'paramTask': JSON.stringify(task)
-        }, function () {
-            component.set('v.isSaveOperation', true);
-            component.find('spinner').hide();
-            communityService.showSuccessToast('', message, 3000);
-            helper.hideModal(component);
-        }, function () {
-            component.find('spinner').hide();
-        }, null);
+        communityService.executeAction(
+            component,
+            'upsertTask',
+            {
+                wrapper: JSON.stringify(component.get('v.initData')),
+                paramTask: JSON.stringify(task)
+            },
+            function () {
+                component.set('v.isSaveOperation', true);
+                component.find('spinner').hide();
+                communityService.showSuccessToast('', message, 3000);
+                helper.hideModal(component);
+            },
+            function () {
+                component.find('spinner').hide();
+            },
+            null
+        );
     },
 
     doIgnore: function (component, event, helper) {
@@ -91,8 +105,8 @@
     },
 
     doValidateFields: function (component, event, helper) {
-        var isValidFields = helper.doValidateDueDate(component, helper) &&
-            helper.doValidateReminder(component);
+        var isValidFields =
+            helper.doValidateDueDate(component, helper) && helper.doValidateReminder(component);
         component.set('v.isValidFields', isValidFields);
     },
 
@@ -113,4 +127,4 @@
                 break;
         }
     }
-})
+});
