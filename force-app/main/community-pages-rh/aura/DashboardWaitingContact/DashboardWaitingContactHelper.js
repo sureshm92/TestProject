@@ -10,6 +10,7 @@
         ({
             piId:component.get('v.currentPi'),
             ctpId:component.get('v.currentStudy'),
+            communityName:communityService.getCurrentCommunityTemplateName()
         });
         action.setCallback(this, function(response) 
         {
