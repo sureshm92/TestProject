@@ -3,11 +3,11 @@ Updated by Sumit Surve on 13.07.2020
 */
 
 public without sharing class HelpController {
-
-
     @AuraEnabled
     public static String getHelpText() {
-        String communityHelpText = TranslateHelper.getLabelValue(UserContext.getTemplateProperty('CommunityHelpAbout'));
+        String communityHelpText = TranslateHelper.getLabelValue(
+            UserContext.getTemplateProperty('CommunityHelpAbout')
+        );
         String helpLabel = Label.PG_HLP_HI_HCP;
         return helpLabel.replace('##CommunityHelpAbout', communityHelpText);
     }
@@ -30,37 +30,55 @@ public without sharing class HelpController {
             initData.participantEnrollList = peList;
             initData.siteList = ssList;
             initData.participantEnrollOptions = new List<LabelValueItem>();
-            initData.siteOptions = new List<LabelValueItem>(); 
-            
+            initData.siteOptions = new List<LabelValueItem>();
+
             initData.userContact = userContact;
             initData.helpTopicSettings = new List<HelpController.HelpTopicWrapper>();
             initData.helpTopicOptions = new List<LabelValueItem>();
             String userModefilter = '%' + userMode + '%';
-            String communityTemplateFilter = '%' + UserContext.getCurrentCommunityTemplate().templateName + '%';
+            String communityTemplateFilter =
+                '%' +
+                UserContext.getCurrentCommunityTemplate().templateName +
+                '%';
             List<Help_Topic__mdt> helpTopics = [
-                    SELECT CaseType__c, CaseDescription__c,CaseSubject__c,
-                            CasePriority__c, CaseReason__c,
-                            Display_Name_Label__c, Display_Solution_Label__c,
-                            Description_Placeholder_Label__c,
-                            Is_Escalated__c,
-                            Knowledge_Article_Link__c, Order__c,
-                            Submit_Required__c,
-                            User_Description_Required__c, User_Types__c
-                    FROM Help_Topic__mdt
-                    WHERE User_Types__c LIKE :userModefilter
+                SELECT
+                    CaseType__c,
+                    CaseDescription__c,
+                    CaseSubject__c,
+                    CasePriority__c,
+                    CaseReason__c,
+                    Display_Name_Label__c,
+                    Display_Solution_Label__c,
+                    Description_Placeholder_Label__c,
+                    Is_Escalated__c,
+                    Knowledge_Article_Link__c,
+                    Order__c,
+                    Submit_Required__c,
+                    User_Description_Required__c,
+                    User_Types__c
+                FROM Help_Topic__mdt
+                WHERE
+                    User_Types__c LIKE :userModefilter
                     AND User_Communities__c LIKE :communityTemplateFilter
                     AND Is_Active__c = TRUE
-                    ORDER BY Order__c
+                ORDER BY Order__c
             ];
-            TranslateHelper.prepareLabelFields(helpTopics, new Set<String>{
+            TranslateHelper.prepareLabelFields(
+                helpTopics,
+                new Set<String>{
                     'Display_Name_Label__c',
                     'Display_Solution_Label__c',
                     'Description_Placeholder_Label__c'
-            });
+                }
+            );
 
             Map<String, String> paramMap = new Map<String, String>{
-                    'CommunityBrandName' => TranslateHelper.getLabelValue(UserContext.getTemplateProperty('CommunityBrandName')),
-                    'CommunityWelcome' => TranslateHelper.getLabelValue(UserContext.getTemplateProperty('CommunityWelcome'))
+                'CommunityBrandName' => TranslateHelper.getLabelValue(
+                    UserContext.getTemplateProperty('CommunityBrandName')
+                ),
+                'CommunityWelcome' => TranslateHelper.getLabelValue(
+                    UserContext.getTemplateProperty('CommunityWelcome')
+                )
             };
 
             for (Help_Topic__mdt topic : helpTopics) {
@@ -78,7 +96,11 @@ public without sharing class HelpController {
                 tw.displayName = topic.Display_Name_Label__c;
                 tw.displayName = TranslateHelper.replaceParams(tw.displayName, '##', paramMap);
                 tw.displaySolution = topic.Display_Solution_Label__c;
-                tw.displaySolution = TranslateHelper.replaceParams(tw.displaySolution, '##', paramMap);
+                tw.displaySolution = TranslateHelper.replaceParams(
+                    tw.displaySolution,
+                    '##',
+                    paramMap
+                );
 
                 tw.descriptionPlaceholder = topic.Description_Placeholder_Label__c;
                 tw.submitRequired = topic.Submit_Required__c;
@@ -89,25 +111,37 @@ public without sharing class HelpController {
             initData.helpTopicSettings.sort();
 
             for (Integer i = 0; i < initData.helpTopicSettings.size(); i++) {
-                initData.helpTopicOptions.add(new LabelValueItem(initData.helpTopicSettings[i].displayName, String.valueOf(i)));
+                initData.helpTopicOptions.add(
+                    new LabelValueItem(initData.helpTopicSettings[i].displayName, String.valueOf(i))
+                );
             }
 
-            if((initData.participantEnrollList.size()) > 0 &&  (initData.participantEnrollList != Null)){
-                for(Participant_Enrollment__c pe : initData.participantEnrollList){
-                    initData.participantEnrollOptions.add(new LabelValueItem(pe.Participant_Name__c+' '+pe.Participant_Surname__c+' '+pe.Name, String.valueOf(pe.Id)));
+            if (
+                (initData.participantEnrollList.size()) > 0 &&
+                (initData.participantEnrollList != null)
+            ) {
+                for (Participant_Enrollment__c pe : initData.participantEnrollList) {
+                    initData.participantEnrollOptions.add(
+                        new LabelValueItem(
+                            pe.Participant_Name__c +
+                            ' ' +
+                            pe.Participant_Surname__c +
+                            ' ' +
+                            pe.Name,
+                            String.valueOf(pe.Id)
+                        )
+                    );
                 }
+            } else {
+                initData.participantEnrollOptions.add(new LabelValueItem('None', null));
             }
-            else{
-                initData.participantEnrollOptions.add(new LabelValueItem('None', Null));
-            }
-            
-            if(initData.siteList.size() > 0 &&  initData.siteList != Null){
-                for(Study_Site__c ss : initData.siteList){
+
+            if (initData.siteList.size() > 0 && initData.siteList != null) {
+                for (Study_Site__c ss : initData.siteList) {
                     initData.siteOptions.add(new LabelValueItem(ss.Name, ss.Name));
                 }
-            }
-            else{
-                initData.siteOptions.add(new LabelValueItem('None', Null));
+            } else {
+                initData.siteOptions.add(new LabelValueItem('None', null));
             }
             return JSON.serialize(initData);
         } catch (Exception e) {
@@ -116,10 +150,20 @@ public without sharing class HelpController {
     }
 
     @AuraEnabled
-    public static void createCase(String subject, String description, String type, String priority, String reason, String files, Boolean isClosed, Boolean isEscalated) {
+    public static void createCase(
+        String subject,
+        String description,
+        String type,
+        String priority,
+        String reason,
+        String files,
+        Boolean isClosed,
+        Boolean isEscalated
+    ) {
         Savepoint sp = Database.setSavepoint();
         List<AssignmentRule> ars = getCaseAssignmentRule();
-        if (ars.isEmpty()) throw new AuraHandledException(Label.No_Case_Assign);
+        if (ars.isEmpty())
+            throw new AuraHandledException(Label.No_Case_Assign);
 
         Database.DMLOptions dmlOptions = new Database.DMLOptions();
         dmlOptions.assignmentRuleHeader.assignmentRuleId = ars[0].Id;
@@ -134,14 +178,17 @@ public without sharing class HelpController {
         newCase.Priority = priority;
         newCase.Reason = reason;
         Id conId = UserContext.getUserContactId();
-        newCase.CommunityName__c = CommunityModeService.getUserCommunityModes(conId)[0].template.communityName;
+        newCase.CommunityName__c = CommunityModeService.getUserCommunityModes(conId)[0]
+            .template.communityName;
         newCase.setOptions(dmlOptions);
 
         try {
             insert newCase;
             if (String.isNotEmpty(files)) {
-                List<HelpController.FileContainer> fileContainers =
-                        (List<HelpController.FileContainer>) JSON.deserialize(files, List<HelpController.FileContainer>.class);
+                List<HelpController.FileContainer> fileContainers = (List<HelpController.FileContainer>) JSON.deserialize(
+                    files,
+                    List<HelpController.FileContainer>.class
+                );
                 addFiles(newCase.Id, fileContainers);
             }
         } catch (Exception e) {
@@ -154,55 +201,54 @@ public without sharing class HelpController {
      * Before use need to create Case Assignment Rules
      */
     private static List<AssignmentRule> getCaseAssignmentRule() {
-        return [
-                SELECT Id
-                FROM AssignmentRule
-                WHERE SobjectType = 'Case' AND Active = TRUE
-                LIMIT 1
-        ];
+        return [SELECT Id FROM AssignmentRule WHERE SobjectType = 'Case' AND Active = TRUE LIMIT 1];
     }
 
-    private static List<Participant_Enrollment__c> getParticipants(Contact cnt){
-                 
-        List<Participant_Enrollment__c> peList = [SELECT Id, 
-                Name, 
-                Participant_Name__c, 
+    private static List<Participant_Enrollment__c> getParticipants(Contact cnt) {
+        List<Participant_Enrollment__c> peList = [
+            SELECT
+                Id,
+                Name,
+                Participant_Name__c,
                 Participant_Surname__c,
                 PI_Contact__c,
                 Clinical_Trial_Profile__r.Protocol_ID__c
-                FROM Participant_Enrollment__c
-                WHERE Clinical_Trial_Profile__r.Protocol_ID__c = 'C19NYBC'];
-        
+            FROM Participant_Enrollment__c
+            WHERE Clinical_Trial_Profile__r.Protocol_ID__c = 'C19NYBC'
+        ];
+
         return peList;
-    } 
-    
-    private static List<Study_Site__c> getSites(Contact cnt){
-        
+    }
+
+    private static List<Study_Site__c> getSites(Contact cnt) {
         Set<Id> siteIdList = new Set<Id>();
-        for (Site_Staff__c sStaff : [SELECT Id,
-                                    Study_Site__c
-                                    FROM Site_Staff__c
-                                    WHERE Site_Contact__c = : cnt.Id]) 
-            {
-                siteIdList.add(sStaff.Study_Site__c);
-            }
-        
-           List<Study_Site__c> ssList = [SELECT Id, 
+        for (Site_Staff__c sStaff : [
+            SELECT Id, Study_Site__c
+            FROM Site_Staff__c
+            WHERE Site_Contact__c = :cnt.Id
+        ]) {
+            siteIdList.add(sStaff.Study_Site__c);
+        }
+
+        List<Study_Site__c> ssList = [
+            SELECT
+                Id,
                 Name,
-                Study_Site_Number__c, 
+                Study_Site_Number__c,
                 Override_PI_Referral_Status__c,
                 Clinical_Trial_Profile__r.Protocol_ID__c,
                 Principal_Investigator__c
-                FROM Study_Site__c
-                WHERE
-                (Principal_Investigator__c =: cnt.Id OR Id IN : siteIdList)
-                AND (Override_PI_Referral_Status__c = 'Accepted' OR Override_PI_Referral_Status__c = 'Accepted (Admin)')];
-        
-				
-        
+            FROM Study_Site__c
+            WHERE
+                (Principal_Investigator__c = :cnt.Id
+                OR Id IN :siteIdList)
+                AND (Override_PI_Referral_Status__c = 'Accepted'
+                OR Override_PI_Referral_Status__c = 'Accepted (Admin)')
+        ];
+
         return ssList;
-    } 
-    
+    }
+
     /*private static void addAttachments(Id parentId, List<HelpController.FileContainer> filecontainers) {
 
         List<Attachment> attachments = new List<Attachment>();
@@ -226,11 +272,9 @@ public without sharing class HelpController {
     }*/
 
     private static void addFiles(Id parentId, List<HelpController.FileContainer> fileContainers) {
-
         List<ContentVersion> files = new List<ContentVersion>();
 
         for (HelpController.FileContainer file : fileContainers) {
-
             ContentVersion conVer = new ContentVersion();
             conVer.ContentLocation = 'S'; // S specify this document is in SF, use E for external files
             conVer.PathOnClient = file.fileName; // The files name, extension is very important here which will help the file in preview.
@@ -244,14 +288,17 @@ public without sharing class HelpController {
     }
 
     private static void createContentDocumentLink(Id parentId, List<ContentVersion> files) {
-
         Set<Id> contentDocumentIds = new Set<Id>();
         List<ContentDocumentLink> links = new List<ContentDocumentLink>();
         for (ContentVersion file : files) {
             contentDocumentIds.add(file.Id);
         }
 
-        List<ContentVersion> contentVersions = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :contentDocumentIds];
+        List<ContentVersion> contentVersions = [
+            SELECT ContentDocumentId
+            FROM ContentVersion
+            WHERE Id = :contentDocumentIds
+        ];
 
         for (ContentVersion file : contentVersions) {
             //Create ContentDocumentLink
@@ -266,7 +313,7 @@ public without sharing class HelpController {
     }
 
     public class HelpInitData {
-        UserContact userContact; 
+        UserContact userContact;
         List<Participant_Enrollment__c> participantEnrollList;
         List<LabelValueItem> participantEnrollOptions;
         List<Study_Site__c> siteList;
@@ -294,8 +341,9 @@ public without sharing class HelpController {
         public Integer compareTo(Object compObject) {
             HelpTopicWrapper compareToObj = (HelpTopicWrapper) compObject;
             if (order == compareToObj.order)
-                return compareToObj.userTypes.length() - userTypes.length(); else
-                    return order - compareToObj.order;
+                return compareToObj.userTypes.length() - userTypes.length();
+            else
+                return order - compareToObj.order;
         }
     }
 

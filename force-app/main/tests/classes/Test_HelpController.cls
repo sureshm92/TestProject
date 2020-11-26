@@ -46,9 +46,12 @@ public class Test_HelpController {
         } catch (Exception e) {
             initExceptionMessage = e.getMessage();
         }
-        
+
         System.runAs(testDataInstance.participantUser) {
-            initDataPart = (HelpInitData) JSON.deserialize(HelpController.getHelpInitData('PI'), HelpInitData.class);
+            initDataPart = (HelpInitData) JSON.deserialize(
+                HelpController.getHelpInitData('PI'),
+                HelpInitData.class
+            );
         }
 
         List<HelpController.FileContainer> files = new List<HelpController.FileContainer>();
@@ -58,10 +61,28 @@ public class Test_HelpController {
         file.fileName = 'some.txt';
         file.contentType = 'text/plain';
         files.add(file);
-        HelpController.createCase('Some case','Seme Description', 'Question', 'Low', 'Some Reason', JSON.serialize(files), false, false);
+        HelpController.createCase(
+            'Some case',
+            'Seme Description',
+            'Question',
+            'Low',
+            'Some Reason',
+            JSON.serialize(files),
+            false,
+            false
+        );
 
         try {
-            HelpController.createCase('Some case','Seme Description', 'Question', 'Low', 'Some Reason', 'wrong', false, false);
+            HelpController.createCase(
+                'Some case',
+                'Seme Description',
+                'Question',
+                'Low',
+                'Some Reason',
+                'wrong',
+                false,
+                false
+            );
         } catch (Exception e) {
             fileExceptionMessage = e.getMessage();
         }
@@ -71,7 +92,11 @@ public class Test_HelpController {
         System.assert(initDataPart.helpTopicSettings[0].userTypes.contains('PI'));
 
         Case testCase = [SELECT Id FROM Case WHERE Subject = 'Some case'];
-        ContentDocumentLink testFile = [SELECT Id, ContentDocument.Title FROM ContentDocumentLink WHERE LinkedEntityId =: testCase.Id];
+        ContentDocumentLink testFile = [
+            SELECT Id, ContentDocument.Title
+            FROM ContentDocumentLink
+            WHERE LinkedEntityId = :testCase.Id
+        ];
         System.assertEquals(file.fileName, testFile.ContentDocument.Title);
         System.assert(fileExceptionMessage.contains('Unexpected character'));
     }

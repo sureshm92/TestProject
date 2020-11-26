@@ -15,7 +15,11 @@ private class Test_Batch_AssignLanguagePreferences {
         Batch_AssignLanguagePreferences.run();
         Test.stopTest();
 
-        Participant__c participant = [SELECT Id, Preferred_Language__c FROM Participant__c WHERE Id =: td.participant.Id];
+        Participant__c participant = [
+            SELECT Id, Preferred_Language__c
+            FROM Participant__c
+            WHERE Id = :td.participant.Id
+        ];
         System.assertEquals('en_US', participant.Preferred_Language__c);
     }
 }

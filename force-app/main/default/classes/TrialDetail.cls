@@ -3,7 +3,6 @@
  */
 
 public with sharing class TrialDetail {
-    
     public Clinical_Trial_Profile__c trial;
     public List<ClinicWrapper> accountEnrollmentsList;
     public Boolean isTCAccepted;
@@ -18,34 +17,34 @@ public with sharing class TrialDetail {
     public List<ResourceService.ResourceWrapper> resources;
     public String communityName;
     public List<StudyActions.Action> shareActions = new List<StudyActions.Action>{
-            new StudyActions.Action(
-                    StudyActions.ACT_SHARE_EMAIL,
-                    StudyActions.LABEL_SHARE,
-                    'icon-mail',
-                    false
-            ),
-            new StudyActions.Action(
-                    StudyActions.ACT_SHARE_FACEBOOK,
-                    StudyActions.LABEL_SHARE,
-                    'facebook',
-                    false
-            ),
-            new StudyActions.Action(
-                    StudyActions.ACT_SHARE_LINKEDIN,
-                    StudyActions.LABEL_SHARE,
-                    'linked-in',
-                    false
-            ),
-            new StudyActions.Action(
-                    StudyActions.ACT_SHARE_TWITTER,
-                    StudyActions.LABEL_SHARE,
-                    'twitter',
-                    false
-            )
+        new StudyActions.Action(
+            StudyActions.ACT_SHARE_EMAIL,
+            StudyActions.LABEL_SHARE,
+            'icon-mail',
+            false
+        ),
+        new StudyActions.Action(
+            StudyActions.ACT_SHARE_FACEBOOK,
+            StudyActions.LABEL_SHARE,
+            'facebook',
+            false
+        ),
+        new StudyActions.Action(
+            StudyActions.ACT_SHARE_LINKEDIN,
+            StudyActions.LABEL_SHARE,
+            'linked-in',
+            false
+        ),
+        new StudyActions.Action(
+            StudyActions.ACT_SHARE_TWITTER,
+            StudyActions.LABEL_SHARE,
+            'twitter',
+            false
+        )
     };
-    
+
     public class ClinicWrapper implements Comparable {
-        public Account clinic;  //If there is no completed BillingAddress, the clinic is not displayed on RRGoogleMap
+        public Account clinic; //If there is no completed BillingAddress, the clinic is not displayed on RRGoogleMap
         public String name;
         public String addrStreet;
         public String addrCity;
@@ -55,15 +54,15 @@ public with sharing class TrialDetail {
         public String drivingDirection;
         public String otherGuidance;
 
-
         public Integer compareTo(Object compareTo) {
             ClinicWrapper compareToCW = (ClinicWrapper) compareTo;
-            if (this.hcpStatus != null && compareToCW.hcpStatus == null) return -1;
-            if (this.hcpStatus == null && compareToCW.hcpStatus != null) return 1;
+            if (this.hcpStatus != null && compareToCW.hcpStatus == null)
+                return -1;
+            if (this.hcpStatus == null && compareToCW.hcpStatus != null)
+                return 1;
             return 0;
         }
     }
-
 
     public class StudyTab {
         public String id;
@@ -71,7 +70,12 @@ public with sharing class TrialDetail {
         public String title;
         public List<StudyActions.Action> studyActions;
 
-        public StudyTab(String id, String iconName, String title, List<StudyActions.Action> studyActions) {
+        public StudyTab(
+            String id,
+            String iconName,
+            String title,
+            List<StudyActions.Action> studyActions
+        ) {
             this.id = id;
             this.iconName = iconName;
             this.title = title;

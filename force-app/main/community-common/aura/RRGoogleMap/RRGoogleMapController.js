@@ -8,7 +8,7 @@
         var accounts = component.get('v.accounts');
         for (var i = 0; i < accounts.length; i++) {
             var clinicWrapper = accounts[i];
-            if(!clinicWrapper.clinic.BillingCity || !clinicWrapper.clinic.BillingStreet) {
+            if (!clinicWrapper.clinic.BillingCity || !clinicWrapper.clinic.BillingStreet) {
                 continue;
             }
 
@@ -22,8 +22,7 @@
                 var clinical = url + '/clinic-profile?id=' + clinicWrapper.clinic.Id;
 
                 descriptionLink = '<a href=' + clinical + ' target=_blank>Clinic profile</a>';
-            } else
-                descriptionLink = '';
+            } else descriptionLink = '';
 
             markers.push({
                 location: {
@@ -42,5 +41,4 @@
         component.set('v.hasAddress', hasAddress);
         component.set('v.markers', markers);
     }
-
-})
+});

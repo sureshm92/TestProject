@@ -2,8 +2,7 @@
  * Created by Denis on 12.04.2019.
  */
 @IsTest
-private class  Test_TaskEditRemote {
-
+private class Test_TaskEditRemote {
     @IsTest
     static void getInitTaskEditDataWrapper() {
         TestData.loadTestData();
@@ -31,12 +30,19 @@ private class  Test_TaskEditRemote {
 
             TaskEditRemote.getTaskEditData(task.Id);
             task.Reminder_Date__c = task.Reminder_Date__c.addDays(1);
-            TaskEditRemote.upsertTask(JSON.serialize(new TaskEditRemote.TaskEditDataWrapper()), JSON.serialize(task));
+            TaskEditRemote.upsertTask(
+                JSON.serialize(new TaskEditRemote.TaskEditDataWrapper()),
+                JSON.serialize(task)
+            );
             TaskEditRemote.markAsCompleted(task.Id);
             TaskEditRemote.deleteTask(task2);
         }
         Test.stopTest();
-        List<Task> testTask = [SELECT Id, Status, Reminder_Date__c FROM Task WHERE Subject = 'test'];
+        List<Task> testTask = [
+            SELECT Id, Status, Reminder_Date__c
+            FROM Task
+            WHERE Subject = 'test'
+        ];
         List<Task> testTask2 = [SELECT Id FROM Task WHERE Subject = 'test2'];
         System.assertEquals(dateNow.addDays(1), testTask[0].Reminder_Date__c);
         System.assertEquals(TaskService.TASK_STATUS_COMPLETED, testTask[0].Status);

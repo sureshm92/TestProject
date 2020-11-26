@@ -4,7 +4,6 @@
 
 @IsTest(IsParallel=false)
 private class Test_RRChangePasswordController {
-
     @IsTest(SeeAllData=true)
     public static void testChangePasswordController() {
         TestData.loadTestData();
@@ -12,9 +11,9 @@ private class Test_RRChangePasswordController {
         //run test:
         Test.startTest();
         HCP_Enrollment__c hcpEnrollment = new HCP_Enrollment__c(
-                Study_Site__c = testData.ss.Id,
-                HCP_Contact__c = testData.participant.Contact__c,
-                Status__c = HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION
+            Study_Site__c = testData.ss.Id,
+            HCP_Contact__c = testData.participant.Contact__c,
+            Status__c = HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION
         );
         insert hcpEnrollment;
 
@@ -39,8 +38,8 @@ private class Test_RRChangePasswordController {
 
             controller.notEnrollNow = false;
             controller.states = new List<SelectOption>{
-                    new SelectOption('CA', 'CA'),
-                    new SelectOption('TX', 'TX')
+                new SelectOption('CA', 'CA'),
+                new SelectOption('TX', 'TX')
             };
 
             /* Check with empty fields */

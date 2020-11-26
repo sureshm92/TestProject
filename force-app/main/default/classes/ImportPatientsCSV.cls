@@ -3,36 +3,39 @@
  */
 
 public without sharing class ImportPatientsCSV {
-
-    public String documentName {get;set;}
-    public Blob csvFileBody {get;set;}
-    public Boolean readSuccess {get;set;}
-    public Integer size {get;set;}
+    public String documentName { get; set; }
+    public Blob csvFileBody { get; set; }
+    public Boolean readSuccess { get; set; }
+    public Integer size { get; set; }
 
     public ImportPatientsCSV() {
         documentName = '';
         readSuccess = false;
     }
 
-    public void readFromFile(String patientString){
-        try{
+    public void readFromFile(String patientString) {
+        try {
             readCSVFile(patientString);
-        }
-        catch(exception e){
+        } catch (exception e) {
             readSuccess = false;
-            ApexPages.Message errorMessage = new ApexPages.Message(ApexPages.Severity.ERROR,'Error reading CSV file');
+            ApexPages.Message errorMessage = new ApexPages.Message(
+                ApexPages.Severity.ERROR,
+                'Error reading CSV file'
+            );
             ApexPages.addMessage(errorMessage);
         }
     }
 
-    public void readFromFile(){
-        try{
+    public void readFromFile() {
+        try {
             String patientString = csvFileBody.toString();
             readCSVFile(patientString);
-        }
-        catch(exception e){
+        } catch (exception e) {
             readSuccess = false;
-            ApexPages.Message errorMessage = new ApexPages.Message(ApexPages.Severity.ERROR,'Error reading CSV file');
+            ApexPages.Message errorMessage = new ApexPages.Message(
+                ApexPages.Severity.ERROR,
+                'Error reading CSV file'
+            );
             ApexPages.addMessage(errorMessage);
         }
     }
@@ -45,7 +48,7 @@ public without sharing class ImportPatientsCSV {
             Patient patient = new Patient(dataLines[i].split(',')[1]);
             patients.add(patient);
         }
-        if(patients.size() > 0){
+        if (patients.size() > 0) {
             readSuccess = true;
             size = patients.size();
         }
@@ -55,11 +58,11 @@ public without sharing class ImportPatientsCSV {
     }
 
     public class Patient {
-        public String protocolId    {get;set;}
-        public String siteNumber    {get;set;}
-        public String screeningId   {get;set;}
+        public String protocolId { get; set; }
+        public String siteNumber { get; set; }
+        public String screeningId { get; set; }
 
-        public Patient(String externalKey){
+        public Patient(String externalKey) {
             List<String> keys = new List<String>();
             keys = externalKey.split('~');
             protocolId = keys[0];

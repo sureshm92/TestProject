@@ -4,7 +4,6 @@
 
 @IsTest(IsParallel=false)
 private class Test_ParticipantVisitsRemote {
-
     @TestSetup
     static void setup() {
         TestData.loadTestData();
@@ -15,11 +14,11 @@ private class Test_ParticipantVisitsRemote {
         vp = [SELECT Id FROM Visit_Plan__c];
 
         Visit__c visit = new Visit__c(
-                Name = 'TestVisit' + 1,
-                Visit_Schedule__c = 'Week ' + 1,
-                Icons__c = 'Test_icon',
-                Order__c = 1,
-                Visit_Plan__c = vp.Id
+            Name = 'TestVisit' + 1,
+            Visit_Schedule__c = 'Week ' + 1,
+            Icons__c = 'Test_icon',
+            Order__c = 1,
+            Visit_Plan__c = vp.Id
         );
         insert visit;
 
@@ -30,10 +29,18 @@ private class Test_ParticipantVisitsRemote {
         testData.pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
         update testData.pe;
 
-        Patient_Visit__c patientVisit = PatientVisitService.createPatientVisit(visit, testData.pe.Id);
+        Patient_Visit__c patientVisit = PatientVisitService.createPatientVisit(
+            visit,
+            testData.pe.Id
+        );
         insert patientVisit;
 
-        Icon_Details__c icon = new Icon_Details__c(Name = 'ICON', Label__c = 'icon label', Description__c = 'This is icon!', Visit_Plan__c = vp.Id);
+        Icon_Details__c icon = new Icon_Details__c(
+            Name = 'ICON',
+            Label__c = 'icon label',
+            Description__c = 'This is icon!',
+            Visit_Plan__c = vp.Id
+        );
         insert icon;
     }
 
@@ -85,7 +92,10 @@ private class Test_ParticipantVisitsRemote {
             legend = ParticipantVisitsRemote.getVisitsLegend('ICON');
         }
         Test.stopTest();
-        System.assertEquals('[{"iconLegend":"This is icon!","iconLabel":"icon label","iconId":"ICON"}]', legend);
+        System.assertEquals(
+            '[{"iconLegend":"This is icon!","iconLabel":"icon label","iconId":"ICON"}]',
+            legend
+        );
     }
 
     @IsTest

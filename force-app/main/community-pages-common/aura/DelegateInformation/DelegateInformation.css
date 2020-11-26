@@ -1,7 +1,7 @@
 /**
  * Created by Igor Malyuta on 25.03.2019.
  */
- .THIS .line {
+.THIS .line {
     margin-top: 82px;
     margin-bottom: 28px;
     box-sizing: border-box;
@@ -9,59 +9,58 @@
     width: 2px;
     border: 1px solid #979797;
 }
-.THIS .delegateInfo{
+.THIS .delegateInfo {
     color: #000000;
-  font-family: "Proxima Nova";
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 0;
-  line-height: 24px;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
 }
-.THIS h3{
+.THIS h3 {
     width: 277px;
     color: #000000;
     font-size: 30px;
     line-height: 36px;
 }
-.THIS .mti-button{
+.THIS .mti-button {
     /*float: right;*/
-    margin-top:20px;
+    margin-top: 20px;
 }
-.THIS .mti-info-text{
+.THIS .mti-info-text {
     /*margin-top: 89px;
     margin-right: 63px;*/
 }
 
 @media all and (max-width: 550px) {
-    
     .THIS {
-        padding: 1rem!important;
+        padding: 1rem !important;
     }
-    
+
     .THIS > .slds-grid {
-    	display: flex;
+        display: flex;
         flex-direction: column;
         padding: 0 1rem;
     }
-    
+
     .THIS > .slds-grid > .slds-size--1-of-3,
-    .THIS > .slds-grid > .slds-size--2-of-3{
+    .THIS > .slds-grid > .slds-size--2-of-3 {
         min-width: 100%;
         padding: 1rem 0 0;
     }
-    
-     .THIS > .slds-grid > .slds-grow-none {
+
+    .THIS > .slds-grid > .slds-grow-none {
         display: none;
     }
-    
-    .THIS  .mti-info-text {
+
+    .THIS .mti-info-text {
         margin: 0;
     }
-    
+
     .THIS .mti-button {
         margin-top: 15px;
         height: auto;
-        color:#0768FD;
-        font-weight:600;
+        color: #0768fd;
+        font-weight: 600;
     }
 }

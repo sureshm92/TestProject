@@ -1,9 +1,9 @@
 ({
     pageNavigate: function (event, pageName) {
-        var urlEvent = $A.get("e.force:navigateToURL");
+        var urlEvent = $A.get('e.force:navigateToURL');
         urlEvent.setParams({
-          "url": pageName
+            url: pageName
         });
         urlEvent.fire();
-    },
-})
+    }
+});

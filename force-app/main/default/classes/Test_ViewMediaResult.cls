@@ -4,26 +4,31 @@ public class Test_ViewMediaResult {
     public static void runTest() {
         //TestData.loadTestData();
 
-        Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(
-            Active__c = true
-        );
+        Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(Active__c = true);
 
         insert portalTC;
 
-        List < Account > accounts = new List < Account > ();
+        List<Account> accounts = new List<Account>();
         Account participantsAccount = new Account(
             Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
         );
-        Insert participantsAccount;
+        insert participantsAccount;
 
-        UserRole userRole_1 = [SELECT Id FROM UserRole WHERE Name = 'View All'
+        UserRole userRole_1 = [SELECT Id FROM UserRole WHERE Name = 'View All' LIMIT 1];
+        Profile profile_1 = [
+            SELECT Id
+            FROM Profile
+            WHERE Name = 'IQVIA Customer Community Plus Login User'
             LIMIT 1
         ];
-        Profile profile_1 = [SELECT Id FROM Profile WHERE Name = 'IQVIA Customer Community Plus Login User'
+        User admin = [
+            SELECT Id, Username, UserRoleId
+            FROM User
+            WHERE
+                Profile.Name = 'System Administrator'
+                AND UserRoleId = :userRole_1.Id
+                AND IsActive = TRUE
             LIMIT 1
-        ];
-        User admin = [SELECT Id, Username, UserRoleId FROM User WHERE Profile.Name = 'System Administrator'
-            AND UserRoleId =: userRole_1.Id AND IsActive = TRUE LIMIT 1
         ];
         User user_1;
         System.runAs(admin) {
@@ -66,7 +71,6 @@ public class Test_ViewMediaResult {
             );
             insert con;
 
-
             Clinical_Trial_Profile__c clinical = new Clinical_Trial_Profile__c(
                 Protocol_ID__c = 'tt123456790',
                 Override_Recruitment_Status__c = 'Actively Enrolling',
@@ -86,14 +90,12 @@ public class Test_ViewMediaResult {
                 Site__c = SiteAccount.Id,
                 Study_Site_Type__c = 'Traditional',
                 Suppress_Participant_Emails__c = false
-                
             );
             insert studySite;
 
+            List<Media_Outreach__c> lstMO = new List<Media_Outreach__c>();
 
-            List < Media_Outreach__c > lstMO = New List < Media_Outreach__c > ();
-
-            Media_Outreach__c MO_req = New Media_Outreach__c();
+            Media_Outreach__c MO_req = new Media_Outreach__c();
             MO_req.Requested_Start_Date__c = Date.parse('5/22/2020');
             MO_req.Requested_End_Date__c = Date.parse('5/29/2020');
             MO_req.Status__c = 'Requested';
@@ -102,7 +104,7 @@ public class Test_ViewMediaResult {
             MO_req.Preferred_contact_method__c = '123456789';
             lstMO.add(MO_req);
 
-            Media_Outreach__c MO_inprogress = New Media_Outreach__c();
+            Media_Outreach__c MO_inprogress = new Media_Outreach__c();
             MO_inprogress.Requested_Start_Date__c = Date.parse('5/22/2020');
             MO_inprogress.Requested_End_Date__c = Date.parse('5/29/2020');
             MO_inprogress.Status__c = 'In Progress';
@@ -111,27 +113,27 @@ public class Test_ViewMediaResult {
             MO_inprogress.Preferred_contact_method__c = 'test@test.com';
             lstMO.add(MO_inprogress);
 
-            Media_Outreach__c MO_fulfilled = New Media_Outreach__c();
+            Media_Outreach__c MO_fulfilled = new Media_Outreach__c();
             MO_fulfilled.Requested_Start_Date__c = Date.parse('5/22/2020');
             MO_fulfilled.Requested_End_Date__c = Date.parse('5/29/2020');
-            MO_fulfilled.Actual_Start_Date__c= Date.parse('5/22/2020');
-            MO_fulfilled.Actual_End_Date__c=Date.parse('5/29/2020');
+            MO_fulfilled.Actual_Start_Date__c = Date.parse('5/22/2020');
+            MO_fulfilled.Actual_End_Date__c = Date.parse('5/29/2020');
             MO_fulfilled.Status__c = 'Fulfilled';
-            MO_fulfilled .Study_Name__c=studySite.Id;
+            MO_fulfilled.Study_Name__c = studySite.Id;
             MO_fulfilled.Study_Site__c = participantsAccount.Id;
             MO_fulfilled.Preferred_contact_method__c = '0000034445';
             lstMO.add(MO_fulfilled);
 
-            Insert lstMo;
+            insert lstMo;
 
-            Media_Outreach__c MO_cancelled = New Media_Outreach__c();
+            Media_Outreach__c MO_cancelled = new Media_Outreach__c();
             MO_cancelled.Requested_Start_Date__c = Date.parse('5/22/2020');
             MO_cancelled.Requested_End_Date__c = Date.parse('5/29/2020');
             MO_cancelled.Status__c = 'Cancelled';
-            MO_cancelled .Study_Name__c=studySite.Id;
+            MO_cancelled.Study_Name__c = studySite.Id;
             MO_cancelled.Study_Site__c = participantsAccount.Id;
             MO_cancelled.Preferred_contact_method__c = 'test@con.com';
-            Insert MO_cancelled;
+            insert MO_cancelled;
 
             System.runAs(admin) {
                 ContentNote nts = new ContentNote();
@@ -149,27 +151,43 @@ public class Test_ViewMediaResult {
             String filterJson = '{"mode":"PI","study":"' + studySite.id + '","trialIds":[]}';
             String PaginationJson = '{"currentPage":1,"pageRecordsCount":10}';
             viewMediaResult.getInitData(clinical.id, null, null, null, null, null);
-            viewMediaResult.getRecords(clinical.id, filterJson, PaginationJson, null, 'PI', null, null);
+            viewMediaResult.getRecords(
+                clinical.id,
+                filterJson,
+                PaginationJson,
+                null,
+                'PI',
+                null,
+                null
+            );
             try {
-                viewMediaResult.UpdateRecord(MO_inprogress.ID, MediaoutreachNotes, true, true, '1234567890',true);
-            } catch (exception e) {}
+                viewMediaResult.UpdateRecord(
+                    MO_inprogress.ID,
+                    MediaoutreachNotes,
+                    true,
+                    true,
+                    '1234567890',
+                    true
+                );
+            } catch (exception e) {
+            }
             try {
                 viewMediaResult.PreferredContactsandNotes(studySite.Id, MO_inprogress.ID);
-            } catch (exception e) {}
+            } catch (exception e) {
+            }
             try {
                 viewMediaResult.PreferredContactsandNotes(studySite.Id, MO_req.ID);
-            } catch (exception e) {}
+            } catch (exception e) {
+            }
             try {
                 viewMediaResult.PreferredContactsandNotes(studySite.Id, MO_fulfilled.ID);
-            } catch (exception e) {}
-             try {
+            } catch (exception e) {
+            }
+            try {
                 viewMediaResult.PreferredContactsandNotes(studySite.Id, MO_cancelled.ID);
-            } catch (exception e) {}
-
+            } catch (exception e) {
+            }
         }
         Test.stopTest();
-
     }
-
-
 }

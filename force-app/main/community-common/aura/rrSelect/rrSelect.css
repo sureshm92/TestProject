@@ -1,4 +1,4 @@
-.THIS.rrs-container{
+.THIS.rrs-container {
     display: inline-block;
 }
 
@@ -11,7 +11,7 @@
 }
 
 .THIS.rrs-container .rrs-label .rrs-error {
-    color: #FF0031;
+    color: #ff0031;
 }
 
 .THIS .slds-select_container::before {
@@ -30,11 +30,11 @@
     display: none;
 }
 
-.THIS.rrs-container select{
+.THIS.rrs-container select {
     height: 32px;
 }
 
-.THIS.rrs-container .rr-icon-default{
+.THIS.rrs-container .rr-icon-default {
     position: absolute;
     pointer-events: none;
     top: 13px;
@@ -43,7 +43,7 @@
     width: 16px;
 }
 
-.THIS .slds-select_container .slds-select{
+.THIS .slds-select_container .slds-select {
     padding-right: 25px;
     margin-top: 3px;
     position: relative;
@@ -64,7 +64,7 @@
 
 .THIS .rrs-relative img {
     display: none;
- /*   position: absolute;
+    /*   position: absolute;
     right: 7px;
     top: 10px;    */
 }

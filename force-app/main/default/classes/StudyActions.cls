@@ -4,8 +4,7 @@
  */
 
 public abstract class StudyActions {
-
-    public class Action{
+    public class Action {
         public String id;
         public String label;
         public String iconName;
@@ -13,26 +12,37 @@ public abstract class StudyActions {
         public String disableReason;
         public String cssClass;
 
-        public Action(String id, String label, String iconName, Boolean disabled){
+        public Action(String id, String label, String iconName, Boolean disabled) {
             this.id = id;
             this.label = label;
             this.iconName = iconName;
             this.disabled = disabled;
         }
 
-        public Action(String id, String label, String iconName){
+        public Action(String id, String label, String iconName) {
             this(id, label, iconName, false);
         }
 
-        public Action(String id, String label, String iconName, List<DisableReason> disableReasons){
-            this(id,label,iconName, disableReasons, null);
+        public Action(
+            String id,
+            String label,
+            String iconName,
+            List<DisableReason> disableReasons
+        ) {
+            this(id, label, iconName, disableReasons, null);
         }
 
-        public Action(String id, String label, String iconName, List<DisableReason> disableReasons, String cssClass){
+        public Action(
+            String id,
+            String label,
+            String iconName,
+            List<DisableReason> disableReasons,
+            String cssClass
+        ) {
             this(id, label, iconName);
             this.cssClass = cssClass;
-            for(DisableReason disableReason : disableReasons){
-                if(disableReason.disabled){
+            for (DisableReason disableReason : disableReasons) {
+                if (disableReason.disabled) {
                     this.disabled = true;
                     this.disableReason = disableReason.reason;
                     break;
@@ -41,11 +51,11 @@ public abstract class StudyActions {
         }
     }
 
-    public class DisableReason{
+    public class DisableReason {
         public Boolean disabled;
         public String reason;
 
-        public DisableReason(Boolean disabled, String reason){
+        public DisableReason(Boolean disabled, String reason) {
             this.disabled = disabled;
             this.reason = reason;
         }
@@ -107,7 +117,6 @@ public abstract class StudyActions {
     public static final String LABEL_MEDICAL_RECORD_REVIEW = Label.BTN_PES;
     public static final String LABEL_PRE_ELIGIBILITY_SCREENING = Label.BTN_PES2;
 
-
     public static final String LABEL_EXCLUDE_FROM_REFERRING = Label.BTN_Exclude_from_referring;
     public static final String LABEL_UNDO_EXCLUDE_FROM_REFERRING = Label.BTN_Undo_exclude;
     public static final String LABEL_REFER_TO_THIS_STUDY = Label.BTN_Refer_to_this_study;
@@ -142,11 +151,10 @@ public abstract class StudyActions {
     public static final String REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_SS_STATUS = Label.RSN_Study_Site_permissions_do_not_permit_this_action;
     public static final String REASON_LABEL_LOCKED_BY_ADMIN = Label.RSN_The_status_of_this_record_is_locked_by_site_administration_For_more_informa;
 
-
     public List<Action> studyListViewItemActions = new List<Action>();
     public List<Action> studySitePiActions = new List<Action>();
-    public List<Action> studyDetailActions =  new List<Action>();
-    public List<Action> studyDetailBottomBarActions =  new List<Action>();
+    public List<Action> studyDetailActions = new List<Action>();
+    public List<Action> studyDetailBottomBarActions = new List<Action>();
     public Map<String, Action> actions = new Map<String, Action>();
 
     public transient String userMode;
@@ -171,138 +179,159 @@ public abstract class StudyActions {
 
     private static Map<Id, Boolean> tcAcceptanceMap;
 
-    public StudyActions(){}
-
-    public StudyActions(Clinical_Trial_Profile__c study, Study_Site__c studySite, HCP_Enrollment__c hcpEnrollment, String userMode){
-        this(
-                study,
-                studySite,
-                hcpEnrollment,
-                userMode,
-                null
-        );
+    public StudyActions() {
     }
 
-    public StudyActions(Clinical_Trial_Profile__c study, Study_Site__c studySite, HCP_Enrollment__c hcpEnrollment, String userMode, String delegateId){
+    public StudyActions(
+        Clinical_Trial_Profile__c study,
+        Study_Site__c studySite,
+        HCP_Enrollment__c hcpEnrollment,
+        String userMode
+    ) {
+        this(study, studySite, hcpEnrollment, userMode, null);
+    }
+
+    public StudyActions(
+        Clinical_Trial_Profile__c study,
+        Study_Site__c studySite,
+        HCP_Enrollment__c hcpEnrollment,
+        String userMode,
+        String delegateId
+    ) {
         this.userMode = userMode;
         this.study = study;
         this.studySite = studySite;
         this.hcpEnrollment = hcpEnrollment;
 
         isStudyTCAccepted = isTCAccepted(study.Id);
-        studyAccessLevel = DelegateService.getStudyAccessLevel(studySite != null ? studySite.Id : null, userMode, delegateId);
+        studyAccessLevel = DelegateService.getStudyAccessLevel(
+            studySite != null ? studySite.Id : null,
+            userMode,
+            delegateId
+        );
 
-        isTCAcceptanceRequired = study.Terms_And_Conditions_ID__c != null && isStudyTCAccepted!= null && !isStudyTCAccepted;
+        isTCAcceptanceRequired =
+            study.Terms_And_Conditions_ID__c != null &&
+            isStudyTCAccepted != null &&
+            !isStudyTCAccepted;
 
         //init common reasons:
         studyNoLongerEnrollingReason = new DisableReason(
-                study.Override_Recruitment_Status__c != TrialService.STATUS_ACTIVELY_ENROLLING,
-                REASON_LABEL_STUDY_NO_LONGER_ENROLLING
+            study.Override_Recruitment_Status__c != TrialService.STATUS_ACTIVELY_ENROLLING,
+            REASON_LABEL_STUDY_NO_LONGER_ENROLLING
         );
 
         studySiteNotAcceptedReason = new DisableReason(
-                studySite!=null && !StudySiteService.STATUS_GROUP_ACCEPTED.contains(studySite.Override_PI_Referral_Status__c),
-                REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_SS_STATUS
+            studySite != null &&
+            !StudySiteService.STATUS_GROUP_ACCEPTED.contains(
+                studySite.Override_PI_Referral_Status__c
+            ),
+            REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_SS_STATUS
         );
 
         studySiteOnHoldReason = new DisableReason(
-                studySite!=null && StudySiteService.STATUS_GROUP_ON_HOLD.contains(studySite.Override_PI_Referral_Status__c),
-                REASON_LABEL_SS_ON_HOLD
+            studySite != null &&
+            StudySiteService.STATUS_GROUP_ON_HOLD.contains(
+                studySite.Override_PI_Referral_Status__c
+            ),
+            REASON_LABEL_SS_ON_HOLD
         );
 
         hcpNotActiveReason = new DisableReason(
-                hcpEnrollment != null && !HCPEnrollmentService.STATUS_GROUP_ACTIVATED.contains(hcpEnrollment.Status__c),
-                REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_HCP_STATUS
+            hcpEnrollment != null &&
+            !HCPEnrollmentService.STATUS_GROUP_ACTIVATED.contains(hcpEnrollment.Status__c),
+            REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_HCP_STATUS
         );
 
         hcpOnHoldReason = new DisableReason(
-                hcpEnrollment != null && HCPEnrollmentService.STATUS_GROUP_ON_HOLD.contains(hcpEnrollment.Status__c),
-                REASON_LABEL_HCP_ON_HOLD
+            hcpEnrollment != null &&
+            HCPEnrollmentService.STATUS_GROUP_ON_HOLD.contains(hcpEnrollment.Status__c),
+            REASON_LABEL_HCP_ON_HOLD
         );
 
         hcpLockedByAdmin = new DisableReason(
-                hcpEnrollment != null && hcpEnrollment.Status__c.containsIgnoreCase('admin'),
-                REASON_LABEL_LOCKED_BY_ADMIN
+            hcpEnrollment != null && hcpEnrollment.Status__c.containsIgnoreCase('admin'),
+            REASON_LABEL_LOCKED_BY_ADMIN
         );
 
         supportLevelReason = new DisableReason(
-                studyAccessLevel == DelegateService.DELEGATE_LEVEL_3,
-                REASON_LABEL_ACTION_NOT_ALLOWED_ON_ACCESS_LEVEL
+            studyAccessLevel == DelegateService.DELEGATE_LEVEL_3,
+            REASON_LABEL_ACTION_NOT_ALLOWED_ON_ACCESS_LEVEL
         );
 
         level2AndLowReason = new DisableReason(
-                DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(studyAccessLevel),
-                REASON_LABEL_ACTION_NOT_ALLOWED_ON_ACCESS_LEVEL
+            DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(studyAccessLevel),
+            REASON_LABEL_ACTION_NOT_ALLOWED_ON_ACCESS_LEVEL
         );
 
         level1AndLowReason = new DisableReason(
-                DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(studyAccessLevel),
-                REASON_LABEL_ACTION_NOT_ALLOWED_ON_ACCESS_LEVEL
+            DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(studyAccessLevel),
+            REASON_LABEL_ACTION_NOT_ALLOWED_ON_ACCESS_LEVEL
         );
 
         tcAcceptanceRequiredReason = new DisableReason(
-                isTCAcceptanceRequired,
-                REASON_LABEL_TC_REQUIRED
+            isTCAcceptanceRequired,
+            REASON_LABEL_TC_REQUIRED
         );
 
-
         //common actions:
-        actions.put(ACT_ACCEPT_TC, new Action(
+        actions.put(
+            ACT_ACCEPT_TC,
+            new Action(
                 ACT_ACCEPT_TC,
                 LABEL_ACCEPT_TC,
                 'paper-many',
                 new List<DisableReason>{
-                        new DisableReason(
-                                study.Terms_And_Conditions_ID__c  == null,
-                                ''
-                        )
+                    new DisableReason(study.Terms_And_Conditions_ID__c == null, '')
                 },
                 'primary'
-        ));
-        actions.put(ACT_VIEW_TC, new Action(
+            )
+        );
+        actions.put(
+            ACT_VIEW_TC,
+            new Action(
                 ACT_VIEW_TC,
                 LABEL_VIEW_TC,
                 'paper-many',
                 new List<DisableReason>{
-                        new DisableReason(
-                                study.Terms_And_Conditions_ID__c  == null,
-                                ''
-                        )
+                    new DisableReason(study.Terms_And_Conditions_ID__c == null, '')
                 },
                 'primary'
-        ));
-        actions.put(ACT_DELEGATE, new Action(
+            )
+        );
+        actions.put(
+            ACT_DELEGATE,
+            new Action(
                 ACT_DELEGATE,
                 LABEL_DELEGATE,
                 null,
                 new List<DisableReason>{
-                        new DisableReason(
-                                studyAccessLevel != DelegateService.OWNER_LEVEL,
-                                REASON_LABEL_ACTION_NOT_ALLOWED_ON_ACCESS_LEVEL
-                        )
+                    new DisableReason(
+                        studyAccessLevel != DelegateService.OWNER_LEVEL,
+                        REASON_LABEL_ACTION_NOT_ALLOWED_ON_ACCESS_LEVEL
+                    )
                 },
                 'secondary'
-        ));
-
-
+            )
+        );
     }
 
-    public void checkAction(String actionId){
+    public void checkAction(String actionId) {
         Action action = actions.get(actionId);
-        if(action == null || action.disabled) {
+        if (action == null || action.disabled) {
             String message = 'Action not allowed';
-            if(action != null && !String.isEmpty(action.disableReason)) message += '. Reason: ' + action.disableReason;
+            if (action != null && !String.isEmpty(action.disableReason))
+                message += '. Reason: ' + action.disableReason;
             System.debug('Action exception:' + message);
             throw new CommunityServiceException(message);
         }
     }
 
-    public Boolean isTCAccepted(Id studyId){
-        if(tcAcceptanceMap == null){
+    public Boolean isTCAccepted(Id studyId) {
+        if (tcAcceptanceMap == null) {
             List<Clinical_Trial_Profile__c> trials = TrialService.getAvailableTrials(userMode);
             tcAcceptanceMap = TermsAndConditions.getTrialsAcceptanceMap(trials);
         }
         return tcAcceptanceMap.get(studyId);
     }
-
 }

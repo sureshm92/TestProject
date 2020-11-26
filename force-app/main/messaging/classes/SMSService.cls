@@ -3,15 +3,13 @@
  */
 
 public with sharing class SMSService {
-    
-    public class SendSMSQueueable implements Queueable, Database.AllowsCallouts{
-        
+    public class SendSMSQueueable implements Queueable, Database.AllowsCallouts {
         private List<Notification__c> notifications;
-        
-        public SendSMSQueueable(List<Notification__c> notifications){
+
+        public SendSMSQueueable(List<Notification__c> notifications) {
             this.notifications = notifications;
         }
-    
+
         public void execute(QueueableContext qc) {
             send(notifications);
         }
@@ -22,10 +20,8 @@ public with sharing class SMSService {
         ActionExecutor.ExecutionResult executionResult = ActionExecutor.execute(sendSMSAction);
         executionResult.complete();
     }
-    
-    public static void sendQueueable(List<Notification__c> notifications){
+
+    public static void sendQueueable(List<Notification__c> notifications) {
         System.enqueueJob(new SendSMSQueueable(notifications));
     }
-    
-    
 }

@@ -5,14 +5,15 @@
 ({
     peBySession: {},
 
-    isToastDisplayed : function (peId) {
+    isToastDisplayed: function (peId) {
         var isDisplayed = this.peBySession[peId] !== undefined;
         this.peBySession[peId] = peId;
         return isDisplayed;
     },
 
-    showToast : function (component) {
-        if(!component.get('v.isNewSession') && this.isToastDisplayed(component.get('v.peId'))) return;
+    showToast: function (component) {
+        if (!component.get('v.isNewSession') && this.isToastDisplayed(component.get('v.peId')))
+            return;
 
         var template = component.get('v.displayText') + ' {0}';
         var accUrl = 'account-settings?langloc';
@@ -24,10 +25,12 @@
             mode: 'sticky',
             message: 'This is a required message',
             messageTemplate: template,
-            messageTemplateData: [{
-                url: accUrl,
-                label: urlLabel
-            }]
+            messageTemplateData: [
+                {
+                    url: accUrl,
+                    label: urlLabel
+                }
+            ]
         });
         toastEvent.fire();
     }

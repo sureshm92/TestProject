@@ -16,27 +16,37 @@
         }
         var filterJSON = JSON.stringify(filter);
         var paginationJSON = JSON.stringify(component.get('v.paginationData'));
-        
-        communityService.executeAction(component, 'getRecords', {
-            filterJSON: filterJSON,
-            paginationJSON: paginationJSON,
-            userMode: communityService.getUserMode(),
-            changedItem: changedItem,
-            delegateId: communityService.getDelegateId(),
-            emancipatedPE: component.get('v.showEmancipatedOnly'),
-            sponsorName: communityService.getCurrentCommunityTemplateName()
-        }, function (returnValue) {
-            if (component.get('v.peFilter').searchText !== searchText) return;
-            var result = JSON.parse(returnValue);
-            component.set('v.skipUpdate', true);
-            component.set('v.pageList', result.peList);
-            component.set('v.peFilter', result.peFilter);
-            component.set('v.peFilterData', result.peFilterData);
-            component.set('v.paginationData.allRecordsCount', result.paginationData.allRecordsCount);
-            component.set('v.paginationData.currentPage', result.paginationData.currentPage);
-            component.set('v.paginationData.currentPageCount', result.paginationData.currentPageCount);
-            component.set('v.skipUpdate', false);
-            /*if (communityService.getUserMode() != 'Participant' && result.peList) {
+
+        communityService.executeAction(
+            component,
+            'getRecords',
+            {
+                filterJSON: filterJSON,
+                paginationJSON: paginationJSON,
+                userMode: communityService.getUserMode(),
+                changedItem: changedItem,
+                delegateId: communityService.getDelegateId(),
+                emancipatedPE: component.get('v.showEmancipatedOnly'),
+                sponsorName: communityService.getCurrentCommunityTemplateName()
+            },
+            function (returnValue) {
+                if (component.get('v.peFilter').searchText !== searchText) return;
+                var result = JSON.parse(returnValue);
+                component.set('v.skipUpdate', true);
+                component.set('v.pageList', result.peList);
+                component.set('v.peFilter', result.peFilter);
+                component.set('v.peFilterData', result.peFilterData);
+                component.set(
+                    'v.paginationData.allRecordsCount',
+                    result.paginationData.allRecordsCount
+                );
+                component.set('v.paginationData.currentPage', result.paginationData.currentPage);
+                component.set(
+                    'v.paginationData.currentPageCount',
+                    result.paginationData.currentPageCount
+                );
+                component.set('v.skipUpdate', false);
+                /*if (communityService.getUserMode() != 'Participant' && result.peList) {
                 for (let pItem in result.peList) {
                     var hasEmancipatedParticipants = false;
                     if (result.peList[pItem].hasEmancipatedParticipants) {
@@ -47,218 +57,245 @@
                 component.set('v.hasEmancipatedParticipants', hasEmancipatedParticipants);
                 component.getEvent('onInit').fire();
             }*/
-            spinner.hide();
-        })
+                spinner.hide();
+            }
+        );
     },
-    
-    exportAllHelper : function (component, event, helper) {
+
+    exportAllHelper: function (component, event, helper) {
         var spinner = component.find('Spinnerpopup');
         spinner.show();
-        var startPos = component.get("v.startPos");
-        var endPos 	 = component.get("v.endPos");
-        var totalCount 	 = component.get("v.totalCount");
+        var startPos = component.get('v.startPos');
+        var endPos = component.get('v.endPos');
+        var totalCount = component.get('v.totalCount');
         // alert('@@@@@@ startPos   ' +startPos);
         // alert('@@@@@@ endPos     ' +endPos);
         // alert('@@@@@@ totalCount ' +totalCount);
-        var peFilterData = component.get("v.peFilterDataBackup");
+        var peFilterData = component.get('v.peFilterDataBackup');
         var studies = [];
         var studySites = [];
-        for(var key in peFilterData.studies){
-            if(peFilterData.studies[key].value != null){
+        for (var key in peFilterData.studies) {
+            if (peFilterData.studies[key].value != null) {
                 studies.push(peFilterData.studies[key].value);
             }
         }
-        for(var key in peFilterData.studySites){
-            if(peFilterData.studySites[key].value != null){
+        for (var key in peFilterData.studySites) {
+            if (peFilterData.studySites[key].value != null) {
                 studySites.push(peFilterData.studySites[key].value);
             }
         }
-        var action = component.get('c.getExportAllList'); 
+        var action = component.get('c.getExportAllList');
         action.setParams({
-            studies 	: studies,
-            studySites 	: studySites,
-            startPos 	: startPos,
-            endPos		: endPos
+            studies: studies,
+            studySites: studySites,
+            startPos: startPos,
+            endPos: endPos
         });
-        
-        action.setCallback(this, function(a){
+
+        action.setCallback(this, function (a) {
             var state = a.getState(); // get the response state
-            if(state == 'SUCCESS') {
+            if (state == 'SUCCESS') {
                 var temp = a.getReturnValue();
                 console.log(temp.partList.length);
-                
-                component.set("v.totalCount", temp.totalCount);
+
+                component.set('v.totalCount', temp.totalCount);
                 var csvFinalList = temp.partList;
-                var csvtemp = component.get("v.CsvList");
+                var csvtemp = component.get('v.CsvList');
                 var newarr;
-                if(!component.get('v.isFirstTime')){
+                if (!component.get('v.isFirstTime')) {
                     newarr = csvtemp.concat(csvFinalList);
-                }else{
+                } else {
                     newarr = csvFinalList;
-                    component.set("v.isFirstTime", false);
+                    component.set('v.isFirstTime', false);
                 }
-                component.set('v.CsvList',newarr);
+                component.set('v.CsvList', newarr);
                 var currentCount = newarr.length;
-                
+
                 var counterLimit = component.get('v.counterLimit');
                 var finaltotalCount = component.get('v.totalCount');
-                if(finaltotalCount > 100000){
+                if (finaltotalCount > 100000) {
                     finaltotalCount = 100000;
                 }
-                console.log('currentCount ' +currentCount);
-                console.log('finaltotalCount ' +finaltotalCount);
-                console.log('counterLimit ' +counterLimit);
-                if(currentCount < finaltotalCount){
+                console.log('currentCount ' + currentCount);
+                console.log('finaltotalCount ' + finaltotalCount);
+                console.log('counterLimit ' + counterLimit);
+                if (currentCount < finaltotalCount) {
                     counterLimit = counterLimit + 45000;
                     component.set('v.counterLimit', counterLimit);
                 }
-                console.log('counterLimit new ' +counterLimit);
-                if(temp.endPos < counterLimit && currentCount < finaltotalCount){
+                console.log('counterLimit new ' + counterLimit);
+                if (temp.endPos < counterLimit && currentCount < finaltotalCount) {
                     startPos = endPos + 1;
-                    endPos 	 = endPos + 45000;
-                    component.set("v.startPos", startPos);
-                    component.set("v.endPos", endPos);
+                    endPos = endPos + 45000;
+                    component.set('v.startPos', startPos);
+                    component.set('v.endPos', endPos);
                     spinner.hide();
                     helper.exportAllHelper(component, event, helper);
-                }else{
+                } else {
                     spinner.hide();
                     console.log('in else');
-                    helper.downloadCsvFile(component, event, helper,newarr);
+                    helper.downloadCsvFile(component, event, helper, newarr);
                 }
             }
         });
         $A.enqueueAction(action);
-        
-        
     },
-    
-    downloadCsvFile : function(component, event, helper,objectRecords){
+
+    downloadCsvFile: function (component, event, helper, objectRecords) {
         console.time('advf');
- //       component.set('v.CsvList','');
+        //       component.set('v.CsvList','');
         var spinner = component.find('Spinnerpopup');
         // var spinner = component.find('recordsSpinner');
         spinner.show();
-      //   console.log('@@@@@@@@@@@@ '+JSON.stringify(objectRecords));
-        console.log('@@@@@@@@@@@@ '+objectRecords.length);
-     //   console.table(objectRecords);
+        //   console.log('@@@@@@@@@@@@ '+JSON.stringify(objectRecords));
+        console.log('@@@@@@@@@@@@ ' + objectRecords.length);
+        //   console.table(objectRecords);
         var csvStringResult, counter, keys, columnDivider, lineDivider;
         if (objectRecords == null || !objectRecords.length) {
             return null;
         }
         columnDivider = ',';
-        lineDivider =  '\n';
+        lineDivider = '\n';
         // var header = ['Participant Profile Name','Study Code Name',	'Study Site Name','Participant_Status__c','isCheckedlatest'];
-        var header = ['Participant Profile Name','MRN Id',	'Patient ID','Referred Date','Study Code Name','Study Site Name', 'Investigator Name', 'Participant Status', 'Status Change Reason', 'Participant Status Last Changed Date', 'Last Status Changed Notes', 'Pre-screening 1 Status','Pre-screening 1 Completed by', 'Pre-screening Date', 'Referral Completed by', 'Referral Source'];
-        
+        var header = [
+            'Participant Profile Name',
+            'MRN Id',
+            'Patient ID',
+            'Referred Date',
+            'Study Code Name',
+            'Study Site Name',
+            'Investigator Name',
+            'Participant Status',
+            'Status Change Reason',
+            'Participant Status Last Changed Date',
+            'Last Status Changed Notes',
+            'Pre-screening 1 Status',
+            'Pre-screening 1 Completed by',
+            'Pre-screening Date',
+            'Referral Completed by',
+            'Referral Source'
+        ];
+
         csvStringResult = '';
         csvStringResult += header.join(columnDivider);
         csvStringResult += lineDivider;
-        console.log('@@@@@@ '+objectRecords.length);
-        for(var i=0; i < objectRecords.length; i++){   
+        console.log('@@@@@@ ' + objectRecords.length);
+        for (var i = 0; i < objectRecords.length; i++) {
             //  console.log('objectRecords[i] ' +(objectRecords[i]["pe"]["Clinical_Trial_Profile__r"]["Study_Code_Name__c"]));
-            
-            if((objectRecords[i]["Name"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["Name"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
-            }
-            
-            if((objectRecords[i]["MRN_Id__c"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["MRN_Id__c"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
-            }
-            
-            if((objectRecords[i]["Patient_ID__c"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["Patient_ID__c"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
-            }
-            if((objectRecords[i]["Referred_Date__c"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["Referred_Date__c"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
-            }
-            
-            if((objectRecords[i]["Clinical_Trial_Profile__r"]["Study_Code_Name__c"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["Clinical_Trial_Profile__r"]["Study_Code_Name__c"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
-            }
-            
-            if((objectRecords[i]["Study_Site__r"]["Name"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["Study_Site__r"]["Name"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
+
+            if (objectRecords[i]['Name'] !== undefined) {
+                csvStringResult += '"' + objectRecords[i]['Name'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
             }
 
-            if((objectRecords[i]["PI_Contact__r"]["Full_Name__c"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["PI_Contact__r"]["Full_Name__c"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
-            }
-            
-            if((objectRecords[i]["Participant_Status__c"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["Participant_Status__c"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
-            }
-            if((objectRecords[i]["Non_Enrollment_Reason__c"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["Non_Enrollment_Reason__c"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
-            }
-            
-            if((objectRecords[i]["Participant_Status_Last_Changed_Date__c"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["Participant_Status_Last_Changed_Date__c"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
-            }
-            
-            if((objectRecords[i]["Last_Status_Changed_Notes__c"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["Last_Status_Changed_Notes__c"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
+            if (objectRecords[i]['MRN_Id__c'] !== undefined) {
+                csvStringResult += '"' + objectRecords[i]['MRN_Id__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
             }
 
-            if((objectRecords[i]["Medical_Record_Review_Status__c"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["Medical_Record_Review_Status__c"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
+            if (objectRecords[i]['Patient_ID__c'] !== undefined) {
+                csvStringResult += '"' + objectRecords[i]['Patient_ID__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
             }
-            if((objectRecords[i]["Medical_Record_Review_Completedby_Name__c"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["Medical_Record_Review_Completedby_Name__c"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
-            }
-            if((objectRecords[i]["Medical_Record_Review_Completed_Date__c"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["Medical_Record_Review_Completed_Date__c"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
+            if (objectRecords[i]['Referred_Date__c'] !== undefined) {
+                csvStringResult += '"' + objectRecords[i]['Referred_Date__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
             }
 
-            if((objectRecords[i]["Referral_Completedby_Name__c"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["Referral_Completedby_Name__c"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
+            if (objectRecords[i]['Clinical_Trial_Profile__r']['Study_Code_Name__c'] !== undefined) {
+                csvStringResult +=
+                    '"' +
+                    objectRecords[i]['Clinical_Trial_Profile__r']['Study_Code_Name__c'] +
+                    '"' +
+                    ',';
+            } else {
+                csvStringResult += '" "' + ',';
             }
-            
-            if((objectRecords[i]["Referral_Source__c"] !== undefined)){
-                csvStringResult += '"'+ objectRecords[i]["Referral_Source__c"]+'"' +','; 
-            }else{
-                csvStringResult += '" "'+','; 
+
+            if (objectRecords[i]['Study_Site__r']['Name'] !== undefined) {
+                csvStringResult += '"' + objectRecords[i]['Study_Site__r']['Name'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
             }
-            
+
+            if (objectRecords[i]['PI_Contact__r']['Full_Name__c'] !== undefined) {
+                csvStringResult +=
+                    '"' + objectRecords[i]['PI_Contact__r']['Full_Name__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+
+            if (objectRecords[i]['Participant_Status__c'] !== undefined) {
+                csvStringResult += '"' + objectRecords[i]['Participant_Status__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+            if (objectRecords[i]['Non_Enrollment_Reason__c'] !== undefined) {
+                csvStringResult += '"' + objectRecords[i]['Non_Enrollment_Reason__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+
+            if (objectRecords[i]['Participant_Status_Last_Changed_Date__c'] !== undefined) {
+                csvStringResult +=
+                    '"' + objectRecords[i]['Participant_Status_Last_Changed_Date__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+
+            if (objectRecords[i]['Last_Status_Changed_Notes__c'] !== undefined) {
+                csvStringResult +=
+                    '"' + objectRecords[i]['Last_Status_Changed_Notes__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+
+            if (objectRecords[i]['Medical_Record_Review_Status__c'] !== undefined) {
+                csvStringResult +=
+                    '"' + objectRecords[i]['Medical_Record_Review_Status__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+            if (objectRecords[i]['Medical_Record_Review_Completedby_Name__c'] !== undefined) {
+                csvStringResult +=
+                    '"' + objectRecords[i]['Medical_Record_Review_Completedby_Name__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+            if (objectRecords[i]['Medical_Record_Review_Completed_Date__c'] !== undefined) {
+                csvStringResult +=
+                    '"' + objectRecords[i]['Medical_Record_Review_Completed_Date__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+
+            if (objectRecords[i]['Referral_Completedby_Name__c'] !== undefined) {
+                csvStringResult +=
+                    '"' + objectRecords[i]['Referral_Completedby_Name__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+
+            if (objectRecords[i]['Referral_Source__c'] !== undefined) {
+                csvStringResult += '"' + objectRecords[i]['Referral_Source__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+
             csvStringResult += lineDivider;
         }
         var hiddenElement = document.createElement('a');
         hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvStringResult);
-        hiddenElement.target = '_self'; // 
-        hiddenElement.download = 'ExportData.csv';  // CSV file Name* you can change it.[only name not .csv] 
+        hiddenElement.target = '_self'; //
+        hiddenElement.download = 'ExportData.csv'; // CSV file Name* you can change it.[only name not .csv]
         document.body.appendChild(hiddenElement); // Required for FireFox browser
         hiddenElement.click(); // using click() js function to download csv file
         //spinner.hide();
         component.find('Spinnerpopup').hide();
         console.timeEnd('advf');
-    },
+    }
 });

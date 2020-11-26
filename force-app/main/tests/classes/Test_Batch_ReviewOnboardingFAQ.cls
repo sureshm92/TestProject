@@ -4,7 +4,6 @@
 
 @IsTest(IsParallel=true)
 private class Test_Batch_ReviewOnboardingFAQ {
-
     @TestSetup
     static void setup() {
         Contact testContact = new Contact(LastName = 'TestBatch');
@@ -21,9 +20,9 @@ private class Test_Batch_ReviewOnboardingFAQ {
         Test.stopTest();
 
         Contact contact = [
-                SELECT Id, userCommunity_ShowTour__c
-                FROM Contact
-                WHERE LastName = 'TestBatch'
+            SELECT Id, userCommunity_ShowTour__c
+            FROM Contact
+            WHERE LastName = 'TestBatch'
         ];
         System.assertEquals(Batch_ReviewOnboardingFAQ.SHOW_ALL, contact.userCommunity_ShowTour__c);
     }
@@ -35,9 +34,9 @@ private class Test_Batch_ReviewOnboardingFAQ {
         Test.stopTest();
 
         Contact contact = [
-                SELECT Id, userCommunity_ShowTour__c
-                FROM Contact
-                WHERE LastName = 'TestBatch'
+            SELECT Id, userCommunity_ShowTour__c
+            FROM Contact
+            WHERE LastName = 'TestBatch'
         ];
         System.assertEquals(Batch_ReviewOnboardingFAQ.SHOW_PI, contact.userCommunity_ShowTour__c);
     }
@@ -49,9 +48,9 @@ private class Test_Batch_ReviewOnboardingFAQ {
         Test.stopTest();
 
         Contact contact = [
-                SELECT Id, userCommunity_ShowTour__c
-                FROM Contact
-                WHERE LastName = 'TestBatch'
+            SELECT Id, userCommunity_ShowTour__c
+            FROM Contact
+            WHERE LastName = 'TestBatch'
         ];
         System.assertEquals(Batch_ReviewOnboardingFAQ.SHOW_HCP, contact.userCommunity_ShowTour__c);
     }
@@ -63,11 +62,14 @@ private class Test_Batch_ReviewOnboardingFAQ {
         Test.stopTest();
 
         Contact contact = [
-                SELECT Id, userCommunity_ShowTour__c
-                FROM Contact
-                WHERE LastName = 'TestBatch'
+            SELECT Id, userCommunity_ShowTour__c
+            FROM Contact
+            WHERE LastName = 'TestBatch'
         ];
-        System.assertEquals(Batch_ReviewOnboardingFAQ.SHOW_PARTICIPANT, contact.userCommunity_ShowTour__c);
+        System.assertEquals(
+            Batch_ReviewOnboardingFAQ.SHOW_PARTICIPANT,
+            contact.userCommunity_ShowTour__c
+        );
     }
 
     @IsTest
@@ -77,10 +79,13 @@ private class Test_Batch_ReviewOnboardingFAQ {
         Test.stopTest();
 
         Contact contact = [
-                SELECT Id, userCommunity_ShowTour__c
-                FROM Contact
-                WHERE LastName = 'TestBatch'
+            SELECT Id, userCommunity_ShowTour__c
+            FROM Contact
+            WHERE LastName = 'TestBatch'
         ];
-        System.assertNotEquals(Batch_ReviewOnboardingFAQ.SHOW_HCP, contact.userCommunity_ShowTour__c);
+        System.assertNotEquals(
+            Batch_ReviewOnboardingFAQ.SHOW_HCP,
+            contact.userCommunity_ShowTour__c
+        );
     }
 }

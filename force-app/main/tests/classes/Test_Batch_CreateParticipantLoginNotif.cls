@@ -4,10 +4,8 @@
 
 @IsTest
 public with sharing class Test_Batch_CreateParticipantLoginNotif {
-
     @TestSetup
     static void setup() {
-
         Test.startTest();
         TestData.loadTestData();
         Test.stopTest();
@@ -17,14 +15,14 @@ public with sharing class Test_Batch_CreateParticipantLoginNotif {
     static void test() {
         TestData testData = new TestData();
         Contact contact = new Contact(
-                FirstName = 'newContact',
-                LastName = 'newContact',
-                Next_Notify_Date__c = Datetime.now().dateGmt().addDays(-1),
-                Current_Participant_Enrollment__c = testData.pe.Id
+            FirstName = 'newContact',
+            LastName = 'newContact',
+            Next_Notify_Date__c = Datetime.now().dateGmt().addDays(-1),
+            Current_Participant_Enrollment__c = testData.pe.Id
         );
         insert contact;
 
-        testData.participant = [SELECT Id, Contact__c, Status__c FROM Participant__c limit 1];
+        testData.participant = [SELECT Id, Contact__c, Status__c FROM Participant__c LIMIT 1];
         testData.participant.Contact__c = contact.Id;
         testData.participant.Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
         update testData.participant;

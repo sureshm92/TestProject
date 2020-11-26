@@ -3,12 +3,11 @@
  */
 
 public without sharing class CommunityModes {
-    
     public static final String MODE_TYPE_PP_ONLY = 'PP_Only';
     public static final String MODE_TYPE_RH_ONLY = 'RH_Only';
     public static final String MODE_TYPE_RH_SINGLE_VIEW = 'RH_Single_View';
     public static final String MODE_TYPE_PP_AND_RH = 'PP_And_RH';
-    
+
     public static final String RH_ITEM_TYPE_PI = 'PI';
     public static final String RH_ITEM_TYPE_RP = 'RP';
 
@@ -23,7 +22,15 @@ public without sharing class CommunityModes {
         public Id itemId; //Id of RP for RP delegate mode
         public List<RHCommunityModeItem> subItems; //only for group items
 
-        public RHCommunityModeItem(String mode, String title, String itemType, String communityName, Id itemId, Boolean isGroup, Boolean isCollapsed) {
+        public RHCommunityModeItem(
+            String mode,
+            String title,
+            String itemType,
+            String communityName,
+            Id itemId,
+            Boolean isGroup,
+            Boolean isCollapsed
+        ) {
             this.mode = mode;
             this.title = title;
             this.itemType = itemType;
@@ -46,13 +53,20 @@ public without sharing class CommunityModes {
         public Boolean hasBeenActive;
         public List<PPCommunityModeItem> subItems;
 
-        public PPCommunityModeItem(Boolean isDelegate, Boolean hasBeenActive){
+        public PPCommunityModeItem(Boolean isDelegate, Boolean hasBeenActive) {
             this.isDelegate = isDelegate;
             this.hasBeenActive = hasBeenActive;
             this.subItems = new List<PPCommunityModeItem>();
         }
 
-        public PPCommunityModeItem(String mode, String title, String subTitle, Id peId, Id delegateId, Boolean isDelegate) {
+        public PPCommunityModeItem(
+            String mode,
+            String title,
+            String subTitle,
+            Id peId,
+            Id delegateId,
+            Boolean isDelegate
+        ) {
             this.mode = mode;
             this.title = title;
             this.subTitle = subTitle;
@@ -66,10 +80,9 @@ public without sharing class CommunityModes {
     public String type; // MODE_TYPE_PP_ONLY/ MODE_TYPE_RH_ONLY/ MODE_TYPE_PP_AND_RH / MODE_TYPE_RH_SINGLE_VIEW
     public List<RHCommunityModeItem> rhModeItems; // rhModeItems.size() = 1 if user has only one RH mode, used only for MODE_TYPE_RH_ONLY or MODE_TYPE_PP_AND_RH modes
     public List<PPCommunityModeItem> ppModeItems;
-    
+
     public Boolean isPPItemsCollapsed; //only for MODE_TYPE_PP_AND_RH mode
     public Boolean isRHItemsCollapsed; //only for MODE_TYPE_PP_AND_RH mode
     public Boolean isPPItemsSelected;
     public Boolean isRHItemsSelected;
-
 }

@@ -4,18 +4,20 @@
  */
 
 public without sharing class Batch_CreateParticipantLoginNotification extends Batch_ScheduledAbstract {
-
     public Database.QueryLocator start(Database.BatchableContext param1) {
-        return Database.getQueryLocator([
+        return Database.getQueryLocator(
+            [
                 SELECT
-                        Id,
-                        Current_Participant_Enrollment__c,
-                        Next_Notify_Date__c,
-                        Participant_Opt_In_Status_Emails__c
+                    Id,
+                    Current_Participant_Enrollment__c,
+                    Next_Notify_Date__c,
+                    Participant_Opt_In_Status_Emails__c
                 FROM Contact
-                WHERE Next_Notify_Date__c <= :Datetime.now().dateGmt()
-                AND Current_Participant_Enrollment__c != NULL
-        ]);
+                WHERE
+                    Next_Notify_Date__c <= :Datetime.now().dateGmt()
+                    AND Current_Participant_Enrollment__c != NULL
+            ]
+        );
     }
 
     public void execute(Database.BatchableContext param1, List<Contact> contacts) {
@@ -25,11 +27,10 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
     @TestVisible
     private static void createNearestLogOutNotification(List<Contact> contacts) {
         List<Participant_Enrollment__c> enrollments = [
-                SELECT
-                        Participant_Contact__c,
-                        Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c
-                FROM Participant_Enrollment__c
-                WHERE Participant_Contact__c IN :contacts
+            SELECT Participant_Contact__c, Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c
+            FROM Participant_Enrollment__c
+            WHERE
+                Participant_Contact__c IN :contacts
                 AND Participant_Status__c IN :PEStatusState.PE_STATUS_GROUP_IN_PROGRESS_ALL
                 AND Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c != NULL
         ];
@@ -37,10 +38,12 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
         Map<Id, Map<Id, Integer>> ctpWithLoggedByCnt = new Map<Id, Map<Id, Integer>>();
         for (Participant_Enrollment__c enrollment : enrollments) {
             Id contactId = enrollment.Participant_Contact__c;
-            if (!ctpWithLoggedByCnt.containsKey(contactId)) ctpWithLoggedByCnt.put(contactId, new Map<Id, Integer>());
+            if (!ctpWithLoggedByCnt.containsKey(contactId))
+                ctpWithLoggedByCnt.put(contactId, new Map<Id, Integer>());
 
             Integer daysNotification = (Integer) enrollment.Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c;
-            ctpWithLoggedByCnt.get(contactId).put(enrollment.Clinical_Trial_Profile__c, daysNotification);
+            ctpWithLoggedByCnt.get(contactId)
+                .put(enrollment.Clinical_Trial_Profile__c, daysNotification);
         }
 
         List<Contact> updateContacts = new List<Contact>();
@@ -56,15 +59,19 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
                 }
             }
 
-            updateContacts.add(new Contact(
+            updateContacts.add(
+                new Contact(
                     Id = contactId,
                     Next_Notify_Date__c = Datetime.now().addDays(nearestDay).dateGmt()
-            ));
-            notifications.add(new Notification__c(
+                )
+            );
+            notifications.add(
+                new Notification__c(
                     Recipient__c = contactId,
                     WhatId__c = nearestCtp,
                     Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_HAS_NOT_LOGGED_IN_TYPE
-            ));
+                )
+            );
         }
         update updateContacts;
         insert notifications;

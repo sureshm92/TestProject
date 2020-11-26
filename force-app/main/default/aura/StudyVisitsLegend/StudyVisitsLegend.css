@@ -7,7 +7,7 @@
     font-weight: bold;
 }
 
-.THIS .inner-panel{
+.THIS .inner-panel {
     display: flex;
     flex-direction: column;
     padding-left: 1.5rem;
@@ -29,7 +29,7 @@
     display: flex;
 }
 
-.THIS .svl-icon{
+.THIS .svl-icon {
     display: flex;
     height: 32px;
     width: 32px;
@@ -38,14 +38,14 @@
 }
 
 .THIS .svl-label {
-    padding-left:22px;
+    padding-left: 22px;
     font-weight: bold;
     min-width: 180px;
     max-width: 100%;
     font-size: 13px;
 }
 
-.THIS .svl-desc{
+.THIS .svl-desc {
     min-width: 100px;
     padding-left: 15px;
     padding-right: 10px;
@@ -61,10 +61,9 @@
     .THIS .inner-panel {
         height: auto;
     }
-
 }
 
-@media screen and (max-width: 500px){
+@media screen and (max-width: 500px) {
     .THIS .svl-row {
         display: block !important;
     }
@@ -74,7 +73,7 @@
         padding-right: 25px;
     }
 
-    .THIS .svl-desc{
+    .THIS .svl-desc {
         margin-left: 55px;
         padding-left: 0;
         padding-right: 25px;

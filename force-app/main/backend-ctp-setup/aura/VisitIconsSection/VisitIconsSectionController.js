@@ -8,10 +8,10 @@
         for (let i = 0; i < icons.length; i++) icons[i].isSelected = false;
 
         let iconsValue = component.get('v.visit').Icons__c;
-        if(iconsValue) {
+        if (iconsValue) {
             let selectedIcons = iconsValue.split(';');
-            for(let i = 0; i < icons.length; i++) {
-                if(selectedIcons.indexOf(icons[i].id) > -1) icons[i].isSelected = true;
+            for (let i = 0; i < icons.length; i++) {
+                if (selectedIcons.indexOf(icons[i].id) > -1) icons[i].isSelected = true;
             }
         }
 
@@ -21,7 +21,8 @@
     valueChange: function (component, event, helper) {
         let icons = component.get('v.icons');
         let selectedIcons = [];
-        for(let i = 0; i < icons.length; i++) if(icons[i].isSelected) selectedIcons.push(icons[i].id);
+        for (let i = 0; i < icons.length; i++)
+            if (icons[i].isSelected) selectedIcons.push(icons[i].id);
 
         let visit = component.get('v.visit');
         visit.Icons__c = selectedIcons.join(';');

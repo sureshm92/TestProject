@@ -18,21 +18,29 @@
 
         component.set('v.statesLVList', sectionData.statesByCountryMap[personWrapper.mailingCC]);
 
-        setTimeout($A.getCallback(function () {
-            helper.setFieldsValidity(component);
-            component.showHelpMessageIfInvalid();
-        }), 1000);
+        setTimeout(
+            $A.getCallback(function () {
+                helper.setFieldsValidity(component);
+                component.showHelpMessageIfInvalid();
+            }),
+            1000
+        );
     },
 
     doUpdatePerson: function (component, event, helper) {
         component.find('spinner').show();
-        communityService.executeAction(component, 'updatePerson', {
-            wrapperJSON: JSON.stringify(component.get('v.personWrapper'))
-        }, function () {
-            component.set('v.participantHasUpdateTasks', false);
-            helper.setPersonSnapshot(component);
-            component.find('spinner').hide();
-        });
+        communityService.executeAction(
+            component,
+            'updatePerson',
+            {
+                wrapperJSON: JSON.stringify(component.get('v.personWrapper'))
+            },
+            function () {
+                component.set('v.participantHasUpdateTasks', false);
+                helper.setPersonSnapshot(component);
+                component.find('spinner').hide();
+            }
+        );
     },
 
     doStateChanged: function (component, event, helper) {
@@ -42,7 +50,7 @@
         let isStateChanged = snapShot !== currentState;
         component.set('v.isStateChanged', isStateChanged);
 
-        if(isStateChanged && (personWrapper.mailingCC !== component.get('v.previousCC'))) {
+        if (isStateChanged && personWrapper.mailingCC !== component.get('v.previousCC')) {
             setTimeout(function () {
                 component.getEvent('onEdit').fire();
             }, 50);
@@ -60,7 +68,7 @@
         let phone = personWrapper.homePhone;
         component.set('v.isAllFieldsValid', regex.test(phone));
 
-        if(personWrapper.optInSMS && !personWrapper.mobilePhone) {
+        if (personWrapper.optInSMS && !personWrapper.mobilePhone) {
             component.find('mobileAnchor').scrollInto();
             helper.setFieldsValidity(component);
             setTimeout(function () {
@@ -69,9 +77,9 @@
         }
     },
 
-    doCheckFieldsValidity: function(component, event, helper){
+    doCheckFieldsValidity: function (component, event, helper) {
         let personWrapper = component.get('v.personWrapper');
-        if(personWrapper.mailingCC !== component.get('v.previousCC')) {
+        if (personWrapper.mailingCC !== component.get('v.previousCC')) {
             let statesByCountryMap = component.get('v.statesByCountryMap');
             let states = statesByCountryMap[personWrapper.mailingCC];
             component.set('v.statesLVList', states);

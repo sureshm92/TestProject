@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS.thumbnail-container{
+.THIS.thumbnail-container {
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -13,8 +13,8 @@
     margin-bottom: 10px;
 }
 
-.THIS .thumbnail-img{
+.THIS .thumbnail-img {
     max-height: 200px;
-    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.3);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
     border-radius: 2px;
 }

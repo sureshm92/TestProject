@@ -2,14 +2,14 @@
  * Created by Nikita Abrazhevitch on 13-Jun-20.
  */
 
-.THIS .status-alert-icon{
-    width:24px;
+.THIS .status-alert-icon {
+    width: 24px;
     height: 24px;
-    fill: #FF9300;
+    fill: #ff9300;
 }
 
-.THIS.delegate-alert-message{
-    border: 1px solid #E9E9E9;
+.THIS.delegate-alert-message {
+    border: 1px solid #e9e9e9;
     border-radius: 7px;
     padding: 24.83px 32.5px 14.5px 17.5px;
     margin: 16px 10px;
@@ -20,17 +20,17 @@
     margin-bottom: 16px;
 }
 
-.THIS .alert-text :first-child{
+.THIS .alert-text :first-child {
     font-weight: 600;
 }
 
-.THIS .status-alert-action-button{
+.THIS .status-alert-action-button {
     font-size: 14px;
     line-height: 24px;
     color: #444444;
-    background-color: #F2F2F2;
+    background-color: #f2f2f2;
 }
 
-.THIS .alert-icon-margin{
+.THIS .alert-icon-margin {
     margin-right: 16px;
 }

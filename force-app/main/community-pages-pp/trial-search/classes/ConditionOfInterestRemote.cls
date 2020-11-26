@@ -3,7 +3,6 @@
  */
 
 public without sharing class ConditionOfInterestRemote {
-
     @AuraEnabled
     public static List<TherapeuticAreaService.CAWrapper> getConditionOfInterest() {
         List<TherapeuticAreaService.CAWrapper> caWrappers = new List<TherapeuticAreaService.CAWrapper>();
@@ -11,7 +10,7 @@ public without sharing class ConditionOfInterestRemote {
             List<Therapeutic_Area_Patient__c> areaPatients = ParticipantDecoupler.getTherapeuticAreaPatients();
             if (!areaPatients.isEmpty()) {
                 for (Therapeutic_Area_Patient__c coi : areaPatients) {
-                    TherapeuticAreaService.CAWrapper caWrapper = new TherapeuticAreaService.CAWrapper ();
+                    TherapeuticAreaService.CAWrapper caWrapper = new TherapeuticAreaService.CAWrapper();
                     caWrapper.isSelected = true;
                     caWrapper.coi = coi;
                     caWrappers.add(caWrapper);
@@ -24,10 +23,13 @@ public without sharing class ConditionOfInterestRemote {
     }
 
     @AuraEnabled
-    public static List<Therapeutic_Area_Patient__c> upsertListCoi(List<Therapeutic_Area_Patient__c> cois) {
+    public static List<Therapeutic_Area_Patient__c> upsertListCoi(
+        List<Therapeutic_Area_Patient__c> cois
+    ) {
         try {
             if (!cois.isEmpty()) {
-                ((DatabaseProxy)(ClassFactory.newInstance(DatabaseProxy.class))).upsertRecords(cois, true);
+                ((DatabaseProxy) (ClassFactory.newInstance(DatabaseProxy.class)))
+                    .upsertRecords(cois, true);
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);
@@ -45,9 +47,11 @@ public without sharing class ConditionOfInterestRemote {
     }
 
     @AuraEnabled
-    public static void createSubscribeConnection(List<Therapeutic_Area_Patient__c> cois){
+    public static void createSubscribeConnection(List<Therapeutic_Area_Patient__c> cois) {
         try {
-            TrialSearchHelper helper = (TrialSearchHelper) ClassFactory.newInstance(TrialSearchHelper.class);
+            TrialSearchHelper helper = (TrialSearchHelper) ClassFactory.newInstance(
+                TrialSearchHelper.class
+            );
             helper.createSubscribeConnectionByCOI(cois);
         } catch (Exception e) {
             AuraHelper.throwException(e);

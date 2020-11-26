@@ -1,41 +1,41 @@
 /**
  * Created by Leonid Bartenev
  */
- .THIS{
+.THIS {
     font-size: 13px;
     padding-bottom: 0;
 }
 
-.THIS input::placeholder{
+.THIS input::placeholder {
     font-size: 13px;
 }
 
-.THIS .fp-filter-block{
+.THIS .fp-filter-block {
     padding-top: 5px;
     padding-bottom: 10px;
     padding-right: 2px;
 }
 
-.THIS .fp-collapsible{
+.THIS .fp-collapsible {
     overflow: hidden;
     max-height: 300px;
     transition: 0.6s;
 }
 
-.THIS.collapsed .fp-collapsible{
+.THIS.collapsed .fp-collapsible {
     opacity: 0;
     max-height: 0;
     border-bottom: none;
 }
 
-.THIS .fp-filter-block .rrs-container select option:first-child{
+.THIS .fp-filter-block .rrs-container select option:first-child {
     background-color: gray;
     color: white;
     text-align: center;
     font-weight: 600;
 }
 
-.THIS .fp-search-input .rri-container{
+.THIS .fp-search-input .rri-container {
     display: inline-block;
     width: inherit;
     width: 250px;
@@ -43,17 +43,17 @@
 }
 
 .THIS .fp-search .rri-container .slds-input,
-.THIS .fp-search-input .rri-container .slds-input  {
-	padding-left: 25px;   
+.THIS .fp-search-input .rri-container .slds-input {
+    padding-left: 25px;
     background: #fff url(/resource/1570111512000/searchIcon) no-repeat 7px 9px;
-	background-size: 14px 14px;
-	padding-left: 25px;
-	position: relative;
-	top: 0;
-	left: 0;
+    background-size: 14px 14px;
+    padding-left: 25px;
+    position: relative;
+    top: 0;
+    left: 0;
 }
 
-.THIS .fp-pagination-block{
+.THIS .fp-pagination-block {
     padding-top: 15px;
     border-top: 1px solid #d9d9d9;
     margin-bottom: 5px;
@@ -71,34 +71,34 @@
     padding-top: 0;
 }
 
-.THIS .fp-form-element{
+.THIS .fp-form-element {
     display: inline-block;
     white-space: nowrap;
     text-align: left;
 }
 
-.THIS .fp-form-element + .fp-form-element{
+.THIS .fp-form-element + .fp-form-element {
     margin-left: 15px;
     margin-bottom: 15px;
 }
 
-.THIS .fp-form-element > label{
+.THIS .fp-form-element > label {
     display: block;
     margin-right: 5px;
 }
 
-.THIS .fp-page-control{
+.THIS .fp-page-control {
     text-align: right;
     white-space: nowrap;
 }
 
-.THIS .fp-collapse-label{
+.THIS .fp-collapse-label {
     display: inline-block;
     cursor: pointer;
     padding: 12px 0;
 }
 
-.THIS .fp-collapse-label .rr-icon-default{
+.THIS .fp-collapse-label .rr-icon-default {
     width: 16px;
     height: 16px;
     fill: #999999;
@@ -112,38 +112,37 @@
     flex-direction: column-reverse;
 }
 
-.THIS .fp-mobile .fp-search{
+.THIS .fp-mobile .fp-search {
     display: inline-block;
 }
 
-.THIS .fp-mobile .fp-search, 
+.THIS .fp-mobile .fp-search,
 .THIS .fp-mobile .fp-search-input {
-  	text-align: right;
+    text-align: right;
     margin-bottom: 10px;
     width: 100%;
     margin-top: 3px;
 }
 
-.THIS .fp-main-filter-block{
+.THIS .fp-main-filter-block {
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
 }
 
-.THIS .fp-filters-container{
+.THIS .fp-filters-container {
     margin: -5px;
     overflow: hidden;
     margin-right: 5px;
 }
 
-.THIS .fp-filters-label{
+.THIS .fp-filters-label {
     white-space: nowrap;
     margin-right: 10px;
     line-height: 40px;
 }
 
-
-.THIS .fp-filters-container .rrs-container{
+.THIS .fp-filters-container .rrs-container {
     display: inline-block;
     /*max-width: 245px;*/
     max-width: 210px;
@@ -172,7 +171,6 @@
     margin-left: 13px;
 }
 
-
 .THIS .show-more {
     margin-left: 14px;
     font-size: 13px;
@@ -188,144 +186,137 @@
 
 .THIS .show-more a:hover {
     background-color: #eef5ff;
-    transition: .25s;
+    transition: 0.25s;
 }
 
-@media all and (min-width: 1024px){
-    .THIS.collapsed .fp-collapsible{
+@media all and (min-width: 1024px) {
+    .THIS.collapsed .fp-collapsible {
         opacity: 1;
         max-height: 300px;
-    } 
+    }
 }
 
-@media all and (max-width: 1024px){
+@media all and (max-width: 1024px) {
     .THIS .fp-mobile .fp-search {
         width: 50%;
-    }   
+    }
 }
 
-
-@media all and (min-width: 768px){
-    .THIS .fp-form-element > label{
+@media all and (min-width: 768px) {
+    .THIS .fp-form-element > label {
         display: inline-block;
     }
-
 }
-@media all and (max-width: 768px){
+@media all and (max-width: 768px) {
     .THIS .fp-pagination-block {
         align-items: center;
     }
-    
+
     .THIS .fp-page-control {
         max-width: 30%;
         white-space: normal;
     }
-    
-     .THIS .fp-page-info {
-        max-width: 70%
+
+    .THIS .fp-page-info {
+        max-width: 70%;
     }
-    
-    .THIS .fp-page-control .fp-form-element:nth-child(2){
-       margin-bottom: 1rem;
+
+    .THIS .fp-page-control .fp-form-element:nth-child(2) {
+        margin-bottom: 1rem;
     }
-    
+
     .THIS {
         margin: 0 15px;
     }
-    
+
     .THIS .fp-page-info {
         justify-content: flex-start;
     }
-    
+
     .THIS .fp-mobile .fp-search {
         width: 50%;
     }
-
 }
 
-@media all and (max-width: 600px){
+@media all and (max-width: 600px) {
     .THIS .fp-pagination-block {
         flex-direction: column-reverse;
     }
-    
+
     .THIS .fp-page-control,
     .THIS .fp-page-info {
         max-width: unset;
     }
-}   
-
+}
 
 @media all and (max-width: 500px) {
     .THIS .vp-navigate-btn {
-        margin-top: 15px!important;
+        margin-top: 15px !important;
         padding-left: 0;
         margin-bottom: 15px;
     }
-    
+
     .THIS .fp-page-control {
         display: flex;
         flex-direction: column;
     }
-    
+
     .THIS .fp-mobile .fp-search {
         width: 100%;
     }
-       
+
     .THIS .fp-page-control .fp-form-element {
         margin-left: 0;
         margin-bottom: 1rem;
         display: flex;
         align-items: center;
     }
-    
-     .THIS .fp-page-control .fp-form-element:nth-child(2) .cRrSelect.rrs-container{
-     	display: flex;
+
+    .THIS .fp-page-control .fp-form-element:nth-child(2) .cRrSelect.rrs-container {
+        display: flex;
         flex-grow: 1;
     }
-    
+
     .THIS .fp-page-control .fp-form-element:nth-child(2) .cRrSelect.rrs-container .rrs-relative {
-     	width: 100%;
+        width: 100%;
     }
-    
+
     .THIS .fp-page-control .fp-form-element:nth-child(3) {
         justify-content: space-between;
     }
-    
+
     .THIS .fp-page-control .fp-form-element > label {
-        display: inline-block!important;
+        display: inline-block !important;
     }
-    
+
     .THIS .fp-page-info {
         flex-direction: column-reverse;
     }
-    
+
     .THIS .filterLeft {
         display: flex;
         flex-direction: column-reverse;
     }
-    
+
     .THIS .filterLeft > div {
         text-align: center;
     }
-    
+
     .THIS .pagination-position,
     .THIS .vp-export-btn .apollo-btn {
         width: 100%;
     }
-    
+
     .THIS .vp-export-btn {
-        width:100%;
+        width: 100%;
         margin-top: 1rem;
         padding: 5px 0;
     }
-    
 }
 @media all and (max-width: 768px) {
     .THIS .vp-navigate-btn {
-        margin-top: 15px!important;
+        margin-top: 15px !important;
         padding-left: 0;
-    	margin-bottom: 15px;
+        margin-bottom: 15px;
     }
-    
-    
 }

@@ -1,7 +1,7 @@
 /**
  * Created by Igor Malyuta on 21.12.2019.
  */
- .ms-disc-place {
+.ms-disc-place {
     min-height: 40px;
 }
 
@@ -12,13 +12,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 4px 0 rgba(0,0,0,.04);
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
     color: #000;
     font-size: 14px;
     font-weight: 700;
 }
 
-.ms-disclaimer-mob, .disc-btn {
+.ms-disclaimer-mob,
+.disc-btn {
     display: none;
 }
 
@@ -29,16 +30,17 @@
     width: 350px;
     transform: rotate(-360deg);
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 600;
     line-height: 24px;
 }
 
-.disc-more, .disc-less{
+.disc-more,
+.disc-less {
     height: 24px;
-    color: #0768FD;
-    font-family: "Proxima Nova";
+    color: #0768fd;
+    font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: 500;
     line-height: 24px;
@@ -52,7 +54,7 @@
 .ms-container {
     height: 600px;
     background-color: #ffffff;
-    border: 1px solid #E9E9E9;
+    border: 1px solid #e9e9e9;
     border-radius: 4px;
     display: flex;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
@@ -90,7 +92,7 @@
 
 .ms-title {
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 24px;
     font-weight: 600;
     line-height: 29px;
@@ -103,8 +105,9 @@
     padding-left: 2.5px;
     margin-top: -2px;
     border-radius: 50%;
-    background-color: #0557D5;
-    box-shadow: 0 4px 8px 0 rgba(41,125,253,0.16), 0 4px 4px 0 rgba(0,0,0,0.04), 0 8px 16px 0 rgba(41,125,253,0.32);
+    background-color: #0557d5;
+    box-shadow: 0 4px 8px 0 rgba(41, 125, 253, 0.16), 0 4px 4px 0 rgba(0, 0, 0, 0.04),
+        0 8px 16px 0 rgba(41, 125, 253, 0.32);
     cursor: pointer;
 }
 
@@ -114,7 +117,7 @@
     align-items: center;
     padding-left: 25px;
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 18px;
     font-weight: 500;
     line-height: 22px;
@@ -155,7 +158,7 @@
 
 .ms-empty-conversations-label {
     color: #999999;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 20px;
     font-weight: 600;
     line-height: 26px;
@@ -164,19 +167,17 @@
     padding-top: 24px;
 }
 
-.rtl{
+.rtl {
     direction: rtl;
 }
-.msgrtl{
+.msgrtl {
     border-left: 1px solid #e6e5e5;
-
 }
-.headertitle
-{
+.headertitle {
     margin-right: 3px;
 }
-.newMsgLabel{
-padding-right: 25px;
+.newMsgLabel {
+    padding-right: 25px;
 }
 
 @media all and (max-width: 480px) {
@@ -192,7 +193,7 @@ padding-right: 25px;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, .04);
+        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
     }
 
     .disc-btn {

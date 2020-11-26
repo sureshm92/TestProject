@@ -28,14 +28,7 @@
         class="{!'sv-body ' + if(v.initialized, '', 'hidden')}"
         data-gtm="PNL_Travel_Support_Details"
     >
-        <div
-            class="tt-title"
-            style="
-                 {
-                    !v.isrtl?'margin-right:10px': '';
-                }
-            "
-        >
+        <div class="tt-title" style="{!if(v.isRTL, 'margin-right: 10px;', '')}">
             {!$Label.c.Home_Page_Travel_Support_Details_Tab}
         </div>
         <div class="select-container">
@@ -125,11 +118,7 @@
                                         />
                                     </div>
                                     <div
-                                        style="
-                                             {
-                                                !v.isrtl?'padding-right:3px': 'padding-left: 3px';
-                                            }
-                                        "
+                                        style="{!if(v.isRTL, 'padding-right: 3px;', 'padding-left: 3px;')}"
                                     >
                                         {!travelWrapper.title}
                                     </div>
@@ -146,11 +135,7 @@
                                         color="{!travelWrapper.bgc}"
                                     />
                                     <div
-                                        style="
-                                             {
-                                                !v.isrtl?'padding-right:5px': 'padding-left: 5px';
-                                            }
-                                        "
+                                        style="{!if(v.isRTL, 'padding-right: 5px;', 'padding-left: 5px;')}"
                                     >
                                         {!travelWrapper.status}
                                     </div>

@@ -44,8 +44,8 @@
     },
 
     doShowGroupChanged: function (component, event, helper) {
-        if(!component.get('v.showGroup')){
-            component.set('v.showOnMyResultCard',false);
+        if (!component.get('v.showGroup')) {
+            component.set('v.showOnMyResultCard', false);
         }
         component.getEvent('onChange').fire();
     },
@@ -79,13 +79,12 @@
         component.set('v.visitResults', visitResults);
     },
 
-    doUpdateGroupSelection:function(component,event,helper){
+    doUpdateGroupSelection: function (component, event, helper) {
         let changeShowOnMyResultCard = component.getEvent('onChangeShowOnMyResultCard');
-        changeShowOnMyResultCard.setParams(
-            {
-                'visitResultGroupLabel': component.get('v.groupLabel'),
-                'showOnMyResultCard':component.get('v.showOnMyResultCard')
-            });
+        changeShowOnMyResultCard.setParams({
+            visitResultGroupLabel: component.get('v.groupLabel'),
+            showOnMyResultCard: component.get('v.showOnMyResultCard')
+        });
         changeShowOnMyResultCard.fire();
     }
 });

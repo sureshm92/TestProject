@@ -2,10 +2,8 @@
  * Created by D.Yasinskyi on 25.04.2018
  */
 public without sharing class RRIconTableController {
-
     @AuraEnabled
     public static String getFilterInfoAndSummaryInfo() {
-
         RRIconTableController.FilterInfoAndSummaryInfo infoDetail = new RRIconTableController.FilterInfoAndSummaryInfo();
 
         //set filterPill info
@@ -17,7 +15,10 @@ public without sharing class RRIconTableController {
         twoSubInfo.items.add(new LabelValueItem('Sub info one', String.valueOf(1)));
         twoSubInfo.items.add(new LabelValueItem('Sub info two', String.valueOf(2)));
         infoDetail.summaryContainers.add(twoSubInfo);
-        SummaryContainer fourSubInfo = new SummaryContainer('Four sub info (60px)', String.valueOf(10));
+        SummaryContainer fourSubInfo = new SummaryContainer(
+            'Four sub info (60px)',
+            String.valueOf(10)
+        );
         fourSubInfo.labelMaxWidth = '60px';
         fourSubInfo.items.add(new LabelValueItem('Sub info one', String.valueOf(1)));
         fourSubInfo.items.add(new LabelValueItem('Sub info two', String.valueOf(2)));
@@ -32,7 +33,7 @@ public without sharing class RRIconTableController {
         List<SummaryContainer> summaryContainers;
         FilterPillInfo filterInfo;
 
-        public FilterInfoAndSummaryInfo(){
+        public FilterInfoAndSummaryInfo() {
             summaryContainers = new List<SummaryContainer>();
         }
     }

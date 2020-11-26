@@ -1,5 +1,5 @@
 ({
-    updateSearchTerm : function(component, searchTerm) {
+    updateSearchTerm: function (component, searchTerm) {
         // Save search term so that it updates input
         component.set('v.searchTerm', searchTerm);
 
@@ -27,7 +27,7 @@
             clearTimeout(searchTimeout);
         }
         searchTimeout = window.setTimeout(
-            $A.getCallback(function() {
+            $A.getCallback(function () {
                 // Send search event if it long enougth
                 const searchTerm = component.get('v.searchTerm');
                 if (searchTerm.length >= 2) {
@@ -41,10 +41,12 @@
         component.set('v.searchThrottlingTimeout', searchTimeout);
     },
 
-    selectResult : function(component, recordId) {
+    selectResult: function (component, recordId) {
         // Save selection
         const searchResults = component.get('v.searchResults');
-        const selectedResult = searchResults.filter(function(result) { return result.id === recordId; });
+        const selectedResult = searchResults.filter(function (result) {
+            return result.id === recordId;
+        });
         if (selectedResult.length > 0) {
             const selection = component.get('v.selection');
             selection.push(selectedResult[0]);
@@ -55,32 +57,36 @@
         component.set('v.searchResults', []);
     },
 
-    getSelectedIds : function(component) {
+    getSelectedIds: function (component) {
         const selection = component.get('v.selection');
-        return selection.map(function(element) { return element.id; });
+        return selection.map(function (element) {
+            return element.id;
+        });
     },
 
-    removeSelectedItem : function(component, removedItemId) {
+    removeSelectedItem: function (component, removedItemId) {
         const selection = component.get('v.selection');
-        const updatedSelection = selection.filter(function(item) { return item.id !== removedItemId; });
+        const updatedSelection = selection.filter(function (item) {
+            return item.id !== removedItemId;
+        });
         component.set('v.selection', updatedSelection);
 
-        if(updatedSelection.size === 0) component.set('v.placeholder', 'Not selected');
+        if (updatedSelection.size === 0) component.set('v.placeholder', 'Not selected');
     },
 
-    clearSelection : function(component, itemId) {
+    clearSelection: function (component, itemId) {
         component.set('v.selection', []);
     },
 
-    isSelectionAllowed : function(component) {
+    isSelectionAllowed: function (component) {
         return component.get('v.isMultiEntry') || component.get('v.selection').length === 0;
     },
 
-    toggleSearchSpinner : function(component) {
+    toggleSearchSpinner: function (component) {
         const spinner = component.find('spinner');
         const searchIcon = component.find('search-icon');
 
         $A.util.toggleClass(spinner, 'slds-hide');
         $A.util.toggleClass(searchIcon, 'slds-hide');
     }
-})
+});

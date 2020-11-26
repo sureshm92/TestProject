@@ -15,7 +15,7 @@
                     item = item.subItems[0];
                 }
                 component.set('v.itemValue', item);
-            } else if (itemValue.delegateId === currentMode.currentDelegateId){
+            } else if (itemValue.delegateId === currentMode.currentDelegateId) {
                 component.set('v.itemValue', null);
             }
         }
@@ -25,7 +25,7 @@
             var menuSelectEvent = component.getEvent('menuSelect');
             menuSelectEvent.setParams({
                 selectedItem: component,
-                'hideMenu': true
+                hideMenu: true
             });
             menuSelectEvent.fire();
         }

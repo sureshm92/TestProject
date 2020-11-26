@@ -1,5 +1,4 @@
 <aura:component description="SearchAutoComplete">
-
     <!-- Attributes specific to component-->
     <aura:attribute name="searchList" type="List" />
     <aura:attribute name="results" type="List" />
@@ -10,19 +9,37 @@
     <aura:attribute name="inputSearchFunction" type="Object" />
 
     <div class="slds-form-element">
-        <label class="slds-form-element__label" for="combobox-id-21"
-            style="{! empty(v.label) ? 'display:hidden;' : 'display:block;'}">{!v.label}</label>
+        <label
+            class="slds-form-element__label"
+            for="combobox-id-21"
+            style="{! empty(v.label) ? 'display:hidden;' : 'display:block;'}"
+            >{!v.label}</label
+        >
         <div class="slds-form-element__control">
             <div class="slds-combobox_container">
                 <!--Search box-->
-                <div class="{! v.openDropDown ? 'slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open' : 'slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click'}"
-                    aria-expanded="true" aria-haspopup="listbox" role="combobox">
-                    <div style="padding: 5%;margin-top: -30%;" class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
-                            <lightning:input aura:id="enter-search"
-                            name="enter-search" variant="lable-hidden"
-                            label="" autoComplete="off"
-                            onkeyup="{!c.searchHandler}" isLoading="{!v.issearching}"
-                            value="{!v.inputValue}" type="search" />
+                <div
+                    class="{! v.openDropDown ? 'slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open' : 'slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click'}"
+                    aria-expanded="true"
+                    aria-haspopup="listbox"
+                    role="combobox"
+                >
+                    <div
+                        style="padding: 5%; margin-top: -30%"
+                        class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                        role="none"
+                    >
+                        <lightning:input
+                            aura:id="enter-search"
+                            name="enter-search"
+                            variant="lable-hidden"
+                            label=""
+                            autocomplete="off"
+                            onkeyup="{!c.searchHandler}"
+                            isLoading="{!v.issearching}"
+                            value="{!v.inputValue}"
+                            type="search"
+                        />
                         <!--input type="text"
                             class="slds-input slds-combobox__input slds-has-focus slds-combobox__input-value"
                             id="combobox-id-21" aria-autocomplete="list" aria-controls="listbox-id-11"
@@ -43,19 +60,32 @@
                     </div>
                     <!--Search box-->
                     <!--Dropdown list-->
-                    <div id="listbox-id-11" class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid"
-                        role="listbox">
+                    <div
+                        id="listbox-id-11"
+                        class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid"
+                        role="listbox"
+                    >
                         <aura:if isTrue="{! !(empty(v.results))}">
                             <ul class="slds-listbox slds-listbox_vertical" role="presentation">
                                 <aura:iteration items="{!v.results}" var="result">
-                                    <li role="presentation" class="slds-listbox__item" data-id="{!result.id}"
-                                        data-value="{!result.value}" onclick="{!c.optionClickHandler}">
-                                        <div id="{!result.id}"
+                                    <li
+                                        role="presentation"
+                                        class="slds-listbox__item"
+                                        data-id="{!result.id}"
+                                        data-value="{!result.value}"
+                                        onclick="{!c.optionClickHandler}"
+                                    >
+                                        <div
+                                            id="{!result.id}"
                                             class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
-                                            role="option">
+                                            role="option"
+                                        >
                                             <!--span class="slds-media__figure slds-listbox__option-icon"></span-->
                                             <span class="slds-media__body">
-                                                <span class="slds-truncate" title="All Participants">
+                                                <span
+                                                    class="slds-truncate"
+                                                    title="All Participants"
+                                                >
                                                     <span>{!result.value}</span>
                                                 </span>
                                             </span>
@@ -83,5 +113,4 @@
             </div>
         </div>
     </div>
-
 </aura:component>

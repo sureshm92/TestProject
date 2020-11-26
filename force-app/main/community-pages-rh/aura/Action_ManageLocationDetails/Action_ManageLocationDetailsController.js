@@ -27,13 +27,22 @@
         var studySite = component.get('v.studySite');
         studySite.Site__r = component.get('v.checkedAccount');
         studySite.Site__c = component.get('v.checkedAccount').Id;
-        communityService.executeAction(component, 'changeSSAccount', {ssId : studySite.Id, accountId : studySite.Site__c}, function () {
-            communityService.showToast('success', 'success', $A.get('$Label.c.SS_Success_Save_Message'));
-            component.set('v.locationWasChanged', false);
-            component.find('modalSpinner').hide();
-            component.find('manageLocation').hide();
-            component.get('v.callback')(studySite);
-        });
+        communityService.executeAction(
+            component,
+            'changeSSAccount',
+            { ssId: studySite.Id, accountId: studySite.Site__c },
+            function () {
+                communityService.showToast(
+                    'success',
+                    'success',
+                    $A.get('$Label.c.SS_Success_Save_Message')
+                );
+                component.set('v.locationWasChanged', false);
+                component.find('modalSpinner').hide();
+                component.find('manageLocation').hide();
+                component.get('v.callback')(studySite);
+            }
+        );
     },
 
     doCancel: function (component, event, helper) {
@@ -50,12 +59,12 @@
                 BillingCountryCode: studySite.Principal_Investigator__r.Account.BillingCountryCode,
                 BillingStateCode: studySite.Principal_Investigator__r.Account.BillingStateCode,
                 sobjectType: 'Account'
-            }
+            };
         }
         component.find('editLocation').execute(account, studySite.Id, function (account) {
-            if(index){
+            if (index) {
                 accountsList[index] = account;
-            } else{
+            } else {
                 accountsList.push(account);
             }
             helper.sortAndSetAccountsByName(component, accountsList);
@@ -65,19 +74,22 @@
             //component.set('v.studySite', studySite);
             var radioBtns = component.find('radioBtn');
             for (let i = 0; i < radioBtns.length; i++) {
-                if(radioBtns[i].get('v.value').Id == account.Id){
+                if (radioBtns[i].get('v.value').Id == account.Id) {
                     radioBtns[i].set('v.checked', true);
                 } else {
                     radioBtns[i].set('v.checked', false);
                 }
             }
-            communityService.showToast('success', 'success', $A.get('$Label.c.SS_Success_Save_Message'));
+            communityService.showToast(
+                'success',
+                'success',
+                $A.get('$Label.c.SS_Success_Save_Message')
+            );
             component.get('v.callback')(studySite, accountsList);
             //component.set('v.refresh', true);
             //component.set('v.refresh', false);
             //component.find('manageLocation').hide();
             //component.find('manageLocation').show();
-
         });
-    },
+    }
 });

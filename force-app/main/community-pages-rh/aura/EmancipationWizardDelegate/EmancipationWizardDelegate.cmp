@@ -2,67 +2,91 @@
  - Created by alekseymoseev on 4/10/20.
  -->
 <aura:component description="EmancipationWizardDelegate" controller="ParticipantInformationRemote">
-
-    <aura:attribute name="delegateItem" type="Object"/>
-    <aura:attribute name="index" type="Integer"/>
-    <aura:attribute name="parent" type="Aura.Component"/>
-    <aura:attribute name="isValid" type="Boolean" default="false"/>
-    <aura:attribute name="isDuplicateDelegate" type="Boolean" default="false"/>
-    <aura:attribute name="duplicateDelegateInfo" type="Object"/>
-    <aura:attribute name="useThisDelegate" type="Boolean" default="true"/>
+    <aura:attribute name="delegateItem" type="Object" />
+    <aura:attribute name="index" type="Integer" />
+    <aura:attribute name="parent" type="Aura.Component" />
+    <aura:attribute name="isValid" type="Boolean" default="false" />
+    <aura:attribute name="isDuplicateDelegate" type="Boolean" default="false" />
+    <aura:attribute name="duplicateDelegateInfo" type="Object" />
+    <aura:attribute name="useThisDelegate" type="Boolean" default="true" />
     <!--<aura:attribute name="delegateInstance" type="String"/>-->
-    <aura:attribute name="delegateEmailWasChanged" type="Boolean" default="false"/>
-    <aura:attribute name="NoInvite" type="Boolean" default="false" access="public"/>
+    <aura:attribute name="delegateEmailWasChanged" type="Boolean" default="false" />
+    <aura:attribute name="NoInvite" type="Boolean" default="false" access="public" />
 
-    <aura:handler name="init" value="{!this}" action="{!c.checkFields}"/>
-    <aura:handler name="ddMessageButtonClick" event="c:DDMessageEvent" action="{!c.approveDelegate}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.checkFields}" />
+    <aura:handler
+        name="ddMessageButtonClick"
+        event="c:DDMessageEvent"
+        action="{!c.approveDelegate}"
+    />
 
-
-    <c:RRSpinner aura:id="spinner" size="medium"/>
+    <c:RRSpinner aura:id="spinner" size="medium" />
 
     <div class="slds-grid slds-wrap slds-size--1-of-1 healthcare-form-container">
-        <div class="rr-form-element slds-col slds-size--3-of-12" style="margin-top: 10px;">
+        <div class="rr-form-element slds-col slds-size--3-of-12" style="margin-top: 10px">
             <div class="label">
-                {!$Label.c.PG_AS_F_Email_address}<abbr title="required" class="slds-required">*</abbr>
+                {!$Label.c.PG_AS_F_Email_address}<abbr title="required" class="slds-required"
+                    >*</abbr
+                >
             </div>
-            <lightning:input class="healthcare-input" type="text" required="true" aura:id="delEmail"
-                             value="{!v.delegateItem.Email__c}"
-                             onblur="{!c.checkContact}"
-                             onchange="{!c.checkFields}"
-                             disabled="{!v.delegateItem.isConnected}"/>
+            <lightning:input
+                class="healthcare-input"
+                type="text"
+                required="true"
+                aura:id="delEmail"
+                value="{!v.delegateItem.Email__c}"
+                onblur="{!c.checkContact}"
+                onchange="{!c.checkFields}"
+                disabled="{!v.delegateItem.isConnected}"
+            />
         </div>
         <div class="rr-form-element slds-col slds-size--3-of-12">
             <div class="label">
                 {!$Label.c.PG_AS_F_First_name}<abbr title="required" class="slds-required">*</abbr>
             </div>
-            <lightning:input class="healthcare-input" type="text" required="true" aura:id="delFirstName"
-                             value="{!v.delegateItem.First_Name__c}"
-                             onchange="{!c.checkFields}"
-                             onblur="{!c.checkContact}"
-                             disabled="{!v.delegateItem.isConnected || v.duplicateDelegateInfo.isDuplicate}"/>
+            <lightning:input
+                class="healthcare-input"
+                type="text"
+                required="true"
+                aura:id="delFirstName"
+                value="{!v.delegateItem.First_Name__c}"
+                onchange="{!c.checkFields}"
+                onblur="{!c.checkContact}"
+                disabled="{!v.delegateItem.isConnected || v.duplicateDelegateInfo.isDuplicate}"
+            />
         </div>
         <div class="rr-form-element slds-col slds-size--3-of-12">
             <div class="label">
                 {!$Label.c.PG_AS_F_Last_name}<abbr title="required" class="slds-required">*</abbr>
             </div>
-            <lightning:input class="healthcare-input" type="text" required="true" aura:id="delLastName"
-                             value="{!v.delegateItem.Last_Name__c}"
-                             onchange="{!c.checkFields}"
-                             onblur="{!c.checkContact}"
-                             disabled="{!v.delegateItem.isConnected || v.duplicateDelegateInfo.isDuplicate}"/>
+            <lightning:input
+                class="healthcare-input"
+                type="text"
+                required="true"
+                aura:id="delLastName"
+                value="{!v.delegateItem.Last_Name__c}"
+                onchange="{!c.checkFields}"
+                onblur="{!c.checkContact}"
+                disabled="{!v.delegateItem.isConnected || v.duplicateDelegateInfo.isDuplicate}"
+            />
         </div>
         <div class="rr-form-element slds-col slds-size--3-of-12">
-            <button class="apollo-btn secondary" onclick="{!c.doConnect}"
-                    style="margin-top: 23px; box-shadow: none; border: none;"
-                    disabled="{!(!v.isValid || v.duplicateDelegateInfo.isDuplicateDelegate || !v.useThisDelegate)}"
-                    title="{!v.duplicateDelegateInfo.isDuplicate ? $Label.c.HealCare_Provider_Already_Connected : ''}">
-                {!v.delegateItem.isConnected ? $Label.c.HealthCare_Provider_Stop_Sharing : $Label.c.HealthCare_Provider_Connect}
+            <button
+                class="apollo-btn secondary"
+                onclick="{!c.doConnect}"
+                style="margin-top: 23px; box-shadow: none; border: none"
+                disabled="{!(!v.isValid || v.duplicateDelegateInfo.isDuplicateDelegate || !v.useThisDelegate)}"
+                title="{!v.duplicateDelegateInfo.isDuplicate ? $Label.c.HealCare_Provider_Already_Connected : ''}"
+            >
+                {!v.delegateItem.isConnected ? $Label.c.HealthCare_Provider_Stop_Sharing :
+                $Label.c.HealthCare_Provider_Connect}
             </button>
         </div>
 
-        <aura:if isTrue="{!(v.duplicateDelegateInfo.isDuplicateDelegate || v.duplicateDelegateInfo.contactId || v.duplicateDelegateInfo.participantId) &amp;&amp; !v.useThisDelegate}">
-            <c:DuplicateDelegateMessage delegateDuplicateInfo="{!v.duplicateDelegateInfo}"/>
+        <aura:if
+            isTrue="{!(v.duplicateDelegateInfo.isDuplicateDelegate || v.duplicateDelegateInfo.contactId || v.duplicateDelegateInfo.participantId) &amp;&amp; !v.useThisDelegate}"
+        >
+            <c:DuplicateDelegateMessage delegateDuplicateInfo="{!v.duplicateDelegateInfo}" />
         </aura:if>
     </div>
-
 </aura:component>

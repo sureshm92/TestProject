@@ -3,7 +3,6 @@
  */
 
 public interface SearchFilter {
-
     String getQueryType();
     List<String> getFields();
     String getFilterString();

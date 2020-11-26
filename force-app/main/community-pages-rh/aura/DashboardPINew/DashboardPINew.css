@@ -2,40 +2,38 @@
  * Created by Andrii Kryvolap.
  * Updated by Sumit Surve.
  */
-.THIS .db-quick-actions-container{
+.THIS .db-quick-actions-container {
     margin-top: 25px;
 }
-.THIS .db-quick-actions-container-participant{
+.THIS .db-quick-actions-container-participant {
     margin-top: -208px;
 }
 
-.THIS.pi-picklist-container{
+.THIS.pi-picklist-container {
     padding-bottom: 2%;
     padding-left: 12px;
     display: inline-flex; /* added for REF-2611 bug fixing */
     flex-wrap: wrap; /* added for REF-2611 bug fixing */
 }
 
-.THIS .picklist-block{
-    width:251px;
+.THIS .picklist-block {
+    width: 251px;
 }
 
 @media all and (max-width: 1024px) {
-    .THIS .db-quick-actions-container-participant{
+    .THIS .db-quick-actions-container-participant {
         margin-top: 24px;
     }
 }
 
 @media all and (max-width: 768px) {
-    .THIS.db-section > .slds-col:nth-child(-n+2){
+    .THIS.db-section > .slds-col:nth-child(-n + 2) {
         min-width: 100%;
     }
 }
 
-
-@media all and (max-width: 500px){
-    .THIS.pi-picklist-container{
+@media all and (max-width: 500px) {
+    .THIS.pi-picklist-container {
         padding-right: 12px;
     }
-
 }

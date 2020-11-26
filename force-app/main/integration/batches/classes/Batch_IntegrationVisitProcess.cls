@@ -2,35 +2,37 @@
  * Created by Leonid Bartenev
  */
 
-public without sharing class Batch_IntegrationVisitProcess extends Batch_ScheduledAbstract{
-    
+public without sharing class Batch_IntegrationVisitProcess extends Batch_ScheduledAbstract {
     public Database.QueryLocator start(Database.BatchableContext bc) {
-        return Database.getQueryLocator([
+        return Database.getQueryLocator(
+            [
                 SELECT
-                        CreatedById,
-                        CreatedDate,
-                        External_Key__c,
-                        Id,
-                        IsDeleted,
-                        IsDeletedInSDH__c,
-                        LastModifiedById,
-                        LastModifiedDate,
-                        MD5_Hash__c,
-                        Name,
-                        OwnerId,
-                        STUDYID__c,
-                        SVSTDTC__c,
-                        SystemModstamp,
-                        USUBJID__c,
-                        VISIT__c,
-                        VISITNUM__c,
-                        Work_Status__c
-                FROM Integration_Visit__c WHERE Processed__c = FALSE
-        ]);
+                    CreatedById,
+                    CreatedDate,
+                    External_Key__c,
+                    Id,
+                    IsDeleted,
+                    IsDeletedInSDH__c,
+                    LastModifiedById,
+                    LastModifiedDate,
+                    MD5_Hash__c,
+                    Name,
+                    OwnerId,
+                    STUDYID__c,
+                    SVSTDTC__c,
+                    SystemModstamp,
+                    USUBJID__c,
+                    VISIT__c,
+                    VISITNUM__c,
+                    Work_Status__c
+                FROM Integration_Visit__c
+                WHERE Processed__c = FALSE
+            ]
+        );
     }
-    
+
     public void execute(Database.BatchableContext param1, List<SObject> scope) {
-        List<Integration_Visit__c> integrationVisits = (List<Integration_Visit__c>)scope;
+        List<Integration_Visit__c> integrationVisits = (List<Integration_Visit__c>) scope;
         IntegrationVisitTriggerHandler.updateVisits(integrationVisits);
     }
 
@@ -38,7 +40,7 @@ public without sharing class Batch_IntegrationVisitProcess extends Batch_Schedul
         Database.executeBatch(new Batch_IntegrationVisitResultProcess());
         super.finish(bc);
     }
-    
+
     public override Type getType() {
         return Batch_IntegrationVisitProcess.class;
     }

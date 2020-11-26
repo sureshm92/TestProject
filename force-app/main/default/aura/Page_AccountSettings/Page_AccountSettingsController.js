@@ -3,9 +3,9 @@
  */
 ({
     doInit: function (component, event, helper) {
-        if(!communityService.isInitialized()) return;
+        if (!communityService.isInitialized()) return;
 
-        if(!communityService.isDummy()) {
+        if (!communityService.isDummy()) {
             component.set('v.isDelegate', communityService.isDelegate());
             component.set('v.userMode', communityService.getUserMode());
             component.set('v.isInitialized', true);

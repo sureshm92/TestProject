@@ -1,6 +1,6 @@
 /**
-* Created by Andrii Kryvolap.
-*/
+ * Created by Andrii Kryvolap.
+ */
 
 @IsTest(IsParallel=false)
 private class Test_ParticipantInformationRemote {
@@ -11,17 +11,28 @@ private class Test_ParticipantInformationRemote {
         TestData.createTCAcceptance();
         Test.stopTest();
     }
-    
-    
+
     @IsTest
     static void getInitData() {
         TestData testData = new TestData();
         Test.startTest();
         System.runAs(testData.piUser) {
             ParticipantInformationRemote.getInitData();
-            ParticipantInformationRemote.getSteps(testData.pe.Id, CommunityService.USER_MODE_PI, null);
-            ParticipantInformationRemote.getPrintInformation(testData.pe.Id, CommunityService.USER_MODE_PI, null);
-            ParticipantInformationRemote.getPrintInfoWithSteps(testData.pe.Id, CommunityService.USER_MODE_PI, null);
+            ParticipantInformationRemote.getSteps(
+                testData.pe.Id,
+                CommunityService.USER_MODE_PI,
+                null
+            );
+            ParticipantInformationRemote.getPrintInformation(
+                testData.pe.Id,
+                CommunityService.USER_MODE_PI,
+                null
+            );
+            ParticipantInformationRemote.getPrintInfoWithSteps(
+                testData.pe.Id,
+                CommunityService.USER_MODE_PI,
+                null
+            );
         }
         Test.stopTest();
     }
@@ -30,29 +41,56 @@ private class Test_ParticipantInformationRemote {
         TestData testData = new TestData();
         Test.startTest();
         System.runAs(testData.piUser) {
-            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(testData.pe.Id, CommunityService.USER_MODE_PI);
-            ParticipantWorkflowService.ParticipantWorkflowWrapper path = ParticipantWorkflowService.prepareParticipantWorkflow(testData.ctp, pe);
+            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(
+                testData.pe.Id,
+                CommunityService.USER_MODE_PI
+            );
+            ParticipantWorkflowService.ParticipantWorkflowWrapper path = ParticipantWorkflowService.prepareParticipantWorkflow(
+                testData.ctp,
+                pe
+            );
             path.steps[path.currentStepInd].outcome = PEStatusState.PE_STATUS_CONTACT_ATTEMPTED;
-            ParticipantInformationRemote.updatePatientInfoAndStatus(JSON.serialize(testData.participant), JSON.serialize(testData.pe), JSON.serialize(path), testData.pe.Id);
+            ParticipantInformationRemote.updatePatientInfoAndStatus(
+                JSON.serialize(testData.participant),
+                JSON.serialize(testData.pe),
+                JSON.serialize(path),
+                testData.pe.Id
+            );
         }
         Test.stopTest();
     }
-    
+
     @IsTest
     static void testUpdatePatientInfo() {
         TestData testData = new TestData();
         Test.startTest();
         System.runAs(testData.piUser) {
-            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(testData.pe.Id, CommunityService.USER_MODE_PI);
-            ParticipantWorkflowService.ParticipantWorkflowWrapper path = ParticipantWorkflowService.prepareParticipantWorkflow(testData.ctp, pe);
-            ParticipantInformationRemote.updatePatientInfo(JSON.serialize(testData.participant), JSON.serialize(testData.pe));
+            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(
+                testData.pe.Id,
+                CommunityService.USER_MODE_PI
+            );
+            ParticipantWorkflowService.ParticipantWorkflowWrapper path = ParticipantWorkflowService.prepareParticipantWorkflow(
+                testData.ctp,
+                pe
+            );
+            ParticipantInformationRemote.updatePatientInfo(
+                JSON.serialize(testData.participant),
+                JSON.serialize(testData.pe)
+            );
             try {
-                ParticipantInformationRemote.createUserForPatientProtal(JSON.serialize(testData.pe), true);
-            } catch(Exception e){
+                ParticipantInformationRemote.createUserForPatientProtal(
+                    JSON.serialize(testData.pe),
+                    true
+                );
+            } catch (Exception e) {
                 System.debug('Exception');
             }
-            ParticipantInformationRemote.getParticipantDelegates(JSON.serialize(testData.participant.Id));
-            ParticipantInformationRemote.updateUserLanguage(JSON.serialize(testData.participantUser));
+            ParticipantInformationRemote.getParticipantDelegates(
+                JSON.serialize(testData.participant.Id)
+            );
+            ParticipantInformationRemote.updateUserLanguage(
+                JSON.serialize(testData.participantUser)
+            );
         }
         Test.stopTest();
     }
@@ -86,7 +124,13 @@ private class Test_ParticipantInformationRemote {
         participantDel.Phone__c = '141241';
         participantDel.Phone_Type__c = 'Home';
         Test.startTest();
-        AddPatientByPIRemote.createParticipantDelegate(JSON.serialize(participantDel), null, participant.Id, JSON.serialize(participant),true);
+        AddPatientByPIRemote.createParticipantDelegate(
+            JSON.serialize(participantDel),
+            null,
+            participant.Id,
+            JSON.serialize(participant),
+            true
+        );
         Test.stopTest();
     }
 
@@ -95,28 +139,58 @@ private class Test_ParticipantInformationRemote {
         TestData testData = new TestData();
         Test.startTest();
         System.runAs(testData.piUser) {
-            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(testData.pe.Id, CommunityService.USER_MODE_CC);
-            ParticipantWorkflowService.ParticipantWorkflowWrapper path = ParticipantWorkflowService.prepareParticipantWorkflow(testData.ctp, pe);
+            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(
+                testData.pe.Id,
+                CommunityService.USER_MODE_CC
+            );
+            ParticipantWorkflowService.ParticipantWorkflowWrapper path = ParticipantWorkflowService.prepareParticipantWorkflow(
+                testData.ctp,
+                pe
+            );
             path.steps[path.currentStepInd].outcome = PEStatusState.PE_STATUS_CONTACT_ATTEMPTED;
-            ParticipantInformationRemote.updatePatientStatusCC( JSON.serialize(path), testData.pe.Id,false,false,null);
+            ParticipantInformationRemote.updatePatientStatusCC(
+                JSON.serialize(path),
+                testData.pe.Id,
+                false,
+                false,
+                null
+            );
         }
         Test.stopTest();
     }
-    
+
     @isTest
-    static void updateNotesTest(){
+    static void updateNotesTest() {
         TestData testData = new TestData();
         Test.startTest();
         System.runAs(testData.piUser) {
-            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(testData.pe.Id, CommunityService.USER_MODE_CC);
-            ParticipantWorkflowService.ParticipantWorkflowWrapper path = ParticipantWorkflowService.prepareParticipantWorkflow(testData.ctp, pe);
+            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(
+                testData.pe.Id,
+                CommunityService.USER_MODE_CC
+            );
+            ParticipantWorkflowService.ParticipantWorkflowWrapper path = ParticipantWorkflowService.prepareParticipantWorkflow(
+                testData.ctp,
+                pe
+            );
             path.steps[path.currentStepInd].notes = 'note';
-            ParticipantInformationRemote.updatePatientStatusCC( JSON.serialize(path), testData.pe.Id,false,true,null);
-            ParticipantInformationRemote.updatePatientStatus( JSON.serialize(path), testData.pe.Id,false,true,null);
-            path.steps[path.currentStepInd+1].state = 'neutral';
-            path.steps[path.currentStepInd+1].title = 'Inital Visit';
-            ParticipantInformationRemote.updateNotes(path, testData.pe,null);
-            ParticipantInformationRemote.updateWithDividerWithNotes(path, testData.pe,null);
+            ParticipantInformationRemote.updatePatientStatusCC(
+                JSON.serialize(path),
+                testData.pe.Id,
+                false,
+                true,
+                null
+            );
+            ParticipantInformationRemote.updatePatientStatus(
+                JSON.serialize(path),
+                testData.pe.Id,
+                false,
+                true,
+                null
+            );
+            path.steps[path.currentStepInd + 1].state = 'neutral';
+            path.steps[path.currentStepInd + 1].title = 'Inital Visit';
+            ParticipantInformationRemote.updateNotes(path, testData.pe, null);
+            ParticipantInformationRemote.updateWithDividerWithNotes(path, testData.pe, null);
         }
         Test.stopTest();
     }

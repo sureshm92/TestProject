@@ -3,7 +3,6 @@
  */
 
 public with sharing class DeploymentContext {
-
     public static void onInstall() {
         List<PostInstallDX> handlers = getHandlers();
         for (PostInstallDX h : handlers) {

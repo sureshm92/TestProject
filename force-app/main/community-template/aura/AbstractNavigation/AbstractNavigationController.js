@@ -2,8 +2,7 @@
  * Created by Leonid Bartenev
  */
 ({
-    doInit: function (component, event, helper) {
-    },
+    doInit: function (component, event, helper) {},
 
     doChangeItemsList: function (component, event, helper) {
         try {
@@ -20,7 +19,7 @@
                     component.set('v.scrollRequired', navMenu.scrollWidth > navMenu.clientWidth);
                 }
             });
-            setTimeout(scrollEnableCheckHandler, 300); 
+            setTimeout(scrollEnableCheckHandler, 300);
             window.addEventListener('resize', scrollEnableCheckHandler);
             helper.updateCurrentPage(component);
         } catch (e) {
@@ -38,12 +37,12 @@
         communityService.navigateToPage(pageName);
     },
 
-    onClickResource: function (component, event, helper){
+    onClickResource: function (component, event, helper) {
         let pageName = 'resources-pi';
         helper.updateDocumentTitle(component, pageName);
         communityService.navigateToPage('library');
     },
-	onClickMediaOutreach: function (component, event, helper){
+    onClickMediaOutreach: function (component, event, helper) {
         //var pageName = 'resources';
         //helper.updateDocumentTitle(component, pageName);
         communityService.navigateToPage('my-mediaoutreach');
@@ -54,7 +53,7 @@
         if (navMenuCmp) {
             let navMenu = navMenuCmp.getElement();
             let navMenuWidth = navMenu.getBoundingClientRect().width;
-            try{
+            try {
                 if (direction === 'right') {
                     component.set('v.scrollDirection', 'left');
                     navMenu.scrollLeft = 0;
@@ -62,8 +61,7 @@
                     navMenu.scrollLeft = 3000;
                     component.set('v.scrollDirection', 'right');
                 }
-            }catch (e) {
-            }
+            } catch (e) {}
         }
     }
-})
+});

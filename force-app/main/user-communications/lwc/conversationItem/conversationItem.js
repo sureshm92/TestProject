@@ -11,7 +11,6 @@ const defaultBG = 'white';
 const selectedBG = 'rgb(238, 245, 255)';
 
 export default class ConversationItem extends LightningElement {
-
     @api item;
     @api userMode;
     @track attachColor = '#000';
@@ -26,8 +25,9 @@ export default class ConversationItem extends LightningElement {
     }
 
     renderedCallback() {
-        this.template.querySelector('.con-icon').style.background =
-            new AvatarColorCalculator().getColorFromString(this.item.fullName);
+        this.template.querySelector(
+            '.con-icon'
+        ).style.background = new AvatarColorCalculator().getColorFromString(this.item.fullName);
 
         this.calculateStyles();
     }
@@ -40,25 +40,30 @@ export default class ConversationItem extends LightningElement {
     }
 
     handleConversationClick(event) {
-        if(this.item.unread) {
-            markRead({conversation: this.item.conversation, isIE: navigator.userAgent.match(/Trident|Edge/) !== null})
+        if (this.item.unread) {
+            markRead({
+                conversation: this.item.conversation,
+                isIE: navigator.userAgent.match(/Trident|Edge/) !== null
+            })
                 .then((data) => {
-                        try {
-                            this.item = data;
-                        } catch (e) {
-                            console.error('TRY mark:' + JSON.stringify(e));
-                        }
+                    try {
+                        this.item = data;
+                    } catch (e) {
+                        console.error('TRY mark:' + JSON.stringify(e));
+                    }
                 })
-                .catch(error => {
+                .catch((error) => {
                     console.error('Error in markRead():' + JSON.stringify(error));
                 });
         }
 
-        this.dispatchEvent(new CustomEvent('openconversation', {
-            detail: {
-                item: this.item
-            }
-        }));
+        this.dispatchEvent(
+            new CustomEvent('openconversation', {
+                detail: {
+                    item: this.item
+                }
+            })
+        );
     }
 
     get isPIMode() {

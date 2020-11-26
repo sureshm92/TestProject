@@ -3,26 +3,25 @@
  */
 ({
     doInit: function (component, event, helper) {
-        var studyLevel = component.get("v.studyLevel");
-        component.set("v.prevValue", studyLevel.delegateLevel);
+        var studyLevel = component.get('v.studyLevel');
+        component.set('v.prevValue', studyLevel.delegateLevel);
     },
 
     onLevelChange: function (component, event, helper) {
         var ignoreUpdates = component.get('v.ignoreUpdates');
-        if(ignoreUpdates){
+        if (ignoreUpdates) {
             return;
         }
-        var changedLevels = new Set(component.get("v.changedLevels"));
+        var changedLevels = new Set(component.get('v.changedLevels'));
         if (changedLevels) {
-            var studyLevel = component.get("v.studyLevel");
-            var prevValue = component.get("v.prevValue");
+            var studyLevel = component.get('v.studyLevel');
+            var prevValue = component.get('v.prevValue');
             if (prevValue === studyLevel.delegateLevel) {
                 changedLevels.delete(studyLevel.enrollmentOrStudySiteId);
-            }
-            else {
+            } else {
                 changedLevels.add(studyLevel.enrollmentOrStudySiteId);
             }
-            component.set("v.changedLevels", Array.from(changedLevels));
+            component.set('v.changedLevels', Array.from(changedLevels));
         }
     }
-})
+});

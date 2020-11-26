@@ -1,34 +1,41 @@
 <!--Created by D.Yasinskyi on 03.05.2018-->
 <aura:component description="MyTeamItem">
-
     <!-- arrtibutes: -->
-    <aura:attribute name="delegate" type="Object" required="true"/>
-    <aura:attribute name="userMode" type="String" required="true"/>
-    <aura:attribute name="options" type="List" required="true"/>
-    <aura:attribute name="changedLevels" type="List" access="private" default="[]"/>
-    <aura:attribute name="parentComponent" type="Aura.Component" description="need to refresh parent"/>
-    <aura:attribute name="showSpinner" type="Boolean" default="false" access="private"/>
-    <aura:attribute name="ignoreUpdates" type="Boolean" default="false"/>
-    <aura:attribute name="isCurrentUser" type="Boolean" default="false"/>
-
+    <aura:attribute name="delegate" type="Object" required="true" />
+    <aura:attribute name="userMode" type="String" required="true" />
+    <aura:attribute name="options" type="List" required="true" />
+    <aura:attribute name="changedLevels" type="List" access="private" default="[]" />
+    <aura:attribute
+        name="parentComponent"
+        type="Aura.Component"
+        description="need to refresh parent"
+    />
+    <aura:attribute name="showSpinner" type="Boolean" default="false" access="private" />
+    <aura:attribute name="ignoreUpdates" type="Boolean" default="false" />
+    <aura:attribute name="isCurrentUser" type="Boolean" default="false" />
 
     <!-- methods: -->
-    <aura:method name="refresh" action="{!c.doRefresh}" access="public"/>
+    <aura:method name="refresh" action="{!c.doRefresh}" access="public" />
 
     <!-- component body-->
     <div class="rr-white-panel mti-container">
-        <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}"/>
+        <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}" />
         <div class="mti-name">
             <div class="slds-grid">
                 <div class="slds-col slds-size--2-of-4 slds-p-left_none">
-                    {!if(v.isCurrentUser,$Label.c.PG_MT_L_My_Permissions,if(v.delegate.delegateContact.FirstName == null,'',v.delegate.delegateContact.FirstName) + ' ' + v.delegate.delegateContact.LastName)}
+                    {!if(v.isCurrentUser,$Label.c.PG_MT_L_My_Permissions,if(v.delegate.delegateContact.FirstName
+                    == null,'',v.delegate.delegateContact.FirstName) + ' ' +
+                    v.delegate.delegateContact.LastName)}
                 </div>
                 <aura:if isTrue="{!v.userMode == 'HCP'}">
                     <div class="slds-col slds-size--1-of-4">
-                    <c:StudyDelegateLevelItem studyLevel="{!v.delegate.trialLevel}" options="{!v.options}"
-                                              changedLevels="{!v.changedLevels}"
-                                              showStudyName="false"
-                                              ignoreUpdates="{!v.ignoreUpdates}"/>
+                        <c:StudyDelegateLevelItem
+                            studyLevel="{!v.delegate.trialLevel}"
+                            options="{!v.options}"
+                            changedLevels="{!v.changedLevels}"
+                            showStudyName="false"
+                            ignoreUpdates="{!v.ignoreUpdates}"
+                        />
                     </div>
                 </aura:if>
             </div>
@@ -38,21 +45,30 @@
         </div>
         <aura:if isTrue="{!v.userMode == 'Participant'}">
             <aura:iteration items="{!v.delegate.trialLevels}" var="trialLevel">
-                <c:StudyDelegateLevelItem studyLevel="{!trialLevel}" options="{!v.options}"
-                                          changedLevels="{!v.changedLevels}"/>
+                <c:StudyDelegateLevelItem
+                    studyLevel="{!trialLevel}"
+                    options="{!v.options}"
+                    changedLevels="{!v.changedLevels}"
+                />
             </aura:iteration>
         </aura:if>
         <aura:if isTrue="{!v.userMode == 'PI'}">
             <aura:iteration items="{!v.delegate.delegateTrials}" var="trial">
-                <c:DelegateTrialCard studyLevels="{!trial}" options="{!v.options}"
-                                          changedLevels="{!v.changedLevels}"/>
+                <c:DelegateTrialCard
+                    studyLevels="{!trial}"
+                    options="{!v.options}"
+                    changedLevels="{!v.changedLevels}"
+                />
             </aura:iteration>
         </aura:if>
         <aura:if isTrue="{!!v.isCurrentUser}">
             <div class="mti-save-button-container">
-                <button class="apollo-btn tertiary mti-save-button" onclick="{!c.doSaveChanges}"
-                        disabled="{!empty(v.changedLevels)}"
-                        title="{!if(empty(v.changedLevels),$Label.c.PG_MTI_T_No_changes_made,'')}">
+                <button
+                    class="apollo-btn tertiary mti-save-button"
+                    onclick="{!c.doSaveChanges}"
+                    disabled="{!empty(v.changedLevels)}"
+                    title="{!if(empty(v.changedLevels),$Label.c.PG_MTI_T_No_changes_made,'')}"
+                >
                     {!$Label.c.PG_MTI_BTN_Save_Changes}
                 </button>
             </div>

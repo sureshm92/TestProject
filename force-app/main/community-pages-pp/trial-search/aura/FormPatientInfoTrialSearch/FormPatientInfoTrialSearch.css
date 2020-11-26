@@ -51,9 +51,9 @@
 .THIS .checkBox-desc {
     height: 16px;
     width: 16px;
-    border: 1px solid #D9D9D9;
+    border: 1px solid #d9d9d9;
     border-radius: 2px;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     margin-right: 10px;
     flex-shrink: 0;
 }
@@ -69,7 +69,7 @@
 }
 .THIS .disclaimerRTL {
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
     line-height: 20px;
     text-align: right;
@@ -77,7 +77,7 @@
 }
 .THIS .disclaimer {
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
     line-height: 20px;
 }
@@ -86,16 +86,16 @@
     width: 300px;
 }
 .THIS .rightAlign .slds-input {
-    padding-right:2px;
+    padding-right: 2px;
 }
-.THIS .rightAlign .slds-datepicker .slds-day{
+.THIS .rightAlign .slds-datepicker .slds-day {
     width: auto !important;
     min-width: auto !important;
     height: auto !important;
     line-height: inherit !important;
 }
-.THIS .rightAlign .slds-input__icon_right{
-    margin-right:12.2rem;
+.THIS .rightAlign .slds-input__icon_right {
+    margin-right: 12.2rem;
 }
 .THIS .disclaimer-box {
     display: flex;

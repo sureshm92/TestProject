@@ -8,7 +8,7 @@
 
 .THIS.e-container .e-info {
     padding-right: 30px;
-    border-right: 2px solid #D9D9D9;
+    border-right: 2px solid #d9d9d9;
 }
 
 .THIS.e-container .e-description {
@@ -22,7 +22,7 @@
 }
 
 .THIS.e-container .e-error-number {
-    color: #A33EFE;
+    color: #a33efe;
     font-size: 250px;
     font-weight: bold;
     line-height: 301px;
@@ -38,7 +38,7 @@
 }
 
 .THIS.e-container .e-reason {
-    color: #A33EFE;
+    color: #a33efe;
     font-size: 68px;
     font-weight: bold;
     line-height: 82px;
@@ -65,7 +65,7 @@
         padding-right: 0;
         padding-bottom: 20px;
         border-right: none;
-        border-bottom: 2px solid #D9D9D9;
+        border-bottom: 2px solid #d9d9d9;
     }
     .THIS.e-container .e-description {
         width: 100%;

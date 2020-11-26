@@ -30,7 +30,7 @@
             var validity = component.get('v.filter.statuses').length > 0;
 
             var params = event.getParam('arguments');
-            if(params) {
+            if (params) {
                 validity = validity && params.childValidity;
             } else {
                 validity = helper.checkChild(component, validity);
@@ -42,25 +42,29 @@
 
     createClick: function (component, event, helper) {
         component.find('spinner').show();
-        communityService.executeAction(component, 'createTasks', {
-            config: JSON.stringify(component.get('v.taskConfig')),
-            adHoc: JSON.stringify(component.get('v.adHocWrapper')),
-            filter: JSON.stringify(component.get('v.filter')),
-            activeTab: component.get('v.selectedTab')
-        }, function (found) {
-            if (found)
-                communityService.showSuccessToast(
-                    'Success!',
-                    'Creation process is launched!'
-                );
-            else
-                communityService.showWarningToast(
-                    'Fail!',
-                    'No relevant users are found in the system!'
-                );
-        }, null, function () {
-            component.find('spinner').hide();
-        });
+        communityService.executeAction(
+            component,
+            'createTasks',
+            {
+                config: JSON.stringify(component.get('v.taskConfig')),
+                adHoc: JSON.stringify(component.get('v.adHocWrapper')),
+                filter: JSON.stringify(component.get('v.filter')),
+                activeTab: component.get('v.selectedTab')
+            },
+            function (found) {
+                if (found)
+                    communityService.showSuccessToast('Success!', 'Creation process is launched!');
+                else
+                    communityService.showWarningToast(
+                        'Fail!',
+                        'No relevant users are found in the system!'
+                    );
+            },
+            null,
+            function () {
+                component.find('spinner').hide();
+            }
+        );
     },
 
     resetClick: function (component, event, helper) {

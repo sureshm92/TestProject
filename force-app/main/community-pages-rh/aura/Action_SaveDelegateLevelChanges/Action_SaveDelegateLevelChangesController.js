@@ -13,24 +13,45 @@
         component.set('v.delegate', delegate);
         component.set('v.refreshSource', refreshSource);
         var test = JSON.stringify(delegate);
-        communityService.executeAction(component, 'saveDelegateLevelChanges', {
-            userMode: userMode,
-            delegate: JSON.stringify(delegate),
-            parentId: communityService.getDelegateId()
-        }, function (returnValue) {
-            if(isCreate){
-                communityService.showToast("success","success",$A.get("$Label.c.TST_You_have_successfully_created_permissions_for") + " " +
-                    (delegate.delegateContact.FirstName || "") + " " + delegate.delegateContact.LastName + ".") ;
-            }
-            else{
-                communityService.showToast("success","success",$A.get("$Label.c.TST_You_have_successfully_updated_permissions_for") + " " +
-                    (delegate.delegateContact.FirstName || "") + " " + delegate.delegateContact.LastName + ".") ;
-            }
+        communityService.executeAction(
+            component,
+            'saveDelegateLevelChanges',
+            {
+                userMode: userMode,
+                delegate: JSON.stringify(delegate),
+                parentId: communityService.getDelegateId()
+            },
+            function (returnValue) {
+                if (isCreate) {
+                    communityService.showToast(
+                        'success',
+                        'success',
+                        $A.get('$Label.c.TST_You_have_successfully_created_permissions_for') +
+                            ' ' +
+                            (delegate.delegateContact.FirstName || '') +
+                            ' ' +
+                            delegate.delegateContact.LastName +
+                            '.'
+                    );
+                } else {
+                    communityService.showToast(
+                        'success',
+                        'success',
+                        $A.get('$Label.c.TST_You_have_successfully_updated_permissions_for') +
+                            ' ' +
+                            (delegate.delegateContact.FirstName || '') +
+                            ' ' +
+                            delegate.delegateContact.LastName +
+                            '.'
+                    );
+                }
 
-            refreshSource.refresh();
-        }, null, function () {
-            mainspinner.hide();
-        });
-
-    },
-})
+                refreshSource.refresh();
+            },
+            null,
+            function () {
+                mainspinner.hide();
+            }
+        );
+    }
+});

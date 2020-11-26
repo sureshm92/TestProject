@@ -5,18 +5,18 @@
     width: 100%;
 }
 
-.THIS .pill-container{
+.THIS .pill-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
 }
 
-.THIS .pill-container .close-btn{
+.THIS .pill-container .close-btn {
     flex-shrink: 0;
 }
 
-.THIS .dots-item{
+.THIS .dots-item {
     padding: 0 16px;
     margin-bottom: 8px;
 }

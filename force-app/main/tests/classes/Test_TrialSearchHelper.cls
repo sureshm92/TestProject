@@ -4,10 +4,11 @@
 
 @IsTest
 private class Test_TrialSearchHelper {
-
     @TestSetup
     static void setup() {
-        TriggerHandlerExecutor.bypassHandler(ContactTherapeuticAreaTriggerHandler.SyncContactInterestedTopics.class);
+        TriggerHandlerExecutor.bypassHandler(
+            ContactTherapeuticAreaTriggerHandler.SyncContactInterestedTopics.class
+        );
         Test.startTest();
         TestDataFactory.createInitData();
         Test.stopTest();
@@ -15,9 +16,12 @@ private class Test_TrialSearchHelper {
 
     @IsTest
     static void isCtpEnrolling_Test() {
-        Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) TestDataFactory.getSObject(Clinical_Trial_Profile__c.getSObjectType(), new Map<String, Object>{
+        Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) TestDataFactory.getSObject(
+            Clinical_Trial_Profile__c.getSObjectType(),
+            new Map<String, Object>{
                 'Override_Recruitment_Status__c' => TrialSearchWhereClauseFactory.ACTIVELY_ENROLLING
-        });
+            }
+        );
         TrialSearchHelper helper = new TrialSearchHelper();
         System.assert(helper.isCtpEnrolling(ctp));
 
@@ -28,23 +32,23 @@ private class Test_TrialSearchHelper {
 
     @IsTest
     static void getFilteredTherapeuticAreas_test() {
-
-        Id coiRecTypeId = Schema.SObjectType.Therapeutic_Area__c.getRecordTypeInfosByDeveloperName().get('Condition_of_Interests').getRecordTypeId();
+        Id coiRecTypeId = Schema.SObjectType.Therapeutic_Area__c.getRecordTypeInfosByDeveloperName()
+            .get('Condition_of_Interests')
+            .getRecordTypeId();
         List<Therapeutic_Area__c> cois = new List<Therapeutic_Area__c>{
-                (Therapeutic_Area__c) TestDataFactory.getSObject(Therapeutic_Area__c.getSObjectType(), new Map<String, Object>{
-                        'Name' => 'coi1',
-                        'RecordTypeId' => coiRecTypeId
-                }),
-                (Therapeutic_Area__c) TestDataFactory.getSObject(Therapeutic_Area__c.getSObjectType(), new Map<String, Object>{
-                        'Name' => 'coi2',
-                        'RecordTypeId' => coiRecTypeId
-                })
+            (Therapeutic_Area__c) TestDataFactory.getSObject(
+                Therapeutic_Area__c.getSObjectType(),
+                new Map<String, Object>{ 'Name' => 'coi1', 'RecordTypeId' => coiRecTypeId }
+            ),
+            (Therapeutic_Area__c) TestDataFactory.getSObject(
+                Therapeutic_Area__c.getSObjectType(),
+                new Map<String, Object>{ 'Name' => 'coi2', 'RecordTypeId' => coiRecTypeId }
+            )
         };
         insert cois;
 
-        List<Therapeutic_Area__c> filteredCois = new TrialSearchHelper().searchFilteredTherapeuticAreas('coi', new List<Id>{
-                cois[0].Id
-        });
+        List<Therapeutic_Area__c> filteredCois = new TrialSearchHelper()
+            .searchFilteredTherapeuticAreas('coi', new List<Id>{ cois[0].Id });
         System.assertEquals(1, filteredCois.size());
         System.assertEquals(cois[1].Id, filteredCois[0].Id);
     }
@@ -68,7 +72,9 @@ private class Test_TrialSearchHelper {
     static void createSubscribeConnectionTest() {
         Participant__c participant = [SELECT Id, Contact__c FROM Participant__c LIMIT 1];
         Clinical_Trial_Profile__c ctp = [SELECT Id FROM Clinical_Trial_Profile__c LIMIT 1];
-        TrialSearchHelper helper = (TrialSearchHelper) ClassFactory.newInstance(TrialSearchHelper.class);
+        TrialSearchHelper helper = (TrialSearchHelper) ClassFactory.newInstance(
+            TrialSearchHelper.class
+        );
 
         Test.startTest();
 
@@ -87,43 +93,63 @@ private class Test_TrialSearchHelper {
         Participant__c participant = [SELECT Id, Contact__c FROM Participant__c LIMIT 1];
 
         Therapeutic_Area__c ta = [SELECT Id, Name FROM Therapeutic_Area__c LIMIT 1];
-        Id coiRecTypeId = Schema.SObjectType.Therapeutic_Area__c.getRecordTypeInfosByDeveloperName().get('Condition_of_Interests').getRecordTypeId();
+        Id coiRecTypeId = Schema.SObjectType.Therapeutic_Area__c.getRecordTypeInfosByDeveloperName()
+            .get('Condition_of_Interests')
+            .getRecordTypeId();
         List<Therapeutic_Area__c> COIs = new List<Therapeutic_Area__c>{
-                (Therapeutic_Area__c) TestDataFactory.getSObject(Therapeutic_Area__c.getSObjectType(), new Map<String, Object>{
-                        'Name' => 'coi1',
-                        'Therapeutic_Area__c' => ta.Id,
-                        'RecordTypeId' => coiRecTypeId
-                }),
-                (Therapeutic_Area__c) TestDataFactory.getSObject(Therapeutic_Area__c.getSObjectType(), new Map<String, Object>{
-                        'Name' => 'coi2',
-                        'Therapeutic_Area__c' => ta.Id,
-                        'RecordTypeId' => coiRecTypeId
-                })
+            (Therapeutic_Area__c) TestDataFactory.getSObject(
+                Therapeutic_Area__c.getSObjectType(),
+                new Map<String, Object>{
+                    'Name' => 'coi1',
+                    'Therapeutic_Area__c' => ta.Id,
+                    'RecordTypeId' => coiRecTypeId
+                }
+            ),
+            (Therapeutic_Area__c) TestDataFactory.getSObject(
+                Therapeutic_Area__c.getSObjectType(),
+                new Map<String, Object>{
+                    'Name' => 'coi2',
+                    'Therapeutic_Area__c' => ta.Id,
+                    'RecordTypeId' => coiRecTypeId
+                }
+            )
         };
         insert COIs;
 
         List<Therapeutic_Area_Patient__c> TAPs = new List<Therapeutic_Area_Patient__c>{
-                (Therapeutic_Area_Patient__c) TestDataFactory.getSObject(Therapeutic_Area_Patient__c.getSObjectType(), new Map<String, Object>{
-                        'Condition_Of_Interest_Order__c' => 1,
-                        'Therapeutic_Area__c' => COIs[0].Id,
-                        'Participant__c' => participant.Id
-                }),
-                (Therapeutic_Area_Patient__c) TestDataFactory.getSObject(Therapeutic_Area_Patient__c.getSObjectType(), new Map<String, Object>{
-                        'Condition_Of_Interest_Order__c' => 2,
-                        'Therapeutic_Area__c' => COIs[1].Id,
-                        'Participant__c' => participant.Id
-                })
+            (Therapeutic_Area_Patient__c) TestDataFactory.getSObject(
+                Therapeutic_Area_Patient__c.getSObjectType(),
+                new Map<String, Object>{
+                    'Condition_Of_Interest_Order__c' => 1,
+                    'Therapeutic_Area__c' => COIs[0].Id,
+                    'Participant__c' => participant.Id
+                }
+            ),
+            (Therapeutic_Area_Patient__c) TestDataFactory.getSObject(
+                Therapeutic_Area_Patient__c.getSObjectType(),
+                new Map<String, Object>{
+                    'Condition_Of_Interest_Order__c' => 2,
+                    'Therapeutic_Area__c' => COIs[1].Id,
+                    'Participant__c' => participant.Id
+                }
+            )
         };
         insert TAPs;
 
-        TrialSearchHelper helper = (TrialSearchHelper) ClassFactory.newInstance(TrialSearchHelper.class);
+        TrialSearchHelper helper = (TrialSearchHelper) ClassFactory.newInstance(
+            TrialSearchHelper.class
+        );
         List<Contact_Topic__c> contactTopic;
         Test.startTest();
         User usr = [SELECT Id FROM User WHERE ContactId = :participant.Contact__c];
         System.runAs(usr) {
             helper.createSubscribeConnectionByCOI(TAPs);
         }
-        contactTopic = [SELECT Id, Contact__c FROM Contact_Topic__c WHERE Contact__c =: participant.Contact__c];
+        contactTopic = [
+            SELECT Id, Contact__c
+            FROM Contact_Topic__c
+            WHERE Contact__c = :participant.Contact__c
+        ];
         Test.stopTest();
 
         System.assert(contactTopic.size() == 2);
