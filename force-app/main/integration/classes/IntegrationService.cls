@@ -14,6 +14,7 @@ public without sharing class  IntegrationService {
         public ReferralDetails referralDetails;
         public AuditLog auditLog;
         public string  One_Key_ID;
+        public string Site_Number;
         
     }
     
@@ -36,6 +37,9 @@ public without sharing class  IntegrationService {
         public Date ReferralDate;
         public Date AcceptedDate;
         public boolean PriorityFlag;
+        public Date InitialVisitScheduledDate;
+        public Time InitialVisitScheduledTime;
+        public String SubjectId;
     }
     
     public class SubjectDetails {
@@ -283,8 +287,12 @@ public without sharing class  IntegrationService {
                         Referral_ID__c,
                         Referred_Date__c,
                         High_Priority__c,
+                        SubjectId__c,
+                        Initial_visit_scheduled_date__c,
+                        Initial_visit_scheduled_time__c,
                         Study_Site__r.Protocol_ID__c,
                         Study_Site__r.Study_Site_Type__c,
+                        Study_Site__r.Study_Site_Number__c,
                         Study_Site__r.Principal_Investigator__r.OneKeyID__c
                 FROM Participant_Enrollment__c
                 WHERE Id =: participantEnrollmentId
@@ -313,6 +321,9 @@ public without sharing class  IntegrationService {
         referralDetails.ReferralId = pe.Name;
         referralDetails.ReferralDate =  pe.Referred_Date__c;
         referralDetails.PriorityFlag = pe.High_Priority__c;  //Added by vicky REF-2293
+        referralDetails.InitialVisitScheduledDate = pe.Initial_visit_scheduled_date__c;
+        referralDetails.InitialVisitScheduledTime = pe.Initial_visit_scheduled_time__c;
+        referralDetails.SubjectId = pe.SubjectId__c;//as per REF-2616
         if(setAcceptedDate) referralDetails.AcceptedDate = Date.today();
         
         SubjectDetails subjectDetails = new SubjectDetails();
@@ -334,6 +345,7 @@ public without sharing class  IntegrationService {
         integrationMessage.referralDetails = referralDetails;
         integrationMessage.auditLog = auditLog;
         integrationMessage.One_Key_ID = pe.Study_Site__r.Principal_Investigator__r.OneKeyID__c;
+        integrationMessage.Site_Number = pe.Study_Site__r.Study_Site_Number__c; //Added by vicky REF-2653
         return integrationMessage;
     }
     
