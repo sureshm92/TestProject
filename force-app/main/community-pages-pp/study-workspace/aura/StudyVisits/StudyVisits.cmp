@@ -35,14 +35,7 @@
     <c:RRSpinner aura:id="spinner" size="medium" showSpinner="true" fixed="true" />
 
     <div class="{!'sv-body ' + if(v.initialized, '', 'hidden')}">
-        <div
-            class="tt-title"
-            style="
-                 {
-                    !v.isrtl?'margin-right:10px': '';
-                }
-            "
-        >
+        <div class="tt-title" style="{!if(v.isRTL, 'margin-right: 10px;', '')}">
             {!$Label.c.Home_Page_StudyVisit_Title}
         </div>
         <div class="select-container">
