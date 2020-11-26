@@ -18,10 +18,11 @@ private class Test_Batch_UpdatePatientDelegateStatuses {
         Test.startTest();
         Database.executeBatch(new Batch_UpdatePatientDelegateStatuses());
         Test.stopTest();
-        Patient_Delegate__c newDelegate = [SELECT Id,
-                                                  Status__c
-                                      FROM Patient_Delegate__c
-                                      WHERE Id =: oldDelegate.Id];
+        Patient_Delegate__c newDelegate = [
+            SELECT Id, Status__c
+            FROM Patient_Delegate__c
+            WHERE Id = :oldDelegate.Id
+        ];
 
         System.assertEquals(newDelegate.Status__c, 'Active');
     }

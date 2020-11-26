@@ -11,7 +11,6 @@ public without sharing class FirstLogonController {
     public String verifyNewPassword { get; set; }
     public Boolean isPasswordsEquals { get; set; }
 
-
     public User currUser { get; set; }
     public Contact contact { get; set; }
     public Account account { get; set; }
@@ -34,7 +33,6 @@ public without sharing class FirstLogonController {
     public List<SelectOption> countries { get; set; }
     public List<SelectOption> states { get; set; }
     public Boolean isStateRequired { get; set; }
-
 
     private Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
     private Map<String, String> countryCodeByName = new Map<String, String>();
@@ -60,28 +58,39 @@ public without sharing class FirstLogonController {
         contact = UserContext.getUserContact();
         account = UserContext.getUserContact().Account;
 
-        notEnrollNow = !((contact.userCommunytyType__c == null || contact.userCommunytyType__c.contains(CommunityService.USER_MODE_HCP))
-                && contact.userCommunityMode__c == CommunityService.USER_MODE_HCP);
+        notEnrollNow = !((contact.userCommunytyType__c == null ||
+        contact.userCommunytyType__c.contains(CommunityService.USER_MODE_HCP)) &&
+        contact.userCommunityMode__c == CommunityService.USER_MODE_HCP);
         isStateRequired = false;
 
-        account.BillingCountry = TranslateHelper.getPickListLabel(User.CountryCode, account.BillingCountryCode);
+        account.BillingCountry = TranslateHelper.getPickListLabel(
+            User.CountryCode,
+            account.BillingCountryCode
+        );
         oldAccountName = account.Name;
 
         isParticipant = contact.userCommunityMode__c == CommunityService.USER_MODE_PARTICIPANT;
         if (isParticipant) {
             participant = [
-                    SELECT Id, Name, First_Name__c, Last_Name__c, Phone__c,
-                            Mailing_Country__c, Mailing_State__c, Mailing_Zip_Postal_Code__c,
-                            Mailing_Country_Code__c, Mailing_State_Code__c
-
-                    FROM Participant__c
-                    WHERE Contact__c = :contact.Id
+                SELECT
+                    Id,
+                    Name,
+                    First_Name__c,
+                    Last_Name__c,
+                    Phone__c,
+                    Mailing_Country__c,
+                    Mailing_State__c,
+                    Mailing_Zip_Postal_Code__c,
+                    Mailing_Country_Code__c,
+                    Mailing_State_Code__c
+                FROM Participant__c
+                WHERE Contact__c = :contact.Id
             ];
             updateTranslations();
         }
     }
-    
-    public String getCommunityLogoURL(){
+
+    public String getCommunityLogoURL() {
         return UserContext.getTemplateProperty(CommunityTemplateService.PROPERTY_COMMUNITY_LOGO);
     }
 
@@ -90,11 +99,16 @@ public without sharing class FirstLogonController {
 
         Map<String, SObjectField> fieldMap = Schema.SObjectType.Contact.fields.getMap();
         helpText_1st_Language = fieldMap.get('Language__c').getDescribe().inlineHelpText;
-        helpText_2nd_Language = fieldMap.get('Second_Choice_Language__c').getDescribe().inlineHelpText;
-        helpText_3rd_Language = fieldMap.get('Third_Choice_Language__c').getDescribe().inlineHelpText;
+        helpText_2nd_Language = fieldMap.get('Second_Choice_Language__c')
+            .getDescribe()
+            .inlineHelpText;
+        helpText_3rd_Language = fieldMap.get('Third_Choice_Language__c')
+            .getDescribe()
+            .inlineHelpText;
 
         translation = new Translation__c();
-        if (!contact.Is_First_Logon__c) translation.Language__c = currUser.LanguageLocaleKey;
+        if (!contact.Is_First_Logon__c)
+            translation.Language__c = currUser.LanguageLocaleKey;
     }
 
     public void showProfileAction() {
@@ -111,7 +125,8 @@ public without sharing class FirstLogonController {
             addMessageToPage(contact.MailingStreet, 'Street Address');
             addMessageToPage(contact.MailingCity, 'City');
             addMessageToPage(contact.MailingCountry, 'Country');
-            if (states.size() > 1) addMessageToPage(contact.MailingState, 'State');
+            if (states.size() > 1)
+                addMessageToPage(contact.MailingState, 'State');
             addMessageToPage(contact.MailingPostalCode, 'ZIP/Postal Code');
             addMessageToPage(contact.Phone, 'Phone Number');
             addMessageToPage(account.Name, 'Institute Name');
@@ -126,12 +141,11 @@ public without sharing class FirstLogonController {
         if (!notEnrollNow) {
             if (ApexPages.getMessages().size() == 0) {
                 List<HCP_Enrollment__c> hcpEnrollments = [
-                        SELECT Id,
-                                HCP_Contact__c,
-                                Status__c
-                        FROM HCP_Enrollment__c
-                        WHERE HCP_Contact__c = :contact.Id AND
-                        Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION
+                    SELECT Id, HCP_Contact__c, Status__c
+                    FROM HCP_Enrollment__c
+                    WHERE
+                        HCP_Contact__c = :contact.Id
+                        AND Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION
                 ];
                 for (HCP_Enrollment__c hcpe : hcpEnrollments) {
                     hcpe.Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
@@ -148,44 +162,45 @@ public without sharing class FirstLogonController {
             }
         }
 
-        if (ApexPages.getMessages().size() == 0) isProfileView = false;
+        if (ApexPages.getMessages().size() == 0)
+            isProfileView = false;
     }
 
     @TestVisible
     private void updateNameOfAccount() {
         if (account.Name != oldAccountName && !String.isEmpty(account.Name)) {
             Account newClinic = new Account(
-                    Name = account.Name,
-                    BillingCountry = contact.MailingCountry,
-                    BillingCity = contact.MailingCity,
-                    BillingState = contact.MailingState,
-                    BillingStreet = contact.MailingStreet,
-                    BillingPostalCode = contact.MailingPostalCode,
-                    Phone = contact.Phone,
-                    Fax = contact.Fax,
-                    OwnerId = contact.OwnerId
+                Name = account.Name,
+                BillingCountry = contact.MailingCountry,
+                BillingCity = contact.MailingCity,
+                BillingState = contact.MailingState,
+                BillingStreet = contact.MailingStreet,
+                BillingPostalCode = contact.MailingPostalCode,
+                Phone = contact.Phone,
+                Fax = contact.Fax,
+                OwnerId = contact.OwnerId
             );
             try {
                 insert newClinic;
                 contact.AccountId = newClinic.Id;
-            } catch (Exception exp) {}
+            } catch (Exception exp) {
+            }
         }
 
         try {
             update contact;
-        } catch (Exception exp) {}
+        } catch (Exception exp) {
+        }
     }
 
     private void addMessageToPage(String field, String message) {
-        if (String.isBlank(field)) ApexPages.addMessage(
-                new ApexPages.Message(
-                        ApexPages.Severity.ERROR,
-                        message + ERROR_SUFFIX)
-        );
+        if (String.isBlank(field))
+            ApexPages.addMessage(
+                new ApexPages.Message(ApexPages.Severity.ERROR, message + ERROR_SUFFIX)
+            );
     }
 
     public PageReference setPassword() {
-
         if (tcId != null) {
             Terms_And_Conditions_Acceptance__c tca = new Terms_And_Conditions_Acceptance__c();
             tca.Accepted_Date__c = Datetime.now();
@@ -193,7 +208,8 @@ public without sharing class FirstLogonController {
             tca.User__c = UserInfo.getUserId();
             try {
                 insert tca;
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
         }
 
         PageReference pageReference;
@@ -211,14 +227,20 @@ public without sharing class FirstLogonController {
     private void updateTranslations() {
         if (isParticipant) {
             //translate country:
-            participant.Mailing_Country__c = CountryStateUtil.getCountryName(participant.Mailing_Country_Code__c);
+            participant.Mailing_Country__c = CountryStateUtil.getCountryName(
+                participant.Mailing_Country_Code__c
+            );
             //translate state
-            participant.Mailing_State__c = CountryStateUtil.getStateName(participant.Mailing_Country_Code__c, participant.Mailing_State_Code__c);
+            participant.Mailing_State__c = CountryStateUtil.getStateName(
+                participant.Mailing_Country_Code__c,
+                participant.Mailing_State_Code__c
+            );
         }
     }
 
     public void updateLanguageAction() {
-        if (String.isBlank(contact.Language__c)) contact.Language__c = previousLanguage;
+        if (String.isBlank(contact.Language__c))
+            contact.Language__c = previousLanguage;
         currUser.LanguageLocaleKey = contact.Language__c;
 
         try {
@@ -231,7 +253,9 @@ public without sharing class FirstLogonController {
 
     public void updateStatesAction() {
         states = new List<SelectOption>();
-        List<LabelValueItem> statesByCountry = statesByCountryMap.get(countryCodeByName.get(contact.MailingCountry));
+        List<LabelValueItem> statesByCountry = statesByCountryMap.get(
+            countryCodeByName.get(contact.MailingCountry)
+        );
         if (statesByCountry != null) {
             for (LabelValueItem state : statesByCountry) {
                 states.add(new SelectOption(state.label, state.label));

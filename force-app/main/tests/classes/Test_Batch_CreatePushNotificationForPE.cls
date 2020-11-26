@@ -4,13 +4,20 @@
 
 @IsTest
 private class Test_Batch_CreatePushNotificationForPE {
-
     @TestSetup
     static void init() {
-        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreateStatusHistoryHandler.class);
-        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class);
-        TriggerHandlerExecutor.bypassHandler(HCPEnrollmentTriggerHandler.CreateHCPUserOrSendNotificationHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(
+            StudySiteTriggerHandler.CreateStatusHistoryHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            HCPEnrollmentTriggerHandler.CreateHCPUserOrSendNotificationHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+        );
 
         Test.startTest();
         TestData.loadTestData();
@@ -21,8 +28,8 @@ private class Test_Batch_CreatePushNotificationForPE {
     static void testBatchCreatePushNotificationForPE() {
         Test.startTest();
         List<Participant_Enrollment__c> participantEnrollments = [
-                SELECT Id, Participant_Status__c
-                FROM Participant_Enrollment__c
+            SELECT Id, Participant_Status__c
+            FROM Participant_Enrollment__c
         ];
         participantEnrollments[0].Participant_Status__c = PEStatusState.PE_STATUS_CONTACT_ATTEMPTED;
         update participantEnrollments;
@@ -38,11 +45,10 @@ private class Test_Batch_CreatePushNotificationForPE {
         Test.stopTest();
 
         List<Notification__c> notifications = [
-                SELECT Id
-                FROM Notification__c
-                WHERE Notification_Type__c = :NotificationCatalog.MESSAGE_TO_PI_CONTACT_PARTICIPANT_TYPE
+            SELECT Id
+            FROM Notification__c
+            WHERE Notification_Type__c = :NotificationCatalog.MESSAGE_TO_PI_CONTACT_PARTICIPANT_TYPE
         ];
         System.assertEquals(2, notifications.size());
     }
-
 }

@@ -3,28 +3,29 @@
  */
 @IsTest(IsParallel=true)
 public with sharing class Test_IconPlanetVisitInfoEditRemote {
-
     @IsTest
-    static void saveIconInfoWithVisitPlan_test(){
+    static void saveIconInfoWithVisitPlan_test() {
         List<Clinical_Trial_Profile__c> ctp = new List<Clinical_Trial_Profile__c>{
-                (Clinical_Trial_Profile__c) TestDataFactory.getSObject(Clinical_Trial_Profile__c.getSObjectType())};
+            (Clinical_Trial_Profile__c) TestDataFactory.getSObject(
+                Clinical_Trial_Profile__c.getSObjectType()
+            )
+        };
 
         List<Icon_Details__c> iconDetails = new List<Icon_Details__c>{
-                new Icon_Details__c(),
-                new Icon_Details__c()};
+            new Icon_Details__c(),
+            new Icon_Details__c()
+        };
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubBuilder.newInstance(CTPSelector.class)
-                .when('getCtpById')
-                .then(ctp)
-                .build()
-       );
+        ClassFactory.putStubTypeByClassName(
+            CTPSelector.class,
+            StubBuilder.newInstance(CTPSelector.class).when('getCtpById').then(ctp).build()
+        );
 
-        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubBuilder.newInstance(DatabaseProxy.class)
-                .when('upsertRecords')
-                .then(null)
-                .build()
-       );
+        ClassFactory.putStubTypeByClassName(
+            DatabaseProxy.class,
+            StubBuilder.newInstance(DatabaseProxy.class).when('upsertRecords').then(null).build()
+        );
 
         Test.startTest();
         IconPlanetVisitInfoEditRemote.saveIconInfo(iconDetails, null);
@@ -32,13 +33,15 @@ public with sharing class Test_IconPlanetVisitInfoEditRemote {
     }
 
     @IsTest
-    static void saveIconInfoWithException_test(){
+    static void saveIconInfoWithException_test() {
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubBuilder.newInstance(CTPSelector.class)
+        ClassFactory.putStubTypeByClassName(
+            CTPSelector.class,
+            StubBuilder.newInstance(CTPSelector.class)
                 .when('getIconDetailsByVisitPlanInCTP')
                 .then(new AuraHandledException('Something wrong'))
                 .build()
-       );
+        );
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {
@@ -52,55 +55,64 @@ public with sharing class Test_IconPlanetVisitInfoEditRemote {
     }
 
     @IsTest
-    static void getIconDetailsWithCtpId_test(){
+    static void getIconDetailsWithCtpId_test() {
         List<Icon_Details__c> iconDetails = new List<Icon_Details__c>{
-                new Icon_Details__c(),
-                new Icon_Details__c()};
+            new Icon_Details__c(),
+            new Icon_Details__c()
+        };
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubBuilder.newInstance(CTPSelector.class)
+        ClassFactory.putStubTypeByClassName(
+            CTPSelector.class,
+            StubBuilder.newInstance(CTPSelector.class)
                 .when('getIconDetailsByVisitPlanInCTP')
                 .then(iconDetails)
                 .build()
-       );
+        );
 
         Test.startTest();
         List<Icon_Details__c> iconDetailsTest = IconPlanetVisitInfoEditRemote.getIconDetails(
-                TestDataFactory.getFakeId(Clinical_Trial_Profile__c.getSObjectType()) );
+            TestDataFactory.getFakeId(Clinical_Trial_Profile__c.getSObjectType())
+        );
         Test.stopTest();
 
         System.assertEquals(2, iconDetailsTest.size());
     }
 
     @IsTest
-    static void getIconDetailsWithoutExistingIconDetails_test(){
+    static void getIconDetailsWithoutExistingIconDetails_test() {
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubBuilder.newInstance(CTPSelector.class)
+        ClassFactory.putStubTypeByClassName(
+            CTPSelector.class,
+            StubBuilder.newInstance(CTPSelector.class)
                 .when('getIconDetailsByVisitPlanInCTP')
                 .then(null)
                 .build()
-       );
+        );
 
         Test.startTest();
         List<Icon_Details__c> iconDetailsTest = IconPlanetVisitInfoEditRemote.getIconDetails(
-                TestDataFactory.getFakeId(Clinical_Trial_Profile__c.getSObjectType()));
+            TestDataFactory.getFakeId(Clinical_Trial_Profile__c.getSObjectType())
+        );
         Test.stopTest();
 
         System.assert(iconDetailsTest == null);
     }
 
     @IsTest
-    static void getIconDetailsWithException_test(){
+    static void getIconDetailsWithException_test() {
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubBuilder.newInstance(CTPSelector.class)
+        ClassFactory.putStubTypeByClassName(
+            CTPSelector.class,
+            StubBuilder.newInstance(CTPSelector.class)
                 .when('getIconDetailsByVisitPlanInCTP')
                 .then(new AuraHandledException('error'))
                 .build()
-       );
+        );
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {
-            IconPlanetVisitInfoEditRemote.getIconDetails( null);
+            IconPlanetVisitInfoEditRemote.getIconDetails(null);
         } catch (Exception e) {
             isExceptionThrown = true;
             System.assert(e.getTypeName() == 'System.AuraHandledException');

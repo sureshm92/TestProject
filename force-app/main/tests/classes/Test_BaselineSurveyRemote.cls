@@ -4,11 +4,15 @@
 
 @IsTest(IsParallel=false)
 private class Test_BaselineSurveyRemote {
-
     //Set Mock Object---------------------------------------------------------------------------------------------------
     public class SurveyServiceMock implements StubProvider {
-        public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
-                List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs
+        public Object handleMethodCall(
+            Object stubbedObject,
+            String stubbedMethodName,
+            Type returnType,
+            List<Type> listOfParamTypes,
+            List<String> listOfParamNames,
+            List<Object> listOfArgs
         ) {
             if (stubbedMethodName == 'getSurveyLinkForCTP') {
                 return new SurveyService.SurveyWrapper('some', 'url', 'SCN');
@@ -33,14 +37,16 @@ private class Test_BaselineSurveyRemote {
         Boolean checkId;
 
         Test.startTest();
-        System.runAs(testDataInstance.participantUser){
+        System.runAs(testDataInstance.participantUser) {
             invitationId = SurveyService.getInstance().getSurveyInvitationId('000', '111');
-            BaselineSurveyRemote.getBaselineSurveyURL(CommunityService.USER_MODE_PARTICIPANT, invitationId);
+            BaselineSurveyRemote.getBaselineSurveyURL(
+                CommunityService.USER_MODE_PARTICIPANT,
+                invitationId
+            );
             checkId = invitationId != null ? true : false;
         }
         Test.stopTest();
 
         System.assertEquals(true, checkId);
-
     }
 }

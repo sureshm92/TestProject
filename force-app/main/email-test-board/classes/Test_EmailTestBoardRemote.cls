@@ -4,15 +4,15 @@
 
 @IsTest
 private class Test_EmailTestBoardRemote {
-
     @IsTest
     static void searchTest() {
         Contact contact = [SELECT Id, FirstName FROM Contact];
-        Test.setFixedSearchResults(new List<String>{
-                contact.Id
-        });
+        Test.setFixedSearchResults(new List<String>{ contact.Id });
         EmailTestBoardRemote.searchRecipient(contact.FirstName);
-        EmailTestBoardRemote.searchRelated('Account', CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME);
+        EmailTestBoardRemote.searchRelated(
+            'Account',
+            CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
+        );
     }
 
     @IsTest
@@ -46,16 +46,16 @@ private class Test_EmailTestBoardRemote {
     @TestSetup
     static void setup() {
         Account participantsAccount = new Account(
-                Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
+            Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
         );
         insert participantsAccount;
 
         Contact participantContact = new Contact(
-                FirstName = 'Kaitlin',
-                LastName = 'Duke',
-                Email = 'kd@fakeemail.com',
-                MailingCountry = 'United States',
-                AccountId = participantsAccount.Id
+            FirstName = 'Kaitlin',
+            LastName = 'Duke',
+            Email = 'kd@fakeemail.com',
+            MailingCountry = 'United States',
+            AccountId = participantsAccount.Id
         );
         insert participantContact;
     }

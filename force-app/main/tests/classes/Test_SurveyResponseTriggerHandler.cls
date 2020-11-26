@@ -4,44 +4,42 @@
 
 @IsTest(SeeAllData=true)
 private class Test_SurveyResponseTriggerHandler {
-
     static Id communityId = CommunityService.getCommunityId(null);
 
     @IsTest
     static void taskStatusChangerPauseTest() {
         List<Survey> survey = [SELECT Id FROM Survey WHERE ActiveVersionId != NULL LIMIT 1];
-        if(survey.isEmpty()) return;
+        if (survey.isEmpty())
+            return;
 
         TestData.loadTestData();
         TestData testData = new TestData();
 
         Test.startTest();
-        Reminder_Schedule__c schedule = new Reminder_Schedule__c(
-                First_Reminder_day__c = 1
-        );
+        Reminder_Schedule__c schedule = new Reminder_Schedule__c(First_Reminder_day__c = 1);
         insert schedule;
 
         Trial_Survey__c tsAllSee = new Trial_Survey__c(
-                Active_On_Status__c = PEStatusState.PE_STATUS_RECEIVED,
-                Clinical_Trial_Profile__c = testData.ctp.Id,
-                Expires_After_Days__c = 999,
-                Reminder_Schedule__c = schedule.Id,
-                Survey__c = survey.get(0).Id,
-                Whose_response_needed__c = 'Patient or any Delegate'
+            Active_On_Status__c = PEStatusState.PE_STATUS_RECEIVED,
+            Clinical_Trial_Profile__c = testData.ctp.Id,
+            Expires_After_Days__c = 999,
+            Reminder_Schedule__c = schedule.Id,
+            Survey__c = survey.get(0).Id,
+            Whose_response_needed__c = 'Patient or any Delegate'
         );
         insert tsAllSee;
 
-        SurveyInvitation invitationAll = SurveyService.getInstance().generateInvitation(tsAllSee, testData.pe.Id, communityId);
+        SurveyInvitation invitationAll = SurveyService.getInstance()
+            .generateInvitation(tsAllSee, testData.pe.Id, communityId);
         insert invitationAll;
 
-        TaskService.getInstance().createSurveyTasks(new Map<Id, String>{
-                invitationAll.Id => 'Patient or any Delegate'
-        });
+        TaskService.getInstance()
+            .createSurveyTasks(
+                new Map<Id, String>{ invitationAll.Id => 'Patient or any Delegate' }
+            );
 
         Map<Id, List<Id>> invitationSubmitter = new Map<Id, List<Id>>{
-                invitationAll.Id => new List<Id>{
-                        testData.pe.Participant_Contact__c
-                }
+            invitationAll.Id => new List<Id>{ testData.pe.Participant_Contact__c }
         };
 
         SurveyResponseTriggerHandler.taskStatusChanger(invitationSubmitter, false);
@@ -51,45 +49,42 @@ private class Test_SurveyResponseTriggerHandler {
     @IsTest
     static void taskStatusChangerFinishTest() {
         List<Survey> survey = [SELECT Id FROM Survey WHERE ActiveVersionId != NULL LIMIT 1];
-        if(survey.isEmpty()) return;
-        
+        if (survey.isEmpty())
+            return;
+
         TestData.loadTestData();
         TestData testData = new TestData();
 
         Test.startTest();
-        Reminder_Schedule__c schedule = new Reminder_Schedule__c(
-                First_Reminder_day__c = 1
-        );
+        Reminder_Schedule__c schedule = new Reminder_Schedule__c(First_Reminder_day__c = 1);
         insert schedule;
 
         Trial_Survey__c tsOnlyDelegates = new Trial_Survey__c(
-                Active_On_Status__c = PEStatusState.PE_STATUS_RECEIVED,
-                Clinical_Trial_Profile__c = testData.ctp.Id,
-                Expires_After_Days__c = 999,
-                Reminder_Schedule__c = schedule.Id,
-                Survey__c = survey.get(0).Id,
-                Whose_response_needed__c = 'Any Delegate'
+            Active_On_Status__c = PEStatusState.PE_STATUS_RECEIVED,
+            Clinical_Trial_Profile__c = testData.ctp.Id,
+            Expires_After_Days__c = 999,
+            Reminder_Schedule__c = schedule.Id,
+            Survey__c = survey.get(0).Id,
+            Whose_response_needed__c = 'Any Delegate'
         );
         insert tsOnlyDelegates;
 
-        SurveyInvitation invitationDelegates = SurveyService.getInstance().generateInvitation(tsOnlyDelegates, testData.pe.Id, communityId);
+        SurveyInvitation invitationDelegates = SurveyService.getInstance()
+            .generateInvitation(tsOnlyDelegates, testData.pe.Id, communityId);
         insert invitationDelegates;
 
-        TaskService.getInstance().createSurveyTasks(new Map<Id, String>{
-                invitationDelegates.Id => 'Any Delegate'
-        });
+        TaskService.getInstance()
+            .createSurveyTasks(new Map<Id, String>{ invitationDelegates.Id => 'Any Delegate' });
 
         Contact delegateContact = new Contact(
-                FirstName = 'Carlos',
-                LastName = 'Allen',
-                Email = 'jdavis@somemail.com'
+            FirstName = 'Carlos',
+            LastName = 'Allen',
+            Email = 'jdavis@somemail.com'
         );
         insert delegateContact;
 
         Map<Id, List<Id>> invitationSubmitter = new Map<Id, List<Id>>{
-                invitationDelegates.Id => new List<Id>{
-                        delegateContact.Id
-                }
+            invitationDelegates.Id => new List<Id>{ delegateContact.Id }
         };
 
         SurveyResponseTriggerHandler.taskStatusChanger(invitationSubmitter, true);

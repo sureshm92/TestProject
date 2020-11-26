@@ -4,8 +4,7 @@ Created by Sumit Surve
 */
 
 public without sharing class IntegrationSiteStaffTriggerHandler {
-        
-   /* private static final List<String> SS_STATUSES_ACCEPT_REFERRALS = new List<String>{
+    /* private static final List<String> SS_STATUSES_ACCEPT_REFERRALS = new List<String>{
             StudySiteService.PI_S_ACCEPTED,
             StudySiteService.PI_S_ACCEPTED_A,
             StudySiteService.PI_S_INVITATION_SENT
@@ -265,34 +264,34 @@ public without sharing class IntegrationSiteStaffTriggerHandler {
         }
     }
 	*/
-       		 @testVisible
-            Private static void TestCoverage(){
-                 if(Test.isRunningTest()){
-                Integer i = 0;
-    			i++;
-                i++;
-                i++;
-                i++;
-                i++;
-                i++;
-                i++;
-                i++;
-                i++;
-                i++;
-                i++;
-                i++;
-                i++;
-                i++;
-                i++;
-                i++;
-                i++;
-                i++;
-                i++;
-                i++;
-                i++;
-                i++;
-                i++;
-                i++;
-            }
+    @testVisible
+    private static void TestCoverage() {
+        if (Test.isRunningTest()) {
+            Integer i = 0;
+            i++;
+            i++;
+            i++;
+            i++;
+            i++;
+            i++;
+            i++;
+            i++;
+            i++;
+            i++;
+            i++;
+            i++;
+            i++;
+            i++;
+            i++;
+            i++;
+            i++;
+            i++;
+            i++;
+            i++;
+            i++;
+            i++;
+            i++;
+            i++;
         }
+    }
 }

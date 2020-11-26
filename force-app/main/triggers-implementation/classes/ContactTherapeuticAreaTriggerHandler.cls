@@ -3,8 +3,7 @@
  */
 
 public with sharing class ContactTherapeuticAreaTriggerHandler {
-    public class SyncContactInterestedTopics extends TriggerHandler{
-
+    public class SyncContactInterestedTopics extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
             ReferralNetworkService.syncContactInterestedTopics(newList);
         }

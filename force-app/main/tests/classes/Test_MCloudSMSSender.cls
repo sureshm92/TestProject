@@ -4,7 +4,6 @@
 
 @IsTest
 private class Test_MCloudSMSSender {
-
     private class SMSServiceMock implements HttpCalloutMock {
         public HttpResponse respond(HttpRequest request) {
             HttpResponse response = new HttpResponse();
@@ -24,7 +23,7 @@ private class Test_MCloudSMSSender {
     @IsTest
     static void testSendSMSPositive() {
         Test.setMock(HttpCalloutMock.class, new SMSServiceMock());
-        List<String> mobileNumbers = new List<String>{'19111111111', '19222222222'};
+        List<String> mobileNumbers = new List<String>{ '19111111111', '19222222222' };
         String message = 'Test SMS';
         Boolean isStatusCode202 = false;
         try {
@@ -43,7 +42,9 @@ private class Test_MCloudSMSSender {
         try {
             MCloudSMSSender.getInstance().sendSMS(mobileNumbers, message);
         } catch (Exception e) {
-            isExceptionThrown = e.getMessage().contains('Mobile numbers not specified') ? true : false;
+            isExceptionThrown = e.getMessage().contains('Mobile numbers not specified')
+                ? true
+                : false;
         }
         System.assertEquals(true, isExceptionThrown);
     }
@@ -53,25 +54,30 @@ private class Test_MCloudSMSSender {
         List<String> mobileNumbers = new List<String>();
         String message = 'Test SMS';
 
-        for (Integer i = 0; i < 300; i++) mobileNumbers.add(String.valueOf(i));
+        for (Integer i = 0; i < 300; i++)
+            mobileNumbers.add(String.valueOf(i));
         Boolean isExceptionThrown = false;
         try {
             MCloudSMSSender.getInstance().sendSMS(mobileNumbers, message);
         } catch (Exception e) {
-            isExceptionThrown = e.getMessage().contains('Mobile number list size exceeds 250') ? true : false;
+            isExceptionThrown = e.getMessage().contains('Mobile number list size exceeds 250')
+                ? true
+                : false;
         }
         System.assertEquals(true, isExceptionThrown);
     }
 
     @IsTest
     static void testSendSMSInvalidNumbers() {
-        List<String> mobileNumbers = new List<String>{'19111111111', '', '19222222222'};
+        List<String> mobileNumbers = new List<String>{ '19111111111', '', '19222222222' };
         String message = 'Test SMS';
         Boolean isExceptionThrown = false;
         try {
             MCloudSMSSender.getInstance().sendSMS(mobileNumbers, message);
         } catch (Exception e) {
-            isExceptionThrown = e.getMessage().contains('Specified phone list has invalid numbers') ? true : false;
+            isExceptionThrown = e.getMessage().contains('Specified phone list has invalid numbers')
+                ? true
+                : false;
         }
         System.assertEquals(true, isExceptionThrown);
     }

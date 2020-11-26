@@ -7,14 +7,19 @@ public with sharing class PaymentVendorPanelRemote {
     public static final String PAYMENT_VENDOR_SETUP_FILTER = 'PaymentVendorSetupFilter';
 
     public class InitData {
-        @AuraEnabled public String viewMode = GetPermissions.getViewMode(FEATURE_PAYMENT_VENDOR);
-        @AuraEnabled public StudySiteFilter filter;
-        @AuraEnabled public SSPaymentVendorsConfigResponse searchResponse;
+        @AuraEnabled
+        public String viewMode = GetPermissions.getViewMode(FEATURE_PAYMENT_VENDOR);
+        @AuraEnabled
+        public StudySiteFilter filter;
+        @AuraEnabled
+        public SSPaymentVendorsConfigResponse searchResponse;
     }
 
     public class VendorItem {
-        @AuraEnabled public Study_Site__c studySite;
-        @AuraEnabled public List<PaymentVendorSettings__c> vendorSettings;
+        @AuraEnabled
+        public Study_Site__c studySite;
+        @AuraEnabled
+        public List<PaymentVendorSettings__c> vendorSettings;
 
         public VendorItem(Study_Site__c ss) {
             this.studySite = ss;
@@ -26,10 +31,16 @@ public with sharing class PaymentVendorPanelRemote {
     public static InitData getInitData(Id ctpId) {
         try {
             InitData initData = new InitData();
-            StudySiteFilter filter = (StudySiteFilter) SettingStoreService.getOrgDefault(PAYMENT_VENDOR_SETUP_FILTER + ctpId);
-            if (filter == null) filter = new StudySiteFilter(ctpId);
+            StudySiteFilter filter = (StudySiteFilter) SettingStoreService.getOrgDefault(
+                PAYMENT_VENDOR_SETUP_FILTER + ctpId
+            );
+            if (filter == null)
+                filter = new StudySiteFilter(ctpId);
             initData.filter = filter;
-            initData.searchResponse = new SSPaymentVendorsConfigResponse(initData.filter, new PaginationData(15));
+            initData.searchResponse = new SSPaymentVendorsConfigResponse(
+                initData.filter,
+                new PaginationData(15)
+            );
             return initData;
         } catch (Exception e) {
             return (InitData) AuraHelper.throwException(e);
@@ -37,30 +48,49 @@ public with sharing class PaymentVendorPanelRemote {
     }
 
     @AuraEnabled
-    public static SSPaymentVendorsConfigResponse getItems(String ssItemsJSON, String filterJSON, String paginationJSON) {
+    public static SSPaymentVendorsConfigResponse getItems(
+        String ssItemsJSON,
+        String filterJSON,
+        String paginationJSON
+    ) {
         try {
-            StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(filterJSON, StudySiteFilter.class);
-            PaginationData pagination = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
+            StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(
+                filterJSON,
+                StudySiteFilter.class
+            );
+            PaginationData pagination = (PaginationData) JSON.deserialize(
+                paginationJSON,
+                PaginationData.class
+            );
             save(ssItemsJSON);
             saveFilter(filter);
             if (String.isNotEmpty(ssItemsJSON) && String.isNotEmpty(filterJSON)) {
-                List<StudySiteItem> allSSItems = SSPaymentVendorsConfigResponse.convertToSSItems(SearchService.search(filter), null);
-                List<StudySiteItem> filteredSSItems = (List<StudySiteItem>) JSON.deserialize(ssItemsJSON, List<StudySiteItem>.class);
+                List<StudySiteItem> allSSItems = SSPaymentVendorsConfigResponse.convertToSSItems(
+                    SearchService.search(filter),
+                    null
+                );
+                List<StudySiteItem> filteredSSItems = (List<StudySiteItem>) JSON.deserialize(
+                    ssItemsJSON,
+                    List<StudySiteItem>.class
+                );
 
                 Map<Study_Site__c, List<ValueStateItem>> assignmentsBySS = new Map<Study_Site__c, List<ValueStateItem>>();
-                for(StudySiteItem item : allSSItems) assignmentsBySS.put(item.ss, item.assignments);
+                for (StudySiteItem item : allSSItems)
+                    assignmentsBySS.put(item.ss, item.assignments);
 
                 for (StudySiteItem item : filteredSSItems) {
                     for (ValueStateItem assignment : item.assignments) {
                         if (assignment.state || item.emptyAssignments) {
-                            for(ValueStateItem hidden : assignmentsBySS.get(item.ss)) {
-                                if(hidden.value != assignment.value) hidden.state = false;
+                            for (ValueStateItem hidden : assignmentsBySS.get(item.ss)) {
+                                if (hidden.value != assignment.value)
+                                    hidden.state = false;
                             }
                         }
                     }
                 }
 
-                for(StudySiteItem item : allSSItems) item.assignments = assignmentsBySS.get(item.ss);
+                for (StudySiteItem item : allSSItems)
+                    item.assignments = assignmentsBySS.get(item.ss);
                 save(allSSItems);
             }
             return new SSPaymentVendorsConfigResponse(filter, pagination);
@@ -70,14 +100,28 @@ public with sharing class PaymentVendorPanelRemote {
     }
 
     @AuraEnabled
-    public static SSPaymentVendorsConfigResponse selectAllInColumn(String paymentVendorId, Boolean state, String filterJSON,
-            String paginationJSON, String ssItemsJSON) {
+    public static SSPaymentVendorsConfigResponse selectAllInColumn(
+        String paymentVendorId,
+        Boolean state,
+        String filterJSON,
+        String paginationJSON,
+        String ssItemsJSON
+    ) {
         try {
             save(ssItemsJSON);
-            StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(filterJSON, StudySiteFilter.class);
+            StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(
+                filterJSON,
+                StudySiteFilter.class
+            );
             saveFilter(filter);
-            PaginationData pagination = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
-            List<StudySiteItem> allSSItems = SSPaymentVendorsConfigResponse.convertToSSItems(SearchService.search(filter), null);
+            PaginationData pagination = (PaginationData) JSON.deserialize(
+                paginationJSON,
+                PaginationData.class
+            );
+            List<StudySiteItem> allSSItems = SSPaymentVendorsConfigResponse.convertToSSItems(
+                SearchService.search(filter),
+                null
+            );
             for (StudySiteItem ssItem : allSSItems) {
                 for (ValueStateItem assigment : ssItem.assignments) {
                     if (assigment.value.equals(paymentVendorId)) {
@@ -95,8 +139,12 @@ public with sharing class PaymentVendorPanelRemote {
     }
 
     private static void save(String ssItemsJSON) {
-        if (String.isEmpty(ssItemsJSON)) return;
-        List<StudySiteItem> studySiteItems = (List<StudySiteItem>) JSON.deserialize(ssItemsJSON, List<StudySiteItem>.class);
+        if (String.isEmpty(ssItemsJSON))
+            return;
+        List<StudySiteItem> studySiteItems = (List<StudySiteItem>) JSON.deserialize(
+            ssItemsJSON,
+            List<StudySiteItem>.class
+        );
         save(studySiteItems);
     }
 
@@ -108,10 +156,12 @@ public with sharing class PaymentVendorPanelRemote {
                 if (assigment.sourceId != null && !assigment.state) {
                     toDelete.add(new PaymentVendorSettings__c(Id = assigment.sourceId));
                 } else if (assigment.sourceId == null && assigment.state) {
-                    toInsert.add(new PaymentVendorSettings__c(
+                    toInsert.add(
+                        new PaymentVendorSettings__c(
                             Study_Site__c = ssItem.ss.Id,
                             Payment_Vendor__c = assigment.value
-                    ));
+                        )
+                    );
                 }
             }
         }
@@ -120,6 +170,10 @@ public with sharing class PaymentVendorPanelRemote {
     }
 
     private static void saveFilter(StudySiteFilter filter) {
-        SettingStoreService.saveOrgDefault(PAYMENT_VENDOR_SETUP_FILTER + filter.ctpId, filter, StudySiteFilter.class);
+        SettingStoreService.saveOrgDefault(
+            PAYMENT_VENDOR_SETUP_FILTER + filter.ctpId,
+            filter,
+            StudySiteFilter.class
+        );
     }
 }

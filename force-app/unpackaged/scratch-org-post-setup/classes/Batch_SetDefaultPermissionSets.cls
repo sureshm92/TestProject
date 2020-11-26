@@ -8,24 +8,35 @@ public with sharing class Batch_SetDefaultPermissionSets implements Database.Bat
 
     public Database.QueryLocator start(Database.BatchableContext param1) {
         defaultPermissionSet = [
-                SELECT Id
-                FROM PermissionSet
-                WHERE Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME
-                LIMIT 1
-        ].Id;
+            SELECT Id
+            FROM PermissionSet
+            WHERE Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME
+            LIMIT 1
+        ]
+        .Id;
 
-        return Database.getQueryLocator([
+        return Database.getQueryLocator(
+            [
                 SELECT Id
                 FROM User
-                WHERE IsActive = TRUE
-                AND Profile.Name = :CommunityService.COMMUNITY_USER_PROFILE_NAME
-        ]);
+                WHERE
+                    IsActive = TRUE
+                    AND Profile.Name = :CommunityService.COMMUNITY_USER_PROFILE_NAME
+            ]
+        );
     }
 
-    public void execute(Database.BatchableContext param1, List<User> activeUsersWithDefaultCommunity) {
-
+    public void execute(
+        Database.BatchableContext param1,
+        List<User> activeUsersWithDefaultCommunity
+    ) {
         for (User user : activeUsersWithDefaultCommunity) {
-            permissionSetAssignments.add (new PermissionSetAssignment(AssigneeId = user.Id, PermissionSetId = defaultPermissionSet));
+            permissionSetAssignments.add(
+                new PermissionSetAssignment(
+                    AssigneeId = user.Id,
+                    PermissionSetId = defaultPermissionSet
+                )
+            );
         }
     }
 
@@ -37,4 +48,3 @@ public with sharing class Batch_SetDefaultPermissionSets implements Database.Bat
         Database.executeBatch(new Batch_SetDefaultPermissionSets());
     }
 }
-

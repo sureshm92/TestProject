@@ -3,5 +3,4 @@
  */
 
 public with sharing class Action_UploadParticipantsRemote {
-
 }

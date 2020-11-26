@@ -3,16 +3,24 @@
  */
 
 public with sharing class ProfileIconController {
-
     @RemoteAction
     public static void upload(String fileName, String fileBody, String contentType) {
         Blob blobValue = EncodingUtil.base64Decode(fileBody);
-        ConnectApi.BinaryInput photoFileInput = new ConnectApi.BinaryInput(blobValue, contentType, fileName);
-        ConnectApi.UserProfiles.setPhoto(Network.getNetworkId(), UserInfo.getUserId(), photoFileInput);
+        ConnectApi.BinaryInput photoFileInput = new ConnectApi.BinaryInput(
+            blobValue,
+            contentType,
+            fileName
+        );
+        ConnectApi.UserProfiles.setPhoto(
+            Network.getNetworkId(),
+            UserInfo.getUserId(),
+            photoFileInput
+        );
     }
 
     @RemoteAction
     public static String getPhotoURL() {
-        return ConnectApi.UserProfiles.getPhoto(Network.getNetworkId(), UserInfo.getUserId()).fullEmailPhotoUrl;
+        return ConnectApi.UserProfiles.getPhoto(Network.getNetworkId(), UserInfo.getUserId())
+            .fullEmailPhotoUrl;
     }
 }

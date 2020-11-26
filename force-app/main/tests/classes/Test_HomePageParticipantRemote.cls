@@ -4,7 +4,6 @@
 
 @IsTest
 public class Test_HomePageParticipantRemote {
-
     @IsTest
     public static void runTest() {
         TestData.loadTestData();
@@ -13,7 +12,10 @@ public class Test_HomePageParticipantRemote {
 
         Test.startTest();
         System.runAs(td.participantUser) {
-            initData = (ParticipantService.ParticipantState) JSON.deserialize(HomePageParticipantRemote.getInitData(), ParticipantService.ParticipantState.class);
+            initData = (ParticipantService.ParticipantState) JSON.deserialize(
+                HomePageParticipantRemote.getInitData(),
+                ParticipantService.ParticipantState.class
+            );
         }
         Test.stopTest();
         System.assert(initData.welcomeMessage.contains(td.participant.First_Name__c));

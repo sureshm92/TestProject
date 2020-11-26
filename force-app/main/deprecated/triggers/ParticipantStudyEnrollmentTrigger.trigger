@@ -2,7 +2,15 @@
  * Created by Yehor Dobrovolskyi
  */
 
-trigger ParticipantStudyEnrollmentTrigger on Participant_Study_Enrollment__c (before insert, before update, before delete, after insert, after update, after delete, after undelete) {
+trigger ParticipantStudyEnrollmentTrigger on Participant_Study_Enrollment__c(
+    before insert,
+    before update,
+    before delete,
+    after insert,
+    after update,
+    after delete,
+    after undelete
+) {
     /*TriggerHandlerExecutor.execute(ParticipantStudyEnrollmentTriggerHandler.class);
     TriggerHandlerExecutor.execute(PSETriggerHandler.SetDefaultFieldsBeforeUpsertHandler.class);
     TriggerHandlerExecutor.execute(PSETriggerHandler.ProcessStatusHistoryHandler.class);
