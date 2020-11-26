@@ -3,16 +3,15 @@
  */
 
 ({
-    scrollToPage: function(component, event, helper, pageNumber) {
+    scrollToPage: function (component, event, helper, pageNumber) {
         var carouselBody = component.find('carouselBody').getElement();
         var carouselBodyWidth = carouselBody.getBoundingClientRect().width;
         var currentPage = component.get('v.currentPage');
-        var slideSpeed = (navigator.userAgent.match(/Trident/)) ? 50:500; // Milliseconds
+        var slideSpeed = navigator.userAgent.match(/Trident/) ? 50 : 500; // Milliseconds
         var frameRate = 25;
         var frameTime = slideSpeed / frameRate;
         var frameCount = 0;
         var increment = (carouselBodyWidth * (pageNumber - currentPage)) / frameRate;
-
 
         var slideInterval = setInterval(function () {
             frameCount++;
@@ -35,11 +34,11 @@
         helper.updateDots(component, event, helper);
     },
 
-    updateDots: function(component, event, helper) {
+    updateDots: function (component, event, helper) {
         var dots = component.find('dot');
         var currentPage = component.get('v.currentPage');
 
-        dots.forEach(function(self, index) {
+        dots.forEach(function (self, index) {
             if (index === currentPage) {
                 self.getElement().classList.add('sc-pagination__dot_selected');
             } else {
@@ -47,6 +46,4 @@
             }
         });
     }
-
-
-})
+});

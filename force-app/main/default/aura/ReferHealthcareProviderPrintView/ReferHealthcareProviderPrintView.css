@@ -7,7 +7,7 @@
 
 .THIS .healthcare-info {
     margin: 1% 0 1% 0;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: 600;
     color: black;
@@ -15,7 +15,7 @@
 
 .THIS .referring-provider-header {
     color: #444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
     margin-top: 5.5%;
     padding-left: 9%;
@@ -29,33 +29,34 @@
     padding-right: 4%;
 }
 
-.THIS .healthcare-form-container{
+.THIS .healthcare-form-container {
     margin-bottom: 1%;
 }
 
-.THIS .healthcare-input input{
+.THIS .healthcare-input input {
     height: 32px;
 }
 
-.THIS .provider-found-section{
+.THIS .provider-found-section {
     font-size: 13px;
     font-weight: 500;
 }
-.THIS .first-name-col,.THIS .last-name-col{
+.THIS .first-name-col,
+.THIS .last-name-col {
     width: 25%;
 }
-.THIS .email-col{
+.THIS .email-col {
     width: 33%;
 }
-.THIS .button-col{
+.THIS .button-col {
     width: 17%;
 }
-.THIS .helthcare-info-header{
+.THIS .helthcare-info-header {
     width: 75%;
 }
-.THIS .referring-provider-header{
+.THIS .referring-provider-header {
     width: 25%;
 }
-.THIS table{
+.THIS table {
     table-layout: fixed;
 }

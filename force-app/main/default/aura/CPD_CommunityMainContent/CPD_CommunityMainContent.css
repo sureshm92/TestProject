@@ -13,7 +13,7 @@
 
     .THIS .in-partnership-with {
         color: #006293;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 16px;
         letter-spacing: 0;
         line-height: 30px;
@@ -61,7 +61,7 @@
 
     .THIS .convalescent-plasma-titile {
         color: #005587;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 45px;
         font-weight: bold;
         letter-spacing: 0;
@@ -70,7 +70,7 @@
 
     .THIS .sld-join-the-fight {
         color: #005587;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 32px;
         font-weight: bold;
         letter-spacing: 0;
@@ -78,13 +78,13 @@
     }
 
     .THIS .sld_background_img {
-        background-color: #F2F2F2;
+        background-color: #f2f2f2;
         margin: 2% -1% 0% -1%;
     }
 
     .THIS .sld-first-paragraph {
-        color: #006F9E;
-        font-family: "Muli", sans-serif;
+        color: #006f9e;
+        font-family: 'Muli', sans-serif;
         font-size: 21px;
         letter-spacing: 0;
         line-height: 30px;
@@ -96,7 +96,7 @@
     }
 
     .THIS .button-align {
-       /* margin-top: 4rem;*/
+        /* margin-top: 4rem;*/
     }
 
     .THIS div.button {
@@ -106,29 +106,28 @@
         width: 270px;
         padding: 1em 1em;
         display: inline-block;
-        border: 2px solid #019FDB;
+        border: 2px solid #019fdb;
         margin: 0 0.2em 0.2em 0;
         border-radius: 0.12em;
         box-sizing: border-box;
         text-decoration: none;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-weight: bold;
         font-size: 28px;
-        color: #FFFFFF;
+        color: #ffffff;
         text-shadow: 0 0.04em 0.04em rgba(0, 0, 0, 0.35);
-        background-color: #1AA0D9;
+        background-color: #1aa0d9;
         text-align: center;
         letter-spacing: 0;
         line-height: 20px;
         transition: all 0.15s;
-
     }
 
     .THIS div.button:hover {
         text-shadow: 0 0 2em rgba(255, 255, 255, 1);
-        color:  #1AA0D9;
-        border-color: #019FDB;
-        background-color: #FFFFFF;
+        color: #1aa0d9;
+        border-color: #019fdb;
+        background-color: #ffffff;
     }
 
     /*
@@ -171,7 +170,7 @@
         height: 104px;
         width: 100%;
         color: #333333;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 16px;
         letter-spacing: 0;
         line-height: 20px;
@@ -181,7 +180,7 @@
         height: 200px;
         width: 94%;
         color: #333333;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 16px;
         letter-spacing: 0;
         line-height: 20px;
@@ -192,8 +191,8 @@
         height: 19.8rem;
         /*317px;*/
         width: 100%;
-        border: 2px solid #1AA0D9;
-        background-color: #1AA0D9;
+        border: 2px solid #1aa0d9;
+        background-color: #1aa0d9;
         padding: 5%;
     }
 
@@ -201,7 +200,7 @@
         height: 112px;
         width: 283px;
         color: #ffffff;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 48px;
         font-weight: bold;
         letter-spacing: 0;
@@ -217,7 +216,7 @@
         height: 22px;
         width: 370px;
         color: #005587;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 18px;
         letter-spacing: 0;
         line-height: 22px;
@@ -230,7 +229,7 @@
         /*317px;*/
         width: 100%;
         border: 1px solid #005587;
-        background-color: #FAFAFA;
+        background-color: #fafafa;
         border-right: 0px;
         border-left: 0px;
         padding: 2.5rem;
@@ -240,7 +239,6 @@
         margin-top: 2%;
     }
 }
-
 
 /* 
   ##Device = Laptops, Desktops
@@ -452,9 +450,8 @@
   ##Screen = B/w 768px to 1024px
 */
 @media (min-width: 768px) and (max-width: 1024px) {
-
     .THIS .partnership-with-align {
-       /* margin-top: -4rem;
+        /* margin-top: -4rem;
         margin-left: 18rem;*/
         margin-top: 1rem;
         margin-left: 1rem;
@@ -462,7 +459,7 @@
 
     .THIS .in-partnership-with {
         color: #006293;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 16px;
         letter-spacing: 0;
         line-height: 30px;
@@ -481,7 +478,6 @@
         height: 495px;
         width: 525px;
     }
-
 
     .THIS .slds-top-contnet {
         margin-left: 10%;
@@ -508,7 +504,7 @@
 
     .THIS .convalescent-plasma-titile {
         color: #005587;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 45px;
         font-weight: bold;
         letter-spacing: 0;
@@ -517,7 +513,7 @@
 
     .THIS .sld-join-the-fight {
         color: #005587;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 32px;
         font-weight: bold;
         letter-spacing: 0;
@@ -525,13 +521,13 @@
     }
 
     .THIS .sld_background_img {
-        background-color: #F2F2F2;
+        background-color: #f2f2f2;
         margin: 2% -1% 0% -1%;
     }
 
     .THIS .sld-first-paragraph {
-        color: #006F9E;
-        font-family: "Muli", sans-serif;
+        color: #006f9e;
+        font-family: 'Muli', sans-serif;
         font-size: 21px;
         letter-spacing: 0;
         line-height: 30px;
@@ -567,16 +563,16 @@
         padding: 1em 1em;
         display: block;
         margin: 0.4em auto;
-        border: 2px solid #019FDB;
+        border: 2px solid #019fdb;
         border-radius: 0.12em;
         box-sizing: border-box;
         text-decoration: none;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-weight: bold;
         font-size: 22px;
-        color: #FFFFFF;
+        color: #ffffff;
         text-shadow: 0 0.04em 0.04em rgba(0, 0, 0, 0.35);
-        background-color: #1AA0D9;
+        background-color: #1aa0d9;
         text-align: center;
         letter-spacing: 0;
         line-height: 20px;
@@ -584,8 +580,8 @@
     }
 
     .THIS .sld-get-started-label1 {
-        color: #FFFFFF;
-        font-family: "Muli", sans-serif;
+        color: #ffffff;
+        font-family: 'Muli', sans-serif;
         font-size: 28px;
         font-weight: bold;
         letter-spacing: 0;
@@ -603,7 +599,7 @@
         height: 104px;
         width: 100%;
         color: #333333;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 16px;
         letter-spacing: 0;
         line-height: 20px;
@@ -613,7 +609,7 @@
         height: 200px;
         width: 94%;
         color: #333333;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 16px;
         letter-spacing: 0;
         line-height: 20px;
@@ -623,15 +619,15 @@
         box-sizing: border-box;
         height: 317px;
         width: 100%;
-        border: 2px solid #1AA0D9;
-        background-color: #1AA0D9;
+        border: 2px solid #1aa0d9;
+        background-color: #1aa0d9;
     }
 
     .THIS .sld-eligibility-criteria-1-p {
         height: 112px;
         width: 283px;
         color: #ffffff;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 48px;
         font-weight: bold;
         letter-spacing: 0;
@@ -647,7 +643,7 @@
         height: 22px;
         width: 370px;
         color: #005587;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 16px;
         letter-spacing: 0;
         line-height: 22px;
@@ -659,7 +655,7 @@
         height: 317px;
         width: 100%;
         border: 1px solid #005587;
-        background-color: #FAFAFA;
+        background-color: #fafafa;
         border-right: 0px;
         border-left: 0px;
         padding: 0.5rem;
@@ -668,7 +664,6 @@
     .THIS .sld-rect-content-with-image {
         margin-top: 1%;
     }
-
 }
 
 /* 
@@ -677,7 +672,6 @@
   */
 
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-
     .THIS .partnership-with-align {
         /*margin-top: -4rem;
         margin-left: 18rem;*/
@@ -687,7 +681,7 @@
 
     .THIS .in-partnership-with {
         color: #006293;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 16px;
         letter-spacing: 0;
         line-height: 30px;
@@ -706,7 +700,6 @@
         height: 495px;
         width: 525px;
     }
-
 
     .THIS .slds-top-contnet {
         margin-left: 10%;
@@ -733,7 +726,7 @@
 
     .THIS .convalescent-plasma-titile {
         color: #005587;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 45px;
         font-weight: bold;
         letter-spacing: 0;
@@ -742,7 +735,7 @@
 
     .THIS .sld-join-the-fight {
         color: #005587;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 32px;
         font-weight: bold;
         letter-spacing: 0;
@@ -750,13 +743,13 @@
     }
 
     .THIS .sld_background_img {
-        background-color: #F2F2F2;
+        background-color: #f2f2f2;
         margin: 2% -1% 0% -1%;
     }
 
     .THIS .sld-first-paragraph {
-        color: #006F9E;
-        font-family: "Muli", sans-serif;
+        color: #006f9e;
+        font-family: 'Muli', sans-serif;
         font-size: 21px;
         letter-spacing: 0;
         line-height: 30px;
@@ -772,24 +765,23 @@
         -moz-appearance: button;
         appearance: button;
         text-decoration: none;
-        background-color: #1AA0D9;
-        border: 2px solid #019FDB;
-        
+        background-color: #1aa0d9;
+        border: 2px solid #019fdb;
+
         box-shadow: 0 5px 5px 0 grey;
         border-radius: 5px;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         /*padding-left: 3.5rem;
         padding-top: 2rem;*/
         cursor: pointer;
         position: relative;
         z-index: 9;
         font-size: 24px;
-
     }
 
     .THIS .sld-get-started-label {
-        color: #FFFFFF;
-        font-family: "Muli", sans-serif;
+        color: #ffffff;
+        font-family: 'Muli', sans-serif;
         font-size: 28px;
         font-weight: bold;
         letter-spacing: 0;
@@ -807,7 +799,7 @@
         height: 104px;
         width: 100%;
         color: #333333;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 16px;
         letter-spacing: 0;
         line-height: 20px;
@@ -817,7 +809,7 @@
         height: 200px;
         width: 94%;
         color: #333333;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 16px;
         letter-spacing: 0;
         line-height: 20px;
@@ -827,15 +819,15 @@
         box-sizing: border-box;
         height: 317px;
         width: 100%;
-        border: 2px solid #1AA0D9;
-        background-color: #1AA0D9;
+        border: 2px solid #1aa0d9;
+        background-color: #1aa0d9;
     }
 
     .THIS .sld-eligibility-criteria-1-p {
         height: 112px;
         width: 283px;
         color: #ffffff;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 48px;
         font-weight: bold;
         letter-spacing: 0;
@@ -851,7 +843,7 @@
         height: 22px;
         width: 370px;
         color: #005587;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 16px;
         letter-spacing: 0;
         line-height: 22px;
@@ -863,7 +855,7 @@
         height: 317px;
         width: 100%;
         border: 1px solid #005587;
-        background-color: #FAFAFA;
+        background-color: #fafafa;
         border-right: 0px;
         border-left: 0px;
         padding: 0.5rem;
@@ -872,10 +864,7 @@
     .THIS .sld-rect-content-with-image {
         margin-top: 1%;
     }
-
 }
-
-
 
 /* 
   ##Device = Low Resolution Tablets, Mobiles (Landscape)
@@ -883,7 +872,6 @@
 */
 
 @media (min-width: 481px) and (max-width: 767px) {
-
     .THIS .slds-top-contnet {
         margin-top: 5em;
         margin-left: 2em;
@@ -900,7 +888,7 @@
 
     .THIS .in-partnership-with {
         color: #006293;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 16px;
         letter-spacing: 0;
         line-height: 30px;
@@ -921,7 +909,7 @@
 
     .THIS .convalescent-plasma-titile {
         color: #005587;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 45px;
         font-weight: bold;
         letter-spacing: 0;
@@ -932,7 +920,7 @@
 
     .THIS .sld-join-the-fight {
         color: #005587;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         height: 72px;
         width: 80%;
         font-size: 24px;
@@ -942,27 +930,26 @@
     }
 
     .THIS .sld_background_img {
-        background-color: #F2F2F2;
+        background-color: #f2f2f2;
         margin: 2% -1% 0% -1%;
     }
 
     .THIS .sld-first-paragraph {
         color: #005587;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 24px;
         letter-spacing: 0;
         line-height: 30px;
         margin-bottom: 10%;
     }
 
-
     .THIS div.button {
         text-decoration: none;
-        background-color: #1AA0D9;
-        border: 2px solid #019FDB;
+        background-color: #1aa0d9;
+        border: 2px solid #019fdb;
         height: 80px;
         width: 100%;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 30px;
         padding-top: 1rem;
         cursor: pointer;
@@ -976,8 +963,8 @@
     }
 
     .THIS .sld-get-started-label {
-        color: #FFFFFF;
-        font-family: "Muli", sans-serif;
+        color: #ffffff;
+        font-family: 'Muli', sans-serif;
         font-size: 28px;
         font-weight: bold;
         letter-spacing: 0;
@@ -993,7 +980,7 @@
 
     .THIS .sld-document-instructions-p {
         color: #333333;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 16px;
         letter-spacing: 0;
         line-height: 20px;
@@ -1001,7 +988,7 @@
 
     .THIS .sld-initial-you-p {
         color: #333333;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 16px;
         letter-spacing: 0;
         line-height: 20px;
@@ -1011,8 +998,8 @@
         box-sizing: border-box;
         height: 61px;
         width: 100%;
-        border: 2px solid #1AA0D9;
-        background-color: #1AA0D9;
+        border: 2px solid #1aa0d9;
+        background-color: #1aa0d9;
         position: absolute;
         z-index: 1;
         left: 0;
@@ -1024,7 +1011,7 @@
         height: 400px;
         width: 100%;
         border: 1px solid #005587;
-        background-color: #FAFAFA;
+        background-color: #fafafa;
         position: inherit;
         z-index: 1;
         border-right: 0px;
@@ -1036,7 +1023,7 @@
 
     .THIS .sld-eligibility-criteria-1-p {
         color: #ffffff;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 21px;
         font-weight: bold;
         letter-spacing: 0;
@@ -1047,18 +1034,16 @@
         text-align: center;
     }
 
-
     .THIS .sld-eligibility-criteria-rectangle-2-p {
         height: 22px;
         width: 203px;
         color: #005587;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 18px;
         letter-spacing: 0;
         line-height: 22px;
         font-weight: bolder;
     }
-
 }
 
 /* 
@@ -1067,7 +1052,6 @@
   */
 
 @media (min-width: 320px) and (max-width: 480px) {
-
     .THIS .slds-top-contnet {
         margin-top: 5em;
         margin-left: 2em;
@@ -1084,7 +1068,7 @@
 
     .THIS .in-partnership-with {
         color: #006293;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 16px;
         letter-spacing: 0;
         line-height: 30px;
@@ -1105,7 +1089,7 @@
 
     .THIS .convalescent-plasma-titile {
         color: #005587;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 45px;
         font-weight: bold;
         letter-spacing: 0;
@@ -1117,7 +1101,7 @@
 
     .THIS .sld-join-the-fight {
         color: #005587;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         height: 72px;
         width: 80%;
         font-size: 24px;
@@ -1127,27 +1111,26 @@
     }
 
     .THIS .sld_background_img {
-        background-color: #F2F2F2;
+        background-color: #f2f2f2;
         margin: 2% -1% 0% -1%;
     }
 
     .THIS .sld-first-paragraph {
         color: #005587;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 24px;
         letter-spacing: 0;
         line-height: 30px;
         margin-bottom: 10%;
     }
 
-
     .THIS div.button {
         text-decoration: none;
-        background-color: #1AA0D9;
-        border: 2px solid #019FDB;
+        background-color: #1aa0d9;
+        border: 2px solid #019fdb;
         height: 80px;
         width: 100%;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 30px;
         padding-top: 1rem;
         cursor: pointer;
@@ -1161,8 +1144,8 @@
     }
 
     .THIS .sld-get-started-label {
-        color: #FFFFFF;
-        font-family: "Muli", sans-serif;
+        color: #ffffff;
+        font-family: 'Muli', sans-serif;
         font-size: 28px;
         font-weight: bold;
         letter-spacing: 0;
@@ -1178,7 +1161,7 @@
 
     .THIS .sld-document-instructions-p {
         color: #333333;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 16px;
         letter-spacing: 0;
         line-height: 20px;
@@ -1186,7 +1169,7 @@
 
     .THIS .sld-initial-you-p {
         color: #333333;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 16px;
         letter-spacing: 0;
         line-height: 20px;
@@ -1196,8 +1179,8 @@
         box-sizing: border-box;
         height: 61px;
         width: 100%;
-        border: 2px solid #1AA0D9;
-        background-color: #1AA0D9;
+        border: 2px solid #1aa0d9;
+        background-color: #1aa0d9;
         position: absolute;
         z-index: 1;
         left: 0;
@@ -1209,7 +1192,7 @@
         height: 400px;
         width: 100%;
         border: 1px solid #005587;
-        background-color: #FAFAFA;
+        background-color: #fafafa;
         position: inherit;
         z-index: 1;
         border-right: 0px;
@@ -1221,7 +1204,7 @@
 
     .THIS .sld-eligibility-criteria-1-p {
         color: #ffffff;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 21px;
         font-weight: bold;
         letter-spacing: 0;
@@ -1232,16 +1215,14 @@
         text-align: center;
     }
 
-
     .THIS .sld-eligibility-criteria-rectangle-2-p {
         height: 22px;
         width: 203px;
         color: #005587;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 18px;
         letter-spacing: 0;
         line-height: 22px;
         font-weight: bolder;
     }
-
 }

@@ -9,7 +9,7 @@
         component.find('addPaymentVendorDialog').show();
         component.find('addPaymentVendorDialog').set('v.cancelCallback', function () {
             helper.resetForm(component);
-        })
+        });
     },
 
     doClose: function (component, event, helper) {

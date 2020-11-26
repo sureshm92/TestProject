@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-.THIS.reviw-status{
+.THIS.reviw-status {
     white-space: nowrap;
     display: inline-block;
     font-size: 12px;
@@ -17,16 +17,16 @@
     color: #E63F5B;
 }
 */
-.THIS.reviw-status .rr-icon-default{
+.THIS.reviw-status .rr-icon-default {
     width: 12px;
     height: 12px;
     margin-right: 4px;
 }
 
 .THIS.reviw-status.pass .rr-icon-default {
-    fill: #00C82B;
+    fill: #00c82b;
 }
 
 .THIS.reviw-status.fail .rr-icon-default {
-    fill: #E63F5B;
+    fill: #e63f5b;
 }

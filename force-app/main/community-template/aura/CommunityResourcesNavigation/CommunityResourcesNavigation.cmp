@@ -3,20 +3,26 @@
  -->
 
 <aura:component description="CommunityResourcesNavigation" extends="c:AbstractNavigation">
-
-    <aura:attribute name="itemResource" type="Object" access="public"/>
+    <aura:attribute name="itemResource" type="Object" access="public" />
 
     <c:uiHeaderMenu aura:id="menuId" class="{!'resources-popup-' + v.communityTemplate}">
         <aura:set attribute="title">
             <div class="slds-header-link">
                 <span>{!$Label.c.Navigation_Resources}</span>
-                <img class="arrow-down" src="{!$Resource.icon_triangleDownWhite}" width="14" height="14"/>
+                <img
+                    class="arrow-down"
+                    src="{!$Resource.icon_triangleDownWhite}"
+                    width="14"
+                    height="14"
+                />
             </div>
         </aura:set>
-        <c:uiMenuItem label="{!$Label.c.Navigation_Library}" onclick="{!c.onClickResource}"/>
+        <c:uiMenuItem label="{!$Label.c.Navigation_Library}" onclick="{!c.onClickResource}" />
         <aura:if isTrue="{!v.communityTemplate != $Label.c.Janssen_Community_Template_Name}">
-            <c:uiMenuItem label="{!$Label.c.Navigation_Media_Outreach}" onclick="{!c.onClickMediaOutreach}"/>
+            <c:uiMenuItem
+                label="{!$Label.c.Navigation_Media_Outreach}"
+                onclick="{!c.onClickMediaOutreach}"
+            />
         </aura:if>
-
     </c:uiHeaderMenu>
 </aura:component>

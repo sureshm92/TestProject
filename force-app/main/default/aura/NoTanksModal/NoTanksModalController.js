@@ -10,11 +10,10 @@
     },
 
     doSetStudyStatus: function (component, event, helper) {
-
         var spinner = component.find('spinner');
         spinner.show();
 
-        if(event.target.id !== "yes"){
+        if (event.target.id !== 'yes') {
             spinner.hide();
             component.find('noTanksModal').hide();
             return;
@@ -24,17 +23,28 @@
         var userMode = component.get('v.userMode');
         var ssId = component.get('v.ssId');
 
-        communityService.executeAction(component, 'deactivateTrial', {
-            trialId: trialId,
-            userMode: userMode,
-            ssId: ssId
-        }, function (returnValue) {
-            var parent = component.get('v.parent');
-            if(parent) parent.refresh();
-            communityService.showToast("success", "success", $A.get("$Label.c.TST_Study_was_successfully_declined"));
-        }, null, function () {
-            component.find('noTanksModal').hide();
-            spinner.hide();
-        });
+        communityService.executeAction(
+            component,
+            'deactivateTrial',
+            {
+                trialId: trialId,
+                userMode: userMode,
+                ssId: ssId
+            },
+            function (returnValue) {
+                var parent = component.get('v.parent');
+                if (parent) parent.refresh();
+                communityService.showToast(
+                    'success',
+                    'success',
+                    $A.get('$Label.c.TST_Study_was_successfully_declined')
+                );
+            },
+            null,
+            function () {
+                component.find('noTanksModal').hide();
+                spinner.hide();
+            }
+        );
     }
-})
+});

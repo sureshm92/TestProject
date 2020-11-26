@@ -1,23 +1,21 @@
 ({
-    search : function(component, event, helper) {
+    search: function (component, event, helper) {
         const action = event.getParam('arguments').serverAction;
         helper.toggleSearchSpinner(component);
 
         action.setParams({
-            searchTerm : component.get('v.cleanSearchTerm'),
-            selectedIds : helper.getSelectedIds(component)
+            searchTerm: component.get('v.cleanSearchTerm'),
+            selectedIds: helper.getSelectedIds(component)
         });
 
-        action.setCallback(this, function(response) {
-
+        action.setCallback(this, function (response) {
             const state = response.getState();
             if (state === 'SUCCESS') {
                 helper.toggleSearchSpinner(component);
                 // Process server success response
                 const returnValue = response.getReturnValue();
                 component.set('v.searchResults', returnValue);
-            }
-            else if (state === 'ERROR') {
+            } else if (state === 'ERROR') {
                 helper.toggleSearchSpinner(component);
                 // Retrieve the error message sent by the server
                 const errors = response.getError();
@@ -26,7 +24,11 @@
                     const error = errors[0];
                     if (typeof error.message != 'undefined') {
                         message = error.message;
-                    } else if (typeof error.pageErrors != 'undefined' && Array.isArray(error.pageErrors) && error.pageErrors.length > 0) {
+                    } else if (
+                        typeof error.pageErrors != 'undefined' &&
+                        Array.isArray(error.pageErrors) &&
+                        error.pageErrors.length > 0
+                    ) {
                         const pageError = error.pageErrors[0];
                         if (typeof pageError.message != 'undefined') {
                             message = pageError.message;
@@ -34,15 +36,15 @@
                     }
                 }
                 // Display error in console
-                console.error('Error: '+ message);
+                console.error('Error: ' + message);
                 console.error(JSON.stringify(errors));
                 // Fire error toast if available (LEX only)
                 const toastEvent = $A.get('e.force:showToast');
                 if (typeof toastEvent !== 'undefined') {
                     toastEvent.setParams({
-                        title : 'Server Error',
-                        message : message,
-                        type : 'error',
+                        title: 'Server Error',
+                        message: message,
+                        type: 'error',
                         mode: 'sticky'
                     });
                     toastEvent.fire();
@@ -54,7 +56,7 @@
         $A.enqueueAction(action);
     },
 
-    onInput : function(component, event, helper) {
+    onInput: function (component, event, helper) {
         // Prevent action if selection is not allowed
         if (!helper.isSelectionAllowed(component)) {
             return;
@@ -63,7 +65,7 @@
         helper.updateSearchTerm(component, newSearchTerm);
     },
 
-    onResultClick : function(component, event, helper) {
+    onResultClick: function (component, event, helper) {
         const recordId = event.currentTarget.id;
         helper.selectResult(component, recordId);
 
@@ -76,7 +78,7 @@
         }
     },
 
-    onComboboxClick : function(component, event, helper) {
+    onComboboxClick: function (component, event, helper) {
         // Hide combobox immediatly
         const blurTimeout = component.get('v.blurTimeout');
         if (blurTimeout) {
@@ -85,7 +87,7 @@
         component.set('v.hasFocus', false);
     },
 
-    onFocus : function(component, event, helper) {
+    onFocus: function (component, event, helper) {
         // Prevent action if selection is not allowed
         if (!helper.isSelectionAllowed(component)) {
             return;
@@ -93,14 +95,14 @@
         component.set('v.hasFocus', true);
     },
 
-    onBlur : function(component, event, helper) {
+    onBlur: function (component, event, helper) {
         // Prevent action if selection is not allowed
         if (!helper.isSelectionAllowed(component)) {
             return;
         }
         // Delay hiding combobox so that we can capture selected result
         const blurTimeout = window.setTimeout(
-            $A.getCallback(function() {
+            $A.getCallback(function () {
                 component.set('v.hasFocus', false);
                 component.set('v.blurTimeout', null);
             }),
@@ -109,12 +111,12 @@
         component.set('v.blurTimeout', blurTimeout);
     },
 
-    onRemoveSelectedItem : function(component, event, helper) {
+    onRemoveSelectedItem: function (component, event, helper) {
         const itemId = event.getSource().get('v.name');
         helper.removeSelectedItem(component, itemId);
     },
 
-    onClearSelection : function(component, event, helper) {
+    onClearSelection: function (component, event, helper) {
         helper.clearSelection(component);
     }
-})
+});

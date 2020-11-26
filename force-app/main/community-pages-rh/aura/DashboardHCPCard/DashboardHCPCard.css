@@ -2,23 +2,23 @@
  * Created by Andrii Kryvolap.
  */
 .THIS.db-hcp-card {
-    background-color: #F8F9FB;
+    background-color: #f8f9fb;
     margin-top: 16px;
     border-radius: 4px;
     padding: 10px 7px 14px 14px;
     font-size: 16px;
 }
-.THIS .db-hcp-card-title{
+.THIS .db-hcp-card-title {
     display: flex;
     justify-content: space-between;
 }
-.THIS .accept-btn{
+.THIS .accept-btn {
     overflow-x: visible;
 }
-.THIS .accept-btn .menu-popup-panel{
+.THIS .accept-btn .menu-popup-panel {
     left: -130px;
 }
 
-.THIS .popupTargetContainer{
+.THIS .popupTargetContainer {
     top: 35px !important;
 }

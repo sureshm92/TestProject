@@ -2,42 +2,42 @@
  * Created by Leonid Bartenev
  */
 
-.THIS .rr-form-element + .rr-form-element{
+.THIS .rr-form-element + .rr-form-element {
     margin-top: 0;
     margin-bottom: 25px;
 }
 
-.THIS .rr-form-element{
+.THIS .rr-form-element {
     margin-bottom: 25px;
 }
 
-.THIS .ap-section-title{
+.THIS .ap-section-title {
     font-size: 1rem;
     line-height: 36px;
     color: #000;
     font-weight: 600;
 }
 
-.THIS .ap-section + .ap-section{
+.THIS .ap-section + .ap-section {
     margin-top: 20px;
 }
 
-.THIS .ap-buttons{
+.THIS .ap-buttons {
     display: flex;
     justify-content: flex-end;
     margin-top: 10px;
     margin-bottom: 80px;
 }
 
-.THIS .apollo-btn.custom-cancel{
+.THIS .apollo-btn.custom-cancel {
     background-color: #e8e8e8;
 }
 
-.THIS .rr-form-element .slds-form-element__label{
+.THIS .rr-form-element .slds-form-element__label {
     display: none;
 }
 
-.THIS .rr-form-element .cRrSelect .slds-select_container .slds-select{
+.THIS .rr-form-element .cRrSelect .slds-select_container .slds-select {
     margin-top: 0;
 }
 
@@ -50,7 +50,7 @@
     padding-top: 0;
     margin-left: 3px;
 }
-.THIS .lightning-primitiveicon_primitiveicon-host{
+.THIS .lightning-primitiveicon_primitiveicon-host {
     padding: 20px;
     color: white;
 }

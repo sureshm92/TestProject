@@ -31,40 +31,21 @@
                     component.set('v.compId', '2');
                 } else if (queryString.includes('cookiesSettings')) {
                     component.set('v.compId', '5');
-                }
-                else if (queryString.includes('notify')) {
+                } else if (queryString.includes('notify')) {
                     component.set('v.compId', '6');
                 } else {
                     console.log('URL param not found!');
                 }
                 component.set('v.initData', initData);
                 component.set('v.contactChanged', initData.contactChanged);
-                component.set(
-                    'v.personWrapper',
-                    initData.contactSectionData.personWrapper
-                );
-                component.set(
-                    'v.contactSectionData',
-                    initData.contactSectionData
-                );
-                component.set(
-                    'v.optInEmail',
-                    initData.contactSectionData.personWrapper.optInEmail
-                );
-                component.set(
-                    'v.optInSMS',
-                    initData.contactSectionData.personWrapper.optInSMS
-                );
-                component.set(
-                    'v.userType',
-                    initData.myContact.UserCommunytyType__c
-                );
+                component.set('v.personWrapper', initData.contactSectionData.personWrapper);
+                component.set('v.contactSectionData', initData.contactSectionData);
+                component.set('v.optInEmail', initData.contactSectionData.personWrapper.optInEmail);
+                component.set('v.optInSMS', initData.contactSectionData.personWrapper.optInSMS);
+                component.set('v.userType', initData.myContact.UserCommunytyType__c);
                 var userType = initData.myContact.userCommunytyType__c;
                 if (userType)
-                    if (
-                        userType.includes('HCP') &&
-                        component.get('v.userMode') == 'PI'
-                    )
+                    if (userType.includes('HCP') && component.get('v.userMode') == 'PI')
                         component.set('v.userTypeHCP_PI', true);
 
                 component.set('v.contact', initData.myContact);
@@ -111,9 +92,7 @@
             }
         }
         if (compId == '1') {
-            communityService.navigateToPage(
-                'account-settings?profileInformation'
-            );
+            communityService.navigateToPage('account-settings?profileInformation');
         } else if (compId == '3') {
             communityService.navigateToPage('account-settings?langloc');
         } else if (compId == '4') {
@@ -122,8 +101,7 @@
             communityService.navigateToPage('account-settings?passwordchange');
         } else if (compId == '5') {
             communityService.navigateToPage('account-settings?cookiesSettings');
-        }
-        else if (compId == '6') {
+        } else if (compId == '6') {
             communityService.navigateToPage('account-settings?notify');
         } else {
             communityService.navigateToPage('account-settings');

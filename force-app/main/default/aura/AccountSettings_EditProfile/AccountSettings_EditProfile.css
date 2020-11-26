@@ -1,15 +1,15 @@
 .THIS .rr-white-panel {
-    min-width:50rem;
+    min-width: 50rem;
     padding: 1.5rem;
 }
 .THIS .rightAlign .slds-datepicker table {
     table-layout: fixed;
     width: 300px;
 }
-.THIS .rightAlign .slds-input__icon_right{
-    margin-right:9rem;
+.THIS .rightAlign .slds-input__icon_right {
+    margin-right: 9rem;
 }
-.THIS .rightAlign .slds-datepicker .slds-day{
+.THIS .rightAlign .slds-datepicker .slds-day {
     width: auto !important;
     min-width: auto !important;
     height: auto !important;
@@ -18,14 +18,14 @@
 .THIS .emails-that-notify-y {
     height: 72px;
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
     line-height: 24px;
 }
 
-.THIS .avatar-icon-minor{
-    background-color: #DF216D;
+.THIS .avatar-icon-minor {
+    background-color: #df216d;
     height: 55px;
     min-width: 55px;
     border-radius: 100%;
@@ -69,7 +69,7 @@
 
 .THIS .slds-input {
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 1rem;
     letter-spacing: 0;
     line-height: 24px;
@@ -119,7 +119,7 @@
     font-size: 18px;
     line-height: 20px;
     font-weight: 600;
-    margin-bottom: 10px
+    margin-bottom: 10px;
 }
 
 .THIS .as-title {
@@ -128,7 +128,7 @@
     line-height: 20px;
     font-weight: 600;
     margin-bottom: 10px;
-    margin-top : 8px;
+    margin-top: 8px;
 }
 
 .THIS.as-container .as-sub-title {
@@ -141,7 +141,7 @@
 .THIS.as-container .as-password .as-password-button {
     margin-top: 20px;
 }
-.THIS .rightAlign input { 
+.THIS .rightAlign input {
     text-align: right;
 }
 .THIS .as-email-input.slds-gutters,
@@ -160,7 +160,7 @@
 }
 
 .THIS .rr-link {
-    color: #297DFD;
+    color: #297dfd;
     display: inline-flex;
     align-items: center;
 }
@@ -180,7 +180,7 @@
 }
 
 .THIS .ah-toggle .slds-form-element__control {
-    margin-top: 10px
+    margin-top: 10px;
 }
 
 .THIS .ah-toggle + .rr-form-element {
@@ -195,7 +195,7 @@
 .THIS .username {
     height: 20px;
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 17px;
     letter-spacing: 0;
     line-height: 20px;
@@ -217,7 +217,6 @@
     border: none;
 }
 
-
 .THIS .contactDesc {
     width: 80%;
     color: #444;
@@ -231,7 +230,7 @@
 .THIS .username_title {
     height: 17px;
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
     letter-spacing: 0;
     line-height: 17px;
@@ -243,7 +242,7 @@
 }
 
 .THIS .ah-main-panel {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     padding: 0 20px 30px 20px;
 }
 
@@ -261,7 +260,7 @@
 .THIS .ah-item-panel {
     box-sizing: border-box;
     border: 1px solid #e9e9e9;
-    background-color: #F8F9FB;
+    background-color: #f8f9fb;
     padding: 17px;
 }
 
@@ -289,7 +288,6 @@
 }
 
 @media (max-width: 768px) {
-
     .THIS .rr-white-panel {
         padding: 0 1.5rem 1.5rem;
         min-width: auto;
@@ -321,9 +319,8 @@
 }
 
 @media screen and (max-width: 500px) {
-
     .THIS .apollo-btn,
-    .THIS .slds-select_container{
+    .THIS .slds-select_container {
         width: 100%;
     }
 
@@ -342,7 +339,7 @@
 
     .THIS .nickname,
     .THIS .longName,
-    .THIS .smallName{
+    .THIS .smallName {
         max-width: 100%;
     }
 
@@ -372,11 +369,10 @@
     .THIS .ah-toggle .slds-form-element__control {
         margin-top: 0;
     }
-
 }
 
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
     .THIS .delegateInfo {
-        width:720px;
+        width: 720px;
     }
 }

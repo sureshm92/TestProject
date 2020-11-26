@@ -1,4 +1,3 @@
 ({
-    doRefresh : function(component,event,helper) {
-           }
-})
+    doRefresh: function (component, event, helper) {}
+});

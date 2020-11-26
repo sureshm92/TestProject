@@ -2,8 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-
-.THIS.rr-spinner{
+.THIS.rr-spinner {
     opacity: 1;
     visibility: visible;
     transition: 0.4s linear;
@@ -11,7 +10,7 @@
     border-radius: 5px;
 }
 
-.THIS.rr-spinner.fixed{
+.THIS.rr-spinner.fixed {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -19,7 +18,7 @@
     right: 0;
 }
 
-.THIS.rr-hide{
+.THIS.rr-hide {
     opacity: 0;
     visibility: hidden;
 }

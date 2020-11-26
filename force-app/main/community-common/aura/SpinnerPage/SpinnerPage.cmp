@@ -3,5 +3,5 @@
  -->
 
 <aura:component description="SpinnerPage" implements="forceCommunity:availableForAllPageTypes">
-    <c:RRSpinner fixed="true" size="medium" showSpinner="true"/>
+    <c:RRSpinner fixed="true" size="medium" showSpinner="true" />
 </aura:component>

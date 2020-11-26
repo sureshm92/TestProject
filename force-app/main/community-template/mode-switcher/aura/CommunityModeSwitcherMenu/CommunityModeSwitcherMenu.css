@@ -13,19 +13,19 @@
     height: 40px;
     width: 315px;
     margin: 18px 0;
-    background-color: #F2F2F2;
+    background-color: #f2f2f2;
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
 }
 
-.THIS.menu-block li.body{
+.THIS.menu-block li.body {
     width: 344px;
 }
 
 /*-----------------------------------------------------------------------*/
 
-.THIS .item-title{
+.THIS .item-title {
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 85%;
@@ -35,19 +35,19 @@
     padding: 0 8px;
 }
 
-@media all and (orientation:landscape) and (max-width: 1024px) {
+@media all and (orientation: landscape) and (max-width: 1024px) {
     .THIS.menu-block {
         position: static;
     }
 }
 
-@media all and (orientation:portrait) and (max-width: 1024px) {
+@media all and (orientation: portrait) and (max-width: 1024px) {
     .THIS.menu-block {
         position: static;
     }
 }
 
-@media all and (orientation:landscape) and (max-height: 450px) {
+@media all and (orientation: landscape) and (max-height: 450px) {
     .THIS .menu-popup-panel.popupTargetContainer {
         max-height: 300px;
         overflow-y: auto;
@@ -69,11 +69,11 @@
     .THIS .menu-popup-panel.popupTargetContainer::-webkit-scrollbar-thumb {
         border-radius: 8px;
         border: 2px solid white; /* should match background, can't be transparent */
-        background-color: rgba(0, 0, 0, .5);
+        background-color: rgba(0, 0, 0, 0.5);
     }
 }
 
-@media all and (max-width: 360px){
+@media all and (max-width: 360px) {
     .THIS .lo-button {
         padding: 0 10px;
     }
@@ -89,5 +89,4 @@
     .THIS.menu-block li.body {
         width: 300px;
     }
-
 }

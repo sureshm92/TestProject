@@ -7,24 +7,24 @@
     align-items: stretch;
 }
 
-.THIS .hptp-title{
+.THIS .hptp-title {
     font-size: 16px;
     font-weight: 600;
     line-height: 27px;
     padding: 10px 20px;
 }
 
-.THIS .hptp-body{
+.THIS .hptp-body {
     min-height: 220px;
     position: relative;
     padding: 20px;
 }
 
-.THIS .hptp-footer{
+.THIS .hptp-footer {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     flex-grow: 1;
-    background-color: rgba(216,216,216,0.25);
+    background-color: rgba(216, 216, 216, 0.25);
 }

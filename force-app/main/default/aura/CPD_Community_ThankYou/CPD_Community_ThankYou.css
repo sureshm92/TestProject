@@ -9,15 +9,15 @@
         margin-left: -1%;
     }
 
-    .THIS .rr-min-body-height{
+    .THIS .rr-min-body-height {
         min-height: 0px !important;
     }
 
     .THIS .thank-you-rect1 {
         box-sizing: border-box;
         height: 42.3rem;
-        border: 2px solid #1AA0D9;
-        background-color: #1AA0D9;
+        border: 2px solid #1aa0d9;
+        background-color: #1aa0d9;
         left: 0;
         z-index: 0;
     }
@@ -28,8 +28,8 @@
     .THIS .thank-you-rect-1-p {
         height: 112px;
         width: 50%;
-        color: #FFFFFF;
-        font-family: "Muli", sans-serif;
+        color: #ffffff;
+        font-family: 'Muli', sans-serif;
         font-size: 48px;
         font-weight: bold;
         letter-spacing: 0;
@@ -39,22 +39,20 @@
         margin-top: 3%;
     }
 
-
     .THIS .thank-you-rect-2-p {
         /*height: 84px;*/
         color: #005587;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 36px;
         font-weight: bold;
         letter-spacing: 0;
         line-height: 42px;
     }
 
-
     .THIS .thank-you-rect-2-unfortunately {
         height: 40px;
         color: #333333;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 16px;
         letter-spacing: 0;
         line-height: 20px;
@@ -66,9 +64,9 @@
         box-sizing: border-box;
         height: 52px;
         width: 364px;
-        border: 2px solid #1AA0D9;
+        border: 2px solid #1aa0d9;
         border-radius: 5px;
-        background-color: #1AA0D9;
+        background-color: #1aa0d9;
         margin-top: 5em;
         padding-left: 7em;
         padding-top: 1em;
@@ -77,8 +75,8 @@
     .THIS .thank-you-search-button-label {
         height: 38px;
         width: 364px;
-        color: #FFFFFF;
-        font-family: "Muli", sans-serif;
+        color: #ffffff;
+        font-family: 'Muli', sans-serif;
         font-size: 20px;
         font-weight: bold;
         letter-spacing: 0;
@@ -91,7 +89,6 @@
         padding-top: 20%;
     }
 
-
     .THIS .thankyou-icon {
         padding-left: 43%;
         padding-top: 13%;
@@ -99,19 +96,17 @@
     }
 }
 
-
 /* 
   ##Device = Tablets, Ipads (portrait)
   ##Screen = B/w 768px to 1024px
 */
 @media (min-width: 768px) and (max-width: 1024px) {
-  
     .THIS.slds-top-contnet {
         margin-top: 2%;
         margin-left: -1%;
     }
 
-    .THIS .rr-min-body-height{
+    .THIS .rr-min-body-height {
         min-height: 0px !important;
     }
 
@@ -119,8 +114,8 @@
         box-sizing: border-box;
         /*height: 696px;*/
         height: 42.3rem;
-        border: 2px solid #1AA0D9;
-        background-color: #1AA0D9;
+        border: 2px solid #1aa0d9;
+        background-color: #1aa0d9;
         left: 0;
         z-index: 0;
         /*margin-bottom: -7.4%;*/
@@ -132,8 +127,8 @@
     .THIS .thank-you-rect-1-p {
         height: 112px;
         width: 50%;
-        color: #FFFFFF;
-        font-family: "Muli", sans-serif;
+        color: #ffffff;
+        font-family: 'Muli', sans-serif;
         font-size: 48px;
         font-weight: bold;
         letter-spacing: 0;
@@ -143,20 +138,18 @@
         margin-top: 3%;
     }
 
-
     .THIS .thank-you-rect-2-p {
         color: #005587;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 36px;
         font-weight: bold;
         letter-spacing: 0;
         line-height: 42px;
     }
 
-
     .THIS .thank-you-rect-2-unfortunately {
         color: #333333;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 16px;
         letter-spacing: 0;
         line-height: 20px;
@@ -168,9 +161,9 @@
         box-sizing: border-box;
         height: 52px;
         width: 364px;
-        border: 2px solid #1AA0D9;
+        border: 2px solid #1aa0d9;
         border-radius: 5px;
-        background-color: #1AA0D9;
+        background-color: #1aa0d9;
         margin-top: 5em;
         padding-left: 7em;
         padding-top: 1em;
@@ -179,8 +172,8 @@
     .THIS .thank-you-search-button-label {
         height: 38px;
         width: 364px;
-        color: #FFFFFF;
-        font-family: "Muli", sans-serif;
+        color: #ffffff;
+        font-family: 'Muli', sans-serif;
         font-size: 20px;
         font-weight: bold;
         letter-spacing: 0;
@@ -193,27 +186,24 @@
         padding-top: 20%;
     }
 
-
     .THIS .thankyou-icon {
         padding-left: 43%;
         padding-top: 13%;
         z-index: 2;
     }
-    
 }
-  
-  /* 
+
+/* 
     ##Device = Tablets, Ipads (landscape)
     ##Screen = B/w 768px to 1024px
   */
-  @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-    
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
     .THIS.slds-top-contnet {
         margin-top: 2%;
         margin-left: -1%;
     }
 
-    .THIS .rr-min-body-height{
+    .THIS .rr-min-body-height {
         min-height: 0px !important;
     }
 
@@ -221,8 +211,8 @@
         box-sizing: border-box;
         /*height: 696px;*/
         height: 42.3rem;
-        border: 2px solid #1AA0D9;
-        background-color: #1AA0D9;
+        border: 2px solid #1aa0d9;
+        background-color: #1aa0d9;
         left: 0;
         z-index: 0;
         /*margin-bottom: -7.4%;*/
@@ -234,8 +224,8 @@
     .THIS .thank-you-rect-1-p {
         height: 112px;
         width: 50%;
-        color: #FFFFFF;
-        font-family: "Muli", sans-serif;
+        color: #ffffff;
+        font-family: 'Muli', sans-serif;
         font-size: 48px;
         font-weight: bold;
         letter-spacing: 0;
@@ -245,22 +235,20 @@
         margin-top: 3%;
     }
 
-
     .THIS .thank-you-rect-2-p {
         /*height: 84px;*/
         color: #005587;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 36px;
         font-weight: bold;
         letter-spacing: 0;
         line-height: 42px;
     }
 
-
     .THIS .thank-you-rect-2-unfortunately {
         /*height: 40px;*/
         color: #333333;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 16px;
         letter-spacing: 0;
         line-height: 20px;
@@ -272,9 +260,9 @@
         box-sizing: border-box;
         height: 52px;
         width: 364px;
-        border: 2px solid #1AA0D9;
+        border: 2px solid #1aa0d9;
         border-radius: 5px;
-        background-color: #1AA0D9;
+        background-color: #1aa0d9;
         margin-top: 5em;
         padding-left: 7em;
         padding-top: 1em;
@@ -283,8 +271,8 @@
     .THIS .thank-you-search-button-label {
         height: 38px;
         width: 364px;
-        color: #FFFFFF;
-        font-family: "Muli", sans-serif;
+        color: #ffffff;
+        font-family: 'Muli', sans-serif;
         font-size: 20px;
         font-weight: bold;
         letter-spacing: 0;
@@ -297,35 +285,32 @@
         padding-top: 20%;
     }
 
-
     .THIS .thankyou-icon {
         padding-left: 43%;
         padding-top: 13%;
         z-index: 2;
     }
-    
-  }
-  
-  /* 
+}
+
+/* 
     ##Device = Low Resolution Tablets, Mobiles (Landscape)
     ##Screen = B/w 481px to 767px
   */
-  @media (min-width: 481px) and (max-width: 767px) {
-   
+@media (min-width: 481px) and (max-width: 767px) {
     .THIS.slds-top-contnet {
         margin-top: 2%;
         margin-left: -1%;
     }
 
-    .THIS .rr-min-body-height{
+    .THIS .rr-min-body-height {
         min-height: 0px !important;
     }
 
     .THIS .thank-you-rect1 {
         box-sizing: border-box;
         height: 24.3rem;
-        border: 2px solid #1AA0D9;
-        background-color: #1AA0D9;
+        border: 2px solid #1aa0d9;
+        background-color: #1aa0d9;
         left: 0;
         z-index: 0;
     }
@@ -336,8 +321,8 @@
     .THIS .thank-you-rect-1-p {
         height: 112px;
         width: 50%;
-        color: #FFFFFF;
-        font-family: "Muli", sans-serif;
+        color: #ffffff;
+        font-family: 'Muli', sans-serif;
         font-size: 48px;
         font-weight: bold;
         letter-spacing: 0;
@@ -347,22 +332,20 @@
         margin-top: 3%;
     }
 
-
     .THIS .thank-you-rect-2-p {
         /*height: 84px;*/
         color: #005587;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 36px;
         font-weight: bold;
         letter-spacing: 0;
         line-height: 42px;
     }
 
-
     .THIS .thank-you-rect-2-unfortunately {
         height: 40px;
         color: #333333;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 16px;
         letter-spacing: 0;
         line-height: 20px;
@@ -374,9 +357,9 @@
         box-sizing: border-box;
         height: 52px;
         width: 364px;
-        border: 2px solid #1AA0D9;
+        border: 2px solid #1aa0d9;
         border-radius: 5px;
-        background-color: #1AA0D9;
+        background-color: #1aa0d9;
         margin-top: 5em;
         padding-left: 7em;
         padding-top: 1em;
@@ -385,8 +368,8 @@
     .THIS .thank-you-search-button-label {
         height: 38px;
         width: 364px;
-        color: #FFFFFF;
-        font-family: "Muli", sans-serif;
+        color: #ffffff;
+        font-family: 'Muli', sans-serif;
         font-size: 20px;
         font-weight: bold;
         letter-spacing: 0;
@@ -399,22 +382,18 @@
         padding-top: 10%;
     }
 
-
     .THIS .thankyou-icon {
         padding-left: 43%;
         padding-top: 13%;
         z-index: 2;
     }
+}
 
-    
-  }
-  
-  /* 
+/* 
     ##Device = Most of the Smartphones Mobiles (Portrait)
     ##Screen = B/w 320px to 479px
   */
-  @media (min-width: 320px) and (max-width: 480px) {
-    
+@media (min-width: 320px) and (max-width: 480px) {
     .THIS .thankyou-screen-2 {
         padding-left: 5%;
         padding-top: 20%;
@@ -422,8 +401,8 @@
 
     .THIS .thank-you-rect1 {
         box-sizing: border-box;
-        border: 2px solid #1AA0D9;
-        background-color: #1AA0D9;
+        border: 2px solid #1aa0d9;
+        background-color: #1aa0d9;
         left: 0;
         z-index: 0;
         height: 24rem;
@@ -434,8 +413,8 @@
     .THIS .thank-you-rect-1-p {
         height: 112px;
         width: 100%;
-        color: #FFFFFF;
-        font-family: "Muli", sans-serif;
+        color: #ffffff;
+        font-family: 'Muli', sans-serif;
         font-size: 48px;
         font-weight: bold;
         letter-spacing: 0;
@@ -448,7 +427,7 @@
     .THIS .thank-you-rect-2-unfortunately {
         /*height: 40px;*/
         color: #333333;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 16px;
         letter-spacing: 0;
         line-height: 20px;
@@ -460,7 +439,7 @@
     .THIS .thank-you-rect-2-p {
         height: 8rem;
         color: #005587;
-        font-family: "Muli", sans-serif;
+        font-family: 'Muli', sans-serif;
         font-size: 35px;
         font-weight: bold;
         letter-spacing: 0;
@@ -470,9 +449,9 @@
     .THIS div.thank-you-search-button {
         box-sizing: border-box;
         height: 52px;
-        border: 2px solid #1AA0D9;
+        border: 2px solid #1aa0d9;
         border-radius: 5px;
-        background-color: #1AA0D9;
+        background-color: #1aa0d9;
         margin-top: 16%;
         padding-left: 24%;
         padding-top: 3%;
@@ -482,8 +461,8 @@
     .THIS .thank-you-search-button-label {
         height: 38px;
         width: 364px;
-        color: #FFFFFF;
-        font-family: "Muli", sans-serif;
+        color: #ffffff;
+        font-family: 'Muli', sans-serif;
         font-size: 20px;
         font-weight: bold;
         letter-spacing: 0;
@@ -500,9 +479,7 @@
         padding-top: 25%;
         z-index: 2;
     }
-
-    
-  }
+}
 
 /*
 @media (min-width: 320px) and (max-width: 480px) {

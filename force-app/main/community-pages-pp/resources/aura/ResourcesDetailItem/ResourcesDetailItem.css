@@ -1,12 +1,11 @@
 .THIS {
-
 }
 
 .THIS.resource-container {
     max-width: 1000px;
     margin: auto;
 }
-.THIS.arabic{
+.THIS.arabic {
     direction: rtl;
 }
 
@@ -51,7 +50,7 @@
     text-align: center;
     display: inline-block;
     vertical-align: text-top;
-    transform: scale(-1, 1)
+    transform: scale(-1, 1);
 }
 .THIS .resources-icon-social {
     margin-left: 0.5rem;
@@ -75,7 +74,7 @@
 .THIS .resource-description-header {
     height: 20px;
     color: #666666;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 13px;
     font-weight: 500;
     line-height: 20px;
@@ -83,7 +82,7 @@
 
 .THIS .resource-description-text {
     color: #999999;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 12px;
     line-height: 14px;
     margin: 0 0 3px 0;
@@ -92,7 +91,7 @@
 .THIS .resource-content-updated {
     font-size: 14px;
     color: #333333;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     line-height: 16px;
     margin-top: 5%;
     font-style: italic;
@@ -101,7 +100,7 @@
 
 .THIS .resource-body {
     color: #333333;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 13px;
     line-height: 16px;
     margin-top: 15px;
@@ -114,7 +113,7 @@
 
 .THIS .resource-title {
     color: #666666;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 17px;
     margin-top: 17px;
     font-weight: bold;
@@ -122,7 +121,7 @@
 
 .THIS .resource-description-short {
     color: #999999;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 12px;
     line-height: 14px;
 }
@@ -130,7 +129,7 @@
 .THIS .resource-expiration-date {
     height: 14px;
     color: #999999;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 12px;
     font-style: italic;
     line-height: 14px;
@@ -157,17 +156,16 @@
 
 .THIS .image-caption {
     color: #999999;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 12px;
 }
 
 .THIS .byline-author {
     color: #333333;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 12px;
     margin-bottom: 12px;
 }
-
 
 /* large 1024 */
 @media all and (max-width: 1023px) {
@@ -176,8 +174,8 @@
         border-radius: 4px;
         margin: 5% 3% 3%;
         box-shadow: 0px 3px 14px 0px rgba(0, 0, 0, 0.24);
-        border: 1px solid #F2F2F2;
-        background-color: #FFFFFF;
+        border: 1px solid #f2f2f2;
+        background-color: #ffffff;
         overflow: hidden;
     }
 

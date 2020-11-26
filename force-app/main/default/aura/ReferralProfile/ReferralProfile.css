@@ -1,32 +1,32 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS .rp-body{
+.THIS .rp-body {
     padding-top: 30px;
     padding-bottom: 100px;
 }
 
-.THIS .rp-status-detail{
+.THIS .rp-status-detail {
     margin-left: 15px;
     margin-top: 30px;
 }
 
-.THIS .path-item-detail-panel{
+.THIS .path-item-detail-panel {
     padding: 20px;
     background-color: white;
-    border: 1px solid #F2F2F2;
+    border: 1px solid #f2f2f2;
     margin-bottom: 20px;
     border-radius: 5px;
 }
 
-.THIS .line-div{
+.THIS .line-div {
     flex: 0 0 30px;
     border-left: 2px solid;
     position: relative;
     top: 30px;
 }
 
-.THIS .line-div .state-ico-wrapper{
+.THIS .line-div .state-ico-wrapper {
     border: 2px solid;
     border-radius: 50%;
     line-height: 1;
@@ -37,122 +37,119 @@
     left: -14px;
 }
 
-.THIS .line-div .state-ico-wrapper .rr-icon-default{
+.THIS .line-div .state-ico-wrapper .rr-icon-default {
     width: 24px;
     height: 24px;
     padding: 1px;
     fill: white;
 }
 
-.THIS .pe-state-row:last-child .line-div{
+.THIS .pe-state-row:last-child .line-div {
     border: none;
 }
 
-
-.THIS .line-div.neutral{
+.THIS .line-div.neutral {
     border-left-color: #999999;
 }
 
-.THIS .line-div.success{
-    border-left-color: #55C200;
+.THIS .line-div.success {
+    border-left-color: #55c200;
 }
 
-
-.THIS .line-div.in_progress{
-    border-left-color: #FF9301;
+.THIS .line-div.in_progress {
+    border-left-color: #ff9301;
 }
 
-.THIS .line-div.failure{
-    border-left-color: #E20000;
+.THIS .line-div.failure {
+    border-left-color: #e20000;
 }
 
-.THIS .state-ico-wrapper.neutral{
+.THIS .state-ico-wrapper.neutral {
     background-color: white;
     border-color: #999999;
 }
 
-.THIS .state-ico-wrapper.success{
-    background-color: #55C200;
-    border-color: #55C200;
+.THIS .state-ico-wrapper.success {
+    background-color: #55c200;
+    border-color: #55c200;
 }
 
-.THIS .state-ico-wrapper.in_progress{
-    background-color: #FF9301;
-    border-color: #FF9301;
+.THIS .state-ico-wrapper.in_progress {
+    background-color: #ff9301;
+    border-color: #ff9301;
 }
 
-.THIS .state-ico-wrapper.failure{
-    background-color: #E20000;
-    border-color: #E20000;
+.THIS .state-ico-wrapper.failure {
+    background-color: #e20000;
+    border-color: #e20000;
 }
 
-.THIS .path-item-detail-panel{
+.THIS .path-item-detail-panel {
     min-height: 80px;
 }
 
-.THIS .path-item-detail-panel .title{
+.THIS .path-item-detail-panel .title {
     font-size: 17px;
     font-weight: 500;
     line-height: 20px;
 }
 
-.THIS .path-item-detail-panel.success .title{
-    color: #63C900;
+.THIS .path-item-detail-panel.success .title {
+    color: #63c900;
 }
 
-.THIS .path-item-detail-panel.failure .title{
-    color: #FF283F;
+.THIS .path-item-detail-panel.failure .title {
+    color: #ff283f;
 }
 
-.THIS .path-item-detail-panel.in_progress .title{
-    color: #FF9300;
+.THIS .path-item-detail-panel.in_progress .title {
+    color: #ff9300;
 }
 
-.THIS .path-item-detail-panel.neutral .title{
+.THIS .path-item-detail-panel.neutral .title {
     color: #999999;
 }
 
-
-.THIS .rp-status-form{
+.THIS .rp-status-form {
     margin: -5px -10px 0;
 }
 
-.THIS .rp-status-form .rrs-container{
+.THIS .rp-status-form .rrs-container {
     width: 100%;
 }
 
 .THIS .rp-status-form .rr-form-element,
-.THIS .rp-save-btn{
+.THIS .rp-save-btn {
     margin-top: 15px;
 }
 
-.THIS .rp-save-btn{
+.THIS .rp-save-btn {
     min-width: 65px;
 }
 
-.THIS .pe-state-row.current .path-item-detail-panel .title{
+.THIS .pe-state-row.current .path-item-detail-panel .title {
     font-weight: 600;
 }
 
-.THIS .pe-state-row.current .path-item-detail-panel.neutral .title{
+.THIS .pe-state-row.current .path-item-detail-panel.neutral .title {
     color: black;
 }
 
-.THIS .rp-status-btns{
+.THIS .rp-status-btns {
 }
 
-.THIS .rp-status-btns button{
+.THIS .rp-status-btns button {
     margin-top: 15px;
     width: 100%;
     min-width: auto;
 }
 
-.THIS .pe-history{
-    margin-top: 20px
+.THIS .pe-history {
+    margin-top: 20px;
 }
 
-.THIS .pe-history > .title{
-    color: #7F888D!important;
+.THIS .pe-history > .title {
+    color: #7f888d !important;
     font-size: 10px;
     font-weight: bold;
     line-height: 14px;
@@ -160,39 +157,38 @@
     margin-bottom: 5px;
 }
 
-.THIS .pe-history .info{
+.THIS .pe-history .info {
     font-size: 14px;
     line-height: 18px;
 }
 
-.THIS .pe-history .info.first{
+.THIS .pe-history .info.first {
     font-weight: 600;
 }
 
-.THIS .pe-history > .date{
+.THIS .pe-history > .date {
     color: #666666;
     font-size: 13px;
     line-height: 16px;
 }
 
-.THIS .pe-history .history-item + .history-item{
+.THIS .pe-history .history-item + .history-item {
     margin-top: 2px;
 }
 
-.THIS .info.green{
-    color: #00C221;
+.THIS .info.green {
+    color: #00c221;
 }
 
-.THIS .info.orange{
-    color: #FF9300;
+.THIS .info.orange {
+    color: #ff9300;
 }
 
-.THIS .info.red{
-    color: #FF283F;
-
+.THIS .info.red {
+    color: #ff283f;
 }
 
-.THIS .rp-max-length{
+.THIS .rp-max-length {
     max-width: 200px;
     overflow: hidden;
     white-space: nowrap;
@@ -201,15 +197,15 @@
     font-size: 13px;
     line-height: 16px;
 }
-.THIS .label.changed{
+.THIS .label.changed {
     color: #297dfd;
 }
-.THIS .rp-please-contact{
+.THIS .rp-please-contact {
     font-size: 12px;
 }
 
-.THIS .rp-gray-container{
-    background-color: #F2F2F2;
+.THIS .rp-gray-container {
+    background-color: #f2f2f2;
     margin-top: 1%;
     padding-bottom: 1%;
 }
@@ -217,35 +213,35 @@
 .THIS .rp-info-headers {
     height: 24px;
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: 600;
     line-height: 24px;
-    margin-bottom:5px;
+    margin-bottom: 5px;
     vertical-align: top;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
 }
 
-.THIS .edit-referral-details{
-    color: #297DFD;
-    font-family: "Proxima Nova";
+.THIS .edit-referral-details {
+    color: #297dfd;
+    font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: 500;
     text-align: right;
-    padding:1% 1.5% 0 0;
+    padding: 1% 1.5% 0 0;
     cursor: pointer;
 }
 
-.THIS .rp-info-text{
+.THIS .rp-info-text {
     color: #333333;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
     padding-left: 2%;
     min-width: 200px;
 }
 
-.THIS .rp-info-text:last-child{
+.THIS .rp-info-text:last-child {
     padding-top: 2%;
 }

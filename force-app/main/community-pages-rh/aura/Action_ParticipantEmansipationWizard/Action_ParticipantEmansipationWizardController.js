@@ -3,7 +3,6 @@
  */
 
 ({
-
     doInit: function (component, event, helper) {
         var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
         component.set('v.todayDate', todayDate);
@@ -20,57 +19,91 @@
             component.set('v.pe', pe);
             component.set('v.rootComponent', params.rootComponent);
             if (params.callback) component.set('v.callback', params.callback);
-            if (params.actions) component.set('v.actions', JSON.parse(JSON.stringify(params.actions)));
-            communityService.executeAction(component, 'getInitData', null, function (formData) {
-                component.set('v.formData', formData);
-                let states = formData.statesByCountryMap[pe.Participant__r.Mailing_Country_Code__c];
-                component.set('v.statesLVList', states);
-                component.set('v.currentTab', '1');
-                component.set('v.showInvite', !pe.Is_Virtual_Study_Site__c);
-                pe.Participant__r.Emancipation_in_progress__c = false;
-                if (!pe.Participant__r.Alternative_Phone_Type__c || !pe.Participant__r.Alternative_Phone_Number__c) {
-                    pe.Participant__r.Alternative_Phone_Type__c = 'Home';
-                }
-                component.set('v.participant', pe.Participant__r);
+            if (params.actions)
+                component.set('v.actions', JSON.parse(JSON.stringify(params.actions)));
+            communityService.executeAction(
+                component,
+                'getInitData',
+                null,
+                function (formData) {
+                    component.set('v.formData', formData);
+                    let states =
+                        formData.statesByCountryMap[pe.Participant__r.Mailing_Country_Code__c];
+                    component.set('v.statesLVList', states);
+                    component.set('v.currentTab', '1');
+                    component.set('v.showInvite', !pe.Is_Virtual_Study_Site__c);
+                    pe.Participant__r.Emancipation_in_progress__c = false;
+                    if (
+                        !pe.Participant__r.Alternative_Phone_Type__c ||
+                        !pe.Participant__r.Alternative_Phone_Number__c
+                    ) {
+                        pe.Participant__r.Alternative_Phone_Type__c = 'Home';
+                    }
+                    component.set('v.participant', pe.Participant__r);
 
-                let contact = { sObjectType: 'Contact',
-                                Id: pe.Participant__r.Contact__c,
-                                Consent_To_Inform_About_Study__c: false };
-                component.set('v.contact', contact);
-                
-                
-   				if ((!pe.Study_Site__r.Suppress_Participant_Emails__c) && (!pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c)) {
-                    component.set('v.Invite', true);
-                    component.set('v.NoInvite', false);
-                }
-                if ((!pe.Study_Site__r.Suppress_Participant_Emails__c) && (pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c)) {
-                    component.set('v.Invite', false);
-                    component.set('v.NoInvite', true);;
-                }
-                if ((pe.Study_Site__r.Suppress_Participant_Emails__c) && (!pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c)) {
-                    component.set('v.Invite', false);
-                    component.set('v.NoInvite', true);
-                }
-                if ((pe.Study_Site__r.Suppress_Participant_Emails__c) && (pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c)) {
-                    component.set('v.Invite', false);
-                    component.set('v.NoInvite', true);
-                }
-                
-                
-                helper.initPILevel(component);
-                helper.initDelegates(component, event, helper);
+                    let contact = {
+                        sObjectType: 'Contact',
+                        Id: pe.Participant__r.Contact__c,
+                        Consent_To_Inform_About_Study__c: false
+                    };
+                    component.set('v.contact', contact);
 
-                helper.checkFields(component, event, helper);
+                    if (
+                        !pe.Study_Site__r.Suppress_Participant_Emails__c &&
+                        !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c
+                    ) {
+                        component.set('v.Invite', true);
+                        component.set('v.NoInvite', false);
+                    }
+                    if (
+                        !pe.Study_Site__r.Suppress_Participant_Emails__c &&
+                        pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c
+                    ) {
+                        component.set('v.Invite', false);
+                        component.set('v.NoInvite', true);
+                    }
+                    if (
+                        pe.Study_Site__r.Suppress_Participant_Emails__c &&
+                        !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c
+                    ) {
+                        component.set('v.Invite', false);
+                        component.set('v.NoInvite', true);
+                    }
+                    if (
+                        pe.Study_Site__r.Suppress_Participant_Emails__c &&
+                        pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c
+                    ) {
+                        component.set('v.Invite', false);
+                        component.set('v.NoInvite', true);
+                    }
 
-                component.set('v.initialized', true);
-                component.find('spinner').hide();
-                console.log('doExecute: ' + JSON.stringify(component.get('v.participant')));
-            }, function (returnValue) {
-                component.find('spinner').hide();
-            });
+                    helper.initPILevel(component);
+                    helper.initDelegates(component, event, helper);
 
-            component.set('v.participantMsgWithName', $A.get("$Label.c.PG_Ref_L_Participant_require_invitation").replace('##participantName', pe.Participant__r.First_Name__c + ' ' + pe.Participant__r.Last_Name__c));
-            component.set('v.communityTemplate', communityService.getCurrentCommunityTemplateName());
+                    helper.checkFields(component, event, helper);
+
+                    component.set('v.initialized', true);
+                    component.find('spinner').hide();
+                    console.log('doExecute: ' + JSON.stringify(component.get('v.participant')));
+                },
+                function (returnValue) {
+                    component.find('spinner').hide();
+                }
+            );
+
+            component.set(
+                'v.participantMsgWithName',
+                $A
+                    .get('$Label.c.PG_Ref_L_Participant_require_invitation')
+                    .replace(
+                        '##participantName',
+                        pe.Participant__r.First_Name__c + ' ' + pe.Participant__r.Last_Name__c
+                    )
+            );
+            component.set(
+                'v.communityTemplate',
+                communityService.getCurrentCommunityTemplateName()
+            );
 
             component.find('dialog').show();
         } catch (e) {
@@ -88,11 +121,11 @@
         comp.hide();
     },
 
-    doHandleRadioClick : function(component, event, hepler) {
+    doHandleRadioClick: function (component, event, hepler) {
         component.set('v.selectedOption', event.getSource().get('v.value'));
     },
 
-    doHandleDelegateRadioClick : function(component, event, hepler) {
+    doHandleDelegateRadioClick: function (component, event, hepler) {
         let ind = event.getSource().get('v.id');
         let delegateItems = component.get('v.delegateItems');
         delegateItems[ind].selectedOption = event.getSource().get('v.value');
@@ -105,7 +138,7 @@
 
     doCountryCodeChanged: function (component, event, helper) {
         var statesByCountryMap = component.get('v.formData.statesByCountryMap');
-        var countryMap =  component.get('v.formData.countriesLVList');
+        var countryMap = component.get('v.formData.countriesLVList');
         var participant = component.get('v.participant');
         for (let i = 0; i < countryMap.length; i++) {
             if (countryMap[i].value == participant.Mailing_Country_Code__c) {
@@ -121,11 +154,11 @@
         helper.checkFields(component, event, helper);
     },
 
-    doStateChange: function(component, event, helper) {
+    doStateChange: function (component, event, helper) {
         var states = component.get('v.statesLVList');
         if (states) {
             var participant = component.get('v.participant');
-            for (let i = 0; i < states.length ; i++) {
+            for (let i = 0; i < states.length; i++) {
                 if (states[i].value == participant.Mailing_State_Code__c) {
                     component.set('v.participant.Mailing_State__c', states[i].label);
                     break;
@@ -144,7 +177,7 @@
         let delegateItems = component.get('v.delegateItems');
 
         let statesByCountryMap = component.get('v.formData.statesByCountryMap');
-        let countryMap =  component.get('v.formData.countriesLVList');
+        let countryMap = component.get('v.formData.countriesLVList');
 
         for (let i = 0; i < countryMap.length; i++) {
             for (let ind = 0; ind < delegateItems.length; ind++) {
@@ -162,7 +195,7 @@
         helper.checkDelegateFields(component, event, helper);
     },
 
-    doDelegateStateChange: function(component, event, helper) {
+    doDelegateStateChange: function (component, event, helper) {
         let delegateItems = component.get('v.delegateItems');
 
         for (let ind = 0; ind < delegateItems.length; ind++) {
@@ -181,7 +214,7 @@
         helper.checkDelegateFields(component, event, helper);
     },
 
-    doNext: function(component, event, helper) {
+    doNext: function (component, event, helper) {
         let currentTab = component.get('v.currentTab');
         if (currentTab != '4') {
             currentTab = '' + (+currentTab + 1);
@@ -197,7 +230,7 @@
         }
     },
 
-    doBack: function(component, event, helper) {
+    doBack: function (component, event, helper) {
         let currentTab = component.get('v.currentTab');
         if (currentTab != '1') {
             currentTab = '' + (+currentTab - 1);
@@ -219,21 +252,20 @@
         let statesByCountryMap = component.get('v.formData.statesByCountryMap');
         let states = statesByCountryMap[component.get('v.participant.Mailing_Country_Code__c')];
 
-        delegateItems.push(
-            { sObjectType: 'Participant__c',
-              selectedOption: '1',
-              Mailing_State_Code__c: component.get('v.participant.Mailing_State_Code__c'),
-              Mailing_State__c: component.get('v.participant.Mailing_State__c'),
-              Mailing_Country_Code__c: component.get('v.participant.Mailing_Country_Code__c'),
-              Mailing_Country__c: component.get('v.participant.Mailing_Country__c'),
-              statesDelegateLVList: states,
-              Adult__c: true,
-              Phone_Type__c: 'Home',
-              isConnected: false,
-              fromStart: false,
-              isDuplicate: false
-            });
+        delegateItems.push({
+            sObjectType: 'Participant__c',
+            selectedOption: '1',
+            Mailing_State_Code__c: component.get('v.participant.Mailing_State_Code__c'),
+            Mailing_State__c: component.get('v.participant.Mailing_State__c'),
+            Mailing_Country_Code__c: component.get('v.participant.Mailing_Country_Code__c'),
+            Mailing_Country__c: component.get('v.participant.Mailing_Country__c'),
+            statesDelegateLVList: states,
+            Adult__c: true,
+            Phone_Type__c: 'Home',
+            isConnected: false,
+            fromStart: false,
+            isDuplicate: false
+        });
         component.set('v.delegateItems', delegateItems);
     }
-
 });

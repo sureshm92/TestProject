@@ -1,4 +1,4 @@
-.THIS .slds-m-right--xx-small{
+.THIS .slds-m-right--xx-small {
     font-weight: 700;
     font-size: 15px;
     color: black;
@@ -14,29 +14,29 @@
 .THIS .rr-link.hidden-icon .rr-icon-default {
     transform: rotate(0deg);
 }
-.THIS .slds-grid{
+.THIS .slds-grid {
     background: #f8f9fb;
 }
-.THIS .expanded-icon{
+.THIS .expanded-icon {
     text-decoration: none;
 }
-.THIS .slds-p-horizontal_medium{
-    padding-left: 0px!important;
+.THIS .slds-p-horizontal_medium {
+    padding-left: 0px !important;
     margin-top: 20px;
     margin-bottom: 20px;
 }
-.THIS .slds-form-element__static_second{
+.THIS .slds-form-element__static_second {
     margin-top: 40px;
     margin-left: -12%;
 }
-.THIS .slds-item_label{
+.THIS .slds-item_label {
     color: darkgray;
     font-size: small;
     font-family: auto;
 }
-.THIS .custom-control-input_points .slds-assistive-text{
+.THIS .custom-control-input_points .slds-assistive-text {
     display: none;
 }
-.THIS .custom-control-input_points .slds-form-element__label{
+.THIS .custom-control-input_points .slds-form-element__label {
     display: none;
 }

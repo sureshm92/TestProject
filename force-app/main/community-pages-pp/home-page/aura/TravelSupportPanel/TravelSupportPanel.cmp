@@ -3,16 +3,18 @@
  -->
 
 <aura:component description="TravelSupportPanel" controller="TravelSupportRemote">
+    <ltng:require
+        scripts="{!join(',', $Resource.rr_community_js)}"
+        afterScriptsLoaded="{!c.doInit}"
+    />
 
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+    <aura:attribute name="travelWrapper" type="TravelSupportRemote.TravelWrapper[]" />
+    <aura:attribute name="initialized" type="Boolean" default="false" />
+    <aura:attribute name="isRTL" type="Boolean" />
 
-    <aura:attribute name="travelWrapper" type="TravelSupportRemote.TravelWrapper[]"/>
-    <aura:attribute name="initialized" type="Boolean" default="false"/>
-    <aura:attribute name="isRTL" type="Boolean"/>
-
-    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     <div class="sv-panel rr-white-panel" data-gtm="PNL_TravelSupportPanel">
-        <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
+        <c:RRSpinner aura:id="spinner" size="small" showSpinner="true" />
         <aura:if isTrue="{!v.initialized}">
             <div class="sv-header">
                 <div class="sv-title">{!$Label.c.Home_Page_Travel_Support_Title}</div>
@@ -27,36 +29,47 @@
                         <aura:iteration var="travelWrapper" items="{!v.travelWrapper}">
                             <tr>
                                 <td class="travel-cell">
-                                    <div class="icon-item"
-                                         style="{!'background:' + travelWrapper.bgc}">
-                                        <c:RRIcon class="svl-icon" color="white" iconName="{!travelWrapper.icon}"/>
+                                    <div
+                                        class="icon-item"
+                                        style="{!'background:' + travelWrapper.bgc}"
+                                    >
+                                        <c:RRIcon
+                                            class="svl-icon"
+                                            color="white"
+                                            iconName="{!travelWrapper.icon}"
+                                        />
                                     </div>
                                     <div style="padding: 0 5px">{!travelWrapper.title}</div>
                                 </td>
                                 <td>
-
-                                        <lightning:formattedDateTime value="{!travelWrapper.dateAndTime}"
-                                                                     year="numeric" month="2-digit" day="2-digit"
-                                                                     hour="2-digit" minute="2-digit"/>
-
+                                    <lightning:formattedDateTime
+                                        value="{!travelWrapper.dateAndTime}"
+                                        year="numeric"
+                                        month="2-digit"
+                                        day="2-digit"
+                                        hour="2-digit"
+                                        minute="2-digit"
+                                    />
                                 </td>
                             </tr>
                         </aura:iteration>
                     </c:RRTable>
                 </aura:if>
-                <c:EmptyListStub targetList="{!v.travelWrapper}" iconName="none"
-                                 message="{!$Label.c.PG_VP_L_No_Items_display}"/>
+                <c:EmptyListStub
+                    targetList="{!v.travelWrapper}"
+                    iconName="none"
+                    message="{!$Label.c.PG_VP_L_No_Items_display}"
+                />
             </div>
-            
+
             <div class="{! if(v.isRTL, 'sv-footerRTL' , 'sv-footer')}">
                 <c:RRLink page="study-workspace?tab=tab-visits&amp;visitmode=TravelSupportDetails">
-                {!$Label.c.PG_L_See_All}
-                <aura:if isTrue="{!v.isRTL}">
-                    <div class="leftIcon"><c:RRIcon iconName="icon-chevron-left"/></div>
-                </aura:if>
+                    {!$Label.c.PG_L_See_All}
+                    <aura:if isTrue="{!v.isRTL}">
+                        <div class="leftIcon"><c:RRIcon iconName="icon-chevron-left" /></div>
+                    </aura:if>
                 </c:RRLink>
             </div>
         </aura:if>
     </div>
-
 </aura:component>

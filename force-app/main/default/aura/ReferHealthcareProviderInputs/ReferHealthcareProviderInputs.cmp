@@ -2,90 +2,120 @@
  - Created by Nikita Abrazhevitch on 09-Apr-20.
  -->
 
-<aura:component description="ReferHealthcareProviderInputs" controller="ReferHealthcareProviderRemote">
+<aura:component
+    description="ReferHealthcareProviderInputs"
+    controller="ReferHealthcareProviderRemote"
+>
+    <aura:attribute name="buttonTitle" type="String" />
+    <aura:attribute name="buttonLabel" type="String" />
+    <aura:attribute name="printMode" type="Boolean" />
+    <aura:attribute name="pe" type="Object" />
+    <aura:attribute name="mainComponent" type="Aura.Component" />
+    <aura:attribute name="parent" type="Aura.Component" />
+    <aura:attribute name="sharingObject" type="Object" />
+    <aura:attribute name="showReferringProvider" type="Boolean" default="false" />
+    <aura:attribute name="providerFound" type="Boolean" default="false" />
+    <aura:attribute name="actionDisabled" type="Boolean" default="false" />
+    <aura:attribute name="isValid" type="Boolean" default="false" />
+    <aura:attribute name="isDuplicate" type="Boolean" default="false" />
+    <aura:attribute name="isDuplicateDelegate" type="Boolean" default="false" />
+    <aura:attribute name="duplicateDelegateInfo" type="Object" />
+    <aura:attribute name="useThisDelegate" type="Boolean" default="true" />
 
-    <aura:attribute name="buttonTitle" type="String"/>
-    <aura:attribute name="buttonLabel" type="String"/>
-    <aura:attribute name="printMode" type="Boolean"/>
-    <aura:attribute name="pe" type="Object"/>
-    <aura:attribute name="mainComponent" type="Aura.Component"/>
-    <aura:attribute name="parent" type="Aura.Component"/>
-    <aura:attribute name="sharingObject" type="Object"/>
-    <aura:attribute name="showReferringProvider" type="Boolean" default="false"/>
-    <aura:attribute name="providerFound" type="Boolean" default="false"/>
-    <aura:attribute name="actionDisabled" type="Boolean" default="false"/>
-    <aura:attribute name="isValid" type="Boolean" default="false"/>
-    <aura:attribute name="isDuplicate" type="Boolean" default="false"/>
-    <aura:attribute name="isDuplicateDelegate" type="Boolean" default="false"/>
-    <aura:attribute name="duplicateDelegateInfo" type="Object"/>
-    <aura:attribute name="useThisDelegate" type="Boolean" default="true"/>
+    <aura:handler
+        name="ddMessageButtonClick"
+        event="c:DDMessageEvent"
+        action="{!c.approveDelegate}"
+    />
 
-    <aura:handler name="ddMessageButtonClick" event="c:DDMessageEvent" action="{!c.approveDelegate}"/>
-
-    <div class="{!'slds-col ' + if(v.printMode, 'slds-size--4-of-12', 'slds-size--1-of-1 slds-large-size--4-of-12')}">
-        <lightning:input aura:id="hcpEmail"
-                         class="healthcare-input"
-                         type="text"
-                         required="{!!v.printMode}"
-                         label="{!v.sharingObject.sObjectType == 'Object' ? $Label.c.HealthCare_Delegates_Email : $Label.c.HealthCare_Providers_Email}"
-                         value="{!v.sharingObject.sObjectType == 'Object' ? v.sharingObject.email :
+    <div
+        class="{!'slds-col ' + if(v.printMode, 'slds-size--4-of-12', 'slds-size--1-of-1 slds-large-size--4-of-12')}"
+    >
+        <lightning:input
+            aura:id="hcpEmail"
+            class="healthcare-input"
+            type="text"
+            required="{!!v.printMode}"
+            label="{!v.sharingObject.sObjectType == 'Object' ? $Label.c.HealthCare_Delegates_Email : $Label.c.HealthCare_Providers_Email}"
+            value="{!v.sharingObject.sObjectType == 'Object' ? v.sharingObject.email :
                                   v.sharingObject.sObjectType == 'Contact' ? v.sharingObject.Email :
                                   v.sharingObject.Email__c}"
-                         onblur="{!c.checkContact}"
-                         onchange="{!c.checkFields}"
-                         disabled="{!v.sharingObject.Id || v.sharingObject.delegateId}"/>
+            onblur="{!c.checkContact}"
+            onchange="{!c.checkFields}"
+            disabled="{!v.sharingObject.Id || v.sharingObject.delegateId}"
+        />
     </div>
-    <div class="{!'slds-col ' + if(v.printMode, 'slds-size--3-of-12', 'slds-size--1-of-1 slds-large-size--3-of-12')}">
-        <lightning:input aura:id="firstNameInput"
-                         class="healthcare-input"
-                         type="text"
-                         required="{!!v.printMode}"
-                         label="{!v.sharingObject.sObjectType == 'Object' ?
+    <div
+        class="{!'slds-col ' + if(v.printMode, 'slds-size--3-of-12', 'slds-size--1-of-1 slds-large-size--3-of-12')}"
+    >
+        <lightning:input
+            aura:id="firstNameInput"
+            class="healthcare-input"
+            type="text"
+            required="{!!v.printMode}"
+            label="{!v.sharingObject.sObjectType == 'Object' ?
                          $Label.c.HealthCare_Delegates_First_Name : $Label.c.HealthCare_Providers_First_Name}"
-                         value="{!v.sharingObject.sObjectType == 'Object' ? v.sharingObject.firstName :
+            value="{!v.sharingObject.sObjectType == 'Object' ? v.sharingObject.firstName :
                                   v.sharingObject.sObjectType == 'Contact' ? v.sharingObject.FirstName :
                                   v.sharingObject.First_Name__c}"
-                         onchange="{!c.checkFields}"
-                         onblur="{!c.checkDelegateDuplicate}"
-                         disabled="{!v.providerFound || v.isDuplicate || v.sharingObject.Id || v.sharingObject.delegateId}"/>
+            onchange="{!c.checkFields}"
+            onblur="{!c.checkDelegateDuplicate}"
+            disabled="{!v.providerFound || v.isDuplicate || v.sharingObject.Id || v.sharingObject.delegateId}"
+        />
     </div>
-    <div class="{!'slds-col ' + if(v.printMode, 'slds-size--3-of-12', 'slds-size--1-of-1 slds-large-size--3-of-12')}">
-        <lightning:input aura:id="lastNameInput"
-                         class="healthcare-input"
-                         type="text"
-                         required="{!!v.printMode}"
-                         label="{!v.sharingObject.sObjectType == 'Object' ?
+    <div
+        class="{!'slds-col ' + if(v.printMode, 'slds-size--3-of-12', 'slds-size--1-of-1 slds-large-size--3-of-12')}"
+    >
+        <lightning:input
+            aura:id="lastNameInput"
+            class="healthcare-input"
+            type="text"
+            required="{!!v.printMode}"
+            label="{!v.sharingObject.sObjectType == 'Object' ?
                           $Label.c.HealthCare_Delegates_Last_Name : $Label.c.HealthCare_Providers_Last_Name}"
-                         value="{!v.sharingObject.sObjectType == 'Object' ? v.sharingObject.lastName :
+            value="{!v.sharingObject.sObjectType == 'Object' ? v.sharingObject.lastName :
                                   v.sharingObject.sObjectType == 'Contact' ? v.sharingObject.LastName :
                                   v.sharingObject.Last_Name__c}"
-                         onchange="{!c.checkFields}"
-                         onblur="{!c.checkDelegateDuplicate}"
-                         disabled="{!v.providerFound || v.isDuplicate || v.sharingObject.Id || v.sharingObject.delegateId}"/>
+            onchange="{!c.checkFields}"
+            onblur="{!c.checkDelegateDuplicate}"
+            disabled="{!v.providerFound || v.isDuplicate || v.sharingObject.Id || v.sharingObject.delegateId}"
+        />
     </div>
-    <div class="{!'slds-col ' + if(v.printMode, 'slds-size--2-of-12', 'slds-size--3-of-12 slds-large-size--2-of-12')}"
-         style="margin-top: 23px;">
-        <button class="apollo-btn secondary slds-button"
-                onclick="{!c.doConnectDisconnect}"
-                disabled="{!(v.sharingObject.Id || v.sharingObject.delegateId) ? v.actionDisabled : v.printMode || (!v.isValid || v.actionDisabled || v.isDuplicate || v.isDuplicateDelegate || !v.useThisDelegate)}"
-                title="{!v.buttonTitle}">{!v.buttonLabel}</button>
+    <div
+        class="{!'slds-col ' + if(v.printMode, 'slds-size--2-of-12', 'slds-size--3-of-12 slds-large-size--2-of-12')}"
+        style="margin-top: 23px"
+    >
+        <button
+            class="apollo-btn secondary slds-button"
+            onclick="{!c.doConnectDisconnect}"
+            disabled="{!(v.sharingObject.Id || v.sharingObject.delegateId) ? v.actionDisabled : v.printMode || (!v.isValid || v.actionDisabled || v.isDuplicate || v.isDuplicateDelegate || !v.useThisDelegate)}"
+            title="{!v.buttonTitle}"
+        >
+            {!v.buttonLabel}
+        </button>
     </div>
     <aura:if isTrue="{!v.providerFound}">
-        <div class="slds-grid slds-wrap slds-size--7-of-12 slds-large-size--1-of-1 slds-grid_vertical-align-start healthcare-form-container provider-found-section">
-            <aura:if isTrue = "{!v.sharingObject.sObjectType == 'Object'}">
+        <div
+            class="slds-grid slds-wrap slds-size--7-of-12 slds-large-size--1-of-1 slds-grid_vertical-align-start healthcare-form-container provider-found-section"
+        >
+            <aura:if isTrue="{!v.sharingObject.sObjectType == 'Object'}">
                 <aura:if isTrue="{!!v.useThisDelegate}">
-                    <c:DuplicateDelegateMessage delegateDuplicateInfo="{!v.duplicateDelegateInfo}"/>
+                    <c:DuplicateDelegateMessage
+                        delegateDuplicateInfo="{!v.duplicateDelegateInfo}"
+                    />
                 </aura:if>
                 <aura:set attribute="else">
                     <div class="slds-col slds-size--4-of-12 slds-large-size--4-of-12">
                         {!$Label.c.HealthCare_Provider_Found}
                     </div>
                     <div class="slds-col slds-size--8-of-12 slds-large-size--4-of-12">
-                        <c:RRLink label="{!$Label.c.Different_HealthCare_Provider}" page="{!'help'}"/>
+                        <c:RRLink
+                            label="{!$Label.c.Different_HealthCare_Provider}"
+                            page="{!'help'}"
+                        />
                     </div>
                 </aura:set>
             </aura:if>
-
         </div>
     </aura:if>
 </aura:component>

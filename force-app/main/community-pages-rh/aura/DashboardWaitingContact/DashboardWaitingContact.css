@@ -1,27 +1,26 @@
 /**
  * Created by Aleksey Moseev.
  */
-.THIS .dqa-view-more{
-    background: #F8F9FB;
-    border-top: solid 1px #E9E9E9;
+.THIS .dqa-view-more {
+    background: #f8f9fb;
+    border-top: solid 1px #e9e9e9;
     min-height: 49px;
     text-align: center;
     padding-top: 10px;
     padding-bottom: 10px;
 }
-.THIS .db-qal-title{
+.THIS .db-qal-title {
     color: #000000;
     font-size: 18px;
     font-weight: 600;
 }
-.THIS .db-qal-main{
+.THIS .db-qal-main {
     padding: 16px;
 }
 
-.THIS .db-qal-items{
+.THIS .db-qal-items {
     height: 215px;
     overflow-y: auto;
-
 }
 
 .THIS .slds-table thead th {
@@ -42,7 +41,7 @@
 .THIS .slds-table_bordered tbody td:hover,
 .THIS .slds-table_bordered tbody tr:hover,
 .THIS .slds-table_bordered:not(.slds-no-row-hover) tbody tr:hover > th:not(.slds-has-focus),
-.THIS .slds-table_bordered:not(.slds-no-row-hover) tbody tr:hover > td:not(.slds-has-focus){
+.THIS .slds-table_bordered:not(.slds-no-row-hover) tbody tr:hover > td:not(.slds-has-focus) {
     border-top: 1px solid transparent;
     border-bottom: 1px solid transparent;
     box-shadow: none;
@@ -57,7 +56,7 @@
 }
 
 .THIS .slds-table_striped tbody tr:nth-of-type(2n) > td,
-.THIS .slds-table_striped tbody tr:nth-of-type(2n) > th{
+.THIS .slds-table_striped tbody tr:nth-of-type(2n) > th {
     background-color: transparent;
 }
 
@@ -76,22 +75,22 @@
     border: none;
 }
 
-.THIS ::-webkit-scrollbar{
-    height: 8px;              
+.THIS ::-webkit-scrollbar {
+    height: 8px;
     width: 8px;
 }
-.THIS ::-webkit-scrollbar-thumb{
+.THIS ::-webkit-scrollbar-thumb {
     width: 4px;
     border-radius: 4px;
     background-color: #999999;
-    box-shadow: 0 8px 8px 0 rgba(0,0,0,0.16);
+    box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.16);
     height: 100px;
 }
-.THIS ::-webkit-scrollbar-track{
-    display:none;
+.THIS ::-webkit-scrollbar-track {
+    display: none;
 }
 
-.THIS ::-webkit-scrollbar-button{
+.THIS ::-webkit-scrollbar-button {
     height: 0;
 }
 
@@ -110,7 +109,7 @@
     }
 
     .THIS .slds-table td:first-child .slds-truncate,
-    .THIS .slds-table td:nth-child(3) .slds-truncate{
+    .THIS .slds-table td:nth-child(3) .slds-truncate {
         white-space: normal;
     }
 
@@ -120,7 +119,6 @@
 }
 
 @media all and (max-width: 500px) {
-
     .THIS thead {
         display: none;
     }
@@ -137,8 +135,8 @@
         border: none;
     }
 
-    .THIS .slds-table_cell-buffer tr>th:first-child,
-    .THIS .slds-table_cell-buffer tr>td {
+    .THIS .slds-table_cell-buffer tr > th:first-child,
+    .THIS .slds-table_cell-buffer tr > td {
         padding-left: 0;
     }
 
@@ -174,19 +172,17 @@
     }
 
     .THIS .slds-table_bordered tbody tr:hover,
-    .THIS .slds-table_bordered:not(.slds-no-row-hover) tbody tr:hover>th:not(.slds-has-focus),
-    .THIS .slds-table_bordered:not(.slds-no-row-hover) tbody tr:hover>td:not(.slds-has-focus){
+    .THIS .slds-table_bordered:not(.slds-no-row-hover) tbody tr:hover > th:not(.slds-has-focus),
+    .THIS .slds-table_bordered:not(.slds-no-row-hover) tbody tr:hover > td:not(.slds-has-focus) {
         border: 0;
         background: #fff;
     }
-
-
 }
-.THIS.exampleHolder{
+.THIS.exampleHolder {
     position: relative;
     display: inline-block;
     margin-left: 15px;
     width: 55px;
     vertical-align: middle;
-    white-space: nowrap;    
+    white-space: nowrap;
 }

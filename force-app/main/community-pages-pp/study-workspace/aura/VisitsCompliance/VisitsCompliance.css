@@ -4,19 +4,19 @@
 
 .THIS .visit-assessment-inf {
     color: #999999;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 20px;
     line-height: 26px;
     text-align: center;
     padding: 0.5rem 0;
 }
 
-.THIS .to-modal-link{
+.THIS .to-modal-link {
     color: #00a1e0;
     text-decoration: underline;
 }
 
-.THIS .to-modal-link:hover{
+.THIS .to-modal-link:hover {
     color: blue;
     cursor: pointer;
 }

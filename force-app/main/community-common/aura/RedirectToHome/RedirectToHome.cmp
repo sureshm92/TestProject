@@ -3,5 +3,5 @@
  -->
 
 <aura:component description="RedirectToHome" implements="forceCommunity:availableForAllPageTypes">
-    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}" />
 </aura:component>

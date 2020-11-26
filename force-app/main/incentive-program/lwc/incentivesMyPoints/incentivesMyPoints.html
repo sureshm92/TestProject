@@ -7,8 +7,12 @@
     <div class="rr-white-panel incentives-my-points-container">
         <c-web-spinner></c-web-spinner>
         <template if:true={initialized}>
-            <c-incentives-my-points-header total-points={totalPoints}></c-incentives-my-points-header>
-            <c-incentives-my-points-table completed-tasks={completedTasks}></c-incentives-my-points-table>
+            <c-incentives-my-points-header
+                total-points={totalPoints}
+            ></c-incentives-my-points-header>
+            <c-incentives-my-points-table
+                completed-tasks={completedTasks}
+            ></c-incentives-my-points-table>
         </template>
     </div>
 </template>

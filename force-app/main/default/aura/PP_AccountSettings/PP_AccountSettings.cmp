@@ -15,18 +15,8 @@
     <aura:attribute name="personWrapper" type="Object" />
     <aura:attribute name="contact" type="Contact" />
 
-    <aura:attribute
-        name="showSpinner"
-        type="Boolean"
-        default="true"
-        access="private"
-    />
-    <aura:attribute
-        name="isInitialized"
-        type="Boolean"
-        default="false"
-        access="private"
-    />
+    <aura:attribute name="showSpinner" type="Boolean" default="true" access="private" />
+    <aura:attribute name="isInitialized" type="Boolean" default="false" access="private" />
 
     <aura:attribute name="isUpdated" type="Boolean" />
     <aura:attribute name="toglNavg" type="Boolean" default="false" />
@@ -38,11 +28,7 @@
     <aura:attribute name="cookSet" type="Boolean" />
     <aura:attribute name="conditionOfInterestList" type="Object[]" />
     <aura:attribute name="isSaveList" type="Boolean" />
-    <aura:handler
-        name="change"
-        value="{!v.isSaveList}"
-        action="{!c.doSaveSortCOIs}"
-    />
+    <aura:handler name="change" value="{!v.isSaveList}" action="{!c.doSaveSortCOIs}" />
     <aura:attribute name="selectedItem" type="String" />
     <aura:attribute name="coibool" type="Boolean" default="false" />
     <aura:attribute name="custep" type="Boolean" default="false" />
@@ -53,19 +39,11 @@
 
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     <div class="as-container">
-        <c:RRSpinner
-            aura:id="spinner"
-            size="medium"
-            showSpinner="{!v.showSpinner}"
-            fixed="true"
-        />
+        <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true" />
         <c:Action_RemoveDelegate aura:id="actionRemoveDelegate" />
 
         <aura:if isTrue="{!v.isInitialized}">
-            <div
-                class="{!v.isRTLLanguage?'NavContainer RTL':'NavContainer'}"
-                id="NavContainer"
-            >
+            <div class="{!v.isRTLLanguage?'NavContainer RTL':'NavContainer'}" id="NavContainer">
                 <div class="NavContainer1" id="NavContainer1">
                     <h2 class="{!v.isRTLLanguage?'RTL title':'LTR title'}">
                         {!$Label.c.PP_Account_Settings}
@@ -112,9 +90,7 @@
                                     >{!$Label.c.PP_Language_and_Location}</a
                                 >
                             </li>
-                            <aura:if
-                                isTrue="{!(v.userMode == 'HCP' || v.userTypeHCP_PI)}"
-                            >
+                            <aura:if isTrue="{!(v.userMode == 'HCP' || v.userTypeHCP_PI)}">
                                 <li
                                     id="6"
                                     aura:id="6"
@@ -161,9 +137,7 @@
                         </ul>
                     </div>
                 </div>
-                <div
-                    class="{!v.isRTLLanguage?'NavComponentRTL':'NavComponent'}"
-                >
+                <div class="{!v.isRTLLanguage?'NavComponentRTL':'NavComponent'}">
                     <aura:if isTrue="{!(v.compId == '1')}">
                         <c:AccountSettings_EditProfile
                             userMode="{!v.userMode}"
@@ -171,10 +145,7 @@
                         ></c:AccountSettings_EditProfile>
                     </aura:if>
                     <aura:if isTrue="{!(v.compId == '2')}">
-                        <c:ChangePassword
-                            userMode="{!v.userMode}"
-                            isRTL="{!v.isRTLLanguage}"
-                        />
+                        <c:ChangePassword userMode="{!v.userMode}" isRTL="{!v.isRTLLanguage}" />
                     </aura:if>
                     <aura:if isTrue="{!(v.compId == '3')}">
                         <c:PP_LanguageSwitcher

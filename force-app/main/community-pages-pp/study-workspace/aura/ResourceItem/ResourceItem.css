@@ -52,7 +52,7 @@
 .THIS .resource-description-title {
     height: 20px;
     color: #666666;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 13px;
     font-weight: 500;
     line-height: 20px;
@@ -61,7 +61,7 @@
 .THIS .resource-description-text {
     height: 30px;
     color: #999999;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 12px;
     line-height: 14px;
     margin: 0 0 3px 0;
@@ -70,7 +70,7 @@
 .THIS .resource-expiration-date {
     height: 14px;
     color: #999999;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 12px;
     font-style: italic;
     line-height: 14px;

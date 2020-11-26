@@ -1,4 +1,4 @@
-.THIS{
+.THIS {
     padding-bottom: 40px;
 }
 
@@ -15,7 +15,7 @@
     text-align: center;
 }
 
-.THIS .resources-header{
+.THIS .resources-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -23,7 +23,7 @@
     margin-bottom: 20px;
 }
 
-.THIS .resources-header .slds-form-element__label{
+.THIS .resources-header .slds-form-element__label {
     display: none;
 }
 
@@ -32,7 +32,6 @@
     font-weight: 600;
     line-height: 27px;
 }
-
 
 .THIS .resource-table {
     padding: 0 24px;
@@ -55,7 +54,7 @@
 
 .THIS .study-document-column-data {
     color: #595959;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: 500;
     line-height: 21px;
@@ -69,12 +68,10 @@
 }
 
 .THIS .study-document-row-data {
-    border-bottom: 1px solid #F8F9FB;
+    border-bottom: 1px solid #f8f9fb;
 }
 
-
-
-.THIS .resource-item-container{
+.THIS .resource-item-container {
     margin-bottom: 20px;
 }
 

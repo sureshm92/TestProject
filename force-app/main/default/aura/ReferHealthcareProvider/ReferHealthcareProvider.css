@@ -8,14 +8,14 @@
 
 .THIS .healthcare-info {
     margin: 1% 0 1% 0;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
     color: black;
 }
 
 .THIS .referring-provider-header {
     color: #444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
     margin-top: 5.5%;
     padding-left: 9%;
@@ -29,24 +29,24 @@
     padding-right: 4%;
 }
 
-.THIS .healthcare-form-container{
+.THIS .healthcare-form-container {
     margin-bottom: 1%;
 }
 
-.THIS .healthcare-input input{
+.THIS .healthcare-input input {
     height: 32px;
 }
 
-.THIS .provider-found-section{
+.THIS .provider-found-section {
     font-size: 13px;
     font-weight: 500;
 }
-.THIS .referring{
+.THIS .referring {
     margin-top: 10px;
     font-weight: 600;
     width: 1000px;
 }
-.THIS .slds-box{
+.THIS .slds-box {
     box-shadow: none;
     border: none;
     font-weight: 600;
@@ -54,27 +54,26 @@
     min-width: 160px;
     border-radius: 4px;
 }
-.THIS .slds-badge__icon{
+.THIS .slds-badge__icon {
     box-shadow: none;
     border: none;
     font-weight: 600;
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 768px) {
     .THIS .slds-grid > .slds-col,
-	.THIS .apollo-btn {
+    .THIS .apollo-btn {
         width: 50%;
     }
-    
-    .THIS .healthcare-input input{
+
+    .THIS .healthcare-input input {
         margin-bottom: 5px;
     }
 }
-    
-@media screen and (max-width: 500px){
+
+@media screen and (max-width: 500px) {
     .THIS .slds-grid > .slds-col,
-	.THIS .apollo-btn {
+    .THIS .apollo-btn {
         width: 100%;
     }
-
 }

@@ -2,20 +2,41 @@
  - created by Leonid Bartenev
  -->
 
- <aura:component description="StudyDetailAboutStudy" controller="StudyDetailAboutStudyRemote" extends="c:CommunityContext"> 
-
+<aura:component
+    description="StudyDetailAboutStudy"
+    controller="StudyDetailAboutStudyRemote"
+    extends="c:CommunityContext"
+>
     <!-- attributes: -->
-    <aura:attribute name="studyDetail" type="StudyDetailViewController.TrialDetail" required="true"/>
-    <aura:attribute name="userMode" type="String" description="HCP / PI / Participant" required="true"/>
-    <aura:attribute name="parent" type="Aura.Component"/>
-    <aura:attribute name="documents" type="Object[]"/>
-    <aura:attribute name="communityName" type="String"/>
+    <aura:attribute
+        name="studyDetail"
+        type="StudyDetailViewController.TrialDetail"
+        required="true"
+    />
+    <aura:attribute
+        name="userMode"
+        type="String"
+        description="HCP / PI / Participant"
+        required="true"
+    />
+    <aura:attribute name="parent" type="Aura.Component" />
+    <aura:attribute name="documents" type="Object[]" />
+    <aura:attribute name="communityName" type="String" />
 
     <!-- actions: -->
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    <c:Action_SendSiteRequestByHCP aura:id="sendSiteRequestAction"/>
-    <c:OpenToReceiveReferralsModal aura:id="openToReceiveReferralsModal" trialId="{!v.studyDetail.trial.Id}" parent="{!v.parent}"/>
-    <c:NoTanksModal aura:id="noTanksModal" trialId="{!v.studyDetail.trial.Id}" parent="{!v.parent}" userMode="{!v.userMode}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <c:Action_SendSiteRequestByHCP aura:id="sendSiteRequestAction" />
+    <c:OpenToReceiveReferralsModal
+        aura:id="openToReceiveReferralsModal"
+        trialId="{!v.studyDetail.trial.Id}"
+        parent="{!v.parent}"
+    />
+    <c:NoTanksModal
+        aura:id="noTanksModal"
+        trialId="{!v.studyDetail.trial.Id}"
+        parent="{!v.parent}"
+        userMode="{!v.userMode}"
+    />
 
     <!-- component body: -->
     <!-- TC alert: -->
@@ -29,11 +50,15 @@
     <div class="{!if(v.isRTL, 'rtl ', ' ')}">
         <div class="sdas-main-container">
             <div class="sdas-about">
-                
-                <div class="{!if(v.isRTL, 'hideborder slds-grid slds-wrap ', 'slds-grid slds-wrap')}">
-                    <div id="info-left" class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-order_1 slds-medium-order_1">
+                <div
+                    class="{!if(v.isRTL, 'hideborder slds-grid slds-wrap ', 'slds-grid slds-wrap')}"
+                >
+                    <div
+                        id="info-left"
+                        class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-order_1 slds-medium-order_1"
+                    >
                         <!-- about title -->
-                        <c:RRAnchor aura:id="aboutAnchor" offset="-160"/>
+                        <c:RRAnchor aura:id="aboutAnchor" offset="-160" />
                         <!--                    <div class="sdas-category"><c:RRIcon iconName="about-the-study"/>{!$Label.c.PG_SW_Link_About_The_Study}</div>-->
 
                         <!-- objectiove section: -->
@@ -45,8 +70,10 @@
                         <div class="sdas-text">{!v.studyDetail.trial.Override_Description__c}</div>
 
                         <!-- inclusion exclusion: -->
-                        <div class="sdas-sub-category">{!$Label.c.PG_SW_Link_Inclusion_Exclusion_Criteria}</div>
-                        <c:RRAnchor aura:id="inclusionExclusionAnchor" offset="-160"/>
+                        <div class="sdas-sub-category">
+                            {!$Label.c.PG_SW_Link_Inclusion_Exclusion_Criteria}
+                        </div>
+                        <c:RRAnchor aura:id="inclusionExclusionAnchor" offset="-160" />
                         <!--                    <div class="sdas-category"><c:RRIcon iconName="people"/>{!$Label.c.PG_SW_Link_Inclusion_Exclusion_Criteria}</div>-->
                         <div class="sdas-text">
                             <aura:if isTrue="{!v.userMode == 'Participant'}">
@@ -57,19 +84,23 @@
                         <div class="sdas-criteria-block"></div>
                         <div class="collapse-wrapper">
                             <c:RRCollapse label="{!$Label.c.PG_SW_H_Full_Inclusion_Criteria}">
-                                <div class="criteria-body">{!v.studyDetail.trial.Override_Inclusion_Criteria__c}</div>
+                                <div class="criteria-body">
+                                    {!v.studyDetail.trial.Override_Inclusion_Criteria__c}
+                                </div>
                             </c:RRCollapse>
                         </div>
                         <div class="collapse-wrapper slds-m-bottom--medium">
                             <c:RRCollapse label="{!$Label.c.PG_SW_H_Full_Exclusion_Criteria}">
-                                <div class="criteria-body">{!v.studyDetail.trial.Override_Exclusion_Criteria__c}</div>
+                                <div class="criteria-body">
+                                    {!v.studyDetail.trial.Override_Exclusion_Criteria__c}
+                                </div>
                             </c:RRCollapse>
                         </div>
 
-                    <!-- map section: -->
+                        <!-- map section: -->
 
-                    <!-- for HCP: -->
-                    <!-- <aura:if isTrue="{!v.userMode == 'HCP'}">
+                        <!-- for HCP: -->
+                        <!-- <aura:if isTrue="{!v.userMode == 'HCP'}">
                          <c:RRAnchor aura:id="studySitesAnchor" offset="-160"/>
                          <div class="sdas-category"><c:RRIcon iconName="map-marker"/>{!$Label.c.PG_VP_L_Study_sites}</div>
                          <div class="sdas-text">
@@ -79,19 +110,25 @@
                          </div>
                      </aura:if> -->
 
-                    <aura:if isTrue="{!v.userMode == 'Participant'}">
-                        <c:RRAnchor aura:id="studySiteAnchor" offset="-160"/>
-                    </aura:if>
-
-                    <!-- for PI: -->
-                    <aura:if isTrue="{!v.userMode == 'PI' &amp;&amp; v.communityName != 'Janssen'}">
-                        <div class="sdas-sub-category">{!$Label.c.PG_SRP_L_Referring_Providers}</div>
-                        <c:RRAnchor aura:id="referringClinicsAnchor" offset="-160"/>
-                        <!--                        <div id="anchor-clinics" class="sdas-category"><c:RRIcon iconName="referring-clinic"/>{!$Label.c.PG_DBPI_L_Referring_clinics}</div>-->
-                        <aura:if isTrue="{!empty(v.studyDetail.accountEnrollmentsList)}">
-                            <c:EmptyListStub iconName="sad"
-                                             message="{!$Label.c.PG_SDAS_L_No_items}"/>
+                        <aura:if isTrue="{!v.userMode == 'Participant'}">
+                            <c:RRAnchor aura:id="studySiteAnchor" offset="-160" />
                         </aura:if>
+
+                        <!-- for PI: -->
+                        <aura:if
+                            isTrue="{!v.userMode == 'PI' &amp;&amp; v.communityName != 'Janssen'}"
+                        >
+                            <div class="sdas-sub-category">
+                                {!$Label.c.PG_SRP_L_Referring_Providers}
+                            </div>
+                            <c:RRAnchor aura:id="referringClinicsAnchor" offset="-160" />
+                            <!--                        <div id="anchor-clinics" class="sdas-category"><c:RRIcon iconName="referring-clinic"/>{!$Label.c.PG_DBPI_L_Referring_clinics}</div>-->
+                            <aura:if isTrue="{!empty(v.studyDetail.accountEnrollmentsList)}">
+                                <c:EmptyListStub
+                                    iconName="sad"
+                                    message="{!$Label.c.PG_SDAS_L_No_items}"
+                                />
+                            </aura:if>
 
                             <aura:if isTrue="{!v.studyDetail.isSSAccepted}">
                                 <!--                            <div class="sdas-text">-->
@@ -99,9 +136,7 @@
                                 <!--                                <c:RRLink page="my-referring-clinics?" label="{!$Label.c.PG_CP_L_My_Referring_Clinics}"/> {!' ' + $Label.c.PG_SDAS_L2_list_referring_clinics}-->
                                 <!--                            </div>-->
                                 <aura:set attribute="else">
-                                    <div class="sdas-text">
-                                        {!$Label.c.PG_SDAS_T_steps}
-                                    </div>
+                                    <div class="sdas-text">{!$Label.c.PG_SDAS_T_steps}</div>
                                 </aura:set>
                             </aura:if>
                         </aura:if>
@@ -109,56 +144,95 @@
                         <!-- map with items: -->
                         <aura:if isTrue="{!v.userMode != 'HCP'}">
                             <div class="sdas-map">
-                                <c:RRAnchor aura:id="mapAnchor" offset="-165"/>
+                                <c:RRAnchor aura:id="mapAnchor" offset="-165" />
                                 <aura:if isTrue="{!!empty(v.studyDetail.accountEnrollmentsList)}">
                                     <div class="sdas-map-body">
                                         <div class="map-container">
-                                            <c:RRGoogleMap accounts="{!v.studyDetail.accountEnrollmentsList}"/>
+                                            <c:RRGoogleMap
+                                                accounts="{!v.studyDetail.accountEnrollmentsList}"
+                                            />
                                         </div>
                                     </div>
                                     <div class="sdas-map-footer">
-                                        <c:RRSpinner aura:id="accountListSpinner"/>
-                                        <aura:iteration items="{!v.studyDetail.accountEnrollmentsList}" var="accountWithEnrollments" indexVar="index">
+                                        <c:RRSpinner aura:id="accountListSpinner" />
+                                        <aura:iteration
+                                            items="{!v.studyDetail.accountEnrollmentsList}"
+                                            var="accountWithEnrollments"
+                                            indexVar="index"
+                                        >
                                             <div class="sdas-footer-info">
                                                 <div class="name">
                                                     <aura:if isTrue="{!v.userMode == 'HCP'}">
-                                                        <div style="float: right"><c:HCPStatusIco status="{!accountWithEnrollments.hcpStatus}" overrideStatusLabel="{!accountWithEnrollments.hcpStatusLabel}"/></div>
+                                                        <div style="float: right">
+                                                            <c:HCPStatusIco
+                                                                status="{!accountWithEnrollments.hcpStatus}"
+                                                                overrideStatusLabel="{!accountWithEnrollments.hcpStatusLabel}"
+                                                            />
+                                                        </div>
                                                     </aura:if>
                                                     {!index + 1}. {!accountWithEnrollments.name}
                                                 </div>
                                                 <div class="address">
-                                                    <div class="address-1">{!accountWithEnrollments.addrStreet}</div>
-                                                    <div class="address-3">{!accountWithEnrollments.addrCity}</div>
-                                                    <aura:if isTrue="{!and(and(v.userMode == 'HCP', !v.studyDetail.actions.sendSiteRequest.disabled),not(empty(v.studyDetail.hcpe)))}">
+                                                    <div class="address-1">
+                                                        {!accountWithEnrollments.addrStreet}
+                                                    </div>
+                                                    <div class="address-3">
+                                                        {!accountWithEnrollments.addrCity}
+                                                    </div>
+                                                    <aura:if
+                                                        isTrue="{!and(and(v.userMode == 'HCP', !v.studyDetail.actions.sendSiteRequest.disabled),not(empty(v.studyDetail.hcpe)))}"
+                                                    >
                                                         <div style="margin-top: 10px">
-                                                            <button class="apollo-btn tertiary"
-                                                                    id="{!accountWithEnrollments.studySiteId}"
-                                                                    onclick="{!c.doChangeStudySite}"
-                                                                    disabled="{!v.studyDetail.actions.sendSiteRequest.disabled}">
+                                                            <button
+                                                                class="apollo-btn tertiary"
+                                                                id="{!accountWithEnrollments.studySiteId}"
+                                                                onclick="{!c.doChangeStudySite}"
+                                                                disabled="{!v.studyDetail.actions.sendSiteRequest.disabled}"
+                                                            >
                                                                 {!v.studyDetail.actions.sendSiteRequest.label}
                                                             </button>
                                                         </div>
                                                     </aura:if>
                                                 </div>
-                                                <aura:if isTrue="{! and( v.userMode != 'HCP', v.userMode != 'PI' )}" >
+                                                <aura:if
+                                                    isTrue="{! and( v.userMode != 'HCP', v.userMode != 'PI' )}"
+                                                >
                                                     <div class="direction">
-                                                        <aura:if isTrue="{! not(empty(accountWithEnrollments.drivingDirection))}">
-                                                            <div class="name direction-title">{!$Label.c.PG_DrivingDirection}</div>
-                                                            <div class="direction-info"> {!accountWithEnrollments.drivingDirection} </div>
+                                                        <aura:if
+                                                            isTrue="{! not(empty(accountWithEnrollments.drivingDirection))}"
+                                                        >
+                                                            <div class="name direction-title">
+                                                                {!$Label.c.PG_DrivingDirection}
+                                                            </div>
+                                                            <div class="direction-info">
+                                                                {!accountWithEnrollments.drivingDirection}
+                                                            </div>
                                                         </aura:if>
-                                                        <aura:if isTrue="{! not(empty(accountWithEnrollments.otherGuidance))}">
-                                                            <div class="name direction-title">{!$Label.c.PG_OtherGuidance}</div>
-                                                            <div class="direction-info"> {!accountWithEnrollments.otherGuidance} </div>
+                                                        <aura:if
+                                                            isTrue="{! not(empty(accountWithEnrollments.otherGuidance))}"
+                                                        >
+                                                            <div class="name direction-title">
+                                                                {!$Label.c.PG_OtherGuidance}
+                                                            </div>
+                                                            <div class="direction-info">
+                                                                {!accountWithEnrollments.otherGuidance}
+                                                            </div>
                                                         </aura:if>
                                                     </div>
                                                 </aura:if>
                                             </div>
                                         </aura:iteration>
-                                        <aura:if isTrue="{!and(and(v.userMode == 'HCP', !v.studyDetail.actions.sendSiteRequest.disabled),not(empty(v.studyDetail.hcpe)))}">
+                                        <aura:if
+                                            isTrue="{!and(and(v.userMode == 'HCP', !v.studyDetail.actions.sendSiteRequest.disabled),not(empty(v.studyDetail.hcpe)))}"
+                                        >
                                             <div class="study-sites-footer">
-                                                <button class="apollo-btn text" onclick="{!c.doSelectNoSites}">{!$Label.c.BTN_Click_here}</button>
-                                                &nbsp;
-                                                {!$Label.c.PG_SDAS_L_not_acceptable}
+                                                <button
+                                                    class="apollo-btn text"
+                                                    onclick="{!c.doSelectNoSites}"
+                                                >
+                                                    {!$Label.c.BTN_Click_here}
+                                                </button>
+                                                &nbsp; {!$Label.c.PG_SDAS_L_not_acceptable}
                                             </div>
                                         </aura:if>
                                     </div>
@@ -168,21 +242,31 @@
                     </div>
 
                     <!-- center column separator: -->
-                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-12 slds-order_3 slds-medium-order_2"></div>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-12 slds-order_3 slds-medium-order_2"
+                    ></div>
 
                     <!-- right info section -->
-                    <div id="info-right" class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-order_2 slds-medium-order_3">
-
+                    <div
+                        id="info-right"
+                        class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-order_2 slds-medium-order_3"
+                    >
                         <aura:if isTrue="{!v.userMode != 'Participant'}">
                             <div class="slds-grid slds-wrap socialnetworks-section">
                                 <!-- terms and conditions action -->
                                 <div class="slds-col slds-size_1-of-2">
-                                    <aura:if isTrue="{!v.studyDetail.trial.Terms_And_Conditions_ID__c}">
+                                    <aura:if
+                                        isTrue="{!v.studyDetail.trial.Terms_And_Conditions_ID__c}"
+                                    >
                                         <div class="slds-grid slvi-section">
                                             <div class="slds-col btn-wrapper">
-                                                <div id="viewTermsAndConditions" class="slvi-btn" onclick="{!c.doAction}">
+                                                <div
+                                                    id="viewTermsAndConditions"
+                                                    class="slvi-btn"
+                                                    onclick="{!c.doAction}"
+                                                >
                                                     <div class="btn-content">
-                                                        <c:RRIcon iconName="paper-many"/>
+                                                        <c:RRIcon iconName="paper-many" />
                                                         {!$Label.c.BTN_View_terms_and_conditions}
                                                     </div>
                                                 </div>
@@ -194,57 +278,93 @@
                                 <div class="slds-col slds-size_1-of-2 socialnetworks">
                                     <aura:if isTrue="{!!empty(v.studyDetail.trial.NCT_Number__c)}">
                                         <div class="rri-icon slds-float_right">
-                                            <a href="javascript:void(0);" data-id="email" onclick="{!c.onShareClick}">
-                                            <span class="slds-m-around_x-small">
-                                                <c:RRIcon iconName="icon-mail" id="icon-mail" color="#297DFD"/>
-                                            </span>
+                                            <a
+                                                href="javascript:void(0);"
+                                                data-id="email"
+                                                onclick="{!c.onShareClick}"
+                                            >
+                                                <span class="slds-m-around_x-small">
+                                                    <c:RRIcon
+                                                        iconName="icon-mail"
+                                                        id="icon-mail"
+                                                        color="#297DFD"
+                                                    />
+                                                </span>
                                             </a>
-                                            <a href="javascript:void(0);" data-id="facebook" onclick="{!c.onShareClick}">
-                                            <span class="slds-m-around_x-small">
-                                                <c:RRIcon iconName="icon-facebook-2" id="icon-facebook" color="#475993"/>
-                                            </span>
+                                            <a
+                                                href="javascript:void(0);"
+                                                data-id="facebook"
+                                                onclick="{!c.onShareClick}"
+                                            >
+                                                <span class="slds-m-around_x-small">
+                                                    <c:RRIcon
+                                                        iconName="icon-facebook-2"
+                                                        id="icon-facebook"
+                                                        color="#475993"
+                                                    />
+                                                </span>
                                             </a>
-                                            <a href="javascript:void(0);" data-id="twitter" onclick="{!c.onShareClick}">
-                                            <span class="slds-m-around_x-small">
-                                                <c:RRIcon iconName="icon-twitter" id="icon-twitter" color="#2AA2EE"/>
-                                            </span>
+                                            <a
+                                                href="javascript:void(0);"
+                                                data-id="twitter"
+                                                onclick="{!c.onShareClick}"
+                                            >
+                                                <span class="slds-m-around_x-small">
+                                                    <c:RRIcon
+                                                        iconName="icon-twitter"
+                                                        id="icon-twitter"
+                                                        color="#2AA2EE"
+                                                    />
+                                                </span>
                                             </a>
-                                            <a href="javascript:void(0);" data-id="linkedin" onclick="{!c.onShareClick}">
-                                            <span class="slds-m-around_x-small">
-                                                <c:RRIcon iconName="icon-linkedin-2" id="icon-linkedin" color="#0077B7"/>
-                                            </span>
+                                            <a
+                                                href="javascript:void(0);"
+                                                data-id="linkedin"
+                                                onclick="{!c.onShareClick}"
+                                            >
+                                                <span class="slds-m-around_x-small">
+                                                    <c:RRIcon
+                                                        iconName="icon-linkedin-2"
+                                                        id="icon-linkedin"
+                                                        color="#0077B7"
+                                                    />
+                                                </span>
                                             </a>
                                         </div>
                                     </aura:if>
                                 </div>
                             </div>
                         </aura:if>
-<!--                        <aura:if isTrue="{!v.userMode != 'Participant'}">-->
-<!--                            <div class="title">{!$Label.c.PG_SW_F_Study_Documents}</div>-->
-<!--                            <div class="docs-conteiner">-->
-<!--                                <aura:iteration items="{!v.studyDetail.resources}" var="resourceWrapper">-->
-<!--                                    <div class="doc-item">-->
-<!--                                        <c:ResourceLink resourceWrapper="{!resourceWrapper}"/>-->
-<!--                                    </div>-->
-<!--                                </aura:iteration>-->
-<!--                            </div>-->
-<!--                        </aura:if>-->
+                        <!--                        <aura:if isTrue="{!v.userMode != 'Participant'}">-->
+                        <!--                            <div class="title">{!$Label.c.PG_SW_F_Study_Documents}</div>-->
+                        <!--                            <div class="docs-conteiner">-->
+                        <!--                                <aura:iteration items="{!v.studyDetail.resources}" var="resourceWrapper">-->
+                        <!--                                    <div class="doc-item">-->
+                        <!--                                        <c:ResourceLink resourceWrapper="{!resourceWrapper}"/>-->
+                        <!--                                    </div>-->
+                        <!--                                </aura:iteration>-->
+                        <!--                            </div>-->
+                        <!--                        </aura:if>-->
 
-                        <div class="sdas-main-info" style="position: relative;">
-                            <c:RRSpinner aura:id="mainSpinner" size="medium"/>
+                        <div class="sdas-main-info" style="position: relative">
+                            <c:RRSpinner aura:id="mainSpinner" size="medium" />
 
                             <div class="title">{!$Label.c.PG_SW_F_Official_Title}</div>
                             <div class="text">{!v.studyDetail.trial.Official_Title__c}</div>
 
                             <div class="title">{!$Label.c.PG_SW_F_Condition}</div>
-                            <div class="text">{!v.studyDetail.trial.Condition_s_Therapeutic_Area__c}</div>
+                            <div class="text">
+                                {!v.studyDetail.trial.Condition_s_Therapeutic_Area__c}
+                            </div>
 
                             <div class="title">{!$Label.c.PG_SW_F_Study_Type}</div>
                             <div class="text">{!v.studyDetail.trial.Study_Type__c}</div>
 
                             <aura:if isTrue="{!!empty(v.studyDetail.trial.Interventions__c)}">
                                 <div class="title">{!$Label.c.PG_SW_F_Investigational_product}</div>
-                                <div class="text" style="white-space: pre-line">{!v.studyDetail.trial.Interventions__c}</div>
+                                <div class="text" style="white-space: pre-line">
+                                    {!v.studyDetail.trial.Interventions__c}
+                                </div>
                             </aura:if>
 
                             <div class="title">{!$Label.c.PG_SW_F_Phase}</div>
@@ -255,7 +375,9 @@
                             <div class="title">{!$Label.c.PG_SW_F_Sponsor}</div>
                             <div class="text">{!v.studyDetail.trial.Study_Sponsor__c}</div>
 
-                            <div class="title">{!$Label.c.PG_SW_F_ClinicalTrials_gov_Identifier}</div>
+                            <div class="title">
+                                {!$Label.c.PG_SW_F_ClinicalTrials_gov_Identifier}
+                            </div>
                             <div class="text">{!v.studyDetail.trial.NCT_Number__c}</div>
 
                             <div class="title">{!$Label.c.PG_SW_F_Study_number}</div>
@@ -264,16 +386,28 @@
                             <div class="sdas-full-separator"></div>
 
                             <div class="title">{!$Label.c.PG_SW_F_Enrollment_Status}</div>
-                            <div class="text">{!v.studyDetail.trial.Override_Recruitment_Status__c}</div>
+                            <div class="text">
+                                {!v.studyDetail.trial.Override_Recruitment_Status__c}
+                            </div>
 
-                            <aura:if isTrue="{!!empty(v.studyDetail.trial.Enrollment_Start_Date__c)}">
+                            <aura:if
+                                isTrue="{!!empty(v.studyDetail.trial.Enrollment_Start_Date__c)}"
+                            >
                                 <div class="title">{!$Label.c.PG_SW_F_Enrollment_Start_Date}</div>
-                                <div class="text"><ui:outputDate value="{!v.studyDetail.trial.Enrollment_Start_Date__c}"/></div>
+                                <div class="text">
+                                    <ui:outputDate
+                                        value="{!v.studyDetail.trial.Enrollment_Start_Date__c}"
+                                    />
+                                </div>
                             </aura:if>
 
                             <aura:if isTrue="{!!empty(v.studyDetail.trial.Enrolled_End_Date__c)}">
                                 <div class="title">{!$Label.c.PG_SW_F_Enrollment_End_Date}</div>
-                                <div class="text"><ui:outputDate value="{!v.studyDetail.trial.Enrolled_End_Date__c}"/></div>
+                                <div class="text">
+                                    <ui:outputDate
+                                        value="{!v.studyDetail.trial.Enrolled_End_Date__c}"
+                                    />
+                                </div>
                             </aura:if>
                         </div>
                     </div>
@@ -293,5 +427,10 @@
             </aura:iteration>
         </c:RRBottomBar>
     </aura:if> -->
-    <c:ShareModal aura:id="emailModal" needRefresh="false" emailType="SOCIAL_SHARING" parent="{!v.parent}"/>
+    <c:ShareModal
+        aura:id="emailModal"
+        needRefresh="false"
+        emailType="SOCIAL_SHARING"
+        parent="{!v.parent}"
+    />
 </aura:component>

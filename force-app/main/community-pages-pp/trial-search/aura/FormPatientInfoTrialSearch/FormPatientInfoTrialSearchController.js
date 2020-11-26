@@ -11,11 +11,10 @@
     },
 
     doCheckFields: function (component, event, hepler) {
-        
         var participant = component.get('v.participantInfo');
         // var stateRequired = component.get('v.statesLVList')[0];
-        var numbers=/^[0-9]*$/;
-        var phoneField=component.find('pField2');
+        var numbers = /^[0-9]*$/;
+        var phoneField = component.find('pField2');
         let isValid =
             participant.First_Name__c &&
             participant.Last_Name__c &&
@@ -28,46 +27,39 @@
             component.find('emailInput').get('v.validity').valid;
         if (isValid) {
             component.set('v.isValid', true);
-            if ((numbers.test(participant.Phone__c)  && participant.Phone__c)) {
-                phoneField.setCustomValidity(""); 
+            if (numbers.test(participant.Phone__c) && participant.Phone__c) {
+                phoneField.setCustomValidity('');
                 phoneField.reportValidity();
             }
         } else {
-            if ((!numbers.test(participant.Phone__c)  || !participant.Phone__c)) {
-                if(!participant.Phone__c){
-                    phoneField.setCustomValidity("Phone number is mandatory");
+            if (!numbers.test(participant.Phone__c) || !participant.Phone__c) {
+                if (!participant.Phone__c) {
+                    phoneField.setCustomValidity('Phone number is mandatory');
+                    phoneField.reportValidity();
+                } else {
+                    phoneField.setCustomValidity('Phone number must be numeric');
                     phoneField.reportValidity();
                 }
-                else{
-                    phoneField.setCustomValidity("Phone number must be numeric");
-                    phoneField.reportValidity();
-                }
-                
             } else {
-                phoneField.setCustomValidity(""); 
+                phoneField.setCustomValidity('');
                 phoneField.reportValidity();
             }
             component.set('v.isValid', false);
         }
-        
-        
-        
     },
-    handleHomePhoneValidation:function(component,event) {
-        var inputValue = event.getSource().get("v.value");
-        var phoneField=component.find('pField2');
-        var numbers=/^[0-9]*$/;
-        if(inputValue===""){
-            phoneField.setCustomValidity("");  
+    handleHomePhoneValidation: function (component, event) {
+        var inputValue = event.getSource().get('v.value');
+        var phoneField = component.find('pField2');
+        var numbers = /^[0-9]*$/;
+        if (inputValue === '') {
+            phoneField.setCustomValidity('');
         }
-       if ((!numbers.test(inputValue)  && inputValue!=="")) {
-        phoneField.setCustomValidity("Phone number must be numeric");
-        component.set('v.isValid', false);
-
+        if (!numbers.test(inputValue) && inputValue !== '') {
+            phoneField.setCustomValidity('Phone number must be numeric');
+            component.set('v.isValid', false);
         } else {
-            phoneField.setCustomValidity(""); // reset custom error 
+            phoneField.setCustomValidity(''); // reset custom error
             component.set('v.isValid', true);
-
         }
         phoneField.reportValidity();
     },
@@ -90,19 +82,20 @@
             let copyParticipant = JSON.parse(JSON.stringify(component.get('v.participant')));
             component.set('v.participantInfo', copyParticipant);
         } else {
-            let participant = {sobjectType:'Participant__c',
-                First_Name__c:'',
-                Last_Name__c:'',
-                Date_of_Birth__c:'',
-                Gender__c:'',
-                Phone__c:'',
-                Phone_Type__c:'',
-                Email__c:'',
-                Mailing_Country_Code__c:'',
-                Mailing_State_Code__c:'',
-                Mailing_Zip_Postal_Code__c:'',
+            let participant = {
+                sobjectType: 'Participant__c',
+                First_Name__c: '',
+                Last_Name__c: '',
+                Date_of_Birth__c: '',
+                Gender__c: '',
+                Phone__c: '',
+                Phone_Type__c: '',
+                Email__c: '',
+                Mailing_Country_Code__c: '',
+                Mailing_State_Code__c: '',
+                Mailing_Zip_Postal_Code__c: ''
             };
             component.set('v.participantInfo', participant);
         }
     }
-})
+});

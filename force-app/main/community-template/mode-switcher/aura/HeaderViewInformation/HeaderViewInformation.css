@@ -2,16 +2,16 @@
  * Created by Nargiz Mamedova on 6/10/2020.
  */
 
-.THIS.header-container{
+.THIS.header-container {
     width: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
-    border-bottom: 1px solid #F8F9FB;
+    border-bottom: 1px solid #f8f9fb;
 }
 
-.THIS .avatar-icon{
-    background-color: #DF216D;
+.THIS .avatar-icon {
+    background-color: #df216d;
     height: 55px;
     width: 55px;
     margin: 18px;
@@ -24,7 +24,7 @@
     height: 55px;
 }
 
-.THIS .delegate-avatar{
+.THIS .delegate-avatar {
     height: 38px;
     width: 38px;
     margin-top: 15%;
@@ -38,9 +38,9 @@
     margin-left: 31%;
 }
 
-.THIS .user-name{
+.THIS .user-name {
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 18px;
     font-weight: 600;
     line-height: 24px;
@@ -50,9 +50,9 @@
     white-space: normal;
 }
 
-.THIS .user-mode{
+.THIS .user-mode {
     color: #595959;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: 500;
     line-height: 17px;
