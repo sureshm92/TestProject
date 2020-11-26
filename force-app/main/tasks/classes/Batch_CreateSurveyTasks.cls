@@ -3,7 +3,6 @@
  */
 
 public class Batch_CreateSurveyTasks implements Database.Batchable<InvitationsWrapper>, Database.Stateful {
-
     private Map<Id, String> invitationsVisible;
     private Map<Id, String> failedInvitation;
 
@@ -11,7 +10,12 @@ public class Batch_CreateSurveyTasks implements Database.Batchable<InvitationsWr
     private Integer taskCreated;
     private Integer launchCount;
 
-    public Batch_CreateSurveyTasks(Map<Id, String> invitationsVisible, Id userId, Integer taskCreated, Integer launchCount) {
+    public Batch_CreateSurveyTasks(
+        Map<Id, String> invitationsVisible,
+        Id userId,
+        Integer taskCreated,
+        Integer launchCount
+    ) {
         this.invitationsVisible = invitationsVisible;
         this.failedInvitation = new Map<Id, String>();
         this.userId = userId;
@@ -30,7 +34,8 @@ public class Batch_CreateSurveyTasks implements Database.Batchable<InvitationsWr
 
     public void execute(Database.BatchableContext param1, List<InvitationsWrapper> wrappers) {
         Map<Id, String> invVisible = new Map<Id, String>();
-        for (InvitationsWrapper wrapper : wrappers) invVisible.put(wrapper.invitationId, wrapper.visibleMode);
+        for (InvitationsWrapper wrapper : wrappers)
+            invVisible.put(wrapper.invitationId, wrapper.visibleMode);
 
         try {
             taskCreated += TaskService.getInstance().createSurveyTasks(invVisible);
@@ -42,32 +47,39 @@ public class Batch_CreateSurveyTasks implements Database.Batchable<InvitationsWr
     public void finish(Database.BatchableContext param1) {
         if (!failedInvitation.isEmpty() && launchCount < 3 && !Test.isRunningTest()) {
             Database.executeBatch(
-                    new Batch_CreateSurveyTasks(failedInvitation, userId, taskCreated, ++launchCount), 30);
+                new Batch_CreateSurveyTasks(failedInvitation, userId, taskCreated, ++launchCount),
+                30
+            );
         } else {
             //Send email to Admin
             try {
                 List<Id> failedContactIds;
-                if (!failedInvitation.isEmpty()) failedContactIds = countFailedTask(failedInvitation);
+                if (!failedInvitation.isEmpty())
+                    failedContactIds = countFailedTask(failedInvitation);
 
                 Messaging.SingleEmailMessage emailMessage = new Messaging.SingleEmailMessage();
                 List<User> user = [SELECT Id, Email FROM User WHERE Id = :userId];
-                emailMessage.setToAddresses(new List<String>{user.get(0).Email});
+                emailMessage.setToAddresses(new List<String>{ user.get(0).Email });
                 emailMessage.setSubject('Batch Create Survey Task');
 
-                String messageBody = 'Task(s) created = ' + taskCreated
-                        + '. Task(s) failed = ' + (failedContactIds == null ? '0' : '' + (failedContactIds.size() + '\n'));
-                if(failedContactIds != null) {
+                String messageBody =
+                    'Task(s) created = ' +
+                    taskCreated +
+                    '. Task(s) failed = ' +
+                    (failedContactIds == null ? '0' : '' + (failedContactIds.size() + '\n'));
+                if (failedContactIds != null) {
                     messageBody += 'Failed contact ids:\n';
-                    for(Integer i = 0; i < failedContactIds.size(); i++) {
+                    for (Integer i = 0; i < failedContactIds.size(); i++) {
                         messageBody += failedContactIds.get(i) + ', ';
-                        if(Math.mod(3, i + 1) == 0) messageBody += '\n';
+                        if (Math.mod(3, i + 1) == 0)
+                            messageBody += '\n';
                     }
 
                     messageBody = messageBody.removeEnd(', ');
                 }
 
                 emailMessage.setPlainTextBody(messageBody);
-                Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{emailMessage});
+                Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ emailMessage });
             } catch (Exception e) {
                 System.debug(e.getMessage());
             }
@@ -75,36 +87,40 @@ public class Batch_CreateSurveyTasks implements Database.Batchable<InvitationsWr
     }
 
     public static void launch(Map<Id, String> invitationsVisible) {
-        Database.executeBatch(new Batch_CreateSurveyTasks(invitationsVisible, UserInfo.getUserId(), 0, 1), 30);
+        Database.executeBatch(
+            new Batch_CreateSurveyTasks(invitationsVisible, UserInfo.getUserId(), 0, 1),
+            30
+        );
     }
 
     @TestVisible
     private static List<Id> countFailedTask(Map<Id, String> invitationsVisible) {
-        Map<Id, SurveyInvitation> surveyInvitation = new Map<Id, SurveyInvitation>([
-                SELECT
-                        Id,
-                        Participant_Enrollment__r.Participant_Contact__c
+        Map<Id, SurveyInvitation> surveyInvitation = new Map<Id, SurveyInvitation>(
+            [
+                SELECT Id, Participant_Enrollment__r.Participant_Contact__c
                 FROM SurveyInvitation
-                WHERE Id IN:invitationsVisible.keySet()
-        ]);
+                WHERE Id IN :invitationsVisible.keySet()
+            ]
+        );
         Map<Id, List<Id>> delegatesByParticipant = new Map<Id, List<Id>>();
         for (SurveyInvitation inv : surveyInvitation.values()) {
-            delegatesByParticipant.put(inv.Participant_Enrollment__r.Participant_Contact__c, new List<Id>());
+            delegatesByParticipant.put(
+                inv.Participant_Enrollment__r.Participant_Contact__c,
+                new List<Id>()
+            );
         }
 
         List<Patient_Delegate__c> patientDelegates = [
-                SELECT Id,
-                        Contact__c,
-                        Participant__r.Contact__c
-                FROM Patient_Delegate__c
-                WHERE Participant__r.Contact__c IN:delegatesByParticipant.keySet()
+            SELECT Id, Contact__c, Participant__r.Contact__c
+            FROM Patient_Delegate__c
+            WHERE Participant__r.Contact__c IN :delegatesByParticipant.keySet()
         ];
         for (Patient_Delegate__c pd : patientDelegates) {
             delegatesByParticipant.get(pd.Participant__r.Contact__c).add(pd.Contact__c);
         }
 
         List<Id> failedContactIds = new List<Id>();
-        for(Id invId : invitationsVisible.keySet()) {
+        for (Id invId : invitationsVisible.keySet()) {
             String visible = invitationsVisible.get(invId);
             Id pcId = surveyInvitation.get(invId).Participant_Enrollment__r.Participant_Contact__c;
             switch on visible {

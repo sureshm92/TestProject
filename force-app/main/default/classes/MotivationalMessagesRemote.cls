@@ -3,49 +3,63 @@
  */
 
 public without sharing class MotivationalMessagesRemote {
-
     @AuraEnabled
     public static String getMotivationalMessage(String userMode) {
         try {
-            if (userMode != CommunityService.USER_MODE_PARTICIPANT) return null;
+            if (userMode != CommunityService.USER_MODE_PARTICIPANT)
+                return null;
             ParticipantService.ParticipantState participantState = ParticipantService.getParticipantState();
             CommunityMode communityMode = UserContext.getCurrentUserMode();
-            if (!communityMode.isDelegate && participantState.value != ParticipantService.ParticipantStates.PARTICIPANT || !participantState.isPremium) return null;
-
+            if (
+                !communityMode.isDelegate &&
+                participantState.value != ParticipantService.ParticipantStates.PARTICIPANT ||
+                !participantState.isPremium
+            )
+                return null;
 
             Participant_Enrollment_Status_History__c[] enrolledHistoryList = [
-                    SELECT Id, Date__c
-                    FROM Participant_Enrollment_Status_History__c
-                    WHERE ParticipantEnrollment__c = :participantState.pe.Id AND Status__c = :PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
+                SELECT Id, Date__c
+                FROM Participant_Enrollment_Status_History__c
+                WHERE
+                    ParticipantEnrollment__c = :participantState.pe.Id
+                    AND Status__c = :PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
             ];
-            if (enrolledHistoryList.size() == 0) return null;
+            if (enrolledHistoryList.size() == 0)
+                return null;
             List<Motivational_Message__c> messages = [
-                    SELECT
-                            Id, Name,
-                            Number_of_Days_Active_after_Enrollment__c,
-                            Clinical_Trial_Profile__c,
-                            Message__c
-                    FROM Motivational_Message__c
-                    WHERE Clinical_Trial_Profile__c = :participantState.pe.Clinical_Trial_Profile__c
-                    ORDER BY Number_of_Days_Active_after_Enrollment__c, Name ASC
-            ]; if (messages.isEmpty()) return null;
+                SELECT
+                    Id,
+                    Name,
+                    Number_of_Days_Active_after_Enrollment__c,
+                    Clinical_Trial_Profile__c,
+                    Message__c
+                FROM Motivational_Message__c
+                WHERE Clinical_Trial_Profile__c = :participantState.pe.Clinical_Trial_Profile__c
+                ORDER BY Number_of_Days_Active_after_Enrollment__c, Name ASC
+            ];
+            if (messages.isEmpty())
+                return null;
             Date enrolledDate = enrolledHistoryList[0].Date__c.date();
 
             Motivational_Message__c messageForShow;
             for (Motivational_Message__c msg : messages) {
-                Date messageDate = enrolledDate.addDays(msg.Number_of_Days_Active_after_Enrollment__c.intValue());
-                if (messageDate <= Date.today()) messageForShow = msg;
+                Date messageDate = enrolledDate.addDays(
+                    msg.Number_of_Days_Active_after_Enrollment__c.intValue()
+                );
+                if (messageDate <= Date.today())
+                    messageForShow = msg;
             }
-            if (messageForShow == null) return null;
+            if (messageForShow == null)
+                return null;
 
             TranslateHelper.translate(messageForShow);
 
             String resultMessage = getMessage(messageForShow, participantState);
 
             resultMessage = CatalogParametersHelper.prepareMergeFields(
-                    resultMessage,
-                    participantState.ctp.Id,
-                    'Email_Template_Parameters_From_CTP'
+                resultMessage,
+                participantState.ctp.Id,
+                'Email_Template_Parameters_From_CTP'
             );
             return resultMessage;
         } catch (Exception e) {
@@ -54,9 +68,14 @@ public without sharing class MotivationalMessagesRemote {
         return null;
     }
 
-    private static String getMessage(Motivational_Message__c messageForShow, ParticipantService.ParticipantState participantState) {
-        if (messageForShow == null) return null;
-        if (participantState.pe.Motivational_Message_Id__c == messageForShow.Id) return null;
+    private static String getMessage(
+        Motivational_Message__c messageForShow,
+        ParticipantService.ParticipantState participantState
+    ) {
+        if (messageForShow == null)
+            return null;
+        if (participantState.pe.Motivational_Message_Id__c == messageForShow.Id)
+            return null;
 
         participantState.pe.Motivational_Message_Id__c = messageForShow.Id;
         update participantState.pe;

@@ -3,25 +3,26 @@
  */
 
 public without sharing class AlertsRemote {
-    
     @AuraEnabled
-    public static String getAlerts(String userMode){
+    public static String getAlerts(String userMode) {
         try {
-            List<Alert> alerts = Alert.getContactAlerts(CommunityService.getUserContact().Id, userMode);
+            List<Alert> alerts = Alert.getContactAlerts(
+                CommunityService.getUserContact().Id,
+                userMode
+            );
             return JSON.serialize(alerts);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
     }
-    
+
     @AuraEnabled
-    public static void setAlertViewed(Id alertId){
-        try{
+    public static void setAlertViewed(Id alertId) {
+        try {
             Alert__c alert = new Alert__c(Id = alertId, Viewed__c = true);
             update alert;
-        }catch (Exception e){
+        } catch (Exception e) {
             AuraHelper.throwException(e);
         }
     }
-
 }

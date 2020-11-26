@@ -5,8 +5,14 @@
 @IsTest
 public class Test_PaymentsRemote {
     public class ParticipantServiceMock implements System.StubProvider {
-        public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
-                List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs) {
+        public Object handleMethodCall(
+            Object stubbedObject,
+            String stubbedMethodName,
+            Type returnType,
+            List<Type> listOfParamTypes,
+            List<String> listOfParamNames,
+            List<Object> listOfArgs
+        ) {
             if (stubbedMethodName == 'getState') {
                 return new ParticipantService.ParticipantState();
             }

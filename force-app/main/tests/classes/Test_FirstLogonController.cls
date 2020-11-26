@@ -4,8 +4,7 @@
 
 @IsTest(IsParallel=false)
 private class Test_FirstLogonController {
-
-    @IsTest//(SeeAllData=true)
+    @IsTest //(SeeAllData=true)
     public static void testFirstLogonController() {
         TestData.loadTestData();
         TestData testData = new TestData();

@@ -3,11 +3,11 @@
  */
 
 global class DelegateLevelWrapper implements Comparable {
-    
-    global String level {get; set;}
-    global String studyName {get; set;}
+    global String level { get; set; }
+    global String studyName { get; set; }
 
-    public DelegateLevelWrapper() {}
+    public DelegateLevelWrapper() {
+    }
 
     public DelegateLevelWrapper(String level, String studyName) {
         this.level = level;
@@ -20,6 +20,6 @@ global class DelegateLevelWrapper implements Comparable {
         } else if (studyName < ((DelegateLevelWrapper) compareTo).studyName) {
             return -1;
         }
-        return 0; 
+        return 0;
     }
 }

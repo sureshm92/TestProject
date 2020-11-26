@@ -3,11 +3,9 @@
  */
 
 public without sharing class UserTriggerHandler {
-
     // Handlers: -------------------------------------------------------------------------------------------------------
 
     public class UpdateLanguageOnRelatedContactsHandler extends TriggerHandler {
-
         public override void afterInsert(List<SObject> newList) {
             updateLanguageOnRelatedContacts(newList, null);
         }
@@ -18,39 +16,33 @@ public without sharing class UserTriggerHandler {
     }
 
     public class UpdateEmailOnRelatedContactsHandler extends TriggerHandler {
-
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             updateEmailOnRelatedContacts(newList, (Map<Id, User>) oldMap);
         }
     }
 
     public class CreateCompleteYourProfileTaskHandler extends TriggerHandler {
-
         public override void afterInsert(List<SObject> newList) {
             createCompleteYourProfileTask(newList);
         }
     }
 
     public class UpdateUserRoleHandler extends TriggerHandler {
-
         public override void beforeInsert(List<SObject> newList) {
             updateUserRoleToSPNL(newList);
         }
     }
 
     public class AssignCommunityPermissionSetToUserHandler extends TriggerHandler {
-
         public override void afterInsert(List<SObject> newList) {
             assignCommunityPermissionSetToUser(newList);
         }
     }
 
     public class AssignPendingTasksHandler extends TriggerHandler {
-
         public override void afterInsert(List<SObject> newList) {
             assignTasks(newList);
         }
-
     }
 
     // Logic: ----------------------------------------------------------------------------------------------------------
@@ -59,32 +51,36 @@ public without sharing class UserTriggerHandler {
     private static void updateLanguageOnRelatedContacts(List<User> newList, Map<Id, User> oldMap) {
         List<Contact> contactsForUpdate = new List<Contact>();
         for (User user : newList) {
-            if (user.ContactId == null) continue;
-            if (oldMap == null || (oldMap != null && oldMap.get(user.Id).LanguageLocaleKey != user.LanguageLocaleKey)) {
-                contactsForUpdate.add(new Contact(
-                        Id = user.ContactId,
-                        Language__c = user.LanguageLocaleKey
-                ));
+            if (user.ContactId == null)
+                continue;
+            if (
+                oldMap == null ||
+                (oldMap != null &&
+                oldMap.get(user.Id).LanguageLocaleKey != user.LanguageLocaleKey)
+            ) {
+                contactsForUpdate.add(
+                    new Contact(Id = user.ContactId, Language__c = user.LanguageLocaleKey)
+                );
             }
         }
-        if (contactsForUpdate.size() > 0) update contactsForUpdate;
+        if (contactsForUpdate.size() > 0)
+            update contactsForUpdate;
     }
 
     @TestVisible
     private static void updateEmailOnRelatedContacts(List<User> newList, Map<Id, User> oldMap) {
         List<Contact> changeEmailContacts = new List<Contact>();
         for (User user : newList) {
-            if (user.ContactId == null) continue;
+            if (user.ContactId == null)
+                continue;
             if (oldMap.get(user.Id).Email != user.Email) {
                 if (user.ContactId != null) {
-                    changeEmailContacts.add(new Contact(
-                            Id = user.ContactId,
-                            Email = user.Email
-                    ));
+                    changeEmailContacts.add(new Contact(Id = user.ContactId, Email = user.Email));
                 }
             }
         }
-        if (changeEmailContacts.size() > 0) update changeEmailContacts;
+        if (changeEmailContacts.size() > 0)
+            update changeEmailContacts;
     }
 
     @TestVisible
@@ -100,20 +96,30 @@ public without sharing class UserTriggerHandler {
     private static void createCompleteYourProfileTask(List<User> newList) {
         Set<Id> userContactIds = new Set<Id>();
         for (User user : newList) {
-            if (user.ContactId != null) userContactIds.add(user.ContactId);
+            if (user.ContactId != null)
+                userContactIds.add(user.ContactId);
         }
 
-        List<Participant__c> participants = [SELECT Id, Contact__c FROM Participant__c WHERE Contact__c IN:userContactIds];
+        List<Participant__c> participants = [
+            SELECT Id, Contact__c
+            FROM Participant__c
+            WHERE Contact__c IN :userContactIds
+        ];
         Map<Id, Id> participantByContact = new Map<Id, Id>();
-        for (Participant__c participant : participants) participantByContact.put(participant.Contact__c, participant.Id);
+        for (Participant__c participant : participants)
+            participantByContact.put(participant.Contact__c, participant.Id);
 
         List<Task> tasksForInsert = new List<Task>();
         for (User user : newList) {
-            if (user.ContactId != null && user.ProfileId == CommunityService.COMMUNITY_USER_PROFILE_ID) {
+            if (
+                user.ContactId != null &&
+                user.ProfileId == CommunityService.COMMUNITY_USER_PROFILE_ID
+            ) {
                 Id participantId = participantByContact.get(user.ContactId);
                 if (participantId != null) {
                     tasksForInsert.add(
-                            TaskService.getInstance().createCompleteYourProfileTask(user.Id, participantId, user.ContactId)
+                        TaskService.getInstance()
+                            .createCompleteYourProfileTask(user.Id, participantId, user.ContactId)
                     );
                 }
             }
@@ -121,30 +127,31 @@ public without sharing class UserTriggerHandler {
         insert tasksForInsert;
     }
 
-@TestVisible
-    private static void assignCommunityPermissionSetToUser(List<User> insertedUsers) 
-    {
+    @TestVisible
+    private static void assignCommunityPermissionSetToUser(List<User> insertedUsers) {
         List<User> rhUsers = [
-                SELECT Id,
-                       ContactId,
-                       Contact.userCommunityMode__c,
-                       Contact.userCommunytyType__c
-                FROM User
-                WHERE Id IN:insertedUsers
+            SELECT Id, ContactId, Contact.userCommunityMode__c, Contact.userCommunytyType__c
+            FROM User
+            WHERE
+                Id IN :insertedUsers
                 AND ContactId != NULL
-                AND Contact.userCommunityMode__c != 'Participant' And CreatedBy.Name != 'Covid-19 Site Guest User'
+                AND Contact.userCommunityMode__c != 'Participant'
+                AND CreatedBy.Name != 'Covid-19 Site Guest User'
         ];
 
         Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
-        if(rhUsers != null)
-        {
+        if (rhUsers != null) {
             Set<Id> piIds = new Set<Id>();
             for (User user : rhUsers) {
-                if (!String.isBlank(user.Contact.userCommunytyType__c) && user.Contact.userCommunytyType__c.contains('PI')) {
+                if (
+                    !String.isBlank(user.Contact.userCommunytyType__c) &&
+                    user.Contact.userCommunytyType__c.contains('PI')
+                ) {
                     piIds.add(user.ContactId);
                 } else {
                     actionAssignContactPermissions.addPermission(
-                            user.ContactId, CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME
+                        user.ContactId,
+                        CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME
                     );
                 }
 
@@ -152,52 +159,69 @@ public without sharing class UserTriggerHandler {
                     ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
                 }
             }
-            if(!piIds.isEmpty()){
+            if (!piIds.isEmpty()) {
                 Map<String, Set<Id>> commUserPermission = new Map<String, Set<Id>>{
-                        CommunityTemplateService.TEMPLATE_DEFAULT => new Set<Id>(),
-                        CommunityTemplateService.TEMPLATE_JANSSEN => new Set<Id>()
+                    CommunityTemplateService.TEMPLATE_DEFAULT => new Set<Id>(),
+                    CommunityTemplateService.TEMPLATE_JANSSEN => new Set<Id>()
                 };
                 List<Study_Site__c> ssList = [
-                        SELECT Id,
-                               Clinical_Trial_Profile__r.CommunityTemplate__c,
-                                Principal_Investigator__c
-                        FROM Study_Site__c
-                        WHERE Principal_Investigator__c IN : piIds
+                    SELECT
+                        Id,
+                        Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Principal_Investigator__c
+                    FROM Study_Site__c
+                    WHERE Principal_Investigator__c IN :piIds
                 ];
                 if (!ssList.isEmpty()) {
                     for (Integer i = 0, j = ssList.size(); i < j; i++) {
-                        if (ssList[i].Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN) {
-                            commUserPermission.get(CommunityTemplateService.TEMPLATE_JANSSEN).add(ssList[i].Principal_Investigator__c);
+                        if (
+                            ssList[i].Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                            CommunityTemplateService.TEMPLATE_JANSSEN
+                        ) {
+                            commUserPermission.get(CommunityTemplateService.TEMPLATE_JANSSEN)
+                                .add(ssList[i].Principal_Investigator__c);
                         } else {
-                            commUserPermission.get(CommunityTemplateService.TEMPLATE_DEFAULT).add(ssList[i].Principal_Investigator__c);
+                            commUserPermission.get(CommunityTemplateService.TEMPLATE_DEFAULT)
+                                .add(ssList[i].Principal_Investigator__c);
                         }
                     }
                 } else {
                     List<Site_Staff__c> delegatesSS = [
-                            SELECT Id,
-                                    Site_Contact__c,
-                                    Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c
-                            FROM Site_Staff__c
-                            WHERE Site_Contact__c IN :piIds
+                        SELECT
+                            Id,
+                            Site_Contact__c,
+                            Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+                        FROM Site_Staff__c
+                        WHERE Site_Contact__c IN :piIds
                     ];
-                    if(!delegatesSS.isEmpty()) {
+                    if (!delegatesSS.isEmpty()) {
                         for (Integer i = 0, j = delegatesSS.size(); i < j; i++) {
-                            if (delegatesSS[i].Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN) {
-                                commUserPermission.get(CommunityTemplateService.TEMPLATE_JANSSEN).add(delegatesSS[i].Site_Contact__c);
+                            if (
+                                delegatesSS[i]
+                                    .Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                                CommunityTemplateService.TEMPLATE_JANSSEN
+                            ) {
+                                commUserPermission.get(CommunityTemplateService.TEMPLATE_JANSSEN)
+                                    .add(delegatesSS[i].Site_Contact__c);
                             } else {
-                                commUserPermission.get(CommunityTemplateService.TEMPLATE_DEFAULT).add(delegatesSS[i].Site_Contact__c);
+                                commUserPermission.get(CommunityTemplateService.TEMPLATE_DEFAULT)
+                                    .add(delegatesSS[i].Site_Contact__c);
                             }
                         }
                     }
                 }
-                for(String community : commUserPermission.keySet()){
-                    for(Id contId : commUserPermission.get(community)){
-                        if(community == CommunityTemplateService.TEMPLATE_JANSSEN) {
+                for (String community : commUserPermission.keySet()) {
+                    for (Id contId : commUserPermission.get(community)) {
+                        if (community == CommunityTemplateService.TEMPLATE_JANSSEN) {
                             actionAssignContactPermissions.addPermission(
-                                    contId, CommunityTemplateService.PERMISSION_COMMUNITY_JANSSEN_NAME);
+                                contId,
+                                CommunityTemplateService.PERMISSION_COMMUNITY_JANSSEN_NAME
+                            );
                         } else {
                             actionAssignContactPermissions.addPermission(
-                                    contId, CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME);
+                                contId,
+                                CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME
+                            );
                         }
                     }
                 }
@@ -205,25 +229,25 @@ public without sharing class UserTriggerHandler {
                     ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
                 }
             }
-        }
-        else
-        {
+        } else {
             List<User> registryUsers = [
-                    SELECT Id, ContactId
-                    FROM User
-                    WHERE Id IN:insertedUsers
+                SELECT Id, ContactId
+                FROM User
+                WHERE
+                    Id IN :insertedUsers
                     AND ContactId != NULL
-                    AND Contact.userCommunityMode__c != 'Participant' 
+                    AND Contact.userCommunityMode__c != 'Participant'
             ];
-    
+
             Action_AssignContactPermissions registryActionAssignContactPermissions = new Action_AssignContactPermissions();
-           
+
             for (User user : registryUsers) {
                 registryActionAssignContactPermissions.addPermission(
-                        user.ContactId, CommunityTemplateService.PERMISSION_COMMUNITY_COVID19_NAME
+                    user.ContactId,
+                    CommunityTemplateService.PERMISSION_COMMUNITY_COVID19_NAME
                 );
             }
-            
+
             if (!registryActionAssignContactPermissions.isEmpty()) {
                 ActionExecutor.executeAsync(registryActionAssignContactPermissions, Datetime.now());
             }
@@ -244,18 +268,19 @@ public without sharing class UserTriggerHandler {
         Map<Id, TimeZone> userTimezoneMap = DateTimeConverterUtil.getUsersTimezoneMap(conIds);
 
         List<Task> tasks = [
-                SELECT Id,
-                        Activity_Datetime__c,
-                        OwnerId,
-                        Owner_Contact__c,
-                        Task_Type__c,
-                        Start_Date__c,
-                        ReminderDateTime,
-                        Reminder_Date__c,
-                        Survey_Invitation__r.ExpireDateTime__c,
-                        Survey_Invitation__r.Reminder_Schedule__r.First_Reminder_day__c
-                FROM Task
-                WHERE Owner_Contact__c IN:conIds
+            SELECT
+                Id,
+                Activity_Datetime__c,
+                OwnerId,
+                Owner_Contact__c,
+                Task_Type__c,
+                Start_Date__c,
+                ReminderDateTime,
+                Reminder_Date__c,
+                Survey_Invitation__r.ExpireDateTime__c,
+                Survey_Invitation__r.Reminder_Schedule__r.First_Reminder_day__c
+            FROM Task
+            WHERE Owner_Contact__c IN :conIds
         ];
         for (Task task : tasks) {
             User taskUser = usersByContactMap.get(task.Owner_Contact__c);
@@ -264,7 +289,11 @@ public without sharing class UserTriggerHandler {
 
             if (task.Task_Type__c == TaskService.TASK_TYPE_SURVEY) {
                 TimeZone userTZ = userTimezoneMap.get(taskUser.Id);
-                Datetime userDatetime = DateTimeConverterUtil.getUserDT(Datetime.now().date(), Datetime.now().time(), userTZ);
+                Datetime userDatetime = DateTimeConverterUtil.getUserDT(
+                    Datetime.now().date(),
+                    Datetime.now().time(),
+                    userTZ
+                );
 
                 task.Start_Date__c = userDatetime.date();
                 SurveyInvitation invitation = task.Survey_Invitation__r;

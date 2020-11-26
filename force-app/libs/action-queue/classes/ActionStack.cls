@@ -3,19 +3,18 @@
  */
 
 public without sharing class ActionStack {
-    
     private ActionChain actionChain;
-    
-    public void add(Action action){
-        if(actionChain == null){
+
+    public void add(Action action) {
+        if (actionChain == null) {
             actionChain = new ActionChain(action);
-        }else{
+        } else {
             actionChain = actionChain.next(action);
         }
     }
-    
-    public void run(){
-        if(actionChain != null) actionChain.runChain();
+
+    public void run() {
+        if (actionChain != null)
+            actionChain.runChain();
     }
-    
 }

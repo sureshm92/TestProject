@@ -17,7 +17,6 @@ public with sharing class TriggerHandlerExecutor {
     }
 
     private TriggerHandlerExecutor() {
-
     }
 
     public static void execute(System.Type handlerType) {
@@ -40,72 +39,87 @@ public with sharing class TriggerHandlerExecutor {
         }
         if (Trigger.isBefore) {
             if (Trigger.isInsert) {
-                if (!bypassHandlerTypesByEvent.containsKey(handlerType)
-                        || !bypassHandlerTypesByEvent.get(handlerType).contains(TriggerOperation.BEFORE_INSERT)) {
+                if (
+                    !bypassHandlerTypesByEvent.containsKey(handlerType) ||
+                    !bypassHandlerTypesByEvent.get(handlerType)
+                        .contains(TriggerOperation.BEFORE_INSERT)
+                ) {
                     handler.beforeInsert(Trigger.new);
                 }
-
             }
             if (Trigger.isUpdate) {
-                if (!bypassHandlerTypesByEvent.containsKey(handlerType)
-                        || !bypassHandlerTypesByEvent.get(handlerType).contains(TriggerOperation.BEFORE_UPDATE)) {
+                if (
+                    !bypassHandlerTypesByEvent.containsKey(handlerType) ||
+                    !bypassHandlerTypesByEvent.get(handlerType)
+                        .contains(TriggerOperation.BEFORE_UPDATE)
+                ) {
                     handler.beforeUpdate(Trigger.new, Trigger.oldMap);
                 }
             }
             if (Trigger.isDelete) {
-                if (!bypassHandlerTypesByEvent.containsKey(handlerType)
-                        || !bypassHandlerTypesByEvent.get(handlerType).contains(TriggerOperation.BEFORE_DELETE)) {
+                if (
+                    !bypassHandlerTypesByEvent.containsKey(handlerType) ||
+                    !bypassHandlerTypesByEvent.get(handlerType)
+                        .contains(TriggerOperation.BEFORE_DELETE)
+                ) {
                     handler.beforeDelete(Trigger.old);
                 }
             }
         }
         if (Trigger.isAfter) {
             if (Trigger.isInsert) {
-                if (!bypassHandlerTypesByEvent.containsKey(handlerType)
-                        || !bypassHandlerTypesByEvent.get(handlerType).contains(TriggerOperation.AFTER_INSERT)) {
+                if (
+                    !bypassHandlerTypesByEvent.containsKey(handlerType) ||
+                    !bypassHandlerTypesByEvent.get(handlerType)
+                        .contains(TriggerOperation.AFTER_INSERT)
+                ) {
                     handler.afterInsert(Trigger.new);
                 }
             }
             if (Trigger.isUpdate) {
-                if (!bypassHandlerTypesByEvent.containsKey(handlerType)
-                        || !bypassHandlerTypesByEvent.get(handlerType).contains(TriggerOperation.AFTER_UPDATE)) {
+                if (
+                    !bypassHandlerTypesByEvent.containsKey(handlerType) ||
+                    !bypassHandlerTypesByEvent.get(handlerType)
+                        .contains(TriggerOperation.AFTER_UPDATE)
+                ) {
                     handler.afterUpdate(Trigger.new, Trigger.oldMap);
                 }
             }
             if (Trigger.isDelete) {
-                if (!bypassHandlerTypesByEvent.containsKey(handlerType)
-                        || !bypassHandlerTypesByEvent.get(handlerType).contains(TriggerOperation.AFTER_DELETE)) {
+                if (
+                    !bypassHandlerTypesByEvent.containsKey(handlerType) ||
+                    !bypassHandlerTypesByEvent.get(handlerType)
+                        .contains(TriggerOperation.AFTER_DELETE)
+                ) {
                     handler.afterDelete(Trigger.old);
                 }
             }
             if (Trigger.isUndelete) {
-                if (!bypassHandlerTypesByEvent.containsKey(handlerType)
-                        || !bypassHandlerTypesByEvent.get(handlerType).contains(TriggerOperation.AFTER_UNDELETE)) {
+                if (
+                    !bypassHandlerTypesByEvent.containsKey(handlerType) ||
+                    !bypassHandlerTypesByEvent.get(handlerType)
+                        .contains(TriggerOperation.AFTER_UNDELETE)
+                ) {
                     handler.afterUnDelete(Trigger.new);
                 }
             }
         }
     }
 
-
     public static void bypassHandler(System.Type handlerType) {
         bypassHandlerTypes.add(handlerType);
     }
     public static void bypassHandler(System.Type handlerType, TriggerOperation event) {
         if (!bypassHandlerTypesByEvent.containsKey(handlerType)) {
-            Set<TriggerOperation > eventSet = new Set<TriggerOperation>{
-                    event
-            };
+            Set<TriggerOperation> eventSet = new Set<TriggerOperation>{ event };
             bypassHandlerTypesByEvent.put(handlerType, eventSet);
         } else {
-            Set<TriggerOperation > eventSet = bypassHandlerTypesByEvent.get(handlerType);
+            Set<TriggerOperation> eventSet = bypassHandlerTypesByEvent.get(handlerType);
             if (!eventSet.contains(event)) {
                 eventSet.add(event);
             }
             bypassHandlerTypesByEvent.put(handlerType, eventSet);
         }
-
-
     }
     public static void setDebugMode(Boolean debugMode) {
         TriggerHandlerExecutor.debugMode = debugMode;
@@ -113,7 +127,6 @@ public with sharing class TriggerHandlerExecutor {
     public static Boolean isDebugMode() {
         return TriggerHandlerExecutor.debugMode;
     }
-
 
     public static void clearbypass(System.Type handlerType) {
         bypassHandlerTypes.remove(handlerType);

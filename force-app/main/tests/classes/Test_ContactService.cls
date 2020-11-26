@@ -4,10 +4,11 @@
 
 @IsTest
 private without sharing class Test_ContactService {
-
     @IsTest
     private static void defaultPEOnContact() {
-        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.CreateNotificationHandler.class
+        );
 
         TestData.loadTestData();
         TestData testData = new TestData();
@@ -21,7 +22,9 @@ private without sharing class Test_ContactService {
         }
 
         //case getCurrentPe:
-        Participant_Enrollment__c pe1 = ContactService.getCurrentPE(testData.participantUser.ContactId);
+        Participant_Enrollment__c pe1 = ContactService.getCurrentPE(
+            testData.participantUser.ContactId
+        );
         System.assertEquals(testData.pe.Id, pe1.Id);
 
         //case applyRelevantNames:
@@ -35,14 +38,12 @@ private without sharing class Test_ContactService {
             CommunityFacadeRemote.isFirstLogon();
             CommunityFacadeRemote.acceptTerms();
             CommunityFacadeRemote.getCommunityData();
-
         }
-        User pdUser=testData.createPatientDelegate();
+        User pdUser = testData.createPatientDelegate();
         System.runAs(pdUser) {
             CommunityFacadeRemote.isFirstLogon();
             CommunityFacadeRemote.acceptTerms();
             CommunityFacadeRemote.getCommunityData();
-
         }
 
         //case getPastStudyWrappers:
@@ -63,8 +64,8 @@ private without sharing class Test_ContactService {
         ContactService.updateNextNotifyDate(delCon.Id, dt);
         Test.stopTest();
 
-        Contact testCont = [SELECT Id, Next_Notify_Date__c FROM Contact WHERE Id =: conId];
-        Contact testDelCont = [SELECT Id, Next_Notify_Date__c FROM Contact WHERE Id =: delCon.Id];
+        Contact testCont = [SELECT Id, Next_Notify_Date__c FROM Contact WHERE Id = :conId];
+        Contact testDelCont = [SELECT Id, Next_Notify_Date__c FROM Contact WHERE Id = :delCon.Id];
         System.assertEquals(Datetime.now().date(), testCont.Next_Notify_Date__c);
         System.assertEquals(null, testDelCont.Next_Notify_Date__c);
     }

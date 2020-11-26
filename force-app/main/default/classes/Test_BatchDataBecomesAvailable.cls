@@ -4,7 +4,6 @@
 
 @IsTest
 private class Test_BatchDataBecomesAvailable {
-
     @TestSetup
     static void init() {
         Test.startTest();
@@ -29,18 +28,22 @@ private class Test_BatchDataBecomesAvailable {
         update testData.pe.Participant_Contact__r;
 
         List<Visit_Result_Type_Sharing__c> visitResultTypeSharings = new List<Visit_Result_Type_Sharing__c>();
-        visitResultTypeSharings.add(new Visit_Result_Type_Sharing__c(
+        visitResultTypeSharings.add(
+            new Visit_Result_Type_Sharing__c(
                 Clinical_Trial_Profile__c = testData.ctp.Id,
                 Include_Countries__c = true,
                 Type__c = 'Calcium',
                 Sharing_Countries__c = 'US'
-        ));
-        visitResultTypeSharings.add(new Visit_Result_Type_Sharing__c(
+            )
+        );
+        visitResultTypeSharings.add(
+            new Visit_Result_Type_Sharing__c(
                 Clinical_Trial_Profile__c = testData.ctp.Id,
                 Include_Countries__c = true,
                 Type__c = 'BUN',
                 Sharing_Countries__c = 'US'
-        ));
+            )
+        );
         insert visitResultTypeSharings;
 
         Visit_Plan__c vp = new Visit_Plan__c(Name = 'Test Plan');
@@ -50,25 +53,29 @@ private class Test_BatchDataBecomesAvailable {
         insert visit;
 
         Patient_Visit__c patientVisit = new Patient_Visit__c(
-                Participant_Enrollment__c = testData.pe.Id,
-                Status__c = 'Completed',
-                Visit__c = visit.Id,
-                Visit_Number__c = 1,
-                Completed_Date__c = Date.newInstance(2019, 12, 17)
+            Participant_Enrollment__c = testData.pe.Id,
+            Status__c = 'Completed',
+            Visit__c = visit.Id,
+            Visit_Number__c = 1,
+            Completed_Date__c = Date.newInstance(2019, 12, 17)
         );
         insert patientVisit;
 
         List<Visit_Result__c> visitResults = new List<Visit_Result__c>();
-        visitResults.add(new Visit_Result__c(
+        visitResults.add(
+            new Visit_Result__c(
                 Actual_Value__c = 0.01,
                 Patient_Visit__c = patientVisit.Id,
                 Result_Type__c = 'Calcium'
-        ));
-        visitResults.add(new Visit_Result__c(
+            )
+        );
+        visitResults.add(
+            new Visit_Result__c(
                 Actual_Value__c = 0.5,
                 Patient_Visit__c = patientVisit.Id,
                 Result_Type__c = 'BUN'
-        ));
+            )
+        );
         insert visitResults;
 
         Batch_DataBecomesAvailable batch = new Batch_DataBecomesAvailable();

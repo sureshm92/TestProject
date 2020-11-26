@@ -3,14 +3,19 @@
  */
 @IsTest
 public with sharing class Test_VisitResultMService {
-
     private static VisitResultMService service = new VisitResultMService();
 
     @IsTest
     static void getVisitResultGroups_test() {
         Test.startTest();
-        List<Visit_Result_GroupM__mdt> testVisitResultGroupMS = service.getVisitResultGroups(true, 'Vitals');
-        List<Visit_Result_GroupM__mdt> testVisitResultGroupMSWithTypesFalse = service.getVisitResultGroups(false, 'Vitals');
+        List<Visit_Result_GroupM__mdt> testVisitResultGroupMS = service.getVisitResultGroups(
+            true,
+            'Vitals'
+        );
+        List<Visit_Result_GroupM__mdt> testVisitResultGroupMSWithTypesFalse = service.getVisitResultGroups(
+            false,
+            'Vitals'
+        );
         Test.stopTest();
 
         System.assert(testVisitResultGroupMS.size() >= 1);

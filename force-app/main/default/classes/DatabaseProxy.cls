@@ -1,5 +1,4 @@
 public inherited sharing class DatabaseProxy {
-
     public List<SObject> query(String query) {
         System.debug('QUERY: ' + query);
         return Database.query(query);
@@ -7,7 +6,10 @@ public inherited sharing class DatabaseProxy {
 
     public List<SObject> query(String query, Boolean withoutSharing) {
         if (withoutSharing) {
-            return ((DatabaseProxyWithoutSharing) ClassFactory.newInstance(DatabaseProxyWithoutSharing.class)).query(query);
+            return ((DatabaseProxyWithoutSharing) ClassFactory.newInstance(
+                    DatabaseProxyWithoutSharing.class
+                ))
+                .query(query);
         } else {
             return this.query(query);
         }
@@ -15,7 +17,10 @@ public inherited sharing class DatabaseProxy {
 
     public void updateRecord(SObject record, Boolean withoutSharing) {
         if (withoutSharing) {
-            ((DatabaseProxyWithoutSharing) ClassFactory.newInstance(DatabaseProxyWithoutSharing.class)).updateRecord(record);
+            ((DatabaseProxyWithoutSharing) ClassFactory.newInstance(
+                    DatabaseProxyWithoutSharing.class
+                ))
+                .updateRecord(record);
         } else {
             update record;
         }
@@ -23,7 +28,10 @@ public inherited sharing class DatabaseProxy {
 
     public void updateRecords(List<SObject> records, Boolean withoutSharing) {
         if (withoutSharing) {
-            ((DatabaseProxyWithoutSharing) ClassFactory.newInstance(DatabaseProxyWithoutSharing.class)).updateRecords(records);
+            ((DatabaseProxyWithoutSharing) ClassFactory.newInstance(
+                    DatabaseProxyWithoutSharing.class
+                ))
+                .updateRecords(records);
         } else {
             update records;
         }
@@ -31,7 +39,10 @@ public inherited sharing class DatabaseProxy {
 
     public void upsertRecord(SObject record, Boolean withoutSharing) {
         if (withoutSharing) {
-            ((DatabaseProxyWithoutSharing) ClassFactory.newInstance(DatabaseProxyWithoutSharing.class)).upsertRecord(record);
+            ((DatabaseProxyWithoutSharing) ClassFactory.newInstance(
+                    DatabaseProxyWithoutSharing.class
+                ))
+                .upsertRecord(record);
         } else {
             upsert record;
         }
@@ -39,7 +50,10 @@ public inherited sharing class DatabaseProxy {
 
     public void upsertRecords(List<SObject> records, Boolean withoutSharing) {
         if (withoutSharing) {
-            ((DatabaseProxyWithoutSharing) ClassFactory.newInstance(DatabaseProxyWithoutSharing.class)).upsertRecords(records);
+            ((DatabaseProxyWithoutSharing) ClassFactory.newInstance(
+                    DatabaseProxyWithoutSharing.class
+                ))
+                .upsertRecords(records);
         } else {
             upsert records;
         }
@@ -47,7 +61,10 @@ public inherited sharing class DatabaseProxy {
 
     public void deleteRecord(SObject record, Boolean withoutSharing) {
         if (withoutSharing) {
-            ((DatabaseProxyWithoutSharing) ClassFactory.newInstance(DatabaseProxyWithoutSharing.class)).deleteRecord(record);
+            ((DatabaseProxyWithoutSharing) ClassFactory.newInstance(
+                    DatabaseProxyWithoutSharing.class
+                ))
+                .deleteRecord(record);
         } else {
             delete record;
         }
@@ -55,14 +72,16 @@ public inherited sharing class DatabaseProxy {
 
     public void deleteRecords(List<SObject> records, Boolean withoutSharing) {
         if (withoutSharing) {
-            ((DatabaseProxyWithoutSharing) ClassFactory.newInstance(DatabaseProxyWithoutSharing.class)).deleteRecords(records);
+            ((DatabaseProxyWithoutSharing) ClassFactory.newInstance(
+                    DatabaseProxyWithoutSharing.class
+                ))
+                .deleteRecords(records);
         } else {
             delete records;
         }
     }
 
     private without sharing class DatabaseProxyWithoutSharing {
-
         private List<SObject> query(String query) {
             return Database.query(query);
         }

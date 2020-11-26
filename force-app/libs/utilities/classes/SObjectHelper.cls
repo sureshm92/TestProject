@@ -3,129 +3,134 @@
  */
 
 public class SObjectHelper {
-    
     //return parent sObject with all nested sObjects
-    public static List<SObject> getAllSObjects(SObject sobj){
+    public static List<SObject> getAllSObjects(SObject sobj) {
         List<SObject> sObjects = new List<SObject>();
         Map<String, Object> populatedFields = sobj.getPopulatedFieldsAsMap();
-        for(String fieldName : populatedFields.keySet()){
-            if(fieldName.endsWithIgnoreCase('__c') || fieldName.endsWithIgnoreCase('Id')) continue;
-            try{
+        for (String fieldName : populatedFields.keySet()) {
+            if (fieldName.endsWithIgnoreCase('__c') || fieldName.endsWithIgnoreCase('Id'))
+                continue;
+            try {
                 SObject nestedSObj = sobj.getSObject(fieldName);
                 sObjects.addAll(getAllSObjects(nestedSObj));
-            }catch (Exception e){
+            } catch (Exception e) {
             }
         }
         sObjects.add(sobj);
         return sObjects;
     }
 
-    public static List<SObject> getAllSObjects(List<SObject> sobjList){
+    public static List<SObject> getAllSObjects(List<SObject> sobjList) {
         Set<Id> processedIds = new Set<Id>();
         return getAllSobjectsExcept(sobjList, processedIds);
     }
 
-    private static List<SObject> getAllSobjectsExcept(List<SObject> sobjList, Set<Id> processedObjects){
+    private static List<SObject> getAllSobjectsExcept(
+        List<SObject> sobjList,
+        Set<Id> processedObjects
+    ) {
         List<SObject> sObjects = new List<SObject>();
         List<SObject> nestedObjects = new List<SObject>();
         Map<String, Object> populatedFields;
-        for (SObject sobj: sobjList){
+        for (SObject sobj : sobjList) {
             populatedFields = sobj.getPopulatedFieldsAsMap();
-            for(String fieldName : populatedFields.keySet()){
-                if(fieldName.endsWithIgnoreCase('__c') || fieldName.endsWithIgnoreCase('Id')) continue;
-                try{
+            for (String fieldName : populatedFields.keySet()) {
+                if (fieldName.endsWithIgnoreCase('__c') || fieldName.endsWithIgnoreCase('Id'))
+                    continue;
+                try {
                     SObject nestedSObj = sobj.getSObject(fieldName);
                     if (!processedObjects.contains(nestedSObj.Id)) {
                         nestedObjects.add(nestedSObj);
-                        if(nestedSObj.Id != null){
+                        if (nestedSObj.Id != null) {
                             processedObjects.add(nestedSObj.Id);
                         }
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                 }
             }
         }
-        if(!nestedObjects.isEmpty()){
+        if (!nestedObjects.isEmpty()) {
             sObjects.addAll(getAllSobjectsExcept(nestedObjects, processedObjects));
         }
         sObjects.addAll(sobjList);
         return sObjects;
     }
-    
-    public static Object getSObjectFieldValue(SObject sObj, String fieldPath){
+
+    public static Object getSObjectFieldValue(SObject sObj, String fieldPath) {
         List<String> pathItems = fieldPath.split('\\.');
         SObject currentSObject = sObj;
-        for(Integer i = 0; i < pathItems.size() - 1; i++) {
+        for (Integer i = 0; i < pathItems.size() - 1; i++) {
             currentSObject = currentSObject.getSObject(pathItems[i]);
-            if(currentSObject == null) return null;
+            if (currentSObject == null)
+                return null;
         }
         return currentSObject.get(pathItems[pathItems.size() - 1]);
     }
-    
-    public static Boolean hasField(SObjectType sObjectType, String fieldPath){
+
+    public static Boolean hasField(SObjectType sObjectType, String fieldPath) {
         List<String> pathItems = fieldPath.split('\\.');
-        for(String field : pathItems){
+        for (String field : pathItems) {
             field = field.replace('__r', '__c');
             SObjectField sObjectField = sObjectType.getDescribe().fields.getMap().get(field);
-            if(sObjectField != null){
-                if(sObjectField.getDescribe().getType() == DisplayType.REFERENCE){
+            if (sObjectField != null) {
+                if (sObjectField.getDescribe().getType() == DisplayType.REFERENCE) {
                     List<SObjectType> soTypes = sObjectField.getDescribe().getReferenceTo();
-                    if(soTypes.size() == 0) return false;
+                    if (soTypes.size() == 0)
+                        return false;
                     sObjectType = soTypes[0];
-                }else {
+                } else {
                     break;
                 }
-            }else{
+            } else {
                 return false;
             }
         }
         return true;
     }
-    
-    public static List<Id> toIdsList(List<SObject> sObjects){
+
+    public static List<Id> toIdsList(List<SObject> sObjects) {
         List<Id> resList = new List<Id>();
-        for(SObject so : sObjects){
-            resList.add((Id)so.get('Id'));
+        for (SObject so : sObjects) {
+            resList.add((Id) so.get('Id'));
         }
         return resList;
     }
-    
-    public static List<LabelValueItem> getPicklistLabelValueList(SObjectField field){
+
+    public static List<LabelValueItem> getPicklistLabelValueList(SObjectField field) {
         List<LabelValueItem> items = new List<LabelValueItem>();
-        for(PicklistEntry ple : field.getDescribe().getPicklistValues()){
+        for (PicklistEntry ple : field.getDescribe().getPicklistValues()) {
             items.add(new LabelValueItem(ple.getLabel(), ple.getValue()));
         }
         return items;
     }
-    
-    public static List<String> getFieldSetList(SObjectType sObjectType, String fieldSetName){
+
+    public static List<String> getFieldSetList(SObjectType sObjectType, String fieldSetName) {
         List<String> resList = new List<String>();
         FieldSet fieldSet = sObjectType.getDescribe().fieldSets.getMap().get(fieldSetName);
-        if(fieldSet != null){
-            for(FieldSetMember field : fieldSet.getFields()){
+        if (fieldSet != null) {
+            for (FieldSetMember field : fieldSet.getFields()) {
                 resList.add(field.fieldPath.toLowerCase());
             }
         }
         return resList;
     }
-    
-    public static String trimForField(String sourceStr, SObjectField field){
-        if(sourceStr == null) return sourceStr;
+
+    public static String trimForField(String sourceStr, SObjectField field) {
+        if (sourceStr == null)
+            return sourceStr;
         return sourceStr.mid(0, field.getDescribe().length);
     }
 
-    public static List<SObject> filterSObjectsByIds(List<SObject> objects, Set<Id> idsToFilter){
+    public static List<SObject> filterSObjectsByIds(List<SObject> objects, Set<Id> idsToFilter) {
         List<SObject> filteredObjects = new List<SObject>();
         if (objects == null) {
             return filteredObjects;
         }
-        for (SObject currentObject: objects){
+        for (SObject currentObject : objects) {
             if (idsToFilter.contains(currentObject.Id)) {
                 filteredObjects.add(currentObject);
             }
         }
         return filteredObjects;
     }
-
-
 }

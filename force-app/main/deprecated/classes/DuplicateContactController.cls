@@ -4,6 +4,5 @@
 
 //TODO !!! DEPRECATED MUST BE REMOVED!!!
 
-public without sharing class  DuplicateContactController {
-
+public without sharing class DuplicateContactController {
 }

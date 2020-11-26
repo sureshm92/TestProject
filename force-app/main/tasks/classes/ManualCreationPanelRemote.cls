@@ -3,12 +3,15 @@
  */
 
 public without sharing class ManualCreationPanelRemote {
-
     public class InitData {
-        @AuraEnabled public ManualTaskRemote.TaskPanelWrapper taskPanelWrapper;
-        @AuraEnabled public AdHocWrapper adHocWrapper;
-        @AuraEnabled public ManualTaskFilter filter;
-        @AuraEnabled public List<LabelValueItem> patientStatusOptions;
+        @AuraEnabled
+        public ManualTaskRemote.TaskPanelWrapper taskPanelWrapper;
+        @AuraEnabled
+        public AdHocWrapper adHocWrapper;
+        @AuraEnabled
+        public ManualTaskFilter filter;
+        @AuraEnabled
+        public List<LabelValueItem> patientStatusOptions;
 
         public InitData() {
             taskPanelWrapper = new ManualTaskRemote.TaskPanelWrapper();
@@ -16,26 +19,47 @@ public without sharing class ManualCreationPanelRemote {
             filter = new ManualTaskFilter();
 
             patientStatusOptions = new List<LabelValueItem>{
-                    new LabelValueItem('Referred', 'Referred'),
-                    new LabelValueItem('Enrolled', 'Enrolled'),
-                    new LabelValueItem('Alumni', 'Alumni')
+                new LabelValueItem('Referred', 'Referred'),
+                new LabelValueItem('Enrolled', 'Enrolled'),
+                new LabelValueItem('Alumni', 'Alumni')
             };
         }
     }
 
     public class AdHocWrapper {
-        @AuraEnabled public String selectedSurvey;
-        @AuraEnabled public Integer daysToExpire;
-        @AuraEnabled public String selectedRS;
-        @AuraEnabled public Boolean expireOnAlumni = false;
-        @AuraEnabled public List<LabelValueItem> neededResponsesOptions = new List<LabelValueItem>{
-                new LabelValueItem(SurveyService.SURVEY_RESPONSE_PATIENT_ONLY, SurveyService.SURVEY_RESPONSE_PATIENT_ONLY),
-                new LabelValueItem(SurveyService.SURVEY_RESPONSE_PATIENT_EACH_DELEGATE, SurveyService.SURVEY_RESPONSE_PATIENT_EACH_DELEGATE),
-                new LabelValueItem(SurveyService.SURVEY_RESPONSE_PATIENT_ANY_DELEGATE, SurveyService.SURVEY_RESPONSE_PATIENT_ANY_DELEGATE),
-                new LabelValueItem(SurveyService.SURVEY_RESPONSE_ANY_DELEGATE, SurveyService.SURVEY_RESPONSE_ANY_DELEGATE),
-                new LabelValueItem(SurveyService.SURVEY_RESPONSE_EACH_DELEGATE, SurveyService.SURVEY_RESPONSE_EACH_DELEGATE)
+        @AuraEnabled
+        public String selectedSurvey;
+        @AuraEnabled
+        public Integer daysToExpire;
+        @AuraEnabled
+        public String selectedRS;
+        @AuraEnabled
+        public Boolean expireOnAlumni = false;
+        @AuraEnabled
+        public List<LabelValueItem> neededResponsesOptions = new List<LabelValueItem>{
+            new LabelValueItem(
+                SurveyService.SURVEY_RESPONSE_PATIENT_ONLY,
+                SurveyService.SURVEY_RESPONSE_PATIENT_ONLY
+            ),
+            new LabelValueItem(
+                SurveyService.SURVEY_RESPONSE_PATIENT_EACH_DELEGATE,
+                SurveyService.SURVEY_RESPONSE_PATIENT_EACH_DELEGATE
+            ),
+            new LabelValueItem(
+                SurveyService.SURVEY_RESPONSE_PATIENT_ANY_DELEGATE,
+                SurveyService.SURVEY_RESPONSE_PATIENT_ANY_DELEGATE
+            ),
+            new LabelValueItem(
+                SurveyService.SURVEY_RESPONSE_ANY_DELEGATE,
+                SurveyService.SURVEY_RESPONSE_ANY_DELEGATE
+            ),
+            new LabelValueItem(
+                SurveyService.SURVEY_RESPONSE_EACH_DELEGATE,
+                SurveyService.SURVEY_RESPONSE_EACH_DELEGATE
+            )
         };
-        @AuraEnabled public String neededResponse = SurveyService.SURVEY_RESPONSE_PATIENT_ONLY;
+        @AuraEnabled
+        public String neededResponse = SurveyService.SURVEY_RESPONSE_PATIENT_ONLY;
     }
 
     //Remote methods:---------------------------------------------------------------------------------------------------
@@ -49,14 +73,28 @@ public without sharing class ManualCreationPanelRemote {
     }
 
     @AuraEnabled
-    public static Boolean createTasks(String config, String adHoc, String filter, String activeTab) {
+    public static Boolean createTasks(
+        String config,
+        String adHoc,
+        String filter,
+        String activeTab
+    ) {
         try {
-            ManualTaskFilter manualTaskFilter = (ManualTaskFilter) JSON.deserialize(filter, ManualTaskFilter.class);
+            ManualTaskFilter manualTaskFilter = (ManualTaskFilter) JSON.deserialize(
+                filter,
+                ManualTaskFilter.class
+            );
             if (activeTab.equals('task')) {
-                TaskService.TaskConfig taskConfig = (TaskService.TaskConfig) JSON.deserialize(config, TaskService.TaskConfig.class);
+                TaskService.TaskConfig taskConfig = (TaskService.TaskConfig) JSON.deserialize(
+                    config,
+                    TaskService.TaskConfig.class
+                );
                 return ManualTaskRemote.createTasks(taskConfig, manualTaskFilter);
             } else if (activeTab.equals('adHoc')) {
-                AdHocWrapper adHocWrapper = (AdHocWrapper) JSON.deserialize(adHoc, AdHocWrapper.class);
+                AdHocWrapper adHocWrapper = (AdHocWrapper) JSON.deserialize(
+                    adHoc,
+                    AdHocWrapper.class
+                );
                 return createInvitationAndTask(adHocWrapper, manualTaskFilter);
             }
             return false;
@@ -69,29 +107,34 @@ public without sharing class ManualCreationPanelRemote {
     @AuraEnabled
     public static List<LookupSearchResult> searchSurveys(String searchTerm, String value) {
         try {
-            if (searchTerm == null || String.isBlank(searchTerm)) searchTerm = '';
+            if (searchTerm == null || String.isBlank(searchTerm))
+                searchTerm = '';
             searchTerm = '%' + searchTerm + '%';
 
             List<String> selectedSurveys = new List<String>();
-            if (!String.isEmpty(value)) selectedSurveys = value.split(';');
+            if (!String.isEmpty(value))
+                selectedSurveys = value.split(';');
 
             List<Survey> surveys = [
-                    SELECT Id, Name
-                    FROM Survey
-                    WHERE ActiveVersionId != NULL
-                    AND Id NOT IN:selectedSurveys
+                SELECT Id, Name
+                FROM Survey
+                WHERE
+                    ActiveVersionId != NULL
+                    AND Id NOT IN :selectedSurveys
                     AND Name LIKE :searchTerm
             ];
 
             List<LookupSearchResult> resList = new List<LookupSearchResult>();
             for (Survey survey : surveys) {
-                resList.add(new LookupSearchResult(
+                resList.add(
+                    new LookupSearchResult(
                         survey.Id,
                         'Survey',
                         'standard:survey',
                         survey.Name,
                         null
-                ));
+                    )
+                );
             }
 
             return resList;
@@ -104,24 +147,26 @@ public without sharing class ManualCreationPanelRemote {
     public static List<LookupSearchResult> searchSurveysByValue(String value) {
         try {
             List<LookupSearchResult> resList = new List<LookupSearchResult>();
-            if (value == null || String.isBlank(value)) return resList;
+            if (value == null || String.isBlank(value))
+                return resList;
 
             List<String> selectedSurveys = value.split(';');
             List<Survey> surveys = [
-                    SELECT Id, Name
-                    FROM Survey
-                    WHERE ActiveVersionId != NULL
-                    AND Id IN:selectedSurveys
+                SELECT Id, Name
+                FROM Survey
+                WHERE ActiveVersionId != NULL AND Id IN :selectedSurveys
             ];
 
             for (Survey survey : surveys) {
-                resList.add(new LookupSearchResult(
+                resList.add(
+                    new LookupSearchResult(
                         survey.Id,
                         'Survey',
                         'standard:survey',
                         survey.Name,
                         null
-                ));
+                    )
+                );
             }
 
             return resList;
@@ -133,28 +178,34 @@ public without sharing class ManualCreationPanelRemote {
     @AuraEnabled
     public static List<LookupSearchResult> searchReminderSchedule(String searchTerm, String value) {
         try {
-            if (searchTerm == null || String.isBlank(searchTerm)) searchTerm = '';
+            if (searchTerm == null || String.isBlank(searchTerm))
+                searchTerm = '';
             searchTerm = '%' + searchTerm;
 
             List<String> selectedRS = new List<String>();
-            if (!String.isEmpty(value)) selectedRS = value.split(';');
+            if (!String.isEmpty(value))
+                selectedRS = value.split(';');
 
             List<Reminder_Schedule__c> reminderSchedules = [
-                    SELECT Id, Name, First_Reminder_day__c, Second_Reminder_day__c
-                    FROM Reminder_Schedule__c
-                    WHERE Id NOT IN:selectedRS
-                    AND Name LIKE :searchTerm
+                SELECT Id, Name, First_Reminder_day__c, Second_Reminder_day__c
+                FROM Reminder_Schedule__c
+                WHERE Id NOT IN :selectedRS AND Name LIKE :searchTerm
             ];
 
             List<LookupSearchResult> resList = new List<LookupSearchResult>();
             for (Reminder_Schedule__c rs : reminderSchedules) {
-                resList.add(new LookupSearchResult(
+                resList.add(
+                    new LookupSearchResult(
                         rs.Id,
                         'Reminder_Schedule__c',
                         'standard:announcement',
                         rs.Name,
-                        'First = ' + rs.First_Reminder_day__c + '; Second = ' + rs.Second_Reminder_day__c
-                ));
+                        'First = ' +
+                        rs.First_Reminder_day__c +
+                        '; Second = ' +
+                        rs.Second_Reminder_day__c
+                    )
+                );
             }
 
             return resList;
@@ -167,23 +218,29 @@ public without sharing class ManualCreationPanelRemote {
     public static List<LookupSearchResult> searchReminderScheduleByValue(String value) {
         try {
             List<LookupSearchResult> resList = new List<LookupSearchResult>();
-            if (value == null || String.isBlank(value)) return resList;
+            if (value == null || String.isBlank(value))
+                return resList;
 
             List<String> selectedRS = value.split(';');
             List<Reminder_Schedule__c> reminderSchedules = [
-                    SELECT Id, Name, First_Reminder_day__c, Second_Reminder_day__c
-                    FROM Reminder_Schedule__c
-                    WHERE Id IN:selectedRS
+                SELECT Id, Name, First_Reminder_day__c, Second_Reminder_day__c
+                FROM Reminder_Schedule__c
+                WHERE Id IN :selectedRS
             ];
 
             for (Reminder_Schedule__c rs : reminderSchedules) {
-                resList.add(new LookupSearchResult(
+                resList.add(
+                    new LookupSearchResult(
                         rs.Id,
                         'Reminder_Schedule__c',
                         'standard:announcement',
                         rs.Name,
-                        'First = ' + rs.First_Reminder_day__c + '; Second = ' + rs.Second_Reminder_day__c
-                ));
+                        'First = ' +
+                        rs.First_Reminder_day__c +
+                        '; Second = ' +
+                        rs.Second_Reminder_day__c
+                    )
+                );
             }
 
             return resList;
@@ -197,7 +254,11 @@ public without sharing class ManualCreationPanelRemote {
     private static Boolean createInvitationAndTask(AdHocWrapper wrapper, ManualTaskFilter filter) {
         try {
             Survey survey = [SELECT Id, Name FROM Survey WHERE Id = :wrapper.selectedSurvey];
-            List<Reminder_Schedule__c> rsList = [SELECT Id FROM Reminder_Schedule__c WHERE Id = :wrapper.selectedRS];
+            List<Reminder_Schedule__c> rsList = [
+                SELECT Id
+                FROM Reminder_Schedule__c
+                WHERE Id = :wrapper.selectedRS
+            ];
             Reminder_Schedule__c rs = rsList.isEmpty() ? null : rsList.get(0);
 
             Map<Id, List<Participant_Enrollment__c>> contactsWithPE = filter.getContactsWithPE();
@@ -206,7 +267,10 @@ public without sharing class ManualCreationPanelRemote {
             for (List<Participant_Enrollment__c> peList : contactsWithPE.values()) {
                 for (Participant_Enrollment__c pe : peList) {
                     if (!networkByPE.containsKey(pe.Id)) {
-                        String communityName = CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).communityName;
+                        String communityName = CommunityTemplateService.getTemplate(
+                                pe.Clinical_Trial_Profile__r.CommunityTemplate__c
+                            )
+                            .communityName;
                         networkByPE.put(pe.Id, communitiesMap.get(communityName));
                     }
                 }
@@ -215,14 +279,17 @@ public without sharing class ManualCreationPanelRemote {
             List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
             for (Id contactId : contactsWithPE.keySet()) {
                 for (Participant_Enrollment__c pe : contactsWithPE.get(contactId)) {
-                    newInvitations.add(SurveyService.getInstance().generateInvitation(
-                            survey,
-                            rs,
-                            wrapper.daysToExpire,
-                            wrapper.expireOnAlumni,
-                            pe.Id,
-                            networkByPE.get(pe.Id)
-                    ));
+                    newInvitations.add(
+                        SurveyService.getInstance()
+                            .generateInvitation(
+                                survey,
+                                rs,
+                                wrapper.daysToExpire,
+                                wrapper.expireOnAlumni,
+                                pe.Id,
+                                networkByPE.get(pe.Id)
+                            )
+                    );
                 }
             }
 
@@ -230,7 +297,8 @@ public without sharing class ManualCreationPanelRemote {
                 insert newInvitations;
 
                 Map<Id, String> invitationsVisible = new Map<Id, String>();
-                for (SurveyInvitation inv : newInvitations) invitationsVisible.put(inv.Id, wrapper.neededResponse);
+                for (SurveyInvitation inv : newInvitations)
+                    invitationsVisible.put(inv.Id, wrapper.neededResponse);
 
                 Batch_CreateSurveyTasks.launch(invitationsVisible);
                 return true;

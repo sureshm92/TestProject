@@ -4,7 +4,6 @@
 
 @IsTest
 private class Test_StudyActionParticipant {
-    
     @IsTest
     static void test1() {
         StudyActionsParticipant studyActionsParticipant;
@@ -12,7 +11,7 @@ private class Test_StudyActionParticipant {
         TestData.loadTestData();
         Test.startTest();
         TestData testDataInstance = new TestData();
-        System.runAs(testDataInstance.participantUser){
+        System.runAs(testDataInstance.participantUser) {
             studyActionsParticipant = new StudyActionsParticipant();
         }
         Test.stopTest();
