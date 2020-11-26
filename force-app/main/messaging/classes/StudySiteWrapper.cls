@@ -3,10 +3,9 @@
  */
 
 public with sharing class StudySiteWrapper {
+    public String studyName { get; set; }
 
-        public String studyName {get; set;}
-
-        public StudySiteWrapper(String studyName){
-            this.studyName = studyName;
-        }
+    public StudySiteWrapper(String studyName) {
+        this.studyName = studyName;
+    }
 }

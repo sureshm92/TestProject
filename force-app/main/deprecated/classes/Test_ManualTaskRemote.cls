@@ -5,7 +5,6 @@
 @IsTest
 private class Test_ManualTaskRemote {
     /**
-    * DEPRECATED
+     * DEPRECATED
      */
-    
 }

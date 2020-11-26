@@ -3,14 +3,23 @@
  */
 @IsTest(IsParallel=true)
 public with sharing class Test_IncentivePlanConfigurationRemote {
-
     @TestSetup
     static void init() {
-        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreateStatusHistoryHandler.class);
-        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class);
-        TriggerHandlerExecutor.bypassHandler(HCPEnrollmentTriggerHandler.CreateHCPUserOrSendNotificationHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(
+            StudySiteTriggerHandler.CreateStatusHistoryHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            HCPEnrollmentTriggerHandler.CreateHCPUserOrSendNotificationHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
+        );
 
         Test.startTest();
         TestData.loadTestData();
@@ -40,16 +49,40 @@ public with sharing class Test_IncentivePlanConfigurationRemote {
 
         TestData testDataInstance = new TestData();
         Test.startTest();
-        String planId = IncentivePlanConfigurationRemote.createUpdateIncentivePlan(tasksString, planName, testDataInstance.ctp.Id);
+        String planId = IncentivePlanConfigurationRemote.createUpdateIncentivePlan(
+            tasksString,
+            planName,
+            testDataInstance.ctp.Id
+        );
         task.planId = planId;
         tasksString = JSON.serialize(tasks);
-        IncentivePlanConfigurationRemote.createUpdateIncentivePlan(tasksString, planName, testDataInstance.ctp.Id);
+        IncentivePlanConfigurationRemote.createUpdateIncentivePlan(
+            tasksString,
+            planName,
+            testDataInstance.ctp.Id
+        );
 
-        IncentivePlanConfigurationRemote.InitData initData = IncentivePlanConfigurationRemote.getInitData(testDataInstance.ctp.Id);
-        IncentivePlanConfigurationRemote.getItems(JSON.serialize(new List<StudySiteItem>()), JSON.serialize(initData.filter), JSON.serialize(initData.searchResponse.pagination));
+        IncentivePlanConfigurationRemote.InitData initData = IncentivePlanConfigurationRemote.getInitData(
+            testDataInstance.ctp.Id
+        );
+        IncentivePlanConfigurationRemote.getItems(
+            JSON.serialize(new List<StudySiteItem>()),
+            JSON.serialize(initData.filter),
+            JSON.serialize(initData.searchResponse.pagination)
+        );
         IncentivePlanConfigurationRemote.getNumberStudySites(planId);
-        IncentivePlanConfigurationRemote.setIncentivePlanForAll(planId, true, JSON.serialize(initData.filter), JSON.serialize(initData.searchResponse.pagination), JSON.serialize(new List<StudySiteItem>()));
-        IncentivePlanConfigurationRemote.deleteIncentivePlan(planId, JSON.serialize(initData.filter), JSON.serialize(initData.searchResponse.pagination));
+        IncentivePlanConfigurationRemote.setIncentivePlanForAll(
+            planId,
+            true,
+            JSON.serialize(initData.filter),
+            JSON.serialize(initData.searchResponse.pagination),
+            JSON.serialize(new List<StudySiteItem>())
+        );
+        IncentivePlanConfigurationRemote.deleteIncentivePlan(
+            planId,
+            JSON.serialize(initData.filter),
+            JSON.serialize(initData.searchResponse.pagination)
+        );
         Test.stopTest();
         System.assert(planId != null);
     }
@@ -58,7 +91,10 @@ public with sharing class Test_IncentivePlanConfigurationRemote {
     static void testCheckNamePlan() {
         String planName = 'TestPlanName';
         TestData testDataInstance = new TestData();
-        Incentive_Plan__c plan = new Incentive_Plan__c(Plan_Name__c = planName, Clinical_Trial_Profile__c = testDataInstance.ctp.Id);
+        Incentive_Plan__c plan = new Incentive_Plan__c(
+            Plan_Name__c = planName,
+            Clinical_Trial_Profile__c = testDataInstance.ctp.Id
+        );
         insert plan;
         Test.startTest();
         Boolean result = IncentivePlanConfigurationRemote.checkNamePlan(planName);
@@ -70,19 +106,37 @@ public with sharing class Test_IncentivePlanConfigurationRemote {
     static void testGetIncentiveProgramWrapper() {
         String planName = 'TestPlanName';
         TestData testDataInstance = new TestData();
-        Incentive_Plan__c plan = new Incentive_Plan__c(Plan_Name__c = planName, Clinical_Trial_Profile__c = testDataInstance.ctp.Id);
+        Incentive_Plan__c plan = new Incentive_Plan__c(
+            Plan_Name__c = planName,
+            Clinical_Trial_Profile__c = testDataInstance.ctp.Id
+        );
         insert plan;
 
-        Incentive_Task_Catalog__mdt taskMdt = [SELECT Id, DeveloperName, Title_Label__c, Description_Label__c, Default_Number_of_Points__c FROM Incentive_Task_Catalog__mdt LIMIT 1];
+        Incentive_Task_Catalog__mdt taskMdt = [
+            SELECT
+                Id,
+                DeveloperName,
+                Title_Label__c,
+                Description_Label__c,
+                Default_Number_of_Points__c
+            FROM Incentive_Task_Catalog__mdt
+            LIMIT 1
+        ];
 
-        Incentive_Plan_Task__c newTask = new Incentive_Plan_Task__c(Incentive_Plan__c = plan.Id, Incentive_Task_Catalog__c = taskMdt.DeveloperName, Points__c = 15,
-                Enabled__c = true, IQVIA_Supported__c = true);
+        Incentive_Plan_Task__c newTask = new Incentive_Plan_Task__c(
+            Incentive_Plan__c = plan.Id,
+            Incentive_Task_Catalog__c = taskMdt.DeveloperName,
+            Points__c = 15,
+            Enabled__c = true,
+            IQVIA_Supported__c = true
+        );
         insert newTask;
 
         Test.startTest();
-        List<IncentivePlanConfigurationRemote.IPWrapper> wrapper = IncentivePlanConfigurationRemote.getIncentiveProgramWrapper(plan.Id);
+        List<IncentivePlanConfigurationRemote.IPWrapper> wrapper = IncentivePlanConfigurationRemote.getIncentiveProgramWrapper(
+            plan.Id
+        );
         Test.stopTest();
         System.assert(wrapper != null);
     }
-
 }

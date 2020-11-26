@@ -4,7 +4,6 @@
 
 @IsTest
 public class Test_ExternalParticipantRemote {
-
     @IsTest
     static void saveParticipantSuccessTest() {
         Test_ExternalParticipantHttpMock httpMock = new Test_ExternalParticipantHttpMock();

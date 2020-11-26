@@ -3,10 +3,14 @@
  */
 
 public without sharing class ValueStateItem implements Comparable {
-    @AuraEnabled public String value;
-    @AuraEnabled public Boolean state;
-    @AuraEnabled public Boolean initialState;
-    @AuraEnabled public Id sourceId;
+    @AuraEnabled
+    public String value;
+    @AuraEnabled
+    public Boolean state;
+    @AuraEnabled
+    public Boolean initialState;
+    @AuraEnabled
+    public Id sourceId;
 
     public ValueStateItem(String value, Boolean state) {
         this.value = value;
@@ -22,8 +26,10 @@ public without sharing class ValueStateItem implements Comparable {
 
     public Integer compareTo(Object compareTo) {
         String compareValue = ((ValueStateItem) compareTo).value;
-        if (this.value > compareValue) return 1;
-        if (this.value < compareValue) return -1;
+        if (this.value > compareValue)
+            return 1;
+        if (this.value < compareValue)
+            return -1;
 
         return 0;
     }

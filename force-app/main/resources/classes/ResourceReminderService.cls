@@ -3,12 +3,12 @@
  */
 public with sharing class ResourceReminderService {
     final List<Type> reminders = new List<Type>{
-            PlatformTAnoTAReminder.class,
-            X3rdPartyNoTaReminder.class,
-            StudySpecificAndPlatformTAnoImageReminder.class,
-            StudySpecificNoStudyReminder.class,
-            StudyDocumentNoStudyReminder.class,
-            StudyDocumentTypeDocumentNoFileReminder.class
+        PlatformTAnoTAReminder.class,
+        X3rdPartyNoTaReminder.class,
+        StudySpecificAndPlatformTAnoImageReminder.class,
+        StudySpecificNoStudyReminder.class,
+        StudyDocumentNoStudyReminder.class,
+        StudyDocumentTypeDocumentNoFileReminder.class
     };
 
     public List<Reminder> getActiveReminders(Id resId) {
@@ -55,7 +55,12 @@ public with sharing class ResourceReminderService {
     }
 
     private String buildQuery(Id resId, Set<String> fieldsQuery) {
-        return 'SELECT ' + String.join(new List<String>(fieldsQuery), ', ') + ' FROM Resource__c ' + 'WHERE Id = \'' + resId + '\'';
+        return 'SELECT ' +
+            String.join(new List<String>(fieldsQuery), ', ') +
+            ' FROM Resource__c ' +
+            'WHERE Id = \'' +
+            resId +
+            '\'';
     }
 
     public abstract class Reminder {
@@ -72,15 +77,20 @@ public with sharing class ResourceReminderService {
         public PlatformTAnoTAReminder() {
             reminderLabel = Label.Reminder_PlatformTA_No_TA;
             resourceFields = new List<String>{
-                    'Content_Class__c',
-                    '(SELECT Id FROM Therapeutic_Area_Assignments__r)'
+                'Content_Class__c',
+                '(SELECT Id FROM Therapeutic_Area_Assignments__r)'
             };
         }
         public override Boolean isActive(Resource__c resource) {
             Boolean isActive = false;
-            if (String.isNotBlank(resource.Content_Class__c)
-                    && ResourceService.RESOURCE_SOURCE_PLATFORM.equalsIgnoreCase(resource.Content_Class__c)
-                    && (resource.Therapeutic_Area_Assignments__r == null || resource.Therapeutic_Area_Assignments__r.isEmpty())) {
+            if (
+                String.isNotBlank(resource.Content_Class__c) &&
+                ResourceService.RESOURCE_SOURCE_PLATFORM.equalsIgnoreCase(
+                    resource.Content_Class__c
+                ) &&
+                (resource.Therapeutic_Area_Assignments__r == null ||
+                resource.Therapeutic_Area_Assignments__r.isEmpty())
+            ) {
                 isActive = true;
             }
             return isActive;
@@ -91,15 +101,20 @@ public with sharing class ResourceReminderService {
         public X3rdPartyNoTaReminder() {
             reminderLabel = Label.Reminder_3rd_Party_No_TA;
             resourceFields = new List<String>{
-                    'Content_Class__c',
-                    '(SELECT Id FROM Therapeutic_Area_Assignments__r)'
+                'Content_Class__c',
+                '(SELECT Id FROM Therapeutic_Area_Assignments__r)'
             };
         }
         public override Boolean isActive(Resource__c resource) {
             Boolean isActive = false;
-            if (String.isNotBlank(resource.Content_Class__c)
-                    && ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c)
-                    && (resource.Therapeutic_Area_Assignments__r == null || resource.Therapeutic_Area_Assignments__r.isEmpty())) {
+            if (
+                String.isNotBlank(resource.Content_Class__c) &&
+                ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(
+                    resource.Content_Class__c
+                ) &&
+                (resource.Therapeutic_Area_Assignments__r == null ||
+                resource.Therapeutic_Area_Assignments__r.isEmpty())
+            ) {
                 isActive = true;
             }
             return isActive;
@@ -109,17 +124,21 @@ public with sharing class ResourceReminderService {
     class StudySpecificAndPlatformTAnoImageReminder extends Reminder {
         public StudySpecificAndPlatformTAnoImageReminder() {
             reminderLabel = Label.Reminder_Study_Specific_And_PlatformTA_No_Image;
-            resourceFields = new List<String>{
-                    'Content_Class__c',
-                    'Image__c'
-            };
+            resourceFields = new List<String>{ 'Content_Class__c', 'Image__c' };
             cssColor = 'orange-text';
         }
         public override Boolean isActive(Resource__c resource) {
             Boolean isActive = false;
-            if (String.isNotBlank(resource.Content_Class__c)
-                    && (ResourceService.RESOURCE_SOURCE_STUDY.equalsIgnoreCase(resource.Content_Class__c) || ResourceService.RESOURCE_SOURCE_PLATFORM.equalsIgnoreCase(resource.Content_Class__c))
-                    && String.isBlank(resource.Image__c)) {
+            if (
+                String.isNotBlank(resource.Content_Class__c) &&
+                (ResourceService.RESOURCE_SOURCE_STUDY.equalsIgnoreCase(
+                    resource.Content_Class__c
+                ) ||
+                ResourceService.RESOURCE_SOURCE_PLATFORM.equalsIgnoreCase(
+                    resource.Content_Class__c
+                )) &&
+                String.isBlank(resource.Image__c)
+            ) {
                 isActive = true;
             }
             return isActive;
@@ -129,16 +148,15 @@ public with sharing class ResourceReminderService {
     class StudySpecificNoStudyReminder extends Reminder {
         public StudySpecificNoStudyReminder() {
             reminderLabel = Label.Reminder_Study_Specific_No_Study;
-            resourceFields = new List<String>{
-                    'Content_Class__c',
-                    '(SELECT Id FROM Study__r)'
-            };
+            resourceFields = new List<String>{ 'Content_Class__c', '(SELECT Id FROM Study__r)' };
         }
         public override Boolean isActive(Resource__c resource) {
             Boolean isActive = false;
-            if (String.isNotBlank(resource.Content_Class__c)
-                    && ResourceService.RESOURCE_SOURCE_STUDY.equalsIgnoreCase(resource.Content_Class__c)
-                    && (resource.Study__r == null || resource.Study__r.isEmpty())) {
+            if (
+                String.isNotBlank(resource.Content_Class__c) &&
+                ResourceService.RESOURCE_SOURCE_STUDY.equalsIgnoreCase(resource.Content_Class__c) &&
+                (resource.Study__r == null || resource.Study__r.isEmpty())
+            ) {
                 isActive = true;
             }
             return isActive;
@@ -149,15 +167,19 @@ public with sharing class ResourceReminderService {
         public StudyDocumentNoStudyReminder() {
             reminderLabel = Label.Reminder_Study_Document_No_Study;
             resourceFields = new List<String>{
-                    'RecordType.DeveloperName',
-                    '(SELECT Id FROM Study__r)'
+                'RecordType.DeveloperName',
+                '(SELECT Id FROM Study__r)'
             };
         }
         public override Boolean isActive(Resource__c resource) {
             Boolean isActive = false;
-            if (String.isNotBlank(resource.RecordType.DeveloperName)
-                    && ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT.equalsIgnoreCase(resource.RecordType.DeveloperName)
-                    && (resource.Study__r == null || resource.Study__r.isEmpty())) {
+            if (
+                String.isNotBlank(resource.RecordType.DeveloperName) &&
+                ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT.equalsIgnoreCase(
+                    resource.RecordType.DeveloperName
+                ) &&
+                (resource.Study__r == null || resource.Study__r.isEmpty())
+            ) {
                 isActive = true;
             }
             return isActive;
@@ -168,19 +190,25 @@ public with sharing class ResourceReminderService {
         public StudyDocumentTypeDocumentNoFileReminder() {
             reminderLabel = Label.Reminder_Study_Document_Type_Document_No_File;
             resourceFields = new List<String>{
-                    'RecordType.DeveloperName',
-                    'document_type__c',
-                    '(SELECT ContentDocument.LatestPublishedVersionId FROM ContentDocumentLinks)'
+                'RecordType.DeveloperName',
+                'document_type__c',
+                '(SELECT ContentDocument.LatestPublishedVersionId FROM ContentDocumentLinks)'
             };
             cssColor = 'orange-text';
         }
         public override Boolean isActive(Resource__c resource) {
             Boolean isActive = false;
-            if (String.isNotBlank(resource.RecordType.DeveloperName)
-                    && ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT.equalsIgnoreCase(resource.RecordType.DeveloperName)
-                    && String.isNotBlank(resource.document_type__c)
-                    && ResourceService.RESOURCE_TYPE_DOCUMENT.equalsIgnoreCase(resource.document_type__c)
-                    && (resource.ContentDocumentLinks == null || resource.ContentDocumentLinks.isEmpty())) {
+            if (
+                String.isNotBlank(resource.RecordType.DeveloperName) &&
+                ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT.equalsIgnoreCase(
+                    resource.RecordType.DeveloperName
+                ) &&
+                String.isNotBlank(resource.document_type__c) &&
+                ResourceService.RESOURCE_TYPE_DOCUMENT.equalsIgnoreCase(
+                    resource.document_type__c
+                ) &&
+                (resource.ContentDocumentLinks == null || resource.ContentDocumentLinks.isEmpty())
+            ) {
                 isActive = true;
             }
             return isActive;

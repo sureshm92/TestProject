@@ -1,5 +1,4 @@
 public virtual class CodeExecutor {
-
     public List<Object> result;
 
     public Object execute(List<Object> listOfArgs) {
@@ -7,5 +6,7 @@ public virtual class CodeExecutor {
         return result;
     }
 
-    public virtual List<Object> getResult(List<Object> listOfArgs) {return result;}
+    public virtual List<Object> getResult(List<Object> listOfArgs) {
+        return result;
+    }
 }

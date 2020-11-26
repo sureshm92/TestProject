@@ -1,27 +1,34 @@
 /* Created By
-* Velu */
-public Without sharing class GetNotes {
-    
-    Public class NoteData{
+ * Velu */
+public without sharing class GetNotes {
+    public class NoteData {
         @AuraEnabled
         public list<ContentDocument> CD;
     }
-    
+
     @AuraEnabled
     public static string getNotesdata(Id MediaRecordId) {
-        
         try {
-            List < ID > cdid = new list < Id > ();
-            List < ContentDocumentLink > CDLink = new List < ContentDocumentLink > ();
-            CDLink = [SELECT ContentDocumentId, LinkedEntityId, Visibility FROM ContentDocumentLink WHERE LinkedEntityId =: MediaRecordId];
-            for (ContentDocumentLink cd: CDLink) {
+            List<ID> cdid = new List<Id>();
+            List<ContentDocumentLink> CDLink = new List<ContentDocumentLink>();
+            CDLink = [
+                SELECT ContentDocumentId, LinkedEntityId, Visibility
+                FROM ContentDocumentLink
+                WHERE LinkedEntityId = :MediaRecordId
+            ];
+            for (ContentDocumentLink cd : CDLink) {
                 cdid.add(cd.ContentDocumentId);
             }
-            List < ContentDocument > lstCD = new list < ContentDocument > ();
-            lstCD = [select id, Title, CreatedDate from ContentDocument where id IN: cdid Order By CreatedDate DESC];
+            List<ContentDocument> lstCD = new List<ContentDocument>();
+            lstCD = [
+                SELECT id, Title, CreatedDate
+                FROM ContentDocument
+                WHERE id IN :cdid
+                ORDER BY CreatedDate DESC
+            ];
             NoteData ND = new NoteData();
-            ND.CD=lstCD ;
-            
+            ND.CD = lstCD;
+
             return JSON.serialize(ND);
         } catch (Exception e) {
             return (string) AuraHelper.throwException(e);
@@ -34,7 +41,7 @@ public Without sharing class GetNotes {
                 ContentNote cnt = new ContentNote();
                 cnt.Title = notes;
                 insert cnt;
-                
+
                 ContentDocumentLink clnk = new ContentDocumentLink();
                 clnk.LinkedEntityId = MediaRecordId;
                 clnk.ContentDocumentId = cnt.Id;

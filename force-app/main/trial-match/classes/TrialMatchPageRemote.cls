@@ -54,6 +54,6 @@ public without sharing class TrialMatchPageRemote {
         @AuraEnabled
         public String NCTId;
         @AuraEnabled
-        public Date matchedDate; 
+        public Date matchedDate;
     }
 }

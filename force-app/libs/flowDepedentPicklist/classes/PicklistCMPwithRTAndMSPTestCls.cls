@@ -1,23 +1,33 @@
 @IsTest
 public class PicklistCMPwithRTAndMSPTestCls {
-
     static String objectApiName = 'Account';
     static String controllingField = 'Industry';
     static String dependentField = 'Type';
 
     testMethod static void getfieldDepedencyMapTest() {
         //Object Postive test
-        DependntPicklistCMPwithRecTypeAndMspCtrl.getFieldDependencyMap(objectApiName, controllingField, dependentField);
+        DependntPicklistCMPwithRecTypeAndMspCtrl.getFieldDependencyMap(
+            objectApiName,
+            controllingField,
+            dependentField
+        );
 
         //Object Negative Test
-        DependntPicklistCMPwithRecTypeAndMspCtrl.getFieldDependencyMap(null, 'controllingField', dependentField);
+        DependntPicklistCMPwithRecTypeAndMspCtrl.getFieldDependencyMap(
+            null,
+            'controllingField',
+            dependentField
+        );
 
         //Field Negative
-        DependntPicklistCMPwithRecTypeAndMspCtrl.getFieldDependencyMap(objectApiName, 'NonExistentField', dependentField);
+        DependntPicklistCMPwithRecTypeAndMspCtrl.getFieldDependencyMap(
+            objectApiName,
+            'NonExistentField',
+            dependentField
+        );
     }
 
     testMethod static void wrapperClassesTest() {
-
         //PicklistEntryWrapper
         DependntPicklistCMPwithRecTypeAndMspCtrl.PicklistEntryWrapper obj1 = new DependntPicklistCMPwithRecTypeAndMspCtrl.PicklistEntryWrapper();
         obj1.active = 'Yes';
@@ -25,7 +35,12 @@ public class PicklistCMPwithRTAndMSPTestCls {
         obj1.value = '';
 
         //recordTypeWrapper
-        DependntPicklistCMPwithRecTypeAndMspCtrl.recordTypeWrapper obj3 = new DependntPicklistCMPwithRecTypeAndMspCtrl.recordTypeWrapper(null, null, null, true);
+        DependntPicklistCMPwithRecTypeAndMspCtrl.recordTypeWrapper obj3 = new DependntPicklistCMPwithRecTypeAndMspCtrl.recordTypeWrapper(
+            null,
+            null,
+            null,
+            true
+        );
         //obj3.incorrectApiName=true;
         //obj3.rtId='';
         //obj3.rtIsMaster=false;
@@ -35,8 +50,7 @@ public class PicklistCMPwithRTAndMSPTestCls {
         DependntPicklistCMPwithRecTypeAndMspCtrl.piclistValues obj4 = new DependntPicklistCMPwithRecTypeAndMspCtrl.piclistValues();
         obj4.label = '';
         obj4.value = '';
-        DependntPicklistCMPwithRecTypeAndMspCtrl.piclistValues[] picklistvalueList = new DependntPicklistCMPwithRecTypeAndMspCtrl.piclistValues[]{
-        };
+        DependntPicklistCMPwithRecTypeAndMspCtrl.piclistValues[] picklistvalueList = new List<DependntPicklistCMPwithRecTypeAndMspCtrl.piclistValues>{};
         picklistvalueList.add(obj4);
 
         //picklistWrapper
@@ -53,7 +67,6 @@ public class PicklistCMPwithRTAndMSPTestCls {
 
         //Negative Test: No record type
         DependntPicklistCMPwithRecTypeAndMspCtrl.getRecordTypes('AccountTeamMember');
-
     }
 
     testMethod static void isfieldMSPtypeTest() {
@@ -66,5 +79,4 @@ public class PicklistCMPwithRTAndMSPTestCls {
         DependntPicklistCMPwithRecTypeAndMspCtrl.getPicklistValues('', '', '');
         Test.stopTest();
     }
-
 }

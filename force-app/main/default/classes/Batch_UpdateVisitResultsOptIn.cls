@@ -3,20 +3,24 @@
  */
 
 public without sharing class Batch_UpdateVisitResultsOptIn implements Database.Batchable<SObject> {
-
-    public Database.QueryLocator start (Database.BatchableContext bc) {
-        return Database.getQueryLocator([SELECT Visit_Results_Opt_In__c, Visit_Results_OptIn__c FROM Contact]);
+    public Database.QueryLocator start(Database.BatchableContext bc) {
+        return Database.getQueryLocator(
+            [SELECT Visit_Results_Opt_In__c, Visit_Results_OptIn__c FROM Contact]
+        );
     }
 
     public void execute(Database.BatchableContext bc, List<Contact> contacts) {
         for (Contact contact : contacts) {
-            contact.Visit_Results_OptIn__c = contact.Visit_Results_Opt_In__c ? 'Vitals;Labs;Biomarkers' : null;
+            contact.Visit_Results_OptIn__c = contact.Visit_Results_Opt_In__c
+                ? 'Vitals;Labs;Biomarkers'
+                : null;
         }
 
         update contacts;
     }
 
-    public void finish(Database.BatchableContext bc) {}
+    public void finish(Database.BatchableContext bc) {
+    }
 
     public static void run() {
         run(false);
@@ -26,8 +30,10 @@ public without sharing class Batch_UpdateVisitResultsOptIn implements Database.B
         if (overwriteData || !isDataExistsAlready()) {
             Database.executeBatch(new Batch_UpdateVisitResultsOptIn(), 200);
         } else {
-            throw new DataExistsException('\nData exists already in the \'Visit_Results_OptIn__c\' field.\n' +
-                    'To overwrite this data execute \'Batch_UpdateVisitResultsOptIn.run(true);\'');
+            throw new DataExistsException(
+                '\nData exists already in the \'Visit_Results_OptIn__c\' field.\n' +
+                'To overwrite this data execute \'Batch_UpdateVisitResultsOptIn.run(true);\''
+            );
         }
     }
 
@@ -36,5 +42,6 @@ public without sharing class Batch_UpdateVisitResultsOptIn implements Database.B
         return rowsWithData != 0;
     }
 
-    public class DataExistsException extends Exception {}
+    public class DataExistsException extends Exception {
+    }
 }

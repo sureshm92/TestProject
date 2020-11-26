@@ -4,7 +4,6 @@
 
 @IsTest
 private class Test_CountryLookupRemote {
-
     @IsTest
     static void testAll() {
         TestData.loadTestData();
@@ -15,7 +14,7 @@ private class Test_CountryLookupRemote {
 
         Test.startTest();
         TestData testData = new TestData();
-        testCountries = CountryLookupRemote.searchCountries('','',true, false, testData.ctp.Id);
+        testCountries = CountryLookupRemote.searchCountries('', '', true, false, testData.ctp.Id);
         testByValue = CountryLookupRemote.searchResultsByValue('US', true);
         Test.stopTest();
 

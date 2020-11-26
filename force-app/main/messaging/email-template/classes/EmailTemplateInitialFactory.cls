@@ -3,14 +3,15 @@
  */
 
 public without sharing class EmailTemplateInitialFactory {
-
-    public static EmailTemplateInitial getTemplateInitial(Id userId, String outputMode, String communityTemplateName) {
+    public static EmailTemplateInitial getTemplateInitial(
+        Id userId,
+        String outputMode,
+        String communityTemplateName
+    ) {
         User user = [
-                SELECT ContactId,
-                        Contact.UserCommunityIsDelegate__c,
-                        Contact.userCommunityMode__c
-                FROM User
-                WHERE Id = :userId
+            SELECT ContactId, Contact.UserCommunityIsDelegate__c, Contact.userCommunityMode__c
+            FROM User
+            WHERE Id = :userId
         ];
         String userMode = user.Contact.userCommunityMode__c;
         Boolean isDelegate = user.Contact.UserCommunityIsDelegate__c;
@@ -19,14 +20,25 @@ public without sharing class EmailTemplateInitialFactory {
         switch on userMode {
             when 'PI' {
                 if (isDelegate) {
-                    emailTemplateInitial = new EmailTemplateInitialPIDel(user.ContactId, outputMode, communityTemplateName);
+                    emailTemplateInitial = new EmailTemplateInitialPIDel(
+                        user.ContactId,
+                        outputMode,
+                        communityTemplateName
+                    );
                 } else {
-                    emailTemplateInitial = new EmailTemplateInitialPI(user.ContactId, outputMode, communityTemplateName);
+                    emailTemplateInitial = new EmailTemplateInitialPI(
+                        user.ContactId,
+                        outputMode,
+                        communityTemplateName
+                    );
                 }
             }
             when 'HCP' {
                 if (isDelegate) {
-                    emailTemplateInitial = new EmailTemplateInitialHCPDel(user.ContactId, outputMode);
+                    emailTemplateInitial = new EmailTemplateInitialHCPDel(
+                        user.ContactId,
+                        outputMode
+                    );
                 } else {
                     emailTemplateInitial = new EmailTemplateInitialHCP(user.ContactId, outputMode);
                 }
@@ -36,9 +48,17 @@ public without sharing class EmailTemplateInitialFactory {
             }
             when else {
                 if (isDelegate) {
-                    emailTemplateInitial = new EmailTemplateInitialPTDel(user.ContactId, outputMode, communityTemplateName);
+                    emailTemplateInitial = new EmailTemplateInitialPTDel(
+                        user.ContactId,
+                        outputMode,
+                        communityTemplateName
+                    );
                 } else {
-                    emailTemplateInitial = new EmailTemplateInitialPT(user.ContactId, outputMode, communityTemplateName);
+                    emailTemplateInitial = new EmailTemplateInitialPT(
+                        user.ContactId,
+                        outputMode,
+                        communityTemplateName
+                    );
                 }
             }
         }

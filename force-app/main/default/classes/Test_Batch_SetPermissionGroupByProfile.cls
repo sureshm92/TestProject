@@ -3,13 +3,11 @@
  */
 
 @IsTest
-private class Test_Batch_SetPermissionGroupByProfile  {
-
+private class Test_Batch_SetPermissionGroupByProfile {
     @IsTest
     static void testDataDoesNotExist() {
         Test.startTest();
         Batch_SetPermissionGroupByProfile.run();
         Test.stopTest();
     }
-
 }

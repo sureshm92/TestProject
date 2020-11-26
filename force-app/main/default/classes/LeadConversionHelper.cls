@@ -5,7 +5,11 @@
 public without sharing class LeadConversionHelper {
     public static String LEAD_STATUS_QUALIFIED_AND_SEND_INVITATION = 'Qualified and Send Invitation';
 
-    public static void afterLeadsUpdate(List<Lead> newLeads, Map<Id, Lead> oldLeadsMap, Map<Id, Lead> newLeadsMap) {
+    public static void afterLeadsUpdate(
+        List<Lead> newLeads,
+        Map<Id, Lead> oldLeadsMap,
+        Map<Id, Lead> newLeadsMap
+    ) {
         // extract only converted leads
         List<Lead> convertedLeads = getConvertedLeads(newLeads, oldLeadsMap);
 
@@ -38,13 +42,18 @@ public without sharing class LeadConversionHelper {
     private static void createPortalUsersWithoutStudy(List<Lead> convertedLeads) {
         Set<Id> contactsWithoutStudySite = new Set<Id>();
         for (Lead lead : convertedLeads) {
-            if (lead.Study_Site__c == null && lead.Status == LEAD_STATUS_QUALIFIED_AND_SEND_INVITATION) {
+            if (
+                lead.Study_Site__c == null &&
+                lead.Status == LEAD_STATUS_QUALIFIED_AND_SEND_INVITATION
+            ) {
                 contactsWithoutStudySite.add(lead.ConvertedContactId);
             }
         }
         if (!contactsWithoutStudySite.isEmpty()) {
             Map<Id, User> communityUsersMap = new Map<Id, User>();
-            for (User usr : CommunityService.getCommunityUsersByContactIds(contactsWithoutStudySite)) {
+            for (
+                User usr : CommunityService.getCommunityUsersByContactIds(contactsWithoutStudySite)
+            ) {
                 communityUsersMap.put(usr.ContactId, usr);
             }
 
@@ -55,7 +64,8 @@ public without sharing class LeadConversionHelper {
                 }
             }
             if (!contactIdsForCreateUser.isEmpty()) {
-                ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(contactIdsForCreateUser);
+                ((CommunityService) ClassFactory.newInstance(CommunityService.class))
+                    .createPortalUsers(contactIdsForCreateUser);
             }
         }
     }
@@ -70,11 +80,13 @@ public without sharing class LeadConversionHelper {
         if (!contactsWithoutStudySite.isEmpty()) {
             List<Contact> toUpdateContacts = new List<Contact>();
             for (Id contactId : contactsWithoutStudySite) {
-                toUpdateContacts.add(new Contact(
+                toUpdateContacts.add(
+                    new Contact(
                         Id = contactId,
                         userCommunityMode__c = CommunityService.USER_MODE_HCP,
                         userCommunytyType__c = CommunityService.USER_MODE_HCP
-                ));
+                    )
+                );
             }
             update toUpdateContacts;
         }
@@ -101,14 +113,14 @@ public without sharing class LeadConversionHelper {
                 }
 
                 HCP_Enrollment__c hcpe = new HCP_Enrollment__c(
-                        Study_Site__c = lead.Study_Site__c,
-                        HCP_Contact__c = lead.ConvertedContactId,
-                        HCP_Referral_Source__c = lead.HCP_Referral_Source__c,
-                        Patient_Count__c = lead.Patient_Count__c,
-                        Pre_Screened_Count__c = lead.Pre_Screened_Count__c,
-                        Pre_Screened_and_Did_Not_Qualify_Count__c = lead.Pre_Screened_and_Did_Not_Qualify_Count__c,
-                        Status__c = hcpeStatus,
-                        Degrees_of_Separation__c = lead.Degrees_Of_Separation__c
+                    Study_Site__c = lead.Study_Site__c,
+                    HCP_Contact__c = lead.ConvertedContactId,
+                    HCP_Referral_Source__c = lead.HCP_Referral_Source__c,
+                    Patient_Count__c = lead.Patient_Count__c,
+                    Pre_Screened_Count__c = lead.Pre_Screened_Count__c,
+                    Pre_Screened_and_Did_Not_Qualify_Count__c = lead.Pre_Screened_and_Did_Not_Qualify_Count__c,
+                    Status__c = hcpeStatus,
+                    Degrees_of_Separation__c = lead.Degrees_Of_Separation__c
                 );
                 leadConvertedToEnrollmentMap.put(lead.Id, hcpe);
                 hcpEnrollmentsToCreate.add(hcpe);
@@ -120,12 +132,16 @@ public without sharing class LeadConversionHelper {
         return leadConvertedToEnrollmentMap;
     }
 
-    private static void updateMaterialsSent(List<Lead> convertedLeads, Map<Id, Lead> newLeadsMap, Map<Id, HCP_Enrollment__c> leadConvertedToEnrollmentMap) {
+    private static void updateMaterialsSent(
+        List<Lead> convertedLeads,
+        Map<Id, Lead> newLeadsMap,
+        Map<Id, HCP_Enrollment__c> leadConvertedToEnrollmentMap
+    ) {
         List<Material_Sent__c> materialsToUpdate = new List<Material_Sent__c>();
         for (Material_Sent__c material : [
-                SELECT Id, Lead__c, Contact__c
-                FROM Material_Sent__c
-                WHERE Lead__c IN :convertedLeads
+            SELECT Id, Lead__c, Contact__c
+            FROM Material_Sent__c
+            WHERE Lead__c IN :convertedLeads
         ]) {
             material.Contact__c = newLeadsMap.get(material.Lead__c).ConvertedContactId;
             HCP_Enrollment__c currEnrollment = leadConvertedToEnrollmentMap.get(material.Lead__c);
@@ -142,9 +158,9 @@ public without sharing class LeadConversionHelper {
     private static void updateNationalIds(List<Lead> convertedLeads, Map<Id, Lead> newLeadsMap) {
         List<National_ID__c> nidsToUpdate = new List<National_ID__c>();
         for (National_ID__c lnid : [
-                SELECT Id, Lead__c, Contact__c
-                FROM National_ID__c
-                WHERE Lead__c IN :convertedLeads
+            SELECT Id, Lead__c, Contact__c
+            FROM National_ID__c
+            WHERE Lead__c IN :convertedLeads
         ]) {
             lnid.Contact__c = newLeadsMap.get(lnid.Lead__c).ConvertedContactId;
             nidsToUpdate.add(lnid);
@@ -154,12 +170,14 @@ public without sharing class LeadConversionHelper {
         }
     }
 
-    private static void updateLeadsWithHCPEnrollments(Map<Id, HCP_Enrollment__c> leadConvertedToEnrollmentMap) {
+    private static void updateLeadsWithHCPEnrollments(
+        Map<Id, HCP_Enrollment__c> leadConvertedToEnrollmentMap
+    ) {
         List<Lead> leadsToUpdate = new List<Lead>();
         for (Lead lead : [
-                SELECT Id, Converted_to_HCP__c
-                FROM Lead
-                WHERE Id IN :leadConvertedToEnrollmentMap.keySet()
+            SELECT Id, Converted_to_HCP__c
+            FROM Lead
+            WHERE Id IN :leadConvertedToEnrollmentMap.keySet()
         ]) {
             HCP_Enrollment__c currEnrollment = leadConvertedToEnrollmentMap.get(lead.Id);
             if (currEnrollment != null) {
@@ -172,16 +190,19 @@ public without sharing class LeadConversionHelper {
         }
     }
 
-    private static void insertPointOfContacts(List<Lead> convertedLeads, Map<Id, Contact> leadPOCMap) {
+    private static void insertPointOfContacts(
+        List<Lead> convertedLeads,
+        Map<Id, Contact> leadPOCMap
+    ) {
         List<Point_of_Contact__c> pocsToCreate = new List<Point_of_Contact__c>();
         for (Lead lead : convertedLeads) {
             if (!String.isBlank(lead.POC_Last_Name__c)) {
                 Point_of_Contact__c poc = new Point_of_Contact__c(
-                        Point_of_Contact_for_Account__c = lead.ConvertedAccountId,
-                        Point_of_Contact_for__c = lead.ConvertedContactId,
-                        Point_of_Contact_Type__c = lead.POC_Type__c,
-                        Point_of_Contact_Type_Description__c = lead.POC_Type_Description__c,
-                        Contact__c = leadPOCMap.get(lead.Id).Id
+                    Point_of_Contact_for_Account__c = lead.ConvertedAccountId,
+                    Point_of_Contact_for__c = lead.ConvertedContactId,
+                    Point_of_Contact_Type__c = lead.POC_Type__c,
+                    Point_of_Contact_Type_Description__c = lead.POC_Type_Description__c,
+                    Contact__c = leadPOCMap.get(lead.Id).Id
                 );
                 pocsToCreate.add(poc);
             }
@@ -191,23 +212,31 @@ public without sharing class LeadConversionHelper {
         }
     }
 
-    private static Map<Id, Contact> createContacts(List<Lead> convertedLeads, Map<Id, Map<String, Contact>> accountPOCMap) {
+    private static Map<Id, Contact> createContacts(
+        List<Lead> convertedLeads,
+        Map<Id, Map<String, Contact>> accountPOCMap
+    ) {
         List<Contact> contactsToCreate = new List<Contact>();
         Map<Id, Contact> leadPOCMap = new Map<Id, Contact>();
         for (Lead lead : convertedLeads) {
             if (!String.isBlank(lead.POC_Last_Name__c)) {
                 Contact poc;
                 Map<String, Contact> contactsByNameMap = accountPOCMap.get(lead.ConvertedAccountId);
-                if (contactsByNameMap != null) poc = contactsByNameMap.get(lead.POC_First_Name__c + ' ' + lead.POC_Last_Name__c);
+                if (contactsByNameMap != null)
+                    poc = contactsByNameMap.get(
+                        lead.POC_First_Name__c +
+                        ' ' +
+                        lead.POC_Last_Name__c
+                    );
                 if (poc == null) {
                     poc = new Contact(
-                            Email = lead.POC_Email__c,
-                            FirstName = lead.POC_First_Name__c,
-                            LastName = lead.POC_Last_Name__c,
-                            Phone = lead.POC_Phone__c,
-                            AccountId = lead.ConvertedAccountId,
-                            Contact_Method_Preference__c = lead.Contact_Method_Preference__c,
-                            Language__c = lead.Language__c
+                        Email = lead.POC_Email__c,
+                        FirstName = lead.POC_First_Name__c,
+                        LastName = lead.POC_Last_Name__c,
+                        Phone = lead.POC_Phone__c,
+                        AccountId = lead.ConvertedAccountId,
+                        Contact_Method_Preference__c = lead.Contact_Method_Preference__c,
+                        Language__c = lead.Language__c
                     );
                     contactsToCreate.add(poc);
                 }
@@ -234,15 +263,17 @@ public without sharing class LeadConversionHelper {
 
         Map<Id, Map<String, Contact>> accountPOCMap = new Map<Id, Map<String, Contact>>();
         List<Contact> contacts = [
-                SELECT Id, AccountId, Name
-                FROM Contact
-                WHERE AccountId IN :accountsForLeads
+            SELECT Id, AccountId, Name
+            FROM Contact
+            WHERE
+                AccountId IN :accountsForLeads
                 AND FirstName IN :pocFirstNames
                 AND LastName IN :pocLastNames
         ];
         for (Contact c : contacts) {
             Map<String, Contact> contactsByNameMap = accountPOCMap.get(c.AccountId);
-            if (contactsByNameMap == null) contactsByNameMap = new Map<String, Contact>();
+            if (contactsByNameMap == null)
+                contactsByNameMap = new Map<String, Contact>();
             contactsByNameMap.put(c.Name, c);
             accountPOCMap.put(c.AccountId, contactsByNameMap);
         }
