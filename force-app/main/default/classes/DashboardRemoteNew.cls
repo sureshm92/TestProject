@@ -283,8 +283,11 @@ public without sharing class DashboardRemoteNew {
                         Study_Site__c,
                         is_Invited__c
                     FROM Site_Staff__c
-                    WHERE Site_Contact__c = :currentContactId AND is_Invited__c = TRUE AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c =: communityName]) 
-                {
+                    WHERE
+                        Site_Contact__c = :currentContactId
+                        AND is_Invited__c = TRUE
+                        AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = :communityName
+                ]) {
                     delegatePIsMap.put(
                         sStaff.Study_Site__r.Principal_Investigator__c,
                         sStaff.Study_Site__r.Principal_Investigator__r.Name
@@ -502,7 +505,11 @@ public without sharing class DashboardRemoteNew {
     } */
 
     @AuraEnabled
-    public static List<WaitingContactItem> prepareAwaitingContactList(Id piId, String ctpId, String communityName) {
+    public static List<WaitingContactItem> prepareAwaitingContactList(
+        Id piId,
+        String ctpId,
+        String communityName
+    ) {
         List<WaitingContactItem> resList = new List<WaitingContactItem>();
         Set<Id> avaliableSS = new Set<Id>();
         Set<Id> ssId = new Set<Id>();
@@ -540,7 +547,8 @@ public without sharing class DashboardRemoteNew {
                 WHERE
                     Study_Site__c IN :ssId
                     AND Site_Contact__c = :currentContactId
-                    AND is_Invited__c = TRUE AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = :communityName
+                    AND is_Invited__c = TRUE
+                    AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = :communityName
             ]) {
                 avaliableSS.add(sstaff.Study_Site__c);
             }

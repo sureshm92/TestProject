@@ -2,15 +2,13 @@
  * Created by Leonid Bartenev
  */
 ({
-    callServerMethod : function(component, event,helper)
-    {
-        component.set("v.loaded", true);                
-        var action = component.get("c.prepareAwaitingContactList");
-        action.setParams
-        ({
-            piId:component.get('v.currentPi'),
-            ctpId:component.get('v.currentStudy'),
-            communityName:communityService.getCurrentCommunityTemplateName()
+    callServerMethod: function (component, event, helper) {
+        component.set('v.loaded', true);
+        var action = component.get('c.prepareAwaitingContactList');
+        action.setParams({
+            piId: component.get('v.currentPi'),
+            ctpId: component.get('v.currentStudy'),
+            communityName: communityService.getCurrentCommunityTemplateName()
         });
         action.setCallback(this, function (response) {
             var state = response.getState();
