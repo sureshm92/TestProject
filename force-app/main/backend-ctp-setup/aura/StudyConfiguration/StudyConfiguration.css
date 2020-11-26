@@ -2,7 +2,7 @@
  * Created by Nargiz Mamedova on 12/6/2019.
  */
 
-.THIS{
+.THIS {
     min-height: 100px;
 }
 
@@ -10,53 +10,53 @@
     min-height: 100px;
 }
 
-.THIS .global-data{
+.THIS .global-data {
     display: flex;
     flex-direction: column;
 }
 
-.THIS .global-element{
+.THIS .global-element {
     display: flex;
     flex-direction: row;
     margin-bottom: 5px;
     align-items: center;
 }
 
-.THIS .shareback-settings-container{
+.THIS .shareback-settings-container {
     margin-top: 20px;
 }
 
-.THIS .group-title{
+.THIS .group-title {
     line-height: 27px;
     font-size: 15px;
     font-weight: bold;
     margin-bottom: 10px;
 }
 
-.THIS .group-container{
+.THIS .group-container {
     margin-bottom: 20px;
 }
 
-.THIS .vrs-panel{
-    box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.15);
+.THIS .vrs-panel {
+    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.15);
     border: 1px solid #e4e4e4;
     border-radius: 5px;
     padding: 14px;
 }
 
-.THIS .vrs-panel + .vrs-panel{
+.THIS .vrs-panel + .vrs-panel {
     margin-top: 20px;
 }
 
-.THIS .slds-checkbox_toggle [type=checkbox]+.slds-checkbox_faux_container .slds-checkbox_off{
+.THIS .slds-checkbox_toggle [type='checkbox'] + .slds-checkbox_faux_container .slds-checkbox_off {
     display: none;
 }
 
-.THIS .slds-checkbox_toggle [type=checkbox]+.slds-checkbox_faux_container .slds-checkbox_on{
+.THIS .slds-checkbox_toggle [type='checkbox'] + .slds-checkbox_faux_container .slds-checkbox_on {
     display: none;
 }
 
-.THIS .overlay{
+.THIS .overlay {
     position: absolute;
     width: 100%;
     height: 100%;

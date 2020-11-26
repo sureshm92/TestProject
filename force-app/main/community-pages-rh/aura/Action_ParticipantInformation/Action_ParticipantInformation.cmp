@@ -2,214 +2,333 @@
  - Created by Nikita Abrazhevitch on 05-Sep-19.
  -->
 
- <aura:component description="Action_ParticipantInformation" controller="ParticipantInformationRemote">
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
-    
+<aura:component
+    description="Action_ParticipantInformation"
+    controller="ParticipantInformationRemote"
+>
+    <ltng:require
+        scripts="{!join(',', $Resource.rr_community_js)}"
+        afterScriptsLoaded="{!c.doInit}"
+    />
+
     <!-- attributes: -->
-    <aura:attribute name="pe" type="Participant_Enrollment__c"/>
-    <aura:attribute name="refProvider" type="Contact"/>
-    <aura:attribute name="participant" type="Participant__c" access="private"/>
-    <aura:attribute name="participantDelegate" type="Participant__c" access="private"/>
-    <aura:attribute name="callback" type="Object" access="private"/>
-    <aura:attribute name="rootComponent" type="Aura.Component" access="public"/>
-    <aura:attribute name="formData" type="AddPatientByPIRemote.FormData" access="private"/>
-    <aura:attribute name="initialized" type="Boolean" default="false" access="private"/>
-    <aura:attribute name="isFinalUpdate" type="Boolean"/>
-    <aura:attribute name="isValid" type="Boolean" default="false"/>
-    <aura:attribute name="statusDetailValid" type="Boolean" default="true"/>
-    <aura:attribute name="saveAndChangeStep" type="Boolean" default="false"/>
-    <aura:attribute name="popUpTitle" type="String"/>
-    <aura:attribute name="statusSteps" type="List" access="public"/>
-    <aura:attribute name="anchor" type="String"/>
-    <aura:attribute name="refreshForm" type="Boolean" default="false"/>
-    <aura:attribute name="refreshSteps" type="Boolean" default="false"/>
-    <aura:attribute name="actions" type="Object"/>
-    <aura:attribute name="currentTab" type="String" default="by-study"/>
-    <aura:attribute name="checkTabs" type="String" default="participantDetails"/>
-    <aura:attribute name="isInvited" type="Boolean" access="public"/>
-    <aura:attribute name="sendEmails" type="Boolean" default="false"/>
-    <aura:attribute name="doNotContact" type="Boolean" default="true"/>
-    <aura:attribute name="participantPath" type="Object"/>
-    <aura:attribute name="userInfo" type="Object"/>
-    <aura:attribute name="updateInProgress" type="Boolean"  default="false"/> 
-    <aura:attribute name="NotCCMode" type="Boolean"  default="true" access="public"/>
+    <aura:attribute name="pe" type="Participant_Enrollment__c" />
+    <aura:attribute name="refProvider" type="Contact" />
+    <aura:attribute name="participant" type="Participant__c" access="private" />
+    <aura:attribute name="participantDelegate" type="Participant__c" access="private" />
+    <aura:attribute name="callback" type="Object" access="private" />
+    <aura:attribute name="rootComponent" type="Aura.Component" access="public" />
+    <aura:attribute name="formData" type="AddPatientByPIRemote.FormData" access="private" />
+    <aura:attribute name="initialized" type="Boolean" default="false" access="private" />
+    <aura:attribute name="isFinalUpdate" type="Boolean" />
+    <aura:attribute name="isValid" type="Boolean" default="false" />
+    <aura:attribute name="statusDetailValid" type="Boolean" default="true" />
+    <aura:attribute name="saveAndChangeStep" type="Boolean" default="false" />
+    <aura:attribute name="popUpTitle" type="String" />
+    <aura:attribute name="statusSteps" type="List" access="public" />
+    <aura:attribute name="anchor" type="String" />
+    <aura:attribute name="refreshForm" type="Boolean" default="false" />
+    <aura:attribute name="refreshSteps" type="Boolean" default="false" />
+    <aura:attribute name="actions" type="Object" />
+    <aura:attribute name="currentTab" type="String" default="by-study" />
+    <aura:attribute name="checkTabs" type="String" default="participantDetails" />
+    <aura:attribute name="isInvited" type="Boolean" access="public" />
+    <aura:attribute name="sendEmails" type="Boolean" default="false" />
+    <aura:attribute name="doNotContact" type="Boolean" default="true" />
+    <aura:attribute name="participantPath" type="Object" />
+    <aura:attribute name="userInfo" type="Object" />
+    <aura:attribute name="updateInProgress" type="Boolean" default="false" />
+    <aura:attribute name="NotCCMode" type="Boolean" default="true" access="public" />
     <aura:attribute name="searchKey" type="String" access="public" />
-    <aura:attribute name="init" type="Boolean"  default="false"/>
-    <aura:attribute name="isEmail" type="Boolean" default="false"/>
-    <aura:attribute name="isPhone" type="Boolean" default="false"/>
-    <aura:attribute name="isSMS" type="Boolean" default="false"/>
-    <aura:attribute name="doContact" type="Boolean" default="false"/>
-    <aura:attribute name="isIQVIA" type="Boolean" default="false"/>
-    <aura:attribute name="isListView" type="Boolean" default="false"/>
+    <aura:attribute name="init" type="Boolean" default="false" />
+    <aura:attribute name="isEmail" type="Boolean" default="false" />
+    <aura:attribute name="isPhone" type="Boolean" default="false" />
+    <aura:attribute name="isSMS" type="Boolean" default="false" />
+    <aura:attribute name="doContact" type="Boolean" default="false" />
+    <aura:attribute name="isIQVIA" type="Boolean" default="false" />
+    <aura:attribute name="isListView" type="Boolean" default="false" />
     <aura:attribute name="parent" type="Aura.Component" />
     <!--<aura:attribute name="isDetailsChanged" type="Boolean" default="false"/>-->
-    <aura:attribute name="isStatusChanged" type="Boolean" default="false"/>
+    <aura:attribute name="isStatusChanged" type="Boolean" default="false" />
     <!-- Event handler -->
     <aura:registerEvent name="callcenter" type="c:CallCenterRefresh" />
-    
-    <aura:handler name="detectChildChanges" event="c:DetectChildChanges" action="{!c.checkChildChanges}"/>
-    
-    <aura:handler name="change" value="{!v.pe}" action="{!c.checkParticipant}"/>
-    
+
+    <aura:handler
+        name="detectChildChanges"
+        event="c:DetectChildChanges"
+        action="{!c.checkChildChanges}"
+    />
+
+    <aura:handler name="change" value="{!v.pe}" action="{!c.checkParticipant}" />
+
     <!-- methods -->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
-        <aura:attribute name="pe" type="Participant_Enrollment__c"/>
-        <aura:attribute name="actions" type="Object"/>
-        <aura:attribute name="rootComponent" type="Aura.Component" access="public"/>
-        <aura:attribute name="isInvited" type="Boolean" access="public"/>
-        <aura:attribute name="callback" type="Function"/>
+        <aura:attribute name="pe" type="Participant_Enrollment__c" />
+        <aura:attribute name="actions" type="Object" />
+        <aura:attribute name="rootComponent" type="Aura.Component" access="public" />
+        <aura:attribute name="isInvited" type="Boolean" access="public" />
+        <aura:attribute name="callback" type="Function" />
     </aura:method>
-    <aura:method name="doCallback" action="{!c.doCallback}" access="public"/>
-    <aura:method name="doUpdate" action="{!c.doUpdate}" access="public"/>
-    <aura:method name="doUpdatePatientStatus" action="{!c.doUpdatePatientStatus}" access="public"/>
-    <aura:method name="statusDetailValidityCheck" action="{!c.doCheckStatusDetailValidity}" access="public"/>
-    
-    
+    <aura:method name="doCallback" action="{!c.doCallback}" access="public" />
+    <aura:method name="doUpdate" action="{!c.doUpdate}" access="public" />
+    <aura:method name="doUpdatePatientStatus" action="{!c.doUpdatePatientStatus}" access="public" />
+    <aura:method
+        name="statusDetailValidityCheck"
+        action="{!c.doCheckStatusDetailValidity}"
+        access="public"
+    />
+
     <!-- component body: -->
-    <c:Popup aura:id="dialog" title="{!v.popUpTitle}" size="large" showScroll="true" showHeader="true"
-             showFooter="true">
-        <aura:if isTrue="{!and(v.pe.Study_Site__r.Study_Site_Type__c == 'Traditional' , or(v.pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c , v.pe.Study_Site__r.Suppress_Participant_Emails__c))}">
-                        <div class="invite-patient-container slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap">
-
-            <lightning:button disabled="true" label="{!$Label.c.BTN_Create_User_on_PE_Info}" class="slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center"/>
+    <c:Popup
+        aura:id="dialog"
+        title="{!v.popUpTitle}"
+        size="large"
+        showScroll="true"
+        showHeader="true"
+        showFooter="true"
+    >
+        <aura:if
+            isTrue="{!and(v.pe.Study_Site__r.Study_Site_Type__c == 'Traditional' , or(v.pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c , v.pe.Study_Site__r.Suppress_Participant_Emails__c))}"
+        >
+            <div
+                class="invite-patient-container slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap"
+            >
+                <lightning:button
+                    disabled="true"
+                    label="{!$Label.c.BTN_Create_User_on_PE_Info}"
+                    class="slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center"
+                />
             </div>
-                            <aura:set attribute="else">
-              <aura:if isTrue="{!v.isIQVIA &amp;&amp; !v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp;
+            <aura:set attribute="else">
+                <aura:if
+                    isTrue="{!v.isIQVIA &amp;&amp; !v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp;
                          !v.pe.Participant__r.Marketing_Flag__c &amp;&amp; v.pe.Participant__r.Email__c &amp;&amp;
-                         v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Hybrid' &amp;&amp; !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &amp;&amp; v.init &amp;&amp; v.pe.Permit_IQVIA_to_contact_about_study__c}">
-            <div class="invite-patient-container slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap">
-                <button class="slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center"
-                        onclick="{!c.createUserForPatient}"
-                        data-gtm="BTN_Invite_To_PP">{!$Label.c.BTN_Create_User_on_PE_Info}</button>
-            </div>
+                         v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Hybrid' &amp;&amp; !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &amp;&amp; v.init &amp;&amp; v.pe.Permit_IQVIA_to_contact_about_study__c}"
+                >
+                    <div
+                        class="invite-patient-container slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap"
+                    >
+                        <button
+                            class="slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center"
+                            onclick="{!c.createUserForPatient}"
+                            data-gtm="BTN_Invite_To_PP"
+                        >
+                            {!$Label.c.BTN_Create_User_on_PE_Info}
+                        </button>
+                    </div>
+                </aura:if>
+            </aura:set>
         </aura:if>
 
-    </aura:set>
-        </aura:if>
-        
-        <c:RRSpinner aura:id="spinner" size="medium"/>
+        <c:RRSpinner aura:id="spinner" size="medium" />
         <div class="form-content" data-gtm="Tabs_View_Details" id="anchor">
             <aura:if isTrue="{!v.initialized}">
-                
                 <lightning:tabset>
-                    <lightning:tab class="slds-tabs_default__item" aura:id="participantDetails"
-                                   label="{!$Label.c.BTN_Participant_Details}" onactive="{!c.checkTabs}">
+                    <lightning:tab
+                        class="slds-tabs_default__item"
+                        aura:id="participantDetails"
+                        label="{!$Label.c.BTN_Participant_Details}"
+                        onactive="{!c.checkTabs}"
+                    >
                         <div class="personal-info-container" id="personalInfoAnchor">
-                            <c:Form_EditPatientInfo aura:id="editForm" fromActionParticipant="true"
-                                                    participant="{!v.participant}" pe="{!v.pe}"
-                                                    participantDelegate="{!v.participantDelegate}"
-                                                    userInfo="{!v.userInfo}"
-                                                    isInvited="{!v.isInvited}"
-                                                    formData="{!v.formData}"
-                                                    updateMode="true"
-                                                    isValid="{!v.isValid}"/>
-                            
+                            <c:Form_EditPatientInfo
+                                aura:id="editForm"
+                                fromActionParticipant="true"
+                                participant="{!v.participant}"
+                                pe="{!v.pe}"
+                                participantDelegate="{!v.participantDelegate}"
+                                userInfo="{!v.userInfo}"
+                                isInvited="{!v.isInvited}"
+                                formData="{!v.formData}"
+                                updateMode="true"
+                                isValid="{!v.isValid}"
+                            />
+
                             <!--1936-->
-                            
+
                             <aura:if isTrue="{!v.init}">
-                                <div class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center" style="margin-bottom: 5px;">
+                                <div
+                                    class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center"
+                                    style="margin-bottom: 5px"
+                                >
                                     <div class="slds-size_1-of-1 slds-item_label">
-                                        <Strong>{!$Label.c.PG_Ref_L_Information_Sharing}</Strong>
+                                        <strong>{!$Label.c.PG_Ref_L_Information_Sharing}</strong>
                                     </div>
                                 </div>
-                                <div class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center" >
-                                    <div class="slds-size_1-of-1 slds-item_label">{!$Label.c.PG_Ref_L_Permit_IQVIA_Confirmation}</div>
+                                <div
+                                    class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center"
+                                >
+                                    <div class="slds-size_1-of-1 slds-item_label">
+                                        {!$Label.c.PG_Ref_L_Permit_IQVIA_Confirmation}
+                                    </div>
                                 </div>
                             </aura:if>
                             <!--<aura:if isTrue="{!v.pe.Permit_IQVIA_to_contact_about_study__c}">-->
-                                <aura:if isTrue= "{!v.init}">
-                                    <div class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap" >
-                                        <div class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
-                                            <lightning:input type="checkbox" class="IQVIA_contact-patient-checkbox" onchange="{!c.doContactEmail}" checked="{!v.pe.Permit_Mail_Email_contact_for_this_study__c}"/>
-                                            <div class="slds-size--10-of-12">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact_Email}</div>
+                            <aura:if isTrue="{!v.init}">
+                                <div
+                                    class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap"
+                                >
+                                    <div
+                                        class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center"
+                                    >
+                                        <lightning:input
+                                            type="checkbox"
+                                            class="IQVIA_contact-patient-checkbox"
+                                            onchange="{!c.doContactEmail}"
+                                            checked="{!v.pe.Permit_Mail_Email_contact_for_this_study__c}"
+                                        />
+                                        <div class="slds-size--10-of-12">
+                                            {!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact_Email}
                                         </div>
                                     </div>
-                                </aura:if>
-                                <aura:if isTrue= "{!v.init}">
-                                    <div class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap">
-                                        <div class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
-                                            <lightning:input type="checkbox" class="IQVIA_contact-patient-checkbox" onchange="{!c.doContactPhone}" checked="{!v.pe.Permit_Voice_Text_contact_for_this_study__c}"/>
-                                            <div class="slds-size--10-of-12">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact_Phone}</div>
+                                </div>
+                            </aura:if>
+                            <aura:if isTrue="{!v.init}">
+                                <div
+                                    class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap"
+                                >
+                                    <div
+                                        class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center"
+                                    >
+                                        <lightning:input
+                                            type="checkbox"
+                                            class="IQVIA_contact-patient-checkbox"
+                                            onchange="{!c.doContactPhone}"
+                                            checked="{!v.pe.Permit_Voice_Text_contact_for_this_study__c}"
+                                        />
+                                        <div class="slds-size--10-of-12">
+                                            {!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact_Phone}
                                         </div>
                                     </div>
-                                </aura:if>
-                                <aura:if isTrue= "{!v.init}">
-                                    <div class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap" style= "padding-bottom:10px;">
-                                        <div class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
-                                            <lightning:input type="checkbox" class="IQVIA_contact-patient-checkbox" onchange="{!c.doContactSMS}" checked="{!v.pe.Permit_SMS_Text_for_this_study__c}"/>
-                                            <div class="slds-size--10-of-12">{!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact_SMS}</div>
+                                </div>
+                            </aura:if>
+                            <aura:if isTrue="{!v.init}">
+                                <div
+                                    class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap"
+                                    style="padding-bottom: 10px"
+                                >
+                                    <div
+                                        class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center"
+                                    >
+                                        <lightning:input
+                                            type="checkbox"
+                                            class="IQVIA_contact-patient-checkbox"
+                                            onchange="{!c.doContactSMS}"
+                                            checked="{!v.pe.Permit_SMS_Text_for_this_study__c}"
+                                        />
+                                        <div class="slds-size--10-of-12">
+                                            {!$Label.c.PG_Ref_L_Permit_IQVIA_To_Contact_SMS}
                                         </div>
                                     </div>
-                                </aura:if>
+                                </div>
+                            </aura:if>
                             <!--</aura:if>-->
                             <!--End-->
                         </div>
                     </lightning:tab>
-                    <lightning:tab aura:id="Status" label="{!$Label.c.BTN_Status_Details}" onactive="{!c.checkTabs}">
-                        <c:ParticipantStatusDetails NotCCMode="{!v.NotCCMode}" participantWorkflowWrapper="{!v.participantPath}" parent="{!this}" updateInProgress="{!v.updateInProgress}"/>
+                    <lightning:tab
+                        aura:id="Status"
+                        label="{!$Label.c.BTN_Status_Details}"
+                        onactive="{!c.checkTabs}"
+                    >
+                        <c:ParticipantStatusDetails
+                            NotCCMode="{!v.NotCCMode}"
+                            participantWorkflowWrapper="{!v.participantPath}"
+                            parent="{!this}"
+                            updateInProgress="{!v.updateInProgress}"
+                        />
                     </lightning:tab>
-                    
+
                     <aura:if isTrue="{!v.NotCCMode}">
-                        <lightning:tab class="slds-tabs_default__item" aura:id="Provider"
-                                       label="{!$Label.c.Tab_Sharing_Options}"
-                                       title="{!$Label.c.Tab_Sharing_Options}" onactive="{!c.checkTabs}">
+                        <lightning:tab
+                            class="slds-tabs_default__item"
+                            aura:id="Provider"
+                            label="{!$Label.c.Tab_Sharing_Options}"
+                            title="{!$Label.c.Tab_Sharing_Options}"
+                            onactive="{!c.checkTabs}"
+                        >
                             <aura:if isTrue="{!v.pe}">
                                 <div id="healthCareProvider">
-                                    <c:ReferHealthcareProvider pe="{!v.pe}"
-                                                               refProvider="{!v.refProvider}"
-                                                               showReferringProvider="{#v.pe.Show_Referring_Provider__c}"
-                                                               fromActionParticipant="true"
-                                                               actionDisabled="{!v.actions.addPatient.disabled}"/>
+                                    <c:ReferHealthcareProvider
+                                        pe="{!v.pe}"
+                                        refProvider="{!v.refProvider}"
+                                        showReferringProvider="{#v.pe.Show_Referring_Provider__c}"
+                                        fromActionParticipant="true"
+                                        actionDisabled="{!v.actions.addPatient.disabled}"
+                                    />
                                 </div>
                             </aura:if>
-                        </lightning:tab>  
+                        </lightning:tab>
                     </aura:if>
-                    
+
                     <aura:if
-                             isTrue="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled}">
-                        <lightning:tab class="slds-tabs_default__item" aura:id="Survey"
-                                       label="{!$Label.c.BTN_Screener_Responses}" onactive="{!c.checkTabs}">
-                            <c:SurveyGismoResultsView results="{!v.pe.MRR_Survey_Results_URL__c}"/>
+                        isTrue="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled}"
+                    >
+                        <lightning:tab
+                            class="slds-tabs_default__item"
+                            aura:id="Survey"
+                            label="{!$Label.c.BTN_Screener_Responses}"
+                            onactive="{!c.checkTabs}"
+                        >
+                            <c:SurveyGismoResultsView results="{!v.pe.MRR_Survey_Results_URL__c}" />
                         </lightning:tab>
                     </aura:if>
                     <!--Survey Response-->
-                    <aura:if isTrue="{!v.pe.Referral_Source__c == 'IQVIA registry' &amp;&amp; !v.actions.screenerResponses.disabled}">
-                        <lightning:tab class="slds-tabs_default__item" aura:id="Survey"
-                                       label="{!$Label.c.BTN_Screener_Responses}" onactive="{!c.checkTabs}">  
-                            <c:SurveyResponseView pe="{!v.pe}"/>
-                        </lightning:tab>             
+                    <aura:if
+                        isTrue="{!v.pe.Referral_Source__c == 'IQVIA registry' &amp;&amp; !v.actions.screenerResponses.disabled}"
+                    >
+                        <lightning:tab
+                            class="slds-tabs_default__item"
+                            aura:id="Survey"
+                            label="{!$Label.c.BTN_Screener_Responses}"
+                            onactive="{!c.checkTabs}"
+                        >
+                            <c:SurveyResponseView pe="{!v.pe}" />
+                        </lightning:tab>
                     </aura:if>
                 </lightning:tabset>
             </aura:if>
         </div>
         <aura:set attribute="headerButtons">
-            <lightning:button onclick="{!c.doPrint}" name="Print" class="{!'slds-button slds-button&#45;&#45;icon-inverse'}">
+            <lightning:button
+                onclick="{!c.doPrint}"
+                name="Print"
+                class="{!'slds-button slds-button&#45;&#45;icon-inverse'}"
+            >
                 <!--<c:RRIcon iconName="icon-print" class="print-icon"/> -->
-                <img class="print-icon" src="{!$Resource.icon_printIcon}" width="16" height="16"/>
+                <img class="print-icon" src="{!$Resource.icon_printIcon}" width="16" height="16" />
             </lightning:button>
         </aura:set>
         <aura:set attribute="footerButtons">
-            
-            
             <!--End-->
             <div class="partinfo-footer-buttons" data-gtm="BTNS_Popup_Save_Cancel">
-                
-                
                 <span>
-                    <lightning:button class="apollo-btn tertiary"
-                                      onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</lightning:button>
+                    <lightning:button class="apollo-btn tertiary" onclick="{!c.doCancel}"
+                        >{!$Label.c.BTN_Cancel}</lightning:button
+                    >
                     <aura:if isTrue="{!v.checkTabs == 'participantDetails'}">
-                        <lightning:button class="apollo-btn secondary" disabled="{!!v.isValid}"
-                                          onclick="{!c.doUpdate}">{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button>
+                        <lightning:button
+                            class="apollo-btn secondary"
+                            disabled="{!!v.isValid}"
+                            onclick="{!c.doUpdate}"
+                            >{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button
+                        >
                     </aura:if>
                     <aura:if isTrue="{!v.checkTabs == 'Status'}">
-                        <lightning:button class="apollo-btn secondary" disabled="{!!v.statusDetailValid}"
-                                          onclick="{!c.doUpdatePatientStatus}">{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button>
+                        <lightning:button
+                            class="apollo-btn secondary"
+                            disabled="{!!v.statusDetailValid}"
+                            onclick="{!c.doUpdatePatientStatus}"
+                            >{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button
+                        >
                     </aura:if>
                 </span>
-                <lightning:button class="apollo-btn primary slds-button--neutral"
-                                  disabled="{!!v.isValid || ! v.statusDetailValid}"
-                                  onclick="{!c.doUpdateCancel}">{!$Label.c.BTN_Save_All_Tabs}</lightning:button>
+                <lightning:button
+                    class="apollo-btn primary slds-button--neutral"
+                    disabled="{!!v.isValid || ! v.statusDetailValid}"
+                    onclick="{!c.doUpdateCancel}"
+                    >{!$Label.c.BTN_Save_All_Tabs}</lightning:button
+                >
             </div>
         </aura:set>
     </c:Popup>

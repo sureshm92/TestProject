@@ -6,58 +6,57 @@
     margin-top: 50px;
 }
 
-.THIS .pe-button .rr-icon-default{
+.THIS .pe-button .rr-icon-default {
     width: 14px;
     height: 14px;
-    fill: #297DFD;
+    fill: #297dfd;
     margin-right: 5px;
     position: relative;
     top: -1px;
 }
 
-.THIS .pe-button.red .rr-icon-default{
-    fill: #E63F5B
+.THIS .pe-button.red .rr-icon-default {
+    fill: #e63f5b;
 }
 
-.THIS .pe-button{
-    color: #297DFD;
+.THIS .pe-button {
+    color: #297dfd;
     font-size: 13px;
     font-weight: 600;
     line-height: 32px;
     text-decoration: none;
 }
 
-.THIS .pe-button{
+.THIS .pe-button {
     line-height: 8px;
     user-select: none;
 }
 
-.THIS .pe-button.red{
-    color: #E63F5B;
+.THIS .pe-button.red {
+    color: #e63f5b;
 }
 
-.THIS .pe-button:active{
+.THIS .pe-button:active {
     color: rgba(41, 125, 253, 0.8);
-    box-shadow: inset 0 0 4px rgba(0,0,0,0.4);
+    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.4);
     background: rgba(128, 128, 128, 0.01);
 }
 
-.THIS .pe-button.red:active{
+.THIS .pe-button.red:active {
     color: rgba(230, 63, 91, 0.82);
 }
 
-
-.THIS.cRRTopBar .buttons-area{
+.THIS.cRRTopBar .buttons-area {
     border-top: none;
 }
 
-.THIS.cRRTopBar .buttons-block{
+.THIS.cRRTopBar .buttons-block {
     display: flex;
     height: 55px;
     padding: 5px 0 18px;
 }
 
-.THIS .pe-button{
+.THIS .pe-button {
     flex: 1 1 50%;
     cursor: pointer;
     height: 100%;
@@ -66,28 +65,28 @@
     align-items: center;
 }
 
-.THIS .pe-button > div{
+.THIS .pe-button > div {
     display: inline-block;
     text-align: center;
     padding: 0 5px;
 }
 
-.THIS .pe-button:first-child{
-    border-left: 1px solid #D9D9D9;
-    border-right: 1px solid #D9D9D9;
+.THIS .pe-button:first-child {
+    border-left: 1px solid #d9d9d9;
+    border-right: 1px solid #d9d9d9;
 }
-.THIS .pe-button:last-child{
-    border-right: 1px solid #D9D9D9;
+.THIS .pe-button:last-child {
+    border-right: 1px solid #d9d9d9;
 }
 
-.THIS .path-area{
+.THIS .path-area {
     background-color: #eef5ff;
     border-top: 1px solid #d9d9d9;
-   	height: 50px;
+    height: 50px;
     padding-top: 5px;
 }
 
-.THIS .pe-large-header{
+.THIS .pe-large-header {
     font-size: 24px;
     font-weight: 600;
     line-height: 60px;
@@ -95,32 +94,32 @@
     padding: 35px 0 0;
 }
 
-.THIS .alert-icon-margin{
+.THIS .alert-icon-margin {
     margin-right: 9px !important;
 }
 
-.THIS .delegate-alert-message{
+.THIS .delegate-alert-message {
     background-color: #ffffff;
 }
 
-.THIS .pe-panel{
+.THIS .pe-panel {
     border: 1px solid #e9e9e9;
     border-radius: 5px;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
     text-align: center;
 }
 
-.THIS .pe-panel.padding{
+.THIS .pe-panel.padding {
     padding: 20px;
 }
 
-.THIS .pe-panel .rr-icon-default{
+.THIS .pe-panel .rr-icon-default {
     width: 40px;
     fill: black;
 }
 
-.THIS .between-panels{
+.THIS .between-panels {
     font-size: 24px;
     font-weight: 400;
     line-height: 50px;
@@ -128,14 +127,14 @@
     color: #595959;
 }
 
-.THIS .pe-panel .title{
+.THIS .pe-panel .title {
     font-size: 18px;
     font-weight: 600;
-	margin-top: 15px;
+    margin-top: 15px;
     text-align: center;
 }
 
-.THIS .rr-sub-title{
+.THIS .rr-sub-title {
     font-size: 14px;
     color: #444;
     font-weight: 400;
@@ -143,7 +142,7 @@
 }
 
 .THIS .mrr-items {
- 	border: none;
+    border: none;
 }
 
 .THIS .mrr-item-id,
@@ -152,18 +151,18 @@
     color: #444;
 }
 
-.THIS .big-alert{
+.THIS .big-alert {
     text-align: center;
 }
 
-.THIS .big-alert .rr-icon-default{
+.THIS .big-alert .rr-icon-default {
     width: 64px;
     height: 64px;
     fill: black;
     margin-top: 30px;
 }
 
-.THIS .big-alert .message{
+.THIS .big-alert .message {
     font-size: 30px;
     font-weight: 600;
     line-height: 36px;
@@ -171,26 +170,25 @@
     padding: 20px 0;
 }
 
-.THIS .big-alert .buttons{
+.THIS .big-alert .buttons {
     text-align: center;
     margin: 10px;
     margin-bottom: 30px;
 }
 
-.THIS .big-alert .buttons button{
-    opacity: 1!important;
+.THIS .big-alert .buttons button {
+    opacity: 1 !important;
 }
 
-.THIS .rr-map{
+.THIS .rr-map {
     height: 500px;
 }
-
 
 .THIS .sdas-footer-info {
     text-align: left;
     background-color: white;
     padding: 17px;
-    border-bottom: 2px solid #CCCCCC;
+    border-bottom: 2px solid #cccccc;
 }
 
 .THIS .sdas-footer-info .name {
@@ -207,31 +205,30 @@
     line-height: 16px;
 }
 
-.THIS .q-failed{
+.THIS .q-failed {
     text-align: center;
 }
 
-.THIS .q-failed span{
+.THIS .q-failed span {
     color: #333333;
     font-size: 13px;
     line-height: 16px;
     text-align: center;
 }
 
-.THIS .q-failed .apollo-btn:not(.ssi-btn){
+.THIS .q-failed .apollo-btn:not(.ssi-btn) {
     display: block;
     margin: 20px auto;
 }
 
-.THIS .ci-left{
-    background: linear-gradient(306deg, #0076AE 0%, #250056 100%);
+.THIS .ci-left {
+    background: linear-gradient(306deg, #0076ae 0%, #250056 100%);
 }
 
-.THIS .ci-right{
-
+.THIS .ci-right {
 }
 
-.THIS .ci-ico-message .rr-icon-default{
+.THIS .ci-ico-message .rr-icon-default {
     fill: white;
     float: left;
     margin-right: 10px;
@@ -239,82 +236,83 @@
     height: 32px;
 }
 
-.THIS .ref-alert{
+.THIS .ref-alert {
     text-align: center;
     padding-top: 30px;
     min-height: 500px;
 }
 
-.THIS .ref-alert .main-title{
+.THIS .ref-alert .main-title {
     font-size: 40px;
     font-weight: 400;
     line-height: 48px;
 }
 
-.THIS .ref-alert.fail .main-title{
-    color: #FF283F;
+.THIS .ref-alert.fail .main-title {
+    color: #ff283f;
 }
 
-.THIS .ref-alert.pass .main-title, .THIS .green-text{
-    color: #00C82B;
+.THIS .ref-alert.pass .main-title,
+.THIS .green-text {
+    color: #00c82b;
 }
 
-.THIS .ref-alert .rr-icon-default{
+.THIS .ref-alert .rr-icon-default {
     width: 64px;
     height: 64px;
     display: block;
     margin: 5px auto;
 }
 
-.THIS .ref-alert.fail .rr-icon-default{
-    fill: #FF283F;
+.THIS .ref-alert.fail .rr-icon-default {
+    fill: #ff283f;
 }
 
-.THIS .ref-alert.pass .rr-icon-default{
-    fill: #00C82B;
+.THIS .ref-alert.pass .rr-icon-default {
+    fill: #00c82b;
 }
 
-.THIS .ref-alert button{
+.THIS .ref-alert button {
     display: block;
     margin: 20px auto;
 }
 
-.THIS .ref-alert .rr-sub-text{
+.THIS .ref-alert .rr-sub-text {
     padding: 10px 0;
 }
 
-.THIS .screening-gizmo-frame{
+.THIS .screening-gizmo-frame {
     width: 100%;
     border: 0;
     margin-bottom: 30px;
     overflow: hidden;
 }
 
-.THIS .mrr-item-content{
+.THIS .mrr-item-content {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     margin: -5px;
 }
 
-.THIS .mrr-item-content > *{
+.THIS .mrr-item-content > * {
     padding: 5px;
     white-space: nowrap;
 }
 
-.THIS .mrr-status-content{
+.THIS .mrr-status-content {
     display: flex;
     flex-wrap: wrap;
     margin-left: -5px;
     margin-right: -5px;
 }
 
-.THIS .mrr-status-content > *{
+.THIS .mrr-status-content > * {
     padding-left: 5px;
     padding-right: 5px;
 }
 
-.THIS .mrr-item-btns{
+.THIS .mrr-item-btns {
     margin-left: auto;
 }
 
@@ -323,43 +321,44 @@
     width: auto;
 }
 
-@media all and (max-width: 500px){
-    .THIS .mrr-item-btns, .THIS .mrr-item-btns button{
+@media all and (max-width: 500px) {
+    .THIS .mrr-item-btns,
+    .THIS .mrr-item-btns button {
         width: 100%;
     }
-    
+
     .THIS .rr-path-container {
         padding-top: 8px;
     }
-    
+
     .THIS .rr-width-limiter.side-padding {
         padding-left: 10px;
         padding-right: 10px;
     }
 }
 
-@media all and (max-width: 768px){
-    .THIS .rr-big-title{
+@media all and (max-width: 768px) {
+    .THIS .rr-big-title {
         font-size: 37px;
     }
 
-    .THIS .rr-title{
+    .THIS .rr-title {
         font-size: 20px;
         line-height: 30px;
         margin-top: 15px;
     }
-    
+
     .THIS.cRRTopBar .buttons-block {
         padding: 5px 1rem 1.25rem;
     }
-    
+
     .THIS.cRRTopBar .buttons-block .apollo-btn.secondary {
         padding: 6px 8px;
         height: 40px;
     }
 }
 
-.THIS .ssi-site-name{
+.THIS .ssi-site-name {
     text-align: left;
     color: #000000;
     font-size: 15px;
@@ -374,43 +373,42 @@
     color: #999999;
     font-size: 14px;
 }
-.THIS .ssi-site-distance{
+.THIS .ssi-site-distance {
     color: #999999;
     font-size: 14px;
 }
-.THIS .ssi-address{
+.THIS .ssi-address {
     color: #333333;
     font-size: 13px;
 }
 
-.THIS .ssi-button{
+.THIS .ssi-button {
     text-align: right;
 }
 
-@media all and (min-width: 768px){
+@media all and (min-width: 768px) {
     .THIS .ssi-site-distance,
-    .THIS .ssi-site-type{
+    .THIS .ssi-site-type {
         text-align: right;
     }
 }
-.THIS .sub-title{
-    font-size: 18px!important;
+.THIS .sub-title {
+    font-size: 18px !important;
 }
-.THIS .ssi-address{
+.THIS .ssi-address {
     color: #333333;
     font-size: 13px;
     text-align: left;
 }
 
 .THIS .slds-coordinates {
-    display: none!important;
+    display: none !important;
 }
-@media all and (min-width: 768px){
-    .THIS .ss-map{
+@media all and (min-width: 768px) {
+    .THIS .ss-map {
         align-self: stretch;
     }
-    .THIS lightning-map{
+    .THIS lightning-map {
         height: 100%;
     }
-
 }

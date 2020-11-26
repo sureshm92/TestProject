@@ -2,10 +2,9 @@
  * Created by Igor Malyuta on 19.09.2019.
  */
 
-import {LightningElement, api} from 'lwc';
+import { LightningElement, api } from 'lwc';
 
 export default class UiCheckbox extends LightningElement {
-
     @api keyId;
     @api forField;
     @api fieldLabel;

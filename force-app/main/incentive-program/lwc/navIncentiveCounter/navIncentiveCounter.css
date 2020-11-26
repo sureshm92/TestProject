@@ -12,24 +12,24 @@
     line-height: 24px;
 }
 
-.nic-button:hover{
-    background-color: rgba(255,255,255,0.16);
+.nic-button:hover {
+    background-color: rgba(255, 255, 255, 0.16);
 }
 
-.current-page{
-    background-color: rgba(255,255,255,0.16);
+.current-page {
+    background-color: rgba(255, 255, 255, 0.16);
 }
 
-.nic-container{
+.nic-container {
     position: relative;
     display: inline;
 }
 
-.nic-container:hover{
+.nic-container:hover {
     cursor: default;
 }
 
-.nic-container:focus{
+.nic-container:focus {
     outline: none;
 }
 
@@ -39,20 +39,20 @@
     width: auto;
 }
 
-.nic-points{
+.nic-points {
     padding-left: 5px;
     display: inline-block;
     position: relative;
     top: 1px;
 }
 
-@media all and (max-width: 500px){
-    .nic-points{
+@media all and (max-width: 500px) {
+    .nic-points {
         padding-left: 1px;
         font-size: 13px;
         line-height: 11px;
     }
-    .nic-button{
+    .nic-button {
         flex-direction: column-reverse;
         padding-bottom: 16px;
         align-items: center;
@@ -68,5 +68,4 @@
         height: 18px;
         width: 18px;
     }
-
 }

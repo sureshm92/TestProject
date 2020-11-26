@@ -8,7 +8,7 @@
     justify-content: space-between;
 }
 
-.THIS .icons-row{
+.THIS .icons-row {
     display: flex;
     flex-wrap: wrap;
 }
@@ -22,12 +22,12 @@
     display: flex;
 }
 
-.THIS .icon-item{
+.THIS .icon-item {
     padding-left: 10px;
     fill: #999 !important;
 }
 
-.THIS .dots{
+.THIS .dots {
     padding-left: 2px;
     padding-top: 13px;
     font-weight: bold;
@@ -35,7 +35,7 @@
     left: 32px;
 }
 
-.THIS .icon-item:hover{
+.THIS .icon-item:hover {
     fill: #595959 !important;
 }
 

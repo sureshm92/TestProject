@@ -2,7 +2,7 @@
  * Created by Olga Skrynnikova on 6/16/2020.
  */
 
-.THIS .label{
+.THIS .label {
     height: 48px;
     color: #000000;
     font-size: 16px;
@@ -11,49 +11,50 @@
     line-height: 48px;
 }
 
-.THIS .item-container{
+.THIS .item-container {
     display: flex;
     width: 100%;
     border-bottom: 1px solid #f8f9fb;
 }
 
-.THIS .item-container:hover{
+.THIS .item-container:hover {
     cursor: pointer;
 }
 
-.THIS .mode-icon{
+.THIS .mode-icon {
     width: 16px;
     height: 16px;
 }
 
-.THIS .selected{
-    color: #0768FD;
+.THIS .selected {
+    color: #0768fd;
     font-weight: bold;
 }
 
-.THIS .mode-icon.selected{
-    fill: #0768FD;
+.THIS .mode-icon.selected {
+    fill: #0768fd;
 }
 
-.THIS .menu-item{
+.THIS .menu-item {
     margin-left: 8px;
     margin-right: 8px;
     line-height: 48px;
 }
 
-.THIS .icon-cog, .THIS .icon-delegate{
+.THIS .icon-cog,
+.THIS .icon-delegate {
     width: 16px;
     height: 16px;
-    fill: #666666!important;
+    fill: #666666 !important;
 }
 
-.THIS .icon-settings-box{
+.THIS .icon-settings-box {
     display: flex;
     align-items: center;
     margin-right: 20px;
 }
 
-.THIS .item-label-box{
+.THIS .item-label-box {
     width: 100%;
     display: flex;
     justify-content: space-between;

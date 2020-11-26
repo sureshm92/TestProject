@@ -5,7 +5,7 @@
     doInit: function (component, event, hepler) {
         if (!communityService.isInitialized()) return;
 
-        if(!communityService.isDummy()) {
+        if (!communityService.isDummy()) {
             let spinner = component.find('mainSpinner');
             spinner.show();
             component.set('v.userMode', communityService.getUserMode());
@@ -21,7 +21,9 @@
     },
 
     doExport: function (component) {
-        let exportURL = communityService.getCommunityURLPathPrefix().replace('/s', '/apex') + '/exportexcelpage';
+        let exportURL =
+            communityService.getCommunityURLPathPrefix().replace('/s', '/apex') +
+            '/exportexcelpage';
 
         let params = [];
         params.push('userMode=' + component.get('v.userMode'));
@@ -29,20 +31,16 @@
         console.log('Export URL: ' + exportURL);
         window.open(exportURL, '_blank');
     },
-    
+
     doExportFull: function (component) {
         if (communityService.isInitialized() && communityService.isMobileSDK()) {
-            communityService.showInfoToast(
-                'Info!',
-                $A.get('$Label.c.Pdf_Not_Available'),
-                100
-            );
+            communityService.showInfoToast('Info!', $A.get('$Label.c.Pdf_Not_Available'), 100);
             return;
         }
-        var childComponent = component.find("childCmp");
+        var childComponent = component.find('childCmp');
         childComponent.childMethod();
     },
-    onClickListView: function (component, event, helper){
+    onClickListView: function (component, event, helper) {
         communityService.navigateToPage('listviewparticipant');
     },
     doNeedsGuardian: function (component, event) {

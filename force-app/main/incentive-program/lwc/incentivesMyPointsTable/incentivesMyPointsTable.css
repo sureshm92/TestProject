@@ -6,7 +6,7 @@ table {
 }
 
 thead > tr {
-    background: #F6F7FB;
+    background: #f6f7fb;
     color: #595959;
     font-size: 14px;
     font-weight: 500;
@@ -17,11 +17,12 @@ tbody > tr {
     color: #444444;
     font-size: 16px;
     line-height: 30px;
-    border-bottom: 2px solid #F8F9FB;
+    border-bottom: 2px solid #f8f9fb;
     display: flex;
 }
 
-td, th {
+td,
+th {
     padding: 10px;
 }
 
@@ -56,7 +57,7 @@ thead tr {
 ::-webkit-scrollbar-thumb {
     border-radius: 4px;
     background-color: #999999;
-    box-shadow: 0 8px 8px 0 rgba(0,0,0,0.16);
+    box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.16);
 }
 
 ::-webkit-scrollbar-track {
@@ -67,18 +68,18 @@ thead tr {
     height: 0;
 }
 
-tr>th:nth-child(1),
-tr>td:nth-child(1) {
-    width: 22%
+tr > th:nth-child(1),
+tr > td:nth-child(1) {
+    width: 22%;
 }
 
-tr>th:nth-child(2),
-tr>td:nth-child(2) {
+tr > th:nth-child(2),
+tr > td:nth-child(2) {
     width: 58%;
 }
 
-tr>th:nth-child(3),
-tr>td:nth-child(3) {
+tr > th:nth-child(3),
+tr > td:nth-child(3) {
     width: 20%;
     text-align: end;
     white-space: nowrap;
@@ -91,42 +92,41 @@ tbody {
 }
 
 @media all and (max-width: 1024px) {
-    tbody{
+    tbody {
         max-height: 250px;
         overflow-y: auto;
-        padding-right: 10px
+        padding-right: 10px;
     }
 }
 
 @media all and (max-width: 767px) {
-
-    tr>th:nth-child(1),
-    tr>td:nth-child(1){
+    tr > th:nth-child(1),
+    tr > td:nth-child(1) {
         width: 30%;
     }
 
-    tr>th:nth-child(2) {
+    tr > th:nth-child(2) {
         width: 35%;
         padding-left: 0;
     }
 
-    tr>td:nth-child(2){
+    tr > td:nth-child(2) {
         width: 50%;
         line-height: 24px;
         padding-left: 5px;
         padding-top: 12px;
     }
 
-    tr>th:nth-child(3) {
+    tr > th:nth-child(3) {
         width: 35%;
     }
 
-    tr>td:nth-child(3){
+    tr > td:nth-child(3) {
         width: 25%;
         text-align: end;
     }
 
-    .incentives-my-points-table-container{
+    .incentives-my-points-table-container {
         overflow: auto;
     }
 }

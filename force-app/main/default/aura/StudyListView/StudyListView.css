@@ -6,7 +6,7 @@
     color: #000000;
     font-weight: 600;
     line-height: 22px;
-/*    margin-top: 30px; */
+    /*    margin-top: 30px; */
     margin-bottom: 4px;
     text-transform: uppercase;
 }
@@ -20,7 +20,7 @@
     width: 100%;
     border: 1px solid #e9e9e9;
     border-radius: 5px;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     margin-bottom: 30px;
     margin-top: 0;
     padding: 16px;
@@ -29,11 +29,10 @@
 
 .THIS .header-white-panel {
     color: #666666;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 20px;
     line-height: 26px;
 }
-
 
 @media all and (min-width: 768px) {
     .THIS .slv-padded-panel-left {
@@ -44,20 +43,18 @@
         padding-right: 4.5rem;
         padding-left: 4.5rem;
     }
-    
 }
 
 @media all and (max-width: 767px) {
     .THIS .slv-header-item + .slv-header-item {
         margin-top: 16px;
     }
-    
+
     .THIS .search-more-btn {
         width: 100%;
     }
-    
-     .THIS.slv-items-panel {
+
+    .THIS.slv-items-panel {
         padding-bottom: 0;
     }
-
 }

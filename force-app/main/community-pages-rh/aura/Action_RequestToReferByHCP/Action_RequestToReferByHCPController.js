@@ -10,24 +10,31 @@
         var refreshSource = params.refreshSource;
         var delegateId = params.delegateId;
 
-        var mainspinner =  refreshSource.find('mainSpinner');
+        var mainspinner = refreshSource.find('mainSpinner');
         mainspinner.show();
         component.set('v.study', study);
         component.set('v.refreshSource', refreshSource);
 
-            //if studySiteId defined then send site request for this Study Site
-            communityService.executeAction(component, 'requestToReferForHCP', {
+        //if studySiteId defined then send site request for this Study Site
+        communityService.executeAction(
+            component,
+            'requestToReferForHCP',
+            {
                 studySiteId: studySiteId,
                 hcpeId: hcpeId,
                 delegateId: delegateId
-            }, function (returnValue) {
+            },
+            function (returnValue) {
                 refreshSource.refresh();
                 component.find('requestReferralDialog').show();
-            }, null, function () {
+            },
+            null,
+            function () {
                 mainspinner.hide();
-            });
+            }
+        );
     },
     doCloseDialogs: function (component) {
         component.find('requestReferralDialog').hide();
     }
-})
+});

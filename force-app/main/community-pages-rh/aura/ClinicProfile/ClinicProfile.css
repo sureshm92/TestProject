@@ -1,12 +1,12 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS .white-panel.study{
+.THIS .white-panel.study {
     margin-top: 25px;
 }
 
-.THIS .study-header{
-    color: #297DFD;
+.THIS .study-header {
+    color: #297dfd;
     font-size: 24px;
     font-weight: 600;
     line-height: 30px;
@@ -15,11 +15,11 @@
     padding-right: 17px;
 }
 
-.THIS .study-header span{
+.THIS .study-header span {
     cursor: pointer;
 }
 
-.THIS .sponsor-name{
+.THIS .sponsor-name {
     color: #666666;
     font-size: 13px;
     line-height: 16px;
@@ -27,12 +27,12 @@
     font-weight: 400;
 }
 
-.THIS .study .info-section{
+.THIS .study .info-section {
     padding: 10px 5px 10px 17px;
 }
 
-.THIS .study .info-section .total-amount{
-    color: #9014FE;
+.THIS .study .info-section .total-amount {
+    color: #9014fe;
     font-size: 36px;
     font-weight: 300;
     line-height: 43px;
@@ -40,7 +40,7 @@
     margin-right: 5px;
 }
 
-.THIS .study .info-section .total-desc{
+.THIS .study .info-section .total-desc {
     color: #666666;
     font-size: 13px;
     font-weight: 400;
@@ -48,25 +48,25 @@
     line-height: 16px;
 }
 
-.THIS .study .info-section .percent{
+.THIS .study .info-section .percent {
     display: inline-block;
     margin: 0 0 0 10px;
 }
 
-.THIS .study .info-section .percent svg{
+.THIS .study .info-section .percent svg {
     position: relative;
     top: -9px;
     margin-right: 5px;
 }
 
-.THIS .study .info-section .percent span{
-    color: #2B3A42;
+.THIS .study .info-section .percent span {
+    color: #2b3a42;
     font-size: 36px;
     font-weight: 300;
     line-height: 44px;
 }
 
-.THIS .study .info-section .patients-referred{
+.THIS .study .info-section .patients-referred {
     color: #666666;
     font-size: 13px;
     line-height: 16px;
@@ -74,16 +74,15 @@
     margin-left: 5px;
 }
 
-.THIS .referring-physicians{
+.THIS .referring-physicians {
     padding: 8px 17px 10px 17px;
 }
 
-.THIS .cp-item-section + .cp-item-section{
-    border-top: 1px solid #F2F2F2;
-
+.THIS .cp-item-section + .cp-item-section {
+    border-top: 1px solid #f2f2f2;
 }
 
-.THIS .clinic-profile-header{
+.THIS .clinic-profile-header {
     color: #333333;
     font-size: 24px;
     font-weight: bold;
@@ -93,21 +92,20 @@
     padding-left: 17px;
 }
 
-.THIS .cp-clinic-fields-cutter{
+.THIS .cp-clinic-fields-cutter {
     overflow: hidden;
     margin-left: 17px;
-
 }
 
-.THIS .clinic-fields{
+.THIS .clinic-fields {
     position: relative;
     left: -22px;
     display: flex;
     flex-wrap: wrap;
 }
 
-.THIS .clinic-info-field{
-    border-left: 2px solid #D9D9D9;
+.THIS .clinic-info-field {
+    border-left: 2px solid #d9d9d9;
     padding-left: 20px;
     vertical-align: top;
     flex: 1 1 0;
@@ -115,26 +113,25 @@
     margin-bottom: 10px;
 }
 
-.THIS .clinic-info-field label{
-    color: #7F888D;
+.THIS .clinic-info-field label {
+    color: #7f888d;
     font-size: 10px;
     font-weight: bold;
     line-height: 12px;
     text-transform: uppercase;
 }
 
-.THIS .clinic-info-field .value{
+.THIS .clinic-info-field .value {
     color: #000000;
     font-size: 15px;
     font-weight: bold;
     line-height: 18px;
 }
 
-
-.THIS .clinic-fields .clinic-info-field:not(:last-child){
+.THIS .clinic-fields .clinic-info-field:not(:last-child) {
 }
 
-.THIS .physician.value{
+.THIS .physician.value {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -145,28 +142,28 @@
     padding-right: 10px;
 }
 
-.THIS .physician.value span{
+.THIS .physician.value span {
 }
 
-.THIS .physician.value span:after{
+.THIS .physician.value span:after {
     margin-right: 5px;
-    content: ", ";
+    content: ', ';
 }
 
-.THIS .physician.value span:last-child:after{
+.THIS .physician.value span:last-child:after {
     margin-right: 0;
     content: none;
 }
 
-.THIS .study-groups{
-    display:grid;
+.THIS .study-groups {
+    display: grid;
     grid-template-columns: 50% 50%;
     margin-top: 5px;
 }
 
-.THIS .study-group-btn{
-    border: 1px solid #F2F2F2;
-    background-color: #FFFFFF;
+.THIS .study-group-btn {
+    border: 1px solid #f2f2f2;
+    background-color: #ffffff;
     text-align: center;
     padding: 20px;
     color: #666666;
@@ -177,20 +174,20 @@
     font-weight: 400;
 }
 
-.THIS .study-group-btn.active{
+.THIS .study-group-btn.active {
     color: #424242;
     font-weight: bold;
-    background-color: #F2F2F2;
+    background-color: #f2f2f2;
 }
 
-.THIS .studies-tabs{
+.THIS .studies-tabs {
     display: flex;
     margin: 10px;
     overflow-x: auto;
 }
 
-.THIS .studies-tabs li{
-    color: #297DFD;
+.THIS .studies-tabs li {
+    color: #297dfd;
     font-size: 16px;
     font-weight: 600;
     line-height: 20px;
@@ -205,20 +202,20 @@
     min-width: 90px;
 }
 
-.THIS .studies-tabs li.active{
+.THIS .studies-tabs li.active {
     font-weight: 600;
     color: #424242;
 }
 
-.THIS .studies-tabs li:not(:last-child){
-    border-right: 2px solid #D9D9D9;
+.THIS .studies-tabs li:not(:last-child) {
+    border-right: 2px solid #d9d9d9;
 }
 
 @media all and (max-width: 767px) {
     .THIS .studies-tabs li {
-    	padding: 10px;    
-    } 
-    
+        padding: 10px;
+    }
+
     /* SCROLLBAR */
     .THIS .studies-tabs::-webkit-scrollbar {
         background-color: #fff;
@@ -228,6 +225,6 @@
     .THIS .studies-tabs::-webkit-scrollbar-thumb {
         border-radius: 4px;
         background-color: #297dfd;
-        height: 8px;			  
-    }	
+        height: 8px;
+    }
 }

@@ -3,6 +3,5 @@
  -->
 
 <aura:component description="MyPatientsStatistics">
-
     <!--DEPRECATED!-->
 </aura:component>

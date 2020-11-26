@@ -5,13 +5,13 @@
     height: 24px;
     margin: 24px 0 0 auto;
     padding: 15px 15px 25px;
-    background-color: #F8f9fb;
+    background-color: #f8f9fb;
 }
 .THIS .pi-name {
     display: inline-block;
     width: 50%;
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 18px;
     font-weight: 600;
     line-height: 24px;
@@ -20,8 +20,8 @@
 .THIS .manage-location-details {
     display: inline-block;
     width: 50%;
-    color: #297DFD;
-    font-family: "Proxima Nova";
+    color: #297dfd;
+    font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: 500;
     line-height: 24px;
@@ -51,7 +51,7 @@
 }
 
 .THIS .ss-container-border {
-    border-right: 1px solid #E9E9E9;
+    border-right: 1px solid #e9e9e9;
 }
 
 .THIS .ss-info-details {
@@ -72,7 +72,7 @@
 .THIS .ss-lightning-input label {
     height: 21px;
     color: #444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 13px;
     font-weight: 500;
     line-height: 21px;
@@ -91,7 +91,7 @@
 .THIS .input-fields-labels {
     height: 21px;
     color: #444;
-    font-size: .875rem;
+    font-size: 0.875rem;
     font-weight: 500;
     line-height: 21px;
 }
@@ -126,7 +126,7 @@
 .THIS .ss-info-headers {
     height: 24px;
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: 600;
     line-height: 24px;
@@ -135,29 +135,29 @@
 }
 
 .THIS .card-locationDetails {
-    box-sizing: border-box; 
-    border-radius: 4px; 
-    background-color: #F8f9fb; 
-    min-height: 100px; 
-    margin-top:0px; 
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: #f8f9fb;
+    min-height: 100px;
+    margin-top: 0px;
     padding: 0px 15px 25px;
 }
 
 .THIS .check-icon-style {
     width: 16px;
     height: 16px;
-    fill: #00C221;
+    fill: #00c221;
 }
 
 .THIS .close-icon-style {
     width: 16px;
     height: 16px;
-    fill: #E20000;
+    fill: #e20000;
 }
 
 .THIS .driving-instructions {
     color: #333333;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
 }
 
@@ -167,28 +167,28 @@
     justify-content: center;
 }
 
-
 .THIS .ss-info-buttons .arrow-down {
     height: 14px;
     width: 14px;
 }
 
 @media all and (max-width: 1000px) {
-    .THIS {height: auto}
- 	
-    
+    .THIS {
+        height: auto;
+    }
+
     .THIS #contactInformation .ss-info-details:nth-of-type(4) {
         margin-left: 0;
         margin-top: 7px;
         padding-left: 0;
     }
-    
+
     .THIS .ss-info-details:last-child {
         margin-left: 0;
     }
-    
+
     .THIS .ss-info-details,
-    .THIS .other-ss-info-container{
+    .THIS .other-ss-info-container {
         margin-bottom: 10px;
     }
 
@@ -196,33 +196,33 @@
         margin-top: 5%;
         display: flex;
     }
-    
+
     .THIS #contactInformation .ss-info-details:last-child {
         margin-left: 0;
         padding: 24px 10px 0 0;
     }
-    
+
     .THIS .uiMenu {
         margin-left: 15px;
     }
-    
+
     .THIS .uiMenu .uiPopupTrigger {
         margin-top: -1px;
     }
-    
+
     .THIS .ss-info-buttons .cUiHeaderMenu .header-menu-link {
         padding: 0;
     }
     .THIS .ss-info-details {
         padding-right: 10px;
-    } 
+    }
 }
 
 @media all and (max-width: 925px) {
     .THIS .card-header {
         width: 100%;
     }
-    
+
     .THIS .ss-info-headers {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -231,29 +231,28 @@
     .THIS .ss-info-buttons {
         margin-top: 10%;
     }
-    
-    .THIS, .THIS .ssInformation {
+
+    .THIS,
+    .THIS .ssInformation {
         display: flex;
         flex-direction: column;
     }
 }
 
 @media screen and (max-width: 900px) and (min-width: 768px) {
-    
     .THIS #contactInformation .ss-info-details:nth-child(3),
     .THIS #contactInformation .ss-info-details:nth-child(4) {
-    	display: block;
+        display: block;
         padding-left: 0;
         min-width: 100%;
     }
-    
+
     .THIS #contactInformation .ss-info-details:nth-child(4) .slds-form-element {
         width: 100%;
     }
 }
 
 @media all and (max-width: 768px) {
-
     .THIS .card-header {
         padding-bottom: 60px;
     }
@@ -262,19 +261,19 @@
         padding-left: 0px;
         padding-bottom: 0px;
     }
-    
+
     .THIS .manage-location-details {
-     	width: 100%;
+        width: 100%;
     }
 
     .THIS .other-ss-info {
-    	padding-left: 5px;    
+        padding-left: 5px;
     }
-    
-    .THIS  #contactInformation .ss-info-details:nth-child(4) {
+
+    .THIS #contactInformation .ss-info-details:nth-child(4) {
         padding: 0 10px 0 0;
     }
-    
+
     .THIS #contactInformation .ss-info-details:nth-child(4) .slds-form-element {
         width: 100%;
     }
@@ -284,8 +283,8 @@
         padding-top: 25px;
         padding-left: 0;
     }
-    
-     .THIS .ss-info-buttons {
+
+    .THIS .ss-info-buttons {
         flex-direction: column;
     }
 
@@ -293,42 +292,39 @@
         margin: 0 0 20px;
         width: 100%;
     }
-    
+
     .THIS .ss-info-buttons #manageReferringClinicsBySS,
     .THIS .ss-info-buttons #openToReceiveReferrals {
         margin-bottom: 0;
     }
-    
+
     .THIS .ss-info-buttons div:last-child .apollo-btn {
         margin: 20px 0 0;
     }
-    
-     .THIS .uiMenu {
+
+    .THIS .uiMenu {
         margin-left: 0;
     }
-   
 }
-
 
 @media all and (max-width: 500px) {
     .THIS .ss-info-details {
         width: 100%;
-    } 
-    
+    }
+
     .THIS #contactInformation .ss-info-details:last-child {
         padding-left: 0;
     }
-    
+
     .THIS .pi-name {
         width: 100%;
     }
-    
+
     .THIS .card-header {
         padding-bottom: 45px;
     }
-    
+
     .THIS #contactInformation .ss-info-details:nth-child(4) {
         padding-left: 0;
     }
-    
 }

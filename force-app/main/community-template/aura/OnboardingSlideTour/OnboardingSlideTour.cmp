@@ -49,7 +49,10 @@
                     <div class="tour-slides-container brand-gradient-background">
                         <!-- Carousel Body -->
                         <div class="tour-slides-body">
-                            <div aura:id="carouselBody" class="tour-slides-carousel slds-grid slds-grid_vertical-stretch slds-scrollable_none">
+                            <div
+                                aura:id="carouselBody"
+                                class="tour-slides-carousel slds-grid slds-grid_vertical-stretch slds-scrollable_none"
+                            >
                                 <aura:iteration items="{!v.slides}" var="slide">
                                     <div class="slds-col slds-size_1-of-1 slide-area">
                                         <div class="slide-img-content">
@@ -60,7 +63,7 @@
                             </div>
                         </div>
                     </div>
-                <!-- slide info: -->
+                    <!-- slide info: -->
                     <div
                         class="tour-info-container ti-width-limiter"
                         style="{!if(v.isRTL, 'direction: rtl;' , '')}"
@@ -101,8 +104,11 @@
                     </div>
                 </div>
                 <div class="buttonFooter">
-                <!-- buttons: -->
-                    <div class="tour-buttons-continer ti-width-limiter" style="{!if(v.isRTL, 'direction: rtl;' , '')}">
+                    <!-- buttons: -->
+                    <div
+                        class="tour-buttons-continer ti-width-limiter"
+                        style="{!if(v.isRTL, 'direction: rtl;' , '')}"
+                    >
                         <div class="left rr-small-down-hide">
                             <lightning:input
                                 type="checkbox"

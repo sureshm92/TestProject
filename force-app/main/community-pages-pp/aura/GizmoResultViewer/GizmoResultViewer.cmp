@@ -3,6 +3,6 @@
  -->
 
 <aura:component description="GizmoResultViewer">
-    <aura:attribute name="data" type="String" description="encoded data"/>
+    <aura:attribute name="data" type="String" description="encoded data" />
     <aura:attribute name="class" type="String" />
 </aura:component>

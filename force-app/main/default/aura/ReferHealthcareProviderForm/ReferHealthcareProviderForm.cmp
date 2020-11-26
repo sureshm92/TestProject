@@ -2,58 +2,64 @@
  - Created by Nikita Abrazhevitch on 19-Sep-19.
  -->
 
-<aura:component description="ReferHealthcareProviderForm" controller="ReferHealthcareProviderRemote">
-    <aura:attribute name="healthCareProvider" type="Object"/>
-    <aura:attribute name="refProvider" type="Contact"/>
-    <aura:attribute name="delegates" type="Object"/>
-    <aura:attribute name="pe" type="Object"/>
-    <aura:attribute name="index" type="Integer"/>
-    <aura:attribute name="parent" type="Aura.Component"/>
-    <aura:attribute name="actionDisabled" type="Boolean" default="false"/>
-    <aura:attribute name="providerFound" type="Boolean" default="false"/>
-    <aura:attribute name="printMode" type="Boolean" default="false"/>
-    <aura:attribute name="showReferringProvider" type="Boolean" default="false"/>
-    <aura:attribute name="statusesDelegates" type="List"/>
-    <aura:attribute name="forThisProvider" type="String"/>
+<aura:component
+    description="ReferHealthcareProviderForm"
+    controller="ReferHealthcareProviderRemote"
+>
+    <aura:attribute name="healthCareProvider" type="Object" />
+    <aura:attribute name="refProvider" type="Contact" />
+    <aura:attribute name="delegates" type="Object" />
+    <aura:attribute name="pe" type="Object" />
+    <aura:attribute name="index" type="Integer" />
+    <aura:attribute name="parent" type="Aura.Component" />
+    <aura:attribute name="actionDisabled" type="Boolean" default="false" />
+    <aura:attribute name="providerFound" type="Boolean" default="false" />
+    <aura:attribute name="printMode" type="Boolean" default="false" />
+    <aura:attribute name="showReferringProvider" type="Boolean" default="false" />
+    <aura:attribute name="statusesDelegates" type="List" />
+    <aura:attribute name="forThisProvider" type="String" />
 
-   <!-- <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>-->
+    <!-- <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>-->
     <div class="slds-grid slds-wrap slds-size--1-of-1 healthcare-form-container">
-        <c:RRSpinner aura:id="spinner" size="medium"/>
+        <c:RRSpinner aura:id="spinner" size="medium" />
         <aura:if isTrue="{!v.forThisProvider == 'isDelegates'}">
-             <c:ReferHealthcareProviderInputs
-                     sharingObject="{!v.delegates}"
-                     printMode="{!v.printMode}"
-                     actionDisabled = "{!v.actionDisabled}"
-                     buttonTitle="{!v.actionDisabled ? $Label.c.RSN_Your_permissions_do_not_permit_this_action : ''}"
-                     buttonLabel="{!v.delegates.delegateId &amp;&amp; v.delegates.status != 'Disconnected' ? $Label.c.HealthCare_Provider_Stop_Sharing : $Label.c.HealthCare_Provider_Connect}"
-                     pe="{!v.pe}"
-                     mainComponent="{!v.parent}"
-                     parent="{!this}"/>
-         </aura:if>
+            <c:ReferHealthcareProviderInputs
+                sharingObject="{!v.delegates}"
+                printMode="{!v.printMode}"
+                actionDisabled="{!v.actionDisabled}"
+                buttonTitle="{!v.actionDisabled ? $Label.c.RSN_Your_permissions_do_not_permit_this_action : ''}"
+                buttonLabel="{!v.delegates.delegateId &amp;&amp; v.delegates.status != 'Disconnected' ? $Label.c.HealthCare_Provider_Stop_Sharing : $Label.c.HealthCare_Provider_Connect}"
+                pe="{!v.pe}"
+                mainComponent="{!v.parent}"
+                parent="{!this}"
+            />
+        </aura:if>
 
-         <aura:if isTrue="{!v.forThisProvider == 'isRef'}">
-             <c:ReferHealthcareProviderInputs
-                     sharingObject="{!v.refProvider}"
-                     printMode="{!v.printMode}"
-                     actionDisabled = "{!v.actionDisabled}"
-                     buttonTitle="{!v.actionDisabled ?  $Label.c.RSN_Your_permissions_do_not_permit_this_action : ''}"
-                     buttonLabel="{!v.showReferringProvider ? $Label.c.HealthCare_Provider_Stop_Sharing : $Label.c.HealthCare_Provider_Connect}"
-                     pe="{!v.pe}"
-                     mainComponent="{!v.parent}"
-                     parent="{!this}"/>
-         </aura:if>
+        <aura:if isTrue="{!v.forThisProvider == 'isRef'}">
+            <c:ReferHealthcareProviderInputs
+                sharingObject="{!v.refProvider}"
+                printMode="{!v.printMode}"
+                actionDisabled="{!v.actionDisabled}"
+                buttonTitle="{!v.actionDisabled ?  $Label.c.RSN_Your_permissions_do_not_permit_this_action : ''}"
+                buttonLabel="{!v.showReferringProvider ? $Label.c.HealthCare_Provider_Stop_Sharing : $Label.c.HealthCare_Provider_Connect}"
+                pe="{!v.pe}"
+                mainComponent="{!v.parent}"
+                parent="{!this}"
+            />
+        </aura:if>
 
-         <aura:if isTrue="{!v.forThisProvider == 'isHealthCare'}">
-             <c:ReferHealthcareProviderInputs
-                     sharingObject="{!v.healthCareProvider}"
-                     printMode="{!v.printMode}"
-                     actionDisabled = "{!v.actionDisabled}"
-                     buttonTitle="{!v.actionDisabled ? $Label.c.RSN_Your_permissions_do_not_permit_this_action : ''}"
-                     buttonLabel="{!v.healthCareProvider.Id &amp;&amp; v.healthCareProvider.Status__c != 'No Sharing' ?
+        <aura:if isTrue="{!v.forThisProvider == 'isHealthCare'}">
+            <c:ReferHealthcareProviderInputs
+                sharingObject="{!v.healthCareProvider}"
+                printMode="{!v.printMode}"
+                actionDisabled="{!v.actionDisabled}"
+                buttonTitle="{!v.actionDisabled ? $Label.c.RSN_Your_permissions_do_not_permit_this_action : ''}"
+                buttonLabel="{!v.healthCareProvider.Id &amp;&amp; v.healthCareProvider.Status__c != 'No Sharing' ?
                                     $Label.c.HealthCare_Provider_Stop_Sharing : $Label.c.HealthCare_Provider_Connect}"
-                     pe="{!v.pe}"
-                     mainComponent="{!v.parent}"
-                     parent="{!this}"/>
-         </aura:if>
+                pe="{!v.pe}"
+                mainComponent="{!v.parent}"
+                parent="{!this}"
+            />
+        </aura:if>
     </div>
 </aura:component>

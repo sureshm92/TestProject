@@ -4,7 +4,7 @@
 .THIS {
 }
 
-.THIS.sl-panel{
+.THIS.sl-panel {
     position: relative;
     background-color: white;
     min-height: 100px;
@@ -15,23 +15,23 @@
     border: 1px solid #e2e2e2;
 }
 
-.THIS.sl-panel img{
+.THIS.sl-panel img {
     max-width: 150px;
 }
 
-.THIS .sl-placeholder{
+.THIS .sl-placeholder {
     text-align: center;
     color: gray;
 }
 
-.THIS .sl-remove{
+.THIS .sl-remove {
     position: absolute;
     top: 0;
     left: 6px;
     cursor: pointer;
 }
 
-.THIS .sl-remove svg{
+.THIS .sl-remove svg {
     fill: #ababab;
     width: 18px;
 }

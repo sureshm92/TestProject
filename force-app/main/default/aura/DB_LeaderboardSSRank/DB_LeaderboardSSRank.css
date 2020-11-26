@@ -12,7 +12,7 @@
     display: flex;
 }
 
-.THIS .nameGrp .column1{
+.THIS .nameGrp .column1 {
     height: 21px;
     width: 29px;
     color: #000000;
@@ -25,7 +25,7 @@
     margin-left: 16px;
 }
 
-.THIS .digit-span{
+.THIS .digit-span {
     color: #000000;
     font-size: 16px;
     font-weight: 400;
@@ -33,7 +33,7 @@
     line-height: 19px;
 }
 
-.THIS .flag{
+.THIS .flag {
     display: block;
     margin-right: 5px;
     height: 21px;
@@ -43,7 +43,7 @@
     margin-left: 13px;
 }
 
-.THIS .nameGrp .column2{
+.THIS .nameGrp .column2 {
     width: 160px;
     color: #000000;
     font-size: 16px;
@@ -53,7 +53,7 @@
     font-weight: 400;
 }
 
-.THIS .nameGrp .column3{
+.THIS .nameGrp .column3 {
     width: 160px;
     color: #000000;
     font-size: 14px;
@@ -63,7 +63,7 @@
     font-weight: 400;
 }
 
-.THIS .column4{
+.THIS .column4 {
     height: 47px;
     width: 155px;
     text-align: left;
@@ -74,7 +74,7 @@
     line-height: 19px;
 }
 
-.THIS .column5{
+.THIS .column5 {
     height: 47px;
     text-align: center;
     color: #000000;
@@ -82,7 +82,7 @@
     font-weight: 400;
     letter-spacing: 0;
     line-height: 19px;
-	padding: 0 5%;
+    padding: 0 5%;
     margin-top: -10px;
 }
 
@@ -90,7 +90,7 @@
     .THIS {
         height: auto;
         width: 100%;
-	}
+    }
 
     .THIS .slds-grid {
         flex-direction: row;
@@ -111,13 +111,13 @@
         padding: 10px 0 0 0;
     }
 
-     .THIS .nameGrp .flag {
+    .THIS .nameGrp .flag {
         max-width: 37px;
     }
 
     .THIS .column4,
     .THIS .column5 {
-     	width: auto;
+        width: auto;
         padding-right: 1rem;
         margin-bottom: 2rem;
         margin-left: 2rem;
@@ -125,12 +125,11 @@
 }
 
 @media screen and (max-width: 768px) {
-
-    .THIS .nameGrp .column2{
-     	font-size: 18px;
+    .THIS .nameGrp .column2 {
+        font-size: 18px;
     }
 
-	.THIS .slds-grid {
+    .THIS .slds-grid {
         padding: 0 1rem;
         flex-direction: row;
     }
@@ -142,35 +141,34 @@
     }
 
     .THIS .slds-grid > .slds-col:nth-child(1) {
-       order: 1;
+        order: 1;
     }
 
     .THIS .slds-grid > .slds-col:nth-child(2) {
-       order: 3;
+        order: 3;
     }
 
     .THIS .slds-grid > .slds-col:nth-child(3) {
-       order: 4;
+        order: 4;
     }
 
     .THIS .slds-grid > .slds-col:nth-child(4) {
-      	order: 2;
-       	display: flex;
-       	margin-left: 0;
+        order: 2;
+        display: flex;
+        margin-left: 0;
         margin-top: 5px;
         height: 35px;
         width: 100%;
-}
-
-     .THIS .slds-grid > .slds-col.column5 .digit-span {
-       	flex: 0 0 0;
-       	margin-right: 5px;
     }
 
+    .THIS .slds-grid > .slds-col.column5 .digit-span {
+        flex: 0 0 0;
+        margin-right: 5px;
+    }
 }
 
 @media screen and (max-width: 500px) {
     .THIS .column5 {
-     	text-align: left;
+        text-align: left;
     }
 }

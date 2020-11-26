@@ -52,13 +52,11 @@
 }
 
 .THIS .study-name .study-title.rr-link span {
-    white-space: normal!important;
-    display: block!important;
+    white-space: normal !important;
+    display: block !important;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
-
 
 .THIS .study-name .study-title:hover:after {
     background: #eef5ff;
@@ -70,8 +68,6 @@
   	cursor: default;
 }
 */
-
-
 
 .THIS .sponsor-name {
     height: 20px;
@@ -130,7 +126,6 @@
     font-size: 10px;
     line-height: 10px;
 }
-
 
 .THIS .rri-icon-pi svg {
     height: 18px;
@@ -194,7 +189,7 @@
 }
 
 .THIS .btn-pi-border {
-    border-right: 1px solid #F2F2F2;
+    border-right: 1px solid #f2f2f2;
 }
 
 .THIS .apollo-btn.primary.slvi-search-site-btn {
@@ -203,7 +198,7 @@
 
 .THIS .slvi-btn {
     text-align: center;
-    color: #297DFD;
+    color: #297dfd;
     padding-top: 10px;
     padding-bottom: 10px;
     border-collapse: collapse;
@@ -211,9 +206,8 @@
 }
 
 .THIS .slvi-btn + .slvi-btn {
-    border-left: 1px solid #F2F2F2;
+    border-left: 1px solid #f2f2f2;
 }
-
 
 .THIS .slvi-btn.disabled {
     pointer-events: none;
@@ -225,7 +219,7 @@
     height: 24px;
     width: 20px;
     margin: auto;
-    fill: #297DFD;
+    fill: #297dfd;
 }
 
 .THIS .slvi-btn .btn-content {
@@ -239,10 +233,9 @@
     top: 1px;
 }
 
-
 .THIS .slvi-btn:hover {
     cursor: pointer;
-    background-color: #F8F9FB;
+    background-color: #f8f9fb;
 }
 
 .THIS .slvi-btn:active {
@@ -266,14 +259,14 @@
 }
 
 .THIS .rr-link {
-    color: #297DFD;
+    color: #297dfd;
     display: inline-flex;
     align-items: center;
     text-decoration: none;
 }
 
 .THIS .rr-link svg {
-    fill: #297DFD;
+    fill: #297dfd;
     width: 14px;
     height: 14px;
 }
@@ -283,11 +276,11 @@
 }
 
 .THIS .orange-icon {
-    fill: #FF9301;
+    fill: #ff9301;
 }
 
 .THIS .red-icon {
-    fill: #E20000;
+    fill: #e20000;
 }
 
 .THIS .blue-icon {
@@ -295,23 +288,21 @@
 }
 
 .THIS .green-icon {
-    fill: #55C200;
+    fill: #55c200;
 }
 
 .THIS .slvi-search-site-btn {
     width: 100%;
 }
 
-
 @media screen and (max-width: 768px) {
     .THIS .slvi-buttons .slvi-btn + .slvi-btn {
         border-top: 1px solid #f9f9f9;
     }
 
-
     .THIS .study-name .study-title.rr-link span:first-child {
         width: 100%;
-        white-space: nowrap!important;
+        white-space: nowrap !important;
     }
 
     .THIS .slvi-top-container-hcp .study-name .study-title.rr-link {
@@ -349,12 +340,11 @@
         width: 20px;
     }
 
-
     .THIS .slvi-name-section-hcp .rri-icon .slds-m-around_x-small,
     .THIS .rri-icon-pi .slds-m-around_x-small {
         display: inline-block;
         margin: 0 1rem 0 0;
-        padding: 0 .5rem
+        padding: 0 0.5rem;
     }
 
     .THIS .slvi-name-section-hcp .rri-icon a:last-child .slds-m-around_x-small,
@@ -362,7 +352,7 @@
         margin: 0;
     }
 
-    .THIS .slvi-objective-section{
+    .THIS .slvi-objective-section {
         margin-bottom: 15px;
     }
 
@@ -374,7 +364,6 @@
     .THIS .ss-container-border {
         border-right: none;
     }
-
 }
 
 @media screen and (max-width: 500px) {
@@ -387,8 +376,8 @@
     }
 
     .THIS .slvi-top-container-hcp .slds-wrap div:last-child {
-        margin-bottom: .5rem;
-        margin-top: .5rem;
+        margin-bottom: 0.5rem;
+        margin-top: 0.5rem;
     }
 
     .THIS .slvi-top-container-hcp + div .slds-order_4 .rr-link.expanded-icon {
@@ -414,7 +403,7 @@
     }
 
     .THIS .slvi-top-container-hcp .slds-wrap div:last-child .rri-icon-pi {
-        float: none!important;
+        float: none !important;
         text-align: center;
     }
 
@@ -425,5 +414,4 @@
     .THIS .apollo-btn.primary.slvi-search-site-btn {
         width: 100%;
     }
-
 }

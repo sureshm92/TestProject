@@ -67,7 +67,7 @@
 .THIS .sc-section:hover {
 }
 
-.THIS .sc-arc-label{
+.THIS .sc-arc-label {
     pointer-events: none;
 }
 
@@ -94,8 +94,6 @@
 }
 /* /LINE CHART */
 
-
-
 /* BAR CHART */
 .THIS .sc-bc-bar {
     /*fill: #00a1e0;*/
@@ -106,8 +104,6 @@
 }
 /* /BAR CHART */
 
-
-
 /* BUBBLE CHART */
 .THIS .sc-bc-bubble {
     fill-opacity: 0.3;
@@ -116,8 +112,6 @@
     fill-opacity: 0.7;
 }
 /* /BAR BUBBLE */
-
-
 
 /* PIE DONUT CHART */
 .THIS .sc-pdc-section-percent {
@@ -173,7 +167,7 @@
     left: -999vw;
     pointer-events: none;
 }
-.THIS .ch-donut-total{
+.THIS .ch-donut-total {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -183,29 +177,28 @@
     width: 100%;
 }
 
-.THIS .sc-not-not-hovered{
+.THIS .sc-not-not-hovered {
     opacity: 0.3;
     transition: 0.4s;
 }
 
 /* funnel chart */
-.THIS .fn-section-info{
+.THIS .fn-section-info {
     padding-left: 25px;
     padding-top: 5px;
 }
-.THIS .fn-section-info .title{
+.THIS .fn-section-info .title {
     font-weight: bold;
-
 }
 
-.THIS .fn-section-info .success{
-    fill: #63C900;
+.THIS .fn-section-info .success {
+    fill: #63c900;
 }
 
-.THIS .fn-section-info .in_progress{
-    fill: #FF9300;
+.THIS .fn-section-info .in_progress {
+    fill: #ff9300;
 }
 
-.THIS .fn-section-info .failure{
-    fill: #FF283F;
+.THIS .fn-section-info .failure {
+    fill: #ff283f;
 }

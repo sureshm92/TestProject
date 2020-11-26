@@ -1,12 +1,12 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS.bls-body{
+.THIS.bls-body {
     background-color: white;
     min-height: 800px;
 }
 
-.THIS .bls-iframe{
+.THIS .bls-iframe {
     width: 100%;
     height: 800px;
     border: 0;

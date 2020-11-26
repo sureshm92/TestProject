@@ -2,12 +2,12 @@
     showPopUpInfo: function (component, event, helper) {
         var enrollment = component.get('v.enrollmentData').enrollment;
         var modal = component.find('infoModal');
-        if(modal) modal.showHCPEnrollmentStatusDetail(enrollment);
+        if (modal) modal.showHCPEnrollmentStatusDetail(enrollment);
     },
 
     doAction: function (component, event, helper) {
         var actionId;
-        try{
+        try {
             actionId = event.currentTarget.id;
         } catch (error) {
             actionId = event.getParam('value');
@@ -22,7 +22,5 @@
         comp.execute(enrollment, actionId, parent);
     },
 
-    handleSelect:function(component, event, helper){
-
-    },
-})
+    handleSelect: function (component, event, helper) {}
+});

@@ -283,8 +283,6 @@
     }
 }
 
-
-
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
     .THIS .tour-slides-body {
         flex: none;
@@ -299,4 +297,3 @@
     margin-top: 15px;
     font-size: 12px;
 }
-

@@ -1,20 +1,20 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS .study-title{
+.THIS .study-title {
     font-weight: bold;
     font-size: 16px;
 }
 
-.THIS .study-description{
+.THIS .study-description {
     padding: 20px 0;
 }
 
-.THIS .rr-fields-cutter{
+.THIS .rr-fields-cutter {
     margin-bottom: 20px;
 }
 
-.THIS .resource-item{
+.THIS .resource-item {
     padding: 5px;
 }
 
@@ -38,8 +38,8 @@
     font-size: 1rem;
 }
 
-.THIS .no-border{
-    border-left:0px;
+.THIS .no-border {
+    border-left: 0px;
 }
 
 .THIS .profile-pic {

@@ -276,7 +276,7 @@
                                 title="required"
                                 style="
                                      {
-                                        !!v.participantdelegate|| (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
+                                        !!v.participantdelegate||(v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
                                     }
                                 "
                                 class="slds-required"
@@ -318,7 +318,7 @@
                                 title="required"
                                 style="
                                      {
-                                        !!v.participantdelegate|| (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
+                                        !!v.participantdelegate||(v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
                                     }
                                 "
                                 class="slds-required"
@@ -338,7 +338,7 @@
                                 title="required"
                                 style="
                                      {
-                                        !!v.participantdelegate|| (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
+                                        !!v.participantdelegate||(v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
                                     }
                                 "
                                 class="slds-required"
@@ -415,7 +415,7 @@
                                     title="required"
                                     style="
                                          {
-                                            !!v.participantdelegate|| (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
+                                            !!v.participantdelegate||(v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
                                         }
                                     "
                                     class="slds-required"
@@ -438,7 +438,7 @@
                                     title="required"
                                     style="
                                          {
-                                            !!v.participantdelegate|| (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
+                                            !!v.participantdelegate||(v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
                                         }
                                     "
                                     class="slds-required"
@@ -462,7 +462,7 @@
                                     title="required"
                                     style="
                                          {
-                                            !!v.participantdelegate|| (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
+                                            !!v.participantdelegate||(v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
                                         }
                                     "
                                     class="slds-required"

@@ -3,24 +3,24 @@
  -->
 
 <aura:component description="VisitItem">
+    <aura:attribute name="visit" type="Object" />
 
-    <aura:attribute name="visit" type="Object"/>
+    <aura:attribute name="rowColor" type="String" default="white" />
+    <aura:attribute name="selectedRowColor" type="String" default="white" />
+    <aura:attribute name="currentRowColor" type="String" default="white" access="private" />
+    <aura:attribute name="isDisable" type="Boolean" />
 
-    <aura:attribute name="rowColor" type="String" default="white"/>
-    <aura:attribute name="selectedRowColor" type="String" default="white"/>
-    <aura:attribute name="currentRowColor" type="String" default="white" access="private"/>
-    <aura:attribute name="isDisable" type="Boolean"/>
-
-
-    <aura:registerEvent name="onEdit" type="c:uiEvent"/>
-    <aura:registerEvent name="onDelete" type="c:uiEvent"/>
+    <aura:registerEvent name="onEdit" type="c:uiEvent" />
+    <aura:registerEvent name="onDelete" type="c:uiEvent" />
 
     <tr class="slds-hint-parent" onmouseover="{!c.doMouseEnter}" onmouseout="{!c.doMouseLeave}">
         <td>
-            <div class=" slds-text-title slds-text-color_default">{!v.visit.Name}</div>
+            <div class="slds-text-title slds-text-color_default">{!v.visit.Name}</div>
         </td>
         <td>
-            <div class=" slds-text-title slds-text-color_default">{!v.visit.Patient_Portal_Name__c}</div>
+            <div class="slds-text-title slds-text-color_default">
+                {!v.visit.Patient_Portal_Name__c}
+            </div>
         </td>
         <td>
             <div class="slds-text-title slds-text-color_default">{!v.visit.Visit_Number__c}</div>
@@ -29,15 +29,15 @@
             <div class="slds-text-title slds-text-color_default">{!v.visit.Visit_Schedule__c}</div>
         </td>
         <td>
-            <c:RRIconSplitter value="{!v.visit.Icons__c}" backgroundColor="{!v.currentRowColor}"/>
+            <c:RRIconSplitter value="{!v.visit.Icons__c}" backgroundColor="{!v.currentRowColor}" />
         </td>
         <aura:if isTrue="{!!v.isDisable}">
-        <td>
-            <lightning:buttonIcon onclick="{!c.editMode}" iconName="utility:edit"/>
-        </td>
-        <td>
-            <lightning:buttonIcon onclick="{!c.deleteRecord}" iconName="utility:delete"/>
-        </td>
+            <td>
+                <lightning:buttonIcon onclick="{!c.editMode}" iconName="utility:edit" />
+            </td>
+            <td>
+                <lightning:buttonIcon onclick="{!c.deleteRecord}" iconName="utility:delete" />
+            </td>
         </aura:if>
     </tr>
 </aura:component>

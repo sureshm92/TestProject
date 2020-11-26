@@ -2,13 +2,12 @@
  * Created by Olga Skrynnikova on 12/20/2019.
  */
 
- .THIS.sv-panel {
+.THIS.sv-panel {
     display: flex;
     flex-direction: column;
     align-items: stretch;
     min-height: 196px;
 }
-
 
 .THIS .sv-header {
     display: flex;
@@ -16,7 +15,7 @@
     justify-content: space-between;
 }
 
-.THIS .sv-title{
+.THIS .sv-title {
     font-size: 18px;
     font-weight: 600;
     line-height: 27px;
@@ -24,20 +23,20 @@
 }
 
 .THIS .cRRTable.rr-table th,
-.THIS .cRRTable.rr-table td{
+.THIS .cRRTable.rr-table td {
     padding: 4px 9px;
     font-size: 16px;
-    white-space: nowrap
+    white-space: nowrap;
 }
 
-.THIS .amount-of-money{
+.THIS .amount-of-money {
     text-align: right;
 }
-.THIS .tdRTL{
+.THIS .tdRTL {
     text-align: left !important;
 }
 
-.THIS .sv-footer{
+.THIS .sv-footer {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -47,19 +46,19 @@
     background-color: #f8f9fb;
 }
 
-.THIS .cRRLink.rr-link{
+.THIS .cRRLink.rr-link {
     font-size: 1rem;
 }
 
 .THIS .error-message {
     font-size: 16px;
     text-align: center;
-    color: #CCCCCC;
+    color: #cccccc;
 }
 
 .THIS .error-message .cRRIcon.rr-icon-default {
     padding-right: 5px;
-    opacity: .5;
+    opacity: 0.5;
 }
 
 .THIS .cEmptyListStub.main-container .message {
