@@ -6,12 +6,12 @@
         var parent = component.get('v.parent');
         var params = event.getParam('arguments');
         component.set('v.trialId', params.trial.Id);
-        console.log('params.ssId',params.ssId);
+        console.log('params.ssId', params.ssId);
         component.set('v.ssId', params.ssId);
-        if(params.trial.Sponsor_Pays_for_Referral_Activity__c !== 'Yes'){
+        if (params.trial.Sponsor_Pays_for_Referral_Activity__c !== 'Yes') {
             parent.find('mainSpinner').show();
             helper.setStudyStatus(component);
-        }else{
+        } else {
             component.find('reimbursmentModal').show();
         }
     },
@@ -24,5 +24,4 @@
         component.find('spinner').show();
         helper.setStudyStatus(component, event);
     }
-
-})
+});

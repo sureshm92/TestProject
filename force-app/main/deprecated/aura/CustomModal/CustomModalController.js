@@ -3,11 +3,9 @@
  */
 ({
     show: function (component, event, helper) {
-        component.set('v.showModal',true);
+        component.set('v.showModal', true);
     },
     hide: function (component, event, helper) {
-        component.set('v.showModal',false);
-    },
-
-
-})
+        component.set('v.showModal', false);
+    }
+});

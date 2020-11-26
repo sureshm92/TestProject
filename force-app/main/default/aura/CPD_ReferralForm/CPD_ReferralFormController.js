@@ -1,22 +1,21 @@
 ({
-  doInit : function (component, event, helper){
-    helper.onclose(event);    
-  },
+    doInit: function (component, event, helper) {
+        helper.onclose(event);
+    },
 
-  handleQuestionnaireEvent : function(component, event, helper){
-    helper.questionnaireEvent(component, event);
-  },
-  
-  next: function (component, event, helper) {
-    helper.next(component, event);
-  }, 
+    handleQuestionnaireEvent: function (component, event, helper) {
+        helper.questionnaireEvent(component, event);
+    },
 
-  submit: function (component, event, helper) {
-    helper.createDummyAccount(component, event);
-  },
+    next: function (component, event, helper) {
+        helper.next(component, event);
+    },
 
-  update : function (component, event, helper) {
-    helper.update(component, event);
-  }
+    submit: function (component, event, helper) {
+        helper.createDummyAccount(component, event);
+    },
 
-})
+    update: function (component, event, helper) {
+        helper.update(component, event);
+    }
+});

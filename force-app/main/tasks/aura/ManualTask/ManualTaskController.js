@@ -52,7 +52,6 @@
 
             let remDate = dueDate.add(-daysCount, 'days');
             component.set('v.taskConfig.reminderDate', remDate.format('YYYY-MM-DD'));
-
         } else {
             let remindDate = component.get('v.taskConfig.reminderDate');
             if (!remindDate) return;

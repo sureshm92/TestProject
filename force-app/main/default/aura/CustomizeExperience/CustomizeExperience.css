@@ -1,12 +1,12 @@
 /**
  * Created by Yehor Dobrovolskyi
  */
- .THIS {
+.THIS {
     padding: 1.5rem;
 }
 
 .THIS .button.slds-pill {
-    background-color: #297DFD;
+    background-color: #297dfd;
     border: none;
     color: white;
     padding: 0 16px;
@@ -20,21 +20,22 @@
     align-items: center;
     margin-right: 1rem;
     margin-bottom: 1rem;
-    width:120px;
-    box-shadow: 0 4px 8px 0 rgba(41, 125, 253, 0.16), 0 4px 4px 0 rgba(0, 0, 0, 0.04), 0 8px 16px 0 rgba(41, 125, 253, 0.32)
+    width: 120px;
+    box-shadow: 0 4px 8px 0 rgba(41, 125, 253, 0.16), 0 4px 4px 0 rgba(0, 0, 0, 0.04),
+        0 8px 16px 0 rgba(41, 125, 253, 0.32);
 }
 
 .THIS .slds-input {
     height: 40px;
 }
-.THIS .rightAlign > .slds-pill__action{
-    padding-right:0px!important;
-    padding-left:calc(1rem + 0.25rem + 2px);
+.THIS .rightAlign > .slds-pill__action {
+    padding-right: 0px !important;
+    padding-left: calc(1rem + 0.25rem + 2px);
 }
 
-.THIS .rightAlign button{
-    left: .125rem;
-    right:auto!important;
+.THIS .rightAlign button {
+    left: 0.125rem;
+    right: auto !important;
 }
 .THIS .button.slds-pill:hover {
     border: none;
@@ -51,15 +52,14 @@
 
 .THIS .slds-pill__remove svg {
     color: #297dfd;
-    width: .5rem;
-    height: .5rem;
+    width: 0.5rem;
+    height: 0.5rem;
 }
 
 .THIS .slds-pill__label {
     text-align: center;
     /*margin-bottom: 10px;
     margin-top: 6%;*/
-
 }
 
 .THIS .slds-pill {
@@ -73,13 +73,11 @@
     z-index: 1;
     background: #fff;
     border-radius: 50%;
-    height: .75rem;
-    width: .75rem;
+    height: 0.75rem;
+    width: 0.75rem;
     line-height: 0;
     left: 85%;
     top: 22%;
-
-
 }
 
 .THIS .title-desc {
@@ -88,25 +86,23 @@
 
 .THIS .as-title {
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 18px;
     font-weight: 600;
     letter-spacing: 0;
     line-height: 1;
     margin-bottom: 10px;
-    margin-top:10px;
+    margin-top: 10px;
 }
-
 
 .THIS .section-description {
     color: #444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
     line-height: 24px;
     width: 80%;
 }
-
 
 .THIS .slds-form-element {
     width: 50%;
@@ -116,7 +112,7 @@
     height: 17px;
     width: auto;
     color: #595959;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
     line-height: 17px;
     padding-top: 5px;
@@ -127,17 +123,17 @@
     height: 17px;
     width: 50rem;
     color: #595959;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
     line-height: 17px;
     padding-bottom: 5px;
     margin-bottom: 7px;
 }
-.THIS .LTR-Text-align{	
-    text-align: left;	
-}	
-.THIS .RTL-Text-align{	
-    text-align: right;	
+.THIS .LTR-Text-align {
+    text-align: left;
+}
+.THIS .RTL-Text-align {
+    text-align: right;
 }
 .THIS table {
     border-top: 0;
@@ -156,8 +152,7 @@
 }
 
 @media all and (max-width: 768px) {
-
-    .THIS  {
+    .THIS {
         padding: 14px 1.5rem 1.5rem;
     }
 
@@ -192,7 +187,7 @@
 
     .THIS .slds-table th,
     .THIS .slds-table td {
-        padding: .75rem .5rem;
+        padding: 0.75rem 0.5rem;
     }
 
     .THIS .p-footer.p-variant- {

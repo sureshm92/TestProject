@@ -1,32 +1,34 @@
 <!--
  - Created by Igor Malyuta on 18.09.2019.
  -->
-<aura:component description="StudySiteVisitConfig" controller="StudySiteVisitConfigRemote"
-                implements="force:hasRecordId,flexipage:availableForAllPageTypes">
-
-    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
+<aura:component
+    description="StudySiteVisitConfig"
+    controller="StudySiteVisitConfigRemote"
+    implements="force:hasRecordId,flexipage:availableForAllPageTypes"
+>
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}" />
 
     <!--attributes: -->
-    <aura:attribute name="pagination" type="Object"/>
-    <aura:attribute name="filter" type="Object"/>
-    <aura:attribute name="ssItems" type="List"/>
-    <aura:attribute name="visitPlans" type="List"/>
-    <aura:attribute name="viewModePage" type="String"/>
-    <aura:attribute name="haveEmptyAssigment" type="Boolean"/>
-    <aura:attribute name="initialized" type="Boolean" default="false"/>
-    <aura:attribute name="scrollLeft" type="Integer" default="0"/>
+    <aura:attribute name="pagination" type="Object" />
+    <aura:attribute name="filter" type="Object" />
+    <aura:attribute name="ssItems" type="List" />
+    <aura:attribute name="visitPlans" type="List" />
+    <aura:attribute name="viewModePage" type="String" />
+    <aura:attribute name="haveEmptyAssigment" type="Boolean" />
+    <aura:attribute name="initialized" type="Boolean" default="false" />
+    <aura:attribute name="scrollLeft" type="Integer" default="0" />
 
-    <aura:method name="doSave" action="{!c.doSaveAndUpdate}" access="public"/>
+    <aura:method name="doSave" action="{!c.doSaveAndUpdate}" access="public" />
 
     <!-- component body: -->
-    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     <aura:if isTrue="{!notequals(v.viewModePage, 'Disabled')}">
         <aura:set attribute="else">
-            <c:EmptyListStub message="{!$Label.c.No_permission_Visits_tab}"/>
+            <c:EmptyListStub message="{!$Label.c.No_permission_Visits_tab}" />
         </aura:set>
         <div class="panel">
-            <c:RRSpinner aura:id="spinner"/>
-            <lightning:navigation aura:id="navLink"/>
+            <c:RRSpinner aura:id="spinner" />
+            <lightning:navigation aura:id="navLink" />
             <aura:if isTrue="{!v.initialized}">
                 <aura:if isTrue="{!not(empty(v.ssItems))}">
                     <!--Filters-->
@@ -34,41 +36,50 @@
                         <div class="slds-grid slds-gutters">
                             <!--Country Filter-->
                             <div class="slds-col slds-size--1-of-2">
-                                <c:VisitResultSharingCountryLookup aura:id="countryLookup"
-                                                                   value="{!v.filter.countryCodes}"
-                                                                   isMultiEntry="true"
-                                                                   onchange="{!c.onCountriesChange}"
-                                                                   placeholder="Select country"
-                                                                   placeholderSelected="Select another country"
-                                                                   ctpId="{!v.recordId}"
-                                                                   isInclude="true"/>
+                                <c:VisitResultSharingCountryLookup
+                                    aura:id="countryLookup"
+                                    value="{!v.filter.countryCodes}"
+                                    isMultiEntry="true"
+                                    onchange="{!c.onCountriesChange}"
+                                    placeholder="Select country"
+                                    placeholderSelected="Select another country"
+                                    ctpId="{!v.recordId}"
+                                    isInclude="true"
+                                />
                             </div>
                             <!--Visit Plan Filter-->
                             <div class="slds-col slds-size--1-of-2">
-                                <c:VisitPlansLookup aura:id="vpLookup"
-                                                    value="{!v.filter.pageFeatureIds}"
-                                                    isMultiEntry="true"
-                                                    onchange="{!c.doUpdate}"
-                                                    placeholder="Select Visit Plan"
-                                                    placeholderSelected="Select another Visit Plan"/>
+                                <c:VisitPlansLookup
+                                    aura:id="vpLookup"
+                                    value="{!v.filter.pageFeatureIds}"
+                                    isMultiEntry="true"
+                                    onchange="{!c.doUpdate}"
+                                    placeholder="Select Visit Plan"
+                                    placeholderSelected="Select another Visit Plan"
+                                />
                             </div>
                         </div>
                         <div class="slds-grid slds-gutters">
                             <!--Study Site Filter-->
                             <div class="slds-col slds-size--1-of-2">
-                                <c:IRBStudySitesLookup aura:id="ssLookup"
-                                                       value="{!v.filter.selectedSSIds}"
-                                                       ctpId="{!v.recordId}"
-                                                       selectedCountries="{!v.filter.countryCodes}"
-                                                       onchange="{!c.doUpdate}"
-                                                       placeholder="Select Study Site"/>
+                                <c:IRBStudySitesLookup
+                                    aura:id="ssLookup"
+                                    value="{!v.filter.selectedSSIds}"
+                                    ctpId="{!v.recordId}"
+                                    selectedCountries="{!v.filter.countryCodes}"
+                                    onchange="{!c.doUpdate}"
+                                    placeholder="Select Study Site"
+                                />
                             </div>
                             <!--Save changes button-->
                             <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
                                 <div class="slds-col slds-size--1-of-2">
                                     <div class="save-btn">
-                                        <lightning:button variant="neutral" label="Add Visit Plan"
-                                                          onclick="{!c.doAddVP}"/>
+                                        <lightning:button
+                                            variant="neutral"
+                                            label="Add Visit Plan"
+                                            onclick="{!c.doAddVP}"
+                                        />
                                     </div>
                                 </div>
                             </aura:if>
@@ -76,26 +87,53 @@
 
                         <!--Study Site Table-->
                         <div class="ss-table">
-                            <c:uiFixedTable class="slds-table slds-table_bordered" scrollLeft="{!v.scrollLeft}">
+                            <c:uiFixedTable
+                                class="slds-table slds-table_bordered"
+                                scrollLeft="{!v.scrollLeft}"
+                            >
                                 <aura:set attribute="tableHeader">
                                     <tr class="slds-line-height_reset">
-                                        <c:SSTableHeaderCols filter="{!v.filter}" scrollLeft="{!v.scrollLeft}"
-                                                             onSort="{!c.doSort}"/>
+                                        <c:SSTableHeaderCols
+                                            filter="{!v.filter}"
+                                            scrollLeft="{!v.scrollLeft}"
+                                            onSort="{!c.doSort}"
+                                        />
                                         <aura:if isTrue="{!v.visitPlans}">
                                             <aura:iteration items="{!v.visitPlans}" var="vp">
-                                                <c:uiCol isHeader="true" scrollLeft="{!v.scrollLeft}">
-                                                    <c:VisitPlanColumnMenu plan="{!vp}"
-                                                                           onEdit="{!if(equals(v.viewModePage, 'Edit'), c.doColumnVisitEdit, c.doColumnVisitView)}"
-                                                                           onClone="{!c.doColumnVisitClone}"
-                                                                           onDelete="{!c.doColumnVisitDelete}"
-                                                                           isVisible="{!equals(v.viewModePage, 'Edit')}"/>
-                                                    <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
+                                                <c:uiCol
+                                                    isHeader="true"
+                                                    scrollLeft="{!v.scrollLeft}"
+                                                >
+                                                    <c:VisitPlanColumnMenu
+                                                        plan="{!vp}"
+                                                        onEdit="{!if(equals(v.viewModePage, 'Edit'), c.doColumnVisitEdit, c.doColumnVisitView)}"
+                                                        onClone="{!c.doColumnVisitClone}"
+                                                        onDelete="{!c.doColumnVisitDelete}"
+                                                        isVisible="{!equals(v.viewModePage, 'Edit')}"
+                                                    />
+                                                    <aura:if
+                                                        isTrue="{!equals(v.viewModePage, 'Edit')}"
+                                                    >
                                                         <div class="column-btn">
-                                                            <a data-state="Enabled" data-vp="{!vp.value}"
-                                                               onclick="{!c.columnCheckboxStateChange}">Select All</a>
-                                                            <span style="padding: 0 3px; color: #006DCC; ">|</span>
-                                                            <a data-state="Disabled" data-vp="{!vp.value}"
-                                                               onclick="{!c.columnCheckboxStateChange}">Clear All</a>
+                                                            <a
+                                                                data-state="Enabled"
+                                                                data-vp="{!vp.value}"
+                                                                onclick="{!c.columnCheckboxStateChange}"
+                                                                >Select All</a
+                                                            >
+                                                            <span
+                                                                style="
+                                                                    padding: 0 3px;
+                                                                    color: #006dcc;
+                                                                "
+                                                                >|</span
+                                                            >
+                                                            <a
+                                                                data-state="Disabled"
+                                                                data-vp="{!vp.value}"
+                                                                onclick="{!c.columnCheckboxStateChange}"
+                                                                >Clear All</a
+                                                            >
                                                         </div>
                                                     </aura:if>
                                                 </c:uiCol>
@@ -105,33 +143,45 @@
                                 </aura:set>
                                 <aura:if isTrue="{!v.ssItems}">
                                     <aura:iteration items="{!v.ssItems}" var="item">
-                                        <c:StudySiteItem item="{!item}" parent="{!this}" viewMode="{!v.viewModePage}"
-                                                         scrollLeft="{!v.scrollLeft}"/>
+                                        <c:StudySiteItem
+                                            item="{!item}"
+                                            parent="{!this}"
+                                            viewMode="{!v.viewModePage}"
+                                            scrollLeft="{!v.scrollLeft}"
+                                        />
                                     </aura:iteration>
                                 </aura:if>
                             </c:uiFixedTable>
                         </div>
 
-
                         <!--Pagination-->
                         <div>
-                            <c:RRPaginationRemote entriesOnPage="{!v.pagination.pageRecordsCount}"
-                                                  currentPage="{!v.pagination.currentPage}"
-                                                  allRecordsCount="{!v.pagination.allRecordsCount}"
-                                                  onchange="{!c.doSaveAndUpdate}"/>
+                            <c:RRPaginationRemote
+                                entriesOnPage="{!v.pagination.pageRecordsCount}"
+                                currentPage="{!v.pagination.currentPage}"
+                                allRecordsCount="{!v.pagination.allRecordsCount}"
+                                onchange="{!c.doSaveAndUpdate}"
+                            />
                             <div class="padding-info">
-                                <lightning:icon class="slds-m-left--x-small" iconName="utility:save" alternativeText=""
-                                                variant="warning" size="small"/>
-                                <p style="font-size: 11px; padding: 5px;">{!$Label.c.IRB_Padding_Info}</p>
+                                <lightning:icon
+                                    class="slds-m-left--x-small"
+                                    iconName="utility:save"
+                                    alternativeText=""
+                                    variant="warning"
+                                    size="small"
+                                />
+                                <p style="font-size: 11px; padding: 5px">
+                                    {!$Label.c.IRB_Padding_Info}
+                                </p>
                             </div>
                         </div>
                     </div>
                 </aura:if>
                 <aura:if isTrue="{!empty(v.ssItems)}">
-                    <c:EmptyListStub message="{!$Label.c.PG_VP_L_No_Items_display}"/>
+                    <c:EmptyListStub message="{!$Label.c.PG_VP_L_No_Items_display}" />
                 </aura:if>
             </aura:if>
         </div>
-        <c:Action_EditVisitPlan aura:id="actionVP"/>
+        <c:Action_EditVisitPlan aura:id="actionVP" />
     </aura:if>
 </aura:component>

@@ -4,10 +4,9 @@
 
 ({
     doInit: function (component, event, helper) {
-        communityService.executeAction(component, 'getInitData', {},
-            function (initData) {
-                component.set('v.isAvailable', initData.linksAvailable);
-                component.set('v.linksWrappers', initData.linksWrappers);
-            });
+        communityService.executeAction(component, 'getInitData', {}, function (initData) {
+            component.set('v.isAvailable', initData.linksAvailable);
+            component.set('v.linksWrappers', initData.linksWrappers);
+        });
     }
 });

@@ -3,18 +3,20 @@
  -->
 
 <aura:component description="RRGoogleMap">
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require
+        scripts="{!join(',', $Resource.rr_community_js)}"
+        afterScriptsLoaded="{!c.doInit}"
+    />
 
     <!--attributes-->
-    <aura:attribute name="accounts" type="List"/>
-    <aura:attribute name="hasAddress" type="Boolean" access="private"/>
-    <aura:attribute name="markers" type="Object[]" access="private"/>
+    <aura:attribute name="accounts" type="List" />
+    <aura:attribute name="hasAddress" type="Boolean" access="private" />
+    <aura:attribute name="markers" type="Object[]" access="private" />
 
     <aura:if isTrue="{!v.hasAddress}">
-        <lightning:map mapMarkers="{!v.markers}" zoomLevel="10"/>
+        <lightning:map mapMarkers="{!v.markers}" zoomLevel="10" />
         <aura:set attribute="else">
             <div class="inform-window">{!$Label.c.GMap_Not_Available}</div>
         </aura:set>
     </aura:if>
-
 </aura:component>

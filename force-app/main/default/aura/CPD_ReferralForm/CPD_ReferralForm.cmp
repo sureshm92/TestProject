@@ -1,6 +1,9 @@
-<aura:component description="CPD_ReferralForm" implements="forceCommunity:availableForAllPageTypes"
-    controller="CPDonorReferralFormController" access="global">
-
+<aura:component
+    description="CPD_ReferralForm"
+    implements="forceCommunity:availableForAllPageTypes"
+    controller="CPDonorReferralFormController"
+    access="global"
+>
     <!-- Attributes-->
     <aura:attribute name="selTabId" type="string" default="1" />
     <aura:attribute name="isVisible" type="Boolean" default="false" />
@@ -20,9 +23,16 @@
 
     <aura:attribute name="uploadedFile" type="Object" />
     <aura:attribute name="selectedFile" type="Object" />
-    <aura:attribute name="integrationPatientReferralObj" type="Integration_Patient_Referral__c"
-        default="{'sobjectType':'Integration_Patient_Referral__c'}" />
-    <aura:attribute name="formResultObj" type="Form_Results__c" default="{'sobjectType':'Form_Results__c'}" />
+    <aura:attribute
+        name="integrationPatientReferralObj"
+        type="Integration_Patient_Referral__c"
+        default="{'sobjectType':'Integration_Patient_Referral__c'}"
+    />
+    <aura:attribute
+        name="formResultObj"
+        type="Form_Results__c"
+        default="{'sobjectType':'Form_Results__c'}"
+    />
 
     <!-- Site selection-->
     <aura:attribute name="studySitesInstance" type="object" />
@@ -30,14 +40,22 @@
 
     <!-- Handler-->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
-    <aura:handler name="questionnaireEvent" event="c:CPD_QuestionnaireEvt" action="{!c.handleQuestionnaireEvent}" />
+    <aura:handler
+        name="questionnaireEvent"
+        event="c:CPD_QuestionnaireEvt"
+        action="{!c.handleQuestionnaireEvent}"
+    />
 
     <aura:if isTrue="{!v.isNextStepVisible}">
         <br />
         <div class="slds-grid slds-wrap">
-            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+            <div
+                class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12"
+            >
                 <div class="rectangle-2">
-                    <p class="next-step-complete">{!$Label.c.CPD_Next_step_complete_a_few_details}</p>
+                    <p class="next-step-complete">
+                        {!$Label.c.CPD_Next_step_complete_a_few_details}
+                    </p>
                 </div>
             </div>
         </div>
@@ -46,7 +64,9 @@
     <aura:if isTrue="{!v.isSiteVisible}">
         <br />
         <div class="slds-grid slds-wrap">
-            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+            <div
+                class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12"
+            >
                 <div class="rectangle-2">
                     <p class="next-step-complete">{!$Label.c.CPD_Select_your_preferred_location}</p>
                 </div>
@@ -72,23 +92,43 @@
     <div class="border-line" />
     <lightning:tabset selectedTabId="{!v.selTabId}">
         <lightning:tab label="Questionnaire" id="1">
-            <c:CPD_Questionnaire aura:id="questionnaireSection" isParentRequired="{!v.parentRequired}"
-                showParent="{!v.hideParent}" isPatientRequired="{!v.patientRequired}" />
+            <c:CPD_Questionnaire
+                aura:id="questionnaireSection"
+                isParentRequired="{!v.parentRequired}"
+                showParent="{!v.hideParent}"
+                isPatientRequired="{!v.patientRequired}"
+            />
         </lightning:tab>
         <lightning:tab label="QuestionnaireMain" id="2">
-            <c:CPD_QuestionnaireOther aura:id="questionnaireOtherSection"
-                integrationPatientReferral="{!v.integrationPatientReferralObj}" formresult="{!v.formResultObj}"
-                fileData="{!v.selectedFile}" fileList="{!v.uploadedFile}" />
+            <c:CPD_QuestionnaireOther
+                aura:id="questionnaireOtherSection"
+                integrationPatientReferral="{!v.integrationPatientReferralObj}"
+                formresult="{!v.formResultObj}"
+                fileData="{!v.selectedFile}"
+                fileList="{!v.uploadedFile}"
+            />
         </lightning:tab>
         <lightning:tab label="Contact Info" id="3">
-            <c:CPD_ContactInfo aura:id="contactInfoSection" isParentRequired="{!v.parentRequired}"
-                showParent="{!v.hideParent}" isPatientRequired="{!v.patientRequired}" formresult="{!v.formResultObj}"
-                intpatientreferral="{!v.integrationPatientReferralObj}" />
+            <c:CPD_ContactInfo
+                aura:id="contactInfoSection"
+                isParentRequired="{!v.parentRequired}"
+                showParent="{!v.hideParent}"
+                isPatientRequired="{!v.patientRequired}"
+                formresult="{!v.formResultObj}"
+                intpatientreferral="{!v.integrationPatientReferralObj}"
+            />
         </lightning:tab>
         <lightning:tab label="Site Selection" id="4">
-            <c:CPD_SiteMapSelection aura:id="siteMapSection" studySitesInstance="{!v.studySitesInstance}" />
+            <c:CPD_SiteMapSelection
+                aura:id="siteMapSection"
+                studySitesInstance="{!v.studySitesInstance}"
+            />
             <div class="message">
-                <span aura:id="errorMsg" class="{!(v.showError ==  true) ? 'sld-error-message':'sld-error-message hidden'}">{!$Label.c.CPD_SitemapError}</span>
+                <span
+                    aura:id="errorMsg"
+                    class="{!(v.showError == true) ? 'sld-error-message':'sld-error-message hidden'}"
+                    >{!$Label.c.CPD_SitemapError}</span
+                >
             </div>
         </lightning:tab>
     </lightning:tabset>
@@ -96,7 +136,12 @@
     <aura:if isTrue="{!v.isVisible}">
         <div class="slds-clearfix">
             <div class="next-question-align">
-                <lightning:button class="next-question" variant="neutral" label="{!$Label.c.CPD_Next_Question_btn_label}" onclick="{!c.next}" />
+                <lightning:button
+                    class="next-question"
+                    variant="neutral"
+                    label="{!$Label.c.CPD_Next_Question_btn_label}"
+                    onclick="{!c.next}"
+                />
             </div>
         </div>
     </aura:if>
@@ -104,7 +149,12 @@
     <aura:if isTrue="{!v.isNextStepVisible}">
         <div class="slds-clearfix">
             <div class="next-align">
-                <lightning:button class="next-button" variant="neutral" label="{!$Label.c.CPD_Next_btn_label}" onclick="{!c.submit}" />
+                <lightning:button
+                    class="next-button"
+                    variant="neutral"
+                    label="{!$Label.c.CPD_Next_btn_label}"
+                    onclick="{!c.submit}"
+                />
             </div>
         </div>
     </aura:if>
@@ -112,7 +162,12 @@
     <aura:if isTrue="{!v.isSiteVisible}">
         <div class="slds-clearfix">
             <div class="submit-button-align">
-                <lightning:button class="next-button" variant="neutral" label="{!$Label.c.CPD_Submit_btn_label}" onclick="{!c.update}" />
+                <lightning:button
+                    class="next-button"
+                    variant="neutral"
+                    label="{!$Label.c.CPD_Submit_btn_label}"
+                    onclick="{!c.update}"
+                />
             </div>
         </div>
     </aura:if>
@@ -122,5 +177,4 @@
             <lightning:spinner alternativeText="Loading" />
         </aura:if>
     </div>
-
 </aura:component>

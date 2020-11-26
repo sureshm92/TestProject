@@ -1,30 +1,34 @@
-<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
-                access="global" 
-                controller="ListViewParticipantController">
-     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
-                  afterScriptsLoaded="{!c.doInit}"/>
-    
-    <!-- aura attributes to store data/values --> 
-    <aura:attribute name="trialId" type="String"/>
-    <aura:attribute name="siteId" type="String"/>
-    <aura:attribute name="userMode" type="String"/>
-    <aura:attribute name="peFilterData" type="Object"/>
-    <aura:attribute name="isDataLoaded" type="boolean"/>  
-     
+<aura:component
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    access="global"
+    controller="ListViewParticipantController"
+>
+    <ltng:require
+        scripts="{!join(',', $Resource.rr_community_js)}"
+        afterScriptsLoaded="{!c.doInit}"
+    />
+
+    <!-- aura attributes to store data/values -->
+    <aura:attribute name="trialId" type="String" />
+    <aura:attribute name="siteId" type="String" />
+    <aura:attribute name="userMode" type="String" />
+    <aura:attribute name="peFilterData" type="Object" />
+    <aura:attribute name="isDataLoaded" type="boolean" />
+
     <!-- <lightning:breadcrumbs>
         <lightning:breadcrumb label="{!$Label.c.My_Participant}"  onclick="{! c.onClickMyReferrals }"/>
         <lightning:breadcrumb label="Population View" href="path/to/place/2" onclick="{! c.navigateToCustomPage2 }"/>
     </lightning:breadcrumbs> -->
     <div class="slds-col slds-size_1-of-1 ListViewHead">
         <span>{!$Label.c.RH_MyPartiCipantListView}</span>
-        <span><a style="font-size: 16px;font-weight: 600;"
-                 onclick="{!c.onClickCardView}">
-            {!$Label.c.BTN_Naviagte_Card} 
-            </a></span>
-            </div>
-    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
+        <span
+            ><a style="font-size: 16px; font-weight: 600" onclick="{!c.onClickCardView}">
+                {!$Label.c.BTN_Naviagte_Card}
+            </a></span
+        >
+    </div>
+    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true" />
     <aura:if isTrue="{!v.isDataLoaded}">
-        <c:ListViewParticipantFilter peFilterData="{!v.peFilterData}"/>
+        <c:ListViewParticipantFilter peFilterData="{!v.peFilterData}" />
     </aura:if>
-    
 </aura:component>

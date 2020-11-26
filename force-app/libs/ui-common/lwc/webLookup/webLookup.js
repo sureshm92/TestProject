@@ -3,13 +3,12 @@
  * https://github.com/pozil/sfdc-ui-lookup-lwc
  */
 
-import {LightningElement, api, track} from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 
 const MINIMAL_SEARCH_TERM_LENGTH = 2; // Min number of chars required to search
 const SEARCH_DELAY = 300; // Wait 300 ms after user stops typing then, perform search
 
 export default class WebLookup extends LightningElement {
-
     @api minSearchTermLength = MINIMAL_SEARCH_TERM_LENGTH;
     @api label;
     @api selection = [];
@@ -36,7 +35,7 @@ export default class WebLookup extends LightningElement {
         // Reset the spinner
         this.loading = false;
 
-        this.searchResults = results.map(result => {
+        this.searchResults = results.map((result) => {
             // Clone and complete search result if icon is missing
             if (typeof result.icon === 'undefined') {
                 const { id, sObjectType, title, subtitle } = result;
@@ -55,7 +54,7 @@ export default class WebLookup extends LightningElement {
     @api
     getSelection() {
         return this.selection.map(function (sel) {
-            return sel.id
+            return sel.id;
         });
     }
 
@@ -75,10 +74,7 @@ export default class WebLookup extends LightningElement {
         this.searchTerm = newSearchTerm;
 
         // Compare clean new search term with current one and abort if identical
-        const newCleanSearchTerm = newSearchTerm
-            .trim()
-            .replace(/\*/g, '')
-            .toLowerCase();
+        const newCleanSearchTerm = newSearchTerm.trim().replace(/\*/g, '').toLowerCase();
         if (this.cleanSearchTerm === newCleanSearchTerm) {
             return;
         }
@@ -106,7 +102,7 @@ export default class WebLookup extends LightningElement {
                 const searchEvent = new CustomEvent('search', {
                     detail: {
                         searchTerm: this.cleanSearchTerm,
-                        selectedIds: this.selection.map(element => element.id)
+                        selectedIds: this.selection.map((element) => element.id)
                     }
                 });
                 this.dispatchEvent(searchEvent);
@@ -144,9 +140,7 @@ export default class WebLookup extends LightningElement {
         const recordId = event.currentTarget.dataset.recordid;
 
         // Save selection
-        let selectedItem = this.searchResults.filter(
-            result => result.id === recordId
-        );
+        let selectedItem = this.searchResults.filter((result) => result.id === recordId);
         if (selectedItem.length === 0) {
             return;
         }
@@ -195,7 +189,7 @@ export default class WebLookup extends LightningElement {
 
     handleRemoveSelectedItem(event) {
         const recordId = event.currentTarget.name;
-        this.selection = this.selection.filter(item => item.id !== recordId);
+        this.selection = this.selection.filter((item) => item.id !== recordId);
         this.changeInputAvailability();
         // Notify parent components that selection has changed
         this.dispatchEvent(new CustomEvent('selectionchange'));
@@ -221,8 +215,7 @@ export default class WebLookup extends LightningElement {
     }
 
     get getDropdownClass() {
-        let css =
-            'slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click ';
+        let css = 'slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click ';
         if (
             this.hasFocus &&
             this.cleanSearchTerm &&
@@ -238,9 +231,7 @@ export default class WebLookup extends LightningElement {
             'search-input slds-input slds-combobox__input has-custom-height ' +
             (this.errors.length === 0 ? '' : 'has-custom-error ');
         if (!this.isMultiEntry) {
-            css +=
-                'slds-combobox__input-value ' +
-                (this.hasSelection() ? 'has-custom-border' : '');
+            css += 'slds-combobox__input-value ' + (this.hasSelection() ? 'has-custom-border' : '');
         }
         return css;
     }
@@ -273,16 +264,11 @@ export default class WebLookup extends LightningElement {
     }
 
     get getSelectIconName() {
-        return this.hasSelection()
-            ? this.selection[0].icon
-            : 'standard:default';
+        return this.hasSelection() ? this.selection[0].icon : 'standard:default';
     }
 
     get getSelectIconClass() {
-        return (
-            'slds-combobox__input-entity-icon ' +
-            (this.hasSelection() ? '' : 'slds-hide')
-        );
+        return 'slds-combobox__input-entity-icon ' + (this.hasSelection() ? '' : 'slds-hide');
     }
 
     get getInputValue() {
@@ -322,8 +308,8 @@ export default class WebLookup extends LightningElement {
 
     changeInputAvailability() {
         let searchInput = this.template.querySelector('.search-input');
-        if(searchInput && this.resultLimit) {
-            if(parseInt(this.resultLimit) === this.selection.length) {
+        if (searchInput && this.resultLimit) {
+            if (parseInt(this.resultLimit) === this.selection.length) {
                 searchInput.setAttribute('disabled', 'true');
             } else {
                 searchInput.removeAttribute('disabled');

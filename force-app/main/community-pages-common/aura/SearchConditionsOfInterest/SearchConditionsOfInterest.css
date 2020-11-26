@@ -4,23 +4,23 @@
 .THIS {
 }
 
-.THIS .alert-count-condition{
+.THIS .alert-count-condition {
     height: 17px;
     width: auto;
     color: #999999;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
     font-style: italic;
     line-height: 17px;
     text-align: center;
 }
 
-.THIS table{
+.THIS table {
     border-top: 0;
     border-collapse: collapse;
 }
 
-.THIS .table-scroll{
+.THIS .table-scroll {
     height: 170px;
     overflow-x: hidden;
     overflow-y: auto;
@@ -28,10 +28,10 @@
 }
 
 @media all and (max-width: 750px) {
-    .THIS .alert-count-condition{
+    .THIS .alert-count-condition {
         font-size: 12px;
     }
-    .THIS .table-scroll{
+    .THIS .table-scroll {
         font-size: 12px;
         overflow-x: auto;
         overflow-y: auto;
@@ -42,23 +42,22 @@
     .THIS .slds-table_edit .slds-truncate {
         font-size: 1rem;
     }
-    
+
     .THIS .table-scroll {
         height: 250px;
         margin-top: 1rem;
     }
-    
-    .THIS .slds-table th, 
+
+    .THIS .slds-table th,
     .THIS .slds-table td {
-     	padding: .75rem .5rem;   
+        padding: 0.75rem 0.5rem;
     }
 
-    
     .THIS .p-footer.p-variant- {
         width: 100%;
-        padding: 1rem; 
+        padding: 1rem;
     }
-   
+
     .THIS .p-footer .apollo-btn.primary {
         margin-top: 1rem;
         margin-left: 0;

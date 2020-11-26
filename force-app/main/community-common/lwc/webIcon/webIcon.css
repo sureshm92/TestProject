@@ -1,7 +1,7 @@
 /**
  * Created by Igor Malyuta on 18.11.2019.
  */
-.rr-icon-default{
+.rr-icon-default {
     height: 32px;
     width: 26px;
     display: inline-block;
@@ -12,7 +12,7 @@
     width: 15px;
 }
 
-.rr-icon-big{
+.rr-icon-big {
     height: 60px;
     width: 60px;
 }

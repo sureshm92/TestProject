@@ -1,26 +1,34 @@
 <!--
   - Created by Sravani Dasari
  -->
-<aura:component description="TrialMatchPage" implements="forceCommunity:availableForAllPageTypes"
-                controller="TrialMatchPageRemote" extends="c:CommunityContext">
+<aura:component
+    description="TrialMatchPage"
+    implements="forceCommunity:availableForAllPageTypes"
+    controller="TrialMatchPageRemote"
+    extends="c:CommunityContext"
+>
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}" />
+    <aura:attribute name="isRTL" type="Boolean" />
+    <aura:attribute name="initialized" type="Boolean" default="false" />
+    <aura:attribute name="trialmatchCTPs" type="List" />
+    <aura:attribute name="partid" type="Id" />
 
-    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
-    <aura:attribute name="isRTL" type="Boolean"/>
-    <aura:attribute name="initialized" type="Boolean" default="false"/>
-    <aura:attribute name="trialmatchCTPs" type="List"/>
-    <aura:attribute name="partid" type="Id"/>
-    
-    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
-    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
+    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
 
     <lightning:layout horizontalAlign="center">
-        <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12" flexibility="auto"
-        size="12" >
+        <lightning:layoutItem
+            smallDeviceSize="12"
+            mediumDeviceSize="12"
+            largeDeviceSize="12"
+            flexibility="auto"
+            size="12"
+        >
             <div class="sdv-top-bar" id="stickyBar" aura:id="stickyBar">
                 <div class="navigation rr-width-limiter side-padding">
                     <c:RRNavigationPath>
-                        <c:RRNPathItem label="{!$Label.c.Navigation_Home}" page=""/>
-                        <c:RRNPathItem label="{!$Label.c.Trial_Match}"/>
+                        <c:RRNPathItem label="{!$Label.c.Navigation_Home}" page="" />
+                        <c:RRNPathItem label="{!$Label.c.Trial_Match}" />
                     </c:RRNavigationPath>
                 </div>
             </div>
@@ -28,32 +36,45 @@
             <aura:if isTrue="{!v.initialized}">
                 <div class="{!v.isRTL? 'arabic':'english'}">
                     <div class="trials-container side-padding">
-                    <aura:if isTrue="{!!empty(v.trialmatchCTPs)}">
-                        <div class="{!v.isRTL? 'slds-clearfix sidepadding-rtl':'slds-clearfix'}">
-                            <div class="slds-page-header__title tm-title">
-                                <lightning:formattedText value="{!$Label.c.Trial_Match}"/>
+                        <aura:if isTrue="{!!empty(v.trialmatchCTPs)}">
+                            <div
+                                class="{!v.isRTL? 'slds-clearfix sidepadding-rtl':'slds-clearfix'}"
+                            >
+                                <div class="slds-page-header__title tm-title">
+                                    <lightning:formattedText value="{!$Label.c.Trial_Match}" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="slds-clearfix">
-                            <div class="{!v.isRTL? 'slds-float_right sidepadding-rtl':'slds-float_left'}">
-                                <lightning:formattedText value="{!$Label.c.search_results}"/>
-                            </div>
-                            <div class="{!v.isRTL? 'resource-link-container slds-float_left sidepaddingleft-rtl':'resource-link-container slds-float_right'}">
-                                <c:RRIcon iconName="icon-pdf" color="#0768FD" class="{!v.isRTL? 'resource-icon-rtl':'resource-icon'}"/>
-                                    <a class="{!v.isRTL? 'resource-name-rtl':'resource-name'}" onclick="{!c.doGenerateReport}">
+                            <div class="slds-clearfix">
+                                <div
+                                    class="{!v.isRTL? 'slds-float_right sidepadding-rtl':'slds-float_left'}"
+                                >
+                                    <lightning:formattedText value="{!$Label.c.search_results}" />
+                                </div>
+                                <div
+                                    class="{!v.isRTL? 'resource-link-container slds-float_left sidepaddingleft-rtl':'resource-link-container slds-float_right'}"
+                                >
+                                    <c:RRIcon
+                                        iconName="icon-pdf"
+                                        color="#0768FD"
+                                        class="{!v.isRTL? 'resource-icon-rtl':'resource-icon'}"
+                                    />
+                                    <a
+                                        class="{!v.isRTL? 'resource-name-rtl':'resource-name'}"
+                                        onclick="{!c.doGenerateReport}"
+                                    >
                                         {!$Label.c.Download_Trial_Match}
                                     </a>
+                                </div>
                             </div>
-                        </div>
-                    </aura:if>
-                    <c:TrialMatchContainer trialmatchCTPs="{!v.trialmatchCTPs}"/>
-                </div>
+                        </aura:if>
+                        <c:TrialMatchContainer trialmatchCTPs="{!v.trialmatchCTPs}" />
+                    </div>
                 </div>
             </aura:if>
 
-            <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true"/>
+            <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" />
         </lightning:layoutItem>
     </lightning:layout>
 
-    <c:builderStub aura:id="builderStub"/>
+    <c:builderStub aura:id="builderStub" />
 </aura:component>

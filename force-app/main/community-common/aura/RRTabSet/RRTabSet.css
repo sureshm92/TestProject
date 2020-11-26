@@ -9,7 +9,6 @@
     position: relative;
 }
 
-
 .THIS.ts-tab-container:after {
     content: '';
     height: 1px;
@@ -20,7 +19,6 @@
     left: 0;
 }
 
-
 .THIS.ts-tab-container .ts-tab-right,
 .THIS.ts-tab-container .ts-tab-left {
     display: flex;
@@ -30,7 +28,7 @@
     float: right;
 }
 
-.THIS.ts-tab-container .ts-tab-right .ts-tub-button{
+.THIS.ts-tab-container .ts-tab-right .ts-tub-button {
     display: grid;
     width: 62px;
     padding-top: 10px;
@@ -65,26 +63,26 @@
     color: #000;
 }
 
-.THIS .ts-tab .rr-icon-default{
+.THIS .ts-tab .rr-icon-default {
     display: block;
     width: 24px;
     height: 24px;
     margin: 0 auto;
 }
 
-.THIS .ts-tab label{
+.THIS .ts-tab label {
     font-size: 1rem;
     line-height: 12px;
     display: inline-block;
     margin-bottom: 10px;
-     position: relative;
+    position: relative;
 }
 
-.THIS .ts-tab.selected{
-   opacity: 1;
-   pointer-events: none;
+.THIS .ts-tab.selected {
+    opacity: 1;
+    pointer-events: none;
     color: #000;
-/*   text-shadow:
+    /*   text-shadow:
         -.25px -.25px 0 #000,
         .25px -.25px 0 #000; */
 }
@@ -102,7 +100,7 @@
 }
 
 .THIS .ts-tab.disabled {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     pointer-events: none;
     -moz-user-select: none;
     -khtml-user-select: none;
@@ -116,13 +114,12 @@
     user-select: none;
 }
 
-
 @media all and (max-width: 768px) {
     .THIS {
         flex-direction: column;
     }
     .THIS .ts-tab-left {
-        order: 2
+        order: 2;
     }
     .THIS .ts-tab-right {
         order: 1;

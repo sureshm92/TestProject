@@ -6,7 +6,7 @@
 .THIS.sdrc-filter {
     width: 100%;
     margin-top: 20px;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 13px;
     font-weight: 500;
     line-height: 21px;
@@ -15,7 +15,7 @@
     height: 40px;
     border: 1px solid #999999;
     border-radius: 4px;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     color: #999999;
 }
 .THIS.sdrc-filter .left {
@@ -51,21 +51,19 @@
 }
 .THIS.sdrc-filter .search,
 .THIS.sdrc-filter .pagination {
-    border-top: 2px solid #D9D9D9;
+    border-top: 2px solid #d9d9d9;
     padding-top: 1em;
     padding-bottom: 1em;
 }
 /*=======================================Search=======================================*/
 .THIS.sdrc-filter .search {
     display: flex;
-
 }
-.THIS.sdrc-filter .search .right{
+.THIS.sdrc-filter .search .right {
     padding-top: 10px;
-
 }
 /*=======================================Pgination=======================================*/
 .THIS.sdrc-filter .pagination {
     display: flex;
-    border-top: 2px solid #D9D9D9;
+    border-top: 2px solid #d9d9d9;
 }

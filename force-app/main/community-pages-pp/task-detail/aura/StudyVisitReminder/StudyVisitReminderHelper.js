@@ -6,79 +6,100 @@
         var visitData = component.get('v.visitData');
         var taskType = component.get('v.taskType');
         if (!communityService.isDummy()) {
-            communityService.executeAction(component, 'getTaskEditData', {
-                taskId: taskId
-            }, function (wrapper) {
-                console.log('##wrapper: ' + JSON.stringify(wrapper));
-                component.set('v.initData', wrapper);
-                component.set('v.isEnrolled', wrapper.isEnrolled);
-                component.set('v.emailOptIn', wrapper.emailOptIn);
-                component.set('v.smsOptIn', wrapper.smsOptIn);
+            communityService.executeAction(
+                component,
+                'getTaskEditData',
+                {
+                    taskId: taskId
+                },
+                function (wrapper) {
+                    console.log('##wrapper: ' + JSON.stringify(wrapper));
+                    component.set('v.initData', wrapper);
+                    component.set('v.isEnrolled', wrapper.isEnrolled);
+                    component.set('v.emailOptIn', wrapper.emailOptIn);
+                    component.set('v.smsOptIn', wrapper.smsOptIn);
 
-                if (!wrapper.emailOptIn || !wrapper.smsOptIn) {
-                    component.set('v.showAccountNavigation', true);
-                }
-                component.set('v.taskTypeList', wrapper.taskTypeList);
-                var task = wrapper.task;
-                if (isNewTask) {
-                    if (taskType === 'Visit') {
-                        task.Subject = visitData.visit.Is_Adhoc__c
-                            ? $A.get('$Label.c.StudyVisit_Unscheduled_Visit')
-                            : visitData.visit.Visit__r.Patient_Portal_Name__c;
-                        wrapper.activityDate = visitData.completedOrPlannedDate == $A.get('$Label.c.Study_Visit_Unavailable') ? null : visitData.completedOrPlannedDate; //moment(visitData.completedOrPlannedDate, 'YYYY-MM-DD'); 
-                        component.set('v.isEditable', false);
+                    if (!wrapper.emailOptIn || !wrapper.smsOptIn) {
+                        component.set('v.showAccountNavigation', true);
                     }
-                    task.Status = 'Open';
-                    task.Task_Type__c = taskType;
-                } else {
-                    if (wrapper.activityDate && wrapper.reminderDate) {
-                        var due = moment(wrapper.activityDate, 'YYYY-MM-DD');
-                        var reminder = moment(wrapper.reminderDate, 'YYYY-MM-DD');
-                        if (!due.isSame(reminder)) {
-                            if (due.diff(reminder, 'days') === 1) {
-                                component.set('v.frequencyMode', 'Day_Before');
-                                component.set('v.reminderDateEnabled', false);
+                    component.set('v.taskTypeList', wrapper.taskTypeList);
+                    var task = wrapper.task;
+                    if (isNewTask) {
+                        if (taskType === 'Visit') {
+                            task.Subject = visitData.visit.Is_Adhoc__c
+                                ? $A.get('$Label.c.StudyVisit_Unscheduled_Visit')
+                                : visitData.visit.Visit__r.Patient_Portal_Name__c;
+                            wrapper.activityDate =
+                                visitData.completedOrPlannedDate ==
+                                $A.get('$Label.c.Study_Visit_Unavailable')
+                                    ? null
+                                    : visitData.completedOrPlannedDate; //moment(visitData.completedOrPlannedDate, 'YYYY-MM-DD');
+                            component.set('v.isEditable', false);
+                        }
+                        task.Status = 'Open';
+                        task.Task_Type__c = taskType;
+                    } else {
+                        if (wrapper.activityDate && wrapper.reminderDate) {
+                            var due = moment(wrapper.activityDate, 'YYYY-MM-DD');
+                            var reminder = moment(wrapper.reminderDate, 'YYYY-MM-DD');
+                            if (!due.isSame(reminder)) {
+                                if (due.diff(reminder, 'days') === 1) {
+                                    component.set('v.frequencyMode', 'Day_Before');
+                                    component.set('v.reminderDateEnabled', false);
+                                }
                             }
                         }
+                        var isOwner = task.OwnerId === task.CreatedById;
+                        component.set('v.owner', isOwner);
+                        component.set(
+                            'v.editAvailable',
+                            isOwner && task.Status !== 'Completed' && taskType !== 'Visit'
+                        );
                     }
-                    var isOwner = task.OwnerId === task.CreatedById;
-                    component.set('v.owner', isOwner);
-                    component.set('v.editAvailable', isOwner && task.Status !== 'Completed' && taskType !== 'Visit');
-                }
-                component.set('v.task', task);
+                    component.set('v.task', task);
 
-                if (!$A.util.isUndefinedOrNull(visitId)) {
-                    component.set('v.task.Patient_Visit__c', visitId);
-                }
+                    if (!$A.util.isUndefinedOrNull(visitId)) {
+                        component.set('v.task.Patient_Visit__c', visitId);
+                    }
 
-                component.set('v.jsonState', JSON.stringify(wrapper) + '' + JSON.stringify(task));
-                component.set('v.isValidFields', true);
-                let today = wrapper.today;
-                component.set('v.tomorrow', helper.addADay(component, today));
-                if (wrapper.activityDate) {
-                    let activityDate = wrapper.activityDate;
-                    component.set('v.dayAfterDueDate', helper.addADay(component, activityDate));
+                    component.set(
+                        'v.jsonState',
+                        JSON.stringify(wrapper) + '' + JSON.stringify(task)
+                    );
+                    component.set('v.isValidFields', true);
+                    let today = wrapper.today;
+                    component.set('v.tomorrow', helper.addADay(component, today));
+                    if (wrapper.activityDate) {
+                        let activityDate = wrapper.activityDate;
+                        component.set('v.dayAfterDueDate', helper.addADay(component, activityDate));
+                    }
+                    //component.find('spinner').hide();
+                    component.find('reminderModal').show();
                 }
-                //component.find('spinner').hide();
-                component.find('reminderModal').show();
-            });
+            );
         } else {
             //component.find('spinner').hide();
             component.find('builderStub').setPageName(component.getName());
         }
-
     },
 
     updateTaskStatus: function (component, helper, method) {
         component.find('spinner').show();
-        communityService.executeAction(component, method, {
-            'taskId': component.get('v.taskId')
-        }, function () {
-            component.find('spinner').hide();
-            component.set('v.isSaveOperation', true);
-        }, null, function () {
-            helper.hideModal(component);
-        });
+        communityService.executeAction(
+            component,
+            method,
+            {
+                taskId: component.get('v.taskId')
+            },
+            function () {
+                component.find('spinner').hide();
+                component.set('v.isSaveOperation', true);
+            },
+            null,
+            function () {
+                helper.hideModal(component);
+            }
+        );
     },
 
     addADay: function (component, paramDate) {
@@ -145,9 +166,12 @@
         if (!$A.util.isUndefinedOrNull(fieldValid)) {
             fieldValid.reportValidity();
             isFieldValid = fieldValid.checkValidity();
-            if (isFieldValid) component.set('v.dayAfterDueDate', helper.addADay(component, fieldValid.get('v.value')));
+            if (isFieldValid)
+                component.set(
+                    'v.dayAfterDueDate',
+                    helper.addADay(component, fieldValid.get('v.value'))
+                );
         }
         return isFieldValid;
     }
-
-})
+});

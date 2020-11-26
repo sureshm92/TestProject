@@ -1,8 +1,8 @@
 /**
  * Created by Igor Malyuta on 18.11.2019.
  */
-.rr-link{
-    color: #297DFD;
+.rr-link {
+    color: #297dfd;
     padding: 4px 8px;
     /*  display: inline-flex; */
     align-items: center;
@@ -10,13 +10,13 @@
     margin: -4px 0 0 -8px;
 }
 
-.rr-link:hover{
+.rr-link:hover {
     text-decoration: none;
     background-color: #eef5ff;
-    transition: .25s;
+    transition: 0.25s;
 }
 
-.rr-link.limit-width{
+.rr-link.limit-width {
     overflow: hidden;
     text-overflow: ellipsis;
     vertical-align: bottom;
@@ -24,8 +24,8 @@
     padding-top: 4px;
 }
 
-.rr-link svg{
-    fill: #297DFD;
+.rr-link svg {
+    fill: #297dfd;
     width: 12px;
     height: 12px;
 }

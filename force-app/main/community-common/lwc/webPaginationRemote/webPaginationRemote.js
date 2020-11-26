@@ -2,11 +2,10 @@
  * Created by Yulia Yakushenkova on 12/2/2019.
  */
 
-import {LightningElement, api, track} from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import labelName from '@salesforce/label/c.PG_FP_L_of';
 
 export default class WebPaginationRemote extends LightningElement {
-
     //Attributes--------------------------------------------------------------------------------------------------------
     @api currentPage;
     @track totalPages;
@@ -39,14 +38,14 @@ export default class WebPaginationRemote extends LightningElement {
     }
 
     nextPageClick() {
-        if(this.currentPage < this.totalPages) this.currentPage += 1;
+        if (this.currentPage < this.totalPages) this.currentPage += 1;
 
         const changeEvent = new CustomEvent('change', {});
         this.dispatchEvent(changeEvent);
     }
 
     prevPageClick() {
-        if(this.currentPage > 1) this.currentPage -= 1;
+        if (this.currentPage > 1) this.currentPage -= 1;
 
         const changeEvent = new CustomEvent('change', {});
         this.dispatchEvent(changeEvent);
@@ -61,11 +60,17 @@ export default class WebPaginationRemote extends LightningElement {
         return this.currentPage + ' ' + labelName + ' ' + this.totalPages;
     }
 
-    get previousBtnCss(){
-        return 'previous-btn slds-button slds-button_neutral' + (this.currentPage === 1 ? ' disabled' : '');
+    get previousBtnCss() {
+        return (
+            'previous-btn slds-button slds-button_neutral' +
+            (this.currentPage === 1 ? ' disabled' : '')
+        );
     }
 
-    get nextBtnCss(){
-        return 'next-btn slds-button slds-button_neutral' + (this.currentPage === (this.totalPages === 0 ? 1 : this.totalPages) ? ' disabled' : '');
+    get nextBtnCss() {
+        return (
+            'next-btn slds-button slds-button_neutral' +
+            (this.currentPage === (this.totalPages === 0 ? 1 : this.totalPages) ? ' disabled' : '')
+        );
     }
 }

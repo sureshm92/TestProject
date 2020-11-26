@@ -4,19 +4,16 @@
 
 ({
     checkInvite: function (component, myId) {
-        var action = component.get("c.checkInvited");
-        action.setParams({"id" : myId});
-        action.setCallback(this, function(response){
+        var action = component.get('c.checkInvited');
+        action.setParams({ id: myId });
+        action.setCallback(this, function (response) {
             var state = response.getState();
-            if(state === "ERROR"){
-                
+            if (state === 'ERROR') {
             }
-            if (state === "SUCCESS") {
-                component.set("v.invited", response.getReturnValue());
+            if (state === 'SUCCESS') {
+                component.set('v.invited', response.getReturnValue());
             }
         });
         $A.enqueueAction(action);
-        
     }
-    
 });

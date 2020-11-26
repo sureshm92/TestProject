@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
- .THIS {
+.THIS {
     padding-bottom: 25px;
 }
 
@@ -53,16 +53,16 @@
 .THIS .apollo-btn.current {
     color: #000;
     background: none;
-    transition: color .4s, background .4s;
+    transition: color 0.4s, background 0.4s;
 }
 
 .THIS .sd-tab-container {
     display: flex;
     min-height: 62px;
     width: 100%;
-    border-top: 1px solid #F1F1F1;
-    border-bottom: 1px solid #F1F1F1;
-    background-color: #FFFFFF;
+    border-top: 1px solid #f1f1f1;
+    border-bottom: 1px solid #f1f1f1;
+    background-color: #ffffff;
     box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
     overflow-y: hidden;
     -ms-overflow-style: none;
@@ -85,7 +85,7 @@
     width: 62px;
     padding-top: 10px;
     white-space: normal;
-    color: #297DFD;
+    color: #297dfd;
     font-size: 13px;
     line-height: 14px;
     text-align: center;
@@ -101,7 +101,7 @@
     width: 100px;
     padding-top: 10px;
     border-collapse: collapse;
-    border: 1px solid #F2F2F2;
+    border: 1px solid #f2f2f2;
     opacity: 0.6;
     white-space: normal;
     font-size: 10px;
@@ -111,7 +111,7 @@
 
 .THIS .sd-tab-container .sd-tab:not(.selected):hover {
     background-color: rgba(41, 125, 253, 0.1);
-    box-shadow: inset 0 -3px 0 0 #297DFD;
+    box-shadow: inset 0 -3px 0 0 #297dfd;
     opacity: 0.5;
 }
 
@@ -128,17 +128,17 @@
     opacity: 1;
     pointer-events: none;
     background-color: rgba(41, 125, 253, 0.1);
-    box-shadow: inset 0 -3px 0 0 #297DFD;
+    box-shadow: inset 0 -3px 0 0 #297dfd;
     font-weight: bold;
 }
 
 .THIS .share-btn-label {
-    color: #297DFD;
+    color: #297dfd;
     text-align: center;
 }
 
 .THIS .sd-tab.disabled {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     pointer-events: none;
     -moz-user-select: none;
     -khtml-user-select: none;
@@ -185,7 +185,7 @@
 }
 
 .THIS .change-pref {
-    color: #297DFD;
+    color: #297dfd;
     padding: 4px 8px;
     align-items: center;
     border-radius: 4px;
@@ -277,14 +277,12 @@
 .THIS .share-ico {
     margin: 0 8px;
     cursor: pointer;
-
 }
 
 .THIS .share-ico .rr-icon-default {
     width: 20px !important;
     height: 20px !important;
 }
-
 
 .THIS .contrast-logo {
     max-width: 136px;
@@ -305,7 +303,6 @@
     margin-left: -54px;
     margin-top: 20px;
     transition: all ease 0.3s;
-
 }
 
 .THIS #shares:hover ~ .button-share-icon {
@@ -356,11 +353,9 @@
         margin-left: 0 !important;
     }
 
-
     .THIS #sd-selected-tab-container {
         padding: 0 6px;
     }
-
 }
 
 @media (max-width: 550px) {
@@ -369,10 +364,9 @@
     }
 }
 
-
 @media all and (max-width: 500px) {
     .THIS .cRRTabSet.ts-tab-container {
-        width: 90%
+        width: 90%;
     }
 
     .THIS .cRRTabSet.ts-tab-container .ts-tab-left {
@@ -385,8 +379,8 @@
     }
 
     .THIS .navigation .cRRNavigationPath.navigation-path {
-        font-size: .875rem;
-        margin-bottom: .5rem;
+        font-size: 0.875rem;
+        margin-bottom: 0.5rem;
         margin-left: 1rem;
     }
 
@@ -396,12 +390,11 @@
         margin-bottom: 15px;
     }
 
-    .THIS .links .apollo-btn:nth-child(n+2) {
+    .THIS .links .apollo-btn:nth-child(n + 2) {
         border-left: 1px solid #d9d9d9;
     }
 
     .THIS #sd-selected-tab-container {
         padding: 0;
     }
-
 }

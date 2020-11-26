@@ -2,43 +2,43 @@
  * Created by Leonid Bartenev
  */
 
-.THIS .vpi-fields{
+.THIS .vpi-fields {
     padding: 0 0 20px 0;
     display: flex;
     justify-content: space-between;
-    width: 100%!important;
+    width: 100% !important;
 }
 
-.THIS.rtl .vpi-fields{
+.THIS.rtl .vpi-fields {
     flex-direction: row-reverse;
 }
 
-.THIS.vpi-clip-item-borders{
+.THIS.vpi-clip-item-borders {
     overflow: hidden;
     padding: 0 16px 15px 5px;
     /*border-bottom: 1px solid #d9d9d9;*/
 }
 
-.THIS .vpi-field{
+.THIS .vpi-field {
     padding: 0 12px;
     margin: 0;
 }
 
-.THIS.rtl .vpi-field{
+.THIS.rtl .vpi-field {
     direction: rtl;
 }
 
-.THIS .vpi-value-length-max{
+.THIS .vpi-value-length-max {
     max-width: 200px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    color: #297DFD;
+    color: #297dfd;
     font-size: 1rem;
     line-height: 16px;
 }
 
-.THIS .vpi-field > .label{
+.THIS .vpi-field > .label {
     color: #595959;
     font-size: 1rem;
     line-height: 16px;
@@ -49,19 +49,18 @@
     white-space: nowrap;
 }
 
-.THIS .vpi-field > .value{
+.THIS .vpi-field > .value {
     color: #000000;
     font-size: 1rem;
     line-height: 18px;
     font-weight: 400;
 }
 
-
-@media all and (max-width: 890px){
+@media all and (max-width: 890px) {
     .THIS .vpi-fields {
         flex-wrap: wrap;
     }
-     .THIS .vpi-fields .vpi-field {
+    .THIS .vpi-fields .vpi-field {
         flex: 0 0 50%;
     }
 
@@ -71,20 +70,18 @@
         bottom: 15px;
         padding: 5px;
     }
-    
 }
-@media all and (max-width: 500px){
-    
+@media all and (max-width: 500px) {
     .THIS .vpi-fields .vpi-field {
         flex: 0 0 100%;
         padding: 0;
     }
-    
+
     .THIS.vpi-clip-item-borders {
         padding: 0 0 1rem;
     }
 
-    .THIS .custom-plus{
+    .THIS .custom-plus {
         position: absolute !important;
         bottom: 5px !important;
         padding: 5px !important;
@@ -94,7 +91,7 @@
         text-align: center;
     }
 }
-.THIS .custom-plus{
+.THIS .custom-plus {
     display: block;
     position: absolute;
     bottom: 15px;

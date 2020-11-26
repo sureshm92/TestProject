@@ -3,8 +3,8 @@
  -->
 
 <aura:component description="FooterLink">
-    <aura:attribute name="label" type="String"/>
-    <aura:attribute name="page" type="String"/>
-    <aura:attribute name="link" type="String"/>
+    <aura:attribute name="label" type="String" />
+    <aura:attribute name="page" type="String" />
+    <aura:attribute name="link" type="String" />
     <div class="page-link" onclick="{!c.onClick}">{!v.label}</div>
 </aura:component>

@@ -23,13 +23,13 @@
 .THIS.rri-container .rri-label {
     display: flex;
     color: #444;
-    font-size: .874rem;
+    font-size: 0.874rem;
     font-weight: 500;
     line-height: 21px;
 }
 
 .THIS.rri-container .rri-label .rri-error {
-    color: #FF0031;
+    color: #ff0031;
 }
 
 .THIS.rri-container input {
@@ -44,12 +44,12 @@
     margin-right: 5px;
 }
 
-.THIS.rri-container .rri-password{
+.THIS.rri-container .rri-password {
     position: relative;
     width: 100%;
 }
 
-.THIS.rri-container .rri-password .rri-show-password{
+.THIS.rri-container .rri-password .rri-show-password {
     position: absolute;
     top: 5px;
     right: 5px;

@@ -8,20 +8,29 @@
         if (!value) {
             value = null;
         }
-        communityService.executeAction(component, 'searchConditionOfInterest', {
-            nameTA: value
-        }, function (returnValue) {
-            let coiList = component.get('v.conditionsOfInterestTemp');
-            let coiWrappers = returnValue;
-            coiWrappers.forEach(function (coiWrapper) {
-                if (coiList.some(function (coiEl) {
-                    return coiEl.coi.Therapeutic_Area__c === coiWrapper.coi.Therapeutic_Area__c
-                })) {
-                    coiWrapper.isSelected = true;
-                }
-            });
-            component.set('v.displayedItems', coiWrappers);
-        });
+        communityService.executeAction(
+            component,
+            'searchConditionOfInterest',
+            {
+                nameTA: value
+            },
+            function (returnValue) {
+                let coiList = component.get('v.conditionsOfInterestTemp');
+                let coiWrappers = returnValue;
+                coiWrappers.forEach(function (coiWrapper) {
+                    if (
+                        coiList.some(function (coiEl) {
+                            return (
+                                coiEl.coi.Therapeutic_Area__c === coiWrapper.coi.Therapeutic_Area__c
+                            );
+                        })
+                    ) {
+                        coiWrapper.isSelected = true;
+                    }
+                });
+                component.set('v.displayedItems', coiWrappers);
+            }
+        );
     },
 
     saveElement: function (component) {
@@ -33,7 +42,7 @@
         });
         for (var i = deleteCOI.length - 1; i >= 0; i--) {
             for (var j = 0; j < conditionsOfInterestTemp.length; j++) {
-                if (deleteCOI[i] && (deleteCOI[i].coi.Id == conditionsOfInterestTemp[j].coi.Id)) {
+                if (deleteCOI[i] && deleteCOI[i].coi.Id == conditionsOfInterestTemp[j].coi.Id) {
                     deleteCOI.splice(i, 1);
                 }
             }
@@ -44,12 +53,16 @@
             });
         }
         if (deleteCoiId) {
-            communityService.executeAction(component, 'deleteCOI', {
-                coiIds: deleteCoiId
-            }, function (returnValue) {
-            });
+            communityService.executeAction(
+                component,
+                'deleteCOI',
+                {
+                    coiIds: deleteCoiId
+                },
+                function (returnValue) {}
+            );
         }
-        let copy = Object.assign([],conditionsOfInterestTemp);
+        let copy = Object.assign([], conditionsOfInterestTemp);
         component.set('v.conditionsOfInterest', copy);
         component.find('searchModal').hide();
         let arr = [];
@@ -69,9 +82,9 @@
             }
         } else {
             taList = taList.filter(function (e) {
-                e.coi.Therapeutic_Area__r.Id !== taWrapper.coi.Therapeutic_Area__r.Id
+                e.coi.Therapeutic_Area__r.Id !== taWrapper.coi.Therapeutic_Area__r.Id;
             });
         }
         component.set('v.conditionsOfInterestTemp', taList);
     }
-})
+});

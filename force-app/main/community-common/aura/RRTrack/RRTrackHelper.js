@@ -16,7 +16,8 @@
             maxValue = wrapper.maxValue;
         } else if (wrapper.minValue) {
             minValue = wrapper.minValue;
-            if (wrapper.value < wrapper.minValue) maxValue = 1.5 * wrapper.minValue - 0.5 * wrapper.value;
+            if (wrapper.value < wrapper.minValue)
+                maxValue = 1.5 * wrapper.minValue - 0.5 * wrapper.value;
             else maxValue = 2 * wrapper.value - wrapper.minValue;
         } else {
             minValue = 0;
@@ -39,7 +40,7 @@
         let wrapper = component.get('v.wrapper');
         let minValue = component.get('v.minValue');
         let maxValue = component.get('v.maxValue');
-        let arrowMargin = (wrapper.value - minValue) * 100 / (maxValue - minValue) - 4;
+        let arrowMargin = ((wrapper.value - minValue) * 100) / (maxValue - minValue) - 4;
         let trackWidth;
 
         $A.util.removeClass(arrDown, 'hidden');
@@ -51,8 +52,8 @@
                 trackWidth = (1 - (minValue - wrapper.value) / (maxValue - wrapper.value)) * 100;
                 arrowMargin = (100 - trackWidth) / 2;
                 component.set('v.trackMargin', 100 - trackWidth);
-            } else trackWidth = (maxValue - minValue) * 100 / (wrapper.value - minValue);
-            component.set('v.arrowColor', '#d9d9d9')
+            } else trackWidth = ((maxValue - minValue) * 100) / (wrapper.value - minValue);
+            component.set('v.arrowColor', '#d9d9d9');
         }
         component.set('v.trackWidth', trackWidth);
 
@@ -61,14 +62,14 @@
             else component.set('v.arrowMargin', 96);
 
             let valueLength = wrapper.value.toString().length;
-            if(wrapper.measurement) valueLength += (' ' + wrapper.measurement).length;
+            if (wrapper.measurement) valueLength += (' ' + wrapper.measurement).length;
 
             if (valueLength <= arrowMargin && arrowMargin <= 96 - valueLength) {
                 component.set('v.valueMargin', arrowMargin - valueLength);
             } else if (arrowMargin > 96 - valueLength) {
-                if(wrapper.measurement) component.set('v.valueMargin', 94 - 2*valueLength);
+                if (wrapper.measurement) component.set('v.valueMargin', 94 - 2 * valueLength);
                 else component.set('v.valueMargin', 94 - valueLength);
             }
         }
-    },
+    }
 });

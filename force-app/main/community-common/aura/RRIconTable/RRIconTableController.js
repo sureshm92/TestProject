@@ -14,20 +14,20 @@
 
         helper.getInfoForFilterInfoAndSummaryInfo(component);
         component.set('v.chartData', [
-            {segment: "Accepted", value: 8, color: '#00C221'},
-            {segment: "On Hold", value: 0, color: '#FF9300'},
-            {segment: "Declined", value: 4, color: '#E20000'},
-            {segment: "Acceptance Pending", value: 6, color: '#297DFD'}
+            { segment: 'Accepted', value: 8, color: '#00C221' },
+            { segment: 'On Hold', value: 0, color: '#FF9300' },
+            { segment: 'Declined', value: 4, color: '#E20000' },
+            { segment: 'Acceptance Pending', value: 6, color: '#297DFD' }
         ]);
         component.set('v.chartData2', [
-            {segment: "Accepted", value: 12, color: '#00C221'},
-            {segment: "On Hold", value: 4, color: '#FF9300'},
-            {segment: "Declined", value: 5, color: '#E20000'},
-            {segment: "Pending Approval/Activation", value: 20, color: '#297DFD'}
+            { segment: 'Accepted', value: 12, color: '#00C221' },
+            { segment: 'On Hold', value: 4, color: '#FF9300' },
+            { segment: 'Declined', value: 5, color: '#E20000' },
+            { segment: 'Pending Approval/Activation', value: 20, color: '#297DFD' }
         ]);
     },
 
     toggleFilter: function (component, event, helper) {
-        console.log("Filter status= " + component.get("v.filterInfo").isActive);
+        console.log('Filter status= ' + component.get('v.filterInfo').isActive);
     }
-})
+});

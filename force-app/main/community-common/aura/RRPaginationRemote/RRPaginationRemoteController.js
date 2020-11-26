@@ -7,22 +7,20 @@
         var pageRecordsCount = component.get('v.entriesOnPage');
         var pagesCount = Math.ceil(allRecordsCount / pageRecordsCount);
         component.set('v.totalPages', pagesCount);
-
     },
 
     doNextPage: function (component) {
         var currentPage = component.get('v.currentPage');
         var totalPages = component.get('v.totalPages');
-        if(currentPage < totalPages)
-        component.set('v.currentPage',currentPage + 1);
+        if (currentPage < totalPages) component.set('v.currentPage', currentPage + 1);
         let onchangeEvent = component.getEvent('onchange');
-        if(onchangeEvent) onchangeEvent.fire();
+        if (onchangeEvent) onchangeEvent.fire();
     },
 
-    doPrevPage: function(component){
+    doPrevPage: function (component) {
         var currentPage = component.get('v.currentPage');
-        if(currentPage > 1) component.set('v.currentPage',currentPage - 1);
+        if (currentPage > 1) component.set('v.currentPage', currentPage - 1);
         let onchangeEvent = component.getEvent('onchange');
-        if(onchangeEvent) onchangeEvent.fire();
+        if (onchangeEvent) onchangeEvent.fire();
     }
-})
+});

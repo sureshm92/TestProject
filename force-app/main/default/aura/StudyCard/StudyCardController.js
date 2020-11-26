@@ -41,10 +41,20 @@
                 parent.find('shareModal').show(trialId, currentStudy.hcpe.HCP_Contact__c);
                 break;
             case 'acceptTermsAndConditions':
-                communityService.navigateToPage("trial-terms-and-conditions?id=" + trialId + "&ret=" + communityService.createRetString());
+                communityService.navigateToPage(
+                    'trial-terms-and-conditions?id=' +
+                        trialId +
+                        '&ret=' +
+                        communityService.createRetString()
+                );
                 break;
             case 'viewTermsAndConditions':
-                communityService.navigateToPage("trial-terms-and-conditions?id=" + trialId + "&ret=" + communityService.createRetString());
+                communityService.navigateToPage(
+                    'trial-terms-and-conditions?id=' +
+                        trialId +
+                        '&ret=' +
+                        communityService.createRetString()
+                );
                 break;
             case 'findStudySites':
                 communityService.navigateToPage('sites-search?id=' + trialId);
@@ -70,7 +80,6 @@
     navigateToSitesSearch: function (component, event, helper) {
         var currentStudy = component.get('v.currentStudy');
         var trialId = currentStudy.trial.Id;
-        communityService.navigateToPage("sites-search?id=" + trialId);
-    },
-
+        communityService.navigateToPage('sites-search?id=' + trialId);
+    }
 });

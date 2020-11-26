@@ -2,10 +2,9 @@
  * Created by Yulia Yakushenkova on 11/29/2019.
  */
 
-import {LightningElement, api} from 'lwc';
+import { LightningElement, api } from 'lwc';
 
 export default class WebCollapse extends LightningElement {
-
     @api isCollapsed;
     @api label;
 

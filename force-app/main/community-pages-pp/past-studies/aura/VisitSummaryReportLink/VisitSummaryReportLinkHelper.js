@@ -42,8 +42,7 @@
         const helper = this;
         const url = window.location.hostname;
         let filepath = '/' + reportData.communityTemplate + '.png';
-        const resourceRelPath =
-            $A.get('$Resource.ReportBrandingLogos') + filepath;
+        const resourceRelPath = $A.get('$Resource.ReportBrandingLogos') + filepath;
         const resourceUrl = 'https://'.concat(url).concat(resourceRelPath);
         window
             .fetch(resourceUrl)
@@ -51,9 +50,7 @@
                 $A.getCallback(function (response) {
                     console.log(response);
                     if (!response.ok) {
-                        throw new Error(
-                            'HTTP error, status = '.concat(response.status)
-                        );
+                        throw new Error('HTTP error, status = '.concat(response.status));
                     }
                     response.blob().then(
                         $A.getCallback(function (data) {
@@ -61,12 +58,7 @@
                             reader.readAsDataURL(data);
                             reader.onloadend = function () {
                                 let iqviaLogo = reader.result;
-                                helper.fillData(
-                                    component,
-                                    reportData,
-                                    iqviaLogo,
-                                    isSave
-                                );
+                                helper.fillData(component, reportData, iqviaLogo, isSave);
                             };
                         })
                     );
@@ -120,9 +112,7 @@
                 align: 'right'
             });
             doc.text(
-                $A.get('$Label.c.Report_Enrollment_Date') +
-                    ' ' +
-                    reportData.enrollmentDate,
+                $A.get('$Label.c.Report_Enrollment_Date') + ' ' + reportData.enrollmentDate,
                 740,
                 140,
                 { align: 'right' }
@@ -138,18 +128,14 @@
                     { align: 'right' }
                 );
                 doc.text(
-                    $A.get('$Label.c.Report_Study_Site') +
-                        ': ' +
-                        reportData.studySiteName,
+                    $A.get('$Label.c.Report_Study_Site') + ': ' + reportData.studySiteName,
                     740,
                     180,
                     { align: 'right' }
                 );
             } else {
                 doc.text(
-                    $A.get('$Label.c.Report_Study_Site') +
-                        ': ' +
-                        reportData.studySiteName,
+                    $A.get('$Label.c.Report_Study_Site') + ': ' + reportData.studySiteName,
                     740,
                     160,
                     { align: 'right' }
@@ -158,9 +144,7 @@
         } else {
             doc.text(reportData.participantFullName, 80, 120);
             doc.text(
-                $A.get('$Label.c.Report_Enrollment_Date') +
-                    ' ' +
-                    reportData.enrollmentDate,
+                $A.get('$Label.c.Report_Enrollment_Date') + ' ' + reportData.enrollmentDate,
                 80,
                 140
             );
@@ -174,17 +158,13 @@
                     160
                 );
                 doc.text(
-                    $A.get('$Label.c.Report_Study_Site') +
-                        ': ' +
-                        reportData.studySiteName,
+                    $A.get('$Label.c.Report_Study_Site') + ': ' + reportData.studySiteName,
                     80,
                     180
                 );
             } else {
                 doc.text(
-                    $A.get('$Label.c.Report_Study_Site') +
-                        ': ' +
-                        reportData.studySiteName,
+                    $A.get('$Label.c.Report_Study_Site') + ': ' + reportData.studySiteName,
                     80,
                     160
                 );
@@ -194,14 +174,7 @@
         numberPageForTable = helper.generateTable(reportData, doc, RTL);
         for (let i = 1; i <= doc.internal.getNumberOfPages(); i++) {
             doc.setPage(i);
-            helper.addBorder(
-                reportData,
-                doc,
-                iqviaLogo,
-                splitTextFooter,
-                i === 1,
-                RTL
-            );
+            helper.addBorder(reportData, doc, iqviaLogo, splitTextFooter, i === 1, RTL);
         }
         if (isSave) {
             window.navigator.msSaveBlob(
@@ -257,25 +230,16 @@
                 doc.setFontType('normal');
                 doc.setFontSize(11);
                 doc.setTextColor('#000000');
-                let splitTextResult = doc.splitTextToSize(
-                    lab.descriptionLab,
-                    720
-                );
+                let splitTextResult = doc.splitTextToSize(lab.descriptionLab, 720);
                 splitTextResult.forEach(function (el, ind) {
-                    heightY = helper.validationEndPage(
-                        doc,
-                        heightY + doc.internal.getLineHeight()
-                    );
+                    heightY = helper.validationEndPage(doc, heightY + doc.internal.getLineHeight());
                     if (RTL) {
                         doc.text(el, 750, heightY, { align: 'right' });
                     } else {
                         doc.text(el, 90, heightY);
                     }
                 });
-                heightY = helper.validationEndPage(
-                    doc,
-                    heightY + doc.internal.getLineHeight()
-                );
+                heightY = helper.validationEndPage(doc, heightY + doc.internal.getLineHeight());
             });
             if (RTL) {
                 doc.autoTable({
@@ -353,14 +317,7 @@
         return numberPageForTable;
     },
 
-    addBorder: function (
-        reportData,
-        doc,
-        logo,
-        splitTextFooter,
-        isFirstPage,
-        RTL
-    ) {
+    addBorder: function (reportData, doc, logo, splitTextFooter, isFirstPage, RTL) {
         const helper = this;
         if (!isFirstPage) {
             doc.setFontSize(10);
@@ -403,18 +360,13 @@
         splitTextFooter.forEach(function (el, ind) {
             doc.setFontSize(8);
             doc.setTextColor('#6e6e6e');
-            helper.centeredText(
-                el,
-                565 + ind * doc.internal.getLineHeight(),
-                doc
-            );
+            helper.centeredText(el, 565 + ind * doc.internal.getLineHeight(), doc);
         });
     },
 
     centeredText: function (text, y, doc) {
         var textWidth =
-            (doc.getStringUnitWidth(text) * doc.internal.getFontSize()) /
-            doc.internal.scaleFactor;
+            (doc.getStringUnitWidth(text) * doc.internal.getFontSize()) / doc.internal.scaleFactor;
         var textOffset = (doc.internal.pageSize.width - textWidth) / 2;
         doc.setFillColor(25, 25, 25);
         doc.text(textOffset + 12, y, text);
@@ -440,19 +392,11 @@
             doc.setTextColor('#000000');
             heightY += 150;
             if (reportData.studyCodeName) {
-                let splitStudyCodeName = doc.splitTextToSize(
-                    reportData.studyCodeName,
-                    500
-                );
+                let splitStudyCodeName = doc.splitTextToSize(reportData.studyCodeName, 500);
                 splitStudyCodeName.forEach(function (el, ind) {
-                    helper.centeredText(
-                        el,
-                        heightY + ind * doc.internal.getLineHeight(),
-                        doc
-                    );
+                    helper.centeredText(el, heightY + ind * doc.internal.getLineHeight(), doc);
                 });
-                heightY +=
-                    doc.internal.getLineHeight() * splitStudyCodeName.length;
+                heightY += doc.internal.getLineHeight() * splitStudyCodeName.length;
             } else {
                 heightY += 100;
             }
@@ -461,26 +405,15 @@
         doc.setTextColor('#000000');
         heightY += 50;
         if (reportData.studyTitle) {
-            let splitStudyTitle = doc.splitTextToSize(
-                reportData.studyTitle,
-                500
-            );
+            let splitStudyTitle = doc.splitTextToSize(reportData.studyTitle, 500);
             splitStudyTitle.forEach(function (el, ind) {
-                helper.centeredText(
-                    el,
-                    heightY + ind * doc.internal.getLineHeight(),
-                    doc
-                );
+                helper.centeredText(el, heightY + ind * doc.internal.getLineHeight(), doc);
             });
             heightY += doc.internal.getLineHeight() * splitStudyTitle.length;
         } else {
             heightY += 100;
         }
-        helper.centeredText(
-            $A.get('$Label.c.Report_My_Study_Data'),
-            50 + heightY,
-            doc
-        );
+        helper.centeredText($A.get('$Label.c.Report_My_Study_Data'), 50 + heightY, doc);
     },
 
     uploadReportData: function (component, callback) {
@@ -502,12 +435,8 @@
                 var RTL = component.get('v.isRTL');
                 if (RTL) {
                     for (i = 0; i < reportData.dataTables.length; i++) {
-                        reportData.dataTables[i].tHead = reportData.dataTables[
-                            i
-                        ].tHead.reverse();
-                        reportData.dataTables[
-                            i
-                        ].visitResultsWrapper[0] = reportData.dataTables[
+                        reportData.dataTables[i].tHead = reportData.dataTables[i].tHead.reverse();
+                        reportData.dataTables[i].visitResultsWrapper[0] = reportData.dataTables[
                             i
                         ].visitResultsWrapper[0].reverse();
                     }
@@ -529,11 +458,7 @@
                 this.addFileToVFS('Roboto-regular.tff', fontNormal);
                 this.addFileToVFS('Roboto-Regular-bold.ttf', fontBold);
                 this.addFont('Roboto-regular.tff', 'Roboto-Regular', 'normal');
-                this.addFont(
-                    'Roboto-Regular-bold.ttf',
-                    'Roboto-Regular',
-                    'bold'
-                );
+                this.addFont('Roboto-Regular-bold.ttf', 'Roboto-Regular', 'bold');
             };
             jsPDFAPI.events.push(['addFonts', callAddFont]);
         })(jsPDF.API);

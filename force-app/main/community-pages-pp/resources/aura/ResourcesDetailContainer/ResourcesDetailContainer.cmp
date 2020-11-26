@@ -2,46 +2,52 @@
  - Created by Yehor Dobrovolskyi on 20.02.2019.020.
  -->
 
-<aura:component description="ResourcesDetailContainer" implements="forceCommunity:availableForAllPageTypes"
-                controller="ResourcesDetailRemote">
-    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
+<aura:component
+    description="ResourcesDetailContainer"
+    implements="forceCommunity:availableForAllPageTypes"
+    controller="ResourcesDetailRemote"
+>
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}" />
 
-    <aura:attribute name="resourceWrapper" type="ResourceService.ResourceWrapper"/>
-    <aura:attribute name="resourceType" type="String" default="Article"/>
-    <aura:attribute name="backStudy" type="String"/>
-    <aura:attribute name="smallTitle" type="String" default="&nbsp;"/>
-    <aura:attribute name="bigTitle" type="String" default="&nbsp;"/>
-    <aura:attribute name="errorMessage" type="String" default=""/>
-    <aura:attribute name="lang" type="String"/>
-    <aura:attribute name="initialized" type="Boolean"/>
+    <aura:attribute name="resourceWrapper" type="ResourceService.ResourceWrapper" />
+    <aura:attribute name="resourceType" type="String" default="Article" />
+    <aura:attribute name="backStudy" type="String" />
+    <aura:attribute name="smallTitle" type="String" default="&nbsp;" />
+    <aura:attribute name="bigTitle" type="String" default="&nbsp;" />
+    <aura:attribute name="errorMessage" type="String" default="" />
+    <aura:attribute name="lang" type="String" />
+    <aura:attribute name="initialized" type="Boolean" />
 
-    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
+    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
 
-    <c:RRSpinner aura:id="details-spinner" fixed="true" size="medium"/>
+    <c:RRSpinner aura:id="details-spinner" fixed="true" size="medium" />
 
-    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     <aura:if isTrue="{!v.initialized}">
         <div>
-            <c:RRTopBar backLabel="{!v.backStudy == '' ? $Label.c.Link_Back_To_Home : $Label.c.Link_Back_To_Resources}"
-                        backPage="{!v.backStudy}"
-                        smallTitle="{!v.smallTitle}"
-                        bigTitle="{!v.bigTitle}"/>
+            <c:RRTopBar
+                backLabel="{!v.backStudy == '' ? $Label.c.Link_Back_To_Home : $Label.c.Link_Back_To_Resources}"
+                backPage="{!v.backStudy}"
+                smallTitle="{!v.smallTitle}"
+                bigTitle="{!v.bigTitle}"
+            />
 
             <aura:if isTrue="{!v.errorMessage}">
-                <div class="resource-error-message resource-detail-block">
-                    {!v.errorMessage}
-                </div>
+                <div class="resource-error-message resource-detail-block">{!v.errorMessage}</div>
                 <aura:set attribute="else">
                     <div class="resource-detail-block">
-                        <c:ResourcesDetailItem resourceWrapper ="{!v.resourceWrapper}" lang="{!v.lang}"/>
+                        <c:ResourcesDetailItem
+                            resourceWrapper="{!v.resourceWrapper}"
+                            lang="{!v.lang}"
+                        />
                     </div>
                 </aura:set>
             </aura:if>
             <div class="rr-width-limiter side-padding footer-resource">
-                <c:CommunityFooter/>
+                <c:CommunityFooter />
             </div>
         </div>
     </aura:if>
 
-    <c:builderStub aura:id="builderStub"/>
+    <c:builderStub aura:id="builderStub" />
 </aura:component>

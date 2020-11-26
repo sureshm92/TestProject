@@ -8,14 +8,17 @@
         var value = component.get('v.value');
         var searchResults = [];
         helper.getAllItems(component, function (allItems) {
-            for(var i = 0; i < allItems.length; i++){
+            for (var i = 0; i < allItems.length; i++) {
                 var item = allItems[i];
-                if(item.id.toLowerCase().indexOf(searchTerm.toLocaleString()) !== -1 && value.indexOf(item.id) === -1){
+                if (
+                    item.id.toLowerCase().indexOf(searchTerm.toLocaleString()) !== -1 &&
+                    value.indexOf(item.id) === -1
+                ) {
                     searchResults.push(item);
                 }
             }
             callback(searchResults);
-        })
+        });
     },
 
     doSearchByValue: function (component, event, helper) {
@@ -23,14 +26,13 @@
         var value = component.get('v.value');
         var selection = [];
         helper.getAllItems(component, function (allItems) {
-            for(var i = 0; i < allItems.length; i++){
+            for (var i = 0; i < allItems.length; i++) {
                 var item = allItems[i];
-                if(value.indexOf(item.id) !== -1){
+                if (value.indexOf(item.id) !== -1) {
                     selection.push(item);
                 }
             }
             callback(selection);
         });
     }
-
-})
+});

@@ -4,20 +4,20 @@
 
 .THIS .NavContainer {
     display: flex;
-    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04);
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
     border: 1px solid #e9e9e9;
     border-radius: 4px;
     background: #fff;
     min-height: 1000px;
 }
-.THIS .RTL{
-    direction:rtl;
+.THIS .RTL {
+    direction: rtl;
 }
 
 .THIS .cRrSelect.rrs-container select,
 .THIS .rr-form-element input[type='text'],
 .THIS .rr-form-element input[type='password'],
-.THIS .rr-form-element input[type='email']{
+.THIS .rr-form-element input[type='email'] {
     height: 40px;
 }
 
@@ -42,7 +42,7 @@
 }
 
 .THIS .navBar {
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
     line-height: 24px;
@@ -51,7 +51,7 @@
 }
 
 .THIS .NavContainer1 {
-    min-width: 300px
+    min-width: 300px;
 }
 
 .THIS .NavContainer1 h2 {
@@ -59,14 +59,14 @@
     white-space: nowrap;
     font-weight: 600;
 }
-.THIS .NavContainer1 .RTL{
+.THIS .NavContainer1 .RTL {
     padding: 1.5rem 1.5rem 0 0;
 }
-.THIS .NavContainer1 .LTR{
+.THIS .NavContainer1 .LTR {
     padding: 1.5rem 0 0 1.5rem;
 }
 .THIS .navItem {
-    border-bottom: 1px solid #E9E9E9;
+    border-bottom: 1px solid #e9e9e9;
     height: 48px;
 }
 
@@ -87,7 +87,7 @@
 .THIS .mouse-hover.navItem {
     background: #297dfd;
     color: white;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 500;
     letter-spacing: 0;
@@ -109,7 +109,6 @@
 }
 
 @media all and (max-width: 768px) {
-
     .THIS .NavContainer {
         flex-direction: column;
     }
@@ -133,7 +132,6 @@
         z-index: 100;
     }
 
-
     .THIS .navBar .navItem {
         order: 2;
         display: none;
@@ -149,7 +147,7 @@
     }
 
     .THIS .navBar .navItem.mouse-hover .navItem1 {
-        padding: .75rem 5px 0 .25rem;
+        padding: 0.75rem 5px 0 0.25rem;
         display: inline-block;
         border: none;
         width: 100%;
@@ -200,14 +198,12 @@
         background: transparent;
     }
 
-
     .THIS .navBar ul:hover .navItem {
         display: block;
     }
 }
 
 @media (any-pointer: coarse) and (orientation: portrait) {
-
     .THIS .NavContainer1 {
         min-width: 250px;
     }
@@ -221,5 +217,4 @@
         min-width: 250px;
         z-index: 8400;
     }
-
 }

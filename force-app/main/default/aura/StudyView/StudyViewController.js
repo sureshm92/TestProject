@@ -2,17 +2,17 @@
  * Created by Leonid Bartenev
  */
 ({
-    doInit: function(component, event, hepler){
+    doInit: function (component, event, hepler) {
         component.set('v.funnelData', undefined);
         var study = component.get('v.study');
-        if(!study) return;
+        if (!study) return;
         var action = component.get('c.getInitData');
         action.setParams({
             trialId: study.studySite.Clinical_Trial_Profile__c,
             clinicId: component.get('v.clinicId')
         });
         action.setCallback(this, function (response) {
-            if (response.getState() === "SUCCESS") {
+            if (response.getState() === 'SUCCESS') {
                 var funnelDataList = JSON.parse(response.getReturnValue());
                 component.set('v.funnelData', funnelDataList);
             } else {
@@ -22,6 +22,5 @@
             spinner.hide();
         });
         $A.enqueueAction(action);
-
     }
-})
+});
