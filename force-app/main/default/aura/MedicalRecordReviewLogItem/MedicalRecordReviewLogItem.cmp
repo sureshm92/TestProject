@@ -1,74 +1,99 @@
 <!--Created by D.Yasinskyi on 16.04.2018-->
-<aura:component controller="MedicalRecordReviewLogItemController" description="MedicalRecordReviewLogItem">
-
+<aura:component
+    controller="MedicalRecordReviewLogItemController"
+    description="MedicalRecordReviewLogItem"
+>
     <!-- attributes: -->
-    <aura:attribute name="participantEnrollment" type="SObject" required="true"/>
-    <aura:attribute name="actions" type="Object" required="true"/>
-    <aura:attribute name="showSpinner" type="Boolean" default="false" access="private"/>
-    <aura:attribute name="addedOnDate" type="String" access="private"/>
-    <aura:attribute name="isReviewPass" type="Boolean" default="false" access="private"/>
-    <aura:attribute name="isReferred" type="Boolean" default="false" access="private"/>
-    <aura:attribute name="recordReviewMessage" type="String" access="private"/>
-    <aura:attribute name="referringMessage" type="String" access="private"/>
-    <aura:attribute name="showStudyLink" type="Boolean" access="public" default="false"/>
-    <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="participantEnrollment" type="SObject" required="true" />
+    <aura:attribute name="actions" type="Object" required="true" />
+    <aura:attribute name="showSpinner" type="Boolean" default="false" access="private" />
+    <aura:attribute name="addedOnDate" type="String" access="private" />
+    <aura:attribute name="isReviewPass" type="Boolean" default="false" access="private" />
+    <aura:attribute name="isReferred" type="Boolean" default="false" access="private" />
+    <aura:attribute name="recordReviewMessage" type="String" access="private" />
+    <aura:attribute name="referringMessage" type="String" access="private" />
+    <aura:attribute name="showStudyLink" type="Boolean" access="public" default="false" />
+    <aura:attribute name="parent" type="Aura.Component" />
 
     <!-- handlers: -->
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
     <!-- component body: -->
-    <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     <div class="mrrli-container slds-grid slds-wrap slds-grid_align-spread slds-is-relative">
-        <c:RRSpinner size="medium" showSpinner="{!v.showSpinner}"/>
+        <c:RRSpinner size="medium" showSpinner="{!v.showSpinner}" />
         <div class="mrrli-info slds-col slds-medium-size_1-of-2 slds-size_1-of-1">
             <div class="mrrli-info-top">
                 <div>
-                    <aura:if isTrue="{! or(!empty(v.participantEnrollment.Participant_Name__c), !empty(v.participantEnrollment.Participant_Surname__c))}">
-                        <div>{! v.participantEnrollment.Participant_Name__c + ' ' + v.participantEnrollment.Participant_Surname__c}</div>
-                        <aura:set attribute="else">
-                                {!v.participantEnrollment.Name}
-                        </aura:set>
+                    <aura:if
+                        isTrue="{! or(!empty(v.participantEnrollment.Participant_Name__c), !empty(v.participantEnrollment.Participant_Surname__c))}"
+                    >
+                        <div>
+                            {! v.participantEnrollment.Participant_Name__c + ' ' +
+                            v.participantEnrollment.Participant_Surname__c}
+                        </div>
+                        <aura:set attribute="else"> {!v.participantEnrollment.Name} </aura:set>
                     </aura:if>
-
                 </div>
                 <div>
-                    <c:rrStatusInformer status="{!v.isReviewPass}" title="{!v.recordReviewMessage}"/>
+                    <c:rrStatusInformer
+                        status="{!v.isReviewPass}"
+                        title="{!v.recordReviewMessage}"
+                    />
                 </div>
                 <div>
-                    <c:rrStatusInformer status="{!v.isReferred}" title="{!v.referringMessage}"/>
+                    <c:rrStatusInformer status="{!v.isReferred}" title="{!v.referringMessage}" />
                 </div>
             </div>
             <div class="mrrli-info-bottom">
                 <div class="mrrli-fields">{!v.participantEnrollment.Patient_ID__c}</div>
                 <div class="mrrli-fields">{!v.addedOnDate}</div>
                 <aura:if isTrue="{!v.showStudyLink}">
-                    <div class="mrrli-study-link"><c:RRLink label="{!v.participantEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}" page="{!'study-workspace?id='+v.participantEnrollment.Study_Site__r.Clinical_Trial_Profile__c}"/> </div>
+                    <div class="mrrli-study-link">
+                        <c:RRLink
+                            label="{!v.participantEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}"
+                            page="{!'study-workspace?id='+v.participantEnrollment.Study_Site__r.Clinical_Trial_Profile__c}"
+                        />
+                    </div>
                 </aura:if>
             </div>
         </div>
 
         <div class="mrrli-buttons slds-col slds-medium-size_1-of-2 slds-size_1-of-1">
-            <aura:if isTrue="{!v.participantEnrollment.Participant_Status__c == 'Pending Referral'}">
+            <aura:if
+                isTrue="{!v.participantEnrollment.Participant_Status__c == 'Pending Referral'}"
+            >
                 <div class="slds-grid slds-wrap">
                     <div class="slds-col">
-                        <button class="apollo-btn secondary" onclick="{!c.excludeFromReferring}"
-                                disabled="{!v.actions.excludeFromReferring.disabled}"
-                                title="{!v.actions.excludeFromReferring.disableReason}">
+                        <button
+                            class="apollo-btn secondary"
+                            onclick="{!c.excludeFromReferring}"
+                            disabled="{!v.actions.excludeFromReferring.disabled}"
+                            title="{!v.actions.excludeFromReferring.disableReason}"
+                        >
                             {!v.actions.excludeFromReferring.label}
                         </button>
-                   
-                        <button class="apollo-btn secondary" onclick="{!c.referToThisTrial}"
-                                disabled="{!v.actions.referToThisStudy.disabled}"
-                                title="{!v.actions.referToThisStudy.disableReason}">
+
+                        <button
+                            class="apollo-btn secondary"
+                            onclick="{!c.referToThisTrial}"
+                            disabled="{!v.actions.referToThisStudy.disabled}"
+                            title="{!v.actions.referToThisStudy.disableReason}"
+                        >
                             {!v.actions.referToThisStudy.label}
                         </button>
                     </div>
                 </div>
             </aura:if>
-            <aura:if isTrue="{!v.participantEnrollment.Participant_Status__c == 'Excluded from Referring'}">
-                <button class="apollo-btn secondary" onclick="{!c.undoExcludeFromReferring}"
-                        disabled="{!v.actions.undoExcludeFromReferring.disabled}"
-                        title="{!v.actions.undoExcludeFromReferring.disableReason}">
+            <aura:if
+                isTrue="{!v.participantEnrollment.Participant_Status__c == 'Excluded from Referring'}"
+            >
+                <button
+                    class="apollo-btn secondary"
+                    onclick="{!c.undoExcludeFromReferring}"
+                    disabled="{!v.actions.undoExcludeFromReferring.disabled}"
+                    title="{!v.actions.undoExcludeFromReferring.disableReason}"
+                >
                     {!v.actions.undoExcludeFromReferring.label}
                 </button>
             </aura:if>

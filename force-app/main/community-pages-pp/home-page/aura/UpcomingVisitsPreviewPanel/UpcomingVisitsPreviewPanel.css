@@ -15,30 +15,29 @@
     padding: 9px;
 }
 
-.THIS .sv-title{
+.THIS .sv-title {
     font-size: 1rem;
     font-weight: 600;
     line-height: 27px;
 }
 
 .THIS .sv-btn {
-    box-shadow: 0 4px 8px 0 rgba(41, 125, 253, 0.16),
-    0 4px 4px 0 rgba(0, 0, 0, 0.04),
-    0 8px 16px 0 rgba(41, 125, 253, 0.32);
+    box-shadow: 0 4px 8px 0 rgba(41, 125, 253, 0.16), 0 4px 4px 0 rgba(0, 0, 0, 0.04),
+        0 8px 16px 0 rgba(41, 125, 253, 0.32);
 }
 
-.THIS .sv-body{
+.THIS .sv-body {
     min-height: 220px;
     position: relative;
 }
 
 .THIS .visitIcons {
-    max-width: 180px
+    max-width: 180px;
 }
-.THIS .leftIcon{
+.THIS .leftIcon {
     display: inline-block;
 }
-.THIS .svl-icon{
+.THIS .svl-icon {
     height: 32px;
     width: 32px;
     cursor: pointer;
@@ -48,7 +47,7 @@
     display: none;
 }
 
-.THIS .sv-footer{
+.THIS .sv-footer {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -57,7 +56,7 @@
     height: 49px;
     background-color: #f8f9fb;
 }
-.THIS .sv-footerRTL{
+.THIS .sv-footerRTL {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -82,8 +81,7 @@
     width: 14px;
     top: 10px;
     right: 0px;
-    opacity: .7;
-
+    opacity: 0.7;
 }
 
 .THIS .main-container .message {
@@ -99,11 +97,11 @@
     width: 40px;
     top: 45px;
     right: 46%;
-    opacity: .3;
+    opacity: 0.3;
 }
 
 .THIS .cRRTable.rr-table th,
-.THIS .cRRTable.rr-table td{
+.THIS .cRRTable.rr-table td {
     /*padding: 4px 13px;*/
     font-size: 15px;
 }
@@ -117,8 +115,7 @@
     text-overflow: ellipsis;
 }
 
-
-.THIS .cRRIconSplitter .icon:nth-of-type(n+6) {
+.THIS .cRRIconSplitter .icon:nth-of-type(n + 6) {
     display: none;
 }
 
@@ -129,7 +126,7 @@
 }
 
 .THIS .cRRIconSplitter .icons-row:after {
-    content: "...";
+    content: '...';
     position: absolute;
     right: 0;
     bottom: -5px;
@@ -137,10 +134,7 @@
     font-size: 1.5rem;
 }
 
-
-
 @media all and (max-width: 768px) {
-
     .THIS .sv-body {
         padding-bottom: 1rem;
     }
@@ -168,7 +162,7 @@
     }
 
     .THIS tr:last-child {
-        border-bottom: none
+        border-bottom: none;
     }
 
     .THIS .cRRTable.rr-table td {
@@ -183,11 +177,9 @@
     .THIS .cRRTable.rr-table td:last-child {
         margin-bottom: 1rem;
     }
-
 }
 
 @media (any-pointer: coarse) {
-
     .THIS .rr-table {
         font-size: 1rem;
     }
@@ -221,12 +213,11 @@
         border-radius: 4px;
         padding: 5px 8px;
         z-index: 1000;
-        box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04);
+        box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
         min-width: 95px;
     }
 
     .THIS .sv-footer .cRRLink.rr-link:after {
         top: 7px;
     }
-
 }

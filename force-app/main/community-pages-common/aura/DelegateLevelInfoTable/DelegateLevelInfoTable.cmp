@@ -4,48 +4,43 @@
 
 <aura:component description="DelegateLevelInfoTable" extends="c:CommunityContext">
     <!-- attributes: -->
-    <aura:attribute name="userMode" required="true" type="String"/>
-    <aura:attribute name="disclaimer" required="false" type="String" default=""/>
-    <aura:attribute name="capList" required="false" access="private" type="Object[]"/>
-    <aura:attribute name="header" required="false" access="private" type="Object"/>
+    <aura:attribute name="userMode" required="true" type="String" />
+    <aura:attribute name="disclaimer" required="false" type="String" default="" />
+    <aura:attribute name="capList" required="false" access="private" type="Object[]" />
+    <aura:attribute name="header" required="false" access="private" type="Object" />
 
     <!-- handlers: -->
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
     <!-- component body-->
     <div class="dlit-container">
         <table class="dlit-table">
             <aura:if isTrue="{!!empty(v.disclaimer)}">
-                <tr >
+                <tr>
                     <th colspan="{!v.header.levels.length+1}">
-                        <span style="{!v.isRTL? 'float:right' :''}">
-                            <div>
-                                {!v.header.text}
-                            </div>
-                            <div class="dlit-disclaimer">
-                                {!v.disclaimer}
-                            </div>
+                        <span style="{!if(v.isRTL, 'float: right;', '')}">
+                            <div>{!v.header.text}</div>
+                            <div class="dlit-disclaimer">{!v.disclaimer}</div>
                         </span>
                     </th>
                 </tr>
                 <tr>
-                    <th>
-
-                    </th>
+                    <th></th>
                     <aura:iteration items="{!v.header.levels}" var="level">
                         <th>
-                            <span style="{!v.isRTL? 'float:right' :''}">{!level}</span>
+                            <span style="{!if(v.isRTL, 'float: right;', '')}">{!level}</span>
                         </th>
                     </aura:iteration>
                 </tr>
                 <aura:set attribute="else">
                     <tr>
                         <th>
-                            <span style="{!v.isRTL? 'float:right' :''}">{!v.header.text}</span>
+                            <!-- prettier-ignore -->
+                            <span style="{!if(v.isRTL, 'float: right;', '')}">{!v.header.text}</span>
                         </th>
                         <aura:iteration items="{!v.header.levels}" var="level">
                             <th>
-                                <span style="{!v.isRTL? 'float:right' :''}">{!level}</span>
+                                <span style="{!if(v.isRTL, 'float: right;', '')}">{!level}</span>
                             </th>
                         </aura:iteration>
                     </tr>
@@ -55,20 +50,22 @@
             <aura:iteration items="{!v.capList}" var="capability">
                 <tr>
                     <td>
-                    <span style="{!v.isRTL? 'float:right' :''}">
-                        {!capability.text}
-                    </span>
+                        <span style="{!if(v.isRTL, 'float: right;', '')}">
+                            {!capability.text}
+                        </span>
                     </td>
-                    <aura:if isTrue="{!not(v.userMode == 'Participant')}" >
+                    <aura:if isTrue="{!not(v.userMode == 'Participant')}">
                         <aura:iteration items="{!capability.levels}" var="level">
                             <td>
                                 <aura:if isTrue="{!level}">
-                                    <lightning:icon class="greenIcon" iconName="utility:check" size="xx-small"/>
+                                    <lightning:icon
+                                        class="greenIcon"
+                                        iconName="utility:check"
+                                        size="xx-small"
+                                    />
                                 </aura:if>
                                 <aura:if isTrue="{!not(level)}">
-                                <span style="{!v.isRTL? 'float:right' :''}">
-                                    -
-                                </span>
+                                    <span style="{!if(v.isRTL, 'float: right;', '')}"> - </span>
                                 </aura:if>
                             </td>
                         </aura:iteration>

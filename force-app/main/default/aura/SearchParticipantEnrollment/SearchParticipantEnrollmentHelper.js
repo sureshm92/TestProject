@@ -2,7 +2,6 @@
  * Created by Leonid Bartenev
  */
 ({
-
     updateMRRStatus: function (component, status, gizmoData) {
         component.find('mainSpinner').show();
         var pe = component.get('v.searchResult').pe;
@@ -14,11 +13,11 @@
         });
         action.setCallback(this, function (response) {
             var searchResult = component.get('v.searchResult');
-            if(searchResult.pe.Id) return;
-            if (response.getState() === "SUCCESS") {
+            if (searchResult.pe.Id) return;
+            if (response.getState() === 'SUCCESS') {
                 searchResult.pe = JSON.parse(response.getReturnValue());
                 component.set('v.searchResult', searchResult);
-                component.set("v.mrrResult", status);
+                component.set('v.mrrResult', status);
                 console.log('sR', JSON.parse(JSON.stringify(component.get('v.searchResult'))));
             } else {
                 communityService.logErrorFromResponse(response);
@@ -30,29 +29,28 @@
     },
 
     addEventListener: function (component, helper) {
-        if(!component.serveyGizmoResultHandler){
-            component.serveyGizmoResultHandler = $A.getCallback(function(e) {
+        if (!component.serveyGizmoResultHandler) {
+            component.serveyGizmoResultHandler = $A.getCallback(function (e) {
                 //window.removeEventListener('message', component.serveyGizmoResultHandler);
-                if(component.isValid()){
-                    if(e.data.messageType === 'SurveyGizmoResult'){
+                if (component.isValid()) {
+                    if (e.data.messageType === 'SurveyGizmoResult') {
                         var gizmoData = null;
-                        if(e.data.pdfContent){
+                        if (e.data.pdfContent) {
                             gizmoData = e.data.pdfContent;
                         }
-                        if(e.data.success){
+                        if (e.data.success) {
                             helper.updateMRRStatus(component, 'Pass', gizmoData);
-                        }else{
+                        } else {
                             helper.updateMRRStatus(component, 'Fail', gizmoData);
                         }
                         //console.log('Gizmo mrr result: ' + window.atob(e.data.pdfContent));
                         //component.set('v.resultData', e.data.pdfContent);
-                    } else if(e.data.messageType === 'SurveyGizmoHeight'){
-                        component.set('v.frameHeight', (e.data.value + 30) + 'px');
+                    } else if (e.data.messageType === 'SurveyGizmoHeight') {
+                        component.set('v.frameHeight', e.data.value + 30 + 'px');
                     }
                 }
             });
             window.addEventListener('message', component.serveyGizmoResultHandler);
         }
     }
-
-})
+});

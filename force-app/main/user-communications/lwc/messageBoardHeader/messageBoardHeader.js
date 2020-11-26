@@ -2,9 +2,9 @@
  * Created by Igor Malyuta on 04.02.2020.
  */
 
-import {LightningElement, api, track} from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import formFactor from '@salesforce/client/formFactor';
-import {ShowToastEvent} from 'lightning/platformShowToastEvent';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import AvatarColorCalculator from 'c/avatarColorCalculator';
 
 import largeTemplate from './messageBoardHeader.html';
@@ -23,7 +23,6 @@ import showLessLabel from '@salesforce/label/c.MS_Show_Less';
 import searchParticipant from '@salesforce/apex/MessagePageRemote.searchParticipant';
 
 export default class MessageBoardHeader extends LightningElement {
-
     labels = {
         newMessLabel,
         backLabel,
@@ -50,9 +49,10 @@ export default class MessageBoardHeader extends LightningElement {
 
     connectedCallback() {
         if (this.selectedEnrollment) {
-            this.fullName = this.userMode === 'PI' ?
-                this.selectedEnrollment.Participant__r.Full_Name__c :
-                this.selectedEnrollment.Study_Site__r.Principal_Investigator__r.Name;
+            this.fullName =
+                this.userMode === 'PI'
+                    ? this.selectedEnrollment.Participant__r.Full_Name__c
+                    : this.selectedEnrollment.Study_Site__r.Principal_Investigator__r.Name;
         } else {
             this.fullName = '';
         }
@@ -64,9 +64,10 @@ export default class MessageBoardHeader extends LightningElement {
 
     renderedCallback() {
         if (this.selectedEnrollment) {
-            this.fullName = this.userMode === 'PI' ?
-                this.selectedEnrollment.Participant__r.Full_Name__c :
-                this.selectedEnrollment.Study_Site__r.Principal_Investigator__r.Name;
+            this.fullName =
+                this.userMode === 'PI'
+                    ? this.selectedEnrollment.Participant__r.Full_Name__c
+                    : this.selectedEnrollment.Study_Site__r.Principal_Investigator__r.Name;
         }
     }
 
@@ -102,11 +103,17 @@ export default class MessageBoardHeader extends LightningElement {
     }
 
     get delegatesFullClass() {
-        return 'header-patient-delegates-label ' + (this.showDelegatesFullList ? 'slds-grid' : 'slds-hide');
+        return (
+            'header-patient-delegates-label ' +
+            (this.showDelegatesFullList ? 'slds-grid' : 'slds-hide')
+        );
     }
 
     get delegatesLessClass() {
-        return 'header-patient-delegates-label ' + (!this.showDelegatesFullList ? 'slds-grid' : 'slds-hide');
+        return (
+            'header-patient-delegates-label ' +
+            (!this.showDelegatesFullList ? 'slds-grid' : 'slds-hide')
+        );
     }
 
     //Handlers:---------------------------------------------------------------------------------------------------------
@@ -120,25 +127,29 @@ export default class MessageBoardHeader extends LightningElement {
     }
 
     handleEnrollmentSelect(event) {
-        this.dispatchEvent(new CustomEvent('enrollmentselect', {
-            detail: {
-                peId: event.target.value
-            }
-        }));
+        this.dispatchEvent(
+            new CustomEvent('enrollmentselect', {
+                detail: {
+                    peId: event.target.value
+                }
+            })
+        );
     }
 
     //Search Handlers:--------------------------------------------------------------------------------------------------
     handleSearch(event) {
         searchParticipant(event.detail)
-            .then(results => {
+            .then((results) => {
                 this.template.querySelector('c-web-lookup').setSearchResults(results);
             })
-            .catch(error => {
-                this.dispatchEvent(new ShowToastEvent({
-                    title: 'Lookup Error',
-                    message: 'An error occurred while searching with the lookup field.',
-                    variant: 'error'
-                }));
+            .catch((error) => {
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Lookup Error',
+                        message: 'An error occurred while searching with the lookup field.',
+                        variant: 'error'
+                    })
+                );
                 console.error('Lookup error', JSON.stringify(error));
             });
     }
@@ -146,11 +157,13 @@ export default class MessageBoardHeader extends LightningElement {
     handleSelectionChange() {
         let lookUp = this.template.querySelector('c-web-lookup');
         let selectedPE;
-        if(lookUp) selectedPE = lookUp.getSelection().length > 0 ? lookUp.getSelection() : null;
-        this.dispatchEvent(new CustomEvent('selectionchange', {
-            detail: {
-                selection: selectedPE
-            }
-        }));
+        if (lookUp) selectedPE = lookUp.getSelection().length > 0 ? lookUp.getSelection() : null;
+        this.dispatchEvent(
+            new CustomEvent('selectionchange', {
+                detail: {
+                    selection: selectedPE
+                }
+            })
+        );
     }
 }

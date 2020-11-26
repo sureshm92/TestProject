@@ -36,7 +36,7 @@
 .rr-collapse-panel.collapsed {
     background-color: #f8f9fb;
     color: #595959;
-    transition: background-color .5s;
+    transition: background-color 0.5s;
     height: 49px;
 }
 

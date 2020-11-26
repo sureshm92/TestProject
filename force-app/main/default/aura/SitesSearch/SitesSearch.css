@@ -5,7 +5,7 @@
     padding-bottom: 100px;
 }
 
-.THIS .study-name{
+.THIS .study-name {
     margin-top: 30px;
     /*text-overflow: ellipsis;*/
     /*white-space: nowrap;*/
@@ -15,32 +15,31 @@
 .THIS .study-name a {
     text-decoration: none;
     /*height: 30px;*/
-    color: #297DFD;
+    color: #297dfd;
     font-size: 24px;
     font-weight: 500;
     line-height: 30px;
 }
 .THIS .slds-coordinates {
-    display: none!important;
+    display: none !important;
 }
-.THIS .ss-main-panel{
+.THIS .ss-main-panel {
     min-height: 500px;
 }
-@media all and (min-width: 768px){
-    .THIS .ss-map{
+@media all and (min-width: 768px) {
+    .THIS .ss-map {
         align-self: stretch;
     }
-    .THIS lightning-map{
+    .THIS lightning-map {
         height: 100%;
     }
 }
 
 @media all and (max-width: 500px) {
-    
     .THIS .apollo-btn {
         margin-top: 1rem;
     }
-    
+
     .THIS .slds-map_container .slds-map {
         min-width: auto;
     }

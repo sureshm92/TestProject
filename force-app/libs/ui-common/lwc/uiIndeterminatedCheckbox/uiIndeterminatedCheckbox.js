@@ -2,29 +2,28 @@
  * Created by Igor Malyuta on 19.09.2019.
  */
 
-import {LightningElement, api, track} from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 
 export default class UiIndeterminatedCheckbox extends LightningElement {
-
     @api keyId;
     @api fieldLabel;
     @api hideCheckBox = false;
     @track cssClass = 'checkbox';
 
     handleClick(event) {
-        if(this.indeterminate && !this.fieldValue) {
+        if (this.indeterminate && !this.fieldValue) {
             this.indeterminate = false;
             this.fieldValue = false;
         } else {
             this.fieldValue = !this.fieldValue;
             this.indeterminate = false;
-            if(!this.fieldValue) this.cssClass = 'checkbox';
+            if (!this.fieldValue) this.cssClass = 'checkbox';
         }
 
         // Creates the event with the data.
         const selectedEvent = new CustomEvent('valuechanged', {
             detail: {
-                keyId : this.keyId,
+                keyId: this.keyId,
                 value: this.fieldValue
             }
         });

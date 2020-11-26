@@ -1,29 +1,28 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS.all-content{
+.THIS.all-content {
     overflow: auto;
     position: fixed;
     width: 100%;
     height: 100%;
-    font-family: "Proxima Nova";
-    background: linear-gradient(135deg, #25095b 0%,#176ba4 100%);
+    font-family: 'Proxima Nova';
+    background: linear-gradient(135deg, #25095b 0%, #176ba4 100%);
     color: white;
-    background-size: auto 100% ;
+    background-size: auto 100%;
     background-position: center;
     background-repeat: no-repeat;
 }
-.THIS .slds-gutters .slds-col{
-    padding-left:45px;
-    padding-right:45px;
+.THIS .slds-gutters .slds-col {
+    padding-left: 45px;
+    padding-right: 45px;
 }
 
-.THIS .body-cell{
+.THIS .body-cell {
 }
-
 
 .THIS .sites {
-    margin: .5rem 0; 
+    margin: 0.5rem 0;
 }
 
 .THIS .sites h2 {
@@ -31,7 +30,7 @@
 }
 
 .THIS .sites h2 sup {
-    font-size: .75rem;
+    font-size: 0.75rem;
     font-weight: 200;
     line-height: 0;
     position: relative;
@@ -40,32 +39,30 @@
 }
 
 .THIS .sites p {
-	font-size: 1rem; 
+    font-size: 1rem;
     font-weight: 200;
 }
 
-.THIS .logo-block{
+.THIS .logo-block {
     font-size: 30px;
     margin: auto;
     margin-top: 113px;
-    margin-bottom:113px;
-    width:650px;
- 	box-sizing: border-box;
-  	border: 1px solid #E9E9E9;
-  	border-radius: 4px;
-  	background-color: #FFFFFF;
-  	box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04);
-
+    margin-bottom: 113px;
+    width: 650px;
+    box-sizing: border-box;
+    border: 1px solid #e9e9e9;
+    border-radius: 4px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
 }
 
-
-.THIS .rr-link{
-    color: #297DFD;
+.THIS .rr-link {
+    color: #297dfd;
     display: inline-flex;
     align-items: center;
 }
 
-.THIS .rr-link:hover{
+.THIS .rr-link:hover {
     text-decoration: none;
 }
 
@@ -73,26 +70,25 @@
     display: inline-flex;
 }
 
-.THIS .main-logo{
+.THIS .main-logo {
     margin: 40px 0;
     /*height: 110px;*/
 }
 
-.THIS .ie-login-rows input:focus{
+.THIS .ie-login-rows input:focus {
     background-color: #213e7e;
 }
 
 @media (max-width: 500px) {
-    .THIS .logo-block{
-        width:80%;
+    .THIS .logo-block {
+        width: 80%;
         margin-top: 20px;
-        margin-bottom:20px;
+        margin-bottom: 20px;
     }
 
-    .THIS .main-logo{
+    .THIS .main-logo {
         margin: 0;
         padding: 0 20px;
         margin-top: 10px;
     }
-    
 }

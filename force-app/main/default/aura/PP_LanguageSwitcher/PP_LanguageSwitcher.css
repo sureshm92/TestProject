@@ -2,7 +2,7 @@
  * Created by Sneha Shilpa Thuluri
  */
 
- .THIS {
+.THIS {
     padding: 1.5rem;
 }
 
@@ -46,15 +46,15 @@
 
 .THIS .as-title {
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 18px;
     font-weight: 600;
     line-height: 1;
-    margin-top:10px;
+    margin-top: 10px;
 }
 
 .THIS .apollo-btn.secondary {
-    background: #0768FD;
+    background: #0768fd;
     color: white;
     margin-top: 10px;
     margin-left: 20px;
@@ -79,8 +79,7 @@
 }
 
 @media (max-width: 768px) {
-
-    .THIS  {
+    .THIS {
         padding: 12px 1.5rem 1.5rem;
     }
 
@@ -114,12 +113,11 @@
 }
 
 @media screen and (max-width: 500px) {
-
     .THIS {
         padding-bottom: 85px;
     }
 
-    .THIS .language-switcher>* {
+    .THIS .language-switcher > * {
         padding: 0;
     }
 
@@ -147,12 +145,12 @@
         height: auto;
     }
 }
-    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-        .THIS .widthAlign input{
-            width:auto;            
-        }
-
-        .THIS .ls-select {
-            width: 300px;
-        }
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .THIS .widthAlign input {
+        width: auto;
     }
+
+    .THIS .ls-select {
+        width: 300px;
+    }
+}

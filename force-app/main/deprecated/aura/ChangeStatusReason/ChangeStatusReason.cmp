@@ -3,25 +3,38 @@
  -->
 <aura:component description="ChangeStatusReason">
     <!--=============================================================================================================-->
-    <aura:attribute name="reasonResponse"   type="String" required="true"/>
-    <aura:attribute name="options"          type="List"/>
-    <aura:attribute name="isRestricted"     type="Boolean" default="true" description="if 'false' add 'Other' option"/>
+    <aura:attribute name="reasonResponse" type="String" required="true" />
+    <aura:attribute name="options" type="List" />
+    <aura:attribute
+        name="isRestricted"
+        type="Boolean"
+        default="true"
+        description="if 'false' add 'Other' option"
+    />
     <!--=============================================================================================================-->
-    <aura:attribute name="showOtherReason" type="Boolean" access="private"/>
+    <aura:attribute name="showOtherReason" type="Boolean" access="private" />
     <!--=============================================================================================================-->
-    <aura:handler name="change" value="{!v.reasonResponse}" action="{!c.onReasonSelect}"/>
+    <aura:handler name="change" value="{!v.reasonResponse}" action="{!c.onReasonSelect}" />
     <!--=============================================================================================================-->
 
     <div class="csr-container">
-        <div class="csr-header">
-            {!v.body}
-        </div>
+        <div class="csr-header">{!v.body}</div>
         <div class="csr-body">
-            <c:rrSelect value="{!v.reasonResponse}" options="{!v.options}" placeholder="{!$Label.c.PG_AC_Select}" otherOptionLabel="{!if(v.isRestricted, '', 'Other')}"/>
+            <c:rrSelect
+                value="{!v.reasonResponse}"
+                options="{!v.options}"
+                placeholder="{!$Label.c.PG_AC_Select}"
+                otherOptionLabel="{!if(v.isRestricted, '', 'Other')}"
+            />
         </div>
         <div class="csr-other">
             <aura:if isTrue="{!v.showOtherReason}">
-                <lightning:textArea name="other-reason" label="{!$Label.c.PG_CS_L_Other}" placeholder="{!$Label.c.PG_CS_L_Reason}" value="{!v.reasonResponse}"/>
+                <lightning:textArea
+                    name="other-reason"
+                    label="{!$Label.c.PG_CS_L_Other}"
+                    placeholder="{!$Label.c.PG_CS_L_Reason}"
+                    value="{!v.reasonResponse}"
+                />
             </aura:if>
         </div>
     </div>

@@ -2,56 +2,73 @@
   - Created by Dmytro Pokutnii
   -->
 <aura:component controller="VisitResultsRemote" description="VisitResultsContainer">
-
     <!-- ATTRIBUTES -->
 
-    <aura:attribute name="labResultsMode" type="String" default="Vitals"/>
-    <aura:attribute name="resultModeLabel" type="String" default="{!$Label.c.Visit_Results_Tab_Vitals}"/>
-    <aura:attribute name="disclaimerLabel" type="String" default="{!$Label.c.Visit_Results_Tab_Vit_Disclaimer}"/>
+    <aura:attribute name="labResultsMode" type="String" default="Vitals" />
+    <aura:attribute
+        name="resultModeLabel"
+        type="String"
+        default="{!$Label.c.Visit_Results_Tab_Vitals}"
+    />
+    <aura:attribute
+        name="disclaimerLabel"
+        type="String"
+        default="{!$Label.c.Visit_Results_Tab_Vit_Disclaimer}"
+    />
     <aura:attribute name="visitResultSharings" type="Map" />
 
-    <aura:attribute name="initData" type="VisitResultsRemote.InitDataWrapper" access="private"/>
-    <aura:attribute name="initialized" type="Boolean" access="private" default="false"/>
-    <aura:attribute name="togglePosition" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="initData" type="VisitResultsRemote.InitDataWrapper" access="private" />
+    <aura:attribute name="initialized" type="Boolean" access="private" default="false" />
+    <aura:attribute name="togglePosition" type="Boolean" default="false" access="private" />
 
     <!-- HANDLERS -->
 
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    <aura:handler name="change" value="{!v.labResultsMode}" action="{!c.doInit}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="change" value="{!v.labResultsMode}" action="{!c.doInit}" />
 
     <!-- COMPONENT BODY -->
 
     <div class="visit-results-content">
-
-        <c:RRSpinner aura:id="mainSpinner" showSpinner="true" size="medium" fixed="true"/>
+        <c:RRSpinner aura:id="mainSpinner" showSpinner="true" size="medium" fixed="true" />
 
         <aura:if isTrue="{!v.initialized}">
-
-            <div class="visit-results-disclaimer">
-                {!v.disclaimerLabel}
-            </div>
+            <div class="visit-results-disclaimer">{!v.disclaimerLabel}</div>
             <div class="slds-grid slds-wrap slds-gutters">
                 <div class="slds-col slds-m-top--small slds-m-bottom--medium slds-size_1-of-4">
-                    <lightning:input type="toggle"
-                                     data-gtm="TGL_Show_Visit_Results"
-                                     messageToggleActive="{!$Label.c.BTN_On}"
-                                     messageToggleInactive="{!$Label.c.BTN_Off}"
-                                     onchange="{!c.switchToggle}"
-                                     checked="{!v.togglePosition}"
-                                     label="{!$Label.c.Home_Page_StudyVisit_Show_Filter_Visits + ' ' + v.resultModeLabel}"/>
+                    <lightning:input
+                        type="toggle"
+                        data-gtm="TGL_Show_Visit_Results"
+                        messageToggleActive="{!$Label.c.BTN_On}"
+                        messageToggleInactive="{!$Label.c.BTN_Off}"
+                        onchange="{!c.switchToggle}"
+                        checked="{!v.togglePosition}"
+                        label="{!$Label.c.Home_Page_StudyVisit_Show_Filter_Visits + ' ' + v.resultModeLabel}"
+                    />
                 </div>
                 <div class="slds-col slds-size_3-of-4"></div>
             </div>
 
-            <aura:if isTrue="{!and(v.togglePosition, and(v.initData.isVisitResultsAvailable, v.initData.isCountryWiseResultExist))}">
-                <aura:iteration items="{!v.initData.visitResultsGroupNames}" var="visitResultsGroupName">
-                    <c:VisitResultsPanel visitResultGroupName="{!visitResultsGroupName}" initData="{!v.initData}"/>
+            <aura:if
+                isTrue="{!and(v.togglePosition, and(v.initData.isVisitResultsAvailable, v.initData.isCountryWiseResultExist))}"
+            >
+                <aura:iteration
+                    items="{!v.initData.visitResultsGroupNames}"
+                    var="visitResultsGroupName"
+                >
+                    <c:VisitResultsPanel
+                        visitResultGroupName="{!visitResultsGroupName}"
+                        initData="{!v.initData}"
+                    />
                 </aura:iteration>
                 <aura:set attribute="else">
-                    <c:VisitsCompliance contactId="{!v.initData.contact.Id}" isVisitResultsExist="{!v.initData.isCountryWiseResultExist}"
-                                        isDelegate="{!v.initData.isDelegate}"
-                                        isVisitResultsAvailable="{!v.initData.isVisitResultsAvailable}"
-                                        isOptIn="{!v.togglePosition}" labResultsMode="{!v.resultModeLabel}"/>
+                    <c:VisitsCompliance
+                        contactId="{!v.initData.contact.Id}"
+                        isVisitResultsExist="{!v.initData.isCountryWiseResultExist}"
+                        isDelegate="{!v.initData.isDelegate}"
+                        isVisitResultsAvailable="{!v.initData.isVisitResultsAvailable}"
+                        isOptIn="{!v.togglePosition}"
+                        labResultsMode="{!v.resultModeLabel}"
+                    />
                 </aura:set>
             </aura:if>
         </aura:if>

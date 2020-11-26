@@ -13,24 +13,22 @@
     padding: 0 10px;
 }
 
-.THIS.menu-block .menu-popup-panel.popupTargetContainer{
+.THIS.menu-block .menu-popup-panel.popupTargetContainer {
     left: initial;
     right: 0;
     width: 180px;
 }
 
-.THIS.menu-block.rtl .menu-popup-panel.popupTargetContainer{
+.THIS.menu-block.rtl .menu-popup-panel.popupTargetContainer {
     left: 0;
 }
 
-.THIS.menu-block.rtl li{
-    text-align: right!important;
+.THIS.menu-block.rtl li {
+    text-align: right !important;
 }
 
 @media all and (max-width: 768px) {
-
     .THIS.cUiHeaderMenu .menu-popup-panel.popupTargetContainer {
         top: 50px;
     }
 }
-

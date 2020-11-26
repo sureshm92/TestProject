@@ -6,9 +6,10 @@
         let communityModes = component.get('v.communityModes');
         let selectedGroupId = event.currentTarget.dataset.groupId;
 
-        for (let i=0; i<communityModes.rhModeItems.length; i++ ){
-            if (communityModes.rhModeItems[i].itemType === selectedGroupId){
-                communityModes.rhModeItems[i].isCollapsed = !communityModes.rhModeItems[i].isCollapsed;
+        for (let i = 0; i < communityModes.rhModeItems.length; i++) {
+            if (communityModes.rhModeItems[i].itemType === selectedGroupId) {
+                communityModes.rhModeItems[i].isCollapsed = !communityModes.rhModeItems[i]
+                    .isCollapsed;
             }
         }
         component.set('v.communityModes', communityModes);

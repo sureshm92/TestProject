@@ -1,41 +1,41 @@
-.THIS .h_font{
-	color: #595959;
+.THIS .h_font {
+    color: #595959;
 }
 
-.THIS.myPart{
-	color: black;
-	font-weight: 600;
-	font-size: 14px;
-	padding-bottom: 15px;
-	display: flex;
-	justify-content: space-between;
+.THIS.myPart {
+    color: black;
+    font-weight: 600;
+    font-size: 14px;
+    padding-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .THIS .switchButton {
-	display: inline-block;
-	margin-top: -3px;
+    display: inline-block;
+    margin-top: -3px;
 }
 
 .THIS.ListViewHead {
-    display:flex;
+    display: flex;
     justify-content: space-between;
     margin-bottom: 1.5rem;
-	align-items: center;
+    align-items: center;
 }
 
 .THIS.ListViewHead > span:first-child {
-	font-size: 13px;
-	font-weight: 600;
-	color: #000;
-	line-height: 1;
+    font-size: 13px;
+    font-weight: 600;
+    color: #000;
+    line-height: 1;
 }
 
 @media all and (max-width: 500px) {
-	.THIS.ListViewHead {
-		margin-top: 12px;
-	}
+    .THIS.ListViewHead {
+        margin-top: 12px;
+    }
 
-	.THIS.ListViewHead span:last-child a {
-		white-space: nowrap;
-	}
+    .THIS.ListViewHead span:last-child a {
+        white-space: nowrap;
+    }
 }

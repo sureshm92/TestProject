@@ -4,16 +4,21 @@
 
 ({
     doInit: function (component, event, helper) {
-        communityService.executeAction(component, 'getInitData', {
-            ctpId: component.get('v.recordId')
-        }, function (initData) {
-            component.set('v.userPermission', initData.userPermission);
-            component.set('v.initData', initData);
-            component.set('v.groups', initData.groups);
-            component.set('v.options', initData.options);
-            component.set('v.dataSnapshot', helper.takeSnapshot(component));
-            component.find('spinner').hide();
-        })
+        communityService.executeAction(
+            component,
+            'getInitData',
+            {
+                ctpId: component.get('v.recordId')
+            },
+            function (initData) {
+                component.set('v.userPermission', initData.userPermission);
+                component.set('v.initData', initData);
+                component.set('v.groups', initData.groups);
+                component.set('v.options', initData.options);
+                component.set('v.dataSnapshot', helper.takeSnapshot(component));
+                component.find('spinner').hide();
+            }
+        );
     },
 
     doSSSelectionChange: function (component, event, helper) {
@@ -78,7 +83,8 @@
             setTimeout(
                 $A.getCallback(function () {
                     component.find('whenToShowDaysInput').focus();
-                }), 100
+                }),
+                100
             );
         } else {
             options.showAfterDays = 0;
@@ -103,7 +109,10 @@
 
     onChangeGlobal: function (component, event, helper) {
         if (!component.get('v.options.globalShareBck')) {
-            communityService.showInfoToast('', 'For the changes to take effect, do not forget to click Save!');
+            communityService.showInfoToast(
+                '',
+                'For the changes to take effect, do not forget to click Save!'
+            );
         } else {
             let options = component.get('v.options');
             options.countrySelectionType = 'Disabled';
@@ -128,27 +137,38 @@
             }
         }
         if (!displayOnMyResultCardFlag && options.countrySelectionType !== 'Disabled') {
-            communityService.showErrorToast('', $A.get('$Label.c.Visit_Results_Group_If_Is_Not_Selected_For_My_Results'));
+            communityService.showErrorToast(
+                '',
+                $A.get('$Label.c.Visit_Results_Group_If_Is_Not_Selected_For_My_Results')
+            );
         } else {
             component.find('spinner').show();
-            communityService.executeAction(component, 'saveSharingRules', {
-                options: JSON.stringify(options),
-                groups: JSON.stringify(groups),
-                ctpId: component.get('v.recordId')
-            }, function () {
-                component.find('spinner').hide();
-                communityService.showSuccessToast('Success', 'Visit Result Sharing setting saved!');
-                if (!component.get('v.options.globalShareBck')) component.refresh();
-            });
+            communityService.executeAction(
+                component,
+                'saveSharingRules',
+                {
+                    options: JSON.stringify(options),
+                    groups: JSON.stringify(groups),
+                    ctpId: component.get('v.recordId')
+                },
+                function () {
+                    component.find('spinner').hide();
+                    communityService.showSuccessToast(
+                        'Success',
+                        'Visit Result Sharing setting saved!'
+                    );
+                    if (!component.get('v.options.globalShareBck')) component.refresh();
+                }
+            );
         }
     },
-    
+
     doGroupSelectionChanged: function (component, event, helper) {
         let selectGroupName = event.getParam('visitResultGroupLabel');
         let showOnMyResultCard = event.getParam('showOnMyResultCard');
         let groups = component.get('v.groups');
         for (let group of groups) {
-            group.displayOnMyResultCard = (group.label === selectGroupName) && showOnMyResultCard;
+            group.displayOnMyResultCard = group.label === selectGroupName && showOnMyResultCard;
         }
         component.set('v.groups', groups);
     }

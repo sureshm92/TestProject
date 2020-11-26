@@ -3,9 +3,7 @@
  */
 
 ({
-    doInit: function (component, event, helper) {
-
-    },
+    doInit: function (component, event, helper) {},
 
     show: function (component, event, helper) {
         helper.doSearch(component, event, helper);
@@ -28,10 +26,15 @@
         component.find('searchModal').hide();
         component.find('searchInput').set('v.value', '');
 
-        communityService.executeAction(component, 'getReferralNetworkRecords', {
-            sObjectType: component.get("v.sObjectType")
-        }, function (returnValue) {
-            component.set('v.currChosenRefNetworks', returnValue);
-        });
+        communityService.executeAction(
+            component,
+            'getReferralNetworkRecords',
+            {
+                sObjectType: component.get('v.sObjectType')
+            },
+            function (returnValue) {
+                component.set('v.currChosenRefNetworks', returnValue);
+            }
+        );
     }
 });

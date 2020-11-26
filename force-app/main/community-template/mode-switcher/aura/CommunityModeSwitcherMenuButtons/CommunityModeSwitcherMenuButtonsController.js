@@ -16,4 +16,4 @@
         component.set('v.reset', true);
         component.set('v.reset', false);
     }
-})
+});

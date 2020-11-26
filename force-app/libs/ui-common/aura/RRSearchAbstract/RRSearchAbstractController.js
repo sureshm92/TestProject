@@ -45,7 +45,6 @@
         helper.updateSelection(component, updatedSelection);
         helper.copySelectionToValue(component);
         helper.enqueueOnChangeAction(component);
-
     },
 
     onClearSelection: function (component, event, helper) {
@@ -71,8 +70,8 @@
                 component.set('v.hasFocus', false);
                 var blurAction = component.get('v.onblur');
                 if (blurAction) $A.enqueueAction(blurAction);
-
-            }), 150
+            }),
+            150
         );
     },
 
@@ -81,9 +80,8 @@
             $A.getCallback(function () {
                 var element = document.getElementById(component.getGlobalId() + '_combobox');
                 if (element) element.focus();
-            }), 100
+            }),
+            100
         );
     }
-
-
-})
+});

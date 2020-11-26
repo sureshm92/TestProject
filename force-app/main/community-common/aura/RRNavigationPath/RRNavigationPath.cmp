@@ -3,7 +3,6 @@
  -->
 
 <aura:component description="RRNavigationPath" extends="c:CommunityContext">
- 
     <!-- component body: -->
     <div class="{!'navigation-path ' + if(v.isRTL, 'rtl', '')}">
         <aura:if isTrue="{!!empty(v.body)}">
@@ -12,5 +11,4 @@
             </aura:iteration>
         </aura:if>
     </div>
-
 </aura:component>

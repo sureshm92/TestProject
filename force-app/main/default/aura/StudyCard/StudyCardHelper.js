@@ -10,14 +10,23 @@
     },
 
     onFacebookClick: function (component, url, text) {
-        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url) + '&quote=' + text);
+        window.open(
+            'https://www.facebook.com/sharer/sharer.php?u=' +
+                encodeURIComponent(url) +
+                '&quote=' +
+                text
+        );
     },
 
     onTwitterClick: function (component, url, text) {
-        window.open('https://twitter.com/intent/tweet?text=' + text + '&url=' + encodeURIComponent(url));
+        window.open(
+            'https://twitter.com/intent/tweet?text=' + text + '&url=' + encodeURIComponent(url)
+        );
     },
 
     onLinkedInClick: function (component, url) {
-        window.open('https://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(url));
-    },
+        window.open(
+            'https://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(url)
+        );
+    }
 });

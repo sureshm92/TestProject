@@ -1,9 +1,15 @@
-<aura:component description="CovidNewThemeLayout" implements="forceCommunity:themeLayout" access="global"
-    controller="CommunityFacadeRemote">
+<aura:component
+    description="CovidNewThemeLayout"
+    implements="forceCommunity:themeLayout"
+    access="global"
+    controller="CommunityFacadeRemote"
+>
     <!--ltng:require styles="{!join(',', $Resource.Community_CSS_Core, $Resource.Community_CSS_Stub, $Resource.proximanova + '/proximanova.css')}" /-->
     <ltng:require
         styles="{!join(',', $Resource.Community_CSS_Core, $Resource.Community_CSS_Stub, $Resource.proximanova + '/proximanova.css')}"
-        scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}" />
+        scripts="{!$Resource.rr_community_js}"
+        afterScriptsLoaded="{!c.doInit}"
+    />
 
     <!--variables-->
     <aura:attribute name="isInitialized" type="Boolean" default="false" />
@@ -12,18 +18,33 @@
     <aura:method name="init" action="{!c.doInit}" access="public" />
 
     <aura:if isTrue="{!v.isInitialized}">
-        <div class="{!'rr-all-content ' + $Browser.formFactor + ' ' + if(v.showSideMenu, ' bodyShift ', ' ') + if(v.availableModes.length > 1, ' with-selector ', '')}">
-            <div class="{!'rr-header-content ' + if(v.showModeSwitcher, ' multi-mode ', ' ') + if(v.isInitialized, 'main-header-brand', 'main-header-neutral')}"
-                style="background: linear-gradient(to right, white 0%, white 100%); box-shadow:0px 0px 5px 0px #888888;width:100%;left:0;">
+        <div
+            class="{!'rr-all-content ' + $Browser.formFactor + ' ' + if(v.showSideMenu, ' bodyShift ', ' ') + if(v.availableModes.length > 1, ' with-selector ', '')}"
+        >
+            <div
+                class="{!'rr-header-content ' + if(v.showModeSwitcher, ' multi-mode ', ' ') + if(v.isInitialized, 'main-header-brand', 'main-header-neutral')}"
+                style="
+                    background: linear-gradient(to right, white 0%, white 100%);
+                    box-shadow: 0px 0px 5px 0px #888888;
+                    width: 100%;
+                    left: 0;
+                "
+            >
                 <div class="logo-container">
                     <a href="http://plasma.c19trials.com/">
-                        <img src="{!$Resource.PP_CPDonorReferral + '/iqvia.png'}" class="image-logo" />
+                        <img
+                            src="{!$Resource.PP_CPDonorReferral + '/iqvia.png'}"
+                            class="image-logo"
+                        />
                     </a>
                 </div>
             </div>
 
             <!--body-->
-            <div class="rr-body-content rr-min-body-height theme-content-background" style="min-height: 10px!important; overflow: hidden; margin-bottom: 1px;">
+            <div
+                class="rr-body-content rr-min-body-height theme-content-background"
+                style="min-height: 10px !important; overflow: hidden; margin-bottom: 1px"
+            >
                 {!v.body}
             </div>
 
@@ -38,5 +59,4 @@
             </aura:if>
         </div>
     </aura:if>
-
 </aura:component>

@@ -1,29 +1,29 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS.rr-icon-default{
+.THIS.rr-icon-default {
     fill: #686868;
     height: 32px;
     width: 26px;
     display: inline-block;
 }
 
-.THIS.rr-icon-big{
+.THIS.rr-icon-big {
     height: 40px;
     width: 40px;
 }
-.THIS.rr-icon--left{
+.THIS.rr-icon--left {
     margin-left: -60px;
     position: absolute;
 }
 
-.THIS.icon-chevron-down-resources{
+.THIS.icon-chevron-down-resources {
     fill: white;
     height: 20px;
     width: 26px;
     display: inline-block;
 }
-.THIS.icon-chevron-right-library{
+.THIS.icon-chevron-right-library {
     fill: black;
     width: 14px;
     margin: 5px 5px 10px 0;

@@ -2,17 +2,18 @@
  * Created by Leonid Bartenev
  */
 ({
-
     doInit: function (component, event, helper) {
         if (communityService.isInitialized()) {
-            communityService.executeAction(component, 'checkStudyMessage', null,
-                function (returnValue) {
-                    component.set('v.hasMessage', returnValue);
-                });
+            communityService.executeAction(component, 'checkStudyMessage', null, function (
+                returnValue
+            ) {
+                component.set('v.hasMessage', returnValue);
+            });
             setTimeout(
                 $A.getCallback(function () {
                     helper.init(component);
-                }), 1000
+                }),
+                1000
             );
         } else {
             communityService.initialize(component);
@@ -41,4 +42,4 @@
     onClickHelp: function () {
         communityService.navigateToPage('help');
     }
-}); 
+});

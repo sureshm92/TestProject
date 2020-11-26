@@ -3,8 +3,6 @@
  -->
 
 <aura:component description="MotivationalMessages" controller="MotivationalMessagesRemote">
-
     <!-- methods:-->
-    <aura:method name="show" action="{!c.doExecute}" description="public"/>
-
-</aura:component> 
+    <aura:method name="show" action="{!c.doExecute}" description="public" />
+</aura:component>

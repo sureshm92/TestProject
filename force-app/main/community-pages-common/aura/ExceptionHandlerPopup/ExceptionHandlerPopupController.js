@@ -17,7 +17,7 @@
 
     doProcessCollapse: function (component, event, helper) {
         var isCollapsed = component.get('v.isCollapsed');
-        if(!isCollapsed){
+        if (!isCollapsed) {
             //get exception text
         }
     }

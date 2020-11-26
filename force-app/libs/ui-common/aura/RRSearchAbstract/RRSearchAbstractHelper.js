@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 ({
-    isSelectionAllowed : function(component) {
+    isSelectionAllowed: function (component) {
         return component.get('v.isMultiEntry') || component.get('v.selection').length === 0;
     },
 
@@ -17,10 +17,12 @@
             return 0;
         });
         component.set('v.selection', selection);
-   },
+    },
 
     search: function (component) {
-        var searchTerm = component.get('v.searchTerm').replace(/[^a-zA-Z0-9\s`!@#$^:&*()\-_=+{}/;,.\|?]/g, '');
+        var searchTerm = component
+            .get('v.searchTerm')
+            .replace(/[^a-zA-Z0-9\s`!@#$^:&*()\-_=+{}/;,.\|?]/g, '');
         component.set('v.searchTerm', searchTerm);
 
         if (searchTerm.length < component.get('v.minTermLength')) {
@@ -52,6 +54,4 @@
         var changeAction = component.get('v.onchange');
         if (changeAction) $A.enqueueAction(changeAction);
     }
-
-
-})
+});

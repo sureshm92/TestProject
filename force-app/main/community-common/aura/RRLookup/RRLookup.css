@@ -3,7 +3,7 @@
  */
 
 .THIS .travel_vendor_lookup .slds-has-error .slds-input {
-    border-color:  rgb(221, 219, 218);
+    border-color: rgb(221, 219, 218);
     box-shadow: none;
 }
 
@@ -20,7 +20,7 @@
     padding: 1px 12px;
 }
 
-.THIS.pill-container{
+.THIS.pill-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
