@@ -126,7 +126,6 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 FROM Account
                 WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
                 LIMIT 1
-                FOR UPDATE
             ];
 
             for (Ethnicity_Mapping_Participant__mdt objMT : [
