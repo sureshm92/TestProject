@@ -2,7 +2,6 @@
  * Created by Leonid Bartenev
  */
 ({
-
     initItemsMap: function (component, event) {
         //define navigation items:
         this.allPagesMap = {
@@ -18,7 +17,7 @@
                 icon: 'referred-patient'
             },
 
-            'dashboard': {
+            dashboard: {
                 page: 'dashboard',
                 label: $A.get('$Label.c.Navigation_Dashboard'),
                 icon: 'dashboard'
@@ -41,7 +40,7 @@
             //     icon: 'referred-clinic'
             // },
 
-            'reports': {
+            reports: {
                 page: 'reports',
                 label: $A.get('$Label.c.Navigation_Reports'),
                 icon: 'reports'
@@ -58,7 +57,7 @@
                 icon: 'reports'
             },
 
-            'help': {
+            help: {
                 page: 'help',
                 label: $A.get('$Label.c.Navigation_Help'),
                 icon: 'help'
@@ -76,7 +75,7 @@
                 icon: 'referred-clinic'
             },
 
-            'referring': {
+            referring: {
                 page: 'referring',
                 label: $A.get('$Label.c.Referring')
             },
@@ -96,7 +95,7 @@
                 label: $A.get('$Label.c.PG_PP_L_Patient_Profile')
             },
 
-            'settings': {
+            settings: {
                 page: 'settings',
                 label: $A.get('$Label.c.Navigation_Settings')
             },
@@ -113,7 +112,7 @@
                 icon: 'about-the-study'
             },
 
-            'resources': {
+            resources: {
                 page: 'study-workspace',
                 label: $A.get('$Label.c.Navigation_Resources'),
                 icon: 'resources'
@@ -125,7 +124,7 @@
                 icon: 'plan-check-in-square'
             },
 
-            'messages': {
+            messages: {
                 page: 'messages',
                 label: $A.get('$Label.c.Navigation_Messages'),
                 icon: 'icon-envelope'
@@ -137,7 +136,7 @@
                 icon: 'trial-match-mob'
             },
 
-            'participant-support':{
+            'participant-support': {
                 page: '',
                 label: $A.get('$Label.c.CC_Participant_Support')
             }
@@ -151,23 +150,22 @@
         } else {
             participantTabs.push(this.allPagesMap['resources']);
         }
-        if (communityService.getCurrentCommunityMode().hasPastStudies) participantTabs.push(this.allPagesMap['past-studies']);
+        if (communityService.getCurrentCommunityMode().hasPastStudies)
+            participantTabs.push(this.allPagesMap['past-studies']);
         if (communityService.getMessagesVisible()) {
             participantTabs.push(this.allPagesMap['messages']);
         }
         if (communityService.getTrialMatchVisible()) {
             //PEH-2288: Check from the currentCommunityMode
-                if (communityService.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
-                    participantTabs.push(this.allPagesMap['trial-match']);
-                }
+            if (communityService.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
+                participantTabs.push(this.allPagesMap['trial-match']);
+            }
         }
-        
+
         participantTabs.push(this.allPagesMap['help']);
 
         if (component.get('v.hasMessage')) {
-
             this.itemsMap = {
-
                 Participant: participantTabs,
 
                 PI: [
@@ -177,7 +175,7 @@
                     this.allPagesMap['resources-pi'],
                     //this.allPagesMap['my-referring-clinics'],
                     //this.allPagesMap['reports'],
-                     this.allPagesMap['messages']
+                    this.allPagesMap['messages']
                     // this.allPagesMap['help'] //Comment as we are using help text from CustomThemeLayout Component as per REF-1343 for PI and Referral Provider
                 ],
 
@@ -190,20 +188,17 @@
                     // this.allPagesMap['help'] //Comment as we are using help text from CustomThemeLayout Component as per REF-1343 for PI and Referral Provider
                 ],
 
-                CC: [
-                    this.allPagesMap['participant-support']
-                ]
-            }
+                CC: [this.allPagesMap['participant-support']]
+            };
         } else {
             this.itemsMap = {
-
                 Participant: participantTabs,
 
                 PI: [
                     this.allPagesMap[''],
                     this.allPagesMap['dashboard'],
                     this.allPagesMap['my-referrals'],
-                    this.allPagesMap['resources-pi'],
+                    this.allPagesMap['resources-pi']
                     //this.allPagesMap['my-referring-clinics'],
                     //this.allPagesMap['reports'],
                     //this.allPagesMap['messages']
@@ -219,10 +214,8 @@
                     // this.allPagesMap['help'] //Comment as we are using help text from CustomThemeLayout Component as per REF-1343 for PI and Referral Provider
                 ],
 
-                CC: [
-                    this.allPagesMap['participant-support']
-                ]
-            }
+                CC: [this.allPagesMap['participant-support']]
+            };
         }
     },
 
@@ -230,8 +223,8 @@
         if (!this.itemsMap) this.initItemsMap();
         let page = this.allPagesMap[pageName];
         if (page) document.title = page.label;
-        //for CC mode 
-        if(communityService.getCurrentCommunityMode().userMode ==='CC' && page.page == '')
+        //for CC mode
+        if (communityService.getCurrentCommunityMode().userMode === 'CC' && page.page == '')
             document.title = $A.get('$Label.c.CC_Participant_Support');
     },
 
@@ -247,5 +240,4 @@
             console.error(e);
         }
     }
-
-})
+});

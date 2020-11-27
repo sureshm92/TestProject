@@ -3,53 +3,53 @@
  */
 
 public without sharing class SO_DatasetManagerController {
-    public final String RESULTS_FILE_NAME  = 'Results.json';
-    public final String CONFIG_FILE_NAME   = 'Config.json';
+    public final String RESULTS_FILE_NAME = 'Results.json';
+    public final String CONFIG_FILE_NAME = 'Config.json';
 
     public class Config {
         public List<ObjectWrap> objectList;
     }
 
     public class ObjectWrap {
-        public String       objectName;
-        public List<Field>  fields;
+        public String objectName;
+        public List<Field> fields;
     }
 
     public class Field {
-        public String       name                    { get; set; }
-        public String       value                   { get; set; }     // if value starts with '@=>' it means a reference to previously created SObject
-        public List<SelectOption>   valueOptions    { get; private set; }
+        public String name { get; set; }
+        public String value { get; set; } // if value starts with '@=>' it means a reference to previously created SObject
+        public List<SelectOption> valueOptions { get; private set; }
     }
 
     public class Record {
-        public String       objectName              { get; private set; }
-        public String       apiName                 { get; private set; }
-        public String       recordId                { get; private set; }
-        public List<Field>  values                  { get; private set; }   // these are fields with actual values
-        public List<Field>  editFields              { get; private set; }   // these are fields for editing
-        public String       valueString             { get; private set; }   // it's a JSON-like string for viewing
-        public Boolean      error                   { get; private set; }   // true if at least one internal reference not found in advanceObjects
-        public Boolean      active                  { get; set; }           // indicates whether this SObject is active
+        public String objectName { get; private set; }
+        public String apiName { get; private set; }
+        public String recordId { get; private set; }
+        public List<Field> values { get; private set; } // these are fields with actual values
+        public List<Field> editFields { get; private set; } // these are fields for editing
+        public String valueString { get; private set; } // it's a JSON-like string for viewing
+        public Boolean error { get; private set; } // true if at least one internal reference not found in advanceObjects
+        public Boolean active { get; set; } // indicates whether this SObject is active
 
-        public void populate (SObject obj) {
-            recordId     = obj.Id;
-            objectName   = obj.Id.getSobjectType().getDescribe().label;
-            apiName      = obj.Id.getSobjectType().getDescribe().name;
-            values       = new List<Field>();
-            valueString  = '';
+        public void populate(SObject obj) {
+            recordId = obj.Id;
+            objectName = obj.Id.getSobjectType().getDescribe().label;
+            apiName = obj.Id.getSobjectType().getDescribe().name;
+            values = new List<Field>();
+            valueString = '';
             for (String fieldName : SO_DatasetManagerController.getAllFields(apiName)) {
                 if (obj.get(fieldName) != null) {
                     Field field = new Field();
-                    field.name  = fieldName;
+                    field.name = fieldName;
                     field.value = '' + obj.get(fieldName);
                     values.add(field);
                     valueString += '["' + field.name + '"="' + field.value + '"],';
                 }
             }
-            valueString  = valueString.removeEnd(',');
+            valueString = valueString.removeEnd(',');
         }
 
-        public void applyChanges () {
+        public void applyChanges() {
             values = new List<Field>();
             valueString = '';
             if (editFields != null) {
@@ -67,45 +67,59 @@ public without sharing class SO_DatasetManagerController {
         }
     }
 
-    public  Boolean         deployed                { get; private set; }
-    public  String          downloadBody            { get; private set; }
-    public  String          exportBody              { get; private set; }
-    public  String          downloadFileName        { get; private set; }
-    public  String          exportFileName          { get; private set; }
-    public  String          currentFileName         { get; private set; }
-    public  Attachment      configFile              { get { if (configFile == null) configFile = new Attachment(); return configFile; } set; }
-    public  Attachment      resultFile              { get { if (resultFile == null) resultFile = new Attachment(); return resultFile; } set; }
-    public  List<Record>    createdRecords          { get; private set; }
-    public  String          selectedObject          { get; set; }
-    public  Integer         index                   { get; set; }
+    public Boolean deployed { get; private set; }
+    public String downloadBody { get; private set; }
+    public String exportBody { get; private set; }
+    public String downloadFileName { get; private set; }
+    public String exportFileName { get; private set; }
+    public String currentFileName { get; private set; }
+    public Attachment configFile {
+        get {
+            if (configFile == null)
+                configFile = new Attachment();
+            return configFile;
+        }
+        set;
+    }
+    public Attachment resultFile {
+        get {
+            if (resultFile == null)
+                resultFile = new Attachment();
+            return resultFile;
+        }
+        set;
+    }
+    public List<Record> createdRecords { get; private set; }
+    public String selectedObject { get; set; }
+    public Integer index { get; set; }
 
-    public  String          selectedObjectLabel     { get; private set; }
-    public  List<SelectOption> objectSelectOptions  { get; private set; }
-    public  List<Record>    configObjects           { get; private set; }
-    public  List<SObject>   queriedRecords          { get; private set; }
-    public  Boolean         nameAvailable           { get; private set; }
-    public  Boolean         createdDateAvailable    { get; private set; }
-    public  Boolean         exportEnabled           { get; private set; }
-    public  Boolean         editEnabled             { get; private set; }
-    public  Integer         editIndex               { get; private set; }
-    public  Integer         configSize              { get; private set; }
+    public String selectedObjectLabel { get; private set; }
+    public List<SelectOption> objectSelectOptions { get; private set; }
+    public List<Record> configObjects { get; private set; }
+    public List<SObject> queriedRecords { get; private set; }
+    public Boolean nameAvailable { get; private set; }
+    public Boolean createdDateAvailable { get; private set; }
+    public Boolean exportEnabled { get; private set; }
+    public Boolean editEnabled { get; private set; }
+    public Integer editIndex { get; private set; }
+    public Integer configSize { get; private set; }
 
-    private List<String>    allObjectsLong;
-    private List<String>    allObjectsShort;
-    private Boolean         testRun;
+    private List<String> allObjectsLong;
+    private List<String> allObjectsShort;
+    private Boolean testRun;
 
     /**
      * constructor
      */
-    public SO_DatasetManagerController () {
-        downloadFileName    = RESULTS_FILE_NAME;
-        exportFileName      = CONFIG_FILE_NAME;
-        deployed            = false;
-        testRun             = false;
-        allObjectsLong      = getAllObjects(true);
-        allObjectsShort     = getAllObjects(false);
-        configObjects       = new List<Record>();
-        configSize          = configObjects.size();
+    public SO_DatasetManagerController() {
+        downloadFileName = RESULTS_FILE_NAME;
+        exportFileName = CONFIG_FILE_NAME;
+        deployed = false;
+        testRun = false;
+        allObjectsLong = getAllObjects(true);
+        allObjectsShort = getAllObjects(false);
+        configObjects = new List<Record>();
+        configSize = configObjects.size();
         objectSelectOptions = createSelectOptions(allObjectsLong, null, true);
     }
 
@@ -116,10 +130,21 @@ public without sharing class SO_DatasetManagerController {
      */
     public PageReference objectChange() {
         try {
-            selectedObjectLabel = '[' + Schema.getGlobalDescribe().get(selectedObject).getDescribe().label + ']';
+            selectedObjectLabel =
+                '[' +
+                Schema.getGlobalDescribe().get(selectedObject).getDescribe().label +
+                ']';
             queriedRecords = null;
         } catch (Exception e) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'EXCEPTION: ' + e.getMessage() + ' ' + e.getStackTraceString()));
+            ApexPages.addMessage(
+                new ApexPages.Message(
+                    ApexPages.Severity.ERROR,
+                    'EXCEPTION: ' +
+                    e.getMessage() +
+                    ' ' +
+                    e.getStackTraceString()
+                )
+            );
         }
         return null;
     }
@@ -132,17 +157,29 @@ public without sharing class SO_DatasetManagerController {
     public PageReference queryObject() {
         try {
             List<String> fieldNames = getAllFields(selectedObject);
-            nameAvailable           = fieldNames.contains('Name');
-            createdDateAvailable    = fieldNames.contains('CreatedDate');
-            String query            = 'SELECT ';
+            nameAvailable = fieldNames.contains('Name');
+            createdDateAvailable = fieldNames.contains('CreatedDate');
+            String query = 'SELECT ';
             for (String fieldName : fieldNames) {
                 query += fieldName + ', ';
             }
             query = query.removeEnd(', ');
-            query += ' FROM ' + selectedObject + (createdDateAvailable ? ' ORDER BY CreatedDate DESC' : '') + ' LIMIT 50';
+            query +=
+                ' FROM ' +
+                selectedObject +
+                (createdDateAvailable ? ' ORDER BY CreatedDate DESC' : '') +
+                ' LIMIT 50';
             queriedRecords = Database.query(query);
         } catch (Exception e) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'EXCEPTION: ' + e.getMessage() + ' ' + e.getStackTraceString()));
+            ApexPages.addMessage(
+                new ApexPages.Message(
+                    ApexPages.Severity.ERROR,
+                    'EXCEPTION: ' +
+                    e.getMessage() +
+                    ' ' +
+                    e.getStackTraceString()
+                )
+            );
         }
         return null;
     }
@@ -152,18 +189,26 @@ public without sharing class SO_DatasetManagerController {
      *
      * @return
      */
-    public PageReference includeEmptyRecord () {
+    public PageReference includeEmptyRecord() {
         try {
             SObjectType objType = Schema.getGlobalDescribe().get(selectedObject);
-            Record config       = new Record();
-            config.objectName   = objType.getDescribe().label;
-            config.apiName      = objType.getDescribe().name;
+            Record config = new Record();
+            config.objectName = objType.getDescribe().label;
+            config.apiName = objType.getDescribe().name;
             configObjects.add(config);
-            configSize          = configObjects.size();
+            configSize = configObjects.size();
             prepareConfig();
-            exportEnabled       = true;
+            exportEnabled = true;
         } catch (Exception e) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'EXCEPTION: ' + e.getMessage() + ' ' + e.getStackTraceString()));
+            ApexPages.addMessage(
+                new ApexPages.Message(
+                    ApexPages.Severity.ERROR,
+                    'EXCEPTION: ' +
+                    e.getMessage() +
+                    ' ' +
+                    e.getStackTraceString()
+                )
+            );
         }
         return null;
     }
@@ -173,7 +218,7 @@ public without sharing class SO_DatasetManagerController {
      *
      * @return
      */
-    public PageReference includeRecord () {
+    public PageReference includeRecord() {
         try {
             Record record = new Record();
             record.populate(queriedRecords.get(index));
@@ -182,7 +227,15 @@ public without sharing class SO_DatasetManagerController {
             prepareConfig();
             exportEnabled = true;
         } catch (Exception e) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'EXCEPTION: ' + e.getMessage() + ' ' + e.getStackTraceString()));
+            ApexPages.addMessage(
+                new ApexPages.Message(
+                    ApexPages.Severity.ERROR,
+                    'EXCEPTION: ' +
+                    e.getMessage() +
+                    ' ' +
+                    e.getStackTraceString()
+                )
+            );
         }
         return null;
     }
@@ -192,14 +245,22 @@ public without sharing class SO_DatasetManagerController {
      *
      * @return
      */
-    public PageReference removeRecord () {
+    public PageReference removeRecord() {
         try {
             configObjects.remove(index);
             configSize = configObjects.size();
             prepareConfig();
             exportEnabled = !configObjects.isEmpty();
         } catch (Exception e) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'EXCEPTION: ' + e.getMessage() + ' ' + e.getStackTraceString()));
+            ApexPages.addMessage(
+                new ApexPages.Message(
+                    ApexPages.Severity.ERROR,
+                    'EXCEPTION: ' +
+                    e.getMessage() +
+                    ' ' +
+                    e.getStackTraceString()
+                )
+            );
         }
         return null;
     }
@@ -209,7 +270,7 @@ public without sharing class SO_DatasetManagerController {
      *
      * @return
      */
-    public PageReference loadConfig () {
+    public PageReference loadConfig() {
         try {
             String body = EncodingUtil.urlDecode(configFile.Body.toString(), 'UTF-8');
             Config config;
@@ -218,7 +279,14 @@ public without sharing class SO_DatasetManagerController {
                 config = (Config) JSON.deserialize(body, Config.class);
             } catch (Exception e) {
                 configFile.Name = currentFileName;
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'ERROR: File [' + configFile.Name +'] is not a valid JSON file. Please select another one'));
+                ApexPages.addMessage(
+                    new ApexPages.Message(
+                        ApexPages.Severity.ERROR,
+                        'ERROR: File [' +
+                        configFile.Name +
+                        '] is not a valid JSON file. Please select another one'
+                    )
+                );
                 return null;
             }
 
@@ -226,7 +294,10 @@ public without sharing class SO_DatasetManagerController {
             for (ObjectWrap objectWrap : config.objectList) {
                 Record record = new Record();
                 record.apiName = objectWrap.objectName;
-                record.objectName = Schema.getGlobalDescribe().get(objectWrap.objectName).getDescribe().label;
+                record.objectName = Schema.getGlobalDescribe()
+                    .get(objectWrap.objectName)
+                    .getDescribe()
+                    .label;
                 record.editFields = objectWrap.fields;
                 record.applyChanges();
                 newConfig.add(record);
@@ -239,7 +310,15 @@ public without sharing class SO_DatasetManagerController {
             exportEnabled = !configObjects.isEmpty();
         } catch (Exception e) {
             configFile.Name = currentFileName;
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'EXCEPTION: ' + e.getMessage() + ' ' + e.getStackTraceString()));
+            ApexPages.addMessage(
+                new ApexPages.Message(
+                    ApexPages.Severity.ERROR,
+                    'EXCEPTION: ' +
+                    e.getMessage() +
+                    ' ' +
+                    e.getStackTraceString()
+                )
+            );
         }
         return null;
     }
@@ -249,12 +328,12 @@ public without sharing class SO_DatasetManagerController {
      *
      * @return
      */
-    public PageReference editConfig () {
+    public PageReference editConfig() {
         try {
-            editIndex   = index;
+            editIndex = index;
             Map<String, List<RecordType>> recordTypes = getAllRecordTypes();
             Record record = configObjects[editIndex];
-            record.editFields  = new List<Field>();
+            record.editFields = new List<Field>();
 
             Map<String, String> fieldMap = new Map<String, String>();
             for (String fieldName : getAllFields(record.apiName)) {
@@ -267,16 +346,27 @@ public without sharing class SO_DatasetManagerController {
                 }
             }
 
-            Map<String, SObjectField> objectMap = Schema.getGlobalDescribe().get(record.apiName).getDescribe().fields.getMap();
+            Map<String, SObjectField> objectMap = Schema.getGlobalDescribe()
+                .get(record.apiName)
+                .getDescribe()
+                .fields.getMap();
             for (String fieldName : fieldMap.keySet()) {
                 Field field = new Field();
-                field.name  = fieldName;
+                field.name = fieldName;
                 field.value = fieldMap.get(fieldName);
 
                 // ------ this block prepares value options for field types: REFERENCE, RECORDTYPE, PICKLIST ------
                 if (objectMap.get(fieldName) == null) {
-                    ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.WARNING,
-                            'Field [' + fieldName + '] is not available in Object [' + record.apiName + ']. It will be dropped if you apply changes.'));
+                    ApexPages.addMessage(
+                        new ApexPages.Message(
+                            ApexPages.Severity.WARNING,
+                            'Field [' +
+                            fieldName +
+                            '] is not available in Object [' +
+                            record.apiName +
+                            ']. It will be dropped if you apply changes.'
+                        )
+                    );
                     record.error = true;
                     continue;
                 }
@@ -299,14 +389,18 @@ public without sharing class SO_DatasetManagerController {
                             }
                         }
                     }
-                } else if (fieldResult.getType() == DisplayType.PICKLIST || fieldResult.getType() == Schema.DisplayType.MULTIPICKLIST) {
+                } else if (
+                    fieldResult.getType() == DisplayType.PICKLIST ||
+                    fieldResult.getType() == Schema.DisplayType.MULTIPICKLIST
+                ) {
                     if (field.valueOptions == null) {
                         field.valueOptions = new List<SelectOption>();
                     }
                     for (PicklistEntry entry : fieldResult.getPicklistValues()) {
                         String entryValue = entry.value;
                         String entryLabel = entry.label;
-                        if (String.isBlank(entryLabel)) entryLabel = entryValue;
+                        if (String.isBlank(entryLabel))
+                            entryLabel = entryValue;
                         field.valueOptions.add(new SelectOption(entryValue, entryLabel));
                     }
                 }
@@ -316,7 +410,15 @@ public without sharing class SO_DatasetManagerController {
 
             editEnabled = true;
         } catch (Exception e) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'EXCEPTION: ' + e.getMessage() + ' ' + e.getStackTraceString()));
+            ApexPages.addMessage(
+                new ApexPages.Message(
+                    ApexPages.Severity.ERROR,
+                    'EXCEPTION: ' +
+                    e.getMessage() +
+                    ' ' +
+                    e.getStackTraceString()
+                )
+            );
         }
         return null;
     }
@@ -326,12 +428,20 @@ public without sharing class SO_DatasetManagerController {
      *
      * @return
      */
-    public PageReference moveUp () {
+    public PageReference moveUp() {
         try {
             configObjects.add(index - 1, configObjects.remove(index));
             prepareConfig();
         } catch (Exception e) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'EXCEPTION: ' + e.getMessage() + ' ' + e.getStackTraceString()));
+            ApexPages.addMessage(
+                new ApexPages.Message(
+                    ApexPages.Severity.ERROR,
+                    'EXCEPTION: ' +
+                    e.getMessage() +
+                    ' ' +
+                    e.getStackTraceString()
+                )
+            );
         }
         return null;
     }
@@ -341,7 +451,7 @@ public without sharing class SO_DatasetManagerController {
      *
      * @return
      */
-    public PageReference moveDown () {
+    public PageReference moveDown() {
         try {
             Record record = configObjects.remove(index);
             if (index == configObjects.size() - 1) {
@@ -351,7 +461,15 @@ public without sharing class SO_DatasetManagerController {
             }
             prepareConfig();
         } catch (Exception e) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'EXCEPTION: ' + e.getMessage() + ' ' + e.getStackTraceString()));
+            ApexPages.addMessage(
+                new ApexPages.Message(
+                    ApexPages.Severity.ERROR,
+                    'EXCEPTION: ' +
+                    e.getMessage() +
+                    ' ' +
+                    e.getStackTraceString()
+                )
+            );
         }
         return null;
     }
@@ -361,14 +479,22 @@ public without sharing class SO_DatasetManagerController {
      *
      * @return
      */
-    public PageReference applyChanges () {
+    public PageReference applyChanges() {
         try {
             configObjects[editIndex].applyChanges();
             prepareConfig();
-            editIndex   = -1;
+            editIndex = -1;
             editEnabled = false;
         } catch (Exception e) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'EXCEPTION: ' + e.getMessage() + ' ' + e.getStackTraceString()));
+            ApexPages.addMessage(
+                new ApexPages.Message(
+                    ApexPages.Severity.ERROR,
+                    'EXCEPTION: ' +
+                    e.getMessage() +
+                    ' ' +
+                    e.getStackTraceString()
+                )
+            );
         }
         return null;
     }
@@ -378,13 +504,21 @@ public without sharing class SO_DatasetManagerController {
      *
      * @return
      */
-    public PageReference cancelEdit () {
+    public PageReference cancelEdit() {
         try {
             configObjects[editIndex].editFields = null;
-            editIndex   = -1;
+            editIndex = -1;
             editEnabled = false;
         } catch (Exception e) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'EXCEPTION: ' + e.getMessage() + ' ' + e.getStackTraceString()));
+            ApexPages.addMessage(
+                new ApexPages.Message(
+                    ApexPages.Severity.ERROR,
+                    'EXCEPTION: ' +
+                    e.getMessage() +
+                    ' ' +
+                    e.getStackTraceString()
+                )
+            );
         }
         return null;
     }
@@ -394,13 +528,21 @@ public without sharing class SO_DatasetManagerController {
      *
      * @return
      */
-    public PageReference testRun () {
+    public PageReference testRun() {
         try {
             testRun = true;
             configFile.Body = EncodingUtil.base64Decode(exportBody);
             startCreate();
         } catch (Exception e) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'EXCEPTION: ' + e.getMessage() + ' ' + e.getStackTraceString()));
+            ApexPages.addMessage(
+                new ApexPages.Message(
+                    ApexPages.Severity.ERROR,
+                    'EXCEPTION: ' +
+                    e.getMessage() +
+                    ' ' +
+                    e.getStackTraceString()
+                )
+            );
         }
         testRun = false;
         return null;
@@ -411,7 +553,7 @@ public without sharing class SO_DatasetManagerController {
      *
      * @return
      */
-    public PageReference startCreate () {
+    public PageReference startCreate() {
         Savepoint savePoint = Database.setSavepoint();
         String failedObject;
         try {
@@ -420,7 +562,12 @@ public without sharing class SO_DatasetManagerController {
             Boolean error = false;
 
             if (configFile.Body == null) {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'ERROR: Configuration file not selected'));
+                ApexPages.addMessage(
+                    new ApexPages.Message(
+                        ApexPages.Severity.ERROR,
+                        'ERROR: Configuration file not selected'
+                    )
+                );
                 return null;
             }
 
@@ -432,11 +579,25 @@ public without sharing class SO_DatasetManagerController {
                 failedObject = objectWrap.objectName;
                 sectionIndex++;
                 if (String.isBlank(objectWrap.objectName)) {
-                    ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'ERROR: Object API name not provided in Meta section [' + sectionIndex + ']'));
+                    ApexPages.addMessage(
+                        new ApexPages.Message(
+                            ApexPages.Severity.ERROR,
+                            'ERROR: Object API name not provided in Meta section [' +
+                            sectionIndex +
+                            ']'
+                        )
+                    );
                     error = true;
                     continue;
                 } else if (!allObjectsShort.contains(objectWrap.objectName)) {
-                    ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'ERROR: Object doesn\'t exist: [' + objectWrap.objectName + ']'));
+                    ApexPages.addMessage(
+                        new ApexPages.Message(
+                            ApexPages.Severity.ERROR,
+                            'ERROR: Object doesn\'t exist: [' +
+                            objectWrap.objectName +
+                            ']'
+                        )
+                    );
                     error = true;
                     continue;
                 }
@@ -448,30 +609,60 @@ public without sharing class SO_DatasetManagerController {
                     for (Field field : objectWrap.fields) {
                         // ------ check if field name is provided
                         if (String.isBlank(field.name)) {
-                            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'ERROR: Field name not provided for Object [' +
-                                    objectWrap.objectName + ']'));
+                            ApexPages.addMessage(
+                                new ApexPages.Message(
+                                    ApexPages.Severity.ERROR,
+                                    'ERROR: Field name not provided for Object [' +
+                                    objectWrap.objectName +
+                                    ']'
+                                )
+                            );
                             error = true;
                             continue;
                         }
 
                         // ------ check if field exist in Object
                         if (!allFieldList.contains(field.name)) {
-                            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'ERROR: Field name [' +
-                                    field.name + '] doesn\'t exist in Object [' + objectWrap.objectName + ']'));
+                            ApexPages.addMessage(
+                                new ApexPages.Message(
+                                    ApexPages.Severity.ERROR,
+                                    'ERROR: Field name [' +
+                                    field.name +
+                                    '] doesn\'t exist in Object [' +
+                                    objectWrap.objectName +
+                                    ']'
+                                )
+                            );
                             error = true;
                             continue;
                         }
 
-                        DisplayType fieldType = obj.getSObjectType().getDescribe().fields.getMap().get(field.name).getDescribe().getType();
+                        DisplayType fieldType = obj.getSObjectType()
+                            .getDescribe()
+                            .fields.getMap()
+                            .get(field.name)
+                            .getDescribe()
+                            .getType();
                         if (fieldType == DisplayType.REFERENCE) {
                             String fieldValue = field.value;
-                            if (fieldValue != null && allObjectsShort.contains(fieldValue)) {   // check if field value is an internal reference
-                                Integer lastIndex = lastIndexOf(createdObjNames, fieldValue);   // if so, then try to find if such SObject has been created
+                            if (fieldValue != null && allObjectsShort.contains(fieldValue)) {
+                                // check if field value is an internal reference
+                                Integer lastIndex = lastIndexOf(createdObjNames, fieldValue); // if so, then try to find if such SObject has been created
                                 if (lastIndex >= 0) {
                                     field.value = createdObjects.get(lastIndex).Id;
                                 } else {
-                                    ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'ERROR: Reference [' +
-                                            field.value + '] for field [' + field.name + '] in Object [' + objectWrap.objectName + '] cannot be resolved. Record hasn\'t been created yet.'));
+                                    ApexPages.addMessage(
+                                        new ApexPages.Message(
+                                            ApexPages.Severity.ERROR,
+                                            'ERROR: Reference [' +
+                                            field.value +
+                                            '] for field [' +
+                                            field.name +
+                                            '] in Object [' +
+                                            objectWrap.objectName +
+                                            '] cannot be resolved. Record hasn\'t been created yet.'
+                                        )
+                                    );
                                     error = true;
                                 }
                             }
@@ -494,7 +685,8 @@ public without sharing class SO_DatasetManagerController {
                     }
                 }
 
-                if (error) continue;
+                if (error)
+                    continue;
 
                 insert obj;
                 createdObjNames.add(obj.getSObjectType().getDescribe().name);
@@ -504,19 +696,45 @@ public without sharing class SO_DatasetManagerController {
             if (!error) {
                 if (testRun) {
                     Database.rollback(savePoint);
-                    ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.CONFIRM, 'TEST SUCCESS: This config would have created ' + createdObjects.size() + ' objects'));
+                    ApexPages.addMessage(
+                        new ApexPages.Message(
+                            ApexPages.Severity.CONFIRM,
+                            'TEST SUCCESS: This config would have created ' +
+                            createdObjects.size() +
+                            ' objects'
+                        )
+                    );
                 } else {
                     createdRecords = prepareRecords(createdObjects);
-                    downloadBody = EncodingUtil.base64Encode(Blob.valueOf(JSON.serializePretty(createdObjects)));
+                    downloadBody = EncodingUtil.base64Encode(
+                        Blob.valueOf(JSON.serializePretty(createdObjects))
+                    );
                     resultFile.Name = 'Created SObjects.json';
-                    resultFile.Body = Blob.valueOf(EncodingUtil.urlEncode(JSON.serialize(createdObjects), 'UTF-8'));
+                    resultFile.Body = Blob.valueOf(
+                        EncodingUtil.urlEncode(JSON.serialize(createdObjects), 'UTF-8')
+                    );
                     configFile = new Attachment();
                     deployed = true;
-                    ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.CONFIRM, 'SUCCESS: Created ' + createdObjects.size() + ' objects'));
+                    ApexPages.addMessage(
+                        new ApexPages.Message(
+                            ApexPages.Severity.CONFIRM,
+                            'SUCCESS: Created ' +
+                            createdObjects.size() +
+                            ' objects'
+                        )
+                    );
                 }
             }
         } catch (Exception e) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, '[' + failedObject + ']: ' + e.getMessage()));
+            ApexPages.addMessage(
+                new ApexPages.Message(
+                    ApexPages.Severity.ERROR,
+                    '[' +
+                    failedObject +
+                    ']: ' +
+                    e.getMessage()
+                )
+            );
             Database.rollback(savePoint);
         }
         return null;
@@ -527,7 +745,7 @@ public without sharing class SO_DatasetManagerController {
      *
      * @return
      */
-    public PageReference startDelete () {
+    public PageReference startDelete() {
         Savepoint savePoint = Database.setSavepoint();
         try {
             List<SObject> resultObjects = new List<SObject>();
@@ -535,7 +753,12 @@ public without sharing class SO_DatasetManagerController {
             Boolean error = false;
 
             if (resultFile.Body == null) {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'ERROR: Deploy result file not selected'));
+                ApexPages.addMessage(
+                    new ApexPages.Message(
+                        ApexPages.Severity.ERROR,
+                        'ERROR: Deploy result file not selected'
+                    )
+                );
                 return null;
             }
 
@@ -543,35 +766,78 @@ public without sharing class SO_DatasetManagerController {
             resultObjects = (List<SObject>) JSON.deserialize(body, List<SObject>.class);
 
             if (!resultObjects.isEmpty()) {
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'The following Objects requested to be deleted:'));
+                ApexPages.addMessage(
+                    new ApexPages.Message(
+                        ApexPages.Severity.INFO,
+                        'The following Objects requested to be deleted:'
+                    )
+                );
             }
 
             for (SObject obj : resultObjects) {
                 resultIds.add(obj.Id);
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, '&nbsp;&nbsp;&nbsp;&nbsp;[' +
-                        obj.Id.getSobjectType().getDescribe().name + ' : ' + obj.Id + ']'));
+                ApexPages.addMessage(
+                    new ApexPages.Message(
+                        ApexPages.Severity.INFO,
+                        '&nbsp;&nbsp;&nbsp;&nbsp;[' +
+                        obj.Id.getSobjectType().getDescribe().name +
+                        ' : ' +
+                        obj.Id +
+                        ']'
+                    )
+                );
             }
 
             List<Database.DeleteResult> deleteResults = Database.delete(resultObjects, false);
             Integer successCount = 0;
             for (Database.DeleteResult deleteResult : deleteResults) {
                 if (deleteResult.success) {
-                    ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.CONFIRM, 'Object [' +
-                            deleteResult.Id.getSobjectType().getDescribe().name + ' : ' + deleteResult.Id + '] successfully deleted'));
+                    ApexPages.addMessage(
+                        new ApexPages.Message(
+                            ApexPages.Severity.CONFIRM,
+                            'Object [' +
+                            deleteResult.Id.getSobjectType().getDescribe().name +
+                            ' : ' +
+                            deleteResult.Id +
+                            '] successfully deleted'
+                        )
+                    );
                     successCount++;
                 } else {
-                    ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.WARNING, '[' +
-                            deleteResult.Id.getSobjectType().getDescribe().name + ' : ' + deleteResult.Id + '] ' +
-                            deleteResult.getErrors().get(0).message));
+                    ApexPages.addMessage(
+                        new ApexPages.Message(
+                            ApexPages.Severity.WARNING,
+                            '[' +
+                            deleteResult.Id.getSobjectType().getDescribe().name +
+                            ' : ' +
+                            deleteResult.Id +
+                            '] ' +
+                            deleteResult.getErrors().get(0).message
+                        )
+                    );
                 }
             }
 
             createdRecords = null;
-            resultFile  = new Attachment();
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.CONFIRM, 'Total ' + successCount + ' objects deleted'));
-
+            resultFile = new Attachment();
+            ApexPages.addMessage(
+                new ApexPages.Message(
+                    ApexPages.Severity.CONFIRM,
+                    'Total ' +
+                    successCount +
+                    ' objects deleted'
+                )
+            );
         } catch (Exception e) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'EXCEPTION: ' + e.getMessage() + ' ' + e.getStackTraceString()));
+            ApexPages.addMessage(
+                new ApexPages.Message(
+                    ApexPages.Severity.ERROR,
+                    'EXCEPTION: ' +
+                    e.getMessage() +
+                    ' ' +
+                    e.getStackTraceString()
+                )
+            );
             Database.rollback(savePoint);
         }
         return null;
@@ -584,13 +850,13 @@ public without sharing class SO_DatasetManagerController {
      *
      * @return
      */
-    private List<Record> prepareRecords (List<SObject> createdObjects) {
+    private List<Record> prepareRecords(List<SObject> createdObjects) {
         List<Record> records = new List<Record>();
         for (SObject obj : createdObjects) {
-            Record record       = new Record();
-            record.recordId     = obj.Id;
-            record.objectName   = obj.Id.getSobjectType().getDescribe().label;
-            record.apiName      = obj.Id.getSobjectType().getDescribe().name;
+            Record record = new Record();
+            record.recordId = obj.Id;
+            record.objectName = obj.Id.getSobjectType().getDescribe().label;
+            record.apiName = obj.Id.getSobjectType().getDescribe().name;
             records.add(record);
         }
         return records;
@@ -601,25 +867,40 @@ public without sharing class SO_DatasetManagerController {
      *
      * @return
      */
-    private void prepareConfig () {
+    private void prepareConfig() {
         try {
-            Config config       = new Config();
-            config.objectList   = new List<ObjectWrap>();
+            Config config = new Config();
+            config.objectList = new List<ObjectWrap>();
             List<String> advanceObjects = new List<String>();
             for (Record record : configObjects) {
-                Map<String, SObjectField> fieldMap = Schema.getGlobalDescribe().get(record.apiName).getDescribe().fields.getMap();
+                Map<String, SObjectField> fieldMap = Schema.getGlobalDescribe()
+                    .get(record.apiName)
+                    .getDescribe()
+                    .fields.getMap();
                 record.error = false;
                 if (record.values != null) {
                     for (Field field : record.values) {
                         SObjectField soField = fieldMap.get(field.name);
                         if (soField == null) {
-                            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,
-                                    'INVALID CONFIG: Field [' + field.name + '] doesn\'t exist in Object [' + record.apiName + ']'));
+                            ApexPages.addMessage(
+                                new ApexPages.Message(
+                                    ApexPages.Severity.ERROR,
+                                    'INVALID CONFIG: Field [' +
+                                    field.name +
+                                    '] doesn\'t exist in Object [' +
+                                    record.apiName +
+                                    ']'
+                                )
+                            );
                             record.error = true;
                             continue;
                         }
-                        if (fieldMap.get(field.name).getDescribe().getType() == DisplayType.REFERENCE && allObjectsShort.contains(field.value)) {
-                            if (!advanceObjects.contains(field.value)) {      // if field.value is a Reference, but it's not found in advanceObjects then set ERROR
+                        if (
+                            fieldMap.get(field.name).getDescribe().getType() ==
+                            DisplayType.REFERENCE && allObjectsShort.contains(field.value)
+                        ) {
+                            if (!advanceObjects.contains(field.value)) {
+                                // if field.value is a Reference, but it's not found in advanceObjects then set ERROR
                                 record.error = true;
                             }
                         }
@@ -627,14 +908,22 @@ public without sharing class SO_DatasetManagerController {
                 }
                 advanceObjects.add(record.apiName);
 
-                ObjectWrap objectWrap   = new ObjectWrap();
-                objectWrap.objectName   = record.apiName;
-                objectWrap.fields       = record.values;
+                ObjectWrap objectWrap = new ObjectWrap();
+                objectWrap.objectName = record.apiName;
+                objectWrap.fields = record.values;
                 config.objectList.add(objectWrap);
             }
             exportBody = EncodingUtil.base64Encode(Blob.valueOf(JSON.serializePretty(config)));
         } catch (Exception e) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'EXCEPTION: ' + e.getMessage() + ' ' + e.getStackTraceString()));
+            ApexPages.addMessage(
+                new ApexPages.Message(
+                    ApexPages.Severity.ERROR,
+                    'EXCEPTION: ' +
+                    e.getMessage() +
+                    ' ' +
+                    e.getStackTraceString()
+                )
+            );
         }
     }
 
@@ -643,7 +932,7 @@ public without sharing class SO_DatasetManagerController {
      *
      * @return
      */
-    private List<String> getAllObjects (Boolean includeLabel) {
+    private List<String> getAllObjects(Boolean includeLabel) {
         List<String> objectList = new List<String>();
         Map<String, Schema.SObjectType> globalDescribe = Schema.getGlobalDescribe();
         List<String> objectNames = new List<String>();
@@ -652,7 +941,8 @@ public without sharing class SO_DatasetManagerController {
 
         for (String objectName : objectNames) {
             DescribeSObjectResult objectDescribe = globalDescribe.get(objectName).getDescribe();
-            if (!objectDescribe.isCreateable()) continue;
+            if (!objectDescribe.isCreateable())
+                continue;
             if (includeLabel) {
                 objectList.add(objectDescribe.name + ' [' + objectDescribe.label + ']');
             } else {
@@ -669,13 +959,17 @@ public without sharing class SO_DatasetManagerController {
      *
      * @return
      */
-    private static List<String> getAllFields (String objectName) {
+    private static List<String> getAllFields(String objectName) {
         List<String> fields = new List<String>();
         try {
-            Map<String, SObjectField> fieldMap = Schema.getGlobalDescribe().get(objectName).getDescribe().fields.getMap();
+            Map<String, SObjectField> fieldMap = Schema.getGlobalDescribe()
+                .get(objectName)
+                .getDescribe()
+                .fields.getMap();
             for (SObjectField field : fieldMap.values()) {
                 DescribeFieldResult fieldDescribe = field.getDescribe();
-                if (!fieldDescribe.isCreateable()) continue;
+                if (!fieldDescribe.isCreateable())
+                    continue;
                 fields.add(fieldDescribe.name);
             }
             fields.sort();
@@ -689,7 +983,7 @@ public without sharing class SO_DatasetManagerController {
      *
      * @return
      */
-    private Map<String, List<RecordType>> getAllRecordTypes () {
+    private Map<String, List<RecordType>> getAllRecordTypes() {
         Map<String, List<RecordType>> recordTypes = new Map<String, List<RecordType>>();
         try {
             for (RecordType recType : [SELECT Name, DeveloperName, SobjectType FROM RecordType]) {
@@ -714,7 +1008,11 @@ public without sharing class SO_DatasetManagerController {
      *
      * @return
      */
-    private List<SelectOption> createSelectOptions (List<String> values, String blankLabel, Boolean split) {
+    private List<SelectOption> createSelectOptions(
+        List<String> values,
+        String blankLabel,
+        Boolean split
+    ) {
         List<SelectOption> selectOptions = new List<SelectOption>();
         if (blankLabel != null) {
             selectOptions.add(new SelectOption('', blankLabel));
@@ -742,12 +1040,13 @@ public without sharing class SO_DatasetManagerController {
      *
      * @return
      */
-    private Integer lastIndexOf (List<Object> objList, Object value) {
+    private Integer lastIndexOf(List<Object> objList, Object value) {
         try {
             Integer index = -1, lastIndex = -1;
             for (Object obj : objList) {
                 index++;
-                if (obj == value) lastIndex = index;
+                if (obj == value)
+                    lastIndex = index;
             }
             return lastIndex;
         } catch (Exception e) {

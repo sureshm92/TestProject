@@ -3,12 +3,13 @@
  */
 
 public without sharing class SearchConditionsOfInterestRemote {
-
     @AuraEnabled
     public static List<TherapeuticAreaService.CAWrapper> searchConditionOfInterest(String nameTA) {
         List<TherapeuticAreaService.CAWrapper> caWrappers = new List<TherapeuticAreaService.CAWrapper>();
         try {
-            TherapeuticAreaService taService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
+            TherapeuticAreaService taService = (TherapeuticAreaService) ClassFactory.newInstance(
+                TherapeuticAreaService.class
+            );
             List<Therapeutic_Area__c> therapeuticAreas = taService.getTherapeuticAreas(nameTA);
             if (!therapeuticAreas.isEmpty()) {
                 caWrappers = taService.getCOIWrappers(therapeuticAreas);
@@ -27,15 +28,15 @@ public without sharing class SearchConditionsOfInterestRemote {
             AuraHelper.throwException(e);
         }
     }
-    
-     @AuraEnabled
+
+    @AuraEnabled
     public static List<TherapeuticAreaService.CAWrapper> getConditionOfInterest() {
         List<TherapeuticAreaService.CAWrapper> caWrappers = new List<TherapeuticAreaService.CAWrapper>();
         try {
             List<Therapeutic_Area_Patient__c> areaPatients = ParticipantDecoupler.getTherapeuticAreaPatients();
             if (!areaPatients.isEmpty()) {
                 for (Therapeutic_Area_Patient__c coi : areaPatients) {
-                    TherapeuticAreaService.CAWrapper caWrapper = new TherapeuticAreaService.CAWrapper ();
+                    TherapeuticAreaService.CAWrapper caWrapper = new TherapeuticAreaService.CAWrapper();
                     caWrapper.isSelected = true;
                     caWrapper.coi = coi;
                     caWrappers.add(caWrapper);
@@ -47,10 +48,13 @@ public without sharing class SearchConditionsOfInterestRemote {
         return caWrappers;
     }
     @AuraEnabled
-    public static List<Therapeutic_Area_Patient__c> upsertListCoi(List<Therapeutic_Area_Patient__c> cois) {
+    public static List<Therapeutic_Area_Patient__c> upsertListCoi(
+        List<Therapeutic_Area_Patient__c> cois
+    ) {
         try {
             if (!cois.isEmpty()) {
-                ((DatabaseProxy)(ClassFactory.newInstance(DatabaseProxy.class))).upsertRecords(cois, true);
+                ((DatabaseProxy) (ClassFactory.newInstance(DatabaseProxy.class)))
+                    .upsertRecords(cois, true);
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);
@@ -58,20 +62,19 @@ public without sharing class SearchConditionsOfInterestRemote {
         return cois;
     }
     @AuraEnabled
-    public static void createSubscribeConnection(List<Therapeutic_Area_Patient__c> cois){
+    public static void createSubscribeConnection(List<Therapeutic_Area_Patient__c> cois) {
         try {
-            TrialSearchHelper helper = (TrialSearchHelper) ClassFactory.newInstance(TrialSearchHelper.class);
+            TrialSearchHelper helper = (TrialSearchHelper) ClassFactory.newInstance(
+                TrialSearchHelper.class
+            );
             helper.createSubscribeConnectionByCOI(cois);
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
     }
-    
-     
-    
-       @AuraEnabled
+
+    @AuraEnabled
     public static void saveReferralNetworksNew(String referralNetworkJSON) {
-      SubscribeToReferralNetworkRemote.saveReferralNetworksNew(referralNetworkJSON);
-      
-      }
+        SubscribeToReferralNetworkRemote.saveReferralNetworksNew(referralNetworkJSON);
+    }
 }

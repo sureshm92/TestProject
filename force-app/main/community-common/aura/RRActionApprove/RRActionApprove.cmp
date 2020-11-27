@@ -3,30 +3,28 @@
  -->
 
 <aura:component description="RRActionApprove">
-
     <!-- attributes: -->
-    <aura:attribute name="message" type="String"/>
-    <aura:attribute name="htmlMessage" type="String"/>
-    <aura:attribute name="dialogTitle" type="String"/>
-    <aura:attribute name="approveBtnName" type="String" default="{!$Label.c.BTN_Yes}"/>
-    <aura:attribute name="cancelBtnName" type="String" default="{!$Label.c.BTN_No}"/>
-    <aura:attribute name="callback" type="Object" access="private"/>
+    <aura:attribute name="message" type="String" />
+    <aura:attribute name="htmlMessage" type="String" />
+    <aura:attribute name="dialogTitle" type="String" />
+    <aura:attribute name="approveBtnName" type="String" default="{!$Label.c.BTN_Yes}" />
+    <aura:attribute name="cancelBtnName" type="String" default="{!$Label.c.BTN_No}" />
+    <aura:attribute name="callback" type="Object" access="private" />
 
     <!-- handlers: -->
-    <aura:handler name="init" value="{!this}" action="{!c.doUpdateHtmlMessage}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doUpdateHtmlMessage}" />
 
     <!-- methods: -->
     <aura:method name="execute" action="{!c.doExec}">
-        <aura:attribute name="callback" type="Function"/>
-        <aura:attribute name="cancelCallback" type="Function"/>
+        <aura:attribute name="callback" type="Function" />
+        <aura:attribute name="cancelCallback" type="Function" />
     </aura:method>
 
     <c:Popup aura:id="popup" title="{!v.dialogTitle}" size="small">
-        <aura:unescapedHtml value="{!v.htmlMessage}"/>
+        <aura:unescapedHtml value="{!v.htmlMessage}" />
         <aura:set attribute="footerButtons">
             <button class="apollo-btn primary" onclick="{!c.doSuccess}">{!v.approveBtnName}</button>
             <button class="apollo-btn tertiary" onclick="{!c.doCancel}">{!v.cancelBtnName}</button>
         </aura:set>
     </c:Popup>
-
 </aura:component>

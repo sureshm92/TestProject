@@ -1,7 +1,5 @@
 ({
-    
-    recordChange : function(component, event, helper)
-    {
+    recordChange: function (component, event, helper) {
         helper.connectServerMethod(component, event, helper);
-    },
-})
+    }
+});

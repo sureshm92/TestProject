@@ -17,41 +17,49 @@
         const url = window.location.hostname;
         const resourceRelPath = $A.get('$Resource.IQVIA');
         const resourceUrl = 'https://'.concat(url).concat(resourceRelPath);
-        window.fetch(resourceUrl)
-            .then($A.getCallback(function (response) {
-                console.log(response);
-                if (!response.ok) {
-                    throw new Error('HTTP error, status = '.concat(response.status));
-                }
-                response.blob()
-                    .then($A.getCallback(function (data) {
-                        let reader = new FileReader();
-                        reader.readAsDataURL(data);
-                        reader.onloadend = function () {
-                            let iqviaLogo = reader.result;
-                            helper.fillData(component, helper, iqviaLogo, isSave);
-                            helper.spinnerHide(component);
-                        };
-                    }));
-            }))
-            .catch($A.getCallback(function (error) {
-                console.error('Fetch Error :-S', error);
-                helper.spinnerHide(component);
-            }));
+        window
+            .fetch(resourceUrl)
+            .then(
+                $A.getCallback(function (response) {
+                    console.log(response);
+                    if (!response.ok) {
+                        throw new Error('HTTP error, status = '.concat(response.status));
+                    }
+                    response.blob().then(
+                        $A.getCallback(function (data) {
+                            let reader = new FileReader();
+                            reader.readAsDataURL(data);
+                            reader.onloadend = function () {
+                                let iqviaLogo = reader.result;
+                                helper.fillData(component, helper, iqviaLogo, isSave);
+                                helper.spinnerHide(component);
+                            };
+                        })
+                    );
+                })
+            )
+            .catch(
+                $A.getCallback(function (error) {
+                    console.error('Fetch Error :-S', error);
+                    helper.spinnerHide(component);
+                })
+            );
     },
 
     getLogoFromIE: function (component, helper, isSave) {
-        helper.enqueue(component, 'c.getLogoFromStatic', {})
-            .then(function (iqviaLogo) {
+        helper.enqueue(component, 'c.getLogoFromStatic', {}).then(
+            function (iqviaLogo) {
                 helper.fillData(component, helper, iqviaLogo, isSave);
                 helper.spinnerHide(component);
-            }, function (err) {
+            },
+            function (err) {
                 if (err && err[0].message) {
                     component.set('v.errorMessage', err[0].message);
                 }
                 console.log('error:', err[0].message);
                 helper.spinnerHide(component);
-            });
+            }
+        );
     },
 
     fillData: function (component, helper, iqviaLogo, isSave) {
@@ -68,7 +76,11 @@
         doc.setTextColor('#000096');
         doc.setFontType('bold');
         doc.text(reportData.participantFullName, 80, 120);
-        doc.text($A.get('$Label.c.Report_Enrollment_Date') + ' ' + reportData.enrollmentDate, 80, 140);
+        doc.text(
+            $A.get('$Label.c.Report_Enrollment_Date') + ' ' + reportData.enrollmentDate,
+            80,
+            140
+        );
         doc.text($A.get('$Label.c.Report_Study_Site') + ': ' + reportData.studySiteName, 80, 160);
         doc.setFontType('normal');
         numberPageForTable = helper.generateTable(reportData, doc, helper);
@@ -77,11 +89,20 @@
             helper.addBorder(reportData, doc, iqviaLogo, splitTextFooter, i === 1);
         }
         if (isSave) {
-            window.navigator.msSaveBlob(doc.output('blob'), $A.get('$Label.c.Report_Document_Name') + '.pdf');
+            window.navigator.msSaveBlob(
+                doc.output('blob'),
+                $A.get('$Label.c.Report_Document_Name') + '.pdf'
+            );
         } else {
             let urlPDF = doc.output('bloburi');
             let urlViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
-            window.open(urlViewer + '?file=' + urlPDF + '&fileName=' + encodeURIComponent($A.get('$Label.c.Report_Document_Name')));
+            window.open(
+                urlViewer +
+                    '?file=' +
+                    urlPDF +
+                    '&fileName=' +
+                    encodeURIComponent($A.get('$Label.c.Report_Document_Name'))
+            );
         }
         reportData = {};
         component.set('v.reportData', reportData);
@@ -123,7 +144,7 @@
                     lineColor: 0,
                     lineWidth: 1,
                     fontStyle: 'normal',
-                    minCellWidth: 63,
+                    minCellWidth: 63
                 },
                 columnStyles: {
                     0: {
@@ -135,7 +156,7 @@
                     fontStyle: 'normal',
                     fontSize: 8,
                     halign: 'center',
-                    valign: 'middle',
+                    valign: 'middle'
                 },
                 startY: heightY + 30,
                 margin: {
@@ -146,7 +167,7 @@
                 },
                 useCss: true
             });
-            heightY = doc.autoTable.previous.finalY
+            heightY = doc.autoTable.previous.finalY;
         });
         return numberPageForTable;
     },
@@ -173,12 +194,13 @@
         splitTextFooter.forEach(function (el, ind) {
             doc.setFontSize(8);
             doc.setTextColor('#6e6e6e');
-            helperT.centeredText(el, (565 + ind * doc.internal.getLineHeight()), doc);
+            helperT.centeredText(el, 565 + ind * doc.internal.getLineHeight(), doc);
         });
     },
 
     centeredText: function (text, y, doc) {
-        var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+        var textWidth =
+            (doc.getStringUnitWidth(text) * doc.internal.getFontSize()) / doc.internal.scaleFactor;
         var textOffset = (doc.internal.pageSize.width - textWidth) / 2;
         doc.setFillColor(25, 25, 25);
         doc.text(textOffset + 12, y, text);
@@ -205,7 +227,7 @@
             if (reportData.studyCodeName) {
                 let splitStudyCodeName = doc.splitTextToSize(reportData.studyCodeName, 500);
                 splitStudyCodeName.forEach(function (el, ind) {
-                    helper.centeredText(el, (heightY + ind * doc.internal.getLineHeight()), doc);
+                    helper.centeredText(el, heightY + ind * doc.internal.getLineHeight(), doc);
                 });
                 heightY += doc.internal.getLineHeight() * splitStudyCodeName.length;
             } else {
@@ -218,7 +240,7 @@
         if (reportData.studyTitle) {
             let splitStudyTitle = doc.splitTextToSize(reportData.studyTitle, 500);
             splitStudyTitle.forEach(function (el, ind) {
-                helper.centeredText(el, (heightY + ind * doc.internal.getLineHeight()), doc);
+                helper.centeredText(el, heightY + ind * doc.internal.getLineHeight(), doc);
             });
             heightY += doc.internal.getLineHeight() * splitStudyTitle.length;
         } else {
@@ -239,5 +261,5 @@
         if (spinner) {
             spinner.hide();
         }
-    },
+    }
 });

@@ -1,48 +1,56 @@
-(
-    {
-        doInit: function (component, event, helper) {
-            component.set('v.initialized', false);
-            let spinner = component.find('mainSpinner');
-            if (spinner) spinner.show();
+({
+    doInit: function (component, event, helper) {
+        component.set('v.initialized', false);
+        let spinner = component.find('mainSpinner');
+        if (spinner) spinner.show();
 
-            let resultMode = component.get('v.labResultsMode');
-            const resultLabelByValue = {
-                'Biomarkers': $A.get('$Label.c.Visit_Results_Tab_Biomarkers'),
-                'Labs': $A.get('$Label.c.Visit_Results_Tab_Labs'),
-                'Vitals': $A.get('$Label.c.Visit_Results_Tab_Vitals')
-            };
-            component.set('v.resultModeLabel', resultLabelByValue[resultMode]);
+        let resultMode = component.get('v.labResultsMode');
+        const resultLabelByValue = {
+            Biomarkers: $A.get('$Label.c.Visit_Results_Tab_Biomarkers'),
+            Labs: $A.get('$Label.c.Visit_Results_Tab_Labs'),
+            Vitals: $A.get('$Label.c.Visit_Results_Tab_Vitals')
+        };
+        component.set('v.resultModeLabel', resultLabelByValue[resultMode]);
 
-            const disclaimerByLabel = {
-                'Biomarkers': $A.get('$Label.c.Visit_Results_Tab_Bio_Disclaimer'),
-                'Labs': $A.get('$Label.c.Visit_Results_Tab_Lab_Disclaimer'),
-                'Vitals': $A.get('$Label.c.Visit_Results_Tab_Vit_Disclaimer')
-            };
-            component.set('v.disclaimerLabel', disclaimerByLabel[resultMode]);
+        const disclaimerByLabel = {
+            Biomarkers: $A.get('$Label.c.Visit_Results_Tab_Bio_Disclaimer'),
+            Labs: $A.get('$Label.c.Visit_Results_Tab_Lab_Disclaimer'),
+            Vitals: $A.get('$Label.c.Visit_Results_Tab_Vit_Disclaimer')
+        };
+        component.set('v.disclaimerLabel', disclaimerByLabel[resultMode]);
 
-            if (communityService.isInitialized()) {
-                communityService.executeAction(component, 'getInitData', {
+        if (communityService.isInitialized()) {
+            communityService.executeAction(
+                component,
+                'getInitData',
+                {
                     visitResultsMode: resultMode,
                     visitResultSharings: component.get('v.visitResultSharings')
-                }, function (returnValue) {
+                },
+                function (returnValue) {
                     component.set('v.initData', returnValue);
                     component.set('v.initialized', true);
                     component.set('v.togglePosition', returnValue.toggleState);
                     if (spinner) spinner.hide();
-                });
-            }
-        },
+                }
+            );
+        }
+    },
 
-        switchToggle: function (component, event, helper) {
-            let spinner = component.find('mainSpinner');
-            if (spinner) spinner.show();
+    switchToggle: function (component, event, helper) {
+        let spinner = component.find('mainSpinner');
+        if (spinner) spinner.show();
 
-            communityService.executeAction(component, 'switchToggleRemote', {
+        communityService.executeAction(
+            component,
+            'switchToggleRemote',
+            {
                 visitResultsMode: component.get('v.labResultsMode'),
                 isToggleOn: component.get('v.togglePosition')
-            }, function () {
+            },
+            function () {
                 if (spinner) spinner.hide();
-            })
-        }
+            }
+        );
     }
-)
+});

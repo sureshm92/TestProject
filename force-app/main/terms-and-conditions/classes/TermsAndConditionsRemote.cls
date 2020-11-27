@@ -3,13 +3,11 @@
  */
 
 public without sharing class TermsAndConditionsRemote {
-
     class TCData {
         Terms_And_Conditions__c tc;
         Datetime acceptedDate;
         Boolean isAccepted;
         Clinical_Trial_Profile__c trial;
-
     }
 
     @AuraEnabled
@@ -41,7 +39,11 @@ public without sharing class TermsAndConditionsRemote {
             } else if (code == 'CookiePolicy') {
                 tcData.tc = TermsAndConditions.getCookieTC(useDefaultCommunity);
             } else {
-                tcData.tc = TermsAndConditions.getTC(TermsAndConditions.getOrgDefaultTCbyCode(code), languageCode, useDefaultCommunity);
+                tcData.tc = TermsAndConditions.getTC(
+                    TermsAndConditions.getOrgDefaultTCbyCode(code),
+                    languageCode,
+                    useDefaultCommunity
+                );
             }
             return JSON.serialize(tcData);
         } catch (Exception e) {
@@ -64,11 +66,9 @@ public without sharing class TermsAndConditionsRemote {
             tcData.tc = tc;
             Terms_And_Conditions_Acceptance__c tca = TermsAndConditions.getTCA(tc.Id);
             tcData.isAccepted = tca != null;
-            if (tca != null) tcData.acceptedDate = tca.Accepted_Date__c;
+            if (tca != null)
+                tcData.acceptedDate = tca.Accepted_Date__c;
         }
         return tcData;
-
     }
-
-
 }

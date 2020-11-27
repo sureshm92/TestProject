@@ -4,10 +4,13 @@
 
 <aura:component description="Action_SwitchShowOnLoginMode" controller="OnboardingSlideTourRemote">
     <!-- events: -->
-    <aura:registerEvent name="OnboardingSlideTourStartupModeChanged" type="c:OnboardingSlideTourStartupModeChanged"/>
+    <aura:registerEvent
+        name="OnboardingSlideTourStartupModeChanged"
+        type="c:OnboardingSlideTourStartupModeChanged"
+    />
 
     <!--methods: -->
     <aura:method name="execute" access="public" action="{!c.doExecute}">
-        <aura:attribute name="showOnLogin" type="Boolean" access="public"/>
+        <aura:attribute name="showOnLogin" type="Boolean" access="public" />
     </aura:method>
 </aura:component>

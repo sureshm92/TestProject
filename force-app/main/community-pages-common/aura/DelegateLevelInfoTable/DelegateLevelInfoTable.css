@@ -4,25 +4,26 @@
 .THIS.dlit-container {
     padding: 20px;
 }
-.THIS .dlit-table th{
+.THIS .dlit-table th {
     font-size: 1rem;
     font-weight: bold;
 }
-.THIS .dlit-table td, .THIS .dlit-table th{
+.THIS .dlit-table td,
+.THIS .dlit-table th {
     padding-top: 5px;
     padding-bottom: 5px;
 }
-.THIS .dlit-table td{
+.THIS .dlit-table td {
     border-top: 0.5px solid #999999;
     color: #666666;
     font-size: 1rem;
 }
-.THIS .dlit-table th:nth-child(n+2){
+.THIS .dlit-table th:nth-child(n + 2) {
     text-align: center;
     padding-left: 10px;
     padding-right: 10px;
 }
-.THIS .dlit-table td:nth-child(n+2){
+.THIS .dlit-table td:nth-child(n + 2) {
     text-align: center;
     font-size: 14px;
     color: black;
@@ -31,7 +32,7 @@
     padding-right: 10px;
 }
 .THIS .greenIcon svg {
-    fill: #00C221;
+    fill: #00c221;
 }
 
 @media all and (max-width: 500px) {
@@ -39,14 +40,14 @@
         padding: 0 1rem;
     }
     .THIS .dlit-table th,
-    .THIS .dlit-table td{
+    .THIS .dlit-table td {
         font-size: 1rem;
     }
 }
 
 .THIS .dlit-disclaimer {
-    font-size: .875rem!important;
-    font-weight: 400!important;
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
     line-height: 17px;
     font-style: italic;
 }

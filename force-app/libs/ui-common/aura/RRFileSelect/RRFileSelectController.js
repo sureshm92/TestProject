@@ -22,7 +22,6 @@
     doReset: function (component, event, helper) {
         component.set('v.placeholder', 'Or drop here');
         component.set('v.fileContent', null);
-        document.getElementById(component.get('v.selectorId') + '_input').value = "";
+        document.getElementById(component.get('v.selectorId') + '_input').value = '';
     }
-
-})
+});

@@ -18,7 +18,7 @@
     scroll-behavior: smooth;
 }
 
-@supports (-ms-ime-align:auto) {
+@supports (-ms-ime-align: auto) {
     .ms-board-body {
         flex-direction: column;
     }
@@ -62,7 +62,7 @@
 
 .ms-send-pi-combined-input {
     padding: 5px;
-    border: 1px solid #DBDBDB;
+    border: 1px solid #dbdbdb;
     background: white;
     border-radius: 5px;
 }
@@ -75,7 +75,7 @@
 }
 
 .ms-pi-input:focus {
-   outline: none;
+    outline: none;
     box-shadow: none;
 }
 
@@ -99,8 +99,8 @@
 .ms-att-file-label {
     height: 32px;
     width: 100px;
-    color: #0768FD;
-    font-family: "Proxima Nova";
+    color: #0768fd;
+    font-family: 'Proxima Nova';
     font-size: 14px !important;
     font-weight: 500;
     line-height: 24px;
@@ -125,7 +125,7 @@
 .ms-empty-chat-label {
     width: 35%;
     color: #999999;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 20px;
     font-weight: 600;
     line-height: 26px;

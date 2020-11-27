@@ -3,8 +3,8 @@
  */
 
 ({
-    doInit: function(component, event, helper){
-        helper.getIconsUrl(component,event)
+    doInit: function (component, event, helper) {
+        helper.getIconsUrl(component, event);
     },
 
     getIconsData: function (component, event, helper) {
@@ -13,6 +13,6 @@
     },
 
     getIconsUrl: function (component, event, helper) {
-        return component.get("v.iconsURL");
+        return component.get('v.iconsURL');
     }
 });

@@ -10,14 +10,12 @@
     padding-right: 1em;
 }
 
-
 .THIS.block-with-text:before {
     content: '...';
     position: absolute;
     right: 0;
     bottom: 0;
 }
-
 
 .THIS.block-with-text:after {
     content: '';

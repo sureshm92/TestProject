@@ -2,9 +2,9 @@
  * Created by Igor Malyuta on 24.12.2019.
  */
 
-import {LightningElement, api, track} from 'lwc';
-import {ShowToastEvent} from 'lightning/platformShowToastEvent';
-import {createCustomEvent} from 'c/ieCustomEvent';
+import { LightningElement, api, track } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { createCustomEvent } from 'c/ieCustomEvent';
 
 import emptyChatLabel from '@salesforce/label/c.MS_Empty_Chat';
 import selectLabel from '@salesforce/label/c.MS_Select';
@@ -34,7 +34,6 @@ const attIconMap = {
 const base64Mark = 'base64,';
 
 export default class MessageBoard extends LightningElement {
-
     labels = {
         emptyChatLabel,
         selectLabel,
@@ -97,7 +96,8 @@ export default class MessageBoard extends LightningElement {
         if (!this.isMultipleMode) {
             this.selectedEnrollment = enrollments[0];
 
-            if (this.userMode === 'Participant') this.isPastStudy = statusByPeMap[this.selectedEnrollment.Id];
+            if (this.userMode === 'Participant')
+                this.isPastStudy = statusByPeMap[this.selectedEnrollment.Id];
         }
 
         this.needAfterRenderSetup = true;
@@ -119,16 +119,17 @@ export default class MessageBoard extends LightningElement {
         this.conversation = conversation;
         this.messageWrappers = messageWrappers;
         this.selectedEnrollment = conversation.Participant_Enrollment__r;
-        this.isHoldMode = !conversation.Participant_Enrollment__r.Study_Site__r.Messages_Are_Available__c;
+        this.isHoldMode = !conversation.Participant_Enrollment__r.Study_Site__r
+            .Messages_Are_Available__c;
 
         this.needAfterRenderSetup = true;
         this.hideEmptyStub = true;
 
-        if(messageWrappers && messageWrappers.length > 3) {
+        if (messageWrappers && messageWrappers.length > 3) {
             let context = this;
             setTimeout(function () {
                 let boardBody = context.template.querySelector('.ms-board-body');
-                if(boardBody) boardBody.scrollTop = boardBody.scrollHeight;
+                if (boardBody) boardBody.scrollTop = boardBody.scrollHeight;
             }, 50);
         }
     }
@@ -148,7 +149,13 @@ export default class MessageBoard extends LightningElement {
     renderedCallback() {
         this.spinner = this.template.querySelector('c-web-spinner');
 
-        if (this.firstConWr && !this.hideEmptyStub && !this.conversation && !this.enrollments && formFactor !== 'Small') {
+        if (
+            this.firstConWr &&
+            !this.hideEmptyStub &&
+            !this.conversation &&
+            !this.enrollments &&
+            formFactor !== 'Small'
+        ) {
             this.openExisting(
                 this.firstConWr.conversation,
                 this.firstConWr.messages,
@@ -162,7 +169,9 @@ export default class MessageBoard extends LightningElement {
             setTimeout(function () {
                 context.clearMessage();
                 let footerClass = '.ms-board-footer-' + (context.userMode === 'PI' ? 'pi' : 'part');
-                context.template.querySelector(footerClass).style.pointerEvents = context.isHoldMode ? 'none' : 'all';
+                context.template.querySelector(footerClass).style.pointerEvents = context.isHoldMode
+                    ? 'none'
+                    : 'all';
             }, 50);
 
             this.needAfterRenderSetup = false;
@@ -179,7 +188,7 @@ export default class MessageBoard extends LightningElement {
     handleFileSelect(event) {
         let file = event.target.files[0];
 
-        let fileSize = parseInt((file.size / 1048576), 10);
+        let fileSize = parseInt(file.size / 1048576, 10);
         if (fileSize && fileSize >= 3) {
             this.notifyUser('', fileLimitLabel, 'warning');
             event.target.value = null;
@@ -223,7 +232,7 @@ export default class MessageBoard extends LightningElement {
     handleEnrollmentSelect(event) {
         let peId = event.detail.peId;
         this.selectedEnrollment = this.enrollments.filter(function (pe) {
-            return pe.Id === peId
+            return pe.Id === peId;
         })[0];
         this.checkSendBTNAvailability();
     }
@@ -238,17 +247,20 @@ export default class MessageBoard extends LightningElement {
         this.messageText = event.target.value;
         this.isAttachEnable = !this.attachment && this.messageText != null;
         this.checkSendBTNAvailability();
-        if (!this.isHoldMode && this.messageText && this.isRecipientSelected() && event.keyCode === 13) this.handleSendClick();
+        if (
+            !this.isHoldMode &&
+            this.messageText &&
+            this.isRecipientSelected() &&
+            event.keyCode === 13
+        )
+            this.handleSendClick();
     }
 
     handleSendClick() {
         let messageText = this.messageText;
         let fileList;
         if (this.attachment) {
-            fileList = [
-                this.attachment.fileName,
-                this.attachment.fileContent
-            ];
+            fileList = [this.attachment.fileName, this.attachment.fileContent];
         }
         this.clearMessage();
 
@@ -257,7 +269,9 @@ export default class MessageBoard extends LightningElement {
         let context = this;
         if (this.userMode === 'PI' && this.isMultipleMode && this.selectedEnrollments) {
             sendMultipleMessage({
-                peIds: this.selectedEnrollments, messageText: messageText, fileJSON: JSON.stringify(fileList)
+                peIds: this.selectedEnrollments,
+                messageText: messageText,
+                fileJSON: JSON.stringify(fileList)
             })
                 .then(function () {
                     context.fireMultipleSendEvent();
@@ -277,11 +291,11 @@ export default class MessageBoard extends LightningElement {
                     isIE: navigator.userAgent.match(/Trident|Edge/) !== null
                 })
                     .then(function (data) {
-                        if(formFactor === 'Small') context.hideEmptyStub = false;
+                        if (formFactor === 'Small') context.hideEmptyStub = false;
                         setTimeout(function () {
                             context.fireSendEvent(data);
                             if (context.spinner) context.spinner.hide();
-                        },1);
+                        }, 1);
                     })
                     .catch(function (error) {
                         console.error('Error in createConversation():' + error.message);
@@ -314,7 +328,9 @@ export default class MessageBoard extends LightningElement {
     }
 
     get boardStyles() {
-        return (navigator.userAgent.match(/Trident/) ? '' : 'display: flex; flex-direction: column-reverse;');
+        return navigator.userAgent.match(/Trident/)
+            ? ''
+            : 'display: flex; flex-direction: column-reverse;';
     }
 
     get messageTemplateOptions() {
@@ -331,9 +347,14 @@ export default class MessageBoard extends LightningElement {
     }
 
     get attachBTNStyle() {
-        return 'opacity: ' + (this.isSendEnable && this.isAttachEnable ? '1' : '0.5')
-            + '; cursor: ' + (this.isSendEnable && this.isAttachEnable ? 'pointer' : 'default')
-            + '; pointer-events: ' + (this.isSendEnable && this.isAttachEnable ? 'all' : 'none');
+        return (
+            'opacity: ' +
+            (this.isSendEnable && this.isAttachEnable ? '1' : '0.5') +
+            '; cursor: ' +
+            (this.isSendEnable && this.isAttachEnable ? 'pointer' : 'default') +
+            '; pointer-events: ' +
+            (this.isSendEnable && this.isAttachEnable ? 'all' : 'none')
+        );
     }
 
     checkSendBTNAvailability() {
@@ -351,7 +372,7 @@ export default class MessageBoard extends LightningElement {
     clearMessage() {
         this.messageText = null;
         let messTemplateSelect = this.template.querySelector('.ms-select-templates');
-        if(messTemplateSelect) messTemplateSelect.selectedIndex = 0;
+        if (messTemplateSelect) messTemplateSelect.selectedIndex = 0;
         this.isSendEnable = false;
         this.template.querySelector('.ms-send-button').setAttribute('disabled', '');
         this.attachment = null;
@@ -366,11 +387,13 @@ export default class MessageBoard extends LightningElement {
     }
 
     fireSendEvent(wrapper) {
-        this.dispatchEvent(createCustomEvent('conversationupdate', {
-            detail: {
-                conWr: wrapper
-            }
-        }));
+        this.dispatchEvent(
+            createCustomEvent('conversationupdate', {
+                detail: {
+                    conWr: wrapper
+                }
+            })
+        );
     }
 
     fireMultipleSendEvent() {
@@ -378,6 +401,6 @@ export default class MessageBoard extends LightningElement {
     }
 
     notifyUser(title, message, variant) {
-        this.dispatchEvent(new ShowToastEvent({title, message, variant}));
+        this.dispatchEvent(new ShowToastEvent({ title, message, variant }));
     }
 }

@@ -8,7 +8,7 @@
         component.find('addTravelVendorDialog').show();
         component.find('addTravelVendorDialog').set('v.cancelCallback', function () {
             helper.resetForm(component);
-        })
+        });
     },
 
     doClose: function (component, event, helper) {
@@ -31,4 +31,4 @@
     onError: function (component, event, helper) {
         component.find('spinner').hide();
     }
-})
+});

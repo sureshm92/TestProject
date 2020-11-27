@@ -7,25 +7,39 @@ private class Test_ReferHealthcareProviderRemote {
     @IsTest
     static void testShowOrHideProvider() {
         TestData.loadTestData();
-        Participant_Enrollment__c partEnroll = [SELECT Id, Show_Referring_Provider__c FROM Participant_Enrollment__c LIMIT 1];
+        Participant_Enrollment__c partEnroll = [
+            SELECT Id, Show_Referring_Provider__c
+            FROM Participant_Enrollment__c
+            LIMIT 1
+        ];
         Test.startTest();
         ReferHealthcareProviderRemote.showOrHideProvider(partEnroll.Id);
         Test.stopTest();
-        Participant_Enrollment__c partEnroll2 = [SELECT Id, Show_Referring_Provider__c FROM Participant_Enrollment__c WHERE Id =: partEnroll.Id];
-        System.assert(partEnroll.Show_Referring_Provider__c != partEnroll2.Show_Referring_Provider__c);
+        Participant_Enrollment__c partEnroll2 = [
+            SELECT Id, Show_Referring_Provider__c
+            FROM Participant_Enrollment__c
+            WHERE Id = :partEnroll.Id
+        ];
+        System.assert(
+            partEnroll.Show_Referring_Provider__c != partEnroll2.Show_Referring_Provider__c
+        );
     }
 
     @IsTest
     static void testGetContactsDelegates() {
         TestData.loadTestData();
-        Participant_Enrollment__c partEnroll = [SELECT Id, Participant__c, Show_Referring_Provider__c FROM Participant_Enrollment__c LIMIT 1];
+        Participant_Enrollment__c partEnroll = [
+            SELECT Id, Participant__c, Show_Referring_Provider__c
+            FROM Participant_Enrollment__c
+            LIMIT 1
+        ];
         ReferHealthcareProviderRemote.InitData result;
 
         Test.startTest();
         Contact parDelegateContact = new Contact(
-                FirstName = 'PADelTD',
-                LastName = 'PADelTD',
-                Email = 'pa_delegate@emil.com'
+            FirstName = 'PADelTD',
+            LastName = 'PADelTD',
+            Email = 'pa_delegate@emil.com'
         );
         insert parDelegateContact;
 
@@ -33,7 +47,10 @@ private class Test_ReferHealthcareProviderRemote {
         deleg.Participant__c = partEnroll.Participant__c;
         deleg.Contact__c = parDelegateContact.Id;
         insert deleg;
-        result = ReferHealthcareProviderRemote.getInitData(partEnroll.Id, partEnroll.Participant__c);
+        result = ReferHealthcareProviderRemote.getInitData(
+            partEnroll.Id,
+            partEnroll.Participant__c
+        );
         Test.stopTest();
         System.assert(!result.listWrapp.isEmpty());
     }

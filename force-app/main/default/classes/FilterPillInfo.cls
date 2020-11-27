@@ -2,7 +2,6 @@
  * Created by D.Yasinskyi on 24.04.2018
  */
 public without sharing class FilterPillInfo {
-
     public Integer value;
     public String label;
     Boolean isActive;

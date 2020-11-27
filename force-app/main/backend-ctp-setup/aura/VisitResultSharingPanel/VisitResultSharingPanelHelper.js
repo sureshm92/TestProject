@@ -4,10 +4,14 @@
 
 ({
     takeSnapshot: function (component) {
-        return JSON.stringify(component.get('v.options')) + ' ' + JSON.stringify(component.get('v.groups'));
+        return (
+            JSON.stringify(component.get('v.options')) +
+            ' ' +
+            JSON.stringify(component.get('v.groups'))
+        );
     },
 
-    compareSnapshots : function (component, helper) {
+    compareSnapshots: function (component, helper) {
         var prevSnap = component.get('v.dataSnapshot');
         var currentSnap = helper.takeSnapshot(component);
 

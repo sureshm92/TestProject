@@ -4,7 +4,8 @@
 
 public with sharing class ResourceForStudyResFlowRemote {
     public class InitData {
-        @AuraEnabled public List<Resource__c> resourceList;
+        @AuraEnabled
+        public List<Resource__c> resourceList;
     }
 
     @AuraEnabled
@@ -21,7 +22,11 @@ public with sharing class ResourceForStudyResFlowRemote {
     @AuraEnabled
     public static String getSelectedResourceTitle(Id resourceId) {
         try {
-            List<Resource__c> resources = [SELECT Id, Title__c FROM Resource__c WHERE Id =: resourceId];
+            List<Resource__c> resources = [
+                SELECT Id, Title__c
+                FROM Resource__c
+                WHERE Id = :resourceId
+            ];
             return resources[0].Title__c;
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);

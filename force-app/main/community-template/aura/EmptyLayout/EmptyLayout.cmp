@@ -2,6 +2,6 @@
  - Created by Leonid Bartenev
  -->
 <aura:component description="EmptyLayout" implements="forceCommunity:layout" access="global">
-    <aura:attribute name="column1" type="Aura.Component[]" required="false"/>
-        <div class="rr-min-body-height">{!v.column1}</div>
+    <aura:attribute name="column1" type="Aura.Component[]" required="false" />
+    <div class="rr-min-body-height">{!v.column1}</div>
 </aura:component>

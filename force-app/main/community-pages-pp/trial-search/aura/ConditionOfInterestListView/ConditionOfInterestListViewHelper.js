@@ -1,6 +1,6 @@
 /**
  * Created by Yehor Dobrovolskyi
- */({
+ */ ({
     saveCOIs: function (component) {
         let coiWrapperList = component.get('v.conditionOfInterestList');
         let coiList = [];
@@ -11,20 +11,25 @@
         }
         console.log('before update COI ' + JSON.stringify(coiList));
         if (coiList) {
-            communityService.executeAction(component, 'upsertListCoi', {
-                cois: coiList
-            }, function (returnValue) {
-                let coiSaveWrapperList = [];
-                returnValue.forEach(function (e) {
-                    let coiSave = {};
-                    coiSave.isSelected = true;
-                    coiSave.coi = e;
-                    coiSaveWrapperList.push(coiSave);
-                });
-                console.log('after update COI ' + JSON.stringify(coiSaveWrapperList));
-                component.set('v.conditionOfInterestList', coiSaveWrapperList);
-                component.set('v.showSpinner', false);
-            });
+            communityService.executeAction(
+                component,
+                'upsertListCoi',
+                {
+                    cois: coiList
+                },
+                function (returnValue) {
+                    let coiSaveWrapperList = [];
+                    returnValue.forEach(function (e) {
+                        let coiSave = {};
+                        coiSave.isSelected = true;
+                        coiSave.coi = e;
+                        coiSaveWrapperList.push(coiSave);
+                    });
+                    console.log('after update COI ' + JSON.stringify(coiSaveWrapperList));
+                    component.set('v.conditionOfInterestList', coiSaveWrapperList);
+                    component.set('v.showSpinner', false);
+                }
+            );
             communityService.executeAction(component, 'createSubscribeConnection', {
                 cois: coiList
             });
@@ -45,15 +50,20 @@
         coiIds.push(idCOI);
         let conditionOfInterestList = component.get('v.conditionOfInterestList');
         if (coiIds) {
-            communityService.executeAction(component, 'deleteCOI', {
-                coiIds: coiIds
-            }, function () {
-                conditionOfInterestList = conditionOfInterestList.filter(function (el) {
-                    return el.coi.Id !== idCOI;
-                });
-                component.set('v.conditionOfInterestList', conditionOfInterestList);
-                component.set('v.isSaveList', !component.get('v.isSaveList'));
-            });
+            communityService.executeAction(
+                component,
+                'deleteCOI',
+                {
+                    coiIds: coiIds
+                },
+                function () {
+                    conditionOfInterestList = conditionOfInterestList.filter(function (el) {
+                        return el.coi.Id !== idCOI;
+                    });
+                    component.set('v.conditionOfInterestList', conditionOfInterestList);
+                    component.set('v.isSaveList', !component.get('v.isSaveList'));
+                }
+            );
         }
     }
-})
+});

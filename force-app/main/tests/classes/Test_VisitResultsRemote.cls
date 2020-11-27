@@ -3,16 +3,29 @@
  */
 @IsTest
 public with sharing class Test_VisitResultsRemote {
-
     @TestSetup
     static void setup() {
-        TriggerHandlerExecutor.bypassHandler(ContactReferralNetworkTriggerHandler.SyncContactInterestedSites.class);
-        TriggerHandlerExecutor.bypassHandler(ContactTherapeuticAreaTriggerHandler.SyncContactInterestedTopics.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class);
-        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
-        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreateStatusHistoryHandler.class);
-        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class);
+        TriggerHandlerExecutor.bypassHandler(
+            ContactReferralNetworkTriggerHandler.SyncContactInterestedSites.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ContactTherapeuticAreaTriggerHandler.SyncContactInterestedTopics.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.CreateNotificationHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            StudySiteTriggerHandler.CreateStatusHistoryHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class
+        );
 
         Test.startTest();
         TestData.loadTestData();
@@ -22,19 +35,23 @@ public with sharing class Test_VisitResultsRemote {
     @IsTest
     static void getInitData_test() {
         List<Clinical_Trial_Profile__c> ctp = new List<Clinical_Trial_Profile__c>{
-                (Clinical_Trial_Profile__c) TestDataFactory.getSObject(Clinical_Trial_Profile__c.getSObjectType(),
-                        new Map<String, Object>{
-                                'Visit_Plan__c' => TestDataFactory.getFakeId(Visit_Plan__c.getSObjectType())
-                        })
+            (Clinical_Trial_Profile__c) TestDataFactory.getSObject(
+                Clinical_Trial_Profile__c.getSObjectType(),
+                new Map<String, Object>{
+                    'Visit_Plan__c' => TestDataFactory.getFakeId(Visit_Plan__c.getSObjectType())
+                }
+            )
         };
 
         List<Visit__c> visits2 = new List<Visit__c>{
-                new Visit__c(Name = 'Test1'),
-                new Visit__c(Name = 'Test2')
+            new Visit__c(Name = 'Test1'),
+            new Visit__c(Name = 'Test2')
         };
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubBuilder.newInstance(CTPSelector.class)
+        ClassFactory.putStubTypeByClassName(
+            CTPSelector.class,
+            StubBuilder.newInstance(CTPSelector.class)
                 .when('getCtpById')
                 .then(ctp)
                 .when('getVisitsByCtpId')
@@ -49,7 +66,10 @@ public with sharing class Test_VisitResultsRemote {
         System.runAs(testData.participantUser) {
             Map<String, Map<String, List<String>>> visitResultSharings = new Map<String, Map<String, List<String>>>();
             visitResultSharings.put('Vitals', new Map<String, List<String>>());
-            VisitResultsRemote.InitDataWrapper wrapper = VisitResultsRemote.getInitData('Vitals', visitResultSharings);
+            VisitResultsRemote.InitDataWrapper wrapper = VisitResultsRemote.getInitData(
+                'Vitals',
+                visitResultSharings
+            );
             System.assert(wrapper != null);
         }
         Test.stopTest();
@@ -57,13 +77,12 @@ public with sharing class Test_VisitResultsRemote {
 
     @IsTest
     static void getVisitResultsGroupNames_test() {
-        List<String> visitResultGroupNames = new List<String>{
-                'test1',
-                'test2'
-        };
+        List<String> visitResultGroupNames = new List<String>{ 'test1', 'test2' };
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubBuilder.newInstance(VisitResultsService.class)
+        ClassFactory.putStubTypeByClassName(
+            VisitResultsService.class,
+            StubBuilder.newInstance(VisitResultsService.class)
                 .when('getVisitResultsGroupNames')
                 .then(visitResultGroupNames)
                 .build()
@@ -78,11 +97,19 @@ public with sharing class Test_VisitResultsRemote {
 
     @IsTest
     static void getVisitResultsContainer_test() {
-        Patient_Visit__c patientVisit = new Patient_Visit__c(Id = TestDataFactory.getFakeId(Patient_Visit__c.getSObjectType()));
-        VisitResultsService.VisitResultsContainer container = new VisitResultsService.VisitResultsContainer(patientVisit, null, 'Vitals');
+        Patient_Visit__c patientVisit = new Patient_Visit__c(
+            Id = TestDataFactory.getFakeId(Patient_Visit__c.getSObjectType())
+        );
+        VisitResultsService.VisitResultsContainer container = new VisitResultsService.VisitResultsContainer(
+            patientVisit,
+            null,
+            'Vitals'
+        );
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubBuilder.newInstance(VisitResultsService.class)
+        ClassFactory.putStubTypeByClassName(
+            VisitResultsService.class,
+            StubBuilder.newInstance(VisitResultsService.class)
                 .when('getVisitResultsContainer')
                 .then(container)
                 .build()
@@ -94,7 +121,10 @@ public with sharing class Test_VisitResultsRemote {
         TestData testData = new TestData();
         VisitResultsService.VisitResultsContainer tesContainer;
         System.runAs(testData.participantUser) {
-            tesContainer = VisitResultsRemote.getVisitResultsContainer('Vitals', JSON.serialize(visitResultSharings));
+            tesContainer = VisitResultsRemote.getVisitResultsContainer(
+                'Vitals',
+                JSON.serialize(visitResultSharings)
+            );
         }
         Test.stopTest();
 
@@ -104,11 +134,13 @@ public with sharing class Test_VisitResultsRemote {
     @IsTest
     static void getVisitResultWrappersForDashboard_test() {
         List<VisitResultsService.VisitResultWrapper> wrappers = new List<VisitResultsService.VisitResultWrapper>{
-                new VisitResultsService.VisitResultWrapper(null, null, null, null)
+            new VisitResultsService.VisitResultWrapper(null, null, null, null)
         };
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubBuilder.newInstance(VisitResultsService.class)
+        ClassFactory.putStubTypeByClassName(
+            VisitResultsService.class,
+            StubBuilder.newInstance(VisitResultsService.class)
                 .when('getVisitResultWrappersForDashboard')
                 .then(wrappers)
                 .build()
@@ -148,7 +180,9 @@ public with sharing class Test_VisitResultsRemote {
     static void getVisitResultsGroupNamesWithException_test() {
         Boolean isExceptionThrown = false;
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubBuilder.newInstance(VisitResultsService.class)
+        ClassFactory.putStubTypeByClassName(
+            VisitResultsService.class,
+            StubBuilder.newInstance(VisitResultsService.class)
                 .when('getVisitResultsGroupNames')
                 .then(new AuraHandledException('exception'))
                 .build()
@@ -157,7 +191,6 @@ public with sharing class Test_VisitResultsRemote {
         Test.startTest();
         try {
             VisitResultsRemote.getVisitResultsGroupNames(null);
-
         } catch (Exception e) {
             isExceptionThrown = true;
             System.assert(e.getTypeName() == 'System.AuraHandledException');
@@ -171,7 +204,9 @@ public with sharing class Test_VisitResultsRemote {
     static void getVisitResultsContainerWithException_test() {
         Boolean isExceptionThrown = false;
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubBuilder.newInstance(VisitResultsService.class)
+        ClassFactory.putStubTypeByClassName(
+            VisitResultsService.class,
+            StubBuilder.newInstance(VisitResultsService.class)
                 .when('getVisitResultsContainer')
                 .then(new AuraHandledException('exception'))
                 .build()
@@ -180,7 +215,6 @@ public with sharing class Test_VisitResultsRemote {
         Test.startTest();
         try {
             VisitResultsRemote.getVisitResultsContainer(null, null);
-
         } catch (Exception e) {
             isExceptionThrown = true;
             System.assert(e.getTypeName() == 'System.AuraHandledException');
@@ -194,7 +228,9 @@ public with sharing class Test_VisitResultsRemote {
     static void getVisitResultWrappersForDashboardWithException_test() {
         Boolean isExceptionThrown = false;
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubBuilder.newInstance(VisitResultsService.class)
+        ClassFactory.putStubTypeByClassName(
+            VisitResultsService.class,
+            StubBuilder.newInstance(VisitResultsService.class)
                 .when('getVisitResultWrappersForDashboard')
                 .then(new AuraHandledException('exception'))
                 .build()
@@ -203,7 +239,6 @@ public with sharing class Test_VisitResultsRemote {
         Test.startTest();
         try {
             VisitResultsRemote.getVisitResultWrappersForDashboard();
-
         } catch (Exception e) {
             isExceptionThrown = true;
             System.assert(e.getTypeName() == 'System.AuraHandledException');
@@ -219,9 +254,9 @@ public with sharing class Test_VisitResultsRemote {
         testData.updatePEStatusEnrollmentSuccess();
 
         Contact contact = [
-                SELECT Visit_Results_OptIn__c
-                FROM Contact
-                WHERE Id = :testData.participantUser.ContactId
+            SELECT Visit_Results_OptIn__c
+            FROM Contact
+            WHERE Id = :testData.participantUser.ContactId
         ];
         contact.Visit_Results_OptIn__c = 'Biomarkers';
         update contact;
@@ -233,9 +268,9 @@ public with sharing class Test_VisitResultsRemote {
         Test.stopTest();
 
         contact = [
-                SELECT Visit_Results_OptIn__c
-                FROM Contact
-                WHERE Id = :testData.participantUser.ContactId
+            SELECT Visit_Results_OptIn__c
+            FROM Contact
+            WHERE Id = :testData.participantUser.ContactId
         ];
         System.assertEquals('Vitals;Biomarkers', contact.Visit_Results_OptIn__c);
     }
@@ -246,9 +281,9 @@ public with sharing class Test_VisitResultsRemote {
         testData.updatePEStatusEnrollmentSuccess();
 
         Contact contact = [
-                SELECT Visit_Results_OptIn__c
-                FROM Contact
-                WHERE Id = :testData.participantUser.ContactId
+            SELECT Visit_Results_OptIn__c
+            FROM Contact
+            WHERE Id = :testData.participantUser.ContactId
         ];
         contact.Visit_Results_OptIn__c = 'Vitals;Labs;Biomarkers';
         update contact;
@@ -261,9 +296,9 @@ public with sharing class Test_VisitResultsRemote {
         Test.stopTest();
 
         contact = [
-                SELECT Visit_Results_OptIn__c
-                FROM Contact
-                WHERE Id = :testData.participantUser.ContactId
+            SELECT Visit_Results_OptIn__c
+            FROM Contact
+            WHERE Id = :testData.participantUser.ContactId
         ];
         System.assertEquals('Labs', contact.Visit_Results_OptIn__c);
     }

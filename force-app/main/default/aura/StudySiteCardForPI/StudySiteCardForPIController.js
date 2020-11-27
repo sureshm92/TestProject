@@ -4,11 +4,11 @@
 
 ({
     doInit: function (component, event, helper) {
-        var actions = component.get("v.siteWrapper").actions;
-        actions.forEach(function(action, index) {
+        var actions = component.get('v.siteWrapper').actions;
+        actions.forEach(function (action, index) {
             if (action != null && 'addPatient' == action.id) {
                 console.log(action);
-                component.set("v.addParticipantInfo", action);
+                component.set('v.addParticipantInfo', action);
             }
         });
     },
@@ -28,34 +28,31 @@
     },
 
     checkValidEmail: function (component, event, helper) {
-      
         var email = event.getSource();
         var emailValue = email.get('v.value');
-          debugger;
+        debugger;
         var el = component.get('v.siteWrapper');
         if (emailValue) {
-            var regexp = $A.get("$Label.c.RH_Email_Validation_Pattern");
-            var regexpInvalid =  new RegExp($A.get("$Label.c.RH_Email_Invalid_Characters"));
+            var regexp = $A.get('$Label.c.RH_Email_Validation_Pattern');
+            var regexpInvalid = new RegExp($A.get('$Label.c.RH_Email_Invalid_Characters'));
             var invalidCheck = regexpInvalid.test(emailValue);
-            if(invalidCheck == false) {
+            if (invalidCheck == false) {
                 email.setCustomValidity('');
-                if(emailValue.match(regexp)) {
+                if (emailValue.match(regexp)) {
                     email.setCustomValidity('');
                     var el = component.get('v.siteWrapper');
                     el.studySite.isEmailValid = true;
-                }else {
-                    email.setCustomValidity('You have entered an invalid format'); 
+                } else {
+                    email.setCustomValidity('You have entered an invalid format');
                     var el = component.get('v.siteWrapper');
                     el.studySite.isEmailValid = false;
-                    
                 }
             } else {
                 email.setCustomValidity('You have entered an invalid format');
-                 el.studySite.isEmailValid = false;
+                el.studySite.isEmailValid = false;
                 //isValid = false;
             }
-            email.reportValidity();            
-            
+            email.reportValidity();
         } else {
             el.studySite.isEmailValid = true;
         }
@@ -67,29 +64,42 @@
         studyListViewComponent.find('mainSpinner').show();
         var siteWrapper = component.get('v.siteWrapper');
         var currentSS = siteWrapper.studySite;
-        communityService.executeAction(component, 'saveSSChanges', {studySiteInfo: JSON.stringify(currentSS)}, function () {
-            communityService.showToast('success', 'success', $A.get('$Label.c.SS_Success_Save_Message'));
-            currentSS.isRecordUpdated = false;
-            currentSS.isEmailValid = true;
-            component.set('v.siteWrapper.studySite', currentSS);
-            studyListViewComponent.find('mainSpinner').hide();
-        },  null, function () {
-               studyListViewComponent.find('mainSpinner').hide();
-            });
+        communityService.executeAction(
+            component,
+            'saveSSChanges',
+            { studySiteInfo: JSON.stringify(currentSS) },
+            function () {
+                communityService.showToast(
+                    'success',
+                    'success',
+                    $A.get('$Label.c.SS_Success_Save_Message')
+                );
+                currentSS.isRecordUpdated = false;
+                currentSS.isEmailValid = true;
+                component.set('v.siteWrapper.studySite', currentSS);
+                studyListViewComponent.find('mainSpinner').hide();
+            },
+            null,
+            function () {
+                studyListViewComponent.find('mainSpinner').hide();
+            }
+        );
     },
 
     showManageLocationDetails: function (component, event, helper) {
         var siteWrapper = component.get('v.siteWrapper');
         var studyListView = component.get('v.studyListViewComponent');
-        studyListView.find('actionManageLocationDetails').execute(siteWrapper, function (studySite, accounts) {
-            // component.set('v.siteWrapper.studySite', studySite);
-            component.set('v.refresh',true);
-            component.set('v.siteWrapper.studySite', studySite);
-            component.set('v.refresh',false);
-            if (accounts) {
-                component.set('v.siteWrapper.accounts', accounts);
-            }
-        });
+        studyListView
+            .find('actionManageLocationDetails')
+            .execute(siteWrapper, function (studySite, accounts) {
+                // component.set('v.siteWrapper.studySite', studySite);
+                component.set('v.refresh', true);
+                component.set('v.siteWrapper.studySite', studySite);
+                component.set('v.refresh', false);
+                if (accounts) {
+                    component.set('v.siteWrapper.accounts', accounts);
+                }
+            });
     },
 
     doAction: function (component, event) {
@@ -99,11 +109,15 @@
         var trialId = siteWrapper.studySite.Clinical_Trial_Profile__c;
         var trial = siteWrapper.studySite.Clinical_Trial_Profile__r;
         var isSuppressed = false;
-        if(siteWrapper.studySite.Suppress_Participant_Emails__c || siteWrapper.studySite.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c){
-            isSuppressed=true;
+        if (
+            siteWrapper.studySite.Suppress_Participant_Emails__c ||
+            siteWrapper.studySite.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c
+        ) {
+            isSuppressed = true;
         }
         var studyListViewComponent = component.get('v.studyListViewComponent');
-        var actionId = (event.currentTarget && event.currentTarget.id ? event.currentTarget.id : undefined);
+        var actionId =
+            event.currentTarget && event.currentTarget.id ? event.currentTarget.id : undefined;
         if (!actionId && event.getSource()) {
             if (event.getSource().get('v.itemValue')) {
                 actionId = event.getSource().get('v.itemValue');
@@ -116,17 +130,23 @@
                 studyListViewComponent.showOpenNoTanksModal(trialId, studySiteId);
                 break;
             case 'manageReferralsBySS':
-                communityService.navigateToPage('my-referrals?id=' + trialId + '&siteId=' + studySiteId);
+                communityService.navigateToPage(
+                    'my-referrals?id=' + trialId + '&siteId=' + studySiteId
+                );
                 break;
             case 'manageReferringClinicsBySS':
-                communityService.navigateToPage('my-referring-clinics?id=' + trialId + '&ssId=' + studySiteId);
+                communityService.navigateToPage(
+                    'my-referring-clinics?id=' + trialId + '&ssId=' + studySiteId
+                );
                 break;
             case 'openToReceiveReferrals':
                 //pass trial to 'Iam open to receive...' dialog:
                 studyListViewComponent.find('receiveReferralsModal').show(trial, studySiteId);
                 break;
             case 'addPatient':
-                communityService.navigateToPage('add-patient?id=' + trialId + '&ssId=' + studySiteId);
+                communityService.navigateToPage(
+                    'add-patient?id=' + trialId + '&ssId=' + studySiteId
+                );
                 break;
             case 'uploadPatient':
                 if (communityService.isInitialized() && communityService.isMobileSDK()) {
@@ -137,8 +157,13 @@
                     );
                     return;
                 }
-                 studyListViewComponent.find('actionUploadParticipants').execute(studySiteId,studySiteType,isSuppressed,function(studySiteId,studySiteType) {});
+                studyListViewComponent
+                    .find('actionUploadParticipants')
+                    .execute(studySiteId, studySiteType, isSuppressed, function (
+                        studySiteId,
+                        studySiteType
+                    ) {});
                 break;
         }
-    },
+    }
 });

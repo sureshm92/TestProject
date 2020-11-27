@@ -3,7 +3,6 @@
  */
 
 public without sharing class CommunityModeSwitcherRemote {
-
     public class CommunityModesWrapper {
         public User user;
         public Boolean hasProfilePic;
@@ -17,9 +16,9 @@ public without sharing class CommunityModeSwitcherRemote {
         result.communityModes = new CommunityModes();
 
         List<User> currentUser = [
-                SELECT Id, Contact.FirstName, Contact.LastName, SmallPhotoUrl
-                FROM User
-                WHERE Id = :UserInfo.getUserId()
+            SELECT Id, Contact.FirstName, Contact.LastName, SmallPhotoUrl
+            FROM User
+            WHERE Id = :UserInfo.getUserId()
         ];
         ContactService.applyRelevantNames(currentUser);
         result.user = currentUser[0];
@@ -27,9 +26,16 @@ public without sharing class CommunityModeSwitcherRemote {
 
         Contact userContact = UserContext.getUserContact();
 
-        result.communityModes.rhModeItems = CommunityModeService.getReferralModeItems(userContact.Id);
-        result.communityModes.ppModeItems = CommunityModeService.getParticipantModeItems(userContact.Id);
-        result.communityModes.type = CommunityModeService.getSwitcherType(result.communityModes.rhModeItems, result.communityModes.ppModeItems);
+        result.communityModes.rhModeItems = CommunityModeService.getReferralModeItems(
+            userContact.Id
+        );
+        result.communityModes.ppModeItems = CommunityModeService.getParticipantModeItems(
+            userContact.Id
+        );
+        result.communityModes.type = CommunityModeService.getSwitcherType(
+            result.communityModes.rhModeItems,
+            result.communityModes.ppModeItems
+        );
         CommunityModeService.getCurrentItemMode(userContact, result.communityModes);
 
         return JSON.serialize(result);
@@ -37,18 +43,23 @@ public without sharing class CommunityModeSwitcherRemote {
 
     @AuraEnabled
     public static String getLogoutURL() {
-        Contact userContact =  UserContext.getUserContact();
+        Contact userContact = UserContext.getUserContact();
         userContact.Current_Participant_Enrollment__c = null;
         update userContact;
         List<LoginHistory> userLoginHistory = [
-                SELECT Id, UserId, LoginTime, LoginUrl
-                FROM LoginHistory
-                WHERE UserId = :UserInfo.getUserId()
-                ORDER BY LoginTime DESC
-                LIMIT 1
+            SELECT Id, UserId, LoginTime, LoginUrl
+            FROM LoginHistory
+            WHERE UserId = :UserInfo.getUserId()
+            ORDER BY LoginTime DESC
+            LIMIT 1
         ];
-        return userLoginHistory.isEmpty() ? Site.getBaseUrl() : 'https://' + userLoginHistory.get(0).LoginUrl.substringAfter('https://').substringBefore('/s').trim();
-
+        return userLoginHistory.isEmpty()
+            ? Site.getBaseUrl()
+            : 'https://' +
+              userLoginHistory.get(0)
+                  .LoginUrl.substringAfter('https://')
+                  .substringBefore('/s')
+                  .trim();
     }
 
     @AuraEnabled
@@ -57,12 +68,29 @@ public without sharing class CommunityModeSwitcherRemote {
     }
 
     @AuraEnabled
-    public static String changeMode(String mode, Id delegateId, Id peId, String communityModes, String communityName) {
+    public static String changeMode(
+        String mode,
+        Id delegateId,
+        Id peId,
+        String communityModes,
+        String communityName
+    ) {
         CommunityModesWrapper result = new CommunityModesWrapper();
-        Contact resContact = CommunityFacadeRemote.changeMode(mode, delegateId, peId, communityName);
+        Contact resContact = CommunityFacadeRemote.changeMode(
+            mode,
+            delegateId,
+            peId,
+            communityName
+        );
         List<CommunityMode> allModes = CommunityModeService.getUserCommunityModes(resContact.Id);
-        result.currentMode = CommunityModeService.findMode(CommunityModeService.generateModeKey(resContact), allModes);
-        result.communityModes = (CommunityModes) JSON.deserialize(communityModes, CommunityModes.class);
+        result.currentMode = CommunityModeService.findMode(
+            CommunityModeService.generateModeKey(resContact),
+            allModes
+        );
+        result.communityModes = (CommunityModes) JSON.deserialize(
+            communityModes,
+            CommunityModes.class
+        );
         CommunityModeService.getCurrentItemMode(resContact, result.communityModes);
 
         return JSON.serialize(result);

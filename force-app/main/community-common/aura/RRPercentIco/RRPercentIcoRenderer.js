@@ -2,8 +2,8 @@
  * Created by Leonid Bartenev
  */
 ({
-    render: function(component, helper) {
-        var classname = component.get("v.class");
+    render: function (component, helper) {
+        var classname = component.get('v.class');
         var color = component.get('v.color');
         var value = component.get('v.value');
         var width = component.get('v.diameter');
@@ -11,7 +11,7 @@
         var circleWidth = component.get('v.circleWidth');
         var borderWidth = component.get('v.borderWidth');
         var halfWidth = width / 2;
-        var radius = halfWidth - (circleWidth / 2);
+        var radius = halfWidth - circleWidth / 2;
         var circleLength = radius * 2 * 3.14;
         var percentLength = (value / 100) * circleLength;
         var svgNS = 'http://www.w3.org/2000/svg';
@@ -21,7 +21,6 @@
         svg.setAttribute('height', width);
         svg.setAttribute('viewBox', '0 0 ' + width + ' ' + width);
         if (classname) svg.setAttribute('class', classname);
-
 
         var circle1 = document.createElementNS(svgNS, 'circle');
         circle1.setAttribute('cx', halfWidth + '');
@@ -46,5 +45,4 @@
 
         return svg;
     }
-
-})
+});

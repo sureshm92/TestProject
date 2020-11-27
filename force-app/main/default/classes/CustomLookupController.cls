@@ -1,23 +1,37 @@
 public without sharing class CustomLookupController {
-// custom look up method
+    // custom look up method
     @AuraEnabled
-    public static List<RecordsData> fetchRecords(String objectName, String filterField, String searchString, String value) {
+    public static List<RecordsData> fetchRecords(
+        String objectName,
+        String filterField,
+        String searchString,
+        String value
+    ) {
         try {
             List<RecordsData> recordsDataList = new List<RecordsData>();
-            String query = 'SELECT Id, ' + filterField + ' FROM '+objectName;
-            if(String.isNotBlank(value)) {
-                query += ' WHERE Id = \''+ value + '\' LIMIT 49999';
+            String query = 'SELECT Id, ' + filterField + ' FROM ' + objectName;
+            if (String.isNotBlank(value)) {
+                query += ' WHERE Id = \'' + value + '\' LIMIT 49999';
             } else {
-                query += ' WHERE '+filterField+
-                        ' LIKE ' + '\'' + String.escapeSingleQuotes(searchString.trim()) + '%\' LIMIT 49999';
+                query +=
+                    ' WHERE ' +
+                    filterField +
+                    ' LIKE ' +
+                    '\'' +
+                    String.escapeSingleQuotes(searchString.trim()) +
+                    '%\' LIMIT 49999';
             }
-            for(SObject s : Database.query(query)) {
-                recordsDataList.add( new RecordsData((String)s.get(filterField), (String)s.get('id')) );
+            for (SObject s : Database.query(query)) {
+                recordsDataList.add(
+                    new RecordsData((String) s.get(filterField), (String) s.get('id'))
+                );
             }
             return recordsDataList;
         } catch (Exception err) {
-            if ( String.isNotBlank( err.getMessage() ) && err.getMessage().contains( 'error:' ) ) {
-                throw new AuraHandledException(err.getMessage().split('error:')[1].split(':')[0] + '.');
+            if (String.isNotBlank(err.getMessage()) && err.getMessage().contains('error:')) {
+                throw new AuraHandledException(
+                    err.getMessage().split('error:')[1].split(':')[0] + '.'
+                );
             } else {
                 throw new AuraHandledException(err.getMessage());
             }
@@ -25,8 +39,10 @@ public without sharing class CustomLookupController {
     }
 
     public class RecordsData {
-        @AuraEnabled public String label;
-        @AuraEnabled public String value;
+        @AuraEnabled
+        public String label;
+        @AuraEnabled
+        public String value;
         public RecordsData(String label, String value) {
             this.label = label;
             this.value = value;

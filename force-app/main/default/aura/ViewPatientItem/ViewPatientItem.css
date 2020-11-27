@@ -6,16 +6,16 @@
     padding: 16px;
 }
 
-.THIS .vpi-title{
+.THIS .vpi-title {
     font-size: 18px;
     font-weight: 600;
 }
-.THIS .slds-icon{
+.THIS .slds-icon {
     background: blue;
     margin-left: 10px;
     border-radius: 50%;
 }
-.THIS .slds-button--neutral{
+.THIS .slds-button--neutral {
     background: #297dfd;
     color: white;
     border: 0px solid #d9d9d9;
@@ -24,65 +24,63 @@
     font-size: 1rem;
 }
 
-.THIS .vpi-title.link{
-    color: #3294FE;
+.THIS .vpi-title.link {
+    color: #3294fe;
     cursor: pointer;
 }
 
-.THIS .width-basis{
+.THIS .width-basis {
     flex-basis: auto;
 }
 
-.THIS .vpi-state{
-    padding-left: 0!important;
-    padding-right: 0!important
+.THIS .vpi-state {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
 
-.THIS .vri-state-label{
+.THIS .vri-state-label {
     text-align: center;
     font-size: 1rem;
     line-height: 1.5rem;
 }
 
-
-.THIS .vpi-line-div{
+.THIS .vpi-line-div {
     height: 22px;
     border-top: 3px solid;
     padding-right: 0;
     padding-left: 0;
 }
 
-.THIS .vpi-line-div.neutral{
+.THIS .vpi-line-div.neutral {
     border-top-color: #b5b5b5;
 }
 
-.THIS .vpi-line-div.success{
+.THIS .vpi-line-div.success {
     border-top-color: #00c221;
 }
 
-
-.THIS .vpi-line-div.in_progress{
+.THIS .vpi-line-div.in_progress {
     border-top-color: #00c221;
 }
 
-.THIS .vpi-line-div.failure{
-    border-top-color: #E20000;
+.THIS .vpi-line-div.failure {
+    border-top-color: #e20000;
 }
 
-.THIS .vpi-path{
+.THIS .vpi-path {
     margin: 30px 0 2rem;
     padding: 0 15px;
 }
 
-.THIS .vpi-path .vpi-state:first-child .vpi-line-div:first-child{
+.THIS .vpi-path .vpi-state:first-child .vpi-line-div:first-child {
     border-top-color: transparent;
 }
 
-.THIS .vpi-path .vpi-state:last-child .vpi-line-div:last-child{
+.THIS .vpi-path .vpi-state:last-child .vpi-line-div:last-child {
     border-top-color: transparent;
 }
 
-.THIS .state-ico-wrapper{
+.THIS .state-ico-wrapper {
     width: 18px;
     height: 18px;
     border-radius: 50%;
@@ -95,27 +93,27 @@
     justify-content: center;
 }
 
-.THIS .state-ico-wrapper .rr-icon-default{
+.THIS .state-ico-wrapper .rr-icon-default {
     width: 14px;
     height: 14px;
     padding: 0;
     fill: white;
 }
 
-.THIS .vpi-state.current .state-ico-wrapper{
+.THIS .vpi-state.current .state-ico-wrapper {
     width: 28px;
     height: 28px;
     top: -15px;
     left: -14px;
 }
 
-.THIS .vpi-state.current .state-ico-wrapper .rr-icon-default{
+.THIS .vpi-state.current .state-ico-wrapper .rr-icon-default {
     width: 24px;
     height: 24px;
     padding: 1px;
 }
 
-.THIS .vpi-state.neutral .state-ico-wrapper{
+.THIS .vpi-state.neutral .state-ico-wrapper {
     background-color: #b5b5b5;
 }
 
@@ -123,47 +121,46 @@
     display: none;
 }
 
-.THIS .vpi-state.success .state-ico-wrapper{
+.THIS .vpi-state.success .state-ico-wrapper {
     background-color: #00c221;
 }
 
-.THIS .vpi-state.in_progress .state-ico-wrapper{
+.THIS .vpi-state.in_progress .state-ico-wrapper {
     background-color: #005ff1;
 }
 
-.THIS .vpi-state.failure .state-ico-wrapper{
-    background-color: #E20000;
+.THIS .vpi-state.failure .state-ico-wrapper {
+    background-color: #e20000;
 }
 
 /* status names */
 
-.THIS .vpi-state.neutral .vri-state-label{
+.THIS .vpi-state.neutral .vri-state-label {
     color: #999;
 }
 
-.THIS .vpi-state.success .vri-state-label{
+.THIS .vpi-state.success .vri-state-label {
     color: #000;
 }
 
-.THIS .vpi-state.in_progress .vri-state-label{
+.THIS .vpi-state.in_progress .vri-state-label {
     color: #000;
 }
 
-.THIS .vpi-state.failure .vri-state-label{
+.THIS .vpi-state.failure .vri-state-label {
     color: #000;
 }
 
-.THIS .vri-state-label{
+.THIS .vri-state-label {
     display: none;
 }
 
-.THIS .vpi-state.current .vri-state-label{
+.THIS .vpi-state.current .vri-state-label {
     display: block;
     font-weight: 600;
 }
 
-
-.THIS .vpi-path-panel .path-section{
+.THIS .vpi-path-panel .path-section {
     padding: 0 0 10px;
 }
 
@@ -172,7 +169,7 @@
     padding-bottom: 10px;
 }
 */
-.THIS .vpi-path-panel .collapse-section{
+.THIS .vpi-path-panel .collapse-section {
     padding: 0;
     font-size: 14px;
     line-height: 22px;
@@ -181,11 +178,11 @@
     margin: 0;
 }
 
-.THIS .vpi-path-panel .collapse-section.opened{
+.THIS .vpi-path-panel .collapse-section.opened {
     background-color: white;
 }
 
-.THIS .cParticipantCardFields .vpi-field label{
+.THIS .cParticipantCardFields .vpi-field label {
     white-space: nowrap;
 }
 
@@ -193,16 +190,15 @@
     display: flex;
     justify-content: flex-end;
     padding: 0;
-    margin: 1rem .5rem 1rem 0;
+    margin: 1rem 0.5rem 1rem 0;
 }
 
 .THIS .vpi-status-btns > div {
     text-align: center;
 }
 
-.THIS .vpi-status-btns button{
+.THIS .vpi-status-btns button {
     min-width: auto;
-
 }
 
 .THIS .vpi-status-btns > .slds-small-size_6-of-12 {
@@ -221,7 +217,7 @@
 }
 
 .THIS .vpi-status-btns a.slds-show > span:before {
-    content: "";
+    content: '';
     display: block;
     box-sizing: border-box;
     position: absolute;
@@ -231,7 +227,7 @@
     border-left: 2px solid #0768fd;
     transform: rotate(135deg);
     left: 2px;
-    top: 8px
+    top: 8px;
 }
 
 .THIS a.cParticipantCardFields > span {
@@ -240,7 +236,7 @@
 }
 
 .THIS a.cParticipantCardFields > span:before {
-    content: "";
+    content: '';
     display: block;
     box-sizing: border-box;
     position: absolute;
@@ -250,25 +246,25 @@
     border-left: 2px solid #0768fd;
     transform: rotate(-45deg);
     left: 2px;
-    top: 4px
+    top: 4px;
 }
 
 @media all and (min-width: 1024px) {
-    .THIS .vri-state-label{
+    .THIS .vri-state-label {
         display: block;
     }
-    .THIS .width-basis{
+    .THIS .width-basis {
         flex-basis: 0;
     }
 
-    .THIS .state-ico-wrapper{
+    .THIS .state-ico-wrapper {
         width: 28px;
         height: 28px;
         top: -15px;
         left: -14px;
     }
 
-    .THIS .state-ico-wrapper .rr-icon-default{
+    .THIS .state-ico-wrapper .rr-icon-default {
         width: 24px;
         height: 24px;
         padding: 1px;
@@ -282,7 +278,7 @@
     }
 
     .THIS .vpi-refid-field > .label {
-        color: #7F888D;
+        color: #7f888d;
         font-size: 10px;
         font-weight: bold;
         line-height: 12px;
@@ -298,25 +294,23 @@
     }
 }
 
-@media all and (max-width: 768px){
-     .THIS .vpi-status-btns {
+@media all and (max-width: 768px) {
+    .THIS .vpi-status-btns {
         margin-top: 15px;
         margin-bottom: 15px;
     }
-    
-     .THIS .vpi-title {
+
+    .THIS .vpi-title {
         width: 70%;
     }
-
 }
 
-@media all and (max-width: 500px){
-    
+@media all and (max-width: 500px) {
     .THIS.rr-white-panel {
-    	padding: 1rem;
+        padding: 1rem;
     }
-    
-    .THIS .vpi-status-btns>.slds-small-size_6-of-12 {
+
+    .THIS .vpi-status-btns > .slds-small-size_6-of-12 {
         padding: 15px 0 0;
         flex-direction: column-reverse;
     }
@@ -324,54 +318,53 @@
     .THIS .vpi-status-btns span button {
         margin-left: 0;
     }
-    
+
     .THIS .vpi-status-btns {
-     	padding: 0; 
+        padding: 0;
         margin-right: 0;
     }
-    
-    .THIS .vpi-status-btns button{
+
+    .THIS .vpi-status-btns button {
         margin: 5px 0 10px 0;
         width: 100%;
-    } 
-    
- 	.THIS .vpi-path {
+    }
+
+    .THIS .vpi-path {
         padding: 0;
     }
 
-    .THIS .vpi-title{
+    .THIS .vpi-title {
         width: 50%;
         line-height: 1.25;
     }
-
 }
 
 /*Spinner design*/
 .THIS .panel-heading {
     position: relative;
-  }
- .THIS .panel-heading[data-toggle="collapse"]:after {
+}
+.THIS .panel-heading[data-toggle='collapse']:after {
     font-family: 'Glyphicons Halflings';
-    content: "\e072"; /* "play" icon */
+    content: '\e072'; /* "play" icon */
     position: absolute;
     color: #b0c5d8;
     font-size: 18px;
     line-height: 22px;
     right: 20px;
     top: calc(50% - 10px);
-  
+
     /* rotate "play" icon from > (right arrow) to down arrow */
     -webkit-transform: rotate(-90deg);
-    -moz-transform:    rotate(-90deg);
-    -ms-transform:     rotate(-90deg);
-    -o-transform:      rotate(-90deg);
-    transform:         rotate(-90deg);
-  }
- .THIS .panel-heading[data-toggle="collapse"].collapsed:after {
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+}
+.THIS .panel-heading[data-toggle='collapse'].collapsed:after {
     /* rotate "play" icon from > (right arrow) to ^ (up arrow) */
     -webkit-transform: rotate(90deg);
-    -moz-transform:    rotate(90deg);
-    -ms-transform:     rotate(90deg);
-    -o-transform:      rotate(90deg);
-    transform:         rotate(90deg);
-  }
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+}

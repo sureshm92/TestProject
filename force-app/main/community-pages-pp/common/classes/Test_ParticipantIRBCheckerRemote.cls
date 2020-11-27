@@ -4,7 +4,6 @@
 
 @IsTest
 public class Test_ParticipantIRBCheckerRemote {
-
     @TestSetup
     static void init() {
         Test.startTest();

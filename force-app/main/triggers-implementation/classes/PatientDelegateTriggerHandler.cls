@@ -3,35 +3,30 @@
  */
 
 public without sharing class PatientDelegateTriggerHandler {
-
     public static final String PATIENT_DELEGATE_ACTIVE_STATUS = 'Active';
     public static final String PATIENT_DELEGATE_ONHOLD_STATUS = 'On Hold';
     public static final String PATIENT_DELEGATE_DISCONNECTED_STATUS = 'Disconnected';
 
     // Handlers: -------------------------------------------------------------------------------------------------------
 
-    public class SetDefaultPatientDelegateStatusHandler extends TriggerHandler{
-
+    public class SetDefaultPatientDelegateStatusHandler extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             setDefaultPatientStatus(newList);
         }
-
     }
-    
-    public class UpdatePermissionSetAssignments extends TriggerHandler{
-    
+
+    public class UpdatePermissionSetAssignments extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
             updatePermissionSets(newList);
         }
-    
+
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             updatePermissionSets(newList);
         }
-    
+
         public override void afterDelete(List<SObject> oldList) {
             updatePermissionSets(oldList);
         }
-
     }
 
     public class CreateNewAssignmentNotification extends TriggerHandler {
@@ -54,42 +49,43 @@ public without sharing class PatientDelegateTriggerHandler {
         }
     }
 
-    private static void updatePermissionSets(List<Patient_Delegate__c> changedPDList){
+    private static void updatePermissionSets(List<Patient_Delegate__c> changedPDList) {
         Set<Id> contactIds = new Set<Id>();
-        for(Patient_Delegate__c pd : changedPDList) contactIds.add(pd.Contact__c);
+        for (Patient_Delegate__c pd : changedPDList)
+            contactIds.add(pd.Contact__c);
         System.debug('CONTACTS FOR UPDATE PERMISSIONS:' + contactIds);
         PatientDelegateService.updatePermissionSets(contactIds);
     }
 
     @TestVisible
-    private static void createDelegateAssignmentNotification(List<Patient_Delegate__c> patientDelegates) {
+    private static void createDelegateAssignmentNotification(
+        List<Patient_Delegate__c> patientDelegates
+    ) {
         List<Patient_Delegate__c> newPatientDelegates = [
-                SELECT Contact__c,
-                        Participant__c,
-                        Participant__r.Contact__c
-                FROM Patient_Delegate__c
-                WHERE Id IN:patientDelegates
+            SELECT Contact__c, Participant__c, Participant__r.Contact__c
+            FROM Patient_Delegate__c
+            WHERE Id IN :patientDelegates
         ];
         createNotifications(newPatientDelegates, 'DelNewAssignNotifType');
     }
 
     @TestVisible
     private static void createDelegateReactivatedNotification(
-            List<Patient_Delegate__c> patientDelegates,
-            Map<Id, Patient_Delegate__c> oldMap
+        List<Patient_Delegate__c> patientDelegates,
+        Map<Id, Patient_Delegate__c> oldMap
     ) {
         List<Patient_Delegate__c> updatedDelegates = [
-                SELECT Contact__c,
-                        Participant__c,
-                        Participant__r.Contact__c,
-                        Status__c
-                FROM Patient_Delegate__c
-                WHERE Id IN:patientDelegates
+            SELECT Contact__c, Participant__c, Participant__r.Contact__c, Status__c
+            FROM Patient_Delegate__c
+            WHERE Id IN :patientDelegates
         ];
 
         List<Patient_Delegate__c> activatedDelegates = new List<Patient_Delegate__c>();
         for (Patient_Delegate__c pd : updatedDelegates) {
-            if(pd.Status__c == PATIENT_DELEGATE_ACTIVE_STATUS && oldMap.get(pd.Id).Status__c != PATIENT_DELEGATE_ACTIVE_STATUS) {
+            if (
+                pd.Status__c == PATIENT_DELEGATE_ACTIVE_STATUS &&
+                oldMap.get(pd.Id).Status__c != PATIENT_DELEGATE_ACTIVE_STATUS
+            ) {
                 activatedDelegates.add(pd);
             }
         }
@@ -97,11 +93,14 @@ public without sharing class PatientDelegateTriggerHandler {
         createNotifications(activatedDelegates, 'DelReactivatedNotifType');
     }
 
-    private static void createNotifications(List<Patient_Delegate__c> patientDelegates, String templateProperty) {
+    private static void createNotifications(
+        List<Patient_Delegate__c> patientDelegates,
+        String templateProperty
+    ) {
         Set<Id> participantContacts = new Set<Id>();
         Map<Id, List<Participant__c>> participantsByDelContId = new Map<Id, List<Participant__c>>();
         for (Patient_Delegate__c delegate : patientDelegates) {
-            if(!participantsByDelContId.containsKey(delegate.Contact__c)) {
+            if (!participantsByDelContId.containsKey(delegate.Contact__c)) {
                 participantsByDelContId.put(delegate.Contact__c, new List<Participant__c>());
             }
             participantsByDelContId.get(delegate.Contact__c).add(delegate.Participant__r);
@@ -110,63 +109,73 @@ public without sharing class PatientDelegateTriggerHandler {
 
         //For minor participants
         List<Participant_Enrollment__c> enrollments = [
-                SELECT Clinical_Trial_Profile__r.CommunityTemplate__c, Participant__c
-                FROM Participant_Enrollment__c
-                WHERE Participant_Contact__c IN:participantContacts
+            SELECT Clinical_Trial_Profile__r.CommunityTemplate__c, Participant__c
+            FROM Participant_Enrollment__c
+            WHERE Participant_Contact__c IN :participantContacts
         ];
-        Map<Id,List<String>> communityTemplatesByParticipant = new Map<Id, List<String>>();
-        for(Participant_Enrollment__c pe : enrollments) {
-            if(!communityTemplatesByParticipant.containsKey(pe.Participant__c)) {
+        Map<Id, List<String>> communityTemplatesByParticipant = new Map<Id, List<String>>();
+        for (Participant_Enrollment__c pe : enrollments) {
+            if (!communityTemplatesByParticipant.containsKey(pe.Participant__c)) {
                 communityTemplatesByParticipant.put(pe.Participant__c, new List<String>());
             }
-            communityTemplatesByParticipant.get(pe.Participant__c).add(pe.Clinical_Trial_Profile__r.CommunityTemplate__c);
+            communityTemplatesByParticipant.get(pe.Participant__c)
+                .add(pe.Clinical_Trial_Profile__r.CommunityTemplate__c);
         }
 
         List<PermissionSetAssignment> permissionSetAssignments = [
-                SELECT
-                        Assignee.ContactId,
-                        PermissionSet.Name
-                FROM PermissionSetAssignment
-                WHERE (Assignee.ContactId IN:participantsByDelContId.keySet() OR Assignee.ContactId IN:participantContacts)
-                AND PermissionSet.Name IN:CommunityTemplateService.getAllPermissionSets()
+            SELECT Assignee.ContactId, PermissionSet.Name
+            FROM PermissionSetAssignment
+            WHERE
+                (Assignee.ContactId IN :participantsByDelContId.keySet()
+                OR Assignee.ContactId IN :participantContacts)
+                AND PermissionSet.Name IN :CommunityTemplateService.getAllPermissionSets()
         ];
         Map<Id, Set<String>> permissionsByContact = new Map<Id, Set<String>>();
-        for(PermissionSetAssignment assignment : permissionSetAssignments) {
-            if(!permissionsByContact.containsKey(assignment.Assignee.ContactId)) {
+        for (PermissionSetAssignment assignment : permissionSetAssignments) {
+            if (!permissionsByContact.containsKey(assignment.Assignee.ContactId)) {
                 permissionsByContact.put(assignment.Assignee.ContactId, new Set<String>());
             }
-            permissionsByContact.get(assignment.Assignee.ContactId).add(assignment.PermissionSet.Name);
+            permissionsByContact.get(assignment.Assignee.ContactId)
+                .add(assignment.PermissionSet.Name);
         }
 
         List<Notification__c> notifications = new List<Notification__c>();
-        for(Id delCont : participantsByDelContId.keySet()) {
-            if(!permissionsByContact.containsKey(delCont)) continue;
+        for (Id delCont : participantsByDelContId.keySet()) {
+            if (!permissionsByContact.containsKey(delCont))
+                continue;
 
             Set<String> delPermissions = permissionsByContact.get(delCont);
-            for(Participant__c participant : participantsByDelContId.get(delCont)) {
+            for (Participant__c participant : participantsByDelContId.get(delCont)) {
                 List<CommunityTemplate> communityTemplates = new List<CommunityTemplate>();
-                if(permissionsByContact.containsKey(participant.Contact__c)) {
+                if (permissionsByContact.containsKey(participant.Contact__c)) {
                     for (String partPerm : permissionsByContact.get(participant.Contact__c)) {
-                        communityTemplates.add(CommunityTemplateService.getTemplateByPermissionSetName(partPerm));
+                        communityTemplates.add(
+                            CommunityTemplateService.getTemplateByPermissionSetName(partPerm)
+                        );
                     }
                 } else {
-                    for(String templateName : communityTemplatesByParticipant.get(participant.Id)) {
+                    for (
+                        String templateName : communityTemplatesByParticipant.get(participant.Id)
+                    ) {
                         communityTemplates.add(CommunityTemplateService.getTemplate(templateName));
                     }
                 }
                 for (CommunityTemplate template : communityTemplates) {
-                    if(delPermissions.contains(template.permissionSet)) {
-                        notifications.add(new Notification__c(
+                    if (delPermissions.contains(template.permissionSet)) {
+                        notifications.add(
+                            new Notification__c(
                                 Notification_Type__c = template.properties.get(templateProperty),
                                 Recipient__c = delCont,
                                 WhatId__c = participant.Id
-                        ));
+                            )
+                        );
                     }
                 }
             }
         }
 
-        if (!notifications.isEmpty()) insertNotifications(notifications);
+        if (!notifications.isEmpty())
+            insertNotifications(notifications);
     }
 
     private static void insertNotifications(List<Notification__c> notifications) {
@@ -179,9 +188,10 @@ public without sharing class PatientDelegateTriggerHandler {
 
     @Future
     private static void insertNotificationsAsync(String notificationsJSON) {
-        List<Notification__c> newNotifications =
-                (List<Notification__c>) JSON.deserialize(notificationsJSON, List<Notification__c>.class);
+        List<Notification__c> newNotifications = (List<Notification__c>) JSON.deserialize(
+            notificationsJSON,
+            List<Notification__c>.class
+        );
         insert newNotifications;
     }
-
 }

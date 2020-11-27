@@ -4,14 +4,14 @@
 .THIS {
     padding-bottom: 30px;
 }
-.THIS .vpr-header{
+.THIS .vpr-header {
     color: #444;
     font-size: 16px;
     font-weight: 400;
     margin-bottom: 5px;
 }
 
-.THIS .fp-filters-container{
+.THIS .fp-filters-container {
     width: 100%;
 }
 
@@ -23,18 +23,16 @@
     padding-top: 0;
 }
 
-.THIS .cParticipantCardFields .vpi-field label{
+.THIS .cParticipantCardFields .vpi-field label {
     white-space: nowrap;
 }
 
-
-
-.THIS .participantcard-position{
+.THIS .participantcard-position {
     /* position: relative;  */
-     position: unset;
-     min-height: 100px;
-     padding-bottom: 1px;
- }
+    position: unset;
+    min-height: 100px;
+    padding-bottom: 1px;
+}
 
 /*.THIS .rrs-container:first-child{
      max-width: 100px !important;
@@ -67,43 +65,42 @@
     padding-left: 1rem;
 }
 
-@media (max-width: 768px){
-     .THIS .cParticipantCardFields .vpi-field {
+@media (max-width: 768px) {
+    .THIS .cParticipantCardFields .vpi-field {
         flex-wrap: wrap;
     }
-    
+
     .THIS .cParticipantCardFields .vpi-field {
         flex: 0 0 50%;
-    } 
-    
+    }
+
     .THIS .vpi-status-btns .slds-col.slds-small-size_4-of-12 {
         width: 100%;
         justify-content: flex-end;
     }
-    
+
     .THIS .fp-container.cFilterPanel {
         margin: 0;
     }
 
-    .THIS .pagination-position{
+    .THIS .pagination-position {
         display: block;
         position: relative;
         z-index: 1;
     }
-    
-    .THIS .participantcard-position{
-        position: relative; 
-        min-height: 100px; 
+
+    .THIS .participantcard-position {
+        position: relative;
+        min-height: 100px;
     }
-    
 }
 
 @media screen and (max-width: 500px) {
-    .THIS .cFilterPanel .fp-page-info>div {
+    .THIS .cFilterPanel .fp-page-info > div {
         margin-top: 0;
         padding-left: 0;
     }
-    
+
     .THIS .vpi-status-btns .slds-col.slds-small-size_4-of-12 {
         width: 100%;
         margin-top: 5px;
@@ -111,24 +108,23 @@
         flex-direction: column;
         padding: 0;
     }
-    
+
     .THIS .vpi-status-btns .slds-col.slds-small-size_4-of-12 > span {
         padding-left: 0;
-        
     }
 
-    .THIS .pagination-position{
+    .THIS .pagination-position {
         display: block;
         position: relative;
         z-index: 1;
         top: -1.5em;
     }
-    
-    .THIS .participantcard-position{
-        position: relative; 
-        min-height: 100px; 
-        padding-bottom: 1px; 
-        top:0.5em;
+
+    .THIS .participantcard-position {
+        position: relative;
+        min-height: 100px;
+        padding-bottom: 1px;
+        top: 0.5em;
     }
 }
 
@@ -140,6 +136,4 @@
     .THIS .fp-study-filter-container {
         min-width: 150px;
     }
-
-
 }

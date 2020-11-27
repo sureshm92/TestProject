@@ -1,118 +1,145 @@
 ({
-    doInit: function(component, event, helper) {
+    doInit: function (component, event, helper) {
         component.find('mainSpinner').show();
         var isDelegate = communityService.isDelegate() ? true : false;
-        communityService.executeAction(component, 'getInitData', {
-            isDelegate: isDelegate,
-            language: null,
-            Searchstr: null,
-            communityTemplate: communityService.getCurrentCommunityTemplateName()
-        }, function(response) {
-            component.set('v.resourceStructureList', response.resources);
-            component.set('v.resourceLanguages', response.languages);
-            component.set('v.OrgDomainUrl', response.OrgBaseurl);
-            component.find('mainSpinner').hide();
-        });
+        communityService.executeAction(
+            component,
+            'getInitData',
+            {
+                isDelegate: isDelegate,
+                language: null,
+                Searchstr: null,
+                communityTemplate: communityService.getCurrentCommunityTemplateName()
+            },
+            function (response) {
+                component.set('v.resourceStructureList', response.resources);
+                component.set('v.resourceLanguages', response.languages);
+                component.set('v.OrgDomainUrl', response.OrgBaseurl);
+                component.find('mainSpinner').hide();
+            }
+        );
     },
-    
-    doNavigate: function(component, event, helper){
+
+    doNavigate: function (component, event, helper) {
         var resourceInd = event.currentTarget.getAttribute('data-attributeVal').split(',');
-        var resource = component.get('v.resourceStructureList')[resourceInd[0]].resources[resourceInd[1]];
-        if(resource.videoLink || resource.link){
+        var resource = component.get('v.resourceStructureList')[resourceInd[0]].resources[
+            resourceInd[1]
+        ];
+        if (resource.videoLink || resource.link) {
             var urlLink = resource.format == 'Video' ? resource.videoLink : resource.link;
-            let urlEvent = $A.get("e.force:navigateToURL");
-            urlEvent.setParams({url: urlLink});
-            urlEvent.fire();    
+            let urlEvent = $A.get('e.force:navigateToURL');
+            urlEvent.setParams({ url: urlLink });
+            urlEvent.fire();
         } else {
-            var url = 'resources?resourceType=' + resource.recordTypeDevName + '&resId=' + resource.resourceId;
+            var url =
+                'resources?resourceType=' +
+                resource.recordTypeDevName +
+                '&resId=' +
+                resource.resourceId;
             url += '&ret=' + communityService.createRetString();
             communityService.navigateToPage(url);
         }
     },
-    filterLanguage: function(component, event, helper) {
+    filterLanguage: function (component, event, helper) {
         component.find('mainSpinner').show();
-        var srchtxt = component.get("v.searchstring");
-        if (srchtxt == "" || srchtxt == " " || srchtxt == "  ") {
+        var srchtxt = component.get('v.searchstring');
+        if (srchtxt == '' || srchtxt == ' ' || srchtxt == '  ') {
             srchtxt = null;
         }
-        component.set("v.langSelected", event.getSource().get(
-            'v.itemValue'));
+        component.set('v.langSelected', event.getSource().get('v.itemValue'));
         var isDelegate = communityService.isDelegate() ? true : false;
-        communityService.executeAction(component, 'getInitData', {
-            isDelegate: isDelegate,
-            language: event.getSource().get('v.itemValue'),
-            Searchstr: srchtxt,
-            communityTemplate: communityService.getCurrentCommunityTemplateName()
-        }, function(response) {
-            component.set('v.resourceStructureList', response.resources);
-            component.find('mainSpinner').hide();
-        });
+        communityService.executeAction(
+            component,
+            'getInitData',
+            {
+                isDelegate: isDelegate,
+                language: event.getSource().get('v.itemValue'),
+                Searchstr: srchtxt,
+                communityTemplate: communityService.getCurrentCommunityTemplateName()
+            },
+            function (response) {
+                component.set('v.resourceStructureList', response.resources);
+                component.find('mainSpinner').hide();
+            }
+        );
     },
-    
-    doSearch: function(component, event, helper) {
-        var srchtxt = component.get("v.searchstring");
-        var lang = component.get("v.langSelected");
-        if (lang == "" || lang == " " || lang == "  ") {
+
+    doSearch: function (component, event, helper) {
+        var srchtxt = component.get('v.searchstring');
+        var lang = component.get('v.langSelected');
+        if (lang == '' || lang == ' ' || lang == '  ') {
             lang = null;
         }
-        if (srchtxt == "" || srchtxt == " " || srchtxt == "  ") {
+        if (srchtxt == '' || srchtxt == ' ' || srchtxt == '  ') {
             srchtxt = null;
         }
         var isDelegate = communityService.isDelegate() ? true : false;
-        communityService.executeAction(component, 'getInitData', {
-            isDelegate: isDelegate,
-            language: lang,
-            Searchstr: srchtxt,
-            communityTemplate: communityService.getCurrentCommunityTemplateName()
-        }, function(response) {
-            component.set('v.resourceStructureList', response.resources);
-        });
+        communityService.executeAction(
+            component,
+            'getInitData',
+            {
+                isDelegate: isDelegate,
+                language: lang,
+                Searchstr: srchtxt,
+                communityTemplate: communityService.getCurrentCommunityTemplateName()
+            },
+            function (response) {
+                component.set('v.resourceStructureList', response.resources);
+            }
+        );
     },
-    
-    downloadResource: function(component, event, helper){
+
+    downloadResource: function (component, event, helper) {
         var resourceInd = event.currentTarget.getAttribute('data-attributeVal').split(',');
-        var resource = component.get('v.resourceStructureList')[resourceInd[0]].resources[resourceInd[1]];
+        var resource = component.get('v.resourceStructureList')[resourceInd[0]].resources[
+            resourceInd[1]
+        ];
         var x;
 
-       var y;
+        var y;
 
-       var z;
+        var z;
 
-       var d = component.get('v.OrgDomainUrl');
+        var d = component.get('v.OrgDomainUrl');
 
-       x = d.indexOf(".com");
+        x = d.indexOf('.com');
 
-       x=x+4;
+        x = x + 4;
 
-       y = d.indexOf("=");
+        y = d.indexOf('=');
 
-      y=y+1;
+        y = y + 1;
 
-     z=d.substring(y,x);
-	 
-     var BaseUrl= z;
-        if(resource.format=='Study Document'){
+        z = d.substring(y, x);
+
+        var BaseUrl = z;
+        if (resource.format == 'Study Document') {
             var strUrlParam = window.location.href;
-            if(strUrlParam.includes('janssen'))
-            	var urls = window.location.origin+'/janssen'+'/sfc/servlet.shepherd/document/download/'+resource.fileID;  
-           else if(!strUrlParam.includes('janssen'))
-                var urls = window.location.origin+'/sfc/servlet.shepherd/document/download/'+resource.fileID;  
-                
-          //  var urls = BaseUrl+'/sfc/servlet.shepherd/document/download/'+resource.fileID; 
-            let urlEvent = $A.get("e.force:navigateToURL");
-            urlEvent.setParams({url: urls});
+            if (strUrlParam.includes('janssen'))
+                var urls =
+                    window.location.origin +
+                    '/janssen' +
+                    '/sfc/servlet.shepherd/document/download/' +
+                    resource.fileID;
+            else if (!strUrlParam.includes('janssen'))
+                var urls =
+                    window.location.origin +
+                    '/sfc/servlet.shepherd/document/download/' +
+                    resource.fileID;
+
+            //  var urls = BaseUrl+'/sfc/servlet.shepherd/document/download/'+resource.fileID;
+            let urlEvent = $A.get('e.force:navigateToURL');
+            urlEvent.setParams({ url: urls });
             urlEvent.fire();
         }
     },
-    
-    handleSectionToggle: function ( cmp, event,helper) {            
-        var openSections = event.getParam('openSections');        
-        if ( openSections.length === 0 ) {
-            cmp.set('v.sectionOpen',true );
+
+    handleSectionToggle: function (cmp, event, helper) {
+        var openSections = event.getParam('openSections');
+        if (openSections.length === 0) {
+            cmp.set('v.sectionOpen', true);
         }
         //else{
         //cmp.set('v.sectionOpen', true);        }
-    },  
-    
-    
-})
+    }
+});

@@ -2,13 +2,12 @@
  * Created by Igor Malyuta on 24.04.2020.
  */
 global without sharing class EmailWireframeController {
-
     global String titleValue { get; set; }
     global String headerValue { get; set; }
     global String greetingValue { get; set; }
     global String preSignatureValue { get; set; }
     global String signatureValue { get; set; }
-	global String shareTemplate { get; set; }
+    global String shareTemplate { get; set; }
     global Id sourceRecordId { get; set; }
     global String emailRecipientName { get; set; }
     global String emailRecipientId { get; set; }
@@ -16,67 +15,75 @@ global without sharing class EmailWireframeController {
     global String communityTemplateValue { get; set; }
     global String specificEmailProviderValue { get; set; }
     global String outputMode { get; set; }
-    global String displayOptOut {get;set;}
-    global String userModeValue {get;set;}
+    global String displayOptOut { get; set; }
+    global String userModeValue { get; set; }
     private EmailTemplateProvider templateProvider;
 
     global String getUserLanguageCode() {
         return getProvider().getUserLanguage();
     }
-    
-    
-  global string communityTypeURL {
-       get{
-            if (communityTemplateValue == 'GSK') communityTypeURL ='/gsk';
-            else if (communityTemplateValue =='Default')communityTypeURL ='';
-            else if(getProvider().getParameters().get('FullCommunityName').contains('Gather')) communityTypeURL ='/gsk' ;
-            else communityTypeURL='';
+
+    global string communityTypeURL {
+        get {
+            if (communityTemplateValue == 'GSK')
+                communityTypeURL = '/gsk';
+            else if (communityTemplateValue == 'Default')
+                communityTypeURL = '';
+            else if (getProvider().getParameters().get('FullCommunityName').contains('Gather'))
+                communityTypeURL = '/gsk';
+            else
+                communityTypeURL = '';
             return communityTypeURL;
-         
         }
-         set;
-    }
- 	global String userMode {//+
-        get{
-                try {
-                    if (userMode == null) userMode = getProvider().getUserMode();
-                    return userMode;
-                } catch (Exception e) {
-                    EmailService.sendException(e, null);
-                    return null;
-                }
-       		}
         set;
     }
-	global Id recipientcntId {
-      		 get{
-        		try {
-                        if (recipientcntId == null) recipientcntId = getProvider().getRecipientId();
-                        if(recipientcntId == null) recipientcntId = getProvider().getParameters().get('RecipientContactId');
-                        return recipientcntId;
-            		}
-               	catch (Exception e) {
-                        EmailService.sendException(e, null);
-                        return e.getMessage();
-                    }
-        		}
-         	set;
+    global String userMode { //+
+        get {
+            try {
+                if (userMode == null)
+                    userMode = getProvider().getUserMode();
+                return userMode;
+            } catch (Exception e) {
+                EmailService.sendException(e, null);
+                return null;
+            }
+        }
+        set;
     }
- 
-    public Boolean getEnableNewStyle()
-    {
-     List<New_Style_Enablement__mdt> nseList = [Select Id,CommunityName__c from New_Style_Enablement__mdt];
-	 List<String> communitiesList = new List<String>();
-     for(New_Style_Enablement__mdt ns: nseList) communitiesList.add(ns.CommunityName__c);
-     return communitiesList.contains(getProvider().getCommunityName());
+    global Id recipientcntId {
+        get {
+            try {
+                if (recipientcntId == null)
+                    recipientcntId = getProvider().getRecipientId();
+                if (recipientcntId == null)
+                    recipientcntId = getProvider().getParameters().get('RecipientContactId');
+                return recipientcntId;
+            } catch (Exception e) {
+                EmailService.sendException(e, null);
+                return e.getMessage();
+            }
+        }
+        set;
+    }
+
+    public Boolean getEnableNewStyle() {
+        List<New_Style_Enablement__mdt> nseList = [
+            SELECT Id, CommunityName__c
+            FROM New_Style_Enablement__mdt
+        ];
+        List<String> communitiesList = new List<String>();
+        for (New_Style_Enablement__mdt ns : nseList)
+            communitiesList.add(ns.CommunityName__c);
+        return communitiesList.contains(getProvider().getCommunityName());
     }
 
     public Map<String, String> getTemplateMap() {
         return getProvider().getParameters();
     }
 
-	public Boolean getisRTL(){
-        return ((System.Label.RTL_Languages).contains(UserInfo.getLanguage())||(System.Label.RTL_Languages).contains(getUserLanguageCode()));
+    public Boolean getisRTL() {
+        return ((System.Label.RTL_Languages).contains(UserInfo.getLanguage()) ||
+        (System.Label.RTL_Languages).contains(getUserLanguageCode()));
     }
     //Labels: ----------------------------------------------------------------------------------------------------------
     public String getHeaderText() {
@@ -98,16 +105,23 @@ global without sharing class EmailWireframeController {
         } else {
             if (communityTemplateValue != CommunityTemplateService.TEMPLATE_JANSSEN) {
                 if (getProvider().getUserMode() == CommunityService.USER_MODE_PARTICIPANT) {
-                    titleLabelValue = getProvider().getParameters().get(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_LABEL);
+                    titleLabelValue = getProvider()
+                        .getParameters()
+                        .get(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_LABEL);
                 } else if (getProvider().getUserMode() == CommunityService.USER_MODE_PI) {
-                    titleLabelValue = getProvider().getParameters().get(TemplatePropertiesCatalog.TEMPLATE_PROP_TEAM_RH);
+                    titleLabelValue = getProvider()
+                        .getParameters()
+                        .get(TemplatePropertiesCatalog.TEMPLATE_PROP_TEAM_RH);
                 } else {
-                    getProvider().getParameters().get(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_NEW_TM);
+                    getProvider()
+                        .getParameters()
+                        .get(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_NEW_TM);
                 }
             } else {
-                titleLabelValue = getProvider().getParameters().get(TemplatePropertiesCatalog.TEMPLATE_PROP_TEAM_RH);
+                titleLabelValue = getProvider()
+                    .getParameters()
+                    .get(TemplatePropertiesCatalog.TEMPLATE_PROP_TEAM_RH);
             }
-
         }
 
         return titleLabelValue;
@@ -127,18 +141,26 @@ global without sharing class EmailWireframeController {
     }
 
     public String getEmailCommunityURL() {
-        return CommunityTemplateService.getCommunityURL(getProvider().getParameters().get(TemplatePropertiesCatalog.COMM_TEMPLATE_URL));
+        return CommunityTemplateService.getCommunityURL(
+            getProvider().getParameters().get(TemplatePropertiesCatalog.COMM_TEMPLATE_URL)
+        );
     }
 
     public Boolean getIsInitialized() {
         return getProvider().isInitialized();
     }
 
-   private EmailTemplateProvider getProvider() {
+    private EmailTemplateProvider getProvider() {
         if (templateProvider == null) {
             EmailTemplateProviderService.setProviderType(
-                    specificEmailProviderValue, emailRecipientId, emailRecipientName, emailRecipientLanguage,
-                    communityTemplateValue, sourceRecordId, outputMode, shareTemplate
+                specificEmailProviderValue,
+                emailRecipientId,
+                emailRecipientName,
+                emailRecipientLanguage,
+                communityTemplateValue,
+                sourceRecordId,
+                outputMode,
+                shareTemplate
             );
             templateProvider = EmailTemplateProviderService.getProvider();
         }
@@ -151,12 +173,18 @@ global without sharing class EmailWireframeController {
     }
 
     private String replaceParams(String labelValue) {
-        return TranslateHelper.replaceParams(labelValue, EmailTemplateProvider.PARAM_PREFIX, getProvider().getParameters());
+        return TranslateHelper.replaceParams(
+            labelValue,
+            EmailTemplateProvider.PARAM_PREFIX,
+            getProvider().getParameters()
+        );
     }
 
     private String prepareLineBreaks(String source) {
-        if (source == null) return null;
-        if (getProvider().isHTML()) return source.replaceAll('\n', '<br/>');
+        if (source == null)
+            return null;
+        if (getProvider().isHTML())
+            return source.replaceAll('\n', '<br/>');
         return source;
     }
 }

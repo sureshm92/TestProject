@@ -1,15 +1,15 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS.db-content{
+.THIS.db-content {
     margin-top: 10px;
     padding-bottom: 60px;
 }
-.THIS.db-content-empty{
+.THIS.db-content-empty {
     margin-top: 20px;
 }
 
-.THIS .db-header{
+.THIS .db-header {
     font-size: 18px;
     line-height: 40px;
     font-weight: 600;
@@ -17,11 +17,11 @@
     margin-bottom: 10px;
 }
 
-.THIS .db-header.centered{
+.THIS .db-header.centered {
     justify-content: center;
 }
 
-.THIS .db-header svg{
+.THIS .db-header svg {
     fill: black;
     width: 32px;
     height: 32px;
@@ -29,27 +29,27 @@
     flex-shrink: 0;
 }
 
-.THIS .db-list-item{
+.THIS .db-list-item {
     border-bottom: 1px solid #d9d9d9;
     padding: 10px 0;
     line-height: 26px;
 }
 
-.THIS .db-list-item:not(.header){
+.THIS .db-list-item:not(.header) {
     min-height: 54px;
 }
 
-.THIS .db-list-item.header{
+.THIS .db-list-item.header {
     padding-bottom: 4px;
 }
 
 .THIS .db-list-item.header > .apollo-btn {
     margin-bottom: 4px;
     display: inline-block;
-    font-size: .875rem;
+    font-size: 0.875rem;
 }
 
-.THIS .db-list-item.header > span{
+.THIS .db-list-item.header > span {
     font-size: 14px;
     font-weight: 600;
 }
@@ -60,14 +60,14 @@
     padding-right: 180px;
 }
 
-.THIS .rr-large-down-hide .db-list-item .apollo-btn{
+.THIS .rr-large-down-hide .db-list-item .apollo-btn {
     position: absolute;
     top: 10px;
     right: 0;
     max-width: 180px;
 }
 
-.THIS .db-list-item .apollo-btn.text{
+.THIS .db-list-item .apollo-btn.text {
     line-height: 16px;
 }
 
@@ -85,39 +85,39 @@
 }
 
 .THIS .db-list-item .apollo-btn.tertiary,
-.THIS .db-list-item .apollo-btn.primary{
+.THIS .db-list-item .apollo-btn.primary {
     padding: 6px 16px;
     line-height: 18px;
     font-size: 14px;
     min-width: inherit;
 }
 
-.THIS .db-section{
+.THIS .db-section {
     margin-left: -20px;
     margin-right: -20px;
 }
 
-.THIS .db-section > .slds-col{
+.THIS .db-section > .slds-col {
     padding-left: 20px;
     padding-right: 20px;
 }
 
-.THIS .db-section2{
+.THIS .db-section2 {
     margin-left: -15px;
     margin-right: -15px;
 }
 
-.THIS .db-section2 > .slds-col{
+.THIS .db-section2 > .slds-col {
     margin-top: 30px;
     padding-left: 15px;
     padding-right: 15px;
 }
 
-.THIS .db-charts{
+.THIS .db-charts {
     margin-top: 20px;
 }
 
-.THIS .db-section-devider{
+.THIS .db-section-devider {
     margin-top: 20px;
     margin-bottom: 30px;
     background-color: #d9d9d9;
@@ -139,22 +139,22 @@
     padding: 4px 8px;
 }
 
-.THIS .db-hcp-chart{
+.THIS .db-hcp-chart {
     padding-top: 20px;
     padding-bottom: 20px;
 }
 
-.THIS .btn-block{
+.THIS .btn-block {
     padding-top: 10px;
     padding-bottom: 4px;
 }
 
-.THIS .db-list-item .btn-block .apollo-btn{
+.THIS .db-list-item .btn-block .apollo-btn {
     float: none;
     margin-left: 0;
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 768px) {
     .THIS .db-list-item .rr-small-down-hide {
         display: none;
     }
@@ -171,5 +171,4 @@
     .THIS .cDashboardPINew.db-section > .slds-col:nth-of-type(3) {
         overflow: hidden;
     }
-
 }

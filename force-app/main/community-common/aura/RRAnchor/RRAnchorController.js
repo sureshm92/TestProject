@@ -22,6 +22,4 @@
             document.location.hash = '#' + anchorId;
         }*/
     }
-
-
-})
+});

@@ -1,50 +1,48 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS .nav-item{
+.THIS .nav-item {
     color: white;
     font-size: 16px;
     line-height: 18px;
     padding: 16px 20px;
     white-space: nowrap;
-
 }
 
 .THIS.profile-block > div {
     padding-right: 20px;
 }
 
-
-.THIS .nav-item:hover{
+.THIS .nav-item:hover {
     background-color: rgba(255, 255, 255, 0.16);
     cursor: pointer;
 }
 
-.THIS .nav-item.active{
+.THIS .nav-item.active {
     background-color: rgba(255, 255, 255, 0.16);
 }
 
-.THIS.nav-menu{
+.THIS.nav-menu {
     display: flex;
     height: 100%;
     position: relative;
-    overflow: visible!important;
+    overflow: visible !important;
     scroll-behavior: smooth;
 }
 
-.THIS.nav-menu.rtl{
+.THIS.nav-menu.rtl {
     flex-direction: row-reverse;
 }
 
-.THIS.nav-menu.right{
+.THIS.nav-menu.right {
     margin-left: 20px;
 }
 
-.THIS.nav-menu.left{
+.THIS.nav-menu.left {
     margin-right: 20px;
 }
 
-.THIS.scroll-btn-container{
+.THIS.scroll-btn-container {
     height: 50px;
     display: flex;
     align-items: center;
@@ -52,19 +50,19 @@
     transition: 0.5s;
 }
 
-.THIS.scroll-btn-container.left{
+.THIS.scroll-btn-container.left {
     position: absolute;
     right: 5px;
     top: 0;
 }
 
-.THIS.scroll-btn-container.right{
+.THIS.scroll-btn-container.right {
     position: absolute;
     left: 5px;
     top: 0;
 }
 
-.THIS.scroll-btn-container svg{
+.THIS.scroll-btn-container svg {
     fill: white;
     width: 14px;
     opacity: 0.8;

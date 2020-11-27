@@ -2,13 +2,13 @@
  * Created by Leonid Bartenev
  */
 ({
-    doInit: function(component, event, helper){
+    doInit: function (component, event, helper) {
         helper.updatePathSteps(component);
     },
 
     doProcessCollapse: function (component, event, helper) {
         var isCollapsed = component.get('v.isCollapsed');
-        if(!isCollapsed){
+        if (!isCollapsed) {
             component.find('statusHistory').loadHistory();
         }
     },
@@ -18,8 +18,10 @@
         var pe = component.get('v.pe');
         var actions = component.get('v.actions');
         let isInvited = component.get('v.isInvited');
-        rootComponent.find('updatePatientInfoAction').execute(pe, actions, rootComponent, isInvited , function (enrollment) {
-            component.set('v.pe', enrollment);
-        });
-    },
-})
+        rootComponent
+            .find('updatePatientInfoAction')
+            .execute(pe, actions, rootComponent, isInvited, function (enrollment) {
+                component.set('v.pe', enrollment);
+            });
+    }
+});

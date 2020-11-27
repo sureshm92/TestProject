@@ -3,7 +3,6 @@
  */
 
 public with sharing class Batch_ReviewOnboardingFAQ implements Database.Batchable<SObject> {
-
     public static final String QUERY = 'SELECT Id, userCommunity_ShowTour__c FROM Contact';
 
     public static final String SHOW_ALL = 'PI;HCP;Participant';
@@ -23,10 +22,12 @@ public with sharing class Batch_ReviewOnboardingFAQ implements Database.Batchabl
 
     public void execute(Database.BatchableContext param1, List<Contact> contacts) {
         for (Contact contact : contacts) {
-            if(showMods.equals(SHOW_ALL)) {
+            if (showMods.equals(SHOW_ALL)) {
                 contact.userCommunity_ShowTour__c = SHOW_ALL;
-            }else {
-                String mods = contact.userCommunity_ShowTour__c != null ? contact.userCommunity_ShowTour__c : '';
+            } else {
+                String mods = contact.userCommunity_ShowTour__c != null
+                    ? contact.userCommunity_ShowTour__c
+                    : '';
                 if (!mods.contains(showMods)) {
                     mods += ';' + showMods;
                 }
@@ -36,7 +37,8 @@ public with sharing class Batch_ReviewOnboardingFAQ implements Database.Batchabl
         update contacts;
     }
 
-    public void finish(Database.BatchableContext param1) {}
+    public void finish(Database.BatchableContext param1) {
+    }
 
     public static void runAll() {
         Database.executeBatch(new Batch_ReviewOnboardingFAQ(SHOW_ALL));

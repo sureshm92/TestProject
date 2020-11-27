@@ -2,11 +2,10 @@
  * Created by Igor Malyuta on 07.04.2020.
  */
 
-import {LightningElement, api, track} from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import isDummyMode from '@salesforce/apex/CommunityFacadeRemote.isDummyMode';
 
 export default class BuilderStub extends LightningElement {
-
     @track pageName;
     @track buildMode = false;
 
@@ -20,10 +19,10 @@ export default class BuilderStub extends LightningElement {
     @api
     isDummy(callback) {
         isDummyMode()
-            .then(data => {
+            .then((data) => {
                 callback(data);
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error('Error in BuilderStub:' + JSON.stringify(error));
             });
     }

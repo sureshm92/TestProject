@@ -1,1 +1,2 @@
-public class PatientIntegrationException extends Exception {}
+public class PatientIntegrationException extends Exception {
+}

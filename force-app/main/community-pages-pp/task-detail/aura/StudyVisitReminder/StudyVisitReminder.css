@@ -1,62 +1,60 @@
-.THIS .te-task-panel{
+.THIS .te-task-panel {
     min-height: 400px;
-    max-width: 1140px;   
+    max-width: 1140px;
     margin: 25px auto -80px;
-
 }
 .THIS .rightAlign .slds-datepicker table {
     table-layout: fixed;
     width: 300px;
 }
 .THIS .rightAlign .slds-input {
-    padding-right:2px;
+    padding-right: 2px;
 }
-.THIS .rightAlign .slds-datepicker .slds-day{
+.THIS .rightAlign .slds-datepicker .slds-day {
     width: auto !important;
     min-width: auto !important;
     height: auto !important;
     line-height: inherit !important;
 }
-.THIS .rightAlign .slds-input__icon_right{
-    margin-right:12.5rem;
+.THIS .rightAlign .slds-input__icon_right {
+    margin-right: 12.5rem;
 }
 .THIS .rightAlign1 .slds-datepicker table {
     table-layout: fixed;
     width: 300px;
 }
 .THIS .rightAlign1 .slds-input {
-    padding-right:2px;
+    padding-right: 2px;
 }
-.THIS .rightAlign1 .slds-datepicker .slds-day{
+.THIS .rightAlign1 .slds-datepicker .slds-day {
     width: auto !important;
     min-width: auto !important;
     height: auto !important;
     line-height: inherit !important;
 }
-.THIS .rightAlign1 .slds-input__icon_right{
-    margin-right:10.5rem;
+.THIS .rightAlign1 .slds-input__icon_right {
+    margin-right: 10.5rem;
 }
-.THIS .task-rtl-remind{
-    
-    direction:rtl !important;
-    text-align:right; 
-    margin-left:416px;
+.THIS .task-rtl-remind {
+    direction: rtl !important;
+    text-align: right;
+    margin-left: 416px;
 }
 
 .THIS .rr-white-panel {
     overflow: visible;
     margin-top: -65px;
-    font-family: "Proxima Nova";
-    border:none;
+    font-family: 'Proxima Nova';
+    border: none;
     box-shadow: none;
 }
 .THIS .rr-white-panelRTL {
     overflow: visible;
     margin-top: -57px;
-    font-family: "Proxima Nova";
-    border:none;
+    font-family: 'Proxima Nova';
+    border: none;
     box-shadow: none;
-    text-align:right;
+    text-align: right;
 }
 
 .THIS .rr-body-content {
@@ -72,18 +70,18 @@
     max-width: 360px;
 }
 
-.THIS .buttons-right{
-    align-items:left;
+.THIS .buttons-right {
+    align-items: left;
 }
 
-.THIS .margin_20{
-    margin-left:20px;
+.THIS .margin_20 {
+    margin-left: 20px;
 }
 
 .THIS .te-col-header {
     margin-bottom: 10px;
     font-size: 18px;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     height: 32px;
     width: 216px;
     color: #000000;
@@ -95,54 +93,52 @@
     margin-bottom: 10px;
     font-weight: bold;
     font-size: 14px;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
 }
 
 .THIS .p-header.normal {
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 20px;
     font-weight: 600;
-
 }
 
 .THIS .rr-white-panel > .slds-grid.slds-wrap > .slds-col:first-child {
-    margin-bottom: .75rem;
+    margin-bottom: 0.75rem;
 }
 
-.THIS .slds-form-element__label{
+.THIS .slds-form-element__label {
     font-size: 14px;
     color: #444;
-    font-family: "Proxima Nova";
-   
+    font-family: 'Proxima Nova';
 }
 
-.THIS .p-header{
-    margin-right:-53%;
+.THIS .p-header {
+    margin-right: -53%;
 }
 
-
-.THIS .slds-select, .THIS .slds-input{
+.THIS .slds-select,
+.THIS .slds-input {
     font-size: 14px;
     color: #444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     height: 40px;
     display: flex;
     align-items: center;
 }
 
 .THIS .task-rtl > .slds-form-element {
-    direction:rtl !important;
-    text-align:right;
+    direction: rtl !important;
+    text-align: right;
 }
 
 .THIS .slds-checkbox {
-    padding-bottom :10px;
+    padding-bottom: 10px;
 }
 
 .THIS .te-col-changeNotif {
     font-size: 14px;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
 }
 
 .THIS .p-content {
@@ -161,11 +157,10 @@
 }
 
 .THIS .disabledVisit .slds-form-element__label {
-    opacity: .4;
+    opacity: 0.4;
 }
 
-@media only screen and (max-width: 500px)  and (orientation : portrait) {
-
+@media only screen and (max-width: 500px) and (orientation: portrait) {
     .THIS .rr-white-panel {
         padding: 20px 0;
     }
@@ -207,7 +202,7 @@
     }
 }
 
-@media only screen and (max-width: 360px)  and (orientation : portrait) {
+@media only screen and (max-width: 360px) and (orientation: portrait) {
     .THIS .p-buttons-container .slds-button:nth-of-type(3) {
         order: 2;
         width: 65%;

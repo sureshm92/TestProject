@@ -13,7 +13,7 @@
 }
 
 .THIS.spm-container .spm-label {
-    color: #7F888D;
+    color: #7f888d;
     max-width: 150px;
     font-size: 10px;
     font-weight: bold;
@@ -26,7 +26,7 @@
 }
 
 .THIS.spm-container .spm-header-title {
-    color: #7F888D;
+    color: #7f888d;
     font-size: 10px;
     font-weight: bold;
     line-height: 12px;
@@ -52,7 +52,7 @@
 }
 
 .THIS.spm-container .spm-header-body .spm-info-block {
-    border-right: 1px solid #CCCCCC;
+    border-right: 1px solid #cccccc;
     padding-right: 16px;
     margin-right: 16px;
 }
@@ -75,7 +75,7 @@
 }
 
 .THIS.spm-container .spm-body .spm-body-info-block {
-    border-top: 1px solid #CCCCCC;
+    border-top: 1px solid #cccccc;
     margin-top: 11px;
     padding-top: 9px;
 }

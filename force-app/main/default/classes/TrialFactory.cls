@@ -11,10 +11,12 @@ public with sharing class TrialFactory {
             return new ParticipantTrialBuilder().createTrial();
         } else if (userMode == CommunityService.USER_MODE_PI) {
             return new PITrialBuilder(trialId).createTrial();
-        } else if (userMode == CommunityService.USER_MODE_HCP || userMode == CommunityService.USER_MODE_CC ) {
+        } else if (
+            userMode == CommunityService.USER_MODE_HCP ||
+            userMode == CommunityService.USER_MODE_CC
+        ) {
             return new HCPTrialBuilder(trialId, delegateId).createTrial();
         }
         return null;
     }
-
 }

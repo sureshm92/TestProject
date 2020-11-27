@@ -1,6 +1,3 @@
 ({
-    doInitHelper : function(component,event){ 
-        
-    },
-    
-})
+    doInitHelper: function (component, event) {}
+});

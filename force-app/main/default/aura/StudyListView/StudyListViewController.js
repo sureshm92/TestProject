@@ -2,7 +2,7 @@
     doInit: function (component, event, helper) {
         if (!communityService.isInitialized()) return;
 
-        if(!communityService.isDummy()) {
+        if (!communityService.isDummy()) {
             helper.init(component, event, helper);
         } else {
             component.find('builderStub').setPageName(component.getName());
@@ -10,19 +10,17 @@
     },
 
     doUpdateRecords: function (cmp, event, helper) {
-        if(communityService.getUserMode()==='HCP'){
+        if (communityService.getUserMode() === 'HCP') {
             helper.searchForRecords(cmp, helper, false);
-        }
-        else if(communityService.getUserMode()==='PI'){
+        } else if (communityService.getUserMode() === 'PI') {
             helper.updateRecordsPI(cmp, helper);
         }
     },
 
     doUpdateRecordsWithFirstPage: function (cmp, event, helper) {
-        if(communityService.getUserMode()==='HCP'){
+        if (communityService.getUserMode() === 'HCP') {
             helper.searchForRecords(cmp, helper, true);
-        }
-        else if(communityService.getUserMode()==='PI'){
+        } else if (communityService.getUserMode() === 'PI') {
             helper.updateRecordsPI(cmp, helper);
         }
     },
@@ -35,16 +33,19 @@
     },
 
     switchToSearchResume: function (cmp, event, helper) {
-        cmp.set("v.isSearchResume", true);
-        cmp.set("v.searchResumeChanged", true);
+        cmp.set('v.isSearchResume', true);
+        cmp.set('v.searchResumeChanged', true);
         helper.searchForRecords(cmp, helper);
     },
 
     clampTitle: function (component, event, helper) {
-        setTimeout($A.getCallback(function () {
-            helper.doUpdateStudyTitle(component);
-        }), 10);
-    },
+        setTimeout(
+            $A.getCallback(function () {
+                helper.doUpdateStudyTitle(component);
+            }),
+            10
+        );
+    }
 
     /*saveSSDetails: function (component, event, helper) {
         var param = event.getParam('arguments');
@@ -67,5 +68,4 @@
             helper.init(component, event, helper);
         });
     }*/
-
 });

@@ -3,15 +3,14 @@
  */
 
 public without sharing class Batch_RemoveDuplicateDelegates implements Database.Batchable<SObject> {
-
     public Iterable<SObject> start(Database.BatchableContext bc) {
         Integer maxRows = Limits.getLimitQueryRows() - Limits.getQueryRows();
 
         List<Patient_Delegate__c> allPatientDelegates = [
-                SELECT Participant__c, Contact__c
-                FROM Patient_Delegate__c
-                ORDER BY LastModifiedDate DESC
-                LIMIT :maxRows
+            SELECT Participant__c, Contact__c
+            FROM Patient_Delegate__c
+            ORDER BY LastModifiedDate DESC
+            LIMIT :maxRows
         ];
 
         Map<Id, List<Id>> delegatesByParticipant = new Map<Id, List<Id>>();
@@ -34,7 +33,7 @@ public without sharing class Batch_RemoveDuplicateDelegates implements Database.
                 patientDelegatesToRemove.add(patientDelegate);
             } else {
                 if (delegateIds == null) {
-                    delegateIds = new List<Id> {patientDelegate.Contact__c};
+                    delegateIds = new List<Id>{ patientDelegate.Contact__c };
                 } else {
                     delegateIds.add(patientDelegate.Contact__c);
                 }
@@ -49,7 +48,8 @@ public without sharing class Batch_RemoveDuplicateDelegates implements Database.
         Database.delete(records, false);
     }
 
-    public void finish(Database.BatchableContext bc) {}
+    public void finish(Database.BatchableContext bc) {
+    }
 
     public static void run() {
         Database.executeBatch(new Batch_RemoveDuplicateDelegates(), 200);

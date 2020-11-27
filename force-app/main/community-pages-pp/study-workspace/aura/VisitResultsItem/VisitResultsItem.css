@@ -19,7 +19,7 @@
 .THIS .visit-result-name {
     align-self: center;
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     line-height: 19px;
     max-width: 94%;
@@ -29,7 +29,7 @@
 .THIS .visit-result-range {
     height: 16px;
     color: #999999;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 13px;
     line-height: 16px;
     position: absolute;
@@ -54,24 +54,24 @@
 }
 
 .THIS .visit-result-expected {
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     line-height: 19px;
-    color: #6F6F6F;
+    color: #6f6f6f;
     margin-bottom: 4px;
 }
 
-.THIS .visit-result-actual-value{
+.THIS .visit-result-actual-value {
     height: 32px;
     width: 100%;
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     line-height: 32px;
     font-weight: 600;
 }
 
-.THIS .actual-value-no-expected-range{
+.THIS .actual-value-no-expected-range {
     margin-top: 8px;
     text-align: center;
     font-weight: 400 !important;

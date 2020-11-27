@@ -2,14 +2,13 @@
  * Created by user on 25.02.2020.
  */
 
-@IsTest(SeeAllData = false)
+@IsTest(SeeAllData=false)
 public class Test_SO_DatasetManagerController {
-
     @IsTest
     static void runTest() {
         Contact contact = new Contact();
         contact.FirstName = 'John';
-        contact.LastName  = 'Hanson';
+        contact.LastName = 'Hanson';
         insert contact;
 
         String configString = generateConfig(false);
@@ -36,7 +35,6 @@ public class Test_SO_DatasetManagerController {
         controller.includeEmptyRecord();
 
         controller.queryObject();
-
 
         controller.index = null;
         controller.includeRecord();
@@ -95,14 +93,14 @@ public class Test_SO_DatasetManagerController {
      *
      * @return
      */
-    private static String generateConfig (Boolean injectError) {
+    private static String generateConfig(Boolean injectError) {
         SO_DatasetManagerController.ObjectWrap study = new SO_DatasetManagerController.ObjectWrap();
         if (injectError) {
             study.objectName = 'Clinical_Trial_Profile';
         } else {
             study.objectName = 'Clinical_Trial_Profile__c';
         }
-        study.fields      = new List<SO_DatasetManagerController.Field>();
+        study.fields = new List<SO_DatasetManagerController.Field>();
 
         SO_DatasetManagerController.Field field = new SO_DatasetManagerController.Field();
         field.name = 'Protocol_ID__c';
@@ -114,7 +112,7 @@ public class Test_SO_DatasetManagerController {
         // ------------------------------------
         SO_DatasetManagerController.ObjectWrap resource = new SO_DatasetManagerController.ObjectWrap();
         resource.objectName = 'Resource__c';
-        resource.fields      = new List<SO_DatasetManagerController.Field>();
+        resource.fields = new List<SO_DatasetManagerController.Field>();
 
         field = new SO_DatasetManagerController.Field();
         field.name = 'RecordTypeId';
@@ -125,7 +123,7 @@ public class Test_SO_DatasetManagerController {
         // ------------------------------------
         SO_DatasetManagerController.ObjectWrap resStudy = new SO_DatasetManagerController.ObjectWrap();
         resStudy.objectName = 'Res_study__c';
-        resStudy.fields      = new List<SO_DatasetManagerController.Field>();
+        resStudy.fields = new List<SO_DatasetManagerController.Field>();
 
         field = new SO_DatasetManagerController.Field();
         field.name = 'Resource__c';
@@ -150,5 +148,4 @@ public class Test_SO_DatasetManagerController {
 
         return configString;
     }
-
 }

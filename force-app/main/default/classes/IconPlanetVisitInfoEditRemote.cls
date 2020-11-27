@@ -3,14 +3,14 @@
  */
 
 public inherited sharing class IconPlanetVisitInfoEditRemote {
-
     @AuraEnabled
     public static void saveIconInfo(List<Icon_Details__c> iconsDetails, String planId) {
         try {
-            for (Icon_Details__c singleIconDetails : iconsDetails) singleIconDetails.Visit_Plan__c = planId;
+            for (Icon_Details__c singleIconDetails : iconsDetails)
+                singleIconDetails.Visit_Plan__c = planId;
 
             ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
-                    .upsertRecords(iconsDetails, true);
+                .upsertRecords(iconsDetails, true);
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }

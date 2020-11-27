@@ -1,6 +1,5 @@
 @IsTest(IsParallel=true)
 public class Test_DatabaseProxy {
-
     @IsTest
     static void query_Test() {
         Account singleAccount = (Account) TestDataFactory.getSObject(Account.getSObjectType());
@@ -8,8 +7,14 @@ public class Test_DatabaseProxy {
         DatabaseProxy databaseProxy = new DatabaseProxy();
         Test.startTest();
         List<Account> accounts = (List<Account>) databaseProxy.query('SELECT Id FROM Account');
-        List<Account> accountsWithoutSharing = (List<Account>) databaseProxy.query('SELECT Id FROM Account', true);
-        List<Account> accountsWithSharing = (List<Account>) databaseProxy.query('SELECT Id FROM Account', false);
+        List<Account> accountsWithoutSharing = (List<Account>) databaseProxy.query(
+            'SELECT Id FROM Account',
+            true
+        );
+        List<Account> accountsWithSharing = (List<Account>) databaseProxy.query(
+            'SELECT Id FROM Account',
+            false
+        );
         Test.stopTest();
         System.assertEquals(1, accounts.size());
         System.assertEquals(1, accountsWithoutSharing.size());
@@ -31,14 +36,20 @@ public class Test_DatabaseProxy {
     static void upsertRecords_Test() {
         DatabaseProxy databaseProxy = new DatabaseProxy();
         Test.startTest();
-        databaseProxy.upsertRecords(new List<Account>{
+        databaseProxy.upsertRecords(
+            new List<Account>{
                 (Account) TestDataFactory.getSObject(Account.getSObjectType()),
                 (Account) TestDataFactory.getSObject(Account.getSObjectType())
-        }, true);
-        databaseProxy.upsertRecords(new List<Account>{
+            },
+            true
+        );
+        databaseProxy.upsertRecords(
+            new List<Account>{
                 (Account) TestDataFactory.getSObject(Account.getSObjectType()),
                 (Account) TestDataFactory.getSObject(Account.getSObjectType())
-        }, false);
+            },
+            false
+        );
         Test.stopTest();
         List<Account> accounts = [SELECT Id, Name FROM Account];
         System.assertEquals(4, accounts.size());
@@ -66,12 +77,8 @@ public class Test_DatabaseProxy {
         insert accountToUpdate;
         accountToUpdate.Name = 'New Name';
         Test.startTest();
-        databaseProxy.updateRecords(new List<SObject>{
-                accountToUpdate
-        }, true);
-        databaseProxy.updateRecords(new List<SObject>{
-                accountToUpdate
-        }, false);
+        databaseProxy.updateRecords(new List<SObject>{ accountToUpdate }, true);
+        databaseProxy.updateRecords(new List<SObject>{ accountToUpdate }, false);
         Test.stopTest();
         List<Account> accounts = [SELECT Id, Name FROM Account];
         System.assertEquals(1, accounts.size());
@@ -81,9 +88,13 @@ public class Test_DatabaseProxy {
     @IsTest
     static void deleteRecord_Test() {
         DatabaseProxy databaseProxy = new DatabaseProxy();
-        Account firstAccountToDelete = (Account) TestDataFactory.getSObject(Account.getSObjectType());
+        Account firstAccountToDelete = (Account) TestDataFactory.getSObject(
+            Account.getSObjectType()
+        );
         insert firstAccountToDelete;
-        Account secondAccountToDelete = (Account) TestDataFactory.getSObject(Account.getSObjectType());
+        Account secondAccountToDelete = (Account) TestDataFactory.getSObject(
+            Account.getSObjectType()
+        );
         insert secondAccountToDelete;
         firstAccountToDelete.Name = 'New Name';
         secondAccountToDelete.Name = 'New Name';
@@ -98,19 +109,19 @@ public class Test_DatabaseProxy {
     @IsTest
     static void deleteRecords_Test() {
         DatabaseProxy databaseProxy = new DatabaseProxy();
-        Account firstAccountToDelete = (Account) TestDataFactory.getSObject(Account.getSObjectType());
+        Account firstAccountToDelete = (Account) TestDataFactory.getSObject(
+            Account.getSObjectType()
+        );
         insert firstAccountToDelete;
-        Account secondAccountToDelete = (Account) TestDataFactory.getSObject(Account.getSObjectType());
+        Account secondAccountToDelete = (Account) TestDataFactory.getSObject(
+            Account.getSObjectType()
+        );
         insert secondAccountToDelete;
         firstAccountToDelete.Name = 'New Name';
         secondAccountToDelete.Name = 'New Name';
         Test.startTest();
-        databaseProxy.deleteRecords(new List<SObject>{
-                firstAccountToDelete
-        }, true);
-        databaseProxy.deleteRecords(new List<SObject>{
-                secondAccountToDelete
-        }, false);
+        databaseProxy.deleteRecords(new List<SObject>{ firstAccountToDelete }, true);
+        databaseProxy.deleteRecords(new List<SObject>{ secondAccountToDelete }, false);
         Test.stopTest();
         List<Account> accounts = [SELECT Id, Name FROM Account];
         System.assert(accounts.isEmpty());
